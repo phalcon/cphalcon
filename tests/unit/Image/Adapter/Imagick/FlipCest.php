@@ -12,12 +12,12 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Image\Adapter\Imagick;
 
-use function dataDir;
-use function outputDir;
-use Phalcon\Image;
 use Phalcon\Image\Adapter\Imagick;
+use Phalcon\Image\Enum;
 use Phalcon\Test\Fixtures\Traits\ImagickTrait;
 use UnitTester;
+use function dataDir;
+use function outputDir;
 
 class FlipCest
 {
@@ -32,13 +32,20 @@ class FlipCest
     public function imageAdapterImagickFlip(UnitTester $I)
     {
         $I->wantToTest('Image\Adapter\Imagick - flip()');
-        $image = new Imagick(dataDir('assets/images/phalconphp.jpg'));
+
+        $image = new Imagick(
+            dataDir('assets/images/phalconphp.jpg')
+        );
+
         $image->setResourceLimit(6, 1);
 
         // Flip the image from top to bottom
-        $image->flip(Image::HORIZONTAL)->save(outputDir('tests/image/imagick/flip.jpg'));
+        $image->flip(Enum::HORIZONTAL)->save(outputDir('tests/image/imagick/flip.jpg'));
 
-        $I->amInPath(outputDir('tests/image/imagick/'));
+        $I->amInPath(
+            outputDir('tests/image/imagick/')
+        );
+
         $I->seeFileFound('flip.jpg');
 
         $I->assertGreaterThan(

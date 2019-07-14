@@ -35,10 +35,9 @@ class DescribeColumnsCest
         $I->wantToTest("Db\Adapter\Pdo\Postgresql - describeColumns()");
 
         $expected = [
-            Column::__set_state(
+            new Column(
+                'id',
                 [
-                    'columnName'    => 'id',
-                    'schemaName'    => null,
                     'type'          => 14,
                     'typeReference' => -1,
                     'typeValues'    => null,
@@ -55,16 +54,14 @@ class DescribeColumnsCest
                     'bindType'      => 1,
                 ]
             ),
-            Column::__set_state(
+            new Column(
+                'base64',
                 [
-                    'columnName'    => 'base64',
-                    'schemaName'    => null,
                     'type'          => 6,
                     'typeReference' => -1,
                     'typeValues'    => null,
                     'isNumeric'     => false,
                     'size'          => null,
-                    'scale'         => 0,
                     'default'       => null,
                     'unsigned'      => false,
                     'notNull'       => false,

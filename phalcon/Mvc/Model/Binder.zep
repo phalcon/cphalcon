@@ -10,9 +10,12 @@
 
 namespace Phalcon\Mvc\Model;
 
+use Closure;
 use Phalcon\Mvc\Controller\BindModelInterface;
 use Phalcon\Mvc\Model\Binder\BindableInterface;
 use Phalcon\Cache\Adapter\AdapterInterface;
+use ReflectionFunction;
+use ReflectionMethod;
 
 /**
  * Phalcon\Mvc\Model\Binding
@@ -60,7 +63,7 @@ class Binder implements BinderInterface
 
         let this->originalValues = [];
 
-        if unlikely (!(handler instanceof \Closure) && methodName === null) {
+        if unlikely (!(handler instanceof Closure) && methodName === null) {
             throw new Exception(
                 "You must specify methodName for handler or pass Closure as handler"
             );
@@ -141,9 +144,9 @@ class Binder implements BinderInterface
         let paramsCache = [];
 
         if methodName != null {
-            let reflection = new \ReflectionMethod(handler, methodName);
+            let reflection = new ReflectionMethod(handler, methodName);
         } else {
-            let reflection = new \ReflectionFunction(handler);
+            let reflection = new ReflectionFunction(handler);
         }
 
         let cache = this->cache;

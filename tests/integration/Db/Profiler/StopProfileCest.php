@@ -14,9 +14,6 @@ namespace Phalcon\Test\Integration\Db\Profiler;
 
 use IntegrationTester;
 
-/**
- * Class StopProfileCest
- */
 class StopProfileCest
 {
     /**

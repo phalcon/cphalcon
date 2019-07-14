@@ -11,14 +11,12 @@
 namespace Phalcon\Forms\Element;
 
 use Phalcon\Tag;
-use Phalcon\Forms\Element;
+use Phalcon\Forms\Element\AbstractElement;
 
 /**
- * Phalcon\Forms\Element\TextArea
- *
  * Component TEXTAREA for forms
  */
-class TextArea extends Element
+class TextArea extends AbstractElement
 {
     /**
      * Renders the element widget

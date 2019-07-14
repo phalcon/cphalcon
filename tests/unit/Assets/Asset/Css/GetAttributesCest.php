@@ -13,22 +13,19 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Assets\Asset\Css;
 
 use Phalcon\Assets\Asset\Css;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 class GetAttributesCest
 {
-    use AssetsTrait;
-
     /**
-     * Tests Phalcon\Assets\Asset\Css :: getAttributes() - css local
+     * Tests Phalcon\Assets\Asset\Css :: getAttributes()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function assetsAssetCssGetAttributesLocal(UnitTester $I)
+    public function assetsAssetCssGetAttributes(UnitTester $I)
     {
-        $I->wantToTest('Assets\Asset - getAttributes() - css local');
+        $I->wantToTest('Assets\Asset\Css - getAttributes()');
 
         $attributes = [
             'data-key' => 'phalcon',
@@ -41,30 +38,9 @@ class GetAttributesCest
             $attributes
         );
 
-        $this->assetGetAttributes($I, $asset, $attributes);
-    }
-
-    /**
-     * Tests Phalcon\Assets\Asset\Css :: getAttributes() - css remote
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsAssetCssGetAttributesRemote(UnitTester $I)
-    {
-        $I->wantToTest('Assets\Asset - getAttributes() - css remote');
-
-        $attributes = [
-            'data-key' => 'phalcon',
-        ];
-
-        $asset = new Css(
-            'https://phalcon.ld/css/docs.css',
-            false,
-            false,
-            $attributes
+        $I->assertEquals(
+            $attributes,
+            $asset->getAttributes()
         );
-
-        $this->assetGetAttributes($I, $asset, $attributes);
     }
 }

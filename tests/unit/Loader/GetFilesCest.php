@@ -12,20 +12,39 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Loader;
 
+use Phalcon\Loader;
 use UnitTester;
+use function dataDir;
 
 class GetFilesCest
 {
     /**
      * Tests Phalcon\Loader :: getFiles()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-05-25
      */
     public function loaderGetFiles(UnitTester $I)
     {
         $I->wantToTest('Loader - getFiles()');
 
-        $I->skipTest('Need implementation');
+        $loader = new Loader();
+
+        $loader->registerFiles(
+            [
+                dataDir('fixtures/Loader/Example/Functions/FunctionsNoClass.php'),
+                dataDir('fixtures/Loader/Example/Functions/FunctionsNoClassOne.php'),
+                dataDir('fixtures/Loader/Example/Functions/FunctionsNoClassTwo.php'),
+            ]
+        );
+
+        $I->assertEquals(
+            [
+                dataDir('fixtures/Loader/Example/Functions/FunctionsNoClass.php'),
+                dataDir('fixtures/Loader/Example/Functions/FunctionsNoClassOne.php'),
+                dataDir('fixtures/Loader/Example/Functions/FunctionsNoClassTwo.php'),
+            ],
+            $loader->getFiles()
+        );
     }
 }

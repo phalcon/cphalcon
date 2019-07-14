@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Integration\Validation\Validator;
 
+use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
@@ -140,55 +141,96 @@ class DateCest
     /**
      * Tests detect valid dates
      *
-     * @author Gustavo Verzola <verzola@gmail.com>
-     * @since  2015-03-09
+     * @author       Gustavo Verzola <verzola@gmail.com>
+     * @since        2015-03-09
+     *
+     * @dataProvider shouldDetectValidDatesProvider
      */
-    public function shouldDetectValidDates(IntegrationTester $I)
+    public function shouldDetectValidDates(IntegrationTester $I, Example $example)
     {
-        $dates = [
-            ['2012-01-01', 'Y-m-d'],
-            ['2013-31-12', 'Y-d-m'],
-            ['01/01/2014', 'd/m/Y'],
-            ['12@12@2015', 'd@m@Y'],
-        ];
+        $date   = $example[0];
+        $format = $example[1];
 
-        foreach ($dates as $item) {
-            $date   = $item[0];
-            $format = $item[1];
+        $validation = new Validation();
 
-            $validation = new Validation();
-
-            $validation->add(
-                'date',
-                new Date(
-                    [
-                        'format' => $format,
-                    ]
-                )
-            );
-
-            $messages = $validation->validate(
+        $validation->add(
+            'date',
+            new Date(
                 [
-                    'date' => $date,
+                    'format' => $format,
                 ]
-            );
+            )
+        );
 
-            $I->assertEquals(
-                0,
-                $messages->count()
-            );
-        }
+        $messages = $validation->validate(
+            [
+                'date' => $date,
+            ]
+        );
+
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
     }
 
     /**
      * Tests detect invalid dates
      *
-     * @author Gustavo Verzola <verzola@gmail.com>
-     * @since  2015-03-09
+     * @author       Gustavo Verzola <verzola@gmail.com>
+     * @since        2015-03-09
+     *
+     * @dataProvider shouldDetectInvalidDatesProvider
      */
-    public function shouldDetectInvalidDates(IntegrationTester $I)
+    public function shouldDetectInvalidDates(IntegrationTester $I, Example $example)
     {
-        $dates = [
+        $date   = $example[0];
+        $format = $example[1];
+
+        $validation = new Validation();
+
+        $validation->add(
+            'date',
+            new Date(
+                [
+                    'format' => $format,
+                ]
+            )
+        );
+
+        $expected = new Messages(
+            [
+                new Message(
+                    'Field date is not a valid date',
+                    'date',
+                    Date::class,
+                    0
+                ),
+            ]
+        );
+
+        $actual = $validation->validate(
+            [
+                'date' => $date,
+            ]
+        );
+
+        $I->assertEquals($expected, $actual);
+    }
+
+    protected function shouldDetectValidDatesProvider(): array
+    {
+        return [
+            ['2012-01-01', 'Y-m-d'],
+            ['2013-31-12', 'Y-d-m'],
+            ['01/01/2014', 'd/m/Y'],
+            ['12@12@2015', 'd@m@Y'],
+        ];
+    }
+
+    protected function shouldDetectInvalidDatesProvider(): array
+    {
+        return [
             ['', 'Y-m-d'],
             [false, 'Y-m-d'],
             [null, 'Y-m-d'],
@@ -219,7 +261,7 @@ class DateCest
                     new Message(
                         'Field date is not a valid date',
                         'date',
-                        'Date',
+                        Date::class,
                         0
                     ),
                 ]

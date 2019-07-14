@@ -12,18 +12,50 @@
 namespace Phalcon\Test\Integration\Mvc\Model;
 
 use IntegrationTester;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Models;
 
 class UnderscoreIssetCest
 {
+    use DiTrait;
+
+    public function _before(IntegrationTester $I)
+    {
+        $this->setNewFactoryDefault();
+        $this->setDiMysql();
+    }
+
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
+    }
+
     /**
      * Tests Phalcon\Mvc\Model :: __isset()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-05-22
      */
     public function mvcModelUnderscoreIsset(IntegrationTester $I)
     {
         $I->wantToTest("Mvc\Model - __isset()");
-        $I->skipTest('Need implementation');
+
+        /**
+         * Belongs-to relationship
+         */
+        $robotPart = Models\RobotsParts::findFirst();
+
+        $I->assertTrue(
+            isset($robotPart->part)
+        );
+
+        $I->assertInstanceOf(
+            Models\Parts::class,
+            $robotPart->part
+        );
+
+        $I->assertFalse(
+            isset($robotPart->notRelation)
+        );
     }
 }

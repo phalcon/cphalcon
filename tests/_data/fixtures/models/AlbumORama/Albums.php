@@ -34,5 +34,20 @@ class Albums extends Model
                 'alias' => 'songs',
             ]
         );
+
+        $this->hasMany(
+            [
+                'id',
+                'name',
+            ],
+            Songs::class,
+            [
+                'albums_id',
+                'name',
+            ],
+            [
+                'alias' => 'singles',
+            ]
+        );
     }
 }

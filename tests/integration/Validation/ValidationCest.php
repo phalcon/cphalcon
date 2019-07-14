@@ -12,6 +12,7 @@ use Phalcon\Validation\Validator\Alpha;
 use Phalcon\Validation\Validator\Email;
 use Phalcon\Validation\Validator\PresenceOf;
 use Phalcon\Validation\Validator\StringLength;
+use Phalcon\Validation\Validator\StringLength\Min;
 use Phalcon\Validation\Validator\Url;
 use stdClass;
 
@@ -62,6 +63,11 @@ class ValidationCest
         $this->validation->setFilters('name', 'trim');
     }
 
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
+    }
+
     /**
      * Tests the get
      *
@@ -92,7 +98,7 @@ class ValidationCest
                 new Message(
                     'Field foo is required',
                     'foo',
-                    'PresenceOf',
+                    PresenceOf::class,
                     0
                 ),
             ]
@@ -135,7 +141,7 @@ class ValidationCest
                 new Message(
                     'Name cant be empty.',
                     'name',
-                    'PresenceOf',
+                    PresenceOf::class,
                     0
                 ),
             ]
@@ -152,7 +158,9 @@ class ValidationCest
      */
     public function testFilteringEntity(IntegrationTester $I)
     {
-        $users = new Users(
+        $users = new Users();
+
+        $users->assign(
             [
                 'name' => 'SomeName      ',
             ]
@@ -160,15 +168,9 @@ class ValidationCest
 
         $this->validation->validate(null, $users);
 
-        $I->assertEquals($users->name, 'SomeName');
-    }
-
-    public function testGetDefaultValidationMessageShouldReturnEmptyStringIfNoneIsSet(IntegrationTester $I)
-    {
-        $validation = new Validation();
-
-        $I->assertIsEmpty(
-            $validation->getDefaultMessage('_notexistentvalidationmessage_')
+        $I->assertEquals(
+            'SomeName',
+            $users->name
         );
     }
 
@@ -181,12 +183,22 @@ class ValidationCest
         );
 
         $validation
-            ->add('name', new PresenceOf([
-                'message' => 'The name is required',
-            ]))
-            ->add('email', new PresenceOf([
-                'message' => 'The email is required',
-            ]))
+            ->add(
+                'name',
+                new PresenceOf(
+                    [
+                        'message' => 'The name is required',
+                    ]
+                )
+            )
+            ->add(
+                'email',
+                new PresenceOf(
+                    [
+                        'message' => 'The email is required',
+                    ]
+                )
+            )
         ;
 
         $validation->setFilters('name', 'trim');
@@ -207,7 +219,7 @@ class ValidationCest
             new Message(
                 'The email is required',
                 'email',
-                'PresenceOf',
+                PresenceOf::class,
                 0
             ),
         ];
@@ -265,7 +277,8 @@ class ValidationCest
 
         $messages = $validation->validate(
             [
-                'email' => '', 'firstname' => '',
+                'email'     => '',
+                'firstname' => '',
             ]
         );
 
@@ -274,25 +287,25 @@ class ValidationCest
                 new Message(
                     'The email is required',
                     'email',
-                    'PresenceOf',
+                    PresenceOf::class,
                     0
                 ),
                 new Message(
                     'The E-mail must be email',
                     'email',
-                    'Email',
+                    Email::class,
                     0
                 ),
                 new Message(
                     'The First name is required',
                     'firstname',
-                    'PresenceOf',
+                    PresenceOf::class,
                     0
                 ),
                 new Message(
                     'The First name is too short',
                     'firstname',
-                    'TooShort',
+                    Min::class,
                     0
                 ),
             ]

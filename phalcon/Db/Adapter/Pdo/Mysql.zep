@@ -10,10 +10,10 @@
 
 namespace Phalcon\Db\Adapter\Pdo;
 
-use Phalcon\Db;
-use Phalcon\Db\Adapter\Pdo as PdoAdapter;
+use Phalcon\Db\Adapter\Pdo\AbstractPdo as PdoAdapter;
 use Phalcon\Db\Column;
 use Phalcon\Db\ColumnInterface;
+use Phalcon\Db\Enum;
 use Phalcon\Db\Exception;
 use Phalcon\Db\Index;
 use Phalcon\Db\IndexInterface;
@@ -21,11 +21,9 @@ use Phalcon\Db\Reference;
 use Phalcon\Db\ReferenceInterface;
 
 /**
- * Phalcon\Db\Adapter\Pdo\Mysql
- *
  * Specific functions for the Mysql database system
  *
- *<code>
+ *```php
  * use Phalcon\Db\Adapter\Pdo\Mysql;
  *
  * $config = [
@@ -37,12 +35,18 @@ use Phalcon\Db\ReferenceInterface;
  * ];
  *
  * $connection = new Mysql($config);
- *</code>
+ *```
  */
 class Mysql extends PdoAdapter
 {
+    /**
+     * @var string
+     */
     protected dialectType = "mysql";
 
+    /**
+     * @var string
+     */
     protected type = "mysql";
 
     /**
@@ -74,15 +78,15 @@ class Mysql extends PdoAdapter
     /**
      * Returns an array of Phalcon\Db\Column objects describing a table
      *
-     * <code>
+     * ```php
      * print_r(
      *     $connection->describeColumns("posts")
      * );
-     * </code>
+     * ```
      */
     public function describeColumns(string table, string schema = null) -> <ColumnInterface[]>
     {
-        var columns, columnType, field, oldColumn, sizePattern, matches,
+        var columns, columnType, fields, field, oldColumn, sizePattern, matches,
             matchOne, matchTwo, columnName;
         array definition;
 
@@ -91,14 +95,18 @@ class Mysql extends PdoAdapter
 
         let columns = [];
 
+        let fields = this->fetchAll(
+            this->dialect->describeColumns(table, schema),
+            Enum::FETCH_NUM
+        );
+
         /**
          * Get the SQL to describe a table
          * We're using FETCH_NUM to fetch the columns
          * Get the describe
          * Field Indexes: 0:name, 1:type, 2:not null, 3:key, 4:default, 5:extra
          */
-        for field in this->fetchAll(this->dialect->describeColumns(table, schema), Db::FETCH_NUM) {
-
+        for field in fields {
             /**
              * By default the bind types is two
              */
@@ -445,11 +453,11 @@ class Mysql extends PdoAdapter
     /**
      * Lists table indexes
      *
-     * <code>
+     * ```php
      * print_r(
      *     $connection->describeIndexes("robots_parts")
      * );
-     * </code>
+     * ```
      */
     public function describeIndexes(string! table, string! schema = null) -> <IndexInterface[]>
     {
@@ -457,7 +465,7 @@ class Mysql extends PdoAdapter
 
         let indexes = [];
 
-        for index in this->fetchAll(this->dialect->describeIndexes(table, schema), Db::FETCH_ASSOC) {
+        for index in this->fetchAll(this->dialect->describeIndexes(table, schema), Enum::FETCH_ASSOC) {
             let keyName = index["Key_name"];
             let indexType = index["Index_type"];
 
@@ -501,11 +509,11 @@ class Mysql extends PdoAdapter
     /**
      * Lists table references
      *
-     *<code>
+     *```php
      * print_r(
      *     $connection->describeReferences("robots_parts")
      * );
-     *</code>
+     *```
      */
     public function describeReferences(string! table, string! schema = null) -> <ReferenceInterface[]>
     {
@@ -515,7 +523,7 @@ class Mysql extends PdoAdapter
 
         let references = [];
 
-        for reference in this->fetchAll(this->dialect->describeReferences(table, schema), Db::FETCH_NUM) {
+        for reference in this->fetchAll(this->dialect->describeReferences(table, schema), Enum::FETCH_NUM) {
 
             let constraintName = reference[2];
 

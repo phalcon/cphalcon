@@ -27,13 +27,17 @@ class GetBodyCest
     public function httpMessageServerRequestGetBody(UnitTester $I)
     {
         $I->wantToTest('Http\Message\ServerRequest - getBody()');
-        $fileName = dataDir('/assets/stream/bill-of-rights.txt');
-        $stream   = new Stream($fileName, 'rb');
-        $request  = new ServerRequest('GET', null, [], $stream);
 
-        $expected = file_get_contents($fileName);
-        $actual   = $request->getBody();
-        $I->assertEquals($expected, $actual);
+        $fileName = dataDir('/assets/stream/bill-of-rights.txt');
+
+        $stream  = new Stream($fileName, 'rb');
+        $request = new ServerRequest('GET', null, [], $stream);
+
+        $I->openFile($fileName);
+
+        $I->seeFileContentsEqual(
+            $request->getBody()
+        );
     }
 
     /**
@@ -45,10 +49,12 @@ class GetBodyCest
     public function httpMessageServerRequestGetBodyEmpty(UnitTester $I)
     {
         $I->wantToTest('Http\Message\ServerRequest - getBody() - empty');
+
         $request = new ServerRequest();
 
-        $class  = Stream\Input::class;
-        $actual = $request->getBody();
-        $I->assertInstanceOf($class, $actual);
+        $I->assertInstanceOf(
+            Stream\Input::class,
+            $request->getBody()
+        );
     }
 }

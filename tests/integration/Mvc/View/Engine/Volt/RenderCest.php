@@ -17,9 +17,6 @@ use Phalcon\Mvc\View\Engine\Volt;
 use Phalcon\Test\Fixtures\Listener\ViewCompileListener;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-/**
- * Class RenderCest
- */
 class RenderCest
 {
     use DiTrait;
@@ -45,28 +42,46 @@ class RenderCest
     public function mvcViewEngineVoltRenderEvents(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\View\Engine\Volt - render() - events');
+
         $this->setNewFactoryDefault();
         $this->setDiViewSimple();
+
         $view          = $this->getService('viewSimple');
         $eventsManager = $this->newEventsManager();
-        $listener      = new ViewCompileListener();
+
+        $listener = new ViewCompileListener();
+
         $listener->setTestCase($this, $I);
+
         $eventsManager->attach('view:afterCompile', $listener);
         $eventsManager->attach('view:beforeCompile', $listener);
 
         $view->setEventsManager($eventsManager);
+
+
+
         $volt = new Volt($view, $this->container);
+
         $volt->setEventsManager($eventsManager);
 
-        $template = dataDir('fixtures/views/compiler/partial.volt');
-        $volt->render($template, ['some_var' => 'aaa']);
+        // render() echoes out its result
+        ob_start();
+        $volt->render(
+            dataDir('fixtures/views/compiler/partial.volt'),
+            [
+                'some_var' => 'aaa',
+            ]
+        );
+        ob_end_clean();
 
-        $expected = 'Before fired';
-        $actual   = $listener->getBefore();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'Before fired',
+            $listener->getBefore()
+        );
 
-        $expected = 'After fired';
-        $actual   = $listener->getAfter();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'After fired',
+            $listener->getAfter()
+        );
     }
 }

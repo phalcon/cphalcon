@@ -13,30 +13,32 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Assets\Inline\Css;
 
 use Phalcon\Assets\Inline\Css;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 class SetFilterCest
 {
-    use AssetsTrait;
-
     /**
-     * Tests Phalcon\Assets\Inline :: setFilter()
+     * Tests Phalcon\Assets\Inline\Css :: setFilter()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function assetsInlineSetFilter(UnitTester $I)
+    public function assetsInlineCssSetFilter(UnitTester $I)
     {
-        $I->wantToTest('Assets\Inline - setFilter()');
-        $content = 'p {color: #000099}';
-        $asset   = new Css($content);
+        $I->wantToTest('Assets\Inline\Css - setFilter()');
 
-        $expected = true;
-        $this->assetGetFilter($I, $asset, $expected);
+        $asset = new Css(
+            'p {color: #000099}'
+        );
 
-        $expected = false;
-        $asset->setFilter($expected);
-        $this->assetGetFilter($I, $asset, $expected);
+        $I->assertTrue(
+            $asset->getFilter()
+        );
+
+        $asset->setFilter(false);
+
+        $I->assertFalse(
+            $asset->getFilter()
+        );
     }
 }

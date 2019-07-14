@@ -12,14 +12,13 @@ namespace Phalcon\Validation\Validator;
 
 use Phalcon\Messages\Message;
 use Phalcon\Validation;
-use Phalcon\Validation\Validator;
+use Phalcon\Validation\ValidatorInterface;
+use Phalcon\Validation\AbstractValidator;
 
 /**
- * Phalcon\Validation\Validator\Callback
- *
  * Calls user function for validation
  *
- * <code>
+ * ```php
  * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\Callback as CallbackValidator;
  * use Phalcon\Validation\Validator\Numericality as NumericalityValidator;
@@ -58,16 +57,18 @@ use Phalcon\Validation\Validator;
  *         ]
  *     )
  * );
- * </code>
+ * ```
  */
-class Callback extends Validator
+class Callback extends AbstractValidator
 {
+    protected template = "Field :field must match the callback function";
+
     /**
      * Executes the validation
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var message, label, replacePairs, code, callback, returnedValue, data;
+        var callback, returnedValue, data;
 
         let callback = this->getOption("callback");
 
@@ -82,34 +83,15 @@ class Callback extends Validator
 
             if typeof returnedValue == "boolean" {
                 if !returnedValue {
-                    let label = this->prepareLabel(validation, field);
-
-                    let message = this->prepareMessage(
-                        validation,
-                        field,
-                        "Callback"
-                    );
-
-                    let code = this->prepareCode(field);
-
-                    let replacePairs = [
-                        ":field": label
-                    ];
-
                     validation->appendMessage(
-                        new Message(
-                            strtr(message, replacePairs),
-                            field,
-                            "Callback",
-                            code
-                        )
+                        this->messageFactory(validation, field)
                     );
 
                     return false;
                 }
 
                 return true;
-            } elseif typeof returnedValue == "object" && returnedValue instanceof Validator {
+            } elseif typeof returnedValue == "object" && returnedValue instanceof ValidatorInterface {
                 return returnedValue->validate(validation, field);
             }
 

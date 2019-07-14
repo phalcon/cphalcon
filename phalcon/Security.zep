@@ -10,19 +10,17 @@
 
 namespace Phalcon;
 
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
 use Phalcon\Security\Random;
 use Phalcon\Security\Exception;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Session\ManagerInterface as SessionInterface;
 
 /**
- * Phalcon\Security
- *
  * This component provides a set of functions to improve the security in Phalcon
  * applications
  *
- *<code>
+ *```php
  * $login    = $this->request->getPost("login");
  * $password = $this->request->getPost("password");
  *
@@ -33,7 +31,7 @@ use Phalcon\Session\ManagerInterface as SessionInterface;
  *         // The password is valid
  *     }
  * }
- *</code>
+ *```
  */
 class Security implements InjectionAwareInterface
 {
@@ -410,7 +408,7 @@ class Security implements InjectionAwareInterface
                  * alphabet "./0-9A-Za-z".
                  */
 
-                if (hash == self::CRYPT_EXT_DES) {
+                if hash == self::CRYPT_EXT_DES {
                     let saltBytes = "_" . this->getSaltBytes(8);
                 } else {
                     let saltBytes = this->getSaltBytes(2);

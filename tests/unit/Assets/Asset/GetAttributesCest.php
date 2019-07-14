@@ -12,81 +12,53 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Asset;
 
+use Codeception\Example;
 use Phalcon\Assets\Asset;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 class GetAttributesCest
 {
-    use AssetsTrait;
-
     /**
-     * Tests Phalcon\Assets\Asset :: getAttributes() - css local
+     * Tests Phalcon\Assets\Asset :: getAttributes()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
+     *
+     * @dataProvider provider
      */
-    public function assetsAssetGetAttributesCssLocal(UnitTester $I)
+    public function assetsAssetGetAttributes(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Assets\Asset - getAttributes() - css local');
+        $I->wantToTest('Assets\Asset - getAttributes()');
 
         $attributes = [
             'data-key' => 'phalcon',
         ];
 
         $asset = new Asset(
-            'css',
-            'css/docs.css',
+            $example['type'],
+            $example['path'],
             true,
             false,
             $attributes
         );
 
-        $this->assetGetAttributes($I, $asset, $attributes);
+        $I->assertEquals(
+            $attributes,
+            $asset->getAttributes()
+        );
     }
 
-    /**
-     * Tests Phalcon\Assets\Asset :: getAttributes() - css remote
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsAssetGetAttributesCssRemote(UnitTester $I)
+    protected function provider(): array
     {
-        $I->wantToTest('Assets\Asset - getAttributes() - css remote');
-        $asset = new Asset('css', 'https://phalcon.ld/css/docs.css', false, false, ['data-key' => 'phalcon']);
-
-        $expected = ['data-key' => 'phalcon'];
-        $this->assetGetAttributes($I, $asset, $expected);
-    }
-
-    /**
-     * Tests Phalcon\Assets\Asset :: getAttributes() - js local
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsAssetGetAttributesJsLocal(UnitTester $I)
-    {
-        $I->wantToTest('Assets\Asset - getAttributes() - js local');
-        $asset = new Asset('js', 'js/jquery.js', true, false, ['data-key' => 'phalcon']);
-
-        $expected = ['data-key' => 'phalcon'];
-        $this->assetGetAttributes($I, $asset, $expected);
-    }
-
-    /**
-     * Tests Phalcon\Assets\Asset :: getAttributes() - js remote
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsAssetGetAttributesJsRemote(UnitTester $I)
-    {
-        $I->wantToTest('Assets\Asset - getAttributes() - js remote');
-        $asset = new Asset('js', 'https://phalcon.ld/js/jquery.js', false, false, ['data-key' => 'phalcon']);
-
-        $expected = ['data-key' => 'phalcon'];
-        $this->assetGetAttributes($I, $asset, $expected);
+        return [
+            [
+                'type' => 'css',
+                'path' => 'css/docs.css',
+            ],
+            [
+                'type' => 'js',
+                'path' => 'js/jquery.js',
+            ],
+        ];
     }
 }

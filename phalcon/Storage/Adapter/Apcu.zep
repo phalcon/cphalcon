@@ -10,6 +10,7 @@
 
 namespace Phalcon\Storage\Adapter;
 
+use APCUIterator;
 use Phalcon\Helper\Arr;
 use Phalcon\Storage\Adapter\AbstractAdapter;
 use Phalcon\Storage\Exception;
@@ -17,8 +18,6 @@ use Phalcon\Storage\SerializerFactory;
 use Phalcon\Storage\Serializer\SerializerInterface;
 
 /**
- * Phalcon\Storage\Adapter\Apcu
- *
  * Apcu adapter
  */
 class Apcu extends AbstractAdapter
@@ -53,7 +52,7 @@ class Apcu extends AbstractAdapter
         bool result;
 
         let pattern = "/^" . this->prefix . "/",
-            apc     = new \APCUIterator(pattern),
+            apc     = new APCUIterator(pattern),
             result  = true;
 
         if typeof apc !== "object" {
@@ -105,7 +104,7 @@ class Apcu extends AbstractAdapter
     public function get(string! key, var defaultValue = null) -> var
     {
     	var content;
-	
+
         let content = apcu_fetch(this->getPrefixedKey(key));
 
         return this->getUnserializedData(content, defaultValue);
@@ -133,7 +132,7 @@ class Apcu extends AbstractAdapter
         array results;
 
         let pattern = "/^" . this->prefix . "/",
-            apc     = new \APCUIterator(pattern),
+            apc     = new APCUIterator(pattern),
             results = [];
 
         if typeof apc !== "object" {

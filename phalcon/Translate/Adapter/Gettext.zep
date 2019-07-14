@@ -10,13 +10,15 @@
 
 namespace Phalcon\Translate\Adapter;
 
+use ArrayAccess;
 use Phalcon\Translate\Exception;
-use Phalcon\Translate\Adapter;
+use Phalcon\Translate\Adapter\AbstractAdapter;
+use Phalcon\Translate\InterpolatorFactory;
 
 /**
  * Phalcon\Translate\Adapter\Gettext
  *
- * <code>
+ * ```php
  * use Phalcon\Translate\Adapter\Gettext;
  *
  * $adapter = new Gettext(
@@ -27,17 +29,17 @@ use Phalcon\Translate\Adapter;
  *         "category"      => LC_MESSAGES,
  *     ]
  * );
- * </code>
+ * ```
  *
  * Allows translate using gettext
  */
-class Gettext extends Adapter implements \ArrayAccess
+class Gettext extends AbstractAdapter implements ArrayAccess
 {
     /**
      * @var int
      */
     protected category { get };
-    
+
     /**
      * @var string
      */
@@ -56,7 +58,7 @@ class Gettext extends Adapter implements \ArrayAccess
     /**
      * Phalcon\Translate\Adapter\Gettext constructor
      */
-    public function __construct(array! options) -> void
+    public function __construct(<InterpolatorFactory> interpolator, array! options) -> void
     {
         if unlikely !function_exists("gettext") {
             throw new Exception(
@@ -64,7 +66,7 @@ class Gettext extends Adapter implements \ArrayAccess
             );
         }
 
-        parent::__construct(options);
+        parent::__construct(interpolator, options);
 
         this->prepareOptions(options);
     }
@@ -102,9 +104,9 @@ class Gettext extends Adapter implements \ArrayAccess
     /**
      * Returns the translation related to the given key.
      *
-     * <code>
+     * ```php
      * $translator->query("你好 %name%！", ["name" => "Phalcon"]);
-     * </code>
+     * ```
      *
      * @param array   placeholders
      */
@@ -138,7 +140,7 @@ class Gettext extends Adapter implements \ArrayAccess
     /**
      * Sets the path for a domain
      *
-     * <code>
+     * ```php
      * // Set the directory path
      * $gettext->setDirectory("/path/to/the/messages");
      *
@@ -149,7 +151,7 @@ class Gettext extends Adapter implements \ArrayAccess
      *         "another"  => "/path/to/the/another",
      *     ]
      * );
-     * </code>
+     * ```
      *
      * @param string|array directory The directory path or an array of directories and domains
      */
@@ -186,13 +188,13 @@ class Gettext extends Adapter implements \ArrayAccess
     /**
      * Sets locale information
      *
-     * <code>
+     * ```php
      * // Set locale to Dutch
      * $gettext->setLocale(LC_ALL, "nl_NL");
      *
      * // Try different possible locale names for german
      * $gettext->setLocale(LC_ALL, "de_DE@euro", "de_DE", "de", "ge");
-     * </code>
+     * ```
      */
     public function setLocale(int! category, string! locale) -> string | bool
     {

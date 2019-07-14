@@ -41,7 +41,6 @@ class RemoveCest
         );
 
 
-
         $registry->remove('five');
 
         $I->assertEquals(
@@ -51,7 +50,6 @@ class RemoveCest
             ],
             $registry->toArray()
         );
-
 
 
         $registry->remove('FIVE');
@@ -65,7 +63,6 @@ class RemoveCest
         );
 
 
-
         $registry->init($data);
 
         unset($registry['five']);
@@ -77,7 +74,6 @@ class RemoveCest
             ],
             $registry->toArray()
         );
-
 
 
         $registry->init($data);

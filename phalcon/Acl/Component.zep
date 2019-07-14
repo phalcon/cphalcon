@@ -13,8 +13,6 @@ namespace Phalcon\Acl;
 use Phalcon\Acl\Exception;
 
 /**
- * Phalcon\Acl\Component
- *
  * This class defines component entity and its description
  */
 class Component implements ComponentInterface

@@ -21,8 +21,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Db\ResultInterface
- *
  * Interface for Phalcon\Db\Result objects
  */
 ZEPHIR_INIT_CLASS(Phalcon_Db_ResultInterface) {
@@ -36,8 +34,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_ResultInterface) {
 /**
  * Moves internal resultset cursor to another position letting us to fetch a
  * certain row
- *
- * @param long number
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_ResultInterface, dataSeek);
 
@@ -52,8 +48,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_ResultInterface, execute);
  * Fetches an array/object of strings that corresponds to the fetched row,
  * or FALSE if there are no more rows. This method is affected by the active
  * fetch flag set using `Phalcon\Db\Result\Pdo::setFetchMode()`
- *
- * @return mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_ResultInterface, fetch);
 
@@ -68,15 +62,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_ResultInterface, fetchAll);
  * Returns an array of strings that corresponds to the fetched row, or FALSE
  * if there are no more rows. This method is affected by the active fetch
  * flag set using `Phalcon\Db\Result\Pdo::setFetchMode()`
- *
- * @return mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_ResultInterface, fetchArray);
 
 /**
  * Gets the internal PDO result object
- *
- * @return \PDOStatement
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_ResultInterface, getInternalResult);
 

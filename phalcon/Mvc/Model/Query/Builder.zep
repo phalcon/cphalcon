@@ -12,7 +12,7 @@ namespace Phalcon\Mvc\Model\Query;
 
 use Phalcon\Di;
 use Phalcon\Db\Column;
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
 use Phalcon\Helper\Arr;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Di\InjectionAwareInterface;
@@ -24,7 +24,7 @@ use Phalcon\Mvc\Model\Query\BuilderInterface;
  *
  * Helps to create PHQL queries using an OO interface
  *
- *<code>
+ *```php
  * $params = [
  *     "models"     => [
  *         Users::class,
@@ -53,7 +53,7 @@ use Phalcon\Mvc\Model\Query\BuilderInterface;
  * ];
  *
  * $queryBuilder = new \Phalcon\Mvc\Model\Query\Builder($params);
- *</code>
+ *```
  */
 class Builder implements BuilderInterface, InjectionAwareInterface
 {
@@ -245,21 +245,24 @@ class Builder implements BuilderInterface, InjectionAwareInterface
         /**
          * Update the dependency injector if any
          */
-        if typeof container == "object" {
-            let this->container = container;
-        }
+        let this->container = container;
     }
 
     /**
      * Add a model to take part of the query
      *
-     *<code>
+     *```php
      * // Load data from models Robots
-     * $builder->addFrom("Robots");
+     * $builder->addFrom(
+     *     Robots::class
+     * );
      *
      * // Load data from model 'Robots' using 'r' as alias in PHQL
-     * $builder->addFrom("Robots", "r");
-     *</code>
+     * $builder->addFrom(
+     *     Robots::class,
+     *     "r"
+     * );
+     *```
      */
     public function addFrom(string model, string alias = null) -> <BuilderInterface>
     {
@@ -290,7 +293,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     /**
      * Appends a condition to the current HAVING conditions clause using a AND operator
      *
-     *<code>
+     *```php
      * $builder->andHaving("SUM(Robots.price) > 0");
      *
      * $builder->andHaving(
@@ -299,7 +302,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      *         "sum" => 100,
      *     ]
      * );
-     *</code>
+     *```
      */
     public function andHaving(string! conditions, array bindParams = [], array bindTypes = []) -> <BuilderInterface>
     {
@@ -320,7 +323,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     /**
      * Appends a condition to the current WHERE conditions using a AND operator
      *
-     *<code>
+     *```php
      * $builder->andWhere("name = 'Peter'");
      *
      * $builder->andWhere(
@@ -330,7 +333,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      *         "id"   => 100,
      *     ]
      * );
-     *</code>
+     *```
      */
     public function andWhere(string! conditions, array bindParams = [], array bindTypes = []) -> <BuilderInterface>
     {
@@ -363,9 +366,9 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     /**
      * Appends a BETWEEN condition to the current HAVING conditions clause
      *
-     *<code>
+     *```php
      * $builder->betweenHaving("SUM(Robots.price)", 100.25, 200.50);
-     *</code>
+     *```
      */
     public function betweenHaving(string! expr, var minimum, var maximum, string! operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
     {
@@ -375,9 +378,9 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     /**
      * Appends a BETWEEN condition to the current WHERE conditions
      *
-     *<code>
+     *```php
      * $builder->betweenWhere("price", 100.25, 200.50);
-     *</code>
+     *```
      */
     public function betweenWhere(string! expr, var minimum, var maximum, string! operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
     {
@@ -387,7 +390,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     /**
      * Sets the columns to be queried
      *
-     *<code>
+     *```php
      * $builder->columns("id, name");
      *
      * $builder->columns(
@@ -403,7 +406,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      *         "number" => "COUNT(*)",
      *     ]
      * );
-     *</code>
+     *```
      */
     public function columns(var columns) -> <BuilderInterface>
     {
@@ -415,10 +418,10 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     /**
      * Sets SELECT DISTINCT / SELECT ALL flag
      *
-     *<code>
+     *```php
      * $builder->distinct("status");
      * $builder->distinct(null);
-     *</code>
+     *```
      */
     public function distinct(var distinct) -> <BuilderInterface>
     {
@@ -430,9 +433,9 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     /**
      * Sets a FOR UPDATE clause
      *
-     *<code>
+     *```php
      * $builder->forUpdate(true);
-     *</code>
+     *```
      */
     public function forUpdate(bool forUpdate) -> <BuilderInterface>
     {
@@ -444,7 +447,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     /**
      * Sets the models who makes part of the query
      *
-     *<code>
+     *```php
      * $builder->from(
      *     Robots::class
      * );
@@ -462,7 +465,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      *         "rp" => RobotsParts::class,
      *     ]
      * );
-     *</code>
+     *```
      */
     public function from(var models) -> <BuilderInterface>
     {
@@ -637,6 +640,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
                         "Cannot build the query. Invalid condition"
                     );
                 }
+
                 let model = models[0];
             } else {
                 let model = models;
@@ -651,8 +655,8 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
             let noPrimary = true,
                 primaryKeys = metaData->getPrimaryKeyAttributes(modelInstance);
-            if count(primaryKeys) {
 
+            if count(primaryKeys) {
                 if fetch firstPrimaryKey, primaryKeys[0] {
 
                     /**
@@ -722,7 +726,6 @@ class Builder implements BuilderInterface, InjectionAwareInterface
             } else {
                 let phql .= columns;
             }
-
         } else {
             /**
              * Automatically generate an array of models
@@ -997,13 +1000,13 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     /**
      * Sets a GROUP BY clause
      *
-     *<code>
+     *```php
      * $builder->groupBy(
      *     [
      *         "Robots.name",
      *     ]
      * );
-     *</code>
+     *```
      *
      * @param string|array group
      */
@@ -1025,7 +1028,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     /**
      * Sets the HAVING condition clause
      *
-     *<code>
+     *```php
      * $builder->having("SUM(Robots.price) > 0");
      *
      * $builder->having(
@@ -1034,7 +1037,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      *         "sum" => 100,
      *     ]
      * );
-     *</code>
+     *```
      */
     public function having(var conditions, array bindParams = [], array bindTypes = []) -> <BuilderInterface>
     {
@@ -1070,9 +1073,9 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     /**
      * Appends an IN condition to the current HAVING conditions clause
      *
-     *<code>
+     *```php
      * $builder->inHaving("SUM(Robots.price)", [100, 200]);
-     *</code>
+     *```
      */
     public function inHaving(string! expr, array! values, string! operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
     {
@@ -1082,10 +1085,11 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     /**
      * Adds an INNER join to the query
      *
-     *<code>
+     *```php
      * // Inner Join model 'Robots' with automatic conditions and alias
      * $builder->innerJoin(
-     *     Robots::class);
+     *     Robots::class
+     * );
      *
      * // Inner Join model 'Robots' specifying conditions
      * $builder->innerJoin(
@@ -1099,7 +1103,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      *     "r.id = RobotsParts.robots_id",
      *     "r"
      * );
-     *</code>
+     *```
      */
     public function innerJoin(string! model, string conditions = null, string alias = null) -> <BuilderInterface>
     {
@@ -1111,12 +1115,12 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     /**
      * Appends an IN condition to the current WHERE conditions
      *
-     *<code>
+     *```php
      * $builder->inWhere(
      *     "id",
      *     [1, 2, 3]
      * );
-     *</code>
+     *```
      */
     public function inWhere(string! expr, array! values, string! operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
     {
@@ -1126,7 +1130,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     /**
      * Adds an :type: join (by default type - INNER) to the query
      *
-     *<code>
+     *```php
      * // Inner Join model 'Robots' with automatic conditions and alias
      * $builder->join(
      *     Robots::class
@@ -1152,7 +1156,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      *     "r",
      *     "LEFT"
      * );
-     *</code>
+     *```
      */
     public function join(string! model, string conditions = null, string alias = null, string type = null) -> <BuilderInterface>
     {
@@ -1164,13 +1168,13 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     /**
      * Adds a LEFT join to the query
      *
-     *<code>
+     *```php
      * $builder->leftJoin(
      *     Robots::class,
      *     "r.id = RobotsParts.robots_id",
      *     "r"
      * );
-     *</code>
+     *```
      */
     public function leftJoin(string! model, string conditions = null, string alias = null) -> <BuilderInterface>
     {
@@ -1182,11 +1186,11 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     /**
      * Sets a LIMIT clause, optionally an offset clause
      *
-     * <code>
+     * ```php
      * $builder->limit(100);
      * $builder->limit(100, 20);
      * $builder->limit("100", "20");
-     * </code>
+     * ```
      */
     public function limit(int limit, var offset = null) -> <BuilderInterface>
     {
@@ -1208,9 +1212,9 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     /**
      * Appends a NOT BETWEEN condition to the current HAVING conditions clause
      *
-     *<code>
+     *```php
      * $builder->notBetweenHaving("SUM(Robots.price)", 100.25, 200.50);
-     *</code>
+     *```
      */
     public function notBetweenHaving(string! expr, var minimum, var maximum, string! operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
     {
@@ -1226,9 +1230,9 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     /**
      * Appends a NOT BETWEEN condition to the current WHERE conditions
      *
-     *<code>
+     *```php
      * $builder->notBetweenWhere("price", 100.25, 200.50);
-     *</code>
+     *```
      */
     public function notBetweenWhere(string! expr, var minimum, var maximum, string! operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
     {
@@ -1244,9 +1248,9 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     /**
      * Appends a NOT IN condition to the current HAVING conditions clause
      *
-     *<code>
+     *```php
      * $builder->notInHaving("SUM(Robots.price)", [100, 200]);
-     *</code>
+     *```
      */
     public function notInHaving(string! expr, array! values, string! operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
     {
@@ -1256,9 +1260,9 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     /**
      * Appends a NOT IN condition to the current WHERE conditions
      *
-     *<code>
+     *```php
      * $builder->notInWhere("id", [1, 2, 3]);
-     *</code>
+     *```
      */
     public function notInWhere(string! expr, array! values, string! operator = BuilderInterface::OPERATOR_AND) -> <BuilderInterface>
     {
@@ -1268,9 +1272,9 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     /**
      * Sets an OFFSET clause
      *
-     *<code>
+     *```php
      * $builder->offset(30);
-     *</code>
+     *```
      */
     public function offset(int offset) -> <BuilderInterface>
     {
@@ -1282,11 +1286,11 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     /**
      * Sets an ORDER BY condition clause
      *
-     *<code>
+     *```php
      * $builder->orderBy("Robots.name");
      * $builder->orderBy(["1", "Robots.name"]);
      * $builder->orderBy(["Robots.name DESC"]);
-     *</code>
+     *```
      *
      * @param string|array orderBy
      */
@@ -1300,7 +1304,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     /**
      * Appends a condition to the current HAVING conditions clause using an OR operator
      *
-     *<code>
+     *```php
      * $builder->orHaving("SUM(Robots.price) > 0");
      *
      * $builder->orHaving(
@@ -1309,7 +1313,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      *         "sum" => 100,
      *     ]
      * );
-     *</code>
+     *```
      */
     public function orHaving(string! conditions, array bindParams = [], array bindTypes = []) -> <BuilderInterface>
     {
@@ -1330,7 +1334,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     /**
      * Appends a condition to the current conditions using an OR operator
      *
-     *<code>
+     *```php
      * $builder->orWhere("name = 'Peter'");
      *
      * $builder->orWhere(
@@ -1340,7 +1344,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      *         "id"   => 100,
      *     ]
      * );
-     *</code>
+     *```
      */
     public function orWhere(string! conditions, array bindParams = [], array bindTypes = []) -> <BuilderInterface>
     {
@@ -1361,13 +1365,13 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     /**
      * Adds a RIGHT join to the query
      *
-     *<code>
+     *```php
      * $builder->rightJoin(
      *     Robots::class,
      *     "r.id = RobotsParts.robots_id",
      *     "r"
      * );
-     *</code>
+     *```
      */
     public function rightJoin(string! model, string conditions = null, string alias = null) -> <BuilderInterface>
     {
@@ -1432,7 +1436,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     /**
      * Sets the query WHERE conditions
      *
-     *<code>
+     *```php
      * $builder->where(100);
      *
      * $builder->where("name = 'Peter'");
@@ -1444,7 +1448,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      *         "id"   => 100,
      *     ]
      * );
-     *</code>
+     *```
      */
     public function where(string conditions, array bindParams = [], array bindTypes = []) -> <BuilderInterface>
     {
@@ -1489,7 +1493,12 @@ class Builder implements BuilderInterface, InjectionAwareInterface
         var hiddenParam, nextHiddenParam, minimumKey, maximumKey, operatorMethod;
 
         if unlikely (operator !== Builder::OPERATOR_AND && operator !== Builder::OPERATOR_OR) {
-            throw new Exception(sprintf("Operator % is not available.", operator));
+            throw new Exception(
+                sprintf(
+                    "Operator % is not available.",
+                    operator
+                )
+            );
         }
 
         let operatorMethod = operator . clause;

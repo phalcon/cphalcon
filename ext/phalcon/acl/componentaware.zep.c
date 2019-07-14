@@ -21,8 +21,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Acl\ComponentAware
- *
  * Interface for classes which could be used in allow method as RESOURCE
  */
 ZEPHIR_INIT_CLASS(Phalcon_Acl_ComponentAware) {

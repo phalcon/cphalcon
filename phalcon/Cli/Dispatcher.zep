@@ -10,20 +10,17 @@
 
 namespace Phalcon\Cli;
 
-use Phalcon\FilterInterface;
-use Phalcon\Events\ManagerInterface;
 use Phalcon\Cli\Dispatcher\Exception;
-use Phalcon\Dispatcher as CliDispatcher;
-use Phalcon\Service\LocatorInterface;
+use Phalcon\Dispatcher\AbstractDispatcher as CliDispatcher;
+use Phalcon\Events\ManagerInterface;
+use Phalcon\Filter\FilterInterface;
 
 /**
- * Phalcon\Cli\Dispatcher
- *
  * Dispatching is the process of taking the command-line arguments, extracting
  * the module name, task name, action name, and optional parameters contained in
  * it, and then instantiating a task and calling an action on it.
  *
- * <code>
+ * ```php
  * use Phalcon\Di;
  * use Phalcon\Cli\Dispatcher;
  *
@@ -38,7 +35,7 @@ use Phalcon\Service\LocatorInterface;
  * $dispatcher->setParams([]);
  *
  * $handle = $dispatcher->dispatch();
- * </code>
+ * ```
  */
 class Dispatcher extends CliDispatcher implements DispatcherInterface
 {
@@ -122,12 +119,11 @@ class Dispatcher extends CliDispatcher implements DispatcherInterface
         if typeof container != "object" {
             this->{"throwDispatchException"}(
                 Exception::containerServiceNotFound("the 'filter' service"),
-                CliDispatcher::EXCEPTION_NO_DI
+                Exception::EXCEPTION_NO_DI
             );
         }
 
-        let filter = <LocatorInterface> container->getShared("filter");
-//        let filter = <FilterInterface> container->getShared("filter");
+        let filter = <FilterInterface> container->getShared("filter");
 
         return filter->sanitize(optionValue, filters);
     }

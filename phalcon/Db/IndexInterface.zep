@@ -11,17 +11,10 @@
 namespace Phalcon\Db;
 
 /**
- * Phalcon\Db\IndexInterface
- *
  * Interface for Phalcon\Db\Index
  */
 interface IndexInterface
 {
-    /**
-     * Restore a Phalcon\Db\Index object from export
-     */
-    public static function __set_state(array! data) -> <IndexInterface>;
-
     /**
      * Gets the columns that corresponds the index
      */

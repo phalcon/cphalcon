@@ -10,8 +10,11 @@
 
 namespace Phalcon\Mvc;
 
+use Mongo;
+use MongoCollection;
+use MongoId;
 use Phalcon\Di;
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Messages\MessageInterface;
 use Phalcon\Mvc\Collection\BehaviorInterface;
@@ -19,8 +22,9 @@ use Phalcon\Mvc\Collection\Document;
 use Phalcon\Mvc\Collection\Exception;
 use Phalcon\Mvc\Collection\ManagerInterface;
 use Phalcon\Messages\Message as Message;
-use Phalcon\ValidationInterface;
+use Phalcon\Validation\ValidationInterface;
 use Phalcon\Storage\Serializer\SerializerInterface;
+use Serializable;
 
 /**
  * Phalcon\Mvc\Collection
@@ -28,7 +32,7 @@ use Phalcon\Storage\Serializer\SerializerInterface;
  * This component implements a high level abstraction for NoSQL databases which
  * works with documents
  */
-abstract class Collection implements EntityInterface, CollectionInterface, InjectionAwareInterface, \Serializable
+abstract class Collection implements EntityInterface, CollectionInterface, InjectionAwareInterface, Serializable
 {
     const DIRTY_STATE_DETACHED = 2;
     const DIRTY_STATE_PERSISTENT = 0;
@@ -148,7 +152,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
     /**
      * Appends a customized message on the validation process
      *
-     *<code>
+     *```php
      * use \Phalcon\Messages\Message as Message;
      *
      * class Robots extends \Phalcon\Mvc\Model
@@ -164,7 +168,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
      *         }
      *     }
      * }
-     *</code>
+     *```
      */
     public function appendMessage(<MessageInterface> message)
     {
@@ -253,7 +257,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
      * criteria. Preferred way to avoid duplication is to create index o
      * attribute
      *
-     * <code>
+     * ```php
      * $robot = new Robot();
      *
      * $robot->name = "MyRobot";
@@ -266,7 +270,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
      *         "type",
      *     ]
      * );
-     * </code>
+     * ```
      */
     public function createIfNotExist(array! criteria) -> bool
     {
@@ -351,9 +355,9 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
     /**
      * Perform a count over a collection
      *
-     *<code>
+     *```php
      * echo "There are ", Robots::count(), " robots";
-     *</code>
+     *```
      */
     public static function count(array parameters = null) -> int
     {
@@ -371,7 +375,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
     /**
      * Deletes a model instance. Returning true on success or false otherwise.
      *
-     * <code>
+     * ```php
      * $robot = Robots::findFirst();
      *
      * $robot->delete();
@@ -381,7 +385,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
      * foreach ($robots as $robot) {
      *     $robot->delete();
      * }
-     * </code>
+     * ```
      */
     public function delete() -> bool
     {
@@ -414,7 +418,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
         }
 
         /**
-         * Get the \MongoCollection
+         * Get the MongoCollection
          */
         let collection = connection->selectCollection(source);
 
@@ -425,7 +429,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
              * Is the collection using implicit object Ids?
              */
             if this->modelsManager->isUsingImplicitObjectIds(this) {
-                let mongoId = new \MongoId(id);
+                let mongoId = new MongoId(id);
             } else {
                 let mongoId = id;
             }
@@ -470,7 +474,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
     /**
      * Allows to query a set of records that match the specified conditions
      *
-     * <code>
+     * ```php
      * // How many robots are there?
      * $robots = Robots::find();
      *
@@ -519,7 +523,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
      * foreach ($robots as $robot) {
      *       echo $robot->name, "\n";
      * }
-     * </code>
+     * ```
      */
     public static function find(array parameters = null) -> array
     {
@@ -539,7 +543,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
     /**
      * Find a document by its id (_id)
      *
-     * <code>
+     * ```php
      * // Find user by using \MongoId object
      * $user = Users::findById(
      *     new \MongoId("545eb081631d16153a293a66")
@@ -552,7 +556,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
      * if ($user = Users::findById($_POST["id"])) {
      *     // ...
      * }
-     * </code>
+     * ```
      */
     public static function findById(var id) -> <CollectionInterface> | null
     {
@@ -571,7 +575,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
              * Check if the model use implicit ids
              */
             if collection->getCollectionManager()->isUsingImplicitObjectIds(collection) {
-                let mongoId = new \MongoId(id);
+                let mongoId = new MongoId(id);
             } else {
                 let mongoId = id;
             }
@@ -580,13 +584,19 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
             let mongoId = id;
         }
 
-        return static::findFirst([["_id": mongoId]]);
+        return static::findFirst(
+            [
+                [
+                    "_id": mongoId
+                ]
+            ]
+        );
     }
 
     /**
      * Allows to query the first record that match the specified conditions
      *
-     * <code>
+     * ```php
      * // What's the first robot in the robots table?
      * $robot = Robots::findFirst();
      *
@@ -627,7 +637,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
      * );
      *
      * echo "The robot id is ", $robot->_id, "\n";
-     * </code>
+     * ```
      */
     public static function findFirst(array parameters = null) -> array
     {
@@ -752,7 +762,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
     /**
      * Returns all the validation messages
      *
-     * <code>
+     * ```php
      * $robot = new Robots();
      *
      * $robot->type = "mechanical";
@@ -770,7 +780,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
      * } else {
      *     echo "Great, a new robot was saved successfully!";
      * }
-     * </code>
+     * ```
      */
     public function getMessages() -> <MessageInterface[]>
     {
@@ -820,9 +830,9 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
     /**
      * Reads an attribute value by its name
      *
-     *<code>
+     *```php
      *    echo $robot->readAttribute("name");
-     *</code>
+     *```
      */
     public function readAttribute(string! attribute) -> var | null
     {
@@ -975,7 +985,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
              * Check if the model use implicit ids
              */
             if this->modelsManager->isUsingImplicitObjectIds(this) {
-                let mongoId = new \MongoId(id);
+                let mongoId = new MongoId(id);
             } else {
                 let mongoId = id;
             }
@@ -1027,7 +1037,9 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
         /**
          * Uses a javascript hash to group the results
          */
-        let initial = ["summatory": []];
+        let initial = [
+            "summatory": []
+        ];
 
         /**
          * Uses a javascript hash to group the results, however this is slow
@@ -1053,11 +1065,11 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
     /**
      * Returns the instance as an array representation
      *
-     *<code>
+     *```php
      * print_r(
      *     $robot->toArray()
      * );
-     *</code>
+     *```
      */
     public function toArray() -> array
     {
@@ -1184,7 +1196,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
          */
         let status = collection->update(
             [
-                "_id": $this->_id
+                "_id": this->_id
             ],
             data,
             [
@@ -1211,7 +1223,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
     /**
      * Executes validators on every validation call
      *
-     *<code>
+     *```php
      * use Phalcon\Mvc\Collection;
      * use Phalcon\Validation;
      * use Phalcon\Validation\Validator\ExclusionIn;
@@ -1237,7 +1249,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
      *         return $this->validate($validator);
      *     }
      * }
-     *</code>
+     *```
      */
     protected function validate(<ValidationInterface> validator) -> bool
     {
@@ -1278,9 +1290,9 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
     /**
      * Writes an attribute value by its name
      *
-     *<code>
+     *```php
      *    $robot->writeAttribute("name", "Rosey");
-     *</code>
+     *```
      */
     public function writeAttribute(string attribute, var value)
     {
@@ -1308,7 +1320,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
     /**
      * Checks if the document exists in the collection
      *
-     * @param \MongoCollection collection
+     * @param MongoCollection collection
      */
     protected function exists(collection) -> bool
     {
@@ -1326,7 +1338,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
              * Check if the model use implicit ids
              */
             if this->modelsManager->isUsingImplicitObjectIds(this) {
-                let mongoId = new \MongoId(id);
+                let mongoId = new MongoId(id);
                 let this->_id = mongoId;
             } else {
                 let mongoId = id;

@@ -23,10 +23,7 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Cache\Exception\InvalidArgumentException
- *
  * Exceptions thrown in Phalcon\Cache will use this class
- *
  */
 ZEPHIR_INIT_CLASS(Phalcon_Cache_Exception_InvalidArgumentException) {
 

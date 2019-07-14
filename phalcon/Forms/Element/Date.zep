@@ -11,14 +11,12 @@
 namespace Phalcon\Forms\Element;
 
 use Phalcon\Tag;
-use Phalcon\Forms\Element;
+use Phalcon\Forms\Element\AbstractElement;
 
 /**
- * Phalcon\Forms\Element\Date
- *
  * Component INPUT[type=date] for forms
  */
-class Date extends Element
+class Date extends AbstractElement
 {
     /**
      * Renders the element widget returning html

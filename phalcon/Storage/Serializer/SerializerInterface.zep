@@ -10,7 +10,9 @@
 
 namespace Phalcon\Storage\Serializer;
 
-interface SerializerInterface extends \Serializable
+use Serializable;
+
+interface SerializerInterface extends Serializable
 {
     /**
      * @var mixed

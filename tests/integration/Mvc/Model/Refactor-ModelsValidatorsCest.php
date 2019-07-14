@@ -6,6 +6,14 @@ use function date;
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Abonnes;
+use Phalcon\Validation\Validator\Email;
+use Phalcon\Validation\Validator\ExclusionIn;
+use Phalcon\Validation\Validator\InclusionIn;
+use Phalcon\Validation\Validator\PresenceOf;
+use Phalcon\Validation\Validator\Regex;
+use Phalcon\Validation\Validator\StringLength\Max;
+use Phalcon\Validation\Validator\StringLength\Min;
+use Phalcon\Validation\Validator\Uniqueness;
 
 class ModelsValidatorsCest
 {
@@ -16,10 +24,30 @@ class ModelsValidatorsCest
         $this->setNewFactoryDefault();
     }
 
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
+    }
+
     public function testValidatorsMysql(IntegrationTester $I)
     {
         $this->setDiMysql();
         $this->testValidatorsRenamed($I);
+    }
+
+    public function testValidatorsPostgresql(IntegrationTester $I)
+    {
+        $this->setupPostgres();
+        $this->testValidatorsRenamed($I);
+    }
+
+    public function testValidatorsSqlite(IntegrationTester $I)
+    {
+        $this->setDiSqlite();
+        /**
+         * @todo Check Sqlite - tests lock up
+         */
+//        $this->testValidatorsRenamed($I);
     }
 
     protected function testValidatorsRenamed(IntegrationTester $I)
@@ -65,7 +93,7 @@ class ModelsValidatorsCest
         $I->assertCount(1, $messages);
 
         $I->assertEquals(
-            'PresenceOf',
+            PresenceOf::class,
             $messages[0]->getType()
         );
 
@@ -100,7 +128,7 @@ class ModelsValidatorsCest
         $messages = $abonne->getMessages();
 
         $I->assertEquals(
-            'Email',
+            Email::class,
             $messages[0]->getType()
         );
         $I->assertEquals(
@@ -125,7 +153,7 @@ class ModelsValidatorsCest
         $messages = $abonne->getMessages();
 
         $I->assertEquals(
-            'ExclusionIn',
+            ExclusionIn::class,
             $messages[0]->getType()
         );
         $I->assertEquals(
@@ -149,7 +177,7 @@ class ModelsValidatorsCest
         $messages = $abonne->getMessages();
 
         $I->assertEquals(
-            'InclusionIn',
+            InclusionIn::class,
             $messages[0]->getType()
         );
 
@@ -176,7 +204,7 @@ class ModelsValidatorsCest
         $messages = $abonne->getMessages();
 
         $I->assertEquals(
-            'Uniqueness',
+            Uniqueness::class,
             $messages[0]->getType()
         );
 
@@ -201,7 +229,7 @@ class ModelsValidatorsCest
         );
 
         $messages = $abonne->getMessages();
-        $I->assertEquals($messages[0]->getType(), 'Regex');
+        $I->assertEquals($messages[0]->getType(), Regex::class);
         $I->assertEquals($messages[0]->getField(), 'statut');
         $I->assertEquals($messages[0]->getMessage(), "L'état ne correspond pas à l'expression régulière");
 
@@ -218,7 +246,7 @@ class ModelsValidatorsCest
         $messages = $abonne->getMessages();
 
         $I->assertEquals(
-            'TooLong',
+            Max::class,
             $messages[0]->getType()
         );
 
@@ -245,7 +273,7 @@ class ModelsValidatorsCest
         $messages = $abonne->getMessages();
 
         $I->assertEquals(
-            'TooShort',
+            Min::class,
             $messages[0]->getType()
         );
 
@@ -282,7 +310,7 @@ class ModelsValidatorsCest
         $messages = $abonne->getMessages();
 
         $I->assertEquals(
-            'PresenceOf',
+            PresenceOf::class,
             $messages[0]->getType()
         );
 
@@ -299,7 +327,7 @@ class ModelsValidatorsCest
 
 
         $I->assertEquals(
-            'Email',
+            Email::class,
             $messages[1]->getType()
         );
 
@@ -320,7 +348,7 @@ class ModelsValidatorsCest
         $I->assertCount(1, $messages);
 
         $I->assertEquals(
-            'PresenceOf',
+            PresenceOf::class,
             $messages[0]->getType()
         );
 
@@ -341,7 +369,7 @@ class ModelsValidatorsCest
         $I->assertCount(1, $messages);
 
         $I->assertEquals(
-            'Email',
+            Email::class,
             $messages[0]->getType()
         );
 
@@ -354,20 +382,5 @@ class ModelsValidatorsCest
             'Le courrier électronique est invalide',
             $messages[0]->getMessage()
         );
-    }
-
-    public function testValidatorsPostgresql(IntegrationTester $I)
-    {
-        $this->setupPostgres();
-        $this->testValidatorsRenamed($I);
-    }
-
-    public function testValidatorsSqlite(IntegrationTester $I)
-    {
-        $this->setDiSqlite();
-        /**
-         * @todo Check Sqlite - tests lock up
-         */
-//        $this->testValidatorsRenamed($I);
     }
 }

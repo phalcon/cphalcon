@@ -10,7 +10,7 @@
 
 namespace Phalcon\Html;
 
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
 
 /**
  * Phalcon\Html\Breadcrumbs
@@ -23,21 +23,21 @@ class Breadcrumbs
 {
     /**
      * Keeps all the breadcrumbs
-     * 
+     *
      * @var array
      */
     private elements = [];
 
     /**
      * Crumb separator
-     * 
+     *
      * @var string
      */
     private separator = " / " { get, set };
 
     /**
      * The HTML template to use to render the breadcrumbs.
-     * 
+     *
      * @var string
      */
     private template = "<dt><a href=\"%link%\">%label%</a></dt>";
@@ -45,13 +45,13 @@ class Breadcrumbs
     /**
      * Adds a new crumb.
      *
-     * <code>
+     * ```php
      * // Adding a crumb with a link
      * $breadcrumbs->add("Home", "/");
      *
      * // Adding a crumb without a link (normally the last one)
      * $breadcrumbs->add("Users");
-     * </code>
+     * ```
      */
     public function add(string label, string link = "") -> <Breadcrumbs>
     {
@@ -63,9 +63,9 @@ class Breadcrumbs
     /**
      * Clears the crumbs
      *
-     * <code>
+     * ```php
      * $breadcrumbs->clear()
-     * </code>
+     * ```
      */
     public function clear() -> void
     {
@@ -75,12 +75,12 @@ class Breadcrumbs
     /**
      * Removes crumb by url.
      *
-     * <code>
+     * ```php
      * $breadcrumbs->remove("/admin/user/create");
      *
      * // remove a crumb without an url (last link)
      * $breadcrumbs->remove();
-     * </code>
+     * ```
      */
     public function remove(string link) -> void
     {
@@ -96,10 +96,9 @@ class Breadcrumbs
     /**
      * Renders and outputs breadcrumbs based on previously set template.
      *
-     * <code>
-     * // PHP Engine
+     * ```php
      * echo $breadcrumbs->render();
-     * </code>
+     * ```
      */
     public function render() -> string
     {

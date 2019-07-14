@@ -15,9 +15,6 @@ namespace Phalcon\Test\Fixtures\Traits;
 use function cacheDir;
 use function env;
 
-/**
- * Trait DiTrait
- */
 trait OptionsTrait
 {
     /**

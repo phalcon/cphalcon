@@ -16,9 +16,6 @@ use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Users;
 
-/**
- * Class WriteAttributeCest
- */
 class WriteAttributeCest
 {
     use DiTrait;
@@ -29,10 +26,15 @@ class WriteAttributeCest
         $this->setDiMysql();
     }
 
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
+    }
+
     /**
      * Tests Phalcon\Mvc\Model :: writeAttribute()
      *
-     * @author Sid Roberts <sid@sidroberts.co.uk>
+     * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-18
      */
     public function mvcModelWriteAttribute(IntegrationTester $I)
@@ -71,14 +73,15 @@ class WriteAttributeCest
      */
     public function mvcModelWriteAttributeWithAssociativeArray(IntegrationTester $I)
     {
-        $I->wantToTest('Tests Phalcon\Mvc\Model :: writeAttribute() with associative array');
+        $I->wantToTest('Phalcon\Mvc\Model :: writeAttribute() with associative array');
 
         $associativeArray = [
             'firstName' => 'First name',
-            'lastName' => 'Last name',
+            'lastName'  => 'Last name',
         ];
 
         $user = new Users();
+
         $user->writeAttribute('id', 123);
         $user->writeAttribute('name', $associativeArray);
 
@@ -106,14 +109,15 @@ class WriteAttributeCest
      */
     public function mvcModelWriteAttributeUndefinedPropertyWithAssociativeArray(IntegrationTester $I)
     {
-        $I->wantToTest('Tests Phalcon\Mvc\Model :: writeAttribute() undefined property with associative array');
+        $I->wantToTest('Phalcon\Mvc\Model :: writeAttribute() undefined property with associative array');
 
         $associativeArray = [
-            'id' => 123,
+            'id'   => 123,
             'name' => 'My Name',
         ];
 
         $user = new Users();
+
         $user->writeAttribute('whatEverUndefinedProperty', $associativeArray);
 
         $I->assertEquals(

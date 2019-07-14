@@ -10,16 +10,18 @@
 
 namespace Phalcon\Storage\Adapter;
 
+use FilesystemIterator;
+use Iterator;
 use Phalcon\Helper\Arr;
 use Phalcon\Helper\Str;
 use Phalcon\Storage\Adapter\AbstractAdapter;
 use Phalcon\Storage\Exception;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Storage\Serializer\SerializerInterface;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
 
 /**
- * Phalcon\Storage\Adapter\Stream
- *
  * Stream adapter
  */
 class Stream extends AbstractAdapter
@@ -67,14 +69,15 @@ class Stream extends AbstractAdapter
      */
     public function clear() -> bool
     {
-        var directory, iterator, file, result;
+        var directory, iterator, file;
+        bool result;
 
         let result    = true,
             directory = Str::dirSeparator(this->cacheDir),
-            iterator  = this->rglob(directory . "/*");
+            iterator  = this->getIterator(directory);
 
         for file in iterator {
-            if !is_dir(file) && !unlink(file) {
+            if file->isFile() && !unlink(file->getPathName()) {
                 let result = false;
             }
         }
@@ -114,15 +117,15 @@ class Stream extends AbstractAdapter
      */
     public function delete(string! key) -> bool
     {
-        var directory;
+        var filepath;
 
         if !this->has(key) {
             return false;
         }
 
-        let directory = this->getDir(key);
+        let filepath = this->getFilepath(key);
 
-        return unlink(directory . key);
+        return unlink(filepath);
     }
 
     /**
@@ -135,15 +138,15 @@ class Stream extends AbstractAdapter
      */
     public function get(string! key, var defaultValue = null) -> var
     {
-        var content, directory, payload;
+        var content, payload, filepath;
 
-        let directory = this->getDir(key);
-	
-        if !file_exists(directory . key) {
+        let filepath = this->getFilepath(key);
+
+        if !file_exists(filepath) {
             return defaultValue;
         }
-	
-        let payload   = file_get_contents(directory . key),
+
+        let payload   = file_get_contents(filepath),
             payload = json_decode(payload, true);
 
         if json_last_error() !== JSON_ERROR_NONE {
@@ -177,11 +180,11 @@ class Stream extends AbstractAdapter
 
         let results   = [],
             directory = Str::dirSeparator(this->cacheDir),
-            iterator  = this->rglob(directory . "/*");
+            iterator  = this->getIterator(directory);
 
         for file in iterator {
-            if !is_dir(file) {
-                let split     = explode("/", file),
+            if file->isFile() {
+                let split     = explode("/", file->getPathName()),
                     results[] = this->prefix . Arr::last(split);
             }
         }
@@ -198,16 +201,15 @@ class Stream extends AbstractAdapter
      */
     public function has(string! key) -> bool
     {
-        var directory, exists, payload;
+        var payload, filepath;
 
-        let directory = this->getDir(key),
-            exists    = file_exists(directory . key);
+        let filepath = this->getFilepath(key);
 
-        if !exists {
+        if !file_exists(filepath) {
             return false;
         }
 
-        let payload = file_get_contents(directory . key),
+        let payload = file_get_contents(filepath),
             payload = json_decode(payload);
 
         return !this->isExpired(payload);
@@ -278,9 +280,30 @@ class Stream extends AbstractAdapter
         var dirPrefix, dirFromFile;
 
         let dirPrefix   = this->cacheDir . this->prefix,
-            dirFromFile = Str::dirFromFile(key);
+            dirFromFile = Str::dirFromFile(
+                str_replace(this->prefix, "", key, 1)
+            );
 
-        return Str::dirSeparator(dirPrefix) . Str::dirSeparator(dirFromFile);
+        return Str::dirSeparator(dirPrefix) . dirFromFile;
+    }
+
+    /**
+     * Returns the full path to the file
+     */
+    private function getFilepath(string! key) -> string
+    {
+        return this->getDir(key) . str_replace(this->prefix, "", key, 1);
+    }
+
+    private function getIterator(string! dir) -> <Iterator>
+    {
+        return new RecursiveIteratorIterator(
+           new RecursiveDirectoryIterator(
+                dir,
+                FilesystemIterator::SKIP_DOTS
+           ),
+           RecursiveIteratorIterator::CHILD_FIRST
+       );
     }
 
     /**
@@ -298,27 +321,5 @@ class Stream extends AbstractAdapter
             ttl     = Arr::get(payload, "ttl", 3600);
 
         return (created + ttl) < time();
-    }
-
-    /**
-     * @param string $pattern
-     *
-     * @return array
-     */
-    private function rglob(string! pattern) -> array
-    {
-        var dir, dirName, files, flags, recurse;
-
-        let dirName = dirname(pattern) . "/*",
-            files   = glob(pattern),
-            flags   = GLOB_ONLYDIR | GLOB_NOSORT;
-
-        for dir in glob(dirName, flags) {
-            let dir     = dir . "/" . basename(pattern),
-                recurse = this->rglob(dir),
-                files   = array_merge(files, recurse);
-        }
-
-        return files;
     }
 }

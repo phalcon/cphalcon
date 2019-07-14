@@ -38,13 +38,18 @@ class ExclusionInCest
             )
         );
 
-        $messages = $validation->validate(['status' => 'A']);
+        $messages = $validation->validate(
+            [
+                'status' => 'A',
+            ]
+        );
+
         $expected = new Messages(
             [
                 new Message(
                     'Field status must not be a part of list: A, I',
                     'status',
-                    'ExclusionIn',
+                    ExclusionIn::class,
                     0
                 ),
             ]
@@ -70,11 +75,13 @@ class ExclusionInCest
      */
     public function validationValidatorMultipleFieldSingleDomain(IntegrationTester $I)
     {
-        $validation         = new Validation();
+        $validation = new Validation();
+
         $validationMessages = [
             'type'        => 'Type cant be mechanic or cyborg.',
             'anotherType' => 'AnotherType cant by mechanic or cyborg.',
         ];
+
         $validation->add(
             [
                 'type',
@@ -194,27 +201,45 @@ class ExclusionInCest
             )
         );
 
-        $messages = $validation->validate(['status' => 'A']);
+
+        $messages = $validation->validate(
+            [
+                'status' => 'A',
+            ]
+        );
+
         $expected = new Messages(
             [
                 new Message(
                     'The status must not be A=Active or I=Inactive',
                     'status',
-                    'ExclusionIn',
+                    ExclusionIn::class,
                     0
                 ),
             ]
         );
-        $actual   = $messages;
-        $I->assertEquals($expected, $actual);
 
-        $messages = $validation->validate(['status' => 'A']);
-        $actual   = $messages;
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals($expected, $messages);
 
-        $messages = $validation->validate(['status' => 'X']);
-        $expected = 0;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+
+        $messages = $validation->validate(
+            [
+                'status' => 'A',
+            ]
+        );
+
+        $I->assertEquals($expected, $messages);
+
+
+        $messages = $validation->validate(
+            [
+                'status' => 'X',
+            ]
+        );
+
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
     }
 }

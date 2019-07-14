@@ -15,12 +15,21 @@ class ModelsResultsetCacheStaticCest
     public function _before(IntegrationTester $I)
     {
         $this->setNewFactoryDefault();
-        $I->cleanDir(cacheDir());
+
+        $I->cleanDir(
+            cacheDir()
+        );
+    }
+
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
     }
 
     public function testOverrideStaticCache(IntegrationTester $I)
     {
         $this->setDiMysql();
+
         $this->getAndSetModelsCacheStream();
 
         $robot = Robots::findFirst(2);
@@ -45,10 +54,16 @@ class ModelsResultsetCacheStaticCest
         $I->assertInstanceOf(Robots::class, $robot);
 
         $robotParts = $robot->getRobotsParts();
-        $I->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $robotParts);
+        $I->assertInstanceOf(
+            \Phalcon\Mvc\Model\Resultset\Simple::class,
+            $robotParts
+        );
 
         $robotParts = $robot->getRobotsParts();
-        $I->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $robotParts);
+        $I->assertInstanceOf(
+            \Phalcon\Mvc\Model\Resultset\Simple::class,
+            $robotParts
+        );
 
         $part = $robotParts[0]->getParts();
         $I->assertInstanceOf(Parts::class, $part);

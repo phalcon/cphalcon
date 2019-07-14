@@ -30,11 +30,18 @@ class SetFormatterCest
         $fileName = logsDir($fileName);
 
         $adapter = new Stream($fileName);
-        $adapter->setFormatter(new Line());
 
-        $class  = FormatterInterface::class;
+        $adapter->setFormatter(
+            new Line()
+        );
+
         $actual = $adapter->getFormatter();
-        $I->assertInstanceOf($class, $actual);
+
+        $I->assertInstanceOf(
+            FormatterInterface::class,
+            $actual
+        );
+
         $I->safeDeleteFile($fileName);
     }
 }

@@ -21,8 +21,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Logger\AdapterInterface
- *
  * Interface for Phalcon\Logger adapters
  */
 ZEPHIR_INIT_CLASS(Phalcon_Storage_Adapter_AdapterInterface) {

@@ -12,14 +12,25 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Manager;
 
-use function dataDir;
 use Phalcon\Assets\Manager;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
+use function dataDir;
 
 class AddJsCest
 {
-    use AssetsTrait;
+    use DiTrait;
+
+    public function _before(UnitTester $I)
+    {
+        $this->newDi();
+        $this->setDiUrl();
+    }
+
+    public function _after(UnitTester $I)
+    {
+        $this->resetDi();
+    }
 
     /**
      * Tests Phalcon\Assets\Manager :: addJs()
@@ -30,6 +41,7 @@ class AddJsCest
     public function assetsManagerAddJs(UnitTester $I)
     {
         $I->wantToTest('Assets\Manager - addJs()');
+
         $assets = new Manager();
 
         $assets->addJs('/js/jquery.js');
@@ -37,17 +49,14 @@ class AddJsCest
 
         $collection = $assets->get('js');
 
-        $number   = 0;
-        $expected = 'js';
         foreach ($collection as $resource) {
-            $actual = $resource->getType();
-            $I->assertEquals($expected, $actual);
-            $number++;
+            $I->assertEquals(
+                'js',
+                $resource->getType()
+            );
         }
 
-        $expected = 2;
-        $actual   = $number;
-        $I->assertEquals($expected, $actual);
+        $I->assertCount(2, $collection);
     }
 
     /**
@@ -60,7 +69,11 @@ class AddJsCest
     {
         $I->wantToTest('Assets\Manager - addJs() - versioning');
 
+        $container = $this->getDI();
+
         $assets = new Manager();
+
+        $assets->setDI($container);
 
         $assets->addJs(
             dataDir('assets/assets/assets-version-1.js'),
@@ -69,6 +82,7 @@ class AddJsCest
             [],
             '1.0.0'
         );
+
         $assets->addJs(
             dataDir('assets/assets/assets-version-2.js'),
             true,
@@ -76,6 +90,7 @@ class AddJsCest
             [],
             '2.0.0'
         );
+
         $assets->addJs(
             dataDir('assets/assets/assets-version-3.js'),
             true,
@@ -93,6 +108,10 @@ class AddJsCest
         );
 
         $assets->useImplicitOutput(false);
-        $I->assertEquals($expected, $assets->outputJs());
+
+        $I->assertEquals(
+            $expected,
+            $assets->outputJs()
+        );
     }
 }

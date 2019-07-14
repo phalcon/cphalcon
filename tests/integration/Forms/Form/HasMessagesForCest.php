@@ -44,7 +44,7 @@ class HasMessagesForCest
     /**
      * Tests Form::hasMessagesFor
      *
-     * @author Sid Roberts <sid@sidroberts.co.uk>
+     * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2016-04-03
      */
     public function testFormHasMessagesFor(IntegrationTester $I)
@@ -85,7 +85,7 @@ class HasMessagesForCest
                 new Message(
                     'The telephone has an invalid format',
                     'telephone',
-                    'Regex',
+                    Regex::class,
                     0
                 ),
             ]
@@ -103,7 +103,6 @@ class HasMessagesForCest
             $expected,
             $form->getMessagesFor('address')
         );
-
 
 
         $I->assertTrue(

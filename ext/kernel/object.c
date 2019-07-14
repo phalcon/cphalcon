@@ -436,15 +436,16 @@ int zephir_read_property(zval *result, zval *object, const char *property_name, 
 
 	ce = Z_OBJCE_P(object);
 
+	if (ce->parent) {
+		ce = zephir_lookup_class_ce(ce, property_name, property_length);
+	}
+
 #if PHP_VERSION_ID >= 70100
 	old_scope = EG(fake_scope);
 	EG(fake_scope) = ce;
 #else
 	old_scope = EG(scope);
 	EG(scope) = ce;
-	if (ce->parent) {
-		ce = zephir_lookup_class_ce(ce, property_name, property_length);
-	}
 #endif
 
 	if (!Z_OBJ_HT_P(object)->read_property) {
@@ -537,7 +538,7 @@ int zephir_read_property_zval(zval *result, zval *object, zval *property, int fl
 int zephir_update_property_zval(zval *object, const char *property_name, unsigned int property_length, zval *value)
 {
 	zend_class_entry *ce, *old_scope;
-	zval property;
+	zval property, sep_value;
 
 #if PHP_VERSION_ID >= 70100
 	old_scope = EG(fake_scope);
@@ -569,9 +570,18 @@ int zephir_update_property_zval(zval *object, const char *property_name, unsigne
 	}
 
 	ZVAL_STRINGL(&property, property_name, property_length);
+	ZVAL_COPY_VALUE(&sep_value, value);
+	if (Z_TYPE(sep_value) == IS_ARRAY) {
+		ZVAL_ARR(&sep_value, zend_array_dup(Z_ARR(sep_value)));
+		if (EXPECTED(!(GC_FLAGS(Z_ARRVAL(sep_value)) & IS_ARRAY_IMMUTABLE))) {
+			if (UNEXPECTED(GC_REFCOUNT(Z_ARR(sep_value)) > 0)) {
+				GC_DELREF(Z_ARR(sep_value));
+			}
+		}
+	}
 
 	/* write_property will add 1 to refcount, so no Z_TRY_ADDREF_P(value); is necessary */
-	Z_OBJ_HT_P(object)->write_property(object, &property, value, 0);
+	Z_OBJ_HT_P(object)->write_property(object, &property, &sep_value, 0);
 	zval_ptr_dtor(&property);
 
 #if PHP_VERSION_ID >= 70100
@@ -600,61 +610,42 @@ int zephir_update_property_zval_zval(zval *object, zval *property, zval *value)
  */
 int zephir_update_property_array(zval *object, const char *property, zend_uint property_length, const zval *index, zval *value)
 {
-	zval tmp;
+	zval tmp, sep_value;
 	int separated = 0;
 
-	if (Z_TYPE_P(object) == IS_OBJECT) {
-		zephir_read_property(&tmp, object, property, property_length, PH_NOISY | PH_READONLY);
+	if (Z_TYPE_P(object) != IS_OBJECT) {
+		return SUCCESS;
+	}
 
-		/** Separation only when refcount > 1 */
-		if (Z_REFCOUNTED(tmp)) {
-			if (Z_REFCOUNT(tmp) > 1) {
-				if (!Z_ISREF(tmp)) {
-					zval new_zv;
-					ZVAL_DUP(&new_zv, &tmp);
-					ZVAL_COPY_VALUE(&tmp, &new_zv);
-					Z_TRY_DELREF(new_zv);
-					Z_ADDREF(tmp);
-					separated = 1;
-				}
-			}
-		} else {
-			zval new_zv;
-			ZVAL_DUP(&new_zv, &tmp);
-			ZVAL_COPY_VALUE(&tmp, &new_zv);
-			Z_TRY_DELREF(new_zv);
-			separated = 1;
-		}
+	zephir_read_property(&tmp, object, property, property_length, PH_NOISY | PH_READONLY);
 
-		/** Convert the value to array if not is an array */
-		if (Z_TYPE(tmp) != IS_ARRAY) {
-			if (separated) {
-				convert_to_array(&tmp);
-			} else {
-				array_init(&tmp);
+	/** Separation only when refcount > 1 */
+	if (Z_REFCOUNTED(tmp)) {
+		if (Z_REFCOUNT(tmp) > 1) {
+			if (!Z_ISREF(tmp)) {
+				zval new_zv;
+				ZVAL_DUP(&new_zv, &tmp);
+				ZVAL_COPY_VALUE(&tmp, &new_zv);
+				Z_TRY_DELREF(new_zv);
+				Z_ADDREF(tmp);
 				separated = 1;
 			}
-
-			if (Z_REFCOUNTED(tmp)) {
-				if (Z_REFCOUNT(tmp) > 1) {
-					if (!Z_ISREF(tmp)) {
-						Z_DELREF(tmp);
-					}
-				}
-			}
 		}
-		Z_TRY_ADDREF_P(value);
+	} else {
+		zval new_zv;
+		ZVAL_DUP(&new_zv, &tmp);
+		ZVAL_COPY_VALUE(&tmp, &new_zv);
+		Z_TRY_DELREF(new_zv);
+		separated = 1;
+	}
 
-		if (Z_TYPE_P(index) == IS_STRING) {
-			zend_symtable_str_update(Z_ARRVAL(tmp), Z_STRVAL_P(index), Z_STRLEN_P(index), value);
-		} else if (Z_TYPE_P(index) == IS_LONG) {
-			zend_hash_index_update(Z_ARRVAL(tmp), Z_LVAL_P(index), value);
-		} else if (Z_TYPE_P(index) == IS_NULL) {
-			zend_hash_next_index_insert(Z_ARRVAL(tmp), value);
-		}
-
+	/** Convert the value to array if not is an array */
+	if (Z_TYPE(tmp) != IS_ARRAY) {
 		if (separated) {
-			zephir_update_property_zval(object, property, property_length, &tmp);
+			convert_to_array(&tmp);
+		} else {
+			array_init(&tmp);
+			separated = 1;
 		}
 
 		if (Z_REFCOUNTED(tmp)) {
@@ -666,6 +657,25 @@ int zephir_update_property_array(zval *object, const char *property, zend_uint p
 		}
 	}
 
+	if (Z_TYPE_P(value) == IS_ARRAY) {
+		ZVAL_ARR(&sep_value, zend_array_dup(Z_ARR_P(value)));
+	} else {
+		ZVAL_COPY(&sep_value, value);
+	}
+
+	if (Z_TYPE_P(index) == IS_STRING) {
+		zend_symtable_str_update(Z_ARRVAL(tmp), Z_STRVAL_P(index), Z_STRLEN_P(index), &sep_value);
+	} else if (Z_TYPE_P(index) == IS_LONG) {
+		zend_hash_index_update(Z_ARRVAL(tmp), Z_LVAL_P(index), &sep_value);
+	} else if (Z_TYPE_P(index) == IS_NULL) {
+		zend_hash_next_index_insert(Z_ARRVAL(tmp), &sep_value);
+	}
+
+	if (separated) {
+		zephir_update_property_zval(object, property, property_length, &tmp);
+		zephir_ptr_dtor(&tmp);
+	}
+
 	return SUCCESS;
 }
 
@@ -675,7 +685,7 @@ int zephir_update_property_array(zval *object, const char *property, zend_uint p
  */
 int zephir_update_property_array_append(zval *object, char *property, unsigned int property_length, zval *value)
 {
-	zval tmp;
+	zval tmp, sep_value;
 	int separated = 0;
 
 	ZVAL_UNDEF(&tmp);
@@ -684,9 +694,7 @@ int zephir_update_property_array_append(zval *object, char *property, unsigned i
 		return SUCCESS;
 	}
 
-	zephir_read_property(&tmp, object, property, property_length, PH_NOISY_CC);
-
-	Z_TRY_DELREF(tmp);
+	zephir_read_property(&tmp, object, property, property_length, PH_NOISY | PH_READONLY);
 
 	/** Separation only when refcount > 1 */
 	if (Z_REFCOUNTED(tmp)) {
@@ -725,19 +733,17 @@ int zephir_update_property_array_append(zval *object, char *property, unsigned i
 		}
 	}
 
-	Z_TRY_ADDREF_P(value);
-	add_next_index_zval(&tmp, value);
+	if (Z_TYPE_P(value) == IS_ARRAY) {
+		ZVAL_ARR(&sep_value, zend_array_dup(Z_ARR_P(value)));
+	} else {
+		ZVAL_COPY(&sep_value, value);
+	}
+
+	add_next_index_zval(&tmp, &sep_value);
 
 	if (separated) {
 		zephir_update_property_zval(object, property, property_length, &tmp);
-	}
-
-	if (Z_REFCOUNTED(tmp)) {
-		if (Z_REFCOUNT(tmp) > 1) {
-			if (!Z_ISREF(tmp)) {
-				Z_DELREF(tmp);
-			}
-		}
+		zephir_ptr_dtor(&tmp);
 	}
 
 	return SUCCESS;
@@ -799,14 +805,7 @@ int zephir_update_property_array_multi(zval *object, const char *property, zend_
 
 		if (separated) {
 			zephir_update_property_zval(object, property, property_length, &tmp_arr);
-		}
-
-		if (Z_REFCOUNTED(tmp_arr)) {
-			if (Z_REFCOUNT(tmp_arr) > 1) {
-				if (!Z_ISREF(tmp_arr)) {
-					Z_DELREF(tmp_arr);
-				}
-			}
+			zephir_ptr_dtor(&tmp_arr);
 		}
 	}
 

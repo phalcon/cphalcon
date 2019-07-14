@@ -74,19 +74,10 @@ class OffsetGetSetCest
         );
 
 
-
-        $expected = Message::__set_state(
-            [
-                '_message'  => 'This is a message #3',
-                '_field'    => 'MyField3',
-                '_type'     => 'MyType3',
-                '_code'     => 777,
-                '_metaData' => [
-                    'My3' => 'Metadata3',
-                ],
-            ]
-        );
-
-        $I->assertEquals($expected, $message);
+        $I->assertEquals('This is a message #3', $message->getMessage());
+        $I->assertEquals('MyField3', $message->getField());
+        $I->assertEquals('MyType3', $message->getType());
+        $I->assertEquals(777, $message->getCode());
+        $I->assertEquals(['My3' => 'Metadata3'], $message->getMetaData());
     }
 }

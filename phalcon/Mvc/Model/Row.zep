@@ -10,6 +10,8 @@
 
 namespace Phalcon\Mvc\Model;
 
+use ArrayAccess;
+use JsonSerializable;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\EntityInterface;
 use Phalcon\Mvc\Model\Exception;
@@ -21,7 +23,7 @@ use Phalcon\Mvc\Model\ResultInterface;
  * This component allows Phalcon\Mvc\Model to return rows without an associated entity.
  * This objects implements the ArrayAccess interface to allow access the object as object->x or array[x].
  */
-class Row implements EntityInterface, ResultInterface, \ArrayAccess, \JsonSerializable
+class Row implements EntityInterface, ResultInterface, ArrayAccess, JsonSerializable
 {
     /**
     * Serializes the object for json_encode
@@ -83,9 +85,9 @@ class Row implements EntityInterface, ResultInterface, \ArrayAccess, \JsonSerial
     /**
      * Reads an attribute value by its name
      *
-     *<code>
+     *```php
      * echo $robot->readAttribute("name");
-     *</code>
+     *```
      *
      * @return mixed
      */
@@ -119,9 +121,9 @@ class Row implements EntityInterface, ResultInterface, \ArrayAccess, \JsonSerial
     /**
      * Writes an attribute value by its name
      *
-     *<code>
+     *```php
      * $robot->writeAttribute("name", "Rosey");
-     *</code>
+     *```
      *
      * @param mixed value
      */

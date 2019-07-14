@@ -12,10 +12,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Storage\Adapter\Stream;
 
-use function outputDir;
 use Phalcon\Storage\Adapter\Stream;
 use Phalcon\Storage\SerializerFactory;
 use UnitTester;
+use function outputDir;
 
 class GetPrefixCest
 {
@@ -30,7 +30,8 @@ class GetPrefixCest
         $I->wantToTest('Storage\Adapter\Stream - getPrefix()');
 
         $serializer = new SerializerFactory();
-        $adapter    = new Stream(
+
+        $adapter = new Stream(
             $serializer,
             [
                 'cacheDir' => outputDir(),
@@ -38,9 +39,10 @@ class GetPrefixCest
             ]
         );
 
-        $expected = 'my-prefix';
-        $actual   = $adapter->getPrefix();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'my-prefix',
+            $adapter->getPrefix()
+        );
     }
 
     /**
@@ -54,10 +56,17 @@ class GetPrefixCest
         $I->wantToTest('Storage\Adapter\Stream - getPrefix() - default');
 
         $serializer = new SerializerFactory();
-        $adapter    = new Stream($serializer, ['cacheDir' => outputDir()]);
 
-        $expected = 'phstrm-';
-        $actual   = $adapter->getPrefix();
-        $I->assertEquals($expected, $actual);
+        $adapter = new Stream(
+            $serializer,
+            [
+                'cacheDir' => outputDir(),
+            ]
+        );
+
+        $I->assertEquals(
+            'phstrm-',
+            $adapter->getPrefix()
+        );
     }
 }

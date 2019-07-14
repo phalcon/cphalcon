@@ -16,6 +16,7 @@
 #include "kernel/memory.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
+#include "kernel/object.h"
 #include "kernel/operators.h"
 
 
@@ -34,7 +35,7 @@
  * space. By storing the value in a registry, the same object is always
  * available throughout your application.
  *
- *<code>
+ *```php
  * $registry = new \Phalcon\Registry();
  *
  * // Set value
@@ -56,7 +57,7 @@
  * unset($registry->something);
  * // or
  * unset($registry["something"]);
- *</code>
+ *```
  *
  * In addition to ArrayAccess, Phalcon\Registry also implements Countable
  * (count($registry) will return the number of elements in the registry),
@@ -297,18 +298,16 @@ PHP_METHOD(Phalcon_Registry, get) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
-	zend_bool insensitive;
-	zval *element_param = NULL, *defaultValue = NULL, defaultValue_sub, *insensitive_param = NULL, __$null, _1;
+	zval *element_param = NULL, *defaultValue = NULL, defaultValue_sub, __$null;
 	zval element;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&element);
 	ZVAL_UNDEF(&defaultValue_sub);
 	ZVAL_NULL(&__$null);
-	ZVAL_UNDEF(&_1);
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 2, &element_param, &defaultValue, &insensitive_param);
+	zephir_fetch_params(1, 1, 1, &element_param, &defaultValue);
 
 	if (UNEXPECTED(Z_TYPE_P(element_param) != IS_STRING && Z_TYPE_P(element_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'element' must be of the type string") TSRMLS_CC);
@@ -324,19 +323,9 @@ PHP_METHOD(Phalcon_Registry, get) {
 		defaultValue = &defaultValue_sub;
 		defaultValue = &__$null;
 	}
-	if (!insensitive_param) {
-		insensitive = 1;
-	} else {
-		insensitive = zephir_get_boolval(insensitive_param);
-	}
 
 
-	if (insensitive) {
-		ZVAL_BOOL(&_1, 1);
-	} else {
-		ZVAL_BOOL(&_1, 0);
-	}
-	ZEPHIR_RETURN_CALL_PARENT(phalcon_registry_ce, getThis(), "get", &_0, 0, &element, defaultValue, &_1);
+	ZEPHIR_RETURN_CALL_PARENT(phalcon_registry_ce, getThis(), "get", &_0, 0, &element, defaultValue);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -367,16 +356,14 @@ PHP_METHOD(Phalcon_Registry, has) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
-	zend_bool insensitive;
-	zval *element_param = NULL, *insensitive_param = NULL, _1;
+	zval *element_param = NULL;
 	zval element;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&element);
-	ZVAL_UNDEF(&_1);
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &element_param, &insensitive_param);
+	zephir_fetch_params(1, 1, 0, &element_param);
 
 	if (UNEXPECTED(Z_TYPE_P(element_param) != IS_STRING && Z_TYPE_P(element_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'element' must be of the type string") TSRMLS_CC);
@@ -388,19 +375,9 @@ PHP_METHOD(Phalcon_Registry, has) {
 		ZEPHIR_INIT_VAR(&element);
 		ZVAL_EMPTY_STRING(&element);
 	}
-	if (!insensitive_param) {
-		insensitive = 1;
-	} else {
-		insensitive = zephir_get_boolval(insensitive_param);
-	}
 
 
-	if (insensitive) {
-		ZVAL_BOOL(&_1, 1);
-	} else {
-		ZVAL_BOOL(&_1, 0);
-	}
-	ZEPHIR_RETURN_CALL_PARENT(phalcon_registry_ce, getThis(), "has", &_0, 0, &element, &_1);
+	ZEPHIR_RETURN_CALL_PARENT(phalcon_registry_ce, getThis(), "has", &_0, 0, &element);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -564,16 +541,14 @@ PHP_METHOD(Phalcon_Registry, remove) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
-	zend_bool insensitive;
-	zval *element_param = NULL, *insensitive_param = NULL, _1;
+	zval *element_param = NULL;
 	zval element;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&element);
-	ZVAL_UNDEF(&_1);
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &element_param, &insensitive_param);
+	zephir_fetch_params(1, 1, 0, &element_param);
 
 	if (UNEXPECTED(Z_TYPE_P(element_param) != IS_STRING && Z_TYPE_P(element_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'element' must be of the type string") TSRMLS_CC);
@@ -585,19 +560,9 @@ PHP_METHOD(Phalcon_Registry, remove) {
 		ZEPHIR_INIT_VAR(&element);
 		ZVAL_EMPTY_STRING(&element);
 	}
-	if (!insensitive_param) {
-		insensitive = 1;
-	} else {
-		insensitive = zephir_get_boolval(insensitive_param);
-	}
 
 
-	if (insensitive) {
-		ZVAL_BOOL(&_1, 1);
-	} else {
-		ZVAL_BOOL(&_1, 0);
-	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_registry_ce, getThis(), "remove", &_0, 0, &element, &_1);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_registry_ce, getThis(), "remove", &_0, 0, &element);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 

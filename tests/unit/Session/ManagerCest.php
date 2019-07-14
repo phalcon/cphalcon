@@ -14,9 +14,9 @@ namespace Phalcon\Test\Unit\Session\Adapter;
 
 use Phalcon\Session\Adapter\Noop;
 use Phalcon\Session\Manager;
+use UnitTester;
 use function session_destroy;
 use function session_status;
-use UnitTester;
 
 class ManagerCest
 {

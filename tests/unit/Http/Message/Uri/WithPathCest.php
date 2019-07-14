@@ -58,6 +58,50 @@ class WithPathCest
     }
 
     /**
+     * Tests Phalcon\Http\Message\Uri :: withPath() - exception query string
+     *
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2019-06-01
+     */
+    public function httpUriWithPathExceptionQueryString(UnitTester $I)
+    {
+        $I->wantToTest('Http\Uri - withPath() - exception - query string');
+
+        $I->expectThrowable(
+            new InvalidArgumentException(
+                'Path cannot contain a query string or fragment'
+            ),
+            function () {
+                $query    = 'https://phalcon:secret@dev.phalcon.ld:8080/action?param=value#frag';
+                $uri      = new Uri($query);
+                $instance = $uri->withPath('/login?param=value');
+            }
+        );
+    }
+
+    /**
+     * Tests Phalcon\Http\Message\Uri :: withPath() - exception query fragment
+     *
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2019-06-01
+     */
+    public function httpUriWithPathExceptionQueryFragment(UnitTester $I)
+    {
+        $I->wantToTest('Http\Uri - withPath() - exception - query fragment');
+
+        $I->expectThrowable(
+            new InvalidArgumentException(
+                'Path cannot contain a query string or fragment'
+            ),
+            function () {
+                $query    = 'https://phalcon:secret@dev.phalcon.ld:8080/action?param=value#frag';
+                $uri      = new Uri($query);
+                $instance = $uri->withPath('/login#frag');
+            }
+        );
+    }
+
+    /**
      * Tests Phalcon\Http\Message\Uri :: withPath() - exception no string
      *
      * @dataProvider getExceptions
@@ -71,7 +115,7 @@ class WithPathCest
 
         $I->expectThrowable(
             new InvalidArgumentException(
-                'Method requires a string argument instead of ' . $example[0]
+                'Method requires a string argument'
             ),
             function () use ($example) {
                 $query    = 'https://phalcon:secret@dev.phalcon.ld:8080/action?param=value#frag';
@@ -80,6 +124,7 @@ class WithPathCest
             }
         );
     }
+
 
     private function getExamples(): array
     {
@@ -91,6 +136,7 @@ class WithPathCest
             ['garbled', '/l^ogin/si gh', '/l%5Eogin/si%20gh', '/l%5Eogin/si%20gh'],
         ];
     }
+
 
     private function getExceptions(): array
     {

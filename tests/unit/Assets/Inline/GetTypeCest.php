@@ -12,43 +12,46 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Inline;
 
+use Codeception\Example;
 use Phalcon\Assets\Inline;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 class GetTypeCest
 {
-    use AssetsTrait;
-
     /**
-     * Tests Phalcon\Assets\Inline :: getType() - css
+     * Tests Phalcon\Assets\Inline :: getType()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
+     *
+     * @dataProvider provider
      */
-    public function assetsInlineGetTypeCss(UnitTester $I)
+    public function assetsInlineGetType(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Assets\Inline - getType() - css');
-        $content = 'p {color: #000099}';
-        $asset   = new Inline('css', $content);
+        $I->wantToTest('Assets\Inline - getType()');
 
-        $expected = 'css';
-        $this->assetGetType($I, $asset, $expected);
+        $asset = new Inline(
+            $example['type'],
+            $example['content']
+        );
+
+        $I->assertEquals(
+            $example['type'],
+            $asset->getType()
+        );
     }
 
-    /**
-     * Tests Phalcon\Assets\Inline :: getType() - js
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsInlineGetTypeJs(UnitTester $I)
+    protected function provider(): array
     {
-        $I->wantToTest('Assets\Inline - getType() - js');
-        $content = '<script>alert("Hello");</script>';
-        $asset   = new Inline('js', $content);
-
-        $expected = 'js';
-        $this->assetGetType($I, $asset, $expected);
+        return [
+            [
+                'type'    => 'css',
+                'content' => 'p {color: #000099}',
+            ],
+            [
+                'type'    => 'js',
+                'content' => '<script>alert("Hello");</script>',
+            ],
+        ];
     }
 }

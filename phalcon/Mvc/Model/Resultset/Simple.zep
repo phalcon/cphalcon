@@ -11,7 +11,7 @@
 namespace Phalcon\Mvc\Model\Resultset;
 
 use Phalcon\Di;
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\Resultset;
@@ -103,7 +103,7 @@ class Simple extends Resultset
                  * Performs the standard hydration based on objects
                  */
                 if globals_get("orm.late_state_binding") {
-                    if this->model instanceof \Phalcon\Mvc\Model {
+                    if this->model instanceof Model {
                         let modelName = get_class(this->model);
                     } else {
                         let modelName = "Phalcon\\Mvc\\Model";

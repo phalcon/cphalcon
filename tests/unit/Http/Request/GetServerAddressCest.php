@@ -12,20 +12,44 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Request;
 
+use Phalcon\Test\Unit\Http\Helper\HttpBase;
 use UnitTester;
 
-class GetServerAddressCest
+class GetServerAddressCest extends HttpBase
 {
     /**
-     * Tests Phalcon\Http\Request :: getServerAddress()
+     * Tests getServerAddress default
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2014-10-04
      */
-    public function httpRequestGetServerAddress(UnitTester $I)
+    public function testHttpRequestGetServerAddressDefault(UnitTester $I)
     {
-        $I->wantToTest('Http\Request - getServerAddress()');
+        $request = $this->getRequestObject();
 
-        $I->skipTest('Need implementation');
+        $I->assertEquals(
+            '127.0.0.1',
+            $request->getServerAddress()
+        );
+    }
+
+    /**
+     * Tests getServerAddress
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2014-10-04
+     */
+    public function testHttpRequestGetServerAddress(UnitTester $I)
+    {
+        $request = $this->getRequestObject();
+
+        $this->setServerVar('SERVER_ADDR', '192.168.4.1');
+        $actual = $request->getServerAddress();
+        $this->unsetServerVar('SERVER_ADDR');
+
+        $I->assertEquals(
+            '192.168.4.1',
+            $actual
+        );
     }
 }

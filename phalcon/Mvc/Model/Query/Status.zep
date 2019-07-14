@@ -22,7 +22,7 @@ use Phalcon\Mvc\Model\Query\StatusInterface;
  * information and the related messages produced by the
  * model which finally executes the operations when it fails
  *
- *<code>
+ *```php
  * $phql = "UPDATE Robots SET name = :name:, type = :type:, year = :year: WHERE id = :id:";
  *
  * $status = $app->modelsManager->executeQuery(
@@ -39,7 +39,7 @@ use Phalcon\Mvc\Model\Query\StatusInterface;
  * if ($status->success()) {
  *     echo "OK";
  * }
- *</code>
+ *```
  */
 class Status implements StatusInterface
 {

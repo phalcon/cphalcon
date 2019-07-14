@@ -23,8 +23,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Acl\Exception
- *
  * Class for exceptions thrown by Phalcon\Acl
  */
 ZEPHIR_INIT_CLASS(Phalcon_Acl_Exception) {

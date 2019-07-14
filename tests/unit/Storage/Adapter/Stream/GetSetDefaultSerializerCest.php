@@ -12,10 +12,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Storage\Adapter\Stream;
 
-use function outputDir;
 use Phalcon\Storage\Adapter\Stream;
 use Phalcon\Storage\SerializerFactory;
 use UnitTester;
+use function outputDir;
 
 class GetSetDefaultSerializerCest
 {
@@ -31,11 +31,24 @@ class GetSetDefaultSerializerCest
         $I->wantToTest('Storage\Adapter\Stream - getDefaultSerializer()/setDefaultSerializer()');
 
         $serializer = new SerializerFactory();
-        $adapter    = new Stream($serializer, ['cacheDir' => outputDir()]);
 
-        $I->assertEquals('Php', $adapter->getDefaultSerializer());
+        $adapter = new Stream(
+            $serializer,
+            [
+                'cacheDir' => outputDir(),
+            ]
+        );
+
+        $I->assertEquals(
+            'Php',
+            $adapter->getDefaultSerializer()
+        );
 
         $adapter->setDefaultSerializer('Base64');
-        $I->assertEquals('Base64', $adapter->getDefaultSerializer());
+
+        $I->assertEquals(
+            'Base64',
+            $adapter->getDefaultSerializer()
+        );
     }
 }

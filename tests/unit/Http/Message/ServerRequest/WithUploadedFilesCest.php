@@ -30,7 +30,9 @@ class WithUploadedFilesCest
         $I->wantToTest('Http\Message\ServerRequest - withUploadedFiles()');
         $files       = [
             new UploadedFile('php://memory', 0),
-            new UploadedFile('php://memory', 0),
+            [
+                new UploadedFile('php://memory', 0),
+            ],
         ];
         $request     = new ServerRequest();
         $newInstance = $request->withUploadedFiles($files);

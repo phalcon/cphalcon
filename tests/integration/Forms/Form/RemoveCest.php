@@ -14,9 +14,6 @@ namespace Phalcon\Test\Integration\Forms\Form;
 
 use IntegrationTester;
 
-/**
- * Class RemoveCest
- */
 class RemoveCest
 {
     /**

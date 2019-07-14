@@ -34,7 +34,7 @@
  *
  * Groups Micro-Mvc handlers as controllers
  *
- *<code>
+ *```php
  * $app = new \Phalcon\Mvc\Micro();
  *
  * $collection = new Collection();
@@ -46,7 +46,7 @@
  * $collection->get("/posts/edit/{id}", "edit");
  *
  * $app->mount($collection);
- *</code>
+ *```
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Micro_Collection) {
 
@@ -59,6 +59,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Micro_Collection) {
 	zend_declare_property_null(phalcon_mvc_micro_collection_ce, SL("lazy"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_declare_property_null(phalcon_mvc_micro_collection_ce, SL("prefix"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	phalcon_mvc_micro_collection_ce->create_object = zephir_init_properties_Phalcon_Mvc_Micro_Collection;
 
 	zend_class_implements(phalcon_mvc_micro_collection_ce TSRMLS_CC, 1, phalcon_mvc_micro_collectioninterface_ce);
 	return SUCCESS;
@@ -299,14 +301,14 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, map) {
 /**
  * Maps a route to a handler via methods.
  *
- * <code>
+ * ```php
  * $collection->mapVia(
  *     "/test",
  *     "indexAction",
  *     ["POST", "GET"],
  *     "test"
  * );
- * </code>
+ * ```
  *
  * @param callable handler
  * @param string|array method
@@ -671,8 +673,31 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, addMap) {
 	zephir_array_fast_append(&_0, &routePattern);
 	zephir_array_fast_append(&_0, handler);
 	zephir_array_fast_append(&_0, &name);
-	zephir_update_property_array_append(this_ptr, SL("handlers"), &_0 TSRMLS_CC);
+	zephir_update_property_array_append(this_ptr, SL("handlers"), &_0);
 	ZEPHIR_MM_RESTORE();
+
+}
+
+zend_object *zephir_init_properties_Phalcon_Mvc_Micro_Collection(zend_class_entry *class_type TSRMLS_DC) {
+
+		zval _0, _1$$3;
+		ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1$$3);
+
+		ZEPHIR_MM_GROW();
+	
+	{
+		zval local_this_ptr, *this_ptr = &local_this_ptr;
+		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
+		zephir_read_property(&_0, this_ptr, SL("handlers"), PH_NOISY_CC | PH_READONLY);
+		if (Z_TYPE_P(&_0) == IS_NULL) {
+			ZEPHIR_INIT_VAR(&_1$$3);
+			array_init(&_1$$3);
+			zephir_update_property_zval(this_ptr, SL("handlers"), &_1$$3);
+		}
+		ZEPHIR_MM_RESTORE();
+		return Z_OBJ_P(this_ptr);
+	}
 
 }
 

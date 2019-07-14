@@ -21,6 +21,14 @@ class RouterCest
     use RouterTrait;
 
     /**
+     * executed before each test
+     */
+    protected function _before(IntegrationTester $I)
+    {
+        Route::reset();
+    }
+
+    /**
      * Tests routing by use Route::convert
      *
      * @author       Andy Gutierrez <andres.gutierrez@phalconphp.com>
@@ -34,17 +42,22 @@ class RouterCest
         $params = $example[1];
 
         $router = $this->getRouterAndSetData();
+
         $router->handle($route);
 
-        $actual = $router->wasMatched();
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $router->wasMatched()
+        );
 
-        $expected = $params['controller'];
-        $actual   = $router->getControllerName();
-        $I->assertEquals($expected, $actual);
-        $expected = $params['action'];
-        $actual   = $router->getActionName();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $params['controller'],
+            $router->getControllerName()
+        );
+
+        $I->assertEquals(
+            $params['action'],
+            $router->getActionName()
+        );
     }
 
     /**
@@ -106,66 +119,37 @@ class RouterCest
     }
 
     /**
-     * Tests getting named route
-     *
-     * @author Andy Gutierrez <andres.gutierrez@phalconphp.com>
-     * @since  2012-08-27
-     */
-    public function testGettingNamedRoutes(IntegrationTester $I)
-    {
-        $I->skipTest('TODO - Check the getRouteById');
-
-        $router    = $this->getRouter(false);
-        $usersFind = $router->add('/api/users/find')->setHttpMethods('GET')->setName('usersFind');
-        $usersAdd  = $router->add('/api/users/add')->setHttpMethods('POST')->setName('usersAdd');
-
-        $expected = $usersAdd;
-        $actual   = $router->getRouteByName('usersAdd');
-        $I->assertEquals($expected, $actual);
-
-        // second check when the same route goes from name lookup
-        $expected = $usersAdd;
-        $actual   = $router->getRouteByName('usersAdd');
-        $I->assertEquals($expected, $actual);
-
-        $expected = $usersFind;
-        $actual   = $router->getRouteById(0);
-        $I->assertEquals($expected, $actual);
-    }
-
-    /**
      * Tests router
      *
      * @author Andy Gutierrez <andres.gutierrez@phalconphp.com>
      * @since  2013-01-17
+     *
+     * @dataProvider getMatchingWithRouter
      */
-    public function shouldMatchWithRouter(IntegrationTester $I)
+    public function shouldMatchWithRouter(IntegrationTester $I, Example $example)
     {
         $pathToRouterData = $this->getDataRouter();
-        $examples         = $this->getMatchingWithRouter();
 
-        foreach ($examples as $params) {
-            $router = $this->getRouterAndSetRoutes($pathToRouterData);
+        $router = $this->getRouterAndSetRoutes($pathToRouterData);
 
-            $router->handle(
-                $params['uri']
-            );
+        $router->handle(
+            $example['uri']
+        );
 
-            $I->assertEquals(
-                $params['controller'],
-                $router->getControllerName()
-            );
+        $I->assertEquals(
+            $example['controller'],
+            $router->getControllerName()
+        );
 
-            $I->assertEquals(
-                $params['action'],
-                $router->getActionName()
-            );
+        $I->assertEquals(
+            $example['action'],
+            $router->getActionName()
+        );
 
-            $I->assertEquals(
-                $params['params'],
-                $router->getParams()
-            );
-        }
+        $I->assertEquals(
+            $example['params'],
+            $router->getParams()
+        );
     }
 
     private function getDataRouter(): array
@@ -381,36 +365,35 @@ class RouterCest
      *
      * @author Andy Gutierrez <andres.gutierrez@phalconphp.com>
      * @since  2012-08-22
+     *
+     * @dataProvider getMatchingWithRouterHttp
      */
-    public function shouldMatchWithTheRouterByUsingHttpMethods(IntegrationTester $I)
+    public function shouldMatchWithTheRouterByUsingHttpMethods(IntegrationTester $I, Example $example)
     {
         $pathToRouterData = $this->getDataRouterHttp();
-        $examples         = $this->getMatchingWithRouterHttp();
 
-        foreach ($examples as $params) {
-            $router = $this->getRouterAndSetRoutes($pathToRouterData);
+        $router = $this->getRouterAndSetRoutes($pathToRouterData);
 
-            $_SERVER['REQUEST_METHOD'] = $params['method'];
+        $_SERVER['REQUEST_METHOD'] = $example['method'];
 
-            $router->handle(
-                $params['uri']
-            );
+        $router->handle(
+            $example['uri']
+        );
 
-            $I->assertEquals(
-                $params['controller'],
-                $router->getControllerName()
-            );
+        $I->assertEquals(
+            $example['controller'],
+            $router->getControllerName()
+        );
 
-            $I->assertEquals(
-                $params['action'],
-                $router->getActionName()
-            );
+        $I->assertEquals(
+            $example['action'],
+            $router->getActionName()
+        );
 
-            $I->assertEquals(
-                $params['params'],
-                $router->getParams()
-            );
-        }
+        $I->assertEquals(
+            $example['params'],
+            $router->getParams()
+        );
     }
 
     private function getDataRouterHttp(): array
@@ -517,34 +500,33 @@ class RouterCest
      *
      * @author Andy Gutierrez <andres.gutierrez@phalconphp.com>
      * @since  2012-08-22
+     *
+     * @dataProvider getMatchingWithToRouter
      */
-    public function shouldMatchWithGotRouterParam(IntegrationTester $I)
+    public function shouldMatchWithGotRouterParam(IntegrationTester $I, Example $example)
     {
         $pathToRouterData = $this->getDataToRouter();
-        $examples         = $this->getMatchingWithToRouter();
 
-        foreach ($examples as $params) {
-            $router = $this->getRouterAndSetRoutes($pathToRouterData);
+        $router = $this->getRouterAndSetRoutes($pathToRouterData);
 
-            $router->handle(
-                $params['uri']
-            );
+        $router->handle(
+            $example['uri']
+        );
 
-            $I->assertEquals(
-                $params['controller'],
-                $router->getControllerName()
-            );
+        $I->assertEquals(
+            $example['controller'],
+            $router->getControllerName()
+        );
 
-            $I->assertEquals(
-                $params['action'],
-                $router->getActionName()
-            );
+        $I->assertEquals(
+            $example['action'],
+            $router->getActionName()
+        );
 
-            $I->assertEquals(
-                $params['params'],
-                $router->getParams()
-            );
-        }
+        $I->assertEquals(
+            $example['params'],
+            $router->getParams()
+        );
     }
 
     private function getDataToRouter(): array
@@ -619,32 +601,31 @@ class RouterCest
      * @test
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-06-23
+     *
+     * @dataProvider getMatchingWithHostnameRegex
      */
-    public function shouldMathWithHostnameRegex(IntegrationTester $I)
+    public function shouldMathWithHostnameRegex(IntegrationTester $I, Example $example)
     {
 //        $pathToRouterData = $this->getDataRouterHostName();
         $pathToRouterData = $this->getDataToHostnameRegex();
-        $examples         = $this->getMatchingWithHostnameRegex();
 
-        foreach ($examples as $item) {
-            $expected = $item[0];
-            $handle   = $item[1];
-            $hostname = $item[2];
+        $expected = $example[0];
+        $handle   = $example[1];
+        $hostname = $example[2];
 
-            $router = $this->getRouterAndSetRoutesAndHostNames(
-                $pathToRouterData,
-                false
-            );
+        $router = $this->getRouterAndSetRoutesAndHostNames(
+            $pathToRouterData,
+            false
+        );
 
-            $_SERVER['HTTP_HOST'] = $hostname;
+        $_SERVER['HTTP_HOST'] = $hostname;
 
-            $router->handle($handle);
+        $router->handle($handle);
 
-            $I->assertEquals(
-                $expected,
-                $router->getControllerName()
-            );
-        }
+        $I->assertEquals(
+            $expected,
+            $router->getControllerName()
+        );
     }
 
     private function getDataToHostnameRegex(): array
@@ -706,34 +687,33 @@ class RouterCest
      * @issue  https://github.com/phalcon/cphalcon/issues/2573
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-06-26
+     *
+     * @dataProvider getMatchingWithRegexRouterHostPort
      */
-    public function shouldMathWithHostnameRegexWithHostPort111(IntegrationTester $I)
+    public function shouldMatchWithHostnameRegexWithHostPort111(IntegrationTester $I, Example $example)
     {
         $I->skipTest('TODO - Check');
 
         $pathToRouterData = $this->getDataRegexRouterHostPort();
-        $examples         = $this->getMatchingWithRegexRouterHostPort();
 
-        foreach ($examples as $item) {
-            $param    = $item[0];
-            $expected = $item[1];
+        $param    = $example[0];
+        $expected = $example[1];
 
-            $router = $this->getRouterAndSetRoutesAndHostNames(
-                $pathToRouterData,
-                false
-            );
+        $router = $this->getRouterAndSetRoutesAndHostNames(
+            $pathToRouterData,
+            false
+        );
 
-            $_SERVER['HTTP_HOST'] = $param['hostname'] . ($param['port'] ? ':' . $param['port'] : '');
+        $_SERVER['HTTP_HOST'] = $param['hostname'] . ($param['port'] ? ':' . $param['port'] : '');
 
-            $router->handle(
-                $param['handle']
-            );
+        $router->handle(
+            $param['handle']
+        );
 
-            $I->assertEquals(
-                $expected,
-                $router->getControllerName()
-            );
-        }
+        $I->assertEquals(
+            $expected,
+            $router->getControllerName()
+        );
     }
 
     private function getDataRegexRouterHostPort(): array
@@ -845,32 +825,31 @@ class RouterCest
      *
      * @author Andy Gutierrez <andres.gutierrez@phalconphp.com>
      * @since  2013-04-15
+     *
+     * @dataProvider getMatchingWithHostName
      */
-    public function shouldReturnCorrectController(IntegrationTester $I)
+    public function shouldReturnCorrectController(IntegrationTester $I, Example $example)
     {
         $pathToRouterData = $this->getDataRouterHostName();
-        $examples         = $this->getMatchingWithHostName();
 
-        foreach ($examples as $item) {
-            $param    = $item[0];
-            $expected = $item[1];
+        $param    = $example[0];
+        $expected = $example[1];
 
-            $router = $this->getRouterAndSetRoutesAndHostNames(
-                $pathToRouterData,
-                false
-            );
+        $router = $this->getRouterAndSetRoutesAndHostNames(
+            $pathToRouterData,
+            false
+        );
 
-            $_SERVER['HTTP_HOST'] = $param['hostname'];
+        $_SERVER['HTTP_HOST'] = $param['hostname'];
 
-            $router->handle(
-                $param['handle']
-            );
+        $router->handle(
+            $param['handle']
+        );
 
-            $I->assertEquals(
-                $expected,
-                $router->getControllerName()
-            );
-        }
+        $I->assertEquals(
+            $expected,
+            $router->getControllerName()
+        );
     }
 
     private function getDataRouterHostName(): array
@@ -937,14 +916,6 @@ class RouterCest
                 'posts2',
             ],
         ];
-    }
-
-    /**
-     * executed before each test
-     */
-    protected function _before(IntegrationTester $I)
-    {
-        Route::reset();
     }
 
     private function getMatchingWithConverted(): array

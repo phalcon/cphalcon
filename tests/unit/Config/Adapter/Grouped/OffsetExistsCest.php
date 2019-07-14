@@ -12,10 +12,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Config\Adapter\Grouped;
 
+use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
 class OffsetExistsCest
 {
+    use ConfigTrait;
+
     /**
      * Tests Phalcon\Config\Adapter\Grouped :: offsetExists()
      *
@@ -24,8 +27,6 @@ class OffsetExistsCest
      */
     public function configAdapterGroupedOffsetExists(UnitTester $I)
     {
-        $I->wantToTest('Config\Adapter\Grouped - offsetExists()');
-
-        $I->skipTest('Need implementation');
+        $this->checkOffsetExists($I, 'Grouped');
     }
 }

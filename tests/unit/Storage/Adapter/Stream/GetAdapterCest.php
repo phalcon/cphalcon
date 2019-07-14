@@ -29,9 +29,16 @@ class GetAdapterCest
         $I->wantToTest('Storage\Adapter\Stream - getAdapter()');
 
         $serializer = new SerializerFactory();
-        $adapter    = new Stream($serializer, ['cacheDir' => '/tmp']);
 
-        $actual = $adapter->getAdapter();
-        $I->assertNull($actual);
+        $adapter = new Stream(
+            $serializer,
+            [
+                'cacheDir' => '/tmp',
+            ]
+        );
+
+        $I->assertNull(
+            $adapter->getAdapter()
+        );
     }
 }

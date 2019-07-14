@@ -13,7 +13,7 @@ namespace Phalcon\Session;
 use InvalidArgumentException;
 use RuntimeException;
 use SessionHandlerInterface;
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
 use Phalcon\DI\InjectionAwareInterface;
 use Phalcon\Helper\Arr;
 use Phalcon\Session\ManagerInterface;
@@ -95,7 +95,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
      */
     public function destroy() -> void
     {
-        if (true === this->exists()) {
+        if true === this->exists() {
             session_destroy();
 
             let _SESSION = [];
@@ -117,7 +117,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
     {
         var uniqueKey, value = null;
 
-        if (false === this->exists()) {
+        if false === this->exists() {
             // To use $_SESSION variable we need to start session first
             return value;
         }
@@ -161,7 +161,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
      */
     public function getName() -> string
     {
-        if ("" !== this->name) {
+        if "" !== this->name {
             let this->name = session_name();
         }
 
@@ -175,7 +175,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
     {
         var uniqueKey;
 
-        if (false === this->exists()) {
+        if false === this->exists() {
             // To use $_SESSION variable we need to start session first
             return false;
         }
@@ -202,7 +202,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
 
         let delete = (bool) deleteOldSession;
 
-        if (true === this->exists()) {
+        if true === this->exists() {
             session_regenerate_id(delete);
         }
 
@@ -222,7 +222,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
      */
     public function remove(string key)
     {
-        if (false === this->exists()) {
+        if false === this->exists() {
             // To use $_SESSION variable we need to start session first
             return;
         }
@@ -241,7 +241,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
     {
         var uniqueKey;
 
-        if (false === this->exists()) {
+        if false === this->exists() {
             // To use $_SESSION variable we need to start session first
             return;
         }
@@ -334,14 +334,14 @@ class Manager implements ManagerInterface, InjectionAwareInterface
         /**
          * Check if the session exists
          */
-        if (true === this->exists()) {
+        if true === this->exists() {
             return true;
         }
 
         /**
          * Cannot start this - headers already sent
          */
-        if (true === headers_sent()) {
+        if true === headers_sent() {
             return false;
         }
 
@@ -357,9 +357,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
         /**
          * Start the session
          */
-        session_start();
-
-        return true;
+        return session_start();
     }
 
     /**

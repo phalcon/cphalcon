@@ -12,10 +12,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Config\Adapter\Grouped;
 
+use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
 class GetCest
 {
+    use ConfigTrait;
+
     /**
      * Tests Phalcon\Config\Adapter\Grouped :: get()
      *
@@ -24,7 +27,6 @@ class GetCest
      */
     public function configAdapterGroupedGet(UnitTester $I)
     {
-        $I->wantToTest("Config\Adapter\Grouped - get()");
-        $I->skipTest('Need implementation');
+        $this->checkGet($I, 'Grouped');
     }
 }

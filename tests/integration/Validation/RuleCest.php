@@ -13,22 +13,55 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Validation;
 
 use IntegrationTester;
+use Phalcon\Validation;
+use Phalcon\Validation\Validator\Alpha;
+use Phalcon\Validation\Validator\Email;
+use Phalcon\Validation\Validator\PresenceOf;
 
-/**
- * Class RuleCest
- */
 class RuleCest
 {
     /**
      * Tests Phalcon\Validation :: rule()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-04-16
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-05-27
      */
     public function validationRule(IntegrationTester $I)
     {
         $I->wantToTest('Validation - rule()');
 
-        $I->skipTest('Need implementation');
+        $alpha      = new Alpha();
+        $presenceOf = new PresenceOf();
+        $email      = new Email();
+
+        $validation = new Validation();
+
+        $validation->rule(
+            'name',
+            $alpha
+        );
+
+        $validation->rule(
+            'name',
+            $presenceOf
+        );
+
+        $validation->rule(
+            'email',
+            $email
+        );
+
+        $I->assertEquals(
+            [
+                'name'  => [
+                    $alpha,
+                    $presenceOf,
+                ],
+                'email' => [
+                    $email,
+                ],
+            ],
+            $validation->getValidators()
+        );
     }
 }

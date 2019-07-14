@@ -12,43 +12,46 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Asset\Css;
 
+use Codeception\Example;
 use Phalcon\Assets\Asset\Css;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 class GetRealTargetUriCest
 {
-    use AssetsTrait;
-
     /**
-     * Tests Phalcon\Assets\Asset\Css :: getRealTargetUri() - css local
+     * Tests Phalcon\Assets\Asset\Css :: getRealTargetUri()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
+     *
+     * @dataProvider provider
      */
-    public function assetsAssetCssGetAssetKeyLocal(UnitTester $I)
+    public function assetsAssetCssGetAssetKey(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Assets\Asset - getRealTargetUri() - css local');
+        $I->wantToTest('Assets\Asset\Css - getRealTargetUri()');
 
-        $asset = new Css('css/docs.css');
+        $asset = new Css(
+            $example['path'],
+            $example['local']
+        );
 
-        $expected = 'css/docs.css';
-        $this->assetGetRealTargetUri($I, $asset, $expected);
+        $I->assertEquals(
+            $example['path'],
+            $asset->getRealTargetUri()
+        );
     }
 
-    /**
-     * Tests Phalcon\Assets\Asset\Css :: getRealTargetUri() - css remote
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsAssetCssGetAssetKeyRemote(UnitTester $I)
+    protected function provider(): array
     {
-        $I->wantToTest('Assets\Asset - getRealTargetUri() - css remote');
-
-        $asset = new Css('https://phalcon.ld/css/docs.css', false);
-
-        $expected = 'https://phalcon.ld/css/docs.css';
-        $this->assetGetRealTargetUri($I, $asset, $expected);
+        return [
+            [
+                'path'  => 'js/jquery.js',
+                'local' => true,
+            ],
+            [
+                'path'  => 'https://phalcon.ld/js/jquery.js',
+                'local' => false,
+            ],
+        ];
     }
 }

@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\Stream;
 
-use Phalcon\Http\Message\Exception;
 use Phalcon\Http\Message\Stream;
+use RuntimeException;
 use UnitTester;
 
 class GetContentsCest
@@ -27,12 +27,16 @@ class GetContentsCest
     public function httpMessageStreamGetContents(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Stream - getContents()');
-        $fileName = dataDir('/assets/stream/bill-of-rights.txt');
-        $expected = file_get_contents($fileName);
-        $stream   = new Stream($fileName, 'rb');
 
-        $actual = $stream->getContents();
-        $I->assertEquals($expected, $actual);
+        $fileName = dataDir('assets/stream/bill-of-rights.txt');
+
+        $stream = new Stream($fileName, 'rb');
+
+        $I->openFile($fileName);
+
+        $I->seeFileContentsEqual(
+            $stream->getContents()
+        );
     }
 
     /**
@@ -44,7 +48,7 @@ class GetContentsCest
     public function httpMessageStreamGetContentsFromPosition(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Stream - getContents() - from position');
-        $fileName = dataDir('/assets/stream/bill-of-rights.txt');
+        $fileName = dataDir('assets/stream/bill-of-rights.txt');
         $stream   = new Stream($fileName, 'rb');
 
         $stream->seek(2169);
@@ -66,11 +70,11 @@ class GetContentsCest
     {
         $I->wantToTest('Http\Message\Stream - getContents() - exception');
         $I->expectThrowable(
-            new Exception(
+            new RuntimeException(
                 'The resource is not readable.'
             ),
             function () {
-                $fileName = dataDir('/assets/stream/bill-of-rights-empty.txt');
+                $fileName = dataDir('assets/stream/bill-of-rights-empty.txt');
                 $stream   = new Stream($fileName, 'wb');
 
                 $actual = $stream->getContents();

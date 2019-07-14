@@ -12,14 +12,12 @@ namespace Phalcon\Validation\Validator;
 
 use Phalcon\Messages\Message;
 use Phalcon\Validation;
-use Phalcon\Validation\Validator;
+use Phalcon\Validation\AbstractValidator;
 
 /**
- * Phalcon\Validation\Validator\Identical
- *
  * Checks if a value is identical to other
  *
- * <code>
+ * ```php
  * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\Identical;
  *
@@ -53,56 +51,39 @@ use Phalcon\Validation\Validator;
  *         ]
  *     )
  * );
- * </code>
+ * ```
  */
-class Identical extends Validator
+class Identical extends AbstractValidator
 {
+    protected template = "Field :field does not have the expected value";
+
     /**
      * Executes the validation
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var message, label, replacePairs, value, valid, accepted, valueOption,
-            code;
+        var value, accepted;
+        bool valid;
 
         let value = validation->getValue(field);
 
         if this->hasOption("accepted") {
             let accepted = this->getOption("accepted");
+        } elseif this->hasOption("value") {
+            let accepted = this->getOption("value");
+        }
 
+        if accepted {
             if typeof accepted == "array" {
                 let accepted = accepted[field];
             }
 
             let valid = value == accepted;
-        } else {
-            if this->hasOption("value") {
-                let valueOption = this->getOption("value");
-
-                if typeof valueOption == "array" {
-                    let valueOption = valueOption[field];
-                }
-
-                let valid = value == valueOption;
-            }
         }
 
         if !valid {
-            let label = this->prepareLabel(validation, field),
-                message = this->prepareMessage(validation, field, "Identical"),
-                code = this->prepareCode(field);
-
-            let replacePairs = [
-                ":field": label
-            ];
-
             validation->appendMessage(
-                new Message(
-                    strtr(message, replacePairs),
-                    field,
-                    "Identical",
-                    code
-                )
+                this->messageFactory(validation, field)
             );
 
             return false;

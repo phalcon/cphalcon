@@ -12,50 +12,51 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Asset\Js;
 
+use Codeception\Example;
 use Phalcon\Assets\Asset\Js;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 class SetFilterCest
 {
-    use AssetsTrait;
-
     /**
-     * Tests Phalcon\Assets\Asset\Js :: setFilter() - js local
+     * Tests Phalcon\Assets\Asset\Js :: setFilter()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
+     *
+     * @dataProvider provider
      */
-    public function assetsAssetJsSetFilterJsFilter(UnitTester $I)
+    public function assetsAssetJsSetFilter(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Assets\Asset - setFilter() - js local');
-        $asset = new Js('https://phalcon.ld/js/jquery.js');
+        $I->wantToTest('Assets\Asset\Js - setFilter()');
 
-        $expected = true;
-        $this->assetGetFilter($I, $asset, $expected);
+        $asset = new Js(
+            $example['path'],
+            $example['local']
+        );
 
-        $expected = false;
-        $asset->setFilter($expected);
-        $this->assetGetFilter($I, $asset, $expected);
+        $I->assertTrue(
+            $asset->getFilter()
+        );
+
+        $asset->setFilter(false);
+
+        $I->assertFalse(
+            $asset->getFilter()
+        );
     }
 
-    /**
-     * Tests Phalcon\Assets\Asset\Js :: setFilter() - js remote
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsAssetJsSetFilterRemote(UnitTester $I)
+    protected function provider(): array
     {
-        $I->wantToTest('Assets\Asset - setFilter() - js remote');
-        $I->skipTest('TODO - Need checking');
-        $asset = new Js('https://phalcon.ld/js/jquery.js');
-
-        $expected = true;
-        $this->assetGetFilter($I, $asset, $expected);
-
-        $expected = false;
-        $asset->setFilter($expected);
-        $this->assetGetFilter($I, $asset, $expected);
+        return [
+            [
+                'path'  => 'js/jquery.js',
+                'local' => true,
+            ],
+            [
+                'path'  => 'https://phalcon.ld/js/jquery.js',
+                'local' => false,
+            ],
+        ];
     }
 }

@@ -21,8 +21,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Db\ColumnInterface
- *
  * Interface for Phalcon\Db\Column
  */
 ZEPHIR_INIT_CLASS(Phalcon_Db_ColumnInterface) {
@@ -34,14 +32,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_ColumnInterface) {
 }
 
 /**
- * Restores the internal state of a Phalcon\Db\Column object
- */
-ZEPHIR_DOC_METHOD(Phalcon_Db_ColumnInterface, __set_state);
-
-/**
  * Check whether field absolute to position in table
- *
- * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_ColumnInterface, getAfterPosition);
 
@@ -52,8 +43,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_ColumnInterface, getBindType);
 
 /**
  * Returns default value of column
- *
- * @return mixed|null
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_ColumnInterface, getDefault);
 
@@ -68,19 +57,12 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_ColumnInterface, getName);
 ZEPHIR_DOC_METHOD(Phalcon_Db_ColumnInterface, getScale);
 
 /**
- * Returns schema's table related to column
- */
-ZEPHIR_DOC_METHOD(Phalcon_Db_ColumnInterface, getSchemaName);
-
-/**
  * Returns column size
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_ColumnInterface, getSize);
 
 /**
  * Returns column type
- *
- * @return int|string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_ColumnInterface, getType);
 
@@ -91,8 +73,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_ColumnInterface, getTypeReference);
 
 /**
  * Returns column type values
- *
- * @return array|string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_ColumnInterface, getTypeValues);
 

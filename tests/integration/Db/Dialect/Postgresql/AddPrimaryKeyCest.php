@@ -12,7 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Db\Dialect\Postgresql;
 
+use Codeception\Example;
 use IntegrationTester;
+use Phalcon\Db\Dialect\Postgresql;
 use Phalcon\Test\Fixtures\Traits\DialectTrait;
 
 class AddPrimaryKeyCest
@@ -24,29 +26,39 @@ class AddPrimaryKeyCest
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
+     *
+     * @dataProvider getAddPrimaryKeyFixtures
      */
-    public function dbDialectPostgresqlAddPrimaryKey(IntegrationTester $I)
+    public function dbDialectPostgresqlAddPrimaryKey(IntegrationTester $I, Example $example)
     {
         $I->wantToTest("Db\Dialect\Postgresql - addPrimaryKey()");
-        $data = $this->getAddPrimaryKeyFixtures();
-        foreach ($data as $item) {
-            $schema    = $item[0];
-            $reference = $item[1];
-            $expected  = $item[2];
-            $dialect   = $this->getDialectPostgresql();
-            $indexes   = $this->getIndexes();
-            $actual    = $dialect->addPrimaryKey('table', $schema, $indexes[$reference]);
 
-            $I->assertEquals($expected, $actual);
-        }
+        $schema    = $example[0];
+        $reference = $example[1];
+        $expected  = $example[2];
+
+        $dialect = new Postgresql();
+
+        $indexes = $this->getIndexes();
+
+        $actual = $dialect->addPrimaryKey('table', $schema, $indexes[$reference]);
+
+        $I->assertEquals($expected, $actual);
     }
-
 
     protected function getAddPrimaryKeyFixtures(): array
     {
         return [
-            ['', 'PRIMARY', 'ALTER TABLE "table" ADD CONSTRAINT "table_PRIMARY" PRIMARY KEY ("column3")'],
-            ['schema', 'PRIMARY', 'ALTER TABLE "schema"."table" ADD CONSTRAINT "table_PRIMARY" PRIMARY KEY ("column3")'],
+            [
+                '',
+                'PRIMARY',
+                'ALTER TABLE "table" ADD CONSTRAINT "table_PRIMARY" PRIMARY KEY ("column3")',
+            ],
+            [
+                'schema',
+                'PRIMARY',
+                'ALTER TABLE "schema"."table" ADD CONSTRAINT "table_PRIMARY" PRIMARY KEY ("column3")',
+            ],
         ];
     }
 }

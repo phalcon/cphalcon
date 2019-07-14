@@ -19,6 +19,7 @@
 #include "kernel/operators.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
+#include "kernel/object.h"
 
 
 /**
@@ -30,24 +31,24 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Config\Adapter\Json
- *
  * Reads JSON files and converts them to Phalcon\Config objects.
  *
  * Given the following configuration file:
  *
- *<code>
+ *```json
  * {"phalcon":{"baseuri":"\/phalcon\/"},"models":{"metadata":"memory"}}
- *</code>
+ *```
  *
  * You can read it as follows:
  *
- *<code>
- * $config = new Phalcon\Config\Adapter\Json("path/config.json");
+ *```php
+ * use Phalcon\Config\Adapter\Json;
+ *
+ * $config = new Json("path/config.json");
  *
  * echo $config->phalcon->baseuri;
  * echo $config->models->metadata;
- *</code>
+ *```
  */
 ZEPHIR_INIT_CLASS(Phalcon_Config_Adapter_Json) {
 

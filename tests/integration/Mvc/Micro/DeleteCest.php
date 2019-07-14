@@ -15,15 +15,12 @@ namespace Phalcon\Test\Integration\Mvc\Micro;
 use IntegrationTester;
 use Phalcon\Mvc\Micro;
 
-/**
- * Class DeleteCest
- */
 class DeleteCest
 {
     /**
      * Tests Phalcon\Mvc\Micro :: delete()
      *
-     * @author Sid Roberts <sid@sidroberts.co.uk>
+     * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-17
      */
     public function mvcMicroDelete(IntegrationTester $I)
@@ -56,9 +53,14 @@ class DeleteCest
 
         $_SERVER['REQUEST_METHOD'] = 'DELETE';
 
+        // Micro echoes out its result as well
+        ob_start();
+        $result = $micro->handle('/test');
+        ob_end_clean();
+
         $I->assertEquals(
             'this is delete',
-            $micro->handle('/test')
+            $result
         );
     }
 }

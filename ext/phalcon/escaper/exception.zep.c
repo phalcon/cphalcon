@@ -23,8 +23,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Escaper\Exception
- *
  * Exceptions thrown in Phalcon\Escaper will use this class
  */
 ZEPHIR_INIT_CLASS(Phalcon_Escaper_Exception) {

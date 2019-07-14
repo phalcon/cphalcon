@@ -15,7 +15,7 @@ namespace Phalcon\Mvc\Router;
  *
  * Helper class to create a group of routes with common attributes
  *
- *<code>
+ *```php
  * $router = new \Phalcon\Mvc\Router();
  *
  * //Create a group with a common module and controller
@@ -56,7 +56,7 @@ namespace Phalcon\Mvc\Router;
  *
  * //Add the group to the router
  * $router->mount($blog);
- *</code>
+ *```
  */
 class Group implements GroupInterface
 {
@@ -83,9 +83,9 @@ class Group implements GroupInterface
     /**
      * Adds a route to the router on any HTTP method
      *
-     *<code>
+     *```php
      * $router->add("/about", "About::index");
-     *</code>
+     *```
      */
     public function add(string! pattern, var paths = null, var httpMethods = null) -> <RouteInterface>
     {

@@ -12,7 +12,6 @@
 namespace Phalcon\Test\Cli\Cli;
 
 use CliTester;
-use Exception;
 use Phalcon\Cli\Dispatcher;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
@@ -27,26 +26,17 @@ class DispatcherCest
          */
         require_once dataDir('fixtures/tasks/EchoTask.php');
         require_once dataDir('fixtures/tasks/MainTask.php');
-        require_once dataDir('fixtures/tasks/ParamsTask.php');
 
         $this->setNewCliFactoryDefault();
     }
 
-    public function testDispatcher(CliTester $I)
+    public function testDispatcher1(CliTester $I)
     {
-        $this->container->set(
-            'data',
-            function () {
-                return 'data';
-            }
-        );
-
         $dispatcher = new Dispatcher();
 
         $dispatcher->setDI(
             $this->container
         );
-
 
         $dispatcher->dispatch();
 
@@ -69,7 +59,15 @@ class DispatcherCest
             'mainAction',
             $dispatcher->getReturnedValue()
         );
+    }
 
+    public function testDispatcher2(CliTester $I)
+    {
+        $dispatcher = new Dispatcher();
+
+        $dispatcher->setDI(
+            $this->container
+        );
 
         $dispatcher->setTaskName('echo');
 
@@ -94,7 +92,15 @@ class DispatcherCest
             'echoMainAction',
             $dispatcher->getReturnedValue()
         );
+    }
 
+    public function testDispatcher3(CliTester $I)
+    {
+        $dispatcher = new Dispatcher();
+
+        $dispatcher->setDI(
+            $this->container
+        );
 
         $dispatcher->setTaskName('main');
         $dispatcher->setActionName('hello');
@@ -120,12 +126,23 @@ class DispatcherCest
             'Hello !',
             $dispatcher->getReturnedValue()
         );
+    }
 
+    public function testDispatcher4(CliTester $I)
+    {
+        $dispatcher = new Dispatcher();
+
+        $dispatcher->setDI(
+            $this->container
+        );
 
         $dispatcher->setActionName('hello');
 
         $dispatcher->setParams(
-            ['World', '######']
+            [
+                'World',
+                '######',
+            ]
         );
 
         $dispatcher->dispatch();
@@ -141,7 +158,10 @@ class DispatcherCest
         );
 
         $I->assertEquals(
-            ['World', '######'],
+            [
+                'World',
+                '######',
+            ],
             $dispatcher->getParams()
         );
 
@@ -149,7 +169,15 @@ class DispatcherCest
             'Hello World######',
             $dispatcher->getReturnedValue()
         );
+    }
 
+    public function testDispatcher5(CliTester $I)
+    {
+        $dispatcher = new Dispatcher();
+
+        $dispatcher->setDI(
+            $this->container
+        );
 
         $dispatcher->setActionName('hello');
 
@@ -172,85 +200,6 @@ class DispatcherCest
 
         $I->assertFalse(
             $dispatcher->hasParam('salutations')
-        );
-
-        // testing namespace
-        try {
-            $dispatcher->setDefaultNamespace('Dummy\\');
-            $dispatcher->setTaskName('main');
-            $dispatcher->setActionName('hello');
-
-            $dispatcher->setParams(
-                ['World']
-            );
-
-            $dispatcher->dispatch();
-
-            $I->assertEquals(
-                'main',
-                $dispatcher->getTaskName()
-            );
-
-            $I->assertEquals(
-                'hello',
-                $dispatcher->getActionName()
-            );
-
-            $I->assertEquals(
-                ['World'],
-                $dispatcher->getParams()
-            );
-
-            $I->assertEquals(
-                'Hello World!',
-                $dispatcher->getReturnedValue()
-            );
-        } catch (Exception $e) {
-            $I->assertEquals(
-                'Dummy\MainTask handler class cannot be loaded',
-                $e->getMessage()
-            );
-        }
-    }
-
-    public function testCliParameters(CliTester $I)
-    {
-        $dispatcher = new Dispatcher();
-
-        $this->container->setShared('dispatcher', $dispatcher);
-
-        $dispatcher->setDI(
-            $this->container
-        );
-
-        // Test $this->dispatcher->getParams()
-        $dispatcher->setTaskName('params');
-        $dispatcher->setActionName('params');
-
-        $dispatcher->setParams(
-            ['This', 'Is', 'An', 'Example']
-        );
-
-        $dispatcher->dispatch();
-
-        $I->assertEquals(
-            'Action params are the same as $this->dispatcher->getParams()',
-            $dispatcher->getReturnedValue()
-        );
-
-        // Test $this->dispatcher->getParam()
-        $dispatcher->setTaskName('params');
-        $dispatcher->setActionName('param');
-
-        $dispatcher->setParams(
-            ['This', 'Is', 'An', 'Example']
-        );
-
-        $dispatcher->dispatch();
-
-        $I->assertEquals(
-            '$param[0] is the same as $this->dispatcher->getParam(0)',
-            $dispatcher->getReturnedValue()
         );
     }
 }

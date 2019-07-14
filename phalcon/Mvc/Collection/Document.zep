@@ -10,6 +10,7 @@
 
 namespace Phalcon\Mvc\Collection;
 
+use ArrayAccess;
 use Phalcon\Mvc\EntityInterface;
 use Phalcon\Mvc\Collection\Exception;
 
@@ -19,7 +20,7 @@ use Phalcon\Mvc\Collection\Exception;
  * This component allows Phalcon\Mvc\Collection to return rows without an associated entity.
  * This objects implements the ArrayAccess interface to allow access the object as object->x or array[x].
  */
-class Document implements EntityInterface, \ArrayAccess
+class Document implements EntityInterface, ArrayAccess
 {
     /**
      * Returns the value of a field using the ArrayAccess interfase
@@ -62,9 +63,9 @@ class Document implements EntityInterface, \ArrayAccess
     /**
      * Reads an attribute value by its name
      *
-     *<code>
+     *```php
      *  echo $robot->readAttribute("name");
-     *</code>
+     *```
      */
     public function readAttribute(string! attribute) -> var | null
     {
@@ -88,9 +89,9 @@ class Document implements EntityInterface, \ArrayAccess
     /**
      * Writes an attribute value by its name
      *
-     *<code>
+     *```php
      *  $robot->writeAttribute("name", "Rosey");
-     *</code>
+     *```
      */
     public function writeAttribute(string! attribute, var value) -> void
     {

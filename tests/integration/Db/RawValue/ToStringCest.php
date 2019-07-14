@@ -15,15 +15,12 @@ namespace Phalcon\Test\Integration\Db\RawValue;
 use IntegrationTester;
 use Phalcon\Db\RawValue;
 
-/**
- * Class ToStringCest
- */
 class ToStringCest
 {
     /**
      * Tests Phalcon\Db\RawValue :: __toString()
      *
-     * @author Sid Roberts <sid@sidroberts.co.uk>
+     * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-17
      */
     public function dbRawvalueToString(IntegrationTester $I)

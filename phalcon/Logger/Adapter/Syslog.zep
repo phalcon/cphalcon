@@ -10,6 +10,7 @@
 
 namespace Phalcon\Logger\Adapter;
 
+use LogicException;
 use Phalcon\Logger\Logger;
 use Phalcon\Logger\Adapter;
 use Phalcon\Logger\Exception;
@@ -21,7 +22,7 @@ use Phalcon\Logger\Item;
  *
  * Sends logs to the system logger
  *
- * <code>
+ * ```php
  * use Phalcon\Logger;
  * use Phalcon\Logger\Adapter\Syslog;
  *
@@ -37,7 +38,7 @@ use Phalcon\Logger\Item;
  * $logger->log("This is a message");
  * $logger->log(Logger::ERROR, "This is an error");
  * $logger->error("This is another error");
- *</code>
+ *```
  */
 class Syslog extends AbstractAdapter
 {
@@ -122,7 +123,7 @@ class Syslog extends AbstractAdapter
         let result = openlog(name, option, facility);
 
         if (!result) {
-            throw new \LogicException(
+            throw new LogicException(
                 sprintf(
                     "Cannot open syslog for name [%s] and facility [%s]",
                     name,

@@ -17,6 +17,7 @@
 #include "kernel/array.h"
 #include "kernel/string.h"
 #include "kernel/operators.h"
+#include "kernel/object.h"
 
 
 /**
@@ -28,11 +29,9 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Validation\Validator\Regex
- *
  * Allows validate if the value of a field matches a regular expression
  *
- * <code>
+ * ```php
  * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\Regex as RegexValidator;
  *
@@ -66,11 +65,13 @@
  *         ]
  *     )
  * );
- * </code>
+ * ```
  */
 ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Regex) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator, Regex, phalcon, validation_validator_regex, phalcon_validation_validator_ce, phalcon_validation_validator_regex_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator, Regex, phalcon, validation_validator_regex, phalcon_validation_abstractvalidator_ce, phalcon_validation_validator_regex_method_entry, 0);
+
+	zend_declare_property_string(phalcon_validation_validator_regex_ce, SL("template"), "Field :field does not match the required format", ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
 
@@ -83,24 +84,18 @@ PHP_METHOD(Phalcon_Validation_Validator_Regex, validate) {
 
 	zend_bool failed = 0;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *validation, validation_sub, *field, field_sub, matches, message, value, label, replacePairs, code, pattern, _0, _1$$3, _2$$4, _3$$6, _4$$6, _5$$6;
+	zval *validation, validation_sub, *field, field_sub, matches, value, pattern, _0, _1$$3, _2$$4, _3$$6;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&validation_sub);
 	ZVAL_UNDEF(&field_sub);
 	ZVAL_UNDEF(&matches);
-	ZVAL_UNDEF(&message);
 	ZVAL_UNDEF(&value);
-	ZVAL_UNDEF(&label);
-	ZVAL_UNDEF(&replacePairs);
-	ZVAL_UNDEF(&code);
 	ZVAL_UNDEF(&pattern);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$4);
 	ZVAL_UNDEF(&_3$$6);
-	ZVAL_UNDEF(&_4$$6);
-	ZVAL_UNDEF(&_5$$6);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &validation, &field);
@@ -128,24 +123,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Regex, validate) {
 		failed = 1;
 	}
 	if (failed) {
-		ZEPHIR_CALL_METHOD(&label, this_ptr, "preparelabel", NULL, 0, validation, field);
-		zephir_check_call_status();
-		ZEPHIR_INIT_VAR(&_3$$6);
-		ZVAL_STRING(&_3$$6, "Regex");
-		ZEPHIR_CALL_METHOD(&message, this_ptr, "preparemessage", NULL, 0, validation, field, &_3$$6);
-		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(&code, this_ptr, "preparecode", NULL, 0, field);
-		zephir_check_call_status();
-		ZEPHIR_INIT_VAR(&replacePairs);
-		zephir_create_array(&replacePairs, 1, 0 TSRMLS_CC);
-		zephir_array_update_string(&replacePairs, SL(":field"), &label, PH_COPY | PH_SEPARATE);
-		ZEPHIR_INIT_NVAR(&_3$$6);
-		object_init_ex(&_3$$6, phalcon_messages_message_ce);
-		ZEPHIR_CALL_FUNCTION(&_4$$6, "strtr", NULL, 66, &message, &replacePairs);
-		zephir_check_call_status();
-		ZEPHIR_INIT_VAR(&_5$$6);
-		ZVAL_STRING(&_5$$6, "Regex");
-		ZEPHIR_CALL_METHOD(NULL, &_3$$6, "__construct", NULL, 401, &_4$$6, field, &_5$$6, &code);
+		ZEPHIR_CALL_METHOD(&_3$$6, this_ptr, "messagefactory", NULL, 0, validation, field);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_3$$6);
 		zephir_check_call_status();

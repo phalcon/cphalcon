@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
 
+use Phalcon\Acl\Adapter\Memory;
+use Phalcon\Acl\Enum;
 use UnitTester;
 
 class DropComponentAccessCest
@@ -26,6 +28,76 @@ class DropComponentAccessCest
     {
         $I->wantToTest('Acl\Adapter\Memory - dropComponentAccess()');
 
-        $I->skipTest('Need implementation');
+        $acl = new Memory();
+
+        $acl->setDefaultAction(
+            Enum::DENY
+        );
+
+        $acl->addRole('Guests');
+        $acl->addComponent(
+            'Post',
+            [
+                'index',
+                'create',
+                'delete',
+                'update',
+            ]
+        );
+        $acl->addComponent(
+            'News',
+            [
+                'index',
+                'create',
+                'delete',
+                'update',
+            ]
+        );
+        $acl->allow(
+            'Guests',
+            'Post',
+            [
+                'index',
+                'create',
+                'delete',
+                'update',
+            ]
+        );
+        $acl->allow(
+            'Guests',
+            'News',
+            [
+                'index',
+                'create',
+                'delete',
+                'update',
+            ]
+        );
+
+        $I->assertTrue(
+            $acl->isAllowed('Guests', 'Post', 'update')
+        );
+        $I->assertTrue(
+            $acl->isAllowed('Guests', 'News', 'index')
+        );
+
+        $acl->dropComponentAccess('Post', 'index');
+        $I->assertTrue(
+            $acl->isAllowed('Guests', 'Post', 'index')
+        );
+
+        $acl->dropComponentAccess(
+            'News',
+            [
+                'index',
+                'create',
+            ]
+        );
+        $I->assertTrue(
+            $acl->isAllowed('Guests', 'News', 'index')
+        );
+        $I->assertTrue(
+            $acl->isAllowed('Guests', 'News', 'create')
+        );
     }
 }

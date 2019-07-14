@@ -18,9 +18,6 @@ use Phalcon\Di;
 use Phalcon\Helper\Str;
 use Phalcon\Mvc\View;
 
-/**
- * Class GetBasePathCest
- */
 class GetBasePathCest
 {
     /**
@@ -34,11 +31,20 @@ class GetBasePathCest
         $I->wantToTest('Mvc\View - getBasePath()');
 
         $container = new Di();
+
         $view = new View();
-        $view->setViewsDir(Str::dirSeparator(dataDir('fixtures/views')));
+
+        $view->setViewsDir(
+            Str::dirSeparator(
+                dataDir('fixtures/views')
+            )
+        );
 
         $view->setDI($container);
 
-        $I->assertEquals('', $view->getBasePath());
+        $I->assertEquals(
+            '',
+            $view->getBasePath()
+        );
     }
 }

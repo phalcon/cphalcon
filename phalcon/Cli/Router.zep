@@ -10,19 +10,18 @@
 
 namespace Phalcon\Cli;
 
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
+use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Cli\Router\Route;
 use Phalcon\Cli\Router\Exception;
 
 /**
- * Phalcon\Cli\Router
+ * Phalcon\Cli\Router is the standard framework router. Routing is the process
+ * of taking a command-line arguments and decomposing it into parameters to
+ * determine which module, task, and action of that task should receive the
+ * request.
  *
- * <p>Phalcon\Cli\Router is the standard framework router. Routing is the
- * process of taking a command-line arguments and
- * decomposing it into parameters to determine which module, task, and
- * action of that task should receive the request</p>
- *
- *<code>
+ *```php
  * $router = new \Phalcon\Cli\Router();
  *
  * $router->handle(
@@ -34,9 +33,9 @@ use Phalcon\Cli\Router\Exception;
  * );
  *
  * echo $router->getTaskName();
- *</code>
+ *```
  */
-class Router implements \Phalcon\Di\InjectionAwareInterface
+class Router implements InjectionAwareInterface
 {
     protected action;
 
@@ -106,9 +105,9 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
     /**
      * Adds a route to the router
      *
-     *<code>
+     *```php
      * $router->add("/about", "About::main");
-     *</code>
+     *```
      *
      * @param string|array paths
      */
@@ -289,7 +288,8 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
                     /**
                      * Start from the default paths
                      */
-                    let paths = route->getPaths(), parts = paths;
+                    let paths = route->getPaths(),
+                        parts = paths;
 
                     /**
                      * Check if the matches has variables
@@ -305,32 +305,26 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
                                 /**
                                  * Check if the part has a converter
                                  */
-                                if typeof converters == "array" {
-                                    if fetch converter, converters[part] {
-                                        let parts[part] = call_user_func_array(
-                                            converter,
-                                            [matchPosition]
-                                        );
-
-                                        continue;
-                                    }
+                                if fetch converter, converters[part] {
+                                    let parts[part] = call_user_func_array(
+                                        converter,
+                                        [matchPosition]
+                                    );
+                                } else {
+                                    /**
+                                     * Update the parts if there is no converter
+                                     */
+                                    let parts[part] = matchPosition;
                                 }
-
-                                /**
-                                 * Update the parts if there is no converter
-                                 */
-                                let parts[part] = matchPosition;
                             } else {
                                 /**
                                  * Apply the converters anyway
                                  */
-                                if typeof converters == "array" {
-                                    if fetch converter, converters[part] {
-                                        let parts[part] = call_user_func_array(
-                                            converter,
-                                            [position]
-                                        );
-                                    }
+                                if fetch converter, converters[part] {
+                                    let parts[part] = call_user_func_array(
+                                        converter,
+                                        [position]
+                                    );
                                 }
                             }
                         }
@@ -406,7 +400,11 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
          */
         if fetch params, parts["params"] {
             if typeof params != "array" {
-                let strParams = substr((string)params, 1);
+                let strParams = substr(
+                    (string) params,
+                    1
+                );
+
                 if strParams {
                     let params = explode(Route::getDelimiter(), strParams);
                 } else {
@@ -450,14 +448,14 @@ class Router implements \Phalcon\Di\InjectionAwareInterface
      * will use the defined here. This method must not be used to set a 404
      * route
      *
-     *<code>
+     *```php
      * $router->setDefaults(
      *     [
      *         "module" => "common",
      *         "action" => "index",
      *     ]
      * );
-     *</code>
+     *```
      */
     public function setDefaults(array! defaults) -> <Router>
     {

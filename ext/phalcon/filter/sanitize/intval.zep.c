@@ -15,6 +15,7 @@
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
+#include "kernel/object.h"
 
 
 /**
@@ -57,7 +58,7 @@ PHP_METHOD(Phalcon_Filter_Sanitize_IntVal, __invoke) {
 
 
 	ZVAL_LONG(&_0, 519);
-	ZEPHIR_CALL_FUNCTION(&_1, "filter_var", NULL, 208, input, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "filter_var", NULL, 234, input, &_0);
 	zephir_check_call_status();
 	RETURN_MM_LONG(zephir_get_intval(&_1));
 

@@ -241,10 +241,19 @@ class FormsCest
             $entity
         );
 
-        $I->assertTrue($form->isValid());
+        $I->assertTrue(
+            $form->isValid()
+        );
 
-        $I->assertEquals($entity->telephone, '+44 123 45678');
-        $I->assertEquals($entity->address, 'hello');
+        $I->assertEquals(
+            '+44 123 45678',
+            $entity->telephone
+        );
+
+        $I->assertEquals(
+            'hello',
+            $entity->address
+        );
     }
 
     public function testFormValidatorEntityBindSetters(IntegrationTester $I)
@@ -298,41 +307,6 @@ class FormsCest
         $I->assertEquals(
             'hello',
             $entity->getAddress()
-        );
-    }
-
-    public function testCorrectlyAddOptionToSelectElementIfParameterIsAnArray(IntegrationTester $I)
-    {
-        $element = new Select('test-select');
-
-        $element->addOption(
-            [
-                'key' => 'value',
-            ]
-        );
-
-        $I->assertEquals(
-            '<select id="test-select" name="test-select"><option value="key">value</option></select>',
-            preg_replace(
-                '/[[:cntrl:]]/',
-                '',
-                $element->render()
-            )
-        );
-    }
-
-    public function testCorrectlyAddOptionToSelectElementIfParameterIsAString(IntegrationTester $I)
-    {
-        $element = new Select('test-select');
-        $element->addOption('value');
-
-        $I->assertEquals(
-            '<select id="test-select" name="test-select"><option value="0">value</option></select>',
-            preg_replace(
-                '/[[:cntrl:]]/',
-                '',
-                $element->render()
-            )
         );
     }
 

@@ -29,14 +29,16 @@ class WithBodyCest
         $I->wantToTest('Http\Message\Response - withBody()');
         $fileName = dataDir('/assets/stream/bill-of-rights.txt');
         $stream   = new Stream($fileName, 'rb');
-        $request  = new Response();
+        $response = new Response();
 
-        $newInstance = $request->withBody($stream);
+        $newInstance = $response->withBody($stream);
 
-        $I->assertNotEquals($request, $newInstance);
+        $I->assertNotEquals($response, $newInstance);
 
-        $expected = file_get_contents($fileName);
-        $actual   = $newInstance->getBody();
-        $I->assertEquals($expected, $actual);
+        $I->openFile($fileName);
+
+        $I->seeFileContentsEqual(
+            $newInstance->getBody()
+        );
     }
 }

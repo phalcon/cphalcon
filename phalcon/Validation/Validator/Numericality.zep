@@ -12,14 +12,12 @@ namespace Phalcon\Validation\Validator;
 
 use Phalcon\Messages\Message;
 use Phalcon\Validation;
-use Phalcon\Validation\Validator;
+use Phalcon\Validation\AbstractValidator;
 
 /**
- * Phalcon\Validation\Validator\Numericality
- *
  * Check for a valid numeric value
  *
- * <code>
+ * ```php
  * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\Numericality;
  *
@@ -48,16 +46,18 @@ use Phalcon\Validation\Validator;
  *         ]
  *     )
  * );
- * </code>
+ * ```
  */
-class Numericality extends Validator
+class Numericality extends AbstractValidator
 {
+    protected template = "Field :field does not have a valid numeric format";
+
     /**
      * Executes the validation
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var code, label, message, replacePairs, value;
+        var value;
         string pattern;
 
         // Dump spaces in the string if we have any
@@ -67,27 +67,8 @@ class Numericality extends Validator
             pattern = "/((^[-]?[0-9,]+(.[0-9]+)?$)|(^[-]?[0-9.]+(,[0-9]+)?$))/";
 
         if !preg_match(pattern, value) {
-            let label = this->prepareLabel(validation, field);
-
-            let message = this->prepareMessage(
-                validation,
-                field,
-                "Numericality"
-            );
-
-            let code = this->prepareCode(field);
-
-            let replacePairs = [
-                ":field": label
-            ];
-
             validation->appendMessage(
-                new Message(
-                    strtr(message, replacePairs),
-                    field,
-                    "Numericality",
-                    code
-                )
+                this->messageFactory(validation, field)
             );
 
             return false;

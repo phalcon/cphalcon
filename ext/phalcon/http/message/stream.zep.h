@@ -4,6 +4,7 @@ extern zend_class_entry *phalcon_http_message_stream_ce;
 ZEPHIR_INIT_CLASS(Phalcon_Http_Message_Stream);
 
 PHP_METHOD(Phalcon_Http_Message_Stream, __construct);
+PHP_METHOD(Phalcon_Http_Message_Stream, __destruct);
 PHP_METHOD(Phalcon_Http_Message_Stream, __toString);
 PHP_METHOD(Phalcon_Http_Message_Stream, close);
 PHP_METHOD(Phalcon_Http_Message_Stream, detach);
@@ -27,7 +28,11 @@ PHP_METHOD(Phalcon_Http_Message_Stream, checkWritable);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_message_stream___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, stream)
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, mode, IS_STRING, 0)
+#else
 	ZEND_ARG_INFO(0, mode)
+#endif
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
@@ -98,7 +103,11 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_message_stream_setstream, 0, 0, 1)
 	ZEND_ARG_INFO(0, stream)
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, mode, IS_STRING, 0)
+#else
 	ZEND_ARG_INFO(0, mode)
+#endif
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
@@ -118,6 +127,7 @@ ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_http_message_stream_method_entry) {
 	PHP_ME(Phalcon_Http_Message_Stream, __construct, arginfo_phalcon_http_message_stream___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Http_Message_Stream, __destruct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_DTOR)
 	PHP_ME(Phalcon_Http_Message_Stream, __toString, arginfo_phalcon_http_message_stream___tostring, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Message_Stream, close, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Message_Stream, detach, NULL, ZEND_ACC_PUBLIC)

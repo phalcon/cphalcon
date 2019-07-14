@@ -12,12 +12,12 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Storage\Adapter\Stream;
 
-use function outputDir;
 use Phalcon\Storage\Adapter\AdapterInterface;
 use Phalcon\Storage\Adapter\Stream;
 use Phalcon\Storage\Exception;
 use Phalcon\Storage\SerializerFactory;
 use UnitTester;
+use function outputDir;
 
 class ConstructCest
 {
@@ -30,14 +30,25 @@ class ConstructCest
     public function storageAdapterStreamConstruct(UnitTester $I)
     {
         $I->wantToTest('Storage\Adapter\Stream - __construct()');
+
         $serializer = new SerializerFactory();
-        $adapter    = new Stream($serializer, ['cacheDir' => outputDir()]);
 
-        $class = Stream::class;
-        $I->assertInstanceOf($class, $adapter);
+        $adapter = new Stream(
+            $serializer,
+            [
+                'cacheDir' => outputDir(),
+            ]
+        );
 
-        $class = AdapterInterface::class;
-        $I->assertInstanceOf($class, $adapter);
+        $I->assertInstanceOf(
+            Stream::class,
+            $adapter
+        );
+
+        $I->assertInstanceOf(
+            AdapterInterface::class,
+            $adapter
+        );
     }
 
     /**

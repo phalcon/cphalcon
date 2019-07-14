@@ -10,7 +10,7 @@
 
 namespace Phalcon\Mvc\Model;
 
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\Transaction\Failed as TxFailed;
 use Phalcon\Mvc\Model\Transaction\ManagerInterface;
@@ -24,7 +24,7 @@ use Phalcon\Mvc\Model\TransactionInterface;
  * be used with Phalcon_Model_Base. Phalcon Transactions should be created using
  * Phalcon\Transaction\Manager.
  *
- * <code>
+ * ```php
  * use Phalcon\Mvc\Model\Transaction\Failed;
  * use Phalcon\Mvc\Model\Transaction\Manager;
  *
@@ -58,7 +58,7 @@ use Phalcon\Mvc\Model\TransactionInterface;
  * } catch(Failed $e) {
  *     echo "Failed, reason: ", $e->getMessage();
  * }
- * </code>
+ * ```
  */
 class Transaction implements TransactionInterface
 {
@@ -123,7 +123,7 @@ class Transaction implements TransactionInterface
     /**
      * Returns the connection related to transaction
      */
-    public function getConnection() -> <\Phalcon\Db\AdapterInterface>
+    public function getConnection() -> <\Phalcon\Db\Adapter\AdapterInterface>
     {
         if this->rollbackOnAbort {
             if connection_aborted() {

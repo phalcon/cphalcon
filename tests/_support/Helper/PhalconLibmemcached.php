@@ -18,9 +18,6 @@ use Codeception\TestInterface;
 use function intval;
 use Memcached;
 
-/**
- * Class PhalconLibmemcached
- */
 class PhalconLibmemcached extends Module
 {
     /**

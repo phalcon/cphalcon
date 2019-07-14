@@ -31,6 +31,7 @@ class HttpBase
     {
         $this->server = $_SERVER;
         $_SERVER      = [];
+
         $this->newDi();
         $this->setDiEscaper();
         $this->setDiUrl();
@@ -51,12 +52,10 @@ class HttpBase
     /**
      * Initializes the response object and returns it
      *
-     * @return Response
-     * @since  2014-10-05
-     *
      * @author Phalcon Team <team@phalconphp.com>
+     * @since  2014-10-05
      */
-    protected function getResponseObject()
+    protected function getResponseObject(): Response
     {
         $container = Di::getDefault();
 
@@ -73,20 +72,18 @@ class HttpBase
     {
         $request = $this->getRequestObject();
 
-        $actual = $request->$function('test');
-
-        $I->assertFalse($actual);
+        $I->assertFalse(
+            $request->$function('test')
+        );
     }
 
     /**
      * Initializes the request object and returns it
      *
-     * @return Request
-     * @since  2014-10-05
-     *
      * @author Phalcon Team <team@phalconphp.com>
+     * @since  2014-10-05
      */
-    protected function getRequestObject()
+    protected function getRequestObject(): Request
     {
         $container = Di::getDefault();
 
@@ -96,9 +93,8 @@ class HttpBase
     /**
      * Checks the has functions on defined variables
      *
-     * @since  2014-10-05
-     *
      * @author Phalcon Team <team@phalconphp.com>
+     * @since  2014-10-05
      */
     protected function hasNotEmpty(UnitTester $I, string $function, string $method)
     {
@@ -122,17 +118,16 @@ class HttpBase
     {
         $request = $this->getRequestObject();
 
-        $actual = $request->$function('test');
-
-        $I->assertEmpty($actual);
+        $I->assertEmpty(
+            $request->$function('test')
+        );
     }
 
     /**
      * Checks the get functions on defined variables
      *
-     * @since  2014-10-05
-     *
      * @author Phalcon Team <team@phalconphp.com>
+     * @since  2014-10-05
      */
     protected function getNotEmpty(UnitTester $I, string $function, string $method)
     {
@@ -149,9 +144,8 @@ class HttpBase
     /**
      * Checks the get functions for sanitized data
      *
-     * @since  2014-10-05
-     *
      * @author Phalcon Team <team@phalconphp.com>
+     * @since  2014-10-05
      */
     protected function getSanitized(UnitTester $I, string $function, string $method)
     {
@@ -169,7 +163,7 @@ class HttpBase
     /**
      * Checks the get functions for sanitized data (array filters)
      *
-     * @param array      $filter
+     * @param array $filter
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-05
@@ -205,9 +199,8 @@ class HttpBase
      *
      * @param string $var
      *
-     * @since  2014-10-05
-     *
      * @author Phalcon Team <team@phalconphp.com>
+     * @since  2014-10-05
      */
     protected function unsetServerVar($var)
     {
@@ -232,9 +225,8 @@ class HttpBase
      *
      * @param string $var
      *
-     * @since  2014-10-05
-     *
      * @author Phalcon Team <team@phalconphp.com>
+     * @since  2014-10-05
      */
     protected function unsetGetVar($var)
     {
@@ -259,9 +251,8 @@ class HttpBase
      *
      * @param string $var
      *
-     * @since  2014-10-05
-     *
      * @author Phalcon Team <team@phalconphp.com>
+     * @since  2014-10-05
      */
     protected function unsetPostVar($var)
     {
@@ -286,9 +277,8 @@ class HttpBase
      *
      * @param string $var
      *
-     * @since  2014-10-05
-     *
      * @author Phalcon Team <team@phalconphp.com>
+     * @since  2014-10-05
      */
     protected function unsetRequestVar($var)
     {

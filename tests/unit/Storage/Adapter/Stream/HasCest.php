@@ -12,11 +12,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Storage\Adapter\Stream;
 
-use function outputDir;
 use Phalcon\Storage\Adapter\Stream;
 use Phalcon\Storage\SerializerFactory;
-use function uniqid;
 use UnitTester;
+use function outputDir;
+use function uniqid;
 
 class HasCest
 {
@@ -31,15 +31,24 @@ class HasCest
         $I->wantToTest('Storage\Adapter\Stream - has()');
 
         $serializer = new SerializerFactory();
-        $adapter    = new Stream($serializer, ['cacheDir' => outputDir()]);
+
+        $adapter = new Stream(
+            $serializer,
+            [
+                'cacheDir' => outputDir(),
+            ]
+        );
 
         $key = uniqid();
 
-        $actual = $adapter->has($key);
-        $I->assertFalse($actual);
+        $I->assertFalse(
+            $adapter->has($key)
+        );
 
         $adapter->set($key, 'test');
-        $actual = $adapter->has($key);
-        $I->assertTrue($actual);
+
+        $I->assertTrue(
+            $adapter->has($key)
+        );
     }
 }

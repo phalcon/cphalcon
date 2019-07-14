@@ -22,19 +22,19 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\%n%;
+namespace Phalcon\Test\%type%\%n%;
 
-use UnitTester;
+use %type%Tester;
 
 class %m%Cest
 {
     /**
-     * Tests %ns% :: %sm%()
+     * %type% Tests %ns% :: %sm%()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  %d%
      */
-    public function %nn%%m%(UnitTester $I)
+    public function %nn%%m%(%type%Tester $I)
     {
         $I->wantToTest(\'%n% - %sm%()\');
 
@@ -52,13 +52,22 @@ foreach ($allClasses as $class) {
     }
 }
 
+// Argument 1: could be "unit" or "integration" shortcut "u" or "i"
+$type = ucfirst($argv[1] ?? 'unit');
+
+// Normalize shortcut I = Integration or U = Unit
+if (strlen($type) === 1) {
+    $type = $type === 'I' ? 'Integration' : 'Unit';
+}
+
 $placeholders = [
-    '%ns%' => '',
-    '%nn%' => '',
-    '%n%'  => '',
-    '%m%'  => '',
-    '%sm%' => '',
-    '%d%'  => date('Y-m-d'),
+    '%type%' => $type,
+    '%ns%'   => '',
+    '%nn%'   => '',
+    '%n%'    => '',
+    '%m%'    => '',
+    '%sm%'   => '',
+    '%d%'    => date('Y-m-d'),
 ];
 
 $outputDir = dirname(__DIR__) . '/nikos/';
@@ -105,12 +114,16 @@ foreach ($phalconClasses as $class) {
                 $method = 'underscoreUnset';
 
                 break;
-            case '__wakeup':
-                $method = 'wakeup';
+            case '__call':
+                $method = 'underscoreCall';
 
                 break;
-            case '__set_state':
-                $method = 'setState';
+            case '__invoke':
+                $method = 'underscoreInvoke';
+
+                break;
+            case '__wakeup':
+                $method = 'wakeup';
 
                 break;
         }

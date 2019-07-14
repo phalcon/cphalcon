@@ -12,48 +12,27 @@ namespace Phalcon\Cache;
 
 use Phalcon\Cache\Adapter\AbstractAdapter;
 use Phalcon\Cache\Exception\Exception;
+use Phalcon\Factory\AbstractFactory;
 use Phalcon\Storage\SerializerFactory;
 
-class AdapterFactory
+/**
+ * Factory to create Cache adapters
+ */
+class AdapterFactory extends AbstractFactory
 {
     /**
-     * @var array
-     */
-    private mapper   = [];
-
-    /**
-     * @var array
-     */
-    private services = [];
-
-    /**
-     * @var <SerializerFactory>
+     * @var SerializerFactory
      */
     private serializerFactory;
 
     /**
      * AdapterFactory constructor.
      */
-    public function __construct(<SerializerFactory> factory, array! services = [])
+    public function __construct(<SerializerFactory> factory = null, array! services = [])
     {
-        var adapters, name, service;
-        
         let this->serializerFactory = factory;
 
-        let adapters = [
-            "apcu"         : "\\Phalcon\\Cache\\Adapter\\Apcu",
-            "libmemcached" : "\\Phalcon\\Cache\\Adapter\\Libmemcached",
-            "memory"       : "\\Phalcon\\Cache\\Adapter\\Memory",
-            "redis"        : "\\Phalcon\\Cache\\Adapter\\Redis",
-            "stream"       : "\\Phalcon\\Cache\\Adapter\\Stream"
-        ];
-
-        let adapters = array_merge(adapters, services);
-
-        for name, service in adapters {
-            let this->mapper[name] = service;
-            unset(this->services[name]);
-        }
+        this->init(services);
     }
 
     /**
@@ -63,9 +42,7 @@ class AdapterFactory
     {
         var definition;
 
-        if !isset this->mapper[name] {
-            throw new Exception("Service " . name . " is not registered");
-        }
+        this->checkService(name);
 
         if !isset this->services[name] {
             let definition           = this->mapper[name],
@@ -73,5 +50,19 @@ class AdapterFactory
         }
 
         return this->services[name];
+    }
+
+    /**
+     * Returns the available adapters
+     */
+    protected function getAdapters() -> array
+    {
+        return [
+            "apcu"         : "\\Phalcon\\Cache\\Adapter\\Apcu",
+            "libmemcached" : "\\Phalcon\\Cache\\Adapter\\Libmemcached",
+            "memory"       : "\\Phalcon\\Cache\\Adapter\\Memory",
+            "redis"        : "\\Phalcon\\Cache\\Adapter\\Redis",
+            "stream"       : "\\Phalcon\\Cache\\Adapter\\Stream"
+        ];
     }
 }

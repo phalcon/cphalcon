@@ -23,7 +23,7 @@ class GetParamsCest
     /**
      * Tests Phalcon\Mvc\Model\Relation :: getParams()
      *
-     * @author Sid Roberts <sid@sidroberts.co.uk>
+     * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-18
      */
     public function mvcModelRelationGetParams(IntegrationTester $I)
@@ -58,7 +58,7 @@ class GetParamsCest
     /**
      * Tests Phalcon\Mvc\Model\Relation :: getParams() when none are set
      *
-     * @author Sid Roberts <sid@sidroberts.co.uk>
+     * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-18
      */
     public function mvcModelRelationGetParamsWhenNoneSet(IntegrationTester $I)

@@ -30,8 +30,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Storage\Adapter\Memory
- *
  * Memory adapter
  */
 ZEPHIR_INIT_CLASS(Phalcon_Storage_Adapter_Memory) {
@@ -91,7 +89,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Memory, __construct) {
 	zephir_update_property_zval(this_ptr, SL("options"), &options);
 	ZEPHIR_INIT_NVAR(&_0);
 	object_init_ex(&_0, phalcon_collection_ce);
-	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 92);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 17);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("data"), &_0);
 	ZEPHIR_CALL_PARENT(NULL, phalcon_storage_adapter_memory_ce, getThis(), "__construct", &_1, 0, factory, &options);

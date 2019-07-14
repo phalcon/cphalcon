@@ -10,7 +10,7 @@
     "name": "phalcon",
     "description": "Web framework delivered as a C-extension for PHP",
     "author": "Phalcon Team and contributors",
-    "version": "4.0.0-alpha.5",
+    "version": "4.0.0-beta.1",
     "verbose": false,
     "optimizer-dirs": [
         "optimizers"
@@ -84,6 +84,10 @@
         "orm.exception_on_failed_save": {
             "type": "bool",
             "default": false
+        },
+        "orm.exception_on_failed_metadata_save": {
+            "type": "bool",
+            "default": true
         },
         "orm.ignore_unknown_columns": {
             "type": "bool",

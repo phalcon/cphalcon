@@ -46,8 +46,7 @@ class DispatcherAfterExecuteRouteCest extends BaseDispatcher
                     $forwarded = true;
                 }
             }
-        )
-        ;
+        );
 
         $dispatcher->dispatch();
 
@@ -69,8 +68,11 @@ class DispatcherAfterExecuteRouteCest extends BaseDispatcher
             'afterDispatch',
             'afterDispatchLoop',
         ];
-        $actual   = $this->getDispatcherListener()->getTrace();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $this->getDispatcherListener()->getTrace()
+        );
     }
 
     /**
@@ -91,8 +93,8 @@ class DispatcherAfterExecuteRouteCest extends BaseDispatcher
 
                 return false;
             }
-        )
-        ;
+        );
+
         $dispatcher->dispatch();
 
         $expected = [
@@ -107,8 +109,11 @@ class DispatcherAfterExecuteRouteCest extends BaseDispatcher
             'afterExecuteRoute: custom return false',
             'afterDispatchLoop',
         ];
-        $actual   = $this->getDispatcherListener()->getTrace();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $this->getDispatcherListener()->getTrace()
+        );
     }
 
     /**
@@ -123,14 +128,19 @@ class DispatcherAfterExecuteRouteCest extends BaseDispatcher
     {
         $dispatcher = $this->getDispatcher();
 
-        $dispatcher->getEventsManager()->attach('dispatch:afterExecuteRoute', function () {
-            throw new Exception('afterExecuteRoute exception occurred');
-        })
-        ;
-        $dispatcher->getEventsManager()->attach('dispatch:beforeException', function () {
-            return false;
-        })
-        ;
+        $dispatcher->getEventsManager()->attach(
+            'dispatch:afterExecuteRoute',
+            function () {
+                throw new Exception('afterExecuteRoute exception occurred');
+            }
+        );
+
+        $dispatcher->getEventsManager()->attach(
+            'dispatch:beforeException',
+            function () {
+                return false;
+            }
+        );
 
         $dispatcher->dispatch();
 
@@ -146,8 +156,11 @@ class DispatcherAfterExecuteRouteCest extends BaseDispatcher
             'beforeException: afterExecuteRoute exception occurred',
             'afterDispatchLoop',
         ];
-        $actual   = $this->getDispatcherListener()->getTrace();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $this->getDispatcherListener()->getTrace()
+        );
     }
 
     /**
@@ -163,26 +176,29 @@ class DispatcherAfterExecuteRouteCest extends BaseDispatcher
         $dispatcher         = $this->getDispatcher();
         $dispatcherListener = $this->getDispatcherListener();
 
-        $dispatcher->getEventsManager()->attach('dispatch:afterExecuteRoute', function () {
-            throw new Exception('afterExecuteRoute exception occurred');
-        })
-        ;
-        $dispatcher->getEventsManager()->attach('dispatch:beforeException', function () use ($dispatcherListener) {
-            $dispatcherListener->trace('beforeException: custom before exception bubble');
+        $dispatcher->getEventsManager()->attach(
+            'dispatch:afterExecuteRoute',
+            function () {
+                throw new Exception('afterExecuteRoute exception occurred');
+            }
+        );
 
-            return null;
-        })
-        ;
+        $dispatcher->getEventsManager()->attach(
+            'dispatch:beforeException',
+            function () use ($dispatcherListener) {
+                $dispatcherListener->trace('beforeException: custom before exception bubble');
 
-        $caughtException = false;
+                return null;
+            }
+        );
 
-        try {
-            $dispatcher->dispatch();
-        } catch (Exception $exception) {
-            $caughtException = true;
-        }
+        $I->expectThrowable(
+            Exception::class,
+            function () use ($dispatcher) {
+                $dispatcher->dispatch();
+            }
+        );
 
-        $I->assertTrue($caughtException);
         $expected = [
             'beforeDispatchLoop',
             'beforeDispatch',
@@ -195,8 +211,11 @@ class DispatcherAfterExecuteRouteCest extends BaseDispatcher
             'beforeException: afterExecuteRoute exception occurred',
             'beforeException: custom before exception bubble',
         ];
-        $actual   = $this->getDispatcherListener()->getTrace();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $this->getDispatcherListener()->getTrace()
+        );
     }
 
     /**
@@ -212,19 +231,27 @@ class DispatcherAfterExecuteRouteCest extends BaseDispatcher
         $dispatcher         = $this->getDispatcher();
         $dispatcherListener = $this->getDispatcherListener();
 
-        $dispatcher->getEventsManager()->attach('dispatch:afterExecuteRoute', function () use (&$forwarded) {
-            if ($forwarded === false) {
-                $forwarded = true;
+        $dispatcher->getEventsManager()->attach(
+            'dispatch:afterExecuteRoute',
+            function () use (&$forwarded) {
+                if ($forwarded === false) {
+                    $forwarded = true;
 
-                throw new Exception('afterExecuteRoute exception occurred');
+                    throw new Exception('afterExecuteRoute exception occurred');
+                }
             }
-        })
-        ;
+        );
+
         $dispatcher->getEventsManager()->attach(
             'dispatch:beforeException',
             function ($event, $dispatcher) use ($dispatcherListener) {
                 $dispatcherListener->trace('beforeException: custom before exception forward');
-                $dispatcher->forward(['action' => 'index2']);
+
+                $dispatcher->forward(
+                    [
+                        'action' => 'index2',
+                    ]
+                );
             }
         )
         ;
@@ -251,7 +278,10 @@ class DispatcherAfterExecuteRouteCest extends BaseDispatcher
             'afterDispatch',
             'afterDispatchLoop',
         ];
-        $actual   = $this->getDispatcherListener()->getTrace();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $this->getDispatcherListener()->getTrace()
+        );
     }
 }

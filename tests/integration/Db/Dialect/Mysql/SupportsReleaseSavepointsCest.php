@@ -13,21 +13,24 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Db\Dialect\Mysql;
 
 use IntegrationTester;
+use Phalcon\Db\Dialect\Mysql;
 
-/**
- * Class SupportsReleaseSavepointsCest
- */
 class SupportsReleaseSavepointsCest
 {
     /**
      * Tests Phalcon\Db\Dialect\Mysql :: supportsReleaseSavepoints()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2017-02-26
      */
     public function dbDialectMysqlSupportsReleaseSavepoints(IntegrationTester $I)
     {
         $I->wantToTest('Db\Dialect\Mysql - supportsReleaseSavepoints()');
-        $I->skipTest('Need implementation');
+
+        $dialect = new Mysql();
+
+        $I->assertTrue(
+            $dialect->supportsReleaseSavepoints()
+        );
     }
 }

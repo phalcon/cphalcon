@@ -10,15 +10,13 @@
 
 namespace Phalcon\Flash;
 
-use Phalcon\Flash as FlashBase;
+use Phalcon\Flash\AbstractFlash;
 
 /**
- * Phalcon\Flash\Direct
- *
  * This is a variant of the Phalcon\Flash that immediately outputs any message
  * passed to it
  */
-class Direct extends FlashBase
+class Direct extends AbstractFlash
 {
     /**
      * Outputs a message

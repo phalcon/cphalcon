@@ -12,11 +12,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Manager;
 
-use function dataDir;
-use function filemtime;
 use Phalcon\Assets\Manager;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
+use function dataDir;
+use function filemtime;
 
 class SetAutoVersionCest
 {
@@ -51,6 +51,7 @@ class SetAutoVersionCest
             [],
             '1.0.0'
         );
+
         $assets->addJs(
             dataDir('assets/assets/assets-version-2.js'),
             true,
@@ -59,6 +60,7 @@ class SetAutoVersionCest
             null,
             true
         );
+
         $assets->addJs(
             dataDir('assets/assets/assets-version-3.js'),
             true,
@@ -68,8 +70,11 @@ class SetAutoVersionCest
             false
         );
 
-        $pathData         = dataDir('assets/');
-        $modificationTime = filemtime(dataDir('assets/assets/assets-version-3.js'));
+        $pathData = dataDir('assets/');
+
+        $modificationTime = filemtime(
+            dataDir('assets/assets/assets-version-3.js')
+        );
 
         $expected = sprintf(
             "%s\n%s\n%s\n",
@@ -79,6 +84,10 @@ class SetAutoVersionCest
         );
 
         $assets->useImplicitOutput(false);
-        $I->assertEquals($expected, $assets->outputJs());
+
+        $I->assertEquals(
+            $expected,
+            $assets->outputJs()
+        );
     }
 }

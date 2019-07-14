@@ -14,7 +14,6 @@ namespace Phalcon\Test\Integration\Mvc\Model;
 use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Mvc\Model\Query;
-use Phalcon\Mvc\Model\Transaction;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Deles;
 use Phalcon\Test\Models\Parts;
@@ -36,19 +35,6 @@ class QueryOldCest
     {
         $this->setNewFactoryDefault();
         $this->setDiSqlite();
-    }
-
-    public function checkIfTransactionIsSet(IntegrationTester $I)
-    {
-        $transaction = new Transaction($this->container);
-        $query       = new Query(null, $this->container);
-
-        $query->setTransaction($transaction);
-
-        $I->assertEquals(
-            $transaction,
-            $query->getTransaction()
-        );
     }
 
     /**
@@ -7062,15 +7048,24 @@ class QueryOldCest
                     'values' => [
                         [
                             'type'  => 322,
-                            'value' => ['type' => 'literal', 'value' => 'NULL',],
+                            'value' => [
+                                'type'  => 'literal',
+                                'value' => 'NULL',
+                            ],
                         ],
                         [
                             'type'  => 260,
-                            'value' => ['type' => 'literal', 'value' => 'some robot',],
+                            'value' => [
+                                'type'  => 'literal',
+                                'value' => 'some robot',
+                            ],
                         ],
                         [
                             'type'  => 258,
-                            'value' => ['type' => 'literal', 'value' => '1945',],
+                            'value' => [
+                                'type'  => 'literal',
+                                'value' => '1945',
+                            ],
                         ],
                     ],
                 ],
@@ -7085,15 +7080,24 @@ class QueryOldCest
                     'values' => [
                         [
                             'type'  => 322,
-                            'value' => ['type' => 'literal', 'value' => 'NULL',],
+                            'value' => [
+                                'type'  => 'literal',
+                                'value' => 'NULL',
+                            ],
                         ],
                         [
                             'type'  => 260,
-                            'value' => ['type' => 'literal', 'value' => 'some robot',],
+                            'value' => [
+                                'type'  => 'literal',
+                                'value' => 'some robot',
+                            ],
                         ],
                         [
                             'type'  => 258,
-                            'value' => ['type' => 'literal', 'value' => '1945',],
+                            'value' => [
+                                'type'  => 'literal',
+                                'value' => '1945',
+                            ],
                         ],
                     ],
                 ],
@@ -7108,19 +7112,31 @@ class QueryOldCest
                     'values' => [
                         [
                             'type'  => 260,
-                            'value' => ['type' => 'literal', 'value' => 'Some name',],
+                            'value' => [
+                                'type'  => 'literal',
+                                'value' => 'Some name',
+                            ],
                         ],
                         [
                             'type'  => 259,
-                            'value' => ['type' => 'literal', 'value' => '100.15',],
+                            'value' => [
+                                'type'  => 'literal',
+                                'value' => '100.15',
+                            ],
                         ],
                         [
                             'type'  => 350,
-                            'value' => ['type' => 'functionCall', 'name' => 'current_date',],
+                            'value' => [
+                                'type'  => 'functionCall',
+                                'name' => 'current_date',
+                            ],
                         ],
                         [
                             'type'  => 350,
-                            'value' => ['type' => 'functionCall', 'name' => 'now',],
+                            'value' => [
+                                'type'  => 'functionCall',
+                                'name' => 'now',
+                            ],
                         ],
                     ],
                 ],
@@ -7143,8 +7159,14 @@ class QueryOldCest
                                     'left'  => [
                                         'type'  => 'binary-op',
                                         'op'    => '+',
-                                        'left'  => ['type' => 'literal', 'value' => '1',],
-                                        'right' => ['type' => 'literal', 'value' => '1000',],
+                                        'left'  => [
+                                            'type'  => 'literal',
+                                            'value' => '1',
+                                        ],
+                                        'right' => [
+                                            'type'  => 'literal',
+                                            'value' => '1000',
+                                        ],
                                     ],
                                     'right' => [
                                         'type'  => 'placeholder',
@@ -7159,14 +7181,23 @@ class QueryOldCest
                                 'type'      => 'functionCall',
                                 'name'      => 'CONCAT',
                                 'arguments' => [
-                                    ['type' => 'literal', 'value' => '\'some\'',],
-                                    ['type' => 'literal', 'value' => '\'robot\'',],
+                                    [
+                                        'type'  => 'literal',
+                                        'value' => '\'some\'',
+                                    ],
+                                    [
+                                        'type'  => 'literal',
+                                        'value' => '\'robot\'',
+                                    ],
                                 ],
                             ],
                         ],
                         [
                             'type'  => 258,
-                            'value' => ['type' => 'literal', 'value' => '2011',],
+                            'value' => [
+                                'type'  => 'literal',
+                                'value' => '2011',
+                            ],
                         ],
                     ],
                 ],
@@ -7182,15 +7213,24 @@ class QueryOldCest
                     'values' => [
                         [
                             'type'  => 260,
-                            'value' => ['type' => 'literal', 'value' => 'a name',],
+                            'value' => [
+                                'type'  => 'literal',
+                                'value' => 'a name',
+                            ],
                         ],
                         [
                             'type'  => 260,
-                            'value' => ['type' => 'literal', 'value' => 'virtual',],
+                            'value' => [
+                                'type'  => 'literal',
+                                'value' => 'virtual',
+                            ],
                         ],
                         [
                             'type'  => 273,
-                            'value' => ['type' => 'placeholder', 'value' => ':0',],
+                            'value' => [
+                                'type'  => 'placeholder',
+                                'value' => ':0',
+                            ],
                         ],
                     ],
                 ],
@@ -7205,15 +7245,24 @@ class QueryOldCest
                     'values' => [
                         [
                             'type'  => 322,
-                            'value' => ['type' => 'literal', 'value' => 'NULL',],
+                            'value' => [
+                                'type'  => 'literal',
+                                'value' => 'NULL',
+                            ],
                         ],
                         [
                             'type'  => 260,
-                            'value' => ['type' => 'literal', 'value' => 'some robot',],
+                            'value' => [
+                                'type'  => 'literal',
+                                'value' => 'some robot',
+                            ],
                         ],
                         [
                             'type'  => 258,
-                            'value' => ['type' => 'literal', 'value' => '1945',],
+                            'value' => [
+                                'type'  => 'literal',
+                                'value' => '1945',
+                            ],
                         ],
                     ],
                 ],
@@ -7228,15 +7277,24 @@ class QueryOldCest
                     'values' => [
                         [
                             'type'  => 322,
-                            'value' => ['type' => 'literal', 'value' => 'NULL',],
+                            'value' => [
+                                'type'  => 'literal',
+                                'value' => 'NULL',
+                            ],
                         ],
                         [
                             'type'  => 260,
-                            'value' => ['type' => 'literal', 'value' => 'some robot',],
+                            'value' => [
+                                'type'  => 'literal',
+                                'value' => 'some robot',
+                            ],
                         ],
                         [
                             'type'  => 258,
-                            'value' => ['type' => 'literal', 'value' => '1945',],
+                            'value' => [
+                                'type'  => 'literal',
+                                'value' => '1945',
+                            ],
                         ],
                     ],
                 ],
@@ -7259,10 +7317,19 @@ class QueryOldCest
                                     'left'  => [
                                         'type'  => 'binary-op',
                                         'op'    => '+',
-                                        'left'  => ['type' => 'literal', 'value' => '1',],
-                                        'right' => ['type' => 'literal', 'value' => '1000',],
+                                        'left'  => [
+                                            'type'  => 'literal',
+                                            'value' => '1',
+                                        ],
+                                        'right' => [
+                                            'type'  => 'literal',
+                                            'value' => '1000',
+                                        ],
                                     ],
-                                    'right' => ['type' => 'placeholder', 'value' => ':le_id',],
+                                    'right' => [
+                                        'type'  => 'placeholder',
+                                        'value' => ':le_id',
+                                    ],
                                 ],
                             ],
                         ],
@@ -7272,14 +7339,23 @@ class QueryOldCest
                                 'type'      => 'functionCall',
                                 'name'      => 'CONCAT',
                                 'arguments' => [
-                                    ['type' => 'literal', 'value' => '\'some\'',],
-                                    ['type' => 'literal', 'value' => '\'robot\'',],
+                                    [
+                                        'type'  => 'literal',
+                                        'value' => '\'some\'',
+                                    ],
+                                    [
+                                        'type'  => 'literal',
+                                        'value' => '\'robot\'',
+                                    ],
                                 ],
                             ],
                         ],
                         [
                             'type'  => 258,
-                            'value' => ['type' => 'literal', 'value' => '2011',],
+                            'value' => [
+                                'type'  => 'literal',
+                                'value' => '2011',
+                            ],
                         ],
                     ],
                 ],
@@ -7299,15 +7375,24 @@ class QueryOldCest
                     'values' => [
                         [
                             'type'  => 260,
-                            'value' => ['type' => 'literal', 'value' => 'a name',],
+                            'value' => [
+                                'type'  => 'literal',
+                                'value' => 'a name',
+                            ],
                         ],
                         [
                             'type'  => 260,
-                            'value' => ['type' => 'literal', 'value' => 'virtual',],
+                            'value' => [
+                                'type'  => 'literal',
+                                'value' => 'virtual',
+                            ],
                         ],
                         [
                             'type'  => 273,
-                            'value' => ['type' => 'placeholder', 'value' => ':0',],
+                            'value' => [
+                                'type'  => 'placeholder',
+                                'value' => ':0',
+                            ],
                         ],
                     ],
                 ],
@@ -7336,7 +7421,10 @@ class QueryOldCest
                     'values' => [
                         [
                             'type'  => 260,
-                            'value' => ['type' => 'literal', 'value' => 'some name',],
+                            'value' => [
+                                'type'  => 'literal',
+                                'value' => 'some name',
+                            ],
                         ],
                     ],
                 ],
@@ -7359,7 +7447,10 @@ class QueryOldCest
                     'values' => [
                         [
                             'type'  => 260,
-                            'value' => ['type' => 'literal', 'value' => 'some name',],
+                            'value' => [
+                                'type'  => 'literal',
+                                'value' => 'some name',
+                            ],
                         ],
                     ],
                 ],
@@ -7382,7 +7473,10 @@ class QueryOldCest
                     'values' => [
                         [
                             'type'  => 260,
-                            'value' => ['type' => 'literal', 'value' => 'some name',],
+                            'value' => [
+                                'type'  => 'literal',
+                                'value' => 'some name',
+                            ],
                         ],
                     ],
                 ],
@@ -7407,7 +7501,10 @@ class QueryOldCest
                     'values' => [
                         [
                             'type'  => 260,
-                            'value' => ['type' => 'literal', 'value' => 'some name',],
+                            'value' => [
+                                'type'  => 'literal',
+                                'value' => 'some name',
+                            ],
                         ],
                     ],
                 ],
@@ -7436,11 +7533,17 @@ class QueryOldCest
                     'values' => [
                         [
                             'type'  => 260,
-                            'value' => ['type' => 'literal', 'value' => 'some name',],
+                            'value' => [
+                                'type'  => 'literal',
+                                'value' => 'some name',
+                            ],
                         ],
                         [
                             'type'  => 258,
-                            'value' => ['type' => 'literal', 'value' => '1990',],
+                            'value' => [
+                                'type'  => 'literal',
+                                'value' => '1990',
+                            ],
                         ],
                     ],
                 ],
@@ -7471,11 +7574,17 @@ class QueryOldCest
                     'values' => [
                         [
                             'type'  => 260,
-                            'value' => ['type' => 'literal', 'value' => 'some name',],
+                            'value' => [
+                                'type'  => 'literal',
+                                'value' => 'some name',
+                            ],
                         ],
                         [
                             'type'  => 258,
-                            'value' => ['type' => 'literal', 'value' => '1990',],
+                            'value' => [
+                                'type'  => 'literal',
+                                'value' => '1990',
+                            ],
                         ],
                     ],
                 ],
@@ -7504,7 +7613,10 @@ class QueryOldCest
                     'values' => [
                         [
                             'type'  => 260,
-                            'value' => ['type' => 'literal', 'value' => 'some name',],
+                            'value' => [
+                                'type'  => 'literal',
+                                'value' => 'some name',
+                            ],
                         ],
                         [
                             'type'  => 43,
@@ -7515,7 +7627,10 @@ class QueryOldCest
                                     'type'      => 'functionCall',
                                     'name'      => 'YEAR',
                                     'arguments' => [
-                                        ['type' => 'functionCall', 'name' => 'current_date',],
+                                        [
+                                            'type' => 'functionCall',
+                                            'name' => 'current_date',
+                                        ],
                                     ],
                                 ],
                                 'right' => [
@@ -7555,7 +7670,10 @@ class QueryOldCest
                     'values' => [
                         [
                             'type'  => 260,
-                            'value' => ['type' => 'literal', 'value' => 'some name',],
+                            'value' => [
+                                'type'  => 'literal',
+                                'value' => 'some name',
+                            ],
                         ],
                         [
                             'type'  => 43,
@@ -7566,7 +7684,10 @@ class QueryOldCest
                                     'type'      => 'functionCall',
                                     'name'      => 'YEAR',
                                     'arguments' => [
-                                        ['type' => 'functionCall', 'name' => 'current_date',],
+                                        [
+                                            'type' => 'functionCall',
+                                            'name' => 'current_date',
+                                        ],
                                     ],
                                 ],
                                 'right' => [
@@ -7600,7 +7721,10 @@ class QueryOldCest
                     'values' => [
                         [
                             'type'  => 260,
-                            'value' => ['type' => 'literal', 'value' => 'some name',],
+                            'value' => [
+                                'type'  => 'literal',
+                                'value' => 'some name',
+                            ],
                         ],
                     ],
                     'where'  => [
@@ -7612,7 +7736,10 @@ class QueryOldCest
                             'name'   => 'id',
                             'balias' => 'id',
                         ],
-                        'right' => ['type' => 'literal', 'value' => '100',],
+                        'right' => [
+                            'type'  => 'literal',
+                            'value' => '100',
+                        ],
                     ],
                 ],
             ],
@@ -7642,7 +7769,10 @@ class QueryOldCest
                     'values' => [
                         [
                             'type'  => 260,
-                            'value' => ['type' => 'literal', 'value' => 'some name',],
+                            'value' => [
+                                'type'  => 'literal',
+                                'value' => 'some name',
+                            ],
                         ],
                         [
                             'type'  => 42,
@@ -7655,7 +7785,10 @@ class QueryOldCest
                                     'name'   => 'year',
                                     'balias' => 'year',
                                 ],
-                                'right' => ['type' => 'literal', 'value' => '2',],
+                                'right' => [
+                                    'type'  => 'literal',
+                                    'value' => '2',
+                                ],
                             ],
                         ],
                     ],
@@ -7686,7 +7819,10 @@ class QueryOldCest
                                 ],
                             ],
                         ],
-                        'right' => ['type' => 'literal', 'value' => '200',],
+                        'right' => [
+                            'type'  => 'literal',
+                            'value' => '200',
+                        ],
                     ],
                 ],
             ],
@@ -7710,11 +7846,17 @@ class QueryOldCest
                     'values' => [
                         [
                             'type'  => 260,
-                            'value' => ['type' => 'literal', 'value' => 'some name',],
+                            'value' => [
+                                'type'  => 'literal',
+                                'value' => 'some name',
+                            ],
                         ],
                     ],
                     'limit'  => [
-                        'number' => ['type' => 'literal', 'value' => '10',],
+                        'number' => [
+                            'type'  => 'literal',
+                            'value' => '10',
+                        ],
                     ],
                 ],
             ],
@@ -7738,11 +7880,17 @@ class QueryOldCest
                     'values' => [
                         [
                             'type'  => 260,
-                            'value' => ['type' => 'literal', 'value' => 'some name',],
+                            'value' => [
+                                'type'  => 'literal',
+                                'value' => 'some name',
+                            ],
                         ],
                     ],
                     'limit'  => [
-                        'number' => ['type' => 'literal', 'value' => '10',],
+                        'number' => [
+                            'type'  => 'literal',
+                            'value' => '10',
+                        ],
                     ],
                 ],
             ],
@@ -7766,7 +7914,10 @@ class QueryOldCest
                     'values' => [
                         [
                             'type'  => 260,
-                            'value' => ['type' => 'literal', 'value' => 'some name',],
+                            'value' => [
+                                'type'  => 'literal',
+                                'value' => 'some name',
+                            ],
                         ],
                     ],
                     'where'  => [
@@ -7778,10 +7929,16 @@ class QueryOldCest
                             'name'   => 'id',
                             'balias' => 'id',
                         ],
-                        'right' => ['type' => 'literal', 'value' => '100',],
+                        'right' => [
+                            'type'  => 'literal',
+                            'value' => '100',
+                        ],
                     ],
                     'limit'  => [
-                        'number' => ['type' => 'literal', 'value' => '10',],
+                        'number' => [
+                            'type'  => 'literal',
+                            'value' => '10',
+                        ],
                     ],
                 ],
             ],
@@ -7808,11 +7965,17 @@ class QueryOldCest
                     'values' => [
                         [
                             'type'  => 260,
-                            'value' => ['type' => 'literal', 'value' => 'some name',],
+                            'value' => [
+                                'type'  => 'literal',
+                                'value' => 'some name',
+                            ],
                         ],
                     ],
                     'limit'  => [
-                        'number' => ['type' => 'placeholder', 'value' => ':1',],
+                        'number' => [
+                            'type'  => 'placeholder',
+                            'value' => ':1',
+                        ],
                     ],
                 ],
             ],
@@ -7849,7 +8012,10 @@ class QueryOldCest
                             'name'   => 'id',
                             'balias' => 'id',
                         ],
-                        'right' => ['type' => 'literal', 'value' => '100',],
+                        'right' => [
+                            'type'  => 'literal',
+                            'value' => '100',
+                        ],
                     ],
                 ],
             ],
@@ -7871,7 +8037,10 @@ class QueryOldCest
                             'name'   => 'id',
                             'balias' => 'id',
                         ],
-                        'right' => ['type' => 'literal', 'value' => '100',],
+                        'right' => [
+                            'type'  => 'literal',
+                            'value' => '100',
+                        ],
                     ],
                 ],
             ],
@@ -7887,7 +8056,10 @@ class QueryOldCest
                         Robots::class,
                     ],
                     'limit'  => [
-                        'number' => ['type' => 'literal', 'value' => '10',],
+                        'number' => [
+                            'type'  => 'literal',
+                            'value' => '10',
+                        ],
                     ],
                 ],
             ],
@@ -7909,10 +8081,16 @@ class QueryOldCest
                             'name'   => 'id',
                             'balias' => 'id',
                         ],
-                        'right' => ['type' => 'literal', 'value' => '100',],
+                        'right' => [
+                            'type'  => 'literal',
+                            'value' => '100',
+                        ],
                     ],
                     'limit'  => [
-                        'number' => ['type' => 'literal', 'value' => '10',],
+                        'number' => [
+                            'type'  => 'literal',
+                            'value' => '10',
+                        ],
                     ],
                 ],
             ],
@@ -7935,10 +8113,16 @@ class QueryOldCest
                             'name'   => 'id',
                             'balias' => 'id',
                         ],
-                        'right' => ['type' => 'literal', 'value' => '100',],
+                        'right' => [
+                            'type'  => 'literal',
+                            'value' => '100',
+                        ],
                     ],
                     'limit'  => [
-                        'number' => ['type' => 'placeholder', 'value' => ':limit',],
+                        'number' => [
+                            'type'  => 'placeholder',
+                            'value' => ':limit',
+                        ],
                     ],
                 ],
             ],

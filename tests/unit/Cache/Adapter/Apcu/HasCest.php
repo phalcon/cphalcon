@@ -41,7 +41,6 @@ class HasCest
         );
 
 
-
         $adapter->set($key, 'test');
 
         $I->assertTrue(

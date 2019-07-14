@@ -10,17 +10,16 @@
 
 namespace Phalcon;
 
+use Phalcon\Collection;
 use Phalcon\Config\Exception;
 
 /**
- * Phalcon\Config
- *
- * Phalcon\Config is designed to simplify the access to, and the use of,
+ * `Phalcon\Config` is designed to simplify the access to, and the use of,
  * configuration data within applications. It provides a nested object property
  * based user interface for accessing this configuration data within application
  * code.
  *
- *<code>
+ *```php
  * $config = new \Phalcon\Config(
  *     [
  *         "database" => [
@@ -37,94 +36,35 @@ use Phalcon\Config\Exception;
  *         ],
  *     ]
  * );
- *</code>
+ *```
  */
-class Config implements \ArrayAccess, \Countable
+class Config extends Collection
 {
     const DEFAULT_PATH_DELIMITER = ".";
 
-    protected static pathDelimiter;
-
     /**
-     * Phalcon\Config constructor
+     * @var string
      */
-    public function __construct(array! arrayConfig = null) -> void
-    {
-        var key, value;
-
-        for key, value in arrayConfig {
-            this->offsetSet(key, value);
-        }
-    }
-
-    /**
-     * Restores the state of a Phalcon\Config object
-     */
-    public static function __set_state(array! data) -> <Config>
-    {
-        return new self(data);
-    }
-
-    /**
-     * Returns the count of properties set in the config
-     *
-     *<code>
-     * print count($config);
-     *</code>
-     *
-     * or
-     *
-     *<code>
-     * print $config->count();
-     *</code>
-     */
-    public function count() -> int
-    {
-        return count(
-            get_object_vars(this)
-        );
-    }
-
-    /**
-     * Gets an attribute from the configuration, if the attribute isn't defined
-     * returns null. If the value is exactly null or is not defined the default
-     * value will be used instead
-     *
-     *<code>
-     * echo $config->get("controllersDir", "../app/controllers/");
-     *</code>
-     */
-    public function get(var index, var defaultValue = null) -> var
-    {
-        let index = strval(index);
-
-        if !isset this->{index} {
-            return defaultValue;
-        }
-
-        return this->{index};
-    }
+    protected pathDelimiter = null;
 
     /**
      * Gets the default path delimiter
+     *
+     * @return string
      */
-    public static function getPathDelimiter() -> string
+    public function getPathDelimiter() -> string
     {
-        var delimiter;
-
-        let delimiter = self::pathDelimiter;
-
-        if !delimiter {
-            let delimiter = self::DEFAULT_PATH_DELIMITER;
+        if unlikely !this->pathDelimiter {
+            let this->pathDelimiter = self::DEFAULT_PATH_DELIMITER;
         }
 
-        return delimiter;
+        return this->pathDelimiter;
     }
 
     /**
      * Merges a configuration into the current one
      *
-     *<code>
+     *```php
      * $appConfig = new \Phalcon\Config(
      *     [
      *         "database" => [
@@ -134,130 +74,65 @@ class Config implements \ArrayAccess, \Countable
      * );
      *
      * $globalConfig->merge($appConfig);
-     *</code>
+     *```
      */
-    public function merge(var configParam) -> <Config>
+    public function merge(var toMerge) -> <Config>
     {
-        var config;
+        var config, result, source, target;
 
-        switch typeof configParam {
-            case "array":
-                let config = new Config(configParam);
-                break;
-            case "object":
-                let config = configParam;
-                break;
-            default:
-                throw new Exception("Invalid data type for merge.");
-        }
-
-        return this->internalMerge(config);
-    }
-
-    /**
-     * Gets an attribute using the array-syntax
-     *
-     *<code>
-     * print_r(
-     *     $config["database"]
-     * );
-     *</code>
-     */
-    public function offsetGet(var index) -> var
-    {
-        let index = strval(index);
-
-        return this->{index};
-    }
-
-
-    /**
-     * Allows to check whether an attribute is defined using the array-syntax
-     *
-     *<code>
-     * var_dump(
-     *     isset($config["database"])
-     * );
-     *</code>
-     */
-    public function offsetExists(var index) -> bool
-    {
-        let index = strval(index);
-
-        return isset this->{index};
-    }
-
-    /**
-     * Sets an attribute using the array-syntax
-     *
-     *<code>
-     * $config["database"] = [
-     *     "type" => "Sqlite",
-     * ];
-     *</code>
-     */
-    public function offsetSet(var index, var value) -> void
-    {
-        let index = strval(index);
-
-        if typeof value === "array" {
-            let this->{index} = new self(value);
+        if typeof toMerge === "array" {
+            let config = new Config(toMerge);
+        } elseif typeof toMerge === "object" && toMerge instanceof Config {
+            let config = toMerge;
         } else {
-            let this->{index} = value;
+            throw new Exception("Invalid data type for merge.");
         }
-    }
 
-    /**
-     * Unsets an attribute using the array-syntax
-     *
-     *<code>
-     * unset($config["database"]);
-     *</code>
-     */
-    public function offsetUnset(var index) -> void
-    {
-        let index = strval(index);
+        let source = this->toArray(),
+            target = config->toArray(),
+            result = this->internalMerge(source, target);
 
-        //unset(this->{index});
-        let this->{index} = null;
+        this->clear();
+        this->init(result);
+
+        return this;
     }
 
     /**
      * Returns a value from current config using a dot separated path.
      *
-     *<code>
+     *```php
      * echo $config->path("unknown.path", "default", ".");
-     *</code>
+     *```
      */
-    public function path(string! path, var defaultValue = null, var delimiter = null) -> var
+    public function path(string path, defaultValue = null, var delimiter = null)
     {
-        var key, keys, config;
+        var config, key, keys;
 
-        if isset this->{path} {
-            return this->{path};
+        if this->has(path) {
+            return this->get(path);
         }
 
-        if empty delimiter {
-            let delimiter = self::getPathDelimiter();
+        if likely empty(delimiter) {
+            let delimiter = this->getPathDelimiter();
         }
 
-        let config = this,
-            keys = explode(delimiter, path);
+        let config = clone this,
+            keys   = explode(delimiter, path);
 
-        while !empty keys {
+        while (!empty(keys)) {
             let key = array_shift(keys);
 
-            if !isset config->{key} {
+            if !config->has(key) {
                 break;
             }
 
-            if empty keys {
-                return config->{key};
+            if empty(keys) {
+                return config->get(key);
             }
 
-            let config = config->{key};
-
-            if empty config {
+            let config = config->get(key);
+            if empty(config) {
                 break;
             }
         }
@@ -268,78 +143,79 @@ class Config implements \ArrayAccess, \Countable
     /**
      * Sets the default path delimiter
      */
-    public static function setPathDelimiter(string! delimiter = null) -> void
+    public function setPathDelimiter(string delimiter = null) -> <Config>
     {
-        let self::pathDelimiter = delimiter;
+        let this->pathDelimiter = delimiter;
+
+        return this;
     }
 
     /**
      * Converts recursively the object to an array
      *
-     *<code>
+     *```php
      * print_r(
      *     $config->toArray()
      * );
-     *</code>
+     *```
      */
     public function toArray() -> array
     {
-        var key, value, arrayConfig;
+        var data, key, value;
+        array results;
 
-        let arrayConfig = [];
+        let results = [],
+            data    = parent::toArray();
 
-        for key, value in get_object_vars(this) {
+        for key, value in data {
             if typeof value === "object" && method_exists(value, "toArray") {
                 let value = value->toArray();
             }
 
-            let arrayConfig[key] = value;
+            let results[key] = value;
         }
 
-        return arrayConfig;
+        return results;
     }
 
     /**
-     * Helper method for merge configs (forwarding nested config instance)
+     * Performs a merge recursively
      */
-    final protected function internalMerge(<Config> config, <Config> instance = null) -> <Config>
+    final protected function internalMerge(array source, array target) -> array
     {
-        var key, value, number, localObject, property;
+        var key, value;
 
-        if typeof instance !== "object" {
-            let instance = this;
+        for key, value in target {
+            if typeof value === "array" && isset source[key]  && typeof source[key] === "array" {
+                let source[key] = this->internalMerge(source[key], value);
+            } elseif typeof key === "int" {
+                let source[] = value;
+            } else {
+                let source[key] = value;
+            }
         }
 
-        let number = instance->count();
+        return source;
+    }
 
-        for key, value in get_object_vars(config) {
-            let property = strval(key);
+    /**
+     * Sets the collection data
+     */
+    protected function setData(var element, var value) -> void
+    {
+        var data, key;
 
-            if fetch localObject, instance->{property} {
-                if typeof localObject === "object" && typeof value === "object" {
-                    if localObject instanceof Config && value instanceof Config {
-                        this->internalMerge(value, localObject);
-                        continue;
-                    }
-                }
-            }
+        let element = (string) element,
+            key     = (this->insensitive) ? mb_strtolower(element) : element;
 
-            if is_numeric(key) {
-                let key = strval(key);
+        let this->lowerKeys[key] = element;
 
-                while instance->offsetExists(key) {
-                    /**
-                     * Increment the number afterwards, because "number" starts
-                     * at one not zero.
-                     */
-                    let key = strval(number);
-                    let number++;
-                }
-            }
-
-            let instance->{key} = value;
+        if typeof value === "array" {
+            let data = new Config(value);
+        } else {
+            let data = value;
         }
 
-        return instance;
+        let this->data[element]  = data;
     }
 }

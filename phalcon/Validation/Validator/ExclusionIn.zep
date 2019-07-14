@@ -12,15 +12,13 @@ namespace Phalcon\Validation\Validator;
 
 use Phalcon\Messages\Message;
 use Phalcon\Validation;
-use Phalcon\Validation\Validator;
+use Phalcon\Validation\AbstractValidator;
 use Phalcon\Validation\Exception;
 
 /**
- * Phalcon\Validation\Validator\ExclusionIn
- *
  * Check if a value is not included into a list of values
  *
- * <code>
+ * ```php
  * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\ExclusionIn;
  *
@@ -60,17 +58,18 @@ use Phalcon\Validation\Exception;
  *         ]
  *     )
  * );
- * </code>
+ * ```
  */
-class ExclusionIn extends Validator
+class ExclusionIn extends AbstractValidator
 {
+    protected template = "Field :field must not be a part of list: :domain";
+
     /**
      * Executes the validation
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var value, domain, message, label, replacePairs, strict, fieldDomain,
-            code;
+        var value, domain, replacePairs, strict, fieldDomain;
 
         let value = validation->getValue(field);
 
@@ -107,28 +106,12 @@ class ExclusionIn extends Validator
          * Check if the value is contained by the array
          */
         if in_array(value, domain, strict) {
-            let label = this->prepareLabel(validation, field);
-
-            let message = this->prepareMessage(
-                validation,
-                field,
-                "ExclusionIn"
-            );
-
-            let code = this->prepareCode(field);
-
             let replacePairs = [
-                ":field":  label,
                 ":domain": join(", ", domain)
             ];
 
             validation->appendMessage(
-                new Message(
-                    strtr(message, replacePairs),
-                    field,
-                    "ExclusionIn",
-                    code
-                )
+                this->messageFactory(validation, field, replacePairs)
             );
 
             return false;

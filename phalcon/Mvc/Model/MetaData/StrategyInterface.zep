@@ -11,7 +11,7 @@
 namespace Phalcon\Mvc\Model\MetaData;
 
 use Phalcon\Mvc\ModelInterface;
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
 
 interface StrategyInterface
 {

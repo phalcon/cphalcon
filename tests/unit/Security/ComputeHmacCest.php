@@ -21,8 +21,8 @@ class ComputeHmacCest
     /**
      * Tests the HMAC computation
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2014-09-12
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2014-09-12
      *
      * @dataProvider securityComputeHmacProvider
      */

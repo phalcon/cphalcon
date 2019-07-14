@@ -12,10 +12,15 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Translate\Adapter\Csv;
 
+use Phalcon\Test\Fixtures\Traits\TranslateCsvTrait;
+use Phalcon\Translate\Adapter\Csv;
+use Phalcon\Translate\InterpolatorFactory;
 use UnitTester;
 
 class ExistsCest
 {
+    use TranslateCsvTrait;
+
     /**
      * Tests Phalcon\Translate\Adapter\Csv :: exists()
      *
@@ -26,6 +31,15 @@ class ExistsCest
     {
         $I->wantToTest('Translate\Adapter\Csv - exists()');
 
-        $I->skipTest('Need implementation');
+        $language = $this->getCsvConfig()['en'];
+
+        $translator = new Csv(
+            new InterpolatorFactory(),
+            $language
+        );
+
+        $I->assertTrue(
+            $translator->exists('hi')
+        );
     }
 }

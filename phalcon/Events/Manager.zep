@@ -10,6 +10,7 @@
 
 namespace Phalcon\Events;
 
+use Closure;
 use Phalcon\Events\Event;
 use SplPriorityQueue;
 
@@ -163,9 +164,9 @@ class Manager implements ManagerInterface
      * Fires an event in the events manager causing the active listeners to be
      * notified about it
      *
-     *<code>
+     *```php
      * $eventsManager->fire("db", $connection);
-     *</code>
+     *```
      *
      * @param object source
      * @param mixed  data
@@ -268,7 +269,7 @@ class Manager implements ManagerInterface
             }
 
             // Check if the event is a closure
-            if handler instanceof \Closure {
+            if handler instanceof Closure {
                 // Call the function in the PHP userland
                 let status = call_user_func_array(
                     handler,

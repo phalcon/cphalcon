@@ -14,8 +14,6 @@ use Phalcon\Annotations\Annotation;
 use Phalcon\Annotations\Exception;
 
 /**
- * Phalcon\Annotations\Annotation
- *
  * Represents a single annotation in an annotations collection
  */
 class Annotation
@@ -76,10 +74,6 @@ class Annotation
 
     /**
      * Returns an argument in a specific position
-     *
-     * @param int|string position
-     *
-     * @return mixed
      */
     public function getArgument(var position)
     {
@@ -172,8 +166,6 @@ class Annotation
 
     /**
      * Returns a named argument
-     *
-     * @return mixed
      */
     public function getNamedArgument(string! name)
     {
@@ -194,8 +186,6 @@ class Annotation
 
     /**
      * Returns an argument in a specific position
-     *
-     * @param int|string position
      */
     public function hasArgument(var position) -> bool
     {

@@ -22,7 +22,7 @@ class UpperWords
      */
     public function __invoke(string! input)
     {
-        if (true === function_exists("mb_convert_case")) {
+        if true === function_exists("mb_convert_case") {
             return mb_convert_case(input, MB_CASE_TITLE, "UTF-8");
         }
 

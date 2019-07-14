@@ -18,8 +18,6 @@ use Phalcon\Storage\SerializerFactory;
 use Phalcon\Storage\Serializer\SerializerInterface;
 
 /**
- * Phalcon\Storage\Adapter\Memory
- *
  * Memory adapter
  */
 class Memory extends AbstractAdapter

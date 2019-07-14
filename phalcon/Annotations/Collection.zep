@@ -10,16 +10,16 @@
 
 namespace Phalcon\Annotations;
 
+use Countable;
+use Iterator;
 use Phalcon\Annotations\Annotation;
 use Phalcon\Annotations\Exception;
 
 /**
- * Phalcon\Annotations\Collection
- *
  * Represents a collection of annotations. This class allows to traverse a group
  * of annotations easily
  *
- *<code>
+ *```php
  * // Traverse annotations
  * foreach ($classAnnotations as $annotation) {
  *     echo "Name=", $annotation->getName(), PHP_EOL;
@@ -30,17 +30,17 @@ use Phalcon\Annotations\Exception;
  *
  * // Get an specific annotation in the collection
  * $annotation = $classAnnotations->get("Cacheable");
- *</code>
+ *```
  */
-class Collection implements \Iterator, \Countable
+class Collection implements Iterator, Countable
 {
     /**
      * @var array
      */
     protected annotations;
-    
+
     /**
-     * @var int 
+     * @var int
      */
     protected position = 0;
 

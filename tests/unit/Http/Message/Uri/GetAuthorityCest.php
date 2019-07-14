@@ -40,9 +40,16 @@ class GetAuthorityCest
         );
     }
 
+
     private function getExamples(): array
     {
         return [
+            [
+                'empty',
+                '',
+                '',
+            ],
+
             [
                 'default',
                 'https://dev.phalcon.ld',

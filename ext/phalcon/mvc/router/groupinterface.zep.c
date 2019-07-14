@@ -23,7 +23,7 @@
 /**
  * Phalcon\Mvc\Router\GroupInterface
  *
- *<code>
+ *```php
  * $router = new \Phalcon\Mvc\Router();
  *
  * // Create a group with a common module and controller
@@ -64,7 +64,7 @@
  *
  * // Add the group to the router
  * $router->mount($blog);
- *</code>
+ *```
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Router_GroupInterface) {
 
@@ -77,9 +77,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Router_GroupInterface) {
 /**
  * Adds a route to the router on any HTTP method
  *
- *<code>
+ *```php
  * router->add("/about", "About::index");
- *</code>
+ *```
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_GroupInterface, add);
 

@@ -10,19 +10,17 @@
 
 namespace Phalcon;
 
-use Phalcon\DiInterface;
-use Phalcon\UrlInterface;
+use Phalcon\Di\DiInterface;
+use Phalcon\Url\UrlInterface;
 use Phalcon\Url\Exception;
 use Phalcon\Mvc\RouterInterface;
 use Phalcon\Mvc\Router\RouteInterface;
 use Phalcon\Di\InjectionAwareInterface;
 
 /**
- * Phalcon\Url
- *
  * This components helps in the generation of: URIs, URLs and Paths
  *
- *<code>
+ *```php
  * // Generate a URL appending the URI to the base URI
  * echo $url->get("products/edit/1");
  *
@@ -34,7 +32,7 @@ use Phalcon\Di\InjectionAwareInterface;
  *         "year"  => "2012",
  *     ]
  * );
- *</code>
+ *```
  */
 class Url implements UrlInterface, InjectionAwareInterface
 {
@@ -63,7 +61,7 @@ class Url implements UrlInterface, InjectionAwareInterface
     /**
      * Generates a URL
      *
-     *<code>
+     *```php
      * // Generate a URL appending the URI to the base URI
      * echo $url->get("products/edit/1");
      *
@@ -91,7 +89,7 @@ class Url implements UrlInterface, InjectionAwareInterface
      *     null,
      *     false
      * );
-     *</code>
+     *```
      */
     public function get(var uri = null, var args = null, bool local = null, var baseUri = null) -> string
     {
@@ -157,7 +155,7 @@ class Url implements UrlInterface, InjectionAwareInterface
              */
             let uri = phalcon_replace_paths(
                 route->getPattern(),
-                route->getReversedPaths(), 
+                route->getReversedPaths(),
                 uri
             );
         }
@@ -238,7 +236,7 @@ class Url implements UrlInterface, InjectionAwareInterface
     /**
      * Generates a URL for a static resource
      *
-     *<code>
+     *```php
      * // Generate a URL for a static resource
      * echo $url->getStatic("img/logo.png");
      *
@@ -248,7 +246,7 @@ class Url implements UrlInterface, InjectionAwareInterface
      *         "for" => "logo-cdn",
      *     ]
      * );
-     *</code>
+     *```
      */
     public function getStatic(var uri = null) -> string
     {
@@ -279,9 +277,9 @@ class Url implements UrlInterface, InjectionAwareInterface
     /**
      * Sets a base path for all the generated paths
      *
-     *<code>
+     *```php
      * $url->setBasePath("/var/www/htdocs/");
-     *</code>
+     *```
      */
     public function setBasePath(string! basePath) -> <UrlInterface>
     {
@@ -293,11 +291,11 @@ class Url implements UrlInterface, InjectionAwareInterface
     /**
      * Sets a prefix for all the URIs to be generated
      *
-     *<code>
+     *```php
      * $url->setBaseUri("/invo/");
      *
      * $url->setBaseUri("/invo/index.php/");
-     *</code>
+     *```
      */
     public function setBaseUri(string! baseUri) -> <UrlInterface>
     {
@@ -321,9 +319,9 @@ class Url implements UrlInterface, InjectionAwareInterface
     /**
      * Sets a prefix for all static URLs generated
      *
-     *<code>
+     *```php
      * $url->setStaticBaseUri("/invo/");
-     *</code>
+     *```
      */
     public function setStaticBaseUri(string! staticBaseUri) -> <UrlInterface>
     {

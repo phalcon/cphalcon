@@ -11,7 +11,7 @@
 namespace Phalcon\Paginator\Adapter;
 
 use Phalcon\Paginator\Exception;
-use Phalcon\Paginator\Adapter;
+use Phalcon\Paginator\Adapter\AbstractAdapter;
 use Phalcon\Paginator\RepositoryInterface;
 
 /**
@@ -20,7 +20,7 @@ use Phalcon\Paginator\RepositoryInterface;
  * This adapter allows to paginate data using a Phalcon\Mvc\Model resultset as a
  * base.
  *
- * <code>
+ * ```php
  * use Phalcon\Paginator\Adapter\Model;
  *
  * $paginator = new Model(
@@ -32,9 +32,9 @@ use Phalcon\Paginator\RepositoryInterface;
  * );
  *
  * $paginate = $paginator->paginate();
- *</code>
+ *```
  */
-class Model extends Adapter
+class Model extends AbstractAdapter
 {
     /**
      * Returns a slice of the resultset to show in the pagination

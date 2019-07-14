@@ -21,8 +21,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Http\CookieInterface
- *
  * Interface for Phalcon\Http\Cookie
  */
 ZEPHIR_INIT_CLASS(Phalcon_Http_CookieInterface) {

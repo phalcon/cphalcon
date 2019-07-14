@@ -15,17 +15,15 @@ use Phalcon\Mvc\Dispatcher\Exception;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Http\ResponseInterface;
 use Phalcon\Mvc\ControllerInterface;
-use Phalcon\Dispatcher as BaseDispatcher;
+use Phalcon\Dispatcher\AbstractDispatcher as BaseDispatcher;
 
 /**
- * Phalcon\Mvc\Dispatcher
- *
  * Dispatching is the process of taking the request object, extracting the
  * module name, controller name, action name, and optional parameters contained
  * in it, and then instantiating a controller and calling an action of that
  * controller.
  *
- *<code>
+ *```php
  * $di = new \Phalcon\Di();
  *
  * $dispatcher = new \Phalcon\Mvc\Dispatcher();
@@ -37,7 +35,7 @@ use Phalcon\Dispatcher as BaseDispatcher;
  * $dispatcher->setParams([]);
  *
  * $controller = $dispatcher->dispatch();
- *</code>
+ *```
  */
 class Dispatcher extends BaseDispatcher implements DispatcherInterface
 {
@@ -50,7 +48,7 @@ class Dispatcher extends BaseDispatcher implements DispatcherInterface
     /**
      * Forwards the execution flow to another controller/action.
      *
-     * <code>
+     * ```php
      * use Phalcon\Events\Event;
      * use Phalcon\Mvc\Dispatcher;
      * use App\Backend\Bootstrap as Backend;
@@ -102,7 +100,7 @@ class Dispatcher extends BaseDispatcher implements DispatcherInterface
      *         "action"     => "index",
      *     ]
      * );
-     * </code>
+     * ```
      *
      * @param array forward
      */
@@ -228,7 +226,7 @@ class Dispatcher extends BaseDispatcher implements DispatcherInterface
         if unlikely typeof container != "object" {
             throw new Exception(
                 Exception::containerServiceNotFound("the 'response' service"),
-                BaseDispatcher::EXCEPTION_NO_DI
+                Exception::EXCEPTION_NO_DI
             );
         }
 

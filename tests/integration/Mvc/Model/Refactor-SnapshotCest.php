@@ -32,6 +32,11 @@ class SnapshotCest
         $this->setDiMysql();
     }
 
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
+    }
+
     /**
      * Tests dynamic update for identityless models
      *
@@ -48,32 +53,77 @@ class SnapshotCest
         $requests->uri    = '/api/status';
         $requests->count  = 1;
 
-        $I->assertTrue($requests->save());
-        $I->assertEquals([], $requests->getChangedFields());
-        $I->assertNotEmpty($requests->getSnapshotData());
-        $I->assertEquals($requests->toArray(), $requests->getSnapshotData());
+        $I->assertTrue(
+            $requests->save()
+        );
 
-        $I->assertEquals('GET', $requests->method);
-        $I->assertEquals('/api/status', $requests->uri);
-        $I->assertEquals(1, $requests->count);
+        $I->assertEquals(
+            [],
+            $requests->getChangedFields()
+        );
+
+        $I->assertNotEmpty(
+            $requests->getSnapshotData()
+        );
+
+        $I->assertEquals(
+            $requests->toArray(),
+            $requests->getSnapshotData()
+        );
+
+        $I->assertEquals(
+            'GET',
+            $requests->method
+        );
+        $I->assertEquals(
+            '/api/status',
+            $requests->uri
+        );
+        $I->assertEquals(
+            1,
+            $requests->count
+        );
     }
 
     /** @test */
     public function shouldWorkWithSimpleResultset(IntegrationTester $I)
     {
         $I->skipTest('TODO = Check test');
+
         $modelsManager = $this->container->getShared('modelsManager');
-        $robots        = $modelsManager->executeQuery('SELECT * FROM ' . Robots::class);
+
+        $robots = $modelsManager->executeQuery(
+            'SELECT * FROM ' . Robots::class
+        );
 
         /** @var Robots $robot */
         foreach ($robots as $robot) {
             $robot->name = 'Some';
             $robot->year = 1999;
-            $I->assertTrue($robot->hasChanged('name'));
-            $I->assertTrue($robot->hasChanged('year'));
-            $I->assertFalse($robot->hasChanged('type'));
-            $I->assertTrue($robot->hasChanged());
-            $I->assertEquals(['name', 'year'], $robot->robot->getChangedFields());
+
+            $I->assertTrue(
+                $robot->hasChanged('name')
+            );
+
+            $I->assertTrue(
+                $robot->hasChanged('year')
+            );
+
+            $I->assertFalse(
+                $robot->hasChanged('type')
+            );
+
+            $I->assertTrue(
+                $robot->hasChanged()
+            );
+
+            $I->assertEquals(
+                [
+                    'name',
+                    'year',
+                ],
+                $robot->getChangedFields()
+            );
         }
 
         $robots = $modelsManager->executeQuery(
@@ -84,12 +134,33 @@ class SnapshotCest
             $row->robot->name = 'Some';
             $row->robot->year = 1999;
 
-            $I->assertTrue($row->robot->hasChanged('name'));
-            $I->assertTrue($row->robot->hasChanged('year'));
-            $I->assertFalse($row->robot->hasChanged('type'));
-            $I->assertTrue($row->robot->hasChanged());
-            $I->assertEquals(['name', 'year'], $row->robot->getChangedFields());
-            $I->assertTrue($row->parts->hasSnapshotData());
+            $I->assertTrue(
+                $row->robot->hasChanged('name')
+            );
+
+            $I->assertTrue(
+                $row->robot->hasChanged('year')
+            );
+
+            $I->assertFalse(
+                $row->robot->hasChanged('type')
+            );
+
+            $I->assertTrue(
+                $row->robot->hasChanged()
+            );
+
+            $I->assertEquals(
+                [
+                    'name',
+                    'year',
+                ],
+                $row->robot->getChangedFields()
+            );
+
+            $I->assertTrue(
+                $row->parts->hasSnapshotData()
+            );
         }
     }
 
@@ -97,6 +168,7 @@ class SnapshotCest
     public function shouldWorkWithArrayOfModels(IntegrationTester $I)
     {
         $I->skipTest('TODO = Check test');
+
         $snapshots = [
             1 => [
                 'id'       => '1',
@@ -128,29 +200,60 @@ class SnapshotCest
         ];
 
         foreach (Robots::find(['order' => 'id']) as $robot) {
-            $I->assertTrue($robot->hasSnapshotData());
-            $I->assertEquals($robot->getSnapshotData(), $snapshots[$robot->id]);
+            $I->assertTrue(
+                $robot->hasSnapshotData()
+            );
+
+            $I->assertEquals(
+                $snapshots[$robot->id],
+                $robot->getSnapshotData()
+            );
         }
 
         foreach (Robots::find(['order' => 'id']) as $robot) {
             $robot->name = 'Some';
             $robot->year = 1999;
-            $I->assertTrue($robot->hasChanged('name'));
-            $I->assertTrue($robot->hasChanged('year'));
-            $I->assertFalse($robot->hasChanged('type'));
-            $I->assertTrue($robot->hasChanged());
+
+            $I->assertTrue(
+                $robot->hasChanged('name')
+            );
+
+            $I->assertTrue(
+                $robot->hasChanged('year')
+            );
+
+            $I->assertFalse(
+                $robot->hasChanged('type')
+            );
+
+            $I->assertTrue(
+                $robot->hasChanged()
+            );
         }
 
         foreach (Robots::find(['order' => 'id']) as $robot) {
             $robot->year = $robot->year;
-            $I->assertFalse($robot->hasChanged('year'));
-            $I->assertFalse($robot->hasChanged());
+
+            $I->assertFalse(
+                $robot->hasChanged('year')
+            );
+
+            $I->assertFalse(
+                $robot->hasChanged()
+            );
         }
 
         foreach (Robots::find(['order' => 'id']) as $robot) {
             $robot->name = 'Little';
             $robot->year = 2005;
-            $I->assertEquals(['name', 'year'], $robot->robot->getChangedFields());
+
+            $I->assertEquals(
+                [
+                    'name',
+                    'year',
+                ],
+                $robot->getChangedFields()
+            );
         }
     }
 
@@ -158,6 +261,7 @@ class SnapshotCest
     public function shouldWorkWithRenamedFields(IntegrationTester $I)
     {
         $I->skipTest('TODO = Check test');
+
         $snapshots = [
             1 => [
                 'code'        => '1',
@@ -189,29 +293,60 @@ class SnapshotCest
         ];
 
         foreach (Robotters::find(['order' => 'code']) as $robot) {
-            $I->assertTrue($robot->hasSnapshotData());
-            $I->assertEquals($robot->getSnapshotData(), $snapshots[$robot->code]);
+            $I->assertTrue(
+                $robot->hasSnapshotData()
+            );
+
+            $I->assertEquals(
+                $robot->getSnapshotData(),
+                $snapshots[$robot->code]
+            );
         }
 
         foreach (Robotters::find(['order' => 'code']) as $robot) {
             $robot->theName = 'Some';
             $robot->theYear = 1999;
-            $I->assertTrue($robot->hasChanged('theName'));
-            $I->assertTrue($robot->hasChanged('theYear'));
-            $I->assertFalse($robot->hasChanged('theType'));
-            $I->assertTrue($robot->hasChanged());
+
+            $I->assertTrue(
+                $robot->hasChanged('theName')
+            );
+
+            $I->assertTrue(
+                $robot->hasChanged('theYear')
+            );
+
+            $I->assertFalse(
+                $robot->hasChanged('theType')
+            );
+
+            $I->assertTrue(
+                $robot->hasChanged()
+            );
         }
 
         foreach (Robotters::find(['order' => 'code']) as $robot) {
             $robot->theYear = $robot->theYear;
-            $I->assertFalse($robot->hasChanged('theYear'));
-            $I->assertFalse($robot->hasChanged());
+
+            $I->assertFalse(
+                $robot->hasChanged('theYear')
+            );
+
+            $I->assertFalse(
+                $robot->hasChanged()
+            );
         }
 
         foreach (Robotters::find(['order' => 'code']) as $robot) {
             $robot->theName = 'Little';
             $robot->theYear = 2005;
-            $I->assertEquals(['theName', 'theYear'], $robot->getChangedFields());
+
+            $I->assertEquals(
+                [
+                    'theName',
+                    'theYear',
+                ],
+                $robot->getChangedFields()
+            );
         }
     }
 
@@ -258,17 +393,46 @@ class SnapshotCest
             ]
         );
 
-        $I->assertTrue($robots->create());
-        $I->assertNotEmpty($robots->getSnapshotData());
-        $I->assertEquals($robots->toArray(), $robots->getSnapshotData());
+        $I->assertTrue(
+            $robots->create()
+        );
+
+        $I->assertNotEmpty(
+            $robots->getSnapshotData()
+        );
+
+        $I->assertEquals(
+            $robots->toArray(),
+            $robots->getSnapshotData()
+        );
 
         $robots->name = 'testabc';
-        $I->assertTrue($robots->hasChanged('name'));
-        $I->assertTrue($robots->update());
-        $I->assertEquals('testabc', $robots->name);
-        $I->assertNotEmpty($robots->getSnapshotData());
-        $I->assertEquals($robots->toArray(), $robots->getSnapshotData());
-        $I->assertFalse($robots->hasChanged('name'));
+
+        $I->assertTrue(
+            $robots->hasChanged('name')
+        );
+
+        $I->assertTrue(
+            $robots->update()
+        );
+
+        $I->assertEquals(
+            'testabc',
+            $robots->name
+        );
+
+        $I->assertNotEmpty(
+            $robots->getSnapshotData()
+        );
+
+        $I->assertEquals(
+            $robots->toArray(),
+            $robots->getSnapshotData()
+        );
+
+        $I->assertFalse(
+            $robots->hasChanged('name')
+        );
     }
 
     /**
@@ -291,14 +455,37 @@ class SnapshotCest
             ]
         );
 
-        $I->assertTrue($robots->create());
-        $I->assertNotEmpty($robots->getSnapshotData());
-        $I->assertEquals($robots->toArray(), $robots->getSnapshotData());
+        $I->assertTrue(
+            $robots->create()
+        );
 
-        $I->assertInstanceOf(Robots::class, $robots->refresh());
-        $I->assertEquals('mechanical', $robots->type);
-        $I->assertNotEmpty($robots->getSnapshotData());
-        $I->assertEquals($robots->toArray(), $robots->getSnapshotData());
+        $I->assertNotEmpty(
+            $robots->getSnapshotData()
+        );
+
+        $I->assertEquals(
+            $robots->toArray(),
+            $robots->getSnapshotData()
+        );
+
+        $I->assertInstanceOf(
+            Robots::class,
+            $robots->refresh()
+        );
+
+        $I->assertEquals(
+            'mechanical',
+            $robots->type
+        );
+
+        $I->assertNotEmpty(
+            $robots->getSnapshotData()
+        );
+
+        $I->assertEquals(
+            $robots->toArray(),
+            $robots->getSnapshotData()
+        );
     }
 
     /**
@@ -308,8 +495,14 @@ class SnapshotCest
     public function testNewInstanceUpdate(IntegrationTester $I)
     {
         $robots = Robots::findFirst();
-        $robots = new Robots($robots->toArray());
-        $I->assertTrue($robots->save());
+
+        $robots = new Robots(
+            $robots->toArray()
+        );
+
+        $I->assertTrue(
+            $robots->save()
+        );
     }
 
     /**
@@ -376,15 +569,36 @@ class SnapshotCest
     public function testUpdatedFields(IntegrationTester $I)
     {
         $I->skipTest('TODO = Check test');
-        $robots       = Robots::findFirst();
+
+        $robots = Robots::findFirst();
+
         $robots->name = 'changedName';
-        $I->assertNotEmpty($robots->getSnapshotData());
-        $I->assertTrue($robots->hasChanged('name'));
-        $I->assertFalse($robots->hasUpdated('name'));
+
+        $I->assertNotEmpty(
+            $robots->getSnapshotData()
+        );
+
+        $I->assertTrue(
+            $robots->hasChanged('name')
+        );
+
+        $I->assertFalse(
+            $robots->hasUpdated('name')
+        );
+
         $robots->save();
-        $I->assertNotEmpty($robots->getSnapshotData());
-        $I->assertFalse($robots->hasChanged('name'));
-        $I->assertTrue($robots->hasUpdated('name'));
+
+        $I->assertNotEmpty(
+            $robots->getSnapshotData()
+        );
+
+        $I->assertFalse(
+            $robots->hasChanged('name')
+        );
+
+        $I->assertTrue(
+            $robots->hasUpdated('name')
+        );
     }
 
     /**
@@ -397,26 +611,50 @@ class SnapshotCest
     {
         $I->skipTest('TODO = Check test');
         $robots = Robots::findFirst();
+
         Model::setup(
             [
                 'updateSnapshotOnSave' => false,
             ]
         );
+
         $robots->name = 'changedName';
-        $I->assertNotEmpty($robots->getSnapshotData());
-        $I->assertTrue($robots->hasChanged('name'));
+
+        $I->assertNotEmpty(
+            $robots->getSnapshotData()
+        );
+
+        $I->assertTrue(
+            $robots->hasChanged('name')
+        );
+
         $robots->save();
-        $I->assertNotEmpty($robots->getSnapshotData());
-        $I->assertTrue($robots->hasChanged('name'));
+
+        $I->assertNotEmpty(
+            $robots->getSnapshotData()
+        );
+
+        $I->assertTrue(
+            $robots->hasChanged('name')
+        );
+
         Model::setup(
             [
                 'updateSnapshotOnSave' => true,
             ]
         );
+
         $robots->name = 'otherName';
+
         $robots->save();
-        $I->assertNotEmpty($robots->getSnapshotData());
-        $I->assertFalse($robots->hasChanged('name'));
+
+        $I->assertNotEmpty(
+            $robots->getSnapshotData()
+        );
+
+        $I->assertFalse(
+            $robots->hasChanged('name')
+        );
     }
 
     /**
@@ -438,13 +676,51 @@ class SnapshotCest
             ]
         );
 
-        $I->assertTrue($robots->create());
+        $I->assertTrue(
+            $robots->create()
+        );
+
         $robots->name = 'test2';
-        $I->assertTrue($robots->hasChanged(['name', 'year']));
-        $I->assertTrue($robots->hasChanged(['text', 'year']));
-        $I->assertFalse($robots->hasChanged(['name', 'year'], true));
+
+        $I->assertTrue(
+            $robots->hasChanged(
+                [
+                    'name',
+                    'year',
+                ]
+            )
+        );
+
+        $I->assertTrue(
+            $robots->hasChanged(
+                [
+                    'text',
+                    'year',
+                ]
+            )
+        );
+
+        $I->assertFalse(
+            $robots->hasChanged(
+                [
+                    'name',
+                    'year',
+                ],
+                true
+            )
+        );
+
         $robots->year = 2018;
-        assertTrue($robots->hasChanged(['name', 'year'], true));
+
+        $I->assertTrue(
+            $robots->hasChanged(
+                [
+                    'name',
+                    'year',
+                ],
+                true
+            )
+        );
     }
 
     /**
@@ -456,30 +732,62 @@ class SnapshotCest
      */
     public function testIssue13173(IntegrationTester $I)
     {
-        $subscriber         = new Subscribers();
+        $subscriber = new Subscribers();
+
         $subscriber->email  = 'some@some.com';
         $subscriber->status = 'I';
 
-        $I->assertTrue($subscriber->save());
-        $I->assertEquals(['email', 'created_at', 'status', 'id'], $subscriber->getUpdatedFields());
-        $I->assertTrue($subscriber->delete());
-        $I->assertEquals(['status'], $subscriber->getUpdatedFields());
+        $I->assertTrue(
+            $subscriber->save()
+        );
+
+        $I->assertEquals(
+            [
+                'email',
+                'created_at',
+                'status',
+                'id',
+            ],
+            $subscriber->getUpdatedFields()
+        );
+
+        $I->assertTrue(
+            $subscriber->delete()
+        );
+
+        $I->assertEquals(
+            [
+                'status',
+            ],
+            $subscriber->getUpdatedFields()
+        );
     }
 
     public function testIssue13202(IntegrationTester $I)
     {
         $personas = Personas::findFirst();
-        $I->assertEquals([], $personas->getChangedFields());
+
+        $I->assertEquals(
+            [],
+            $personas->getChangedFields()
+        );
 
         try {
             $personas->getUpdatedFields();
         } catch (\Exception $e) {
-            $I->assertEquals($e->getMessage())->equals(
-                'Change checking cannot be performed because the object has not been persisted or is deleted'
-            )
-            ;
+            $I->assertEquals(
+                'Change checking cannot be performed because the object has not been persisted or is deleted',
+                $e->getMessage()
+            );
         }
-        $I->assertTrue($personas->save());
-        $I->assertEquals([], $personas->getUpdatedFields());
+
+        $I->assertTrue(
+            $personas->save()
+        );
+
+        $I->assertEquals(
+            [],
+            $personas->getUpdatedFields()
+        );
     }
 }

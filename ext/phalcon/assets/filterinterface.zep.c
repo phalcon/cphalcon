@@ -21,8 +21,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Assets\FilterInterface
- *
  * Interface for custom Phalcon\Assets filters
  */
 ZEPHIR_INIT_CLASS(Phalcon_Assets_FilterInterface) {

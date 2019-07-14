@@ -34,7 +34,7 @@
  * information and the related messages produced by the
  * model which finally executes the operations when it fails
  *
- *<code>
+ *```php
  * $phql = "UPDATE Robots SET name = :name:, type = :type:, year = :year: WHERE id = :id:";
  *
  * $status = $app->modelsManager->executeQuery(
@@ -51,7 +51,7 @@
  * if ($status->success()) {
  *     echo "OK";
  * }
- *</code>
+ *```
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Query_Status) {
 

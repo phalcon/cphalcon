@@ -13,10 +13,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Storage\Serializer\Msgpack;
 
 use Codeception\Example;
-use function msgpack_pack;
 use Phalcon\Storage\Serializer\Msgpack;
 use stdClass;
 use UnitTester;
+use function msgpack_pack;
 
 class SerializeCest
 {
@@ -31,11 +31,15 @@ class SerializeCest
     public function storageSerializerMsgpackSerialize(UnitTester $I, Example $example)
     {
         $I->wantToTest('Storage\Serializer\Msgpack - serialize() - ' . $example[0]);
+
         $serializer = new Msgpack($example[1]);
 
         $expected = $example[2];
-        $actual   = $serializer->serialize();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $serializer->serialize()
+        );
     }
 
     private function getExamples(): array

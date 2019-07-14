@@ -12,71 +12,46 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Asset;
 
+use Codeception\Example;
 use Phalcon\Assets\Asset;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 class GetTypeCest
 {
-    use AssetsTrait;
-
     /**
-     * Tests Phalcon\Assets\Asset :: getType() - css local
+     * Tests Phalcon\Assets\Asset :: getType()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
+     *
+     * @dataProvider provider
      */
-    public function assetsAssetGetTypeCssLocal(UnitTester $I)
+    public function assetsAssetGetType(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Assets\Asset - getType() - css local');
-        $asset = new Asset('css', 'css/docs.css');
+        $I->wantToTest('Assets\Asset - getType() - css');
 
-        $expected = 'css';
-        $this->assetGetType($I, $asset, $expected);
+        $asset = new Asset(
+            $example['type'],
+            $example['path']
+        );
+
+        $I->assertEquals(
+            $example['type'],
+            $asset->getType()
+        );
     }
 
-    /**
-     * Tests Phalcon\Assets\Asset :: getType() - css remote
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsAssetGetTypeCssRemote(UnitTester $I)
+    protected function provider(): array
     {
-        $I->wantToTest('Assets\Asset - getType() - css remote');
-        $asset = new Asset('css', 'https://phalcon.ld/css/docs.css');
-
-        $expected = 'css';
-        $this->assetGetType($I, $asset, $expected);
-    }
-
-    /**
-     * Tests Phalcon\Assets\Asset :: getType() - js local
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsAssetGetTypeJsLocal(UnitTester $I)
-    {
-        $I->wantToTest('Assets\Asset - getType() - js local');
-        $asset = new Asset('js', 'js/jquery.js');
-
-        $expected = 'js';
-        $this->assetGetType($I, $asset, $expected);
-    }
-
-    /**
-     * Tests Phalcon\Assets\Asset :: getType() - js remote
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsAssetGetTypeJsRemote(UnitTester $I)
-    {
-        $I->wantToTest('Assets\Asset - getType() - js remote');
-        $asset = new Asset('js', 'https://phalcon.ld/js/jquery.js');
-
-        $expected = 'js';
-        $this->assetGetType($I, $asset, $expected);
+        return [
+            [
+                'type' => 'css',
+                'path' => 'css/docs.css',
+            ],
+            [
+                'type' => 'js',
+                'path' => 'js/jquery.js',
+            ],
+        ];
     }
 }

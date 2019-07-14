@@ -11,14 +11,12 @@
 namespace Phalcon\Forms\Element;
 
 use Phalcon\Tag;
-use Phalcon\Forms\Element;
+use Phalcon\Forms\Element\AbstractElement;
 
 /**
- * Phalcon\Forms\Element\File
- *
  * Component INPUT[type=file] for forms
  */
-class File extends Element
+class File extends AbstractElement
 {
     /**
      * Renders the element widget returning html

@@ -15,12 +15,10 @@ use Phalcon\Events\ManagerInterface;
 use Phalcon\Events\EventsAwareInterface;
 
 /**
- * Phalcon\Loader
- *
  * This component helps to load your project classes automatically based on some
  * conventions
  *
- *<code>
+ *```php
  * use Phalcon\Loader;
  *
  * // Creates the autoloader
@@ -40,7 +38,7 @@ use Phalcon\Events\EventsAwareInterface;
  *
  * // Requiring this class will automatically include file vendor/example/adapter/Some.php
  * $adapter = new \Example\Adapter\Some();
- *</code>
+ *```
  */
 class Loader implements EventsAwareInterface
 {
@@ -490,7 +488,7 @@ class Loader implements EventsAwareInterface
     /**
      * Sets the file check callback.
      *
-     * <code>
+     * ```php
      * // Default behavior.
      * $loader->setFileCheckingCallback("is_file");
      *
@@ -500,7 +498,7 @@ class Loader implements EventsAwareInterface
      *
      * // Do not check file existence.
      * $loader->setFileCheckingCallback(null);
-     * </code>
+     * ```
      */
     public function setFileCheckingCallback(var callback = null) -> <Loader>
     {
@@ -538,13 +536,13 @@ class Loader implements EventsAwareInterface
         return this;
     }
 
-    protected function prepareNamespace(array! $namespace) -> array
+    protected function prepareNamespace(array! namespaceName) -> array
     {
         var localPaths, name, paths, prepared;
 
         let prepared = [];
 
-        for name, paths in $namespace {
+        for name, paths in namespaceName {
             if typeof paths != "array" {
                 let localPaths = [paths];
             } else {

@@ -63,7 +63,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetGet) {
 
 	ZEPHIR_OBS_VAR(&value);
 	if (UNEXPECTED(!(zephir_fetch_property_zval(&value, this_ptr, index, PH_SILENT_CC)))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "The index does not exist in the row", "phalcon/Mvc/Collection/Document.zep", 32);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_collection_exception_ce, "The index does not exist in the row", "phalcon/Mvc/Collection/Document.zep", 33);
 		return;
 	}
 	RETURN_CCTOR(&value);
@@ -121,7 +121,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetUnset) {
 
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_mvc_collection_exception_ce, "The index does not exist in the row", "phalcon/Mvc/Collection/Document.zep", 59);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_mvc_collection_exception_ce, "The index does not exist in the row", "phalcon/Mvc/Collection/Document.zep", 60);
 	return;
 
 }
@@ -129,9 +129,9 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetUnset) {
 /**
  * Reads an attribute value by its name
  *
- *<code>
+ *```php
  *  echo $robot->readAttribute("name");
- *</code>
+ *```
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Document, readAttribute) {
 
@@ -176,7 +176,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, toArray) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_RETURN_CALL_FUNCTION("get_object_vars", NULL, 7, this_ptr);
+	ZEPHIR_RETURN_CALL_FUNCTION("get_object_vars", NULL, 214, this_ptr);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -185,9 +185,9 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, toArray) {
 /**
  * Writes an attribute value by its name
  *
- *<code>
+ *```php
  *  $robot->writeAttribute("name", "Rosey");
- *</code>
+ *```
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Document, writeAttribute) {
 

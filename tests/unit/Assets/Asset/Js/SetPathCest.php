@@ -12,43 +12,50 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Asset\Js;
 
+use Codeception\Example;
 use Phalcon\Assets\Asset\Js;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 class SetPathCest
 {
-    use AssetsTrait;
-
     /**
-     * Tests Phalcon\Assets\Asset\Js :: setPath() - js local
+     * Tests Phalcon\Assets\Asset\Js :: setPath()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
+     *
+     * @dataProvider provider
      */
-    public function assetsAssetJsSetPathLocal(UnitTester $I)
+    public function assetsAssetJsSetPath(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Assets\Asset - setPath() - js local');
-        $asset = new Js('js/jquery.js');
+        $I->wantToTest('Assets\Asset\Js - setPath()');
 
-        $expected = '/new/path';
-        $asset->setPath($expected);
-        $this->assetGetPath($I, $asset, $expected);
+        $asset = new Js(
+            $example['path'],
+            $example['local']
+        );
+
+        $path = '/new/path';
+
+        $asset->setPath($path);
+
+        $I->assertEquals(
+            $path,
+            $asset->getPath()
+        );
     }
 
-    /**
-     * Tests Phalcon\Assets\Asset\Js :: setPath() - js remote
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsAssetJsSetPathRemote(UnitTester $I)
+    protected function provider(): array
     {
-        $I->wantToTest('Assets\Asset - setPath() - js remote');
-        $asset = new Js('https://phalcon.ld/js/jquery.js');
-
-        $expected = '/new/path';
-        $asset->setPath($expected);
-        $this->assetGetPath($I, $asset, $expected);
+        return [
+            [
+                'path'  => 'js/jquery.js',
+                'local' => true,
+            ],
+            [
+                'path'  => 'https://phalcon.ld/js/jquery.js',
+                'local' => false,
+            ],
+        ];
     }
 }

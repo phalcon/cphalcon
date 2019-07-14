@@ -12,14 +12,12 @@ namespace Phalcon\Validation\Validator;
 
 use Phalcon\Messages\Message;
 use Phalcon\Validation;
-use Phalcon\Validation\Validator;
+use Phalcon\Validation\AbstractValidator;
 
 /**
- * Phalcon\Validation\Validator\Digit
- *
  * Check for numeric character(s)
  *
- * <code>
+ * ```php
  * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\Digit as DigitValidator;
  *
@@ -48,38 +46,25 @@ use Phalcon\Validation\Validator;
  *         ]
  *     )
  * );
- * </code>
+ * ```
  */
-class Digit extends Validator
+class Digit extends AbstractValidator
 {
+    protected template = "Field :field must be numeric";
+
     /**
      * Executes the validation
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var value, message, label, replacePairs, code;
-
-        let value = validation->getValue(field);
+        var value = validation->getValue(field);
 
         if is_int(value) || ctype_digit(value) {
             return true;
         }
 
-        let label = this->prepareLabel(validation, field),
-            message = this->prepareMessage(validation, field, "Digit"),
-            code = this->prepareCode(field);
-
-        let replacePairs = [
-            ":field": label
-        ];
-
         validation->appendMessage(
-            new Message(
-                strtr(message, replacePairs),
-                field,
-                "Digit",
-                code
-            )
+            this->messageFactory(validation, field)
         );
 
         return false;

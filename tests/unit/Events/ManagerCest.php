@@ -12,29 +12,17 @@
 namespace Phalcon\Test\Unit\Events;
 
 use Codeception\Example;
-use ComponentX;
-use ComponentY;
-use function dataDir;
-use Phalcon\Events\Event;
 use Phalcon\Events\Manager;
+use Phalcon\Test\Fixtures\Events\ComponentX;
+use Phalcon\Test\Fixtures\Events\ComponentY;
 use Phalcon\Test\Fixtures\Listener\FirstListener;
 use Phalcon\Test\Fixtures\Listener\SecondListener;
 use Phalcon\Test\Fixtures\Listener\ThirdListener;
-use stdClass;
 use UnitTester;
 
 class ManagerCest
 {
     protected $listener;
-
-    /**
-     * executed before each test
-     */
-    public function _before(UnitTester $I)
-    {
-        include_once dataDir('fixtures/Events/ComponentX.php');
-        include_once dataDir('fixtures/Events/ComponentY.php');
-    }
 
     /**
      * Tests attaching event listeners by event name after detaching all
@@ -136,19 +124,40 @@ class ManagerCest
         $componentY->leAction();
         $componentY->leAction();
 
-        $I->assertEquals(2, $listener1->getBeforeCount());
-        $I->assertEquals(2, $listener1->getAfterCount());
+        $I->assertEquals(
+            2,
+            $listener1->getBeforeCount()
+        );
+
+        $I->assertEquals(
+            2,
+            $listener1->getAfterCount()
+        );
 
         $eventsManager->attach('dummy', $listener2);
 
         $componentX->leAction();
         $componentX->leAction();
 
-        $I->assertEquals(4, $listener1->getBeforeCount());
-        $I->assertEquals(4, $listener1->getAfterCount());
+        $I->assertEquals(
+            4,
+            $listener1->getBeforeCount()
+        );
 
-        $I->assertEquals(2, $listener2->getBeforeCount());
-        $I->assertEquals(2, $listener2->getAfterCount());
+        $I->assertEquals(
+            4,
+            $listener1->getAfterCount()
+        );
+
+        $I->assertEquals(
+            2,
+            $listener2->getBeforeCount()
+        );
+
+        $I->assertEquals(
+            2,
+            $listener2->getAfterCount()
+        );
 
         $I->assertSame($listener2, $this->listener);
 
@@ -157,11 +166,25 @@ class ManagerCest
         $componentX->leAction();
         $componentX->leAction();
 
-        $I->assertEquals(4, $listener1->getBeforeCount());
-        $I->assertEquals(4, $listener1->getAfterCount());
+        $I->assertEquals(
+            4,
+            $listener1->getBeforeCount()
+        );
 
-        $I->assertEquals(4, $listener2->getBeforeCount());
-        $I->assertEquals(4, $listener2->getAfterCount());
+        $I->assertEquals(
+            4,
+            $listener1->getAfterCount()
+        );
+
+        $I->assertEquals(
+            4,
+            $listener2->getBeforeCount()
+        );
+
+        $I->assertEquals(
+            4,
+            $listener2->getAfterCount()
+        );
     }
 
     /**
@@ -180,6 +203,7 @@ class ManagerCest
         $listener2->setTestCase($this, $I);
 
         $eventsManager = new Manager();
+
         $eventsManager->enablePriorities(true);
 
         $eventsManager->attach('dummy', $listener1, 100);
@@ -197,19 +221,40 @@ class ManagerCest
         $componentY->leAction();
         $componentY->leAction();
 
-        $I->assertEquals(2, $listener1->getBeforeCount());
-        $I->assertEquals(2, $listener1->getAfterCount());
+        $I->assertEquals(
+            2,
+            $listener1->getBeforeCount()
+        );
+
+        $I->assertEquals(
+            2,
+            $listener1->getAfterCount()
+        );
 
         $eventsManager->attach('dummy', $listener2, 150);
 
         $componentX->leAction();
         $componentX->leAction();
 
-        $I->assertEquals(4, $listener1->getBeforeCount());
-        $I->assertEquals(4, $listener1->getAfterCount());
+        $I->assertEquals(
+            4,
+            $listener1->getBeforeCount()
+        );
 
-        $I->assertEquals(2, $listener2->getBeforeCount());
-        $I->assertEquals(2, $listener2->getAfterCount());
+        $I->assertEquals(
+            4,
+            $listener1->getAfterCount()
+        );
+
+        $I->assertEquals(
+            2,
+            $listener2->getBeforeCount()
+        );
+
+        $I->assertEquals(
+            2,
+            $listener2->getAfterCount()
+        );
 
         $I->assertSame($listener1, $this->listener);
 
@@ -218,36 +263,25 @@ class ManagerCest
         $componentX->leAction();
         $componentX->leAction();
 
-        $I->assertEquals(4, $listener1->getBeforeCount());
-        $I->assertEquals(4, $listener1->getAfterCount());
+        $I->assertEquals(
+            4,
+            $listener1->getBeforeCount()
+        );
 
-        $I->assertEquals(4, $listener2->getBeforeCount());
-        $I->assertEquals(4, $listener2->getAfterCount());
-    }
+        $I->assertEquals(
+            4,
+            $listener1->getAfterCount()
+        );
 
-    /**
-     * Tests using events propagation
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2012-11-11
-     */
-    public function stopEventsInEventsManager(UnitTester $I)
-    {
-        $number        = 0;
-        $eventsManager = new Manager();
+        $I->assertEquals(
+            4,
+            $listener2->getBeforeCount()
+        );
 
-        $propagationListener = function (Event $event, $component, $data) use (&$number) {
-            $number++;
-
-            $event->stop();
-        };
-
-        $eventsManager->attach('some-type', $propagationListener);
-        $eventsManager->attach('some-type', $propagationListener);
-
-        $eventsManager->fire('some-type:beforeSome', $this);
-
-        $I->assertEquals(1, $number);
+        $I->assertEquals(
+            4,
+            $listener2->getAfterCount()
+        );
     }
 
     /**
@@ -275,49 +309,16 @@ class ManagerCest
         $manager->attach('test:detachable', $handler);
         $events = $I->getProtectedProperty($manager, 'events');
 
-        $I->assertCount(1, $events);
-        $I->assertArrayHasKey('test:detachable', $events);
-        $I->assertCount(1, $events['test:detachable']);
-
-        $manager->detach('test:detachable', $handler);
-
-        $events = $I->getProtectedProperty($manager, 'events');
-
-        $I->assertCount(1, $events);
-        $I->assertArrayHasKey('test:detachable', $events);
-        $I->assertCount(0, $events['test:detachable']);
-    }
-
-    /**
-     * Tests detach handler by using an Object
-     *
-     * @test
-     * @issue  https://github.com/phalcon/cphalcon/issues/12882
-     * @author       Phalcon Team <team@phalconphp.com>
-     * @since        2017-06-06
-     *
-     * @dataProvider booleanProvider
-     */
-    public function detachObjectListener(UnitTester $I, Example $example)
-    {
-        $enablePriorities = $example[0];
-
-
-        $manager = new Manager();
-
-        $manager->enablePriorities($enablePriorities);
-
-        $handler = new stdClass();
-
-        $manager->attach('test:detachable', $handler);
-
-        $events = $I->getProtectedProperty($manager, 'events');
-
-        $I->assertCount(1, $events);
+        $I->assertCount(
+            1,
+            $events
+        );
 
         $I->assertArrayHasKey('test:detachable', $events);
-
-        $I->assertCount(1, $events['test:detachable']);
+        $I->assertCount(
+            1,
+            $events['test:detachable']
+        );
 
         $manager->detach('test:detachable', $handler);
 
@@ -327,7 +328,10 @@ class ManagerCest
 
         $I->assertArrayHasKey('test:detachable', $events);
 
-        $I->assertCount(0, $events['test:detachable']);
+        $I->assertCount(
+            0,
+            $events['test:detachable']
+        );
     }
 
     public function setLastListener($listener)

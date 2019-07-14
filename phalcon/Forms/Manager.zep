@@ -11,7 +11,7 @@
 namespace Phalcon\Forms;
 
 /**
- * Phalcon\Forms\Manager
+ * Forms Manager
  */
 class Manager
 {
@@ -63,5 +63,4 @@ class Manager
 
         return this;
     }
-
 }

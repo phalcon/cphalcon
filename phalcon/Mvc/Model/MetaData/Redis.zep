@@ -20,7 +20,7 @@ use Phalcon\Cache\AdapterFactory;
  *
  * By default meta-data is stored for 48 hours (172800 seconds)
  *
- *<code>
+ *```php
  * use Phalcon\Mvc\Model\MetaData\Redis;
  *
  * $metaData = new Redis(
@@ -32,12 +32,10 @@ use Phalcon\Cache\AdapterFactory;
  *         "index"      => 2,
  *     ]
  * );
- *</code>
+ *```
  */
 class Redis extends MetaData
 {
-    protected metaData = [];
-
     /**
      * Phalcon\Mvc\Model\MetaData\Redis constructor
      *

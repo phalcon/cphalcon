@@ -13,11 +13,9 @@ namespace Phalcon;
 use Phalcon\Helper\Str;
 
 /**
- * Phalcon\Text
- *
  * Provides utilities to work with texts
  */
-abstract class Text
+class Text
 {
     const RANDOM_ALNUM    = 0;
     const RANDOM_ALPHA    = 1;
@@ -29,11 +27,11 @@ abstract class Text
     /**
      * Converts strings to camelize style
      *
-     * <code>
+     * ```php
      * echo Phalcon\Text::camelize("coco_bongo"); // CocoBongo
      * echo Phalcon\Text::camelize("co_co-bon_go", "-"); // Co_coBon_go
      * echo Phalcon\Text::camelize("co_co-bon_go", "_-"); // CoCoBonGo
-     * </code>
+     * ```
      */
     public static function camelize(string! text, var delimiter = null) -> string
     {
@@ -44,7 +42,7 @@ abstract class Text
      * Concatenates strings using the separator only once without duplication in
      * places concatenation
      *
-     * <code>
+     * ```php
      * $str = Phalcon\Text::concat(
      *     "/",
      *     "/tmp/",
@@ -55,7 +53,7 @@ abstract class Text
      *
      * // /tmp/folder_1/folder_2/folder_3/
      * echo $str;
-     * </code>
+     * ```
      *
      * @param string separator
      * @param string a
@@ -75,7 +73,7 @@ abstract class Text
     /**
      * Generates random text in accordance with the template
      *
-     * <code>
+     * ```php
      * // Hi my name is a Bob
      * echo Phalcon\Text::dynamic("{Hi|Hello}, my name is a {Bob|Mark|Jon}!");
      *
@@ -91,7 +89,7 @@ abstract class Text
      *     "[", "]",
      *     "/"
      * );
-     * </code>
+     * ```
      */
     public static function dynamic(
         string! text,
@@ -106,11 +104,11 @@ abstract class Text
     /**
      * Check if a string ends with a given string
      *
-     * <code>
+     * ```php
      * echo Phalcon\Text::endsWith("Hello", "llo"); // true
      * echo Phalcon\Text::endsWith("Hello", "LLO", false); // false
      * echo Phalcon\Text::endsWith("Hello", "LLO"); // true
-     * </code>
+     * ```
      */
     public static function endsWith(string text, string end, bool ignoreCase = true) -> bool
     {
@@ -120,10 +118,10 @@ abstract class Text
     /**
      * Makes an underscored or dashed phrase human-readable
      *
-     * <code>
+     * ```php
      * echo Phalcon\Text::humanize("start-a-horse"); // "start a horse"
      * echo Phalcon\Text::humanize("five_cats"); // "five cats"
-     * </code>
+     * ```
      */
     public static function humanize(string! text) -> string
     {
@@ -134,10 +132,10 @@ abstract class Text
      * Adds a number to a string or increment that number if it already is
      * defined
      *
-     * <code>
+     * ```php
      * echo Phalcon\Text::increment("a"); // "a_1"
      * echo Phalcon\Text::increment("a_1"); // "a_2"
-     * </code>
+     * ```
      */
     public static function increment(string text, string separator = "_") -> string
     {
@@ -148,9 +146,9 @@ abstract class Text
      * Lowercases a string, this function makes use of the mbstring extension if
      * available
      *
-     * <code>
+     * ```php
      * echo Phalcon\Text::lower("HELLO"); // hello
-     * </code>
+     * ```
      */
     public static function lower(string! text, string! encoding = "UTF-8") -> string
     {
@@ -160,11 +158,11 @@ abstract class Text
     /**
      * Check if a string starts with a given string
      *
-     * <code>
+     * ```php
      * echo Phalcon\Text::startsWith("Hello", "He"); // true
      * echo Phalcon\Text::startsWith("Hello", "he", false); // false
      * echo Phalcon\Text::startsWith("Hello", "he"); // true
-     * </code>
+     * ```
      */
     public static function startsWith(string text, string start, bool ignoreCase = true) -> bool
     {
@@ -175,12 +173,12 @@ abstract class Text
      * Generates a random string based on the given type. Type is one of the
      * RANDOM_* constants
      *
-     * <code>
+     * ```php
      * use Phalcon\Text;
      *
      * // "aloiwkqz"
      * echo Text::random(Text::RANDOM_ALNUM);
-     * </code>
+     * ```
      */
     public static function random(int type = 0, long length = 8) -> string
     {
@@ -190,13 +188,13 @@ abstract class Text
     /**
      * Reduces multiple slashes in a string to single slashes
      *
-     * <code>
+     * ```php
      * // foo/bar/baz
      * echo Phalcon\Text::reduceSlashes("foo//bar/baz");
      *
      * // http://foo.bar/baz/buz
      * echo Phalcon\Text::reduceSlashes("http://foo.bar///baz/buz");
-     * </code>
+     * ```
      */
     public static function reduceSlashes(string! text) -> string
     {
@@ -206,10 +204,10 @@ abstract class Text
     /**
      * Uncamelize strings which are camelized
      *
-     * <code>
+     * ```php
      * echo Phalcon\Text::uncamelize("CocoBongo"); // coco_bongo
      * echo Phalcon\Text::uncamelize("CocoBongo", "-"); // coco-bongo
-     * </code>
+     * ```
      */
     public static function uncamelize(string! text, var delimiter = null) -> string
     {
@@ -219,10 +217,10 @@ abstract class Text
     /**
      * Makes a phrase underscored instead of spaced
      *
-     * <code>
+     * ```php
      * echo Phalcon\Text::underscore("look behind"); // "look_behind"
      * echo Phalcon\Text::underscore("Awesome Phalcon"); // "Awesome_Phalcon"
-     * </code>
+     * ```
      */
     public static function underscore(string! text) -> string
     {
@@ -233,9 +231,9 @@ abstract class Text
      * Uppercases a string, this function makes use of the mbstring extension if
      * available
      *
-     * <code>
+     * ```php
      * echo Phalcon\Text::upper("hello"); // HELLO
-     * </code>
+     * ```
      */
     public static function upper(string! text, string! encoding = "UTF-8") -> string
     {

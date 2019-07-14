@@ -12,15 +12,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Db\Profiler;
 
+use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Db\Profiler\Item;
 use Phalcon\Events\Manager;
 use Phalcon\Test\Fixtures\Db\ProfilerListener;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-/**
- * Class GetLastProfileCest
- */
 class GetLastProfileCest
 {
     use DiTrait;
@@ -30,31 +28,22 @@ class GetLastProfileCest
         $this->newDi();
     }
 
-
-    /**
-     * Tests Phalcon\Db\Profiler :: getLastProfile()
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function dbProfilerGetLastProfile(IntegrationTester $I)
+    public function _after(IntegrationTester $I)
     {
-        $I->wantToTest('Db\Profiler - getLastProfile()');
-        $I->skipTest('Need implementation');
+        $this->container['db']->close();
     }
 
-
-    public function testDbMysql(IntegrationTester $I)
+    /**
+     * @dataProvider adaptersProvider
+     */
+    public function testDb(IntegrationTester $I, Example $example)
     {
-        $this->setDiMysql();
+        $diFunction = 'setDi' . $example[0];
+
+        $this->{$diFunction}();
 
         $connection = $this->getService('db');
 
-        $this->executeTests($I, $connection);
-    }
-
-    private function executeTests(IntegrationTester $I, $connection)
-    {
         $eventsManager = new Manager();
         $listener      = new ProfilerListener();
 
@@ -126,21 +115,18 @@ class GetLastProfileCest
         );
     }
 
-    public function testDbPostgresql(IntegrationTester $I)
+    private function adaptersProvider(): array
     {
-        $this->setDiPostgresql();
-
-        $connection = $this->getService('db');
-
-        $this->executeTests($I, $connection);
-    }
-
-    public function testDbSqlite(IntegrationTester $I)
-    {
-        $this->setDiSqlite();
-
-        $connection = $this->getService('db');
-
-        $this->executeTests($I, $connection);
+        return [
+            [
+                'Mysql',
+            ],
+            [
+                'Postgresql',
+            ],
+            [
+                'Sqlite',
+            ],
+        ];
     }
 }

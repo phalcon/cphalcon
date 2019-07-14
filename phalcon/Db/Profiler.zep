@@ -13,14 +13,12 @@ namespace Phalcon\Db;
 use Phalcon\Db\Profiler\Item;
 
 /**
- * Phalcon\Db\Profiler
- *
  * Instances of Phalcon\Db can generate execution profiles
  * on SQL statements sent to the relational database. Profiled
  * information includes execution time in milliseconds.
  * This helps you to identify bottlenecks in your applications.
  *
- * <code>
+ * ```php
  * use Phalcon\Db\Profiler;
  * use Phalcon\Events\Event;
  * use Phalcon\Events\Manager;
@@ -63,7 +61,7 @@ use Phalcon\Db\Profiler\Item;
  * echo "Start Time: ", $profile->getInitialTime(), "\n";
  * echo "Final Time: ", $profile->getFinalTime(), "\n";
  * echo "Total Elapsed Time: ", $profile->getTotalElapsedSeconds(), "\n";
- * </code>
+ * ```
  */
 class Profiler
 {

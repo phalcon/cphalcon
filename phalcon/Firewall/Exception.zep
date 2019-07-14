@@ -11,8 +11,6 @@
 namespace Phalcon\Firewall;
 
 /**
- * Phalcon\Firewall\Exception
- *
  * Exceptions thrown in Phalcon\Firewall will use this class
  */
 class Exception extends \Phalcon\Exception

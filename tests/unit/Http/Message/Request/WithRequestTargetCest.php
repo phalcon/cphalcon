@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\Request;
 
+use Phalcon\Http\Message\Exception\InvalidArgumentException;
 use Phalcon\Http\Message\Request;
 use UnitTester;
 
@@ -41,6 +42,28 @@ class WithRequestTargetCest
         $I->assertEquals(
             '/test',
             $newInstance->getRequestTarget()
+        );
+    }
+
+    /**
+     * Tests Phalcon\Http\Message\Request :: withRequestTarget() - exception
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-02-10
+     */
+    public function httpMessageRequestWithRequestTargetException(UnitTester $I)
+    {
+        $I->wantToTest('Http\Message\Request - withRequestTarget() - exception');
+
+        $I->expectThrowable(
+            new InvalidArgumentException(
+                'Invalid request target: cannot contain whitespace'
+            ),
+            function () {
+                $request = new Request();
+
+                $newInstance = $request->withRequestTarget('/te st');
+            }
         );
     }
 }

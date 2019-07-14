@@ -22,7 +22,6 @@ use function getOptionsSqlite;
 use Phalcon\Annotations\Adapter\Memory as AnnotationsMemory;
 use Phalcon\Cache\Adapter\Libmemcached as StorageLibmemcached;
 use Phalcon\Cache\Adapter\Stream as StorageStream;
-use Phalcon\Cache\Backend\Libmemcached;
 use Phalcon\Cli\Console as CliConsole;
 use Phalcon\Crypt;
 use Phalcon\Db\Adapter\Pdo\Mysql;
@@ -31,7 +30,7 @@ use Phalcon\Db\Adapter\Pdo\Sqlite;
 use Phalcon\Di;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Di\FactoryDefault\Cli as CliFactoryDefault;
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
 use Phalcon\Escaper;
 use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Filter;
@@ -49,9 +48,6 @@ use Phalcon\Session\Manager as SessionManager;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Url;
 
-/**
- * Trait DiTrait
- */
 trait DiTrait
 {
     use OptionsTrait;
@@ -72,7 +68,12 @@ trait DiTrait
     protected function getAndSetModelsCacheStream(): StorageStream
     {
         $serializer = new SerializerFactory();
-        $cache      = new StorageStream($serializer, getOptionsModelCacheStream());
+
+        $cache = new StorageStream(
+            $serializer,
+            getOptionsModelCacheStream()
+        );
+
         $this->container->set('modelsCache', $cache);
 
         return $cache;
@@ -81,7 +82,12 @@ trait DiTrait
     protected function getAndSetViewCacheStream(): StorageStream
     {
         $serializer = new SerializerFactory();
-        $cache      = new StorageStream($serializer, getOptionsModelCacheStream());
+
+        $cache = new StorageStream(
+            $serializer,
+            getOptionsModelCacheStream()
+        );
+
         $this->container->set('viewCache', $cache);
 
         return $cache;
@@ -90,7 +96,12 @@ trait DiTrait
     protected function getAndSetModelsCacheLibmemcached(): StorageLibmemcached
     {
         $serializer = new SerializerFactory();
-        $cache      = new StorageLibmemcached($serializer, getOptionsLibmemcached());
+
+        $cache = new StorageLibmemcached(
+            $serializer,
+            getOptionsLibmemcached()
+        );
+
         $this->container->set('modelsCache', $cache);
 
         return $cache;
@@ -116,42 +127,27 @@ trait DiTrait
         Di::setDefault($this->container);
     }
 
-    /**
-     * @return CliFactoryDefault
-     */
-    protected function newCliFactoryDefault()
+    protected function newCliFactoryDefault(): CliFactoryDefault
     {
         return new CliFactoryDefault();
     }
 
-    /**
-     * @return CliConsole
-     */
-    protected function newCliConsole()
+    protected function newCliConsole(): CliConsole
     {
         return new CliConsole();
     }
 
-    /**
-     * @return EventsManager
-     */
-    protected function newEventsManager()
+    protected function newEventsManager(): EventsManager
     {
         return new EventsManager();
     }
 
-    /**
-     * @return Escaper
-     */
-    protected function newEscaper()
+    protected function newEscaper(): Escaper
     {
         return new Escaper();
     }
 
-    /**
-     * @return ModelsManager
-     */
-    protected function newModelsManager()
+    protected function newModelsManager(): ModelsManager
     {
         return new ModelsManager();
     }
@@ -174,7 +170,10 @@ trait DiTrait
      */
     protected function setDiAnnotations()
     {
-        $this->container->set('annotations', new AnnotationsMemory());
+        $this->container->set(
+            'annotations',
+            new AnnotationsMemory()
+        );
     }
 
     /**
@@ -186,6 +185,7 @@ trait DiTrait
             'crypt',
             function () {
                 $crypt = new Crypt();
+
                 $crypt->setKey('cryptkeycryptkey');
 
                 return $crypt;
@@ -217,7 +217,7 @@ trait DiTrait
         $this->container->set(
             'filter',
             function () {
-                $filter = new Filter\FilterLocatorFactory();
+                $filter = new Filter\FilterFactory();
 
                 return $filter->newInstance();
             }
@@ -245,7 +245,10 @@ trait DiTrait
      */
     protected function setDiMysql()
     {
-        $this->container->setShared('db', $this->newDiMysql());
+        $this->container->setShared(
+            'db',
+            $this->newDiMysql()
+        );
     }
 
     /**
@@ -253,7 +256,9 @@ trait DiTrait
      */
     protected function newDiMysql()
     {
-        return new Mysql(getOptionsMysql());
+        return new Mysql(
+            getOptionsMysql()
+        );
     }
 
     /**
@@ -281,7 +286,12 @@ trait DiTrait
             'session',
             function () {
                 $manager = new SessionManager();
-                $manager->setHandler(new SessionFiles(getOptionsSessionStream()));
+
+                $manager->setHandler(
+                    new SessionFiles(
+                        getOptionsSessionStream()
+                    )
+                );
 
                 return $manager;
             }
@@ -297,7 +307,12 @@ trait DiTrait
             'session',
             function () {
                 $manager = new SessionManager();
-                $manager->setHandler(new SessionLibmemcached(getOptionsLibmemcached()));
+
+                $manager->setHandler(
+                    new SessionLibmemcached(
+                        getOptionsLibmemcached()
+                    )
+                );
 
                 return $manager;
             }
@@ -313,7 +328,10 @@ trait DiTrait
             'session',
             function () {
                 $manager = new SessionManager();
-                $manager->setHandler(new SessionNoop());
+
+                $manager->setHandler(
+                    new SessionNoop()
+                );
 
                 return $manager;
             }
@@ -329,7 +347,12 @@ trait DiTrait
             'session',
             function () {
                 $manager = new SessionManager();
-                $manager->setHandler(new SessionRedis(getOptionsRedis()));
+
+                $manager->setHandler(
+                    new SessionRedis(
+                        getOptionsRedis()
+                    )
+                );
 
                 return $manager;
             }
@@ -341,7 +364,10 @@ trait DiTrait
      */
     protected function setDiSqlite()
     {
-        $this->container->set('db', $this->newDiSqlite());
+        $this->container->set(
+            'db',
+            $this->newDiSqlite()
+        );
     }
 
     /**
@@ -349,7 +375,9 @@ trait DiTrait
      */
     protected function newDiSqlite()
     {
-        return new Sqlite(getOptionsSqlite());
+        return new Sqlite(
+            getOptionsSqlite()
+        );
     }
 
     /**
@@ -361,6 +389,7 @@ trait DiTrait
             'url',
             function () {
                 $url = new Url();
+
                 $url->setBaseUri('/');
 
                 return $url;
@@ -377,7 +406,10 @@ trait DiTrait
             'view',
             function () {
                 $view = new View();
-                $view->setViewsDir(dataDir('fixtures/views'));
+
+                $view->setViewsDir(
+                    dataDir('fixtures/views')
+                );
 
                 return $view;
             }
@@ -393,7 +425,10 @@ trait DiTrait
             'viewSimple',
             function () {
                 $view = new Simple();
-                $view->setViewsDir(dataDir('fixtures/views/'));
+
+                $view->setViewsDir(
+                    dataDir('fixtures/views/')
+                );
 
                 return $view;
             }
@@ -421,10 +456,7 @@ trait DiTrait
         Di::setDefault($this->container);
     }
 
-    /**
-     * @return FactoryDefault
-     */
-    protected function newFactoryDefault()
+    protected function newFactoryDefault(): FactoryDefault
     {
         return new FactoryDefault();
     }
@@ -434,7 +466,10 @@ trait DiTrait
      */
     protected function setDiPostgresql()
     {
-        $this->container->set('db', $this->newDiPostgresql());
+        $this->container->set(
+            'db',
+            $this->newDiPostgresql()
+        );
     }
 
     /**
@@ -442,7 +477,9 @@ trait DiTrait
      */
     protected function newDiPostgresql()
     {
-        return new Postgresql(getOptionsPostgresql());
+        return new Postgresql(
+            getOptionsPostgresql()
+        );
     }
 
     /**

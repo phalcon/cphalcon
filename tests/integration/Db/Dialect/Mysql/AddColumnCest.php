@@ -12,7 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Db\Dialect\Mysql;
 
+use Codeception\Example;
 use IntegrationTester;
+use Phalcon\Db\Dialect\Mysql;
 use Phalcon\Test\Fixtures\Traits\DialectTrait;
 
 class AddColumnCest
@@ -24,22 +26,22 @@ class AddColumnCest
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
+     *
+     * @dataProvider getAddColumnFixtures
      */
-    public function testAddColumn(IntegrationTester $I)
+    public function testAddColumn(IntegrationTester $I, Example $example)
     {
-        $data = $this->getAddColumnFixtures();
-        foreach ($data as $item) {
-            $schema   = $item[0];
-            $column   = $item[1];
-            $expected = $item[2];
-            $columns  = $this->getColumns();
-            $dialect  = $this->getDialectMysql();
-            $actual   = $dialect->addColumn('table', $schema, $columns[$column]);
+        $schema   = $example[0];
+        $column   = $example[1];
+        $expected = $example[2];
 
-            $I->assertEquals($expected, $actual);
-        }
+        $columns = $this->getColumns();
+        $dialect = new Mysql();
+
+        $actual = $dialect->addColumn('table', $schema, $columns[$column]);
+
+        $I->assertEquals($expected, $actual);
     }
-
 
     protected function getAddColumnFixtures(): array
     {

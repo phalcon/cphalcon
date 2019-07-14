@@ -10,8 +10,12 @@
 
 namespace Phalcon\Mvc\Model;
 
+use ArrayAccess;
 use Closure;
-use Phalcon\Db;
+use Countable;
+use Iterator;
+use JsonSerializable;
+use Phalcon\Db\Enum;
 use Phalcon\Messages\MessageInterface;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\ModelInterface;
@@ -19,6 +23,8 @@ use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\ResultsetInterface;
 use Phalcon\Cache\Adapter\AdapterInterface;
 use Phalcon\Storage\Serializer\SerializerInterface;
+use SeekableIterator;
+use Serializable;
 
 /**
  * Phalcon\Mvc\Model\Resultset
@@ -28,7 +34,7 @@ use Phalcon\Storage\Serializer\SerializerInterface;
  * it will dump all the rows into a big array. Then unserialize will retrieve the rows as they were before
  * serializing.
  *
- * <code>
+ * ```php
  *
  * // Using a standard foreach
  * $robots = Robots::find(
@@ -59,10 +65,10 @@ use Phalcon\Storage\Serializer\SerializerInterface;
  *
  *     $robots->next();
  * }
- * </code>
+ * ```
  */
 abstract class Resultset
-    implements ResultsetInterface, \Iterator, \SeekableIterator, \Countable, \ArrayAccess, \Serializable, \JsonSerializable
+    implements ResultsetInterface, Iterator, SeekableIterator, Countable, ArrayAccess, Serializable, JsonSerializable
 {
     const HYDRATE_ARRAYS      = 1;
     const HYDRATE_OBJECTS     = 2;
@@ -127,7 +133,7 @@ abstract class Resultset
         /**
          * Do the fetch using only associative indexes
          */
-        result->setFetchMode(Db::FETCH_ASSOC);
+        result->setFetchMode(Enum::FETCH_ASSOC);
 
         /**
          * Update the row-count
@@ -247,7 +253,7 @@ abstract class Resultset
     /**
      * Filters a resultset returning only those the developer requires
      *
-     *<code>
+     *```php
      * $filtered = $robots->filter(
      *     function ($robot) {
      *         if ($robot->id < 3) {
@@ -255,7 +261,7 @@ abstract class Resultset
      *         }
      *     }
      * );
-     *</code>
+     *```
      */
     public function filter(callable filter) -> <ModelInterface[]>
     {
@@ -369,11 +375,11 @@ abstract class Resultset
      * Returns serialised model objects as array for json_encode.
      * Calls jsonSerialize on each object if present
      *
-     *<code>
+     *```php
      * $robots = Robots::find();
      *
      * echo json_encode($robots);
-     *</code>
+     *```
      */
     public function jsonSerialize() -> array
     {

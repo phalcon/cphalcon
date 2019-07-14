@@ -26,10 +26,7 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Db\Profiler\Item
- *
  * This class identifies each profile in a Phalcon\Db\Profiler
- *
  */
 ZEPHIR_INIT_CLASS(Phalcon_Db_Profiler_Item) {
 

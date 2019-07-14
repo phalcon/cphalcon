@@ -11,15 +11,13 @@
 namespace Phalcon\Validation\Validator;
 
 use Phalcon\Validation;
-use Phalcon\Validation\Validator;
+use Phalcon\Validation\AbstractValidator;
 use Phalcon\Messages\Message;
 
 /**
- * Phalcon\Validation\Validator\ip
- *
  * Check for IP addresses
  *
- * <code>
+ * ```php
  * use Phalcon\Validation\Validator\Ip as IpValidator;
  *
  * $validator->add(
@@ -65,44 +63,24 @@ use Phalcon\Messages\Message;
  *         ]
  *     )
  * );
- * </code>
+ * ```
  */
-class Ip extends Validator
+class Ip extends AbstractValidator
 {
     const VERSION_4  = FILTER_FLAG_IPV4;
     const VERSION_6  = FILTER_FLAG_IPV6;
+
+    protected template = "Field :field must be a valid IP address";
 
     /**
      * Executes the validation
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var value, version, allowPrivate, allowReserved, allowEmpty, message,
-            label, replacePairs, options;
+        var value, version, allowPrivate, allowReserved, allowEmpty, options;
 
-        let value = validation->getValue(field);
-
-        let label = this->getOption("label");
-
-        if typeof label == "array" {
-            let label = label[field];
-        }
-
-        if empty label {
-            let label = validation->getLabel(field);
-        }
-
-        let message = this->getOption("message");
-
-        if typeof message == "array" {
-            let message = message[field];
-        }
-
-        if empty message {
-            let message = validation->getDefaultMessage("Ip");
-        }
-
-        let version = this->getOption("version", FILTER_FLAG_IPV4 | FILTER_FLAG_IPV6);
+        let value = validation->getValue(field),
+            version = this->getOption("version", FILTER_FLAG_IPV4 | FILTER_FLAG_IPV6);
 
         if typeof version == "array" {
             let version = version[field];
@@ -138,16 +116,8 @@ class Ip extends Validator
         ];
 
         if !filter_var(value, FILTER_VALIDATE_IP, options) {
-            let replacePairs = [
-                ":field": label
-            ];
-
             validation->appendMessage(
-                new Message(
-                    strtr(message, replacePairs),
-                    field,
-                    "Ip"
-                )
+                this->messageFactory(validation, field)
             );
 
             return false;

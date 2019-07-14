@@ -13,16 +13,12 @@ namespace Phalcon\Assets\Inline;
 use Phalcon\Assets\Inline as InlineBase;
 
 /**
- * Phalcon\Assets\Inline\Js
- *
  * Represents an inline JavaScript
  */
 class Js extends InlineBase
 {
     /**
-     * Phalcon\Assets\Inline\Js
-     *
-     * @param array attributes
+     * Phalcon\Assets\Inline\Js constructor
      */
     public function __construct(string content, bool filter = true, var attributes = null) -> void
     {

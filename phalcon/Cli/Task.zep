@@ -13,8 +13,6 @@ namespace Phalcon\Cli;
 use Phalcon\Di\Injectable;
 
 /**
- * Phalcon\Cli\Task
- *
  * Every command-line task should extend this class that encapsulates all the
  * task functionality
  *
@@ -22,7 +20,7 @@ use Phalcon\Di\Injectable;
  * or anything that you want. The Task class should at least have a "mainAction"
  * method.
  *
- *<code>
+ *```php
  * class HelloTask extends \Phalcon\Cli\Task
  * {
  *     // This action will be executed by default
@@ -36,7 +34,7 @@ use Phalcon\Di\Injectable;
  *
  *     }
  * }
- *</code>
+ *```
  */
 class Task extends Injectable implements TaskInterface
 {

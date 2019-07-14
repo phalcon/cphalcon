@@ -12,10 +12,26 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Annotations\Reflection;
 
+use Phalcon\Annotations\Reflection;
 use UnitTester;
 
 class GetPropertiesAnnotationsCest
 {
+    /**
+     * Tests creating empty Reflection object
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2016-01-26
+     */
+    public function testEmptyReflection(UnitTester $I)
+    {
+        $reflection = new Reflection();
+
+        $I->assertFalse(
+            $reflection->getPropertiesAnnotations()
+        );
+    }
+
     /**
      * Tests Phalcon\Annotations\Reflection :: getPropertiesAnnotations()
      *

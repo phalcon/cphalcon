@@ -16,7 +16,7 @@
 #include "kernel/memory.h"
 #include "kernel/string.h"
 #include "kernel/operators.h"
-#include "kernel/array.h"
+#include "kernel/object.h"
 
 
 /**
@@ -28,11 +28,9 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Validation\Validator\Alpha
- *
  * Check for alphabetic character(s)
  *
- * <code>
+ * ```php
  * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\Alpha as AlphaValidator;
  *
@@ -61,11 +59,13 @@
  *         ]
  *     )
  * );
- * </code>
+ * ```
  */
 ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Alpha) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator, Alpha, phalcon, validation_validator_alpha, phalcon_validation_validator_ce, phalcon_validation_validator_alpha_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator, Alpha, phalcon, validation_validator_alpha, phalcon_validation_abstractvalidator_ce, phalcon_validation_validator_alpha_method_entry, 0);
+
+	zend_declare_property_string(phalcon_validation_validator_alpha_ce, SL("template"), "Field :field must contain only letters", ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
 
@@ -77,23 +77,17 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Alpha) {
 PHP_METHOD(Phalcon_Validation_Validator_Alpha, validate) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *validation, validation_sub, *field, field_sub, value, message, label, replacePairs, code, _0, _1, _2, _3, _4$$3, _5$$3, _6$$3;
+	zval *validation, validation_sub, *field, field_sub, value, _0, _1, _2, _3, _4$$3;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&validation_sub);
 	ZVAL_UNDEF(&field_sub);
 	ZVAL_UNDEF(&value);
-	ZVAL_UNDEF(&message);
-	ZVAL_UNDEF(&label);
-	ZVAL_UNDEF(&replacePairs);
-	ZVAL_UNDEF(&code);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_4$$3);
-	ZVAL_UNDEF(&_5$$3);
-	ZVAL_UNDEF(&_6$$3);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &validation, &field);
@@ -110,24 +104,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Alpha, validate) {
 	ZVAL_STRING(&_3, "/[^[:alpha:]]/imu");
 	zephir_preg_match(&_2, &_3, &value, &_0, 0, 0 , 0  TSRMLS_CC);
 	if (zephir_is_true(&_2)) {
-		ZEPHIR_CALL_METHOD(&label, this_ptr, "preparelabel", NULL, 0, validation, field);
-		zephir_check_call_status();
-		ZEPHIR_INIT_VAR(&_4$$3);
-		ZVAL_STRING(&_4$$3, "Alpha");
-		ZEPHIR_CALL_METHOD(&message, this_ptr, "preparemessage", NULL, 0, validation, field, &_4$$3);
-		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(&code, this_ptr, "preparecode", NULL, 0, field);
-		zephir_check_call_status();
-		ZEPHIR_INIT_VAR(&replacePairs);
-		zephir_create_array(&replacePairs, 1, 0 TSRMLS_CC);
-		zephir_array_update_string(&replacePairs, SL(":field"), &label, PH_COPY | PH_SEPARATE);
-		ZEPHIR_INIT_NVAR(&_4$$3);
-		object_init_ex(&_4$$3, phalcon_messages_message_ce);
-		ZEPHIR_CALL_FUNCTION(&_5$$3, "strtr", NULL, 66, &message, &replacePairs);
-		zephir_check_call_status();
-		ZEPHIR_INIT_VAR(&_6$$3);
-		ZVAL_STRING(&_6$$3, "Alpha");
-		ZEPHIR_CALL_METHOD(NULL, &_4$$3, "__construct", NULL, 401, &_5$$3, field, &_6$$3, &code);
+		ZEPHIR_CALL_METHOD(&_4$$3, this_ptr, "messagefactory", NULL, 0, validation, field);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_4$$3);
 		zephir_check_call_status();

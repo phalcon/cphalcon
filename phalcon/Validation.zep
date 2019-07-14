@@ -10,25 +10,24 @@
 
 namespace Phalcon;
 
+use Phalcon\Di;
+use Phalcon\Di\DiInterface;
 use Phalcon\Di\Injectable;
+use Phalcon\Filter\FilterInterface;
 use Phalcon\Messages\MessageInterface;
 use Phalcon\Messages\Messages;
-use Phalcon\ValidationInterface;
+use Phalcon\Validation\ValidationInterface;
 use Phalcon\Validation\Exception;
 use Phalcon\Validation\ValidatorInterface;
-use Phalcon\Validation\CombinedFieldsValidator;
-use Phalcon\Service\LocatorInterface;
+use Phalcon\Validation\AbstractCombinedFieldsValidator;
 
 /**
- * Phalcon\Validation
- *
  * Allows to validate data using custom or built-in validators
  */
 class Validation extends Injectable implements ValidationInterface
 {
     protected combinedFieldsValidators;
     protected data { get };
-    protected defaultMessages;
     protected entity;
     protected filters = [];
     protected labels = [];
@@ -44,18 +43,16 @@ class Validation extends Injectable implements ValidationInterface
         let this->validators = array_filter(
             validators,
             function(var element) {
-                return typeof element[0] != "array" || !(element[1] instanceof CombinedFieldsValidator);
+                return typeof element[0] != "array" || !(element[1] instanceof AbstractCombinedFieldsValidator);
             }
         );
 
         let this->combinedFieldsValidators = array_filter(
             validators,
             function(var element) {
-                return typeof element[0] == "array" && element[1] instanceof CombinedFieldsValidator;
+                return typeof element[0] == "array" && element[1] instanceof AbstractCombinedFieldsValidator;
             }
         );
-
-        this->setDefaultMessages();
 
         /**
          * Check for an 'initialize' method
@@ -74,7 +71,7 @@ class Validation extends Injectable implements ValidationInterface
 
         if typeof field == "array" {
             // Uniqueness validator for combination of fields is handled differently
-            if validator instanceof CombinedFieldsValidator {
+            if validator instanceof AbstractCombinedFieldsValidator {
                 let this->combinedFieldsValidators[] = [field, validator];
             } else {
                 for singleField in field {
@@ -130,20 +127,6 @@ class Validation extends Injectable implements ValidationInterface
         let this->data = data;
 
         return this;
-    }
-
-    /**
-     * Get default message for validator type
-     */
-    public function getDefaultMessage(string! type) -> string
-    {
-        var defaultMessage;
-
-        if !fetch defaultMessage, this->defaultMessages[type] {
-            return "";
-        }
-
-        return defaultMessage;
     }
 
     /**
@@ -285,8 +268,7 @@ class Validation extends Injectable implements ValidationInterface
                     }
                 }
 
-                let filterService = <LocatorInterface> container->getShared("filter");
-//                let filterService = container->getShared("filter");
+                let filterService = <FilterInterface> container->getShared("filter");
 
                 if unlikely typeof filterService != "object" {
                     throw new Exception("Returned 'filter' service is invalid");
@@ -343,46 +325,6 @@ class Validation extends Injectable implements ValidationInterface
         }
 
         return this;
-    }
-
-    /**
-     * Adds default messages to validators
-     */
-    public function setDefaultMessages(array messages = []) -> array
-    {
-        var defaultMessages;
-
-        let defaultMessages = [
-            "Alnum":             "Field :field must contain only letters and numbers",
-            "Alpha":             "Field :field must contain only letters",
-            "Between":           "Field :field must be within the range of :min to :max",
-            "Confirmation":      "Field :field must be the same as :with",
-            "Digit":             "Field :field must be numeric",
-            "Email":             "Field :field must be an email address",
-            "ExclusionIn":       "Field :field must not be a part of list: :domain",
-            "FileEmpty":         "Field :field must not be empty",
-            "FileIniSize":       "File :field exceeds the maximum file size",
-            "FileMaxResolution": "File :field must not exceed :max resolution",
-            "FileMinResolution": "File :field must be at least :min resolution",
-            "FileSize":          "File :field exceeds the size of :max",
-            "FileType":          "File :field must be of type: :types",
-            "FileValid":         "Field :field is not valid",
-            "Identical":         "Field :field does not have the expected value",
-            "InclusionIn":       "Field :field must be a part of list: :domain",
-            "Numericality":      "Field :field does not have a valid numeric format",
-            "PresenceOf":        "Field :field is required",
-            "Regex":             "Field :field does not match the required format",
-            "TooLong":           "Field :field must not exceed :max characters long",
-            "TooShort":          "Field :field must be at least :min characters long",
-            "Uniqueness":        "Field :field must be unique",
-            "Url":               "Field :field must be a url",
-            "CreditCard":        "Field :field is not valid for a credit card number",
-            "Date":              "Field :field is not a valid date"
-        ];
-
-        let this->defaultMessages = array_merge(defaultMessages, messages);
-
-        return this->defaultMessages;
     }
 
     /**

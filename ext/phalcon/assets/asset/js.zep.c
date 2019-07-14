@@ -17,6 +17,7 @@
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
 #include "kernel/operators.h"
+#include "kernel/object.h"
 
 
 /**
@@ -28,8 +29,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Assets\Asset\Js
- *
  * Represents Javascript assets
  */
 ZEPHIR_INIT_CLASS(Phalcon_Assets_Asset_Js) {
@@ -41,7 +40,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Asset_Js) {
 }
 
 /**
- * Phalcon\Assets\Asset\Js
+ * Phalcon\Assets\Asset\Js constructor
  */
 PHP_METHOD(Phalcon_Assets_Asset_Js, __construct) {
 

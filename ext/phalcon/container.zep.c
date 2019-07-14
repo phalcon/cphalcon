@@ -25,6 +25,9 @@
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+/**
+ * PSR-11 Wrapper for `Phalcon\Di`
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Container) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon, Container, phalcon, container, phalcon_container_method_entry, 0);
@@ -40,7 +43,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Container) {
 }
 
 /**
- * Phalcon\Di constructor
+ * Phalcon\Container constructor
  */
 PHP_METHOD(Phalcon_Container, __construct) {
 

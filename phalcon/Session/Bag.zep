@@ -11,7 +11,7 @@ namespace Phalcon\Session;
 
 use Phalcon\Collection;
 use Phalcon\Di;
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
 use Phalcon\Di\InjectionAwareInterface;
 
 /**
@@ -21,12 +21,12 @@ use Phalcon\Di\InjectionAwareInterface;
  * this way you can easily create groups of session variables into the
  * application
  *
- * <code>
+ * ```php
  * $user = new \Phalcon\Session\Bag("user");
  *
  * $user->name = "Kimbra Johnson";
  * $user->age  = 22;
- * </code>
+ * ```
  */
 class Bag extends Collection implements InjectionAwareInterface
 {
@@ -43,27 +43,21 @@ class Bag extends Collection implements InjectionAwareInterface
     {
         var container, data, session;
 
-        let this->name = name,
-            session    = this->session;
+        let this->name = name;
 
-        if typeof session != "object" {
-            let container = this->container;
+        let container = Di::getDefault();
 
-            if typeof container != "object" {
-                let container = Di::getDefault();
-
-                if unlikely typeof container != "object" {
-                    throw new Exception(
-                        Exception::containerServiceNotFound(
-                            "the 'session' service"
-                        )
-                    );
-                }
-            }
-
-            let session       = container->getShared("session"),
-                this->session = session;
+        if unlikely typeof container != "object" {
+            throw new Exception(
+                Exception::containerServiceNotFound(
+                    "the 'session' service"
+                )
+            );
         }
+
+        let session         = container->getShared("session"),
+            this->container = container,
+            this->session   = session;
 
         let data = session->get(this->name);
 
@@ -103,9 +97,9 @@ class Bag extends Collection implements InjectionAwareInterface
     /**
      * Removes a property from the internal bag
      */
-    public function remove(string! element, bool insensitive = true) -> void
+    public function remove(string! element) -> void
     {
-        parent::remove(element, insensitive);
+        parent::remove(element);
 
         this->session->set(this->name, this->data);
     }

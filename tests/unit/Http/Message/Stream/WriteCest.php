@@ -12,10 +12,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\Stream;
 
-use function logsDir;
-use Phalcon\Http\Message\Exception;
 use Phalcon\Http\Message\Stream;
+use Phalcon\Test\Fixtures\Http\Message\StreamFixture;
+use RuntimeException;
 use UnitTester;
+use function logsDir;
 
 class WriteCest
 {
@@ -56,7 +57,7 @@ class WriteCest
     {
         $I->wantToTest('Http\Message\Stream - write() - detached');
         $I->expectThrowable(
-            new Exception(
+            new RuntimeException(
                 'A valid resource is required.'
             ),
             function () use ($I) {
@@ -65,6 +66,30 @@ class WriteCest
                 $stream   = new Stream($fileName, 'wb');
                 $stream->detach();
 
+                $stream->write('abc');
+            }
+        );
+    }
+
+    /**
+     * Tests Phalcon\Http\Message\Stream :: write() - exception not writable
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-02-10
+     */
+    public function httpMessageStreamWriteNotWritable(UnitTester $I)
+    {
+        $I->wantToTest('Http\Message\Stream - write() - exception not writable');
+
+        $fileName = $I->getNewFileName();
+        $fileName = logsDir($fileName);
+        $stream   = new StreamFixture($fileName, 'wb');
+
+        $I->expectThrowable(
+            new RuntimeException(
+                'The resource is not writable.'
+            ),
+            function () use ($stream) {
                 $stream->write('abc');
             }
         );

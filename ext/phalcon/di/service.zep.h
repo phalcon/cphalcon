@@ -4,7 +4,6 @@ extern zend_class_entry *phalcon_di_service_ce;
 ZEPHIR_INIT_CLASS(Phalcon_Di_Service);
 
 PHP_METHOD(Phalcon_Di_Service, __construct);
-PHP_METHOD(Phalcon_Di_Service, __set_state);
 PHP_METHOD(Phalcon_Di_Service, getDefinition);
 PHP_METHOD(Phalcon_Di_Service, getParameter);
 PHP_METHOD(Phalcon_Di_Service, isResolved);
@@ -22,14 +21,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_service___construct, 0, 0, 1)
 #else
 	ZEND_ARG_INFO(0, shared)
 #endif
-ZEND_END_ARG_INFO()
-
-#if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_di_service___set_state, 0, 1, Phalcon\\Di\\ServiceInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_service___set_state, 0, 1, IS_OBJECT, "Phalcon\\Di\\ServiceInterface", 0)
-#endif
-	ZEND_ARG_ARRAY_INFO(0, attributes, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_service_getparameter, 0, 0, 1)
@@ -56,7 +47,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_service_resolve, 0, 0, 0)
 	ZEND_ARG_INFO(0, parameters)
-	ZEND_ARG_OBJ_INFO(0, container, Phalcon\\DiInterface, 1)
+	ZEND_ARG_OBJ_INFO(0, container, Phalcon\\Di\\DiInterface, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_service_setdefinition, 0, 0, 1)
@@ -90,7 +81,6 @@ ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_di_service_method_entry) {
 	PHP_ME(Phalcon_Di_Service, __construct, arginfo_phalcon_di_service___construct, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
-	PHP_ME(Phalcon_Di_Service, __set_state, arginfo_phalcon_di_service___set_state, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Di_Service, getDefinition, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Di_Service, getParameter, arginfo_phalcon_di_service_getparameter, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Di_Service, isResolved, arginfo_phalcon_di_service_isresolved, ZEND_ACC_PUBLIC)

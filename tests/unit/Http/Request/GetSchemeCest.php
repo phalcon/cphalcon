@@ -12,20 +12,41 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Request;
 
+use Phalcon\Test\Unit\Http\Helper\HttpBase;
 use UnitTester;
 
-class GetSchemeCest
+class GetSchemeCest extends HttpBase
 {
     /**
-     * Tests Phalcon\Http\Request :: getScheme()
+     * Tests getScheme default
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2014-10-04
      */
-    public function httpRequestGetScheme(UnitTester $I)
+    public function testHttpRequestGetSchemeDefault(UnitTester $I)
     {
-        $I->wantToTest('Http\Request - getScheme()');
+        $request = $this->getRequestObject();
 
-        $I->skipTest('Need implementation');
+        $I->assertEquals(
+            'http',
+            $request->getScheme()
+        );
+    }
+
+    /**
+     * Tests getScheme with HTTPS
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2014-10-04
+     */
+    public function testHttpRequestGetScheme(UnitTester $I)
+    {
+        $request = $this->getRequestObject();
+
+        $this->setServerVar('HTTPS', 'on');
+        $actual = $request->getScheme();
+        $this->unsetServerVar('HTTPS');
+
+        $I->assertEquals('https', $actual);
     }
 }

@@ -10,12 +10,12 @@
 
 namespace Phalcon\Mvc\Model;
 
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
 use Phalcon\Mvc\Model\Relation;
 use Phalcon\Mvc\Model\RelationInterface;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\ModelInterface;
-use Phalcon\Db\AdapterInterface;
+use Phalcon\Db\Adapter\AdapterInterface;
 use Phalcon\Mvc\Model\ResultsetInterface;
 use Phalcon\Mvc\Model\ManagerInterface;
 use Phalcon\Di\InjectionAwareInterface;
@@ -36,7 +36,7 @@ use Phalcon\Events\ManagerInterface as EventsManagerInterface;
  * A ModelsManager is injected to a model via a Dependency Injector/Services
  * Container such as Phalcon\Di.
  *
- * <code>
+ * ```php
  * use Phalcon\Di;
  * use Phalcon\Mvc\Model\Manager as ModelsManager;
  *
@@ -50,7 +50,7 @@ use Phalcon\Events\ManagerInterface as EventsManagerInterface;
  * );
  *
  * $robot = new Robots($di);
- * </code>
+ * ```
  */
 class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareInterface
 {
@@ -292,7 +292,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     /**
      * Sets the prefix for all model sources.
      *
-     * <code>
+     * ```php
      * use Phalcon\Mvc\Model\Manager;
      *
      * $di->set(
@@ -309,7 +309,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      * $robots = new Robots();
      *
      * echo $robots->getSource(); // wp_robots
-     * </code>
+     * ```
      */
     public function setModelPrefix(string! prefix) -> void
     {
@@ -318,25 +318,6 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 
     /**
      * Returns the prefix for all model sources.
-     *
-     * <code>
-     * use Phalcon\Mvc\Model\Manager;
-     *
-     * $di->set(
-     *     "modelsManager",
-     *     function () {
-     *         $modelsManager = new Manager();
-     *
-     *         $modelsManager->setModelPrefix("wp_");
-     *
-     *         return $modelsManager;
-     *     }
-     * );
-     *
-     * $robots = new Robots();
-     *
-     * echo $robots->getSource(); // wp_robots
-     * </code>
      */
     public function getModelPrefix() -> string
     {
@@ -354,12 +335,12 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     /**
      * Check whether a model property is declared as public.
      *
-     * <code>
+     * ```php
      * $isPublic = $manager->isVisibleModelProperty(
      *     new Robots(),
      *     "name"
      * );
-     * </code>
+     * ```
      */
     final public function isVisibleModelProperty(<ModelInterface> model, string property) -> bool
     {
@@ -1195,11 +1176,19 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         var key, value;
         array findParams;
 
-        if typeof findParamsOne == "string" && typeof findParamsTwo == "string" {
-            return ["(" . findParamsOne . ") AND (" . findParamsTwo . ")"];
+        let findParams = [];
+
+        if typeof findParamsOne == "string" {
+            let findParamsOne = [
+                "conditions": findParamsOne
+            ];
         }
 
-        let findParams = [];
+        if typeof findParamsTwo == "string" {
+            let findParamsTwo = [
+                "conditions": findParamsTwo
+            ];
+        }
 
         if typeof findParamsOne == "array"  {
             for key, value in findParamsOne {
@@ -1209,15 +1198,9 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
                     } else {
                         let findParams[0] = "(" . findParams[0] . ") AND (" . value . ")";
                     }
-
-                    continue;
+                } else {
+                    let findParams[key] = value;
                 }
-
-                let findParams[key] = value;
-            }
-        } else {
-            if typeof findParamsOne == "string" {
-                let findParams = ["conditions": findParamsOne];
             }
         }
 
@@ -1229,35 +1212,19 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
                     } else {
                         let findParams[0] = "(" . findParams[0] . ") AND (" . value . ")";
                     }
-
-                    continue;
-                }
-
-                if key === "bind" || key === "bindTypes" {
-                    if !isset findParams[key] {
-                        if typeof value == "array" {
+                } elseif key === "bind" || key === "bindTypes" {
+                    if typeof value == "array" {
+                        if !isset findParams[key] {
                             let findParams[key] = value;
-                        }
-                    } else {
-                        if typeof value == "array" {
+                        } else {
                             let findParams[key] = array_merge(
                                 findParams[key],
                                 value
                             );
                         }
                     }
-
-                    continue;
-                }
-
-                let findParams[key] = value;
-            }
-        } else {
-            if typeof findParamsTwo == "string" {
-                if !isset findParams[0] {
-                    let findParams[0] = findParamsTwo;
                 } else {
-                    let findParams[0] = "(" . findParams[0] . ") AND (" . findParamsTwo . ")";
+                    let findParams[key] = value;
                 }
             }
         }
@@ -1270,7 +1237,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      *
      * @return \Phalcon\Mvc\Model\Resultset\Simple|Phalcon\Mvc\Model\Resultset\Simple|int|false
      */
-    public function getRelationRecords(<RelationInterface> relation, string! method, <ModelInterface> record, var parameters = null)
+    public function getRelationRecords(<RelationInterface> relation, <ModelInterface> record, var parameters = null, string method = null)
     {
         var referencedModel, intermediateModel, intermediateFields, fields,
             builder, extraParameters, refPosition, field, referencedFields,
@@ -1375,15 +1342,15 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          */
         let fields = relation->getFields();
 
+        /**
+         * Compound relation
+         */
+        let referencedFields = relation->getReferencedFields();
+
         if typeof fields != "array" {
-            let conditions[] = "[". relation->getReferencedFields() . "] = :APR0:",
+            let conditions[] = "[". referencedFields . "] = :APR0:",
                 placeholders["APR0"] = record->readAttribute(fields);
         } else {
-            /**
-             * Compound relation
-             */
-            let referencedFields = relation->getReferencedFields();
-
             for refPosition, field in relation->getFields() {
                 let conditions[] = "[". referencedFields[refPosition] . "] = :APR" . refPosition . ":",
                     placeholders["APR" . refPosition] = record->readAttribute(field);
@@ -1503,7 +1470,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     /**
      * Gets belongsTo related records from a model
      */
-    public function getBelongsToRecords(string! method, string! modelName, var modelRelation, <ModelInterface> record, parameters = null)
+    public function getBelongsToRecords(string! modelName, string! modelRelation, <ModelInterface> record, parameters = null, string method = null)
         -> <ResultsetInterface> | bool
     {
         var relations;
@@ -1524,16 +1491,16 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          */
         return this->getRelationRecords(
             relations[0],
-            method,
             record,
-            parameters
+            parameters,
+            method
         );
     }
 
     /**
      * Gets hasMany related records from a model
      */
-    public function getHasManyRecords(string! method, string! modelName, var modelRelation, <ModelInterface> record, parameters = null)
+    public function getHasManyRecords(string! modelName, string! modelRelation, <ModelInterface> record, parameters = null, string method = null)
         -> <ResultsetInterface> | bool
     {
         var relations;
@@ -1554,16 +1521,16 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          */
         return this->getRelationRecords(
             relations[0],
-            method,
             record,
-            parameters
+            parameters,
+            method
         );
     }
 
     /**
      * Gets belongsTo related records from a model
      */
-    public function getHasOneRecords(string! method, string! modelName, var modelRelation, <ModelInterface> record, parameters = null)
+    public function getHasOneRecords(string! modelName, string! modelRelation, <ModelInterface> record, parameters = null, string method = null)
         -> <ModelInterface> | bool
     {
         var relations;
@@ -1584,20 +1551,20 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          */
         return this->getRelationRecords(
             relations[0],
-            method,
             record,
-            parameters
+            parameters,
+            method
         );
     }
 
     /**
      * Gets all the belongsTo relations defined in a model
      *
-     *<code>
+     *```php
      * $relations = $modelsManager->getBelongsTo(
      *     new Robots()
      * );
-     *</code>
+     *```
      */
     public function getBelongsTo(<ModelInterface> model) -> <RelationInterface[]> | array
     {

@@ -13,9 +13,9 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Http\Message\Stream;
 
 use Codeception\Example;
-use Phalcon\Http\Message\Exception;
 use Phalcon\Http\Message\Stream;
 use Psr\Http\Message\StreamInterface;
+use RuntimeException;
 use stdClass;
 use UnitTester;
 
@@ -51,7 +51,7 @@ class ConstructCest
     {
         $I->wantToTest('Http\Message\Stream - __construct() ' . $example[0]);
         $I->expectThrowable(
-            new Exception(
+            new RuntimeException(
                 'The stream provided is not valid ' .
                 '(string/resource) or could not be opened.'
             ),
@@ -64,12 +64,30 @@ class ConstructCest
     private function getExceptionExamples(): array
     {
         return [
-            ['array', ['array']],
-            ['boolean', true],
-            ['float', 123.45],
-            ['integer', 123],
-            ['null', null],
-            ['object', new stdClass()],
+            [
+                'array',
+                ['array'],
+            ],
+            [
+                'boolean',
+                true,
+            ],
+            [
+                'float',
+                123.45,
+            ],
+            [
+                'integer',
+                123,
+            ],
+            [
+                'null',
+                null,
+            ],
+            [
+                'object',
+                new stdClass(),
+            ],
         ];
     }
 }

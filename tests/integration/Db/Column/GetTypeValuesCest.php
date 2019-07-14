@@ -14,9 +14,6 @@ namespace Phalcon\Test\Integration\Db\Column;
 
 use IntegrationTester;
 
-/**
- * Class GetTypeValuesCest
- */
 class GetTypeValuesCest
 {
     /**

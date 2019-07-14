@@ -13,8 +13,6 @@ namespace Phalcon\Storage\Adapter;
 use Phalcon\Storage\Serializer\SerializerInterface;
 
 /**
- * Phalcon\Logger\AdapterInterface
- *
  * Interface for Phalcon\Logger adapters
  */
 interface AdapterInterface

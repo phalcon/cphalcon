@@ -15,15 +15,12 @@
 namespace Phalcon\Http\Message;
 
 use Phalcon\Helper\Arr;
-use Phalcon\Http\Message\Exception;
+use Exception;
 use Psr\Http\Message\StreamInterface;
+use RuntimeException;
 
 /**
- * Describes a data stream.
- *
- * Typically, an instance will wrap a PHP stream; this interface provides
- * a wrapper around the most common operations, including serialization of
- * the entire stream to a string.
+ * PSR-7 Stream
  */
 class Stream implements StreamInterface
 {
@@ -43,11 +40,22 @@ class Stream implements StreamInterface
     protected warning = false;
 
     /**
-     * Constructor
+     * Stream constructor.
+     *
+     * @param mixed  $stream
+     * @param string $mode
      */
-    public function __construct(var stream, var mode = "rb") -> void
+    public function __construct(var stream, string! mode = "rb")
     {
         this->setStream(stream, mode);
+    }
+
+    /**
+     * Closes the stream when the destructed.
+     */
+    public function __destruct()
+    {
+        this->close();
     }
 
     /**
@@ -66,8 +74,8 @@ class Stream implements StreamInterface
     public function __toString() -> string
     {
         try {
-            if true === this->isReadable() {
-                if true === this->isSeekable() {
+            if likely this->isReadable() {
+                if likely this->isSeekable() {
                     this->rewind();
                 }
 
@@ -85,7 +93,7 @@ class Stream implements StreamInterface
     {
         var handle;
 
-        if null !== this->handle {
+        if likely null !== this->handle {
             let handle = this->detach();
 
             fclose(handle);
@@ -96,6 +104,8 @@ class Stream implements StreamInterface
      * Separates any underlying resources from the stream.
      *
      * After the stream has been detached, the stream is in an unusable state.
+     *
+     * @return resource | null
      */
     public function detach() -> resource | null
     {
@@ -112,7 +122,7 @@ class Stream implements StreamInterface
      */
     public function eof() -> bool
     {
-        if this->handle {
+        if likely this->handle {
             return feof(this->handle);
         }
 
@@ -132,11 +142,10 @@ class Stream implements StreamInterface
         let data = stream_get_contents(this->handle);
 
         if unlikely false === data {
-            throw new Exception("Could not read from the file/stream");
+            throw new RuntimeException("Could not read from the file/stream");
         }
 
         return data;
-
     }
 
     /**
@@ -144,18 +153,22 @@ class Stream implements StreamInterface
      *
      * The keys returned are identical to the keys returned from PHP's
      * stream_get_meta_data() function.
+     *
+     * @param mixed|null $key
+     *
+     * @return array|mixed|null
      */
-    public function getMetadata(var key = null) -> null | var
+    public function getMetadata(var key = null)
     {
         var metadata;
 
-        if null === this->handle {
+        if unlikely null === this->handle {
             return null;
         }
 
         let metadata = stream_get_meta_data(this->handle);
 
-        if null === key {
+        if unlikely null === key {
             return metadata;
         }
 
@@ -169,10 +182,10 @@ class Stream implements StreamInterface
     {
         var stats;
 
-        if null !== this->handle {
+        if likely null !== this->handle {
             let stats = fstat(this->handle);
 
-            if false !== stats {
+            if likely false !== stats {
                 return Arr::get(stats, "size", null);
             }
         }
@@ -187,9 +200,9 @@ class Stream implements StreamInterface
     {
         var mode;
 
-        let mode = this->getMetadata("mode");
+        let mode = (string) this->getMetadata("mode");
 
-        return (false !== strpos(mode, "r") || false !== strpos(mode, "+"));
+        return false !== strpbrk(mode, "r+");
     }
 
     /**
@@ -207,21 +220,19 @@ class Stream implements StreamInterface
     {
         var mode;
 
-        let mode = this->getMetadata("mode");
+        let mode = (string) this->getMetadata("mode");
 
-        return (
-            false !== strpos(mode, "x") ||
-            false !== strpos(mode, "w") ||
-            false !== strpos(mode, "c") ||
-            false !== strpos(mode, "a") ||
-            false !== strpos(mode, "+")
-        );
+        return false !== strpbrk(mode, "xwca+");
     }
 
     /**
      * Read data from the stream.
+     *
+     * @param int $length
+     *
+     * @return string
      */
-    public function read(var length)-> string
+    public function read(var length) -> string
     {
         var data;
 
@@ -231,7 +242,7 @@ class Stream implements StreamInterface
         let data = fread(this->handle, length);
 
         if unlikely false === data {
-            throw new Exception("Could not read from the file/stream");
+            throw new RuntimeException("Could not read from the file/stream");
         }
 
         return data;
@@ -250,6 +261,9 @@ class Stream implements StreamInterface
 
     /**
      * Seek to a position in the stream.
+     *
+     * @param int $offset
+     * @param int $whence
      */
     public function seek(var offset, var whence = 0) -> void
     {
@@ -261,20 +275,22 @@ class Stream implements StreamInterface
         let seeker = fseek(this->handle, offset, whence);
 
         if unlikely 0 !== seeker {
-            throw new Exception("Cound not seek on the file pointer");
+            throw new RuntimeException("Could not seek on the file pointer");
         }
     }
 
     /**
      * Sets the stream - existing instance
+     *
+     * @param mixed  $stream
+     * @param string $mode
      */
-    public function setStream(var stream, var mode = "r") -> void
+    public function setStream(var stream, string! mode = "rb") -> void
     {
         var handle;
 
         let handle = stream;
-
-        if typeof stream === "string" {
+        if likely typeof stream === "string" {
             set_error_handler(
                 function (error) {
                     let this->warning = true;
@@ -286,8 +302,8 @@ class Stream implements StreamInterface
             restore_error_handler();
         }
 
-        if unlikely (true === this->warning || typeof handle !== "resource" || "stream" !== get_resource_type(handle)) {
-            throw new Exception(
+        if unlikely (this->warning || typeof handle !== "resource" || "stream" !== get_resource_type(handle)) {
+            throw new RuntimeException(
                 "The stream provided is not valid (string/resource) or could not be opened."
             );
         }
@@ -298,6 +314,8 @@ class Stream implements StreamInterface
 
     /**
      * Returns the current position of the file read/write pointer
+     *
+     * @return int
      */
     public function tell() -> int
     {
@@ -316,6 +334,10 @@ class Stream implements StreamInterface
 
     /**
      * Write data to the stream.
+     *
+     * @param string $data
+     *
+     * @return int
      */
     public function write(var data) -> int
     {
@@ -327,19 +349,19 @@ class Stream implements StreamInterface
         let bytes = fwrite(this->handle, data);
 
         if unlikely false === bytes {
-            throw new Exception("Could not write to the file/stream");
+            throw new RuntimeException("Could not write to the file/stream");
         }
 
         return bytes;
     }
 
-    /**
+   /**
      * Checks if a handle is available and throws an exception otherwise
      */
     private function checkHandle() -> void
     {
         if unlikely null === this->handle {
-            throw new Exception("A valid resource is required.");
+            throw new RuntimeException("A valid resource is required.");
         }
     }
 
@@ -349,7 +371,7 @@ class Stream implements StreamInterface
     private function checkReadable() -> void
     {
         if unlikely true !== this->isReadable() {
-            throw new Exception("The resource is not readable.");
+            throw new RuntimeException("The resource is not readable.");
         }
     }
 
@@ -359,7 +381,7 @@ class Stream implements StreamInterface
     private function checkSeekable() -> void
     {
         if unlikely true !== this->isSeekable() {
-            throw new Exception("The resource is not seekable.");
+            throw new RuntimeException("The resource is not seekable.");
         }
     }
 
@@ -369,7 +391,7 @@ class Stream implements StreamInterface
     private function checkWritable() -> void
     {
         if unlikely true !== this->isWritable() {
-            throw new Exception("The resource is not writable.");
+            throw new RuntimeException("The resource is not writable.");
         }
     }
 }

@@ -35,28 +35,36 @@ class SessionCest
         $this->newDi();
         $this->setDiEscaper();
         $this->setDiSessionFiles();
+
+        if (PHP_SESSION_ACTIVE !== session_status()) {
+            session_start();
+        }
+
+        if (!isset($_SESSION)) {
+            $_SESSION = [];
+        }
     }
+
+    public function _after(UnitTester $I)
+    {
+        session_destroy();
+    }
+
 
     /**
      * Tests auto escaping
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author       Phalcon Team <team@phalconphp.com>
      * @issue  https://github.com/phalcon/cphalcon/issues/11448
-     * @since  2016-06-15
+     * @since        2016-06-15
      *
      * @dataProvider testShouldAutoEscapeHtmlProvider
      */
     public function testShouldAutoEscapeHtml(UnitTester $I, Example $example)
     {
-        /**
-         * @TODO Check the session
-         */
-        $I->skipTest('TODO: Check the session');
-
         $function = $example[0];
 
         $flash = $this->getFlash();
-
 
 
         $flash->setAutoescape(false);
@@ -73,7 +81,6 @@ class SessionCest
         );
 
 
-
         ob_start();
         $flash->$function(
             "<script>alert('This will execute as JavaScript!')</script>"
@@ -88,7 +95,6 @@ class SessionCest
         );
 
 
-
         $flash->setAutoescape(true);
 
         $message = "<script>alert('This will execute as JavaScript!')</script>";
@@ -101,7 +107,6 @@ class SessionCest
             ],
             $flash->getMessages($function)
         );
-
 
 
         ob_start();
@@ -151,11 +156,6 @@ class SessionCest
      */
     public function testGetMessagesTypeRemoveMessages(UnitTester $I)
     {
-        /**
-         * @TODO Check the session
-         */
-        $I->skipTest('TODO: Check the session');
-
         $flash = $this->getFlash();
 
         $flash->success('sample success');
@@ -189,11 +189,6 @@ class SessionCest
      */
     public function testGetNonExistentType(UnitTester $I)
     {
-        /**
-         * @TODO Check the session
-         */
-        $I->skipTest('TODO: Check the session');
-
         $flash = $this->getFlash();
 
         $flash->error('sample error');
@@ -217,11 +212,6 @@ class SessionCest
      */
     public function testClearMessagesFormSession(UnitTester $I)
     {
-        /**
-         * @TODO Check the session
-         */
-        $I->skipTest('TODO: Check the session');
-
         $flash = $this->getFlash();
 
         ob_start();
@@ -240,18 +230,13 @@ class SessionCest
     /**
      * Test output formatted messages
      *
-     * @author Iván Guillén <zeopix@gmail.com>
-     * @since  2015-10-26
+     * @author       Iván Guillén <zeopix@gmail.com>
+     * @since        2015-10-26
      *
      * @dataProvider testMessageFormatProvider
      */
     public function testMessageFormat(UnitTester $I, Example $example)
     {
-        /**
-         * @TODO Check the session
-         */
-        $I->skipTest('TODO: Check the session');
-
         $function = $example[0];
 
         $flash = $this->getFlash();
@@ -261,7 +246,7 @@ class SessionCest
             $this->classes[$function]
         );
 
-        $message  = 'sample message';
+        $message = 'sample message';
 
         $expected = sprintf(
             '<div%s>%s</div>' . PHP_EOL,
@@ -296,18 +281,13 @@ class SessionCest
      */
     public function testCustomFormat(UnitTester $I)
     {
-        /**
-         * @TODO Check the session
-         */
-        $I->skipTest('TODO: Check the session');
-
         $flash = $this->getFlash();
 
         $template = '<span class="%cssClass%" aria-label="clickme">%message%</span>';
 
         $flash->setCustomTemplate($template);
 
-        $message  = 'sample message';
+        $message = 'sample message';
 
         $flash->success($message);
 

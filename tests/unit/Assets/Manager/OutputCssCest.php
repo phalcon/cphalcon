@@ -139,14 +139,17 @@ class OutputCssCest
 
         $assets->outputCss('css');
 
-        $expected = 'A{TEXT-DECORATION:NONE;}B{FONT-WEIGHT:BOLD;}';
-        $actual   = file_get_contents(cacheDir($fileName));
+        $I->openFile(
+            cacheDir($fileName)
+        );
+
+        $I->seeFileContentsEqual(
+            'A{TEXT-DECORATION:NONE;}B{FONT-WEIGHT:BOLD;}'
+        );
 
         $I->safeDeleteFile(
             cacheDir($fileName)
         );
-
-        $I->assertEquals($expected, $actual);
     }
 
     /**

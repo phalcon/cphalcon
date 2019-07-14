@@ -12,20 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Translate\Adapter\Csv;
 
-use UnitTester;
+use Phalcon\Test\Fixtures\Helpers\TranslateCsvHelper;
 
-class QueryCest
+class QueryCest extends TranslateCsvHelper
 {
-    /**
-     * Tests Phalcon\Translate\Adapter\Csv :: query()
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function translateAdapterCsvQuery(UnitTester $I)
-    {
-        $I->wantToTest('Translate\Adapter\Csv - query()');
-
-        $I->skipTest('Need implementation');
-    }
+    protected $function = 'query';
 }

@@ -17,6 +17,7 @@
 #include "kernel/exception.h"
 #include "kernel/operators.h"
 #include "kernel/memory.h"
+#include "kernel/object.h"
 #include "phalcon/mvc/model/query/scanner.h"
 #include "phalcon/mvc/model/query/phql.h"
 
@@ -42,11 +43,11 @@
  * the same technology as SQLite. This technology provides a small in-memory
  * parser with a very low memory footprint that is also thread-safe.
  *
- * <code>
+ * ```php
  * $intermediate = Phalcon\Mvc\Model\Query\Lang::parsePHQL(
  *     "SELECT r.* FROM Robots r LIMIT 10"
  * );
- * </code>
+ * ```
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Query_Lang) {
 

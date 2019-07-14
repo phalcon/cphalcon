@@ -15,15 +15,12 @@ namespace Phalcon\Test\Integration\Mvc\Micro;
 use IntegrationTester;
 use Phalcon\Mvc\Micro;
 
-/**
- * Class GetCest
- */
 class GetCest
 {
     /**
      * Tests Phalcon\Mvc\Micro :: get()
      *
-     * @author Sid Roberts <sid@sidroberts.co.uk>
+     * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-17
      */
     public function mvcMicroGet(IntegrationTester $I)
@@ -56,9 +53,14 @@ class GetCest
 
         $_SERVER['REQUEST_METHOD'] = 'GET';
 
+        // Micro echoes out its result as well
+        ob_start();
+        $result = $micro->handle('/test');
+        ob_end_clean();
+
         $I->assertEquals(
             'this is get',
-            $micro->handle('/test')
+            $result
         );
     }
 }

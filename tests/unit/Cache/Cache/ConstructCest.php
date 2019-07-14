@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Cache\Cache;
 
+use Phalcon\Cache;
 use Phalcon\Cache\AdapterFactory;
-use Phalcon\Cache\Cache;
 use Phalcon\Storage\SerializerFactory;
 use Psr\SimpleCache\CacheInterface;
 use UnitTester;
@@ -21,7 +21,7 @@ use UnitTester;
 class ConstructCest
 {
     /**
-     * Tests Phalcon\Cache\Cache :: __construct()
+     * Tests Phalcon\Cache :: __construct()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-05-01

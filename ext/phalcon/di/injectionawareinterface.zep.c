@@ -21,8 +21,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Di\InjectionAwareInterface
- *
  * This interface must be implemented in those classes that uses internally the
  * Phalcon\Di that creates them
  */

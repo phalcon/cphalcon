@@ -15,8 +15,6 @@ use Phalcon\Mvc\Router\RouteInterface;
 use Phalcon\Mvc\Router\GroupInterface;
 
 /**
- * Phalcon\Mvc\RouterInterface
- *
  * Interface for Phalcon\Mvc\Router
  */
 interface RouterInterface

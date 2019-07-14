@@ -27,6 +27,11 @@ class ComplexCest
         $this->setDiMysql();
     }
 
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
+    }
+
     /**
      * Work with Complex Resultset by load data from the file cache (PHQL
      * option).

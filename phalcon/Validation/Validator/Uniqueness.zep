@@ -12,7 +12,7 @@ namespace Phalcon\Validation\Validator;
 
 use Phalcon\Messages\Message;
 use Phalcon\Validation;
-use Phalcon\Validation\CombinedFieldsValidator;
+use Phalcon\Validation\AbstractCombinedFieldsValidator;
 use Phalcon\Validation\Exception;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\CollectionInterface;
@@ -20,11 +20,9 @@ use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Collection;
 
 /**
- * Phalcon\Validation\Validator\Uniqueness
- *
  * Check that a field is unique in the related table
  *
- * <code>
+ * ```php
  * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\Uniqueness as UniquenessValidator;
  *
@@ -39,10 +37,10 @@ use Phalcon\Mvc\Collection;
  *         ]
  *     )
  * );
- * </code>
+ * ```
  *
  * Different attribute from the field:
- * <code>
+ * ```php
  * $validator->add(
  *     "username",
  *     new UniquenessValidator(
@@ -52,18 +50,18 @@ use Phalcon\Mvc\Collection;
  *         ]
  *     )
  * );
- * </code>
+ * ```
  *
  * In model:
- * <code>
+ * ```php
  * $validator->add(
  *     "username",
  *     new UniquenessValidator()
  * );
- * </code>
+ * ```
  *
  * Combination of fields in model:
- * <code>
+ * ```php
  * $validator->add(
  *     [
  *         "firstName",
@@ -71,12 +69,12 @@ use Phalcon\Mvc\Collection;
  *     ],
  *     new UniquenessValidator()
  * );
- * </code>
+ * ```
  *
  * It is possible to convert values before validation. This is useful in
  * situations where values need to be converted to do the database lookup:
  *
- * <code>
+ * ```php
  * $validator->add(
  *     "username",
  *     new UniquenessValidator(
@@ -89,10 +87,12 @@ use Phalcon\Mvc\Collection;
  *         ]
  *     )
  * );
- * </code>
+ * ```
  */
-class Uniqueness extends CombinedFieldsValidator
+class Uniqueness extends AbstractCombinedFieldsValidator
 {
+    protected template = "Field :field must be unique";
+
     private columnMap = null;
 
     /**
@@ -100,32 +100,9 @@ class Uniqueness extends CombinedFieldsValidator
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var message, label;
-
         if !this->isUniqueness(validation, field) {
-            let label   = this->getOption("label"),
-                message = this->getOption("message");
-
-            if empty label {
-                let label = validation->getLabel(field);
-            }
-
-            if empty message {
-                let message = validation->getDefaultMessage("Uniqueness");
-            }
-
             validation->appendMessage(
-                new Message(
-                    strtr(
-                        message,
-                        [
-                            ":field": label
-                        ]
-                    ),
-                    field,
-                    "Uniqueness",
-                    this->getOption("code")
-                )
+                this->messageFactory(validation, field)
             );
 
             return false;

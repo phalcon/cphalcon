@@ -22,8 +22,8 @@ class TagHtmlCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: tagHtml() - name parameter
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2014-09-05
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2014-09-05
      *
      * @dataProvider tagHtmlNameProvider
      */

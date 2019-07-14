@@ -34,7 +34,7 @@
  * This adapter allows to paginate data using a Phalcon\Mvc\Model resultset as a
  * base.
  *
- * <code>
+ * ```php
  * use Phalcon\Paginator\Adapter\Model;
  *
  * $paginator = new Model(
@@ -46,11 +46,11 @@
  * );
  *
  * $paginate = $paginator->paginate();
- *</code>
+ *```
  */
 ZEPHIR_INIT_CLASS(Phalcon_Paginator_Adapter_Model) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Paginator\\Adapter, Model, phalcon, paginator_adapter_model, phalcon_paginator_adapter_ce, phalcon_paginator_adapter_model_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Paginator\\Adapter, Model, phalcon, paginator_adapter_model, phalcon_paginator_adapter_abstractadapter_ce, phalcon_paginator_adapter_model_method_entry, 0);
 
 	return SUCCESS;
 

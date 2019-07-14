@@ -18,7 +18,7 @@ use Phalcon\Session\Exception;
  *
  * This is the file based adapter. It stores sessions in a file based system
  *
- * <code>
+ * ```php
  * <?php
  *
  * use Phalcon\Session\Manager;
@@ -31,7 +31,7 @@ use Phalcon\Session\Exception;
  *     ]
  * );
  * $session->setHandler($files);
- * </code>
+ * ```
  */
 class Stream extends Noop
 {
@@ -117,7 +117,7 @@ class Stream extends Noop
         if file_exists(name) {
             let data = file_get_contents(name);
 
-            if (false === data) {
+            if false === data {
                 return "";
             }
         }

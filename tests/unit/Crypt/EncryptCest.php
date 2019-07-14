@@ -12,11 +12,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Crypt;
 
-use function hash_hmac_algos;
 use Phalcon\Crypt;
 use Phalcon\Crypt\Exception;
-use function substr;
 use UnitTester;
+use function substr;
 
 class EncryptCest
 {
@@ -98,6 +97,7 @@ class EncryptCest
             ),
             function () {
                 $crypt = new Crypt();
+
                 $crypt->setCipher('AES-128-ECB');
             }
         );

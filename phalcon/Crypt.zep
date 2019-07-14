@@ -10,16 +10,14 @@
 
 namespace Phalcon;
 
-use Phalcon\CryptInterface;
+use Phalcon\Crypt\CryptInterface;
 use Phalcon\Crypt\Exception;
 use Phalcon\Crypt\Mismatch;
 
 /**
- * Phalcon\Crypt
+ * Provides encryption capabilities to Phalcon applications.
  *
- * Provides encryption facilities to Phalcon applications.
- *
- * <code>
+ * ```php
  * use Phalcon\Crypt;
  *
  * $crypt = new Crypt();
@@ -32,7 +30,7 @@ use Phalcon\Crypt\Mismatch;
  * $encrypted = $crypt->encrypt($text, $key);
  *
  * echo $crypt->decrypt($encrypted, $key);
- * </code>
+ * ```
  */
 class Crypt implements CryptInterface
 {
@@ -110,14 +108,12 @@ class Crypt implements CryptInterface
     /**
      * Decrypts an encrypted text.
      *
-     * <code>
+     * ```php
      * $encrypted = $crypt->decrypt(
      *     $encrypted,
      *     "T4\xb1\x8d\xa9\x98\x05\\\x8c\xbe\x1d\x07&[\x99\x18\xa4~Lc1\xbeW\xb3"
      * );
-     * </code>
-     *
-     * @throws \Phalcon\Crypt\Mismatch
+     * ```
      */
     public function decrypt(string! text, string! key = null) -> string
     {
@@ -233,12 +229,7 @@ class Crypt implements CryptInterface
     public function decryptBase64(string! text, key = null, bool! safe = false) -> string
     {
         if safe {
-            return this->decrypt(
-                base64_decode(
-                    strtr(text, "-_", "+/") . substr("===", (strlen(text) + 3) % 4)
-                ),
-                key
-            );
+            let text = strtr(text, "-_", "+/") . substr("===", (strlen(text) + 3) % 4);
         }
 
         return this->decrypt(
@@ -250,12 +241,12 @@ class Crypt implements CryptInterface
     /**
      * Encrypts a text.
      *
-     * <code>
+     * ```php
      * $encrypted = $crypt->encrypt(
      *     "Top secret",
      *     "T4\xb1\x8d\xa9\x98\x05\\\x8c\xbe\x1d\x07&[\x99\x18\xa4~Lc1\xbeW\xb3"
      * );
-     * </code>
+     * ```
      */
     public function encrypt(string! text, string! key = null) -> string
     {
@@ -407,15 +398,11 @@ class Crypt implements CryptInterface
      */
     public function getAvailableHashAlgos() -> array
     {
-        var algos;
-
         if likely function_exists("hash_hmac_algos") {
-            let algos = hash_hmac_algos();
-        } else {
-            let algos = hash_algos();
+            return hash_hmac_algos();
         }
 
-        return algos;
+        return hash_algos();
     }
 
     /**
@@ -510,8 +497,6 @@ class Crypt implements CryptInterface
      *
      * Good key:
      * "T4\xb1\x8d\xa9\x98\x05\\\x8c\xbe\x1d\x07&[\x99\x18\xa4~Lc1\xbeW\xb3"
-     *
-     * @see \Phalcon\Security\Random
      */
     public function setKey(string! key) -> <CryptInterface>
     {
@@ -542,8 +527,6 @@ class Crypt implements CryptInterface
 
     /**
      * Assert the cipher is available.
-     *
-     * @throws \Phalcon\Crypt\Exception
      */
     protected function assertCipherIsAvailable(string! cipher) -> void
     {
@@ -563,8 +546,6 @@ class Crypt implements CryptInterface
 
     /**
      * Assert the hash algorithm is available.
-     *
-     * @throws \Phalcon\Crypt\Exception
      */
     protected function assertHashAlgorithmAvailable(string! hashAlgo) -> void
     {
@@ -584,8 +565,6 @@ class Crypt implements CryptInterface
 
     /**
      * Initialize available cipher algorithms.
-     *
-     * @throws \Phalcon\Crypt\Exception
      */
     protected function getIvLength(string! cipher) -> int
     {
@@ -598,8 +577,6 @@ class Crypt implements CryptInterface
 
     /**
      * Initialize available cipher algorithms.
-     *
-     * @throws \Phalcon\Crypt\Exception
      */
     protected function initializeAvailableCiphers() -> void
     {
@@ -611,9 +588,7 @@ class Crypt implements CryptInterface
     }
 
     /**
-     * Pads texts before encryption.
-     *
-     * @link http://www.di-mgt.com.au/cryptopad.html
+     * Pads texts before encryption. See [cryptopad](http://www.di-mgt.com.au/cryptopad.html)
      */
     protected function cryptPadText(string text, string! mode, int! blockSize, int! paddingType) -> string
     {
@@ -682,11 +657,6 @@ class Crypt implements CryptInterface
      *
      * If the function detects that the text was not padded, it will return it
      * unmodified.
-     *
-     * @param string text Message to be unpadded
-     * @param string mode Encryption mode; unpadding is applied only in CBC or ECB mode
-     * @param int blockSize Cipher block size
-     * @param int paddingType Padding scheme
      */
     protected function cryptUnpadText(string text, string! mode, int! blockSize, int! paddingType)
     {
@@ -738,7 +708,8 @@ class Crypt implements CryptInterface
                     let i = length - 1;
 
                     while i > 0 && text[i] == 0x00 && paddingSize < blockSize {
-                        let paddingSize++, i--;
+                        let paddingSize++,
+                            i--;
                     }
 
                     if text[i] == 0x80 {
@@ -753,7 +724,8 @@ class Crypt implements CryptInterface
                     let i = length - 1;
 
                     while i >= 0 && text[i] == 0x00 && paddingSize <= blockSize {
-                        let paddingSize++, i--;
+                        let paddingSize++,
+                            i--;
                     }
 
                     break;
@@ -762,7 +734,8 @@ class Crypt implements CryptInterface
                     let i = length - 1;
 
                     while i >= 0 && text[i] == 0x20 && paddingSize <= blockSize {
-                        let paddingSize++, i--;
+                        let paddingSize++,
+                            i--;
                     }
 
                     break;

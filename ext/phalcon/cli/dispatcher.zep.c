@@ -30,13 +30,11 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Cli\Dispatcher
- *
  * Dispatching is the process of taking the command-line arguments, extracting
  * the module name, task name, action name, and optional parameters contained in
  * it, and then instantiating a task and calling an action on it.
  *
- * <code>
+ * ```php
  * use Phalcon\Di;
  * use Phalcon\Cli\Dispatcher;
  *
@@ -51,11 +49,11 @@
  * $dispatcher->setParams([]);
  *
  * $handle = $dispatcher->dispatch();
- * </code>
+ * ```
  */
 ZEPHIR_INIT_CLASS(Phalcon_Cli_Dispatcher) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Cli, Dispatcher, phalcon, cli_dispatcher, phalcon_dispatcher_ce, phalcon_cli_dispatcher_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Cli, Dispatcher, phalcon, cli_dispatcher, phalcon_dispatcher_abstractdispatcher_ce, phalcon_cli_dispatcher_method_entry, 0);
 
 	/**
 	 * @var string
@@ -115,7 +113,7 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, callActionMethod) {
 	}
 
 
-	ZEPHIR_CALL_FUNCTION(&_0, "array_values", NULL, 137, &params);
+	ZEPHIR_CALL_FUNCTION(&_0, "array_values", NULL, 160, &params);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&params, &_0);
 	ZEPHIR_INIT_VAR(&_1);
@@ -438,14 +436,14 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, throwDispatchException) {
 	ZEPHIR_INIT_VAR(&exception);
 	object_init_ex(&exception, phalcon_cli_dispatcher_exception_ce);
 	ZVAL_LONG(&_0, exceptionCode);
-	ZEPHIR_CALL_METHOD(NULL, &exception, "__construct", NULL, 1, &message, &_0);
+	ZEPHIR_CALL_METHOD(NULL, &exception, "__construct", NULL, 5, &message, &_0);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "handleexception", NULL, 0, &exception);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&_1)) {
 		RETURN_MM_BOOL(0);
 	}
-	zephir_throw_exception_debug(&exception, "phalcon/Cli/Dispatcher.zep", 228 TSRMLS_CC);
+	zephir_throw_exception_debug(&exception, "phalcon/Cli/Dispatcher.zep", 224 TSRMLS_CC);
 	ZEPHIR_MM_RESTORE();
 	return;
 

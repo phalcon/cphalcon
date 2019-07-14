@@ -17,6 +17,7 @@
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
 #include "kernel/operators.h"
+#include "kernel/object.h"
 
 
 /**
@@ -31,7 +32,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Translate_Interpolator_IndexedArray) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Translate\\Interpolator, IndexedArray, phalcon, translate_interpolator_indexedarray, phalcon_translate_interpolator_indexedarray_method_entry, 0);
 
-	zend_class_implements(phalcon_translate_interpolator_indexedarray_ce TSRMLS_CC, 1, phalcon_translate_interpolatorinterface_ce);
+	zend_class_implements(phalcon_translate_interpolator_indexedarray_ce TSRMLS_CC, 1, phalcon_translate_interpolator_interpolatorinterface_ce);
 	return SUCCESS;
 
 }
@@ -74,7 +75,7 @@ PHP_METHOD(Phalcon_Translate_Interpolator_IndexedArray, replacePlaceholders) {
 
 	if (zephir_fast_count_int(&placeholders TSRMLS_CC)) {
 		ZEPHIR_MAKE_REF(&placeholders);
-		ZEPHIR_CALL_FUNCTION(NULL, "array_unshift", NULL, 494, &placeholders, &translation);
+		ZEPHIR_CALL_FUNCTION(NULL, "array_unshift", NULL, 511, &placeholders, &translation);
 		ZEPHIR_UNREF(&placeholders);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_0$$3);

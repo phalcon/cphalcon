@@ -93,7 +93,7 @@ PHP_METHOD(Phalcon_Paginator_Repository, __get) {
 	zephir_get_class(&_2, this_ptr, 0 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(&_3);
 	ZEPHIR_CONCAT_SVSV(&_3, "Access to undefined property ", &_2, "::", &property);
-	ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 2, &_3);
+	ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 6, &_3);
 	zephir_check_call_status();
 	RETURN_MM_NULL();
 
@@ -344,15 +344,16 @@ PHP_METHOD(Phalcon_Paginator_Repository, setProperties) {
  */
 PHP_METHOD(Phalcon_Paginator_Repository, getProperty) {
 
-	zval *property_param = NULL, *defaultValue = NULL, defaultValue_sub, __$null, value, _0;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zephir_fcall_cache_entry *_0 = NULL;
+	zval *property_param = NULL, *defaultValue = NULL, defaultValue_sub, __$null, _1;
 	zval property;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&property);
 	ZVAL_UNDEF(&defaultValue_sub);
 	ZVAL_NULL(&__$null);
-	ZVAL_UNDEF(&value);
-	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &property_param, &defaultValue);
@@ -364,17 +365,15 @@ PHP_METHOD(Phalcon_Paginator_Repository, getProperty) {
 	}
 
 
-	zephir_read_property(&_0, this_ptr, SL("properties"), PH_NOISY_CC | PH_READONLY);
-	if (!(zephir_array_isset_fetch(&value, &_0, &property, 1 TSRMLS_CC))) {
-		RETVAL_ZVAL(defaultValue, 1, 0);
-		RETURN_MM();
-	}
-	RETURN_CTOR(&value);
+	zephir_read_property(&_1, this_ptr, SL("properties"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_arr_ce, "get", &_0, 12, &_1, &property, defaultValue);
+	zephir_check_call_status();
+	RETURN_MM();
 
 }
 
 /**
- * Resolve legacy alias for compatibility with version 2.0.x
+ * Resolve alias property name
  */
 PHP_METHOD(Phalcon_Paginator_Repository, getRealNameProperty) {
 
@@ -396,7 +395,7 @@ PHP_METHOD(Phalcon_Paginator_Repository, getRealNameProperty) {
 	ZEPHIR_CALL_METHOD(&aliases, this_ptr, "getaliases", NULL, 0);
 	zephir_check_call_status();
 	if (zephir_array_isset(&aliases, &property)) {
-		zephir_array_fetch(&_0$$3, &aliases, &property, PH_NOISY | PH_READONLY, "phalcon/Paginator/Repository.zep", 168 TSRMLS_CC);
+		zephir_array_fetch(&_0$$3, &aliases, &property, PH_NOISY | PH_READONLY, "phalcon/Paginator/Repository.zep", 171 TSRMLS_CC);
 		RETURN_CTOR(&_0$$3);
 	}
 	RETURN_CTOR(&property);

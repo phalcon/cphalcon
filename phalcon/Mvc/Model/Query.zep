@@ -13,8 +13,8 @@ namespace Phalcon\Mvc\Model;
 use Phalcon\Db\Column;
 use Phalcon\Db\RawValue;
 use Phalcon\Db\ResultInterface;
-use Phalcon\Db\AdapterInterface;
-use Phalcon\DiInterface;
+use Phalcon\Db\Adapter\AdapterInterface;
+use Phalcon\Di\DiInterface;
 use Phalcon\Helper\Arr;
 use Phalcon\Mvc\Model\Row;
 use Phalcon\Mvc\ModelInterface;
@@ -37,7 +37,7 @@ use Phalcon\Cache\Adapter\AdapterInterface;
  *
  * This class takes a PHQL intermediate representation and executes it.
  *
- *<code>
+ *```php
  * $phql = "SELECT c.price*0.16 AS taxes, c.* FROM Cars AS c JOIN Brands AS b
  *          WHERE b.name = :name: ORDER BY c.name";
  *
@@ -80,7 +80,7 @@ use Phalcon\Cache\Adapter\AdapterInterface;
  *
  * $queryWithOutTransaction = new Query($phql, $di);
  * $resultWithOutEntries = $queryWithTransaction->execute();
- *</code>
+ *```
  */
 class Query implements QueryInterface, InjectionAwareInterface
 {
@@ -2127,7 +2127,9 @@ class Query implements QueryInterface, InjectionAwareInterface
         }
 
         if unlikely typeof metaData != "object" {
-            throw new Exception("A meta-data is required to execute the query");
+            throw new Exception(
+                "A meta-data is required to execute the query"
+            );
         }
 
         // Process selected models
@@ -2292,6 +2294,7 @@ class Query implements QueryInterface, InjectionAwareInterface
                         select["joins"] = automaticJoins;
                 }
             }
+
             let sqlJoins = this->_getJoins(select);
         } else {
             if count(automaticJoins) {
@@ -3573,7 +3576,7 @@ class Query implements QueryInterface, InjectionAwareInterface
     }
 
     /**
-     * Query the records on which the UPDATE/DELETE operation well be done
+     * Query the records on which the UPDATE/DELETE operation will be done
      */
     final protected function _getRelatedRecords(<ModelInterface> model, array intermediate, array bindParams, array bindTypes) -> <ResultsetInterface>
     {

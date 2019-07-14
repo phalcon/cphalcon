@@ -12,10 +12,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Config\Adapter\Ini;
 
+use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
 class GetCest
 {
+    use ConfigTrait;
+
     /**
      * Tests Phalcon\Config\Adapter\Ini :: get()
      *
@@ -25,7 +28,6 @@ class GetCest
     public function configAdapterIniGet(UnitTester $I)
     {
         $I->wantToTest('Config\Adapter\Ini - get()');
-
-        $I->skipTest('Need implementation');
+        $this->checkGet($I, 'Ini');
     }
 }

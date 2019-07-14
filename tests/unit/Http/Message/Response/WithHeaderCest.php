@@ -29,15 +29,15 @@ class WithHeaderCest
         $data        = [
             'Accept' => ['text/html'],
         ];
-        $request     = new Response('php://memory', 200, $data);
-        $newInstance = $request->withHeader('Cache-Control', ['max-age=0']);
+        $response    = new Response('php://memory', 200, $data);
+        $newInstance = $response->withHeader('Cache-Control', ['max-age=0']);
 
-        $I->assertNotEquals($request, $newInstance);
+        $I->assertNotEquals($response, $newInstance);
 
         $expected = [
             'Accept' => ['text/html'],
         ];
-        $actual   = $request->getHeaders();
+        $actual   = $response->getHeaders();
         $I->assertEquals($expected, $actual);
 
         $expected = [

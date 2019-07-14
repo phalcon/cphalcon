@@ -127,14 +127,19 @@ class DispatcherAfterDispatchCest extends BaseDispatcher
     {
         $dispatcher = $this->getDispatcher();
 
-        $dispatcher->getEventsManager()->attach('dispatch:afterDispatch', function () {
-            throw new Exception('afterDispatch exception occurred');
-        })
-        ;
-        $dispatcher->getEventsManager()->attach('dispatch:beforeException', function () {
-            return false;
-        })
-        ;
+        $dispatcher->getEventsManager()->attach(
+            'dispatch:afterDispatch',
+            function () {
+                throw new Exception('afterDispatch exception occurred');
+            }
+        );
+
+        $dispatcher->getEventsManager()->attach(
+            'dispatch:beforeException',
+            function () {
+                return false;
+            }
+        );
 
         $dispatcher->dispatch();
 
@@ -186,15 +191,13 @@ class DispatcherAfterDispatchCest extends BaseDispatcher
         )
         ;
 
-        $caughtException = false;
+        $I->expectThrowable(
+            Exception::class,
+            function () use ($dispatcher) {
+                $dispatcher->dispatch();
+            }
+        );
 
-        try {
-            $dispatcher->dispatch();
-        } catch (Exception $exception) {
-            $caughtException = true;
-        }
-
-        $I->assertTrue($caughtException);
         $expected = [
             'beforeDispatchLoop',
             'beforeDispatch',
@@ -226,14 +229,17 @@ class DispatcherAfterDispatchCest extends BaseDispatcher
         $dispatcher         = $this->getDispatcher();
         $dispatcherListener = $this->getDispatcherListener();
 
-        $dispatcher->getEventsManager()->attach('dispatch:afterDispatch', function () use (&$forwarded) {
-            if ($forwarded === false) {
-                $forwarded = true;
+        $dispatcher->getEventsManager()->attach(
+            'dispatch:afterDispatch',
+            function () use (&$forwarded) {
+                if ($forwarded === false) {
+                    $forwarded = true;
 
-                throw new Exception('afterDispatch exception occurred');
+                    throw new Exception('afterDispatch exception occurred');
+                }
             }
-        })
-        ;
+        );
+
         $dispatcher->getEventsManager()->attach(
             'dispatch:beforeException',
             function ($event, $dispatcher) use ($dispatcherListener) {

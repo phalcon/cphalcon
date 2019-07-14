@@ -17,6 +17,7 @@
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
 #include "kernel/operators.h"
+#include "kernel/object.h"
 
 
 /**
@@ -31,9 +32,12 @@
  * @link    https://github.com/zendframework/zend-diactoros
  * @license https://github.com/zendframework/zend-diactoros/blob/master/LICENSE.md
  */
+/**
+ * PSR-17 UriFactory
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Http_Message_UriFactory) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Http\\Message, UriFactory, phalcon, http_message_urifactory, phalcon_http_message_urifactory_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Http\\Message, UriFactory, phalcon, http_message_urifactory, phalcon_http_message_urifactory_method_entry, ZEND_ACC_FINAL_CLASS);
 
 	zend_class_implements(phalcon_http_message_urifactory_ce TSRMLS_CC, 1, zephir_get_internal_ce(SL("psr\\http\\message\\urifactoryinterface")));
 	return SUCCESS;
@@ -74,7 +78,7 @@ PHP_METHOD(Phalcon_Http_Message_UriFactory, createUri) {
 
 
 	object_init_ex(return_value, phalcon_http_message_uri_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 277, &uri);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 98, &uri);
 	zephir_check_call_status();
 	RETURN_MM();
 

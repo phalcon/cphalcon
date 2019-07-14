@@ -23,7 +23,7 @@ class AddConnectCest
     /**
      * Tests Phalcon\Mvc\Router\Group :: addConnect()
      *
-     * @author Sid Roberts <sid@sidroberts.co.uk>
+     * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-17
      */
     public function mvcRouterGroupAddConnect(IntegrationTester $I)

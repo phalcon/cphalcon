@@ -16,12 +16,11 @@
 
 namespace Phalcon\Test\Unit\Di;
 
-use function dataDir;
 use Phalcon\Config;
+use InjectableComponent;
 use Phalcon\Di;
+use Phalcon\Di\DiInterface;
 use Phalcon\Di\Exception;
-use Phalcon\Di\Service;
-use Phalcon\DiInterface;
 use Phalcon\Http\Request;
 use Phalcon\Http\Response;
 use SimpleComponent;
@@ -29,6 +28,7 @@ use SomeComponent;
 use SomeServiceProvider;
 use stdClass;
 use UnitTester;
+use function dataDir;
 
 /**
  * Tests the \Phalcon\Di component
@@ -234,7 +234,9 @@ class DiCest
      */
     public function testMagicSetCall(UnitTester $I)
     {
-        $this->phDi->setRequest9('Phalcon\Http\Request');
+        $this->phDi->setRequest9(
+            Request::class
+        );
 
         $I->assertInstanceOf(
             Request::class,
@@ -257,7 +259,10 @@ class DiCest
             }
         );
 
-        $this->phDi->set('someComponent2', 'SomeComponent');
+        $this->phDi->set(
+            'someComponent2',
+            SomeComponent::class
+        );
 
 
         $someComponent1 = $this->phDi->get(
@@ -294,29 +299,17 @@ class DiCest
      */
     public function testGetServices(UnitTester $I)
     {
-        $expectedServices = [
-            'service1' => Service::__set_state(
-                [
-                    '_definition'     => 'some-service',
-                    '_shared'         => false,
-                    '_sharedInstance' => null,
-                ]
-            ),
-            'service2' => Service::__set_state(
-                [
-                    '_definition'     => 'some-other-service',
-                    '_shared'         => false,
-                    '_sharedInstance' => null,
-                ]
-            ),
-        ];
-
         $this->phDi->set('service1', 'some-service');
         $this->phDi->set('service2', 'some-other-service');
 
+        $services = $this->phDi->getServices();
         $I->assertEquals(
-            $expectedServices,
-            $this->phDi->getServices()
+            'some-service',
+            $services['service1']->getDefinition()
+        );
+        $I->assertEquals(
+            'some-other-service',
+            $services['service2']->getDefinition()
         );
     }
 
@@ -360,7 +353,10 @@ class DiCest
      */
     public function testResolvingViaArrayAccess(UnitTester $I)
     {
-        $this->phDi->set('simple', 'SimpleComponent');
+        $this->phDi->set(
+            'simple',
+            SimpleComponent::class
+        );
 
         $I->assertInstanceOf(
             SimpleComponent::class,
@@ -421,7 +417,7 @@ class DiCest
         $this->phDi->set(
             'simpleConstructor',
             [
-                'className' => \InjectableComponent::class,
+                'className' => InjectableComponent::class,
                 'arguments' => [
                     [
                         'type'  => 'parameter',
@@ -435,7 +431,7 @@ class DiCest
         $this->phDi->set(
             'simpleSetters',
             [
-                'className' => \InjectableComponent::class,
+                'className' => InjectableComponent::class,
                 'calls'     => [
                     [
                         'method'    => 'setResponse',
@@ -454,7 +450,7 @@ class DiCest
         $this->phDi->set(
             'simpleProperties',
             [
-                'className'  => \InjectableComponent::class,
+                'className'  => InjectableComponent::class,
                 'properties' => [
                     [
                         'name'  => 'response',
@@ -471,7 +467,7 @@ class DiCest
         $this->phDi->set(
             'complexConstructor',
             [
-                'className' => \InjectableComponent::class,
+                'className' => InjectableComponent::class,
                 'arguments' => [
                     [
                         'type' => 'service',
@@ -485,7 +481,7 @@ class DiCest
         $this->phDi->set(
             'complexSetters',
             [
-                'className' => \InjectableComponent::class,
+                'className' => InjectableComponent::class,
                 'calls'     => [
                     [
                         'method'    => 'setResponse',
@@ -504,7 +500,7 @@ class DiCest
         $this->phDi->set(
             'complexProperties',
             [
-                'className'  => \InjectableComponent::class,
+                'className'  => InjectableComponent::class,
                 'properties' => [
                     [
                         'name'  => 'response',

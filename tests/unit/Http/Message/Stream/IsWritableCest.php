@@ -15,6 +15,7 @@ namespace Phalcon\Test\Unit\Http\Message\Stream;
 use Codeception\Example;
 use Phalcon\Http\Message\Stream;
 use UnitTester;
+use function logsDir;
 
 class IsWritableCest
 {
@@ -29,9 +30,15 @@ class IsWritableCest
     public function httpMessageStreamIsWritable(UnitTester $I, Example $example)
     {
         $I->wantToTest('Http\Message\Stream - isWritable() - ' . $example[0]);
-        $fileName = dataDir('/assets/stream/bill-of-rights-empty.txt');
-        $stream   = new Stream($fileName, $example[0]);
-        $I->assertEquals($example[1], $stream->isWritable());
+
+        $fileName = dataDir('assets/stream/bill-of-rights-empty.txt');
+
+        $stream = new Stream($fileName, $example[0]);
+
+        $I->assertEquals(
+            $example[1],
+            $stream->isWritable()
+        );
     }
 
     /**
@@ -49,9 +56,14 @@ class IsWritableCest
         );
 
         $fileName = $I->getNewFileName();
-        $fileName = outputDir('tests/stream/' . $fileName);
-        $stream   = new Stream($fileName, $example[0]);
-        $I->assertEquals($example[1], $stream->isWritable());
+        $fileName = logsDir($fileName);
+
+        $stream = new Stream($fileName, $example[0]);
+
+        $I->assertEquals(
+            $example[1],
+            $stream->isWritable()
+        );
     }
 
     private function getExamplesX(): array

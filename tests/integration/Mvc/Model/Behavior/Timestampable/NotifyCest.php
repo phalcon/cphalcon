@@ -14,9 +14,6 @@ namespace Phalcon\Test\Integration\Mvc\Model\Behavior\Timestampable;
 
 use IntegrationTester;
 
-/**
- * Class NotifyCest
- */
 class NotifyCest
 {
     /**
@@ -28,6 +25,7 @@ class NotifyCest
     public function mvcModelBehaviorTimestampableNotify(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Model\Behavior\Timestampable - notify()');
+
         $I->skipTest('Need implementation');
     }
 }

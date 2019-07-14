@@ -13,15 +13,16 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Translate\Adapter\Gettext;
 
 use ArrayAccess;
-use Phalcon\Test\Fixtures\Traits\TranslateTrait;
+use Phalcon\Test\Fixtures\Traits\TranslateGettextTrait;
+use Phalcon\Translate\Adapter\AdapterInterface;
 use Phalcon\Translate\Adapter\Gettext;
-use Phalcon\Translate\AdapterInterface;
 use Phalcon\Translate\Exception;
+use Phalcon\Translate\InterpolatorFactory;
 use UnitTester;
 
 class ConstructCest
 {
-    use TranslateTrait;
+    use TranslateGettextTrait;
 
     /**
      * Tests Phalcon\Translate\Adapter\Gettext :: __construct()
@@ -33,9 +34,11 @@ class ConstructCest
     {
         $I->wantToTest('Translate\Adapter\Gettext - constructor');
 
-        $params = $this->getGettextConfig();
-
-        $translator = new Gettext($params);
+        $params     = $this->getGettextConfig();
+        $translator = new Gettext(
+            new InterpolatorFactory(),
+            $params
+        );
 
         $I->assertInstanceOf(
             ArrayAccess::class,
@@ -62,6 +65,7 @@ class ConstructCest
             new Exception("Parameter 'locale' is required"),
             function () {
                 new Gettext(
+                    new InterpolatorFactory(),
                     []
                 );
             }

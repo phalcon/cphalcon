@@ -10,7 +10,8 @@
 
 namespace Phalcon;
 
-use Phalcon\EscaperInterface;
+use Phalcon\Di\DiInterface;
+use Phalcon\Escaper\EscaperInterface;
 use Phalcon\Escaper\Exception;
 
 /**
@@ -22,13 +23,13 @@ use Phalcon\Escaper\Exception;
  * This component only works with UTF-8. The PREG extension needs to be compiled
  * with UTF-8 support.
  *
- *<code>
+ *```php
  * $escaper = new \Phalcon\Escaper();
- * 
+ *
  * $escaped = $escaper->escapeCss("font-family: <Verdana>");
- * 
+ *
  * echo $escaped; // font\2D family\3A \20 \3C Verdana\3E
- *</code>
+ *```
  */
 class Escaper implements EscaperInterface
 {
@@ -185,9 +186,9 @@ class Escaper implements EscaperInterface
     /**
      * Sets the double_encode to be used by the escaper
      *
-     *<code>
+     *```php
      * $escaper->setDoubleEncode(false);
-     *</code>
+     *```
      */
     public function setDoubleEncode(bool doubleEncode) -> void
     {
@@ -197,9 +198,9 @@ class Escaper implements EscaperInterface
     /**
      * Sets the encoding to be used by the escaper
      *
-     *<code>
+     *```php
      * $escaper->setEncoding("utf-8");
-     *</code>
+     *```
      */
     public function setEncoding(string encoding) -> void
     {
@@ -209,9 +210,9 @@ class Escaper implements EscaperInterface
     /**
      * Sets the HTML quoting type for htmlspecialchars
      *
-     *<code>
+     *```php
      * $escaper->setHtmlQuoteType(ENT_XHTML);
-     *</code>
+     *```
      */
     public function setHtmlQuoteType(int quoteType) -> void
     {

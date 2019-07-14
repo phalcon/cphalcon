@@ -28,6 +28,9 @@ class IsWritableCest
         $I->wantToTest('Http\Message\Stream\Input - isWritable()');
 
         $stream = new Input();
-        $I->assertFalse($stream->isWritable());
+
+        $I->assertFalse(
+            $stream->isWritable()
+        );
     }
 }

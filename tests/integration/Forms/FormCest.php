@@ -14,7 +14,6 @@ namespace Phalcon\Test\Integration\Forms;
 use IntegrationTester;
 use Phalcon\Forms\Element\Text;
 use Phalcon\Forms\Form;
-use Phalcon\Html\Interfaces\AttributesInterface;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
 use Phalcon\Tag;
@@ -22,6 +21,7 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Validation\Validator\PresenceOf;
 use Phalcon\Validation\Validator\Regex;
 use Phalcon\Validation\Validator\StringLength;
+use Phalcon\Validation\Validator\StringLength\Min;
 
 class FormCest
 {
@@ -43,135 +43,6 @@ class FormCest
         Tag::setDocType(
             Tag::XHTML5
         );
-    }
-
-    /**
-     * Test form attributes
-     */
-    public function testAttributes(IntegrationTester $I)
-    {
-        $form = new Form();
-
-        // Form implements AttributeInterface
-        $I->assertInstanceOf(AttributesInterface::class, $form);
-
-        // Empty attributes
-        $I->assertCount(0, $form->getAttributes());
-
-        // Set an attribute
-        $form->getAttributes()->set('attr', 'value');
-        $I->assertCount(1, $form->getAttributes());
-
-        // Check has attribute
-        $I->assertTrue($form->getAttributes()->has('attr'));
-        $I->assertFalse($form->getAttributes()->has('fake-attr'));
-        $I->assertFalse($form->getAttributes()->has('non exists attr'));
-
-        // Render an attribute
-        $result   = $form->getAttributes()->render();
-        $expected = ' attr="value"';
-        $I->assertEquals($expected, $result);
-
-        // Reset attributes
-        $form->getAttributes()->clear();
-        $I->assertCount(0, $form->getAttributes());
-
-        // Set multi attributes
-        $form->getAttributes()->init([
-            'attr1' => 'value1',
-            'attr2' => 'value2',
-            'attr3' => 'value3',
-        ]);
-
-        $I->assertCount(3, $form->getAttributes());
-
-        // Render multi attributes
-        $result   = $form->getAttributes()->render();
-        $expected = ' attr1="value1" attr2="value2" attr3="value3"';
-        $I->assertEquals($expected, $result);
-
-        // Get an attribute
-        $result   = $form->getAttributes()->get('attr2');
-        $expected = 'value2';
-        $I->assertEquals($expected, $result);
-
-        // Test action attribute
-        $form->setAction('/some-url');
-        $actual   = $form->getAction();
-        $expected = '/some-url';
-        $I->assertEquals($expected, $actual);
-
-        $actual   = $form->getAttributes()->get('action');
-        $expected = '/some-url';
-        $I->assertEquals($expected, $actual);
-
-        $result   = $form->getAttributes()->render();
-        $expected = ' action="/some-url" attr1="value1" attr2="value2" attr3="value3"';
-        $I->assertEquals($expected, $result);
-
-        // Remove an attribute
-        $form->getAttributes()->remove('attr2');
-        $actual = $form->getAttributes()->has('attr2');
-        $I->assertFalse($actual, 'Remove an attribute');
-        $I->assertCount(3, $form->getAttributes());
-
-        // Delete a nonexistent attribute
-        $form->getAttributes()->remove('attr2');
-
-        $actual = $form->getAttributes()->has('attr2');
-        $I->assertFalse($actual);
-
-        // Render multi attributes again
-        $result   = $form->getAttributes()->render();
-        $expected = ' action="/some-url" attr1="value1" attr3="value3"';
-        $I->assertEquals($expected, $result);
-
-        // Reset attributes
-        $form->getAttributes()->clear();
-        $I->assertCount(0, $form->getAttributes());
-
-        // Exception on non exists attribute
-        $I->assertNull($form->getAttributes()->get('non exists'));
-    }
-
-
-    public function testIterator(IntegrationTester $I)
-    {
-        $form = new Form();
-        $data = [];
-
-        foreach ($form as $key => $value) {
-            $data[$key] = $value->getName();
-        }
-
-
-        $expected = [];
-        $actual   = $data;
-
-        $I->assertEquals($expected, $actual);
-
-
-        $form->add(
-            new Text('name')
-        );
-
-        $form->add(
-            new Text('telephone')
-        );
-
-        foreach ($form as $key => $value) {
-            $data[$key] = $value->getName();
-        }
-
-
-        $expected = [
-            0 => 'name',
-            1 => 'telephone',
-        ];
-
-        $actual = $data;
-
-        $I->assertEquals($expected, $actual);
     }
 
     public function testLabels(IntegrationTester $I)
@@ -318,25 +189,25 @@ class FormCest
                 new Message(
                     'The telephone is required',
                     'telephone',
-                    'PresenceOf',
+                    PresenceOf::class,
                     0
                 ),
                 new Message(
                     'The telephone is too short',
                     'telephone',
-                    'TooShort',
+                    Min::class,
                     0
                 ),
                 new Message(
                     'The telephone has an invalid format',
                     'telephone',
-                    'Regex',
+                    Regex::class,
                     0
                 ),
                 new Message(
                     'The address is required',
                     'address',
-                    'PresenceOf',
+                    PresenceOf::class,
                     0
                 ),
             ]
@@ -363,7 +234,7 @@ class FormCest
                 new Message(
                     'The telephone has an invalid format',
                     'telephone',
-                    'Regex',
+                    Regex::class,
                     0
                 ),
             ]
@@ -440,7 +311,7 @@ class FormCest
                 new Message(
                     'The telephone has an invalid format',
                     'telephone',
-                    'Regex',
+                    Regex::class,
                     0
                 ),
             ]

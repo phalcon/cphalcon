@@ -30,12 +30,17 @@ class UnserializeCest
     public function storageSerializerPhpUnserialize(UnitTester $I, Example $example)
     {
         $I->wantToTest('Storage\Unserializer\Php - unserialize() - ' . $example[0]);
+
         $serializer = new Php();
 
         $expected = $example[1];
+
         $serializer->unserialize($example[2]);
-        $actual = $serializer->getData();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $serializer->getData()
+        );
     }
 
     private function getExamples(): array

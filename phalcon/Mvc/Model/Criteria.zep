@@ -12,7 +12,7 @@ namespace Phalcon\Mvc\Model;
 
 use Phalcon\Di;
 use Phalcon\Db\Column;
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Mvc\Model\CriteriaInterface;
@@ -26,7 +26,7 @@ use Phalcon\Mvc\Model\Query\BuilderInterface;
  * Phalcon\Mvc\Model::find() and Phalcon\Mvc\Model::findFirst() using an
  * object-oriented interface.
  *
- * <code>
+ * ```php
  * $robots = Robots::query()
  *     ->where("type = :type:")
  *     ->andWhere("year < 2000")
@@ -34,7 +34,7 @@ use Phalcon\Mvc\Model\Query\BuilderInterface;
  *     ->limit(5, 10)
  *     ->orderBy("name")
  *     ->execute();
- * </code>
+ * ```
  */
 class Criteria implements CriteriaInterface, InjectionAwareInterface
 {
@@ -125,14 +125,14 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     /**
      * Sets the columns to be queried
      *
-     *<code>
+     *```php
      * $criteria->columns(
      *     [
      *         "id",
      *         "name",
      *     ]
      * );
-     *</code>
+     *```
      *
      * @param string|array columns
      */
@@ -146,7 +146,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     /**
      * Adds an INNER join to the query
      *
-     *<code>
+     *```php
      * $criteria->join(
      *     Robots::class
      * );
@@ -168,7 +168,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      *     "r",
      *     "LEFT"
      * );
-     *</code>
+     *```
      */
     public function join(string! model, var conditions = null, var alias = null, var type = null) -> <CriteriaInterface>
     {
@@ -195,7 +195,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     /**
      * Adds an INNER join to the query
      *
-     *<code>
+     *```php
      * $criteria->innerJoin(
      *     Robots::class
      * );
@@ -210,7 +210,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      *     "r.id = RobotsParts.robots_id",
      *     "r"
      * );
-     *</code>
+     *```
      */
     public function innerJoin(string! model, var conditions = null, var alias = null) -> <CriteriaInterface>
     {
@@ -220,13 +220,13 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     /**
      * Adds a LEFT join to the query
      *
-     *<code>
+     *```php
      * $criteria->leftJoin(
      *     Robots::class,
      *     "r.id = RobotsParts.robots_id",
      *     "r"
      * );
-     *</code>
+     *```
      */
     public function leftJoin(string! model, var conditions = null, var alias = null) -> <CriteriaInterface>
     {
@@ -236,13 +236,13 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     /**
      * Adds a RIGHT join to the query
      *
-     *<code>
+     *```php
      * $criteria->rightJoin(
      *     Robots::class,
      *     "r.id = RobotsParts.robots_id",
      *     "r"
      * );
-     *</code>
+     *```
      */
     public function rightJoin(string! model, conditions = null, alias = null) -> <CriteriaInterface>
     {
@@ -320,9 +320,9 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     /**
      * Appends a BETWEEN condition to the current conditions
      *
-     *<code>
+     *```php
      * $criteria->betweenWhere("price", 100.25, 200.50);
-     *</code>
+     *```
      */
     public function betweenWhere(string! expr, var minimum, var maximum) -> <CriteriaInterface>
     {
@@ -362,9 +362,9 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     /**
      * Appends a NOT BETWEEN condition to the current conditions
      *
-     *<code>
+     *```php
      * $criteria->notBetweenWhere("price", 100.25, 200.50);
-     *</code>
+     *```
      */
     public function notBetweenWhere(string! expr, var minimum, var maximum) -> <CriteriaInterface>
     {
@@ -407,9 +407,9 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     /**
      * Appends an IN condition to the current conditions
      *
-     * <code>
+     * ```php
      * $criteria->inWhere("id", [1, 2, 3]);
-     * </code>
+     * ```
      */
     public function inWhere(string! expr, array! values) -> <CriteriaInterface>
     {
@@ -459,9 +459,9 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     /**
      * Appends a NOT IN condition to the current conditions
      *
-     *<code>
+     *```php
      * $criteria->notInWhere("id", [1, 2, 3]);
-     *</code>
+     *```
      */
     public function notInWhere(string! expr, array! values) -> <CriteriaInterface>
     {
@@ -542,15 +542,16 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     /**
      * Adds the limit parameter to the criteria.
      *
-     * <code>
+     * ```php
      * $criteria->limit(100);
      * $criteria->limit(100, 200);
      * $criteria->limit("100", "200");
-     * </code>
+     * ```
      */
     public function limit(int limit, int offset = 0) -> <CriteriaInterface>
     {
-        let limit = abs(limit);
+        let limit  = abs(limit);
+        let offset = abs(offset);
 
         if unlikely limit == 0 {
             return this;
@@ -783,12 +784,12 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     /**
      * Creates a query builder from criteria.
      *
-     * <code>
+     * ```php
      * $builder = Robots::query()
      *     ->where("type = :type:")
      *     ->bind(["type" => "mechanical"])
      *     ->createBuilder();
-     * </code>
+     * ```
      */
     public function createBuilder() -> <BuilderInterface>
     {

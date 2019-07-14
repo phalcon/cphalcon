@@ -31,13 +31,11 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Assets\Asset
- *
  * Represents an asset asset
  *
- *<code>
+ *```php
  * $asset = new \Phalcon\Assets\Asset("js", "javascripts/jquery.js");
- *</code>
+ *```
  */
 ZEPHIR_INIT_CLASS(Phalcon_Assets_Asset) {
 
@@ -394,9 +392,9 @@ PHP_METHOD(Phalcon_Assets_Asset, getContent) {
 			object_init_ex(&_1$$5, phalcon_assets_exception_ce);
 			ZEPHIR_INIT_VAR(&_2$$5);
 			ZEPHIR_CONCAT_SVS(&_2$$5, "Asset's content for '", &completePath, "' cannot be read");
-			ZEPHIR_CALL_METHOD(NULL, &_1$$5, "__construct", NULL, 1, &_2$$5);
+			ZEPHIR_CALL_METHOD(NULL, &_1$$5, "__construct", NULL, 5, &_2$$5);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_1$$5, "phalcon/Assets/Asset.zep", 137 TSRMLS_CC);
+			zephir_throw_exception_debug(&_1$$5, "phalcon/Assets/Asset.zep", 135 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -408,9 +406,9 @@ PHP_METHOD(Phalcon_Assets_Asset, getContent) {
 		object_init_ex(&_3$$6, phalcon_assets_exception_ce);
 		ZEPHIR_INIT_VAR(&_4$$6);
 		ZEPHIR_CONCAT_SVS(&_4$$6, "Asset's content for '", &completePath, "' cannot be read");
-		ZEPHIR_CALL_METHOD(NULL, &_3$$6, "__construct", NULL, 1, &_4$$6);
+		ZEPHIR_CALL_METHOD(NULL, &_3$$6, "__construct", NULL, 5, &_4$$6);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_3$$6, "phalcon/Assets/Asset.zep", 150 TSRMLS_CC);
+		zephir_throw_exception_debug(&_3$$6, "phalcon/Assets/Asset.zep", 148 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -454,7 +452,7 @@ PHP_METHOD(Phalcon_Assets_Asset, getRealSourcePath) {
 	if (zephir_is_true(&_0)) {
 		ZEPHIR_INIT_VAR(&_1$$4);
 		ZEPHIR_CONCAT_VV(&_1$$4, &basePath, &sourcePath);
-		ZEPHIR_RETURN_CALL_FUNCTION("realpath", NULL, 67, &_1$$4);
+		ZEPHIR_RETURN_CALL_FUNCTION("realpath", NULL, 86, &_1$$4);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
@@ -499,7 +497,7 @@ PHP_METHOD(Phalcon_Assets_Asset, getRealTargetPath) {
 		ZEPHIR_INIT_VAR(&completePath);
 		ZEPHIR_CONCAT_VV(&completePath, &basePath, &targetPath);
 		if ((zephir_file_exists(&completePath TSRMLS_CC) == SUCCESS)) {
-			ZEPHIR_RETURN_CALL_FUNCTION("realpath", NULL, 67, &completePath);
+			ZEPHIR_RETURN_CALL_FUNCTION("realpath", NULL, 86, &completePath);
 			zephir_check_call_status();
 			RETURN_MM();
 		}

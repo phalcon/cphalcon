@@ -13,22 +13,61 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Validation;
 
 use IntegrationTester;
+use Phalcon\Validation;
+use Phalcon\Validation\Validator\PresenceOf;
 
-/**
- * Class SetFiltersCest
- */
 class SetFiltersCest
 {
     /**
      * Tests Phalcon\Validation :: setFilters()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2019-04-16
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-05-27
      */
     public function validationSetFilters(IntegrationTester $I)
     {
         $I->wantToTest('Validation - setFilters()');
 
-        $I->skipTest('Need implementation');
+        $validation = new Validation();
+
+        $validation->add(
+            'name',
+            new PresenceOf(
+                [
+                    'message' => 'The name is required',
+                ]
+            )
+        );
+
+        $validation->setFilters('name', 'trim');
+
+        $messages = $validation->validate(
+            [
+                'name' => '    Sid    ',
+            ]
+        );
+
+        $I->assertEquals(
+            'Sid',
+            $validation->getValue('name')
+        );
+
+
+        $messages = $validation->validate(
+            [
+                'name' => '        ',
+            ]
+        );
+
+        $I->assertEmpty(
+            '',
+            $validation->getValue('name')
+        );
+
+
+        $I->assertEquals(
+            'The name is required',
+            $messages[0]->getMessage()
+        );
     }
 }

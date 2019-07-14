@@ -10,15 +10,17 @@
 
 namespace Phalcon\Translate\Adapter;
 
+use ArrayAccess;
 use Phalcon\Translate\Exception;
-use Phalcon\Translate\Adapter;
+use Phalcon\Translate\Adapter\AbstractAdapter;
+use Phalcon\Translate\InterpolatorFactory;
 
 /**
  * Phalcon\Translate\Adapter\NativeArray
  *
  * Allows to define translation lists using PHP arrays
  */
-class NativeArray extends Adapter implements \ArrayAccess
+class NativeArray extends AbstractAdapter implements ArrayAccess
 {
     /**
      * @var array
@@ -33,11 +35,11 @@ class NativeArray extends Adapter implements \ArrayAccess
     /**
      * Phalcon\Translate\Adapter\NativeArray constructor
      */
-    public function __construct(array! options) -> void
+    public function __construct(<InterpolatorFactory> interpolator, array! options) -> void
     {
         var data, error;
 
-        parent::__construct(options);
+        parent::__construct(interpolator, options);
 
         if unlikely !fetch data, options["content"] {
             throw new Exception("Translation content was not provided");

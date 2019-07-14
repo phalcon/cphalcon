@@ -81,6 +81,11 @@ class UniquenessCest
         );
     }
 
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
+    }
+
     /**
      * Tests uniqueness validator with single fields
      *
@@ -272,14 +277,12 @@ class UniquenessCest
             $messages->count()
         );
 
-
         $messages = $validation->validate(null, $this->anotherRobot);
 
         $I->assertEquals(
             0,
             $messages->count()
         );
-
 
         $messages = $validation->validate(null, $this->deletedRobot);
 

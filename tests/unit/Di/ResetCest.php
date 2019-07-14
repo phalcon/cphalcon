@@ -12,20 +12,34 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Di;
 
+use Phalcon\Di;
 use UnitTester;
 
 class ResetCest
 {
     /**
-     * Tests Phalcon\Di :: reset()
+     * Unit Tests Phalcon\Di :: reset()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2019-06-13
      */
     public function diReset(UnitTester $I)
     {
         $I->wantToTest('Di - reset()');
 
-        $I->skipTest('Need implementation');
+        // there is a DI container
+        $I->assertInstanceOf(Di::class, Di::getDefault());
+
+        $di = Di::getDefault();
+
+        // delete it
+        Di::reset();
+
+        $I->assertNull(Di::getDefault());
+
+        // set it again
+        Di::setDefault($di);
+
+        $I->assertInstanceOf(Di::class, Di::getDefault());
     }
 }

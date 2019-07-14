@@ -12,43 +12,52 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Asset\Css;
 
+use Codeception\Example;
 use Phalcon\Assets\Asset\Css;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 class SetAttributesCest
 {
-    use AssetsTrait;
-
     /**
-     * Tests Phalcon\Assets\Asset\Css :: setAttributes() - css local
+     * Tests Phalcon\Assets\Asset\Css :: setAttributes()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
+     *
+     * @dataProvider provider
      */
-    public function assetsAssetCssSetAttributesLocal(UnitTester $I)
+    public function assetsAssetCssSetAttributes(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Assets\Asset - setAttributes() - css local');
-        $asset = new Css('css/docs.css');
+        $I->wantToTest('Assets\Asset\Css - setAttributes()');
 
-        $expected = ['data-key' => 'phalcon'];
-        $asset->setAttributes($expected);
-        $this->assetGetAttributes($I, $asset, $expected);
+        $asset = new Css(
+            $example['path'],
+            $example['local']
+        );
+
+        $attributes = [
+            'data-key' => 'phalcon',
+        ];
+
+        $asset->setAttributes($attributes);
+
+        $I->assertEquals(
+            $attributes,
+            $asset->getAttributes()
+        );
     }
 
-    /**
-     * Tests Phalcon\Assets\Asset\Css :: setAttributes() - css remote
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsAssetCssSetAttributesRemote(UnitTester $I)
+    protected function provider(): array
     {
-        $I->wantToTest('Assets\Asset - setAttributes() - css remote');
-        $asset = new Css('https://phalcon.ld/css/docs.css', false);
-
-        $expected = ['data-key' => 'phalcon'];
-        $asset->setAttributes($expected);
-        $this->assetGetAttributes($I, $asset, $expected);
+        return [
+            [
+                'path'  => 'css/docs.css',
+                'local' => true,
+            ],
+            [
+                'path'  => 'https://phalcon.ld/css/docs.css',
+                'local' => false,
+            ],
+        ];
     }
 }

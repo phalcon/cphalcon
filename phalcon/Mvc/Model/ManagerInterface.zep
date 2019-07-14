@@ -10,8 +10,9 @@
 
 namespace Phalcon\Mvc\Model;
 
-use Phalcon\Db\AdapterInterface;
+use Phalcon\Db\Adapter\AdapterInterface;
 use Phalcon\Mvc\ModelInterface;
+use Phalcon\Mvc\Model\BehaviorInterface;
 use Phalcon\Mvc\Model\RelationInterface;
 use Phalcon\Mvc\Model\Query\BuilderInterface;
 use Phalcon\Mvc\Model\QueryInterface;
@@ -26,7 +27,7 @@ interface ManagerInterface
     /**
      * Binds a behavior to a model
      */
-    public function addBehavior(<ModelInterface> model, <\Phalcon\Mvc\Model\BehaviorInterface> behavior) -> void;
+    public function addBehavior(<ModelInterface> model, <BehaviorInterface> behavior) -> void;
 
     /**
      * Setup a relation reverse 1-1  between two models
@@ -114,10 +115,13 @@ interface ManagerInterface
     /**
      * Gets belongsTo related records from a model
      *
-     * @param string modelRelation
-     * @param array  parameters
+     * @param string            $modelName
+     * @param string            $modelRelation
+     * @param array|string|null $parameters
+     * @param ModelInterface    $record
+     * @param string|null       $method
      */
-    public function getBelongsToRecords(string! method, string! modelName, var modelRelation, <ModelInterface> record, parameters = null) -> <ResultsetInterface> | bool;
+    public function getBelongsToRecords(string! modelName, string! modelRelation, <ModelInterface> record, parameters = null, string method = null) -> <ResultsetInterface> | bool;
 
     /**
      * Gets hasMany relations defined on a model
@@ -127,10 +131,13 @@ interface ManagerInterface
     /**
      * Gets hasMany related records from a model
      *
-     * @param string modelRelation
-     * @param array  parameters
+     * @param string            $modelName
+     * @param string            $modelRelation
+     * @param array|string|null $parameters
+     * @param ModelInterface    $record
+     * @param string|null       $method
      */
-    public function getHasManyRecords(string! method, string! modelName, var modelRelation, <ModelInterface> record, parameters = null) -> <ResultsetInterface> | bool;
+    public function getHasManyRecords(string! modelName, string! modelRelation, <ModelInterface> record, parameters = null, string method = null) -> <ResultsetInterface> | bool;
 
     /**
      * Gets hasManyToMany relations defined on a model
@@ -150,10 +157,13 @@ interface ManagerInterface
     /**
      * Gets belongsTo related records from a model
      *
-     * @param string modelRelation
-     * @param array  parameters
+     * @param string            $modelName
+     * @param string            $modelRelation
+     * @param array|string|null $parameters
+     * @param ModelInterface    $record
+     * @param string|null       $method
      */
-    public function getHasOneRecords(string! method, string! modelName, var modelRelation, <ModelInterface> record, parameters = null) -> <ModelInterface> | bool;
+    public function getHasOneRecords(string! modelName, string! modelRelation, <ModelInterface> record, parameters = null, string method = null) -> <ModelInterface> | bool;
 
     /**
      * Get last initialized model
@@ -195,7 +205,7 @@ interface ManagerInterface
      *
      * @return \Phalcon\Mvc\Model\Resultset\Simple|Phalcon\Mvc\Model\Resultset\Simple|int|false
      */
-    public function getRelationRecords(<RelationInterface> relation, string! method, <ModelInterface> record, var parameters = null);
+    public function getRelationRecords(<RelationInterface> relation, <ModelInterface> record, var parameters = null, string method = null);
 
     /**
      * Query all the relationships defined on a model
@@ -245,12 +255,12 @@ interface ManagerInterface
     /**
      * Check whether a model property is declared as public.
      *
-     * <code>
+     * ```php
      * $isPublic = $manager->isVisibleModelProperty(
      *     new Robots(),
      *     "name"
      * );
-     * </code>
+     * ```
      */
     final public function isVisibleModelProperty(<ModelInterface> model, string property) -> bool;
 

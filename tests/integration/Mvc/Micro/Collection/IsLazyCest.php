@@ -12,22 +12,69 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Mvc\Micro\Collection;
 
+use Codeception\Example;
 use IntegrationTester;
+use Phalcon\Mvc\Micro\Collection;
+use Phalcon\Test\Fixtures\Micro\HttpMethodHandler;
 
-/**
- * Class IsLazyCest
- */
 class IsLazyCest
 {
     /**
+     * Tests Phalcon\Mvc\Micro\Collection :: isLazy() - default
+     *
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-06-08
+     */
+    public function mvcMicroCollectionIsLazyDefault(IntegrationTester $I)
+    {
+        $I->wantToTest('Mvc\Micro\Collection - isLazy() - default');
+
+        $collection = new Collection();
+
+        $httpMethodHandler = new HttpMethodHandler();
+
+        $collection->setHandler($httpMethodHandler);
+
+        $I->assertFalse(
+            $collection->isLazy()
+        );
+    }
+
+    /**
      * Tests Phalcon\Mvc\Micro\Collection :: isLazy()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-06-08
+     *
+     * @dataProvider booleanProvider
      */
-    public function mvcMicroCollectionIsLazy(IntegrationTester $I)
+    public function mvcMicroCollectionIsLazy(IntegrationTester $I, Example $example)
     {
         $I->wantToTest('Mvc\Micro\Collection - isLazy()');
-        $I->skipTest('Need implementation');
+
+        $lazy = $example[0];
+
+        $collection = new Collection();
+
+        $httpMethodHandler = new HttpMethodHandler();
+
+        $collection->setHandler($httpMethodHandler, $lazy);
+
+        $I->assertEquals(
+            $lazy,
+            $collection->isLazy()
+        );
+    }
+
+    private function booleanProvider(): array
+    {
+        return [
+            [
+                true,
+            ],
+            [
+                false,
+            ],
+        ];
     }
 }

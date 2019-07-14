@@ -10,21 +10,19 @@
 
 namespace Phalcon\Annotations\Adapter;
 
-use Phalcon\Annotations\Adapter;
+use Phalcon\Annotations\Adapter\AbstractAdapter;
 use Phalcon\Annotations\Reflection;
 
 /**
- * Phalcon\Annotations\Adapter\Apcu
- *
  * Stores the parsed annotations in APCu. This adapter is suitable for production
  *
- *<code>
+ *```php
  * use Phalcon\Annotations\Adapter\Apcu;
  *
  * $annotations = new Apcu();
- *</code>
+ *```
  */
-class Apcu extends Adapter
+class Apcu extends AbstractAdapter
 {
     /**
      * @var string

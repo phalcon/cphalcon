@@ -10,25 +10,25 @@
 
 namespace Phalcon\Forms;
 
+use Countable;
+use Iterator;
 use Phalcon\Di\Injectable;
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
 use Phalcon\FilterInterface;
+use Phalcon\Filter\FilterInterface;
 use Phalcon\Forms\Exception;
-use Phalcon\Forms\ElementInterface;
+use Phalcon\Forms\Element\ElementInterface;
 use Phalcon\Html\Attributes;
-use Phalcon\Html\Interfaces\AttributesInterface;
+use Phalcon\Html\Attributes\AttributesInterface;
 use Phalcon\Messages\Messages;
 use Phalcon\Tag;
 use Phalcon\Validation;
-use Phalcon\ValidationInterface;
-use Phalcon\Service\LocatorInterface;
+use Phalcon\Validation\ValidationInterface;
 
 /**
- * Phalcon\Forms\Form
- *
  * This component allows to build forms using an object-oriented interface
  */
-class Form extends Injectable implements \Countable, \Iterator, AttributesInterface
+class Form extends Injectable implements Countable, Iterator, AttributesInterface
 {
     protected attributes;
 
@@ -50,8 +50,6 @@ class Form extends Injectable implements \Countable, \Iterator, AttributesInterf
 
     /**
      * Phalcon\Forms\Form constructor
-     *
-     * @param object entity
      */
     public function __construct(var entity = null, array userOptions = []) -> void
     {
@@ -179,8 +177,7 @@ class Form extends Injectable implements \Countable, \Iterator, AttributesInterf
             if filters {
                 if typeof filter != "object" {
                     let container = this->getDI(),
-                        filter = <LocatorInterface> container->getShared("filter");
-//                        filter = <FilterInterface> container->getShared("filter");
+                        filter = <FilterInterface> container->getShared("filter");
                 }
 
                 /**
@@ -221,60 +218,44 @@ class Form extends Injectable implements \Countable, \Iterator, AttributesInterf
     {
         var elements, element, data, field;
 
-        let data = this->data;
-
-        if fields === null {
-            let data = [];
-        } else {
-            if typeof fields == "array" {
-                for field in fields {
-                    if isset data[field] {
-                        unset data[field];
-                    }
-                }
-            } else {
-                if isset data[field] {
-                    unset data[field];
-                }
-            }
-        }
-
-        let this->data = data,
+        let data = this->data,
             elements = this->elements;
 
         /**
-        * If fields is string, clear just that field.
-        * If it's array, clear only fields in array.
-        * If null, clear all
-        */
-        if typeof elements == "array" {
-            if fields === null {
-                for element in elements {
+         * If fields is string, clear just that field.
+         * If it's array, clear only fields in array.
+         * If null, clear all
+         */
+        if fields === null {
+            let data = [];
+
+            for element in elements {
+                Tag::setDefault(
+                    element->getName(),
+                    element->getDefault()
+                );
+            }
+        } else {
+            if typeof fields != "array" {
+                let fields = [fields];
+            }
+
+            for field in fields {
+                if isset data[field] {
+                    unset data[field];
+                }
+
+                if fetch element, elements[field] {
                     Tag::setDefault(
                         element->getName(),
                         element->getDefault()
                     );
                 }
-            } else {
-                if typeof fields == "array" {
-                    for element in elements {
-                        if in_array(element->getName(), fields) {
-                            Tag::setDefault(
-                                element->getName(),
-                                element->getDefault()
-                            );
-                        }
-                    }
-                } else {
-                    if fetch element, elements[fields] {
-                        Tag::setDefault(
-                            element->getName(),
-                            element->getDefault()
-                        );
-                    }
-                }
             }
         }
+
+        let this->data = data;
+
         return this;
     }
 
@@ -370,7 +351,7 @@ class Form extends Injectable implements \Countable, \Iterator, AttributesInterf
     /**
      * Returns the messages generated in the validation.
      *
-     * <code>
+     * ```php
      * if ($form->isValid($_POST) == false) {
      *     $messages = $form->getMessages();
      *
@@ -378,7 +359,7 @@ class Form extends Injectable implements \Countable, \Iterator, AttributesInterf
      *         echo $message, "<br>";
      *     }
      * }
-     * </code>
+     * ```
      */
     public function getMessages() -> <Messages> | array
     {
@@ -473,6 +454,7 @@ class Form extends Injectable implements \Countable, \Iterator, AttributesInterf
         }
 
         let forbidden = [
+            "attributes":    true,
             "validation":    true,
             "action":        true,
             "useroption":    true,

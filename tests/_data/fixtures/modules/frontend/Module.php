@@ -3,7 +3,7 @@
 namespace Phalcon\Test\Modules\Frontend;
 
 use function dataDir;
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
 use Phalcon\Mvc\ModuleDefinitionInterface;
 use Phalcon\Mvc\View;
 

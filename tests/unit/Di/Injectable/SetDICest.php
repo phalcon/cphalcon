@@ -17,10 +17,10 @@ use UnitTester;
 class SetDICest
 {
     /**
-     * Tests Phalcon\Di\Injectable :: setDI()
+     * Unit Tests Phalcon\Di\Injectable :: setDI()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2019-06-13
      */
     public function diInjectableSetDI(UnitTester $I)
     {

@@ -41,7 +41,6 @@ class SetStylesCest
         );
 
 
-
         $dump->setStyles(
             [
                 'int' => 'color:indigo',

@@ -13,9 +13,9 @@
 
 #include "kernel/main.h"
 #include "kernel/fcall.h"
+#include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/array.h"
-#include "kernel/object.h"
 #include "kernel/exception.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/operators.h"
@@ -86,7 +86,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetGet) {
 
 	ZEPHIR_OBS_VAR(&value);
 	if (UNEXPECTED(!(zephir_fetch_property_zval(&value, this_ptr, index, PH_SILENT_CC)))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The index does not exist in the row", "phalcon/Mvc/Model/Row.zep", 46);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The index does not exist in the row", "phalcon/Mvc/Model/Row.zep", 48);
 		return;
 	}
 	RETURN_CCTOR(&value);
@@ -131,7 +131,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetSet) {
 
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_mvc_model_exception_ce, "Row is an immutable ArrayAccess object", "phalcon/Mvc/Model/Row.zep", 70);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_mvc_model_exception_ce, "Row is an immutable ArrayAccess object", "phalcon/Mvc/Model/Row.zep", 72);
 	return;
 
 }
@@ -152,7 +152,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetUnset) {
 
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_mvc_model_exception_ce, "Row is an immutable ArrayAccess object", "phalcon/Mvc/Model/Row.zep", 80);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_mvc_model_exception_ce, "Row is an immutable ArrayAccess object", "phalcon/Mvc/Model/Row.zep", 82);
 	return;
 
 }
@@ -160,9 +160,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetUnset) {
 /**
  * Reads an attribute value by its name
  *
- *<code>
+ *```php
  * echo $robot->readAttribute("name");
- *</code>
+ *```
  *
  * @return mixed
  */
@@ -228,7 +228,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, toArray) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_RETURN_CALL_FUNCTION("get_object_vars", NULL, 7, this_ptr);
+	ZEPHIR_RETURN_CALL_FUNCTION("get_object_vars", NULL, 214, this_ptr);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -237,9 +237,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, toArray) {
 /**
  * Writes an attribute value by its name
  *
- *<code>
+ *```php
  * $robot->writeAttribute("name", "Rosey");
- *</code>
+ *```
  *
  * @param mixed value
  */

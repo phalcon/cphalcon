@@ -30,16 +30,16 @@ class WithoutHeaderCest
             'Accept'        => ['text/html'],
             'Cache-Control' => ['max-age=0'],
         ];
-        $request     = new Response('php://memory', 200, $data);
-        $newInstance = $request->withoutHeader('Accept');
+        $response    = new Response('php://memory', 200, $data);
+        $newInstance = $response->withoutHeader('Accept');
 
-        $I->assertNotEquals($request, $newInstance);
+        $I->assertNotEquals($response, $newInstance);
 
         $expected = [
             'Accept'        => ['text/html'],
             'Cache-Control' => ['max-age=0'],
         ];
-        $actual   = $request->getHeaders();
+        $actual   = $response->getHeaders();
         $I->assertEquals($expected, $actual);
 
         $expected = [

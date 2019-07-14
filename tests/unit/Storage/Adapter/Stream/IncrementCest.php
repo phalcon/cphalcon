@@ -12,11 +12,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Storage\Adapter\Stream;
 
-use function outputDir;
 use Phalcon\Storage\Adapter\Stream;
 use Phalcon\Storage\Exception;
 use Phalcon\Storage\SerializerFactory;
 use UnitTester;
+use function outputDir;
 
 class IncrementCest
 {
@@ -33,31 +33,53 @@ class IncrementCest
         $I->wantToTest('Storage\Adapter\Stream - increment()');
 
         $serializer = new SerializerFactory();
-        $adapter    = new Stream($serializer, ['cacheDir' => outputDir()]);
 
-        $key    = 'cache-data';
-        $result = $adapter->set($key, 1);
-        $I->assertTrue($result);
+        $adapter = new Stream(
+            $serializer,
+            [
+                'cacheDir' => outputDir(),
+            ]
+        );
+
+        $key = 'cache-data';
+
+        $I->assertTrue(
+            $adapter->set($key, 1)
+        );
+
 
         $expected = 2;
-        $actual   = $adapter->increment($key);
-        $I->assertEquals($expected, $actual);
 
-        $actual = $adapter->get($key);
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $adapter->increment($key)
+        );
+
+        $I->assertEquals(
+            $expected,
+            $adapter->get($key)
+        );
+
 
         $expected = 10;
-        $actual   = $adapter->increment($key, 8);
-        $I->assertEquals($expected, $actual);
 
-        $actual = $adapter->get($key);
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $adapter->increment($key, 8)
+        );
+
+        $I->assertEquals(
+            $expected,
+            $adapter->get($key)
+        );
 
         /**
          * unknown key
          */
-        $key    = 'unknown';
-        $result = $adapter->increment($key);
-        $I->assertFalse($result);
+        $key = 'unknown';
+
+        $I->assertFalse(
+            $adapter->increment($key)
+        );
     }
 }

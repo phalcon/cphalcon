@@ -30,37 +30,10 @@ class SetCest
         $registry = new Registry();
 
 
-
         $registry->set('three', 'two');
 
         $I->assertEquals(
             'two',
-            $registry->get('three')
-        );
-
-
-
-        $registry->three = 'Phalcon';
-
-        $I->assertEquals(
-            'Phalcon',
-            $registry->get('three')
-        );
-
-
-
-        $registry->offsetSet('three', 123);
-
-        $I->assertEquals(
-            123,
-            $registry->get('three')
-        );
-
-
-
-        $registry['three'] = true;
-
-        $I->assertTrue(
             $registry->get('three')
         );
     }

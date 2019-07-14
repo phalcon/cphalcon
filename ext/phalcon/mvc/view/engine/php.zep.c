@@ -30,13 +30,11 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Mvc\View\Engine\Php
- *
  * Adapter to use PHP itself as templating engine
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_View_Engine_Php) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\View\\Engine, Php, phalcon, mvc_view_engine_php, phalcon_mvc_view_engine_ce, phalcon_mvc_view_engine_php_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\View\\Engine, Php, phalcon, mvc_view_engine_php, phalcon_mvc_view_engine_abstractengine_ce, phalcon_mvc_view_engine_php_method_entry, 0);
 
 	return SUCCESS;
 
@@ -47,11 +45,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_View_Engine_Php) {
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render) {
 
-	zend_string *_2$$4;
-	zend_ulong _1$$4;
+	zend_string *_3$$4;
+	zend_ulong _2$$4;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool mustClean;
-	zval *path_param = NULL, *params, params_sub, *mustClean_param = NULL, key, value, *_0$$4, _3$$5, _4$$6, _5$$6;
+	zval *path_param = NULL, *params, params_sub, *mustClean_param = NULL, key, value, *_0$$4, _1$$4, _4$$5, _5$$6, _6$$7, _7$$7;
 	zval path;
 	zval *this_ptr = getThis();
 
@@ -59,9 +57,11 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render) {
 	ZVAL_UNDEF(&params_sub);
 	ZVAL_UNDEF(&key);
 	ZVAL_UNDEF(&value);
-	ZVAL_UNDEF(&_3$$5);
-	ZVAL_UNDEF(&_4$$6);
+	ZVAL_UNDEF(&_1$$4);
+	ZVAL_UNDEF(&_4$$5);
 	ZVAL_UNDEF(&_5$$6);
+	ZVAL_UNDEF(&_6$$7);
+	ZVAL_UNDEF(&_7$$7);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &path_param, &params, &mustClean_param);
@@ -84,26 +84,48 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render) {
 
 
 	if (mustClean) {
-		ZEPHIR_CALL_FUNCTION(NULL, "ob_clean", NULL, 482);
+		ZEPHIR_CALL_FUNCTION(NULL, "ob_clean", NULL, 499);
 		zephir_check_call_status();
 	}
 	if (Z_TYPE_P(params) == IS_ARRAY) {
-		zephir_is_iterable(params, 0, "phalcon/Mvc/View/Engine/Php.zep", 40);
-		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(params), _1$$4, _2$$4, _0$$4)
-		{
-			ZEPHIR_INIT_NVAR(&key);
-			if (_2$$4 != NULL) { 
-				ZVAL_STR_COPY(&key, _2$$4);
-			} else {
-				ZVAL_LONG(&key, _1$$4);
+		zephir_is_iterable(params, 0, "phalcon/Mvc/View/Engine/Php.zep", 38);
+		if (Z_TYPE_P(params) == IS_ARRAY) {
+			ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(params), _2$$4, _3$$4, _0$$4)
+			{
+				ZEPHIR_INIT_NVAR(&key);
+				if (_3$$4 != NULL) { 
+					ZVAL_STR_COPY(&key, _3$$4);
+				} else {
+					ZVAL_LONG(&key, _2$$4);
+				}
+				ZEPHIR_INIT_NVAR(&value);
+				ZVAL_COPY(&value, _0$$4);
+				ZEPHIR_CPY_WRT(&_4$$5, &value);
+				if (zephir_set_symbol(&key, &_4$$5 TSRMLS_CC) == FAILURE) {
+					return;
+				}
+			} ZEND_HASH_FOREACH_END();
+		} else {
+			ZEPHIR_CALL_METHOD(NULL, params, "rewind", NULL, 0);
+			zephir_check_call_status();
+			while (1) {
+				ZEPHIR_CALL_METHOD(&_1$$4, params, "valid", NULL, 0);
+				zephir_check_call_status();
+				if (!zend_is_true(&_1$$4)) {
+					break;
+				}
+				ZEPHIR_CALL_METHOD(&key, params, "key", NULL, 0);
+				zephir_check_call_status();
+				ZEPHIR_CALL_METHOD(&value, params, "current", NULL, 0);
+				zephir_check_call_status();
+					ZEPHIR_CPY_WRT(&_5$$6, &value);
+					if (zephir_set_symbol(&key, &_5$$6 TSRMLS_CC) == FAILURE) {
+						return;
+					}
+				ZEPHIR_CALL_METHOD(NULL, params, "next", NULL, 0);
+				zephir_check_call_status();
 			}
-			ZEPHIR_INIT_NVAR(&value);
-			ZVAL_COPY(&value, _0$$4);
-			ZEPHIR_CPY_WRT(&_3$$5, &value);
-			if (zephir_set_symbol(&key, &_3$$5 TSRMLS_CC) == FAILURE) {
-				return;
-			}
-		} ZEND_HASH_FOREACH_END();
+		}
 		ZEPHIR_INIT_NVAR(&value);
 		ZEPHIR_INIT_NVAR(&key);
 	}
@@ -111,10 +133,10 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render) {
 		RETURN_MM_NULL();
 	}
 	if (mustClean) {
-		zephir_read_property(&_4$$6, this_ptr, SL("view"), PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_CALL_FUNCTION(&_5$$6, "ob_get_contents", NULL, 481);
+		zephir_read_property(&_6$$7, this_ptr, SL("view"), PH_NOISY_CC | PH_READONLY);
+		ZEPHIR_CALL_FUNCTION(&_7$$7, "ob_get_contents", NULL, 498);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, &_4$$6, "setcontent", NULL, 0, &_5$$6);
+		ZEPHIR_CALL_METHOD(NULL, &_6$$7, "setcontent", NULL, 0, &_7$$7);
 		zephir_check_call_status();
 	}
 	ZEPHIR_MM_RESTORE();

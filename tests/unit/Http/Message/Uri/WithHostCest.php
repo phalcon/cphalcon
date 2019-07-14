@@ -28,13 +28,26 @@ class WithHostCest
     public function httpMessageUriWithHost(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Uri - withHost()');
+
         $query = 'https://phalcon:secret@%s:8080/action?param=value#frag';
-        $uri   = new Uri(sprintf($query, 'dev.phalcon.ld'));
+
+        $uri = new Uri(
+            sprintf($query, 'dev.phalcon.ld')
+        );
 
         $newInstance = $uri->withHost('prod.phalcon.ld');
+
         $I->assertNotEquals($uri, $newInstance);
-        $I->assertEquals('prod.phalcon.ld', $newInstance->getHost());
-        $I->assertEquals(sprintf($query, 'prod.phalcon.ld'), (string) $newInstance);
+
+        $I->assertEquals(
+            'prod.phalcon.ld',
+            $newInstance->getHost()
+        );
+
+        $I->assertEquals(
+            sprintf($query, 'prod.phalcon.ld'),
+            (string) $newInstance
+        );
     }
 
     /**
@@ -48,27 +61,55 @@ class WithHostCest
     public function httpUriWithHostException(UnitTester $I, Example $example)
     {
         $I->wantToTest('Http\Uri - withHost() - exception - ' . $example[1]);
+
         $I->expectThrowable(
             new InvalidArgumentException(
-                'Method requires a string argument instead of ' . $example[0]
+                'Method requires a string argument'
             ),
             function () use ($example) {
-                $query    = 'https://phalcon:secret@dev.phalcon.ld:8080/action?param=value#frag';
-                $uri      = new Uri($query);
+                $uri = new Uri(
+                    'https://phalcon:secret@dev.phalcon.ld:8080/action?param=value#frag'
+                );
+
                 $instance = $uri->withHost($example[2]);
             }
         );
     }
 
+
     private function getExamples(): array
     {
         return [
-            ['NULL', 'null', null],
-            ['boolean', 'true', true],
-            ['boolean', 'false', false],
-            ['integer', 'number', 1234],
-            ['array', 'array', ['/action']],
-            ['stdClass', 'object', (object) ['/action']],
+            [
+                'NULL',
+                'null',
+                null,
+            ],
+            [
+                'boolean',
+                'true',
+                true,
+            ],
+            [
+                'boolean',
+                'false',
+                false,
+            ],
+            [
+                'integer',
+                'number',
+                1234,
+            ],
+            [
+                'array',
+                'array',
+                ['/action'],
+            ],
+            [
+                'stdClass',
+                'object',
+                (object) ['/action'],
+            ],
         ];
     }
 }

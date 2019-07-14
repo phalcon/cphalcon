@@ -11,10 +11,9 @@
 namespace Phalcon\Helper;
 
 use Phalcon\Helper\Exception;
+use stdClass;
 
 /**
- * Phalcon\Helper\Arr
- *
  * This class offers quick array functions throughout the framework
  */
 class Arr
@@ -23,7 +22,7 @@ class Arr
     {
         var returnObject, key, value;
 
-        let returnObject = new \stdClass();
+        let returnObject = new stdClass();
 
         for key, value in collection {
             let returnObject->{key} = value;
@@ -97,14 +96,21 @@ class Arr
         var data, item;
 
         let data = [];
+
         for item in collection {
             if typeof item !== "array" {
                 let data[] = item;
             } else {
                 if deep {
-                    let data = array_merge(data, self::flatten(item, true));
+                    let data = array_merge(
+                        data,
+                        self::flatten(item, true)
+                    );
                 } else {
-                    let data = array_merge(data, array_values(item));
+                    let data = array_merge(
+                        data,
+                        array_values(item)
+                    );
                 }
             }
         }
@@ -115,15 +121,15 @@ class Arr
     /**
      * Helper method to get an array element or a default
      */
-    final public static function get(array! collection, var index, var defaultValue) -> var
+    final public static function get(array! collection, var index, var defaultValue = null) -> var
     {
         var value;
 
-        if likely fetch value, collection[index] {
-            return value;
+        if unlikely !fetch value, collection[index] {
+            return defaultValue;
         }
 
-        return defaultValue;
+        return value;
     }
 
     /**
@@ -140,6 +146,7 @@ class Arr
         array filtered;
 
         let filtered = [];
+
         for element in collection {
             if (typeof method !== "string" && is_callable(method)) || function_exists(method) {
                 let key             = call_user_func(method, element),
@@ -235,6 +242,7 @@ class Arr
         array sorted;
 
         let sorted = [];
+
         for item in collection {
             if typeof item === "object" {
                 let key = item->{attribute};
@@ -268,6 +276,7 @@ class Arr
         array filtered;
 
         let filtered = [];
+
         for item in collection {
             if typeof item === "object" && isset item->{element} {
                 let filtered[] = item->{element};
@@ -335,7 +344,10 @@ class Arr
      */
     final public static function split(array! collection) -> array
     {
-        return [array_keys(collection), array_values(collection)];
+        return [
+            array_keys(collection),
+            array_values(collection)
+        ];
     }
 
     /**
@@ -376,10 +388,38 @@ class Arr
      */
     final private static function filterCollection(array collection, var method = null) -> array
     {
-        if null !== method && is_callable(method)  {
-            return array_filter(collection, method);
-        } else {
+        if null === method || !is_callable(method)  {
             return collection;
         }
+
+        return array_filter(collection, method);
+    }
+
+    /**
+     * White list filter by key: obtain elements of an array filtering
+     * by the keys obtained from the elements of a whitelist
+     *
+     * @param array $collection
+     * @param array $whiteList
+     *
+     * @return array
+     */
+    final public static function whiteList(array! collection, array! whiteList) -> array
+    {
+        /**
+         * Clean whitelist, just strings and integers
+         */
+        let whiteList = array_filter(
+            whiteList,
+            function (element)
+            {
+                return is_int(element) || is_string(element);
+            }
+        );
+
+        return array_intersect_key(
+            collection,
+            array_flip(whiteList)
+        );
     }
 }

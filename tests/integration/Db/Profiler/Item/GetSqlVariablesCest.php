@@ -14,9 +14,6 @@ namespace Phalcon\Test\Integration\Db\Profiler\Item;
 
 use IntegrationTester;
 
-/**
- * Class GetSqlVariablesCest
- */
 class GetSqlVariablesCest
 {
     /**

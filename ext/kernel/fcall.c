@@ -421,6 +421,8 @@ int zephir_call_user_function(zval *object_pp, zend_class_entry *obj_ce, zephir_
 	}
 	else if (FAILURE == status || EG(exception)) {
 		ZVAL_NULL(retval_ptr);
+	} else if (Z_TYPE_P(retval_ptr) == IS_ARRAY) {
+		SEPARATE_ARRAY(retval_ptr);
 	}
 
 	return status;
@@ -537,7 +539,7 @@ int zephir_call_class_method_aparams(zval *return_value, zend_class_entry *ce, z
 
 			case zephir_fcall_ce:
 			case zephir_fcall_method:
-				zephir_throw_exception_format(spl_ce_RuntimeException, "Call to undefined method %s::%s()", ce->name, method_name);
+				zephir_throw_exception_format(spl_ce_RuntimeException, "Call to undefined method %s::%s()", ZSTR_VAL(ce->name), method_name);
 				break;
 
 			default:

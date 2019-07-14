@@ -18,7 +18,7 @@ use Phalcon\Assets\Asset\Js as AssetJs;
 use Phalcon\Assets\Asset\Css as AssetCss;
 use Phalcon\Assets\Inline\Css as InlineCss;
 use Phalcon\Assets\Inline\Js as InlineJs;
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
 use Phalcon\Di\InjectionAwareInterface;
 
 /**
@@ -30,6 +30,9 @@ class Manager implements InjectionAwareInterface
 {
     protected collections;
 
+    /**
+     * @var DiInterface
+     */
     protected container;
 
     /**
@@ -44,7 +47,7 @@ class Manager implements InjectionAwareInterface
     protected implicitOutput = true;
 
     /**
-     * Phalcon\Assets\Manager
+     * Phalcon\Assets\Manager constructor
      */
     public function __construct(array options = []) -> void
     {
@@ -54,13 +57,13 @@ class Manager implements InjectionAwareInterface
     /**
      * Adds a raw asset to the manager
      *
-     *<code>
+     *```php
      * $assets->addAsset(
      *     new Phalcon\Assets\Asset("css", "css/style.css")
      * );
-     *</code>
+     *```
      */
-    public function addAsset(<$Asset> asset) -> <Manager>
+    public function addAsset(<Asset> asset) -> <Manager>
     {
         /**
          * Adds the asset by its type
@@ -76,14 +79,14 @@ class Manager implements InjectionAwareInterface
     /**
      * Adds a asset by its type
      *
-     *<code>
+     *```php
      * $assets->addAssetByType(
      *     "css",
      *     new \Phalcon\Assets\Asset\Css("css/style.css")
      * );
-     *</code>
+     *```
      */
-    public function addAssetByType(string! type, <$Asset> asset) -> <Manager>
+    public function addAssetByType(string! type, <Asset> asset) -> <Manager>
     {
         var collection;
 
@@ -103,10 +106,10 @@ class Manager implements InjectionAwareInterface
     /**
     * Adds a Css asset to the 'css' collection
     *
-    *<code>
+    *```php
     * $assets->addCss("css/bootstrap.css");
     * $assets->addCss("http://bootstrap.my-cdn.com/style.css", false);
-    *</code>
+    *```
     */
     public function addCss(
         string! path,
@@ -187,10 +190,10 @@ class Manager implements InjectionAwareInterface
     /**
      * Adds a javascript asset to the 'js' collection
      *
-     *<code>
+     *```php
      * $assets->addJs("scripts/jquery.js");
      * $assets->addJs("http://jquery.my-cdn.com/jquery.js", false);
-     *</code>
+     *```
      */
     public function addJs(
         string! path,
@@ -234,22 +237,22 @@ class Manager implements InjectionAwareInterface
 
         for asset in assets {
             if asset->getType() == type {
-                let $filtered[] = asset;
+                let filtered[] = asset;
             }
         }
 
-        return $filtered;
+        return filtered;
     }
 
     /**
      * Returns true or false if collection exists.
      *
-     * <code>
+     * ```php
      * if ($assets->exists("jsHeader")) {
      *     // \Phalcon\Assets\Collection
      *     $collection = $assets->get("jsHeader");
      * }
-     * </code>
+     * ```
      */
     public function exists(string! id) -> bool
     {
@@ -259,9 +262,9 @@ class Manager implements InjectionAwareInterface
     /**
      * Returns a collection by its id.
      *
-     * <code>
+     * ```php
      * $scripts = $assets->get("js");
-     * </code>
+     * ```
      */
     public function get(string! id) -> <Collection>
     {
@@ -372,14 +375,12 @@ class Manager implements InjectionAwareInterface
          * Prepare options if the collection must be filtered
          */
         if count(filters) {
-
             let options = this->options;
 
             /**
              * Check for global options in the assets manager
              */
             if typeof options == "array" {
-
                 /**
                  * The source base path is a global location where all assets
                  * are located
@@ -456,7 +457,6 @@ class Manager implements InjectionAwareInterface
          * walk in assets
          */
         for asset in assets {
-
             let filterNeeded = false,
                 type         = asset->getType();
 
@@ -471,7 +471,6 @@ class Manager implements InjectionAwareInterface
              */
             if count(filters) {
                 if local {
-
                     /**
                      * Get the complete path
                      */
@@ -490,7 +489,6 @@ class Manager implements InjectionAwareInterface
                         );
                     }
                 } else {
-
                     /**
                      * Get the complete source path
                      */
@@ -518,7 +516,6 @@ class Manager implements InjectionAwareInterface
                 }
 
                 if local {
-
                     /**
                      * Make sure the target path is not the same source path
                      */
@@ -537,7 +534,6 @@ class Manager implements InjectionAwareInterface
                     }
                 }
             } else {
-
                 /**
                  * If there are not filters, just print/buffer the HTML
                  */
@@ -566,12 +562,11 @@ class Manager implements InjectionAwareInterface
                 /**
                  * Prepare the parameters for the callback
                  */
-                let parameters = [];
                 if typeof attributes == "array" {
                     let attributes[0] = prefixedPath;
-                    let parameters[] = attributes;
+                    let parameters = [attributes];
                 } else {
-                    let parameters[] = prefixedPath;
+                    let parameters = [prefixedPath];
                 }
                 let parameters[] = local;
 
@@ -593,7 +588,6 @@ class Manager implements InjectionAwareInterface
             }
 
             if filterNeeded == true {
-
                 /**
                  * Gets the asset's content
                  */
@@ -609,7 +603,6 @@ class Manager implements InjectionAwareInterface
                  */
                 if mustFilter == true {
                     for filter in filters {
-
                         /**
                          * Filters must be valid objects
                          */
@@ -624,6 +617,7 @@ class Manager implements InjectionAwareInterface
                         let filteredContent = filter->filter(content),
                             content         = filteredContent;
                     }
+
                     /**
                      * Update the joined filtered content
                      */
@@ -635,7 +629,6 @@ class Manager implements InjectionAwareInterface
                         }
                     }
                 } else {
-
                     /**
                      * Update the joined filtered content
                      */
@@ -656,7 +649,6 @@ class Manager implements InjectionAwareInterface
             }
 
             if !join {
-
                 /**
                  * Generate the HTML using the original path in the asset
                  */
@@ -664,7 +656,6 @@ class Manager implements InjectionAwareInterface
                     prefixedPath = this->getPrefixedPath(collection, path);
 
                 if null === asset->getVersion() && asset->isAutoVersion() {
-
 					let version     = collection->getVersion(),
 					    autoVersion = collection->isAutoVersion();
 
@@ -691,12 +682,11 @@ class Manager implements InjectionAwareInterface
                 /**
                  * Prepare the parameters for the callback
                  */
-                let parameters = [];
                 if typeof attributes == "array" {
                     let attributes[0] = prefixedPath;
-                    let parameters[] = attributes;
+                    let parameters = [attributes];
                 } else {
-                    let parameters[] = prefixedPath;
+                    let parameters = [prefixedPath];
                 }
                 let parameters[] = local;
 
@@ -717,9 +707,7 @@ class Manager implements InjectionAwareInterface
         }
 
         if count(filters) {
-
             if join == true {
-
                 /**
                  * Write the file using file_put_contents. This respects the
                  * openbase-dir also writes to streams
@@ -756,12 +744,11 @@ class Manager implements InjectionAwareInterface
                 /**
                  * Prepare the parameters for the callback
                  */
-                let parameters = [];
                 if typeof attributes == "array" {
                     let attributes[0] = prefixedPath,
-                        parameters[]  = attributes;
+                        parameters = [attributes];
                 } else {
-                    let parameters[] = prefixedPath;
+                    let parameters = [prefixedPath];
                 }
                 let parameters[] = local;
 
@@ -934,9 +921,9 @@ class Manager implements InjectionAwareInterface
     /**
      * Sets a collection in the Assets Manager
      *
-     *<code>
+     *```php
      * $assets->set("js", $collection);
-     *</code>
+     *```
      */
     public function set(string! id, <Collection> collection) -> <Manager>
     {
@@ -982,11 +969,10 @@ class Manager implements InjectionAwareInterface
 
         let prefix = collection->getPrefix();
 
-
-        if prefix {
-            return prefix . path;
-        } else {
+        if !prefix {
             return path;
         }
+
+        return prefix . path;
     }
 }

@@ -12,89 +12,85 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Asset;
 
+use Codeception\Example;
 use Phalcon\Assets\Asset;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
 class SetLocalCest
 {
-    use AssetsTrait;
-
     /**
-     * Tests Phalcon\Assets\Asset :: setLocal() - css local
+     * Tests Phalcon\Assets\Asset :: setLocal() - local
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
+     *
+     * @dataProvider localProvider
      */
-    public function assetsAssetSetLocalCssLocal(UnitTester $I)
+    public function assetsAssetSetLocalCssLocal(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Assets\Asset - setLocal() - css local');
+        $I->wantToTest('Assets\Asset - setLocal() css local');
 
-        $asset = new Asset('css', 'https://phalcon.ld/css/docs.css');
+        $asset = new Asset(
+            $example['type'],
+            $example['path']
+        );
 
-        $expected = true;
+        $asset->setLocal(true);
 
-        $asset->setLocal($expected);
-
-        $this->assetGetLocal($I, $asset, $expected);
+        $I->assertTrue(
+            $asset->getLocal()
+        );
     }
 
     /**
-     * Tests Phalcon\Assets\Asset :: setLocal() - css remote
+     * Tests Phalcon\Assets\Asset :: setLocal() - remote
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
+     *
+     * @dataProvider remoteProvider
      */
-    public function assetsAssetSetLocalCssRemote(UnitTester $I)
+    public function assetsAssetSetLocalCssRemote(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Assets\Asset - setLocal() - css remote');
-        $I->skipTest('TODO - Need checking');
+        $I->wantToTest('Assets\Asset - setLocal() - remote');
 
-        $asset = new Asset('css', 'https://phalcon.ld/css/docs.css');
+        $asset = new Asset(
+            $example['type'],
+            $example['path']
+        );
 
-        $expected = false;
+        $asset->setLocal(false);
 
-        $asset->setLocal($expected);
-
-        $this->assetGetLocal($I, $asset, $expected);
+        $I->assertFalse(
+            $asset->getLocal()
+        );
     }
 
-    /**
-     * Tests Phalcon\Assets\Asset :: setLocal() - js local
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsAssetSetLocalJsLocal(UnitTester $I)
+    protected function localProvider(): array
     {
-        $I->wantToTest('Assets\Asset - setLocal() - js local');
-
-        $asset = new Asset('js', 'https://phalcon.ld/js/jquery.js');
-
-        $expected = true;
-
-        $asset->setLocal($expected);
-
-        $this->assetGetLocal($I, $asset, $expected);
+        return [
+            [
+                'type' => 'css',
+                'path' => 'css/docs.css',
+            ],
+            [
+                'type' => 'js',
+                'path' => 'js/jquery.js',
+            ],
+        ];
     }
 
-    /**
-     * Tests Phalcon\Assets\Asset :: setLocal() - js remote
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsAssetSetLocalJsRemote(UnitTester $I)
+    protected function remoteProvider(): array
     {
-        $I->wantToTest('Assets\Asset - setLocal() - js remote');
-        $I->skipTest('TODO - Need checking');
-
-        $asset = new Asset('js', 'https://phalcon.ld/js/jquery.js');
-
-        $expected = false;
-
-        $asset->setLocal($expected);
-
-        $this->assetGetLocal($I, $asset, $expected);
+        return [
+            [
+                'type' => 'css',
+                'path' => 'https://phalcon.ld/css/docs.css',
+            ],
+            [
+                'type' => 'js',
+                'path' => 'https://phalcon.ld/js/jquery.js',
+            ],
+        ];
     }
 }

@@ -14,9 +14,6 @@ namespace Phalcon\Test\Integration\Mvc\View\Engine\Volt;
 
 use IntegrationTester;
 
-/**
- * Class PartialCest
- */
 class PartialCest
 {
     /**

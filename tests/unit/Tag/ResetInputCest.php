@@ -31,12 +31,18 @@ class ResetInputCest
     {
         $I->wantToTest('Tag - resetInput() - should not clear POST data');
 
-        $_POST = ['a' => '1', 'b' => '2'];
+        $_POST = [
+            'a' => '1',
+            'b' => '2',
+        ];
 
         Tag::resetInput();
 
         $I->assertEquals(
-            ['a' => '1', 'b' => '2'],
+            [
+                'a' => '1',
+                'b' => '2',
+            ],
             $_POST
         );
     }

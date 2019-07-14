@@ -47,7 +47,7 @@ class RegexCest
                 new Message(
                     'Field car_plate does not match the required format',
                     'car_plate',
-                    'Regex',
+                    Regex::class,
                     0
                 ),
             ]
@@ -255,7 +255,7 @@ class RegexCest
 
         $validation->add(
             'car_plate',
-            new Validation\Validator\Regex(
+            new Regex(
                 [
                     'pattern' => '/[A-Z]{3}\-[0-9]{3}/',
                     'message' => 'The car plate is not valid',
@@ -273,7 +273,7 @@ class RegexCest
                 new Message(
                     'The car plate is not valid',
                     'car_plate',
-                    'Regex',
+                    Regex::class,
                     0
                 ),
             ]

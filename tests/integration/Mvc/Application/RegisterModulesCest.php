@@ -15,7 +15,7 @@ namespace Phalcon\Test\Integration\Mvc\Application;
 use IntegrationTester;
 use Phalcon\Di;
 use Phalcon\Di\FactoryDefault;
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
 use Phalcon\Mvc\Application;
 use Phalcon\Mvc\Router;
 use Phalcon\Mvc\View;
@@ -158,7 +158,7 @@ class RegisterModulesCest
     /**
      * Tests Phalcon\Mvc\Application :: registerModules() - bad path throws exception
      *
-     * @author Sid Roberts <sid@sidroberts.co.uk>
+     * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-15
      */
     public function mvcApplicationRegisterModulesBadPathThrowsAnException(IntegrationTester $I)

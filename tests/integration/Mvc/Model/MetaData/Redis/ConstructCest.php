@@ -22,9 +22,6 @@ use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Robots;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     use DiTrait;
@@ -54,6 +51,11 @@ class ConstructCest
         );
 
         $this->data = require dataDir('fixtures/metadata/robots.php');
+    }
+
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
     }
 
     /**

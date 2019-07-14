@@ -32,7 +32,7 @@ interface ManagerInterface
     /**
      * Returns a new \Phalcon\Mvc\Model\Transaction or an already created once
      */
-    public function get(bool autoBegin = true) -> <\Phalcon\Mvc\Model\TransactionInterface>;
+    public function get(bool autoBegin = true) -> <TransactionInterface>;
 
     /**
      * Returns the database service used to isolate the transaction

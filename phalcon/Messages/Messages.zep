@@ -10,16 +10,18 @@
 
 namespace Phalcon\Messages;
 
+use ArrayAccess;
+use Countable;
+use Iterator;
+use JsonSerializable;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Exception;
 use Phalcon\Messages\MessageInterface;
 
 /**
- * Phalcon\Messages\Messages
- *
  * Represents a collection of messages
  */
-class Messages implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable
+class Messages implements ArrayAccess, Countable, Iterator, JsonSerializable
 {
     /**
      * @var int
@@ -42,11 +44,11 @@ class Messages implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable
     /**
      * Appends a message to the collection
      *
-     *<code>
+     *```php
      * $messages->appendMessage(
      *     new \Phalcon\Messages\Message("This is a message")
      * );
-     *</code>
+     *```
      */
     public function appendMessage(<MessageInterface> message)
     {
@@ -56,9 +58,9 @@ class Messages implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable
     /**
      * Appends an array of messages to the collection
      *
-     *<code>
+     *```php
      * $messages->appendMessages($messagesArray);
-     *</code>
+     *```
      *
      * @param \Phalcon\Messages\MessageInterface[] messages
      */
@@ -152,10 +154,10 @@ class Messages implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable
      * Returns serialised message objects as array for json_encode. Calls
      * jsonSerialize on each object if present
      *
-     *<code>
+     *```php
      * $data = $messages->jsonSerialize();
      * echo json_encode($data);
-     *</code>
+     *```
      */
     public function jsonSerialize() -> array
     {
@@ -194,11 +196,11 @@ class Messages implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable
     /**
      * Checks if an index exists
      *
-     *<code>
+     *```php
      * var_dump(
      *     isset($message["database"])
      * );
-     *</code>
+     *```
      *
      * @param int index
      */
@@ -210,11 +212,11 @@ class Messages implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable
     /**
      * Gets an attribute a message using the array syntax
      *
-     *<code>
+     *```php
      * print_r(
      *     $messages[0]
      * );
-     *</code>
+     *```
      */
     public function offsetGet(var index) -> var
     {
@@ -230,9 +232,9 @@ class Messages implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable
     /**
      * Sets an attribute using the array-syntax
      *
-     *<code>
+     *```php
      * $messages[0] = new \Phalcon\Messages\Message("This is a message");
-     *</code>
+     *```
      *
      * @param \Phalcon\Messages\Message message
      */
@@ -248,9 +250,9 @@ class Messages implements \ArrayAccess, \Countable, \Iterator, \JsonSerializable
     /**
      * Removes a message from the list
      *
-     *<code>
+     *```php
      * unset($message["database"]);
-     *</code>
+     *```
      */
     public function offsetUnset(var index) -> void
     {

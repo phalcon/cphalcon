@@ -11,8 +11,6 @@
 namespace Phalcon\Db;
 
 /**
- * Phalcon\Db\Dialect
- *
  * This is the base class to each database dialect. This implements
  * common methods to transform intermediate code into its RDBMS related syntax
  */
@@ -87,11 +85,11 @@ abstract class Dialect implements DialectInterface
     /**
      * Returns a SQL modified with a FOR UPDATE clause
      *
-     *<code>
+     *```php
      * $sql = $dialect->forUpdate("SELECT * FROM robots");
      *
      * echo $sql; // SELECT * FROM robots FOR UPDATE
-     *</code>
+     *```
      */
     public function forUpdate(string! sqlQuery) -> string
     {
@@ -101,14 +99,14 @@ abstract class Dialect implements DialectInterface
     /**
      * Gets a list of columns with escaped identifiers
      *
-     * <code>
+     * ```php
      * echo $dialect->getColumnList(
      *     [
      *         "column1",
      *         "column",
      *     ]
      * );
-     * </code>
+     * ```
      */
     final public function getColumnList(array! columnList, string escapeChar = null, bindCounts = null) -> string
     {
@@ -207,7 +205,8 @@ abstract class Dialect implements DialectInterface
     public function getSqlExpression(array! expression, string escapeChar = null, bindCounts = null) -> string
     {
         int i;
-        var type, times, postTimes, placeholders, rawValue, value;
+        var type, times, postTimes, rawValue, value;
+        array placeholders;
 
         if unlikely !fetch type, expression["type"] {
             throw new Exception("Invalid SQL expression");
@@ -398,7 +397,7 @@ abstract class Dialect implements DialectInterface
     /**
      * Generates the SQL for LIMIT clause
      *
-     * <code>
+     * ```php
      * // SELECT * FROM robots LIMIT 10
      * echo $dialect->limit(
      *     "SELECT * FROM robots",
@@ -410,7 +409,7 @@ abstract class Dialect implements DialectInterface
      *     "SELECT * FROM robots",
      *     [10, 50]
      * );
-     * </code>
+     * ```
      */
     public function limit(string! sqlQuery, var number) -> string
     {
@@ -458,8 +457,8 @@ abstract class Dialect implements DialectInterface
      */
     public function select(array! definition) -> string
     {
-        var tables, columns, sql, distinct, joins, where, escapeChar,
-            groupBy, having, orderBy, limit, forUpdate, bindCounts;
+        var tables, columns, sql, distinct, joins, where, escapeChar, groupBy,
+            having, orderBy, limit, forUpdate, bindCounts;
 
         if unlikely !fetch tables, definition["tables"] {
             throw new Exception(
@@ -651,7 +650,8 @@ abstract class Dialect implements DialectInterface
      */
     final protected function getSqlExpressionCase(array! expression, string escapeChar = null, bindCounts = null) -> string
     {
-        var sql, whenClause;
+        var whenClause;
+        string sql;
 
         let sql = "CASE " . this->getSqlExpression(expression["expr"], escapeChar, bindCounts);
 
@@ -813,11 +813,11 @@ abstract class Dialect implements DialectInterface
      */
     final protected function getSqlExpressionJoins(var expression, string escapeChar = null, bindCounts = null) -> string
     {
-        var condition, join, sql = "", joinCondition, joinTable, joinType = "",
+        var condition, join, joinCondition, joinTable, joinType = "",
             joinConditionsArray;
+        string sql = "";
 
         for join in expression {
-
             /**
              * Check if the join has conditions
              */
@@ -904,7 +904,8 @@ abstract class Dialect implements DialectInterface
      */
     final protected function getSqlExpressionList(array! expression, string escapeChar = null, bindCounts = null) -> string
     {
-        var items, item, values, separator;
+        var item, values, separator;
+        array items;
 
         let items = [];
         let separator = ", ";

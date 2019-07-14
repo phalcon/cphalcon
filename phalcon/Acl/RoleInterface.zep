@@ -11,8 +11,6 @@
 namespace Phalcon\Acl;
 
 /**
- * Phalcon\Acl\RoleInterface
- *
  * Interface for Phalcon\Acl\Role
  */
 interface RoleInterface

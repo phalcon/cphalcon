@@ -20,6 +20,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, setHandler);
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, setLazy);
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, setPrefix);
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, addMap);
+zend_object *zephir_init_properties_Phalcon_Mvc_Micro_Collection(zend_class_entry *class_type TSRMLS_DC);
 
 #if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_micro_collection_delete, 0, 2, Phalcon\\Mvc\\Micro\\CollectionInterface, 0)

@@ -28,16 +28,34 @@ class OrderCest
         $I->wantToTest('Helper\Arr - order()');
 
         $collection = [
-            ['id' => 2, 'name' => 'Joy'],
-            ['id' => 3, 'name' => 'Khaja'],
-            ['id' => 1, 'name' => 'Raja'],
+            [
+                'id'   => 2,
+                'name' => 'Paul',
+            ],
+            [
+                'id'   => 3,
+                'name' => 'Peter',
+            ],
+            [
+                'id'   => 1,
+                'name' => 'John',
+            ],
         ];
 
 
         $expected = [
-            ['id' => 1, 'name' => 'Raja'],
-            ['id' => 2, 'name' => 'Joy'],
-            ['id' => 3, 'name' => 'Khaja'],
+            [
+                'id'   => 1,
+                'name' => 'John',
+            ],
+            [
+                'id'   => 2,
+                'name' => 'Paul',
+            ],
+            [
+                'id'   => 3,
+                'name' => 'Peter',
+            ],
         ];
 
         $I->assertEquals(
@@ -47,9 +65,18 @@ class OrderCest
 
 
         $expected = [
-            ['id' => 3, 'name' => 'Khaja'],
-            ['id' => 2, 'name' => 'Joy'],
-            ['id' => 1, 'name' => 'Raja'],
+            [
+                'id'   => 3,
+                'name' => 'Peter',
+            ],
+            [
+                'id'   => 2,
+                'name' => 'Paul',
+            ],
+            [
+                'id'   => 1,
+                'name' => 'John',
+            ],
         ];
 
         $I->assertEquals(

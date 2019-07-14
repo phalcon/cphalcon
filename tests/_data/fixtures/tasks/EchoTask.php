@@ -1,6 +1,6 @@
 <?php
 
-class EchoTask extends \Phalcon\CLI\Task
+class EchoTask extends \Phalcon\Cli\Task
 {
     public function mainAction()
     {

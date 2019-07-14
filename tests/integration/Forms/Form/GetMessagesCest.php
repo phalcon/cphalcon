@@ -23,9 +23,6 @@ use Phalcon\Validation;
 use Phalcon\Validation\Validator\PresenceOf;
 use Phalcon\Validation\Validator\Regex;
 
-/**
- * Class GetMessagesCest
- */
 class GetMessagesCest
 {
     use DiTrait;
@@ -100,13 +97,13 @@ class GetMessagesCest
                 new Message(
                     'The telephone has an invalid format',
                     'telephone',
-                    'Regex',
+                    Regex::class,
                     0
                 ),
                 new Message(
                     'The telephone is required',
                     'telephone',
-                    'PresenceOf',
+                    PresenceOf::class,
                     0
                 ),
             ]

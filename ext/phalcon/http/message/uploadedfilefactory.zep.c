@@ -15,6 +15,7 @@
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/memory.h"
+#include "kernel/object.h"
 
 
 /**
@@ -29,9 +30,12 @@
  * @link    https://github.com/zendframework/zend-diactoros
  * @license https://github.com/zendframework/zend-diactoros/blob/master/LICENSE.md
  */
+/**
+ * PSR-17 UploadedFileFactory
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Http_Message_UploadedFileFactory) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Http\\Message, UploadedFileFactory, phalcon, http_message_uploadedfilefactory, phalcon_http_message_uploadedfilefactory_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Http\\Message, UploadedFileFactory, phalcon, http_message_uploadedfilefactory, phalcon_http_message_uploadedfilefactory_method_entry, ZEND_ACC_FINAL_CLASS);
 
 	zend_class_implements(phalcon_http_message_uploadedfilefactory_ce TSRMLS_CC, 1, zephir_get_internal_ce(SL("psr\\http\\message\\uploadedfilefactoryinterface")));
 	return SUCCESS;
@@ -99,7 +103,7 @@ PHP_METHOD(Phalcon_Http_Message_UploadedFileFactory, createUploadedFile) {
 	object_init_ex(return_value, phalcon_http_message_uploadedfile_ce);
 	ZVAL_LONG(&_0, size);
 	ZVAL_LONG(&_1, error);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 311, stream, &_0, &_1, &clientFilename, &clientMediaType);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 308, stream, &_0, &_1, &clientFilename, &clientMediaType);
 	zephir_check_call_status();
 	RETURN_MM();
 

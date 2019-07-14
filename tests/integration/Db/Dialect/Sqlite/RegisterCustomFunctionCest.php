@@ -14,9 +14,6 @@ namespace Phalcon\Test\Integration\Db\Dialect\Sqlite;
 
 use IntegrationTester;
 
-/**
- * Class RegisterCustomFunctionCest
- */
 class RegisterCustomFunctionCest
 {
     /**

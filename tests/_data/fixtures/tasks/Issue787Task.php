@@ -1,6 +1,6 @@
 <?php
 
-use Phalcon\CLI\Task;
+use Phalcon\Cli\Task;
 
 class Issue787Task extends Task
 {

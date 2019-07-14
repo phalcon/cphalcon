@@ -11,8 +11,6 @@
 namespace Phalcon\Cli\Router;
 
 /**
- * Phalcon\Cli\Router\Route
- *
  * This class represents every route added to the router
  */
 class Route
@@ -39,11 +37,9 @@ class Route
 
     protected pattern;
 
-    protected static uniqueId;
+    protected static uniqueId = 0;
 
     /**
-     * Phalcon\Cli\Router\Route constructor
-     *
      * @param array|string paths
      */
     public function __construct(string! pattern, paths = null) -> void
@@ -58,9 +54,6 @@ class Route
 
         // Get the unique Id from the static member uniqueId
         let uniqueId = self::uniqueId;
-        if uniqueId === null {
-            let uniqueId = 0;
-        }
 
         // TODO: Add a function that increase static members
         let routeId = uniqueId,
@@ -151,15 +144,10 @@ class Route
         }
 
         /**
-         * Check if the pattern has parentheses in order to add the regex
-         * delimiters
+         * Check if the pattern has parentheses or square brackets in order to
+         * add the regex delimiters
          */
-        if memstr(pattern, "(") {
-            return "#^" . pattern . "$#";
-        }
-
-        // Square brackets are also checked
-        if memstr(pattern, "[") {
+        if memstr(pattern, "(") || memstr(pattern, "[") {
             return "#^" . pattern . "$#";
         }
 
@@ -193,18 +181,19 @@ class Route
     public function extractNamedParams(string! pattern) -> array | bool
     {
         char ch;
-        var tmp, matches;
+        var tmp;
+        array matches;
         bool notValid;
         int cursor, cursorVar, marker, bracketCount = 0, parenthesesCount = 0, foundPattern = 0;
         int intermediate = 0, numberMatches = 0;
         string route, item, variable, regexp;
 
-        if strlen(pattern) <= 0 {
+        if strlen(pattern) === 0 {
             return false;
         }
 
         let matches = [],
-        route = "";
+            route = "";
 
         for cursor, ch in pattern {
             if parenthesesCount == 0 {
@@ -216,88 +205,81 @@ class Route
                     }
 
                     let bracketCount++;
-                } else {
-                    if ch == '}' {
-                        let bracketCount--;
+                } elseif ch == '}' {
+                    let bracketCount--;
 
-                        if intermediate > 0 {
-                            if bracketCount == 0 {
-                                let numberMatches++,
-                                    variable = null,
-                                    regexp = null,
-                                    item = (string) substr(pattern, marker, cursor - marker);
+                    if intermediate > 0 {
+                        if bracketCount == 0 {
+                            let numberMatches++,
+                                variable = null,
+                                regexp = null,
+                                item = (string) substr(pattern, marker, cursor - marker);
 
-                                for cursorVar, ch in item {
-                                    if ch == '\0' {
-                                        break;
-                                    }
-
-                                    if cursorVar == 0 && !((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z')) {
-                                        let notValid = true;
-
-                                        break;
-                                    }
-
-                                    if (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || (ch >= '0' && ch <='9') || ch == '-' || ch == '_' || ch ==  ':' {
-                                        if ch == ':' {
-                                            let variable = (string) substr(item, 0, cursorVar),
-                                                regexp = (string) substr(item, cursorVar + 1);
-
-                                            break;
-                                        }
-                                    } else {
-                                        let notValid = true;
-
-                                        break;
-                                    }
-
+                            for cursorVar, ch in item {
+                                if ch == '\0' {
+                                    break;
                                 }
 
-                                if !notValid {
-                                    let tmp = numberMatches;
+                                if cursorVar == 0 && !((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z')) {
+                                    let notValid = true;
 
-                                    if variable && regexp {
+                                    break;
+                                }
 
-                                        let foundPattern = 0;
-                                        for ch in regexp {
-                                            if ch == '\0' {
-                                                break;
-                                            }
+                                if (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || (ch >= '0' && ch <='9') || ch == '-' || ch == '_' || ch ==  ':' {
+                                    if ch == ':' {
+                                        let variable = (string) substr(item, 0, cursorVar),
+                                            regexp = (string) substr(item, cursorVar + 1);
 
-                                            if !foundPattern {
-                                                if ch == '(' {
-                                                    let foundPattern = 1;
-                                                }
-                                            } else {
-                                                if ch == ')' {
-                                                    let foundPattern = 2;
-
-                                                    break;
-                                                }
-                                            }
-                                         }
-
-                                        if foundPattern != 2 {
-                                            let route .= '(',
-                                                route .= regexp,
-                                                route .= ')';
-                                        } else {
-                                            let route .= regexp;
-                                        }
-
-                                        let matches[variable] = tmp;
-                                    } else {
-                                        let route .= "([^" . this->delimiter . "]*)",
-                                            matches[item] = tmp;
+                                        break;
                                     }
                                 } else {
-                                    let route .= '{',
-                                        route .= item,
-                                        route .= '}';
-                                }
+                                    let notValid = true;
 
-                                continue;
+                                    break;
+                                }
                             }
+
+                            if !notValid {
+                                let tmp = numberMatches;
+
+                                if variable && regexp {
+                                    let foundPattern = 0;
+
+                                    for ch in regexp {
+                                        if ch == '\0' {
+                                            break;
+                                        }
+
+                                        if !foundPattern {
+                                            if ch == '(' {
+                                                let foundPattern = 1;
+                                            }
+                                        } else {
+                                            if ch == ')' {
+                                                let foundPattern = 2;
+
+                                                break;
+                                            }
+                                        }
+                                     }
+
+                                    if foundPattern != 2 {
+                                        let route .= "(" . regexp . ")";
+                                    } else {
+                                        let route .= regexp;
+                                    }
+
+                                    let matches[variable] = tmp;
+                                } else {
+                                    let route .= "([^" . this->delimiter . "]*)",
+                                        matches[item] = tmp;
+                                }
+                            } else {
+                                let route .= "{" . item . "}";
+                            }
+
+                            continue;
                         }
                     }
                 }
@@ -306,13 +288,11 @@ class Route
             if bracketCount == 0 {
                 if ch == '(' {
                     let parenthesesCount++;
-                } else {
-                    if ch == ')' {
-                        let parenthesesCount--;
+                } elseif ch == ')' {
+                    let parenthesesCount--;
 
-                        if parenthesesCount == 0 {
-                            let numberMatches++;
-                        }
+                    if parenthesesCount == 0 {
+                        let numberMatches++;
                     }
                 }
             }
@@ -396,16 +376,9 @@ class Route
      */
     public function getReversedPaths() -> array
     {
-        var path, position;
-        array reversed;
-
-        let reversed = [];
-
-        for path, position in this->paths {
-            let reversed[position] = path;
-        }
-
-        return reversed;
+        return array_flip(
+            this->paths
+        );
     }
 
     /**
@@ -426,78 +399,78 @@ class Route
         var moduleName, taskName, actionName, parts, routePaths, realClassName,
             namespaceName, pcrePattern, compiledPattern, extracted;
 
-        if paths !== null {
-            if typeof paths == "string" {
-                let moduleName = null,
-                    taskName = null,
-                    actionName = null;
+        if paths === null {
+            let paths = [];
+        }
 
-                // Explode the short paths using the :: separator
-                let parts = explode("::", paths);
+        if typeof paths == "string" {
+            let moduleName = null,
+                taskName = null,
+                actionName = null;
 
-                // Create the array paths dynamically
-                switch count(parts) {
+            // Explode the short paths using the :: separator
+            let parts = explode("::", paths);
 
-                    case 3:
-                        let moduleName = parts[0],
-                            taskName = parts[1],
-                            actionName = parts[2];
-                        break;
+            // Create the array paths dynamically
+            switch count(parts) {
 
-                    case 2:
-                        let taskName = parts[0],
-                            actionName = parts[1];
-                        break;
+                case 3:
+                    let moduleName = parts[0],
+                        taskName = parts[1],
+                        actionName = parts[2];
+                    break;
 
-                    case 1:
-                        let taskName = parts[0];
-                        break;
-                }
+                case 2:
+                    let taskName = parts[0],
+                        actionName = parts[1];
+                    break;
 
-                let routePaths = [];
+                case 1:
+                    let taskName = parts[0];
+                    break;
+            }
 
-                // Process module name
-                if moduleName !== null {
-                    let routePaths["module"] = moduleName;
-                }
+            let routePaths = [];
 
-                // Process task name
-                if taskName !== null {
-                    // Check if we need to obtain the namespace
-                    if memstr(taskName, "\\") {
-                        // Extract the real class name from the namespaced class
-                        let realClassName = get_class_ns(taskName);
+            // Process module name
+            if moduleName !== null {
+                let routePaths["module"] = moduleName;
+            }
 
-                        // Extract the namespace from the namespaced class
-                        let namespaceName = get_ns_class(taskName);
+            // Process task name
+            if taskName !== null {
+                // Check if we need to obtain the namespace
+                if memstr(taskName, "\\") {
+                    // Extract the real class name from the namespaced class
+                    let realClassName = get_class_ns(taskName);
 
-                        if unlikely (namespaceName === null || realClassName === null) {
-                            throw new Exception(
-                                "The route contains invalid paths"
-                            );
-                        }
+                    // Extract the namespace from the namespaced class
+                    let namespaceName = get_ns_class(taskName);
 
-                        // Update the namespace
-                        if namespaceName {
-                            let routePaths["namespace"] = namespaceName;
-                        }
-                    } else {
-                        let realClassName = taskName;
+                    if unlikely (namespaceName === null || realClassName === null) {
+                        throw new Exception(
+                            "The route contains invalid paths"
+                        );
                     }
 
-                    // Always pass the task to lowercase
-                    let routePaths["task"] = uncamelize(realClassName);
+                    // Update the namespace
+                    if namespaceName {
+                        let routePaths["namespace"] = namespaceName;
+                    }
+                } else {
+                    let realClassName = taskName;
                 }
 
-                // Process action name
-                if actionName !== null {
-                    let routePaths["action"] = actionName;
-                }
-            } else {
-                let routePaths = paths;
+                // Always pass the task to lowercase
+                let routePaths["task"] = uncamelize(realClassName);
+            }
+
+            // Process action name
+            if actionName !== null {
+                let routePaths["action"] = actionName;
             }
         } else {
-            let routePaths = [];
+            let routePaths = paths;
         }
 
         if unlikely typeof routePaths !== "array" {
@@ -558,7 +531,7 @@ class Route
      */
     public static function reset() -> void
     {
-        let self::uniqueId = null;
+        let self::uniqueId = 0;
     }
 
     /**
@@ -574,14 +547,14 @@ class Route
     /**
      * Sets the route's name
      *
-     *<code>
+     *```php
      * $router->add(
      *     "/about",
      *     [
      *         "controller" => "about",
      *     ]
      * )->setName("about");
-     *</code>
+     *```
      */
     public function setName(string! name) -> <RouteInterface>
     {

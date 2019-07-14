@@ -69,17 +69,17 @@ class Event implements EventInterface
     /**
      * Check whether the event is cancelable.
      *
-     * <code>
+     * ```php
      * if ($event->isCancelable()) {
      *     $event->stop();
      * }
-     * </code>
+     * ```
      */
     public function isCancelable() -> bool
     {
         return this->cancelable;
     }
-    
+
     /**
      * Check whether the event is currently stopped.
      */
@@ -111,11 +111,11 @@ class Event implements EventInterface
     /**
      * Stops the event preventing propagation.
      *
-     * <code>
+     * ```php
      * if ($event->isCancelable()) {
      *     $event->stop();
      * }
-     * </code>
+     * ```
      */
     public function stop() -> <EventInterface>
     {

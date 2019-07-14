@@ -15,6 +15,7 @@
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
+#include "kernel/object.h"
 
 
 /**
@@ -29,9 +30,12 @@
  * @link    https://github.com/zendframework/zend-diactoros
  * @license https://github.com/zendframework/zend-diactoros/blob/master/LICENSE.md
  */
+/**
+ * PSR-17 ResponseFactory
+ */
 ZEPHIR_INIT_CLASS(Phalcon_Http_Message_ResponseFactory) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Http\\Message, ResponseFactory, phalcon, http_message_responsefactory, phalcon_http_message_responsefactory_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Http\\Message, ResponseFactory, phalcon, http_message_responsefactory, phalcon_http_message_responsefactory_method_entry, ZEND_ACC_FINAL_CLASS);
 
 	zend_class_implements(phalcon_http_message_responsefactory_ce TSRMLS_CC, 1, zephir_get_internal_ce(SL("psr\\http\\message\\responsefactoryinterface")));
 	return SUCCESS;
@@ -46,6 +50,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_ResponseFactory) {
  *                             code in the generated response. If none is
  *                             provided, implementations MAY use the defaults
  *                             as suggested in the HTTP specification.
+ *
+ * @return ResponseInterface
  */
 PHP_METHOD(Phalcon_Http_Message_ResponseFactory, createResponse) {
 
@@ -76,10 +82,10 @@ PHP_METHOD(Phalcon_Http_Message_ResponseFactory, createResponse) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, phalcon_http_message_response_ce);
-	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 289);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 296);
 	zephir_check_call_status();
 	ZVAL_LONG(&_1, code);
-	ZEPHIR_RETURN_CALL_METHOD(&_0, "withstatus", NULL, 290, &_1, &reasonPhrase);
+	ZEPHIR_RETURN_CALL_METHOD(&_0, "withstatus", NULL, 297, &_1, &reasonPhrase);
 	zephir_check_call_status();
 	RETURN_MM();
 

@@ -24,20 +24,24 @@ class ModelCest
     public function _before(IntegrationTester $I)
     {
         $this->newDi();
+ 
         $this->setDiModelsManager();
         $this->setDiModelsMetadata();
     }
 
-    public function testMySql(IntegrationTester $I)
+    public function _after(IntegrationTester $I)
     {
-        $I->skipTest('TODO - Check me');
-        $this->setDiMysql();
-
-        $this->executeCamelCaseRelation($I);
+        if (isset($this->container['db'])) {
+            $this->container['db']->close();
+        }
     }
 
-    private function executeCamelCaseRelation(IntegrationTester $I)
+    public function executeCamelCaseRelation(IntegrationTester $I)
     {
+        $I->skipTest('TODO - Check me');
+
+        $this->setDiMysql();
+
         $album = Albums::findFirst();
 
         $album->artist->name = 'NotArtist';
@@ -316,10 +320,10 @@ class ModelCest
 //                // Single row serialization
 //                $result = $modelsManager->executeQuery("SELECT id FROM " . Robots::class . " LIMIT 1");
 //
-//                expect($result)->isInstanceOf('Phalcon\Mvc\Model\Resultset\Simple');
+//                expect($result)->isInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class);
 //
 //                foreach ($result as $row) {
-//                    expect($row)->isInstanceOf('Phalcon\Mvc\Model\Row');
+//                    expect($row)->isInstanceOf(\Phalcon\Mvc\Model\Row::class);
 //                    expect($row->id)->equals($robot->id);
 //
 //                    $json = json_encode($row);

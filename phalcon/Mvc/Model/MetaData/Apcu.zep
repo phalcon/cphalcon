@@ -23,19 +23,17 @@ use Phalcon\Cache\AdapterFactory;
  *
  * You can query the meta-data by printing apcu_fetch('$PMM$') or apcu_fetch('$PMM$my-app-id')
  *
- *<code>
+ *```php
  * $metaData = new \Phalcon\Mvc\Model\MetaData\Apcu(
  *     [
  *         "prefix"   => "my-app-id",
  *         "lifetime" => 86400,
  *     ]
  * );
- *</code>
+ *```
  */
 class Apcu extends MetaData
 {
-    protected metaData = [];
-
     /**
      * Phalcon\Mvc\Model\MetaData\Apcu constructor
      *

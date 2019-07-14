@@ -13,21 +13,42 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Dispatcher;
 
 use IntegrationTester;
+use Phalcon\Dispatcher;
+use Phalcon\Test\Integration\Mvc\Dispatcher\Helper\BaseDispatcher;
+use Phalcon\Test\Integration\Mvc\Dispatcher\Helper\DispatcherTestDefaultController;
 
-/**
- * Class CallActionMethodCest
- */
-class CallActionMethodCest
+class CallActionMethodCest extends BaseDispatcher
 {
     /**
      * Tests Phalcon\Mvc\Dispatcher :: callActionMethod()
+     * Tests directly calling controller's action via the dispatcher manually
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Mark Johnson <https://github.com/virgofx>
+     * @since  2017-10-07
      */
     public function mvcDispatcherCallActionMethod(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Dispatcher - callActionMethod()');
-        $I->skipTest('Need implementation');
+
+        $multiply = [5, 6];
+
+        $controller = new DispatcherTestDefaultController();
+
+        $controller->setDI(
+            $this->getDI()
+        );
+
+        $returnValue = $this->getDispatcher()->callActionMethod(
+            $controller,
+            'multiplyAction',
+            $multiply
+        );
+
+        $I->assertEquals(30, $returnValue);
+
+        $I->assertEquals(
+            ['multiplyAction'],
+            $this->getDispatcherListener()->getTrace()
+        );
     }
 }

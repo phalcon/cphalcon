@@ -12,10 +12,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Config\Adapter\Grouped;
 
+use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
 class CountCest
 {
+    use ConfigTrait;
+
     /**
      * Tests Phalcon\Config\Adapter\Grouped :: count()
      *
@@ -24,7 +27,6 @@ class CountCest
      */
     public function configAdapterGroupedCount(UnitTester $I)
     {
-        $I->wantToTest("Config\Adapter\Grouped - count()");
-        $I->skipTest('Need implementation');
+        $this->checkCount($I, 'Grouped');
     }
 }

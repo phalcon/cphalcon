@@ -11,14 +11,12 @@
 namespace Phalcon\Forms\Element;
 
 use Phalcon\Tag;
-use Phalcon\Forms\Element;
+use Phalcon\Forms\Element\AbstractElement;
 
 /**
- * Phalcon\Forms\Element\Submit
- *
  * Component INPUT[type=submit] for forms
  */
-class Submit extends Element
+class Submit extends AbstractElement
 {
     /**
      * Renders the element widget

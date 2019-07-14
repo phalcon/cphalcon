@@ -22,16 +22,16 @@ class OutputJsCest
 {
     use DiTrait;
 
-    public function _after(UnitTester $I)
-    {
-        $this->resetDi();
-    }
-
     public function _before(UnitTester $I)
     {
         $this->newDi();
         $this->setDiEscaper();
         $this->setDiUrl();
+    }
+
+    public function _after(UnitTester $I)
+    {
+        $this->resetDi();
     }
 
     /**
@@ -53,15 +53,16 @@ class OutputJsCest
             new Js('/js/script3.js', false)
         );
 
+        $assets->useImplicitOutput(false);
+
         $expected = '<script src="/js/script1.js"></script>' . PHP_EOL
             . '<script src="/js/script2.js"></script>' . PHP_EOL
             . '<script src="/js/script3.js"></script>' . PHP_EOL;
 
-        $assets->useImplicitOutput(false);
-
-        $actual = $assets->outputJs();
-
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $actual = $assets->outputJs()
+        );
     }
 
     /**

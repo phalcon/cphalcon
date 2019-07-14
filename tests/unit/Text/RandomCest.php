@@ -39,8 +39,8 @@ class RandomCest
     /**
      * Tests Phalcon\Text :: random() - alnum
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
      *
      * @dataProvider oneToTenProvider
      */
@@ -90,8 +90,8 @@ class RandomCest
     /**
      * Tests Phalcon\Text :: random() - alpha
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
      *
      * @dataProvider oneToTenProvider
      */
@@ -125,8 +125,8 @@ class RandomCest
     /**
      * Tests Phalcon\Text :: random() - hexdec
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
      *
      * @dataProvider oneToTenProvider
      */
@@ -160,8 +160,8 @@ class RandomCest
     /**
      * Tests Phalcon\Text :: random() - numeric
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
      *
      * @dataProvider oneToTenProvider
      */
@@ -195,8 +195,8 @@ class RandomCest
     /**
      * Tests Phalcon\Text :: random() - non zero
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
      *
      * @dataProvider oneToTenProvider
      */
@@ -212,11 +212,9 @@ class RandomCest
         );
 
 
-
         $actual = preg_match('/[1-9]+/', $source, $matches);
 
         $I->assertEquals(1, $actual);
-
 
 
         $I->assertEquals(
@@ -233,8 +231,8 @@ class RandomCest
     /**
      * Tests Phalcon\Text :: random() - distinct type
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
      *
      * @dataProvider textRandomDistinctProvider
      */
@@ -242,7 +240,7 @@ class RandomCest
     {
         $I->wantToTest('Text - random() - distinct');
 
-        $source  = Text::random(
+        $source = Text::random(
             Text::RANDOM_DISTINCT,
             $example[0]
         );

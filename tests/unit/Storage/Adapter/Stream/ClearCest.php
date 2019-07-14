@@ -12,11 +12,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Storage\Adapter\Stream;
 
-use function outputDir;
 use Phalcon\Storage\Adapter\Stream;
 use Phalcon\Storage\SerializerFactory;
-use function uniqid;
 use UnitTester;
+use function outputDir;
+use function uniqid;
 
 class ClearCest
 {
@@ -29,8 +29,15 @@ class ClearCest
     public function storageAdapterStreamClear(UnitTester $I)
     {
         $I->wantToTest('Storage\Adapter\Stream - clear()');
+
         $serializer = new SerializerFactory();
-        $adapter    = new Stream($serializer, ['cacheDir' => outputDir()]);
+
+        $adapter = new Stream(
+            $serializer,
+            [
+                'cacheDir' => outputDir(),
+            ]
+        );
 
         $key1 = uniqid();
         $key2 = uniqid();
@@ -39,17 +46,21 @@ class ClearCest
         $I->assertTrue($actual);
 
         $adapter->set($key2, 'test');
-        $actual = $adapter->has($key2);
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $adapter->has($key2)
+        );
 
-        $actual = $adapter->clear();
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $adapter->clear()
+        );
 
-        $actual = $adapter->has($key1);
-        $I->assertFalse($actual);
+        $I->assertFalse(
+            $adapter->has($key1)
+        );
 
-        $actual = $adapter->has($key2);
-        $I->assertFalse($actual);
+        $I->assertFalse(
+            $adapter->has($key2)
+        );
     }
 
     /**
@@ -61,8 +72,15 @@ class ClearCest
     public function storageAdapterStreamClearTwice(UnitTester $I)
     {
         $I->wantToTest('Storage\Adapter\Stream - clear() - twice');
+
         $serializer = new SerializerFactory();
-        $adapter    = new Stream($serializer, ['cacheDir' => outputDir()]);
+
+        $adapter = new Stream(
+            $serializer,
+            [
+                'cacheDir' => outputDir(),
+            ]
+        );
 
         $key1 = uniqid();
         $key2 = uniqid();

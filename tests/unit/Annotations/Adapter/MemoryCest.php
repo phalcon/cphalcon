@@ -11,9 +11,13 @@
 
 namespace Phalcon\Test\Unit\Annotations\Adapter;
 
-use function dataDir;
 use Phalcon\Annotations\Adapter\Memory;
+use Phalcon\Annotations\Collection;
+use Phalcon\Annotations\Reflection;
+use TestClass;
 use UnitTester;
+use User\TestClassNs;
+use function dataDir;
 
 class MemoryCest
 {
@@ -32,68 +36,79 @@ class MemoryCest
 
         $adapter = new Memory();
 
-        $classAnnotations = $adapter->get('TestClass');
+        $classAnnotations = $adapter->get(
+            TestClass::class
+        );
 
         $I->assertInternalType('object', $classAnnotations);
 
         $I->assertInstanceOf(
-            \Phalcon\Annotations\Reflection::class,
+            Reflection::class,
             $classAnnotations
         );
 
         $I->assertInstanceOf(
-            \Phalcon\Annotations\Collection::class,
+            Collection::class,
             $classAnnotations->getClassAnnotations()
         );
 
-        $classAnnotations = $adapter->get('TestClass');
+        $classAnnotations = $adapter->get(
+            TestClass::class
+        );
 
         $I->assertInternalType('object', $classAnnotations);
 
         $I->assertInstanceOf(
-            \Phalcon\Annotations\Reflection::class,
+            Reflection::class,
             $classAnnotations
         );
 
         $I->assertInstanceOf(
-            \Phalcon\Annotations\Collection::class,
+            Collection::class,
             $classAnnotations->getClassAnnotations()
         );
 
-        $classAnnotations = $adapter->get('User\TestClassNs');
+        $classAnnotations = $adapter->get(
+            TestClassNs::class
+        );
 
         $I->assertInternalType('object', $classAnnotations);
 
         $I->assertInstanceOf(
-            \Phalcon\Annotations\Reflection::class,
+            Reflection::class,
             $classAnnotations
         );
 
         $I->assertInstanceOf(
-            \Phalcon\Annotations\Collection::class,
+            Collection::class,
             $classAnnotations->getClassAnnotations()
         );
 
-        $classAnnotations = $adapter->get('User\TestClassNs');
+        $classAnnotations = $adapter->get(
+            TestClassNs::class
+        );
 
         $I->assertInternalType('object', $classAnnotations);
 
         $I->assertInstanceOf(
-            \Phalcon\Annotations\Reflection::class,
+            Reflection::class,
             $classAnnotations
         );
 
         $I->assertInstanceOf(
-            \Phalcon\Annotations\Collection::class,
+            Collection::class,
             $classAnnotations->getClassAnnotations()
         );
 
-        $property = $adapter->getProperty('TestClass', 'testProp1');
+        $property = $adapter->getProperty(
+            TestClass::class,
+            'testProp1'
+        );
 
         $I->assertInternalType('object', $property);
 
         $I->assertInstanceOf(
-            \Phalcon\Annotations\Collection::class,
+            Collection::class,
             $property
         );
 

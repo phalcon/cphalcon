@@ -10,7 +10,7 @@
 
 namespace Phalcon\Mvc\Collection;
 
-use Phalcon\Db\AdapterInterface;
+use Phalcon\Db\Adapter\AdapterInterface;
 use Phalcon\Mvc\CollectionInterface;
 use Phalcon\Mvc\Collection\BehaviorInterface;
 use Phalcon\Events\ManagerInterface as EventsManagerInterface;
@@ -23,7 +23,7 @@ use Phalcon\Events\ManagerInterface as EventsManagerInterface;
  *
  * A CollectionManager is injected to a model via a Dependency Injector Container such as Phalcon\Di.
  *
- * <code>
+ * ```php
  * $di = new \Phalcon\Di();
  *
  * $di->set(
@@ -34,7 +34,7 @@ use Phalcon\Events\ManagerInterface as EventsManagerInterface;
  * );
  *
  * $robot = new Robots(di);
- * </code>
+ * ```
  */
 interface ManagerInterface
 {

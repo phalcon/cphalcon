@@ -12,14 +12,12 @@ namespace Phalcon\Validation\Validator;
 
 use Phalcon\Messages\Message;
 use Phalcon\Validation;
-use Phalcon\Validation\Validator;
+use Phalcon\Validation\AbstractValidator;
 
 /**
- * Phalcon\Validation\Validator\PresenceOf
- *
  * Validates that a value is not null or empty string
  *
- * <code>
+ * ```php
  * use Phalcon\Validation;
  * use Phalcon\Validation\Validator\PresenceOf;
  *
@@ -48,35 +46,22 @@ use Phalcon\Validation\Validator;
  *         ]
  *     )
  * );
- * </code>
+ * ```
  */
-class PresenceOf extends Validator
+class PresenceOf extends AbstractValidator
 {
+    protected template = "Field :field is required";
+
     /**
      * Executes the validation
      */
     public function validate(<Validation> validation, var field) -> bool
     {
-        var value, message, label, replacePairs, code;
-
-        let value = validation->getValue(field);
+        var value = validation->getValue(field);
 
         if value === null || value === "" {
-            let label = this->prepareLabel(validation, field),
-                message = this->prepareMessage(validation, field, "PresenceOf"),
-                code = this->prepareCode(field);
-
-            let replacePairs = [
-                ":field": label
-            ];
-
             validation->appendMessage(
-                new Message(
-                    strtr(message, replacePairs),
-                    field,
-                    "PresenceOf",
-                    code
-                )
+                this->messageFactory(validation, field)
             );
 
             return false;

@@ -26,12 +26,11 @@ class TaskCest
         $this->setNewCliFactoryDefault();
     }
 
-    public function testTasks(CliTester $I)
+    public function testMainTask(CliTester $I)
     {
         /**
          * @todo Check the loader
          */
-        require_once dataDir('fixtures/tasks/EchoTask.php');
         require_once dataDir('fixtures/tasks/MainTask.php');
 
         $this->container['registry'] = function () {
@@ -62,16 +61,24 @@ class TaskCest
             'Hello World!',
             $task->helloAction('World')
         );
+    }
 
-        $task2 = new EchoTask();
+    public function testEchoTask(CliTester $I)
+    {
+        /**
+         * @todo Check the loader
+         */
+        require_once dataDir('fixtures/tasks/EchoTask.php');
 
-        $task2->setDI(
+        $task = new EchoTask();
+
+        $task->setDI(
             $this->container
         );
 
         $I->assertEquals(
             'echoMainAction',
-            $task2->mainAction()
+            $task->mainAction()
         );
     }
 }

@@ -13,21 +13,28 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Db\Dialect\Sqlite;
 
 use IntegrationTester;
+use Phalcon\Db\Dialect\Sqlite;
+use Phalcon\Db\Exception;
 
-/**
- * Class DropColumnCest
- */
 class DropColumnCest
 {
     /**
      * Tests Phalcon\Db\Dialect\Sqlite :: dropColumn()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-05-25
      */
     public function dbDialectSqliteDropColumn(IntegrationTester $I)
     {
         $I->wantToTest('Db\Dialect\Sqlite - dropColumn()');
-        $I->skipTest('Need implementation');
+
+        $dialect = new Sqlite();
+
+        $I->expectThrowable(
+            new Exception('Dropping DB column is not supported by SQLite'),
+            function () use ($dialect) {
+                $dialect->dropColumn('table', 'schema', 'column1');
+            }
+        );
     }
 }

@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Security\Random;
 
+use Phalcon\Security\Random;
 use UnitTester;
 
 class HexCest
@@ -26,8 +27,7 @@ class HexCest
     {
         $I->wantToTest("Security\Random - hex()");
 
-        $random = new \Phalcon\Security\Random();
-
+        $random = new Random();
 
 
         $hex = $random->hex();
@@ -45,12 +45,10 @@ class HexCest
         ); // Hex is 2 characters
 
 
-
         $differentString = $random->hex();
 
         // Buy lottery ticket if this fails (or fix the bug)
         $I->assertNotEquals($hex, $differentString);
-
 
 
         $expectedLength = 30;

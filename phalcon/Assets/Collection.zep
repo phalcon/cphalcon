@@ -10,6 +10,8 @@
 
 namespace Phalcon\Assets;
 
+use Countable;
+use Iterator;
 use Phalcon\Assets\Asset;
 use Phalcon\Assets\FilterInterface;
 use Phalcon\Assets\Inline;
@@ -19,11 +21,9 @@ use Phalcon\Assets\Inline\Js as InlineJs;
 use Phalcon\Assets\Inline\Css as InlineCss;
 
 /**
- * Phalcon\Assets\Collection
- *
  * Represents a collection of assets
  */
-class Collection implements \Countable, \Iterator
+class Collection implements Countable, Iterator
 {
     /**
      * @var array
@@ -51,6 +51,9 @@ class Collection implements \Countable, \Iterator
      */
     protected filters = [] { get };
 
+    /**
+     * @var array
+     */
     protected includedAssets;
 
     /**
@@ -68,6 +71,9 @@ class Collection implements \Countable, \Iterator
      */
     protected prefix { get };
 
+    /**
+     * @var int
+     */
     protected position { get };
 
     /**
@@ -287,7 +293,7 @@ class Collection implements \Countable, \Iterator
     /**
      * Checks this the asset is added to the collection.
      *
-     * <code>
+     * ```php
      * use Phalcon\Assets\Asset;
      * use Phalcon\Assets\Collection;
      *
@@ -297,7 +303,7 @@ class Collection implements \Countable, \Iterator
      *
      * $collection->add($asset);
      * $collection->has($asset); // true
-     * </code>
+     * ```
      */
     public function has(<AssetInterface> asset) -> bool
     {

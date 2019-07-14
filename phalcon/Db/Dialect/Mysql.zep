@@ -19,12 +19,13 @@ use Phalcon\Db\ReferenceInterface;
 use Phalcon\Db\DialectInterface;
 
 /**
- * Phalcon\Db\Dialect\Mysql
- *
  * Generates database specific SQL for the MySQL RDBMS
  */
 class Mysql extends Dialect
 {
+    /**
+     * @var string
+     */
     protected escapeChar = "`";
 
     /**
@@ -32,7 +33,8 @@ class Mysql extends Dialect
      */
     public function addColumn(string! tableName, string! schemaName, <ColumnInterface> column) -> string
     {
-        var afterPosition, sql, defaultValue;
+        var afterPosition, defaultValue;
+        string sql;
 
         let sql = "ALTER TABLE " . this->prepareTable(tableName, schemaName) . " ADD `" . column->getName() . "` " . this->getColumnDefinition(column);
 
@@ -58,10 +60,12 @@ class Mysql extends Dialect
             let sql .= " FIRST";
         } else {
             let afterPosition = column->getAfterPosition();
+
             if afterPosition {
                 let sql .=  " AFTER `" . afterPosition . "`";
             }
         }
+
         return sql;
     }
 
@@ -70,11 +74,12 @@ class Mysql extends Dialect
      */
     public function addForeignKey(string! tableName, string! schemaName, <ReferenceInterface> reference) -> string
     {
-        var sql, onDelete, onUpdate;
+        var onDelete, onUpdate;
+        string sql;
 
         let sql = "ALTER TABLE " . this->prepareTable(tableName, schemaName) . " ADD";
         if reference->getName() {
-            let sql .= " CONSTRAINT `" . $reference->getName() . "`";
+            let sql .= " CONSTRAINT `" . reference->getName() . "`";
         }
 
         let sql .= " FOREIGN KEY (" . this->getColumnList(reference->getColumns()) . ") REFERENCES " . this->prepareTable(reference->getReferencedTable(), reference->getReferencedSchema()) . "(" . this->getColumnList(reference->getReferencedColumns()) . ")";
@@ -97,11 +102,13 @@ class Mysql extends Dialect
      */
     public function addIndex(string! tableName, string! schemaName, <IndexInterface> index) -> string
     {
-        var sql, indexType;
+        var indexType;
+        string sql;
 
         let sql = "ALTER TABLE " . this->prepareTable(tableName, schemaName);
 
         let indexType = index->getType();
+
         if !empty indexType {
             let sql .= " ADD " . indexType . " INDEX ";
         } else {
@@ -126,9 +133,11 @@ class Mysql extends Dialect
      */
     public function createTable(string! tableName, string! schemaName, array! definition) -> string
     {
-        var temporary, options, table, createLines, columns, column, indexes,
-            index, reference, references, indexName, indexSql, sql, columnLine,
-            indexType, referenceSql, onDelete, onUpdate, defaultValue;
+        var temporary, options, table, columns, column, indexes, index,
+            reference, references, indexName, columnLine, indexType, onDelete,
+            onUpdate, defaultValue;
+        array createLines;
+        string indexSql, referenceSql, sql;
 
         if unlikely !fetch columns, definition["columns"] {
             throw new Exception(
@@ -153,8 +162,8 @@ class Mysql extends Dialect
         }
 
         let createLines = [];
-        for column in columns {
 
+        for column in columns {
             let columnLine = "`" . column->getName() . "` " . this->getColumnDefinition(column);
 
             /**
@@ -198,9 +207,7 @@ class Mysql extends Dialect
          * Create related indexes
          */
         if fetch indexes, definition["indexes"] {
-
             for index in indexes {
-
                 let indexName = index->getName();
                 let indexType = index->getType();
 
@@ -244,6 +251,7 @@ class Mysql extends Dialect
         }
 
         let sql .= join(",\n\t", createLines) . "\n)";
+
         if isset definition["options"] {
             let sql .= " " . this->getTableOptions(definition);
         }
@@ -270,11 +278,11 @@ class Mysql extends Dialect
     /**
      * Generates SQL describing a table
      *
-     * <code>
+     * ```php
      * print_r(
      *     $dialect->describeColumns("posts")
      * );
-     * </code>
+     * ```
      */
     public function describeColumns(string! table, string schema = null) -> string
     {
@@ -294,7 +302,9 @@ class Mysql extends Dialect
      */
     public function describeReferences(string! table, string schema = null) -> string
     {
-        var sql = "SELECT DISTINCT KCU.TABLE_NAME, KCU.COLUMN_NAME, KCU.CONSTRAINT_NAME, KCU.REFERENCED_TABLE_SCHEMA, KCU.REFERENCED_TABLE_NAME, KCU.REFERENCED_COLUMN_NAME, RC.UPDATE_RULE, RC.DELETE_RULE FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE AS KCU LEFT JOIN INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS AS RC ON RC.CONSTRAINT_NAME = KCU.CONSTRAINT_NAME AND RC.CONSTRAINT_SCHEMA = KCU.CONSTRAINT_SCHEMA WHERE KCU.REFERENCED_TABLE_NAME IS NOT NULL AND ";
+        string sql;
+
+        let sql = "SELECT DISTINCT KCU.TABLE_NAME, KCU.COLUMN_NAME, KCU.CONSTRAINT_NAME, KCU.REFERENCED_TABLE_SCHEMA, KCU.REFERENCED_TABLE_NAME, KCU.REFERENCED_COLUMN_NAME, RC.UPDATE_RULE, RC.DELETE_RULE FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE AS KCU LEFT JOIN INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS AS RC ON RC.CONSTRAINT_NAME = KCU.CONSTRAINT_NAME AND RC.CONSTRAINT_SCHEMA = KCU.CONSTRAINT_SCHEMA WHERE KCU.REFERENCED_TABLE_NAME IS NOT NULL AND ";
 
         if schema {
             let sql .= "KCU.CONSTRAINT_SCHEMA = '" . schema . "' AND KCU.TABLE_NAME = '" . table . "'";
@@ -342,17 +352,15 @@ class Mysql extends Dialect
      */
     public function dropTable(string! tableName, string schemaName = null, bool! ifExists = true) -> string
     {
-        var sql, table;
+        var table;
 
         let table = this->prepareTable(tableName, schemaName);
 
         if ifExists {
-            let sql = "DROP TABLE IF EXISTS " . table;
-        } else {
-            let sql = "DROP TABLE " . table;
+            return "DROP TABLE IF EXISTS " . table;
         }
 
-        return sql;
+        return "DROP TABLE " . table;
     }
 
     /**
@@ -360,17 +368,15 @@ class Mysql extends Dialect
      */
     public function dropView(string! viewName, string schemaName = null, bool! ifExists = true) -> string
     {
-        var sql, view;
+        var view;
 
         let view = this->prepareTable(viewName, schemaName);
 
         if ifExists {
-            let sql = "DROP VIEW IF EXISTS " . view;
-        } else {
-            let sql = "DROP VIEW " . view;
+            return "DROP VIEW IF EXISTS " . view;
         }
 
-        return sql;
+        return "DROP VIEW " . view;
     }
 
     /**
@@ -630,11 +636,11 @@ class Mysql extends Dialect
     /**
      * List all tables in database
      *
-     * <code>
+     * ```php
      * print_r(
      *     $dialect->listTables("blog")
      * );
-     * </code>
+     * ```
      */
     public function listTables(string schemaName = null) -> string
     {
@@ -662,7 +668,8 @@ class Mysql extends Dialect
      */
     public function modifyColumn(string! tableName, string! schemaName, <ColumnInterface> column, <ColumnInterface> currentColumn = null) -> string
     {
-        var afterPosition, sql, defaultValue, columnDefinition;
+        var afterPosition, defaultValue, columnDefinition;
+        string sql;
 
         let columnDefinition = this->getColumnDefinition(column),
             sql = "ALTER TABLE " . this->prepareTable(tableName, schemaName);
@@ -711,11 +718,11 @@ class Mysql extends Dialect
     /**
      * Returns a SQL modified with a LOCK IN SHARE MODE clause
      *
-     *<code>
+     *```php
      * $sql = $dialect->sharedLock("SELECT * FROM robots");
      *
      * echo $sql; // SELECT * FROM robots LOCK IN SHARE MODE
-     *</code>
+     *```
      */
     public function sharedLock(string! sqlQuery) -> string
     {
@@ -725,11 +732,11 @@ class Mysql extends Dialect
     /**
      * Generates SQL checking for the existence of a schema.table
      *
-     * <code>
+     * ```php
      * echo $dialect->tableExists("posts", "blog");
      *
      * echo $dialect->tableExists("posts");
-     * </code>
+     * ```
      */
     public function tableExists(string! tableName, string schemaName = null) -> string
     {
@@ -745,7 +752,9 @@ class Mysql extends Dialect
      */
     public function tableOptions(string! table, string schema = null) -> string
     {
-        var sql = "SELECT TABLES.TABLE_TYPE AS table_type,TABLES.AUTO_INCREMENT AS auto_increment,TABLES.ENGINE AS engine,TABLES.TABLE_COLLATION AS table_collation FROM INFORMATION_SCHEMA.TABLES WHERE ";
+        string sql;
+
+        let sql = "SELECT TABLES.TABLE_TYPE AS table_type,TABLES.AUTO_INCREMENT AS auto_increment,TABLES.ENGINE AS engine,TABLES.TABLE_COLLATION AS table_collation FROM INFORMATION_SCHEMA.TABLES WHERE ";
 
         if schema {
             return sql . "TABLES.TABLE_SCHEMA = '" . schema . "' AND TABLES.TABLE_NAME = '" . table . "'";
@@ -759,7 +768,7 @@ class Mysql extends Dialect
      */
     public function truncateTable(string! tableName, string! schemaName) -> string
     {
-        var sql, table;
+        string table;
 
         if schemaName {
             let table = "`" . schemaName . "`.`" . tableName . "`";
@@ -767,9 +776,7 @@ class Mysql extends Dialect
             let table = "`" . tableName . "`";
         }
 
-        let sql = "TRUNCATE TABLE " . table;
-
-        return sql;
+        return "TRUNCATE TABLE " . table;
     }
 
     /**
@@ -789,48 +796,45 @@ class Mysql extends Dialect
      */
     protected function getTableOptions(array! definition) -> string
     {
-        var options, engine, autoIncrement, tableCollation, collationParts,
-            tableOptions;
+        var options, engine, autoIncrement, tableCollation, collationParts;
+        array tableOptions;
 
-        if fetch options, definition["options"] {
+        if !fetch options, definition["options"] {
+            return "";
+        }
 
-            let tableOptions = [];
+        let tableOptions = [];
 
-            /**
-             * Check if there is an ENGINE option
-             */
-            if fetch engine, options["ENGINE"] {
-                if engine {
-                    let tableOptions[] = "ENGINE=" . engine;
-                }
-            }
-
-            /**
-             * Check if there is an AUTO_INCREMENT option
-             */
-            if fetch autoIncrement, options["AUTO_INCREMENT"] {
-                if autoIncrement {
-                    let tableOptions[] = "AUTO_INCREMENT=" . autoIncrement;
-                }
-            }
-
-            /**
-             * Check if there is a TABLE_COLLATION option
-             */
-            if fetch tableCollation, options["TABLE_COLLATION"] {
-                if tableCollation {
-                    let collationParts = explode("_", tableCollation),
-                        tableOptions[] = "DEFAULT CHARSET=" . collationParts[0],
-                        tableOptions[] = "COLLATE=" . tableCollation;
-                }
-            }
-
-            if count(tableOptions) {
-                return join(" ", tableOptions);
+        /**
+         * Check if there is an ENGINE option
+         */
+        if fetch engine, options["ENGINE"] {
+            if engine {
+                let tableOptions[] = "ENGINE=" . engine;
             }
         }
 
-        return "";
+        /**
+         * Check if there is an AUTO_INCREMENT option
+         */
+        if fetch autoIncrement, options["AUTO_INCREMENT"] {
+            if autoIncrement {
+                let tableOptions[] = "AUTO_INCREMENT=" . autoIncrement;
+            }
+        }
+
+        /**
+         * Check if there is a TABLE_COLLATION option
+         */
+        if fetch tableCollation, options["TABLE_COLLATION"] {
+            if tableCollation {
+                let collationParts = explode("_", tableCollation),
+                    tableOptions[] = "DEFAULT CHARSET=" . collationParts[0],
+                    tableOptions[] = "COLLATE=" . tableCollation;
+            }
+        }
+
+        return join(" ", tableOptions);
     }
 
     /**
@@ -839,7 +843,7 @@ class Mysql extends Dialect
      */
     private function checkColumnSizeAndScale(<ColumnInterface> column) -> string
     {
-        var columnSql;
+        string columnSql;
 
         if column->getSize() {
             let columnSql .= "(" . column->getSize();

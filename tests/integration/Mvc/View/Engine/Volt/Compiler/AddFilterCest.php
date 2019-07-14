@@ -79,7 +79,6 @@ class AddFilterCest
         );
     }
 
-
     private function getVoltAddFilter(): array
     {
         return [
@@ -91,7 +90,6 @@ class AddFilterCest
             ],
         ];
     }
-
 
     private function getVoltAddFilterClosure(): array
     {

@@ -35,26 +35,9 @@ class GetCest
 
         $registry = new Registry($data);
 
-        $expected = 'four';
-
         $I->assertEquals(
-            $expected,
+            'four',
             $registry->get('three')
-        );
-
-        $I->assertEquals(
-            $expected,
-            $registry['three']
-        );
-
-        $I->assertEquals(
-            $expected,
-            $registry->three
-        );
-
-        $I->assertEquals(
-            $expected,
-            $registry->offsetGet('three')
         );
     }
 }

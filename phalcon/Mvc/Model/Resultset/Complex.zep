@@ -16,10 +16,11 @@ use Phalcon\Db\ResultInterface;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\ResultsetInterface;
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
 use Phalcon\Di;
 use Phalcon\Cache\Adapter\AdapterInterface;
 use Phalcon\Storage\Serializer\SerializerInterface;
+use stdClass;
 
 /**
  * Phalcon\Mvc\Model\Resultset\Complex
@@ -33,7 +34,7 @@ class Complex extends Resultset implements ResultsetInterface
 
     /**
      * Unserialised result-set hydrated all rows already. unserialise() sets
-     * _disableHydration to true
+     * disableHydration to true
      */
     protected disableHydration = false;
 
@@ -113,7 +114,7 @@ class Complex extends Resultset implements ResultsetInterface
 
             case Resultset::HYDRATE_OBJECTS:
             default:
-                let activeRow = new \stdClass();
+                let activeRow = new stdClass();
                 break;
         }
 

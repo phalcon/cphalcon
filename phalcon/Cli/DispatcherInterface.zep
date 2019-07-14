@@ -10,11 +10,9 @@
 
 namespace Phalcon\Cli;
 
-use Phalcon\DispatcherInterface as DispatcherInterfaceBase;
+use Phalcon\Dispatcher\DispatcherInterface as DispatcherInterfaceBase;
 
 /**
- * Phalcon\Cli\DispatcherInterface
- *
  * Interface for Phalcon\Cli\Dispatcher
  */
 interface DispatcherInterface extends DispatcherInterfaceBase

@@ -14,13 +14,14 @@ use Phalcon\Logger\Adapter;
 use Phalcon\Logger\Exception;
 use Phalcon\Logger\Formatter\FormatterInterface;
 use Phalcon\Logger\Item;
+use UnexpectedValueException;
 
 /**
  * Phalcon\Logger\Adapter\Stream
  *
  * Adapter to store logs in plain text files
  *
- *<code>
+ *```php
  * $logger = new \Phalcon\Logger\Adapter\Stream("app/logs/test.log");
  *
  * $logger->log("This is a message");
@@ -28,7 +29,7 @@ use Phalcon\Logger\Item;
  * $logger->error("This is another error");
  *
  * $logger->close();
- *</code>
+ *```
  */
 class Stream extends AbstractAdapter
 {
@@ -111,9 +112,9 @@ class Stream extends AbstractAdapter
             let this->handler = fopen(this->name, this->mode);
 
             if !is_resource(this->handler) {
-                let $this->handler = null;
+                let this->handler = null;
 
-                throw new \UnexpectedValueException(
+                throw new UnexpectedValueException(
                     sprintf(
                         "The file '%s' cannot be opened with mode '%s'",
                         this->name,

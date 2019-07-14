@@ -14,9 +14,6 @@ namespace Phalcon\Test\Integration\Mvc\Router\Annotations;
 
 use IntegrationTester;
 
-/**
- * Class SetDefaultNamespaceCest
- */
 class SetDefaultNamespaceCest
 {
     /**

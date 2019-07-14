@@ -10,10 +10,11 @@
 
 namespace Phalcon\Image\Adapter;
 
-use Phalcon\Image\Adapter;
+use Phalcon\Image\Enum;
+use Phalcon\Image\Adapter\AbstractAdapter;
 use Phalcon\Image\Exception;
 
-class Gd extends Adapter
+class Gd extends AbstractAdapter
 {
     protected static checked = false;
 
@@ -224,14 +225,14 @@ class Gd extends Adapter
 
     protected function processFlip(int direction)
     {
-        if direction == \Phalcon\Image::HORIZONTAL {
+        if direction == Enum::HORIZONTAL {
             imageflip(this->image, IMG_FLIP_HORIZONTAL);
         } else {
             imageflip(this->image, IMG_FLIP_VERTICAL);
         }
     }
 
-    protected function processMask(<Adapter> mask)
+    protected function processMask(<AdapterInterface> mask)
     {
         var maskImage, newimage, tempImage, color, index, r, g, b;
         int mask_width, mask_height, x, y, alpha;
@@ -322,6 +323,10 @@ class Gd extends Adapter
             while y < this->height {
                 let x1 = x + amount/2;
                 let y1 = y + amount/2;
+
+                if (x1 >= this->width || y1 >= this->height) {
+                    break;
+                }
 
                 let color = imagecolorat(this->image, x1, y1);
 
@@ -651,7 +656,7 @@ class Gd extends Adapter
         }
     }
 
-    protected function processWatermark(<Adapter> watermark, int offsetX, int offsetY, int opacity)
+    protected function processWatermark(<AdapterInterface> watermark, int offsetX, int offsetY, int opacity)
     {
         var overlay, color;
         int width, height;

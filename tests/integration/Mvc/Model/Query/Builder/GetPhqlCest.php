@@ -13,21 +13,56 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Model\Query\Builder;
 
 use IntegrationTester;
+use Phalcon\Mvc\Model\Query\Builder;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Models\Snapshot\Robots;
 
-/**
- * Class GetPhqlCest
- */
 class GetPhqlCest
 {
+    use DiTrait;
+
+    public function _before(IntegrationTester $I)
+    {
+        $this->setNewFactoryDefault();
+        $this->setDiMysql();
+    }
+
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
+    }
+
     /**
      * Tests Phalcon\Mvc\Model\Query\Builder :: getPhql()
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * Test checks passing query params and dependency injector into
+     * constructor
      */
     public function mvcModelQueryBuilderGetPhql(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Model\Query\Builder - getPhql()');
-        $I->skipTest('Need implementation');
+
+        $params = [
+            'models'     => Robots::class,
+            'columns'    => ['id', 'name', 'status'],
+            'conditions' => 'a > 5',
+            'group'      => ['type', 'source'],
+            'having'     => 'b < 5',
+            'order'      => ['name', 'created'],
+            'limit'      => 10,
+            'offset'     => 15,
+        ];
+
+        $builder = new Builder($params, $this->container);
+
+        $expectedPhql = 'SELECT id, name, status FROM [' . Robots::class . '] '
+            . 'WHERE a > 5 GROUP BY [type], [source] '
+            . 'HAVING b < 5 ORDER BY [name], [created] '
+            . 'LIMIT :APL0: OFFSET :APL1:';
+
+        $I->assertEquals(
+            $expectedPhql,
+            $builder->getPhql()
+        );
     }
 }

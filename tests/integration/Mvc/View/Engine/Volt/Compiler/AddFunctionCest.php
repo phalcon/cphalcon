@@ -80,7 +80,6 @@ class AddFunctionCest
         );
     }
 
-
     private function getVoltAddFunction(): array
     {
         return [
@@ -99,7 +98,6 @@ class AddFunctionCest
             ],
         ];
     }
-
 
     private function getVoltAddFunctionClosure(): array
     {

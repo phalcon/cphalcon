@@ -14,11 +14,9 @@ use Phalcon\Db\Exception;
 use Phalcon\Db\ColumnInterface;
 
 /**
- * Phalcon\Db\Column
- *
  * Allows to define columns to be used on create or alter table operations
  *
- *<code>
+ *```php
  * use Phalcon\Db\Column as Column;
  *
  * // Column definition
@@ -36,7 +34,7 @@ use Phalcon\Db\ColumnInterface;
  *
  * // Add column to existing table
  * $connection->addColumn("robots", null, $column);
- *</code>
+ *```
  */
 class Column implements ColumnInterface
 {
@@ -273,13 +271,6 @@ class Column implements ColumnInterface
     protected scale = 0 { get };
 
     /**
-     * Schema which table related is
-     *
-     * @var string
-     */
-    protected schemaName { get };
-
-    /**
      * Integer column size
      *
      * @var int
@@ -365,12 +356,14 @@ class Column implements ColumnInterface
          */
         if fetch scale, definition["scale"] {
             switch type {
-
-                case self::TYPE_INTEGER:
-                case self::TYPE_FLOAT:
+                case self::TYPE_BIGINTEGER:
                 case self::TYPE_DECIMAL:
                 case self::TYPE_DOUBLE:
-                case self::TYPE_BIGINTEGER:
+                case self::TYPE_FLOAT:
+                case self::TYPE_INTEGER:
+                case self::TYPE_MEDIUMINTEGER:
+                case self::TYPE_SMALLINTEGER:
+                case self::TYPE_TINYINTEGER:
                     let this->scale = scale;
                     break;
 
@@ -410,9 +403,11 @@ class Column implements ColumnInterface
                 let this->autoIncrement = false;
             } else {
                 switch type {
-
-                    case self::TYPE_INTEGER:
                     case self::TYPE_BIGINTEGER:
+                    case self::TYPE_INTEGER:
+                    case self::TYPE_MEDIUMINTEGER:
+                    case self::TYPE_SMALLINTEGER:
+                    case self::TYPE_TINYINTEGER:
                         let this->autoIncrement = true;
                         break;
 
@@ -444,94 +439,6 @@ class Column implements ColumnInterface
         if fetch bindType, definition["bindType"] {
             let this->bindType = bindType;
         }
-    }
-
-    /**
-     * Restores the internal state of a Phalcon\Db\Column object
-     */
-    public static function __set_state(array! data) -> <ColumnInterface>
-    {
-        var definition, columnType, notNull, size, dunsigned, after, isNumeric,
-            first, bindType, primary, columnName, scale, defaultValue,
-            autoIncrement, columnTypeReference, columnTypeValues;
-
-        if !fetch columnName, data["columnName"] {
-            if unlikely !fetch columnName, data["name"] {
-                throw new Exception("Column name is required");
-            }
-        }
-
-        let definition = [];
-
-        if fetch columnType,  data["type"] {
-            let definition["type"] = columnType;
-        }
-
-        if fetch columnTypeReference,  data["typeReference"] {
-            let definition["typeReference"] = columnTypeReference;
-        } else {
-            let definition["typeReference"] = -1;
-        }
-
-        if fetch columnTypeValues,  data["typeValues"] {
-            let definition["typeValues"] = columnTypeValues;
-        }
-
-        if fetch notNull, data["notNull"] {
-            let definition["notNull"] = notNull;
-        }
-
-        if fetch primary, data["primary"] {
-            let definition["primary"] = primary;
-        }
-
-        if fetch size, data["size"] {
-            let definition["size"] = size;
-        }
-
-        if fetch scale, data["scale"] {
-
-            switch definition["type"] {
-
-                case self::TYPE_INTEGER:
-                case self::TYPE_FLOAT:
-                case self::TYPE_DECIMAL:
-                case self::TYPE_DOUBLE:
-                case self::TYPE_BIGINTEGER:
-                    let definition["scale"] = scale;
-                    break;
-            }
-        }
-
-        if fetch defaultValue, data["default"] {
-            let definition["default"] = defaultValue;
-        }
-
-        if fetch dunsigned, data["unsigned"] {
-            let definition["unsigned"] = dunsigned;
-        }
-
-        if fetch autoIncrement, data["autoIncrement"] {
-            let definition["autoIncrement"] = autoIncrement;
-        }
-
-        if fetch isNumeric, data["isNumeric"] {
-            let definition["isNumeric"] = isNumeric;
-        }
-
-        if fetch first, data["first"] {
-            let definition["first"] = first;
-        }
-
-        if fetch after, data["after"] {
-            let definition["after"] = after;
-        }
-
-        if fetch bindType, data["bindType"] {
-            let definition["bindType"] = bindType;
-        }
-
-        return new self(columnName, definition);
     }
 
     /**

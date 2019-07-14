@@ -10,16 +10,27 @@
 
 namespace Phalcon;
 
+use ArrayAccess;
+use ArrayIterator;
+use Countable;
+use IteratorAggregate;
+use JsonSerializable;
+use Serializable;
+use Traversable;
+
 /**
- * Phalcon\Collection
- *
- * Phalcon\Collection is a supercharged object oriented array. It implements
- * ArrayAccess, Countable, IteratorAggregate, JsonSerializable, Serializable
+ * `Phalcon\Collection` is a supercharged object oriented array. It implements [ArrayAccess](https://www.php.net/manual/en/class.arrayaccess.php), [Countable](https://www.php.net/manual/en/class.countable.php), [IteratorAggregate](https://www.php.net/manual/en/class.iteratoraggregate.php), [JsonSerializable](https://www.php.net/manual/en/class.jsonserializable.php), [Serializable](https://www.php.net/manual/en/class.serializable.php)
  *
  * It can be used in any part of the application that needs collection of data
- * Such implementatins are for instance accessing globals `$_GET`, `$_POST` etc.
+ * Such implementations are for instance accessing globals `$_GET`, `$_POST`
+ * etc.
  */
-class Collection implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonSerializable, \Serializable
+class Collection implements
+    ArrayAccess,
+    Countable,
+    IteratorAggregate,
+    JsonSerializable,
+    Serializable
 {
     /**
      * @var array
@@ -27,21 +38,28 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
     protected data = [];
 
     /**
+     * @var bool
+     */
+    protected insensitive = true;
+
+    /**
      * @var array
      */
     protected lowerKeys = [];
 
-
-
-    public function __construct(array! data = []) -> void
+    /**
+     * Collection constructor.
+     */
+    public function __construct(array data = [], bool insensitive = true)
     {
+        let this->insensitive = insensitive;
         this->init(data);
     }
 
     /**
      * Magic getter to get an element from the collection
      */
-    public function __get(string! element) -> var
+    public function __get(string element) -> var
     {
         return this->get(element);
     }
@@ -49,7 +67,7 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
     /**
      * Magic isset to check whether an element exists or not
      */
-    public function __isset(string! element) -> bool
+    public function __isset(string element) -> bool
     {
         return this->has(element);
     }
@@ -57,7 +75,7 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
     /**
      * Magic setter to assign values to an element
      */
-    public function __set(string! element, var value) -> void
+    public function __set(string element, value) -> void
     {
         this->set(element, value);
     }
@@ -65,7 +83,7 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
     /**
      * Magic unset to remove an element from the collection
      */
-    public function __unset(string! element) -> void
+    public function __unset(string element) -> void
     {
         this->remove(element);
     }
@@ -80,9 +98,8 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
     }
 
     /**
-     * Count elements of an object
-     *
-     * @link https://php.net/manual/en/countable.count.php
+     * Count elements of an object.
+     * See [count](https://php.net/manual/en/countable.count.php)
      */
     public function count() -> int
     {
@@ -92,16 +109,18 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
     /**
      * Get the element from the collection
      */
-    public function get(string! element, var defaultValue = null, bool insensitive = true) -> var
+    public function get(string element, defaultValue = null) -> var
     {
-        var value;
+        var key;
 
-        if likely insensitive {
+        if likely this->insensitive {
             let element = element->lower();
         }
 
-        if likely fetch value, this->lowerKeys[element] {
-            return this->data[value];
+        if likely isset this->lowerKeys[element] {
+            let key = this->lowerKeys[element];
+
+            return this->data[key];
         }
 
         return defaultValue;
@@ -112,15 +131,15 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
      */
     public function getIterator() -> <Traversable>
     {
-        return new \ArrayIterator(this);
+        return new ArrayIterator(this->data);
     }
 
     /**
      * Get the element from the collection
      */
-    public function has(string! element, bool insensitive = true) -> bool
+    public function has(string element) -> bool
     {
-        if likely insensitive {
+        if likely this->insensitive {
             let element = element->lower();
         }
 
@@ -130,29 +149,27 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
     /**
      * Initialize internal array
      */
-    public function init(array! data = []) -> void
+    public function init(array data = []) -> void
     {
         var key, value;
 
         for key, value in data {
-            this->set(key, value);
+            this->setData(key, value);
         }
     }
 
     /**
      * Specify data which should be serialized to JSON
-     *
-     * @link https://php.net/manual/en/jsonserializable.jsonserialize.php
+     * See [jsonSerialize](https://php.net/manual/en/jsonserializable.jsonserialize.php)
      */
-    public function jsonSerialize () -> array
+    public function jsonSerialize() -> array
     {
         return this->data;
     }
 
     /**
      * Whether a offset exists
-     *
-     * @link https://php.net/manual/en/arrayaccess.offsetexists.php
+     * See [offsetExists](https://php.net/manual/en/arrayaccess.offsetexists.php)
      */
     public function offsetExists(var element) -> bool
     {
@@ -163,10 +180,9 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
 
     /**
      * Offset to retrieve
-     *
-     * @link https://php.net/manual/en/arrayaccess.offsetget.php
+     * See [offsetGet](https://php.net/manual/en/arrayaccess.offsetget.php)
      */
-    public function offsetGet(var element) -> var
+    public function offsetGet(var element)
     {
         let element = (string) element;
 
@@ -175,8 +191,8 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
 
     /**
      * Offset to set
-     *
-     * @link https://php.net/manual/en/arrayaccess.offsetset.php
+     * See [offsetSet](
+     * @link )https://php.net/manual/en/arrayaccess.offsetset.php)
      */
     public function offsetSet(var element, var value) -> void
     {
@@ -187,8 +203,7 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
 
     /**
      * Offset to unset
-     *
-     * @link https://php.net/manual/en/arrayaccess.offsetunset.php
+     * See [offsetUnset](https://php.net/manual/en/arrayaccess.offsetunset.php)
      */
     public function offsetUnset(var element) -> void
     {
@@ -200,49 +215,43 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
     /**
      * Delete the element from the collection
      */
-    public function remove(string! element, bool insensitive = true) -> void
+    public function remove(string element) -> void
     {
-        var data, lowerKeys, value;
+        var key;
+        array lowerKeys, data;
 
-        let data      = this->data,
-            lowerKeys = this->lowerKeys;
-
-        if this->has(element) {
-            if likely insensitive {
+        if likely this->has(element) {
+            if likely this->insensitive {
                 let element = element->lower();
             }
 
-            let value = lowerKeys[element];
+            let data      = this->data,
+                lowerKeys = this->lowerKeys,
+                key       = lowerKeys[element];
 
             unset lowerKeys[element];
-            unset data[value];
+            unset data[key];
+
+            let this->data      = data,
+                this->lowerKeys = lowerKeys;
         }
-
-        let this->data      = data,
-            this->lowerKeys = lowerKeys;
-    }
-
-    /**
-     * String representation of object
-     *
-     * @link https://php.net/manual/en/serializable.serialize.php
-     */
-    public function serialize() -> string
-    {
-        return serialize(this->data);
     }
 
     /**
      * Set an element in the collection
      */
-    public function set(string! element, var value) -> void
+    public function set(string element, var value) -> void
     {
-        var key;
+        this->setData(element, value);
+    }
 
-        let key = element->lower();
-
-        let this->data[element]  = value,
-            this->lowerKeys[key] = element;
+    /**
+     * String representation of object
+     * See [serialize](https://php.net/manual/en/serializable.serialize.php)
+     */
+    public function serialize() -> string
+    {
+        return serialize(this->toArray());
     }
 
     /**
@@ -258,19 +267,19 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
      *
      * The default string uses the following options for json_encode
      *
-     * JSON_HEX_TAG, JSON_HEX_APOS, JSON_HEX_AMP, JSON_HEX_QUOT, JSON_UNESCAPED_SLASHES
+     * `JSON_HEX_TAG`, `JSON_HEX_APOS`, `JSON_HEX_AMP`, `JSON_HEX_QUOT`,
+     * `JSON_UNESCAPED_SLASHES`
      *
-     * @see https://www.ietf.org/rfc/rfc4627.txt
+     * See [rfc4627](https://www.ietf.org/rfc/rfc4627.txt)
      */
     public function toJson(int options = 79) -> string
     {
-        return json_encode(this->data, options);
+        return json_encode(this->toArray(), options);
     }
 
     /**
      * Constructs the object
-     *
-     * @link https://php.net/manual/en/serializable.unserialize.php
+     * See [unserialize](https://php.net/manual/en/serializable.unserialize.php)
      */
     public function unserialize(var serialized) -> void
     {
@@ -280,5 +289,18 @@ class Collection implements \ArrayAccess, \Countable, \IteratorAggregate, \JsonS
             data       = unserialize(serialized);
 
         this->init(data);
+    }
+
+    /**
+     * Internal method to set data
+     */
+    protected function setData(string element, var value) -> void
+    {
+        var key;
+
+        let key = (true === this->insensitive) ? element->lower() : element;
+
+        let this->data[element]  = value,
+            this->lowerKeys[key] = element;
     }
 }

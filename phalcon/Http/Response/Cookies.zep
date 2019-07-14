@@ -10,7 +10,7 @@
 
 namespace Phalcon\Http\Response;
 
-use Phalcon\DiInterface;
+use Phalcon\Di\DiInterface;
 use Phalcon\Http\CookieInterface;
 use Phalcon\Http\Response\CookiesInterface;
 use Phalcon\Di\InjectionAwareInterface;
@@ -27,7 +27,7 @@ use Phalcon\Http\Cookie\Exception;
  * used to generate a message authentication code use
  * `Phalcon\Http\Response\Cookies::setSignKey()`.
  *
- * <code>
+ * ```php
  * use Phalcon\Di;
  * use Phalcon\Crypt;
  * use Phalcon\Http\Response\Cookies;
@@ -62,7 +62,7 @@ use Phalcon\Http\Cookie\Exception;
  *         return $cookies;
  *     }
  * );
- * </code>
+ * ```
  */
 class Cookies implements CookiesInterface, InjectionAwareInterface
 {
@@ -219,7 +219,7 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
      *
      * This method overrides any cookie set before with the same name.
      *
-     * <code>
+     * ```php
      * use Phalcon\Http\Response\Cookies;
      *
      * $now = new DateTimeImmutable();
@@ -231,7 +231,7 @@ class Cookies implements CookiesInterface, InjectionAwareInterface
      *     json_encode(['user_id' => 1]),
      *     (int) $tomorrow->format('U'),
      * );
-     * </code>
+     * ```
      */
     public function set(
         string! name,

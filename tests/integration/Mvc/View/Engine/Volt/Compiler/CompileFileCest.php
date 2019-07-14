@@ -16,9 +16,6 @@ use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
 
-/**
- * Class CompileFileCest
- */
 class CompileFileCest
 {
     /**
@@ -42,10 +39,9 @@ Clearly, the song is: <?= $this->getContent() ?>.
 
         $volt->compileFile($viewFile, $compileFile);
 
-        $I->assertEquals(
-            $expected,
-            file_get_contents($compileFile)
-        );
+        $I->openFile($compileFile);
+
+        $I->seeFileContentsEqual($expected);
 
         $I->safeDeleteFile($compileFile);
     }
@@ -74,9 +70,10 @@ Clearly, the song is: <?= $this->getContent() ?>.
 
         $volt->compileFile($viewFile, $compiledFile);
 
-        $I->assertEquals(
-            $example['expected'],
-            file_get_contents($compiledFile)
+        $I->openFile($compiledFile);
+
+        $I->seeFileContentsEqual(
+            $example['expected']
         );
 
         $I->safeDeleteFile($compiledFile);

@@ -10,15 +10,17 @@
 
 namespace Phalcon\Translate\Adapter;
 
+use ArrayAccess;
 use Phalcon\Translate\Exception;
-use Phalcon\Translate\Adapter;
+use Phalcon\Translate\Adapter\AbstractAdapter;
+use Phalcon\Translate\InterpolatorFactory;
 
 /**
  * Phalcon\Translate\Adapter\Csv
  *
  * Allows to define translation lists using CSV file
  */
-class Csv extends Adapter implements \ArrayAccess
+class Csv extends AbstractAdapter implements ArrayAccess
 {
     /**
      * @var array
@@ -28,11 +30,11 @@ class Csv extends Adapter implements \ArrayAccess
     /**
      * Phalcon\Translate\Adapter\Csv constructor
      */
-    public function __construct(array! options) -> void
+    public function __construct(<InterpolatorFactory> interpolator, array! options) -> void
     {
         var delimiter, enclosure;
 
-        parent::__construct(options);
+        parent::__construct(interpolator, options);
 
         if unlikely !isset options["content"] {
             throw new Exception("Parameter 'content' is required");

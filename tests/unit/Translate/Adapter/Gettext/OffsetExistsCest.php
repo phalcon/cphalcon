@@ -12,10 +12,15 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Translate\Adapter\Gettext;
 
+use Phalcon\Test\Fixtures\Traits\TranslateGettextTrait;
+use Phalcon\Translate\Adapter\Gettext;
+use Phalcon\Translate\InterpolatorFactory;
 use UnitTester;
 
 class OffsetExistsCest
 {
+    use TranslateGettextTrait;
+
     /**
      * Tests Phalcon\Translate\Adapter\Gettext :: offsetExists()
      *
@@ -26,6 +31,14 @@ class OffsetExistsCest
     {
         $I->wantToTest('Translate\Adapter\Gettext - offsetExists()');
 
-        $I->skipTest('Need implementation');
+        $params     = $this->getGettextConfig();
+        $translator = new Gettext(
+            new InterpolatorFactory(),
+            $params
+        );
+
+        $I->assertTrue(
+            $translator->exists('hi')
+        );
     }
 }

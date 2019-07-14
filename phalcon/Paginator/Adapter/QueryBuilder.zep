@@ -10,23 +10,23 @@
 
 namespace Phalcon\Paginator\Adapter;
 
+use Phalcon\Db\Enum;
 use Phalcon\Mvc\Model\Query\Builder;
-use Phalcon\Paginator\Adapter;
+use Phalcon\Paginator\Adapter\AbstractAdapter;
 use Phalcon\Paginator\RepositoryInterface;
 use Phalcon\Paginator\Exception;
-use Phalcon\Db;
 
 /**
  * Phalcon\Paginator\Adapter\QueryBuilder
  *
  * Pagination using a PHQL query builder as source of data
  *
- * <code>
+ * ```php
  * use Phalcon\Paginator\Adapter\QueryBuilder;
  *
  * $builder = $this->modelsManager->createBuilder()
  *                 ->columns("id, name")
- *                 ->from("Robots")
+ *                 ->from(Robots::class)
  *                 ->orderBy("name");
  *
  * $paginator = new QueryBuilder(
@@ -36,9 +36,9 @@ use Phalcon\Db;
  *         "page"    => 1,
  *     ]
  * );
- *</code>
+ *```
  */
-class QueryBuilder extends Adapter
+class QueryBuilder extends AbstractAdapter
 {
     /**
      * Paginator's data
@@ -184,7 +184,11 @@ class QueryBuilder extends Adapter
                     ]
                 );
             } else {
-                totalBuilder->columns(["DISTINCT " . groupColumn]);
+                totalBuilder->columns(
+                    [
+                        "DISTINCT " . groupColumn
+                    ]
+                );
             }
         }
 
@@ -220,7 +224,7 @@ class QueryBuilder extends Adapter
 
             let row = db->fetchOne(
                 "SELECT COUNT(*) as \"rowcount\" FROM (" .  sql["sql"] . ") as T1",
-                Db::FETCH_ASSOC,
+                Enum::FETCH_ASSOC,
                 sql["bind"]
             );
 

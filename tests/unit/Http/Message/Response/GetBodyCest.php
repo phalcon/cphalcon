@@ -32,11 +32,12 @@ class GetBodyCest
 
         $stream = new Stream($fileName, 'rb');
 
-        $request = new Response($stream);
+        $response = new Response($stream);
 
-        $I->assertEquals(
-            file_get_contents($fileName),
-            $request->getBody()
+        $I->openFile($fileName);
+
+        $I->seeFileContentsEqual(
+            $response->getBody()
         );
     }
 
@@ -50,11 +51,11 @@ class GetBodyCest
     {
         $I->wantToTest('Http\Message\Response - getBody() - empty');
 
-        $request = new Response();
+        $response = new Response();
 
         $I->assertInstanceOf(
             Stream::class,
-            $request->getBody()
+            $response->getBody()
         );
     }
 }

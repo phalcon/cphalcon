@@ -10,6 +10,7 @@
 
 namespace Phalcon\Mvc\Model;
 
+use Closure;
 use Phalcon\Messages\MessageInterface;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\Cache\Adapter\AdapterInterface;
@@ -24,12 +25,12 @@ interface ResultsetInterface
     /**
      * Deletes every record in the resultset
      */
-    public function delete(<\Closure> conditionCallback = null) -> bool;
+    public function delete(<Closure> conditionCallback = null) -> bool;
 
     /**
      * Filters a resultset returning only those the developer requires
      *
-     *<code>
+     *```php
      * $filtered = $robots->filter(
      *     function ($robot) {
      *         if ($robot->id < 3) {
@@ -37,7 +38,7 @@ interface ResultsetInterface
      *         }
      *     }
      * );
-     *</code>
+     *```
      */
     public function filter(callable filter) -> <ModelInterface[]>;
 
@@ -97,5 +98,5 @@ interface ResultsetInterface
      *
      * @param array data
      */
-    public function update(var data, <\Closure> conditionCallback = null) -> bool;
+    public function update(var data, <Closure> conditionCallback = null) -> bool;
 }

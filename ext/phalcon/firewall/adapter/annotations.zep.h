@@ -19,7 +19,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_firewall_adapter_annotations_setannotatio
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_firewall_adapter_annotations___construct, 0, 0, 1)
-	ZEND_ARG_OBJ_INFO(0, annotationsAdapter, Phalcon\\Annotations\\AdapterInterface, 0)
+	ZEND_ARG_OBJ_INFO(0, annotationsAdapter, Phalcon\\Annotations\\Adapter\\AdapterInterface, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_firewall_adapter_annotations_beforeexecuteroute, 0, 0, 3)
