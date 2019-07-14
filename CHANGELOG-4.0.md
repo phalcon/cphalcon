@@ -1,4 +1,4 @@
-# [4.0.0-beta.1](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-beta.1) (2019-xx-xx)
+# [4.0.0-beta.1](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-beta.1) (2019-07-14)
 
 ## Added
 - Added `Phalcon\Factory\Exception` for factory exceptions. [#13672](https://github.com/phalcon/cphalcon/issues/13672)
@@ -15,8 +15,8 @@
 - Added `Phalcon\Collection\ReadOnly`: Read only collection. [#14154](https://github.com/phalcon/cphalcon/pull/14154)
 - Added `whiteList()` to `Phalcon\Helper\Arr` [#13954](https://github.com/phalcon/cphalcon/pull/13954)
 - Added `Phalcon\Config\ConfigFactory::newInstance()`: Factory to create config objects. [#13201](https://github.com/phalcon/cphalcon/issues/13201), [#13768](https://github.com/phalcon/cphalcon/issues/13768)
-- Added `Phalcon\Db\Enum` [#14213](https://github.com/phalcon/cphalcon/issues/14213) 
-- Added `Phalcon\Dispatcher\Exception` [#14213](https://github.com/phalcon/cphalcon/issues/14213) 
+- Added `Phalcon\Db\Enum` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
+- Added `Phalcon\Dispatcher\Exception` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
 
 ## Changed
 - Renamed `Phalcon\Annotations\Adapter\Files` to `Phalcon\Annotations\Adapter\Stream`. [#13672](https://github.com/phalcon/cphalcon/issues/13672)
@@ -37,42 +37,42 @@
 - Moved `method` parameter in `Phalcon\Mvc\Model\Manager::getRelationRecords()` to the last position. [#14115](https://github.com/phalcon/cphalcon/issues/14115)
 - Moved `method` parameter in `Phalcon\Mvc\Model\Manager::getBelongsToRecords()` to the last position. [#14115](https://github.com/phalcon/cphalcon/issues/14115)
 - Moved `method` parameter in `Phalcon\Mvc\Model\Manager::getHasOneRecords()` to the last position. [#14115](https://github.com/phalcon/cphalcon/issues/14115)
-- Moved `method` parameter in `Phalcon\Mvc\Model\Manager::getHasManyRecords()` to the last position. [#14115](https://github.com/phalcon/cphalcon/issues/14115)  
-- Validator messages were moved into each validator. [#13208](https://github.com/phalcon/cphalcon/issues/13208)  
+- Moved `method` parameter in `Phalcon\Mvc\Model\Manager::getHasManyRecords()` to the last position. [#14115](https://github.com/phalcon/cphalcon/issues/14115)
+- Validator messages were moved into each validator. [#13208](https://github.com/phalcon/cphalcon/issues/13208)
 - `Phalcon\Paginator\Repository::getProperty()` now uses `Phalcon\Helper\Arr::get()`.
 - Refactored `Phalcon\Collection` to allow conditional key case sensitivity. [#14154](https://github.com/phalcon/cphalcon/pull/14154)
 - Refactored `Phalcon\Registry` to align with the `Phalcon\Collection` interface. [#14154](https://github.com/phalcon/cphalcon/pull/14154)
 - `Phalcon\Mvc\Micro::setModelBinder()` now uses the Factory Default DI if none is set. [#14171](https://github.com/phalcon/cphalcon/pull/14171)
 - `Phalcon\Mvc\Model\ValidationFailed` now works with `ModelInterface`.
 - Refactored `Phalcon\Config` to extend `Phalcon\Collection` [#13201](https://github.com/phalcon/cphalcon/issues/13201), [#13768](https://github.com/phalcon/cphalcon/issues/13768)
-- Renamed `Phalcon\Config` to extend `Phalcon\Config\Config` [#13201](https://github.com/phalcon/cphalcon/issues/13201), [#13768](https://github.com/phalcon/cphalcon/issues/13768) 
-- Renamed `Phalcon\Acl` to  `Phalcon\Acl\Enum` [#14213](https://github.com/phalcon/cphalcon/issues/14213)  
-- Renamed `Phalcon\Acl\Adapter` to `Phalcon\Acl\Adapter\AbstractAdapter` [#14213](https://github.com/phalcon/cphalcon/issues/14213) 
-- Renamed `Phalcon\Acl\AdapterInterface` to `Phalcon\Acl\Adapter\AdapterInterface` [#14213](https://github.com/phalcon/cphalcon/issues/14213) 
-- Renamed `Phalcon\Application` to `Phalcon\Application\AbstractApplication` [#14213](https://github.com/phalcon/cphalcon/issues/14213) 
-- Renamed `Phalcon\CryptInterface` to `Phalcon\Crypt\CryptInterface` [#14213](https://github.com/phalcon/cphalcon/issues/14213) 
-- Renamed `Phalcon\Db\Adapter` to `Phalcon\Db\Adapter\AbstractAdapter` [#14213](https://github.com/phalcon/cphalcon/issues/14213) 
-- Renamed `Phalcon\Db\AdapterInterface` to `Phalcon\Db\Adapter\AdapterInterface` [#14213](https://github.com/phalcon/cphalcon/issues/14213) 
-- Renamed `Phalcon\Db` to `Phalcon\Db\AdapterDb` [#14213](https://github.com/phalcon/cphalcon/issues/14213) 
-- Renamed `Phalcon\Db\Adapter\Pdo` to `Phalcon\Db\Adapter\Pdo\AbstractPdo` [#14213](https://github.com/phalcon/cphalcon/issues/14213) 
-- Renamed `Phalcon\Dispatcher` to `Phalcon\Dispatcher\AbstractDispatcher` [#14213](https://github.com/phalcon/cphalcon/issues/14213) 
-- Renamed `Phalcon\DispatcherInterface` to `Phalcon\Dispatcher\DispatcherInterface` [#14213](https://github.com/phalcon/cphalcon/issues/14213) 
-- Renamed `Phalcon\EscaperInterface` to `Phalcon\Escaper\EscaperInterface` [#14213](https://github.com/phalcon/cphalcon/issues/14213) 
-- Renamed `Phalcon\Firewall\Adapter` to `Phalcon\Firewall\Adapter\AbstractAdapter` [#14213](https://github.com/phalcon/cphalcon/issues/14213) 
-- Renamed `Phalcon\Firewall\AdapterInterface` to `Phalcon\Firewall\Adapter\AdapterInterface` [#14213](https://github.com/phalcon/cphalcon/issues/14213) 
-- Renamed `Phalcon\Flash` to `Phalcon\Flash\AbstractFlash` [#14213](https://github.com/phalcon/cphalcon/issues/14213) 
-- Renamed `Phalcon\FlashInterface` to `Phalcon\Flash\FlashInterface` [#14213](https://github.com/phalcon/cphalcon/issues/14213) 
-- Renamed `Phalcon\Forms\Element` to `Phalcon\Forms\Element\AbstractElement` [#14213](https://github.com/phalcon/cphalcon/issues/14213) 
-- Renamed `Phalcon\Forms\ElementInterface` to `Phalcon\Forms\Element\ElementInterface` [#14213](https://github.com/phalcon/cphalcon/issues/14213) 
-- Renamed `Phalcon\Image` to `Phalcon\Image\Enum` [#14213](https://github.com/phalcon/cphalcon/issues/14213) 
-- Renamed `Phalcon\Mvc\View\Engine` to `Phalcon\Mvc\View\Engine\AbstractEngine` [#14213](https://github.com/phalcon/cphalcon/issues/14213) 
-- Renamed `Phalcon\Mvc\View\EngineInterface` to `Phalcon\Mvc\View\Engine\EngineInterface` [#14213](https://github.com/phalcon/cphalcon/issues/14213) 
-- Renamed `Phalcon\UrlInterface` to `Phalcon\Url\UrlInterface` 
-- Renamed `Phalcon\Validator` to `Phalcon\Validator\Validator` [#14213](https://github.com/phalcon/cphalcon/issues/14213) 
-- Renamed `Phalcon\Validator\Validator` to `Phalcon\Validator\AbstractValidator` [#14213](https://github.com/phalcon/cphalcon/issues/14213) 
-- Renamed `Phalcon\Validator\ValidatorComposite` to `Phalcon\Validator\AbstractValidatorComposite` [#14213](https://github.com/phalcon/cphalcon/issues/14213) 
-- Renamed `Phalcon\Validator\CombinedFieldsValidator` to `Phalcon\Validator\AbstractCombinedFields` [#14213](https://github.com/phalcon/cphalcon/issues/14213) 
-- Renamed `Phalcon\Validator\Validator\File\FileAbstract` to `Phalcon\Validator\Validator\File\AbstractFile` [#14213](https://github.com/phalcon/cphalcon/issues/14213) 
+- Renamed `Phalcon\Config` to extend `Phalcon\Config\Config` [#13201](https://github.com/phalcon/cphalcon/issues/13201), [#13768](https://github.com/phalcon/cphalcon/issues/13768)
+- Renamed `Phalcon\Acl` to  `Phalcon\Acl\Enum` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
+- Renamed `Phalcon\Acl\Adapter` to `Phalcon\Acl\Adapter\AbstractAdapter` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
+- Renamed `Phalcon\Acl\AdapterInterface` to `Phalcon\Acl\Adapter\AdapterInterface` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
+- Renamed `Phalcon\Application` to `Phalcon\Application\AbstractApplication` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
+- Renamed `Phalcon\CryptInterface` to `Phalcon\Crypt\CryptInterface` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
+- Renamed `Phalcon\Db\Adapter` to `Phalcon\Db\Adapter\AbstractAdapter` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
+- Renamed `Phalcon\Db\AdapterInterface` to `Phalcon\Db\Adapter\AdapterInterface` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
+- Renamed `Phalcon\Db` to `Phalcon\Db\AdapterDb` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
+- Renamed `Phalcon\Db\Adapter\Pdo` to `Phalcon\Db\Adapter\Pdo\AbstractPdo` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
+- Renamed `Phalcon\Dispatcher` to `Phalcon\Dispatcher\AbstractDispatcher` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
+- Renamed `Phalcon\DispatcherInterface` to `Phalcon\Dispatcher\DispatcherInterface` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
+- Renamed `Phalcon\EscaperInterface` to `Phalcon\Escaper\EscaperInterface` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
+- Renamed `Phalcon\Firewall\Adapter` to `Phalcon\Firewall\Adapter\AbstractAdapter` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
+- Renamed `Phalcon\Firewall\AdapterInterface` to `Phalcon\Firewall\Adapter\AdapterInterface` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
+- Renamed `Phalcon\Flash` to `Phalcon\Flash\AbstractFlash` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
+- Renamed `Phalcon\FlashInterface` to `Phalcon\Flash\FlashInterface` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
+- Renamed `Phalcon\Forms\Element` to `Phalcon\Forms\Element\AbstractElement` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
+- Renamed `Phalcon\Forms\ElementInterface` to `Phalcon\Forms\Element\ElementInterface` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
+- Renamed `Phalcon\Image` to `Phalcon\Image\Enum` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
+- Renamed `Phalcon\Mvc\View\Engine` to `Phalcon\Mvc\View\Engine\AbstractEngine` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
+- Renamed `Phalcon\Mvc\View\EngineInterface` to `Phalcon\Mvc\View\Engine\EngineInterface` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
+- Renamed `Phalcon\UrlInterface` to `Phalcon\Url\UrlInterface`
+- Renamed `Phalcon\Validator` to `Phalcon\Validator\Validator` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
+- Renamed `Phalcon\Validator\Validator` to `Phalcon\Validator\AbstractValidator` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
+- Renamed `Phalcon\Validator\ValidatorComposite` to `Phalcon\Validator\AbstractValidatorComposite` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
+- Renamed `Phalcon\Validator\CombinedFieldsValidator` to `Phalcon\Validator\AbstractCombinedFields` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
+- Renamed `Phalcon\Validator\Validator\File\FileAbstract` to `Phalcon\Validator\Validator\File\AbstractFile` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
 
 ## Fixed
 - Fixed `Phalcon\Mvc\View::getRender()` to call `view->finish()` instead of `ob_end_clean()`. [#14095](https://github.com/phalcon/cphalcon/issues/14095)
@@ -114,12 +114,12 @@
 - Added `Phalcon\Cli\Router\Route::getDescription()` returns the route's description [#13936](https://github.com/phalcon/cphalcon/pull/13936)
 - Added `Phalcon\Image\Adapter\Gd::getVersion()`.
 - Added `chunk()`, `first()`, `firstKey()`, `flatten()`, `group()`, `isUnique()`, `last()`, `lastKey()`, `order()`, `pluck()`, `sliceLeft()`, `sliceRight()`, `split()`, `tail()`, `validateAll()`, `validateAny()` to `Phalcon\Helper\Arr` [#13954](https://github.com/phalcon/cphalcon/pull/13954)
-- Added `camelize()`, `concat()`, `countVowels()`, `decapitalize()`, `dynamic()`, `endsWith()`, `firstStringBetween()`, `includes()`, `increment()`, `isAnagram()`, `isLower()`, `isPalindrome()`, `isUpper()`, `lower()`, `random()`, `reduceSlashes()`, `startsWith()`, `uncamelize()`, `underscore()`, `upper()` to `Phalcon\Helper\Str` [#13954](https://github.com/phalcon/cphalcon/pull/13954) 
+- Added `camelize()`, `concat()`, `countVowels()`, `decapitalize()`, `dynamic()`, `endsWith()`, `firstStringBetween()`, `includes()`, `increment()`, `isAnagram()`, `isLower()`, `isPalindrome()`, `isUpper()`, `lower()`, `random()`, `reduceSlashes()`, `startsWith()`, `uncamelize()`, `underscore()`, `upper()` to `Phalcon\Helper\Str` [#13954](https://github.com/phalcon/cphalcon/pull/13954)
 - Added `Phalcon\Mvc\Model\Query\BuilderInterface::getModels()` returns the models involved in the query
 - Added `addConnect()`, `addPurge()` and `addTrace()` to `Phalcon\Mvc\Router\Group` and its interface. [#14001](https://github.com/phalcon/cphalcon/pull/14001)
 - Added `Phalcon\Mvc\Model\Transaction::throwRollbackException()` which allows a transaction to throw an exception or not on a rollback. [#13949](https://github.com/phalcon/cphalcon/issues/13949)
 - Added `Phalcon\Cache` class implementing PSR-16. Introducing:
-    - `Phalcon\Cache\Adapter`   
+    - `Phalcon\Cache\Adapter`
         - `Phalcon\Cache\Adapter\Apcu`
         - `Phalcon\Cache\Adapter\Libmemcached`
         - `Phalcon\Cache\Adapter\Memory`
@@ -157,16 +157,16 @@
 - In `Phalcon\Mvc\Model`, relations fetched using magic methods are now handled by `Phalcon\Mvc\Model::getRelated()` internally.  [#14035](https://github.com/phalcon/cphalcon/pull/14035/)
 - Changed `Phalcon\Mvc\Model\Transaction::rollback()` to not throw a transaction by default. [#13949](https://github.com/phalcon/cphalcon/issues/13949)
 - Changed `Phalcon\Cache` namespace and relevant classes to handle storing data to different stores. Introducing:
-    - `Phalcon\Storage\Serializer` offering classes that implement the `\Serializable` interface.  
-        - `Phalcon\Storage\Serializer\Base64` 
-        - `Phalcon\Storage\Serializer\Igbinary` 
-        - `Phalcon\Storage\Serializer\Json` 
-        - `Phalcon\Storage\Serializer\Msgpack` 
-        - `Phalcon\Storage\Serializer\None` 
-        - `Phalcon\Storage\Serializer\Php` 
-        - `Phalcon\Storage\Serializer\SerializerInterface` 
-    - `Phalcon\Storage\SerializerFactory`: Factory to create serializers   
-    - `Phalcon\Storage\Adapter` offering classes that implement the `Phalcon\Storage\Adapter\AdapterInterface` interface.  
+    - `Phalcon\Storage\Serializer` offering classes that implement the `\Serializable` interface.
+        - `Phalcon\Storage\Serializer\Base64`
+        - `Phalcon\Storage\Serializer\Igbinary`
+        - `Phalcon\Storage\Serializer\Json`
+        - `Phalcon\Storage\Serializer\Msgpack`
+        - `Phalcon\Storage\Serializer\None`
+        - `Phalcon\Storage\Serializer\Php`
+        - `Phalcon\Storage\Serializer\SerializerInterface`
+    - `Phalcon\Storage\SerializerFactory`: Factory to create serializers
+    - `Phalcon\Storage\Adapter` offering classes that implement the `Phalcon\Storage\Adapter\AdapterInterface` interface.
         - `Phalcon\Storage\Adapter\Apcu`
         - `Phalcon\Storage\Adapter\Libmemcached`
         - `Phalcon\Storage\Adapter\Memory`
@@ -252,7 +252,7 @@
     - `Phalcon\Http\Message\RequestFactory`
     - `Phalcon\Http\Message\Response`
     - `Phalcon\Http\Message\ResponseFactory`
-    - `Phalcon\Http\Message\ServerRequest` 
+    - `Phalcon\Http\Message\ServerRequest`
     - `Phalcon\Http\Message\ServerRequestFactory`
     - `Phalcon\Http\Message\Stream`
     - `Phalcon\Http\Message\StreamFactory`
@@ -319,14 +319,14 @@ The implementation offers PSR-7/PSR-17 compatible components in a different name
 - Renamed `Phalcon\Acl\AdapterInterface::getSubjects` to `Phalcon\Acl\AdapterInterface::getComponents` [#13808](https://github.com/phalcon/cphalcon/issues/13808)
 - Renamed `Phalcon\Acl\Adapter::getActiveOperation` to `Phalcon\Acl\AdapterInterface::getActiveRole` [#13808](https://github.com/phalcon/cphalcon/issues/13808)
 - Renamed `Phalcon\Acl\Adapter::getActiveSubject` to `Phalcon\Acl\AdapterInterface::getActiveComponent` [#13808](https://github.com/phalcon/cphalcon/issues/13808)
-- Renamed `Phalcon\Acl\Adapter\Memory::addOperation` to `Phalcon\Acl\Adapter\Memory::addRole` [#13808](https://github.com/phalcon/cphalcon/issues/13808) 
-- Renamed `Phalcon\Acl\Adapter\Memory::isOperation` to `Phalcon\Acl\Adapter\Memory::isRole` [#13808](https://github.com/phalcon/cphalcon/issues/13808) 
-- Renamed `Phalcon\Acl\Adapter\Memory::isSubject` to `Phalcon\Acl\Adapter\Memory::isComponent` [#13808](https://github.com/phalcon/cphalcon/issues/13808) 
-- Renamed `Phalcon\Acl\Adapter\Memory::addSubject` to `Phalcon\Acl\Adapter\Memory::addComponent` [#13808](https://github.com/phalcon/cphalcon/issues/13808) 
-- Renamed `Phalcon\Acl\Adapter\Memory::addSubjectAccess` to `Phalcon\Acl\Adapter\Memory::addComponentAccess` [#13808](https://github.com/phalcon/cphalcon/issues/13808) 
-- Renamed `Phalcon\Acl\Adapter\Memory::dropSubjectAccess` to `Phalcon\Acl\Adapter\Memory::dropComponentAccess` [#13808](https://github.com/phalcon/cphalcon/issues/13808) 
-- Renamed `Phalcon\Acl\Adapter\Memory::getOperationss` to `Phalcon\Acl\Adapter\Memory::getRoles` [#13808](https://github.com/phalcon/cphalcon/issues/13808) 
-- Renamed `Phalcon\Acl\Adapter\Memory::getSubjects` to `Phalcon\Acl\Adapter\Memory::getComponents` [#13808](https://github.com/phalcon/cphalcon/issues/13808) 
+- Renamed `Phalcon\Acl\Adapter\Memory::addOperation` to `Phalcon\Acl\Adapter\Memory::addRole` [#13808](https://github.com/phalcon/cphalcon/issues/13808)
+- Renamed `Phalcon\Acl\Adapter\Memory::isOperation` to `Phalcon\Acl\Adapter\Memory::isRole` [#13808](https://github.com/phalcon/cphalcon/issues/13808)
+- Renamed `Phalcon\Acl\Adapter\Memory::isSubject` to `Phalcon\Acl\Adapter\Memory::isComponent` [#13808](https://github.com/phalcon/cphalcon/issues/13808)
+- Renamed `Phalcon\Acl\Adapter\Memory::addSubject` to `Phalcon\Acl\Adapter\Memory::addComponent` [#13808](https://github.com/phalcon/cphalcon/issues/13808)
+- Renamed `Phalcon\Acl\Adapter\Memory::addSubjectAccess` to `Phalcon\Acl\Adapter\Memory::addComponentAccess` [#13808](https://github.com/phalcon/cphalcon/issues/13808)
+- Renamed `Phalcon\Acl\Adapter\Memory::dropSubjectAccess` to `Phalcon\Acl\Adapter\Memory::dropComponentAccess` [#13808](https://github.com/phalcon/cphalcon/issues/13808)
+- Renamed `Phalcon\Acl\Adapter\Memory::getOperationss` to `Phalcon\Acl\Adapter\Memory::getRoles` [#13808](https://github.com/phalcon/cphalcon/issues/13808)
+- Renamed `Phalcon\Acl\Adapter\Memory::getSubjects` to `Phalcon\Acl\Adapter\Memory::getComponents` [#13808](https://github.com/phalcon/cphalcon/issues/13808)
 - Renamed `Phalcon\Mvc\Url` to `Phalcon\Url` [#13742](https://github.com/phalcon/cphalcon/issues/13742)
 - Renamed `Phalcon\Mvc\UrlInterface` to `Phalcon\UrlInterface` [#13742](https://github.com/phalcon/cphalcon/issues/13742)
 - Renamed `Phalcon\Mvc\Url\Exception` to `Phalcon\Url\Exception` [#13742](https://github.com/phalcon/cphalcon/issues/13742)
