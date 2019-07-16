@@ -10,6 +10,7 @@
 
 namespace Phalcon\Mvc\Collection;
 
+use Phalcon\Db\Adapter\AdapterInterface;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Events\EventsAwareInterface;
@@ -108,7 +109,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      *
      * @return \MongoDB\Database
      */
-    public function getConnection(<CollectionInterface> collection)
+    public function getConnection(<CollectionInterface> collection) -> <AdapterInterface>
     {
         var service, connectionService, connection, container, entityName;
 
