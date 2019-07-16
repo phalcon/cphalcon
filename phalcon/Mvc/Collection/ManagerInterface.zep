@@ -10,6 +10,7 @@
 
 namespace Phalcon\Mvc\Collection;
 
+use Phalcon\Db\Adapter\AdapterInterface;
 use Phalcon\Mvc\CollectionInterface;
 use Phalcon\Mvc\Collection\BehaviorInterface;
 use Phalcon\Events\ManagerInterface as EventsManagerInterface;
@@ -45,7 +46,7 @@ interface ManagerInterface
     /**
      * Returns the connection related to a collection
      */
-    public function getConnection(<CollectionInterface> collection);
+    public function getConnection(<CollectionInterface> collection) -> <AdapterInterface>;
 
     /**
      * Returns a custom events manager related to a collection
