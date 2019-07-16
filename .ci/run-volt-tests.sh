@@ -15,6 +15,7 @@ export TEST_PHP_EXECUTABLE=$(phpenv which php)
 export TEST_PHP_ARGS="--show-diff"
 
 phpenv config-rm xdebug.ini 2>&1 >/dev/null || true
+phpenv config-rm mongodb.ini 2>&1 >/dev/null || true
 
 php ${PROJECT_ROOT}/ext/run-tests.php \
 	-d "error_reporting=32767" \
