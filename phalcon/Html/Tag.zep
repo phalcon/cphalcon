@@ -17,6 +17,7 @@ use Phalcon\Escaper\EscaperInterface;
 use Phalcon\Helper\Arr;
 use Phalcon\Html\Exception;
 use Phalcon\Url\UrlInterface;
+use Phalcon\Mvc\Model\ResulsetInterface;
 
 /**
  * Phalcon\Html\Tag
