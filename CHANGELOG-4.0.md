@@ -1,5 +1,8 @@
 # [4.0.0-beta.2](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-beta.2) (xxxx-xx-xx)
 
+## Fixed
+- Fixed missing import `DialectInterface` in `Phalcon\Db\Adapter\AbstractAdapter` and `Phalcon\Db\Adapter\AdapterInterface`. [#14249](https://github.com/phalcon/cphalcon/issues/14249)
+
 # [4.0.0-beta.1](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-beta.1) (2019-07-14)
 
 ## Added
