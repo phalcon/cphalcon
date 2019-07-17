@@ -10,6 +10,7 @@
 
 namespace Phalcon\Db\Adapter;
 
+use Phalcon\Db\DialectInterface;
 use Phalcon\Db\ColumnInterface;
 use Phalcon\Db\IndexInterface;
 use Phalcon\Db\RawValue;
