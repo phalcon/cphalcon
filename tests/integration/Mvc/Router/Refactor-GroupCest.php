@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Integration\Mvc\Router;
 
+use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Mvc\Router;
 use Phalcon\Mvc\Router\Group;
@@ -21,189 +22,256 @@ class GroupCest
 {
     use DiTrait;
 
-    public function testGroups(IntegrationTester $I)
+    /**
+     * @dataProvider groupsProvider
+     */
+    public function testGroups(IntegrationTester $I, Example $example)
     {
         Route::reset();
+
         $router = new Router(false);
-        $blog   = new Group(
+
+        $blog = new Group(
             [
-                "module"     => "blog",
-                "controller" => "index",
+                'module'     => 'blog',
+                'controller' => 'index',
             ]
         );
 
-        $blog->setPrefix("/blog");
+        $blog->setPrefix('/blog');
+
         $blog->add(
-            "/save",
+            '/save',
             [
-                "action" => "save",
+                'action' => 'save',
             ]
         );
+
         $blog->add(
-            "/edit/{id}",
+            '/edit/{id}',
             [
-                "action" => "edit",
+                'action' => 'edit',
             ]
         );
+
         $blog->add(
-            "/about",
+            '/about',
             [
-                "controller" => "about",
-                "action"     => "index",
+                'controller' => 'about',
+                'action'     => 'index',
             ]
         );
+
         $router->mount($blog);
 
-        $routes = [
-            "/blog/save"   => [
-                "module"     => "blog",
-                "controller" => "index",
-                "action"     => "save",
-            ],
-            "/blog/edit/1" => [
-                "module"     => "blog",
-                "controller" => "index",
-                "action"     => "edit",
-            ],
-            "/blog/about"  => [
-                "module"     => "blog",
-                "controller" => "about",
-                "action"     => "index",
-            ],
-        ];
 
-        foreach ($routes as $route => $paths) {
-            $router->handle($route);
 
-            $actual = $router->wasMatched();
-            $I->assertTrue($actual);
+        $router->handle(
+            $example['route']
+        );
 
-            $expected = $paths["module"];
-            $actual   = $router->getModuleName();
-            $I->assertEquals($expected, $actual);
-            $expected = $paths["controller"];
-            $actual   = $router->getControllerName();
-            $I->assertEquals($expected, $actual);
-            $expected = $paths["action"];
-            $actual   = $router->getActionName();
-            $I->assertEquals($expected, $actual);
+        $I->assertTrue(
+            $router->wasMatched()
+        );
 
-            $expected = $blog;
-            $actual   = $router->getMatchedRoute()->getGroup();
-            $I->assertEquals($expected, $actual);
-        }
+        $I->assertEquals(
+            $example['module'],
+            $router->getModuleName()
+        );
+
+        $I->assertEquals(
+            $example['controller'],
+            $router->getControllerName()
+        );
+
+        $I->assertEquals(
+            $example['action'],
+            $router->getActionName()
+        );
+
+        $I->assertEquals(
+            $blog,
+            $router->getMatchedRoute()->getGroup()
+        );
     }
 
-    public function testHostnameRouteGroup(IntegrationTester $I)
+    private function groupsProvider(): array
     {
-        $routes = $this->getHostnameRoutes();
-        foreach ($routes as $route) {
-            $actualHost   = $route[0];
-            $expectedHost = $route[1];
-            $controller   = $route[2];
+        return [
+            [
+                'route'      => '/blog/save',
+                'module'     => 'blog',
+                'controller' => 'index',
+                'action'     => 'save',
+            ],
+            [
+                'route'      => '/blog/edit/1',
+                'module'     => 'blog',
+                'controller' => 'index',
+                'action'     => 'edit',
+            ],
+            [
+                'route'      => '/blog/about',
+                'module'     => 'blog',
+                'controller' => 'about',
+                'action'     => 'index',
+            ],
+        ];
+    }
 
-            Route::reset();
-            $this->newDi();
-            $this->setDiRequest();
-            $container = $this->getDi();
+    /**
+     * @dataProvider getHostnameRoutes
+     */
+    public function testHostnameRouteGroup(IntegrationTester $I, Example $example)
+    {
+        $actualHost   = $example[0];
+        $expectedHost = $example[1];
+        $controller   = $example[2];
 
-            $router = new Router(false);
-            $router->setDI($container);
+        Route::reset();
 
-            $router->add(
-                "/edit",
-                [
-                    "controller" => "posts3",
-                    "action"     => "edit3",
-                ]
-            );
+        $this->newDi();
+        $this->setDiRequest();
 
-            $group = new Group();
-            $group->setHostname("my.phalconphp.com");
-            $group->add(
-                "/edit",
-                [
-                    "controller" => "posts",
-                    "action"     => "edit",
-                ]
-            );
-            $router->mount($group);
+        $container = $this->getDi();
 
-            $_SERVER["HTTP_HOST"] = $actualHost;
+        $router = new Router(false);
 
-            $router->handle("/edit");
+        $router->setDI($container);
 
-            $expected = $controller;
-            $actual   = $router->getControllerName();
-            $I->assertEquals($expected, $actual);
-            $expected = $expectedHost;
-            $actual   = $router->getMatchedRoute()->getHostname();
-            $I->assertEquals($expected, $actual);
-        }
+        $router->add(
+            '/edit',
+            [
+                'controller' => 'posts3',
+                'action'     => 'edit3',
+            ]
+        );
+
+        $group = new Group();
+
+        $group->setHostname('my.phalconphp.com');
+
+        $group->add(
+            '/edit',
+            [
+                'controller' => 'posts',
+                'action'     => 'edit',
+            ]
+        );
+
+        $router->mount($group);
+
+        $_SERVER['HTTP_HOST'] = $actualHost;
+
+        $router->handle('/edit');
+
+        $I->assertEquals(
+            $controller,
+            $router->getControllerName()
+        );
+
+        $I->assertEquals(
+            $expectedHost,
+            $router->getMatchedRoute()->getHostname()
+        );
     }
 
     private function getHostnameRoutes(): array
     {
         return [
-            ["localhost", null, "posts3"],
-            ["my.phalconphp.com", "my.phalconphp.com", "posts"],
-            [null, null, "posts3"],
+            [
+                'localhost',
+                null,
+                'posts3',
+            ],
+            [
+                'my.phalconphp.com',
+                'my.phalconphp.com',
+                'posts',
+            ],
+            [
+                null,
+                null,
+                'posts3',
+            ],
         ];
     }
 
-    public function testHostnameRegexRouteGroup(IntegrationTester $I)
+    /**
+     * @dataProvider getHostnameRoutesRegex
+     */
+    public function testHostnameRegexRouteGroup(IntegrationTester $I, Example $example)
     {
-        $routes = $this->getHostnameRoutesRegex();
-        foreach ($routes as $route) {
-            $actualHost   = $route[0];
-            $expectedHost = $route[1];
-            $controller   = $route[2];
+        $actualHost   = $example[0];
+        $expectedHost = $example[1];
+        $controller   = $example[2];
 
-            Route::reset();
-            $this->newDi();
-            $this->setDiRequest();
-            $container = $this->getDi();
+        Route::reset();
 
-            $router = new Router(false);
-            $router->setDI($container);
-            $router->add(
-                "/edit",
-                [
-                    "controller" => "posts3",
-                    "action"     => "edit3",
-                ]
-            );
+        $this->newDi();
+        $this->setDiRequest();
 
-            $group = new Group();
-            $group->setHostname("([a-z]+).phalconphp.com");
-            $group->add(
-                "/edit",
-                [
-                    "controller" => "posts",
-                    "action"     => "edit",
-                ]
-            );
-            $router->mount($group);
+        $container = $this->getDi();
 
-            $_SERVER["HTTP_HOST"] = $actualHost;
+        $router = new Router(false);
 
-            $router->handle("/edit");
+        $router->setDI($container);
 
-            $expected = $controller;
-            $actual   = $router->getControllerName();
-            $I->assertEquals($expected, $actual);
-            $expected = $expectedHost;
-            $actual   = $router->getMatchedRoute()->getHostname();
-            $I->assertEquals($expected, $actual);
-        }
+        $router->add(
+            '/edit',
+            [
+                'controller' => 'posts3',
+                'action'     => 'edit3',
+            ]
+        );
+
+        $group = new Group();
+
+        $group->setHostname('([a-z]+).phalconphp.com');
+
+        $group->add(
+            '/edit',
+            [
+                'controller' => 'posts',
+                'action'     => 'edit',
+            ]
+        );
+
+        $router->mount($group);
+
+        $_SERVER['HTTP_HOST'] = $actualHost;
+
+        $router->handle('/edit');
+
+        $I->assertEquals(
+            $controller,
+            $router->getControllerName()
+        );
+
+        $I->assertEquals(
+            $expectedHost,
+            $router->getMatchedRoute()->getHostname()
+        );
     }
 
     private function getHostnameRoutesRegex(): array
     {
         return [
-            ["localhost", null, "posts3"],
-            ["my.phalconphp.com", "([a-z]+).phalconphp.com", "posts"],
-            [null, null, "posts3"],
+            [
+                'localhost',
+                null,
+                'posts3',
+            ],
+            [
+                'my.phalconphp.com',
+                '([a-z]+).phalconphp.com',
+                'posts',
+            ],
+            [
+                null,
+                null,
+                'posts3',
+            ],
         ];
     }
 }

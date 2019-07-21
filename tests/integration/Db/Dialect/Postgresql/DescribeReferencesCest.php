@@ -12,24 +12,56 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Db\Dialect\Postgresql;
 
+use Codeception\Example;
 use IntegrationTester;
+use Phalcon\Db\Dialect\Postgresql;
 
-/**
- * Class DescribeReferencesCest
- */
 class DescribeReferencesCest
 {
     /**
      * Tests Phalcon\Db\Dialect\Postgresql :: describeReferences()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2017-02-26
+     *
+     * @dataProvider getDescribeReferencesFixtures
      */
-    public function dbDialectPostgresqlDescribeReferences(IntegrationTester $I)
+    public function dbDialectPostgresqlDescribeReferences(IntegrationTester $I, Example $example)
     {
         $I->wantToTest('Db\Dialect\Postgresql - describeReferences()');
-        $I->skipTest('Need implementation');
+
+        $schema   = $example[0];
+        $expected = $example[1];
+
+        $dialect = new Postgresql();
+
+        $actual = $dialect->describeReferences(
+            'table',
+            $schema
+        );
+
+        $I->assertEquals($expected, $actual);
+    }
+
+    protected function getDescribeReferencesFixtures(): array
+    {
+        return [
+            [
+                null,
+                rtrim(
+                    file_get_contents(
+                        dataDir('fixtures/Db/postgresql/example7.sql')
+                    )
+                ),
+            ],
+            [
+                'schema',
+                rtrim(
+                    file_get_contents(
+                        dataDir('fixtures/Db/postgresql/example8.sql')
+                    )
+                ),
+            ],
+        ];
     }
 }

@@ -22,6 +22,7 @@ class Robots extends Model
             RobotsParts::class,
             'robots_id',
             [
+                'alias' => 'robotsParts',
                 'foreignKey' => true,
             ]
         );

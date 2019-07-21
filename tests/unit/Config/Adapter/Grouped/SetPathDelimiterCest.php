@@ -12,24 +12,21 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Config\Adapter\Grouped;
 
+use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
-/**
- * Class SetPathDelimiterCest
- */
 class SetPathDelimiterCest
 {
+    use ConfigTrait;
+
     /**
      * Tests Phalcon\Config\Adapter\Grouped :: setPathDelimiter()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function configAdapterGroupedSetPathDelimiter(UnitTester $I)
     {
-        $I->wantToTest('Config\Adapter\Grouped - setPathDelimiter()');
-        $I->skipTest('Need implementation');
+        $this->checkSetPathDelimiter($I, 'Grouped');
     }
 }

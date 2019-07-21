@@ -38,28 +38,50 @@ class InclusionInCest
             )
         );
 
-        $messages = $validation->validate([]);
+
+        $messages = $validation->validate(
+            []
+        );
+
         $expected = new Messages(
             [
                 new Message(
                     'Field status must be a part of list: A, I',
                     'status',
-                    'InclusionIn',
+                    InclusionIn::class,
                     0
                 ),
             ]
         );
-        $actual   = $messages;
-        $I->assertEquals($expected, $actual);
 
-        $messages = $validation->validate(['status' => 'X']);
-        $actual   = $messages;
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $expected,
+            $messages
+        );
 
-        $messages = $validation->validate(['status' => 'A']);
-        $expected = 0;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+
+        $messages = $validation->validate(
+            [
+                'status' => 'X',
+            ]
+        );
+
+        $I->assertEquals(
+            $expected,
+            $messages
+        );
+
+
+        $messages = $validation->validate(
+            [
+                'status' => 'A',
+            ]
+        );
+
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
     }
 
     /**
@@ -70,11 +92,13 @@ class InclusionInCest
      */
     public function validationValidatorMultipleFieldSingleDomain(IntegrationTester $I)
     {
-        $validation         = new Validation();
+        $validation = new Validation();
+
         $validationMessages = [
             'type'        => 'Type must be mechanical or cyborg.',
             'anotherType' => 'AnotherType must be mechanical or cyborg.',
         ];
+
         $validation->add(
             [
                 'type',
@@ -87,32 +111,60 @@ class InclusionInCest
                 ]
             )
         );
-        $messages = $validation->validate(['type' => 'cyborg', 'anotherType' => 'cyborg']);
-        $expected = 0;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
 
-        $messages = $validation->validate(['type' => 'hydraulic', 'anotherType' => 'cyborg']);
-        $expected = 1;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
 
-        $expected = $validationMessages['type'];
-        $actual   = $messages->offsetGet(0)->getMessage();
-        $I->assertEquals($expected, $actual);
+        $messages = $validation->validate(
+            [
+                'type'        => 'cyborg',
+                'anotherType' => 'cyborg',
+            ]
+        );
 
-        $messages = $validation->validate(['type' => 'hydraulic', 'anotherType' => 'hydraulic']);
-        $expected = 2;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
 
-        $expected = $validationMessages['type'];
-        $actual   = $messages->offsetGet(0)->getMessage();
-        $I->assertEquals($expected, $actual);
 
-        $expected = $validationMessages['anotherType'];
-        $actual   = $messages->offsetGet(1)->getMessage();
-        $I->assertEquals($expected, $actual);
+        $messages = $validation->validate(
+            [
+                'type'        => 'hydraulic',
+                'anotherType' => 'cyborg',
+            ]
+        );
+
+        $I->assertEquals(
+            1,
+            $messages->count()
+        );
+
+        $I->assertEquals(
+            $validationMessages['type'],
+            $messages->offsetGet(0)->getMessage()
+        );
+
+
+        $messages = $validation->validate(
+            [
+                'type'        => 'hydraulic',
+                'anotherType' => 'hydraulic',
+            ]
+        );
+
+        $I->assertEquals(
+            2,
+            $messages->count()
+        );
+
+        $I->assertEquals(
+            $validationMessages['type'],
+            $messages->offsetGet(0)->getMessage()
+        );
+
+        $I->assertEquals(
+            $validationMessages['anotherType'],
+            $messages->offsetGet(1)->getMessage()
+        );
     }
 
     /**
@@ -123,11 +175,13 @@ class InclusionInCest
      */
     public function validationValidatorMultipleFieldMultipleDomain(IntegrationTester $I)
     {
-        $validation         = new Validation();
+        $validation = new Validation();
+
         $validationMessages = [
             'type'        => 'Type must be mechanic or cyborg.',
             'anotherType' => 'AnotherType must be mechanic or hydraulic.',
         ];
+
         $validation->add(
             [
                 'type',
@@ -144,41 +198,75 @@ class InclusionInCest
             )
         );
 
-        $messages = $validation->validate(['type' => 'cyborg', 'anotherType' => 'mechanic']);
-        $expected = 0;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
 
-        $messages = $validation->validate(['type' => 'hydraulic', 'anotherType' => 'mechanic']);
-        $expected = 1;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+        $messages = $validation->validate(
+            [
+                'type'        => 'cyborg',
+                'anotherType' => 'mechanic',
+            ]
+        );
 
-        $expected = $validationMessages['type'];
-        $actual   = $messages->offsetGet(0)->getMessage();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
 
-        $messages = $validation->validate(['type' => 'mechanic', 'anotherType' => 'cyborg']);
-        $expected = 1;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
 
-        $expected = $validationMessages['anotherType'];
-        $actual   = $messages->offsetGet(0)->getMessage();
-        $I->assertEquals($expected, $actual);
+        $messages = $validation->validate(
+            [
+                'type'        => 'hydraulic',
+                'anotherType' => 'mechanic',
+            ]
+        );
 
-        $messages = $validation->validate(['type' => 'hydraulic', 'anotherType' => 'cyborg']);
-        $expected = 2;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            1,
+            $messages->count()
+        );
 
         $expected = $validationMessages['type'];
         $actual   = $messages->offsetGet(0)->getMessage();
         $I->assertEquals($expected, $actual);
 
+
+        $messages = $validation->validate(
+            [
+                'type'        => 'mechanic',
+                'anotherType' => 'cyborg',
+            ]
+        );
+
+        $I->assertEquals(
+            1,
+            $messages->count()
+        );
+
         $expected = $validationMessages['anotherType'];
-        $actual   = $messages->offsetGet(1)->getMessage();
+        $actual   = $messages->offsetGet(0)->getMessage();
         $I->assertEquals($expected, $actual);
+
+
+        $messages = $validation->validate(
+            [
+                'type'        => 'hydraulic',
+                'anotherType' => 'cyborg',
+            ]
+        );
+
+        $I->assertEquals(
+            2,
+            $messages->count()
+        );
+
+        $I->assertEquals(
+            $validationMessages['type'],
+            $messages->offsetGet(0)->getMessage()
+        );
+
+        $I->assertEquals(
+            $validationMessages['anotherType'],
+            $messages->offsetGet(1)->getMessage()
+        );
     }
 
     public function validationValidatorCustomMessage(IntegrationTester $I)
@@ -195,27 +283,35 @@ class InclusionInCest
             )
         );
 
-        $messages = $validation->validate([]);
+
+        $messages = $validation->validate(
+            []
+        );
+
         $expected = new Messages(
             [
                 new Message(
                     'The status must be A=Active or I=Inactive',
                     'status',
-                    'InclusionIn',
+                    InclusionIn::class,
                     0
                 ),
             ]
         );
-        $actual   = $messages;
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals($expected, $messages);
+
 
         $messages = $validation->validate(['status' => 'x=1']);
-        $actual   = $messages;
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals($expected, $messages);
+
 
         $messages = $validation->validate(['status' => 'A']);
-        $expected = 0;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
     }
 }

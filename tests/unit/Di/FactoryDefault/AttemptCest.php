@@ -14,22 +14,18 @@ namespace Phalcon\Test\Unit\Di\FactoryDefault;
 
 use UnitTester;
 
-/**
- * Class AttemptCest
- */
 class AttemptCest
 {
     /**
-     * Tests Phalcon\Di\FactoryDefault :: attempt()
-     *
-     * @param UnitTester $I
+     * Unit Tests Phalcon\Di\FactoryDefault :: attempt()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2019-06-13
      */
-    public function diFactorydefaultAttempt(UnitTester $I)
+    public function diFactoryDefaultAttempt(UnitTester $I)
     {
         $I->wantToTest('Di\FactoryDefault - attempt()');
+
         $I->skipTest('Need implementation');
     }
 }

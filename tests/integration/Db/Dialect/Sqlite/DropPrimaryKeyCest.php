@@ -13,23 +13,30 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Db\Dialect\Sqlite;
 
 use IntegrationTester;
+use Phalcon\Db\Dialect\Sqlite;
+use Phalcon\Db\Exception;
 
-/**
- * Class DropPrimaryKeyCest
- */
 class DropPrimaryKeyCest
 {
     /**
      * Tests Phalcon\Db\Dialect\Sqlite :: dropPrimaryKey()
      *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-05-25
      */
     public function dbDialectSqliteDropPrimaryKey(IntegrationTester $I)
     {
         $I->wantToTest('Db\Dialect\Sqlite - dropPrimaryKey()');
-        $I->skipTest('Need implementation');
+
+        $dialect = new Sqlite();
+
+        $I->expectThrowable(
+            new Exception(
+                'Removing a primary key after table has been created is not supported by SQLite'
+            ),
+            function () use ($dialect) {
+                $dialect->dropPrimaryKey('table', 'schema');
+            }
+        );
     }
 }

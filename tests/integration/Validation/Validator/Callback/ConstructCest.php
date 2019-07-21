@@ -26,15 +26,15 @@ class ConstructCest
     /**
      * Tests Phalcon\Validation\Validator\Callback :: __construct()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorCallbackConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Callback - __construct()');
+
         $validator = new Callback();
+
         $this->checkConstruct($I, $validator);
     }
 }

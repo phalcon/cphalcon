@@ -15,17 +15,10 @@ namespace Phalcon\Test\Unit\Logger\Adapter\Noop;
 use Phalcon\Logger\Adapter\Noop;
 use UnitTester;
 
-/**
- * Class RollbackCest
- *
- * @package Phalcon\Test\Unit\Logger
- */
 class RollbackCest
 {
     /**
      * Tests Phalcon\Logger\Adapter\Noop :: rollback()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -33,16 +26,19 @@ class RollbackCest
     public function loggerAdapterNoopRollback(UnitTester $I)
     {
         $I->wantToTest('Logger\Adapter\Noop - rollback()');
+
         $adapter = new Noop();
 
         $adapter->begin();
 
-        $actual = $adapter->inTransaction();
-        $I->assertTrue($actual);
+        $I->assertTrue(
+            $adapter->inTransaction()
+        );
 
         $adapter->rollback();
 
-        $actual = $adapter->inTransaction();
-        $I->assertFalse($actual);
+        $I->assertFalse(
+            $adapter->inTransaction()
+        );
     }
 }

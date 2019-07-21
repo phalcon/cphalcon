@@ -14,22 +14,18 @@ namespace Phalcon\Test\Unit\Di\FactoryDefault;
 
 use UnitTester;
 
-/**
- * Class UnderscoreCallCest
- */
 class UnderscoreCallCest
 {
     /**
-     * Tests Phalcon\Di\FactoryDefault :: __call()
-     *
-     * @param UnitTester $I
+     * Unit Tests Phalcon\Di\FactoryDefault :: __call()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2019-06-13
      */
-    public function diFactorydefaultUnderscoreCall(UnitTester $I)
+    public function diFactoryDefaultUnderscoreCall(UnitTester $I)
     {
-        $I->wantToTest("Di\FactoryDefault - __call()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Di\FactoryDefault - __call()');
+
+        $I->skipTest('Need implementation');
     }
 }

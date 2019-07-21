@@ -18,13 +18,10 @@ use Phalcon\Mvc\Model;
  */
 class Robos extends Model
 {
-    public function getSource(): string
-    {
-        return 'robots';
-    }
-
     public function initialize()
     {
+        $this->setSource('robots');
+
         $this->setConnectionService('dbTwo');
     }
 }

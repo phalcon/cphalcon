@@ -10,11 +10,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+namespace Phalcon\Test\Fixtures\Events;
+
 use Phalcon\Events\Manager;
 
-/**
- * Class ComponentX
- */
 class ComponentX
 {
     /**
@@ -27,17 +26,26 @@ class ComponentX
         $this->eventsManager = $eventsManager;
     }
 
-    /**
-     * @return Manager
-     */
-    public function getEventsManager()
+    public function getEventsManager(): Manager
     {
         return $this->eventsManager;
     }
 
     public function leAction()
     {
-        $this->eventsManager->fire('dummy:beforeAction', $this, 'extra data');
-        $this->eventsManager->fire('dummy:afterAction', $this, ['extra', 'data']);
+        $this->eventsManager->fire(
+            'dummy:beforeAction',
+            $this,
+            'extra data'
+        );
+
+        $this->eventsManager->fire(
+            'dummy:afterAction',
+            $this,
+            [
+                'extra',
+                'data',
+            ]
+        );
     }
 }

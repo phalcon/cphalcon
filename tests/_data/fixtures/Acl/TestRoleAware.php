@@ -29,11 +29,7 @@ class TestRoleAware implements RoleAware
      */
     protected $roleName;
 
-    /**
-     * @param $id
-     * @param $roleName
-     */
-    public function __construct($id, $roleName)
+    public function __construct($id, string $roleName)
     {
         $this->id       = $id;
         $this->roleName = $roleName;
@@ -47,9 +43,6 @@ class TestRoleAware implements RoleAware
         return $this->id;
     }
 
-    /**
-     * @return string
-     */
     public function getRoleName(): string
     {
         return $this->roleName;

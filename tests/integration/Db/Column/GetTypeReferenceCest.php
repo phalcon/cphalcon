@@ -14,15 +14,10 @@ namespace Phalcon\Test\Integration\Db\Column;
 
 use IntegrationTester;
 
-/**
- * Class GetTypeReferenceCest
- */
 class GetTypeReferenceCest
 {
     /**
      * Tests Phalcon\Db\Column :: getTypeReference()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

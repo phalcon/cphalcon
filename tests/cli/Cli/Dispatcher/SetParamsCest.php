@@ -13,23 +13,33 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Cli\Dispatcher;
 
 use CliTester;
+use Phalcon\Cli\Dispatcher;
 
-/**
- * Class SetParamsCest
- */
 class SetParamsCest
 {
     /**
      * Tests Phalcon\Cli\Dispatcher :: setParams()
      *
-     * @param CliTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-06-02
      */
     public function cliDispatcherSetParams(CliTester $I)
     {
         $I->wantToTest('Cli\Dispatcher - setParams()');
-        $I->skipTest('Need implementation');
+
+        $dispatcher = new Dispatcher();
+
+        $params = [
+            'a' => 1,
+            'b' => '2',
+            'c' => 'three',
+        ];
+
+        $dispatcher->setParams($params);
+
+        $I->assertEquals(
+            $params,
+            $dispatcher->getParams()
+        );
     }
 }

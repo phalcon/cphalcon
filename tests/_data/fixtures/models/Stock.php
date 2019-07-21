@@ -15,5 +15,4 @@ use Phalcon\Mvc\Model;
 
 class Stock extends Model
 {
-
 }

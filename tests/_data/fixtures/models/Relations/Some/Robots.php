@@ -15,21 +15,25 @@ use Phalcon\Mvc\Model;
 
 class Robots extends Model
 {
-
-    public function getSource(): string
-    {
-        return 'robots';
-    }
-
     public function initialize()
     {
-        $this->hasMany('id', RobotsParts::class, 'robots_id', [
-            'foreignKey' => true,
-        ]);
+        $this->setSource('robots');
+
+        $this->hasMany(
+            'id',
+            RobotsParts::class,
+            'robots_id',
+            [
+                'foreignKey' => true,
+            ]
+        );
     }
 
     public function getRobotsParts($arguments = null)
     {
-        return $this->getRelated(RobotsParts::class, $arguments);
+        return $this->getRelated(
+            RobotsParts::class,
+            $arguments
+        );
     }
 }

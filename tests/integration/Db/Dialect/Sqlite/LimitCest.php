@@ -14,15 +14,10 @@ namespace Phalcon\Test\Integration\Db\Dialect\Sqlite;
 
 use IntegrationTester;
 
-/**
- * Class LimitCest
- */
 class LimitCest
 {
     /**
      * Tests Phalcon\Db\Dialect\Sqlite :: limit()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

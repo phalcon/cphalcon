@@ -17,11 +17,6 @@ use Phalcon\Session\Manager;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionTrait;
 
-/**
- * Class __unsetCest
- *
- * @package Phalcon\Test\Integration\Session\Manager
- */
 class UnderscoreUnsetCest
 {
     use DiTrait;
@@ -30,8 +25,6 @@ class UnderscoreUnsetCest
     /**
      * Tests Phalcon\Session\Manager :: __unset()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -39,7 +32,7 @@ class UnderscoreUnsetCest
     {
         $I->wantToTest('Session\Manager - __unset()');
         $manager = new Manager();
-        $files   = $this->getSessionFiles();
+        $files   = $this->getSessionStream();
         $manager->setHandler($files);
 
         $actual = $manager->start();

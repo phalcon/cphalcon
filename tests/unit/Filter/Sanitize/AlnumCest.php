@@ -16,18 +16,12 @@ use Codeception\Example;
 use Phalcon\Filter\Sanitize\Alnum;
 use UnitTester;
 
-/**
- * Class AlnumCest
- */
 class AlnumCest
 {
     /**
      * Tests Phalcon\Filter\Sanitize\Alnum :: __invoke()
      *
      * @dataProvider getData
-     *
-     * @param UnitTester $I
-     * @param Example    $example
      *
      * @author       Phalcon Team <team@phalconphp.com>
      * @since        2018-11-13
@@ -42,9 +36,6 @@ class AlnumCest
         $I->assertEquals($example[1], $actual);
     }
 
-    /**
-     * @return array
-     */
     private function getData(): array
     {
         return [

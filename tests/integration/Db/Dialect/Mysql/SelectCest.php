@@ -14,15 +14,10 @@ namespace Phalcon\Test\Integration\Db\Dialect\Mysql;
 
 use IntegrationTester;
 
-/**
- * Class SelectCest
- */
 class SelectCest
 {
     /**
      * Tests Phalcon\Db\Dialect\Mysql :: select()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

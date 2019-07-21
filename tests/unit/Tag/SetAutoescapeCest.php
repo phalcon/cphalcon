@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Tag;
 
 use UnitTester;
 
-/**
- * Class SetAutoescapeCest
- */
 class SetAutoescapeCest
 {
     /**
      * Tests Phalcon\Tag :: setAutoescape()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SetAutoescapeCest
     public function tagSetAutoescape(UnitTester $I)
     {
         $I->wantToTest('Tag - setAutoescape()');
+
         $I->skipTest('Need implementation');
     }
 }

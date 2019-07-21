@@ -13,31 +13,27 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Assets\Inline\Js;
 
 use Phalcon\Assets\Inline\Js;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
-/**
- * Class GetContentCest
- */
 class GetContentCest
 {
-    use AssetsTrait;
-
     /**
-     * Tests Phalcon\Assets\Inline :: getContent()
-     *
-     * @param UnitTester $I
+     * Tests Phalcon\Assets\Inline\Js :: getContent()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function assetsInlineGetContent(UnitTester $I)
+    public function assetsInlineJsGetContent(UnitTester $I)
     {
-        $I->wantToTest('Assets\Inline - getContent()');
-        $content = '<script>alert("Hello");</script>';
-        $asset   = new Js($content);
+        $I->wantToTest('Assets\Inline\Js - getContent()');
 
-        $expected = $content;
-        $this->assetGetContent($I, $asset, $expected);
+        $content = '<script>alert("Hello");</script>';
+
+        $asset = new Js($content);
+
+        $I->assertEquals(
+            $content,
+            $asset->getContent()
+        );
     }
 }

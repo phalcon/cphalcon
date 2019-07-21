@@ -1,3 +1,4 @@
+
 # [3.4.4](https://github.com/phalcon/cphalcon/releases/tag/v3.4.4) (2019-06-30)
 - Generated Dialect Class referring to a PHP class can't be found [#13867](https://github.com/phalcon/cphalcon/pull/13867)
 - Changed default gcc's CFLAGS so that, the extension should be properly generated for most hosts, including Docker [#13143](https://github.com/phalcon/cphalcon/issues/13143)

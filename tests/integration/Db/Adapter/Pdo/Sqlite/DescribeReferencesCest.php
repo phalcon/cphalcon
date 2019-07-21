@@ -13,23 +13,55 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Db\Adapter\Pdo\Sqlite;
 
 use IntegrationTester;
+use Phalcon\Db\Reference;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-/**
- * Class DescribeReferencesCest
- */
 class DescribeReferencesCest
 {
+    use DiTrait;
+
+    public function _before(IntegrationTester $I)
+    {
+        $this->newDi();
+        $this->setDiModelsManager();
+        $this->setDiModelsMetadata();
+        $this->setDiSqlite();
+    }
+
     /**
      * Tests Phalcon\Db\Adapter\Pdo\Sqlite :: describeReferences()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function dbAdapterPdoSqliteDescribeReferences(IntegrationTester $I)
     {
-        $I->wantToTest('Db\Adapter\Pdo\Sqlite - describeReferences()');
-        $I->skipTest('Need implementation');
+        $connection = $this->getService('db');
+
+        $expectedReferences = [
+            'foreign_key_0' => new Reference(
+                'foreign_key_0',
+                [
+                    'referencedTable'   => 'parts',
+                    'columns'           => ['parts_id'],
+                    'referencedColumns' => ['id'],
+                    'referencedSchema'  => null,
+                ]
+            ),
+            'foreign_key_1' => new Reference(
+                'foreign_key_1',
+                [
+                    'referencedTable'   => 'robots',
+                    'columns'           => ['robots_id'],
+                    'referencedColumns' => ['id'],
+                    'referencedSchema'  => null,
+                ]
+            ),
+        ];
+
+        $I->assertEquals(
+            $expectedReferences,
+            $connection->describeReferences('robots_parts')
+        );
     }
 }

@@ -33,7 +33,9 @@ class Subscriptores extends Model
     public function beforeValidation()
     {
         if ($this->email == 'marina@hotmail.com') {
-            $this->appendMessage(new Message('Sorry Marina, but you are not allowed here'));
+            $this->appendMessage(
+                new Message('Sorry Marina, but you are not allowed here')
+            );
 
             return false;
         }
@@ -44,7 +46,9 @@ class Subscriptores extends Model
     public function beforeDelete()
     {
         if ($this->email == 'fuego@hotmail.com') {
-            $this->appendMessage(new Message('Sorry this cannot be deleted'));
+            $this->appendMessage(
+                new Message('Sorry this cannot be deleted')
+            );
 
             return false;
         }
@@ -55,6 +59,7 @@ class Subscriptores extends Model
     public function validation()
     {
         $validator = new Validation();
+
         $validator
             ->add('created_at', new PresenceOf())
             ->add('email', new StringLength(['min' => '7', 'max' => '50']))

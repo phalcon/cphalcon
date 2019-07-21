@@ -15,9 +15,8 @@
 #include "kernel/array.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
-#include "kernel/concat.h"
-#include "kernel/string.h"
 #include "kernel/operators.h"
+#include "kernel/object.h"
 
 
 /**
@@ -75,10 +74,9 @@ PHP_METHOD(Phalcon_Html_Helper_Form, __invoke) {
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&overrides, &_0);
 	ZEPHIR_INIT_VAR(&_1);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "renderattributes", NULL, 0, &overrides);
+	ZVAL_STRING(&_1, "form");
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "renderelement", NULL, 0, &_1, &overrides);
 	zephir_check_call_status();
-	zephir_fast_trim(&_1, &_0, NULL , ZEPHIR_TRIM_RIGHT TSRMLS_CC);
-	ZEPHIR_CONCAT_SVS(return_value, "<form ", &_1, ">");
 	RETURN_MM();
 
 }

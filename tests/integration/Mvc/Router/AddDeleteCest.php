@@ -13,23 +13,53 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Router;
 
 use IntegrationTester;
+use Phalcon\Test\Fixtures\Traits\RouterTrait;
 
-/**
- * Class AddDeleteCest
- */
 class AddDeleteCest
 {
+    use RouterTrait;
+
     /**
      * Tests Phalcon\Mvc\Router :: addDelete()
      *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-04-17
      */
     public function mvcRouterAddDelete(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Router - addDelete()');
-        $I->skipTest('Need implementation');
+
+        $router = $this->getRouter(false);
+
+        $router->addDelete(
+            '/docs/index',
+            [
+                'controller' => 'documentation6',
+                'action'     => 'index',
+            ]
+        );
+
+
+
+        $_SERVER['REQUEST_METHOD'] = 'DELETE';
+
+        $router->handle('/docs/index');
+
+
+
+        $I->assertEquals(
+            'documentation6',
+            $router->getControllerName()
+        );
+
+        $I->assertEquals(
+            'index',
+            $router->getActionName()
+        );
+
+        $I->assertEquals(
+            [],
+            $router->getParams()
+        );
     }
 }

@@ -26,15 +26,19 @@ class HasOptionCest
     /**
      * Tests Phalcon\Validation\Validator\Regex :: hasOption()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorRegexHasOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Regex - hasOption()');
-        $validator = new Regex(['message' => 'This is a message']);
+
+        $validator = new Regex(
+            [
+                'message' => 'This is a message',
+            ]
+        );
+
         $this->checkHasOption($I, $validator);
     }
 }

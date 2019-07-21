@@ -13,31 +13,31 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Assets\Inline\Css;
 
 use Phalcon\Assets\Inline\Css;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
-/**
- * Class GetAssetKeyCest
- */
 class GetAssetKeyCest
 {
-    use AssetsTrait;
-
     /**
-     * Tests Phalcon\Assets\Inline :: getAssetKey()
-     *
-     * @param UnitTester $I
+     * Tests Phalcon\Assets\Inline\Css :: getAssetKey()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function assetsInlineGetAssetKey(UnitTester $I)
+    public function assetsInlineCssGetAssetKey(UnitTester $I)
     {
-        $I->wantToTest('Assets\Inline - getAssetKey()');
-        $content = 'p {color: #000099}';
-        $asset   = new Css($content);
+        $I->wantToTest('Assets\Inline\Css - getAssetKey()');
 
-        $expected = md5('css:' . $content);
-        $this->assetGetAssetKey($I, $asset, $expected);
+        $content = 'p {color: #000099}';
+
+        $asset = new Css($content);
+
+        $expected = md5(
+            'css:' . $content
+        );
+
+        $I->assertEquals(
+            $expected,
+            $asset->getAssetKey()
+        );
     }
 }

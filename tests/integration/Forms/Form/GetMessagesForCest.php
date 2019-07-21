@@ -22,8 +22,6 @@ class GetMessagesForCest
     /**
      * Tests Phalcon\Forms\Form :: getMessagesFor()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

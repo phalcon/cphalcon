@@ -13,23 +13,67 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Forms\Element\Submit;
 
 use IntegrationTester;
+use Phalcon\Forms\Element\Submit;
+use Phalcon\Tag;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-/**
- * Class ToStringCest
- */
 class ToStringCest
 {
+    use DiTrait;
+
+    public function _before(IntegrationTester $I)
+    {
+        $this->newDi();
+        $this->setDiEscaper();
+        $this->setDiUrl();
+    }
+
     /**
      * Tests Phalcon\Forms\Element\Submit :: __toString()
      *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-05-23
      */
-    public function formsElementSubmitToString(IntegrationTester $I)
+    public function formsElementSubmitToStringSimple(IntegrationTester $I)
     {
         $I->wantToTest('Forms\Element\Submit - __toString()');
-        $I->skipTest('Need implementation');
+
+        Tag::setDocType(
+            Tag::XHTML5
+        );
+
+        $element = new Submit('simple');
+
+        $I->assertEquals(
+            '<input type="submit" value="simple" />',
+            $element->__toString()
+        );
+    }
+
+    /**
+     * Tests Phalcon\Forms\Element\Submit :: __toString() with parameters
+     *
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-05-23
+     */
+    public function formsElementSubmitToStringWithParameters(IntegrationTester $I)
+    {
+        $I->wantToTest('Forms\Element\Submit - __toString() with parameters');
+
+        Tag::setDocType(
+            Tag::XHTML5
+        );
+
+        $element = new Submit(
+            'fantastic',
+            [
+                'class' => 'fancy',
+            ]
+        );
+
+        $I->assertEquals(
+            '<input type="submit" value="fantastic" class="fancy" />',
+            $element->__toString()
+        );
     }
 }

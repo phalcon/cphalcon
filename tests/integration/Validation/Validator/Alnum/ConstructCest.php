@@ -16,9 +16,6 @@ use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\ValidationTrait;
 use Phalcon\Validation\Validator\Alnum;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     use ValidationTrait;
@@ -26,15 +23,15 @@ class ConstructCest
     /**
      * Tests Phalcon\Validation\Validator\Alnum :: __construct()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorAlnumConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Alnum - __construct()');
+
         $validator = new Alnum();
+
         $this->checkConstruct($I, $validator);
     }
 }

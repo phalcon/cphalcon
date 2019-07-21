@@ -16,11 +16,6 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\TagHelperTrait;
 use Phalcon\Test\Fixtures\Traits\TagSetupTrait;
 
-/**
- * Class InputColorCest
- *
- * @package Phalcon\Test\Unit\Html\Tag
- */
 class InputColorCest
 {
     use DiTrait;

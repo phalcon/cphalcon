@@ -11,52 +11,54 @@
 
 namespace Phalcon\Test\Fixtures\Mvc\View\Engine;
 
-use Twig_Environment;
-use Phalcon\DiInterface;
-use Twig_Loader_Filesystem;
-use Phalcon\Mvc\View\Engine;
+use Phalcon\Di\DiInterface;
+use Phalcon\Mvc\View\Engine\AbstractEngine;
+use Phalcon\Mvc\View\Engine\EngineInterface;
 use Phalcon\Mvc\ViewBaseInterface;
-use Phalcon\Mvc\View\EngineInterface;
+use Twig_Environment;
+use Twig_Loader_Filesystem;
 
-class Twig extends Engine implements EngineInterface
+class Twig extends AbstractEngine implements EngineInterface
 {
     protected $twig;
 
     /**
      * Twig constructor.
-     *
-     * @param ViewBaseInterface $view
-     * @param DiInterface|null $dependencyInjector
      */
     public function __construct(ViewBaseInterface $view, DiInterface $dependencyInjector = null)
     {
-        $this->twig = new Twig_Environment(new Twig_Loader_Filesystem($view->getViewsDir()));
+        $this->twig = new Twig_Environment(
+            new Twig_Loader_Filesystem(
+                $view->getViewsDir()
+            )
+        );
 
         parent::__construct($view, $dependencyInjector);
     }
 
     /**
      * Renders a view using the template engine
-     *
-     * @param string $path
-     * @param mixed $params
-     * @param bool $mustClean
      */
-    public function render($path, $params, $mustClean = false)
+    public function render(string $path, $params, bool $mustClean = false)
     {
         if (!isset($params['content'])) {
-            $params['content'] = $this->_view->getContent();
+            $params['content'] = $this->view->getContent();
         }
 
         if (!isset($params['view'])) {
-            $params['view'] = $this->_view;
+            $params['view'] = $this->view;
         }
 
-        $relativePath = str_replace($this->_view->getViewsDir(), '', $path);
+        $relativePath = str_replace(
+            $this->view->getViewsDir(),
+            '',
+            $path
+        );
+
         $content = $this->twig->render($relativePath, $params);
 
         if ($mustClean) {
-            $this->_view->setContent($content);
+            $this->view->setContent($content);
         } else {
             echo $content;
         }

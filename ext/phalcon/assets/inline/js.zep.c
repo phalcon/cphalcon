@@ -16,6 +16,7 @@
 #include "kernel/array.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
+#include "kernel/object.h"
 
 
 /**
@@ -27,9 +28,7 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Assets\Inline\Js
- *
- * Represents an inline Javascript
+ * Represents an inline JavaScript
  */
 ZEPHIR_INIT_CLASS(Phalcon_Assets_Inline_Js) {
 
@@ -40,9 +39,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Inline_Js) {
 }
 
 /**
- * Phalcon\Assets\Inline\Js
- *
- * @param array attributes
+ * Phalcon\Assets\Inline\Js constructor
  */
 PHP_METHOD(Phalcon_Assets_Inline_Js, __construct) {
 

@@ -12,24 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Translate\Adapter\Csv;
 
-use UnitTester;
+use Phalcon\Test\Fixtures\Helpers\TranslateCsvHelper;
 
-/**
- * Class TCest
- */
-class TCest
+class TCest extends TranslateCsvHelper
 {
-    /**
-     * Tests Phalcon\Translate\Adapter\Csv :: t()
-     *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function translateAdapterCsvT(UnitTester $I)
-    {
-        $I->wantToTest('Translate\Adapter\Csv - t()');
-        $I->skipTest('Need implementation');
-    }
+    protected $function = 't';
 }

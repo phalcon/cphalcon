@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Html\Breadcrumbs;
 use Phalcon\Html\Breadcrumbs;
 use UnitTester;
 
-/**
- * Class RenderCest
- */
 class RenderCest
 {
     /**
      * Tests Phalcon\Html\Breadcrumbs :: render()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -31,7 +26,9 @@ class RenderCest
     public function htmlBreadcrumbsRender(UnitTester $I)
     {
         $I->wantToTest('Html\Breadcrumbs - render()');
+
         $breadcrumbs = new Breadcrumbs();
+
         $breadcrumbs
             ->add('Home', '/')
             ->add('Phalcon Team')
@@ -42,7 +39,10 @@ class RenderCest
             . '<dt> / </dt>'
             . '<dt>Phalcon Team</dt>'
             . '</dl>';
-        $actual   = $breadcrumbs->render();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $breadcrumbs->render()
+        );
     }
 }

@@ -14,15 +14,10 @@ namespace Phalcon\Test\Integration\Mvc\Model;
 
 use IntegrationTester;
 
-/**
- * Class HasUpdatedCest
- */
 class HasUpdatedCest
 {
     /**
      * Tests Phalcon\Mvc\Model :: hasUpdated()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class HasUpdatedCest
     public function mvcModelHasUpdated(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Model - hasUpdated()');
+
         $I->skipTest('Need implementation');
     }
 }

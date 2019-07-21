@@ -12,24 +12,51 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Db\Dialect\Sqlite;
 
+use Codeception\Example;
 use IntegrationTester;
+use Phalcon\Db\Dialect\Sqlite;
 
-/**
- * Class GetColumnListCest
- */
 class GetColumnListCest
 {
     /**
      * Tests Phalcon\Db\Dialect\Sqlite :: getColumnList()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2017-02-26
+     *
+     * @dataProvider getColumnListFixtures
      */
-    public function dbDialectSqliteGetColumnList(IntegrationTester $I)
+    public function dbDialectSqliteGetColumnList(IntegrationTester $I, Example $example)
     {
         $I->wantToTest('Db\Dialect\Sqlite - getColumnList()');
-        $I->skipTest('Need implementation');
+
+        $columns  = $example[0];
+        $expected = $example[1];
+
+        $dialect = new Sqlite();
+
+        $actual = $dialect->getColumnList($columns);
+
+        $I->assertInternalType(
+            'string',
+            $actual
+        );
+
+        $I->assertEquals($expected, $actual);
+    }
+
+    protected function getColumnListFixtures(): array
+    {
+        return [
+            [
+                ['column1', 'column2', 'column3', 'column13'],
+                '"column1", "column2", "column3", "column13"',
+            ],
+
+            [
+                ['foo'],
+                '"foo"',
+            ],
+        ];
     }
 }

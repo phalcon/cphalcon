@@ -26,15 +26,15 @@ class ConstructCest
     /**
      * Tests Phalcon\Validation\Validator\CreditCard :: __construct()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorCreditCardConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\CreditCard - __construct()');
+
         $validator = new CreditCard();
+
         $this->checkConstruct($I, $validator);
     }
 }

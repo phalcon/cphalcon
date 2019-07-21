@@ -13,6 +13,8 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Micro;
 
 use IntegrationTester;
+use Phalcon\Mvc\Micro;
+use Phalcon\Test\Fixtures\Micro\RestHandler;
 
 /**
  * Class NotFoundCest
@@ -20,16 +22,33 @@ use IntegrationTester;
 class NotFoundCest
 {
     /**
-     * Tests Phalcon\Mvc\Micro :: notFound()
+     * Tests the notFound
      *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @issue  T169
+     * @author Nikos Dimopoulos <nikos@niden.net>
+     * @since  2012-11-06
      */
-    public function mvcMicroNotFound(IntegrationTester $I)
+    public function testMicroNotFoundT169(IntegrationTester $I)
     {
-        $I->wantToTest('Mvc\Micro - notFound()');
-        $I->skipTest('Need implementation');
+        $handler = new RestHandler();
+
+        $app = new Micro();
+
+        $app->get('/api/site', [$handler, 'find']);
+        $app->post('/api/site/save', [$handler, 'save']);
+
+        $flag = false;
+
+        $app->notFound(
+            function () use (&$flag) {
+                $flag = true;
+            }
+        );
+
+        $_SERVER['REQUEST_METHOD'] = 'GET';
+
+        $app->handle('/fourohfour');
+
+        $I->assertTrue($flag);
     }
 }

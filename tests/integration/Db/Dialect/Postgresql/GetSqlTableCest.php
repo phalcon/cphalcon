@@ -14,15 +14,10 @@ namespace Phalcon\Test\Integration\Db\Dialect\Postgresql;
 
 use IntegrationTester;
 
-/**
- * Class GetSqlTableCest
- */
 class GetSqlTableCest
 {
     /**
      * Tests Phalcon\Db\Dialect\Postgresql :: getSqlTable()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

@@ -14,6 +14,7 @@
 #include "kernel/main.h"
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
+#include "kernel/object.h"
 
 
 /**
@@ -55,7 +56,7 @@ PHP_METHOD(Phalcon_Filter_Sanitize_Regex, __invoke) {
 
 
 
-	ZEPHIR_RETURN_CALL_FUNCTION("preg_replace", NULL, 21, pattern, replace, input);
+	ZEPHIR_RETURN_CALL_FUNCTION("preg_replace", NULL, 44, pattern, replace, input);
 	zephir_check_call_status();
 	RETURN_MM();
 

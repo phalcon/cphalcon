@@ -12,19 +12,15 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Messages\Messages;
 
+use JsonSerializable;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
 use UnitTester;
 
-/**
- * Class JsonSerializeCest
- */
 class JsonSerializeCest
 {
     /**
      * Tests Phalcon\Messages\Messages :: jsonSerialize()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -32,22 +28,39 @@ class JsonSerializeCest
     public function messagesMessagesJsonSerialize(UnitTester $I)
     {
         $I->wantToTest('Messages\Messages - jsonSerialize()');
+
         $messages = new Messages(
             [
-                new Message('This is a message #1', 'MyField1', 'MyType1', 111, ['My1' => 'Metadata1']),
-                new Message('This is a message #2', 'MyField2', 'MyType2', 222, ['My2' => 'Metadata2']),
+                new Message(
+                    'This is a message #1',
+                    'MyField1',
+                    'MyType1',
+                    111,
+                    [
+                        'My1' => 'Metadata1',
+                    ]
+                ),
+                new Message(
+                    'This is a message #2',
+                    'MyField2',
+                    'MyType2',
+                    222,
+                    [
+                        'My2' => 'Metadata2',
+                    ]
+                ),
             ]
         );
-        $expected = '\JsonSerializable';
-        $actual   = $messages;
-        $I->assertInstanceOf($expected, $actual);
 
-        $data      = $messages->jsonSerialize();
-        $condition = is_array($data);
-        $I->assertTrue($condition);
+        $I->assertInstanceOf(
+            JsonSerializable::class,
+            $messages
+        );
 
-        $expected = 2;
-        $actual   = count($data);
-        $I->assertEquals($expected, $actual);
+        $data = $messages->jsonSerialize();
+
+        $I->assertInternalType('array', $data);
+
+        $I->assertCount(2, $data);
     }
 }

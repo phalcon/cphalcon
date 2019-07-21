@@ -16,9 +16,6 @@ use Codeception\Example;
 use Phalcon\Text;
 use UnitTester;
 
-/**
- * Class CamelizeCest
- */
 class CamelizeCest
 {
     /**
@@ -26,25 +23,23 @@ class CamelizeCest
      *
      * @dataProvider getSources
      *
-     * @param UnitTester $I
-     * @param Example    $item
-     *
      * @author       Phalcon Team <team@phalconphp.com>
      * @since        2018-11-13
      */
-    public function textCamelize(UnitTester $I, Example $item)
+    public function textCamelize(UnitTester $I, Example $example)
     {
         $I->wantToTest('Text - camelize()');
-        $value     = $item[0];
-        $expected  = $item[1];
-        $delimiter = $item[2];
-        $actual    = Text::camelize($value, $delimiter);
-        $I->assertEquals($expected, $actual);
+
+        $value     = $example[0];
+        $expected  = $example[1];
+        $delimiter = $example[2];
+
+        $I->assertEquals(
+            $expected,
+            Text::camelize($value, $delimiter)
+        );
     }
 
-    /**
-     * @return array
-     */
     private function getSources(): array
     {
         return [
@@ -56,18 +51,18 @@ class CamelizeCest
             ['Camelize', 'Camelize', null],
             ['camel_ize', 'CamelIze', null],
             ['CameLize', 'Camelize', null],
-            ["c_a-m_e-l_i-z_e", 'CAMELIZE', null],
-            ["came_li_ze", 'CameLiZe', null],
-            ["=_camelize", '=Camelize', "_"],
-            ["camelize", 'Camelize', "_"],
-            ["came_li_ze", 'CameLiZe', "_"],
-            ["came#li#ze", 'CameLiZe', "#"],
-            ["came li ze", 'CameLiZe', " "],
-            ["came.li^ze", 'CameLiZe', ".^"],
-            ["c_a-m_e-l_i-z_e", 'CAMELIZE', "-_"],
-            ["came.li.ze", 'CameLiZe', "."],
-            ["came-li-ze", 'CameLiZe', "-"],
-            ["c+a+m+e+l+i+z+e", 'CAMELIZE', "+"],
+            ['c_a-m_e-l_i-z_e', 'CAMELIZE', null],
+            ['came_li_ze', 'CameLiZe', null],
+            ['=_camelize', '=Camelize', '_'],
+            ['camelize', 'Camelize', '_'],
+            ['came_li_ze', 'CameLiZe', '_'],
+            ['came#li#ze', 'CameLiZe', '#'],
+            ['came li ze', 'CameLiZe', ' '],
+            ['came.li^ze', 'CameLiZe', '.^'],
+            ['c_a-m_e-l_i-z_e', 'CAMELIZE', '-_'],
+            ['came.li.ze', 'CameLiZe', '.'],
+            ['came-li-ze', 'CameLiZe', '-'],
+            ['c+a+m+e+l+i+z+e', 'CAMELIZE', '+'],
         ];
     }
 }

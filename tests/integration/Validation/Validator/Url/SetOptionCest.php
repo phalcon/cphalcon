@@ -26,15 +26,15 @@ class SetOptionCest
     /**
      * Tests Phalcon\Validation\Validator\Url :: setOption()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorUrlSetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Url - setOption()');
+
         $validator = new Url();
+
         $this->checkSetOption($I, $validator);
     }
 }

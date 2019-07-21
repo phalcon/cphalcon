@@ -13,23 +13,61 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Db\Reference;
 
 use IntegrationTester;
+use Phalcon\Test\Fixtures\Traits\DialectTrait;
 
-/**
- * Class GetOnDeleteCest
- */
 class GetOnDeleteCest
 {
+    use DialectTrait;
+
     /**
      * Tests Phalcon\Db\Reference :: getOnDelete()
-     *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
      */
     public function dbReferenceGetOnDelete(IntegrationTester $I)
     {
         $I->wantToTest('Db\Reference - getOnDelete()');
-        $I->skipTest('Need implementation');
+
+        $references = $this->getReferences();
+
+
+
+        $reference1 = $references['fk1'];
+
+        $I->assertNull(
+            $reference1->getOnDelete()
+        );
+
+
+
+        $reference2 = $references['fk2'];
+
+        $I->assertNull(
+            $reference1->getOnDelete()
+        );
+
+
+
+        $reference3 = $references['fk3'];
+
+        $I->assertEquals(
+            'CASCADE',
+            $reference3->getOnDelete()
+        );
+
+
+
+        $reference4 = $references['fk4'];
+
+        $I->assertNull(
+            $reference4->getOnDelete()
+        );
+
+
+
+        $reference5 = $references['fk5'];
+
+        $I->assertEquals(
+            'CASCADE',
+            $reference5->getOnDelete()
+        );
     }
 }

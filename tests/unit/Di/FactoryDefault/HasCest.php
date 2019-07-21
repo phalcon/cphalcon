@@ -14,22 +14,18 @@ namespace Phalcon\Test\Unit\Di\FactoryDefault;
 
 use UnitTester;
 
-/**
- * Class HasCest
- */
 class HasCest
 {
     /**
-     * Tests Phalcon\Di\FactoryDefault :: has()
-     *
-     * @param UnitTester $I
+     * Unit Tests Phalcon\Di\FactoryDefault :: has()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2019-06-13
      */
-    public function diFactorydefaultHas(UnitTester $I)
+    public function diFactoryDefaultHas(UnitTester $I)
     {
         $I->wantToTest('Di\FactoryDefault - has()');
+
         $I->skipTest('Need implementation');
     }
 }

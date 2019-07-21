@@ -24,96 +24,182 @@ class DispatcherCest
         /**
          * @todo Check the loader
          */
-        require_once dataFolder('fixtures/tasks/EchoTask.php');
-        require_once dataFolder('fixtures/tasks/MainTask.php');
-        require_once dataFolder('fixtures/tasks/ParamsTask.php');
+        require_once dataDir('fixtures/tasks/EchoTask.php');
+        require_once dataDir('fixtures/tasks/MainTask.php');
 
         $this->setNewCliFactoryDefault();
     }
 
-    public function testDispatcher(CliTester $I)
+    public function testDispatcher1(CliTester $I)
     {
+        $dispatcher = new Dispatcher();
 
-        $this->container->set(
-            'data',
-            function () {
-                return "data";
-            }
+        $dispatcher->setDI(
+            $this->container
         );
 
-        $dispatcher = new Dispatcher();
-        $dispatcher->setDI($this->container);
         $dispatcher->dispatch();
-        $I->assertEquals($dispatcher->getTaskName(), 'main');
-        $I->assertEquals($dispatcher->getActionName(), 'main');
-        $I->assertEquals($dispatcher->getParams(), []);
-        $I->assertEquals($dispatcher->getReturnedValue(), 'mainAction');
+
+        $I->assertEquals(
+            'main',
+            $dispatcher->getTaskName()
+        );
+
+        $I->assertEquals(
+            'main',
+            $dispatcher->getActionName()
+        );
+
+        $I->assertEquals(
+            [],
+            $dispatcher->getParams()
+        );
+
+        $I->assertEquals(
+            'mainAction',
+            $dispatcher->getReturnedValue()
+        );
+    }
+
+    public function testDispatcher2(CliTester $I)
+    {
+        $dispatcher = new Dispatcher();
+
+        $dispatcher->setDI(
+            $this->container
+        );
 
         $dispatcher->setTaskName('echo');
+
         $dispatcher->dispatch();
-        $I->assertEquals($dispatcher->getTaskName(), 'echo');
-        $I->assertEquals($dispatcher->getActionName(), 'main');
-        $I->assertEquals($dispatcher->getParams(), []);
-        $I->assertEquals($dispatcher->getReturnedValue(), 'echoMainAction');
+
+        $I->assertEquals(
+            'echo',
+            $dispatcher->getTaskName()
+        );
+
+        $I->assertEquals(
+            'main',
+            $dispatcher->getActionName()
+        );
+
+        $I->assertEquals(
+            [],
+            $dispatcher->getParams()
+        );
+
+        $I->assertEquals(
+            'echoMainAction',
+            $dispatcher->getReturnedValue()
+        );
+    }
+
+    public function testDispatcher3(CliTester $I)
+    {
+        $dispatcher = new Dispatcher();
+
+        $dispatcher->setDI(
+            $this->container
+        );
 
         $dispatcher->setTaskName('main');
         $dispatcher->setActionName('hello');
-        $dispatcher->dispatch();
-        $I->assertEquals($dispatcher->getTaskName(), 'main');
-        $I->assertEquals($dispatcher->getActionName(), 'hello');
-        $I->assertEquals($dispatcher->getParams(), []);
-        $I->assertEquals($dispatcher->getReturnedValue(), 'Hello !');
 
-        $dispatcher->setActionName('hello');
-        $dispatcher->setParams(array('World', '######'));
         $dispatcher->dispatch();
-        $I->assertEquals($dispatcher->getTaskName(), 'main');
-        $I->assertEquals($dispatcher->getActionName(), 'hello');
-        $I->assertEquals($dispatcher->getParams(), array('World', '######'));
-        $I->assertEquals($dispatcher->getReturnedValue(), 'Hello World######');
 
-        $dispatcher->setActionName('hello');
-        $dispatcher->setParams(array('hello' => 'World', 'goodbye' => 'Everybody'));
-        $dispatcher->dispatch();
-        $I->assertTrue($dispatcher->hasParam('hello'));
-        $I->assertTrue($dispatcher->hasParam('goodbye'));
-        $I->assertFalse($dispatcher->hasParam('salutations'));
+        $I->assertEquals(
+            'main',
+            $dispatcher->getTaskName()
+        );
 
-        // testing namespace
-        try {
-            $dispatcher->setDefaultNamespace('Dummy\\');
-            $dispatcher->setTaskName('main');
-            $dispatcher->setActionName('hello');
-            $dispatcher->setParams(array('World'));
-            $dispatcher->dispatch();
-            $I->assertEquals($dispatcher->getTaskName(), 'main');
-            $I->assertEquals($dispatcher->getActionName(), 'hello');
-            $I->assertEquals($dispatcher->getParams(), array('World'));
-            $I->assertEquals($dispatcher->getReturnedValue(), 'Hello World!');
-        } catch (\Exception $e) {
-            $I->assertEquals($e->getMessage(), 'Dummy\MainTask handler class cannot be loaded');
-        }
+        $I->assertEquals(
+            'hello',
+            $dispatcher->getActionName()
+        );
+
+        $I->assertEquals(
+            [],
+            $dispatcher->getParams()
+        );
+
+        $I->assertEquals(
+            'Hello !',
+            $dispatcher->getReturnedValue()
+        );
     }
 
-    public function testCliParameters(CliTester $I)
+    public function testDispatcher4(CliTester $I)
     {
         $dispatcher = new Dispatcher();
 
-        $this->container->setShared("dispatcher", $dispatcher);
-        $dispatcher->setDI($this->container);
+        $dispatcher->setDI(
+            $this->container
+        );
 
-        // Test $this->dispatcher->getParams()
-        $dispatcher->setTaskName('params');
-        $dispatcher->setActionName('params');
-        $dispatcher->setParams(array('This', 'Is', 'An', 'Example'));
-        $dispatcher->dispatch();
-        $I->assertEquals($dispatcher->getReturnedValue(), 'Action params are the same as $this->dispatcher->getParams()');
+        $dispatcher->setActionName('hello');
 
-        // Test $this->dispatcher->getParam()
-        $dispatcher->setTaskName('params');
-        $dispatcher->setActionName('param');
-        $dispatcher->setParams(array('This', 'Is', 'An', 'Example'));
+        $dispatcher->setParams(
+            [
+                'World',
+                '######',
+            ]
+        );
+
         $dispatcher->dispatch();
-        $I->assertEquals($dispatcher->getReturnedValue(), '$param[0] is the same as $this->dispatcher->getParam(0)');
+
+        $I->assertEquals(
+            'main',
+            $dispatcher->getTaskName()
+        );
+
+        $I->assertEquals(
+            'hello',
+            $dispatcher->getActionName()
+        );
+
+        $I->assertEquals(
+            [
+                'World',
+                '######',
+            ],
+            $dispatcher->getParams()
+        );
+
+        $I->assertEquals(
+            'Hello World######',
+            $dispatcher->getReturnedValue()
+        );
+    }
+
+    public function testDispatcher5(CliTester $I)
+    {
+        $dispatcher = new Dispatcher();
+
+        $dispatcher->setDI(
+            $this->container
+        );
+
+        $dispatcher->setActionName('hello');
+
+        $dispatcher->setParams(
+            [
+                'hello'   => 'World',
+                'goodbye' => 'Everybody',
+            ]
+        );
+
+        $dispatcher->dispatch();
+
+        $I->assertTrue(
+            $dispatcher->hasParam('hello')
+        );
+
+        $I->assertTrue(
+            $dispatcher->hasParam('goodbye')
+        );
+
+        $I->assertFalse(
+            $dispatcher->hasParam('salutations')
+        );
     }
 }

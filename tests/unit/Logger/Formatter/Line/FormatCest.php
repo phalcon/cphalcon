@@ -12,23 +12,16 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Logger\Formatter\Line;
 
-use Phalcon\Logger;
 use Phalcon\Logger\Formatter\Line;
 use Phalcon\Logger\Item;
+use Phalcon\Logger\Logger;
 use UnitTester;
 use const PHP_EOL;
 
-/**
- * Class FormatCest
- *
- * @package Phalcon\Test\Unit\Logger
- */
 class FormatCest
 {
     /**
      * Tests Phalcon\Logger\Formatter\Line :: format()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -36,20 +29,28 @@ class FormatCest
     public function loggerFormatterLineFormat(UnitTester $I)
     {
         $I->wantToTest('Logger\Formatter\Line - format()');
+
         $formatter = new Line();
 
         $time = time();
-        $item = new Item('log message', 'debug', Logger::DEBUG, $time);
+
+        $item = new Item(
+            'log message',
+            'debug',
+            Logger::DEBUG,
+            $time
+        );
 
         $expected = sprintf('[%s][debug] log message', date('D, d M y H:i:s O', $time)) . PHP_EOL;
-        $actual   = $formatter->format($item);
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $formatter->format($item)
+        );
     }
 
     /**
      * Tests Phalcon\Logger\Formatter\Line :: format() -custom
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -57,13 +58,23 @@ class FormatCest
     public function loggerFormatterLineFormatCustom(UnitTester $I)
     {
         $I->wantToTest('Logger\Formatter\Line - format() - custom');
+
         $formatter = new Line('%message%-[%type%]-%date%');
 
         $time = time();
-        $item = new Item('log message', 'debug', Logger::DEBUG, $time);
+
+        $item = new Item(
+            'log message',
+            'debug',
+            Logger::DEBUG,
+            $time
+        );
 
         $expected = sprintf('log message-[debug]-%s', date('D, d M y H:i:s O', $time)) . PHP_EOL;
-        $actual   = $formatter->format($item);
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $formatter->format($item)
+        );
     }
 }

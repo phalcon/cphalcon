@@ -14,15 +14,10 @@ namespace Phalcon\Test\Integration\Mvc\View\Engine\Volt;
 
 use IntegrationTester;
 
-/**
- * Class IsIncludedCest
- */
 class IsIncludedCest
 {
     /**
      * Tests Phalcon\Mvc\View\Engine\Volt :: isIncluded()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

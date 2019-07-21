@@ -25,8 +25,6 @@ use Phalcon\Mvc\View\Engine\Volt\Compiler;
  * Phalcon\Test\Integration\Mvc\View\Engine\Volt\CompilerFilesCest
  *
  * Test working Compiler with files
- *
- * @package Phalcon\Test\Integration\Mvc\View\Engine\Volt
  */
 class CompilerFilesCest
 {
@@ -42,29 +40,41 @@ class CompilerFilesCest
     {
         $I->wantToTest('Compile extended files');
 
-        $I->safeDeleteFile(dataFolder('fixtures/views/layouts/extends.volt.php'));
-        $I->safeDeleteFile(dataFolder('fixtures/views/extends/children.extends.volt.php'));
+        $I->safeDeleteFile(
+            dataDir('fixtures/views/layouts/extends.volt.php')
+        );
+
+        $I->safeDeleteFile(
+            dataDir('fixtures/views/extends/children.extends.volt.php')
+        );
 
         $view = new View();
-        $view->setViewsDir(dataFolder('fixtures/views/'));
+
+        $view->setViewsDir(
+            dataDir('fixtures/views/')
+        );
 
         $volt = new Compiler($view);
 
         //extends
         $volt->compileFile(
-            dataFolder('fixtures/views/extends/children.extends.volt'),
-            dataFolder('fixtures/views/extends/children.extends.volt.php')
+            dataDir('fixtures/views/extends/children.extends.volt'),
+            dataDir('fixtures/views/extends/children.extends.volt.php')
         );
 
-        $compilation = file_get_contents(dataFolder('fixtures/views/extends/children.extends.volt.php'));
-        $expected    = '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">'
-            . '<html lang="en"><html xmlns="http://www.w3.org/1999/xhtml">'
-            . '<head><style type="text/css">.important { color: #336699; }</style>'
-            . '<title>Index - My Webpage</title></head><body>'
-            . '<div id="content"><h1>Index</h1><p class="important">Welcome on my awesome homepage.</p>'
-            . '</div><div id="footer">&copy; Copyright 2012 by <a href="http://domain.invalid/">you</a>.'
-            . '</div></body>';
-        $I->assertEquals($expected, $compilation);
+        $I->openFile(
+            dataDir('fixtures/views/extends/children.extends.volt.php')
+        );
+
+        $I->seeFileContentsEqual(
+            '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">'
+                . '<html lang="en"><html xmlns="http://www.w3.org/1999/xhtml">'
+                . '<head><style type="text/css">.important { color: #336699; }</style>'
+                . '<title>Index - My Webpage</title></head><body>'
+                . '<div id="content"><h1>Index</h1><p class="important">Welcome on my awesome homepage.</p>'
+                . '</div><div id="footer">&copy; Copyright 2012 by <a href="http://domain.invalid/">you</a>.'
+                . '</div></body>'
+        );
     }
 
     /**
@@ -79,24 +89,39 @@ class CompilerFilesCest
     {
         $I->wantToTest('Compile imported files');
 
-        $I->safeDeleteFile(dataFolder('fixtures/views/partials/header.volt.php'));
-        $I->safeDeleteFile(dataFolder('fixtures/views/partials/footer.volt.php'));
-        $I->safeDeleteFile(dataFolder('fixtures/views/extends/import.volt.php'));
-
-        $view = new View();
-        $view->setViewsDir(dataFolder('fixtures/views/'));
-
-        $volt = new Compiler($view);
-        //extends
-        $volt->compileFile(
-            dataFolder('fixtures/views/extends/import.volt'),
-            dataFolder('fixtures/views/extends/import.volt.php')
+        $I->safeDeleteFile(
+            dataDir('fixtures/views/partials/header.volt.php')
         );
 
-        $compilation = file_get_contents(dataFolder('fixtures/views/extends/import.volt.php'));
-        $expected    = '<div class="header"><h1>This is the header</h1></div>'
-            . '<div class="footer"><p>This is the footer</p></div>';
-        $I->assertEquals($expected, $compilation);
+        $I->safeDeleteFile(
+            dataDir('fixtures/views/partials/footer.volt.php')
+        );
+
+        $I->safeDeleteFile(
+            dataDir('fixtures/views/extends/import.volt.php')
+        );
+
+        $view = new View();
+
+        $view->setViewsDir(
+            dataDir('fixtures/views/')
+        );
+
+        $volt = new Compiler($view);
+
+        //extends
+        $volt->compileFile(
+            dataDir('fixtures/views/extends/import.volt'),
+            dataDir('fixtures/views/extends/import.volt.php')
+        );
+
+        $I->openFile(
+            dataDir('fixtures/views/extends/import.volt.php')
+        );
+
+        $I->seeFileContentsEqual(
+            '<div class="header"><h1>This is the header</h1></div><div class="footer"><p>This is the footer</p></div>'
+        );
     }
 
     /**
@@ -112,23 +137,38 @@ class CompilerFilesCest
     {
         $I->wantToTest('Compile import recursive files');
 
-        $I->safeDeleteFile(dataFolder('fixtures/views/partials/header3.volt.php'));
-        $I->safeDeleteFile(dataFolder('fixtures/views/partials/header2.volt.php'));
-        $I->safeDeleteFile(dataFolder('fixtures/views/extends/import2.volt.php'));
+        $I->safeDeleteFile(
+            dataDir('fixtures/views/partials/header3.volt.php')
+        );
+
+        $I->safeDeleteFile(
+            dataDir('fixtures/views/partials/header2.volt.php')
+        );
+
+        $I->safeDeleteFile(
+            dataDir('fixtures/views/extends/import2.volt.php')
+        );
 
         $view = new View();
-        $view->setViewsDir(dataFolder('fixtures/views/'));
+
+        $view->setViewsDir(
+            dataDir('fixtures/views/')
+        );
 
         $volt = new Compiler($view);
 
         //extends
         $volt->compileFile(
-            dataFolder('fixtures/views/extends/import2.volt'),
-            dataFolder('fixtures/views/extends/import2.volt.php')
+            dataDir('fixtures/views/extends/import2.volt'),
+            dataDir('fixtures/views/extends/import2.volt.php')
         );
 
-        $compilation = file_get_contents(dataFolder('fixtures/views/extends/import2.volt.php'));
-        $expected    = '<div class="header"><h1>This is the title</h1></div>';
-        $I->assertEquals($expected, $compilation);
+        $I->openFile(
+            dataDir('fixtures/views/extends/import2.volt.php')
+        );
+
+        $I->seeFileContentsEqual(
+            '<div class="header"><h1>This is the title</h1></div>'
+        );
     }
 }

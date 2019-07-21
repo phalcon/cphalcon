@@ -15,10 +15,8 @@ use Phalcon\Mvc\Model;
 
 class Subscribers extends Model
 {
-
-    public function getSource(): string
+    public function initialize()
     {
-        return 'subscriptores';
+        $this->setSource('subscriptores');
     }
-
 }

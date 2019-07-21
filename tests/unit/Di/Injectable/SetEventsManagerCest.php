@@ -14,22 +14,18 @@ namespace Phalcon\Test\Unit\Di\Injectable;
 
 use UnitTester;
 
-/**
- * Class SetEventsManagerCest
- */
 class SetEventsManagerCest
 {
     /**
-     * Tests Phalcon\Di\Injectable :: setEventsManager()
-     *
-     * @param UnitTester $I
+     * Unit Tests Phalcon\Di\Injectable :: setEventsManager()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2019-06-13
      */
     public function diInjectableSetEventsManager(UnitTester $I)
     {
         $I->wantToTest('Di\Injectable - setEventsManager()');
+
         $I->skipTest('Need implementation');
     }
 }

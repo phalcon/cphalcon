@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Messages\Message;
 use Phalcon\Messages\Message;
 use UnitTester;
 
-/**
- * Class GetSetCodeCest
- */
 class GetSetCodeCest
 {
     /**
      * Tests Phalcon\Messages\Message :: getCode()/setCode()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -31,6 +26,7 @@ class GetSetCodeCest
     public function messagesMessageGetSetCode(UnitTester $I)
     {
         $I->wantToTest('Messages\Message - getCode()/setCode()');
+
         $message = new Message(
             'This is a message #1',
             'MyField',
@@ -38,8 +34,9 @@ class GetSetCodeCest
             111
         );
 
-        $expected = 111;
-        $actual   = $message->getCode();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            111,
+            $message->getCode()
+        );
     }
 }

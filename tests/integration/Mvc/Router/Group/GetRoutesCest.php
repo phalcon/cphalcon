@@ -13,23 +13,49 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Router\Group;
 
 use IntegrationTester;
+use Phalcon\Mvc\Router\Group;
 
-/**
- * Class GetRoutesCest
- */
 class GetRoutesCest
 {
     /**
      * Tests Phalcon\Mvc\Router\Group :: getRoutes()
      *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-06-01
      */
     public function mvcRouterGroupGetRoutes(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Router\Group - getRoutes()');
-        $I->skipTest('Need implementation');
+
+        $group = new Group();
+
+        $getRoute = $group->addGet(
+            '/docs/index',
+            [
+                'controller' => 'documentation4',
+                'action'     => 'index',
+            ]
+        );
+
+        $postRoute = $group->addPost(
+            '/docs/index',
+            [
+                'controller' => 'documentation3',
+                'action'     => 'index',
+            ]
+        );
+
+        $I->assertCount(
+            2,
+            $group->getRoutes()
+        );
+
+        $I->assertEquals(
+            [
+                $getRoute,
+                $postRoute,
+            ],
+            $group->getRoutes()
+        );
     }
 }

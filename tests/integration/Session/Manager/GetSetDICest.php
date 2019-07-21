@@ -24,17 +24,21 @@ class GetSetDICest
     /**
      * Tests Phalcon\Session\Manager :: getDI()/setDI()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function sessionManagerGetSetDI(IntegrationTester $I)
     {
         $I->wantToTest('Session\Manager - getDI()/setDI()');
+
         $session   = new Manager();
         $container = new FactoryDefault();
+
         $session->setDI($container);
-        $I->assertEquals($container, $session->getDI());
+
+        $I->assertEquals(
+            $container,
+            $session->getDI()
+        );
     }
 }

@@ -15,7 +15,6 @@ use IntegrationTester;
 use Phalcon\Mvc\Micro;
 use Phalcon\Mvc\Micro\Collection;
 use Phalcon\Test\Controllers\Micro\Collections\PersonasController;
-use Phalcon\Test\Controllers\Micro\Collections\PersonasLazyController;
 
 class MicroMvcCollectionsCest
 {
@@ -26,55 +25,36 @@ class MicroMvcCollectionsCest
         $controller = new PersonasController();
 
         $collection->setHandler($controller);
+
         $collection->map('/', 'index', 'index_route');
         $collection->map('/edit/{number}', 'edit', 'edit_route');
 
         $app->mount($collection);
 
-        $app->handle('/');
-        $I->assertEquals(1, $controller->getEntered());
-        $I->assertEquals('index_route', $app->getRouter()->getMatchedRoute()->getName());
-
-        $app->handle('/edit/100');
-        $I->assertEquals(101, $controller->getEntered());
-        $I->assertEquals('edit_route', $app->getRouter()->getMatchedRoute()->getName());
-    }
-
-    public function testMicroCollectionsPrefixed(IntegrationTester $I)
-    {
-        $app        = new Micro();
-        $collection = new Collection();
-
-        $collection->setPrefix('/personas');
-
-        $controller = new PersonasController();
-
-        $collection->setHandler($controller);
-        $collection->map('/', 'index');
-        $collection->map('/edit/{number}', 'edit');
-        $app->mount($collection);
-
-        $app->handle('/personas');
-        $I->assertEquals($controller->getEntered(), 1);
-
-        $app->handle('/personas/edit/100');
-        $I->assertEquals($controller->getEntered(), 101);
-    }
-
-    public function testMicroCollectionsLazy(IntegrationTester $I)
-    {
-        $app        = new Micro();
-        $collection = new Collection();
-
-        $collection->setHandler('Phalcon\Test\Controllers\Micro\Collections\PersonasLazyController', true);
-        $collection->map('/', 'index');
-        $collection->map('/edit/{number}', 'edit');
-        $app->mount($collection);
 
         $app->handle('/');
-        $I->assertEquals(PersonasLazyController::getEntered(), 1);
+
+        $I->assertEquals(
+            1,
+            $controller->getEntered()
+        );
+
+        $I->assertEquals(
+            'index_route',
+            $app->getRouter()->getMatchedRoute()->getName()
+        );
+
 
         $app->handle('/edit/100');
-        $I->assertEquals(PersonasLazyController::getEntered(), 101);
+
+        $I->assertEquals(
+            101,
+            $controller->getEntered()
+        );
+
+        $I->assertEquals(
+            'edit_route',
+            $app->getRouter()->getMatchedRoute()->getName()
+        );
     }
 }

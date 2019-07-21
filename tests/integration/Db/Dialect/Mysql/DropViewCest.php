@@ -12,24 +12,70 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Db\Dialect\Mysql;
 
+use Codeception\Example;
 use IntegrationTester;
+use Phalcon\Db\Dialect\Mysql;
 
-/**
- * Class DropViewCest
- */
 class DropViewCest
 {
     /**
      * Tests Phalcon\Db\Dialect\Mysql :: dropView()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2017-02-26
+     *
+     * @dataProvider getDropViewFixtures
      */
-    public function dbDialectMysqlDropView(IntegrationTester $I)
+    public function dbDialectMysqlDropView(IntegrationTester $I, Example $example)
     {
         $I->wantToTest('Db\Dialect\Mysql - dropView()');
-        $I->skipTest('Need implementation');
+
+        $schema   = $example[0];
+        $ifExists = $example[1];
+        $expected = $example[2];
+
+        $dialect = new Mysql();
+
+        $actual = $dialect->dropView(
+            'test_view',
+            $schema,
+            $ifExists
+        );
+
+        $I->assertInternalType(
+            'string',
+            $actual
+        );
+
+        $I->assertEquals($expected, $actual);
+    }
+
+    protected function getDropViewFixtures(): array
+    {
+        return [
+            [
+                null,
+                false,
+                'DROP VIEW `test_view`',
+            ],
+
+            [
+                null,
+                true,
+                'DROP VIEW IF EXISTS `test_view`',
+            ],
+
+            [
+                'schema',
+                false,
+                'DROP VIEW `schema`.`test_view`',
+            ],
+
+            [
+                'schema',
+                true,
+                'DROP VIEW IF EXISTS `schema`.`test_view`',
+            ],
+        ];
     }
 }

@@ -12,39 +12,52 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Text;
 
+use Codeception\Example;
 use Phalcon\Text;
 use UnitTester;
 
-/**
- * Class ReduceSlashesCest
- */
 class ReduceSlashesCest
 {
     /**
      * Tests Phalcon\Text :: reduceSlashes()
      *
-     * @param UnitTester $I
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @dataProvider textReduceSlashesProvider
      */
-    public function textReduceSlashes(UnitTester $I)
+    public function textReduceSlashes(UnitTester $I, Example $example)
     {
         $I->wantToTest('Text - reduceSlashes()');
-        $expected = 'app/controllers/IndexController';
-        $actual   = Text::reduceSlashes('app/controllers//IndexController');
-        $I->assertEquals($expected, $actual);
 
-        $expected = 'http://foo/bar/baz/buz';
-        $actual   = Text::reduceSlashes('http://foo//bar/baz/buz');
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $example['expected'],
+            Text::reduceSlashes($example['string'])
+        );
+    }
 
-        $expected = 'php://memory';
-        $actual   = Text::reduceSlashes('php://memory');
-        $I->assertEquals($expected, $actual);
+    private function textReduceSlashesProvider(): array
+    {
+        return [
+            [
+                'string'   => 'app/controllers//IndexController',
+                'expected' => 'app/controllers/IndexController',
+            ],
 
-        $expected = 'http/https';
-        $actual   = Text::reduceSlashes('http//https');
-        $I->assertEquals($expected, $actual);
+            [
+                'string'   => 'http://foo//bar/baz/buz',
+                'expected' => 'http://foo/bar/baz/buz',
+            ],
+
+            [
+                'string'   => 'php://memory',
+                'expected' => 'php://memory',
+            ],
+
+            [
+                'string'   => 'http//https',
+                'expected' => 'http/https',
+            ],
+        ];
     }
 }

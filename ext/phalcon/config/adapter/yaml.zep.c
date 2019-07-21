@@ -19,6 +19,7 @@
 #include "kernel/concat.h"
 #include "kernel/file.h"
 #include "ext/spl/spl_exceptions.h"
+#include "kernel/object.h"
 
 
 /**
@@ -30,29 +31,29 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Config\Adapter\Yaml
- *
  * Reads YAML files and converts them to Phalcon\Config objects.
  *
  * Given the following configuration file:
  *
- *<code>
+ *```yaml
  * phalcon:
  *   baseuri:        /phalcon/
  *   controllersDir: !approot  /app/controllers/
  * models:
  *   metadata: memory
- *</code>
+ *```
  *
  * You can read it as follows:
  *
- *<code>
+ *```php
  * define(
  *     "APPROOT",
  *     dirname(__DIR__)
  * );
  *
- * $config = new \Phalcon\Config\Adapter\Yaml(
+ * use Phalcon\Config\Adapter\Yaml;
+ *
+ * $config = new Yaml(
  *     "path/config.yaml",
  *     [
  *         "!approot" => function($value) {
@@ -64,7 +65,7 @@
  * echo $config->phalcon->controllersDir;
  * echo $config->phalcon->baseuri;
  * echo $config->models->metadata;
- *</code>
+ *```
  */
 ZEPHIR_INIT_CLASS(Phalcon_Config_Adapter_Yaml) {
 
@@ -76,15 +77,13 @@ ZEPHIR_INIT_CLASS(Phalcon_Config_Adapter_Yaml) {
 
 /**
  * Phalcon\Config\Adapter\Yaml constructor
- *
- * @throws \Phalcon\Config\Exception
  */
 PHP_METHOD(Phalcon_Config_Adapter_Yaml, __construct) {
 
 	zephir_fcall_cache_entry *_7 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS, ndocs;
 	zval callbacks;
-	zval *filePath_param = NULL, *callbacks_param = NULL, yamlConfig, _0, _1, _2$$4, _3$$4, _4$$6, _5$$6, _6$$6;
+	zval *filePath_param = NULL, *callbacks_param = NULL, yamlConfig, _0, _1, _2$$5, _3$$5, _4$$6, _5$$6, _6$$6;
 	zval filePath;
 	zval *this_ptr = getThis();
 
@@ -92,8 +91,8 @@ PHP_METHOD(Phalcon_Config_Adapter_Yaml, __construct) {
 	ZVAL_UNDEF(&yamlConfig);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_2$$4);
-	ZVAL_UNDEF(&_3$$4);
+	ZVAL_UNDEF(&_2$$5);
+	ZVAL_UNDEF(&_3$$5);
 	ZVAL_UNDEF(&_4$$6);
 	ZVAL_UNDEF(&_5$$6);
 	ZVAL_UNDEF(&_6$$6);
@@ -123,33 +122,33 @@ PHP_METHOD(Phalcon_Config_Adapter_Yaml, __construct) {
 	ndocs = 0;
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "yaml");
-	ZEPHIR_CALL_FUNCTION(&_1, "extension_loaded", NULL, 123, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "extension_loaded", NULL, 168, &_0);
 	zephir_check_call_status();
-	if (!(zephir_is_true(&_1))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_config_exception_ce, "Yaml extension not loaded", "phalcon/config/adapter/yaml.zep", 67);
+	if (UNEXPECTED(!zephir_is_true(&_1))) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_config_exception_ce, "Yaml extension not loaded", "phalcon/Config/Adapter/Yaml.zep", 64);
 		return;
 	}
-	if (!ZEPHIR_IS_STRING_IDENTICAL(&callbacks, "")) {
-		ZVAL_LONG(&_2$$4, 0);
-		ZVAL_LONG(&_3$$4, ndocs);
-		ZEPHIR_MAKE_REF(&_3$$4);
-		ZEPHIR_CALL_FUNCTION(&yamlConfig, "yaml_parse_file", NULL, 124, &filePath, &_2$$4, &_3$$4, &callbacks);
-		ZEPHIR_UNREF(&_3$$4);
+	if (ZEPHIR_IS_EMPTY(&callbacks)) {
+		ZEPHIR_CALL_FUNCTION(&yamlConfig, "yaml_parse_file", NULL, 169, &filePath);
 		zephir_check_call_status();
 	} else {
-		ZEPHIR_CALL_FUNCTION(&yamlConfig, "yaml_parse_file", NULL, 124, &filePath);
+		ZVAL_LONG(&_2$$5, 0);
+		ZVAL_LONG(&_3$$5, ndocs);
+		ZEPHIR_MAKE_REF(&_3$$5);
+		ZEPHIR_CALL_FUNCTION(&yamlConfig, "yaml_parse_file", NULL, 169, &filePath, &_2$$5, &_3$$5, &callbacks);
+		ZEPHIR_UNREF(&_3$$5);
 		zephir_check_call_status();
 	}
-	if (ZEPHIR_IS_FALSE_IDENTICAL(&yamlConfig)) {
+	if (UNEXPECTED(ZEPHIR_IS_FALSE_IDENTICAL(&yamlConfig))) {
 		ZEPHIR_INIT_VAR(&_4$$6);
 		object_init_ex(&_4$$6, phalcon_config_exception_ce);
 		ZEPHIR_INIT_VAR(&_5$$6);
 		zephir_basename(&_5$$6, &filePath TSRMLS_CC);
 		ZEPHIR_INIT_VAR(&_6$$6);
 		ZEPHIR_CONCAT_SVS(&_6$$6, "Configuration file ", &_5$$6, " can't be loaded");
-		ZEPHIR_CALL_METHOD(NULL, &_4$$6, "__construct", NULL, 4, &_6$$6);
+		ZEPHIR_CALL_METHOD(NULL, &_4$$6, "__construct", NULL, 5, &_6$$6);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_4$$6, "phalcon/config/adapter/yaml.zep", 77 TSRMLS_CC);
+		zephir_throw_exception_debug(&_4$$6, "phalcon/Config/Adapter/Yaml.zep", 76 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

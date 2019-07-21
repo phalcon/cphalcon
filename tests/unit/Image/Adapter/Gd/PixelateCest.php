@@ -12,17 +12,16 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Image\Adapter\Gd;
 
+use Phalcon\Image\Adapter\Gd;
+use Phalcon\Test\Fixtures\Traits\GdTrait;
 use UnitTester;
 
-/**
- * Class PixelateCest
- */
 class PixelateCest
 {
+    use GdTrait;
+
     /**
      * Tests Phalcon\Image\Adapter\Gd :: pixelate()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +29,35 @@ class PixelateCest
     public function imageAdapterGdPixelate(UnitTester $I)
     {
         $I->wantToTest('Image\Adapter\Gd - pixelate()');
-        $I->skipTest('Need implementation');
+
+        $params = [
+            [7, 'fbf9f7e3c3c18183'],
+            [21, 'fbf9f7e3c1c3c183'],
+            [35, 'fbf9f3e3c3c18183'],
+            [60, 'fbfbf3e3c3c3c383'],
+        ];
+        foreach ($params as list($amount, $hash)) {
+            $image = new Gd(
+                dataDir('assets/images/phalconphp.jpg')
+            );
+
+            $outputDir   = 'tests/image/gd';
+            $outputImage = $amount . '-pixelate.jpg';
+            $output      = outputDir($outputDir . '/' . $outputImage);
+
+            $image->pixelate($amount)->save($output);
+
+            $I->amInPath(
+                outputDir($outputDir)
+            );
+
+            $I->seeFileFound($outputImage);
+
+            $I->assertTrue(
+                $this->checkImageHash($output, $hash)
+            );
+
+            $I->safeDeleteFile($outputImage);
+        }
     }
 }

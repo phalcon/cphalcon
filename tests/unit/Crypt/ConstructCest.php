@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Crypt;
 use Phalcon\Crypt;
 use UnitTester;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     /**
      * Tests Phalcon\Crypt :: __construct()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -31,13 +26,22 @@ class ConstructCest
     public function cryptConstruct(UnitTester $I)
     {
         $I->wantToTest('Crypt - __construct()');
-        $actual = new Crypt();
-        $class  = Crypt::class;
-        $I->assertInstanceOf($class, $actual);
 
-        $actual = new Crypt("aes-256-cfb", true);
-        $class  = Crypt::class;
-        $I->assertInstanceOf($class, $actual);
+
+        $crypt = new Crypt();
+
+        $I->assertInstanceOf(
+            Crypt::class,
+            $crypt
+        );
+
+
+        $crypt = new Crypt('aes-256-cfb', true);
+
+        $I->assertInstanceOf(
+            Crypt::class,
+            $crypt
+        );
     }
 
     /**

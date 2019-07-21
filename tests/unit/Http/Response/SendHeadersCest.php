@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Http\Response;
 
 use UnitTester;
 
-/**
- * Class SendHeadersCest
- */
 class SendHeadersCest
 {
     /**
      * Tests Phalcon\Http\Response :: sendHeaders()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SendHeadersCest
     public function httpResponseSendHeaders(UnitTester $I)
     {
         $I->wantToTest('Http\Response - sendHeaders()');
+
         $I->skipTest('Need implementation');
     }
 }

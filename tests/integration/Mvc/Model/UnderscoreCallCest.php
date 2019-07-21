@@ -18,14 +18,12 @@ class UnderscoreCallCest
     /**
      * Tests Phalcon\Mvc\Model :: __call()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function mvcModelCall(IntegrationTester $I)
     {
         $I->wantToTest("Mvc\Model - __call()");
-        $I->skipTest("Need implementation");
+        $I->skipTest('Need implementation');
     }
 }

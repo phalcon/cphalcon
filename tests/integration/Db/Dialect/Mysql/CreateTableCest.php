@@ -12,45 +12,37 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Db\Dialect\Mysql;
 
+use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Db\Column;
+use Phalcon\Db\Dialect\Mysql;
 use Phalcon\Db\Index;
 use Phalcon\Db\Reference;
-use Phalcon\Test\Fixtures\Traits\DialectTrait;
 
-/**
- * Class CreateTableCest
- */
 class CreateTableCest
 {
-    use DialectTrait;
-
     /**
      * Tests Phalcon\Db\Dialect\Mysql :: createTable()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
+     *
+     * @dataProvider getCreateTableFixtures
      */
-    public function dbDialectMysqlCreateTable(IntegrationTester $I)
+    public function dbDialectMysqlCreateTable(IntegrationTester $I, Example $example)
     {
         $I->wantToTest("Db\Dialect\Mysql - createTable()");
-        $data = $this->getCreateTableFixtures();
-        foreach ($data as $item) {
-            $schema     = $item[0];
-            $definition = $item[1];
-            $expected   = $item[2];
-            $dialect    = $this->getDialectMysql();
-            $actual     = $dialect->createTable('table', $schema, $definition);
 
-            $I->assertEquals($expected, $actual);
-        }
+        $schema     = $example[0];
+        $definition = $example[1];
+        $expected   = $example[2];
+
+        $dialect = new Mysql();
+        $actual  = $dialect->createTable('table', $schema, $definition);
+
+        $I->assertEquals($expected, $actual);
     }
 
-    /**
-     * @return array
-     */
     protected function getCreateTableFixtures(): array
     {
         return [
@@ -76,7 +68,7 @@ class CreateTableCest
                         ),
                     ],
                 ],
-                rtrim(file_get_contents(dataFolder('fixtures/Db/mysql/example1.sql'))),
+                rtrim(file_get_contents(dataDir('fixtures/Db/mysql/example1.sql'))),
             ],
             'example2' => [
                 '',
@@ -113,7 +105,7 @@ class CreateTableCest
                         new Index('PRIMARY', ['column3']),
                     ],
                 ],
-                rtrim(file_get_contents(dataFolder('fixtures/Db/mysql/example2.sql'))),
+                rtrim(file_get_contents(dataDir('fixtures/Db/mysql/example2.sql'))),
             ],
             'example3' => [
                 '',
@@ -150,15 +142,18 @@ class CreateTableCest
                         new Index('PRIMARY', ['column3']),
                     ],
                     'references' => [
-                        new Reference('fk3', [
-                            'referencedTable'   => 'ref_table',
-                            'columns'           => ['column1'],
-                            'referencedColumns' => ['column2'],
-                            'onDelete'          => 'CASCADE',
-                        ]),
+                        new Reference(
+                            'fk3',
+                            [
+                                'referencedTable'   => 'ref_table',
+                                'columns'           => ['column1'],
+                                'referencedColumns' => ['column2'],
+                                'onDelete'          => 'CASCADE',
+                            ]
+                        ),
                     ],
                 ],
-                rtrim(file_get_contents(dataFolder('fixtures/Db/mysql/example3.sql'))),
+                rtrim(file_get_contents(dataDir('fixtures/Db/mysql/example3.sql'))),
             ],
             'example4' => [
                 '',
@@ -184,7 +179,7 @@ class CreateTableCest
                         ),
                     ],
                 ],
-                rtrim(file_get_contents(dataFolder('fixtures/Db/mysql/example4.sql'))),
+                rtrim(file_get_contents(dataDir('fixtures/Db/mysql/example4.sql'))),
             ],
             'example5' => [
                 '',
@@ -220,7 +215,7 @@ class CreateTableCest
                         ),
                     ],
                 ],
-                rtrim(file_get_contents(dataFolder('fixtures/Db/mysql/example5.sql'))),
+                rtrim(file_get_contents(dataDir('fixtures/Db/mysql/example5.sql'))),
             ],
         ];
     }

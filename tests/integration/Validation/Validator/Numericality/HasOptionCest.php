@@ -26,15 +26,19 @@ class HasOptionCest
     /**
      * Tests Phalcon\Validation\Validator\Numericality :: hasOption()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorNumericalityHasOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Numericality - hasOption()');
-        $validator = new Numericality(['message' => 'This is a message']);
+
+        $validator = new Numericality(
+            [
+                'message' => 'This is a message',
+            ]
+        );
+
         $this->checkHasOption($I, $validator);
     }
 }

@@ -13,23 +13,61 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Db\Reference;
 
 use IntegrationTester;
+use Phalcon\Test\Fixtures\Traits\DialectTrait;
 
-/**
- * Class GetOnUpdateCest
- */
 class GetOnUpdateCest
 {
+    use DialectTrait;
+
     /**
      * Tests Phalcon\Db\Reference :: getOnUpdate()
-     *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
      */
     public function dbReferenceGetOnUpdate(IntegrationTester $I)
     {
         $I->wantToTest('Db\Reference - getOnUpdate()');
-        $I->skipTest('Need implementation');
+
+        $references = $this->getReferences();
+
+
+
+        $reference1 = $references['fk1'];
+
+        $I->assertNull(
+            $reference1->getOnUpdate()
+        );
+
+
+
+        $reference2 = $references['fk2'];
+
+        $I->assertNull(
+            $reference1->getOnUpdate()
+        );
+
+
+
+        $reference3 = $references['fk3'];
+
+        $I->assertNull(
+            $reference3->getOnUpdate()
+        );
+
+
+
+        $reference4 = $references['fk4'];
+
+        $I->assertEquals(
+            'SET NULL',
+            $reference4->getOnUpdate()
+        );
+
+
+
+        $reference5 = $references['fk5'];
+
+        $I->assertEquals(
+            'NO ACTION',
+            $reference5->getOnUpdate()
+        );
     }
 }

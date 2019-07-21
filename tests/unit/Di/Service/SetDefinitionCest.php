@@ -14,22 +14,18 @@ namespace Phalcon\Test\Unit\Di\Service;
 
 use UnitTester;
 
-/**
- * Class SetDefinitionCest
- */
 class SetDefinitionCest
 {
     /**
-     * Tests Phalcon\Di\Service :: setDefinition()
-     *
-     * @param UnitTester $I
+     * Unit Tests Phalcon\Di\Service :: setDefinition()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2019-06-13
      */
     public function diServiceSetDefinition(UnitTester $I)
     {
         $I->wantToTest('Di\Service - setDefinition()');
+
         $I->skipTest('Need implementation');
     }
 }

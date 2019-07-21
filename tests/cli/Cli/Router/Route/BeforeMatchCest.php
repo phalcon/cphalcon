@@ -13,23 +13,70 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Cli\Router\Route;
 
 use CliTester;
+use Phalcon\Cli\Router;
+use Phalcon\Cli\Router\Route;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-/**
- * Class BeforeMatchCest
- */
 class BeforeMatchCest
 {
-    /**
-     * Tests Phalcon\Cli\Router\Route :: beforeMatch()
-     *
-     * @param CliTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function cliRouterRouteBeforeMatch(CliTester $I)
+    use DiTrait;
+
+    public function _before(CliTester $I)
     {
-        $I->wantToTest('Cli\Router\Route - beforeMatch()');
-        $I->skipTest('Need implementation');
+        $this->setNewCliFactoryDefault();
+    }
+
+    public function testBeforeMatch(CliTester $I)
+    {
+        Route::reset();
+
+        $trace = 0;
+
+        $router = new Router(false);
+
+        $router
+            ->add('static route')
+            ->beforeMatch(
+                function () use (&$trace) {
+                    $trace++;
+
+                    return false;
+                }
+            )
+        ;
+
+        $router
+            ->add('static route2')
+            ->beforeMatch(
+                function () use (&$trace) {
+                    $trace++;
+
+                    return true;
+                }
+            )
+        ;
+
+
+        $router->handle();
+
+        $I->assertFalse(
+            $router->wasMatched()
+        );
+
+
+        $router->handle('static route');
+
+        $I->assertFalse(
+            $router->wasMatched()
+        );
+
+
+        $router->handle('static route2');
+
+        $I->assertTrue(
+            $router->wasMatched()
+        );
+
+        $I->assertEquals(2, $trace);
     }
 }

@@ -12,17 +12,16 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Image\Adapter\Gd;
 
+use Phalcon\Image\Adapter\Gd;
+use Phalcon\Test\Fixtures\Traits\GdTrait;
 use UnitTester;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
+    use GdTrait;
+
     /**
      * Tests Phalcon\Image\Adapter\Gd :: __construct()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +29,14 @@ class ConstructCest
     public function imageAdapterGdConstruct(UnitTester $I)
     {
         $I->wantToTest('Image\Adapter\Gd - __construct()');
-        $I->skipTest('Need implementation');
+
+        foreach ($this->getImages() as $image) {
+            $gd = new Gd($image);
+
+            $I->assertInstanceOf(
+                Gd::class,
+                $gd
+            );
+        }
     }
 }

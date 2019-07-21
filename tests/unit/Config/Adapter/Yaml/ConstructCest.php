@@ -15,18 +15,12 @@ namespace Phalcon\Test\Unit\Config\Adapter\Yaml;
 use Phalcon\Config\Adapter\Yaml;
 use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
-use function dataFolder;
+use function dataDir;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     use ConfigTrait;
 
-    /**
-     * @param UnitTester $I
-     */
     public function _before(UnitTester $I)
     {
         $I->checkExtensionIsLoaded('yaml');
@@ -35,21 +29,18 @@ class ConstructCest
     /**
      * Tests Phalcon\Config\Adapter\Yaml :: __construct()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function configAdapterYamlConstruct(UnitTester $I)
     {
         $I->wantToTest('Config\Adapter\Yaml - construct');
+
         $this->checkConstruct($I, 'Yaml');
     }
 
     /**
      * Tests Phalcon\Config\Adapter\Yaml :: __construct() - callbacks
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -57,25 +48,27 @@ class ConstructCest
     public function configAdapterYamlConstructCallbacks(UnitTester $I)
     {
         $I->wantToTest('Config\Adapter\Yaml - construct - callbacks');
-        define('CALLBACK_APPROOT', dirname(__DIR__));
+
         $config = new Yaml(
-            dataFolder('assets/config/callbacks.yml'),
+            dataDir('assets/config/callbacks.yml'),
             [
                 '!decrypt' => function ($value) {
                     return hash('sha256', $value);
                 },
                 '!approot' => function ($value) {
-                    return CALLBACK_APPROOT . $value;
+                    return PATH_DATA . $value;
                 },
             ]
         );
 
-        $expected = CALLBACK_APPROOT . '/app/controllers/';
-        $actual   = $config->application->controllersDir;
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            PATH_DATA . '/app/controllers/',
+            $config->application->controllersDir
+        );
 
-        $expected = '9f7030891b235f3e06c4bff74ae9dc1b9b59d4f2e4e6fd94eeb2b91caee5d223';
-        $actual   = $config->database->password;
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            '9f7030891b235f3e06c4bff74ae9dc1b9b59d4f2e4e6fd94eeb2b91caee5d223',
+            $config->database->password
+        );
     }
 }

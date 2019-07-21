@@ -19,14 +19,13 @@ class FormCest
     /**
      * Tests Phalcon\Tag :: form()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function tagForm(UnitTester $I)
     {
-        $I->wantToTest("Tag - form()");
-        $I->skipTest("Need implementation");
+        $I->wantToTest('Tag - form()');
+
+        $I->skipTest('Need implementation');
     }
 }

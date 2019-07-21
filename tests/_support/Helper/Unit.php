@@ -2,32 +2,32 @@
 
 namespace Helper;
 
+use Codeception\Module;
 use function file_exists;
 use function is_file;
 use PHPUnit\Framework\SkippedTestError;
 use ReflectionClass;
+use ReflectionException;
 use function unlink;
 
 // here you can define custom actions
 // all public methods declared in helper class will be available in $I
 
-class Unit extends \Codeception\Module
+class Unit extends Module
 {
     /**
      * Calls private or protected method.
      *
      * @param string|object $obj
-     * @param mixed         $method,... Method with a variable number of
-     *                                  arguments
      *
-     * @return mixed
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
-    public function callProtectedMethod($obj, $method)
+    public function callProtectedMethod($obj, string $method)
     {
         $reflectionClass = new ReflectionClass($obj);
 
         $reflectionMethod = $reflectionClass->getMethod($method);
+
         $reflectionMethod->setAccessible(true);
 
         if (!is_object($obj)) {
@@ -36,9 +36,13 @@ class Unit extends \Codeception\Module
 
         // $obj, $method
         $args = array_slice(func_get_args(), 2);
+
         array_unshift($args, $obj);
 
-        return call_user_func_array([$reflectionMethod, 'invoke'], $args);
+        return call_user_func_array(
+            [$reflectionMethod, 'invoke'],
+            $args
+        );
     }
 
     /**
@@ -50,7 +54,10 @@ class Unit extends \Codeception\Module
     {
         if (true !== extension_loaded($extension)) {
             $this->skipTest(
-                sprintf("Extension '%s' is not loaded. Skipping test", $extension)
+                sprintf(
+                    "Extension '%s' is not loaded. Skipping test",
+                    $extension
+                )
             );
         }
     }
@@ -68,16 +75,14 @@ class Unit extends \Codeception\Module
     /**
      * Returns a unique file name
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
-     * @since  2014-09-13
-     *
      * @param string $prefix A prefix for the file
      * @param string $suffix A suffix for the file
      *
-     * @return string
+     * @since  2014-09-13
      *
+     * @author Nikos Dimopoulos <nikos@phalconphp.com>
      */
-    public function getNewFileName(string $prefix = '', string $suffix = 'log')
+    public function getNewFileName(string $prefix = '', string $suffix = 'log'): string
     {
         $prefix = ($prefix) ? $prefix . '_' : '';
         $suffix = ($suffix) ? $suffix : 'log';
@@ -93,37 +98,34 @@ class Unit extends \Codeception\Module
     }
 
     /**
-     * @param $obj
-     * @param $prop
-     *
-     * @return mixed
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function getProtectedProperty($obj, $prop)
     {
         $reflection = new ReflectionClass($obj);
 
         $property = $reflection->getProperty($prop);
+
         $property->setAccessible(true);
 
         return $property->getValue($obj);
     }
 
     /**
-     * @param $obj
-     * @param $prop
-     * @param $value
-     *
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function setProtectedProperty($obj, $prop, $value)
     {
         $reflection = new ReflectionClass($obj);
 
         $property = $reflection->getProperty($prop);
+
         $property->setAccessible(true);
         $property->setValue($obj, $value);
 
-        $this->assertEquals($value, $property->getValue($obj));
+        $this->assertSame(
+            $value,
+            $property->getValue($obj)
+        );
     }
 }

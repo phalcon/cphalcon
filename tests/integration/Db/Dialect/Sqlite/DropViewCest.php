@@ -12,24 +12,51 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Db\Dialect\Sqlite;
 
+use Codeception\Example;
 use IntegrationTester;
+use Phalcon\Db\Dialect\Sqlite;
 
-/**
- * Class DropViewCest
- */
 class DropViewCest
 {
     /**
      * Tests Phalcon\Db\Dialect\Sqlite :: dropView()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2017-02-26
+     *
+     * @dataProvider getDropViewFixtures
      */
-    public function dbDialectSqliteDropView(IntegrationTester $I)
+    public function dbDialectSqliteDropView(IntegrationTester $I, Example $example)
     {
         $I->wantToTest('Db\Dialect\Sqlite - dropView()');
-        $I->skipTest('Need implementation');
+
+        $schema   = $example[0];
+        $ifExists = $example[1];
+        $expected = $example[2];
+
+        $dialect = new Sqlite();
+
+        $actual = $dialect->dropView(
+            'test_view',
+            $schema,
+            $ifExists
+        );
+
+        $I->assertInternalType(
+            'string',
+            $actual
+        );
+
+        $I->assertEquals($expected, $actual);
+    }
+
+    protected function getDropViewFixtures(): array
+    {
+        return [
+            ['', false, 'DROP VIEW "test_view"'],
+            ['', true, 'DROP VIEW IF EXISTS "test_view"'],
+            ['schema', false, 'DROP VIEW "schema"."test_view"'],
+            ['schema', true, 'DROP VIEW IF EXISTS "schema"."test_view"'],
+        ];
     }
 }

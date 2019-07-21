@@ -61,18 +61,18 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query___construct, 0, 0, 0)
 #else
 	ZEND_ARG_INFO(0, phql)
 #endif
-	ZEND_ARG_OBJ_INFO(0, dependencyInjector, Phalcon\\DiInterface, 1)
+	ZEND_ARG_OBJ_INFO(0, container, Phalcon\\Di\\DiInterface, 1)
 	ZEND_ARG_ARRAY_INFO(0, options, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_setdi, 0, 0, 1)
-	ZEND_ARG_OBJ_INFO(0, dependencyInjector, Phalcon\\DiInterface, 0)
+	ZEND_ARG_OBJ_INFO(0, container, Phalcon\\Di\\DiInterface, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_getdi, 0, 0, Phalcon\\DiInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_getdi, 0, 0, Phalcon\\Di\\DiInterface, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_getdi, 0, 0, IS_OBJECT, "Phalcon\\DiInterface", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_getdi, 0, 0, IS_OBJECT, "Phalcon\\Di\\DiInterface", 0)
 #endif
 ZEND_END_ARG_INFO()
 
@@ -256,7 +256,11 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query__prepare
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query__prepareselect, 0, 0, IS_ARRAY, NULL, 0)
 #endif
 	ZEND_ARG_INFO(0, ast)
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, merge, _IS_BOOL, 0)
+#else
 	ZEND_ARG_INFO(0, merge)
+#endif
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
@@ -288,16 +292,16 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_parse, 0
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_getcache, 0, 0, Phalcon\\Cache\\BackendInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_getcache, 0, 0, Phalcon\\Cache\\Adapter\\AdapterInterface, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_getcache, 0, 0, IS_OBJECT, "Phalcon\\Cache\\BackendInterface", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_getcache, 0, 0, IS_OBJECT, "Phalcon\\Cache\\Adapter\\AdapterInterface", 0)
 #endif
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query__executeselect, 0, 0, 3)
 	ZEND_ARG_ARRAY_INFO(0, intermediate, 0)
-	ZEND_ARG_INFO(0, bindParams)
-	ZEND_ARG_INFO(0, bindTypes)
+	ZEND_ARG_ARRAY_INFO(0, bindParams, 0)
+	ZEND_ARG_ARRAY_INFO(0, bindTypes, 0)
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, simulate, _IS_BOOL, 0)
 #else
@@ -311,8 +315,8 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query__executei
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query__executeinsert, 0, 3, IS_OBJECT, "Phalcon\\Mvc\\Model\\Query\\StatusInterface", 0)
 #endif
 	ZEND_ARG_ARRAY_INFO(0, intermediate, 0)
-	ZEND_ARG_INFO(0, bindParams)
-	ZEND_ARG_INFO(0, bindTypes)
+	ZEND_ARG_ARRAY_INFO(0, bindParams, 0)
+	ZEND_ARG_ARRAY_INFO(0, bindTypes, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
@@ -321,8 +325,8 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query__executeu
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query__executeupdate, 0, 3, IS_OBJECT, "Phalcon\\Mvc\\Model\\Query\\StatusInterface", 0)
 #endif
 	ZEND_ARG_ARRAY_INFO(0, intermediate, 0)
-	ZEND_ARG_INFO(0, bindParams)
-	ZEND_ARG_INFO(0, bindTypes)
+	ZEND_ARG_ARRAY_INFO(0, bindParams, 0)
+	ZEND_ARG_ARRAY_INFO(0, bindTypes, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
@@ -331,8 +335,8 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query__executed
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query__executedelete, 0, 3, IS_OBJECT, "Phalcon\\Mvc\\Model\\Query\\StatusInterface", 0)
 #endif
 	ZEND_ARG_ARRAY_INFO(0, intermediate, 0)
-	ZEND_ARG_INFO(0, bindParams)
-	ZEND_ARG_INFO(0, bindTypes)
+	ZEND_ARG_ARRAY_INFO(0, bindParams, 0)
+	ZEND_ARG_ARRAY_INFO(0, bindTypes, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
@@ -342,13 +346,13 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query__getrela
 #endif
 	ZEND_ARG_OBJ_INFO(0, model, Phalcon\\Mvc\\ModelInterface, 0)
 	ZEND_ARG_ARRAY_INFO(0, intermediate, 0)
-	ZEND_ARG_INFO(0, bindParams)
-	ZEND_ARG_INFO(0, bindTypes)
+	ZEND_ARG_ARRAY_INFO(0, bindParams, 0)
+	ZEND_ARG_ARRAY_INFO(0, bindTypes, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_execute, 0, 0, 0)
-	ZEND_ARG_INFO(0, bindParams)
-	ZEND_ARG_INFO(0, bindTypes)
+	ZEND_ARG_ARRAY_INFO(0, bindParams, 0)
+	ZEND_ARG_ARRAY_INFO(0, bindTypes, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
@@ -356,8 +360,8 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_getsingle
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_getsingleresult, 0, 0, IS_OBJECT, "Phalcon\\Mvc\\ModelInterface", 0)
 #endif
-	ZEND_ARG_INFO(0, bindParams)
-	ZEND_ARG_INFO(0, bindTypes)
+	ZEND_ARG_ARRAY_INFO(0, bindParams, 0)
+	ZEND_ARG_ARRAY_INFO(0, bindTypes, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
@@ -469,25 +473,25 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_getsql, 
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_getreadconnection, 0, 1, Phalcon\\Db\\AdapterInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_getreadconnection, 0, 1, Phalcon\\Cache\\Adapter\\AdapterInterface, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_getreadconnection, 0, 1, IS_OBJECT, "Phalcon\\Db\\AdapterInterface", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_getreadconnection, 0, 1, IS_OBJECT, "Phalcon\\Cache\\Adapter\\AdapterInterface", 0)
 #endif
 	ZEND_ARG_OBJ_INFO(0, model, Phalcon\\Mvc\\ModelInterface, 0)
 	ZEND_ARG_ARRAY_INFO(0, intermediate, 1)
-	ZEND_ARG_ARRAY_INFO(0, bindParams, 1)
-	ZEND_ARG_ARRAY_INFO(0, bindTypes, 1)
+	ZEND_ARG_ARRAY_INFO(0, bindParams, 0)
+	ZEND_ARG_ARRAY_INFO(0, bindTypes, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_getwriteconnection, 0, 1, Phalcon\\Db\\AdapterInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_getwriteconnection, 0, 1, Phalcon\\Cache\\Adapter\\AdapterInterface, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_getwriteconnection, 0, 1, IS_OBJECT, "Phalcon\\Db\\AdapterInterface", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_getwriteconnection, 0, 1, IS_OBJECT, "Phalcon\\Cache\\Adapter\\AdapterInterface", 0)
 #endif
 	ZEND_ARG_OBJ_INFO(0, model, Phalcon\\Mvc\\ModelInterface, 0)
 	ZEND_ARG_ARRAY_INFO(0, intermediate, 1)
-	ZEND_ARG_ARRAY_INFO(0, bindParams, 1)
-	ZEND_ARG_ARRAY_INFO(0, bindTypes, 1)
+	ZEND_ARG_ARRAY_INFO(0, bindParams, 0)
+	ZEND_ARG_ARRAY_INFO(0, bindTypes, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
@@ -505,32 +509,32 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_query_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model_Query, getDI, arginfo_phalcon_mvc_model_query_getdi, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query, setUniqueRow, arginfo_phalcon_mvc_model_query_setuniquerow, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query, getUniqueRow, arginfo_phalcon_mvc_model_query_getuniquerow, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Model_Query, _getQualified, arginfo_phalcon_mvc_model_query__getqualified, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
-	PHP_ME(Phalcon_Mvc_Model_Query, _getCallArgument, arginfo_phalcon_mvc_model_query__getcallargument, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
-	PHP_ME(Phalcon_Mvc_Model_Query, _getCaseExpression, arginfo_phalcon_mvc_model_query__getcaseexpression, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
-	PHP_ME(Phalcon_Mvc_Model_Query, _getFunctionCall, arginfo_phalcon_mvc_model_query__getfunctioncall, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
-	PHP_ME(Phalcon_Mvc_Model_Query, _getExpression, arginfo_phalcon_mvc_model_query__getexpression, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
-	PHP_ME(Phalcon_Mvc_Model_Query, _getSelectColumn, arginfo_phalcon_mvc_model_query__getselectcolumn, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
-	PHP_ME(Phalcon_Mvc_Model_Query, _getTable, arginfo_phalcon_mvc_model_query__gettable, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
-	PHP_ME(Phalcon_Mvc_Model_Query, _getJoin, arginfo_phalcon_mvc_model_query__getjoin, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
-	PHP_ME(Phalcon_Mvc_Model_Query, _getJoinType, arginfo_phalcon_mvc_model_query__getjointype, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
-	PHP_ME(Phalcon_Mvc_Model_Query, _getSingleJoin, arginfo_phalcon_mvc_model_query__getsinglejoin, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
-	PHP_ME(Phalcon_Mvc_Model_Query, _getMultiJoin, arginfo_phalcon_mvc_model_query__getmultijoin, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
-	PHP_ME(Phalcon_Mvc_Model_Query, _getJoins, arginfo_phalcon_mvc_model_query__getjoins, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
-	PHP_ME(Phalcon_Mvc_Model_Query, _getOrderClause, arginfo_phalcon_mvc_model_query__getorderclause, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
-	PHP_ME(Phalcon_Mvc_Model_Query, _getGroupClause, arginfo_phalcon_mvc_model_query__getgroupclause, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
-	PHP_ME(Phalcon_Mvc_Model_Query, _getLimitClause, arginfo_phalcon_mvc_model_query__getlimitclause, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
-	PHP_ME(Phalcon_Mvc_Model_Query, _prepareSelect, arginfo_phalcon_mvc_model_query__prepareselect, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
-	PHP_ME(Phalcon_Mvc_Model_Query, _prepareInsert, arginfo_phalcon_mvc_model_query__prepareinsert, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
-	PHP_ME(Phalcon_Mvc_Model_Query, _prepareUpdate, arginfo_phalcon_mvc_model_query__prepareupdate, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
-	PHP_ME(Phalcon_Mvc_Model_Query, _prepareDelete, arginfo_phalcon_mvc_model_query__preparedelete, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
+	PHP_ME(Phalcon_Mvc_Model_Query, _getQualified, arginfo_phalcon_mvc_model_query__getqualified, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model_Query, _getCallArgument, arginfo_phalcon_mvc_model_query__getcallargument, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model_Query, _getCaseExpression, arginfo_phalcon_mvc_model_query__getcaseexpression, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model_Query, _getFunctionCall, arginfo_phalcon_mvc_model_query__getfunctioncall, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model_Query, _getExpression, arginfo_phalcon_mvc_model_query__getexpression, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model_Query, _getSelectColumn, arginfo_phalcon_mvc_model_query__getselectcolumn, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model_Query, _getTable, arginfo_phalcon_mvc_model_query__gettable, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model_Query, _getJoin, arginfo_phalcon_mvc_model_query__getjoin, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model_Query, _getJoinType, arginfo_phalcon_mvc_model_query__getjointype, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model_Query, _getSingleJoin, arginfo_phalcon_mvc_model_query__getsinglejoin, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model_Query, _getMultiJoin, arginfo_phalcon_mvc_model_query__getmultijoin, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model_Query, _getJoins, arginfo_phalcon_mvc_model_query__getjoins, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model_Query, _getOrderClause, arginfo_phalcon_mvc_model_query__getorderclause, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model_Query, _getGroupClause, arginfo_phalcon_mvc_model_query__getgroupclause, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model_Query, _getLimitClause, arginfo_phalcon_mvc_model_query__getlimitclause, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model_Query, _prepareSelect, arginfo_phalcon_mvc_model_query__prepareselect, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model_Query, _prepareInsert, arginfo_phalcon_mvc_model_query__prepareinsert, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model_Query, _prepareUpdate, arginfo_phalcon_mvc_model_query__prepareupdate, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model_Query, _prepareDelete, arginfo_phalcon_mvc_model_query__preparedelete, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model_Query, parse, arginfo_phalcon_mvc_model_query_parse, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query, getCache, arginfo_phalcon_mvc_model_query_getcache, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Model_Query, _executeSelect, arginfo_phalcon_mvc_model_query__executeselect, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
-	PHP_ME(Phalcon_Mvc_Model_Query, _executeInsert, arginfo_phalcon_mvc_model_query__executeinsert, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
-	PHP_ME(Phalcon_Mvc_Model_Query, _executeUpdate, arginfo_phalcon_mvc_model_query__executeupdate, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
-	PHP_ME(Phalcon_Mvc_Model_Query, _executeDelete, arginfo_phalcon_mvc_model_query__executedelete, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
-	PHP_ME(Phalcon_Mvc_Model_Query, _getRelatedRecords, arginfo_phalcon_mvc_model_query__getrelatedrecords, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
+	PHP_ME(Phalcon_Mvc_Model_Query, _executeSelect, arginfo_phalcon_mvc_model_query__executeselect, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model_Query, _executeInsert, arginfo_phalcon_mvc_model_query__executeinsert, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model_Query, _executeUpdate, arginfo_phalcon_mvc_model_query__executeupdate, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model_Query, _executeDelete, arginfo_phalcon_mvc_model_query__executedelete, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model_Query, _getRelatedRecords, arginfo_phalcon_mvc_model_query__getrelatedrecords, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model_Query, execute, arginfo_phalcon_mvc_model_query_execute, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query, getSingleResult, arginfo_phalcon_mvc_model_query_getsingleresult, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query, setType, arginfo_phalcon_mvc_model_query_settype, ZEND_ACC_PUBLIC)

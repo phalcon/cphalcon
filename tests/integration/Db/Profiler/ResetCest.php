@@ -12,24 +12,97 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Db\Profiler;
 
+use Codeception\Example;
 use IntegrationTester;
+use Phalcon\Events\Manager;
+use Phalcon\Test\Fixtures\Db\ProfilerListener;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-/**
- * Class ResetCest
- */
 class ResetCest
 {
-    /**
-     * Tests Phalcon\Db\Profiler :: reset()
-     *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function dbProfilerReset(IntegrationTester $I)
+    use DiTrait;
+
+    public function _before(IntegrationTester $I)
     {
-        $I->wantToTest('Db\Profiler - reset()');
-        $I->skipTest('Need implementation');
+        $this->newDi();
+    }
+
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
+    }
+
+    /**
+     * @dataProvider adaptersProvider
+     */
+    public function executeTests(IntegrationTester $I, Example $example)
+    {
+        $diFunction = 'setDi' . $example[0];
+
+        $this->{$diFunction}();
+
+        $connection = $this->getService('db');
+
+        $eventsManager = new Manager();
+        $listener      = new ProfilerListener();
+
+        $eventsManager->attach('db', $listener);
+
+        $connection->setEventsManager($eventsManager);
+
+        $profiler = $listener->getProfiler();
+
+        $connection->query('SELECT * FROM personas LIMIT 3');
+        $connection->query('SELECT * FROM personas LIMIT 100');
+        $connection->query('SELECT * FROM personas LIMIT 5');
+        $connection->query('SELECT * FROM personas LIMIT 10');
+        $connection->query('SELECT * FROM personas LIMIT 15');
+
+        $I->assertCount(
+            5,
+            $profiler->getProfiles()
+        );
+
+        $I->assertEquals(
+            5,
+            $profiler->getNumberTotalStatements()
+        );
+
+        $I->assertInternalType(
+            'double',
+            $profiler->getTotalElapsedSeconds()
+        );
+
+        $I->assertEquals(
+            0,
+            $profiler->getPoints()
+        );
+
+        $profiler->reset();
+
+        $I->assertCount(
+            0,
+            $profiler->getProfiles()
+        );
+
+        $I->assertEquals(
+            0,
+            $profiler->getNumberTotalStatements()
+        );
+    }
+
+    private function adaptersProvider(): array
+    {
+        return [
+            [
+                'Mysql',
+            ],
+            [
+                'Postgresql',
+            ],
+            [
+                'Sqlite',
+            ],
+        ];
     }
 }

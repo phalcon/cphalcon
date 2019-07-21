@@ -14,15 +14,10 @@ namespace Phalcon\Test\Integration\Db\Dialect\Sqlite;
 
 use IntegrationTester;
 
-/**
- * Class GetSqlExpressionCest
- */
 class GetSqlExpressionCest
 {
     /**
      * Tests Phalcon\Db\Dialect\Sqlite :: getSqlExpression()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

@@ -26,15 +26,15 @@ class ConstructCest
     /**
      * Tests Phalcon\Validation\Validator\ExclusionIn :: __construct()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorExclusionInConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\ExclusionIn - __construct()');
+
         $validator = new ExclusionIn();
+
         $this->checkConstruct($I, $validator);
     }
 }

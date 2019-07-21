@@ -16,6 +16,7 @@
 #include "kernel/exception.h"
 #include "kernel/operators.h"
 #include "kernel/memory.h"
+#include "kernel/object.h"
 
 
 /**
@@ -27,8 +28,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Assets\Filters\None
- *
  * Returns the content without make any modification to the original source
  */
 ZEPHIR_INIT_CLASS(Phalcon_Assets_Filters_None) {
@@ -41,7 +40,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Filters_None) {
 }
 
 /**
- * Returns the content without be touched
+ * Returns the content as is
  */
 PHP_METHOD(Phalcon_Assets_Filters_None, filter) {
 

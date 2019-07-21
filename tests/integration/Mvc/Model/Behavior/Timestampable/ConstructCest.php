@@ -14,15 +14,10 @@ namespace Phalcon\Test\Integration\Mvc\Model\Behavior\Timestampable;
 
 use IntegrationTester;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     /**
      * Tests Phalcon\Mvc\Model\Behavior\Timestampable :: __construct()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class ConstructCest
     public function mvcModelBehaviorTimestampableConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Model\Behavior\Timestampable - __construct()');
+
         $I->skipTest('Need implementation');
     }
 }

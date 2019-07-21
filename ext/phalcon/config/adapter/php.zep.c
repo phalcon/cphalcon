@@ -18,6 +18,7 @@
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
 #include "kernel/operators.h"
+#include "kernel/object.h"
 
 
 /**
@@ -29,14 +30,12 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Config\Adapter\Php
- *
  * Reads php files and converts them to Phalcon\Config objects.
  *
  * Given the next configuration file:
  *
- *<code>
- *<?php
+ *```php
+ * <?php
  *
  * return [
  *     "database" => [
@@ -52,16 +51,18 @@
  *         "viewsDir"       => "../app/views/",
  *     ],
  * ];
- *</code>
+ *```
  *
  * You can read it as follows:
  *
- *<code>
- * $config = new \Phalcon\Config\Adapter\Php("path/config.php");
+ *```php
+ * use Phalcon\Config\Adapter\Php;
+ *
+ * $config = new Php("path/config.php");
  *
  * echo $config->phalcon->controllersDir;
  * echo $config->database->username;
- *</code>
+ *```
  */
 ZEPHIR_INIT_CLASS(Phalcon_Config_Adapter_Php) {
 

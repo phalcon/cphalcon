@@ -13,16 +13,28 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Model\Query\Builder;
 
 use IntegrationTester;
+use PDO;
+use Phalcon\Mvc\Model\Query\Builder;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Models\Snapshot\Robots;
 
-/**
- * Class HavingCest
- */
 class HavingCest
 {
+    use DiTrait;
+
+    public function _before(IntegrationTester $I)
+    {
+        $this->setNewFactoryDefault();
+        $this->setDiMysql();
+    }
+
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
+    }
+
     /**
      * Tests Phalcon\Mvc\Model\Query\Builder :: having()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -31,5 +43,57 @@ class HavingCest
     {
         $I->wantToTest('Mvc\Model\Query\Builder - having()');
         $I->skipTest('Need implementation');
+    }
+
+    /**
+     * Tests merge bind types for Builder::having
+     *
+     * @issue https://github.com/phalcon/cphalcon/issues/11487
+     */
+    public function shouldMergeBindTypesForHaving(IntegrationTester $I)
+    {
+        $builder = new Builder();
+
+        $builder->setDi($this->container);
+
+        $builder
+            ->from(Robots::class)
+            ->columns(
+                [
+                    'COUNT(id)',
+                    'name',
+                ]
+            )
+            ->groupBy('COUNT(id)')
+            ->having(
+                'COUNT(id) > :cnt:',
+                [
+                    ':cnt:' => 5,
+                ],
+                [
+                    ':cnt:' => PDO::PARAM_INT,
+                ]
+            )
+        ;
+
+        $builder->having(
+            "CONCAT('is_', type) = :type:",
+            [
+                ':type:' => 'mechanical',
+            ],
+            [
+                ':type:' => PDO::PARAM_STR,
+            ]
+        );
+
+        $expected = [
+            ':cnt:'  => 1,
+            ':type:' => 2,
+        ];
+
+        $I->assertEquals(
+            $expected,
+            $builder->getQuery()->getBindTypes()
+        );
     }
 }

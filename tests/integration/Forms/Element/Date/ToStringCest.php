@@ -13,23 +13,70 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Forms\Element\Date;
 
 use IntegrationTester;
+use Phalcon\Forms\Element\Date;
+use Phalcon\Tag;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-/**
- * Class ToStringCest
- */
 class ToStringCest
 {
+    use DiTrait;
+
+    public function _before(IntegrationTester $I)
+    {
+        $this->newDi();
+        $this->setDiEscaper();
+        $this->setDiUrl();
+    }
+
+    /**
+     * executed after each test
+     */
+    public function _after(IntegrationTester $I)
+    {
+        // Setting the doctype to XHTML5 for other tests to run smoothly
+        Tag::setDocType(
+            Tag::XHTML5
+        );
+    }
+
     /**
      * Tests Phalcon\Forms\Element\Date :: __toString()
      *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-05-23
      */
-    public function formsElementDateToString(IntegrationTester $I)
+    public function formsElementDateToStringSimple(IntegrationTester $I)
     {
         $I->wantToTest('Forms\Element\Date - __toString()');
-        $I->skipTest('Need implementation');
+
+        $element = new Date('simple');
+
+        $I->assertEquals(
+            '<input type="date" id="simple" name="simple" />',
+            (string) $element
+        );
+    }
+
+    /**
+     * Tests Phalcon\Forms\Element\Date :: __toString() with parameters
+     *
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-05-23
+     */
+    public function formsElementDateToStringWithParameters(IntegrationTester $I)
+    {
+        $I->wantToTest('Forms\Element\Date - __toString() with parameters');
+
+        $element = new Date(
+            'fantastic',
+            [
+                'class' => 'fancy',
+            ]
+        );
+
+        $I->assertEquals(
+            '<input type="date" id="fantastic" name="fantastic" class="fancy" />',
+            (string) $element
+        );
     }
 }

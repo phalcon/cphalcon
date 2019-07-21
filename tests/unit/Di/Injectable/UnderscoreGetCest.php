@@ -14,22 +14,18 @@ namespace Phalcon\Test\Unit\Di\Injectable;
 
 use UnitTester;
 
-/**
- * Class UnderscoreGetCest
- */
 class UnderscoreGetCest
 {
     /**
-     * Tests Phalcon\Di\Injectable :: __get()
-     *
-     * @param UnitTester $I
+     * Unit Tests Phalcon\Di\Injectable :: __get()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2019-06-13
      */
     public function diInjectableUnderscoreGet(UnitTester $I)
     {
         $I->wantToTest('Di\Injectable - __get()');
+
         $I->skipTest('Need implementation');
     }
 }

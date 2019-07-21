@@ -26,7 +26,6 @@
  * Phalcon\Filter\Exception
  *
  * Exceptions thrown in Phalcon\Filter will use this class
- *
  */
 ZEPHIR_INIT_CLASS(Phalcon_Filter_Exception) {
 

@@ -16,9 +16,6 @@ use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\Db\MysqlTrait;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-/**
- * Class GetNameCest
- */
 class GetNameCest
 {
     use DiTrait;
@@ -27,18 +24,21 @@ class GetNameCest
     /**
      * Tests Phalcon\Db\Column :: getName()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function dbColumnGetName(IntegrationTester $I)
     {
         $I->wantToTest("Db\Column - getName()");
+
         $columns         = $this->getColumns();
         $expectedColumns = $this->getExpectedColumns();
+
         foreach ($expectedColumns as $index => $column) {
-            $I->assertEquals($columns[$index]['_columnName'], $column->getName());
+            $I->assertEquals(
+                $columns[$index]['columnName'],
+                $column->getName()
+            );
         }
     }
 }

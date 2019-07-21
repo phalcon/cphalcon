@@ -49,6 +49,7 @@ autom4te.cache/
 /ide/
 
 .zephir/
+.temp/
 zephir.phar
 
 boxfile.yml
@@ -57,3 +58,5 @@ php_test_results_*.txt
 docker-compose.yml
 build/gccarch
 tests/_cache
+
+.php_cs.cache

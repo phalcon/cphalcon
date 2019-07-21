@@ -26,15 +26,15 @@ class SetOptionCest
     /**
      * Tests Phalcon\Validation\Validator\InclusionIn :: setOption()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorInclusionInSetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\InclusionIn - setOption()');
+
         $validator = new InclusionIn();
+
         $this->checkSetOption($I, $validator);
     }
 }

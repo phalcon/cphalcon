@@ -24,23 +24,24 @@ class ModelWithStringField extends Model
      */
     public $field;
 
-    /**
-     * @return string
-     */
-    public function getSource(): string
+    public function initialize()
     {
-        return 'table_with_string_field';
+        $this->setSource('table_with_string_field');
     }
 
     public function allowEmptyStringValue()
     {
-        $this->allowEmptyStringValues([
-            'field',
-        ]);
+        $this->allowEmptyStringValues(
+            [
+                'field',
+            ]
+        );
     }
 
     public function disallowEmptyStringValue()
     {
-        $this->allowEmptyStringValues([]);
+        $this->allowEmptyStringValues(
+            []
+        );
     }
 }

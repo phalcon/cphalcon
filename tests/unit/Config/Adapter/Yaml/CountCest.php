@@ -15,16 +15,10 @@ namespace Phalcon\Test\Unit\Config\Adapter\Yaml;
 use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
 
-/**
- * Class CountCest
- */
 class CountCest
 {
     use ConfigTrait;
 
-    /**
-     * Class CountCest
-     */
     public function _before(UnitTester $I)
     {
         $I->checkExtensionIsLoaded('yaml');
@@ -32,8 +26,6 @@ class CountCest
 
     /**
      * Tests Phalcon\Config\Adapter\Yaml :: count()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

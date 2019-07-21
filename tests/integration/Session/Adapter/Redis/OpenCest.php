@@ -16,17 +16,11 @@ use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionTrait;
 
-/**
- * Class OpenCest
- */
 class OpenCest
 {
     use DiTrait;
     use SessionTrait;
 
-    /**
-     * @param IntegrationTester $I
-     */
     public function _before(IntegrationTester $I)
     {
         $this->newFactoryDefault();
@@ -35,16 +29,17 @@ class OpenCest
     /**
      * Tests Phalcon\Session\Adapter\Redis :: open()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function sessionAdapterRedisOpen(IntegrationTester $I)
     {
         $I->wantToTest('Session\Adapter\Redis - open()');
+
         $adapter = $this->getSessionRedis();
-        $actual  = $adapter->open('test', 'test1');
-        $I->assertTrue($actual);
+
+        $I->assertTrue(
+            $adapter->open('test', 'test1')
+        );
     }
 }

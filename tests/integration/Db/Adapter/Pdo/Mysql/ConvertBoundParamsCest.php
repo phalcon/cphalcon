@@ -14,15 +14,10 @@ namespace Phalcon\Test\Integration\Db\Adapter\Pdo\Mysql;
 
 use IntegrationTester;
 
-/**
- * Class ConvertBoundParamsCest
- */
 class ConvertBoundParamsCest
 {
     /**
      * Tests Phalcon\Db\Adapter\Pdo\Mysql :: convertBoundParams()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

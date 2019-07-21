@@ -13,18 +13,12 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Helper\Arr;
 
 use Phalcon\Helper\Arr;
-use Phalcon\Helper\Exception;
 use UnitTester;
 
-/**
- * Class GetCest
- */
 class GetCest
 {
     /**
      * Tests Phalcon\Helper\Arr :: get() - numeric
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-17
@@ -38,15 +32,14 @@ class GetCest
             'suffix' => 'Framework',
         ];
 
-        $expected = 'Phalcon';
-        $actual   = Arr::get($collection, 1, 'Error');
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'Phalcon',
+            Arr::get($collection, 1, 'Error')
+        );
     }
 
     /**
      * Tests Phalcon\Helper\Arr :: get() - string
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-17
@@ -60,15 +53,14 @@ class GetCest
             'suffix' => 'Framework',
         ];
 
-        $expected = 'Framework';
-        $actual   = Arr::get($collection, 'suffix', 'Error');
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'Framework',
+            Arr::get($collection, 'suffix', 'Error')
+        );
     }
 
     /**
      * Tests Phalcon\Helper\Arr :: get() - default
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2019-02-17
@@ -82,8 +74,9 @@ class GetCest
             'suffix' => 'Framework',
         ];
 
-        $expected = 'Error';
-        $actual   = Arr::get($collection, 'unknown', 'Error');
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            'Error',
+            Arr::get($collection, 'unknown', 'Error')
+        );
     }
 }

@@ -1,0 +1,26 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Phalcon\n"
+"POT-Creation-Date: 2019-05-18 16:53-0400\n"
+"PO-Revision-Date: 2019-05-18 16:58-0400\n"
+"Last-Translator: \n"
+"Language-Team: Phalcon Team\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.6\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: en_US\n"
+
+msgid "hi"
+msgstr "Heya"
+
+msgid "bye"
+msgstr "Bye"
+
+msgid "hello-key"
+msgstr "Hello %name%"
+
+msgid "song-key"
+msgstr "The song is %song% (%artist%)"

@@ -13,23 +13,67 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Forms\Element\Submit;
 
 use IntegrationTester;
+use Phalcon\Forms\Element\Submit;
+use Phalcon\Tag;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-/**
- * Class RenderCest
- */
 class RenderCest
 {
+    use DiTrait;
+
+    public function _before(IntegrationTester $I)
+    {
+        $this->newDi();
+        $this->setDiEscaper();
+        $this->setDiUrl();
+    }
+
     /**
      * Tests Phalcon\Forms\Element\Submit :: render()
      *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-05-23
      */
-    public function formsElementSubmitRender(IntegrationTester $I)
+    public function formsElementSubmitRenderSimple(IntegrationTester $I)
     {
         $I->wantToTest('Forms\Element\Submit - render()');
-        $I->skipTest('Need implementation');
+
+        Tag::setDocType(
+            Tag::XHTML5
+        );
+
+        $element = new Submit('simple');
+
+        $I->assertEquals(
+            '<input type="submit" value="simple" />',
+            $element->render()
+        );
+    }
+
+    /**
+     * Tests Phalcon\Forms\Element\Submit :: render() with parameters
+     *
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-05-23
+     */
+    public function formsElementSubmitRenderWithParameters(IntegrationTester $I)
+    {
+        $I->wantToTest('Forms\Element\Submit - render() with parameters');
+
+        Tag::setDocType(
+            Tag::XHTML5
+        );
+
+        $element = new Submit(
+            'fantastic',
+            [
+                'class' => 'fancy',
+            ]
+        );
+
+        $I->assertEquals(
+            '<input type="submit" value="fantastic" class="fancy" />',
+            $element->render()
+        );
     }
 }

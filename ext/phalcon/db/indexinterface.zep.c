@@ -21,8 +21,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Db\IndexInterface
- *
  * Interface for Phalcon\Db\Index
  */
 ZEPHIR_INIT_CLASS(Phalcon_Db_IndexInterface) {
@@ -34,22 +32,17 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_IndexInterface) {
 }
 
 /**
- * Gets the index name
- */
-ZEPHIR_DOC_METHOD(Phalcon_Db_IndexInterface, getName);
-
-/**
  * Gets the columns that corresponds the index
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_IndexInterface, getColumns);
 
 /**
+ * Gets the index name
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Db_IndexInterface, getName);
+
+/**
  * Gets the index type
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_IndexInterface, getType);
-
-/**
- * Restore a Phalcon\Db\Index object from export
- */
-ZEPHIR_DOC_METHOD(Phalcon_Db_IndexInterface, __set_state);
 

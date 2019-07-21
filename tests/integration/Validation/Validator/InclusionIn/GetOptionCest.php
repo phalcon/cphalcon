@@ -26,15 +26,15 @@ class GetOptionCest
     /**
      * Tests Phalcon\Validation\Validator\InclusionIn :: getOption()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorInclusionInGetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\InclusionIn - getOption()');
+
         $validator = new InclusionIn();
+
         $this->checkGetOption($I, $validator);
     }
 }

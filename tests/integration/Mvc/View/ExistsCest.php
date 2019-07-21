@@ -12,24 +12,44 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Mvc\View;
 
+use function dataDir;
 use IntegrationTester;
+use Phalcon\Di;
+use Phalcon\Helper\Str;
+use Phalcon\Mvc\View;
 
-/**
- * Class ExistsCest
- */
 class ExistsCest
 {
     /**
      * Tests Phalcon\Mvc\View :: exists()
      *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Kamil Skowron <git@hedonsoftware.com>
+     * @since  2014-05-28
      */
     public function mvcViewExists(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\View - exists()');
-        $I->skipTest('Need implementation');
+
+        $container = new Di();
+
+        $view = new View();
+
+        $view->setViewsDir(
+            Str::dirSeparator(dataDir('fixtures/views'))
+        );
+
+        $view->setDI($container);
+
+        $I->assertTrue(
+            $view->exists('currentrender/query')
+        );
+
+        $I->assertTrue(
+            $view->exists('currentrender/yup')
+        );
+
+        $I->assertFalse(
+            $view->exists('currentrender/nope')
+        );
     }
 }

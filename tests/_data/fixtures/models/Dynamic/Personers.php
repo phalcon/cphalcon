@@ -11,8 +11,8 @@
 
 namespace Phalcon\Test\Models\Dynamic;
 
-use Phalcon\Mvc\Model\Behavior\SoftDelete;
 use Phalcon\Mvc\Model as PhalconModel;
+use Phalcon\Mvc\Model\Behavior\SoftDelete;
 
 /**
  * @property string $borgerId
@@ -34,7 +34,9 @@ class Personers extends PhalconModel
     public function initialize()
     {
         $this->setSource('personas');
+
         $this->useDynamicUpdate(true);
+
         $this->addBehavior(
             new SoftDelete(
                 [

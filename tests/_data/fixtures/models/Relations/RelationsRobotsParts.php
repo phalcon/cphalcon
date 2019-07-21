@@ -17,18 +17,26 @@ class RelationsRobotsParts extends Model
 {
     public function initialize()
     {
-        $this->belongsTo('parts_id', RelationsParts::class, 'id', [
-            'foreignKey' => true,
-        ]);
-        $this->belongsTo('robots_id', RelationsRobots::class, 'id', [
-            'foreignKey' => [
-                'message' => 'The robot code does not exist',
-            ],
-        ]);
-    }
+        $this->setSource('robots_parts');
 
-    public function getSource(): string
-    {
-        return 'robots_parts';
+        $this->belongsTo(
+            'parts_id',
+            RelationsParts::class,
+            'id',
+            [
+                'foreignKey' => true,
+            ]
+        );
+
+        $this->belongsTo(
+            'robots_id',
+            RelationsRobots::class,
+            'id',
+            [
+                'foreignKey' => [
+                    'message' => 'The robot code does not exist',
+                ],
+            ]
+        );
     }
 }

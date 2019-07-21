@@ -10,26 +10,74 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Forms\Element\TextArea;
+namespace Phalcon\Test\Integration\Forms\Element\Textarea;
 
 use IntegrationTester;
+use Phalcon\Forms\Element\Textarea;
+use Phalcon\Tag;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-/**
- * Class ToStringCest
- */
 class ToStringCest
 {
-    /**
-     * Tests Phalcon\Forms\Element\TextArea :: __toString()
-     *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function formsElementTextareaToString(IntegrationTester $I)
+    use DiTrait;
+
+    public function _before(IntegrationTester $I)
     {
-        $I->wantToTest('Forms\Element\TextArea - __toString()');
-        $I->skipTest('Need implementation');
+        $this->newDi();
+        $this->setDiEscaper();
+        $this->setDiUrl();
+    }
+
+    /**
+     * executed after each test
+     */
+    public function _after(IntegrationTester $I)
+    {
+        // Setting the doctype to XHTML5 for other tests to run smoothly
+        Tag::setDocType(
+            Tag::XHTML5
+        );
+    }
+
+    /**
+     * Tests Phalcon\Forms\Element\Textarea :: __toString()
+     *
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-05-23
+     */
+    public function formsElementTextareaToStringSimple(IntegrationTester $I)
+    {
+        $I->wantToTest('Forms\Element\Textarea - __toString()');
+
+        $element = new Textarea('simple');
+
+        $I->assertEquals(
+            '<textarea id="simple" name="simple"></textarea>',
+            (string) $element
+        );
+    }
+
+    /**
+     * Tests Phalcon\Forms\Element\Textarea :: __toString() with parameters
+     *
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-05-23
+     */
+    public function formsElementTextareaToStringWithParameters(IntegrationTester $I)
+    {
+        $I->wantToTest('Forms\Element\Textarea - __toString() with parameters');
+
+        $element = new Textarea(
+            'fantastic',
+            [
+                'class'       => 'fancy',
+                'placeholder' => 'Initial value',
+            ]
+        );
+
+        $I->assertEquals(
+            '<textarea id="fantastic" name="fantastic" class="fancy" placeholder="Initial value"></textarea>',
+            (string) $element
+        );
     }
 }

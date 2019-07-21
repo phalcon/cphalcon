@@ -26,23 +26,39 @@ class ServiceCest
     public function testResolvingService(UnitTester $I)
     {
         $di = new Di();
-        $di->set('resolved', function () {
-            return new Escaper();
-        });
-        $di->set('notResolved', function () {
-            return new Escaper();
-        });
 
-        $actual = $di->getService('resolved')->isResolved();
-        $I->assertFalse($actual);
-        $actual = $di->getService('notResolved')->isResolved();
-        $I->assertFalse($actual);
+        $di->set(
+            'resolved',
+            function () {
+                return new Escaper();
+            }
+        );
+
+        $di->set(
+            'notResolved',
+            function () {
+                return new Escaper();
+            }
+        );
+
+
+        $I->assertFalse(
+            $di->getService('resolved')->isResolved()
+        );
+
+        $I->assertFalse(
+            $di->getService('notResolved')->isResolved()
+        );
+
 
         $di->get('resolved');
 
-        $actual = $di->getService('resolved')->isResolved();
-        $I->assertTrue($actual);
-        $actual = $di->getService('notResolved')->isResolved();
-        $I->assertFalse($actual);
+        $I->assertTrue(
+            $di->getService('resolved')->isResolved()
+        );
+
+        $I->assertFalse(
+            $di->getService('notResolved')->isResolved()
+        );
     }
 }

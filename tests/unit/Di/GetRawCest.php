@@ -12,17 +12,15 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Di;
 
+use Exception;
+use Phalcon\Di;
+use Phalcon\Escaper;
 use UnitTester;
 
-/**
- * Class GetRawCest
- */
 class GetRawCest
 {
     /**
      * Tests Phalcon\Di :: getRaw()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +28,26 @@ class GetRawCest
     public function diGetRaw(UnitTester $I)
     {
         $I->wantToTest('Di - getRaw()');
-        $I->skipTest('Need implementation');
+
+        $di = new Di();
+
+        // nonexistent service
+        $expected = new Exception("Service 'nonexistent-service' wasn't found in the dependency injection container");
+        $actual   = function () use ($di) {
+            $di->getRaw('nonexistent-service');
+        };
+
+        $I->expectThrowable(
+            $expected,
+            $actual
+        );
+
+        // existing service
+        $di->set('escaper', Escaper::class);
+
+        $expected = Escaper::class;
+        $actual   = $di->getRaw('escaper');
+
+        $I->assertSame($expected, $actual);
     }
 }

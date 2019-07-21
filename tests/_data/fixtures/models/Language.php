@@ -19,22 +19,26 @@ use Phalcon\Mvc\Model\Resultset\Simple;
  * @property string locale
  * @property Simple translations
  * @method Simple getTranslations()
- * @package Phalcon\Test\Models
  */
 class Language extends Model
 {
-    public function getSource(): string
-    {
-        return 'language';
-    }
-
     public function initialize()
     {
+        $this->setSource('language');
+
         $this->hasMany(
-            ['lang', 'locale'],
+            [
+                'lang',
+                'locale',
+            ],
             LanguageI18n::class,
-            ['from_lang', 'from_locale'],
-            ['alias' => 'translations']
+            [
+                'from_lang',
+                'from_locale',
+            ],
+            [
+                'alias' => 'translations',
+            ]
         );
     }
 }

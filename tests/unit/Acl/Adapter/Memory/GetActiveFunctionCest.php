@@ -14,19 +14,14 @@ namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
 
 use Closure;
 use Phalcon\Acl\Adapter\Memory;
-use Phalcon\Acl\Role;
 use Phalcon\Acl\Component;
+use Phalcon\Acl\Role;
 use UnitTester;
 
-/**
- * Class GetActiveFunctionCest
- */
 class GetActiveFunctionCest
 {
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: getActiveFunction()
-     *
-     * @param UnitTester $I
      *
      * @author  Wojciech Slawski <jurigag@gmail.com>
      * @since   2017-01-13
@@ -34,26 +29,52 @@ class GetActiveFunctionCest
     public function aclAdapterMemoryGetActiveFunction(UnitTester $I)
     {
         $I->wantToTest('Acl\Adapter\Memory - getActiveFunction()');
+
         $function = function ($a) {
             return true;
         };
 
         $acl = new Memory();
-        $acl->addRole(new Role('Guests'));
-        $acl->addComponent(new Component('Post'), ['index', 'update', 'create']);
+
+        $acl->addRole(
+            new Role('Guests')
+        );
+
+        $acl->addComponent(
+            new Component('Post'),
+            ['index', 'update', 'create']
+        );
 
         $acl->allow('Guests', 'Post', 'create', $function);
-        $I->assertTrue($acl->isAllowed('Guests', 'Post', 'create', ['a' => 1]));
+
+        $I->assertTrue(
+            $acl->isAllowed(
+                'Guests',
+                'Post',
+                'create',
+                [
+                    'a' => 1,
+                ]
+            )
+        );
+
+
         $returnedFunction = $acl->getActiveFunction();
 
-        $I->assertInstanceOf(Closure::class, $returnedFunction);
+        $I->assertInstanceOf(
+            Closure::class,
+            $returnedFunction
+        );
 
-        $expected = 1;
-        $actual   = $function(1);
-        $I->assertEquals($expected, $actual);
 
-        $expected = 1;
-        $actual   = $acl->getActiveFunctionCustomArgumentsCount();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            1,
+            $function(1)
+        );
+
+        $I->assertEquals(
+            1,
+            $acl->getActiveFunctionCustomArgumentsCount()
+        );
     }
 }

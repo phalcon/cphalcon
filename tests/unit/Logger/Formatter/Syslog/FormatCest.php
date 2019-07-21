@@ -12,25 +12,15 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Logger\Formatter\Syslog;
 
-use Phalcon\Logger;
 use Phalcon\Logger\Formatter\Syslog;
 use Phalcon\Logger\Item;
+use Phalcon\Logger\Logger;
 use UnitTester;
 
-/**
- * Class FormatCest
- *
- * @package Phalcon\Test\Unit\Logger
- */
 class FormatCest
 {
     /**
      * Tests Phalcon\Logger\Formatter\Syslog :: format()
-     *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
      */
     public function loggerFormatterSyslogFormat(UnitTester $I)
     {

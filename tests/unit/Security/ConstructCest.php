@@ -12,18 +12,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Security;
 
-use UnitTester;
 use Phalcon\Security;
+use UnitTester;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     /**
      * Tests Phalcon\Security :: __construct()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -31,10 +26,13 @@ class ConstructCest
     public function securityConstruct(UnitTester $I)
     {
         $I->wantToTest('Security - __construct()');
+
         $security = new Security();
 
-        $class = Security::class;
-        $I->assertInstanceOf($class, $security);
+        $I->assertInstanceOf(
+            Security::class,
+            $security
+        );
     }
 
     /**

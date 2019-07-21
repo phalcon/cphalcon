@@ -15,9 +15,9 @@ use Phalcon\Mvc\Model;
 
 class GenderStats extends Model
 {
-    public function getSource(): string
+    public function initialize()
     {
-        return 'stats';
+        $this->setSource('stats');
     }
 
     public function getResultsetClass()

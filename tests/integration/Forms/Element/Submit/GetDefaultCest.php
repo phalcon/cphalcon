@@ -22,8 +22,6 @@ class GetDefaultCest
     /**
      * Tests Phalcon\Forms\Element\Submit :: getDefault()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

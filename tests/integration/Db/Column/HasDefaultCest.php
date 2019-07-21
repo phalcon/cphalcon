@@ -16,29 +16,33 @@ use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Db\Column;
 
-/**
- * Class HasDefaultCest
- */
 class HasDefaultCest
 {
     /**
      * Tests Phalcon\Db\Column :: hasDefault() - Mysql
-     *
-     * @param IntegrationTester $I
-     * @param Example           $data
      *
      * @dataProvider connectionProvider
      *
      * @author       Phalcon Team <team@phalconphp.com>
      * @since        2018-11-13
      */
-    public function dbColumnHasDefault(IntegrationTester $I, Example $data)
+    public function dbColumnHasDefault(IntegrationTester $I, Example $example)
     {
-        $I->wantToTest(sprintf('Db\Column - hasDefault() - %s', $data['name']));
-        $columns  = $data['data'];
-        $expected = $data['expected'];
+        $I->wantToTest(
+            sprintf(
+                'Db\Column - hasDefault() - %s',
+                $example['name']
+            )
+        );
+
+        $columns  = $example['data'];
+        $expected = $example['expected'];
+
         foreach ($columns as $index => $column) {
-            $I->assertEquals($expected[$index], $column->hasDefault());
+            $I->assertEquals(
+                $expected[$index],
+                $column->hasDefault()
+            );
         }
     }
 
@@ -47,49 +51,45 @@ class HasDefaultCest
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
-     *
-     * @return array
      */
-    private function connectionProvider()
+    private function connectionProvider(): array
     {
         return [
             [
                 'name'     => 'Mysql',
                 'data'     => [
-                    0 => Column::__set_state(
+                    0 => new Column(
+                        'field_primary',
                         [
-                            '_columnName'    => 'field_primary',
-                            '_schemaName'    => null,
-                            '_type'          => Column::TYPE_INTEGER,
-                            '_isNumeric'     => true,
-                            '_size'          => 11,
-                            '_scale'         => 0,
-                            '_default'       => null,
-                            '_unsigned'      => false,
-                            '_notNull'       => true,
-                            '_autoIncrement' => true,
-                            '_primary'       => true,
-                            '_first'         => true,
-                            '_after'         => null,
-                            '_bindType'      => Column::BIND_PARAM_INT,
+                            'type'          => Column::TYPE_INTEGER,
+                            'isNumeric'     => true,
+                            'size'          => 11,
+                            'scale'         => 0,
+                            'default'       => null,
+                            'unsigned'      => false,
+                            'notNull'       => true,
+                            'autoIncrement' => true,
+                            'primary'       => true,
+                            'first'         => true,
+                            'after'         => null,
+                            'bindType'      => Column::BIND_PARAM_INT,
                         ]
                     ),
-                    1 => Column::__set_state(
+                    1 => new Column(
+                        'field_bigint',
                         [
-                            '_columnName'    => 'field_bigint',
-                            '_schemaName'    => null,
-                            '_type'          => Column::TYPE_BIGINTEGER,
-                            '_isNumeric'     => true,
-                            '_size'          => 20,
-                            '_scale'         => 0,
-                            '_default'       => 1,
-                            '_unsigned'      => false,
-                            '_notNull'       => false,
-                            '_autoIncrement' => false,
-                            '_primary'       => false,
-                            '_first'         => false,
-                            '_after'         => 'field_bit_default',
-                            '_bindType'      => Column::BIND_PARAM_INT,
+                            'type'          => Column::TYPE_BIGINTEGER,
+                            'isNumeric'     => true,
+                            'size'          => 20,
+                            'scale'         => 0,
+                            'default'       => 1,
+                            'unsigned'      => false,
+                            'notNull'       => false,
+                            'autoIncrement' => false,
+                            'primary'       => false,
+                            'first'         => false,
+                            'after'         => 'field_bit_default',
+                            'bindType'      => Column::BIND_PARAM_INT,
                         ]
                     ),
                 ],
@@ -101,40 +101,38 @@ class HasDefaultCest
             [
                 'name'     => 'Postgresql',
                 'data'     => [
-                    Column::__set_state(
+                    new Column(
+                        'field_primary',
                         [
-                            '_columnName'    => 'field_primary',
-                            '_schemaName'    => null,
-                            '_type'          => Column::TYPE_INTEGER,
-                            '_isNumeric'     => true,
-                            '_size'          => 0,
-                            '_scale'         => 0,
-                            '_default'       => "nextval('dialect_table_field_primary_seq'::regclass)",
-                            '_unsigned'      => false,
-                            '_notNull'       => true,
-                            '_autoIncrement' => true,
-                            '_primary'       => true,
-                            '_first'         => true,
-                            '_after'         => null,
-                            '_bindType'      => Column::BIND_PARAM_INT,
+                            'type'          => Column::TYPE_INTEGER,
+                            'isNumeric'     => true,
+                            'size'          => 0,
+                            'scale'         => 0,
+                            'default'       => "nextval('dialect_table_field_primary_seq'::regclass)",
+                            'unsigned'      => false,
+                            'notNull'       => true,
+                            'autoIncrement' => true,
+                            'primary'       => true,
+                            'first'         => true,
+                            'after'         => null,
+                            'bindType'      => Column::BIND_PARAM_INT,
                         ]
                     ),
-                    Column::__set_state(
+                    new Column(
+                        'field_bigint',
                         [
-                            '_columnName'    => 'field_bigint',
-                            '_schemaName'    => null,
-                            '_type'          => Column::TYPE_BIGINTEGER,
-                            '_isNumeric'     => true,
-                            '_size'          => 0,
-                            '_scale'         => 0,
-                            '_default'       => 1,
-                            '_unsigned'      => false,
-                            '_notNull'       => false,
-                            '_autoIncrement' => false,
-                            '_primary'       => false,
-                            '_first'         => false,
-                            '_after'         => 'field_bit_default',
-                            '_bindType'      => Column::BIND_PARAM_INT,
+                            'type'          => Column::TYPE_BIGINTEGER,
+                            'isNumeric'     => true,
+                            'size'          => 0,
+                            'scale'         => 0,
+                            'default'       => 1,
+                            'unsigned'      => false,
+                            'notNull'       => false,
+                            'autoIncrement' => false,
+                            'primary'       => false,
+                            'first'         => false,
+                            'after'         => 'field_bit_default',
+                            'bindType'      => Column::BIND_PARAM_INT,
                         ]
                     ),
                 ],

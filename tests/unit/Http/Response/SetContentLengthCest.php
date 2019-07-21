@@ -12,24 +12,29 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Response;
 
+use Phalcon\Test\Unit\Http\Helper\HttpBase;
 use UnitTester;
 
-/**
- * Class SetContentLengthCest
- */
-class SetContentLengthCest
+class SetContentLengthCest extends HttpBase
 {
     /**
-     * Tests Phalcon\Http\Response :: setContentLength()
+     * Tests the setContentLength
      *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Zamrony P. Juhara <zamronypj@yahoo.com>
+     * @since  2016-07-18
      */
-    public function httpResponseSetContentLength(UnitTester $I)
+    public function testHttpResponseSetContentLength(UnitTester $I)
     {
-        $I->wantToTest('Http\Response - setContentLength()');
-        $I->skipTest('Need implementation');
+        $response = $this->getResponseObject();
+
+        $response->resetHeaders();
+
+        $response->setContentLength(100);
+
+        $actual = $response->getHeaders();
+        $I->assertEquals(
+            100,
+            $actual->get('Content-Length')
+        );
     }
 }

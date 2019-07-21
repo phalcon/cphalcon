@@ -14,15 +14,10 @@ namespace Phalcon\Test\Cli\Cli\Router;
 
 use CliTester;
 
-/**
- * Class SetDefaultModuleCest
- */
 class SetDefaultModuleCest
 {
     /**
      * Tests Phalcon\Cli\Router :: setDefaultModule()
-     *
-     * @param CliTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

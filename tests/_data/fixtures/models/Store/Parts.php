@@ -19,8 +19,13 @@ class Parts extends Model
     {
         $this->setConnectionService('dbTwo');
 
-        $this->hasMany('id', RobotsParts::class, 'parts_id', [
-            'alias' => 'RobotParts',
-        ]);
+        $this->hasMany(
+            'id',
+            RobotsParts::class,
+            'parts_id',
+            [
+                'alias' => 'RobotParts',
+            ]
+        );
     }
 }

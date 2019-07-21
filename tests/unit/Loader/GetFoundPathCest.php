@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Loader;
 
 use UnitTester;
 
-/**
- * Class GetFoundPathCest
- */
 class GetFoundPathCest
 {
     /**
      * Tests Phalcon\Loader :: getFoundPath()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetFoundPathCest
     public function loaderGetFoundPath(UnitTester $I)
     {
         $I->wantToTest('Loader - getFoundPath()');
+
         $I->skipTest('Need implementation');
     }
 }

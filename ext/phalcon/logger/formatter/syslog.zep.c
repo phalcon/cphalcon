@@ -15,6 +15,7 @@
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
 #include "kernel/array.h"
+#include "kernel/object.h"
 
 
 /**
@@ -40,10 +41,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Formatter_Syslog) {
 
 /**
  * Applies a format to a message before sent it to the internal log
- *
- * @param <Item> item
- *
- * @return array
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Syslog, format) {
 

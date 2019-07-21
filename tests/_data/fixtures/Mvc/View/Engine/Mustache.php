@@ -12,12 +12,12 @@
 namespace Phalcon\Test\Fixtures\Mvc\View\Engine;
 
 use Mustache_Engine;
-use Phalcon\DiInterface;
-use Phalcon\Mvc\View\Engine;
+use Phalcon\Di\DiInterface;
+use Phalcon\Mvc\View\Engine\AbstractEngine;
+use Phalcon\Mvc\View\Engine\EngineInterface;
 use Phalcon\Mvc\ViewBaseInterface;
-use Phalcon\Mvc\View\EngineInterface;
 
-class Mustache extends Engine implements EngineInterface
+class Mustache extends AbstractEngine implements EngineInterface
 {
     /**
      * The internal Mustache Engine
@@ -33,9 +33,6 @@ class Mustache extends Engine implements EngineInterface
 
     /**
      * Mustache constructor.
-     *
-     * @param ViewBaseInterface $view
-     * @param DiInterface|null $dependencyInjector
      */
     public function __construct(ViewBaseInterface $view, DiInterface $dependencyInjector = null)
     {
@@ -46,20 +43,20 @@ class Mustache extends Engine implements EngineInterface
 
     /**
      * Renders a view using the template engine
-     *
-     * @param string $path
-     * @param mixed $params
-     * @param bool $mustClean
      */
-    public function render($path, $params, $mustClean = false)
+    public function render(string $path, $params, bool $mustClean = false)
     {
         if (!isset($params['content'])) {
-            $params['content'] = $this->_view->getContent();
+            $params['content'] = $this->view->getContent();
         }
 
-        $content = $this->mustache->render(file_get_contents($path), $params);
+        $content = $this->mustache->render(
+            file_get_contents($path),
+            $params
+        );
+
         if ($mustClean) {
-            $this->_view->setContent($content);
+            $this->view->setContent($content);
         } else {
             echo $content;
         }

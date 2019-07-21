@@ -14,15 +14,10 @@ namespace Phalcon\Test\Integration\Mvc\Model\Behavior\SoftDelete;
 
 use IntegrationTester;
 
-/**
- * Class NotifyCest
- */
 class NotifyCest
 {
     /**
      * Tests Phalcon\Mvc\Model\Behavior\SoftDelete :: notify()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class NotifyCest
     public function mvcModelBehaviorSoftdeleteNotify(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Model\Behavior\SoftDelete - notify()');
+
         $I->skipTest('Need implementation');
     }
 }

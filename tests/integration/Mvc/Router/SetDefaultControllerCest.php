@@ -13,23 +13,27 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Router;
 
 use IntegrationTester;
+use Phalcon\Mvc\Router;
 
-/**
- * Class SetDefaultControllerCest
- */
 class SetDefaultControllerCest
 {
     /**
      * Tests Phalcon\Mvc\Router :: setDefaultController()
      *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-05-22
      */
     public function mvcRouterSetDefaultController(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Router - setDefaultController()');
-        $I->skipTest('Need implementation');
+
+        $router = new Router();
+
+        $router->setDefaultController('main');
+
+        $I->assertEquals(
+            'main',
+            $router->getDefaults()['controller']
+        );
     }
 }

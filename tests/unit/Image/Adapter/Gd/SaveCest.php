@@ -12,17 +12,16 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Image\Adapter\Gd;
 
+use Phalcon\Image\Adapter\Gd;
+use Phalcon\Test\Fixtures\Traits\GdTrait;
 use UnitTester;
 
-/**
- * Class SaveCest
- */
 class SaveCest
 {
+    use GdTrait;
+
     /**
      * Tests Phalcon\Image\Adapter\Gd :: save()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +29,28 @@ class SaveCest
     public function imageAdapterGdSave(UnitTester $I)
     {
         $I->wantToTest('Image\Adapter\Gd - save()');
-        $I->skipTest('Need implementation');
+
+        $outputDir   = 'tests/image/gd';
+        $resultImage = 'save.';
+
+        foreach ($this->getImages() as $type => $imagePath) {
+            $image = new Gd(
+                $imagePath
+            );
+
+            $output = outputDir($outputDir . '/' . $resultImage . $type);
+
+            $actual = $image->save($output);
+
+            $I->assertInstanceOf(Gd::class, $actual);
+
+            $I->amInPath(
+                outputDir($outputDir)
+            );
+
+            $I->seeFileFound($resultImage . $type);
+
+            $I->safeDeleteFile($resultImage . $type);
+        }
     }
 }

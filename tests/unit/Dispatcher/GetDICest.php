@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Dispatcher;
 
 use UnitTester;
 
-/**
- * Class GetDICest
- */
 class GetDICest
 {
     /**
      * Tests Phalcon\Dispatcher :: getDI()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetDICest
     public function dispatcherGetDI(UnitTester $I)
     {
         $I->wantToTest('Dispatcher - getDI()');
+
         $I->skipTest('Need implementation');
     }
 }

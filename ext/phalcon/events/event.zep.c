@@ -13,9 +13,9 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
-#include "kernel/operators.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
+#include "kernel/operators.h"
 #include "kernel/memory.h"
 
 
@@ -30,73 +30,50 @@
 /**
  * Phalcon\Events\Event
  *
- * This class offers contextual information of a fired event in the EventsManager
+ * This class offers contextual information of a fired event in the
+ * EventsManager
  */
 ZEPHIR_INIT_CLASS(Phalcon_Events_Event) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Events, Event, phalcon, events_event, phalcon_events_event_method_entry, 0);
 
 	/**
-	 * Event type
+	 * Is event cancelable?
 	 *
-	 * @var string
+	 * @var bool
 	 */
-	zend_declare_property_null(phalcon_events_event_ce, SL("_type"), ZEND_ACC_PROTECTED TSRMLS_CC);
-
-	/**
-	 * Event source
-	 *
-	 * @var object
-	 */
-	zend_declare_property_null(phalcon_events_event_ce, SL("_source"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_events_event_ce, SL("cancelable"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	/**
 	 * Event data
 	 *
 	 * @var mixed
 	 */
-	zend_declare_property_null(phalcon_events_event_ce, SL("_data"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_events_event_ce, SL("data"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	/**
+	 * Event source
+	 *
+	 * @var object
+	 */
+	zend_declare_property_null(phalcon_events_event_ce, SL("source"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	/**
 	 * Is event propagation stopped?
 	 *
 	 * @var bool
 	 */
-	zend_declare_property_bool(phalcon_events_event_ce, SL("_stopped"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_bool(phalcon_events_event_ce, SL("stopped"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	/**
-	 * Is event cancelable?
+	 * Event type
 	 *
-	 * @var bool
+	 * @var string
 	 */
-	zend_declare_property_bool(phalcon_events_event_ce, SL("_cancelable"), 1, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_events_event_ce, SL("type"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	zend_class_implements(phalcon_events_event_ce TSRMLS_CC, 1, phalcon_events_eventinterface_ce);
 	return SUCCESS;
-
-}
-
-/**
- * Event type
- */
-PHP_METHOD(Phalcon_Events_Event, getType) {
-
-	zval *this_ptr = getThis();
-
-
-	RETURN_MEMBER(getThis(), "_type");
-
-}
-
-/**
- * Event source
- */
-PHP_METHOD(Phalcon_Events_Event, getSource) {
-
-	zval *this_ptr = getThis();
-
-
-	RETURN_MEMBER(getThis(), "_source");
 
 }
 
@@ -108,7 +85,31 @@ PHP_METHOD(Phalcon_Events_Event, getData) {
 	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(getThis(), "_data");
+	RETURN_MEMBER(getThis(), "data");
+
+}
+
+/**
+ * Event source
+ */
+PHP_METHOD(Phalcon_Events_Event, getSource) {
+
+	zval *this_ptr = getThis();
+
+
+	RETURN_MEMBER(getThis(), "source");
+
+}
+
+/**
+ * Event type
+ */
+PHP_METHOD(Phalcon_Events_Event, getType) {
+
+	zval *this_ptr = getThis();
+
+
+	RETURN_MEMBER(getThis(), "type");
 
 }
 
@@ -155,19 +156,45 @@ PHP_METHOD(Phalcon_Events_Event, __construct) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, SL("_type"), &type);
-	zephir_update_property_zval(this_ptr, SL("_source"), source);
-	if (Z_TYPE_P(data) != IS_NULL) {
-		zephir_update_property_zval(this_ptr, SL("_data"), data);
-	}
-	if (cancelable != 1) {
-		if (cancelable) {
-			zephir_update_property_zval(this_ptr, SL("_cancelable"), &__$true);
-		} else {
-			zephir_update_property_zval(this_ptr, SL("_cancelable"), &__$false);
-		}
+	zephir_update_property_zval(this_ptr, SL("type"), &type);
+	zephir_update_property_zval(this_ptr, SL("source"), source);
+	zephir_update_property_zval(this_ptr, SL("data"), data);
+	if (cancelable) {
+		zephir_update_property_zval(this_ptr, SL("cancelable"), &__$true);
+	} else {
+		zephir_update_property_zval(this_ptr, SL("cancelable"), &__$false);
 	}
 	ZEPHIR_MM_RESTORE();
+
+}
+
+/**
+ * Check whether the event is cancelable.
+ *
+ * ```php
+ * if ($event->isCancelable()) {
+ *     $event->stop();
+ * }
+ * ```
+ */
+PHP_METHOD(Phalcon_Events_Event, isCancelable) {
+
+	zval *this_ptr = getThis();
+
+
+	RETURN_MEMBER(getThis(), "cancelable");
+
+}
+
+/**
+ * Check whether the event is currently stopped.
+ */
+PHP_METHOD(Phalcon_Events_Event, isStopped) {
+
+	zval *this_ptr = getThis();
+
+
+	RETURN_MEMBER(getThis(), "stopped");
 
 }
 
@@ -190,7 +217,7 @@ PHP_METHOD(Phalcon_Events_Event, setData) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, SL("_data"), data);
+	zephir_update_property_zval(this_ptr, SL("data"), data);
 	RETURN_THISW();
 
 }
@@ -221,7 +248,7 @@ PHP_METHOD(Phalcon_Events_Event, setType) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, SL("_type"), &type);
+	zephir_update_property_zval(this_ptr, SL("type"), &type);
 	RETURN_THIS();
 
 }
@@ -229,11 +256,11 @@ PHP_METHOD(Phalcon_Events_Event, setType) {
 /**
  * Stops the event preventing propagation.
  *
- * <code>
+ * ```php
  * if ($event->isCancelable()) {
  *     $event->stop();
  * }
- * </code>
+ * ```
  */
 PHP_METHOD(Phalcon_Events_Event, stop) {
 
@@ -245,47 +272,17 @@ PHP_METHOD(Phalcon_Events_Event, stop) {
 	ZVAL_UNDEF(&_0);
 
 
-	zephir_read_property(&_0, this_ptr, SL("_cancelable"), PH_NOISY_CC | PH_READONLY);
-	if (!(zephir_is_true(&_0))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_events_exception_ce, "Trying to cancel a non-cancelable event", "phalcon/events/event.zep", 106);
+	zephir_read_property(&_0, this_ptr, SL("cancelable"), PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(!zephir_is_true(&_0))) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_events_exception_ce, "Trying to cancel a non-cancelable event", "phalcon/Events/Event.zep", 123);
 		return;
 	}
 	if (1) {
-		zephir_update_property_zval(this_ptr, SL("_stopped"), &__$true);
+		zephir_update_property_zval(this_ptr, SL("stopped"), &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, SL("_stopped"), &__$false);
+		zephir_update_property_zval(this_ptr, SL("stopped"), &__$false);
 	}
 	RETURN_THISW();
-
-}
-
-/**
- * Check whether the event is currently stopped.
- */
-PHP_METHOD(Phalcon_Events_Event, isStopped) {
-
-	zval *this_ptr = getThis();
-
-
-	RETURN_MEMBER(getThis(), "_stopped");
-
-}
-
-/**
- * Check whether the event is cancelable.
- *
- * <code>
- * if ($event->isCancelable()) {
- *     $event->stop();
- * }
- * </code>
- */
-PHP_METHOD(Phalcon_Events_Event, isCancelable) {
-
-	zval *this_ptr = getThis();
-
-
-	RETURN_MEMBER(getThis(), "_cancelable");
 
 }
 

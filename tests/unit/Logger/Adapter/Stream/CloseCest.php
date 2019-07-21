@@ -12,31 +12,21 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Logger\Adapter\Stream;
 
-use Phalcon\Logger;
 use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Logger\Item;
+use Phalcon\Logger\Logger;
 use UnitTester;
 
-/**
- * Class CloseCest
- *
- * @package Phalcon\Test\Unit\Logger
- */
 class CloseCest
 {
     /**
      * Tests Phalcon\Logger\Adapter\Stream :: close()
-     *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
      */
     public function loggerAdapterStreamClose(UnitTester $I)
     {
         $I->wantToTest('Logger\Adapter\Stream - close()');
         $fileName   = $I->getNewFileName('log', 'log');
-        $outputPath = outputFolder('tests/logs/');
+        $outputPath = logsDir();
         $adapter    = new Stream($outputPath . $fileName);
 
         $item = new Item('Message 1', 'debug', Logger::DEBUG);

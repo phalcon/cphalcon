@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Model\Relation;
 
 use IntegrationTester;
+use Phalcon\Mvc\Model\Relation;
 
 /**
  * Class GetTypeCest
@@ -22,14 +23,29 @@ class GetTypeCest
     /**
      * Tests Phalcon\Mvc\Model\Relation :: getType()
      *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-04-18
      */
     public function mvcModelRelationGetType(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Model\Relation - getType()');
-        $I->skipTest('Need implementation');
+
+        $options = [
+            'reusable' => true, // cache related data
+            'alias'    => 'mechanicalParts',
+        ];
+
+        $relation = new Relation(
+            Relation::HAS_MANY,
+            'RobotsParts',
+            'id',
+            'robots_id',
+            $options
+        );
+
+        $I->assertEquals(
+            Relation::HAS_MANY,
+            $relation->getType()
+        );
     }
 }

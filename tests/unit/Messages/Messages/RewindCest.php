@@ -16,15 +16,10 @@ use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
 use UnitTester;
 
-/**
- * Class RewindCest
- */
 class RewindCest
 {
     /**
      * Tests Phalcon\Messages\Messages :: rewind()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -32,38 +27,57 @@ class RewindCest
     public function messagesMessagesRewind(UnitTester $I)
     {
         $I->wantToTest('Messages\Messages - rewind()');
+
         $messages = new Messages(
             [
-                new Message('This is a message #1', 'MyField1', 'MyType1', 111, ['My1' => 'Metadata1']),
-                new Message('This is a message #2', 'MyField2', 'MyType2', 222, ['My2' => 'Metadata2']),
+                new Message(
+                    'This is a message #1',
+                    'MyField1',
+                    'MyType1',
+                    111,
+                    [
+                        'My1' => 'Metadata1',
+                    ]
+                ),
+                new Message(
+                    'This is a message #2',
+                    'MyField2',
+                    'MyType2',
+                    222,
+                    [
+                        'My2' => 'Metadata2',
+                    ]
+                ),
             ]
         );
 
         $messages->next();
 
-        $class  = Message::class;
         $actual = $messages->current();
-        $I->assertInstanceOf($class, $actual);
 
-        $expected = 'This is a message #2';
-        $actual   = $actual->__toString();
-        $I->assertEquals($expected, $actual);
+        $I->assertInstanceOf(
+            Message::class,
+            $actual
+        );
+
+        $I->assertEquals(
+            'This is a message #2',
+            $actual->__toString()
+        );
 
         $messages->rewind();
 
-        $class  = Message::class;
         $actual = $messages->current();
-        $I->assertInstanceOf($class, $actual);
 
-        $expected = Message::__set_state(
-            [
-                '_message'  => 'This is a message #1',
-                '_field'    => 'MyField1',
-                '_type'     => 'MyType1',
-                '_code'     => 111,
-                '_metaData' => ['My1' => 'Metadata1']
-            ]
+        $I->assertInstanceOf(
+            Message::class,
+            $actual
         );
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals('This is a message #1', $actual->getMessage());
+        $I->assertEquals('MyField1', $actual->getField());
+        $I->assertEquals('MyType1', $actual->getType());
+        $I->assertEquals(111, $actual->getCode());
+        $I->assertEquals(['My1' => 'Metadata1'], $actual->getMetaData());
     }
 }

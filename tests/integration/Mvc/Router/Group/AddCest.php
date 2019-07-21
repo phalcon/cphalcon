@@ -13,23 +13,52 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Router\Group;
 
 use IntegrationTester;
+use Phalcon\Mvc\Router\Group;
+use Phalcon\Test\Fixtures\Traits\RouterTrait;
 
-/**
- * Class AddCest
- */
 class AddCest
 {
+    use RouterTrait;
+
     /**
      * Tests Phalcon\Mvc\Router\Group :: add()
      *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-06-01
      */
     public function mvcRouterGroupAdd(IntegrationTester $I)
     {
-        $I->wantToTest('Mvc\Router\Group - add()');
-        $I->skipTest('Need implementation');
+        $I->wantToTest('Mvc\Router\ - add()');
+
+        $router = $this->getRouter(false);
+
+        $group = new Group();
+
+        $group->add(
+            '/docs/index',
+            [
+                'controller' => 'documentation11',
+                'action'     => 'index',
+            ]
+        );
+
+        $router->mount($group);
+
+        $router->handle('/docs/index');
+
+        $I->assertEquals(
+            'documentation11',
+            $router->getControllerName()
+        );
+
+        $I->assertEquals(
+            'index',
+            $router->getActionName()
+        );
+
+        $I->assertEquals(
+            [],
+            $router->getParams()
+        );
     }
 }

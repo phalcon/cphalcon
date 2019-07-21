@@ -11,6 +11,8 @@
 
 namespace Phalcon\Test\Unit\Annotations;
 
+use Phalcon\Annotations\Annotation;
+use Phalcon\Annotations\Collection;
 use Phalcon\Annotations\Reader;
 use Phalcon\Annotations\Reflection;
 use UnitTester;
@@ -18,42 +20,11 @@ use UnitTester;
 class ReflectionCest
 {
     /**
-     * Tests creating empty Reflection object
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2016-01-26
+     * executed before each test
      */
-    public function testEmptyReflection(UnitTester $I)
+    protected function _before(UnitTester $I)
     {
-        $reflection = new Reflection();
-
-        $I->assertEquals(null, $reflection->getClassAnnotations());
-        $I->assertEquals(null, $reflection->getMethodsAnnotations());
-        $I->assertEquals(null, $reflection->getPropertiesAnnotations());
-    }
-
-    /**
-     * Tests parsing a real class
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2016-01-26
-     */
-    public function testParsingARealClass(UnitTester $I)
-    {
-        $reader     = new Reader();
-        $reflection = new Reflection($reader->parse('TestClass'));
-
-        $classAnnotations = $reflection->getClassAnnotations();
-        $I->assertEquals('Phalcon\Annotations\Collection', get_class($classAnnotations));
-
-        $number = 0;
-        foreach ($classAnnotations as $annotation) {
-            $I->assertEquals('Phalcon\Annotations\Annotation', get_class($annotation));
-            $number++;
-        }
-
-        $I->assertEquals(9, $number);
-        $I->assertCount(9, $classAnnotations);
+        require_once dataDir('fixtures/Annotations/TestClass.php');
     }
 
     /**
@@ -64,30 +35,44 @@ class ReflectionCest
      */
     public function testClassAnnotations(UnitTester $I)
     {
-        $reader     = new Reader();
-        $reflection = new Reflection($reader->parse('TestClass'));
+        $reader = new Reader();
+
+        $reflection = new Reflection(
+            $reader->parse('TestClass')
+        );
 
         $methodsAnnotations = $reflection->getMethodsAnnotations();
 
-        $I->assertEquals('array', gettype($methodsAnnotations));
-        $I->assertEquals('Phalcon\Annotations\Collection', get_class($methodsAnnotations['testMethod1']));
+        $I->assertInternalType('array', $methodsAnnotations);
+
+        $I->assertInstanceOf(
+            Collection::class,
+            $methodsAnnotations['testMethod1']
+        );
 
         $total = 0;
+
         foreach ($methodsAnnotations as $method => $annotations) {
-            $I->assertEquals('string', gettype($method));
+            $I->assertInternalType('string', $method);
 
             $number = 0;
+
             foreach ($annotations as $annotation) {
-                $I->assertEquals('Phalcon\Annotations\Annotation', get_class($annotation));
+                $I->assertInstanceOf(
+                    Annotation::class,
+                    $annotation
+                );
+
                 $number++;
                 $total++;
             }
+
             $I->assertGreaterThan(0, $number);
         }
 
         $I->assertEquals(14, $total);
 
-        /** @var \Phalcon\Annotations\Collection $annotations */
+        /** @var Collection $annotations */
         $annotations = $methodsAnnotations['testMethod1'];
 
         $I->assertTrue($annotations->has('Simple'));
@@ -108,16 +93,28 @@ class ReflectionCest
         $I->assertFalse($annotation->hasArgument('none'));
 
         $propertiesAnnotations = $reflection->getPropertiesAnnotations();
-        $I->assertTrue(is_array($propertiesAnnotations));
-        $I->assertEquals('Phalcon\Annotations\Collection', get_class($propertiesAnnotations['testProp1']));
+        $I->assertInternalType('array', $propertiesAnnotations);
+        $I->assertInstanceOf(
+            Collection::class,
+            $propertiesAnnotations['testProp1']
+        );
 
         $total = 0;
+
         foreach ($propertiesAnnotations as $property => $annotations) {
-            $I->assertEquals('Phalcon\Annotations\Collection', get_class($propertiesAnnotations['testProp1']));
+            $I->assertInstanceOf(
+                Collection::class,
+                $propertiesAnnotations['testProp1']
+            );
 
             $number = 0;
+
             foreach ($annotations as $annotation) {
-                $I->assertEquals('Phalcon\Annotations\Annotation', get_class($annotation));
+                $I->assertInstanceOf(
+                    Annotation::class,
+                    $annotation
+                );
+
                 $number++;
                 $total++;
             }
@@ -126,13 +123,5 @@ class ReflectionCest
         }
 
         $I->assertEquals(10, $total);
-    }
-
-    /**
-     * executed before each test
-     */
-    protected function _before(UnitTester $I)
-    {
-        require_once dataFolder('fixtures/Annotations/TestClass.php');
     }
 }

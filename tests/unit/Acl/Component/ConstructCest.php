@@ -13,19 +13,14 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Acl\Component;
 
 use BadMethodCallException;
-use Phalcon\Acl\Exception;
 use Phalcon\Acl\Component;
+use Phalcon\Acl\Exception;
 use UnitTester;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     /**
      * Tests Phalcon\Acl\Component :: __construct()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -33,16 +28,17 @@ class ConstructCest
     public function aclComponentConstruct(UnitTester $I)
     {
         $I->wantToTest('Acl\Component - __construct()');
-        $actual = new Component('Customers');
 
-        $class = Component::class;
-        $I->assertInstanceOf($class, $actual);
+        $component = new Component('Customers');
+
+        $I->assertInstanceOf(
+            Component::class,
+            $component
+        );
     }
 
     /**
      * Tests Phalcon\Acl\Component :: __construct() - wildcard
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -50,6 +46,7 @@ class ConstructCest
     public function aclComponentConstructWithWildcardThrowsException(UnitTester $I)
     {
         $I->wantToTest('Acl\Component - __construct() - exception with "*"');
+
         $I->expectThrowable(
             new Exception("Component name cannot be '*'"),
             function () {
@@ -61,14 +58,13 @@ class ConstructCest
     /**
      * Tests Phalcon\Acl\Component :: __construct() - without name
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function aclComponentConstructWithoutName(UnitTester $I)
     {
         $I->wantToTest('Acl\Component - __construct() - exception parameters');
+
         $I->expectThrowable(
             new BadMethodCallException('Wrong number of parameters'),
             function () {

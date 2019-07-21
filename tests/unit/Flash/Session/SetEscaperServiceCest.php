@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Flash\Session;
 
 use UnitTester;
 
-/**
- * Class SetEscaperServiceCest
- */
 class SetEscaperServiceCest
 {
     /**
      * Tests Phalcon\Flash\Session :: setEscaperService()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class SetEscaperServiceCest
     public function flashSessionSetEscaperService(UnitTester $I)
     {
         $I->wantToTest('Flash\Session - setEscaperService()');
+
         $I->skipTest('Need implementation');
     }
 }

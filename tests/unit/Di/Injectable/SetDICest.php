@@ -14,22 +14,18 @@ namespace Phalcon\Test\Unit\Di\Injectable;
 
 use UnitTester;
 
-/**
- * Class SetDICest
- */
 class SetDICest
 {
     /**
-     * Tests Phalcon\Di\Injectable :: setDI()
-     *
-     * @param UnitTester $I
+     * Unit Tests Phalcon\Di\Injectable :: setDI()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2019-06-13
      */
     public function diInjectableSetDI(UnitTester $I)
     {
         $I->wantToTest('Di\Injectable - setDI()');
+
         $I->skipTest('Need implementation');
     }
 }

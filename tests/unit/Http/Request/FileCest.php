@@ -12,9 +12,8 @@
 namespace Phalcon\Test\Unit\Http\Request;
 
 use Phalcon\Http\Request\File;
-use Phalcon\Test\Module\UnitTest;
 use UnitTester;
-use function dataFolder;
+use function dataDir;
 
 class FileCest
 {
@@ -29,14 +28,14 @@ class FileCest
     public function testRealType(UnitTester $I)
     {
         if (!extension_loaded('fileinfo')) {
-            $scenario->skip('Warning: fileinfo extension is not loaded');
+            $I->skipTest('Warning: fileinfo extension is not loaded');
         }
 
         $file = new File(
             [
                 'name'     => 'test',
                 'type'     => 'text/plain',
-                'tmp_name' => dataFolder('/assets/images/phalconphp.jpg'),
+                'tmp_name' => dataDir('/assets/images/phalconphp.jpg'),
                 'size'     => 1,
                 'error'    => 0,
             ]

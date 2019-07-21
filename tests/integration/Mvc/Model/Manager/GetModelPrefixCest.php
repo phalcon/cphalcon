@@ -13,23 +13,46 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Model\Manager;
 
 use IntegrationTester;
+use Phalcon\Mvc\Model\Manager;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-/**
- * Class GetModelPrefixCest
- */
 class GetModelPrefixCest
 {
+    use DiTrait;
+
+    public function _before(IntegrationTester $I)
+    {
+        $this->setNewFactoryDefault();
+        $this->setDiMysql();
+    }
+
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
+    }
+
     /**
      * Tests Phalcon\Mvc\Model\Manager :: getModelPrefix()
      *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-06-04
      */
     public function mvcModelManagerGetModelPrefix(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Model\Manager - getModelPrefix()');
-        $I->skipTest('Need implementation');
+
+        $manager = new Manager();
+
+        $I->assertEquals(
+            '',
+            $manager->getModelPrefix()
+        );
+
+        $manager->setModelPrefix('wp_');
+
+        $I->assertEquals(
+            'wp_',
+            $manager->getModelPrefix()
+        );
     }
 }

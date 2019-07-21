@@ -23,8 +23,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Di\Exception
- *
  * Exceptions thrown in Phalcon\Di will use this class
  */
 ZEPHIR_INIT_CLASS(Phalcon_Di_Exception) {

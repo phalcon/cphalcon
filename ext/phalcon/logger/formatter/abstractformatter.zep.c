@@ -17,6 +17,7 @@
 #include "kernel/concat.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
+#include "kernel/object.h"
 
 
 /**
@@ -48,20 +49,21 @@ PHP_METHOD(Phalcon_Logger_Formatter_AbstractFormatter, interpolate) {
 	zend_string *_4$$3;
 	zend_ulong _3$$3;
 	zend_bool _0;
+	zval replace;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *message_param = NULL, *context = NULL, context_sub, __$null, replace, key, value, *_1$$3, _2$$3, _5$$4, _6$$5;
+	zval *message_param = NULL, *context = NULL, context_sub, __$null, key, value, *_1$$3, _2$$3, _5$$4, _6$$5;
 	zval message;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&message);
 	ZVAL_UNDEF(&context_sub);
 	ZVAL_NULL(&__$null);
-	ZVAL_UNDEF(&replace);
 	ZVAL_UNDEF(&key);
 	ZVAL_UNDEF(&value);
 	ZVAL_UNDEF(&_2$$3);
 	ZVAL_UNDEF(&_5$$4);
 	ZVAL_UNDEF(&_6$$5);
+	ZVAL_UNDEF(&replace);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &message_param, &context);
@@ -80,7 +82,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_AbstractFormatter, interpolate) {
 	if (_0) {
 		ZEPHIR_INIT_VAR(&replace);
 		array_init(&replace);
-		zephir_is_iterable(context, 0, "phalcon/logger/formatter/abstractformatter.zep", 33);
+		zephir_is_iterable(context, 0, "phalcon/Logger/Formatter/AbstractFormatter.zep", 36);
 		if (Z_TYPE_P(context) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(context), _3$$3, _4$$3, _1$$3)
 			{
@@ -118,7 +120,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_AbstractFormatter, interpolate) {
 		}
 		ZEPHIR_INIT_NVAR(&value);
 		ZEPHIR_INIT_NVAR(&key);
-		ZEPHIR_RETURN_CALL_FUNCTION("strtr", NULL, 48, &message, &replace);
+		ZEPHIR_RETURN_CALL_FUNCTION("strtr", NULL, 3, &message, &replace);
 		zephir_check_call_status();
 		RETURN_MM();
 	}

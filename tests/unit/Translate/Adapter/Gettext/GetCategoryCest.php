@@ -12,17 +12,18 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Translate\Adapter\Gettext;
 
+use Phalcon\Test\Fixtures\Traits\TranslateGettextTrait;
+use Phalcon\Translate\Adapter\Gettext;
+use Phalcon\Translate\InterpolatorFactory;
 use UnitTester;
+use const LC_MESSAGES;
 
-/**
- * Class GetCategoryCest
- */
 class GetCategoryCest
 {
+    use TranslateGettextTrait;
+
     /**
      * Tests Phalcon\Translate\Adapter\Gettext :: getCategory()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +31,13 @@ class GetCategoryCest
     public function translateAdapterGettextGetCategory(UnitTester $I)
     {
         $I->wantToTest('Translate\Adapter\Gettext - getCategory()');
-        $I->skipTest('Need implementation');
+
+        $params     = $this->getGettextConfig();
+        $translator = new Gettext(new InterpolatorFactory(), $params);
+
+        $I->assertEquals(
+            LC_MESSAGES,
+            $translator->getCategory()
+        );
     }
 }

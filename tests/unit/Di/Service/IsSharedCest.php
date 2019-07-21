@@ -12,24 +12,45 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Di\Service;
 
+use Codeception\Example;
+use Phalcon\Di\Service;
 use UnitTester;
 
-/**
- * Class IsSharedCest
- */
 class IsSharedCest
 {
     /**
      * Tests Phalcon\Di\Service :: isShared()
      *
-     * @param UnitTester $I
+     * @author       Sid Roberts <https://github.com/SidRoberts>
+     * @since        2019-06-12
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @dataProvider provider
      */
-    public function diServiceIsShared(UnitTester $I)
+    public function diServiceIsShared(UnitTester $I, Example $example)
     {
         $I->wantToTest('Di\Service - isShared()');
-        $I->skipTest('Need implementation');
+
+        $I->assertEquals(
+            $example['expected'],
+            $example['service']->isShared()
+        );
+    }
+
+    private function provider(): array
+    {
+        return [
+            [
+                'service'  => new Service('some-service'),
+                'expected' => false,
+            ],
+            [
+                'service'  => new Service('some-service', true),
+                'expected' => true,
+            ],
+            [
+                'service'  => new Service('some-service', false),
+                'expected' => false,
+            ],
+        ];
     }
 }

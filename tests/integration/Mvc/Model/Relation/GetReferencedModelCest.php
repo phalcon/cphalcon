@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Model\Relation;
 
 use IntegrationTester;
+use Phalcon\Mvc\Model\Relation;
 
 /**
  * Class GetReferencedModelCest
@@ -22,14 +23,27 @@ class GetReferencedModelCest
     /**
      * Tests Phalcon\Mvc\Model\Relation :: getReferencedModel()
      *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-04-18
      */
     public function mvcModelRelationGetReferencedModel(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Model\Relation - getReferencedModel()');
-        $I->skipTest('Need implementation');
+
+        $relation = new Relation(
+            Relation::HAS_MANY,
+            'RobotsParts',
+            'id',
+            'robots_id',
+            [
+                'reusable' => true, // cache related data
+                'alias'    => 'mechanicalParts',
+            ]
+        );
+
+        $I->assertEquals(
+            'RobotsParts',
+            $relation->getReferencedModel()
+        );
     }
 }

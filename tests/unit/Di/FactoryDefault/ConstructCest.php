@@ -12,81 +12,176 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Di\FactoryDefault;
 
+use Codeception\Example;
+use Phalcon\Annotations\Adapter\Memory as MemoryAnnotations;
+use Phalcon\Assets\Manager as ManagerAssets;
+use Phalcon\Crypt;
 use Phalcon\Di\FactoryDefault;
+use Phalcon\Escaper;
+use Phalcon\Events\Manager as ManagerEvents;
+use Phalcon\Filter\Filter;
+use Phalcon\Flash\Direct;
+use Phalcon\Flash\Session;
+use Phalcon\Http\Request;
+use Phalcon\Http\Response;
+use Phalcon\Http\Response\Cookies;
+use Phalcon\Mvc\Dispatcher;
+use Phalcon\Mvc\Model\Manager as ManagerModel;
+use Phalcon\Mvc\Model\MetaData\Memory;
+use Phalcon\Mvc\Model\Transaction\Manager;
+use Phalcon\Mvc\Router;
+use Phalcon\Security;
+use Phalcon\Tag;
+use Phalcon\Url;
 use UnitTester;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     /**
      * Tests Phalcon\Di\FactoryDefault :: __construct()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function diFactorydefaultConstruct(UnitTester $I)
+    public function diFactoryDefaultConstruct(UnitTester $I)
     {
         $I->wantToTest('Di\FactoryDefault - __construct()');
+
         $container = new FactoryDefault();
         $services  = $this->getServices();
 
-        $expected = count($services);
-        $actual   = count($container->getServices());
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            count($services),
+            count($container->getServices())
+        );
     }
 
     private function getServices(): array
     {
         return [
-            'annotations'        => 'Phalcon\Annotations\Adapter\Memory',
-            'assets'             => 'Phalcon\Assets\Manager',
-            'crypt'              => 'Phalcon\Crypt',
-            'cookies'            => 'Phalcon\Http\Response\Cookies',
-            'dispatcher'         => 'Phalcon\Mvc\Dispatcher',
-            'escaper'            => 'Phalcon\Escaper',
-            'eventsManager'      => 'Phalcon\Events\Manager',
-            'flash'              => 'Phalcon\Flash\Direct',
-            'flashSession'       => 'Phalcon\Flash\Session',
-            'filter'             => 'Phalcon\Filter\FilterLocator',
-//            'filter'             => 'Phalcon\Filter',
-            'modelsManager'      => 'Phalcon\Mvc\Model\Manager',
-            'modelsMetadata'     => 'Phalcon\Mvc\Model\MetaData\Memory',
-            'request'            => 'Phalcon\Http\Request',
-            'response'           => 'Phalcon\Http\Response',
-            'router'             => 'Phalcon\Mvc\Router',
-            'security'           => 'Phalcon\Security',
-            'tag'                => 'Phalcon\Tag',
-            'transactionManager' => 'Phalcon\Mvc\Model\Transaction\Manager',
-            'url'                => 'Phalcon\Url',
+            [
+                'service' => 'annotations',
+                'class'   => MemoryAnnotations::class,
+            ],
+
+            [
+                'service' => 'assets',
+                'class'   => ManagerAssets::class,
+            ],
+
+            [
+                'service' => 'crypt',
+                'class'   => Crypt::class,
+            ],
+
+            [
+                'service' => 'cookies',
+                'class'   => Cookies::class,
+            ],
+
+            [
+                'service' => 'dispatcher',
+                'class'   => Dispatcher::class,
+            ],
+
+            [
+                'service' => 'escaper',
+                'class'   => Escaper::class,
+            ],
+
+            [
+                'service' => 'eventsManager',
+                'class'   => ManagerEvents::class,
+            ],
+
+            [
+                'service' => 'flash',
+                'class'   => Direct::class,
+            ],
+
+            [
+                'service' => 'flashSession',
+                'class'   => Session::class,
+            ],
+
+            [
+                'service' => 'filter',
+                'class'   => Filter::class,
+            ],
+
+            [
+                'service' => 'modelsManager',
+                'class'   => ManagerModel::class,
+            ],
+
+            [
+                'service' => 'modelsMetadata',
+                'class'   => Memory::class,
+            ],
+
+            [
+                'service' => 'request',
+                'class'   => Request::class,
+            ],
+
+            [
+                'service' => 'response',
+                'class'   => Response::class,
+            ],
+
+            [
+                'service' => 'router',
+                'class'   => Router::class,
+            ],
+
+            [
+                'service' => 'security',
+                'class'   => Security::class,
+            ],
+
+            [
+                'service' => 'tag',
+                'class'   => Tag::class,
+            ],
+
+            [
+                'service' => 'transactionManager',
+                'class'   => Manager::class,
+            ],
+
+            [
+                'service' => 'url',
+                'class'   => Url::class,
+            ],
         ];
     }
 
     /**
      * Tests Phalcon\Di\FactoryDefault :: __construct() - Check services
      *
-     * @param UnitTester $I
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @dataProvider getServices
      */
-    public function diFactoryDefaultConstructServices(UnitTester $I)
+    public function diFactoryDefaultConstructServices(UnitTester $I, Example $example)
     {
         $I->wantToTest('Di\FactoryDefault - __construct() - Check services');
-        $container = new FactoryDefault();
-        $services  = $this->getServices();
 
-        foreach ($services as $service => $class) {
+        $container = new FactoryDefault();
+
+        if ('sessionBag' === $example['service']) {
+            $params = ['someName'];
+        } else {
             $params = null;
-            if ('sessionBag' === $service) {
-                $params = ['someName'];
-            }
-            $expected = get_class($container->get($service, $params));
-            $actual   = $class;
-            $I->assertEquals($expected, $actual);
         }
+
+        $I->assertInstanceOf(
+            $example['class'],
+            $container->get(
+                $example['service'],
+                $params
+            )
+        );
     }
 }

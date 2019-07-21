@@ -26,15 +26,15 @@ class SetOptionCest
     /**
      * Tests Phalcon\Validation\Validator\Date :: setOption()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorDateSetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Date - setOption()');
+
         $validator = new Date();
+
         $this->checkSetOption($I, $validator);
     }
 }

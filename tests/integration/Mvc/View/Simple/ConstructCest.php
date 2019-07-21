@@ -13,6 +13,8 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\View\Simple;
 
 use IntegrationTester;
+use Phalcon\Mvc\View\Simple;
+use Phalcon\Mvc\ViewBaseInterface;
 
 /**
  * Class ConstructCest
@@ -22,14 +24,14 @@ class ConstructCest
     /**
      * Tests Phalcon\Mvc\View\Simple :: __construct()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function mvcViewSimpleConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\View\Simple - __construct()');
-        $I->skipTest('Need implementation');
+
+        $view = new Simple();
+        $I->assertInstanceOf(ViewBaseInterface::class, $view);
     }
 }

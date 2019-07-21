@@ -2,13 +2,11 @@
 
 namespace Phalcon\Test\Integration\Mvc\Model;
 
+use function cacheDir;
 use IntegrationTester;
-use Phalcon\Cache\Backend\File;
-use Phalcon\Cache\Frontend\Data;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Cacheable\Parts;
 use Phalcon\Test\Models\Cacheable\Robots;
-use function cacheFolder;
 
 class ModelsResultsetCacheStaticCest
 {
@@ -17,22 +15,22 @@ class ModelsResultsetCacheStaticCest
     public function _before(IntegrationTester $I)
     {
         $this->setNewFactoryDefault();
-        $I->cleanDir(cacheFolder());
+
+        $I->cleanDir(
+            cacheDir()
+        );
+    }
+
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
     }
 
     public function testOverrideStaticCache(IntegrationTester $I)
     {
         $this->setDiMysql();
 
-        $this->container['modelsCache'] = function () {
-            $frontCache = new Data();
-            return new File(
-                $frontCache,
-                [
-                    'cacheDir' => cacheFolder(),
-                ]
-            );
-        };
+        $this->getAndSetModelsCacheStream();
 
         $robot = Robots::findFirst(2);
         $I->assertInstanceOf(Robots::class, $robot);
@@ -56,10 +54,16 @@ class ModelsResultsetCacheStaticCest
         $I->assertInstanceOf(Robots::class, $robot);
 
         $robotParts = $robot->getRobotsParts();
-        $I->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $robotParts);
+        $I->assertInstanceOf(
+            \Phalcon\Mvc\Model\Resultset\Simple::class,
+            $robotParts
+        );
 
         $robotParts = $robot->getRobotsParts();
-        $I->assertInstanceOf('Phalcon\Mvc\Model\Resultset\Simple', $robotParts);
+        $I->assertInstanceOf(
+            \Phalcon\Mvc\Model\Resultset\Simple::class,
+            $robotParts
+        );
 
         $part = $robotParts[0]->getParts();
         $I->assertInstanceOf(Parts::class, $part);

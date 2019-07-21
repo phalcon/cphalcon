@@ -16,15 +16,10 @@ use Phalcon\Assets\Asset;
 use Phalcon\Assets\Collection;
 use UnitTester;
 
-/**
- * Class HasCest
- */
 class HasCest
 {
     /**
      * Tests Phalcon\Assets\Collection :: has()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -32,6 +27,7 @@ class HasCest
     public function assetsCollectionHas(UnitTester $I)
     {
         $I->wantToTest('Assets\Collection - has()');
+
         $collection = new Collection();
 
         $asset1 = new Asset('js', 'js/jquery.js');
@@ -39,9 +35,12 @@ class HasCest
 
         $collection->add($asset1);
 
-        $actual = $collection->has($asset1);
-        $I->assertTrue($actual);
-        $actual = $collection->has($asset2);
-        $I->assertFalse($actual);
+        $I->assertTrue(
+            $collection->has($asset1)
+        );
+
+        $I->assertFalse(
+            $collection->has($asset2)
+        );
     }
 }

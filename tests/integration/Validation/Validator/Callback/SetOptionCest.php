@@ -26,15 +26,15 @@ class SetOptionCest
     /**
      * Tests Phalcon\Validation\Validator\Callback :: setOption()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorCallbackSetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Callback - setOption()');
+
         $validator = new Callback();
+
         $this->checkSetOption($I, $validator);
     }
 }

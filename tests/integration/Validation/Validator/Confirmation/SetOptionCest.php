@@ -26,15 +26,15 @@ class SetOptionCest
     /**
      * Tests Phalcon\Validation\Validator\Confirmation :: setOption()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorConfirmationSetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Confirmation - setOption()');
+
         $validator = new Confirmation();
+
         $this->checkSetOption($I, $validator);
     }
 }

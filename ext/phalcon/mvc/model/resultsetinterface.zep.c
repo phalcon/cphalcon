@@ -34,9 +34,29 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_ResultsetInterface) {
 }
 
 /**
- * Returns the internal type of data retrieval that the resultset is using
+ * Deletes every record in the resultset
  */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, getType);
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, delete);
+
+/**
+ * Filters a resultset returning only those the developer requires
+ *
+ *```php
+ * $filtered = $robots->filter(
+ *     function ($robot) {
+ *         if ($robot->id < 3) {
+ *             return $robot;
+ *         }
+ *     }
+ * );
+ *```
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, filter);
+
+/**
+ * Returns the associated cache for the resultset
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, getCache);
 
 /**
  * Get first row in the resultset
@@ -44,14 +64,24 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, getType);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, getFirst);
 
 /**
+ * Returns the current hydration mode
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, getHydrateMode);
+
+/**
  * Get last row in the resultset
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, getLast);
 
 /**
- * Set if the resultset is fresh or an old one cached
+ * Returns the error messages produced by a batch operation
  */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, setIsFresh);
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, getMessages);
+
+/**
+ * Returns the internal type of data retrieval that the resultset is using
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, getType);
 
 /**
  * Tell if the resultset if fresh or an old one cached
@@ -59,9 +89,14 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, setIsFresh);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, isFresh);
 
 /**
- * Returns the associated cache for the resultset
+ * Sets the hydration mode in the resultset
  */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, getCache);
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, setHydrateMode);
+
+/**
+ * Set if the resultset is fresh or an old one cached
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, setIsFresh);
 
 /**
  * Returns a complete resultset as an array, if the resultset has a big number of rows
@@ -70,46 +105,9 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, getCache);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, toArray);
 
 /**
- * Sets the hydration mode in the resultset
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, setHydrateMode);
-
-/**
- * Returns the current hydration mode
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, getHydrateMode);
-
-/**
- * Returns the error messages produced by a batch operation
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, getMessages);
-
-/**
  * Updates every record in the resultset
  *
  * @param array data
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, update);
-
-/**
- * Deletes every record in the resultset
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, delete);
-
-/**
- * Filters a resultset returning only those the developer requires
- *
- *<code>
- * $filtered = $robots->filter(
- *     function ($robot) {
- *         if ($robot->id < 3) {
- *             return $robot;
- *         }
- *     }
- * );
- *</code>
- *
- * @return \Phalcon\Mvc\Model[]
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ResultsetInterface, filter);
 

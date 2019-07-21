@@ -17,17 +17,11 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionTrait;
 use SessionHandlerInterface;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     use DiTrait;
     use SessionTrait;
 
-    /**
-     * @param IntegrationTester $I
-     */
     public function _before(IntegrationTester $I)
     {
         $this->newFactoryDefault();
@@ -36,16 +30,18 @@ class ConstructCest
     /**
      * Tests Phalcon\Session\Adapter\Libmemcached :: __construct()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function sessionAdapterLibmemcachedConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Session\Adapter\Libmemcached - __construct()');
+
         $adapter = $this->getSessionLibmemcached();
-        $class   = SessionHandlerInterface::class;
-        $I->assertInstanceOf($class, $adapter);
+
+        $I->assertInstanceOf(
+            SessionHandlerInterface::class,
+            $adapter
+        );
     }
 }

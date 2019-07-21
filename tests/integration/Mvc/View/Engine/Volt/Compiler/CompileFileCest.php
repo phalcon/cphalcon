@@ -12,18 +12,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Mvc\View\Engine\Volt\Compiler;
 
+use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
 
-/**
- * Class CompileFileCest
- */
 class CompileFileCest
 {
     /**
      * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: compileFile()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-01-17
@@ -31,46 +27,70 @@ class CompileFileCest
     public function mvcViewEngineVoltCompilerCompileFile(IntegrationTester $I)
     {
         $I->wantToTest("Mvc\View\Engine\Volt\Compiler - compileFile()");
-        $viewFile    = dataFolder('fixtures/views/layouts/compiler.volt');
+
+        $viewFile    = dataDir('fixtures/views/layouts/compiler.volt');
         $compileFile = $viewFile . '.php';
-        $expected    = '<?php if ($some_eval) { ?>
+
+        $expected = '<?php if ($some_eval) { ?>
 Clearly, the song is: <?= $this->getContent() ?>.
 <?php } ?>';
 
         $volt = new Compiler();
+
         $volt->compileFile($viewFile, $compileFile);
 
-        $actual = file_get_contents($compileFile);
-        $I->assertEquals($expected, $actual);
+        $I->openFile($compileFile);
+
+        $I->seeFileContentsEqual($expected);
+
         $I->safeDeleteFile($compileFile);
     }
 
     /**
      * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: compileFile()
      *
-     * @param IntegrationTester $I
-     *
      * @issue https://github.com/phalcon/cphalcon/issues/13242
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
+     *
+     * @dataProvider mvcViewEngineVoltCompilerCompileFileDefaultFilterProvider
      */
-    public function mvcViewEngineVoltCompilerCompileFileDefaultFilter(IntegrationTester $I)
+    public function mvcViewEngineVoltCompilerCompileFileDefaultFilter(IntegrationTester $I, Example $example)
     {
-        $examples = [
-            'default'             => "<?= (empty(\$robot->price) ? (10.0) : (\$robot->price)) ?>\n",
-            'default_json_encode' => "<?= json_encode((empty(\$preparedParams) ? ([]) : (\$preparedParams))) ?>\n",
+        $volt = new Compiler();
+
+        $viewFile = sprintf(
+            '%sfixtures/views/filters/%s.volt',
+            dataDir(),
+            $example['view']
+        );
+
+        $compiledFile = $viewFile . '.php';
+
+        $volt->compileFile($viewFile, $compiledFile);
+
+        $I->openFile($compiledFile);
+
+        $I->seeFileContentsEqual(
+            $example['expected']
+        );
+
+        $I->safeDeleteFile($compiledFile);
+    }
+
+    private function mvcViewEngineVoltCompilerCompileFileDefaultFilterProvider(): array
+    {
+        return [
+            [
+                'view'     => 'default',
+                'expected' => "<?= (empty(\$robot->price) ? (10.0) : (\$robot->price)) ?>\n",
+            ],
+
+            [
+                'view'     => 'default_json_encode',
+                'expected' => "<?= json_encode((empty(\$preparedParams) ? ([]) : (\$preparedParams))) ?>\n",
+            ],
         ];
-
-        foreach ($examples as $view => $expected) {
-            $volt         = new Compiler();
-            $viewFile     = sprintf('%sfixtures/views/filters/%s.volt', dataFolder(), $view);
-            $compiledFile = $viewFile . '.php';
-            $volt->compileFile($viewFile, $compiledFile);
-
-            $actual = file_get_contents($compiledFile);
-            $I->assertEquals($expected, $actual);
-            $I->safeDeleteFile($compiledFile);
-        }
     }
 }

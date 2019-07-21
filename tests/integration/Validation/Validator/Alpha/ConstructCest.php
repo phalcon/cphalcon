@@ -26,15 +26,15 @@ class ConstructCest
     /**
      * Tests Phalcon\Validation\Validator\Alpha :: __construct()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorAlphaConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Alpha - __construct()');
+
         $validator = new Alpha();
+
         $this->checkConstruct($I, $validator);
     }
 }

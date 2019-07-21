@@ -15,31 +15,28 @@ namespace Phalcon\Test\Unit\Escaper;
 use Phalcon\Escaper;
 use UnitTester;
 
-/**
- * Class EscapeJsCest
- */
 class EscapeJsCest
 {
     /**
      * Tests Phalcon\Escaper :: escapeJs()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-16
      */
     public function escaperEscapeJs(UnitTester $I)
     {
-        $I->wantToTest("Escaper - escapeJs()");
+        $I->wantToTest('Escaper - escapeJs()');
+
         $escaper = new Escaper();
-        $source  = "function createtoc () {"
+
+        $source = 'function createtoc () {'
             . "var h2s = document.getElementsByTagName('H2');"
             . "l = toc.appendChild(document.createElement('ol'));"
-            . "for (var i=0; i<h2s.length; i++) {"
-            . "var h2 = h2s[i].firstChild.innerHTML;"
+            . 'for (var i=0; i<h2s.length; i++) {'
+            . 'var h2 = h2s[i].firstChild.innerHTML;'
             . "var h = document.createElement('li');"
-            . "l.appendChild(h);"
-            . "}}";
+            . 'l.appendChild(h);'
+            . '}}';
 
         $expected = 'function createtoc () {'
             . 'var h2s \x3d document.getElementsByTagName(\x27H2\x27);'
@@ -49,7 +46,10 @@ class EscapeJsCest
             . 'var h \x3d document.createElement(\x27li\x27);'
             . 'l.appendChild(h);'
             . '}}';
-        $actual   = $escaper->escapeJs($source);
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $escaper->escapeJs($source)
+        );
     }
 }

@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Tag;
 
 use UnitTester;
 
-/**
- * Class GetEscaperServiceCest
- */
 class GetEscaperServiceCest
 {
     /**
      * Tests Phalcon\Tag :: getEscaperService()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetEscaperServiceCest
     public function tagGetEscaperService(UnitTester $I)
     {
         $I->wantToTest('Tag - getEscaperService()');
+
         $I->skipTest('Need implementation');
     }
 }

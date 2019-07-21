@@ -26,15 +26,15 @@ class GetOptionCest
     /**
      * Tests Phalcon\Validation\Validator\Between :: getOption()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorBetweenGetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Between - getOption()');
+
         $validator = new Between();
+
         $this->checkGetOption($I, $validator);
     }
 }

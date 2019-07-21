@@ -13,23 +13,30 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Model\Row;
 
 use IntegrationTester;
+use Phalcon\Mvc\Model\Row;
 
-/**
- * Class OffsetExistsCest
- */
 class OffsetExistsCest
 {
     /**
      * Tests Phalcon\Mvc\Model\Row :: offsetExists()
      *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-06-01
      */
     public function mvcModelRowOffsetExists(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Model\Row - offsetExists()');
-        $I->skipTest('Need implementation');
+
+        $row = new Row();
+
+        $I->assertFalse(
+            isset($row['estado'])
+        );
+
+        $row->writeAttribute('estado', 'A');
+
+        $I->assertTrue(
+            isset($row['estado'])
+        );
     }
 }

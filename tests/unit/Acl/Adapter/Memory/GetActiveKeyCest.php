@@ -13,19 +13,14 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
 
 use Phalcon\Acl\Adapter\Memory;
-use Phalcon\Acl\Role;
 use Phalcon\Acl\Component;
+use Phalcon\Acl\Role;
 use UnitTester;
 
-/**
- * Class GetActiveKeyCest
- */
 class GetActiveKeyCest
 {
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: getActiveKey()
-     *
-     * @param UnitTester $I
      *
      * @author  Wojciech Slawski <jurigag@gmail.com>
      * @since   2017-01-13
@@ -33,15 +28,27 @@ class GetActiveKeyCest
     public function aclAdapterMemoryGetActiveKey(UnitTester $I)
     {
         $I->wantToTest('Acl\Adapter\Memory - getActiveKey()');
+
         $acl = new Memory();
-        $acl->addRole(new Role('Guests'));
-        $acl->addComponent(new Component('Post'), ['index', 'update', 'create']);
+
+        $acl->addRole(
+            new Role('Guests')
+        );
+
+        $acl->addComponent(
+            new Component('Post'),
+            ['index', 'update', 'create']
+        );
 
         $acl->allow('Guests', 'Post', 'create');
-        $I->assertTrue($acl->isAllowed('Guests', 'Post', 'create'));
 
-        $expected = 'Guests!Post!create';
-        $actual   = $acl->getActiveKey();
-        $I->assertEquals($expected, $actual);
+        $I->assertTrue(
+            $acl->isAllowed('Guests', 'Post', 'create')
+        );
+
+        $I->assertEquals(
+            'Guests!Post!create',
+            $acl->getActiveKey()
+        );
     }
 }

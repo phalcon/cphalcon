@@ -14,15 +14,10 @@ namespace Phalcon\Test\Cli\Cli\Task;
 
 use CliTester;
 
-/**
- * Class UnderscoreGetCest
- */
 class UnderscoreGetCest
 {
     /**
      * Tests Phalcon\Cli\Task :: __get()
-     *
-     * @param CliTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class UnderscoreGetCest
     public function cliTaskUnderscoreGet(CliTester $I)
     {
         $I->wantToTest('Cli\Task - __get()');
+
         $I->skipTest('Need implementation');
     }
 }

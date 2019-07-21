@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Model\Relation;
 
 use IntegrationTester;
+use Phalcon\Mvc\Model\Relation;
 
 /**
  * Class GetFieldsCest
@@ -22,14 +23,60 @@ class GetFieldsCest
     /**
      * Tests Phalcon\Mvc\Model\Relation :: getFields()
      *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-04-18
      */
-    public function mvcModelRelationGetFields(IntegrationTester $I)
+    public function mvcModelRelationGetFieldsString(IntegrationTester $I)
     {
-        $I->wantToTest('Mvc\Model\Relation - getFields()');
-        $I->skipTest('Need implementation');
+        $I->wantToTest('Mvc\Model\Relation - getFields() - string');
+
+        $relation = new Relation(
+            Relation::HAS_MANY,
+            'RobotsParts',
+            'id',
+            'robots_id',
+            [
+                'reusable' => true, // cache related data
+                'alias'    => 'mechanicalParts',
+            ]
+        );
+
+        $I->assertEquals(
+            'id',
+            $relation->getFields()
+        );
+    }
+
+    /**
+     * Tests Phalcon\Mvc\Model\Relation :: getFields()
+     *
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-04-18
+     */
+    public function mvcModelRelationGetFieldsArray(IntegrationTester $I)
+    {
+        $I->wantToTest('Mvc\Model\Relation - getFields() - array');
+
+        $relation = new Relation(
+            Relation::HAS_MANY,
+            'RobotsParts',
+            [
+                'type',
+                'name',
+            ],
+            'robots_id',
+            [
+                'reusable' => true, // cache related data
+                'alias'    => 'mechanicalParts',
+            ]
+        );
+
+        $I->assertEquals(
+            [
+                'type',
+                'name',
+            ],
+            $relation->getFields()
+        );
     }
 }

@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Http\Response;
 
 use UnitTester;
 
-/**
- * Class GetDICest
- */
 class GetDICest
 {
     /**
      * Tests Phalcon\Http\Response :: getDI()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetDICest
     public function httpResponseGetDI(UnitTester $I)
     {
         $I->wantToTest('Http\Response - getDI()');
+
         $I->skipTest('Need implementation');
     }
 }

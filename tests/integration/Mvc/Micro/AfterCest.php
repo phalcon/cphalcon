@@ -13,23 +13,108 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Micro;
 
 use IntegrationTester;
+use Phalcon\Mvc\Micro;
 
-/**
- * Class AfterCest
- */
 class AfterCest
 {
     /**
      * Tests Phalcon\Mvc\Micro :: after()
-     *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
      */
-    public function mvcMicroAfter(IntegrationTester $I)
+    public function testMicroAfterHandlers(IntegrationTester $I)
     {
-        $I->wantToTest('Mvc\Micro - after()');
-        $I->skipTest('Need implementation');
+        $trace = [];
+
+        $app = new Micro();
+
+        $app->after(
+            function () use (&$trace) {
+                $trace[] = 1;
+            }
+        );
+
+        $app->after(
+            function () use (&$trace) {
+                $trace[] = 1;
+            }
+        );
+
+        $app->map(
+            '/blog',
+            function () use (&$trace) {
+                $trace[] = 1;
+            }
+        );
+
+        $app->handle('/blog');
+
+        $I->assertCount(3, $trace);
+    }
+
+    /**
+     * Tests Phalcon\Mvc\Micro :: after()
+     */
+    public function testMicroAfterHandlersIfOneStop(IntegrationTester $I)
+    {
+        $trace = [];
+
+        $app = new Micro();
+
+        $app->after(
+            function () use (&$trace) {
+                $trace[] = 1;
+            }
+        );
+
+        $app->after(
+            function () use ($app, &$trace) {
+                $trace[] = 1;
+
+                $app->stop();
+            }
+        );
+
+        $app->after(
+            function () use (&$trace) {
+                $trace[] = 1;
+            }
+        );
+
+        $app->map(
+            '/blog',
+            function () use (&$trace) {
+                $trace[] = 1;
+            }
+        );
+
+        $app->handle('/blog');
+
+        $I->assertCount(3, $trace);
+    }
+
+    public function testMicroResponseAlreadySentError(IntegrationTester $I)
+    {
+        $app = new Micro();
+
+        $app->after(
+            function () use ($app) {
+                $content = $app->getReturnedValue();
+
+                $app->response->setJsonContent($content)->send();
+            }
+        );
+
+        $app->map(
+            '/api',
+            function () {
+                return 'success';
+            }
+        );
+
+        // Micro echoes out its result as well
+        ob_start();
+        $actual = $app->handle('/api');
+        ob_end_clean();
+
+        $I->assertEquals('success', $actual);
     }
 }

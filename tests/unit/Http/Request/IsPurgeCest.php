@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Http\Request;
 
 use UnitTester;
 
-/**
- * Class IsPurgeCest
- */
 class IsPurgeCest
 {
     /**
      * Tests Phalcon\Http\Request :: isPurge()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class IsPurgeCest
     public function httpRequestIsPurge(UnitTester $I)
     {
         $I->wantToTest('Http\Request - isPurge()');
+
         $I->skipTest('Need implementation');
     }
 }

@@ -26,15 +26,19 @@ class HasOptionCest
     /**
      * Tests Phalcon\Validation\Validator\Alpha :: hasOption()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorAlphaHasOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Alpha - hasOption()');
-        $validator = new Alpha(['message' => 'This is a message']);
+
+        $validator = new Alpha(
+            [
+                'message' => 'This is a message',
+            ]
+        );
+
         $this->checkHasOption($I, $validator);
     }
 }

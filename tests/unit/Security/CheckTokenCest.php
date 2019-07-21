@@ -12,13 +12,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Security;
 
-use UnitTester;
 use Phalcon\Security;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
+use UnitTester;
+use function session_destroy;
+use function session_start;
+use function session_status;
 
-/**
- * Class CheckTokenCest
- */
 class CheckTokenCest
 {
     use DiTrait;
@@ -42,27 +42,12 @@ class CheckTokenCest
     public function _after(UnitTester $I)
     {
         if (true === $this->shouldStopSession) {
-            @\session_destroy();
+            @session_destroy();
         }
-    }
-
-    private function startSession(): void
-    {
-        if (PHP_SESSION_ACTIVE !== \session_status()) {
-            @\session_start();
-        }
-
-        if (!isset($_SESSION)) {
-            $_SESSION = [];
-        }
-
-        $this->shouldStopSession = true;
     }
 
     /**
      * Tests Phalcon\Security :: checkToken() and destroyToken()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -70,40 +55,100 @@ class CheckTokenCest
     public function securityCheckToken(UnitTester $I)
     {
         $I->wantToTest('Security - checkToken()');
+
         $this->startSession();
 
         $container = $this->getDi();
-        $security  = new Security();
+
+        $security = new Security();
+
         $security->setDI($container);
+
 
         // Random token and token key check
         $tokenKey = $security->getTokenKey();
         $token    = $security->getToken();
-        $_POST    = [$tokenKey => $token];
-        $I->assertTrue($security->checkToken(null, null, false));
-        $I->assertTrue($security->checkToken());
-        $I->assertFalse($security->checkToken());
+
+        $_POST = [
+            $tokenKey => $token,
+        ];
+
+        $I->assertTrue(
+            $security->checkToken(null, null, false)
+        );
+
+        $I->assertTrue(
+            $security->checkToken()
+        );
+
+        $I->assertFalse(
+            $security->checkToken()
+        );
+
 
         // Destroy token check
         $tokenKey = $security->getTokenKey();
         $token    = $security->getToken();
+
         $security->destroyToken();
 
-        $_POST = [$tokenKey => $token];
-        $I->assertFalse($security->checkToken());
+        $_POST = [
+            $tokenKey => $token,
+        ];
+
+        $I->assertFalse(
+            $security->checkToken()
+        );
+
 
         // Custom token key check
         $token = $security->getToken();
-        $_POST = ['custom_key' => $token];
-        $I->assertFalse($security->checkToken(null, null, false));
-        $I->assertFalse($security->checkToken('other_custom_key', null, false));
-        $I->assertTrue($security->checkToken('custom_key'));
+
+        $_POST = [
+            'custom_key' => $token,
+        ];
+
+        $I->assertFalse(
+            $security->checkToken(null, null, false)
+        );
+
+        $I->assertFalse(
+            $security->checkToken('other_custom_key', null, false)
+        );
+
+        $I->assertTrue(
+            $security->checkToken('custom_key')
+        );
+
 
         // Custom token value check
         $token = $security->getToken();
+
         $_POST = [];
-        $I->assertFalse($security->checkToken(null, null, false));
-        $I->assertFalse($security->checkToken('some_random_key', 'some_random_value', false));
-        $I->assertTrue($security->checkToken('custom_key', $token));
+
+        $I->assertFalse(
+            $security->checkToken(null, null, false)
+        );
+
+        $I->assertFalse(
+            $security->checkToken('some_random_key', 'some_random_value', false)
+        );
+
+        $I->assertTrue(
+            $security->checkToken('custom_key', $token)
+        );
+    }
+
+    private function startSession(): void
+    {
+        if (PHP_SESSION_ACTIVE !== session_status()) {
+            @session_start();
+        }
+
+        if (!isset($_SESSION)) {
+            $_SESSION = [];
+        }
+
+        $this->shouldStopSession = true;
     }
 }

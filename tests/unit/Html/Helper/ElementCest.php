@@ -13,42 +13,38 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Html\Helper\Element;
 
 use Codeception\Example;
+use Phalcon\Escaper;
+use Phalcon\Html\Exception;
 use Phalcon\Html\Helper\Element;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Html\TagFactory;
 use UnitTester;
 
-/**
- * Class ElementCest
- */
 class ElementCest
 {
-    use DiTrait;
-
     /**
      * Tests Phalcon\Html\Helper\Element :: __construct()
      *
      * @dataProvider getExamples
      *
-     * @param UnitTester $I
-     * @param Example    $example
-     *
-     * @author       Phalcon Team <team@phalconphp.com>
-     * @since        2019-01-19
+     * @throws Exception
      */
     public function htmlHelperElementConstruct(UnitTester $I, Example $example)
     {
         $I->wantToTest('Html\Helper\Element - __construct()');
-        $escaper = $this->newEscaper();
+        $escaper = new Escaper();
         $helper  = new Element($escaper);
 
         $expected = $example[0];
         $actual   = $helper($example[1], $example[2], $example[3]);
         $I->assertEquals($expected, $actual);
+
+        $factory  = new TagFactory($escaper);
+        $locator  = $factory->newInstance('element');
+        $expected = $example[0];
+        $actual   = $locator($example[1], $example[2], $example[3]);
+        $I->assertEquals($expected, $actual);
     }
 
-    /**
-     * @return array
-     */
     private function getExamples(): array
     {
         return [

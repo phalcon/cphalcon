@@ -12,50 +12,50 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Asset\Js;
 
+use Codeception\Example;
 use Phalcon\Assets\Asset\Js;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
-/**
- * Class GetTargetUriCest
- */
 class GetTargetUriCest
 {
-    use AssetsTrait;
-
     /**
-     * Tests Phalcon\Assets\Asset :: getTargetUri() - js local
+     * Tests Phalcon\Assets\Asset\Js :: getTargetUri()
      *
-     * @param UnitTester $I
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @dataProvider provider
      */
-    public function assetsAssetJsGetTargetUriLocal(UnitTester $I)
+    public function assetsAssetJsGetTargetUri(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Assets\Asset - getTargetUri() - js local');
-        $asset = new Js('js/jquery.js');
+        $I->wantToTest('Assets\Asset\Js - getTargetUri()');
+
+        $asset = new Js(
+            $example['path'],
+            $example['local']
+        );
 
         $expected = '/phalcon/path';
+
         $asset->setTargetUri($expected);
-        $this->assetGetTargetUri($I, $asset, $expected);
+
+        $I->assertEquals(
+            $expected,
+            $asset->getTargetUri()
+        );
     }
 
-    /**
-     * Tests Phalcon\Assets\Asset :: getTargetUri() - js remote
-     *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsAssetJsGetTargetUriRemote(UnitTester $I)
+    protected function provider(): array
     {
-        $I->wantToTest('Assets\Asset - getTargetUri() - js remote');
-        $asset = new Js('https://phalcon.ld/js/jquery.js', false);
-
-        $expected = '/phalcon/path';
-        $asset->setTargetUri($expected);
-        $this->assetGetTargetUri($I, $asset, $expected);
+        return [
+            [
+                'path'  => 'js/jquery.js',
+                'local' => true,
+            ],
+            [
+                'path'  => 'https://phalcon.ld/js/jquery.js',
+                'local' => false,
+            ],
+        ];
     }
 }

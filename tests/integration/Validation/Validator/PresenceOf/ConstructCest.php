@@ -16,9 +16,6 @@ use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\ValidationTrait;
 use Phalcon\Validation\Validator\PresenceOf;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     use ValidationTrait;
@@ -26,15 +23,15 @@ class ConstructCest
     /**
      * Tests Phalcon\Validation\Validator\PresenceOf :: __construct()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorPresenceOfConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\PresenceOf - __construct()');
+
         $validator = new PresenceOf();
+
         $this->checkConstruct($I, $validator);
     }
 }

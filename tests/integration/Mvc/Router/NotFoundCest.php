@@ -13,23 +13,54 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Router;
 
 use IntegrationTester;
+use Phalcon\Test\Fixtures\Traits\RouterTrait;
 
-/**
- * Class NotFoundCest
- */
 class NotFoundCest
 {
+    use RouterTrait;
+
     /**
-     * Tests Phalcon\Mvc\Router :: notFound()
+     * Tests setting notFound handler
      *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Andy Gutierrez <andres.gutierrez@phalconphp.com>
+     * @since  2013-03-01
      */
-    public function mvcRouterNotFound(IntegrationTester $I)
+    public function testSettingNotFoundPaths(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Router - notFound()');
-        $I->skipTest('Need implementation');
+
+        $router = $this->getRouter(false);
+
+        $router->notFound(
+            [
+                'module'     => 'module',
+                'namespace'  => 'namespace',
+                'controller' => 'controller',
+                'action'     => 'action',
+            ]
+        );
+
+        $router->handle('/');
+
+
+        $I->assertEquals(
+            'controller',
+            $router->getControllerName()
+        );
+
+        $I->assertEquals(
+            'action',
+            $router->getActionName()
+        );
+
+        $I->assertEquals(
+            'module',
+            $router->getModuleName()
+        );
+
+        $I->assertEquals(
+            'namespace',
+            $router->getNamespaceName()
+        );
     }
 }

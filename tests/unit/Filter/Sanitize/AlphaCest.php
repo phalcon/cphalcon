@@ -16,18 +16,12 @@ use Codeception\Example;
 use Phalcon\Filter\Sanitize\Alpha;
 use UnitTester;
 
-/**
- * Class AlphaCest
- */
 class AlphaCest
 {
     /**
      * Tests Phalcon\Filter\Sanitize\Alpha :: __invoke()
      *
      * @dataProvider getData
-     *
-     * @param UnitTester $I
-     * @param Example    $example
      *
      * @author       Phalcon Team <team@phalconphp.com>
      * @since        2018-11-13
@@ -42,9 +36,6 @@ class AlphaCest
         $I->assertEquals($example[1], $actual);
     }
 
-    /**
-     * @return array
-     */
     private function getData(): array
     {
         return [

@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Http\Request;
 
 use UnitTester;
 
-/**
- * Class IsValidHttpMethodCest
- */
 class IsValidHttpMethodCest
 {
     /**
      * Tests Phalcon\Http\Request :: isValidHttpMethod()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class IsValidHttpMethodCest
     public function httpRequestIsValidHttpMethod(UnitTester $I)
     {
         $I->wantToTest('Http\Request - isValidHttpMethod()');
+
         $I->skipTest('Need implementation');
     }
 }

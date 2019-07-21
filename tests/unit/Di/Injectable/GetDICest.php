@@ -14,22 +14,18 @@ namespace Phalcon\Test\Unit\Di\Injectable;
 
 use UnitTester;
 
-/**
- * Class GetDICest
- */
 class GetDICest
 {
     /**
-     * Tests Phalcon\Di\Injectable :: getDI()
-     *
-     * @param UnitTester $I
+     * Unit Tests Phalcon\Di\Injectable :: getDI()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2019-06-13
      */
     public function diInjectableGetDI(UnitTester $I)
     {
         $I->wantToTest('Di\Injectable - getDI()');
+
         $I->skipTest('Need implementation');
     }
 }

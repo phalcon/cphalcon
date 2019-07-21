@@ -16,7 +16,6 @@ use Phalcon\Mvc\Model\Resultset\Simple;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\People;
 use Phalcon\Test\Models\Robots;
-use function cacheFolder;
 
 class SimpleCest
 {
@@ -26,78 +25,15 @@ class SimpleCest
     {
         $this->setNewFactoryDefault();
         $this->setDiMysql();
-        $I->cleanDir(cacheFolder());
+
+        $I->cleanDir(
+            cacheModelsDir()
+        );
     }
 
-    /**
-     * Work with Simple Resultset by load data from the file cache (complete
-     * PHQL option).
-     *
-     * @test
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2012-11-20
-     */
-    public function shouldLoadResultsetFromCacheByUsingCompletePhql(IntegrationTester $I)
+    public function _after(IntegrationTester $I)
     {
-        $I->skipTest('TODO - Check the counts');
-        $cache   = $this->getAndSetModelsCacheFile();
-        $manager = $this->getService('modelsManager');
-
-        $robots = $manager->executeQuery('SELECT * FROM ' . Robots::class);
-
-        $I->assertInstanceOf(Simple::class, $robots);
-        $I->assertCount(3, $robots);
-        $I->assertEquals($robots->count(), 3);
-
-        $cache->save('test-resultset', $robots);
-
-        $I->amInPath(cacheFolder());
-        $I->seeFileFound('test-resultset');
-
-        $robots = $cache->get('test-resultset');
-
-        $I->assertInstanceOf(Simple::class, $robots);
-        $I->assertCount(3, $robots);
-        $I->assertEquals($robots->count(), 3);
-        $cache->delete('test-resultset');
-
-        $I->amInPath(cacheFolder());
-        $I->dontSeeFileFound('test-resultset');
-    }
-
-    /**
-     * Work with Simple Resultset by load data from the file cache (incomplete
-     * PHQL option).
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2012-12-28
-     */
-    public function shouldLoadResultsetFromCacheByUsingIncompletePhql(IntegrationTester $I)
-    {
-        $I->skipTest('TODO = Check the numbers');
-        $cache   = $this->getAndSetModelsCacheFile();
-        $manager = $this->getService('modelsManager');
-
-        $robots = $manager->executeQuery('SELECT id FROM ' . Robots::class);
-
-        $I->assertInstanceOf(Simple::class, $robots);
-        $I->assertCount(3, $robots);
-        $I->assertEquals($robots->count(), 3);
-
-        $cache->save('test-resultset', $robots);
-
-        $I->amInPath(cacheFolder());
-        $I->seeFileFound('test-resultset');
-
-        $robots = $cache->get('test-resultset');
-
-        $I->assertInstanceOf(Simple::class, $robots);
-        $I->assertCount(3, $robots);
-        $I->assertEquals($robots->count(), 3);
-
-        $cache->delete('test-resultset');
-        $I->amInPath(cacheFolder());
-        $I->dontSeeFileFound('test-resultset');
+        $this->container['db']->close();
     }
 
     /**
@@ -110,27 +46,36 @@ class SimpleCest
     public function shouldLoadResultsetFromCache(IntegrationTester $I)
     {
         $I->skipTest('TODO = Check the numbers');
-        $cache = $this->getAndSetModelsCacheFile();
 
-        $robots = Robots::find(['order' => 'id']);
+        $cache = $this->getAndSetModelsCacheStream();
+
+        $robots = Robots::find(
+            [
+                'order' => 'id',
+            ]
+        );
 
         $I->assertInstanceOf(Simple::class, $robots);
         $I->assertCount(3, $robots);
-        $I->assertEquals($robots->count(), 3);
+        $I->assertEquals(3, $robots->count());
 
-        $cache->save('test-resultset', $robots);
+        $cache->set('test-resultset', $robots);
 
-        $I->amInPath(cacheFolder());
+        $I->amInPath(cacheModelsDir());
         $I->seeFileFound('test-resultset');
 
         $robots = $cache->get('test-resultset');
 
         $I->assertInstanceOf(Simple::class, $robots);
         $I->assertCount(3, $robots);
-        $I->assertEquals($robots->count(), 3);
+        $I->assertEquals(3, $robots->count());
 
         $cache->delete('test-resultset');
-        $I->amInPath(cacheFolder());
+
+        $I->amInPath(
+            cacheModelsDir()
+        );
+
         $I->dontSeeFileFound('test-resultset');
     }
 
@@ -143,35 +88,41 @@ class SimpleCest
      */
     public function shouldLoadResultsetWithBindingFromCache(IntegrationTester $I)
     {
-        $cache   = $this->getAndSetModelsCacheFile();
+        $cache   = $this->getAndSetModelsCacheStream();
         $manager = $this->getService('modelsManager');
 
         $initialId = 0;
         $finalId   = 4;
 
-        $robots = Robots::find([
-            'conditions' => 'id > :id1: and id < :id2:',
-            'bind'       => ['id1' => $initialId, 'id2' => $finalId],
-            'order'      => 'id',
-        ]);
+        $robots = Robots::find(
+            [
+                'conditions' => 'id > :id1: and id < :id2:',
+                'bind'       => ['id1' => $initialId, 'id2' => $finalId],
+                'order'      => 'id',
+            ]
+        );
 
         $I->assertInstanceOf(Simple::class, $robots);
         $I->assertCount(3, $robots);
-        $I->assertEquals($robots->count(), 3);
+        $I->assertEquals(3, $robots->count());
 
-        $cache->save('test-resultset', $robots);
+        $cache->set('test-resultset', $robots);
 
-        $I->amInPath(cacheFolder());
+        $I->amInPath(cacheModelsDir());
         $I->seeFileFound('test-resultset');
 
         $robots = $cache->get('test-resultset');
 
         $I->assertInstanceOf(Simple::class, $robots);
         $I->assertCount(3, $robots);
-        $I->assertEquals($robots->count(), 3);
+        $I->assertEquals(3, $robots->count());
 
         $cache->delete('test-resultset');
-        $I->amInPath(cacheFolder());
+
+        $I->amInPath(
+            cacheModelsDir()
+        );
+
         $I->dontSeeFileFound('test-resultset');
     }
 
@@ -184,46 +135,74 @@ class SimpleCest
      */
     public function shouldLoadResultsetFromLibmemcached(IntegrationTester $I)
     {
-        $cache = $this->getAndSetModelsCacheFileLibmemcached();
+        $cache = $this->getAndSetModelsCacheLibmemcached();
+
+        $cache->clear();
 
         $key = 'test-resultset-' . mt_rand(0, 9999);
+
         // Single
-        $people = People::findFirst([
-            'cache' => [
-                'key' => $key,
-            ],
-        ]);
+        $people = People::findFirst(
+            [
+                'cache' => [
+                    'key' => $key,
+                ],
+            ]
+        );
 
-        $I->assertInstanceOf(People::class, $people);
+        $I->assertInstanceOf(
+            People::class,
+            $people
+        );
 
         $people = $cache->get($key);
-        $I->assertInstanceOf(People::class, $people->getFirst());
+
+        $I->assertInstanceOf(
+            People::class,
+            $people->getFirst()
+        );
 
         $people = $cache->get($key);
-        $I->assertInstanceOf(People::class, $people->getFirst());
+
+        $I->assertInstanceOf(
+            People::class,
+            $people->getFirst()
+        );
 
         // Re-get from the cache
-        $people = People::findFirst([
-            'cache' => [
-                'key' => $key,
-            ],
-        ]);
+        $people = People::findFirst(
+            [
+                'cache' => [
+                    'key' => $key,
+                ],
+            ]
+        );
 
-        $I->assertInstanceOf(People::class, $people);
+        $I->assertInstanceOf(
+            People::class,
+            $people
+        );
 
         $key = 'test-resultset-' . mt_rand(0, 9999);
 
         // Multiple
-        $people = People::find([
-            'limit' => 35,
-            'cache' => [
-                'key' => $key,
-            ],
-        ]);
+        $people = People::find(
+            [
+                'limit' => 35,
+                'cache' => [
+                    'key' => $key,
+                ],
+            ]
+        );
 
         $number = 0;
+
         foreach ($people as $individual) {
-            $I->assertInstanceOf(People::class, $individual);
+            $I->assertInstanceOf(
+                People::class,
+                $individual
+            );
+
             $number++;
         }
 
@@ -244,12 +223,14 @@ class SimpleCest
         $I->assertInstanceOf(Simple::class, $people);
 
         // Re-get the data from the cache
-        $people = People::find([
-            'limit' => 35,
-            'cache' => [
-                'key' => $key,
-            ],
-        ]);
+        $people = People::find(
+            [
+                'limit' => 35,
+                'cache' => [
+                    'key' => $key,
+                ],
+            ]
+        );
 
         $number = 0;
         foreach ($people as $individual) {

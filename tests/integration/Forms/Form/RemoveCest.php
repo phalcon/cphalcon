@@ -14,15 +14,10 @@ namespace Phalcon\Test\Integration\Forms\Form;
 
 use IntegrationTester;
 
-/**
- * Class RemoveCest
- */
 class RemoveCest
 {
     /**
      * Tests Phalcon\Forms\Form :: remove()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

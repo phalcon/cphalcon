@@ -1,0 +1,236 @@
+
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalconphp.com>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+
+namespace Phalcon\Mvc\Model;
+
+use Phalcon\Mvc\Model\RelationInterface;
+
+/**
+ * Phalcon\Mvc\Model\Relation
+ *
+ * This class represents a relationship between two models
+ */
+class Relation implements RelationInterface
+{
+    const ACTION_CASCADE   = 2;
+    const ACTION_RESTRICT  = 1;
+    const BELONGS_TO       = 0;
+    const HAS_MANY         = 2;
+    const HAS_MANY_THROUGH = 4;
+    const HAS_ONE          = 1;
+    const HAS_ONE_THROUGH  = 3;
+    const NO_ACTION        = 0;
+
+    protected fields;
+    protected intermediateFields;
+    protected intermediateModel;
+    protected intermediateReferencedFields;
+    protected options;
+    protected referencedFields;
+    protected referencedModel;
+    protected type;
+
+    /**
+     * Phalcon\Mvc\Model\Relation constructor
+     *
+     * @param string|array fields
+     * @param string|array referencedFields
+     */
+    public function __construct(int type, string! referencedModel, var fields, var referencedFields, array options = []) -> void
+    {
+        let this->type = type,
+            this->referencedModel = referencedModel,
+            this->fields = fields,
+            this->referencedFields = referencedFields,
+            this->options = options;
+    }
+
+    /**
+     * Returns the fields
+     *
+     * @return string|array
+     */
+    public function getFields()
+    {
+        return this->fields;
+    }
+
+    /**
+     * Returns the foreign key configuration
+     *
+     * @return string|array
+     */
+    public function getForeignKey()
+    {
+        var options, foreignKey;
+
+        let options = this->options;
+
+        if fetch foreignKey, options["foreignKey"] {
+            if foreignKey {
+                return foreignKey;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Gets the intermediate fields for has-*-through relations
+     *
+     * @return string|array
+     */
+    public function getIntermediateFields()
+    {
+        return this->intermediateFields;
+    }
+
+    /**
+     * Gets the intermediate model for has-*-through relations
+     */
+    public function getIntermediateModel() -> string
+    {
+        return this->intermediateModel;
+    }
+
+    /**
+     * Gets the intermediate referenced fields for has-*-through relations
+     *
+     * @return string|array
+     */
+    public function getIntermediateReferencedFields()
+    {
+        return this->intermediateReferencedFields;
+    }
+
+    /**
+     * Returns an option by the specified name
+     * If the option doesn't exist null is returned
+     */
+    public function getOption(string! name)
+    {
+        var option;
+
+        if !fetch option, this->options[name] {
+            return null;
+        }
+
+        return option;
+    }
+
+    /**
+     * Returns the options
+     */
+    public function getOptions() -> array
+    {
+        return this->options;
+    }
+
+    /**
+     * Returns parameters that must be always used when the related records are obtained
+     *
+     * @return array
+     */
+    public function getParams()
+    {
+        var options, params;
+
+        let options = this->options;
+
+        if fetch params, options["params"] {
+            if params {
+                return params;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Returns the relation type
+     */
+    public function getType() -> int
+    {
+        return this->type;
+    }
+
+    /**
+     * Returns the referenced fields
+     *
+     * @return string|array
+     */
+    public function getReferencedFields()
+    {
+        return this->referencedFields;
+    }
+
+    /**
+     * Returns the referenced model
+     */
+    public function getReferencedModel() -> string
+    {
+        return this->referencedModel;
+    }
+
+    /**
+     * Check whether the relation act as a foreign key
+     */
+    public function isForeignKey() -> bool
+    {
+        var foreignKey;
+
+        if !fetch foreignKey, this->options["foreignKey"] {
+            return false;
+        }
+
+        return (bool) foreignKey;
+    }
+
+    /**
+     * Check whether the relation is a 'many-to-many' relation or not
+     */
+    public function isThrough() -> bool
+    {
+        var type;
+
+        let type = this->type;
+
+        return type == self::HAS_ONE_THROUGH || type == self::HAS_MANY_THROUGH;
+    }
+
+    /**
+     * Check if records returned by getting belongs-to/has-many are implicitly cached during the current request
+     */
+    public function isReusable() -> bool
+    {
+        var options, reusable;
+
+        let options = this->options;
+
+        if !fetch reusable, options["reusable"] {
+            return false;
+        }
+
+        return reusable;
+    }
+
+    /**
+     * Sets the intermediate model data for has-*-through relations
+     *
+     * @param string|array intermediateFields
+     * @param string       intermediateReferencedFields
+     */
+    public function setIntermediateRelation(var intermediateFields, string! intermediateModel, var intermediateReferencedFields)
+    {
+        let this->intermediateFields = intermediateFields,
+            this->intermediateModel = intermediateModel,
+            this->intermediateReferencedFields = intermediateReferencedFields;
+    }
+}

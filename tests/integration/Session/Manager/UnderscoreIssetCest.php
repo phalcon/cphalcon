@@ -17,9 +17,6 @@ use Phalcon\Session\Manager;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionTrait;
 
-/**
- * Class __issetCest
- */
 class UnderscoreIssetCest
 {
     use DiTrait;
@@ -28,17 +25,14 @@ class UnderscoreIssetCest
     /**
      * Tests Phalcon\Session\Manager :: __isset()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function sessionManagerUnderscoreIsset(IntegrationTester $I)
     {
         $I->wantToTest('Session\Manager - __isset()');
-        $I->wantToTest('Session\Manager - has()');
         $manager = new Manager();
-        $files   = $this->getSessionFiles();
+        $files   = $this->getSessionStream();
         $manager->setHandler($files);
 
         $actual = $manager->start();

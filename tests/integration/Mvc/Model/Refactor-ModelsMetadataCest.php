@@ -78,6 +78,11 @@ class ModelsMetadataCest
         $this->setNewFactoryDefault();
     }
 
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
+    }
+
     public function testMetadataMysql(IntegrationTester $I)
     {
         $this->setDiMysql();

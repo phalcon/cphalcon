@@ -13,23 +13,29 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\View\Engine\Volt\Compiler;
 
 use IntegrationTester;
+use Phalcon\Mvc\View\Engine\Volt\Compiler;
 
-/**
- * Class CompileElseIfCest
- */
 class CompileElseIfCest
 {
     /**
      * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: compileElseIf()
      *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-05-22
      */
     public function mvcViewEngineVoltCompilerCompileElseIf(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\View\Engine\Volt\Compiler - compileElseIf()');
-        $I->skipTest('Need implementation');
+
+        $volt = new Compiler();
+
+        $compiled = $volt->compileString(
+            '{% if i == 0 %}zero{% elseif i == 1 %}one{% else %}more than one{% endif %}'
+        );
+
+        $I->assertEquals(
+            '<?php if ($i == 0) { ?>zero<?php } elseif ($i == 1) { ?>one<?php } else { ?>more than one<?php } ?>',
+            $compiled
+        );
     }
 }

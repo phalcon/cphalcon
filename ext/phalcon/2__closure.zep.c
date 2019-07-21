@@ -13,6 +13,7 @@
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
+#include "kernel/object.h"
 
 
 ZEPHIR_INIT_CLASS(phalcon_2__closure) {
@@ -25,16 +26,16 @@ ZEPHIR_INIT_CLASS(phalcon_2__closure) {
 
 PHP_METHOD(phalcon_2__closure, __invoke) {
 
-	zval *escaper, escaper_sub;
+	zval *file, file_sub;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&escaper_sub);
+	ZVAL_UNDEF(&file_sub);
 
-	zephir_fetch_params(0, 1, 0, &escaper);
+	zephir_fetch_params(0, 1, 0, &file);
 
 
 
-	RETURN_NULL();
+	RETURN_BOOL(1);
 
 }
 

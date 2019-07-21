@@ -14,15 +14,10 @@ namespace Phalcon\Test\Integration\Db\Profiler;
 
 use IntegrationTester;
 
-/**
- * Class StartProfileCest
- */
 class StartProfileCest
 {
     /**
      * Tests Phalcon\Db\Profiler :: startProfile()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

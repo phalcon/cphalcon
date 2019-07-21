@@ -11,8 +11,8 @@
 
 namespace Phalcon\Test\Resultsets;
 
-use Phalcon\Mvc\Model;
-
 use Phalcon\Mvc\Model\Resultset\Simple;
 
-class Stats extends Simple {}
+class Stats extends Simple
+{
+}

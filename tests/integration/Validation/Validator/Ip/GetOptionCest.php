@@ -26,15 +26,15 @@ class GetOptionCest
     /**
      * Tests Phalcon\Validation\Validator\Ip :: getOption()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorIpGetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Ip - getOption()');
+
         $validator = new Ip();
+
         $this->checkGetOption($I, $validator);
     }
 }

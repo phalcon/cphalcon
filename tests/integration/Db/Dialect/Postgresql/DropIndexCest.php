@@ -12,24 +12,48 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Db\Dialect\Postgresql;
 
+use Codeception\Example;
 use IntegrationTester;
+use Phalcon\Db\Dialect\Postgresql;
 
-/**
- * Class DropIndexCest
- */
 class DropIndexCest
 {
     /**
      * Tests Phalcon\Db\Dialect\Postgresql :: dropIndex()
      *
-     * @param IntegrationTester $I
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-05-25
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @dataProvider getDropIndexFixtures
      */
-    public function dbDialectPostgresqlDropIndex(IntegrationTester $I)
+    public function dbDialectPostgresqlDropIndex(IntegrationTester $I, Example $example)
     {
         $I->wantToTest('Db\Dialect\Postgresql - dropIndex()');
-        $I->skipTest('Need implementation');
+
+        $schema   = $example[0];
+        $index    = $example[1];
+        $expected = $example[2];
+
+        $dialect = new Postgresql();
+
+        $actual = $dialect->dropIndex('table', $schema, $index);
+
+        $I->assertEquals($expected, $actual);
+    }
+
+    protected function getDropIndexFixtures(): array
+    {
+        return [
+            [
+                '',
+                'index1',
+                'DROP INDEX "index1"',
+            ],
+            [
+                'schema',
+                'index1',
+                'DROP INDEX "index1"',
+            ],
+        ];
     }
 }

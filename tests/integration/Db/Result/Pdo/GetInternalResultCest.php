@@ -14,15 +14,10 @@ namespace Phalcon\Test\Integration\Db\Result\Pdo;
 
 use IntegrationTester;
 
-/**
- * Class GetInternalResultCest
- */
 class GetInternalResultCest
 {
     /**
      * Tests Phalcon\Db\Result\Pdo :: getInternalResult()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

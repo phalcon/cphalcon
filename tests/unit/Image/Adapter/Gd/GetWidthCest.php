@@ -12,24 +12,45 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Image\Adapter\Gd;
 
+use Phalcon\Image\Adapter\Gd;
 use UnitTester;
 
-/**
- * Class GetWidthCest
- */
 class GetWidthCest
 {
     /**
      * Tests Phalcon\Image\Adapter\Gd :: getWidth()
      *
-     * @param UnitTester $I
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function imageAdapterGdGetWidthJpg(UnitTester $I)
+    {
+        $I->wantToTest('Image\Adapter\Gd - getWidth() - from jpg image');
+
+        $gd = new Gd(dataDir('assets/images/phalconphp.jpg'));
+
+        $I->assertSame(
+            1820,
+            $gd->getWidth()
+        );
+    }
+
+
+    /**
+     * Tests Phalcon\Image\Adapter\Gd :: getWidth()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function imageAdapterGdGetWidth(UnitTester $I)
+    public function imageAdapterGdGetWidthPng(UnitTester $I)
     {
-        $I->wantToTest('Image\Adapter\Gd - getWidth()');
-        $I->skipTest('Need implementation');
+        $I->wantToTest('Image\Adapter\Gd - getWidth() - from png image');
+
+        $gd = new Gd(dataDir('assets/images/logo.png'));
+
+        $I->assertSame(
+            82,
+            $gd->getWidth()
+        );
     }
 }

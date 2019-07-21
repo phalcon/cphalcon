@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Assets\Collection;
 
 use UnitTester;
 
-/**
- * Class RewindCest
- */
 class RewindCest
 {
     /**
      * Tests Phalcon\Assets\Collection :: rewind()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class RewindCest
     public function assetsCollectionRewind(UnitTester $I)
     {
         $I->wantToTest('Assets\Collection - rewind()');
+
         $I->skipTest('Need implementation');
     }
 }

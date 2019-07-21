@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Tag;
 use Phalcon\Tag;
 use UnitTester;
 
-/**
- * Class GetTitleCest
- */
 class GetTitleCest
 {
     /**
      * Tests Phalcon\Tag :: getTitle() - with malicious code
-     *
-     * @param UnitTester $I
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/11185
      * @author Phalcon Team <team@phalconphp.com>
@@ -31,14 +26,17 @@ class GetTitleCest
      */
     public function tagGetTitleWithMaliciousContent(UnitTester $I)
     {
-        $I->wantToTest("Tag - getTitle() - with malicious code");
-        Tag::resetInput();
-        $value = "Hello </title><script>alert('Got your nose!');</script><title>";
+        $I->wantToTest('Tag - getTitle() - with malicious code');
 
-        Tag::setTitle($value);
-        $expected = 'Hello &lt;/title&gt;&lt;script&gt;alert(&#039;'
-            . 'Got your nose!&#039;);&lt;/script&gt;&lt;title&gt;';
-        $actual   = Tag::getTitle();
-        $I->assertEquals($expected, $actual);
+        Tag::resetInput();
+
+        Tag::setTitle(
+            "Hello </title><script>alert('Got your nose!');</script><title>"
+        );
+
+        $I->assertEquals(
+            'Hello &lt;/title&gt;&lt;script&gt;alert(&#039;Got your nose!&#039;);&lt;/script&gt;&lt;title&gt;',
+            Tag::getTitle()
+        );
     }
 }

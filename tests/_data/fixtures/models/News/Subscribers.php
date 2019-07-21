@@ -17,25 +17,28 @@ use Phalcon\Mvc\Model\Behavior\Timestampable;
 
 class Subscribers extends PhalconModel
 {
-
-    public function getSource(): string
-    {
-        return 'subscriptores';
-    }
-
     public function initialize()
     {
-        $this->addBehavior(new Timestampable([
-            'beforeCreate' => [
-                'field'  => 'created_at',
-                'format' => 'Y-m-d H:i:s',
-            ],
-        ]));
+        $this->setSource('subscriptores');
 
-        $this->addBehavior(new SoftDelete([
-            'field' => 'status',
-            'value' => 'D',
-        ]));
+        $this->addBehavior(
+            new Timestampable(
+                [
+                    'beforeCreate' => [
+                        'field'  => 'created_at',
+                        'format' => 'Y-m-d H:i:s',
+                    ],
+                ]
+            )
+        );
+
+        $this->addBehavior(
+            new SoftDelete(
+                [
+                    'field' => 'status',
+                    'value' => 'D',
+                ]
+            )
+        );
     }
-
 }

@@ -17,17 +17,10 @@ use Phalcon\Logger\Formatter\FormatterInterface;
 use Phalcon\Logger\Formatter\Line;
 use UnitTester;
 
-/**
- * Class SetFormatterCest
- *
- * @package Phalcon\Test\Unit\Logger
- */
 class SetFormatterCest
 {
     /**
      * Tests Phalcon\Logger\Adapter\Noop :: setFormatter()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -37,10 +30,14 @@ class SetFormatterCest
         $I->wantToTest('Logger\Adapter\Noop - setFormatter()');
 
         $adapter = new Noop();
-        $adapter->setFormatter(new Line());
 
-        $class  = FormatterInterface::class;
-        $actual = $adapter->getFormatter();
-        $I->assertInstanceOf($class, $actual);
+        $adapter->setFormatter(
+            new Line()
+        );
+
+        $I->assertInstanceOf(
+            FormatterInterface::class,
+            $adapter->getFormatter()
+        );
     }
 }

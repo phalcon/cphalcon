@@ -26,15 +26,15 @@ class SetOptionCest
     /**
      * Tests Phalcon\Validation\Validator\Regex :: setOption()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorRegexSetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Regex - setOption()');
+
         $validator = new Regex();
+
         $this->checkSetOption($I, $validator);
     }
 }

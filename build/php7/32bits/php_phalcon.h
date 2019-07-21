@@ -132,10 +132,10 @@ typedef zend_function zephir_fcall_cache_entry;
 
 
 #define PHP_PHALCON_NAME        "phalcon"
-#define PHP_PHALCON_VERSION     "4.0.0-alpha.3"
+#define PHP_PHALCON_VERSION     "4.0.0-beta.1"
 #define PHP_PHALCON_EXTNAME     "phalcon"
 #define PHP_PHALCON_AUTHOR      "Phalcon Team and contributors"
-#define PHP_PHALCON_ZEPVERSION  "0.11.11-b661a58"
+#define PHP_PHALCON_ZEPVERSION  "0.12.0-c893389"
 #define PHP_PHALCON_DESCRIPTION "Web framework delivered as a C-extension for PHP"
 
 typedef struct _zephir_struct_db { 
@@ -144,23 +144,26 @@ typedef struct _zephir_struct_db {
 } zephir_struct_db;
 
 typedef struct _zephir_struct_orm { 
-	HashTable*  parser_cache;
 	HashTable*  ast_cache;
 	int cache_level;
-	int unique_cache_id;
-	zend_bool events;
-	zend_bool virtual_foreign_keys;
-	zend_bool column_renaming;
-	zend_bool not_null_validations;
-	zend_bool exception_on_failed_save;
-	zend_bool enable_literals;
-	zend_bool late_state_binding;
-	zend_bool enable_implicit_joins;
-	zend_bool cast_on_hydrate;
-	zend_bool ignore_unknown_columns;
-	zend_bool update_snapshot_on_save;
-	zend_bool disable_assign_setters;
 	zend_bool case_insensitive_column_map;
+	zend_bool cast_last_insert_id_to_int;
+	zend_bool cast_on_hydrate;
+	zend_bool column_renaming;
+	zend_bool disable_assign_setters;
+	zend_bool enable_implicit_joins;
+	zend_bool enable_literals;
+	zend_bool events;
+	zend_bool exception_on_failed_save;
+	zend_bool exception_on_failed_metadata_save;
+	zend_bool ignore_unknown_columns;
+	zend_bool late_state_binding;
+	zend_bool not_null_validations;
+	HashTable*  parser_cache;
+	int resultset_prefetch_records;
+	int unique_cache_id;
+	zend_bool update_snapshot_on_save;
+	zend_bool virtual_foreign_keys;
 } zephir_struct_orm;
 
 

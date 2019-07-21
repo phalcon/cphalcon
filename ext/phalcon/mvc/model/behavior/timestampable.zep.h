@@ -4,6 +4,7 @@ extern zend_class_entry *phalcon_mvc_model_behavior_timestampable_ce;
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Behavior_Timestampable);
 
 PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify);
+PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, getTimestamp);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_behavior_timestampable_notify, 0, 0, 2)
 #if PHP_VERSION_ID >= 70200
@@ -14,7 +15,12 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_behavior_timestampable_notify, 
 	ZEND_ARG_OBJ_INFO(0, model, Phalcon\\Mvc\\ModelInterface, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_behavior_timestampable_gettimestamp, 0, 0, 1)
+	ZEND_ARG_ARRAY_INFO(0, options, 0)
+ZEND_END_ARG_INFO()
+
 ZEPHIR_INIT_FUNCS(phalcon_mvc_model_behavior_timestampable_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model_Behavior_Timestampable, notify, arginfo_phalcon_mvc_model_behavior_timestampable_notify, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Behavior_Timestampable, getTimestamp, arginfo_phalcon_mvc_model_behavior_timestampable_gettimestamp, ZEND_ACC_PRIVATE)
 	PHP_FE_END
 };

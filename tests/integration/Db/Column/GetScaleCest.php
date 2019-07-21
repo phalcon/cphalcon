@@ -16,9 +16,6 @@ use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\Db\MysqlTrait;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-/**
- * Class GetScaleCest
- */
 class GetScaleCest
 {
     use DiTrait;
@@ -27,18 +24,21 @@ class GetScaleCest
     /**
      * Tests Phalcon\Db\Column :: getScale()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function dbColumnGetScale(IntegrationTester $I)
     {
         $I->wantToTest("Db\Column - getScale()");
+
         $columns         = $this->getColumns();
         $expectedColumns = $this->getExpectedColumns();
+
         foreach ($expectedColumns as $index => $column) {
-            $I->assertEquals($columns[$index]['_scale'], $column->getScale());
+            $I->assertEquals(
+                $columns[$index]['scale'] ?? null,
+                $column->getScale()
+            );
         }
     }
 }

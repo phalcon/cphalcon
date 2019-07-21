@@ -12,24 +12,58 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Response;
 
+use Phalcon\Http\Response;
+use Phalcon\Test\Unit\Http\Helper\HttpBase;
 use UnitTester;
 
-/**
- * Class SetNotModifiedCest
- */
-class SetNotModifiedCest
+class SetNotModifiedCest extends HttpBase
 {
     /**
      * Tests Phalcon\Http\Response :: setNotModified()
      *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-04-17
      */
     public function httpResponseSetNotModified(UnitTester $I)
     {
         $I->wantToTest('Http\Response - setNotModified()');
-        $I->skipTest('Need implementation');
+
+        $response = new Response();
+
+        $response->setNotModified();
+
+        $I->assertEquals(
+            304,
+            $response->getStatusCode()
+        );
+
+        $I->assertEquals(
+            'Not modified',
+            $response->getReasonPhrase()
+        );
+    }
+
+    /**
+     * Tests setNotModified
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2014-10-08
+     */
+    public function testHttpResponseSetNotModified(UnitTester $I)
+    {
+        $response = $this->getResponseObject();
+
+        $response->resetHeaders();
+        $response->setNotModified();
+
+        $actual = $response->getHeaders();
+        $I->assertEquals(
+            false,
+            $actual->get('HTTP/1.1 304 Not modified')
+        );
+        $I->assertEquals(
+            '304 Not modified',
+            $actual->get('Status')
+        );
     }
 }

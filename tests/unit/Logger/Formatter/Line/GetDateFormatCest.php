@@ -15,20 +15,10 @@ namespace Phalcon\Test\Unit\Logger\Formatter\Line;
 use Phalcon\Logger\Formatter\Line;
 use UnitTester;
 
-/**
- * Class GetDateFormatCest
- *
- * @package Phalcon\Test\Unit\Logger
- */
 class GetDateFormatCest
 {
     /**
      * Tests Phalcon\Logger\Formatter\Line :: getDateFormat()
-     *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
      */
     public function loggerFormatterLineGetDateFormat(UnitTester $I)
     {
@@ -36,6 +26,19 @@ class GetDateFormatCest
         $formatter = new Line();
 
         $expected = 'D, d M y H:i:s O';
+        $actual   = $formatter->getDateFormat();
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Logger\Formatter\Line :: getDateFormat() - custom
+     */
+    public function loggerFormatterLineGetDateFormatCustom(UnitTester $I)
+    {
+        $I->wantToTest('Logger\Formatter\Line - getDateFormat() - custom');
+        $formatter = new Line('', 'Ymd-His');
+
+        $expected = 'Ymd-His';
         $actual   = $formatter->getDateFormat();
         $I->assertEquals($expected, $actual);
     }

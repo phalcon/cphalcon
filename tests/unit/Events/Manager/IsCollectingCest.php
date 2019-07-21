@@ -12,17 +12,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Events\Manager;
 
+use Phalcon\Events\Manager;
 use UnitTester;
 
-/**
- * Class IsCollectingCest
- */
 class IsCollectingCest
 {
     /**
      * Tests Phalcon\Events\Manager :: isCollecting()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +26,23 @@ class IsCollectingCest
     public function eventsManagerIsCollecting(UnitTester $I)
     {
         $I->wantToTest('Events\Manager - isCollecting()');
-        $I->skipTest('Need implementation');
+
+        $manager = new Manager();
+
+        $I->assertFalse(
+            $manager->isCollecting()
+        );
+
+        $manager->collectResponses(true);
+
+        $I->assertTrue(
+            $manager->isCollecting()
+        );
+
+        $manager->collectResponses(false);
+
+        $I->assertFalse(
+            $manager->isCollecting()
+        );
     }
 }

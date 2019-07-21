@@ -13,47 +13,24 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Assets\Asset\Css;
 
 use Phalcon\Assets\Asset\Css;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
-/**
- * Class GetFilterCest
- */
 class GetFilterCest
 {
-    use AssetsTrait;
-
     /**
-     * Tests Phalcon\Assets\Asset :: getFilter() - css local
-     *
-     * @param UnitTester $I
+     * Tests Phalcon\Assets\Asset\Css :: getFilter()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function assetsAssetCssGetFilterCssFilter(UnitTester $I)
+    public function assetsAssetCssGetFilter(UnitTester $I)
     {
-        $I->wantToTest('Assets\Asset - getFilter() - css local');
+        $I->wantToTest('Assets\Asset\Css - getFilter()');
+
         $asset = new Css('css/docs.css');
 
-        $expected = true;
-        $this->assetGetFilter($I, $asset, $expected);
-    }
-
-    /**
-     * Tests Phalcon\Assets\Asset :: getFilter() - css remote
-     *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsAssetCssGetFilterRemote(UnitTester $I)
-    {
-        $I->wantToTest('Assets\Asset - getFilter() - css remote');
-        $asset = new Css('https://phalcon.ld/css/docs.css');
-
-        $expected = true;
-        $this->assetGetFilter($I, $asset, $expected);
+        $I->assertTrue(
+            $asset->getFilter()
+        );
     }
 }

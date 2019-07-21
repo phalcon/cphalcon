@@ -15,8 +15,8 @@ use Phalcon\Mvc\Model;
 
 class M2MRobotsParts extends Model
 {
-    public function getSource(): string
+    public function initialize()
     {
-        return 'm2m_robots_parts';
+        $this->setSource('m2m_robots_parts');
     }
 }

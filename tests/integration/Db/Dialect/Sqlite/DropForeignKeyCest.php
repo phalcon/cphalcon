@@ -13,23 +13,30 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Db\Dialect\Sqlite;
 
 use IntegrationTester;
+use Phalcon\Db\Dialect\Sqlite;
+use Phalcon\Db\Exception;
 
-/**
- * Class DropForeignKeyCest
- */
 class DropForeignKeyCest
 {
     /**
      * Tests Phalcon\Db\Dialect\Sqlite :: dropForeignKey()
      *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-05-25
      */
     public function dbDialectSqliteDropForeignKey(IntegrationTester $I)
     {
         $I->wantToTest('Db\Dialect\Sqlite - dropForeignKey()');
-        $I->skipTest('Need implementation');
+
+        $dialect = new Sqlite();
+
+        $I->expectThrowable(
+            new Exception(
+                'Dropping a foreign key constraint is not supported by SQLite'
+            ),
+            function () use ($dialect) {
+                $dialect->dropForeignKey('table', 'schema', 'reference1');
+            }
+        );
     }
 }

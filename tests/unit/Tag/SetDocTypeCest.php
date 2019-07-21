@@ -16,22 +16,17 @@ use Phalcon\Tag;
 use Phalcon\Test\Fixtures\Helpers\TagSetup;
 use UnitTester;
 
-/**
- * Class SetDocTypeCest
- */
 class SetDocTypeCest extends TagSetup
 {
     /**
      * Tests Phalcon\Tag :: setDocType()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function tagSetDocType(UnitTester $I)
     {
-        $I->wantToTest("Tag - setDocType()");
+        $I->wantToTest('Tag - setDocType()');
         $this->runDoctypeTest($I, Tag::HTML32);
     }
 }

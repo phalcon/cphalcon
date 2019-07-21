@@ -13,23 +13,36 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Cli\Router;
 
 use CliTester;
+use Phalcon\Cli\Router;
+use Phalcon\Cli\Router\Route;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-/**
- * Class GetRouteByNameCest
- */
 class GetRouteByNameCest
 {
-    /**
-     * Tests Phalcon\Cli\Router :: getRouteByName()
-     *
-     * @param CliTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function cliRouterGetRouteByName(CliTester $I)
+    use DiTrait;
+
+    public function _before(CliTester $I)
     {
-        $I->wantToTest('Cli\Router - getRouteByName()');
-        $I->skipTest('Need implementation');
+        $this->setNewCliFactoryDefault();
+    }
+
+    public function testNamedRoutes(CliTester $I)
+    {
+        Route::reset();
+
+        $router = new Router(false);
+
+        $usersFind = $router->add('api users find')->setName('usersFind');
+        $usersAdd  = $router->add('api users add')->setName('usersAdd');
+
+        $I->assertEquals(
+            $usersFind,
+            $router->getRouteByName('usersFind')
+        );
+
+        $I->assertEquals(
+            $usersAdd,
+            $router->getRouteByName('usersAdd')
+        );
     }
 }

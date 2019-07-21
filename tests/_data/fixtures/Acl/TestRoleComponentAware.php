@@ -35,29 +35,18 @@ class TestRoleComponentAware implements RoleAware, ComponentAware
      */
     protected $roleName;
 
-    /**
-     * @param $user
-     * @param $componentName
-     * @param $roleName
-     */
-    public function __construct($user, $componentName, $roleName)
+    public function __construct($user, string $componentName, string $roleName)
     {
-        $this->user         = $user;
+        $this->user          = $user;
         $this->componentName = $componentName;
-        $this->roleName     = $roleName;
+        $this->roleName      = $roleName;
     }
 
-    /**
-     * @return string
-     */
     public function getComponentName(): string
     {
         return $this->componentName;
     }
 
-    /**
-     * @return string
-     */
     public function getRoleName(): string
     {
         return $this->roleName;

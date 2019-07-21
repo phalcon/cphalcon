@@ -21,8 +21,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Http\CookieInterface
- *
  * Interface for Phalcon\Http\Cookie
  */
 ZEPHIR_INIT_CLASS(Phalcon_Http_CookieInterface) {
@@ -34,41 +32,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_CookieInterface) {
 }
 
 /**
- * Sets the cookie's value
- *
- * @param string value
- */
-ZEPHIR_DOC_METHOD(Phalcon_Http_CookieInterface, setValue);
-
-/**
- * Returns the cookie's value.
- */
-ZEPHIR_DOC_METHOD(Phalcon_Http_CookieInterface, getValue);
-
-/**
- * Sends the cookie to the HTTP client
- */
-ZEPHIR_DOC_METHOD(Phalcon_Http_CookieInterface, send);
-
-/**
  * Deletes the cookie
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_CookieInterface, delete);
 
 /**
- * Sets if the cookie must be encrypted/decrypted automatically
+ * Returns the domain that the cookie is available to
  */
-ZEPHIR_DOC_METHOD(Phalcon_Http_CookieInterface, useEncryption);
-
-/**
- * Check if the cookie is using implicit encryption
- */
-ZEPHIR_DOC_METHOD(Phalcon_Http_CookieInterface, isUsingEncryption);
-
-/**
- * Sets the cookie's expiration time
- */
-ZEPHIR_DOC_METHOD(Phalcon_Http_CookieInterface, setExpiration);
+ZEPHIR_DOC_METHOD(Phalcon_Http_CookieInterface, getDomain);
 
 /**
  * Returns the current expiration time
@@ -76,9 +47,9 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_CookieInterface, setExpiration);
 ZEPHIR_DOC_METHOD(Phalcon_Http_CookieInterface, getExpiration);
 
 /**
- * Sets the cookie's expiration time
+ * Returns if the cookie is accessible only through the HTTP protocol
  */
-ZEPHIR_DOC_METHOD(Phalcon_Http_CookieInterface, setPath);
+ZEPHIR_DOC_METHOD(Phalcon_Http_CookieInterface, getHttpOnly);
 
 /**
  * Returns the current cookie's name
@@ -91,24 +62,35 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_CookieInterface, getName);
 ZEPHIR_DOC_METHOD(Phalcon_Http_CookieInterface, getPath);
 
 /**
+ * Returns whether the cookie must only be sent when the connection is
+ * secure (HTTPS)
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Http_CookieInterface, getSecure);
+
+/**
+ * Returns the cookie's value.
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Http_CookieInterface, getValue);
+
+/**
+ * Check if the cookie is using implicit encryption
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Http_CookieInterface, isUsingEncryption);
+
+/**
+ * Sends the cookie to the HTTP client
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Http_CookieInterface, send);
+
+/**
  * Sets the domain that the cookie is available to
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_CookieInterface, setDomain);
 
 /**
- * Returns the domain that the cookie is available to
+ * Sets the cookie's expiration time
  */
-ZEPHIR_DOC_METHOD(Phalcon_Http_CookieInterface, getDomain);
-
-/**
- * Sets if the cookie must only be sent when the connection is secure (HTTPS)
- */
-ZEPHIR_DOC_METHOD(Phalcon_Http_CookieInterface, setSecure);
-
-/**
- * Returns whether the cookie must only be sent when the connection is secure (HTTPS)
- */
-ZEPHIR_DOC_METHOD(Phalcon_Http_CookieInterface, getSecure);
+ZEPHIR_DOC_METHOD(Phalcon_Http_CookieInterface, setExpiration);
 
 /**
  * Sets if the cookie is accessible only through the HTTP protocol
@@ -116,7 +98,25 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_CookieInterface, getSecure);
 ZEPHIR_DOC_METHOD(Phalcon_Http_CookieInterface, setHttpOnly);
 
 /**
- * Returns if the cookie is accessible only through the HTTP protocol
+ * Sets the cookie's expiration time
  */
-ZEPHIR_DOC_METHOD(Phalcon_Http_CookieInterface, getHttpOnly);
+ZEPHIR_DOC_METHOD(Phalcon_Http_CookieInterface, setPath);
+
+/**
+ * Sets if the cookie must only be sent when the connection is secure
+ * (HTTPS)
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Http_CookieInterface, setSecure);
+
+/**
+ * Sets the cookie's value
+ *
+ * @param string value
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Http_CookieInterface, setValue);
+
+/**
+ * Sets if the cookie must be encrypted/decrypted automatically
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Http_CookieInterface, useEncryption);
 

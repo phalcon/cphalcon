@@ -13,23 +13,94 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Cli\Router\Route;
 
 use CliTester;
+use Codeception\Example;
+use Phalcon\Cli\Router;
+use Phalcon\Cli\Router\Route;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-/**
- * Class GetReversedPathsCest
- */
 class GetReversedPathsCest
 {
-    /**
-     * Tests Phalcon\Cli\Router\Route :: getReversedPaths()
-     *
-     * @param CliTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function cliRouterRouteGetReversedPaths(CliTester $I)
+    use DiTrait;
+
+    public function _before(CliTester $I)
     {
-        $I->wantToTest('Cli\Router\Route - getReversedPaths()');
-        $I->skipTest('Need implementation');
+        $this->setNewCliFactoryDefault();
+    }
+
+    /**
+     * @dataProvider shortPathsProvider
+     */
+    public function testShortPaths(CliTester $I, Example $example)
+    {
+        Route::reset();
+
+        $router = new Router(false);
+
+        $route = $router->add(
+            'route',
+            $example['path']
+        );
+
+        $I->assertEquals(
+            $example['expected'],
+            $route->getReversedPaths()
+        );
+    }
+
+    protected function shortPathsProvider(): array
+    {
+        return [
+            [
+                'path'     => 'Feed',
+                'expected' => [
+                    'feed' => 'task',
+                ],
+            ],
+
+            [
+                'path'     => 'Feed::get',
+                'expected' => [
+                    'feed' => 'task',
+                    'get'  => 'action',
+                ],
+            ],
+
+            [
+                'path'     => 'News::Posts::show',
+                'expected' => [
+                    'News'  => 'module',
+                    'posts' => 'task',
+                    'show'  => 'action',
+                ],
+            ],
+
+            [
+
+                'path'     => 'MyApp\\Tasks\\Posts::show',
+                'expected' => [
+                    'MyApp\\Tasks' => 'namespace',
+                    'posts'        => 'task',
+                    'show'         => 'action',
+                ],
+            ],
+
+            [
+                'path'     => 'News::MyApp\\Tasks\\Posts::show',
+                'expected' => [
+                    'News'         => 'module',
+                    'MyApp\\Tasks' => 'namespace',
+                    'posts'        => 'task',
+                    'show'         => 'action',
+                ],
+            ],
+
+            [
+                'path'     => '\\Posts::show',
+                'expected' => [
+                    'posts' => 'task',
+                    'show'  => 'action',
+                ],
+            ],
+        ];
     }
 }

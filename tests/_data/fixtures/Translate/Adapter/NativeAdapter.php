@@ -14,16 +14,8 @@ namespace Phalcon\Test\Fixtures\Translate\Adapter;
 
 use Phalcon\Translate\Adapter\NativeArray;
 
-/**
- * Class NativeAdapter
- */
 class NativeAdapter extends NativeArray
 {
-    /**
-     * @param string $index
-     *
-     * @return string
-     */
     public function notFound(string $index): string
     {
         return '';

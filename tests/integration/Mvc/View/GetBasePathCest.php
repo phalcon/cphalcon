@@ -12,17 +12,16 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Mvc\View;
 
+use function dataDir;
 use IntegrationTester;
+use Phalcon\Di;
+use Phalcon\Helper\Str;
+use Phalcon\Mvc\View;
 
-/**
- * Class GetBasePathCest
- */
 class GetBasePathCest
 {
     /**
      * Tests Phalcon\Mvc\View :: getBasePath()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +29,22 @@ class GetBasePathCest
     public function mvcViewGetBasePath(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\View - getBasePath()');
-        $I->skipTest('Need implementation');
+
+        $container = new Di();
+
+        $view = new View();
+
+        $view->setViewsDir(
+            Str::dirSeparator(
+                dataDir('fixtures/views')
+            )
+        );
+
+        $view->setDI($container);
+
+        $I->assertEquals(
+            '',
+            $view->getBasePath()
+        );
     }
 }

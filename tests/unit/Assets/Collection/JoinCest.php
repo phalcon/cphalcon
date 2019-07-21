@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Assets\Collection;
 
 use UnitTester;
 
-/**
- * Class JoinCest
- */
 class JoinCest
 {
     /**
      * Tests Phalcon\Assets\Collection :: join()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class JoinCest
     public function assetsCollectionJoin(UnitTester $I)
     {
         $I->wantToTest('Assets\Collection - join()');
+
         $I->skipTest('Need implementation');
     }
 }

@@ -26,15 +26,15 @@ class ValidateCest
     /**
      * Tests Phalcon\Validation\Validator\Between :: validate() - single field
      *
-     * @param IntegrationTester $I
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
     public function validationValidatorBetweenValidateSingleField(IntegrationTester $I)
     {
         $I->wantToTest("Validation\Validator\Between - validate() - single field");
+
         $validation = new Validation();
+
         $validation->add(
             'price',
             new Between(
@@ -45,36 +45,48 @@ class ValidateCest
             )
         );
 
-        $messages = $validation->validate(['price' => 5]);
+
+        $messages = $validation->validate(
+            [
+                'price' => 5,
+            ]
+        );
 
         $expected = new Messages(
             [
                 new Message(
                     'Field price must be within the range of 1 to 3',
                     'price',
-                    'Between',
+                    Between::class,
                     0
                 ),
             ]
         );
-        $actual   = $messages;
-        $I->assertEquals($expected, $actual);
 
-        $messages = $validation->validate([]);
-        $actual   = $messages;
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals($expected, $messages);
 
-        $messages = $validation->validate(['price' => 2]);
 
-        $expected = 0;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+        $messages = $validation->validate(
+            []
+        );
+
+        $I->assertEquals($expected, $messages);
+
+
+        $messages = $validation->validate(
+            [
+                'price' => 2,
+            ]
+        );
+
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
     }
 
     /**
      * Tests Phalcon\Validation\Validator\Between :: validate() - multiple field
-     *
-     * @param IntegrationTester $I
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
@@ -82,11 +94,14 @@ class ValidateCest
     public function validationValidatorBetweenValidateMultipleField(IntegrationTester $I)
     {
         $I->wantToTest("Validation\Validator\Between - validate() - multiple field");
-        $validation         = new Validation();
+
+        $validation = new Validation();
+
         $validationMessages = [
             'amount' => 'Amount must be between 0 and 999.',
             'price'  => 'Price must be between 0 and 999.',
         ];
+
         $validation->add(
             [
                 'amount',
@@ -107,41 +122,62 @@ class ValidateCest
             )
         );
 
-        $messages = $validation->validate(['amount' => 100]);
 
-        $expected = 0;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+        $messages = $validation->validate(
+            [
+                'amount' => 100,
+            ]
+        );
 
-        $messages = $validation->validate(['amount' => 1000, 'price' => 100]);
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
 
-        $expected = 1;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
 
-        $expected = $validationMessages['amount'];
-        $actual   = $messages->offsetGet(0)->getMessage();
-        $I->assertEquals($expected, $actual);
+        $messages = $validation->validate(
+            [
+                'amount' => 1000,
+                'price'  => 100,
+            ]
+        );
 
-        $messages = $validation->validate(['amount' => 1000, 'price' => 1000]);
+        $I->assertEquals(
+            1,
+            $messages->count()
+        );
 
-        $expected = 2;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $validationMessages['amount'],
+            $messages->offsetGet(0)->getMessage()
+        );
 
-        $expected = $validationMessages['amount'];
-        $actual   = $messages->offsetGet(0)->getMessage();
-        $I->assertEquals($expected, $actual);
 
-        $expected = $validationMessages['price'];
-        $actual   = $messages->offsetGet(1)->getMessage();
-        $I->assertEquals($expected, $actual);
+        $messages = $validation->validate(
+            [
+                'amount' => 1000,
+                'price'  => 1000,
+            ]
+        );
+
+        $I->assertEquals(
+            2,
+            $messages->count()
+        );
+
+        $I->assertEquals(
+            $validationMessages['amount'],
+            $messages->offsetGet(0)->getMessage()
+        );
+
+        $I->assertEquals(
+            $validationMessages['price'],
+            $messages->offsetGet(1)->getMessage()
+        );
     }
 
     /**
      * Tests Phalcon\Validation\Validator\Between :: validate() - custom message
-     *
-     * @param IntegrationTester $I
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
@@ -149,6 +185,7 @@ class ValidateCest
     public function validationValidatorBetweenValidateCustomMessage(IntegrationTester $I)
     {
         $I->wantToTest("Validation\Validator\Between - validate() - custom message");
+
         $validation = new Validation();
 
         $validation->add(
@@ -162,29 +199,42 @@ class ValidateCest
             )
         );
 
-        $messages = $validation->validate(['price' => 5]);
+
+        $messages = $validation->validate(
+            [
+                'price' => 5,
+            ]
+        );
 
         $expected = new Messages(
             [
                 new Message(
                     'The price must be between 1 and 3',
                     'price',
-                    'Between',
+                    Between::class,
                     0
                 ),
             ]
         );
-        $actual   = $messages;
-        $I->assertEquals($expected, $actual);
 
-        $messages = $validation->validate([]);
-        $actual   = $messages;
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals($expected, $messages);
 
-        $messages = $validation->validate(['price' => 2]);
 
-        $expected = 0;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $validation->validate([]),
+            $messages
+        );
+
+
+        $messages = $validation->validate(
+            [
+                'price' => 2,
+            ]
+        );
+
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
     }
 }

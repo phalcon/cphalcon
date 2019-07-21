@@ -12,6 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Validation\Validator\Url;
 
+use Codeception\Example;
+use const FILTER_FLAG_PATH_REQUIRED;
+use const FILTER_FLAG_QUERY_REQUIRED;
 use IntegrationTester;
 use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
@@ -26,45 +29,62 @@ class ValidateCest
     /**
      * Tests Phalcon\Validation\Validator\Url :: validate() - single field
      *
-     * @param IntegrationTester $I
-     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
      */
     public function validationValidatorUrlSingleField(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Url :: validate() - single field');
-        $validation = new Validation();
-        $validation->add('url', new Url());
 
-        $messages = $validation->validate([]);
+        $validation = new Validation();
+
+        $validation->add(
+            'url',
+            new Url()
+        );
+
+
+        $messages = $validation->validate(
+            []
+        );
+
         $expected = new Messages(
             [
                 new Message(
                     'Field url must be a url',
                     'url',
-                    'Url',
+                    Url::class,
                     0
                 ),
             ]
         );
-        $actual   = $messages;
-        $I->assertEquals($expected, $actual);
 
-        $messages = $validation->validate(['url' => 'x=1']);
-        $actual   = $messages;
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals($expected, $messages);
 
-        $messages = $validation->validate(['url' => 'http://phalconphp.com']);
-        $expected = 0;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+
+        $messages = $validation->validate(
+            [
+                'url' => 'x=1',
+            ]
+        );
+
+        $I->assertEquals($expected, $messages);
+
+
+        $messages = $validation->validate(
+            [
+                'url' => 'http://phalconphp.com',
+            ]
+        );
+
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
     }
 
     /**
      * Tests Phalcon\Validation\Validator\Url :: validate() - multiple field
-     *
-     * @param IntegrationTester $I
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
@@ -72,11 +92,14 @@ class ValidateCest
     public function validationValidatorUrlMultipleField(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Url :: validate() - multiple field');
-        $validation         = new Validation();
+
+        $validation = new Validation();
+
         $validationMessages = [
             'url'        => 'Url must be correct url.',
             'anotherUrl' => 'AnotherUrl must be correct url.',
         ];
+
         $validation->add(
             [
                 'url',
@@ -88,15 +111,18 @@ class ValidateCest
                 ]
             )
         );
+
         $messages = $validation->validate(
             [
                 'url'        => 'http://google.com',
                 'anotherUrl' => 'http://google.com',
             ]
         );
-        $expected = 0;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
 
         $messages = $validation->validate(
             [
@@ -104,13 +130,16 @@ class ValidateCest
                 'anotherUrl' => 'http://google.com',
             ]
         );
-        $expected = 1;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
 
-        $expected = $validationMessages['url'];
-        $actual   = $messages->offsetGet(0)->getMessage();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            1,
+            $messages->count()
+        );
+
+        $I->assertEquals(
+            $validationMessages['url'],
+            $messages->offsetGet(0)->getMessage()
+        );
 
         $messages = $validation->validate(
             [
@@ -118,23 +147,25 @@ class ValidateCest
                 'anotherUrl' => '://google.',
             ]
         );
-        $expected = 2;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
 
-        $expected = $validationMessages['url'];
-        $actual   = $messages->offsetGet(0)->getMessage();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            2,
+            $messages->count()
+        );
 
-        $expected = $validationMessages['anotherUrl'];
-        $actual   = $messages->offsetGet(1)->getMessage();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $validationMessages['url'],
+            $messages->offsetGet(0)->getMessage()
+        );
+
+        $I->assertEquals(
+            $validationMessages['anotherUrl'],
+            $messages->offsetGet(1)->getMessage()
+        );
     }
 
     /**
      * Tests Phalcon\Validation\Validator\Url :: validate() - custom message
-     *
-     * @param IntegrationTester $I
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2016-06-05
@@ -142,6 +173,7 @@ class ValidateCest
     public function validationValidatorUrlCustomMessage(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Url :: validate() - custom message');
+
         $validation = new Validation();
 
         $validation->add(
@@ -153,27 +185,134 @@ class ValidateCest
             )
         );
 
-        $messages = $validation->validate([]);
+        $messages = $validation->validate(
+            []
+        );
+
         $expected = new Messages(
             [
                 new Message(
                     'The url is not valid',
                     'url',
-                    'Url',
+                    Url::class,
                     0
                 ),
             ]
         );
-        $actual   = $messages;
-        $I->assertEquals($expected, $actual);
 
-        $messages = $validation->validate(['url' => 'x=1']);
-        $actual   = $messages;
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals($expected, $messages);
 
-        $messages = $validation->validate(['url' => 'http://phalconphp.com']);
-        $expected = 0;
-        $actual   = $messages->count();
-        $I->assertEquals($expected, $actual);
+
+        $messages = $validation->validate(
+            [
+                'url' => 'x=1',
+            ]
+        );
+
+        $I->assertEquals($expected, $messages);
+
+
+        $messages = $validation->validate(
+            [
+                'url' => 'http://phalconphp.com',
+            ]
+        );
+
+        $I->assertEquals(
+            0,
+            $messages->count()
+        );
+    }
+
+    /**
+     * Tests Phalcon\Validation\Validator\Url :: validate() - flags
+     *
+     * @dataProvider getExamples
+     *
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2019-05-10
+     */
+    public function validationValidatorUrlFlags(IntegrationTester $I, Example $example)
+    {
+        $I->wantToTest('Validation\Validator\Url :: validate() - options ' . $example[0]);
+
+        $validation = new Validation();
+
+        $validation->add(
+            'url',
+            new Url(
+                [
+                    'options' => $example[1],
+                ]
+            )
+        );
+
+        $messages = $validation->validate(
+            [
+                'url' => $example[2],
+            ]
+        );
+
+        $I->assertEquals(
+            1,
+            $messages->count()
+        );
+
+        $expected = new Messages(
+            [
+                new Message(
+                    'Field url must be a url',
+                    'url',
+                    Url::class,
+                    0
+                ),
+            ]
+        );
+
+        $I->assertEquals($expected, $messages);
+    }
+
+    private function getExamples(): array
+    {
+        return [
+            [
+                'path required no array',
+                FILTER_FLAG_PATH_REQUIRED,
+                'phalconphp.com',
+            ],
+            [
+                'query required no array',
+                FILTER_FLAG_QUERY_REQUIRED,
+                'https://',
+            ],
+            [
+                'path required',
+                [
+                    'flags' => [
+                        FILTER_FLAG_PATH_REQUIRED,
+                    ],
+                ],
+                'phalconphp.com',
+            ],
+            [
+                'query required',
+                [
+                    'flags' => [
+                        FILTER_FLAG_QUERY_REQUIRED,
+                    ],
+                ],
+                'https://',
+            ],
+            [
+                'query and path required',
+                [
+                    'flags' => [
+                        FILTER_FLAG_PATH_REQUIRED,
+                        FILTER_FLAG_QUERY_REQUIRED,
+                    ],
+                ],
+                'phalconphp',
+            ],
+        ];
     }
 }

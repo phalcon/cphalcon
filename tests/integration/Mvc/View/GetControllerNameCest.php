@@ -13,23 +13,35 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\View;
 
 use IntegrationTester;
+use Phalcon\Mvc\View;
 
-/**
- * Class GetControllerNameCest
- */
 class GetControllerNameCest
 {
     /**
      * Tests Phalcon\Mvc\View :: getControllerName()
      *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-05-22
      */
     public function mvcViewGetControllerName(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\View - getControllerName()');
-        $I->skipTest('Need implementation');
+
+        $view = new View();
+
+        $view->setViewsDir(
+            dataDir('fixtures/views')
+        );
+
+        $view->start();
+
+        $view->render('simple', 'index');
+
+        $view->finish();
+
+        $I->assertEquals(
+            'simple',
+            $view->getControllerName()
+        );
     }
 }

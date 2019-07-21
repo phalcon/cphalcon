@@ -12,24 +12,69 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Request;
 
+use Phalcon\Test\Unit\Http\Helper\HttpBase;
 use UnitTester;
 
-/**
- * Class GetPortCest
- */
-class GetPortCest
+class GetPortCest extends HttpBase
 {
     /**
-     * Tests Phalcon\Http\Request :: getPort()
-     *
-     * @param UnitTester $I
+     * Tests Request::getPort
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2016-06-26
      */
-    public function httpRequestGetPort(UnitTester $I)
+    public function testHttpRequestPort(UnitTester $I)
     {
-        $I->wantToTest('Http\Request - getPort()');
-        $I->skipTest('Need implementation');
+        $request = $this->getRequestObject();
+
+        $this->setServerVar('HTTPS', 'on');
+        $this->setServerVar('HTTP_HOST', 'example.com');
+
+        $I->assertEquals(
+            443,
+            $request->getPort()
+        );
+
+
+        $request = $this->getRequestObject();
+
+        $this->setServerVar('HTTPS', 'off');
+        $this->setServerVar('HTTP_HOST', 'example.com');
+
+        $I->assertEquals(
+            80,
+            $request->getPort()
+        );
+
+
+        $request = $this->getRequestObject();
+
+        $this->setServerVar('HTTPS', 'off');
+        $this->setServerVar('HTTP_HOST', 'example.com:8080');
+
+        $I->assertEquals(
+            8080,
+            $request->getPort()
+        );
+
+
+        $this->setServerVar('HTTPS', 'on');
+        $this->setServerVar('HTTP_HOST', 'example.com:8081');
+
+        $I->assertEquals(
+            8081,
+            $request->getPort()
+        );
+
+        unset(
+            $_SERVER['HTTPS']
+        );
+
+        $this->setServerVar('HTTP_HOST', 'example.com:8082');
+
+        $I->assertEquals(
+            8082,
+            $request->getPort()
+        );
     }
 }

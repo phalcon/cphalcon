@@ -10,26 +10,74 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Forms\Element\TextArea;
+namespace Phalcon\Test\Integration\Forms\Element\Textarea;
 
 use IntegrationTester;
+use Phalcon\Forms\Element\Textarea;
+use Phalcon\Tag;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-/**
- * Class RenderCest
- */
 class RenderCest
 {
-    /**
-     * Tests Phalcon\Forms\Element\TextArea :: render()
-     *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function formsElementTextareaRender(IntegrationTester $I)
+    use DiTrait;
+
+    public function _before(IntegrationTester $I)
     {
-        $I->wantToTest('Forms\Element\TextArea - render()');
-        $I->skipTest('Need implementation');
+        $this->newDi();
+        $this->setDiEscaper();
+        $this->setDiUrl();
+    }
+
+    /**
+     * executed after each test
+     */
+    public function _after(IntegrationTester $I)
+    {
+        // Setting the doctype to XHTML5 for other tests to run smoothly
+        Tag::setDocType(
+            Tag::XHTML5
+        );
+    }
+
+    /**
+     * Tests Phalcon\Forms\Element\Textarea :: render()
+     *
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-05-23
+     */
+    public function formsElementTextareaRenderSimple(IntegrationTester $I)
+    {
+        $I->wantToTest('Forms\Element\Textarea - render()');
+
+        $element = new Textarea('simple');
+
+        $I->assertEquals(
+            '<textarea id="simple" name="simple"></textarea>',
+            $element->render()
+        );
+    }
+
+    /**
+     * Tests Phalcon\Forms\Element\Textarea :: render() with parameters
+     *
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-05-23
+     */
+    public function formsElementTextareaRenderWithParameters(IntegrationTester $I)
+    {
+        $I->wantToTest('Forms\Element\Textarea - render() with parameters');
+
+        $element = new Textarea(
+            'fantastic',
+            [
+                'class'       => 'fancy',
+                'placeholder' => 'Initial value',
+            ]
+        );
+
+        $I->assertEquals(
+            '<textarea id="fantastic" name="fantastic" class="fancy" placeholder="Initial value"></textarea>',
+            $element->render()
+        );
     }
 }

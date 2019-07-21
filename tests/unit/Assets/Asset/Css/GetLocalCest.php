@@ -12,48 +12,65 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Asset\Css;
 
+use Codeception\Example;
 use Phalcon\Assets\Asset\Css;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
-/**
- * Class GetLocalCest
- */
 class GetLocalCest
 {
-    use AssetsTrait;
-
     /**
-     * Tests Phalcon\Assets\Asset :: getLocal() - css local
-     *
-     * @param UnitTester $I
+     * Tests Phalcon\Assets\Asset\Css :: getLocal() - default
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function assetsAssetCssGetLocalLocal(UnitTester $I)
+    public function assetsAssetCssGetLocalDefault(UnitTester $I)
     {
-        $I->wantToTest('Assets\Asset - getLocal() - css local');
-        $asset    = new Css('css/docs.css');
-        $expected = md5('css:css/docs.css');
+        $I->wantToTest('Assets\Asset\Css - getLocal() - default');
 
-        $this->assetGetLocal($I, $asset, $expected);
+        $file = 'css/docs.css';
+
+        $asset = new Css($file);
+
+        $I->assertTrue(
+            $asset->getLocal()
+        );
     }
 
     /**
-     * Tests Phalcon\Assets\Asset :: getLocal() - css remote
+     * Tests Phalcon\Assets\Asset\Css :: getLocal()
      *
-     * @param UnitTester $I
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @dataProvider provider
      */
-    public function assetsAssetCssGetLocalRemote(UnitTester $I)
+    public function assetsAssetCssGetLocal(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Assets\Asset - getLocal() - css remote');
-        $asset    = new Css('https://phalcon.ld/css/docs.css');
-        $expected = md5('css:https://phalcon.ld/css/docs.css');
+        $I->wantToTest('Assets\Asset\Css - getLocal()');
 
-        $this->assetGetLocal($I, $asset, $expected);
+        $asset = new Css(
+            $example['path'],
+            $example['local']
+        );
+
+        $I->assertEquals(
+            $example['local'],
+            $asset->getLocal()
+        );
+    }
+
+    protected function provider(): array
+    {
+        return [
+            [
+                'path'  => 'css/docs.css',
+                'local' => true,
+            ],
+            [
+                'path'  => 'https://phalcon.ld/css/docs.css',
+                'local' => false,
+            ],
+        ];
     }
 }

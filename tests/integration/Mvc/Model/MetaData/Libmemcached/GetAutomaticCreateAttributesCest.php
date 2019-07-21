@@ -23,8 +23,6 @@ class GetAutomaticCreateAttributesCest
      * Tests Phalcon\Mvc\Model\MetaData\Libmemcached ::
      * getAutomaticCreateAttributes()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

@@ -24,14 +24,13 @@ class SetCurrentPageCest
     /**
      * Tests Phalcon\Paginator\Adapter\NativeArray :: setCurrentPage()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function paginatorAdapterNativearraySetCurrentPage(IntegrationTester $I)
     {
         $I->wantToTest('Paginator\Adapter\NativeArray - setCurrentPage()');
+
         $paginator = new NativeArray(
             [
                 'data'  => array_fill(0, 30, 'banana'),
@@ -41,10 +40,13 @@ class SetCurrentPageCest
         );
 
         $paginator->setCurrentPage(2);
+
         $page = $paginator->paginate();
 
-        $expected = Repository::class;
-        $I->assertInstanceOf($expected, $page);
+        $I->assertInstanceOf(
+            Repository::class,
+            $page
+        );
 
         $I->assertCount(10, $page->items);
         $I->assertEquals(1, $page->previous);

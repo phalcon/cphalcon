@@ -12,24 +12,81 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Loader;
 
+use Example\Namespaces\Engines\Alcohol;
+use Phalcon\Loader;
+use Phalcon\Test\Fixtures\Traits\LoaderTrait;
 use UnitTester;
+use function dataDir;
 
-/**
- * Class SetExtensionsCest
- */
 class SetExtensionsCest
 {
-    /**
-     * Tests Phalcon\Loader :: setExtensions()
-     *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function loaderSetExtensions(UnitTester $I)
+    use LoaderTrait;
+
+    public function testNamespacesExtensions(UnitTester $I)
     {
-        $I->wantToTest('Loader - setExtensions()');
-        $I->skipTest('Need implementation');
+        $loader = new Loader();
+
+        $loader->setExtensions(
+            [
+                'inc',
+                'php',
+            ]
+        );
+
+        $loader->registerNamespaces(
+            [
+                'Example\Namespaces\Base' => dataDir('fixtures/Loader/Example/Namespaces/Base/'),
+                'Example\Namespaces'      => dataDir('fixtures/Loader/Example/Namespaces/'),
+            ]
+        );
+
+        $loader->registerNamespaces(
+            [
+                'Example' => dataDir('fixtures/Loader/Example/Namespaces/'),
+            ],
+            true
+        );
+
+        $loader->register();
+
+        $I->assertInstanceOf(
+            Alcohol::class,
+            new Alcohol()
+        );
+
+        $loader->unregister();
+    }
+
+    public function testDirectoriesExtensions(UnitTester $I)
+    {
+        /**
+         * @TODO: Check Extensions for this test
+         */
+        $I->skipTest('TODO: Check Extensions for this test');
+
+        $loader = new Loader();
+
+        $loader->setExtensions(
+            [
+                'inc',
+                'php',
+            ]
+        );
+        $loader->registerDirs(
+            [
+                dataDir('fixtures/Loader/Example/Folders/Dialects'),
+                dataDir('fixtures/Loader/Example/Folders/Types'),
+                dataDir('fixtures/Loader/Example/Namespaces/Adapter'),
+            ]
+        );
+
+        $loader->register();
+
+        $I->assertInstanceOf(
+            File::class,
+            new File()
+        );
+
+        $loader->unregister();
     }
 }

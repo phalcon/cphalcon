@@ -14,22 +14,18 @@ namespace Phalcon\Test\Unit\Di\Service;
 
 use UnitTester;
 
-/**
- * Class IsResolvedCest
- */
 class IsResolvedCest
 {
     /**
-     * Tests Phalcon\Di\Service :: isResolved()
-     *
-     * @param UnitTester $I
+     * Unit Tests Phalcon\Di\Service :: isResolved()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2019-06-13
      */
     public function diServiceIsResolved(UnitTester $I)
     {
         $I->wantToTest('Di\Service - isResolved()');
+
         $I->skipTest('Need implementation');
     }
 }

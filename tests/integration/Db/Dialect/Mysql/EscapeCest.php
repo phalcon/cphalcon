@@ -14,15 +14,10 @@ namespace Phalcon\Test\Integration\Db\Dialect\Mysql;
 
 use IntegrationTester;
 
-/**
- * Class EscapeCest
- */
 class EscapeCest
 {
     /**
      * Tests Phalcon\Db\Dialect\Mysql :: escape()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

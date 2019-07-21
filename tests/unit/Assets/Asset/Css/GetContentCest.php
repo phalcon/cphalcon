@@ -14,28 +14,30 @@ namespace Phalcon\Test\Unit\Assets\Asset\Css;
 
 use Phalcon\Assets\Asset\Css;
 use UnitTester;
-use function dataFolder;
+use function dataDir;
 
-/**
- * Class GetContentCest
- */
 class GetContentCest
 {
     /**
-     * Tests Phalcon\Assets\Asset :: getContent()
-     *
-     * @param UnitTester $I
+     * Tests Phalcon\Assets\Asset\Css :: getContent()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function assetsAssetCssGetContent(UnitTester $I)
     {
-        $I->wantToTest('Assets\Asset - getContent()');
+        $I->wantToTest('Assets\Asset\Css - getContent()');
+
         $asset = new Css('assets/assets/1198.css');
 
-        $expected = file_get_contents(dataFolder('assets/assets/1198.css'));
-        $actual   = $asset->getContent(dataFolder());
-        $I->assertEquals($expected, $actual);
+        $I->openFile(
+            dataDir('assets/assets/1198.css')
+        );
+
+        $I->seeFileContentsEqual(
+            $asset->getContent(
+                dataDir()
+            )
+        );
     }
 }

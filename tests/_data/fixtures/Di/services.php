@@ -1,20 +1,23 @@
 <?php
 
+use Phalcon\Config;
+use Phalcon\Test\Module\UnitTest;
+
 return [
     'unit-test' => [
-        'className' => '\Phalcon\Test\Module\UnitTest',
+        'className' => UnitTest::class,
     ],
     'config' => [
-        'className' => '\Phalcon\Config',
-        'shared' => true,
+        'className' => Config::class,
+        'shared'    => true,
     ],
     'component' => [
-        'className' => '\SomeComponent',
+        'className' => SomeComponent::class,
         'arguments' => [
             [
                 'type' => 'service',
                 'name' => 'config',
-            ]
+            ],
         ],
     ],
 ];

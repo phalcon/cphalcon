@@ -16,18 +16,12 @@ use Codeception\Example;
 use Phalcon\Filter\Sanitize\Email;
 use UnitTester;
 
-/**
- * Class EmailCest
- */
 class EmailCest
 {
     /**
      * Tests Phalcon\Filter\Sanitize\Email :: __invoke()
      *
      * @dataProvider getData
-     *
-     * @param UnitTester $I
-     * @param Example    $example
      *
      * @author       Phalcon Team <team@phalconphp.com>
      * @since        2018-11-13
@@ -42,9 +36,6 @@ class EmailCest
         $I->assertEquals($example[1], $actual);
     }
 
-    /**
-     * @return array
-     */
     private function getData(): array
     {
         return [

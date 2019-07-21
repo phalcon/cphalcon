@@ -13,23 +13,58 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Forms\Form;
 
 use IntegrationTester;
+use Phalcon\Forms\Element\Text;
+use Phalcon\Forms\Exception;
+use Phalcon\Forms\Form;
 
-/**
- * Class GetCest
- */
 class GetCest
 {
     /**
      * Tests Phalcon\Forms\Form :: get()
      *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-05-23
      */
     public function formsFormGet(IntegrationTester $I)
     {
         $I->wantToTest('Forms\Form - get()');
-        $I->skipTest('Need implementation');
+
+        $form = new Form();
+
+        $address   = new Text('address');
+        $telephone = new Text('telephone');
+
+        $form->add($address);
+        $form->add($telephone);
+
+        $I->assertSame(
+            $address,
+            $form->get('address')
+        );
+
+        $I->assertSame(
+            $telephone,
+            $form->get('telephone')
+        );
+    }
+
+    /**
+     * Tests Phalcon\Forms\Form :: get() non-existent element
+     *
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-05-23
+     */
+    public function formsFormGetNonexistentElement(IntegrationTester $I)
+    {
+        $I->wantToTest('Forms\Form - get() non-existent element');
+
+        $form = new Form();
+
+        $I->expectThrowable(
+            new Exception('Element with ID=address is not part of the form'),
+            function () use ($form) {
+                $loginForm = $form->get('address');
+            }
+        );
     }
 }

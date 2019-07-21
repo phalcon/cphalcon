@@ -17,6 +17,7 @@
 #include "kernel/exception.h"
 #include "kernel/operators.h"
 #include "kernel/memory.h"
+#include "kernel/object.h"
 
 
 /**
@@ -67,7 +68,7 @@ PHP_METHOD(Phalcon_Filter_Sanitize_LowerFirst, __invoke) {
 	}
 
 
-	ZEPHIR_RETURN_CALL_FUNCTION("lcfirst", NULL, 53, &input);
+	ZEPHIR_RETURN_CALL_FUNCTION("lcfirst", NULL, 87, &input);
 	zephir_check_call_status();
 	RETURN_MM();
 

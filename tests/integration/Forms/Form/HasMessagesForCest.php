@@ -13,23 +13,104 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Forms\Form;
 
 use IntegrationTester;
+use Phalcon\Forms\Element\Text;
+use Phalcon\Forms\Form;
+use Phalcon\Messages\Message;
+use Phalcon\Messages\Messages;
+use Phalcon\Tag;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Validation\Validator\Regex;
 
-/**
- * Class HasMessagesForCest
- */
 class HasMessagesForCest
 {
-    /**
-     * Tests Phalcon\Forms\Form :: hasMessagesFor()
-     *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function formsFormHasMessagesFor(IntegrationTester $I)
+    use DiTrait;
+
+    public function _before(IntegrationTester $I)
     {
-        $I->wantToTest('Forms\Form - hasMessagesFor()');
-        $I->skipTest('Need implementation');
+        $this->newDi();
+        $this->setDiEscaper();
+        $this->setDiUrl();
+    }
+
+    /**
+     * executed after each test
+     */
+    public function _after(IntegrationTester $I)
+    {
+        // Setting the doctype to XHTML5 for other tests to run smoothly
+        Tag::setDocType(Tag::XHTML5);
+    }
+
+    /**
+     * Tests Form::hasMessagesFor
+     *
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2016-04-03
+     */
+    public function testFormHasMessagesFor(IntegrationTester $I)
+    {
+        // First element
+        $telephone = new Text('telephone');
+
+        $telephone->addValidators(
+            [
+                new Regex(
+                    [
+                        'pattern' => '/\+44 [0-9]+ [0-9]+/',
+                        'message' => 'The telephone has an invalid format',
+                    ]
+                ),
+            ]
+        );
+
+        // Second element
+        $address = new Text('address');
+        $form    = new Form();
+
+        $form->add($telephone);
+        $form->add($address);
+
+        $actual = $form->isValid(
+            [
+                'telephone' => '12345',
+                'address'   => 'hello',
+            ]
+        );
+
+        $I->assertFalse($actual);
+
+
+        $expected = new Messages(
+            [
+                new Message(
+                    'The telephone has an invalid format',
+                    'telephone',
+                    Regex::class,
+                    0
+                ),
+            ]
+        );
+
+        $I->assertEquals(
+            $expected,
+            $form->getMessagesFor('telephone')
+        );
+
+
+        $expected = new Messages();
+
+        $I->assertEquals(
+            $expected,
+            $form->getMessagesFor('address')
+        );
+
+
+        $I->assertTrue(
+            $form->hasMessagesFor('telephone')
+        );
+
+        $I->assertFalse(
+            $form->hasMessagesFor('address')
+        );
     }
 }

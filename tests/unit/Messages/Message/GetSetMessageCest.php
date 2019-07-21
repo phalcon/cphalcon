@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Messages\Message;
 use Phalcon\Messages\Message;
 use UnitTester;
 
-/**
- * Class GetSetMessageCest
- */
 class GetSetMessageCest
 {
     /**
      * Tests Phalcon\Messages\Message :: getMessage()/setMessage()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -32,14 +27,24 @@ class GetSetMessageCest
     {
         $I->wantToTest('Messages\Message - getMessage()/setMessage()');
 
+
         $expected = 'This is a message #1';
-        $message  = new Message($expected);
-        $actual   = $message->getMessage();
-        $I->assertEquals($expected, $actual);
+
+        $message = new Message($expected);
+
+        $I->assertEquals(
+            $expected,
+            $message->getMessage()
+        );
+
 
         $expected = 'This is a message #2';
+
         $message->setMessage($expected);
-        $actual = $message->getMessage();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $message->getMessage()
+        );
     }
 }

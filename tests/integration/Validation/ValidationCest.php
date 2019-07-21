@@ -12,7 +12,9 @@ use Phalcon\Validation\Validator\Alpha;
 use Phalcon\Validation\Validator\Email;
 use Phalcon\Validation\Validator\PresenceOf;
 use Phalcon\Validation\Validator\StringLength;
+use Phalcon\Validation\Validator\StringLength\Min;
 use Phalcon\Validation\Validator\Url;
+use stdClass;
 
 /**
  * Phalcon\Test\Integration\ValidationCest
@@ -22,7 +24,6 @@ use Phalcon\Validation\Validator\Url;
  * @link          http://www.phalconphp.com
  * @author        Andres Gutierrez <andres@phalconphp.com>
  * @author        Phalcon Team <team@phalconphp.com>
- * @package       Phalcon\Test\Integration
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file LICENSE.txt
@@ -47,7 +48,9 @@ class ValidationCest
     {
         $this->setNewFactoryDefault();
         $this->setDiMysql();
+
         $this->validation = new Validation();
+
         $this->validation->add(
             'name',
             new PresenceOf(
@@ -56,17 +59,23 @@ class ValidationCest
                 ]
             )
         );
+
         $this->validation->setFilters('name', 'trim');
+    }
+
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
     }
 
     /**
      * Tests the get
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/10405
-     * @author Phalcon Team <team@phalconphp.com>
+     *
      * @since  2016-06-27
      *
-     * @param IntegrationTester $I
+     * @author Phalcon Team <team@phalconphp.com>
      */
     public function appendValidationMessageToTheNonObject(IntegrationTester $I)
     {
@@ -74,7 +83,7 @@ class ValidationCest
         $validation  = new Validation();
 
         $validation->bind(
-            new \stdClass(),
+            new stdClass(),
             [
                 'day'   => date('d'),
                 'month' => date('m'),
@@ -89,12 +98,16 @@ class ValidationCest
                 new Message(
                     'Field foo is required',
                     'foo',
-                    'PresenceOf',
+                    PresenceOf::class,
                     0
                 ),
             ]
         );
-        $I->assertEquals($expectedMessages, $validation->getMessages());
+
+        $I->assertEquals(
+            $expectedMessages,
+            $validation->getMessages()
+        );
     }
 
     /**
@@ -105,24 +118,35 @@ class ValidationCest
      */
     public function testWithEntityAndFilter(IntegrationTester $I)
     {
-        $users    = new Users([
-            'name' => ' ',
-        ]);
+        $users = new Users(
+            [
+                'name' => ' ',
+            ]
+        );
+
         $messages = $this->validation->validate(null, $users);
 
-        $I->assertEquals($messages->count(), 1);
-        $I->assertEquals($messages->offsetGet(0)->getMessage(), 'Name cant be empty.');
+        $I->assertEquals(
+            1,
+            $messages->count()
+        );
+
+        $I->assertEquals(
+            'Name cant be empty.',
+            $messages->offsetGet(0)->getMessage()
+        );
 
         $expectedMessages = new Messages(
             [
                 new Message(
                     'Name cant be empty.',
                     'name',
-                    'PresenceOf',
+                    PresenceOf::class,
                     0
                 ),
             ]
         );
+
         $I->assertEquals($messages, $expectedMessages);
     }
 
@@ -134,40 +158,58 @@ class ValidationCest
      */
     public function testFilteringEntity(IntegrationTester $I)
     {
-        $users = new Users([
-            'name' => 'SomeName      ',
-        ]);
+        $users = new Users();
+
+        $users->assign(
+            [
+                'name' => 'SomeName      ',
+            ]
+        );
 
         $this->validation->validate(null, $users);
 
-        $I->assertEquals($users->name, 'SomeName');
-    }
-
-    public function testGetDefaultValidationMessageShouldReturnEmptyStringIfNoneIsSet(IntegrationTester $I)
-    {
-        $validation = new Validation();
-
-        $I->assertIsEmpty($validation->getDefaultMessage('_notexistentvalidationmessage_'));
+        $I->assertEquals(
+            'SomeName',
+            $users->name
+        );
     }
 
     public function testValidationFiltering(IntegrationTester $I)
     {
         $validation = new Validation();
-        $validation->setDI($this->container);
+
+        $validation->setDI(
+            $this->container
+        );
 
         $validation
-            ->add('name', new PresenceOf([
-                'message' => 'The name is required',
-            ]))
-            ->add('email', new PresenceOf([
-                'message' => 'The email is required',
-            ]))
+            ->add(
+                'name',
+                new PresenceOf(
+                    [
+                        'message' => 'The name is required',
+                    ]
+                )
+            )
+            ->add(
+                'email',
+                new PresenceOf(
+                    [
+                        'message' => 'The email is required',
+                    ]
+                )
+            )
         ;
 
         $validation->setFilters('name', 'trim');
         $validation->setFilters('email', 'trim');
 
-        $messages = $validation->validate(['name' => '  ', 'email' => '    ']);
+        $messages = $validation->validate(
+            [
+                'name'  => '  ',
+                'email' => '    ',
+            ]
+        );
 
         $I->assertCount(2, $messages);
 
@@ -177,10 +219,11 @@ class ValidationCest
             new Message(
                 'The email is required',
                 'email',
-                'PresenceOf',
+                PresenceOf::class,
                 0
             ),
         ];
+
         $I->assertEquals($filtered, $expectedMessages);
     }
 
@@ -196,6 +239,7 @@ class ValidationCest
                 ]
             )
         );
+
         $validation->add(
             'email',
             new Email(
@@ -205,6 +249,7 @@ class ValidationCest
                 ]
             )
         );
+
         $validation->add(
             'firstname',
             new PresenceOf(
@@ -213,6 +258,7 @@ class ValidationCest
                 ]
             )
         );
+
         $validation->add(
             'firstname',
             new StringLength(
@@ -223,37 +269,48 @@ class ValidationCest
             )
         );
 
-        $validation->setLabels(['firstname' => 'First name']);
-        $messages = $validation->validate(['email' => '', 'firstname' => '']);
+        $validation->setLabels(
+            [
+                'firstname' => 'First name',
+            ]
+        );
+
+        $messages = $validation->validate(
+            [
+                'email'     => '',
+                'firstname' => '',
+            ]
+        );
 
         $expectedMessages = new Messages(
             [
                 new Message(
                     'The email is required',
                     'email',
-                    'PresenceOf',
+                    PresenceOf::class,
                     0
                 ),
                 new Message(
                     'The E-mail must be email',
                     'email',
-                    'Email',
+                    Email::class,
                     0
                 ),
                 new Message(
                     'The First name is required',
                     'firstname',
-                    'PresenceOf',
+                    PresenceOf::class,
                     0
                 ),
                 new Message(
                     'The First name is too short',
                     'firstname',
-                    'TooShort',
+                    Min::class,
                     0
                 ),
             ]
         );
+
         $I->assertEquals($messages, $expectedMessages);
     }
 
@@ -267,51 +324,89 @@ class ValidationCest
     {
         $validation = new Validation();
 
-        $validation->setDI($this->container);
+        $validation->setDI(
+            $this->container
+        );
 
         $validation
-            ->add('name', new Alpha([
-                'message' => 'The name is not valid',
-            ]))
-            ->add('name', new PresenceOf([
-                'message' => 'The name is required',
-            ]))
-            ->add('url', new Url([
-                'message'    => 'The url is not valid.',
-                'allowEmpty' => true,
-            ]))
-            ->add('email', new Email([
-                'message'    => 'The email is not valid.',
-                'allowEmpty' => [null, false],
-            ]))
+            ->add(
+                'name',
+                new Alpha(
+                    [
+                        'message' => 'The name is not valid',
+                    ]
+                )
+            )
+            ->add(
+                'name',
+                new PresenceOf(
+                    [
+                        'message' => 'The name is required',
+                    ]
+                )
+            )
+            ->add(
+                'url',
+                new Url(
+                    [
+                        'message'    => 'The url is not valid.',
+                        'allowEmpty' => true,
+                    ]
+                )
+            )
+            ->add(
+                'email',
+                new Email(
+                    [
+                        'message'    => 'The email is not valid.',
+                        'allowEmpty' => [null, false],
+                    ]
+                )
+            )
         ;
 
-        $messages = $validation->validate([
-            'name'  => '',
-            'url'   => null,
-            'email' => '',
-        ]);
+
+        $messages = $validation->validate(
+            [
+                'name'  => '',
+                'url'   => null,
+                'email' => '',
+            ]
+        );
+
         $I->assertCount(2, $messages);
 
-        $messages = $validation->validate([
-            'name'  => 'MyName',
-            'url'   => '',
-            'email' => '',
-        ]);
+
+        $messages = $validation->validate(
+            [
+                'name'  => 'MyName',
+                'url'   => '',
+                'email' => '',
+            ]
+        );
+
         $I->assertCount(1, $messages);
 
-        $messages = $validation->validate([
-            'name'  => 'MyName',
-            'url'   => false,
-            'email' => null,
-        ]);
+
+        $messages = $validation->validate(
+            [
+                'name'  => 'MyName',
+                'url'   => false,
+                'email' => null,
+            ]
+        );
+
         $I->assertCount(0, $messages);
 
-        $messages = $validation->validate([
-            'name'  => 'MyName',
-            'url'   => 0,
-            'email' => 0,
-        ]);
+
+        $messages = $validation->validate(
+            [
+                'name'  => 'MyName',
+                'url'   => 0,
+                'email' => 0,
+            ]
+        );
+
         $I->assertCount(1, $messages);
     }
 }

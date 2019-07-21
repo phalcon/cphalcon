@@ -12,24 +12,67 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Db\Dialect\Mysql;
 
+use Codeception\Example;
 use IntegrationTester;
+use Phalcon\Db\Dialect\Mysql;
 
-/**
- * Class DescribeReferencesCest
- */
 class DescribeReferencesCest
 {
     /**
      * Tests Phalcon\Db\Dialect\Mysql :: describeReferences()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2017-02-26
+     *
+     * @dataProvider getDescribeReferencesFixtures
      */
-    public function dbDialectMysqlDescribeReferences(IntegrationTester $I)
+    public function dbDialectMysqlDescribeReferences(IntegrationTester $I, Example $example)
     {
         $I->wantToTest('Db\Dialect\Mysql - describeReferences()');
-        $I->skipTest('Need implementation');
+
+        $schema   = $example[0];
+        $expected = $example[1];
+
+        $dialect = new Mysql();
+
+        $actual = $dialect->describeReferences(
+            'table',
+            $schema
+        );
+
+        $I->assertEquals($expected, $actual);
+    }
+
+    protected function getDescribeReferencesFixtures(): array
+    {
+        return [
+            [
+                null,
+                'SELECT DISTINCT KCU.TABLE_NAME, KCU.COLUMN_NAME, ' .
+                'KCU.CONSTRAINT_NAME, KCU.REFERENCED_TABLE_SCHEMA, ' .
+                'KCU.REFERENCED_TABLE_NAME, KCU.REFERENCED_COLUMN_NAME, ' .
+                'RC.UPDATE_RULE, RC.DELETE_RULE ' .
+                'FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE AS KCU ' .
+                'LEFT JOIN INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS AS RC ' .
+                'ON RC.CONSTRAINT_NAME = KCU.CONSTRAINT_NAME AND ' .
+                'RC.CONSTRAINT_SCHEMA = KCU.CONSTRAINT_SCHEMA ' .
+                'WHERE KCU.REFERENCED_TABLE_NAME IS NOT NULL AND ' .
+                "KCU.CONSTRAINT_SCHEMA = DATABASE() AND KCU.TABLE_NAME = 'table'",
+            ],
+
+            [
+                'schema',
+                'SELECT DISTINCT KCU.TABLE_NAME, KCU.COLUMN_NAME, ' .
+                'KCU.CONSTRAINT_NAME, KCU.REFERENCED_TABLE_SCHEMA, ' .
+                'KCU.REFERENCED_TABLE_NAME, KCU.REFERENCED_COLUMN_NAME, ' .
+                'RC.UPDATE_RULE, RC.DELETE_RULE ' .
+                'FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE AS KCU ' .
+                'LEFT JOIN INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS AS RC ' .
+                'ON RC.CONSTRAINT_NAME = KCU.CONSTRAINT_NAME AND ' .
+                'RC.CONSTRAINT_SCHEMA = KCU.CONSTRAINT_SCHEMA ' .
+                'WHERE KCU.REFERENCED_TABLE_NAME IS NOT NULL AND ' .
+                "KCU.CONSTRAINT_SCHEMA = 'schema' AND KCU.TABLE_NAME = 'table'",
+            ],
+        ];
     }
 }

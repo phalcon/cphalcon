@@ -12,24 +12,38 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Di;
 
+use Phalcon\Di;
+use Phalcon\Escaper;
 use UnitTester;
 
-/**
- * Class OffsetUnsetCest
- */
 class OffsetUnsetCest
 {
     /**
      * Tests Phalcon\Di :: offsetUnset()
      *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-05-28
      */
     public function diOffsetUnset(UnitTester $I)
     {
         $I->wantToTest('Di - offsetUnset()');
-        $I->skipTest('Need implementation');
+
+        $di = new Di();
+
+        $escaper = new Escaper();
+
+        $di->set('escaper', $escaper);
+
+        $I->assertTrue(
+            $di->has('escaper')
+        );
+
+        unset(
+            $di['escaper']
+        );
+
+        $I->assertFalse(
+            $di->has('escaper')
+        );
     }
 }

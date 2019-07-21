@@ -15,17 +15,10 @@ namespace Phalcon\Test\Unit\Html\Tag;
 use Phalcon\Html\Tag;
 use UnitTester;
 
-/**
- * Class SetAttributesCest
- *
- * @package Phalcon\Test\Unit\Html\Tag
- */
 class SetAttributesCest
 {
     /**
      * Tests Phalcon\Html\Tag :: setAttributes()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

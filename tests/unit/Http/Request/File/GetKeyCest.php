@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Http\Request\File;
 
 use UnitTester;
 
-/**
- * Class GetKeyCest
- */
 class GetKeyCest
 {
     /**
      * Tests Phalcon\Http\Request\File :: getKey()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetKeyCest
     public function httpRequestFileGetKey(UnitTester $I)
     {
         $I->wantToTest('Http\Request\File - getKey()');
+
         $I->skipTest('Need implementation');
     }
 }

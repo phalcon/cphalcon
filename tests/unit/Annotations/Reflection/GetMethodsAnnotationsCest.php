@@ -12,17 +12,28 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Annotations\Reflection;
 
+use Phalcon\Annotations\Reflection;
 use UnitTester;
 
-/**
- * Class GetMethodsAnnotationsCest
- */
 class GetMethodsAnnotationsCest
 {
     /**
-     * Tests Phalcon\Annotations\Reflection :: getMethodsAnnotations()
+     * Tests creating empty Reflection object
      *
-     * @param UnitTester $I
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2016-01-26
+     */
+    public function testEmptyReflection(UnitTester $I)
+    {
+        $reflection = new Reflection();
+
+        $I->assertFalse(
+            $reflection->getMethodsAnnotations()
+        );
+    }
+
+    /**
+     * Tests Phalcon\Annotations\Reflection :: getMethodsAnnotations()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +41,7 @@ class GetMethodsAnnotationsCest
     public function annotationsReflectionGetMethodsAnnotations(UnitTester $I)
     {
         $I->wantToTest('Annotations\Reflection - getMethodsAnnotations()');
+
         $I->skipTest('Need implementation');
     }
 }

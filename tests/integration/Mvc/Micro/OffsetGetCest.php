@@ -13,23 +13,61 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Micro;
 
 use IntegrationTester;
+use Phalcon\Di;
+use Phalcon\Escaper;
+use Phalcon\Mvc\Dispatcher;
+use Phalcon\Mvc\Micro;
+use Phalcon\Mvc\Router;
 
-/**
- * Class OffsetGetCest
- */
 class OffsetGetCest
 {
     /**
      * Tests Phalcon\Mvc\Micro :: offsetGet()
      *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-05-22
      */
     public function mvcMicroOffsetGet(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Micro - offsetGet()');
-        $I->skipTest('Need implementation');
+
+        $micro = new Micro();
+
+        $di = new Di();
+
+        $micro->setDi($di);
+
+
+
+        $escaper = new Escaper();
+
+        $micro->setService('escaper', $escaper);
+
+        $I->assertSame(
+            $escaper,
+            $micro['escaper']
+        );
+
+
+
+        $dispatcher = new Dispatcher();
+
+        $micro['dispatcher'] = $dispatcher;
+
+        $I->assertSame(
+            $dispatcher,
+            $micro['dispatcher']
+        );
+
+
+
+        $router = new Router();
+
+        $di->set('router', $router);
+
+        $I->assertSame(
+            $router,
+            $micro['router']
+        );
     }
 }

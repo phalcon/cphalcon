@@ -13,23 +13,64 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Db\Reference;
 
 use IntegrationTester;
+use Phalcon\Test\Fixtures\Traits\DialectTrait;
 
-/**
- * Class GetNameCest
- */
 class GetNameCest
 {
+    use DialectTrait;
+
     /**
      * Tests Phalcon\Db\Reference :: getName()
-     *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
      */
     public function dbReferenceGetName(IntegrationTester $I)
     {
         $I->wantToTest('Db\Reference - getName()');
-        $I->skipTest('Need implementation');
+
+        $references = $this->getReferences();
+
+
+
+        $reference1 = $references['fk1'];
+
+        $I->assertEquals(
+            'fk1',
+            $reference1->getName()
+        );
+
+
+
+        $reference2 = $references['fk2'];
+
+        $I->assertEquals(
+            'fk2',
+            $reference2->getName()
+        );
+
+
+
+        $reference3 = $references['fk3'];
+
+        $I->assertEquals(
+            'fk3',
+            $reference3->getName()
+        );
+
+
+
+        $reference4 = $references['fk4'];
+
+        $I->assertEquals(
+            'fk4',
+            $reference4->getName()
+        );
+
+
+
+        $reference5 = $references['fk5'];
+
+        $I->assertEquals(
+            'fk5',
+            $reference5->getName()
+        );
     }
 }

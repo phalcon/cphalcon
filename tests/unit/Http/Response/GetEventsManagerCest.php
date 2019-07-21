@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Http\Response;
 
 use UnitTester;
 
-/**
- * Class GetEventsManagerCest
- */
 class GetEventsManagerCest
 {
     /**
      * Tests Phalcon\Http\Response :: getEventsManager()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

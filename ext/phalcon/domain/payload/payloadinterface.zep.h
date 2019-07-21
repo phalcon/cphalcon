@@ -1,0 +1,5 @@
+
+extern zend_class_entry *phalcon_domain_payload_payloadinterface_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Domain_Payload_PayloadInterface);
+

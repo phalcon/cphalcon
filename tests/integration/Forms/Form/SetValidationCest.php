@@ -13,23 +13,115 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Forms\Form;
 
 use IntegrationTester;
+use Phalcon\Forms\Element\Text;
+use Phalcon\Forms\Form;
+use Phalcon\Messages\Message;
+use Phalcon\Messages\Messages;
+use Phalcon\Tag;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Validation;
+use Phalcon\Validation\Validator\Regex;
 
 /**
  * Class SetValidationCest
  */
 class SetValidationCest
 {
-    /**
-     * Tests Phalcon\Forms\Form :: setValidation()
-     *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function formsFormSetValidation(IntegrationTester $I)
+    use DiTrait;
+
+    public function _before(IntegrationTester $I)
     {
-        $I->wantToTest('Forms\Form - setValidation()');
-        $I->skipTest('Need implementation');
+        $this->newDi();
+        $this->setDiEscaper();
+        $this->setDiUrl();
+    }
+
+    /**
+     * executed after each test
+     */
+    public function _after(IntegrationTester $I)
+    {
+        // Setting the doctype to XHTML5 for other tests to run smoothly
+        Tag::setDocType(Tag::XHTML5);
+    }
+
+    /**
+     * Tests Form::setValidation()
+     *
+     * @author Mohamad Rostami <rostami@outlook.com>
+     * @issue  https://github.com/phalcon/cphalcon/issues/12465
+     */
+    public function testCustomValidation(IntegrationTester $I)
+    {
+        // First element
+        $telephone = new Text('telephone');
+
+        $customValidation = new Validation();
+
+        $customValidation->add(
+            'telephone',
+            new Regex(
+                [
+                    'pattern' => '/\+44 [0-9]+ [0-9]+/',
+                    'message' => 'The telephone has an invalid format',
+                ]
+            )
+        );
+
+        $form    = new Form();
+        $address = new Text('address');
+
+        $form->add($telephone);
+        $form->add($address);
+
+        $form->setValidation($customValidation);
+
+
+        $actual = $form->isValid(
+            [
+                'telephone' => '12345',
+                'address'   => 'hello',
+            ]
+        );
+
+        $I->assertFalse($actual);
+
+
+        $actual = $form->get('telephone')->hasMessages();
+
+        $I->assertTrue($actual);
+
+
+        $actual = $form->get('address')->hasMessages();
+
+        $I->assertFalse($actual);
+
+
+        $expected = new Messages(
+            [
+                new Message(
+                    'The telephone has an invalid format',
+                    'telephone',
+                    Regex::class,
+                    0
+                ),
+            ]
+        );
+
+        $actual = $form->get('telephone')->getMessages();
+
+        $I->assertEquals($expected, $actual);
+
+
+        $expected = $form->getMessages();
+        $actual   = $form->get('telephone')->getMessages();
+
+        $I->assertEquals($expected, $actual);
+
+
+        $expected = new Messages();
+        $actual   = $form->get('address')->getMessages();
+
+        $I->assertEquals($expected, $actual);
     }
 }

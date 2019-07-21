@@ -14,15 +14,10 @@ namespace Phalcon\Test\Integration\Db\Dialect\Sqlite;
 
 use IntegrationTester;
 
-/**
- * Class RegisterCustomFunctionCest
- */
 class RegisterCustomFunctionCest
 {
     /**
      * Tests Phalcon\Db\Dialect\Sqlite :: registerCustomFunction()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

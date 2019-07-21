@@ -22,8 +22,6 @@ class SetControllerNameCest
     /**
      * Tests Phalcon\Mvc\Dispatcher :: setControllerName()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */

@@ -12,24 +12,47 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Image\Adapter\Gd;
 
+use Phalcon\Image\Adapter\Gd;
+use Phalcon\Test\Fixtures\Traits\GdTrait;
 use UnitTester;
 
-/**
- * Class GetTypeCest
- */
 class GetTypeCest
 {
+    use GdTrait;
+
     /**
      * Tests Phalcon\Image\Adapter\Gd :: getType()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function imageAdapterGdGetType(UnitTester $I)
+    public function imageAdapterGdGetTypeJpg(UnitTester $I)
     {
-        $I->wantToTest('Image\Adapter\Gd - getType()');
-        $I->skipTest('Need implementation');
+        $I->wantToTest('Image\Adapter\Gd - getType() - from jpg image');
+
+        $gd = new Gd(dataDir('assets/images/phalconphp.jpg'));
+
+        $I->assertSame(
+            2,
+            $gd->getType()
+        );
+    }
+
+    /**
+     * Tests Phalcon\Image\Adapter\Gd :: getType()
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2018-11-13
+     */
+    public function imageAdapterGdGetTypePng(UnitTester $I)
+    {
+        $I->wantToTest('Image\Adapter\Gd - getType() - from png image');
+
+        $gd = new Gd(dataDir('assets/images/logo.png'));
+
+        $I->assertSame(
+            3,
+            $gd->getType()
+        );
     }
 }

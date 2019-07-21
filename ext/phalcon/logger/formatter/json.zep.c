@@ -43,7 +43,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Formatter_Json) {
 	 *
 	 * @var string
 	 */
-	zend_declare_property_string(phalcon_logger_formatter_json_ce, SL("dateFormat"), "D, d M y H:i:s O", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_logger_formatter_json_ce, SL("dateFormat"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	return SUCCESS;
 
@@ -85,8 +85,6 @@ PHP_METHOD(Phalcon_Logger_Formatter_Json, setDateFormat) {
 
 /**
  * Phalcon\Logger\Formatter\Json construct
- *
- * @param string dateFormat
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Json, __construct) {
 
@@ -101,25 +99,19 @@ PHP_METHOD(Phalcon_Logger_Formatter_Json, __construct) {
 
 	if (!dateFormat_param) {
 		ZEPHIR_INIT_VAR(&dateFormat);
-		ZVAL_STRING(&dateFormat, "");
+		ZVAL_STRING(&dateFormat, "D, d M y H:i:s O");
 	} else {
 		zephir_get_strval(&dateFormat, dateFormat_param);
 	}
 
 
-	if (!(Z_TYPE_P(&dateFormat) == IS_UNDEF) && Z_STRLEN_P(&dateFormat)) {
-		zephir_update_property_zval(this_ptr, SL("dateFormat"), &dateFormat);
-	}
+	zephir_update_property_zval(this_ptr, SL("dateFormat"), &dateFormat);
 	ZEPHIR_MM_RESTORE();
 
 }
 
 /**
  * Applies a format to a message before sent it to the internal log
- *
- * @param <Item> item
- *
- * @return string
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Json, format) {
 
@@ -168,7 +160,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Json, format) {
 	zephir_read_property(&_6, this_ptr, SL("dateFormat"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&_5, item, "gettime", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_7, "date", NULL, 299, &_6, &_5);
+	ZEPHIR_CALL_FUNCTION(&_7, "date", NULL, 415, &_6, &_5);
 	zephir_check_call_status();
 	zephir_array_update_string(&_4, SL("timestamp"), &_7, PH_COPY | PH_SEPARATE);
 	zephir_json_encode(&_3, &_4, 0 );

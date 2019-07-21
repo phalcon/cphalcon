@@ -14,15 +14,10 @@ namespace Phalcon\Test\Integration\Mvc\View\Engine\Volt;
 
 use IntegrationTester;
 
-/**
- * Class LengthCest
- */
 class LengthCest
 {
     /**
      * Tests Phalcon\Mvc\View\Engine\Volt :: length()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

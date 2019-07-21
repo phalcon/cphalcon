@@ -13,23 +13,24 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Router;
 
 use IntegrationTester;
+use Phalcon\Mvc\Router;
 
-/**
- * Class IsExactControllerNameCest
- */
 class IsExactControllerNameCest
 {
     /**
      * Tests Phalcon\Mvc\Router :: isExactControllerName()
      *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-06-04
      */
     public function mvcRouterIsExactControllerName(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Router - isExactControllerName()');
-        $I->skipTest('Need implementation');
+
+        $router = new Router(false);
+
+        $I->assertTrue(
+            $router->isExactControllerName()
+        );
     }
 }

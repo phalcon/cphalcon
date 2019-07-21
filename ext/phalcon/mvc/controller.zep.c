@@ -28,13 +28,15 @@
 /**
  * Phalcon\Mvc\Controller
  *
- * Every application controller should extend this class that encapsulates all the controller functionality
+ * Every application controller should extend this class that encapsulates all
+ * the controller functionality
  *
- * The controllers provide the “flow” between models and views. Controllers are responsible
- * for processing the incoming requests from the web browser, interrogating the models for data,
- * and passing that data on to the views for presentation.
+ * The controllers provide the “flow” between models and views. Controllers are
+ * responsible for processing the incoming requests from the web browser,
+ * interrogating the models for data, and passing that data on to the views for
+ * presentation.
  *
- *<code>
+ *```php
  * <?php
  *
  * class PeopleController extends \Phalcon\Mvc\Controller
@@ -61,7 +63,7 @@
  *         );
  *     }
  * }
- *</code>
+ *```
  */
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Controller) {
 

@@ -11,6 +11,7 @@
 
 namespace Phalcon\Test\Unit\Flash;
 
+use Codeception\Example;
 use Phalcon\Flash\Session;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
@@ -34,64 +35,102 @@ class SessionCest
         $this->newDi();
         $this->setDiEscaper();
         $this->setDiSessionFiles();
+
+        if (PHP_SESSION_ACTIVE !== session_status()) {
+            session_start();
+        }
+
+        if (!isset($_SESSION)) {
+            $_SESSION = [];
+        }
+    }
+
+    public function _after(UnitTester $I)
+    {
+        session_destroy();
     }
 
 
     /**
      * Tests auto escaping
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author       Phalcon Team <team@phalconphp.com>
      * @issue  https://github.com/phalcon/cphalcon/issues/11448
-     * @since  2016-06-15
+     * @since        2016-06-15
+     *
+     * @dataProvider testShouldAutoEscapeHtmlProvider
      */
-    public function testShouldAutoEscapeHtml(UnitTester $I)
+    public function testShouldAutoEscapeHtml(UnitTester $I, Example $example)
     {
-        /**
-         * @TODO Check the session
-         */
-        $I->skipTest('TODO: Check the session');
-        $examples = [
-            'error',
-            'success',
-            'notice',
-            'warning',
+        $function = $example[0];
+
+        $flash = $this->getFlash();
+
+
+        $flash->setAutoescape(false);
+
+        $message = "<script>alert('This will execute as JavaScript!')</script>";
+
+        $flash->$function($message);
+
+        $I->assertEquals(
+            [
+                $message,
+            ],
+            $flash->getMessages($function)
+        );
+
+
+        ob_start();
+        $flash->$function(
+            "<script>alert('This will execute as JavaScript!')</script>"
+        );
+        $flash->output();
+        $actual = ob_get_contents();
+        ob_end_clean();
+
+        $I->assertEquals(
+            "<div class=\"{$function}Message\"><script>alert('This will execute as JavaScript!')</script></div>" . PHP_EOL,
+            $actual
+        );
+
+
+        $flash->setAutoescape(true);
+
+        $message = "<script>alert('This will execute as JavaScript!')</script>";
+
+        $flash->$function($message);
+
+        $I->assertEquals(
+            [
+                $message,
+            ],
+            $flash->getMessages($function)
+        );
+
+
+        ob_start();
+        $flash->$function(
+            "<script>alert('This will execute as JavaScript!')</script>"
+        );
+        $flash->output();
+        $actual = ob_get_contents();
+        ob_end_clean();
+
+        $I->assertEquals(
+            "<div class=\"{$function}Message\">&lt;script&gt;alert(&#039;This will execute as JavaScript!&#039;)&lt;/script&gt;</div>" . PHP_EOL,
+            $actual
+        );
+    }
+
+    private function testShouldAutoEscapeHtmlProvider(): array
+    {
+        return [
+            ['error'],
+            ['success'],
+            ['notice'],
+            ['warning'],
         ];
-        foreach ($examples as $function) {
-            $flash = $this->getFlash();
-
-            $flash->setAutoescape(false);
-            $flash->$function("<script>alert('This will execute as JavaScript!')</script>");
-
-            $expected = ["<script>alert('This will execute as JavaScript!')</script>"];
-            $actual   = $flash->getMessages($function);
-            $I->assertEquals($expected, $actual);
-
-            ob_start();
-            $flash->$function("<script>alert('This will execute as JavaScript!')</script>");
-            $flash->output();
-            $actual = ob_get_contents();
-            ob_end_clean();
-
-            $expected = "<div class=\"{$function}Message\">"
-                . "<script>alert('This will execute as JavaScript!')</script></div>" . PHP_EOL;
-            $I->assertEquals($expected, $actual);
-
-            $flash->setAutoescape(true);
-            $flash->$function("<script>alert('This will execute as JavaScript!')</script>");
-            $expected = ["<script>alert('This will execute as JavaScript!')</script>"];
-            $actual   = $flash->getMessages($function);
-            $I->assertEquals($expected, $actual);
-
-            ob_start();
-            $flash->$function("<script>alert('This will execute as JavaScript!')</script>");
-            $flash->output();
-            $actual = ob_get_contents();
-            ob_end_clean();
-
-            $expected = "<div class=\"{$function}Message\">&lt;script&gt;alert(&#039;"
-                . "This will execute as JavaScript!&#039;)&lt;/script&gt;</div>" . PHP_EOL;
-            $I->assertEquals($expected, $actual);
-        }
     }
 
     /**
@@ -100,7 +139,9 @@ class SessionCest
     protected function getFlash()
     {
         $container = $this->getDi();
-        $flash     = new Session($this->classes);
+
+        $flash = new Session($this->classes);
+
         $flash->setDI($container);
 
         return $flash;
@@ -115,25 +156,28 @@ class SessionCest
      */
     public function testGetMessagesTypeRemoveMessages(UnitTester $I)
     {
-        /**
-         * @TODO Check the session
-         */
-        $I->skipTest('TODO: Check the session');
         $flash = $this->getFlash();
 
         $flash->success('sample success');
         $flash->error('sample error');
 
-        $expected = ['sample success'];
-        $actual   = $flash->getMessages('success');
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            [
+                'sample success',
+            ],
+            $flash->getMessages('success')
+        );
 
-        $expected = ['sample error'];
-        $actual   = $flash->getMessages('error');
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            [
+                'sample error',
+            ],
+            $flash->getMessages('error')
+        );
 
-        $actual = $flash->getMessages();
-        $I->assertEmpty($actual);
+        $I->assertEmpty(
+            $flash->getMessages()
+        );
     }
 
     /**
@@ -145,20 +189,19 @@ class SessionCest
      */
     public function testGetNonExistentType(UnitTester $I)
     {
-        /**
-         * @TODO Check the session
-         */
-        $I->skipTest('TODO: Check the session');
         $flash = $this->getFlash();
+
         $flash->error('sample error');
 
-        $expected = [];
-        $actual   = $flash->getMessages('success', false);
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            [],
+            $flash->getMessages('success', false)
+        );
 
-        $expected = 1;
-        $actual   = count($flash->getMessages());
-        $I->assertTrue($expected === $actual);
+        $I->assertCount(
+            1,
+            $flash->getMessages()
+        );
     }
 
     /**
@@ -169,10 +212,6 @@ class SessionCest
      */
     public function testClearMessagesFormSession(UnitTester $I)
     {
-        /**
-         * @TODO Check the session
-         */
-        $I->skipTest('TODO: Check the session');
         $flash = $this->getFlash();
 
         ob_start();
@@ -181,64 +220,56 @@ class SessionCest
         $flash->clear();
         $actual = ob_get_contents();
         ob_end_clean();
-        $expected = '';
 
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            '',
+            $actual
+        );
     }
 
     /**
      * Test output formatted messages
      *
-     * @author Iván Guillén <zeopix@gmail.com>
-     * @since  2015-10-26
+     * @author       Iván Guillén <zeopix@gmail.com>
+     * @since        2015-10-26
+     *
+     * @dataProvider testMessageFormatProvider
      */
-    public function testMessageFormat(UnitTester $I)
+    public function testMessageFormat(UnitTester $I, Example $example)
     {
-        /**
-         * @TODO Check the session
-         */
-        $I->skipTest('TODO: Check the session');
-        $examples = [
-            'error',
-            'success',
-            'notice',
-        ];
+        $function = $example[0];
 
-        foreach ($examples as $function) {
-            $flash    = $this->getFlash();
-            $template = ' class="%s"';
-            $class    = sprintf($template, $this->classes[$function]);
+        $flash = $this->getFlash();
 
-            $template = '<div%s>%s</div>' . PHP_EOL;
-            $message  = 'sample message';
+        $class = sprintf(
+            ' class="%s"',
+            $this->classes[$function]
+        );
 
-            $expected = sprintf($template, $class, $message);
-            ob_start();
-            $flash->$function($message);
-            $flash->output();
-            $actual = ob_get_contents();
-            ob_end_clean();
+        $message = 'sample message';
 
-            $I->assertEquals($expected, $actual);
-        }
+        $expected = sprintf(
+            '<div%s>%s</div>' . PHP_EOL,
+            $class,
+            $message
+        );
+
+        ob_start();
+        $flash->$function($message);
+        $flash->output();
+        $actual = ob_get_contents();
+        ob_end_clean();
+
+        $I->assertEquals($expected, $actual);
     }
 
-    /**
-     * Test custom template getter/setter
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @issue  https://github.com/phalcon/cphalcon/issues/13445
-     * @since  2018-10-16
-     */
-    public function testCustomTemplateGetterSetter(UnitTester $I)
+    private function testMessageFormatProvider(): array
     {
-        $flash    = $this->getFlash();
-        $template = '<span class="%cssClasses%">%message%</span>';
-        $flash->setCustomTemplate($template);
-
-        $expected = $template;
-        $actual   = $flash->getCustomTemplate();
-        $I->assertEquals($expected, $actual);
+        return [
+            ['error'],
+            ['success'],
+            ['notice'],
+        ];
     }
 
     /**
@@ -250,22 +281,24 @@ class SessionCest
      */
     public function testCustomFormat(UnitTester $I)
     {
-        /**
-         * @TODO Check the session
-         */
-        $I->skipTest('TODO: Check the session');
-        $flash    = $this->getFlash();
+        $flash = $this->getFlash();
+
         $template = '<span class="%cssClass%" aria-label="clickme">%message%</span>';
+
         $flash->setCustomTemplate($template);
 
-        $message  = 'sample message';
-        $expected = '<span class="successMessage" aria-label="clickme">sample message</span>';
-        ob_start();
+        $message = 'sample message';
+
         $flash->success($message);
+
+        ob_start();
         $flash->output();
         $actual = ob_get_contents();
         ob_end_clean();
 
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            '<span class="successMessage" aria-label="clickme">sample message</span>',
+            $actual
+        );
     }
 }

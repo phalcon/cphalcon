@@ -12,17 +12,17 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Translate\Adapter\Gettext;
 
+use Phalcon\Test\Fixtures\Traits\TranslateGettextTrait;
+use Phalcon\Translate\Adapter\Gettext;
+use Phalcon\Translate\InterpolatorFactory;
 use UnitTester;
 
-/**
- * Class OffsetGetCest
- */
 class OffsetGetCest
 {
+    use TranslateGettextTrait;
+
     /**
      * Tests Phalcon\Translate\Adapter\Gettext :: offsetGet()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +30,16 @@ class OffsetGetCest
     public function translateAdapterGettextOffsetGet(UnitTester $I)
     {
         $I->wantToTest('Translate\Adapter\Gettext - offsetGet()');
-        $I->skipTest('Need implementation');
+
+        $params     = $this->getGettextConfig();
+        $translator = new Gettext(
+            new InterpolatorFactory(),
+            $params
+        );
+
+        $I->assertEquals(
+            'Hello',
+            $translator->offsetGet('hi')
+        );
     }
 }

@@ -15,8 +15,8 @@ use Phalcon\Mvc\Model;
 
 class M2MParts extends Model
 {
-    public function getSource(): string
+    public function initialize()
     {
-        return 'm2m_parts';
+        $this->setSource('m2m_parts');
     }
 }

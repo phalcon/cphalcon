@@ -12,42 +12,41 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Db\Dialect\Sqlite;
 
+use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Db\Column;
+use Phalcon\Db\Dialect\Sqlite;
 use Phalcon\Db\Index;
 use Phalcon\Db\Reference;
-use Phalcon\Test\Fixtures\Traits\DialectTrait;
 
 class CreateTableCest
 {
-    use DialectTrait;
-
     /**
      * Tests Phalcon\Db\Dialect\Sqlite :: createTable()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2017-02-26
+     * @since  2017-02-
+     *
+     * @dataProvider getCreateTableFixtures
      */
-    public function dbDialectSqliteCreateTable(IntegrationTester $I)
+    public function dbDialectSqliteCreateTable(IntegrationTester $I, Example $example)
     {
         $I->wantToTest("Db\Dialect\Sqlite - createTable()");
-        $data = $this->getCreateTableFixtures();
-        foreach ($data as $item) {
-            $schema     = $item[0];
-            $definition = $item[1];
-            $expected   = $item[2];
-            $dialect    = $this->getDialectSqlite();
-            $actual     = $dialect->createTable('table', $schema, $definition);
 
-            $I->assertEquals($expected, $actual);
-        }
+        $schema     = $example[0];
+        $definition = $example[1];
+        $expected   = $example[2];
+        $dialect    = new Sqlite();
+
+        $actual = $dialect->createTable(
+            'table',
+            $schema,
+            $definition
+        );
+
+        $I->assertEquals($expected, $actual);
     }
 
-    /**
-     * @return array
-     */
     protected function getCreateTableFixtures(): array
     {
         return [
@@ -55,47 +54,62 @@ class CreateTableCest
                 '',
                 [
                     'columns' => [
-                        new Column('column1', [
-                            'type' => Column::TYPE_VARCHAR,
-                            'size' => 10,
-                        ]),
-                        new Column('column2', [
-                            'type'     => Column::TYPE_INTEGER,
-                            'size'     => 18,
-                            'unsigned' => true,
-                            'notNull'  => false,
-                        ]),
+                        new Column(
+                            'column1',
+                            [
+                                'type' => Column::TYPE_VARCHAR,
+                                'size' => 10,
+                            ]
+                        ),
+                        new Column(
+                            'column2',
+                            [
+                                'type'     => Column::TYPE_INTEGER,
+                                'size'     => 18,
+                                'unsigned' => true,
+                                'notNull'  => false,
+                            ]
+                        ),
                     ],
                 ],
-                rtrim(file_get_contents(dataFolder('fixtures/Db/sqlite/example1.sql'))),
+                rtrim(file_get_contents(dataDir('fixtures/Db/sqlite/example1.sql'))),
             ],
             'example2' => [
                 '',
                 [
                     'columns' => [
-                        new Column('column2', [
-                            'type'     => Column::TYPE_INTEGER,
-                            'size'     => 18,
-                            'unsigned' => true,
-                            'notNull'  => false,
-                        ]),
-                        new Column('column3', [
-                            'type'     => Column::TYPE_DECIMAL,
-                            'size'     => 10,
-                            'scale'    => 2,
-                            'unsigned' => false,
-                            'notNull'  => true,
-                        ]),
-                        new Column('column1', [
-                            'type' => Column::TYPE_VARCHAR,
-                            'size' => 10,
-                        ]),
+                        new Column(
+                            'column2',
+                            [
+                                'type'     => Column::TYPE_INTEGER,
+                                'size'     => 18,
+                                'unsigned' => true,
+                                'notNull'  => false,
+                            ]
+                        ),
+                        new Column(
+                            'column3',
+                            [
+                                'type'     => Column::TYPE_DECIMAL,
+                                'size'     => 10,
+                                'scale'    => 2,
+                                'unsigned' => false,
+                                'notNull'  => true,
+                            ]
+                        ),
+                        new Column(
+                            'column1',
+                            [
+                                'type' => Column::TYPE_VARCHAR,
+                                'size' => 10,
+                            ]
+                        ),
                     ],
                     'indexes' => [
                         new Index('PRIMARY', ['column3']),
                     ],
                 ],
-                rtrim(file_get_contents(dataFolder('fixtures/Db/sqlite/example2.sql'))),
+                rtrim(file_get_contents(dataDir('fixtures/Db/sqlite/example2.sql'))),
             ],
             'example3' => [
                 '',
@@ -131,7 +145,7 @@ class CreateTableCest
                         ]),
                     ],
                 ],
-                rtrim(file_get_contents(dataFolder('fixtures/Db/sqlite/example3.sql'))),
+                rtrim(file_get_contents(dataDir('fixtures/Db/sqlite/example3.sql'))),
             ],
             'example4' => [
                 '',
@@ -151,7 +165,7 @@ class CreateTableCest
                         ]),
                     ],
                 ],
-                rtrim(file_get_contents(dataFolder('fixtures/Db/sqlite/example4.sql'))),
+                rtrim(file_get_contents(dataDir('fixtures/Db/sqlite/example4.sql'))),
             ],
             'example5' => [
                 '',
@@ -171,7 +185,7 @@ class CreateTableCest
                         ]),
                     ],
                 ],
-                rtrim(file_get_contents(dataFolder('fixtures/Db/sqlite/example5.sql'))),
+                rtrim(file_get_contents(dataDir('fixtures/Db/sqlite/example5.sql'))),
             ],
             'example6' => [
                 '',
@@ -187,7 +201,7 @@ class CreateTableCest
                         ]),
                     ],
                 ],
-                rtrim(file_get_contents(dataFolder('fixtures/Db/sqlite/example6.sql'))),
+                rtrim(file_get_contents(dataDir('fixtures/Db/sqlite/example6.sql'))),
             ],
             'example7' => [
                 '',
@@ -198,7 +212,7 @@ class CreateTableCest
                         ]),
                     ],
                 ],
-                rtrim(file_get_contents(dataFolder('fixtures/Db/sqlite/example7.sql'))),
+                rtrim(file_get_contents(dataDir('fixtures/Db/sqlite/example7.sql'))),
             ],
             'example8' => [
                 '',
@@ -213,7 +227,7 @@ class CreateTableCest
                         ]),
                     ],
                 ],
-                rtrim(file_get_contents(dataFolder('fixtures/Db/sqlite/example8.sql'))),
+                rtrim(file_get_contents(dataDir('fixtures/Db/sqlite/example8.sql'))),
             ],
         ];
     }

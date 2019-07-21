@@ -13,32 +13,33 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Assets\Inline\Js;
 
 use Phalcon\Assets\Inline\Js;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
-/**
- * Class GetAttributesCest
- */
 class GetAttributesCest
 {
-    use AssetsTrait;
-
     /**
-     * Tests Phalcon\Assets\Inline :: getAttributes()
-     *
-     * @param UnitTester $I
+     * Tests Phalcon\Assets\Inline\Js :: getAttributes()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function assetsInlineGetAttributes(UnitTester $I)
+    public function assetsInlineJsGetAttributes(UnitTester $I)
     {
-        $I->wantToTest('Assets\Inline - getAttributes()');
-        $attributes = ['data-key' => 'phalcon'];
-        $content    = '<script>alert("Hello");</script>';
-        $asset      = new Js($content, true, $attributes);
+        $I->wantToTest('Assets\Inline\Js - getAttributes()');
 
-        $expected = $attributes;
-        $this->assetGetAttributes($I, $asset, $expected);
+        $attributes = [
+            'data-key' => 'phalcon',
+        ];
+
+        $asset = new Js(
+            '<script>alert("Hello");</script>',
+            true,
+            $attributes
+        );
+
+        $I->assertEquals(
+            $attributes,
+            $asset->getAttributes()
+        );
     }
 }

@@ -17,6 +17,7 @@
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
 #include "kernel/operators.h"
+#include "kernel/object.h"
 
 
 /**
@@ -28,8 +29,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Assets\Asset\Css
- *
  * Represents CSS assets
  */
 ZEPHIR_INIT_CLASS(Phalcon_Assets_Asset_Css) {
@@ -41,26 +40,28 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Asset_Css) {
 }
 
 /**
- * Phalcon\Assets\Asset\Css
+ * Phalcon\Assets\Asset\Css constructor
  */
 PHP_METHOD(Phalcon_Assets_Asset_Css, __construct) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval attributes;
-	zend_bool local, filter;
-	zval *path_param = NULL, *local_param = NULL, *filter_param = NULL, *attributes_param = NULL, _1, _2, _3;
-	zval path;
+	zend_bool local, filter, autoVersion;
+	zval *path_param = NULL, *local_param = NULL, *filter_param = NULL, *attributes_param = NULL, *version_param = NULL, *autoVersion_param = NULL, _1, _2, _3, _4;
+	zval path, version;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&path);
+	ZVAL_UNDEF(&version);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&attributes);
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 3, &path_param, &local_param, &filter_param, &attributes_param);
+	zephir_fetch_params(1, 1, 5, &path_param, &local_param, &filter_param, &attributes_param, &version_param, &autoVersion_param);
 
 	if (UNEXPECTED(Z_TYPE_P(path_param) != IS_STRING && Z_TYPE_P(path_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'path' must be of the type string") TSRMLS_CC);
@@ -88,6 +89,17 @@ PHP_METHOD(Phalcon_Assets_Asset_Css, __construct) {
 	} else {
 		zephir_get_arrval(&attributes, attributes_param);
 	}
+	if (!version_param) {
+		ZEPHIR_INIT_VAR(&version);
+		ZVAL_STRING(&version, "");
+	} else {
+		zephir_get_strval(&version, version_param);
+	}
+	if (!autoVersion_param) {
+		autoVersion = 0;
+	} else {
+		autoVersion = zephir_get_boolval(autoVersion_param);
+	}
 
 
 	ZEPHIR_INIT_VAR(&_1);
@@ -102,7 +114,12 @@ PHP_METHOD(Phalcon_Assets_Asset_Css, __construct) {
 	} else {
 		ZVAL_BOOL(&_3, 0);
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_assets_asset_css_ce, getThis(), "__construct", &_0, 0, &_1, &path, &_2, &_3, &attributes);
+	if (autoVersion) {
+		ZVAL_BOOL(&_4, 1);
+	} else {
+		ZVAL_BOOL(&_4, 0);
+	}
+	ZEPHIR_CALL_PARENT(NULL, phalcon_assets_asset_css_ce, getThis(), "__construct", &_0, 0, &_1, &path, &_2, &_3, &attributes, &version, &_4);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 

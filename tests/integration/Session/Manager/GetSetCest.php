@@ -17,9 +17,6 @@ use Phalcon\Session\Manager;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionTrait;
 
-/**
- * Class GetCest
- */
 class GetSetCest
 {
     use DiTrait;
@@ -28,29 +25,40 @@ class GetSetCest
     /**
      * Tests Phalcon\Session\Manager :: get()/set()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function sessionManagerGetSet(IntegrationTester $I)
     {
         $I->wantToTest('Session\Manager - get()/set()');
+
         $manager = new Manager();
-        $files   = $this->getSessionFiles();
+
+        $files = $this->getSessionStream();
+
         $manager->setHandler($files);
 
-        $actual = $manager->start();
-        $I->assertTrue($actual);
+
+        $I->assertTrue(
+            $manager->start()
+        );
+
 
         $expected = 'myval';
+
         $manager->set('test', $expected);
-        $actual = $manager->get('test');
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $manager->get('test')
+        );
+
 
         $manager->destroy();
 
-        $actual = $manager->exists();
-        $I->assertFalse($actual);
+
+        $I->assertFalse(
+            $manager->exists()
+        );
     }
 }

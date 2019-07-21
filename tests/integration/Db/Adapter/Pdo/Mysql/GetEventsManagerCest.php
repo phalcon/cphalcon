@@ -14,15 +14,10 @@ namespace Phalcon\Test\Integration\Db\Adapter\Pdo\Mysql;
 
 use IntegrationTester;
 
-/**
- * Class GetEventsManagerCest
- */
 class GetEventsManagerCest
 {
     /**
      * Tests Phalcon\Db\Adapter\Pdo\Mysql :: getEventsManager()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

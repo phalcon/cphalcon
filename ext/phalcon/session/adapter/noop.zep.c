@@ -35,7 +35,7 @@
  * This is an "empty" or null adapter. It can be used for testing or any
  * other purpose that no session needs to be invoked
  *
- * <code>
+ * ```php
  * <?php
  *
  * use Phalcon\Session\Manager;
@@ -43,7 +43,7 @@
  *
  * $session = new Manager();
  * $session->setHandler(new Noop());
- * </code>
+ * ```
  */
 ZEPHIR_INIT_CLASS(Phalcon_Session_Adapter_Noop) {
 

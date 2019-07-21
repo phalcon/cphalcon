@@ -12,57 +12,51 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Asset\Css;
 
+use Codeception\Example;
 use Phalcon\Assets\Asset\Css;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
-/**
- * Class SetFilterCest
- */
 class SetFilterCest
 {
-    use AssetsTrait;
-
     /**
-     * Tests Phalcon\Assets\Asset :: setFilter() - css local
+     * Tests Phalcon\Assets\Asset\Css :: setFilter()
      *
-     * @param UnitTester $I
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @dataProvider provider
      */
-    public function assetsAssetCssSetFilterCssFilter(UnitTester $I)
+    public function assetsAssetCssSetFilter(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Assets\Asset - setFilter() - css local');
-        $asset = new Css('https://phalcon.ld/css/docs.css');
+        $I->wantToTest('Assets\Asset\Css - setFilter()');
 
-        $expected = true;
-        $this->assetGetFilter($I, $asset, $expected);
+        $asset = new Css(
+            $example['path'],
+            $example['local']
+        );
 
-        $expected = false;
-        $asset->setFilter($expected);
-        $this->assetGetFilter($I, $asset, $expected);
+        $I->assertTrue(
+            $asset->getFilter()
+        );
+
+        $asset->setFilter(false);
+
+        $I->assertFalse(
+            $asset->getFilter()
+        );
     }
 
-    /**
-     * Tests Phalcon\Assets\Asset :: setFilter() - css remote
-     *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsAssetCssSetFilterRemote(UnitTester $I)
+    protected function provider(): array
     {
-        $I->wantToTest('Assets\Asset - setFilter() - css remote');
-        $I->skipTest('TODO - Need checking');
-        $asset = new Css('https://phalcon.ld/css/docs.css');
-
-        $expected = true;
-        $this->assetGetFilter($I, $asset, $expected);
-
-        $expected = false;
-        $asset->setFilter($expected);
-        $this->assetGetFilter($I, $asset, $expected);
+        return [
+            [
+                'path'  => 'css/docs.css',
+                'local' => true,
+            ],
+            [
+                'path'  => 'https://phalcon.ld/css/docs.css',
+                'local' => false,
+            ],
+        ];
     }
 }

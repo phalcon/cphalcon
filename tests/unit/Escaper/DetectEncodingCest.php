@@ -12,41 +12,51 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Escaper;
 
+use Codeception\Example;
 use Phalcon\Escaper;
 use UnitTester;
 
-/**
- * Class DetectEncodingCest
- */
 class DetectEncodingCest
 {
     /**
      * Tests Phalcon\Escaper :: detectEncoding()
      *
-     * @param UnitTester $I
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2014-09-16
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2014-09-16
+     * @dataProvider escaperDetectEncodingProvider
      */
-    public function escaperDetectEncoding(UnitTester $I)
+    public function escaperDetectEncoding(UnitTester $I, Example $example)
     {
-        $I->wantToTest("Escaper - detectEncoding()");
+        $I->wantToTest('Escaper - detectEncoding()');
+
         $escaper = new Escaper();
 
-        $source   = 'ḂḃĊċḊḋḞḟĠġṀṁ';
-        $expected = 'UTF-8';
-        $actual   = $escaper->detectEncoding($source);
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $example['expected'],
+            $escaper->detectEncoding(
+                $example['source']
+            )
+        );
+    }
 
+    private function escaperDetectEncodingProvider(): array
+    {
+        return [
+            [
+                'source'   => 'ḂḃĊċḊḋḞḟĠġṀṁ',
+                'expected' => 'UTF-8',
+            ],
 
-        $source   = chr(172) . chr(128) . chr(159) . 'ḂḃĊċḊḋḞḟĠġṀṁ';
-        $expected = 'ISO-8859-1';
-        $actual   = $escaper->detectEncoding($source);
-        $I->assertEquals($expected, $actual);
+            [
+                'source'   => chr(172) . chr(128) . chr(159) . 'ḂḃĊċḊḋḞḟĠġṀṁ',
+                'expected' => 'ISO-8859-1',
+            ],
 
-        $source   = '\0\0\0H\0\0\0i';
-        $expected = 'UTF-8';
-        $actual   = $escaper->detectEncoding($source);
-        $I->assertEquals($expected, $actual);
+            [
+                'source'   => '\0\0\0H\0\0\0i',
+                'expected' => 'UTF-8',
+            ],
+        ];
     }
 }

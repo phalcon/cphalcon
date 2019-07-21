@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Model\Relation;
 
 use IntegrationTester;
+use Phalcon\Mvc\Model\Relation;
 
 /**
  * Class IsForeignKeyCest
@@ -22,14 +23,96 @@ class IsForeignKeyCest
     /**
      * Tests Phalcon\Mvc\Model\Relation :: isForeignKey()
      *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-04-18
      */
     public function mvcModelRelationIsForeignKey(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Model\Relation - isForeignKey()');
-        $I->skipTest('Need implementation');
+
+
+        $options = [];
+
+        $relation = new Relation(
+            Relation::HAS_MANY,
+            'RobotsParts',
+            'id',
+            'robots_id',
+            $options
+        );
+
+        $I->assertFalse(
+            $relation->isForeignKey()
+        );
+
+
+        $options = [
+            'foreignKey' => false,
+        ];
+
+        $relation = new Relation(
+            Relation::HAS_MANY,
+            'RobotsParts',
+            'id',
+            'robots_id',
+            $options
+        );
+
+        $I->assertFalse(
+            $relation->isForeignKey()
+        );
+
+
+        $options = [
+            'foreignKey' => [],
+        ];
+
+        $relation = new Relation(
+            Relation::HAS_MANY,
+            'RobotsParts',
+            'id',
+            'robots_id',
+            $options
+        );
+
+        $I->assertFalse(
+            $relation->isForeignKey()
+        );
+
+
+        $options = [
+            'foreignKey' => true,
+        ];
+
+        $relation = new Relation(
+            Relation::HAS_MANY,
+            'RobotsParts',
+            'id',
+            'robots_id',
+            $options
+        );
+
+        $I->assertTrue(
+            $relation->isForeignKey()
+        );
+
+
+        $options = [
+            'foreignKey' => [
+                'message' => 'The part_id does not exist on the Parts model',
+            ],
+        ];
+
+        $relation = new Relation(
+            Relation::HAS_MANY,
+            'RobotsParts',
+            'id',
+            'robots_id',
+            $options
+        );
+
+        $I->assertTrue(
+            $relation->isForeignKey()
+        );
     }
 }

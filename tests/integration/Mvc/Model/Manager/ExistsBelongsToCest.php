@@ -12,24 +12,83 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Mvc\Model\Manager;
 
+use Codeception\Example;
 use IntegrationTester;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Models\Relations\RelationsParts;
+use Phalcon\Test\Models\Relations\RelationsRobots;
+use Phalcon\Test\Models\Relations\RelationsRobotsParts;
 
-/**
- * Class ExistsBelongsToCest
- */
 class ExistsBelongsToCest
 {
+    use DiTrait;
+
+    public function _before(IntegrationTester $I)
+    {
+        $this->setNewFactoryDefault();
+    }
+
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
+    }
+
     /**
      * Tests Phalcon\Mvc\Model\Manager :: existsBelongsTo()
      *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @dataProvider adaptersProvider
      */
-    public function mvcModelManagerExistsBelongsTo(IntegrationTester $I)
+    public function mvcModelManagerExistsBelongsTo(IntegrationTester $I, Example $example)
     {
         $I->wantToTest('Mvc\Model\Manager - existsBelongsTo()');
-        $I->skipTest('Need implementation');
+
+        $diFunction = 'setDi' . $example[0];
+
+        $this->{$diFunction}();
+
+        $manager = $this->container->getShared('modelsManager');
+
+        $I->assertFalse(
+            $manager->existsBelongsTo(
+                RelationsRobots::class,
+                RelationsRobotsParts::class
+            )
+        );
+
+        $I->assertFalse(
+            $manager->existsBelongsTo(
+                RelationsParts::class,
+                RelationsRobotsParts::class
+            )
+        );
+
+        $I->assertTrue(
+            $manager->existsBelongsTo(
+                RelationsRobotsParts::class,
+                RelationsRobots::class
+            )
+        );
+
+        $I->assertTrue(
+            $manager->existsBelongsTo(
+                RelationsRobotsParts::class,
+                RelationsParts::class
+            )
+        );
+    }
+
+    private function adaptersProvider(): array
+    {
+        return [
+            [
+                'Mysql',
+            ],
+            [
+                'Postgresql',
+            ],
+            [
+                'Sqlite',
+            ],
+        ];
     }
 }

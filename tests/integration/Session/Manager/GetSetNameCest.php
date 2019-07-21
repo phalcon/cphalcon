@@ -29,8 +29,6 @@ class GetSetNameCest
     /**
      * Tests Phalcon\Session\Manager :: getName()/setName()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -38,7 +36,7 @@ class GetSetNameCest
     {
         $I->wantToTest('Session\Manager - getName()/setName()');
         $manager = new Manager();
-        $files   = $this->getSessionFiles();
+        $files   = $this->getSessionStream();
         $manager->setHandler($files);
 
         if (false !== $manager->exists()) {
@@ -54,8 +52,6 @@ class GetSetNameCest
     /**
      * Tests Phalcon\Session\Manager :: getName()/setName() - not valid name
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -66,7 +62,7 @@ class GetSetNameCest
             new InvalidArgumentException('The name contains non alphanum characters'),
             function () {
                 $manager = new Manager();
-                $files   = $this->getSessionFiles();
+                $files   = $this->getSessionStream();
                 $manager->setHandler($files);
 
                 $manager->setName('%-gga34');
@@ -77,8 +73,6 @@ class GetSetNameCest
     /**
      * Tests Phalcon\Session\Manager :: getName()/setName() - session started
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -87,8 +81,9 @@ class GetSetNameCest
         $I->wantToTest('Session\Manager - getName()/setName() - session started');
         $valid   = false;
         $manager = new Manager();
-        $files   = $this->getSessionFiles();
+        $files   = $this->getSessionStream();
         $manager->setHandler($files);
+
         try {
             $manager->start();
             $manager->setName('%-gga34');

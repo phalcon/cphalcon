@@ -12,48 +12,46 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Asset\Js;
 
+use Codeception\Example;
 use Phalcon\Assets\Asset\Js;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
-/**
- * Class GetTypeCest
- */
 class GetTypeCest
 {
-    use AssetsTrait;
-
     /**
-     * Tests Phalcon\Assets\Asset :: getType() - js local
+     * Tests Phalcon\Assets\Asset\Js :: getType()
      *
-     * @param UnitTester $I
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @dataProvider provider
      */
-    public function assetsAssetJsGetTypeLocal(UnitTester $I)
+    public function assetsAssetJsGetType(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Assets\Asset - getType() - js local');
-        $asset = new Js('js/jquery.js');
+        $I->wantToTest('Assets\Asset - getType()');
 
-        $expected = 'js';
-        $this->assetGetType($I, $asset, $expected);
+        $asset = new Js(
+            $example['path'],
+            $example['local']
+        );
+
+        $I->assertEquals(
+            'js',
+            $asset->getType()
+        );
     }
 
-    /**
-     * Tests Phalcon\Assets\Asset :: getType() - js remote
-     *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsAssetJsGetTypeRemote(UnitTester $I)
+    protected function provider(): array
     {
-        $I->wantToTest('Assets\Asset - getType() - js remote');
-        $asset = new Js('https://phalcon.ld/js/jquery.js');
-
-        $expected = 'js';
-        $this->assetGetType($I, $asset, $expected);
+        return [
+            [
+                'path'  => 'js/jquery.js',
+                'local' => true,
+            ],
+            [
+                'path'  => 'https://phalcon.ld/js/jquery.js',
+                'local' => false,
+            ],
+        ];
     }
 }

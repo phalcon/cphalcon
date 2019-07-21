@@ -12,24 +12,59 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Db\Adapter\Pdo\Mysql;
 
+use Codeception\Example;
 use IntegrationTester;
+use Phalcon\Test\Fixtures\Traits\Db\MysqlTrait;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-/**
- * Class EscapeIdentifierCest
- */
 class EscapeIdentifierCest
 {
+    use DiTrait;
+    use MysqlTrait;
+
     /**
      * Tests Phalcon\Db\Adapter\Pdo\Mysql :: escapeIdentifier()
      *
-     * @param IntegrationTester $I
+     * @author       Sid Roberts <https://github.com/SidRoberts>
+     * @since        2016-11-19
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @dataProvider testEscapeIdentifierProvider
      */
-    public function dbAdapterPdoMysqlEscapeIdentifier(IntegrationTester $I)
+    public function dbAdapterPdoMysqlEscapeIdentifier(IntegrationTester $I, Example $example)
     {
         $I->wantToTest('Db\Adapter\Pdo\Mysql - escapeIdentifier()');
-        $I->skipTest('Need implementation');
+
+        $identifier = $example['identifier'];
+        $expected   = $example['expected'];
+
+        $I->assertEquals(
+            $expected,
+            $this->connection->escapeIdentifier($identifier)
+        );
+    }
+
+    private function testEscapeIdentifierProvider(): array
+    {
+        return [
+            [
+                'identifier' => 'robots',
+                'expected'   => '`robots`',
+            ],
+
+            [
+                'identifier' => ['schema', 'robots'],
+                'expected'   => '`schema`.`robots`',
+            ],
+
+            [
+                'identifier' => '`robots`',
+                'expected'   => '```robots```',
+            ],
+
+            [
+                'identifier' => ['`schema`', 'rob`ots'],
+                'expected'   => '```schema```.`rob``ots`',
+            ],
+        ];
     }
 }

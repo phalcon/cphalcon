@@ -16,6 +16,7 @@
 #include "kernel/exception.h"
 #include "kernel/operators.h"
 #include "kernel/memory.h"
+#include "kernel/object.h"
 
 
 /**
@@ -27,8 +28,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Kernel
- *
  * This class allows to change the internal behavior of the framework in runtime
  */
 ZEPHIR_INIT_CLASS(Phalcon_Kernel) {
@@ -70,13 +69,13 @@ PHP_METHOD(Phalcon_Kernel, preComputeHashKey) {
 
 	
 
-		{
+        {
 
-		RETURN_MM_NULL();
+        RETURN_MM_NULL();
 
-		}
+        }
 
-		
+        
 	ZEPHIR_MM_RESTORE();
 
 }

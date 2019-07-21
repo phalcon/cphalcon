@@ -12,66 +12,51 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Fixtures\Traits;
 
-use Phalcon\Session\Adapter\Files;
+use function getOptionsLibmemcached;
+use function getOptionsRedis;
 use Phalcon\Session\Adapter\Libmemcached;
 use Phalcon\Session\Adapter\Noop;
 use Phalcon\Session\Adapter\Redis;
+use Phalcon\Session\Adapter\Stream;
+use Phalcon\Storage\AdapterFactory;
+use Phalcon\Storage\SerializerFactory;
 
-/**
- * Trait SessionTrait
- *
- * @package Phalcon\Test\Fixtures\Traits
- */
 trait SessionTrait
 {
-    /**
-     * @return Files
-     */
-    protected function getSessionFiles(): Files
+    protected function getSessionStream(): Stream
     {
-        return new Files(
-            [
-                'save_path' => cacheFolder(),
-            ]
+        return new Stream(
+            getOptionsSessionStream()
         );
     }
 
-    /**
-     * @return Libmemcached
-     */
+
     protected function getSessionLibmemcached(): Libmemcached
     {
+        $serializer = new SerializerFactory();
+        $factory    = new AdapterFactory($serializer);
+
         return new Libmemcached(
-            [
-                'servers' => [
-                    [
-                        'host' => env('DATA_MEMCACHED_HOST'),
-                        'port' => env('DATA_MEMCACHED_PORT'),
-                    ],
-                ],
-            ]
+            $factory,
+            getOptionsLibmemcached()
         );
     }
 
-    /**
-     * @return Noop
-     */
+
     protected function getSessionNoop(): Noop
     {
         return new Noop();
     }
 
-    /**
-     * @return Redis
-     */
+
     protected function getSessionRedis(): Redis
     {
+        $serializer = new SerializerFactory();
+        $factory    = new AdapterFactory($serializer);
+
         return new Redis(
-            [
-                'host'  => env('DATA_REDIS_HOST'),
-                'port'  => env('DATA_REDIS_PORT'),
-                'index' => env('DATA_REDIS_NAME'),
-            ]
+            $factory,
+            getOptionsRedis()
         );
     }
 }

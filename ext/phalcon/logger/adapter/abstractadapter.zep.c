@@ -155,10 +155,10 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, commit) {
 	zephir_read_property(&_0, this_ptr, SL("queue"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&queue, &_0);
 	if (!(zephir_is_true(&inTransaction))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "There is no active transaction", "phalcon/logger/adapter/abstractadapter.zep", 92);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "There is no active transaction", "phalcon/Logger/Adapter/AbstractAdapter.zep", 92);
 		return;
 	}
-	zephir_is_iterable(&queue, 0, "phalcon/logger/adapter/abstractadapter.zep", 103);
+	zephir_is_iterable(&queue, 0, "phalcon/Logger/Adapter/AbstractAdapter.zep", 103);
 	if (Z_TYPE_P(&queue) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&queue), _1)
 		{
@@ -250,18 +250,6 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, inTransaction) {
  */
 PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, process) {
 
-	zval *item, item_sub;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&item_sub);
-
-	zephir_fetch_params(0, 1, 0, &item);
-
-
-
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_logger_exception_ce, "This method cannot be called directly in the adapter", "phalcon/logger/adapter/abstractadapter.zep", 135);
-	return;
-
 }
 
 /**
@@ -281,7 +269,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, rollback) {
 	zephir_read_property(&_0, this_ptr, SL("inTransaction"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&inTransaction, &_0);
 	if (!(zephir_is_true(&inTransaction))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "There is no active transaction", "phalcon/logger/adapter/abstractadapter.zep", 148);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "There is no active transaction", "phalcon/Logger/Adapter/AbstractAdapter.zep", 146);
 		return;
 	}
 	ZEPHIR_INIT_VAR(&_1);

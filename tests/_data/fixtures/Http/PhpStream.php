@@ -13,31 +13,41 @@ declare(strict_types=1);
 namespace Phalcon\Test\Fixtures\Http;
 
 /**
- * Helper\Http\PhpStream
- *
- * @link    http://php.net/manual/en/class.streamwrapper.php
- * @link    http://php.net/manual/en/stream.streamwrapper.example-1.php
+ * @link http://php.net/manual/en/class.streamwrapper.php
+ * @link http://php.net/manual/en/stream.streamwrapper.example-1.php
  *
  * @codingStandardsIgnoreFile
- * @package Helper
  */
 class PhpStream
 {
-    protected $index  = 0;
+    /**
+     * @var int
+     */
+    protected $index = 0;
+
+    /**
+     * @var int
+     */
     protected $length = 0;
-    protected $data   = '';
+
+    /**
+     * @var string
+     */
+    protected $data = '';
 
     public function __construct()
     {
         if (file_exists($this->getBufferFilename())) {
-            $this->data = file_get_contents($this->getBufferFilename());
+            $this->data = file_get_contents(
+                $this->getBufferFilename()
+            );
         }
 
         $this->index  = 0;
         $this->length = strlen($this->data);
     }
 
-    protected function getBufferFilename()
+    protected function getBufferFilename(): string
     {
         return codecept_output_dir('tests/stream/php_input.txt');
     }
@@ -67,7 +77,11 @@ class PhpStream
             $this->length = strlen($this->data);
         }
 
-        $length      = min($count, $this->length - $this->index);
+        $length = min(
+            $count,
+            $this->length - $this->index
+        );
+
         $data        = substr($this->data, $this->index);
         $this->index = $this->index + $length;
 
@@ -76,7 +90,7 @@ class PhpStream
 
     public function stream_eof()
     {
-        return ($this->index >= $this->length ? true : false);
+        return ($this->index >= $this->length);
     }
 
     public function stream_seek($offset, $whence)
@@ -89,24 +103,30 @@ class PhpStream
             case SEEK_SET:
                 if ($offset < $this->length && $offset >= 0) {
                     $this->index = $offset;
+
                     return true;
                 } else {
                     return false;
                 }
+
             case SEEK_CUR:
                 if ($offset >= 0) {
                     $this->index += $offset;
+
                     return true;
                 } else {
                     return false;
                 }
+
             case SEEK_END:
                 if ($this->length + $offset >= 0) {
                     $this->index = $this->length + $offset;
+
                     return true;
                 } else {
                     return false;
                 }
+
             default:
                 return false;
         }
@@ -114,13 +134,18 @@ class PhpStream
 
     public function stream_write($data)
     {
-        return file_put_contents($this->getBufferFilename(), $data);
+        return file_put_contents(
+            $this->getBufferFilename(),
+            $data
+        );
     }
 
     public function unlink()
     {
         if (file_exists($this->getBufferFilename())) {
-            unlink($this->getBufferFilename());
+            unlink(
+                $this->getBufferFilename()
+            );
         }
 
         $this->data   = '';

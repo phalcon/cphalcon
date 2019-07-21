@@ -18,9 +18,6 @@ use Phalcon\Escaper;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
-/**
- * Class GetCest
- */
 class GetCest
 {
     use DiTrait;
@@ -28,23 +25,24 @@ class GetCest
     /**
      * Tests Phalcon\Container :: get()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function containerGet(UnitTester $I)
     {
         $I->wantToTest('Container - get()');
+
         $this->newDi();
         $this->setDiEscaper();
 
         $container = new Container($this->container);
 
         /** @var Service $service */
-        $service  = $container->get('escaper');
-        $expected = Escaper::class;
-        $actual   = $service->getDefinition();
-        $I->assertEquals($expected, $actual);
+        $service = $container->get('escaper');
+
+        $I->assertEquals(
+            Escaper::class,
+            $service->getDefinition()
+        );
     }
 }

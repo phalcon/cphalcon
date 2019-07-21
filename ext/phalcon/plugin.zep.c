@@ -23,14 +23,12 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Plugin
- *
  * This class can be used to provide user plugins an easy access to services
  * in the application
  */
 ZEPHIR_INIT_CLASS(Phalcon_Plugin) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon, Plugin, phalcon, plugin, phalcon_di_injectable_ce, NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon, Plugin, phalcon, plugin, phalcon_di_injectable_ce, NULL, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
 	return SUCCESS;
 

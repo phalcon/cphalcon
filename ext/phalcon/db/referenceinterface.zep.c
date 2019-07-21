@@ -21,8 +21,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Db\Reference
- *
  * Interface for Phalcon\Db\Reference
  */
 ZEPHIR_INIT_CLASS(Phalcon_Db_ReferenceInterface) {
@@ -34,34 +32,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_ReferenceInterface) {
 }
 
 /**
- * Gets the index name
- */
-ZEPHIR_DOC_METHOD(Phalcon_Db_ReferenceInterface, getName);
-
-/**
- * Gets the schema where referenced table is
- */
-ZEPHIR_DOC_METHOD(Phalcon_Db_ReferenceInterface, getSchemaName);
-
-/**
- * Gets the schema where referenced table is
- */
-ZEPHIR_DOC_METHOD(Phalcon_Db_ReferenceInterface, getReferencedSchema);
-
-/**
  * Gets local columns which reference is based
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_ReferenceInterface, getColumns);
 
 /**
- * Gets the referenced table
+ * Gets the index name
  */
-ZEPHIR_DOC_METHOD(Phalcon_Db_ReferenceInterface, getReferencedTable);
-
-/**
- * Gets referenced columns
- */
-ZEPHIR_DOC_METHOD(Phalcon_Db_ReferenceInterface, getReferencedColumns);
+ZEPHIR_DOC_METHOD(Phalcon_Db_ReferenceInterface, getName);
 
 /**
  * Gets the referenced on delete
@@ -74,7 +52,22 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_ReferenceInterface, getOnDelete);
 ZEPHIR_DOC_METHOD(Phalcon_Db_ReferenceInterface, getOnUpdate);
 
 /**
- * Restore a Phalcon\Db\Reference object from export
+ * Gets referenced columns
  */
-ZEPHIR_DOC_METHOD(Phalcon_Db_ReferenceInterface, __set_state);
+ZEPHIR_DOC_METHOD(Phalcon_Db_ReferenceInterface, getReferencedColumns);
+
+/**
+ * Gets the schema where referenced table is
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Db_ReferenceInterface, getReferencedSchema);
+
+/**
+ * Gets the referenced table
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Db_ReferenceInterface, getReferencedTable);
+
+/**
+ * Gets the schema where referenced table is
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Db_ReferenceInterface, getSchemaName);
 

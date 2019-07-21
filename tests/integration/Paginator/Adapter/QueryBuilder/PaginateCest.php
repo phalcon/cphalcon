@@ -13,16 +13,25 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Paginator\Adapter\QueryBuilder;
 
 use IntegrationTester;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-/**
- * Class PaginateCest
- */
 class PaginateCest
 {
+    use DiTrait;
+
+    public function _before(IntegrationTester $I)
+    {
+        $this->setNewFactoryDefault();
+        $this->setDiMysql();
+    }
+
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
+    }
+
     /**
      * Tests Phalcon\Paginator\Adapter\QueryBuilder :: paginate()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +39,7 @@ class PaginateCest
     public function paginatorAdapterQuerybuilderPaginate(IntegrationTester $I)
     {
         $I->wantToTest('Paginator\Adapter\QueryBuilder - paginate()');
+
         $I->skipTest('Need implementation');
     }
 }

@@ -14,15 +14,10 @@ namespace Phalcon\Test\Integration\Db\Dialect\Mysql;
 
 use IntegrationTester;
 
-/**
- * Class GetForeignKeyChecksCest
- */
 class GetForeignKeyChecksCest
 {
     /**
      * Tests Phalcon\Db\Dialect\Mysql :: getForeignKeyChecks()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

@@ -12,42 +12,37 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Db\Dialect\Postgresql;
 
+use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Db\Column;
+use Phalcon\Db\Dialect\Postgresql;
 use Phalcon\Db\Index;
 use Phalcon\Db\Reference;
-use Phalcon\Test\Fixtures\Traits\DialectTrait;
 
 class CreateTableCest
 {
-    use DialectTrait;
-
     /**
      * Tests Phalcon\Db\Dialect\Postgresql :: createTable()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2017-02-26
+     *
+     * @dataProvider getCreateTableFixtures
      */
-    public function dbDialectPostgresqlCreateTable(IntegrationTester $I)
+    public function dbDialectPostgresqlCreateTable(IntegrationTester $I, Example $example)
     {
         $I->wantToTest("Db\Dialect\Postgresql - createTable()");
-        $data = $this->getCreateTableFixtures();
-        foreach ($data as $item) {
-            $schema     = $item[0];
-            $definition = $item[1];
-            $expected   = $item[2];
-            $dialect    = $this->getDialectPostgresql();
-            $actual     = $dialect->createTable('table', $schema, $definition);
 
-            $I->assertEquals($expected, $actual);
-        }
+        $schema     = $example[0];
+        $definition = $example[1];
+        $expected   = $example[2];
+
+        $dialect = new Postgresql();
+        $actual  = $dialect->createTable('table', $schema, $definition);
+
+        $I->assertEquals($expected, $actual);
     }
 
-    /**
-     * @return array
-     */
     protected function getCreateTableFixtures(): array
     {
         return [
@@ -67,7 +62,7 @@ class CreateTableCest
                         ]),
                     ],
                 ],
-                rtrim(file_get_contents(dataFolder('fixtures/Db/postgresql/example1.sql'))),
+                rtrim(file_get_contents(dataDir('fixtures/Db/postgresql/example1.sql'))),
             ],
             'example2' => [
                 '',
@@ -95,7 +90,7 @@ class CreateTableCest
                         new Index('PRIMARY', ['column3']),
                     ],
                 ],
-                rtrim(file_get_contents(dataFolder('fixtures/Db/postgresql/example2.sql'))),
+                rtrim(file_get_contents(dataDir('fixtures/Db/postgresql/example2.sql'))),
             ],
             'example3' => [
                 '',
@@ -131,7 +126,7 @@ class CreateTableCest
                         ]),
                     ],
                 ],
-                rtrim(file_get_contents(dataFolder('fixtures/Db/postgresql/example3.sql'))),
+                rtrim(file_get_contents(dataDir('fixtures/Db/postgresql/example3.sql'))),
             ],
             'example4' => [
                 '',
@@ -151,7 +146,7 @@ class CreateTableCest
                         ]),
                     ],
                 ],
-                rtrim(file_get_contents(dataFolder('fixtures/Db/postgresql/example4.sql'))),
+                rtrim(file_get_contents(dataDir('fixtures/Db/postgresql/example4.sql'))),
             ],
             'example5' => [
                 '',
@@ -178,7 +173,7 @@ class CreateTableCest
                         ]),
                     ],
                 ],
-                rtrim(file_get_contents(dataFolder('fixtures/Db/postgresql/example5.sql'))),
+                rtrim(file_get_contents(dataDir('fixtures/Db/postgresql/example5.sql'))),
             ],
             'example6' => [
                 '',
@@ -203,19 +198,19 @@ class CreateTableCest
                         ]),
                         new Column('column17', [
                             'type'    => Column::TYPE_BOOLEAN,
-                            'default' => "false",
+                            'default' => 'false',
                             'notNull' => true,
                             'after'   => 'track_id',
                         ]),
                         new Column('column18', [
                             'type'    => Column::TYPE_BOOLEAN,
-                            'default' => "true",
+                            'default' => 'true',
                             'notNull' => true,
                             'after'   => 'like',
                         ]),
                     ],
                 ],
-                rtrim(file_get_contents(dataFolder('fixtures/Db/postgresql/example6.sql'))),
+                rtrim(file_get_contents(dataDir('fixtures/Db/postgresql/example6.sql'))),
             ],
         ];
     }

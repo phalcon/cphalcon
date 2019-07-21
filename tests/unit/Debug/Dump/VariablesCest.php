@@ -15,18 +15,13 @@ namespace Phalcon\Test\Unit\Debug\Dump;
 use Phalcon\Debug\Dump;
 use stdClass;
 use UnitTester;
-use function dataFolder;
+use function dataDir;
 use function file_get_contents;
 
-/**
- * Class VariablesCest
- */
 class VariablesCest
 {
     /**
      * Tests Phalcon\Debug\Dump :: variables()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -34,13 +29,22 @@ class VariablesCest
     public function debugDumpVariables(UnitTester $I)
     {
         $I->wantToTest('Debug\Dump - variables()');
+
         $test1 = 'string';
         $test2 = ['key' => 'value'];
         $test3 = new stdClass();
-        $dump  = new Dump();
 
-        $expected = trim(file_get_contents(dataFolder('fixtures/Dump/variables_output.txt')));
-        $actual   = $dump->variables($test1, $test2, $test3);
-        $I->assertEquals($expected, $actual);
+        $dump = new Dump();
+
+        $expected = trim(
+            file_get_contents(
+                dataDir('fixtures/Dump/variables_output.txt')
+            )
+        );
+
+        $I->assertEquals(
+            $expected,
+            $dump->variables($test1, $test2, $test3)
+        );
     }
 }

@@ -16,9 +16,6 @@ use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\ValidationTrait;
 use Phalcon\Validation\Validator\Callback;
 
-/**
- * Class HasOptionCest
- */
 class HasOptionCest
 {
     use ValidationTrait;
@@ -26,15 +23,19 @@ class HasOptionCest
     /**
      * Tests Phalcon\Validation\Validator\Callback :: hasOption()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorCallbackHasOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Callback - hasOption()');
-        $validator = new Callback(['message' => 'This is a message']);
+
+        $validator = new Callback(
+            [
+                'message' => 'This is a message',
+            ]
+        );
+
         $this->checkHasOption($I, $validator);
     }
 }

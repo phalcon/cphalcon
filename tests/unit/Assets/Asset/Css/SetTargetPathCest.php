@@ -12,50 +12,50 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Asset\Css;
 
+use Codeception\Example;
 use Phalcon\Assets\Asset\Css;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
-/**
- * Class SetTargetPathCest
- */
 class SetTargetPathCest
 {
-    use AssetsTrait;
-
     /**
-     * Tests Phalcon\Assets\Asset :: setTargetPath() - css local
+     * Tests Phalcon\Assets\Asset\Css :: setTargetPath()
      *
-     * @param UnitTester $I
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @dataProvider provider
      */
-    public function assetsAssetCssSetTargetPathLocal(UnitTester $I)
+    public function assetsAssetCssSetTargetPath(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Assets\Asset - setTargetPath() - css local');
-        $asset = new Css('css/docs.css');
+        $I->wantToTest('Assets\Asset\Js - setTargetPath()');
 
-        $expected = '/new/path';
-        $asset->setTargetPath($expected);
-        $this->assetGetTargetPath($I, $asset, $expected);
+        $asset = new Css(
+            $example['path'],
+            $example['local']
+        );
+
+        $targetPath = '/new/path';
+
+        $asset->setTargetPath($targetPath);
+
+        $I->assertEquals(
+            $targetPath,
+            $asset->getTargetPath()
+        );
     }
 
-    /**
-     * Tests Phalcon\Assets\Asset :: setTargetPath() - css remote
-     *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsAssetCssSetTargetPathRemote(UnitTester $I)
+    protected function provider(): array
     {
-        $I->wantToTest('Assets\Asset - setTargetPath() - css remote');
-        $asset = new Css('https://phalcon.ld/css/docs.css');
-
-        $expected = '/new/path';
-        $asset->setTargetPath($expected);
-        $this->assetGetTargetPath($I, $asset, $expected);
+        return [
+            [
+                'path'  => 'css/docs.css',
+                'local' => true,
+            ],
+            [
+                'path'  => 'https://phalcon.ld/css/docs.css',
+                'local' => false,
+            ],
+        ];
     }
 }

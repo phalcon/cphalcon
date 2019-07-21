@@ -17,9 +17,6 @@ use Phalcon\Session\Bag;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionBagTrait;
 
-/**
- * Class HasCest
- */
 class HasCest
 {
     use DiTrait;
@@ -28,20 +25,40 @@ class HasCest
     /**
      * Tests Phalcon\Session\Bag :: has()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function sessionBagHas(IntegrationTester $I)
     {
-        $I->wantToTest("Session\Bag - has()");
-        $session = new Bag("SetTest");
+        $I->wantToTest('Session\Bag - has()');
+        $data = [
+            'one'   => 'two',
+            'three' => 'four',
+            'five'  => 'six',
+        ];
 
-        $testValue = "TestValue";
-        $session->set("test", $testValue);
+        $collection = new Bag('BagTest');
+        $collection->init($data);
 
-        $I->assertTrue($session->has("test"));
-        $I->assertFalse($session->has("unknown"));
+        $actual = $collection->has('three');
+        $I->assertTrue($actual);
+
+        $actual = $collection->has('THREE');
+        $I->assertTrue($actual);
+
+        $actual = $collection->has('unknown');
+        $I->assertFalse($actual);
+
+        $actual = isset($collection['three']);
+        $I->assertTrue($actual);
+
+        $actual = isset($collection['unknown']);
+        $I->assertFalse($actual);
+
+        $actual = $collection->offsetExists('three');
+        $I->assertTrue($actual);
+
+        $actual = $collection->offsetExists('unknown');
+        $I->assertFalse($actual);
     }
 }

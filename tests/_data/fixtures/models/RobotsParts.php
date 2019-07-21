@@ -15,17 +15,28 @@ use Phalcon\Mvc\Model;
 
 class RobotsParts extends Model
 {
-
     public function initialize()
     {
-        $this->belongsTo('parts_id', Parts::class, 'id', [
-            'foreignKey' => true,
-        ]);
-        $this->belongsTo('robots_id', Robots::class, 'id', [
-            'foreignKey' => [
-                'message' => 'The robot code does not exist',
-            ],
-        ]);
-    }
+        $this->belongsTo(
+            'parts_id',
+            Parts::class,
+            'id',
+            [
+                'alias' => 'part',
+                'foreignKey' => true,
+            ]
+        );
 
+        $this->belongsTo(
+            'robots_id',
+            Robots::class,
+            'id',
+            [
+                'alias' => 'robot',
+                'foreignKey' => [
+                    'message' => 'The robot code does not exist',
+                ],
+            ]
+        );
+    }
 }

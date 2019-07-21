@@ -14,15 +14,10 @@ namespace Phalcon\Test\Integration\Db\Result\Pdo;
 
 use IntegrationTester;
 
-/**
- * Class ExecuteCest
- */
 class ExecuteCest
 {
     /**
      * Tests Phalcon\Db\Result\Pdo :: execute()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

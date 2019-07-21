@@ -26,14 +26,14 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Cli\Task
+ * Every command-line task should extend this class that encapsulates all the
+ * task functionality
  *
- * Every command-line task should extend this class that encapsulates all the task functionality
+ * A task can be used to run "tasks" such as migrations, cronjobs, unit-tests,
+ * or anything that you want. The Task class should at least have a "mainAction"
+ * method.
  *
- * A task can be used to run "tasks" such as migrations, cronjobs, unit-tests, or anything that you want.
- * The Task class should at least have a "mainAction" method
- *
- *<code>
+ *```php
  * class HelloTask extends \Phalcon\Cli\Task
  * {
  *     // This action will be executed by default
@@ -47,7 +47,7 @@
  *
  *     }
  * }
- *</code>
+ *```
  */
 ZEPHIR_INIT_CLASS(Phalcon_Cli_Task) {
 

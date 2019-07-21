@@ -14,15 +14,10 @@ namespace Phalcon\Test\Cli\Cli\Router;
 
 use CliTester;
 
-/**
- * Class AddCest
- */
 class AddCest
 {
     /**
      * Tests Phalcon\Cli\Router :: add()
-     *
-     * @param CliTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class AddCest
     public function cliRouterAdd(CliTester $I)
     {
         $I->wantToTest('Cli\Router - add()');
+
         $I->skipTest('Need implementation');
     }
 }

@@ -15,15 +15,10 @@ namespace Phalcon\Test\Unit\Assets\Manager;
 use Phalcon\Assets\Manager;
 use UnitTester;
 
-/**
- * Class AddCssCest
- */
 class AddCssCest
 {
     /**
      * Tests Phalcon\Assets\Manager :: addCss()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-10-13
@@ -31,6 +26,7 @@ class AddCssCest
     public function assetsManagerAddCss(UnitTester $I)
     {
         $I->wantToTest('Assets\Manager - addCss()');
+
         $assets = new Manager();
 
         $assets->addCss('/css/style1.css');
@@ -38,23 +34,18 @@ class AddCssCest
 
         $collection = $assets->get('css');
 
-        $number   = 0;
-        $expected = 'css';
         foreach ($collection as $resource) {
-            $actual = $resource->getType();
-            $I->assertEquals($expected, $actual);
-            $number++;
+            $I->assertEquals(
+                'css',
+                $resource->getType()
+            );
         }
 
-        $expected = 2;
-        $actual   = $number;
-        $I->assertEquals($expected, $actual);
+        $I->assertCount(2, $collection);
     }
 
     /**
      * Tests Phalcon\Assets\Manager :: addCss() - duplicate
-     *
-     * @param UnitTester $I
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/10938
      *
@@ -64,6 +55,7 @@ class AddCssCest
     public function assetsManagerAddCssDuplicate(UnitTester $I)
     {
         $I->wantToTest('Assets\Manager - addCss() - duplicate');
+
         $assets = new Manager();
 
         for ($i = 0; $i < 10; $i++) {
@@ -73,12 +65,15 @@ class AddCssCest
             ;
         }
 
-        $expected = 1;
-        $actual   = count($assets->getCss());
-        $I->assertEquals($expected, $actual);
-        $expected = 1;
-        $actual   = count($assets->getJs());
-        $I->assertEquals($expected, $actual);
+        $I->assertCount(
+            1,
+            $assets->getCss()
+        );
+
+        $I->assertCount(
+            1,
+            $assets->getJs()
+        );
 
         for ($i = 0; $i < 2; $i++) {
             $assets
@@ -87,11 +82,14 @@ class AddCssCest
             ;
         }
 
-        $expected = 3;
-        $actual   = count($assets->getCss());
-        $I->assertEquals($expected, $actual);
-        $expected = 3;
-        $actual   = count($assets->getJs());
-        $I->assertEquals($expected, $actual);
+        $I->assertCount(
+            3,
+            $assets->getCss()
+        );
+
+        $I->assertCount(
+            3,
+            $assets->getJs()
+        );
     }
 }

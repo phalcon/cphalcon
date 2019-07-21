@@ -15,27 +15,26 @@ namespace Phalcon\Test\Unit\Registry;
 use Phalcon\Registry;
 use UnitTester;
 
-/**
- * Class UnderscoreSetCest
- */
 class UnderscoreSetCest
 {
     /**
-     * Tests Phalcon\Registry :: __set()
+     * Unit Tests Phalcon\Registry :: __set()
      *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-05-25
      */
     public function registryUnderscoreSet(UnitTester $I)
     {
         $I->wantToTest('Registry - __set()');
-        $registry          = new Registry();
-        $registry->one     = 1;
-        $registry->two     = 2;
-        $registry['three'] = 3;
 
-        $I->assertCount(3, $registry);
+        $registry = new Registry();
+
+
+        $registry->three = 'Phalcon';
+
+        $I->assertEquals(
+            'Phalcon',
+            $registry->get('three')
+        );
     }
 }

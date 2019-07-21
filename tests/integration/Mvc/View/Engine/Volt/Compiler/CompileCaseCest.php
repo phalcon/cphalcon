@@ -14,15 +14,10 @@ namespace Phalcon\Test\Integration\Mvc\View\Engine\Volt\Compiler;
 
 use IntegrationTester;
 
-/**
- * Class CompileCaseCest
- */
 class CompileCaseCest
 {
     /**
      * Tests Phalcon\Mvc\View\Engine\Volt\Compiler :: compileCase()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

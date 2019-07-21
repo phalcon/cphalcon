@@ -14,22 +14,18 @@ namespace Phalcon\Test\Unit\Di\FactoryDefault;
 
 use UnitTester;
 
-/**
- * Class GetServiceCest
- */
 class GetServiceCest
 {
     /**
-     * Tests Phalcon\Di\FactoryDefault :: getService()
-     *
-     * @param UnitTester $I
+     * Unit Tests Phalcon\Di\FactoryDefault :: getService()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2019-06-13
      */
-    public function diFactorydefaultGetService(UnitTester $I)
+    public function diFactoryDefaultGetService(UnitTester $I)
     {
         $I->wantToTest('Di\FactoryDefault - getService()');
+
         $I->skipTest('Need implementation');
     }
 }

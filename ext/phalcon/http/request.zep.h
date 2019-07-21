@@ -70,7 +70,8 @@ PHP_METHOD(Phalcon_Http_Request, hasFileHelper);
 PHP_METHOD(Phalcon_Http_Request, getQualityHeader);
 PHP_METHOD(Phalcon_Http_Request, resolveAuthorizationHeaders);
 PHP_METHOD(Phalcon_Http_Request, smoothFiles);
-PHP_METHOD(Phalcon_Http_Request, getFilterLocatorService);
+PHP_METHOD(Phalcon_Http_Request, getFilterService);
+PHP_METHOD(Phalcon_Http_Request, getServerArray);
 zend_object *zephir_init_properties_Phalcon_Http_Request(zend_class_entry *class_type TSRMLS_DC);
 
 #if PHP_VERSION_ID >= 70200
@@ -166,9 +167,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_getcontentt
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_request_getdi, 0, 0, Phalcon\\DiInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_request_getdi, 0, 0, Phalcon\\Di\\DiInterface, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_getdi, 0, 0, IS_OBJECT, "Phalcon\\DiInterface", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_getdi, 0, 0, IS_OBJECT, "Phalcon\\Di\\DiInterface", 0)
 #endif
 ZEND_END_ARG_INFO()
 
@@ -637,7 +638,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_isvalidhttp
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_request_setdi, 0, 0, 1)
-	ZEND_ARG_OBJ_INFO(0, container, Phalcon\\DiInterface, 0)
+	ZEND_ARG_OBJ_INFO(0, container, Phalcon\\Di\\DiInterface, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
@@ -755,9 +756,16 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_smoothfiles
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_request_getfilterlocatorservice, 0, 0, Phalcon\\Service\\LocatorInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_request_getfilterservice, 0, 0, Phalcon\\Filter\\FilterInterface, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_getfilterlocatorservice, 0, 0, IS_OBJECT, "Phalcon\\Service\\LocatorInterface", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_getfilterservice, 0, 0, IS_OBJECT, "Phalcon\\Filter\\FilterInterface", 0)
+#endif
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_getserverarray, 0, 0, IS_ARRAY, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_getserverarray, 0, 0, IS_ARRAY, NULL, 0)
 #endif
 ZEND_END_ARG_INFO()
 
@@ -778,13 +786,13 @@ ZEPHIR_INIT_FUNCS(phalcon_http_request_method_entry) {
 	PHP_ME(Phalcon_Http_Request, getFilteredQuery, arginfo_phalcon_http_request_getfilteredquery, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, getFilteredPost, arginfo_phalcon_http_request_getfilteredpost, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, getFilteredPut, arginfo_phalcon_http_request_getfilteredput, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Http_Request, getHeader, arginfo_phalcon_http_request_getheader, ZEND_ACC_PUBLIC|ZEND_ACC_FINAL)
+	PHP_ME(Phalcon_Http_Request, getHeader, arginfo_phalcon_http_request_getheader, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, getHeaders, arginfo_phalcon_http_request_getheaders, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, getHttpHost, arginfo_phalcon_http_request_gethttphost, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, getHTTPReferer, arginfo_phalcon_http_request_gethttpreferer, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, getJsonRawBody, arginfo_phalcon_http_request_getjsonrawbody, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, getLanguages, arginfo_phalcon_http_request_getlanguages, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Http_Request, getMethod, arginfo_phalcon_http_request_getmethod, ZEND_ACC_PUBLIC|ZEND_ACC_FINAL)
+	PHP_ME(Phalcon_Http_Request, getMethod, arginfo_phalcon_http_request_getmethod, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, getPort, arginfo_phalcon_http_request_getport, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, getPost, arginfo_phalcon_http_request_getpost, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, getPut, arginfo_phalcon_http_request_getput, ZEND_ACC_PUBLIC)
@@ -795,15 +803,15 @@ ZEPHIR_INIT_FUNCS(phalcon_http_request_method_entry) {
 	PHP_ME(Phalcon_Http_Request, getServerAddress, arginfo_phalcon_http_request_getserveraddress, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, getServerName, arginfo_phalcon_http_request_getservername, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, getUploadedFiles, arginfo_phalcon_http_request_getuploadedfiles, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Http_Request, getURI, arginfo_phalcon_http_request_geturi, ZEND_ACC_PUBLIC|ZEND_ACC_FINAL)
+	PHP_ME(Phalcon_Http_Request, getURI, arginfo_phalcon_http_request_geturi, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, getUserAgent, arginfo_phalcon_http_request_getuseragent, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, has, arginfo_phalcon_http_request_has, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, hasFiles, arginfo_phalcon_http_request_hasfiles, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Http_Request, hasHeader, arginfo_phalcon_http_request_hasheader, ZEND_ACC_PUBLIC|ZEND_ACC_FINAL)
+	PHP_ME(Phalcon_Http_Request, hasHeader, arginfo_phalcon_http_request_hasheader, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, hasPost, arginfo_phalcon_http_request_haspost, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, hasPut, arginfo_phalcon_http_request_hasput, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, hasQuery, arginfo_phalcon_http_request_hasquery, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Http_Request, hasServer, arginfo_phalcon_http_request_hasserver, ZEND_ACC_PUBLIC|ZEND_ACC_FINAL)
+	PHP_ME(Phalcon_Http_Request, hasServer, arginfo_phalcon_http_request_hasserver, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, isAjax, arginfo_phalcon_http_request_isajax, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, isConnect, arginfo_phalcon_http_request_isconnect, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, isDelete, arginfo_phalcon_http_request_isdelete, ZEND_ACC_PUBLIC)
@@ -823,12 +831,13 @@ ZEPHIR_INIT_FUNCS(phalcon_http_request_method_entry) {
 	PHP_ME(Phalcon_Http_Request, setDI, arginfo_phalcon_http_request_setdi, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, setParameterFilters, arginfo_phalcon_http_request_setparameterfilters, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, setStrictHostCheck, arginfo_phalcon_http_request_setstricthostcheck, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Http_Request, getBestQuality, arginfo_phalcon_http_request_getbestquality, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
-	PHP_ME(Phalcon_Http_Request, getHelper, arginfo_phalcon_http_request_gethelper, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
-	PHP_ME(Phalcon_Http_Request, hasFileHelper, arginfo_phalcon_http_request_hasfilehelper, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
-	PHP_ME(Phalcon_Http_Request, getQualityHeader, arginfo_phalcon_http_request_getqualityheader, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
+	PHP_ME(Phalcon_Http_Request, getBestQuality, arginfo_phalcon_http_request_getbestquality, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Http_Request, getHelper, arginfo_phalcon_http_request_gethelper, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Http_Request, hasFileHelper, arginfo_phalcon_http_request_hasfilehelper, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Http_Request, getQualityHeader, arginfo_phalcon_http_request_getqualityheader, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Http_Request, resolveAuthorizationHeaders, arginfo_phalcon_http_request_resolveauthorizationheaders, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Http_Request, smoothFiles, arginfo_phalcon_http_request_smoothfiles, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL)
-	PHP_ME(Phalcon_Http_Request, getFilterLocatorService, arginfo_phalcon_http_request_getfilterlocatorservice, ZEND_ACC_PRIVATE)
+	PHP_ME(Phalcon_Http_Request, smoothFiles, arginfo_phalcon_http_request_smoothfiles, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Http_Request, getFilterService, arginfo_phalcon_http_request_getfilterservice, ZEND_ACC_PRIVATE)
+	PHP_ME(Phalcon_Http_Request, getServerArray, arginfo_phalcon_http_request_getserverarray, ZEND_ACC_PRIVATE)
 	PHP_FE_END
 };

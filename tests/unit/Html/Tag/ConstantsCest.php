@@ -15,17 +15,10 @@ namespace Phalcon\Test\Unit\Html\Tag;
 use Phalcon\Html\Tag;
 use UnitTester;
 
-/**
- * Class ConstantsCest
- *
- * @package Phalcon\Test\Unit\Html\Tag
- */
 class ConstantsCest
 {
     /**
      * Tests Phalcon\Html\Tag :: constants
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2014-09-05
@@ -33,6 +26,7 @@ class ConstantsCest
     public function htmlTagConstants(UnitTester $I)
     {
         $I->wantToTest('Html\Tag - constants()');
+
         $I->assertEquals(1, Tag::HTML32);
         $I->assertEquals(2, Tag::HTML401_STRICT);
         $I->assertEquals(3, Tag::HTML401_TRANSITIONAL);

@@ -16,6 +16,7 @@
 #include "kernel/array.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
+#include "kernel/object.h"
 
 
 /**
@@ -27,8 +28,6 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Assets\Inline\Css
- *
  * Represents an inlined CSS
  */
 ZEPHIR_INIT_CLASS(Phalcon_Assets_Inline_Css) {
@@ -40,9 +39,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Inline_Css) {
 }
 
 /**
- * Phalcon\Assets\Inline\Css
- *
- * @param array attributes
+ * Phalcon\Assets\Inline\Css constructor
  */
 PHP_METHOD(Phalcon_Assets_Inline_Css, __construct) {
 

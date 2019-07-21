@@ -26,15 +26,15 @@ class SetOptionCest
     /**
      * Tests Phalcon\Validation\Validator\Digit :: setOption()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorDigitSetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Digit - setOption()');
+
         $validator = new Digit();
+
         $this->checkSetOption($I, $validator);
     }
 }

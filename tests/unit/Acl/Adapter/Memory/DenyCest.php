@@ -12,19 +12,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
 
-use Phalcon\Acl;
 use Phalcon\Acl\Adapter\Memory;
+use Phalcon\Acl\Enum;
 use UnitTester;
 
-/**
- * Class DenyCest
- */
 class DenyCest
 {
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: deny()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -32,17 +27,29 @@ class DenyCest
     public function aclAdapterMemoryDeny(UnitTester $I)
     {
         $I->wantToTest('Acl\Adapter\Memory - deny()');
+
         $acl = new Memory();
-        $acl->setDefaultAction(Acl::ALLOW);
+
+        $acl->setDefaultAction(
+            Enum::ALLOW
+        );
+
         $acl->addRole('Guests');
         $acl->addRole('Member');
-        $acl->addComponent('Post', ['update']);
+
+        $acl->addComponent(
+            'Post',
+            ['update']
+        );
 
         $acl->deny('Member', 'Post', 'update');
 
-        $actual = $acl->isAllowed('Guest', 'Post', 'update');
-        $I->assertTrue($actual);
-        $actual = $acl->isAllowed('Member', 'Post', 'update');
-        $I->assertFalse($actual);
+        $I->assertTrue(
+            $acl->isAllowed('Guest', 'Post', 'update')
+        );
+
+        $I->assertFalse(
+            $acl->isAllowed('Member', 'Post', 'update')
+        );
     }
 }

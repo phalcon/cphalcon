@@ -16,9 +16,6 @@ use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\ValidationTrait;
 use Phalcon\Validation\Validator\Confirmation;
 
-/**
- * Class HasOptionCest
- */
 class HasOptionCest
 {
     use ValidationTrait;
@@ -26,15 +23,19 @@ class HasOptionCest
     /**
      * Tests Phalcon\Validation\Validator\Confirmation :: hasOption()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorConfirmationHasOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Confirmation - hasOption()');
-        $validator = new Confirmation(['message' => 'This is a message']);
+
+        $validator = new Confirmation(
+            [
+                'message' => 'This is a message',
+            ]
+        );
+
         $this->checkHasOption($I, $validator);
     }
 }

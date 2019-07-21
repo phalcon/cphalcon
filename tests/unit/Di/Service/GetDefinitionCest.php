@@ -12,24 +12,29 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Di\Service;
 
+use Phalcon\Di\Service;
 use UnitTester;
 
-/**
- * Class GetDefinitionCest
- */
 class GetDefinitionCest
 {
     /**
      * Tests Phalcon\Di\Service :: getDefinition()
      *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-06-12
      */
     public function diServiceGetDefinition(UnitTester $I)
     {
         $I->wantToTest('Di\Service - getDefinition()');
-        $I->skipTest('Need implementation');
+
+        $service = new Service(
+            'some-service',
+            false
+        );
+
+        $I->assertEquals(
+            'some-service',
+            $service->getDefinition()
+        );
     }
 }

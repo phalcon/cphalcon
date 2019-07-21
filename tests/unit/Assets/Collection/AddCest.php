@@ -16,15 +16,10 @@ use Phalcon\Assets\Asset;
 use Phalcon\Assets\Collection;
 use UnitTester;
 
-/**
- * Class AddCest
- */
 class AddCest
 {
     /**
      * Tests Phalcon\Assets\Collection :: add()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -32,28 +27,29 @@ class AddCest
     public function assetsCollectionAdd(UnitTester $I)
     {
         $I->wantToTest('Assets\Collection - add()');
+
         $collection = new Collection();
 
-        $collection->add(new Asset('js', 'js/jquery.js'));
-        $collection->add(new Asset('js', 'js/jquery-ui.js'));
+        $collection->add(
+            new Asset('js', 'js/jquery.js')
+        );
 
-        $number   = 0;
-        $expected = 'js';
+        $collection->add(
+            new Asset('js', 'js/jquery-ui.js')
+        );
+
         foreach ($collection as $asset) {
-            $actual = $asset->getType();
-            $I->assertEquals($expected, $actual);
-            $number++;
+            $I->assertEquals(
+                'js',
+                $asset->getType()
+            );
         }
 
-        $expected = 2;
-        $actual   = $number;
-        $I->assertEquals($expected, $actual);
+        $I->assertCount(2, $collection);
     }
 
     /**
      * Tests Phalcon\Assets\Collection :: add() - duplicate
-     *
-     * @param UnitTester $I
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/10938
      *
@@ -62,16 +58,23 @@ class AddCest
      */
     public function assetsCollectionAddDuplicate(UnitTester $I)
     {
-        $I->wantToTest('Assets\Collection - add()');
+        $I->wantToTest('Assets\Collection - add() - duplicate');
+
         $collection = new Collection();
 
         for ($i = 0; $i < 10; $i++) {
-            $collection->add(new Asset('js', 'js/jquery.js'));
-            $collection->add(new Asset('js', 'js/jquery-ui.js'));
+            $collection->add(
+                new Asset('js', 'js/jquery.js')
+            );
+
+            $collection->add(
+                new Asset('js', 'js/jquery-ui.js')
+            );
         }
 
-        $expected = 2;
-        $actual   = count($collection->getAssets());
-        $I->assertEquals($expected, $actual);
+        $I->assertCount(
+            2,
+            $collection->getAssets()
+        );
     }
 }

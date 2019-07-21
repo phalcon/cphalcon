@@ -13,23 +13,56 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Forms\Element\Select;
 
 use IntegrationTester;
+use Phalcon\Forms\Element\Select;
+use Phalcon\Tag;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-/**
- * Class AddOptionCest
- */
 class AddOptionCest
 {
-    /**
-     * Tests Phalcon\Forms\Element\Select :: addOption()
-     *
-     * @param IntegrationTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function formsElementSelectAddOption(IntegrationTester $I)
+    use DiTrait;
+
+    public function _before()
     {
-        $I->wantToTest('Forms\Element\Select - addOption()');
-        $I->skipTest('Need implementation');
+        $this->setNewFactoryDefault();
+
+        Tag::setDoctype(
+            Tag::HTML5
+        );
+    }
+
+    public function testCorrectlyAddOptionToSelectElementIfParameterIsAnArray(IntegrationTester $I)
+    {
+        $element = new Select('test-select');
+
+        $element->addOption(
+            [
+                'key' => 'value',
+            ]
+        );
+
+        $I->assertEquals(
+            '<select id="test-select" name="test-select"><option value="key">value</option></select>',
+            preg_replace(
+                '/[[:cntrl:]]/',
+                '',
+                $element->render()
+            )
+        );
+    }
+
+    public function testCorrectlyAddOptionToSelectElementIfParameterIsAString(IntegrationTester $I)
+    {
+        $element = new Select('test-select');
+
+        $element->addOption('value');
+
+        $I->assertEquals(
+            '<select id="test-select" name="test-select"><option value="0">value</option></select>',
+            preg_replace(
+                '/[[:cntrl:]]/',
+                '',
+                $element->render()
+            )
+        );
     }
 }

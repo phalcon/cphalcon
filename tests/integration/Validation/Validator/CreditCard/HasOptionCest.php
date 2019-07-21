@@ -26,15 +26,19 @@ class HasOptionCest
     /**
      * Tests Phalcon\Validation\Validator\CreditCard :: hasOption()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorCreditCardHasOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\CreditCard - hasOption()');
-        $validator = new CreditCard(['message' => 'This is a message']);
+
+        $validator = new CreditCard(
+            [
+                'message' => 'This is a message',
+            ]
+        );
+
         $this->checkHasOption($I, $validator);
     }
 }

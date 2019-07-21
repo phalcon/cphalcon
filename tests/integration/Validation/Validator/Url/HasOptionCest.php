@@ -26,15 +26,19 @@ class HasOptionCest
     /**
      * Tests Phalcon\Validation\Validator\Url :: hasOption()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorUrlHasOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Url - hasOption()');
-        $validator = new Url(['message' => 'This is a message']);
+
+        $validator = new Url(
+            [
+                'message' => 'This is a message',
+            ]
+        );
+
         $this->checkHasOption($I, $validator);
     }
 }

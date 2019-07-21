@@ -17,15 +17,10 @@ use Phalcon\Di;
 use Psr\Container\ContainerInterface;
 use UnitTester;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     /**
      * Tests Phalcon\Container :: __construct()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -35,8 +30,12 @@ class ConstructCest
         $I->wantToTest('Container - __construct()');
 
         $container = new Di();
-        $class     = ContainerInterface::class;
-        $actual    = new Container($container);
-        $I->assertInstanceOf($class, $actual);
+
+        $actual = new Container($container);
+
+        $I->assertInstanceOf(
+            ContainerInterface::class,
+            $actual
+        );
     }
 }

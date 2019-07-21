@@ -34,14 +34,24 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_CriteriaInterface) {
 }
 
 /**
- * Set a model on which the query will be executed
+ * Appends a condition to the current conditions using an AND operator
+ *
+ * @param array bindParams
+ * @param array bindTypes
  */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, setModelName);
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, andWhere);
 
 /**
- * Returns an internal model name on which the criteria will be applied
+ * Appends a BETWEEN condition to the current conditions
+ *
+ *```php
+ * $criteria->betweenWhere("price", 100.25, 200.50);
+ *```
+ *
+ * @param mixed minimum
+ * @param mixed maximum
  */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getModelName);
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, betweenWhere);
 
 /**
  * Sets the bound parameters in the criteria
@@ -56,9 +66,10 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, bind);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, bindTypes);
 
 /**
- * Sets the conditions parameter in the criteria
+ * Sets the cache options in the criteria
+ * This method replaces all previously set cache options
  */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, where);
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, cache);
 
 /**
  * Adds the conditions parameter to the criteria
@@ -66,16 +77,14 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, where);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, conditions);
 
 /**
- * Adds the order-by parameter to the criteria
+ * Sets SELECT DISTINCT / SELECT ALL flag
  */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, orderBy);
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, distinct);
 
 /**
- * Sets the limit parameter to the criteria
- *
- * @param int offset
+ * Executes a find using the parameters built with the criteria
  */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, limit);
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, execute);
 
 /**
  * Sets the "for_update" parameter to the criteria
@@ -83,96 +92,41 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, limit);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, forUpdate);
 
 /**
- * Sets the "shared_lock" parameter to the criteria
+ * Returns the columns to be queried
+ *
+ * @return string|array|null
  */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, sharedLock);
-
-/**
- * Appends a condition to the current conditions using an AND operator
- *
- * @param array bindParams
- * @param array bindTypes
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, andWhere);
-
-/**
- * Appends a condition to the current conditions using an OR operator
- *
- * @param array bindParams
- * @param array bindTypes
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, orWhere);
-
-/**
- * Appends a BETWEEN condition to the current conditions
- *
- *<code>
- * $criteria->betweenWhere("price", 100.25, 200.50);
- *</code>
- *
- * @param mixed minimum
- * @param mixed maximum
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, betweenWhere);
-
-/**
- * Appends a NOT BETWEEN condition to the current conditions
- *
- *<code>
- * $criteria->notBetweenWhere("price", 100.25, 200.50);
- *</code>
- *
- * @param mixed minimum
- * @param mixed maximum
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, notBetweenWhere);
-
-/**
- * Appends an IN condition to the current conditions
- *
- *<code>
- * $criteria->inWhere("id", [1, 2, 3]);
- *</code>
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, inWhere);
-
-/**
- * Appends a NOT IN condition to the current conditions
- *
- *<code>
- * $criteria->notInWhere("id", [1, 2, 3]);
- *</code>
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, notInWhere);
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getColumns);
 
 /**
  * Returns the conditions parameter in the criteria
- *
- * @return string|null
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getWhere);
-
-/**
- * Returns the conditions parameter in the criteria
- *
- * @return string|null
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getConditions);
 
 /**
- * Returns the limit parameter in the criteria, which will be
- * an integer if limit was set without an offset,
- * an array with 'number' and 'offset' keys if an offset was set with the limit,
- * or null if limit has not been set.
- *
- * @return int|array|null
+ * Returns the group clause in the criteria
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getGroupBy);
+
+/**
+ * Returns the having clause in the criteria
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getHaving);
+
+/**
+ * Returns the limit parameter in the criteria, which will be an integer if
+ * limit was set without an offset, an array with 'number' and 'offset' keys
+ * if an offset was set with the limit, or null if limit has not been set.
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getLimit);
 
 /**
+ * Returns an internal model name on which the criteria will be applied
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getModelName);
+
+/**
  * Returns the order parameter in the criteria
- *
- * @return string|null
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getOrderBy);
 
@@ -182,43 +136,9 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getOrderBy);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getParams);
 
 /**
- * Executes a find using the parameters built with the criteria
+ * Returns the conditions parameter in the criteria
  */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, execute);
-
-/**
- * Sets SELECT DISTINCT / SELECT ALL flag
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, distinct);
-
-/**
- * Adds an INNER join to the query
- *
- *<code>
- * $criteria->innerJoin("Robots");
- * $criteria->innerJoin("Robots", "r.id = RobotsParts.robots_id");
- * $criteria->innerJoin("Robots", "r.id = RobotsParts.robots_id", "r");
- *</code>
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, innerJoin);
-
-/**
- * Adds a LEFT join to the query
- *
- *<code>
- * $criteria->leftJoin("Robots", "r.id = RobotsParts.robots_id", "r");
- *</code>
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, leftJoin);
-
-/**
- * Adds a RIGHT join to the query
- *
- *<code>
- * $criteria->rightJoin("Robots", "r.id = RobotsParts.robots_id", "r");
- *</code>
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, rightJoin);
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getWhere);
 
 /**
  * Adds the group-by clause to the criteria
@@ -231,25 +151,113 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, groupBy);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, having);
 
 /**
- * Sets the cache options in the criteria
- * This method replaces all previously set cache options
- */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, cache);
-
-/**
- * Returns the columns to be queried
+ * Adds an INNER join to the query
  *
- * @return string|array|null
+ *```php
+ * $criteria->innerJoin(
+ *     Robots::class
+ * );
+ *
+ * $criteria->innerJoin(
+ *     Robots::class,
+ *     "r.id = RobotsParts.robots_id"
+ * );
+ *
+ * $criteria->innerJoin(
+ *     Robots::class,
+ *     "r.id = RobotsParts.robots_id",
+ *     "r"
+ * );
+ *```
  */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getColumns);
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, innerJoin);
 
 /**
- * Returns the group clause in the criteria
+ * Appends an IN condition to the current conditions
+ *
+ *```php
+ * $criteria->inWhere("id", [1, 2, 3]);
+ *```
  */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getGroupBy);
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, inWhere);
 
 /**
- * Returns the having clause in the criteria
+ * Adds a LEFT join to the query
+ *
+ *```php
+ * $criteria->leftJoin(
+ *     Robots::class,
+ *     "r.id = RobotsParts.robots_id",
+ *     "r"
+ * );
+ *```
  */
-ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getHaving);
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, leftJoin);
+
+/**
+ * Sets the limit parameter to the criteria
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, limit);
+
+/**
+ * Appends a NOT BETWEEN condition to the current conditions
+ *
+ *```php
+ * $criteria->notBetweenWhere("price", 100.25, 200.50);
+ *```
+ *
+ * @param mixed minimum
+ * @param mixed maximum
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, notBetweenWhere);
+
+/**
+ * Appends a NOT IN condition to the current conditions
+ *
+ *```php
+ * $criteria->notInWhere("id", [1, 2, 3]);
+ *```
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, notInWhere);
+
+/**
+ * Adds the order-by parameter to the criteria
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, orderBy);
+
+/**
+ * Appends a condition to the current conditions using an OR operator
+ *
+ * @param array bindParams
+ * @param array bindTypes
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, orWhere);
+
+/**
+ * Adds a RIGHT join to the query
+ *
+ *```php
+ * $criteria->rightJoin(
+ *     Robots::class,
+ *     "r.id = RobotsParts.robots_id",
+ *     "r"
+ * );
+ *```
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, rightJoin);
+
+/**
+ * Set a model on which the query will be executed
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, setModelName);
+
+/**
+ * Sets the "shared_lock" parameter to the criteria
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, sharedLock);
+
+/**
+ * Sets the conditions parameter in the criteria
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, where);
 

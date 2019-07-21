@@ -14,15 +14,10 @@ namespace Phalcon\Test\Integration\Mvc\Dispatcher;
 
 use IntegrationTester;
 
-/**
- * Class HasParamCest
- */
 class HasParamCest
 {
     /**
      * Tests Phalcon\Mvc\Dispatcher :: hasParam()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

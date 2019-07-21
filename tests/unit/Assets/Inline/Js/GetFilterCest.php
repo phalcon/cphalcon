@@ -13,31 +13,26 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Assets\Inline\Js;
 
 use Phalcon\Assets\Inline\Js;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
-/**
- * Class GetFilterCest
- */
 class GetFilterCest
 {
-    use AssetsTrait;
-
     /**
-     * Tests Phalcon\Assets\Inline :: getFilter()
-     *
-     * @param UnitTester $I
+     * Tests Phalcon\Assets\Inline\Js :: getFilter()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
-    public function assetsInlineGetFilter(UnitTester $I)
+    public function assetsInlineJsGetFilter(UnitTester $I)
     {
-        $I->wantToTest('Assets\Inline - getFilter()');
-        $content = '<script>alert("Hello");</script>';
-        $asset   = new Js($content);
+        $I->wantToTest('Assets\Inline\Js - getFilter()');
 
-        $expected = true;
-        $this->assetGetFilter($I, $asset, $expected);
+        $asset = new Js(
+            '<script>alert("Hello");</script>'
+        );
+
+        $I->assertTrue(
+            $asset->getFilter()
+        );
     }
 }

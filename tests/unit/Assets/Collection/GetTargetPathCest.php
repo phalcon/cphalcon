@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Assets\Collection;
 
 use UnitTester;
 
-/**
- * Class GetTargetPathCest
- */
 class GetTargetPathCest
 {
     /**
      * Tests Phalcon\Assets\Collection :: getTargetPath()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetTargetPathCest
     public function assetsCollectionGetTargetPath(UnitTester $I)
     {
         $I->wantToTest('Assets\Collection - getTargetPath()');
+
         $I->skipTest('Need implementation');
     }
 }

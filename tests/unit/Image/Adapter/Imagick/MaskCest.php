@@ -15,12 +15,9 @@ namespace Phalcon\Test\Unit\Image\Adapter\Imagick;
 use Phalcon\Image\Adapter\Imagick;
 use Phalcon\Test\Fixtures\Traits\ImagickTrait;
 use UnitTester;
-use function dataFolder;
-use function outputFolder;
+use function dataDir;
+use function outputDir;
 
-/**
- * Class MaskCest
- */
 class MaskCest
 {
     use ImagickTrait;
@@ -28,28 +25,41 @@ class MaskCest
     /**
      * Tests Phalcon\Image\Adapter\Imagick :: mask()
      *
-     * @param UnitTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2016-02-19
      */
     public function imageAdapterImagickMask(UnitTester $I)
     {
         $I->wantToTest('Image\Adapter\Imagick - mask()');
-        $image = new Imagick(dataFolder('assets/images/phalconphp.jpg'));
+
+        $image = new Imagick(
+            dataDir('assets/images/phalconphp.jpg')
+        );
+
         $image->setResourceLimit(6, 1);
-        $mask = new Imagick(dataFolder('assets/images/logo.png'));
+
+        $mask = new Imagick(
+            dataDir('assets/images/logo.png')
+        );
 
         // Add a watermark to the bottom right of the image
-        $image->mask($mask)->save(outputFolder('tests/image/imagick/mask.jpg'));
+        $image->mask($mask)->save(outputDir('tests/image/imagick/mask.jpg'));
 
-        $I->amInPath(outputFolder('tests/image/imagick/'));
+        $I->amInPath(
+            outputDir('tests/image/imagick/')
+        );
+
         $I->seeFileFound('mask.jpg');
 
-        $actual = $image->getWidth() > 200;
-        $I->assertTrue($actual);
-        $actual = $image->getHeight() > 200;
-        $I->assertTrue($actual);
+        $I->assertGreaterThan(
+            200,
+            $image->getWidth()
+        );
+
+        $I->assertGreaterThan(
+            200,
+            $image->getHeight()
+        );
 
         $I->safeDeleteFile('mask.jpg');
     }

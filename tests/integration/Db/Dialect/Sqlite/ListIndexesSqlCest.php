@@ -14,15 +14,10 @@ namespace Phalcon\Test\Integration\Db\Dialect\Sqlite;
 
 use IntegrationTester;
 
-/**
- * Class ListIndexesSqlCest
- */
 class ListIndexesSqlCest
 {
     /**
      * Tests Phalcon\Db\Dialect\Sqlite :: listIndexesSql()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

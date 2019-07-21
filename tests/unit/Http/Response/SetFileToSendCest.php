@@ -12,24 +12,34 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Response;
 
+use Phalcon\Test\Unit\Http\Helper\HttpBase;
 use UnitTester;
 
-/**
- * Class SetFileToSendCest
- */
-class SetFileToSendCest
+class SetFileToSendCest extends HttpBase
 {
     /**
-     * Tests Phalcon\Http\Response :: setFileToSend()
-     *
-     * @param UnitTester $I
+     * Tests setFileToSend
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2014-10-08
      */
-    public function httpResponseSetFileToSend(UnitTester $I)
+    public function testHttpResponseSetFileToSend(UnitTester $I)
     {
-        $I->wantToTest('Http\Response - setFileToSend()');
-        $I->skipTest('Need implementation');
+        $response = $this->getResponseObject();
+
+        $filename = __FILE__;
+
+        $response->setFileToSend($filename);
+
+        ob_start();
+        $response->send();
+
+        $expected = file_get_contents($filename);
+        $actual   = ob_get_clean();
+        $I->assertEquals($expected, $actual);
+
+        $I->assertTrue(
+            $response->isSent()
+        );
     }
 }

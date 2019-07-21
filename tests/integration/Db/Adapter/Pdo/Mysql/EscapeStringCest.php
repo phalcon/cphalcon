@@ -14,15 +14,10 @@ namespace Phalcon\Test\Integration\Db\Adapter\Pdo\Mysql;
 
 use IntegrationTester;
 
-/**
- * Class EscapeStringCest
- */
 class EscapeStringCest
 {
     /**
      * Tests Phalcon\Db\Adapter\Pdo\Mysql :: escapeString()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

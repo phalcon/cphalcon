@@ -12,22 +12,15 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Logger\Adapter\Noop;
 
-use Phalcon\Logger;
 use Phalcon\Logger\Adapter\Noop;
 use Phalcon\Logger\Item;
+use Phalcon\Logger\Logger;
 use UnitTester;
 
-/**
- * Class ProcessCest
- *
- * @package Phalcon\Test\Unit\Logger
- */
 class ProcessCest
 {
     /**
      * Tests Phalcon\Logger\Adapter\Noop :: process()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -35,9 +28,11 @@ class ProcessCest
     public function loggerAdapterNoopProcess(UnitTester $I)
     {
         $I->wantToTest('Logger\Adapter\Noop - process()');
+
         $adapter = new Noop();
 
         $item = new Item('Message 1', 'debug', Logger::DEBUG);
+
         $adapter->process($item);
     }
 }

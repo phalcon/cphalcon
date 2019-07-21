@@ -12,24 +12,32 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Di;
 
+use Phalcon\Di;
+use Phalcon\Escaper;
 use UnitTester;
 
-/**
- * Class HasCest
- */
 class HasCest
 {
     /**
      * Tests Phalcon\Di :: has()
      *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-06-02
      */
     public function diHas(UnitTester $I)
     {
         $I->wantToTest('Di - has()');
-        $I->skipTest('Need implementation');
+
+        $di = new Di();
+
+        $I->assertFalse(
+            $di->has('escaper')
+        );
+
+        $di->set('escaper', Escaper::class);
+
+        $I->assertTrue(
+            $di->has('escaper')
+        );
     }
 }

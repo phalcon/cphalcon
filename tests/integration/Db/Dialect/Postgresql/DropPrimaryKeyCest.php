@@ -12,24 +12,49 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Db\Dialect\Postgresql;
 
+use Codeception\Example;
 use IntegrationTester;
+use Phalcon\Db\Dialect\Postgresql;
 
-/**
- * Class DropPrimaryKeyCest
- */
 class DropPrimaryKeyCest
 {
     /**
      * Tests Phalcon\Db\Dialect\Postgresql :: dropPrimaryKey()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2017-02-26
+     *
+     * @dataProvider getDropPrimaryKeyFixtures
      */
-    public function dbDialectPostgresqlDropPrimaryKey(IntegrationTester $I)
+    public function testDropPrimaryKey(IntegrationTester $I, Example $example)
     {
         $I->wantToTest('Db\Dialect\Postgresql - dropPrimaryKey()');
-        $I->skipTest('Need implementation');
+
+        $schema   = $example[0];
+        $expected = $example[1];
+
+        $dialect = new Postgresql();
+
+        $actual = $dialect->dropPrimaryKey(
+            'table',
+            $schema
+        );
+
+        $I->assertEquals($expected, $actual);
+    }
+
+    protected function getDropPrimaryKeyFixtures(): array
+    {
+        return [
+            [
+                '',
+                'ALTER TABLE "table" DROP CONSTRAINT "table_PRIMARY"',
+            ],
+
+            [
+                'schema',
+                'ALTER TABLE "schema"."table" DROP CONSTRAINT "table_PRIMARY"',
+            ],
+        ];
     }
 }

@@ -14,15 +14,10 @@ namespace Phalcon\Test\Integration\Db\Index;
 
 use IntegrationTester;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     /**
      * Tests Phalcon\Db\Index :: __construct()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

@@ -17,9 +17,6 @@ use Phalcon\Session\Manager;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionTrait;
 
-/**
- * Class StatusCest
- */
 class StatusCest
 {
     use DiTrait;
@@ -28,8 +25,6 @@ class StatusCest
     /**
      * Tests Phalcon\Session\Manager :: status()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
@@ -37,7 +32,7 @@ class StatusCest
     {
         $I->wantToTest('Session\Manager - status()');
         $manager = new Manager();
-        $files   = $this->getSessionFiles();
+        $files   = $this->getSessionStream();
         $manager->setHandler($files);
 
         $expected = $manager::SESSION_NONE;

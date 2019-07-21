@@ -26,15 +26,15 @@ class SetOptionCest
     /**
      * Tests Phalcon\Validation\Validator\Email :: setOption()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorEmailSetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\Email - setOption()');
+
         $validator = new Email();
+
         $this->checkSetOption($I, $validator);
     }
 }

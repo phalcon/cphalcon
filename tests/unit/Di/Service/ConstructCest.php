@@ -14,22 +14,18 @@ namespace Phalcon\Test\Unit\Di\Service;
 
 use UnitTester;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     /**
-     * Tests Phalcon\Di\Service :: __construct()
-     *
-     * @param UnitTester $I
+     * Unit Tests Phalcon\Di\Service :: __construct()
      *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2019-06-13
      */
     public function diServiceConstruct(UnitTester $I)
     {
         $I->wantToTest('Di\Service - __construct()');
+
         $I->skipTest('Need implementation');
     }
 }

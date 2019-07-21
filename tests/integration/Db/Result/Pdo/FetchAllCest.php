@@ -14,15 +14,10 @@ namespace Phalcon\Test\Integration\Db\Result\Pdo;
 
 use IntegrationTester;
 
-/**
- * Class FetchAllCest
- */
 class FetchAllCest
 {
     /**
      * Tests Phalcon\Db\Result\Pdo :: fetchAll()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

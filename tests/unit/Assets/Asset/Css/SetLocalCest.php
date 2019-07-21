@@ -12,51 +12,52 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Asset\Css;
 
+use Codeception\Example;
 use Phalcon\Assets\Asset\Css;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
-/**
- * Class SetLocalCest
- */
 class SetLocalCest
 {
-    use AssetsTrait;
-
     /**
-     * Tests Phalcon\Assets\Asset :: setLocal() - css local
+     * Tests Phalcon\Assets\Asset\Css :: setLocal()
      *
-     * @param UnitTester $I
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @dataProvider provider
      */
-    public function assetsAssetCssSetLocalLocal(UnitTester $I)
+    public function assetsAssetCssSetLocal(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Assets\Asset - setLocal() - css local');
-        $asset = new Css('https://phalcon.ld/css/docs.css');
+        $I->wantToTest('Assets\Asset\Css - setLocal()');
 
-        $expected = true;
-        $asset->setLocal($expected);
-        $this->assetGetLocal($I, $asset, $expected);
+        $asset = new Css(
+            $example['path'],
+            $example['local']
+        );
+
+        $asset->setLocal(
+            $example['newLocal']
+        );
+
+        $I->assertEquals(
+            $example['newLocal'],
+            $asset->getLocal()
+        );
     }
 
-    /**
-     * Tests Phalcon\Assets\Asset :: setLocal() - css remote
-     *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsAssetCssSetLocalRemote(UnitTester $I)
+    protected function provider(): array
     {
-        $I->wantToTest('Assets\Asset - setLocal() - css remote');
-        $I->skipTest('TODO - Need checking');
-        $asset = new Css('https://phalcon.ld/css/docs.css');
-
-        $expected = false;
-        $asset->setLocal($expected);
-        $this->assetGetLocal($I, $asset, $expected);
+        return [
+            [
+                'path'     => 'css/docs.css',
+                'local'    => true,
+                'newLocal' => false,
+            ],
+            [
+                'path'     => 'https://phalcon.ld/css/docs.css',
+                'local'    => false,
+                'newLocal' => true,
+            ],
+        ];
     }
 }

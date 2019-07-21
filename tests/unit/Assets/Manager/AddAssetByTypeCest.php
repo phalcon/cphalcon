@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Assets\Manager;
 
 use UnitTester;
 
-/**
- * Class AddAssetByTypeCest
- */
 class AddAssetByTypeCest
 {
     /**
      * Tests Phalcon\Assets\Manager :: addAssetByType()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class AddAssetByTypeCest
     public function assetsManagerAddAssetByType(UnitTester $I)
     {
         $I->wantToTest('Assets\Manager - addAssetByType()');
+
         $I->skipTest('Need implementation');
     }
 }

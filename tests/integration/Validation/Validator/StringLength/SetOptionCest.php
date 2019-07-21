@@ -10,7 +10,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Validation\Validator\StringLength;
+namespace Phalcon\Test\Integration\Validation\Validator\StringLength2;
 
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\ValidationTrait;
@@ -26,15 +26,15 @@ class SetOptionCest
     /**
      * Tests Phalcon\Validation\Validator\StringLength :: setOption()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function validationValidatorStringLengthSetOption(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\StringLength - setOption()');
+
         $validator = new StringLength();
+
         $this->checkSetOption($I, $validator);
     }
 }

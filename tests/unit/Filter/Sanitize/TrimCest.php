@@ -16,18 +16,12 @@ use Codeception\Example;
 use Phalcon\Filter\Sanitize\Trim;
 use UnitTester;
 
-/**
- * Class TrimCest
- */
 class TrimCest
 {
     /**
-     * Tests Phalcon\Filter\Sanitize\Email :: __invoke()
+     * Tests Phalcon\Filter\Sanitize\Trim :: __invoke()
      *
      * @dataProvider getData
-     *
-     * @param UnitTester $I
-     * @param Example    $example
      *
      * @author       Phalcon Team <team@phalconphp.com>
      * @since        2018-11-13
@@ -38,13 +32,12 @@ class TrimCest
 
         $sanitizer = new Trim();
 
-        $actual = $sanitizer($example[0]);
-        $I->assertEquals($example[1], $actual);
+        $I->assertEquals(
+            $example[1],
+            $sanitizer($example[0])
+        );
     }
 
-    /**
-     * @return array
-     */
     private function getData(): array
     {
         return [

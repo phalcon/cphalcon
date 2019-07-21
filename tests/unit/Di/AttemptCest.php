@@ -12,17 +12,15 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Di;
 
+use Phalcon\Di;
+use Phalcon\Di\Service;
+use Phalcon\Escaper;
 use UnitTester;
 
-/**
- * Class AttemptCest
- */
 class AttemptCest
 {
     /**
      * Tests Phalcon\Di :: attempt()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +28,15 @@ class AttemptCest
     public function diAttempt(UnitTester $I)
     {
         $I->wantToTest('Di - attempt()');
-        $I->skipTest('Need implementation');
+
+        $di = new Di();
+
+        $actual = $di->attempt('escaper', Escaper::class);
+
+        $I->assertInstanceOf(Service::class, $actual);
+
+        $actual = $di->attempt('escaper', Escaper::class);
+
+        $I->assertFalse($actual);
     }
 }

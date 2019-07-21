@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Assets\Collection;
 
 use UnitTester;
 
-/**
- * Class GetJoinCest
- */
 class GetJoinCest
 {
     /**
      * Tests Phalcon\Assets\Collection :: getJoin()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class GetJoinCest
     public function assetsCollectionGetJoin(UnitTester $I)
     {
         $I->wantToTest('Assets\Collection - getJoin()');
+
         $I->skipTest('Need implementation');
     }
 }

@@ -14,15 +14,10 @@ namespace Phalcon\Test\Integration\Db\Reference;
 
 use IntegrationTester;
 
-/**
- * Class GetReferencedSchemaCest
- */
 class GetReferencedSchemaCest
 {
     /**
      * Tests Phalcon\Db\Reference :: getReferencedSchema()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

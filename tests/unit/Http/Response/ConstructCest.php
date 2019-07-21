@@ -14,15 +14,10 @@ namespace Phalcon\Test\Unit\Http\Response;
 
 use UnitTester;
 
-/**
- * Class ConstructCest
- */
 class ConstructCest
 {
     /**
      * Tests Phalcon\Http\Response :: __construct()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
@@ -30,6 +25,7 @@ class ConstructCest
     public function httpResponseConstruct(UnitTester $I)
     {
         $I->wantToTest('Http\Response - __construct()');
+
         $I->skipTest('Need implementation');
     }
 }

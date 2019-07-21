@@ -12,24 +12,51 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Db\Dialect\Mysql;
 
+use Codeception\Example;
 use IntegrationTester;
+use Phalcon\Db\Dialect\Mysql;
 
-/**
- * Class GetColumnListCest
- */
 class GetColumnListCest
 {
     /**
      * Tests Phalcon\Db\Dialect\Mysql :: getColumnList()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2017-02-26
+     *
+     * @dataProvider getColumnListFixtures
      */
-    public function dbDialectMysqlGetColumnList(IntegrationTester $I)
+    public function dbDialectMysqlGetColumnList(IntegrationTester $I, Example $example)
     {
         $I->wantToTest('Db\Dialect\Mysql - getColumnList()');
-        $I->skipTest('Need implementation');
+
+        $columns  = $example[0];
+        $expected = $example[1];
+
+        $dialect = new Mysql();
+
+        $actual = $dialect->getColumnList($columns);
+
+        $I->assertInternalType(
+            'string',
+            $actual
+        );
+
+        $I->assertEquals($expected, $actual);
+    }
+
+    protected function getColumnListFixtures(): array
+    {
+        return [
+            [
+                ['column1', 'column2', 'column3'],
+                '`column1`, `column2`, `column3`',
+            ],
+
+            [
+                ['foo'],
+                '`foo`',
+            ],
+        ];
     }
 }

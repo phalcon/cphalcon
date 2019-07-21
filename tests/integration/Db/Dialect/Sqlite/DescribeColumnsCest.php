@@ -12,24 +12,55 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Db\Dialect\Sqlite;
 
+use Codeception\Example;
 use IntegrationTester;
+use Phalcon\Db\Dialect\Sqlite;
 
-/**
- * Class DescribeColumnsCest
- */
 class DescribeColumnsCest
 {
     /**
      * Tests Phalcon\Db\Dialect\Sqlite :: describeColumns()
      *
-     * @param IntegrationTester $I
+     * @issue  https://github.com/phalcon/cphalcon/issues/12536
+     * @issue  https://github.com/phalcon/cphalcon/issues/11359
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2017-02-26
+     *
+     * @dataProvider getDescribeColumnsFixtures
      */
-    public function dbDialectSqliteDescribeColumns(IntegrationTester $I)
+    public function dbDialectSqliteDescribeColumns(IntegrationTester $I, Example $example)
     {
         $I->wantToTest('Db\Dialect\Sqlite - describeColumns()');
-        $I->skipTest('Need implementation');
+
+        $schema   = $example[0];
+        $expected = $example[1];
+
+        $dialect = new Sqlite();
+
+        $actual = $dialect->describeColumns(
+            'table',
+            $schema
+        );
+
+        $I->assertEquals($expected, $actual);
+    }
+
+    protected function getDescribeColumnsFixtures(): array
+    {
+        return [
+            [
+                'schema.name.with.dots',
+                "PRAGMA table_info('table')",
+            ],
+            [
+                '',
+                "PRAGMA table_info('table')",
+            ],
+            [
+                'schema',
+                "PRAGMA table_info('table')",
+            ],
+        ];
     }
 }

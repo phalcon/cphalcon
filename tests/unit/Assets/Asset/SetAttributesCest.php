@@ -12,86 +12,52 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Asset;
 
+use Codeception\Example;
 use Phalcon\Assets\Asset;
-use Phalcon\Test\Fixtures\Traits\AssetsTrait;
 use UnitTester;
 
-/**
- * Class SetAttributesCest
- */
 class SetAttributesCest
 {
-    use AssetsTrait;
-
     /**
-     * Tests Phalcon\Assets\Asset :: setAttributes() - css local
+     * Tests Phalcon\Assets\Asset :: setAttributes()
      *
-     * @param UnitTester $I
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2018-11-13
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @dataProvider provider
      */
-    public function assetsAssetSetAttributesCssLocal(UnitTester $I)
+    public function assetsAssetSetAttributesJs(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Assets\Asset - setAttributes() - css local');
-        $asset = new Asset('css', 'css/docs.css');
+        $I->wantToTest('Assets\Asset - setAttributes()');
 
-        $expected = ['data-key' => 'phalcon'];
-        $asset->setAttributes($expected);
-        $this->assetGetAttributes($I, $asset, $expected);
+        $asset = new Asset(
+            $example['type'],
+            $example['path']
+        );
+
+        $attributes = [
+            'data-key' => 'phalcon',
+        ];
+
+        $asset->setAttributes($attributes);
+
+        $I->assertEquals(
+            $attributes,
+            $asset->getAttributes()
+        );
     }
 
-    /**
-     * Tests Phalcon\Assets\Asset :: setAttributes() - css remote
-     *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsAssetSetAttributesCssRemote(UnitTester $I)
+    protected function provider(): array
     {
-        $I->wantToTest('Assets\Asset - setAttributes() - css remote');
-        $asset = new Asset('css', 'https://phalcon.ld/css/docs.css', false);
-
-        $expected = ['data-key' => 'phalcon'];
-        $asset->setAttributes($expected);
-        $this->assetGetAttributes($I, $asset, $expected);
-    }
-
-    /**
-     * Tests Phalcon\Assets\Asset :: setAttributes() - js local
-     *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsAssetSetAttributesJsLocal(UnitTester $I)
-    {
-        $I->wantToTest('Assets\Asset - setAttributes() - js local');
-        $asset = new Asset('js', 'js/jquery.js');
-
-        $expected = ['data-key' => 'phalcon'];
-        $asset->setAttributes($expected);
-        $this->assetGetAttributes($I, $asset, $expected);
-    }
-
-    /**
-     * Tests Phalcon\Assets\Asset :: setAttributes() - js remote
-     *
-     * @param UnitTester $I
-     *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
-     */
-    public function assetsAssetSetAttributesJsRemote(UnitTester $I)
-    {
-        $I->wantToTest('Assets\Asset - setAttributes() - js remote');
-        $asset = new Asset('js', 'https://phalcon.ld/js/jquery.js', false);
-
-        $expected = ['data-key' => 'phalcon'];
-        $asset->setAttributes($expected);
-        $this->assetGetAttributes($I, $asset, $expected);
+        return [
+            [
+                'type' => 'css',
+                'path' => 'css/docs.css',
+            ],
+            [
+                'type' => 'js',
+                'path' => 'js/jquery.js',
+            ],
+        ];
     }
 }

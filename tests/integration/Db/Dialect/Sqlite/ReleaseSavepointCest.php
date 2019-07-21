@@ -13,23 +13,25 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Db\Dialect\Sqlite;
 
 use IntegrationTester;
+use Phalcon\Db\Dialect\Sqlite;
 
-/**
- * Class ReleaseSavepointCest
- */
 class ReleaseSavepointCest
 {
     /**
      * Tests Phalcon\Db\Dialect\Sqlite :: releaseSavepoint()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2017-02-26
      */
     public function dbDialectSqliteReleaseSavepoint(IntegrationTester $I)
     {
         $I->wantToTest('Db\Dialect\Sqlite - releaseSavepoint()');
-        $I->skipTest('Need implementation');
+
+        $dialect = new Sqlite();
+
+        $I->assertEquals(
+            'RELEASE SAVEPOINT PH_SAVEPOINT_1',
+            $dialect->releaseSavepoint('PH_SAVEPOINT_1')
+        );
     }
 }

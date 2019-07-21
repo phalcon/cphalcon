@@ -17,7 +17,6 @@ use Phalcon\Test\Integration\Mvc\Dispatcher\Helper\BaseDispatcher;
  * @link          http://www.phalconphp.com
  * @author        Andres Gutierrez <andres@phalconphp.com>
  * @author        Nikolaos Dimopoulos <nikos@phalconphp.com>
- * @package       Phalcon\Test\Integration\Mvc\Dispatcher
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file docs/LICENSE.txt
@@ -43,7 +42,12 @@ class DispatcherBeforeDispatchCest extends BaseDispatcher
             'dispatch:beforeDispatch',
             function ($event, $dispatcher) use (&$forwarded) {
                 if ($forwarded === false) {
-                    $dispatcher->forward(['action' => 'index2']);
+                    $dispatcher->forward(
+                        [
+                            'action' => 'index2',
+                        ]
+                    );
+
                     $forwarded = true;
                 }
             }
@@ -85,6 +89,7 @@ class DispatcherBeforeDispatchCest extends BaseDispatcher
             'dispatch:beforeDispatch',
             function () use ($dispatcherListener) {
                 $dispatcherListener->trace('beforeDispatch: custom return false');
+
                 return false;
             }
         )
@@ -113,14 +118,19 @@ class DispatcherBeforeDispatchCest extends BaseDispatcher
     {
         $dispatcher = $this->getDispatcher();
 
-        $dispatcher->getEventsManager()->attach('dispatch:beforeDispatch', function () {
-            throw new Exception('beforeDispatch exception occurred');
-        })
-        ;
-        $dispatcher->getEventsManager()->attach('dispatch:beforeException', function () {
-            return false;
-        })
-        ;
+        $dispatcher->getEventsManager()->attach(
+            'dispatch:beforeDispatch',
+            function () {
+                throw new Exception('beforeDispatch exception occurred');
+            }
+        );
+
+        $dispatcher->getEventsManager()->attach(
+            'dispatch:beforeException',
+            function () {
+                return false;
+            }
+        );
 
         $dispatcher->dispatch();
 
@@ -147,24 +157,31 @@ class DispatcherBeforeDispatchCest extends BaseDispatcher
         $dispatcher         = $this->getDispatcher();
         $dispatcherListener = $this->getDispatcherListener();
 
-        $dispatcher->getEventsManager()->attach('dispatch:beforeDispatch', function () {
-            throw new Exception('beforeDispatch exception occurred');
-        })
-        ;
-        $dispatcher->getEventsManager()->attach('dispatch:beforeException', function () use ($dispatcherListener) {
-            $dispatcherListener->trace('beforeException: custom before exception bubble');
-            return null;
-        })
-        ;
+        $dispatcher->getEventsManager()->attach(
+            'dispatch:beforeDispatch',
+            function () {
+                throw new Exception('beforeDispatch exception occurred');
+            }
+        );
 
-        $caughtException = false;
-        try {
-            $dispatcher->dispatch();
-        } catch (Exception $exception) {
-            $caughtException = true;
-        }
+        $dispatcher->getEventsManager()->attach(
+            'dispatch:beforeException',
+            function () use ($dispatcherListener) {
+                $dispatcherListener->trace(
+                    'beforeException: custom before exception bubble'
+                );
 
-        $I->assertTrue($caughtException);
+                return null;
+            }
+        );
+
+        $I->expectThrowable(
+            Exception::class,
+            function () use ($dispatcher) {
+                $dispatcher->dispatch();
+            }
+        );
+
         $expected = [
             'beforeDispatchLoop',
             'beforeDispatch',
@@ -188,21 +205,31 @@ class DispatcherBeforeDispatchCest extends BaseDispatcher
         $dispatcher         = $this->getDispatcher();
         $dispatcherListener = $this->getDispatcherListener();
 
-        $dispatcher->getEventsManager()->attach('dispatch:beforeDispatch', function () use (&$forwarded) {
-            if ($forwarded === false) {
-                $forwarded = true;
-                throw new Exception('beforeDispatch exception occurred');
+        $dispatcher->getEventsManager()->attach(
+            'dispatch:beforeDispatch',
+            function () use (&$forwarded) {
+                if ($forwarded === false) {
+                    $forwarded = true;
+
+                    throw new Exception('beforeDispatch exception occurred');
+                }
             }
-        })
-        ;
+        );
+
         $dispatcher->getEventsManager()->attach(
             'dispatch:beforeException',
             function ($event, $dispatcher) use ($dispatcherListener) {
-                $dispatcherListener->trace('beforeException: custom before exception forward');
-                $dispatcher->forward(['action' => 'index2']);
+                $dispatcherListener->trace(
+                    'beforeException: custom before exception forward'
+                );
+
+                $dispatcher->forward(
+                    [
+                        'action' => 'index2',
+                    ]
+                );
             }
-        )
-        ;
+        );
 
         $dispatcher->dispatch();
 

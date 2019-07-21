@@ -16,6 +16,7 @@ use Phalcon\Messages\Message;
 use Phalcon\Messages\Messages;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\PresenceOf;
+use stdClass;
 
 class ValidationCest
 {
@@ -23,10 +24,10 @@ class ValidationCest
      * Tests the get
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/10405
-     * @author Phalcon Team <team@phalconphp.com>
+     *
      * @since  2016-06-27
      *
-     * @param IntegrationTester $I
+     * @author Phalcon Team <team@phalconphp.com>
      */
     public function appendValidationMessageToTheNonObject(IntegrationTester $I)
     {
@@ -34,7 +35,7 @@ class ValidationCest
         $validation  = new Validation();
 
         $validation->bind(
-            new \stdClass(),
+            new stdClass(),
             [
                 'day'   => date('d'),
                 'month' => date('m'),
@@ -49,11 +50,15 @@ class ValidationCest
                 new Message(
                     'Field foo is required',
                     'foo',
-                    'PresenceOf',
+                    PresenceOf::class,
                     0
                 ),
             ]
         );
-        $I->assertEquals($expectedMessages, $validation->getMessages());
+
+        $I->assertEquals(
+            $expectedMessages,
+            $validation->getMessages()
+        );
     }
 }

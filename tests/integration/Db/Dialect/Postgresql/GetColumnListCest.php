@@ -12,24 +12,51 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Db\Dialect\Postgresql;
 
+use Codeception\Example;
 use IntegrationTester;
+use Phalcon\Db\Dialect\Postgresql;
 
-/**
- * Class GetColumnListCest
- */
 class GetColumnListCest
 {
     /**
      * Tests Phalcon\Db\Dialect\Postgresql :: getColumnList()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2017-02-26
+     *
+     * @dataProvider getColumnListFixtures
      */
-    public function dbDialectPostgresqlGetColumnList(IntegrationTester $I)
+    public function dbDialectPostgresqlGetColumnList(IntegrationTester $I, Example $example)
     {
         $I->wantToTest('Db\Dialect\Postgresql - getColumnList()');
-        $I->skipTest('Need implementation');
+
+        $columns  = $example[0];
+        $expected = $example[1];
+
+        $dialect = new Postgresql();
+
+        $actual = $dialect->getColumnList($columns);
+
+        $I->assertInternalType(
+            'string',
+            $actual
+        );
+
+        $I->assertEquals($expected, $actual);
+    }
+
+    protected function getColumnListFixtures(): array
+    {
+        return [
+            [
+                ['column1', 'column2', 'column3'],
+                '"column1", "column2", "column3"',
+            ],
+
+            [
+                ['foo'],
+                '"foo"',
+            ],
+        ];
     }
 }

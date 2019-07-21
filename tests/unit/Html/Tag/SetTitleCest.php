@@ -17,11 +17,6 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\TagSetupTrait;
 use UnitTester;
 
-/**
- * Class SetTitleCest
- *
- * @package Phalcon\Test\Unit\Html\Tag
- */
 class SetTitleCest
 {
     use DiTrait;
@@ -29,8 +24,6 @@ class SetTitleCest
 
     /**
      * Tests Phalcon\Html\Tag :: setTitle()
-     *
-     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

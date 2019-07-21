@@ -17,17 +17,11 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionTrait;
 use function uniqid;
 
-/**
- * Class ReadCest
- */
 class ReadCest
 {
     use DiTrait;
     use SessionTrait;
 
-    /**
-     * @param IntegrationTester $I
-     */
     public function _before(IntegrationTester $I)
     {
         $this->newFactoryDefault();
@@ -36,20 +30,21 @@ class ReadCest
     /**
      * Tests Phalcon\Session\Adapter\Noop :: write()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function sessionAdapterNoopRead(IntegrationTester $I)
     {
         $I->wantToTest('Session\Adapter\Noop - write()');
+
         $adapter = $this->getSessionNoop();
         $value   = uniqid();
+
         $adapter->write('test1', $value);
 
-        $expected = '';
-        $actual   = $adapter->read('test1');
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            '',
+            $adapter->read('test1')
+        );
     }
 }

@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Escaper;
 
+use Codeception\Example;
 use Phalcon\Escaper;
 use UnitTester;
 use const ENT_HTML401;
@@ -19,42 +20,60 @@ use const ENT_HTML5;
 use const ENT_XHTML;
 use const ENT_XML1;
 
-/**
- * Class EscapeHtmlAttrCest
- */
 class EscapeHtmlAttrCest
 {
     /**
      * Tests Phalcon\Escaper :: escapeHtmlAttr()
      *
-     * @param UnitTester $I
+     * @author       Phalcon Team <team@phalconphp.com>
+     * @since        2014-09-16
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2014-09-16
+     * @dataProvider escaperEscapeHtmlAttrProvider
      */
-    public function escaperEscapeHtmlAttr(UnitTester $I)
+    public function escaperEscapeHtmlAttr(UnitTester $I, Example $example)
     {
-        $I->wantToTest("Escaper - escapeHtmlAttr()");
+        $I->wantToTest('Escaper - escapeHtmlAttr()');
+
         $escaper = new Escaper();
 
-        $escaper->setHtmlQuoteType(ENT_HTML401);
-        $expected = "That&#039;s right";
-        $actual   = $escaper->escapeHtmlAttr("That's right");
-        $I->assertEquals($expected, $actual);
+        $escaper->setHtmlQuoteType(
+            $example['htmlQuoteType']
+        );
 
-        $escaper->setHtmlQuoteType(ENT_XML1);
-        $expected = "That&#039;s right";
-        $actual   = $escaper->escapeHtmlAttr("That's right");
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals(
+            $example['expected'],
+            $escaper->escapeHtmlAttr(
+                $example['text']
+            )
+        );
+    }
 
-        $escaper->setHtmlQuoteType(ENT_XHTML);
-        $expected = "That&#039;s right";
-        $actual   = $escaper->escapeHtmlAttr("That's right");
-        $I->assertEquals($expected, $actual);
+    private function escaperEscapeHtmlAttrProvider(): array
+    {
+        return [
+            [
+                'htmlQuoteType' => ENT_HTML401,
+                'expected'      => 'That&#039;s right',
+                'text'          => "That's right",
+            ],
 
-        $escaper->setHtmlQuoteType(ENT_HTML5);
-        $expected = "That&#039;s right";
-        $actual   = $escaper->escapeHtmlAttr("That's right");
-        $I->assertEquals($expected, $actual);
+            [
+                'htmlQuoteType' => ENT_XML1,
+                'expected'      => 'That&#039;s right',
+                'text'          => "That's right",
+            ],
+
+            [
+                'htmlQuoteType' => ENT_XHTML,
+                'expected'      => 'That&#039;s right',
+                'text'          => "That's right",
+            ],
+
+            [
+                'htmlQuoteType' => ENT_HTML5,
+                'expected'      => 'That&#039;s right',
+                'text'          => "That's right",
+            ],
+        ];
     }
 }

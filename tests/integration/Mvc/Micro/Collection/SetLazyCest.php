@@ -12,24 +12,45 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Mvc\Micro\Collection;
 
+use Codeception\Example;
 use IntegrationTester;
+use Phalcon\Mvc\Micro\Collection;
 
-/**
- * Class SetLazyCest
- */
 class SetLazyCest
 {
     /**
      * Tests Phalcon\Mvc\Micro\Collection :: setLazy()
      *
-     * @param IntegrationTester $I
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-06-08
      *
-     * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @dataProvider booleanProvider
      */
-    public function mvcMicroCollectionSetLazy(IntegrationTester $I)
+    public function mvcMicroCollectionSetLazy(IntegrationTester $I, Example $example)
     {
         $I->wantToTest('Mvc\Micro\Collection - setLazy()');
-        $I->skipTest('Need implementation');
+
+        $lazy = $example[0];
+
+        $collection = new Collection();
+
+        $collection->setLazy($lazy);
+
+        $I->assertEquals(
+            $lazy,
+            $collection->isLazy()
+        );
+    }
+
+    private function booleanProvider(): array
+    {
+        return [
+            [
+                true,
+            ],
+            [
+                false,
+            ],
+        ];
     }
 }

@@ -13,23 +13,25 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Db\Dialect\Sqlite;
 
 use IntegrationTester;
+use Phalcon\Db\Dialect\Sqlite;
 
-/**
- * Class RollbackSavepointCest
- */
 class RollbackSavepointCest
 {
     /**
      * Tests Phalcon\Db\Dialect\Sqlite :: rollbackSavepoint()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2017-02-26
      */
     public function dbDialectSqliteRollbackSavepoint(IntegrationTester $I)
     {
         $I->wantToTest('Db\Dialect\Sqlite - rollbackSavepoint()');
-        $I->skipTest('Need implementation');
+
+        $dialect = new Sqlite();
+
+        $I->assertEquals(
+            'ROLLBACK TO SAVEPOINT PH_SAVEPOINT_1',
+            $dialect->rollbackSavepoint('PH_SAVEPOINT_1')
+        );
     }
 }

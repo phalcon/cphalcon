@@ -14,15 +14,10 @@ namespace Phalcon\Test\Integration\Db\Profiler\Item;
 
 use IntegrationTester;
 
-/**
- * Class SetFinalTimeCest
- */
 class SetFinalTimeCest
 {
     /**
      * Tests Phalcon\Db\Profiler\Item :: setFinalTime()
-     *
-     * @param IntegrationTester $I
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13

@@ -12,24 +12,45 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Db\Dialect\Sqlite;
 
+use Codeception\Example;
 use IntegrationTester;
+use Phalcon\Db\Dialect\Sqlite;
 
-/**
- * Class ListViewsCest
- */
 class ListViewsCest
 {
     /**
      * Tests Phalcon\Db\Dialect\Sqlite :: listViews()
      *
-     * @param IntegrationTester $I
-     *
      * @author Phalcon Team <team@phalconphp.com>
-     * @since  2018-11-13
+     * @since  2017-02-26
+     *
+     * @dataProvider getListViewFixtures
      */
-    public function dbDialectSqliteListViews(IntegrationTester $I)
+    public function dbDialectSqliteListViews(IntegrationTester $I, Example $example)
     {
         $I->wantToTest('Db\Dialect\Sqlite - listViews()');
-        $I->skipTest('Need implementation');
+
+        $schema   = $example[0];
+        $expected = $example[1];
+
+        $dialect = new Sqlite();
+
+        $actual = $dialect->listViews($schema);
+
+        $I->assertEquals($expected, $actual);
+    }
+
+    protected function getListViewFixtures(): array
+    {
+        return [
+            [
+                '',
+                "SELECT tbl_name FROM sqlite_master WHERE type = 'view' ORDER BY tbl_name",
+            ],
+            [
+                'schema',
+                "SELECT tbl_name FROM sqlite_master WHERE type = 'view' ORDER BY tbl_name",
+            ],
+        ];
     }
 }
