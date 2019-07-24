@@ -114,31 +114,31 @@ class Annotations extends Router
              */
             let prefix = scope[0];
 
-            if empty prefix {
-                continue;
-            }
+            if !empty prefix {
+                /**
+                 * Route object is used to compile patterns
+                 */
+                let route = new Route(prefix);
 
-            /**
-             * Route object is used to compile patterns
-             */
-            let route = new Route(prefix);
+                /**
+                 * Compiled patterns can be valid regular expressions.
+                 * In that case We only need to theck if it starts with
+                 * the pattern so we remove to "$" from the end.
+                 */
+                let compiledPattern = str_replace(
+                    "$#", "#", route->getCompiledPattern()
+                );
 
-            /**
-             * Compiled patterns can be valid regular expressions.
-             * In that case We only need to theck if it starts with
-             * the pattern so we remove to "$" from the end.
-             */
-            let compiledPattern = str_replace(
-                "$#", "#", route->getCompiledPattern()
-            );
-
-            /**
-             * If it's a regular expression, it will contain the "^"
-            */
-            if memstr(compiledPattern, "^") && !preg_match(compiledPattern, uri) {
-                continue;
-            } elseif !starts_with(uri, prefix) {
-                continue;
+                if memstr(compiledPattern, "^") {
+                    /**
+                     * If it's a regular expression, it will contain the "^"
+                     */
+                    if !preg_match(compiledPattern, uri) {
+                        continue;
+                    }
+                } elseif !starts_with(uri, prefix) {
+                    continue;
+                }
             }
 
             /**
