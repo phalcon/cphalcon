@@ -28,7 +28,7 @@ class GetServerAddressCest extends HttpBase
         $request = $this->getRequestObject();
 
         $I->assertEquals(
-            '127.0.0.1',
+            '127.0.1.1',
             $request->getServerAddress()
         );
     }
