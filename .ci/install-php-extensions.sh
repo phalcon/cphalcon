@@ -30,7 +30,7 @@ if [[ "$PHP_VERNUM" -lt "70300" ]]; then
 	echo 'zend_extension="xdebug.so"' > $(phpenv root)/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini
 fi
 
-# Install latest memcached, msgpack, igbinary, imagick, psr and yaml
+# Install latest memcached, msgpack, igbinary, imagick, psr, libsodium and yaml
 printf "\n" | pecl install --force memcached 1> /dev/null
 printf "\n" | pecl install --force msgpack 1> /dev/null
 printf "\n" | pecl install --force igbinary 1> /dev/null
@@ -38,6 +38,7 @@ printf "\n" | pecl install --force imagick 1> /dev/null
 printf "\n" | pecl install --force psr 1> /dev/null
 printf "\n" | pecl install --force yaml 1> /dev/null
 printf "\n" | pecl install --force mongodb 1> /dev/null
+printf "\n" | pecl install --force libosodium 1> /dev/null
 
 # Install redis
 redis_ext=`$(phpenv which php-config) --extension-dir`/redis.so
