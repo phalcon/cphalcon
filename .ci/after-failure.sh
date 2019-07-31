@@ -35,12 +35,10 @@ function install_gcc() {
   fi
 }
 
-for i in /tmp/core.*; do
+for i in /tmp/core.php.*; do
   install_gcc
-  # shellcheck disable=SC2143
-  if [ -f "$i" ] && [ "$(file "$i" | grep -q 'core file')" ]
-  then
-    gdb -q "$(phpenv which php)" "$i" <<EOF
+  (>&1 printf "Found core dump file: %s\n\n" "$i")
+  gdb -q "$(phpenv which php)" "$i" <<EOF
 set pagination 0
 backtrace full
 info registers
@@ -48,5 +46,4 @@ x/16i \$pc
 thread apply all backtrace
 quit
 EOF
-  fi
 done
