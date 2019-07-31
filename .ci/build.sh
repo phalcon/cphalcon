@@ -15,10 +15,10 @@ zephir generate 2>&1 || exit 1
 
 if [[ -z ${CC+x} ]]
 then
-  (>&1 printf "The CC variable is unset or set to the empty string.\n")
-  (>&1 printf "Skip precompiling headers.\n")
+  (>&1 echo "The CC variable is unset or set to the empty string.")
+  (>&1 echo "Skip precompiling headers.")
 else
-  (>&1 printf "Creating precompiled headers...\n")
+  (>&1 echo "Creating precompiled headers...")
   if [[ "${CC:0:5}" = "clang" ]]
   then
     _ext="pch"
@@ -34,7 +34,8 @@ else
 	# will be used. For more see: http://en.wikipedia.org/wiki/Precompiled_header
   while IFS= read -r -d '' file
   do
-    ${CC} ${_arg} "${file}" -I. -I./ext "$(phpenv which php-config)" --includes ${_option} -o "${file}.${_ext}"
+    # shellcheck disable=SC2046
+    ${CC} ${_arg} "${file}" -I. -I./ext $(php-config --includes) ${_option} -o "${file}.${_ext}"
   done <   <(find ./ext/kernel -name '*.h' -print0)
 fi
 
@@ -73,9 +74,9 @@ fi
   CFLAGS="${CFLAGS}" \
   LDFLAGS="${LDFLAGS}"
 
-make -j"$(getconf _NPROCESSORS_ONLN)" > /dev/null 2> ./compile-errors.log
+make -j"$(getconf _NPROCESSORS_ONLN)" >/dev/null 2> ./compile-errors.log
 make install
 
-phpenv config-add .ci/phalcon.ini || exit 1
+phpenv config-add ../.ci/phalcon.ini || exit 1
 
 cd .. || exit 1

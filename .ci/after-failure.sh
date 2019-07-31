@@ -14,15 +14,15 @@ export LC_ALL=C
 while IFS= read -r -d '' file
 do
   (( count++ ))
-  (>&1 printf ">>> START (%d)\n%s\n<<< END (%d)\n\n" $count "$(cat "$file")" $count)
+  (>&1 printf ">>> START (%d)\\n%s\\n<<< END (%d)\\n\\n" $count "$(cat "$file")" $count)
 done <   <(find ./tests/syntax -type f -name '*.out' -print0)
 
 if [ -f ./compile-errors.log ]
 then
   log_contents=$(cat ./compile-errors.log)
   [[ -z "${log_contents// }" ]] || {
-    (>&1 printf "Compiler log:\n\n")
-    (>&1 printf "%s\n" "$log_contents")
+    (>&1 echo "Compiler log:")
+    (>&1 printf "%s\\n" "$log_contents")
   }
 fi
 
@@ -30,14 +30,14 @@ fi
 function install_gcc() {
   if [ "${CI}" = "true" ] && [ "$(command -v gdb 2>/dev/null)" = "" ]
   then
-    (>&1 printf "Install gdb...:\n\n")
-    sudo apt-get install --no-install-recommends --quiet --assume-yes gdb
+    (>&1 echo "Install gdb...")
+    sudo apt-get install --no-install-recommends --quiet --assume-yes gdb 1> /dev/null
   fi
 }
 
 for i in /tmp/core.php.*; do
   install_gcc
-  (>&1 printf "Found core dump file: %s\n\n" "$i")
+  (>&1 printf "Found core dump file: %s\\n\\n" "$i")
   gdb -q "$(phpenv which php)" "$i" <<EOF
 set pagination 0
 backtrace full

@@ -8,10 +8,10 @@
 # LICENSE.txt file that was distributed with this source code.
 
 # Ensure that this is being run inside a CI container
-if [ "${CI}" != "true" ];
+if [ "${CI}" != "true" ]
 then
-	>&2 echo "This script is designed to run inside a CI container only."
-	>&2 echo "Aborting."
+  (>&2 echo "This script is designed to run inside a CI container only.")
+  (>&2 echo "Aborting.")
 	exit 1
 fi
 

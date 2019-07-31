@@ -4,9 +4,8 @@
 #
 # (c) Phalcon Team <team@phalconphp.com>
 #
-# For the full copyright and license information, please view the LICENSE.txt
-# file that was distributed with this source code.
-#
+# For the full copyright and license information, please view the
+# LICENSE.txt file that was distributed with this source code.
 
 # trace ERR through pipes
 set -o pipefail
@@ -31,20 +30,21 @@ mkdir -p "$(phpenv root)/versions/$(phpenv version-name)/share/pear/www"
 mkdir -p "$(phpenv root)/versions/$(phpenv version-name)/php/man"
 mkdir -p "$(phpenv root)/versions/$(phpenv version-name)/etc/pearkeys"
 
-mkdir -p $HOME/bin
+mkdir -p "$HOME/bin"
 
 # Travis CI ugly hack
-ln -s $(phpenv which php) $HOME/bin/php
-ln -s $(phpenv which phpize) $HOME/bin/phpize
+ln -s "$(phpenv which php)" "$HOME/bin/php"
+ln -s "$(phpenv which phpize)" "$HOME/bin/phpize"
 
 pear config-set auto_discover 1
 pear config-set preferred_state devel
 
-pear config-set php_bin $(phpenv which php)
+pear config-set php_bin "$(phpenv which php)"
 
 pear config-set download_dir "$HOME/pear"
 pear config-set php_dir "$(phpenv root)/versions/$(phpenv version-name)/share/pear"
-pear config-set ext_dir `$(phpenv which php-config) --extension-dir`
+# shellcheck disable=SC2006
+pear config-set ext_dir "`$(phpenv which php-config) --extension-dir`"
 pear config-set bin_dir "$(phpenv root)/versions/$(phpenv version-name)/bin"
 pear config-set doc_dir "$(phpenv root)/versions/$(phpenv version-name)/share/pear/docs"
 pear config-set cfg_dir "$(phpenv root)/versions/$(phpenv version-name)/share/pear/cfg"
