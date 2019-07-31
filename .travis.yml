@@ -41,8 +41,8 @@ services:
 env:
   global:
     - CC="gcc"
-    - ZEPHIR_VERSION="0.12.0"
-    - ZEPHIR_PARSER_VERSION="v1.3.0"
+    - ZEPHIR_VERSION="0.12.1"
+    - ZEPHIR_PARSER_VERSION="v1.3.1"
     - RE2C_VERSION="1.1.1"
     - REPORT_COVERAGE=1
     - PATH="${HOME}/.composer/vendor/bin:${PATH}"
