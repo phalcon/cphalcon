@@ -4,31 +4,43 @@
 #
 # (c) Phalcon Team <team@phalconphp.com>
 #
-# For the full copyright and license information, please view the LICENSE.txt
-# file that was distributed with this source code.
-#
+# For the full copyright and license information, please view
+# the LICENSE.txt file that was distributed with this source code.
 
 shopt -s nullglob
 
 export LC_ALL=C
 
-PROJECT_ROOT=$(readlink -enq "$(dirname $0)/../")
+while IFS= read -r -d '' file
+do
+  (( count++ ))
+  (>&1 printf ">>> START (%d)\n%s\n<<< END (%d)\n\n" $count "$(cat "$file")" $count)
+done <   <(find ./tests/syntax -type f -name '*.out' -print0)
 
-for i in `find ${PROJECT_ROOT}/tests/syntax -name "*.out" 2>/dev/null`; do
-	echo "-- START ${i}"; cat ${i}; echo "-- END";
-done
-
-for i in `find ${PROJECT_ROOT}/tests/syntax -name "*.mem" 2>/dev/null`; do
-	echo "-- START ${i}"; cat ${i}; echo "-- END";
-done
-
-if [ -f "${PROJECT_ROOT}/compile-errors.log" ]; then
-	cat "${PROJECT_ROOT}/compile-errors.log"
+if [ -f ./compile-errors.log ]
+then
+  log_contents=$(cat ./compile-errors.log)
+  [[ -z "${log_contents// }" ]] || {
+    (>&1 printf "Compiler log:\n\n")
+    (>&1 printf "%s\n" "$log_contents")
+  }
 fi
 
-for i in core core*; do
-	if [ -f "$i" -a "$(file "$i" | grep -o 'core file')" ]; then
-		gdb -q $(phpenv which php) "$i" <<EOF
+# for some reason Ubuntu 18.04 on Travis CI doesn't install gdb
+function install_gcc() {
+  if [ "${CI}" = "true" ] && [ "$(command -v gdb 2>/dev/null)" = "" ]
+  then
+    (>&1 printf "Install gdb...:\n\n")
+    sudo apt-get install --no-install-recommends --quiet --assume-yes gdb
+  fi
+}
+
+for i in /tmp/core.*; do
+  install_gcc
+  # shellcheck disable=SC2143
+  if [ -f "$i" ] && [ "$(file "$i" | grep -q 'core file')" ]
+  then
+    gdb -q "$(phpenv which php)" "$i" <<EOF
 set pagination 0
 backtrace full
 info registers
@@ -36,5 +48,5 @@ x/16i \$pc
 thread apply all backtrace
 quit
 EOF
-	fi
+  fi
 done
