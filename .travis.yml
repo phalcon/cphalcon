@@ -2,9 +2,9 @@ sudo: false
 
 language: php
 php:
-  - 7.4snapshot
-  - 7.3
-  - 7.2
+  - '7.4snapshot'
+  - '7.3'
+  - '7.2'
 
 dist: bionic
 
@@ -15,13 +15,12 @@ addons:
   apt:
     packages:
       - gdb
-      - lcov
   postgresql: "9.4"
 
 matrix:
   fast_finish: true
   allow_failures:
-    - php: 7.4snapshot
+    - php: '7.4snapshot'
 
 cache:
   apt: true
@@ -94,7 +93,7 @@ script:
 jobs:
   include:
     - stage: Static Code Analysis
-      php: 7.2
+      php: '7.2'
       env:
         - REPORT_COVERAGE=0
       install:
@@ -108,7 +107,7 @@ after_failure:
   - .ci/after-failure.sh
 
 after_success:
-  - .ci/after-success.sh
+  - '[[ "$REPORT_COVERAGE" -eq 1 ]] && bash <(curl -s https://codecov.io/bash)'
 
 notifications:
   email: false
