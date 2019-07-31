@@ -33,6 +33,6 @@ abstract class AbstractSerializer implements SerializerInterface
      */
 	protected function isSerializable(var data) -> bool
 	{
-        return empty data || typeof data === "bool" || is_numeric(data);
+        return !(empty data || typeof data === "bool" || is_numeric(data));
 	}
 }
