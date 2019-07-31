@@ -22,14 +22,6 @@ apc.enabled    = 1
 apc.enable_cli = 1
 EOT
 
-# Install latest memcached
-printf "\n" | pecl install --force memcached 1> /dev/null
-echo 'extension="memcached.so"' > $(phpenv root)/versions/$(phpenv version-name)/etc/conf.d/memcached.ini
-
-# Install latest msgpack
-printf "\n" | pecl install --force msgpack 1> /dev/null
-# echo 'extension="msgpack.so"' > $(phpenv root)/versions/$(phpenv version-name)/etc/conf.d/msgpack.ini
-
 # Install latest xdebug
 phpenv config-rm xdebug.ini 2>&1 >/dev/null || true
 if [[ "$PHP_VERNUM" -lt "70300" ]]; then
@@ -38,12 +30,15 @@ if [[ "$PHP_VERNUM" -lt "70300" ]]; then
 	echo 'zend_extension="xdebug.so"' > $(phpenv root)/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini
 fi
 
-# Install latest igbinary, imagick, psr and yaml
+# Install latest memcached, msgpack, igbinary, imagick, psr, libsodium and yaml
+printf "\n" | pecl install --force memcached 1> /dev/null
+printf "\n" | pecl install --force msgpack 1> /dev/null
 printf "\n" | pecl install --force igbinary 1> /dev/null
 printf "\n" | pecl install --force imagick 1> /dev/null
 printf "\n" | pecl install --force psr 1> /dev/null
 printf "\n" | pecl install --force yaml 1> /dev/null
 printf "\n" | pecl install --force mongodb 1> /dev/null
+printf "\n" | pecl install --force libosodium 1> /dev/null
 
 # Install redis
 redis_ext=`$(phpenv which php-config) --extension-dir`/redis.so

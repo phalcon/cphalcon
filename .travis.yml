@@ -6,7 +6,7 @@ php:
   - 7.3
   - 7.2
 
-dist: trusty
+dist: bionic
 
 git:
   depth: 1
@@ -36,6 +36,7 @@ services:
   - mongodb
   - redis-server
   - postgresql
+  - memcached
 
 env:
   global:
