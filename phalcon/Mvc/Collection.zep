@@ -231,25 +231,31 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
          * We always use safe stores to get the success state
          * Save the document
          */
-        let status = collection->insert(data, ["w": true]);
-        if typeof status == "array" {
-            if fetch ok, status["ok"] {
-                if ok {
-                    let success = true;
-                    if !exists {
-                        if fetch id, data["_id"] {
-                            let this->_id = id;
-                        }
-                        let this->dirtyState = self::DIRTY_STATE_PERSISTENT;
-                    }
-                }
+        let status = collection->insert(
+            data,
+            [
+                "w": true
+            ]
+        );
+
+        if fetch ok, status["ok"] && ok {
+            let success = true;
+
+            if fetch id, data["_id"] {
+                let this->_id = id;
             }
+
+            let this->dirtyState = self::DIRTY_STATE_PERSISTENT;
         }
 
         /**
          * Call the postSave hooks
          */
-        return this->postSave(self::disableEvents, success, exists);
+        return this->postSave(
+            self::disableEvents,
+            success,
+            exists
+        );
     }
 
     /**
@@ -274,8 +280,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
      */
     public function createIfNotExist(array! criteria) -> bool
     {
-        var exists, data, keys, query,
-            success, status, doc, collection;
+        var exists, data, keys, query, success, status, doc, collection;
 
         if unlikely empty criteria {
             throw new Exception(
@@ -312,16 +317,16 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
             return false;
         }
 
-        let keys = array_flip( criteria );
+        let keys = array_flip(criteria);
         let data = this->toArray();
 
-        if unlikely array_diff_key( keys, data ) {
+        if unlikely array_diff_key(keys, data) {
             throw new Exception(
                 "Criteria parameter must be array with one or more attributes of the model"
             );
         }
 
-        let query = array_intersect_key( data, keys );
+        let query = array_intersect_key(data, keys);
 
         let success = false;
 
@@ -329,12 +334,21 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
          * $setOnInsert in conjunction with upsert ensures creating a new document
          * "new": false returns null if new document created, otherwise new or old document could be returned
          */
-        let status = collection->findAndModify(query,
-            ["$setOnInsert": data],
+        let status = collection->findAndModify(
+            query,
+            [
+                "$setOnInsert": data
+            ],
             null,
-            ["new": false, "upsert": true]);
+            [
+                "new":    false,
+                "upsert": true
+            ]
+        );
+
         if status == null {
             let doc = collection->findOne(query);
+
             if typeof doc == "array" {
                 let success = true;
                 let this->operationMade = self::OP_CREATE;
@@ -349,7 +363,11 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
         /**
          * Call the postSave hooks
          */
-        return this->postSave(self::disableEvents, success, exists);
+        return this->postSave(
+            self::disableEvents,
+            success,
+            exists
+        );
     }
 
     /**
@@ -369,7 +387,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 
         let connection = collection->getConnection();
 
-        return static::getGroupResultset(parameters, collection, connection);
+        return self::getGroupResultset(parameters, collection, connection);
     }
 
     /**
@@ -389,8 +407,8 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
      */
     public function delete() -> bool
     {
-        var disableEvents, status, id, connection, source,
-            collection, mongoId, success, ok;
+        var disableEvents, status, id, connection, source, collection, mongoId,
+            success, ok;
 
         if unlikely !fetch id, this->_id {
             throw new Exception(
@@ -459,9 +477,11 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
         if fetch ok, status["ok"] {
             if ok {
                 let success = true;
+
                 if !disableEvents {
                     this->fireEvent("afterDelete");
                 }
+
                 let this->dirtyState = self::DIRTY_STATE_DETACHED;
             }
         } else {
@@ -532,7 +552,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
         let className = get_called_class();
         let collection = new {className}();
 
-        return static::getResultset(
+        return self::getResultset(
             parameters,
             collection,
             collection->getConnection(),
@@ -579,12 +599,11 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
             } else {
                 let mongoId = id;
             }
-
         } else {
             let mongoId = id;
         }
 
-        return static::findFirst(
+        return self::findFirst(
             [
                 [
                     "_id": mongoId
@@ -649,7 +668,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 
         let connection = collection->getConnection();
 
-        return static::getResultset(parameters, collection, connection, true);
+        return self::getResultset(parameters, collection, connection, true);
     }
 
     /**
@@ -793,11 +812,8 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
      */
     public function getReservedAttributes() -> array
     {
-        var reserved;
-
-        let reserved = self::reserved;
-        if typeof reserved != "array" {
-            let reserved = [
+        if typeof self::reserved != "array" {
+            let self::reserved = [
                 "_connection"   : true,
                 "container"     : true,
                 "source"        : true,
@@ -807,9 +823,9 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
                 "modelsManager" : true,
                 "skipped"       : true
             ];
-            let self::reserved = reserved;
         }
-        return reserved;
+
+        return self::reserved;
     }
 
     /**
@@ -884,25 +900,33 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
          * We always use safe stores to get the success state
          * Save the document
          */
-        let status = collection->save(data, ["w": true]);
-        if typeof status == "array" {
-            if fetch ok, status["ok"] {
-                if ok {
-                    let success = true;
-                    if exists === false {
-                        if fetch id, data["_id"] {
-                            let this->_id = id;
-                        }
-                        let this->dirtyState = self::DIRTY_STATE_PERSISTENT;
-                    }
+        let status = collection->save(
+            data,
+            [
+                "w": true
+            ]
+        );
+
+        if fetch ok, status["ok"] && ok {
+            let success = true;
+
+            if exists === false {
+                if fetch id, data["_id"] {
+                    let this->_id = id;
                 }
+
+                let this->dirtyState = self::DIRTY_STATE_PERSISTENT;
             }
         }
 
         /**
          * Call the postSave hooks
          */
-        return this->postSave(self::disableEvents, success, exists);
+        return this->postSave(
+            self::disableEvents,
+            success,
+            exists
+        );
     }
 
     /**
@@ -924,7 +948,10 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 
         if container->has("serializer") {
             let serializer = <SerializerInterface> this->container->getShared("serializer");
-            serializer->setData(this->toArray());
+
+            serializer->setData(
+                this->toArray()
+            );
 
             return serializer->serialize();
         }
@@ -932,7 +959,9 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
         /**
          * Use the standard serialize function to serialize the array data
          */
-        return serialize(this->toArray());
+        return serialize(
+            this->toArray()
+        );
     }
 
     /**
@@ -941,6 +970,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
     public function setConnectionService(string! connectionService) -> <Collection>
     {
         this->modelsManager->setConnectionService(this, connectionService);
+
         return this;
     }
 
@@ -959,6 +989,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
     public function setDirtyState(int dirtyState) -> <CollectionInterface>
     {
         let this->dirtyState = dirtyState;
+
         return this;
     }
 
@@ -980,7 +1011,6 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
         var mongoId;
 
         if typeof id != "object" {
-
             /**
              * Check if the model use implicit ids
              */
@@ -989,10 +1019,10 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
             } else {
                 let mongoId = id;
             }
-
         } else {
             let mongoId = id;
         }
+
         let this->_id = mongoId;
     }
 
@@ -1002,6 +1032,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
     protected function setSource(string! source) -> <Collection>
     {
         let this->source = source;
+
         return this;
     }
 
@@ -1049,17 +1080,19 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 
         let group = collection->group([], initial, reduce);
 
-        if fetch retval, group["retval"] {
-            if fetch firstRetval, retval[0] {
-                if isset firstRetval["summatory"] {
-                    return firstRetval["summatory"];
-                }
-                return firstRetval;
-            }
-            return retval;
+        if !fetch retval, group["retval"] {
+            return [];
         }
 
-        return [];
+        if fetch firstRetval, retval[0] {
+            if isset firstRetval["summatory"] {
+                return firstRetval["summatory"];
+            }
+
+            return firstRetval;
+        }
+
+        return retval;
     }
 
     /**
@@ -1073,7 +1106,8 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
      */
     public function toArray() -> array
     {
-        var data, reserved, key, value;
+        var reserved, key, value;
+        array data;
 
         let reserved = this->getReservedAttributes();
 
@@ -1082,15 +1116,14 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
          * We only assign values to the public properties
          */
         let data = [];
+
         for key, value in get_object_vars(this) {
             if key == "_id" {
                 if value {
                     let data[key] = value;
                 }
-            } else {
-                if !isset reserved[key] {
-                    let data[key] = value;
-                }
+            } elseif !isset reserved[key] {
+                let data[key] = value;
             }
         }
 
@@ -1120,17 +1153,20 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
          * Update the dependency injector
          */
         let this->container = container;
+
         if container->has("serializer") {
             let serializer = <SerializerInterface> container->getShared("serializer");
             let attributes = serializer->unserialize(data);
         } else {
             let attributes = unserialize(data);
         }
+
         if typeof attributes == "array" {
             /**
              * Gets the default modelsManager service
              */
             let manager = container->getShared("collectionManager");
+
             if unlikely typeof manager != "object" {
                 throw new Exception(
                     "The injected service 'collectionManager' is not valid"
@@ -1188,8 +1224,6 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
 
         let data = this->toArray();
 
-        let success = false;
-
         /**
          * We always use safe stores to get the success state
          * Save the document
@@ -1204,12 +1238,8 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
             ]
         );
 
-        if typeof status == "array" {
-            if fetch ok, status["ok"] {
-                if ok {
-                    let success = true;
-                }
-            }
+        if fetch ok, status["ok"] && ok {
+            let success = true;
         } else {
             let success = false;
         }
@@ -1217,7 +1247,11 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
         /**
          * Call the postSave hooks
          */
-        return this->postSave(self::disableEvents, success, exists);
+        return this->postSave(
+            self::disableEvents,
+            success,
+            exists
+        );
     }
 
     /**
@@ -1306,15 +1340,19 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
     {
         var eventName;
 
-        if !disableEvents {
-            if this->operationMade == self::OP_DELETE {
-                let eventName = "notDeleted";
-            } else {
-                let eventName = "notSaved";
-            }
-            this->fireEvent(eventName);
+        if disableEvents {
+            return false;
         }
-        return false;
+
+        if this->operationMade == self::OP_DELETE {
+            let eventName = "notDeleted";
+        } else {
+            let eventName = "notSaved";
+        }
+
+        this->fireEvent(eventName);
+
+        return true;
     }
 
     /**
@@ -1333,7 +1371,6 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
         if typeof id == "object" {
             let mongoId = id;
         } else {
-
             /**
              * Check if the model use implicit ids
              */
@@ -1348,9 +1385,9 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
         /**
          * If we already know if the document exists we don't check it
          */
-         if !this->dirtyState {
+        if !this->dirtyState {
             return true;
-         }
+        }
 
         /**
          * Perform the count using the function provided by the driver
@@ -1393,7 +1430,6 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
         }
 
         if isset params["limit"] || isset params["sort"] || isset params["skip"] {
-
             /**
              * Perform the find
              */
@@ -1457,7 +1493,9 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
         }
 
         if base instanceof Collection {
-            base->setDirtyState(self::DIRTY_STATE_PERSISTENT);
+            base->setDirtyState(
+                self::DIRTY_STATE_PERSISTENT
+            );
         }
 
         let source = collection->getSource();
@@ -1515,7 +1553,6 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
         }
 
         if unique {
-
             /**
              * Requesting a single result
              */
@@ -1530,7 +1567,7 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
             /**
              * Assign the values to the base object
              */
-            return static::cloneResult(base, document);
+            return self::cloneResult(base, document);
         }
 
         /**
@@ -1538,11 +1575,10 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
          */
         let collections = [];
         for document in iterator_to_array(documentsCursor, false) {
-
             /**
              * Assign the values to the base object
              */
-            let collections[] = static::cloneResult(base, document);
+            let collections[] = self::cloneResult(base, document);
         }
 
         return collections;
@@ -1559,7 +1595,6 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
          * Run Validation Callbacks Before
          */
         if !disableEvents {
-
             if this->fireEventCancel("beforeValidation") === false {
                 return false;
             }
@@ -1573,7 +1608,6 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
             if this->fireEventCancel(eventName) === false {
                 return false;
             }
-
         }
 
         /**
@@ -1583,11 +1617,11 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
             if !disableEvents {
                 this->fireEvent("onValidationFails");
             }
+
             return false;
         }
 
         if !disableEvents {
-
             /**
              * Run Validation Callbacks After
              */
@@ -1621,7 +1655,6 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
             if this->fireEventCancel(eventName) === false {
                 return false;
             }
-
         }
 
         return true;
@@ -1634,28 +1667,29 @@ abstract class Collection implements EntityInterface, CollectionInterface, Injec
     {
         var eventName;
 
-        if success {
+        if !success {
             if !disableEvents {
-                if exists {
-                    let eventName = "afterUpdate";
-                } else {
-                    let eventName = "afterCreate";
-                }
-
-                this->fireEvent(eventName);
-
-                this->fireEvent("afterSave");
+                this->fireEvent("notSaved");
             }
 
-            return success;
+            this->cancelOperation(disableEvents);
+
+            return false;
         }
 
         if !disableEvents {
-            this->fireEvent("notSaved");
+            if exists {
+                let eventName = "afterUpdate";
+            } else {
+                let eventName = "afterCreate";
+            }
+
+            this->fireEvent(eventName);
+
+            this->fireEvent("afterSave");
         }
 
-        this->cancelOperation(disableEvents);
-        return false;
+        return success;
     }
 
     /**
