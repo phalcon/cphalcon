@@ -7,6 +7,8 @@
 # For the full copyright and license information, please view the
 # LICENSE.txt file that was distributed with this source code.
 
+set -e
+
 PHP_INI="$(phpenv root)/versions/$(phpenv version-name)/etc/php.ini"
 
 # Install latest APC(u)
