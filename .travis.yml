@@ -2,9 +2,9 @@ sudo: false
 
 language: php
 php:
-  - 7.4snapshot
-  - 7.3
-  - 7.2
+  - '7.4snapshot'
+  - '7.3'
+  - '7.2'
 
 dist: bionic
 
@@ -15,13 +15,13 @@ addons:
   apt:
     packages:
       - gdb
-      - lcov
+      - shellcheck
   postgresql: "9.4"
 
 matrix:
   fast_finish: true
   allow_failures:
-    - php: 7.4snapshot
+    - php: '7.4snapshot'
 
 cache:
   apt: true
@@ -50,7 +50,9 @@ env:
 
 before_install:
   - |
+    # Core dump settings
     ulimit -c unlimited -S || true
+    echo '/tmp/core.%e.%p.%t' | sudo tee /proc/sys/kernel/core_pattern
 
     if [ ! -z "${GITHUB_TOKEN}" ]; then
       composer config github-oauth.github.com ${GITHUB_TOKEN}
@@ -92,7 +94,7 @@ script:
 jobs:
   include:
     - stage: Static Code Analysis
-      php: 7.2
+      php: '7.2'
       env:
         - REPORT_COVERAGE=0
       install:
@@ -101,12 +103,13 @@ jobs:
         - phpenv config-rm xdebug.ini || true
       script:
         - vendor/bin/phpcs
+        - shellcheck .ci/*.sh
 
 after_failure:
   - .ci/after-failure.sh
 
 after_success:
-  - .ci/after-success.sh
+  - '[[ "$REPORT_COVERAGE" -eq 1 ]] && bash <(curl -s https://codecov.io/bash)'
 
 notifications:
   email: false
