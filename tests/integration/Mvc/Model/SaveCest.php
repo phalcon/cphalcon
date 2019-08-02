@@ -388,7 +388,7 @@ class SaveCest
 
         $robot = new Robots();
         $robotData = [
-            'name'     => 'Default Robot',
+            'name'     => 'bob',
             'datetime' => (new \DateTime())->format('Y-m-d'),
             'text'     => 'Test text',
         ];
