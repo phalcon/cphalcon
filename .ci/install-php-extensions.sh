@@ -7,6 +7,10 @@
 # For the full copyright and license information, please view the
 # LICENSE.txt file that was distributed with this source code.
 
+# -e  Exit immediately if a command exits with a non-zero status.
+# -u  Treat unset variables as an error when substituting.
+set -eu
+
 PHP_INI="$(phpenv root)/versions/$(phpenv version-name)/etc/php.ini"
 
 # Install latest APC(u)
@@ -39,7 +43,18 @@ printf "\\n" | pecl install --force imagick 1> /dev/null
 printf "\\n" | pecl install --force psr 1> /dev/null
 printf "\\n" | pecl install --force yaml 1> /dev/null
 printf "\\n" | pecl install --force mongodb 1> /dev/null
-printf "\\n" | pecl install --force libosodium 1> /dev/null
+
+# Install sodium
+if [[ "$(php --ri sodium 1> /dev/null)" = "" ]]
+then
+  printf "\\n" | pecl install --force libsodium 1> /dev/null
+fi
+
+sodium_ext=$($(phpenv which php-config) --extension-dir)/sodium.so
+if [[ "$(php --ri sodium 1> /dev/null)" = "" ]] && [[ -f "${sodium_ext}" ]]
+then
+	echo 'extension="sodium.so"' > "$(phpenv root)/versions/$(phpenv version-name)/etc/conf.d/sodium.ini"
+fi
 
 # Install redis
 redis_ext=$($(phpenv which php-config) --extension-dir)/redis.so
