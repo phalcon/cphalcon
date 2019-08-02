@@ -46,7 +46,6 @@ env:
     - RE2C_VERSION="1.1.1"
     - REPORT_COVERAGE=1
     - PATH="${HOME}/.composer/vendor/bin:${PATH}"
-    - DEFAULT_COMPOSER_FLAGS=(--no-interaction --no-ansi --no-progress --no-suggest)
     - TRAVIS_COMMIT_LOG="$(git log --format=fuller -5)"
 
 before_install:
@@ -61,6 +60,7 @@ before_install:
     fi
 
     [ -d ~/bin ] || mkdir ~/bin
+    export DEFAULT_COMPOSER_FLAGS=("--no-interaction" "--no-ansi" "--no-progress" "--no-suggest")
 
     # Hide "You are in 'detached HEAD' state" message
     git config --global advice.detachedHead false
