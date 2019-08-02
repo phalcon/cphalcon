@@ -375,4 +375,44 @@ class SaveCest
         $I->assertNotNull($album->id);
         $I->assertNotNull($artist->id);
     }
+
+    public function mvcModelSaveAfterFetchingRelatedIssue14270(IntegrationTester $I)
+    {
+        $I->wantToTest('Mvc\Model::save() after feteching related');
+
+        $part1 = new Part;
+        $part1->name = "Right finger";
+
+        $part2 = new Part;
+        $part2->name = "Right toe";
+
+        $robot = new Robots();
+        $robot->name = 'bob';
+        $robot->parts = [$part1, $part2];
+        $robot->save();
+
+        $robot = Robot::findFirstByName("bob");
+
+        // Query the parts, for some reason,
+        // for example to check if the parts are in the db already...
+        $temp = $robot->parts;
+
+        $part3 = new Part;
+        $part3->name = "Left finger";
+
+        $part4 = new Part;
+        $part4->name = "Left toe";
+
+        $robot->parts = [$part3, $part4];
+        $robot->save();
+
+        $robot = Robot::findFirstByName("bob");
+
+        $parts = $robot->getParts();
+
+        $I->assertEquals(
+            4,
+            count($parts)
+        );
+    }
 }
