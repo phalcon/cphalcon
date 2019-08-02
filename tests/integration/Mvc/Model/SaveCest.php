@@ -380,10 +380,10 @@ class SaveCest
     {
         $I->wantToTest('Mvc\Model::save() after feteching related');
 
-        $part1 = new Part;
+        $part1 = new Parts();
         $part1->name = "Right finger";
 
-        $part2 = new Part;
+        $part2 = new Parts();
         $part2->name = "Right toe";
 
         $robot = new Robots();
@@ -395,12 +395,17 @@ class SaveCest
 
         // Query the parts, for some reason,
         // for example to check if the parts are in the db already...
-        $temp = $robot->parts;
+        $firstParts = $robot->parts;
 
-        $part3 = new Part;
+        $I->assertEquals(
+            2,
+            count($firstParts)
+        );
+
+        $part3 = new Parts();
         $part3->name = "Left finger";
 
-        $part4 = new Part;
+        $part4 = new Parts();
         $part4->name = "Left toe";
 
         $robot->parts = [$part3, $part4];
@@ -408,11 +413,11 @@ class SaveCest
 
         $robot = Robot::findFirstByName("bob");
 
-        $parts = $robot->getParts();
+        $allParts = $robot->getParts();
 
         $I->assertEquals(
             4,
-            count($parts)
+            count($allParts)
         );
     }
 }
