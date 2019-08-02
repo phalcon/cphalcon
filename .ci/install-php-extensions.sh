@@ -60,6 +60,18 @@ printf "\\n" | pecl install --force mongodb 1> /dev/null
 sodium_ext=$($(phpenv which php-config) --extension-dir)/sodium.so
 if [[ "$(php --ri sodium 1> /dev/null)" = "" ]] && [[ ! -f "${sodium_ext}" ]]
 then
+  # for some reason Ubuntu 18.04 on Travis CI doesn't install libsodium-dev
+  # via "addons -> apt -> packages"
+  if [ "${CI}" = "true" ] && [ "$(dpkg -s libsodium-dev 1>/dev/null)" != "" ]
+  then
+    (>&1 echo "Install libsodium-dev...")
+    sudo apt-get install \
+      --no-install-recommends \
+      --quiet \
+      --assume-yes \
+      libsodium-dev 1> /dev/null
+  fi
+
   (>&1 echo 'Install libsodium extension ...')
   printf "\\n" | pecl install --force libsodium 1> /dev/null
 fi
