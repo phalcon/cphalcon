@@ -394,14 +394,14 @@ class SaveCest
         ];
 
         $robot->assign($robotData);
-        $robot->parts = [$part1, $part2];
+        $robot->robotsParts = [$part1, $part2];
         $robot->save();
 
         $robot = Robots::findFirstByName("bob");
 
         // Query the parts, for some reason,
         // for example to check if the parts are in the db already...
-        $firstParts = $robot->parts;
+        $firstParts = $robot->robotsParts;
 
         $I->assertEquals(
             2,
@@ -414,12 +414,12 @@ class SaveCest
         $part4 = new Parts();
         $part4->name = "Left toe";
 
-        $robot->parts = [$part3, $part4];
+        $robot->robotsParts = [$part3, $part4];
         $robot->save();
 
         $robot = Robots::findFirstByName("bob");
 
-        $allParts = $robot->getParts();
+        $allParts = $robot->getRobotsParts();
 
         $I->assertEquals(
             4,
