@@ -419,7 +419,7 @@ class SaveCest
 
         $robot = Robots::findFirstByName("bob");
 
-        $allParts = $robot->getRobotsParts();
+        $allParts = $robot->getRelated('robotsParts');
 
         $I->assertEquals(
             4,
