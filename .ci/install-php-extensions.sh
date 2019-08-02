@@ -12,12 +12,13 @@
 set -eu
 
 PHP_INI="$(phpenv root)/versions/$(phpenv version-name)/etc/php.ini"
+PHP_CONF_D="$(phpenv root)/versions/$(phpenv version-name)/etc/conf.d"
 
-# Install latest APC(u)
+(>&1 echo 'Install apcu extension ...')
 printf "\\n" | pecl install --force apcu_bc 1> /dev/null
 # See https://pear.php.net/bugs/bug.php?id=21007
 awk '/extension.*apcu?\.so"?/{$0=""}1' "${PHP_INI}" > php.ini.patch && mv php.ini.patch "${PHP_INI}"
-cat <<EOT >> "$(phpenv root)/versions/$(phpenv version-name)/etc/conf.d/apcu.ini"
+cat <<EOT >> "$PHP_CONF_D/apcu.ini"
 [apc]
 extension      = "apcu.so"
 extension      = "apc.so"
@@ -26,44 +27,56 @@ apc.enabled    = 1
 apc.enable_cli = 1
 EOT
 
-# Install latest xdebug
+(>&1 echo 'Install xdebug extension ...')
 phpenv config-rm xdebug.ini >/dev/null 2>&1 || true
-if [[ "$PHP_VERNUM" -lt "70300" ]]
+if [[ "$($(phpenv which php-config) --vernum)" -lt "70300" ]]
 then
   printf "\\n" | pecl install --force xdebug 1> /dev/null
   awk '/zend_extension.*xdebug.so"?/{$0=""}1' "${PHP_INI}" > php.ini.patch && mv php.ini.patch "${PHP_INI}"
-  echo 'zend_extension="xdebug.so"' > "$(phpenv root)/versions/$(phpenv version-name)/etc/conf.d/xdebug.ini"
+  echo 'zend_extension="xdebug.so"' > "$PHP_CONF_D/xdebug.ini"
 fi
 
-# Install latest memcached, msgpack, igbinary, imagick, psr, libsodium and yaml
+(>&1 echo 'Install memcached extension ...')
 printf "\\n" | pecl install --force memcached 1> /dev/null
+
+(>&1 echo 'Install msgpack extension ...')
 printf "\\n" | pecl install --force msgpack 1> /dev/null
+
+(>&1 echo 'Install igbinary extension ...')
 printf "\\n" | pecl install --force igbinary 1> /dev/null
+
+(>&1 echo 'Install imagick extension ...')
 printf "\\n" | pecl install --force imagick 1> /dev/null
+
+(>&1 echo 'Install psr extension ...')
 printf "\\n" | pecl install --force psr 1> /dev/null
+
+(>&1 echo 'Install yaml extension ...')
 printf "\\n" | pecl install --force yaml 1> /dev/null
+
+(>&1 echo 'Install mongodb extension ...')
 printf "\\n" | pecl install --force mongodb 1> /dev/null
 
-# Install sodium
-if [[ "$(php --ri sodium 1> /dev/null)" = "" ]]
+sodium_ext=$($(phpenv which php-config) --extension-dir)/sodium.so
+if [[ "$(php --ri sodium 1> /dev/null)" = "" ]] && [[ ! -f "${sodium_ext}" ]]
 then
+  (>&1 echo 'Install libsodium extension ...')
   printf "\\n" | pecl install --force libsodium 1> /dev/null
 fi
 
-sodium_ext=$($(phpenv which php-config) --extension-dir)/sodium.so
 if [[ "$(php --ri sodium 1> /dev/null)" = "" ]] && [[ -f "${sodium_ext}" ]]
 then
-	echo 'extension="sodium.so"' > "$(phpenv root)/versions/$(phpenv version-name)/etc/conf.d/sodium.ini"
+	echo 'extension="sodium.so"' > "$PHP_CONF_D/sodium.ini"
 fi
 
-# Install redis
 redis_ext=$($(phpenv which php-config) --extension-dir)/redis.so
-if [[ ! -f "${redis_ext}" ]]
+if [[ "$(php --ri redis 1> /dev/null)" = "" ]] && [[ ! -f "${redis_ext}" ]]
 then
+  (>&1 echo 'Install redis extension ...')
   printf "\\n" | pecl install --force redis 1> /dev/null
 fi
 
 if [[ "$(php --ri redis 1> /dev/null)" = "" ]] && [[ -f "${redis_ext}" ]]
 then
-	echo 'extension="redis.so"' > "$(phpenv root)/versions/$(phpenv version-name)/etc/conf.d/redis.ini"
+	echo 'extension="redis.so"' > "$PHP_CONF_D/redis.ini"
 fi
