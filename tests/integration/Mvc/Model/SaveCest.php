@@ -391,7 +391,7 @@ class SaveCest
         $robot->parts = [$part1, $part2];
         $robot->save();
 
-        $robot = Robot::findFirstByName("bob");
+        $robot = Robots::findFirstByName("bob");
 
         // Query the parts, for some reason,
         // for example to check if the parts are in the db already...
@@ -411,7 +411,7 @@ class SaveCest
         $robot->parts = [$part3, $part4];
         $robot->save();
 
-        $robot = Robot::findFirstByName("bob");
+        $robot = Robots::findFirstByName("bob");
 
         $allParts = $robot->getParts();
 
