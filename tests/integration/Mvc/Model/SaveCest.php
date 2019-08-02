@@ -387,7 +387,13 @@ class SaveCest
         $part2->name = "Right toe";
 
         $robot = new Robots();
-        $robot->name = 'bob';
+        $robotData = [
+            'name'     => 'Default Robot',
+            'datetime' => (new \DateTime())->format('Y-m-d'),
+            'text'     => 'Test text',
+        ];
+
+        $robot->assign($robotData);
         $robot->parts = [$part1, $part2];
         $robot->save();
 
