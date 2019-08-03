@@ -401,7 +401,7 @@ class SaveCest
 
         // Query the parts, for some reason,
         // for example to check if the parts are in the db already...
-        $firstParts = $robot->robotsParts;
+        $firstParts = $robot->getRelated('robotsParts');
 
         $I->assertEquals(
             2,
