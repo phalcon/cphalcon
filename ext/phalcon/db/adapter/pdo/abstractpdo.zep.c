@@ -75,6 +75,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Adapter_Pdo_AbstractPdo) {
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *descriptor_param = NULL;
@@ -123,6 +124,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, affectedRows) {
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, begin) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS, transactionLevel = 0;
 	zval *nesting_param = NULL, pdo, eventsManager, savepointName, _0, _1, _6, _2$$4, _3$$5, _7$$7;
 	zend_bool nesting, _4, _5;
@@ -204,6 +206,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, begin) {
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, commit) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS, transactionLevel = 0;
 	zval *nesting_param = NULL, pdo, eventsManager, savepointName, _0, _1, _6, _2$$5, _3$$6, _7$$9;
 	zend_bool nesting, _4, _5;
@@ -333,6 +336,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, connect) {
 
 	zend_string *_7;
 	zend_ulong _6;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *descriptor_param = NULL, username, password, dsnParts, dsnAttributes, dsnAttributesCustomRaw, dsnAttributesMap, options, key, value, _2, _3, *_4, _5, _10, _11, _12, _0$$3, _8$$10, _9$$11;
 	zval descriptor, _1$$3;
@@ -476,6 +480,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, connect) {
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, convertBoundParams) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS, setOrder = 0;
 	zval params;
 	zval *sql_param = NULL, *params_param = NULL, boundSql, placeHolders, bindPattern, matches, placeMatch, value, _0, _1, _2, *_3$$3, _4$$3, _9$$3, _5$$4, _6$$5, _7$$8, _8$$9;
@@ -610,6 +615,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, convertBoundParams) {
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, escapeString) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *str_param = NULL, _0;
 	zval str;
@@ -653,6 +659,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, escapeString) {
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, execute) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *sqlStatement_param = NULL, *bindParams = NULL, bindParams_sub, *bindTypes = NULL, bindTypes_sub, __$null, eventsManager, affectedRows, pdo, newStatement, statement, _0, _1$$3, _2$$3, _3$$9;
 	zval sqlStatement;
@@ -767,6 +774,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, executePrepared) {
 	zend_bool _4$$3, _24$$34;
 	zend_string *_3, *_13$$22, *_21$$31, *_31$$53, *_39$$62;
 	zend_ulong _2, _12$$22, _20$$31, _30$$53, _38$$62;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_7 = NULL, *_9 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval placeholders;
@@ -1192,6 +1200,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, executePrepared) {
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, getErrorInfo) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -1245,6 +1254,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, getTransactionLevel) {
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, isUnderTransaction) {
 
 	zval pdo, _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -1288,6 +1298,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, isUnderTransaction) {
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, lastInsertId) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *sequenceName = NULL, sequenceName_sub, __$null, pdo, _0;
 	zval *this_ptr = getThis();
@@ -1340,6 +1351,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, lastInsertId) {
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, prepare) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *sqlStatement_param = NULL, _0;
 	zval sqlStatement;
@@ -1391,6 +1403,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, prepare) {
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, query) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *sqlStatement_param = NULL, *bindParams = NULL, bindParams_sub, *bindTypes = NULL, bindTypes_sub, __$null, eventsManager, pdo, statement, params, types, _0, _3, _1$$3, _2$$3, _4$$9;
 	zval sqlStatement;
@@ -1489,6 +1502,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, query) {
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, rollback) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS, transactionLevel = 0;
 	zval *nesting_param = NULL, pdo, eventsManager, savepointName, _0, _1, _6, _2$$5, _3$$6, _7$$9;
 	zend_bool nesting, _4, _5;

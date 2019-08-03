@@ -88,6 +88,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Flash_AbstractFlash) {
  */
 PHP_METHOD(Phalcon_Flash_AbstractFlash, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *cssClasses = NULL, cssClasses_sub, __$null, _0$$3;
 	zval *this_ptr = getThis();
 
@@ -126,6 +127,7 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, __construct) {
 PHP_METHOD(Phalcon_Flash_AbstractFlash, clear) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
@@ -148,6 +150,7 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, clear) {
  */
 PHP_METHOD(Phalcon_Flash_AbstractFlash, error) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *message_param = NULL, _0;
 	zval message;
@@ -200,6 +203,7 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, getCustomTemplate) {
 PHP_METHOD(Phalcon_Flash_AbstractFlash, getDI) {
 
 	zval di;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval *this_ptr = getThis();
@@ -224,6 +228,7 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, getDI) {
 PHP_METHOD(Phalcon_Flash_AbstractFlash, getEscaperService) {
 
 	zval escaper, container, _0$$3, _1$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -260,6 +265,7 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, getEscaperService) {
  */
 PHP_METHOD(Phalcon_Flash_AbstractFlash, notice) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *message_param = NULL, _0;
 	zval message;
@@ -294,7 +300,7 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, setAutoescape) {
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
 
-	zephir_fetch_params(0, 1, 0, &autoescape_param);
+	zephir_fetch_params_without_memory_grow(1, 0, &autoescape_param);
 
 	autoescape = zephir_get_boolval(autoescape_param);
 
@@ -320,7 +326,7 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, setAutomaticHtml) {
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
 
-	zephir_fetch_params(0, 1, 0, &automaticHtml_param);
+	zephir_fetch_params_without_memory_grow(1, 0, &automaticHtml_param);
 
 	automaticHtml = zephir_get_boolval(automaticHtml_param);
 
@@ -339,6 +345,7 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, setAutomaticHtml) {
  */
 PHP_METHOD(Phalcon_Flash_AbstractFlash, setCssClasses) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *cssClasses_param = NULL;
 	zval cssClasses;
 	zval *this_ptr = getThis();
@@ -361,6 +368,7 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, setCssClasses) {
  */
 PHP_METHOD(Phalcon_Flash_AbstractFlash, setCustomTemplate) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *customTemplate_param = NULL;
 	zval customTemplate;
 	zval *this_ptr = getThis();
@@ -397,7 +405,7 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, setDI) {
 
 	ZVAL_UNDEF(&container_sub);
 
-	zephir_fetch_params(0, 1, 0, &container);
+	zephir_fetch_params_without_memory_grow(1, 0, &container);
 
 
 
@@ -416,7 +424,7 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, setEscaperService) {
 
 	ZVAL_UNDEF(&escaperService_sub);
 
-	zephir_fetch_params(0, 1, 0, &escaperService);
+	zephir_fetch_params_without_memory_grow(1, 0, &escaperService);
 
 
 
@@ -438,7 +446,7 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, setImplicitFlush) {
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
 
-	zephir_fetch_params(0, 1, 0, &implicitFlush_param);
+	zephir_fetch_params_without_memory_grow(1, 0, &implicitFlush_param);
 
 	implicitFlush = zephir_get_boolval(implicitFlush_param);
 
@@ -461,6 +469,7 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, setImplicitFlush) {
  */
 PHP_METHOD(Phalcon_Flash_AbstractFlash, success) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *message_param = NULL, _0;
 	zval message;
@@ -496,6 +505,7 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, success) {
 PHP_METHOD(Phalcon_Flash_AbstractFlash, outputMessage) {
 
 	zend_bool implicitFlush = 0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_3 = NULL, *_4 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *type_param = NULL, *message, message_sub, content, msg, htmlMessage, preparedMsg, _0, *_1$$3, _2$$3;
@@ -596,6 +606,7 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, outputMessage) {
  */
 PHP_METHOD(Phalcon_Flash_AbstractFlash, warning) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *message_param = NULL, _0;
 	zval message;
@@ -620,6 +631,7 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, warning) {
 
 PHP_METHOD(Phalcon_Flash_AbstractFlash, getTemplate) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *cssClassses_param = NULL, _0, _1, _2$$3, _3$$4, _4$$5;
 	zval cssClassses;
 	zval *this_ptr = getThis();
@@ -645,12 +657,12 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, getTemplate) {
 		ZVAL_STRING(&_2$$3, "");
 		if (ZEPHIR_IS_IDENTICAL(&_2$$3, &cssClassses)) {
 			ZEPHIR_INIT_VAR(&_3$$4);
-			ZEPHIR_GET_CONSTANT(&_3$$4, "PHP_EOL");
+			ZEPHIR_MM_GET_CONSTANT(&_3$$4, "PHP_EOL");
 			ZEPHIR_CONCAT_SV(return_value, "<div>%message%</div>", &_3$$4);
 			RETURN_MM();
 		} else {
 			ZEPHIR_INIT_VAR(&_4$$5);
-			ZEPHIR_GET_CONSTANT(&_4$$5, "PHP_EOL");
+			ZEPHIR_MM_GET_CONSTANT(&_4$$5, "PHP_EOL");
 			ZEPHIR_CONCAT_SV(return_value, "<div class=\"%cssClass%\">%message%</div>", &_4$$5);
 			RETURN_MM();
 		}
@@ -666,6 +678,7 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, getTemplate) {
 PHP_METHOD(Phalcon_Flash_AbstractFlash, prepareEscapedMessage) {
 
 	zend_bool autoEscape = 0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *message_param = NULL, escaper, _0;
 	zval message;
@@ -703,6 +716,7 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, prepareHtmlMessage) {
 
 	zval _1, _3;
 	zend_bool automaticHtml = 0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *type_param = NULL, *message_param = NULL, classes, cssClasses, typeClasses, _0, _2, _4;
 	zval type, message;
@@ -769,6 +783,7 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, prepareHtmlMessage) {
 zend_object *zephir_init_properties_Phalcon_Flash_AbstractFlash(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval _0, _2, _1$$3, _3$$4;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_1$$3);

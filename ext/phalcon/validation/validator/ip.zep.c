@@ -99,6 +99,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Ip, validate) {
 
 	zval _9;
 	zend_bool _8;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *validation, validation_sub, *field, field_sub, __$false, value, version, allowPrivate, allowReserved, allowEmpty, options, _0, _1, _3, _5, _10, _11, _12, _2$$3, _4$$4, _6$$5, _7$$6, _13$$8;
 	zval *this_ptr = getThis();

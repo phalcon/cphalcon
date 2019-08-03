@@ -46,6 +46,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Kernel) {
  */
 PHP_METHOD(Phalcon_Kernel, preComputeHashKey) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *key_param = NULL;
 	zval key;
 	zval *this_ptr = getThis();

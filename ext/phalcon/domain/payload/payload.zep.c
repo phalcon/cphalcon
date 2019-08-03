@@ -149,7 +149,7 @@ PHP_METHOD(Phalcon_Domain_Payload_Payload, setExtras) {
 
 	ZVAL_UNDEF(&extras_sub);
 
-	zephir_fetch_params(0, 1, 0, &extras);
+	zephir_fetch_params_without_memory_grow(1, 0, &extras);
 
 
 
@@ -168,7 +168,7 @@ PHP_METHOD(Phalcon_Domain_Payload_Payload, setInput) {
 
 	ZVAL_UNDEF(&input_sub);
 
-	zephir_fetch_params(0, 1, 0, &input);
+	zephir_fetch_params_without_memory_grow(1, 0, &input);
 
 
 
@@ -187,7 +187,7 @@ PHP_METHOD(Phalcon_Domain_Payload_Payload, setMessages) {
 
 	ZVAL_UNDEF(&messages_sub);
 
-	zephir_fetch_params(0, 1, 0, &messages);
+	zephir_fetch_params_without_memory_grow(1, 0, &messages);
 
 
 
@@ -206,7 +206,7 @@ PHP_METHOD(Phalcon_Domain_Payload_Payload, setOutput) {
 
 	ZVAL_UNDEF(&output_sub);
 
-	zephir_fetch_params(0, 1, 0, &output);
+	zephir_fetch_params_without_memory_grow(1, 0, &output);
 
 
 
@@ -225,7 +225,7 @@ PHP_METHOD(Phalcon_Domain_Payload_Payload, setStatus) {
 
 	ZVAL_UNDEF(&status_sub);
 
-	zephir_fetch_params(0, 1, 0, &status);
+	zephir_fetch_params_without_memory_grow(1, 0, &status);
 
 
 

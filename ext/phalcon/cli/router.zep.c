@@ -99,6 +99,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Cli_Router) {
 PHP_METHOD(Phalcon_Cli_Router, __construct) {
 
 	zval routes, _1$$3, _3$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *defaultRoutes_param = NULL, _0$$3, _2$$3, _4$$3;
 	zend_bool defaultRoutes;
@@ -163,6 +164,7 @@ PHP_METHOD(Phalcon_Cli_Router, __construct) {
  */
 PHP_METHOD(Phalcon_Cli_Router, add) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *pattern_param = NULL, *paths = NULL, paths_sub, __$null, route;
 	zval pattern;
@@ -280,6 +282,7 @@ PHP_METHOD(Phalcon_Cli_Router, getParams) {
  */
 PHP_METHOD(Phalcon_Cli_Router, getRouteById) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *id, id_sub, route, _0, *_1, _2, _3$$3, _4$$5;
 	zval *this_ptr = getThis();
@@ -339,6 +342,7 @@ PHP_METHOD(Phalcon_Cli_Router, getRouteById) {
  */
 PHP_METHOD(Phalcon_Cli_Router, getRouteByName) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *name_param = NULL, route, _0, *_1, _2, _3$$3, _4$$5;
 	zval name;
@@ -440,6 +444,7 @@ PHP_METHOD(Phalcon_Cli_Router, handle) {
 	zend_ulong _7$$12, _20$$32;
 	zval _4$$9, _10$$15, _12$$18, _14$$21, _16$$24, _17$$29, _23$$35, _25$$38, _27$$41, _29$$44;
 	zend_bool _0$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_37 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *arguments = NULL, arguments_sub, __$true, __$false, __$null, moduleName, taskName, actionName, params, route, parts, pattern, routeFound, matches, paths, beforeMatch, converters, converter, part, position, matchPosition, strParams, _1$$3, *_2$$3, _3$$3, *_5$$12, _6$$12, _9$$15, _11$$18, _13$$21, _15$$24, *_18$$32, _19$$32, _22$$35, _24$$38, _26$$41, _28$$44, _30$$46, _31$$46, _32$$46, _33$$46, _35$$55, _36$$56, _38$$58;
@@ -890,6 +895,7 @@ PHP_METHOD(Phalcon_Cli_Router, handle) {
  */
 PHP_METHOD(Phalcon_Cli_Router, setDefaultAction) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *actionName_param = NULL;
 	zval actionName;
 	zval *this_ptr = getThis();
@@ -912,6 +918,7 @@ PHP_METHOD(Phalcon_Cli_Router, setDefaultAction) {
  */
 PHP_METHOD(Phalcon_Cli_Router, setDefaultModule) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *moduleName_param = NULL;
 	zval moduleName;
 	zval *this_ptr = getThis();
@@ -945,6 +952,7 @@ PHP_METHOD(Phalcon_Cli_Router, setDefaultModule) {
  */
 PHP_METHOD(Phalcon_Cli_Router, setDefaults) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *defaults_param = NULL, module, task, action, params;
 	zval defaults;
 	zval *this_ptr = getThis();
@@ -982,6 +990,7 @@ PHP_METHOD(Phalcon_Cli_Router, setDefaults) {
  */
 PHP_METHOD(Phalcon_Cli_Router, setDefaultTask) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *taskName_param = NULL;
 	zval taskName;
 	zval *this_ptr = getThis();
@@ -1009,7 +1018,7 @@ PHP_METHOD(Phalcon_Cli_Router, setDI) {
 
 	ZVAL_UNDEF(&container_sub);
 
-	zephir_fetch_params(0, 1, 0, &container);
+	zephir_fetch_params_without_memory_grow(1, 0, &container);
 
 
 
@@ -1032,6 +1041,7 @@ PHP_METHOD(Phalcon_Cli_Router, wasMatched) {
 zend_object *zephir_init_properties_Phalcon_Cli_Router(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval _0, _2, _1$$3, _3$$4;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_1$$3);

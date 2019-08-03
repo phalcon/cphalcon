@@ -136,6 +136,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Dispatcher_AbstractDispatcher) {
 
 PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, callActionMethod) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval params, _0;
 	zval actionMethod;
@@ -183,6 +184,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, dispatch) {
 
 	zval _45$$10;
 	zend_bool hasService = 0, hasEventsManager = 0, isNewHandler = 0, _7$$5, _18$$13, _23$$15, _31$$18, _36$$20, _43$$23, _53$$25, _57$$31, _63$$33, _67$$36, _73$$38, _79$$43, _84$$46, _89$$48, _105$$59, _110$$62, _115$$64, _118$$67, _123$$69, _130$$73;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval __$true, __$false, value, handler, container, namespaceName, handlerName, actionName, params, eventsManager, handlerClass, status, actionMethod, modelBinder, bindCacheKey, handlerHash, e, _0, _1$$3, _3$$3, _4$$3, _5$$5, _6$$5, _8$$5, _9$$4, _10$$7, _11$$11, _12$$11, _15$$13, _16$$13, _19$$13, _20$$12, _21$$15, _24$$15, _26$$10, _38$$10, _39$$10, _102$$10, _28$$18, _29$$18, _33$$20, _34$$20, _40$$23, _41$$23, _46$$26, _47$$26, _49$$26, _50$$25, _51$$25, _54$$31, _55$$31, _58$$31, _60$$30, _61$$33, _64$$33, _66$$36, _68$$36, _70$$35, _71$$38, _74$$38, _76$$41, _77$$43, _80$$43, _81$$46, _82$$46, _85$$46, _86$$45, _87$$48, _90$$48, _91$$50, _92$$50, _93$$51, _94$$51, _96$$51, _97$$54, _98$$54, _99$$57, _101$$57, _103$$59, _106$$59, _107$$62, _108$$62, _111$$62, _112$$61, _113$$64, _116$$64, _117$$67, _119$$67, _120$$66, _121$$69, _124$$69, _125$$72, _127$$71, _128$$73, _131$$73, _132$$76, _133$$75, _134$$77;
 	zend_long ZEPHIR_LAST_CALL_STATUS, numberDispatches = 0;
 	zephir_fcall_cache_entry *_2 = NULL, *_13 = NULL, *_14 = NULL, *_17 = NULL, *_22 = NULL, *_25 = NULL, *_27 = NULL, *_30 = NULL, *_32 = NULL, *_35 = NULL, *_37 = NULL, *_42 = NULL, *_44 = NULL, *_48 = NULL, *_52 = NULL, *_56 = NULL, *_59 = NULL, *_62 = NULL, *_65 = NULL, *_69 = NULL, *_72 = NULL, *_75 = NULL, *_78 = NULL, *_83 = NULL, *_88 = NULL, *_95 = NULL, *_100 = NULL, *_104 = NULL, *_109 = NULL, *_114 = NULL, *_122 = NULL, *_126 = NULL, *_129 = NULL;
@@ -949,6 +951,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, dispatch) {
  */
 PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, forward) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *forward_param = NULL, __$true, __$false, namespaceName, controllerName, params, actionName, taskName, _0, _1, _2, _3;
 	zval forward;
 	zval *this_ptr = getThis();
@@ -1042,6 +1045,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, getActionSuffix) {
 PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, getActiveMethod) {
 
 	zval activeMethodName, _0, _1, _5, _2$$3, _3$$3, _4$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -1091,6 +1095,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, getActiveMethod) {
 PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, getBoundModels) {
 
 	zval modelBinder, _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -1205,6 +1210,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, getNamespaceName) {
  */
 PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, getParam) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_2 = NULL;
 	zval *param, param_sub, *filters = NULL, filters_sub, *defaultValue = NULL, defaultValue_sub, __$null, params, filter, paramValue, container, _0, _5, _6, _1$$5, _3$$5, _4$$5;
@@ -1293,7 +1299,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, hasParam) {
 	ZVAL_UNDEF(&param_sub);
 	ZVAL_UNDEF(&_0);
 
-	zephir_fetch_params(0, 1, 0, &param);
+	zephir_fetch_params_without_memory_grow(1, 0, &param);
 
 
 
@@ -1320,6 +1326,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, isFinished) {
  */
 PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, setActionName) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *actionName_param = NULL;
 	zval actionName;
 	zval *this_ptr = getThis();
@@ -1342,6 +1349,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, setActionName) {
  */
 PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, setDefaultAction) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *actionName_param = NULL;
 	zval actionName;
 	zval *this_ptr = getThis();
@@ -1364,6 +1372,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, setDefaultAction) {
  */
 PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, setDefaultNamespace) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *namespaceName_param = NULL;
 	zval namespaceName;
 	zval *this_ptr = getThis();
@@ -1391,7 +1400,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, setDI) {
 
 	ZVAL_UNDEF(&container_sub);
 
-	zephir_fetch_params(0, 1, 0, &container);
+	zephir_fetch_params_without_memory_grow(1, 0, &container);
 
 
 
@@ -1405,6 +1414,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, setDI) {
 PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, getHandlerClass) {
 
 	zval handlerSuffix, handlerName, namespaceName, camelizedClass, handlerClass, _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -1455,7 +1465,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, setParam) {
 	ZVAL_UNDEF(&param_sub);
 	ZVAL_UNDEF(&value_sub);
 
-	zephir_fetch_params(0, 2, 0, &param, &value);
+	zephir_fetch_params_without_memory_grow(2, 0, &param, &value);
 
 
 
@@ -1468,6 +1478,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, setParam) {
  */
 PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, setParams) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *params_param = NULL;
 	zval params;
 	zval *this_ptr = getThis();
@@ -1495,7 +1506,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, setReturnedValue) {
 
 	ZVAL_UNDEF(&value_sub);
 
-	zephir_fetch_params(0, 1, 0, &value);
+	zephir_fetch_params_without_memory_grow(1, 0, &value);
 
 
 
@@ -1508,6 +1519,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, setReturnedValue) {
  */
 PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, setActionSuffix) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *actionSuffix_param = NULL;
 	zval actionSuffix;
 	zval *this_ptr = getThis();
@@ -1535,7 +1547,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, setEventsManager) {
 
 	ZVAL_UNDEF(&eventsManager_sub);
 
-	zephir_fetch_params(0, 1, 0, &eventsManager);
+	zephir_fetch_params_without_memory_grow(1, 0, &eventsManager);
 
 
 
@@ -1548,6 +1560,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, setEventsManager) {
  */
 PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, setHandlerSuffix) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *handlerSuffix_param = NULL;
 	zval handlerSuffix;
 	zval *this_ptr = getThis();
@@ -1586,6 +1599,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, setHandlerSuffix) {
  */
 PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, setModelBinder) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *modelBinder, modelBinder_sub, *cache = NULL, cache_sub, __$true, __$false, __$null, container, _0$$3, _1$$3;
 	zval *this_ptr = getThis();
@@ -1636,6 +1650,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, setModelBinder) {
  */
 PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, setModuleName) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *moduleName_param = NULL;
 	zval moduleName;
 	zval *this_ptr = getThis();
@@ -1658,6 +1673,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, setModuleName) {
  */
 PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, setNamespaceName) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *namespaceName_param = NULL;
 	zval namespaceName;
 	zval *this_ptr = getThis();
@@ -1735,6 +1751,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, resolveEmptyProperties) {
 
 PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, toCamelCase) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *input_param = NULL, camelCaseInput, _0, _1$$3, _2$$3, _3$$3;
 	zval input;
@@ -1775,6 +1792,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, toCamelCase) {
 zend_object *zephir_init_properties_Phalcon_Dispatcher_AbstractDispatcher(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval _0, _2, _4, _6, _1$$3, _3$$4, _5$$5, _7$$6;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_4);

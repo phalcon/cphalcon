@@ -91,6 +91,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Registry) {
  */
 PHP_METHOD(Phalcon_Registry, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval *data_param = NULL;
@@ -121,6 +122,7 @@ PHP_METHOD(Phalcon_Registry, __construct) {
  */
 PHP_METHOD(Phalcon_Registry, __get) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval *element_param = NULL;
@@ -155,6 +157,7 @@ PHP_METHOD(Phalcon_Registry, __get) {
  */
 PHP_METHOD(Phalcon_Registry, __isset) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval *element_param = NULL;
@@ -189,6 +192,7 @@ PHP_METHOD(Phalcon_Registry, __isset) {
  */
 PHP_METHOD(Phalcon_Registry, __set) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval *element_param = NULL, *value, value_sub;
@@ -224,6 +228,7 @@ PHP_METHOD(Phalcon_Registry, __set) {
  */
 PHP_METHOD(Phalcon_Registry, __unset) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval *element_param = NULL;
@@ -258,6 +263,7 @@ PHP_METHOD(Phalcon_Registry, __unset) {
  */
 PHP_METHOD(Phalcon_Registry, clear) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval *this_ptr = getThis();
@@ -278,6 +284,7 @@ PHP_METHOD(Phalcon_Registry, clear) {
  */
 PHP_METHOD(Phalcon_Registry, count) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval *this_ptr = getThis();
@@ -296,6 +303,7 @@ PHP_METHOD(Phalcon_Registry, count) {
  */
 PHP_METHOD(Phalcon_Registry, get) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval *element_param = NULL, *defaultValue = NULL, defaultValue_sub, __$null;
@@ -336,6 +344,7 @@ PHP_METHOD(Phalcon_Registry, get) {
  */
 PHP_METHOD(Phalcon_Registry, getIterator) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval *this_ptr = getThis();
@@ -354,6 +363,7 @@ PHP_METHOD(Phalcon_Registry, getIterator) {
  */
 PHP_METHOD(Phalcon_Registry, has) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval *element_param = NULL;
@@ -388,6 +398,7 @@ PHP_METHOD(Phalcon_Registry, has) {
  */
 PHP_METHOD(Phalcon_Registry, init) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval *data_param = NULL;
@@ -420,6 +431,7 @@ PHP_METHOD(Phalcon_Registry, init) {
  */
 PHP_METHOD(Phalcon_Registry, jsonSerialize) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval *this_ptr = getThis();
@@ -440,6 +452,7 @@ PHP_METHOD(Phalcon_Registry, jsonSerialize) {
  */
 PHP_METHOD(Phalcon_Registry, offsetExists) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval *element, element_sub;
@@ -465,6 +478,7 @@ PHP_METHOD(Phalcon_Registry, offsetExists) {
  */
 PHP_METHOD(Phalcon_Registry, offsetGet) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval *element, element_sub;
@@ -490,6 +504,7 @@ PHP_METHOD(Phalcon_Registry, offsetGet) {
  */
 PHP_METHOD(Phalcon_Registry, offsetSet) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval *element, element_sub, *value, value_sub;
@@ -516,6 +531,7 @@ PHP_METHOD(Phalcon_Registry, offsetSet) {
  */
 PHP_METHOD(Phalcon_Registry, offsetUnset) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval *element, element_sub;
@@ -539,6 +555,7 @@ PHP_METHOD(Phalcon_Registry, offsetUnset) {
  */
 PHP_METHOD(Phalcon_Registry, remove) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval *element_param = NULL;
@@ -575,6 +592,7 @@ PHP_METHOD(Phalcon_Registry, remove) {
  */
 PHP_METHOD(Phalcon_Registry, serialize) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval *this_ptr = getThis();
@@ -593,6 +611,7 @@ PHP_METHOD(Phalcon_Registry, serialize) {
  */
 PHP_METHOD(Phalcon_Registry, set) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval *element_param = NULL, *value, value_sub;
@@ -628,6 +647,7 @@ PHP_METHOD(Phalcon_Registry, set) {
  */
 PHP_METHOD(Phalcon_Registry, toArray) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval *this_ptr = getThis();
@@ -652,6 +672,7 @@ PHP_METHOD(Phalcon_Registry, toArray) {
  */
 PHP_METHOD(Phalcon_Registry, toJson) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval *options_param = NULL, _1;
 	zend_long options, ZEPHIR_LAST_CALL_STATUS;
@@ -683,6 +704,7 @@ PHP_METHOD(Phalcon_Registry, toJson) {
  */
 PHP_METHOD(Phalcon_Registry, unserialize) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval *serialized, serialized_sub;

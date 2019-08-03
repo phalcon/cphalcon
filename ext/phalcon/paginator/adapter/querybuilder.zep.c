@@ -76,6 +76,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Paginator_Adapter_QueryBuilder) {
  */
 PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval *config_param = NULL, builder, columns;
@@ -146,6 +147,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, paginate) {
 	zval _25, _7$$14, _9$$15;
 	zend_bool hasHaving = 0, hasGroup = 0, _3;
 	zval originalBuilder, builder, totalBuilder, totalPages, limit, number, query, items, totalQuery, result, row, rowcount, next, sql, columns, db, model, modelClass, dbService, groups, groupColumn, _0, _1, _2, _26, _27, _4$$10, _5$$14, _6$$14, _8$$14, _10$$15, _11$$18, _12$$18, _13$$16, _15$$16, _16$$16, _17$$16, _18$$16, _19$$16, _20$$16, _21$$16, _22$$19, _23$$19, _24$$19;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS, previous = 0, numberPage = 0;
 	zval *this_ptr = getThis();
 
@@ -312,6 +314,9 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, paginate) {
 		ZEPHIR_INIT_VAR(&model);
 		zephir_fetch_safe_class(&_13$$16, &modelClass);
 		_14$$16 = zephir_fetch_class_str_ex(Z_STRVAL_P(&_13$$16), Z_STRLEN_P(&_13$$16), ZEND_FETCH_CLASS_AUTO);
+		if(!_14$$16) {
+			RETURN_MM_NULL();
+		}
 		object_init_ex(&model, _14$$16);
 		if (zephir_has_constructor(&model TSRMLS_CC)) {
 			ZEPHIR_CALL_METHOD(NULL, &model, "__construct", NULL, 0);
@@ -398,7 +403,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, setQueryBuilder) {
 
 	ZVAL_UNDEF(&builder_sub);
 
-	zephir_fetch_params(0, 1, 0, &builder);
+	zephir_fetch_params_without_memory_grow(1, 0, &builder);
 
 
 

@@ -111,6 +111,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File, __construct) {
 
 	zend_string *_3;
 	zend_ulong _2;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_6 = NULL, *_13 = NULL, *_16 = NULL, *_51 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *options_param = NULL, included, key, message, validator, value, *_0, _1, _4$$3, _5$$3, _7$$3, _8$$3, _9$$3, _10$$3, _11$$3, _12$$3, _14$$4, _17$$5, _19$$6, _21$$7, _23$$8, _25$$9, _27$$10, _29$$12, _30$$12, _31$$12, _32$$12, _33$$12, _34$$12, _35$$12, _36$$12, _37$$13, _39$$14, _41$$15, _43$$16, _45$$17, _47$$18, _49$$19;

@@ -89,6 +89,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File_Resolution_Min, validate) {
 
 	double _5$$5, _6$$6;
 	zend_bool result = 0, _7$$7, _8$$8;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *validation, validation_sub, *field, field_sub, height, minHeight, minWidth, resolution, resolutionArray, tmp, value, width, replacePairs, included, _0, _1, _2, _3$$4, _4$$5, _9$$9, _10$$10;
 	zval *this_ptr = getThis();

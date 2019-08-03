@@ -75,6 +75,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_CreditCard) {
  */
 PHP_METHOD(Phalcon_Validation_Validator_CreditCard, validate) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *validation, validation_sub, *field, field_sub, value, valid, _0$$3;
 	zval *this_ptr = getThis();
@@ -114,6 +115,7 @@ PHP_METHOD(Phalcon_Validation_Validator_CreditCard, verifyByLuhnAlgorithm) {
 	zend_string *_7;
 	zend_ulong _6;
 	zval digits, _1;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *number_param = NULL, digit, position, hash, result, _0, _2, _3, *_4, _5, _10, _8$$3, _9$$4;
 	zval number;

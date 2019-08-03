@@ -88,6 +88,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Cli_Dispatcher) {
 PHP_METHOD(Phalcon_Cli_Dispatcher, callActionMethod) {
 
 	zval _3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval actionMethod;
 	zval *handler, handler_sub, *actionMethod_param = NULL, params, *params_param = NULL, _0, _1, _2;
@@ -163,6 +164,7 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, getLastTask) {
  */
 PHP_METHOD(Phalcon_Cli_Dispatcher, getOption) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_2 = NULL;
 	zval *option, option_sub, *filters = NULL, filters_sub, *defaultValue = NULL, defaultValue_sub, __$null, options, filter, optionValue, container, _0, _5, _6, _1$$5, _3$$5, _4$$5;
@@ -275,7 +277,7 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, hasOption) {
 	ZVAL_UNDEF(&option_sub);
 	ZVAL_UNDEF(&_0);
 
-	zephir_fetch_params(0, 1, 0, &option);
+	zephir_fetch_params_without_memory_grow(1, 0, &option);
 
 
 
@@ -289,6 +291,7 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, hasOption) {
  */
 PHP_METHOD(Phalcon_Cli_Dispatcher, setDefaultTask) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *taskName_param = NULL;
 	zval taskName;
 	zval *this_ptr = getThis();
@@ -311,6 +314,7 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, setDefaultTask) {
  */
 PHP_METHOD(Phalcon_Cli_Dispatcher, setOptions) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *options_param = NULL;
 	zval options;
 	zval *this_ptr = getThis();
@@ -333,6 +337,7 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, setOptions) {
  */
 PHP_METHOD(Phalcon_Cli_Dispatcher, setTaskName) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *taskName_param = NULL;
 	zval taskName;
 	zval *this_ptr = getThis();
@@ -355,6 +360,7 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, setTaskName) {
  */
 PHP_METHOD(Phalcon_Cli_Dispatcher, setTaskSuffix) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *taskSuffix_param = NULL;
 	zval taskSuffix;
 	zval *this_ptr = getThis();
@@ -377,6 +383,7 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, setTaskSuffix) {
  */
 PHP_METHOD(Phalcon_Cli_Dispatcher, handleException) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *exception, exception_sub, eventsManager, _0, _1$$3, _2$$3;
 	zval *this_ptr = getThis();
@@ -412,6 +419,7 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, handleException) {
  */
 PHP_METHOD(Phalcon_Cli_Dispatcher, throwDispatchException) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long exceptionCode, ZEPHIR_LAST_CALL_STATUS;
 	zval *message_param = NULL, *exceptionCode_param = NULL, exception, _0, _1;
 	zval message;
@@ -452,6 +460,7 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, throwDispatchException) {
 zend_object *zephir_init_properties_Phalcon_Cli_Dispatcher(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval _0, _2, _4, _6, _8, _1$$3, _3$$4, _5$$5, _7$$6, _9$$7;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_4);

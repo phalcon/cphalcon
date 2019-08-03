@@ -88,6 +88,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Between) {
 PHP_METHOD(Phalcon_Validation_Validator_Between, validate) {
 
 	zend_bool _3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *validation, validation_sub, *field, field_sub, value, minimum, maximum, replacePairs, _0, _1$$3, _2$$4, _4$$5;
 	zval *this_ptr = getThis();

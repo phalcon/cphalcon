@@ -66,6 +66,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_AbstractValidator) {
  */
 PHP_METHOD(Phalcon_Validation_AbstractValidator, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_1 = NULL;
 	zval *options_param = NULL, template, _0, _3;
@@ -130,6 +131,7 @@ PHP_METHOD(Phalcon_Validation_AbstractValidator, __construct) {
 PHP_METHOD(Phalcon_Validation_AbstractValidator, getTemplate) {
 
 	zend_bool _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *field_param = NULL, _1, _4, _5, _2$$3, _3$$3;
 	zval field;
 	zval *this_ptr = getThis();
@@ -206,6 +208,7 @@ PHP_METHOD(Phalcon_Validation_AbstractValidator, setTemplates) {
 	zval _5$$3, _6$$3, _7$$4, _8$$4;
 	zend_string *_4;
 	zend_ulong _3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *templates_param = NULL, field, template, _0, *_1, _2;
 	zval templates;
@@ -283,6 +286,7 @@ PHP_METHOD(Phalcon_Validation_AbstractValidator, setTemplates) {
  */
 PHP_METHOD(Phalcon_Validation_AbstractValidator, setTemplate) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *template_param = NULL;
 	zval template;
 	zval *this_ptr = getThis();
@@ -316,6 +320,7 @@ PHP_METHOD(Phalcon_Validation_AbstractValidator, setTemplate) {
 PHP_METHOD(Phalcon_Validation_AbstractValidator, getOption) {
 
 	zend_bool _1;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *key_param = NULL, *defaultValue = NULL, defaultValue_sub, __$null, value, fieldValue, _0;
 	zval key;
 	zval *this_ptr = getThis();
@@ -369,6 +374,7 @@ PHP_METHOD(Phalcon_Validation_AbstractValidator, getOption) {
  */
 PHP_METHOD(Phalcon_Validation_AbstractValidator, hasOption) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *key_param = NULL, _0;
 	zval key;
 	zval *this_ptr = getThis();
@@ -401,6 +407,7 @@ PHP_METHOD(Phalcon_Validation_AbstractValidator, hasOption) {
  */
 PHP_METHOD(Phalcon_Validation_AbstractValidator, setOption) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *key_param = NULL, *value, value_sub;
 	zval key;
 	zval *this_ptr = getThis();
@@ -440,6 +447,7 @@ PHP_METHOD(Phalcon_Validation_AbstractValidator, validate) {
  */
 PHP_METHOD(Phalcon_Validation_AbstractValidator, prepareCode) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *field_param = NULL, code, _0, _1$$3;
 	zval field;
@@ -482,6 +490,7 @@ PHP_METHOD(Phalcon_Validation_AbstractValidator, prepareCode) {
  */
 PHP_METHOD(Phalcon_Validation_AbstractValidator, prepareLabel) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval field;
 	zval *validation, validation_sub, *field_param = NULL, label, _0, _1$$3;
@@ -533,6 +542,7 @@ PHP_METHOD(Phalcon_Validation_AbstractValidator, prepareLabel) {
  */
 PHP_METHOD(Phalcon_Validation_AbstractValidator, messageFactory) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval replacements, _1;
 	zval *validation, validation_sub, *field, field_sub, *replacements_param = NULL, singleField, _0, _2, _3, _4, _5;
@@ -595,6 +605,7 @@ PHP_METHOD(Phalcon_Validation_AbstractValidator, messageFactory) {
 zend_object *zephir_init_properties_Phalcon_Validation_AbstractValidator(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval _0, _1$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
 

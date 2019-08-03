@@ -56,6 +56,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_StreamFactory) {
  */
 PHP_METHOD(Phalcon_Http_Message_StreamFactory, createStream) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *content_param = NULL, handle, _0, _1;
 	zval content;
@@ -122,6 +123,7 @@ PHP_METHOD(Phalcon_Http_Message_StreamFactory, createStream) {
  */
 PHP_METHOD(Phalcon_Http_Message_StreamFactory, createStreamFromFile) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *filename_param = NULL, *mode_param = NULL;
 	zval filename, mode;
@@ -175,6 +177,7 @@ PHP_METHOD(Phalcon_Http_Message_StreamFactory, createStreamFromFile) {
 PHP_METHOD(Phalcon_Http_Message_StreamFactory, createStreamFromResource) {
 
 	zend_bool _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *phpResource, phpResource_sub, _1, _2;
 	zval *this_ptr = getThis();

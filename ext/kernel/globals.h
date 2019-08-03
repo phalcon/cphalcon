@@ -23,31 +23,7 @@
 
 #include <php.h>
 
-#define ZEPHIR_MAX_MEMORY_STACK 48
 #define ZEPHIR_MAX_CACHE_SLOTS 512
-
-/** Memory frame */
-typedef struct _zephir_memory_entry {
-	size_t pointer;
-	size_t capacity;
-	zval **addresses;
-	size_t hash_pointer;
-	size_t hash_capacity;
-	zval **hash_addresses;
-	struct _zephir_memory_entry *prev;
-	struct _zephir_memory_entry *next;
-#ifndef ZEPHIR_RELEASE
-	int permanent;
-	const char *func;
-#endif
-} zephir_memory_entry;
-
-/** Virtual Symbol Table */
-typedef struct _zephir_symbol_table {
-	struct _zephir_memory_entry *scope;
-	zend_array *symbol_table;
-	struct _zephir_symbol_table *prev;
-} zephir_symbol_table;
 
 typedef struct _zephir_function_cache {
 	zend_class_entry *ce;

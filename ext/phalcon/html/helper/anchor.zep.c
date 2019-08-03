@@ -49,6 +49,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Anchor) {
  */
 PHP_METHOD(Phalcon_Html_Helper_Anchor, __invoke) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval attributes;
 	zval *href_param = NULL, *text_param = NULL, *attributes_param = NULL, overrides, _0;

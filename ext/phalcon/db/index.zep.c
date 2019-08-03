@@ -127,6 +127,7 @@ PHP_METHOD(Phalcon_Db_Index, getType) {
  */
 PHP_METHOD(Phalcon_Db_Index, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval columns;
 	zval *name_param = NULL, *columns_param = NULL, *type_param = NULL;
 	zval name, type;

@@ -108,6 +108,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Transaction_Manager) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL, *_3 = NULL;
 	zval *container = NULL, container_sub, __$null, _1$$4, _2$$4, _4$$4;
@@ -158,6 +159,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, __construct) {
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, collectTransactions) {
 
 	zval transactions, _0, _1, *_2, _3, _4;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -210,6 +212,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, collectTransactions) {
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, commit) {
 
 	zval transactions, transaction, connection, _0, *_1, _2, _3$$3, _4$$5;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -275,6 +278,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, commit) {
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, get) {
 
 	zval _2$$4;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *autoBegin_param = NULL, __$true, __$false, _0, _4, _1$$3, _3$$4;
 	zend_bool autoBegin;
@@ -357,6 +361,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, getDI) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, getOrCreateTransaction) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_3 = NULL;
 	zval *autoBegin_param = NULL, container, transaction, transactions, _0, _10, _11, _1$$3, _2$$3, _4$$3, _5$$4, *_6$$4, _7$$4, _8$$6, _9$$8;
@@ -494,6 +499,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, has) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, notifyCommit) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *transaction, transaction_sub;
 	zval *this_ptr = getThis();
@@ -516,6 +522,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, notifyCommit) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, notifyRollback) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *transaction, transaction_sub;
 	zval *this_ptr = getThis();
@@ -539,6 +546,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, notifyRollback) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, rollback) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_4 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *collect_param = NULL, transactions, transaction, connection, _0, *_1, _2, _3$$3, _5$$6;
@@ -625,6 +633,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, rollback) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, rollbackPendent) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -642,6 +651,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, rollbackPendent) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, setDbService) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *service_param = NULL;
 	zval service;
 	zval *this_ptr = getThis();
@@ -678,7 +688,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, setDI) {
 
 	ZVAL_UNDEF(&container_sub);
 
-	zephir_fetch_params(0, 1, 0, &container);
+	zephir_fetch_params_without_memory_grow(1, 0, &container);
 
 
 
@@ -699,7 +709,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, setRollbackPendent) {
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
 
-	zephir_fetch_params(0, 1, 0, &rollbackPendent_param);
+	zephir_fetch_params_without_memory_grow(1, 0, &rollbackPendent_param);
 
 	rollbackPendent = zephir_get_boolval(rollbackPendent_param);
 
@@ -719,6 +729,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, setRollbackPendent) {
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, collectTransaction) {
 
 	zval newTransactions;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *transaction, transaction_sub, managedTransaction, _0, *_1, _2;
 	zval *this_ptr = getThis();
@@ -778,6 +789,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, collectTransaction) {
 zend_object *zephir_init_properties_Phalcon_Mvc_Model_Transaction_Manager(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval _0, _1$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
 

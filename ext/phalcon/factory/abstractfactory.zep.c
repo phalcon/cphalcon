@@ -54,6 +54,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Factory_AbstractFactory) {
  */
 PHP_METHOD(Phalcon_Factory_AbstractFactory, checkService) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *name_param = NULL, _0, _1$$3;
 	zval name, _2$$3;
@@ -101,6 +102,7 @@ PHP_METHOD(Phalcon_Factory_AbstractFactory, checkService) {
 PHP_METHOD(Phalcon_Factory_AbstractFactory, checkConfig) {
 
 	zend_bool _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *config = NULL, config_sub, _1$$3;
 	zval *this_ptr = getThis();
@@ -150,6 +152,7 @@ PHP_METHOD(Phalcon_Factory_AbstractFactory, init) {
 
 	zend_string *_4;
 	zend_ulong _3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *services_param = NULL, adapters, name, service, _0, *_1, _2, _5$$3, _6$$4;
 	zval services;
@@ -225,6 +228,7 @@ PHP_METHOD(Phalcon_Factory_AbstractFactory, init) {
 zend_object *zephir_init_properties_Phalcon_Factory_AbstractFactory(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval _0, _2, _1$$3, _3$$4;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_1$$3);

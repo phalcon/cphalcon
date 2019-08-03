@@ -70,6 +70,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Adapter_Pdo_Mysql) {
  */
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, addForeignKey) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *tableName_param = NULL, *schemaName_param = NULL, *reference, reference_sub, foreignKeyCheck, _0, _1, _2, _3, _4;
 	zval tableName, schemaName;
@@ -143,6 +144,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns) {
 
 	zend_bool _5$$3, _57$$43;
 	zval definition;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_55 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *table_param = NULL, *schema_param = NULL, __$true, columns, columnType, fields, field, oldColumn, sizePattern, matches, matchOne, matchTwo, columnName, _0, _1, _2, *_3, _4, _49$$3, _50$$3, _51$$3, _52$$3, _54$$3, _6$$4, _7$$4, _8$$5, _9$$5, _10$$6, _11$$6, _12$$7, _13$$7, _14$$8, _15$$8, _16$$9, _17$$9, _18$$10, _19$$10, _20$$11, _21$$12, _22$$13, _23$$14, _24$$15, _25$$15, _26$$16, _27$$16, _28$$17, _29$$18, _30$$19, _31$$20, _32$$21, _33$$22, _34$$23, _35$$24, _36$$25, _37$$26, _38$$27, _39$$28, _40$$29, _41$$30, _42$$31, _43$$31, _44$$32, _45$$32, _46$$32, _47$$34, _48$$35, _53$$42, _56$$43, _101$$43, _102$$43, _103$$43, _104$$43, _106$$43, _58$$44, _59$$44, _60$$45, _61$$45, _62$$46, _63$$46, _64$$47, _65$$47, _66$$48, _67$$48, _68$$49, _69$$49, _70$$50, _71$$50, _72$$51, _73$$52, _74$$53, _75$$54, _76$$55, _77$$55, _78$$56, _79$$56, _80$$57, _81$$58, _82$$59, _83$$60, _84$$61, _85$$62, _86$$63, _87$$64, _88$$65, _89$$66, _90$$67, _91$$68, _92$$69, _93$$70, _94$$71, _95$$71, _96$$72, _97$$72, _98$$72, _99$$74, _100$$75, _105$$82;
@@ -861,6 +863,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeIndexes) {
 
 	zend_string *_25;
 	zend_ulong _24;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_29 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *table_param = NULL, *schema_param = NULL, __$null, indexes, index, keyName, indexType, indexObjects, columns, name, _0, _1, _2, _3, *_4, _5, *_22, _23, _6$$4, _7$$3, _9$$3, _10$$3, _8$$6, _11$$7, _12$$8, _13$$9, _14$$12, _15$$11, _17$$11, _18$$11, _16$$14, _19$$15, _20$$16, _21$$17, _26$$19, _27$$19, _28$$19, _30$$20, _31$$20, _32$$20;
@@ -1105,6 +1108,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeReferences) {
 	zval _14$$3, _23$$6, _29$$9, _33$$10;
 	zend_string *_27;
 	zend_ulong _26;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_31 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *table_param = NULL, *schema_param = NULL, references, reference, arrayReference, constraintName, referenceObjects, name, referencedSchema, referencedTable, columns, referencedColumns, referenceUpdate, referenceDelete, _0, _1, _2, _3, *_4, _5, *_24, _25, _6$$5, _7$$5, _8$$5, _9$$5, _10$$5, _11$$5, _12$$3, _13$$3, _15$$8, _16$$8, _17$$8, _18$$8, _19$$8, _20$$8, _21$$6, _22$$6, _28$$9, _30$$9, _32$$10, _34$$10;

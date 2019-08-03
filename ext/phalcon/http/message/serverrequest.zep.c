@@ -233,6 +233,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, getUploadedFiles) {
  */
 PHP_METHOD(Phalcon_Http_Message_ServerRequest, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval serverParams, cookies, queryParams, uploadFiles;
 	zval *method_param = NULL, *uri = NULL, uri_sub, *serverParams_param = NULL, *body = NULL, body_sub, *headers = NULL, headers_sub, *cookies_param = NULL, *queryParams_param = NULL, *uploadFiles_param = NULL, *parsedBody = NULL, parsedBody_sub, *protocol_param = NULL, __$null, _0, _1, _2, _3, _4, _5, _6;
@@ -377,6 +378,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, __construct) {
  */
 PHP_METHOD(Phalcon_Http_Message_ServerRequest, getAttribute) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *name, name_sub, *defaultValue = NULL, defaultValue_sub, __$null, _0;
 	zval *this_ptr = getThis();
@@ -416,6 +418,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, getAttribute) {
 PHP_METHOD(Phalcon_Http_Message_ServerRequest, getAttributes) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -447,6 +450,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, getAttributes) {
  */
 PHP_METHOD(Phalcon_Http_Message_ServerRequest, withAttribute) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *name, name_sub, *value, value_sub, attributes, _0, _1, _2;
 	zval *this_ptr = getThis();
@@ -499,6 +503,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, withAttribute) {
  */
 PHP_METHOD(Phalcon_Http_Message_ServerRequest, withCookieParams) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *cookies_param = NULL, _0;
 	zval cookies;
@@ -552,6 +557,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, withCookieParams) {
  */
 PHP_METHOD(Phalcon_Http_Message_ServerRequest, withParsedBody) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *data, data_sub, _0;
 	zval *this_ptr = getThis();
@@ -596,6 +602,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, withParsedBody) {
  */
 PHP_METHOD(Phalcon_Http_Message_ServerRequest, withQueryParams) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *query_param = NULL, _0;
 	zval query;
@@ -633,6 +640,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, withQueryParams) {
  */
 PHP_METHOD(Phalcon_Http_Message_ServerRequest, withUploadedFiles) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *uploadedFiles_param = NULL, _0;
 	zval uploadedFiles;
@@ -673,6 +681,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, withUploadedFiles) {
  */
 PHP_METHOD(Phalcon_Http_Message_ServerRequest, withoutAttribute) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *name, name_sub, attributes, _0, _1, _2;
 	zval *this_ptr = getThis();
@@ -712,6 +721,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, withoutAttribute) {
 PHP_METHOD(Phalcon_Http_Message_ServerRequest, checkUploadedFiles) {
 
 	zend_bool _3$$5, _4$$9;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_2 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *files_param = NULL, file, *_0, _1;
@@ -784,6 +794,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, checkUploadedFiles) {
 zend_object *zephir_init_properties_Phalcon_Http_Message_ServerRequest(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval _0, _2, _4, _6, _1$$3, _3$$4, _5$$5, _7$$6;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_4);

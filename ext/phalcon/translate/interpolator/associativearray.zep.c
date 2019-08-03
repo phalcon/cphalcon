@@ -46,6 +46,7 @@ PHP_METHOD(Phalcon_Translate_Interpolator_AssociativeArray, replacePlaceholders)
 
 	zend_string *_3;
 	zend_ulong _2;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval placeholders;
 	zval *translation_param = NULL, *placeholders_param = NULL, key, value, *_0, _1, _4$$3, _5$$3, _6$$4, _7$$4;

@@ -58,6 +58,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Translate_Adapter_Csv) {
  */
 PHP_METHOD(Phalcon_Translate_Adapter_Csv, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval options;
@@ -110,6 +111,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, __construct) {
  */
 PHP_METHOD(Phalcon_Translate_Adapter_Csv, exists) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *index_param = NULL, _0;
 	zval index;
 	zval *this_ptr = getThis();
@@ -142,6 +144,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, exists) {
  */
 PHP_METHOD(Phalcon_Translate_Adapter_Csv, query) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *index_param = NULL, *placeholders = NULL, placeholders_sub, __$null, translation, _0;
 	zval index;
@@ -189,6 +192,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, query) {
 PHP_METHOD(Phalcon_Translate_Adapter_Csv, load) {
 
 	zend_bool _8$$4;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_4 = NULL;
 	zend_long length, ZEPHIR_LAST_CALL_STATUS;
 	zval *file_param = NULL, *length_param = NULL, *delimiter_param = NULL, *enclosure_param = NULL, data, fileHandler, _0, _1$$3, _3$$4, _5$$4, _6$$4, _7$$4, _9$$4, _10$$4;
@@ -266,6 +270,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, load) {
 zend_object *zephir_init_properties_Phalcon_Translate_Adapter_Csv(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval _0, _1$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
 

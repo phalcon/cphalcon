@@ -54,7 +54,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_None, unserialize) {
 
 	ZVAL_UNDEF(&data_sub);
 
-	zephir_fetch_params(0, 1, 0, &data);
+	zephir_fetch_params_without_memory_grow(1, 0, &data);
 
 
 

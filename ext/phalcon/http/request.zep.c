@@ -115,7 +115,7 @@ PHP_METHOD(Phalcon_Http_Request, setHttpMethodParameterOverride) {
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
 
-	zephir_fetch_params(0, 1, 0, &httpMethodParameterOverride_param);
+	zephir_fetch_params_without_memory_grow(1, 0, &httpMethodParameterOverride_param);
 
 	httpMethodParameterOverride = zephir_get_boolval(httpMethodParameterOverride_param);
 
@@ -143,6 +143,7 @@ PHP_METHOD(Phalcon_Http_Request, setHttpMethodParameterOverride) {
  */
 PHP_METHOD(Phalcon_Http_Request, get) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool notAllowEmpty, noRecursive;
 	zval *name_param = NULL, *filters = NULL, filters_sub, *defaultValue = NULL, defaultValue_sub, *notAllowEmpty_param = NULL, *noRecursive_param = NULL, _REQUEST, __$null, _0, _1;
@@ -219,6 +220,7 @@ PHP_METHOD(Phalcon_Http_Request, get) {
 PHP_METHOD(Phalcon_Http_Request, getAcceptableContent) {
 
 	zval _0, _1;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -245,6 +247,7 @@ PHP_METHOD(Phalcon_Http_Request, getBasicAuth) {
 
 	zend_bool _2;
 	zval _0, _1, _3, _4;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -292,6 +295,7 @@ PHP_METHOD(Phalcon_Http_Request, getBasicAuth) {
 PHP_METHOD(Phalcon_Http_Request, getBestAccept) {
 
 	zval _0, _1;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -317,6 +321,7 @@ PHP_METHOD(Phalcon_Http_Request, getBestAccept) {
 PHP_METHOD(Phalcon_Http_Request, getBestCharset) {
 
 	zval _0, _1;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -342,6 +347,7 @@ PHP_METHOD(Phalcon_Http_Request, getBestCharset) {
 PHP_METHOD(Phalcon_Http_Request, getBestLanguage) {
 
 	zval _0, _1;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -367,6 +373,7 @@ PHP_METHOD(Phalcon_Http_Request, getBestLanguage) {
  */
 PHP_METHOD(Phalcon_Http_Request, getClientAddress) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *trustForwardedHeader_param = NULL, address, server, _0$$7, _1$$7;
 	zend_bool trustForwardedHeader;
@@ -423,6 +430,7 @@ PHP_METHOD(Phalcon_Http_Request, getClientAddress) {
 PHP_METHOD(Phalcon_Http_Request, getClientCharsets) {
 
 	zval _0, _1;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -447,6 +455,7 @@ PHP_METHOD(Phalcon_Http_Request, getClientCharsets) {
 PHP_METHOD(Phalcon_Http_Request, getContentType) {
 
 	zval contentType, server;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -484,6 +493,7 @@ PHP_METHOD(Phalcon_Http_Request, getDigestAuth) {
 
 	zval auth;
 	zval digest, matches, match, server, _0$$3, _1$$3, _2$$3, *_3$$5, _4$$5, _5$$6, _6$$6, _7$$7, _8$$7;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -563,6 +573,7 @@ PHP_METHOD(Phalcon_Http_Request, getDigestAuth) {
  */
 PHP_METHOD(Phalcon_Http_Request, getFilteredQuery) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool notAllowEmpty, noRecursive;
 	zval *name_param = NULL, *defaultValue = NULL, defaultValue_sub, *notAllowEmpty_param = NULL, *noRecursive_param = NULL, __$null, filters, _0, _1, _2, _3;
@@ -640,6 +651,7 @@ PHP_METHOD(Phalcon_Http_Request, getFilteredQuery) {
  */
 PHP_METHOD(Phalcon_Http_Request, getFilteredPost) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool notAllowEmpty, noRecursive;
 	zval *name_param = NULL, *defaultValue = NULL, defaultValue_sub, *notAllowEmpty_param = NULL, *noRecursive_param = NULL, __$null, filters, _0, _1, _2, _3;
@@ -717,6 +729,7 @@ PHP_METHOD(Phalcon_Http_Request, getFilteredPost) {
  */
 PHP_METHOD(Phalcon_Http_Request, getFilteredPut) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool notAllowEmpty, noRecursive;
 	zval *name_param = NULL, *defaultValue = NULL, defaultValue_sub, *notAllowEmpty_param = NULL, *noRecursive_param = NULL, __$null, filters, _0, _1, _2, _3;
@@ -794,6 +807,7 @@ PHP_METHOD(Phalcon_Http_Request, getFilteredPut) {
  */
 PHP_METHOD(Phalcon_Http_Request, getHeader) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *header_param = NULL, value, name, server, _0, _1, _2, _3;
 	zval header;
@@ -866,6 +880,7 @@ PHP_METHOD(Phalcon_Http_Request, getHeaders) {
 	zend_string *_3;
 	zend_ulong _2;
 	zval headers, contentHeaders;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_10 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval __$true, name, value, authHeaders, server, *_0, _1, _39, _4$$4, _5$$4, _6$$4, _7$$4, _8$$4, _9$$4, _11$$4, _12$$4, _13$$4, _14$$3, _15$$5, _16$$5, _17$$5, _18$$5, _19$$5, _20$$5, _21$$5, _22$$7, _23$$7, _24$$7, _25$$7, _26$$7, _27$$7, _28$$7, _29$$7, _30$$7, _31$$6, _32$$8, _33$$8, _34$$8, _35$$8, _36$$8, _37$$8, _38$$8;
@@ -1100,6 +1115,7 @@ PHP_METHOD(Phalcon_Http_Request, getHttpHost) {
 	zval _14;
 	zend_bool _3;
 	zval host, strict, _0, _1$$3, _2$$4, _4$$5, _8$$5, _9$$5, _10$$5, _11$$5, _5$$6, _6$$6, _7$$6, _12$$7, _13$$7;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -1189,6 +1205,7 @@ PHP_METHOD(Phalcon_Http_Request, getHttpHost) {
 PHP_METHOD(Phalcon_Http_Request, getHTTPReferer) {
 
 	zval httpReferer, server;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -1211,6 +1228,7 @@ PHP_METHOD(Phalcon_Http_Request, getHTTPReferer) {
  */
 PHP_METHOD(Phalcon_Http_Request, getJsonRawBody) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *associative_param = NULL, rawBody, _0;
 	zend_bool associative;
@@ -1247,6 +1265,7 @@ PHP_METHOD(Phalcon_Http_Request, getJsonRawBody) {
 PHP_METHOD(Phalcon_Http_Request, getLanguages) {
 
 	zval _0, _1;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -1279,6 +1298,7 @@ PHP_METHOD(Phalcon_Http_Request, getLanguages) {
 PHP_METHOD(Phalcon_Http_Request, getMethod) {
 
 	zval returnMethod;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval _REQUEST, overridedMethod, spoofedMethod, requestMethod, server, _0, _3, _1$$5, _2$$5;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
@@ -1342,6 +1362,7 @@ PHP_METHOD(Phalcon_Http_Request, getMethod) {
 PHP_METHOD(Phalcon_Http_Request, getPort) {
 
 	zval host, pos, _0, _6, _7, _1$$3, _2$$3, _3$$4, _4$$5, _5$$5;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -1409,6 +1430,7 @@ PHP_METHOD(Phalcon_Http_Request, getPort) {
  */
 PHP_METHOD(Phalcon_Http_Request, getPost) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool notAllowEmpty, noRecursive;
 	zval *name_param = NULL, *filters = NULL, filters_sub, *defaultValue = NULL, defaultValue_sub, *notAllowEmpty_param = NULL, *noRecursive_param = NULL, _POST, __$null, _0, _1;
@@ -1491,6 +1513,7 @@ PHP_METHOD(Phalcon_Http_Request, getPost) {
  */
 PHP_METHOD(Phalcon_Http_Request, getPut) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool notAllowEmpty, noRecursive, _0$$3;
 	zval *name_param = NULL, *filters = NULL, filters_sub, *defaultValue = NULL, defaultValue_sub, *notAllowEmpty_param = NULL, *noRecursive_param = NULL, __$null, put, contentType, _5, _6, _1$$3, _2$$3, _3$$4, _4$$6;
@@ -1614,6 +1637,7 @@ PHP_METHOD(Phalcon_Http_Request, getPut) {
  */
 PHP_METHOD(Phalcon_Http_Request, getQuery) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool notAllowEmpty, noRecursive;
 	zval *name_param = NULL, *filters = NULL, filters_sub, *defaultValue = NULL, defaultValue_sub, *notAllowEmpty_param = NULL, *noRecursive_param = NULL, _GET, __$null, _0, _1;
@@ -1689,6 +1713,7 @@ PHP_METHOD(Phalcon_Http_Request, getQuery) {
 PHP_METHOD(Phalcon_Http_Request, getRawBody) {
 
 	zval rawBody, contents, _0, _1$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&rawBody);
@@ -1719,6 +1744,7 @@ PHP_METHOD(Phalcon_Http_Request, getScheme) {
 
 	zend_bool _1;
 	zval https, _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -1747,6 +1773,7 @@ PHP_METHOD(Phalcon_Http_Request, getScheme) {
  */
 PHP_METHOD(Phalcon_Http_Request, getServer) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *name_param = NULL, serverValue, server;
 	zval name;
@@ -1786,6 +1813,7 @@ PHP_METHOD(Phalcon_Http_Request, getServer) {
 PHP_METHOD(Phalcon_Http_Request, getServerAddress) {
 
 	zval serverAddr, _0, _1$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -1816,6 +1844,7 @@ PHP_METHOD(Phalcon_Http_Request, getServerAddress) {
 PHP_METHOD(Phalcon_Http_Request, getServerName) {
 
 	zval serverName, _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -1843,6 +1872,7 @@ PHP_METHOD(Phalcon_Http_Request, getUploadedFiles) {
 	zend_string *_3$$3;
 	zend_ulong _2$$3;
 	zval files;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_10 = NULL, *_18 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *onlySuccessful_param = NULL, *namedKeys_param = NULL, _FILES, superFiles, prefix, input, smoothInput, file, dataFile, *_0$$3, _1$$3, _4$$4, _5$$5, _6$$5, _7$$5, _8$$5, _9$$5, *_11$$5, _12$$5, _14$$6, _15$$7, _16$$8, _17$$8, _19$$8, _20$$9, _21$$9, _23$$10, _24$$11, _25$$11, _26$$12, _27$$12, _28$$12, _29$$13, _30$$13, _32$$14, _33$$16, _34$$17, _35$$18, _36$$19, _37$$19, _38$$19, _39$$19, _40$$19, *_41$$19, _42$$19, _44$$20, _45$$21, _46$$21, _47$$22, _48$$22, _49$$22, _50$$23, _51$$23, _53$$24, _54$$25, _55$$25, _56$$26, _57$$26, _58$$26, _59$$27, _60$$27, _62$$28, _63$$30, _64$$31;
@@ -2250,6 +2280,7 @@ PHP_METHOD(Phalcon_Http_Request, getUploadedFiles) {
 PHP_METHOD(Phalcon_Http_Request, getURI) {
 
 	zval requestURI, _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -2275,6 +2306,7 @@ PHP_METHOD(Phalcon_Http_Request, getURI) {
 PHP_METHOD(Phalcon_Http_Request, getUserAgent) {
 
 	zval userAgent, _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -2299,6 +2331,7 @@ PHP_METHOD(Phalcon_Http_Request, getUserAgent) {
  */
 PHP_METHOD(Phalcon_Http_Request, has) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *name_param = NULL, _REQUEST;
 	zval name;
 	zval *this_ptr = getThis();
@@ -2333,6 +2366,7 @@ PHP_METHOD(Phalcon_Http_Request, has) {
  */
 PHP_METHOD(Phalcon_Http_Request, hasFiles) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_5 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS, numberFiles;
 	zval *onlySuccessful_param = NULL, _FILES, files, file, error, *_0, _1, _3$$8, _4$$8, _7$$13, _8$$13;
@@ -2442,6 +2476,7 @@ PHP_METHOD(Phalcon_Http_Request, hasFiles) {
 PHP_METHOD(Phalcon_Http_Request, hasHeader) {
 
 	zend_bool _4;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *header_param = NULL, name, _0, _1, _2, _3, _5, _6;
 	zval header;
@@ -2498,6 +2533,7 @@ PHP_METHOD(Phalcon_Http_Request, hasHeader) {
  */
 PHP_METHOD(Phalcon_Http_Request, hasPost) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *name_param = NULL, _POST;
 	zval name;
 	zval *this_ptr = getThis();
@@ -2530,6 +2566,7 @@ PHP_METHOD(Phalcon_Http_Request, hasPost) {
  */
 PHP_METHOD(Phalcon_Http_Request, hasPut) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *name_param = NULL, put;
 	zval name;
@@ -2564,6 +2601,7 @@ PHP_METHOD(Phalcon_Http_Request, hasPut) {
  */
 PHP_METHOD(Phalcon_Http_Request, hasQuery) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *name_param = NULL, _GET;
 	zval name;
 	zval *this_ptr = getThis();
@@ -2596,6 +2634,7 @@ PHP_METHOD(Phalcon_Http_Request, hasQuery) {
  */
 PHP_METHOD(Phalcon_Http_Request, hasServer) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *name_param = NULL, server;
 	zval name;
@@ -2632,6 +2671,7 @@ PHP_METHOD(Phalcon_Http_Request, isAjax) {
 
 	zend_bool _2;
 	zval _0, _1, _3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -2664,6 +2704,7 @@ PHP_METHOD(Phalcon_Http_Request, isAjax) {
 PHP_METHOD(Phalcon_Http_Request, isConnect) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -2684,6 +2725,7 @@ PHP_METHOD(Phalcon_Http_Request, isConnect) {
 PHP_METHOD(Phalcon_Http_Request, isDelete) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -2704,6 +2746,7 @@ PHP_METHOD(Phalcon_Http_Request, isDelete) {
 PHP_METHOD(Phalcon_Http_Request, isGet) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -2724,6 +2767,7 @@ PHP_METHOD(Phalcon_Http_Request, isGet) {
 PHP_METHOD(Phalcon_Http_Request, isHead) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -2743,6 +2787,7 @@ PHP_METHOD(Phalcon_Http_Request, isHead) {
  */
 PHP_METHOD(Phalcon_Http_Request, isMethod) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_8 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool strict, _0$$3;
@@ -2854,6 +2899,7 @@ PHP_METHOD(Phalcon_Http_Request, isMethod) {
 PHP_METHOD(Phalcon_Http_Request, isOptions) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -2874,6 +2920,7 @@ PHP_METHOD(Phalcon_Http_Request, isOptions) {
 PHP_METHOD(Phalcon_Http_Request, isPatch) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -2894,6 +2941,7 @@ PHP_METHOD(Phalcon_Http_Request, isPatch) {
 PHP_METHOD(Phalcon_Http_Request, isPost) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -2914,6 +2962,7 @@ PHP_METHOD(Phalcon_Http_Request, isPost) {
 PHP_METHOD(Phalcon_Http_Request, isPut) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -2934,6 +2983,7 @@ PHP_METHOD(Phalcon_Http_Request, isPut) {
 PHP_METHOD(Phalcon_Http_Request, isPurge) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -2953,6 +3003,7 @@ PHP_METHOD(Phalcon_Http_Request, isPurge) {
 PHP_METHOD(Phalcon_Http_Request, isSecure) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -2985,6 +3036,7 @@ PHP_METHOD(Phalcon_Http_Request, isStrictHostCheck) {
 PHP_METHOD(Phalcon_Http_Request, isSoap) {
 
 	zval contentType, _0, _1;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -3017,6 +3069,7 @@ PHP_METHOD(Phalcon_Http_Request, isSoap) {
 PHP_METHOD(Phalcon_Http_Request, isTrace) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -3035,6 +3088,7 @@ PHP_METHOD(Phalcon_Http_Request, isTrace) {
  */
 PHP_METHOD(Phalcon_Http_Request, isValidHttpMethod) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *method_param = NULL, _0;
 	zval method;
 	zval *this_ptr = getThis();
@@ -3070,7 +3124,7 @@ PHP_METHOD(Phalcon_Http_Request, setDI) {
 
 	ZVAL_UNDEF(&container_sub);
 
-	zephir_fetch_params(0, 1, 0, &container);
+	zephir_fetch_params_without_memory_grow(1, 0, &container);
 
 
 
@@ -3084,6 +3138,7 @@ PHP_METHOD(Phalcon_Http_Request, setDI) {
  */
 PHP_METHOD(Phalcon_Http_Request, setParameterFilters) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_5 = NULL, *_9 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval filters, scope;
@@ -3256,7 +3311,7 @@ PHP_METHOD(Phalcon_Http_Request, setStrictHostCheck) {
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
 
-	zephir_fetch_params(0, 0, 1, &flag_param);
+	zephir_fetch_params_without_memory_grow(0, 1, &flag_param);
 
 	if (!flag_param) {
 		flag = 1;
@@ -3280,6 +3335,7 @@ PHP_METHOD(Phalcon_Http_Request, setStrictHostCheck) {
 PHP_METHOD(Phalcon_Http_Request, getBestQuality) {
 
 	double quality = 0, acceptQuality = 0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS, i = 0;
 	zval name;
 	zval *qualityParts_param = NULL, *name_param = NULL, selectedName, accept, *_0, _1, _2$$4, _3$$5, _4$$8, _5$$9;
@@ -3383,6 +3439,7 @@ PHP_METHOD(Phalcon_Http_Request, getBestQuality) {
  */
 PHP_METHOD(Phalcon_Http_Request, getHelper) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool notAllowEmpty, noRecursive, _2;
 	zval name;
@@ -3476,6 +3533,7 @@ PHP_METHOD(Phalcon_Http_Request, getHelper) {
  */
 PHP_METHOD(Phalcon_Http_Request, hasFileHelper) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_5 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS, numberFiles;
 	zend_bool onlySuccessful, _2$$5, _6$$9;
@@ -3570,6 +3628,7 @@ PHP_METHOD(Phalcon_Http_Request, hasFileHelper) {
  */
 PHP_METHOD(Phalcon_Http_Request, getQualityHeader) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *serverIndex_param = NULL, *name_param = NULL, returnedParts, parts, part, headerParts, headerPart, split, _0, _1, _2, _3, *_4, _5, _6$$3, _7$$3, _8$$3, _9$$3, _10$$3, *_11$$3, _12$$3, _13$$4, _14$$4, _15$$5, _16$$6, _17$$6, _18$$7, _19$$7, _20$$8, _21$$9, _22$$9, _23$$10, _24$$11, _25$$11, _26$$12, _27$$12, _28$$13, _29$$14, _30$$14, _31$$14, _32$$14, _33$$14, *_34$$14, _35$$14, _36$$15, _37$$15, _38$$16, _39$$17, _40$$17, _41$$18, _42$$18, _43$$19, _44$$20, _45$$20, _46$$21, _47$$22, _48$$22, _49$$23, _50$$23, _51$$24;
 	zval serverIndex, name;
@@ -3875,6 +3934,7 @@ PHP_METHOD(Phalcon_Http_Request, resolveAuthorizationHeaders) {
 	zval headers, _6$$5, _37$$19;
 	zend_bool hasEventsManager = 0, _5, _10, _36, _23$$11;
 	zval resolved, eventsManager, container, exploded, digest, authHeader, server, _0, _9, _11, _1$$3, _2$$3, _3$$4, _4$$4, _7$$5, _8$$6, _12$$7, _13$$7, _14$$7, _15$$8, _16$$8, _17$$8, _18$$9, _19$$10, _20$$11, _21$$11, _22$$11, _24$$11, _25$$11, _26$$12, _27$$12, _28$$12, _29$$13, _30$$13, _31$$17, _32$$17, _33$$17, _34$$17, _35$$17, _38$$19, _39$$20;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -4097,6 +4157,7 @@ PHP_METHOD(Phalcon_Http_Request, smoothFiles) {
 
 	zend_string *_3;
 	zend_ulong _2;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_11 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval prefix;
@@ -4299,6 +4360,7 @@ PHP_METHOD(Phalcon_Http_Request, smoothFiles) {
 PHP_METHOD(Phalcon_Http_Request, getFilterService) {
 
 	zval container, filterService, _0, _1$$3, _6$$3, _7$$3, _2$$4, _3$$4, _5$$4;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_4 = NULL;
 	zval *this_ptr = getThis();
@@ -4366,6 +4428,7 @@ PHP_METHOD(Phalcon_Http_Request, getServerArray) {
 zend_object *zephir_init_properties_Phalcon_Http_Request(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval _0, _1$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
 

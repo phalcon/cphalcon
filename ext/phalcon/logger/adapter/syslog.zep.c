@@ -92,6 +92,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Adapter_Syslog) {
  */
 PHP_METHOD(Phalcon_Logger_Adapter_Syslog, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval options;
 	zval *name_param = NULL, *options_param = NULL, option, facility;
 	zval name;
@@ -146,6 +147,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, __construct) {
 PHP_METHOD(Phalcon_Logger_Adapter_Syslog, close) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -169,6 +171,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, close) {
 PHP_METHOD(Phalcon_Logger_Adapter_Syslog, process) {
 
 	zend_bool opened = 0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *item, item_sub, __$true, __$false, name, facility, formatter, level, message, option, result, _0, _4, _5, _1$$4, _2$$4, _3$$4;
 	zval *this_ptr = getThis();
@@ -246,6 +249,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, process) {
 PHP_METHOD(Phalcon_Logger_Adapter_Syslog, logLevelToSyslog) {
 
 	zval levels;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *level_param = NULL, result;
 	zval level;
 	zval *this_ptr = getThis();

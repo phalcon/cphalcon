@@ -43,6 +43,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Inline_Css) {
  */
 PHP_METHOD(Phalcon_Assets_Inline_Css, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_1 = NULL;
 	zend_bool filter;

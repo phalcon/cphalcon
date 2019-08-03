@@ -52,6 +52,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Response_Headers) {
  */
 PHP_METHOD(Phalcon_Http_Response_Headers, get) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *name_param = NULL, headers, headerValue, _0;
 	zval name;
 	zval *this_ptr = getThis();
@@ -81,6 +82,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, get) {
  */
 PHP_METHOD(Phalcon_Http_Response_Headers, has) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *name_param = NULL, _0;
 	zval name;
 	zval *this_ptr = getThis();
@@ -104,6 +106,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, has) {
  */
 PHP_METHOD(Phalcon_Http_Response_Headers, remove) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *header_param = NULL, headers, _0;
 	zval header;
 	zval *this_ptr = getThis();
@@ -132,6 +135,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, remove) {
 PHP_METHOD(Phalcon_Http_Response_Headers, reset) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
@@ -153,6 +157,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, send) {
 	zend_bool _8$$6, _14$$11;
 	zend_string *_5;
 	zend_ulong _4;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_7 = NULL;
 	zval __$true, header, value, _0, _1, *_2, _3, _6$$5, _9$$6, _10$$6, _11$$6, _12$$8, _13$$10, _15$$11, _16$$11, _17$$11, _18$$13;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -272,6 +277,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, send) {
  */
 PHP_METHOD(Phalcon_Http_Response_Headers, set) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *name_param = NULL, *value_param = NULL;
 	zval name, value;
 	zval *this_ptr = getThis();
@@ -296,6 +302,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, set) {
  */
 PHP_METHOD(Phalcon_Http_Response_Headers, setRaw) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *header_param = NULL, __$null;
 	zval header;
 	zval *this_ptr = getThis();
@@ -329,6 +336,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, toArray) {
 zend_object *zephir_init_properties_Phalcon_Http_Response_Headers(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval _0, _1$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
 

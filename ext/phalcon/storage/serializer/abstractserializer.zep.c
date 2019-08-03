@@ -59,7 +59,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, setData) {
 
 	ZVAL_UNDEF(&data_sub);
 
-	zephir_fetch_params(0, 1, 0, &data);
+	zephir_fetch_params_without_memory_grow(1, 0, &data);
 
 
 
@@ -79,7 +79,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, __construct) {
 	ZVAL_UNDEF(&data_sub);
 	ZVAL_NULL(&__$null);
 
-	zephir_fetch_params(0, 0, 1, &data);
+	zephir_fetch_params_without_memory_grow(0, 1, &data);
 
 	if (!data) {
 		data = &data_sub;
@@ -102,7 +102,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, isSerializable) {
 
 	ZVAL_UNDEF(&data_sub);
 
-	zephir_fetch_params(0, 1, 0, &data);
+	zephir_fetch_params_without_memory_grow(1, 0, &data);
 
 
 
@@ -114,7 +114,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, isSerializable) {
 	if (!(_1)) {
 		_1 = zephir_is_numeric(data);
 	}
-	RETURN_BOOL(_1);
+	RETURN_BOOL(!(_1));
 
 }
 

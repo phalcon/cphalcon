@@ -130,6 +130,7 @@ PHP_METHOD(Phalcon_Messages_Message, getMetaData) {
  */
 PHP_METHOD(Phalcon_Messages_Message, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval metaData;
 	zend_long code;
 	zval *message_param = NULL, *field = NULL, field_sub, *type_param = NULL, *code_param = NULL, *metaData_param = NULL, _0;
@@ -208,6 +209,7 @@ PHP_METHOD(Phalcon_Messages_Message, __toString) {
 PHP_METHOD(Phalcon_Messages_Message, jsonSerialize) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
@@ -245,7 +247,7 @@ PHP_METHOD(Phalcon_Messages_Message, setCode) {
 
 	ZVAL_UNDEF(&_0);
 
-	zephir_fetch_params(0, 1, 0, &code_param);
+	zephir_fetch_params_without_memory_grow(1, 0, &code_param);
 
 	code = zephir_get_intval(code_param);
 
@@ -267,7 +269,7 @@ PHP_METHOD(Phalcon_Messages_Message, setField) {
 
 	ZVAL_UNDEF(&field_sub);
 
-	zephir_fetch_params(0, 1, 0, &field);
+	zephir_fetch_params_without_memory_grow(1, 0, &field);
 
 
 
@@ -281,6 +283,7 @@ PHP_METHOD(Phalcon_Messages_Message, setField) {
  */
 PHP_METHOD(Phalcon_Messages_Message, setMessage) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *message_param = NULL;
 	zval message;
 	zval *this_ptr = getThis();
@@ -312,6 +315,7 @@ PHP_METHOD(Phalcon_Messages_Message, setMessage) {
  */
 PHP_METHOD(Phalcon_Messages_Message, setMetaData) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *metaData_param = NULL;
 	zval metaData;
 	zval *this_ptr = getThis();
@@ -334,6 +338,7 @@ PHP_METHOD(Phalcon_Messages_Message, setMetaData) {
  */
 PHP_METHOD(Phalcon_Messages_Message, setType) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *type_param = NULL;
 	zval type;
 	zval *this_ptr = getThis();
@@ -363,6 +368,7 @@ PHP_METHOD(Phalcon_Messages_Message, setType) {
 zend_object *zephir_init_properties_Phalcon_Messages_Message(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval _0, _1$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
 

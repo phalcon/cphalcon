@@ -33,7 +33,7 @@ PHP_METHOD(phalcon_0__closure, __invoke) {
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
 
-	zephir_fetch_params(0, 1, 0, &error);
+	zephir_fetch_params_without_memory_grow(1, 0, &error);
 
 
 

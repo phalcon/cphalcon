@@ -102,6 +102,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Filter) {
  */
 PHP_METHOD(Phalcon_Filter_Filter, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *mapper_param = NULL;
 	zval mapper;
@@ -132,6 +133,7 @@ PHP_METHOD(Phalcon_Filter_Filter, __construct) {
  */
 PHP_METHOD(Phalcon_Filter_Filter, get) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *name_param = NULL, definition, _0, _3, _7, _8, _1$$3, _4$$4, _5$$5, _6$$6;
 	zval name, _2$$3;
@@ -206,6 +208,7 @@ PHP_METHOD(Phalcon_Filter_Filter, get) {
  */
 PHP_METHOD(Phalcon_Filter_Filter, has) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *name_param = NULL, _0;
 	zval name;
 	zval *this_ptr = getThis();
@@ -240,6 +243,7 @@ PHP_METHOD(Phalcon_Filter_Filter, sanitize) {
 
 	zend_string *_3$$3;
 	zend_ulong _2$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_6 = NULL, *_8 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool noRecursive, _12, _4$$5, _9$$10;
@@ -371,6 +375,7 @@ PHP_METHOD(Phalcon_Filter_Filter, sanitize) {
  */
 PHP_METHOD(Phalcon_Filter_Filter, set) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *name_param = NULL, *service, service_sub, _0;
 	zval name;
 	zval *this_ptr = getThis();
@@ -408,6 +413,7 @@ PHP_METHOD(Phalcon_Filter_Filter, init) {
 
 	zend_string *_3;
 	zend_ulong _2;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_4 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *mapper_param = NULL, name, service, *_0, _1;
@@ -472,6 +478,7 @@ PHP_METHOD(Phalcon_Filter_Filter, processArrayValues) {
 
 	zend_string *_3;
 	zend_ulong _2;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_5 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval sanitizerName;
@@ -551,6 +558,7 @@ PHP_METHOD(Phalcon_Filter_Filter, processArrayValues) {
  */
 PHP_METHOD(Phalcon_Filter_Filter, sanitizer) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval sanitizerParams, _1;
 	zval sanitizerName;
@@ -608,6 +616,7 @@ PHP_METHOD(Phalcon_Filter_Filter, sanitizer) {
 zend_object *zephir_init_properties_Phalcon_Filter_Filter(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval _0, _2, _1$$3, _3$$4;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_1$$3);

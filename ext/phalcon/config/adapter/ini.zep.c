@@ -90,6 +90,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct) {
 	zend_string *_6, *_10$$6, *_23$$12;
 	zend_ulong _5, _9$$6, _22$$12;
 	zval config;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_13 = NULL, *_19 = NULL, *_31 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *filePath_param = NULL, *mode = NULL, mode_sub, __$true, __$null, directives, iniConfig, lastValue, path, section, sections, *_3, _4, _0$$4, _1$$4, _2$$4, *_7$$6, _8$$6, _11$$7, _14$$8, _16$$9, _17$$9, _18$$10, *_20$$12, _21$$12, _24$$13, _26$$14, _28$$15, _29$$15, _30$$16;
@@ -330,6 +331,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, cast) {
 	zend_ulong _2$$3;
 	zend_bool _8;
 	zval _7;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_5 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *ini = NULL, ini_sub, key, lowerIni, value, *_0$$3, _1$$3, _4$$4, _6$$5, _9$$9, _10$$9, _11$$9, _12$$9;
@@ -440,6 +442,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, cast) {
  */
 PHP_METHOD(Phalcon_Config_Adapter_Ini, parseIniString) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *path_param = NULL, *value = NULL, value_sub, key, position, _0, _1, _2, _3, _4;
 	zval path;

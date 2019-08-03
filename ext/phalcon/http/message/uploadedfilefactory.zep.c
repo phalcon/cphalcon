@@ -62,6 +62,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_UploadedFileFactory) {
  */
 PHP_METHOD(Phalcon_Http_Message_UploadedFileFactory, createUploadedFile) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval clientFilename, clientMediaType;
 	zend_long size, error, ZEPHIR_LAST_CALL_STATUS;
 	zval *stream, stream_sub, *size_param = NULL, *error_param = NULL, *clientFilename_param = NULL, *clientMediaType_param = NULL, _0, _1;

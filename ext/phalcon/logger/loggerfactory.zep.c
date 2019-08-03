@@ -54,7 +54,7 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, __construct) {
 
 	ZVAL_UNDEF(&factory_sub);
 
-	zephir_fetch_params(0, 1, 0, &factory);
+	zephir_fetch_params_without_memory_grow(1, 0, &factory);
 
 
 
@@ -69,6 +69,7 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, load) {
 
 	zend_bool _0;
 	zval data;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_2 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *config = NULL, config_sub, adapter, adapterClass, adapterFileName, adapterOptions, adapters, name, options, _3, _4, _5, *_6, _7, _1$$3, _8$$6, _9$$6, _10$$6, _11$$6, _12$$7, _13$$7, _14$$7, _15$$7;
@@ -211,6 +212,7 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, load) {
  */
 PHP_METHOD(Phalcon_Logger_LoggerFactory, newInstance) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval adapters;
 	zval *name_param = NULL, *adapters_param = NULL;

@@ -47,6 +47,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Filters_Jsmin) {
  */
 PHP_METHOD(Phalcon_Assets_Filters_Jsmin, filter) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *content_param = NULL;
 	zval content;
 	zval *this_ptr = getThis();

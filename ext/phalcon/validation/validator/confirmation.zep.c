@@ -82,6 +82,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Confirmation) {
  */
 PHP_METHOD(Phalcon_Validation_Validator_Confirmation, validate) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *validation, validation_sub, *field, field_sub, fieldWith, value, valueWith, labelWith, replacePairs, _0, _2, _1$$3, _3$$4, _5$$4, _4$$5;
 	zval *this_ptr = getThis();
@@ -150,6 +151,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Confirmation, validate) {
  */
 PHP_METHOD(Phalcon_Validation_Validator_Confirmation, compare) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *a_param = NULL, *b_param = NULL, _0, _1, _2, _3$$3, _4$$3, _5$$3;
 	zval a, b;
