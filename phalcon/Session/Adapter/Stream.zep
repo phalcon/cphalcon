@@ -60,7 +60,10 @@ class Stream extends Noop
             throw new Exception("The save_path [" . path . "]is not writeable");
         }
 
-        let this->path = Str::dirSeparator(path);
+        let path = Str::dirSeparator(path);
+        session_save_path(path);
+
+        let this->path = path;
     }
 
     public function destroy(var id) -> bool
@@ -135,7 +138,7 @@ class Stream extends Noop
     }
 
     /**
-     * Returns current session path
+     * Returns current session stream path
      *
      * @return string
      */
