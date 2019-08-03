@@ -11,12 +11,13 @@
 
 namespace Phalcon\Test\Fixtures\Mvc\Collections;
 
+use MongoDB\BSON\Unserializable;
 use Phalcon\Messages\Message;
 use Phalcon\Mvc\Collection;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\Numericality;
 
-class Robots extends Collection
+class Robots extends Collection implements Unserializable
 {
     public $first_name;
     public $last_name;

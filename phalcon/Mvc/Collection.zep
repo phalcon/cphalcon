@@ -11,7 +11,6 @@
 namespace Phalcon\Mvc;
 
 use MongoDB\BSON\ObjectId;
-use MongoDB\BSON\Unserializable;
 use Phalcon\Di;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\InjectionAwareInterface;
@@ -31,7 +30,7 @@ use Serializable;
  * This component implements a high level abstraction for NoSQL databases which
  * works with documents
  */
-abstract class Collection implements EntityInterface, CollectionInterface, InjectionAwareInterface, Unserializable, \Serializable
+abstract class Collection implements EntityInterface, CollectionInterface, InjectionAwareInterface, \Serializable
 {
     const DIRTY_STATE_DETACHED = 2;
     const DIRTY_STATE_PERSISTENT = 0;
