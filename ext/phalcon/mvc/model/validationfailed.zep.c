@@ -53,6 +53,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_ValidationFailed) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval validationMessages;
 	zval *model, model_sub, *validationMessages_param = NULL, messageStr, message;

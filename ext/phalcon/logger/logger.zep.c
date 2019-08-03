@@ -119,6 +119,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Logger) {
  */
 PHP_METHOD(Phalcon_Logger_Logger, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval adapters;
 	zval *name_param = NULL, *adapters_param = NULL;
@@ -164,6 +165,7 @@ PHP_METHOD(Phalcon_Logger_Logger, __construct) {
  */
 PHP_METHOD(Phalcon_Logger_Logger, addAdapter) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *name_param = NULL, *adapter, adapter_sub;
 	zval name;
 	zval *this_ptr = getThis();
@@ -193,6 +195,7 @@ PHP_METHOD(Phalcon_Logger_Logger, addAdapter) {
 PHP_METHOD(Phalcon_Logger_Logger, alert) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval context;
 	zval *message, message_sub, *context_param = NULL, _1;
@@ -232,6 +235,7 @@ PHP_METHOD(Phalcon_Logger_Logger, alert) {
 PHP_METHOD(Phalcon_Logger_Logger, critical) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval context;
 	zval *message, message_sub, *context_param = NULL, _1;
@@ -269,6 +273,7 @@ PHP_METHOD(Phalcon_Logger_Logger, critical) {
 PHP_METHOD(Phalcon_Logger_Logger, debug) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval context;
 	zval *message, message_sub, *context_param = NULL, _1;
@@ -307,6 +312,7 @@ PHP_METHOD(Phalcon_Logger_Logger, debug) {
 PHP_METHOD(Phalcon_Logger_Logger, error) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval context;
 	zval *message, message_sub, *context_param = NULL, _1;
@@ -344,6 +350,7 @@ PHP_METHOD(Phalcon_Logger_Logger, error) {
 PHP_METHOD(Phalcon_Logger_Logger, emergency) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval context;
 	zval *message, message_sub, *context_param = NULL, _1;
@@ -378,6 +385,7 @@ PHP_METHOD(Phalcon_Logger_Logger, emergency) {
  */
 PHP_METHOD(Phalcon_Logger_Logger, excludeAdapters) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *adapters_param = NULL, __$true, name, registered, *_0, _1;
 	zval adapters;
@@ -443,6 +451,7 @@ PHP_METHOD(Phalcon_Logger_Logger, excludeAdapters) {
  */
 PHP_METHOD(Phalcon_Logger_Logger, getAdapter) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *name_param = NULL, adapter, adapters, _0;
 	zval name;
 	zval *this_ptr = getThis();
@@ -505,6 +514,7 @@ PHP_METHOD(Phalcon_Logger_Logger, getName) {
 PHP_METHOD(Phalcon_Logger_Logger, info) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval context;
 	zval *message, message_sub, *context_param = NULL, _1;
@@ -543,6 +553,7 @@ PHP_METHOD(Phalcon_Logger_Logger, info) {
 PHP_METHOD(Phalcon_Logger_Logger, log) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval context;
 	zval *level, level_sub, *message, message_sub, *context_param = NULL, intLevel;
@@ -582,6 +593,7 @@ PHP_METHOD(Phalcon_Logger_Logger, log) {
 PHP_METHOD(Phalcon_Logger_Logger, notice) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval context;
 	zval *message, message_sub, *context_param = NULL, _1;
@@ -620,6 +632,7 @@ PHP_METHOD(Phalcon_Logger_Logger, notice) {
  */
 PHP_METHOD(Phalcon_Logger_Logger, removeAdapter) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *name_param = NULL, adapters, _0;
 	zval name;
 	zval *this_ptr = getThis();
@@ -653,6 +666,7 @@ PHP_METHOD(Phalcon_Logger_Logger, removeAdapter) {
  */
 PHP_METHOD(Phalcon_Logger_Logger, setAdapters) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *adapters_param = NULL;
 	zval adapters;
 	zval *this_ptr = getThis();
@@ -681,6 +695,7 @@ PHP_METHOD(Phalcon_Logger_Logger, setAdapters) {
 PHP_METHOD(Phalcon_Logger_Logger, warning) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval context;
 	zval *message, message_sub, *context_param = NULL, _1;
@@ -722,6 +737,7 @@ PHP_METHOD(Phalcon_Logger_Logger, addMessage) {
 
 	zend_string *_5;
 	zend_ulong _4;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval context;
 	zval message;
 	zval *level_param = NULL, *message_param = NULL, *context_param = NULL, adapter, key, excluded, levelName, levels, item, registered, _0, _1, *_2, _3, _6;
@@ -853,6 +869,7 @@ PHP_METHOD(Phalcon_Logger_Logger, getLevels) {
  */
 PHP_METHOD(Phalcon_Logger_Logger, getLevelNumber) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *level, level_sub, levelName, numberLevel, levels, _0$$3;
 	zval *this_ptr = getThis();
@@ -893,6 +910,7 @@ PHP_METHOD(Phalcon_Logger_Logger, getLevelNumber) {
 zend_object *zephir_init_properties_Phalcon_Logger_Logger(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval _0, _2, _1$$3, _3$$4;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_1$$3);

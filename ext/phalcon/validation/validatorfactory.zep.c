@@ -42,6 +42,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_ValidatorFactory) {
  */
 PHP_METHOD(Phalcon_Validation_ValidatorFactory, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *services_param = NULL;
 	zval services;
@@ -72,6 +73,7 @@ PHP_METHOD(Phalcon_Validation_ValidatorFactory, __construct) {
 PHP_METHOD(Phalcon_Validation_ValidatorFactory, newInstance) {
 
 	zend_class_entry *_4$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *name_param = NULL, definition, _0, _5, _6, _1$$3, _2$$3, _3$$3;
 	zval name;
@@ -110,6 +112,9 @@ PHP_METHOD(Phalcon_Validation_ValidatorFactory, newInstance) {
 		ZEPHIR_INIT_VAR(&_2$$3);
 		zephir_fetch_safe_class(&_3$$3, &definition);
 		_4$$3 = zephir_fetch_class_str_ex(Z_STRVAL_P(&_3$$3), Z_STRLEN_P(&_3$$3), ZEND_FETCH_CLASS_AUTO);
+		if(!_4$$3) {
+			RETURN_MM_NULL();
+		}
 		object_init_ex(&_2$$3, _4$$3);
 		if (zephir_has_constructor(&_2$$3 TSRMLS_CC)) {
 			ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 0);

@@ -131,6 +131,7 @@ PHP_METHOD(Phalcon_Logger_Item, getType) {
  */
 PHP_METHOD(Phalcon_Logger_Item, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long type, time;
 	zval *message_param = NULL, *name_param = NULL, *type_param = NULL, *time_param = NULL, *context = NULL, context_sub, _0;
 	zval message, name;

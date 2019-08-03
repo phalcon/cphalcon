@@ -63,6 +63,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, paginate) {
 
 	zval _9;
 	zval config, items, pageItems, _0, _1, _2, _10, _11, _3$$9, _4$$10, _5$$8, _6$$11;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_7 = NULL, *_8 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS, pageNumber = 0, show = 0, n = 0, start = 0, lastShowPage = 0, i = 0, next = 0, totalPages = 0, previous = 0;
 	zval *this_ptr = getThis();

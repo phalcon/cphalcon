@@ -83,6 +83,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_File_Resolution_Equal) {
 PHP_METHOD(Phalcon_Validation_Validator_File_Resolution_Equal, validate) {
 
 	zend_bool _5;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *validation, validation_sub, *field, field_sub, height, equalHeight, equalWidth, resolution, resolutionArray, tmp, value, width, replacePairs, _0, _1, _2, _3$$4, _4$$5, _6$$6;
 	zval *this_ptr = getThis();

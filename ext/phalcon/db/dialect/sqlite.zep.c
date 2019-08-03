@@ -52,6 +52,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Dialect_Sqlite) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addColumn) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *tableName_param = NULL, *schemaName_param = NULL, *column, column_sub, defaultValue, _0, _1, _2, _3, _4, _5, _10, _11, _6$$3, _7$$5, _8$$5, _9$$5;
 	zval tableName, schemaName, sql;
@@ -150,6 +151,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addColumn) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addForeignKey) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *tableName_param = NULL, *schemaName_param = NULL, *reference, reference_sub;
 	zval tableName, schemaName;
 	zval *this_ptr = getThis();
@@ -193,6 +195,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addForeignKey) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addIndex) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *tableName_param = NULL, *schemaName_param = NULL, *index, index_sub, indexType, _5, _6, _7, _0$$3, _1$$5, _2$$5, _3$$6, _4$$6;
 	zval tableName, schemaName, sql;
@@ -276,6 +279,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addIndex) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addPrimaryKey) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *tableName_param = NULL, *schemaName_param = NULL, *index, index_sub;
 	zval tableName, schemaName;
 	zval *this_ptr = getThis();
@@ -320,6 +324,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, addPrimaryKey) {
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, createTable) {
 
 	zend_bool hasPrimary = 0, _8$$7, _10$$7, _21$$14, _23$$14, _32$$22, _33$$22, _42$$25, _43$$25;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_6 = NULL, *_15 = NULL, *_37 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval definition;
@@ -768,6 +773,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, createTable) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, createView) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval definition;
 	zval *viewName_param = NULL, *definition_param = NULL, *schemaName_param = NULL, viewSql, _0;
@@ -825,6 +831,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, createView) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeColumns) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *table_param = NULL, *schema_param = NULL;
 	zval table, schema;
 	zval *this_ptr = getThis();
@@ -863,6 +870,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeColumns) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeIndex) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *index_param = NULL;
 	zval index;
 	zval *this_ptr = getThis();
@@ -894,6 +902,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeIndex) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeIndexes) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *table_param = NULL, *schema_param = NULL;
 	zval table, schema;
 	zval *this_ptr = getThis();
@@ -932,6 +941,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeIndexes) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeReferences) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *table_param = NULL, *schema_param = NULL;
 	zval table, schema;
 	zval *this_ptr = getThis();
@@ -970,6 +980,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, describeReferences) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropColumn) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *tableName_param = NULL, *schemaName_param = NULL, *columnName_param = NULL;
 	zval tableName, schemaName, columnName;
 	zval *this_ptr = getThis();
@@ -1023,6 +1034,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropColumn) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropForeignKey) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *tableName_param = NULL, *schemaName_param = NULL, *referenceName_param = NULL;
 	zval tableName, schemaName, referenceName;
 	zval *this_ptr = getThis();
@@ -1076,6 +1088,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropForeignKey) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropIndex) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *tableName_param = NULL, *schemaName_param = NULL, *indexName_param = NULL;
 	zval tableName, schemaName, indexName;
 	zval *this_ptr = getThis();
@@ -1133,6 +1146,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropIndex) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropPrimaryKey) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *tableName_param = NULL, *schemaName_param = NULL;
 	zval tableName, schemaName;
 	zval *this_ptr = getThis();
@@ -1175,6 +1189,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropPrimaryKey) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropTable) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool ifExists;
 	zval *tableName_param = NULL, *schemaName_param = NULL, *ifExists_param = NULL, table;
@@ -1231,6 +1246,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropTable) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropView) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool ifExists;
 	zval *viewName_param = NULL, *schemaName_param = NULL, *ifExists_param = NULL, view;
@@ -1288,6 +1304,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, dropView) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, forUpdate) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *sqlQuery_param = NULL;
 	zval sqlQuery;
 	zval *this_ptr = getThis();
@@ -1318,6 +1335,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, forUpdate) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, getColumnDefinition) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_12 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *column, column_sub, columnType, columnSql, typeValues, _0$$3, _1$$10, _2$$16, _3$$18, _4$$35, _5$$38, _6$$38, _7$$38, value$$40, valueSql$$40, *_8$$40, _9$$40, _17$$40, _18$$40, _19$$40, _20$$40, _10$$41, _11$$41, _13$$41, _14$$42, _15$$42, _16$$42, _21$$43, _22$$43, _23$$43;
@@ -1567,6 +1585,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, getColumnDefinition) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, listIndexesSql) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *table_param = NULL, *schema_param = NULL, *keyName_param = NULL, _0, _1, _2$$3, _3$$3;
 	zval table, schema, keyName, sql;
@@ -1635,6 +1654,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, listIndexesSql) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, listTables) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *schemaName_param = NULL;
 	zval schemaName;
 	zval *this_ptr = getThis();
@@ -1661,6 +1681,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, listTables) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, listViews) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *schemaName_param = NULL;
 	zval schemaName;
 	zval *this_ptr = getThis();
@@ -1696,6 +1717,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, listViews) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, modifyColumn) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *tableName_param = NULL, *schemaName_param = NULL, *column, column_sub, *currentColumn = NULL, currentColumn_sub, __$null;
 	zval tableName, schemaName;
 	zval *this_ptr = getThis();
@@ -1746,6 +1768,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, modifyColumn) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, sharedLock) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *sqlQuery_param = NULL;
 	zval sqlQuery;
 	zval *this_ptr = getThis();
@@ -1782,6 +1805,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, sharedLock) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, tableExists) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *tableName_param = NULL, *schemaName_param = NULL;
 	zval tableName, schemaName;
 	zval *this_ptr = getThis();
@@ -1820,6 +1844,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, tableExists) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, tableOptions) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *table_param = NULL, *schema_param = NULL;
 	zval table, schema;
 	zval *this_ptr = getThis();
@@ -1857,6 +1882,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, tableOptions) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, truncateTable) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *tableName_param = NULL, *schemaName_param = NULL;
 	zval tableName, schemaName, table;
 	zval *this_ptr = getThis();
@@ -1907,6 +1933,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Sqlite, truncateTable) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Sqlite, viewExists) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *viewName_param = NULL, *schemaName_param = NULL;
 	zval viewName, schemaName;
 	zval *this_ptr = getThis();

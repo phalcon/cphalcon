@@ -1031,12 +1031,6 @@ static void php_zephir_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS
 {
 	phalcon_globals->initialized = 0;
 
-	/* Memory options */
-	phalcon_globals->active_memory = NULL;
-
-	/* Virtual Symbol Tables */
-	phalcon_globals->active_symbol_table = NULL;
-
 	/* Cache Enabled */
 	phalcon_globals->cache_enabled = 1;
 

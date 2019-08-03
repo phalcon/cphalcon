@@ -67,6 +67,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Annotation) {
  */
 PHP_METHOD(Phalcon_Annotations_Annotation, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_4 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *reflectionData_param = NULL, name, exprArguments, argument, resolvedArgument, _0, *_1$$3, _2$$3, _3$$4, _5$$7;
@@ -155,7 +156,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getArgument) {
 	ZVAL_UNDEF(&argument);
 	ZVAL_UNDEF(&_0);
 
-	zephir_fetch_params(0, 1, 0, &position);
+	zephir_fetch_params_without_memory_grow(1, 0, &position);
 
 
 
@@ -195,6 +196,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExprArguments) {
  */
 PHP_METHOD(Phalcon_Annotations_Annotation, getExpression) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_4 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *expr_param = NULL, value, item, resolvedItem, arrayValue, name, type, _0$$7, *_1$$7, _2$$7, _3$$8, _5$$11, _6$$15, _7$$15;
@@ -329,6 +331,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getName) {
  */
 PHP_METHOD(Phalcon_Annotations_Annotation, getNamedArgument) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *name_param = NULL, argument, _0;
 	zval name;
 	zval *this_ptr = getThis();
@@ -365,6 +368,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getNamedArgument) {
  */
 PHP_METHOD(Phalcon_Annotations_Annotation, getNamedParameter) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *name_param = NULL;
 	zval name;
@@ -404,7 +408,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, hasArgument) {
 	ZVAL_UNDEF(&position_sub);
 	ZVAL_UNDEF(&_0);
 
-	zephir_fetch_params(0, 1, 0, &position);
+	zephir_fetch_params_without_memory_grow(1, 0, &position);
 
 
 

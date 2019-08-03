@@ -11,10 +11,10 @@
 #include "kernel/globals.h"
 
 #define PHP_PHALCON_NAME        "phalcon"
-#define PHP_PHALCON_VERSION     "4.0.0-beta.1"
+#define PHP_PHALCON_VERSION     "4.0.0-beta.2"
 #define PHP_PHALCON_EXTNAME     "phalcon"
 #define PHP_PHALCON_AUTHOR      "Phalcon Team and contributors"
-#define PHP_PHALCON_ZEPVERSION  "0.12.0-c893389"
+#define PHP_PHALCON_ZEPVERSION  "0.12.1-25cf1fd"
 #define PHP_PHALCON_DESCRIPTION "Web framework delivered as a C-extension for PHP"
 
 typedef struct _zephir_struct_db { 
@@ -50,14 +50,6 @@ typedef struct _zephir_struct_orm {
 ZEND_BEGIN_MODULE_GLOBALS(phalcon)
 
 	int initialized;
-
-	/* Memory */
-	zephir_memory_entry *start_memory; /**< The first preallocated frame */
-	zephir_memory_entry *end_memory; /**< The last preallocate frame */
-	zephir_memory_entry *active_memory; /**< The current memory frame */
-
-	/* Virtual Symbol Tables */
-	zephir_symbol_table *active_symbol_table;
 
 	/** Function cache */
 	HashTable *fcache;

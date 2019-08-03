@@ -54,7 +54,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, __construct) {
 	ZVAL_UNDEF(&options_sub);
 	ZVAL_NULL(&__$null);
 
-	zephir_fetch_params(0, 0, 1, &options);
+	zephir_fetch_params_without_memory_grow(0, 1, &options);
 
 	if (!options) {
 		options = &options_sub;
@@ -70,6 +70,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, __construct) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, read) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *key_param = NULL;
 	zval key;
 	zval *this_ptr = getThis();
@@ -100,6 +101,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, read) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Memory, write) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval data;
 	zval *key_param = NULL, *data_param = NULL;
 	zval key;

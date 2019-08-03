@@ -28,6 +28,7 @@ ZEPHIR_INIT_CLASS(phalcon_4__closure) {
 PHP_METHOD(phalcon_4__closure, __invoke) {
 
 	zend_bool _1;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *element, element_sub, _0, _2;
 	zval *this_ptr = getThis();
 

@@ -42,6 +42,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Collection_ReadOnly) {
  */
 PHP_METHOD(Phalcon_Collection_ReadOnly, remove) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *element_param = NULL;
 	zval element;
 	zval *this_ptr = getThis();
@@ -64,6 +65,7 @@ PHP_METHOD(Phalcon_Collection_ReadOnly, remove) {
  */
 PHP_METHOD(Phalcon_Collection_ReadOnly, set) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *element_param = NULL, *value, value_sub;
 	zval element;
 	zval *this_ptr = getThis();

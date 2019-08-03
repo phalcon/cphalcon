@@ -114,6 +114,7 @@ PHP_METHOD(Phalcon_Http_Message_AbstractRequest, getUri) {
 PHP_METHOD(Phalcon_Http_Message_AbstractRequest, getRequestTarget) {
 
 	zval requestTarget, _0, _1$$3, _2$$3, _3$$3, _4$$4, _5$$4, _6$$4;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -173,6 +174,7 @@ PHP_METHOD(Phalcon_Http_Message_AbstractRequest, getRequestTarget) {
  */
 PHP_METHOD(Phalcon_Http_Message_AbstractRequest, withMethod) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *method, method_sub, _0;
 	zval *this_ptr = getThis();
@@ -216,6 +218,7 @@ PHP_METHOD(Phalcon_Http_Message_AbstractRequest, withMethod) {
  */
 PHP_METHOD(Phalcon_Http_Message_AbstractRequest, withRequestTarget) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *requestTarget, requestTarget_sub, _0, _1, _2, _3, _4;
 	zval *this_ptr = getThis();
@@ -287,6 +290,7 @@ PHP_METHOD(Phalcon_Http_Message_AbstractRequest, withRequestTarget) {
 PHP_METHOD(Phalcon_Http_Message_AbstractRequest, withUri) {
 
 	double _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *uri, uri_sub, *preserveHost = NULL, preserveHost_sub, __$false, headers, newInstance, _1, _2, _3, _4$$3;
 	zval *this_ptr = getThis();
@@ -345,6 +349,7 @@ PHP_METHOD(Phalcon_Http_Message_AbstractRequest, withUri) {
 PHP_METHOD(Phalcon_Http_Message_AbstractRequest, processMethod) {
 
 	zend_bool _0, _1;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *method = NULL, method_sub, methods, _2$$3, _3$$3;
 	zval *this_ptr = getThis();
@@ -409,6 +414,7 @@ PHP_METHOD(Phalcon_Http_Message_AbstractRequest, processMethod) {
 PHP_METHOD(Phalcon_Http_Message_AbstractRequest, processUri) {
 
 	zend_bool _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *uri, uri_sub;
 	zval *this_ptr = getThis();

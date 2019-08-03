@@ -133,7 +133,7 @@ PHP_METHOD(Phalcon_Mvc_Router, setKeyRouteNames) {
 
 	ZVAL_UNDEF(&keyRouteNames_sub);
 
-	zephir_fetch_params(0, 1, 0, &keyRouteNames);
+	zephir_fetch_params_without_memory_grow(1, 0, &keyRouteNames);
 
 
 
@@ -158,7 +158,7 @@ PHP_METHOD(Phalcon_Mvc_Router, setKeyRouteIds) {
 
 	ZVAL_UNDEF(&keyRouteIds_sub);
 
-	zephir_fetch_params(0, 1, 0, &keyRouteIds);
+	zephir_fetch_params_without_memory_grow(1, 0, &keyRouteIds);
 
 
 
@@ -173,6 +173,7 @@ PHP_METHOD(Phalcon_Mvc_Router, setKeyRouteIds) {
 PHP_METHOD(Phalcon_Mvc_Router, __construct) {
 
 	zval routes, _1$$3, _3$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *defaultRoutes_param = NULL, _0$$3, _2$$3, _4$$3;
 	zend_bool defaultRoutes;
@@ -254,6 +255,7 @@ PHP_METHOD(Phalcon_Mvc_Router, __construct) {
  */
 PHP_METHOD(Phalcon_Mvc_Router, add) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *pattern_param = NULL, *paths = NULL, paths_sub, *httpMethods = NULL, httpMethods_sub, *position = NULL, position_sub, __$null, route;
 	zval pattern;
@@ -309,6 +311,7 @@ PHP_METHOD(Phalcon_Mvc_Router, add) {
  */
 PHP_METHOD(Phalcon_Mvc_Router, addConnect) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *pattern_param = NULL, *paths = NULL, paths_sub, *position = NULL, position_sub, __$null, _0;
 	zval pattern;
@@ -357,6 +360,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addConnect) {
  */
 PHP_METHOD(Phalcon_Mvc_Router, addDelete) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *pattern_param = NULL, *paths = NULL, paths_sub, *position = NULL, position_sub, __$null, _0;
 	zval pattern;
@@ -405,6 +409,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addDelete) {
  */
 PHP_METHOD(Phalcon_Mvc_Router, addGet) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *pattern_param = NULL, *paths = NULL, paths_sub, *position = NULL, position_sub, __$null, _0;
 	zval pattern;
@@ -453,6 +458,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addGet) {
  */
 PHP_METHOD(Phalcon_Mvc_Router, addHead) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *pattern_param = NULL, *paths = NULL, paths_sub, *position = NULL, position_sub, __$null, _0;
 	zval pattern;
@@ -501,6 +507,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addHead) {
  */
 PHP_METHOD(Phalcon_Mvc_Router, addOptions) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *pattern_param = NULL, *paths = NULL, paths_sub, *position = NULL, position_sub, __$null, _0;
 	zval pattern;
@@ -549,6 +556,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addOptions) {
  */
 PHP_METHOD(Phalcon_Mvc_Router, addPatch) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *pattern_param = NULL, *paths = NULL, paths_sub, *position = NULL, position_sub, __$null, _0;
 	zval pattern;
@@ -597,6 +605,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addPatch) {
  */
 PHP_METHOD(Phalcon_Mvc_Router, addPost) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *pattern_param = NULL, *paths = NULL, paths_sub, *position = NULL, position_sub, __$null, _0;
 	zval pattern;
@@ -646,6 +655,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addPost) {
  */
 PHP_METHOD(Phalcon_Mvc_Router, addPurge) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *pattern_param = NULL, *paths = NULL, paths_sub, *position = NULL, position_sub, __$null, _0;
 	zval pattern;
@@ -694,6 +704,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addPurge) {
  */
 PHP_METHOD(Phalcon_Mvc_Router, addPut) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *pattern_param = NULL, *paths = NULL, paths_sub, *position = NULL, position_sub, __$null, _0;
 	zval pattern;
@@ -742,6 +753,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addPut) {
  */
 PHP_METHOD(Phalcon_Mvc_Router, addTrace) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *pattern_param = NULL, *paths = NULL, paths_sub, *position = NULL, position_sub, __$null, _0;
 	zval pattern;
@@ -807,6 +819,7 @@ PHP_METHOD(Phalcon_Mvc_Router, addTrace) {
 PHP_METHOD(Phalcon_Mvc_Router, attach) {
 
 	zval _1$$4;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *route, route_sub, *position = NULL, position_sub, _0$$4, _2$$4;
 	zval *this_ptr = getThis();
 
@@ -855,6 +868,7 @@ PHP_METHOD(Phalcon_Mvc_Router, attach) {
 PHP_METHOD(Phalcon_Mvc_Router, clear) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
@@ -983,6 +997,7 @@ PHP_METHOD(Phalcon_Mvc_Router, getRouteById) {
 
 	zend_string *_7;
 	zend_ulong _6;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *id, id_sub, route, routeId, key, _0, _3, *_4, _5, _1$$3, _2$$3;
 	zval *this_ptr = getThis();
@@ -1065,6 +1080,7 @@ PHP_METHOD(Phalcon_Mvc_Router, getRouteByName) {
 
 	zend_string *_7;
 	zend_ulong _6;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *name_param = NULL, route, routeName, key, _0, _3, *_4, _5, _1$$3, _2$$3;
 	zval name;
@@ -1181,6 +1197,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 	zend_ulong _34$$32, _74$$81;
 	zval _29$$27, _40$$38, _42$$41, _47$$49, _49$$52, _69$$76, _80$$87, _82$$90, _87$$98, _89$$101;
 	zend_bool _2, _38$$33, _45$$44, _78$$82, _85$$93;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_11 = NULL, *_13 = NULL, *_26 = NULL, *_28 = NULL, *_31 = NULL, *_66 = NULL, *_68 = NULL, *_71 = NULL, *_91 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *uri_param = NULL, __$true, __$false, __$null, request, currentHostName, routeFound, parts, params, matches, notFoundPaths, vnamespace, module, controller, action, paramsStr, strParams, route, methods, container, hostname, regexHostName, matched, pattern, handledUri, beforeMatch, paths, converters, part, position, matchPosition, converter, eventsManager, _0, _1, _4, *_6, _7, _92, _93, _94, _95, _96, _3$$3, _5$$5, _8$$8, _14$$8, _15$$8, _9$$9, _10$$9, _12$$9, _16$$7, _17$$7, _18$$12, _22$$12, _23$$12, _19$$13, _20$$13, _21$$13, _24$$16, _25$$22, _27$$26, _30$$30, *_32$$32, _33$$32, _36$$34, _37$$34, _39$$38, _41$$41, _43$$45, _44$$45, _46$$49, _48$$52, _50$$57, _54$$57, _55$$57, _51$$58, _52$$58, _53$$58, _56$$56, _57$$56, _58$$61, _62$$61, _63$$61, _59$$62, _60$$62, _61$$62, _64$$65, _65$$71, _67$$75, _70$$79, *_72$$81, _73$$81, _76$$83, _77$$83, _79$$87, _81$$90, _83$$94, _84$$94, _86$$98, _88$$101, _90$$106, _97$$118, _98$$120, _99$$122;
@@ -2061,6 +2078,7 @@ PHP_METHOD(Phalcon_Mvc_Router, isExactControllerName) {
  */
 PHP_METHOD(Phalcon_Mvc_Router, mount) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *group, group_sub, groupRoutes, beforeMatch, hostname, routes, route, eventsManager, _0, _6, _1$$3, *_2$$5, _3$$5, *_4$$8, _5$$8;
 	zval *this_ptr = getThis();
@@ -2180,7 +2198,7 @@ PHP_METHOD(Phalcon_Mvc_Router, notFound) {
 
 	ZVAL_UNDEF(&paths_sub);
 
-	zephir_fetch_params(0, 1, 0, &paths);
+	zephir_fetch_params_without_memory_grow(1, 0, &paths);
 
 
 
@@ -2209,7 +2227,7 @@ PHP_METHOD(Phalcon_Mvc_Router, removeExtraSlashes) {
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
 
-	zephir_fetch_params(0, 1, 0, &remove_param);
+	zephir_fetch_params_without_memory_grow(1, 0, &remove_param);
 
 	if (UNEXPECTED(Z_TYPE_P(remove_param) != IS_TRUE && Z_TYPE_P(remove_param) != IS_FALSE)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'remove' must be of the type bool") TSRMLS_CC);
@@ -2232,6 +2250,7 @@ PHP_METHOD(Phalcon_Mvc_Router, removeExtraSlashes) {
  */
 PHP_METHOD(Phalcon_Mvc_Router, setDefaultAction) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *actionName_param = NULL;
 	zval actionName;
 	zval *this_ptr = getThis();
@@ -2263,6 +2282,7 @@ PHP_METHOD(Phalcon_Mvc_Router, setDefaultAction) {
  */
 PHP_METHOD(Phalcon_Mvc_Router, setDefaultController) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *controllerName_param = NULL;
 	zval controllerName;
 	zval *this_ptr = getThis();
@@ -2294,6 +2314,7 @@ PHP_METHOD(Phalcon_Mvc_Router, setDefaultController) {
  */
 PHP_METHOD(Phalcon_Mvc_Router, setDefaultModule) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *moduleName_param = NULL;
 	zval moduleName;
 	zval *this_ptr = getThis();
@@ -2325,6 +2346,7 @@ PHP_METHOD(Phalcon_Mvc_Router, setDefaultModule) {
  */
 PHP_METHOD(Phalcon_Mvc_Router, setDefaultNamespace) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *namespaceName_param = NULL;
 	zval namespaceName;
 	zval *this_ptr = getThis();
@@ -2367,6 +2389,7 @@ PHP_METHOD(Phalcon_Mvc_Router, setDefaultNamespace) {
  */
 PHP_METHOD(Phalcon_Mvc_Router, setDefaults) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *defaults_param = NULL, namespaceName, module, controller, action, params;
 	zval defaults;
 	zval *this_ptr = getThis();
@@ -2409,6 +2432,7 @@ PHP_METHOD(Phalcon_Mvc_Router, setDefaults) {
 PHP_METHOD(Phalcon_Mvc_Router, getDefaults) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
@@ -2445,7 +2469,7 @@ PHP_METHOD(Phalcon_Mvc_Router, setDI) {
 
 	ZVAL_UNDEF(&container_sub);
 
-	zephir_fetch_params(0, 1, 0, &container);
+	zephir_fetch_params_without_memory_grow(1, 0, &container);
 
 
 
@@ -2463,7 +2487,7 @@ PHP_METHOD(Phalcon_Mvc_Router, setEventsManager) {
 
 	ZVAL_UNDEF(&eventsManager_sub);
 
-	zephir_fetch_params(0, 1, 0, &eventsManager);
+	zephir_fetch_params_without_memory_grow(1, 0, &eventsManager);
 
 
 
@@ -2486,6 +2510,7 @@ PHP_METHOD(Phalcon_Mvc_Router, wasMatched) {
 zend_object *zephir_init_properties_Phalcon_Mvc_Router(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval _0, _2, _4, _6, _1$$3, _3$$4, _5$$5, _7$$6;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_4);

@@ -73,6 +73,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Events_Manager) {
  */
 PHP_METHOD(Phalcon_Events_Manager, attach) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long priority, ZEPHIR_LAST_CALL_STATUS;
 	zval *eventType_param = NULL, *handler, handler_sub, *priority_param = NULL, priorityQueue, _0, _2, _3, _1$$4;
 	zval eventType;
@@ -164,7 +165,7 @@ PHP_METHOD(Phalcon_Events_Manager, collectResponses) {
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
 
-	zephir_fetch_params(0, 1, 0, &collect_param);
+	zephir_fetch_params_without_memory_grow(1, 0, &collect_param);
 
 	collect = zephir_get_boolval(collect_param);
 
@@ -184,6 +185,7 @@ PHP_METHOD(Phalcon_Events_Manager, collectResponses) {
  */
 PHP_METHOD(Phalcon_Events_Manager, detach) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_3 = NULL, *_4 = NULL, *_8 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *eventType_param = NULL, *handler, handler_sub, priorityQueue, newPriorityQueue, data, _0, _1$$4, _2$$4, _5$$5, _6$$6, _7$$6;
@@ -267,6 +269,7 @@ PHP_METHOD(Phalcon_Events_Manager, detach) {
  */
 PHP_METHOD(Phalcon_Events_Manager, detachAll) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *type_param = NULL, __$null, _0$$4, _1$$5;
 	zval type;
 	zval *this_ptr = getThis();
@@ -321,7 +324,7 @@ PHP_METHOD(Phalcon_Events_Manager, enablePriorities) {
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
 
-	zephir_fetch_params(0, 1, 0, &enablePriorities_param);
+	zephir_fetch_params_without_memory_grow(1, 0, &enablePriorities_param);
 
 	enablePriorities = zephir_get_boolval(enablePriorities_param);
 
@@ -348,6 +351,7 @@ PHP_METHOD(Phalcon_Events_Manager, enablePriorities) {
  */
 PHP_METHOD(Phalcon_Events_Manager, fire) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool cancelable;
 	zval *eventType_param = NULL, *source, source_sub, *data = NULL, data_sub, *cancelable_param = NULL, __$null, events, eventParts, type, eventName, event, status, fireEvents, _0, _3, _1$$4;
@@ -458,6 +462,7 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue) {
 
 	zval _5$$6;
 	zend_bool collect = 0, cancelable = 0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_2 = NULL, *_3 = NULL, *_4 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *queue, queue_sub, *event, event_sub, status, eventName, data, iterator, source, handler, _0, _1, _6$$10;
@@ -555,6 +560,7 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue) {
 PHP_METHOD(Phalcon_Events_Manager, getListeners) {
 
 	zval listeners;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_3 = NULL, *_4 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *type_param = NULL, fireEvents, priorityQueue, _0, _1, _2$$4;
@@ -632,6 +638,7 @@ PHP_METHOD(Phalcon_Events_Manager, getResponses) {
  */
 PHP_METHOD(Phalcon_Events_Manager, hasListeners) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *type_param = NULL, _0;
 	zval type;
 	zval *this_ptr = getThis();

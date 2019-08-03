@@ -87,6 +87,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_File_Size_Equal) {
  */
 PHP_METHOD(Phalcon_Validation_Validator_File_Size_Equal, validate) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *validation, validation_sub, *field, field_sub, bytes, fileSize, replacePairs, size, value, _0, _1, _3, _4, _5, _6, _7, _2$$4, _8$$5;
 	zval *this_ptr = getThis();

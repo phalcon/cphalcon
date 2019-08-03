@@ -83,6 +83,7 @@ PHP_METHOD(Phalcon_Html_Breadcrumbs, getSeparator) {
  */
 PHP_METHOD(Phalcon_Html_Breadcrumbs, setSeparator) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *separator_param = NULL;
 	zval separator;
 	zval *this_ptr = getThis();
@@ -113,6 +114,7 @@ PHP_METHOD(Phalcon_Html_Breadcrumbs, setSeparator) {
  */
 PHP_METHOD(Phalcon_Html_Breadcrumbs, add) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *label_param = NULL, *link_param = NULL;
 	zval label, link;
 	zval *this_ptr = getThis();
@@ -147,6 +149,7 @@ PHP_METHOD(Phalcon_Html_Breadcrumbs, add) {
 PHP_METHOD(Phalcon_Html_Breadcrumbs, clear) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
@@ -172,6 +175,7 @@ PHP_METHOD(Phalcon_Html_Breadcrumbs, clear) {
  */
 PHP_METHOD(Phalcon_Html_Breadcrumbs, remove) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *link_param = NULL, elements, _0;
 	zval link;
 	zval *this_ptr = getThis();
@@ -207,6 +211,7 @@ PHP_METHOD(Phalcon_Html_Breadcrumbs, render) {
 	zend_string *_4;
 	zend_ulong _3;
 	zval element, elements, lastLabel, lastUrl, output, template, url, urls, _0, *_1, _2, _18, _19, _5$$3, _7$$3, _9$$4, _11$$4, _13$$5, _14$$6, _16$$6;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -361,6 +366,7 @@ PHP_METHOD(Phalcon_Html_Breadcrumbs, toArray) {
 zend_object *zephir_init_properties_Phalcon_Html_Breadcrumbs(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval _0, _1$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
 

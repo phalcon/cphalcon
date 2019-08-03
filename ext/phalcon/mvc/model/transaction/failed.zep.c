@@ -48,6 +48,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Transaction_Failed) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *message_param = NULL, *record = NULL, record_sub, __$null;
 	zval message;
@@ -101,6 +102,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, getRecord) {
 PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, getRecordMessages) {
 
 	zval record, _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 

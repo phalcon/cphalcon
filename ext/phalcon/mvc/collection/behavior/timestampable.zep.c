@@ -50,6 +50,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Collection_Behavior_Timestampable) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Behavior_Timestampable, notify) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_3 = NULL, *_4 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *type_param = NULL, *model, model_sub, options, timestamp, singleField, field, generator, format, _0, *_1$$12, _2$$12;

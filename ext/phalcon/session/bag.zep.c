@@ -62,6 +62,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Session_Bag) {
  */
 PHP_METHOD(Phalcon_Session_Bag, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL, *_3 = NULL, *_7 = NULL;
 	zval *name_param = NULL, container, data, session, _5, _6, _1$$3, _2$$3, _4$$3;
@@ -134,6 +135,7 @@ PHP_METHOD(Phalcon_Session_Bag, __construct) {
 PHP_METHOD(Phalcon_Session_Bag, clear) {
 
 	zval _1, _2;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval *this_ptr = getThis();
@@ -170,6 +172,7 @@ PHP_METHOD(Phalcon_Session_Bag, getDI) {
  */
 PHP_METHOD(Phalcon_Session_Bag, init) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval *data_param = NULL;
@@ -200,6 +203,7 @@ PHP_METHOD(Phalcon_Session_Bag, init) {
  */
 PHP_METHOD(Phalcon_Session_Bag, remove) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval *element_param = NULL, _1, _2, _3;
@@ -242,6 +246,7 @@ PHP_METHOD(Phalcon_Session_Bag, remove) {
  */
 PHP_METHOD(Phalcon_Session_Bag, set) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval *element_param = NULL, *value, value_sub, _1, _2, _3;
@@ -290,7 +295,7 @@ PHP_METHOD(Phalcon_Session_Bag, setDI) {
 
 	ZVAL_UNDEF(&container_sub);
 
-	zephir_fetch_params(0, 1, 0, &container);
+	zephir_fetch_params_without_memory_grow(1, 0, &container);
 
 
 

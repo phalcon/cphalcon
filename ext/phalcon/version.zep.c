@@ -107,6 +107,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Version) {
 PHP_METHOD(Phalcon_Version, _getVersion) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
@@ -127,7 +128,7 @@ PHP_METHOD(Phalcon_Version, _getVersion) {
 	ZVAL_LONG(&_0, 2);
 	zephir_array_fast_append(return_value, &_0);
 	ZEPHIR_INIT_NVAR(&_0);
-	ZVAL_LONG(&_0, 1);
+	ZVAL_LONG(&_0, 2);
 	zephir_array_fast_append(return_value, &_0);
 	RETURN_MM();
 
@@ -139,6 +140,7 @@ PHP_METHOD(Phalcon_Version, _getVersion) {
 PHP_METHOD(Phalcon_Version, _getSpecial) {
 
 	zval suffix;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *special_param = NULL;
 	zend_long special;
 	zval *this_ptr = getThis();
@@ -186,6 +188,7 @@ PHP_METHOD(Phalcon_Version, get) {
 
 	zval result;
 	zval version, major, medium, minor, special, specialNumber, suffix, _0, _2$$3, _3$$4;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_1 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
@@ -245,6 +248,7 @@ PHP_METHOD(Phalcon_Version, get) {
 PHP_METHOD(Phalcon_Version, getId) {
 
 	zval version, major, medium, minor, special, specialNumber, _0, _1, _2;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -297,6 +301,7 @@ PHP_METHOD(Phalcon_Version, getId) {
  */
 PHP_METHOD(Phalcon_Version, getPart) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_1 = NULL;
 	zval *part_param = NULL, version, _0$$3, _2$$4;
 	zend_long part, ZEPHIR_LAST_CALL_STATUS;

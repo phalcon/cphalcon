@@ -78,6 +78,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Session_Manager) {
  */
 PHP_METHOD(Phalcon_Session_Manager, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *options_param = NULL;
 	zval options;
@@ -107,6 +108,7 @@ PHP_METHOD(Phalcon_Session_Manager, __construct) {
  */
 PHP_METHOD(Phalcon_Session_Manager, __get) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *key_param = NULL;
 	zval key;
@@ -131,6 +133,7 @@ PHP_METHOD(Phalcon_Session_Manager, __get) {
  */
 PHP_METHOD(Phalcon_Session_Manager, __isset) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *key_param = NULL;
 	zval key;
@@ -155,6 +158,7 @@ PHP_METHOD(Phalcon_Session_Manager, __isset) {
  */
 PHP_METHOD(Phalcon_Session_Manager, __set) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *key_param = NULL, *value, value_sub;
 	zval key;
@@ -180,6 +184,7 @@ PHP_METHOD(Phalcon_Session_Manager, __set) {
  */
 PHP_METHOD(Phalcon_Session_Manager, __unset) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *key_param = NULL;
 	zval key;
@@ -204,6 +209,7 @@ PHP_METHOD(Phalcon_Session_Manager, __unset) {
  */
 PHP_METHOD(Phalcon_Session_Manager, destroy) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval _SESSION, _0;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
@@ -232,6 +238,7 @@ PHP_METHOD(Phalcon_Session_Manager, destroy) {
 PHP_METHOD(Phalcon_Session_Manager, exists) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -250,6 +257,7 @@ PHP_METHOD(Phalcon_Session_Manager, exists) {
  */
 PHP_METHOD(Phalcon_Session_Manager, get) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_1 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool remove;
@@ -328,6 +336,7 @@ PHP_METHOD(Phalcon_Session_Manager, getHandler) {
  */
 PHP_METHOD(Phalcon_Session_Manager, getId) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -346,6 +355,7 @@ PHP_METHOD(Phalcon_Session_Manager, getId) {
 PHP_METHOD(Phalcon_Session_Manager, getName) {
 
 	zval _0, _1, _2$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -372,6 +382,7 @@ PHP_METHOD(Phalcon_Session_Manager, getName) {
  */
 PHP_METHOD(Phalcon_Session_Manager, has) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *key_param = NULL, _SESSION, uniqueKey, _0;
 	zval key;
@@ -418,6 +429,7 @@ PHP_METHOD(Phalcon_Session_Manager, getOptions) {
 PHP_METHOD(Phalcon_Session_Manager, regenerateId) {
 
 	zend_bool delete = 0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *deleteOldSession = NULL, deleteOldSession_sub, __$true, _0, _1$$3;
 	zval *this_ptr = getThis();
@@ -453,6 +465,7 @@ PHP_METHOD(Phalcon_Session_Manager, regenerateId) {
  */
 PHP_METHOD(Phalcon_Session_Manager, registerHandler) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *handler, handler_sub;
 	zval *this_ptr = getThis();
@@ -475,6 +488,7 @@ PHP_METHOD(Phalcon_Session_Manager, registerHandler) {
  */
 PHP_METHOD(Phalcon_Session_Manager, remove) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *key_param = NULL, _SESSION, _0, uniqueKey;
 	zval key;
@@ -509,6 +523,7 @@ PHP_METHOD(Phalcon_Session_Manager, remove) {
  */
 PHP_METHOD(Phalcon_Session_Manager, set) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *key_param = NULL, *value, value_sub, _SESSION, uniqueKey, _0;
 	zval key;
@@ -549,7 +564,7 @@ PHP_METHOD(Phalcon_Session_Manager, setDI) {
 
 	ZVAL_UNDEF(&container_sub);
 
-	zephir_fetch_params(0, 1, 0, &container);
+	zephir_fetch_params_without_memory_grow(1, 0, &container);
 
 
 
@@ -567,7 +582,7 @@ PHP_METHOD(Phalcon_Session_Manager, setHandler) {
 
 	ZVAL_UNDEF(&handler_sub);
 
-	zephir_fetch_params(0, 1, 0, &handler);
+	zephir_fetch_params_without_memory_grow(1, 0, &handler);
 
 
 
@@ -581,6 +596,7 @@ PHP_METHOD(Phalcon_Session_Manager, setHandler) {
  */
 PHP_METHOD(Phalcon_Session_Manager, setId) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *id_param = NULL, _0, _1$$3;
 	zval id, _2$$3;
@@ -628,6 +644,7 @@ PHP_METHOD(Phalcon_Session_Manager, setId) {
  */
 PHP_METHOD(Phalcon_Session_Manager, setName) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *name_param = NULL, _0, _1, _2, _3, _4;
 	zval name;
@@ -675,6 +692,7 @@ PHP_METHOD(Phalcon_Session_Manager, setName) {
  */
 PHP_METHOD(Phalcon_Session_Manager, setOptions) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_1 = NULL;
 	zval *options_param = NULL, _0, _2, _3;
@@ -711,6 +729,7 @@ PHP_METHOD(Phalcon_Session_Manager, setOptions) {
 PHP_METHOD(Phalcon_Session_Manager, start) {
 
 	zval _0, _1, _2, _3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -752,6 +771,7 @@ PHP_METHOD(Phalcon_Session_Manager, start) {
 PHP_METHOD(Phalcon_Session_Manager, status) {
 
 	zval status;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -779,6 +799,7 @@ PHP_METHOD(Phalcon_Session_Manager, status) {
  */
 PHP_METHOD(Phalcon_Session_Manager, getUniqueKey) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *key_param = NULL, _0;
 	zval key;
 	zval *this_ptr = getThis();
@@ -801,6 +822,7 @@ PHP_METHOD(Phalcon_Session_Manager, getUniqueKey) {
 zend_object *zephir_init_properties_Phalcon_Session_Manager(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval _0, _1$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
 

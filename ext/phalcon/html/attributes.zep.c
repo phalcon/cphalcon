@@ -43,6 +43,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Attributes) {
 PHP_METHOD(Phalcon_Html_Attributes, render) {
 
 	zval _1, _2;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval *this_ptr = getThis();
@@ -67,6 +68,7 @@ PHP_METHOD(Phalcon_Html_Attributes, render) {
  */
 PHP_METHOD(Phalcon_Html_Attributes, __toString) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 

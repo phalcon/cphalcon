@@ -47,6 +47,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getColumnMaps) {
 	zend_ulong _7;
 	zend_bool hasReversedColumn = 0, _11$$6, _14$$10;
 	zval orderedColumnMap, reversedColumnMap;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, model_sub, *container, container_sub, __$null, annotations, className, reflection, propertiesAnnotations, property, propAnnotations, columnAnnotation, columnName, _0, *_5, _6, _1$$4, _2$$4, _3$$5, _4$$5, _9$$6, _10$$6, _12$$10, _13$$10;
 	zval *this_ptr = getThis();
@@ -228,6 +229,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData) {
 	zend_bool _71$$6, _135$$44;
 	zend_string *_8;
 	zend_ulong _7;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, model_sub, *container, container_sub, __$true, annotations, className, reflection, propertiesAnnotations, property, propAnnotations, columnAnnotation, columnName, feature, fieldTypes, fieldBindTypes, numericTyped, primaryKeys, nonPrimaryKeys, identityField, notNull, attributes, defaultValues, defaultValue, emptyStringValues, skipOnInsert, skipOnUpdate, _0, *_5, _6, _1$$4, _2$$4, _3$$5, _4$$5, _9$$6, _10$$6, _65$$6, _66$$6, _67$$6, _68$$6, _69$$6, _70$$6, _72$$6, _11$$9, _12$$9, _13$$10, _14$$10, _15$$11, _16$$11, _17$$12, _18$$12, _19$$13, _20$$13, _21$$14, _22$$14, _23$$15, _24$$15, _25$$16, _26$$16, _27$$17, _28$$17, _29$$18, _30$$18, _31$$19, _32$$19, _33$$20, _34$$20, _35$$21, _36$$21, _37$$22, _38$$22, _39$$23, _40$$23, _41$$24, _42$$24, _43$$25, _44$$25, _45$$26, _46$$26, _47$$27, _48$$27, _49$$28, _50$$28, _51$$29, _52$$29, _53$$30, _54$$30, _55$$31, _56$$31, _57$$32, _58$$32, _59$$33, _60$$33, _61$$34, _62$$34, _63$$35, _64$$35, _73$$44, _74$$44, _129$$44, _130$$44, _131$$44, _132$$44, _133$$44, _134$$44, _136$$44, _75$$47, _76$$47, _77$$48, _78$$48, _79$$49, _80$$49, _81$$50, _82$$50, _83$$51, _84$$51, _85$$52, _86$$52, _87$$53, _88$$53, _89$$54, _90$$54, _91$$55, _92$$55, _93$$56, _94$$56, _95$$57, _96$$57, _97$$58, _98$$58, _99$$59, _100$$59, _101$$60, _102$$60, _103$$61, _104$$61, _105$$62, _106$$62, _107$$63, _108$$63, _109$$64, _110$$64, _111$$65, _112$$65, _113$$66, _114$$66, _115$$67, _116$$67, _117$$68, _118$$68, _119$$69, _120$$69, _121$$70, _122$$70, _123$$71, _124$$71, _125$$72, _126$$72, _127$$73, _128$$73;
 	zval *this_ptr = getThis();

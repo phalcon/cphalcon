@@ -73,6 +73,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Adapter_AbstractAdapter) {
 PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, __destruct) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -101,7 +102,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, add) {
 
 	ZVAL_UNDEF(&item_sub);
 
-	zephir_fetch_params(0, 1, 0, &item);
+	zephir_fetch_params_without_memory_grow(1, 0, &item);
 
 
 
@@ -137,6 +138,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, begin) {
 PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, commit) {
 
 	zval inTransaction, item, queue, _0, *_1, _2, _4;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_3 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
@@ -200,6 +202,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, getFormatter) {
 	zend_class_entry *_5$$3;
 	zval _0, _1$$3, _2$$3, _3$$3, _4$$3;
 	zval className;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -222,6 +225,9 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, getFormatter) {
 		ZEPHIR_INIT_VAR(&_3$$3);
 		zephir_fetch_safe_class(&_4$$3, &className);
 		_5$$3 = zephir_fetch_class_str_ex(Z_STRVAL_P(&_4$$3), Z_STRLEN_P(&_4$$3), ZEND_FETCH_CLASS_AUTO);
+		if(!_5$$3) {
+			RETURN_MM_NULL();
+		}
 		object_init_ex(&_3$$3, _5$$3);
 		if (zephir_has_constructor(&_3$$3 TSRMLS_CC)) {
 			ZEPHIR_CALL_METHOD(NULL, &_3$$3, "__construct", NULL, 0);
@@ -258,6 +264,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, process) {
 PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, rollback) {
 
 	zval inTransaction, _0, _1;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&inTransaction);
@@ -292,7 +299,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, setFormatter) {
 
 	ZVAL_UNDEF(&formatter_sub);
 
-	zephir_fetch_params(0, 1, 0, &formatter);
+	zephir_fetch_params_without_memory_grow(1, 0, &formatter);
 
 
 
@@ -304,6 +311,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, setFormatter) {
 zend_object *zephir_init_properties_Phalcon_Logger_Adapter_AbstractAdapter(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval _0, _1$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
 

@@ -49,7 +49,7 @@ PHP_METHOD(Phalcon_Helper_Number, between) {
 	zval *this_ptr = getThis();
 
 
-	zephir_fetch_params(0, 3, 0, &value_param, &from_param, &to_param);
+	zephir_fetch_params_without_memory_grow(3, 0, &value_param, &from_param, &to_param);
 
 	value = zephir_get_intval(value_param);
 	from = zephir_get_intval(from_param);

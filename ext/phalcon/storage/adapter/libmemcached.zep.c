@@ -54,6 +54,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Storage_Adapter_Libmemcached) {
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_3 = NULL;
 	zval options, _0$$3, _1$$3;
@@ -113,6 +114,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, __construct) {
 PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, clear) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -133,6 +135,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, clear) {
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, decrement) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long value, ZEPHIR_LAST_CALL_STATUS;
 	zval *key_param = NULL, *value_param = NULL, _0, _1;
 	zval key;
@@ -181,6 +184,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, decrement) {
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, delete) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *key_param = NULL, _0, _1;
 	zval key;
@@ -225,6 +229,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, delete) {
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, get) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *key_param = NULL, *defaultValue = NULL, defaultValue_sub, __$null, _0, _1;
 	zval key;
@@ -274,6 +279,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, get) {
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, getAdapter) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval __$true, client, connection, failover, options, persistentId, sasl, saslPass, saslUser, servers, serverList, _0, _1$$3, _3$$3, _4$$3, _5$$3, _6$$4, _7$$4, _8$$4, _9$$4, _10$$4, _11$$4;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_2 = NULL;
@@ -399,6 +405,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, getAdapter) {
 PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, getKeys) {
 
 	zval keys, _0, _1;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -432,6 +439,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, getKeys) {
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, has) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *key_param = NULL, connection, result, _0;
 	zval key;
@@ -478,6 +486,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, has) {
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, increment) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long value, ZEPHIR_LAST_CALL_STATUS;
 	zval *key_param = NULL, *value_param = NULL, _0, _1;
 	zval key;
@@ -528,6 +537,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, increment) {
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, set) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *key_param = NULL, *value, value_sub, *ttl = NULL, ttl_sub, __$null, _0, _1, _2;
 	zval key;
@@ -581,6 +591,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, set) {
 PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, setSerializer) {
 
 	zval map;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *connection, connection_sub, serializer, _0, _1$$3, _2$$3, _3$$3;
 	zval *this_ptr = getThis();
@@ -626,6 +637,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, setSerializer) {
 zend_object *zephir_init_properties_Phalcon_Storage_Adapter_Libmemcached(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval _0, _1$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
 

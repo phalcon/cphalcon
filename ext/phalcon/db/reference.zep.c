@@ -215,6 +215,7 @@ PHP_METHOD(Phalcon_Db_Reference, getOnUpdate) {
  */
 PHP_METHOD(Phalcon_Db_Reference, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval definition;
 	zval *name_param = NULL, *definition_param = NULL, columns, schema, referencedTable, referencedSchema, referencedColumns, onDelete, onUpdate;
 	zval name;

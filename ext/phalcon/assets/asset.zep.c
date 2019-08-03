@@ -119,7 +119,7 @@ PHP_METHOD(Phalcon_Assets_Asset, setAutoVersion) {
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
 
-	zephir_fetch_params(0, 1, 0, &autoVersion_param);
+	zephir_fetch_params_without_memory_grow(1, 0, &autoVersion_param);
 
 	autoVersion = zephir_get_boolval(autoVersion_param);
 
@@ -227,6 +227,7 @@ PHP_METHOD(Phalcon_Assets_Asset, getVersion) {
  */
 PHP_METHOD(Phalcon_Assets_Asset, setVersion) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *version_param = NULL;
 	zval version;
 	zval *this_ptr = getThis();
@@ -249,6 +250,7 @@ PHP_METHOD(Phalcon_Assets_Asset, setVersion) {
  */
 PHP_METHOD(Phalcon_Assets_Asset, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval attributes;
 	zend_bool local, filter, autoVersion;
 	zval *type_param = NULL, *path_param = NULL, *local_param = NULL, *filter_param = NULL, *attributes_param = NULL, *version_param = NULL, *autoVersion_param = NULL, __$true, __$false;
@@ -325,6 +327,7 @@ PHP_METHOD(Phalcon_Assets_Asset, __construct) {
 PHP_METHOD(Phalcon_Assets_Asset, getAssetKey) {
 
 	zval key, _0, _1;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -351,6 +354,7 @@ PHP_METHOD(Phalcon_Assets_Asset, getAssetKey) {
  */
 PHP_METHOD(Phalcon_Assets_Asset, getContent) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *basePath_param = NULL, sourcePath, completePath, content, _0, _1$$5, _2$$5, _3$$6, _4$$6;
 	zval basePath;
@@ -421,6 +425,7 @@ PHP_METHOD(Phalcon_Assets_Asset, getContent) {
  */
 PHP_METHOD(Phalcon_Assets_Asset, getRealSourcePath) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *basePath_param = NULL, sourcePath, _0, _1$$4;
 	zval basePath;
@@ -465,6 +470,7 @@ PHP_METHOD(Phalcon_Assets_Asset, getRealSourcePath) {
  */
 PHP_METHOD(Phalcon_Assets_Asset, getRealTargetPath) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *basePath_param = NULL, targetPath, completePath, _0;
 	zval basePath;
@@ -514,6 +520,7 @@ PHP_METHOD(Phalcon_Assets_Asset, getRealTargetUri) {
 
 	zend_bool _1;
 	zval modificationTime, targetUri, version, _0, _2, _3$$4, _4$$4, _5$$5;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -582,6 +589,7 @@ PHP_METHOD(Phalcon_Assets_Asset, isAutoVersion) {
  */
 PHP_METHOD(Phalcon_Assets_Asset, setAttributes) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *attributes_param = NULL;
 	zval attributes;
 	zval *this_ptr = getThis();
@@ -611,7 +619,7 @@ PHP_METHOD(Phalcon_Assets_Asset, setFilter) {
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
 
-	zephir_fetch_params(0, 1, 0, &filter_param);
+	zephir_fetch_params_without_memory_grow(1, 0, &filter_param);
 
 	filter = zephir_get_boolval(filter_param);
 
@@ -637,7 +645,7 @@ PHP_METHOD(Phalcon_Assets_Asset, setLocal) {
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
 
-	zephir_fetch_params(0, 1, 0, &local_param);
+	zephir_fetch_params_without_memory_grow(1, 0, &local_param);
 
 	local = zephir_get_boolval(local_param);
 
@@ -656,6 +664,7 @@ PHP_METHOD(Phalcon_Assets_Asset, setLocal) {
  */
 PHP_METHOD(Phalcon_Assets_Asset, setSourcePath) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *sourcePath_param = NULL;
 	zval sourcePath;
 	zval *this_ptr = getThis();
@@ -678,6 +687,7 @@ PHP_METHOD(Phalcon_Assets_Asset, setSourcePath) {
  */
 PHP_METHOD(Phalcon_Assets_Asset, setTargetPath) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *targetPath_param = NULL;
 	zval targetPath;
 	zval *this_ptr = getThis();
@@ -700,6 +710,7 @@ PHP_METHOD(Phalcon_Assets_Asset, setTargetPath) {
  */
 PHP_METHOD(Phalcon_Assets_Asset, setTargetUri) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *targetUri_param = NULL;
 	zval targetUri;
 	zval *this_ptr = getThis();
@@ -722,6 +733,7 @@ PHP_METHOD(Phalcon_Assets_Asset, setTargetUri) {
  */
 PHP_METHOD(Phalcon_Assets_Asset, setType) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *type_param = NULL;
 	zval type;
 	zval *this_ptr = getThis();
@@ -744,6 +756,7 @@ PHP_METHOD(Phalcon_Assets_Asset, setType) {
  */
 PHP_METHOD(Phalcon_Assets_Asset, setPath) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *path_param = NULL;
 	zval path;
 	zval *this_ptr = getThis();

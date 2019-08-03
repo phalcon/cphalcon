@@ -77,6 +77,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Config) {
 PHP_METHOD(Phalcon_Config, getPathDelimiter) {
 
 	zval _0, _1$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
@@ -113,6 +114,7 @@ PHP_METHOD(Phalcon_Config, getPathDelimiter) {
 PHP_METHOD(Phalcon_Config, merge) {
 
 	zend_bool _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *toMerge, toMerge_sub, config, result, source, target;
 	zval *this_ptr = getThis();
@@ -166,6 +168,7 @@ PHP_METHOD(Phalcon_Config, merge) {
  */
 PHP_METHOD(Phalcon_Config, path) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_1 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *path_param = NULL, *defaultValue = NULL, defaultValue_sub, *delimiter = NULL, delimiter_sub, __$null, config, key, keys, _0, _2$$5, _3$$5;
@@ -251,6 +254,7 @@ PHP_METHOD(Phalcon_Config, path) {
  */
 PHP_METHOD(Phalcon_Config, setPathDelimiter) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *delimiter_param = NULL;
 	zval delimiter;
 	zval *this_ptr = getThis();
@@ -289,6 +293,7 @@ PHP_METHOD(Phalcon_Config, toArray) {
 	zend_ulong _3;
 	zval results;
 	zval data, key, value, *_1, _2, _6$$4, _8$$6;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval *this_ptr = getThis();
@@ -371,6 +376,7 @@ PHP_METHOD(Phalcon_Config, internalMerge) {
 	zend_bool _4$$3, _5$$3, _10$$7, _11$$7;
 	zend_string *_3;
 	zend_ulong _2;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_9 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *source_param = NULL, *target_param = NULL, key, value, *_0, _1, _6$$3, _7$$4, _8$$4, _12$$7, _13$$8, _14$$8;
@@ -478,6 +484,7 @@ PHP_METHOD(Phalcon_Config, internalMerge) {
 PHP_METHOD(Phalcon_Config, setData) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *element = NULL, element_sub, *value, value_sub, data, key, _1;
 	zval *this_ptr = getThis();

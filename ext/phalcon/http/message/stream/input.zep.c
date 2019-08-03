@@ -61,6 +61,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_Stream_Input) {
 PHP_METHOD(Phalcon_Http_Message_Stream_Input, __construct) {
 
 	zval _1, _2;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval *this_ptr = getThis();
@@ -96,6 +97,7 @@ PHP_METHOD(Phalcon_Http_Message_Stream_Input, __construct) {
 PHP_METHOD(Phalcon_Http_Message_Stream_Input, __toString) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -126,6 +128,7 @@ PHP_METHOD(Phalcon_Http_Message_Stream_Input, __toString) {
 PHP_METHOD(Phalcon_Http_Message_Stream_Input, getContents) {
 
 	zend_bool _3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *length_param = NULL, __$true, __$false, data, _0, _1, _2, _4;
 	zend_long length, ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
@@ -195,6 +198,7 @@ PHP_METHOD(Phalcon_Http_Message_Stream_Input, isWritable) {
  */
 PHP_METHOD(Phalcon_Http_Message_Stream_Input, read) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval *length, length_sub, __$true, __$false, data, _1, _2;

@@ -68,7 +68,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Noop, process) {
 
 	ZVAL_UNDEF(&item_sub);
 
-	zephir_fetch_params(0, 1, 0, &item);
+	zephir_fetch_params_without_memory_grow(1, 0, &item);
 
 
 

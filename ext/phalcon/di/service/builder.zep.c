@@ -53,6 +53,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build) {
 
 	zend_string *_4$$10, *_28$$25;
 	zend_ulong _3$$10, _27$$25;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_7 = NULL, *_36 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval definition;
@@ -430,6 +431,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, build) {
 PHP_METHOD(Phalcon_Di_Service_Builder, buildParameter) {
 
 	zval _2$$3, _5$$5, _8$$8, _11$$10, _14$$13;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval argument;
 	zend_long position, ZEPHIR_LAST_CALL_STATUS;
 	zval *container, container_sub, *position_param = NULL, *argument_param = NULL, type, name, value, instanceArguments, _0$$3, _1$$3, _3$$5, _4$$5, _6$$8, _7$$8, _9$$10, _10$$10, _12$$13, _13$$13;
@@ -572,6 +574,7 @@ PHP_METHOD(Phalcon_Di_Service_Builder, buildParameters) {
 
 	zend_string *_3;
 	zend_ulong _2;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_5 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval arguments, buildArguments;

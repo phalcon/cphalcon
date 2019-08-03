@@ -48,6 +48,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Close) {
  */
 PHP_METHOD(Phalcon_Html_Helper_Close, __invoke) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *tag_param = NULL;
 	zval tag;
 	zval *this_ptr = getThis();

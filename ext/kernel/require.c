@@ -45,11 +45,19 @@ int zephir_require_ret(zval *return_value_ptr, const char *require_path)
 	}
 #endif
 
+#if PHP_VERSION_ID < 70400
 	file_handle.filename = require_path;
 	file_handle.free_filename = 0;
 	file_handle.type = ZEND_HANDLE_FILENAME;
 	file_handle.opened_path = NULL;
 	file_handle.handle.fp = NULL;
+#else
+	ret = php_stream_open_for_zend_ex(require_path, &file_handle, USE_PATH|STREAM_OPEN_FOR_INCLUDE);
+
+	if (ret != SUCCESS) {
+		return FAILURE;
+	}
+#endif
 
 	new_op_array = zend_compile_file(&file_handle, ZEND_REQUIRE);
 	if (new_op_array) {

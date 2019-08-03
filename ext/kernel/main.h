@@ -266,6 +266,11 @@ int zephir_fetch_parameters(int num_args, int required_args, int optional_args, 
 		} \
 	}
 
+#define zephir_fetch_params_without_memory_grow(required_params, optional_params, ...) \
+	if (zephir_fetch_parameters(ZEND_NUM_ARGS(), required_params, optional_params, __VA_ARGS__) == FAILURE) { \
+		RETURN_NULL(); \
+	}
+
 #define ZEPHIR_CREATE_OBJECT(obj, class_type) \
 	{ \
 		zend_object *object = zend_objects_new(class_type); \
@@ -277,10 +282,18 @@ int zephir_fetch_parameters(int num_args, int required_args, int optional_args, 
 #define ZEPHIR_MAKE_REF(obj) ZVAL_NEW_REF(obj, obj);
 #define ZEPHIR_UNREF(obj) ZVAL_UNREF(obj);
 
-#define ZEPHIR_GET_CONSTANT(return_value, const_name) do { \
+#define ZEPHIR_MM_GET_CONSTANT(return_value, const_name) do { \
 	zval *_constant_ptr = zend_get_constant_str(SL(const_name)); \
 	if (_constant_ptr == NULL) { \
 		ZEPHIR_MM_RESTORE(); \
+		return; \
+	} \
+	ZVAL_COPY(return_value, _constant_ptr); \
+} while(0)
+
+#define ZEPHIR_GET_CONSTANT(return_value, const_name) do { \
+	zval *_constant_ptr = zend_get_constant_str(SL(const_name)); \
+	if (_constant_ptr == NULL) { \
 		return; \
 	} \
 	ZVAL_COPY(return_value, _constant_ptr); \

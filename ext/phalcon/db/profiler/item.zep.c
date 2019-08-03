@@ -82,7 +82,7 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, setFinalTime) {
 
 	ZVAL_UNDEF(&_0);
 
-	zephir_fetch_params(0, 1, 0, &finalTime_param);
+	zephir_fetch_params_without_memory_grow(1, 0, &finalTime_param);
 
 	finalTime = zephir_get_doubleval(finalTime_param);
 
@@ -117,7 +117,7 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, setInitialTime) {
 
 	ZVAL_UNDEF(&_0);
 
-	zephir_fetch_params(0, 1, 0, &initialTime_param);
+	zephir_fetch_params_without_memory_grow(1, 0, &initialTime_param);
 
 	initialTime = zephir_get_doubleval(initialTime_param);
 
@@ -146,6 +146,7 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, getInitialTime) {
  */
 PHP_METHOD(Phalcon_Db_Profiler_Item, setSqlBindTypes) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *sqlBindTypes_param = NULL;
 	zval sqlBindTypes;
 	zval *this_ptr = getThis();
@@ -180,6 +181,7 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, getSqlBindTypes) {
  */
 PHP_METHOD(Phalcon_Db_Profiler_Item, setSqlStatement) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *sqlStatement_param = NULL;
 	zval sqlStatement;
 	zval *this_ptr = getThis();
@@ -214,6 +216,7 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, getSqlStatement) {
  */
 PHP_METHOD(Phalcon_Db_Profiler_Item, setSqlVariables) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *sqlVariables_param = NULL;
 	zval sqlVariables;
 	zval *this_ptr = getThis();

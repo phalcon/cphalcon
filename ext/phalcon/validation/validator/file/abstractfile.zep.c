@@ -115,7 +115,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File_AbstractFile, setMessageFileEmpty) 
 
 	ZVAL_UNDEF(&messageFileEmpty_sub);
 
-	zephir_fetch_params(0, 1, 0, &messageFileEmpty);
+	zephir_fetch_params_without_memory_grow(1, 0, &messageFileEmpty);
 
 
 
@@ -146,7 +146,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File_AbstractFile, setMessageIniSize) {
 
 	ZVAL_UNDEF(&messageIniSize_sub);
 
-	zephir_fetch_params(0, 1, 0, &messageIniSize);
+	zephir_fetch_params_without_memory_grow(1, 0, &messageIniSize);
 
 
 
@@ -177,7 +177,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File_AbstractFile, setMessageValid) {
 
 	ZVAL_UNDEF(&messageValid_sub);
 
-	zephir_fetch_params(0, 1, 0, &messageValid);
+	zephir_fetch_params_without_memory_grow(1, 0, &messageValid);
 
 
 
@@ -196,6 +196,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File_AbstractFile, setMessageValid) {
 PHP_METHOD(Phalcon_Validation_Validator_File_AbstractFile, isAllowEmpty) {
 
 	zend_bool _0, _1;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval field;
 	zval *validation, validation_sub, *field_param = NULL, value, _2;
@@ -246,6 +247,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File_AbstractFile, isAllowEmpty) {
 PHP_METHOD(Phalcon_Validation_Validator_File_AbstractFile, checkUpload) {
 
 	zend_bool _1, _3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *validation, validation_sub, *field, field_sub, _0, _2, _4;
 	zval *this_ptr = getThis();
@@ -289,6 +291,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File_AbstractFile, checkUpload) {
 PHP_METHOD(Phalcon_Validation_Validator_File_AbstractFile, checkUploadMaxSize) {
 
 	zend_bool _1, _2, _3, _5, _6;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *validation, validation_sub, *field, field_sub, _SERVER, _POST, _FILES, label, replacePairs, value, _0, _4, _7, _8$$3, _9$$3, _10$$3, _11$$3, _12$$3;
 	zval *this_ptr = getThis();
@@ -379,6 +382,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File_AbstractFile, checkUploadMaxSize) {
 PHP_METHOD(Phalcon_Validation_Validator_File_AbstractFile, checkUploadIsEmpty) {
 
 	zend_bool _0, _1, _3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *validation, validation_sub, *field, field_sub, label, replacePairs, value, _2, _4, _5, _6$$3, _7$$3, _8$$3, _9$$3, _10$$3;
 	zval *this_ptr = getThis();
@@ -456,6 +460,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File_AbstractFile, checkUploadIsEmpty) {
 PHP_METHOD(Phalcon_Validation_Validator_File_AbstractFile, checkUploadIsValid) {
 
 	zend_bool _0, _1;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *validation, validation_sub, *field, field_sub, label, replacePairs, value, _2$$3, _3$$3, _4$$3, _5$$3, _6$$3;
 	zval *this_ptr = getThis();
@@ -520,6 +525,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File_AbstractFile, checkUploadIsValid) {
  */
 PHP_METHOD(Phalcon_Validation_Validator_File_AbstractFile, getFileSizeInBytes) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *size_param = NULL, byteUnits, unit, matches, _0, _1, _2, _3, _4, _5, _6, _7, _8;
 	zval size;

@@ -761,7 +761,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_tag_renderselectres
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_tag_renderselectresultset, 0, 4, IS_STRING, NULL, 0)
 #endif
-	ZEND_ARG_OBJ_INFO(0, resultset, Phalcon\\Html\\ResulsetInterface, 0)
+	ZEND_ARG_OBJ_INFO(0, resultset, Phalcon\\Mvc\\Model\\ResultsetInterface, 0)
 	ZEND_ARG_INFO(0, using)
 	ZEND_ARG_INFO(0, value)
 #if PHP_VERSION_ID >= 70200

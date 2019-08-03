@@ -124,6 +124,7 @@ PHP_METHOD(Phalcon_Http_Request_File, getKey) {
  */
 PHP_METHOD(Phalcon_Http_Request_File, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *file_param = NULL, *key = NULL, key_sub, __$null, name, tempName, size, type, error, _0$$3, _1$$3, _2$$4, _3$$4;
 	zval file;
@@ -203,6 +204,7 @@ PHP_METHOD(Phalcon_Http_Request_File, getName) {
 PHP_METHOD(Phalcon_Http_Request_File, getRealType) {
 
 	zval finfo, mime, _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -271,6 +273,7 @@ PHP_METHOD(Phalcon_Http_Request_File, isUploadedFile) {
 
 	zend_bool _0;
 	zval tmp, _1;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -296,6 +299,7 @@ PHP_METHOD(Phalcon_Http_Request_File, isUploadedFile) {
  */
 PHP_METHOD(Phalcon_Http_Request_File, moveTo) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *destination_param = NULL, _0;
 	zval destination;

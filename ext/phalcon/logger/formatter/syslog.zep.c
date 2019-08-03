@@ -44,6 +44,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Formatter_Syslog) {
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Syslog, format) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *item, item_sub, context, message, type, _0$$3;
 	zval *this_ptr = getThis();

@@ -82,6 +82,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Relation) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Relation, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval options;
 	zval referencedModel;
 	zval *type_param = NULL, *referencedModel_param = NULL, *fields, fields_sub, *referencedFields, referencedFields_sub, *options_param = NULL, _0;
@@ -149,6 +150,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getFields) {
 PHP_METHOD(Phalcon_Mvc_Model_Relation, getForeignKey) {
 
 	zval options, foreignKey, _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&options);
@@ -214,6 +216,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getIntermediateReferencedFields) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Relation, getOption) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *name_param = NULL, option, _0;
 	zval name;
 	zval *this_ptr = getThis();
@@ -265,6 +268,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getOptions) {
 PHP_METHOD(Phalcon_Mvc_Model_Relation, getParams) {
 
 	zval options, params, _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&options);
@@ -349,6 +353,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, isThrough) {
 
 	zend_bool _1;
 	zval type, _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&type);
@@ -372,6 +377,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, isThrough) {
 PHP_METHOD(Phalcon_Mvc_Model_Relation, isReusable) {
 
 	zval options, reusable, _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&options);
@@ -397,6 +403,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, isReusable) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Relation, setIntermediateRelation) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval intermediateModel;
 	zval *intermediateFields, intermediateFields_sub, *intermediateModel_param = NULL, *intermediateReferencedFields, intermediateReferencedFields_sub;
 	zval *this_ptr = getThis();
