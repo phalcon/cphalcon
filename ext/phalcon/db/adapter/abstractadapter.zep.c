@@ -589,11 +589,10 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, createView) {
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, delete) {
 
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *table_param = NULL, *whereCondition = NULL, whereCondition_sub, *placeholders = NULL, placeholders_sub, *dataTypes = NULL, dataTypes_sub, __$null, sql, escapedTable, _0$$3;
-	zval table;
+	zval *table, table_sub, *whereCondition = NULL, whereCondition_sub, *placeholders = NULL, placeholders_sub, *dataTypes = NULL, dataTypes_sub, __$null, sql, escapedTable, _0$$3;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&table);
+	ZVAL_UNDEF(&table_sub);
 	ZVAL_UNDEF(&whereCondition_sub);
 	ZVAL_UNDEF(&placeholders_sub);
 	ZVAL_UNDEF(&dataTypes_sub);
@@ -603,9 +602,8 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, delete) {
 	ZVAL_UNDEF(&_0$$3);
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 3, &table_param, &whereCondition, &placeholders, &dataTypes);
+	zephir_fetch_params(1, 1, 3, &table, &whereCondition, &placeholders, &dataTypes);
 
-	zephir_get_strval(&table, table_param);
 	if (!whereCondition) {
 		whereCondition = &whereCondition_sub;
 		whereCondition = &__$null;
@@ -620,7 +618,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, delete) {
 	}
 
 
-	ZEPHIR_CALL_METHOD(&escapedTable, this_ptr, "escapeidentifier", NULL, 0, &table);
+	ZEPHIR_CALL_METHOD(&escapedTable, this_ptr, "escapeidentifier", NULL, 0, table);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&sql);
 	ZEPHIR_CONCAT_SV(&sql, "DELETE FROM ", &escapedTable);

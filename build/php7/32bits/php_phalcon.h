@@ -132,10 +132,10 @@ typedef zend_function zephir_fcall_cache_entry;
 
 
 #define PHP_PHALCON_NAME        "phalcon"
-#define PHP_PHALCON_VERSION     "4.0.0-alpha.5"
+#define PHP_PHALCON_VERSION     "4.0.0-beta.1"
 #define PHP_PHALCON_EXTNAME     "phalcon"
 #define PHP_PHALCON_AUTHOR      "Phalcon Team and contributors"
-#define PHP_PHALCON_ZEPVERSION  "0.11.9-209fe3f"
+#define PHP_PHALCON_ZEPVERSION  "0.12.0-c893389"
 #define PHP_PHALCON_DESCRIPTION "Web framework delivered as a C-extension for PHP"
 
 typedef struct _zephir_struct_db { 
@@ -155,6 +155,7 @@ typedef struct _zephir_struct_orm {
 	zend_bool enable_literals;
 	zend_bool events;
 	zend_bool exception_on_failed_save;
+	zend_bool exception_on_failed_metadata_save;
 	zend_bool ignore_unknown_columns;
 	zend_bool late_state_binding;
 	zend_bool not_null_validations;

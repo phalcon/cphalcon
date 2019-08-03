@@ -398,15 +398,11 @@ class Crypt implements CryptInterface
      */
     public function getAvailableHashAlgos() -> array
     {
-        var algos;
-
         if likely function_exists("hash_hmac_algos") {
-            let algos = hash_hmac_algos();
-        } else {
-            let algos = hash_algos();
+            return hash_hmac_algos();
         }
 
-        return algos;
+        return hash_algos();
     }
 
     /**
@@ -538,7 +534,7 @@ class Crypt implements CryptInterface
 
         let availableCiphers = this->getAvailableCiphers();
 
-        if unlikely !in_array(cipher, availableCiphers) {
+        if unlikely !in_array(strtoupper(cipher), availableCiphers) {
             throw new Exception(
                 sprintf(
                     "The cipher algorithm \"%s\" is not supported on this system.",
@@ -584,11 +580,19 @@ class Crypt implements CryptInterface
      */
     protected function initializeAvailableCiphers() -> void
     {
+        var availableCiphers, i, cipher;
+
         if unlikely !function_exists("openssl_get_cipher_methods") {
             throw new Exception("openssl extension is required");
         }
 
-        let this->availableCiphers = openssl_get_cipher_methods(true);
+        let availableCiphers = openssl_get_cipher_methods(true);
+
+        for i, cipher in availableCiphers {
+            let availableCiphers[i] = strtoupper(cipher);
+        }
+
+        let this->availableCiphers = availableCiphers;
     }
 
     /**

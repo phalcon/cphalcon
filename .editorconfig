@@ -1,7 +1,7 @@
 # EditorConfig is awesome: http://EditorConfig.org
 
 # top-most EditorConfig file
-root = true
+root                     = true
 
 [*]
 end_of_line              = lf
@@ -11,12 +11,16 @@ indent_size              = 4
 charset                  = utf-8
 trim_trailing_whitespace = true
 
-[*.{c,h,awk,w32,bat,mk,Makefile,frag,lemon,re,psm1,sh}]
-indent_style = tab
-tab_width = 4
+[Makefile]
+indent_style             = tab
+tab_width                = 4
 
-[*.{yml,m4,json,xml}]
-indent_size = 2
+[*.{mk,c,h,awk,bat,frag,lemon,re}]
+indent_style             = tab
+tab_width                = 4
 
 [*.md]
 trim_trailing_whitespace = false
+
+[*.{yml,m4,json,xml,sh}]
+indent_size              = 2

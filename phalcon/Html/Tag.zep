@@ -17,6 +17,7 @@ use Phalcon\Escaper\EscaperInterface;
 use Phalcon\Helper\Arr;
 use Phalcon\Html\Exception;
 use Phalcon\Url\UrlInterface;
+use Phalcon\Mvc\Model\ResultsetInterface;
 
 /**
  * Phalcon\Html\Tag
@@ -1738,7 +1739,7 @@ class Tag implements InjectionAwareInterface
     /**
      * Generates the option values from a resultset
      */
-    private function renderSelectResultset(<ResulsetInterface> resultset, using, var value, string closeOption) -> string
+    private function renderSelectResultset(<ResultsetInterface> resultset, using, var value, string closeOption) -> string
     {
         var escaper, option, output, optionValue, optionText, parameters,
             strOptionValue, strValue;
