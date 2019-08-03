@@ -133,4 +133,14 @@ class Stream extends Noop
 
         return false !== file_put_contents(name, data);
     }
+
+    /**
+     * Returns current session path
+     *
+     * @return string
+     */
+    public function getPath() -> string
+    {
+        return this->path;
+    }
 }

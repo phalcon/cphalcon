@@ -60,11 +60,15 @@ class OpenCest
 
         $session = new Manager();
         $files = new Stream(getOptionsSessionStream());
+        $path = $files->getPath();
         $session->setHandler($files);
 
         $I->assertTrue(
             $session->start()
         );
+        $I->assertEquals(
+            $path,
+            $files->getPath()
+        );
     }
-
 }
