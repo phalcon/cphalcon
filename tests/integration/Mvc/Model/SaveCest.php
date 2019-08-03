@@ -380,50 +380,61 @@ class SaveCest
     {
         $I->wantToTest('Mvc\Model::save() after feteching related');
 
-        $part1 = new Parts();
-        $part1->name = "Right finger";
+        $artist = new Artists(
+            [
+                'name' => 'Mr Robot',
+            ]
+        );
 
-        $part2 = new Parts();
-        $part2->name = "Right toe";
+        $album1 = new Albums(
+            [
+                'name' => 'Feedback',
+            ]
+        );
+        $album2 = new Albums(
+            [
+                'name' => 'Syntax Error',
+            ]
+        );
 
-        $robot = new Robots();
-        $robotData = [
-            'name'     => 'bob',
-            'datetime' => (new \DateTime())->format('Y-m-d'),
-            'text'     => 'Test text',
-        ];
+        // Assign relationship in both directions on unsaved models
+        $artist->albums = [$album1, $album2];
 
-        $robot->assign($robotData);
-        $robot->robotsParts = [$part1, $part2];
-        $robot->save();
+        $I->assertTrue(
+            $artist->save()
+        );
 
-        $robot = Robots::findFirstByName("bob");
+        $artist = Artists::findFirstByName("Mr Robot");
 
         // Query the parts, for some reason,
         // for example to check if the parts are in the db already...
-        $firstParts = $robot->getRelated('robotsParts');
+        $firstAlbums = $artist->albums;
 
         $I->assertEquals(
             2,
-            count($firstParts)
+            count($firstAlbums)
         );
 
-        $part3 = new Parts();
-        $part3->name = "Left finger";
+        $album3 = new Albums(
+            [
+                'name' => 'Feedback 2',
+            ]
+        );
+        $album4 = new Albums(
+            [
+                'name' => 'Syntax Error 2',
+            ]
+        );
+        $artist->albums = [$album3, $album4];
+        $artist->save();
 
-        $part4 = new Parts();
-        $part4->name = "Left toe";
+        $artist = Artists::findFirstByName("Mr Robot");
 
-        $robot->robotsParts = [$part3, $part4];
-        $robot->save();
-
-        $robot = Robots::findFirstByName("bob");
-
-        $allParts = $robot->getRelated('robotsParts');
+        $allAlbums = $artist->getRelated('albums');
 
         $I->assertEquals(
             4,
-            count($allParts)
+            count($allAlbums)
         );
     }
 }
