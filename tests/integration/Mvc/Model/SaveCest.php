@@ -378,7 +378,7 @@ class SaveCest
 
     public function mvcModelSaveAfterFetchingRelatedIssue14270(IntegrationTester $I)
     {
-        $I->wantToTest('Mvc\Model::save() after feteching related');
+        $I->wantToTest('Mvc\Model::save() after fetching related using magic getter');
 
         $artist = new Artists(
             [
