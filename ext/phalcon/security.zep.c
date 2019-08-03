@@ -103,7 +103,7 @@ PHP_METHOD(Phalcon_Security, setWorkFactor) {
 
 	ZVAL_UNDEF(&workFactor_sub);
 
-	zephir_fetch_params(0, 1, 0, &workFactor);
+	zephir_fetch_params_without_memory_grow(1, 0, &workFactor);
 
 
 
@@ -127,6 +127,7 @@ PHP_METHOD(Phalcon_Security, getWorkFactor) {
 PHP_METHOD(Phalcon_Security, __construct) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -155,6 +156,7 @@ PHP_METHOD(Phalcon_Security, checkHash) {
 	long _3;
 	zend_bool _0;
 	char ch = 0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long maxPassLength, ZEPHIR_LAST_CALL_STATUS, i = 0, sum = 0, cryptedLength = 0, passwordLength = 0;
 	zval *password_param = NULL, *passwordHash_param = NULL, *maxPassLength_param = NULL, _1;
 	zval password, passwordHash, cryptedHash, _2;
@@ -209,6 +211,7 @@ PHP_METHOD(Phalcon_Security, checkHash) {
  */
 PHP_METHOD(Phalcon_Security, checkToken) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_3 = NULL;
 	zend_bool destroyIfValid, _9;
@@ -315,6 +318,7 @@ PHP_METHOD(Phalcon_Security, checkToken) {
  */
 PHP_METHOD(Phalcon_Security, computeHmac) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool raw;
 	zval *data_param = NULL, *key_param = NULL, *algo_param = NULL, *raw_param = NULL, hmac, _0, _1$$3, _2$$3, _3$$3;
@@ -368,6 +372,7 @@ PHP_METHOD(Phalcon_Security, computeHmac) {
  */
 PHP_METHOD(Phalcon_Security, destroyToken) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval __$null, container, session, _0, _5, _6, _7, _1$$3, _2$$3, _4$$3;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_3 = NULL;
@@ -474,6 +479,7 @@ PHP_METHOD(Phalcon_Security, getRandomBytes) {
 PHP_METHOD(Phalcon_Security, getRequestToken) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -497,6 +503,7 @@ PHP_METHOD(Phalcon_Security, getRequestToken) {
 PHP_METHOD(Phalcon_Security, getSessionToken) {
 
 	zval container, session, _0, _5, _6, _1$$3, _2$$3, _4$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_3 = NULL;
 	zval *this_ptr = getThis();
@@ -546,6 +553,7 @@ PHP_METHOD(Phalcon_Security, getSessionToken) {
 PHP_METHOD(Phalcon_Security, getSaltBytes) {
 
 	zend_bool _3$$4;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *numberBytes_param = NULL, safeBytes, _0$$3, _1$$4, _2$$4;
 	zend_long numberBytes, ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
@@ -594,6 +602,7 @@ PHP_METHOD(Phalcon_Security, getSaltBytes) {
 PHP_METHOD(Phalcon_Security, getToken) {
 
 	zval container, session, _0, _1$$3, _2$$3, _3$$3, _4$$3, _5$$3, _10$$3, _11$$3, _12$$3, _6$$4, _7$$4, _9$$4;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_8 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
@@ -661,6 +670,7 @@ PHP_METHOD(Phalcon_Security, getToken) {
 PHP_METHOD(Phalcon_Security, getTokenKey) {
 
 	zval container, session, _0, _1$$3, _6$$3, _7$$3, _8$$3, _9$$3, _10$$3, _11$$3, _2$$4, _3$$4, _5$$4;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_4 = NULL;
 	zval *this_ptr = getThis();
@@ -722,6 +732,7 @@ PHP_METHOD(Phalcon_Security, getTokenKey) {
  */
 PHP_METHOD(Phalcon_Security, hash) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long workFactor, ZEPHIR_LAST_CALL_STATUS, hash = 0;
 	zval *password_param = NULL, *workFactor_param = NULL, saltBytes, _1, _0$$3, _2$$12, _3$$12, _4$$13, _5$$15, _6$$15, _7$$17, _8$$17, _9$$17, _10$$17;
 	zval password, variant;
@@ -872,6 +883,7 @@ PHP_METHOD(Phalcon_Security, hash) {
  */
 PHP_METHOD(Phalcon_Security, isLegacyHash) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *passwordHash_param = NULL;
 	zval passwordHash;
 	zval *this_ptr = getThis();
@@ -899,7 +911,7 @@ PHP_METHOD(Phalcon_Security, setDefaultHash) {
 
 	ZVAL_UNDEF(&_0);
 
-	zephir_fetch_params(0, 1, 0, &defaultHash_param);
+	zephir_fetch_params_without_memory_grow(1, 0, &defaultHash_param);
 
 	defaultHash = zephir_get_intval(defaultHash_param);
 
@@ -921,7 +933,7 @@ PHP_METHOD(Phalcon_Security, setDI) {
 
 	ZVAL_UNDEF(&container_sub);
 
-	zephir_fetch_params(0, 1, 0, &container);
+	zephir_fetch_params_without_memory_grow(1, 0, &container);
 
 
 
@@ -941,7 +953,7 @@ PHP_METHOD(Phalcon_Security, setRandomBytes) {
 
 	ZVAL_UNDEF(&_0);
 
-	zephir_fetch_params(0, 1, 0, &randomBytes_param);
+	zephir_fetch_params_without_memory_grow(1, 0, &randomBytes_param);
 
 	if (UNEXPECTED(Z_TYPE_P(randomBytes_param) != IS_LONG)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'randomBytes' must be of the type long") TSRMLS_CC);

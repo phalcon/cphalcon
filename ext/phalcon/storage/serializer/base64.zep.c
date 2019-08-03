@@ -41,6 +41,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Storage_Serializer_Base64) {
 PHP_METHOD(Phalcon_Storage_Serializer_Base64, serialize) {
 
 	zval _0, _1;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -67,6 +68,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_Base64, serialize) {
  */
 PHP_METHOD(Phalcon_Storage_Serializer_Base64, unserialize) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *data, data_sub, _0;
 	zval *this_ptr = getThis();

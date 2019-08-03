@@ -74,6 +74,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Forms_Element_AbstractElement) {
  */
 PHP_METHOD(Phalcon_Forms_Element_AbstractElement, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval attributes;
 	zval *name_param = NULL, *attributes_param = NULL, _0, _1;
@@ -120,6 +121,7 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, __construct) {
  */
 PHP_METHOD(Phalcon_Forms_Element_AbstractElement, __toString) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -138,6 +140,7 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, __toString) {
 PHP_METHOD(Phalcon_Forms_Element_AbstractElement, addFilter) {
 
 	zval _1$$5, _2$$6;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *filter_param = NULL, filters, _0;
 	zval filter;
 	zval *this_ptr = getThis();
@@ -186,7 +189,7 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, addValidator) {
 
 	ZVAL_UNDEF(&validator_sub);
 
-	zephir_fetch_params(0, 1, 0, &validator);
+	zephir_fetch_params_without_memory_grow(1, 0, &validator);
 
 
 
@@ -202,6 +205,7 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, addValidator) {
  */
 PHP_METHOD(Phalcon_Forms_Element_AbstractElement, addValidators) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_bool merge;
 	zval *validators_param = NULL, *merge_param = NULL, _0$$3, _1$$3;
 	zval validators;
@@ -238,6 +242,7 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, addValidators) {
  */
 PHP_METHOD(Phalcon_Forms_Element_AbstractElement, appendMessage) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *message, message_sub, _0;
 	zval *this_ptr = getThis();
@@ -263,6 +268,7 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, appendMessage) {
 PHP_METHOD(Phalcon_Forms_Element_AbstractElement, clear) {
 
 	zval form, _0, name, value;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_1 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
@@ -296,6 +302,7 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, clear) {
  */
 PHP_METHOD(Phalcon_Forms_Element_AbstractElement, getAttribute) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *attribute_param = NULL, *defaultValue = NULL, defaultValue_sub, __$null, attributes, value, _0;
 	zval attribute;
 	zval *this_ptr = getThis();
@@ -333,6 +340,7 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, getAttribute) {
 PHP_METHOD(Phalcon_Forms_Element_AbstractElement, getAttributes) {
 
 	zval attributes, _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&attributes);
@@ -426,6 +434,7 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, getName) {
  */
 PHP_METHOD(Phalcon_Forms_Element_AbstractElement, getUserOption) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *option_param = NULL, *defaultValue = NULL, defaultValue_sub, __$null, value, _0;
 	zval option;
 	zval *this_ptr = getThis();
@@ -485,6 +494,7 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, getValidators) {
 PHP_METHOD(Phalcon_Forms_Element_AbstractElement, getValue) {
 
 	zval name, _0, form, value, _1, _4$$5;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_2 = NULL, *_3 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
@@ -545,6 +555,7 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, hasMessages) {
 PHP_METHOD(Phalcon_Forms_Element_AbstractElement, label) {
 
 	zend_bool _4;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_1 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *attributes_param = NULL, internalAttributes, label, name, code, _2, _3, _0$$3, _5$$5, _6$$6;
@@ -612,6 +623,7 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, label) {
  */
 PHP_METHOD(Phalcon_Forms_Element_AbstractElement, prepareAttributes) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool useChecked;
 	zval *attributes_param = NULL, *useChecked_param = NULL, value, name, mergedAttributes, defaultAttributes, currentValue, _0, _1$$6, _2$$8;
@@ -682,6 +694,7 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, prepareAttributes) {
  */
 PHP_METHOD(Phalcon_Forms_Element_AbstractElement, setAttribute) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *attribute_param = NULL, *value, value_sub;
 	zval attribute;
 	zval *this_ptr = getThis();
@@ -705,6 +718,7 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, setAttribute) {
  */
 PHP_METHOD(Phalcon_Forms_Element_AbstractElement, setAttributes) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *attributes_param = NULL;
 	zval attributes;
 	zval *this_ptr = getThis();
@@ -733,7 +747,7 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, setDefault) {
 
 	ZVAL_UNDEF(&value_sub);
 
-	zephir_fetch_params(0, 1, 0, &value);
+	zephir_fetch_params_without_memory_grow(1, 0, &value);
 
 
 
@@ -755,7 +769,7 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, setFilters) {
 
 	ZVAL_UNDEF(&filters_sub);
 
-	zephir_fetch_params(0, 1, 0, &filters);
+	zephir_fetch_params_without_memory_grow(1, 0, &filters);
 
 
 
@@ -782,7 +796,7 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, setForm) {
 
 	ZVAL_UNDEF(&form_sub);
 
-	zephir_fetch_params(0, 1, 0, &form);
+	zephir_fetch_params_without_memory_grow(1, 0, &form);
 
 
 
@@ -796,6 +810,7 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, setForm) {
  */
 PHP_METHOD(Phalcon_Forms_Element_AbstractElement, setLabel) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *label_param = NULL;
 	zval label;
 	zval *this_ptr = getThis();
@@ -823,7 +838,7 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, setMessages) {
 
 	ZVAL_UNDEF(&messages_sub);
 
-	zephir_fetch_params(0, 1, 0, &messages);
+	zephir_fetch_params_without_memory_grow(1, 0, &messages);
 
 
 
@@ -837,6 +852,7 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, setMessages) {
  */
 PHP_METHOD(Phalcon_Forms_Element_AbstractElement, setName) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *name_param = NULL;
 	zval name;
 	zval *this_ptr = getThis();
@@ -868,6 +884,7 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, setName) {
  */
 PHP_METHOD(Phalcon_Forms_Element_AbstractElement, setUserOption) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *option_param = NULL, *value, value_sub;
 	zval option;
 	zval *this_ptr = getThis();
@@ -891,6 +908,7 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, setUserOption) {
  */
 PHP_METHOD(Phalcon_Forms_Element_AbstractElement, setUserOptions) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *options_param = NULL;
 	zval options;
 	zval *this_ptr = getThis();
@@ -911,6 +929,7 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, setUserOptions) {
 zend_object *zephir_init_properties_Phalcon_Forms_Element_AbstractElement(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval _0, _1$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
 

@@ -84,6 +84,7 @@ PHP_METHOD(Phalcon_Db_RawValue, __toString) {
 PHP_METHOD(Phalcon_Db_RawValue, __construct) {
 
 	zval _2$$5;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *value, value_sub, _0$$3, _1$$4;
 	zval *this_ptr = getThis();
 

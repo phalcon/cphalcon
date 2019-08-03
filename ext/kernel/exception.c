@@ -40,6 +40,7 @@
 void zephir_throw_exception_debug(zval *object, const char *file, zend_uint line)
 {
 	zend_class_entry *default_exception_ce;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	int ZEPHIR_LAST_CALL_STATUS = 0;
 	zval curline;
 	zval object_copy;
@@ -86,7 +87,7 @@ void zephir_throw_exception_string_debug(zend_class_entry *ce, const char *messa
 
 	ZVAL_STRINGL(&msg, message, message_len);
 
-	ZEPHIR_CALL_METHOD(NULL, &object, "__construct", NULL, 0, &msg);
+	ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(NULL, &object, "__construct", NULL, 0, &msg);
 
 	if (line > 0) {
 		default_exception_ce = zend_exception_get_default();
@@ -113,7 +114,7 @@ void zephir_throw_exception_string(zend_class_entry *ce, const char *message, ze
 
 	ZVAL_STRINGL(&msg, message, message_len);
 
-	ZEPHIR_CALL_METHOD(NULL, &object, "__construct", NULL, 0, &msg);
+	ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(NULL, &object, "__construct", NULL, 0, &msg);
 
 	if (ZEPHIR_LAST_CALL_STATUS != FAILURE) {
 		zend_throw_exception_object(&object);
@@ -141,7 +142,7 @@ void zephir_throw_exception_format(zend_class_entry *ce, const char *format, ...
 	ZVAL_STRINGL(&msg, buffer, len);
 	efree(buffer);
 
-	ZEPHIR_CALL_METHOD(NULL, &object, "__construct", NULL, 0, &msg);
+	ZEPHIR_CALL_METHOD_WITHOUT_OBSERVE(NULL, &object, "__construct", NULL, 0, &msg);
 
 	if (ZEPHIR_LAST_CALL_STATUS != FAILURE) {
 		zend_throw_exception_object(&object);

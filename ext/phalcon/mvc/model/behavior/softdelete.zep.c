@@ -49,6 +49,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Behavior_SoftDelete) {
 PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify) {
 
 	zend_bool _9;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_6 = NULL, *_7 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *type_param = NULL, *model, model_sub, options, value, field, updateModel, message, modelsManager, metaData, _0, _1, _2, _8, _3$$7, *_4$$7, _5$$7, _10$$10, _11$$10;

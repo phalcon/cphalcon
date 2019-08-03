@@ -44,6 +44,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_BoolVal) {
  */
 PHP_METHOD(Phalcon_Filter_Sanitize_BoolVal, __invoke) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *input, input_sub, falseArray, trueArray, _0;
 	zval *this_ptr = getThis();
 

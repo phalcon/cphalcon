@@ -127,7 +127,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_AbstractAdapter, setAlwaysResolvingRole) {
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
 
-	zephir_fetch_params(0, 1, 0, &alwaysResolvingRole_param);
+	zephir_fetch_params_without_memory_grow(1, 0, &alwaysResolvingRole_param);
 
 	alwaysResolvingRole = zephir_get_boolval(alwaysResolvingRole_param);
 
@@ -194,6 +194,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_AbstractAdapter, isAlwaysResolvingRole) {
  */
 PHP_METHOD(Phalcon_Firewall_Adapter_AbstractAdapter, setCache) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *cache, cache_sub, _0, _1$$3, _2$$3;
 	zval *this_ptr = getThis();
@@ -232,7 +233,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_AbstractAdapter, setDefaultAccess) {
 
 	ZVAL_UNDEF(&_0);
 
-	zephir_fetch_params(0, 1, 0, &defaultAccess_param);
+	zephir_fetch_params_without_memory_grow(1, 0, &defaultAccess_param);
 
 	defaultAccess = zephir_get_intval(defaultAccess_param);
 
@@ -254,7 +255,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_AbstractAdapter, setEventsManager) {
 
 	ZVAL_UNDEF(&eventsManager_sub);
 
-	zephir_fetch_params(0, 1, 0, &eventsManager);
+	zephir_fetch_params_without_memory_grow(1, 0, &eventsManager);
 
 
 
@@ -273,7 +274,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_AbstractAdapter, setRoleCallback) {
 
 	ZVAL_UNDEF(&callback_sub);
 
-	zephir_fetch_params(0, 1, 0, &callback);
+	zephir_fetch_params_without_memory_grow(1, 0, &callback);
 
 
 
@@ -288,6 +289,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_AbstractAdapter, setRoleCallback) {
 
 PHP_METHOD(Phalcon_Firewall_Adapter_AbstractAdapter, callRoleCallback) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *container, container_sub, roleCallback, identity, _0, _1$$4;
 	zval *this_ptr = getThis();
@@ -332,6 +334,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_AbstractAdapter, callRoleCallback) {
  */
 PHP_METHOD(Phalcon_Firewall_Adapter_AbstractAdapter, getAccessFromCache) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval originalValues;
 	zval *key_param = NULL, *originalValues_param = NULL, *roleCacheKey_param = NULL, access, _0;
 	zval key, roleCacheKey;
@@ -381,6 +384,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_AbstractAdapter, getAccessFromCache) {
  */
 PHP_METHOD(Phalcon_Firewall_Adapter_AbstractAdapter, handleException) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *exception, exception_sub, eventsManager, _0, _1$$3, _2$$3;
 	zval *this_ptr = getThis();
@@ -416,6 +420,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_AbstractAdapter, handleException) {
  */
 PHP_METHOD(Phalcon_Firewall_Adapter_AbstractAdapter, fireEventOrThrowException) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool access;
 	zval actionName, controllerName;
@@ -472,6 +477,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_AbstractAdapter, fireEventOrThrowException) 
  */
 PHP_METHOD(Phalcon_Firewall_Adapter_AbstractAdapter, saveAccessInCache) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool access;
 	zval *key_param = NULL, *access_param = NULL, cache, _0, _1, _2$$3, _3$$3;
@@ -522,6 +528,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_AbstractAdapter, saveAccessInCache) {
  */
 PHP_METHOD(Phalcon_Firewall_Adapter_AbstractAdapter, throwFirewallException) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long exceptionCode, ZEPHIR_LAST_CALL_STATUS;
 	zval *message_param = NULL, *exceptionCode_param = NULL, exception, _0, _1;
 	zval message;

@@ -77,7 +77,7 @@ PHP_METHOD(Phalcon_Validation, setValidators) {
 
 	ZVAL_UNDEF(&validators_sub);
 
-	zephir_fetch_params(0, 1, 0, &validators);
+	zephir_fetch_params_without_memory_grow(1, 0, &validators);
 
 
 
@@ -91,6 +91,7 @@ PHP_METHOD(Phalcon_Validation, setValidators) {
  */
 PHP_METHOD(Phalcon_Validation, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *validators_param = NULL, _0, _1, _2, _3;
 	zval validators;
@@ -139,6 +140,7 @@ PHP_METHOD(Phalcon_Validation, __construct) {
 PHP_METHOD(Phalcon_Validation, add) {
 
 	zval _0$$4;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *field, field_sub, *validator, validator_sub, singleField, *_1$$5, _2$$5;
 	zval *this_ptr = getThis();
@@ -203,6 +205,7 @@ PHP_METHOD(Phalcon_Validation, add) {
  */
 PHP_METHOD(Phalcon_Validation, appendMessage) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *message, message_sub, messages, _0;
 	zval *this_ptr = getThis();
@@ -241,6 +244,7 @@ PHP_METHOD(Phalcon_Validation, appendMessage) {
 PHP_METHOD(Phalcon_Validation, bind) {
 
 	zend_bool _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *entity, entity_sub, *data, data_sub;
 	zval *this_ptr = getThis();
@@ -285,6 +289,7 @@ PHP_METHOD(Phalcon_Validation, getEntity) {
  */
 PHP_METHOD(Phalcon_Validation, getFilters) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *field_param = NULL, filters, fieldFilters, _0;
 	zval field;
 	zval *this_ptr = getThis();
@@ -324,6 +329,7 @@ PHP_METHOD(Phalcon_Validation, getFilters) {
  */
 PHP_METHOD(Phalcon_Validation, getLabel) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *field, field_sub, labels, value, _0;
 	zval *this_ptr = getThis();
 
@@ -381,6 +387,7 @@ PHP_METHOD(Phalcon_Validation, getValidators) {
 PHP_METHOD(Phalcon_Validation, getValue) {
 
 	zend_bool _2$$8;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_3 = NULL, *_6 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *field_param = NULL, entity, method, value, data, values, filters, fieldFilters, container, filterService, camelizedField, _0, _1$$8, _4$$19, _5$$19, _7$$19, _8$$17, _9$$17, _10$$21;
@@ -533,6 +540,7 @@ PHP_METHOD(Phalcon_Validation, getValue) {
  */
 PHP_METHOD(Phalcon_Validation, rule) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *field, field_sub, *validator, validator_sub;
 	zval *this_ptr = getThis();
@@ -556,6 +564,7 @@ PHP_METHOD(Phalcon_Validation, rule) {
  */
 PHP_METHOD(Phalcon_Validation, rules) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_2 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval validators;
@@ -620,7 +629,7 @@ PHP_METHOD(Phalcon_Validation, setEntity) {
 
 	ZVAL_UNDEF(&entity_sub);
 
-	zephir_fetch_params(0, 1, 0, &entity);
+	zephir_fetch_params_without_memory_grow(1, 0, &entity);
 
 
 
@@ -640,6 +649,7 @@ PHP_METHOD(Phalcon_Validation, setEntity) {
  */
 PHP_METHOD(Phalcon_Validation, setFilters) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *field, field_sub, *filters, filters_sub, singleField, *_0$$3, _1$$3;
 	zval *this_ptr = getThis();
@@ -695,6 +705,7 @@ PHP_METHOD(Phalcon_Validation, setFilters) {
  */
 PHP_METHOD(Phalcon_Validation, setLabels) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *labels_param = NULL;
 	zval labels;
 	zval *this_ptr = getThis();
@@ -723,6 +734,7 @@ PHP_METHOD(Phalcon_Validation, validate) {
 	zend_bool _1$$7;
 	zend_string *_5;
 	zend_ulong _4;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_9 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *data = NULL, data_sub, *entity = NULL, entity_sub, __$null, combinedFieldsValidators, field, messages, scope, status, validator, validatorData, validators, _0, *_2, _3, *_27, _28, *_6$$9, _7$$9, _8$$10, _10$$10, _11$$13, _12$$13, _13$$15, _14$$15, _15$$18, _16$$18, *_17$$20, _18$$20, _19$$21, _20$$21, _21$$24, _22$$24, _23$$26, _24$$26, _25$$29, _26$$29, _29$$31, _30$$31, _31$$35, _32$$35, _33$$37, _34$$37, _35$$41, _36$$41, _37$$43;
@@ -1070,6 +1082,7 @@ PHP_METHOD(Phalcon_Validation, validate) {
  */
 PHP_METHOD(Phalcon_Validation, preChecking) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_2 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *field, field_sub, *validator, validator_sub, singleField, allowEmpty, emptyValue, value, result, *_0$$3, _1$$3, _3$$8, _4$$8, *_5$$11, _6$$11;
@@ -1182,6 +1195,7 @@ PHP_METHOD(Phalcon_Validation, preChecking) {
 zend_object *zephir_init_properties_Phalcon_Validation(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval _0, _2, _1$$3, _3$$4;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_1$$3);

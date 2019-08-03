@@ -75,7 +75,7 @@ PHP_METHOD(Phalcon_Application_AbstractApplication, __construct) {
 	ZVAL_UNDEF(&container_sub);
 	ZVAL_NULL(&__$null);
 
-	zephir_fetch_params(0, 0, 1, &container);
+	zephir_fetch_params_without_memory_grow(0, 1, &container);
 
 	if (!container) {
 		container = &container_sub;
@@ -118,6 +118,7 @@ PHP_METHOD(Phalcon_Application_AbstractApplication, getEventsManager) {
  */
 PHP_METHOD(Phalcon_Application_AbstractApplication, getModule) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *name_param = NULL, module, _0, _1$$3;
 	zval name, _2$$3;
@@ -200,6 +201,7 @@ PHP_METHOD(Phalcon_Application_AbstractApplication, handle) {
  */
 PHP_METHOD(Phalcon_Application_AbstractApplication, registerModules) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_bool merge;
 	zval *modules_param = NULL, *merge_param = NULL, _0$$3, _1$$3;
 	zval modules;
@@ -237,6 +239,7 @@ PHP_METHOD(Phalcon_Application_AbstractApplication, registerModules) {
  */
 PHP_METHOD(Phalcon_Application_AbstractApplication, setDefaultModule) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *defaultModule_param = NULL;
 	zval defaultModule;
 	zval *this_ptr = getThis();
@@ -273,7 +276,7 @@ PHP_METHOD(Phalcon_Application_AbstractApplication, setEventsManager) {
 
 	ZVAL_UNDEF(&eventsManager_sub);
 
-	zephir_fetch_params(0, 1, 0, &eventsManager);
+	zephir_fetch_params_without_memory_grow(1, 0, &eventsManager);
 
 
 
@@ -285,6 +288,7 @@ PHP_METHOD(Phalcon_Application_AbstractApplication, setEventsManager) {
 zend_object *zephir_init_properties_Phalcon_Application_AbstractApplication(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval _0, _1$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
 

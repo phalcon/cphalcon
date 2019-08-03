@@ -52,6 +52,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Row) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Row, jsonSerialize) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -73,6 +74,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, jsonSerialize) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Row, offsetGet) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *index, index_sub, value;
 	zval *this_ptr = getThis();
 
@@ -105,7 +107,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetExists) {
 
 	ZVAL_UNDEF(&index_sub);
 
-	zephir_fetch_params(0, 1, 0, &index);
+	zephir_fetch_params_without_memory_grow(1, 0, &index);
 
 
 
@@ -127,7 +129,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetSet) {
 	ZVAL_UNDEF(&index_sub);
 	ZVAL_UNDEF(&value_sub);
 
-	zephir_fetch_params(0, 2, 0, &index, &value);
+	zephir_fetch_params_without_memory_grow(2, 0, &index, &value);
 
 
 
@@ -148,7 +150,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetUnset) {
 
 	ZVAL_UNDEF(&offset_sub);
 
-	zephir_fetch_params(0, 1, 0, &offset);
+	zephir_fetch_params_without_memory_grow(1, 0, &offset);
 
 
 
@@ -168,6 +170,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetUnset) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Row, readAttribute) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *attribute_param = NULL, value;
 	zval attribute;
 	zval *this_ptr = getThis();
@@ -208,7 +211,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, setDirtyState) {
 	zval *this_ptr = getThis();
 
 
-	zephir_fetch_params(0, 1, 0, &dirtyState_param);
+	zephir_fetch_params_without_memory_grow(1, 0, &dirtyState_param);
 
 	dirtyState = zephir_get_intval(dirtyState_param);
 
@@ -222,6 +225,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, setDirtyState) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Row, toArray) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -245,6 +249,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, toArray) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Row, writeAttribute) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *attribute_param = NULL, *value, value_sub;
 	zval attribute;
 	zval *this_ptr = getThis();

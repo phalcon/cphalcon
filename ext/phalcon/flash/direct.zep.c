@@ -43,6 +43,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Flash_Direct) {
  */
 PHP_METHOD(Phalcon_Flash_Direct, message) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *type_param = NULL, *message, message_sub;
 	zval type;
@@ -68,6 +69,7 @@ PHP_METHOD(Phalcon_Flash_Direct, message) {
  */
 PHP_METHOD(Phalcon_Flash_Direct, output) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_3 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *remove_param = NULL, message, _0, *_1, _2;

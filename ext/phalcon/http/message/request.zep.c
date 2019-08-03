@@ -52,6 +52,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_Request) {
  */
 PHP_METHOD(Phalcon_Http_Message_Request, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *method_param = NULL, *uri = NULL, uri_sub, *body = NULL, body_sub, *headers = NULL, headers_sub, __$null, _0, _1, _2, _3, _4, _5;
 	zval method;

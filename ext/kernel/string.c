@@ -1076,11 +1076,19 @@ void zephir_preg_match(zval *return_value, zval *regex, zval *subject, zval *mat
 
 	ZVAL_UNDEF(&tmp_matches);
 
+#if PHP_VERSION_ID < 70400
 	if (flags != 0 || offset != 0) {
 		php_pcre_match_impl(pce, Z_STRVAL_P(subject), Z_STRLEN_P(subject), return_value, &tmp_matches, global, 1, flags, offset);
 	} else {
 		php_pcre_match_impl(pce, Z_STRVAL_P(subject), Z_STRLEN_P(subject), return_value, &tmp_matches, global, 0, 0, 0);
 	}
+#else
+	if (flags != 0 || offset != 0) {
+		php_pcre_match_impl(pce, Z_STR_P(subject), return_value, &tmp_matches, global, 1, flags, offset);
+	} else {
+		php_pcre_match_impl(pce, Z_STR_P(subject), return_value, &tmp_matches, global, 0, 0, 0);
+	}
+#endif
 
 	if (matches) {
 		zval *php_matches = &tmp_matches;

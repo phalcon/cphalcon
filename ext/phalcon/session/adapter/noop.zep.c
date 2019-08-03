@@ -87,6 +87,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Session_Adapter_Noop) {
  */
 PHP_METHOD(Phalcon_Session_Adapter_Noop, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *options_param = NULL, prefix;
 	zval options;
 	zval *this_ptr = getThis();
@@ -138,7 +139,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Noop, destroy) {
 
 	ZVAL_UNDEF(&id_sub);
 
-	zephir_fetch_params(0, 1, 0, &id);
+	zephir_fetch_params_without_memory_grow(1, 0, &id);
 
 
 
@@ -156,7 +157,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Noop, gc) {
 
 	ZVAL_UNDEF(&maxlifetime_sub);
 
-	zephir_fetch_params(0, 1, 0, &maxlifetime);
+	zephir_fetch_params_without_memory_grow(1, 0, &maxlifetime);
 
 
 
@@ -174,7 +175,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Noop, read) {
 
 	ZVAL_UNDEF(&id_sub);
 
-	zephir_fetch_params(0, 1, 0, &id);
+	zephir_fetch_params_without_memory_grow(1, 0, &id);
 
 
 
@@ -193,7 +194,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Noop, open) {
 	ZVAL_UNDEF(&savePath_sub);
 	ZVAL_UNDEF(&sessionName_sub);
 
-	zephir_fetch_params(0, 2, 0, &savePath, &sessionName);
+	zephir_fetch_params_without_memory_grow(2, 0, &savePath, &sessionName);
 
 
 
@@ -212,7 +213,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Noop, write) {
 	ZVAL_UNDEF(&id_sub);
 	ZVAL_UNDEF(&data_sub);
 
-	zephir_fetch_params(0, 2, 0, &id, &data);
+	zephir_fetch_params_without_memory_grow(2, 0, &id, &data);
 
 
 
@@ -226,6 +227,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Noop, write) {
 PHP_METHOD(Phalcon_Session_Adapter_Noop, getPrefixedName) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *name = NULL, name_sub, _1;
 	zval *this_ptr = getThis();
 
@@ -250,6 +252,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Noop, getPrefixedName) {
 zend_object *zephir_init_properties_Phalcon_Session_Adapter_Noop(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval _0, _1$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
 

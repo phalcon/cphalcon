@@ -46,6 +46,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_LowerFirst) {
  */
 PHP_METHOD(Phalcon_Filter_Sanitize_LowerFirst, __invoke) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *input_param = NULL;
 	zval input;

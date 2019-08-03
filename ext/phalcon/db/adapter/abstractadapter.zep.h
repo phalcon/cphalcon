@@ -484,9 +484,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapt
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_getdialect, 0, 0, Phalcon\\Db\\Adapter\\DialectInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_getdialect, 0, 0, Phalcon\\Db\\DialectInterface, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_getdialect, 0, 0, IS_OBJECT, "Phalcon\\Db\\Adapter\\DialectInterface", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_getdialect, 0, 0, IS_OBJECT, "Phalcon\\Db\\DialectInterface", 0)
 #endif
 ZEND_END_ARG_INFO()
 
@@ -650,7 +650,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_seteventsmanag
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_setdialect, 0, 0, 1)
-	ZEND_ARG_OBJ_INFO(0, dialect, Phalcon\\Db\\Adapter\\DialectInterface, 0)
+	ZEND_ARG_OBJ_INFO(0, dialect, Phalcon\\Db\\DialectInterface, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200

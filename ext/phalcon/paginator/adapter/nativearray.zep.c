@@ -67,6 +67,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, paginate) {
 	zval _6;
 	double roundedTotal = 0;
 	zval config, items, _0, _1, _2, _3, _4, _5, _7, _8;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS, show = 0, pageNumber = 0, totalPages = 0, number = 0, previous = 0, next = 0;
 	zval *this_ptr = getThis();
 

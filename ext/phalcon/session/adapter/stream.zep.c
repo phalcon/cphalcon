@@ -68,6 +68,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Session_Adapter_Stream) {
 
 PHP_METHOD(Phalcon_Session_Adapter_Stream, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL, *_7 = NULL;
 	zval options, *options_param = NULL, path, _1, _3, _6, _2$$3, _4$$4, _5$$4;
@@ -127,6 +128,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, __construct) {
 PHP_METHOD(Phalcon_Session_Adapter_Stream, destroy) {
 
 	zend_bool _2;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *id, id_sub, file, _0, _1, _3;
 	zval *this_ptr = getThis();
@@ -164,6 +166,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, destroy) {
 PHP_METHOD(Phalcon_Session_Adapter_Stream, gc) {
 
 	zend_bool _6$$3, _9$$3, _12$$5, _14$$5;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_8 = NULL, *_11 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *maxlifetime, maxlifetime_sub, file, pattern, time, _0, _1, _2, _3, *_4, _5, _7$$3, _10$$3, _13$$5, _15$$5;
@@ -259,6 +262,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, gc) {
 
 PHP_METHOD(Phalcon_Session_Adapter_Stream, open) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *savePath, savePath_sub, *sessionName, sessionName_sub, path;
 	zval *this_ptr = getThis();
 
@@ -282,6 +286,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, open) {
 
 PHP_METHOD(Phalcon_Session_Adapter_Stream, read) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *id, id_sub, data, name, _0, _1;
 	zval *this_ptr = getThis();
@@ -317,6 +322,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, read) {
 
 PHP_METHOD(Phalcon_Session_Adapter_Stream, write) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *id, id_sub, *data, data_sub, name, _0, _1, _2;
 	zval *this_ptr = getThis();

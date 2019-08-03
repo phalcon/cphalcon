@@ -66,6 +66,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Storage_Adapter_Stream) {
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Stream, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL, *_4 = NULL, *_5 = NULL;
 	zval options;
@@ -127,6 +128,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, clear) {
 
 	zend_bool result = 0, _5$$3, _10$$5;
 	zval directory, iterator, file, _1, *_2, _3, _4$$3, _6$$3, _7$$3, _9$$5, _11$$5, _12$$5;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL, *_8 = NULL;
 	zval *this_ptr = getThis();
@@ -215,6 +217,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, clear) {
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Stream, decrement) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long value, ZEPHIR_LAST_CALL_STATUS, _1;
 	zval *key_param = NULL, *value_param = NULL, data, _0;
 	zval key;
@@ -269,6 +272,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, decrement) {
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Stream, delete) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *key_param = NULL, filepath, _0;
 	zval key;
@@ -316,6 +320,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, delete) {
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Stream, get) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_3 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *key_param = NULL, *defaultValue = NULL, defaultValue_sub, __$true, __$null, content, payload, filepath, _0, _1, _2, _4;
@@ -406,6 +411,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, getAdapter) {
 PHP_METHOD(Phalcon_Storage_Adapter_Stream, getKeys) {
 
 	zval directory, iterator, file, split, results, _1, *_2, _3, _4$$3, _5$$4, _6$$4, _7$$4, _9$$4, _10$$5, _11$$6, _12$$6, _13$$6, _14$$6;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL, *_8 = NULL;
 	zval *this_ptr = getThis();
@@ -501,6 +507,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, getKeys) {
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Stream, has) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *key_param = NULL, payload, filepath, _0, _1;
 	zval key;
@@ -554,6 +561,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, has) {
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Stream, increment) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long value, ZEPHIR_LAST_CALL_STATUS, _1;
 	zval *key_param = NULL, *value_param = NULL, data, _0;
 	zval key;
@@ -612,6 +620,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, increment) {
 PHP_METHOD(Phalcon_Storage_Adapter_Stream, set) {
 
 	zval payload;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *key_param = NULL, *value, value_sub, *ttl = NULL, ttl_sub, __$true, __$null, directory, _0, _1, _3, _4, _2$$3;
 	zval key;
@@ -689,6 +698,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, set) {
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Stream, getDir) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_2 = NULL, *_8 = NULL;
 	zval *key_param = NULL, dirPrefix, dirFromFile, _0, _1, _3, _4, _5, _6, _7;
@@ -752,6 +762,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, getDir) {
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Stream, getFilepath) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *key_param = NULL, _0, _1, _2, _3, _4;
 	zval key;
@@ -796,6 +807,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, getFilepath) {
 
 PHP_METHOD(Phalcon_Storage_Adapter_Stream, getIterator) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *dir_param = NULL, _0, _1;
 	zval dir;
@@ -842,6 +854,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, getIterator) {
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Stream, isExpired) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval *payload_param = NULL, created, ttl, _1, _2, _3, _4;
@@ -884,6 +897,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, isExpired) {
 zend_object *zephir_init_properties_Phalcon_Storage_Adapter_Stream(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval _0, _1$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
 

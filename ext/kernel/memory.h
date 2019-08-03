@@ -32,42 +32,67 @@
 
 #define ZEPHIR_NUM_PREALLOCATED_FRAMES 25
 
+/** Memory frame */
+typedef struct _zephir_memory_entry {
+	size_t pointer;
+	size_t capacity;
+	zval **addresses;
+#ifndef ZEPHIR_RELEASE
+	int permanent;
+	const char *func;
+#endif
+} zephir_memory_entry;
+
+/** Virtual Symbol Table */
+typedef struct _zephir_symbol_table {
+	struct _zephir_memory_entry *scope;
+	zend_array *symbol_table;
+	struct _zephir_symbol_table *prev;
+} zephir_symbol_table;
+
+typedef struct _zephir_method_globals {
+	/* Memory */
+	zephir_memory_entry *active_memory; /**< The current memory frame */
+
+	/* Virtual Symbol Tables */
+	zephir_symbol_table *active_symbol_table;
+} zephir_method_globals;
+
+/* Memory Frames */
+void ZEPHIR_FASTCALL zephir_memory_grow_stack(zephir_method_globals *g, const char *func);
+void ZEPHIR_FASTCALL zephir_memory_restore_stack(zephir_method_globals *g, const char *func);
+
+#define ZEPHIR_MM_GROW()  \
+	ZEPHIR_METHOD_GLOBALS_PTR = pecalloc(1, sizeof(zephir_method_globals), 0); \
+	zephir_memory_grow_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__);
+
+#define ZEPHIR_MM_RESTORE() \
+	zephir_memory_restore_stack(ZEPHIR_METHOD_GLOBALS_PTR, __func__); \
+	pefree(ZEPHIR_METHOD_GLOBALS_PTR, 0); \
+	ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+
 void zephir_initialize_memory(zend_zephir_globals_def *zephir_globals_ptr);
 int zephir_cleanup_fcache(void *pDest, int num_args, va_list args, zend_hash_key *hash_key);
 void zephir_deinitialize_memory();
 
-/* Memory Frames */
-#ifndef ZEPHIR_RELEASE
-void ZEPHIR_FASTCALL zephir_memory_grow_stack(const char *func);
-int ZEPHIR_FASTCALL zephir_memory_restore_stack(const char *func);
-
-#define ZEPHIR_MM_GROW() zephir_memory_grow_stack(NULL)
-#define ZEPHIR_MM_RESTORE() zephir_memory_restore_stack(NULL)
-
-#else
-void ZEPHIR_FASTCALL zephir_memory_grow_stack();
-int ZEPHIR_FASTCALL zephir_memory_restore_stack();
-
-#define ZEPHIR_MM_GROW() zephir_memory_grow_stack()
-#define ZEPHIR_MM_RESTORE() zephir_memory_restore_stack()
-
-#endif
-
 #define zephir_dtor(x) zval_dtor(x)
 #define zephir_ptr_dtor(x) zval_ptr_dtor(x)
 
-void ZEPHIR_FASTCALL zephir_memory_observe(zval *var);
-void ZEPHIR_FASTCALL zephir_memory_alloc(zval *var);
-
-int ZEPHIR_FASTCALL zephir_clean_restore_stack();
+void ZEPHIR_FASTCALL zephir_do_memory_observe(zval *var, const zephir_method_globals *g);
+#define zephir_memory_observe(var) zephir_do_memory_observe(var, ZEPHIR_METHOD_GLOBALS_PTR);
 
 #define zephir_safe_zval_ptr_dtor(pzval)
 
-void zephir_create_symbol_table();
+void zephir_create_symbol_table(zephir_method_globals *g);
+
+#define ZEPHIR_CREATE_SYMBOL_TABLE() zephir_create_symbol_table(ZEPHIR_METHOD_GLOBALS_PTR);
+
 int zephir_set_symbol(zval *key_name, zval *value);
 int zephir_set_symbol_str(char *key_name, unsigned int key_length, zval *value);
 
-#define ZEPHIR_INIT_VAR(z) zephir_memory_alloc(z);
+#define ZEPHIR_INIT_VAR(z) \
+	zephir_memory_observe(z); \
+	ZVAL_NULL(z);
 
 #define ZEPHIR_SINIT_VAR(z) ZVAL_NULL(&z);
 

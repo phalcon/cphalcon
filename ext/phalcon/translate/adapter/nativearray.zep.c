@@ -59,6 +59,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Translate_Adapter_NativeArray) {
  */
 PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval options;
@@ -107,6 +108,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, __construct) {
  */
 PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, exists) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *index_param = NULL, _0;
 	zval index;
 	zval *this_ptr = getThis();
@@ -139,6 +141,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, exists) {
  */
 PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, notFound) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *index_param = NULL, _0, _1$$3;
 	zval index, _2$$3;
@@ -185,6 +188,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, notFound) {
  */
 PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *index_param = NULL, *placeholders = NULL, placeholders_sub, __$null, translation, _0;
 	zval index;

@@ -76,6 +76,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Digit) {
 PHP_METHOD(Phalcon_Validation_Validator_Digit, validate) {
 
 	zend_bool _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *validation, validation_sub, *field, field_sub, value, _1, _2;
 	zval *this_ptr = getThis();

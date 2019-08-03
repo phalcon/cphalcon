@@ -42,6 +42,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Forms_Element_Date) {
  */
 PHP_METHOD(Phalcon_Forms_Element_Date, render) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval *attributes_param = NULL, _1;

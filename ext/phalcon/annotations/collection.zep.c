@@ -72,6 +72,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Collection) {
  */
 PHP_METHOD(Phalcon_Annotations_Collection, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_3 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *reflectionData_param = NULL, annotations, annotationData, *_0, _1, _2$$3, _4$$4;
@@ -179,6 +180,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, current) {
  */
 PHP_METHOD(Phalcon_Annotations_Collection, get) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *name_param = NULL, annotation, annotations, _0, *_1, _2, _5, _3$$3, _4$$5;
 	zval name, _6;
@@ -253,6 +255,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, get) {
 PHP_METHOD(Phalcon_Annotations_Collection, getAll) {
 
 	zval found;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *name_param = NULL, annotations, annotation, _0, *_1, _2, _3$$3, _4$$5;
 	zval name;
@@ -331,6 +334,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, getAnnotations) {
  */
 PHP_METHOD(Phalcon_Annotations_Collection, has) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *name_param = NULL, annotations, annotation, _0, *_1, _2, _3$$3, _4$$5;
 	zval name;

@@ -234,6 +234,7 @@ PHP_METHOD(Phalcon_Http_Message_Uri, getScheme) {
  */
 PHP_METHOD(Phalcon_Http_Message_Uri, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_3 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *uri_param = NULL, urlParts, _0, _1$$3, _2$$3, _4$$3, _5$$3, _6$$3, _7$$3, _8$$3, _9$$3, _10$$3, _11$$3, _12$$3, _13$$3, _14$$3, _15$$3, _16$$3, _17$$3, _18$$3, _19$$3, _20$$3;
@@ -382,6 +383,7 @@ PHP_METHOD(Phalcon_Http_Message_Uri, __toString) {
 
 	zend_bool _2, _3;
 	zval authority, path, uri, _0, _1, _4, _6, _7, _8, _9, _10, _11, _12, _13, _5$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -459,6 +461,7 @@ PHP_METHOD(Phalcon_Http_Message_Uri, __toString) {
 PHP_METHOD(Phalcon_Http_Message_Uri, getAuthority) {
 
 	zval authority, userInfo, _0, _1, _2, _4, _3$$4, _5$$5, _6$$5;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -520,6 +523,7 @@ PHP_METHOD(Phalcon_Http_Message_Uri, getAuthority) {
 PHP_METHOD(Phalcon_Http_Message_Uri, getUserInfo) {
 
 	zval _0, _1$$3, _2$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
@@ -557,6 +561,7 @@ PHP_METHOD(Phalcon_Http_Message_Uri, getUserInfo) {
  */
 PHP_METHOD(Phalcon_Http_Message_Uri, withFragment) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *fragment = NULL, fragment_sub, _0, _1;
 	zval *this_ptr = getThis();
@@ -610,6 +615,7 @@ PHP_METHOD(Phalcon_Http_Message_Uri, withFragment) {
 PHP_METHOD(Phalcon_Http_Message_Uri, withPath) {
 
 	zend_bool _2;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *path = NULL, path_sub, _0, _1, _3, _4, _5, _6;
 	zval *this_ptr = getThis();
@@ -677,6 +683,7 @@ PHP_METHOD(Phalcon_Http_Message_Uri, withPath) {
 PHP_METHOD(Phalcon_Http_Message_Uri, withPort) {
 
 	zend_bool _1$$3, _2$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *port = NULL, port_sub, _0$$3, _3;
 	zval *this_ptr = getThis();
@@ -734,6 +741,7 @@ PHP_METHOD(Phalcon_Http_Message_Uri, withPort) {
  */
 PHP_METHOD(Phalcon_Http_Message_Uri, withQuery) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *query = NULL, query_sub, _0, _1, _2, _3;
 	zval *this_ptr = getThis();
@@ -790,6 +798,7 @@ PHP_METHOD(Phalcon_Http_Message_Uri, withQuery) {
  */
 PHP_METHOD(Phalcon_Http_Message_Uri, withScheme) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *scheme = NULL, scheme_sub, _0, _1;
 	zval *this_ptr = getThis();
@@ -827,6 +836,7 @@ PHP_METHOD(Phalcon_Http_Message_Uri, withScheme) {
  */
 PHP_METHOD(Phalcon_Http_Message_Uri, withUserInfo) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *user = NULL, user_sub, *password = NULL, password_sub, __$null, newInstance, _0, _2, _1$$4;
 	zval *this_ptr = getThis();
@@ -890,6 +900,7 @@ PHP_METHOD(Phalcon_Http_Message_Uri, withUserInfo) {
  */
 PHP_METHOD(Phalcon_Http_Message_Uri, withHost) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *host, host_sub, _0;
 	zval *this_ptr = getThis();
@@ -922,6 +933,7 @@ PHP_METHOD(Phalcon_Http_Message_Uri, withHost) {
  */
 PHP_METHOD(Phalcon_Http_Message_Uri, checkValue) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *value_param = NULL, *prefix_param = NULL, *suffix_param = NULL, _0;
 	zval value, prefix, suffix, _1$$3;
 	zval *this_ptr = getThis();
@@ -1007,6 +1019,7 @@ PHP_METHOD(Phalcon_Http_Message_Uri, checkValue) {
  */
 PHP_METHOD(Phalcon_Http_Message_Uri, filterFragment) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *fragment_param = NULL;
 	zval fragment;
@@ -1067,6 +1080,7 @@ PHP_METHOD(Phalcon_Http_Message_Uri, filterPath) {
 	zend_string *_5;
 	zend_ulong _4;
 	zend_bool _1;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_7 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *path_param = NULL, element, key, parts, _0, *_2, _3, _9, _10, _6$$4, _8$$5;
@@ -1170,6 +1184,7 @@ PHP_METHOD(Phalcon_Http_Message_Uri, filterPort) {
 
 	zend_long _0$$3;
 	zval ports;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *port = NULL, port_sub;
 	zval *this_ptr = getThis();
 
@@ -1225,6 +1240,7 @@ PHP_METHOD(Phalcon_Http_Message_Uri, filterQuery) {
 
 	zend_string *_6;
 	zend_ulong _5;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_7 = NULL, *_11 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *query_param = NULL, index, part, parts, split, _0, _1, _2, *_3, _4, _8$$4, _12$$4, _13$$4, _14$$4, _15$$4, _16$$4, _9$$5, _10$$5, _17$$6, _20$$6, _21$$6, _22$$6, _23$$6, _24$$6, _18$$7, _19$$7;
@@ -1360,6 +1376,7 @@ PHP_METHOD(Phalcon_Http_Message_Uri, filterQuery) {
 PHP_METHOD(Phalcon_Http_Message_Uri, filterScheme) {
 
 	zval schemes;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *scheme_param = NULL, filtered, _0, _1, _2, _3, _4$$4, _5$$4, _6$$4, _7$$4;
 	zval scheme;
@@ -1435,6 +1452,7 @@ PHP_METHOD(Phalcon_Http_Message_Uri, filterScheme) {
  */
 PHP_METHOD(Phalcon_Http_Message_Uri, splitQueryValue) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *element_param = NULL, __$null, data;
 	zval element;
 	zval *this_ptr = getThis();

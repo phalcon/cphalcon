@@ -124,6 +124,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Dispatcher) {
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, forward) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_2 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *forward, forward_sub, eventsManager, _0, _1$$3;
@@ -171,6 +172,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, getActiveController) {
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, getControllerClass) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -248,6 +250,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, getPreviousNamespaceName) {
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerName) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *controllerName_param = NULL;
 	zval controllerName;
 	zval *this_ptr = getThis();
@@ -279,6 +282,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerName) {
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerSuffix) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *controllerSuffix_param = NULL;
 	zval controllerSuffix;
 	zval *this_ptr = getThis();
@@ -310,6 +314,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerSuffix) {
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, setDefaultController) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *controllerName_param = NULL;
 	zval controllerName;
 	zval *this_ptr = getThis();
@@ -341,6 +346,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setDefaultController) {
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, handleException) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *exception, exception_sub, eventsManager, _0, _1$$3, _2$$3;
 	zval *this_ptr = getThis();
@@ -376,6 +382,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, handleException) {
  */
 PHP_METHOD(Phalcon_Mvc_Dispatcher, throwDispatchException) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_3 = NULL;
 	zend_long exceptionCode, ZEPHIR_LAST_CALL_STATUS;
 	zval *message_param = NULL, *exceptionCode_param = NULL, container, response, exception, _0, _6, _7, _1$$3, _2$$3, _4$$3, _5$$3;

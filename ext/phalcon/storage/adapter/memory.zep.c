@@ -56,6 +56,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Storage_Adapter_Memory) {
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Memory, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_1 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval options;
@@ -106,6 +107,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Memory, __construct) {
 PHP_METHOD(Phalcon_Storage_Adapter_Memory, clear) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -130,6 +132,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Memory, clear) {
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Memory, decrement) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long value, ZEPHIR_LAST_CALL_STATUS;
 	zval *key_param = NULL, *value_param = NULL, current, newValue, prefixedKey, result, _0, _1$$3, _2$$3;
 	zval key;
@@ -193,6 +196,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Memory, decrement) {
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Memory, delete) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *key_param = NULL, exists, prefixedKey, _0, _1;
 	zval key;
@@ -241,6 +245,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Memory, delete) {
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Memory, get) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *key_param = NULL, *defaultValue = NULL, defaultValue_sub, __$null, content, prefixedKey, _0;
 	zval key;
@@ -306,6 +311,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Memory, getAdapter) {
 PHP_METHOD(Phalcon_Storage_Adapter_Memory, getKeys) {
 
 	zval _0, _1;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -331,6 +337,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Memory, getKeys) {
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Memory, has) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *key_param = NULL, prefixedKey, _0;
 	zval key;
@@ -374,6 +381,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Memory, has) {
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Memory, increment) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long value, ZEPHIR_LAST_CALL_STATUS;
 	zval *key_param = NULL, *value_param = NULL, current, newValue, prefixedKey, result, _0, _1$$3, _2$$3;
 	zval key;
@@ -439,6 +447,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Memory, increment) {
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Memory, set) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *key_param = NULL, *value, value_sub, *ttl = NULL, ttl_sub, __$null, content, lifetime, prefixedKey, _0;
 	zval key;
@@ -488,6 +497,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Memory, set) {
 zend_object *zephir_init_properties_Phalcon_Storage_Adapter_Memory(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval _0, _2, _1$$3, _3$$4;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_1$$3);

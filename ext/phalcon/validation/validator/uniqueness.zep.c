@@ -118,6 +118,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Uniqueness) {
  */
 PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, validate) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *validation, validation_sub, *field, field_sub, _0, _1$$3;
 	zval *this_ptr = getThis();
@@ -151,6 +152,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, validate) {
 PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, getColumnNameReal) {
 
 	zend_bool _0, _7;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval field;
 	zval *record, record_sub, *field_param = NULL, _1, _6, _8, _2$$3, _3$$3, _4$$3, _5$$3, _9$$4, _10$$4;
@@ -219,6 +221,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, isUniqueness) {
 
 	zend_class_entry *_9;
 	zend_bool isModel = 0, isDocument = 0, _7;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_4 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *validation, validation_sub, *field = NULL, field_sub, values, convert, record, params, className, singleField, _0, *_1, _2, _8, _3$$4, _5$$5, _6$$6;
@@ -338,6 +341,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, isUniqueness) {
 PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, isUniquenessCollection) {
 
 	zend_bool _5$$4, _6$$4, _16$$17, _17$$17;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_4 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval field, values, _9$$8, _10$$11, _13$$12, _14$$15, _20$$21, _21$$24, _24$$25, _25$$28, _27$$29, _29$$30;
@@ -642,6 +646,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, isUniquenessModel) {
 	zend_string *_18$$7, *_95$$38;
 	zend_ulong _17$$7, _94$$38;
 	zend_bool _9$$6, _87$$37;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_5 = NULL, *_14 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS, index = 0;
 	zval field, values;

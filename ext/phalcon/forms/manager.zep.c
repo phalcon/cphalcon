@@ -50,6 +50,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Forms_Manager) {
  */
 PHP_METHOD(Phalcon_Forms_Manager, create) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *name_param = NULL, *entity = NULL, entity_sub, __$null, form;
 	zval name;
@@ -84,6 +85,7 @@ PHP_METHOD(Phalcon_Forms_Manager, create) {
  */
 PHP_METHOD(Phalcon_Forms_Manager, get) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *name_param = NULL, form, _0, _1$$3;
 	zval name, _2$$3;
@@ -123,6 +125,7 @@ PHP_METHOD(Phalcon_Forms_Manager, get) {
  */
 PHP_METHOD(Phalcon_Forms_Manager, has) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *name_param = NULL, _0;
 	zval name;
 	zval *this_ptr = getThis();
@@ -146,6 +149,7 @@ PHP_METHOD(Phalcon_Forms_Manager, has) {
  */
 PHP_METHOD(Phalcon_Forms_Manager, set) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *name_param = NULL, *form, form_sub;
 	zval name;
 	zval *this_ptr = getThis();
@@ -167,6 +171,7 @@ PHP_METHOD(Phalcon_Forms_Manager, set) {
 zend_object *zephir_init_properties_Phalcon_Forms_Manager(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval _0, _1$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
 

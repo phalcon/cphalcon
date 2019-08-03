@@ -104,7 +104,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, __construct) {
 	ZVAL_UNDEF(&cache_sub);
 	ZVAL_NULL(&__$null);
 
-	zephir_fetch_params(0, 0, 1, &cache);
+	zephir_fetch_params_without_memory_grow(0, 1, &cache);
 
 	if (!cache) {
 		cache = &cache_sub;
@@ -124,6 +124,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, bindToHandler) {
 	zend_string *_6$$4;
 	zend_ulong _5$$4;
 	zend_bool _1;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_7 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval cacheKey, methodName;
@@ -243,6 +244,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, bindToHandler) {
 PHP_METHOD(Phalcon_Mvc_Model_Binder, findBoundModel) {
 
 	zend_class_entry *_0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval className;
 	zval *paramValue, paramValue_sub, *className_param = NULL;
@@ -282,6 +284,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, getCache) {
 PHP_METHOD(Phalcon_Mvc_Model_Binder, getParamsFromCache) {
 
 	zend_bool _2;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *cacheKey_param = NULL, cache, internalParams, _0, _1, _3;
 	zval cacheKey;
@@ -331,6 +334,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, getParamsFromReflection) {
 	zend_class_entry *_9$$10, *_17$$24;
 	zend_string *_4;
 	zend_ulong _3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_8 = NULL, *_12 = NULL, *_13 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval cacheKey, methodName;
@@ -592,7 +596,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, setCache) {
 
 	ZVAL_UNDEF(&cache_sub);
 
-	zephir_fetch_params(0, 1, 0, &cache);
+	zephir_fetch_params_without_memory_grow(1, 0, &cache);
 
 
 
@@ -604,6 +608,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, setCache) {
 zend_object *zephir_init_properties_Phalcon_Mvc_Model_Binder(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval _0, _2, _4, _1$$3, _3$$4, _5$$5;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_4);

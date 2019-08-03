@@ -120,6 +120,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAttributes) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, model_sub, data, _0;
 	zval *this_ptr = getThis();
@@ -157,6 +158,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAttributes) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAutomaticCreateAttributes) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, model_sub, data, _0;
 	zval *this_ptr = getThis();
@@ -194,6 +196,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAutomaticCreateAttributes) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAutomaticUpdateAttributes) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, model_sub, data, _0;
 	zval *this_ptr = getThis();
@@ -231,6 +234,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAutomaticUpdateAttributes) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getBindTypes) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, model_sub, data, _0;
 	zval *this_ptr = getThis();
@@ -269,6 +273,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getBindTypes) {
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getColumnMap) {
 
 	zend_bool _1;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, model_sub, data, _0;
 	zval *this_ptr = getThis();
@@ -310,6 +315,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getColumnMap) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDefaultValues) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, model_sub, data, _0;
 	zval *this_ptr = getThis();
@@ -347,6 +353,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDefaultValues) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataTypes) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, model_sub, data, _0;
 	zval *this_ptr = getThis();
@@ -384,6 +391,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataTypes) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataTypesNumeric) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, model_sub, data, _0;
 	zval *this_ptr = getThis();
@@ -433,6 +441,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDI) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getEmptyStringAttributes) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, model_sub, data, _0;
 	zval *this_ptr = getThis();
@@ -473,6 +482,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getEmptyStringAttributes) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getIdentityField) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, model_sub, _0;
 	zval *this_ptr = getThis();
@@ -505,6 +515,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getIdentityField) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getNonPrimaryKeyAttributes) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, model_sub, data, _0;
 	zval *this_ptr = getThis();
@@ -542,6 +553,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getNonPrimaryKeyAttributes) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getNotNullAttributes) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, model_sub, data, _0;
 	zval *this_ptr = getThis();
@@ -579,6 +591,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getNotNullAttributes) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getPrimaryKeyAttributes) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, model_sub, data, _0;
 	zval *this_ptr = getThis();
@@ -617,6 +630,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getPrimaryKeyAttributes) {
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getReverseColumnMap) {
 
 	zend_bool _1;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, model_sub, data, _0;
 	zval *this_ptr = getThis();
@@ -651,6 +665,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getReverseColumnMap) {
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, getStrategy) {
 
 	zval _0, _1$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -687,6 +702,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getStrategy) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, hasAttribute) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval attribute;
 	zval *model, model_sub, *attribute_param = NULL, columnMap, _0, _1;
@@ -743,6 +759,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, isEmpty) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, read) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *key_param = NULL, _0;
 	zval key;
@@ -786,6 +803,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, read) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMap) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, model_sub, keyName, data, _0, _1$$4, _2$$4, _3$$4;
 	zval *this_ptr = getThis();
@@ -838,6 +856,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMap) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMapIndex) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long index, ZEPHIR_LAST_CALL_STATUS;
 	zval *model, model_sub, *index_param = NULL, keyName, columnMapModel, map, _0, _1$$4, _2$$4, _3$$4;
 	zval *this_ptr = getThis();
@@ -893,6 +912,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMapIndex) {
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaData) {
 
 	zval key;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, model_sub, source, schema, _0, _1, _2, _3, _4;
 	zval *this_ptr = getThis();
@@ -947,6 +967,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaData) {
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaDataIndex) {
 
 	zval key;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long index, ZEPHIR_LAST_CALL_STATUS;
 	zval *model, model_sub, *index_param = NULL, source, schema, _0, _1, _2, _3, _4, _5, _6;
 	zval *this_ptr = getThis();
@@ -1001,6 +1022,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaDataIndex) {
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, reset) {
 
 	zval _0, _1;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
@@ -1032,6 +1054,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, reset) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, setAutomaticCreateAttributes) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval attributes;
 	zval *model, model_sub, *attributes_param = NULL, _0;
@@ -1068,6 +1091,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, setAutomaticCreateAttributes) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, setAutomaticUpdateAttributes) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval attributes;
 	zval *model, model_sub, *attributes_param = NULL, _0;
@@ -1104,6 +1128,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, setAutomaticUpdateAttributes) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, setEmptyStringAttributes) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval attributes;
 	zval *model, model_sub, *attributes_param = NULL, _0;
@@ -1136,7 +1161,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, setDI) {
 
 	ZVAL_UNDEF(&container_sub);
 
-	zephir_fetch_params(0, 1, 0, &container);
+	zephir_fetch_params_without_memory_grow(1, 0, &container);
 
 
 
@@ -1154,7 +1179,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, setStrategy) {
 
 	ZVAL_UNDEF(&strategy_sub);
 
-	zephir_fetch_params(0, 1, 0, &strategy);
+	zephir_fetch_params_without_memory_grow(1, 0, &strategy);
 
 
 
@@ -1167,6 +1192,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, setStrategy) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, write) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval data;
 	zval *key_param = NULL, *data_param = NULL, result, option, _1, _2, _0$$3;
@@ -1247,6 +1273,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, writeMetaDataIndex) {
 
 	zend_bool _0, _1;
 	zval key;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long index, ZEPHIR_LAST_CALL_STATUS;
 	zval *model, model_sub, *index_param = NULL, *data, data_sub, source, schema, _2, _3, _4;
 	zval *this_ptr = getThis();
@@ -1303,6 +1330,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, writeMetaDataIndex) {
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, initialize) {
 
 	zval prefixKey;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, model_sub, *key, key_sub, *table, table_sub, *schema, schema_sub, strategy, className, metaData, data, modelMetadata, modelColumnMap, container, keyName, _5, _6, _0$$3, _1$$4, _2$$8, _3$$8, _4$$9, _7$$13;
 	zval *this_ptr = getThis();
@@ -1417,6 +1445,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, initialize) {
 PHP_METHOD(Phalcon_Mvc_Model_MetaData, throwWriteException) {
 
 	zval message;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *option, option_sub, _0$$3;
 	zval *this_ptr = getThis();
@@ -1451,6 +1480,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, throwWriteException) {
 zend_object *zephir_init_properties_Phalcon_Mvc_Model_MetaData(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval _0, _1$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
 

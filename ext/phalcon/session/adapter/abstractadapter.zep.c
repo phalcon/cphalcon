@@ -58,6 +58,7 @@ PHP_METHOD(Phalcon_Session_Adapter_AbstractAdapter, close) {
 PHP_METHOD(Phalcon_Session_Adapter_AbstractAdapter, destroy) {
 
 	zend_bool _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *id, id_sub, _1, _2, _3$$3;
 	zval *this_ptr = getThis();
@@ -99,7 +100,7 @@ PHP_METHOD(Phalcon_Session_Adapter_AbstractAdapter, gc) {
 
 	ZVAL_UNDEF(&maxlifetime_sub);
 
-	zephir_fetch_params(0, 1, 0, &maxlifetime);
+	zephir_fetch_params_without_memory_grow(1, 0, &maxlifetime);
 
 
 
@@ -112,6 +113,7 @@ PHP_METHOD(Phalcon_Session_Adapter_AbstractAdapter, gc) {
  */
 PHP_METHOD(Phalcon_Session_Adapter_AbstractAdapter, read) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *id, id_sub, _0;
 	zval *this_ptr = getThis();
@@ -142,7 +144,7 @@ PHP_METHOD(Phalcon_Session_Adapter_AbstractAdapter, open) {
 	ZVAL_UNDEF(&savePath_sub);
 	ZVAL_UNDEF(&sessionName_sub);
 
-	zephir_fetch_params(0, 2, 0, &savePath, &sessionName);
+	zephir_fetch_params_without_memory_grow(2, 0, &savePath, &sessionName);
 
 
 
@@ -155,6 +157,7 @@ PHP_METHOD(Phalcon_Session_Adapter_AbstractAdapter, open) {
  */
 PHP_METHOD(Phalcon_Session_Adapter_AbstractAdapter, write) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *id, id_sub, *data, data_sub, _0;
 	zval *this_ptr = getThis();

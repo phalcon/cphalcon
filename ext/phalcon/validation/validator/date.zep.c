@@ -81,6 +81,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Date) {
  */
 PHP_METHOD(Phalcon_Validation_Validator_Date, validate) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *validation, validation_sub, *field, field_sub, value, format, _0, _2, _1$$3, _3$$5;
 	zval *this_ptr = getThis();
@@ -130,6 +131,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Date, checkDate) {
 
 	zend_bool _3;
 	zend_class_entry *_0, *_1;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *value, value_sub, *format, format_sub, date, errors, _2, _4;
 	zval *this_ptr = getThis();

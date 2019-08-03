@@ -52,6 +52,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Dialect_Postgresql) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, addColumn) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *tableName_param = NULL, *schemaName_param = NULL, *column, column_sub, columnDefinition, _0, _1, _2, _3, _4, _7, _5$$3, _6$$3;
 	zval tableName, schemaName, sql;
@@ -131,6 +132,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, addColumn) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, addForeignKey) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *tableName_param = NULL, *schemaName_param = NULL, *reference, reference_sub, onDelete, onUpdate, _0, _1, _2, _5, _6, _7, _8, _9, _10, _3$$3, _4$$3, _11$$4, _12$$5;
 	zval tableName, schemaName, sql;
@@ -231,6 +233,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, addForeignKey) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, addIndex) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *tableName_param = NULL, *schemaName_param = NULL, *index, index_sub, indexType, _0, _2, _3, _4, _5, _6, _7, _1$$4;
 	zval tableName, schemaName, sql;
@@ -314,6 +317,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, addIndex) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, addPrimaryKey) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *tableName_param = NULL, *schemaName_param = NULL, *index, index_sub, _0, _1, _2;
 	zval tableName, schemaName;
@@ -367,6 +371,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, addPrimaryKey) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, createTable) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_4 = NULL, *_9 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval definition, createLines, primaryColumns;
@@ -850,6 +855,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, createTable) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, createView) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval definition;
 	zval *viewName_param = NULL, *definition_param = NULL, *schemaName_param = NULL, viewSql, _0;
@@ -907,6 +913,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, createView) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, describeColumns) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *table_param = NULL, *schema_param = NULL;
 	zval table, schema;
 	zval *this_ptr = getThis();
@@ -949,6 +956,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, describeColumns) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, describeIndexes) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *table_param = NULL, *schema_param = NULL;
 	zval table, schema;
 	zval *this_ptr = getThis();
@@ -987,6 +995,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, describeIndexes) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, describeReferences) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *table_param = NULL, *schema_param = NULL;
 	zval table, schema;
 	zval *this_ptr = getThis();
@@ -1029,6 +1038,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, describeReferences) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropColumn) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *tableName_param = NULL, *schemaName_param = NULL, *columnName_param = NULL, _0;
 	zval tableName, schemaName, columnName;
@@ -1086,6 +1096,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropColumn) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropForeignKey) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *tableName_param = NULL, *schemaName_param = NULL, *referenceName_param = NULL, _0;
 	zval tableName, schemaName, referenceName;
@@ -1143,6 +1154,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropForeignKey) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropIndex) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *tableName_param = NULL, *schemaName_param = NULL, *indexName_param = NULL;
 	zval tableName, schemaName, indexName;
 	zval *this_ptr = getThis();
@@ -1196,6 +1208,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropIndex) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropPrimaryKey) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *tableName_param = NULL, *schemaName_param = NULL, _0;
 	zval tableName, schemaName;
@@ -1242,6 +1255,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropPrimaryKey) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropTable) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool ifExists;
 	zval *tableName_param = NULL, *schemaName_param = NULL, *ifExists_param = NULL, table;
@@ -1298,6 +1312,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropTable) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropView) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool ifExists;
 	zval *viewName_param = NULL, *schemaName_param = NULL, *ifExists_param = NULL, view;
@@ -1355,6 +1370,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, dropView) {
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnDefinition) {
 
 	zval valueSql$$36;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_12 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *column, column_sub, columnType, columnSql, typeValues, _0$$4, _1$$9, _2$$15, _3$$20, _4$$31, _5$$34, _6$$34, _7$$34, value$$36, *_8$$36, _9$$36, _17$$36, _18$$36, _19$$36, _20$$36, _10$$37, _11$$37, _13$$37, _14$$38, _15$$38, _16$$38, _21$$39, _22$$39, _23$$39;
@@ -1588,6 +1604,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getColumnDefinition) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, listTables) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *schemaName_param = NULL;
 	zval schemaName;
 	zval *this_ptr = getThis();
@@ -1619,6 +1636,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, listTables) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, listViews) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *schemaName_param = NULL;
 	zval schemaName;
 	zval *this_ptr = getThis();
@@ -1651,6 +1669,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, listViews) {
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, modifyColumn) {
 
 	zend_bool _21$$9;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *tableName_param = NULL, *schemaName_param = NULL, *column, column_sub, *currentColumn = NULL, currentColumn_sub, __$null, defaultValue, columnDefinition, _0, _1, _2, _3, _7, _8, _11, _12, _18, _19, _4$$4, _5$$4, _6$$4, _9$$5, _10$$5, _13$$6, _14$$7, _15$$7, _16$$8, _17$$8, _20$$9, _22$$9, _25$$9, _23$$10, _24$$10, _26$$11, _27$$12, _28$$12, _29$$13, _30$$13;
 	zval tableName, schemaName, sql, sqlAlterTable;
@@ -1836,6 +1855,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, modifyColumn) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, sharedLock) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *sqlQuery_param = NULL;
 	zval sqlQuery;
 	zval *this_ptr = getThis();
@@ -1872,6 +1892,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, sharedLock) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, tableExists) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *tableName_param = NULL, *schemaName_param = NULL;
 	zval tableName, schemaName;
 	zval *this_ptr = getThis();
@@ -1914,6 +1935,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, tableExists) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, tableOptions) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *table_param = NULL, *schema_param = NULL;
 	zval table, schema;
 	zval *this_ptr = getThis();
@@ -1951,6 +1973,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, tableOptions) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, truncateTable) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *tableName_param = NULL, *schemaName_param = NULL, table;
 	zval tableName, schemaName;
@@ -2002,6 +2025,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, truncateTable) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, viewExists) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *viewName_param = NULL, *schemaName_param = NULL;
 	zval viewName, schemaName;
 	zval *this_ptr = getThis();
@@ -2043,6 +2067,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, castDefault) {
 
 	zend_bool _2, _3, _4, _5;
 	zval preparedValue, _6$$5;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *column, column_sub, defaultValue, columnDefinition, columnType, _0, _1, _7$$6, _8$$6, _9$$6;
 	zval *this_ptr = getThis();
@@ -2114,6 +2139,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Postgresql, castDefault) {
 
 PHP_METHOD(Phalcon_Db_Dialect_Postgresql, getTableOptions) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *definition_param = NULL;
 	zval definition;
 	zval *this_ptr = getThis();

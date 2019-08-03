@@ -52,7 +52,7 @@ PHP_METHOD(Phalcon_Container, __construct) {
 
 	ZVAL_UNDEF(&container_sub);
 
-	zephir_fetch_params(0, 1, 0, &container);
+	zephir_fetch_params_without_memory_grow(1, 0, &container);
 
 
 
@@ -65,6 +65,7 @@ PHP_METHOD(Phalcon_Container, __construct) {
  */
 PHP_METHOD(Phalcon_Container, get) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *name, name_sub, _0;
 	zval *this_ptr = getThis();
@@ -89,6 +90,7 @@ PHP_METHOD(Phalcon_Container, get) {
  */
 PHP_METHOD(Phalcon_Container, has) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *name, name_sub, _0;
 	zval *this_ptr = getThis();

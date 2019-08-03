@@ -63,6 +63,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Image_Adapter_Imagick) {
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, __construct) {
 
 	zend_bool _20$$8;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long width, height, ZEPHIR_LAST_CALL_STATUS;
 	zval *file_param = NULL, *width_param = NULL, *height_param = NULL, image, _0, _1, _2, _30, _31, _32, _33, _34, _35, _36, _37, _38, _3$$4, _4$$4, _5$$4, _6$$4, _7$$4, _11$$4, _12$$4, _16$$4, _8$$5, _9$$5, _10$$5, _13$$6, _14$$6, _15$$6, _17$$7, _18$$7, _19$$7, _24$$8, _25$$8, _26$$8, _27$$8, _28$$8, _29$$8, _21$$9, _22$$9, _23$$9;
 	zval file;
@@ -261,6 +262,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, __construct) {
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, __destruct) {
 
 	zval _0, _1$$3, _2$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -289,6 +291,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, __destruct) {
  */
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, check) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval __$true, _0, _1, _2, _3, _6, _4$$5, _5$$5;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
@@ -350,6 +353,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, getInternalImInstance) {
  */
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, setResourceLimit) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *type_param = NULL, *limit_param = NULL, _0, _1, _2;
 	zend_long type, limit, ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
@@ -379,6 +383,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, setResourceLimit) {
  */
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, processBackground) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_6 = NULL, *_8 = NULL, *_11 = NULL, *_12 = NULL, *_13 = NULL, *_18 = NULL, *_20 = NULL, *_25 = NULL;
 	zval *r_param = NULL, *g_param = NULL, *b_param = NULL, *opacity_param = NULL, background, color, pixel1, pixel2, ret, _0, _1, _2, _3, _4$$3, _5$$3, _7$$3, _14$$3, _15$$3, _16$$3, _17$$3, _19$$3, _21$$3, _22$$3, _23$$3, _24$$3, _26$$3, _9$$4, _10$$4;
 	zend_long r, g, b, opacity, ZEPHIR_LAST_CALL_STATUS;
@@ -515,6 +520,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, processBackground) {
  */
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, processBlur) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *radius_param = NULL, _0, _1, _2$$3, _3$$3, _4$$3, _5$$3;
 	zend_long radius, ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
@@ -558,6 +564,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, processBlur) {
  */
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, processCrop) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_5 = NULL, *_6 = NULL, *_8 = NULL;
 	zval *width_param = NULL, *height_param = NULL, *offsetX_param = NULL, *offsetY_param = NULL, image, _0, _9, _10, _1$$3, _2$$3, _3$$3, _4$$3, _7$$3;
 	zend_long width, height, offsetX, offsetY, ZEPHIR_LAST_CALL_STATUS;
@@ -621,6 +628,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, processCrop) {
  */
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, processFlip) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *direction_param = NULL, func, _0, _1, _2$$4, _3$$4, _4$$4;
 	zend_long direction, ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
@@ -674,6 +682,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, processFlip) {
  */
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, processLiquidRescale) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_5 = NULL, *_7 = NULL;
 	zval *width_param = NULL, *height_param = NULL, *deltaX_param = NULL, *rigidity_param = NULL, ret, image, _0, _8, _9, _1$$3, _2$$3, _3$$3, _4$$3, _6$$3;
 	zend_long width, height, deltaX, rigidity, ZEPHIR_LAST_CALL_STATUS;
@@ -736,6 +745,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, processLiquidRescale) {
  */
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, processMask) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_7 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *image, image_sub, mask, ret, _0, _1, _2, _3$$3, _4$$3, _5$$3, _6$$3, _8$$3, _9$$3, _10$$3;
@@ -812,6 +822,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, processMask) {
  */
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, processPixelate) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *amount_param = NULL, _0, _1, _2, _3, _4$$3, _5$$3, _6$$3, _7$$3, _8$$3, _9$$3;
 	zend_long amount, ZEPHIR_LAST_CALL_STATUS, width = 0, height = 0;
 	zval *this_ptr = getThis();
@@ -868,6 +879,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, processPixelate) {
  */
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, processReflection) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_5 = NULL, *_7 = NULL, *_11 = NULL, *_13 = NULL, *_14 = NULL, *_16 = NULL, *_21 = NULL, *_24 = NULL, *_27 = NULL, *_29 = NULL, *_35 = NULL, *_38 = NULL, *_40 = NULL, *_43 = NULL, *_48 = NULL, *_55 = NULL;
 	zend_bool fadeIn, _56$$13;
 	zval *height_param = NULL, *opacity_param = NULL, *fadeIn_param = NULL, reflection, fade, pseudo, image, pixel, ret, _0, _4, _17, _18, _30, _31, _32, _58, _59, _60, _61, _62, _1$$3, _2$$4, _3$$4, _6$$5, _8$$5, _9$$5, _10$$5, _12$$5, _15$$5, _19$$7, _20$$7, _22$$7, _23$$7, _25$$7, _26$$7, _28$$7, _33$$10, _34$$10, _36$$10, _37$$10, _39$$10, _41$$10, _42$$10, _44$$10, _45$$10, _46$$10, _47$$10, _49$$10, _50$$13, _51$$13, _52$$13, _53$$13, _54$$13, _57$$13;
@@ -1144,6 +1156,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, processReflection) {
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, processRender) {
 
 	zend_bool _8$$4;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long quality, ZEPHIR_LAST_CALL_STATUS;
 	zval *extension_param = NULL, *quality_param = NULL, image, _0, _1, _2, _3, _4, _5, _6$$4, _7$$4, _9$$4, _12$$4, _10$$5, _11$$5;
 	zval extension;
@@ -1230,6 +1243,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, processRender) {
  */
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, processResize) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_3 = NULL, *_5 = NULL;
 	zval *width_param = NULL, *height_param = NULL, image, _0, _6, _7, _1$$3, _2$$3, _4$$3;
 	zend_long width, height, ZEPHIR_LAST_CALL_STATUS;
@@ -1281,6 +1295,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, processResize) {
  */
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, processRotate) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *degrees_param = NULL, pixel, _0, _1, _9, _10, _11, _2$$3, _3$$3, _4$$3, _5$$3, _6$$3, _7$$3, _8$$3;
 	zend_long degrees, ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
@@ -1350,6 +1365,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, processRotate) {
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, processSave) {
 
 	zend_bool _14$$4;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long quality, ZEPHIR_LAST_CALL_STATUS;
 	zval *file_param = NULL, *quality_param = NULL, ext, fp, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9$$3, _10$$3, _11$$3, _12$$4, _13$$4, _15$$4, _21$$4, _16$$5, _17$$5, _18$$5, _19$$6, _20$$6;
 	zval file;
@@ -1469,6 +1485,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, processSave) {
  */
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, processSharpen) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *amount_param = NULL, _0, _1, _2, _3$$3, _4$$3, _5$$3, _6$$3;
 	zend_long amount, ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
@@ -1523,6 +1540,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, processSharpen) {
  */
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, processText) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long opacity, r, g, b, size, ZEPHIR_LAST_CALL_STATUS, x = 0, y = 0;
 	zval *text_param = NULL, *offsetX = NULL, offsetX_sub, *offsetY = NULL, offsetY_sub, *opacity_param = NULL, *r_param = NULL, *g_param = NULL, *b_param = NULL, *size_param = NULL, *fontfile_param = NULL, draw, color, gravity, _0, _1, _2, _3, _4$$4, _5$$5, _6$$7, _7$$11, _8$$12, _9$$14, _10$$15, _11$$21, _12$$22, _13$$24, _14$$25, _15$$29, _16$$30, _17$$32, _18$$33, _19$$34, _20$$34, _21$$34;
 	zval text, fontfile;
@@ -1769,6 +1787,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Imagick, processText) {
  */
 PHP_METHOD(Phalcon_Image_Adapter_Imagick, processWatermark) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long offsetX, offsetY, opacity, ZEPHIR_LAST_CALL_STATUS;
 	zval *image, image_sub, *offsetX_param = NULL, *offsetY_param = NULL, *opacity_param = NULL, watermark, ret, _0, _1, _2, _3, _4, _5, _6$$3, _7$$3, _8$$3, _9$$3, _10$$3, _11$$3;
 	zval *this_ptr = getThis();

@@ -49,6 +49,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Collection_Behavior) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Behavior, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *options_param = NULL;
 	zval options;
 	zval *this_ptr = getThis();
@@ -78,6 +79,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Behavior, __construct) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Behavior, getOptions) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *eventName_param = NULL, options, eventOptions, _0;
 	zval eventName;
 	zval *this_ptr = getThis();
@@ -124,6 +126,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Behavior, getOptions) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Behavior, missingMethod) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval arguments;
 	zval method;
 	zval *model, model_sub, *method_param = NULL, *arguments_param = NULL;
@@ -154,6 +157,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Behavior, missingMethod) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Behavior, mustTakeAction) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *eventName_param = NULL, _0;
 	zval eventName;
 	zval *this_ptr = getThis();
@@ -186,6 +190,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Behavior, mustTakeAction) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Behavior, notify) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *type_param = NULL, *model, model_sub;
 	zval type;
 	zval *this_ptr = getThis();

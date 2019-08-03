@@ -216,6 +216,7 @@ PHP_METHOD(Phalcon_Http_Message_UploadedFile, getSize) {
  */
 PHP_METHOD(Phalcon_Http_Message_UploadedFile, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval clientFilename, clientMediaType;
 	zend_long size, error, ZEPHIR_LAST_CALL_STATUS;
 	zval *stream, stream_sub, *size_param = NULL, *error_param = NULL, *clientFilename_param = NULL, *clientMediaType_param = NULL, _0;
@@ -287,6 +288,7 @@ PHP_METHOD(Phalcon_Http_Message_UploadedFile, __construct) {
 PHP_METHOD(Phalcon_Http_Message_UploadedFile, getStream) {
 
 	zval _0, _4, _5, _1$$3, _2$$3, _3$$3, _6$$5, _7$$5;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -370,6 +372,7 @@ PHP_METHOD(Phalcon_Http_Message_UploadedFile, getStream) {
 PHP_METHOD(Phalcon_Http_Message_UploadedFile, moveTo) {
 
 	zend_bool _5, _6, _9, _13, _15, _16;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *targetPath, targetPath_sub, __$true, __$false, sapi, _0, _1, _7, _8, _10, _11, _12, _14, _2$$4, _3$$4, _4$$4, _17$$7, _18$$7;
 	zval *this_ptr = getThis();
@@ -485,6 +488,7 @@ PHP_METHOD(Phalcon_Http_Message_UploadedFile, moveTo) {
  */
 PHP_METHOD(Phalcon_Http_Message_UploadedFile, checkError) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_1 = NULL;
 	zval *error_param = NULL, _0, _2, _3, _4;
 	zend_long error, ZEPHIR_LAST_CALL_STATUS;
@@ -526,6 +530,7 @@ PHP_METHOD(Phalcon_Http_Message_UploadedFile, checkError) {
 PHP_METHOD(Phalcon_Http_Message_UploadedFile, checkStream) {
 
 	zend_bool _0$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long error, ZEPHIR_LAST_CALL_STATUS;
 	zval *stream, stream_sub, *error_param = NULL, _1$$5;
 	zval *this_ptr = getThis();
@@ -577,6 +582,7 @@ PHP_METHOD(Phalcon_Http_Message_UploadedFile, checkStream) {
 PHP_METHOD(Phalcon_Http_Message_UploadedFile, getErrorDescription) {
 
 	zval errors;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval *error_param = NULL, _1, _2;
 	zend_long error, ZEPHIR_LAST_CALL_STATUS;
@@ -618,6 +624,7 @@ PHP_METHOD(Phalcon_Http_Message_UploadedFile, getErrorDescription) {
  */
 PHP_METHOD(Phalcon_Http_Message_UploadedFile, storeFile) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_3 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *targetPath_param = NULL, data, handle, stream, _0, _1, _2$$4;

@@ -60,6 +60,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Paginator_Repository) {
  */
 PHP_METHOD(Phalcon_Paginator_Repository, __get) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *property_param = NULL, method, _0, _1, _2, _3;
 	zval property;
@@ -117,6 +118,7 @@ PHP_METHOD(Phalcon_Paginator_Repository, getAliases) {
 PHP_METHOD(Phalcon_Paginator_Repository, getCurrent) {
 
 	zval _0, _1;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -140,6 +142,7 @@ PHP_METHOD(Phalcon_Paginator_Repository, getCurrent) {
 PHP_METHOD(Phalcon_Paginator_Repository, getFirst) {
 
 	zval _0, _1;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -163,6 +166,7 @@ PHP_METHOD(Phalcon_Paginator_Repository, getFirst) {
 PHP_METHOD(Phalcon_Paginator_Repository, getItems) {
 
 	zval _0, _1;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -186,6 +190,7 @@ PHP_METHOD(Phalcon_Paginator_Repository, getItems) {
 PHP_METHOD(Phalcon_Paginator_Repository, getLast) {
 
 	zval _0, _1;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -209,6 +214,7 @@ PHP_METHOD(Phalcon_Paginator_Repository, getLast) {
 PHP_METHOD(Phalcon_Paginator_Repository, getLimit) {
 
 	zval _0, _1;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -232,6 +238,7 @@ PHP_METHOD(Phalcon_Paginator_Repository, getLimit) {
 PHP_METHOD(Phalcon_Paginator_Repository, getNext) {
 
 	zval _0, _1;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -255,6 +262,7 @@ PHP_METHOD(Phalcon_Paginator_Repository, getNext) {
 PHP_METHOD(Phalcon_Paginator_Repository, getPrevious) {
 
 	zval _0, _1;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -278,6 +286,7 @@ PHP_METHOD(Phalcon_Paginator_Repository, getPrevious) {
 PHP_METHOD(Phalcon_Paginator_Repository, getTotalItems) {
 
 	zval _0, _1;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -300,6 +309,7 @@ PHP_METHOD(Phalcon_Paginator_Repository, getTotalItems) {
  */
 PHP_METHOD(Phalcon_Paginator_Repository, setAliases) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *aliases_param = NULL;
 	zval aliases;
 	zval *this_ptr = getThis();
@@ -322,6 +332,7 @@ PHP_METHOD(Phalcon_Paginator_Repository, setAliases) {
  */
 PHP_METHOD(Phalcon_Paginator_Repository, setProperties) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *properties_param = NULL;
 	zval properties;
 	zval *this_ptr = getThis();
@@ -344,6 +355,7 @@ PHP_METHOD(Phalcon_Paginator_Repository, setProperties) {
  */
 PHP_METHOD(Phalcon_Paginator_Repository, getProperty) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval *property_param = NULL, *defaultValue = NULL, defaultValue_sub, __$null, _1;
@@ -377,6 +389,7 @@ PHP_METHOD(Phalcon_Paginator_Repository, getProperty) {
  */
 PHP_METHOD(Phalcon_Paginator_Repository, getRealNameProperty) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *property_param = NULL, aliases, _0$$3;
 	zval property;
@@ -405,6 +418,7 @@ PHP_METHOD(Phalcon_Paginator_Repository, getRealNameProperty) {
 zend_object *zephir_init_properties_Phalcon_Paginator_Repository(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval _0, _2, _1$$3, _3$$4;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_1$$3);

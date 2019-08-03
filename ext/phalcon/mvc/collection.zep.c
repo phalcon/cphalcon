@@ -92,6 +92,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Collection) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL, *_3 = NULL;
 	zval *container = NULL, container_sub, *modelsManager = NULL, modelsManager_sub, __$null, _1$$4, _2$$4, _4$$4, _5$$5;
@@ -166,6 +167,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, __construct) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection, addBehavior) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *behavior, behavior_sub, _0;
 	zval *this_ptr = getThis();
@@ -191,6 +193,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, addBehavior) {
 PHP_METHOD(Phalcon_Mvc_Collection, aggregate) {
 
 	zend_class_entry *_1;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *parameters_param = NULL, *options_param = NULL, className, model, connection, source, _0, _2;
 	zval parameters, options;
@@ -227,6 +230,9 @@ PHP_METHOD(Phalcon_Mvc_Collection, aggregate) {
 	ZEPHIR_INIT_VAR(&model);
 	zephir_fetch_safe_class(&_0, &className);
 	_1 = zephir_fetch_class_str_ex(Z_STRVAL_P(&_0), Z_STRLEN_P(&_0), ZEND_FETCH_CLASS_AUTO);
+	if(!_1) {
+		RETURN_MM_NULL();
+	}
 	object_init_ex(&model, _1);
 	if (zephir_has_constructor(&model TSRMLS_CC)) {
 		ZEPHIR_CALL_METHOD(NULL, &model, "__construct", NULL, 0);
@@ -276,7 +282,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, appendMessage) {
 
 	ZVAL_UNDEF(&message_sub);
 
-	zephir_fetch_params(0, 1, 0, &message);
+	zephir_fetch_params_without_memory_grow(1, 0, &message);
 
 
 
@@ -291,6 +297,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, cloneResult) {
 
 	zend_string *_3;
 	zend_ulong _2;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_4 = NULL, *_5 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval document;
@@ -365,6 +372,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, create) {
 
 	zval _5;
 	zend_bool success = 0, exists = 0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval __$true, data, status, id, ok, collection, _0, _1, _2, _3, _4, _7, _8, _9, _6$$7;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
@@ -474,6 +482,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, create) {
 PHP_METHOD(Phalcon_Mvc_Collection, createIfNotExist) {
 
 	zend_bool exists = 0, success = 0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *criteria_param = NULL, __$false, __$true, data, keys, query, status, doc, collection, _0, _1, _2, _3, _4, _5, _8, _13, _14, _9$$7, _10$$7, _11$$8, _12$$8;
 	zval criteria, _6, _7;
@@ -606,6 +615,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, createIfNotExist) {
 PHP_METHOD(Phalcon_Mvc_Collection, count) {
 
 	zend_class_entry *_1;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *parameters_param = NULL, className, collection, connection, _0;
 	zval parameters;
@@ -633,6 +643,9 @@ PHP_METHOD(Phalcon_Mvc_Collection, count) {
 	ZEPHIR_INIT_VAR(&collection);
 	zephir_fetch_safe_class(&_0, &className);
 	_1 = zephir_fetch_class_str_ex(Z_STRVAL_P(&_0), Z_STRLEN_P(&_0), ZEND_FETCH_CLASS_AUTO);
+	if(!_1) {
+		RETURN_MM_NULL();
+	}
 	object_init_ex(&collection, _1);
 	if (zephir_has_constructor(&collection TSRMLS_CC)) {
 		ZEPHIR_CALL_METHOD(NULL, &collection, "__construct", NULL, 0);
@@ -665,6 +678,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, delete) {
 
 	zval _5, _6;
 	zend_bool success = 0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval __$true, disableEvents, status, id, connection, source, collection, mongoId, ok, _0, _1$$4, _2$$4, _3$$9, _4$$9, _7$$15, _8$$14;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
@@ -828,6 +842,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, delete) {
 PHP_METHOD(Phalcon_Mvc_Collection, find) {
 
 	zend_class_entry *_1;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *parameters_param = NULL, className, collection, _0, _2, _3;
 	zval parameters;
@@ -856,6 +871,9 @@ PHP_METHOD(Phalcon_Mvc_Collection, find) {
 	ZEPHIR_INIT_VAR(&collection);
 	zephir_fetch_safe_class(&_0, &className);
 	_1 = zephir_fetch_class_str_ex(Z_STRVAL_P(&_0), Z_STRLEN_P(&_0), ZEND_FETCH_CLASS_AUTO);
+	if(!_1) {
+		RETURN_MM_NULL();
+	}
 	object_init_ex(&collection, _1);
 	if (zephir_has_constructor(&collection TSRMLS_CC)) {
 		ZEPHIR_CALL_METHOD(NULL, &collection, "__construct", NULL, 0);
@@ -892,6 +910,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, findById) {
 
 	zend_class_entry *_5$$3;
 	zval _8, _9;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *id, id_sub, className, collection, mongoId, _0$$3, _1$$3, _2$$3, _3$$3, _4$$3, _6$$3, _7$$3;
 	zval *this_ptr = getThis();
@@ -931,6 +950,9 @@ PHP_METHOD(Phalcon_Mvc_Collection, findById) {
 		ZEPHIR_INIT_VAR(&collection);
 		zephir_fetch_safe_class(&_4$$3, &className);
 		_5$$3 = zephir_fetch_class_str_ex(Z_STRVAL_P(&_4$$3), Z_STRLEN_P(&_4$$3), ZEND_FETCH_CLASS_AUTO);
+		if(!_5$$3) {
+			RETURN_MM_NULL();
+		}
 		object_init_ex(&collection, _5$$3);
 		if (zephir_has_constructor(&collection TSRMLS_CC)) {
 			ZEPHIR_CALL_METHOD(NULL, &collection, "__construct", NULL, 0);
@@ -1014,6 +1036,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, findById) {
 PHP_METHOD(Phalcon_Mvc_Collection, findFirst) {
 
 	zend_class_entry *_1;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *parameters_param = NULL, className, collection, connection, _0, _2;
 	zval parameters;
@@ -1042,6 +1065,9 @@ PHP_METHOD(Phalcon_Mvc_Collection, findFirst) {
 	ZEPHIR_INIT_VAR(&collection);
 	zephir_fetch_safe_class(&_0, &className);
 	_1 = zephir_fetch_class_str_ex(Z_STRVAL_P(&_0), Z_STRLEN_P(&_0), ZEND_FETCH_CLASS_AUTO);
+	if(!_1) {
+		RETURN_MM_NULL();
+	}
 	object_init_ex(&collection, _1);
 	if (zephir_has_constructor(&collection TSRMLS_CC)) {
 		ZEPHIR_CALL_METHOD(NULL, &collection, "__construct", NULL, 0);
@@ -1061,6 +1087,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, findFirst) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection, fireEvent) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *eventName_param = NULL, _0;
 	zval eventName;
@@ -1100,6 +1127,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, fireEvent) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection, fireEventCancel) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *eventName_param = NULL, _0$$3, _1, _2;
 	zval eventName;
@@ -1162,6 +1190,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, getCollectionManager) {
 PHP_METHOD(Phalcon_Mvc_Collection, getConnection) {
 
 	zval _0, _1$$3, _2$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -1189,6 +1218,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, getConnection) {
 PHP_METHOD(Phalcon_Mvc_Collection, getConnectionService) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -1234,6 +1264,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, getDirtyState) {
 PHP_METHOD(Phalcon_Mvc_Collection, getEventsManager) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -1300,6 +1331,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, getMessages) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection, getReservedAttributes) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval __$true, reserved, _0, _1$$3;
 	zval *this_ptr = getThis();
 
@@ -1337,6 +1369,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, getReservedAttributes) {
 PHP_METHOD(Phalcon_Mvc_Collection, getSource) {
 
 	zval collection, _0, _1$$3, _2$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&collection);
@@ -1368,6 +1401,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, getSource) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection, readAttribute) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *attribute_param = NULL, _0;
 	zval attribute;
 	zval *this_ptr = getThis();
@@ -1406,6 +1440,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, save) {
 
 	zval _6;
 	zend_bool success = 0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval __$true, exists, data, status, id, ok, collection, _2, _3, _4, _5, _8, _9, _0$$3, _1$$4, _7$$9;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
@@ -1496,6 +1531,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, save) {
 PHP_METHOD(Phalcon_Mvc_Collection, serialize) {
 
 	zval container, serializer, _1, _2, _6, _3$$4, _4$$4, _5$$4;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval *this_ptr = getThis();
@@ -1549,6 +1585,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, serialize) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection, setConnectionService) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *connectionService_param = NULL, _0;
 	zval connectionService;
@@ -1589,7 +1626,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, setDI) {
 
 	ZVAL_UNDEF(&container_sub);
 
-	zephir_fetch_params(0, 1, 0, &container);
+	zephir_fetch_params_without_memory_grow(1, 0, &container);
 
 
 
@@ -1609,7 +1646,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, setDirtyState) {
 
 	ZVAL_UNDEF(&_0);
 
-	zephir_fetch_params(0, 1, 0, &dirtyState_param);
+	zephir_fetch_params_without_memory_grow(1, 0, &dirtyState_param);
 
 	dirtyState = zephir_get_intval(dirtyState_param);
 
@@ -1626,6 +1663,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, setDirtyState) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection, setEventsManager) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *eventsManager, eventsManager_sub, _0;
 	zval *this_ptr = getThis();
@@ -1652,6 +1690,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, setEventsManager) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection, setId) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *id, id_sub, mongoId, _0$$3, _1$$3;
 	zval *this_ptr = getThis();
@@ -1693,6 +1732,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, setId) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection, setSource) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *source_param = NULL;
 	zval source;
 	zval *this_ptr = getThis();
@@ -1731,7 +1771,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, skipOperation) {
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
 
-	zephir_fetch_params(0, 1, 0, &skip_param);
+	zephir_fetch_params_without_memory_grow(1, 0, &skip_param);
 
 	skip = zephir_get_boolval(skip_param);
 
@@ -1750,6 +1790,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, skipOperation) {
 PHP_METHOD(Phalcon_Mvc_Collection, summatory) {
 
 	zend_class_entry *_1;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *field_param = NULL, *conditions = NULL, conditions_sub, *finalize = NULL, finalize_sub, __$null, className, model, connection, source, collection, initial, reduce, group, retval, firstRetval, _0, _2, _4$$6;
 	zval field, _3;
@@ -1802,6 +1843,9 @@ PHP_METHOD(Phalcon_Mvc_Collection, summatory) {
 	ZEPHIR_INIT_VAR(&model);
 	zephir_fetch_safe_class(&_0, &className);
 	_1 = zephir_fetch_class_str_ex(Z_STRVAL_P(&_0), Z_STRLEN_P(&_0), ZEND_FETCH_CLASS_AUTO);
+	if(!_1) {
+		RETURN_MM_NULL();
+	}
 	object_init_ex(&model, _1);
 	if (zephir_has_constructor(&model TSRMLS_CC)) {
 		ZEPHIR_CALL_METHOD(NULL, &model, "__construct", NULL, 0);
@@ -1858,6 +1902,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, toArray) {
 	zend_string *_4;
 	zend_ulong _3;
 	zval data, reserved, key, value, _0, *_1, _2;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -1937,6 +1982,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, unserialize) {
 
 	zend_string *_13$$6;
 	zend_ulong _12$$6;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL, *_3 = NULL;
 	zval *data, data_sub, attributes, container, manager, key, value, serializer, _5, _6, _1$$3, _2$$3, _4$$3, _7$$4, _8$$4, _9$$6, *_10$$6, _11$$6;
@@ -2052,6 +2098,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, update) {
 
 	zval _4, _6;
 	zend_bool success = 0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval __$true, exists, data, status, ok, collection, _0, _1, _2, _3, _5, _7, _8;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
@@ -2164,6 +2211,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, update) {
 PHP_METHOD(Phalcon_Mvc_Collection, validate) {
 
 	zend_object_iterator *_1;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_8 = NULL, *_9 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *validator, validator_sub, messages, message, _0, _2$$4, _3$$4, _4$$4, _5$$4, _6$$4, _7$$4;
@@ -2223,6 +2271,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, validate) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection, useImplicitObjectIds) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *useImplicitObjectIds_param = NULL, _0, _1;
 	zend_bool useImplicitObjectIds;
@@ -2258,6 +2307,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, useImplicitObjectIds) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection, writeAttribute) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *attribute_param = NULL, *value, value_sub;
 	zval attribute;
 	zval *this_ptr = getThis();
@@ -2281,6 +2331,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, writeAttribute) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection, cancelOperation) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *disableEvents_param = NULL, eventName, _0$$3;
 	zend_bool disableEvents;
@@ -2319,6 +2370,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, exists) {
 
 	zval _4;
 	zend_bool exists = 0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *collection, collection_sub, id, mongoId, _2, _3, _0$$5, _1$$5, _5$$9, _6$$10;
 	zval *this_ptr = getThis();
@@ -2393,6 +2445,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, exists) {
 PHP_METHOD(Phalcon_Mvc_Collection, getGroupResultset) {
 
 	zend_bool _0, _1;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *params, params_sub, *collection, collection_sub, *connection, connection_sub, source, mongoCollection, conditions, limit, sort, documentsCursor;
 	zval *this_ptr = getThis();
@@ -2472,6 +2525,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, getGroupResultset) {
 PHP_METHOD(Phalcon_Mvc_Collection, getResultset) {
 
 	zend_class_entry *_1$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_10 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool unique, _2$$3;
@@ -2514,6 +2568,9 @@ PHP_METHOD(Phalcon_Mvc_Collection, getResultset) {
 		ZEPHIR_INIT_VAR(&base);
 		zephir_fetch_safe_class(&_0$$3, &className);
 		_1$$3 = zephir_fetch_class_str_ex(Z_STRVAL_P(&_0$$3), Z_STRLEN_P(&_0$$3), ZEND_FETCH_CLASS_AUTO);
+		if(!_1$$3) {
+			RETURN_MM_NULL();
+		}
 		object_init_ex(&base, _1$$3);
 		if (zephir_has_constructor(&base TSRMLS_CC)) {
 			ZEPHIR_CALL_METHOD(NULL, &base, "__construct", NULL, 0);
@@ -2643,6 +2700,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, getResultset) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection, preSave) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool disableEvents, exists;
 	zval *container, container_sub, *disableEvents_param = NULL, *exists_param = NULL, eventName, _3, _4, _0$$3, _1$$3, _2$$3, _5$$9, _6$$10, _7$$10, _8$$10, _9$$10, _10$$10;
@@ -2749,6 +2807,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, preSave) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection, postSave) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *disableEvents_param = NULL, *success_param = NULL, *exists_param = NULL, eventName, _2, _0$$4, _1$$7;
 	zend_bool disableEvents, success, exists;
@@ -2808,6 +2867,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, postSave) {
 PHP_METHOD(Phalcon_Mvc_Collection, prepareCU) {
 
 	zval container, connection, source, collection, _0, _1$$3, _2$$3, _4$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_3 = NULL;
 	zval *this_ptr = getThis();
@@ -2855,6 +2915,7 @@ PHP_METHOD(Phalcon_Mvc_Collection, prepareCU) {
 zend_object *zephir_init_properties_Phalcon_Mvc_Collection(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval _0, _1$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
 

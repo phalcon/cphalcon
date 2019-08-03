@@ -68,6 +68,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Paginator_Adapter_AbstractAdapter) {
  */
 PHP_METHOD(Phalcon_Paginator_Adapter_AbstractAdapter, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *config_param = NULL, _0$$3, _1$$4, _2$$5;
 	zval config;
@@ -127,7 +128,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_AbstractAdapter, setCurrentPage) {
 
 	ZVAL_UNDEF(&_0);
 
-	zephir_fetch_params(0, 1, 0, &page_param);
+	zephir_fetch_params_without_memory_grow(1, 0, &page_param);
 
 	page = zephir_get_intval(page_param);
 
@@ -150,7 +151,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_AbstractAdapter, setLimit) {
 
 	ZVAL_UNDEF(&_0);
 
-	zephir_fetch_params(0, 1, 0, &limitRows_param);
+	zephir_fetch_params_without_memory_grow(1, 0, &limitRows_param);
 
 	limitRows = zephir_get_intval(limitRows_param);
 
@@ -172,7 +173,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_AbstractAdapter, setRepository) {
 
 	ZVAL_UNDEF(&repository_sub);
 
-	zephir_fetch_params(0, 1, 0, &repository);
+	zephir_fetch_params_without_memory_grow(1, 0, &repository);
 
 
 
@@ -186,6 +187,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_AbstractAdapter, setRepository) {
  */
 PHP_METHOD(Phalcon_Paginator_Adapter_AbstractAdapter, getRepository) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *properties_param = NULL, _0, _1$$3, _2$$4;
 	zval properties;

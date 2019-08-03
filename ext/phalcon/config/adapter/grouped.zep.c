@@ -94,6 +94,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Config_Adapter_Grouped) {
  */
 PHP_METHOD(Phalcon_Config_Adapter_Grouped, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL, *_6 = NULL, *_8 = NULL, *_9 = NULL, *_15 = NULL, *_16 = NULL;
 	zval defaultAdapter, _14$$8, _26$$15;

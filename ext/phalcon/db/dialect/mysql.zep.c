@@ -52,6 +52,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Dialect_Mysql) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, addColumn) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *tableName_param = NULL, *schemaName_param = NULL, *column, column_sub, afterPosition, defaultValue, _0, _1, _2, _3, _4, _9, _10, _11, _5$$3, _6$$5, _7$$5, _8$$5, _12$$10;
 	zval tableName, schemaName, sql;
@@ -162,6 +163,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, addColumn) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, addForeignKey) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *tableName_param = NULL, *schemaName_param = NULL, *reference, reference_sub, onDelete, onUpdate, _0, _1, _2, _5, _6, _7, _8, _9, _10, _11, _12, _3$$3, _4$$3, _13$$4, _14$$5;
 	zval tableName, schemaName, sql;
@@ -268,6 +270,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, addForeignKey) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, addIndex) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *tableName_param = NULL, *schemaName_param = NULL, *index, index_sub, indexType, _0, _1, _3, _4, _5, _6, _2$$3;
 	zval tableName, schemaName, sql;
@@ -343,6 +346,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, addIndex) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, addPrimaryKey) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *tableName_param = NULL, *schemaName_param = NULL, *index, index_sub, _0, _1, _2;
 	zval tableName, schemaName;
@@ -396,6 +400,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, addPrimaryKey) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_6 = NULL, *_11 = NULL, *_30 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval definition, createLines;
@@ -844,6 +849,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createTable) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, createView) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval definition;
 	zval *viewName_param = NULL, *definition_param = NULL, *schemaName_param = NULL, viewSql, _0;
@@ -901,6 +907,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, createView) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, describeColumns) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *table_param = NULL, *schema_param = NULL, _0;
 	zval table, schema;
@@ -943,6 +950,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, describeColumns) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, describeIndexes) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *table_param = NULL, *schema_param = NULL, _0;
 	zval table, schema;
@@ -985,6 +993,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, describeIndexes) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, describeReferences) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *table_param = NULL, *schema_param = NULL;
 	zval table, schema, sql, _0$$3, _1$$4;
 	zval *this_ptr = getThis();
@@ -1036,6 +1045,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, describeReferences) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, dropColumn) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *tableName_param = NULL, *schemaName_param = NULL, *columnName_param = NULL, _0;
 	zval tableName, schemaName, columnName;
@@ -1093,6 +1103,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, dropColumn) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, dropForeignKey) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *tableName_param = NULL, *schemaName_param = NULL, *referenceName_param = NULL, _0;
 	zval tableName, schemaName, referenceName;
@@ -1150,6 +1161,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, dropForeignKey) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, dropIndex) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *tableName_param = NULL, *schemaName_param = NULL, *indexName_param = NULL, _0;
 	zval tableName, schemaName, indexName;
@@ -1207,6 +1219,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, dropIndex) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, dropPrimaryKey) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *tableName_param = NULL, *schemaName_param = NULL, _0;
 	zval tableName, schemaName;
@@ -1253,6 +1266,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, dropPrimaryKey) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, dropTable) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool ifExists;
 	zval *tableName_param = NULL, *schemaName_param = NULL, *ifExists_param = NULL, table;
@@ -1309,6 +1323,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, dropTable) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, dropView) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool ifExists;
 	zval *viewName_param = NULL, *schemaName_param = NULL, *ifExists_param = NULL, view;
@@ -1365,6 +1380,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, dropView) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, getColumnDefinition) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_35 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *column, column_sub, columnType, columnSql, typeValues, _0$$3, _1$$3, _2$$3, _3$$5, _4$$11, _5$$17, _6$$17, _7$$17, _8$$19, _9$$19, _10$$19, _11$$21, _12$$23, _13$$23, _14$$23, _15$$25, _16$$25, _17$$25, _18$$35, _19$$35, _20$$35, _21$$39, _22$$39, _23$$39, _24$$49, _25$$49, _26$$49, _27$$53, _28$$56, _29$$56, _30$$56, value$$58, valueSql$$58, *_31$$58, _32$$58, _40$$58, _41$$58, _42$$58, _43$$58, _33$$59, _34$$59, _36$$59, _37$$60, _38$$60, _39$$60, _44$$61, _45$$61, _46$$61;
@@ -1758,6 +1774,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getForeignKeyChecks) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, listTables) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *schemaName_param = NULL;
 	zval schemaName;
 	zval *this_ptr = getThis();
@@ -1788,6 +1805,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, listTables) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, listViews) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *schemaName_param = NULL;
 	zval schemaName;
 	zval *this_ptr = getThis();
@@ -1827,6 +1845,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, listViews) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, modifyColumn) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *tableName_param = NULL, *schemaName_param = NULL, *column, column_sub, *currentColumn = NULL, currentColumn_sub, __$null, afterPosition, defaultValue, columnDefinition, _0, _1, _2, _3, _9, _14, _15, _16, _4$$4, _5$$4, _6$$4, _7$$5, _8$$5, _10$$6, _11$$8, _12$$8, _13$$8, _17$$13;
 	zval tableName, schemaName, sql;
@@ -1977,6 +1996,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, modifyColumn) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, sharedLock) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *sqlQuery_param = NULL;
 	zval sqlQuery;
 	zval *this_ptr = getThis();
@@ -2014,6 +2034,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, sharedLock) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, tableExists) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *tableName_param = NULL, *schemaName_param = NULL;
 	zval tableName, schemaName;
 	zval *this_ptr = getThis();
@@ -2056,6 +2077,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, tableExists) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, tableOptions) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *table_param = NULL, *schema_param = NULL;
 	zval table, schema, sql;
 	zval *this_ptr = getThis();
@@ -2101,6 +2123,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, tableOptions) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, truncateTable) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *tableName_param = NULL, *schemaName_param = NULL;
 	zval tableName, schemaName, table;
 	zval *this_ptr = getThis();
@@ -2151,6 +2174,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, truncateTable) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, viewExists) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *viewName_param = NULL, *schemaName_param = NULL;
 	zval viewName, schemaName;
 	zval *this_ptr = getThis();
@@ -2193,6 +2217,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, viewExists) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, getTableOptions) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *definition_param = NULL, options, engine, autoIncrement, tableCollation, collationParts, _0$$5, _1$$7, _2$$9, _3$$9, _4$$9;
 	zval definition, tableOptions;
 	zval *this_ptr = getThis();
@@ -2264,6 +2289,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, getTableOptions) {
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, checkColumnSizeAndScale) {
 
 	zval columnSql;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *column, column_sub, _0, _1$$3, _2$$3, _3$$3, _4$$4, _5$$4;
 	zval *this_ptr = getThis();
@@ -2313,6 +2339,7 @@ PHP_METHOD(Phalcon_Db_Dialect_Mysql, checkColumnSizeAndScale) {
  */
 PHP_METHOD(Phalcon_Db_Dialect_Mysql, checkColumnUnsigned) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *column, column_sub, _0;
 	zval *this_ptr = getThis();

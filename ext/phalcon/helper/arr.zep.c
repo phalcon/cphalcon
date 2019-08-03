@@ -44,6 +44,7 @@ PHP_METHOD(Phalcon_Helper_Arr, arrayToObject) {
 
 	zend_string *_3;
 	zend_ulong _2;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *collection_param = NULL, returnObject, key, value, *_0, _1;
 	zval collection;
@@ -112,6 +113,7 @@ PHP_METHOD(Phalcon_Helper_Arr, arrayToObject) {
  */
 PHP_METHOD(Phalcon_Helper_Arr, chunk) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_bool preserveKeys;
 	zend_long size, ZEPHIR_LAST_CALL_STATUS;
 	zval *collection_param = NULL, *size_param = NULL, *preserveKeys_param = NULL, _0, _1;
@@ -153,6 +155,7 @@ PHP_METHOD(Phalcon_Helper_Arr, chunk) {
  */
 PHP_METHOD(Phalcon_Helper_Arr, first) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval *collection_param = NULL, *method = NULL, method_sub, __$null, filtered;
@@ -195,6 +198,7 @@ PHP_METHOD(Phalcon_Helper_Arr, first) {
  */
 PHP_METHOD(Phalcon_Helper_Arr, firstKey) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval *collection_param = NULL, *method = NULL, method_sub, __$null, filtered;
@@ -238,6 +242,7 @@ PHP_METHOD(Phalcon_Helper_Arr, firstKey) {
  */
 PHP_METHOD(Phalcon_Helper_Arr, flatten) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_4 = NULL, *_8 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool deep;
@@ -341,6 +346,7 @@ PHP_METHOD(Phalcon_Helper_Arr, flatten) {
  */
 PHP_METHOD(Phalcon_Helper_Arr, get) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *collection_param = NULL, *index, index_sub, *defaultValue = NULL, defaultValue_sub, __$null, value;
 	zval collection;
 	zval *this_ptr = getThis();
@@ -380,6 +386,7 @@ PHP_METHOD(Phalcon_Helper_Arr, get) {
 PHP_METHOD(Phalcon_Helper_Arr, group) {
 
 	zend_bool _2$$3, _3$$3, _5$$7, _6$$7;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_4 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *collection_param = NULL, *method, method_sub, element, key, *_0, _1;
@@ -480,6 +487,7 @@ PHP_METHOD(Phalcon_Helper_Arr, group) {
  */
 PHP_METHOD(Phalcon_Helper_Arr, has) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *collection_param = NULL, *index, index_sub;
 	zval collection;
 	zval *this_ptr = getThis();
@@ -507,6 +515,7 @@ PHP_METHOD(Phalcon_Helper_Arr, has) {
  */
 PHP_METHOD(Phalcon_Helper_Arr, isUnique) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *collection_param = NULL, _0;
 	zval collection;
@@ -538,6 +547,7 @@ PHP_METHOD(Phalcon_Helper_Arr, isUnique) {
  */
 PHP_METHOD(Phalcon_Helper_Arr, last) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval *collection_param = NULL, *method = NULL, method_sub, __$null, filtered;
@@ -580,6 +590,7 @@ PHP_METHOD(Phalcon_Helper_Arr, last) {
  */
 PHP_METHOD(Phalcon_Helper_Arr, lastKey) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval *collection_param = NULL, *method = NULL, method_sub, __$null, filtered;
@@ -624,6 +635,7 @@ PHP_METHOD(Phalcon_Helper_Arr, lastKey) {
  */
 PHP_METHOD(Phalcon_Helper_Arr, order) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval order;
 	zval *collection_param = NULL, *attribute, attribute_sub, *order_param = NULL, item, key, *_0, _1;
@@ -719,6 +731,7 @@ PHP_METHOD(Phalcon_Helper_Arr, order) {
 PHP_METHOD(Phalcon_Helper_Arr, pluck) {
 
 	zend_bool _2$$3, _3$$3, _6$$6, _7$$6;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval element;
 	zval *collection_param = NULL, *element_param = NULL, item, *_0, _1, _4$$4, _5$$5, _8$$7, _9$$8;
@@ -814,6 +827,7 @@ PHP_METHOD(Phalcon_Helper_Arr, pluck) {
  */
 PHP_METHOD(Phalcon_Helper_Arr, set) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *collection_param = NULL, *value, value_sub, *index = NULL, index_sub, __$null;
 	zval collection;
 	zval *this_ptr = getThis();
@@ -852,6 +866,7 @@ PHP_METHOD(Phalcon_Helper_Arr, set) {
  */
 PHP_METHOD(Phalcon_Helper_Arr, sliceLeft) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long elements, ZEPHIR_LAST_CALL_STATUS;
 	zval *collection_param = NULL, *elements_param = NULL, _0, _1;
 	zval collection;
@@ -890,6 +905,7 @@ PHP_METHOD(Phalcon_Helper_Arr, sliceLeft) {
  */
 PHP_METHOD(Phalcon_Helper_Arr, sliceRight) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long elements, ZEPHIR_LAST_CALL_STATUS;
 	zval *collection_param = NULL, *elements_param = NULL, _0;
 	zval collection;
@@ -926,6 +942,7 @@ PHP_METHOD(Phalcon_Helper_Arr, sliceRight) {
  */
 PHP_METHOD(Phalcon_Helper_Arr, split) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *collection_param = NULL, _0, _1;
 	zval collection;
@@ -963,6 +980,7 @@ PHP_METHOD(Phalcon_Helper_Arr, split) {
  */
 PHP_METHOD(Phalcon_Helper_Arr, validateAll) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_1 = NULL;
 	zval *collection_param = NULL, *method, method_sub, _0;
@@ -996,6 +1014,7 @@ PHP_METHOD(Phalcon_Helper_Arr, validateAll) {
  */
 PHP_METHOD(Phalcon_Helper_Arr, validateAny) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_1 = NULL;
 	zval *collection_param = NULL, *method, method_sub, _0;
@@ -1029,6 +1048,7 @@ PHP_METHOD(Phalcon_Helper_Arr, validateAny) {
 PHP_METHOD(Phalcon_Helper_Arr, filterCollection) {
 
 	zend_bool _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *collection_param = NULL, *method = NULL, method_sub, __$null;
 	zval collection;
@@ -1072,6 +1092,7 @@ PHP_METHOD(Phalcon_Helper_Arr, filterCollection) {
  */
 PHP_METHOD(Phalcon_Helper_Arr, whiteList) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *collection_param = NULL, *whiteList_param = NULL, _0, _1, _2;
 	zval collection, whiteList;

@@ -123,6 +123,7 @@ PHP_METHOD(Phalcon_Di, __construct) {
  */
 PHP_METHOD(Phalcon_Di, __call) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval arguments;
 	zval *method_param = NULL, *arguments_param = NULL, instance, possibleService, definition, _6, _0$$3, _1$$3, _2$$3, _3$$6, _4$$6, _5$$6;
@@ -209,6 +210,7 @@ PHP_METHOD(Phalcon_Di, __call) {
  */
 PHP_METHOD(Phalcon_Di, attempt) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool shared;
 	zval *name_param = NULL, *definition, definition_sub, *shared_param = NULL, _0, _1, _2, _3, _4;
@@ -270,6 +272,7 @@ PHP_METHOD(Phalcon_Di, get) {
 
 	zval _6$$5, _15$$17;
 	zend_bool _1$$3, _14$$11;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *name_param = NULL, *parameters = NULL, parameters_sub, __$null, service, eventsManager, isShared, instance, _0, _5, _2$$3, _3$$4, _4$$4, _7$$5, _8$$7, _9$$7, _10$$9, _12$$12, _16$$17;
 	zval name, _11$$9, _13$$12;
@@ -460,6 +463,7 @@ PHP_METHOD(Phalcon_Di, getInternalEventsManager) {
  */
 PHP_METHOD(Phalcon_Di, getRaw) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *name_param = NULL, service, _0, _1$$3;
 	zval name, _2$$3;
@@ -510,6 +514,7 @@ PHP_METHOD(Phalcon_Di, getRaw) {
  */
 PHP_METHOD(Phalcon_Di, getService) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *name_param = NULL, service, _0, _1$$3;
 	zval name, _2$$3;
@@ -571,6 +576,7 @@ PHP_METHOD(Phalcon_Di, getServices) {
  */
 PHP_METHOD(Phalcon_Di, getShared) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *name_param = NULL, *parameters = NULL, parameters_sub, __$null, instance, _0;
 	zval name;
@@ -620,6 +626,7 @@ PHP_METHOD(Phalcon_Di, loadFromConfig) {
 	zend_bool _4$$3, _8$$4;
 	zend_string *_3;
 	zend_ulong _2;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_7 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *config, config_sub, services, name, service, *_0, _1, _5$$3, _6$$3, _9$$4, _10$$4;
@@ -730,6 +737,7 @@ PHP_METHOD(Phalcon_Di, loadFromConfig) {
  */
 PHP_METHOD(Phalcon_Di, loadFromPhp) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *filePath_param = NULL, services;
 	zval filePath;
@@ -798,6 +806,7 @@ PHP_METHOD(Phalcon_Di, loadFromPhp) {
  */
 PHP_METHOD(Phalcon_Di, loadFromYaml) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval callbacks;
 	zval *filePath_param = NULL, *callbacks_param = NULL, services;
@@ -844,6 +853,7 @@ PHP_METHOD(Phalcon_Di, loadFromYaml) {
  */
 PHP_METHOD(Phalcon_Di, has) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *name_param = NULL, _0;
 	zval name;
 	zval *this_ptr = getThis();
@@ -880,6 +890,7 @@ PHP_METHOD(Phalcon_Di, has) {
  */
 PHP_METHOD(Phalcon_Di, offsetGet) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *name, name_sub;
 	zval *this_ptr = getThis();
@@ -902,6 +913,7 @@ PHP_METHOD(Phalcon_Di, offsetGet) {
  */
 PHP_METHOD(Phalcon_Di, offsetExists) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *name, name_sub;
 	zval *this_ptr = getThis();
@@ -928,6 +940,7 @@ PHP_METHOD(Phalcon_Di, offsetExists) {
  */
 PHP_METHOD(Phalcon_Di, offsetSet) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *name, name_sub, *definition, definition_sub;
 	zval *this_ptr = getThis();
@@ -951,6 +964,7 @@ PHP_METHOD(Phalcon_Di, offsetSet) {
  */
 PHP_METHOD(Phalcon_Di, offsetUnset) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *name, name_sub;
 	zval *this_ptr = getThis();
@@ -991,6 +1005,7 @@ PHP_METHOD(Phalcon_Di, offsetUnset) {
  */
 PHP_METHOD(Phalcon_Di, register) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *provider, provider_sub;
 	zval *this_ptr = getThis();
@@ -1014,6 +1029,7 @@ PHP_METHOD(Phalcon_Di, register) {
  */
 PHP_METHOD(Phalcon_Di, remove) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *name_param = NULL, _0, _1;
 	zval name;
 	zval *this_ptr = getThis();
@@ -1065,6 +1081,7 @@ PHP_METHOD(Phalcon_Di, reset) {
  */
 PHP_METHOD(Phalcon_Di, set) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool shared;
 	zval *name_param = NULL, *definition, definition_sub, *shared_param = NULL, _0, _1, _2, _3;
@@ -1125,7 +1142,7 @@ PHP_METHOD(Phalcon_Di, setDefault) {
 
 	ZVAL_UNDEF(&container_sub);
 
-	zephir_fetch_params(0, 1, 0, &container);
+	zephir_fetch_params_without_memory_grow(1, 0, &container);
 
 
 
@@ -1143,7 +1160,7 @@ PHP_METHOD(Phalcon_Di, setInternalEventsManager) {
 
 	ZVAL_UNDEF(&eventsManager_sub);
 
-	zephir_fetch_params(0, 1, 0, &eventsManager);
+	zephir_fetch_params_without_memory_grow(1, 0, &eventsManager);
 
 
 
@@ -1156,6 +1173,7 @@ PHP_METHOD(Phalcon_Di, setInternalEventsManager) {
  */
 PHP_METHOD(Phalcon_Di, setRaw) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *name_param = NULL, *rawDefinition, rawDefinition_sub;
 	zval name;
 	zval *this_ptr = getThis();
@@ -1189,6 +1207,7 @@ PHP_METHOD(Phalcon_Di, setRaw) {
  */
 PHP_METHOD(Phalcon_Di, setShared) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *name_param = NULL, *definition, definition_sub, _0;
 	zval name;

@@ -50,6 +50,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Collection_Document) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetGet) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *index, index_sub, value;
 	zval *this_ptr = getThis();
 
@@ -80,7 +81,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetExists) {
 
 	ZVAL_UNDEF(&index_sub);
 
-	zephir_fetch_params(0, 1, 0, &index);
+	zephir_fetch_params_without_memory_grow(1, 0, &index);
 
 
 
@@ -99,7 +100,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetSet) {
 	ZVAL_UNDEF(&index_sub);
 	ZVAL_UNDEF(&value_sub);
 
-	zephir_fetch_params(0, 2, 0, &index, &value);
+	zephir_fetch_params_without_memory_grow(2, 0, &index, &value);
 
 
 
@@ -117,7 +118,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetUnset) {
 
 	ZVAL_UNDEF(&index_sub);
 
-	zephir_fetch_params(0, 1, 0, &index);
+	zephir_fetch_params_without_memory_grow(1, 0, &index);
 
 
 
@@ -135,6 +136,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, offsetUnset) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Document, readAttribute) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *attribute_param = NULL, value;
 	zval attribute;
 	zval *this_ptr = getThis();
@@ -170,6 +172,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, readAttribute) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Document, toArray) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -191,6 +194,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Document, toArray) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Document, writeAttribute) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *attribute_param = NULL, *value, value_sub;
 	zval attribute;
 	zval *this_ptr = getThis();

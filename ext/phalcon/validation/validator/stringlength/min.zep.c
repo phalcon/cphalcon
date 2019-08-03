@@ -91,6 +91,7 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength_Min, validate) {
 
 	double _3$$6, _4$$7;
 	zend_bool result = 0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *validation, validation_sub, *field, field_sub, value, length, minimum, replacePairs, included, _0, _1$$5, _2$$6, _5$$10;
 	zval *this_ptr = getThis();

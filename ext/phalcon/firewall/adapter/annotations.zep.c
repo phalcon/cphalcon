@@ -87,7 +87,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_Annotations, setAnnotationsAdapter) {
 
 	ZVAL_UNDEF(&annotationsAdapter_sub);
 
-	zephir_fetch_params(0, 1, 0, &annotationsAdapter);
+	zephir_fetch_params_without_memory_grow(1, 0, &annotationsAdapter);
 
 
 
@@ -106,7 +106,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_Annotations, __construct) {
 
 	ZVAL_UNDEF(&annotationsAdapter_sub);
 
-	zephir_fetch_params(0, 1, 0, &annotationsAdapter);
+	zephir_fetch_params_without_memory_grow(1, 0, &annotationsAdapter);
 
 
 
@@ -118,6 +118,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_Annotations, beforeExecuteRoute) {
 
 	zval _9$$10, _12$$11;
 	zend_bool defaultAccess = 0, _2, _7;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_6 = NULL, *_17 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *event, event_sub, *dispatcher, dispatcher_sub, *data, data_sub, __$null, access, actionName, cacheKey, container, controllerClass, controllerName, eventsManager, role, singleRole, value, _0, _1, _3, _10, *_4$$4, _5$$4, _8$$10, _11$$11, _13$$12, *_14$$16, _15$$16, _16$$17, _18$$18, _19$$19;
@@ -339,6 +340,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_Annotations, getDispatcher) {
 
 PHP_METHOD(Phalcon_Firewall_Adapter_Annotations, checkControllerAnnotationAccess) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_6 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *controllerClass_param = NULL, *controllerName_param = NULL, *role, role_sub, annotationsAdapter, reflector, annotations, access, singleRole, resolvedRole, _0, _1$$3, _2$$4, *_3$$5, _4$$5, _5$$6, _7$$7, _8$$8;
@@ -434,6 +436,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_Annotations, checkControllerAnnotationAccess
 
 PHP_METHOD(Phalcon_Firewall_Adapter_Annotations, checkAnnotations) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *annotations, annotations_sub, *role, role_sub, returnAllow, _0$$3, _1$$3, _5$$3, _2$$4, _3$$4, _4$$4, _6$$6, _7$$6, _8$$6;
 	zval *this_ptr = getThis();
@@ -496,6 +499,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_Annotations, checkAnnotations) {
 
 PHP_METHOD(Phalcon_Firewall_Adapter_Annotations, checkActionAnnotationAccess) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_7 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *controllerClass_param = NULL, *controllerName_param = NULL, *actionName_param = NULL, *role, role_sub, annotationsAdapter, annotations, access, singleRole, resolvedRole, _0, _2$$3, _3$$4, *_4$$5, _5$$5, _6$$6, _8$$7, _9$$8;
@@ -593,6 +597,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_Annotations, checkActionAnnotationAccess) {
 
 PHP_METHOD(Phalcon_Firewall_Adapter_Annotations, getAccessFromCache) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval originalValues;
@@ -677,6 +682,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_Annotations, getAccessFromCache) {
 
 PHP_METHOD(Phalcon_Firewall_Adapter_Annotations, handleAnnotation) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool access, _1$$4, _2$$9, _3$$9;
 	zval *annotation, annotation_sub, *access_param = NULL, *role, role_sub, numberArguments, annotationRoles, roleIntersect, _0$$3;

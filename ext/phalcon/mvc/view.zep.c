@@ -175,6 +175,7 @@ PHP_METHOD(Phalcon_Mvc_View, getRenderLevel) {
  */
 PHP_METHOD(Phalcon_Mvc_View, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *options_param = NULL;
 	zval options;
 	zval *this_ptr = getThis();
@@ -206,6 +207,7 @@ PHP_METHOD(Phalcon_Mvc_View, __construct) {
  */
 PHP_METHOD(Phalcon_Mvc_View, __get) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *key_param = NULL;
 	zval key;
@@ -243,6 +245,7 @@ PHP_METHOD(Phalcon_Mvc_View, __get) {
  */
 PHP_METHOD(Phalcon_Mvc_View, __isset) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *key_param = NULL, _0;
 	zval key;
 	zval *this_ptr = getThis();
@@ -279,6 +282,7 @@ PHP_METHOD(Phalcon_Mvc_View, __isset) {
  */
 PHP_METHOD(Phalcon_Mvc_View, __set) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *key_param = NULL, *value, value_sub;
 	zval key;
@@ -314,6 +318,7 @@ PHP_METHOD(Phalcon_Mvc_View, __set) {
 PHP_METHOD(Phalcon_Mvc_View, cleanTemplateAfter) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
@@ -333,6 +338,7 @@ PHP_METHOD(Phalcon_Mvc_View, cleanTemplateAfter) {
 PHP_METHOD(Phalcon_Mvc_View, cleanTemplateBefore) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
@@ -364,7 +370,7 @@ PHP_METHOD(Phalcon_Mvc_View, disableLevel) {
 	ZVAL_UNDEF(&level_sub);
 	ZVAL_BOOL(&__$true, 1);
 
-	zephir_fetch_params(0, 1, 0, &level);
+	zephir_fetch_params_without_memory_grow(1, 0, &level);
 
 
 
@@ -426,6 +432,7 @@ PHP_METHOD(Phalcon_Mvc_View, exists) {
 
 	zend_string *_9$$4, *_16$$9;
 	zend_ulong _8$$4, _15$$9;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *view_param = NULL, basePath, viewsDir, engines, extension, _0, _2, *_3, _4, _1$$3, _5$$4, *_6$$4, _7$$4, _10$$5, _11$$7, _12$$9, *_13$$9, _14$$9, _17$$10, _18$$12;
 	zval view;
@@ -596,6 +603,7 @@ PHP_METHOD(Phalcon_Mvc_View, exists) {
  */
 PHP_METHOD(Phalcon_Mvc_View, finish) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -627,6 +635,7 @@ PHP_METHOD(Phalcon_Mvc_View, getActiveRenderPath) {
 
 	zend_bool _1$$3;
 	zval activeRenderPath, _0, _2$$4;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS, viewsDirsCount = 0;
 	zval *this_ptr = getThis();
 
@@ -763,6 +772,7 @@ PHP_METHOD(Phalcon_Mvc_View, getParamsToView) {
  */
 PHP_METHOD(Phalcon_Mvc_View, getPartial) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *partialPath_param = NULL, *params = NULL, params_sub, __$null;
 	zval partialPath;
@@ -830,6 +840,7 @@ PHP_METHOD(Phalcon_Mvc_View, getPartialsDir) {
  */
 PHP_METHOD(Phalcon_Mvc_View, getRender) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval params, _1$$3;
 	zval *controllerName_param = NULL, *actionName_param = NULL, *params_param = NULL, *configCallback = NULL, configCallback_sub, __$null, view, _0$$3;
@@ -913,6 +924,7 @@ PHP_METHOD(Phalcon_Mvc_View, getRender) {
  */
 PHP_METHOD(Phalcon_Mvc_View, getVar) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *key_param = NULL, value, _0;
 	zval key;
 	zval *this_ptr = getThis();
@@ -962,6 +974,7 @@ PHP_METHOD(Phalcon_Mvc_View, getViewsDir) {
 PHP_METHOD(Phalcon_Mvc_View, getViewsDirs) {
 
 	zval _0, _1$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
@@ -1014,6 +1027,7 @@ PHP_METHOD(Phalcon_Mvc_View, isDisabled) {
  */
 PHP_METHOD(Phalcon_Mvc_View, partial) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *partialPath_param = NULL, *params = NULL, params_sub, __$null, viewParams, _3, _4, _5, _6, _7, _0$$3, _1$$3, _2$$3;
 	zval partialPath;
@@ -1058,7 +1072,7 @@ PHP_METHOD(Phalcon_Mvc_View, partial) {
 		zephir_fast_array_merge(&_1$$3, &viewParams, params TSRMLS_CC);
 		zephir_update_property_zval(this_ptr, SL("viewParams"), &_1$$3);
 		ZEPHIR_INIT_VAR(&_2$$3);
-		zephir_create_symbol_table(TSRMLS_C);
+		ZEPHIR_CREATE_SYMBOL_TABLE();
 		
 	}
 	ZEPHIR_CALL_METHOD(&_3, this_ptr, "loadtemplateengines", NULL, 0);
@@ -1097,6 +1111,7 @@ PHP_METHOD(Phalcon_Mvc_View, partial) {
  */
 PHP_METHOD(Phalcon_Mvc_View, pick) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *renderView, renderView_sub, pickView, layout, parts, _0$$4;
 	zval *this_ptr = getThis();
 
@@ -1150,6 +1165,7 @@ PHP_METHOD(Phalcon_Mvc_View, pick) {
  */
 PHP_METHOD(Phalcon_Mvc_View, registerEngines) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *engines_param = NULL;
 	zval engines;
 	zval *this_ptr = getThis();
@@ -1177,6 +1193,7 @@ PHP_METHOD(Phalcon_Mvc_View, registerEngines) {
  */
 PHP_METHOD(Phalcon_Mvc_View, render) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval params;
 	zval *controllerName_param = NULL, *actionName_param = NULL, *params_param = NULL, result;
@@ -1233,6 +1250,7 @@ PHP_METHOD(Phalcon_Mvc_View, render) {
  */
 PHP_METHOD(Phalcon_Mvc_View, reset) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval __$true, __$false, __$null, _0, _1, _2;
 	zval *this_ptr = getThis();
 
@@ -1279,6 +1297,7 @@ PHP_METHOD(Phalcon_Mvc_View, reset) {
  */
 PHP_METHOD(Phalcon_Mvc_View, setBasePath) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *basePath_param = NULL;
 	zval basePath;
 	zval *this_ptr = getThis();
@@ -1305,6 +1324,7 @@ PHP_METHOD(Phalcon_Mvc_View, setBasePath) {
  */
 PHP_METHOD(Phalcon_Mvc_View, setContent) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *content_param = NULL;
 	zval content;
 	zval *this_ptr = getThis();
@@ -1332,6 +1352,7 @@ PHP_METHOD(Phalcon_Mvc_View, setContent) {
  */
 PHP_METHOD(Phalcon_Mvc_View, setLayout) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *layout_param = NULL;
 	zval layout;
 	zval *this_ptr = getThis();
@@ -1360,6 +1381,7 @@ PHP_METHOD(Phalcon_Mvc_View, setLayout) {
  */
 PHP_METHOD(Phalcon_Mvc_View, setLayoutsDir) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *layoutsDir_param = NULL;
 	zval layoutsDir;
 	zval *this_ptr = getThis();
@@ -1388,6 +1410,7 @@ PHP_METHOD(Phalcon_Mvc_View, setLayoutsDir) {
  */
 PHP_METHOD(Phalcon_Mvc_View, setMainView) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *viewPath_param = NULL;
 	zval viewPath;
 	zval *this_ptr = getThis();
@@ -1416,6 +1439,7 @@ PHP_METHOD(Phalcon_Mvc_View, setMainView) {
  */
 PHP_METHOD(Phalcon_Mvc_View, setPartialsDir) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *partialsDir_param = NULL;
 	zval partialsDir;
 	zval *this_ptr = getThis();
@@ -1442,6 +1466,7 @@ PHP_METHOD(Phalcon_Mvc_View, setPartialsDir) {
  */
 PHP_METHOD(Phalcon_Mvc_View, setParamToView) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *key_param = NULL, *value, value_sub;
 	zval key;
 	zval *this_ptr = getThis();
@@ -1487,7 +1512,7 @@ PHP_METHOD(Phalcon_Mvc_View, setRenderLevel) {
 
 	ZVAL_UNDEF(&_0);
 
-	zephir_fetch_params(0, 1, 0, &level_param);
+	zephir_fetch_params_without_memory_grow(1, 0, &level_param);
 
 	level = zephir_get_intval(level_param);
 
@@ -1505,6 +1530,7 @@ PHP_METHOD(Phalcon_Mvc_View, setRenderLevel) {
 PHP_METHOD(Phalcon_Mvc_View, setTemplateAfter) {
 
 	zval _0$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *templateAfter, templateAfter_sub;
 	zval *this_ptr = getThis();
 
@@ -1534,6 +1560,7 @@ PHP_METHOD(Phalcon_Mvc_View, setTemplateAfter) {
 PHP_METHOD(Phalcon_Mvc_View, setTemplateBefore) {
 
 	zval _0$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *templateBefore, templateBefore_sub;
 	zval *this_ptr = getThis();
 
@@ -1566,6 +1593,7 @@ PHP_METHOD(Phalcon_Mvc_View, setTemplateBefore) {
  */
 PHP_METHOD(Phalcon_Mvc_View, setVar) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *key_param = NULL, *value, value_sub;
 	zval key;
 	zval *this_ptr = getThis();
@@ -1606,6 +1634,7 @@ PHP_METHOD(Phalcon_Mvc_View, setVar) {
  */
 PHP_METHOD(Phalcon_Mvc_View, setVars) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_bool merge;
 	zval *params_param = NULL, *merge_param = NULL, _0$$3, _1$$3;
 	zval params;
@@ -1647,6 +1676,7 @@ PHP_METHOD(Phalcon_Mvc_View, setViewsDir) {
 	zend_string *_6$$5;
 	zend_ulong _5$$5;
 	zend_bool _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_2 = NULL;
 	zval *viewsDir, viewsDir_sub, position, directory, newViewsDir, _1$$4, *_3$$5, _4$$5, _7$$6, _8$$8;
@@ -1738,6 +1768,7 @@ PHP_METHOD(Phalcon_Mvc_View, setViewsDir) {
  */
 PHP_METHOD(Phalcon_Mvc_View, start) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval __$null;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
@@ -1758,6 +1789,7 @@ PHP_METHOD(Phalcon_Mvc_View, start) {
  */
 PHP_METHOD(Phalcon_Mvc_View, toString) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval params;
 	zval *controllerName_param = NULL, *actionName_param = NULL, *params_param = NULL, result, _0;
@@ -1824,6 +1856,7 @@ PHP_METHOD(Phalcon_Mvc_View, engineRender) {
 
 	zend_string *_9$$3, *_28$$16;
 	zend_ulong _8$$3, _27$$16;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_5 = NULL, *_13 = NULL, *_16 = NULL, *_20 = NULL, *_23 = NULL, *_32 = NULL, *_35 = NULL, *_39 = NULL, *_42 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool silence, mustClean, notExists = 0;
@@ -2164,6 +2197,7 @@ PHP_METHOD(Phalcon_Mvc_View, isAbsolutePath) {
 
 	unsigned char _6, _2$$3, _4$$3;
 	zend_bool _5, _1$$3, _3$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *path_param = NULL, _0;
 	zval path;
 	zval *this_ptr = getThis();
@@ -2178,7 +2212,7 @@ PHP_METHOD(Phalcon_Mvc_View, isAbsolutePath) {
 
 
 	ZEPHIR_INIT_VAR(&_0);
-	ZEPHIR_GET_CONSTANT(&_0, "PHP_OS");
+	ZEPHIR_MM_GET_CONSTANT(&_0, "PHP_OS");
 	if (ZEPHIR_IS_STRING(&_0, "WINNT")) {
 		_1$$3 = zephir_fast_strlen_ev(&path) >= 3;
 		if (_1$$3) {
@@ -2212,6 +2246,7 @@ PHP_METHOD(Phalcon_Mvc_View, loadTemplateEngines) {
 	zend_string *_10$$5;
 	zend_ulong _9$$5;
 	zval engines, di, registeredEngines, engineService, extension, _0, _1$$3, _2$$4, _3$$6, _4$$6, _6$$6, *_7$$5, _8$$5, _11$$9, _15$$12, _16$$12, _17$$11, _19$$15, _21$$18, _22$$18, _23$$17;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_5 = NULL, *_13 = NULL, *_14 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
@@ -2376,6 +2411,7 @@ PHP_METHOD(Phalcon_Mvc_View, loadTemplateEngines) {
  */
 PHP_METHOD(Phalcon_Mvc_View, processRender) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS, renderLevel = 0;
 	zend_bool fireEvents, silence = 0, _5, _30;
 	zval params;
@@ -2512,7 +2548,7 @@ PHP_METHOD(Phalcon_Mvc_View, processRender) {
 	zephir_read_property(&_2, this_ptr, SL("eventsManager"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&eventsManager, &_2);
 	ZEPHIR_INIT_VAR(&_4);
-	zephir_create_symbol_table(TSRMLS_C);
+	ZEPHIR_CREATE_SYMBOL_TABLE();
 	
 	_5 = fireEvents;
 	if (_5) {
@@ -2707,6 +2743,7 @@ PHP_METHOD(Phalcon_Mvc_View, processRender) {
 zend_object *zephir_init_properties_Phalcon_Mvc_View(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval _0, _2, _4, _6, _8, _10, _1$$3, _3$$4, _5$$5, _7$$6, _9$$7, _11$$8;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_4);
