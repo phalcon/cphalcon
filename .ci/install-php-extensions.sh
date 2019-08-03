@@ -57,28 +57,6 @@ printf "\\n" | pecl install --force yaml 1> /dev/null
 (>&1 echo 'Install mongodb extension ...')
 printf "\\n" | pecl install --force mongodb 1> /dev/null
 
-if [[ "$(php --ri sodium 1> /dev/null)" = "" ]]
-then
-  # for some reason Ubuntu 18.04 on Travis CI doesn't install libsodium-dev
-  # via "addons -> apt -> packages"
-  if [ "${CI}" = "true" ]
-  then
-    # shellcheck disable=SC2091
-    if ! $(ldconfig -p | grep -q libsodium)
-    then
-      (>&1 echo "Install libsodium-dev...")
-      sudo apt-get install \
-        --no-install-recommends \
-        --quiet \
-        --assume-yes \
-        libsodium-dev 1> /dev/null
-    fi
-  fi
-
-  (>&1 echo 'Install libsodium extension ...')
-  printf "\\n" | pecl install --force libsodium 1> /dev/null
-fi
-
 redis_ext=$($(phpenv which php-config) --extension-dir)/redis.so
 if [[ "$(php --ri redis 1> /dev/null)" = "" ]] && [[ ! -f "${redis_ext}" ]]
 then

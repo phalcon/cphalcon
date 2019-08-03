@@ -18,13 +18,6 @@ namespace Phalcon\Security;
  * Provides secure random number generator which is suitable for generating
  * session key in HTTP cookies, etc.
  *
- * It supports following secure random number generators:
- *
- * - random_bytes (PHP 7)
- * - libsodium
- * - openssl, libressl
- * - /dev/urandom
- *
  * `Phalcon\Security\Random` could be mainly useful for:
  *
  * - Key generation (e.g. generation of complicated keys)
@@ -229,47 +222,11 @@ class Random
      */
     public function bytes(int len = 16) -> string
     {
-        var handle, ret;
-
         if len <= 0 {
             let len = 16;
         }
 
-        if function_exists("random_bytes") {
-            return random_bytes(len);
-        }
-
-        if function_exists("\\Sodium\\randombytes_buf") {
-            return \\Sodium\\randombytes_buf(len);
-        }
-
-        if function_exists("openssl_random_pseudo_bytes") {
-            return openssl_random_pseudo_bytes(len);
-        }
-
-        let handle = false;
-
-        if file_exists("/dev/urandom") {
-            let handle = fopen("/dev/urandom", "rb");
-        }
-
-        if unlikely handle === false {
-            throw new Exception("No random device available");
-        }
-
-        stream_set_read_buffer(handle, 0);
-
-        let ret = fread(handle, len);
-
-        fclose(handle);
-
-        if unlikely strlen(ret) != len {
-            throw new Exception(
-                "Unexpected partial read from random device"
-            );
-        }
-
-        return ret;
+        return random_bytes(len);
     }
 
     /**
@@ -310,56 +267,11 @@ class Random
      */
     public function number(int len) -> int
     {
-        var hex, mask, rnd, ret;
-        string bin = "";
-
         if unlikely len <= 0 {
             throw new Exception("Require a positive integer > 0");
         }
 
-        if function_exists("random_int") {
-            return random_int(0, len);
-        }
-
-        if function_exists("\\Sodium\\randombytes_uniform") {
-            /**
-             * \Sodium\randombytes_uniform will return a random integer between
-             * 0 and len - 1
-             */
-            return \\Sodium\\randombytes_uniform(len) + 1;
-        }
-
-        let hex = dechex(len);
-
-        if (strlen(hex) & 1) == 1 {
-            let hex = "0" . hex;
-        }
-
-        let bin .= pack("H*", hex);
-
-        let mask = ord(bin[0]);
-        let mask = mask | (mask >> 1);
-        let mask = mask | (mask >> 2);
-        let mask = mask | (mask >> 4);
-
-        do {
-            let rnd = this->bytes(strlen(bin));
-
-            let rnd = substr_replace(
-                rnd,
-                chr(
-                    ord(substr(rnd, 0, 1)) & mask
-                ),
-                0,
-                1
-            );
-        } while bin < rnd;
-
-        let ret = unpack("H*", rnd);
-
-        return hexdec(
-            array_shift(ret)
-        );
+        return random_int(0, len);
     }
 
     /**
