@@ -42,6 +42,12 @@ class UnderscoreGetCest
         $eventsManager = $di->getShared('eventsManager');
         $I->assertInstanceOf('Phalcon\Events\Manager', $eventsManager);
         $eventsManagerFromInjectable = $testComponent->eventsManager;
+        $I->assertEquals($eventsManager, $testComponent->getEventsManager());
         $I->assertEquals($eventsManager, $eventsManagerFromInjectable);
+
+        $newEventManager = new Phalcon\Events\Manager();
+        $testComponent->setEventManager($newEventManager);
+        $I->assertEquals($newEventManager, $testComponent->eventsManager);
+        $I->assertEquals($newEventManager, $testComponent->getEventsManager());
     }
 }
