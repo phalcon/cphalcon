@@ -13,6 +13,8 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Di\Injectable;
 
 use UnitTester;
+use Phalcon\Di;
+use Phalcon\Test\Fixtures\Di\ComponentExtendingAbstractInjectable;
 
 class UnderscoreGetCest
 {
@@ -26,6 +28,19 @@ class UnderscoreGetCest
     {
         $I->wantToTest('Di\Injectable - __get()');
 
-        $I->skipTest('Need implementation');
+        $container = Di::getDefault();
+
+        $security = $container->getShared('security');
+        $container->setShared('testComponent', new ComponentExtendingAbstractInjectable());
+        $testComponent = $container->get('testComponent');
+
+        $securityFromInjectable = $testComponent->security;
+        $I->assertEquals($security, $securityFromInjectable);
+
+        //Issue 14269
+        $eventsManager = $container->getShared('eventsManager');
+        $I->assertInstanceOf('Phalcon\Events\Manager', $eventsManager);
+        $eventsManagerFromInjectable = $testComponent->eventsManager;
+        $I->assertEquals($eventsManager, $eventsManagerFromInjectable);
     }
 }
