@@ -30,12 +30,12 @@ class UnderscoreGetCest
 
         $container = Di::getDefault();
 
-        $security = $container->getShared('security');
+        $crypt= $container->getShared('crypt');
         $container->setShared('testComponent', new ComponentExtendingAbstractInjectable());
         $testComponent = $container->get('testComponent');
 
-        $securityFromInjectable = $testComponent->security;
-        $I->assertEquals($security, $securityFromInjectable);
+        $cryptFromInjectable = $testComponent->crypt;
+        $I->assertEquals($crypt, $cryptFromInjectable);
 
         //Issue 14269
         $eventsManager = $container->getShared('eventsManager');
