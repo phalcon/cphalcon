@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Di\Injectable;
 
 use UnitTester;
-use Phalcon\Di;
+use Phalcon\Events\Manager;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Test\Fixtures\Di\ComponentExtendingAbstractInjectable;
 
@@ -45,7 +45,7 @@ class UnderscoreGetCest
         $I->assertEquals($eventsManager, $testComponent->getEventsManager());
         $I->assertEquals($eventsManager, $eventsManagerFromInjectable);
 
-        $newEventManager = new Phalcon\Events\Manager();
+        $newEventManager = new Manager();
         $testComponent->setEventManager($newEventManager);
         $I->assertEquals($newEventManager, $testComponent->eventsManager);
         $I->assertEquals($newEventManager, $testComponent->getEventsManager());
