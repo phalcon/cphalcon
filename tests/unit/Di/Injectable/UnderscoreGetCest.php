@@ -46,7 +46,7 @@ class UnderscoreGetCest
         $I->assertEquals($eventsManager, $eventsManagerFromInjectable);
 
         $newEventManager = new Manager();
-        $testComponent->setEventManager($newEventManager);
+        $testComponent->setEventsManager($newEventManager);
         $I->assertEquals($newEventManager, $testComponent->eventsManager);
         $I->assertEquals($newEventManager, $testComponent->getEventsManager());
     }
