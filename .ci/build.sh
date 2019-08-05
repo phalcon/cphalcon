@@ -44,20 +44,6 @@ cd ext || exit 1
 phpize
 
 if [[ -n ${REPORT_COVERAGE+x} ]] && [[ "$REPORT_COVERAGE" = "1" ]]; then
-  # The ltmain.sh which bundled with PHP it's from libtool 1.5.26.
-  # However, the version of libtool that claims to no longer remove
-  # ".gcno" profiler information is libtool 2.2.6. The fix is probably
-  # in later libtool versions as well.
-  if [[ "$(uname -s 2>/dev/null)" = "Darwin" ]]; then
-    # macOS
-    LIBTOOLIZE_BIN=$(command -v glibtoolize 2>/dev/null)
-  else
-    # Linux, Gentoo, etc
-    LIBTOOLIZE_BIN=$(command -v libtoolize 2>/dev/null)
-  fi
-
-  aclocal && ${LIBTOOLIZE_BIN} --copy --force && autoheader && autoconf
-
   CFLAGS=${CFLAGS//-O[0-9s]/}
   CXXFLAGS=${CXXFLAGS//-O[0-9s]/}
   LDFLAGS=${LDFLAGS//--coverage/}
