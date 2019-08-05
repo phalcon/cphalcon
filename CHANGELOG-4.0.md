@@ -3,6 +3,7 @@
 ## Fixed
 - Fixed missing imports in `Phalcon\Db\Adapter\AbstractAdapter`, `Phalcon\Db\Adapter\AdapterInterface`, `Phalcon\Db\Result\Pdo`, `Phalcon\Html\Tag` and `Phalcon\Tag\Select`. [#14249](https://github.com/phalcon/cphalcon/issues/14249)
 - Fixed `isSerializable` in `Phalcon\Storage\Serializer\AbstractSerializer` to return true when the data is seriazable and false when it's not.
+- Fixed `Phalcon\Storage\Adapter\Redis::delete()` and `Phalcon\Storage\Adapter\Redis::getKeys()` deprecated warning from php-redis [#14281](https://github.com/phalcon/cphalcon/issues/14281)
 
 ## Removed
 - Removed dead libsodium-related code. It was never called in PHP >= 7.0.
