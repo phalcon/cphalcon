@@ -81,7 +81,7 @@ class Redis extends AbstractAdapter
      */
     public function delete(string! key) -> bool
     {
-        return (bool) this->getAdapter()->delete(key);
+        return (bool) this->getAdapter()->del(key);
     }
 
     /**
@@ -156,7 +156,7 @@ class Redis extends AbstractAdapter
      */
     public function getKeys() -> array
     {
-        return this->getAdapter()->getKeys("*");
+        return this->getAdapter()->keys("*");
     }
 
     /**
