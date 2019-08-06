@@ -54,10 +54,13 @@ class Stream extends Noop
          */
         if !fetch path, options["savePath"] {
             let path = ini_get("session.save_path");
+            if empty path {
+                let path = sys_get_temp_dir();
+            }
         }
 
         if unlikely !is_writable(path) {
-            throw new Exception("The save_path [" . path . "]is not writeable");
+            throw new Exception("The session save path [" . path . "] is not writeable");
         }
 
         let this->path = Str::dirSeparator(path);
@@ -69,9 +72,9 @@ class Stream extends Noop
 
         let file = this->path . this->getPrefixedName(id);
 
-        if file_exists(file) && is_file(file) {
-            unlink(file);
-        }
+        if is_file(file) {
+             unlink(file);
+         }
 
         return true;
     }
@@ -84,9 +87,7 @@ class Stream extends Noop
             time    = time() - maxlifetime;
 
         for file in glob(pattern) {
-            if file_exists(file) &&
-               is_file(file)     &&
-               (filemtime(file) < time) {
+            if is_file(file) && (filemtime(file) < time) {
                 unlink(file);
             }
         }
@@ -101,25 +102,27 @@ class Stream extends Noop
     */
     public function open(var savePath, var sessionName) -> bool
     {
+        if unlikely !empty savePath {
+            if ends_with(savePath, "/") {
+                let this->path = savePath;
+            } else {
+                let this->path = savePath . "/";
+            }
+        }
         return true;
     }
 
     public function read(var id) -> string
     {
-        var data, name;
+        var name;
 
-        let name = this->path . this->getPrefixedName(id),
-            data = "";
+        let name = this->path . this->getPrefixedName(id);
 
         if file_exists(name) {
-            let data = file_get_contents(name);
-
-            if false === data {
-                return "";
-            }
+            return (string) file_get_contents(name);
         }
 
-        return data;
+        return "";
     }
 
     public function write(var id, var data) -> bool
