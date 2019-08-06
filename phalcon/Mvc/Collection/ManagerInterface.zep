@@ -51,7 +51,7 @@ interface ManagerInterface
     /**
      * Returns a custom events manager related to a collection
      */
-    public function getCustomEventsManager(<CollectionInterface> collection) -> var | null;
+    public function getCustomEventsManager(<CollectionInterface> collection) -> <EventsManagerInterface> | null;
 
     /**
      * Get the latest initialized collection

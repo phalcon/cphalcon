@@ -89,7 +89,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     /**
      * Returns a custom events manager related to a collection
      */
-    public function getCustomEventsManager(<CollectionInterface> collection) -> var | null
+    public function getCustomEventsManager(<CollectionInterface> collection) -> <EventsManagerInterface> | null
     {
         var customEventsManager, className;
 
