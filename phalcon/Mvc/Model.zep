@@ -1947,6 +1947,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      *```
      *
      * @param string|array fieldName
+     * @param boolean allFields
      */
     public function hasChanged(var fieldName = null, bool allFields = false) -> bool
     {

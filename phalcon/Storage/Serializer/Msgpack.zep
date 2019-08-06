@@ -19,7 +19,7 @@ class Msgpack extends AbstractSerializer
 	 */
 	public function serialize() -> string|null
 	{
-        if this->isSerializable(this->data) {
+        if !this->isSerializable(this->data) {
             return this->data;
         }
 

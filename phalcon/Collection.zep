@@ -191,8 +191,7 @@ class Collection implements
 
     /**
      * Offset to set
-     * See [offsetSet](
-     * @link )https://php.net/manual/en/arrayaccess.offsetset.php)
+     * See [offsetSet](https://php.net/manual/en/arrayaccess.offsetset.php)
      */
     public function offsetSet(var element, var value) -> void
     {

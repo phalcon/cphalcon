@@ -357,9 +357,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
         /**
          * Start the session
          */
-        session_start();
-
-        return true;
+        return session_start();
     }
 
     /**

@@ -908,22 +908,20 @@ PHP_METHOD(Phalcon_Crypt, getAvailableCiphers) {
  */
 PHP_METHOD(Phalcon_Crypt, getAvailableHashAlgos) {
 
-	zval algos;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&algos);
 
 	ZEPHIR_MM_GROW();
 
 	if (EXPECTED((zephir_function_exists_ex(SL("hash_hmac_algos") TSRMLS_CC) == SUCCESS))) {
-		ZEPHIR_CALL_FUNCTION(&algos, "hash_hmac_algos", NULL, 180);
+		ZEPHIR_RETURN_CALL_FUNCTION("hash_hmac_algos", NULL, 180);
 		zephir_check_call_status();
-	} else {
-		ZEPHIR_CALL_FUNCTION(&algos, "hash_algos", NULL, 181);
-		zephir_check_call_status();
+		RETURN_MM();
 	}
-	RETURN_CCTOR(&algos);
+	ZEPHIR_RETURN_CALL_FUNCTION("hash_algos", NULL, 181);
+	zephir_check_call_status();
+	RETURN_MM();
 
 }
 
@@ -1261,7 +1259,7 @@ PHP_METHOD(Phalcon_Crypt, assertCipherIsAvailable) {
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 5, &_2$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_0$$3, "phalcon/Crypt.zep", 547 TSRMLS_CC);
+		zephir_throw_exception_debug(&_0$$3, "phalcon/Crypt.zep", 543 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -1311,7 +1309,7 @@ PHP_METHOD(Phalcon_Crypt, assertHashAlgorithmAvailable) {
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 5, &_2$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_0$$3, "phalcon/Crypt.zep", 566 TSRMLS_CC);
+		zephir_throw_exception_debug(&_0$$3, "phalcon/Crypt.zep", 562 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -1347,7 +1345,7 @@ PHP_METHOD(Phalcon_Crypt, getIvLength) {
 
 
 	if (UNEXPECTED(!((zephir_function_exists_ex(SL("openssl_cipher_iv_length") TSRMLS_CC) == SUCCESS)))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "openssl extension is required", "phalcon/Crypt.zep", 576);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "openssl extension is required", "phalcon/Crypt.zep", 572);
 		return;
 	}
 	ZEPHIR_RETURN_CALL_FUNCTION("openssl_cipher_iv_length", NULL, 183, &cipher);
@@ -1371,7 +1369,7 @@ PHP_METHOD(Phalcon_Crypt, initializeAvailableCiphers) {
 	ZEPHIR_MM_GROW();
 
 	if (UNEXPECTED(!((zephir_function_exists_ex(SL("openssl_get_cipher_methods") TSRMLS_CC) == SUCCESS)))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "openssl extension is required", "phalcon/Crypt.zep", 588);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "openssl extension is required", "phalcon/Crypt.zep", 584);
 		return;
 	}
 	ZEPHIR_CALL_FUNCTION(&_0, "openssl_get_cipher_methods", NULL, 184, &__$true);
@@ -1454,7 +1452,7 @@ PHP_METHOD(Phalcon_Crypt, cryptPadText) {
 	if (_0) {
 		paddingSize = (blockSize - (zephir_safe_mod_long_long(zephir_fast_strlen_ev(&text), blockSize TSRMLS_CC)));
 		if (UNEXPECTED(paddingSize >= 256)) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "Block size is bigger than 256", "phalcon/Crypt.zep", 606);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "Block size is bigger than 256", "phalcon/Crypt.zep", 602);
 			return;
 		}
 		do {
@@ -1551,7 +1549,7 @@ PHP_METHOD(Phalcon_Crypt, cryptPadText) {
 		RETURN_CTOR(&text);
 	}
 	if (UNEXPECTED(paddingSize > blockSize)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "Invalid padding size", "phalcon/Crypt.zep", 653);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "Invalid padding size", "phalcon/Crypt.zep", 649);
 		return;
 	}
 	ZVAL_LONG(&_23, 0);
