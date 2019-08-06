@@ -275,7 +275,6 @@ trait DiTrait
                 $options['password'],
                 $options['host']
             );
-
         } else {
             $dsn = sprintf(
                 'mongodb://%s',

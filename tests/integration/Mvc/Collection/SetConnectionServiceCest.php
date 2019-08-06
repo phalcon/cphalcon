@@ -66,7 +66,6 @@ class SetConnectionServiceCest
         $I->assertNotFalse($robot);
         $I->assertInstanceOf(Robots::class, $robot);
         $I->assertEquals($robotOne->first_name, $robot->first_name);
-
     }
 
     public function _after()
