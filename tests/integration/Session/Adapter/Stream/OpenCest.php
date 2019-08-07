@@ -17,6 +17,7 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionTrait;
 use Phalcon\Session\Manager;
 use Phalcon\Session\Adapter\Stream;
+use SessionHandler;
 
 class OpenCest
 {
@@ -70,8 +71,9 @@ class OpenCest
         $I->seeFileFound('test1');
         $I->seeInThisFile($value);
         $I->safeDeleteFile(cacheDir('sessions/test1'));
-
         //cleanup
         $session->destroy();
+        //set php native session back
+        session_set_save_handler(new SessionHandler(), true);
     }
 }
