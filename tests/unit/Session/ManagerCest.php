@@ -46,5 +46,8 @@ class ManagerCest
         $I->assertTrue(
             $session->start()
         );
+
+        //cleanup
+        $session->destroy();
     }
 }

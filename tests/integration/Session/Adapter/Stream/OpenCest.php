@@ -70,5 +70,8 @@ class OpenCest
         $I->seeFileFound('test1');
         $I->seeInThisFile($value);
         $I->safeDeleteFile(cacheDir('sessions/test1'));
+
+        //cleanup
+        $session->destroy();
     }
 }
