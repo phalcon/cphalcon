@@ -54,6 +54,8 @@ class Stream extends Noop
          */
         if !fetch path, options["savePath"] {
             let path = ini_get("session.save_path");
+        } else {
+            session_save_path(path);
         }
 
         if unlikely !is_writable(path) {
