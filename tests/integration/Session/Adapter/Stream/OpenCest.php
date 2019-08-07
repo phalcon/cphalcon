@@ -73,7 +73,5 @@ class OpenCest
         $I->safeDeleteFile(cacheDir('sessions/test1'));
         //cleanup
         $session->destroy();
-        //set php native session back
-        session_set_save_handler(new SessionHandler(), true);
     }
 }

@@ -14,15 +14,25 @@ namespace Phalcon\Test\Fixtures\Traits;
 
 use function getOptionsLibmemcached;
 use function getOptionsRedis;
+use IntegrationTester;
 use Phalcon\Session\Adapter\Libmemcached;
 use Phalcon\Session\Adapter\Noop;
 use Phalcon\Session\Adapter\Redis;
 use Phalcon\Session\Adapter\Stream;
 use Phalcon\Storage\AdapterFactory;
 use Phalcon\Storage\SerializerFactory;
+use SessionHandler;
 
 trait SessionTrait
 {
+    /**
+     * set php native session handler back
+     **/
+    public function _after(IntegrationTester $I)
+    {
+        session_set_save_handler(new SessionHandler(), true);
+    }
+
     protected function getSessionStream(): Stream
     {
         return new Stream(
