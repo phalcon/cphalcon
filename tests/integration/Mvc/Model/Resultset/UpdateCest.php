@@ -13,12 +13,31 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Model\Resultset;
 
 use IntegrationTester;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Models\Robots;
 
 /**
  * Class UpdateCest
  */
 class UpdateCest
 {
+    use DiTrait;
+
+    public function _before(IntegrationTester $I)
+    {
+        $this->setNewFactoryDefault();
+        $this->setDiMysql();
+
+        $I->cleanDir(
+            cacheModelsDir()
+        );
+    }
+
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
+    }
+
     /**
      * Tests Phalcon\Mvc\Model\Resultset :: update()
      *
@@ -28,6 +47,12 @@ class UpdateCest
     public function mvcModelResultsetUpdate(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Model\Resultset - update()');
-        $I->skipTest('Need implementation');
+        $robots = Robots::find(
+            [
+                'type' => 'mechanical',
+            ]
+        );
+        $I->assertTrue($robots->update('type', 'mechanical'));
+        $I->assertFalse($robots->update('unknown_field', 'unknown'));
     }
 }
