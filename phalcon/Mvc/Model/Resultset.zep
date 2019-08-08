@@ -637,7 +637,7 @@ abstract class Resultset
             connection->commit();
         }
 
-        return true;
+        return transaction;
     }
 
     /**
