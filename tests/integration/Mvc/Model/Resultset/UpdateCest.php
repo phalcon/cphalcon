@@ -53,6 +53,6 @@ class UpdateCest
             ]
         );
         $I->assertTrue($robots->update(['type', 'mechanical']));
-        $I->assertFalse($robots->update(['unknown_field', 'unknown']));
+        $I->assertFalse($robots->update(['id', 'invalid']));
     }
 }
