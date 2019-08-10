@@ -107,7 +107,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     /**
      * Returns the connection related to a collection
      *
-     * @return \MongoDB\Database
+     * @return \MongoDB\Database|AdapterInterface
      */
     public function getConnection(<CollectionInterface> collection) -> <AdapterInterface>
     {
