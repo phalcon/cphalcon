@@ -5,6 +5,7 @@
 - Fixed `isSerializable` in `Phalcon\Storage\Serializer\AbstractSerializer` to return true when the data is seriazable and false when it's not.
 - Fixed `Phalcon\Storage\Adapter\Redis::delete()` and `Phalcon\Storage\Adapter\Redis::getKeys()` deprecated warning from php-redis [#14281](https://github.com/phalcon/cphalcon/issues/14281)
 - Fixed `Phalcon\Mvc\Model\ResultSet::Update()` to return correct status [#14291](https://github.com/phalcon/cphalcon/issues/14291)
+- `Phalcon\Mvc\Collection::cancelOperation()` now returns `true` on success.
 
 ## Removed
 - Removed dead libsodium-related code. It was never called in PHP >= 7.0.
