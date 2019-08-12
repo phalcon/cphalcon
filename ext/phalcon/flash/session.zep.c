@@ -47,6 +47,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Flash_Session) {
 PHP_METHOD(Phalcon_Flash_Session, clear) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_1 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
@@ -69,6 +70,7 @@ PHP_METHOD(Phalcon_Flash_Session, clear) {
  */
 PHP_METHOD(Phalcon_Flash_Session, getMessages) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool remove;
 	zval *type = NULL, type_sub, *remove_param = NULL, __$null, _0;
@@ -108,6 +110,7 @@ PHP_METHOD(Phalcon_Flash_Session, getMessages) {
  */
 PHP_METHOD(Phalcon_Flash_Session, has) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *type = NULL, type_sub, __$null, messages, _0;
 	zval *this_ptr = getThis();
@@ -141,6 +144,7 @@ PHP_METHOD(Phalcon_Flash_Session, has) {
  */
 PHP_METHOD(Phalcon_Flash_Session, message) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *type_param = NULL, *message_param = NULL, messages, _0, _1$$3;
 	zval type, message;
@@ -181,6 +185,7 @@ PHP_METHOD(Phalcon_Flash_Session, output) {
 
 	zend_string *_4;
 	zend_ulong _3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_5 = NULL, *_6 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *remove_param = NULL, type, message, messages, _0, *_1, _2;
@@ -257,6 +262,7 @@ PHP_METHOD(Phalcon_Flash_Session, output) {
  */
 PHP_METHOD(Phalcon_Flash_Session, getSessionMessages) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *remove_param = NULL, *type = NULL, type_sub, __$null, container, session, messages, returnMessages, _0, _1, _2$$6, _3$$7;
 	zend_bool remove;
@@ -329,6 +335,7 @@ PHP_METHOD(Phalcon_Flash_Session, getSessionMessages) {
  */
 PHP_METHOD(Phalcon_Flash_Session, setSessionMessages) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *messages_param = NULL, container, session, _0, _1;
 	zval messages;

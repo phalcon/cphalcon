@@ -55,7 +55,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_AbstractEngine, __construct) {
 	ZVAL_UNDEF(&container_sub);
 	ZVAL_NULL(&__$null);
 
-	zephir_fetch_params(0, 1, 1, &view, &container);
+	zephir_fetch_params_without_memory_grow(1, 1, &view, &container);
 
 	if (!container) {
 		container = &container_sub;
@@ -74,6 +74,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_AbstractEngine, __construct) {
 PHP_METHOD(Phalcon_Mvc_View_Engine_AbstractEngine, getContent) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -107,6 +108,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_AbstractEngine, getView) {
  */
 PHP_METHOD(Phalcon_Mvc_View_Engine_AbstractEngine, partial) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *partialPath_param = NULL, *params = NULL, params_sub, __$null, _0;
 	zval partialPath;

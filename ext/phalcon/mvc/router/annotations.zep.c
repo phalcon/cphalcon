@@ -78,6 +78,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Router_Annotations) {
 PHP_METHOD(Phalcon_Mvc_Router_Annotations, addModuleResource) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *module_param = NULL, *handler_param = NULL, *prefix_param = NULL;
 	zval module, handler, prefix;
 	zval *this_ptr = getThis();
@@ -144,6 +145,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, addModuleResource) {
 PHP_METHOD(Phalcon_Mvc_Router_Annotations, addResource) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *handler_param = NULL, *prefix_param = NULL;
 	zval handler, prefix;
 	zval *this_ptr = getThis();
@@ -211,6 +213,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle) {
 	zend_string *_18$$15, *_35$$35;
 	zend_ulong _17$$15, _34$$35;
 	zend_bool _8$$4, _26$$24;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_3 = NULL, *_11 = NULL, *_14 = NULL, *_22 = NULL, *_29 = NULL, *_42 = NULL;
 	zval *uri_param = NULL, __$null, annotationsService, handlers, controllerSuffix, scope, prefix, container, handler, controllerName, lowerControllerName, namespaceName, moduleName, handlerAnnotations, classAnnotations, annotations, annotation, methodAnnotations, method, collection, _0, _5, *_6, _7, _1$$3, _2$$3, _4$$3, _9$$4, _10$$9, *_12$$12, _13$$12, *_15$$15, _16$$15, _19$$16, *_20$$16, _21$$16, _23$$20, *_24$$20, _25$$20, _27$$24, _28$$29, *_30$$32, _31$$32, *_32$$35, _33$$35, _36$$36, *_37$$36, _38$$36, _39$$40, *_40$$40, _41$$40;
@@ -690,6 +693,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation) {
 	zend_string *_10$$17, *_16$$20;
 	zend_ulong _9$$17, _15$$20;
 	zend_bool isRoute = 0, _6, _19;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_11 = NULL, *_12 = NULL, *_17 = NULL, *_18 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *module_param = NULL, *namespaceName_param = NULL, *controller_param = NULL, *action_param = NULL, *annotation, annotation_sub, name, actionName, routePrefix, paths, value, uri, route, methods, converts, param, convert, conversorParam, routeName, beforeMatch, _0, _1, _2, _3, _4, _5$$15, *_7$$17, _8$$17, *_13$$20, _14$$20;
@@ -962,6 +966,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation) {
  */
 PHP_METHOD(Phalcon_Mvc_Router_Annotations, processControllerAnnotation) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *handler_param = NULL, *annotation, annotation_sub, _0, _1$$3, _2$$3;
 	zval handler;
@@ -1005,6 +1010,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processControllerAnnotation) {
  */
 PHP_METHOD(Phalcon_Mvc_Router_Annotations, setActionSuffix) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *actionSuffix_param = NULL;
 	zval actionSuffix;
 	zval *this_ptr = getThis();
@@ -1036,6 +1042,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, setActionSuffix) {
  */
 PHP_METHOD(Phalcon_Mvc_Router_Annotations, setControllerSuffix) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *controllerSuffix_param = NULL;
 	zval controllerSuffix;
 	zval *this_ptr = getThis();
@@ -1065,6 +1072,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, setControllerSuffix) {
 zend_object *zephir_init_properties_Phalcon_Mvc_Router_Annotations(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval _0, _2, _4, _6, _8, _1$$3, _3$$4, _5$$5, _7$$6, _9$$7;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_4);

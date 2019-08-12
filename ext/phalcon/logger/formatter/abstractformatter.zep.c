@@ -50,6 +50,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_AbstractFormatter, interpolate) {
 	zend_ulong _3$$3;
 	zend_bool _0;
 	zval replace;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *message_param = NULL, *context = NULL, context_sub, __$null, key, value, *_1$$3, _2$$3, _5$$4, _6$$5;
 	zval message;

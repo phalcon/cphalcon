@@ -71,6 +71,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Cli_Router_Route) {
  */
 PHP_METHOD(Phalcon_Cli_Router_Route, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *pattern_param = NULL, *paths = NULL, paths_sub, __$null, routeId, uniqueId, _0, _1;
 	zval pattern;
@@ -134,7 +135,7 @@ PHP_METHOD(Phalcon_Cli_Router_Route, beforeMatch) {
 
 	ZVAL_UNDEF(&callback_sub);
 
-	zephir_fetch_params(0, 1, 0, &callback);
+	zephir_fetch_params_without_memory_grow(1, 0, &callback);
 
 
 
@@ -150,6 +151,7 @@ PHP_METHOD(Phalcon_Cli_Router_Route, beforeMatch) {
 PHP_METHOD(Phalcon_Cli_Router_Route, compilePattern) {
 
 	zend_bool _20;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *pattern_param = NULL, idPattern, part, _0$$3, _4$$3, _6$$3, _8$$3, _10$$3, _12$$3, _16$$3, _1$$4, _2$$4, _3$$4, _5$$5, _7$$6, _9$$7, _11$$8, _13$$9, _14$$9, _15$$9, _17$$10, _18$$10, _19$$10;
 	zval pattern;
 	zval *this_ptr = getThis();
@@ -280,6 +282,7 @@ PHP_METHOD(Phalcon_Cli_Router_Route, compilePattern) {
  */
 PHP_METHOD(Phalcon_Cli_Router_Route, convert) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *name_param = NULL, *converter, converter_sub;
 	zval name;
 	zval *this_ptr = getThis();
@@ -312,6 +315,7 @@ PHP_METHOD(Phalcon_Cli_Router_Route, convert) {
  */
 PHP_METHOD(Phalcon_Cli_Router_Route, delimiter) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *delimiter_param = NULL;
 	zval delimiter;
 	zval *this_ptr = getThis();
@@ -353,6 +357,7 @@ PHP_METHOD(Phalcon_Cli_Router_Route, extractNamedParams) {
 	zend_bool notValid = 0, _6$$11, _7$$11, _8$$11, _9$$11, _10$$11, _11$$11, _12$$11, _13$$11, _14$$11, _15$$11, _16$$11, _17$$11, _25$$17;
 	zval matches;
 	char ch = 0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *pattern_param = NULL, tmp, _1$$10, _2$$10, _3$$10, _18$$15, _19$$15, _20$$15, _22$$15, _23$$15, _28$$27, _29$$27;
 	zval pattern, route, item, variable, regexp, _4$$10, _21$$15, _24$$15, _27$$25, _30$$28;
 	zval *this_ptr = getThis();
@@ -690,6 +695,7 @@ PHP_METHOD(Phalcon_Cli_Router_Route, getPattern) {
 PHP_METHOD(Phalcon_Cli_Router_Route, getReversedPaths) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -724,6 +730,7 @@ PHP_METHOD(Phalcon_Cli_Router_Route, getRouteId) {
 PHP_METHOD(Phalcon_Cli_Router_Route, reConfigure) {
 
 	zend_bool _1$$10;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS, _0$$4;
 	zval *pattern_param = NULL, *paths = NULL, paths_sub, __$null, moduleName, taskName, actionName, parts, routePaths, realClassName, namespaceName, pcrePattern, compiledPattern, extracted, _2$$9, _3$$18, _4$$18, _5$$21, _6$$21, _7$$21;
 	zval pattern;
@@ -902,6 +909,7 @@ PHP_METHOD(Phalcon_Cli_Router_Route, reset) {
  */
 PHP_METHOD(Phalcon_Cli_Router_Route, setDescription) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *description_param = NULL;
 	zval description;
 	zval *this_ptr = getThis();
@@ -942,6 +950,7 @@ PHP_METHOD(Phalcon_Cli_Router_Route, setDescription) {
  */
 PHP_METHOD(Phalcon_Cli_Router_Route, setName) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *name_param = NULL;
 	zval name;
 	zval *this_ptr = getThis();

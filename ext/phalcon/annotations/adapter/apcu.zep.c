@@ -63,6 +63,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Apcu) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Apcu, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *options_param = NULL, prefix, ttl;
 	zval options;
 	zval *this_ptr = getThis();
@@ -97,6 +98,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apcu, __construct) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Apcu, read) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *key_param = NULL, _0, _1, _2;
 	zval key;
@@ -138,6 +140,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apcu, read) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Apcu, write) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *key_param = NULL, *data, data_sub, _0, _1, _2, _3;
 	zval key;

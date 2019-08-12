@@ -74,6 +74,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Helper_Str) {
  */
 PHP_METHOD(Phalcon_Helper_Str, camelize) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *text_param = NULL, *delimiter = NULL, delimiter_sub, __$null, _0;
 	zval text;
 	zval *this_ptr = getThis();
@@ -134,6 +135,7 @@ PHP_METHOD(Phalcon_Helper_Str, camelize) {
 PHP_METHOD(Phalcon_Helper_Str, concat) {
 
 	zval argument, arguments, data, first, last, prefix, delimiter, suffix, _1, _5, *_7, _8, _11, _9$$6, _10$$7;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL, *_2 = NULL, *_3 = NULL, *_4 = NULL, *_6 = NULL;
 	zval *this_ptr = getThis();
@@ -232,6 +234,7 @@ PHP_METHOD(Phalcon_Helper_Str, concat) {
  */
 PHP_METHOD(Phalcon_Helper_Str, countVowels) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *text_param = NULL, matches, _0, _1, _2, _3;
 	zval text;
 	zval *this_ptr = getThis();
@@ -282,6 +285,7 @@ PHP_METHOD(Phalcon_Helper_Str, countVowels) {
  */
 PHP_METHOD(Phalcon_Helper_Str, decapitalize) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool upperRest;
 	zval *text_param = NULL, *upperRest_param = NULL, *encoding_param = NULL, substr, suffix, _0$$3, _1$$4, _2$$9, _3$$9, _4$$9, _5$$9, _6$$10, _7$$10, _8$$10, _9$$10;
@@ -396,6 +400,7 @@ PHP_METHOD(Phalcon_Helper_Str, decapitalize) {
  */
 PHP_METHOD(Phalcon_Helper_Str, dirFromFile) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *file_param = NULL, name, start, _0, _1, _4, _5, _6, _2$$3, _3$$3;
 	zval file;
@@ -466,6 +471,7 @@ PHP_METHOD(Phalcon_Helper_Str, dirFromFile) {
  */
 PHP_METHOD(Phalcon_Helper_Str, dirSeparator) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *directory_param = NULL, _0, _1;
 	zval directory;
 	zval *this_ptr = getThis();
@@ -531,6 +537,7 @@ PHP_METHOD(Phalcon_Helper_Str, dirSeparator) {
 PHP_METHOD(Phalcon_Helper_Str, dynamic) {
 
 	zend_bool _8$$6, _17$$8;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_11 = NULL, *_16 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *text_param = NULL, *leftDelimiter_param = NULL, *rightDelimiter_param = NULL, *separator_param = NULL, ldS, rdS, matches, match, words, word, sub, _0, _1, _4, _5, _2$$3, *_6$$5, _7$$5, _9$$6, _10$$6, _12$$6, _13$$6, _14$$6, _15$$6, _18$$8, _19$$8, _20$$8, _21$$8, _22$$8, _23$$8;
@@ -752,6 +759,7 @@ PHP_METHOD(Phalcon_Helper_Str, dynamic) {
  */
 PHP_METHOD(Phalcon_Helper_Str, endsWith) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_bool ignoreCase;
 	zval *text_param = NULL, *end_param = NULL, *ignoreCase_param = NULL, _0;
 	zval text, end;
@@ -790,6 +798,7 @@ PHP_METHOD(Phalcon_Helper_Str, endsWith) {
  */
 PHP_METHOD(Phalcon_Helper_Str, firstBetween) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *text_param = NULL, *start_param = NULL, *end_param = NULL, __$true, _0$$3, _1$$3, _3$$4, _4$$4;
 	zval text, start, end, _2$$3, _5$$4, _6;
@@ -880,6 +889,7 @@ PHP_METHOD(Phalcon_Helper_Str, firstBetween) {
  */
 PHP_METHOD(Phalcon_Helper_Str, humanize) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *text_param = NULL, _0, _1, _2;
 	zval text;
@@ -927,6 +937,7 @@ PHP_METHOD(Phalcon_Helper_Str, humanize) {
  */
 PHP_METHOD(Phalcon_Helper_Str, includes) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *needle_param = NULL, *haystack_param = NULL, _0$$3, _1$$4;
 	zval needle, haystack;
@@ -992,6 +1003,7 @@ PHP_METHOD(Phalcon_Helper_Str, includes) {
  */
 PHP_METHOD(Phalcon_Helper_Str, increment) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *text_param = NULL, *separator_param = NULL, parts, number, _0;
 	zval text, separator;
 	zval *this_ptr = getThis();
@@ -1041,6 +1053,7 @@ PHP_METHOD(Phalcon_Helper_Str, increment) {
  */
 PHP_METHOD(Phalcon_Helper_Str, isAnagram) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *first_param = NULL, *second_param = NULL, _0, _1, _2;
 	zval first, second;
@@ -1097,6 +1110,7 @@ PHP_METHOD(Phalcon_Helper_Str, isAnagram) {
  */
 PHP_METHOD(Phalcon_Helper_Str, isLower) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *text_param = NULL, *encoding_param = NULL, _0$$3, _1$$4, _2$$4;
 	zval text, encoding;
@@ -1159,6 +1173,7 @@ PHP_METHOD(Phalcon_Helper_Str, isLower) {
  */
 PHP_METHOD(Phalcon_Helper_Str, isPalindrome) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *text_param = NULL, _0;
 	zval text;
@@ -1198,6 +1213,7 @@ PHP_METHOD(Phalcon_Helper_Str, isPalindrome) {
  */
 PHP_METHOD(Phalcon_Helper_Str, isUpper) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *text_param = NULL, *encoding_param = NULL, _0$$3, _1$$4, _2$$4;
 	zval text, encoding;
@@ -1266,6 +1282,7 @@ PHP_METHOD(Phalcon_Helper_Str, isUpper) {
  */
 PHP_METHOD(Phalcon_Helper_Str, lower) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *text_param = NULL, *encoding_param = NULL, _0;
 	zval text, encoding;
@@ -1334,6 +1351,7 @@ PHP_METHOD(Phalcon_Helper_Str, lower) {
 PHP_METHOD(Phalcon_Helper_Str, random) {
 
 	zval text;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	long length;
 	zval *type_param = NULL, *length_param = NULL, pool, _0$$3, _1$$3, _2$$3, _3$$3, _4$$4, _5$$4, _6$$4, _7$$4, _8$$4, _9$$4, _10$$5, _11$$5, _12$$6, _13$$6, _14$$7, _15$$8, _16$$8, _17$$8, _18$$8, _19$$8, _20$$8, _21$$8, _22$$9, _23$$9, _24$$9;
 	zend_long type, ZEPHIR_LAST_CALL_STATUS, end = 0;
@@ -1490,6 +1508,7 @@ PHP_METHOD(Phalcon_Helper_Str, random) {
  */
 PHP_METHOD(Phalcon_Helper_Str, reduceSlashes) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *text_param = NULL, _0, _1;
 	zval text;
@@ -1543,6 +1562,7 @@ PHP_METHOD(Phalcon_Helper_Str, reduceSlashes) {
  */
 PHP_METHOD(Phalcon_Helper_Str, startsWith) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_bool ignoreCase;
 	zval *text_param = NULL, *start_param = NULL, *ignoreCase_param = NULL, _0;
 	zval text, start;
@@ -1604,6 +1624,7 @@ PHP_METHOD(Phalcon_Helper_Str, startsWith) {
  */
 PHP_METHOD(Phalcon_Helper_Str, uncamelize) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *text_param = NULL, *delimiter = NULL, delimiter_sub, __$null, _0;
 	zval text;
 	zval *this_ptr = getThis();
@@ -1654,6 +1675,7 @@ PHP_METHOD(Phalcon_Helper_Str, uncamelize) {
  */
 PHP_METHOD(Phalcon_Helper_Str, underscore) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *text_param = NULL, _0, _1, _2;
 	zval text;
@@ -1706,6 +1728,7 @@ PHP_METHOD(Phalcon_Helper_Str, underscore) {
  */
 PHP_METHOD(Phalcon_Helper_Str, upper) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *text_param = NULL, *encoding_param = NULL, _0;
 	zval text, encoding;

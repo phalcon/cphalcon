@@ -53,6 +53,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Dialect) {
  */
 PHP_METHOD(Phalcon_Db_Dialect, createSavepoint) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *name_param = NULL;
 	zval name;
 	zval *this_ptr = getThis();
@@ -88,6 +89,7 @@ PHP_METHOD(Phalcon_Db_Dialect, escape) {
 	zend_string *_11;
 	zend_ulong _10;
 	zval _7;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *str_param = NULL, *escapeChar_param = NULL, parts, key, part, newParts, _5, _6, *_8, _9, _0$$4, _3$$6, _14$$7, _16$$7, _19$$9, _21$$9;
 	zval str, escapeChar, _1$$4, _4$$6, _15$$7, _20$$9;
@@ -244,6 +246,7 @@ PHP_METHOD(Phalcon_Db_Dialect, escape) {
  */
 PHP_METHOD(Phalcon_Db_Dialect, escapeSchema) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *str_param = NULL, *escapeChar_param = NULL, _0$$4, _2;
 	zval str, escapeChar, _1$$4;
 	zval *this_ptr = getThis();
@@ -302,6 +305,7 @@ PHP_METHOD(Phalcon_Db_Dialect, escapeSchema) {
  */
 PHP_METHOD(Phalcon_Db_Dialect, forUpdate) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *sqlQuery_param = NULL;
 	zval sqlQuery;
 	zval *this_ptr = getThis();
@@ -342,6 +346,7 @@ PHP_METHOD(Phalcon_Db_Dialect, forUpdate) {
  */
 PHP_METHOD(Phalcon_Db_Dialect, getColumnList) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_3 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval escapeChar;
@@ -429,6 +434,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getCustomFunctions) {
 PHP_METHOD(Phalcon_Db_Dialect, getSqlColumn) {
 
 	zend_bool _5, _3$$4, _4$$4;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval escapeChar;
 	zval *column = NULL, column_sub, *escapeChar_param = NULL, *bindCounts = NULL, bindCounts_sub, __$null, columnExpression, columnAlias, columnField, columnDomain, _6, _0$$3, _1$$6, _2$$7;
@@ -534,6 +540,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlColumn) {
 PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression) {
 
 	zend_bool _1$$9;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS, i = 0, _2$$9;
 	zval escapeChar;
 	zval *expression_param = NULL, *escapeChar_param = NULL, *bindCounts = NULL, bindCounts_sub, __$null, type, times, postTimes, rawValue, value, _11, _12, _0$$7, _3$$9, _4$$11, _5$$11, _6$$8, _7$$14, _8$$14, _9$$18, _10$$18;
@@ -717,6 +724,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpression) {
  */
 PHP_METHOD(Phalcon_Db_Dialect, getSqlTable) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval escapeChar;
 	zval *table, table_sub, *escapeChar_param = NULL, tableName, schemaName, aliasName;
@@ -776,6 +784,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlTable) {
 PHP_METHOD(Phalcon_Db_Dialect, limit) {
 
 	zend_bool _2$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *sqlQuery_param = NULL, *number, number_sub, _0$$3, _1$$3, _3$$3, _4$$4, _5$$4;
 	zval sqlQuery;
 	zval *this_ptr = getThis();
@@ -831,6 +840,7 @@ PHP_METHOD(Phalcon_Db_Dialect, limit) {
  */
 PHP_METHOD(Phalcon_Db_Dialect, registerCustomFunction) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *name_param = NULL, *customFunction, customFunction_sub;
 	zval name;
 	zval *this_ptr = getThis();
@@ -854,6 +864,7 @@ PHP_METHOD(Phalcon_Db_Dialect, registerCustomFunction) {
  */
 PHP_METHOD(Phalcon_Db_Dialect, releaseSavepoint) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *name_param = NULL;
 	zval name;
 	zval *this_ptr = getThis();
@@ -885,6 +896,7 @@ PHP_METHOD(Phalcon_Db_Dialect, releaseSavepoint) {
  */
 PHP_METHOD(Phalcon_Db_Dialect, rollbackSavepoint) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *name_param = NULL;
 	zval name;
 	zval *this_ptr = getThis();
@@ -917,6 +929,7 @@ PHP_METHOD(Phalcon_Db_Dialect, rollbackSavepoint) {
 PHP_METHOD(Phalcon_Db_Dialect, select) {
 
 	zend_bool _5, _9, _12, _15, _18, _21, _23;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *definition_param = NULL, tables, columns, sql, distinct, joins, where, escapeChar, groupBy, having, orderBy, limit, forUpdate, bindCounts, _0, _1, _2, _3, _4, _6$$9, _7$$9, _8$$9, _10$$10, _11$$10, _13$$11, _14$$11, _16$$12, _17$$12, _19$$13, _20$$13;
 	zval definition, _22$$14;
@@ -1098,6 +1111,7 @@ PHP_METHOD(Phalcon_Db_Dialect, supportsSavepoints) {
  */
 PHP_METHOD(Phalcon_Db_Dialect, supportsReleaseSavepoints) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -1115,6 +1129,7 @@ PHP_METHOD(Phalcon_Db_Dialect, supportsReleaseSavepoints) {
  */
 PHP_METHOD(Phalcon_Db_Dialect, getColumnSize) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *column, column_sub, _0;
 	zval *this_ptr = getThis();
@@ -1139,6 +1154,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getColumnSize) {
  */
 PHP_METHOD(Phalcon_Db_Dialect, getColumnSizeAndScale) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *column, column_sub, _0, _1;
 	zval *this_ptr = getThis();
@@ -1166,6 +1182,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getColumnSizeAndScale) {
  */
 PHP_METHOD(Phalcon_Db_Dialect, checkColumnType) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *column, column_sub, _0;
 	zval *this_ptr = getThis();
@@ -1196,6 +1213,7 @@ PHP_METHOD(Phalcon_Db_Dialect, checkColumnType) {
  */
 PHP_METHOD(Phalcon_Db_Dialect, checkColumnTypeSql) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *column, column_sub, _0;
 	zval *this_ptr = getThis();
@@ -1224,6 +1242,7 @@ PHP_METHOD(Phalcon_Db_Dialect, checkColumnTypeSql) {
  */
 PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionAll) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval escapeChar;
 	zval *expression_param = NULL, *escapeChar_param = NULL, domain, _0;
@@ -1262,6 +1281,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionAll) {
  */
 PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionBinaryOperations) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval escapeChar;
 	zval *expression_param = NULL, *escapeChar_param = NULL, *bindCounts = NULL, bindCounts_sub, __$null, left, right, _0, _1, _2;
@@ -1311,6 +1331,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionBinaryOperations) {
  */
 PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionCase) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval escapeChar, sql;
 	zval *expression_param = NULL, *escapeChar_param = NULL, *bindCounts = NULL, bindCounts_sub, __$null, whenClause, _0, _1, _2, _3, *_4, _5, _6$$3, _7$$4, _8$$4, _9$$4, _10$$4, _11$$4, _12$$5, _13$$5, _14$$5, _15$$6, _16$$7, _17$$7, _18$$7, _19$$7, _20$$7, _21$$8, _22$$8, _23$$8;
@@ -1441,6 +1462,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionCase) {
  */
 PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionCastValue) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval escapeChar;
 	zval *expression_param = NULL, *escapeChar_param = NULL, *bindCounts = NULL, bindCounts_sub, __$null, left, right, _0, _1;
@@ -1488,6 +1510,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionCastValue) {
  */
 PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionConvertValue) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval escapeChar;
 	zval *expression_param = NULL, *escapeChar_param = NULL, *bindCounts = NULL, bindCounts_sub, __$null, left, right, _0, _1;
@@ -1535,6 +1558,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionConvertValue) {
  */
 PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionFrom) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_3 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval escapeChar;
@@ -1610,6 +1634,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionFrom) {
 PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionFunctionCall) {
 
 	zend_bool _1, _3$$4;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval escapeChar;
 	zval *expression_param = NULL, *escapeChar_param = NULL, *bindCounts, bindCounts_sub, __$false, name, customFunction, arguments, _0, _4$$4;
@@ -1683,6 +1708,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionFunctionCall) {
  */
 PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionGroupBy) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_3 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval escapeChar;
@@ -1771,6 +1797,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionGroupBy) {
  */
 PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionHaving) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval escapeChar;
 	zval *expression_param = NULL, *escapeChar_param = NULL, *bindCounts = NULL, bindCounts_sub, __$null, _0;
@@ -1812,6 +1839,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionHaving) {
 PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionJoins) {
 
 	zend_bool _2$$3, _9$$3, _13$$11, _19$$11;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_3 = NULL, *_11 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval escapeChar, sql;
@@ -2022,6 +2050,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionLimit) {
 
 	zend_bool _2$$4;
 	zval _4;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval escapeChar;
 	zval *expression, expression_sub, *escapeChar_param = NULL, *bindCounts = NULL, bindCounts_sub, __$null, sql, value, limit, offset, _0$$4, _1$$5, _3$$7;
@@ -2105,6 +2134,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionLimit) {
 PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionList) {
 
 	zend_bool _0, _1, _7$$4;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_5 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval escapeChar;
@@ -2215,6 +2245,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionList) {
 PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionObject) {
 
 	zend_bool _0, _1;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval escapeChar;
 	zval *expression_param = NULL, *escapeChar_param = NULL, *bindCounts = NULL, bindCounts_sub, __$null, domain, objectExpression;
@@ -2274,6 +2305,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionObject) {
 PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionOrderBy) {
 
 	zend_bool _4$$4, _7$$7;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_3 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval escapeChar;
@@ -2390,6 +2422,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionOrderBy) {
  */
 PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionQualified) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval escapeChar;
 	zval *expression_param = NULL, *escapeChar_param = NULL, column, domain;
@@ -2431,6 +2464,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionQualified) {
  */
 PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionScalar) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval escapeChar;
 	zval *expression_param = NULL, *escapeChar_param = NULL, *bindCounts = NULL, bindCounts_sub, __$null, value, _0$$3;
@@ -2485,6 +2519,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionScalar) {
  */
 PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionUnaryOperations) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval escapeChar;
 	zval *expression_param = NULL, *escapeChar_param = NULL, *bindCounts = NULL, bindCounts_sub, __$null, left, right, _0$$3, _1$$3, _2$$4, _3$$4;
@@ -2544,6 +2579,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionUnaryOperations) {
  */
 PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionWhere) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval escapeChar;
 	zval *expression, expression_sub, *escapeChar_param = NULL, *bindCounts = NULL, bindCounts_sub, __$null, whereSql;
@@ -2586,6 +2622,7 @@ PHP_METHOD(Phalcon_Db_Dialect, getSqlExpressionWhere) {
  */
 PHP_METHOD(Phalcon_Db_Dialect, prepareColumnAlias) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *qualified_param = NULL, *alias_param = NULL, *escapeChar_param = NULL, _0$$3;
 	zval qualified, alias, escapeChar;
@@ -2638,6 +2675,7 @@ PHP_METHOD(Phalcon_Db_Dialect, prepareColumnAlias) {
  */
 PHP_METHOD(Phalcon_Db_Dialect, prepareTable) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *table_param = NULL, *schema_param = NULL, *alias_param = NULL, *escapeChar_param = NULL, _0, _1$$3, _2$$3, _3$$4, _4$$4;
 	zval table, schema, alias, escapeChar;
@@ -2712,6 +2750,7 @@ PHP_METHOD(Phalcon_Db_Dialect, prepareTable) {
  */
 PHP_METHOD(Phalcon_Db_Dialect, prepareQualified) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *column_param = NULL, *domain_param = NULL, *escapeChar_param = NULL;
 	zval column, domain, escapeChar, _0$$3;

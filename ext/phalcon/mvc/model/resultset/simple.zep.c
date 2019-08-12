@@ -60,6 +60,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Resultset_Simple) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zend_bool keepSnapshots;
@@ -107,6 +108,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct) {
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, current) {
 
 	zend_class_entry *_6$$6;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_7 = NULL, *_11 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval __$true, __$false, row, hydrateMode, columnMap, activeRow, modelName, _0, _1$$6, _3$$6, _4$$6, _5$$6, _2$$7, _8$$9, _9$$9, _10$$9;
@@ -199,6 +201,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray) {
 	zend_string *_7$$8, *_20$$17;
 	zend_ulong _6$$8, _19$$17;
 	zval renamedRecords, renamed;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_10 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *renameColumns_param = NULL, __$null, result, records, record, renamedKey, key, value, columnMap, _0$$3, _1$$5, *_2$$7, _3$$7, *_4$$8, _5$$8, _8$$10, _9$$10, _11$$12, _12$$12, _13$$14, _14$$14, _15$$16, _16$$16, *_17$$17, _18$$17, _21$$19, _22$$19, _23$$21, _24$$21, _25$$23, _26$$23, _27$$25, _28$$25;
@@ -486,6 +489,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize) {
 
 	zval data;
 	zval container, serializer, _1, _2, _3, _4, _5$$4, _6$$4;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval *this_ptr = getThis();
@@ -557,6 +561,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, unserialize) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval *data, data_sub, resultset, keepSnapshots, container, serializer, _1, _2, _5, _6, _7, _8, _9, _10, _11, _3$$4, _4$$4;

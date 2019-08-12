@@ -59,7 +59,7 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, __construct) {
 
 	ZVAL_UNDEF(&escaper_sub);
 
-	zephir_fetch_params(0, 1, 0, &escaper);
+	zephir_fetch_params_without_memory_grow(1, 0, &escaper);
 
 
 
@@ -72,6 +72,7 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, __construct) {
  */
 PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, renderFullElement) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool raw;
 	zval attributes;
@@ -123,6 +124,7 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, renderFullElement) {
  */
 PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, renderElement) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval attributes;
 	zval *tag_param = NULL, *attributes_param = NULL, attrs, escapedAttrs, _0$$3, _1$$3, _2$$3;
@@ -187,6 +189,7 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, renderElement) {
  */
 PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, orderAttributes) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *overrides_param = NULL, *attributes_param = NULL, __$null, intersect, order, results, _0;
 	zval overrides, attributes;
@@ -239,6 +242,7 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, renderAttributes) {
 	zend_bool _4$$3, _5$$4, _6$$4, _14$$6, _15$$7, _16$$7;
 	zend_string *_3;
 	zend_ulong _2;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_10 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *attributes_param = NULL, key, result, value, *_0, _1, _11$$4, _12$$4, _13$$4, _7$$5, _8$$5, _9$$5, _20$$7, _21$$7, _22$$7, _17$$8, _18$$8, _19$$8;
@@ -378,6 +382,7 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, renderAttributes) {
  */
 PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, selfClose) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval attributes;
 	zval *tag_param = NULL, *attributes_param = NULL, attrs, escapedAttrs, _0$$3, _1$$3, _2$$3;

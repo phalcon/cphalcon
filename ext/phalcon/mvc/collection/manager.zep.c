@@ -96,7 +96,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, setServiceName) {
 
 	ZVAL_UNDEF(&serviceName_sub);
 
-	zephir_fetch_params(0, 1, 0, &serviceName);
+	zephir_fetch_params_without_memory_grow(1, 0, &serviceName);
 
 
 
@@ -110,6 +110,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, setServiceName) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, addBehavior) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *model, model_sub, *behavior, behavior_sub, entityName, modelsBehaviors, _0;
 	zval *this_ptr = getThis();
 
@@ -143,6 +144,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, addBehavior) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, getCustomEventsManager) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *model, model_sub, customEventsManager, className, _0, _1$$4;
 	zval *this_ptr = getThis();
 
@@ -178,6 +180,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getCustomEventsManager) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, getConnection) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_3 = NULL;
 	zval *model, model_sub, service, connectionService, connection, container, entityName, _0, _1$$5, _2$$5, _4$$5;
@@ -241,6 +244,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getConnection) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, getConnectionService) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *model, model_sub, service, entityName, _0, _1$$3;
 	zval *this_ptr = getThis();
 
@@ -310,6 +314,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, getLastInitialized) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, isUsingImplicitObjectIds) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *model, model_sub, implicit, _0, _1;
 	zval *this_ptr = getThis();
 
@@ -338,6 +343,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, isUsingImplicitObjectIds) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, isInitialized) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *className_param = NULL, _0, _1;
 	zval className;
 	zval *this_ptr = getThis();
@@ -373,6 +379,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, isInitialized) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, initialize) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, model_sub, className, initialized, eventsManager, _0, _1$$3, _2$$5;
 	zval *this_ptr = getThis();
@@ -421,6 +428,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, initialize) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, missingMethod) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval eventName, _4$$9;
 	zval *model, model_sub, *eventName_param = NULL, *data, data_sub, behaviors, modelsBehaviors, result, eventsManager, behavior, _0, _1$$3, *_2$$4, _3$$4;
@@ -515,6 +523,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, missingMethod) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, notifyEvent) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *eventName_param = NULL, *model, model_sub, behavior, behaviors, modelsBehaviors, eventsManager, status, customEventsManager, _0, _1$$3, *_2$$4, _3$$4, _5$$11;
 	zval eventName, _4$$9, _6$$12;
@@ -629,6 +638,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, notifyEvent) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, setCustomEventsManager) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *model, model_sub, *eventsManager, eventsManager_sub, _0;
 	zval *this_ptr = getThis();
 
@@ -653,6 +663,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, setCustomEventsManager) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, setConnectionService) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval connectionService;
 	zval *model, model_sub, *connectionService_param = NULL, _0;
 	zval *this_ptr = getThis();
@@ -693,7 +704,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, setDI) {
 
 	ZVAL_UNDEF(&container_sub);
 
-	zephir_fetch_params(0, 1, 0, &container);
+	zephir_fetch_params_without_memory_grow(1, 0, &container);
 
 
 
@@ -711,7 +722,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, setEventsManager) {
 
 	ZVAL_UNDEF(&eventsManager_sub);
 
-	zephir_fetch_params(0, 1, 0, &eventsManager);
+	zephir_fetch_params_without_memory_grow(1, 0, &eventsManager);
 
 
 
@@ -724,6 +735,7 @@ PHP_METHOD(Phalcon_Mvc_Collection_Manager, setEventsManager) {
  */
 PHP_METHOD(Phalcon_Mvc_Collection_Manager, useImplicitObjectIds) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_bool useImplicitObjectIds;
 	zval *model, model_sub, *useImplicitObjectIds_param = NULL, _0, _1;
 	zval *this_ptr = getThis();

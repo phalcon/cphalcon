@@ -63,6 +63,7 @@ PHP_METHOD(Phalcon_Validation_AbstractValidatorComposite, getValidators) {
  */
 PHP_METHOD(Phalcon_Validation_AbstractValidatorComposite, validate) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *validation, validation_sub, *field, field_sub, validator, _0, _4, *_5, _6, _1$$3, _2$$3, _3$$3, _7$$4, _8$$6;
 	zval *this_ptr = getThis();
@@ -141,6 +142,7 @@ PHP_METHOD(Phalcon_Validation_AbstractValidatorComposite, validate) {
 zend_object *zephir_init_properties_Phalcon_Validation_AbstractValidatorComposite(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval _0, _2, _1$$3, _3$$4;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_1$$3);

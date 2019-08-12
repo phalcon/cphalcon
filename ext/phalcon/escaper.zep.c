@@ -77,6 +77,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Escaper) {
 PHP_METHOD(Phalcon_Escaper, detectEncoding) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_5 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *str_param = NULL, __$true, charset, _1, *_2, _3, _4$$5, _6$$7;
@@ -165,6 +166,7 @@ PHP_METHOD(Phalcon_Escaper, detectEncoding) {
  */
 PHP_METHOD(Phalcon_Escaper, escapeCss) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *css_param = NULL, _0;
 	zval css;
@@ -192,6 +194,7 @@ PHP_METHOD(Phalcon_Escaper, escapeCss) {
  */
 PHP_METHOD(Phalcon_Escaper, escapeJs) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *js_param = NULL, _0;
 	zval js;
@@ -218,6 +221,7 @@ PHP_METHOD(Phalcon_Escaper, escapeJs) {
  */
 PHP_METHOD(Phalcon_Escaper, escapeHtml) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *text_param = NULL, _0, _1, _2;
 	zval text;
@@ -248,6 +252,7 @@ PHP_METHOD(Phalcon_Escaper, escapeHtml) {
  */
 PHP_METHOD(Phalcon_Escaper, escapeHtmlAttr) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *attribute_param = NULL, _0, _1, _2;
 	zval attribute;
@@ -278,6 +283,7 @@ PHP_METHOD(Phalcon_Escaper, escapeHtmlAttr) {
  */
 PHP_METHOD(Phalcon_Escaper, escapeUrl) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *url_param = NULL;
 	zval url;
@@ -314,6 +320,7 @@ PHP_METHOD(Phalcon_Escaper, getEncoding) {
  */
 PHP_METHOD(Phalcon_Escaper, normalizeEncoding) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *str_param = NULL, _0, _1;
 	zval str;
@@ -359,7 +366,7 @@ PHP_METHOD(Phalcon_Escaper, setDoubleEncode) {
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
 
-	zephir_fetch_params(0, 1, 0, &doubleEncode_param);
+	zephir_fetch_params_without_memory_grow(1, 0, &doubleEncode_param);
 
 	doubleEncode = zephir_get_boolval(doubleEncode_param);
 
@@ -381,6 +388,7 @@ PHP_METHOD(Phalcon_Escaper, setDoubleEncode) {
  */
 PHP_METHOD(Phalcon_Escaper, setEncoding) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *encoding_param = NULL;
 	zval encoding;
 	zval *this_ptr = getThis();
@@ -413,7 +421,7 @@ PHP_METHOD(Phalcon_Escaper, setHtmlQuoteType) {
 
 	ZVAL_UNDEF(&_0);
 
-	zephir_fetch_params(0, 1, 0, &quoteType_param);
+	zephir_fetch_params_without_memory_grow(1, 0, &quoteType_param);
 
 	quoteType = zephir_get_intval(quoteType_param);
 

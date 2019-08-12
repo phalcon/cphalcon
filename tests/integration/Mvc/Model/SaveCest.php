@@ -375,4 +375,66 @@ class SaveCest
         $I->assertNotNull($album->id);
         $I->assertNotNull($artist->id);
     }
+
+    public function mvcModelSaveAfterFetchingRelatedIssue14270(IntegrationTester $I)
+    {
+        $I->wantToTest('Mvc\Model::save() after fetching related using magic getter');
+
+        $artist = new Artists(
+            [
+                'name' => 'Mr Robot',
+            ]
+        );
+
+        $album1 = new Albums(
+            [
+                'name' => 'Feedback',
+            ]
+        );
+        $album2 = new Albums(
+            [
+                'name' => 'Syntax Error',
+            ]
+        );
+
+        // Assign relationship in both directions on unsaved models
+        $artist->albums = [$album1, $album2];
+
+        $I->assertTrue(
+            $artist->save()
+        );
+
+        $artist = Artists::findFirstByName("Mr Robot");
+
+        // Query the parts, for some reason,
+        // for example to check if the parts are in the db already...
+        $firstAlbums = $artist->albums;
+
+        $I->assertEquals(
+            2,
+            count($firstAlbums)
+        );
+
+        $album3 = new Albums(
+            [
+                'name' => 'Feedback 2',
+            ]
+        );
+        $album4 = new Albums(
+            [
+                'name' => 'Syntax Error 2',
+            ]
+        );
+        $artist->albums = [$album3, $album4];
+        $artist->save();
+
+        $artist = Artists::findFirstByName("Mr Robot");
+
+        $allAlbums = $artist->getRelated('albums');
+
+        $I->assertEquals(
+            4,
+            count($allAlbums)
+        );
+    }
 }

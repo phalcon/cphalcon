@@ -83,6 +83,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_InclusionIn) {
  */
 PHP_METHOD(Phalcon_Validation_Validator_InclusionIn, validate) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *validation, validation_sub, *field, field_sub, value, domain, replacePairs, strict, fieldDomain, _0, _1, _4, _2$$6, _3$$7, _5$$9, _6$$9;
 	zval *this_ptr = getThis();

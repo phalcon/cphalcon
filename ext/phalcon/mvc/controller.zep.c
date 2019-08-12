@@ -79,6 +79,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Controller) {
  */
 PHP_METHOD(Phalcon_Mvc_Controller, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 

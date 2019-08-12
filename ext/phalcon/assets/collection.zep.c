@@ -158,7 +158,7 @@ PHP_METHOD(Phalcon_Assets_Collection, setAutoVersion) {
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
 
-	zephir_fetch_params(0, 1, 0, &autoVersion_param);
+	zephir_fetch_params_without_memory_grow(1, 0, &autoVersion_param);
 
 	autoVersion = zephir_get_boolval(autoVersion_param);
 
@@ -299,6 +299,7 @@ PHP_METHOD(Phalcon_Assets_Collection, getVersion) {
  */
 PHP_METHOD(Phalcon_Assets_Collection, setVersion) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *version_param = NULL;
 	zval version;
 	zval *this_ptr = getThis();
@@ -322,6 +323,7 @@ PHP_METHOD(Phalcon_Assets_Collection, setVersion) {
 PHP_METHOD(Phalcon_Assets_Collection, __construct) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
@@ -340,6 +342,7 @@ PHP_METHOD(Phalcon_Assets_Collection, __construct) {
  */
 PHP_METHOD(Phalcon_Assets_Collection, add) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *asset, asset_sub;
 	zval *this_ptr = getThis();
@@ -362,6 +365,7 @@ PHP_METHOD(Phalcon_Assets_Collection, add) {
  */
 PHP_METHOD(Phalcon_Assets_Collection, addCss) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool filter, autoVersion;
 	zval *path_param = NULL, *local = NULL, local_sub, *filter_param = NULL, *attributes = NULL, attributes_sub, *version_param = NULL, *autoVersion_param = NULL, __$null, collectionLocal, collectionAttributes, _0, _1, _2;
@@ -460,7 +464,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addFilter) {
 
 	ZVAL_UNDEF(&filter_sub);
 
-	zephir_fetch_params(0, 1, 0, &filter);
+	zephir_fetch_params_without_memory_grow(1, 0, &filter);
 
 
 
@@ -474,6 +478,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addFilter) {
  */
 PHP_METHOD(Phalcon_Assets_Collection, addInline) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *code, code_sub;
 	zval *this_ptr = getThis();
@@ -496,6 +501,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addInline) {
  */
 PHP_METHOD(Phalcon_Assets_Collection, addInlineCss) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool filter;
 	zval *content_param = NULL, *filter_param = NULL, *attributes = NULL, attributes_sub, __$null, collectionAttributes, _0, _1;
@@ -549,6 +555,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addInlineCss) {
  */
 PHP_METHOD(Phalcon_Assets_Collection, addInlineJs) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool filter;
 	zval *content_param = NULL, *filter_param = NULL, *attributes = NULL, attributes_sub, __$null, collectionAttributes, _0, _1;
@@ -604,6 +611,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addInlineJs) {
  */
 PHP_METHOD(Phalcon_Assets_Collection, addJs) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool filter, autoVersion;
 	zval *path_param = NULL, *local = NULL, local_sub, *filter_param = NULL, *attributes = NULL, attributes_sub, *version_param = NULL, *autoVersion_param = NULL, __$null, collectionLocal, collectionAttributes, _0, _1, _2;
@@ -714,6 +722,7 @@ PHP_METHOD(Phalcon_Assets_Collection, count) {
 PHP_METHOD(Phalcon_Assets_Collection, current) {
 
 	zval _0, _1, _2;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
@@ -736,6 +745,7 @@ PHP_METHOD(Phalcon_Assets_Collection, current) {
  */
 PHP_METHOD(Phalcon_Assets_Collection, getRealTargetPath) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *basePath_param = NULL, targetPath, completePath, _0;
 	zval basePath;
@@ -791,6 +801,7 @@ PHP_METHOD(Phalcon_Assets_Collection, getRealTargetPath) {
  */
 PHP_METHOD(Phalcon_Assets_Collection, has) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *asset, asset_sub, key, assets;
 	zval *this_ptr = getThis();
@@ -837,7 +848,7 @@ PHP_METHOD(Phalcon_Assets_Collection, join) {
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
 
-	zephir_fetch_params(0, 1, 0, &join_param);
+	zephir_fetch_params_without_memory_grow(1, 0, &join_param);
 
 	join = zephir_get_boolval(join_param);
 
@@ -897,6 +908,7 @@ PHP_METHOD(Phalcon_Assets_Collection, rewind) {
  */
 PHP_METHOD(Phalcon_Assets_Collection, setAttributes) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *attributes_param = NULL;
 	zval attributes;
 	zval *this_ptr = getThis();
@@ -919,6 +931,7 @@ PHP_METHOD(Phalcon_Assets_Collection, setAttributes) {
  */
 PHP_METHOD(Phalcon_Assets_Collection, setFilters) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *filters_param = NULL;
 	zval filters;
 	zval *this_ptr = getThis();
@@ -948,7 +961,7 @@ PHP_METHOD(Phalcon_Assets_Collection, setLocal) {
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
 
-	zephir_fetch_params(0, 1, 0, &local_param);
+	zephir_fetch_params_without_memory_grow(1, 0, &local_param);
 
 	if (UNEXPECTED(Z_TYPE_P(local_param) != IS_TRUE && Z_TYPE_P(local_param) != IS_FALSE)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'local' must be of the type bool") TSRMLS_CC);
@@ -971,6 +984,7 @@ PHP_METHOD(Phalcon_Assets_Collection, setLocal) {
  */
 PHP_METHOD(Phalcon_Assets_Collection, setPrefix) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *prefix_param = NULL;
 	zval prefix;
 	zval *this_ptr = getThis();
@@ -1009,7 +1023,7 @@ PHP_METHOD(Phalcon_Assets_Collection, setTargetLocal) {
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
 
-	zephir_fetch_params(0, 1, 0, &targetLocal_param);
+	zephir_fetch_params_without_memory_grow(1, 0, &targetLocal_param);
 
 	if (UNEXPECTED(Z_TYPE_P(targetLocal_param) != IS_TRUE && Z_TYPE_P(targetLocal_param) != IS_FALSE)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'targetLocal' must be of the type bool") TSRMLS_CC);
@@ -1032,6 +1046,7 @@ PHP_METHOD(Phalcon_Assets_Collection, setTargetLocal) {
  */
 PHP_METHOD(Phalcon_Assets_Collection, setTargetPath) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *targetPath_param = NULL;
 	zval targetPath;
 	zval *this_ptr = getThis();
@@ -1063,6 +1078,7 @@ PHP_METHOD(Phalcon_Assets_Collection, setTargetPath) {
  */
 PHP_METHOD(Phalcon_Assets_Collection, setTargetUri) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *targetUri_param = NULL;
 	zval targetUri;
 	zval *this_ptr = getThis();
@@ -1094,6 +1110,7 @@ PHP_METHOD(Phalcon_Assets_Collection, setTargetUri) {
  */
 PHP_METHOD(Phalcon_Assets_Collection, setSourcePath) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *sourcePath_param = NULL;
 	zval sourcePath;
 	zval *this_ptr = getThis();
@@ -1143,6 +1160,7 @@ PHP_METHOD(Phalcon_Assets_Collection, valid) {
  */
 PHP_METHOD(Phalcon_Assets_Collection, addAsset) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *asset, asset_sub, _0, _1;
 	zval *this_ptr = getThis();
@@ -1176,6 +1194,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addAsset) {
 zend_object *zephir_init_properties_Phalcon_Assets_Collection(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval _0, _2, _4, _6, _1$$3, _3$$4, _5$$5, _7$$6;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_4);

@@ -54,6 +54,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Translate_Adapter_AbstractAdapter) {
 
 PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_1 = NULL;
 	zval options;
@@ -91,6 +92,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, __construct) {
  */
 PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, _) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *translateKey_param = NULL, *placeholders = NULL, placeholders_sub, __$null;
 	zval translateKey;
@@ -130,6 +132,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, _) {
  */
 PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, offsetExists) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *translateKey, translateKey_sub;
 	zval *this_ptr = getThis();
@@ -152,6 +155,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, offsetExists) {
  */
 PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, offsetGet) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *translateKey, translateKey_sub, _0;
 	zval *this_ptr = getThis();
@@ -184,7 +188,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, offsetSet) {
 	ZVAL_UNDEF(&offset_sub);
 	ZVAL_UNDEF(&value_sub);
 
-	zephir_fetch_params(0, 2, 0, &offset, &value);
+	zephir_fetch_params_without_memory_grow(2, 0, &offset, &value);
 
 
 
@@ -203,7 +207,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, offsetUnset) {
 
 	ZVAL_UNDEF(&offset_sub);
 
-	zephir_fetch_params(0, 1, 0, &offset);
+	zephir_fetch_params_without_memory_grow(1, 0, &offset);
 
 
 
@@ -219,6 +223,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, offsetUnset) {
  */
 PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, t) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *translateKey_param = NULL, *placeholders = NULL, placeholders_sub, __$null;
 	zval translateKey;
@@ -258,6 +263,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, t) {
  */
 PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, replacePlaceholders) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *translation_param = NULL, *placeholders = NULL, placeholders_sub, __$null, interpolator, _0, _1;
 	zval translation;

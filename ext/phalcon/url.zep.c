@@ -118,6 +118,7 @@ PHP_METHOD(Phalcon_Url, get) {
 
 	unsigned char _24$$14, _26$$14, _31$$16;
 	zval strUri, _19$$14;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_10 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool local, _0$$3, _1$$3, _22$$14, _23$$14, _25$$14, _29$$16, _30$$16, _32$$19;
@@ -358,6 +359,7 @@ PHP_METHOD(Phalcon_Url, getBasePath) {
  */
 PHP_METHOD(Phalcon_Url, getBaseUri) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval _SERVER, baseUri, phpSelf, uri, _0;
 	zval *this_ptr = getThis();
 
@@ -422,6 +424,7 @@ PHP_METHOD(Phalcon_Url, getDI) {
  */
 PHP_METHOD(Phalcon_Url, getStatic) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *uri = NULL, uri_sub, __$null, _0, _1, _2;
 	zval *this_ptr = getThis();
@@ -457,6 +460,7 @@ PHP_METHOD(Phalcon_Url, getStatic) {
 PHP_METHOD(Phalcon_Url, getStaticBaseUri) {
 
 	zval staticBaseUri, _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -485,6 +489,7 @@ PHP_METHOD(Phalcon_Url, getStaticBaseUri) {
  */
 PHP_METHOD(Phalcon_Url, setBasePath) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *basePath_param = NULL;
 	zval basePath;
 	zval *this_ptr = getThis();
@@ -522,6 +527,7 @@ PHP_METHOD(Phalcon_Url, setBasePath) {
  */
 PHP_METHOD(Phalcon_Url, setBaseUri) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *baseUri_param = NULL, _0;
 	zval baseUri;
 	zval *this_ptr = getThis();
@@ -563,7 +569,7 @@ PHP_METHOD(Phalcon_Url, setDI) {
 
 	ZVAL_UNDEF(&container_sub);
 
-	zephir_fetch_params(0, 1, 0, &container);
+	zephir_fetch_params_without_memory_grow(1, 0, &container);
 
 
 
@@ -580,6 +586,7 @@ PHP_METHOD(Phalcon_Url, setDI) {
  */
 PHP_METHOD(Phalcon_Url, setStaticBaseUri) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *staticBaseUri_param = NULL;
 	zval staticBaseUri;
 	zval *this_ptr = getThis();
@@ -611,6 +618,7 @@ PHP_METHOD(Phalcon_Url, setStaticBaseUri) {
  */
 PHP_METHOD(Phalcon_Url, path) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *path_param = NULL, _0;
 	zval path;
 	zval *this_ptr = getThis();

@@ -57,6 +57,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_AbstractAdapter) {
 PHP_METHOD(Phalcon_Annotations_Adapter_AbstractAdapter, get) {
 
 	zend_bool _3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *className, className_sub, classAnnotations, parsedAnnotations, realClassName, reader, _0, _1$$5, _2$$5;
 	zval *this_ptr = getThis();
@@ -117,6 +118,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_AbstractAdapter, getMethod) {
 
 	zend_string *_3$$3;
 	zend_ulong _2$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_5 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *className_param = NULL, *methodName_param = NULL, classAnnotations, methods, method, methodKey, *_0$$3, _1$$3, _4$$4, _6$$6;
@@ -200,6 +202,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_AbstractAdapter, getMethod) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_AbstractAdapter, getMethods) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *className_param = NULL, classAnnotations;
 	zval className;
@@ -227,6 +230,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_AbstractAdapter, getMethods) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_AbstractAdapter, getProperty) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *className_param = NULL, *propertyName_param = NULL, classAnnotations, properties, property;
 	zval className, propertyName;
@@ -264,6 +268,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_AbstractAdapter, getProperty) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_AbstractAdapter, getProperties) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *className_param = NULL, classAnnotations;
 	zval className;
@@ -292,6 +297,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_AbstractAdapter, getProperties) {
 PHP_METHOD(Phalcon_Annotations_Adapter_AbstractAdapter, getReader) {
 
 	zval _0, _1$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -325,7 +331,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_AbstractAdapter, setReader) {
 
 	ZVAL_UNDEF(&reader_sub);
 
-	zephir_fetch_params(0, 1, 0, &reader);
+	zephir_fetch_params_without_memory_grow(1, 0, &reader);
 
 
 
@@ -336,6 +342,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_AbstractAdapter, setReader) {
 zend_object *zephir_init_properties_Phalcon_Annotations_Adapter_AbstractAdapter(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval _0, _1$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
 

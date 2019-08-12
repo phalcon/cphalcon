@@ -101,6 +101,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Transaction) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval service;
 	zend_bool autoBegin;
@@ -148,6 +149,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, __construct) {
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, begin) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -168,6 +170,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, begin) {
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, commit) {
 
 	zval manager, _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -195,6 +198,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, commit) {
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, getConnection) {
 
 	zval _0, _1$$3, _2$$4;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -237,6 +241,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, getMessages) {
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, isManaged) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
@@ -255,6 +260,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, isManaged) {
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, isValid) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -274,6 +280,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, isValid) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *rollbackMessage_param = NULL, *rollbackRecord = NULL, rollbackRecord_sub, __$null, manager, connection, _0, _1, _2$$4, _3$$7, _4$$7;
 	zval rollbackMessage;
@@ -351,7 +358,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, setIsNewTransaction) {
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
 
-	zephir_fetch_params(0, 1, 0, &isNew_param);
+	zephir_fetch_params_without_memory_grow(1, 0, &isNew_param);
 
 	isNew = zephir_get_boolval(isNew_param);
 
@@ -376,7 +383,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, setRollbackOnAbort) {
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
 
-	zephir_fetch_params(0, 1, 0, &rollbackOnAbort_param);
+	zephir_fetch_params_without_memory_grow(1, 0, &rollbackOnAbort_param);
 
 	rollbackOnAbort = zephir_get_boolval(rollbackOnAbort_param);
 
@@ -399,7 +406,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, setRollbackedRecord) {
 
 	ZVAL_UNDEF(&record_sub);
 
-	zephir_fetch_params(0, 1, 0, &record);
+	zephir_fetch_params_without_memory_grow(1, 0, &record);
 
 
 
@@ -417,7 +424,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, setTransactionManager) {
 
 	ZVAL_UNDEF(&manager_sub);
 
-	zephir_fetch_params(0, 1, 0, &manager);
+	zephir_fetch_params_without_memory_grow(1, 0, &manager);
 
 
 
@@ -437,7 +444,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, throwRollbackException) {
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
 
-	zephir_fetch_params(0, 1, 0, &status_param);
+	zephir_fetch_params_without_memory_grow(1, 0, &status_param);
 
 	status = zephir_get_boolval(status_param);
 

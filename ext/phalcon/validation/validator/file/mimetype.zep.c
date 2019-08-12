@@ -96,6 +96,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_File_MimeType) {
  */
 PHP_METHOD(Phalcon_Validation_Validator_File_MimeType, validate) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *validation, validation_sub, *field, field_sub, fieldTypes, mime, replacePairs, tmp, types, value, _0, _1, _2$$6, _3$$6, _4$$8, _5$$8;
 	zval *this_ptr = getThis();

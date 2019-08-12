@@ -78,7 +78,7 @@ PHP_METHOD(Phalcon_Di_Service, __construct) {
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
 
-	zephir_fetch_params(0, 1, 1, &definition, &shared_param);
+	zephir_fetch_params_without_memory_grow(1, 1, &definition, &shared_param);
 
 	if (!shared_param) {
 		shared = 0;
@@ -115,6 +115,7 @@ PHP_METHOD(Phalcon_Di_Service, getDefinition) {
  */
 PHP_METHOD(Phalcon_Di_Service, getParameter) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *position_param = NULL, definition, arguments, parameter, _0;
 	zend_long position;
 	zval *this_ptr = getThis();
@@ -178,6 +179,7 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
 
 	zend_class_entry *_4$$13;
 	zend_bool found = 0, _2$$6;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *parameters = NULL, parameters_sub, *container = NULL, container_sub, __$true, __$false, __$null, shared, definition, sharedInstance, instance, builder, _0, _1$$3, _3$$13, _5$$20;
 	zval *this_ptr = getThis();
@@ -309,7 +311,7 @@ PHP_METHOD(Phalcon_Di_Service, setDefinition) {
 
 	ZVAL_UNDEF(&definition_sub);
 
-	zephir_fetch_params(0, 1, 0, &definition);
+	zephir_fetch_params_without_memory_grow(1, 0, &definition);
 
 
 
@@ -322,6 +324,7 @@ PHP_METHOD(Phalcon_Di_Service, setDefinition) {
  */
 PHP_METHOD(Phalcon_Di_Service, setParameter) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval parameter;
 	zval *position_param = NULL, *parameter_param = NULL, definition, arguments, _0, _1$$5;
 	zend_long position;
@@ -373,7 +376,7 @@ PHP_METHOD(Phalcon_Di_Service, setShared) {
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
 
-	zephir_fetch_params(0, 1, 0, &shared_param);
+	zephir_fetch_params_without_memory_grow(1, 0, &shared_param);
 
 	shared = zephir_get_boolval(shared_param);
 
@@ -396,7 +399,7 @@ PHP_METHOD(Phalcon_Di_Service, setSharedInstance) {
 
 	ZVAL_UNDEF(&sharedInstance_sub);
 
-	zephir_fetch_params(0, 1, 0, &sharedInstance);
+	zephir_fetch_params_without_memory_grow(1, 0, &sharedInstance);
 
 
 

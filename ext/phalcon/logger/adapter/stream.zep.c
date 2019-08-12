@@ -99,6 +99,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, getName) {
  */
 PHP_METHOD(Phalcon_Logger_Adapter_Stream, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval options;
 	zval *name_param = NULL, *options_param = NULL, mode;
 	zval name;
@@ -176,6 +177,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, close) {
  */
 PHP_METHOD(Phalcon_Logger_Adapter_Stream, process) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *item, item_sub, __$null, formatter, formattedMessage, _0, _10, _1$$3, _2$$3, _3$$3, _4$$3, _5$$4, _6$$4, _7$$4, _8$$4, _9$$4;
 	zval *this_ptr = getThis();

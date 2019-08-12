@@ -43,6 +43,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_Remove) {
  */
 PHP_METHOD(Phalcon_Filter_Sanitize_Remove, __invoke) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *input, input_sub, *replace, replace_sub, _0, _1;
 	zval *this_ptr = getThis();
 

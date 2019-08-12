@@ -61,6 +61,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Apcu) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apcu, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval options;
 	zval *factory, factory_sub, *options_param = NULL, _0, _1, _2, _3;

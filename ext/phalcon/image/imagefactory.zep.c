@@ -45,6 +45,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Image_ImageFactory) {
  */
 PHP_METHOD(Phalcon_Image_ImageFactory, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *services_param = NULL;
 	zval services;
@@ -74,6 +75,7 @@ PHP_METHOD(Phalcon_Image_ImageFactory, __construct) {
  */
 PHP_METHOD(Phalcon_Image_ImageFactory, load) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_1 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *config = NULL, config_sub, height, file, name, width, _0, _2, _3;
@@ -130,6 +132,7 @@ PHP_METHOD(Phalcon_Image_ImageFactory, load) {
 PHP_METHOD(Phalcon_Image_ImageFactory, newInstance) {
 
 	zend_class_entry *_4$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long width, height, ZEPHIR_LAST_CALL_STATUS;
 	zval *name_param = NULL, *file_param = NULL, *width_param = NULL, *height_param = NULL, definition, _0, _7, _8, _1$$3, _2$$3, _3$$3, _5$$3, _6$$3;
 	zval name, file;
@@ -191,6 +194,9 @@ PHP_METHOD(Phalcon_Image_ImageFactory, newInstance) {
 		ZEPHIR_INIT_VAR(&_2$$3);
 		zephir_fetch_safe_class(&_3$$3, &definition);
 		_4$$3 = zephir_fetch_class_str_ex(Z_STRVAL_P(&_3$$3), Z_STRLEN_P(&_3$$3), ZEND_FETCH_CLASS_AUTO);
+		if(!_4$$3) {
+			RETURN_MM_NULL();
+		}
 		object_init_ex(&_2$$3, _4$$3);
 		if (zephir_has_constructor(&_2$$3 TSRMLS_CC)) {
 			ZVAL_LONG(&_5$$3, width);

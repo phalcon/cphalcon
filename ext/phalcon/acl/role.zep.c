@@ -94,6 +94,7 @@ PHP_METHOD(Phalcon_Acl_Role, getDescription) {
  */
 PHP_METHOD(Phalcon_Acl_Role, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *name_param = NULL, *description_param = NULL;
 	zval name, description;
 	zval *this_ptr = getThis();

@@ -120,6 +120,7 @@ PHP_METHOD(Phalcon_Events_Event, getType) {
  */
 PHP_METHOD(Phalcon_Events_Event, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_bool cancelable;
 	zval *type_param = NULL, *source, source_sub, *data = NULL, data_sub, *cancelable_param = NULL, __$true, __$false, __$null;
 	zval type;
@@ -209,7 +210,7 @@ PHP_METHOD(Phalcon_Events_Event, setData) {
 	ZVAL_UNDEF(&data_sub);
 	ZVAL_NULL(&__$null);
 
-	zephir_fetch_params(0, 0, 1, &data);
+	zephir_fetch_params_without_memory_grow(0, 1, &data);
 
 	if (!data) {
 		data = &data_sub;
@@ -227,6 +228,7 @@ PHP_METHOD(Phalcon_Events_Event, setData) {
  */
 PHP_METHOD(Phalcon_Events_Event, setType) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *type_param = NULL;
 	zval type;
 	zval *this_ptr = getThis();

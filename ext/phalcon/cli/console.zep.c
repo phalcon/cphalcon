@@ -61,6 +61,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Cli_Console) {
 PHP_METHOD(Phalcon_Cli_Console, handle) {
 
 	zend_bool _9;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_3 = NULL;
 	zval *arguments_param = NULL, __$false, className, container, dispatcher, eventsManager, module, moduleName, moduleObject, modules, path, router, task, _0, _7, _8, _20, _21, _22, _23, _1$$3, _2$$3, _4$$3, _5$$4, _6$$4, _10$$6, _11$$10, _12$$10, _13$$9, _14$$12, _15$$12, _16$$16, _17$$16, _18$$18, _19$$18, _24$$20, _25$$20, _26$$22;
@@ -286,6 +287,7 @@ PHP_METHOD(Phalcon_Cli_Console, handle) {
  */
 PHP_METHOD(Phalcon_Cli_Console, setArgument) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_6 = NULL, *_44 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool str, shift, _0;
@@ -549,6 +551,7 @@ PHP_METHOD(Phalcon_Cli_Console, setArgument) {
 zend_object *zephir_init_properties_Phalcon_Cli_Console(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval _0, _2, _4, _1$$3, _3$$4, _5$$5;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_4);
