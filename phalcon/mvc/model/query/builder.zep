@@ -1025,7 +1025,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 	/**
 	 * Returns the GROUP BY clause
 	 *
-	 * @return string
+	 * @return string|array
 	 */
 	public function getGroupBy()
 	{

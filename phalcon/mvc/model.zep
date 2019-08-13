@@ -4528,7 +4528,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	 *
 	 * @param string property
 	 * @param mixed value
-	 * @return string
+	 * @return boolean
 	 */
 	protected final function _possibleSetter(string property, value)
 	{
