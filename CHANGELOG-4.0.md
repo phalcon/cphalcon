@@ -6,6 +6,7 @@
 - Fixed `Phalcon\Storage\Adapter\Redis::delete()` and `Phalcon\Storage\Adapter\Redis::getKeys()` deprecated warning from php-redis [#14281](https://github.com/phalcon/cphalcon/issues/14281)
 - Fixed `Phalcon\Mvc\Model\ResultSet::Update()` to return correct status [#14291](https://github.com/phalcon/cphalcon/issues/14291)
 - `Phalcon\Mvc\Collection::cancelOperation()` now returns `true` on success.
+- Fixed `Phalcon\Application\AbstractApplication` interfaces for `registerModules()`, `setDefaultModule()` and `setEventsManager()` [#14293](https://github.com/phalcon/cphalcon/issues/14293)
 
 ## Removed
 - Removed dead libsodium-related code. It was never called in PHP >= 7.0.
