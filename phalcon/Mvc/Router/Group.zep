@@ -64,7 +64,7 @@ class Group implements GroupInterface
     protected hostname;
     protected paths;
     protected prefix;
-    protected routes;
+    protected routes = [];
 
     /**
      * Phalcon\Mvc\Router\Group constructor
