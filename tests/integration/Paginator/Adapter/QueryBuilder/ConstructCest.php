@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Paginator\Adapter\QueryBuilder;
 
 use IntegrationTester;
+use Phalcon\Paginator\Adapter\QueryBuilder;
 
 /**
  * Class ConstructCest
@@ -28,6 +29,20 @@ class ConstructCest
     public function paginatorAdapterQuerybuilderConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Paginator\Adapter\QueryBuilder - __construct()');
-        $I->skipTest('Need implementation');
+        try {
+            $paginator = new QueryBuilder(
+                [
+                    'builder' => new \stdClass(),
+                    'limit'   => 10,
+                    'page'    => 1,
+                ]
+            );
+        } catch (\Phalcon\Paginator\Exception $ex) {
+            $actual = $ex->getMessage();
+        }
+        $I->assertEquals(
+            "Parameter 'builder' must be an instance of Phalcon\Mvc\Model\Query\Builder",
+            $actual
+        );
     }
 }
