@@ -64,10 +64,8 @@ class QueryBuilder extends AbstractAdapter
         if unlikely !fetch builder, config["builder"] {
             throw new Exception("Parameter 'builder' is required");
         }
-        if unlikely !(base instanceof Builder) {
-            throw new Exception(
-                "Parameter 'builder' must be an instance of Phalcon\Mvc\Model\Query\Builder"
-            );
+        if unlikely !(builder instanceof Builder) {
+            throw new Exception("Parameter 'builder' must be an instance of Phalcon\Mvc\Model\Query\Builder");
         }
 
         if fetch columns, config["columns"] {
