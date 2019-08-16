@@ -361,9 +361,9 @@ class Str
     final public static function includes(string! needle, string! haystack) -> bool
     {
         if function_exists("mb_strpos") {
-            return (bool) mb_strpos(haystack, needle);
+            return (bool) false !== mb_strpos(haystack, needle);
         } else {
-            return (bool) strpos(haystack, needle);
+            return (bool) false !== strpos(haystack, needle);
         }
     }
 
