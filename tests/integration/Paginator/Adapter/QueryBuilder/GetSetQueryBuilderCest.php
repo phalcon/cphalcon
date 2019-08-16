@@ -78,4 +78,30 @@ class GetSetQueryBuilderCest
 
         $I->assertEquals($paginator, $setterResult);
     }
+
+    /**
+     * Tests Phalcon\Paginator\Adapter\QueryBuilder :: getQueryBuilder() / setQueryBuilder()
+     */
+    public function issue14303(IntegrationTester $I)
+    {
+        $I->wantToTest('Paginator\Adapter\QueryBuilder when limit = 0');
+
+        $manager = $this->getService('modelsManager');
+
+        $builder1 = $manager->createBuilder()
+            ->columns('cedula, nombres')
+            ->from(Personnes::class)
+            ->orderBy('cedula')
+        ;
+
+        $paginator = new QueryBuilder(
+            [
+                'builder' => $builder1,
+                'limit'   => 0,
+                'page'    => 1,
+            ]
+        );
+
+        $paginator->paginate();
+    }
 }
