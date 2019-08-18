@@ -22,7 +22,7 @@ You can either download a binary package for the system of your choice or build 
 
 For detailed installation instructions you can check our [installation](https://docs.phalconphp.com/4.0/en/installation) page in the docs.
 
-## Api documentation generation
+## Generating API Documentation
 
 Generating new documentation files for docs repository can be done using the script in tests/_ci/generate-api-docs.php.
 Steps:
