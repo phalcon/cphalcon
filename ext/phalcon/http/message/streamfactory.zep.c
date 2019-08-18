@@ -98,9 +98,9 @@ PHP_METHOD(Phalcon_Http_Message_StreamFactory, createStream) {
 		return;
 	}
 	zephir_fwrite(NULL, &handle, &content TSRMLS_CC);
-	ZEPHIR_CALL_FUNCTION(NULL, "rewind", NULL, 323, &handle);
+	ZEPHIR_CALL_FUNCTION(NULL, "rewind", NULL, 324, &handle);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "createstreamfromresource", NULL, 324, &handle);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "createstreamfromresource", NULL, 325, &handle);
 	zephir_check_call_status();
 	RETURN_MM();
 

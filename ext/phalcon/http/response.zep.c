@@ -613,7 +613,7 @@ PHP_METHOD(Phalcon_Http_Response, send) {
 			_3$$5 = ((zephir_fast_strlen_ev(&file)) ? 1 : 0);
 		}
 		if (_3$$5) {
-			ZEPHIR_CALL_FUNCTION(NULL, "readfile", NULL, 361, &file);
+			ZEPHIR_CALL_FUNCTION(NULL, "readfile", NULL, 362, &file);
 			zephir_check_call_status();
 		}
 	}
