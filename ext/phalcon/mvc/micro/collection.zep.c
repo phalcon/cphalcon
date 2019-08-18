@@ -74,6 +74,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Micro_Collection) {
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, delete) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *routePattern_param = NULL, *handler, handler_sub, *name_param = NULL, _0;
 	zval routePattern, name;
@@ -120,6 +121,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, delete) {
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, get) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *routePattern_param = NULL, *handler, handler_sub, *name_param = NULL, _0;
 	zval routePattern, name;
@@ -202,6 +204,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, getPrefix) {
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, head) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *routePattern_param = NULL, *handler, handler_sub, *name_param = NULL, _0;
 	zval routePattern, name;
@@ -260,6 +263,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, isLazy) {
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, map) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *routePattern_param = NULL, *handler, handler_sub, *name_param = NULL, _0;
 	zval routePattern, name;
@@ -315,6 +319,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, map) {
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, mapVia) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *routePattern_param = NULL, *handler, handler_sub, *method, method_sub, *name_param = NULL;
 	zval routePattern, name;
@@ -360,6 +365,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, mapVia) {
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, options) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *routePattern_param = NULL, *handler, handler_sub, *name_param = NULL, _0;
 	zval routePattern, name;
@@ -406,6 +412,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, options) {
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, patch) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *routePattern_param = NULL, *handler, handler_sub, *name_param = NULL, _0;
 	zval routePattern, name;
@@ -452,6 +459,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, patch) {
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, post) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *routePattern_param = NULL, *handler, handler_sub, *name_param = NULL, _0;
 	zval routePattern, name;
@@ -498,6 +506,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, post) {
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, put) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *routePattern_param = NULL, *handler, handler_sub, *name_param = NULL, _0;
 	zval routePattern, name;
@@ -552,7 +561,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, setHandler) {
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
 
-	zephir_fetch_params(0, 1, 1, &handler, &lazy_param);
+	zephir_fetch_params_without_memory_grow(1, 1, &handler, &lazy_param);
 
 	if (!lazy_param) {
 		lazy = 0;
@@ -583,7 +592,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, setLazy) {
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
 
-	zephir_fetch_params(0, 1, 0, &lazy_param);
+	zephir_fetch_params_without_memory_grow(1, 0, &lazy_param);
 
 	if (UNEXPECTED(Z_TYPE_P(lazy_param) != IS_TRUE && Z_TYPE_P(lazy_param) != IS_FALSE)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'lazy' must be of the type bool") TSRMLS_CC);
@@ -606,6 +615,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, setLazy) {
  */
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, setPrefix) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *prefix_param = NULL;
 	zval prefix;
 	zval *this_ptr = getThis();
@@ -641,6 +651,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, setPrefix) {
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, addMap) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval routePattern, name;
 	zval *method, method_sub, *routePattern_param = NULL, *handler, handler_sub, *name_param = NULL;
 	zval *this_ptr = getThis();
@@ -681,6 +692,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, addMap) {
 zend_object *zephir_init_properties_Phalcon_Mvc_Micro_Collection(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval _0, _1$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
 

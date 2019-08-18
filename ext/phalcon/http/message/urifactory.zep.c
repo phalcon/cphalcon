@@ -50,6 +50,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_UriFactory) {
  */
 PHP_METHOD(Phalcon_Http_Message_UriFactory, createUri) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *uri_param = NULL;
 	zval uri;

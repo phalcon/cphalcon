@@ -47,6 +47,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Reader) {
 PHP_METHOD(Phalcon_Annotations_Reader, parse) {
 
 	zval annotations;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS, line = 0;
 	zval *className_param = NULL, reflection, comment, properties, methods, property, method, classAnnotations, annotationsProperties, propertyAnnotations, annotationsMethods, methodAnnotations, _0$$3, _1$$3, *_2$$5, _3$$5, _4$$7, _5$$7, _6$$8, _7$$10, _8$$10, _9$$11, *_10$$13, _11$$13, _12$$15, _13$$15, _14$$16, _15$$18, _16$$18, _17$$19;
 	zval className;
@@ -244,6 +245,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse) {
  */
 PHP_METHOD(Phalcon_Annotations_Reader, parseDocBlock) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *docBlock_param = NULL, *file = NULL, file_sub, *line = NULL, line_sub, __$null;
 	zval docBlock;

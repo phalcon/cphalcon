@@ -100,6 +100,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_Acl, getAclServiceName) {
  */
 PHP_METHOD(Phalcon_Firewall_Adapter_Acl, setAclServiceName) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *aclServiceName_param = NULL;
 	zval aclServiceName;
 	zval *this_ptr = getThis();
@@ -139,7 +140,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_Acl, setBoundModelsKeyMap) {
 
 	ZVAL_UNDEF(&boundModelsKeyMap_sub);
 
-	zephir_fetch_params(0, 1, 0, &boundModelsKeyMap);
+	zephir_fetch_params_without_memory_grow(1, 0, &boundModelsKeyMap);
 
 
 
@@ -165,6 +166,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_Acl, getModuleSeparator) {
  */
 PHP_METHOD(Phalcon_Firewall_Adapter_Acl, setModuleSeparator) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *moduleSeparator_param = NULL;
 	zval moduleSeparator;
 	zval *this_ptr = getThis();
@@ -204,7 +206,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_Acl, setRoleCacheCallback) {
 
 	ZVAL_UNDEF(&roleCacheCallback_sub);
 
-	zephir_fetch_params(0, 1, 0, &roleCacheCallback);
+	zephir_fetch_params_without_memory_grow(1, 0, &roleCacheCallback);
 
 
 
@@ -218,6 +220,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_Acl, setRoleCacheCallback) {
  */
 PHP_METHOD(Phalcon_Firewall_Adapter_Acl, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval boundModelsKeyMap;
 	zval *aclServiceName_param = NULL, *boundModelsKeyMap_param = NULL;
 	zval aclServiceName;
@@ -246,6 +249,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_Acl, __construct) {
 
 PHP_METHOD(Phalcon_Firewall_Adapter_Acl, afterBinding) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *event, event_sub, *dispatcher, dispatcher_sub, *data, data_sub, _0;
 	zval *this_ptr = getThis();
@@ -272,6 +276,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_Acl, afterBinding) {
 
 PHP_METHOD(Phalcon_Firewall_Adapter_Acl, beforeExecuteRoute) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *event, event_sub, *dispatcher, dispatcher_sub, *data, data_sub;
 	zval *this_ptr = getThis();
@@ -329,7 +334,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_Acl, useMultiModuleConfiguration) {
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
 
-	zephir_fetch_params(0, 1, 0, &multiModuleConfiguration_param);
+	zephir_fetch_params_without_memory_grow(1, 0, &multiModuleConfiguration_param);
 
 	multiModuleConfiguration = zephir_get_boolval(multiModuleConfiguration_param);
 
@@ -345,6 +350,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_Acl, useMultiModuleConfiguration) {
 
 PHP_METHOD(Phalcon_Firewall_Adapter_Acl, getAccessFromCache) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_4 = NULL;
 	zval originalValues;
@@ -476,6 +482,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_Acl, handleDispatcher) {
 	zend_ulong _32$$19;
 	zval _15$$9, _21$$13;
 	zend_bool defaultAccess = 0, _12, _17, _19$$12, _35$$28, _39$$28;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_2 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *dispatcher, dispatcher_sub, __$null, acl, aclAccess, aclRole, aclServiceName, actionName, boundModel, boundModelKey, boundModelKeyMap, boundModels, boundModelsKeyMap, cacheKey, componentName, container, controllerName, modelBinder, moduleName, moduleSeparator, originalValues, parameters, roleCacheKey, roleCacheCallback, role, value, _4, _5, _6, _11, _13, _16, _0$$3, _1$$3, _3$$3, _7$$4, _8$$5, _9$$5, _10$$5, _14$$9, _18$$12, _22$$12, _25$$12, _34$$12, _20$$13, _23$$14, _24$$14, _26$$15, _27$$16, _28$$16, _29$$17, *_30$$19, _31$$19, _36$$28, _37$$29, _38$$29, _40$$30;
@@ -806,6 +813,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_Acl, handleDispatcher) {
 
 PHP_METHOD(Phalcon_Firewall_Adapter_Acl, saveAccessInCache) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_2 = NULL;
 	zend_bool access;

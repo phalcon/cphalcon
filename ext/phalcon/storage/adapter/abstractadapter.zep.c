@@ -96,6 +96,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, getDefaultSerializer) {
  */
 PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, setDefaultSerializer) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *defaultSerializer_param = NULL;
 	zval defaultSerializer;
 	zval *this_ptr = getThis();
@@ -129,6 +130,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, getPrefix) {
  */
 PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_1 = NULL;
 	zval options;
@@ -253,6 +255,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, set) {
 PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, getPrefixedKey) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *key = NULL, key_sub, _1;
 	zval *this_ptr = getThis();
 
@@ -279,6 +282,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, getPrefixedKey) {
  */
 PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, getSerializedData) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *content = NULL, content_sub, _0, _1$$3, _2$$3;
 	zval *this_ptr = getThis();
@@ -319,6 +323,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, getSerializedData) {
 PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, getTtl) {
 
 	zend_bool _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *ttl, ttl_sub, dateTime, _1$$4, _2$$4;
 	zval *this_ptr = getThis();
@@ -362,6 +367,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, getTtl) {
  */
 PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, getUnserializedData) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *content = NULL, content_sub, *defaultValue = NULL, defaultValue_sub, __$null, _0, _1$$4, _2$$4;
 	zval *this_ptr = getThis();
@@ -408,6 +414,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, initSerializer) {
 
 	zval _0, _1, _2, _3;
 	zval className;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 

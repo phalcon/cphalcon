@@ -126,6 +126,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Resultset) {
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, __construct) {
 
 	zend_bool _4;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS, prefetchRecords = 0;
 	zval *result, result_sub, *cache = NULL, cache_sub, __$null, rowCount, rows, _2, _0$$3, _1$$3, _3$$5, _5$$8;
 	zval *this_ptr = getThis();
@@ -214,6 +215,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete) {
 
 	zval _4$$6;
 	zend_bool result = 0, transaction = 0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_1 = NULL, *_2 = NULL, *_5 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *conditionCallback = NULL, conditionCallback_sub, __$null, record, connection, _0, _3$$6, _6$$3, _7$$8;
@@ -316,6 +318,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, filter) {
 
 	zend_bool _4$$3;
 	zval records, _3$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_1 = NULL, *_2 = NULL, *_5 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *filter, filter_sub, record, processedRecord, _0;
@@ -386,6 +389,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, getCache) {
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, getFirst) {
 
 	zval _0, _1;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -425,6 +429,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, getHydrateMode) {
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, getLast) {
 
 	zval count, _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -465,6 +470,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, getMessages) {
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, getType) {
 
 	zval _0, _1;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
@@ -511,6 +517,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, jsonSerialize) {
 	zend_bool _3$$3;
 	zval records;
 	zval current, _0, _4$$4;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_1 = NULL, *_2 = NULL, *_5 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
@@ -558,6 +565,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, jsonSerialize) {
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, key) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -580,6 +588,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, key) {
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, next) {
 
 	zval _0, _1;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -601,6 +610,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, next) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetGet) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *index, index_sub, _0;
 	zval *this_ptr = getThis();
@@ -637,7 +647,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetExists) {
 	ZVAL_UNDEF(&index_sub);
 	ZVAL_UNDEF(&_0);
 
-	zephir_fetch_params(0, 1, 0, &index);
+	zephir_fetch_params_without_memory_grow(1, 0, &index);
 
 
 
@@ -660,7 +670,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetSet) {
 	ZVAL_UNDEF(&index_sub);
 	ZVAL_UNDEF(&value_sub);
 
-	zephir_fetch_params(0, 2, 0, &index, &value);
+	zephir_fetch_params_without_memory_grow(2, 0, &index, &value);
 
 
 
@@ -679,7 +689,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetUnset) {
 
 	ZVAL_UNDEF(&offset_sub);
 
-	zephir_fetch_params(0, 1, 0, &offset);
+	zephir_fetch_params_without_memory_grow(1, 0, &offset);
 
 
 
@@ -694,6 +704,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetUnset) {
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, rewind) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -715,6 +726,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, rewind) {
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, seek) {
 
 	zend_bool _1, _6$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_13 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *position, position_sub, __$null, result, row, _0, _2, _3$$3, _5$$3, _7$$3, _9$$3, _11$$3, _4$$4, _8$$6, _10$$7, _12$$8;
@@ -810,7 +822,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, setHydrateMode) {
 
 	ZVAL_UNDEF(&_0);
 
-	zephir_fetch_params(0, 1, 0, &hydrateMode_param);
+	zephir_fetch_params_without_memory_grow(1, 0, &hydrateMode_param);
 
 	hydrateMode = zephir_get_intval(hydrateMode_param);
 
@@ -834,7 +846,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, setIsFresh) {
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
 
-	zephir_fetch_params(0, 1, 0, &isFresh_param);
+	zephir_fetch_params_without_memory_grow(1, 0, &isFresh_param);
 
 	isFresh = zephir_get_boolval(isFresh_param);
 
@@ -857,6 +869,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, update) {
 
 	zval _4$$6;
 	zend_bool transaction = 0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_1 = NULL, *_2 = NULL, *_5 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *data, data_sub, *conditionCallback = NULL, conditionCallback_sub, __$null, record, connection, _0, _3$$6, _6$$3, _7$$8;
@@ -939,7 +952,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, update) {
 		ZEPHIR_CALL_METHOD(NULL, &connection, "commit", NULL, 0);
 		zephir_check_call_status();
 	}
-	RETURN_MM_BOOL(1);
+	RETURN_MM_BOOL(transaction);
 
 }
 

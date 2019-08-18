@@ -54,6 +54,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Tag_Select) {
 PHP_METHOD(Phalcon_Tag_Select, selectField) {
 
 	zend_bool _2$$19;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_1 = NULL, *_4 = NULL, *_9 = NULL, *_13 = NULL;
 	zval *parameters, parameters_sub, *data = NULL, data_sub, __$null, params, name, id, value, useEmpty, code, emptyValue, emptyText, options, using, _3, _5, _0$$5, _6$$22, _7$$22, _8$$23, _10$$23, _11$$23, _12$$25, _14$$25, _15$$25;
@@ -169,19 +170,19 @@ PHP_METHOD(Phalcon_Tag_Select, selectField) {
 	ZEPHIR_CALL_CE_STATIC(&_3, phalcon_tag_ce, "renderattributes", &_4, 0, &_5, &params);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_5);
-	ZEPHIR_GET_CONSTANT(&_5, "PHP_EOL");
+	ZEPHIR_MM_GET_CONSTANT(&_5, "PHP_EOL");
 	ZEPHIR_INIT_VAR(&code);
 	ZEPHIR_CONCAT_VSV(&code, &_3, ">", &_5);
 	if (zephir_is_true(&useEmpty)) {
 		ZEPHIR_INIT_VAR(&_6$$22);
-		ZEPHIR_GET_CONSTANT(&_6$$22, "PHP_EOL");
+		ZEPHIR_MM_GET_CONSTANT(&_6$$22, "PHP_EOL");
 		ZEPHIR_INIT_VAR(&_7$$22);
 		ZEPHIR_CONCAT_SVSVSV(&_7$$22, "\t<option value=\"", &emptyValue, "\">", &emptyText, "</option>", &_6$$22);
 		zephir_concat_self(&code, &_7$$22 TSRMLS_CC);
 	}
 	if (Z_TYPE_P(&options) == IS_OBJECT) {
 		ZEPHIR_INIT_VAR(&_10$$23);
-		ZEPHIR_GET_CONSTANT(&_10$$23, "PHP_EOL");
+		ZEPHIR_MM_GET_CONSTANT(&_10$$23, "PHP_EOL");
 		ZEPHIR_INIT_VAR(&_11$$23);
 		ZEPHIR_CONCAT_SV(&_11$$23, "</option>", &_10$$23);
 		ZEPHIR_CALL_SELF(&_8$$23, "optionsfromresultset", &_9, 0, &options, &using, &value, &_11$$23);
@@ -190,7 +191,7 @@ PHP_METHOD(Phalcon_Tag_Select, selectField) {
 	} else {
 		if (Z_TYPE_P(&options) == IS_ARRAY) {
 			ZEPHIR_INIT_VAR(&_14$$25);
-			ZEPHIR_GET_CONSTANT(&_14$$25, "PHP_EOL");
+			ZEPHIR_MM_GET_CONSTANT(&_14$$25, "PHP_EOL");
 			ZEPHIR_INIT_VAR(&_15$$25);
 			ZEPHIR_CONCAT_SV(&_15$$25, "</option>", &_14$$25);
 			ZEPHIR_CALL_SELF(&_12$$25, "optionsfromarray", &_13, 0, &options, &value, &_15$$25);
@@ -210,6 +211,7 @@ PHP_METHOD(Phalcon_Tag_Select, optionsFromArray) {
 
 	zend_string *_3;
 	zend_ulong _2;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_4 = NULL, *_7 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval closeOption, _12$$8, _13$$8, _22$$16, _23$$16;
@@ -273,11 +275,11 @@ PHP_METHOD(Phalcon_Tag_Select, optionsFromArray) {
 			zephir_check_call_status();
 			if (Z_TYPE_P(&optionText) == IS_ARRAY) {
 				ZEPHIR_INIT_NVAR(&_5$$4);
-				ZEPHIR_GET_CONSTANT(&_5$$4, "PHP_EOL");
+				ZEPHIR_MM_GET_CONSTANT(&_5$$4, "PHP_EOL");
 				ZEPHIR_CALL_SELF(&_6$$4, "optionsfromarray", &_7, 0, &optionText, value, &closeOption);
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&_8$$4);
-				ZEPHIR_GET_CONSTANT(&_8$$4, "PHP_EOL");
+				ZEPHIR_MM_GET_CONSTANT(&_8$$4, "PHP_EOL");
 				ZEPHIR_INIT_LNVAR(_9$$4);
 				ZEPHIR_CONCAT_SVSVVSV(&_9$$4, "\t<optgroup label=\"", &escaped, "\">", &_5$$4, &_6$$4, "\t</optgroup>", &_8$$4);
 				zephir_concat_self(&code, &_9$$4 TSRMLS_CC);
@@ -326,11 +328,11 @@ PHP_METHOD(Phalcon_Tag_Select, optionsFromArray) {
 				zephir_check_call_status();
 				if (Z_TYPE_P(&optionText) == IS_ARRAY) {
 					ZEPHIR_INIT_NVAR(&_16$$12);
-					ZEPHIR_GET_CONSTANT(&_16$$12, "PHP_EOL");
+					ZEPHIR_MM_GET_CONSTANT(&_16$$12, "PHP_EOL");
 					ZEPHIR_CALL_SELF(&_17$$12, "optionsfromarray", &_7, 0, &optionText, value, &closeOption);
 					zephir_check_call_status();
 					ZEPHIR_INIT_NVAR(&_18$$12);
-					ZEPHIR_GET_CONSTANT(&_18$$12, "PHP_EOL");
+					ZEPHIR_MM_GET_CONSTANT(&_18$$12, "PHP_EOL");
 					ZEPHIR_INIT_LNVAR(_19$$12);
 					ZEPHIR_CONCAT_SVSVVSV(&_19$$12, "\t<optgroup label=\"", &escaped, "\">", &_16$$12, &_17$$12, "\t</optgroup>", &_18$$12);
 					zephir_concat_self(&code, &_19$$12 TSRMLS_CC);
@@ -379,6 +381,7 @@ PHP_METHOD(Phalcon_Tag_Select, optionsFromArray) {
 PHP_METHOD(Phalcon_Tag_Select, optionsFromResultset) {
 
 	zend_object_iterator *_2;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_1 = NULL, *_4 = NULL, *_5 = NULL;
 	zval closeOption, _8$$15, _9$$15;

@@ -89,6 +89,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File_Resolution_Min, validate) {
 
 	double _5$$5, _6$$6;
 	zend_bool result = 0, _7$$7, _8$$8;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *validation, validation_sub, *field, field_sub, height, minHeight, minWidth, resolution, resolutionArray, tmp, value, width, replacePairs, included, _0, _1, _2, _3$$4, _4$$5, _9$$9, _10$$10;
 	zval *this_ptr = getThis();
@@ -128,7 +129,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File_Resolution_Min, validate) {
 	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, 0, field);
 	zephir_check_call_status();
 	zephir_array_fetch_string(&_1, &value, SL("tmp_name"), PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/File/Resolution/Min.zep", 79 TSRMLS_CC);
-	ZEPHIR_CALL_FUNCTION(&tmp, "getimagesize", NULL, 364, &_1);
+	ZEPHIR_CALL_FUNCTION(&tmp, "getimagesize", NULL, 365, &_1);
 	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(&width);
 	zephir_array_fetch_long(&width, &tmp, 0, PH_NOISY, "phalcon/Validation/Validator/File/Resolution/Min.zep", 80 TSRMLS_CC);

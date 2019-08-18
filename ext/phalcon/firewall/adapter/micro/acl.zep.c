@@ -108,6 +108,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_Micro_Acl, getAclServiceName) {
  */
 PHP_METHOD(Phalcon_Firewall_Adapter_Micro_Acl, setAclServiceName) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *aclServiceName_param = NULL;
 	zval aclServiceName;
 	zval *this_ptr = getThis();
@@ -155,7 +156,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_Micro_Acl, setBoundModelsKeyMap) {
 
 	ZVAL_UNDEF(&boundModelsKeyMap_sub);
 
-	zephir_fetch_params(0, 1, 0, &boundModelsKeyMap);
+	zephir_fetch_params_without_memory_grow(1, 0, &boundModelsKeyMap);
 
 
 
@@ -181,6 +182,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_Micro_Acl, getComponentName) {
  */
 PHP_METHOD(Phalcon_Firewall_Adapter_Micro_Acl, setComponentName) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *componentName_param = NULL;
 	zval componentName;
 	zval *this_ptr = getThis();
@@ -220,7 +222,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_Micro_Acl, setRoleCacheCallback) {
 
 	ZVAL_UNDEF(&roleCacheCallback_sub);
 
-	zephir_fetch_params(0, 1, 0, &roleCacheCallback);
+	zephir_fetch_params_without_memory_grow(1, 0, &roleCacheCallback);
 
 
 
@@ -245,7 +247,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_Micro_Acl, setRouteNameConfiguration) {
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
 
-	zephir_fetch_params(0, 1, 0, &routeNameConfiguration_param);
+	zephir_fetch_params_without_memory_grow(1, 0, &routeNameConfiguration_param);
 
 	routeNameConfiguration = zephir_get_boolval(routeNameConfiguration_param);
 
@@ -261,6 +263,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_Micro_Acl, setRouteNameConfiguration) {
 
 PHP_METHOD(Phalcon_Firewall_Adapter_Micro_Acl, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval boundModelsKeyMap;
 	zval *aclServiceName_param = NULL, *boundModelsKeyMap_param = NULL;
 	zval aclServiceName;
@@ -298,6 +301,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_Micro_Acl, __construct) {
 
 PHP_METHOD(Phalcon_Firewall_Adapter_Micro_Acl, afterBinding) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *event, event_sub, *micro, micro_sub, *data, data_sub, _0, _1;
 	zval *this_ptr = getThis();
@@ -328,6 +332,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_Micro_Acl, afterBinding) {
 
 PHP_METHOD(Phalcon_Firewall_Adapter_Micro_Acl, beforeExecuteRoute) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *event, event_sub, *micro, micro_sub, *data, data_sub, _0;
 	zval *this_ptr = getThis();
@@ -381,6 +386,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_Micro_Acl, isRouteNameConfiguration) {
  */
 PHP_METHOD(Phalcon_Firewall_Adapter_Micro_Acl, fireEventOrThrowException) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool access;
 	zval actionName, controllerName;
@@ -444,6 +450,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_Micro_Acl, fireEventOrThrowException) {
 
 PHP_METHOD(Phalcon_Firewall_Adapter_Micro_Acl, getAccessFromCache) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_4 = NULL;
 	zval originalValues;
@@ -575,6 +582,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_Micro_Acl, handleRouter) {
 	zend_ulong _22$$19;
 	zval _11$$13;
 	zend_bool defaultAccess = 0, _4, _7, _9$$12, _25$$28, _29$$28;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *micro, micro_sub, __$null, acl, aclAccess, aclRole, aclServiceName, actionName, boundModel, boundModelKey, boundModelKeyMap, boundModels, boundModelsKeyMap, cacheKey, componentName, container, modelBinder, originalValues, parameters, role, roleCacheKey, roleCacheCallback, route, value, _0, _1, _2, _3, _5, _6, _8$$12, _12$$12, _15$$12, _24$$12, _10$$13, _13$$14, _14$$14, _16$$15, _17$$16, _18$$16, _19$$17, *_20$$19, _21$$19, _26$$28, _27$$29, _28$$29, _30$$30;
 	zval *this_ptr = getThis();
@@ -866,6 +874,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_Micro_Acl, handleRouter) {
 
 PHP_METHOD(Phalcon_Firewall_Adapter_Micro_Acl, saveAccessInCache) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_2 = NULL;
 	zend_bool access;

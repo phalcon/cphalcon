@@ -119,6 +119,7 @@ PHP_METHOD(Phalcon_Http_Message_Response, getStatusCode) {
  */
 PHP_METHOD(Phalcon_Http_Message_Response, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval headers;
 	zend_long code, ZEPHIR_LAST_CALL_STATUS;
 	zval *body = NULL, body_sub, *code_param = NULL, *headers_param = NULL, _0, _1, _2, _3;
@@ -189,6 +190,7 @@ PHP_METHOD(Phalcon_Http_Message_Response, __construct) {
  */
 PHP_METHOD(Phalcon_Http_Message_Response, withStatus) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *code, code_sub, *reasonPhrase = NULL, reasonPhrase_sub, newInstance;
 	zval *this_ptr = getThis();
@@ -230,7 +232,7 @@ PHP_METHOD(Phalcon_Http_Message_Response, checkCodeType) {
 
 	ZVAL_UNDEF(&code_sub);
 
-	zephir_fetch_params(0, 1, 0, &code);
+	zephir_fetch_params_without_memory_grow(1, 0, &code);
 
 
 
@@ -253,6 +255,7 @@ PHP_METHOD(Phalcon_Http_Message_Response, checkCodeType) {
 PHP_METHOD(Phalcon_Http_Message_Response, checkCodeValue) {
 
 	zval _7$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_1 = NULL;
 	zval *code_param = NULL, _0, _2, _3, _4, _5$$3, _6$$3;
 	zend_long code, ZEPHIR_LAST_CALL_STATUS;
@@ -404,6 +407,7 @@ PHP_METHOD(Phalcon_Http_Message_Response, getPhrases) {
 PHP_METHOD(Phalcon_Http_Message_Response, processCode) {
 
 	zend_bool _2;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS, _0;
 	zval *code = NULL, code_sub, *phrase = NULL, phrase_sub, phrases, _1;
 	zval *this_ptr = getThis();

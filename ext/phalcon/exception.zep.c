@@ -44,6 +44,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Exception) {
 
 PHP_METHOD(Phalcon_Exception, containerServiceNotFound) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *service_param = NULL;
 	zval service;
 	zval *this_ptr = getThis();

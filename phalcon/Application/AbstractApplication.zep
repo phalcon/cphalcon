@@ -114,7 +114,7 @@ abstract class AbstractApplication extends Injectable implements EventsAwareInte
      * );
      * ```
      */
-    public function registerModules(array modules, bool merge = false) -> <Application>
+    public function registerModules(array modules, bool merge = false) -> <AbstractApplication>
     {
         if merge {
             let this->modules = array_merge(this->modules, modules);
@@ -128,7 +128,7 @@ abstract class AbstractApplication extends Injectable implements EventsAwareInte
     /**
      * Sets the module name to be used if the router doesn't return a valid module
      */
-    public function setDefaultModule(string! defaultModule) -> <Application>
+    public function setDefaultModule(string! defaultModule) -> <AbstractApplication>
     {
         let this->defaultModule = defaultModule;
 
@@ -138,7 +138,7 @@ abstract class AbstractApplication extends Injectable implements EventsAwareInte
     /**
      * Sets the events manager
      */
-    public function setEventsManager(<ManagerInterface> eventsManager) -> <Application>
+    public function setEventsManager(<ManagerInterface> eventsManager) -> <AbstractApplication>
     {
         let this->eventsManager = eventsManager;
 

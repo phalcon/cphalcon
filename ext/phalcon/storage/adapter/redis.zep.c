@@ -53,6 +53,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Storage_Adapter_Redis) {
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Redis, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_1 = NULL, *_11 = NULL;
 	zval options;
@@ -148,6 +149,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, __construct) {
 PHP_METHOD(Phalcon_Storage_Adapter_Redis, clear) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -174,6 +176,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, clear) {
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Redis, decrement) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long value, ZEPHIR_LAST_CALL_STATUS;
 	zval *key_param = NULL, *value_param = NULL, _0, _1;
 	zval key;
@@ -222,6 +225,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, decrement) {
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Redis, delete) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *key_param = NULL, _0, _1;
 	zval key;
@@ -248,7 +252,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, delete) {
 
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getadapter", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_1, &_0, "delete", NULL, 0, &key);
+	ZEPHIR_CALL_METHOD(&_1, &_0, "del", NULL, 0, &key);
 	zephir_check_call_status();
 	RETURN_MM_BOOL(zephir_get_boolval(&_1));
 
@@ -265,6 +269,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, delete) {
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Redis, get) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *key_param = NULL, *defaultValue = NULL, defaultValue_sub, __$null, _0, _1;
 	zval key;
@@ -316,6 +321,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, getAdapter) {
 
 	zend_bool _4$$3, _6$$3;
 	zval auth, connection, host, index, method, options, persistent, port, result, _0, _1$$3, _5$$3, _7$$3, _8$$3, _9$$3, _2$$4, _3$$4;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -421,6 +427,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, getAdapter) {
 PHP_METHOD(Phalcon_Storage_Adapter_Redis, getKeys) {
 
 	zval _0, _1;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -433,7 +440,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, getKeys) {
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "*");
-	ZEPHIR_RETURN_CALL_METHOD(&_0, "getkeys", NULL, 0, &_1);
+	ZEPHIR_RETURN_CALL_METHOD(&_0, "keys", NULL, 0, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -449,6 +456,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, getKeys) {
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Redis, has) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *key_param = NULL, _0, _1;
 	zval key;
@@ -492,6 +500,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, has) {
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Redis, increment) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long value, ZEPHIR_LAST_CALL_STATUS;
 	zval *key_param = NULL, *value_param = NULL, _0, _1;
 	zval key;
@@ -542,6 +551,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, increment) {
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Redis, set) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *key_param = NULL, *value, value_sub, *ttl = NULL, ttl_sub, __$null, _0, _1, _2;
 	zval key;
@@ -595,6 +605,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, set) {
 PHP_METHOD(Phalcon_Storage_Adapter_Redis, setSerializer) {
 
 	zval map;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *connection, connection_sub, serializer, _0, _1, _4, _7, _2$$3, _3$$3, _5$$4, _6$$4, _8$$5, _9$$5, _10$$5;
 	zval *this_ptr = getThis();
@@ -668,6 +679,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, setSerializer) {
 zend_object *zephir_init_properties_Phalcon_Storage_Adapter_Redis(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval _0, _1$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
 

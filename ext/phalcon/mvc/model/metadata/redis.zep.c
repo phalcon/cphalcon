@@ -64,6 +64,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Redis) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Redis, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval options;
 	zval *factory, factory_sub, *options_param = NULL, _0, _1, _2, _3;
@@ -108,6 +109,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Redis, __construct) {
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Redis, reset) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_1 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();

@@ -89,6 +89,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Di_Injectable) {
 PHP_METHOD(Phalcon_Di_Injectable, __get) {
 
 	zval _8$$7;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_1 = NULL, *_4 = NULL;
 	zval *propertyName_param = NULL, container, service, _0, _6, _2$$4, _3$$4, _5$$4, _7$$7, _9$$7, _10$$7;
@@ -184,6 +185,7 @@ PHP_METHOD(Phalcon_Di_Injectable, __get) {
 PHP_METHOD(Phalcon_Di_Injectable, getDI) {
 
 	zval container, _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_1 = NULL;
 	zval *this_ptr = getThis();
@@ -225,7 +227,7 @@ PHP_METHOD(Phalcon_Di_Injectable, setDI) {
 
 	ZVAL_UNDEF(&container_sub);
 
-	zephir_fetch_params(0, 1, 0, &container);
+	zephir_fetch_params_without_memory_grow(1, 0, &container);
 
 
 
@@ -243,7 +245,7 @@ PHP_METHOD(Phalcon_Di_Injectable, setEventsManager) {
 
 	ZVAL_UNDEF(&eventsManager_sub);
 
-	zephir_fetch_params(0, 1, 0, &eventsManager);
+	zephir_fetch_params_without_memory_grow(1, 0, &eventsManager);
 
 
 

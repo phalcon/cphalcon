@@ -60,6 +60,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Resultset_Complex) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval *columnTypes, columnTypes_sub, *result = NULL, result_sub, *cache = NULL, cache_sub, __$null;
@@ -98,6 +99,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, current) {
 	zend_class_entry *_14$$16, *_29$$36;
 	zend_string *_5;
 	zend_ulong _4;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_15 = NULL, *_18 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS, dirtyState = 0;
 	zval __$true, __$false, row, hydrateMode, eager, alias, activeRow, type, column, columnValue, value, attribute, source, attributes, columnMap, rowModel, keepSnapshots, sqlAlias, modelName, _0, _1, *_2, _3, *_6$$11, _7$$11, _8$$12, _9$$13, _10$$16, _12$$16, _13$$16, _11$$17, _16$$19, _17$$19, _19$$25, _20$$25, *_21$$31, _22$$31, _23$$32, _24$$33, _25$$36, _27$$36, _28$$36, _26$$37, _30$$39, _31$$39, _32$$45, _33$$45;
@@ -474,6 +476,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, toArray) {
 
 	zval records;
 	zval current, _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_1 = NULL, *_2 = NULL, *_3 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
@@ -494,7 +497,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, toArray) {
 		if (!(zephir_is_true(&_0))) {
 			break;
 		}
-		ZEPHIR_CALL_METHOD(&current, this_ptr, "current", &_2, 489);
+		ZEPHIR_CALL_METHOD(&current, this_ptr, "current", &_2, 490);
 		zephir_check_call_status();
 		zephir_array_append(&records, &current, PH_SEPARATE, "phalcon/Mvc/Model/Resultset/Complex.zep", 279);
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "next", &_3, 0);
@@ -511,6 +514,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, serialize) {
 
 	zval _7, _6$$4;
 	zval records, cache, columnTypes, hydrateMode, container, serializer, _0, _2, _3, _4$$4, _5$$4;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_1 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
@@ -584,6 +588,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, serialize) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Complex, unserialize) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval *data, data_sub, __$true, __$false, resultset, container, serializer, _1, _2, _5, _6, _7, _8, _9, _10, _3$$4, _4$$4;

@@ -124,6 +124,7 @@ PHP_METHOD(Phalcon_Http_Request_File, getKey) {
  */
 PHP_METHOD(Phalcon_Http_Request_File, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *file_param = NULL, *key = NULL, key_sub, __$null, name, tempName, size, type, error, _0$$3, _1$$3, _2$$4, _3$$4;
 	zval file;
@@ -203,6 +204,7 @@ PHP_METHOD(Phalcon_Http_Request_File, getName) {
 PHP_METHOD(Phalcon_Http_Request_File, getRealType) {
 
 	zval finfo, mime, _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -213,15 +215,15 @@ PHP_METHOD(Phalcon_Http_Request_File, getRealType) {
 	ZEPHIR_MM_GROW();
 
 	ZVAL_LONG(&_0, 16);
-	ZEPHIR_CALL_FUNCTION(&finfo, "finfo_open", NULL, 358, &_0);
+	ZEPHIR_CALL_FUNCTION(&finfo, "finfo_open", NULL, 359, &_0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&finfo) != IS_RESOURCE) {
 		RETURN_MM_STRING("");
 	}
 	zephir_read_property(&_0, this_ptr, SL("tmp"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_FUNCTION(&mime, "finfo_file", NULL, 359, &finfo, &_0);
+	ZEPHIR_CALL_FUNCTION(&mime, "finfo_file", NULL, 360, &finfo, &_0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(NULL, "finfo_close", NULL, 360, &finfo);
+	ZEPHIR_CALL_FUNCTION(NULL, "finfo_close", NULL, 361, &finfo);
 	zephir_check_call_status();
 	RETURN_CCTOR(&mime);
 
@@ -271,6 +273,7 @@ PHP_METHOD(Phalcon_Http_Request_File, isUploadedFile) {
 
 	zend_bool _0;
 	zval tmp, _1;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -296,6 +299,7 @@ PHP_METHOD(Phalcon_Http_Request_File, isUploadedFile) {
  */
 PHP_METHOD(Phalcon_Http_Request_File, moveTo) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *destination_param = NULL, _0;
 	zval destination;
@@ -320,7 +324,7 @@ PHP_METHOD(Phalcon_Http_Request_File, moveTo) {
 
 
 	zephir_read_property(&_0, this_ptr, SL("tmp"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_FUNCTION("move_uploaded_file", NULL, 331, &_0, &destination);
+	ZEPHIR_RETURN_CALL_FUNCTION("move_uploaded_file", NULL, 332, &_0, &destination);
 	zephir_check_call_status();
 	RETURN_MM();
 

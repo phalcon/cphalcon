@@ -72,6 +72,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, getDateFormat) {
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Line, setDateFormat) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *dateFormat_param = NULL;
 	zval dateFormat;
 	zval *this_ptr = getThis();
@@ -106,6 +107,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, getFormat) {
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Line, setFormat) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *format_param = NULL;
 	zval format;
 	zval *this_ptr = getThis();
@@ -128,6 +130,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, setFormat) {
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Line, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *format_param = NULL, *dateFormat_param = NULL;
 	zval format, dateFormat;
 	zval *this_ptr = getThis();
@@ -163,6 +166,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, __construct) {
  */
 PHP_METHOD(Phalcon_Logger_Formatter_Line, format) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *item, item_sub, format, _0, _9, _10, _11, _12, _13, _14, _1$$3, _2$$3, _3$$3, _4$$3, _5$$3, _6$$4, _7$$4, _8$$4, _15$$5;
 	zval *this_ptr = getThis();
@@ -198,7 +202,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, format) {
 		zephir_read_property(&_2$$3, this_ptr, SL("dateFormat"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(&_3$$3, item, "gettime", NULL, 0);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(&_4$$3, "date", NULL, 415, &_2$$3, &_3$$3);
+		ZEPHIR_CALL_FUNCTION(&_4$$3, "date", NULL, 416, &_2$$3, &_3$$3);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_5$$3);
 		ZVAL_STRING(&_5$$3, "%date%");
@@ -221,7 +225,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, format) {
 	ZVAL_STRING(&_11, "%message%");
 	zephir_fast_str_replace(&_9, &_11, &_10, &format TSRMLS_CC);
 	ZEPHIR_INIT_VAR(&_12);
-	ZEPHIR_GET_CONSTANT(&_12, "PHP_EOL");
+	ZEPHIR_MM_GET_CONSTANT(&_12, "PHP_EOL");
 	ZEPHIR_INIT_VAR(&_13);
 	ZEPHIR_CONCAT_VV(&_13, &_9, &_12);
 	ZEPHIR_CPY_WRT(&format, &_13);

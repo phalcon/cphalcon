@@ -63,6 +63,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Config_Adapter_Json) {
  */
 PHP_METHOD(Phalcon_Config_Adapter_Json, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval *filePath_param = NULL, __$true, _1, _2;

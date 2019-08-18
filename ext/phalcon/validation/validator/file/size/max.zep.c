@@ -89,6 +89,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File_Size_Max, validate) {
 
 	double _9$$5, _10$$6;
 	zend_bool result = 0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *validation, validation_sub, *field, field_sub, bytes, fileSize, included, replacePairs, size, value, _0, _1, _3, _4, _5, _6, _7, _2$$4, _8$$5, _11$$9;
 	zval *this_ptr = getThis();

@@ -52,6 +52,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_AbstractCommon) {
  */
 PHP_METHOD(Phalcon_Http_Message_AbstractCommon, cloneInstance) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval property;
 	zval *element, element_sub, *property_param = NULL, newInstance;
 	zval *this_ptr = getThis();
@@ -87,7 +88,7 @@ PHP_METHOD(Phalcon_Http_Message_AbstractCommon, checkStringParameter) {
 
 	ZVAL_UNDEF(&element_sub);
 
-	zephir_fetch_params(0, 1, 0, &element);
+	zephir_fetch_params_without_memory_grow(1, 0, &element);
 
 
 
@@ -109,6 +110,7 @@ PHP_METHOD(Phalcon_Http_Message_AbstractCommon, checkStringParameter) {
  */
 PHP_METHOD(Phalcon_Http_Message_AbstractCommon, processWith) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval property;
 	zval *element, element_sub, *property_param = NULL;

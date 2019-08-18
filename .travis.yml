@@ -1,30 +1,29 @@
-sudo: false
-
 language: php
 php:
-  - 7.4snapshot
-  - 7.3
-  - 7.2
+  - '7.4snapshot'
+  - '7.3'
+  - '7.2'
 
-dist: trusty
+dist: bionic
 
 git:
-  depth: 1
+  depth: 5
+  quiet: true
 
 addons:
   apt:
     packages:
       - gdb
-      - lcov
+      - shellcheck
+      - libsodium-dev
   postgresql: "9.4"
 
 matrix:
   fast_finish: true
   allow_failures:
-    - php: 7.4snapshot
+    - php: '7.4snapshot'
 
 cache:
-  apt: true
   timeout: 604800
   directories:
     - ${HOME}/.composer/cache
@@ -36,28 +35,33 @@ services:
   - mongodb
   - redis-server
   - postgresql
+  - memcached
 
 env:
   global:
     - CC="gcc"
-    - ZEPHIR_VERSION="0.12.0"
-    - ZEPHIR_PARSER_VERSION="v1.3.0"
+    - ZEPHIR_VERSION="0.12.2"
+    - ZEPHIR_PARSER_VERSION="v1.3.1"
     - RE2C_VERSION="1.1.1"
     - REPORT_COVERAGE=1
     - PATH="${HOME}/.composer/vendor/bin:${PATH}"
-    - DEFAULT_COMPOSER_FLAGS="--no-interaction --no-ansi --no-progress --no-suggest"
+    - TRAVIS_COMMIT_LOG="$(git log --format=fuller -5)"
 
 before_install:
   - |
+    # Core dump settings
     ulimit -c unlimited -S || true
+    echo '/tmp/core.%e.%p.%t' | sudo tee /proc/sys/kernel/core_pattern
 
-    if [ ! -z "${GITHUB_TOKEN}" ]; then
-      composer config github-oauth.github.com ${GITHUB_TOKEN}
-      printf "Add GitHub token\n"
+    if [ -n "$GITHUB_TOKEN" ]; then
+      composer config github-oauth.github.com "$GITHUB_TOKEN"
+      echo 'Add Github token'
     fi
 
     [ -d ~/bin ] || mkdir ~/bin
+    export DEFAULT_COMPOSER_FLAGS=("--no-interaction" "--no-ansi" "--no-progress" "--no-suggest")
 
+    # Hide "You are in 'detached HEAD' state" message
     git config --global advice.detachedHead false
 
   - source .ci/export-variables.sh
@@ -69,13 +73,14 @@ install:
   - .ci/install-re2c.sh
   - .ci/install-zephir.sh
   - .ci/install-php-extensions.sh
-  - travis_retry composer install $DEFAULT_COMPOSER_FLAGS
+  - travis_retry composer install ${DEFAULT_COMPOSER_FLAGS[*]}
 
 before_script:
   - |
     # Setting up Travis' PHP
-    cat .ci/travis.ini >> $(phpenv root)/versions/$(phpenv version-name)/etc/conf.d/travis.ini
-    if [ "$(php-config --vernum)" -ge "70400" ]; then
+    cat .ci/travis.ini >> "$(phpenv root)/versions/$(phpenv version-name)/etc/conf.d/travis.ini"
+    if [ "$(php-config --vernum)" -ge "70400" ]
+    then
       export REPORT_COVERAGE=0
     fi
   - .ci/build.sh
@@ -91,21 +96,28 @@ script:
 jobs:
   include:
     - stage: Static Code Analysis
-      php: 7.2
+      php: '7.2'
       env:
         - REPORT_COVERAGE=0
       install:
-        - travis_retry composer install $DEFAULT_COMPOSER_FLAGS --ignore-platform-reqs
+        - travis_retry composer install ${DEFAULT_COMPOSER_FLAGS[*]} --ignore-platform-reqs
       before_script:
         - phpenv config-rm xdebug.ini || true
       script:
         - vendor/bin/phpcs
+        - shellcheck .ci/*.sh
 
 after_failure:
+  - echo "$($(phpenv which php) -v)"
+  - echo "$($(phpenv which php) -m)"
   - .ci/after-failure.sh
 
 after_success:
-  - .ci/after-success.sh
+  - '[[ "$REPORT_COVERAGE" -eq 1 ]] && bash <(curl -s https://codecov.io/bash)'
+
+after_script:
+  - printf "$TRAVIS_COMMIT_RANGE\n"
+  - printf "$TRAVIS_COMMIT_LOG\n"
 
 notifications:
   email: false

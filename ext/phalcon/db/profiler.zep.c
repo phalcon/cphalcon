@@ -165,6 +165,7 @@ PHP_METHOD(Phalcon_Db_Profiler, getProfiles) {
 PHP_METHOD(Phalcon_Db_Profiler, reset) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
@@ -183,6 +184,7 @@ PHP_METHOD(Phalcon_Db_Profiler, reset) {
  */
 PHP_METHOD(Phalcon_Db_Profiler, startProfile) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *sqlStatement_param = NULL, *sqlVariables = NULL, sqlVariables_sub, *sqlBindTypes = NULL, sqlBindTypes_sub, __$true, __$null, activeProfile, _0;
 	zval sqlStatement;
@@ -244,6 +246,7 @@ PHP_METHOD(Phalcon_Db_Profiler, startProfile) {
  */
 PHP_METHOD(Phalcon_Db_Profiler, stopProfile) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval __$true, finalTime, initialTime, activeProfile, _0, _1, _2;
 	zval *this_ptr = getThis();

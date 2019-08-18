@@ -70,7 +70,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, __construct) {
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&metaDataDir);
 
-	zephir_fetch_params(0, 0, 1, &options);
+	zephir_fetch_params_without_memory_grow(0, 1, &options);
 
 	if (!options) {
 		options = &options_sub;
@@ -89,6 +89,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, __construct) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, read) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *key_param = NULL, path, _0, _1, _2, _3;
 	zval key;
 	zval *this_ptr = getThis();
@@ -138,6 +139,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, read) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, write) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval data;
 	zval *key_param = NULL, *data_param = NULL, option, path, _6, _7, _0$$3, _1$$3, _2$$3, _3$$3, _4$$3, _5$$3;
@@ -193,7 +195,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, write) {
 		ZEPHIR_CONCAT_SVS(&_5$$3, "<?php return ", &_4$$3, "; ");
 		zephir_file_put_contents(&_3$$3, &path, &_5$$3 TSRMLS_CC);
 		if (ZEPHIR_IS_FALSE_IDENTICAL(&_3$$3)) {
-			ZEPHIR_CALL_METHOD(NULL, this_ptr, "throwwriteexception", NULL, 455, &option);
+			ZEPHIR_CALL_METHOD(NULL, this_ptr, "throwwriteexception", NULL, 456, &option);
 			zephir_check_call_status_or_jump(try_end_1);
 		}
 
@@ -207,7 +209,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, write) {
 		if (zephir_instance_of_ev(&_6, zend_exception_get_default(TSRMLS_C) TSRMLS_CC)) {
 			zend_clear_exception(TSRMLS_C);
 			ZEPHIR_CPY_WRT(&_7, &_6);
-			ZEPHIR_CALL_METHOD(NULL, this_ptr, "throwwriteexception", NULL, 455, &option);
+			ZEPHIR_CALL_METHOD(NULL, this_ptr, "throwwriteexception", NULL, 456, &option);
 			zephir_check_call_status();
 		}
 	}
@@ -220,6 +222,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, write) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, throwWriteException) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *option, option_sub, _0$$4;
 	zval *this_ptr = getThis();

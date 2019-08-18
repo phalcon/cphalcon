@@ -55,6 +55,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_ResponseFactory) {
  */
 PHP_METHOD(Phalcon_Http_Message_ResponseFactory, createResponse) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval reasonPhrase;
 	zval *code_param = NULL, *reasonPhrase_param = NULL, _0, _1;
 	zend_long code, ZEPHIR_LAST_CALL_STATUS;

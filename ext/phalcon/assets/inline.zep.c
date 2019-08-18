@@ -113,6 +113,7 @@ PHP_METHOD(Phalcon_Assets_Inline, getType) {
  */
 PHP_METHOD(Phalcon_Assets_Inline, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval attributes;
 	zend_bool filter;
 	zval *type_param = NULL, *content_param = NULL, *filter_param = NULL, *attributes_param = NULL, __$true, __$false;
@@ -161,6 +162,7 @@ PHP_METHOD(Phalcon_Assets_Inline, __construct) {
 PHP_METHOD(Phalcon_Assets_Inline, getAssetKey) {
 
 	zval key, _0, _1;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -186,6 +188,7 @@ PHP_METHOD(Phalcon_Assets_Inline, getAssetKey) {
  */
 PHP_METHOD(Phalcon_Assets_Inline, setAttributes) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *attributes_param = NULL;
 	zval attributes;
 	zval *this_ptr = getThis();
@@ -215,7 +218,7 @@ PHP_METHOD(Phalcon_Assets_Inline, setFilter) {
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
 
-	zephir_fetch_params(0, 1, 0, &filter_param);
+	zephir_fetch_params_without_memory_grow(1, 0, &filter_param);
 
 	filter = zephir_get_boolval(filter_param);
 
@@ -234,6 +237,7 @@ PHP_METHOD(Phalcon_Assets_Inline, setFilter) {
  */
 PHP_METHOD(Phalcon_Assets_Inline, setType) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *type_param = NULL;
 	zval type;
 	zval *this_ptr = getThis();

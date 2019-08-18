@@ -101,6 +101,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 	zval _21$$21;
 	zend_class_entry *_10$$8;
 	zend_bool returnedResponse = 0, _14$$7, _17$$12, _35$$31, _37$$31;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_3 = NULL;
 	zval *uri_param = NULL, __$false, container, eventsManager, router, dispatcher, response, view, module, moduleObject, moduleName, className, path, implicitView, controller, possibleResponse, renderStatus, matchedRoute, match, _0, _7, _8, _25, _26, _27, _28, _45, _1$$3, _2$$3, _4$$3, _5$$4, _6$$4, _9$$8, _11$$7, _12$$9, _13$$9, _15$$13, _16$$13, _18$$19, _19$$19, _20$$16, _22$$23, _23$$24, _24$$24, _29$$26, _30$$26, _31$$28, _32$$28, _33$$30, _34$$30, _36$$32, _38$$35, _39$$36, _40$$36, _41$$39, _42$$39, _43$$40, _44$$41;
@@ -489,7 +490,7 @@ PHP_METHOD(Phalcon_Mvc_Application, sendCookiesOnHandleRequest) {
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
 
-	zephir_fetch_params(0, 1, 0, &sendCookies_param);
+	zephir_fetch_params_without_memory_grow(1, 0, &sendCookies_param);
 
 	sendCookies = zephir_get_boolval(sendCookies_param);
 
@@ -515,7 +516,7 @@ PHP_METHOD(Phalcon_Mvc_Application, sendHeadersOnHandleRequest) {
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
 
-	zephir_fetch_params(0, 1, 0, &sendHeaders_param);
+	zephir_fetch_params_without_memory_grow(1, 0, &sendHeaders_param);
 
 	sendHeaders = zephir_get_boolval(sendHeaders_param);
 
@@ -542,7 +543,7 @@ PHP_METHOD(Phalcon_Mvc_Application, useImplicitView) {
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
 
-	zephir_fetch_params(0, 1, 0, &implicitView_param);
+	zephir_fetch_params_without_memory_grow(1, 0, &implicitView_param);
 
 	implicitView = zephir_get_boolval(implicitView_param);
 

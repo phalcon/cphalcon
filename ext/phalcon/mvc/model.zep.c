@@ -144,6 +144,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getTransaction) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL, *_3 = NULL;
 	zval *data = NULL, data_sub, *container = NULL, container_sub, *modelsManager = NULL, modelsManager_sub, __$null, _1$$4, _2$$4, _4$$4, _5$$5, _6$$5;
@@ -231,6 +232,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __construct) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, __call) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval arguments;
@@ -254,7 +256,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __call) {
 	zephir_get_arrval(&arguments, arguments_param);
 
 
-	ZEPHIR_CALL_SELF(&records, "_invokefinder", &_0, 431, &method, &arguments);
+	ZEPHIR_CALL_SELF(&records, "_invokefinder", &_0, 432, &method, &arguments);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&records) != IS_NULL) {
 		RETURN_CCTOR(&records);
@@ -291,6 +293,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __call) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, __callStatic) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval arguments;
@@ -308,7 +311,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __callStatic) {
 	zephir_get_arrval(&arguments, arguments_param);
 
 
-	ZEPHIR_RETURN_CALL_SELF("_invokefinder", &_0, 431, &method, &arguments);
+	ZEPHIR_RETURN_CALL_SELF("_invokefinder", &_0, 432, &method, &arguments);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -322,6 +325,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __callStatic) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, __get) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *property_param = NULL, modelName, manager, lowerProperty, relation, _0, _4, _5, _6, _1$$3, _2$$4, _3$$4;
 	zval property, method;
@@ -399,6 +403,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __get) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, __isset) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *property_param = NULL, modelName, manager, relation, _0;
 	zval property;
@@ -446,6 +451,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __set) {
 
 	zend_bool _0;
 	zval related;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *property_param = NULL, *value, value_sub, lowerProperty, modelName, manager, relation, referencedModel, item, dirtyState, _13, _14, _1$$3, _2$$4, _3$$4, _4$$6, _5$$7, _6$$8, _7$$9, _8$$9, *_9$$10, _10$$10, _11$$17, _12$$17, _15$$19, _16$$20;
 	zval property, _17$$20;
@@ -599,13 +605,13 @@ PHP_METHOD(Phalcon_Mvc_Model, __set) {
 
 		}
 	}
-	ZEPHIR_CALL_METHOD(&_13, this_ptr, "_possiblesetter", NULL, 432, &property, value);
+	ZEPHIR_CALL_METHOD(&_13, this_ptr, "_possiblesetter", NULL, 433, &property, value);
 	zephir_check_call_status();
 	if (zephir_is_true(&_13)) {
 		RETVAL_ZVAL(value, 1, 0);
 		RETURN_MM();
 	}
-	ZEPHIR_CALL_FUNCTION(&_14, "property_exists", NULL, 433, this_ptr, &property);
+	ZEPHIR_CALL_FUNCTION(&_14, "property_exists", NULL, 434, this_ptr, &property);
 	zephir_check_call_status();
 	if (zephir_is_true(&_14)) {
 		ZEPHIR_CALL_METHOD(&manager, this_ptr, "getmodelsmanager", NULL, 0);
@@ -657,6 +663,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __set) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, addBehavior) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *behavior, behavior_sub, _0;
 	zval *this_ptr = getThis();
@@ -705,7 +712,7 @@ PHP_METHOD(Phalcon_Mvc_Model, appendMessage) {
 
 	ZVAL_UNDEF(&message_sub);
 
-	zephir_fetch_params(0, 1, 0, &message);
+	zephir_fetch_params_without_memory_grow(1, 0, &message);
 
 
 
@@ -768,6 +775,7 @@ PHP_METHOD(Phalcon_Mvc_Model, assign) {
 	zend_bool _7$$12, _13$$18, _16$$22, _20$$28;
 	zend_string *_3$$3;
 	zend_ulong _2$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_9 = NULL, *_12 = NULL, *_15 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *data_param = NULL, *dataColumnMap = NULL, dataColumnMap_sub, *whiteList = NULL, whiteList_sub, __$null, key, keyMapped, value, attribute, attributeField, metaData, columnMap, disableAssignSetters, _4, *_5, _6, *_0$$3, _1$$3, _8$$13, _10$$16, _11$$16, _14$$18, _17$$23, _18$$26, _19$$26, _21$$28;
@@ -886,7 +894,7 @@ PHP_METHOD(Phalcon_Mvc_Model, assign) {
 				_7$$12 = ZEPHIR_GLOBAL(orm).case_insensitive_column_map;
 			}
 			if (_7$$12) {
-				ZEPHIR_CALL_SELF(&_8$$13, "caseinsensitivecolumnmap", &_9, 434, &columnMap, &attribute);
+				ZEPHIR_CALL_SELF(&_8$$13, "caseinsensitivecolumnmap", &_9, 435, &columnMap, &attribute);
 				zephir_check_call_status();
 				ZEPHIR_CPY_WRT(&attribute, &_8$$13);
 			}
@@ -918,7 +926,7 @@ PHP_METHOD(Phalcon_Mvc_Model, assign) {
 				}
 				_13$$18 = zephir_is_true(&disableAssignSetters);
 				if (!(_13$$18)) {
-					ZEPHIR_CALL_METHOD(&_14$$18, this_ptr, "_possiblesetter", &_15, 432, &attributeField, &value);
+					ZEPHIR_CALL_METHOD(&_14$$18, this_ptr, "_possiblesetter", &_15, 433, &attributeField, &value);
 					zephir_check_call_status();
 					_13$$18 = !zephir_is_true(&_14$$18);
 				}
@@ -943,7 +951,7 @@ PHP_METHOD(Phalcon_Mvc_Model, assign) {
 					_16$$22 = ZEPHIR_GLOBAL(orm).case_insensitive_column_map;
 				}
 				if (_16$$22) {
-					ZEPHIR_CALL_SELF(&_17$$23, "caseinsensitivecolumnmap", &_9, 434, &columnMap, &attribute);
+					ZEPHIR_CALL_SELF(&_17$$23, "caseinsensitivecolumnmap", &_9, 435, &columnMap, &attribute);
 					zephir_check_call_status();
 					ZEPHIR_CPY_WRT(&attribute, &_17$$23);
 				}
@@ -975,7 +983,7 @@ PHP_METHOD(Phalcon_Mvc_Model, assign) {
 					}
 					_20$$28 = zephir_is_true(&disableAssignSetters);
 					if (!(_20$$28)) {
-						ZEPHIR_CALL_METHOD(&_21$$28, this_ptr, "_possiblesetter", &_15, 432, &attributeField, &value);
+						ZEPHIR_CALL_METHOD(&_21$$28, this_ptr, "_possiblesetter", &_15, 433, &attributeField, &value);
 						zephir_check_call_status();
 						_20$$28 = !zephir_is_true(&_21$$28);
 					}
@@ -1022,6 +1030,7 @@ PHP_METHOD(Phalcon_Mvc_Model, assign) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, average) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *parameters = NULL, parameters_sub, __$null, _0, _1;
 	zval *this_ptr = getThis();
@@ -1068,6 +1077,7 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResult) {
 
 	zend_string *_4;
 	zend_ulong _3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long dirtyState, ZEPHIR_LAST_CALL_STATUS;
 	zval data;
 	zval *base, base_sub, *data_param = NULL, *dirtyState_param = NULL, instance, key, value, _0, *_1, _2, _5;
@@ -1171,6 +1181,7 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMap) {
 
 	zend_string *_4;
 	zend_ulong _3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_7 = NULL, *_11 = NULL;
 	zend_bool keepSnapshots, _8$$3, _15$$17;
 	zend_long dirtyState, ZEPHIR_LAST_CALL_STATUS;
@@ -1421,6 +1432,7 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMapHydrate) {
 	zend_bool _4$$7, _10$$16;
 	zend_string *_3;
 	zend_ulong _2;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_6 = NULL, *_9 = NULL, *_14 = NULL;
 	zend_long hydrationMode, ZEPHIR_LAST_CALL_STATUS;
 	zval *data_param = NULL, *columnMap, columnMap_sub, *hydrationMode_param = NULL, key, value, attribute, attributeName, *_0, _1, _5$$8, _7$$10, _8$$10, _11$$17, _12$$19, _13$$19;
@@ -1477,7 +1489,7 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMapHydrate) {
 					_4$$7 = ZEPHIR_GLOBAL(orm).case_insensitive_column_map;
 				}
 				if (_4$$7) {
-					ZEPHIR_CALL_SELF(&_5$$8, "caseinsensitivecolumnmap", &_6, 434, columnMap, &key);
+					ZEPHIR_CALL_SELF(&_5$$8, "caseinsensitivecolumnmap", &_6, 435, columnMap, &key);
 					zephir_check_call_status();
 					ZEPHIR_CPY_WRT(&key, &_5$$8);
 				}
@@ -1529,7 +1541,7 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMapHydrate) {
 						_10$$16 = ZEPHIR_GLOBAL(orm).case_insensitive_column_map;
 					}
 					if (_10$$16) {
-						ZEPHIR_CALL_SELF(&_11$$17, "caseinsensitivecolumnmap", &_6, 434, columnMap, &key);
+						ZEPHIR_CALL_SELF(&_11$$17, "caseinsensitivecolumnmap", &_6, 435, columnMap, &key);
 						zephir_check_call_status();
 						ZEPHIR_CPY_WRT(&key, &_11$$17);
 					}
@@ -1565,7 +1577,7 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMapHydrate) {
 	ZEPHIR_INIT_NVAR(&value);
 	ZEPHIR_INIT_NVAR(&key);
 	if (hydrationMode != 1) {
-		ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_arr_ce, "arraytoobject", &_14, 435, &hydrateArray);
+		ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_arr_ce, "arraytoobject", &_14, 436, &hydrateArray);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
@@ -1593,6 +1605,7 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMapHydrate) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, count) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *parameters = NULL, parameters_sub, __$null, result, _0, _1;
 	zval *this_ptr = getThis();
@@ -1658,6 +1671,7 @@ PHP_METHOD(Phalcon_Mvc_Model, create) {
 
 	zval _2$$3;
 	zval metaData, _0, _1, _3$$3, _4$$3, _5$$3, _6$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -1674,7 +1688,7 @@ PHP_METHOD(Phalcon_Mvc_Model, create) {
 
 	ZEPHIR_CALL_METHOD(&metaData, this_ptr, "getmodelsmetadata", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getreadconnection", NULL, 436);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getreadconnection", NULL, 437);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "_exists", NULL, 0, &metaData, &_1);
 	zephir_check_call_status();
@@ -1718,6 +1732,7 @@ PHP_METHOD(Phalcon_Mvc_Model, create) {
 PHP_METHOD(Phalcon_Mvc_Model, delete) {
 
 	zval values, bindTypes, conditions;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval __$true, __$false, metaData, writeConnection, primaryKeys, bindDataTypes, columnMap, attributeField, primaryKey, bindType, value, schema, source, table, success, _0, _1, *_3, _4, _27, _2$$3, _5$$9, _6$$9, _8$$11, _9$$11, _10$$13, _11$$13, _12$$8, _14$$8, _15$$15, _16$$15, _17$$17, _18$$17, _19$$19, _20$$19, _21$$14, _23$$14, _24$$20, _25$$20, _26$$20, _28$$25, _29$$28;
 	zephir_fcall_cache_entry *_7 = NULL, *_13 = NULL, *_22 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -1772,7 +1787,7 @@ PHP_METHOD(Phalcon_Mvc_Model, delete) {
 
 	ZEPHIR_CALL_METHOD(&metaData, this_ptr, "getmodelsmetadata", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&writeConnection, this_ptr, "getwriteconnection", NULL, 437);
+	ZEPHIR_CALL_METHOD(&writeConnection, this_ptr, "getwriteconnection", NULL, 438);
 	zephir_check_call_status();
 	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(&_0, 3);
@@ -1781,7 +1796,7 @@ PHP_METHOD(Phalcon_Mvc_Model, delete) {
 	array_init(&_1);
 	zephir_update_property_zval(this_ptr, SL("errorMessages"), &_1);
 	if (ZEPHIR_GLOBAL(orm).virtual_foreign_keys) {
-		ZEPHIR_CALL_METHOD(&_2$$3, this_ptr, "_checkforeignkeysreverserestrict", NULL, 438);
+		ZEPHIR_CALL_METHOD(&_2$$3, this_ptr, "_checkforeignkeysreverserestrict", NULL, 439);
 		zephir_check_call_status();
 		if (ZEPHIR_IS_FALSE_IDENTICAL(&_2$$3)) {
 			RETURN_MM_BOOL(0);
@@ -1943,9 +1958,9 @@ PHP_METHOD(Phalcon_Mvc_Model, delete) {
 			RETURN_MM_BOOL(1);
 		}
 	}
-	ZEPHIR_CALL_METHOD(&schema, this_ptr, "getschema", NULL, 439);
+	ZEPHIR_CALL_METHOD(&schema, this_ptr, "getschema", NULL, 440);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&source, this_ptr, "getsource", NULL, 440);
+	ZEPHIR_CALL_METHOD(&source, this_ptr, "getsource", NULL, 441);
 	zephir_check_call_status();
 	if (zephir_is_true(&schema)) {
 		ZEPHIR_INIT_VAR(&table);
@@ -1960,7 +1975,7 @@ PHP_METHOD(Phalcon_Mvc_Model, delete) {
 	ZEPHIR_CALL_METHOD(&success, &writeConnection, "delete", NULL, 0, &table, &_27, &values, &bindTypes);
 	zephir_check_call_status();
 	if (ZEPHIR_GLOBAL(orm).virtual_foreign_keys) {
-		ZEPHIR_CALL_METHOD(&_28$$25, this_ptr, "_checkforeignkeysreversecascade", NULL, 441);
+		ZEPHIR_CALL_METHOD(&_28$$25, this_ptr, "_checkforeignkeysreversecascade", NULL, 442);
 		zephir_check_call_status();
 		if (ZEPHIR_IS_FALSE_IDENTICAL(&_28$$25)) {
 			RETURN_MM_BOOL(0);
@@ -1993,6 +2008,7 @@ PHP_METHOD(Phalcon_Mvc_Model, delete) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, dump) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -2166,6 +2182,7 @@ PHP_METHOD(Phalcon_Mvc_Model, dump) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, find) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval *parameters = NULL, parameters_sub, __$null, params, query, resultset, hydration;
@@ -2196,7 +2213,7 @@ PHP_METHOD(Phalcon_Mvc_Model, find) {
 	} else {
 		ZEPHIR_CPY_WRT(&params, parameters);
 	}
-	ZEPHIR_CALL_STATIC(&query, "getpreparedquery", &_0, 442, &params);
+	ZEPHIR_CALL_STATIC(&query, "getpreparedquery", &_0, 443, &params);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&resultset, &query, "execute", NULL, 0);
 	zephir_check_call_status();
@@ -2282,6 +2299,7 @@ PHP_METHOD(Phalcon_Mvc_Model, find) {
 PHP_METHOD(Phalcon_Mvc_Model, findFirst) {
 
 	zend_bool _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_2 = NULL;
 	zval *parameters = NULL, parameters_sub, __$null, params, query, _3, _1$$5;
@@ -2322,7 +2340,7 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst) {
 		return;
 	}
 	ZVAL_LONG(&_3, 1);
-	ZEPHIR_CALL_STATIC(&query, "getpreparedquery", &_2, 442, &params, &_3);
+	ZEPHIR_CALL_STATIC(&query, "getpreparedquery", &_2, 443, &params, &_3);
 	zephir_check_call_status();
 	ZVAL_BOOL(&_3, 1);
 	ZEPHIR_CALL_METHOD(NULL, &query, "setuniquerow", NULL, 0, &_3);
@@ -2339,6 +2357,7 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, fireEvent) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *eventName_param = NULL, _0;
 	zval eventName;
@@ -2380,6 +2399,7 @@ PHP_METHOD(Phalcon_Mvc_Model, fireEvent) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, fireEventCancel) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *eventName_param = NULL, _0$$3, _1;
 	zval eventName;
@@ -2437,6 +2457,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getChangedFields) {
 	zend_ulong _4;
 	zval changed;
 	zval metaData, name, snapshot, columnMap, allAttributes, value, _0, _1, *_2, _3, _6$$6, _7$$10;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -2569,6 +2590,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getDI) {
 PHP_METHOD(Phalcon_Mvc_Model, getEventsManager) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -2610,6 +2632,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getMessages) {
 
 	zend_bool _0;
 	zval filtered;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *filter = NULL, filter_sub, __$null, message, _1$$3, *_2$$3, _3$$3, _4$$4, _5$$6;
 	zval *this_ptr = getThis();
@@ -2697,6 +2720,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getModelsManager) {
 PHP_METHOD(Phalcon_Mvc_Model, getModelsMetaData) {
 
 	zval metaData, container, _0$$3, _1$$3, _2$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -2759,6 +2783,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getOldSnapshotData) {
 PHP_METHOD(Phalcon_Mvc_Model, getReadConnection) {
 
 	zval transaction, _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -2788,6 +2813,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getReadConnection) {
 PHP_METHOD(Phalcon_Mvc_Model, getReadConnectionService) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -2811,6 +2837,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getReadConnectionService) {
 PHP_METHOD(Phalcon_Mvc_Model, getRelated) {
 
 	zend_bool _5$$4;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *alias_param = NULL, *arguments = NULL, arguments_sub, __$null, relation, className, manager, result, lowerAlias, _0, _1, _2$$3, _3$$3, _4$$4, _6$$4, _7$$5;
 	zval alias;
@@ -2910,6 +2937,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getRelated) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, isRelationshipLoaded) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *relationshipAlias_param = NULL, _0, _1;
 	zval relationshipAlias;
 	zval *this_ptr = getThis();
@@ -2937,6 +2965,7 @@ PHP_METHOD(Phalcon_Mvc_Model, isRelationshipLoaded) {
 PHP_METHOD(Phalcon_Mvc_Model, getSchema) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -2969,6 +2998,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getSnapshotData) {
 PHP_METHOD(Phalcon_Mvc_Model, getSource) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -3006,6 +3036,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getUpdatedFields) {
 	zend_ulong _3;
 	zval updated;
 	zval name, snapshot, oldSnapshot, value, _0, *_1, _2, _6$$6, _8$$8;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -3098,6 +3129,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getUpdatedFields) {
 PHP_METHOD(Phalcon_Mvc_Model, getWriteConnection) {
 
 	zval transaction, _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -3127,6 +3159,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getWriteConnection) {
 PHP_METHOD(Phalcon_Mvc_Model, getWriteConnectionService) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -3166,6 +3199,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getWriteConnectionService) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, hasChanged) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool allFields;
 	zval *fieldName = NULL, fieldName_sub, *allFields_param = NULL, __$null, changedFields, intersect;
@@ -3213,6 +3247,7 @@ PHP_METHOD(Phalcon_Mvc_Model, hasChanged) {
 PHP_METHOD(Phalcon_Mvc_Model, hasSnapshotData) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
@@ -3233,6 +3268,7 @@ PHP_METHOD(Phalcon_Mvc_Model, hasSnapshotData) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, hasUpdated) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool allFields;
 	zval *fieldName = NULL, fieldName_sub, *allFields_param = NULL, __$null, updatedFields, intersect;
@@ -3283,6 +3319,7 @@ PHP_METHOD(Phalcon_Mvc_Model, hasUpdated) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, jsonSerialize) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -3325,6 +3362,7 @@ PHP_METHOD(Phalcon_Mvc_Model, jsonSerialize) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, maximum) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *parameters = NULL, parameters_sub, __$null, _0, _1;
 	zval *this_ptr = getThis();
@@ -3382,6 +3420,7 @@ PHP_METHOD(Phalcon_Mvc_Model, maximum) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, minimum) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *parameters = NULL, parameters_sub, __$null, _0, _1;
 	zval *this_ptr = getThis();
@@ -3415,6 +3454,7 @@ PHP_METHOD(Phalcon_Mvc_Model, minimum) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, query) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval *container = NULL, container_sub, __$null, criteria, _3, _1$$4, _2$$4;
@@ -3455,12 +3495,12 @@ PHP_METHOD(Phalcon_Mvc_Model, query) {
 			ZEPHIR_CALL_METHOD(NULL, &criteria, "__construct", NULL, 0);
 			zephir_check_call_status();
 		}
-		ZEPHIR_CALL_METHOD(NULL, &criteria, "setdi", NULL, 443, container);
+		ZEPHIR_CALL_METHOD(NULL, &criteria, "setdi", NULL, 444, container);
 		zephir_check_call_status();
 	}
 	ZEPHIR_INIT_VAR(&_3);
 	zephir_get_called_class(&_3 TSRMLS_CC);
-	ZEPHIR_CALL_METHOD(NULL, &criteria, "setmodelname", NULL, 444, &_3);
+	ZEPHIR_CALL_METHOD(NULL, &criteria, "setmodelname", NULL, 445, &_3);
 	zephir_check_call_status();
 	RETURN_CCTOR(&criteria);
 
@@ -3475,6 +3515,7 @@ PHP_METHOD(Phalcon_Mvc_Model, query) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, readAttribute) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *attribute_param = NULL, _0;
 	zval attribute;
 	zval *this_ptr = getThis();
@@ -3513,6 +3554,7 @@ PHP_METHOD(Phalcon_Mvc_Model, refresh) {
 
 	zval fields, _9, _7$$9, _8$$10;
 	zval metaData, readConnection, schema, source, table, uniqueKey, tables, uniqueParams, dialect, row, attribute, manager, columnMap, _0, _1, _4, *_5, _6, _10, _11, _13, _2$$6, _3$$6, _12$$11;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -3553,13 +3595,13 @@ PHP_METHOD(Phalcon_Mvc_Model, refresh) {
 	}
 	ZEPHIR_CALL_METHOD(&metaData, this_ptr, "getmodelsmetadata", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&readConnection, this_ptr, "getreadconnection", NULL, 436);
+	ZEPHIR_CALL_METHOD(&readConnection, this_ptr, "getreadconnection", NULL, 437);
 	zephir_check_call_status();
 	zephir_read_property(&_1, this_ptr, SL("modelsManager"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&manager, &_1);
-	ZEPHIR_CALL_METHOD(&schema, this_ptr, "getschema", NULL, 439);
+	ZEPHIR_CALL_METHOD(&schema, this_ptr, "getschema", NULL, 440);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&source, this_ptr, "getsource", NULL, 440);
+	ZEPHIR_CALL_METHOD(&source, this_ptr, "getsource", NULL, 441);
 	zephir_check_call_status();
 	if (zephir_is_true(&schema)) {
 		ZEPHIR_INIT_VAR(&table);
@@ -3685,6 +3727,7 @@ PHP_METHOD(Phalcon_Mvc_Model, save) {
 
 	zend_bool hasDirtyRelated = 0;
 	zval metaData, schema, writeConnection, readConnection, source, table, identityField, exists, success, dirtyRelated, _0, _1, _5, _2$$3, _3$$7, _4$$8, _6$$10, _7$$11, _8$$11, _9$$14, _10$$16, _11$$18, _12$$21, _13$$20;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -3717,7 +3760,7 @@ PHP_METHOD(Phalcon_Mvc_Model, save) {
 
 	ZEPHIR_CALL_METHOD(&metaData, this_ptr, "getmodelsmetadata", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&writeConnection, this_ptr, "getwriteconnection", NULL, 437);
+	ZEPHIR_CALL_METHOD(&writeConnection, this_ptr, "getwriteconnection", NULL, 438);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "prepareSave");
@@ -3733,9 +3776,9 @@ PHP_METHOD(Phalcon_Mvc_Model, save) {
 			RETURN_MM_BOOL(0);
 		}
 	}
-	ZEPHIR_CALL_METHOD(&schema, this_ptr, "getschema", NULL, 439);
+	ZEPHIR_CALL_METHOD(&schema, this_ptr, "getschema", NULL, 440);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&source, this_ptr, "getsource", NULL, 440);
+	ZEPHIR_CALL_METHOD(&source, this_ptr, "getsource", NULL, 441);
 	zephir_check_call_status();
 	if (zephir_is_true(&schema)) {
 		ZEPHIR_INIT_VAR(&table);
@@ -3745,7 +3788,7 @@ PHP_METHOD(Phalcon_Mvc_Model, save) {
 	} else {
 		ZEPHIR_CPY_WRT(&table, &source);
 	}
-	ZEPHIR_CALL_METHOD(&readConnection, this_ptr, "getreadconnection", NULL, 436);
+	ZEPHIR_CALL_METHOD(&readConnection, this_ptr, "getreadconnection", NULL, 437);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&exists, this_ptr, "_exists", NULL, 0, &metaData, &readConnection);
 	zephir_check_call_status();
@@ -3776,7 +3819,7 @@ PHP_METHOD(Phalcon_Mvc_Model, save) {
 			object_init_ex(&_7$$11, phalcon_mvc_model_validationfailed_ce);
 			ZEPHIR_CALL_METHOD(&_8$$11, this_ptr, "getmessages", NULL, 0);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(NULL, &_7$$11, "__construct", NULL, 445, this_ptr, &_8$$11);
+			ZEPHIR_CALL_METHOD(NULL, &_7$$11, "__construct", NULL, 446, this_ptr, &_8$$11);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(&_7$$11, "phalcon/Mvc/Model.zep", 2356 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
@@ -3838,6 +3881,7 @@ PHP_METHOD(Phalcon_Mvc_Model, serialize) {
 	zval _3$$4;
 	zend_bool _2$$3;
 	zval attributes, snapshot, manager, _0, _1$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -3887,6 +3931,7 @@ PHP_METHOD(Phalcon_Mvc_Model, unserialize) {
 
 	zend_string *_11$$3;
 	zend_ulong _10$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_0 = NULL, *_3 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *data, data_sub, attributes, container, manager, key, value, snapshot, _1$$4, _2$$4, _4$$4, _5$$3, _6$$3, *_8$$3, _9$$3, _7$$7;
@@ -3998,6 +4043,7 @@ PHP_METHOD(Phalcon_Mvc_Model, unserialize) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, setConnectionService) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *connectionService_param = NULL, _0;
 	zval connectionService;
@@ -4039,7 +4085,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setDirtyState) {
 
 	ZVAL_UNDEF(&_0);
 
-	zephir_fetch_params(0, 1, 0, &dirtyState_param);
+	zephir_fetch_params_without_memory_grow(1, 0, &dirtyState_param);
 
 	dirtyState = zephir_get_intval(dirtyState_param);
 
@@ -4061,7 +4107,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setDI) {
 
 	ZVAL_UNDEF(&container_sub);
 
-	zephir_fetch_params(0, 1, 0, &container);
+	zephir_fetch_params_without_memory_grow(1, 0, &container);
 
 
 
@@ -4074,6 +4120,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setDI) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, setEventsManager) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *eventsManager, eventsManager_sub, _0;
 	zval *this_ptr = getThis();
@@ -4098,6 +4145,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setEventsManager) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, setReadConnectionService) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *connectionService_param = NULL, _0;
 	zval connectionService;
@@ -4140,6 +4188,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setOldSnapshotData) {
 
 	zend_string *_3$$3;
 	zend_ulong _2$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_6 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *data_param = NULL, *columnMap = NULL, columnMap_sub, __$null, key, value, attribute, *_0$$3, _1$$3, _4$$7, _5$$7, _7$$10, _8$$10, _9$$14, _10$$14, _11$$17, _12$$17;
@@ -4300,6 +4349,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setSnapshotData) {
 	zend_bool _4$$4, _12$$12;
 	zend_string *_3$$3;
 	zend_ulong _2$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_6 = NULL, *_9 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *data_param = NULL, *columnMap = NULL, columnMap_sub, __$null, key, value, attribute, *_0$$3, _1$$3, _5$$6, _7$$8, _8$$8, _10$$11, _11$$11, _13$$14, _14$$16, _15$$16, _16$$19, _17$$19;
@@ -4358,7 +4408,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setSnapshotData) {
 					_4$$4 = ZEPHIR_GLOBAL(orm).case_insensitive_column_map;
 				}
 				if (_4$$4) {
-					ZEPHIR_CALL_SELF(&_5$$6, "caseinsensitivecolumnmap", &_6, 434, columnMap, &key);
+					ZEPHIR_CALL_SELF(&_5$$6, "caseinsensitivecolumnmap", &_6, 435, columnMap, &key);
 					zephir_check_call_status();
 					ZEPHIR_CPY_WRT(&key, &_5$$6);
 				}
@@ -4417,7 +4467,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setSnapshotData) {
 						_12$$12 = ZEPHIR_GLOBAL(orm).case_insensitive_column_map;
 					}
 					if (_12$$12) {
-						ZEPHIR_CALL_SELF(&_13$$14, "caseinsensitivecolumnmap", &_6, 434, columnMap, &key);
+						ZEPHIR_CALL_SELF(&_13$$14, "caseinsensitivecolumnmap", &_6, 435, columnMap, &key);
 						zephir_check_call_status();
 						ZEPHIR_CPY_WRT(&key, &_13$$14);
 					}
@@ -4514,7 +4564,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setTransaction) {
 
 	ZVAL_UNDEF(&transaction_sub);
 
-	zephir_fetch_params(0, 1, 0, &transaction);
+	zephir_fetch_params_without_memory_grow(1, 0, &transaction);
 
 
 
@@ -4528,6 +4578,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setTransaction) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, setup) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *options_param = NULL, disableEvents, columnRenaming, notNullValidations, exceptionOnFailedSave, exceptionOnFailedMetaDataSave, phqlLiterals, virtualForeignKeys, lateStateBinding, castOnHydrate, ignoreUnknownColumns, updateSnapshotOnSave, disableAssignSetters, caseInsensitiveColumnMap, prefetchRecords, lastInsertId;
 	zval options;
 	zval *this_ptr = getThis();
@@ -4624,6 +4675,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setup) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, setWriteConnectionService) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *connectionService_param = NULL, _0;
 	zval connectionService;
@@ -4666,7 +4718,7 @@ PHP_METHOD(Phalcon_Mvc_Model, skipOperation) {
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
 
-	zephir_fetch_params(0, 1, 0, &skip_param);
+	zephir_fetch_params_without_memory_grow(1, 0, &skip_param);
 
 	skip = zephir_get_boolval(skip_param);
 
@@ -4709,6 +4761,7 @@ PHP_METHOD(Phalcon_Mvc_Model, skipOperation) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, sum) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *parameters = NULL, parameters_sub, __$null, _0, _1;
 	zval *this_ptr = getThis();
@@ -4752,6 +4805,7 @@ PHP_METHOD(Phalcon_Mvc_Model, toArray) {
 
 	zend_bool _3$$4, _9$$14;
 	zval data;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_5 = NULL, *_8 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *columns = NULL, columns_sub, __$null, metaData, columnMap, attribute, attributeField, value, _0, *_1, _2, _4$$5, _6$$7, _7$$7, _10$$15, _11$$17, _12$$17;
@@ -4803,7 +4857,7 @@ PHP_METHOD(Phalcon_Mvc_Model, toArray) {
 					_3$$4 = ZEPHIR_GLOBAL(orm).case_insensitive_column_map;
 				}
 				if (_3$$4) {
-					ZEPHIR_CALL_SELF(&_4$$5, "caseinsensitivecolumnmap", &_5, 434, &columnMap, &attribute);
+					ZEPHIR_CALL_SELF(&_4$$5, "caseinsensitivecolumnmap", &_5, 435, &columnMap, &attribute);
 					zephir_check_call_status();
 					ZEPHIR_CPY_WRT(&attribute, &_4$$5);
 				}
@@ -4854,7 +4908,7 @@ PHP_METHOD(Phalcon_Mvc_Model, toArray) {
 						_9$$14 = ZEPHIR_GLOBAL(orm).case_insensitive_column_map;
 					}
 					if (_9$$14) {
-						ZEPHIR_CALL_SELF(&_10$$15, "caseinsensitivecolumnmap", &_5, 434, &columnMap, &attribute);
+						ZEPHIR_CALL_SELF(&_10$$15, "caseinsensitivecolumnmap", &_5, 435, &columnMap, &attribute);
 						zephir_check_call_status();
 						ZEPHIR_CPY_WRT(&attribute, &_10$$15);
 					}
@@ -4914,6 +4968,7 @@ PHP_METHOD(Phalcon_Mvc_Model, update) {
 
 	zval _3$$4;
 	zval metaData, _0, _1$$3, _2$$3, _4$$4, _5$$4, _6$$4, _7$$4;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -4933,7 +4988,7 @@ PHP_METHOD(Phalcon_Mvc_Model, update) {
 	if (zephir_is_true(&_0)) {
 		ZEPHIR_CALL_METHOD(&metaData, this_ptr, "getmodelsmetadata", NULL, 0);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(&_2$$3, this_ptr, "getreadconnection", NULL, 436);
+		ZEPHIR_CALL_METHOD(&_2$$3, this_ptr, "getreadconnection", NULL, 437);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(&_1$$3, this_ptr, "_exists", NULL, 0, &metaData, &_2$$3);
 		zephir_check_call_status();
@@ -4969,6 +5024,7 @@ PHP_METHOD(Phalcon_Mvc_Model, update) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, writeAttribute) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *attribute_param = NULL, *value, value_sub;
 	zval attribute;
 	zval *this_ptr = getThis();
@@ -5008,6 +5064,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysRestrict) {
 	zend_bool error = 0, validateWithNulls = 0, _15$$3, _36$$22;
 	zval conditions, _17$$3, _38$$22;
 	zval manager, belongsTo, foreignKey, relation, position, bindParams, extraConditions, message, fields, referencedFields, field, referencedModel, value, allowNulls, _0, *_1, _2, _3$$5, _4$$3, _16$$3, _18$$3, *_6$$7, _7$$7, _10$$8, _11$$8, _12$$10, _13$$10, _14$$12, _19$$20, _20$$18, _21$$18, _24$$24, _25$$22, _37$$22, _39$$22, *_27$$26, _28$$26, _31$$27, _32$$27, _33$$29, _34$$29, _35$$31, _40$$39, _41$$37, _42$$37, _43$$42;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_5 = NULL, *_22 = NULL, *_23 = NULL, *_26 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS, action = 0, numberNull = 0;
 	zval *this_ptr = getThis();
@@ -5395,6 +5452,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseCascade) {
 	zval _16$$3, _32$$13;
 	zend_bool _3$$3, _19$$13;
 	zval manager, relations, relation, foreignKey, resultset, conditions, bindParams, referencedModel, referencedFields, fields, field, position, value, extraConditions, _0, *_1, _2, _5$$3, _17$$3, _18$$3, _4$$5, *_7$$7, _8$$7, _11$$8, _12$$8, _13$$9, _14$$9, _15$$10, _21$$13, _33$$13, _34$$13, _20$$15, *_23$$17, _24$$17, _27$$18, _28$$18, _29$$19, _30$$19, _31$$20;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_6 = NULL, *_22 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS, action = 0;
 	zval *this_ptr = getThis();
@@ -5686,6 +5744,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseRestrict) {
 	zval _16$$3, _35$$14;
 	zval manager, relations, foreignKey, relation, relationClass, referencedModel, fields, referencedFields, conditions, bindParams, position, field, value, extraConditions, message, _0, *_1, _2, _15$$3, _17$$3, _4$$5, *_6$$7, _7$$7, _10$$8, _11$$8, _12$$9, _13$$9, _14$$10, _18$$12, _19$$12, _34$$14, _36$$14, _23$$16, *_25$$18, _26$$18, _29$$19, _30$$19, _31$$20, _32$$20, _33$$21, _37$$23, _38$$23, _39$$26;
 	zend_bool error = 0, _3$$3, _22$$14;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_5 = NULL, *_20 = NULL, *_21 = NULL, *_24 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS, action = 0;
 	zval *this_ptr = getThis();
@@ -6017,6 +6076,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert) {
 	zend_string *_41$$51;
 	zend_ulong _40$$51;
 	zend_bool useExplicitIdentity = 0, _34, _6$$11, _18$$24, _31$$36, _43$$51;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_5 = NULL, *_7 = NULL, *_13 = NULL, *_19 = NULL, *_25 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *metaData, metaData_sub, *connection, connection_sub, *table, table_sub, *identityField, identityField_sub, __$null, bindSkip, fields, values, bindTypes, attributes, bindDataTypes, automaticAttributes, field, columnMap, value, attributeField, success, bindType, defaultValue, sequenceName, defaultValues, unsetDefaultValues, source, schema, snapshot, lastInsertedId, manager, _0, *_1, _2, _3$$7, _4$$7, _8$$12, _9$$12, _10$$14, _11$$14, _12$$16, _14$$16, _15$$16, _16$$20, _17$$20, _20$$25, _21$$25, _22$$27, _23$$27, _24$$29, _26$$29, _27$$29, _28$$31, _29$$34, _30$$34, _32$$41, _33$$41, _35$$44, _36$$50, _37$$50, *_38$$51, _39$$51, _42$$51;
@@ -6349,9 +6409,9 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert) {
 				ZEPHIR_CALL_METHOD(&sequenceName, this_ptr, "getsequencename", NULL, 0);
 				zephir_check_call_status();
 			} else {
-				ZEPHIR_CALL_METHOD(&source, this_ptr, "getsource", NULL, 440);
+				ZEPHIR_CALL_METHOD(&source, this_ptr, "getsource", NULL, 441);
 				zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&schema, this_ptr, "getschema", NULL, 439);
+				ZEPHIR_CALL_METHOD(&schema, this_ptr, "getschema", NULL, 440);
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&sequenceName);
 				if (ZEPHIR_IS_EMPTY(&schema)) {
@@ -6432,6 +6492,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate) {
 	zval _14$$25, _15$$25, _24$$47, _25$$47;
 	zval _32;
 	zend_bool useDynamicUpdate = 0, changed = 0, _33, _34;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_6 = NULL, *_12 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *metaData, metaData_sub, *connection, connection_sub, *table, table_sub, __$null, bindSkip, fields, values, dataType, dataTypes, bindTypes, manager, bindDataTypes, field, automaticAttributes, snapshotValue, uniqueKey, uniqueParams, uniqueTypes, snapshot, nonPrimary, columnMap, attributeField, value, primaryKeys, bindType, newSnapshot, success, _0, _1, *_2, _3, _4$$9, _5$$9, _7$$12, _8$$12, _9$$22, _10$$22, _11$$24, _13$$24, _16$$31, _17$$31, _18$$34, _19$$34, _20$$44, _21$$44, _22$$46, _23$$46, *_26$$53, _27$$53, _28$$57, _29$$57, _30$$63, _31$$63, _35$$68, _36$$69;
@@ -6888,6 +6949,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate) {
 PHP_METHOD(Phalcon_Mvc_Model, _exists) {
 
 	zend_bool _6$$11, _14$$19;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_5 = NULL, *_10 = NULL, *_18 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS, numberEmpty = 0, numberPrimary = 0;
 	zval *metaData, metaData_sub, *connection, connection_sub, __$null, uniqueParams, uniqueTypes, uniqueKey, columnMap, primaryKeys, wherePk, field, attributeField, value, bindDataTypes, joinWhere, num, type, schema, source, table, _0, _23, _24, _25, _26, *_1$$3, _2$$3, _3$$9, _4$$9, _7$$14, _8$$14, _9$$7, _11$$7, _12$$17, _13$$17, _15$$22, _16$$22, _17$$15, _19$$15, _20$$25, _21$$26, _22$$27, _27$$30, _28$$31;
@@ -7119,9 +7181,9 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists) {
 		zephir_read_property(&_22$$27, this_ptr, SL("uniqueTypes"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CPY_WRT(&uniqueTypes, &_22$$27);
 	}
-	ZEPHIR_CALL_METHOD(&schema, this_ptr, "getschema", NULL, 439);
+	ZEPHIR_CALL_METHOD(&schema, this_ptr, "getschema", NULL, 440);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&source, this_ptr, "getsource", NULL, 440);
+	ZEPHIR_CALL_METHOD(&source, this_ptr, "getsource", NULL, 441);
 	zephir_check_call_status();
 	if (zephir_is_true(&schema)) {
 		ZEPHIR_INIT_VAR(&table);
@@ -7161,6 +7223,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _exists) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, _getRelatedRecords) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *modelName_param = NULL, *method_param = NULL, *arguments, arguments_sub, manager, relation, queryMethod, extraArgs, alias, _0, _1$$3, _2$$3, _3$$5, _4$$5, _5$$5;
 	zval modelName, method;
@@ -7255,6 +7318,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _getRelatedRecords) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, _groupResult) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval *functionName_param = NULL, *alias_param = NULL, *parameters, parameters_sub, params, distinctColumn, groupColumn, columns, bindParams, bindTypes, resultset, cache, firstRow, groupColumns, builder, query, container, manager, _1, _2, _3;
@@ -7388,6 +7452,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _groupResult) {
 PHP_METHOD(Phalcon_Mvc_Model, _invokeFinder) {
 
 	zend_class_entry *_6, *_12;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval arguments, _9, _11;
 	zval *method_param = NULL, *arguments_param = NULL, extraMethod, type, modelName, value, model, attributes, field, extraMethodFirst, metaData, _5, _10, _0$$3, _1$$4, _2$$5, _3$$7, _7$$13, _8$$13;
@@ -7465,6 +7530,9 @@ PHP_METHOD(Phalcon_Mvc_Model, _invokeFinder) {
 	ZEPHIR_INIT_VAR(&model);
 	zephir_fetch_safe_class(&_5, &modelName);
 	_6 = zephir_fetch_class_str_ex(Z_STRVAL_P(&_5), Z_STRLEN_P(&_5), ZEND_FETCH_CLASS_AUTO);
+	if(!_6) {
+		RETURN_MM_NULL();
+	}
 	object_init_ex(&model, _6);
 	if (zephir_has_constructor(&model TSRMLS_CC)) {
 		ZEPHIR_CALL_METHOD(NULL, &model, "__construct", NULL, 0);
@@ -7522,6 +7590,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _invokeFinder) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, _possibleSetter) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *property_param = NULL, *value, value_sub, possibleSetter, _0;
 	zval property;
@@ -7557,6 +7626,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _possibleSetter) {
 PHP_METHOD(Phalcon_Mvc_Model, _preSave) {
 
 	zval eventName;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_8 = NULL, *_16 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool exists, error = 0, isNull = 0, _9$$26, _10$$26, _11$$26, _19$$45, _20$$45, _21$$45;
@@ -7633,7 +7703,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSave) {
 		}
 	}
 	if (ZEPHIR_GLOBAL(orm).virtual_foreign_keys) {
-		ZEPHIR_CALL_METHOD(&_3$$8, this_ptr, "_checkforeignkeysrestrict", NULL, 446);
+		ZEPHIR_CALL_METHOD(&_3$$8, this_ptr, "_checkforeignkeysrestrict", NULL, 447);
 		zephir_check_call_status();
 		if (ZEPHIR_IS_FALSE_IDENTICAL(&_3$$8)) {
 			RETURN_MM_BOOL(0);
@@ -7925,6 +7995,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSaveRelatedRecords) {
 	zend_string *_5;
 	zend_ulong _4;
 	zend_bool nesting = 0, _17$$5, _35$$15;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_7 = NULL, *_8 = NULL, *_10 = NULL, *_11 = NULL, *_12 = NULL, *_13 = NULL, *_15 = NULL, *_23 = NULL, *_26 = NULL, *_29 = NULL, *_31 = NULL, *_33 = NULL, *_43 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *connection, connection_sub, *related, related_sub, className, manager, type, relation, columns, referencedFields, referencedModel, message, name, record, _0, _1, *_2, _3, _6$$3, _9$$6, _14$$7, _16$$5, _18$$5, _27$$5, _19$$8, *_20$$8, _21$$8, _25$$8, _28$$13, _30$$16, _32$$17, _34$$15, _36$$15, _44$$15, _37$$18, *_38$$18, _39$$18, _42$$18;
@@ -8227,6 +8298,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _preSaveRelatedRecords) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, _postSave) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *success_param = NULL, *exists_param = NULL, _0$$4, _1$$5;
 	zend_bool success, exists;
@@ -8270,6 +8342,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords) {
 	zend_string *_4;
 	zend_ulong _3;
 	zend_bool nesting = 0, isThrough = 0, _9$$4, _71$$41;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_6 = NULL, *_8 = NULL, *_11 = NULL, *_12 = NULL, *_13 = NULL, *_14 = NULL, *_16 = NULL, *_18 = NULL, *_21 = NULL, *_23 = NULL, *_24 = NULL, *_25 = NULL, *_26 = NULL, *_34 = NULL, *_37 = NULL, *_38 = NULL, *_46 = NULL, *_54 = NULL, *_55 = NULL, *_63 = NULL, *_65 = NULL, *_69 = NULL, *_73 = NULL, *_75 = NULL, *_78 = NULL, *_91 = NULL, *_92 = NULL, *_100 = NULL, *_108 = NULL, *_109 = NULL, *_117 = NULL, *_119 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *connection, connection_sub, *related, related_sub, className, manager, relation, name, record, message, columns, referencedModel, referencedFields, relatedRecords, value, recordAfter, intermediateModel, intermediateFields, intermediateValue, intermediateModelName, intermediateReferencedFields, _0, *_1, _2, _122, _5$$3, _7$$4, _22$$4, *_27$$4, _28$$4, _10$$6, _15$$7, _17$$10, _19$$10, _20$$10, _29$$12, _30$$14, *_31$$14, _32$$14, _36$$14, _39$$19, _40$$20, *_41$$20, _42$$20, _45$$20, _47$$25, _48$$27, *_49$$27, _50$$27, _53$$27, _56$$32, _57$$33, *_58$$33, _59$$33, _62$$33, _64$$39, _66$$39, _67$$39, _68$$40, _70$$41, _81$$41, *_82$$41, _83$$41, _72$$43, _74$$44, _76$$45, _77$$47, _79$$47, _80$$47, _84$$49, _85$$51, *_86$$51, _87$$51, _90$$51, _93$$56, _94$$57, *_95$$57, _96$$57, _99$$57, _101$$62, _102$$64, *_103$$64, _104$$64, _107$$64, _110$$69, _111$$70, *_112$$70, _113$$70, _116$$70, _118$$76, _120$$76, _121$$76;
@@ -9184,6 +9257,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, allowEmptyStringValues) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *attributes_param = NULL, __$true, keysAttributes, attribute, *_0, _1, _2;
 	zval attributes;
@@ -9243,6 +9317,7 @@ PHP_METHOD(Phalcon_Mvc_Model, allowEmptyStringValues) {
 PHP_METHOD(Phalcon_Mvc_Model, _cancelOperation) {
 
 	zval _0, _1$$3, _2$$4;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -9287,6 +9362,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _cancelOperation) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, belongsTo) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval referenceModel;
 	zval *fields, fields_sub, *referenceModel_param = NULL, *referencedFields, referencedFields_sub, *options = NULL, options_sub, __$null, _0;
@@ -9330,6 +9406,7 @@ PHP_METHOD(Phalcon_Mvc_Model, belongsTo) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, getPreparedQuery) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval *params, params_sub, *limit = NULL, limit_sub, __$null, builder, bindParams, bindTypes, transaction, cache, manager, query, container, _1, _2, _3$$5, _4$$7;
@@ -9432,6 +9509,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getPreparedQuery) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, hasMany) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval referenceModel;
 	zval *fields, fields_sub, *referenceModel_param = NULL, *referencedFields, referencedFields_sub, *options = NULL, options_sub, __$null, _0;
@@ -9500,6 +9578,7 @@ PHP_METHOD(Phalcon_Mvc_Model, hasMany) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, hasManyToMany) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval intermediateModel, referenceModel;
 	zval *fields, fields_sub, *intermediateModel_param = NULL, *intermediateFields, intermediateFields_sub, *intermediateReferencedFields, intermediateReferencedFields_sub, *referenceModel_param = NULL, *referencedFields, referencedFields_sub, *options = NULL, options_sub, __$null, _0;
@@ -9570,6 +9649,7 @@ PHP_METHOD(Phalcon_Mvc_Model, hasManyToMany) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, hasOne) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval referenceModel;
 	zval *fields, fields_sub, *referenceModel_param = NULL, *referencedFields, referencedFields_sub, *options = NULL, options_sub, __$null, _0;
@@ -9625,6 +9705,7 @@ PHP_METHOD(Phalcon_Mvc_Model, hasOne) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, keepSnapshots) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *keepSnapshot_param = NULL, _0, _1;
 	zend_bool keepSnapshot;
@@ -9656,6 +9737,7 @@ PHP_METHOD(Phalcon_Mvc_Model, keepSnapshots) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, setSchema) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *schema_param = NULL, _0;
 	zval schema;
@@ -9691,6 +9773,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setSchema) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, setSource) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *source_param = NULL, _0;
 	zval source;
@@ -9741,6 +9824,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setSource) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, skipAttributes) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *attributes_param = NULL;
 	zval attributes;
@@ -9782,6 +9866,7 @@ PHP_METHOD(Phalcon_Mvc_Model, skipAttributes) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, skipAttributesOnCreate) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *attributes_param = NULL, __$null, attribute, *_0, _1, _2;
 	zval attributes, keysAttributes;
@@ -9855,6 +9940,7 @@ PHP_METHOD(Phalcon_Mvc_Model, skipAttributesOnCreate) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, skipAttributesOnUpdate) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *attributes_param = NULL, __$null, attribute, *_0, _1, _2;
 	zval attributes, keysAttributes;
@@ -9925,6 +10011,7 @@ PHP_METHOD(Phalcon_Mvc_Model, skipAttributesOnUpdate) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, useDynamicUpdate) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *dynamicUpdate_param = NULL, _0, _1;
 	zend_bool dynamicUpdate;
@@ -9985,6 +10072,7 @@ PHP_METHOD(Phalcon_Mvc_Model, useDynamicUpdate) {
 PHP_METHOD(Phalcon_Mvc_Model, validate) {
 
 	zend_object_iterator *_1;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_7 = NULL, *_8 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *validator, validator_sub, messages, message, _0, _2$$4, _3$$4, _4$$4, _5$$4, _6$$4;
@@ -10086,6 +10174,7 @@ PHP_METHOD(Phalcon_Mvc_Model, validationHasFailed) {
  */
 PHP_METHOD(Phalcon_Mvc_Model, caseInsensitiveColumnMap) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *columnMap, columnMap_sub, *key, key_sub, cmKey, _0, *_1, _2, _3$$3, _4$$3, _5$$5, _6$$5;
 	zval *this_ptr = getThis();
@@ -10152,6 +10241,7 @@ PHP_METHOD(Phalcon_Mvc_Model, caseInsensitiveColumnMap) {
 zend_object *zephir_init_properties_Phalcon_Mvc_Model(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval _0, _2, _4, _6, _1$$3, _3$$4, _5$$5, _7$$6;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_4);

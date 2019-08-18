@@ -63,6 +63,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Stream) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Stream, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *options_param = NULL, annotationsDir;
 	zval options;
 	zval *this_ptr = getThis();
@@ -93,6 +94,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Stream, __construct) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Stream, read) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *key_param = NULL, _0, _1, _2, _3, _4;
 	zval key, path;
 	zval *this_ptr = getThis();
@@ -135,6 +137,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Stream, read) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Stream, write) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *key_param = NULL, *data, data_sub, _0, _1, _2, _3, _4, _5, _6;
 	zval key, path, code;
 	zval *this_ptr = getThis();

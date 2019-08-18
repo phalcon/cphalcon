@@ -55,7 +55,7 @@ PHP_METHOD(Phalcon_Cache_CacheFactory, __construct) {
 
 	ZVAL_UNDEF(&factory_sub);
 
-	zephir_fetch_params(0, 1, 0, &factory);
+	zephir_fetch_params_without_memory_grow(1, 0, &factory);
 
 
 
@@ -69,6 +69,7 @@ PHP_METHOD(Phalcon_Cache_CacheFactory, __construct) {
 PHP_METHOD(Phalcon_Cache_CacheFactory, load) {
 
 	zend_bool _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_2 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *config = NULL, config_sub, name, options, _3, _4, _1$$3;
@@ -123,6 +124,7 @@ PHP_METHOD(Phalcon_Cache_CacheFactory, load) {
  */
 PHP_METHOD(Phalcon_Cache_CacheFactory, newInstance) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval options;
 	zval *name_param = NULL, *options_param = NULL, adapter, _0;

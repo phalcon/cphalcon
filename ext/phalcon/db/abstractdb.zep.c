@@ -83,6 +83,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_AbstractDb) {
  */
 PHP_METHOD(Phalcon_Db_AbstractDb, setup) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *options_param = NULL, escapeIdentifiers, forceCasting;
 	zval options;
 	zval *this_ptr = getThis();

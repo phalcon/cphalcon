@@ -47,6 +47,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Translate_TranslateFactory) {
  */
 PHP_METHOD(Phalcon_Translate_TranslateFactory, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval services;
 	zval *interpolator, interpolator_sub, *services_param = NULL;
@@ -78,6 +79,7 @@ PHP_METHOD(Phalcon_Translate_TranslateFactory, __construct) {
  */
 PHP_METHOD(Phalcon_Translate_TranslateFactory, load) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_1 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *config = NULL, config_sub, name, options, _0, _2, _3;
@@ -119,6 +121,7 @@ PHP_METHOD(Phalcon_Translate_TranslateFactory, load) {
 PHP_METHOD(Phalcon_Translate_TranslateFactory, newInstance) {
 
 	zend_class_entry *_4$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval options;
 	zval *name_param = NULL, *options_param = NULL, definition, _0, _6, _7, _1$$3, _2$$3, _3$$3, _5$$3;
@@ -166,6 +169,9 @@ PHP_METHOD(Phalcon_Translate_TranslateFactory, newInstance) {
 		ZEPHIR_INIT_VAR(&_2$$3);
 		zephir_fetch_safe_class(&_3$$3, &definition);
 		_4$$3 = zephir_fetch_class_str_ex(Z_STRVAL_P(&_3$$3), Z_STRLEN_P(&_3$$3), ZEND_FETCH_CLASS_AUTO);
+		if(!_4$$3) {
+			RETURN_MM_NULL();
+		}
 		object_init_ex(&_2$$3, _4$$3);
 		if (zephir_has_constructor(&_2$$3 TSRMLS_CC)) {
 			zephir_read_property(&_5$$3, this_ptr, SL("interpolator"), PH_NOISY_CC | PH_READONLY);

@@ -20,7 +20,7 @@ class Php extends AbstractSerializer
 	 */
 	public function serialize() -> string
 	{
-        if this->isSerializable(this->data) {
+        if !this->isSerializable(this->data) {
             return this->data;
         }
 
@@ -32,7 +32,7 @@ class Php extends AbstractSerializer
 	 */
 	public function unserialize(var data) -> void
 	{
-	    if this->isSerializable(data) {
+	    if !this->isSerializable(data) {
 	        let this->data = data;
 	    } else {
             let this->data = unserialize(data);

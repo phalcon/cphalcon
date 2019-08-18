@@ -60,6 +60,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Messages_Messages) {
  */
 PHP_METHOD(Phalcon_Messages_Messages, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *messages_param = NULL;
 	zval messages;
 	zval *this_ptr = getThis();
@@ -98,7 +99,7 @@ PHP_METHOD(Phalcon_Messages_Messages, appendMessage) {
 
 	ZVAL_UNDEF(&message_sub);
 
-	zephir_fetch_params(0, 1, 0, &message);
+	zephir_fetch_params_without_memory_grow(1, 0, &message);
 
 
 
@@ -118,6 +119,7 @@ PHP_METHOD(Phalcon_Messages_Messages, appendMessage) {
 PHP_METHOD(Phalcon_Messages_Messages, appendMessages) {
 
 	zend_bool _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_2 = NULL, *_3 = NULL, *_4 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *messages, messages_sub, currentMessages, finalMessages, message, _1$$7;
@@ -195,6 +197,7 @@ PHP_METHOD(Phalcon_Messages_Messages, count) {
 PHP_METHOD(Phalcon_Messages_Messages, current) {
 
 	zval _0, _1, _2;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
@@ -216,6 +219,7 @@ PHP_METHOD(Phalcon_Messages_Messages, current) {
  */
 PHP_METHOD(Phalcon_Messages_Messages, filter) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *fieldName_param = NULL, filtered, messages, message, _0, *_1$$3, _2$$3, _3$$5, _4$$8;
 	zval fieldName;
@@ -306,6 +310,7 @@ PHP_METHOD(Phalcon_Messages_Messages, jsonSerialize) {
 	zend_bool _3$$3, _5$$6;
 	zval records;
 	zval message, _0, *_1, _2, _4$$4, _6$$7;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -413,7 +418,7 @@ PHP_METHOD(Phalcon_Messages_Messages, offsetExists) {
 	ZVAL_UNDEF(&index_sub);
 	ZVAL_UNDEF(&_0);
 
-	zephir_fetch_params(0, 1, 0, &index);
+	zephir_fetch_params_without_memory_grow(1, 0, &index);
 
 
 
@@ -433,6 +438,7 @@ PHP_METHOD(Phalcon_Messages_Messages, offsetExists) {
  */
 PHP_METHOD(Phalcon_Messages_Messages, offsetGet) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *index, index_sub, message, returnValue, _0;
 	zval *this_ptr = getThis();
 
@@ -473,7 +479,7 @@ PHP_METHOD(Phalcon_Messages_Messages, offsetSet) {
 	ZVAL_UNDEF(&index_sub);
 	ZVAL_UNDEF(&message_sub);
 
-	zephir_fetch_params(0, 2, 0, &index, &message);
+	zephir_fetch_params_without_memory_grow(2, 0, &index, &message);
 
 
 
@@ -494,6 +500,7 @@ PHP_METHOD(Phalcon_Messages_Messages, offsetSet) {
  */
 PHP_METHOD(Phalcon_Messages_Messages, offsetUnset) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *index, index_sub, _0, _1$$3, _2$$3;
 	zval *this_ptr = getThis();
@@ -513,7 +520,7 @@ PHP_METHOD(Phalcon_Messages_Messages, offsetUnset) {
 		zephir_read_property(&_1$$3, this_ptr, SL("messages"), PH_NOISY_CC | PH_READONLY);
 		ZVAL_LONG(&_2$$3, 1);
 		ZEPHIR_MAKE_REF(&_1$$3);
-		ZEPHIR_CALL_FUNCTION(NULL, "array_splice", NULL, 419, &_1$$3, index, &_2$$3);
+		ZEPHIR_CALL_FUNCTION(NULL, "array_splice", NULL, 420, &_1$$3, index, &_2$$3);
 		ZEPHIR_UNREF(&_1$$3);
 		zephir_check_call_status();
 	}

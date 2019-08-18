@@ -75,6 +75,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Criteria) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, setDI) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *container, container_sub, _0;
 	zval *this_ptr = getThis();
 
@@ -116,6 +117,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, getDI) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, setModelName) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *modelName_param = NULL;
 	zval modelName;
 	zval *this_ptr = getThis();
@@ -160,6 +162,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, getModelName) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, bind) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_bool merge, _5;
 	zval *bindParams_param = NULL, *merge_param = NULL, _0, _3, _4, _1$$3, _2$$3, _6$$4, _7$$4, _8$$4, _9$$4, _10$$5;
 	zval bindParams;
@@ -226,6 +229,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, bind) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, bindTypes) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *bindTypes_param = NULL, _0;
 	zval bindTypes;
 	zval *this_ptr = getThis();
@@ -251,6 +255,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, bindTypes) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, distinct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *distinct, distinct_sub, _0;
 	zval *this_ptr = getThis();
 
@@ -285,6 +290,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, distinct) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, columns) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *columns, columns_sub, _0;
 	zval *this_ptr = getThis();
 
@@ -333,6 +339,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, columns) {
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, join) {
 
 	zval join, _1$$4;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *model_param = NULL, *conditions = NULL, conditions_sub, *alias = NULL, alias_sub, *type = NULL, type_sub, __$null, mergedJoins, currentJoins, _0, _4, _2$$5, _3$$6;
 	zval model;
 	zval *this_ptr = getThis();
@@ -434,6 +441,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, join) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, innerJoin) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model_param = NULL, *conditions = NULL, conditions_sub, *alias = NULL, alias_sub, __$null, _0;
 	zval model;
@@ -489,6 +497,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, innerJoin) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, leftJoin) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model_param = NULL, *conditions = NULL, conditions_sub, *alias = NULL, alias_sub, __$null, _0;
 	zval model;
@@ -544,6 +553,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, leftJoin) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, rightJoin) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model_param = NULL, *conditions = NULL, conditions_sub, *alias = NULL, alias_sub, __$null, _0;
 	zval model;
@@ -591,6 +601,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, rightJoin) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, where) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *conditions_param = NULL, *bindParams = NULL, bindParams_sub, *bindTypes = NULL, bindTypes_sub, __$null, currentBindParams, currentBindTypes, _0, _1$$3, _2$$4, _3$$4, _4$$5, _5$$6, _6$$7, _7$$7, _8$$8;
 	zval conditions;
 	zval *this_ptr = getThis();
@@ -676,6 +687,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, where) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, andWhere) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *conditions_param = NULL, *bindParams = NULL, bindParams_sub, *bindTypes = NULL, bindTypes_sub, __$null, currentConditions, _0, _1$$3;
 	zval conditions;
@@ -730,6 +742,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, andWhere) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, orWhere) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *conditions_param = NULL, *bindParams = NULL, bindParams_sub, *bindTypes = NULL, bindTypes_sub, __$null, currentConditions, _0, _1$$3;
 	zval conditions;
@@ -789,6 +802,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, orWhere) {
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, betweenWhere) {
 
 	zval _1;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *expr_param = NULL, *minimum, minimum_sub, *maximum, maximum_sub, hiddenParam, minimumKey, nextHiddenParam, maximumKey, _0;
 	zval expr;
@@ -852,6 +866,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, betweenWhere) {
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, notBetweenWhere) {
 
 	zval _3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *expr_param = NULL, *minimum, minimum_sub, *maximum, maximum_sub, hiddenParam, nextHiddenParam, _0, _1;
 	zval expr, minimumKey, maximumKey, _2;
@@ -918,6 +933,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, notBetweenWhere) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, inWhere) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval values, bindParams, bindKeys;
 	zval *expr_param = NULL, *values_param = NULL, hiddenParam, value, *_1, _2, _5, _6, _3$$4, _4$$5;
@@ -1029,6 +1045,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, inWhere) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, notInWhere) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval values, bindParams, bindKeys;
 	zval *expr_param = NULL, *values_param = NULL, hiddenParam, value, *_0, _1, _6, _7, _2$$3, _4$$4;
@@ -1129,6 +1146,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, notInWhere) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, conditions) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *conditions_param = NULL, _0;
 	zval conditions;
 	zval *this_ptr = getThis();
@@ -1163,6 +1181,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, conditions) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, orderBy) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *orderColumns_param = NULL, _0;
 	zval orderColumns;
 	zval *this_ptr = getThis();
@@ -1197,6 +1216,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, orderBy) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, groupBy) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *group, group_sub, _0;
 	zval *this_ptr = getThis();
 
@@ -1220,6 +1240,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, groupBy) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, having) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *having, having_sub, _0;
 	zval *this_ptr = getThis();
 
@@ -1250,6 +1271,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, having) {
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, limit) {
 
 	zval _3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *limit_param = NULL, *offset_param = NULL, _0, _1, _2, _4;
 	zend_long limit, offset, ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
@@ -1302,6 +1324,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, limit) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, forUpdate) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *forUpdate_param = NULL, _0, _1;
 	zend_bool forUpdate;
 	zval *this_ptr = getThis();
@@ -1333,6 +1356,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, forUpdate) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, sharedLock) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *sharedLock_param = NULL, _0, _1;
 	zend_bool sharedLock;
 	zval *this_ptr = getThis();
@@ -1365,6 +1389,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, sharedLock) {
  */
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, cache) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *cache_param = NULL, _0;
 	zval cache;
 	zval *this_ptr = getThis();
@@ -1552,6 +1577,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput) {
 	zend_string *_7$$3;
 	zend_ulong _6$$3;
 	zend_class_entry *_2$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval data, conditions, bind;
 	zval modelName, operator, _19$$16;
@@ -1627,6 +1653,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput) {
 		ZEPHIR_INIT_VAR(&model);
 		zephir_fetch_safe_class(&_1$$3, &modelName);
 		_2$$3 = zephir_fetch_class_str_ex(Z_STRVAL_P(&_1$$3), Z_STRLEN_P(&_1$$3), ZEND_FETCH_CLASS_AUTO);
+		if(!_2$$3) {
+			RETURN_MM_NULL();
+		}
 		object_init_ex(&model, _2$$3);
 		if (zephir_has_constructor(&model TSRMLS_CC)) {
 			ZVAL_NULL(&_3$$3);
@@ -1747,12 +1776,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput) {
 		ZEPHIR_INIT_VAR(&_19$$16);
 		ZEPHIR_CONCAT_SVS(&_19$$16, " ", &operator, " ");
 		zephir_fast_join(&_18$$16, &_19$$16, &conditions TSRMLS_CC);
-		ZEPHIR_CALL_METHOD(NULL, &criteria, "where", NULL, 450, &_18$$16);
+		ZEPHIR_CALL_METHOD(NULL, &criteria, "where", NULL, 451, &_18$$16);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, &criteria, "bind", NULL, 451, &bind);
+		ZEPHIR_CALL_METHOD(NULL, &criteria, "bind", NULL, 452, &bind);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_METHOD(NULL, &criteria, "setmodelname", NULL, 444, &modelName);
+	ZEPHIR_CALL_METHOD(NULL, &criteria, "setmodelname", NULL, 445, &modelName);
 	zephir_check_call_status();
 	RETURN_CCTOR(&criteria);
 
@@ -1771,6 +1800,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput) {
 PHP_METHOD(Phalcon_Mvc_Model_Criteria, createBuilder) {
 
 	zval container, manager, builder, _1, _2, _3, _4;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
@@ -1815,6 +1845,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, execute) {
 
 	zend_class_entry *_1;
 	zval model, _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -1841,6 +1872,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, execute) {
 zend_object *zephir_init_properties_Phalcon_Mvc_Model_Criteria(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval _0, _1$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
 

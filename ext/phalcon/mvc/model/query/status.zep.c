@@ -80,7 +80,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Status, __construct) {
 	ZVAL_BOOL(&__$false, 0);
 	ZVAL_NULL(&__$null);
 
-	zephir_fetch_params(0, 1, 1, &success_param, &model);
+	zephir_fetch_params_without_memory_grow(1, 1, &success_param, &model);
 
 	success = zephir_get_boolval(success_param);
 	if (!model) {
@@ -104,6 +104,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Status, __construct) {
 PHP_METHOD(Phalcon_Mvc_Model_Query_Status, getMessages) {
 
 	zval model, _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 

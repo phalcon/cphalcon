@@ -80,6 +80,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Config_Adapter_Yaml) {
  */
 PHP_METHOD(Phalcon_Config_Adapter_Yaml, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_7 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS, ndocs;
 	zval callbacks;

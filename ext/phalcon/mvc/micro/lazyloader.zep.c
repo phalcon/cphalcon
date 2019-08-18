@@ -61,6 +61,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, getDefinition) {
  */
 PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *definition_param = NULL;
 	zval definition;
 	zval *this_ptr = getThis();
@@ -96,6 +97,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __construct) {
 PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, callMethod) {
 
 	zval _4;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *method_param = NULL, *arguments = NULL, arguments_sub, *modelBinder = NULL, modelBinder_sub, __$null, handler, definition, bindCacheKey, _0, _1$$4, _2$$4, _3$$5;
 	zval method;

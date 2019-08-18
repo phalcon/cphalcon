@@ -51,6 +51,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Memory) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Memory, read) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *key_param = NULL, data, _0, _1;
 	zval key;
 	zval *this_ptr = getThis();
@@ -90,6 +91,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Memory, read) {
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Memory, write) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *key_param = NULL, *data, data_sub, lowercasedKey;
 	zval key;
 	zval *this_ptr = getThis();

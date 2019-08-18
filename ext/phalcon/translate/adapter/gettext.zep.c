@@ -127,6 +127,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, getLocale) {
  */
 PHP_METHOD(Phalcon_Translate_Adapter_Gettext, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval options;
@@ -159,6 +160,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, __construct) {
  */
 PHP_METHOD(Phalcon_Translate_Adapter_Gettext, exists) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *index_param = NULL, result;
 	zval index;
@@ -195,6 +197,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, exists) {
  */
 PHP_METHOD(Phalcon_Translate_Adapter_Gettext, nquery) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long count, ZEPHIR_LAST_CALL_STATUS;
 	zval *msgid1_param = NULL, *msgid2_param = NULL, *count_param = NULL, *placeholders = NULL, placeholders_sub, *domain_param = NULL, __$null, translation, _0$$3, _1$$4;
 	zval msgid1, msgid2, domain;
@@ -284,6 +287,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, nquery) {
  */
 PHP_METHOD(Phalcon_Translate_Adapter_Gettext, query) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *index_param = NULL, *placeholders = NULL, placeholders_sub, __$null, translation;
 	zval index;
@@ -327,6 +331,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, query) {
 PHP_METHOD(Phalcon_Translate_Adapter_Gettext, resetDomain) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -347,6 +352,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, resetDomain) {
  */
 PHP_METHOD(Phalcon_Translate_Adapter_Gettext, setDefaultDomain) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *domain_param = NULL;
 	zval domain;
 	zval *this_ptr = getThis();
@@ -395,6 +401,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, setDirectory) {
 
 	zend_string *_3$$4;
 	zend_ulong _2$$4;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_4 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *directory, directory_sub, key, value, *_0$$4, _1$$4, _5$$7;
@@ -467,6 +474,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, setDirectory) {
  */
 PHP_METHOD(Phalcon_Translate_Adapter_Gettext, setDomain) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *domain, domain_sub;
 	zval *this_ptr = getThis();
@@ -497,6 +505,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, setDomain) {
  */
 PHP_METHOD(Phalcon_Translate_Adapter_Gettext, setLocale) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval locale;
 	zval *category_param = NULL, *locale_param = NULL, _0, _1, _2, _3, _4, _5, _6, _7, _8, _9, _10;
 	zend_long category, ZEPHIR_LAST_CALL_STATUS;
@@ -589,6 +598,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, getOptionsDefault) {
  */
 PHP_METHOD(Phalcon_Translate_Adapter_Gettext, prepareOptions) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *options_param = NULL, _0, _1, _2, _3, _4, _5, _6;
 	zval options;

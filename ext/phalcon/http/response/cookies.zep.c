@@ -108,6 +108,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Response_Cookies) {
  */
 PHP_METHOD(Phalcon_Http_Response_Cookies, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval signKey;
 	zval *useEncryption_param = NULL, *signKey_param = NULL, __$true, __$false;
@@ -151,6 +152,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, __construct) {
  */
 PHP_METHOD(Phalcon_Http_Response_Cookies, delete) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *name_param = NULL, cookie, _0;
 	zval name;
@@ -192,6 +194,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, delete) {
 PHP_METHOD(Phalcon_Http_Response_Cookies, get) {
 
 	zval _3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *name_param = NULL, container, encryption, cookie, _0, _1, _2, _4, _5, _6$$5;
 	zval name;
@@ -288,6 +291,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, getDI) {
 PHP_METHOD(Phalcon_Http_Response_Cookies, has) {
 
 	zend_bool _1;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *name_param = NULL, _COOKIE, _0;
 	zval name;
 	zval *this_ptr = getThis();
@@ -339,6 +343,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, isUsingEncryption) {
 PHP_METHOD(Phalcon_Http_Response_Cookies, reset) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
@@ -359,6 +364,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, reset) {
 PHP_METHOD(Phalcon_Http_Response_Cookies, send) {
 
 	zval cookie, _0, _1, *_2, _3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -369,7 +375,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, send) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_CALL_FUNCTION(&_0, "headers_sent", NULL, 362);
+	ZEPHIR_CALL_FUNCTION(&_0, "headers_sent", NULL, 363);
 	zephir_check_call_status();
 	if (zephir_is_true(&_0)) {
 		RETURN_MM_BOOL(0);
@@ -428,6 +434,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, send) {
 PHP_METHOD(Phalcon_Http_Response_Cookies, set) {
 
 	zval _3$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_14 = NULL;
 	zend_bool secure, httpOnly;
 	zend_long expire, ZEPHIR_LAST_CALL_STATUS;
@@ -626,7 +633,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, setDI) {
 
 	ZVAL_UNDEF(&container_sub);
 
-	zephir_fetch_params(0, 1, 0, &container);
+	zephir_fetch_params_without_memory_grow(1, 0, &container);
 
 
 
@@ -646,6 +653,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, setDI) {
  */
 PHP_METHOD(Phalcon_Http_Response_Cookies, setSignKey) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *signKey_param = NULL;
 	zval signKey;
 	zval *this_ptr = getThis();
@@ -680,7 +688,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, useEncryption) {
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
 
-	zephir_fetch_params(0, 1, 0, &useEncryption_param);
+	zephir_fetch_params_without_memory_grow(1, 0, &useEncryption_param);
 
 	useEncryption = zephir_get_boolval(useEncryption_param);
 
@@ -697,6 +705,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, useEncryption) {
 zend_object *zephir_init_properties_Phalcon_Http_Response_Cookies(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval _0, _1$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
 

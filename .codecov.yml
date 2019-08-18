@@ -1,0 +1,40 @@
+codecov:
+  notify:
+    require_ci_to_pass: yes
+
+coverage:
+  precision: 2
+  round: down
+  range: "65...90"
+
+  status:
+    project:
+      default:
+        # Allow the coverage to drop by threshold %, and posting a success status.
+        threshold: 0.5
+    patch:
+      default:
+        # trial operation
+        target: 0%
+    changes: no
+
+comment:
+  layout: "header, diff"
+  behavior: default
+  require_changes: no
+
+ignore:
+  - ".git"
+  - "*.yml"
+  - "*.json"
+  - "*.md"
+  # ignore folders and all its contents
+  - ".ci/.*"
+  - ".github/.*"
+  - ".zephir/.*"
+  - "backers/.*"
+  - "ext/kernel/.*"
+  - "ide/.*"
+  - "resources/.*"
+  - "tests/.*"
+  - "vendor/.*"

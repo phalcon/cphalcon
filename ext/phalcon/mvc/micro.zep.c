@@ -96,6 +96,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Micro) {
  */
 PHP_METHOD(Phalcon_Mvc_Micro, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *container = NULL, container_sub, __$null;
 	zval *this_ptr = getThis();
@@ -132,7 +133,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, after) {
 
 	ZVAL_UNDEF(&handler_sub);
 
-	zephir_fetch_params(0, 1, 0, &handler);
+	zephir_fetch_params_without_memory_grow(1, 0, &handler);
 
 
 
@@ -153,7 +154,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, afterBinding) {
 
 	ZVAL_UNDEF(&handler_sub);
 
-	zephir_fetch_params(0, 1, 0, &handler);
+	zephir_fetch_params_without_memory_grow(1, 0, &handler);
 
 
 
@@ -174,7 +175,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, before) {
 
 	ZVAL_UNDEF(&handler_sub);
 
-	zephir_fetch_params(0, 1, 0, &handler);
+	zephir_fetch_params_without_memory_grow(1, 0, &handler);
 
 
 
@@ -190,6 +191,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, before) {
  */
 PHP_METHOD(Phalcon_Mvc_Micro, delete) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *routePattern_param = NULL, *handler, handler_sub, router, route, _0;
 	zval routePattern;
@@ -240,7 +242,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, error) {
 
 	ZVAL_UNDEF(&handler_sub);
 
-	zephir_fetch_params(0, 1, 0, &handler);
+	zephir_fetch_params_without_memory_grow(1, 0, &handler);
 
 
 
@@ -261,7 +263,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, finish) {
 
 	ZVAL_UNDEF(&handler_sub);
 
-	zephir_fetch_params(0, 1, 0, &handler);
+	zephir_fetch_params_without_memory_grow(1, 0, &handler);
 
 
 
@@ -277,6 +279,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, finish) {
  */
 PHP_METHOD(Phalcon_Mvc_Micro, get) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *routePattern_param = NULL, *handler, handler_sub, router, route, _0;
 	zval routePattern;
@@ -334,6 +337,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, getActiveHandler) {
 PHP_METHOD(Phalcon_Mvc_Micro, getBoundModels) {
 
 	zval modelBinder, _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -398,6 +402,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, getReturnedValue) {
 PHP_METHOD(Phalcon_Mvc_Micro, getRouter) {
 
 	zval router, _0, _1$$3, _2$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -433,6 +438,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, getRouter) {
  */
 PHP_METHOD(Phalcon_Mvc_Micro, getService) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *serviceName_param = NULL, container, _0;
 	zval serviceName;
@@ -462,11 +468,11 @@ PHP_METHOD(Phalcon_Mvc_Micro, getService) {
 	if (Z_TYPE_P(&container) != IS_OBJECT) {
 		ZEPHIR_INIT_NVAR(&container);
 		object_init_ex(&container, phalcon_di_factorydefault_ce);
-		ZEPHIR_CALL_METHOD(NULL, &container, "__construct", NULL, 424);
+		ZEPHIR_CALL_METHOD(NULL, &container, "__construct", NULL, 425);
 		zephir_check_call_status();
 		zephir_update_property_zval(this_ptr, SL("container"), &container);
 	}
-	ZEPHIR_RETURN_CALL_METHOD(&container, "get", NULL, 425, &serviceName);
+	ZEPHIR_RETURN_CALL_METHOD(&container, "get", NULL, 426, &serviceName);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -479,6 +485,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, getService) {
  */
 PHP_METHOD(Phalcon_Mvc_Micro, getSharedService) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *serviceName_param = NULL, container, _0;
 	zval serviceName;
@@ -508,11 +515,11 @@ PHP_METHOD(Phalcon_Mvc_Micro, getSharedService) {
 	if (Z_TYPE_P(&container) != IS_OBJECT) {
 		ZEPHIR_INIT_NVAR(&container);
 		object_init_ex(&container, phalcon_di_factorydefault_ce);
-		ZEPHIR_CALL_METHOD(NULL, &container, "__construct", NULL, 424);
+		ZEPHIR_CALL_METHOD(NULL, &container, "__construct", NULL, 425);
 		zephir_check_call_status();
 		zephir_update_property_zval(this_ptr, SL("container"), &container);
 	}
-	ZEPHIR_RETURN_CALL_METHOD(&container, "getshared", NULL, 426, &serviceName);
+	ZEPHIR_RETURN_CALL_METHOD(&container, "getshared", NULL, 427, &serviceName);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -529,6 +536,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
 	zval _73$$59, _78$$64, _83$$69;
 	zend_class_entry *_29$$21;
 	zend_bool _27$$7, _38$$7, _19$$11, _23$$16, _34$$25, _43$$31, _47$$36, _54$$42, _58$$47, _70$$57, _75$$62, _88$$79;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_3 = NULL;
 	zval *uri_param = NULL, __$true, __$false, container, eventsManager, status, router, matchedRoute, handler, beforeHandlers, params, returnedValue, e, errorHandler, afterHandlers, notFoundHandler, finishHandlers, finish, before, after, response, modelBinder, routeName, realHandler, methodName, lazyReturned, afterBindingHandlers, afterBinding, _0, _80, _1$$3, _2$$3, _4$$3, _5$$4, _8$$4, _9$$4, *_68$$4, _69$$4, _6$$5, _7$$5, _10$$7, _11$$7, _16$$7, *_17$$7, _18$$7, *_41$$7, _42$$7, *_52$$7, _53$$7, _12$$8, _13$$8, _14$$9, _15$$9, _22$$11, _20$$14, _21$$14, _26$$16, _24$$19, _25$$19, _28$$21, _30$$23, _31$$24, _32$$24, _33$$22, _35$$26, _36$$26, _37$$26, _39$$29, _40$$29, _46$$31, _44$$34, _45$$34, _50$$36, _48$$39, _49$$39, _51$$41, _57$$42, _55$$45, _56$$45, _61$$47, _59$$50, _60$$50, _62$$52, _63$$53, _64$$53, _65$$55, _66$$55, _67$$56, _74$$57, _71$$60, _72$$60, _79$$62, _76$$65, _77$$65, _81$$67, _82$$68, _84$$77, _85$$77, _86$$80, _87$$80, _89$$82;
@@ -1286,6 +1294,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, handle) {
  */
 PHP_METHOD(Phalcon_Mvc_Micro, hasService) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *serviceName_param = NULL, container, _0;
 	zval serviceName;
@@ -1315,11 +1324,11 @@ PHP_METHOD(Phalcon_Mvc_Micro, hasService) {
 	if (Z_TYPE_P(&container) != IS_OBJECT) {
 		ZEPHIR_INIT_NVAR(&container);
 		object_init_ex(&container, phalcon_di_factorydefault_ce);
-		ZEPHIR_CALL_METHOD(NULL, &container, "__construct", NULL, 424);
+		ZEPHIR_CALL_METHOD(NULL, &container, "__construct", NULL, 425);
 		zephir_check_call_status();
 		zephir_update_property_zval(this_ptr, SL("container"), &container);
 	}
-	ZEPHIR_RETURN_CALL_METHOD(&container, "has", NULL, 427, &serviceName);
+	ZEPHIR_RETURN_CALL_METHOD(&container, "has", NULL, 428, &serviceName);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -1332,6 +1341,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, hasService) {
  */
 PHP_METHOD(Phalcon_Mvc_Micro, head) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *routePattern_param = NULL, *handler, handler_sub, router, route, _0;
 	zval routePattern;
@@ -1376,6 +1386,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, head) {
  */
 PHP_METHOD(Phalcon_Mvc_Micro, map) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *routePattern_param = NULL, *handler, handler_sub, router, route, _0;
 	zval routePattern;
@@ -1419,6 +1430,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, map) {
 PHP_METHOD(Phalcon_Mvc_Micro, mount) {
 
 	zend_bool _4$$7, _5$$7, _7$$15, _8$$15;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_3 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *collection, collection_sub, mainHandler, handlers, lazyHandler, prefix, methods, pattern, subHandler, realHandler, prefixedPattern, route, handler, name, _0, *_1, _2, _6$$15;
@@ -1463,7 +1475,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, mount) {
 	if (zephir_is_true(&_0)) {
 		ZEPHIR_INIT_VAR(&lazyHandler);
 		object_init_ex(&lazyHandler, phalcon_mvc_micro_lazyloader_ce);
-		ZEPHIR_CALL_METHOD(NULL, &lazyHandler, "__construct", NULL, 428, &mainHandler);
+		ZEPHIR_CALL_METHOD(NULL, &lazyHandler, "__construct", NULL, 429, &mainHandler);
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_CPY_WRT(&lazyHandler, &mainHandler);
@@ -1599,7 +1611,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, notFound) {
 
 	ZVAL_UNDEF(&handler_sub);
 
-	zephir_fetch_params(0, 1, 0, &handler);
+	zephir_fetch_params_without_memory_grow(1, 0, &handler);
 
 
 
@@ -1614,6 +1626,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, notFound) {
  */
 PHP_METHOD(Phalcon_Mvc_Micro, offsetExists) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *alias, alias_sub;
 	zval *this_ptr = getThis();
@@ -1643,6 +1656,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, offsetExists) {
  */
 PHP_METHOD(Phalcon_Mvc_Micro, offsetGet) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *alias, alias_sub;
 	zval *this_ptr = getThis();
@@ -1670,6 +1684,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, offsetGet) {
  */
 PHP_METHOD(Phalcon_Mvc_Micro, offsetSet) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *alias, alias_sub, *definition, definition_sub;
 	zval *this_ptr = getThis();
@@ -1694,6 +1709,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, offsetSet) {
  */
 PHP_METHOD(Phalcon_Mvc_Micro, offsetUnset) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *alias, alias_sub, container, _0;
 	zval *this_ptr = getThis();
@@ -1712,11 +1728,11 @@ PHP_METHOD(Phalcon_Mvc_Micro, offsetUnset) {
 	if (Z_TYPE_P(&container) != IS_OBJECT) {
 		ZEPHIR_INIT_NVAR(&container);
 		object_init_ex(&container, phalcon_di_factorydefault_ce);
-		ZEPHIR_CALL_METHOD(NULL, &container, "__construct", NULL, 424);
+		ZEPHIR_CALL_METHOD(NULL, &container, "__construct", NULL, 425);
 		zephir_check_call_status();
 		zephir_update_property_zval(this_ptr, SL("container"), &container);
 	}
-	ZEPHIR_CALL_METHOD(NULL, &container, "remove", NULL, 429, alias);
+	ZEPHIR_CALL_METHOD(NULL, &container, "remove", NULL, 430, alias);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -1729,6 +1745,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, offsetUnset) {
  */
 PHP_METHOD(Phalcon_Mvc_Micro, options) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *routePattern_param = NULL, *handler, handler_sub, router, route, _0;
 	zval routePattern;
@@ -1773,6 +1790,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, options) {
  */
 PHP_METHOD(Phalcon_Mvc_Micro, patch) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *routePattern_param = NULL, *handler, handler_sub, router, route, _0;
 	zval routePattern;
@@ -1817,6 +1835,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, patch) {
  */
 PHP_METHOD(Phalcon_Mvc_Micro, post) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *routePattern_param = NULL, *handler, handler_sub, router, route, _0;
 	zval routePattern;
@@ -1861,6 +1880,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, post) {
  */
 PHP_METHOD(Phalcon_Mvc_Micro, put) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *routePattern_param = NULL, *handler, handler_sub, router, route, _0;
 	zval routePattern;
@@ -1910,7 +1930,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, setActiveHandler) {
 
 	ZVAL_UNDEF(&activeHandler_sub);
 
-	zephir_fetch_params(0, 1, 0, &activeHandler);
+	zephir_fetch_params_without_memory_grow(1, 0, &activeHandler);
 
 
 
@@ -1923,6 +1943,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, setActiveHandler) {
  */
 PHP_METHOD(Phalcon_Mvc_Micro, setDI) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *container, container_sub, _0, _1, _2$$3;
 	zval *this_ptr = getThis();
@@ -1966,6 +1987,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, setDI) {
  */
 PHP_METHOD(Phalcon_Mvc_Micro, setModelBinder) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *modelBinder, modelBinder_sub, *cache = NULL, cache_sub, __$null, _0$$3;
 	zval *this_ptr = getThis();
@@ -2013,7 +2035,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, setResponseHandler) {
 
 	ZVAL_UNDEF(&handler_sub);
 
-	zephir_fetch_params(0, 1, 0, &handler);
+	zephir_fetch_params_without_memory_grow(1, 0, &handler);
 
 
 
@@ -2027,6 +2049,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, setResponseHandler) {
  */
 PHP_METHOD(Phalcon_Mvc_Micro, setService) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool shared;
 	zval *serviceName_param = NULL, *definition, definition_sub, *shared_param = NULL, container, _0;
@@ -2063,7 +2086,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, setService) {
 	if (Z_TYPE_P(&container) != IS_OBJECT) {
 		ZEPHIR_INIT_NVAR(&container);
 		object_init_ex(&container, phalcon_di_factorydefault_ce);
-		ZEPHIR_CALL_METHOD(NULL, &container, "__construct", NULL, 424);
+		ZEPHIR_CALL_METHOD(NULL, &container, "__construct", NULL, 425);
 		zephir_check_call_status();
 		zephir_update_property_zval(this_ptr, SL("container"), &container);
 	}
@@ -2072,7 +2095,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, setService) {
 	} else {
 		ZVAL_BOOL(&_0, 0);
 	}
-	ZEPHIR_RETURN_CALL_METHOD(&container, "set", NULL, 430, &serviceName, definition, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(&container, "set", NULL, 431, &serviceName, definition, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -2102,6 +2125,7 @@ PHP_METHOD(Phalcon_Mvc_Micro, stop) {
 zend_object *zephir_init_properties_Phalcon_Mvc_Micro(zend_class_entry *class_type TSRMLS_DC) {
 
 		zval _0, _2, _4, _6, _8, _1$$3, _3$$4, _5$$5, _7$$6, _9$$7;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_4);

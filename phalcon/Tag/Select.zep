@@ -13,7 +13,7 @@ namespace Phalcon\Tag;
 use Phalcon\Tag\Exception;
 use Phalcon\Tag as BaseTag;
 use Phalcon\Escaper\EscaperInterface;
-use Phalcon\Mvc\Model\ResulsetInterface;
+use Phalcon\Mvc\Model\ResultsetInterface;
 
 /**
  * Phalcon\Tag\Select
@@ -186,7 +186,7 @@ abstract class Select
      * @param array using
      */
     private static function optionsFromResultset(
-        <ResulsetInterface> resultset,
+        <ResultsetInterface> resultset,
         var using,
         var value,
         string closeOption

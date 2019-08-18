@@ -49,6 +49,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Forms_Element_Select) {
  */
 PHP_METHOD(Phalcon_Forms_Element_Select, __construct) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval *name_param = NULL, *options = NULL, options_sub, *attributes = NULL, attributes_sub, __$null;
@@ -84,12 +85,13 @@ PHP_METHOD(Phalcon_Forms_Element_Select, __construct) {
 /**
  * Adds an option to the current options
  *
- * @param array option
+ * @param array|string option
  */
 PHP_METHOD(Phalcon_Forms_Element_Select, addOption) {
 
 	zend_string *_3$$3;
 	zend_ulong _2$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *option, option_sub, key, value, *_0$$3, _1$$3;
 	zval *this_ptr = getThis();
@@ -165,6 +167,7 @@ PHP_METHOD(Phalcon_Forms_Element_Select, getOptions) {
  */
 PHP_METHOD(Phalcon_Forms_Element_Select, render) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval *attributes_param = NULL, _1, _2;
@@ -207,7 +210,7 @@ PHP_METHOD(Phalcon_Forms_Element_Select, setOptions) {
 
 	ZVAL_UNDEF(&options_sub);
 
-	zephir_fetch_params(0, 1, 0, &options);
+	zephir_fetch_params_without_memory_grow(1, 0, &options);
 
 
 

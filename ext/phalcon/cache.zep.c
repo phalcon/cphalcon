@@ -73,7 +73,7 @@ PHP_METHOD(Phalcon_Cache, __construct) {
 
 	ZVAL_UNDEF(&adapter_sub);
 
-	zephir_fetch_params(0, 1, 0, &adapter);
+	zephir_fetch_params_without_memory_grow(1, 0, &adapter);
 
 
 
@@ -89,6 +89,7 @@ PHP_METHOD(Phalcon_Cache, __construct) {
 PHP_METHOD(Phalcon_Cache, clear) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -115,6 +116,7 @@ PHP_METHOD(Phalcon_Cache, clear) {
  */
 PHP_METHOD(Phalcon_Cache, delete) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *key, key_sub, _0;
 	zval *this_ptr = getThis();
@@ -150,6 +152,7 @@ PHP_METHOD(Phalcon_Cache, delete) {
 PHP_METHOD(Phalcon_Cache, deleteMultiple) {
 
 	zend_bool result = 0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *keys, keys_sub, key, *_0, _1, _2$$3, _3$$3, _4$$5, _5$$5;
 	zval *this_ptr = getThis();
@@ -222,6 +225,7 @@ PHP_METHOD(Phalcon_Cache, deleteMultiple) {
  */
 PHP_METHOD(Phalcon_Cache, get) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *key, key_sub, *defaultValue = NULL, defaultValue_sub, __$null, _0;
 	zval *this_ptr = getThis();
@@ -264,6 +268,7 @@ PHP_METHOD(Phalcon_Cache, get) {
 PHP_METHOD(Phalcon_Cache, getMultiple) {
 
 	zval results;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_3 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *keys, keys_sub, *defaultValue = NULL, defaultValue_sub, __$null, element, *_0, _1, _2$$3, _4$$4;
@@ -336,6 +341,7 @@ PHP_METHOD(Phalcon_Cache, getMultiple) {
  */
 PHP_METHOD(Phalcon_Cache, has) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *key, key_sub, _0;
 	zval *this_ptr = getThis();
@@ -373,6 +379,7 @@ PHP_METHOD(Phalcon_Cache, has) {
  */
 PHP_METHOD(Phalcon_Cache, set) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *key, key_sub, *value, value_sub, *ttl = NULL, ttl_sub, __$null, _0;
 	zval *this_ptr = getThis();
@@ -420,6 +427,7 @@ PHP_METHOD(Phalcon_Cache, setMultiple) {
 	zend_string *_3;
 	zend_ulong _2;
 	zend_bool result = 0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_5 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *values, values_sub, *ttl = NULL, ttl_sub, __$null, key, value, *_0, _1, _4$$3, _6$$5;
@@ -498,6 +506,7 @@ PHP_METHOD(Phalcon_Cache, setMultiple) {
 PHP_METHOD(Phalcon_Cache, checkKey) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *key = NULL, key_sub, _1, _2, _3, _4;
 	zval *this_ptr = getThis();
 
@@ -542,7 +551,7 @@ PHP_METHOD(Phalcon_Cache, checkKeys) {
 
 	ZVAL_UNDEF(&keys_sub);
 
-	zephir_fetch_params(0, 1, 0, &keys);
+	zephir_fetch_params_without_memory_grow(1, 0, &keys);
 
 
 

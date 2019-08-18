@@ -19,7 +19,7 @@ class Json extends AbstractSerializer
 	 */
 	public function serialize() -> string
 	{
-        if this->isSerializable(this->data) {
+        if !this->isSerializable(this->data) {
             return this->data;
         }
 

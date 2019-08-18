@@ -75,6 +75,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Alnum) {
  */
 PHP_METHOD(Phalcon_Validation_Validator_Alnum, validate) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *validation, validation_sub, *field, field_sub, value, _0, _1$$3;
 	zval *this_ptr = getThis();

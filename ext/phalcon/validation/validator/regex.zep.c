@@ -83,6 +83,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Regex) {
 PHP_METHOD(Phalcon_Validation_Validator_Regex, validate) {
 
 	zend_bool failed = 0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *validation, validation_sub, *field, field_sub, matches, value, pattern, _0, _1$$3, _2$$4, _3$$6;
 	zval *this_ptr = getThis();

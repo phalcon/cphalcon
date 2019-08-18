@@ -103,6 +103,7 @@ PHP_METHOD(Phalcon_Debug, clearVars) {
 PHP_METHOD(Phalcon_Debug, debugVar) {
 
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval key;
 	zval *varz, varz_sub, *key_param = NULL, _1, _2;
@@ -145,6 +146,7 @@ PHP_METHOD(Phalcon_Debug, debugVar) {
 PHP_METHOD(Phalcon_Debug, getCssSources) {
 
 	zval uri, sources, _0, _1, _2;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&uri);
@@ -175,6 +177,7 @@ PHP_METHOD(Phalcon_Debug, getCssSources) {
 PHP_METHOD(Phalcon_Debug, getJsSources) {
 
 	zval uri, sources, _0, _1, _2, _3, _4;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&uri);
@@ -212,6 +215,7 @@ PHP_METHOD(Phalcon_Debug, getJsSources) {
  */
 PHP_METHOD(Phalcon_Debug, getVersion) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval __$false, link, _0, _2, _3, _4, _5;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_1 = NULL, *_6 = NULL, *_7 = NULL;
@@ -268,6 +272,7 @@ PHP_METHOD(Phalcon_Debug, halt) {
  */
 PHP_METHOD(Phalcon_Debug, listen) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *exceptions_param = NULL, *lowSeverity_param = NULL;
 	zend_bool exceptions, lowSeverity;
@@ -308,6 +313,7 @@ PHP_METHOD(Phalcon_Debug, listenExceptions) {
 
 	zval _1;
 	zval _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -335,6 +341,7 @@ PHP_METHOD(Phalcon_Debug, listenLowSeverity) {
 
 	zval _1;
 	zval _0, _2;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -371,6 +378,7 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException) {
 
 	zend_string *_15$$5, *_26$$5, *_41$$5, *_53$$5, *_61$$23;
 	zend_ulong _14$$5, _25$$5, _40$$5, _52$$5, _60$$23;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_17 = NULL, *_19 = NULL, *_30 = NULL, *_44 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *exception, exception_sub, __$true, _REQUEST, _SERVER, __$false, blacklist, className, dataVar, dataVars, escapedMessage, html, keyFile, keyRequest, keyServer, keyVar, n, showBackTrace, traceItem, obLevel, value, _0, _2, _3, _4, _5, _6, _7, _8, _9, _10, _68, _69, _1$$4, _11$$5, *_12$$5, _13$$5, _20$$5, _21$$5, _22$$5, *_23$$5, _24$$5, _36$$5, _37$$5, *_38$$5, _39$$5, _49$$5, *_50$$5, _51$$5, _56$$5, _57$$5, _16$$7, _18$$8, _27$$9, _28$$11, _29$$12, _31$$12, _32$$13, _33$$15, _34$$16, _35$$16, _42$$17, _43$$18, _45$$18, _46$$19, _47$$20, _48$$20, _54$$21, _55$$22, *_58$$23, _59$$23, _62$$24, _63$$24, _64$$24, _65$$25, _66$$25, _67$$25;
@@ -803,6 +811,7 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException) {
  */
 PHP_METHOD(Phalcon_Debug, onUncaughtLowSeverity) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *severity, severity_sub, *message, message_sub, *file, file_sub, *line, line_sub, *context, context_sub, _0, _1, _2$$3, _3$$3;
 	zval *this_ptr = getThis();
@@ -845,6 +854,7 @@ PHP_METHOD(Phalcon_Debug, onUncaughtLowSeverity) {
  */
 PHP_METHOD(Phalcon_Debug, setBlacklist) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval *blacklist_param = NULL, area, result, subArray, value, _1, _2, *_3, _4, _7, *_8, _9, _5$$3, _6$$4, _10$$5, _11$$6;
@@ -979,7 +989,7 @@ PHP_METHOD(Phalcon_Debug, setShowBackTrace) {
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
 
-	zephir_fetch_params(0, 1, 0, &showBackTrace_param);
+	zephir_fetch_params_without_memory_grow(1, 0, &showBackTrace_param);
 
 	showBackTrace = zephir_get_boolval(showBackTrace_param);
 
@@ -1006,7 +1016,7 @@ PHP_METHOD(Phalcon_Debug, setShowFileFragment) {
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
 
-	zephir_fetch_params(0, 1, 0, &showFileFragment_param);
+	zephir_fetch_params_without_memory_grow(1, 0, &showFileFragment_param);
 
 	showFileFragment = zephir_get_boolval(showFileFragment_param);
 
@@ -1032,7 +1042,7 @@ PHP_METHOD(Phalcon_Debug, setShowFiles) {
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
 
-	zephir_fetch_params(0, 1, 0, &showFiles_param);
+	zephir_fetch_params_without_memory_grow(1, 0, &showFiles_param);
 
 	showFiles = zephir_get_boolval(showFiles_param);
 
@@ -1051,6 +1061,7 @@ PHP_METHOD(Phalcon_Debug, setShowFiles) {
  */
 PHP_METHOD(Phalcon_Debug, setUri) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *uri_param = NULL;
 	zval uri;
 	zval *this_ptr = getThis();
@@ -1082,6 +1093,7 @@ PHP_METHOD(Phalcon_Debug, setUri) {
  */
 PHP_METHOD(Phalcon_Debug, escapeString) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *value, value_sub, _0$$3, _1$$3, _2$$3, _3$$3, _4$$3;
 	zval *this_ptr = getThis();
@@ -1125,6 +1137,7 @@ PHP_METHOD(Phalcon_Debug, getArrayDump) {
 	zend_string *_4;
 	zend_ulong _3;
 	zend_bool _0;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_5 = NULL, *_8 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *argument_param = NULL, *n = NULL, n_sub, numberArguments, dump, varDump, k, v, *_1, _2, _6$$8, _7$$8, _9$$9, _10$$5, _11$$15, _12$$15, _13$$16, _14$$12;
@@ -1267,6 +1280,7 @@ PHP_METHOD(Phalcon_Debug, getArrayDump) {
  */
 PHP_METHOD(Phalcon_Debug, getVarDump) {
 
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *variable, variable_sub, className, dumpedObject, _0$$8, _1$$10;
 	zval *this_ptr = getThis();
@@ -1333,6 +1347,7 @@ PHP_METHOD(Phalcon_Debug, showTraceItem) {
 
 	zend_bool _42$$25;
 	zval _1, _28$$17;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_21 = NULL, *_49 = NULL;
 	zval trace;
 	zval *n_param = NULL, *trace_param = NULL, className, prepareInternalClass, preparedFunctionName, html, classReflection, prepareUriClass, functionName, functionReflection, traceArgs, arguments, argument, filez, line, showFiles, lines, numberLines, showFileFragment, firstLine, lastLine, linePosition, currentLine, classNameWithLink, functionNameWithLink, _0, _17, _2$$3, _3$$3, _4$$3, _5$$3, _12$$3, _13$$3, _6$$4, _7$$4, _8$$5, _9$$6, _10$$6, _11$$6, _14$$10, _15$$11, _16$$11, *_18$$14, _19$$14, _25$$14, _26$$14, _20$$15, _22$$15, _23$$16, _24$$16, _27$$17, _29$$17, _30$$17, _31$$18, _32$$19, _33$$24, _34$$27, _35$$27, _36$$27, _37$$27, _38$$27, _39$$28, _40$$28, _41$$28, _43$$30, _44$$30, _45$$30, _46$$30, _47$$30, _48$$30;
@@ -1652,6 +1667,7 @@ zend_object *zephir_init_properties_Phalcon_Debug(zend_class_entry *class_type T
 
 		zval _1$$3;
 	zval _0, _2$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2$$3);
 	ZVAL_UNDEF(&_1$$3);

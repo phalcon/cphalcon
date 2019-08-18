@@ -156,7 +156,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, setDefaultAction) {
 
 	ZVAL_UNDEF(&_0);
 
-	zephir_fetch_params(0, 1, 0, &defaultAccess_param);
+	zephir_fetch_params_without_memory_grow(1, 0, &defaultAccess_param);
 
 	defaultAccess = zephir_get_intval(defaultAccess_param);
 
@@ -177,7 +177,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, setEventsManager) {
 
 	ZVAL_UNDEF(&eventsManager_sub);
 
-	zephir_fetch_params(0, 1, 0, &eventsManager);
+	zephir_fetch_params_without_memory_grow(1, 0, &eventsManager);
 
 
 
