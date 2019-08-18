@@ -32,9 +32,9 @@ environment:
   PHP_AVM: https://raw.githubusercontent.com/sergeyklay/php-appveyor/master/php-appveyor.psm1
 
   PHP_SDK_VERSION: 2.1.9
-  ZEPHIR_PARSER_VERSION: 1.3.0
+  ZEPHIR_PARSER_VERSION: 1.3.1
   ZEPHIR_PARSER_RELEASE: 476
-  ZEPHIR_VERSION: 0.12.0
+  ZEPHIR_VERSION: 0.12.2
 
   TEST_PHP_EXECUTABLE: C:\php\php.exe
   NO_INTERACTION: 1
