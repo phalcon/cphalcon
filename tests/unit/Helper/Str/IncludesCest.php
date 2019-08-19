@@ -33,5 +33,8 @@ class IncludesCest
 
         $actual = Str::includes('unknown', $source);
         $I->assertFalse($actual);
+
+        $actual = Str::includes('Mary', $source);
+        $I->assertTrue($actual);
     }
 }
