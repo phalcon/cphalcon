@@ -11,7 +11,7 @@
 namespace Phalcon\Logger\Adapter;
 
 use LogicException;
-use Phalcon\Logger\Logger;
+use Phalcon\Logger;
 use Phalcon\Logger\Adapter;
 use Phalcon\Logger\Exception;
 use Phalcon\Logger\Formatter\FormatterInterface;

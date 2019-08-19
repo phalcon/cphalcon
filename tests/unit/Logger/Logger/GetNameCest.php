@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Logger\Logger;
 
-use Phalcon\Logger\Logger;
+use Phalcon\Logger;
 use UnitTester;
 
 class GetNameCest

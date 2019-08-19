@@ -14,7 +14,7 @@ namespace Phalcon\Test\Unit\Logger\Adapter\Noop;
 
 use Phalcon\Logger\Adapter\Noop;
 use Phalcon\Logger\Item;
-use Phalcon\Logger\Logger;
+use Phalcon\Logger;
 use UnitTester;
 
 class AddCest
