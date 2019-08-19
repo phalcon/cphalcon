@@ -15,7 +15,7 @@ namespace Phalcon\Test\Unit\Logger\Logger;
 use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Logger\Exception;
 use Phalcon\Logger\Formatter\Json;
-use Phalcon\Logger\Logger;
+use Phalcon\Logger;
 use Phalcon\Test\Fixtures\Traits\LoggerTrait;
 use Psr\Log\LoggerInterface;
 use UnitTester;

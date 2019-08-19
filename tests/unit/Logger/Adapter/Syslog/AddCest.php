@@ -27,7 +27,7 @@ namespace Phalcon\Test\Unit\Logger\Adapter\Syslog {
 
     use Phalcon\Logger\Adapter\Syslog;
     use Phalcon\Logger\Item;
-    use Phalcon\Logger\Logger;
+    use Phalcon\Logger;
     use UnitTester;
 
     class AddCest

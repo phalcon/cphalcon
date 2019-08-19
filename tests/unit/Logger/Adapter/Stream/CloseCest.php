@@ -14,7 +14,7 @@ namespace Phalcon\Test\Unit\Logger\Adapter\Stream;
 
 use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Logger\Item;
-use Phalcon\Logger\Logger;
+use Phalcon\Logger;
 use UnitTester;
 
 class CloseCest

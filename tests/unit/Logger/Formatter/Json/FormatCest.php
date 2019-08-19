@@ -14,7 +14,7 @@ namespace Phalcon\Test\Unit\Logger\Formatter\Json;
 
 use Phalcon\Logger\Formatter\Json;
 use Phalcon\Logger\Item;
-use Phalcon\Logger\Logger;
+use Phalcon\Logger;
 use UnitTester;
 use const PHP_EOL;
 

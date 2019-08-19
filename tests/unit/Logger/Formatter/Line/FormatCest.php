@@ -14,7 +14,7 @@ namespace Phalcon\Test\Unit\Logger\Formatter\Line;
 
 use Phalcon\Logger\Formatter\Line;
 use Phalcon\Logger\Item;
-use Phalcon\Logger\Logger;
+use Phalcon\Logger;
 use UnitTester;
 use const PHP_EOL;
 

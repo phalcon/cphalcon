@@ -14,7 +14,7 @@ namespace Phalcon\Test\Fixtures\Traits;
 
 use function logsDir;
 use Phalcon\Logger\Adapter\Stream;
-use Phalcon\Logger\Logger;
+use Phalcon\Logger;
 use UnitTester;
 
 trait LoggerTrait
