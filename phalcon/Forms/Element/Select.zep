@@ -38,7 +38,7 @@ class Select extends AbstractElement
     /**
      * Adds an option to the current options
      *
-     * @param array option
+     * @param array|string option
      */
     public function addOption(var option) -> <Element>
     {

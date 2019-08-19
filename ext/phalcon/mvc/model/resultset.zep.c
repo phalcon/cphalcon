@@ -952,7 +952,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, update) {
 		ZEPHIR_CALL_METHOD(NULL, &connection, "commit", NULL, 0);
 		zephir_check_call_status();
 	}
-	RETURN_MM_BOOL(1);
+	RETURN_MM_BOOL(transaction);
 
 }
 

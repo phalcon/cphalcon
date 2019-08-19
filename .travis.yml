@@ -24,7 +24,6 @@ matrix:
     - php: '7.4snapshot'
 
 cache:
-  apt: true
   timeout: 604800
   directories:
     - ${HOME}/.composer/cache

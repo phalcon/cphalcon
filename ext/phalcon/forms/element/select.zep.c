@@ -85,7 +85,7 @@ PHP_METHOD(Phalcon_Forms_Element_Select, __construct) {
 /**
  * Adds an option to the current options
  *
- * @param array option
+ * @param array|string option
  */
 PHP_METHOD(Phalcon_Forms_Element_Select, addOption) {
 

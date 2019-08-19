@@ -252,7 +252,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, delete) {
 
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getadapter", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_1, &_0, "delete", NULL, 0, &key);
+	ZEPHIR_CALL_METHOD(&_1, &_0, "del", NULL, 0, &key);
 	zephir_check_call_status();
 	RETURN_MM_BOOL(zephir_get_boolval(&_1));
 
@@ -351,8 +351,10 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, getAdapter) {
 		ZEPHIR_CPY_WRT(&options, &_1$$3);
 		ZEPHIR_INIT_VAR(&connection);
 		object_init_ex(&connection, zephir_get_internal_ce(SL("redis")));
-		ZEPHIR_CALL_METHOD(NULL, &connection, "__construct", NULL, 0);
-		zephir_check_call_status();
+		if (zephir_has_constructor(&connection TSRMLS_CC)) {
+			ZEPHIR_CALL_METHOD(NULL, &connection, "__construct", NULL, 0);
+			zephir_check_call_status();
+		}
 		ZEPHIR_OBS_VAR(&auth);
 		zephir_array_fetch_string(&auth, &options, SL("auth"), PH_NOISY, "phalcon/Storage/Adapter/Redis.zep", 119 TSRMLS_CC);
 		ZEPHIR_OBS_VAR(&host);
@@ -438,7 +440,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, getKeys) {
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "*");
-	ZEPHIR_RETURN_CALL_METHOD(&_0, "getkeys", NULL, 0, &_1);
+	ZEPHIR_RETURN_CALL_METHOD(&_0, "keys", NULL, 0, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 

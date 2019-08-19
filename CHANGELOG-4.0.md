@@ -1,4 +1,6 @@
-# [4.0.0-beta.2](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-beta.2) (2019-xx-xx)
+# [4.0.0](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0) (2019-xx-xx)
+
+# [4.0.0-beta.2](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-beta.2) (2019-08-18)
 
 ## Fixed
 - Fixed missing imports in `Phalcon\Db\Adapter\AbstractAdapter`, `Phalcon\Db\Adapter\AdapterInterface`, `Phalcon\Db\Result\Pdo`, `Phalcon\Html\Tag` and `Phalcon\Tag\Select`. [#14249](https://github.com/phalcon/cphalcon/issues/14249)

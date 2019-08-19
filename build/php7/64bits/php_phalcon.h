@@ -33,31 +33,7 @@
 
 #include <php.h>
 
-#define ZEPHIR_MAX_MEMORY_STACK 48
 #define ZEPHIR_MAX_CACHE_SLOTS 512
-
-/** Memory frame */
-typedef struct _zephir_memory_entry {
-	size_t pointer;
-	size_t capacity;
-	zval **addresses;
-	size_t hash_pointer;
-	size_t hash_capacity;
-	zval **hash_addresses;
-	struct _zephir_memory_entry *prev;
-	struct _zephir_memory_entry *next;
-#ifndef ZEPHIR_RELEASE
-	int permanent;
-	const char *func;
-#endif
-} zephir_memory_entry;
-
-/** Virtual Symbol Table */
-typedef struct _zephir_symbol_table {
-	struct _zephir_memory_entry *scope;
-	zend_array *symbol_table;
-	struct _zephir_symbol_table *prev;
-} zephir_symbol_table;
 
 typedef struct _zephir_function_cache {
 	zend_class_entry *ce;
@@ -132,10 +108,10 @@ typedef zend_function zephir_fcall_cache_entry;
 
 
 #define PHP_PHALCON_NAME        "phalcon"
-#define PHP_PHALCON_VERSION     "4.0.0-beta.1"
+#define PHP_PHALCON_VERSION     "4.0.0-beta.2"
 #define PHP_PHALCON_EXTNAME     "phalcon"
 #define PHP_PHALCON_AUTHOR      "Phalcon Team and contributors"
-#define PHP_PHALCON_ZEPVERSION  "0.12.0-c893389"
+#define PHP_PHALCON_ZEPVERSION  "0.12.2-b3f17c25"
 #define PHP_PHALCON_DESCRIPTION "Web framework delivered as a C-extension for PHP"
 
 typedef struct _zephir_struct_db { 
@@ -171,14 +147,6 @@ typedef struct _zephir_struct_orm {
 ZEND_BEGIN_MODULE_GLOBALS(phalcon)
 
 	int initialized;
-
-	/* Memory */
-	zephir_memory_entry *start_memory; /**< The first preallocated frame */
-	zephir_memory_entry *end_memory; /**< The last preallocate frame */
-	zephir_memory_entry *active_memory; /**< The current memory frame */
-
-	/* Virtual Symbol Tables */
-	zephir_symbol_table *active_symbol_table;
 
 	/** Function cache */
 	HashTable *fcache;

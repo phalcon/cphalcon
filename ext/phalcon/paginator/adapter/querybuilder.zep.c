@@ -102,6 +102,10 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, __construct) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "Parameter 'builder' is required", "phalcon/Paginator/Adapter/QueryBuilder.zep", 65);
 		return;
 	}
+	if (UNEXPECTED(!((zephir_instance_of_ev(&builder, phalcon_mvc_model_query_builder_ce TSRMLS_CC))))) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "Parameter 'builder' must be an instance of Phalcon\\Mvc\\Model\\Query\\Builder", "phalcon/Paginator/Adapter/QueryBuilder.zep", 68);
+		return;
+	}
 	ZEPHIR_OBS_VAR(&columns);
 	if (zephir_array_isset_string_fetch(&columns, &config, SL("columns"), 0)) {
 		zephir_update_property_zval(this_ptr, SL("columns"), &columns);
@@ -251,7 +255,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, paginate) {
 	}
 	if (_3) {
 		if (UNEXPECTED(ZEPHIR_IS_EMPTY(&columns))) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "When having is set there should be columns option provided for which calculate row count", "phalcon/Paginator/Adapter/QueryBuilder.zep", 162);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "When having is set there should be columns option provided for which calculate row count", "phalcon/Paginator/Adapter/QueryBuilder.zep", 165);
 			return;
 		}
 		ZEPHIR_CALL_METHOD(NULL, &totalBuilder, "columns", NULL, 0, &columns);
@@ -302,13 +306,13 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, paginate) {
 		ZEPHIR_CALL_METHOD(&modelClass, &builder, "getmodels", NULL, 0);
 		zephir_check_call_status();
 		if (UNEXPECTED(Z_TYPE_P(&modelClass) == IS_NULL)) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "Model not defined in builder", "phalcon/Paginator/Adapter/QueryBuilder.zep", 214);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "Model not defined in builder", "phalcon/Paginator/Adapter/QueryBuilder.zep", 217);
 			return;
 		}
 		if (Z_TYPE_P(&modelClass) == IS_ARRAY) {
 			ZEPHIR_CALL_FUNCTION(&_11$$18, "array_values", NULL, 160, &modelClass);
 			zephir_check_call_status();
-			zephir_array_fetch_long(&_12$$18, &_11$$18, 0, PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter/QueryBuilder.zep", 218 TSRMLS_CC);
+			zephir_array_fetch_long(&_12$$18, &_11$$18, 0, PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter/QueryBuilder.zep", 221 TSRMLS_CC);
 			ZEPHIR_CPY_WRT(&modelClass, &_12$$18);
 		}
 		ZEPHIR_INIT_VAR(&model);
@@ -328,15 +332,15 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, paginate) {
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(&db, &_15$$16, "get", NULL, 0, &dbService);
 		zephir_check_call_status();
-		zephir_array_fetch_string(&_16$$16, &sql, SL("sql"), PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter/QueryBuilder.zep", 226 TSRMLS_CC);
+		zephir_array_fetch_string(&_16$$16, &sql, SL("sql"), PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter/QueryBuilder.zep", 229 TSRMLS_CC);
 		ZEPHIR_INIT_VAR(&_17$$16);
 		ZEPHIR_CONCAT_SVS(&_17$$16, "SELECT COUNT(*) as \"rowcount\" FROM (", &_16$$16, ") as T1");
-		zephir_array_fetch_string(&_18$$16, &sql, SL("bind"), PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter/QueryBuilder.zep", 229 TSRMLS_CC);
+		zephir_array_fetch_string(&_18$$16, &sql, SL("bind"), PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter/QueryBuilder.zep", 232 TSRMLS_CC);
 		ZVAL_LONG(&_19$$16, 2);
 		ZEPHIR_CALL_METHOD(&row, &db, "fetchone", NULL, 0, &_17$$16, &_19$$16, &_18$$16);
 		zephir_check_call_status();
 		if (zephir_is_true(&row)) {
-			zephir_array_fetch_string(&_20$$16, &row, SL("rowcount"), PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter/QueryBuilder.zep", 231 TSRMLS_CC);
+			zephir_array_fetch_string(&_20$$16, &row, SL("rowcount"), PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter/QueryBuilder.zep", 234 TSRMLS_CC);
 			ZVAL_LONG(&rowcount, zephir_get_intval(&_20$$16));
 		} else {
 			ZVAL_LONG(&rowcount, 0);

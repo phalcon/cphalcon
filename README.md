@@ -22,6 +22,16 @@ You can either download a binary package for the system of your choice or build 
 
 For detailed installation instructions you can check our [installation](https://docs.phalconphp.com/4.0/en/installation) page in the docs.
 
+## Generating API Documentation
+
+Generating new documentation files for docs repository can be done using the script in tests/_ci/generate-api-docs.php.
+Steps:
+- Clone the phalcon repo
+- Checkout the tag you would like to generate docs for.
+- Run `php tests/_ci/generate-api-docs.php`
+- The files *.md files in nikos/api/ will contain the documentation
+- For publishing to the Phalcon website this [repo](https://github.com/phalcon/docs/tree/4.0/en/api) is used.
+
 ## Links
 
 ### General

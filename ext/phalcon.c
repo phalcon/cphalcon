@@ -1132,10 +1132,20 @@ zend_function_entry php_phalcon_functions[] = {
 
 };
 
+static const zend_module_dep php_phalcon_deps[] = {
+	ZEND_MOD_REQUIRED("pdo")
+	ZEND_MOD_REQUIRED("spl")
+	ZEND_MOD_REQUIRED("standard")
+	ZEND_MOD_REQUIRED("hash")
+	ZEND_MOD_REQUIRED("json")
+	ZEND_MOD_REQUIRED("psr")
+	ZEND_MOD_END
+};
+
 zend_module_entry phalcon_module_entry = {
 	STANDARD_MODULE_HEADER_EX,
 	NULL,
-	NULL,
+	php_phalcon_deps,
 	PHP_PHALCON_EXTNAME,
 	php_phalcon_functions,
 	PHP_MINIT(phalcon),
