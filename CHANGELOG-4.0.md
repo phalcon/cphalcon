@@ -10,6 +10,7 @@
 - `Phalcon\Mvc\Collection::cancelOperation()` now returns `true` on success.
 - Fixed `Phalcon\Application\AbstractApplication` interfaces for `registerModules()`, `setDefaultModule()` and `setEventsManager()` [#14293](https://github.com/phalcon/cphalcon/issues/14293)
 - Fixed `Phalcon\Paginator\Adapter\QueryBuilder` to throw exception on incorrect parameter [#14299](https://github.com/phalcon/cphalcon/issues/14299)
+- Fixed `Phalcon\Helper\Str::includes()` to return correct result [#14301](https://github.com/phalcon/cphalcon/issues/14301)
 
 ## Removed
 - Removed dead libsodium-related code. It was never called in PHP >= 7.0.
