@@ -28,14 +28,14 @@ class ReadCest
     }
 
     /**
-     * Tests Phalcon\Session\Adapter\Redis :: write()
+     * Tests Phalcon\Session\Adapter\Redis :: read()
      *
      * @author Phalcon Team <team@phalconphp.com>
      * @since  2018-11-13
      */
     public function sessionAdapterRedisRead(IntegrationTester $I)
     {
-        $I->wantToTest('Session\Adapter\Redis - write()');
+        $I->wantToTest('Session\Adapter\Redis - read()');
         $adapter = $this->getSessionRedis();
         $value   = uniqid();
 
@@ -45,5 +45,9 @@ class ReadCest
         $actual   = $adapter->read('test1');
         $I->assertEquals($expected, $actual);
         $I->sendCommandToRedis('del', 'sess-reds-test1');
+
+        $I->assertNotNull(
+            $adapter->read('test1')
+        );
     }
 }
