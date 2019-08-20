@@ -67,7 +67,6 @@ before_install:
   - source .ci/export-variables.sh
 
 install:
-  - .ci/install-mysql-5.7.sh
   - .ci/setup-dbs.sh
   - .ci/pear-setup.sh
   - .ci/install-re2c.sh
