@@ -49,5 +49,9 @@ class ReadCest
         );
 
         $I->removeFromLibmemcached('sess-memc-test1');
+
+        $I->assertNotNull(
+            $adapter->read('test1')
+        );
     }
 }
