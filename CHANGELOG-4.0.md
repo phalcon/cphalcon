@@ -2,6 +2,7 @@
 ## Fixed
 - Fixed `Phalcon\Helper\Str::includes` to return correct result [#14301](https://github.com/phalcon/cphalcon/issues/14301)
 - Fixed `Phalcon\Logger` moved to correct namespace [#14263](https://github.com/phalcon/cphalcon/issues/14263)
+- Fixed `Phalcon\Session\Adapter\read` to return ""(empty string) when `Session/Adapter/*::get()` return null [#14314](https://github.com/phalcon/cphalcon/issues/14314)
 
 # [4.0.0-beta.2](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-beta.2) (2019-08-18)
 
