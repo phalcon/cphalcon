@@ -56,7 +56,7 @@ abstract class AbstractAdapter implements SessionHandlerInterface
         var data;
         let data = this->adapter->get(id);
 
-        return is_null(data) ? "" : data;
+        return null === data ? "" : data;
     }
 
     /**
