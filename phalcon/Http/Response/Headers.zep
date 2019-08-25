@@ -48,13 +48,15 @@ class Headers implements HeadersInterface
     /**
      * Removes a header to be sent at the end of the request
      */
-    public function remove(string header)
+    public function remove(string header) -> <HeadersInterface>
     {
         var headers;
 
         let headers = this->headers;
         unset headers[header];
         let this->headers = headers;
+
+        return this;
     }
 
     /**
@@ -103,17 +105,21 @@ class Headers implements HeadersInterface
     /**
      * Sets a header to be sent at the end of the request
      */
-    public function set(string name, string value)
+    public function set(string name, string value) -> <HeadersInterface>
     {
         let this->headers[name] = value;
+
+        return this;
     }
 
     /**
      * Sets a raw header to be sent at the end of the request
      */
-    public function setRaw(string header)
+    public function setRaw(string header) -> <HeadersInterface>
     {
         let this->headers[header] = null;
+
+        return this;
     }
 
     /**
