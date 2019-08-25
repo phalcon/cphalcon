@@ -28,7 +28,7 @@ class GetCssSourcesCest
     {
         $I->wantToTest('Debug - getCssSources()');
         $debug = new Debug();
-        $uri   = 'https://assets.phalconphp.com/debug/4.0.x/';
+        $uri   = 'https://assets.phalcon.io/debug/4.0.x/';
 
         $expected = sprintf(
             "<link rel='stylesheet' type='text/css' " .
