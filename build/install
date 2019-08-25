@@ -1,18 +1,11 @@
 #!/usr/bin/env bash
 #
-#  Phalcon Framework
+# This file is part of the Phalcon Framework.
 #
-#  Copyright (c) 2011-present Phalcon Team (https://phalconphp.com)
+# (c) Phalcon Team <team@phalcon.io>
 #
-#  This source file is subject to the New BSD License that is bundled
-#  with this package in the file LICENSE.txt.
-#
-#  If you did not receive a copy of the license and are unable to
-#  obtain it through the world-wide-web, please send an email
-#  to license@phalconphp.com so we can send you a copy immediately.
-#
-#  Authors: Andres Gutierrez <andres@phalconphp.com>
-#           Eduar Carvajal <eduar@phalconphp.com>
+# For the full copyright and license information, please view the LICENSE.txt
+# file that was distributed with this source code.
 #
 #  Available params:
 #  --arch
@@ -23,7 +16,7 @@
 #  ./install --phpize /usr/bin/phpize7.3 --php-config /usr/bin/php-config7.3 --arch 32bits
 
 # Check best compilation flags for GCC
-# By default we compile to be as compatible as possible with all processors. 
+# By default we compile to be as compatible as possible with all processors.
 # If you would like instruct the compiler to generate optimized machine code that matches the processor where it is currently running on you can set your own compile flags by exporting CFLAGS before the build.
 #
 # Example:
@@ -32,7 +25,7 @@
 # This will generate the best possible code for that chipset but will likely break the compiled object on older chipsets.
 
 export CC="gcc"
-if [ -z "$CFLAGS" ] 
+if [ -z "$CFLAGS" ]
 then
   export CFLAGS="-mtune=native -O2 -fomit-frame-pointer"
 fi
