@@ -1,11 +1,11 @@
-> Questions should go to https://forum.phalconphp.com
+> Questions should go to https://phalcon.link/forum
 > Documentation issues should go to https://github.com/phalcon/docs/issues
 
 ### Expected and Actual Behavior
 
 > **Describe what you are trying to achieve and what goes wrong.**
 
-> Provide output if related. Provide coredump if any. Use https://docs.phalconphp.com/en/latest/generating-backtrace as reference
+> Provide output if related. Provide coredump if any. Use https://docs.phalcon.io/latest/en/generating-backtrace as reference
 
 ```php
 // paste output here
