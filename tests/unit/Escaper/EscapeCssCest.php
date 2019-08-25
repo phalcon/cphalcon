@@ -32,7 +32,7 @@ class EscapeCssCest
         $source = ".émotion { background: url('http://phalcon.io/a.php?c=d&e=f'); }";
 
         $expected = '\2e \e9 motion\20 \7b \20 background\3a \20 url\28 '
-            . '\27 http\3a \2f \2f phalconphp\2e com\2f a\2e php'
+            . '\27 http\3a \2f \2f phalcon\2e io\2f a\2e php'
             . '\3f c\3d d\26 e\3d f\27 \29 \3b \20 \7d ';
 
         $I->assertEquals(
