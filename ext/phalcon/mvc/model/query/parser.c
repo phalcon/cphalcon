@@ -14,10 +14,10 @@
 /* Next is all token values, in a form suitable for use by makeheaders.
 ** This section will be null unless lemon is run with the -m switch.
 */
-/* 
+/*
 ** These constants (all generated automatically by the parser generator)
 ** specify the various kinds of tokens (terminals) that the parser
-** understands. 
+** understands.
 **
 ** Each symbol here is a terminal symbol in the grammar.
 */
@@ -34,7 +34,7 @@
 **                       and nonterminals.  "int" is used otherwise.
 **    PPNOCODE           is a number of type PPCODETYPE which corresponds
 **                       to no legal terminal or nonterminal number.  This
-**                       number is used to fill in empty slots of the hash 
+**                       number is used to fill in empty slots of the hash
 **                       table.
 **    PPFALLBACK         If defined, this indicates that one or more tokens
 **                       have fall-back values which should be used if the
@@ -43,7 +43,7 @@
 **                       and nonterminal numbers.  "unsigned char" is
 **                       used if there are fewer than 250 rules and
 **                       states combined.  "int" is used otherwise.
-**    phql_TOKENTYPE     is the data type used for minor tokens given 
+**    phql_TOKENTYPE     is the data type used for minor tokens given
 **                       directly to the parser from the tokenizer.
 **    PPMINORTYPE        is the data type used for all minor tokens.
 **                       This is typically a union of many types, one of
@@ -84,7 +84,7 @@ typedef union {
 /* Next are that tables used to determine what action to take based on the
 ** current state and lookahead token.  These tables are used to implement
 ** functions that take a state number and lookahead value and return an
-** action integer.  
+** action integer.
 **
 ** Suppose the action integer is N.  Then the action is determined as
 ** follows
@@ -109,7 +109,7 @@ typedef union {
 ** If the index value pp_shift_ofst[S]+X is out of range or if the value
 ** pp_lookahead[pp_shift_ofst[S]+X] is not equal to X or if pp_shift_ofst[S]
 ** is equal to PP_SHIFT_USE_DFLT, it means that the action is not in the table
-** and that pp_default[S] should be used instead.  
+** and that pp_default[S] should be used instead.
 **
 ** The formula above is for computing the action when the lookahead is
 ** a terminal symbol.  If the lookahead is a non-terminal (as occurs after
@@ -394,7 +394,7 @@ static PPACTIONTYPE pp_default[] = {
 
 /* The next table maps tokens into fallback tokens.  If a construct
 ** like the following:
-** 
+**
 **      %fallback ID X Y Z.
 **
 ** appears in the grammer, then ID becomes a fallback token for X, Y,
@@ -445,10 +445,10 @@ static char *ppTracePrompt = 0;
 #endif /* NDEBUG */
 
 #ifndef NDEBUG
-/* 
+/*
 ** Turn parser tracing on by giving a stream to which to write the trace
 ** and a prompt to preface each trace message.  Tracing is turned off
-** by making either argument NULL 
+** by making either argument NULL
 **
 ** Inputs:
 ** <ul>
@@ -473,38 +473,38 @@ void phql_Trace(FILE *TraceFILE, char *zTracePrompt){
 #ifndef NDEBUG
 /* For tracing shifts, the names of all terminals and nonterminals
 ** are required.  The following table supplies these names */
-static const char *ppTokenName[] = { 
-  "$",             "AGAINST",       "BETWEEN",       "EQUALS",      
+static const char *ppTokenName[] = {
+  "$",             "AGAINST",       "BETWEEN",       "EQUALS",
   "NOTEQUALS",     "LESS",          "GREATER",       "GREATEREQUAL",
-  "LESSEQUAL",     "AND",           "OR",            "LIKE",        
-  "ILIKE",         "BITWISE_AND",   "BITWISE_OR",    "BITWISE_XOR", 
-  "DIVIDE",        "TIMES",         "MOD",           "PLUS",        
-  "MINUS",         "IS",            "IN",            "NOT",         
-  "BITWISE_NOT",   "COMMA",         "SELECT",        "FROM",        
-  "DISTINCT",      "ALL",           "IDENTIFIER",    "DOT",         
-  "AS",            "INNER",         "JOIN",          "CROSS",       
-  "LEFT",          "OUTER",         "RIGHT",         "FULL",        
-  "ON",            "INSERT",        "INTO",          "VALUES",      
-  "PARENTHESES_OPEN",  "PARENTHESES_CLOSE",  "UPDATE",        "SET",         
-  "DELETE",        "WITH",          "WHERE",         "ORDER",       
-  "BY",            "ASC",           "DESC",          "GROUP",       
-  "HAVING",        "FOR",           "LIMIT",         "OFFSET",      
+  "LESSEQUAL",     "AND",           "OR",            "LIKE",
+  "ILIKE",         "BITWISE_AND",   "BITWISE_OR",    "BITWISE_XOR",
+  "DIVIDE",        "TIMES",         "MOD",           "PLUS",
+  "MINUS",         "IS",            "IN",            "NOT",
+  "BITWISE_NOT",   "COMMA",         "SELECT",        "FROM",
+  "DISTINCT",      "ALL",           "IDENTIFIER",    "DOT",
+  "AS",            "INNER",         "JOIN",          "CROSS",
+  "LEFT",          "OUTER",         "RIGHT",         "FULL",
+  "ON",            "INSERT",        "INTO",          "VALUES",
+  "PARENTHESES_OPEN",  "PARENTHESES_CLOSE",  "UPDATE",        "SET",
+  "DELETE",        "WITH",          "WHERE",         "ORDER",
+  "BY",            "ASC",           "DESC",          "GROUP",
+  "HAVING",        "FOR",           "LIMIT",         "OFFSET",
   "INTEGER",       "HINTEGER",      "NPLACEHOLDER",  "SPLACEHOLDER",
-  "BPLACEHOLDER",  "EXISTS",        "CAST",          "CONVERT",     
-  "USING",         "CASE",          "END",           "WHEN",        
-  "THEN",          "ELSE",          "NULL",          "STRING",      
-  "DOUBLE",        "TRUE",          "FALSE",         "error",       
+  "BPLACEHOLDER",  "EXISTS",        "CAST",          "CONVERT",
+  "USING",         "CASE",          "END",           "WHEN",
+  "THEN",          "ELSE",          "NULL",          "STRING",
+  "DOUBLE",        "TRUE",          "FALSE",         "error",
   "program",       "query_language",  "select_statement",  "insert_statement",
   "update_statement",  "delete_statement",  "select_clause",  "where_clause",
   "group_clause",  "having_clause",  "order_clause",  "select_limit_clause",
   "for_update_clause",  "distinct_all",  "column_list",   "associated_name_list",
   "join_list_or_null",  "column_item",   "expr",          "associated_name",
-  "join_list",     "join_item",     "join_clause",   "join_type",   
-  "aliased_or_qualified_name",  "join_associated_name",  "join_conditions",  "values_list", 
-  "field_list",    "value_list",    "value_item",    "field_item",  
-  "update_clause",  "limit_clause",  "update_item_list",  "update_item", 
-  "qualified_name",  "new_value",     "delete_clause",  "with_item",   
-  "with_list",     "order_list",    "order_item",    "group_list",  
+  "join_list",     "join_item",     "join_clause",   "join_type",
+  "aliased_or_qualified_name",  "join_associated_name",  "join_conditions",  "values_list",
+  "field_list",    "value_list",    "value_item",    "field_item",
+  "update_clause",  "limit_clause",  "update_item_list",  "update_item",
+  "qualified_name",  "new_value",     "delete_clause",  "with_item",
+  "with_list",     "order_list",    "order_item",    "group_list",
   "group_item",    "integer_or_placeholder",  "argument_list",  "when_clauses",
   "when_clause",   "function_call",  "distinct_or_null",  "argument_list_or_null",
   "argument_item",
@@ -695,7 +695,7 @@ const char *phql_TokenName(int tokenType){
 #endif
 }
 
-/* 
+/*
 ** This function allocates a new parser.
 ** The only argument is a pointer to a function which works like
 ** malloc.
@@ -726,7 +726,7 @@ static void pp_destructor(PPCODETYPE ppmajor, PPMINORTYPE *pppminor){
     /* Here is inserted the actions which take place when a
     ** terminal or non-terminal is destroyed.  This can happen
     ** when the symbol is popped from the stack during a
-    ** reduce or during error processing or when a parser is 
+    ** reduce or during error processing or when a parser is
     ** being destroyed before it is finished parsing.
     **
     ** Note: during a reduce, the only symbols destroyed are those
@@ -915,7 +915,7 @@ static int pp_pop_parser_stack(ppParser *pParser){
   return ppmajor;
 }
 
-/* 
+/*
 ** Deallocate and destroy a parser.  Destructors are all called for
 ** all stack elements before shutting the parser down.
 **
@@ -951,7 +951,7 @@ static int pp_find_shift_action(
 ){
   int i;
   int stateno = pParser->ppstack[pParser->ppidx].stateno;
- 
+
   /* if( pParser->ppidx<0 ) return PP_NO_ACTION;  */
   i = pp_shift_ofst[stateno];
   if( i==PP_SHIFT_USE_DFLT ){
@@ -995,7 +995,7 @@ static int pp_find_reduce_action(
 ){
   int i;
   int stateno = pParser->ppstack[pParser->ppidx].stateno;
- 
+
   i = pp_reduce_ofst[stateno];
   if( i==PP_REDUCE_USE_DFLT ){
     return pp_default[stateno];
@@ -1240,7 +1240,7 @@ static void pp_reduce(
   phql_ARG_FETCH;
   ppmsp = &pppParser->ppstack[pppParser->ppidx];
 #ifndef NDEBUG
-  if( ppTraceFILE && ppruleno>=0 
+  if( ppTraceFILE && ppruleno>=0
         && ppruleno<sizeof(ppRuleName)/sizeof(ppRuleName[0]) ){
     fprintf(ppTraceFILE, "%sReduce [%s].\n", ppTracePrompt,
       ppRuleName[ppruleno]);
@@ -2392,7 +2392,7 @@ void phql_(
 #ifdef PPERRORSYMBOL
       /* A syntax error has occurred.
       ** The response to an error depends upon whether or not the
-      ** grammar defines an error token "ERROR".  
+      ** grammar defines an error token "ERROR".
       **
       ** This is what we do if the grammar does define ERROR:
       **
@@ -2484,10 +2484,10 @@ void phql_(
 /* Next is all token values, in a form suitable for use by makeheaders.
 ** This section will be null unless lemon is run with the -m switch.
 */
-/* 
+/*
 ** These constants (all generated automatically by the parser generator)
 ** specify the various kinds of tokens (terminals) that the parser
-** understands. 
+** understands.
 **
 ** Each symbol here is a terminal symbol in the grammar.
 */
@@ -2504,7 +2504,7 @@ void phql_(
 **                       and nonterminals.  "int" is used otherwise.
 **    PPNOCODE           is a number of type PPCODETYPE which corresponds
 **                       to no legal terminal or nonterminal number.  This
-**                       number is used to fill in empty slots of the hash 
+**                       number is used to fill in empty slots of the hash
 **                       table.
 **    PPFALLBACK         If defined, this indicates that one or more tokens
 **                       have fall-back values which should be used if the
@@ -2513,7 +2513,7 @@ void phql_(
 **                       and nonterminal numbers.  "unsigned char" is
 **                       used if there are fewer than 250 rules and
 **                       states combined.  "int" is used otherwise.
-**    phql_TOKENTYPE     is the data type used for minor tokens given 
+**    phql_TOKENTYPE     is the data type used for minor tokens given
 **                       directly to the parser from the tokenizer.
 **    PPMINORTYPE        is the data type used for all minor tokens.
 **                       This is typically a union of many types, one of
@@ -2554,7 +2554,7 @@ typedef union {
 /* Next are that tables used to determine what action to take based on the
 ** current state and lookahead token.  These tables are used to implement
 ** functions that take a state number and lookahead value and return an
-** action integer.  
+** action integer.
 **
 ** Suppose the action integer is N.  Then the action is determined as
 ** follows
@@ -2579,7 +2579,7 @@ typedef union {
 ** If the index value pp_shift_ofst[S]+X is out of range or if the value
 ** pp_lookahead[pp_shift_ofst[S]+X] is not equal to X or if pp_shift_ofst[S]
 ** is equal to PP_SHIFT_USE_DFLT, it means that the action is not in the table
-** and that pp_default[S] should be used instead.  
+** and that pp_default[S] should be used instead.
 **
 ** The formula above is for computing the action when the lookahead is
 ** a terminal symbol.  If the lookahead is a non-terminal (as occurs after
@@ -2864,7 +2864,7 @@ static PPACTIONTYPE pp_default[] = {
 
 /* The next table maps tokens into fallback tokens.  If a construct
 ** like the following:
-** 
+**
 **      %fallback ID X Y Z.
 **
 ** appears in the grammer, then ID becomes a fallback token for X, Y,
@@ -2915,10 +2915,10 @@ static char *ppTracePrompt = 0;
 #endif /* NDEBUG */
 
 #ifndef NDEBUG
-/* 
+/*
 ** Turn parser tracing on by giving a stream to which to write the trace
 ** and a prompt to preface each trace message.  Tracing is turned off
-** by making either argument NULL 
+** by making either argument NULL
 **
 ** Inputs:
 ** <ul>
@@ -2943,38 +2943,38 @@ void phql_Trace(FILE *TraceFILE, char *zTracePrompt){
 #ifndef NDEBUG
 /* For tracing shifts, the names of all terminals and nonterminals
 ** are required.  The following table supplies these names */
-static const char *ppTokenName[] = { 
-  "$",             "AGAINST",       "BETWEEN",       "EQUALS",      
+static const char *ppTokenName[] = {
+  "$",             "AGAINST",       "BETWEEN",       "EQUALS",
   "NOTEQUALS",     "LESS",          "GREATER",       "GREATEREQUAL",
-  "LESSEQUAL",     "AND",           "OR",            "LIKE",        
-  "ILIKE",         "BITWISE_AND",   "BITWISE_OR",    "BITWISE_XOR", 
-  "DIVIDE",        "TIMES",         "MOD",           "PLUS",        
-  "MINUS",         "IS",            "IN",            "NOT",         
-  "BITWISE_NOT",   "COMMA",         "SELECT",        "FROM",        
-  "DISTINCT",      "ALL",           "IDENTIFIER",    "DOT",         
-  "AS",            "INNER",         "JOIN",          "CROSS",       
-  "LEFT",          "OUTER",         "RIGHT",         "FULL",        
-  "ON",            "INSERT",        "INTO",          "VALUES",      
-  "PARENTHESES_OPEN",  "PARENTHESES_CLOSE",  "UPDATE",        "SET",         
-  "DELETE",        "WITH",          "WHERE",         "ORDER",       
-  "BY",            "ASC",           "DESC",          "GROUP",       
-  "HAVING",        "FOR",           "LIMIT",         "OFFSET",      
+  "LESSEQUAL",     "AND",           "OR",            "LIKE",
+  "ILIKE",         "BITWISE_AND",   "BITWISE_OR",    "BITWISE_XOR",
+  "DIVIDE",        "TIMES",         "MOD",           "PLUS",
+  "MINUS",         "IS",            "IN",            "NOT",
+  "BITWISE_NOT",   "COMMA",         "SELECT",        "FROM",
+  "DISTINCT",      "ALL",           "IDENTIFIER",    "DOT",
+  "AS",            "INNER",         "JOIN",          "CROSS",
+  "LEFT",          "OUTER",         "RIGHT",         "FULL",
+  "ON",            "INSERT",        "INTO",          "VALUES",
+  "PARENTHESES_OPEN",  "PARENTHESES_CLOSE",  "UPDATE",        "SET",
+  "DELETE",        "WITH",          "WHERE",         "ORDER",
+  "BY",            "ASC",           "DESC",          "GROUP",
+  "HAVING",        "FOR",           "LIMIT",         "OFFSET",
   "INTEGER",       "HINTEGER",      "NPLACEHOLDER",  "SPLACEHOLDER",
-  "BPLACEHOLDER",  "EXISTS",        "CAST",          "CONVERT",     
-  "USING",         "CASE",          "END",           "WHEN",        
-  "THEN",          "ELSE",          "NULL",          "STRING",      
-  "DOUBLE",        "TRUE",          "FALSE",         "error",       
+  "BPLACEHOLDER",  "EXISTS",        "CAST",          "CONVERT",
+  "USING",         "CASE",          "END",           "WHEN",
+  "THEN",          "ELSE",          "NULL",          "STRING",
+  "DOUBLE",        "TRUE",          "FALSE",         "error",
   "program",       "query_language",  "select_statement",  "insert_statement",
   "update_statement",  "delete_statement",  "select_clause",  "where_clause",
   "group_clause",  "having_clause",  "order_clause",  "select_limit_clause",
   "for_update_clause",  "distinct_all",  "column_list",   "associated_name_list",
   "join_list_or_null",  "column_item",   "expr",          "associated_name",
-  "join_list",     "join_item",     "join_clause",   "join_type",   
-  "aliased_or_qualified_name",  "join_associated_name",  "join_conditions",  "values_list", 
-  "field_list",    "value_list",    "value_item",    "field_item",  
-  "update_clause",  "limit_clause",  "update_item_list",  "update_item", 
-  "qualified_name",  "new_value",     "delete_clause",  "with_item",   
-  "with_list",     "order_list",    "order_item",    "group_list",  
+  "join_list",     "join_item",     "join_clause",   "join_type",
+  "aliased_or_qualified_name",  "join_associated_name",  "join_conditions",  "values_list",
+  "field_list",    "value_list",    "value_item",    "field_item",
+  "update_clause",  "limit_clause",  "update_item_list",  "update_item",
+  "qualified_name",  "new_value",     "delete_clause",  "with_item",
+  "with_list",     "order_list",    "order_item",    "group_list",
   "group_item",    "integer_or_placeholder",  "argument_list",  "when_clauses",
   "when_clause",   "function_call",  "distinct_or_null",  "argument_list_or_null",
   "argument_item",
@@ -3165,7 +3165,7 @@ const char *phql_TokenName(int tokenType){
 #endif
 }
 
-/* 
+/*
 ** This function allocates a new parser.
 ** The only argument is a pointer to a function which works like
 ** malloc.
@@ -3196,7 +3196,7 @@ static void pp_destructor(PPCODETYPE ppmajor, PPMINORTYPE *pppminor){
     /* Here is inserted the actions which take place when a
     ** terminal or non-terminal is destroyed.  This can happen
     ** when the symbol is popped from the stack during a
-    ** reduce or during error processing or when a parser is 
+    ** reduce or during error processing or when a parser is
     ** being destroyed before it is finished parsing.
     **
     ** Note: during a reduce, the only symbols destroyed are those
@@ -3385,7 +3385,7 @@ static int pp_pop_parser_stack(ppParser *pParser){
   return ppmajor;
 }
 
-/* 
+/*
 ** Deallocate and destroy a parser.  Destructors are all called for
 ** all stack elements before shutting the parser down.
 **
@@ -3421,7 +3421,7 @@ static int pp_find_shift_action(
 ){
   int i;
   int stateno = pParser->ppstack[pParser->ppidx].stateno;
- 
+
   /* if( pParser->ppidx<0 ) return PP_NO_ACTION;  */
   i = pp_shift_ofst[stateno];
   if( i==PP_SHIFT_USE_DFLT ){
@@ -3465,7 +3465,7 @@ static int pp_find_reduce_action(
 ){
   int i;
   int stateno = pParser->ppstack[pParser->ppidx].stateno;
- 
+
   i = pp_reduce_ofst[stateno];
   if( i==PP_REDUCE_USE_DFLT ){
     return pp_default[stateno];
@@ -3710,7 +3710,7 @@ static void pp_reduce(
   phql_ARG_FETCH;
   ppmsp = &pppParser->ppstack[pppParser->ppidx];
 #ifndef NDEBUG
-  if( ppTraceFILE && ppruleno>=0 
+  if( ppTraceFILE && ppruleno>=0
         && ppruleno<sizeof(ppRuleName)/sizeof(ppRuleName[0]) ){
     fprintf(ppTraceFILE, "%sReduce [%s].\n", ppTracePrompt,
       ppRuleName[ppruleno]);
@@ -4870,7 +4870,7 @@ void phql_(
 #ifdef PPERRORSYMBOL
       /* A syntax error has occurred.
       ** The response to an error depends upon whether or not the
-      ** grammar defines an error token "ERROR".  
+      ** grammar defines an error token "ERROR".
       **
       ** This is what we do if the grammar does define ERROR:
       **
@@ -4949,23 +4949,14 @@ void phql_(
 }
 #endif
 
-/*
-  +------------------------------------------------------------------------+
-  | Phalcon Framework													  |
-  +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2016 Phalcon Team (http://www.phalconphp.com)	   |
-  +------------------------------------------------------------------------+
-  | This source file is subject to the New BSD License that is bundled	   |
-  | with this package in the file docs/LICENSE.txt.						   |
-  |																	       |
-  | If you did not receive a copy of the license and are unable to		   |
-  | obtain it through the world-wide-web, please send an email			   |
-  | to license@phalconphp.com so we can send you a copy immediately.	   |
-  +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@phalconphp.com>					   |
-  |		  Eduar Carvajal <eduar@phalconphp.com>						       |
-  +------------------------------------------------------------------------+
-*/
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
 
 const phql_token_names phql_tokens[] =
 {
