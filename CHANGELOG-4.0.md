@@ -1,4 +1,7 @@
 # [4.0.0](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0) (2019-xx-xx)
+## Changed
+- Changed `Phalcon\Http\Headers\set()` to return self for a more fluent interface
+
 ## Fixed
 - Fixed `Phalcon\Helper\Str::includes` to return correct result [#14301](https://github.com/phalcon/cphalcon/issues/14301)
 - Fixed `Phalcon\Logger` moved to correct namespace [#14263](https://github.com/phalcon/cphalcon/issues/14263)
