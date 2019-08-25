@@ -2,7 +2,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -785,11 +785,11 @@ class Tag
      *     ]
      * );
      *
-     * echo Phalcon\Tag::linkTo("http://phalconphp.com/", "Phalcon", false);
+     * echo Phalcon\Tag::linkTo("http://phalcon.io/", "Phalcon", false);
      *
      * echo Phalcon\Tag::linkTo(
      *     [
-     *         "http://phalconphp.com/",
+     *         "http://phalcon.io/",
      *         "Phalcon Home",
      *         false,
      *     ]
@@ -797,7 +797,7 @@ class Tag
      *
      * echo Phalcon\Tag::linkTo(
      *     [
-     *         "http://phalconphp.com/",
+     *         "http://phalcon.io/",
      *         "Phalcon Home",
      *         "local" => false,
      *     ]
@@ -805,7 +805,7 @@ class Tag
      *
      * echo Phalcon\Tag::linkTo(
      *     [
-     *         "action" => "http://phalconphp.com/",
+     *         "action" => "http://phalcon.io/",
      *         "text"   => "Phalcon Home",
      *         "local"  => false,
      *         "target" => "_new"
