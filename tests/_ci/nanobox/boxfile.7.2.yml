@@ -26,7 +26,6 @@ run.config:
       - simplexml
       - tokenizer
       - yaml
-      - zephir_parser
       - xml
       - xmlwriter
       - zip
@@ -70,7 +69,7 @@ run.config:
       )
     - echo -e 'extension=psr.so' >> "/data/etc/php/dev_php.ini"
     #===========================================================================
-    # msgpack extension compilation
+    # Msgpack extension compilation
     - |
       (
         CURRENT_FOLDER=$(pwd)
@@ -89,7 +88,7 @@ run.config:
       )
     - echo -e 'extension=msgpack.so' >> "/data/etc/php/dev_php.ini"
     #===========================================================================
-    # php-zephir-parser extension compilation
+    # Zephir Parser
     - |
       (
         CURRENT_FOLDER=$(pwd)
@@ -120,7 +119,7 @@ run.config:
     - echo -e 'apc.enable_cli=1' >> "/data/etc/php/dev_php.ini"
     #===========================================================================
     # Get the Zephir phar
-    - wget --no-clobber -O /data/bin/zephir https://github.com/phalcon/zephir/releases/download/0.12.0/zephir.phar
+    - wget --no-clobber -O /data/bin/zephir https://github.com/phalcon/zephir/releases/download/0.12.2/zephir.phar
     - chmod +x /data/bin/zephir
 
 data.memcached:

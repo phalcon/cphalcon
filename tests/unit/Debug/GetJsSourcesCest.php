@@ -28,7 +28,7 @@ class GetJsSourcesCest
     {
         $I->wantToTest('Debug - getJsSources()');
         $debug = new Debug();
-        $uri   = 'https://assets.phalconphp.com/debug/4.0.x/';
+        $uri   = 'https://assets.phalcon.io/debug/4.0.x/';
 
         $expected = sprintf(
             '<script type=\'text/javascript\' src=\'%1$sbower_components/jquery/dist/jquery.min.js\'></script>' .
