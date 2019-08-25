@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -20,7 +20,7 @@ class EndsWithCest
     /**
      * Tests Phalcon\Helper\Str :: endsWith()
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-06
      */
     public function helperStrEndsWith(UnitTester $I)
@@ -39,7 +39,7 @@ class EndsWithCest
     /**
      * Tests Phalcon\Helper\Str :: endsWith() - empty strings
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-06
      */
     public function helperStrEndsWithEmpty(UnitTester $I)
@@ -52,7 +52,7 @@ class EndsWithCest
     /**
      * Tests Phalcon\Helper\Str :: endsWith() - finding an empty string
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-06
      */
     public function helperStrEndsWithEmptySearchString(UnitTester $I)
@@ -66,7 +66,7 @@ class EndsWithCest
     /**
      * Tests Phalcon\Helper\Str :: endsWith() - case insensitive flag
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-06
      */
     public function helperStrEndsWithCaseInsensitive(UnitTester $I)
@@ -85,7 +85,7 @@ class EndsWithCest
     /**
      * Tests Phalcon\Helper\Str :: endsWith() - case sensitive flag
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-06
      */
     public function helperStrEndsWithCaseSensitive(UnitTester $I)

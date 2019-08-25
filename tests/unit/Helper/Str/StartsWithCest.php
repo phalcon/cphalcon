@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -20,7 +20,7 @@ class StartsWithCest
     /**
      * Tests Phalcon\Helper\Str :: startsWith()
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-06
      */
     public function helperStrStartsWith(UnitTester $I)
@@ -39,7 +39,7 @@ class StartsWithCest
     /**
      * Tests Phalcon\Helper\Str :: startsWith() - empty strings
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-06
      */
     public function helperStrStartsWithEmpty(UnitTester $I)
@@ -52,7 +52,7 @@ class StartsWithCest
     /**
      * Tests Phalcon\Helper\Str :: startsWith() - finding an empty string
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-06
      */
     public function helperStrStartsWithEmptySearchString(UnitTester $I)
@@ -66,7 +66,7 @@ class StartsWithCest
     /**
      * Tests Phalcon\Helper\Str :: startsWith() - case insensitive flag
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-06
      */
     public function helperStrStartsWithCaseInsensitive(UnitTester $I)
@@ -85,7 +85,7 @@ class StartsWithCest
     /**
      * Tests Phalcon\Helper\Str :: startsWith() - case sensitive flag
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-06
      */
     public function helperStrStartsWithCaseSensitive(UnitTester $I)

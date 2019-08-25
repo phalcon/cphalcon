@@ -3,7 +3,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -164,7 +164,7 @@ class PresenceOfCest
     /**
      * Tests mixed fields
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2013-03-01
      */
     public function shouldValidateMixedFields(IntegrationTester $I)
@@ -210,7 +210,7 @@ class PresenceOfCest
     /**
      * Tests cancel validation on first fail
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2013-03-01
      */
     public function shouldCancelOnFail(IntegrationTester $I)

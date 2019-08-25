@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -20,7 +20,7 @@ class SetCest
     /**
      * Tests Phalcon\Helper\Arr :: set() - numeric
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function helperArrSetNumeric(UnitTester $I)
@@ -42,7 +42,7 @@ class SetCest
     /**
      * Tests Phalcon\Helper\Arr :: set() - string
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function helperArrSetString(UnitTester $I)
@@ -64,7 +64,7 @@ class SetCest
     /**
      * Tests Phalcon\Helper\Arr :: set() - no index
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function helperArrSetNoIndex(UnitTester $I)
@@ -86,7 +86,7 @@ class SetCest
     /**
      * Tests Phalcon\Helper\Arr :: set() - overwrite
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function helperArrSetOverwride(UnitTester $I)

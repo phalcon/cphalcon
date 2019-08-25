@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -20,7 +20,7 @@ class IncrementCest
     /**
      * Tests Phalcon\Text :: increment() - string
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function textIncrementSimpleString(UnitTester $I)
@@ -38,7 +38,7 @@ class IncrementCest
     /**
      * Tests Phalcon\Text :: increment() - already incremented string
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function textIncrementAlreadyIncremented(UnitTester $I)
@@ -56,7 +56,7 @@ class IncrementCest
     /**
      * Tests Phalcon\Text :: increment() - already incremented string twice
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function textIncrementAlreadyIncrementedTwice(UnitTester $I)
@@ -74,7 +74,7 @@ class IncrementCest
     /**
      * Tests Phalcon\Text :: increment() - string with underscore
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function textIncrementStringWithUnderscore(UnitTester $I)
@@ -92,7 +92,7 @@ class IncrementCest
     /**
      * Tests Phalcon\Text :: increment() - string with a space at the end
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function textIncrementStringWithSpace(UnitTester $I)
@@ -110,7 +110,7 @@ class IncrementCest
     /**
      * Tests Phalcon\Text :: increment() - different separator
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function textIncrementStringWithDifferentSeparator(UnitTester $I)

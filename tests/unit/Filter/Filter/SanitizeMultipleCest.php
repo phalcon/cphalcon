@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -20,7 +20,7 @@ class SanitizeMultipleCest
     /**
      * Tests sanitizing string with filters
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-30
      */
     public function filterFilterSanitizeStringWithMultipleFilters(UnitTester $I)
@@ -37,7 +37,7 @@ class SanitizeMultipleCest
     /**
      * Tests sanitizing array with filters
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-30
      */
     public function filterFilterSanitizeArray(UnitTester $I)
@@ -54,7 +54,7 @@ class SanitizeMultipleCest
     /**
      * Tests sanitizing array with multiple filters
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-30
      */
     public function filterFilterSanitizeArrayWithMultipleFilters(UnitTester $I)
@@ -71,7 +71,7 @@ class SanitizeMultipleCest
     /**
      * Tests sanitizing array with multiple filters and more parameters
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-30
      */
     public function filterFilterSanitizeWithMultipleFiltersMoreParameters(UnitTester $I)

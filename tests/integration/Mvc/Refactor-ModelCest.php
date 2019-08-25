@@ -3,7 +3,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -24,7 +24,7 @@ class ModelCest
     public function _before(IntegrationTester $I)
     {
         $this->newDi();
- 
+
         $this->setDiModelsManager();
         $this->setDiModelsMetadata();
     }
@@ -55,7 +55,7 @@ class ModelCest
 //     * Tests find with empty conditions + bind and limit.
 //     *
 //     * @issue  https://github.com/phalcon/cphalcon/issues/11919
-//     * @author Phalcon Team <team@phalconphp.com>
+//     * @author Phalcon Team <team@phalcon.io>
 //     * @since  2016-07-29
 //     */
 //    public function testEmptyConditions()
@@ -90,7 +90,7 @@ class ModelCest
 //     * Tests Model::hasMany by using multi relation column
 //     *
 //     * @issue  https://github.com/phalcon/cphalcon/issues/12035
-//     * @author Phalcon Team <team@phalconphp.com>
+//     * @author Phalcon Team <team@phalcon.io>
 //     * @since  2016-08-02
 //     */
 //    public function testMultiRelationColumn()
@@ -114,7 +114,7 @@ class ModelCest
 //     * Tests reusing Model relation
 //     *
 //     * @issue  https://github.com/phalcon/cphalcon/issues/11991
-//     * @author Phalcon Team <team@phalconphp.com>
+//     * @author Phalcon Team <team@phalcon.io>
 //     * @since  2016-08-03
 //     */
 //    public function testReusableRelation()

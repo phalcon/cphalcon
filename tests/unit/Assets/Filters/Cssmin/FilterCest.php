@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -20,7 +20,7 @@ class FilterCest
     /**
      * Tests Phalcon\Assets\Filters\Cssmin :: filter()
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-10
      */
     public function assetsFiltersCssminFilter(UnitTester $I)
@@ -39,7 +39,7 @@ class FilterCest
     /**
      * Tests Phalcon\Assets\Filters\Cssmin :: filter() - spaces
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-10
      */
     public function assetsFiltersCssminFilterSpaces(UnitTester $I)
@@ -58,7 +58,7 @@ class FilterCest
     /**
      * Tests Phalcon\Assets\Filters\Cssmin :: filter() - attributes spaces
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-10
      */
     public function assetsFiltersCssminFilterAttributesSpaces(UnitTester $I)
@@ -84,7 +84,7 @@ class FilterCest
     /**
      * Tests Phalcon\Assets\Filters\Cssmin :: filter() - class spaces
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-10
      */
     public function assetsFiltersCssminFilterClassSpaces(UnitTester $I)
@@ -104,7 +104,7 @@ class FilterCest
      * Tests Phalcon\Assets\Filters\Cssmin :: filter() - class inheritance
      * spaces
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-10
      */
     public function assetsFiltersCssminFilterClassInheritanceSpaces(UnitTester $I)
@@ -124,7 +124,7 @@ class FilterCest
     /**
      * Tests Phalcon\Assets\Filters\Cssmin :: filter() - complex
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-10
      */
     public function assetsFiltersCssminFilterComples(UnitTester $I)
@@ -146,7 +146,7 @@ class FilterCest
     /**
      * Tests Phalcon\Assets\Filters\Cssmin :: filter() - load files
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-10
      */
     public function assetsFiltersCssminFilterLoadFiles(UnitTester $I)
@@ -172,7 +172,7 @@ class FilterCest
     /**
      * Tests Phalcon\Assets\Filters\Cssmin :: filter() - empty
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-10
      */
     public function assetsFiltersCssminFilterEmpty(UnitTester $I)
@@ -191,7 +191,7 @@ class FilterCest
     /**
      * Tests cssmin filter
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-10
      */
     public function testAssetsFilterCssmin(UnitTester $I)

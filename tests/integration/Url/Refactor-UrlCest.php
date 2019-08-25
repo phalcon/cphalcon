@@ -3,7 +3,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -103,7 +103,7 @@ class UrlCest
     /**
      * Tests the base url
      *
-     * @author       Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author       Nikolaos Dimopoulos <nikos@phalcon.io>
      * @since        2014-09-04
      *
      * @dataProvider getUrlToSetServer

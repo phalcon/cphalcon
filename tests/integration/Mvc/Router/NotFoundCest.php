@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -22,7 +22,7 @@ class NotFoundCest
     /**
      * Tests setting notFound handler
      *
-     * @author Andy Gutierrez <andres.gutierrez@phalconphp.com>
+     * @author Andy Gutierrez <andres.gutierrez@phalcon.io>
      * @since  2013-03-01
      */
     public function testSettingNotFoundPaths(IntegrationTester $I)

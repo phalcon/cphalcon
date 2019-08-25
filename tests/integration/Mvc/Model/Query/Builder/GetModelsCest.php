@@ -3,7 +3,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -35,7 +35,7 @@ class GetModelsCest
     /**
      * Tests Phalcon\Mvc\Model\Query\Builder :: getModels()
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-04-8
      */
     public function mvcModelQueryBuilderGetModelsNull(IntegrationTester $I)
@@ -54,7 +54,7 @@ class GetModelsCest
     /**
      * Tests Phalcon\Mvc\Model\Query\Builder :: getModels()
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-04-8
      */
     public function mvcModelQueryBuilderGetModelsString(IntegrationTester $I)
@@ -76,7 +76,7 @@ class GetModelsCest
     /**
      * Tests Phalcon\Mvc\Model\Query\Builder :: getModels()
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-04-8
      */
     public function mvcModelQueryBuilderGetModelsArray(IntegrationTester $I)

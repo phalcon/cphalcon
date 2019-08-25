@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -27,7 +27,7 @@ class ElementCest
     /**
      * Tests Phalcon\Html\Tag :: element()
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function htmlTagElement(UnitTester $I)
@@ -65,7 +65,7 @@ class ElementCest
     /**
      * Tests Phalcon\Html\Tag :: element() - no name
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function htmlTagElementNoName(UnitTester $I)
@@ -83,7 +83,7 @@ class ElementCest
     /**
      * Tests Phalcon\Tag :: element() - self close
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function htmlTagElementSelfClose(UnitTester $I)
@@ -115,7 +115,7 @@ class ElementCest
     /**
      * Tests Phalcon\Tag :: element() - only start
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function htmlTagElementOnlyStart(UnitTester $I)
@@ -146,7 +146,7 @@ class ElementCest
     /**
      * Tests Phalcon\Tag :: element() - EOL
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function htmlTagElementEol(UnitTester $I)

@@ -3,7 +3,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -23,7 +23,7 @@ class RequestCest extends HttpBase
     /**
      * Tests the getDI
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-23
      */
     public function testHttpRequestGetDI(UnitTester $I)
@@ -53,7 +53,7 @@ class RequestCest extends HttpBase
     /**
      * Tests POST functions
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-04
      */
     public function testHttpRequestInputPost(UnitTester $I)
@@ -74,7 +74,7 @@ class RequestCest extends HttpBase
      *
      * @test
      * @issue  https://github.com/phalcon/cphalcon/issues/13418
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2017-06-03
      */
     public function shouldGetDataReceivedByPutMethod(UnitTester $I)
@@ -112,7 +112,7 @@ class RequestCest extends HttpBase
      *
      * @test
      * @issue  https://github.com/phalcon/cphalcon/issues/13418
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2017-06-03
      */
     public function shouldGetDataReceivedByPutMethodAndJsonType(UnitTester $I)
@@ -153,7 +153,7 @@ class RequestCest extends HttpBase
     /**
      * Tests GET functions
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-04
      */
     public function testHttpRequestInputGet(UnitTester $I)
@@ -172,7 +172,7 @@ class RequestCest extends HttpBase
     /**
      * Tests REQUEST functions
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-04
      */
     public function testHttpRequestInputRequest(UnitTester $I)
@@ -341,7 +341,7 @@ class RequestCest extends HttpBase
      *
      * @test
      * @issue  https://github.com/phalcon/cphalcon/issues/12478
-     * @author       Serghei Iakovelv <serghei@phalconphp.com>
+     * @author       Serghei Iakovelv <serghei@phalcon.io>
      * @since        2016-12-18
      *
      * @dataProvider overridenMethodProvider
@@ -641,7 +641,7 @@ class RequestCest extends HttpBase
     /**
      * Tests uploaded files
      *
-     * @author Serghei Iakovelv <serghei@phalconphp.com>
+     * @author Serghei Iakovelv <serghei@phalcon.io>
      * @since  2016-01-31
      */
     public function testGetUploadedFiles(UnitTester $I)

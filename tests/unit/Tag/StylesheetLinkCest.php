@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -22,7 +22,7 @@ class StylesheetLinkCest extends TagSetup
      * Tests Phalcon\Tag :: stylesheetLink() - string parameter for a local link
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/1486
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @author Dreamszhu <dreamsxin@qq.com>
      * @since  2014-09-12
      */
@@ -61,7 +61,7 @@ class StylesheetLinkCest extends TagSetup
      * Tests Phalcon\Tag :: stylesheetLink() - array parameter for a local link
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/1486
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @author Dreamszhu <dreamsxin@qq.com>
      * @since  2014-09-12
      */
@@ -104,7 +104,7 @@ class StylesheetLinkCest extends TagSetup
      * Tests Phalcon\Tag :: stylesheetLink() - string parameter for a remote
      * link
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-12
      */
     public function tagStylesheetLinkStringParameterRemote(UnitTester $I)
@@ -113,8 +113,8 @@ class StylesheetLinkCest extends TagSetup
 
         Tag::resetInput();
 
-        $options  = 'http://phalconphp.com/css/phalcon.css';
-        $expected = '<link rel="stylesheet" type="text/css" href="http://phalconphp.com/css/phalcon.css" />' . PHP_EOL;
+        $options  = 'http://phalcon.io/css/phalcon.css';
+        $expected = '<link rel="stylesheet" type="text/css" href="http://phalcon.io/css/phalcon.css" />' . PHP_EOL;
 
         Tag::setDocType(
             Tag::XHTML10_STRICT
@@ -126,8 +126,8 @@ class StylesheetLinkCest extends TagSetup
 
         Tag::resetInput();
 
-        $options  = 'http://phalconphp.com/css/phalcon.css';
-        $expected = '<link rel="stylesheet" type="text/css" href="http://phalconphp.com/css/phalcon.css">' . PHP_EOL;
+        $options  = 'http://phalcon.io/css/phalcon.css';
+        $expected = '<link rel="stylesheet" type="text/css" href="http://phalcon.io/css/phalcon.css">' . PHP_EOL;
 
         Tag::setDocType(
             Tag::HTML5
@@ -141,7 +141,7 @@ class StylesheetLinkCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: stylesheetLink() - array parameter for a remote link
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-12
      */
     public function tagStylesheetLinkArrayParameterRemote(UnitTester $I)
@@ -150,8 +150,8 @@ class StylesheetLinkCest extends TagSetup
 
         Tag::resetInput();
 
-        $options  = ['http://phalconphp.com/css/phalcon.css'];
-        $expected = '<link rel="stylesheet" type="text/css" href="http://phalconphp.com/css/phalcon.css" />' . PHP_EOL;
+        $options  = ['http://phalcon.io/css/phalcon.css'];
+        $expected = '<link rel="stylesheet" type="text/css" href="http://phalcon.io/css/phalcon.css" />' . PHP_EOL;
 
         Tag::setDocType(
             Tag::XHTML10_STRICT
@@ -163,8 +163,8 @@ class StylesheetLinkCest extends TagSetup
 
         Tag::resetInput();
 
-        $options  = ['http://phalconphp.com/css/phalcon.css'];
-        $expected = '<link rel="stylesheet" type="text/css" href="http://phalconphp.com/css/phalcon.css">' . PHP_EOL;
+        $options  = ['http://phalcon.io/css/phalcon.css'];
+        $expected = '<link rel="stylesheet" type="text/css" href="http://phalcon.io/css/phalcon.css">' . PHP_EOL;
 
         Tag::setDocType(
             Tag::HTML5
@@ -179,7 +179,7 @@ class StylesheetLinkCest extends TagSetup
      * Tests Phalcon\Tag :: stylesheetLink() - overriding the rel link local
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/2142
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @author Dreamszhu <dreamsxin@qq.com>
      * @since  2014-09-12
      */

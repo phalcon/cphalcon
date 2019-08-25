@@ -3,7 +3,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -58,7 +58,7 @@ class QueryOldCest
     /**
      * Tests Query::parse insert
      *
-     * @author       Phalcon Team <team@phalconphp.com>
+     * @author       Phalcon Team <team@phalcon.io>
      * @since        2017-01-24
      *
      * @dataProvider getExamplesInsert
@@ -83,7 +83,7 @@ class QueryOldCest
     /**
      * Tests Query::parse update
      *
-     * @author       Phalcon Team <team@phalconphp.com>
+     * @author       Phalcon Team <team@phalcon.io>
      * @since        2017-01-24
      *
      * @dataProvider getExamplesUpdate
@@ -108,7 +108,7 @@ class QueryOldCest
     /**
      * Tests Query::parse delete
      *
-     * @author       Phalcon Team <team@phalconphp.com>
+     * @author       Phalcon Team <team@phalcon.io>
      * @since        2017-01-24
      *
      * @dataProvider getExamplesDelete

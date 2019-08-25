@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -26,7 +26,7 @@ class FriendlyTitleCest
     /**
      * Tests Phalcon\Html\Tag :: friendlyTitle()
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-11
      */
     public function htmlTagFriendlyTitle(UnitTester $I)
@@ -44,7 +44,7 @@ class FriendlyTitleCest
     /**
      * Tests Phalcon\Html\Tag :: friendlyTitle() - separator
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-11
      */
     public function htmlTagFriendlyTitleSeparator(UnitTester $I)
@@ -67,7 +67,7 @@ class FriendlyTitleCest
     /**
      * Tests Phalcon\Html\Tag :: friendlyTitle() - lowercase
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-11
      */
     public function htmlTagFriendlyTitleLowercase(UnitTester $I)
@@ -90,7 +90,7 @@ class FriendlyTitleCest
     /**
      * Tests Phalcon\Html\Tag :: friendlyTitle() - replace string
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-11
      */
     public function htmlTagFriendlyTitleReplaceString(UnitTester $I)
@@ -111,7 +111,7 @@ class FriendlyTitleCest
     /**
      * Tests Phalcon\Html\Tag :: friendlyTitle() - replace array
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-11
      */
     public function htmlTagFriendlyTitleReplaceArray(UnitTester $I)
@@ -133,7 +133,7 @@ class FriendlyTitleCest
      * Tests Phalcon\Html\Tag :: friendlyTitle() - special characters and
      * escaping
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-11
      */
     public function htmlTagFriendlyTitleSpecialCharacters(UnitTester $I)
@@ -153,7 +153,7 @@ class FriendlyTitleCest
     /**
      * Tests Phalcon\Html\Tag :: friendlyTitle() - accented characters replace
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-11
      */
     public function htmlTagFriendlyTitleAccentedCharactersReplace(UnitTester $I)
@@ -175,7 +175,7 @@ class FriendlyTitleCest
      * Tests Phalcon\Html\Tag :: friendlyTitle() - accented characters replace
      * array
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-11
      */
     public function htmlTagFriendlyTitleAccentedCharactersReplaceArray(UnitTester $I)
@@ -196,7 +196,7 @@ class FriendlyTitleCest
     /**
      * Tests Phalcon\Html\Tag :: friendlyTitle() - replace exception
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-11
      */
     public function htmlTagFriendlyTitleReplaceException(UnitTester $I)

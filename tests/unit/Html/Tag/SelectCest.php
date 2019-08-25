@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -25,7 +25,7 @@ class SelectCest
     /**
      * Tests Phalcon\Html\Tag :: select()
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function htmlTagSelect(UnitTester $I)
@@ -52,7 +52,7 @@ class SelectCest
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/54
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function htmlTagSelectWithId(UnitTester $I)
@@ -81,7 +81,7 @@ class SelectCest
     /**
      * Tests Phalcon\Html\Tag :: select() - name
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function htmlTagSelectWithName(UnitTester $I)
@@ -110,7 +110,7 @@ class SelectCest
     /**
      * Tests Phalcon\Html\Tag :: select() - value
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function htmlTagSelectWithValue(UnitTester $I)
@@ -139,7 +139,7 @@ class SelectCest
     /**
      * Tests Phalcon\Html\Tag :: select() - setAttribute()
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function htmlTagSelectSetAttribute(UnitTester $I)
@@ -171,7 +171,7 @@ class SelectCest
     /**
      * Tests Phalcon\Html\Tag :: select() - setAttribute() element not present
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function htmlTagSelectSetAttributeElementNotPresent(UnitTester $I)
@@ -206,7 +206,7 @@ class SelectCest
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/54
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function htmlTagSelectOptGroupWithId(UnitTester $I)
@@ -243,7 +243,7 @@ class SelectCest
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/54
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function htmlTagSelectOptGroupWithoutId(UnitTester $I)
@@ -277,7 +277,7 @@ class SelectCest
     /**
      * Tests Phalcon\Html\Tag :: select() - optgroup array with value
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function htmlTagSelectOptGroupWithValue(UnitTester $I)
@@ -312,7 +312,7 @@ class SelectCest
     /**
      * Tests Phalcon\Html\Tag :: select() - optgroup setAttribute()
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function htmlTagSelectOptGroupSetAttribute(UnitTester $I)
@@ -351,7 +351,7 @@ class SelectCest
      * Tests Phalcon\Html\Tag :: select() - optgroup setAttribute() element not
      * present
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function htmlTagSelectOptGroupSetAttributeElementNotPresent(UnitTester $I)

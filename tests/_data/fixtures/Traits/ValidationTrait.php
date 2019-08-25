@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -20,7 +20,7 @@ trait ValidationTrait
     /**
      * Tests Phalcon\Validation\Validator\* :: __construct()
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     private function checkConstruct(IntegrationTester $I, ValidatorInterface $validator)
@@ -51,7 +51,7 @@ trait ValidationTrait
     /**
      * Tests Phalcon\Validation\Validator\* :: getOption()
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     private function checkGetOption(IntegrationTester $I, ValidatorInterface $validator)
@@ -74,7 +74,7 @@ trait ValidationTrait
     /**
      * Tests Phalcon\Validation\Validator\* :: hasOption()
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     private function checkHasOption(IntegrationTester $I, ValidatorInterface $validator)
@@ -94,7 +94,7 @@ trait ValidationTrait
     /**
      * Tests Phalcon\Validation\Validator\* :: setOption()
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     private function checkSetOption(IntegrationTester $I, ValidatorInterface $validator)

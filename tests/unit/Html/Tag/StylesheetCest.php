@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -59,7 +59,7 @@ class StylesheetCest
     /**
      * Tests Phalcon\Html\Tag :: stylesheet() - remote
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-12
      */
     public function htmlTagStylesheetRemote(UnitTester $I)
@@ -67,10 +67,10 @@ class StylesheetCest
         $I->wantToTest('Html\Tag - stylesheet() - remote');
         $tag = new Tag();
         $tag->setDI($this->container);
-        $url      = 'http://phalconphp.com/css/phalcon.css';
+        $url      = 'http://phalcon.io/css/phalcon.css';
         $options  = ['local' => false];
         $expected = '<link rel="stylesheet" type="text/css" '
-            . 'href="http://phalconphp.com/css/phalcon.css" />'
+            . 'href="http://phalcon.io/css/phalcon.css" />'
             . PHP_EOL;
 
         $actual = $tag
@@ -80,7 +80,7 @@ class StylesheetCest
         $I->assertEquals($expected, $actual);
 
         $expected = '<link rel="stylesheet" type="text/css" '
-            . 'href="http://phalconphp.com/css/phalcon.css">'
+            . 'href="http://phalcon.io/css/phalcon.css">'
             . PHP_EOL;
         $actual   = $tag
             ->setDocType(Tag::HTML5)

@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -28,7 +28,7 @@ class ConstructCest
     /**
      * Tests Phalcon\Storage\Adapter\Libmemcached :: __construct()
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-09
      */
     public function storageAdapterLibmemcachedConstruct(UnitTester $I)
@@ -57,7 +57,7 @@ class ConstructCest
      * Tests Phalcon\Storage\Adapter\Libmemcached :: __construct() - empty
      * options
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-09
      */
     public function storageAdapterLibmemcachedConstructEmptyOptions(UnitTester $I)
@@ -90,7 +90,7 @@ class ConstructCest
      * @throws Exception
      * @since  2019-04-09
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      */
     public function storageAdapterLibmemcachedConstructGetTtl(UnitTester $I)
     {

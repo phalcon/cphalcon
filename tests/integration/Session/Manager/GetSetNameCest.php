@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -29,7 +29,7 @@ class GetSetNameCest
     /**
      * Tests Phalcon\Session\Manager :: getName()/setName()
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function sessionManagerGetSetName(IntegrationTester $I)
@@ -52,7 +52,7 @@ class GetSetNameCest
     /**
      * Tests Phalcon\Session\Manager :: getName()/setName() - not valid name
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function sessionManagerGetNameNotValidName(IntegrationTester $I)
@@ -73,7 +73,7 @@ class GetSetNameCest
     /**
      * Tests Phalcon\Session\Manager :: getName()/setName() - session started
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function sessionManagerGetNameSessionStarted(IntegrationTester $I)

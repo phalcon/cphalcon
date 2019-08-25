@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -20,7 +20,7 @@ class ImageInputCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: imageInput() - string as a parameter
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function tagImageInputStringParameter(UnitTester $I)
@@ -52,7 +52,7 @@ class ImageInputCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: imageInput() - array as a parameter
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function tagImageInputArrayParameter(UnitTester $I)
@@ -92,7 +92,7 @@ class ImageInputCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: imageInput() - array as a parameters and id in it
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function tagImageInputArrayParameterWithId(UnitTester $I)
@@ -136,7 +136,7 @@ class ImageInputCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: imageInput() - name and no id in parameter
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function tagImageInputArrayParameterWithNameNoId(UnitTester $I)
@@ -180,7 +180,7 @@ class ImageInputCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: imageInput() - setDefault
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function tagImageInputWithSetDefault(UnitTester $I)
@@ -227,7 +227,7 @@ class ImageInputCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: imageInput() - displayTo
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function tagImageInputWithDisplayTo(UnitTester $I)
@@ -275,7 +275,7 @@ class ImageInputCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: imageInput() - setDefault and element not present
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function tagImageInputWithSetDefaultElementNotPresent(UnitTester $I)
@@ -323,7 +323,7 @@ class ImageInputCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: imageInput() - displayTo and element not present
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function tagImageInputWithDisplayToElementNotPresent(UnitTester $I)
