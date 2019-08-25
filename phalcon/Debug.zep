@@ -2,7 +2,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -125,7 +125,7 @@ class Debug
         var link;
 
         let link = [
-            "action": "https://docs.phalconphp.com/" . Version::getPart(Version::VERSION_MAJOR) . "." . Version::getPart(Version::VERSION_MEDIUM) . "/en/",
+            "action": "https://docs.phalcon.io/" . Version::getPart(Version::VERSION_MAJOR) . "." . Version::getPart(Version::VERSION_MEDIUM) . "/en/",
             "text"  : Version::get(),
             "local" : false,
             "target": "_new"
@@ -618,7 +618,7 @@ class Debug
                 /**
                  * Generate a link to the official docs
                  */
-                let classNameWithLink = "<a target='_new' href='https://docs.phalconphp.com/4.0/en/api/" . prepareUriClass . "'>" . className . "</a>";
+                let classNameWithLink = "<a target='_new' href='https://docs.phalcon.io/4.0/en/api/" . prepareUriClass . "'>" . className . "</a>";
             } else {
                 let classReflection = new ReflectionClass(className);
 
