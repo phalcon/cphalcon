@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -161,7 +161,7 @@ class IsAllowedCest
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: isAllowed() - function no parameters
      *
-     * @author  Phalcon Team <team@phalconphp.com>
+     * @author  Phalcon Team <team@phalcon.io>
      * @since   2019-06-16
      */
     public function aclAdapterMemoryIsAllowedFunctionNoParameters(UnitTester $I)
@@ -194,7 +194,7 @@ class IsAllowedCest
      * Tests Phalcon\Acl\Adapter\Memory :: isAllowed() - function more
      * parameters
      *
-     * @author  Phalcon Team <team@phalconphp.com>
+     * @author  Phalcon Team <team@phalcon.io>
      * @since   2019-06-16
      */
     public function aclAdapterMemoryIsAllowedFunctionMoreParameters(UnitTester $I)
@@ -246,7 +246,7 @@ class IsAllowedCest
      * Tests Phalcon\Acl\Adapter\Memory :: isAllowed() - function not enough
      * parameters
      *
-     * @author  Phalcon Team <team@phalconphp.com>
+     * @author  Phalcon Team <team@phalcon.io>
      * @since   2019-06-16
      */
     public function aclAdapterMemoryIsAllowedFunctionNotEnoughParameters(UnitTester $I)
@@ -295,7 +295,7 @@ class IsAllowedCest
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: isAllowed() - exception
      *
-     * @author  Phalcon Team <team@phalconphp.com>
+     * @author  Phalcon Team <team@phalcon.io>
      * @since   2019-06-16
      */
     public function aclAdapterMemoryIsAllowedException(UnitTester $I)

@@ -3,7 +3,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -22,7 +22,7 @@ class HeadersCest extends HttpBase
     /**
      * Tests the instance of the object
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-05
      */
     public function testHttpResponseHeadersInstanceOf(UnitTester $I)
@@ -38,7 +38,7 @@ class HeadersCest extends HttpBase
     /**
      * Tests the get and set of the response headers
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-05
      */
     public function testHttpResponseHeadersGetSet(UnitTester $I)
@@ -56,7 +56,7 @@ class HeadersCest extends HttpBase
     /**
      * Tests the has of the response headers
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-02
      */
     public function testHttpResponseHeadersHas(UnitTester $I)
@@ -78,7 +78,7 @@ class HeadersCest extends HttpBase
      * Tests the set of the response status headers
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/12895
-     * @author       Phalcon Team <team@phalconphp.com>
+     * @author       Phalcon Team <team@phalcon.io>
      * @since        2017-06-17
      *
      * @dataProvider statusHeaderProvider
@@ -115,7 +115,7 @@ class HeadersCest extends HttpBase
      * Tests the get of the response status headers
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/12895
-     * @author       Phalcon Team <team@phalconphp.com>
+     * @author       Phalcon Team <team@phalcon.io>
      * @since        2017-06-17
      *
      * @dataProvider statusHeaderProvider
@@ -141,7 +141,7 @@ class HeadersCest extends HttpBase
     /**
      * Tests resetting the response headers
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-05
      */
     public function testHttpResponseHeadersReset(UnitTester $I)
@@ -160,7 +160,7 @@ class HeadersCest extends HttpBase
     /**
      * Tests removing a response header
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-05
      */
     public function testHttpResponseHeadersRemove(UnitTester $I)
@@ -179,7 +179,7 @@ class HeadersCest extends HttpBase
     /**
      * Tests setting a raw response header
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-05
      */
     public function testHttpResponseHeadersRaw(UnitTester $I)
@@ -196,7 +196,7 @@ class HeadersCest extends HttpBase
     /**
      * Tests toArray in response headers
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-05
      */
     public function testHttpResponseHeadersToArray(UnitTester $I)

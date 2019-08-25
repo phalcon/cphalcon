@@ -3,7 +3,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -43,7 +43,7 @@ class CriteriaCest
      * Tests Criteria::inWhere with empty array.
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/10676
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2016-08-11
      */
     public function shouldExecuteInWhereQueryWithEmptyArray(IntegrationTester $I)
@@ -65,7 +65,7 @@ class CriteriaCest
      * Tests work with limit / offset
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/12419
-     * @author Serghei Iakovelv <serghei@phalconphp.com>
+     * @author Serghei Iakovelv <serghei@phalcon.io>
      * @since  2016-12-18
      *
      * @dataProvider getLimitOffset
@@ -151,7 +151,7 @@ class CriteriaCest
      *
      * @since  2017-05-21
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      */
     public function createBuilderFromCriteria(IntegrationTester $I)
     {

@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -26,7 +26,7 @@ class PrependTitleCest
     /**
      * Tests Phalcon\Html\Tag :: prependTitle()
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function htmlTagPrependTitle(UnitTester $I)
@@ -56,7 +56,7 @@ class PrependTitleCest
     /**
      * Tests Phalcon\Html\Tag :: prependTitle() - string
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function htmlTagAppendTitleString(UnitTester $I)
@@ -90,7 +90,7 @@ class PrependTitleCest
     /**
      * Tests Phalcon\Html\Tag :: prependTitle() - separator
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function htmlTagPrependTitleSeparator(UnitTester $I)
@@ -122,7 +122,7 @@ class PrependTitleCest
     /**
      * Tests Phalcon\Html\Tag :: prependTitle() - double call
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function htmlTagPrependTitleDoubleCall(UnitTester $I)
@@ -154,7 +154,7 @@ class PrependTitleCest
     /**
      * Tests Phalcon\Html\Tag :: prependTitle() - many
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function htmlTagPrependTitleMany(UnitTester $I)
@@ -185,7 +185,7 @@ class PrependTitleCest
     /**
      * Tests Phalcon\Html\Tag :: prependTitle() - empty array
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function htmlTagPrependTitleEmptyArray(UnitTester $I)

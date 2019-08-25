@@ -3,7 +3,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -149,7 +149,7 @@ class GroupCest
 
         $group = new Group();
 
-        $group->setHostname('my.phalconphp.com');
+        $group->setHostname('my.phalcon.io');
 
         $group->add(
             '/edit',
@@ -185,8 +185,8 @@ class GroupCest
                 'posts3',
             ],
             [
-                'my.phalconphp.com',
-                'my.phalconphp.com',
+                'my.phalcon.io',
+                'my.phalcon.io',
                 'posts',
             ],
             [
@@ -227,7 +227,7 @@ class GroupCest
 
         $group = new Group();
 
-        $group->setHostname('([a-z]+).phalconphp.com');
+        $group->setHostname('([a-z]+).phalcon.io');
 
         $group->add(
             '/edit',
@@ -263,8 +263,8 @@ class GroupCest
                 'posts3',
             ],
             [
-                'my.phalconphp.com',
-                '([a-z]+).phalconphp.com',
+                'my.phalcon.io',
+                '([a-z]+).phalcon.io',
                 'posts',
             ],
             [

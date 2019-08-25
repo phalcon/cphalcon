@@ -3,7 +3,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -37,7 +37,7 @@ class CookieCest extends HttpBase
      * forgery
      *
      * @test
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-05-06
      */
     public function shouldThrowExceptionIfMessageAuthenticationCodeIsMismatch(UnitTester $I)
@@ -89,7 +89,7 @@ class CookieCest extends HttpBase
      * Tests Cookie::getValue using message authentication code
      *
      * @test
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-05-06
      */
     public function shouldDecryptValueByUsingMessageAuthenticationCode(UnitTester $I)
@@ -133,7 +133,7 @@ class CookieCest extends HttpBase
      *
      * @test
      * @issue  https://github.com/phalcon/cphalcon/issues/11259
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2017-10-04
      */
     public function shouldDecryptValueByUsingDefaultEncryptionAlgo(UnitTester $I)
@@ -162,7 +162,7 @@ class CookieCest extends HttpBase
      *
      * @test
      * @issue  https://github.com/phalcon/cphalcon/issues/12978
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2017-09-02
      */
     public function shouldWorkWithoutInitializeInternalCookiesProperty(UnitTester $I)

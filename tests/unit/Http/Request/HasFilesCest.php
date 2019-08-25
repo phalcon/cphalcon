@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -21,7 +21,7 @@ class HasFilesCest extends HttpBase
     /**
      * Tests Request::hasFiles
      *
-     * @author       Serghei Iakovelv <serghei@phalconphp.com>
+     * @author       Serghei Iakovelv <serghei@phalcon.io>
      * @since        2016-01-31
      *
      * @dataProvider filesProvider

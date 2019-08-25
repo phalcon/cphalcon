@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -21,7 +21,7 @@ class SelectStaticCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: selectStatic() - string as a parameter
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function tagSelectStaticStringParameter(UnitTester $I)
@@ -51,7 +51,7 @@ class SelectStaticCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: selectStatic() - array as a parameter
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function tagSelectStaticArrayParameter(UnitTester $I)
@@ -86,7 +86,7 @@ class SelectStaticCest extends TagSetup
      * Tests Phalcon\Tag :: selectStatic() - array as a parameters and id in it
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/54
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function tagSelectStaticArrayParameterWithId(UnitTester $I)
@@ -122,7 +122,7 @@ class SelectStaticCest extends TagSetup
      * Tests Phalcon\Tag :: selectStatic() - name and no id in parameter
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/54
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function tagSelectStaticArrayParameterWithNameNoId(UnitTester $I)
@@ -157,7 +157,7 @@ class SelectStaticCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: selectStatic() - value in parameters
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function tagSelectStaticArrayParameterWithValue(UnitTester $I)
@@ -192,7 +192,7 @@ class SelectStaticCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: selectStatic() - setDefault
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function tagSelectStaticWithSetDefault(UnitTester $I)
@@ -229,7 +229,7 @@ class SelectStaticCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: selectStatic() - displayTo
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function tagSelectStaticWithDisplayTo(UnitTester $I)
@@ -266,7 +266,7 @@ class SelectStaticCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: selectStatic() - setDefault and element not present
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function tagSelectStaticWithSetDefaultElementNotPresent(UnitTester $I)
@@ -304,7 +304,7 @@ class SelectStaticCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: selectStatic() - displayTo and element not present
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function tagSelectStaticWithDisplayToElementNotPresent(UnitTester $I)
@@ -342,7 +342,7 @@ class SelectStaticCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: selectStatic() - opt group array as a parameter
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function tagSelectStaticOptGroupArrayParameter(UnitTester $I)
@@ -381,7 +381,7 @@ class SelectStaticCest extends TagSetup
      * Tests Phalcon\Tag :: selectStatic() - array as a parameters and id in it
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/54
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function tagSelectStaticOptGroupArrayParameterWithId(UnitTester $I)
@@ -424,7 +424,7 @@ class SelectStaticCest extends TagSetup
      * parameter
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/54
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function tagSelectStaticOptGroupArrayParameterWithNameNoId(UnitTester $I)
@@ -465,7 +465,7 @@ class SelectStaticCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: selectStatic() - value in parameters
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function tagSelectStaticOptGroupArrayParameterWithValue(UnitTester $I)
@@ -506,7 +506,7 @@ class SelectStaticCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: selectStatic() - setDefault
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function tagSelectStaticOptGroupWithSetDefault(UnitTester $I)
@@ -549,7 +549,7 @@ class SelectStaticCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: selectStatic() - displayTo
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function tagSelectStaticOptGroupWithDisplayTo(UnitTester $I)
@@ -592,7 +592,7 @@ class SelectStaticCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: selectStatic() - setDefault and element not present
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function tagSelectStaticOptGroupWithSetDefaultElementNotPresent(UnitTester $I)
@@ -636,7 +636,7 @@ class SelectStaticCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: selectStatic() - displayTo and element not present
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function tagSelectStaticOptGroupWithDisplayToElementNotPresent(UnitTester $I)

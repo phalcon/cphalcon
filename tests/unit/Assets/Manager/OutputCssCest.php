@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -39,7 +39,7 @@ class OutputCssCest
     /**
      * Tests Phalcon\Assets\Manager :: outputCss() - implicit
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-13
      */
     public function assetsManagerOutputCssImplicit(UnitTester $I)
@@ -70,7 +70,7 @@ class OutputCssCest
     /**
      * Tests Phalcon\Assets\Manager :: outputCss() - not implicit
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-13
      */
     public function assetsManagerOutputCssNotImplicit(UnitTester $I)
@@ -103,7 +103,7 @@ class OutputCssCest
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/1198
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2013-09-15
      */
     public function assetsManagerOutputCssFilterChainCustomFilterWithCssmin(UnitTester $I)

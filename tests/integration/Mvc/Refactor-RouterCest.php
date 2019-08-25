@@ -3,7 +3,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -31,7 +31,7 @@ class RouterCest
     /**
      * Tests routing by use Route::convert
      *
-     * @author       Andy Gutierrez <andres.gutierrez@phalconphp.com>
+     * @author       Andy Gutierrez <andres.gutierrez@phalcon.io>
      * @since        2012-12-25
      *
      * @dataProvider getMatchingWithConverted
@@ -63,7 +63,7 @@ class RouterCest
     /**
      * Tests using callbacks before match route
      *
-     * @author Andy Gutierrez <andres.gutierrez@phalconphp.com>
+     * @author Andy Gutierrez <andres.gutierrez@phalcon.io>
      * @since  2013-01-08
      */
     public function testUsingCallbacksBeforeMatchRoute(IntegrationTester $I)
@@ -121,7 +121,7 @@ class RouterCest
     /**
      * Tests router
      *
-     * @author Andy Gutierrez <andres.gutierrez@phalconphp.com>
+     * @author Andy Gutierrez <andres.gutierrez@phalcon.io>
      * @since  2013-01-17
      *
      * @dataProvider getMatchingWithRouter
@@ -363,7 +363,7 @@ class RouterCest
     /**
      * Tests router by using rote params
      *
-     * @author Andy Gutierrez <andres.gutierrez@phalconphp.com>
+     * @author Andy Gutierrez <andres.gutierrez@phalcon.io>
      * @since  2012-08-22
      *
      * @dataProvider getMatchingWithRouterHttp
@@ -498,7 +498,7 @@ class RouterCest
     /**
      * Tests router by using http method
      *
-     * @author Andy Gutierrez <andres.gutierrez@phalconphp.com>
+     * @author Andy Gutierrez <andres.gutierrez@phalcon.io>
      * @since  2012-08-22
      *
      * @dataProvider getMatchingWithToRouter
@@ -574,7 +574,7 @@ class RouterCest
     /**
      * Tests adding a route to the router by using short path
      *
-     * @author       Andy Gutierrez <andres.gutierrez@phalconphp.com>
+     * @author       Andy Gutierrez <andres.gutierrez@phalcon.io>
      * @since        2012-01-16
      *
      * @dataProvider getMatchingWithPathProvider
@@ -599,7 +599,7 @@ class RouterCest
      * Tests setting host name by using regexp
      *
      * @test
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2016-06-23
      *
      * @dataProvider getMatchingWithHostnameRegex
@@ -646,7 +646,7 @@ class RouterCest
                     'controller' => 'posts',
                     'action'     => 'edit',
                 ],
-                'hostname'   => '([a-z]+).phalconphp.com',
+                'hostname'   => '([a-z]+).phalcon.io',
             ],
             [
                 'methodName' => 'add',
@@ -673,7 +673,7 @@ class RouterCest
     {
         return [
             ['posts3', '/edit', 'localhost'],
-            ['posts', '/edit', 'my.phalconphp.com'],
+            ['posts', '/edit', 'my.phalcon.io'],
             ['posts3', '/edit', null],
             ['posts2', '/edit', 'mail.example.com'],
             ['posts3', '/edit', 'some-domain.com'],
@@ -685,7 +685,7 @@ class RouterCest
      * Tests setting host name by using regexp
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/2573
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2016-06-26
      *
      * @dataProvider getMatchingWithRegexRouterHostPort
@@ -771,7 +771,7 @@ class RouterCest
             ],
             [
                 [
-                    'hostname' => 'my.phalconphp.com',
+                    'hostname' => 'my.phalcon.io',
                     'port'     => 80,
                     'handle'   => '/edit',
                 ],
@@ -779,7 +779,7 @@ class RouterCest
             ],
             [
                 [
-                    'hostname' => 'my.phalconphp.com',
+                    'hostname' => 'my.phalcon.io',
                     'port'     => 8080,
                     'handle'   => '/edit',
                 ],
@@ -823,7 +823,7 @@ class RouterCest
     /**
      * Tests setting host name
      *
-     * @author Andy Gutierrez <andres.gutierrez@phalconphp.com>
+     * @author Andy Gutierrez <andres.gutierrez@phalcon.io>
      * @since  2013-04-15
      *
      * @dataProvider getMatchingWithHostName
@@ -870,7 +870,7 @@ class RouterCest
                     'controller' => 'posts',
                     'action'     => 'edit',
                 ],
-                'hostname'   => 'my.phalconphp.com',
+                'hostname'   => 'my.phalcon.io',
             ],
             [
                 'methodName' => 'add',
@@ -879,7 +879,7 @@ class RouterCest
                     'controller' => 'posts2',
                     'action'     => 'edit2',
                 ],
-                'hostname'   => 'my2.phalconphp.com',
+                'hostname'   => 'my2.phalcon.io',
             ],
         ];
     }
@@ -903,14 +903,14 @@ class RouterCest
             ],
             [
                 [
-                    'hostname' => 'my.phalconphp.com',
+                    'hostname' => 'my.phalcon.io',
                     'handle'   => '/edit',
                 ],
                 'posts',
             ],
             [
                 [
-                    'hostname' => 'my2.phalconphp.com',
+                    'hostname' => 'my2.phalcon.io',
                     'handle'   => '/edit',
                 ],
                 'posts2',

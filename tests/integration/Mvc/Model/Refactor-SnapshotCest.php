@@ -3,7 +3,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -41,7 +41,7 @@ class SnapshotCest
      * Tests dynamic update for identityless models
      *
      * @test
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @issue  https://github.com/phalcon/cphalcon/issues/13166
      * @since  2017-11-20
      */
@@ -354,7 +354,7 @@ class SnapshotCest
      * Test snapshots for changes from NULL to Zero
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/12628
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2017-02-26
      */
     public function shouldCorrectDetectChanges(IntegrationTester $I)

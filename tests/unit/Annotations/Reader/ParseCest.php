@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -23,7 +23,7 @@ class ParseCest
     /**
      * Test throws ReflectionException when non-existent got class
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2016-01-25
      */
     public function testParseWithNonExistentClass(UnitTester $I)
@@ -42,7 +42,7 @@ class ParseCest
      * Test throws Phalcon\Annotations\Exception when got class with invalid
      * annotation
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2016-01-25
      */
     public function testParseWithInvalidAnnotation(UnitTester $I)
@@ -69,7 +69,7 @@ class ParseCest
     /**
      * Tests Reader::parse
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2016-01-25
      */
     public function testReaderParse(UnitTester $I)

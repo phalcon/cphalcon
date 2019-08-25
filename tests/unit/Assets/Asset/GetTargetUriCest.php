@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -36,7 +36,7 @@ class GetTargetUriCest
     /**
      * Tests Phalcon\Assets\Asset :: getTargetUri() - local
      *
-     * @author       Phalcon Team <team@phalconphp.com>
+     * @author       Phalcon Team <team@phalcon.io>
      * @since        2018-11-13
      *
      * @dataProvider localProvider
@@ -63,7 +63,7 @@ class GetTargetUriCest
     /**
      * Tests Phalcon\Assets\Asset :: getTargetUri() - remote
      *
-     * @author       Phalcon Team <team@phalconphp.com>
+     * @author       Phalcon Team <team@phalcon.io>
      * @since        2018-11-13
      *
      * @dataProvider remoteProvider
@@ -91,7 +91,7 @@ class GetTargetUriCest
     /**
      * Tests Phalcon\Assets\Asset :: getTargetUri() - js versioning
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function assetsAssetGetTargetUriJsVersioning(UnitTester $I)
@@ -122,7 +122,7 @@ class GetTargetUriCest
     /**
      * Tests Phalcon\Assets\Asset :: getTargetUri() - js automatic versioning
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function assetsAssetGetTargetUriJsAutoVersioning(UnitTester $I)

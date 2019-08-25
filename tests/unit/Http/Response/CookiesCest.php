@@ -17,15 +17,15 @@ use UnitTester;
  * Tests the Phalcon\Http\Response\Cookies component
  *
  * @copyright (c) 2011-2017 Phalcon Team
- * @link          https://phalconphp.com
- * @author        Andres Gutierrez <andres@phalconphp.com>
- * @author        Phalcon Team <team@phalconphp.com>
+ * @link          https://phalcon.io
+ * @author        Andres Gutierrez <andres@phalcon.io>
+ * @author        Phalcon Team <team@phalcon.io>
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file LICENSE.txt
  *
  * If you did not receive a copy of the license and are unable to obtain it
- * through the world-wide-web, please send an email to license@phalconphp.com
+ * through the world-wide-web, please send an email to license@phalcon.io
  * so that we can send you a copy immediately.
  */
 class CookiesCest extends HttpBase
@@ -35,7 +35,7 @@ class CookiesCest extends HttpBase
      *
      * @test
      * @issue  https://github.com/phalcon/cphalcon/issues/12978
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2017-09-02
      */
     public function shouldWorkWithoutInitializeInternalCookiesProperty(UnitTester $I)

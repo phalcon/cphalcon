@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -21,7 +21,7 @@ class LinkToCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: linkTo() - string as URL and name
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-29
      */
     public function tagLinkToWithStringAsURLAndName(UnitTester $I)
@@ -41,7 +41,7 @@ class LinkToCest extends TagSetup
      * Tests Phalcon\Tag :: linkTo() - string as URL and name
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/2002
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @author Dreamszhu <dreamsxin@qq.com>
      * @since  2014-03-10
      */
@@ -71,7 +71,7 @@ class LinkToCest extends TagSetup
      * Tests Phalcon\Tag :: linkTo() - empty string as URL and string as name
      * parameter
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-29
      */
     public function tagLinkToWithEmptyStringAsURLAndStringAsName(UnitTester $I)
@@ -90,7 +90,7 @@ class LinkToCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: linkTo() - array as a parameter
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-29
      */
     public function tagLinkToArrayParameter(UnitTester $I)
@@ -111,7 +111,7 @@ class LinkToCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: linkTo() - named array as a parameter
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-29
      */
     public function tagLinkToNamedArrayParameter(UnitTester $I)
@@ -134,7 +134,7 @@ class LinkToCest extends TagSetup
      * Tests Phalcon\Tag :: linkTo() - complex local URL
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/1679
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @author Dreamszhu <dreamsxin@qq.com>
      * @since  2014-09-29
      */
@@ -182,7 +182,7 @@ class LinkToCest extends TagSetup
      * Tests Phalcon\Tag :: linkTo() - complex remote URL
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/1679
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @author Dreamszhu <dreamsxin@qq.com>
      * @since  2014-09-29
      */
@@ -192,47 +192,47 @@ class LinkToCest extends TagSetup
 
         Tag::resetInput();
 
-        $url  = 'http://phalconphp.com/en/';
+        $url  = 'http://phalcon.io/en/';
         $name = 'x_name';
 
         $I->assertEquals(
-            '<a href="http://phalconphp.com/en/">x_name</a>',
+            '<a href="http://phalcon.io/en/">x_name</a>',
             Tag::linkTo($url, $name, false)
         );
 
         Tag::resetInput();
 
         $options = [
-            'http://phalconphp.com/en/',
+            'http://phalcon.io/en/',
             'x_name',
             false,
         ];
 
         $I->assertEquals(
-            '<a href="http://phalconphp.com/en/">x_name</a>',
+            '<a href="http://phalcon.io/en/">x_name</a>',
             Tag::linkTo($options)
         );
 
         Tag::resetInput();
 
         $options = [
-            'http://phalconphp.com/en/',
+            'http://phalcon.io/en/',
             'text'  => 'x_name',
             'local' => false,
         ];
 
         $I->assertEquals(
-            '<a href="http://phalconphp.com/en/">x_name</a>',
+            '<a href="http://phalcon.io/en/">x_name</a>',
             Tag::linkTo($options)
         );
 
         Tag::resetInput();
 
-        $url  = 'mailto:someone@phalconphp.com';
-        $name = 'someone@phalconphp.com';
+        $url  = 'mailto:someone@phalcon.io';
+        $name = 'someone@phalcon.io';
 
         $I->assertEquals(
-            '<a href="mailto:someone@phalconphp.com">someone@phalconphp.com</a>',
+            '<a href="mailto:someone@phalcon.io">someone@phalcon.io</a>',
             Tag::linkTo($url, $name, false)
         );
     }

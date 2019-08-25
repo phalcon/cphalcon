@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -148,7 +148,7 @@ class ValidateCest
      * Tests Phalcon\Validation\Validator\Alpha :: validate() - Non Alphabetic
      * Characters
      *
-     * @author       Phalcon Team <team@phalconphp.com>
+     * @author       Phalcon Team <team@phalcon.io>
      * @since        2016-06-10
      *
      * @dataProvider validationValidatorAlphaValidateNonAlphabeticCharactersProvider
@@ -194,7 +194,7 @@ class ValidateCest
      * Tests Phalcon\Validation\Validator\Alpha :: validate() - Alphabetic
      * Characters
      *
-     * @author       Phalcon Team <team@phalconphp.com>
+     * @author       Phalcon Team <team@phalcon.io>
      * @since        2016-06-10
      *
      * @dataProvider validationValidatorAlphaValidateAlphabeticCharactersProvider
@@ -232,7 +232,7 @@ class ValidateCest
      * Tests Phalcon\Validation\Validator\Alpha :: validate() - Non Latin
      * Characters
      *
-     * @author       Phalcon Team <team@phalconphp.com>
+     * @author       Phalcon Team <team@phalcon.io>
      * @since        2016-06-10
      *
      * @dataProvider nonLatinCharactersProvider

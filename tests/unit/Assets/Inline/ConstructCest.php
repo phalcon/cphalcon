@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -20,7 +20,7 @@ class ConstructCest
     /**
      * Tests Phalcon\Assets\Asset :: __construct() - css
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function assetsInlineConstructCss(UnitTester $I)
@@ -39,7 +39,7 @@ class ConstructCest
     /**
      * Tests Phalcon\Assets\Asset :: __construct() - css filter
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function assetsInlineConstructCssFilter(UnitTester $I)
@@ -57,7 +57,7 @@ class ConstructCest
     /**
      * Tests Phalcon\Assets\Asset :: __construct() - css filter set
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function assetsInlineConstructCssFilterSet(UnitTester $I)
@@ -76,7 +76,7 @@ class ConstructCest
     /**
      * Tests Phalcon\Assets\Asset :: __construct() - css attributes
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function assetsInlineConstructCssAttributes(UnitTester $I)
@@ -95,7 +95,7 @@ class ConstructCest
     /**
      * Tests Phalcon\Assets\Asset :: __construct() - css attributes set
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function assetsInlineConstructCssAttributesSet(UnitTester $I)
@@ -124,7 +124,7 @@ class ConstructCest
     /**
      * Tests Phalcon\Assets\Asset :: __construct() - js
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function assetsInlineConstructJs(UnitTester $I)
@@ -143,7 +143,7 @@ class ConstructCest
     /**
      * Tests Phalcon\Assets\Asset :: __construct() - js filter
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function assetsInlineConstructJsFilter(UnitTester $I)
@@ -161,7 +161,7 @@ class ConstructCest
     /**
      * Tests Phalcon\Assets\Asset :: __construct() - js filter set
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function assetsInlineConstructJsFilterSet(UnitTester $I)
@@ -179,7 +179,7 @@ class ConstructCest
     /**
      * Tests Phalcon\Assets\Asset :: __construct() - js attributes
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function assetsInlineConstructJsAttributes(UnitTester $I)
@@ -198,7 +198,7 @@ class ConstructCest
     /**
      * Tests Phalcon\Assets\Asset :: __construct() - js attributes set
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function assetsInlineConstructJsAttributesSet(UnitTester $I)

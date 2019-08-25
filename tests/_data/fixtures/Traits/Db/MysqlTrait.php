@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -23,7 +23,7 @@ trait MysqlTrait
     protected $connection = null;
 
     /**
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-10-26
      */
     public function _before()
@@ -52,7 +52,7 @@ trait MysqlTrait
     /**
      * Returns the database schema; MySql does not have a schema
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-10-26
      */
     protected function getSchemaName(): string
@@ -63,7 +63,7 @@ trait MysqlTrait
     /**
      * Return the array of expected columns
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-10-26
      */
     protected function getExpectedColumns(): array
@@ -83,7 +83,7 @@ trait MysqlTrait
     /**
      * Return the array of columns
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-10-26
      */
     protected function getColumns(): array
@@ -642,7 +642,7 @@ trait MysqlTrait
     /**
      * Return the array of expected indexes
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-10-26
      */
     protected function getExpectedIndexes(): array
@@ -658,7 +658,7 @@ trait MysqlTrait
     /**
      * Return the array of expected references
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-10-26
      */
     protected function getExpectedReferences(): array
@@ -692,7 +692,7 @@ trait MysqlTrait
     /**
      * Returns the database name
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-10-26
      */
     protected function getDatabaseName(): string

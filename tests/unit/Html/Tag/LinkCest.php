@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -25,7 +25,7 @@ class LinkCest
     /**
      * Tests Phalcon\Html\Tag :: link()
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-29
      */
     public function htmlTagLink(UnitTester $I)
@@ -47,7 +47,7 @@ class LinkCest
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/2002
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @author Dreamszhu <dreamsxin@qq.com>
      * @since  2014-03-10
      */
@@ -76,7 +76,7 @@ class LinkCest
     /**
      * Tests Phalcon\Html\Tag :: link() - empty url
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-29
      */
     public function htmlTagLinkEmptyUrl(UnitTester $I)
@@ -96,7 +96,7 @@ class LinkCest
     /**
      * Tests Phalcon\Html\Tag :: link() - named array as a parameter
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-29
      */
     public function htmlTagLinkNamedParameters(UnitTester $I)
@@ -123,7 +123,7 @@ class LinkCest
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/1679
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @author Dreamszhu <dreamsxin@qq.com>
      * @since  2014-09-29
      */
@@ -148,7 +148,7 @@ class LinkCest
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/1679
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @author Dreamszhu <dreamsxin@qq.com>
      * @since  2014-09-29
      */
@@ -158,33 +158,33 @@ class LinkCest
         $tag = new Tag();
         $tag->setDI($this->container);
 
-        $url      = 'http://phalconphp.com/en/';
+        $url      = 'http://phalcon.io/en/';
         $name     = 'x_name';
         $params   = [
             'local' => false,
             'class' => 'x_class',
         ];
-        $expected = '<a href="http://phalconphp.com/en/" class="x_class">x_name</a>';
+        $expected = '<a href="http://phalcon.io/en/" class="x_class">x_name</a>';
         $actual   = $tag->link($url, $name, $params);
         $I->assertEquals($expected, $actual);
 
-        $url      = 'http://phalconphp.com/en/';
+        $url      = 'http://phalcon.io/en/';
         $name     = 'x_name';
         $params   = [
             'local' => false,
             'class' => 'x_class',
             'text'  => 'Website',
         ];
-        $expected = '<a href="http://phalconphp.com/en/" class="x_class">Website</a>';
+        $expected = '<a href="http://phalcon.io/en/" class="x_class">Website</a>';
         $actual   = $tag->link($url, $name, $params);
         $I->assertEquals($expected, $actual);
 
-        $url      = 'mailto:someone@phalconphp.com';
-        $name     = 'someone@phalconphp.com';
+        $url      = 'mailto:someone@phalcon.io';
+        $name     = 'someone@phalcon.io';
         $params   = [
             'local' => false,
         ];
-        $expected = '<a href="mailto:someone@phalconphp.com">someone@phalconphp.com</a>';
+        $expected = '<a href="mailto:someone@phalcon.io">someone@phalcon.io</a>';
         $actual   = $tag->link($url, $name, $params);
         $I->assertEquals($expected, $actual);
     }
