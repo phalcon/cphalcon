@@ -57,7 +57,7 @@ class Debug
     /**
      * @var string
     */
-    protected uri = "https://assets.phalconphp.com/debug/4.0.x/";
+    protected uri = "https://assets.phalcon.io/debug/4.0.x/";
 
     /**
      * Clears are variables added previously
