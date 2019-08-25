@@ -338,6 +338,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/kernel.zep.c
 	phalcon/loader.zep.c
 	phalcon/loader/exception.zep.c
+	phalcon/logger.zep.c
 	phalcon/logger/adapter/noop.zep.c
 	phalcon/logger/adapter/stream.zep.c
 	phalcon/logger/adapter/syslog.zep.c
@@ -347,7 +348,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/logger/formatter/line.zep.c
 	phalcon/logger/formatter/syslog.zep.c
 	phalcon/logger/item.zep.c
-	phalcon/logger/logger.zep.c
 	phalcon/logger/loggerfactory.zep.c
 	phalcon/messages/exception.zep.c
 	phalcon/messages/message.zep.c

@@ -26,7 +26,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -351,10 +351,8 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, getAdapter) {
 		ZEPHIR_CPY_WRT(&options, &_1$$3);
 		ZEPHIR_INIT_VAR(&connection);
 		object_init_ex(&connection, zephir_get_internal_ce(SL("redis")));
-		if (zephir_has_constructor(&connection TSRMLS_CC)) {
-			ZEPHIR_CALL_METHOD(NULL, &connection, "__construct", NULL, 0);
-			zephir_check_call_status();
-		}
+		ZEPHIR_CALL_METHOD(NULL, &connection, "__construct", NULL, 0);
+		zephir_check_call_status();
 		ZEPHIR_OBS_VAR(&auth);
 		zephir_array_fetch_string(&auth, &options, SL("auth"), PH_NOISY, "phalcon/Storage/Adapter/Redis.zep", 119 TSRMLS_CC);
 		ZEPHIR_OBS_VAR(&host);

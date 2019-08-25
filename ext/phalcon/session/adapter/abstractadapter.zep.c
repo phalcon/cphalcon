@@ -115,11 +115,13 @@ PHP_METHOD(Phalcon_Session_Adapter_AbstractAdapter, read) {
 
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *id, id_sub, _0;
+	zval *id, id_sub, data, _0, _1;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&id_sub);
+	ZVAL_UNDEF(&data);
 	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &id);
@@ -127,9 +129,15 @@ PHP_METHOD(Phalcon_Session_Adapter_AbstractAdapter, read) {
 
 
 	zephir_read_property(&_0, this_ptr, SL("adapter"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_METHOD(&_0, "get", NULL, 0, id);
+	ZEPHIR_CALL_METHOD(&data, &_0, "get", NULL, 0, id);
 	zephir_check_call_status();
-	RETURN_MM();
+	ZEPHIR_INIT_VAR(&_1);
+	if (Z_TYPE_P(&data) == IS_NULL) {
+		ZVAL_STRING(&_1, "");
+	} else {
+		ZEPHIR_CPY_WRT(&_1, &data);
+	}
+	RETURN_CCTOR(&_1);
 
 }
 

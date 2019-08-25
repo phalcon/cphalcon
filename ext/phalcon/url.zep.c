@@ -27,7 +27,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -108,7 +108,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Url) {
  *
  * // Generate an absolute URL by setting the third parameter as false.
  * echo $url->get(
- *     "https://phalconphp.com/",
+ *     "https://phalcon.io/",
  *     null,
  *     false
  * );
