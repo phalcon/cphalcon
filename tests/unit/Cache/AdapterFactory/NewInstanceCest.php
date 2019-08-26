@@ -22,6 +22,7 @@ use Phalcon\Cache\AdapterFactory;
 use Phalcon\Factory\Exception;
 use Phalcon\Storage\SerializerFactory;
 use UnitTester;
+use Phalcon\Storage\Serializer\Json;
 use function getOptionsLibmemcached;
 use function getOptionsRedis;
 use function outputDir;
@@ -46,6 +47,15 @@ class NewInstanceCest
         $adapter    = new AdapterFactory($serializer);
 
         $service = $adapter->newInstance($example[0], $example[2]);
+
+        $I->assertInstanceOf(
+            $example[1],
+            $service
+        );
+
+        // Given `serializer` parameter
+        $adapter = new AdapterFactory();
+        $service = $adapter->newInstance($example[0], $example[3]);
 
         $I->assertInstanceOf(
             $example[1],
@@ -78,32 +88,44 @@ class NewInstanceCest
 
     private function getExamples(): array
     {
+        $jsonSerializer = new Json();
+        $optionsWithSerializer = [
+            'serializer' => $jsonSerializer
+        ];
         return [
             [
                 'apcu',
                 Apcu::class,
                 [],
+                $optionsWithSerializer,
             ],
             [
                 'libmemcached',
                 Libmemcached::class,
                 getOptionsLibmemcached(),
+                array_merge(getOptionsLibmemcached(), $optionsWithSerializer),
             ],
             [
                 'memory',
                 Memory::class,
                 [],
+                $optionsWithSerializer
             ],
             [
                 'redis',
                 Redis::class,
                 getOptionsRedis(),
+                array_merge(getOptionsRedis(), $optionsWithSerializer)
             ],
             [
                 'stream',
                 Stream::class,
                 [
                     'cacheDir' => outputDir(),
+                ],
+                [
+                    'cacheDir' => outputDir(),
+                    'serializer' => $jsonSerializer,
                 ],
             ],
         ];

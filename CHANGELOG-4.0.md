@@ -9,6 +9,7 @@
 - Fixed `Phalcon\Cache\Exception` to extend Phalcon\Exception
 - Fixed `Phalcon\Cache\InvalidArgumentException` to extend Phalcon\Exception
 - Fixed `Phalcon\Collection\Exception` to extend Phalcon\Exception
+- Fixed `Phalcon\Storage\Adapter\AbstractAdapter::initSerializer` to throw exception if `null === $this->serializerFactory && null === $this->serializer` [#14324](https://github.com/phalcon/cphalcon/issues/14324)
 
 # [4.0.0-beta.2](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-beta.2) (2019-08-18)
 

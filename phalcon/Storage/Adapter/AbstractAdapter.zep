@@ -192,11 +192,13 @@ abstract class AbstractAdapter implements AdapterInterface
     {
         string className;
 
-        if unlikely null === this->serializerFactory {
+        if unlikely (null === this->serializer && null === this->serializerFactory) {
             throw new Exception("A valid serializer is required");
         }
 
-        let className        = strtolower(this->defaultSerializer),
-            this->serializer = this->serializerFactory->newInstance(className);
+        if !(typeof this->serializer == "object" && this->serializer instanceof SerializerInterface) {
+            let className        = strtolower(this->defaultSerializer),
+                this->serializer = this->serializerFactory->newInstance(className);
+        }
     }
 }
