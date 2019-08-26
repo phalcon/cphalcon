@@ -16,6 +16,7 @@ use Phalcon\Url\Exception;
 use Phalcon\Mvc\RouterInterface;
 use Phalcon\Mvc\Router\RouteInterface;
 use Phalcon\Di\InjectionAwareInterface;
+use Phalcon\Helper\Str;
 
 /**
  * This components helps in the generation of: URIs, URLs and Paths
@@ -162,16 +163,7 @@ class Url implements UrlInterface, InjectionAwareInterface
 
         if local {
             let strUri = (string) uri;
-
-            if substr(baseUri, -1) == "/" && strlen(strUri) > 2 && strUri[0] == '/' && strUri[1] != '/' {
-                let uri = baseUri . substr(strUri, 1);
-            } else {
-                if baseUri == "/" && strlen(strUri) == 1 && strUri[0] == '/' {
-                    let uri = baseUri;
-                } else {
-                    let uri = baseUri . strUri;
-                }
-            }
+            let uri = preg_replace("#(?<!:)//+#", "/", baseUri . strUri);
         }
 
         if args {
