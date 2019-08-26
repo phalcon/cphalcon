@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -24,7 +24,7 @@ class ResetInputCest
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/11319
      * @issue  https://github.com/phalcon/cphalcon/issues/12099
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2016-01-20
      */
     public function tagResetInputShouldNotClearPOST(UnitTester $I)
@@ -51,7 +51,7 @@ class ResetInputCest
      * Tests Phalcon\Tag :: resetInput() - setDefault
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/53
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function tagResetInputSetDefault(UnitTester $I)
@@ -101,7 +101,7 @@ class ResetInputCest
     /**
      * Tests Phalcon\Tag :: resetInput() - displayTo
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function tagResetInputDisplayTo(UnitTester $I)

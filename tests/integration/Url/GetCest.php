@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -20,7 +20,7 @@ class GetCest
     /**
      * Tests Phalcon\Url :: get()
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function urlGet(IntegrationTester $I)
@@ -29,25 +29,25 @@ class GetCest
 
         $url = new Url();
 
-        $url->setBaseUri('https://phalconphp.com');
+        $url->setBaseUri('https://phalcon.io');
 
         $I->assertEquals(
-            'https://phalconphp.com',
+            'https://phalcon.io',
             $url->get()
         );
 
         $I->assertEquals(
-            'https://phalconphp.com',
+            'https://phalcon.io',
             $url->get('')
         );
 
         $I->assertEquals(
-            'https://phalconphp.com/',
+            'https://phalcon.io/',
             $url->get('/')
         );
 
         $I->assertEquals(
-            'https://phalconphp.com/en/team',
+            'https://phalcon.io/en/team',
             $url->get('/en/team')
         );
     }

@@ -3,14 +3,14 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-2017 Phalcon Team (https://phalconphp.com)          |
+ | Copyright (c) 2011-2017 Phalcon Team (https://phalcon.io)          |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file LICENSE.txt.                             |
  |                                                                        |
  | If you did not receive a copy of the license and are unable to         |
  | obtain it through the world-wide-web, please send an email             |
- | to license@phalconphp.com so we can send you a copy immediately.       |
+ | to license@phalcon.io so we can send you a copy immediately.       |
  +------------------------------------------------------------------------+
  */
 
@@ -58,7 +58,7 @@ class DiCest
     /**
      * Tests registering a service via string
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2016-01-29
      */
     public function testSetString(UnitTester $I)
@@ -77,7 +77,7 @@ class DiCest
     /**
      * Tests registering a service via anonymous function
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2016-01-29
      */
     public function testSetAnonymousFunction(UnitTester $I)
@@ -98,7 +98,7 @@ class DiCest
     /**
      * Tests registering a service via array
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2016-01-29
      */
     public function testSetArray(UnitTester $I)
@@ -119,7 +119,7 @@ class DiCest
     /**
      * Tests registering a service in the services container via Di::attempt
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2016-01-29
      */
     public function testAttempt(UnitTester $I)
@@ -159,7 +159,7 @@ class DiCest
     /**
      * Tests check a service in the services container via Di::has
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2016-01-29
      */
     public function testHas(UnitTester $I)
@@ -183,7 +183,7 @@ class DiCest
     /**
      * Tests resolving shared service
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2016-01-29
      */
     public function testGetShared(UnitTester $I)
@@ -210,7 +210,7 @@ class DiCest
     /**
      * Tests resolving service via magic __get
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2016-01-29
      */
     public function testMagicGetCall(UnitTester $I)
@@ -229,7 +229,7 @@ class DiCest
     /**
      * Tests registering a service via magic __set
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2016-01-29
      */
     public function testMagicSetCall(UnitTester $I)
@@ -247,7 +247,7 @@ class DiCest
     /**
      * Tests registering a service with parameters
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2016-01-29
      */
     public function testSetParameters(UnitTester $I)
@@ -294,7 +294,7 @@ class DiCest
     /**
      * Tests getting services
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2016-01-29
      */
     public function testGetServices(UnitTester $I)
@@ -316,7 +316,7 @@ class DiCest
     /**
      * Tests getting raw services
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2016-01-29
      */
     public function testGetRawService(UnitTester $I)
@@ -332,7 +332,7 @@ class DiCest
     /**
      * Tests registering a services via array access
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2016-01-29
      */
     public function testRegisteringViaArrayAccess(UnitTester $I)
@@ -348,7 +348,7 @@ class DiCest
     /**
      * Tests resolving a services via array access
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2016-01-29
      */
     public function testResolvingViaArrayAccess(UnitTester $I)
@@ -367,7 +367,7 @@ class DiCest
     /**
      * Tests getting non-existent service
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2016-01-29
      */
     public function testGettingNonExistentService(UnitTester $I)
@@ -385,7 +385,7 @@ class DiCest
     /**
      * Tests the latest DI created
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2016-01-29
      */
     public function testGettingDiViaGetDefault(UnitTester $I)
@@ -404,7 +404,7 @@ class DiCest
     /**
      * Tests resolving a services via array access
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2016-01-29
      */
     public function testComplexInjection(UnitTester $I)

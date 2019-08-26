@@ -4,14 +4,14 @@
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
  +------------------------------------------------------------------------+
- | Copyright (c) 2011-present Phalcon Team (https://phalconphp.com)       |
+ | Copyright (c) 2011-present Phalcon Team (https://phalcon.io)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
  | with this package in the file LICENSE.txt.                             |
  |                                                                        |
  | If you did not receive a copy of the license and are unable to         |
  | obtain it through the world-wide-web, please send an email             |
- | to license@phalconphp.com so we can send you a copy immediately.       |
+ | to license@phalcon.io so we can send you a copy immediately.       |
  +------------------------------------------------------------------------+
  */
 
@@ -126,7 +126,7 @@ class ViewEnginesCest
     /**
      * Tests Mustache template engine
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2012-08-17
      */
     public function shouldWorkWithMustacheEngine(IntegrationTester $I)
@@ -194,7 +194,7 @@ class ViewEnginesCest
 //     * Tests the mix Mustache with PHP Engines
 //     *
 //     * @test
-//     * @author Phalcon Team <team@phalconphp.com>
+//     * @author Phalcon Team <team@phalcon.io>
 //     * @since  2012-08-17
 //     */
 //    public function shouldWorkMixPhpMustacheEnginesPartial(IntegrationTester $I)
@@ -218,7 +218,7 @@ class ViewEnginesCest
 //     * Tests the mix Mustache with PHP Engines
 //     *
 //     * @test
-//     * @author Phalcon Team <team@phalconphp.com>
+//     * @author Phalcon Team <team@phalcon.io>
 //     * @since  2012-08-17
 //     */
 //    public function shouldWorkMixPhpTwigEnginesPartial(IntegrationTester $I)
@@ -241,7 +241,7 @@ class ViewEnginesCest
     /**
      * Tests Twig template engine
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2012-08-17
      */
     public function shouldWorkWithTwigEngine(IntegrationTester $I)
@@ -284,7 +284,7 @@ class ViewEnginesCest
     /**
      * Tests the mix Twig with PHP Engines
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2012-08-17
      */
     public function shouldWorkMixPhpTwigEngines(IntegrationTester $I)
@@ -326,7 +326,7 @@ class ViewEnginesCest
     /**
      * Tests the mix Mustache with PHP Engines
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2012-08-17
      */
     public function shouldWorkMixPhpMustacheEngines(IntegrationTester $I)

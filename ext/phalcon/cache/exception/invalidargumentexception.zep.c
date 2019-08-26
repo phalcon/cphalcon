@@ -17,7 +17,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -27,7 +27,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Cache_Exception_InvalidArgumentException) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Cache\\Exception, InvalidArgumentException, phalcon, cache_exception_invalidargumentexception, zend_exception_get_default(TSRMLS_C), NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Cache\\Exception, InvalidArgumentException, phalcon, cache_exception_invalidargumentexception, phalcon_exception_ce, NULL, 0);
 
 	zend_class_implements(phalcon_cache_exception_invalidargumentexception_ce TSRMLS_CC, 1, zephir_get_internal_ce(SL("psr\\simplecache\\invalidargumentexception")));
 	return SUCCESS;

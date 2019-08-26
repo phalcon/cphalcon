@@ -15,16 +15,16 @@ use Phalcon\Assets\Filters\Jsmin;
  * Tests the \Phalcon\Assets\Manager component
  *
  * @copyright (c) 2011-2017 Phalcon Team
- * @link      https://phalconphp.com
- * @author    Andres Gutierrez <andres@phalconphp.com>
- * @author    Nikolaos Dimopoulos <nikos@phalconphp.com>
+ * @link      https://phalcon.io
+ * @author    Andres Gutierrez <andres@phalcon.io>
+ * @author    Nikolaos Dimopoulos <nikos@phalcon.io>
  * @package   Phalcon\Test\Unit\Assets
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file LICENSE.txt
  *
  * If you did not receive a copy of the license and are unable to obtain it
- * through the world-wide-web, please send an email to license@phalconphp.com
+ * through the world-wide-web, please send an email to license@phalcon.io
  * so that we can send you a copy immediately.
  */
 class ManagerTest extends UnitTest
@@ -79,7 +79,7 @@ class ManagerTest extends UnitTest
     /**
      * collection tests
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Nikolaos Dimopoulos <nikos@phalcon.io>
      * @since  2014-10-13
      */
     public function testAssetsManagerOutputCssWithoutImplicitOutputFromCollection()
@@ -111,7 +111,7 @@ class ManagerTest extends UnitTest
     /**
      * collection tests
      *
-     * @author Nikolaos Dimopoulos <nikos@phalconphp.com>
+     * @author Nikolaos Dimopoulos <nikos@phalcon.io>
      * @since  2014-10-13
      */
     public function testAssetsManagerOutputJsWithoutImplicitOutputFromCollectionRemote()
@@ -197,7 +197,7 @@ class ManagerTest extends UnitTest
      * Tests setting local target
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/1532
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Serghei Iakovlev <serghei@phalcon.io>
      * @author Dreamszhu <dreamsxin@qq.com>
      * @since  2013-10-25
      */
@@ -220,10 +220,10 @@ class ManagerTest extends UnitTest
                     ->addFilter(new Jsmin())
                     ->setTargetPath(PATH_OUTPUT . "tests/assets/{$file}")
                     ->setTargetLocal(false)
-                    ->setPrefix('//phalconphp.com/')
+                    ->setPrefix('//phalcon.io/')
                     ->setTargetUri('js/jquery.js');
 
-                expect($assets->outputJs('js'))->equals('<script type="text/javascript" src="//phalconphp.com/js/jquery.js"></script>' . PHP_EOL);
+                expect($assets->outputJs('js'))->equals('<script type="text/javascript" src="//phalcon.io/js/jquery.js"></script>' . PHP_EOL);
 
                 $I->seeFileFound(
                     PATH_OUTPUT . "tests/assets/{$file}"
@@ -239,7 +239,7 @@ class ManagerTest extends UnitTest
     /**
      * Tests basic output
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Serghei Iakovlev <serghei@phalcon.io>
      * @since  2016-01-24
      */
     public function testBasicOutput()
@@ -270,7 +270,7 @@ class ManagerTest extends UnitTest
     /**
      * Tests output with enabled join
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Serghei Iakovlev <serghei@phalcon.io>
      * @since  2016-01-24
      */
     public function testOutputWithEnabledJoin()
@@ -302,7 +302,7 @@ class ManagerTest extends UnitTest
     /**
      * Tests output with disabled join
      *
-     * @author Serghei Iakovlev <serghei@phalconphp.com>
+     * @author Serghei Iakovlev <serghei@phalcon.io>
      * @since  2016-01-24
      */
     public function testOutputWithDisabledJoin()

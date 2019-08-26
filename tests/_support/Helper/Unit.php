@@ -80,7 +80,7 @@ class Unit extends Module
      *
      * @since  2014-09-13
      *
-     * @author Nikos Dimopoulos <nikos@phalconphp.com>
+     * @author Nikos Dimopoulos <nikos@phalcon.io>
      */
     public function getNewFileName(string $prefix = '', string $suffix = 'log'): string
     {

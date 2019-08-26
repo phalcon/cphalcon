@@ -17,7 +17,7 @@ class ViewTest extends IntegrationTest
     /**
      * Tests using partials with the mix Twig with PHP Engines
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2013-01-07
      */
     public function testOverrideLayout()
@@ -67,7 +67,7 @@ class ViewTest extends IntegrationTest
     /**
      * Tests View::render
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2012-03-05
      */
     public function testStandardRender()
@@ -153,7 +153,7 @@ class ViewTest extends IntegrationTest
     /**
      * Tests rendering with partials
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2012-05-28
      */
     public function testRenderingWithPartials()

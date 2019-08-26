@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -20,7 +20,7 @@ class PrependTitleCest
     /**
      * Tests Phalcon\Tag :: prependTitle()
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2012-09-05
      */
     public function tagPrependTitle(UnitTester $I)
@@ -52,7 +52,7 @@ class PrependTitleCest
     /**
      * Tests Phalcon\Tag :: prependTitle() - separator
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2012-09-05
      */
     public function tagPrependTitleSeparator(UnitTester $I)
@@ -85,7 +85,7 @@ class PrependTitleCest
     /**
      * Tests Phalcon\Tag :: prependTitle() - double call
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2012-09-05
      */
     public function tagPrependTitleDoubleCall(UnitTester $I)
@@ -119,7 +119,7 @@ class PrependTitleCest
     /**
      * Tests Phalcon\Tag :: prependTitle() - array
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2012-09-05
      */
     public function tagPrependTitleArray(UnitTester $I)
@@ -154,7 +154,7 @@ class PrependTitleCest
     /**
      * Tests Phalcon\Tag :: prependTitle() - empty array
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2012-09-05
      */
     public function tagPrependTitleEmptyArray(UnitTester $I)

@@ -3,7 +3,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -62,7 +62,7 @@ class TranslateGettextHelper
      *
      * @dataProvider getQueryProvider
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-12
      */
     public function translateAdapterGettextVariableSubstitutionNoVariables(UnitTester $I, Example $data)
@@ -100,7 +100,7 @@ class TranslateGettextHelper
      *
      * @dataProvider getQueryOneVariable
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-12
      */
     public function translateAdapterGettextVariableSubstitutionOneVariable(UnitTester $I, Example $data)
@@ -131,7 +131,7 @@ class TranslateGettextHelper
      *
      * @dataProvider getQueryTwoVariables
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-12
      */
     public function translateAdapterGettextVariableSubstitutionTwoVariable(UnitTester $I, Example $data)
@@ -166,7 +166,7 @@ class TranslateGettextHelper
     /**
      * Tests Phalcon\Translate\Adapter\Gettext :: query() - array access and UTF8 strings
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-12
      */
     public function testWithArrayAccessAndUTF8Strings(UnitTester $I)

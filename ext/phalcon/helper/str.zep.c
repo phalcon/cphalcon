@@ -976,11 +976,11 @@ PHP_METHOD(Phalcon_Helper_Str, includes) {
 	if ((zephir_function_exists_ex(SL("mb_strpos") TSRMLS_CC) == SUCCESS)) {
 		ZEPHIR_CALL_FUNCTION(&_0$$3, "mb_strpos", NULL, 269, &haystack, &needle);
 		zephir_check_call_status();
-		RETURN_MM_BOOL(zephir_get_boolval(&_0$$3));
+		RETURN_MM_BOOL(!ZEPHIR_IS_FALSE_IDENTICAL(&_0$$3));
 	} else {
 		ZEPHIR_INIT_VAR(&_1$$4);
 		zephir_fast_strpos(&_1$$4, &haystack, &needle, 0 );
-		RETURN_MM_BOOL(zephir_get_boolval(&_1$$4));
+		RETURN_MM_BOOL(!ZEPHIR_IS_FALSE_IDENTICAL(&_1$$4));
 	}
 
 }

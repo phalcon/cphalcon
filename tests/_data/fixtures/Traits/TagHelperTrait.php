@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -20,7 +20,7 @@ trait TagHelperTrait
     /**
      * Tests Phalcon\Tag :: input*()
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function tagField(UnitTester $I)
@@ -65,7 +65,7 @@ trait TagHelperTrait
     /**
      * Tests Phalcon\Tag :: input*() - parameters and id in it
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function tagFieldParameterWithId(UnitTester $I)
@@ -100,7 +100,7 @@ trait TagHelperTrait
     /**
      * Tests Phalcon\Tag :: input*() - setAttribute
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function tagFieldWithSetAttribute(UnitTester $I)
@@ -137,7 +137,7 @@ trait TagHelperTrait
     /**
      * Tests Phalcon\Tag :: input*() - setAttribute and element not present
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function tagFieldWithSetAttributeElementNotPresent(UnitTester $I)
