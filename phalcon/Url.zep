@@ -16,7 +16,6 @@ use Phalcon\Url\Exception;
 use Phalcon\Mvc\RouterInterface;
 use Phalcon\Mvc\Router\RouteInterface;
 use Phalcon\Di\InjectionAwareInterface;
-use Phalcon\Helper\Str;
 
 /**
  * This components helps in the generation of: URIs, URLs and Paths
