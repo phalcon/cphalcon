@@ -27,12 +27,13 @@ class Fs {
      */
     final public static function basename(string! uri, string suffix = null) -> string
     {
-    	var filename;
-    	var separators;
-    	var matches;
-    	let separators = DIRECTORY_SEPARATOR;
+    	var filename, matches;
         let uri = rtrim(uri, DIRECTORY_SEPARATOR);
-        let filename = preg_match("@[^" . preg_quote(separators, "@") . "]+$@", uri, matches) ? matches[0] : "";
+        let filename = preg_match(
+        	"@[^" . preg_quote(DIRECTORY_SEPARATOR, "@") . "]+$@", 
+        	uri, 
+        	matches
+        ) ? matches[0] : "";
         if suffix {
         	let filename = preg_replace("@" . preg_quote(suffix, "@") . "$@", "", filename);
         }
