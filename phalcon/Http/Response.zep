@@ -547,7 +547,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     public function setFileToSend(string filePath, attachmentName = null, attachment = true) -> <ResponseInterface>
     {
         var basePath;
-        var basePathEncoding;
+        var basePathEncoding = "ASCII";
         var basePathEncoded;
 
         if typeof attachmentName != "string" {
