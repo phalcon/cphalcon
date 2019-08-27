@@ -15,6 +15,8 @@ namespace Phalcon\Test\Integration\Session\Adapter\Stream;
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionTrait;
+use Phalcon\Session\Manager;
+use Phalcon\Session\Adapter\Stream;
 
 class OpenCest
 {
@@ -44,5 +46,28 @@ class OpenCest
                 'test1'
             )
         );
+    }
+
+    /**
+     * Tests Phalcon\Session\Adapter\Stream :: open()
+     *
+     * @author Phalcon Team <team@phalconphp.com>
+     * @since  2019-08-06
+     */
+    public function issue14265(IntegrationTester $I)
+    {
+        $I->wantToTest('Session\Adapter\Stream - open() for issue 14265');
+        $session = new Manager();
+        $stream = new Stream(getOptionsSessionStream());
+        $session->setHandler($stream);
+        $I->assertTrue(
+            $session->start()
+        );
+        $value   = uniqid();
+        $stream->write('test1', $value);
+        $I->amInPath(cacheDir('sessions'));
+        $I->seeFileFound('test1');
+        $I->seeInThisFile($value);
+        $I->safeDeleteFile(cacheDir('sessions/test1'));
     }
 }

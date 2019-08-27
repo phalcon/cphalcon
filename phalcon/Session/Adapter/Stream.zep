@@ -94,16 +94,13 @@ class Stream extends Noop
         return true;
     }
 
+    /**
+    * Ignore the savePath and use local defined path
+    *
+    * @return bool
+    */
     public function open(var savePath, var sessionName) -> bool
     {
-        var path;
-
-        if true !== ends_with(savePath, "/") {
-            let path = savePath . "/";
-        }
-
-        let this->path = path;
-
         return true;
     }
 
