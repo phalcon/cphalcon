@@ -557,7 +557,14 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
         }
         if attachment {
             let basePathEncoded = rawurlencode(basePath);
-            let basePathEncoding = mb_detect_encoding(basePath, mb_detect_order(), true);
+            // mbstring is a non-default extension
+            if function_exists("mb_detect_encoding") {
+                let basePathEncoding = mb_detect_encoding(
+                    basePath,
+                    mb_detect_order(),
+                    true
+                );
+            }                
             this->setRawHeader("Content-Description: File Transfer");
             this->setRawHeader("Content-Type: application/octet-stream");
             this->setRawHeader("Content-Disposition: attachment; filename=" . basePathEncoded . ";");
