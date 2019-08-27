@@ -21,11 +21,11 @@ class Fs {
      * see https://bugs.php.net/bug.php?id=37738
      *
      * @param string $uri
-     * @param string  $suffix
+     * @param string $suffix
      *
      * @return string
      */
-    final public static function basename(string! uri, string suffix = null) -> string
+    final public static function basename(string! uri, var suffix = null) -> string
     {
     	var filename, matches;
         let uri = rtrim(uri, DIRECTORY_SEPARATOR);
