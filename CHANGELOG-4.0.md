@@ -1,5 +1,6 @@
 # [4.0.0](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0) (2019-xx-xx)
 ## Changed
+- `Phalcon\Http\Request::getURI()` now accepts optional boolean parameter which indicates whether or not the method should return only the path without the query string
 - Changed `Phalcon\Url::get` to use implementation behind `Phalcon\Helper\Str::reduceSlashes` to reduce slashes [#14331](https://github.com/phalcon/cphalcon/issues/14331)
 - Changed `Phalcon\Http\Headers\set()` to return self for a more fluent interface
 - Changed `Phalcon\Assets\Manager`, `Phalcon\Cli\Router`, `Phalcon\Dispatcher\AbstractDispatcher`, `Phalcon\Html\Tag`,  `Phalcon\Http\Cookie`, `Phalcon\Http\Request`, `Phalcon\Http\Response\Cookies`, `Phalcon\Mvc\Model`, `Phalcon\Mvc\Router`, `Phalcon\Security`, `Phalcon\Session\Manager` to use `Phalcon\Di\AbstractDiAware` for container functionality [#14351](https://github.com/phalcon/cphalcon/pull/14351)
