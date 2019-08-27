@@ -846,14 +846,29 @@ class Request implements RequestInterface, InjectionAwareInterface
 
     /**
      * Gets HTTP URI which request has been made
+     *
+     *```php
+     * // Returns /some/path?with=queryParams
+     * $uri = $request->getURI();
+     *
+     * // Returns /some/path
+     * $uri = $request->getURI(true);
+     *```
+     *
+     * @param bool onlyPath If true, query part will be omitted
+	 * @return string
      */
-    final public function getURI() -> string
+    final public function getURI(bool onlyPath = false) -> string
     {
         var requestURI;
 
         let requestURI = this->getServer("REQUEST_URI");
         if null === requestURI {
             return "";
+        }
+        
+        if onlyPath {
+            let requestURI = explode('?', requestURI)[0];
         }
 
         return requestURI;
