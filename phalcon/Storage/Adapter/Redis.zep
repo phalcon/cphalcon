@@ -123,7 +123,9 @@ class Redis extends AbstractAdapter
                 port       = options["port"],
                 method     = persistent ? "pconnect" : "connect";
 
-            let result = connection->{method}(host, port, this->lifetime);
+            let result = "connect" === method ?
+            connection->connect(host, port, this->lifetime) :
+            connection->pconnect(host, port, this->lifetime, "persistentid_" . index);
 
             if !result {
                 throw new Exception(
