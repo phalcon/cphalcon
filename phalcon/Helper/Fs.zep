@@ -31,7 +31,7 @@ class Fs {
     	var separators;
     	var matches;
     	let separators = DIRECTORY_SEPARATOR;
-        let uri = rtrim(uri, separators);
+        let uri = rtrim(uri, DIRECTORY_SEPARATOR);
         let filename = preg_match("@[^" . preg_quote(separators, "@") . "]+$@", uri, matches) ? matches[0] : "";
         if suffix {
         	let filename = preg_replace("@" . preg_quote(suffix, "@") . "$@", "", filename);
