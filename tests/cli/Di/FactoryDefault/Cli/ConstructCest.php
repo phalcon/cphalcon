@@ -18,6 +18,7 @@ use Codeception\Example;
 use Phalcon\Cli\Dispatcher;
 use Phalcon\Cli\Router;
 use Phalcon\Di\FactoryDefault\Cli;
+use Phalcon\Environment;
 use Phalcon\Escaper;
 use Phalcon\Filter;
 use Phalcon\Mvc\Model\MetaData\Memory;
@@ -96,6 +97,11 @@ class ConstructCest
             [
                 'service' => 'transactionManager',
                 'class'   => Manager::class,
+            ],
+
+            [
+                'service' => 'environment',
+                'class'   => Environment::class
             ],
         ];
     }

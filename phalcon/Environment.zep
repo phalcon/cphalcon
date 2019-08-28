@@ -5,8 +5,37 @@ use Phalcon\Di\Injectable;
 use RuntimeException;
 
 /**
- * Environment Class To Retrieve Environment Variables (IE: getenv).
+ * Phalcon\Environment is a component that allows for easy access to environment variables.
  *
+ * Typically, getenv is used to get environment variables. This component leverages getenv, but also gives the
+ * ability to specify the default value. Additionally, it will automatically convert all envs to the proper type:
+ *
+ * A=true => bool (true)
+ * A=(false) => bool (false)
+ * A=1 => int (1)
+ * A=2.0 => float (2.0)
+ * A=empty => string ("")
+ * A=(empty) => string ("")
+ * A=null => null
+ * A=(null) => null
+ * A="something" => string ("something")
+ * A=else => string ("else")
+ *
+ *
+ *```php
+ * use Phalcon\Environment;
+ *
+ * $env = new Environment();
+ *
+ * $var = $env->getValue("ABC", "blah"); //$var === "blah"
+ *
+ * $env->setValue("SOMETHING", "else");
+ * $var = $nv->getValue("SOMETHING"); //$var === "else"
+ *
+ * putenv('SOMETHING=BLAH')
+ * $var = $nv->getValue("SOMETHING", "else"); //$var === "BLAH"
+ *
+ *```
  */
 class Environment extends Injectable
 {
