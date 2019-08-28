@@ -178,7 +178,7 @@ interface RequestInterface
     public function getPort() -> int;
 
     /**
-     * Gets HTTP URI which request has been made with
+     * Gets HTTP URI which request has been made to
      *
      *```php
      * // Returns /some/path?with=queryParams
