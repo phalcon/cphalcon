@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Test;
 
-
 use Codeception\Test\Unit;
 use Phalcon\Environment;
 use UnitTester;

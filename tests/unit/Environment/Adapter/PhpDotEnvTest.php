@@ -12,7 +12,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Test;
 
-
 use Codeception\Test\Unit;
 use DotEnv\DotEnv;
 use Phalcon\Di;
