@@ -45,7 +45,8 @@ class Cli extends FactoryDefault
             "modelsMetadata":     new Service("Phalcon\\Mvc\\Model\\MetaData\\Memory", true),
             "router":             new Service("Phalcon\\Cli\\Router", true),
             "security":           new Service("Phalcon\\Security", true),
-            "transactionManager": new Service("Phalcon\\Mvc\\Model\\Transaction\\Manager", true)
+            "transactionManager": new Service("Phalcon\\Mvc\\Model\\Transaction\\Manager", true),
+            "environment":        new Service("Phalcon\\Environment", true)
         ];
     }
 }
