@@ -21,7 +21,7 @@ use UnitTester;
 
 class PhpDotEnvTest extends Unit
 {
-    /** @var Environment  */
+    /** @var PhpDotEnv  */
     private $testSubject = null;
 
     /** @var UnitTester */
