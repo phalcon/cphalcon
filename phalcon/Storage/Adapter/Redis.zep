@@ -110,20 +110,24 @@ class Redis extends AbstractAdapter
      */
     public function getAdapter() -> var
     {
-        var auth, connection, host, index, method, options,
-            persistent, port, result;
+        var auth, connection, host, index, options, port, result,
+            persistent, persistentid;
 
         if null === this->adapter {
             let options    = this->options,
                 connection = new \Redis(),
                 auth       = options["auth"],
                 host       = options["host"],
-                index      = options["index"],
-                persistent = options["persistent"],
                 port       = options["port"],
-                method     = persistent ? "pconnect" : "connect";
+                index      = options["index"],
+                persistent = options["persistent"];
 
-            let result = connection->{method}(host, port, this->lifetime);
+            if !persistent {
+                let result = connection->connect(host, port, this->lifetime);
+            } else {
+                let persistentid = "persistentid_" . index;
+                let result = connection->pconnect(host, port, this->lifetime, persistentid);
+            }
 
             if !result {
                 throw new Exception(
