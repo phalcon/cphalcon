@@ -19,7 +19,7 @@ use Phalcon\Di;
 use Phalcon\Environment\Adapter\PhpDotEnv;
 use UnitTester;
 
-class EnvironmentTest extends Unit
+class PhpDotEnvTest extends Unit
 {
     /** @var Environment  */
     private $testSubject = null;
