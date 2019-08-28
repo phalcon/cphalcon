@@ -834,7 +834,7 @@ class Request extends AbstractInjectionAware implements RequestInterface
     }
 
     /**
-     * Gets HTTP URI which request has been made
+     * Gets HTTP URI which request has been made to
      *
      *```php
      * // Returns /some/path?with=queryParams
