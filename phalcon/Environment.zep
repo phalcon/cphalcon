@@ -43,15 +43,7 @@ class Environment extends Injectable
     private envVars = [];
 
     /** @var bool */
-    private _isLoaded = false;
-
-    /**
-    * Has environment been loaded?
-    */
-    protected function isLoaded() -> bool
-    {
-        return this->_isLoaded;
-    }
+    private wasLoaded = false;
 
     /**
      * Disables Debug Info
@@ -59,19 +51,6 @@ class Environment extends Injectable
     public function __debugInfo()
     {
         return [];
-    }
-
-    /**
-     * Set Environment Variable Override
-     *
-     * @param string envName Environment Variable To Set
-     * @param string envValue Environment Variable Value
-     */
-    public function setValue(string envName, var envValue) -> <Environment>
-    {
-        let this->envVars[envName] = envValue;
-
-        return this;
     }
 
     /**
@@ -96,13 +75,44 @@ class Environment extends Injectable
     }
 
     /**
+     * Set Environment Variable Override
+     *
+     * @param string envName Environment Variable To Set
+     * @param string envValue Environment Variable Value
+     */
+    public function setValue(string envName, var envValue) -> <Environment>
+    {
+        let this->envVars[envName] = envValue;
+
+        return this;
+    }
+
+    /**
+    * Has environment been loaded?
+    */
+    protected function isLoaded() -> bool
+    {
+        return this->wasLoaded;
+    }
+
+    /**
+     * Loads Project Overrides
+     */
+    protected function loadEnvironment() -> <Environment>
+    {
+        let this->wasLoaded = true;
+
+        return this;
+    }
+
+    /**
      * Retrieve Value.
      *
      * @param string envName ENV To Retrieve
      * @private
      * @return mixed
      */
-    protected function retrieveValue(string envName) -> var
+    protected function retrieveValue(string envName) -> var | null
     {
         var value = getenv(envName);
         if value !== false {
@@ -111,18 +121,16 @@ class Environment extends Injectable
             return this->envVars[envName];
         }
 
-        let value = null;
-
-        return value;
+        return null;
     }
 
     /**
      * Parses ENV To Scalar Type If Possible
      *
      * @param string Value To Parse
-     * @return mixed
+     * @return float|int|string|bool|null
      */
-    private function parseValue(var value)
+    private function parseValue(var value) -> float | int | string | bool | null
     {
         //Strip Off Wrapping Quotes
         if unlikely strlen(value) > 1 && substr(value, 0, 1) === "\"" && substr(value, -1) === "\"" {
@@ -152,19 +160,9 @@ class Environment extends Injectable
                 return "";
             case "null":
             case "(null)":
-                return;
+                return null;
         }
 
         return value;
-    }
-
-    /**
-     * Loads Project Overrides
-     */
-    protected function loadEnvironment() -> <Environment>
-    {
-        let this->_isLoaded = true;
-
-        return this;
     }
 }

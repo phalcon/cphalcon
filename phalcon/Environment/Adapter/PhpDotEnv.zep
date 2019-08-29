@@ -36,15 +36,6 @@ class PhpDotEnv extends Environment
         }
     }
 
-    private function getService() -> <DotEnv>
-    {
-        if unlikely !this->getDi()->has("DotEnv\\DotEnv") {
-            throw new RuntimeException("Missing Required Service DotEnv\\DotEnv");
-        }
-
-        return this->getDi()->get("DotEnv\\DotEnv");
-    }
-
     protected function retrieveValue(string envName) -> var
     {
         var value;
@@ -56,5 +47,14 @@ class PhpDotEnv extends Environment
         }
 
         return value;
+    }
+
+    private function getService() -> <DotEnv>
+    {
+        if unlikely !this->getDi()->has("DotEnv\\DotEnv") {
+            throw new RuntimeException("Missing Required Service DotEnv\\DotEnv");
+        }
+
+        return this->getDi()->get("DotEnv\\DotEnv");
     }
 }
