@@ -42,7 +42,7 @@ DOCKER_EXTRA_OPTIONS ?=
 DEBUG_ENABLE ?= false
 
 ifneq ($(COVERAGE_ENABLE),false)
-	CODECEPT_OPTIONS := --coverage --coverage-html
+	CODECEPT_COVERAGE_OPTIONS := --coverage --coverage-html
 endif
 
 APP_DIRECTORY ?= /app
@@ -180,4 +180,4 @@ codecept-build: CODECEPT_COMMAND=build
 codecept-build: codecept
 
 codecept: ./vendor/codeception/codeception/codecept ext/modules/phalcon.so
-	$(DOCKER_COMMAND) php $(PHP_ARGS) $(PHP_EXTRA_ARGS) ./vendor/codeception/codeception/codecept $(CODECEPT_COMMAND) $(CODECEPT_OPTIONS) $(CODECEPT_EXTRA_OPTIONS)
+	$(DOCKER_COMMAND) php $(PHP_ARGS) $(PHP_EXTRA_ARGS) ./vendor/codeception/codeception/codecept $(CODECEPT_COMMAND) $(CODECEPT_OPTIONS) $(CODECEPT_EXTRA_OPTIONS) $(CODECEPT_COVERAGE_OPTIONS)
