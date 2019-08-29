@@ -1,4 +1,12 @@
 ######################################################
+# This file is part of the Phalcon Framework.        #
+#                                                    #
+# (c) Phalcon Team <team@phalcon.io>                 #
+#                                                    #
+# For the full copyright and license information,    #
+# please view the LICENSE.txt file that was          #
+# distributed with this source code.                 #
+######################################################
 #        SYSTEM MAKE FILE                            #
 ######################################################
 # Use this to allow quick/easy modifications and/or  #
@@ -20,17 +28,11 @@
 
 CACHE_PATH := cache
 BIN_PATH := bin
-NODE_MODULES := node_modules
-
-PHP-CS-FIXER_URL := https://cs.sensiolabs.org/download/php-cs-fixer-v2.phar
 
 COMPOSER_ACTION ?= install
 COMPOSER_OPTIONS ?= $(COMPOSER_EXTRA_OPTIONS) --ignore-platform-reqs
 
-TEST_EXTRA_OPTIONS ?= --ext DotReporter
-TEST_OPTIONS ?= --fail-fast $(TEST_EXTRA_OPTIONS)
-TEST_ENABLE_COVERAGE=false
-TEST_COVERAGE ?=
+COVERAGE_ENABLE ?= false
 
 PHP_IDE_CONFIG = PHP_IDE_CONFIG='serverName=zephir.test'
 
@@ -39,8 +41,8 @@ DOCKER_EXTRA_OPTIONS ?=
 
 DEBUG_ENABLE ?= false
 
-ifneq ($(TEST_ENABLE_COVERAGE),false)
-	TEST_COVERAGE := --coverage --coverage-html
+ifneq ($(COVERAGE_ENABLE),false)
+	CODECEPT_OPTIONS := --coverage --coverage-html
 endif
 
 APP_DIRECTORY ?= /app
@@ -82,7 +84,7 @@ $(BIN_PATH)/.docker-login: | $(BIN_PATH)
 
 # Docker Installation
 $(BIN_PATH)/.docker: | $(BIN_PATH)
-	which docker || (echo "Docker Is Not Installed" && exit 1)
+	command -v docker 2>/dev/null || (echo "Docker Is Not Installed" && exit 1)
 	touch $(BIN_PATH)/.docker
 
 ext/modules/phalcon.so: $(shell find ./phalcon -type f -name "*.zep")
@@ -161,16 +163,21 @@ stubs: vendor/phalcon/zephir/zephir
 analyse: test
 
 # Run All Testing
-test: DOCKER_EXTRA_OPTIONS=-v $$(pwd)/ext/modules/phalcon.so:/usr/local/lib/php/extensions/no-debug-non-zts-20180731/phalcon.so
-test: vendor/codeception/codeception/codecept ext/modules/phalcon.so
-	$(DOCKER_COMMAND) php $(PHP_ARGS) $(PHP_EXTRA_ARGS) ./vendor/codeception/codeception/codecept run $(TEST_OPTIONS) $(TEST_COVERAGE)
+test: codecept-run
 
 # Run Just The Unit Suite
-test-unit: DOCKER_EXTRA_OPTIONS=-v $$(pwd)/ext/modules/phalcon.so:/usr/local/lib/php/extensions/no-debug-non-zts-20180731/phalcon.so
-test-unit: vendor/codeception/codeception/codecept ext/modules/phalcon.so
-	$(DOCKER_COMMAND) php $(PHP_ARGS) $(PHP_EXTRA_ARGS) ./vendor/codeception/codeception/codecept run unit $(TEST_OPTIONS) $(TEST_COVERAGE)
+test-unit: CODECEPT_EXTRA_OPTIONS=unit
+test-unit: codecept-run
+
+# Run Codecept
+codecept-run: DOCKER_EXTRA_OPTIONS=-v $$(pwd)/ext/modules/phalcon.so:/usr/local/lib/php/extensions/no-debug-non-zts-20180731/phalcon.so
+codecept-run: CODECEPT_OPTIONS ?= --ext DotReporter --fail-fast
+codecept-run: CODECEPT_COMMAND=run
+codecept-run: codecept
 
 # Build Codecept
-codecept-build: vendor/codeception/codeception/codecept
-	$(DOCKER_COMMAND) php $(PHP_ARGS) $(PHP_EXTRA_ARGS) ./vendor/codeception/codeception/codecept build
+codecept-build: CODECEPT_COMMAND=build
+codecept-build: codecept
 
+codecept: ./vendor/codeception/codeception/codecept ext/modules/phalcon.so
+	$(DOCKER_COMMAND) php $(PHP_ARGS) $(PHP_EXTRA_ARGS) ./vendor/codeception/codeception/codecept $(CODECEPT_COMMAND) $(CODECEPT_OPTIONS) $(CODECEPT_EXTRA_OPTIONS)
