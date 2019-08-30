@@ -845,7 +845,7 @@ class Request extends AbstractInjectionAware implements RequestInterface
      *```
      *
      * @param bool onlyPath If true, query part will be omitted
-	 * @return string
+     * @return string
      */
     final public function getURI(bool onlyPath = false) -> string
     {
