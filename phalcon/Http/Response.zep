@@ -567,10 +567,10 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
             }                
             this->setRawHeader("Content-Description: File Transfer");
             this->setRawHeader("Content-Type: application/octet-stream");
-            this->setRawHeader("Content-Disposition: attachment; filename=" . basePathEncoded . ";");
+            this->setRawHeader("Content-Disposition: attachment; filename=" . basePathEncoded);
             this->setRawHeader("Content-Transfer-Encoding: binary");
             if basePathEncoding != "ASCII" {
-                this->setRawHeader("Content-Disposition: attachment; filename=" . basePathEncoded . "; filename*=". strtolower(basePathEncoding) . "''" . basePathEncoded . ";");
+                this->setRawHeader("Content-Disposition: attachment; filename=" . basePathEncoded . "; filename*=". strtolower(basePathEncoding) . "''" . basePathEncoded);
             }
         }
 
