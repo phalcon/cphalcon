@@ -14,6 +14,7 @@ use DateTime;
 use DateTimeZone;
 use Phalcon\Di;
 use Phalcon\Di\DiInterface;
+use Phalcon\Helper\Fs;
 use Phalcon\Http\Response\Exception;
 use Phalcon\Http\Response\HeadersInterface;
 use Phalcon\Http\Response\CookiesInterface;
@@ -546,18 +547,32 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     public function setFileToSend(string filePath, attachmentName = null, attachment = true) -> <ResponseInterface>
     {
         var basePath;
+        var basePathEncoding = "ASCII";
+        var basePathEncoded;
 
         if typeof attachmentName != "string" {
-            let basePath = basename(filePath);
+            let basePath = Fs::basename(filePath);
         } else {
             let basePath = attachmentName;
         }
-
         if attachment {
+            let basePathEncoded = rawurlencode(basePath);
+            // mbstring is a non-default extension
+            if function_exists("mb_detect_encoding") {
+                let basePathEncoding = mb_detect_encoding(
+                    basePath,
+                    mb_detect_order(),
+                    true
+                );
+            }                
             this->setRawHeader("Content-Description: File Transfer");
             this->setRawHeader("Content-Type: application/octet-stream");
-            this->setRawHeader("Content-Disposition: attachment; filename=" . basePath . ";");
             this->setRawHeader("Content-Transfer-Encoding: binary");
+            if basePathEncoding != "ASCII" {
+                this->setRawHeader("Content-Disposition: attachment; filename=" . basePathEncoded . "; filename*=". strtolower(basePathEncoding) . "''" . basePathEncoded);
+            } else {
+                this->setRawHeader("Content-Disposition: attachment; filename=" . basePathEncoded);
+            }
         }
 
         let this->file = filePath;

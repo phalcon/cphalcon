@@ -14,6 +14,8 @@ exemptLabels:
   - "Bug - High"
   - WIP
   - Locked
+  - "Feature - NFR"
+  - "Enhancement"
 
 # Set to true to ignore issues in a project (defaults to false)
 exemptProjects: false
