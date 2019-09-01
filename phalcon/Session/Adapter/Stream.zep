@@ -57,7 +57,7 @@ class Stream extends Noop
         }
 
         if unlikely !is_writable(path) {
-            throw new Exception("The save_path [" . path . "]is not writeable");
+            throw new Exception("The savePath [" . path . "] is not writeable");
         }
 
         let this->path = Str::dirSeparator(path);
