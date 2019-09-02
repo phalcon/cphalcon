@@ -142,6 +142,10 @@ class Security implements InjectionAwareInterface
          */
         let knownToken = this->getRequestToken();
 
+        if null === knownToken {
+            return false;
+        }
+
         let equals = hash_equals(knownToken, userToken);
 
         /**
@@ -238,7 +242,7 @@ class Security implements InjectionAwareInterface
     /**
      * Returns the value of the CSRF token for the current request.
      */
-    public function getRequestToken() -> string
+    public function getRequestToken() -> string | null
     {
         if empty this->requestToken {
             return this->getSessionToken();
@@ -250,7 +254,7 @@ class Security implements InjectionAwareInterface
     /**
      * Returns the value of the CSRF token in session
      */
-    public function getSessionToken() -> string
+    public function getSessionToken() -> string | null
     {
         var container, session;
 
