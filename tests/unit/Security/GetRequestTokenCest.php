@@ -47,6 +47,26 @@ class GetRequestTokenCest
     }
 
     /**
+     * Tests Phalcon\Security :: getRequestToken() and getSessionToken() without session initialization
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-09-02
+     */
+    public function securityGetTokensWithoutSessionInitialization(UnitTester $I)
+    {
+        $I->wantToTest('Security - getRequestToken() and getSessionToken() without session initialization');
+
+        $this->startSession();
+
+        $container = $this->getDI();
+        $security = new Security();
+        $security->setDI($container);
+
+        $I->assertNull($security->getSessionToken());
+        $I->assertNull($security->getRequestToken());
+    }
+
+    /**
      * Tests Phalcon\Security :: getRequestToken() and getSessionToken()
      *
      * @author Phalcon Team <team@phalcon.io>

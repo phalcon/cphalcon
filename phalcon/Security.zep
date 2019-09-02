@@ -101,7 +101,7 @@ class Security implements InjectionAwareInterface
      */
     public function checkToken(var tokenKey = null, var tokenValue = null, bool destroyIfValid = true) -> bool
     {
-        var container, session, request, equals = false, userToken, knownToken;
+        var container, session, request, equals, userToken, knownToken;
 
         let container = <DiInterface> this->container;
 
@@ -256,7 +256,7 @@ class Security implements InjectionAwareInterface
      */
     public function getSessionToken() -> string | null
     {
-        var container, session, tokenValue;
+        var container, session;
 
         let container = <DiInterface> this->container;
 
