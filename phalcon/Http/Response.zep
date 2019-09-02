@@ -548,7 +548,6 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     {
         var basePath;
         var basePathEncoding = "ASCII";
-        var basePathEncoded;
 
         if typeof attachmentName != "string" {
             let basePath = Fs::basename(filePath);
@@ -556,7 +555,6 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
             let basePath = attachmentName;
         }
         if attachment {
-            let basePathEncoded = rawurlencode(basePath);
             // mbstring is a non-default extension
             if function_exists("mb_detect_encoding") {
                 let basePathEncoding = mb_detect_encoding(
@@ -568,10 +566,16 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
             this->setRawHeader("Content-Description: File Transfer");
             this->setRawHeader("Content-Type: application/octet-stream");
             this->setRawHeader("Content-Transfer-Encoding: binary");
+            // According RFC2231 section-7, non-ASCII header param must add a extended one to indicate charset
             if basePathEncoding != "ASCII" {
-                this->setRawHeader("Content-Disposition: attachment; filename=" . basePathEncoded . "; filename*=". strtolower(basePathEncoding) . "''" . basePathEncoded);
+                let basePath = rawurlencode(basePath);
+                this->setRawHeader("Content-Disposition: attachment; filename=" . basePath . "; filename*=". strtolower(basePathEncoding) . "''" . basePath);
             } else {
-                this->setRawHeader("Content-Disposition: attachment; filename=" . basePathEncoded);
+                // According RFC2045 section-5.1, header param value contains special chars must be as quoted-string
+                // Always quote value is accepted because the special chars is a large list
+                // According RFC822 appendix-D, CR "\" <"> must to be quoted in syntax rule of quoted-string
+                let basePath = addcslashes(basePath, "\15\17\\\"");
+                this->setRawHeader("Content-Disposition: attachment; filename=\"" . basePath . "\"");
             }
         }
 
