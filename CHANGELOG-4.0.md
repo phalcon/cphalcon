@@ -14,6 +14,7 @@
 - Fixed `Phalcon\Storage\Adapter\Redis::getAdapter()` to provide a persistent id for redis persistent connection [#14334](https://github.com/phalcon/cphalcon/issues/14334)
 - Fixed `Phalcon\Session\Adapter\Stream` to not override configured save path [#14265](https://github.com/phalcon/cphalcon/issues/14265)
 - Fixed `Phalcon\Http\Response::setFileToSend` to properly handle non-ASCII filenames [#13919](https://github.com/phalcon/cphalcon/issues/13919)
+- Fixed `Phalcon\Security::getSessionToken` return value [#14346](https://github.com/phalcon/cphalcon/issues/14346)
 
 # [4.0.0-beta.2](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-beta.2) (2019-08-18)
 
