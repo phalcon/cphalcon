@@ -11,6 +11,7 @@
 namespace Phalcon\Mvc\Model;
 
 use Phalcon\Di\DiInterface;
+use Phalcon\Di\AbstractDiAware;
 use Phalcon\Mvc\Model\Relation;
 use Phalcon\Mvc\Model\RelationInterface;
 use Phalcon\Mvc\Model\Exception;
@@ -18,7 +19,6 @@ use Phalcon\Mvc\ModelInterface;
 use Phalcon\Db\Adapter\AdapterInterface;
 use Phalcon\Mvc\Model\ResultsetInterface;
 use Phalcon\Mvc\Model\ManagerInterface;
-use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Events\EventsAwareInterface;
 use Phalcon\Mvc\Model\Query;
 use Phalcon\Mvc\Model\QueryInterface;
@@ -52,7 +52,7 @@ use Phalcon\Events\ManagerInterface as EventsManagerInterface;
  * $robot = new Robots($di);
  * ```
  */
-class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareInterface
+class Manager extends AbstractDiAware implements ManagerInterface, EventsAwareInterface
 {
     protected aliases = [];
 
@@ -70,8 +70,6 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      * All the relationships by model
      */
     protected belongsToSingle = [];
-
-    protected container;
 
     protected customEventsManager = [];
 
@@ -145,22 +143,6 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      * Stores a list of reusable instances
      */
     protected reusable = [];
-
-    /**
-     * Sets the DependencyInjector container
-     */
-    public function setDI(<DiInterface> container) -> void
-    {
-        let this->container = container;
-    }
-
-    /**
-     * Returns the DependencyInjector container
-     */
-    public function getDI() -> <DiInterface>
-    {
-        return this->container;
-    }
 
     /**
      * Sets a global events manager

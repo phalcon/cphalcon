@@ -11,12 +11,12 @@
 namespace Phalcon\Http;
 
 use Phalcon\Di\DiInterface;
+use Phalcon\Di\AbstractDiAware;
+use Phalcon\Events\ManagerInterface;
 use Phalcon\Filter\FilterInterface;
 use Phalcon\Http\Request\File;
 use Phalcon\Http\Request\FileInterface;
 use Phalcon\Http\Request\Exception;
-use Phalcon\Events\ManagerInterface;
-use Phalcon\Di\InjectionAwareInterface;
 use UnexpectedValueException;
 use stdClass;
 
@@ -46,10 +46,8 @@ use stdClass;
  * $request->getLanguages();
  *```
  */
-class Request implements RequestInterface, InjectionAwareInterface
+class Request extends AbstractDiAware implements RequestInterface
 {
-    private container;
-
     private filterService;
 
     /**
@@ -211,15 +209,6 @@ class Request implements RequestInterface, InjectionAwareInterface
         }
 
         return contentType;
-    }
-
-
-    /**
-     * Returns the internal dependency injector
-     */
-    public function getDI() -> <DiInterface>
-    {
-        return this->container;
     }
 
     /**
@@ -1160,14 +1149,6 @@ class Request implements RequestInterface, InjectionAwareInterface
         }
 
         return false;
-    }
-
-    /**
-     * Sets the dependency injector
-     */
-    public function setDI(<DiInterface> container) -> void
-    {
-        let this->container = container;
     }
 
     /**
