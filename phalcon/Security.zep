@@ -107,9 +107,9 @@ class Security implements InjectionAwareInterface
      */
     public function checkToken(var tokenKey = null, var tokenValue = null, bool destroyIfValid = true) -> bool
     {
-        var container, session, request, equals, userToken, knownToken;
+        var session, request, equals, userToken, knownToken;
 
-        let sesion = this->getLocalSession();
+        let session = this->getLocalSession();
 
         if likely session && !tokenKey {
             let tokenKey = session->get(
@@ -250,7 +250,7 @@ class Security implements InjectionAwareInterface
     {
         var session;
 
-        let sesion = this->getLocalSession();
+        let session = this->getLocalSession();
 
         if likely session {
             return session->get(this->tokenValueSessionId);
@@ -295,7 +295,7 @@ class Security implements InjectionAwareInterface
                 this->token        = this->random->base64Safe(this->numberBytes);
 
 
-            let sesion = this->getLocalSession();
+            let session = this->getLocalSession();
 
             if likely session {
                 session->set(
@@ -317,7 +317,7 @@ class Security implements InjectionAwareInterface
         var session;
 
         if null === this->tokenKey {
-            let sesion = this->getLocalSession();
+            let session = this->getLocalSession();
 
             if likely session {
                 let this->tokenKey = this->random->base64Safe(this->numberBytes);
