@@ -2,6 +2,9 @@
 ## Changed
 - Changed `Phalcon\Url::get` to use implementation behind `Phalcon\Helper\Str::reduceSlashes` to reduce slashes [#14331](https://github.com/phalcon/cphalcon/issues/14331)
 - Changed `Phalcon\Http\Headers\set()` to return self for a more fluent interface
+- Changed `Phalcon\Assets\Manager`, `Phalcon\Cli\Router`, `Phalcon\Dispatcher\AbstractDispatcher`, `Phalcon\Html\Tag`,  `Phalcon\Http\Cookie`, `Phalcon\Http\Request`, `Phalcon\Http\Response\Cookies`, `Phalcon\Mvc\Model`, `Phalcon\Mvc\Router`, `Phalcon\Security`, `Phalcon\Session\Manager` to use `Phalcon\Di\AbstractDiAware` for container functionality [#14351](https://github.com/phalcon/cphalcon/pull/14351)
+- Changed `Phalcon\Security` to allow `session` and `request` in the constructor [#14351](https://github.com/phalcon/cphalcon/pull/14351)
+- Changed `Phalcon\Session\Manager` to allow `router` in the constructor [#14351](https://github.com/phalcon/cphalcon/pull/14351)
 
 ## Fixed
 - Fixed `Phalcon\Helper\Str::includes` to return correct result [#14301](https://github.com/phalcon/cphalcon/issues/14301)
