@@ -502,43 +502,45 @@ class Security implements InjectionAwareInterface
 
     private function getLocalRequest() -> <RequestInterface> | null
     {
-        var container, request;
+        var container;
 
-        let request   = null,
-            container = <DiInterface> this->container;
+        if this->localRequest {
+            return this->localRequest;
+        }
+
+        let container = <DiInterface> this->container;
         if unlikely typeof container != "object" {
             throw new Exception(
                 Exception::containerServiceNotFound("the 'request' service")
             );
         }
 
-        if this->localRequest {
-            let request = this->localRequest;
-        } else if container->has("request") {
-            let request = <RequestInterface> container->getShared("request");
+        if likely container->has("request") {
+            return <RequestInterface> container->getShared("request");
         }
 
-        return request;
+        return null;
     }
 
     private function getLocalSession() -> <SessionInterface> | null
     {
-        var container, session;
+        var container;
 
-        let session   = null,
-            container = <DiInterface> this->container;
+        if this->localSession {
+            return this->localSession;
+        }
+
+        let container = <DiInterface> this->container;
         if unlikely typeof container != "object" {
             throw new Exception(
                 Exception::containerServiceNotFound("the 'session' service")
             );
         }
 
-        if this->localSession {
-            let session = this->localSession;
-        } else if container->has("session") {
-            let session = <SessionInterface> container->getShared("session");
+        if likely container->has("session") {
+            return <SessionInterface> container->getShared("session");
         }
 
-        return session;
+        return null;
     }
 }
