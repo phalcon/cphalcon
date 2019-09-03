@@ -11,11 +11,11 @@
 namespace Phalcon\Mvc\Model\Query;
 
 use Phalcon\Di;
-use Phalcon\Di\AbstractDiAware;
-use Phalcon\Di\DiInterface;
 use Phalcon\Db\Column;
+use Phalcon\Di\DiInterface;
 use Phalcon\Helper\Arr;
 use Phalcon\Mvc\Model\Exception;
+use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Mvc\Model\QueryInterface;
 use Phalcon\Mvc\Model\Query\BuilderInterface;
 
@@ -55,12 +55,13 @@ use Phalcon\Mvc\Model\Query\BuilderInterface;
  * $queryBuilder = new \Phalcon\Mvc\Model\Query\Builder($params);
  *```
  */
-class Builder extends AbstractDiAware implements BuilderInterface
+class Builder implements BuilderInterface, InjectionAwareInterface
 {
     protected bindParams;
     protected bindTypes;
     protected columns;
     protected conditions;
+    protected container;
     protected distinct;
     protected forUpdate;
 
@@ -497,6 +498,14 @@ class Builder extends AbstractDiAware implements BuilderInterface
     public function getColumns()
     {
         return this->columns;
+    }
+
+    /**
+     * Returns the DependencyInjector container
+     */
+    public function getDI() -> <DiInterface>
+    {
+        return this->container;
     }
 
     /**
@@ -1410,6 +1419,16 @@ class Builder extends AbstractDiAware implements BuilderInterface
         } else {
             let this->bindTypes = bindTypes;
         }
+
+        return this;
+    }
+
+    /**
+     * Sets the DependencyInjector container
+     */
+    public function setDI(<DiInterface> container) -> <BuilderInterface>
+    {
+        let this->container = container;
 
         return this;
     }

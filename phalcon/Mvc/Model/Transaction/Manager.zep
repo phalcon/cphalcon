@@ -11,8 +11,8 @@
 namespace Phalcon\Mvc\Model\Transaction;
 
 use Phalcon\Di;
-use Phalcon\Di\AbstractDiAware;
 use Phalcon\Di\DiInterface;
+use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Mvc\Model\Transaction\ManagerInterface;
 use Phalcon\Mvc\Model\Transaction\Exception;
 use Phalcon\Mvc\Model\Transaction;
@@ -65,8 +65,10 @@ use Phalcon\Mvc\Model\TransactionInterface;
  * }
  *```
  */
-class Manager extends AbstractDiAware implements ManagerInterface
+class Manager implements ManagerInterface, InjectionAwareInterface
 {
+    protected container;
+
     protected initialized = false;
 
     protected number = 0;
@@ -162,6 +164,14 @@ class Manager extends AbstractDiAware implements ManagerInterface
     public function getDbService() -> string
     {
         return this->service;
+    }
+
+    /**
+     * Returns the dependency injection container
+     */
+    public function getDI() -> <DiInterface>
+    {
+        return this->container;
     }
 
     /**
@@ -274,6 +284,14 @@ class Manager extends AbstractDiAware implements ManagerInterface
         let this->service = service;
 
         return this;
+    }
+
+    /**
+     * Sets the dependency injection container
+     */
+    public function setDI(<DiInterface> container) -> void
+    {
+        let this->container = container;
     }
 
     /**
