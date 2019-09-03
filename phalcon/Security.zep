@@ -64,7 +64,7 @@ class Security implements InjectionAwareInterface
     /**
      * Phalcon\Security constructor
      */
-    public function __construct(<SessionInterface> session = null, <RequestInterface> request) -> void
+    public function __construct(<SessionInterface> session = null, <RequestInterface> request = null) -> void
     {
         let this->random       = new Random(),
             this->localRequest = request,
