@@ -184,7 +184,7 @@ class Security implements InjectionAwareInterface
     {
         var session;
 
-        let sesion = this->getLocalSession();
+        let session = this->getLocalSession();
 
         if likely session {
             session->remove(this->tokenKeySessionId);
