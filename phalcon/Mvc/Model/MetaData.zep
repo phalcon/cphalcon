@@ -11,9 +11,9 @@
 namespace Phalcon\Mvc\Model;
 
 use Phalcon\Di\DiInterface;
-use Phalcon\Di\AbstractDiAware;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\Exception;
+use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Mvc\Model\MetaData\Strategy\Introspection;
 use Phalcon\Mvc\Model\MetaData\StrategyInterface;
 use Phalcon\Cache\Adapter\AdapterInterface as CacheAdapterInterface;
@@ -38,7 +38,7 @@ use Phalcon\Cache\Adapter\AdapterInterface as CacheAdapterInterface;
  * print_r($attributes);
  * ```
  */
-abstract class MetaData extends AbstractDiAware implements MetaDataInterface
+abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
 {
     const MODELS_ATTRIBUTES = 0;
     const MODELS_AUTOMATIC_DEFAULT_INSERT = 10;
@@ -63,6 +63,8 @@ abstract class MetaData extends AbstractDiAware implements MetaDataInterface
     protected adapter;
 
     protected columnMap;
+
+    protected container;
 
     protected metaData = [];
 
@@ -270,6 +272,14 @@ abstract class MetaData extends AbstractDiAware implements MetaDataInterface
         }
 
         return data;
+    }
+
+    /**
+     * Returns the DependencyInjector container
+     */
+    public function getDI() -> <DiInterface>
+    {
+        return this->container;
     }
 
     /**
@@ -676,6 +686,14 @@ abstract class MetaData extends AbstractDiAware implements MetaDataInterface
             self::MODELS_EMPTY_STRING_VALUES,
             attributes
         );
+    }
+
+    /**
+     * Sets the DependencyInjector container
+     */
+    public function setDI(<DiInterface> container) -> void
+    {
+        let this->container = container;
     }
 
     /**
