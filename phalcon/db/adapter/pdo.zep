@@ -133,7 +133,7 @@ abstract class Pdo extends Adapter
 		 */
         for key, value in options {
             if typeof key == "string" && defined("\PDO::" . strtoupper(key)) {
-                let options[constant("\PDO::" . strtoupper(key)] = value;
+                let options[constant("\PDO::" . strtoupper(key))] = value;
                 unset options[key];
             }
         }
