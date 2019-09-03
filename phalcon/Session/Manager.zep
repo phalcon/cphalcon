@@ -13,8 +13,8 @@ namespace Phalcon\Session;
 use InvalidArgumentException;
 use RuntimeException;
 use SessionHandlerInterface;
+use Phalcon\DI\AbstractDiAware;
 use Phalcon\Di\DiInterface;
-use Phalcon\DI\InjectionAwareInterface;
 use Phalcon\Helper\Arr;
 use Phalcon\Session\ManagerInterface;
 
@@ -23,13 +23,8 @@ use Phalcon\Session\ManagerInterface;
  *
  * Session manager class
  */
-class Manager implements ManagerInterface, InjectionAwareInterface
+class Manager extends AbstractDiAware implements ManagerInterface
 {
-    /**
-     * @var <DiInterface>
-     */
-    private container;
-
     /**
      * @var <SessionHandlerInterface>|null
      */
@@ -130,14 +125,6 @@ class Manager implements ManagerInterface, InjectionAwareInterface
         }
 
         return value;
-    }
-
-    /**
-     * Returns the DependencyInjector container
-     */
-    public function getDI() -> <DiInterface>
-    {
-        return this->container;
     }
 
     /**
@@ -248,14 +235,6 @@ class Manager implements ManagerInterface, InjectionAwareInterface
 
          let uniqueKey          = this->getUniqueKey(key),
             _SESSION[uniqueKey] = value;
-    }
-
-    /**
-     * Sets the DependencyInjector container
-     */
-    public function setDI(<DiInterface> container) -> void
-    {
-        let this->container = container;
     }
 
     /**

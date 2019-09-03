@@ -11,7 +11,7 @@
 namespace Phalcon\Html;
 
 use Phalcon\Di\DiInterface;
-use Phalcon\Di\InjectionAwareInterface;
+use Phalcon\Di\AbstractDiAware;
 use Phalcon\Escaper;
 use Phalcon\Escaper\EscaperInterface;
 use Phalcon\Helper\Arr;
@@ -25,13 +25,8 @@ use Phalcon\Mvc\Model\ResultsetInterface;
  * Phalcon\Html\Tag is designed to simplify building of HTML tags. It provides a
  * set of helpers to dynamically generate HTML.
  */
-class Tag implements InjectionAwareInterface
+class Tag extends AbstractDiAware
 {
-    /**
-     * @var DiInterface
-     */
-    protected container;
-
     /**
      * @var array
      */
@@ -367,14 +362,6 @@ class Tag implements InjectionAwareInterface
         }
 
         return output;
-    }
-
-    /**
-     * Returns the internal dependency injector
-     */
-    public function getDI() -> <DiInterface>
-    {
-        return this->container;
     }
 
     /**
@@ -1339,14 +1326,6 @@ class Tag implements InjectionAwareInterface
         }
 
         return this;
-    }
-
-    /**
-     * Sets the dependency injector
-     */
-    public function setDI(<DiInterface> container) -> void
-    {
-        let this->container = container;
     }
 
     /**

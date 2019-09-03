@@ -11,7 +11,7 @@
 namespace Phalcon;
 
 use Phalcon\Di\DiInterface;
-use Phalcon\Di\InjectionAwareInterface;
+use Phalcon\Di\AbstractDiAware;
 use Phalcon\Http\RequestInterface;
 use Phalcon\Security\Random;
 use Phalcon\Security\Exception;
@@ -34,7 +34,7 @@ use Phalcon\Session\ManagerInterface as SessionInterface;
  * }
  *```
  */
-class Security implements InjectionAwareInterface
+class Security extends AbstractDiAware
 {
     const CRYPT_DEFAULT    = 0;
     const CRYPT_BLOWFISH   = 4;
@@ -47,7 +47,6 @@ class Security implements InjectionAwareInterface
     const CRYPT_SHA512     = 9;
     const CRYPT_STD_DES    = 1;
 
-    protected container;
     protected defaultHash;
     protected numberBytes = 16;
     protected random;
@@ -204,14 +203,6 @@ class Security implements InjectionAwareInterface
     public function getDefaultHash() -> int | null
     {
         return this->defaultHash;
-    }
-
-    /**
-     * Returns the internal dependency injector
-     */
-    public function getDI() -> <DiInterface>
-    {
-        return this->container;
     }
 
     /**
@@ -479,14 +470,6 @@ class Security implements InjectionAwareInterface
         let this->defaultHash = defaultHash;
 
         return this;
-    }
-
-    /**
-     * Sets the dependency injector
-     */
-    public function setDI(<DiInterface> container) -> void
-    {
-        let this->container = container;
     }
 
     /**

@@ -11,11 +11,11 @@
 namespace Phalcon;
 
 use Phalcon\Di\DiInterface;
-use Phalcon\Url\UrlInterface;
-use Phalcon\Url\Exception;
+use Phalcon\Di\AbstractDiAware;
 use Phalcon\Mvc\RouterInterface;
 use Phalcon\Mvc\Router\RouteInterface;
-use Phalcon\Di\InjectionAwareInterface;
+use Phalcon\Url\Exception;
+use Phalcon\Url\UrlInterface;
 
 /**
  * This components helps in the generation of: URIs, URLs and Paths
@@ -34,7 +34,7 @@ use Phalcon\Di\InjectionAwareInterface;
  * );
  *```
  */
-class Url implements UrlInterface, InjectionAwareInterface
+class Url extends AbstractDiAware implements UrlInterface
 {
     /**
      * @var null | string
@@ -47,16 +47,19 @@ class Url implements UrlInterface, InjectionAwareInterface
     protected basePath = null;
 
     /**
-     * @var <DiInterface>
+     * @var <RouterInterface> | null
      */
-    protected container;
-
-    protected router;
+    protected router = null;
 
     /**
      * @var null | string
      */
     protected staticBaseUri = null;
+
+    public function __construct(<RouterInterface> router = null)
+    {
+        let this->router = router;
+    }
 
     /**
      * Generates a URL
@@ -119,12 +122,12 @@ class Url implements UrlInterface, InjectionAwareInterface
                 );
             }
 
-            let router = <RouterInterface> this->router;
+            let router = this->router;
 
             /**
              * Check if the router has not previously set
              */
-            if typeof router != "object" {
+            if unlikely !router {
                 let container = <DiInterface> this->container;
 
                 if unlikely typeof container != "object" {
@@ -135,7 +138,15 @@ class Url implements UrlInterface, InjectionAwareInterface
                     );
                 }
 
-                let router = <RouterInterface> container->getShared("router"),
+                if unlikely !container->has("router") {
+                    throw new Exception(
+                        Exception::containerServiceNotFound(
+                            "the 'router' service"
+                        )
+                    );
+                }
+
+                let router       = <RouterInterface> container->getShared("router"),
                     this->router = router;
             }
 
@@ -217,14 +228,6 @@ class Url implements UrlInterface, InjectionAwareInterface
     }
 
     /**
-     * Returns the DependencyInjector container
-     */
-    public function getDI() -> <DiInterface>
-    {
-        return this->container;
-    }
-
-    /**
      * Generates a URL for a static resource
      *
      *```php
@@ -297,14 +300,6 @@ class Url implements UrlInterface, InjectionAwareInterface
         }
 
         return this;
-    }
-
-    /**
-     * Sets the DependencyInjector container
-     */
-    public function setDI(<DiInterface> container) -> void
-    {
-        let this->container = container;
     }
 
     /**
