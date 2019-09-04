@@ -11,8 +11,8 @@
 # -u  Treat unset variables as an error when substituting.
 set -eu
 
-PHP_INI="$(phpenv root)/versions/$(phpenv version-name)/etc/php.ini"
-PHP_CONF_D="$(phpenv root)/versions/$(phpenv version-name)/etc/conf.d"
+PHP_INI="$(phpenv prefix)/etc/php.ini"
+PHP_CONF_D="$(phpenv prefix)/etc/conf.d"
 
 (>&1 echo 'Install apcu extension ...')
 printf "\\n" | pecl install --force apcu_bc 1> /dev/null

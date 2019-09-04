@@ -13,11 +13,3 @@ source ./tests/_ci/environment
 
 # shellcheck disable=SC2046
 export $(cut -d= -f1 tests/_ci/environment)
-
-# Export build environment variables
-PHP_MAJOR="$(php -r 'echo phpversion();' | cut -d '.' -f 1)"
-PHP_MINOR="$(php -r 'echo phpversion();' | cut -d '.' -f 2)"
-PHP_VERNUM="$(php-config --vernum)"
-PHP_PEAR_PHP_BIN=$(phpenv which php)
-
-export PHP_MAJOR PHP_MINOR PHP_VERNUM PHP_PEAR_PHP_BIN

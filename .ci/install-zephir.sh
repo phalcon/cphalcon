@@ -20,7 +20,7 @@ $(phpenv which phpize)
 ./configure --silent --with-php-config="$(phpenv which php-config)" --enable-zephir_parser
 make --silent -j"$(getconf _NPROCESSORS_ONLN)"
 make --silent install
-echo 'extension="zephir_parser.so"' > "$(phpenv root)/versions/$(phpenv version-name)/etc/conf.d/zephir_parser.ini"
+echo 'extension="zephir_parser.so"' > "$(phpenv prefix)/etc/conf.d/zephir_parser.ini"
 
 # Install zephir
 if [[ ! $ZEPHIR_VERSION =~ ^(master|development)$ ]]
