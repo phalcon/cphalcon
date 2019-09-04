@@ -4,42 +4,26 @@
 #
 # (c) Phalcon Team <team@phalconphp.com>
 #
-# For the full copyright and license information, please view the LICENSE.txt
-# file that was distributed with this source code.
+# For the full copyright and license information, please view
+# the LICENSE.txt file that was distributed with this source code.
+
+# -e  Exit immediately if a command exits with a non-zero status.
+# -u  Treat unset variables as an error when substituting.
+set -eu
 
 shopt -s nullglob
 
 export LC_ALL=C
 
-ls -al `$(phpenv which php-config) --extension-dir`
-echo
+while IFS= read -r -d '' file
+do
+  (( count++ ))
+  (>&1 printf ">>> START (%d)\\n%s\\n<<< END (%d)\\n\\n" $count "$(cat "$file")" $count)
+done <   <(find ./tests/syntax -type f -name '*.out' -print0)
 
-$(phpenv which php) -v
-echo
-
-$(phpenv which php-config) --vernum
-echo
-
-$(phpenv which php) -m
-echo
-
-PROJECT_ROOT=$(readlink -enq "$(dirname $0)/../../")
-
-for i in `find ${PROJECT_ROOT}/tests/syntax -name "*.out" 2>/dev/null`; do
-	echo "-- START ${i}"; cat ${i}; echo "-- END";
-done
-
-for i in `find ${PROJECT_ROOT}/tests/syntax -name "*.mem" 2>/dev/null`; do
-	echo "-- START ${i}"; cat ${i}; echo "-- END";
-done
-
-if [ -f "${PROJECT_ROOT}/compile-errors.log" ]; then
-	cat "${PROJECT_ROOT}/compile-errors.log"
-fi
-
-for i in core core*; do
-	if [ -f "$i" -a "$(file "$i" | grep -o 'core file')" ]; then
-		gdb -q $(phpenv which php) "$i" <<EOF
+for i in /tmp/core.php.*; do
+  (>&1 printf "Found core dump file: %s\\n\\n" "$i")
+  gdb -q "$(phpenv which php)" "$i" <<EOF
 set pagination 0
 backtrace full
 info registers
@@ -47,5 +31,13 @@ x/16i \$pc
 thread apply all backtrace
 quit
 EOF
-	fi
 done
+
+if [ -f ./compile-errors.log ]
+then
+  log_contents=$(cat ./compile-errors.log)
+  [[ -z "${log_contents// }" ]] || {
+    (>&1 echo "Compiler log:")
+    (>&1 printf "%s\\n" "$log_contents")
+  }
+fi

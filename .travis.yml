@@ -1,7 +1,6 @@
 language: php
 php:
-  - 'master'
-  - '7.3'
+  - '7.3.5'
   - '7.2'
   - '7.1'
   - '7.0'
@@ -13,7 +12,7 @@ git:
 branches:
   only:
     - master
-    - /^(3|4)\.\d+\.(\d+|x)$/
+    - /^3\.(4|5)\.(\d+|x)$/
 
 addons:
   apt:
@@ -24,95 +23,84 @@ addons:
 
 matrix:
   fast_finish: true
-  allow_failures:
-    - php: 'master'
 
 cache:
-  apt: true
   timeout: 604800
   directories:
-    - ${HOME}/beanstalk
-    - ${HOME}/.composer/cache
-    - ${HOME}/pear
-    - ${HOME}/.local/opt
+    - $HOME/.composer/cache
 
 services:
   - beanstalkd
   - mongodb
   - redis-server
   - postgresql
+  - mysql
+  - memcached
 
 env:
   global:
     - CC="gcc"
     - ZEPHIR_VERSION="0.10.14"
-    - RE2C_VERSION="1.1.1"
-    - REPORT_EXIT_STATUS=1
-    - NO_INTERACTION=1
-    - TEST_PHP_ARGS="--show-diff"
-    - CFLAGS="-g -O0 -Wall -std=gnu90"
+    - ZEPHIR_PARSER_VERSION="v1.1.4"
     - BACKEND="ZendEngine3"
-    - PATH="${HOME}/bin:${HOME}/.composer/vendor/bin:${PATH}"
-    - DEFAULT_COMPOSER_FLAGS="--no-interaction --no-ansi --no-progress --no-suggest"
+    - PATH="$HOME/bin:$HOME/.composer/vendor/bin:$PATH"
+    - TRAVIS_COMMIT_LOG="$(git log --format=fuller -5)"
 
 before_install:
-  - '[[ -z "${GH_TOKEN}" ]] || composer config github-oauth.github.com ${GH_TOKEN}; echo "Configured Github token"'
-  - export PHP_MAJOR="$(`phpenv which php` -r 'echo phpversion();' | cut -d '.' -f 1)"
-  - export PHP_MINOR="$(`phpenv which php` -r 'echo phpversion();' | cut -d '.' -f 2)"
-  - export PHP_VERNUM="$(`phpenv which php-config` --vernum)"
-  - '[[ "${PHP_MAJOR}" == "7" ]] || export BACKEND="ZendEngine2"'
-  - ./tests/_ci/pear-setup.sh
-  - ./tests/_ci/setup-dbs.sh
-  - source ./tests/_ci/environment
-  - export $(cut -d= -f1 ./tests/_ci/environment)
+  - |
+    # Core dump settings
+    ulimit -c unlimited -S || true
+    echo '/tmp/core.%e.%p.%t' | sudo tee /proc/sys/kernel/core_pattern
+
+    if [ -n "$GITHUB_TOKEN" ]; then
+      composer config github-oauth.github.com "$GITHUB_TOKEN"
+      echo 'Add Github token'
+    fi
+
+    # Hide "You are in 'detached HEAD' state" message
+    git config --global advice.detachedHead false
+
+    [ -d ~/bin ] || mkdir ~/bin
+    export DEFAULT_COMPOSER_FLAGS=("--no-interaction" "--no-ansi" "--no-progress" "--no-suggest")
+
+  - source ./tests/_ci/export-variables.sh
 
 install:
+  - ./tests/_ci/setup-dbs.sh
   - ./tests/_ci/install-prereqs-$PHP_MAJOR.sh
-  - ./tests/_ci/install-re2c.sh
-  - travis_retry composer install ${DEFAULT_COMPOSER_FLAGS}
-  - travis_retry composer global require "phalcon/zephir:${ZEPHIR_VERSION}"
-  - ( cd ${HOME}/.composer/vendor/phalcon/zephir; ./install-nosudo )
-  - zephir generate --backend=${BACKEND}
-  - ./tests/_ci/precompile-headers.sh
-  - |
-      cd ext
-      phpize
-      ./configure --with-php-config=$(phpenv which php-config) --enable-phalcon
-      make -j"$(getconf _NPROCESSORS_ONLN)" > ../compile.log 2> ../compile-errors.log
-      make install
-      cd ..
-  - phpenv config-add ./tests/_ci/phalcon.ini
-  - phpenv config-add ./tests/_ci/ci.ini
+  - ./tests/_ci/install-zephir.sh
+  - travis_retry composer install ${DEFAULT_COMPOSER_FLAGS[*]}
 
 before_script:
-  - ulimit -c unlimited -S || true
-  # see: https://github.com/sebastianbergmann/phpunit/pull/3359
-  - '[[ "${PHP_VERNUM}" -lt 70300 ]] || export USE_ZEND_ALLOC=1'
+  - cat ./tests/_ci/travis.ini >> "$(phpenv prefix)/etc/conf.d/travis.ini"
+  - ./tests/_ci/build.sh
 
 script:
-  # To avoud this:
-  # sh: 1: /home/travis/build/phalcon/cphalcon/libtool: not found
-  - ln -s ${TRAVIS_BUILD_DIR}/ext/libtool ${TRAVIS_BUILD_DIR}/libtool
-  # Syntax recognize tests
-  - |
-      $(phpenv which php) "${TRAVIS_BUILD_DIR}/ext/run-tests.php" \
-          -p $(phpenv which php) \
-          -g "FAIL,XFAIL,BORK,WARN,LEAK,SKIP" \
-          --offline \
-          --show-diff \
-          --set-timeout 120
-  - vendor/bin/phpcs
-  # We'll drop or rewrite them for Phalcon 4.x
-  - '[[ "${PHP_VERNUM}" -lt 70200 ]] || vendor/bin/phpunit --bootstrap tests/_ci/phpunit.php unit-tests/'
-  - vendor/bin/codecept build
-  # TODO: Add `cli' suite and refactor current cli-tests
-  - vendor/bin/codecept run -v -n tests/integration/
-  - vendor/bin/codecept run -v -n tests/unit/
+  - vendor/bin/codecept build --quiet
+  - vendor/bin/codecept run --ext DotReporter tests/integration/
+  - vendor/bin/codecept run --ext DotReporter tests/unit/
+  - vendor/bin/phpunit --bootstrap tests/_ci/phpunit.php unit-tests/
+  - ./tests/_ci/run-volt-tests.sh
+
+jobs:
+  include:
+    - stage: Static Code Analysis
+      php: '7.2'
+      install:
+        - travis_retry composer install ${DEFAULT_COMPOSER_FLAGS[*]} --ignore-platform-reqs
+      before_script:
+        - phpenv config-rm xdebug.ini || true
+      script:
+        - vendor/bin/phpcs
 
 after_failure:
- - ./tests/_ci/after-failure.sh
+  - echo "$($(phpenv which php) -v)"
+  - echo "$($(phpenv which php) -m)"
+  - ./tests/_ci/after-failure.sh
+
+after_script:
+  - printf "$TRAVIS_COMMIT_RANGE\n"
+  - printf "$TRAVIS_COMMIT_LOG\n"
 
 notifications:
-    email: false
-
-
+  email: false
