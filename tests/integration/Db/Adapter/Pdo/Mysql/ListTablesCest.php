@@ -86,9 +86,9 @@ class ListTablesCest
             'stock',
             'subscriptores',
             'table_with_string_field',
+            'tiny_int_test',
             'tipo_documento',
-            'users',
-            'tiny_int_test'
+            'users'
         ];
 
 
