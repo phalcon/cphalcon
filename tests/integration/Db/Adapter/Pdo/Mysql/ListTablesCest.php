@@ -88,6 +88,7 @@ class ListTablesCest
             'table_with_string_field',
             'tipo_documento',
             'users',
+            'tiny_int_test'
         ];
 
 
