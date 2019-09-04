@@ -132,8 +132,8 @@ abstract class Pdo extends Adapter
 		 * Check for \PDO::XXX class constant aliases
 		 */
         for key, value in options {
-            if typeof key == "string" && defined("\PDO::" . key->upper()) {
-                let options[constant("\PDO::" . key->upper())] = value;
+            if typeof key == "string" && defined("\PDO::" . strtoupper(key)) {
+                let options[constant("\PDO::" . strtoupper(key))] = value;
                 unset options[key];
             }
         }
@@ -361,7 +361,7 @@ abstract class Pdo extends Adapter
 			let params = [];
 			let types = [];
 		}
-			
+
 		let statement = pdo->prepare(sqlStatement);
 		if typeof statement == "object" {
 			let statement = this->executePrepared(statement, params, types);

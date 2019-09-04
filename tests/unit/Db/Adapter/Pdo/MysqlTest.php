@@ -46,6 +46,9 @@ class MysqlTest extends UnitTest
                 'dbname'   => TEST_DB_MYSQL_NAME,
                 'port'     => TEST_DB_MYSQL_PORT,
                 'charset'  => TEST_DB_MYSQL_CHARSET,
+                'options'  => [
+                    'mysql_attr_init_command' => "SET CHARSET \'utf8\';"
+                ]
             ]);
         } catch (\PDOException $e) {
             throw new SkippedTestError("Unable to connect to the database: " . $e->getMessage());
