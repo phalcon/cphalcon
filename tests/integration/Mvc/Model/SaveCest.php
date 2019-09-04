@@ -22,6 +22,7 @@ use Phalcon\Test\Models\Parts;
 use Phalcon\Test\Models\Robots;
 use Phalcon\Test\Models\RobotsParts;
 use Phalcon\Test\Models\Users;
+use Phalcon\Test\Models\TinyIntTest;
 
 class SaveCest
 {
@@ -435,6 +436,28 @@ class SaveCest
         $I->assertEquals(
             4,
             count($allAlbums)
+        );
+    }
+
+    public function tinyIntNotStoredIssue14355(IntegrationTester $I)
+    {
+        $I->wantToTest('Saving a tinyint(1)');
+
+        $referenceModel = new TinyIntTest();
+        $referenceModel->test = 0;
+
+        $I->assertTrue(
+            $referenceModel->save()
+        );
+        $id = $referenceModel->id;
+        $I->assertNotNull(
+            $id
+        );
+
+        $storedModel = TinyIntTest::findFirstById($id);
+        $I->assertEquals(
+            '0',
+            $storedModel->test
         );
     }
 }

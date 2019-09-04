@@ -12787,3 +12787,9 @@ create table dialect_table_intermediate
       on update cascade on delete set null
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+drop table if exists `tiny_int_test`;
+CREATE TABLE `tiny_int_test` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `test` tinyint(1) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
