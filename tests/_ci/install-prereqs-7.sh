@@ -4,26 +4,51 @@
 #
 # (c) Phalcon Team <team@phalconphp.com>
 #
-# For the full copyright and license information, please view the LICENSE.txt
-# file that was distributed with this source code.
+# For the full copyright and license information, please view
+# the LICENSE.txt file that was distributed with this source code.
 
-PROJECT_ROOT=$(readlink -enq "$(dirname $0)/../../")
-
-source ${PROJECT_ROOT}/tests/_ci/ci-tools.sh
-
-printf "\n" | pecl install --force apcu_bc 1> /dev/null
-printf "\n" | pecl install --force igbinary 1> /dev/null
-printf "\n" | pecl install --force imagick 1> /dev/null
-printf "\n" | pecl install --force psr 1> /dev/null
-printf "\n" | pecl install --force yaml-2.0.3 1> /dev/null
-
+printf "\\n" | pecl install --force apcu_bc 1> /dev/null
 # See https://pear.php.net/bugs/bug.php?id=21007
-sed -i '1s/^/extension="apcu.so"\n/' "$(phpenv root)/versions/$(phpenv version-name)/etc/php.ini"
+awk '/extension.*apcu?\.so"?/{$0=""}1' "$(phpenv prefix)/etc/php.ini" > php.ini.patch
+mv php.ini.patch "$(phpenv prefix)/etc/php.ini"
 
-install_ext_from_src "zephir_parser" "https://github.com/phalcon/php-zephir-parser" ""
+cat <<EOT >> "$(phpenv prefix)/etc/conf.d/apcu.ini"
+[apc]
+extension      = "apcu.so"
+extension      = "apc.so"
 
-if [ "$(`phpenv which php-config` --vernum)" -ge 70300 ]; then
-	install_ext_from_src "memcached" "https://github.com/php-memcached-dev/php-memcached" "--disable-memcached-sasl"
-else
-	echo 'extension="memcached.so"' > "$(phpenv root)/versions/$(phpenv version-name)/etc/conf.d/memcached.ini"
+apc.enabled    = 1
+apc.enable_cli = 1
+EOT
+
+printf "\\n" | pecl install --force igbinary 1> /dev/null
+printf "\\n" | pecl install --force imagick 1> /dev/null
+printf "\\n" | pecl install --force psr 1> /dev/null
+printf "\\n" | pecl install --force yaml 1> /dev/null
+
+if [[ "$(php-config --vernum)" -ge 70300 ]] || [[ -f "$(php-config --extension-dir)/memcached.so" ]]
+then
+  git clone \
+    --depth=1 \
+    https://github.com/php-memcached-dev/php-memcached memcached
+
+  cd memcached || exit 1
+
+  $(phpenv which phpize)
+  ./configure --with-php-config="$(phpenv which php-config)" --enable-memcached 1>/dev/null
+  make --silent -j"$(getconf _NPROCESSORS_ONLN)" 1>/dev/null
+  make --silent install 1>/dev/null
+fi
+
+echo "extension=memcached.so" >> "$(phpenv prefix)/etc/conf.d/memcached.ini"
+
+if [[ "$(php --ri redis 1> /dev/null)" = "" ]] && [[ ! -f "$(php-config --extension-dir)/redis.so" ]]
+then
+  (>&1 echo 'Install redis extension ...')
+  printf "\\n" | pecl install --force redis 1> /dev/null
+fi
+
+if [[ "$(php --ri redis 1> /dev/null)" = "" ]] && [[ -f "$(php-config --extension-dir)/redis.so" ]]
+then
+	echo 'extension="redis.so"' > "$(phpenv prefix)/etc/conf.d/redis.ini"
 fi

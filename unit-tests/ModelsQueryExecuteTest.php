@@ -52,6 +52,8 @@ class ModelsQueryExecuteTest extends TestCase
 
 	public function testExecuteMysql()
 	{
+        $this->markTestSkipped('Test skipped: This test need to be refactored');
+
 		require __DIR__ . '/config.db.php';
 		if (empty($configMysql)) {
 			$this->markTestSkipped("Skipped");
