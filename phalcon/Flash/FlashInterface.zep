@@ -20,25 +20,25 @@ interface FlashInterface
     /**
      * Shows a HTML error message
      */
-    public function error(string message) -> void;
+    public function error(string message) -> string;
 
     /**
      * Outputs a message
      */
-    public function message(string type, string message) -> void;
+    public function message(string type, string message) -> string | null;
 
     /**
      * Shows a HTML notice/information message
      */
-    public function notice(string message) -> void;
+    public function notice(string message) -> string;
 
     /**
      * Shows a HTML success message
      */
-    public function success(string message) -> void;
+    public function success(string message) -> string;
 
     /**
      * Shows a HTML warning message
      */
-    public function warning(string message) -> void;
+    public function warning(string message) -> string;
 }
