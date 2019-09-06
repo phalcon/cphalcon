@@ -10,7 +10,7 @@
 
 namespace Phalcon\Validation;
 
-use Phalcon\Di\Injectable;
+use Phalcon\Di\AbstractInjectable;
 use Phalcon\Messages\MessageInterface;
 use Phalcon\Messages\Messages;
 use Phalcon\Validation\Exception;

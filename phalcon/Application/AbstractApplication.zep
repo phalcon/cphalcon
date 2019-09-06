@@ -12,14 +12,14 @@ namespace Phalcon\Application;
 
 use Phalcon\Application\Exception;
 use Phalcon\Di\DiInterface;
-use Phalcon\Di\Injectable;
+use Phalcon\Di\AbstractInjectable;
 use Phalcon\Events\EventsAwareInterface;
 use Phalcon\Events\ManagerInterface;
 
 /**
  * Base class for Phalcon\Cli\Console and Phalcon\Mvc\Application.
  */
-abstract class AbstractApplication extends Injectable implements EventsAwareInterface
+abstract class AbstractApplication extends AbstractInjectable implements EventsAwareInterface
 {
     /**
      * @var DiInterface

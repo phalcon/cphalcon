@@ -11,14 +11,14 @@
 namespace Phalcon\Mvc\View\Engine;
 
 use Phalcon\Di\DiInterface;
-use Phalcon\Di\Injectable;
+use Phalcon\Di\AbstractInjectable;
 use Phalcon\Mvc\ViewBaseInterface;
 
 /**
  * All the template engine adapters must inherit this class. This provides
  * basic interfacing between the engine and the Phalcon\Mvc\View component.
  */
-abstract class AbstractEngine extends Injectable implements EngineInterface
+abstract class AbstractEngine extends AbstractInjectable implements EngineInterface
 {
     protected view;
 

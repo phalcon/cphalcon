@@ -10,7 +10,7 @@
 
 namespace Phalcon\Cli;
 
-use Phalcon\Di\Injectable;
+use Phalcon\Di\AbstractInjectable;
 
 /**
  * Every command-line task should extend this class that encapsulates all the
@@ -36,7 +36,7 @@ use Phalcon\Di\Injectable;
  * }
  *```
  */
-class Task extends Injectable implements TaskInterface
+class Task extends AbstractInjectable implements TaskInterface
 {
     /**
      * Phalcon\Cli\Task constructor

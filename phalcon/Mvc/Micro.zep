@@ -13,7 +13,7 @@ namespace Phalcon\Mvc;
 use ArrayAccess;
 use Closure;
 use Phalcon\Di\DiInterface;
-use Phalcon\Di\Injectable;
+use Phalcon\Di\AbstractInjectable;
 use Phalcon\Mvc\Controller;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Mvc\Micro\Exception;
@@ -48,7 +48,7 @@ use Throwable;
  * $app->handle("/say/welcome/Phalcon");
  *```
  */
-class Micro extends Injectable implements ArrayAccess
+class Micro extends AbstractInjectable implements ArrayAccess
 {
     protected activeHandler;
 

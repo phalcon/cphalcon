@@ -10,7 +10,7 @@
 
 namespace Phalcon\Mvc;
 
-use Phalcon\Di\Injectable;
+use Phalcon\Di\AbstractInjectable;
 
 /**
  * Phalcon\Mvc\Controller
@@ -52,7 +52,7 @@ use Phalcon\Di\Injectable;
  * }
  *```
  */
-abstract class Controller extends Injectable implements ControllerInterface
+abstract class Controller extends AbstractInjectable implements ControllerInterface
 {
     /**
      * Phalcon\Mvc\Controller constructor

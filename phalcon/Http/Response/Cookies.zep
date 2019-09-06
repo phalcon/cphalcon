@@ -11,7 +11,7 @@
 namespace Phalcon\Http\Response;
 
 use Phalcon\Di\DiInterface;
-use Phalcon\Di\AbstractDiAware;
+use Phalcon\Di\AbstractInjectionAware;
 use Phalcon\Http\CookieInterface;
 use Phalcon\Http\Response\CookiesInterface;
 use Phalcon\Http\Cookie\Exception;
@@ -64,7 +64,7 @@ use Phalcon\Http\Cookie\Exception;
  * );
  * ```
  */
-class Cookies extends AbstractDiAware implements CookiesInterface
+class Cookies extends AbstractInjectionAware implements CookiesInterface
 {
     protected cookies = [];
 

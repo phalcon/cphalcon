@@ -19,14 +19,14 @@ use Phalcon\Assets\Asset\Css as AssetCss;
 use Phalcon\Assets\Inline\Css as InlineCss;
 use Phalcon\Assets\Inline\Js as InlineJs;
 use Phalcon\Di\DiInterface;
-use Phalcon\Di\AbstractDiAware;
+use Phalcon\Di\AbstractInjectionAware;
 
 /**
  * Phalcon\Assets\Manager
  *
  * Manages collections of CSS/Javascript assets
  */
-class Manager extends AbstractDiAware
+class Manager extends AbstractInjectionAware
 {
     protected collections;
 

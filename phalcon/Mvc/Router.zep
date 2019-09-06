@@ -11,7 +11,7 @@
 namespace Phalcon\Mvc;
 
 use Phalcon\Di\DiInterface;
-use Phalcon\Di\AbstractDiAware;
+use Phalcon\Di\AbstractInjectionAware;
 use Phalcon\Events\EventsAwareInterface;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Http\RequestInterface;
@@ -48,7 +48,7 @@ use Phalcon\Mvc\Router\RouteInterface;
  * echo $router->getControllerName();
  * ```
  */
-class Router extends AbstractDiAware implements RouterInterface, EventsAwareInterface
+class Router extends AbstractInjectionAware implements RouterInterface, EventsAwareInterface
 {
     const POSITION_FIRST = 0;
     const POSITION_LAST = 1;
