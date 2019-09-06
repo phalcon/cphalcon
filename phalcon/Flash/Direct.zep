@@ -21,7 +21,7 @@ class Direct extends AbstractFlash
     /**
      * Outputs a message
      */
-    public function message(string type, var message) -> string
+    public function message(string type, var message) -> string | null
     {
         return this->outputMessage(type, message);
     }

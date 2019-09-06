@@ -92,9 +92,9 @@ abstract class AbstractFlash extends AbstractDiAware implements FlashInterface
      * $flash->error("This is an error");
      *```
      */
-    public function error(string message) -> void
+    public function error(string message) -> string
     {
-        this->{"message"}("error", message);
+        return this->{"message"}("error", message);
     }
 
     /**
@@ -147,9 +147,9 @@ abstract class AbstractFlash extends AbstractDiAware implements FlashInterface
      * $flash->notice("This is an information");
      *```
      */
-    public function notice(string message) -> void
+    public function notice(string message) -> string
     {
-        this->{"message"}("notice", message);
+        return this->{"message"}("notice", message);
     }
 
     /**
@@ -220,9 +220,9 @@ abstract class AbstractFlash extends AbstractDiAware implements FlashInterface
      * $flash->success("The process was finished successfully");
      *```
      */
-    public function success(string message) -> void
+    public function success(string message) -> string
     {
-        this->{"message"}("success", message);
+        return this->{"message"}("success", message);
     }
 
     /**
@@ -311,9 +311,9 @@ abstract class AbstractFlash extends AbstractDiAware implements FlashInterface
      * $flash->warning("Hey, this is important");
      *```
      */
-    public function warning(string message) -> void
+    public function warning(string message) -> string
     {
-        this->{"message"}("warning", message);
+        return this->{"message"}("warning", message);
     }
 
 

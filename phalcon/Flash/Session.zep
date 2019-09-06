@@ -57,7 +57,7 @@ class Session extends AbstractFlash
     /**
      * Adds a message to the session flasher
      */
-    public function message(string type, string message) -> void
+    public function message(string type, string message) -> string | null
     {
         var messages;
 
@@ -70,6 +70,8 @@ class Session extends AbstractFlash
         let messages[type][] = message;
 
         this->setSessionMessages(messages);
+
+        return null;
     }
 
     /**
