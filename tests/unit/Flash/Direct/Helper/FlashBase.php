@@ -23,6 +23,7 @@ class FlashBase
     private $notImplicit = false;
     private $notHtml     = false;
     private $classes     = null;
+    private $escaper     = null;
 
     private $default = [
         'success' => 'successMessage',
@@ -33,8 +34,7 @@ class FlashBase
 
     public function _before(UnitTester $I)
     {
-        $this->newDi();
-        $this->setDiEscaper();
+        $this->escaper = $this->newEscaper();
     }
 
     /**
@@ -65,7 +65,9 @@ class FlashBase
      */
     private function stringTest(UnitTester $I, string $function)
     {
-        $flash   = new Direct($this->classes);
+        $flash   = new Direct($this->escaper);
+        $flash->setClasses($this->classes);
+
         $message = 'sample message';
 
         if ($this->notHtml) {
@@ -214,7 +216,8 @@ class FlashBase
      */
     public function testFlashDirectWithAutoEscaping(UnitTester $I)
     {
-        $flash = new Direct($this->classes);
+        $flash   = new Direct($this->escaper);
+        $flash->setClasses($this->classes);
 
         $flash->setAutomaticHtml(false);
         $flash->setImplicitFlush(false);
