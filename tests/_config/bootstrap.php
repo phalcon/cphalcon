@@ -21,6 +21,11 @@ $root = dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR;
 loadEnvironment($root);
 
 /**
+ * @todo Ugly hack to make codeception work with a phalcon4 module
+ */
+require_once $root . '/tests/_data/fixtures/Phalcon.php';
+
+/**
  * Config
  */
 $configFile = [
