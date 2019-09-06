@@ -79,7 +79,7 @@ class OutputCest
         $container = $this->getDi();
         $flash     = new Session();
         $flash->setDI($container);
-        $flash->setClasses($this->classes);
+        $flash->setCssClasses($this->classes);
 
         return $flash;
     }

@@ -62,7 +62,7 @@ class FlashBase
     private function stringTest(UnitTester $I, string $function)
     {
         $flash = new Direct(new Escaper());
-        $flash->setClasses($this->classes);
+        $flash->setCssClasses($this->classes);
 
         $message = 'sample message';
 
@@ -213,7 +213,7 @@ class FlashBase
     public function testFlashDirectWithAutoEscaping(UnitTester $I)
     {
         $flash = new Direct(new Escaper());
-        $flash->setClasses($this->classes);
+        $flash->setCssClasses($this->classes);
 
         $flash->setAutomaticHtml(false);
         $flash->setImplicitFlush(false);
