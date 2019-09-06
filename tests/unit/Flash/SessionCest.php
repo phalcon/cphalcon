@@ -140,9 +140,9 @@ class SessionCest
     {
         $container = $this->getDi();
 
-        $flash = new Session($this->classes);
-
+        $flash = new Session();
         $flash->setDI($container);
+        $flash->setClasses($this->classes);
 
         return $flash;
     }
