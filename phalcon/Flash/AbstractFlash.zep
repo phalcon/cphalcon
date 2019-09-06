@@ -12,7 +12,7 @@ namespace Phalcon\Flash;
 
 use Phalcon\Di;
 use Phalcon\Di\DiInterface;
-use Phalcon\Di\InjectionAwareInterface;
+use Phalcon\Di\AbstractDiAware;
 use Phalcon\Escaper\EscaperInterface;
 use Phalcon\Flash\Exception;
 
@@ -25,7 +25,7 @@ use Phalcon\Flash\Exception;
  * $flash->error("Cannot open the file");
  *```
  */
-abstract class AbstractFlash implements FlashInterface, InjectionAwareInterface
+abstract class AbstractFlash extends AbstractDiAware implements FlashInterface
 {
     /**
      * @var bool
@@ -47,8 +47,9 @@ abstract class AbstractFlash implements FlashInterface, InjectionAwareInterface
      */
     protected customTemplate = "";
 
-    protected container = null;
-
+    /**
+     * @var EscaperInterface | null
+     */
     protected escaperService = null;
 
     /**
@@ -56,23 +57,24 @@ abstract class AbstractFlash implements FlashInterface, InjectionAwareInterface
      */
     protected implicitFlush = true;
 
+    /**
+     * @var array
+     */
     protected messages = [];
 
     /**
      * Phalcon\Flash constructor
      */
-    public function __construct(cssClasses = null) -> void
+    public function __construct(<EscaperInterface> escaper = null) -> void
     {
-        if typeof cssClasses != "array" {
-            let cssClasses = [
-                "error":   "errorMessage",
-                "notice":  "noticeMessage",
-                "success": "successMessage",
-                "warning": "warningMessage"
-            ];
-        }
+        let this->escaperService = escaper;
 
-        let this->cssClasses = cssClasses;
+        let this->cssClasses = [
+            "error"   : "errorMessage",
+            "notice"  : "noticeMessage",
+            "success" : "successMessage",
+            "warning" : "warningMessage"
+        ];
     }
 
     /**
@@ -90,9 +92,9 @@ abstract class AbstractFlash implements FlashInterface, InjectionAwareInterface
      * $flash->error("This is an error");
      *```
      */
-    public function error(string message) -> string
+    public function error(string message) -> void
     {
-        return this->{"message"}("error", message);
+        this->{"message"}("error", message);
     }
 
     /**
@@ -112,39 +114,32 @@ abstract class AbstractFlash implements FlashInterface, InjectionAwareInterface
     }
 
     /**
-     * Returns the internal dependency injector
-     */
-    public function getDI() -> <DiInterface>
-    {
-        var di;
-
-        let di = this->container;
-
-        if typeof di != "object" {
-            let di = Di::getDefault();
-        }
-
-        return di;
-    }
-
-    /**
      * Returns the Escaper Service
      */
     public function getEscaperService() -> <EscaperInterface>
     {
-        var escaper, container;
+        var container;
 
-        let escaper = this->escaperService;
-
-        if typeof escaper != "object" {
-            let container = <DiInterface> this->getDI();
-
-            let escaper = <EscaperInterface> container->getShared("escaper"),
-                this->escaperService = escaper;
+        if this->escaperService {
+            return this->escaperService;
         }
 
-        return escaper;
+        let container = <DiInterface> this->container;
+        if unlikely typeof container != "object" {
+            throw new Exception(
+                Exception::containerServiceNotFound("the 'escaper' service")
+            );
+        }
+
+        if likely container->has("escaper") {
+            return <RequestInterface> container->getShared("escaper");
+        } else {
+            throw new Exception(
+                Exception::containerServiceNotFound("the 'escaper' service")
+            );
+        }
     }
+
     /**
      * Shows a HTML notice/information message
      *
@@ -152,15 +147,15 @@ abstract class AbstractFlash implements FlashInterface, InjectionAwareInterface
      * $flash->notice("This is an information");
      *```
      */
-    public function notice(string message) -> string
+    public function notice(string message) -> void
     {
-        return this->{"message"}("notice", message);
+        this->{"message"}("notice", message);
     }
 
     /**
      * Set the autoescape mode in generated html
      */
-    public function setAutoescape(bool autoescape) -> <Flash>
+    public function setAutoescape(bool autoescape) -> <FlashInterface>
     {
         let this->autoescape = autoescape;
 
@@ -198,16 +193,6 @@ abstract class AbstractFlash implements FlashInterface, InjectionAwareInterface
     }
 
     /**
-     * Sets the dependency injector
-     */
-    public function setDI(<DiInterface> container) -> <FlashInterface>
-    {
-        let this->container = container;
-
-        return this;
-    }
-
-    /**
      * Sets the Escaper Service
      */
     public function setEscaperService(<EscaperInterface> escaperService) -> <FlashInterface>
@@ -235,9 +220,9 @@ abstract class AbstractFlash implements FlashInterface, InjectionAwareInterface
      * $flash->success("The process was finished successfully");
      *```
      */
-    public function success(string message) -> string
+    public function success(string message) -> void
     {
-        return this->{"message"}("success", message);
+        this->{"message"}("success", message);
     }
 
     /**
@@ -326,9 +311,9 @@ abstract class AbstractFlash implements FlashInterface, InjectionAwareInterface
      * $flash->warning("Hey, this is important");
      *```
      */
-    public function warning(string message) -> string
+    public function warning(string message) -> void
     {
-        return this->{"message"}("warning", message);
+        this->{"message"}("warning", message);
     }
 
 
