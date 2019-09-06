@@ -29,6 +29,10 @@ class FlashBase
         'error'   => 'errorMessage',
     ];
 
+    public function _before(UnitTester $I)
+    {
+    }
+
     /**
      * Tests warning (implicit flush)
      *
