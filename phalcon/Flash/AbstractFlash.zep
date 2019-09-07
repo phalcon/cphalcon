@@ -15,6 +15,7 @@ use Phalcon\Di\DiInterface;
 use Phalcon\Di\AbstractInjectionAware;
 use Phalcon\Escaper\EscaperInterface;
 use Phalcon\Flash\Exception;
+use Phalcon\Session\ManagerInterface as SessionInterface;
 
 /**
  * Shows HTML notifications related to different circumstances. Classes can be
@@ -63,11 +64,17 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
     protected messages = [];
 
     /**
+     * @var SessionInterface | null
+     */
+    protected sessionService = null;
+
+    /**
      * Phalcon\Flash constructor
      */
-    public function __construct(<EscaperInterface> escaper = null) -> void
+    public function __construct(<EscaperInterface> escaper = null, <SessionInterface> session = null) -> void
     {
-        let this->escaperService = escaper;
+        let this->escaperService = escaper,
+            this->sessionService = session;
 
         let this->cssClasses = [
             "error"   : "errorMessage",
