@@ -44,9 +44,9 @@ class SetCustomTemplateCest
     {
         $container = $this->getDi();
 
-        $flash = new Session($this->classes);
-
+        $flash     = new Session();
         $flash->setDI($container);
+        $flash->setCssClasses($this->classes);
 
         return $flash;
     }

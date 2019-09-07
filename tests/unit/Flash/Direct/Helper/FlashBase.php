@@ -12,17 +12,15 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Flash\Direct\Helper;
 
+use Phalcon\Escaper;
 use Phalcon\Flash\Direct;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
 class FlashBase
 {
-    use DiTrait;
-
-    private $notImplicit = false;
-    private $notHtml     = false;
     private $classes     = null;
+    private $notHtml     = false;
+    private $notImplicit = false;
 
     private $default = [
         'success' => 'successMessage',
@@ -33,8 +31,6 @@ class FlashBase
 
     public function _before(UnitTester $I)
     {
-        $this->newDi();
-        $this->setDiEscaper();
     }
 
     /**
@@ -65,7 +61,9 @@ class FlashBase
      */
     private function stringTest(UnitTester $I, string $function)
     {
-        $flash   = new Direct($this->classes);
+        $flash = new Direct(new Escaper());
+        $flash->setCssClasses($this->classes);
+
         $message = 'sample message';
 
         if ($this->notHtml) {
@@ -214,7 +212,8 @@ class FlashBase
      */
     public function testFlashDirectWithAutoEscaping(UnitTester $I)
     {
-        $flash = new Direct($this->classes);
+        $flash = new Direct(new Escaper());
+        $flash->setCssClasses($this->classes);
 
         $flash->setAutomaticHtml(false);
         $flash->setImplicitFlush(false);

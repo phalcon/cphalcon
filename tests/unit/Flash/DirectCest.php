@@ -101,9 +101,9 @@ class DirectCest
     {
         $container = $this->getDi();
 
-        $flash = new Direct($this->classes);
-
+        $flash = new Direct();
         $flash->setDI($container);
+        $flash->setCssClasses($this->classes);
 
         return $flash;
     }

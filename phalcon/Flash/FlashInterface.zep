@@ -25,7 +25,7 @@ interface FlashInterface
     /**
      * Outputs a message
      */
-    public function message(string type, string message);
+    public function message(string type, string message) -> string | null;
 
     /**
      * Shows a HTML notice/information message
