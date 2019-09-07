@@ -41,12 +41,12 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
     /**
      * @var array
      */
-    protected cssClasses = [];
+    protected cssClasses = [] { get };
 
     /**
      * @var string
      */
-    protected customTemplate = "";
+    protected customTemplate = "" { get };
 
     /**
      * @var EscaperInterface | null
@@ -110,14 +110,6 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
     public function getAutoescape() -> bool
     {
         return this->autoescape;
-    }
-
-    /**
-     * Returns the custom template set
-     */
-    public function getCustomTemplate() -> string
-    {
-        return this->customTemplate;
     }
 
     /**
