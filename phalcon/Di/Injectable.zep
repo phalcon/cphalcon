@@ -47,7 +47,7 @@ use Phalcon\Session\BagInterface;
  * @property \Phalcon\Session\Bag|\Phalcon\Session\BagInterface $persistent
  * @property \Phalcon\Mvc\View|\Phalcon\Mvc\ViewInterface $view
  */
-abstract class AbstractInjectable implements InjectionAwareInterface, EventsAwareInterface
+abstract class Injectable implements InjectionAwareInterface, EventsAwareInterface
 {
     /**
      * Dependency Injector

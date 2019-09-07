@@ -12,7 +12,7 @@ namespace Phalcon;
 
 use Phalcon\Di;
 use Phalcon\Di\DiInterface;
-use Phalcon\Di\AbstractInjectable;
+use Phalcon\Di\Injectable;
 use Phalcon\Filter\FilterInterface;
 use Phalcon\Messages\MessageInterface;
 use Phalcon\Messages\Messages;
@@ -24,7 +24,7 @@ use Phalcon\Validation\AbstractCombinedFieldsValidator;
 /**
  * Allows to validate data using custom or built-in validators
  */
-class Validation extends AbstractInjectable implements ValidationInterface
+class Validation extends Injectable implements ValidationInterface
 {
     protected combinedFieldsValidators;
     protected data { get };

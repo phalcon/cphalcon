@@ -12,7 +12,7 @@ namespace Phalcon\Forms;
 
 use Countable;
 use Iterator;
-use Phalcon\Di\AbstractInjectable;
+use Phalcon\Di\Injectable;
 use Phalcon\Di\DiInterface;
 use Phalcon\FilterInterface;
 use Phalcon\Filter\FilterInterface;
@@ -28,7 +28,7 @@ use Phalcon\Validation\ValidationInterface;
 /**
  * This component allows to build forms using an object-oriented interface
  */
-class Form extends AbstractInjectable implements Countable, Iterator, AttributesInterface
+class Form extends Injectable implements Countable, Iterator, AttributesInterface
 {
     protected attributes;
 

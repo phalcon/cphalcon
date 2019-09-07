@@ -12,7 +12,7 @@ namespace Phalcon\Mvc;
 
 use Closure;
 use Phalcon\Di\DiInterface;
-use Phalcon\Di\AbstractInjectable;
+use Phalcon\Di\Injectable;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Helper\Arr;
 use Phalcon\Helper\Str;
@@ -46,7 +46,7 @@ use Phalcon\Mvc\View\Engine\Php as PhpEngine;
  * echo $view->getContent();
  * ```
  */
-class View extends AbstractInjectable implements ViewInterface
+class View extends Injectable implements ViewInterface
 {
     /**
      * Render Level: To the action view

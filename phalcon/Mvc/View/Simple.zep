@@ -12,7 +12,7 @@ namespace Phalcon\Mvc\View;
 
 use Closure;
 use Phalcon\Di\DiInterface;
-use Phalcon\Di\AbstractInjectable;
+use Phalcon\Di\Injectable;
 use Phalcon\Helper\Arr;
 use Phalcon\Helper\Str;
 use Phalcon\Mvc\View\Exception;
@@ -47,7 +47,7 @@ use Phalcon\Mvc\View\Engine\Php as PhpEngine;
  * );
  *```
  */
-class Simple extends AbstractInjectable implements ViewBaseInterface
+class Simple extends Injectable implements ViewBaseInterface
 {
     protected activeRenderPath;
     protected content;
