@@ -18,6 +18,7 @@ PHP_METHOD(Phalcon_Assets_Manager, exists);
 PHP_METHOD(Phalcon_Assets_Manager, get);
 PHP_METHOD(Phalcon_Assets_Manager, getCollections);
 PHP_METHOD(Phalcon_Assets_Manager, getCss);
+PHP_METHOD(Phalcon_Assets_Manager, getDI);
 PHP_METHOD(Phalcon_Assets_Manager, getJs);
 PHP_METHOD(Phalcon_Assets_Manager, getOptions);
 PHP_METHOD(Phalcon_Assets_Manager, output);
@@ -27,6 +28,7 @@ PHP_METHOD(Phalcon_Assets_Manager, outputInlineCss);
 PHP_METHOD(Phalcon_Assets_Manager, outputInlineJs);
 PHP_METHOD(Phalcon_Assets_Manager, outputJs);
 PHP_METHOD(Phalcon_Assets_Manager, set);
+PHP_METHOD(Phalcon_Assets_Manager, setDI);
 PHP_METHOD(Phalcon_Assets_Manager, setOptions);
 PHP_METHOD(Phalcon_Assets_Manager, useImplicitOutput);
 PHP_METHOD(Phalcon_Assets_Manager, getPrefixedPath);
@@ -227,6 +229,13 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_manager_getcss, 0
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_assets_manager_getdi, 0, 0, Phalcon\\Di\\DiInterface, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_manager_getdi, 0, 0, IS_OBJECT, "Phalcon\\Di\\DiInterface", 0)
+#endif
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_assets_manager_getjs, 0, 0, Phalcon\\Assets\\Collection, 0)
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_manager_getjs, 0, 0, IS_OBJECT, "Phalcon\\Assets\\Collection", 0)
@@ -320,6 +329,10 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_assets_manager_set, 0, 2
 	ZEND_ARG_OBJ_INFO(0, collection, Phalcon\\Assets\\Collection, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_assets_manager_setdi, 0, 0, 1)
+	ZEND_ARG_OBJ_INFO(0, container, Phalcon\\Di\\DiInterface, 0)
+ZEND_END_ARG_INFO()
+
 #if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_assets_manager_setoptions, 0, 1, Phalcon\\Assets\\Manager, 0)
 #else
@@ -369,6 +382,7 @@ ZEPHIR_INIT_FUNCS(phalcon_assets_manager_method_entry) {
 	PHP_ME(Phalcon_Assets_Manager, get, arginfo_phalcon_assets_manager_get, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Manager, getCollections, arginfo_phalcon_assets_manager_getcollections, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Manager, getCss, arginfo_phalcon_assets_manager_getcss, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Assets_Manager, getDI, arginfo_phalcon_assets_manager_getdi, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Manager, getJs, arginfo_phalcon_assets_manager_getjs, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Manager, getOptions, arginfo_phalcon_assets_manager_getoptions, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Manager, output, arginfo_phalcon_assets_manager_output, ZEND_ACC_PUBLIC)
@@ -378,6 +392,7 @@ ZEPHIR_INIT_FUNCS(phalcon_assets_manager_method_entry) {
 	PHP_ME(Phalcon_Assets_Manager, outputInlineJs, arginfo_phalcon_assets_manager_outputinlinejs, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Manager, outputJs, arginfo_phalcon_assets_manager_outputjs, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Manager, set, arginfo_phalcon_assets_manager_set, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Assets_Manager, setDI, arginfo_phalcon_assets_manager_setdi, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Manager, setOptions, arginfo_phalcon_assets_manager_setoptions, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Manager, useImplicitOutput, arginfo_phalcon_assets_manager_useimplicitoutput, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Assets_Manager, getPrefixedPath, arginfo_phalcon_assets_manager_getprefixedpath, ZEND_ACC_PRIVATE)

@@ -14,7 +14,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/events/eventsawareinterface.zep.c
 	phalcon/validation/validatorinterface.zep.c
 	phalcon/validation/abstractvalidator.zep.c
-	phalcon/di/abstractinjectionaware.zep.c
 	phalcon/storage/adapter/adapterinterface.zep.c
 	phalcon/di/injectable.zep.c
 	phalcon/factory/abstractfactory.zep.c
@@ -41,6 +40,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/http/message/abstractmessage.zep.c
 	phalcon/logger/adapter/adapterinterface.zep.c
 	phalcon/logger/formatter/formatterinterface.zep.c
+	phalcon/mvc/entityinterface.zep.c
 	phalcon/mvc/model/resultsetinterface.zep.c
 	phalcon/paginator/adapter/adapterinterface.zep.c
 	phalcon/translate/adapter/adapterinterface.zep.c
@@ -55,6 +55,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/image/adapter/adapterinterface.zep.c
 	phalcon/logger/adapter/abstractadapter.zep.c
 	phalcon/logger/formatter/abstractformatter.zep.c
+	phalcon/mvc/collection/behaviorinterface.zep.c
 	phalcon/mvc/model/behaviorinterface.zep.c
 	phalcon/mvc/model/exception.zep.c
 	phalcon/mvc/view/engine/engineinterface.zep.c
@@ -75,7 +76,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/flash/abstractflash.zep.c
 	phalcon/http/message/abstractrequest.zep.c
 	phalcon/image/adapter/abstractadapter.zep.c
-	phalcon/mvc/entityinterface.zep.c
+	phalcon/mvc/collection/behavior.zep.c
 	phalcon/mvc/model/behavior.zep.c
 	phalcon/mvc/model/metadata/strategyinterface.zep.c
 	phalcon/mvc/model/resultinterface.zep.c
@@ -114,6 +115,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/http/response/headersinterface.zep.c
 	phalcon/http/responseinterface.zep.c
 	phalcon/messages/messageinterface.zep.c
+	phalcon/mvc/collectioninterface.zep.c
 	phalcon/mvc/controllerinterface.zep.c
 	phalcon/mvc/dispatcherinterface.zep.c
 	phalcon/mvc/micro/collectioninterface.zep.c
@@ -284,7 +286,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/forms/manager.zep.c
 	phalcon/helper/arr.zep.c
 	phalcon/helper/exception.zep.c
-	phalcon/helper/fs.zep.c
 	phalcon/helper/number.zep.c
 	phalcon/helper/str.zep.c
 	phalcon/html/attributes.zep.c
@@ -353,6 +354,13 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/messages/messages.zep.c
 	phalcon/mvc/application.zep.c
 	phalcon/mvc/application/exception.zep.c
+	phalcon/mvc/collection.zep.c
+	phalcon/mvc/collection/behavior/softdelete.zep.c
+	phalcon/mvc/collection/behavior/timestampable.zep.c
+	phalcon/mvc/collection/document.zep.c
+	phalcon/mvc/collection/exception.zep.c
+	phalcon/mvc/collection/manager.zep.c
+	phalcon/mvc/collection/managerinterface.zep.c
 	phalcon/mvc/controller.zep.c
 	phalcon/mvc/controller/bindmodelinterface.zep.c
 	phalcon/mvc/dispatcher.zep.c
@@ -405,6 +413,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/paginator/exception.zep.c
 	phalcon/paginator/paginatorfactory.zep.c
 	phalcon/paginator/repository.zep.c
+	phalcon/plugin.zep.c
 	phalcon/registry.zep.c
 	phalcon/security.zep.c
 	phalcon/security/exception.zep.c
