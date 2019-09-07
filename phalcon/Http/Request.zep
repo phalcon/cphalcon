@@ -11,7 +11,7 @@
 namespace Phalcon\Http;
 
 use Phalcon\Di\DiInterface;
-use Phalcon\Di\AbstractDiAware;
+use Phalcon\Di\AbstractInjectionAware;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Filter\FilterInterface;
 use Phalcon\Http\Request\File;
@@ -46,7 +46,7 @@ use stdClass;
  * $request->getLanguages();
  *```
  */
-class Request extends AbstractDiAware implements RequestInterface
+class Request extends AbstractInjectionAware implements RequestInterface
 {
     private filterService;
 

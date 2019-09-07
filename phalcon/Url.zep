@@ -11,7 +11,7 @@
 namespace Phalcon;
 
 use Phalcon\Di\DiInterface;
-use Phalcon\Di\AbstractDiAware;
+use Phalcon\Di\AbstractInjectionAware;
 use Phalcon\Mvc\RouterInterface;
 use Phalcon\Mvc\Router\RouteInterface;
 use Phalcon\Url\Exception;
@@ -34,7 +34,7 @@ use Phalcon\Url\UrlInterface;
  * );
  *```
  */
-class Url extends AbstractDiAware implements UrlInterface
+class Url extends AbstractInjectionAware implements UrlInterface
 {
     /**
      * @var null | string

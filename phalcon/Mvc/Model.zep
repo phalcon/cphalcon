@@ -15,7 +15,7 @@ use Phalcon\Db\Column;
 use Phalcon\Db\DialectInterface;
 use Phalcon\Db\Enum;
 use Phalcon\Db\RawValue;
-use Phalcon\Di\AbstractDiAware;
+use Phalcon\Di\AbstractInjectionAware;
 use Phalcon\Di;
 use Phalcon\Di\DiInterface;
 use Phalcon\Events\ManagerInterface as EventsManagerInterface;
@@ -81,7 +81,7 @@ use Serializable;
  * }
  * ```
  */
-abstract class Model extends AbstractDiAware implements EntityInterface, ModelInterface, ResultInterface, Serializable, JsonSerializable
+abstract class Model extends AbstractInjectionAware implements EntityInterface, ModelInterface, ResultInterface, Serializable, JsonSerializable
 {
     const DIRTY_STATE_DETACHED   = 2;
     const DIRTY_STATE_PERSISTENT = 0;

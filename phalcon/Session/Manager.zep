@@ -13,7 +13,7 @@ namespace Phalcon\Session;
 use InvalidArgumentException;
 use RuntimeException;
 use SessionHandlerInterface;
-use Phalcon\DI\AbstractDiAware;
+use Phalcon\DI\AbstractInjectionAware;
 use Phalcon\Di\DiInterface;
 use Phalcon\Helper\Arr;
 use Phalcon\Session\ManagerInterface;
@@ -23,7 +23,7 @@ use Phalcon\Session\ManagerInterface;
  *
  * Session manager class
  */
-class Manager extends AbstractDiAware implements ManagerInterface
+class Manager extends AbstractInjectionAware implements ManagerInterface
 {
     /**
      * @var <SessionHandlerInterface>|null

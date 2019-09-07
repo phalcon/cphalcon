@@ -11,7 +11,7 @@
 namespace Phalcon\Html;
 
 use Phalcon\Di\DiInterface;
-use Phalcon\Di\AbstractDiAware;
+use Phalcon\Di\AbstractInjectionAware;
 use Phalcon\Escaper;
 use Phalcon\Escaper\EscaperInterface;
 use Phalcon\Helper\Arr;
@@ -25,7 +25,7 @@ use Phalcon\Mvc\Model\ResultsetInterface;
  * Phalcon\Html\Tag is designed to simplify building of HTML tags. It provides a
  * set of helpers to dynamically generate HTML.
  */
-class Tag extends AbstractDiAware
+class Tag extends AbstractInjectionAware
 {
     /**
      * @var array

@@ -11,7 +11,7 @@
 namespace Phalcon;
 
 use Phalcon\Di\DiInterface;
-use Phalcon\Di\AbstractDiAware;
+use Phalcon\Di\AbstractInjectionAware;
 use Phalcon\Http\RequestInterface;
 use Phalcon\Security\Random;
 use Phalcon\Security\Exception;
@@ -34,7 +34,7 @@ use Phalcon\Session\ManagerInterface as SessionInterface;
  * }
  *```
  */
-class Security extends AbstractDiAware
+class Security extends AbstractInjectionAware
 {
     const CRYPT_DEFAULT    = 0;
     const CRYPT_BLOWFISH   = 4;
