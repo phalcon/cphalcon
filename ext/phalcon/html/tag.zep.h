@@ -12,6 +12,7 @@ PHP_METHOD(Phalcon_Html_Tag, elementClose);
 PHP_METHOD(Phalcon_Html_Tag, endForm);
 PHP_METHOD(Phalcon_Html_Tag, form);
 PHP_METHOD(Phalcon_Html_Tag, friendlyTitle);
+PHP_METHOD(Phalcon_Html_Tag, getDI);
 PHP_METHOD(Phalcon_Html_Tag, getDocType);
 PHP_METHOD(Phalcon_Html_Tag, getTitle);
 PHP_METHOD(Phalcon_Html_Tag, getTitleSeparator);
@@ -46,6 +47,7 @@ PHP_METHOD(Phalcon_Html_Tag, reset);
 PHP_METHOD(Phalcon_Html_Tag, select);
 PHP_METHOD(Phalcon_Html_Tag, setAttribute);
 PHP_METHOD(Phalcon_Html_Tag, setAttributes);
+PHP_METHOD(Phalcon_Html_Tag, setDI);
 PHP_METHOD(Phalcon_Html_Tag, setDocType);
 PHP_METHOD(Phalcon_Html_Tag, setTitle);
 PHP_METHOD(Phalcon_Html_Tag, setTitleSeparator);
@@ -149,6 +151,13 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_tag_friendlytitle, 
 	ZEND_ARG_INFO(0, text)
 #endif
 	ZEND_ARG_ARRAY_INFO(0, parameters, 0)
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_html_tag_getdi, 0, 0, Phalcon\\Di\\DiInterface, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_tag_getdi, 0, 0, IS_OBJECT, "Phalcon\\Di\\DiInterface", 0)
+#endif
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
@@ -585,6 +594,10 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_tag_setattributes, 
 #endif
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_html_tag_setdi, 0, 0, 1)
+	ZEND_ARG_OBJ_INFO(0, container, Phalcon\\Di\\DiInterface, 0)
+ZEND_END_ARG_INFO()
+
 #if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_html_tag_setdoctype, 0, 1, Phalcon\\Html\\Tag, 0)
 #else
@@ -768,6 +781,7 @@ ZEPHIR_INIT_FUNCS(phalcon_html_tag_method_entry) {
 	PHP_ME(Phalcon_Html_Tag, endForm, arginfo_phalcon_html_tag_endform, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Html_Tag, form, arginfo_phalcon_html_tag_form, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Html_Tag, friendlyTitle, arginfo_phalcon_html_tag_friendlytitle, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Html_Tag, getDI, arginfo_phalcon_html_tag_getdi, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Html_Tag, getDocType, arginfo_phalcon_html_tag_getdoctype, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Html_Tag, getTitle, arginfo_phalcon_html_tag_gettitle, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Html_Tag, getTitleSeparator, arginfo_phalcon_html_tag_gettitleseparator, ZEND_ACC_PUBLIC)
@@ -802,6 +816,7 @@ ZEPHIR_INIT_FUNCS(phalcon_html_tag_method_entry) {
 	PHP_ME(Phalcon_Html_Tag, select, arginfo_phalcon_html_tag_select, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Html_Tag, setAttribute, arginfo_phalcon_html_tag_setattribute, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Html_Tag, setAttributes, arginfo_phalcon_html_tag_setattributes, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Html_Tag, setDI, arginfo_phalcon_html_tag_setdi, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Html_Tag, setDocType, arginfo_phalcon_html_tag_setdoctype, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Html_Tag, setTitle, arginfo_phalcon_html_tag_settitle, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Html_Tag, setTitleSeparator, arginfo_phalcon_html_tag_settitleseparator, ZEND_ACC_PUBLIC)

@@ -174,7 +174,7 @@ PHP_METHOD(Phalcon_Flash_Session, message) {
 	zephir_array_update_multi(&messages, &message TSRMLS_CC, SL("za"), 2, &type);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setsessionmessages", NULL, 0, &messages);
 	zephir_check_call_status();
-	RETURN_MM_NULL();
+	ZEPHIR_MM_RESTORE();
 
 }
 
@@ -215,7 +215,7 @@ PHP_METHOD(Phalcon_Flash_Session, output) {
 	}
 	ZEPHIR_CALL_METHOD(&messages, this_ptr, "getsessionmessages", NULL, 0, &_0);
 	zephir_check_call_status();
-	zephir_is_iterable(&messages, 0, "phalcon/Flash/Session.zep", 90);
+	zephir_is_iterable(&messages, 0, "phalcon/Flash/Session.zep", 88);
 	if (Z_TYPE_P(&messages) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&messages), _3, _4, _1)
 		{
