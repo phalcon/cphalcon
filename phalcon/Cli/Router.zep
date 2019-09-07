@@ -11,7 +11,7 @@
 namespace Phalcon\Cli;
 
 use Phalcon\Di\DiInterface;
-use Phalcon\Di\AbstractDiAware;
+use Phalcon\Di\AbstractInjectionAware;
 use Phalcon\Cli\Router\Route;
 use Phalcon\Cli\Router\Exception;
 
@@ -35,7 +35,7 @@ use Phalcon\Cli\Router\Exception;
  * echo $router->getTaskName();
  *```
  */
-class Router extends AbstractDiAware
+class Router extends AbstractInjectionAware
 {
     protected action;
 

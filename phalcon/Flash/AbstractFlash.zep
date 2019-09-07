@@ -12,7 +12,7 @@ namespace Phalcon\Flash;
 
 use Phalcon\Di;
 use Phalcon\Di\DiInterface;
-use Phalcon\Di\AbstractDiAware;
+use Phalcon\Di\AbstractInjectionAware;
 use Phalcon\Escaper\EscaperInterface;
 use Phalcon\Flash\Exception;
 
@@ -25,7 +25,7 @@ use Phalcon\Flash\Exception;
  * $flash->error("Cannot open the file");
  *```
  */
-abstract class AbstractFlash extends AbstractDiAware implements FlashInterface
+abstract class AbstractFlash extends AbstractInjectionAware implements FlashInterface
 {
     /**
      * @var bool
