@@ -132,8 +132,8 @@ class Uniqueness extends AbstractCombinedFieldsValidator
 
     protected function isUniqueness(<Validation> validation, var field) -> bool
     {
-        var values, convert, record, params, className, isModel, isDocument,
-            singleField;
+        var values, convert, record, params, className, isModel, singleField;
+//        var isDocument;
 
         if typeof field != "array" {
             let singleField = field,
