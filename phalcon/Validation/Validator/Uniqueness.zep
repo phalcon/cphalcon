@@ -133,6 +133,10 @@ class Uniqueness extends AbstractCombinedFieldsValidator
     protected function isUniqueness(<Validation> validation, var field) -> bool
     {
         var values, convert, record, params, className, isModel, singleField;
+/**
+ * @todo: The functionality below will be restored once the new Mongo related classes
+ *        are introduced. The new classes will use the latest PHP driver.
+ */
 //        var isDocument;
 
         if typeof field != "array" {
@@ -171,16 +175,31 @@ class Uniqueness extends AbstractCombinedFieldsValidator
         }
 
         let isModel = record instanceof ModelInterface;
+/**
+ * @todo: The functionality below will be restored once the new Mongo related classes
+ *        are introduced. The new classes will use the latest PHP driver.
+ */
 //        let isDocument = record instanceof CollectionInterface;
 
         if isModel {
             let params = this->isUniquenessModel(record, field, values);
+/**
+ * @todo: The functionality below will be restored once the new Mongo related classes
+ *        are introduced. The new classes will use the latest PHP driver.
+ */
 //        } elseif isDocument {
 //            let params = this->isUniquenessCollection(record, field, values);
         } else {
             throw new Exception(
-                "The uniqueness validator works only with Phalcon\\Mvc\\Model or Phalcon\\Mvc\\Collection"
+                "The uniqueness validator works only with Phalcon\\Mvc\\Model"
             );
+/**
+ * @todo: The functionality below will be restored once the new Mongo related classes
+ *        are introduced. The new classes will use the latest PHP driver.
+ */
+//            throw new Exception(
+//                "The uniqueness validator works only with Phalcon\\Mvc\\Model or Phalcon\\Mvc\\Collection"
+//            );
         }
 
         let className = get_class(record);
@@ -188,6 +207,11 @@ class Uniqueness extends AbstractCombinedFieldsValidator
         return {className}::count(params) == 0;
     }
 
+
+/**
+ * @todo: The functionality below will be restored once the new Mongo related classes
+ *        are introduced. The new classes will use the latest PHP driver.
+ */
 //    /**
 //     * Uniqueness method used for collection
 //     */
