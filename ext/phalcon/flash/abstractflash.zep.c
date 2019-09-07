@@ -92,6 +92,28 @@ ZEPHIR_INIT_CLASS(Phalcon_Flash_AbstractFlash) {
 }
 
 /**
+ */
+PHP_METHOD(Phalcon_Flash_AbstractFlash, getCssClasses) {
+
+	zval *this_ptr = getThis();
+
+
+	RETURN_MEMBER(getThis(), "cssClasses");
+
+}
+
+/**
+ */
+PHP_METHOD(Phalcon_Flash_AbstractFlash, getCustomTemplate) {
+
+	zval *this_ptr = getThis();
+
+
+	RETURN_MEMBER(getThis(), "customTemplate");
+
+}
+
+/**
  * Phalcon\Flash constructor
  */
 PHP_METHOD(Phalcon_Flash_AbstractFlash, __construct) {
@@ -197,18 +219,6 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, getAutoescape) {
 }
 
 /**
- * Returns the custom template set
- */
-PHP_METHOD(Phalcon_Flash_AbstractFlash, getCustomTemplate) {
-
-	zval *this_ptr = getThis();
-
-
-	RETURN_MEMBER(getThis(), "customTemplate");
-
-}
-
-/**
  * Returns the Escaper Service
  */
 PHP_METHOD(Phalcon_Flash_AbstractFlash, getEscaperService) {
@@ -250,7 +260,7 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, getEscaperService) {
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, &_2$$4, "__construct", NULL, 5, &_3$$4);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_2$$4, "phalcon/Flash/AbstractFlash.zep", 138 TSRMLS_CC);
+		zephir_throw_exception_debug(&_2$$4, "phalcon/Flash/AbstractFlash.zep", 130 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -273,7 +283,7 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, getEscaperService) {
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, &_10$$6, "__construct", NULL, 5, &_11$$6);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_10$$6, "phalcon/Flash/AbstractFlash.zep", 146 TSRMLS_CC);
+		zephir_throw_exception_debug(&_10$$6, "phalcon/Flash/AbstractFlash.zep", 138 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -540,7 +550,7 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, outputMessage) {
 			ZEPHIR_INIT_VAR(&content);
 			ZVAL_STRING(&content, "");
 		}
-		zephir_is_iterable(message, 0, "phalcon/Flash/AbstractFlash.zep", 286);
+		zephir_is_iterable(message, 0, "phalcon/Flash/AbstractFlash.zep", 278);
 		if (Z_TYPE_P(message) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(message), _1$$3)
 			{
