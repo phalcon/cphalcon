@@ -56,8 +56,14 @@ before_install:
     fi
 
     [ -d ~/bin ] || mkdir ~/bin
-    export DEFAULT_COMPOSER_FLAGS=("--no-interaction" "--no-ansi" "--no-progress" "--no-suggest")
     export PHP_PEAR_PHP_BIN="$(phpenv which php)"
+
+    DEFAULT_COMPOSER_FLAGS=("--no-interaction" "--no-ansi" "--no-progress" "--no-suggest")
+    if [ "$(php-config --vernum)" -ge "70400" ]
+    then
+      DEFAULT_COMPOSER_FLAGS+=("--ignore-platform-reqs")
+    fi
+    export DEFAULT_COMPOSER_FLAGS
 
     # Hide "You are in 'detached HEAD' state" message
     git config --global advice.detachedHead false
