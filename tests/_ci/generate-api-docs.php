@@ -32,7 +32,7 @@ foreach ($iteratorDocs as $fileName) {
     $title    = str_replace('Phalcon\\', '', $fileName);
     $key      = str_replace('.zep', '', $split[0]);
 
-    $documents[$key]['title']           = 'Phalcon\\' . $key; //$split[0];
+    $documents[$key]['title']           = 'Phalcon\\' . $key;
     $documents[$key]['docs'][$fileName] = $fileName;
 
     if (strpos($documents[$key]['title'], 'Url') > 0) {
@@ -282,12 +282,8 @@ function parseMethods(array $item): array
         $line = $method['docblock'] ?? '';
         $line = getDocblockMethod($line);
 
-        $signature  = '';
         $visibility = $method['visibility'] ?? [];
-        foreach ($visibility as $vis) {
-            $signature .= ' ' . $vis;
-        }
-
+        $signature  = join(' ', $visibility);
         $signature .= ' function ' . $method['name'] . '(';
 
         $params  = $method['parameters'] ?? [];
