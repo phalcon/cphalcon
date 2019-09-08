@@ -31,7 +31,7 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
     /**
      * @var bool
      */
-    protected autoescape = true;
+    protected autoescape = true { get };
 
     /**
      * @var bool
@@ -102,14 +102,6 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
     public function error(string message) -> string
     {
         return this->{"message"}("error", message);
-    }
-
-    /**
-     * Returns the autoescape mode in generated html
-     */
-    public function getAutoescape() -> bool
-    {
-        return this->autoescape;
     }
 
     /**
