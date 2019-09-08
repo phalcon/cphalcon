@@ -140,10 +140,13 @@ title: '{$document['title']}'
         if (count($methods) > 0) {
             $elements = [];
             foreach ($methods as $method) {
+                // Ignore method params as they are already in signature
+                $methodComment = preg_match('/\@param/', $method['comment']) ? '' : $method['comment'];
+
                 $elements[] = '```php' . PHP_EOL
                     . $method['signature'] . PHP_EOL
                     . '```' . PHP_EOL
-                    . $method['comment'] . PHP_EOL;
+                    . $methodComment . PHP_EOL;
             }
             $signature = implode(PHP_EOL, $elements);
             $output    .= "
