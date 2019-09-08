@@ -140,7 +140,7 @@ title: '{$document['title']}'
         if (count($methods) > 0) {
             $elements = [];
             foreach ($methods as $method) {
-                // Ignore method params as they are already in signature
+                // Ignore method params lines as they are already in signature
                 $methodComment = preg_replace('/\@param(.+?)\n/', '', $method['comment']);
 
                 $elements[] = '```php' . PHP_EOL
