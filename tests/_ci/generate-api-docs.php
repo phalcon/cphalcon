@@ -332,7 +332,7 @@ function parseMethods(array $item): array
                         if (1 === $li['collection']) {
                             $rt .= '[]';
                         }
-//  [
+
                         $retTypes[] = $rt;
                     } else {
                         $retTypes[] = transformType($li['data-type']);
@@ -471,41 +471,39 @@ function getDocblock(string $source): string
     return '/' . $doc . '/';
 }
 
-function orderMethods($methods): array
+function orderMethods(array $methods): array
 {
-    if (is_array($methods)) {
-        $public    = [];
-        $reserved  = [];
-        $protected = [];
+    $public    = [];
+    $reserved  = [];
+    $protected = [];
 
-        foreach ($methods as $name => $method) {
-            if (substr($name, 0, 2) === '__') {
-                $reserved[$name] = $method;
+    foreach ($methods as $name => $method) {
+        if (substr($name, 0, 2) === '__') {
+            $reserved[$name] = $method;
 
-                continue;
-            }
-
-            if (strpos($method['signature'], 'public function') !== false) {
-                $public[$name] = $method;
-
-                continue;
-            }
-
-            if (strpos($method['signature'], 'protected function') !== false) {
-                $protected[$name] = $method;
-
-                continue;
-            }
+            continue;
         }
 
-        ksort($reserved);
-        ksort($public);
-        ksort($protected);
+        if (strpos($method['signature'], 'public function') !== false ||
+            strpos($method['signature'], 'public static function') !== false) {
+            $public[$name] = $method;
 
-        return array_merge($reserved, $public, $protected);
-    } else {
-        return $methods;
+            continue;
+        }
+
+        if (strpos($method['signature'], 'protected function') !== false ||
+            strpos($method['signature'], 'protected static function') !== false) {
+            $protected[$name] = $method;
+
+            continue;
+        }
     }
+
+    ksort($reserved);
+    ksort($public);
+    ksort($protected);
+
+    return array_merge($reserved, $public, $protected);
 }
 
 function transformType(string $type, string $value = ''): string
