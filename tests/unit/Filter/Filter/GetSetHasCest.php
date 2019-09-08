@@ -12,14 +12,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Filter;
 
-use Phalcon\Filter\Filter;
+use Phalcon\Filter;
 use Phalcon\Test\Fixtures\Service\HelloService;
 use UnitTester;
 
 class GetSetHasCest
 {
     /**
-     * Tests Phalcon\Filter\Filter :: get()/set()/has() - has()
+     * Tests Phalcon\Filter :: get()/set()/has() - has()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-01-19
@@ -40,7 +40,7 @@ class GetSetHasCest
     }
 
     /**
-     * Tests Phalcon\Filter\Filter :: get()/set()/has() - get()
+     * Tests Phalcon\Filter :: get()/set()/has() - get()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
@@ -64,7 +64,7 @@ class GetSetHasCest
     }
 
     /**
-     * Tests Phalcon\Filter\Filter :: get()/set()/has() - get() same
+     * Tests Phalcon\Filter :: get()/set()/has() - get() same
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
@@ -93,7 +93,7 @@ class GetSetHasCest
     }
 
     /**
-     * Tests Phalcon\Filter\Filter :: get()/set()/has() - set()
+     * Tests Phalcon\Filter :: get()/set()/has() - set()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13

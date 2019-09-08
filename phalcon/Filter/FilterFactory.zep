@@ -10,7 +10,7 @@
 
 namespace Phalcon\Filter;
 
-use Phalcon\Filter\Filter;
+use Phalcon\Filter;
 
 class FilterFactory
 {

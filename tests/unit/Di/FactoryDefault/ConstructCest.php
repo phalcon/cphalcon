@@ -19,7 +19,7 @@ use Phalcon\Crypt;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Escaper;
 use Phalcon\Events\Manager as ManagerEvents;
-use Phalcon\Filter\Filter;
+use Phalcon\Filter;
 use Phalcon\Flash\Direct;
 use Phalcon\Flash\Session;
 use Phalcon\Http\Request;

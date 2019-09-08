@@ -12,14 +12,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Filter\Filter;
 
-use Phalcon\Filter\Filter;
+use Phalcon\Filter;
 use Phalcon\Test\Fixtures\Filter\Sanitize\IPv4;
 use UnitTester;
 
 class CustomCest
 {
     /**
-     * Tests Phalcon\Filter\Filter :: custom has()
+     * Tests Phalcon\Filter :: custom has()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-01-19
@@ -42,7 +42,7 @@ class CustomCest
     }
 
     /**
-     * Tests Phalcon\Filter\Filter :: custom sanitizer
+     * Tests Phalcon\Filter :: custom sanitizer
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2019-01-19
