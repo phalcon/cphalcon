@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Filter\FilterFactory;
 
 use Codeception\Example;
-use Phalcon\Filter\Filter;
+use Phalcon\Filter;
 use Phalcon\Filter\FilterFactory;
 use Phalcon\Filter\FilterInterface;
 use Phalcon\Filter\Sanitize\AbsInt;

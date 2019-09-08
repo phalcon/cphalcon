@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Filter;
+namespace Phalcon;
 
 use Closure;
 use Phalcon\Filter\Exception;
