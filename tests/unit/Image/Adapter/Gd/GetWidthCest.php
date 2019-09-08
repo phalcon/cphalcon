@@ -13,10 +13,13 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Image\Adapter\Gd;
 
 use Phalcon\Image\Adapter\Gd;
+use Phalcon\Test\Fixtures\Traits\GdTrait;
 use UnitTester;
 
 class GetWidthCest
 {
+    use GdTrait;
+
     /**
      * Tests Phalcon\Image\Adapter\Gd :: getWidth()
      *
@@ -34,7 +37,6 @@ class GetWidthCest
             $gd->getWidth()
         );
     }
-
 
     /**
      * Tests Phalcon\Image\Adapter\Gd :: getWidth()
