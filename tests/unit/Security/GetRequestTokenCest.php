@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -47,9 +47,29 @@ class GetRequestTokenCest
     }
 
     /**
+     * Tests Phalcon\Security :: getRequestToken() and getSessionToken() without session initialization
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-09-02
+     */
+    public function securityGetTokensWithoutSessionInitialization(UnitTester $I)
+    {
+        $I->wantToTest('Security - getRequestToken() and getSessionToken() without session initialization');
+
+        $this->startSession();
+
+        $container = $this->getDI();
+        $security = new Security();
+        $security->setDI($container);
+
+        $I->assertNull($security->getSessionToken());
+        $I->assertNull($security->getRequestToken());
+    }
+
+    /**
      * Tests Phalcon\Security :: getRequestToken() and getSessionToken()
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function securityGetRequestTokenAndGetSessionToken(UnitTester $I)

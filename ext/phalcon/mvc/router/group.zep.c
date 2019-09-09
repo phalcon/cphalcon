@@ -25,7 +25,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -872,7 +872,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addRoute) {
 	ZEPHIR_CALL_METHOD(NULL, &route, "__construct", NULL, 105, &_2, &mergedPaths, httpMethods);
 	zephir_check_call_status();
 	zephir_update_property_array_append(this_ptr, SL("routes"), &route);
-	ZEPHIR_CALL_METHOD(NULL, &route, "setgroup", NULL, 495, this_ptr);
+	ZEPHIR_CALL_METHOD(NULL, &route, "setgroup", NULL, 496, this_ptr);
 	zephir_check_call_status();
 	RETURN_CCTOR(&route);
 

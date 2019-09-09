@@ -27,7 +27,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -74,7 +74,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Debug) {
 	/**
 	 * @var string
 	 */
-	zend_declare_property_string(phalcon_debug_ce, SL("uri"), "https://assets.phalconphp.com/debug/4.0.x/", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_debug_ce, SL("uri"), "https://assets.phalcon.io/debug/4.0.x/", ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	phalcon_debug_ce->create_object = zephir_init_properties_Phalcon_Debug;
 	return SUCCESS;
@@ -240,7 +240,7 @@ PHP_METHOD(Phalcon_Debug, getVersion) {
 	ZEPHIR_CALL_CE_STATIC(&_3, phalcon_version_ce, "getpart", &_1, 0, &_2);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_4);
-	ZEPHIR_CONCAT_SVSVS(&_4, "https://docs.phalconphp.com/", &_0, ".", &_3, "/en/");
+	ZEPHIR_CONCAT_SVSVS(&_4, "https://docs.phalcon.io/", &_0, ".", &_3, "/en/");
 	zephir_array_update_string(&link, SL("action"), &_4, PH_COPY | PH_SEPARATE);
 	ZEPHIR_CALL_CE_STATIC(&_5, phalcon_version_ce, "get", &_6, 0);
 	zephir_check_call_status();
@@ -1454,7 +1454,7 @@ PHP_METHOD(Phalcon_Debug, showTraceItem) {
 			ZEPHIR_INIT_VAR(&prepareUriClass);
 			zephir_fast_str_replace(&prepareUriClass, &_6$$4, &_7$$4, &className TSRMLS_CC);
 			ZEPHIR_INIT_VAR(&classNameWithLink);
-			ZEPHIR_CONCAT_SVSVS(&classNameWithLink, "<a target='_new' href='https://docs.phalconphp.com/4.0/en/api/", &prepareUriClass, "'>", &className, "</a>");
+			ZEPHIR_CONCAT_SVSVS(&classNameWithLink, "<a target='_new' href='https://docs.phalcon.io/4.0/en/api/", &prepareUriClass, "'>", &className, "</a>");
 		} else {
 			ZEPHIR_INIT_VAR(&classReflection);
 			object_init_ex(&classReflection, zephir_get_internal_ce(SL("reflectionclass")));

@@ -2,7 +2,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -11,13 +11,13 @@
 namespace Phalcon\Validation\Validator;
 
 use Phalcon\Messages\Message;
+use Phalcon\Mvc\Model;
+use Phalcon\Mvc\ModelInterface;
 use Phalcon\Validation;
 use Phalcon\Validation\AbstractCombinedFieldsValidator;
 use Phalcon\Validation\Exception;
-use Phalcon\Mvc\ModelInterface;
-use Phalcon\Mvc\CollectionInterface;
-use Phalcon\Mvc\Model;
-use Phalcon\Mvc\Collection;
+//use Phalcon\Mvc\CollectionInterface;
+//use Phalcon\Mvc\Collection;
 
 /**
  * Check that a field is unique in the related table
@@ -132,8 +132,11 @@ class Uniqueness extends AbstractCombinedFieldsValidator
 
     protected function isUniqueness(<Validation> validation, var field) -> bool
     {
-        var values, convert, record, params, className, isModel, isDocument,
-            singleField;
+        var values, convert, record, params, className, isModel, singleField;
+//
+// @todo: Restore when new Collection is reintroduced
+//
+//        var isDocument;
 
         if typeof field != "array" {
             let singleField = field,
@@ -170,17 +173,29 @@ class Uniqueness extends AbstractCombinedFieldsValidator
             }
         }
 
-        let isModel = record instanceof ModelInterface,
-            isDocument = record instanceof CollectionInterface;
+        let isModel = record instanceof ModelInterface;
+//
+// @todo: Restore when new Collection is reintroduced
+//
+//        let isDocument = record instanceof CollectionInterface;
 
         if isModel {
             let params = this->isUniquenessModel(record, field, values);
-        } elseif isDocument {
-            let params = this->isUniquenessCollection(record, field, values);
+//
+// @todo: Restore when new Collection is reintroduced
+//
+//        } elseif isDocument {
+//            let params = this->isUniquenessCollection(record, field, values);
         } else {
             throw new Exception(
-                "The uniqueness validator works only with Phalcon\\Mvc\\Model or Phalcon\\Mvc\\Collection"
+                "The uniqueness validator works only with Phalcon\\Mvc\\Model"
             );
+//
+// @todo: Restore when new Collection is reintroduced
+//
+//            throw new Exception(
+//                "The uniqueness validator works only with Phalcon\\Mvc\\Model or Phalcon\\Mvc\\Collection"
+//            );
         }
 
         let className = get_class(record);
@@ -188,77 +203,81 @@ class Uniqueness extends AbstractCombinedFieldsValidator
         return {className}::count(params) == 0;
     }
 
-    /**
-     * Uniqueness method used for collection
-     */
-    protected function isUniquenessCollection(var record, array field, array values)
-    {
-        var exceptConditions, fieldExcept, notInValues, value, singleField,
-            params, except, singleExcept;
 
-        let exceptConditions = [];
-        let params = [
-            "conditions" : []
-        ];
-
-        for singleField in field {
-            let fieldExcept = null;
-            let notInValues = [];
-            let value = values[singleField];
-
-            let except = this->getOption("except");
-
-            let params["conditions"][singleField] = value;
-
-            if except {
-                if typeof except == "array" && count(field) > 1 {
-                    if isset except[singleField] {
-                        let fieldExcept = except[singleField];
-                    }
-                }
-
-                if fieldExcept != null {
-                    if typeof fieldExcept == "array" {
-                        for singleExcept in fieldExcept {
-                            let notInValues[] = singleExcept;
-                        }
-
-                        let exceptConditions[singleField] = [
-                            "$nin": notInValues
-                        ];
-                    } else {
-                        let exceptConditions[singleField] = [
-                            "$ne": fieldExcept
-                        ];
-                    }
-                } elseif typeof except == "array" && count(field) == 1 {
-                    for singleExcept in except {
-                        let notInValues[] = singleExcept;
-                    }
-
-                    let params["conditions"][singleField] = [
-                        "$nin": notInValues
-                    ];
-                } elseif count(field) == 1 {
-                    let params["conditions"][singleField] = [
-                        "$ne": except
-                    ];
-                }
-            }
-        }
-
-        if record->getDirtyState() == Collection::DIRTY_STATE_PERSISTENT {
-            let params["conditions"]["_id"] = [
-                "$ne": record->getId()
-            ];
-        }
-
-        if !empty exceptConditions {
-            let params["conditions"]["$or"] = [exceptConditions];
-        }
-
-        return params;
-    }
+//
+// @todo: Restore when new Collection is reintroduced
+//
+//    /**
+//     * Uniqueness method used for collection
+//     */
+//    protected function isUniquenessCollection(var record, array field, array values)
+//    {
+//        var exceptConditions, fieldExcept, notInValues, value, singleField,
+//            params, except, singleExcept;
+//
+//        let exceptConditions = [];
+//        let params = [
+//            "conditions" : []
+//        ];
+//
+//        for singleField in field {
+//            let fieldExcept = null;
+//            let notInValues = [];
+//            let value = values[singleField];
+//
+//            let except = this->getOption("except");
+//
+//            let params["conditions"][singleField] = value;
+//
+//            if except {
+//                if typeof except == "array" && count(field) > 1 {
+//                    if isset except[singleField] {
+//                        let fieldExcept = except[singleField];
+//                    }
+//                }
+//
+//                if fieldExcept != null {
+//                    if typeof fieldExcept == "array" {
+//                        for singleExcept in fieldExcept {
+//                            let notInValues[] = singleExcept;
+//                        }
+//
+//                        let exceptConditions[singleField] = [
+//                            "$nin": notInValues
+//                        ];
+//                    } else {
+//                        let exceptConditions[singleField] = [
+//                            "$ne": fieldExcept
+//                        ];
+//                    }
+//                } elseif typeof except == "array" && count(field) == 1 {
+//                    for singleExcept in except {
+//                        let notInValues[] = singleExcept;
+//                    }
+//
+//                    let params["conditions"][singleField] = [
+//                        "$nin": notInValues
+//                    ];
+//                } elseif count(field) == 1 {
+//                    let params["conditions"][singleField] = [
+//                        "$ne": except
+//                    ];
+//                }
+//            }
+//        }
+//
+//        if record->getDirtyState() == Collection::DIRTY_STATE_PERSISTENT {
+//            let params["conditions"]["_id"] = [
+//                "$ne": record->getId()
+//            ];
+//        }
+//
+//        if !empty exceptConditions {
+//            let params["conditions"]["$or"] = [exceptConditions];
+//        }
+//
+//        return params;
+//    }
 
     /**
      * Uniqueness method used for model

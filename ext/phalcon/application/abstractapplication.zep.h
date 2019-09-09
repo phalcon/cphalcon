@@ -48,9 +48,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_application_abstractappl
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_application_abstractapplication_registermodules, 0, 1, Phalcon\\Application\\Application, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_application_abstractapplication_registermodules, 0, 1, Phalcon\\Application\\AbstractApplication, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_application_abstractapplication_registermodules, 0, 1, IS_OBJECT, "Phalcon\\Application\\Application", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_application_abstractapplication_registermodules, 0, 1, IS_OBJECT, "Phalcon\\Application\\AbstractApplication", 0)
 #endif
 	ZEND_ARG_ARRAY_INFO(0, modules, 0)
 #if PHP_VERSION_ID >= 70200
@@ -61,9 +61,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_application_abstractappl
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_application_abstractapplication_setdefaultmodule, 0, 1, Phalcon\\Application\\Application, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_application_abstractapplication_setdefaultmodule, 0, 1, Phalcon\\Application\\AbstractApplication, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_application_abstractapplication_setdefaultmodule, 0, 1, IS_OBJECT, "Phalcon\\Application\\Application", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_application_abstractapplication_setdefaultmodule, 0, 1, IS_OBJECT, "Phalcon\\Application\\AbstractApplication", 0)
 #endif
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, defaultModule, IS_STRING, 0)
@@ -73,9 +73,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_application_abstractappl
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_application_abstractapplication_seteventsmanager, 0, 1, Phalcon\\Application\\Application, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_application_abstractapplication_seteventsmanager, 0, 1, Phalcon\\Application\\AbstractApplication, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_application_abstractapplication_seteventsmanager, 0, 1, IS_OBJECT, "Phalcon\\Application\\Application", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_application_abstractapplication_seteventsmanager, 0, 1, IS_OBJECT, "Phalcon\\Application\\AbstractApplication", 0)
 #endif
 	ZEND_ARG_OBJ_INFO(0, eventsManager, Phalcon\\Events\\ManagerInterface, 0)
 ZEND_END_ARG_INFO()

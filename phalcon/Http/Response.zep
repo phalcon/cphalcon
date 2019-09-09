@@ -2,7 +2,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -14,6 +14,7 @@ use DateTime;
 use DateTimeZone;
 use Phalcon\Di;
 use Phalcon\Di\DiInterface;
+use Phalcon\Helper\Fs;
 use Phalcon\Http\Response\Exception;
 use Phalcon\Http\Response\HeadersInterface;
 use Phalcon\Http\Response\CookiesInterface;
@@ -546,18 +547,36 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     public function setFileToSend(string filePath, attachmentName = null, attachment = true) -> <ResponseInterface>
     {
         var basePath;
+        var basePathEncoding = "ASCII";
 
         if typeof attachmentName != "string" {
-            let basePath = basename(filePath);
+            let basePath = Fs::basename(filePath);
         } else {
             let basePath = attachmentName;
         }
-
         if attachment {
+            // mbstring is a non-default extension
+            if function_exists("mb_detect_encoding") {
+                let basePathEncoding = mb_detect_encoding(
+                    basePath,
+                    mb_detect_order(),
+                    true
+                );
+            }                
             this->setRawHeader("Content-Description: File Transfer");
             this->setRawHeader("Content-Type: application/octet-stream");
-            this->setRawHeader("Content-Disposition: attachment; filename=" . basePath . ";");
             this->setRawHeader("Content-Transfer-Encoding: binary");
+            // According RFC2231 section-7, non-ASCII header param must add a extended one to indicate charset
+            if basePathEncoding != "ASCII" {
+                let basePath = rawurlencode(basePath);
+                this->setRawHeader("Content-Disposition: attachment; filename=" . basePath . "; filename*=". strtolower(basePathEncoding) . "''" . basePath);
+            } else {
+                // According RFC2045 section-5.1, header param value contains special chars must be as quoted-string
+                // Always quote value is accepted because the special chars is a large list
+                // According RFC822 appendix-D, CR "\" <"> must to be quoted in syntax rule of quoted-string
+                let basePath = addcslashes(basePath, "\15\17\\\"");
+                this->setRawHeader("Content-Disposition: attachment; filename=\"" . basePath . "\"");
+            }
         }
 
         let this->file = filePath;

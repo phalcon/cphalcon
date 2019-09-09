@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -25,7 +25,7 @@ class TextAreaCest
     /**
      * Tests Phalcon\Html\Tag :: textArea()
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function htmlTagTextArea(UnitTester $I)
@@ -41,7 +41,7 @@ class TextAreaCest
     /**
      * Tests Phalcon\Html\Tag :: textArea() - array as a parameters and id in it
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function htmlTagTextAreaWithId(UnitTester $I)
@@ -63,7 +63,7 @@ class TextAreaCest
     /**
      * Tests Phalcon\Html\Tag :: textArea() - setAttribute()
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function htmlTagTextAreaSetAttribute(UnitTester $I)
@@ -86,7 +86,7 @@ class TextAreaCest
     /**
      * Tests Phalcon\Html\Tag :: textArea() - setAttribute() element not present
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function htmlTagTextAreaSetAttributeElementNotPresent(UnitTester $I)
@@ -109,7 +109,7 @@ class TextAreaCest
     /**
      * Tests Phalcon\Html\Tag :: textArea() - setAttribute() with newline
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-03
      */
     public function htmlTagTextAreaSetAttributeNewLine(UnitTester $I)

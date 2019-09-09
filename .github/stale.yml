@@ -14,6 +14,8 @@ exemptLabels:
   - "Bug - High"
   - WIP
   - Locked
+  - "Feature - NFR"
+  - "Enhancement"
 
 # Set to true to ignore issues in a project (defaults to false)
 exemptProjects: false
@@ -26,14 +28,14 @@ staleLabel: stale
 
 # Comment to post when marking as stale. Set to `false` to disable
 markComment: >
-  Thank you for contributing to this issue. As it has been 90 days since the last activity, we are automatically closing the issue. This is often because the request was already solved in some way and it just wasn't updated or it's no longer applicable. If that's not the case, please feel free to either reopen this issue or open a new one. We will be more than happy to look at it again! You can read more here: https://blog.phalconphp.com/post/github-closing-old-issues
+  Thank you for contributing to this issue. As it has been 90 days since the last activity, we are automatically closing the issue. This is often because the request was already solved in some way and it just wasn't updated or it's no longer applicable. If that's not the case, please feel free to either reopen this issue or open a new one. We will be more than happy to look at it again! You can read more here: https://blog.phalcon.io/post/github-closing-old-issues
 # Comment to post when removing the stale label.
 # unmarkComment: >
 #   Your comment here.
 
 # Comment to post when closing a stale Issue or Pull Request.
 #closeComment: >
-#  Thank you for contributing to this issue. As it has been 90 days since the last activity, we are automatically closing the issue. This is often because the request was already solved in some way and it just wasn't updated or it's no longer applicable. If that's not the case, please feel free to either reopen this issue or open a new one. We will be more than happy to look at it again! You can read more here: https://blog.phalconphp.com/post/github-closing-old-issues
+#  Thank you for contributing to this issue. As it has been 90 days since the last activity, we are automatically closing the issue. This is often because the request was already solved in some way and it just wasn't updated or it's no longer applicable. If that's not the case, please feel free to either reopen this issue or open a new one. We will be more than happy to look at it again! You can read more here: https://blog.phalcon.io/post/github-closing-old-issues
 
 # Limit the number of actions per hour, from 1-30. Default is 30
 limitPerRun: 30

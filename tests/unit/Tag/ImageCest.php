@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -21,7 +21,7 @@ class ImageCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: image() - string as a parameter
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function tagImageStringParameter(UnitTester $I)
@@ -38,7 +38,7 @@ class ImageCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: image() - array as a parameter
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function tagImageArrayParameter(UnitTester $I)
@@ -58,7 +58,7 @@ class ImageCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: image() - array as a parameters and src in it
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function tagImageArrayParameterWithSrc(UnitTester $I)
@@ -79,7 +79,7 @@ class ImageCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: image() - name and no src in parameter
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function tagImageArrayParameterWithNameNoSrc(UnitTester $I)
@@ -99,7 +99,7 @@ class ImageCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: image() - setDefault
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function tagImageWithSetDefault(UnitTester $I)
@@ -119,7 +119,7 @@ class ImageCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: image() - displayTo
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function tagImageWithDisplayTo(UnitTester $I)
@@ -139,7 +139,7 @@ class ImageCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: image() - setDefault and element not present
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function tagImageWithSetDefaultElementNotPresent(UnitTester $I)
@@ -159,7 +159,7 @@ class ImageCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: image() - displayTo and element not present
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function tagImageWithDisplayToElementNotPresent(UnitTester $I)
@@ -179,7 +179,7 @@ class ImageCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: image() - string parameter and local link
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function tagImageStringParameterLocalLink(UnitTester $I)
@@ -206,23 +206,23 @@ class ImageCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: image() - string parameter and remote link
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function tagImageStringParameterRemoteLink(UnitTester $I)
     {
         $I->wantToTest('Tag :: image() - string parameter and remote link');
 
-        $options  = 'http://phalconphp.com/img/hello.gif';
-        $expected = '<img src="http://phalconphp.com/img/hello.gif" />';
+        $options  = 'http://phalcon.io/img/hello.gif';
+        $expected = '<img src="http://phalcon.io/img/hello.gif" />';
 
         Tag::setDocType(Tag::XHTML10_STRICT);
         $actual = Tag::image($options, false);
 
         $I->assertEquals($expected, $actual);
 
-        $options  = 'http://phalconphp.com/img/hello.gif';
-        $expected = '<img src="http://phalconphp.com/img/hello.gif">';
+        $options  = 'http://phalcon.io/img/hello.gif';
+        $expected = '<img src="http://phalcon.io/img/hello.gif">';
 
         Tag::setDocType(Tag::HTML5);
         $actual = Tag::image($options, false);
@@ -233,7 +233,7 @@ class ImageCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: image() - array parameter and local link
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function tagImageArrayParameterLocalLink(UnitTester $I)
@@ -266,7 +266,7 @@ class ImageCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: image() - array parameter and remote link
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function tagImageArrayParameterRemoteLink(UnitTester $I)
@@ -274,7 +274,7 @@ class ImageCest extends TagSetup
         $I->wantToTest('Tag :: image() - array parameter and remote link');
 
         $options = [
-            'http://phalconphp.com/img/hello.gif',
+            'http://phalcon.io/img/hello.gif',
             'alt' => 'Hello',
         ];
 
@@ -283,12 +283,12 @@ class ImageCest extends TagSetup
         );
 
         $I->assertEquals(
-            '<img src="http://phalconphp.com/img/hello.gif" alt="Hello" />',
+            '<img src="http://phalcon.io/img/hello.gif" alt="Hello" />',
             Tag::image($options, false)
         );
 
         $options = [
-            'http://phalconphp.com/img/hello.gif',
+            'http://phalcon.io/img/hello.gif',
             'alt' => 'Hello',
         ];
 
@@ -297,7 +297,7 @@ class ImageCest extends TagSetup
         );
 
         $I->assertEquals(
-            '<img src="http://phalconphp.com/img/hello.gif" alt="Hello">',
+            '<img src="http://phalcon.io/img/hello.gif" alt="Hello">',
             Tag::image($options, false)
         );
     }

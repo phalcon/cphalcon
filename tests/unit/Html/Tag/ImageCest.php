@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -25,7 +25,7 @@ class ImageCest
     /**
      * Tests Phalcon\Html\Tag :: image()
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function htmlTagImage(UnitTester $I)
@@ -45,7 +45,7 @@ class ImageCest
     /**
      * Tests Phalcon\Html\Tag :: image() - remote
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function htmlTagImageRemote(UnitTester $I)
@@ -54,12 +54,12 @@ class ImageCest
         $tag = new Tag();
         $tag->setDI($this->container);
 
-        $name     = 'http://phalconphp.com/img/hello.gif';
+        $name     = 'http://phalcon.io/img/hello.gif';
         $options  = [
             'local' => false,
             'alt'   => 'picture',
         ];
-        $expected = '<img src="http://phalconphp.com/img/hello.gif" alt="picture"';
+        $expected = '<img src="http://phalcon.io/img/hello.gif" alt="picture"';
 
         $this->testFieldParameter($I, $tag, $name, 'image', $options, $expected);
         $this->testFieldParameter($I, $tag, $name, 'image', $options, $expected, true);
@@ -68,7 +68,7 @@ class ImageCest
     /**
      * Tests Phalcon\Html\Tag :: image() - params
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function htmlTagImageParameters(UnitTester $I)
@@ -90,7 +90,7 @@ class ImageCest
     /**
      * Tests Phalcon\Html\Tag :: image() - params src
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function htmlTagImageParametersSrc(UnitTester $I)
@@ -113,7 +113,7 @@ class ImageCest
     /**
      * Tests Phalcon\Html\Tag :: image() - setAttribute()
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function htmlTagImageSetAttribute(UnitTester $I)
@@ -135,7 +135,7 @@ class ImageCest
     /**
      * Tests Phalcon\Html\Tag :: image() - setAttribute() element not present
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function htmlTagImageSetAttributeElementNotPresent(UnitTester $I)

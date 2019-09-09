@@ -24,7 +24,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -79,9 +79,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Http_Response_Cookies) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Http\\Response, Cookies, phalcon, http_response_cookies, phalcon_http_response_cookies_method_entry, 0);
-
-	zend_declare_property_null(phalcon_http_response_cookies_ce, SL("container"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Http\\Response, Cookies, phalcon, http_response_cookies, phalcon_di_abstractinjectionaware_ce, phalcon_http_response_cookies_method_entry, 0);
 
 	zend_declare_property_null(phalcon_http_response_cookies_ce, SL("cookies"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
@@ -98,7 +96,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Response_Cookies) {
 	phalcon_http_response_cookies_ce->create_object = zephir_init_properties_Phalcon_Http_Response_Cookies;
 
 	zend_class_implements(phalcon_http_response_cookies_ce TSRMLS_CC, 1, phalcon_http_response_cookiesinterface_ce);
-	zend_class_implements(phalcon_http_response_cookies_ce TSRMLS_CC, 1, phalcon_di_injectionawareinterface_ce);
 	return SUCCESS;
 
 }
@@ -273,18 +270,6 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, getCookies) {
 }
 
 /**
- * Returns the internal dependency injector
- */
-PHP_METHOD(Phalcon_Http_Response_Cookies, getDI) {
-
-	zval *this_ptr = getThis();
-
-
-	RETURN_MEMBER(getThis(), "container");
-
-}
-
-/**
  * Check if a cookie is defined in the bag or exists in the _COOKIE
  * superglobal
  */
@@ -375,13 +360,13 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, send) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_CALL_FUNCTION(&_0, "headers_sent", NULL, 362);
+	ZEPHIR_CALL_FUNCTION(&_0, "headers_sent", NULL, 365);
 	zephir_check_call_status();
 	if (zephir_is_true(&_0)) {
 		RETURN_MM_BOOL(0);
 	}
 	zephir_read_property(&_1, this_ptr, SL("cookies"), PH_NOISY_CC | PH_READONLY);
-	zephir_is_iterable(&_1, 0, "phalcon/Http/Response/Cookies.zep", 214);
+	zephir_is_iterable(&_1, 0, "phalcon/Http/Response/Cookies.zep", 204);
 	if (Z_TYPE_P(&_1) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_1), _2)
 		{
@@ -603,7 +588,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set) {
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(NULL, &_12$$7, "__construct", NULL, 5, &_13$$7);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_12$$7, "phalcon/Http/Response/Cookies.zep", 298 TSRMLS_CC);
+			zephir_throw_exception_debug(&_12$$7, "phalcon/Http/Response/Cookies.zep", 288 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -620,24 +605,6 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set) {
 		}
 	}
 	RETURN_THIS();
-
-}
-
-/**
- * Sets the dependency injector
- */
-PHP_METHOD(Phalcon_Http_Response_Cookies, setDI) {
-
-	zval *container, container_sub;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&container_sub);
-
-	zephir_fetch_params_without_memory_grow(1, 0, &container);
-
-
-
-	zephir_update_property_zval(this_ptr, SL("container"), container);
 
 }
 

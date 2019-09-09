@@ -2,7 +2,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -11,11 +11,11 @@
 namespace Phalcon;
 
 use Phalcon\Di\DiInterface;
-use Phalcon\Url\UrlInterface;
-use Phalcon\Url\Exception;
+use Phalcon\Di\AbstractInjectionAware;
 use Phalcon\Mvc\RouterInterface;
 use Phalcon\Mvc\Router\RouteInterface;
-use Phalcon\Di\InjectionAwareInterface;
+use Phalcon\Url\Exception;
+use Phalcon\Url\UrlInterface;
 
 /**
  * This components helps in the generation of: URIs, URLs and Paths
@@ -34,7 +34,7 @@ use Phalcon\Di\InjectionAwareInterface;
  * );
  *```
  */
-class Url implements UrlInterface, InjectionAwareInterface
+class Url extends AbstractInjectionAware implements UrlInterface
 {
     /**
      * @var null | string
@@ -47,16 +47,19 @@ class Url implements UrlInterface, InjectionAwareInterface
     protected basePath = null;
 
     /**
-     * @var <DiInterface>
+     * @var <RouterInterface> | null
      */
-    protected container;
-
-    protected router;
+    protected router = null;
 
     /**
      * @var null | string
      */
     protected staticBaseUri = null;
+
+    public function __construct(<RouterInterface> router = null)
+    {
+        let this->router = router;
+    }
 
     /**
      * Generates a URL
@@ -85,7 +88,7 @@ class Url implements UrlInterface, InjectionAwareInterface
      *
      * // Generate an absolute URL by setting the third parameter as false.
      * echo $url->get(
-     *     "https://phalconphp.com/",
+     *     "https://phalcon.io/",
      *     null,
      *     false
      * );
@@ -119,12 +122,12 @@ class Url implements UrlInterface, InjectionAwareInterface
                 );
             }
 
-            let router = <RouterInterface> this->router;
+            let router = this->router;
 
             /**
              * Check if the router has not previously set
              */
-            if typeof router != "object" {
+            if unlikely !router {
                 let container = <DiInterface> this->container;
 
                 if unlikely typeof container != "object" {
@@ -135,7 +138,15 @@ class Url implements UrlInterface, InjectionAwareInterface
                     );
                 }
 
-                let router = <RouterInterface> container->getShared("router"),
+                if unlikely !container->has("router") {
+                    throw new Exception(
+                        Exception::containerServiceNotFound(
+                            "the 'router' service"
+                        )
+                    );
+                }
+
+                let router       = <RouterInterface> container->getShared("router"),
                     this->router = router;
             }
 
@@ -162,16 +173,7 @@ class Url implements UrlInterface, InjectionAwareInterface
 
         if local {
             let strUri = (string) uri;
-
-            if substr(baseUri, -1) == "/" && strlen(strUri) > 2 && strUri[0] == '/' && strUri[1] != '/' {
-                let uri = baseUri . substr(strUri, 1);
-            } else {
-                if baseUri == "/" && strlen(strUri) == 1 && strUri[0] == '/' {
-                    let uri = baseUri;
-                } else {
-                    let uri = baseUri . strUri;
-                }
-            }
+            let uri = preg_replace("#(?<!:)//+#", "/", baseUri . strUri);
         }
 
         if args {
@@ -223,14 +225,6 @@ class Url implements UrlInterface, InjectionAwareInterface
         }
 
         return baseUri;
-    }
-
-    /**
-     * Returns the DependencyInjector container
-     */
-    public function getDI() -> <DiInterface>
-    {
-        return this->container;
     }
 
     /**
@@ -306,14 +300,6 @@ class Url implements UrlInterface, InjectionAwareInterface
         }
 
         return this;
-    }
-
-    /**
-     * Sets the DependencyInjector container
-     */
-    public function setDI(<DiInterface> container) -> void
-    {
-        let this->container = container;
     }
 
     /**

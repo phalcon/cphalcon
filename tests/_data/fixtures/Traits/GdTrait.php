@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -40,8 +40,9 @@ trait GdTrait
 
     /**
      * @param string $image path to image
-     * @param string $hash expected hasd
-     * @param int $simility percent of similarity
+     * @param string $hash expected hash
+     * @param float $simility percent of similarity
+     * @return bool
      */
     private function checkImageHash(string $image, string $hash, float $simility = 95.0): bool
     {
@@ -56,8 +57,11 @@ trait GdTrait
      * as hashes.
      *
      * @author https://github.com/xwiz/phash
+     *
      * @param array|string $hash1
      * @param array|string $hash2
+     * @param int $precision
+     * @return float
      */
     private function getSimilarityHamming($hash1, $hash2, int $precision = 1): float
     {
@@ -92,6 +96,8 @@ trait GdTrait
 
     /**
      * @author https://github.com/xwiz/phash
+     *
+     * @param string $filepath
      * @return array|string
      */
     private function getHash(string $filepath)
@@ -120,7 +126,7 @@ trait GdTrait
             return 'the image format is not supported. supported formats: ' . $supportedFormats;
         }
 
-        //test image for same size
+        // test image for same size
         $width  = imagesx($img);
         $height = imagesy($img);
 
@@ -129,6 +135,8 @@ trait GdTrait
         }
 
         $averageValue = 0;
+        $grayscale = [];
+
         for ($y = 0; $y < $scale; $y++) {
             for ($x = 0; $x < $scale; $x++) {
                 // get the rgb value for current pixel
@@ -163,8 +171,10 @@ trait GdTrait
 
     /**
      * @author https://github.com/xwiz/phash
-     * @param $hash
+     *
+     * @param array $hash
      * @param bool $hex
+     * @return string|null
      */
     private function hashAsString(array $hash, $hex = true): ?string
     {
@@ -190,6 +200,7 @@ trait GdTrait
 
     /**
      * @author https://github.com/xwiz/phash
+     *
      * @param $img
      * @param $thumbwidth
      * @param $thumbheight
@@ -213,6 +224,7 @@ trait GdTrait
 
     /**
      * @author https://github.com/xwiz/phash
+     *
      * @param $dst_image
      * @param $src_image
      * @param $dst_x
@@ -224,6 +236,7 @@ trait GdTrait
      * @param $src_w
      * @param $src_h
      * @param int $quality
+     * @return bool
      */
     private function fastimagecopyresampled(
         &$dst_image,
@@ -294,6 +307,7 @@ trait GdTrait
      * Performs a left shift on the supplied binary array
      *
      * @author https://github.com/xwiz/phash
+     *
      * @param array binary array to perform shift on
      * @param int integer value to shift
      * @param int amount of places to left shift

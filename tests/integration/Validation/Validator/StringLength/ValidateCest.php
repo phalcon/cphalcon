@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -76,7 +76,7 @@ class ValidateCest
     /**
      * Tests Phalcon\Validation\Validator\StringLength :: validate() - minimum
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2013-03-09
      */
     public function validationValidatorStringLengthValidateMinimum(IntegrationTester $I)
@@ -131,7 +131,7 @@ class ValidateCest
      * Tests Phalcon\Validation\Validator\StringLength :: validate() - minimum
      * custom message
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2013-03-09
      */
     public function validationValidatorStringLengthValidateMinimumWithCustomMessage(IntegrationTester $I)
@@ -188,7 +188,7 @@ class ValidateCest
     /**
      * Tests Phalcon\Validation\Validator\StringLength :: validate() - maximum
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2013-03-09
      */
     public function validationValidatorStringLengthValidateMaximum(IntegrationTester $I)
@@ -243,7 +243,7 @@ class ValidateCest
      * Tests Phalcon\Validation\Validator\StringLength :: validate() - maximum
      * custom message
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2013-03-09
      */
     public function validationValidatorStringLengthValidateMaximumWithCustomMessage(IntegrationTester $I)

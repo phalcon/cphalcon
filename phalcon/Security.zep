@@ -2,7 +2,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -11,9 +11,10 @@
 namespace Phalcon;
 
 use Phalcon\Di\DiInterface;
+use Phalcon\Di\AbstractInjectionAware;
+use Phalcon\Http\RequestInterface;
 use Phalcon\Security\Random;
 use Phalcon\Security\Exception;
-use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Session\ManagerInterface as SessionInterface;
 
 /**
@@ -33,7 +34,7 @@ use Phalcon\Session\ManagerInterface as SessionInterface;
  * }
  *```
  */
-class Security implements InjectionAwareInterface
+class Security extends AbstractInjectionAware
 {
     const CRYPT_DEFAULT    = 0;
     const CRYPT_BLOWFISH   = 4;
@@ -46,7 +47,6 @@ class Security implements InjectionAwareInterface
     const CRYPT_SHA512     = 9;
     const CRYPT_STD_DES    = 1;
 
-    protected container;
     protected defaultHash;
     protected numberBytes = 16;
     protected random;
@@ -57,12 +57,17 @@ class Security implements InjectionAwareInterface
     protected tokenValueSessionId = "$PHALCON/CSRF$";
     protected workFactor = 8 { set, get };
 
+    private localSession = null;
+    private localRequest = null;
+
     /**
      * Phalcon\Security constructor
      */
-    public function __construct() -> void
+    public function __construct(<SessionInterface> session = null, <RequestInterface> request = null) -> void
     {
-        let this->random = new Random();
+        let this->random       = new Random(),
+            this->localRequest = request,
+            this->localSession = session;
     }
 
     /**
@@ -101,19 +106,11 @@ class Security implements InjectionAwareInterface
      */
     public function checkToken(var tokenKey = null, var tokenValue = null, bool destroyIfValid = true) -> bool
     {
-        var container, session, request, equals, userToken, knownToken;
+        var session, request, equals, userToken, knownToken;
 
-        let container = <DiInterface> this->container;
+        let session = this->getLocalSession();
 
-        if unlikely typeof container != "object" {
-            throw new Exception(
-                Exception::containerServiceNotFound("the 'session' service")
-            );
-        }
-
-        let session = <SessionInterface> container->getShared("session");
-
-        if !tokenKey {
+        if likely session && !tokenKey {
             let tokenKey = session->get(
                 this->tokenKeySessionId
             );
@@ -127,7 +124,7 @@ class Security implements InjectionAwareInterface
         }
 
         if !tokenValue {
-            let request = container->getShared("request");
+            let request = this->getLocalRequest();
 
             /**
              * We always check if the value is correct in post
@@ -141,6 +138,10 @@ class Security implements InjectionAwareInterface
          * The value is the same?
          */
         let knownToken = this->getRequestToken();
+
+        if null === knownToken {
+            return false;
+        }
 
         let equals = hash_equals(knownToken, userToken);
 
@@ -180,24 +181,18 @@ class Security implements InjectionAwareInterface
      */
     public function destroyToken() -> <Security>
     {
-        var container, session;
+        var session;
 
-        let container = <DiInterface> this->container;
+        let session = this->getLocalSession();
 
-        if unlikely typeof container != "object" {
-            throw new Exception(
-                Exception::containerServiceNotFound("the 'session' service")
-            );
+        if likely session {
+            session->remove(this->tokenKeySessionId);
+            session->remove(this->tokenValueSessionId);
         }
 
-        let session = <SessionInterface> container->getShared("session");
-
-        session->remove(this->tokenKeySessionId);
-        session->remove(this->tokenValueSessionId);
-
-        let this->token = null;
-        let this->tokenKey = null;
-        let this->requestToken = null;
+        let this->token        = null,
+            this->tokenKey     = null,
+            this->requestToken = null;
 
         return this;
     }
@@ -208,14 +203,6 @@ class Security implements InjectionAwareInterface
     public function getDefaultHash() -> int | null
     {
         return this->defaultHash;
-    }
-
-    /**
-     * Returns the internal dependency injector
-     */
-    public function getDI() -> <DiInterface>
-    {
-        return this->container;
     }
 
     /**
@@ -238,7 +225,7 @@ class Security implements InjectionAwareInterface
     /**
      * Returns the value of the CSRF token for the current request.
      */
-    public function getRequestToken() -> string
+    public function getRequestToken() -> string | null
     {
         if empty this->requestToken {
             return this->getSessionToken();
@@ -250,21 +237,17 @@ class Security implements InjectionAwareInterface
     /**
      * Returns the value of the CSRF token in session
      */
-    public function getSessionToken() -> string
+    public function getSessionToken() -> string | null
     {
-        var container, session;
+        var session;
 
-        let container = <DiInterface> this->container;
+        let session = this->getLocalSession();
 
-        if unlikely typeof container != "object" {
-            throw new Exception(
-                Exception::containerServiceNotFound("the 'session' service")
-            );
+        if likely session {
+            return session->get(this->tokenValueSessionId);
         }
 
-        let session = <SessionInterface> container->getShared("session");
-
-        return session->get(this->tokenValueSessionId);
+        return null;
     }
 
     /**
@@ -296,26 +279,21 @@ class Security implements InjectionAwareInterface
      */
     public function getToken() -> string
     {
-        var container, session;
+        var session;
 
         if null === this->token {
-            let this->requestToken = this->getSessionToken();
-            let this->token = this->random->base64Safe(this->numberBytes);
+            let this->requestToken = this->getSessionToken(),
+                this->token        = this->random->base64Safe(this->numberBytes);
 
-            let container = <DiInterface> this->container;
 
-            if unlikely typeof container != "object" {
-                throw new Exception(
-                    Exception::containerServiceNotFound("the 'session' service")
+            let session = this->getLocalSession();
+
+            if likely session {
+                session->set(
+                    this->tokenValueSessionId,
+                    this->token
                 );
             }
-
-            let session = <SessionInterface> container->getShared("session");
-
-            session->set(
-                this->tokenValueSessionId,
-                this->token
-            );
         }
 
         return this->token;
@@ -327,25 +305,18 @@ class Security implements InjectionAwareInterface
      */
     public function getTokenKey() -> string
     {
-        var container, session;
+        var session;
 
         if null === this->tokenKey {
-            let container = <DiInterface> this->container;
+            let session = this->getLocalSession();
 
-            if unlikely typeof container != "object" {
-                throw new Exception(
-                    Exception::containerServiceNotFound("the 'session' service")
+            if likely session {
+                let this->tokenKey = this->random->base64Safe(this->numberBytes);
+                session->set(
+                    this->tokenKeySessionId,
+                    this->tokenKey
                 );
             }
-
-            let this->tokenKey = this->random->base64Safe(this->numberBytes);
-
-            let session = <SessionInterface> container->getShared("session");
-
-            session->set(
-                this->tokenKeySessionId,
-                this->tokenKey
-            );
         }
 
         return this->tokenKey;
@@ -502,14 +473,6 @@ class Security implements InjectionAwareInterface
     }
 
     /**
-     * Sets the dependency injector
-     */
-    public function setDI(<DiInterface> container) -> void
-    {
-        let this->container = container;
-    }
-
-    /**
      * Sets a number of bytes to be generated by the openssl pseudo random
      * generator
      */
@@ -518,5 +481,49 @@ class Security implements InjectionAwareInterface
         let this->numberBytes = randomBytes;
 
         return this;
+    }
+
+    private function getLocalRequest() -> <RequestInterface> | null
+    {
+        var container;
+
+        if this->localRequest {
+            return this->localRequest;
+        }
+
+        let container = <DiInterface> this->container;
+        if unlikely typeof container != "object" {
+            throw new Exception(
+                Exception::containerServiceNotFound("the 'request' service")
+            );
+        }
+
+        if likely container->has("request") {
+            return <RequestInterface> container->getShared("request");
+        }
+
+        return null;
+    }
+
+    private function getLocalSession() -> <SessionInterface> | null
+    {
+        var container;
+
+        if this->localSession {
+            return this->localSession;
+        }
+
+        let container = <DiInterface> this->container;
+        if unlikely typeof container != "object" {
+            throw new Exception(
+                Exception::containerServiceNotFound("the 'session' service")
+            );
+        }
+
+        if likely container->has("session") {
+            return <SessionInterface> container->getShared("session");
+        }
+
+        return null;
     }
 }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -66,7 +66,7 @@ class ClearCest
         $form->bind(
             [
                 'name'     => 'Sid Roberts',
-                'email'    => 'team@phalconphp.com',
+                'email'    => 'team@phalcon.io',
                 'password' => 'hunter2',
             ],
             $entity
@@ -114,7 +114,7 @@ class ClearCest
         $form->bind(
             [
                 'name'     => 'Sid Roberts',
-                'email'    => 'team@phalconphp.com',
+                'email'    => 'team@phalcon.io',
                 'password' => 'hunter2',
             ],
             $entity
@@ -168,7 +168,7 @@ class ClearCest
         $form->bind(
             [
                 'name'     => 'Sid Roberts',
-                'email'    => 'team@phalconphp.com',
+                'email'    => 'team@phalcon.io',
                 'password' => 'hunter2',
             ],
             $entity
@@ -182,7 +182,7 @@ class ClearCest
         );
 
         $I->assertEquals(
-            'team@phalconphp.com',
+            'team@phalcon.io',
             $form->get('email')->getValue()
         );
 
@@ -199,7 +199,7 @@ class ClearCest
      *
      * @since  2016-10-01
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      */
     public function clearFormElements(IntegrationTester $I)
     {
@@ -272,16 +272,16 @@ class ClearCest
             $form->render('name')
         );
 
-        Tag::setDefault('email', 'andres@phalconphp.com');
+        Tag::setDefault('email', 'andres@phalcon.io');
 
 
         $I->assertEquals(
-            '<input type="email" id="email" name="email" value="andres@phalconphp.com">',
+            '<input type="email" id="email" name="email" value="andres@phalcon.io">',
             $form->render('email')
         );
 
         $I->assertEquals(
-            'andres@phalconphp.com',
+            'andres@phalcon.io',
             $form->get('email')->getValue()
         );
 
@@ -338,7 +338,7 @@ class ClearCest
      *
      * @since  2016-10-01
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      */
     public function clearFormElementsAndUsingValidation(IntegrationTester $I)
     {
@@ -439,7 +439,7 @@ class ClearCest
      *
      * @since  2016-10-01
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      */
     public function clearFormElementsByUsingFormBind(IntegrationTester $I)
     {

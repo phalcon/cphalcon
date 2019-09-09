@@ -27,7 +27,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -412,7 +412,8 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, getUnserializedData) {
  */
 PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, initSerializer) {
 
-	zval _0, _1, _2, _3;
+	zend_bool _1, _4;
+	zval _0, _2, _3, _5, _6$$4, _7$$4, _8$$4;
 	zval className;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -420,24 +421,42 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, initSerializer) {
 
 	ZVAL_UNDEF(&className);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_5);
+	ZVAL_UNDEF(&_6$$4);
+	ZVAL_UNDEF(&_7$$4);
+	ZVAL_UNDEF(&_8$$4);
 
 	ZEPHIR_MM_GROW();
 
-	zephir_read_property(&_0, this_ptr, SL("serializerFactory"), PH_NOISY_CC | PH_READONLY);
-	if (UNEXPECTED(Z_TYPE_P(&_0) == IS_NULL)) {
+	zephir_read_property(&_0, this_ptr, SL("serializer"), PH_NOISY_CC | PH_READONLY);
+	_1 = Z_TYPE_P(&_0) == IS_NULL;
+	if (_1) {
+		zephir_read_property(&_2, this_ptr, SL("serializerFactory"), PH_NOISY_CC | PH_READONLY);
+		_1 = Z_TYPE_P(&_2) == IS_NULL;
+	}
+	if (UNEXPECTED(_1)) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_storage_exception_ce, "A valid serializer is required", "phalcon/Storage/Adapter/AbstractAdapter.zep", 196);
 		return;
 	}
-	zephir_read_property(&_1, this_ptr, SL("defaultSerializer"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_INIT_VAR(&className);
-	zephir_fast_strtolower(&className, &_1);
-	zephir_read_property(&_2, this_ptr, SL("serializerFactory"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_3, &_2, "newinstance", NULL, 0, &className);
-	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, SL("serializer"), &_3);
+	ZEPHIR_OBS_VAR(&_3);
+	zephir_read_property(&_3, this_ptr, SL("serializer"), PH_NOISY_CC);
+	_4 = Z_TYPE_P(&_3) == IS_OBJECT;
+	if (_4) {
+		ZEPHIR_OBS_VAR(&_5);
+		zephir_read_property(&_5, this_ptr, SL("serializer"), PH_NOISY_CC);
+		_4 = zephir_instance_of_ev(&_5, phalcon_storage_serializer_serializerinterface_ce TSRMLS_CC);
+	}
+	if (!(_4)) {
+		zephir_read_property(&_6$$4, this_ptr, SL("defaultSerializer"), PH_NOISY_CC | PH_READONLY);
+		ZEPHIR_INIT_VAR(&className);
+		zephir_fast_strtolower(&className, &_6$$4);
+		zephir_read_property(&_7$$4, this_ptr, SL("serializerFactory"), PH_NOISY_CC | PH_READONLY);
+		ZEPHIR_CALL_METHOD(&_8$$4, &_7$$4, "newinstance", NULL, 0, &className);
+		zephir_check_call_status();
+		zephir_update_property_zval(this_ptr, SL("serializer"), &_8$$4);
+	}
 	ZEPHIR_MM_RESTORE();
 
 }

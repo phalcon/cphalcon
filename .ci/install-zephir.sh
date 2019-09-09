@@ -2,7 +2,7 @@
 #
 # This file is part of the Phalcon Framework.
 #
-# (c) Phalcon Team <team@phalconphp.com>
+# (c) Phalcon Team <team@phalcon.io>
 #
 # For the full copyright and license information, please view the
 # LICENSE.txt file that was distributed with this source code.
@@ -20,7 +20,7 @@ $(phpenv which phpize)
 ./configure --silent --with-php-config="$(phpenv which php-config)" --enable-zephir_parser
 make --silent -j"$(getconf _NPROCESSORS_ONLN)"
 make --silent install
-echo 'extension="zephir_parser.so"' > "$(phpenv root)/versions/$(phpenv version-name)/etc/conf.d/zephir_parser.ini"
+echo 'extension="zephir_parser.so"' > "$(phpenv prefix)/etc/conf.d/zephir_parser.ini"
 
 # Install zephir
 if [[ ! $ZEPHIR_VERSION =~ ^(master|development)$ ]]

@@ -3,7 +3,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -39,7 +39,7 @@ class DirectCest
     /**
      * Tests auto escaping
      *
-     * @author       Phalcon Team <team@phalconphp.com>
+     * @author       Phalcon Team <team@phalcon.io>
      * @issue  https://github.com/phalcon/cphalcon/issues/11448
      * @since        2016-06-15
      *
@@ -101,9 +101,9 @@ class DirectCest
     {
         $container = $this->getDi();
 
-        $flash = new Direct($this->classes);
-
+        $flash = new Direct();
         $flash->setDI($container);
+        $flash->setCssClasses($this->classes);
 
         return $flash;
     }
@@ -156,7 +156,7 @@ class DirectCest
     /**
      * Test custom message
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @issue  https://github.com/phalcon/cphalcon/issues/13445
      * @since  2018-10-16
      */

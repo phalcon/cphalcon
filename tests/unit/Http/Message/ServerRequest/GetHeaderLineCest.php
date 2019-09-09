@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -20,7 +20,7 @@ class GetHeaderLineCest
     /**
      * Tests Phalcon\Http\Message\ServerRequest :: getHeaderLine()
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2019-02-10
      */
     public function httpMessageServerRequestGetHeaderLine(UnitTester $I)
@@ -45,7 +45,7 @@ class GetHeaderLineCest
     /**
      * Tests Phalcon\Http\Message\ServerRequest :: getHeaderLine() - empty
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2019-02-10
      */
     public function httpMessageServerRequestGetHeaderLineEmpty(UnitTester $I)

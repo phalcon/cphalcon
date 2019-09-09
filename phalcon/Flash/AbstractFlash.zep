@@ -2,7 +2,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -12,9 +12,10 @@ namespace Phalcon\Flash;
 
 use Phalcon\Di;
 use Phalcon\Di\DiInterface;
-use Phalcon\Di\InjectionAwareInterface;
+use Phalcon\Di\AbstractInjectionAware;
 use Phalcon\Escaper\EscaperInterface;
 use Phalcon\Flash\Exception;
+use Phalcon\Session\ManagerInterface as SessionInterface;
 
 /**
  * Shows HTML notifications related to different circumstances. Classes can be
@@ -25,12 +26,12 @@ use Phalcon\Flash\Exception;
  * $flash->error("Cannot open the file");
  *```
  */
-abstract class AbstractFlash implements FlashInterface, InjectionAwareInterface
+abstract class AbstractFlash extends AbstractInjectionAware implements FlashInterface
 {
     /**
      * @var bool
      */
-    protected autoescape = true;
+    protected autoescape = true { get };
 
     /**
      * @var bool
@@ -40,15 +41,16 @@ abstract class AbstractFlash implements FlashInterface, InjectionAwareInterface
     /**
      * @var array
      */
-    protected cssClasses = [];
+    protected cssClasses = [] { get };
 
     /**
      * @var string
      */
-    protected customTemplate = "";
+    protected customTemplate = "" { get };
 
-    protected container = null;
-
+    /**
+     * @var EscaperInterface | null
+     */
     protected escaperService = null;
 
     /**
@@ -56,23 +58,30 @@ abstract class AbstractFlash implements FlashInterface, InjectionAwareInterface
      */
     protected implicitFlush = true;
 
+    /**
+     * @var array
+     */
     protected messages = [];
+
+    /**
+     * @var SessionInterface | null
+     */
+    protected sessionService = null;
 
     /**
      * Phalcon\Flash constructor
      */
-    public function __construct(cssClasses = null) -> void
+    public function __construct(<EscaperInterface> escaper = null, <SessionInterface> session = null) -> void
     {
-        if typeof cssClasses != "array" {
-            let cssClasses = [
-                "error":   "errorMessage",
-                "notice":  "noticeMessage",
-                "success": "successMessage",
-                "warning": "warningMessage"
-            ];
-        }
+        let this->escaperService = escaper,
+            this->sessionService = session;
 
-        let this->cssClasses = cssClasses;
+        let this->cssClasses = [
+            "error"   : "errorMessage",
+            "notice"  : "noticeMessage",
+            "success" : "successMessage",
+            "warning" : "warningMessage"
+        ];
     }
 
     /**
@@ -96,55 +105,32 @@ abstract class AbstractFlash implements FlashInterface, InjectionAwareInterface
     }
 
     /**
-     * Returns the autoescape mode in generated html
-     */
-    public function getAutoescape() -> bool
-    {
-        return this->autoescape;
-    }
-
-    /**
-     * Returns the custom template set
-     */
-    public function getCustomTemplate() -> string
-    {
-        return this->customTemplate;
-    }
-
-    /**
-     * Returns the internal dependency injector
-     */
-    public function getDI() -> <DiInterface>
-    {
-        var di;
-
-        let di = this->container;
-
-        if typeof di != "object" {
-            let di = Di::getDefault();
-        }
-
-        return di;
-    }
-
-    /**
      * Returns the Escaper Service
      */
     public function getEscaperService() -> <EscaperInterface>
     {
-        var escaper, container;
+        var container;
 
-        let escaper = this->escaperService;
-
-        if typeof escaper != "object" {
-            let container = <DiInterface> this->getDI();
-
-            let escaper = <EscaperInterface> container->getShared("escaper"),
-                this->escaperService = escaper;
+        if this->escaperService {
+            return this->escaperService;
         }
 
-        return escaper;
+        let container = <DiInterface> this->container;
+        if unlikely typeof container != "object" {
+            throw new Exception(
+                Exception::containerServiceNotFound("the 'escaper' service")
+            );
+        }
+
+        if likely container->has("escaper") {
+            return <RequestInterface> container->getShared("escaper");
+        } else {
+            throw new Exception(
+                Exception::containerServiceNotFound("the 'escaper' service")
+            );
+        }
     }
+
     /**
      * Shows a HTML notice/information message
      *
@@ -160,7 +146,7 @@ abstract class AbstractFlash implements FlashInterface, InjectionAwareInterface
     /**
      * Set the autoescape mode in generated html
      */
-    public function setAutoescape(bool autoescape) -> <Flash>
+    public function setAutoescape(bool autoescape) -> <FlashInterface>
     {
         let this->autoescape = autoescape;
 
@@ -193,16 +179,6 @@ abstract class AbstractFlash implements FlashInterface, InjectionAwareInterface
     public function setCustomTemplate(string! customTemplate) -> <FlashInterface>
     {
         let this->customTemplate = customTemplate;
-
-        return this;
-    }
-
-    /**
-     * Sets the dependency injector
-     */
-    public function setDI(<DiInterface> container) -> <FlashInterface>
-    {
-        let this->container = container;
 
         return this;
     }

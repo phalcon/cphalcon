@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -21,7 +21,7 @@ class JavascriptIncludeCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: javascriptInclude() - string as a parameter local
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-29
      */
     public function tagJavascriptIncludeLocal(UnitTester $I)
@@ -43,7 +43,7 @@ class JavascriptIncludeCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: javascriptInclude() - array as a parameter local
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-29
      */
     public function tagJavascriptIncludeWithArrayLocal(UnitTester $I)
@@ -65,7 +65,7 @@ class JavascriptIncludeCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: javascriptInclude() - remote link
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-29
      */
     public function tagJavascriptIncludeRemote(UnitTester $I)
@@ -88,7 +88,7 @@ class JavascriptIncludeCest extends TagSetup
      * Tests Phalcon\Tag :: javascriptInclude() - array parameter for a remote
      * link
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-29
      */
     public function tagJavascriptIncludeWithArrayRemote(UnitTester $I)
@@ -110,7 +110,7 @@ class JavascriptIncludeCest extends TagSetup
      *
      * @issue https://github.com/phalcon/cphalcon/issues/13341
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-12-22
      */
     public function tagJavascriptIncludeHtml5(UnitTester $I)

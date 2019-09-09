@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -48,7 +48,7 @@ class ManagerCest
     /**
      * collection tests
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-13
      */
     public function testAssetsManagerOutputCssWithoutImplicitOutputFromCollection(UnitTester $I)
@@ -78,7 +78,7 @@ class ManagerCest
     /**
      * collection tests
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-13
      */
     public function testAssetsManagerOutputJsWithoutImplicitOutputFromCollectionRemote(UnitTester $I)
@@ -158,7 +158,7 @@ class ManagerCest
      * Tests setting local target
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/1532
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @author Dreamszhu <dreamsxin@qq.com>
      * @since  2013-10-25
      */
@@ -178,12 +178,12 @@ class ManagerCest
                ->addFilter(new Jsmin())
                ->setTargetPath(outputDir("tests/assets/{$file}"))
                ->setTargetLocal(false)
-               ->setPrefix('//phalconphp.com/')
+               ->setPrefix('//phalcon.io/')
                ->setTargetUri('js/jquery.js')
         ;
 
         $I->assertEquals(
-            '<script src="//phalconphp.com/js/jquery.js"></script>' . PHP_EOL,
+            '<script src="//phalcon.io/js/jquery.js"></script>' . PHP_EOL,
             $assets->outputJs('js')
         );
 
@@ -199,7 +199,7 @@ class ManagerCest
     /**
      * Tests basic output
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2016-01-24
      */
     public function testBasicOutput(UnitTester $I)
@@ -229,7 +229,7 @@ class ManagerCest
     /**
      * Tests output with enabled join
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2016-01-24
      */
     public function testOutputWithEnabledJoin(UnitTester $I)
@@ -260,7 +260,7 @@ class ManagerCest
     /**
      * Tests output with disabled join
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2016-01-24
      */
     public function testOutputWithDisabledJoin(UnitTester $I)
@@ -291,7 +291,7 @@ class ManagerCest
     /**
      * Tests output with disabled join
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2016-01-24
      */
     public function testOutputWithJoinAndFilter(UnitTester $I)

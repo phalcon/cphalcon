@@ -2,7 +2,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -11,7 +11,7 @@
 namespace Phalcon\Cli;
 
 use Phalcon\Di\DiInterface;
-use Phalcon\Di\InjectionAwareInterface;
+use Phalcon\Di\AbstractInjectionAware;
 use Phalcon\Cli\Router\Route;
 use Phalcon\Cli\Router\Exception;
 
@@ -35,11 +35,9 @@ use Phalcon\Cli\Router\Exception;
  * echo $router->getTaskName();
  *```
  */
-class Router implements InjectionAwareInterface
+class Router extends AbstractInjectionAware
 {
     protected action;
-
-    protected container;
 
     protected defaultAction = null;
 
@@ -127,14 +125,6 @@ class Router implements InjectionAwareInterface
     public function getActionName() -> string
     {
         return this->action;
-    }
-
-    /**
-     * Returns the internal dependency injector
-     */
-    public function getDI() -> <DiInterface>
-    {
-        return this->container;
     }
 
     /**
@@ -490,14 +480,6 @@ class Router implements InjectionAwareInterface
     public function setDefaultTask(string taskName) -> void
     {
         let this->defaultTask = taskName;
-    }
-
-    /**
-     * Sets the dependency injector
-     */
-    public function setDI(<DiInterface> container) -> void
-    {
-        let this->container = container;
     }
 
     /**

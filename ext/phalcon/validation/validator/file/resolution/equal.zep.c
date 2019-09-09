@@ -23,7 +23,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -119,7 +119,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File_Resolution_Equal, validate) {
 	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, 0, field);
 	zephir_check_call_status();
 	zephir_array_fetch_string(&_1, &value, SL("tmp_name"), PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/File/Resolution/Equal.zep", 74 TSRMLS_CC);
-	ZEPHIR_CALL_FUNCTION(&tmp, "getimagesize", NULL, 364, &_1);
+	ZEPHIR_CALL_FUNCTION(&tmp, "getimagesize", NULL, 367, &_1);
 	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(&width);
 	zephir_array_fetch_long(&width, &tmp, 0, PH_NOISY, "phalcon/Validation/Validator/File/Resolution/Equal.zep", 75 TSRMLS_CC);

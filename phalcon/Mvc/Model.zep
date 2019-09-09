@@ -15,7 +15,7 @@ use Phalcon\Db\Column;
 use Phalcon\Db\DialectInterface;
 use Phalcon\Db\Enum;
 use Phalcon\Db\RawValue;
-use Phalcon\Di\InjectionAwareInterface;
+use Phalcon\Di\AbstractInjectionAware;
 use Phalcon\Di;
 use Phalcon\Di\DiInterface;
 use Phalcon\Events\ManagerInterface as EventsManagerInterface;
@@ -81,7 +81,7 @@ use Serializable;
  * }
  * ```
  */
-abstract class Model implements EntityInterface, ModelInterface, ResultInterface, InjectionAwareInterface, Serializable, JsonSerializable
+abstract class Model extends AbstractInjectionAware implements EntityInterface, ModelInterface, ResultInterface, Serializable, JsonSerializable
 {
     const DIRTY_STATE_DETACHED   = 2;
     const DIRTY_STATE_PERSISTENT = 0;
@@ -91,8 +91,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     const OP_NONE   = 0;
     const OP_UPDATE = 2;
     const TRANSACTION_INDEX = "transaction";
-
-    protected container;
 
     protected dirtyState = 1;
 
@@ -1592,14 +1590,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     }
 
     /**
-     * Returns the dependency injection container
-     */
-    public function getDI() -> <DiInterface>
-    {
-        return this->container;
-    }
-
-    /**
      * Returns the custom events manager
      */
     public function getEventsManager() -> <EventsManagerInterface>
@@ -2542,14 +2532,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         let this->dirtyState = dirtyState;
 
         return this;
-    }
-
-    /**
-     * Sets the dependency injection container
-     */
-    public function setDI(<DiInterface> container) -> void
-    {
-        let this->container = container;
     }
 
     /**

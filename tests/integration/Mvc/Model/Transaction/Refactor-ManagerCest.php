@@ -3,7 +3,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -34,7 +34,7 @@ class ManagerCest
     /**
      * Tests Manager::get
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2012-08-07
      */
     public function checkTransactionMysql(IntegrationTester $I)
@@ -49,7 +49,7 @@ class ManagerCest
     /**
      * Tests Manager::get
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2012-08-07
      */
     public function checkTransactionPostgresql(IntegrationTester $I)
@@ -64,7 +64,7 @@ class ManagerCest
     /**
      * Tests Manager::get
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2012-08-07
      */
     public function checkTransactionSqlite(IntegrationTester $I)

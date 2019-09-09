@@ -2,7 +2,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -11,14 +11,14 @@
 namespace Phalcon\Mvc;
 
 use Phalcon\Di\DiInterface;
-use Phalcon\Mvc\Router\Route;
-use Phalcon\Mvc\Router\Exception;
-use Phalcon\Http\RequestInterface;
-use Phalcon\Mvc\Router\GroupInterface;
-use Phalcon\Mvc\Router\RouteInterface;
-use Phalcon\Di\InjectionAwareInterface;
-use Phalcon\Events\ManagerInterface;
+use Phalcon\Di\AbstractInjectionAware;
 use Phalcon\Events\EventsAwareInterface;
+use Phalcon\Events\ManagerInterface;
+use Phalcon\Http\RequestInterface;
+use Phalcon\Mvc\Router\Exception;
+use Phalcon\Mvc\Router\GroupInterface;
+use Phalcon\Mvc\Router\Route;
+use Phalcon\Mvc\Router\RouteInterface;
 
 /**
  * Phalcon\Mvc\Router
@@ -48,13 +48,12 @@ use Phalcon\Events\EventsAwareInterface;
  * echo $router->getControllerName();
  * ```
  */
-class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInterface
+class Router extends AbstractInjectionAware implements RouterInterface, EventsAwareInterface
 {
     const POSITION_FIRST = 0;
     const POSITION_LAST = 1;
 
     protected action = null;
-    protected container;
     protected controller = null;
     protected defaultAction;
     protected defaultController;
@@ -266,14 +265,6 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
     public function clear() -> void
     {
         let this->routes = [];
-    }
-
-    /**
-     * Returns the internal dependency injector
-     */
-    public function getDI() -> <DiInterface>
-    {
-        return this->container;
     }
 
     /**
@@ -957,14 +948,6 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
             "action":     this->defaultAction,
             "params":     this->defaultParams
         ];
-    }
-
-    /**
-     * Sets the dependency injector
-     */
-    public function setDI(<DiInterface> container) -> void
-    {
-        let this->container = container;
     }
 
     /**

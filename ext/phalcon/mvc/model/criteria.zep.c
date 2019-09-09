@@ -26,7 +26,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -1776,12 +1776,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, fromInput) {
 		ZEPHIR_INIT_VAR(&_19$$16);
 		ZEPHIR_CONCAT_SVS(&_19$$16, " ", &operator, " ");
 		zephir_fast_join(&_18$$16, &_19$$16, &conditions TSRMLS_CC);
-		ZEPHIR_CALL_METHOD(NULL, &criteria, "where", NULL, 450, &_18$$16);
+		ZEPHIR_CALL_METHOD(NULL, &criteria, "where", NULL, 451, &_18$$16);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, &criteria, "bind", NULL, 451, &bind);
+		ZEPHIR_CALL_METHOD(NULL, &criteria, "bind", NULL, 452, &bind);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_METHOD(NULL, &criteria, "setmodelname", NULL, 444, &modelName);
+	ZEPHIR_CALL_METHOD(NULL, &criteria, "setmodelname", NULL, 445, &modelName);
 	zephir_check_call_status();
 	RETURN_CCTOR(&criteria);
 

@@ -2,7 +2,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -192,11 +192,13 @@ abstract class AbstractAdapter implements AdapterInterface
     {
         string className;
 
-        if unlikely null === this->serializerFactory {
+        if unlikely (null === this->serializer && null === this->serializerFactory) {
             throw new Exception("A valid serializer is required");
         }
 
-        let className        = strtolower(this->defaultSerializer),
-            this->serializer = this->serializerFactory->newInstance(className);
+        if !(typeof this->serializer == "object" && this->serializer instanceof SerializerInterface) {
+            let className        = strtolower(this->defaultSerializer),
+                this->serializer = this->serializerFactory->newInstance(className);
+        }
     }
 }

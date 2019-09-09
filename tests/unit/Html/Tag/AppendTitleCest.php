@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -25,7 +25,7 @@ class AppendTitleCest
     /**
      * Tests Phalcon\Html\Tag :: appendTitle()
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function htmlTagAppendTitle(UnitTester $I)
@@ -59,7 +59,7 @@ class AppendTitleCest
     /**
      * Tests Phalcon\Html\Tag :: appendTitle() - string
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function htmlTagAppendTitleString(UnitTester $I)
@@ -93,7 +93,7 @@ class AppendTitleCest
     /**
      * Tests Phalcon\Html\Tag :: appendTitle() - separator
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function htmlTagAppendTitleSeparator(UnitTester $I)
@@ -128,7 +128,7 @@ class AppendTitleCest
     /**
      * Tests Phalcon\Html\Tag :: appendTitle() - double call
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function htmlTagAppendTitleDoubleCall(UnitTester $I)
@@ -161,7 +161,7 @@ class AppendTitleCest
     /**
      * Tests Phalcon\Html\Tag :: appendTitle() - many
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function htmlTagAppendTitleMany(UnitTester $I)
@@ -193,7 +193,7 @@ class AppendTitleCest
     /**
      * Tests Phalcon\Html\Tag :: appendTitle() - empty array
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function htmlTagAppendTitleEmptyArray(UnitTester $I)

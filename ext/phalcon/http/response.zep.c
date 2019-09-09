@@ -21,14 +21,13 @@
 #include "kernel/string.h"
 #include "ext/date/php_date.h"
 #include "ext/spl/spl_exceptions.h"
-#include "kernel/file.h"
 #include "kernel/array.h"
 
 
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -211,7 +210,7 @@ PHP_METHOD(Phalcon_Http_Response, getDI) {
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(NULL, &_2$$4, "__construct", NULL, 5, &_3$$4);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_2$$4, "phalcon/Http/Response.zep", 120 TSRMLS_CC);
+			zephir_throw_exception_debug(&_2$$4, "phalcon/Http/Response.zep", 121 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -594,7 +593,7 @@ PHP_METHOD(Phalcon_Http_Response, send) {
 
 	zephir_read_property(&_0, this_ptr, SL("sent"), PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(zephir_is_true(&_0))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_response_exception_ce, "Response was already sent", "phalcon/Http/Response.zep", 322);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_response_exception_ce, "Response was already sent", "phalcon/Http/Response.zep", 323);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "sendheaders", NULL, 0);
@@ -613,7 +612,7 @@ PHP_METHOD(Phalcon_Http_Response, send) {
 			_3$$5 = ((zephir_fast_strlen_ev(&file)) ? 1 : 0);
 		}
 		if (_3$$5) {
-			ZEPHIR_CALL_FUNCTION(NULL, "readfile", NULL, 361, &file);
+			ZEPHIR_CALL_FUNCTION(NULL, "readfile", NULL, 362, &file);
 			zephir_check_call_status();
 		}
 	}
@@ -1014,18 +1013,26 @@ PHP_METHOD(Phalcon_Http_Response, setFileToSend) {
 
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *filePath_param = NULL, *attachmentName = NULL, attachmentName_sub, *attachment = NULL, attachment_sub, __$null, __$true, basePath, _0$$5, _1$$5;
+	zephir_fcall_cache_entry *_0 = NULL;
+	zval *filePath_param = NULL, *attachmentName = NULL, attachmentName_sub, *attachment = NULL, attachment_sub, __$true, __$null, basePath, basePathEncoding, _1$$6, _2$$5, _3$$7, _4$$7, _5$$7, _6$$8, _7$$8, _8$$8;
 	zval filePath;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&filePath);
 	ZVAL_UNDEF(&attachmentName_sub);
 	ZVAL_UNDEF(&attachment_sub);
-	ZVAL_NULL(&__$null);
 	ZVAL_BOOL(&__$true, 1);
+	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&basePath);
-	ZVAL_UNDEF(&_0$$5);
-	ZVAL_UNDEF(&_1$$5);
+	ZVAL_UNDEF(&basePathEncoding);
+	ZVAL_UNDEF(&_1$$6);
+	ZVAL_UNDEF(&_2$$5);
+	ZVAL_UNDEF(&_3$$7);
+	ZVAL_UNDEF(&_4$$7);
+	ZVAL_UNDEF(&_5$$7);
+	ZVAL_UNDEF(&_6$$8);
+	ZVAL_UNDEF(&_7$$8);
+	ZVAL_UNDEF(&_8$$8);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 2, &filePath_param, &attachmentName, &attachment);
@@ -1041,29 +1048,54 @@ PHP_METHOD(Phalcon_Http_Response, setFileToSend) {
 	}
 
 
+	ZEPHIR_INIT_VAR(&basePathEncoding);
+	ZVAL_STRING(&basePathEncoding, "ASCII");
 	if (Z_TYPE_P(attachmentName) != IS_STRING) {
-		ZEPHIR_INIT_VAR(&basePath);
-		zephir_basename(&basePath, &filePath TSRMLS_CC);
+		ZEPHIR_CALL_CE_STATIC(&basePath, phalcon_helper_fs_ce, "basename", &_0, 363, &filePath);
+		zephir_check_call_status();
 	} else {
 		ZEPHIR_CPY_WRT(&basePath, attachmentName);
 	}
 	if (zephir_is_true(attachment)) {
-		ZEPHIR_INIT_VAR(&_0$$5);
-		ZVAL_STRING(&_0$$5, "Content-Description: File Transfer");
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setrawheader", NULL, 0, &_0$$5);
+		if ((zephir_function_exists_ex(SL("mb_detect_encoding") TSRMLS_CC) == SUCCESS)) {
+			ZEPHIR_CALL_FUNCTION(&_1$$6, "mb_detect_order", NULL, 364);
+			zephir_check_call_status();
+			ZEPHIR_CALL_FUNCTION(&basePathEncoding, "mb_detect_encoding", NULL, 221, &basePath, &_1$$6, &__$true);
+			zephir_check_call_status();
+		}
+		ZEPHIR_INIT_VAR(&_2$$5);
+		ZVAL_STRING(&_2$$5, "Content-Description: File Transfer");
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setrawheader", NULL, 0, &_2$$5);
 		zephir_check_call_status();
-		ZEPHIR_INIT_NVAR(&_0$$5);
-		ZVAL_STRING(&_0$$5, "Content-Type: application/octet-stream");
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setrawheader", NULL, 0, &_0$$5);
+		ZEPHIR_INIT_NVAR(&_2$$5);
+		ZVAL_STRING(&_2$$5, "Content-Type: application/octet-stream");
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setrawheader", NULL, 0, &_2$$5);
 		zephir_check_call_status();
-		ZEPHIR_INIT_VAR(&_1$$5);
-		ZEPHIR_CONCAT_SVS(&_1$$5, "Content-Disposition: attachment; filename=", &basePath, ";");
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setrawheader", NULL, 0, &_1$$5);
+		ZEPHIR_INIT_NVAR(&_2$$5);
+		ZVAL_STRING(&_2$$5, "Content-Transfer-Encoding: binary");
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setrawheader", NULL, 0, &_2$$5);
 		zephir_check_call_status();
-		ZEPHIR_INIT_NVAR(&_0$$5);
-		ZVAL_STRING(&_0$$5, "Content-Transfer-Encoding: binary");
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setrawheader", NULL, 0, &_0$$5);
-		zephir_check_call_status();
+		if (!ZEPHIR_IS_STRING(&basePathEncoding, "ASCII")) {
+			ZEPHIR_CALL_FUNCTION(&_3$$7, "rawurlencode", NULL, 224, &basePath);
+			zephir_check_call_status();
+			ZEPHIR_CPY_WRT(&basePath, &_3$$7);
+			ZEPHIR_INIT_VAR(&_4$$7);
+			zephir_fast_strtolower(&_4$$7, &basePathEncoding);
+			ZEPHIR_INIT_VAR(&_5$$7);
+			ZEPHIR_CONCAT_SVSVSV(&_5$$7, "Content-Disposition: attachment; filename=", &basePath, "; filename*=", &_4$$7, "''", &basePath);
+			ZEPHIR_CALL_METHOD(NULL, this_ptr, "setrawheader", NULL, 0, &_5$$7);
+			zephir_check_call_status();
+		} else {
+			ZEPHIR_INIT_VAR(&_6$$8);
+			ZVAL_STRING(&_6$$8, "\\15\\17\\\"");
+			ZEPHIR_CALL_FUNCTION(&_7$$8, "addcslashes", NULL, 190, &basePath, &_6$$8);
+			zephir_check_call_status();
+			ZEPHIR_CPY_WRT(&basePath, &_7$$8);
+			ZEPHIR_INIT_VAR(&_8$$8);
+			ZEPHIR_CONCAT_SVS(&_8$$8, "Content-Disposition: attachment; filename=\"", &basePath, "\"");
+			ZEPHIR_CALL_METHOD(NULL, this_ptr, "setrawheader", NULL, 0, &_8$$8);
+			zephir_check_call_status();
+		}
 	}
 	zephir_update_property_zval(this_ptr, SL("file"), &filePath);
 	RETURN_THIS();
@@ -1132,7 +1164,7 @@ PHP_METHOD(Phalcon_Http_Response, setHeaders) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&existing, this_ptr, "getheaders", NULL, 0);
 	zephir_check_call_status();
-	zephir_is_iterable(&data, 0, "phalcon/Http/Response.zep", 600);
+	zephir_is_iterable(&data, 0, "phalcon/Http/Response.zep", 619);
 	if (Z_TYPE_P(&data) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&data), _2, _3, _0)
 		{
@@ -1361,7 +1393,7 @@ PHP_METHOD(Phalcon_Http_Response, setStatusCode) {
 	ZEPHIR_CALL_METHOD(&currentHeadersRaw, &headers, "toarray", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_0);
-	zephir_is_iterable(&currentHeadersRaw, 0, "phalcon/Http/Response.zep", 699);
+	zephir_is_iterable(&currentHeadersRaw, 0, "phalcon/Http/Response.zep", 718);
 	if (Z_TYPE_P(&currentHeadersRaw) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&currentHeadersRaw), _3, _4, _1)
 		{
@@ -1485,11 +1517,11 @@ PHP_METHOD(Phalcon_Http_Response, setStatusCode) {
 		add_index_stringl(&statusCodes, 510, SL("Not Extended"));
 		add_index_stringl(&statusCodes, 511, SL("Network Authentication Required"));
 		if (UNEXPECTED(!(zephir_array_isset_long(&statusCodes, code)))) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_response_exception_ce, "Non-standard statuscode given without a message", "phalcon/Http/Response.zep", 776);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_response_exception_ce, "Non-standard statuscode given without a message", "phalcon/Http/Response.zep", 795);
 			return;
 		}
 		ZEPHIR_OBS_VAR(&defaultMessage);
-		zephir_array_fetch_long(&defaultMessage, &statusCodes, code, PH_NOISY, "phalcon/Http/Response.zep", 779 TSRMLS_CC);
+		zephir_array_fetch_long(&defaultMessage, &statusCodes, code, PH_NOISY, "phalcon/Http/Response.zep", 798 TSRMLS_CC);
 		zephir_get_strval(&message, &defaultMessage);
 	}
 	ZEPHIR_SINIT_VAR(_14);

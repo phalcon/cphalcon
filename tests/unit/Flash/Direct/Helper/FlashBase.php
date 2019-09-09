@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -12,17 +12,15 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Flash\Direct\Helper;
 
+use Phalcon\Escaper;
 use Phalcon\Flash\Direct;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
 class FlashBase
 {
-    use DiTrait;
-
-    private $notImplicit = false;
-    private $notHtml     = false;
     private $classes     = null;
+    private $notHtml     = false;
+    private $notImplicit = false;
 
     private $default = [
         'success' => 'successMessage',
@@ -33,14 +31,12 @@ class FlashBase
 
     public function _before(UnitTester $I)
     {
-        $this->newDi();
-        $this->setDiEscaper();
     }
 
     /**
      * Tests warning (implicit flush)
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-04
      */
     public function testFlashDirectImplicitFlushHtml(UnitTester $I)
@@ -60,12 +56,14 @@ class FlashBase
     /**
      * Tests a string with implicit flush Html
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-04
      */
     private function stringTest(UnitTester $I, string $function)
     {
-        $flash   = new Direct($this->classes);
+        $flash = new Direct(new Escaper());
+        $flash->setCssClasses($this->classes);
+
         $message = 'sample message';
 
         if ($this->notHtml) {
@@ -95,7 +93,7 @@ class FlashBase
      * Private function to get the class of the message depending on the classes
      * set
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-04
      */
     private function getClass($key): string
@@ -118,7 +116,7 @@ class FlashBase
      * Private function to start the ob, call the function, get the
      * contents and clean the ob
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-04
      */
     private function getObResponse($flash, $function, $message): string
@@ -134,7 +132,7 @@ class FlashBase
     /**
      * Tests warning (no implicit flush)
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-04
      */
     public function testFlashDirectNoImplicitFlushHtml(UnitTester $I)
@@ -158,7 +156,7 @@ class FlashBase
     /**
      * Tests warning (implicit flush no html)
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-04
      */
     public function testFlashDirectImplicitFlushNoHtml(UnitTester $I)
@@ -182,7 +180,7 @@ class FlashBase
     /**
      * Tests error (no implicit flush no html)
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-04
      */
     public function testFlashDirectNoImplicitFlushNoHtml(UnitTester $I)
@@ -208,13 +206,14 @@ class FlashBase
     /**
      * Tests auto escaping
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @issue  https://github.com/phalcon/cphalcon/issues/11448
      * @since  2016-06-15
      */
     public function testFlashDirectWithAutoEscaping(UnitTester $I)
     {
-        $flash = new Direct($this->classes);
+        $flash = new Direct(new Escaper());
+        $flash->setCssClasses($this->classes);
 
         $flash->setAutomaticHtml(false);
         $flash->setImplicitFlush(false);
@@ -235,7 +234,7 @@ class FlashBase
     /**
      * Sets the custom classes for the tests
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-04
      */
     protected function setClasses($classes)

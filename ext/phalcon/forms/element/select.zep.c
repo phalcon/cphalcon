@@ -21,7 +21,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -85,7 +85,7 @@ PHP_METHOD(Phalcon_Forms_Element_Select, __construct) {
 /**
  * Adds an option to the current options
  *
- * @param array option
+ * @param array|string option
  */
 PHP_METHOD(Phalcon_Forms_Element_Select, addOption) {
 

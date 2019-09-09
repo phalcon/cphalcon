@@ -2,7 +2,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -12,7 +12,7 @@ namespace Phalcon\Dispatcher;
 
 use Exception;
 use Phalcon\Di\DiInterface;
-use Phalcon\Di\InjectionAwareInterface;
+use Phalcon\Di\AbstractInjectionAware;
 use Phalcon\Dispatcher\DispatcherInterface;
 use Phalcon\Dispatcher\Exception as PhalconException;
 use Phalcon\Events\EventsAwareInterface;
@@ -26,7 +26,7 @@ use Phalcon\Mvc\Model\BinderInterface;
  * This class can't be instantiated directly, you can use it to create your own
  * dispatchers.
  */
-abstract class AbstractDispatcher implements DispatcherInterface, InjectionAwareInterface, EventsAwareInterface
+abstract class AbstractDispatcher extends AbstractInjectionAware implements DispatcherInterface, EventsAwareInterface
 {
     protected activeHandler;
 
@@ -46,8 +46,6 @@ abstract class AbstractDispatcher implements DispatcherInterface, InjectionAware
      * @var array
      */
     protected camelCaseMap = [];
-
-    protected container;
 
     /**
      * @var string
@@ -725,14 +723,6 @@ abstract class AbstractDispatcher implements DispatcherInterface, InjectionAware
     }
 
     /**
-     * Returns the internal dependency injector
-     */
-    public function getDI() -> <DiInterface>
-    {
-        return this->container;
-    }
-
-    /**
      * Returns the internal event manager
      */
     public function getEventsManager() -> <ManagerInterface>
@@ -858,14 +848,6 @@ abstract class AbstractDispatcher implements DispatcherInterface, InjectionAware
     public function setDefaultNamespace(string namespaceName) -> void
     {
         let this->defaultNamespace = namespaceName;
-    }
-
-    /**
-     * Sets the dependency injector
-     */
-    public function setDI(<DiInterface> container) -> void
-    {
-        let this->container = container;
     }
 
     /**

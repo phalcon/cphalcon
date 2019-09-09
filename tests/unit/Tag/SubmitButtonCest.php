@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -20,7 +20,7 @@ class SubmitButtonCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: submitButton() - string as a parameter
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function tagSubmitButtonStringParameter(UnitTester $I)
@@ -37,7 +37,7 @@ class SubmitButtonCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: submitButton() - array as a parameter
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function tagSubmitButtonArrayParameter(UnitTester $I)
@@ -58,7 +58,7 @@ class SubmitButtonCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: submitButton() - array as parameter and id in it
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function tagSubmitButtonArrayParameterWithId(UnitTester $I)
@@ -81,7 +81,7 @@ class SubmitButtonCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: submitButton() - name and no id in parameter
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function tagSubmitButtonArrayParameterWithNameNoId(UnitTester $I)
@@ -104,7 +104,7 @@ class SubmitButtonCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: submitButton() - setDefault
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function tagSubmitButtonWithSetDefault(UnitTester $I)
@@ -127,7 +127,7 @@ class SubmitButtonCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: submitButton() - displayTo
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function tagSubmitButtonWithDisplayTo(UnitTester $I)
@@ -150,7 +150,7 @@ class SubmitButtonCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: submitButton() - setDefault and element not present
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function tagSubmitButtonWithSetDefaultElementNotPresent(UnitTester $I)
@@ -173,7 +173,7 @@ class SubmitButtonCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: submitButton() - displayTo and element not present
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
      */
     public function tagSubmitButtonWithDisplayToElementNotPresent(UnitTester $I)

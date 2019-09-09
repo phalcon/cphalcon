@@ -24,7 +24,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -163,7 +163,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Json, format) {
 	zephir_read_property(&_6, this_ptr, SL("dateFormat"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&_5, item, "gettime", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_7, "date", NULL, 415, &_6, &_5);
+	ZEPHIR_CALL_FUNCTION(&_7, "date", NULL, 422, &_6, &_5);
 	zephir_check_call_status();
 	zephir_array_update_string(&_4, SL("timestamp"), &_7, PH_COPY | PH_SEPARATE);
 	zephir_json_encode(&_3, &_4, 0 );

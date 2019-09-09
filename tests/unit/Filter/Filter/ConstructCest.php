@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Filter\Locator;
 
 use Phalcon\Filter\Exception;
-use Phalcon\Filter\Filter;
+use Phalcon\Filter;
 use UnitTester;
 
 class ConstructCest
@@ -21,7 +21,7 @@ class ConstructCest
     /**
      * Tests Phalcon\Filter\Locator :: __construct() - empty
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2019-01-19
      */
     public function filterFilterConstruct(UnitTester $I)

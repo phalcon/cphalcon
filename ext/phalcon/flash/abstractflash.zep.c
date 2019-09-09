@@ -12,13 +12,13 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/array.h"
-#include "kernel/memory.h"
 #include "kernel/object.h"
+#include "kernel/memory.h"
+#include "kernel/array.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
-#include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
+#include "ext/spl/spl_exceptions.h"
 #include "kernel/concat.h"
 #include "kernel/string.h"
 
@@ -26,7 +26,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -42,7 +42,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Flash_AbstractFlash) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Flash, AbstractFlash, phalcon, flash_abstractflash, phalcon_flash_abstractflash_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Flash, AbstractFlash, phalcon, flash_abstractflash, phalcon_di_abstractinjectionaware_ce, phalcon_flash_abstractflash_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
 	/**
 	 * @var bool
@@ -64,8 +64,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Flash_AbstractFlash) {
 	 */
 	zend_declare_property_string(phalcon_flash_abstractflash_ce, SL("customTemplate"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
 
-	zend_declare_property_null(phalcon_flash_abstractflash_ce, SL("container"), ZEND_ACC_PROTECTED TSRMLS_CC);
-
+	/**
+	 * @var EscaperInterface | null
+	 */
 	zend_declare_property_null(phalcon_flash_abstractflash_ce, SL("escaperService"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	/**
@@ -73,13 +74,42 @@ ZEPHIR_INIT_CLASS(Phalcon_Flash_AbstractFlash) {
 	 */
 	zend_declare_property_bool(phalcon_flash_abstractflash_ce, SL("implicitFlush"), 1, ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	/**
+	 * @var array
+	 */
 	zend_declare_property_null(phalcon_flash_abstractflash_ce, SL("messages"), ZEND_ACC_PROTECTED TSRMLS_CC);
+
+	/**
+	 * @var SessionInterface | null
+	 */
+	zend_declare_property_null(phalcon_flash_abstractflash_ce, SL("sessionService"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	phalcon_flash_abstractflash_ce->create_object = zephir_init_properties_Phalcon_Flash_AbstractFlash;
 
 	zend_class_implements(phalcon_flash_abstractflash_ce TSRMLS_CC, 1, phalcon_flash_flashinterface_ce);
-	zend_class_implements(phalcon_flash_abstractflash_ce TSRMLS_CC, 1, phalcon_di_injectionawareinterface_ce);
 	return SUCCESS;
+
+}
+
+/**
+ */
+PHP_METHOD(Phalcon_Flash_AbstractFlash, getCssClasses) {
+
+	zval *this_ptr = getThis();
+
+
+	RETURN_MEMBER(getThis(), "cssClasses");
+
+}
+
+/**
+ */
+PHP_METHOD(Phalcon_Flash_AbstractFlash, getCustomTemplate) {
+
+	zval *this_ptr = getThis();
+
+
+	RETURN_MEMBER(getThis(), "customTemplate");
 
 }
 
@@ -88,35 +118,38 @@ ZEPHIR_INIT_CLASS(Phalcon_Flash_AbstractFlash) {
  */
 PHP_METHOD(Phalcon_Flash_AbstractFlash, __construct) {
 
+	zval _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval *cssClasses = NULL, cssClasses_sub, __$null, _0$$3;
+	zval *escaper = NULL, escaper_sub, *session = NULL, session_sub, __$null;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&cssClasses_sub);
+	ZVAL_UNDEF(&escaper_sub);
+	ZVAL_UNDEF(&session_sub);
 	ZVAL_NULL(&__$null);
-	ZVAL_UNDEF(&_0$$3);
+	ZVAL_UNDEF(&_0);
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 1, &cssClasses);
+	zephir_fetch_params(1, 0, 2, &escaper, &session);
 
-	if (!cssClasses) {
-		cssClasses = &cssClasses_sub;
-		ZEPHIR_CPY_WRT(cssClasses, &__$null);
-	} else {
-		ZEPHIR_SEPARATE_PARAM(cssClasses);
+	if (!escaper) {
+		escaper = &escaper_sub;
+		escaper = &__$null;
+	}
+	if (!session) {
+		session = &session_sub;
+		session = &__$null;
 	}
 
 
-	if (Z_TYPE_P(cssClasses) != IS_ARRAY) {
-		ZEPHIR_INIT_VAR(&_0$$3);
-		zephir_create_array(&_0$$3, 4, 0 TSRMLS_CC);
-		add_assoc_stringl_ex(&_0$$3, SL("error"), SL("errorMessage"));
-		add_assoc_stringl_ex(&_0$$3, SL("notice"), SL("noticeMessage"));
-		add_assoc_stringl_ex(&_0$$3, SL("success"), SL("successMessage"));
-		add_assoc_stringl_ex(&_0$$3, SL("warning"), SL("warningMessage"));
-		ZEPHIR_CPY_WRT(cssClasses, &_0$$3);
-	}
-	zephir_update_property_zval(this_ptr, SL("cssClasses"), cssClasses);
+	zephir_update_property_zval(this_ptr, SL("escaperService"), escaper);
+	zephir_update_property_zval(this_ptr, SL("sessionService"), session);
+	ZEPHIR_INIT_VAR(&_0);
+	zephir_create_array(&_0, 4, 0 TSRMLS_CC);
+	add_assoc_stringl_ex(&_0, SL("error"), SL("errorMessage"));
+	add_assoc_stringl_ex(&_0, SL("notice"), SL("noticeMessage"));
+	add_assoc_stringl_ex(&_0, SL("success"), SL("successMessage"));
+	add_assoc_stringl_ex(&_0, SL("warning"), SL("warningMessage"));
+	zephir_update_property_zval(this_ptr, SL("cssClasses"), &_0);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -186,73 +219,74 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, getAutoescape) {
 }
 
 /**
- * Returns the custom template set
- */
-PHP_METHOD(Phalcon_Flash_AbstractFlash, getCustomTemplate) {
-
-	zval *this_ptr = getThis();
-
-
-	RETURN_MEMBER(getThis(), "customTemplate");
-
-}
-
-/**
- * Returns the internal dependency injector
- */
-PHP_METHOD(Phalcon_Flash_AbstractFlash, getDI) {
-
-	zval di;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zephir_fcall_cache_entry *_0 = NULL;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&di);
-
-	ZEPHIR_MM_GROW();
-
-	ZEPHIR_OBS_VAR(&di);
-	zephir_read_property(&di, this_ptr, SL("container"), PH_NOISY_CC);
-	if (Z_TYPE_P(&di) != IS_OBJECT) {
-		ZEPHIR_CALL_CE_STATIC(&di, phalcon_di_ce, "getdefault", &_0, 0);
-		zephir_check_call_status();
-	}
-	RETURN_CCTOR(&di);
-
-}
-
-/**
  * Returns the Escaper Service
  */
 PHP_METHOD(Phalcon_Flash_AbstractFlash, getEscaperService) {
 
-	zval escaper, container, _0$$3, _1$$3;
+	zval container, _0, _1, _6, _7, _2$$4, _3$$4, _5$$4, _8$$5, _9$$5, _10$$6, _11$$6, _12$$6;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zephir_fcall_cache_entry *_4 = NULL;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&escaper);
 	ZVAL_UNDEF(&container);
-	ZVAL_UNDEF(&_0$$3);
-	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_6);
+	ZVAL_UNDEF(&_7);
+	ZVAL_UNDEF(&_2$$4);
+	ZVAL_UNDEF(&_3$$4);
+	ZVAL_UNDEF(&_5$$4);
+	ZVAL_UNDEF(&_8$$5);
+	ZVAL_UNDEF(&_9$$5);
+	ZVAL_UNDEF(&_10$$6);
+	ZVAL_UNDEF(&_11$$6);
+	ZVAL_UNDEF(&_12$$6);
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_OBS_VAR(&escaper);
-	zephir_read_property(&escaper, this_ptr, SL("escaperService"), PH_NOISY_CC);
-	if (Z_TYPE_P(&escaper) != IS_OBJECT) {
-		ZEPHIR_CALL_METHOD(&_0$$3, this_ptr, "getdi", NULL, 0);
-		zephir_check_call_status();
-		ZEPHIR_CPY_WRT(&container, &_0$$3);
-		ZEPHIR_INIT_VAR(&_1$$3);
-		ZVAL_STRING(&_1$$3, "escaper");
-		ZEPHIR_CALL_METHOD(&_0$$3, &container, "getshared", NULL, 0, &_1$$3);
-		zephir_check_call_status();
-		ZEPHIR_CPY_WRT(&escaper, &_0$$3);
-		zephir_update_property_zval(this_ptr, SL("escaperService"), &escaper);
+	zephir_read_property(&_0, this_ptr, SL("escaperService"), PH_NOISY_CC | PH_READONLY);
+	if (zephir_is_true(&_0)) {
+		RETURN_MM_MEMBER(getThis(), "escaperService");
 	}
-	RETURN_CCTOR(&escaper);
+	zephir_read_property(&_1, this_ptr, SL("container"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_CPY_WRT(&container, &_1);
+	if (UNEXPECTED(Z_TYPE_P(&container) != IS_OBJECT)) {
+		ZEPHIR_INIT_VAR(&_2$$4);
+		object_init_ex(&_2$$4, phalcon_flash_exception_ce);
+		ZEPHIR_INIT_VAR(&_5$$4);
+		ZVAL_STRING(&_5$$4, "the 'escaper' service");
+		ZEPHIR_CALL_CE_STATIC(&_3$$4, phalcon_flash_exception_ce, "containerservicenotfound", &_4, 0, &_5$$4);
+		zephir_check_call_status();
+		ZEPHIR_CALL_METHOD(NULL, &_2$$4, "__construct", NULL, 5, &_3$$4);
+		zephir_check_call_status();
+		zephir_throw_exception_debug(&_2$$4, "phalcon/Flash/AbstractFlash.zep", 130 TSRMLS_CC);
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	ZEPHIR_INIT_VAR(&_7);
+	ZVAL_STRING(&_7, "escaper");
+	ZEPHIR_CALL_METHOD(&_6, &container, "has", NULL, 0, &_7);
+	zephir_check_call_status();
+	if (UNEXPECTED(zephir_is_true(&_6))) {
+		ZEPHIR_INIT_VAR(&_9$$5);
+		ZVAL_STRING(&_9$$5, "escaper");
+		ZEPHIR_CALL_METHOD(&_8$$5, &container, "getshared", NULL, 0, &_9$$5);
+		zephir_check_call_status();
+		RETURN_CCTOR(&_8$$5);
+	} else {
+		ZEPHIR_INIT_VAR(&_10$$6);
+		object_init_ex(&_10$$6, phalcon_flash_exception_ce);
+		ZEPHIR_INIT_VAR(&_12$$6);
+		ZVAL_STRING(&_12$$6, "the 'escaper' service");
+		ZEPHIR_CALL_CE_STATIC(&_11$$6, phalcon_flash_exception_ce, "containerservicenotfound", &_4, 0, &_12$$6);
+		zephir_check_call_status();
+		ZEPHIR_CALL_METHOD(NULL, &_10$$6, "__construct", NULL, 5, &_11$$6);
+		zephir_check_call_status();
+		zephir_throw_exception_debug(&_10$$6, "phalcon/Flash/AbstractFlash.zep", 138 TSRMLS_CC);
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 
 }
 
@@ -396,25 +430,6 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, setCustomTemplate) {
 }
 
 /**
- * Sets the dependency injector
- */
-PHP_METHOD(Phalcon_Flash_AbstractFlash, setDI) {
-
-	zval *container, container_sub;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&container_sub);
-
-	zephir_fetch_params_without_memory_grow(1, 0, &container);
-
-
-
-	zephir_update_property_zval(this_ptr, SL("container"), container);
-	RETURN_THISW();
-
-}
-
-/**
  * Sets the Escaper Service
  */
 PHP_METHOD(Phalcon_Flash_AbstractFlash, setEscaperService) {
@@ -535,7 +550,7 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, outputMessage) {
 			ZEPHIR_INIT_VAR(&content);
 			ZVAL_STRING(&content, "");
 		}
-		zephir_is_iterable(message, 0, "phalcon/Flash/AbstractFlash.zep", 294);
+		zephir_is_iterable(message, 0, "phalcon/Flash/AbstractFlash.zep", 278);
 		if (Z_TYPE_P(message) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(message), _1$$3)
 			{

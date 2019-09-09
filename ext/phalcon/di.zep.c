@@ -26,7 +26,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -733,7 +733,7 @@ PHP_METHOD(Phalcon_Di, loadFromConfig) {
  * ];
  * ```
  *
- * @link https://docs.phalconphp.com/en/latest/reference/di.html
+ * @link https://docs.phalcon.io/en/latest/reference/di.html
  */
 PHP_METHOD(Phalcon_Di, loadFromPhp) {
 
@@ -802,7 +802,7 @@ PHP_METHOD(Phalcon_Di, loadFromPhp) {
  *    className: \Acme\User
  * ```
  *
- * @link https://docs.phalconphp.com/en/latest/reference/di.html
+ * @link https://docs.phalcon.io/en/latest/reference/di.html
  */
 PHP_METHOD(Phalcon_Di, loadFromYaml) {
 

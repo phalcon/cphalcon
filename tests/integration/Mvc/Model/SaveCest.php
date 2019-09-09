@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -22,6 +22,7 @@ use Phalcon\Test\Models\Parts;
 use Phalcon\Test\Models\Robots;
 use Phalcon\Test\Models\RobotsParts;
 use Phalcon\Test\Models\Users;
+use Phalcon\Test\Models\TinyIntTest;
 
 class SaveCest
 {
@@ -43,7 +44,7 @@ class SaveCest
      *
      * @author       Balázs Németh <https://github.com/zsilbi>
      * @since        2019-04-30
-     * @author       Phalcon Team <team@phalconphp.com>
+     * @author       Phalcon Team <team@phalcon.io>
      * @since        2019-05-10
      */
     public function mvcModelSave(IntegrationTester $I)
@@ -435,6 +436,28 @@ class SaveCest
         $I->assertEquals(
             4,
             count($allAlbums)
+        );
+    }
+
+    public function tinyIntNotStoredIssue14355(IntegrationTester $I)
+    {
+        $I->wantToTest('Saving a tinyint(1)');
+
+        $referenceModel = new TinyIntTest();
+        $referenceModel->test = 0;
+
+        $I->assertTrue(
+            $referenceModel->save()
+        );
+        $id = $referenceModel->id;
+        $I->assertNotNull(
+            $id
+        );
+
+        $storedModel = TinyIntTest::findFirstById($id);
+        $I->assertEquals(
+            '0',
+            $storedModel->test
         );
     }
 }

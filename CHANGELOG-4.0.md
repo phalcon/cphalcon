@@ -1,4 +1,33 @@
-# [4.0.0-beta.2](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-beta.2) (2019-xx-xx)
+# [4.0.0](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0) (2019-xx-xx)
+## Changed
+- Changed `Phalcon\Url::get` to use implementation behind `Phalcon\Helper\Str::reduceSlashes` to reduce slashes [#14331](https://github.com/phalcon/cphalcon/issues/14331)
+- Changed `Phalcon\Http\Headers\set()` to return self for a more fluent interface
+- Changed `Phalcon\Assets\Manager`, `Phalcon\Cli\Router`, `Phalcon\Dispatcher\AbstractDispatcher`, `Phalcon\Html\Tag`,  `Phalcon\Http\Cookie`, `Phalcon\Http\Request`, `Phalcon\Http\Response\Cookies`, `Phalcon\Mvc\Model`, `Phalcon\Mvc\Router`, `Phalcon\Security`, `Phalcon\Session\Manager` to use `Phalcon\Di\AbstractDiAware` for container functionality [#14351](https://github.com/phalcon/cphalcon/pull/14351)
+- Changed `Phalcon\Security` to allow `session` and `request` in the constructor [#14351](https://github.com/phalcon/cphalcon/pull/14351)
+- Changed `Phalcon\Session\Manager` to allow `router` in the constructor [#14351](https://github.com/phalcon/cphalcon/pull/14351)
+- Changed `Phalcon\Flash\Direct` to allow `escaper` in the constructor [#14349](https://github.com/phalcon/cphalcon/issues/14349)
+- Changed `Phalcon\Flash\Session` to allow `escaper` in the constructor [#14349](https://github.com/phalcon/cphalcon/issues/14349)
+- Changed `Phalcon\Di\AbstractDIAware` to `Phalcon\Di\AbstractInjectionAware` [#14359](https://github.com/phalcon/cphalcon/issues/14359)
+
+## Fixed
+- Fixed `Phalcon\Helper\Str::includes` to return correct result [#14301](https://github.com/phalcon/cphalcon/issues/14301)
+- Fixed `Phalcon\Logger` moved to correct namespace [#14263](https://github.com/phalcon/cphalcon/issues/14263)
+- Fixed `Phalcon\Session\Adapter\AbstractAdapter::read()` to return ""(empty string) when `Session/Adapter/*::get()` returns null [#14314](https://github.com/phalcon/cphalcon/issues/14314)
+- Fixed `Phalcon\Cache\Exception` to extend Phalcon\Exception
+- Fixed `Phalcon\Cache\InvalidArgumentException` to extend Phalcon\Exception
+- Fixed `Phalcon\Collection\Exception` to extend Phalcon\Exception
+- Fixed `Phalcon\Storage\Adapter\AbstractAdapter::initSerializer` to throw exception if `null === $this->serializerFactory && null === $this->serializer` [#14324](https://github.com/phalcon/cphalcon/issues/14324)
+- Fixed `Phalcon\Storage\Adapter\Redis::getAdapter()` to provide a persistent id for redis persistent connection [#14334](https://github.com/phalcon/cphalcon/issues/14334)
+- Fixed `Phalcon\Session\Adapter\Stream` to not override configured save path [#14265](https://github.com/phalcon/cphalcon/issues/14265)
+- Fixed `Phalcon\Http\Response::setFileToSend` to properly handle non-ASCII filenames [#13919](https://github.com/phalcon/cphalcon/issues/13919)
+- Fixed `Phalcon\Security::getSessionToken` return value [#14346](https://github.com/phalcon/cphalcon/issues/14346)
+- Fixed `Phalcon\Flash\*` interfaces for `message()` to return `string/null` [#14349](https://github.com/phalcon/cphalcon/issues/14349)
+
+## Removed
+- Removed `Phalcon\Plugin` - duplicate of `Phalcon\DI\Injectable` [#14359](https://github.com/phalcon/cphalcon/issues/14359)
+- Removed `Phalcon\Mvc\Collection` and all related references. 4.0 will not support mongo as it is being re-implemented to take advantage of the latest Mongo driver (see [#13697](https://github.com/phalcon/cphalcon/issues/13697)) [#14361](https://github.com/phalcon/cphalcon/pull/14361)
+
+# [4.0.0-beta.2](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-beta.2) (2019-08-18)
 
 ## Fixed
 - Fixed missing imports in `Phalcon\Db\Adapter\AbstractAdapter`, `Phalcon\Db\Adapter\AdapterInterface`, `Phalcon\Db\Result\Pdo`, `Phalcon\Html\Tag` and `Phalcon\Tag\Select`. [#14249](https://github.com/phalcon/cphalcon/issues/14249)

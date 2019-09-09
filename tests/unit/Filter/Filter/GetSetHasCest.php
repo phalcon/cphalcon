@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -12,16 +12,16 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Filter;
 
-use Phalcon\Filter\Filter;
+use Phalcon\Filter;
 use Phalcon\Test\Fixtures\Service\HelloService;
 use UnitTester;
 
 class GetSetHasCest
 {
     /**
-     * Tests Phalcon\Filter\Filter :: get()/set()/has() - has()
+     * Tests Phalcon\Filter :: get()/set()/has() - has()
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2019-01-19
      */
     public function filterFilterGetSetHasHas(UnitTester $I)
@@ -40,9 +40,9 @@ class GetSetHasCest
     }
 
     /**
-     * Tests Phalcon\Filter\Filter :: get()/set()/has() - get()
+     * Tests Phalcon\Filter :: get()/set()/has() - get()
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function filterFilterLocatorGetSetHasGet(UnitTester $I)
@@ -64,9 +64,9 @@ class GetSetHasCest
     }
 
     /**
-     * Tests Phalcon\Filter\Filter :: get()/set()/has() - get() same
+     * Tests Phalcon\Filter :: get()/set()/has() - get() same
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function filterFilterGetSetHasGetSame(UnitTester $I)
@@ -93,9 +93,9 @@ class GetSetHasCest
     }
 
     /**
-     * Tests Phalcon\Filter\Filter :: get()/set()/has() - set()
+     * Tests Phalcon\Filter :: get()/set()/has() - set()
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function filterFilterGetSetHasSet(UnitTester $I)
