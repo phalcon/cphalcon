@@ -14,6 +14,7 @@ namespace Phalcon\Test\Integration\Paginator\Adapter\QueryBuilder;
 
 use IntegrationTester;
 use Phalcon\Paginator\Adapter\QueryBuilder;
+use Phalcon\Paginator\Exception;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Personnes;
 
@@ -68,5 +69,21 @@ class GetSetLimitCest
         );
 
         $I->assertEquals($paginator, $setterResult);
+
+
+
+        try {
+            $paginator = new QueryBuilder(
+                [
+                    'builder' => $builder,
+                    'limit'   => 0,
+                    'page'    => 1,
+                ]
+            );
+
+            $paginator->paginate();
+        } catch (Exception $ex) {
+            $I->assertEquals('Limit must be greater then zero', $ex->getMessage());
+        }
     }
 }
