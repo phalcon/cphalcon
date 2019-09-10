@@ -793,7 +793,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             }
 
             let attributeName = attribute[0],
-                instance->{attributeName} = castValue;
+                instance->{attributeName} = castValue,
+                data[key] = castValue;
         }
 
         /**
@@ -1568,7 +1569,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             /**
              * Check if the field has changed
              */
-            if value !== snapshot[name] {
+            if hasChanged {
                 let changed[] = name;
 
                 continue;
