@@ -70,7 +70,7 @@ class GetSetLimitCest
 
         $I->assertEquals($paginator, $setterResult);
 
-        $I->expectThrowable(new Exception('Limit must be greater then zero'), function() use ($builder) {
+        $I->expectThrowable(new Exception('Limit must be greater then zero'), function () use ($builder) {
             $paginator = new QueryBuilder(
                 [
                     'builder' => $builder,
