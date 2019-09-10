@@ -1511,6 +1511,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     public function getChangedFields() -> array
     {
         var metaData, name, snapshot, columnMap, allAttributes, value;
+        bool hasChanged;
         array changed;
 
         let snapshot = this->snapshot;
@@ -1564,6 +1565,12 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 let changed[] = name;
 
                 continue;
+            }
+
+            if globals_get("orm.cast_on_hydrate") {
+                let hasChanged = value != snapshot[name];
+            } else {
+                let hasChanged = value !== snapshot[name];
             }
 
             /**
