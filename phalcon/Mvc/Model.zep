@@ -1568,9 +1568,9 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             }
 
             if globals_get("orm.cast_on_hydrate") {
-                let hasChanged = value != snapshot[name];
-            } else {
                 let hasChanged = value !== snapshot[name];
+            } else {
+                let hasChanged = value != snapshot[name];
             }
 
             /**
