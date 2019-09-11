@@ -178,9 +178,20 @@ interface RequestInterface
     public function getPort() -> int;
 
     /**
-     * Gets HTTP URI which request has been made
+     * Gets HTTP URI which request has been made to
+     *
+     *```php
+     * // Returns /some/path?with=queryParams
+     * $uri = $request->getURI();
+     *
+     * // Returns /some/path
+     * $uri = $request->getURI(true);
+     *```
+     *
+     * @param bool onlyPath If true, query part will be omitted
+     * @return string
      */
-    final public function getURI() -> string;
+    final public function getURI(bool onlyPath = false) -> string;
 
     /**
      * Gets a variable from the $_POST superglobal applying filters if needed

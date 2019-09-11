@@ -1,4 +1,8 @@
 # [4.0.0](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0) (2019-xx-xx)
+
+## Added
+- Added optional boolean parameter to `Phalcon\Http\Request::getURI()` (as well as its interface) which indicates whether or not the method should return only the path without the query string
+
 ## Changed
 - Changed `Phalcon\Url::get` to use implementation behind `Phalcon\Helper\Str::reduceSlashes` to reduce slashes [#14331](https://github.com/phalcon/cphalcon/issues/14331)
 - Changed `Phalcon\Http\Headers\set()` to return self for a more fluent interface
@@ -9,6 +13,8 @@
 - Changed `Phalcon\Flash\Session` to allow `escaper` in the constructor [#14349](https://github.com/phalcon/cphalcon/issues/14349)
 - Changed `Phalcon\Di\AbstractDIAware` to `Phalcon\Di\AbstractInjectionAware` [#14359](https://github.com/phalcon/cphalcon/issues/14359)
 - Changed `Phalcon\Di\Service` to use DI to initialize `string` based services when possible [#14342](https://github.com/phalcon/cphalcon/pull/14342)
+- Changed `Phalcon\Mvc\Router\Annotations` to be able to handle patterns az prefixes [#14259](https://github.com/phalcon/cphalcon/pull/14259)
+- Changed `Phalcon\Mvc\Router\Group::routes` to an array as default [#14259](https://github.com/phalcon/cphalcon/pull/14259)
 
 ## Fixed
 - Fixed `Phalcon\Helper\Str::includes` to return correct result [#14301](https://github.com/phalcon/cphalcon/issues/14301)
@@ -23,6 +29,7 @@
 - Fixed `Phalcon\Http\Response::setFileToSend` to properly handle non-ASCII filenames [#13919](https://github.com/phalcon/cphalcon/issues/13919)
 - Fixed `Phalcon\Security::getSessionToken` return value [#14346](https://github.com/phalcon/cphalcon/issues/14346)
 - Fixed `Phalcon\Flash\*` interfaces for `message()` to return `string/null` [#14349](https://github.com/phalcon/cphalcon/issues/14349)
+- Fixed `Phalcon\Paginator\Adapter\AbstractAdapter` throw exception if `limit <= 0` [#14303](https://github.com/phalcon/cphalcon/issues/14303)
 
 ## Removed
 - Removed `Phalcon\Plugin` - duplicate of `Phalcon\DI\Injectable` [#14359](https://github.com/phalcon/cphalcon/issues/14359)

@@ -84,9 +84,10 @@ class Annotations extends Router
     public function handle(string! uri)
     {
         var annotationsService, handlers, controllerSuffix, scope, prefix,
-            container, handler, controllerName, lowerControllerName,
-            namespaceName, moduleName, handlerAnnotations, classAnnotations,
-            annotations, annotation, methodAnnotations, method, collection;
+            route, compiledPattern, container, handler, controllerName,
+            lowerControllerName, namespaceName, moduleName, handlerAnnotations,
+            classAnnotations, annotations, annotation, methodAnnotations, method,
+            collection;
         string sufixed;
 
         let container = <DiInterface> this->container;
@@ -113,8 +114,31 @@ class Annotations extends Router
              */
             let prefix = scope[0];
 
-            if !empty prefix && !starts_with(uri, prefix) {
-                continue;
+            if !empty prefix {
+                /**
+                 * Route object is used to compile patterns
+                 */
+                let route = new Route(prefix);
+
+                /**
+                 * Compiled patterns can be valid regular expressions.
+                 * In that case We only need to theck if it starts with
+                 * the pattern so we remove to "$" from the end.
+                 */
+                let compiledPattern = str_replace(
+                    "$#", "#", route->getCompiledPattern()
+                );
+
+                if memstr(compiledPattern, "^") {
+                    /**
+                     * If it's a regular expression, it will contain the "^"
+                     */
+                    if !preg_match(compiledPattern, uri) {
+                        continue;
+                    }
+                } elseif !starts_with(uri, prefix) {
+                    continue;
+                }
             }
 
             /**
