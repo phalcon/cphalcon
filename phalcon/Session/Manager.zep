@@ -28,7 +28,7 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
     /**
      * @var <SessionHandlerInterface>|null
      */
-    private handler = null;
+    private adapter = null;
 
     /**
      * @var string
@@ -128,11 +128,11 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
     }
 
     /**
-     * Returns the stored session handler
+     * Returns the stored session adapter
      */
-    public function getHandler() -> <SessionHandlerInterface>
+    public function getAdapter() -> <SessionHandlerInterface>
     {
-        return this->handler;
+        return this->adapter;
     }
 
     /**
@@ -181,7 +181,7 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
     }
 
     /**
-     * Regenerates the session id using the handler.
+     * Regenerates the session id using the adapter.
      */
     public function regenerateId(deleteOldSession = true) -> <ManagerInterface>
     {
@@ -197,11 +197,11 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
     }
 
     /**
-     * Registers a handler with the session
+     * Registers a adapter with the session
      */
-    public function registerHandler(<SessionHandlerInterface> handler) -> bool
+    public function registerAdapter(<SessionHandlerInterface> adapter) -> bool
     {
-        return session_set_save_handler(handler);
+        return session_set_save_handler(adapter);
     }
 
     /**
@@ -238,11 +238,11 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
     }
 
     /**
-     * Set the handler for the session
+     * Set the adapter for the session
      */
-    public function setHandler(<SessionHandlerInterface> handler) -> <ManagerInterface>
+    public function setAdapter(<SessionHandlerInterface> adapter) -> <ManagerInterface>
     {
-        let this->handler = handler;
+        let this->adapter = adapter;
 
         return this;
     }
@@ -324,14 +324,14 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
             return false;
         }
 
-        if unlikely !(this->handler instanceof SessionHandlerInterface) {
-            throw new Exception("The session handler is not valid");
+        if unlikely !(this->adapter instanceof SessionHandlerInterface) {
+            throw new Exception("The session adapter is not valid");
         }
 
         /**
-         * Register the handler
+         * Register the adapter
          */
-        this->registerHandler(this->handler);
+        this->registerAdapter(this->adapter);
 
         /**
          * Start the session

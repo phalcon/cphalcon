@@ -59,7 +59,7 @@ class OpenCest
         $I->wantToTest('Session\Adapter\Stream - open() for issue 14265');
         $session = new Manager();
         $stream = new Stream(getOptionsSessionStream());
-        $session->setHandler($stream);
+        $session->setAdapter($stream);
         $I->assertTrue(
             $session->start()
         );

@@ -66,9 +66,9 @@ interface ManagerInterface
     public function getId() -> string;
 
     /**
-     * Returns the stored session handler
+     * Returns the stored session adapter
      */
-    public function getHandler() -> <SessionHandlerInterface>;
+    public function getAdapter() -> <SessionHandlerInterface>;
 
     /**
      * Returns the name of the session
@@ -96,9 +96,9 @@ interface ManagerInterface
     public function set(string key, var value) -> void;
 
     /**
-     * Set the handler for the session
+     * Set the adapter for the session
      */
-    public function setHandler(<SessionHandlerInterface> handler) -> <ManagerInterface>;
+    public function setAdapter(<SessionHandlerInterface> adapter) -> <ManagerInterface>;
 
     /**
      * Set session Id
@@ -130,12 +130,12 @@ interface ManagerInterface
     public function start() -> bool;
 
     /**
-     * Regenerates the session id using the handler.
+     * Regenerates the session id using the adapter.
      */
     public function regenerateId(deleteOldSession = true) -> <ManagerInterface>;
 
     /**
-     * Registers a handler with the session
+     * Registers a adapter with the session
      */
-    public function registerHandler(<SessionHandlerInterface> handler) -> bool;
+    public function registerAdapter(<SessionHandlerInterface> adapter) -> bool;
 }

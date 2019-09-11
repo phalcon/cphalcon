@@ -36,7 +36,7 @@ class RegenerateIdCest
 
         $files = $this->getSessionStream();
 
-        $manager->setHandler($files);
+        $manager->setAdapter($files);
         $manager->start();
 
         $current = $manager->getId();

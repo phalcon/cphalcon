@@ -36,7 +36,7 @@ class HasCest
 
         $files = $this->getSessionStream();
 
-        $manager->setHandler($files);
+        $manager->setAdapter($files);
 
         $I->assertTrue(
             $manager->start()

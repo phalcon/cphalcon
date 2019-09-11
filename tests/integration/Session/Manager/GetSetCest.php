@@ -36,7 +36,7 @@ class GetSetCest
 
         $files = $this->getSessionStream();
 
-        $manager->setHandler($files);
+        $manager->setAdapter($files);
 
 
         $I->assertTrue(
