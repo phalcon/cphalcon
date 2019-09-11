@@ -254,8 +254,7 @@ final class ServerRequest extends AbstractRequest implements ServerRequestInterf
      * @param array|object|null $data
      *
      * @return ServerRequest
-     * @throws InvalidArgumentException if an unsupported argument type is
-     *     provided.
+     * @throws InvalidArgumentException if an unsupported argument type is provided.
      *
      */
     public function withParsedBody(data) -> <ServerRequest>
