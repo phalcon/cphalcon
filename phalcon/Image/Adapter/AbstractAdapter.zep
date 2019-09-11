@@ -381,7 +381,7 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
       * Sharpen the image by a given amount
       */
-    public function sharpen(int amount) -> <AbstractAdapter>
+    public function sharpen(int amount) -> <AdapterInterface>
     {
         if amount > 100 {
             let amount = 100;
