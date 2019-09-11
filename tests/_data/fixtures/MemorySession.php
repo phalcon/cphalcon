@@ -290,17 +290,17 @@ class MemorySession implements ManagerInterface
     /**
      * Returns the stored session handler
      */
-    public function getHandler(): SessionHandlerInterface
+    public function getAdapter(): SessionHandlerInterface
     {
-        // TODO: Implement getHandler() method.
+        // TODO: Implement getAdapter() method.
     }
 
     /**
      * Set the handler for the session
      */
-    public function setHandler(SessionHandlerInterface $handler): ManagerInterface
+    public function setAdapter(SessionHandlerInterface $handler): ManagerInterface
     {
-        // TODO: Implement setHandler() method.
+        // TODO: Implement setAdapter() method.
     }
 
     /**

@@ -287,7 +287,7 @@ trait DiTrait
             function () {
                 $manager = new SessionManager();
 
-                $manager->setHandler(
+                $manager->setAdapter(
                     new SessionFiles(
                         getOptionsSessionStream()
                     )
@@ -308,7 +308,7 @@ trait DiTrait
             function () {
                 $manager = new SessionManager();
 
-                $manager->setHandler(
+                $manager->setAdapter(
                     new SessionLibmemcached(
                         getOptionsLibmemcached()
                     )
@@ -329,7 +329,7 @@ trait DiTrait
             function () {
                 $manager = new SessionManager();
 
-                $manager->setHandler(
+                $manager->setAdapter(
                     new SessionNoop()
                 );
 
@@ -348,7 +348,7 @@ trait DiTrait
             function () {
                 $manager = new SessionManager();
 
-                $manager->setHandler(
+                $manager->setAdapter(
                     new SessionRedis(
                         getOptionsRedis()
                     )
