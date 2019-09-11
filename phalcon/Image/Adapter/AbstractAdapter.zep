@@ -182,7 +182,7 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
       * Composite one image onto another
       */
-    public function mask(<AbstractAdapterInterface> watermark) -> <AdapterInterface>
+    public function mask(<AdapterInterface> watermark) -> <AdapterInterface>
     {
         this->{"processMask"}(watermark);
 
@@ -448,7 +448,7 @@ abstract class AbstractAdapter implements AdapterInterface
       * Add a watermark to an image with the specified opacity
       */
     public function watermark(
-        <AbstractAdapterInterface> watermark,
+        <AdapterInterface> watermark,
         int offsetX = 0,
         int offsetY = 0,
         int opacity = 100
