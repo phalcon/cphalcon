@@ -71,7 +71,7 @@ class CookiesCest extends HttpBase
                 $manager = new SessionManager();
                 $adapter = new SessionFiles();
 
-                $manager->setHandler($adapter);
+                $manager->setAdapter($adapter);
 
                 return $manager;
             }

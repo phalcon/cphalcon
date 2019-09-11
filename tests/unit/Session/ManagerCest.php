@@ -33,7 +33,7 @@ class ManagerCest
 
         $session = new Manager();
 
-        $session->setHandler(
+        $session->setAdapter(
             new Noop()
         );
 
