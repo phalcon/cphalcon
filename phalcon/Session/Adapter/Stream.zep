@@ -30,7 +30,7 @@ use Phalcon\Session\Exception;
  *         'savePath' => '/tmp',
  *     ]
  * );
- * $session->setHandler($files);
+ * $session->setAdapter($files);
  * ```
  */
 class Stream extends Noop

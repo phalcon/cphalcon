@@ -37,7 +37,7 @@ class GetSetIdCest
 
         $files = $this->getSessionStream();
 
-        $manager->setHandler($files);
+        $manager->setAdapter($files);
 
         $I->assertEquals(
             '',

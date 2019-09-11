@@ -18,25 +18,25 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionTrait;
 use SessionHandlerInterface;
 
-class GetSetHandlerCest
+class GetSetAdapterCest
 {
     use DiTrait;
     use SessionTrait;
 
     /**
-     * Tests Phalcon\Session\Manager :: getHandler()/setHandler()
+     * Tests Phalcon\Session\Manager :: getAdapter()/setAdapter()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function sessionManagerGetSetHandler(IntegrationTester $I)
+    public function sessionManagerGetSetAdapter(IntegrationTester $I)
     {
-        $I->wantToTest('Session\Manager - getHandler()/setHandler()');
+        $I->wantToTest('Session\Manager - getAdapter()/setAdapter()');
         $manager = new Manager();
         $files   = $this->getSessionStream();
-        $manager->setHandler($files);
+        $manager->setAdapter($files);
 
-        $actual = $manager->getHandler();
+        $actual = $manager->getAdapter();
         $class  = SessionHandlerInterface::class;
         $I->assertInstanceOf($class, $actual);
     }

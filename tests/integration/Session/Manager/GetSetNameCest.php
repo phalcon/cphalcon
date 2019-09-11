@@ -37,7 +37,7 @@ class GetSetNameCest
         $I->wantToTest('Session\Manager - getName()/setName()');
         $manager = new Manager();
         $files   = $this->getSessionStream();
-        $manager->setHandler($files);
+        $manager->setAdapter($files);
 
         if (false !== $manager->exists()) {
             $manager->destroy();
@@ -63,7 +63,7 @@ class GetSetNameCest
             function () {
                 $manager = new Manager();
                 $files   = $this->getSessionStream();
-                $manager->setHandler($files);
+                $manager->setAdapter($files);
 
                 $manager->setName('%-gga34');
             }
@@ -82,7 +82,7 @@ class GetSetNameCest
         $valid   = false;
         $manager = new Manager();
         $files   = $this->getSessionStream();
-        $manager->setHandler($files);
+        $manager->setAdapter($files);
 
         try {
             $manager->start();

@@ -25,7 +25,7 @@ use SessionHandlerInterface;
  * use Phalcon\Session\Adapter\Noop;
  *
  * $session = new Manager();
- * $session->setHandler(new Noop());
+ * $session->setAdapter(new Noop());
  * ```
  */
 class Noop implements SessionHandlerInterface

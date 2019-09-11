@@ -33,7 +33,7 @@ class StatusCest
         $I->wantToTest('Session\Manager - status()');
         $manager = new Manager();
         $files   = $this->getSessionStream();
-        $manager->setHandler($files);
+        $manager->setAdapter($files);
 
         $expected = $manager::SESSION_NONE;
         $actual   = $manager->status();
