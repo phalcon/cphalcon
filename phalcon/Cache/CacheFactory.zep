@@ -16,7 +16,6 @@ use Phalcon\Cache;
 use Phalcon\Cache\CacheInterface;
 use Phalcon\Cache\Exception\Exception;
 use Phalcon\Config;
-use Phalcon\Factory\AbstractFactory;
 use Phalcon\Helper\Arr;
 
 /**

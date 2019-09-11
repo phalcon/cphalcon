@@ -150,8 +150,7 @@ final class UploadedFile implements UploadedFileInterface
      * raise an exception.
      *
      * @return StreamInterface Stream representation of the uploaded file.
-     * @throws RuntimeException in cases when no stream is available or can be
-     *     created.
+     * @throws RuntimeException in cases when no stream is available or can be created.
      */
     public function getStream() -> var
     {
