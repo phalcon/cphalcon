@@ -61,4 +61,23 @@ class ServiceCest
             $di->getService('notResolved')->isResolved()
         );
     }
+
+    public function testAlias(UnitTester $I)
+    {
+        $escaper = new Escaper();
+
+        $di = new Di();
+
+        $di->set(
+            'resolved',
+            Escaper::class
+        );
+
+        $di->set(Escaper::class, $escaper);
+
+        $I->assertSame(
+            $escaper,
+            $di->get('resolved')
+        );
+    }
 }
