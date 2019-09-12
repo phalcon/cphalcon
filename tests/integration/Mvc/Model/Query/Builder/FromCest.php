@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Model\Query\Builder;
 
 use IntegrationTester;
+use Phalcon\Test\Models\RobotsParts;
 
 /**
  * Class FromCest
@@ -28,6 +29,10 @@ class FromCest
     public function mvcModelQueryBuilderFrom(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Model\Query\Builder - from()');
-        $I->skipTest('Need implementation');
+        $builder = new Phalcon\Mvc\Model\Query\Builder();
+        $builder->addFrom(RobotsParts::class);
+
+        $expectedQuery = "SELECT [".RobotsParts::class."].* FROM [".RobotsParts::class."]";
+        $I->assertEquals($expectedQuery, $builder->getQuery());
     }
 }
