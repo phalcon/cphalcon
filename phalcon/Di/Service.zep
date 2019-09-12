@@ -134,11 +134,12 @@ class Service implements ServiceInterface
 
         let definition = this->definition;
         if typeof definition == "string" {
-
             /**
              * String definitions can be class names without implicit parameters
              */
-            if class_exists(definition) {
+            if container !== null {
+                let instance = container->get(definition, parameters);
+            } elseif class_exists(definition) {
                 if typeof parameters == "array" && count(parameters) {
                     let instance = create_instance_params(
                         definition,
