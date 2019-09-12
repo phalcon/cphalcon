@@ -30,7 +30,7 @@ class FromCest
     public function mvcModelQueryBuilderFrom(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Model\Query\Builder - from()');
-        $builder = new Phalcon\Mvc\Model\Query\Builder();
+        $builder = new Builder();
         $builder->addFrom(RobotsParts::class);
 
         $expectedQuery = "SELECT [".RobotsParts::class."].* FROM [".RobotsParts::class."]";
