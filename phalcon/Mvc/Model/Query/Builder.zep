@@ -279,7 +279,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
             }
         }
 
-        if typeof alias == "string" {
+        if typeof alias == "string" && alias !== null {
             let models[alias] = model;
         } else {
             let models[] = model;
