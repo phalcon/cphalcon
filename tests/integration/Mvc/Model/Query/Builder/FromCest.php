@@ -34,6 +34,12 @@ class FromCest
         $builder->addFrom(RobotsParts::class);
 
         $expectedQuery = "SELECT [".RobotsParts::class."].* FROM [".RobotsParts::class."]";
-        $I->assertEquals($expectedQuery, $builder->getQuery());
+        $I->assertEquals($expectedQuery, $builder->getPhql());
+
+        $alias = "MyAlias";
+        $builder = new Builder();
+        $builder->addFrom(RobotsParts::class, $alias);
+        $expectedQuery = "SELECT [".$alias."].* FROM [".RobotsParts::class."] AS [".$alias."]";
+        $I->assertEquals($expectedQuery, $builder->getPhql());
     }
 }
