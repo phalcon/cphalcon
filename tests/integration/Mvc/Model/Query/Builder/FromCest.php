@@ -14,7 +14,7 @@ namespace Phalcon\Test\Integration\Mvc\Model\Query\Builder;
 
 use IntegrationTester;
 use Phalcon\Test\Models\RobotsParts;
-use Mvc\Model\Query\Builder;
+use Phalcon\Mvc\Model\Query\Builder;
 
 /**
  * Class FromCest
