@@ -80,9 +80,9 @@ ZEPHIR_DOC_METHOD(Phalcon_Session_ManagerInterface, get);
 ZEPHIR_DOC_METHOD(Phalcon_Session_ManagerInterface, getId);
 
 /**
- * Returns the stored session handler
+ * Returns the stored session adapter
  */
-ZEPHIR_DOC_METHOD(Phalcon_Session_ManagerInterface, getHandler);
+ZEPHIR_DOC_METHOD(Phalcon_Session_ManagerInterface, getAdapter);
 
 /**
  * Returns the name of the session
@@ -110,9 +110,9 @@ ZEPHIR_DOC_METHOD(Phalcon_Session_ManagerInterface, remove);
 ZEPHIR_DOC_METHOD(Phalcon_Session_ManagerInterface, set);
 
 /**
- * Set the handler for the session
+ * Set the adapter for the session
  */
-ZEPHIR_DOC_METHOD(Phalcon_Session_ManagerInterface, setHandler);
+ZEPHIR_DOC_METHOD(Phalcon_Session_ManagerInterface, setAdapter);
 
 /**
  * Set session Id
@@ -144,12 +144,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Session_ManagerInterface, status);
 ZEPHIR_DOC_METHOD(Phalcon_Session_ManagerInterface, start);
 
 /**
- * Regenerates the session id using the handler.
+ * Regenerates the session id using the adapter.
  */
 ZEPHIR_DOC_METHOD(Phalcon_Session_ManagerInterface, regenerateId);
-
-/**
- * Registers a handler with the session
- */
-ZEPHIR_DOC_METHOD(Phalcon_Session_ManagerInterface, registerHandler);
 

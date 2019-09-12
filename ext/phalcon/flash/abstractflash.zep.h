@@ -3,12 +3,12 @@ extern zend_class_entry *phalcon_flash_abstractflash_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Flash_AbstractFlash);
 
+PHP_METHOD(Phalcon_Flash_AbstractFlash, getAutoescape);
 PHP_METHOD(Phalcon_Flash_AbstractFlash, getCssClasses);
 PHP_METHOD(Phalcon_Flash_AbstractFlash, getCustomTemplate);
 PHP_METHOD(Phalcon_Flash_AbstractFlash, __construct);
 PHP_METHOD(Phalcon_Flash_AbstractFlash, clear);
 PHP_METHOD(Phalcon_Flash_AbstractFlash, error);
-PHP_METHOD(Phalcon_Flash_AbstractFlash, getAutoescape);
 PHP_METHOD(Phalcon_Flash_AbstractFlash, getEscaperService);
 PHP_METHOD(Phalcon_Flash_AbstractFlash, notice);
 PHP_METHOD(Phalcon_Flash_AbstractFlash, setAutoescape);
@@ -24,6 +24,13 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, getTemplate);
 PHP_METHOD(Phalcon_Flash_AbstractFlash, prepareEscapedMessage);
 PHP_METHOD(Phalcon_Flash_AbstractFlash, prepareHtmlMessage);
 zend_object *zephir_init_properties_Phalcon_Flash_AbstractFlash(zend_class_entry *class_type TSRMLS_DC);
+
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_flash_abstractflash_getautoescape, 0, 0, _IS_BOOL, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_flash_abstractflash_getautoescape, 0, 0, _IS_BOOL, NULL, 0)
+#endif
+ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_flash_abstractflash_getcssclasses, 0, 0, IS_ARRAY, 0)
@@ -53,13 +60,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_flash_abstractflash_erro
 	ZEND_ARG_TYPE_INFO(0, message, IS_STRING, 0)
 #else
 	ZEND_ARG_INFO(0, message)
-#endif
-ZEND_END_ARG_INFO()
-
-#if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_flash_abstractflash_getautoescape, 0, 0, _IS_BOOL, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_flash_abstractflash_getautoescape, 0, 0, _IS_BOOL, NULL, 0)
 #endif
 ZEND_END_ARG_INFO()
 
@@ -221,12 +221,12 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_flash_abstractflash_prep
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_flash_abstractflash_method_entry) {
+	PHP_ME(Phalcon_Flash_AbstractFlash, getAutoescape, arginfo_phalcon_flash_abstractflash_getautoescape, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Flash_AbstractFlash, getCssClasses, arginfo_phalcon_flash_abstractflash_getcssclasses, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Flash_AbstractFlash, getCustomTemplate, arginfo_phalcon_flash_abstractflash_getcustomtemplate, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Flash_AbstractFlash, __construct, arginfo_phalcon_flash_abstractflash___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Flash_AbstractFlash, clear, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Flash_AbstractFlash, error, arginfo_phalcon_flash_abstractflash_error, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Flash_AbstractFlash, getAutoescape, arginfo_phalcon_flash_abstractflash_getautoescape, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Flash_AbstractFlash, getEscaperService, arginfo_phalcon_flash_abstractflash_getescaperservice, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Flash_AbstractFlash, notice, arginfo_phalcon_flash_abstractflash_notice, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Flash_AbstractFlash, setAutoescape, arginfo_phalcon_flash_abstractflash_setautoescape, ZEND_ACC_PUBLIC)

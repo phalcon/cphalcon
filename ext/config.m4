@@ -236,8 +236,8 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/events/exception.zep.c
 	phalcon/events/manager.zep.c
 	phalcon/factory/exception.zep.c
+	phalcon/filter.zep.c
 	phalcon/filter/exception.zep.c
-	phalcon/filter/filter.zep.c
 	phalcon/filter/filterfactory.zep.c
 	phalcon/filter/sanitize/absint.zep.c
 	phalcon/filter/sanitize/alnum.zep.c
@@ -301,7 +301,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/html/helper/img.zep.c
 	phalcon/html/helper/label.zep.c
 	phalcon/html/helper/textarea.zep.c
-	phalcon/html/tag.zep.c
 	phalcon/html/tagfactory.zep.c
 	phalcon/http/cookie.zep.c
 	phalcon/http/cookie/exception.zep.c

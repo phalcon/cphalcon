@@ -111,8 +111,7 @@ PHP_METHOD(Phalcon_Cache, clear) {
  *
  * @return bool True if the item was successfully removed. False if there was an error.
  *
- * @throws Phalcon\Cache\Exception\InvalidArgumentException
- *   MUST be thrown if the $key string is not a legal value.
+ * @throws Phalcon\Cache\Exception\InvalidArgumentException MUST be thrown if the $key string is not a legal value.
  */
 PHP_METHOD(Phalcon_Cache, delete) {
 
@@ -145,9 +144,7 @@ PHP_METHOD(Phalcon_Cache, delete) {
  *
  * @return bool True if the items were successfully removed. False if there was an error.
  *
- * @throws Phalcon\Cache\Exception\InvalidArgumentException
- *   MUST be thrown if $keys is neither an array nor a Traversable,
- *   or if any of the $keys are not a legal value.
+ * @throws Phalcon\Cache\Exception\InvalidArgumentException MUST be thrown if $keys is neither an array nor a Traversable, or if any of the $keys are not a legal value.
  */
 PHP_METHOD(Phalcon_Cache, deleteMultiple) {
 
@@ -173,7 +170,7 @@ PHP_METHOD(Phalcon_Cache, deleteMultiple) {
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkkeys", NULL, 0, keys);
 	zephir_check_call_status();
 	result = 1;
-	zephir_is_iterable(keys, 0, "phalcon/Cache.zep", 94);
+	zephir_is_iterable(keys, 0, "phalcon/Cache.zep", 91);
 	if (Z_TYPE_P(keys) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(keys), _0)
 		{
@@ -220,8 +217,7 @@ PHP_METHOD(Phalcon_Cache, deleteMultiple) {
  *
  * @return mixed The value of the item from the cache, or $default in case of cache miss.
  *
- * @throws Phalcon\Cache\Exception\InvalidArgumentException
- *   MUST be thrown if the $key string is not a legal value.
+ * @throws Phalcon\Cache\Exception\InvalidArgumentException MUST be thrown if the $key string is not a legal value.
  */
 PHP_METHOD(Phalcon_Cache, get) {
 
@@ -261,9 +257,7 @@ PHP_METHOD(Phalcon_Cache, get) {
  *
  * @return iterable A list of key => value pairs. Cache keys that do not exist or are stale will have $default as value.
  *
- * @throws Phalcon\Cache\Exception\InvalidArgumentException
- *   MUST be thrown if $keys is neither an array nor a Traversable,
- *   or if any of the $keys are not a legal value.
+ * @throws Phalcon\Cache\Exception\InvalidArgumentException MUST be thrown if $keys is neither an array nor a Traversable, or if any of the $keys are not a legal value.
  */
 PHP_METHOD(Phalcon_Cache, getMultiple) {
 
@@ -296,7 +290,7 @@ PHP_METHOD(Phalcon_Cache, getMultiple) {
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&results);
 	array_init(&results);
-	zephir_is_iterable(keys, 0, "phalcon/Cache.zep", 139);
+	zephir_is_iterable(keys, 0, "phalcon/Cache.zep", 133);
 	if (Z_TYPE_P(keys) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(keys), _0)
 		{
@@ -336,8 +330,7 @@ PHP_METHOD(Phalcon_Cache, getMultiple) {
  *
  * @return bool
  *
- * @throws Phalcon\Cache\Exception\InvalidArgumentException
- *   MUST be thrown if the $key string is not a legal value.
+ * @throws Phalcon\Cache\Exception\InvalidArgumentException MUST be thrown if the $key string is not a legal value.
  */
 PHP_METHOD(Phalcon_Cache, has) {
 
@@ -374,8 +367,7 @@ PHP_METHOD(Phalcon_Cache, has) {
  *
  * @return bool True on success and false on failure.
  *
- * @throws Phalcon\Cache\Exception\InvalidArgumentException
- *   MUST be thrown if the $key string is not a legal value.
+ * @throws Phalcon\Cache\Exception\InvalidArgumentException MUST be thrown if the $key string is not a legal value.
  */
 PHP_METHOD(Phalcon_Cache, set) {
 
@@ -418,9 +410,7 @@ PHP_METHOD(Phalcon_Cache, set) {
  *
  * @return bool True on success and false on failure.
  *
- * @throws Phalcon\Cache\Exception\InvalidArgumentException
- *   MUST be thrown if $values is neither an array nor a Traversable,
- *   or if any of the $values are not a legal value.
+ * @throws Phalcon\Cache\Exception\InvalidArgumentException MUST be thrown if $values is neither an array nor a Traversable, or if any of the $values are not a legal value.
  */
 PHP_METHOD(Phalcon_Cache, setMultiple) {
 
@@ -454,7 +444,7 @@ PHP_METHOD(Phalcon_Cache, setMultiple) {
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkkeys", NULL, 0, values);
 	zephir_check_call_status();
 	result = 1;
-	zephir_is_iterable(values, 0, "phalcon/Cache.zep", 208);
+	zephir_is_iterable(values, 0, "phalcon/Cache.zep", 198);
 	if (Z_TYPE_P(values) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(values), _2, _3, _0)
 		{
@@ -533,7 +523,7 @@ PHP_METHOD(Phalcon_Cache, checkKey) {
 	ZVAL_STRING(&_4, "/[^A-Za-z0-9-_]/");
 	zephir_preg_match(&_3, &_4, key, &_1, 0, 0 , 0  TSRMLS_CC);
 	if (zephir_is_true(&_3)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_invalidargumentexception_ce, "The key contains invalid characters", "phalcon/Cache.zep", 221);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_invalidargumentexception_ce, "The key contains invalid characters", "phalcon/Cache.zep", 211);
 		return;
 	}
 	ZEPHIR_MM_RESTORE();
@@ -560,7 +550,7 @@ PHP_METHOD(Phalcon_Cache, checkKeys) {
 		_0 = zephir_zval_is_traversable(keys TSRMLS_CC);
 	}
 	if (!(_0)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_cache_exception_invalidargumentexception_ce, "The keys need to be an array or instance of Traversable", "phalcon/Cache.zep", 233);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_cache_exception_invalidargumentexception_ce, "The keys need to be an array or instance of Traversable", "phalcon/Cache.zep", 223);
 		return;
 	}
 
