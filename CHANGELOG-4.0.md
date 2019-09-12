@@ -29,6 +29,7 @@
 - Fixed `Phalcon\Security::getSessionToken` return value [#14346](https://github.com/phalcon/cphalcon/issues/14346)
 - Fixed `Phalcon\Flash\*` interfaces for `message()` to return `string/null` [#14349](https://github.com/phalcon/cphalcon/issues/14349)
 - Fixed `Phalcon\Paginator\Adapter\AbstractAdapter` throw exception if `limit <= 0` [#14303](https://github.com/phalcon/cphalcon/issues/14303)
+- Fixed `Phalcon\Mvc\Model\Query\Builder` Empty table alias in query [#14366](https://github.com/phalcon/cphalcon/issues/14366)
 
 ## Removed
 - Removed `Phalcon\Plugin` - duplicate of `Phalcon\DI\Injectable` [#14359](https://github.com/phalcon/cphalcon/issues/14359)
