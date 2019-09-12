@@ -197,14 +197,6 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
     }
 
     /**
-     * Registers a adapter with the session
-     */
-    public function registerAdapter(<SessionHandlerInterface> adapter) -> bool
-    {
-        return session_set_save_handler(adapter);
-    }
-
-    /**
      * Removes a session variable from an application context
      */
     public function remove(string key)
@@ -331,7 +323,7 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
         /**
          * Register the adapter
          */
-        this->registerAdapter(this->adapter);
+        session_set_save_handler(this->adapter);
 
         /**
          * Start the session
