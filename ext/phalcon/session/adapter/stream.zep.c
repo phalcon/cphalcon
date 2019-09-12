@@ -49,7 +49,7 @@
  *         'savePath' => '/tmp',
  *     ]
  * );
- * $session->setHandler($files);
+ * $session->setAdapter($files);
  * ```
  */
 ZEPHIR_INIT_CLASS(Phalcon_Session_Adapter_Stream) {
@@ -101,10 +101,10 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, __construct) {
 	if (!(zephir_array_isset_string_fetch(&path, &options, SL("savePath"), 0))) {
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "session.save_path");
-		ZEPHIR_CALL_FUNCTION(&path, "ini_get", NULL, 0, &_2$$3);
+		ZEPHIR_CALL_FUNCTION(&path, "ini_get", NULL, 511, &_2$$3);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_FUNCTION(&_3, "is_writable", NULL, 330, &path);
+	ZEPHIR_CALL_FUNCTION(&_3, "is_writable", NULL, 319, &path);
 	zephir_check_call_status();
 	if (UNEXPECTED(!zephir_is_true(&_3))) {
 		ZEPHIR_INIT_VAR(&_4$$4);

@@ -11,16 +11,15 @@ PHP_METHOD(Phalcon_Session_Manager, __unset);
 PHP_METHOD(Phalcon_Session_Manager, destroy);
 PHP_METHOD(Phalcon_Session_Manager, exists);
 PHP_METHOD(Phalcon_Session_Manager, get);
-PHP_METHOD(Phalcon_Session_Manager, getHandler);
+PHP_METHOD(Phalcon_Session_Manager, getAdapter);
 PHP_METHOD(Phalcon_Session_Manager, getId);
 PHP_METHOD(Phalcon_Session_Manager, getName);
 PHP_METHOD(Phalcon_Session_Manager, has);
 PHP_METHOD(Phalcon_Session_Manager, getOptions);
 PHP_METHOD(Phalcon_Session_Manager, regenerateId);
-PHP_METHOD(Phalcon_Session_Manager, registerHandler);
 PHP_METHOD(Phalcon_Session_Manager, remove);
 PHP_METHOD(Phalcon_Session_Manager, set);
-PHP_METHOD(Phalcon_Session_Manager, setHandler);
+PHP_METHOD(Phalcon_Session_Manager, setAdapter);
 PHP_METHOD(Phalcon_Session_Manager, setId);
 PHP_METHOD(Phalcon_Session_Manager, setName);
 PHP_METHOD(Phalcon_Session_Manager, setOptions);
@@ -92,9 +91,9 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_manager_get, 0, 0, 1)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_session_manager_gethandler, 0, 0, SessionHandlerInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_session_manager_getadapter, 0, 0, SessionHandlerInterface, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_session_manager_gethandler, 0, 0, IS_OBJECT, "SessionHandlerInterface", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_session_manager_getadapter, 0, 0, IS_OBJECT, "SessionHandlerInterface", 0)
 #endif
 ZEND_END_ARG_INFO()
 
@@ -139,14 +138,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_session_manager_regenera
 	ZEND_ARG_INFO(0, deleteOldSession)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_session_manager_registerhandler, 0, 1, _IS_BOOL, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_session_manager_registerhandler, 0, 1, _IS_BOOL, NULL, 0)
-#endif
-	ZEND_ARG_OBJ_INFO(0, handler, SessionHandlerInterface, 0)
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_manager_remove, 0, 0, 1)
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
@@ -165,11 +156,11 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_manager_set, 0, 0, 2)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_session_manager_sethandler, 0, 1, Phalcon\\Session\\ManagerInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_session_manager_setadapter, 0, 1, Phalcon\\Session\\ManagerInterface, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_session_manager_sethandler, 0, 1, IS_OBJECT, "Phalcon\\Session\\ManagerInterface", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_session_manager_setadapter, 0, 1, IS_OBJECT, "Phalcon\\Session\\ManagerInterface", 0)
 #endif
-	ZEND_ARG_OBJ_INFO(0, handler, SessionHandlerInterface, 0)
+	ZEND_ARG_OBJ_INFO(0, adapter, SessionHandlerInterface, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
@@ -235,16 +226,15 @@ ZEPHIR_INIT_FUNCS(phalcon_session_manager_method_entry) {
 	PHP_ME(Phalcon_Session_Manager, destroy, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Manager, exists, arginfo_phalcon_session_manager_exists, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Manager, get, arginfo_phalcon_session_manager_get, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Session_Manager, getHandler, arginfo_phalcon_session_manager_gethandler, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Session_Manager, getAdapter, arginfo_phalcon_session_manager_getadapter, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Manager, getId, arginfo_phalcon_session_manager_getid, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Manager, getName, arginfo_phalcon_session_manager_getname, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Manager, has, arginfo_phalcon_session_manager_has, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Manager, getOptions, arginfo_phalcon_session_manager_getoptions, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Manager, regenerateId, arginfo_phalcon_session_manager_regenerateid, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Session_Manager, registerHandler, arginfo_phalcon_session_manager_registerhandler, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Manager, remove, arginfo_phalcon_session_manager_remove, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Manager, set, arginfo_phalcon_session_manager_set, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Session_Manager, setHandler, arginfo_phalcon_session_manager_sethandler, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Session_Manager, setAdapter, arginfo_phalcon_session_manager_setadapter, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Manager, setId, arginfo_phalcon_session_manager_setid, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Manager, setName, arginfo_phalcon_session_manager_setname, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Manager, setOptions, arginfo_phalcon_session_manager_setoptions, ZEND_ACC_PUBLIC)

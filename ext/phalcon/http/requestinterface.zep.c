@@ -191,7 +191,18 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getMethod);
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getPort);
 
 /**
- * Gets HTTP URI which request has been made
+ * Gets HTTP URI which request has been made to
+ *
+ *```php
+ * // Returns /some/path?with=queryParams
+ * $uri = $request->getURI();
+ *
+ * // Returns /some/path
+ * $uri = $request->getURI(true);
+ *```
+ *
+ * @param bool onlyPath If true, query part will be omitted
+ * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getURI);
 
