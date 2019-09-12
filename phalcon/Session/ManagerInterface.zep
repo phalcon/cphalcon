@@ -133,9 +133,4 @@ interface ManagerInterface
      * Regenerates the session id using the adapter.
      */
     public function regenerateId(deleteOldSession = true) -> <ManagerInterface>;
-
-    /**
-     * Registers a adapter with the session
-     */
-    public function registerAdapter(<SessionHandlerInterface> adapter) -> bool;
 }
