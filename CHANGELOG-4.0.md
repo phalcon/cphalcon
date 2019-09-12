@@ -31,10 +31,13 @@
 - Fixed `Phalcon\Flash\*` interfaces for `message()` to return `string/null` [#14349](https://github.com/phalcon/cphalcon/issues/14349)
 - Fixed `Phalcon\Paginator\Adapter\AbstractAdapter` throw exception if `limit <= 0` [#14303](https://github.com/phalcon/cphalcon/issues/14303)
 - Fixed `Phalcon\Mvc\Model\Query\Builder` Empty table alias in query [#14366](https://github.com/phalcon/cphalcon/issues/14366)
+- Fixed `Phalcon/Db/Adapter/PdoFactory` to reference the correct interface [#14381](https://github.com/phalcon/cphalcon/pull/14381)
 
 ## Removed
 - Removed `Phalcon\Plugin` - duplicate of `Phalcon\DI\Injectable` [#14359](https://github.com/phalcon/cphalcon/issues/14359)
 - Removed `Phalcon\Mvc\Collection` and all related references. 4.0 will not support mongo as it is being re-implemented to take advantage of the latest Mongo driver (see [#13697](https://github.com/phalcon/cphalcon/issues/13697)) [#14361](https://github.com/phalcon/cphalcon/pull/14361)
+- Removed `Phalcon\Session\Manager::registerHandler` - duplicate functionality [#14381](https://github.com/phalcon/cphalcon/pull/14381)
+- Removed `Phalcon\Html\Tag` - duplicate functionality [#14381](https://github.com/phalcon/cphalcon/pull/14381)
 
 # [4.0.0-beta.2](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-beta.2) (2019-08-18)
 
