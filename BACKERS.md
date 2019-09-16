@@ -4,10 +4,14 @@ You can join them in supporting Phalcon and Zephir development by visiting our p
 
 ### Supporters
 
-<a href="https://pdffiller.com/">
-  <img width="240px" src="https://raw.githubusercontent.com/phalcon/cphalcon/master/backers/pdffiller-240x60.png">
+<a href="https://mctekk.com/phalcon" target="_blank">
+    <img width="240px"
+         src="https://assets.phalcon.io/phalcon/images/backers/mctekk-149x34.svg"  alt="Mctekk">
+    </a>
+<a href="https://abits.com/" target="_blank">
+    <img width="240px"
+         src="https://assets.phalcon.io/phalcon/images/backers/abits-100x34.svg" alt="Abits">
 </a>
-
 
 ### Sponsors
 Become a sponsor and get your logo on our README on Github with a link to your site. [[Become a sponsor](https://opencollective.com/phalcon#sponsor)]
