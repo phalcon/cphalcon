@@ -522,11 +522,11 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * // Allow assign only name and year
      * $robot->assign(
      *     $_POST,
-     *     null,
      *     [
      *         "name",
      *         "year",
      *     ]
+     *     null
      * );
      *
      * // By default assign method will use setters if exist, you can disable it by using ini_set to directly use properties
@@ -535,18 +535,18 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *
      * $robot->assign(
      *     $_POST,
-     *     null,
      *     [
      *         "name",
      *         "year",
      *     ]
+     *     null
      * );
      * ```
      *
      * @param array dataColumnMap array to transform keys of data to another
      * @param array whiteList
      */
-    public function assign(array! data, var dataColumnMap = null, var whiteList = null) -> <ModelInterface>
+    public function assign(array! data, var whiteList = null, var dataColumnMap = null) -> <ModelInterface>
     {
         var key, keyMapped, value, attribute, attributeField, metaData,
             columnMap, disableAssignSetters;
