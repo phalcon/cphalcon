@@ -526,7 +526,6 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *         "name",
      *         "year",
      *     ]
-     *     null
      * );
      *
      * // By default assign method will use setters if exist, you can disable it by using ini_set to directly use properties
@@ -539,7 +538,6 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *         "name",
      *         "year",
      *     ]
-     *     null
      * );
      * ```
      *
@@ -2217,7 +2215,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         if typeof row == "array" {
             let columnMap = metaData->getColumnMap(this);
 
-            this->assign(row, columnMap);
+            this->assign(row, null, columnMap);
 
             if manager->isKeepingSnapshots(this) {
                 this->setSnapshotData(row, columnMap);
