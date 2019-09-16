@@ -48,5 +48,12 @@ class SetCest
 
         $actual = $di->getService('crypt');
         $I->assertTrue($actual->isShared());
+
+        // testing closure
+        $returnValue = "Closure Test!";
+        $di->set('closure', function () use ($returnValue) {
+            return $returnValue;
+        });
+        $I->assertEquals($returnValue, $di->get('closure'));
     }
 }
