@@ -51,7 +51,7 @@ class SetCest
 
         // testing closure
         $returnValue = "Closure Test!";
-        $di->set('closure', function() use ($returnValue) {
+        $di->set('closure', function () use ($returnValue) {
             return $returnValue;
         });
         $I->assertEquals($returnValue, $di->get('closure'));
