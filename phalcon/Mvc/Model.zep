@@ -522,7 +522,6 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * // Allow assign only name and year
      * $robot->assign(
      *     $_POST,
-     *     null,
      *     [
      *         "name",
      *         "year",
@@ -535,7 +534,6 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *
      * $robot->assign(
      *     $_POST,
-     *     null,
      *     [
      *         "name",
      *         "year",
@@ -546,7 +544,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * @param array dataColumnMap array to transform keys of data to another
      * @param array whiteList
      */
-    public function assign(array! data, var dataColumnMap = null, var whiteList = null) -> <ModelInterface>
+    public function assign(array! data, var whiteList = null, var dataColumnMap = null) -> <ModelInterface>
     {
         var key, keyMapped, value, attribute, attributeField, metaData,
             columnMap, disableAssignSetters;
@@ -2217,7 +2215,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         if typeof row == "array" {
             let columnMap = metaData->getColumnMap(this);
 
-            this->assign(row, columnMap);
+            this->assign(row, null, columnMap);
 
             if manager->isKeepingSnapshots(this) {
                 this->setSnapshotData(row, columnMap);

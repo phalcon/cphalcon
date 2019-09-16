@@ -15,6 +15,8 @@
 - Changed `Phalcon\Di\Service` to use DI to initialize `string` based services when possible [#14342](https://github.com/phalcon/cphalcon/pull/14342)
 - Changed `Phalcon\Mvc\Router\Annotations` to be able to handle patterns az prefixes [#14259](https://github.com/phalcon/cphalcon/pull/14259)
 - Changed `Phalcon\Mvc\Router\Group::routes` to an array as default [#14259](https://github.com/phalcon/cphalcon/pull/14259)
+- Changed `Phalcon\Mvc\Model::assign` changed order of parameters to $data, $whiteList, $dataColumnMap [#14386](https://github.com/phalcon/cphalcon/pull/14386)
+
 
 ## Fixed
 - Fixed `Phalcon\Helper\Str::includes` to return correct result [#14301](https://github.com/phalcon/cphalcon/issues/14301)

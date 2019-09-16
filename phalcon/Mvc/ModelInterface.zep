@@ -36,7 +36,7 @@ interface ModelInterface
      *
      * @param array columnMap
      */
-    public function assign(array! data, var dataColumnMap = null, var whiteList = null) -> <ModelInterface>;
+    public function assign(array! data, var whiteList = null, var dataColumnMap = null) -> <ModelInterface>;
 
     /**
      * Allows to calculate the average value on a column matching the specified
