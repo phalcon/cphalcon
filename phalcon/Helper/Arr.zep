@@ -342,7 +342,7 @@ class Arr
      */
     final public static function toObject(array! collection)
     {
-        return (object) returnObject;
+        return (object) collection;
     }
 
     /**
