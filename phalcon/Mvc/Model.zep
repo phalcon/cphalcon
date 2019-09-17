@@ -881,7 +881,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         }
 
         if hydrationMode != Resultset::HYDRATE_ARRAYS {
-            return Arr::arrayToObject(hydrateArray);
+            return Arr::toObject(hydrateArray);
         }
 
         return hydrateArray;
