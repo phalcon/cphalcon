@@ -217,6 +217,37 @@ class CreateTableCest
                 ],
                 rtrim(file_get_contents(dataDir('fixtures/Db/mysql/example5.sql'))),
             ],
+            'example6' => [
+                '',
+                [
+                    'columns' => [
+                        new Column(
+                            'id_user',
+                            [
+                                'type'          => 'BIGINT',
+                                'typeReference' => Column::TYPE_INTEGER,
+                                'size'          => 20,
+                                'unsigned'      => true,
+                                'notNull'       => false,
+                            ]
+                        ),
+                    ],
+                    'references' => [
+                        new Reference(
+                            'fk_id_user',
+                            [
+                                'referencedTable' => 'users',
+                                'referencedSchema' => 'database2',
+                                'columns' => ['id_user'],
+                                'referencedColumns' => ['id'],
+                                'onUpdate' => 'CASCADE',
+                                'onDelete' => 'SET NULL'
+                            ]
+                        )
+                    ],
+                ],
+                rtrim(file_get_contents(dataDir('fixtures/Db/mysql/example6.sql'))),
+            ],
         ];
     }
 }
