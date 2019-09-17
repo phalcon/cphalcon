@@ -222,7 +222,7 @@ class CreateTableCest
                 [
                     'columns' => [
                         new Column(
-                            'column11',
+                            'id_user',
                             [
                                 'type'          => 'BIGINT',
                                 'typeReference' => Column::TYPE_INTEGER,
