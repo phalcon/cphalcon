@@ -74,16 +74,6 @@ class HasChangedCest
             $robot->hasChanged('year')
         );
 
-        $robot->year = 1900;
-
-        /**
-         * Testing that default value is unchanged when
-         * an integer is set
-         */
-        $I->assertFalse(
-            $robot->hasChanged('year')
-        );
-
         /**
          * Any of multiple fields
          */
