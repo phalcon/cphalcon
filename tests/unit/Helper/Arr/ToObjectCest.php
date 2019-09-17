@@ -16,24 +16,24 @@ use Phalcon\Helper\Arr;
 use stdClass;
 use UnitTester;
 
-class ArrayToObjectCest
+class ToObjectCest
 {
     /**
-     * Unit Tests Phalcon\Helper\Arr :: arrayToObject()
+     * Unit Tests Phalcon\Helper\Arr :: toObject()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-25
      */
     public function helperArrArrayToObject(UnitTester $I)
     {
-        $I->wantToTest('Helper\Arr - arrayToObject()');
+        $I->wantToTest('Helper\Arr - toObject()');
 
         $source = [
             'one'   => 'two',
             'three' => 'four',
         ];
 
-        $actual = Arr::arrayToObject($source);
+        $actual = Arr::toObject($source);
 
         $expected        = new stdClass();
         $expected->one   = 'two';
