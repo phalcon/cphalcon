@@ -234,7 +234,7 @@ class Mysql extends Dialect
         if fetch references, definition["references"] {
             for reference in references {
                 let referenceSql = "CONSTRAINT `" . reference->getName() . "` FOREIGN KEY (" . this->getColumnList(reference->getColumns()) . ")"
-                    . " REFERENCES `" . this->prepareTable(reference->getReferencedTable(), reference->getReferencedSchema()) . "`(" . this->getColumnList(reference->getReferencedColumns()) . ")";
+                    . " REFERENCES " . this->prepareTable(reference->getReferencedTable(), reference->getReferencedSchema()) . " (" . this->getColumnList(reference->getReferencedColumns()) . ")";
 
                 let onDelete = reference->getOnDelete();
                 if !empty onDelete {
