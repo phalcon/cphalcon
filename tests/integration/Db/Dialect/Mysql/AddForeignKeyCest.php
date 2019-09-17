@@ -15,6 +15,7 @@ namespace Phalcon\Test\Integration\Db\Dialect\Mysql;
 use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Db\Dialect\Mysql;
+use Phalcon\Db\Reference;
 use Phalcon\Test\Fixtures\Traits\DialectTrait;
 
 class AddForeignKeyCest
@@ -43,6 +44,27 @@ class AddForeignKeyCest
         $actual = $dialect->addForeignKey('table', $schema, $references[$reference]);
 
         $I->assertEquals($expected, $actual);
+    }
+
+    public function issue14378MissingReferenceSchema(IntegrationTester $I)
+    {
+        $I->wantToTest('Db\Dialect\Mysql - addForeignKey() for missing referenceSchema');
+        $reference = new Reference(
+            "fk_id_user",
+            [
+                'referencedTable' => 'users',
+                'referencedSchema' => 'database2',
+                'columns' => ['id_user'],
+                'referencedColumns' => ['id'],
+                'onUpdate' => 'CASCADE',
+                'onDelete' => 'SET NULL',
+            ]
+        );
+        $dialect = new Mysql();
+        $actual  = $dialect->addForeignKey("table", "schema", $reference);
+
+        $expect = "ALTER TABLE `schema`.`table` ADD CONSTRAINT `fk_id_user` FOREIGN KEY (`id_user`) REFERENCES `database2`.`users`(`id`) ON DELETE SET NULL ON UPDATE CASCADE";
+        $I->assertEquals($expect, $actual);
     }
 
     protected function getAddForeignKeyFixtures(): array
