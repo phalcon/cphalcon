@@ -46,8 +46,8 @@ class PluckCest
     {
         $I->wantToTest('Helper\Arr - pluck()');
         $collection = [
-            Arr::arrayToObject(['product_id' => 'prod-100', 'name' => 'Desk']),
-            Arr::arrayToObject(['product_id' => 'prod-200', 'name' => 'Chair']),
+            Arr::toObject(['product_id' => 'prod-100', 'name' => 'Desk']),
+            Arr::toObject(['product_id' => 'prod-200', 'name' => 'Chair']),
         ];
 
         $expected = ['Desk', 'Chair'];
