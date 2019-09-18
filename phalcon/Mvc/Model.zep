@@ -793,7 +793,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             }
 
             let attributeName = attribute[0],
-                instance->{attributeName} = castValue;
+                instance->{attributeName} = castValue,
+                data[key] = castValue;
         }
 
         /**
