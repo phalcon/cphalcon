@@ -152,6 +152,12 @@ program ::= volt_language(Q) . {
 	ZVAL_ZVAL(&status->ret, &Q, 1, 1);
 }
 
+%destructor volt_language {
+	if (&$$) {
+		zval_ptr_dtor(&$$);
+	}
+}
+
 volt_language(R) ::= statement_list(L) . {
 	R = L;
 }

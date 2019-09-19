@@ -177,10 +177,10 @@ typedef struct _phvolt_token_names { /* {{{ */
  *
  * This structure is used by a scanner to preserve its state.
  *
- * TODO: Make all charptrs declared as const to help ensure that you don't
- * accidentally end up modifying the buffer as it's being scanned. This means
- * that any time you want to read data into the buffer, you need to cast the
- * pointers to be nonconst.
+ * TODO: Make all charptrs declared as const to help ensure that
+ * you don't accidentally end up modifying the buffer as it's being
+ * scanned. This means that any time you want to read data into the
+ * buffer, you need to cast the pointers to be nonconst.
  */
 typedef struct _phvolt_scanner_state { /* {{{ */
 	int active_token;
@@ -188,11 +188,11 @@ typedef struct _phvolt_scanner_state { /* {{{ */
 
 	/* The current character being looked at by the scanner.
 	 * This is the same as re2c's YYCURSOR. */
-	char* start;
+	char *start;
 
 	/* The last (uppermost) valid character in the current buffer.
 	 * This is the same as re2c's YYLIMIT. */
-	char* end;
+	char *end;
 
 	/* Used internally by re2c engine to handle backtracking.
 	 * This is the same as re2c's YYMARKER. */

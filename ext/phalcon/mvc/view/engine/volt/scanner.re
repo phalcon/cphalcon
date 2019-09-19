@@ -517,6 +517,7 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 
 		STRING = (["] ([\\]["]|[\\].|[\001-\377]\[\\"])* ["])|(['] ([\\][']|[\\].|[\001-\377]\[\\'])* [']);
 		STRING {
+			start++;
 			token->opcode = PHVOLT_T_STRING;
 			token->value = estrndup(start, YYCURSOR - start - 1);
 			token->len = YYCURSOR - start - 1;
