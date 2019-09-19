@@ -25,7 +25,7 @@ php ./ext/run-tests.php \
   -d "report_zend_debug=0" \
   -d "zend.assertions=1" \
   -d "extension=$(php-config --extension-dir)/psr.so" \
-  -d "extension=${TRAVIS_BUILD_DIR}/ext/modules/phalcon.so" \
+  -d "extension=$(pwd)/ext/modules/phalcon.so" \
   --offline \
   --show-diff \
   --set-timeout 120 \
