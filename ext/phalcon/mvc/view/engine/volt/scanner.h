@@ -11,6 +11,8 @@
 #ifndef PHALCON_MVC_VIEW_ENGINE_VOLT_SCANNER_H
 #define PHALCON_MVC_VIEW_ENGINE_VOLT_SCANNER_H
 
+#include <stdio.h> // fprintf, stderr
+
 #include "php_phalcon.h"
 
 #define PHVOLT_RAW_BUFFER_SIZE 256
@@ -171,12 +173,31 @@ typedef struct _phvolt_token_names { /* {{{ */
 } phvolt_token_names;
 /* }}} */
 
-/* Active token state */
+/* Contains all state for a single scan session.
+ *
+ * This structure is used by a scanner to preserve its state.
+ *
+ * TODO: Make all charptrs declared as const to help ensure that you don't
+ * accidentally end up modifying the buffer as it's being scanned. This means
+ * that any time you want to read data into the buffer, you need to cast the
+ * pointers to be nonconst.
+ */
 typedef struct _phvolt_scanner_state { /* {{{ */
 	int active_token;
 	int mode;
+
+	/* The current character being looked at by the scanner.
+	 * This is the same as re2c's YYCURSOR. */
 	char* start;
+
+	/* The last (uppermost) valid character in the current buffer.
+	 * This is the same as re2c's YYLIMIT. */
 	char* end;
+
+	/* Used internally by re2c engine to handle backtracking.
+	 * This is the same as re2c's YYMARKER. */
+	char *marker;
+
 	unsigned int start_length;
 	unsigned int active_line;
 	zval *active_file;
@@ -207,6 +228,21 @@ typedef struct _phvolt_scanner_token { /* {{{ */
 int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token);
 
 extern const phvolt_token_names phvolt_tokens[];
+
+#ifdef VVDEBUG
+#undef VVDEBUG
+#endif
+
+/* The VVDEBUG macro is designed to produce of trace information,
+ * that will be written on stderr.
+ */
+#if 0
+#define VVDEBUG(s, c) do { \
+	fprintf(stderr, "State: %d char: %c\n", s, c); \
+} while(0);
+#else
+#define VVDEBUG(s, c)
+#endif
 
 #endif  /* PHALCON_MVC_VIEW_ENGINE_VOLT_SCANNER_H */
 
