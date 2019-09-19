@@ -11,10 +11,11 @@
 #include "php_phalcon.h"
 #include "scanner.h"
 
+/* for re2c */
 #define YYCTYPE unsigned char
 #define YYCURSOR (s->start)
 #define YYLIMIT (s->end)
-#define YYMARKER q
+#define YYMARKER (s->marker)
 
 void phvolt_rtrim(phvolt_scanner_token *token) {
 
@@ -81,7 +82,7 @@ void phvolt_ltrim(phvolt_scanner_token *token) {
 int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 
 	unsigned char next, double_next;
-	char *q = YYCURSOR, *start = YYCURSOR;
+	char *start = YYCURSOR;
 	int status = PHVOLT_SCANNER_RETCODE_IMPOSSIBLE;
 
 	while (PHVOLT_SCANNER_RETCODE_IMPOSSIBLE == status) {
@@ -126,7 +127,6 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 						}
 
 						s->raw_buffer_cursor = 0;
-						q = YYCURSOR;
 					} else {
 						token->opcode = PHVOLT_T_IGNORE;
 					}
@@ -174,7 +174,6 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 			token->opcode = PHVOLT_T_INTEGER;
 			token->value = estrndup(start, YYCURSOR - start);
 			token->len = YYCURSOR - start;
-			q = YYCURSOR;
 			return 0;
 		}
 
@@ -183,7 +182,6 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 			token->opcode = PHVOLT_T_DOUBLE;
 			token->value = estrndup(start, YYCURSOR - start);
 			token->len = YYCURSOR - start;
-			q = YYCURSOR;
 			return 0;
 		}
 
@@ -243,7 +241,6 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 			// Introduced: https://github.com/phalcon/cphalcon/pull/13130
 			token->value = estrndup(start, YYCURSOR - start);
 			token->len = YYCURSOR - start;
-			q = YYCURSOR;
 
 			return 0;
 		}
@@ -258,7 +255,9 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 			return 0;
 		}
 
-		'set' {
+		// TODO: Make this better.
+		// Issue: https://github.com/phalcon/cphalcon/issues/14288
+		'[^.]set' {
 			token->opcode = PHVOLT_T_SET;
 			return 0;
 		}
@@ -349,7 +348,9 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 			return 0;
 		}
 
-		'is' {
+		// TODO: Make this better.
+		// Issue: https://github.com/phalcon/cphalcon/issues/14288
+		'[^.]is' {
 			s->statement_position++;
 			token->opcode = PHVOLT_T_IS;
 			return 0;
@@ -517,9 +518,8 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 		STRING = (["] ([\\]["]|[\\].|[\001-\377]\[\\"])* ["])|(['] ([\\][']|[\\].|[\001-\377]\[\\'])* [']);
 		STRING {
 			token->opcode = PHVOLT_T_STRING;
-			token->value = estrndup(q, YYCURSOR - q - 1);
-			token->len = YYCURSOR - q - 1;
-			q = YYCURSOR;
+			token->value = estrndup(start, YYCURSOR - start - 1);
+			token->len = YYCURSOR - start - 1;
 			return 0;
 		}
 
@@ -528,7 +528,6 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 			token->opcode = PHVOLT_T_IDENTIFIER;
 			token->value = estrndup(start, YYCURSOR - start);
 			token->len = YYCURSOR - start;
-			q = YYCURSOR;
 			return 0;
 		}
 
