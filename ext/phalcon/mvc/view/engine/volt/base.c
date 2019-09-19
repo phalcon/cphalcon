@@ -293,6 +293,10 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 	token.value = NULL;
 	token.len = 0;
 
+	/* To enable parser tracing decalre "#undef NDEBUG" in the lemon file */
+#ifndef NDEBUG
+	phvolt_Trace(stderr, "[PARSER]  ");
+#endif
 	while (0 <= (scanner_status = phvolt_get_token(state, &token))) {
 
 		state->active_token = token.opcode;

@@ -32,6 +32,18 @@
 
 %include {
 #include "parser.php7.inc.h"
+
+/* Change next line to "#if 1"
+ * to enable parser tracing. */
+#if 0
+# ifdef NDEBUG
+#  undef NDEBUG
+# endif
+#else
+# ifndef NDEBUG
+#  define NDEBUG 1
+# endif
+#endif
 }
 
 %syntax_error {

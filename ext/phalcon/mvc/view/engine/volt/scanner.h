@@ -11,8 +11,6 @@
 #ifndef PHALCON_MVC_VIEW_ENGINE_VOLT_SCANNER_H
 #define PHALCON_MVC_VIEW_ENGINE_VOLT_SCANNER_H
 
-#include <stdio.h> // fprintf, stderr
-
 #include "php_phalcon.h"
 
 #define PHVOLT_RAW_BUFFER_SIZE 256
@@ -25,6 +23,7 @@
 #define PHVOLT_MODE_RAW 0
 #define PHVOLT_MODE_CODE 1
 #define PHVOLT_MODE_COMMENT 2
+#define PHVOLT_MODE_ECHO 4 /* To indicates we're in {{ }} */
 
 #define PHVOLT_T_IGNORE 257
 
@@ -211,7 +210,7 @@ typedef struct _phvolt_scanner_state { /* {{{ */
 	unsigned int old_if_level;
 	unsigned int if_level;
 	unsigned int for_level;
-    unsigned int switch_level;
+	unsigned int switch_level;
 	int whitespace_control;
 	int forced_raw_state;
 } phvolt_scanner_state;
@@ -229,19 +228,22 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token);
 
 extern const phvolt_token_names phvolt_tokens[];
 
-#ifdef VVDEBUG
-#undef VVDEBUG
+#ifdef YYDEBUG
+#undef YYDEBUG
 #endif
 
-/* The VVDEBUG macro is designed to produce of trace information,
- * that will be written on stderr.
+/* The YYDEBUG macro is designed to produce of trace information,
+ * that will be written on stderr. Change next line to "#if 1"
+ * to enable scanner tracing.
  */
 #if 0
-#define VVDEBUG(s, c) do { \
-	fprintf(stderr, "State: %d char: %c\n", s, c); \
+#include <stdio.h> // fprintf, stderr
+
+#define YYDEBUG(s, c) do { \
+	fprintf(stderr, "State: %d char: '%c'\n", s, c); \
 } while(0);
 #else
-#define VVDEBUG(s, c)
+#define YYDEBUG(s, c)
 #endif
 
 #endif  /* PHALCON_MVC_VIEW_ENGINE_VOLT_SCANNER_H */
