@@ -17,8 +17,8 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_modelinterface_assign
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_modelinterface_assign, 0, 1, IS_OBJECT, "Phalcon\\Mvc\\ModelInterface", 0)
 #endif
 	ZEND_ARG_ARRAY_INFO(0, data, 0)
-	ZEND_ARG_INFO(0, dataColumnMap)
 	ZEND_ARG_INFO(0, whiteList)
+	ZEND_ARG_INFO(0, dataColumnMap)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200

@@ -12,10 +12,11 @@
 #include "php_phalcon.h"
 #include "scanner.h"
 
+/* for re2c */
 #define VVCTYPE unsigned char
 #define VVCURSOR (s->start)
 #define VVLIMIT (s->end)
-#define VVMARKER q
+#define VVMARKER (s->marker)
 
 void phvolt_rtrim(phvolt_scanner_token *token) {
 
@@ -80,15 +81,12 @@ void phvolt_ltrim(phvolt_scanner_token *token) {
 }
 
 int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
-
 	unsigned char next, double_next;
-	char *q = VVCURSOR, *start = VVCURSOR;
+	char *start = VVCURSOR;
 	int status = PHVOLT_SCANNER_RETCODE_IMPOSSIBLE;
 
 	while (PHVOLT_SCANNER_RETCODE_IMPOSSIBLE == status) {
-
 		if (s->mode == PHVOLT_MODE_RAW || s->mode == PHVOLT_MODE_COMMENT) {
-
 			next = '\0';
 			double_next = '\0';
 
@@ -104,13 +102,10 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 			}
 
 			if (*VVCURSOR == '\0' || (*VVCURSOR == '{' && (next == '%' || next == '{' || next == '#'))) {
-
 				if (next != '#') {
-
 					s->mode = PHVOLT_MODE_CODE;
 
 					if (s->raw_buffer_cursor > 0) {
-
 						token->opcode = PHVOLT_T_RAW_FRAGMENT;
 						token->value = emalloc(sizeof(char) * s->raw_buffer_cursor + 1);
 						memcpy(token->value, s->raw_buffer, s->raw_buffer_cursor);
@@ -127,13 +122,10 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 						}
 
 						s->raw_buffer_cursor = 0;
-						q = VVCURSOR;
 					} else {
 						token->opcode = PHVOLT_T_IGNORE;
 					}
-
 				} else {
-
 					while ((next = *(++VVCURSOR))) {
 						if (next == '#' && *(VVCURSOR + 1) == '}') {
 							VVCURSOR += 2;
@@ -152,7 +144,6 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 				return 0;
 
 			} else {
-
 				if (s->raw_buffer_cursor == s->raw_buffer_size) {
 					s->raw_buffer_size += PHVOLT_RAW_BUFFER_SIZE;
 					s->raw_buffer = erealloc(s->raw_buffer, s->raw_buffer_size);
@@ -165,8 +156,7 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 			}
 
 		} else {
-
-
+		
 		{
 			VVCTYPE vvch;
 			unsigned int vvaccept = 0;
@@ -431,7 +421,6 @@ vv35:
 			token->opcode = PHVOLT_T_INTEGER;
 			token->value = estrndup(start, VVCURSOR - start);
 			token->len = VVCURSOR - start;
-			q = VVCURSOR;
 			return 0;
 		}
 vv36:
@@ -494,7 +483,6 @@ vv47:
 			token->opcode = PHVOLT_T_IDENTIFIER;
 			token->value = estrndup(start, VVCURSOR - start);
 			token->len = VVCURSOR - start;
-			q = VVCURSOR;
 			return 0;
 		}
 vv48:
@@ -839,10 +827,10 @@ vv81:
 vv82:
 			++VVCURSOR;
 			{
+			start++;
 			token->opcode = PHVOLT_T_STRING;
-			token->value = estrndup(q, VVCURSOR - q - 1);
-			token->len = VVCURSOR - q - 1;
-			q = VVCURSOR;
+			token->value = estrndup(start, VVCURSOR - start - 1);
+			token->len = VVCURSOR - start - 1;
 			return 0;
 		}
 vv84:
@@ -1370,8 +1358,15 @@ vv135:
 			}
 vv136:
 			{
-			s->statement_position++;
-			token->opcode = PHVOLT_T_IS;
+			if (s->mode == PHVOLT_MODE_ECHO) {
+				token->opcode = PHVOLT_T_IDENTIFIER;
+				token->value = estrndup(start, VVCURSOR - start);
+				token->len = VVCURSOR - start;
+			} else {
+				s->statement_position++;
+				token->opcode = PHVOLT_T_IS;
+			}
+
 			return 0;
 		}
 vv137:
@@ -1625,6 +1620,7 @@ vv154:
 			}
 vv155:
 			{
+			s->mode = PHVOLT_MODE_ECHO;
 			s->whitespace_control = 0;
 			s->statement_position++;
 			token->opcode = PHVOLT_T_OPEN_EDELIMITER;
@@ -1679,7 +1675,6 @@ vv166:
 			token->opcode = PHVOLT_T_DOUBLE;
 			token->value = estrndup(start, VVCURSOR - start);
 			token->len = VVCURSOR - start;
-			q = VVCURSOR;
 			return 0;
 		}
 vv167:
@@ -2303,7 +2298,14 @@ vv201:
 			}
 vv202:
 			{
-			token->opcode = PHVOLT_T_SET;
+			if (s->mode == PHVOLT_MODE_ECHO) {
+				token->opcode = PHVOLT_T_IDENTIFIER;
+				token->value = estrndup(start, VVCURSOR - start);
+				token->len = VVCURSOR - start;
+			} else {
+				token->opcode = PHVOLT_T_SET;
+			}
+
 			return 0;
 		}
 vv203:
@@ -2344,6 +2346,7 @@ vv207:
 vv209:
 			++VVCURSOR;
 			{
+			s->mode = PHVOLT_MODE_ECHO;
 			s->whitespace_control = 0;
 			s->statement_position++;
 			token->opcode = PHVOLT_T_OPEN_EDELIMITER;
@@ -4394,7 +4397,6 @@ vv322:
 			// Introduced: https://github.com/phalcon/cphalcon/pull/13130
 			token->value = estrndup(start, VVCURSOR - start);
 			token->len = VVCURSOR - start;
-			q = VVCURSOR;
 
 			return 0;
 		}

@@ -9,14 +9,26 @@
 
 #include "parser.php7.inc.h"
 
-// 12 "parser.php7.c"
+/* Change next line to "#if 1"
+ * to enable parser tracing. */
+#if 0
+# ifdef NDEBUG
+#  undef NDEBUG
+# endif
+#else
+# ifndef NDEBUG
+#  define NDEBUG 1
+# endif
+#endif
+
+// 24 "parser.php7.c"
 /* Next is all token values, in a form suitable for use by makeheaders.
 ** This section will be null unless lemon is run with the -m switch.
 */
-/*
+/* 
 ** These constants (all generated automatically by the parser generator)
 ** specify the various kinds of tokens (terminals) that the parser
-** understands.
+** understands. 
 **
 ** Each symbol here is a terminal symbol in the grammar.
 */
@@ -33,7 +45,7 @@
 **                       and nonterminals.  "int" is used otherwise.
 **    VVNOCODE           is a number of type VVCODETYPE which corresponds
 **                       to no legal terminal or nonterminal number.  This
-**                       number is used to fill in empty slots of the hash
+**                       number is used to fill in empty slots of the hash 
 **                       table.
 **    VVFALLBACK         If defined, this indicates that one or more tokens
 **                       have fall-back values which should be used if the
@@ -42,7 +54,7 @@
 **                       and nonterminal numbers.  "unsigned char" is
 **                       used if there are fewer than 250 rules and
 **                       states combined.  "int" is used otherwise.
-**    phvolt_TOKENTYPE     is the data type used for minor tokens given
+**    phvolt_TOKENTYPE     is the data type used for minor tokens given 
 **                       directly to the parser from the tokenizer.
 **    VVMINORTYPE        is the data type used for all minor tokens.
 **                       This is typically a union of many types, one of
@@ -83,7 +95,7 @@ typedef union {
 /* Next are that tables used to determine what action to take based on the
 ** current state and lookahead token.  These tables are used to implement
 ** functions that take a state number and lookahead value and return an
-** action integer.
+** action integer.  
 **
 ** Suppose the action integer is N.  Then the action is determined as
 ** follows
@@ -108,7 +120,7 @@ typedef union {
 ** If the index value vv_shift_ofst[S]+X is out of range or if the value
 ** vv_lookahead[vv_shift_ofst[S]+X] is not equal to X or if vv_shift_ofst[S]
 ** is equal to VV_SHIFT_USE_DFLT, it means that the action is not in the table
-** and that vv_default[S] should be used instead.
+** and that vv_default[S] should be used instead.  
 **
 ** The formula above is for computing the action when the lookahead is
 ** a terminal symbol.  If the lookahead is a non-terminal (as occurs after
@@ -782,7 +794,7 @@ static VVACTIONTYPE vv_default[] = {
 
 /* The next table maps tokens into fallback tokens.  If a construct
 ** like the following:
-**
+** 
 **      %fallback ID X Y Z.
 **
 ** appears in the grammer, then ID becomes a fallback token for X, Y,
@@ -833,10 +845,10 @@ static char *vvTracePrompt = 0;
 #endif /* NDEBUG */
 
 #ifndef NDEBUG
-/*
+/* 
 ** Turn parser tracing on by giving a stream to which to write the trace
 ** and a prompt to preface each trace message.  Tracing is turned off
-** by making either argument NULL
+** by making either argument NULL 
 **
 ** Inputs:
 ** <ul>
@@ -861,28 +873,28 @@ void phvolt_Trace(FILE *TraceFILE, char *zTracePrompt){
 #ifndef NDEBUG
 /* For tracing shifts, the names of all terminals and nonterminals
 ** are required.  The following table supplies these names */
-static const char *vvTokenName[] = {
-  "$",             "OPEN_DELIMITER",  "COMMA",         "IN",
-  "QUESTION",      "COLON",         "RANGE",         "AND",
-  "OR",            "IS",            "EQUALS",        "NOTEQUALS",
-  "LESS",          "GREATER",       "GREATEREQUAL",  "LESSEQUAL",
-  "IDENTICAL",     "NOTIDENTICAL",  "DIVIDE",        "TIMES",
-  "MOD",           "PLUS",          "MINUS",         "CONCAT",
-  "SBRACKET_OPEN",  "PIPE",          "NOT",           "INCR",
-  "DECR",          "PARENTHESES_OPEN",  "DOT",           "IF",
-  "CLOSE_DELIMITER",  "ENDIF",         "ELSE",          "ELSEIF",
-  "ELSEFOR",       "FOR",           "IDENTIFIER",    "ENDFOR",
-  "SWITCH",        "ENDSWITCH",     "CASE",          "DEFAULT",
-  "SET",           "ASSIGN",        "ADD_ASSIGN",    "SUB_ASSIGN",
-  "MUL_ASSIGN",    "DIV_ASSIGN",    "SBRACKET_CLOSE",  "MACRO",
-  "PARENTHESES_CLOSE",  "ENDMACRO",      "INTEGER",       "STRING",
-  "DOUBLE",        "NULL",          "FALSE",         "TRUE",
+static const char *vvTokenName[] = { 
+  "$",             "OPEN_DELIMITER",  "COMMA",         "IN",          
+  "QUESTION",      "COLON",         "RANGE",         "AND",         
+  "OR",            "IS",            "EQUALS",        "NOTEQUALS",   
+  "LESS",          "GREATER",       "GREATEREQUAL",  "LESSEQUAL",   
+  "IDENTICAL",     "NOTIDENTICAL",  "DIVIDE",        "TIMES",       
+  "MOD",           "PLUS",          "MINUS",         "CONCAT",      
+  "SBRACKET_OPEN",  "PIPE",          "NOT",           "INCR",        
+  "DECR",          "PARENTHESES_OPEN",  "DOT",           "IF",          
+  "CLOSE_DELIMITER",  "ENDIF",         "ELSE",          "ELSEIF",      
+  "ELSEFOR",       "FOR",           "IDENTIFIER",    "ENDFOR",      
+  "SWITCH",        "ENDSWITCH",     "CASE",          "DEFAULT",     
+  "SET",           "ASSIGN",        "ADD_ASSIGN",    "SUB_ASSIGN",  
+  "MUL_ASSIGN",    "DIV_ASSIGN",    "SBRACKET_CLOSE",  "MACRO",       
+  "PARENTHESES_CLOSE",  "ENDMACRO",      "INTEGER",       "STRING",      
+  "DOUBLE",        "NULL",          "FALSE",         "TRUE",        
   "CALL",          "ENDCALL",       "OPEN_EDELIMITER",  "CLOSE_EDELIMITER",
-  "BLOCK",         "ENDBLOCK",      "CACHE",         "ENDCACHE",
-  "RAW",           "ENDRAW",        "EXTENDS",       "INCLUDE",
-  "WITH",          "DO",            "RETURN",        "AUTOESCAPE",
+  "BLOCK",         "ENDBLOCK",      "CACHE",         "ENDCACHE",    
+  "RAW",           "ENDRAW",        "EXTENDS",       "INCLUDE",     
+  "WITH",          "DO",            "RETURN",        "AUTOESCAPE",  
   "ENDAUTOESCAPE",  "BREAK",         "CONTINUE",      "RAW_FRAGMENT",
-  "DEFINED",       "EMPTY",         "EVEN",          "ODD",
+  "DEFINED",       "EMPTY",         "EVEN",          "ODD",         
   "NUMERIC",       "SCALAR",        "ITERABLE",      "CBRACKET_OPEN",
   "CBRACKET_CLOSE",  "error",         "program",       "volt_language",
   "statement_list",  "statement",     "raw_fragment",  "if_statement",
@@ -893,7 +905,7 @@ static const char *vvTokenName[] = {
   "continue_statement",  "macro_statement",  "empty_statement",  "macro_call_statement",
   "expr",          "set_assignments",  "set_assignment",  "assignable_expr",
   "macro_parameters",  "macro_parameter",  "macro_parameter_default",  "argument_list",
-  "cache_lifetime",  "array_list",    "slice_offset",  "array_item",
+  "cache_lifetime",  "array_list",    "slice_offset",  "array_item",  
   "function_call",  "argument_item",
 };
 #endif /* NDEBUG */
@@ -1079,7 +1091,7 @@ const char *phvolt_TokenName(int tokenType){
 #endif
 }
 
-/*
+/* 
 ** This function allocates a new parser.
 ** The only argument is a pointer to a function which works like
 ** malloc.
@@ -1110,7 +1122,7 @@ static void vv_destructor(VVCODETYPE vvmajor, VVMINORTYPE *vvpminor){
     /* Here is inserted the actions which take place when a
     ** terminal or non-terminal is destroyed.  This can happen
     ** when the symbol is popped from the stack during a
-    ** reduce or during error processing or when a parser is
+    ** reduce or during error processing or when a parser is 
     ** being destroyed before it is finished parsing.
     **
     ** Note: during a reduce, the only symbols destroyed are those
@@ -1205,7 +1217,7 @@ static void vv_destructor(VVCODETYPE vvmajor, VVMINORTYPE *vvpminor){
     case 86:
     case 87:
     case 88:
-// 142 "parser.php7.lemon"
+// 154 "parser.php7.lemon"
 {
 	if ((vvpminor->vv0)) {
 		if ((vvpminor->vv0)->free_flag) {
@@ -1214,7 +1226,16 @@ static void vv_destructor(VVCODETYPE vvmajor, VVMINORTYPE *vvpminor){
 		efree((vvpminor->vv0));
 	}
 }
-// 1217 "parser.php7.c"
+// 1229 "parser.php7.c"
+      break;
+    case 91:
+// 167 "parser.php7.lemon"
+{
+	if (&(vvpminor->vv186)) {
+		zval_ptr_dtor(&(vvpminor->vv186));
+	}
+}
+// 1238 "parser.php7.c"
       break;
     case 92:
     case 93:
@@ -1252,11 +1273,11 @@ static void vv_destructor(VVCODETYPE vvmajor, VVMINORTYPE *vvpminor){
     case 127:
     case 128:
     case 129:
-// 159 "parser.php7.lemon"
+// 177 "parser.php7.lemon"
 {
 	zval_ptr_dtor(&(vvpminor->vv186));
 }
-// 1259 "parser.php7.c"
+// 1280 "parser.php7.c"
       break;
     default:  break;   /* If no destructor action specified: do nothing */
   }
@@ -1288,7 +1309,7 @@ static int vv_pop_parser_stack(vvParser *pParser){
   return vvmajor;
 }
 
-/*
+/* 
 ** Deallocate and destroy a parser.  Destructors are all called for
 ** all stack elements before shutting the parser down.
 **
@@ -1324,7 +1345,7 @@ static int vv_find_shift_action(
 ){
   int i;
   int stateno = pParser->vvstack[pParser->vvidx].stateno;
-
+ 
   /* if( pParser->vvidx<0 ) return VV_NO_ACTION;  */
   i = vv_shift_ofst[stateno];
   if( i==VV_SHIFT_USE_DFLT ){
@@ -1368,7 +1389,7 @@ static int vv_find_reduce_action(
 ){
   int i;
   int stateno = pParser->vvstack[pParser->vvidx].stateno;
-
+ 
   i = vv_reduce_ofst[stateno];
   if( i==VV_REDUCE_USE_DFLT ){
     return vv_default[stateno];
@@ -1610,7 +1631,7 @@ static void vv_reduce(
   phvolt_ARG_FETCH;
   vvmsp = &vvpParser->vvstack[vvpParser->vvidx];
 #ifndef NDEBUG
-  if( vvTraceFILE && vvruleno>=0
+  if( vvTraceFILE && vvruleno>=0 
         && vvruleno<sizeof(vvRuleName)/sizeof(vvRuleName[0]) ){
     fprintf(vvTraceFILE, "%sReduce [%s].\n", vvTracePrompt,
       vvRuleName[vvruleno]);
@@ -1627,11 +1648,11 @@ static void vv_reduce(
   **     break;
   */
       case 0:
-// 151 "parser.php7.lemon"
+// 163 "parser.php7.lemon"
 {
 	ZVAL_ZVAL(&status->ret, &vvmsp[0].minor.vv186, 1, 1);
 }
-// 1634 "parser.php7.c"
+// 1655 "parser.php7.c"
         break;
       case 1:
       case 4:
@@ -1657,32 +1678,32 @@ static void vv_reduce(
       case 24:
       case 25:
       case 144:
-// 155 "parser.php7.lemon"
+// 173 "parser.php7.lemon"
 {
 	vvgotominor.vv186 = vvmsp[0].minor.vv186;
 }
-// 1664 "parser.php7.c"
+// 1685 "parser.php7.c"
         break;
       case 2:
-// 163 "parser.php7.lemon"
+// 181 "parser.php7.lemon"
 {
 	phvolt_ret_zval_list(&vvgotominor.vv186, &vvmsp[-1].minor.vv186, &vvmsp[0].minor.vv186);
 }
-// 1671 "parser.php7.c"
+// 1692 "parser.php7.c"
         break;
       case 3:
       case 43:
       case 55:
       case 141:
       case 148:
-// 167 "parser.php7.lemon"
+// 185 "parser.php7.lemon"
 {
 	phvolt_ret_zval_list(&vvgotominor.vv186, NULL, &vvmsp[0].minor.vv186);
 }
-// 1682 "parser.php7.c"
+// 1703 "parser.php7.c"
         break;
       case 26:
-// 268 "parser.php7.lemon"
+// 286 "parser.php7.lemon"
 {
 	phvolt_ret_if_statement(&vvgotominor.vv186, &vvmsp[-5].minor.vv186, &vvmsp[-3].minor.vv186, NULL, status->scanner_state);
   vv_destructor(1,&vvmsp[-7].minor);
@@ -1692,10 +1713,10 @@ static void vv_reduce(
   vv_destructor(33,&vvmsp[-1].minor);
   vv_destructor(32,&vvmsp[0].minor);
 }
-// 1695 "parser.php7.c"
+// 1716 "parser.php7.c"
         break;
       case 27:
-// 273 "parser.php7.lemon"
+// 291 "parser.php7.lemon"
 {
 	phvolt_ret_if_statement(&vvgotominor.vv186, &vvmsp[-4].minor.vv186, NULL, NULL, status->scanner_state);
   vv_destructor(1,&vvmsp[-6].minor);
@@ -1705,10 +1726,10 @@ static void vv_reduce(
   vv_destructor(33,&vvmsp[-1].minor);
   vv_destructor(32,&vvmsp[0].minor);
 }
-// 1708 "parser.php7.c"
+// 1729 "parser.php7.c"
         break;
       case 28:
-// 278 "parser.php7.lemon"
+// 296 "parser.php7.lemon"
 {
 	phvolt_ret_if_statement(&vvgotominor.vv186, &vvmsp[-9].minor.vv186, &vvmsp[-7].minor.vv186, &vvmsp[-3].minor.vv186, status->scanner_state);
   vv_destructor(1,&vvmsp[-11].minor);
@@ -1721,10 +1742,10 @@ static void vv_reduce(
   vv_destructor(33,&vvmsp[-1].minor);
   vv_destructor(32,&vvmsp[0].minor);
 }
-// 1724 "parser.php7.c"
+// 1745 "parser.php7.c"
         break;
       case 29:
-// 283 "parser.php7.lemon"
+// 301 "parser.php7.lemon"
 {
 	phvolt_ret_if_statement(&vvgotominor.vv186, &vvmsp[-8].minor.vv186, &vvmsp[-6].minor.vv186, NULL, status->scanner_state);
   vv_destructor(1,&vvmsp[-10].minor);
@@ -1737,10 +1758,10 @@ static void vv_reduce(
   vv_destructor(33,&vvmsp[-1].minor);
   vv_destructor(32,&vvmsp[0].minor);
 }
-// 1740 "parser.php7.c"
+// 1761 "parser.php7.c"
         break;
       case 30:
-// 288 "parser.php7.lemon"
+// 306 "parser.php7.lemon"
 {
 	phvolt_ret_if_statement(&vvgotominor.vv186, &vvmsp[-7].minor.vv186, NULL, NULL, status->scanner_state);
   vv_destructor(1,&vvmsp[-9].minor);
@@ -1753,30 +1774,30 @@ static void vv_reduce(
   vv_destructor(33,&vvmsp[-1].minor);
   vv_destructor(32,&vvmsp[0].minor);
 }
-// 1756 "parser.php7.c"
+// 1777 "parser.php7.c"
         break;
       case 31:
-// 296 "parser.php7.lemon"
+// 314 "parser.php7.lemon"
 {
 	phvolt_ret_elseif_statement(&vvgotominor.vv186, &vvmsp[-1].minor.vv186, status->scanner_state);
   vv_destructor(1,&vvmsp[-3].minor);
   vv_destructor(35,&vvmsp[-2].minor);
   vv_destructor(32,&vvmsp[0].minor);
 }
-// 1766 "parser.php7.c"
+// 1787 "parser.php7.c"
         break;
       case 32:
-// 304 "parser.php7.lemon"
+// 322 "parser.php7.lemon"
 {
 	phvolt_ret_elsefor_statement(&vvgotominor.vv186, status->scanner_state);
   vv_destructor(1,&vvmsp[-2].minor);
   vv_destructor(36,&vvmsp[-1].minor);
   vv_destructor(32,&vvmsp[0].minor);
 }
-// 1776 "parser.php7.c"
+// 1797 "parser.php7.c"
         break;
       case 33:
-// 312 "parser.php7.lemon"
+// 330 "parser.php7.lemon"
 {
 	phvolt_ret_for_statement(&vvgotominor.vv186, vvmsp[-7].minor.vv0, NULL, &vvmsp[-5].minor.vv186, NULL, &vvmsp[-3].minor.vv186, status->scanner_state);
   vv_destructor(1,&vvmsp[-9].minor);
@@ -1787,10 +1808,10 @@ static void vv_reduce(
   vv_destructor(39,&vvmsp[-1].minor);
   vv_destructor(32,&vvmsp[0].minor);
 }
-// 1790 "parser.php7.c"
+// 1811 "parser.php7.c"
         break;
       case 34:
-// 316 "parser.php7.lemon"
+// 334 "parser.php7.lemon"
 {
 	phvolt_ret_for_statement(&vvgotominor.vv186, vvmsp[-9].minor.vv0, NULL, &vvmsp[-7].minor.vv186, &vvmsp[-5].minor.vv186, &vvmsp[-3].minor.vv186, status->scanner_state);
   vv_destructor(1,&vvmsp[-11].minor);
@@ -1802,10 +1823,10 @@ static void vv_reduce(
   vv_destructor(39,&vvmsp[-1].minor);
   vv_destructor(32,&vvmsp[0].minor);
 }
-// 1805 "parser.php7.c"
+// 1826 "parser.php7.c"
         break;
       case 35:
-// 320 "parser.php7.lemon"
+// 338 "parser.php7.lemon"
 {
 	phvolt_ret_for_statement(&vvgotominor.vv186, vvmsp[-7].minor.vv0, vvmsp[-9].minor.vv0, &vvmsp[-5].minor.vv186, NULL, &vvmsp[-3].minor.vv186, status->scanner_state);
   vv_destructor(1,&vvmsp[-11].minor);
@@ -1817,10 +1838,10 @@ static void vv_reduce(
   vv_destructor(39,&vvmsp[-1].minor);
   vv_destructor(32,&vvmsp[0].minor);
 }
-// 1820 "parser.php7.c"
+// 1841 "parser.php7.c"
         break;
       case 36:
-// 324 "parser.php7.lemon"
+// 342 "parser.php7.lemon"
 {
 	phvolt_ret_for_statement(&vvgotominor.vv186, vvmsp[-9].minor.vv0, vvmsp[-11].minor.vv0, &vvmsp[-7].minor.vv186, &vvmsp[-5].minor.vv186, &vvmsp[-3].minor.vv186, status->scanner_state);
   vv_destructor(1,&vvmsp[-13].minor);
@@ -1833,10 +1854,10 @@ static void vv_reduce(
   vv_destructor(39,&vvmsp[-1].minor);
   vv_destructor(32,&vvmsp[0].minor);
 }
-// 1836 "parser.php7.c"
+// 1857 "parser.php7.c"
         break;
       case 37:
-// 333 "parser.php7.lemon"
+// 351 "parser.php7.lemon"
 {
 	phvolt_ret_switch_statement(&vvgotominor.vv186, &vvmsp[-5].minor.vv186, &vvmsp[-3].minor.vv186, status->scanner_state);
   vv_destructor(1,&vvmsp[-7].minor);
@@ -1846,10 +1867,10 @@ static void vv_reduce(
   vv_destructor(41,&vvmsp[-1].minor);
   vv_destructor(32,&vvmsp[0].minor);
 }
-// 1849 "parser.php7.c"
+// 1870 "parser.php7.c"
         break;
       case 38:
-// 338 "parser.php7.lemon"
+// 356 "parser.php7.lemon"
 {
 	phvolt_ret_switch_statement(&vvgotominor.vv186, &vvmsp[-4].minor.vv186, NULL, status->scanner_state);
   vv_destructor(1,&vvmsp[-6].minor);
@@ -1859,120 +1880,120 @@ static void vv_reduce(
   vv_destructor(41,&vvmsp[-1].minor);
   vv_destructor(32,&vvmsp[0].minor);
 }
-// 1862 "parser.php7.c"
+// 1883 "parser.php7.c"
         break;
       case 39:
-// 347 "parser.php7.lemon"
+// 365 "parser.php7.lemon"
 {
 	phvolt_ret_case_clause(&vvgotominor.vv186, &vvmsp[-1].minor.vv186, status->scanner_state);
   vv_destructor(1,&vvmsp[-3].minor);
   vv_destructor(42,&vvmsp[-2].minor);
   vv_destructor(32,&vvmsp[0].minor);
 }
-// 1872 "parser.php7.c"
+// 1893 "parser.php7.c"
         break;
       case 40:
-// 352 "parser.php7.lemon"
+// 370 "parser.php7.lemon"
 {
 	phvolt_ret_case_clause(&vvgotominor.vv186, NULL, status->scanner_state);
   vv_destructor(1,&vvmsp[-2].minor);
   vv_destructor(43,&vvmsp[-1].minor);
   vv_destructor(32,&vvmsp[0].minor);
 }
-// 1882 "parser.php7.c"
+// 1903 "parser.php7.c"
         break;
       case 41:
-// 360 "parser.php7.lemon"
+// 378 "parser.php7.lemon"
 {
 	phvolt_ret_set_statement(&vvgotominor.vv186, &vvmsp[-1].minor.vv186);
   vv_destructor(1,&vvmsp[-3].minor);
   vv_destructor(44,&vvmsp[-2].minor);
   vv_destructor(32,&vvmsp[0].minor);
 }
-// 1892 "parser.php7.c"
+// 1913 "parser.php7.c"
         break;
       case 42:
       case 54:
       case 140:
       case 147:
-// 368 "parser.php7.lemon"
+// 386 "parser.php7.lemon"
 {
 	phvolt_ret_zval_list(&vvgotominor.vv186, &vvmsp[-2].minor.vv186, &vvmsp[0].minor.vv186);
   vv_destructor(2,&vvmsp[-1].minor);
 }
-// 1903 "parser.php7.c"
+// 1924 "parser.php7.c"
         break;
       case 44:
-// 380 "parser.php7.lemon"
+// 398 "parser.php7.lemon"
 {
 	phvolt_ret_set_assignment(&vvgotominor.vv186, &vvmsp[-2].minor.vv186, PHVOLT_T_ASSIGN, &vvmsp[0].minor.vv186, status->scanner_state);
   vv_destructor(45,&vvmsp[-1].minor);
 }
-// 1911 "parser.php7.c"
+// 1932 "parser.php7.c"
         break;
       case 45:
-// 384 "parser.php7.lemon"
+// 402 "parser.php7.lemon"
 {
 	phvolt_ret_set_assignment(&vvgotominor.vv186, &vvmsp[-2].minor.vv186, PHVOLT_T_ADD_ASSIGN, &vvmsp[0].minor.vv186, status->scanner_state);
   vv_destructor(46,&vvmsp[-1].minor);
 }
-// 1919 "parser.php7.c"
+// 1940 "parser.php7.c"
         break;
       case 46:
-// 388 "parser.php7.lemon"
+// 406 "parser.php7.lemon"
 {
 	phvolt_ret_set_assignment(&vvgotominor.vv186, &vvmsp[-2].minor.vv186, PHVOLT_T_SUB_ASSIGN, &vvmsp[0].minor.vv186, status->scanner_state);
   vv_destructor(47,&vvmsp[-1].minor);
 }
-// 1927 "parser.php7.c"
+// 1948 "parser.php7.c"
         break;
       case 47:
-// 392 "parser.php7.lemon"
+// 410 "parser.php7.lemon"
 {
 	phvolt_ret_set_assignment(&vvgotominor.vv186, &vvmsp[-2].minor.vv186, PHVOLT_T_MUL_ASSIGN, &vvmsp[0].minor.vv186, status->scanner_state);
   vv_destructor(48,&vvmsp[-1].minor);
 }
-// 1935 "parser.php7.c"
+// 1956 "parser.php7.c"
         break;
       case 48:
-// 396 "parser.php7.lemon"
+// 414 "parser.php7.lemon"
 {
 	phvolt_ret_set_assignment(&vvgotominor.vv186, &vvmsp[-2].minor.vv186, PHVOLT_T_DIV_ASSIGN, &vvmsp[0].minor.vv186, status->scanner_state);
   vv_destructor(49,&vvmsp[-1].minor);
 }
-// 1943 "parser.php7.c"
+// 1964 "parser.php7.c"
         break;
       case 49:
       case 73:
       case 139:
       case 151:
-// 400 "parser.php7.lemon"
+// 418 "parser.php7.lemon"
 {
 	phvolt_ret_literal_zval(&vvgotominor.vv186, PHVOLT_T_IDENTIFIER, vvmsp[0].minor.vv0, status->scanner_state);
 }
-// 1953 "parser.php7.c"
+// 1974 "parser.php7.c"
         break;
       case 50:
       case 133:
-// 404 "parser.php7.lemon"
+// 422 "parser.php7.lemon"
 {
 	phvolt_ret_expr(&vvgotominor.vv186, PHVOLT_T_ARRAYACCESS, &vvmsp[-3].minor.vv186, &vvmsp[-1].minor.vv186, NULL, status->scanner_state);
   vv_destructor(24,&vvmsp[-2].minor);
   vv_destructor(50,&vvmsp[0].minor);
 }
-// 1963 "parser.php7.c"
+// 1984 "parser.php7.c"
         break;
       case 51:
       case 122:
-// 408 "parser.php7.lemon"
+// 426 "parser.php7.lemon"
 {
 	phvolt_ret_expr(&vvgotominor.vv186, PHVOLT_T_DOT, &vvmsp[-2].minor.vv186, &vvmsp[0].minor.vv186, NULL, status->scanner_state);
   vv_destructor(30,&vvmsp[-1].minor);
 }
-// 1972 "parser.php7.c"
+// 1993 "parser.php7.c"
         break;
       case 52:
-// 416 "parser.php7.lemon"
+// 434 "parser.php7.lemon"
 {
 	phvolt_ret_macro_statement(&vvgotominor.vv186, vvmsp[-7].minor.vv0, NULL, &vvmsp[-3].minor.vv186, status->scanner_state);
   vv_destructor(1,&vvmsp[-9].minor);
@@ -1984,10 +2005,10 @@ static void vv_reduce(
   vv_destructor(53,&vvmsp[-1].minor);
   vv_destructor(32,&vvmsp[0].minor);
 }
-// 1987 "parser.php7.c"
+// 2008 "parser.php7.c"
         break;
       case 53:
-// 420 "parser.php7.lemon"
+// 438 "parser.php7.lemon"
 {
 	phvolt_ret_macro_statement(&vvgotominor.vv186, vvmsp[-8].minor.vv0, &vvmsp[-6].minor.vv186, &vvmsp[-3].minor.vv186, status->scanner_state);
   vv_destructor(1,&vvmsp[-10].minor);
@@ -1999,78 +2020,78 @@ static void vv_reduce(
   vv_destructor(53,&vvmsp[-1].minor);
   vv_destructor(32,&vvmsp[0].minor);
 }
-// 2002 "parser.php7.c"
+// 2023 "parser.php7.c"
         break;
       case 56:
-// 440 "parser.php7.lemon"
+// 458 "parser.php7.lemon"
 {
 	phvolt_ret_macro_parameter(&vvgotominor.vv186, vvmsp[0].minor.vv0, NULL, status->scanner_state);
 }
-// 2009 "parser.php7.c"
+// 2030 "parser.php7.c"
         break;
       case 57:
-// 444 "parser.php7.lemon"
+// 462 "parser.php7.lemon"
 {
 	phvolt_ret_macro_parameter(&vvgotominor.vv186, vvmsp[-2].minor.vv0, &vvmsp[0].minor.vv186, status->scanner_state);
   vv_destructor(45,&vvmsp[-1].minor);
 }
-// 2017 "parser.php7.c"
+// 2038 "parser.php7.c"
         break;
       case 58:
       case 72:
       case 138:
       case 152:
-// 448 "parser.php7.lemon"
+// 466 "parser.php7.lemon"
 {
 	phvolt_ret_literal_zval(&vvgotominor.vv186, PHVOLT_T_INTEGER, vvmsp[0].minor.vv0, status->scanner_state);
 }
-// 2027 "parser.php7.c"
+// 2048 "parser.php7.c"
         break;
       case 59:
       case 153:
-// 452 "parser.php7.lemon"
+// 470 "parser.php7.lemon"
 {
 	phvolt_ret_literal_zval(&vvgotominor.vv186, PHVOLT_T_STRING, vvmsp[0].minor.vv0, status->scanner_state);
 }
-// 2035 "parser.php7.c"
+// 2056 "parser.php7.c"
         break;
       case 60:
       case 154:
-// 456 "parser.php7.lemon"
+// 474 "parser.php7.lemon"
 {
 	phvolt_ret_literal_zval(&vvgotominor.vv186, PHVOLT_T_DOUBLE, vvmsp[0].minor.vv0, status->scanner_state);
 }
-// 2043 "parser.php7.c"
+// 2064 "parser.php7.c"
         break;
       case 61:
       case 155:
-// 460 "parser.php7.lemon"
+// 478 "parser.php7.lemon"
 {
 	phvolt_ret_literal_zval(&vvgotominor.vv186, PHVOLT_T_NULL, NULL, status->scanner_state);
   vv_destructor(57,&vvmsp[0].minor);
 }
-// 2052 "parser.php7.c"
+// 2073 "parser.php7.c"
         break;
       case 62:
       case 156:
-// 464 "parser.php7.lemon"
+// 482 "parser.php7.lemon"
 {
 	phvolt_ret_literal_zval(&vvgotominor.vv186, PHVOLT_T_FALSE, NULL, status->scanner_state);
   vv_destructor(58,&vvmsp[0].minor);
 }
-// 2061 "parser.php7.c"
+// 2082 "parser.php7.c"
         break;
       case 63:
       case 157:
-// 468 "parser.php7.lemon"
+// 486 "parser.php7.lemon"
 {
 	phvolt_ret_literal_zval(&vvgotominor.vv186, PHVOLT_T_TRUE, NULL, status->scanner_state);
   vv_destructor(59,&vvmsp[0].minor);
 }
-// 2070 "parser.php7.c"
+// 2091 "parser.php7.c"
         break;
       case 64:
-// 476 "parser.php7.lemon"
+// 494 "parser.php7.lemon"
 {
 	phvolt_ret_macro_call_statement(&vvgotominor.vv186, &vvmsp[-8].minor.vv186, &vvmsp[-6].minor.vv186, &vvmsp[-3].minor.vv186, status->scanner_state);
   vv_destructor(1,&vvmsp[-10].minor);
@@ -2082,10 +2103,10 @@ static void vv_reduce(
   vv_destructor(61,&vvmsp[-1].minor);
   vv_destructor(32,&vvmsp[0].minor);
 }
-// 2085 "parser.php7.c"
+// 2106 "parser.php7.c"
         break;
       case 65:
-// 480 "parser.php7.lemon"
+// 498 "parser.php7.lemon"
 {
 	phvolt_ret_macro_call_statement(&vvgotominor.vv186, &vvmsp[-6].minor.vv186, NULL, NULL, status->scanner_state);
   vv_destructor(1,&vvmsp[-8].minor);
@@ -2097,28 +2118,28 @@ static void vv_reduce(
   vv_destructor(61,&vvmsp[-1].minor);
   vv_destructor(32,&vvmsp[0].minor);
 }
-// 2100 "parser.php7.c"
+// 2121 "parser.php7.c"
         break;
       case 66:
-// 488 "parser.php7.lemon"
+// 506 "parser.php7.lemon"
 {
 	phvolt_ret_empty_statement(&vvgotominor.vv186, status->scanner_state);
   vv_destructor(1,&vvmsp[-1].minor);
   vv_destructor(32,&vvmsp[0].minor);
 }
-// 2109 "parser.php7.c"
+// 2130 "parser.php7.c"
         break;
       case 67:
-// 496 "parser.php7.lemon"
+// 514 "parser.php7.lemon"
 {
 	phvolt_ret_echo_statement(&vvgotominor.vv186, &vvmsp[-1].minor.vv186, status->scanner_state);
   vv_destructor(62,&vvmsp[-2].minor);
   vv_destructor(63,&vvmsp[0].minor);
 }
-// 2118 "parser.php7.c"
+// 2139 "parser.php7.c"
         break;
       case 68:
-// 504 "parser.php7.lemon"
+// 522 "parser.php7.lemon"
 {
 	phvolt_ret_block_statement(&vvgotominor.vv186, vvmsp[-5].minor.vv0, &vvmsp[-3].minor.vv186, status->scanner_state);
   vv_destructor(1,&vvmsp[-7].minor);
@@ -2128,10 +2149,10 @@ static void vv_reduce(
   vv_destructor(65,&vvmsp[-1].minor);
   vv_destructor(32,&vvmsp[0].minor);
 }
-// 2131 "parser.php7.c"
+// 2152 "parser.php7.c"
         break;
       case 69:
-// 508 "parser.php7.lemon"
+// 526 "parser.php7.lemon"
 {
 	phvolt_ret_block_statement(&vvgotominor.vv186, vvmsp[-4].minor.vv0, NULL, status->scanner_state);
   vv_destructor(1,&vvmsp[-6].minor);
@@ -2141,10 +2162,10 @@ static void vv_reduce(
   vv_destructor(65,&vvmsp[-1].minor);
   vv_destructor(32,&vvmsp[0].minor);
 }
-// 2144 "parser.php7.c"
+// 2165 "parser.php7.c"
         break;
       case 70:
-// 516 "parser.php7.lemon"
+// 534 "parser.php7.lemon"
 {
 	phvolt_ret_cache_statement(&vvgotominor.vv186, &vvmsp[-5].minor.vv186, NULL, &vvmsp[-3].minor.vv186, status->scanner_state);
   vv_destructor(1,&vvmsp[-7].minor);
@@ -2154,10 +2175,10 @@ static void vv_reduce(
   vv_destructor(67,&vvmsp[-1].minor);
   vv_destructor(32,&vvmsp[0].minor);
 }
-// 2157 "parser.php7.c"
+// 2178 "parser.php7.c"
         break;
       case 71:
-// 520 "parser.php7.lemon"
+// 538 "parser.php7.lemon"
 {
 	phvolt_ret_cache_statement(&vvgotominor.vv186, &vvmsp[-6].minor.vv186, &vvmsp[-5].minor.vv186, &vvmsp[-3].minor.vv186, status->scanner_state);
   vv_destructor(1,&vvmsp[-8].minor);
@@ -2167,10 +2188,10 @@ static void vv_reduce(
   vv_destructor(67,&vvmsp[-1].minor);
   vv_destructor(32,&vvmsp[0].minor);
 }
-// 2170 "parser.php7.c"
+// 2191 "parser.php7.c"
         break;
       case 74:
-// 540 "parser.php7.lemon"
+// 558 "parser.php7.lemon"
 {
 	phvolt_ret_raw_statement(&vvgotominor.vv186, &vvmsp[-3].minor.vv186, status->scanner_state);
   vv_destructor(1,&vvmsp[-6].minor);
@@ -2180,30 +2201,30 @@ static void vv_reduce(
   vv_destructor(69,&vvmsp[-1].minor);
   vv_destructor(32,&vvmsp[0].minor);
 }
-// 2183 "parser.php7.c"
+// 2204 "parser.php7.c"
         break;
       case 75:
-// 548 "parser.php7.lemon"
+// 566 "parser.php7.lemon"
 {
 	phvolt_ret_extends_statement(&vvgotominor.vv186, &vvmsp[-1].minor.vv186, status->scanner_state);
   vv_destructor(1,&vvmsp[-3].minor);
   vv_destructor(70,&vvmsp[-2].minor);
   vv_destructor(32,&vvmsp[0].minor);
 }
-// 2193 "parser.php7.c"
+// 2214 "parser.php7.c"
         break;
       case 76:
-// 556 "parser.php7.lemon"
+// 574 "parser.php7.lemon"
 {
 	phvolt_ret_include_statement(&vvgotominor.vv186, &vvmsp[-1].minor.vv186, NULL, status->scanner_state);
   vv_destructor(1,&vvmsp[-3].minor);
   vv_destructor(71,&vvmsp[-2].minor);
   vv_destructor(32,&vvmsp[0].minor);
 }
-// 2203 "parser.php7.c"
+// 2224 "parser.php7.c"
         break;
       case 77:
-// 560 "parser.php7.lemon"
+// 578 "parser.php7.lemon"
 {
 	phvolt_ret_include_statement(&vvgotominor.vv186, &vvmsp[-3].minor.vv186, &vvmsp[-1].minor.vv186, status->scanner_state);
   vv_destructor(1,&vvmsp[-5].minor);
@@ -2211,30 +2232,30 @@ static void vv_reduce(
   vv_destructor(72,&vvmsp[-2].minor);
   vv_destructor(32,&vvmsp[0].minor);
 }
-// 2214 "parser.php7.c"
+// 2235 "parser.php7.c"
         break;
       case 78:
-// 568 "parser.php7.lemon"
+// 586 "parser.php7.lemon"
 {
 	phvolt_ret_do_statement(&vvgotominor.vv186, &vvmsp[-1].minor.vv186, status->scanner_state);
   vv_destructor(1,&vvmsp[-3].minor);
   vv_destructor(73,&vvmsp[-2].minor);
   vv_destructor(32,&vvmsp[0].minor);
 }
-// 2224 "parser.php7.c"
+// 2245 "parser.php7.c"
         break;
       case 79:
-// 576 "parser.php7.lemon"
+// 594 "parser.php7.lemon"
 {
 	phvolt_ret_return_statement(&vvgotominor.vv186, &vvmsp[-1].minor.vv186, status->scanner_state);
   vv_destructor(1,&vvmsp[-3].minor);
   vv_destructor(74,&vvmsp[-2].minor);
   vv_destructor(32,&vvmsp[0].minor);
 }
-// 2234 "parser.php7.c"
+// 2255 "parser.php7.c"
         break;
       case 80:
-// 584 "parser.php7.lemon"
+// 602 "parser.php7.lemon"
 {
 	phvolt_ret_autoescape_statement(&vvgotominor.vv186, 0, &vvmsp[-3].minor.vv186, status->scanner_state);
   vv_destructor(1,&vvmsp[-7].minor);
@@ -2245,10 +2266,10 @@ static void vv_reduce(
   vv_destructor(76,&vvmsp[-1].minor);
   vv_destructor(32,&vvmsp[0].minor);
 }
-// 2248 "parser.php7.c"
+// 2269 "parser.php7.c"
         break;
       case 81:
-// 588 "parser.php7.lemon"
+// 606 "parser.php7.lemon"
 {
 	phvolt_ret_autoescape_statement(&vvgotominor.vv186, 1, &vvmsp[-3].minor.vv186, status->scanner_state);
   vv_destructor(1,&vvmsp[-7].minor);
@@ -2259,506 +2280,506 @@ static void vv_reduce(
   vv_destructor(76,&vvmsp[-1].minor);
   vv_destructor(32,&vvmsp[0].minor);
 }
-// 2262 "parser.php7.c"
+// 2283 "parser.php7.c"
         break;
       case 82:
-// 596 "parser.php7.lemon"
+// 614 "parser.php7.lemon"
 {
 	phvolt_ret_break_statement(&vvgotominor.vv186, status->scanner_state);
   vv_destructor(1,&vvmsp[-2].minor);
   vv_destructor(77,&vvmsp[-1].minor);
   vv_destructor(32,&vvmsp[0].minor);
 }
-// 2272 "parser.php7.c"
+// 2293 "parser.php7.c"
         break;
       case 83:
-// 604 "parser.php7.lemon"
+// 622 "parser.php7.lemon"
 {
 	phvolt_ret_continue_statement(&vvgotominor.vv186, status->scanner_state);
   vv_destructor(1,&vvmsp[-2].minor);
   vv_destructor(78,&vvmsp[-1].minor);
   vv_destructor(32,&vvmsp[0].minor);
 }
-// 2282 "parser.php7.c"
+// 2303 "parser.php7.c"
         break;
       case 84:
-// 612 "parser.php7.lemon"
+// 630 "parser.php7.lemon"
 {
 	phvolt_ret_literal_zval(&vvgotominor.vv186, PHVOLT_T_RAW_FRAGMENT, vvmsp[0].minor.vv0, status->scanner_state);
 }
-// 2289 "parser.php7.c"
+// 2310 "parser.php7.c"
         break;
       case 85:
-// 620 "parser.php7.lemon"
+// 638 "parser.php7.lemon"
 {
 	phvolt_ret_expr(&vvgotominor.vv186, PHVOLT_T_MINUS, NULL, &vvmsp[0].minor.vv186, NULL, status->scanner_state);
   vv_destructor(22,&vvmsp[-1].minor);
 }
-// 2297 "parser.php7.c"
+// 2318 "parser.php7.c"
         break;
       case 86:
-// 624 "parser.php7.lemon"
+// 642 "parser.php7.lemon"
 {
 	phvolt_ret_expr(&vvgotominor.vv186, PHVOLT_T_PLUS, NULL, &vvmsp[0].minor.vv186, NULL, status->scanner_state);
   vv_destructor(21,&vvmsp[-1].minor);
 }
-// 2305 "parser.php7.c"
+// 2326 "parser.php7.c"
         break;
       case 87:
-// 628 "parser.php7.lemon"
+// 646 "parser.php7.lemon"
 {
 	phvolt_ret_expr(&vvgotominor.vv186, PHVOLT_T_SUB, &vvmsp[-2].minor.vv186, &vvmsp[0].minor.vv186, NULL, status->scanner_state);
   vv_destructor(22,&vvmsp[-1].minor);
 }
-// 2313 "parser.php7.c"
+// 2334 "parser.php7.c"
         break;
       case 88:
-// 632 "parser.php7.lemon"
+// 650 "parser.php7.lemon"
 {
 	phvolt_ret_expr(&vvgotominor.vv186, PHVOLT_T_ADD, &vvmsp[-2].minor.vv186, &vvmsp[0].minor.vv186, NULL, status->scanner_state);
   vv_destructor(21,&vvmsp[-1].minor);
 }
-// 2321 "parser.php7.c"
+// 2342 "parser.php7.c"
         break;
       case 89:
-// 636 "parser.php7.lemon"
+// 654 "parser.php7.lemon"
 {
 	phvolt_ret_expr(&vvgotominor.vv186, PHVOLT_T_MUL, &vvmsp[-2].minor.vv186, &vvmsp[0].minor.vv186, NULL, status->scanner_state);
   vv_destructor(19,&vvmsp[-1].minor);
 }
-// 2329 "parser.php7.c"
+// 2350 "parser.php7.c"
         break;
       case 90:
-// 640 "parser.php7.lemon"
+// 658 "parser.php7.lemon"
 {
 	phvolt_ret_expr(&vvgotominor.vv186, PHVOLT_T_POW, &vvmsp[-3].minor.vv186, &vvmsp[0].minor.vv186, NULL, status->scanner_state);
   vv_destructor(19,&vvmsp[-2].minor);
   vv_destructor(19,&vvmsp[-1].minor);
 }
-// 2338 "parser.php7.c"
+// 2359 "parser.php7.c"
         break;
       case 91:
-// 644 "parser.php7.lemon"
+// 662 "parser.php7.lemon"
 {
 	phvolt_ret_expr(&vvgotominor.vv186, PHVOLT_T_DIV, &vvmsp[-2].minor.vv186, &vvmsp[0].minor.vv186, NULL, status->scanner_state);
   vv_destructor(18,&vvmsp[-1].minor);
 }
-// 2346 "parser.php7.c"
+// 2367 "parser.php7.c"
         break;
       case 92:
-// 648 "parser.php7.lemon"
+// 666 "parser.php7.lemon"
 {
 	phvolt_ret_expr(&vvgotominor.vv186, PHVOLT_T_MOD, &vvmsp[-3].minor.vv186, &vvmsp[0].minor.vv186, NULL, status->scanner_state);
   vv_destructor(18,&vvmsp[-2].minor);
   vv_destructor(18,&vvmsp[-1].minor);
 }
-// 2355 "parser.php7.c"
+// 2376 "parser.php7.c"
         break;
       case 93:
-// 652 "parser.php7.lemon"
+// 670 "parser.php7.lemon"
 {
 	phvolt_ret_expr(&vvgotominor.vv186, PHVOLT_T_MOD, &vvmsp[-2].minor.vv186, &vvmsp[0].minor.vv186, NULL, status->scanner_state);
   vv_destructor(20,&vvmsp[-1].minor);
 }
-// 2363 "parser.php7.c"
+// 2384 "parser.php7.c"
         break;
       case 94:
-// 656 "parser.php7.lemon"
+// 674 "parser.php7.lemon"
 {
 	phvolt_ret_expr(&vvgotominor.vv186, PHVOLT_T_AND, &vvmsp[-2].minor.vv186, &vvmsp[0].minor.vv186, NULL, status->scanner_state);
   vv_destructor(7,&vvmsp[-1].minor);
 }
-// 2371 "parser.php7.c"
+// 2392 "parser.php7.c"
         break;
       case 95:
-// 660 "parser.php7.lemon"
+// 678 "parser.php7.lemon"
 {
 	phvolt_ret_expr(&vvgotominor.vv186, PHVOLT_T_OR, &vvmsp[-2].minor.vv186, &vvmsp[0].minor.vv186, NULL, status->scanner_state);
   vv_destructor(8,&vvmsp[-1].minor);
 }
-// 2379 "parser.php7.c"
+// 2400 "parser.php7.c"
         break;
       case 96:
-// 664 "parser.php7.lemon"
+// 682 "parser.php7.lemon"
 {
 	phvolt_ret_expr(&vvgotominor.vv186, PHVOLT_T_CONCAT, &vvmsp[-2].minor.vv186, &vvmsp[0].minor.vv186, NULL, status->scanner_state);
   vv_destructor(23,&vvmsp[-1].minor);
 }
-// 2387 "parser.php7.c"
+// 2408 "parser.php7.c"
         break;
       case 97:
-// 668 "parser.php7.lemon"
+// 686 "parser.php7.lemon"
 {
 	phvolt_ret_expr(&vvgotominor.vv186, PHVOLT_T_PIPE, &vvmsp[-2].minor.vv186, &vvmsp[0].minor.vv186, NULL, status->scanner_state);
   vv_destructor(25,&vvmsp[-1].minor);
 }
-// 2395 "parser.php7.c"
+// 2416 "parser.php7.c"
         break;
       case 98:
-// 672 "parser.php7.lemon"
+// 690 "parser.php7.lemon"
 {
 	phvolt_ret_expr(&vvgotominor.vv186, PHVOLT_T_RANGE, &vvmsp[-2].minor.vv186, &vvmsp[0].minor.vv186, NULL, status->scanner_state);
   vv_destructor(6,&vvmsp[-1].minor);
 }
-// 2403 "parser.php7.c"
+// 2424 "parser.php7.c"
         break;
       case 99:
-// 676 "parser.php7.lemon"
+// 694 "parser.php7.lemon"
 {
 	phvolt_ret_expr(&vvgotominor.vv186, PHVOLT_T_EQUALS, &vvmsp[-2].minor.vv186, &vvmsp[0].minor.vv186, NULL, status->scanner_state);
   vv_destructor(10,&vvmsp[-1].minor);
 }
-// 2411 "parser.php7.c"
+// 2432 "parser.php7.c"
         break;
       case 100:
-// 680 "parser.php7.lemon"
+// 698 "parser.php7.lemon"
 {
 	phvolt_ret_expr(&vvgotominor.vv186, PHVOLT_T_NOT_ISSET, &vvmsp[-2].minor.vv186, NULL, NULL, status->scanner_state);
   vv_destructor(11,&vvmsp[-1].minor);
   vv_destructor(80,&vvmsp[0].minor);
 }
-// 2420 "parser.php7.c"
+// 2441 "parser.php7.c"
         break;
       case 101:
-// 684 "parser.php7.lemon"
+// 702 "parser.php7.lemon"
 {
 	phvolt_ret_expr(&vvgotominor.vv186, PHVOLT_T_ISSET, &vvmsp[-2].minor.vv186, NULL, NULL, status->scanner_state);
   vv_destructor(9,&vvmsp[-1].minor);
   vv_destructor(80,&vvmsp[0].minor);
 }
-// 2429 "parser.php7.c"
+// 2450 "parser.php7.c"
         break;
       case 102:
-// 688 "parser.php7.lemon"
+// 706 "parser.php7.lemon"
 {
 	phvolt_ret_expr(&vvgotominor.vv186, PHVOLT_T_NOT_ISEMPTY, &vvmsp[-2].minor.vv186, NULL, NULL, status->scanner_state);
   vv_destructor(11,&vvmsp[-1].minor);
   vv_destructor(81,&vvmsp[0].minor);
 }
-// 2438 "parser.php7.c"
+// 2459 "parser.php7.c"
         break;
       case 103:
-// 692 "parser.php7.lemon"
+// 710 "parser.php7.lemon"
 {
 	phvolt_ret_expr(&vvgotominor.vv186, PHVOLT_T_ISEMPTY, &vvmsp[-2].minor.vv186, NULL, NULL, status->scanner_state);
   vv_destructor(9,&vvmsp[-1].minor);
   vv_destructor(81,&vvmsp[0].minor);
 }
-// 2447 "parser.php7.c"
+// 2468 "parser.php7.c"
         break;
       case 104:
-// 696 "parser.php7.lemon"
+// 714 "parser.php7.lemon"
 {
 	phvolt_ret_expr(&vvgotominor.vv186, PHVOLT_T_NOT_ISEVEN, &vvmsp[-2].minor.vv186, NULL, NULL, status->scanner_state);
   vv_destructor(11,&vvmsp[-1].minor);
   vv_destructor(82,&vvmsp[0].minor);
 }
-// 2456 "parser.php7.c"
+// 2477 "parser.php7.c"
         break;
       case 105:
-// 700 "parser.php7.lemon"
+// 718 "parser.php7.lemon"
 {
 	phvolt_ret_expr(&vvgotominor.vv186, PHVOLT_T_ISEVEN, &vvmsp[-2].minor.vv186, NULL, NULL, status->scanner_state);
   vv_destructor(9,&vvmsp[-1].minor);
   vv_destructor(82,&vvmsp[0].minor);
 }
-// 2465 "parser.php7.c"
+// 2486 "parser.php7.c"
         break;
       case 106:
-// 704 "parser.php7.lemon"
+// 722 "parser.php7.lemon"
 {
 	phvolt_ret_expr(&vvgotominor.vv186, PHVOLT_T_NOT_ISODD, &vvmsp[-2].minor.vv186, NULL, NULL, status->scanner_state);
   vv_destructor(11,&vvmsp[-1].minor);
   vv_destructor(83,&vvmsp[0].minor);
 }
-// 2474 "parser.php7.c"
+// 2495 "parser.php7.c"
         break;
       case 107:
-// 708 "parser.php7.lemon"
+// 726 "parser.php7.lemon"
 {
 	phvolt_ret_expr(&vvgotominor.vv186, PHVOLT_T_ISODD, &vvmsp[-2].minor.vv186, NULL, NULL, status->scanner_state);
   vv_destructor(9,&vvmsp[-1].minor);
   vv_destructor(83,&vvmsp[0].minor);
 }
-// 2483 "parser.php7.c"
+// 2504 "parser.php7.c"
         break;
       case 108:
-// 712 "parser.php7.lemon"
+// 730 "parser.php7.lemon"
 {
 	phvolt_ret_expr(&vvgotominor.vv186, PHVOLT_T_NOT_ISNUMERIC, &vvmsp[-2].minor.vv186, NULL, NULL, status->scanner_state);
   vv_destructor(11,&vvmsp[-1].minor);
   vv_destructor(84,&vvmsp[0].minor);
 }
-// 2492 "parser.php7.c"
+// 2513 "parser.php7.c"
         break;
       case 109:
-// 716 "parser.php7.lemon"
+// 734 "parser.php7.lemon"
 {
 	phvolt_ret_expr(&vvgotominor.vv186, PHVOLT_T_ISNUMERIC, &vvmsp[-2].minor.vv186, NULL, NULL, status->scanner_state);
   vv_destructor(9,&vvmsp[-1].minor);
   vv_destructor(84,&vvmsp[0].minor);
 }
-// 2501 "parser.php7.c"
+// 2522 "parser.php7.c"
         break;
       case 110:
-// 720 "parser.php7.lemon"
+// 738 "parser.php7.lemon"
 {
 	phvolt_ret_expr(&vvgotominor.vv186, PHVOLT_T_NOT_ISSCALAR, &vvmsp[-2].minor.vv186, NULL, NULL, status->scanner_state);
   vv_destructor(11,&vvmsp[-1].minor);
   vv_destructor(85,&vvmsp[0].minor);
 }
-// 2510 "parser.php7.c"
+// 2531 "parser.php7.c"
         break;
       case 111:
-// 724 "parser.php7.lemon"
+// 742 "parser.php7.lemon"
 {
 	phvolt_ret_expr(&vvgotominor.vv186, PHVOLT_T_ISSCALAR, &vvmsp[-2].minor.vv186, NULL, NULL, status->scanner_state);
   vv_destructor(9,&vvmsp[-1].minor);
   vv_destructor(85,&vvmsp[0].minor);
 }
-// 2519 "parser.php7.c"
+// 2540 "parser.php7.c"
         break;
       case 112:
-// 728 "parser.php7.lemon"
+// 746 "parser.php7.lemon"
 {
 	phvolt_ret_expr(&vvgotominor.vv186, PHVOLT_T_NOT_ISITERABLE, &vvmsp[-2].minor.vv186, NULL, NULL, status->scanner_state);
   vv_destructor(11,&vvmsp[-1].minor);
   vv_destructor(86,&vvmsp[0].minor);
 }
-// 2528 "parser.php7.c"
+// 2549 "parser.php7.c"
         break;
       case 113:
-// 732 "parser.php7.lemon"
+// 750 "parser.php7.lemon"
 {
 	phvolt_ret_expr(&vvgotominor.vv186, PHVOLT_T_ISITERABLE, &vvmsp[-2].minor.vv186, NULL, NULL, status->scanner_state);
   vv_destructor(9,&vvmsp[-1].minor);
   vv_destructor(86,&vvmsp[0].minor);
 }
-// 2537 "parser.php7.c"
+// 2558 "parser.php7.c"
         break;
       case 114:
-// 736 "parser.php7.lemon"
+// 754 "parser.php7.lemon"
 {
 	phvolt_ret_expr(&vvgotominor.vv186, PHVOLT_T_IS, &vvmsp[-2].minor.vv186, &vvmsp[0].minor.vv186, NULL, status->scanner_state);
   vv_destructor(9,&vvmsp[-1].minor);
 }
-// 2545 "parser.php7.c"
+// 2566 "parser.php7.c"
         break;
       case 115:
-// 740 "parser.php7.lemon"
+// 758 "parser.php7.lemon"
 {
 	phvolt_ret_expr(&vvgotominor.vv186, PHVOLT_T_NOTEQUALS, &vvmsp[-2].minor.vv186, &vvmsp[0].minor.vv186, NULL, status->scanner_state);
   vv_destructor(11,&vvmsp[-1].minor);
 }
-// 2553 "parser.php7.c"
+// 2574 "parser.php7.c"
         break;
       case 116:
-// 744 "parser.php7.lemon"
+// 762 "parser.php7.lemon"
 {
 	phvolt_ret_expr(&vvgotominor.vv186, PHVOLT_T_IDENTICAL, &vvmsp[-2].minor.vv186, &vvmsp[0].minor.vv186, NULL, status->scanner_state);
   vv_destructor(16,&vvmsp[-1].minor);
 }
-// 2561 "parser.php7.c"
+// 2582 "parser.php7.c"
         break;
       case 117:
-// 748 "parser.php7.lemon"
+// 766 "parser.php7.lemon"
 {
 	phvolt_ret_expr(&vvgotominor.vv186, PHVOLT_T_NOTIDENTICAL, &vvmsp[-2].minor.vv186, &vvmsp[0].minor.vv186, NULL, status->scanner_state);
   vv_destructor(17,&vvmsp[-1].minor);
 }
-// 2569 "parser.php7.c"
+// 2590 "parser.php7.c"
         break;
       case 118:
-// 752 "parser.php7.lemon"
+// 770 "parser.php7.lemon"
 {
 	phvolt_ret_expr(&vvgotominor.vv186, PHVOLT_T_LESS, &vvmsp[-2].minor.vv186, &vvmsp[0].minor.vv186, NULL, status->scanner_state);
   vv_destructor(12,&vvmsp[-1].minor);
 }
-// 2577 "parser.php7.c"
+// 2598 "parser.php7.c"
         break;
       case 119:
-// 756 "parser.php7.lemon"
+// 774 "parser.php7.lemon"
 {
 	phvolt_ret_expr(&vvgotominor.vv186, PHVOLT_T_GREATER, &vvmsp[-2].minor.vv186, &vvmsp[0].minor.vv186, NULL, status->scanner_state);
   vv_destructor(13,&vvmsp[-1].minor);
 }
-// 2585 "parser.php7.c"
+// 2606 "parser.php7.c"
         break;
       case 120:
-// 760 "parser.php7.lemon"
+// 778 "parser.php7.lemon"
 {
 	phvolt_ret_expr(&vvgotominor.vv186, PHVOLT_T_GREATEREQUAL, &vvmsp[-2].minor.vv186, &vvmsp[0].minor.vv186, NULL, status->scanner_state);
   vv_destructor(14,&vvmsp[-1].minor);
 }
-// 2593 "parser.php7.c"
+// 2614 "parser.php7.c"
         break;
       case 121:
-// 764 "parser.php7.lemon"
+// 782 "parser.php7.lemon"
 {
 	phvolt_ret_expr(&vvgotominor.vv186, PHVOLT_T_LESSEQUAL, &vvmsp[-2].minor.vv186, &vvmsp[0].minor.vv186, NULL, status->scanner_state);
   vv_destructor(15,&vvmsp[-1].minor);
 }
-// 2601 "parser.php7.c"
+// 2622 "parser.php7.c"
         break;
       case 123:
-// 772 "parser.php7.lemon"
+// 790 "parser.php7.lemon"
 {
 	phvolt_ret_expr(&vvgotominor.vv186, PHVOLT_T_IN, &vvmsp[-2].minor.vv186, &vvmsp[0].minor.vv186, NULL, status->scanner_state);
   vv_destructor(3,&vvmsp[-1].minor);
 }
-// 2609 "parser.php7.c"
+// 2630 "parser.php7.c"
         break;
       case 124:
-// 776 "parser.php7.lemon"
+// 794 "parser.php7.lemon"
 {
 	phvolt_ret_expr(&vvgotominor.vv186, PHVOLT_T_NOT_IN, &vvmsp[-3].minor.vv186, &vvmsp[0].minor.vv186, NULL, status->scanner_state);
   vv_destructor(26,&vvmsp[-2].minor);
   vv_destructor(3,&vvmsp[-1].minor);
 }
-// 2618 "parser.php7.c"
+// 2639 "parser.php7.c"
         break;
       case 125:
-// 780 "parser.php7.lemon"
+// 798 "parser.php7.lemon"
 {
 	phvolt_ret_expr(&vvgotominor.vv186, PHVOLT_T_NOT, NULL, &vvmsp[0].minor.vv186, NULL, status->scanner_state);
   vv_destructor(26,&vvmsp[-1].minor);
 }
-// 2626 "parser.php7.c"
+// 2647 "parser.php7.c"
         break;
       case 126:
-// 784 "parser.php7.lemon"
+// 802 "parser.php7.lemon"
 {
 	phvolt_ret_expr(&vvgotominor.vv186, PHVOLT_T_INCR, &vvmsp[-1].minor.vv186, NULL, NULL, status->scanner_state);
   vv_destructor(27,&vvmsp[0].minor);
 }
-// 2634 "parser.php7.c"
+// 2655 "parser.php7.c"
         break;
       case 127:
-// 788 "parser.php7.lemon"
+// 806 "parser.php7.lemon"
 {
 	phvolt_ret_expr(&vvgotominor.vv186, PHVOLT_T_DECR, &vvmsp[-1].minor.vv186, NULL, NULL, status->scanner_state);
   vv_destructor(28,&vvmsp[0].minor);
 }
-// 2642 "parser.php7.c"
+// 2663 "parser.php7.c"
         break;
       case 128:
-// 792 "parser.php7.lemon"
+// 810 "parser.php7.lemon"
 {
 	phvolt_ret_expr(&vvgotominor.vv186, PHVOLT_T_ENCLOSED, &vvmsp[-1].minor.vv186, NULL, NULL, status->scanner_state);
   vv_destructor(29,&vvmsp[-2].minor);
   vv_destructor(52,&vvmsp[0].minor);
 }
-// 2651 "parser.php7.c"
+// 2672 "parser.php7.c"
         break;
       case 129:
-// 796 "parser.php7.lemon"
+// 814 "parser.php7.lemon"
 {
 	phvolt_ret_expr(&vvgotominor.vv186, PHVOLT_T_ARRAY, NULL, NULL, NULL, status->scanner_state);
   vv_destructor(24,&vvmsp[-1].minor);
   vv_destructor(50,&vvmsp[0].minor);
 }
-// 2660 "parser.php7.c"
+// 2681 "parser.php7.c"
         break;
       case 130:
-// 800 "parser.php7.lemon"
+// 818 "parser.php7.lemon"
 {
 	phvolt_ret_expr(&vvgotominor.vv186, PHVOLT_T_ARRAY, &vvmsp[-1].minor.vv186, NULL, NULL, status->scanner_state);
   vv_destructor(24,&vvmsp[-2].minor);
   vv_destructor(50,&vvmsp[0].minor);
 }
-// 2669 "parser.php7.c"
+// 2690 "parser.php7.c"
         break;
       case 131:
-// 804 "parser.php7.lemon"
+// 822 "parser.php7.lemon"
 {
 	phvolt_ret_expr(&vvgotominor.vv186, PHVOLT_T_ARRAY, NULL, NULL, NULL, status->scanner_state);
   vv_destructor(87,&vvmsp[-1].minor);
   vv_destructor(88,&vvmsp[0].minor);
 }
-// 2678 "parser.php7.c"
+// 2699 "parser.php7.c"
         break;
       case 132:
-// 808 "parser.php7.lemon"
+// 826 "parser.php7.lemon"
 {
 	phvolt_ret_expr(&vvgotominor.vv186, PHVOLT_T_ARRAY, &vvmsp[-1].minor.vv186, NULL, NULL, status->scanner_state);
   vv_destructor(87,&vvmsp[-2].minor);
   vv_destructor(88,&vvmsp[0].minor);
 }
-// 2687 "parser.php7.c"
+// 2708 "parser.php7.c"
         break;
       case 134:
-// 816 "parser.php7.lemon"
+// 834 "parser.php7.lemon"
 {
 	phvolt_ret_expr(&vvgotominor.vv186, PHVOLT_T_TERNARY, &vvmsp[-2].minor.vv186, &vvmsp[0].minor.vv186, &vvmsp[-4].minor.vv186, status->scanner_state);
   vv_destructor(4,&vvmsp[-3].minor);
   vv_destructor(5,&vvmsp[-1].minor);
 }
-// 2696 "parser.php7.c"
+// 2717 "parser.php7.c"
         break;
       case 135:
-// 820 "parser.php7.lemon"
+// 838 "parser.php7.lemon"
 {
 	phvolt_ret_slice(&vvgotominor.vv186, &vvmsp[-4].minor.vv186, NULL, &vvmsp[-1].minor.vv186, status->scanner_state);
   vv_destructor(24,&vvmsp[-3].minor);
   vv_destructor(5,&vvmsp[-2].minor);
   vv_destructor(50,&vvmsp[0].minor);
 }
-// 2706 "parser.php7.c"
+// 2727 "parser.php7.c"
         break;
       case 136:
-// 824 "parser.php7.lemon"
+// 842 "parser.php7.lemon"
 {
 	phvolt_ret_slice(&vvgotominor.vv186, &vvmsp[-4].minor.vv186, &vvmsp[-2].minor.vv186, NULL, status->scanner_state);
   vv_destructor(24,&vvmsp[-3].minor);
   vv_destructor(5,&vvmsp[-1].minor);
   vv_destructor(50,&vvmsp[0].minor);
 }
-// 2716 "parser.php7.c"
+// 2737 "parser.php7.c"
         break;
       case 137:
-// 828 "parser.php7.lemon"
+// 846 "parser.php7.lemon"
 {
 	phvolt_ret_slice(&vvgotominor.vv186, &vvmsp[-5].minor.vv186, &vvmsp[-3].minor.vv186, &vvmsp[-1].minor.vv186, status->scanner_state);
   vv_destructor(24,&vvmsp[-4].minor);
   vv_destructor(5,&vvmsp[-2].minor);
   vv_destructor(50,&vvmsp[0].minor);
 }
-// 2726 "parser.php7.c"
+// 2747 "parser.php7.c"
         break;
       case 142:
       case 150:
-// 860 "parser.php7.lemon"
+// 878 "parser.php7.lemon"
 {
 	phvolt_ret_named_item(&vvgotominor.vv186, vvmsp[-2].minor.vv0, &vvmsp[0].minor.vv186, status->scanner_state);
   vv_destructor(5,&vvmsp[-1].minor);
 }
-// 2735 "parser.php7.c"
+// 2756 "parser.php7.c"
         break;
       case 143:
       case 149:
-// 864 "parser.php7.lemon"
+// 882 "parser.php7.lemon"
 {
 	phvolt_ret_named_item(&vvgotominor.vv186, NULL, &vvmsp[0].minor.vv186, status->scanner_state);
 }
-// 2743 "parser.php7.c"
+// 2764 "parser.php7.c"
         break;
       case 145:
-// 876 "parser.php7.lemon"
+// 894 "parser.php7.lemon"
 {
 	phvolt_ret_func_call(&vvgotominor.vv186, &vvmsp[-3].minor.vv186, &vvmsp[-1].minor.vv186, status->scanner_state);
   vv_destructor(29,&vvmsp[-2].minor);
   vv_destructor(52,&vvmsp[0].minor);
 }
-// 2752 "parser.php7.c"
+// 2773 "parser.php7.c"
         break;
       case 146:
-// 880 "parser.php7.lemon"
+// 898 "parser.php7.lemon"
 {
 	phvolt_ret_func_call(&vvgotominor.vv186, &vvmsp[-2].minor.vv186, NULL, status->scanner_state);
   vv_destructor(29,&vvmsp[-1].minor);
   vv_destructor(52,&vvmsp[0].minor);
 }
-// 2761 "parser.php7.c"
+// 2782 "parser.php7.c"
         break;
   };
   vvgoto = vvRuleInfo[vvruleno].lhs;
@@ -2800,7 +2821,7 @@ static void vv_syntax_error(
 ){
   phvolt_ARG_FETCH;
 #define VTOKEN (vvminor.vv0)
-// 37 "parser.php7.lemon"
+// 49 "parser.php7.lemon"
 
 	{
 
@@ -2905,7 +2926,7 @@ static void vv_syntax_error(
 
 	status->status = PHVOLT_PARSING_FAILED;
 
-// 2908 "parser.php7.c"
+// 2929 "parser.php7.c"
   phvolt_ARG_STORE; /* Suppress warning about unused %extra_argument variable */
 }
 
@@ -2999,7 +3020,7 @@ void phvolt_(
 #ifdef VVERRORSYMBOL
       /* A syntax error has occurred.
       ** The response to an error depends upon whether or not the
-      ** grammar defines an error token "ERROR".
+      ** grammar defines an error token "ERROR".  
       **
       ** This is what we do if the grammar does define ERROR:
       **
@@ -3371,6 +3392,10 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 	token.value = NULL;
 	token.len = 0;
 
+	/* To enable parser tracing decalre "#undef NDEBUG" in the lemon file */
+#ifndef NDEBUG
+	phvolt_Trace(stderr, "[PARSER]  ");
+#endif
 	while (0 <= (scanner_status = phvolt_get_token(state, &token))) {
 
 		state->active_token = token.opcode;
