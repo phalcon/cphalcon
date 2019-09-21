@@ -82,6 +82,10 @@ abstract class Injectable implements InjectionAwareInterface, EventsAwareInterfa
             }
         }
 
+        if propertyName == "eventsManager" && typeof this->eventsManager == "object" {
+            return this->eventsManager;
+        }
+
         /**
          * Fallback to the PHP userland if the cache is not available
          */

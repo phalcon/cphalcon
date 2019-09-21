@@ -12,6 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Di\Injectable;
 
+use Phalcon\Di\FactoryDefault;
+use Phalcon\Di\Injectable;
+use Phalcon\Events\Manager;
 use UnitTester;
 
 class GetEventsManagerCest
@@ -26,6 +29,34 @@ class GetEventsManagerCest
     {
         $I->wantToTest('Di\Injectable - getEventsManager()');
 
-        $I->skipTest('Need implementation');
+        $di = new FactoryDefault();
+        $I->assertNull(
+            $di->getInternalEventsManager()
+        );
+
+
+        $injectable = new class extends Injectable {
+        };
+
+        // Prove they are the same object. <---- Works
+        $I->assertEquals(
+            spl_object_hash($injectable->eventsManager),
+            spl_object_hash($di->getEventsManager())
+        );
+
+        $newManager = new Manager();
+        $injectable->setEventsManager($newManager);
+
+        // Prove they are the same object. <---- Fails
+        $I->assertEquals(
+            spl_object_hash($injectable->eventsManager),
+            spl_object_hash($newManager)
+        );
+
+        // Prove they are the same object. <---- Works
+        $I->assertEquals(
+            spl_object_hash($injectable->getEventsManager()),
+            spl_object_hash($newManager)
+        );
     }
 }
