@@ -4391,13 +4391,8 @@ vv321:
 vv322:
 			{
 			token->opcode = PHVOLT_T_DEFAULT;
-
-			// TODO: Make this better.
-			// Issue: https://github.com/phalcon/cphalcon/issues/13242
-			// Introduced: https://github.com/phalcon/cphalcon/pull/13130
 			token->value = estrndup(start, VVCURSOR - start);
 			token->len = VVCURSOR - start;
-
 			return 0;
 		}
 vv323:

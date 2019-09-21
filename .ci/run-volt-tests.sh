@@ -7,6 +7,8 @@
 # For the full copyright and license information, please view the
 # LICENSE.txt file that was distributed with this source code.
 
+set -e
+
 NO_INTERACTION=1
 REPORT_EXIT_STATUS=1
 TEST_PHP_EXECUTABLE="$(phpenv which php)"

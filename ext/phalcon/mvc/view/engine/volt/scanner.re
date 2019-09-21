@@ -225,13 +225,8 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 
 		'default' {
 			token->opcode = PHVOLT_T_DEFAULT;
-
-			// TODO: Make this better.
-			// Issue: https://github.com/phalcon/cphalcon/issues/13242
-			// Introduced: https://github.com/phalcon/cphalcon/pull/13130
 			token->value = estrndup(start, YYCURSOR - start);
 			token->len = YYCURSOR - start;
-
 			return 0;
 		}
 
