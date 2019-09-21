@@ -41,6 +41,7 @@
 - Fixed `Phalcon/Db/Dialect/Mysql` Fixed missing schema in constraint for create table [#14378](https://github.com/phalcon/cphalcon/issues/14378)
 - Fixed `Phalcon\Mvc\Model::hasChanged()` and `getChangedFields()` returning false values when `castOnHydrate` option is on. [#14376](https://github.com/phalcon/cphalcon/issues/14376)
 - Fixed `Phalcon\Mvc\Model::create()` Using write connection to prevent replica lag [#14256](https://github.com/phalcon/cphalcon/issues/14256)
+- Fixed `Phalcon\Di::remove()` Fixed remove() not removing service [#14396](https://github.com/phalcon/cphalcon/issues/14396)
 
 ## Removed
 - Removed `Phalcon\Plugin` - duplicate of `Phalcon\DI\Injectable` [#14359](https://github.com/phalcon/cphalcon/issues/14359)

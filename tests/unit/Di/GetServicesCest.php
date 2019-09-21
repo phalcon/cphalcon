@@ -35,5 +35,12 @@ class GetServicesCest
         $di->set('escaper', Escaper::class);
 
         $I->assertCount(1, $di->getServices());
+
+        $di->remove('escaper');
+        $I->assertFalse($di->has('escaper'));
+        $I->assertEquals([], $di->getServices());
+        $I->assertEmpty($di->getServices());
+        $I->assertTrue(is_array($di->getServices()));
+        $I->assertCount(0, $di->getServices());
     }
 }
