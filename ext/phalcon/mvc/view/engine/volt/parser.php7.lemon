@@ -48,7 +48,6 @@
 
 %syntax_error {
 	{
-
 		smart_str error_str = {0};
 
 		char *token_name = NULL;
@@ -146,6 +145,10 @@
 		} else {
 			status->syntax_error = NULL;
 		}
+	}
+
+	if (status->token->len > 0) {
+		efree(status->token->value);
 	}
 
 	status->status = PHVOLT_PARSING_FAILED;
