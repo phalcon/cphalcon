@@ -97,7 +97,7 @@ class Crypt implements CryptInterface
     /**
      * Phalcon\Crypt constructor.
      */
-    public function __construct(string! cipher = "aes-256-cfb", bool useSigning = false) -> void
+    public function __construct(string! cipher = "aes-256-cfb", bool useSigning = false)
     {
         this->initializeAvailableCiphers();
 

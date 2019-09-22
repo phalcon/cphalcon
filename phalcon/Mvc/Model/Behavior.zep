@@ -28,7 +28,7 @@ abstract class Behavior implements BehaviorInterface
     /**
      * Phalcon\Mvc\Model\Behavior
      */
-    public function __construct(array options = []) -> void
+    public function __construct(array options = [])
     {
         let this->options = options;
     }

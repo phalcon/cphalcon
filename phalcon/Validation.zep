@@ -38,7 +38,7 @@ class Validation extends Injectable implements ValidationInterface
     /**
      * Phalcon\Validation constructor
      */
-    public function __construct(array validators = []) -> void
+    public function __construct(array validators = [])
     {
         let this->validators = array_filter(
             validators,

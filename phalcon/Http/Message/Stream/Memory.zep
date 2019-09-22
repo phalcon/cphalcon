@@ -28,7 +28,7 @@ class Memory extends Stream
     /**
      * Constructor
      */
-    public function __construct(var mode = "rb") -> void
+    public function __construct(var mode = "rb")
     {
         parent::__construct("php://memory", mode);
     }

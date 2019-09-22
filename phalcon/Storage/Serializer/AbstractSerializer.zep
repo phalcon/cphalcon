@@ -18,14 +18,14 @@ abstract class AbstractSerializer implements SerializerInterface
     /**
      * @var mixed
      */
-    protected data = null { get, set };
+    protected data = null;
 
 	/**
 	 * Constructor
 	 */
-	public function __construct(var data = null) -> void
+	public function __construct(var data = null)
 	{
-	    let this-> data = data;
+	    let this->data = data;
 	}
 
     /**
@@ -35,4 +35,20 @@ abstract class AbstractSerializer implements SerializerInterface
 	{
         return !(empty data || typeof data === "bool" || is_numeric(data));
 	}
+
+    /**
+     * @return mixed
+     */
+    public function getData() -> var
+    {
+        return this->data;
+    }
+
+    /**
+     * @param mixed $data
+     */
+    public function setData(var data) -> void
+    {
+        let this->data = data;
+    }
 }

@@ -43,7 +43,7 @@ class Relation implements RelationInterface
      * @param string|array fields
      * @param string|array referencedFields
      */
-    public function __construct(int type, string! referencedModel, var fields, var referencedFields, array options = []) -> void
+    public function __construct(int type, string! referencedModel, var fields, var referencedFields, array options = [])
     {
         let this->type = type,
             this->referencedModel = referencedModel,

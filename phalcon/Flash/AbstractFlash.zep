@@ -71,7 +71,7 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
     /**
      * Phalcon\Flash constructor
      */
-    public function __construct(<EscaperInterface> escaper = null, <SessionInterface> session = null) -> void
+    public function __construct(<EscaperInterface> escaper = null, <SessionInterface> session = null)
     {
         let this->escaperService = escaper,
             this->sessionService = session;

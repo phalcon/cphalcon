@@ -70,7 +70,7 @@ class Router extends AbstractInjectionAware
     /**
      * Phalcon\Cli\Router constructor
      */
-    public function __construct(bool defaultRoutes = true) -> void
+    public function __construct(bool defaultRoutes = true)
     {
         array routes;
 

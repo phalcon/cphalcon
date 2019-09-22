@@ -44,7 +44,7 @@ class Manager extends AbstractInjectionAware
     /**
      * Phalcon\Assets\Manager constructor
      */
-    public function __construct(array options = []) -> void
+    public function __construct(array options = [])
     {
         let this->options = options;
     }

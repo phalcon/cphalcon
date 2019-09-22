@@ -175,7 +175,7 @@ class Memory extends AbstractAdapter
     /**
      * Phalcon\Acl\Adapter\Memory constructor
      */
-    public function __construct() -> void
+    public function __construct()
     {
         let this->componentsNames = ["*": true];
         let this->accessList = ["*!*": true];

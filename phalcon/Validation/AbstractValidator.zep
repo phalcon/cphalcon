@@ -41,7 +41,7 @@ abstract class AbstractValidator implements ValidatorInterface
     /**
      * Phalcon\Validation\Validator constructor
      */
-    public function __construct(array! options = []) -> void
+    public function __construct(array! options = [])
     {
         var template;
 

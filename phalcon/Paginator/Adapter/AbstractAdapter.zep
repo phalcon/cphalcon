@@ -44,7 +44,7 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
      * Phalcon\Paginator\Adapter\AbstractAdapter constructor
      */
-    public function __construct(array! config) -> void
+    public function __construct(array! config)
     {
         let this->config = config;
 

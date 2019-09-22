@@ -41,7 +41,7 @@ class Task extends Injectable implements TaskInterface
     /**
      * Phalcon\Cli\Task constructor
      */
-    final public function __construct() -> void
+    final public function __construct()
     {
         if method_exists(this, "onConstruct") {
             this->{"onConstruct"}();

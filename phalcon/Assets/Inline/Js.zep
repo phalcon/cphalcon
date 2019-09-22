@@ -20,7 +20,7 @@ class Js extends InlineBase
     /**
      * Phalcon\Assets\Inline\Js constructor
      */
-    public function __construct(string content, bool filter = true, var attributes = null) -> void
+    public function __construct(string content, bool filter = true, var attributes = null)
     {
         if attributes == null {
             let attributes = [
