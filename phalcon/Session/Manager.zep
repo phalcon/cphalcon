@@ -199,7 +199,7 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
     /**
      * Removes a session variable from an application context
      */
-    public function remove(string key)
+    public function remove(string key) -> void
     {
         if false === this->exists() {
             // To use $_SESSION variable we need to start session first

@@ -107,7 +107,7 @@ class Bag extends Collection implements InjectionAwareInterface
     /**
      * Sets a value in the session bag
      */
-    public function set(string! element, var value)
+    public function set(string! element, var value) -> void
     {
         parent::set(element, value);
 
