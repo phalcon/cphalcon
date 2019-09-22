@@ -63,7 +63,7 @@ class Pdo implements ResultInterface
      * Phalcon\Db\Result\Pdo constructor
      */
     public function __construct(<AdapterInterface> connection, <\PDOStatement> result,
-        sqlStatement = null, bindParams = null, bindTypes = null) -> void
+        sqlStatement = null, bindParams = null, bindTypes = null)
     {
         let this->connection = connection,
             this->pdoStatement = result,
