@@ -23,7 +23,7 @@ interface AdapterInterface
     /**
      * Adds a message in the queue
      */
-    public function add(<Item> item) -> void;
+    public function add(<Item> item) -> <AdapterInterface>;
 
     /**
      * Starts a transaction
