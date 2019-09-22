@@ -1426,11 +1426,9 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     /**
      * Sets the DependencyInjector container
      */
-    public function setDI(<DiInterface> container) -> <BuilderInterface>
+    public function setDI(<DiInterface> container) -> void
     {
         let this->container = container;
-
-        return this;
     }
 
     /**

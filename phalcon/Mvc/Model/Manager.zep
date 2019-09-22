@@ -165,11 +165,9 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     /**
      * Sets a global events manager
      */
-    public function setEventsManager(<EventsManagerInterface> eventsManager) -> <ManagerInterface>
+    public function setEventsManager(<EventsManagerInterface> eventsManager) -> void
     {
         let this->eventsManager = eventsManager;
-
-        return this;
     }
 
     /**
