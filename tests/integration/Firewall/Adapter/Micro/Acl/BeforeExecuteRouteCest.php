@@ -93,15 +93,13 @@ class BeforeExecuteRouteCest
 
         $firewall = new Acl('acl');
 
-        $firewall
-            ->setEventsManager($eventsManager)
-            ->setRoleCallback(
-                function ($container) {
-                    return $container->get('myrole');
-                }
-            )
-            ->setAlwaysResolvingRole(true)
-        ;
+        $firewall->setEventsManager($eventsManager);
+        $firewall->setRoleCallback(
+            function ($container) {
+                return $container->get('myrole');
+            }
+        );
+        $firewall->setAlwaysResolvingRole(true);
 
         $this->firewall = $firewall;
     }
