@@ -80,7 +80,7 @@ class Asset implements AssetInterface
         array attributes = [],
         string version = null,
         bool autoVersion = false
-    ) -> void
+    )
     {
         let this->type        = type,
             this->path        = path,

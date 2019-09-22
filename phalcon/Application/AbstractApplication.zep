@@ -138,10 +138,8 @@ abstract class AbstractApplication extends Injectable implements EventsAwareInte
     /**
      * Sets the events manager
      */
-    public function setEventsManager(<ManagerInterface> eventsManager) -> <AbstractApplication>
+    public function setEventsManager(<ManagerInterface> eventsManager) -> void
     {
         let this->eventsManager = eventsManager;
-
-        return this;
     }
 }

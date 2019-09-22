@@ -15,12 +15,12 @@ use Serializable;
 interface SerializerInterface extends Serializable
 {
     /**
-     * @var mixed
+     * @return mixed
      */
     public function getData() -> var;
 
     /**
-     * @param $data
+     * @param mixed $data
      */
     public function setData(var data) -> void;
 }
