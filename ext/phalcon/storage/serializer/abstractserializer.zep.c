@@ -40,35 +40,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Storage_Serializer_AbstractSerializer) {
 }
 
 /**
- */
-PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, getData) {
-
-	zval *this_ptr = getThis();
-
-
-	RETURN_MEMBER(getThis(), "data");
-
-}
-
-/**
- */
-PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, setData) {
-
-	zval *data, data_sub;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&data_sub);
-
-	zephir_fetch_params_without_memory_grow(1, 0, &data);
-
-
-
-	zephir_update_property_zval(this_ptr, SL("data"), data);
-	RETURN_THISW();
-
-}
-
-/**
  * Constructor
  */
 PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, __construct) {
@@ -115,6 +86,36 @@ PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, isSerializable) {
 		_1 = zephir_is_numeric(data);
 	}
 	RETURN_BOOL(!(_1));
+
+}
+
+/**
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, getData) {
+
+	zval *this_ptr = getThis();
+
+
+	RETURN_MEMBER(getThis(), "data");
+
+}
+
+/**
+ * @param mixed $data
+ */
+PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, setData) {
+
+	zval *data, data_sub;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&data_sub);
+
+	zephir_fetch_params_without_memory_grow(1, 0, &data);
+
+
+
+	zephir_update_property_zval(this_ptr, SL("data"), data);
 
 }
 

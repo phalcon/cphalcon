@@ -64,7 +64,17 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_config_internalmerge, 0,
 	ZEND_ARG_ARRAY_INFO(0, target, 0)
 ZEND_END_ARG_INFO()
 
+#if PHP_VERSION_ID >= 70100
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_config_setdata, 0, 2, IS_VOID, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_config_setdata, 0, 2, IS_VOID, NULL, 0)
+#endif
+#else
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_config_setdata, 0, 0, 2)
+#define arginfo_phalcon_config_setdata NULL
+#endif
+
 	ZEND_ARG_INFO(0, element)
 	ZEND_ARG_INFO(0, value)
 ZEND_END_ARG_INFO()

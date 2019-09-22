@@ -38,7 +38,17 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_dispatcherinterface_
 #endif
 ZEND_END_ARG_INFO()
 
+#if PHP_VERSION_ID >= 70100
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_dispatcherinterface_setdefaulttask, 0, 1, IS_VOID, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_dispatcherinterface_setdefaulttask, 0, 1, IS_VOID, NULL, 0)
+#endif
+#else
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_dispatcherinterface_setdefaulttask, 0, 0, 1)
+#define arginfo_phalcon_cli_dispatcherinterface_setdefaulttask NULL
+#endif
+
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, taskName, IS_STRING, 0)
 #else
@@ -46,11 +56,31 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_dispatcherinterface_setdefaulttask, 0
 #endif
 ZEND_END_ARG_INFO()
 
+#if PHP_VERSION_ID >= 70100
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_dispatcherinterface_setoptions, 0, 1, IS_VOID, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_dispatcherinterface_setoptions, 0, 1, IS_VOID, NULL, 0)
+#endif
+#else
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_dispatcherinterface_setoptions, 0, 0, 1)
+#define arginfo_phalcon_cli_dispatcherinterface_setoptions NULL
+#endif
+
 	ZEND_ARG_ARRAY_INFO(0, options, 0)
 ZEND_END_ARG_INFO()
 
+#if PHP_VERSION_ID >= 70100
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_dispatcherinterface_settaskname, 0, 1, IS_VOID, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_dispatcherinterface_settaskname, 0, 1, IS_VOID, NULL, 0)
+#endif
+#else
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_dispatcherinterface_settaskname, 0, 0, 1)
+#define arginfo_phalcon_cli_dispatcherinterface_settaskname NULL
+#endif
+
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, taskName, IS_STRING, 0)
 #else
@@ -58,7 +88,17 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_dispatcherinterface_settaskname, 0, 0
 #endif
 ZEND_END_ARG_INFO()
 
+#if PHP_VERSION_ID >= 70100
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_dispatcherinterface_settasksuffix, 0, 1, IS_VOID, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_dispatcherinterface_settasksuffix, 0, 1, IS_VOID, NULL, 0)
+#endif
+#else
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_dispatcherinterface_settasksuffix, 0, 0, 1)
+#define arginfo_phalcon_cli_dispatcherinterface_settasksuffix NULL
+#endif
+
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, taskSuffix, IS_STRING, 0)
 #else

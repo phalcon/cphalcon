@@ -66,7 +66,17 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_route_convert
 	ZEND_ARG_INFO(0, converter)
 ZEND_END_ARG_INFO()
 
+#if PHP_VERSION_ID >= 70100
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_route_delimiter, 0, 0, IS_VOID, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_route_delimiter, 0, 0, IS_VOID, NULL, 0)
+#endif
+#else
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_router_route_delimiter, 0, 0, 0)
+#define arginfo_phalcon_cli_router_route_delimiter NULL
+#endif
+
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, delimiter, IS_STRING, 1)
 #else
@@ -145,7 +155,17 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_route_getrout
 #endif
 ZEND_END_ARG_INFO()
 
+#if PHP_VERSION_ID >= 70100
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_route_reconfigure, 0, 1, IS_VOID, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_route_reconfigure, 0, 1, IS_VOID, NULL, 0)
+#endif
+#else
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_router_route_reconfigure, 0, 0, 1)
+#define arginfo_phalcon_cli_router_route_reconfigure NULL
+#endif
+
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, pattern, IS_STRING, 0)
 #else
@@ -153,6 +173,17 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_router_route_reconfigure, 0, 0, 1)
 #endif
 	ZEND_ARG_INFO(0, paths)
 ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70100
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_route_reset, 0, 0, IS_VOID, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_route_reset, 0, 0, IS_VOID, NULL, 0)
+#endif
+ZEND_END_ARG_INFO()
+#else
+#define arginfo_phalcon_cli_router_route_reset NULL
+#endif
 
 #if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_cli_router_route_setdescription, 0, 1, Phalcon\\Cli\\Router\\RouteInterface, 0)
@@ -196,7 +227,7 @@ ZEPHIR_INIT_FUNCS(phalcon_cli_router_route_method_entry) {
 	PHP_ME(Phalcon_Cli_Router_Route, getReversedPaths, arginfo_phalcon_cli_router_route_getreversedpaths, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Cli_Router_Route, getRouteId, arginfo_phalcon_cli_router_route_getrouteid, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Cli_Router_Route, reConfigure, arginfo_phalcon_cli_router_route_reconfigure, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Cli_Router_Route, reset, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Cli_Router_Route, reset, arginfo_phalcon_cli_router_route_reset, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Cli_Router_Route, setDescription, arginfo_phalcon_cli_router_route_setdescription, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Cli_Router_Route, setName, arginfo_phalcon_cli_router_route_setname, ZEND_ACC_PUBLIC)
 	PHP_FE_END

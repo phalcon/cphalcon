@@ -93,6 +93,17 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_loader_getnamespaces, 0,
 #endif
 ZEND_END_ARG_INFO()
 
+#if PHP_VERSION_ID >= 70100
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_loader_loadfiles, 0, 0, IS_VOID, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_loader_loadfiles, 0, 0, IS_VOID, NULL, 0)
+#endif
+ZEND_END_ARG_INFO()
+#else
+#define arginfo_phalcon_loader_loadfiles NULL
+#endif
+
 #if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_loader_register, 0, 0, Phalcon\\Loader, 0)
 #else
@@ -157,7 +168,17 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_loader_registernamespace
 #endif
 ZEND_END_ARG_INFO()
 
+#if PHP_VERSION_ID >= 70100
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_loader_seteventsmanager, 0, 1, IS_VOID, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_loader_seteventsmanager, 0, 1, IS_VOID, NULL, 0)
+#endif
+#else
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_loader_seteventsmanager, 0, 0, 1)
+#define arginfo_phalcon_loader_seteventsmanager NULL
+#endif
+
 	ZEND_ARG_OBJ_INFO(0, eventsManager, Phalcon\\Events\\ManagerInterface, 0)
 ZEND_END_ARG_INFO()
 
@@ -202,7 +223,7 @@ ZEPHIR_INIT_FUNCS(phalcon_loader_method_entry) {
 	PHP_ME(Phalcon_Loader, getFiles, arginfo_phalcon_loader_getfiles, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Loader, getFoundPath, arginfo_phalcon_loader_getfoundpath, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Loader, getNamespaces, arginfo_phalcon_loader_getnamespaces, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Loader, loadFiles, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Loader, loadFiles, arginfo_phalcon_loader_loadfiles, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Loader, register, arginfo_phalcon_loader_register, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Loader, registerClasses, arginfo_phalcon_loader_registerclasses, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Loader, registerDirs, arginfo_phalcon_loader_registerdirs, ZEND_ACC_PUBLIC)

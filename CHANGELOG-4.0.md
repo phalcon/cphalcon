@@ -25,6 +25,10 @@
   - `Phalcon\Mvc\RouterInterface::setDefaultController`
   - `Phalcon\Mvc\RouterInterface::setDefaultModule`
   - `Phalcon\Mvc\RouterInterface::setDefaults`
+  - Changed return types for following interfaces:
+    - `Phalcon\Mvc\Router\RouteInterface::setName` from `void` to `RouteInterface`
+    - `Phalcon\Mvc\Router\RouteInterface::via` from `void` to `RouteInterface`
+    - `Phalcon\Session\ManagerInterface::__get` from `void` to `var`
 
 ## Fixed
 - Fixed `Phalcon\Helper\Str::includes` to return correct result [#14301](https://github.com/phalcon/cphalcon/issues/14301)
@@ -53,6 +57,14 @@
   - `Phalcon\Mvc\Router::handle`
   - `Phalcon\Storage\Serializer\AbstractSerializer::getData`
   - `Phalcon\Storage\Serializer\AbstractSerializer::setData`
+  - `Phalcon\Mvc\Dispatcher::forward`
+  - `Phalcon\Mvc\Model::setConnectionService`
+  - `Phalcon\Mvc\Model::setReadConnectionService`
+  - `Phalcon\Mvc\Model::setWriteConnectionService`
+  - `Phalcon\Mvc\Model\Query\Builder::setDI`
+  - `Phalcon\Mvc\Router\Annotations::handle`
+  - `Phalcon\Session\Bag::set`
+  - `Phalcon\Session\Manager::remove`
 - Fixed `Phalcon\Di::remove()` to remove service. [#14396](https://github.com/phalcon/cphalcon/issues/14396)
 
 ## Removed

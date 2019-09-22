@@ -28,7 +28,7 @@ interface ManagerInterface
     /**
      * Alias: Gets a session variable from an application context
      */
-    public function __get(string key) -> void;
+    public function __get(string key) -> var;
 
     /**
      * Alias: Check whether a session variable is set in an application context

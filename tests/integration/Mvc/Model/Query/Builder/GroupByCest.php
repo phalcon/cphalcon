@@ -40,9 +40,9 @@ class GroupByCest
         $I->wantToTest('Mvc\Model\Query\Builder - groupBy()');
 
         $builder = new Builder();
+        $builder->setDi($this->container);
 
-        $phql = $builder->setDi($this->container)
-                        ->columns(['name', 'SUM(price)'])
+        $phql = $builder->columns(['name', 'SUM(price)'])
                         ->from(Robots::class)
                         ->groupBy('id, name')
                         ->getPhql()

@@ -281,7 +281,6 @@ PHP_METHOD(Phalcon_Application_AbstractApplication, setEventsManager) {
 
 
 	zephir_update_property_zval(this_ptr, SL("eventsManager"), eventsManager);
-	RETURN_THISW();
 
 }
 

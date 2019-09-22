@@ -81,7 +81,7 @@ class Annotations extends Router
     /**
      * Produce the routing parameters from the rewrite information
      */
-    public function handle(string! uri)
+    public function handle(string! uri) -> void
     {
         var annotationsService, handlers, controllerSuffix, scope, prefix,
             route, compiledPattern, container, handler, controllerName,
