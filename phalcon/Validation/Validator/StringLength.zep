@@ -84,7 +84,7 @@ class StringLength extends AbstractValidatorComposite
     /**
      * Constructor
      */
-    public function __construct(array! options = []) -> void
+    public function __construct(array! options = [])
     {
         var included = null, key, message = null, validator, value;
 

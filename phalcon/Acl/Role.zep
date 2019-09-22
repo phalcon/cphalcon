@@ -34,7 +34,7 @@ class Role implements RoleInterface
     /**
      * Phalcon\Acl\Role constructor
      */
-    public function __construct(string! name, string description = null) -> void
+    public function __construct(string! name, string description = null)
     {
         if unlikely name == "*" {
             throw new Exception("Role name cannot be '*'");

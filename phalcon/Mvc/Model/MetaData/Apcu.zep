@@ -39,7 +39,7 @@ class Apcu extends MetaData
      *
      * @param array options
      */
-    public function __construct(<AdapterFactory> factory, array! options = null) -> void
+    public function __construct(<AdapterFactory> factory, array! options = null)
     {
         let options["prefix"]   = "ph-mm-apcu-",
             options["lifetime"] = 172800,

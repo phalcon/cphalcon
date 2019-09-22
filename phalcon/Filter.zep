@@ -55,7 +55,7 @@ class Filter implements FilterInterface
      * Key value pairs with name as the key and a callable as the value for
      * the service object
      */
-    public function __construct(array! mapper = []) -> void
+    public function __construct(array! mapper = [])
     {
         this->init(mapper);
     }

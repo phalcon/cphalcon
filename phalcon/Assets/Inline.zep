@@ -42,7 +42,7 @@ class $Inline implements AssetInterface
     /**
      * Phalcon\Assets\Inline constructor
      */
-    public function __construct(string type, string content, bool filter = true, array attributes = []) -> void
+    public function __construct(string type, string content, bool filter = true, array attributes = [])
     {
         let this->type = type,
             this->content = content,

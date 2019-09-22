@@ -48,7 +48,7 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
     /**
      * Manager constructor.
      */
-    public function __construct(array options = []) -> void
+    public function __construct(array options = [])
     {
         this->setOptions(options);
     }

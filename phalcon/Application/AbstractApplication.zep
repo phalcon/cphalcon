@@ -44,7 +44,7 @@ abstract class AbstractApplication extends Injectable implements EventsAwareInte
     /**
      * Phalcon\AbstractApplication constructor
      */
-    public function __construct(<DiInterface> container = null) -> void
+    public function __construct(<DiInterface> container = null)
     {
         if typeof container == "object" {
             let this->container = container;

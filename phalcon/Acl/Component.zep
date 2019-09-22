@@ -34,7 +34,7 @@ class Component implements ComponentInterface
     /**
      * Phalcon\Acl\Component constructor
      */
-    public function __construct(string! name, string description = null) -> void
+    public function __construct(string! name, string description = null)
     {
         if unlikely name == "*" {
             throw new Exception("Component name cannot be '*'");

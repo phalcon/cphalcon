@@ -30,7 +30,7 @@ class Csv extends AbstractAdapter implements ArrayAccess
     /**
      * Phalcon\Translate\Adapter\Csv constructor
      */
-    public function __construct(<InterpolatorFactory> interpolator, array! options) -> void
+    public function __construct(<InterpolatorFactory> interpolator, array! options)
     {
         var delimiter, enclosure;
 

@@ -52,7 +52,7 @@ class Php extends Config
     /**
      * Phalcon\Config\Adapter\Php constructor
      */
-    public function __construct(string! filePath) -> void
+    public function __construct(string! filePath)
     {
         parent::__construct(
             require filePath

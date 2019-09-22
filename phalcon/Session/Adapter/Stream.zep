@@ -40,7 +40,7 @@ class Stream extends Noop
      */
     private path = "";
 
-    public function __construct(array! options = []) -> void
+    public function __construct(array! options = [])
     {
         var path, options;
 
