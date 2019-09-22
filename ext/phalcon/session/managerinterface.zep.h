@@ -3,17 +3,7 @@ extern zend_class_entry *phalcon_session_managerinterface_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Session_ManagerInterface);
 
-#if PHP_VERSION_ID >= 70100
-#if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_session_managerinterface___get, 0, 1, IS_VOID, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_session_managerinterface___get, 0, 1, IS_VOID, NULL, 0)
-#endif
-#else
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_managerinterface___get, 0, 0, 1)
-#define arginfo_phalcon_session_managerinterface___get NULL
-#endif
-
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
 #else
