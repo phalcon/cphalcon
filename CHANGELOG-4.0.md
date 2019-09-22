@@ -1,4 +1,4 @@
-# [4.0.0](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0) (2019-xx-xx)
+# [4.0.0-rc.1](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-rc.1) (2019-09-23)
 
 ## Added
 - Added optional boolean parameter to `Phalcon\Http\Request::getURI()` (as well as its interface) which indicates whether or not the method should return only the path without the query string
@@ -25,10 +25,10 @@
   - `Phalcon\Mvc\RouterInterface::setDefaultController`
   - `Phalcon\Mvc\RouterInterface::setDefaultModule`
   - `Phalcon\Mvc\RouterInterface::setDefaults`
-  - Changed return types for following interfaces:
-    - `Phalcon\Mvc\Router\RouteInterface::setName` from `void` to `RouteInterface`
-    - `Phalcon\Mvc\Router\RouteInterface::via` from `void` to `RouteInterface`
-    - `Phalcon\Session\ManagerInterface::__get` from `void` to `var`
+- Changed return types for following interfaces:
+  - `Phalcon\Mvc\Router\RouteInterface::setName` from `void` to `RouteInterface`
+  - `Phalcon\Mvc\Router\RouteInterface::via` from `void` to `RouteInterface`
+  - `Phalcon\Session\ManagerInterface::__get` from `void` to `var`
 
 ## Fixed
 - Fixed `Phalcon\Helper\Str::includes` to return correct result [#14301](https://github.com/phalcon/cphalcon/issues/14301)
