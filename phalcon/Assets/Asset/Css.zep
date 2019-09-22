@@ -27,7 +27,7 @@ class Css extends AssetBase
         array attributes = [],
         string version = null,
         bool autoVersion = false
-    ) -> void
+    )
     {
         parent::__construct("css", path, local, filter, attributes, version, autoVersion);
     }
