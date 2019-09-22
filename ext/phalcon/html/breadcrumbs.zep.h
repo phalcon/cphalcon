@@ -44,7 +44,28 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_breadcrumbs_add, 0,
 #endif
 ZEND_END_ARG_INFO()
 
+#if PHP_VERSION_ID >= 70100
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_breadcrumbs_clear, 0, 0, IS_VOID, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_breadcrumbs_clear, 0, 0, IS_VOID, NULL, 0)
+#endif
+ZEND_END_ARG_INFO()
+#else
+#define arginfo_phalcon_html_breadcrumbs_clear NULL
+#endif
+
+#if PHP_VERSION_ID >= 70100
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_breadcrumbs_remove, 0, 1, IS_VOID, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_breadcrumbs_remove, 0, 1, IS_VOID, NULL, 0)
+#endif
+#else
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_html_breadcrumbs_remove, 0, 0, 1)
+#define arginfo_phalcon_html_breadcrumbs_remove NULL
+#endif
+
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, link, IS_STRING, 0)
 #else
@@ -70,7 +91,7 @@ ZEPHIR_INIT_FUNCS(phalcon_html_breadcrumbs_method_entry) {
 	PHP_ME(Phalcon_Html_Breadcrumbs, getSeparator, arginfo_phalcon_html_breadcrumbs_getseparator, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Html_Breadcrumbs, setSeparator, arginfo_phalcon_html_breadcrumbs_setseparator, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Html_Breadcrumbs, add, arginfo_phalcon_html_breadcrumbs_add, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Html_Breadcrumbs, clear, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Html_Breadcrumbs, clear, arginfo_phalcon_html_breadcrumbs_clear, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Html_Breadcrumbs, remove, arginfo_phalcon_html_breadcrumbs_remove, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Html_Breadcrumbs, render, arginfo_phalcon_html_breadcrumbs_render, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Html_Breadcrumbs, toArray, arginfo_phalcon_html_breadcrumbs_toarray, ZEND_ACC_PUBLIC)

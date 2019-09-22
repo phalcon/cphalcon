@@ -76,6 +76,28 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_annotations_collection_k
 #endif
 ZEND_END_ARG_INFO()
 
+#if PHP_VERSION_ID >= 70100
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_annotations_collection_next, 0, 0, IS_VOID, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_annotations_collection_next, 0, 0, IS_VOID, NULL, 0)
+#endif
+ZEND_END_ARG_INFO()
+#else
+#define arginfo_phalcon_annotations_collection_next NULL
+#endif
+
+#if PHP_VERSION_ID >= 70100
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_annotations_collection_rewind, 0, 0, IS_VOID, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_annotations_collection_rewind, 0, 0, IS_VOID, NULL, 0)
+#endif
+ZEND_END_ARG_INFO()
+#else
+#define arginfo_phalcon_annotations_collection_rewind NULL
+#endif
+
 #if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_annotations_collection_valid, 0, 0, _IS_BOOL, 0)
 #else
@@ -92,8 +114,8 @@ ZEPHIR_INIT_FUNCS(phalcon_annotations_collection_method_entry) {
 	PHP_ME(Phalcon_Annotations_Collection, getAnnotations, arginfo_phalcon_annotations_collection_getannotations, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Annotations_Collection, has, arginfo_phalcon_annotations_collection_has, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Annotations_Collection, key, arginfo_phalcon_annotations_collection_key, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Annotations_Collection, next, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Annotations_Collection, rewind, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Annotations_Collection, next, arginfo_phalcon_annotations_collection_next, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Annotations_Collection, rewind, arginfo_phalcon_annotations_collection_rewind, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Annotations_Collection, valid, arginfo_phalcon_annotations_collection_valid, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
