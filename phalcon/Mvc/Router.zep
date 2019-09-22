@@ -396,7 +396,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
      * $router->handle("/posts/edit/1");
      *```
      */
-    public function handle(string! uri)
+    public function handle(string! uri) -> void
     {
         var request, currentHostName, routeFound, parts, params, matches,
             notFoundPaths, vnamespace, module,  controller, action, paramsStr,
