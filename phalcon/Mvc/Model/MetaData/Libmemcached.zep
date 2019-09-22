@@ -29,7 +29,7 @@ class Libmemcached extends MetaData
      *
      * @param array options
      */
-    public function __construct(<AdapterFactory> factory, array! options = []) -> void
+    public function __construct(<AdapterFactory> factory, array! options = [])
     {
         let options["persistentId"] = Arr::get(options, "persistentId", "ph-mm-mcid-"),
             options["prefix"]       = Arr::get(options, "prefix", "ph-mm-memc-"),

@@ -42,7 +42,7 @@ class Annotation
     /**
      * Phalcon\Annotations\Annotation constructor
      */
-    public function __construct(array! reflectionData) -> void
+    public function __construct(array! reflectionData)
     {
         var name, exprArguments, argument, resolvedArgument;
         array arguments;

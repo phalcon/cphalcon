@@ -81,7 +81,7 @@ class Transaction implements TransactionInterface
     /**
      * Phalcon\Mvc\Model\Transaction constructor
      */
-    public function __construct(<DiInterface> container, bool autoBegin = false, string service = "db") -> void
+    public function __construct(<DiInterface> container, bool autoBegin = false, string service = "db")
     {
         var connection;
 

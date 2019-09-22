@@ -20,7 +20,7 @@ class Css extends InlineBase
     /**
      * Phalcon\Assets\Inline\Css constructor
      */
-    public function __construct(string content, bool filter = true, attributes = null) -> void
+    public function __construct(string content, bool filter = true, attributes = null)
     {
         if attributes == null {
             let attributes = [

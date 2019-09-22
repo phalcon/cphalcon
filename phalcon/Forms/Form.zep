@@ -51,7 +51,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     /**
      * Phalcon\Forms\Form constructor
      */
-    public function __construct(var entity = null, array userOptions = []) -> void
+    public function __construct(var entity = null, array userOptions = [])
     {
         if unlikely (entity !== null && typeof entity != "object") {
             throw new Exception("The base entity is not valid");

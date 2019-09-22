@@ -53,7 +53,7 @@ class QueryBuilder extends AbstractAdapter
     /**
      * Phalcon\Paginator\Adapter\QueryBuilder
      */
-    public function __construct(array config) -> void
+    public function __construct(array config)
     {
         var builder, columns;
 

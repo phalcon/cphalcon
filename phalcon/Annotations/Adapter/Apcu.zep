@@ -37,7 +37,7 @@ class Apcu extends AbstractAdapter
     /**
      * Phalcon\Annotations\Adapter\Apcu constructor
      */
-    public function __construct(array options = []) -> void
+    public function __construct(array options = [])
     {
         var prefix, ttl;
 

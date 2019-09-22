@@ -49,7 +49,7 @@ class Binder implements BinderInterface
     /**
      * Phalcon\Mvc\Model\Binder constructor
      */
-    public function __construct(<AdapterInterface> cache = null) -> void
+    public function __construct(<AdapterInterface> cache = null)
     {
         let this->cache = cache;
     }

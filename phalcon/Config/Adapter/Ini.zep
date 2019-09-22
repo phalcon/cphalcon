@@ -60,7 +60,7 @@ class Ini extends Config
     /**
      * Ini constructor.
      */
-    public function __construct(string! filePath, var mode = null) -> void
+    public function __construct(string! filePath, var mode = null)
     {
         var directives, iniConfig, lastValue, path, section, sections;
         array config;

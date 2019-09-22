@@ -26,7 +26,7 @@ class Memory extends MetaData
      *
      * @param array options
      */
-    public function __construct(var options = null) -> void
+    public function __construct(var options = null)
     {
     }
 

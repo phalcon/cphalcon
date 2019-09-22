@@ -21,7 +21,7 @@ use Phalcon\Session\Adapter\AbstractAdapter;
     /**
      * Constructor
      */
-    public function __construct(<AdapterFactory> factory, array! options = []) -> void
+    public function __construct(<AdapterFactory> factory, array! options = [])
     {
         let options["prefix"] = "sess-reds-",
             this->adapter     = factory->newInstance("redis", options);

@@ -124,7 +124,7 @@ class Query implements QueryInterface, InjectionAwareInterface
     /**
      * Phalcon\Mvc\Model\Query constructor
      */
-    public function __construct(string phql = null, <DiInterface> container = null, array options = []) -> void
+    public function __construct(string phql = null, <DiInterface> container = null, array options = [])
     {
         var enableImplicitJoins;
 
