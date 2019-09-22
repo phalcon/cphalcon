@@ -37,7 +37,14 @@
 - Fixed `Phalcon\Db\Dialect\Mysql` Fixed missing schema in constraint for create table [#14378](https://github.com/phalcon/cphalcon/issues/14378)
 - Fixed `Phalcon\Mvc\Model::hasChanged()` and `getChangedFields()` returning false values when `castOnHydrate` option is on. [#14376](https://github.com/phalcon/cphalcon/issues/14376)
 - Fixed `Phalcon\Mvc\Model::create()` Using write connection to prevent replica lag [#14256](https://github.com/phalcon/cphalcon/issues/14256)
-
+- Fixed return types for following methods to satisfy interface declaration:
+  - `Phalcon\Storage\Serializer\AbstractSerializer::getData`
+  - `Phalcon\Storage\Serializer\AbstractSerializer::setData`
+  - `Phalcon\Firewall\Adapter\AbstractAdapter::setEventsManager`
+  - `Phalcon\Firewall\Adapter\AbstractAdapter::setAlwaysResolvingRole`
+  - `Phalcon\Logger\Adapter\AbstractAdapter::add`
+  - `Phalcon\Application\AbstractApplication::setEventsManager`
+  
 ## Removed
 - Removed `Phalcon\Plugin` - duplicate of `Phalcon\DI\Injectable` [#14359](https://github.com/phalcon/cphalcon/issues/14359)
 - Removed `Phalcon\Mvc\Collection` and all related references. 4.0 will not support mongo as it is being re-implemented to take advantage of the latest Mongo driver (see [#13697](https://github.com/phalcon/cphalcon/issues/13697)) [#14361](https://github.com/phalcon/cphalcon/pull/14361)
