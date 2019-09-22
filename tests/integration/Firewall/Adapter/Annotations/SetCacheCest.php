@@ -103,15 +103,13 @@ class SetCacheCest
             }
         );
         $firewall = new Annotations(new Memory());
-        $firewall
-            ->setEventsManager($eventsManager)
-            ->setRoleCallback(
-                function ($di) {
-                    return $di->get('myrole');
-                }
-            )
-            ->setAlwaysResolvingRole(true)
-        ;
+        $firewall->setEventsManager($eventsManager);
+        $firewall->setRoleCallback(
+            function () use ($di) {
+                return $di->get('myrole');
+            }
+        );
+        $firewall->setAlwaysResolvingRole(true);
         $firewall->setCache($cache);
         $eventsManager->attach('dispatch:beforeExecuteRoute', $firewall);
         $this->dispatcher->setEventsManager($eventsManager);
