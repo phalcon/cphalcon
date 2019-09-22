@@ -126,8 +126,6 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     public function setEventsManager(<ManagerInterface> eventsManager) -> void
     {
         let this->eventsManager = eventsManager;
-
-        return this;
     }
 
     /**
