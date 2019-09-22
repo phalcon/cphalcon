@@ -105,7 +105,17 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_translate_adapter_gettex
 #endif
 ZEND_END_ARG_INFO()
 
+#if PHP_VERSION_ID >= 70100
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_translate_adapter_gettext_setdefaultdomain, 0, 1, IS_VOID, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_translate_adapter_gettext_setdefaultdomain, 0, 1, IS_VOID, NULL, 0)
+#endif
+#else
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_translate_adapter_gettext_setdefaultdomain, 0, 0, 1)
+#define arginfo_phalcon_translate_adapter_gettext_setdefaultdomain NULL
+#endif
+
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, domain, IS_STRING, 0)
 #else
@@ -113,7 +123,17 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_translate_adapter_gettext_setdefaultdomai
 #endif
 ZEND_END_ARG_INFO()
 
+#if PHP_VERSION_ID >= 70100
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_translate_adapter_gettext_setdirectory, 0, 1, IS_VOID, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_translate_adapter_gettext_setdirectory, 0, 1, IS_VOID, NULL, 0)
+#endif
+#else
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_translate_adapter_gettext_setdirectory, 0, 0, 1)
+#define arginfo_phalcon_translate_adapter_gettext_setdirectory NULL
+#endif
+
 	ZEND_ARG_INFO(0, directory)
 ZEND_END_ARG_INFO()
 
@@ -145,7 +165,17 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_translate_adapter_gettex
 #endif
 ZEND_END_ARG_INFO()
 
+#if PHP_VERSION_ID >= 70100
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_translate_adapter_gettext_prepareoptions, 0, 1, IS_VOID, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_translate_adapter_gettext_prepareoptions, 0, 1, IS_VOID, NULL, 0)
+#endif
+#else
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_translate_adapter_gettext_prepareoptions, 0, 0, 1)
+#define arginfo_phalcon_translate_adapter_gettext_prepareoptions NULL
+#endif
+
 	ZEND_ARG_ARRAY_INFO(0, options, 0)
 ZEND_END_ARG_INFO()
 

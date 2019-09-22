@@ -20,7 +20,17 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_abstractcom
 #endif
 ZEND_END_ARG_INFO()
 
+#if PHP_VERSION_ID >= 70100
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_abstractcommon_checkstringparameter, 0, 1, IS_VOID, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_abstractcommon_checkstringparameter, 0, 1, IS_VOID, NULL, 0)
+#endif
+#else
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_message_abstractcommon_checkstringparameter, 0, 0, 1)
+#define arginfo_phalcon_http_message_abstractcommon_checkstringparameter NULL
+#endif
+
 	ZEND_ARG_INFO(0, element)
 ZEND_END_ARG_INFO()
 

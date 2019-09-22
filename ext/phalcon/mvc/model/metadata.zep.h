@@ -230,30 +230,101 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_readmetadataindex, 0, 
 #endif
 ZEND_END_ARG_INFO()
 
+#if PHP_VERSION_ID >= 70100
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_metadata_reset, 0, 0, IS_VOID, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_metadata_reset, 0, 0, IS_VOID, NULL, 0)
+#endif
+ZEND_END_ARG_INFO()
+#else
+#define arginfo_phalcon_mvc_model_metadata_reset NULL
+#endif
+
+#if PHP_VERSION_ID >= 70100
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_metadata_setautomaticcreateattributes, 0, 2, IS_VOID, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_metadata_setautomaticcreateattributes, 0, 2, IS_VOID, NULL, 0)
+#endif
+#else
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_setautomaticcreateattributes, 0, 0, 2)
+#define arginfo_phalcon_mvc_model_metadata_setautomaticcreateattributes NULL
+#endif
+
 	ZEND_ARG_OBJ_INFO(0, model, Phalcon\\Mvc\\ModelInterface, 0)
 	ZEND_ARG_ARRAY_INFO(0, attributes, 0)
 ZEND_END_ARG_INFO()
 
+#if PHP_VERSION_ID >= 70100
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_metadata_setautomaticupdateattributes, 0, 2, IS_VOID, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_metadata_setautomaticupdateattributes, 0, 2, IS_VOID, NULL, 0)
+#endif
+#else
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_setautomaticupdateattributes, 0, 0, 2)
+#define arginfo_phalcon_mvc_model_metadata_setautomaticupdateattributes NULL
+#endif
+
 	ZEND_ARG_OBJ_INFO(0, model, Phalcon\\Mvc\\ModelInterface, 0)
 	ZEND_ARG_ARRAY_INFO(0, attributes, 0)
 ZEND_END_ARG_INFO()
 
+#if PHP_VERSION_ID >= 70100
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_metadata_setemptystringattributes, 0, 2, IS_VOID, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_metadata_setemptystringattributes, 0, 2, IS_VOID, NULL, 0)
+#endif
+#else
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_setemptystringattributes, 0, 0, 2)
+#define arginfo_phalcon_mvc_model_metadata_setemptystringattributes NULL
+#endif
+
 	ZEND_ARG_OBJ_INFO(0, model, Phalcon\\Mvc\\ModelInterface, 0)
 	ZEND_ARG_ARRAY_INFO(0, attributes, 0)
 ZEND_END_ARG_INFO()
 
+#if PHP_VERSION_ID >= 70100
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_metadata_setdi, 0, 1, IS_VOID, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_metadata_setdi, 0, 1, IS_VOID, NULL, 0)
+#endif
+#else
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_setdi, 0, 0, 1)
+#define arginfo_phalcon_mvc_model_metadata_setdi NULL
+#endif
+
 	ZEND_ARG_OBJ_INFO(0, container, Phalcon\\Di\\DiInterface, 0)
 ZEND_END_ARG_INFO()
 
+#if PHP_VERSION_ID >= 70100
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_metadata_setstrategy, 0, 1, IS_VOID, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_metadata_setstrategy, 0, 1, IS_VOID, NULL, 0)
+#endif
+#else
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_setstrategy, 0, 0, 1)
+#define arginfo_phalcon_mvc_model_metadata_setstrategy NULL
+#endif
+
 	ZEND_ARG_OBJ_INFO(0, strategy, Phalcon\\Mvc\\Model\\MetaData\\StrategyInterface, 0)
 ZEND_END_ARG_INFO()
 
+#if PHP_VERSION_ID >= 70100
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_metadata_write, 0, 2, IS_VOID, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_metadata_write, 0, 2, IS_VOID, NULL, 0)
+#endif
+#else
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_write, 0, 0, 2)
+#define arginfo_phalcon_mvc_model_metadata_write NULL
+#endif
+
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
 #else
@@ -262,7 +333,17 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_write, 0, 0, 2)
 	ZEND_ARG_ARRAY_INFO(0, data, 0)
 ZEND_END_ARG_INFO()
 
+#if PHP_VERSION_ID >= 70100
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_metadata_writemetadataindex, 0, 3, IS_VOID, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_metadata_writemetadataindex, 0, 3, IS_VOID, NULL, 0)
+#endif
+#else
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_writemetadataindex, 0, 0, 3)
+#define arginfo_phalcon_mvc_model_metadata_writemetadataindex NULL
+#endif
+
 	ZEND_ARG_OBJ_INFO(0, model, Phalcon\\Mvc\\ModelInterface, 0)
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, index, IS_LONG, 0)
@@ -279,7 +360,17 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_initialize, 0, 0, 4)
 	ZEND_ARG_INFO(0, schema)
 ZEND_END_ARG_INFO()
 
+#if PHP_VERSION_ID >= 70100
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_metadata_throwwriteexception, 0, 1, IS_VOID, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_metadata_throwwriteexception, 0, 1, IS_VOID, NULL, 0)
+#endif
+#else
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_throwwriteexception, 0, 0, 1)
+#define arginfo_phalcon_mvc_model_metadata_throwwriteexception NULL
+#endif
+
 	ZEND_ARG_INFO(0, option)
 ZEND_END_ARG_INFO()
 
@@ -307,7 +398,7 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_metadata_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model_MetaData, readColumnMapIndex, arginfo_phalcon_mvc_model_metadata_readcolumnmapindex, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_MetaData, readMetaData, arginfo_phalcon_mvc_model_metadata_readmetadata, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_MetaData, readMetaDataIndex, arginfo_phalcon_mvc_model_metadata_readmetadataindex, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Model_MetaData, reset, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_MetaData, reset, arginfo_phalcon_mvc_model_metadata_reset, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_MetaData, setAutomaticCreateAttributes, arginfo_phalcon_mvc_model_metadata_setautomaticcreateattributes, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_MetaData, setAutomaticUpdateAttributes, arginfo_phalcon_mvc_model_metadata_setautomaticupdateattributes, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_MetaData, setEmptyStringAttributes, arginfo_phalcon_mvc_model_metadata_setemptystringattributes, ZEND_ACC_PUBLIC)

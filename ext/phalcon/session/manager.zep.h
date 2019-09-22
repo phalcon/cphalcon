@@ -52,7 +52,17 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_session_manager___isset,
 #endif
 ZEND_END_ARG_INFO()
 
+#if PHP_VERSION_ID >= 70100
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_session_manager___set, 0, 2, IS_VOID, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_session_manager___set, 0, 2, IS_VOID, NULL, 0)
+#endif
+#else
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_manager___set, 0, 0, 2)
+#define arginfo_phalcon_session_manager___set NULL
+#endif
+
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
 #else
@@ -61,13 +71,34 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_manager___set, 0, 0, 2)
 	ZEND_ARG_INFO(0, value)
 ZEND_END_ARG_INFO()
 
+#if PHP_VERSION_ID >= 70100
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_session_manager___unset, 0, 1, IS_VOID, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_session_manager___unset, 0, 1, IS_VOID, NULL, 0)
+#endif
+#else
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_manager___unset, 0, 0, 1)
+#define arginfo_phalcon_session_manager___unset NULL
+#endif
+
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
 #else
 	ZEND_ARG_INFO(0, key)
 #endif
 ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70100
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_session_manager_destroy, 0, 0, IS_VOID, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_session_manager_destroy, 0, 0, IS_VOID, NULL, 0)
+#endif
+ZEND_END_ARG_INFO()
+#else
+#define arginfo_phalcon_session_manager_destroy NULL
+#endif
 
 #if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_session_manager_exists, 0, 0, _IS_BOOL, 0)
@@ -146,7 +177,17 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_manager_remove, 0, 0, 1)
 #endif
 ZEND_END_ARG_INFO()
 
+#if PHP_VERSION_ID >= 70100
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_session_manager_set, 0, 2, IS_VOID, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_session_manager_set, 0, 2, IS_VOID, NULL, 0)
+#endif
+#else
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_manager_set, 0, 0, 2)
+#define arginfo_phalcon_session_manager_set NULL
+#endif
+
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
 #else
@@ -187,7 +228,17 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_session_manager_setname,
 #endif
 ZEND_END_ARG_INFO()
 
+#if PHP_VERSION_ID >= 70100
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_session_manager_setoptions, 0, 1, IS_VOID, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_session_manager_setoptions, 0, 1, IS_VOID, NULL, 0)
+#endif
+#else
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_manager_setoptions, 0, 0, 1)
+#define arginfo_phalcon_session_manager_setoptions NULL
+#endif
+
 	ZEND_ARG_ARRAY_INFO(0, options, 0)
 ZEND_END_ARG_INFO()
 
@@ -223,7 +274,7 @@ ZEPHIR_INIT_FUNCS(phalcon_session_manager_method_entry) {
 	PHP_ME(Phalcon_Session_Manager, __isset, arginfo_phalcon_session_manager___isset, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Manager, __set, arginfo_phalcon_session_manager___set, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Manager, __unset, arginfo_phalcon_session_manager___unset, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Session_Manager, destroy, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Session_Manager, destroy, arginfo_phalcon_session_manager_destroy, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Manager, exists, arginfo_phalcon_session_manager_exists, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Manager, get, arginfo_phalcon_session_manager_get, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Session_Manager, getAdapter, arginfo_phalcon_session_manager_getadapter, ZEND_ACC_PUBLIC)

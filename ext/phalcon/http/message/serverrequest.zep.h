@@ -130,7 +130,17 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverreque
 	ZEND_ARG_INFO(0, name)
 ZEND_END_ARG_INFO()
 
+#if PHP_VERSION_ID >= 70100
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequest_checkuploadedfiles, 0, 1, IS_VOID, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequest_checkuploadedfiles, 0, 1, IS_VOID, NULL, 0)
+#endif
+#else
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_message_serverrequest_checkuploadedfiles, 0, 0, 1)
+#define arginfo_phalcon_http_message_serverrequest_checkuploadedfiles NULL
+#endif
+
 	ZEND_ARG_ARRAY_INFO(0, files, 0)
 ZEND_END_ARG_INFO()
 

@@ -5,7 +5,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Firewall_Adapter_AbstractAdapter);
 
 PHP_METHOD(Phalcon_Firewall_Adapter_AbstractAdapter, getActiveIdentity);
 PHP_METHOD(Phalcon_Firewall_Adapter_AbstractAdapter, getActiveRole);
-PHP_METHOD(Phalcon_Firewall_Adapter_AbstractAdapter, setAlwaysResolvingRole);
 PHP_METHOD(Phalcon_Firewall_Adapter_AbstractAdapter, getDefaultAccess);
 PHP_METHOD(Phalcon_Firewall_Adapter_AbstractAdapter, getEventsManager);
 PHP_METHOD(Phalcon_Firewall_Adapter_AbstractAdapter, getRoleCallback);
@@ -14,20 +13,13 @@ PHP_METHOD(Phalcon_Firewall_Adapter_AbstractAdapter, setCache);
 PHP_METHOD(Phalcon_Firewall_Adapter_AbstractAdapter, setDefaultAccess);
 PHP_METHOD(Phalcon_Firewall_Adapter_AbstractAdapter, setEventsManager);
 PHP_METHOD(Phalcon_Firewall_Adapter_AbstractAdapter, setRoleCallback);
+PHP_METHOD(Phalcon_Firewall_Adapter_AbstractAdapter, setAlwaysResolvingRole);
 PHP_METHOD(Phalcon_Firewall_Adapter_AbstractAdapter, callRoleCallback);
 PHP_METHOD(Phalcon_Firewall_Adapter_AbstractAdapter, getAccessFromCache);
 PHP_METHOD(Phalcon_Firewall_Adapter_AbstractAdapter, handleException);
 PHP_METHOD(Phalcon_Firewall_Adapter_AbstractAdapter, fireEventOrThrowException);
 PHP_METHOD(Phalcon_Firewall_Adapter_AbstractAdapter, saveAccessInCache);
 PHP_METHOD(Phalcon_Firewall_Adapter_AbstractAdapter, throwFirewallException);
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_firewall_adapter_abstractadapter_setalwaysresolvingrole, 0, 0, 1)
-#if PHP_VERSION_ID >= 70200
-	ZEND_ARG_TYPE_INFO(0, alwaysResolvingRole, _IS_BOOL, 0)
-#else
-	ZEND_ARG_INFO(0, alwaysResolvingRole)
-#endif
-ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_firewall_adapter_abstractadapter_getdefaultaccess, 0, 0, IS_LONG, 0)
@@ -77,11 +69,17 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_firewall_adapter_abstrac
 #endif
 ZEND_END_ARG_INFO()
 
+#if PHP_VERSION_ID >= 70100
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_firewall_adapter_abstractadapter_seteventsmanager, 0, 1, Phalcon\\Firewall\\Adapter\\AdapterInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_firewall_adapter_abstractadapter_seteventsmanager, 0, 1, IS_VOID, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_firewall_adapter_abstractadapter_seteventsmanager, 0, 1, IS_OBJECT, "Phalcon\\Firewall\\Adapter\\AdapterInterface", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_firewall_adapter_abstractadapter_seteventsmanager, 0, 1, IS_VOID, NULL, 0)
 #endif
+#else
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_firewall_adapter_abstractadapter_seteventsmanager, 0, 0, 1)
+#define arginfo_phalcon_firewall_adapter_abstractadapter_seteventsmanager NULL
+#endif
+
 	ZEND_ARG_OBJ_INFO(0, eventsManager, Phalcon\\Events\\ManagerInterface, 0)
 ZEND_END_ARG_INFO()
 
@@ -93,7 +91,35 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_firewall_adapter_abstrac
 	ZEND_ARG_INFO(0, callback)
 ZEND_END_ARG_INFO()
 
+#if PHP_VERSION_ID >= 70100
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_firewall_adapter_abstractadapter_setalwaysresolvingrole, 0, 1, IS_VOID, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_firewall_adapter_abstractadapter_setalwaysresolvingrole, 0, 1, IS_VOID, NULL, 0)
+#endif
+#else
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_firewall_adapter_abstractadapter_setalwaysresolvingrole, 0, 0, 1)
+#define arginfo_phalcon_firewall_adapter_abstractadapter_setalwaysresolvingrole NULL
+#endif
+
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, alwaysResolvingRole, _IS_BOOL, 0)
+#else
+	ZEND_ARG_INFO(0, alwaysResolvingRole)
+#endif
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70100
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_firewall_adapter_abstractadapter_callrolecallback, 0, 1, IS_VOID, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_firewall_adapter_abstractadapter_callrolecallback, 0, 1, IS_VOID, NULL, 0)
+#endif
+#else
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_firewall_adapter_abstractadapter_callrolecallback, 0, 0, 1)
+#define arginfo_phalcon_firewall_adapter_abstractadapter_callrolecallback NULL
+#endif
+
 	ZEND_ARG_OBJ_INFO(0, container, Phalcon\\Di\\DiInterface, 0)
 ZEND_END_ARG_INFO()
 
@@ -138,7 +164,17 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_firewall_adapter_abstractadapter_fireeven
 #endif
 ZEND_END_ARG_INFO()
 
+#if PHP_VERSION_ID >= 70100
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_firewall_adapter_abstractadapter_saveaccessincache, 0, 2, IS_VOID, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_firewall_adapter_abstractadapter_saveaccessincache, 0, 2, IS_VOID, NULL, 0)
+#endif
+#else
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_firewall_adapter_abstractadapter_saveaccessincache, 0, 0, 2)
+#define arginfo_phalcon_firewall_adapter_abstractadapter_saveaccessincache NULL
+#endif
+
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
 #else
@@ -171,7 +207,6 @@ ZEND_END_ARG_INFO()
 ZEPHIR_INIT_FUNCS(phalcon_firewall_adapter_abstractadapter_method_entry) {
 	PHP_ME(Phalcon_Firewall_Adapter_AbstractAdapter, getActiveIdentity, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Firewall_Adapter_AbstractAdapter, getActiveRole, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Firewall_Adapter_AbstractAdapter, setAlwaysResolvingRole, arginfo_phalcon_firewall_adapter_abstractadapter_setalwaysresolvingrole, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Firewall_Adapter_AbstractAdapter, getDefaultAccess, arginfo_phalcon_firewall_adapter_abstractadapter_getdefaultaccess, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Firewall_Adapter_AbstractAdapter, getEventsManager, arginfo_phalcon_firewall_adapter_abstractadapter_geteventsmanager, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Firewall_Adapter_AbstractAdapter, getRoleCallback, arginfo_phalcon_firewall_adapter_abstractadapter_getrolecallback, ZEND_ACC_PUBLIC)
@@ -180,6 +215,7 @@ ZEPHIR_INIT_FUNCS(phalcon_firewall_adapter_abstractadapter_method_entry) {
 	PHP_ME(Phalcon_Firewall_Adapter_AbstractAdapter, setDefaultAccess, arginfo_phalcon_firewall_adapter_abstractadapter_setdefaultaccess, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Firewall_Adapter_AbstractAdapter, setEventsManager, arginfo_phalcon_firewall_adapter_abstractadapter_seteventsmanager, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Firewall_Adapter_AbstractAdapter, setRoleCallback, arginfo_phalcon_firewall_adapter_abstractadapter_setrolecallback, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Firewall_Adapter_AbstractAdapter, setAlwaysResolvingRole, arginfo_phalcon_firewall_adapter_abstractadapter_setalwaysresolvingrole, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Firewall_Adapter_AbstractAdapter, callRoleCallback, arginfo_phalcon_firewall_adapter_abstractadapter_callrolecallback, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Firewall_Adapter_AbstractAdapter, getAccessFromCache, arginfo_phalcon_firewall_adapter_abstractadapter_getaccessfromcache, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Firewall_Adapter_AbstractAdapter, handleException, arginfo_phalcon_firewall_adapter_abstractadapter_handleexception, ZEND_ACC_PROTECTED)
