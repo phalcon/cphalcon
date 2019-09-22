@@ -61,9 +61,11 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
      * Adds a message to the queue
      */
-    public function add(<Item> item) -> void
+    public function add(<Item> item) -> <AdapterInterface>
     {
         let this->queue[] = item;
+
+        return this;
     }
 
     /**
