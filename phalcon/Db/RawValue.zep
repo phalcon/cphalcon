@@ -36,7 +36,7 @@ class RawValue
     /**
      * Phalcon\Db\RawValue constructor
      */
-    public function __construct(var value) -> void
+    public function __construct(var value)
     {
         if value === "" {
             let this->value = "''";

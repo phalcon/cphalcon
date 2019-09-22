@@ -53,7 +53,7 @@ class Dump
     /**
      * Phalcon\Debug\Dump constructor
      */
-    public function __construct(array! styles = [], bool detailed = false) -> void
+    public function __construct(array! styles = [], bool detailed = false)
     {
         this->setStyles(styles);
 

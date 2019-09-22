@@ -65,7 +65,7 @@ class Index implements IndexInterface
     /**
      * Phalcon\Db\Index constructor
      */
-    public function __construct(string! name, array! columns, string type = "") -> void
+    public function __construct(string! name, array! columns, string type = "")
     {
         let this->name = name;
         let this->columns = columns;

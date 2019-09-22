@@ -21,7 +21,7 @@ class Libmemcached extends AbstractAdapter
     /**
      * Constructor
      */
-    public function __construct(<AdapterFactory> factory, array! options = []) -> void
+    public function __construct(<AdapterFactory> factory, array! options = [])
     {
         let options["prefix"] = "sess-memc-",
             this->adapter     = factory->newInstance("libmemcached", options);

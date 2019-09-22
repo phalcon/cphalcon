@@ -58,7 +58,7 @@ class Gettext extends AbstractAdapter implements ArrayAccess
     /**
      * Phalcon\Translate\Adapter\Gettext constructor
      */
-    public function __construct(<InterpolatorFactory> interpolator, array! options) -> void
+    public function __construct(<InterpolatorFactory> interpolator, array! options)
     {
         if unlikely !function_exists("gettext") {
             throw new Exception(

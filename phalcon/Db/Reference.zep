@@ -92,7 +92,7 @@ class Reference implements ReferenceInterface
     /**
      * Phalcon\Db\Reference constructor
      */
-    public function __construct(string! name, array! definition) -> void
+    public function __construct(string! name, array! definition)
     {
         var columns, schema, referencedTable, referencedSchema,
             referencedColumns, onDelete, onUpdate;

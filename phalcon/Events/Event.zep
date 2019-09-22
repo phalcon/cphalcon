@@ -58,7 +58,7 @@ class Event implements EventInterface
      *
      * @param object source
      */
-    public function __construct(string! type, source, var data = null, bool cancelable = true) -> void
+    public function __construct(string! type, source, var data = null, bool cancelable = true)
     {
         let this->type = type,
             this->source = source,
