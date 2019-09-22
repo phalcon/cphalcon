@@ -86,7 +86,7 @@ class Logger implements LoggerInterface
      * @param string name     The name of the logger
      * @param array  adapters The collection of adapters to be used for logging (default [])
      */
-    public function __construct(string! name, array! adapters = []) -> void
+    public function __construct(string! name, array! adapters = [])
     {
         let this->name = name;
 

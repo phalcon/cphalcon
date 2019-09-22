@@ -55,7 +55,7 @@ class Yaml extends Config
     /**
      * Phalcon\Config\Adapter\Yaml constructor
      */
-    public function __construct(string! filePath, array! callbacks = null) -> void
+    public function __construct(string! filePath, array! callbacks = null)
     {
         var yamlConfig;
         int ndocs = 0;

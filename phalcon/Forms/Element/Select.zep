@@ -28,7 +28,7 @@ class Select extends AbstractElement
      * @param object|array options
      * @param array        attributes
      */
-    public function __construct(string name, options = null, attributes = null) -> void
+    public function __construct(string name, options = null, attributes = null)
     {
         let this->optionsValues = options;
 

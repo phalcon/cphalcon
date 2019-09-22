@@ -35,7 +35,7 @@ class Stream extends MetaData
      *
      * @param array options
      */
-    public function __construct(options = null) -> void
+    public function __construct(options = null)
     {
         var metaDataDir;
 

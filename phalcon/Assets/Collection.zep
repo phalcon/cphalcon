@@ -105,7 +105,7 @@ class Collection implements Countable, Iterator
     /**
      * Phalcon\Assets\Collection constructor
      */
-    public function __construct() -> void
+    public function __construct()
     {
         let this->includedAssets = [];
     }

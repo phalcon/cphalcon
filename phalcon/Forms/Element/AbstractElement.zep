@@ -44,7 +44,7 @@ abstract class AbstractElement implements ElementInterface
      * @param string name       Attribute name (value of 'name' attribute of HTML element)
      * @param array  attributes Additional HTML element attributes
      */
-    public function __construct(string name, array attributes = []) -> void
+    public function __construct(string name, array attributes = [])
     {
         let name = trim(name);
 

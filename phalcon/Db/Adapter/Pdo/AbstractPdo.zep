@@ -52,7 +52,7 @@ abstract class AbstractPdo extends AbstractAdapter
     /**
      * Constructor for Phalcon\Db\Adapter\Pdo
      */
-    public function __construct(array! descriptor) -> void
+    public function __construct(array! descriptor)
     {
         this->connect(descriptor);
 

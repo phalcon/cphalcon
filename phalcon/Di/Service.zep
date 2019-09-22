@@ -48,7 +48,7 @@ class Service implements ServiceInterface
     /**
      * Phalcon\Di\Service
      */
-    final public function __construct(var definition, bool shared = false) -> void
+    final public function __construct(var definition, bool shared = false)
     {
         let this->definition = definition,
             this->shared = shared;

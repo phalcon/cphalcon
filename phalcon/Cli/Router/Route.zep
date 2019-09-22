@@ -42,7 +42,7 @@ class Route
     /**
      * @param array|string paths
      */
-    public function __construct(string! pattern, paths = null) -> void
+    public function __construct(string! pattern, paths = null)
     {
         var routeId, uniqueId;
 

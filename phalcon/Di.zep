@@ -87,7 +87,7 @@ class Di implements DiInterface
     /**
      * Phalcon\Di constructor
      */
-    public function __construct() -> void
+    public function __construct()
     {
         if !self::_default {
             let self::_default = this;

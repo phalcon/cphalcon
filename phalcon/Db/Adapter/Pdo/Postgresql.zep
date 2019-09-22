@@ -52,7 +52,7 @@ class Postgresql extends PdoAdapter
     /**
      * Constructor for Phalcon\Db\Adapter\Pdo\Postgresql
      */
-    public function __construct(array! descriptor) -> void
+    public function __construct(array! descriptor)
     {
         if isset descriptor["charset"] {
             trigger_error(

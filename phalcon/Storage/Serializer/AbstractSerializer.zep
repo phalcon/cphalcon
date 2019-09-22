@@ -23,7 +23,7 @@ abstract class AbstractSerializer implements SerializerInterface
 	/**
 	 * Constructor
 	 */
-	public function __construct(var data = null) -> void
+	public function __construct(var data = null)
 	{
 	    let this-> data = data;
 	}

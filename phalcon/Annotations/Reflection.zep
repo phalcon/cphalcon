@@ -46,7 +46,7 @@ class Reflection
     /**
      * Phalcon\Annotations\Reflection constructor
      */
-    public function __construct(array reflectionData = []) -> void
+    public function __construct(array reflectionData = [])
     {
         let this->reflectionData = reflectionData;
     }

@@ -61,7 +61,7 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
      * Sets parameters based on options
      */
-    protected function __construct(<SerializerFactory> factory = null, array! options) -> void
+    protected function __construct(<SerializerFactory> factory = null, array! options)
     {
         /**
          * Lets set some defaults and options here

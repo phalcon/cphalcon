@@ -47,7 +47,7 @@ class Collection implements Iterator, Countable
     /**
      * Phalcon\Annotations\Collection constructor
      */
-    public function __construct(array reflectionData = []) -> void
+    public function __construct(array reflectionData = [])
     {
         var annotations, annotationData;
 

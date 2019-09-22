@@ -123,7 +123,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     /**
      * Phalcon\Mvc\Model constructor
      */
-    final public function __construct(var data = null, <DiInterface> container = null, <ManagerInterface> modelsManager = null) -> void
+    final public function __construct(var data = null, <DiInterface> container = null, <ManagerInterface> modelsManager = null)
     {
         /**
          * We use a default DI if the user doesn't define one
@@ -955,10 +955,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         let metaData = this->getModelsMetaData();
 
         /**
-         * Get the current connection
+         * Get the current connection use write to prevent replica lag
          * If the record already exists we must throw an exception
          */
-        if this->_exists(metaData, this->getReadConnection()) {
+        if this->_exists(metaData, this->getWriteConnection()) {
             let this->errorMessages = [
                 new Message(
                     "Record cannot be created because it already exists",

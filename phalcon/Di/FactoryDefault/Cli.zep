@@ -27,7 +27,7 @@ class Cli extends FactoryDefault
     /**
      * Phalcon\Di\FactoryDefault\Cli constructor
      */
-    public function __construct() -> void
+    public function __construct()
     {
         var filter;
 

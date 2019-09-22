@@ -63,7 +63,7 @@ class Security extends AbstractInjectionAware
     /**
      * Phalcon\Security constructor
      */
-    public function __construct(<SessionInterface> session = null, <RequestInterface> request = null) -> void
+    public function __construct(<SessionInterface> session = null, <RequestInterface> request = null)
     {
         let this->random       = new Random(),
             this->localRequest = request,

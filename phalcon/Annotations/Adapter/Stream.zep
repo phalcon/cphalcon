@@ -37,7 +37,7 @@ class Stream extends AbstractAdapter
     /**
      * Phalcon\Annotations\Adapter\Stream constructor
      */
-    public function __construct(array options = []) -> void
+    public function __construct(array options = [])
     {
         var annotationsDir;
 

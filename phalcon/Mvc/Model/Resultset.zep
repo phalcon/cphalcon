@@ -104,7 +104,7 @@ abstract class Resultset
      *
      * @param \Phalcon\Db\ResultInterface|false result
      */
-    public function __construct(result, <AdapterInterface> cache = null) -> void
+    public function __construct(result, <AdapterInterface> cache = null)
     {
         var prefetchRecords, rowCount, rows;
 

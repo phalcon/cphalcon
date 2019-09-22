@@ -85,7 +85,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
     /**
      * Phalcon\Mvc\Model\Transaction\Manager constructor
      */
-    public function __construct(<DiInterface> container = null) -> void
+    public function __construct(<DiInterface> container = null)
     {
         if !container {
             let container = Di::getDefault();
