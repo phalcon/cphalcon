@@ -19,7 +19,7 @@ use Phalcon\Di\DiInterface;
 
 class SomeServiceProvider implements ServiceProviderInterface
 {
-    public function register(DiInterface $di)
+    public function register(DiInterface $di): void
     {
         require_once __DIR__ . DIRECTORY_SEPARATOR . 'SomeComponent.php';
 

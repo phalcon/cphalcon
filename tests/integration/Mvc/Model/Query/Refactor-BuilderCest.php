@@ -126,9 +126,9 @@ class BuilderCest
     public function testAction(IntegrationTester $I)
     {
         $builder = new Builder();
+        $builder->setDi($this->container);
 
-        $phql = $builder->setDi($this->container)
-                        ->from(Robots::class)
+        $phql = $builder->from(Robots::class)
                         ->getPhql()
         ;
 
@@ -137,11 +137,10 @@ class BuilderCest
             $phql
         );
 
-
         $builder = new Builder();
+        $builder->setDi($this->container);
 
-        $phql = $builder->setDi($this->container)
-                        ->from([Robots::class, RobotsParts::class])
+        $phql = $builder->from([Robots::class, RobotsParts::class])
                         ->getPhql()
         ;
 
@@ -150,11 +149,10 @@ class BuilderCest
             $phql
         );
 
-
         $builder = new Builder();
+        $builder->setDi($this->container);
 
-        $phql = $builder->setDi($this->container)
-                        ->columns('*')
+        $phql = $builder->columns('*')
                         ->from(Robots::class)
                         ->getPhql()
         ;
@@ -164,11 +162,10 @@ class BuilderCest
             $phql
         );
 
-
         $builder = new Builder();
+        $builder->setDi($this->container);
 
-        $phql = $builder->setDi($this->container)
-                        ->columns(['id', 'name'])
+        $phql = $builder->columns(['id', 'name'])
                         ->from(Robots::class)
                         ->getPhql()
         ;
@@ -178,11 +175,10 @@ class BuilderCest
             $phql
         );
 
-
         $builder = new Builder();
+        $builder->setDi($this->container);
 
-        $phql = $builder->setDi($this->container)
-                        ->columns('id')
+        $phql = $builder->columns('id')
                         ->from(Robots::class)
                         ->getPhql()
         ;
@@ -192,11 +188,10 @@ class BuilderCest
             $phql
         );
 
-
         $builder = new Builder();
+        $builder->setDi($this->container);
 
-        $phql = $builder->setDi($this->container)
-                        ->from(Robots::class)
+        $phql = $builder->from(Robots::class)
                         ->where("Robots.name = 'Voltron'")
                         ->getPhql()
         ;
@@ -205,12 +200,10 @@ class BuilderCest
             'SELECT [' . Robots::class . '].* FROM [' . Robots::class . "] WHERE Robots.name = 'Voltron'",
             $phql
         );
-
-
         $builder = new Builder();
+        $builder->setDi($this->container);
 
-        $phql = $builder->setDi($this->container)
-                        ->from(Robots::class)
+        $phql = $builder->from(Robots::class)
                         ->where("Robots.name = 'Voltron'")
                         ->andWhere('Robots.id > 100')
                         ->getPhql()
@@ -221,11 +214,10 @@ class BuilderCest
             $phql
         );
 
-
         $builder = new Builder();
+        $builder->setDi($this->container);
 
-        $phql = $builder->setDi($this->container)
-                        ->from(Robots::class)
+        $phql = $builder->from(Robots::class)
                         ->where("Robots.name = 'Voltron'")
                         ->orWhere('Robots.id > 100')
                         ->getPhql()
@@ -236,11 +228,10 @@ class BuilderCest
             $phql
         );
 
-
         $builder = new Builder();
+        $builder->setDi($this->container);
 
-        $phql = $builder->setDi($this->container)
-                        ->from(Robots::class)
+        $phql = $builder->from(Robots::class)
                         ->where(100)
                         ->getPhql()
         ;
@@ -250,11 +241,10 @@ class BuilderCest
             $phql
         );
 
-
         $builder = new Builder();
+        $builder->setDi($this->container);
 
-        $phql = $builder->setDi($this->container)
-                        ->from(Robots::class)
+        $phql = $builder->from(Robots::class)
                         ->groupBy('Robots.name')
                         ->getPhql()
         ;
@@ -266,9 +256,9 @@ class BuilderCest
 
 
         $builder = new Builder();
+        $builder->setDi($this->container);
 
-        $phql = $builder->setDi($this->container)
-                        ->from(Robots::class)
+        $phql = $builder->from(Robots::class)
                         ->groupBy(['Robots.name', 'Robots.id'])
                         ->getPhql()
         ;
@@ -278,11 +268,10 @@ class BuilderCest
             $phql
         );
 
-
         $builder = new Builder();
+        $builder->setDi($this->container);
 
-        $phql = $builder->setDi($this->container)
-                        ->columns(['Robots.name', 'SUM(Robots.price)'])
+        $phql = $builder->columns(['Robots.name', 'SUM(Robots.price)'])
                         ->from(Robots::class)
                         ->groupBy('Robots.name')
                         ->getPhql()
@@ -293,11 +282,10 @@ class BuilderCest
             $phql
         );
 
-
         $builder = new Builder();
+        $builder->setDi($this->container);
 
-        $phql = $builder->setDi($this->container)
-                        ->columns(['Robots.name', 'SUM(Robots.price)'])
+        $phql = $builder->columns(['Robots.name', 'SUM(Robots.price)'])
                         ->from(Robots::class)
                         ->groupBy('Robots.name')
                         ->having('SUM(Robots.price) > 1000')
@@ -309,11 +297,10 @@ class BuilderCest
             $phql
         );
 
-
         $builder = new Builder();
+        $builder->setDi($this->container);
 
-        $phql = $builder->setDi($this->container)
-                        ->columns(['Robots.name', 'SUM(Robots.price)'])
+        $phql = $builder->columns(['Robots.name', 'SUM(Robots.price)'])
                         ->from(Robots::class)
                         ->groupBy('Robots.name')
                         ->having('SUM(Robots.price) > 1000')
@@ -326,11 +313,10 @@ class BuilderCest
             $phql
         );
 
-
         $builder = new Builder();
+        $builder->setDi($this->container);
 
-        $phql = $builder->setDi($this->container)
-                        ->columns(['Robots.name', 'SUM(Robots.price)'])
+        $phql = $builder->columns(['Robots.name', 'SUM(Robots.price)'])
                         ->from(Robots::class)
                         ->groupBy('Robots.name')
                         ->having('SUM(Robots.price) > 1000')
@@ -343,11 +329,10 @@ class BuilderCest
             $phql
         );
 
-
         $builder = new Builder();
+        $builder->setDi($this->container);
 
-        $phql = $builder->setDi($this->container)
-                        ->columns(['Robots.name', 'SUM(Robots.price)'])
+        $phql = $builder->columns(['Robots.name', 'SUM(Robots.price)'])
                         ->from(Robots::class)
                         ->groupBy('Robots.name')
                         ->inHaving('SUM(Robots.price)', [1, 2, 3])
@@ -359,11 +344,10 @@ class BuilderCest
             $phql
         );
 
-
         $builder = new Builder();
+        $builder->setDi($this->container);
 
-        $phql = $builder->setDi($this->container)
-                        ->columns(['Robots.name', 'SUM(Robots.price)'])
+        $phql = $builder->columns(['Robots.name', 'SUM(Robots.price)'])
                         ->from(Robots::class)
                         ->groupBy('Robots.name')
                         ->notInHaving('SUM(Robots.price)', [1, 2, 3])
@@ -375,11 +359,10 @@ class BuilderCest
             $phql
         );
 
-
         $builder = new Builder();
+        $builder->setDi($this->container);
 
-        $phql = $builder->setDi($this->container)
-                        ->columns(['Robots.name', 'SUM(Robots.price)'])
+        $phql = $builder->columns(['Robots.name', 'SUM(Robots.price)'])
                         ->from(Robots::class)
                         ->groupBy('Robots.name')
                         ->having('SUM(Robots.price) > 100')
@@ -392,11 +375,10 @@ class BuilderCest
             $phql
         );
 
-
         $builder = new Builder();
+        $builder->setDi($this->container);
 
-        $phql = $builder->setDi($this->container)
-                        ->columns(['Robots.name', 'SUM(Robots.price)'])
+        $phql = $builder->columns(['Robots.name', 'SUM(Robots.price)'])
                         ->from(Robots::class)
                         ->groupBy('Robots.name')
                         ->having('SUM(Robots.price) > 100')
@@ -409,11 +391,10 @@ class BuilderCest
             $phql
         );
 
-
         $builder = new Builder();
+        $builder->setDi($this->container);
 
-        $phql = $builder->setDi($this->container)
-                        ->columns(['Robots.name', 'SUM(Robots.price)'])
+        $phql = $builder->columns(['Robots.name', 'SUM(Robots.price)'])
                         ->from(Robots::class)
                         ->groupBy('Robots.name')
                         ->betweenHaving('SUM(Robots.price)', 100, 200)
@@ -425,11 +406,10 @@ class BuilderCest
             $phql
         );
 
-
         $builder = new Builder();
+        $builder->setDi($this->container);
 
-        $phql = $builder->setDi($this->container)
-                        ->columns(['Robots.name', 'SUM(Robots.price)'])
+        $phql = $builder->columns(['Robots.name', 'SUM(Robots.price)'])
                         ->from(Robots::class)
                         ->groupBy('Robots.name')
                         ->notBetweenHaving('SUM(Robots.price)', 100, 200)
@@ -441,11 +421,10 @@ class BuilderCest
             $phql
         );
 
-
         $builder = new Builder();
+        $builder->setDi($this->container);
 
-        $phql = $builder->setDi($this->container)
-                        ->from(Robots::class)
+        $phql = $builder->from(Robots::class)
                         ->join(RobotsParts::class)
                         ->getPhql()
         ;
@@ -455,11 +434,10 @@ class BuilderCest
             $phql
         );
 
-
         $builder = new Builder();
+        $builder->setDi($this->container);
 
-        $phql = $builder->setDi($this->container)
-                        ->from(Robots::class)
+        $phql = $builder->from(Robots::class)
                         ->join(RobotsParts::class, null, 'p')
                         ->getPhql()
         ;
@@ -469,11 +447,10 @@ class BuilderCest
             $phql
         );
 
-
         $builder = new Builder();
+        $builder->setDi($this->container);
 
-        $phql = $builder->setDi($this->container)
-                        ->from(Robots::class)
+        $phql = $builder->from(Robots::class)
                         ->join(RobotsParts::class, 'Robots.id = RobotsParts.robots_id', 'p')
                         ->getPhql()
         ;
@@ -483,11 +460,10 @@ class BuilderCest
             $phql
         );
 
-
         $builder = new Builder();
+        $builder->setDi($this->container);
 
-        $phql = $builder->setDi($this->container)
-                        ->from(Robots::class)
+        $phql = $builder->from(Robots::class)
                         ->join(RobotsParts::class, 'Robots.id = RobotsParts.robots_id', 'p')
                         ->join(Parts::class, 'Parts.id = RobotsParts.parts_id', 't')
                         ->getPhql()
@@ -498,11 +474,10 @@ class BuilderCest
             $phql
         );
 
-
         $builder = new Builder();
+        $builder->setDi($this->container);
 
-        $phql = $builder->setDi($this->container)
-                        ->from(Robots::class)
+        $phql = $builder->from(Robots::class)
                         ->leftJoin(RobotsParts::class, 'Robots.id = RobotsParts.robots_id')
                         ->leftJoin(Parts::class, 'Parts.id = RobotsParts.parts_id')
                         ->where('Robots.id > 0')
@@ -514,11 +489,10 @@ class BuilderCest
             $phql
         );
 
-
         $builder = new Builder();
+        $builder->setDi($this->container);
 
-        $phql = $builder->setDi($this->container)
-                        ->addFrom(Robots::class, 'r')
+        $phql = $builder->addFrom(Robots::class, 'r')
                         ->getPhql()
         ;
 
@@ -527,11 +501,10 @@ class BuilderCest
             $phql
         );
 
-
         $builder = new Builder();
+        $builder->setDi($this->container);
 
-        $phql = $builder->setDi($this->container)
-                        ->from(Robots::class)
+        $phql = $builder->from(Robots::class)
                         ->addFrom(Parts::class, 'p')
                         ->getPhql()
         ;
@@ -541,11 +514,10 @@ class BuilderCest
             $phql
         );
 
-
         $builder = new Builder();
+        $builder->setDi($this->container);
 
-        $phql = $builder->setDi($this->container)
-                        ->from(['r' => Robots::class])
+        $phql = $builder->from(['r' => Robots::class])
                         ->addFrom(Parts::class, 'p')
                         ->getPhql()
         ;
@@ -555,11 +527,10 @@ class BuilderCest
             $phql
         );
 
-
         $builder = new Builder();
+        $builder->setDi($this->container);
 
-        $phql = $builder->setDi($this->container)
-                        ->from(['r' => Robots::class, 'p' => Parts::class])
+        $phql = $builder->from(['r' => Robots::class, 'p' => Parts::class])
                         ->getPhql()
         ;
 
@@ -568,11 +539,10 @@ class BuilderCest
             $phql
         );
 
-
         $builder = new Builder();
+        $builder->setDi($this->container);
 
-        $phql = $builder->setDi($this->container)
-                        ->from(Robots::class)
+        $phql = $builder->from(Robots::class)
                         ->orderBy('Robots.name')
                         ->getPhql()
         ;
@@ -582,11 +552,10 @@ class BuilderCest
             $phql
         );
 
-
         $builder = new Builder();
+        $builder->setDi($this->container);
 
-        $phql = $builder->setDi($this->container)
-                        ->from(Robots::class)
+        $phql = $builder->from(Robots::class)
                         ->orderBy([1, 'Robots.name'])
                         ->getPhql()
         ;
@@ -596,11 +565,10 @@ class BuilderCest
             $phql
         );
 
-
         $builder = new Builder();
+        $builder->setDi($this->container);
 
-        $phql = $builder->setDi($this->container)
-                        ->from(Robots::class)
+        $phql = $builder->from(Robots::class)
                         ->limit(10)
                         ->getPhql()
         ;
@@ -612,9 +580,9 @@ class BuilderCest
 
 
         $builder = new Builder();
+        $builder->setDi($this->container);
 
-        $phql = $builder->setDi($this->container)
-                        ->from(Robots::class)
+        $phql = $builder->from(Robots::class)
                         ->limit(10, 5)
                         ->getPhql()
         ;
@@ -626,9 +594,9 @@ class BuilderCest
 
 
         $builder = new Builder();
+        $builder->setDi($this->container);
 
-        $phql = $builder->setDi($this->container)
-                        ->from(Robots::class)
+        $phql = $builder->from(Robots::class)
                         ->where("Robots.name = 'Voltron'")
                         ->betweenWhere('Robots.id', 0, 50)
                         ->getPhql()
@@ -639,11 +607,10 @@ class BuilderCest
             $phql
         );
 
-
         $builder = new Builder();
+        $builder->setDi($this->container);
 
-        $phql = $builder->setDi($this->container)
-                        ->from(Robots::class)
+        $phql = $builder->from(Robots::class)
                         ->where("Robots.name = 'Voltron'")
                         ->inWhere('Robots.id', [1, 2, 3])
                         ->getPhql()
@@ -654,11 +621,10 @@ class BuilderCest
             $phql
         );
 
-
         $builder = new Builder();
+        $builder->setDi($this->container);
 
-        $phql = $builder->setDi($this->container)
-                        ->from(Robots::class)
+        $phql = $builder->from(Robots::class)
                         ->where("Robots.name = 'Voltron'")
                         ->betweenWhere('Robots.id', 0, 50, Builder::OPERATOR_OR)
                         ->getPhql()
@@ -669,11 +635,10 @@ class BuilderCest
             $phql
         );
 
-
         $builder = new Builder();
+        $builder->setDi($this->container);
 
-        $phql = $builder->setDi($this->container)
-                        ->from(Robots::class)
+        $phql = $builder->from(Robots::class)
                         ->where("Robots.name = 'Voltron'")
                         ->inWhere('Robots.id', [1, 2, 3], Builder::OPERATOR_OR)
                         ->getPhql()
@@ -688,9 +653,9 @@ class BuilderCest
     public function testIssue701(IntegrationTester $I)
     {
         $builder = new Builder();
+        $builder->setDi($this->container);
 
-        $phql = $builder->setDi($this->container)
-                        ->from(Robots::class)
+        $phql = $builder->from(Robots::class)
                         ->leftJoin(RobotsParts::class, 'Robots.id = RobotsParts.robots_id')
                         ->leftJoin(Parts::class, 'Parts.id = RobotsParts.parts_id')
                         ->where('Robots.id > :1: AND Robots.id < :2:', [1 => 0, 2 => 1000])
@@ -736,9 +701,9 @@ class BuilderCest
     public function testIssue1115(IntegrationTester $I)
     {
         $builder = new Builder();
+        $builder->setDi($this->container);
 
-        $phql = $builder->setDi($this->container)
-                        ->columns(['Robots.name'])
+        $phql = $builder->columns(['Robots.name'])
                         ->from(Robots::class)
                         ->having('Robots.price > 1000')
                         ->getPhql()
