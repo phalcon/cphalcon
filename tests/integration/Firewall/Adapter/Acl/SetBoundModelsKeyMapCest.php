@@ -61,15 +61,13 @@ class SetBoundModelsKeyMapCest
             }
         );
         $firewall = new Acl('acl');
-        $firewall
-            ->setEventsManager($eventsManager)
-            ->setRoleCallback(
-                function ($di) {
-                    return $di->get('myrole');
-                }
-            )
-            ->setAlwaysResolvingRole(true)
-        ;
+        $firewall->setEventsManager($eventsManager);
+        $firewall->setRoleCallback(
+            function ($di) {
+                return $di->get('myrole');
+            }
+        );
+        $firewall->setAlwaysResolvingRole(true);
         $dispatcher->setEventsManager($eventsManager);
         $this->dispatcher = $dispatcher;
         $this->firewall   = $firewall;
