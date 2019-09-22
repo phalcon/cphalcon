@@ -33,10 +33,12 @@
 - Fixed `Phalcon\Flash\*` interfaces for `message()` to return `string/null` [#14349](https://github.com/phalcon/cphalcon/issues/14349)
 - Fixed `Phalcon\Paginator\Adapter\AbstractAdapter` throw exception if `limit <= 0` [#14303](https://github.com/phalcon/cphalcon/issues/14303)
 - Fixed `Phalcon\Mvc\Model\Query\Builder` Empty table alias in query [#14366](https://github.com/phalcon/cphalcon/issues/14366)
-- Fixed `Phalcon/Db/Adapter/PdoFactory` to reference the correct interface [#14381](https://github.com/phalcon/cphalcon/pull/14381)
-- Fixed `Phalcon/Db/Dialect/Mysql` Fixed missing schema in constraint for create table [#14378](https://github.com/phalcon/cphalcon/issues/14378)
+- Fixed `Phalcon\Db\Adapter\PdoFactory` to reference the correct interface [#14381](https://github.com/phalcon/cphalcon/pull/14381)
+- Fixed `Phalcon\Db\Dialect\Mysql` Fixed missing schema in constraint for create table [#14378](https://github.com/phalcon/cphalcon/issues/14378)
 - Fixed `Phalcon\Mvc\Model::hasChanged()` and `getChangedFields()` returning false values when `castOnHydrate` option is on. [#14376](https://github.com/phalcon/cphalcon/issues/14376)
+- Fixed `Phalcon\Mvc\Model::create()` Using write connection to prevent replica lag [#14256](https://github.com/phalcon/cphalcon/issues/14256)
 - Fixed `Phalcon\Di\Injectable::__get()` fixed issue eventsManager returning null [#14269](https://github.com/phalcon/cphalcon/issues/14269)
+
 
 ## Removed
 - Removed `Phalcon\Plugin` - duplicate of `Phalcon\DI\Injectable` [#14359](https://github.com/phalcon/cphalcon/issues/14359)
