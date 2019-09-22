@@ -29,10 +29,10 @@
   - `Phalcon\Mvc\RouterInterface::setDefaultController`
   - `Phalcon\Mvc\RouterInterface::setDefaultModule`
   - `Phalcon\Mvc\RouterInterface::setDefaults`
-  - Changed return types for following interfaces:
-    - `Phalcon\Mvc\Router\RouteInterface::setName` from `void` to `RouteInterface`
-    - `Phalcon\Mvc\Router\RouteInterface::via` from `void` to `RouteInterface`
-    - `Phalcon\Session\ManagerInterface::__get` from `void` to `var`
+- Changed return types for following interfaces:
+  - `Phalcon\Mvc\Router\RouteInterface::setName` from `void` to `RouteInterface`
+  - `Phalcon\Mvc\Router\RouteInterface::via` from `void` to `RouteInterface`
+  - `Phalcon\Session\ManagerInterface::__get` from `void` to `var`
 
 ## Fixed
 - Fixed `Phalcon\Helper\Str::includes` to return correct result [#14301](https://github.com/phalcon/cphalcon/issues/14301)
