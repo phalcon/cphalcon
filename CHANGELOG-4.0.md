@@ -44,7 +44,8 @@
   - `Phalcon\Firewall\Adapter\AbstractAdapter::setAlwaysResolvingRole`
   - `Phalcon\Logger\Adapter\AbstractAdapter::add`
   - `Phalcon\Application\AbstractApplication::setEventsManager`
-  
+- Fixed `Phalcon\Di::remove()` to remove service. [#14396](https://github.com/phalcon/cphalcon/issues/14396)
+
 ## Removed
 - Removed `Phalcon\Plugin` - duplicate of `Phalcon\DI\Injectable` [#14359](https://github.com/phalcon/cphalcon/issues/14359)
 - Removed `Phalcon\Mvc\Collection` and all related references. 4.0 will not support mongo as it is being re-implemented to take advantage of the latest Mongo driver (see [#13697](https://github.com/phalcon/cphalcon/issues/13697)) [#14361](https://github.com/phalcon/cphalcon/pull/14361)
