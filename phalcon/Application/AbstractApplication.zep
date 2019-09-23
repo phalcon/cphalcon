@@ -5,7 +5,7 @@
  * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * file that was dis§tributed with this source code.
  */
 
 namespace Phalcon\Application;
@@ -94,7 +94,7 @@ abstract class AbstractApplication extends Injectable implements EventsAwareInte
     /**
      * Handles a request
      */
-    abstract public function handle(string! uri) -> <ResponseInterface> | bool;
+    abstract public function handle(var! uri);
 
     /**
      * Register an array of modules present in the application
