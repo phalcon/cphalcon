@@ -94,7 +94,7 @@ abstract class AbstractApplication extends Injectable implements EventsAwareInte
     /**
      * Handles a request
      */
-    abstract public function handle();
+    abstract public function handle(string! uri) -> <ResponseInterface> | bool;
 
     /**
      * Register an array of modules present in the application

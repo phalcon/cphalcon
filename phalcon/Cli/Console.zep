@@ -34,7 +34,7 @@ class Console extends AbstractApplication
     /**
      * Handle the whole command-line tasks
      */
-    public function handle(array arguments = null)
+    public function handle(string! arguments) -> <ResponseInterface> | bool
     {
         var className, container, dispatcher, eventsManager, module, moduleName,
             moduleObject, modules, path, router, task;

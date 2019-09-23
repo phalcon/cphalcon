@@ -191,7 +191,7 @@ interface RequestInterface
      * @param bool onlyPath If true, query part will be omitted
      * @return string
      */
-    final public function getURI(bool onlyPath = false) -> string;
+    public function getURI(bool onlyPath = false) -> string;
 
     /**
      * Gets a variable from the $_POST superglobal applying filters if needed
