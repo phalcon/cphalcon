@@ -512,8 +512,15 @@ class Di implements DiInterface
      */
     public function remove(string! name) -> void
     {
-        unset this->services[name];
-        unset this->sharedInstances[name];
+        var services;
+        let services = this->services;
+        unset services[name];
+        let this->services = services;
+
+        var sharedInstances;
+        let sharedInstances = this->sharedInstances;
+        unset sharedInstances[name];
+        let this->sharedInstances = sharedInstances;
     }
 
     /**

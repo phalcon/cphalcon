@@ -750,7 +750,9 @@ int zephir_update_property_array_append(zval *object, char *property, unsigned i
 				zval new_zv;
 				ZVAL_DUP(&new_zv, &tmp);
 				ZVAL_COPY_VALUE(&tmp, &new_zv);
-				Z_TRY_DELREF(new_zv);
+				if (Z_REFCOUNT(tmp) > 1) {
+				    Z_TRY_DELREF(new_zv);
+				}
 				separated = 1;
 			}
 		}

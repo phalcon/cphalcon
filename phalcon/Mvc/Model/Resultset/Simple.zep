@@ -45,7 +45,8 @@ class Simple extends Resultset
         result,
         <AdapterInterface> cache = null,
         bool keepSnapshots = null
-    ) -> void {
+    )
+    {
         let this->model = model,
             this->columnMap = columnMap;
         /**

@@ -2513,14 +2513,12 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     /**
      * Sets the DependencyInjection connection service name
      */
-    final public function setConnectionService(string! connectionService) -> <ModelInterface>
+    final public function setConnectionService(string! connectionService) -> void
     {
         (<ManagerInterface> this->modelsManager)->setConnectionService(
             this,
             connectionService
         );
-
-        return this;
     }
 
     /**
@@ -2544,14 +2542,12 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     /**
      * Sets the DependencyInjection connection service name used to read data
      */
-    final public function setReadConnectionService(string! connectionService) -> <ModelInterface>
+    final public function setReadConnectionService(string! connectionService) -> void
     {
         (<ManagerInterface> this->modelsManager)->setReadConnectionService(
             this,
             connectionService
         );
-
-        return this;
     }
 
     /**
@@ -2836,9 +2832,9 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     /**
      * Sets the DependencyInjection connection service name used to write data
      */
-    final public function setWriteConnectionService(string! connectionService) -> <ModelInterface>
+    final public function setWriteConnectionService(string! connectionService) -> void
     {
-        return (<ManagerInterface> this->modelsManager)->setWriteConnectionService(
+        (<ManagerInterface> this->modelsManager)->setWriteConnectionService(
             this,
             connectionService
         );

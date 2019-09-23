@@ -1,4 +1,4 @@
-# [4.0.0](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0) (2019-xx-xx)
+# [4.0.0-rc.1](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-rc.1) (2019-09-23)
 
 ## Added
 - Added optional boolean parameter to `Phalcon\Http\Request::getURI()` (as well as its interface) which indicates whether or not the method should return only the path without the query string
@@ -17,6 +17,18 @@
 - Changed `Phalcon\Mvc\Router\Group::routes` to an array as default [#14259](https://github.com/phalcon/cphalcon/pull/14259)
 - Changed `Phalcon\Mvc\Model::assign` changed order of parameters to $data, $whiteList, $dataColumnMap [#14386](https://github.com/phalcon/cphalcon/pull/14386)
 - Changed `Phalcon\Helper\Arr::arrayToObject` to `toObject` [#14389](https://github.com/phalcon/cphalcon/pull/14389)
+- Changed `Phalcon\Events\EventsAwareInterface::getEventsManager` and `Phalcon\Di\Injectable::getEventsManager` to return also `null` [#14404](https://github.com/phalcon/cphalcon/pull/14404)
+- Changed `Phalcon\Logger\Adapter\AbstractAdapter::add` to now return `this` [#14404](https://github.com/phalcon/cphalcon/pull/14404)
+- Changed `Phalcon\Mvc\RouterInterface` methods signature to return `RouteInterface` instead of `void`:
+  - `Phalcon\Mvc\RouterInterface::setDefaultAction`
+  - `Phalcon\Mvc\RouterInterface::setDefaultAction`
+  - `Phalcon\Mvc\RouterInterface::setDefaultController`
+  - `Phalcon\Mvc\RouterInterface::setDefaultModule`
+  - `Phalcon\Mvc\RouterInterface::setDefaults`
+- Changed return types for following interfaces:
+  - `Phalcon\Mvc\Router\RouteInterface::setName` from `void` to `RouteInterface`
+  - `Phalcon\Mvc\Router\RouteInterface::via` from `void` to `RouteInterface`
+  - `Phalcon\Session\ManagerInterface::__get` from `void` to `var`
 
 ## Fixed
 - Fixed `Phalcon\Helper\Str::includes` to return correct result [#14301](https://github.com/phalcon/cphalcon/issues/14301)
@@ -37,12 +49,30 @@
 - Fixed `Phalcon\Db\Dialect\Mysql` Fixed missing schema in constraint for create table [#14378](https://github.com/phalcon/cphalcon/issues/14378)
 - Fixed `Phalcon\Mvc\Model::hasChanged()` and `getChangedFields()` returning false values when `castOnHydrate` option is on. [#14376](https://github.com/phalcon/cphalcon/issues/14376)
 - Fixed `Phalcon\Mvc\Model::create()` Using write connection to prevent replica lag [#14256](https://github.com/phalcon/cphalcon/issues/14256)
+- Fixed return types for following methods to satisfy interface declaration:
+  - `Phalcon\Acl\Adapter\AbstractAdapter::setDefaultAction`
+  - `Phalcon\Application\AbstractApplication::setEventsManager`
+  - `Phalcon\Firewall\Adapter\AbstractAdapter::setAlwaysResolvingRole`
+  - `Phalcon\Firewall\Adapter\AbstractAdapter::setEventsManager`
+  - `Phalcon\Mvc\Router::handle`
+  - `Phalcon\Storage\Serializer\AbstractSerializer::getData`
+  - `Phalcon\Storage\Serializer\AbstractSerializer::setData`
+  - `Phalcon\Mvc\Dispatcher::forward`
+  - `Phalcon\Mvc\Model::setConnectionService`
+  - `Phalcon\Mvc\Model::setReadConnectionService`
+  - `Phalcon\Mvc\Model::setWriteConnectionService`
+  - `Phalcon\Mvc\Model\Query\Builder::setDI`
+  - `Phalcon\Mvc\Router\Annotations::handle`
+  - `Phalcon\Session\Bag::set`
+  - `Phalcon\Session\Manager::remove`
+- Fixed `Phalcon\Di::remove()` to remove service. [#14396](https://github.com/phalcon/cphalcon/issues/14396)
 
 ## Removed
 - Removed `Phalcon\Plugin` - duplicate of `Phalcon\DI\Injectable` [#14359](https://github.com/phalcon/cphalcon/issues/14359)
 - Removed `Phalcon\Mvc\Collection` and all related references. 4.0 will not support mongo as it is being re-implemented to take advantage of the latest Mongo driver (see [#13697](https://github.com/phalcon/cphalcon/issues/13697)) [#14361](https://github.com/phalcon/cphalcon/pull/14361)
 - Removed `Phalcon\Session\Manager::registerHandler` - duplicate functionality [#14381](https://github.com/phalcon/cphalcon/pull/14381)
 - Removed `Phalcon\Html\Tag` - duplicate functionality [#14381](https://github.com/phalcon/cphalcon/pull/14381)
+- Removed `void` return type for all constructors [#14401](https://github.com/phalcon/cphalcon/pull/14401)
 
 # [4.0.0-beta.2](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-beta.2) (2019-08-18)
 

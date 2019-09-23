@@ -39,7 +39,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      * Should role always be resolved using role callback or just once?
      * @var bool
      */
-    protected alwaysResolvingRole = false { set };
+    protected alwaysResolvingRole = false;
 
     /**
      * Cache for caching access
@@ -123,11 +123,9 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     /**
      * Sets the events manager
      */
-    public function setEventsManager(<ManagerInterface> eventsManager) -> <AdapterInterface>
+    public function setEventsManager(<ManagerInterface> eventsManager) -> void
     {
         let this->eventsManager = eventsManager;
-
-        return this;
     }
 
     /**
@@ -141,6 +139,14 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
         let this->roleCallback = callback;
 
         return this;
+    }
+
+    /**
+     * Sets always resolving role option
+     */
+    public function setAlwaysResolvingRole(bool alwaysResolvingRole) -> void
+    {
+        let this->alwaysResolvingRole = alwaysResolvingRole;
     }
 
     protected function callRoleCallback(<DiInterface> container) -> void

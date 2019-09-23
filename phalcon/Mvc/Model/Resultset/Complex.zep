@@ -47,7 +47,7 @@ class Complex extends Resultset implements ResultsetInterface
         var columnTypes,
         <ResultInterface> result = null,
         <AdapterInterface> cache = null
-    ) -> void
+    )
     {
         /**
          * Column types, tell the resultset how to build the result
