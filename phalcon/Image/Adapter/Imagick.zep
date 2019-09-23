@@ -10,6 +10,7 @@
 
 namespace Phalcon\Image\Adapter;
 
+use Imagick as ImagicNative;
 use ImagickDraw;
 use ImagickPixel;
 use Phalcon\Image\Enum;
@@ -104,7 +105,7 @@ class Imagick extends AbstractAdapter
      */
     public function __destruct()
     {
-        if this->image instanceof \Imagick {
+        if this->image instanceof ImagicNative {
             this->image->clear();
             this->image->destroy();
         }
