@@ -10,7 +10,6 @@
 
 namespace Phalcon\Image\Adapter;
 
-use Imagick;
 use ImagickDraw;
 use ImagickPixel;
 use Phalcon\Image\Enum;
