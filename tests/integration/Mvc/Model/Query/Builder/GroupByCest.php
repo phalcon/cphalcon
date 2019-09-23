@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -40,9 +40,9 @@ class GroupByCest
         $I->wantToTest('Mvc\Model\Query\Builder - groupBy()');
 
         $builder = new Builder();
+        $builder->setDi($this->container);
 
-        $phql = $builder->setDi($this->container)
-                        ->columns(['name', 'SUM(price)'])
+        $phql = $builder->columns(['name', 'SUM(price)'])
                         ->from(Robots::class)
                         ->groupBy('id, name')
                         ->getPhql()

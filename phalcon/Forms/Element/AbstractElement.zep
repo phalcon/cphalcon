@@ -2,7 +2,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -44,7 +44,7 @@ abstract class AbstractElement implements ElementInterface
      * @param string name       Attribute name (value of 'name' attribute of HTML element)
      * @param array  attributes Additional HTML element attributes
      */
-    public function __construct(string name, array attributes = []) -> void
+    public function __construct(string name, array attributes = [])
     {
         let name = trim(name);
 

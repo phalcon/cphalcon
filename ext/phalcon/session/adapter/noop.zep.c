@@ -42,7 +42,7 @@
  * use Phalcon\Session\Adapter\Noop;
  *
  * $session = new Manager();
- * $session->setHandler(new Noop());
+ * $session->setAdapter(new Noop());
  * ```
  */
 ZEPHIR_INIT_CLASS(Phalcon_Session_Adapter_Noop) {

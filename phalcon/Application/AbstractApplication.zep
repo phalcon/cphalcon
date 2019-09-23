@@ -2,7 +2,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -44,7 +44,7 @@ abstract class AbstractApplication extends Injectable implements EventsAwareInte
     /**
      * Phalcon\AbstractApplication constructor
      */
-    public function __construct(<DiInterface> container = null) -> void
+    public function __construct(<DiInterface> container = null)
     {
         if typeof container == "object" {
             let this->container = container;
@@ -138,10 +138,8 @@ abstract class AbstractApplication extends Injectable implements EventsAwareInte
     /**
      * Sets the events manager
      */
-    public function setEventsManager(<ManagerInterface> eventsManager) -> <AbstractApplication>
+    public function setEventsManager(<ManagerInterface> eventsManager) -> void
     {
         let this->eventsManager = eventsManager;
-
-        return this;
     }
 }

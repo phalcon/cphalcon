@@ -22,7 +22,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -210,7 +210,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, getConnection) {
 
 	zephir_read_property(&_0, this_ptr, SL("rollbackOnAbort"), PH_NOISY_CC | PH_READONLY);
 	if (zephir_is_true(&_0)) {
-		ZEPHIR_CALL_FUNCTION(&_1$$3, "connection_aborted", NULL, 491);
+		ZEPHIR_CALL_FUNCTION(&_1$$3, "connection_aborted", NULL, 478);
 		zephir_check_call_status();
 		if (zephir_is_true(&_1$$3)) {
 			ZEPHIR_INIT_VAR(&_2$$4);
@@ -335,7 +335,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback) {
 			ZEPHIR_INIT_VAR(&_3$$7);
 			object_init_ex(&_3$$7, phalcon_mvc_model_transaction_failed_ce);
 			zephir_read_property(&_4$$7, this_ptr, SL("rollbackRecord"), PH_NOISY_CC | PH_READONLY);
-			ZEPHIR_CALL_METHOD(NULL, &_3$$7, "__construct", NULL, 492, &rollbackMessage, &_4$$7);
+			ZEPHIR_CALL_METHOD(NULL, &_3$$7, "__construct", NULL, 479, &rollbackMessage, &_4$$7);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(&_3$$7, "phalcon/Mvc/Model/Transaction.zep", 186 TSRMLS_CC);
 			ZEPHIR_MM_RESTORE();

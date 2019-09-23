@@ -2,7 +2,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -97,7 +97,7 @@ class Crypt implements CryptInterface
     /**
      * Phalcon\Crypt constructor.
      */
-    public function __construct(string! cipher = "aes-256-cfb", bool useSigning = false) -> void
+    public function __construct(string! cipher = "aes-256-cfb", bool useSigning = false)
     {
         this->initializeAvailableCiphers();
 

@@ -2,7 +2,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -87,7 +87,7 @@ class Di implements DiInterface
     /**
      * Phalcon\Di constructor
      */
-    public function __construct() -> void
+    public function __construct()
     {
         if !self::_default {
             let self::_default = this;
@@ -379,7 +379,7 @@ class Di implements DiInterface
      * ];
      * ```
      *
-     * @link https://docs.phalconphp.com/en/latest/reference/di.html
+     * @link https://docs.phalcon.io/en/latest/reference/di.html
      */
     public function loadFromPhp(string! filePath) -> void
     {
@@ -421,7 +421,7 @@ class Di implements DiInterface
      *    className: \Acme\User
      * ```
      *
-     * @link https://docs.phalconphp.com/en/latest/reference/di.html
+     * @link https://docs.phalcon.io/en/latest/reference/di.html
      */
     public function loadFromYaml(string! filePath, array! callbacks = null) -> void
     {
@@ -512,8 +512,15 @@ class Di implements DiInterface
      */
     public function remove(string! name) -> void
     {
-        unset this->services[name];
-        unset this->sharedInstances[name];
+        var services;
+        let services = this->services;
+        unset services[name];
+        let this->services = services;
+
+        var sharedInstances;
+        let sharedInstances = this->sharedInstances;
+        unset sharedInstances[name];
+        let this->sharedInstances = sharedInstances;
     }
 
     /**

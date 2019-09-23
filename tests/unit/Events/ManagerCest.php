@@ -3,7 +3,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -97,7 +97,7 @@ class ManagerCest
     /**
      * Tests using event listeners
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2012-08-14
      */
     public function usingEvents(UnitTester $I)
@@ -289,7 +289,7 @@ class ManagerCest
      *
      * @test
      * @issue  https://github.com/phalcon/cphalcon/issues/12882
-     * @author       Phalcon Team <team@phalconphp.com>
+     * @author       Phalcon Team <team@phalcon.io>
      * @since        2017-06-06
      *
      * @dataProvider booleanProvider

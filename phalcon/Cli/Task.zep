@@ -2,7 +2,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -41,7 +41,7 @@ class Task extends Injectable implements TaskInterface
     /**
      * Phalcon\Cli\Task constructor
      */
-    final public function __construct() -> void
+    final public function __construct()
     {
         if method_exists(this, "onConstruct") {
             this->{"onConstruct"}();

@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -22,7 +22,7 @@ class AddRoleCest
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: addRole() - string
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function aclAdapterMemoryAddRoleString(UnitTester $I)
@@ -41,7 +41,7 @@ class AddRoleCest
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: addRole() - object
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function aclAdapterMemoryAddRoleObject(UnitTester $I)
@@ -60,7 +60,7 @@ class AddRoleCest
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: addRole() - twice string
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function aclAdapterMemoryAddRoleTwiceString(UnitTester $I)
@@ -83,7 +83,7 @@ class AddRoleCest
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: addRole() - twice object
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function aclAdapterMemoryAddRoleTwiceObject(UnitTester $I)
@@ -106,7 +106,7 @@ class AddRoleCest
     /**
      * Tests Phalcon\Acl\Adapter\Memory :: addRole() - numeric key
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function aclAdapterMemoryAddRoleNumericKey(UnitTester $I)

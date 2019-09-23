@@ -2,7 +2,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -124,7 +124,7 @@ class Query implements QueryInterface, InjectionAwareInterface
     /**
      * Phalcon\Mvc\Model\Query constructor
      */
-    public function __construct(string phql = null, <DiInterface> container = null, array options = []) -> void
+    public function __construct(string phql = null, <DiInterface> container = null, array options = [])
     {
         var enableImplicitJoins;
 

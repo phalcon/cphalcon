@@ -66,6 +66,17 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_debug_getversion, 0, 0, 
 #endif
 ZEND_END_ARG_INFO()
 
+#if PHP_VERSION_ID >= 70100
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_debug_halt, 0, 0, IS_VOID, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_debug_halt, 0, 0, IS_VOID, NULL, 0)
+#endif
+ZEND_END_ARG_INFO()
+#else
+#define arginfo_phalcon_debug_halt NULL
+#endif
+
 #if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_debug_listen, 0, 0, Phalcon\\Debug, 0)
 #else
@@ -105,7 +116,17 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_debug_onuncaughtexceptio
 	ZEND_ARG_OBJ_INFO(0, exception, Exception, 0)
 ZEND_END_ARG_INFO()
 
+#if PHP_VERSION_ID >= 70100
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_debug_onuncaughtlowseverity, 0, 5, IS_VOID, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_debug_onuncaughtlowseverity, 0, 5, IS_VOID, NULL, 0)
+#endif
+#else
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_debug_onuncaughtlowseverity, 0, 0, 5)
+#define arginfo_phalcon_debug_onuncaughtlowseverity NULL
+#endif
+
 	ZEND_ARG_INFO(0, severity)
 	ZEND_ARG_INFO(0, message)
 	ZEND_ARG_INFO(0, file)
@@ -213,7 +234,7 @@ ZEPHIR_INIT_FUNCS(phalcon_debug_method_entry) {
 	PHP_ME(Phalcon_Debug, getCssSources, arginfo_phalcon_debug_getcsssources, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Debug, getJsSources, arginfo_phalcon_debug_getjssources, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Debug, getVersion, arginfo_phalcon_debug_getversion, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Debug, halt, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Debug, halt, arginfo_phalcon_debug_halt, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Debug, listen, arginfo_phalcon_debug_listen, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Debug, listenExceptions, arginfo_phalcon_debug_listenexceptions, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Debug, listenLowSeverity, arginfo_phalcon_debug_listenlowseverity, ZEND_ACC_PUBLIC)

@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -24,7 +24,7 @@ class CreateTableCest
     /**
      * Tests Phalcon\Db\Dialect\Mysql :: createTable()
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2017-02-26
      *
      * @dataProvider getCreateTableFixtures
@@ -216,6 +216,37 @@ class CreateTableCest
                     ],
                 ],
                 rtrim(file_get_contents(dataDir('fixtures/Db/mysql/example5.sql'))),
+            ],
+            'example6' => [
+                '',
+                [
+                    'columns' => [
+                        new Column(
+                            'id_user',
+                            [
+                                'type'          => 'BIGINT',
+                                'typeReference' => Column::TYPE_INTEGER,
+                                'size'          => 20,
+                                'unsigned'      => true,
+                                'notNull'       => false,
+                            ]
+                        ),
+                    ],
+                    'references' => [
+                        new Reference(
+                            'fk_id_user',
+                            [
+                                'referencedTable' => 'users',
+                                'referencedSchema' => 'database2',
+                                'columns' => ['id_user'],
+                                'referencedColumns' => ['id'],
+                                'onUpdate' => 'CASCADE',
+                                'onDelete' => 'SET NULL'
+                            ]
+                        )
+                    ],
+                ],
+                rtrim(file_get_contents(dataDir('fixtures/Db/mysql/example6.sql'))),
             ],
         ];
     }

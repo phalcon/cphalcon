@@ -2,7 +2,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -39,7 +39,7 @@ class Apcu extends MetaData
      *
      * @param array options
      */
-    public function __construct(<AdapterFactory> factory, array! options = null) -> void
+    public function __construct(<AdapterFactory> factory, array! options = null)
     {
         let options["prefix"]   = "ph-mm-apcu-",
             options["lifetime"] = 172800,

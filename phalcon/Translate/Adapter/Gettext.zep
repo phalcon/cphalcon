@@ -2,7 +2,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -58,7 +58,7 @@ class Gettext extends AbstractAdapter implements ArrayAccess
     /**
      * Phalcon\Translate\Adapter\Gettext constructor
      */
-    public function __construct(<InterpolatorFactory> interpolator, array! options) -> void
+    public function __construct(<InterpolatorFactory> interpolator, array! options)
     {
         if unlikely !function_exists("gettext") {
             throw new Exception(

@@ -2,7 +2,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -150,8 +150,7 @@ final class UploadedFile implements UploadedFileInterface
      * raise an exception.
      *
      * @return StreamInterface Stream representation of the uploaded file.
-     * @throws RuntimeException in cases when no stream is available or can be
-     *     created.
+     * @throws RuntimeException in cases when no stream is available or can be created.
      */
     public function getStream() -> var
     {

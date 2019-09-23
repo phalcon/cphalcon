@@ -38,17 +38,12 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Session_Manager) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Session, Manager, phalcon, session_manager, phalcon_session_manager_method_entry, 0);
-
-	/**
-	 * @var <DiInterface>
-	 */
-	zend_declare_property_null(phalcon_session_manager_ce, SL("container"), ZEND_ACC_PRIVATE TSRMLS_CC);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Session, Manager, phalcon, session_manager, phalcon_di_abstractinjectionaware_ce, phalcon_session_manager_method_entry, 0);
 
 	/**
 	 * @var <SessionHandlerInterface>|null
 	 */
-	zend_declare_property_null(phalcon_session_manager_ce, SL("handler"), ZEND_ACC_PRIVATE TSRMLS_CC);
+	zend_declare_property_null(phalcon_session_manager_ce, SL("adapter"), ZEND_ACC_PRIVATE TSRMLS_CC);
 
 	/**
 	 * @var string
@@ -68,7 +63,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Session_Manager) {
 	phalcon_session_manager_ce->create_object = zephir_init_properties_Phalcon_Session_Manager;
 
 	zend_class_implements(phalcon_session_manager_ce TSRMLS_CC, 1, phalcon_session_managerinterface_ce);
-	zend_class_implements(phalcon_session_manager_ce TSRMLS_CC, 1, phalcon_di_injectionawareinterface_ce);
 	return SUCCESS;
 
 }
@@ -308,26 +302,14 @@ PHP_METHOD(Phalcon_Session_Manager, get) {
 }
 
 /**
- * Returns the DependencyInjector container
+ * Returns the stored session adapter
  */
-PHP_METHOD(Phalcon_Session_Manager, getDI) {
+PHP_METHOD(Phalcon_Session_Manager, getAdapter) {
 
 	zval *this_ptr = getThis();
 
 
-	RETURN_MEMBER(getThis(), "container");
-
-}
-
-/**
- * Returns the stored session handler
- */
-PHP_METHOD(Phalcon_Session_Manager, getHandler) {
-
-	zval *this_ptr = getThis();
-
-
-	RETURN_MEMBER(getThis(), "handler");
+	RETURN_MEMBER(getThis(), "adapter");
 
 }
 
@@ -424,7 +406,7 @@ PHP_METHOD(Phalcon_Session_Manager, getOptions) {
 }
 
 /**
- * Regenerates the session id using the handler.
+ * Regenerates the session id using the adapter.
  */
 PHP_METHOD(Phalcon_Session_Manager, regenerateId) {
 
@@ -457,29 +439,6 @@ PHP_METHOD(Phalcon_Session_Manager, regenerateId) {
 		zephir_check_call_status();
 	}
 	RETURN_THIS();
-
-}
-
-/**
- * Registers a handler with the session
- */
-PHP_METHOD(Phalcon_Session_Manager, registerHandler) {
-
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *handler, handler_sub;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&handler_sub);
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &handler);
-
-
-
-	ZEPHIR_RETURN_CALL_FUNCTION("session_set_save_handler", NULL, 0, handler);
-	zephir_check_call_status();
-	RETURN_MM();
 
 }
 
@@ -555,38 +514,20 @@ PHP_METHOD(Phalcon_Session_Manager, set) {
 }
 
 /**
- * Sets the DependencyInjector container
+ * Set the adapter for the session
  */
-PHP_METHOD(Phalcon_Session_Manager, setDI) {
+PHP_METHOD(Phalcon_Session_Manager, setAdapter) {
 
-	zval *container, container_sub;
+	zval *adapter, adapter_sub;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&container_sub);
+	ZVAL_UNDEF(&adapter_sub);
 
-	zephir_fetch_params_without_memory_grow(1, 0, &container);
-
-
-
-	zephir_update_property_zval(this_ptr, SL("container"), container);
-
-}
-
-/**
- * Set the handler for the session
- */
-PHP_METHOD(Phalcon_Session_Manager, setHandler) {
-
-	zval *handler, handler_sub;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&handler_sub);
-
-	zephir_fetch_params_without_memory_grow(1, 0, &handler);
+	zephir_fetch_params_without_memory_grow(1, 0, &adapter);
 
 
 
-	zephir_update_property_zval(this_ptr, SL("handler"), handler);
+	zephir_update_property_zval(this_ptr, SL("adapter"), adapter);
 	RETURN_THISW();
 
 }
@@ -620,9 +561,9 @@ PHP_METHOD(Phalcon_Session_Manager, setId) {
 		object_init_ex(&_1$$3, spl_ce_RuntimeException);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZEPHIR_CONCAT_SS(&_2$$3, "The session has already been started. ", "To change the id, use regenerateId()");
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 264, &_2$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 265, &_2$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Session/Manager.zep", 280 TSRMLS_CC);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Session/Manager.zep", 251 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -666,7 +607,7 @@ PHP_METHOD(Phalcon_Session_Manager, setName) {
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "exists", NULL, 0);
 	zephir_check_call_status();
 	if (UNEXPECTED(zephir_is_true(&_0))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Cannot set session name after a session has started", "phalcon/Session/Manager.zep", 303);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Cannot set session name after a session has started", "phalcon/Session/Manager.zep", 274);
 		return;
 	}
 	ZEPHIR_INIT_VAR(&_1);
@@ -677,7 +618,7 @@ PHP_METHOD(Phalcon_Session_Manager, setName) {
 	ZVAL_STRING(&_4, "/^[\\p{L}\\p{N}_-]+$/u");
 	zephir_preg_match(&_3, &_4, &name, &_1, 0, 0 , 0  TSRMLS_CC);
 	if (UNEXPECTED(!zephir_is_true(&_3))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "The name contains non alphanum characters", "phalcon/Session/Manager.zep", 309);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "The name contains non alphanum characters", "phalcon/Session/Manager.zep", 280);
 		return;
 	}
 	zephir_update_property_zval(this_ptr, SL("name"), &name);
@@ -745,19 +686,19 @@ PHP_METHOD(Phalcon_Session_Manager, start) {
 	if (ZEPHIR_IS_TRUE_IDENTICAL(&_0)) {
 		RETURN_MM_BOOL(1);
 	}
-	ZEPHIR_CALL_FUNCTION(&_1, "headers_sent", NULL, 363);
+	ZEPHIR_CALL_FUNCTION(&_1, "headers_sent", NULL, 354);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_TRUE_IDENTICAL(&_1)) {
 		RETURN_MM_BOOL(0);
 	}
 	ZEPHIR_OBS_VAR(&_2);
-	zephir_read_property(&_2, this_ptr, SL("handler"), PH_NOISY_CC);
+	zephir_read_property(&_2, this_ptr, SL("adapter"), PH_NOISY_CC);
 	if (UNEXPECTED(!(zephir_is_instance_of(&_2, SL("SessionHandlerInterface") TSRMLS_CC)))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_session_exception_ce, "The session handler is not valid", "phalcon/Session/Manager.zep", 349);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_session_exception_ce, "The session adapter is not valid", "phalcon/Session/Manager.zep", 320);
 		return;
 	}
-	zephir_read_property(&_3, this_ptr, SL("handler"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "registerhandler", NULL, 0, &_3);
+	zephir_read_property(&_3, this_ptr, SL("adapter"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_CALL_FUNCTION(NULL, "session_set_save_handler", NULL, 0, &_3);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_FUNCTION("session_start", NULL, 0);
 	zephir_check_call_status();

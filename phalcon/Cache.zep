@@ -2,7 +2,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -34,7 +34,7 @@ class Cache implements CacheInterface
      *
      * @param AdapterInterface  adapter The cache adapter
      */
-    public function __construct(<AdapterInterface> adapter) -> void
+    public function __construct(<AdapterInterface> adapter)
     {
         let this->adapter = adapter;
     }
@@ -56,8 +56,7 @@ class Cache implements CacheInterface
      *
      * @return bool True if the item was successfully removed. False if there was an error.
      *
-     * @throws Phalcon\Cache\Exception\InvalidArgumentException
-     *   MUST be thrown if the $key string is not a legal value.
+     * @throws Phalcon\Cache\Exception\InvalidArgumentException MUST be thrown if the $key string is not a legal value.
      */
     public function delete(var key) -> bool
     {
@@ -73,9 +72,7 @@ class Cache implements CacheInterface
      *
      * @return bool True if the items were successfully removed. False if there was an error.
      *
-     * @throws Phalcon\Cache\Exception\InvalidArgumentException
-     *   MUST be thrown if $keys is neither an array nor a Traversable,
-     *   or if any of the $keys are not a legal value.
+     * @throws Phalcon\Cache\Exception\InvalidArgumentException MUST be thrown if $keys is neither an array nor a Traversable, or if any of the $keys are not a legal value.
      */
     public function deleteMultiple(var keys) -> bool
     {
@@ -102,8 +99,7 @@ class Cache implements CacheInterface
      *
      * @return mixed The value of the item from the cache, or $default in case of cache miss.
      *
-     * @throws Phalcon\Cache\Exception\InvalidArgumentException
-     *   MUST be thrown if the $key string is not a legal value.
+     * @throws Phalcon\Cache\Exception\InvalidArgumentException MUST be thrown if the $key string is not a legal value.
      */
     public function get(var key, var defaultValue = null) -> var
     {
@@ -120,9 +116,7 @@ class Cache implements CacheInterface
      *
      * @return iterable A list of key => value pairs. Cache keys that do not exist or are stale will have $default as value.
      *
-     * @throws Phalcon\Cache\Exception\InvalidArgumentException
-     *   MUST be thrown if $keys is neither an array nor a Traversable,
-     *   or if any of the $keys are not a legal value.
+     * @throws Phalcon\Cache\Exception\InvalidArgumentException MUST be thrown if $keys is neither an array nor a Traversable, or if any of the $keys are not a legal value.
      */
     public function getMultiple(var keys, var defaultValue = null) -> var
     {
@@ -146,8 +140,7 @@ class Cache implements CacheInterface
      *
      * @return bool
      *
-     * @throws Phalcon\Cache\Exception\InvalidArgumentException
-     *   MUST be thrown if the $key string is not a legal value.
+     * @throws Phalcon\Cache\Exception\InvalidArgumentException MUST be thrown if the $key string is not a legal value.
      */
     public function has(var key) -> bool
     {
@@ -167,8 +160,7 @@ class Cache implements CacheInterface
      *
      * @return bool True on success and false on failure.
      *
-     * @throws Phalcon\Cache\Exception\InvalidArgumentException
-     *   MUST be thrown if the $key string is not a legal value.
+     * @throws Phalcon\Cache\Exception\InvalidArgumentException MUST be thrown if the $key string is not a legal value.
      */
     public function set(var key, var value, var ttl = null) -> bool
     {
@@ -187,9 +179,7 @@ class Cache implements CacheInterface
      *
      * @return bool True on success and false on failure.
      *
-     * @throws Phalcon\Cache\Exception\InvalidArgumentException
-     *   MUST be thrown if $values is neither an array nor a Traversable,
-     *   or if any of the $values are not a legal value.
+     * @throws Phalcon\Cache\Exception\InvalidArgumentException MUST be thrown if $values is neither an array nor a Traversable, or if any of the $values are not a legal value.
      */
     public function setMultiple(var values, var ttl = null) -> bool
     {

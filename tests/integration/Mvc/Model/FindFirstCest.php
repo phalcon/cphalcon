@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -37,7 +37,7 @@ class FindFirstCest
     /**
      * Tests Phalcon\Mvc\Model :: findFirst()
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function mvcModelFindFirst(IntegrationTester $I)
@@ -71,7 +71,7 @@ class FindFirstCest
     /**
      * Tests Phalcon\Mvc\Model :: findFirst() - not found
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function mvcModelFindFirstNotFound(IntegrationTester $I)
@@ -90,7 +90,7 @@ class FindFirstCest
     /**
      * Tests Phalcon\Mvc\Model :: findFirstBy() - not found
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function mvcModelFindFirstByNotFound(IntegrationTester $I)
@@ -105,7 +105,7 @@ class FindFirstCest
     /**
      * Tests Phalcon\Mvc\Model :: findFirst() - extended
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function mvcModelFindFirstExtended(IntegrationTester $I)
@@ -128,7 +128,7 @@ class FindFirstCest
     /**
      * Tests Phalcon\Mvc\Model :: findFirst() - exception
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function mvcModelFindFirstException(IntegrationTester $I)

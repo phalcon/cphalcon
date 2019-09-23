@@ -2,7 +2,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -57,7 +57,7 @@ class Session extends AbstractFlash
     /**
      * Adds a message to the session flasher
      */
-    public function message(string type, string message) -> void
+    public function message(string type, string message) -> string | null
     {
         var messages;
 
@@ -70,6 +70,8 @@ class Session extends AbstractFlash
         let messages[type][] = message;
 
         this->setSessionMessages(messages);
+
+        return null;
     }
 
     /**
@@ -93,11 +95,9 @@ class Session extends AbstractFlash
      */
     protected function getSessionMessages(bool remove, type = null) -> array
     {
-        var container, session, messages, returnMessages;
+        var session, messages, returnMessages;
 
-        let container = <DiInterface> this->getDI();
-
-        let session = <SessionInterface> container->getShared("session"),
+        let session  = this->getSessionService(),
             messages = session->get("_flashMessages");
 
         /**
@@ -132,13 +132,40 @@ class Session extends AbstractFlash
      */
     protected function setSessionMessages(array! messages) -> array
     {
-        var container, session;
+        var session;
 
-        let container = <DiInterface> this->getDI(),
-            session = <SessionInterface> container->getShared("session");
+        let session  = this->getSessionService();
 
         session->set("_flashMessages", messages);
 
         return messages;
     }
+
+    /**
+     * Returns the Session Service
+     */
+    public function getSessionService() -> <SessionInterface>
+    {
+        var container;
+
+        if this->sessionService {
+            return this->sessionService;
+        }
+
+        let container = <DiInterface> this->container;
+        if unlikely typeof container != "object" {
+            throw new Exception(
+                Exception::containerServiceNotFound("the 'session' service")
+            );
+        }
+
+        if likely container->has("session") {
+            return <RequestInterface> container->getShared("session");
+        } else {
+            throw new Exception(
+                Exception::containerServiceNotFound("the 'session' service")
+            );
+        }
+    }
+
 }

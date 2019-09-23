@@ -2,7 +2,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -234,7 +234,7 @@ class Mysql extends Dialect
         if fetch references, definition["references"] {
             for reference in references {
                 let referenceSql = "CONSTRAINT `" . reference->getName() . "` FOREIGN KEY (" . this->getColumnList(reference->getColumns()) . ")"
-                    . " REFERENCES `" . reference->getReferencedTable() . "`(" . this->getColumnList(reference->getReferencedColumns()) . ")";
+                    . " REFERENCES " . this->prepareTable(reference->getReferencedTable(), reference->getReferencedSchema()) . " (" . this->getColumnList(reference->getReferencedColumns()) . ")";
 
                 let onDelete = reference->getOnDelete();
                 if !empty onDelete {

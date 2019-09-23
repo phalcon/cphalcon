@@ -30,7 +30,7 @@ use Phalcon\Session\Exception;
  *         'savePath' => '/tmp',
  *     ]
  * );
- * $session->setHandler($files);
+ * $session->setAdapter($files);
  * ```
  */
 class Stream extends Noop
@@ -40,7 +40,7 @@ class Stream extends Noop
      */
     private path = "";
 
-    public function __construct(array! options = []) -> void
+    public function __construct(array! options = [])
     {
         var path, options;
 
@@ -57,7 +57,7 @@ class Stream extends Noop
         }
 
         if unlikely !is_writable(path) {
-            throw new Exception("The save_path [" . path . "]is not writeable");
+            throw new Exception("The session save path [" . path . "] is not writable");
         }
 
         let this->path = Str::dirSeparator(path);
@@ -94,16 +94,13 @@ class Stream extends Noop
         return true;
     }
 
+    /**
+    * Ignore the savePath and use local defined path
+    *
+    * @return bool
+    */
     public function open(var savePath, var sessionName) -> bool
     {
-        var path;
-
-        if true !== ends_with(savePath, "/") {
-            let path = savePath . "/";
-        }
-
-        let this->path = path;
-
         return true;
     }
 

@@ -18,19 +18,6 @@ use stdClass;
  */
 class Arr
 {
-    final public static function arrayToObject(array! collection)
-    {
-        var returnObject, key, value;
-
-        let returnObject = new stdClass();
-
-        for key, value in collection {
-            let returnObject->{key} = value;
-        }
-
-        return returnObject;
-    }
-
     /**
      * Chunks an array into smaller arrays of a specified size.
      *
@@ -348,6 +335,14 @@ class Arr
             array_keys(collection),
             array_values(collection)
         ];
+    }
+
+    /**
+     * Returns the passed array as an object
+     */
+    final public static function toObject(array! collection)
+    {
+        return (object) collection;
     }
 
     /**

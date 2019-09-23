@@ -15,7 +15,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -191,7 +191,18 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getMethod);
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getPort);
 
 /**
- * Gets HTTP URI which request has been made
+ * Gets HTTP URI which request has been made to
+ *
+ *```php
+ * // Returns /some/path?with=queryParams
+ * $uri = $request->getURI();
+ *
+ * // Returns /some/path
+ * $uri = $request->getURI(true);
+ *```
+ *
+ * @param bool onlyPath If true, query part will be omitted
+ * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, getURI);
 

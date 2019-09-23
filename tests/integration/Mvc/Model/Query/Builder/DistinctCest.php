@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -39,12 +39,10 @@ class DistinctCest
     {
         $I->wantToTest('Mvc\Model\Query\Builder - distinct()');
 
-
-
         $builder = new Builder();
+        $builder->setDi($this->container);
 
-        $phql = $builder->setDi($this->container)
-                        ->distinct(true)
+        $phql = $builder->distinct(true)
                         ->columns(['Robots.name'])
                         ->from(Robots::class)
                         ->getPhql()
@@ -55,12 +53,10 @@ class DistinctCest
             $phql
         );
 
-
-
         $builder = new Builder();
+        $builder->setDi($this->container);
 
-        $phql = $builder->setDi($this->container)
-                        ->distinct(false)
+        $phql = $builder->distinct(false)
                         ->columns(['Robots.name'])
                         ->from(Robots::class)
                         ->getPhql()
@@ -71,12 +67,10 @@ class DistinctCest
             $phql
         );
 
-
-
         $builder = new Builder();
+        $builder->setDi($this->container);
 
-        $phql = $builder->setDi($this->container)
-                        ->distinct(true)
+        $phql = $builder->distinct(true)
                         ->distinct(null)
                         ->columns(['Robots.name'])
                         ->from(Robots::class)
@@ -88,12 +82,10 @@ class DistinctCest
             $phql
         );
 
-
-
         $builder = new Builder();
+        $builder->setDi($this->container);
 
-        $phql = $builder->setDi($this->container)
-                        ->distinct(true)
+        $phql = $builder->distinct(true)
                         ->from(Robots::class)
                         ->getPhql()
         ;

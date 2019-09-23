@@ -15,7 +15,7 @@ use Phalcon\Db\Column;
 use Phalcon\Db\DialectInterface;
 use Phalcon\Db\Enum;
 use Phalcon\Db\RawValue;
-use Phalcon\Di\InjectionAwareInterface;
+use Phalcon\Di\AbstractInjectionAware;
 use Phalcon\Di;
 use Phalcon\Di\DiInterface;
 use Phalcon\Events\ManagerInterface as EventsManagerInterface;
@@ -81,7 +81,7 @@ use Serializable;
  * }
  * ```
  */
-abstract class Model implements EntityInterface, ModelInterface, ResultInterface, InjectionAwareInterface, Serializable, JsonSerializable
+abstract class Model extends AbstractInjectionAware implements EntityInterface, ModelInterface, ResultInterface, Serializable, JsonSerializable
 {
     const DIRTY_STATE_DETACHED   = 2;
     const DIRTY_STATE_PERSISTENT = 0;
@@ -91,8 +91,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     const OP_NONE   = 0;
     const OP_UPDATE = 2;
     const TRANSACTION_INDEX = "transaction";
-
-    protected container;
 
     protected dirtyState = 1;
 
@@ -125,7 +123,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     /**
      * Phalcon\Mvc\Model constructor
      */
-    final public function __construct(var data = null, <DiInterface> container = null, <ManagerInterface> modelsManager = null) -> void
+    final public function __construct(var data = null, <DiInterface> container = null, <ManagerInterface> modelsManager = null)
     {
         /**
          * We use a default DI if the user doesn't define one
@@ -524,7 +522,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * // Allow assign only name and year
      * $robot->assign(
      *     $_POST,
-     *     null,
      *     [
      *         "name",
      *         "year",
@@ -537,7 +534,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      *
      * $robot->assign(
      *     $_POST,
-     *     null,
      *     [
      *         "name",
      *         "year",
@@ -548,7 +544,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
      * @param array dataColumnMap array to transform keys of data to another
      * @param array whiteList
      */
-    public function assign(array! data, var dataColumnMap = null, var whiteList = null) -> <ModelInterface>
+    public function assign(array! data, var whiteList = null, var dataColumnMap = null) -> <ModelInterface>
     {
         var key, keyMapped, value, attribute, attributeField, metaData,
             columnMap, disableAssignSetters;
@@ -797,7 +793,8 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
             }
 
             let attributeName = attribute[0],
-                instance->{attributeName} = castValue;
+                instance->{attributeName} = castValue,
+                data[key] = castValue;
         }
 
         /**
@@ -885,7 +882,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         }
 
         if hydrationMode != Resultset::HYDRATE_ARRAYS {
-            return Arr::arrayToObject(hydrateArray);
+            return Arr::toObject(hydrateArray);
         }
 
         return hydrateArray;
@@ -958,10 +955,10 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         let metaData = this->getModelsMetaData();
 
         /**
-         * Get the current connection
+         * Get the current connection use write to prevent replica lag
          * If the record already exists we must throw an exception
          */
-        if this->_exists(metaData, this->getReadConnection()) {
+        if this->_exists(metaData, this->getWriteConnection()) {
             let this->errorMessages = [
                 new Message(
                     "Record cannot be created because it already exists",
@@ -1592,14 +1589,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     }
 
     /**
-     * Returns the dependency injection container
-     */
-    public function getDI() -> <DiInterface>
-    {
-        return this->container;
-    }
-
-    /**
      * Returns the custom events manager
      */
     public function getEventsManager() -> <EventsManagerInterface>
@@ -2227,7 +2216,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
         if typeof row == "array" {
             let columnMap = metaData->getColumnMap(this);
 
-            this->assign(row, columnMap);
+            this->assign(row, null, columnMap);
 
             if manager->isKeepingSnapshots(this) {
                 this->setSnapshotData(row, columnMap);
@@ -2524,14 +2513,12 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     /**
      * Sets the DependencyInjection connection service name
      */
-    final public function setConnectionService(string! connectionService) -> <ModelInterface>
+    final public function setConnectionService(string! connectionService) -> void
     {
         (<ManagerInterface> this->modelsManager)->setConnectionService(
             this,
             connectionService
         );
-
-        return this;
     }
 
     /**
@@ -2545,14 +2532,6 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     }
 
     /**
-     * Sets the dependency injection container
-     */
-    public function setDI(<DiInterface> container) -> void
-    {
-        let this->container = container;
-    }
-
-    /**
      * Sets a custom events manager
      */
     public function setEventsManager(<EventsManagerInterface> eventsManager)
@@ -2563,14 +2542,12 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     /**
      * Sets the DependencyInjection connection service name used to read data
      */
-    final public function setReadConnectionService(string! connectionService) -> <ModelInterface>
+    final public function setReadConnectionService(string! connectionService) -> void
     {
         (<ManagerInterface> this->modelsManager)->setReadConnectionService(
             this,
             connectionService
         );
-
-        return this;
     }
 
     /**
@@ -2855,9 +2832,9 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
     /**
      * Sets the DependencyInjection connection service name used to write data
      */
-    final public function setWriteConnectionService(string! connectionService) -> <ModelInterface>
+    final public function setWriteConnectionService(string! connectionService) -> void
     {
-        return (<ManagerInterface> this->modelsManager)->setWriteConnectionService(
+        (<ManagerInterface> this->modelsManager)->setWriteConnectionService(
             this,
             connectionService
         );

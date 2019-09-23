@@ -21,7 +21,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -102,13 +102,13 @@ PHP_METHOD(Phalcon_Http_Message_Request, __construct) {
 	if (UNEXPECTED(ZEPHIR_IS_IDENTICAL(&_0, body))) {
 		ZEPHIR_INIT_NVAR(body);
 		object_init_ex(body, phalcon_http_message_stream_input_ce);
-		ZEPHIR_CALL_METHOD(NULL, body, "__construct", NULL, 287);
+		ZEPHIR_CALL_METHOD(NULL, body, "__construct", NULL, 276);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "processuri", NULL, 288, uri);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "processuri", NULL, 277, uri);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("uri"), &_1);
-	ZEPHIR_CALL_METHOD(&_2, this_ptr, "processheaders", NULL, 289, headers);
+	ZEPHIR_CALL_METHOD(&_2, this_ptr, "processheaders", NULL, 278, headers);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("headers"), &_2);
 	ZEPHIR_CALL_METHOD(&_3, this_ptr, "processmethod", NULL, 97, &method);

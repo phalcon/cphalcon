@@ -2,7 +2,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -175,7 +175,7 @@ class Memory extends AbstractAdapter
     /**
      * Phalcon\Acl\Adapter\Memory constructor
      */
-    public function __construct() -> void
+    public function __construct()
     {
         let this->componentsNames = ["*": true];
         let this->accessList = ["*!*": true];

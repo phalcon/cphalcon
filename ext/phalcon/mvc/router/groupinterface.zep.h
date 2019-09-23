@@ -155,6 +155,17 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_groupinterfac
 	ZEND_ARG_INFO(0, beforeMatch)
 ZEND_END_ARG_INFO()
 
+#if PHP_VERSION_ID >= 70100
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_groupinterface_clear, 0, 0, IS_VOID, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_groupinterface_clear, 0, 0, IS_VOID, NULL, 0)
+#endif
+ZEND_END_ARG_INFO()
+#else
+#define arginfo_phalcon_mvc_router_groupinterface_clear NULL
+#endif
+
 #if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_groupinterface_gethostname, 0, 0, IS_STRING, 0)
 #else
@@ -221,7 +232,7 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_router_groupinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Router_GroupInterface, addPut, arginfo_phalcon_mvc_router_groupinterface_addput)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Router_GroupInterface, addTrace, arginfo_phalcon_mvc_router_groupinterface_addtrace)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Router_GroupInterface, beforeMatch, arginfo_phalcon_mvc_router_groupinterface_beforematch)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Router_GroupInterface, clear, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Router_GroupInterface, clear, arginfo_phalcon_mvc_router_groupinterface_clear)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Router_GroupInterface, getBeforeMatch, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Router_GroupInterface, getHostname, arginfo_phalcon_mvc_router_groupinterface_gethostname)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Router_GroupInterface, getPaths, NULL)

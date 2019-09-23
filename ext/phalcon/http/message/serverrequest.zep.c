@@ -22,7 +22,7 @@
 /**
 * This file is part of the Phalcon Framework.
 *
-* (c) Phalcon Team <team@phalconphp.com>
+* (c) Phalcon Team <team@phalcon.io>
 *
 * For the full copyright and license information, please view the LICENSE.txt
 * file that was distributed with this source code.
@@ -325,10 +325,10 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, __construct) {
 	if (UNEXPECTED(ZEPHIR_IS_IDENTICAL(&_0, body))) {
 		ZEPHIR_INIT_NVAR(body);
 		object_init_ex(body, phalcon_http_message_stream_input_ce);
-		ZEPHIR_CALL_METHOD(NULL, body, "__construct", NULL, 287);
+		ZEPHIR_CALL_METHOD(NULL, body, "__construct", NULL, 276);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkuploadedfiles", NULL, 298, &uploadFiles);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkuploadedfiles", NULL, 287, &uploadFiles);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "processprotocol", NULL, 33, &protocol);
 	zephir_check_call_status();
@@ -336,10 +336,10 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, __construct) {
 	ZEPHIR_CALL_METHOD(&_2, this_ptr, "processmethod", NULL, 97, &method);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("method"), &_2);
-	ZEPHIR_CALL_METHOD(&_3, this_ptr, "processheaders", NULL, 289, headers);
+	ZEPHIR_CALL_METHOD(&_3, this_ptr, "processheaders", NULL, 278, headers);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("headers"), &_3);
-	ZEPHIR_CALL_METHOD(&_4, this_ptr, "processuri", NULL, 288, uri);
+	ZEPHIR_CALL_METHOD(&_4, this_ptr, "processuri", NULL, 277, uri);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("uri"), &_4);
 	ZEPHIR_INIT_VAR(&_6);
@@ -551,8 +551,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, withCookieParams) {
  * @param array|object|null $data
  *
  * @return ServerRequest
- * @throws InvalidArgumentException if an unsupported argument type is
- *     provided.
+ * @throws InvalidArgumentException if an unsupported argument type is provided.
  *
  */
 PHP_METHOD(Phalcon_Http_Message_ServerRequest, withParsedBody) {
@@ -655,7 +654,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, withUploadedFiles) {
 	zephir_get_arrval(&uploadedFiles, uploadedFiles_param);
 
 
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkuploadedfiles", NULL, 298, &uploadedFiles);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkuploadedfiles", NULL, 287, &uploadedFiles);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "uploadedFiles");
@@ -738,14 +737,14 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, checkUploadedFiles) {
 	zephir_get_arrval(&files, files_param);
 
 
-	zephir_is_iterable(&files, 0, "phalcon/Http/Message/ServerRequest.zep", 355);
+	zephir_is_iterable(&files, 0, "phalcon/Http/Message/ServerRequest.zep", 354);
 	if (Z_TYPE_P(&files) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&files), _0)
 		{
 			ZEPHIR_INIT_NVAR(&file);
 			ZVAL_COPY(&file, _0);
 			if (UNEXPECTED(Z_TYPE_P(&file) == IS_ARRAY)) {
-				ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkuploadedfiles", &_2, 298, &file);
+				ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkuploadedfiles", &_2, 287, &file);
 				zephir_check_call_status();
 			} else {
 				_3$$5 = Z_TYPE_P(&file) == IS_OBJECT;
@@ -753,7 +752,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, checkUploadedFiles) {
 					_3$$5 = zephir_is_instance_of(&file, SL("Psr\\Http\\Message\\UploadedFileInterface") TSRMLS_CC);
 				}
 				if (UNEXPECTED(!(_3$$5))) {
-					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_message_exception_invalidargumentexception_ce, "Invalid uploaded file", "phalcon/Http/Message/ServerRequest.zep", 351);
+					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_message_exception_invalidargumentexception_ce, "Invalid uploaded file", "phalcon/Http/Message/ServerRequest.zep", 350);
 					return;
 				}
 			}
@@ -770,7 +769,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, checkUploadedFiles) {
 			ZEPHIR_CALL_METHOD(&file, &files, "current", NULL, 0);
 			zephir_check_call_status();
 				if (UNEXPECTED(Z_TYPE_P(&file) == IS_ARRAY)) {
-					ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkuploadedfiles", &_2, 298, &file);
+					ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkuploadedfiles", &_2, 287, &file);
 					zephir_check_call_status();
 				} else {
 					_4$$9 = Z_TYPE_P(&file) == IS_OBJECT;
@@ -778,7 +777,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, checkUploadedFiles) {
 						_4$$9 = zephir_is_instance_of(&file, SL("Psr\\Http\\Message\\UploadedFileInterface") TSRMLS_CC);
 					}
 					if (UNEXPECTED(!(_4$$9))) {
-						ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_message_exception_invalidargumentexception_ce, "Invalid uploaded file", "phalcon/Http/Message/ServerRequest.zep", 351);
+						ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_message_exception_invalidargumentexception_ce, "Invalid uploaded file", "phalcon/Http/Message/ServerRequest.zep", 350);
 						return;
 					}
 				}

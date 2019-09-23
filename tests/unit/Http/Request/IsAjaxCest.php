@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -20,7 +20,7 @@ class IsAjaxCest extends HttpBase
     /**
      * Tests isAjax default
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-04
      */
     public function testHttpRequestIsAjaxDefault(UnitTester $I)
@@ -35,7 +35,7 @@ class IsAjaxCest extends HttpBase
     /**
      * Tests isAjax
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-04
      */
     public function testHttpRequestIsAjax(UnitTester $I)

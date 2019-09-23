@@ -20,7 +20,7 @@ You can either download a binary package for the system of your choice or build 
 
 ## Installation
 
-For detailed installation instructions you can check our [installation](https://docs.phalconphp.com/4.0/en/installation) page in the docs.
+For detailed installation instructions you can check our [installation](https://docs.phalcon.io/4.0/en/installation) page in the docs.
 
 ## Generating API Documentation
 
@@ -36,7 +36,7 @@ Steps:
 
 ### General
 * [Contributing to Phalcon](CONTRIBUTING.md) 
-* [Official Documentation](https://docs.phalconphp.com/)
+* [Official Documentation](https://docs.phalcon.io/)
 * [Zephir](https://zephir-lang.com/) - The language Phalcon is written on
 * [Incubator](https://phalcon.link/incubator) - Community driven plugins and classes extending the framework (written in PHP)
 
@@ -73,5 +73,7 @@ Support us with a monthly donation and help us continue our activities. [[Become
 ## License
 
 Phalcon is open source software licensed under the BSD 3-Clause License.
-Copyright © 2011-present, Phalcon Team.<br>
-See the [LICENSE.txt](https://github.com/phalcon/cphalcon/blob/master/LICENSE.txt) file for more.
+
+Copyright © 2011-present, Phalcon Team.
+
+See the [LICENSE.txt](https://github.com/phalcon/cphalcon/blob/master/LICENSE.txt) file for more. Additional licenses of packages that Phalcon uses, is inspired by or has adapted is located in the [3rdparty/licenses][https://github.com/phalcon/cphalcon/blob/master/3rdparty/licenses] directory.

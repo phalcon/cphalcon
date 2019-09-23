@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -14,6 +14,7 @@ namespace Phalcon\Test\Integration\Paginator\Adapter\QueryBuilder;
 
 use IntegrationTester;
 use Phalcon\Paginator\Adapter\QueryBuilder;
+use Phalcon\Paginator\Exception;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Personnes;
 
@@ -68,5 +69,17 @@ class GetSetLimitCest
         );
 
         $I->assertEquals($paginator, $setterResult);
+
+        $I->expectThrowable(new Exception('Limit must be greater then zero'), function () use ($builder) {
+            $paginator = new QueryBuilder(
+                [
+                    'builder' => $builder,
+                    'limit'   => 0,
+                    'page'    => 1,
+                ]
+            );
+
+            $paginator->paginate();
+        });
     }
 }

@@ -2,7 +2,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -82,7 +82,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     /**
      * Phalcon\Mvc\Model\Query\Builder constructor
      */
-    public function __construct(var params = null, <DiInterface> container = null) -> void
+    public function __construct(var params = null, <DiInterface> container = null)
     {
         var conditions, columns, groupClause, havingClause, limitClause,
             forUpdate, sharedLock, orderClause, offsetClause, joinsClause,
@@ -279,7 +279,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
             }
         }
 
-        if typeof alias == "string" {
+        if typeof alias == "string" && alias !== null {
             let models[alias] = model;
         } else {
             let models[] = model;
@@ -1426,11 +1426,9 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     /**
      * Sets the DependencyInjector container
      */
-    public function setDI(<DiInterface> container) -> <BuilderInterface>
+    public function setDI(<DiInterface> container) -> void
     {
         let this->container = container;
-
-        return this;
     }
 
     /**

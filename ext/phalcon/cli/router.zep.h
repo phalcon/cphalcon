@@ -6,7 +6,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Cli_Router);
 PHP_METHOD(Phalcon_Cli_Router, __construct);
 PHP_METHOD(Phalcon_Cli_Router, add);
 PHP_METHOD(Phalcon_Cli_Router, getActionName);
-PHP_METHOD(Phalcon_Cli_Router, getDI);
 PHP_METHOD(Phalcon_Cli_Router, getMatchedRoute);
 PHP_METHOD(Phalcon_Cli_Router, getMatches);
 PHP_METHOD(Phalcon_Cli_Router, getModuleName);
@@ -20,7 +19,6 @@ PHP_METHOD(Phalcon_Cli_Router, setDefaultAction);
 PHP_METHOD(Phalcon_Cli_Router, setDefaultModule);
 PHP_METHOD(Phalcon_Cli_Router, setDefaults);
 PHP_METHOD(Phalcon_Cli_Router, setDefaultTask);
-PHP_METHOD(Phalcon_Cli_Router, setDI);
 PHP_METHOD(Phalcon_Cli_Router, wasMatched);
 zend_object *zephir_init_properties_Phalcon_Cli_Router(zend_class_entry *class_type TSRMLS_DC);
 
@@ -49,13 +47,6 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_getactionname, 0, 0, IS_STRING, 0)
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_getactionname, 0, 0, IS_STRING, NULL, 0)
-#endif
-ZEND_END_ARG_INFO()
-
-#if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_cli_router_getdi, 0, 0, Phalcon\\Di\\DiInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_getdi, 0, 0, IS_OBJECT, "Phalcon\\Di\\DiInterface", 0)
 #endif
 ZEND_END_ARG_INFO()
 
@@ -141,16 +132,22 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_setdefaults, 
 	ZEND_ARG_ARRAY_INFO(0, defaults, 0)
 ZEND_END_ARG_INFO()
 
+#if PHP_VERSION_ID >= 70100
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_setdefaulttask, 0, 1, IS_VOID, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_setdefaulttask, 0, 1, IS_VOID, NULL, 0)
+#endif
+#else
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_router_setdefaulttask, 0, 0, 1)
+#define arginfo_phalcon_cli_router_setdefaulttask NULL
+#endif
+
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, taskName, IS_STRING, 0)
 #else
 	ZEND_ARG_INFO(0, taskName)
 #endif
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_router_setdi, 0, 0, 1)
-	ZEND_ARG_OBJ_INFO(0, container, Phalcon\\Di\\DiInterface, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
@@ -164,7 +161,6 @@ ZEPHIR_INIT_FUNCS(phalcon_cli_router_method_entry) {
 	PHP_ME(Phalcon_Cli_Router, __construct, arginfo_phalcon_cli_router___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Cli_Router, add, arginfo_phalcon_cli_router_add, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Cli_Router, getActionName, arginfo_phalcon_cli_router_getactionname, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Cli_Router, getDI, arginfo_phalcon_cli_router_getdi, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Cli_Router, getMatchedRoute, arginfo_phalcon_cli_router_getmatchedroute, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Cli_Router, getMatches, arginfo_phalcon_cli_router_getmatches, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Cli_Router, getModuleName, arginfo_phalcon_cli_router_getmodulename, ZEND_ACC_PUBLIC)
@@ -178,7 +174,6 @@ ZEPHIR_INIT_FUNCS(phalcon_cli_router_method_entry) {
 	PHP_ME(Phalcon_Cli_Router, setDefaultModule, arginfo_phalcon_cli_router_setdefaultmodule, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Cli_Router, setDefaults, arginfo_phalcon_cli_router_setdefaults, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Cli_Router, setDefaultTask, arginfo_phalcon_cli_router_setdefaulttask, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Cli_Router, setDI, arginfo_phalcon_cli_router_setdi, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Cli_Router, wasMatched, arginfo_phalcon_cli_router_wasmatched, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };

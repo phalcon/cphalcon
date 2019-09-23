@@ -2,7 +2,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -28,7 +28,7 @@ class Select extends AbstractElement
      * @param object|array options
      * @param array        attributes
      */
-    public function __construct(string name, options = null, attributes = null) -> void
+    public function __construct(string name, options = null, attributes = null)
     {
         let this->optionsValues = options;
 

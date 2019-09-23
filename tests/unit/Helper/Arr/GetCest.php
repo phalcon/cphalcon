@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -20,7 +20,7 @@ class GetCest
     /**
      * Tests Phalcon\Helper\Arr :: get() - numeric
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2019-02-17
      */
     public function helperArrGetNumeric(UnitTester $I)
@@ -41,7 +41,7 @@ class GetCest
     /**
      * Tests Phalcon\Helper\Arr :: get() - string
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2019-02-17
      */
     public function helperArrGetString(UnitTester $I)
@@ -62,7 +62,7 @@ class GetCest
     /**
      * Tests Phalcon\Helper\Arr :: get() - default
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2019-02-17
      */
     public function helperArrGetDefault(UnitTester $I)

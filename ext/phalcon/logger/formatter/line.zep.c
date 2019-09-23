@@ -23,7 +23,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -202,7 +202,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, format) {
 		zephir_read_property(&_2$$3, this_ptr, SL("dateFormat"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(&_3$$3, item, "gettime", NULL, 0);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(&_4$$3, "date", NULL, 416, &_2$$3, &_3$$3);
+		ZEPHIR_CALL_FUNCTION(&_4$$3, "date", NULL, 409, &_2$$3, &_3$$3);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_5$$3);
 		ZVAL_STRING(&_5$$3, "%date%");

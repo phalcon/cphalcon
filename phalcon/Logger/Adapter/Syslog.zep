@@ -2,7 +2,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -11,7 +11,7 @@
 namespace Phalcon\Logger\Adapter;
 
 use LogicException;
-use Phalcon\Logger\Logger;
+use Phalcon\Logger;
 use Phalcon\Logger\Adapter;
 use Phalcon\Logger\Exception;
 use Phalcon\Logger\Formatter\FormatterInterface;

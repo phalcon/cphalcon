@@ -22,7 +22,6 @@
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/file.h"
 #include "kernel/time.h"
-#include "kernel/string.h"
 
 
 /**
@@ -50,7 +49,7 @@
  *         'savePath' => '/tmp',
  *     ]
  * );
- * $session->setHandler($files);
+ * $session->setAdapter($files);
  * ```
  */
 ZEPHIR_INIT_CLASS(Phalcon_Session_Adapter_Stream) {
@@ -102,16 +101,16 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, __construct) {
 	if (!(zephir_array_isset_string_fetch(&path, &options, SL("savePath"), 0))) {
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "session.save_path");
-		ZEPHIR_CALL_FUNCTION(&path, "ini_get", NULL, 0, &_2$$3);
+		ZEPHIR_CALL_FUNCTION(&path, "ini_get", NULL, 509, &_2$$3);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_FUNCTION(&_3, "is_writable", NULL, 330, &path);
+	ZEPHIR_CALL_FUNCTION(&_3, "is_writable", NULL, 319, &path);
 	zephir_check_call_status();
 	if (UNEXPECTED(!zephir_is_true(&_3))) {
 		ZEPHIR_INIT_VAR(&_4$$4);
 		object_init_ex(&_4$$4, phalcon_session_exception_ce);
 		ZEPHIR_INIT_VAR(&_5$$4);
-		ZEPHIR_CONCAT_SVS(&_5$$4, "The save_path [", &path, "]is not writeable");
+		ZEPHIR_CONCAT_SVS(&_5$$4, "The session save path [", &path, "] is not writable");
 		ZEPHIR_CALL_METHOD(NULL, &_4$$4, "__construct", NULL, 5, &_5$$4);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_4$$4, "phalcon/Session/Adapter/Stream.zep", 60 TSRMLS_CC);
@@ -151,7 +150,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, destroy) {
 	ZEPHIR_CONCAT_VV(&file, &_0, &_1);
 	_2 = (zephir_file_exists(&file TSRMLS_CC) == SUCCESS);
 	if (_2) {
-		ZEPHIR_CALL_FUNCTION(&_3, "is_file", NULL, 0, &file);
+		ZEPHIR_CALL_FUNCTION(&_3, "is_file", NULL, 510, &file);
 		zephir_check_call_status();
 		_2 = zephir_is_true(&_3);
 	}
@@ -199,7 +198,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, gc) {
 	zephir_time(&_2);
 	ZEPHIR_INIT_VAR(&time);
 	zephir_sub_function(&time, &_2, maxlifetime);
-	ZEPHIR_CALL_FUNCTION(&_3, "glob", NULL, 0, &pattern);
+	ZEPHIR_CALL_FUNCTION(&_3, "glob", NULL, 511, &pattern);
 	zephir_check_call_status();
 	zephir_is_iterable(&_3, 0, "phalcon/Session/Adapter/Stream.zep", 94);
 	if (Z_TYPE_P(&_3) == IS_ARRAY) {
@@ -209,7 +208,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, gc) {
 			ZVAL_COPY(&file, _4);
 			_6$$3 = (zephir_file_exists(&file TSRMLS_CC) == SUCCESS);
 			if (_6$$3) {
-				ZEPHIR_CALL_FUNCTION(&_7$$3, "is_file", &_8, 0, &file);
+				ZEPHIR_CALL_FUNCTION(&_7$$3, "is_file", &_8, 510, &file);
 				zephir_check_call_status();
 				_6$$3 = zephir_is_true(&_7$$3);
 			}
@@ -237,7 +236,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, gc) {
 			zephir_check_call_status();
 				_12$$5 = (zephir_file_exists(&file TSRMLS_CC) == SUCCESS);
 				if (_12$$5) {
-					ZEPHIR_CALL_FUNCTION(&_13$$5, "is_file", &_8, 0, &file);
+					ZEPHIR_CALL_FUNCTION(&_13$$5, "is_file", &_8, 510, &file);
 					zephir_check_call_status();
 					_12$$5 = zephir_is_true(&_13$$5);
 				}
@@ -260,27 +259,24 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, gc) {
 
 }
 
+/**
+ * Ignore the savePath and use local defined path
+ *
+ * @return bool
+ */
 PHP_METHOD(Phalcon_Session_Adapter_Stream, open) {
 
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval *savePath, savePath_sub, *sessionName, sessionName_sub, path;
+	zval *savePath, savePath_sub, *sessionName, sessionName_sub;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&savePath_sub);
 	ZVAL_UNDEF(&sessionName_sub);
-	ZVAL_UNDEF(&path);
 
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 0, &savePath, &sessionName);
+	zephir_fetch_params_without_memory_grow(2, 0, &savePath, &sessionName);
 
 
 
-	if (1 != zephir_end_with_str(savePath, SL("/"))) {
-		ZEPHIR_INIT_VAR(&path);
-		ZEPHIR_CONCAT_VS(&path, savePath, "/");
-	}
-	zephir_update_property_zval(this_ptr, SL("path"), &path);
-	RETURN_MM_BOOL(1);
+	RETURN_BOOL(1);
 
 }
 

@@ -47,7 +47,17 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_acl_adapter_adapterinter
 	ZEND_ARG_INFO(0, accessList)
 ZEND_END_ARG_INFO()
 
+#if PHP_VERSION_ID >= 70100
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_acl_adapter_adapterinterface_allow, 0, 3, IS_VOID, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_acl_adapter_adapterinterface_allow, 0, 3, IS_VOID, NULL, 0)
+#endif
+#else
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_acl_adapter_adapterinterface_allow, 0, 0, 3)
+#define arginfo_phalcon_acl_adapter_adapterinterface_allow NULL
+#endif
+
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, roleName, IS_STRING, 0)
 #else
@@ -62,7 +72,17 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_acl_adapter_adapterinterface_allow, 0, 0,
 	ZEND_ARG_INFO(0, func)
 ZEND_END_ARG_INFO()
 
+#if PHP_VERSION_ID >= 70100
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_acl_adapter_adapterinterface_deny, 0, 3, IS_VOID, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_acl_adapter_adapterinterface_deny, 0, 3, IS_VOID, NULL, 0)
+#endif
+#else
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_acl_adapter_adapterinterface_deny, 0, 0, 3)
+#define arginfo_phalcon_acl_adapter_adapterinterface_deny NULL
+#endif
+
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, roleName, IS_STRING, 0)
 #else
@@ -77,7 +97,17 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_acl_adapter_adapterinterface_deny, 0, 0, 
 	ZEND_ARG_INFO(0, func)
 ZEND_END_ARG_INFO()
 
+#if PHP_VERSION_ID >= 70100
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_acl_adapter_adapterinterface_dropcomponentaccess, 0, 2, IS_VOID, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_acl_adapter_adapterinterface_dropcomponentaccess, 0, 2, IS_VOID, NULL, 0)
+#endif
+#else
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_acl_adapter_adapterinterface_dropcomponentaccess, 0, 0, 2)
+#define arginfo_phalcon_acl_adapter_adapterinterface_dropcomponentaccess NULL
+#endif
+
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, componentName, IS_STRING, 0)
 #else
@@ -174,7 +204,17 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_acl_adapter_adapterinter
 #endif
 ZEND_END_ARG_INFO()
 
+#if PHP_VERSION_ID >= 70100
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_acl_adapter_adapterinterface_setdefaultaction, 0, 1, IS_VOID, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_acl_adapter_adapterinterface_setdefaultaction, 0, 1, IS_VOID, NULL, 0)
+#endif
+#else
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_acl_adapter_adapterinterface_setdefaultaction, 0, 0, 1)
+#define arginfo_phalcon_acl_adapter_adapterinterface_setdefaultaction NULL
+#endif
+
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, defaultAccess, IS_LONG, 0)
 #else
@@ -182,7 +222,17 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_acl_adapter_adapterinterface_setdefaultac
 #endif
 ZEND_END_ARG_INFO()
 
+#if PHP_VERSION_ID >= 70100
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_acl_adapter_adapterinterface_setnoargumentsdefaultaction, 0, 1, IS_VOID, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_acl_adapter_adapterinterface_setnoargumentsdefaultaction, 0, 1, IS_VOID, NULL, 0)
+#endif
+#else
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_acl_adapter_adapterinterface_setnoargumentsdefaultaction, 0, 0, 1)
+#define arginfo_phalcon_acl_adapter_adapterinterface_setnoargumentsdefaultaction NULL
+#endif
+
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, defaultAccess, IS_LONG, 0)
 #else

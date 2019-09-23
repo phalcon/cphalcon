@@ -24,7 +24,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -159,7 +159,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, close) {
 	if (!(zephir_is_true(&_0))) {
 		RETURN_MM_BOOL(1);
 	}
-	ZEPHIR_RETURN_CALL_FUNCTION("closelog", NULL, 411);
+	ZEPHIR_RETURN_CALL_FUNCTION("closelog", NULL, 404);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -212,7 +212,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, process) {
 	ZEPHIR_CPY_WRT(&facility, &_0);
 	zephir_read_property(&_0, this_ptr, SL("option"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&option, &_0);
-	ZEPHIR_CALL_FUNCTION(&result, "openlog", NULL, 412, &name, &option, &facility);
+	ZEPHIR_CALL_FUNCTION(&result, "openlog", NULL, 405, &name, &option, &facility);
 	zephir_check_call_status();
 	if (!zephir_is_true(&result)) {
 		ZEPHIR_INIT_VAR(&_1$$4);
@@ -221,7 +221,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, process) {
 		ZVAL_STRING(&_2$$4, "Cannot open syslog for name [%s] and facility [%s]");
 		ZEPHIR_CALL_FUNCTION(&_3$$4, "sprintf", NULL, 182, &_2$$4, &name, &facility);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 413, &_3$$4);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 406, &_3$$4);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$4, "phalcon/Logger/Adapter/Syslog.zep", 132 TSRMLS_CC);
 		ZEPHIR_MM_RESTORE();
@@ -234,10 +234,10 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, process) {
 		zephir_update_property_zval(this_ptr, SL("opened"), &__$false);
 	}
 	zephir_array_fetch_long(&_4, &message, 1, PH_NOISY | PH_READONLY, "phalcon/Logger/Adapter/Syslog.zep", 137 TSRMLS_CC);
-	ZEPHIR_CALL_METHOD(&level, this_ptr, "logleveltosyslog", NULL, 414, &_4);
+	ZEPHIR_CALL_METHOD(&level, this_ptr, "logleveltosyslog", NULL, 407, &_4);
 	zephir_check_call_status();
 	zephir_array_fetch_long(&_5, &message, 1, PH_NOISY | PH_READONLY, "phalcon/Logger/Adapter/Syslog.zep", 139 TSRMLS_CC);
-	ZEPHIR_CALL_FUNCTION(NULL, "syslog", NULL, 415, &level, &_5);
+	ZEPHIR_CALL_FUNCTION(NULL, "syslog", NULL, 408, &level, &_5);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 

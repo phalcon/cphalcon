@@ -2,7 +2,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -37,7 +37,7 @@ class Line extends AbstractFormatter
     /**
      * Phalcon\Logger\Formatter\Line construct
      */
-    public function __construct(string format = "[%date%][%type%] %message%", string dateFormat = "D, d M y H:i:s O") -> void
+    public function __construct(string format = "[%date%][%type%] %message%", string dateFormat = "D, d M y H:i:s O")
     {
         let this->format = format;
         let this->dateFormat = dateFormat;

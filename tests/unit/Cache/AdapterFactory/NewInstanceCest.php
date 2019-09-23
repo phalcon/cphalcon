@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -22,6 +22,7 @@ use Phalcon\Cache\AdapterFactory;
 use Phalcon\Factory\Exception;
 use Phalcon\Storage\SerializerFactory;
 use UnitTester;
+use Phalcon\Storage\Serializer\Json;
 use function getOptionsLibmemcached;
 use function getOptionsRedis;
 use function outputDir;
@@ -36,7 +37,7 @@ class NewInstanceCest
      * @throws Exception
      * @since        2019-05-04
      *
-     * @author       Phalcon Team <team@phalconphp.com>
+     * @author       Phalcon Team <team@phalcon.io>
      */
     public function cacheAdapterFactoryNewInstance(UnitTester $I, Example $example)
     {
@@ -51,6 +52,15 @@ class NewInstanceCest
             $example[1],
             $service
         );
+
+        // Given `serializer` parameter
+        $adapter = new AdapterFactory();
+        $service = $adapter->newInstance($example[0], $example[3]);
+
+        $I->assertInstanceOf(
+            $example[1],
+            $service
+        );
     }
 
     /**
@@ -59,7 +69,7 @@ class NewInstanceCest
      * @throws Exception
      * @since  2019-05-04
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      */
     public function storageSerializerFactoryNewInstanceException(UnitTester $I)
     {
@@ -78,32 +88,44 @@ class NewInstanceCest
 
     private function getExamples(): array
     {
+        $jsonSerializer = new Json();
+        $optionsWithSerializer = [
+            'serializer' => $jsonSerializer
+        ];
         return [
             [
                 'apcu',
                 Apcu::class,
                 [],
+                $optionsWithSerializer,
             ],
             [
                 'libmemcached',
                 Libmemcached::class,
                 getOptionsLibmemcached(),
+                array_merge(getOptionsLibmemcached(), $optionsWithSerializer),
             ],
             [
                 'memory',
                 Memory::class,
                 [],
+                $optionsWithSerializer
             ],
             [
                 'redis',
                 Redis::class,
                 getOptionsRedis(),
+                array_merge(getOptionsRedis(), $optionsWithSerializer)
             ],
             [
                 'stream',
                 Stream::class,
                 [
                     'cacheDir' => outputDir(),
+                ],
+                [
+                    'cacheDir' => outputDir(),
+                    'serializer' => $jsonSerializer,
                 ],
             ],
         ];

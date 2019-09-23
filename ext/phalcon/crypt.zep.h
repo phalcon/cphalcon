@@ -266,7 +266,17 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_crypt_usesigning, 0, 1, 
 #endif
 ZEND_END_ARG_INFO()
 
+#if PHP_VERSION_ID >= 70100
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_crypt_assertcipherisavailable, 0, 1, IS_VOID, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_crypt_assertcipherisavailable, 0, 1, IS_VOID, NULL, 0)
+#endif
+#else
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_crypt_assertcipherisavailable, 0, 0, 1)
+#define arginfo_phalcon_crypt_assertcipherisavailable NULL
+#endif
+
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, cipher, IS_STRING, 0)
 #else
@@ -274,7 +284,17 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_crypt_assertcipherisavailable, 0, 0, 1)
 #endif
 ZEND_END_ARG_INFO()
 
+#if PHP_VERSION_ID >= 70100
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_crypt_asserthashalgorithmavailable, 0, 1, IS_VOID, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_crypt_asserthashalgorithmavailable, 0, 1, IS_VOID, NULL, 0)
+#endif
+#else
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_crypt_asserthashalgorithmavailable, 0, 0, 1)
+#define arginfo_phalcon_crypt_asserthashalgorithmavailable NULL
+#endif
+
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, hashAlgo, IS_STRING, 0)
 #else
@@ -293,6 +313,17 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_crypt_getivlength, 0, 1,
 	ZEND_ARG_INFO(0, cipher)
 #endif
 ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70100
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_crypt_initializeavailableciphers, 0, 0, IS_VOID, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_crypt_initializeavailableciphers, 0, 0, IS_VOID, NULL, 0)
+#endif
+ZEND_END_ARG_INFO()
+#else
+#define arginfo_phalcon_crypt_initializeavailableciphers NULL
+#endif
 
 #if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_crypt_cryptpadtext, 0, 4, IS_STRING, 0)
@@ -369,7 +400,7 @@ ZEPHIR_INIT_FUNCS(phalcon_crypt_method_entry) {
 	PHP_ME(Phalcon_Crypt, assertCipherIsAvailable, arginfo_phalcon_crypt_assertcipherisavailable, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Crypt, assertHashAlgorithmAvailable, arginfo_phalcon_crypt_asserthashalgorithmavailable, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Crypt, getIvLength, arginfo_phalcon_crypt_getivlength, ZEND_ACC_PROTECTED)
-	PHP_ME(Phalcon_Crypt, initializeAvailableCiphers, NULL, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Crypt, initializeAvailableCiphers, arginfo_phalcon_crypt_initializeavailableciphers, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Crypt, cryptPadText, arginfo_phalcon_crypt_cryptpadtext, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Crypt, cryptUnpadText, arginfo_phalcon_crypt_cryptunpadtext, ZEND_ACC_PROTECTED)
 	PHP_FE_END

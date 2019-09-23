@@ -2,7 +2,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -20,7 +20,7 @@ class Css extends InlineBase
     /**
      * Phalcon\Assets\Inline\Css constructor
      */
-    public function __construct(string content, bool filter = true, attributes = null) -> void
+    public function __construct(string content, bool filter = true, attributes = null)
     {
         if attributes == null {
             let attributes = [

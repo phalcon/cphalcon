@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -25,7 +25,7 @@ class UnderscoreIssetCest
     /**
      * Tests Phalcon\Session\Manager :: __isset()
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function sessionManagerUnderscoreIsset(IntegrationTester $I)
@@ -33,7 +33,7 @@ class UnderscoreIssetCest
         $I->wantToTest('Session\Manager - __isset()');
         $manager = new Manager();
         $files   = $this->getSessionStream();
-        $manager->setHandler($files);
+        $manager->setAdapter($files);
 
         $actual = $manager->start();
         $I->assertTrue($actual);

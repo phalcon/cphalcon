@@ -21,7 +21,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -49,7 +49,7 @@ PHP_METHOD(Phalcon_Filter_FilterFactory, newInstance) {
 
 	ZEPHIR_MM_GROW();
 
-	object_init_ex(return_value, phalcon_filter_filter_ce);
+	object_init_ex(return_value, phalcon_filter_ce);
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getadapters", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 233, &_0);

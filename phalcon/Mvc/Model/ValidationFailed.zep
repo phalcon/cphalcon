@@ -2,7 +2,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -29,7 +29,7 @@ class ValidationFailed extends Exception
      *
      * @param Message[] validationMessages
      */
-    public function __construct(<ModelInterface> model, array! validationMessages) -> void
+    public function __construct(<ModelInterface> model, array! validationMessages)
     {
         var messageStr, message;
 

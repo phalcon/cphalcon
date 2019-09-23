@@ -2,7 +2,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -43,7 +43,7 @@ class Relation implements RelationInterface
      * @param string|array fields
      * @param string|array referencedFields
      */
-    public function __construct(int type, string! referencedModel, var fields, var referencedFields, array options = []) -> void
+    public function __construct(int type, string! referencedModel, var fields, var referencedFields, array options = [])
     {
         let this->type = type,
             this->referencedModel = referencedModel,

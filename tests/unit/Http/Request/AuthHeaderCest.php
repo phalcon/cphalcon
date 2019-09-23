@@ -3,7 +3,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -24,7 +24,7 @@ class AuthHeaderCest extends HttpBase
      *
      * @test
      * @issue  https://github.com/phalcon/cphalcon/issues/12480
-     * @author       Serghei Iakovelv <serghei@phalconphp.com>
+     * @author       Serghei Iakovelv <serghei@phalcon.io>
      * @since        2016-12-18
      *
      * @dataProvider basicAuthProvider
@@ -67,7 +67,7 @@ class AuthHeaderCest extends HttpBase
      *
      * @test
      * @issue  https://github.com/phalcon/cphalcon/issues/13327
-     * @author Serghei Iakovelv <serghei@phalconphp.com>
+     * @author Serghei Iakovelv <serghei@phalcon.io>
      * @since  2018-03-25
      */
     public function shouldFireEventWhenResolveAuthorization(UnitTester $I)
@@ -104,7 +104,7 @@ class AuthHeaderCest extends HttpBase
      *
      * @test
      * @issue  https://github.com/phalcon/cphalcon/issues/13327
-     * @author Serghei Iakovelv <serghei@phalconphp.com>
+     * @author Serghei Iakovelv <serghei@phalcon.io>
      * @since  2018-03-25
      */
     public function shouldEnableCustomAuthorizationResolver(UnitTester $I)
@@ -137,7 +137,7 @@ class AuthHeaderCest extends HttpBase
      *
      * @test
      * @issue  https://github.com/phalcon/cphalcon/issues/13327
-     * @author Serghei Iakovelv <serghei@phalconphp.com>
+     * @author Serghei Iakovelv <serghei@phalcon.io>
      * @since  2018-03-25
      */
     public function shouldResolveCustomAuthorizationHeaders(UnitTester $I)

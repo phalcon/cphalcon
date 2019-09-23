@@ -23,7 +23,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -79,7 +79,7 @@ PHP_METHOD(Phalcon_Http_Message_RequestFactory, createRequest) {
 
 
 	object_init_ex(return_value, phalcon_http_message_request_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 290, &method, uri);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 279, &method, uri);
 	zephir_check_call_status();
 	RETURN_MM();
 

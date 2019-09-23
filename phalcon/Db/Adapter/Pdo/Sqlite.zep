@@ -49,7 +49,7 @@ class Sqlite extends PdoAdapter
     /**
      * Constructor for Phalcon\Db\Adapter\Pdo\Sqlite
      */
-    public function __construct(array! descriptor) -> void
+    public function __construct(array! descriptor)
     {
         if isset descriptor["charset"] {
             trigger_error(

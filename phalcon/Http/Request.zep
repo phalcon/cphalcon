@@ -2,7 +2,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -11,12 +11,12 @@
 namespace Phalcon\Http;
 
 use Phalcon\Di\DiInterface;
+use Phalcon\Di\AbstractInjectionAware;
+use Phalcon\Events\ManagerInterface;
 use Phalcon\Filter\FilterInterface;
 use Phalcon\Http\Request\File;
 use Phalcon\Http\Request\FileInterface;
 use Phalcon\Http\Request\Exception;
-use Phalcon\Events\ManagerInterface;
-use Phalcon\Di\InjectionAwareInterface;
 use UnexpectedValueException;
 use stdClass;
 
@@ -46,10 +46,8 @@ use stdClass;
  * $request->getLanguages();
  *```
  */
-class Request implements RequestInterface, InjectionAwareInterface
+class Request extends AbstractInjectionAware implements RequestInterface
 {
-    private container;
-
     private filterService;
 
     /**
@@ -211,15 +209,6 @@ class Request implements RequestInterface, InjectionAwareInterface
         }
 
         return contentType;
-    }
-
-
-    /**
-     * Returns the internal dependency injector
-     */
-    public function getDI() -> <DiInterface>
-    {
-        return this->container;
     }
 
     /**
@@ -845,15 +834,30 @@ class Request implements RequestInterface, InjectionAwareInterface
     }
 
     /**
-     * Gets HTTP URI which request has been made
+     * Gets HTTP URI which request has been made to
+     *
+     *```php
+     * // Returns /some/path?with=queryParams
+     * $uri = $request->getURI();
+     *
+     * // Returns /some/path
+     * $uri = $request->getURI(true);
+     *```
+     *
+     * @param bool onlyPath If true, query part will be omitted
+     * @return string
      */
-    final public function getURI() -> string
+    final public function getURI(bool onlyPath = false) -> string
     {
         var requestURI;
 
         let requestURI = this->getServer("REQUEST_URI");
         if null === requestURI {
             return "";
+        }
+        
+        if onlyPath {
+            let requestURI = explode('?', requestURI)[0];
         }
 
         return requestURI;
@@ -1160,14 +1164,6 @@ class Request implements RequestInterface, InjectionAwareInterface
         }
 
         return false;
-    }
-
-    /**
-     * Sets the dependency injector
-     */
-    public function setDI(<DiInterface> container) -> void
-    {
-        let this->container = container;
     }
 
     /**

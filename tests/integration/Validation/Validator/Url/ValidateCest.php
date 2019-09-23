@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -73,7 +73,7 @@ class ValidateCest
 
         $messages = $validation->validate(
             [
-                'url' => 'http://phalconphp.com',
+                'url' => 'http://phalcon.io',
             ]
         );
 
@@ -214,7 +214,7 @@ class ValidateCest
 
         $messages = $validation->validate(
             [
-                'url' => 'http://phalconphp.com',
+                'url' => 'http://phalcon.io',
             ]
         );
 
@@ -229,7 +229,7 @@ class ValidateCest
      *
      * @dataProvider getExamples
      *
-     * @author       Phalcon Team <team@phalconphp.com>
+     * @author       Phalcon Team <team@phalcon.io>
      * @since        2019-05-10
      */
     public function validationValidatorUrlFlags(IntegrationTester $I, Example $example)
@@ -278,7 +278,7 @@ class ValidateCest
             [
                 'path required no array',
                 FILTER_FLAG_PATH_REQUIRED,
-                'phalconphp.com',
+                'phalcon.io',
             ],
             [
                 'query required no array',
@@ -292,7 +292,7 @@ class ValidateCest
                         FILTER_FLAG_PATH_REQUIRED,
                     ],
                 ],
-                'phalconphp.com',
+                'phalcon.io',
             ],
             [
                 'query required',

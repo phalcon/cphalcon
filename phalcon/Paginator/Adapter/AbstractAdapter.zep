@@ -2,7 +2,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -10,6 +10,7 @@
 
 namespace Phalcon\Paginator\Adapter;
 
+use Phalcon\Paginator\Exception;
 use Phalcon\Paginator\Repository;
 use Phalcon\Paginator\RepositoryInterface;
 
@@ -43,7 +44,7 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
      * Phalcon\Paginator\Adapter\AbstractAdapter constructor
      */
-    public function __construct(array! config) -> void
+    public function __construct(array! config)
     {
         let this->config = config;
 
@@ -89,6 +90,9 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     public function setLimit(int limitRows) -> <Adapter>
     {
+        if limitRows <= 0 {
+            throw new Exception("Limit must be greater then zero");
+        }
         let this->limitRows = limitRows;
 
         return this;

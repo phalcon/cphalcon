@@ -2,7 +2,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -51,7 +51,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     /**
      * Phalcon\Forms\Form constructor
      */
-    public function __construct(var entity = null, array userOptions = []) -> void
+    public function __construct(var entity = null, array userOptions = [])
     {
         if unlikely (entity !== null && typeof entity != "object") {
             throw new Exception("The base entity is not valid");

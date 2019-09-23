@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -22,7 +22,7 @@ class WithSchemeCest
     /**
      * Tests Phalcon\Http\Message\Uri :: withScheme()
      *
-     * @author       Phalcon Team <team@phalconphp.com>
+     * @author       Phalcon Team <team@phalcon.io>
      * @since        2019-02-09
      */
     public function httpMessageUriWithScheme(UnitTester $I)
@@ -53,7 +53,7 @@ class WithSchemeCest
     /**
      * Tests Phalcon\Http\Message\Uri :: withScheme() - exception unsupported
      *
-     * @author       Phalcon Team <team@phalconphp.com>
+     * @author       Phalcon Team <team@phalcon.io>
      * @since        2019-06-01
      */
     public function httpUriWithSchemeExceptionUnsupported(UnitTester $I)
@@ -79,7 +79,7 @@ class WithSchemeCest
      *
      * @dataProvider getExamples
      *
-     * @author       Phalcon Team <team@phalconphp.com>
+     * @author       Phalcon Team <team@phalcon.io>
      * @since        2019-02-07
      */
     public function httpUriWithSchemeException(UnitTester $I, Example $example)

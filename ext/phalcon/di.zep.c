@@ -26,7 +26,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -733,7 +733,7 @@ PHP_METHOD(Phalcon_Di, loadFromConfig) {
  * ];
  * ```
  *
- * @link https://docs.phalconphp.com/en/latest/reference/di.html
+ * @link https://docs.phalcon.io/en/latest/reference/di.html
  */
 PHP_METHOD(Phalcon_Di, loadFromPhp) {
 
@@ -802,7 +802,7 @@ PHP_METHOD(Phalcon_Di, loadFromPhp) {
  *    className: \Acme\User
  * ```
  *
- * @link https://docs.phalconphp.com/en/latest/reference/di.html
+ * @link https://docs.phalcon.io/en/latest/reference/di.html
  */
 PHP_METHOD(Phalcon_Di, loadFromYaml) {
 
@@ -1030,13 +1030,14 @@ PHP_METHOD(Phalcon_Di, register) {
 PHP_METHOD(Phalcon_Di, remove) {
 
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval *name_param = NULL, _0, _1;
+	zval *name_param = NULL, services, _0, sharedInstances;
 	zval name;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name);
+	ZVAL_UNDEF(&services);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&sharedInstances);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
@@ -1054,9 +1055,13 @@ PHP_METHOD(Phalcon_Di, remove) {
 
 
 	zephir_read_property(&_0, this_ptr, SL("services"), PH_NOISY_CC | PH_READONLY);
-	zephir_array_unset(&_0, &name, PH_SEPARATE);
-	zephir_read_property(&_1, this_ptr, SL("sharedInstances"), PH_NOISY_CC | PH_READONLY);
-	zephir_array_unset(&_1, &name, PH_SEPARATE);
+	ZEPHIR_CPY_WRT(&services, &_0);
+	zephir_array_unset(&services, &name, PH_SEPARATE);
+	zephir_update_property_zval(this_ptr, SL("services"), &services);
+	zephir_read_property(&_0, this_ptr, SL("sharedInstances"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_CPY_WRT(&sharedInstances, &_0);
+	zephir_array_unset(&sharedInstances, &name, PH_SEPARATE);
+	zephir_update_property_zval(this_ptr, SL("sharedInstances"), &sharedInstances);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -1126,7 +1131,7 @@ PHP_METHOD(Phalcon_Di, set) {
 	zephir_check_call_status();
 	zephir_update_property_array(this_ptr, SL("services"), &name, &_0);
 	zephir_read_property(&_2, this_ptr, SL("services"), PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch(&_3, &_2, &name, PH_NOISY | PH_READONLY, "phalcon/Di.zep", 534 TSRMLS_CC);
+	zephir_array_fetch(&_3, &_2, &name, PH_NOISY | PH_READONLY, "phalcon/Di.zep", 541 TSRMLS_CC);
 	RETURN_CTOR(&_3);
 
 }

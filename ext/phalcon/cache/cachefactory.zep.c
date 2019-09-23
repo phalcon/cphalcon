@@ -24,7 +24,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -98,15 +98,15 @@ PHP_METHOD(Phalcon_Cache_CacheFactory, load) {
 		ZEPHIR_CPY_WRT(config, &_1$$3);
 	}
 	if (UNEXPECTED(Z_TYPE_P(config) != IS_ARRAY)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_exception_ce, "Config must be array or Phalcon\\Config object", "phalcon/Cache/CacheFactory.zep", 54);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_exception_ce, "Config must be array or Phalcon\\Config object", "phalcon/Cache/CacheFactory.zep", 53);
 		return;
 	}
 	if (UNEXPECTED(!(zephir_array_isset_string(config, SL("adapter"))))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_exception_ce, "You must provide 'adapter' option in factory config parameter.", "phalcon/Cache/CacheFactory.zep", 60);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_exception_ce, "You must provide 'adapter' option in factory config parameter.", "phalcon/Cache/CacheFactory.zep", 59);
 		return;
 	}
 	ZEPHIR_OBS_VAR(&name);
-	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Cache/CacheFactory.zep", 63 TSRMLS_CC);
+	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Cache/CacheFactory.zep", 62 TSRMLS_CC);
 	ZEPHIR_INIT_VAR(&_3);
 	array_init(&_3);
 	ZEPHIR_INIT_VAR(&_4);

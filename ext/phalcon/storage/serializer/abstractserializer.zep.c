@@ -20,7 +20,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -36,35 +36,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Storage_Serializer_AbstractSerializer) {
 
 	zend_class_implements(phalcon_storage_serializer_abstractserializer_ce TSRMLS_CC, 1, phalcon_storage_serializer_serializerinterface_ce);
 	return SUCCESS;
-
-}
-
-/**
- */
-PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, getData) {
-
-	zval *this_ptr = getThis();
-
-
-	RETURN_MEMBER(getThis(), "data");
-
-}
-
-/**
- */
-PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, setData) {
-
-	zval *data, data_sub;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&data_sub);
-
-	zephir_fetch_params_without_memory_grow(1, 0, &data);
-
-
-
-	zephir_update_property_zval(this_ptr, SL("data"), data);
-	RETURN_THISW();
 
 }
 
@@ -115,6 +86,36 @@ PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, isSerializable) {
 		_1 = zephir_is_numeric(data);
 	}
 	RETURN_BOOL(!(_1));
+
+}
+
+/**
+ * @return mixed
+ */
+PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, getData) {
+
+	zval *this_ptr = getThis();
+
+
+	RETURN_MEMBER(getThis(), "data");
+
+}
+
+/**
+ * @param mixed $data
+ */
+PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, setData) {
+
+	zval *data, data_sub;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&data_sub);
+
+	zephir_fetch_params_without_memory_grow(1, 0, &data);
+
+
+
+	zephir_update_property_zval(this_ptr, SL("data"), data);
 
 }
 

@@ -27,8 +27,6 @@ cache:
   timeout: 604800
   directories:
     - ${HOME}/.composer/cache
-    - ${HOME}/pear
-    - ${HOME}/.local/opt
 
 services:
   - mysql
@@ -40,9 +38,8 @@ services:
 env:
   global:
     - CC="gcc"
-    - ZEPHIR_VERSION="0.12.2"
+    - ZEPHIR_VERSION="0.12.4"
     - ZEPHIR_PARSER_VERSION="v1.3.1"
-    - RE2C_VERSION="1.1.1"
     - REPORT_COVERAGE=1
     - PATH="${HOME}/.composer/vendor/bin:${PATH}"
     - TRAVIS_COMMIT_LOG="$(git log --format=fuller -5)"
@@ -59,7 +56,14 @@ before_install:
     fi
 
     [ -d ~/bin ] || mkdir ~/bin
-    export DEFAULT_COMPOSER_FLAGS=("--no-interaction" "--no-ansi" "--no-progress" "--no-suggest")
+    export PHP_PEAR_PHP_BIN="$(phpenv which php)"
+
+    DEFAULT_COMPOSER_FLAGS=("--no-interaction" "--no-ansi" "--no-progress" "--no-suggest")
+    if [ "$(php-config --vernum)" -ge "70400" ]
+    then
+      DEFAULT_COMPOSER_FLAGS+=("--ignore-platform-reqs")
+    fi
+    export DEFAULT_COMPOSER_FLAGS
 
     # Hide "You are in 'detached HEAD' state" message
     git config --global advice.detachedHead false
@@ -67,10 +71,7 @@ before_install:
   - source .ci/export-variables.sh
 
 install:
-  - .ci/install-mysql-5.7.sh
   - .ci/setup-dbs.sh
-  - .ci/pear-setup.sh
-  - .ci/install-re2c.sh
   - .ci/install-zephir.sh
   - .ci/install-php-extensions.sh
   - travis_retry composer install ${DEFAULT_COMPOSER_FLAGS[*]}
@@ -78,7 +79,7 @@ install:
 before_script:
   - |
     # Setting up Travis' PHP
-    cat .ci/travis.ini >> "$(phpenv root)/versions/$(phpenv version-name)/etc/conf.d/travis.ini"
+    cat .ci/travis.ini >> "$(phpenv prefix)/etc/conf.d/travis.ini"
     if [ "$(php-config --vernum)" -ge "70400" ]
     then
       export REPORT_COVERAGE=0

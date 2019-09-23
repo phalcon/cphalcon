@@ -23,7 +23,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -125,10 +125,10 @@ PHP_METHOD(Phalcon_Version, _getVersion) {
 	ZVAL_LONG(&_0, 0);
 	zephir_array_fast_append(return_value, &_0);
 	ZEPHIR_INIT_NVAR(&_0);
-	ZVAL_LONG(&_0, 2);
+	ZVAL_LONG(&_0, 3);
 	zephir_array_fast_append(return_value, &_0);
 	ZEPHIR_INIT_NVAR(&_0);
-	ZVAL_LONG(&_0, 2);
+	ZVAL_LONG(&_0, 1);
 	zephir_array_fast_append(return_value, &_0);
 	RETURN_MM();
 

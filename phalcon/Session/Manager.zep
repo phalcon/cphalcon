@@ -13,8 +13,8 @@ namespace Phalcon\Session;
 use InvalidArgumentException;
 use RuntimeException;
 use SessionHandlerInterface;
+use Phalcon\DI\AbstractInjectionAware;
 use Phalcon\Di\DiInterface;
-use Phalcon\DI\InjectionAwareInterface;
 use Phalcon\Helper\Arr;
 use Phalcon\Session\ManagerInterface;
 
@@ -23,17 +23,12 @@ use Phalcon\Session\ManagerInterface;
  *
  * Session manager class
  */
-class Manager implements ManagerInterface, InjectionAwareInterface
+class Manager extends AbstractInjectionAware implements ManagerInterface
 {
-    /**
-     * @var <DiInterface>
-     */
-    private container;
-
     /**
      * @var <SessionHandlerInterface>|null
      */
-    private handler = null;
+    private adapter = null;
 
     /**
      * @var string
@@ -53,7 +48,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
     /**
      * Manager constructor.
      */
-    public function __construct(array options = []) -> void
+    public function __construct(array options = [])
     {
         this->setOptions(options);
     }
@@ -133,19 +128,11 @@ class Manager implements ManagerInterface, InjectionAwareInterface
     }
 
     /**
-     * Returns the DependencyInjector container
+     * Returns the stored session adapter
      */
-    public function getDI() -> <DiInterface>
+    public function getAdapter() -> <SessionHandlerInterface>
     {
-        return this->container;
-    }
-
-    /**
-     * Returns the stored session handler
-     */
-    public function getHandler() -> <SessionHandlerInterface>
-    {
-        return this->handler;
+        return this->adapter;
     }
 
     /**
@@ -194,7 +181,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface
     }
 
     /**
-     * Regenerates the session id using the handler.
+     * Regenerates the session id using the adapter.
      */
     public function regenerateId(deleteOldSession = true) -> <ManagerInterface>
     {
@@ -210,17 +197,9 @@ class Manager implements ManagerInterface, InjectionAwareInterface
     }
 
     /**
-     * Registers a handler with the session
-     */
-    public function registerHandler(<SessionHandlerInterface> handler) -> bool
-    {
-        return session_set_save_handler(handler);
-    }
-
-    /**
      * Removes a session variable from an application context
      */
-    public function remove(string key)
+    public function remove(string key) -> void
     {
         if false === this->exists() {
             // To use $_SESSION variable we need to start session first
@@ -251,19 +230,11 @@ class Manager implements ManagerInterface, InjectionAwareInterface
     }
 
     /**
-     * Sets the DependencyInjector container
+     * Set the adapter for the session
      */
-    public function setDI(<DiInterface> container) -> void
+    public function setAdapter(<SessionHandlerInterface> adapter) -> <ManagerInterface>
     {
-        let this->container = container;
-    }
-
-    /**
-     * Set the handler for the session
-     */
-    public function setHandler(<SessionHandlerInterface> handler) -> <ManagerInterface>
-    {
-        let this->handler = handler;
+        let this->adapter = adapter;
 
         return this;
     }
@@ -345,14 +316,14 @@ class Manager implements ManagerInterface, InjectionAwareInterface
             return false;
         }
 
-        if unlikely !(this->handler instanceof SessionHandlerInterface) {
-            throw new Exception("The session handler is not valid");
+        if unlikely !(this->adapter instanceof SessionHandlerInterface) {
+            throw new Exception("The session adapter is not valid");
         }
 
         /**
-         * Register the handler
+         * Register the adapter
          */
-        this->registerHandler(this->handler);
+        session_set_save_handler(this->adapter);
 
         /**
          * Start the session

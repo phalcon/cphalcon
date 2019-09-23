@@ -2,7 +2,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -148,22 +148,22 @@ interface RouterInterface
     /**
      * Sets the default action name
      */
-    public function setDefaultAction(string! actionName) -> void;
+    public function setDefaultAction(string! actionName) -> <RouterInterface>;
 
     /**
      * Sets the default controller name
      */
-    public function setDefaultController(string! controllerName) -> void;
+    public function setDefaultController(string! controllerName) -> <RouterInterface>;
 
     /**
      * Sets the name of the default module
      */
-    public function setDefaultModule(string! moduleName) -> void;
+    public function setDefaultModule(string! moduleName) -> <RouterInterface>;
 
     /**
      * Sets an array of default paths
      */
-    public function setDefaults(array! defaults) -> void;
+    public function setDefaults(array! defaults) -> <RouterInterface>;
 
     /**
      * Check if the router matches any of the defined routes

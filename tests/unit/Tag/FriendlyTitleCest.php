@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -23,7 +23,7 @@ class FriendlyTitleCest extends TagSetup
      * Tests Phalcon\Tag :: friendlyTitle() - string as a parameter and no
      * separator
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-11
      */
     public function testFriendlyTitleStringParameterNoSeparator(UnitTester $I)
@@ -39,7 +39,7 @@ class FriendlyTitleCest extends TagSetup
      * Tests Phalcon\Tag :: friendlyTitle() - string as a parameter and a
      * separator
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-11
      */
     public function testFriendlyTitleStringParameterSeparator(UnitTester $I)
@@ -54,7 +54,7 @@ class FriendlyTitleCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: friendlyTitle() - string as a parameter lowercase
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-11
      */
     public function testFriendlyTitleStringParameterLowercase(UnitTester $I)
@@ -69,7 +69,7 @@ class FriendlyTitleCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: friendlyTitle() - string as a parameter uppercase
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-11
      */
     public function testFriendlyTitleStringParameterUppercase(UnitTester $I)
@@ -85,7 +85,7 @@ class FriendlyTitleCest extends TagSetup
      * Tests Phalcon\Tag :: friendlyTitle() - string as a parameter with
      * replace as string
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-11
      */
     public function testFriendlyTitleStringParameterReplaceString(UnitTester $I)
@@ -101,7 +101,7 @@ class FriendlyTitleCest extends TagSetup
      * Tests Phalcon\Tag :: friendlyTitle() - string as a parameter with
      * replace as array
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-11
      */
     public function testFriendlyTitleStringParameterReplaceArray(UnitTester $I)
@@ -121,7 +121,7 @@ class FriendlyTitleCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: friendlyTitle() - special characters and escaping
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-11
      */
     public function testFriendlyTitleWithSpecialCharactersAndEscaping(UnitTester $I)
@@ -139,7 +139,7 @@ class FriendlyTitleCest extends TagSetup
      * Tests Phalcon\Tag :: friendlyTitle() - accented characters and replace
      * string
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-11
      */
     public function testFriendlyTitleWithAccentedCharactersAndReplaceString(UnitTester $I)
@@ -161,7 +161,7 @@ class FriendlyTitleCest extends TagSetup
      * Tests Phalcon\Tag :: friendlyTitle() - accented characters and replace
      * array
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-11
      */
     public function testFriendlyTitleWithAccentedCharactersAndReplaceArray(UnitTester $I)
@@ -183,7 +183,7 @@ class FriendlyTitleCest extends TagSetup
      * Tests Phalcon\Tag :: friendlyTitle() - string as a parameter with
      * replace as boolean
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-11
      */
     public function testFriendlyTitleStringParameterReplaceBoolean(UnitTester $I)

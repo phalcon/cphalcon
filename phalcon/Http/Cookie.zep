@@ -2,7 +2,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -11,21 +11,19 @@
 namespace Phalcon\Http;
 
 use Phalcon\Di\DiInterface;
+use Phalcon\Di\AbstractInjectionAware;
 use Phalcon\Crypt\CryptInterface;
-use Phalcon\Di\InjectionAwareInterface;
+use Phalcon\Crypt\Mismatch;
 use Phalcon\Filter\FilterInterface;
 use Phalcon\Http\Response\Exception;
 use Phalcon\Http\Cookie\Exception as CookieException;
-use Phalcon\Crypt\Mismatch;
 use Phalcon\Session\ManagerInterface as SessionManagerInterface;
 
 /**
  * Provide OO wrappers to manage a HTTP cookie.
  */
-class Cookie implements CookieInterface, InjectionAwareInterface
+class Cookie extends AbstractInjectionAware implements CookieInterface
 {
-    protected container;
-
     protected domain;
 
     protected expire;
@@ -125,14 +123,6 @@ class Cookie implements CookieInterface, InjectionAwareInterface
             secure,
             httpOnly
         );
-    }
-
-    /**
-     * Returns the internal dependency injector
-     */
-    public function getDI() -> <DiInterface>
-    {
-        return this->container;
     }
 
     /**
@@ -466,14 +456,6 @@ class Cookie implements CookieInterface, InjectionAwareInterface
         setcookie(name, encryptValue, expire, path, domain, secure, httpOnly);
 
         return this;
-    }
-
-    /**
-     * Sets the dependency injector
-     */
-    public function setDI(<DiInterface> container) -> void
-    {
-        let this->container = container;
     }
 
     /**

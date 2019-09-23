@@ -2,7 +2,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -26,7 +26,7 @@ class Container implements ContainerInterface
     /**
      * Phalcon\Container constructor
      */
-    public function __construct(<DiInterface> container) -> void
+    public function __construct(<DiInterface> container)
     {
         let this->container = container;
     }

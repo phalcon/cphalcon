@@ -23,7 +23,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -76,7 +76,7 @@ PHP_METHOD(Phalcon_Translate_Interpolator_IndexedArray, replacePlaceholders) {
 
 	if (zephir_fast_count_int(&placeholders TSRMLS_CC)) {
 		ZEPHIR_MAKE_REF(&placeholders);
-		ZEPHIR_CALL_FUNCTION(NULL, "array_unshift", NULL, 0, &placeholders, &translation);
+		ZEPHIR_CALL_FUNCTION(NULL, "array_unshift", NULL, 501, &placeholders, &translation);
 		ZEPHIR_UNREF(&placeholders);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_0$$3);

@@ -2,7 +2,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -19,21 +19,16 @@ use Phalcon\Assets\Asset\Css as AssetCss;
 use Phalcon\Assets\Inline\Css as InlineCss;
 use Phalcon\Assets\Inline\Js as InlineJs;
 use Phalcon\Di\DiInterface;
-use Phalcon\Di\InjectionAwareInterface;
+use Phalcon\Di\AbstractInjectionAware;
 
 /**
  * Phalcon\Assets\Manager
  *
  * Manages collections of CSS/Javascript assets
  */
-class Manager implements InjectionAwareInterface
+class Manager extends AbstractInjectionAware
 {
     protected collections;
-
-    /**
-     * @var DiInterface
-     */
-    protected container;
 
     /**
      * Options configure
@@ -49,7 +44,7 @@ class Manager implements InjectionAwareInterface
     /**
      * Phalcon\Assets\Manager constructor
      */
-    public function __construct(array options = []) -> void
+    public function __construct(array options = [])
     {
         let this->options = options;
     }
@@ -301,14 +296,6 @@ class Manager implements InjectionAwareInterface
         }
 
         return collection;
-    }
-
-    /**
-     * Returns the internal dependency injector
-     */
-    public function getDI() -> <DiInterface>
-    {
-        return this->container;
     }
 
     /**
@@ -930,14 +917,6 @@ class Manager implements InjectionAwareInterface
         let this->collections[id] = collection;
 
         return this;
-    }
-
-    /**
-     * Sets the dependency injector
-     */
-    public function setDI(<DiInterface> container) -> void
-    {
-        let this->container = container;
     }
 
     /**

@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -15,6 +15,7 @@ namespace Phalcon\Test\Integration\Db\Dialect\Mysql;
 use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Db\Dialect\Mysql;
+use Phalcon\Db\Reference;
 use Phalcon\Test\Fixtures\Traits\DialectTrait;
 
 class AddForeignKeyCest
@@ -24,7 +25,7 @@ class AddForeignKeyCest
     /**
      * Tests Phalcon\Db\Dialect\Mysql :: addForeignKey()
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2017-02-26
      *
      * @dataProvider getAddForeignKeyFixtures
@@ -43,6 +44,27 @@ class AddForeignKeyCest
         $actual = $dialect->addForeignKey('table', $schema, $references[$reference]);
 
         $I->assertEquals($expected, $actual);
+    }
+
+    public function issue14378MissingReferenceSchema(IntegrationTester $I)
+    {
+        $I->wantToTest('Db\Dialect\Mysql - addForeignKey() for missing referenceSchema');
+        $reference = new Reference(
+            "fk_id_user",
+            [
+                'referencedTable' => 'users',
+                'referencedSchema' => 'database2',
+                'columns' => ['id_user'],
+                'referencedColumns' => ['id'],
+                'onUpdate' => 'CASCADE',
+                'onDelete' => 'SET NULL',
+            ]
+        );
+        $dialect = new Mysql();
+        $actual  = $dialect->addForeignKey("table", "schema", $reference);
+
+        $expect = "ALTER TABLE `schema`.`table` ADD CONSTRAINT `fk_id_user` FOREIGN KEY (`id_user`) REFERENCES `database2`.`users`(`id`) ON DELETE SET NULL ON UPDATE CASCADE";
+        $I->assertEquals($expect, $actual);
     }
 
     protected function getAddForeignKeyFixtures(): array

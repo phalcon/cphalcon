@@ -2,7 +2,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -48,7 +48,7 @@ class Service implements ServiceInterface
     /**
      * Phalcon\Di\Service
      */
-    final public function __construct(var definition, bool shared = false) -> void
+    final public function __construct(var definition, bool shared = false)
     {
         let this->definition = definition,
             this->shared = shared;
@@ -134,11 +134,12 @@ class Service implements ServiceInterface
 
         let definition = this->definition;
         if typeof definition == "string" {
-
             /**
              * String definitions can be class names without implicit parameters
              */
-            if class_exists(definition) {
+            if container !== null {
+                let instance = container->get(definition, parameters);
+            } elseif class_exists(definition) {
                 if typeof parameters == "array" && count(parameters) {
                     let instance = create_instance_params(
                         definition,

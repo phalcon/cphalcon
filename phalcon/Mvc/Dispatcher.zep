@@ -2,7 +2,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -104,7 +104,7 @@ class Dispatcher extends BaseDispatcher implements DispatcherInterface
      *
      * @param array forward
      */
-    public function forward(var forward)
+    public function forward(var forward) -> void
     {
         var eventsManager;
 

@@ -2,7 +2,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -60,7 +60,7 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
       * Set the background color of an image
       */
-    public function background(string color, int opacity = 100) -> <Adapter>
+    public function background(string color, int opacity = 100) -> <AdapterInterface>
     {
         var colors;
 
@@ -85,7 +85,7 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
       * Blur image
       */
-    public function blur(int radius) -> <Adapter>
+    public function blur(int radius) -> <AdapterInterface>
     {
         if radius < 1 {
             let radius = 1;
@@ -101,8 +101,12 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
       * Crop an image to the given size
       */
-    public function crop(int width, int height, int offsetX = null, int offsetY = null) -> <Adapter>
-    {
+    public function crop(
+        int width,
+        int height,
+        int offsetX = null,
+        int offsetY = null
+    ) -> <AdapterInterface> {
         if is_null(offsetX) {
             let offsetX = ((this->width - width) / 2);
         } else {
@@ -143,7 +147,7 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
       * Flip the image along the horizontal or vertical axis
       */
-    public function flip(int direction) -> <Adapter>
+    public function flip(int direction) -> <AdapterInterface>
     {
         if direction != Enum::HORIZONTAL && direction != Enum::VERTICAL {
             let direction = Enum::HORIZONTAL;
@@ -164,8 +168,12 @@ abstract class AbstractAdapter implements AdapterInterface
      * @param int $deltaX How much the seam can traverse on x-axis. Passing 0 causes the seams to be straight.
      * @param int $rigidity Introduces a bias for non-straight seams. This parameter is typically 0.
      */
-    public function liquidRescale(int width, int height, int deltaX = 0, int rigidity = 0) -> <Adapter>
-    {
+    public function liquidRescale(
+        int width,
+        int height,
+        int deltaX = 0,
+        int rigidity = 0
+    ) -> <AbstractAdapter> {
         this->{"processLiquidRescale"}(width, height, deltaX, rigidity);
 
         return this;
@@ -174,7 +182,7 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
       * Composite one image onto another
       */
-    public function mask(<AdapterInterface> watermark) -> <Adapter>
+    public function mask(<AdapterInterface> watermark) -> <AdapterInterface>
     {
         this->{"processMask"}(watermark);
 
@@ -184,7 +192,7 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
       * Pixelate image
       */
-    public function pixelate(int amount) -> <Adapter>
+    public function pixelate(int amount) -> <AdapterInterface>
     {
         if amount < 2 {
             let amount = 2;
@@ -198,8 +206,11 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
       * Add a reflection to an image
       */
-    public function reflection(int height, int opacity = 100, bool fadeIn = false) -> <Adapter>
-    {
+    public function reflection(
+        int height,
+        int opacity = 100,
+        bool fadeIn = false
+    ) -> <AdapterInterface> {
         if height <= 0 || height > this->height {
             let height = (int) this->height;
         }
@@ -240,8 +251,11 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
       * Resize the image to the given size
       */
-    public function resize(int width = null, int height = null, int master = Enum::AUTO) -> <Adapter>
-    {
+    public function resize(
+        int width = null,
+        int height = null,
+        int master = Enum::AUTO
+    ) -> <AdapterInterface> {
         var ratio;
 
         if master == Enum::TENSILE {
@@ -330,7 +344,7 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
       * Rotate the image by a given amount
       */
-    public function rotate(int degrees) -> <Adapter>
+    public function rotate(int degrees) -> <AdapterInterface>
     {
         if degrees > 180 {
             // FIXME: Fix Zephir Parser to allow use  let degrees %= 360
@@ -353,7 +367,7 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
       * Save the image
       */
-    public function save(string file = null, int quality = -1) -> <Adapter>
+    public function save(string file = null, int quality = -1) -> <AdapterInterface>
     {
         if !file {
             let file = (string) this->realpath;
@@ -367,7 +381,7 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
       * Sharpen the image by a given amount
       */
-    public function sharpen(int amount) -> <Adapter>
+    public function sharpen(int amount) -> <AdapterInterface>
     {
         if amount > 100 {
             let amount = 100;
@@ -383,8 +397,15 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
       * Add a text to an image with a specified opacity
       */
-    public function text(string text, var offsetX = false, var offsetY = false, int opacity = 100, string color = "000000", int size = 12, string fontfile = null) -> <Adapter>
-    {
+    public function text(
+        string text,
+        var offsetX = false,
+        var offsetY = false,
+        int opacity = 100,
+        string color = "000000",
+        int size = 12,
+        string fontfile = null
+        ) -> <AdapterInterface> {
         var colors;
 
         if opacity < 0 {
@@ -426,8 +447,12 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
       * Add a watermark to an image with the specified opacity
       */
-    public function watermark(<AdapterInterface> watermark, int offsetX = 0, int offsetY = 0, int opacity = 100) -> <Adapter>
-    {
+    public function watermark(
+        <AdapterInterface> watermark,
+        int offsetX = 0,
+        int offsetY = 0,
+        int opacity = 100
+        ) -> <AdapterInterface> {
         int tmp;
 
         let tmp = this->width - watermark->getWidth();

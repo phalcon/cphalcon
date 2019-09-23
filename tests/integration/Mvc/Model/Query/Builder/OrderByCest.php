@@ -4,7 +4,7 @@ declare(strict_types=1);
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -48,11 +48,11 @@ class OrderByCest
         $expected = $example[1];
 
         $builder = new Builder();
+        $builder->setDi($this->container);
 
         $query = 'SELECT r.year, r.name AS robot_name FROM [' . Robots::class . '] AS [r] ';
 
         $phql = $builder
-            ->setDi($this->container)
             ->from(['r' => Robots::class])
             ->columns(['r.year', 'r.name AS robot_name'])
             ->orderBy($orderBy)
@@ -79,11 +79,11 @@ class OrderByCest
         $expected = $example[1];
 
         $builder = new Builder();
+        $builder->setDi($this->container);
 
         $query = 'SELECT `r`.`year` AS `r_year`, `r`.`name` AS `robot_name` FROM `robots` AS `r` ';
 
         $phql = $builder
-            ->setDi($this->container)
             ->from(['r' => Robots::class])
             ->columns(['r.year', 'r.name AS robot_name'])
             ->orderBy($orderBy)

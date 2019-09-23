@@ -2,7 +2,7 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalconphp.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
@@ -34,7 +34,7 @@ class Component implements ComponentInterface
     /**
      * Phalcon\Acl\Component constructor
      */
-    public function __construct(string! name, string description = null) -> void
+    public function __construct(string! name, string description = null)
     {
         if unlikely name == "*" {
             throw new Exception("Component name cannot be '*'");
