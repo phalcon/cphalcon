@@ -50,7 +50,7 @@ class Imagick extends AbstractAdapter
 
         let this->file = file;
 
-        let this->image = new Imagick();
+        let this->image = new ImagicNative();
 
         if file_exists(this->file) {
             let this->realpath = realpath(this->file);
@@ -138,7 +138,7 @@ class Imagick extends AbstractAdapter
     /**
      * Get instance
      */
-    public function getInternalImInstance() -> <\Imagick>
+    public function getInternalImInstance() -> <ImagicNative>
     {
         return this->image;
     }
@@ -166,7 +166,7 @@ class Imagick extends AbstractAdapter
 
         let pixel2 = new ImagickPixel("transparent");
 
-        let background = new Imagick();
+        let background = new ImagicNative();
 
         this->image->setIteratorIndex(0);
 
@@ -324,7 +324,7 @@ class Imagick extends AbstractAdapter
     {
         var mask, ret;
 
-        let mask = new Imagick();
+        let mask = new ImagicNative();
 
         mask->readImageBlob(
             image->render()
@@ -417,7 +417,7 @@ class Imagick extends AbstractAdapter
         }
 
         let pseudo = fadeIn ? "gradient:black-transparent" : "gradient:transparent-black",
-            fade = new Imagick();
+            fade = new ImagicNative();
 
         fade->newPseudoImage(
             reflection->getImageWidth(),
@@ -454,7 +454,7 @@ class Imagick extends AbstractAdapter
 
         fade->destroy();
 
-        let image = new Imagick(),
+        let image = new ImagicNative(),
             pixel = new ImagickPixel(),
             height = this->image->getImageHeight() + height;
 
@@ -808,7 +808,7 @@ class Imagick extends AbstractAdapter
         var watermark, ret;
 
         let opacity = opacity / 100,
-            watermark = new Imagick();
+            watermark = new ImagicNative();
 
         watermark->readImageBlob(
             image->render()
