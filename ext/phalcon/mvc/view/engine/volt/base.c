@@ -825,8 +825,6 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 		}
 	}
 
-	phvolt_Free(phvolt_parser, phvolt_wrapper_free);
-
 	if (status != FAILURE) {
 		if (parser_status->status == PHVOLT_PARSING_OK) {
 			if (Z_TYPE(parser_status->ret) != IS_UNDEF) {
@@ -836,6 +834,8 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 			}
 		}
 	}
+
+	phvolt_Free(phvolt_parser, phvolt_wrapper_free);
 
 	efree(parser_status);
 	efree(state);

@@ -11,6 +11,11 @@
 %token_prefix PHVOLT_
 %token_type {phvolt_parser_token*}
 %default_type {zval}
+%default_destructor {
+	if (&$$) {
+		zval_ptr_dtor(&$$);
+	}
+}
 %extra_argument {phvolt_parser_status *status}
 %name phvolt_
 
