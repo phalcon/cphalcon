@@ -42,6 +42,7 @@ ext/run-tests.php
 *.dSYM
 *.deps
 lemon
+!lemon/
 
 .libs/
 autom4te.cache/
