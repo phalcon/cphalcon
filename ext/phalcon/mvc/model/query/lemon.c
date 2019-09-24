@@ -18,6 +18,18 @@
 #   endif
 #endif
 
+#ifdef __WIN32__
+#ifdef __cplusplus
+extern "C" {
+#endif
+extern int access(const char *path, int mode);
+#ifdef __cplusplus
+}
+#endif
+#else
+#include <unistd.h>
+#endif
+
 /* #define PRIVATE static */
 #define PRIVATE
 
@@ -570,7 +582,7 @@ int line;
 */
 
 /* Find a precedence symbol of every rule in the grammar.
-** 
+**
 ** Those rules which have a precedence symbol coded in the input
 ** grammar using the "[symbol]" construct will already have the
 ** rp->precsym field filled.  Other rules take as their precedence
@@ -860,7 +872,7 @@ struct lemon *lemp;
       cfp->status = INCOMPLETE;
     }
   }
-  
+
   do{
     progress = 0;
     for(i=0; i<lemp->nstate; i++){
@@ -892,7 +904,7 @@ struct lemon *lemp;
   struct symbol *sp;
   struct rule *rp;
 
-  /* Add all of the reduce actions 
+  /* Add all of the reduce actions
   ** A reduce action is added for each element of the followset of
   ** a configuration which has its dot at the extreme right.
   */
@@ -980,6 +992,7 @@ struct symbol *errsym;   /* The error symbol (if defined.  NULL otherwise) */
     spy = apy->x.rp->precsym;
     if( spy==0 || spx->prec<0 || spy->prec<0 ){
       /* Not enough precedence information. */
+      fprintf(stderr, "Not enough precedence: %s\n", errsym->name);
       apy->type = CONFLICT;
       errcnt++;
     }else if( spx->prec>spy->prec ){    /* Lower precedence wins */
@@ -992,14 +1005,15 @@ struct symbol *errsym;   /* The error symbol (if defined.  NULL otherwise) */
       apx->type = SH_RESOLVED;
     }else{
       assert( spx->prec==spy->prec && spx->assoc==NONE );
+      fprintf(stderr, "Not enough precedence: %s\n", errsym->name);
       apy->type = CONFLICT;
       errcnt++;
     }
   }else if( apx->type==REDUCE && apy->type==REDUCE ){
     spx = apx->x.rp->precsym;
     spy = apy->x.rp->precsym;
-    if( spx==0 || spy==0 || spx->prec<0 ||
-    spy->prec<0 || spx->prec==spy->prec ){
+    if( spx==0 || spy==0 || spx->prec<0 || spy->prec<0 || spx->prec==spy->prec ){
+      fprintf(stderr, "Not enough precedence: %s\n", errsym->name);
       apy->type = CONFLICT;
       errcnt++;
     }else if( spx->prec>spy->prec ){
@@ -1008,7 +1022,7 @@ struct symbol *errsym;   /* The error symbol (if defined.  NULL otherwise) */
       apx->type = RD_RESOLVED;
     }
   }else{
-    assert( 
+    assert(
       apx->type==SH_RESOLVED ||
       apx->type==RD_RESOLVED ||
       apx->type==CONFLICT ||
@@ -1367,7 +1381,7 @@ char **argv;
   OptInit(argv,options,stderr);
   if( version ){
      printf("Lemon version 1.0\n");
-     exit(0); 
+     exit(0);
   }
   if( OptNArgs()!=1 ){
     fprintf(stderr,"Exactly one filename argument is required.\n");
@@ -2050,7 +2064,7 @@ to follow the previous rule.");
     case IN_RHS:
       if( x[0]=='.' ){
         struct rule *rp;
-        rp = (struct rule *)malloc( sizeof(struct rule) + 
+        rp = (struct rule *)malloc( sizeof(struct rule) +
              sizeof(struct symbol*)*psp->nrhs + sizeof(char*)*psp->nrhs );
         if( rp==0 ){
           ErrorMsg(psp->filename,psp->tokenlineno,
@@ -2305,7 +2319,7 @@ to follow the previous rule.");
 ** macros.  This routine looks for "%ifdef" and "%ifndef" and "%endif" and
 ** comments them out.  Text in between is also commented out as appropriate.
 */
-static preprocess_input(char *z){
+static void preprocess_input(char *z){
   int i, j, k, n;
   int exclude = 0;
   int start;
@@ -2613,7 +2627,7 @@ char *mode;
   return fp;
 }
 
-/* Duplicate the input file without comments and without actions 
+/* Duplicate the input file without comments and without actions
 ** on rules */
 void Reprint(lemp)
 struct lemon *lemp;
@@ -2793,7 +2807,6 @@ int modemask;
   char *pathlist;
   char *path,*cp;
   char c;
-  extern int access();
 
 #ifdef __WIN32__
   cp = strrchr(argv0,'\\');
@@ -3127,7 +3140,7 @@ PRIVATE char *translate_code(struct lemon *lemp, struct rule *rp){
   rp->code = Strsafe(cp);
 }
 
-/* 
+/*
 ** Generate code which executes when the rule "rp" is reduced.  Write
 ** the code to "out".  Make sure lineno stays up-to-date.
 */
@@ -3527,7 +3540,7 @@ int mhflag;     /* Output in makeheaders format if true */
 
   /* Output the yy_shift_ofst[] table */
   fprintf(out, "#define YY_SHIFT_USE_DFLT (%d)\n", mnTknOfst-1); lineno++;
-  fprintf(out, "static %s yy_shift_ofst[] = {\n", 
+  fprintf(out, "static %s yy_shift_ofst[] = {\n",
           minimum_size_type(mnTknOfst-1, mxTknOfst)); lineno++;
   n = lemp->nstate;
   for(i=j=0; i<n; i++){
@@ -3548,7 +3561,7 @@ int mhflag;     /* Output in makeheaders format if true */
 
   /* Output the yy_reduce_ofst[] table */
   fprintf(out, "#define YY_REDUCE_USE_DFLT (%d)\n", mnNtOfst-1); lineno++;
-  fprintf(out, "static %s yy_reduce_ofst[] = {\n", 
+  fprintf(out, "static %s yy_reduce_ofst[] = {\n",
           minimum_size_type(mnNtOfst-1, mxNtOfst)); lineno++;
   n = lemp->nstate;
   for(i=j=0; i<n; i++){
@@ -3623,7 +3636,7 @@ int mhflag;     /* Output in makeheaders format if true */
   tplt_xfer(lemp->name,in,out,&lineno);
 
   /* Generate code which executes every time a symbol is popped from
-  ** the stack while processing errors or while destroying the parser. 
+  ** the stack while processing errors or while destroying the parser.
   ** (In other words, generate the %destructor actions)
   */
   if( lemp->tokendest ){
@@ -3677,7 +3690,7 @@ int mhflag;     /* Output in makeheaders format if true */
   tplt_print(out,lemp,lemp->overflow,lemp->overflowln,&lineno);
   tplt_xfer(lemp->name,in,out,&lineno);
 
-  /* Generate the table of rule information 
+  /* Generate the table of rule information
   **
   ** Note: This code depends on the fact that rules are number
   ** sequentually beginning with 0.
@@ -3755,7 +3768,7 @@ struct lemon *lemp;
     for(i=1; i<lemp->nterminal; i++){
       fprintf(out,"#define %s%-30s %2d\n",prefix,lemp->symbols[i]->name,i);
     }
-    fclose(out);  
+    fclose(out);
   }
   return;
 }
@@ -3796,7 +3809,7 @@ struct lemon *lemp;
         rbest = rp;
       }
     }
- 
+
     /* Do not make a default if the number of rules to default
     ** is not at least 2 */
     if( nbest<2 ) continue;
@@ -3947,7 +3960,7 @@ void Strsafe_init(){
   if( x1a ){
     x1a->size = 1024;
     x1a->count = 0;
-    x1a->tbl = (x1node*)malloc( 
+    x1a->tbl = (x1node*)malloc(
       (sizeof(x1node) + sizeof(x1node*))*1024 );
     if( x1a->tbl==0 ){
       free(x1a);
@@ -4109,7 +4122,7 @@ void Symbol_init(){
   if( x2a ){
     x2a->size = 128;
     x2a->count = 0;
-    x2a->tbl = (x2node*)malloc( 
+    x2a->tbl = (x2node*)malloc(
       (sizeof(x2node) + sizeof(x2node*))*128 );
     if( x2a->tbl==0 ){
       free(x2a);
@@ -4315,7 +4328,7 @@ void State_init(){
   if( x3a ){
     x3a->size = 128;
     x3a->count = 0;
-    x3a->tbl = (x3node*)malloc( 
+    x3a->tbl = (x3node*)malloc(
       (sizeof(x3node) + sizeof(x3node*))*128 );
     if( x3a->tbl==0 ){
       free(x3a);
@@ -4461,7 +4474,7 @@ void Configtable_init(){
   if( x4a ){
     x4a->size = 64;
     x4a->count = 0;
-    x4a->tbl = (x4node*)malloc( 
+    x4a->tbl = (x4node*)malloc(
       (sizeof(x4node) + sizeof(x4node*))*64 );
     if( x4a->tbl==0 ){
       free(x4a);
