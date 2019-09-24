@@ -26,6 +26,13 @@ function compile_lemon() {
   chmod +x ./lemon
 }
 
+function replace() {
+  local re="$1"
+  local file="$2"
+
+  sed "$re" "$file" > xx && mv -f xx "$file"
+}
+
 function generate_lexer() {
   local uprefix="$1"
   local lprefix="$2"
@@ -46,13 +53,11 @@ function generate_lexer() {
     re2c -W --no-debug-info --no-generation-date -o scanner.c scanner.re
   fi
 
-  sed -ri "s/YY/$uprefix/g" scanner.c
-  sed -ri "s/yy/$lprefix/g" scanner.c
+  replace "s/YY/$uprefix/g" scanner.c
+  replace "s/yy/$lprefix/g" scanner.c
 }
 
 function generate_parser() {
-  pwd
-
   local uprefix="$1"
   local lprefix="$2"
   local tprefix="$3"
@@ -63,10 +68,10 @@ function generate_parser() {
   cat parser.php7.c >> parser.c
   cat base.c >> parser.c
 
-  sed -ri 's|#line|//|g' parser.c
-  sed -ri "s/define TOKEN/define ${tprefix}TOKEN/g" parser.c
-  sed -ri "s/YY/$uprefix/g" parser.c
-  sed -ri "s/yy/$lprefix/g" parser.c
+  replace 's|#line|//|g' parser.c
+  replace "s/define TOKEN/define ${tprefix}TOKEN/g" parser.c
+  replace "s/YY/$uprefix/g" parser.c
+  replace "s/yy/$lprefix/g" parser.c
 }
 
 for lang in "${LANGS[@]}"
@@ -97,7 +102,6 @@ do
     generate_lexer "$UPREFIX" "$LPREFIX"
     generate_parser "$UPREFIX" "$LPREFIX" "$TPREFIX"
 
+    (>&1 printf "Done\\n\\n")
   popd > /dev/null 2>&1 || exit 1
-
-  (>&1 echo "Done")
 done
