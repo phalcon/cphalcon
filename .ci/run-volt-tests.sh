@@ -7,6 +7,8 @@
 # For the full copyright and license information, please view the
 # LICENSE.txt file that was distributed with this source code.
 
+set -e
+
 NO_INTERACTION=1
 REPORT_EXIT_STATUS=1
 TEST_PHP_EXECUTABLE="$(phpenv which php)"
@@ -25,7 +27,7 @@ php ./ext/run-tests.php \
   -d "report_zend_debug=0" \
   -d "zend.assertions=1" \
   -d "extension=$(php-config --extension-dir)/psr.so" \
-  -d "extension=${TRAVIS_BUILD_DIR}/ext/modules/phalcon.so" \
+  -d "extension=$(pwd)/ext/modules/phalcon.so" \
   --offline \
   --show-diff \
   --set-timeout 120 \

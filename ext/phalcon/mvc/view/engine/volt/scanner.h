@@ -23,6 +23,7 @@
 #define PHVOLT_MODE_RAW 0
 #define PHVOLT_MODE_CODE 1
 #define PHVOLT_MODE_COMMENT 2
+#define PHVOLT_MODE_ECHO 4 /* To indicates we're in {{ }} */
 
 #define PHVOLT_T_IGNORE 257
 
@@ -171,12 +172,31 @@ typedef struct _phvolt_token_names { /* {{{ */
 } phvolt_token_names;
 /* }}} */
 
-/* Active token state */
+/* Contains all state for a single scan session.
+ *
+ * This structure is used by a scanner to preserve its state.
+ *
+ * TODO: Make all charptrs declared as const to help ensure that
+ * you don't accidentally end up modifying the buffer as it's being
+ * scanned. This means that any time you want to read data into the
+ * buffer, you need to cast the pointers to be nonconst.
+ */
 typedef struct _phvolt_scanner_state { /* {{{ */
 	int active_token;
 	int mode;
-	char* start;
-	char* end;
+
+	/* The current character being looked at by the scanner.
+	 * This is the same as re2c's YYCURSOR. */
+	char *start;
+
+	/* The last (uppermost) valid character in the current buffer.
+	 * This is the same as re2c's YYLIMIT. */
+	char *end;
+
+	/* Used internally by re2c engine to handle backtracking.
+	 * This is the same as re2c's YYMARKER. */
+	char *marker;
+
 	unsigned int start_length;
 	unsigned int active_line;
 	zval *active_file;
@@ -190,7 +210,7 @@ typedef struct _phvolt_scanner_state { /* {{{ */
 	unsigned int old_if_level;
 	unsigned int if_level;
 	unsigned int for_level;
-    unsigned int switch_level;
+	unsigned int switch_level;
 	int whitespace_control;
 	int forced_raw_state;
 } phvolt_scanner_state;
@@ -207,6 +227,24 @@ typedef struct _phvolt_scanner_token { /* {{{ */
 int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token);
 
 extern const phvolt_token_names phvolt_tokens[];
+
+#ifdef YYDEBUG
+#undef YYDEBUG
+#endif
+
+/* The YYDEBUG macro is designed to produce of trace information,
+ * that will be written on stderr. Change next line to "#if 1"
+ * to enable scanner tracing.
+ */
+#if 0
+#include <stdio.h> // fprintf, stderr
+
+#define YYDEBUG(s, c) do { \
+	fprintf(stderr, "State: %d char: '%c'\n", s, c); \
+} while(0);
+#else
+#define YYDEBUG(s, c)
+#endif
 
 #endif  /* PHALCON_MVC_VIEW_ENGINE_VOLT_SCANNER_H */
 
