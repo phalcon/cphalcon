@@ -79,16 +79,12 @@ class Application extends AbstractApplication
     /**
      * Handles a MVC request
      */
-    public function handle(var! uri)
+    public function handle(string! uri) -> <ResponseInterface> | bool
     {
         var container, eventsManager, router, dispatcher, response, view,
             module, moduleObject, moduleName, className, path, implicitView,
             returnedResponse, controller, possibleResponse, renderStatus,
             matchedRoute, match;
-
-        if unlikely typeof uri != "string" {
-            throw new Exception("Argument should be a string");
-        }
 
         let container = this->container;
 

@@ -34,16 +34,12 @@ class Console extends AbstractApplication
     /**
      * Handle the whole command-line tasks
      */
-    public function handle(var! arguments)
+    public function handle(array arguments = null)
     {
         var className, container, dispatcher, eventsManager, module, moduleName,
             moduleObject, modules, path, router, task;
 
         let container = this->container;
-
-        if unlikely typeof arguments != "array" {
-            throw new Exception("Argument should be an array");
-        }
 
         if unlikely typeof container != "object" {
             throw new Exception(
