@@ -1,11 +1,10 @@
-
-/**
+/* base.c
  * This file is part of the Phalcon Framework.
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 
 const phql_token_names phql_tokens[] =
@@ -125,11 +124,7 @@ static void phql_scanner_error_msg(phql_parser_status *parser_status, zval **err
 	unsigned int length;
 	phql_scanner_state *state = parser_status->scanner_state;
 
-#if PHP_VERSION_ID < 70000
-	MAKE_STD_ZVAL(*error_msg);
-#else
     ZVAL_UNDEF(*error_msg);
-#endif
 
 	if (state->start) {
 		length = 64 + state->start_length + parser_status->phql_length;
@@ -142,17 +137,9 @@ static void phql_scanner_error_msg(phql_parser_status *parser_status, zval **err
 			snprintf(error, length, "Scanning error before '%s' when parsing: %s (%d)", state->start, parser_status->phql, parser_status->phql_length);
 		}
 		error[length - 1] = '\0';
-#if PHP_VERSION_ID < 70000
-		ZVAL_STRING(*error_msg, error, 1);
-#else
         ZVAL_STRING(*error_msg, error);
-#endif
 	} else {
-#if PHP_VERSION_ID < 70000
-		ZVAL_STRING(*error_msg, "Scanning error near to EOF", 1);
-#else
 		ZVAL_STRING(*error_msg, "Scanning error near to EOF");
-#endif
 	}
 
 	if (error) {
@@ -165,13 +152,8 @@ static void phql_scanner_error_msg(phql_parser_status *parser_status, zval **err
  */
 int phql_parse_phql(zval *result, zval *phql TSRMLS_DC)
 {
-#if PHP_VERSION_ID < 70000
-	zval *error_msg = NULL;
-#else
     zval err_msg, *error_msg = &err_msg;
     ZVAL_UNDEF(error_msg);
-#endif
-
 	ZVAL_NULL(result);
 
 	if (phql_internal_parse_phql(&result, Z_STRVAL_P(phql), Z_STRLEN_P(phql), &error_msg TSRMLS_CC) == FAILURE) {
@@ -195,19 +177,10 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 	void* phql_parser;
 	char *error;
     unsigned long phql_key = 0;
-#if PHP_VERSION_ID < 70000
-	zval **temp_ast;
-#else
     zval *temp_ast;
-#endif
 
 	if (!phql) {
-#if PHP_VERSION_ID < 70000
-		MAKE_STD_ZVAL(*error_msg);
-		ZVAL_STRING(*error_msg, "PHQL statement cannot be NULL", 1);
-#else
 		ZVAL_STRING(*error_msg, "PHQL statement cannot be NULL");
-#endif
 		return FAILURE;
 	}
 
@@ -215,19 +188,11 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 	if (cache_level >= 0) {
 		phql_key = zend_inline_hash_func(phql, phql_length + 1);
 		if (phalcon_globals_ptr->orm.parser_cache != NULL) {
-#if PHP_VERSION_ID < 70000
-			if (zend_hash_index_find(phalcon_globals_ptr->orm.parser_cache, phql_key, (void**) &temp_ast) == SUCCESS) {
-				ZVAL_ZVAL(*result, *temp_ast, 1, 0);
-				Z_SET_REFCOUNT_P(*result, 1);
-				return SUCCESS;
-			}
-#else
             if ((temp_ast = zend_hash_index_find(phalcon_globals_ptr->orm.parser_cache, phql_key)) != NULL) {
                 ZVAL_ZVAL(*result, temp_ast, 1, 0);
                 Z_TRY_ADDREF_P(*result);
                 return SUCCESS;
             }
-#endif
 		}
 	}
 
@@ -238,11 +203,8 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 
 	parser_status->status = PHQL_PARSING_OK;
 	parser_status->scanner_state = state;
-#if PHP_VERSION_ID < 70000
-	parser_status->ret = NULL;
-#else
     ZVAL_UNDEF(&parser_status->ret);
-#endif
+
 	parser_status->syntax_error = NULL;
 	parser_status->token = &token;
 	parser_status->enable_literals = phalcon_globals_ptr->orm.enable_literals;
@@ -378,12 +340,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				if (parser_status->enable_literals) {
 					phql_parse_with_token(phql_parser, PHQL_T_INTEGER, PHQL_INTEGER, &token, parser_status);
 				} else {
-#if PHP_VERSION_ID < 70000
-					MAKE_STD_ZVAL(*error_msg);
-					ZVAL_STRING(*error_msg, "Literals are disabled in PHQL statements", 1);
-#else
 					ZVAL_STRING(*error_msg, "Literals are disabled in PHQL statements");
-#endif
 					parser_status->status = PHQL_PARSING_FAILED;
 				}
 				break;
@@ -391,12 +348,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				if (parser_status->enable_literals) {
 					phql_parse_with_token(phql_parser, PHQL_T_DOUBLE, PHQL_DOUBLE, &token, parser_status);
 				} else {
-#if PHP_VERSION_ID < 70000
-					MAKE_STD_ZVAL(*error_msg);
-					ZVAL_STRING(*error_msg, "Literals are disabled in PHQL statements", 1);
-#else
                     ZVAL_STRING(*error_msg, "Literals are disabled in PHQL statements");
-#endif
 					parser_status->status = PHQL_PARSING_FAILED;
 				}
 				break;
@@ -404,12 +356,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				if (parser_status->enable_literals) {
 					phql_parse_with_token(phql_parser, PHQL_T_STRING, PHQL_STRING, &token, parser_status);
 				} else {
-#if PHP_VERSION_ID < 70000
-					MAKE_STD_ZVAL(*error_msg);
-					ZVAL_STRING(*error_msg, "Literals are disabled in PHQL statements", 1);
-#else
                     ZVAL_STRING(*error_msg, "Literals are disabled in PHQL statements");
-#endif
 					parser_status->status = PHQL_PARSING_FAILED;
 				}
 				break;
@@ -417,12 +364,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				if (parser_status->enable_literals) {
 					phql_(phql_parser, PHQL_TRUE, NULL, parser_status);
 				} else {
-#if PHP_VERSION_ID < 70000
-					MAKE_STD_ZVAL(*error_msg);
-					ZVAL_STRING(*error_msg, "Literals are disabled in PHQL statements", 1);
-#else
                     ZVAL_STRING(*error_msg, "Literals are disabled in PHQL statements");
-#endif
 					parser_status->status = PHQL_PARSING_FAILED;
 				}
 				break;
@@ -430,12 +372,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				if (parser_status->enable_literals) {
 					phql_(phql_parser, PHQL_FALSE, NULL, parser_status);
 				} else {
-#if PHP_VERSION_ID < 70000
-					MAKE_STD_ZVAL(*error_msg);
-					ZVAL_STRING(*error_msg, "Literals are disabled in PHQL statements", 1);
-#else
                     ZVAL_STRING(*error_msg, "Literals are disabled in PHQL statements");
-#endif
 					parser_status->status = PHQL_PARSING_FAILED;
 				}
 				break;
@@ -443,12 +380,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				if (parser_status->enable_literals) {
 					phql_parse_with_token(phql_parser, PHQL_T_HINTEGER, PHQL_HINTEGER, &token, parser_status);
 				} else {
-#if PHP_VERSION_ID < 70000
-					MAKE_STD_ZVAL(*error_msg);
-					ZVAL_STRING(*error_msg, "Literals are disabled in PHQL statements", 1);
-#else
                     ZVAL_STRING(*error_msg, "Literals are disabled in PHQL statements");
-#endif
 					parser_status->status = PHQL_PARSING_FAILED;
 				}
 				break;
@@ -578,12 +510,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				error = emalloc(error_length);
 				snprintf(error, error_length, "Scanner: Unknown opcode %d", token.opcode);
 				error[error_length - 1] = '\0';
-#if PHP_VERSION_ID < 70000
-				MAKE_STD_ZVAL(*error_msg);
-				ZVAL_STRING(*error_msg, error, 1);
-#else
                 ZVAL_STRING(*error_msg, error);
-#endif
 				efree(error);
 				break;
 		}
@@ -601,15 +528,10 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 
 			case PHQL_SCANNER_RETCODE_ERR:
 			case PHQL_SCANNER_RETCODE_IMPOSSIBLE:
-#if PHP_VERSION_ID < 70000
-				if (!*error_msg) {
-					phql_scanner_error_msg(parser_status, error_msg TSRMLS_CC);
-				}
-#else
                 if (Z_TYPE_P(*error_msg) == IS_UNDEF) {
                     phql_scanner_error_msg(parser_status, error_msg TSRMLS_CC);
                 }
-#endif
+
 				status = FAILURE;
 				break;
 
@@ -624,16 +546,10 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 	if (parser_status->status != PHQL_PARSING_OK) {
 		status = FAILURE;
 		if (parser_status->syntax_error) {
-#if PHP_VERSION_ID < 70000
-            if (!*error_msg) {
-				MAKE_STD_ZVAL(*error_msg);
-				ZVAL_STRING(*error_msg, parser_status->syntax_error, 1);
-            }
-#else
             if (Z_TYPE_P(*error_msg) == IS_UNDEF) {
                 ZVAL_STRING(*error_msg, parser_status->syntax_error);
             }
-#endif
+
 			efree(parser_status->syntax_error);
 		}
 	}
@@ -642,34 +558,18 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 
 	if (status != FAILURE) {
 		if (parser_status->status == PHQL_PARSING_OK) {
-#if PHP_VERSION_ID < 70000
-			if (parser_status->ret) {
-#else
 			if (Z_TYPE_P(&parser_status->ret) == IS_ARRAY) {
-#endif
 
 				/**
 				 * Set a unique id for the parsed ast
 				 */
 				if (phalcon_globals_ptr->orm.cache_level >= 1) {
-#if PHP_VERSION_ID < 70000
-					if (Z_TYPE_P(parser_status->ret) == IS_ARRAY) {
-						add_assoc_long(parser_status->ret, "id", phalcon_globals_ptr->orm.unique_cache_id++);
-					}
-#else
                     if (Z_TYPE_P(&parser_status->ret) == IS_ARRAY) {
                         add_assoc_long(&parser_status->ret, "id", phalcon_globals_ptr->orm.unique_cache_id++);
                     }
-#endif
 				}
 
-#if PHP_VERSION_ID < 70000
-                ZVAL_ZVAL(*result, parser_status->ret, 0, 0);
-                ZVAL_NULL(parser_status->ret);
-				zval_ptr_dtor(&parser_status->ret);
-#else
                 ZVAL_ZVAL(*result, &parser_status->ret, 1, 1);
-#endif
 
 				/**
 				 * Store the parsed definition in the cache
@@ -681,18 +581,6 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
                         zend_hash_init(phalcon_globals_ptr->orm.parser_cache, 0, NULL, ZVAL_PTR_DTOR, 0);
                     }
 
-#if PHP_VERSION_ID < 70000
-
-					Z_ADDREF_PP(result);
-
-					zend_hash_index_update(
-						phalcon_globals_ptr->orm.parser_cache,
-						phql_key,
-						result,
-						sizeof(zval *),
-						NULL
-					);
-#else
                     Z_TRY_ADDREF_P(*result);
 
                     zend_hash_index_update(
@@ -700,13 +588,8 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
                         phql_key,
                         *result
                     );
-#endif
 				}
 
-			} else {
-#if PHP_VERSION_ID < 70000
-				efree(parser_status->ret);
-#endif
 			}
 		}
 	}
