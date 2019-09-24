@@ -48,9 +48,9 @@ function generate_lexer() {
 
   if [ "$RE2C_VER" -gt "9999" ]
   then
-    re2c --no-debug-info --no-generation-date -o scanner.c scanner.re
-  else
     re2c -W --no-debug-info --no-generation-date -o scanner.c scanner.re
+  else
+    re2c --no-debug-info --no-generation-date -o scanner.c scanner.re
   fi
 
   replace "s/YY/$uprefix/g" scanner.c
