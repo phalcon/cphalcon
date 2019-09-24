@@ -161,7 +161,7 @@ class Annotations extends AbstractAdapter
     /**
      * Gets dispatcher
      */
-    public function getDispatcher() -> <Dispatcher>
+    public function getDispatcher() -> <DispatcherInterface>
     {
         return this->dispatcher;
     }

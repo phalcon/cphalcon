@@ -13,6 +13,7 @@ namespace Phalcon\Paginator\Adapter;
 use Phalcon\Paginator\Exception;
 use Phalcon\Paginator\Repository;
 use Phalcon\Paginator\RepositoryInterface;
+use Phalcon\Paginator\Adapter\AdapterInterface;
 
 /**
  * Phalcon\Paginator\Adapter\AbstractAdapter
@@ -78,7 +79,7 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
      * Set the current page number
      */
-    public function setCurrentPage(int page) -> <Adapter>
+    public function setCurrentPage(int page) -> <AdapterInterface>
     {
         let this->page = page;
 
@@ -88,7 +89,7 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
      * Set current rows limit
      */
-    public function setLimit(int limitRows) -> <Adapter>
+    public function setLimit(int limitRows) -> <AdapterInterface>
     {
         if limitRows <= 0 {
             throw new Exception("Limit must be greater then zero");
@@ -101,7 +102,7 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
      * Sets current repository for pagination
      */
-    public function setRepository(<RepositoryInterface> repository) -> <Adapter>
+    public function setRepository(<RepositoryInterface> repository) -> <AdapterInterface>
     {
         let this->repository = repository;
 

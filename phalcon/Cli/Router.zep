@@ -14,6 +14,7 @@ use Phalcon\Di\DiInterface;
 use Phalcon\Di\AbstractInjectionAware;
 use Phalcon\Cli\Router\Route;
 use Phalcon\Cli\Router\Exception;
+use Phalcon\Cli\Router\RouteInterface;
 
 /**
  * Phalcon\Cli\Router is the standard framework router. Routing is the process
