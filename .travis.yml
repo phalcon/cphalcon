@@ -84,6 +84,7 @@ before_script:
     then
       export REPORT_COVERAGE=0
     fi
+  - .ci/genparsers.sh
   - .ci/build.sh
 
 script:
