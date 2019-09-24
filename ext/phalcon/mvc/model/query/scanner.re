@@ -32,6 +32,15 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 		re2c:indent:top = 2;
 		re2c:yyfill:enable = 0;
 
+		INTEGER = [0-9]+;
+		INTEGER {
+			token->opcode = PHQL_T_INTEGER;
+			token->value = estrndup(q, YYCURSOR - q);
+			token->len = YYCURSOR - q;
+			q = YYCURSOR;
+			return 0;
+		}
+
 		HINTEGER = [x0-9A-Fa-f]+;
 		HINTEGER {
             token->value = estrndup(q, YYCURSOR - q);
@@ -57,16 +66,7 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 			return 0;
 		}
 
-		INTEGER = [0-9]+;
-		INTEGER {
-			token->opcode = PHQL_T_INTEGER;
-			token->value = estrndup(q, YYCURSOR - q);
-			token->len = YYCURSOR - q;
-			q = YYCURSOR;
-			return 0;
-		}
-
-		DOUBLE = ([0-9]*[\.][0-9]+)|([0-9]+[\.][0-9]*);
+		DOUBLE = ([0-9]*[.][0-9]+)|([0-9]+[.][0-9]*);
 		DOUBLE {
 			token->opcode = PHQL_T_DOUBLE;
 			token->value = estrndup(q, YYCURSOR - q);
@@ -84,7 +84,7 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 			return 0;
 		}
 
-		SPLACEHOLDER = ":"[a-zA-Z0-9\_\-]+":";
+		SPLACEHOLDER = ":"[a-zA-Z0-9_\-]+":";
 		SPLACEHOLDER {
 			token->opcode = PHQL_T_SPLACEHOLDER;
 			token->value = estrndup(q, YYCURSOR - q - 1);
@@ -93,7 +93,7 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 			return 0;
 		}
 
-		BPLACEHOLDER = "{"[a-zA-Z0-9\_\-\:]+"}";
+		BPLACEHOLDER = "{"[a-zA-Z0-9_:\-]+"}";
 		BPLACEHOLDER {
 			token->opcode = PHQL_T_BPLACEHOLDER;
 			token->value = estrndup(q, YYCURSOR - q - 1);
@@ -366,7 +366,7 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 			return 0;
 		}
 
-		IDENTIFIER = [\\]?[a-zA-Z\_][a-zA-Z0-9\_\\:]*;
+		IDENTIFIER = [\\]?[a-zA-Z_][a-zA-Z0-9_\\:]*;
 		IDENTIFIER {
 			token->opcode = PHQL_T_IDENTIFIER;
 			if ((YYCURSOR - q) > 1) {
@@ -385,7 +385,7 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 			return 0;
 		}
 
-		EIDENTIFIER = [\[] [a-zA-Z\\\_][a-zA-Z0-9\_\\:]* [\]];
+		EIDENTIFIER = '[' [a-zA-Z\\_][a-zA-Z0-9_\\:]* ']';
 		EIDENTIFIER {
 			token->opcode = PHQL_T_IDENTIFIER;
 			token->value = estrndup(q, YYCURSOR - q - 1);
@@ -501,11 +501,6 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 
 		"@>" {
 			token->opcode = PHQL_T_TS_CONTAINS_ANOTHER;
-			return 0;
-		}
-
-		"@>" {
-			token->opcode = PHQL_T_TS_CONTAINS_IN;
 			return 0;
 		}
 

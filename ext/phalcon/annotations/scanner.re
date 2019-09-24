@@ -57,7 +57,7 @@ int phannot_get_token(phannot_scanner_state *s, phannot_scanner_token *token) {
 			return 0;
 		}
 
-		DOUBLE = ([\-]?[0-9]+[\.][0-9]+);
+		DOUBLE = ([\-]?[0-9]+[.][0-9]+);
 		DOUBLE {
 			token->opcode = PHANNOT_T_DOUBLE;
 			token->value = estrndup(start, YYCURSOR - start);
