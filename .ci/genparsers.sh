@@ -86,12 +86,12 @@ do
     "mvc/model/query")
         UPREFIX="PP"
         LPREFIX="pp"
-        TPREFIX="V"
+        TPREFIX="PP"
         ;;
     "mvc/view/engine/volt")
         UPREFIX="VV"
         LPREFIX="vv"
-        TPREFIX="PP"
+        TPREFIX="V"
         ;;
     "annotations")
         UPREFIX="AA"
