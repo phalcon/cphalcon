@@ -13,7 +13,7 @@ set -e
 
 BASE_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." >/dev/null 2>&1 && pwd )"
 EXT_DIR=ext/phalcon
-LANGS=(mvc/model/query mvc/view/engine/volt)
+LANGS=(mvc/model/query mvc/view/engine/volt annotations)
 
 function cleanup() {
   find . \( -name '*.o' -o -name '*.lo' -o -name '*.loT' \) -exec rm -f {} +
@@ -92,6 +92,11 @@ do
         UPREFIX="VV"
         LPREFIX="vv"
         TPREFIX="PP"
+        ;;
+    "annotations")
+        UPREFIX="AA"
+        LPREFIX="aa"
+        TPREFIX="A"
         ;;
     *)
       (>&2 echo "Usupported language: $lang")
