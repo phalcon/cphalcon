@@ -14,7 +14,6 @@ use Countable;
 use Iterator;
 use Phalcon\Di\Injectable;
 use Phalcon\Di\DiInterface;
-use Phalcon\FilterInterface;
 use Phalcon\Filter\FilterInterface;
 use Phalcon\Forms\Exception;
 use Phalcon\Forms\Element\ElementInterface;

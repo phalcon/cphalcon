@@ -10,7 +10,6 @@
 
 namespace Phalcon\Annotations;
 
-use Phalcon\Annotations\Annotation;
 use Phalcon\Annotations\Exception;
 
 /**
