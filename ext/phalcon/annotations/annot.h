@@ -1,11 +1,10 @@
-
-/**
+/* annot.h
  * This file is part of the Phalcon Framework.
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 
 #ifndef PHALCON_ANNOTATIONS_ANNOT_H
@@ -22,11 +21,7 @@ typedef struct _phannot_parser_token {
 } phannot_parser_token;
 
 typedef struct _phannot_parser_status {
-#if PHP_VERSION_ID < 70000
-	zval *ret;
-#else
 	zval ret;
-#endif
 	phannot_scanner_state *scanner_state;
 	phannot_scanner_token *token;
 	char *syntax_error;

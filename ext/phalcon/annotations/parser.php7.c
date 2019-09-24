@@ -4,7 +4,7 @@
 /* First off, code is include which follows the "include" declaration
 ** in the input file. */
 #include <stdio.h>
-#line 28 "parser.php7.lemon"
+#line 19 "parser.php7.lemon"
 
 #include "parser.php7.inc.h"
 
@@ -127,40 +127,42 @@ typedef union {
 **  yy_default[]       Default action for each state.
 */
 static YYACTIONTYPE yy_action[] = {
- /*     0 */     4,   28,   15,   38,   12,   37,   16,   18,   20,   21,
- /*    10 */    22,   23,   24,    4,   31,    4,   17,   15,   40,   19,
- /*    20 */    35,   16,   18,   20,   21,   22,   23,   24,    3,   31,
- /*    30 */     4,   28,   15,    6,   12,   30,   16,   18,   20,   21,
- /*    40 */    22,   23,   24,   54,   31,   15,   25,   27,   11,   16,
- /*    50 */    13,   36,   15,    7,   27,   11,   16,   15,   32,   27,
- /*    60 */    11,   16,   15,    9,   10,   11,   16,   66,    1,    2,
- /*    70 */    39,   15,    9,    5,   14,   16,   41,   26,    4,    9,
- /*    80 */    29,   34,   54,    8,   54,   54,   54,   54,   33,
+ /*     0 */     4,   28,   15,   38,   12,   14,   16,   18,   20,   21,
+ /*    10 */    22,   23,   24,    4,   31,    4,   28,   15,   40,   12,
+ /*    20 */    30,   16,   18,   20,   21,   22,   23,   24,    3,   31,
+ /*    30 */     4,   17,   15,    6,   19,   35,   16,   18,   20,   21,
+ /*    40 */    22,   23,   24,    5,   31,   15,    7,   27,   11,   16,
+ /*    50 */    54,   54,   15,   25,   27,   11,   16,   15,   32,   27,
+ /*    60 */    11,   16,   66,    1,    2,   39,   41,   15,    4,   10,
+ /*    70 */    11,   16,   15,    9,    9,   37,   16,    8,   13,   36,
+ /*    80 */     9,   29,   34,   54,   54,   54,   54,   54,   26,   54,
+ /*    90 */    54,   54,   54,   54,   54,   54,   33,
 };
 static YYCODETYPE yy_lookahead[] = {
  /*     0 */     2,    3,   22,    5,    6,   25,   26,    9,   10,   11,
  /*    10 */    12,   13,   14,    2,   16,    2,    3,   22,    0,    6,
  /*    20 */    25,   26,    9,   10,   11,   12,   13,   14,   22,   16,
  /*    30 */     2,    3,   22,    4,    6,   25,   26,    9,   10,   11,
- /*    40 */    12,   13,   14,   27,   16,   22,   23,   24,   25,   26,
- /*    50 */     7,    8,   22,   23,   24,   25,   26,   22,   23,   24,
- /*    60 */    25,   26,   22,    1,   24,   25,   26,   19,   20,   21,
- /*    70 */    22,   22,    1,    3,   25,   26,    0,   15,    2,    1,
- /*    80 */     7,    8,   27,    5,   27,   27,   27,   27,   17,
+ /*    40 */    12,   13,   14,    3,   16,   22,   23,   24,   25,   26,
+ /*    50 */    27,   27,   22,   23,   24,   25,   26,   22,   23,   24,
+ /*    60 */    25,   26,   19,   20,   21,   22,    0,   22,    2,   24,
+ /*    70 */    25,   26,   22,    1,    1,   25,   26,    5,    7,    8,
+ /*    80 */     1,    7,    8,   27,   27,   27,   27,   27,   15,   27,
+ /*    90 */    27,   27,   27,   27,   27,   27,   17,
 };
 #define YY_SHIFT_USE_DFLT (-3)
 static signed char yy_shift_ofst[] = {
- /*     0 */    11,   18,   76,   -3,   70,   29,   -2,   78,   -3,   28,
- /*    10 */    -3,   -3,   43,   13,   -3,   -3,   -3,   -3,   -3,   -3,
- /*    20 */    -3,   -3,   -3,   -3,   28,   62,   -3,   -3,   73,   13,
- /*    30 */    -3,   28,   71,   -3,   13,   -3,   13,   -3,   -3,   -3,
+ /*     0 */    11,   18,   66,   -3,   40,   29,   -2,   72,   -3,   13,
+ /*    10 */    -3,   -3,   71,   28,   -3,   -3,   -3,   -3,   -3,   -3,
+ /*    20 */    -3,   -3,   -3,   -3,   13,   73,   -3,   -3,   74,   28,
+ /*    30 */    -3,   13,   79,   -3,   28,   -3,   28,   -3,   -3,   -3,
 };
 #define YY_REDUCE_USE_DFLT (-21)
 static signed char yy_reduce_ofst[] = {
- /*     0 */    48,  -21,    6,  -21,  -21,  -21,   30,  -21,  -21,   40,
- /*    10 */   -21,  -21,  -21,   49,  -21,  -21,  -21,  -21,  -21,  -21,
- /*    20 */   -21,  -21,  -21,  -21,   23,  -21,  -21,  -21,  -21,   10,
- /*    30 */   -21,   35,  -21,  -21,   -5,  -21,  -20,  -21,  -21,  -21,
+ /*     0 */    43,  -21,    6,  -21,  -21,  -21,   23,  -21,  -21,   45,
+ /*    10 */   -21,  -21,  -21,  -20,  -21,  -21,  -21,  -21,  -21,  -21,
+ /*    20 */   -21,  -21,  -21,  -21,   30,  -21,  -21,  -21,  -21,   -5,
+ /*    30 */   -21,   35,  -21,  -21,   10,  -21,   50,  -21,  -21,  -21,
 };
 static YYACTIONTYPE yy_default[] = {
  /*     0 */    65,   65,   65,   42,   65,   46,   65,   65,   44,   65,
@@ -365,7 +367,7 @@ static void yy_destructor(YYCODETYPE yymajor, YYMINORTYPE *yypminor){
     case 15:
     case 16:
     case 17:
-#line 77 "parser.php7.lemon"
+#line 68 "parser.php7.lemon"
 {
 	if ((yypminor->yy0)) {
 		if ((yypminor->yy0)->free_flag) {
@@ -374,7 +376,7 @@ static void yy_destructor(YYCODETYPE yymajor, YYMINORTYPE *yypminor){
 		efree((yypminor->yy0));
 	}
 }
-#line 378 "parser.php7.c"
+#line 380 "parser.php7.c"
       break;
     case 20:
     case 21:
@@ -382,11 +384,11 @@ static void yy_destructor(YYCODETYPE yymajor, YYMINORTYPE *yypminor){
     case 23:
     case 24:
     case 25:
-#line 90 "parser.php7.lemon"
+#line 81 "parser.php7.lemon"
 {
     zval_ptr_dtor(&(yypminor->yy8));
 }
-#line 390 "parser.php7.c"
+#line 392 "parser.php7.c"
       break;
     default:  break;   /* If no destructor action specified: do nothing */
   }
@@ -624,166 +626,166 @@ static void yy_reduce(
   **     break;
   */
       case 0:
-#line 86 "parser.php7.lemon"
+#line 77 "parser.php7.lemon"
 {
 	ZVAL_ZVAL(&status->ret, &yymsp[0].minor.yy8, 1, 1);
 }
-#line 632 "parser.php7.c"
+#line 634 "parser.php7.c"
         break;
       case 1:
       case 14:
       case 15:
-#line 94 "parser.php7.lemon"
+#line 85 "parser.php7.lemon"
 {
 	yygotominor.yy8 = yymsp[0].minor.yy8;
 }
-#line 641 "parser.php7.c"
+#line 643 "parser.php7.c"
         break;
       case 2:
-#line 102 "parser.php7.lemon"
+#line 93 "parser.php7.lemon"
 {
 	phannot_ret_zval_list(&yygotominor.yy8, &yymsp[-1].minor.yy8, &yymsp[0].minor.yy8);
 }
-#line 648 "parser.php7.c"
+#line 650 "parser.php7.c"
         break;
       case 3:
       case 8:
-#line 106 "parser.php7.lemon"
+#line 97 "parser.php7.lemon"
 {
 	phannot_ret_zval_list(&yygotominor.yy8, NULL, &yymsp[0].minor.yy8);
 }
-#line 656 "parser.php7.c"
+#line 658 "parser.php7.c"
         break;
       case 4:
-#line 114 "parser.php7.lemon"
+#line 105 "parser.php7.lemon"
 {
 	phannot_ret_annotation(&yygotominor.yy8, yymsp[-3].minor.yy0, &yymsp[-1].minor.yy8, status->scanner_state);
   yy_destructor(2,&yymsp[-4].minor);
   yy_destructor(4,&yymsp[-2].minor);
   yy_destructor(5,&yymsp[0].minor);
 }
-#line 666 "parser.php7.c"
+#line 668 "parser.php7.c"
         break;
       case 5:
-#line 118 "parser.php7.lemon"
+#line 109 "parser.php7.lemon"
 {
 	phannot_ret_annotation(&yygotominor.yy8, yymsp[-2].minor.yy0, NULL, status->scanner_state);
   yy_destructor(2,&yymsp[-3].minor);
   yy_destructor(4,&yymsp[-1].minor);
   yy_destructor(5,&yymsp[0].minor);
 }
-#line 676 "parser.php7.c"
+#line 678 "parser.php7.c"
         break;
       case 6:
-#line 122 "parser.php7.lemon"
+#line 113 "parser.php7.lemon"
 {
 	phannot_ret_annotation(&yygotominor.yy8, yymsp[0].minor.yy0, NULL, status->scanner_state);
   yy_destructor(2,&yymsp[-1].minor);
 }
-#line 684 "parser.php7.c"
+#line 686 "parser.php7.c"
         break;
       case 7:
-#line 130 "parser.php7.lemon"
+#line 121 "parser.php7.lemon"
 {
 	phannot_ret_zval_list(&yygotominor.yy8, &yymsp[-2].minor.yy8, &yymsp[0].minor.yy8);
   yy_destructor(1,&yymsp[-1].minor);
 }
-#line 692 "parser.php7.c"
+#line 694 "parser.php7.c"
         break;
       case 9:
-#line 142 "parser.php7.lemon"
+#line 133 "parser.php7.lemon"
 {
 	phannot_ret_named_item(&yygotominor.yy8, NULL, &yymsp[0].minor.yy8);
 }
-#line 699 "parser.php7.c"
+#line 701 "parser.php7.c"
         break;
       case 10:
       case 12:
-#line 146 "parser.php7.lemon"
+#line 137 "parser.php7.lemon"
 {
 	phannot_ret_named_item(&yygotominor.yy8, yymsp[-2].minor.yy0, &yymsp[0].minor.yy8);
   yy_destructor(7,&yymsp[-1].minor);
 }
-#line 708 "parser.php7.c"
+#line 710 "parser.php7.c"
         break;
       case 11:
       case 13:
-#line 150 "parser.php7.lemon"
+#line 141 "parser.php7.lemon"
 {
 	phannot_ret_named_item(&yygotominor.yy8, yymsp[-2].minor.yy0, &yymsp[0].minor.yy8);
   yy_destructor(8,&yymsp[-1].minor);
 }
-#line 717 "parser.php7.c"
+#line 719 "parser.php7.c"
         break;
       case 16:
-#line 174 "parser.php7.lemon"
+#line 165 "parser.php7.lemon"
 {
 	phannot_ret_literal_zval(&yygotominor.yy8, PHANNOT_T_IDENTIFIER, yymsp[0].minor.yy0);
 }
-#line 724 "parser.php7.c"
+#line 726 "parser.php7.c"
         break;
       case 17:
-#line 178 "parser.php7.lemon"
+#line 169 "parser.php7.lemon"
 {
 	phannot_ret_literal_zval(&yygotominor.yy8, PHANNOT_T_INTEGER, yymsp[0].minor.yy0);
 }
-#line 731 "parser.php7.c"
+#line 733 "parser.php7.c"
         break;
       case 18:
-#line 182 "parser.php7.lemon"
+#line 173 "parser.php7.lemon"
 {
 	phannot_ret_literal_zval(&yygotominor.yy8, PHANNOT_T_STRING, yymsp[0].minor.yy0);
 }
-#line 738 "parser.php7.c"
+#line 740 "parser.php7.c"
         break;
       case 19:
-#line 186 "parser.php7.lemon"
+#line 177 "parser.php7.lemon"
 {
 	phannot_ret_literal_zval(&yygotominor.yy8, PHANNOT_T_DOUBLE, yymsp[0].minor.yy0);
 }
-#line 745 "parser.php7.c"
+#line 747 "parser.php7.c"
         break;
       case 20:
-#line 190 "parser.php7.lemon"
+#line 181 "parser.php7.lemon"
 {
 	phannot_ret_literal_zval(&yygotominor.yy8, PHANNOT_T_NULL, NULL);
   yy_destructor(11,&yymsp[0].minor);
 }
-#line 753 "parser.php7.c"
+#line 755 "parser.php7.c"
         break;
       case 21:
-#line 194 "parser.php7.lemon"
+#line 185 "parser.php7.lemon"
 {
 	phannot_ret_literal_zval(&yygotominor.yy8, PHANNOT_T_FALSE, NULL);
   yy_destructor(12,&yymsp[0].minor);
 }
-#line 761 "parser.php7.c"
+#line 763 "parser.php7.c"
         break;
       case 22:
-#line 198 "parser.php7.lemon"
+#line 189 "parser.php7.lemon"
 {
 	phannot_ret_literal_zval(&yygotominor.yy8, PHANNOT_T_TRUE, NULL);
   yy_destructor(13,&yymsp[0].minor);
 }
-#line 769 "parser.php7.c"
+#line 771 "parser.php7.c"
         break;
       case 23:
-#line 202 "parser.php7.lemon"
+#line 193 "parser.php7.lemon"
 {
 	phannot_ret_array(&yygotominor.yy8, &yymsp[-1].minor.yy8);
   yy_destructor(14,&yymsp[-2].minor);
   yy_destructor(15,&yymsp[0].minor);
 }
-#line 778 "parser.php7.c"
+#line 780 "parser.php7.c"
         break;
       case 24:
-#line 206 "parser.php7.lemon"
+#line 197 "parser.php7.lemon"
 {
 	phannot_ret_array(&yygotominor.yy8, &yymsp[-1].minor.yy8);
   yy_destructor(16,&yymsp[-2].minor);
   yy_destructor(17,&yymsp[0].minor);
 }
-#line 787 "parser.php7.c"
+#line 789 "parser.php7.c"
         break;
   };
   yygoto = yyRuleInfo[yyruleno].lhs;
@@ -825,7 +827,7 @@ static void yy_syntax_error(
 ){
   phannot_ARG_FETCH;
 #define TOKEN (yyminor.yy0)
-#line 32 "parser.php7.lemon"
+#line 23 "parser.php7.lemon"
 
 	if (status->scanner_state->start_length) {
 		char *token_name = NULL;
@@ -870,7 +872,7 @@ static void yy_syntax_error(
 
 	status->status = PHANNOT_PARSING_FAILED;
 
-#line 874 "parser.php7.c"
+#line 876 "parser.php7.c"
   phannot_ARG_STORE; /* Suppress warning about unused %extra_argument variable */
 }
 

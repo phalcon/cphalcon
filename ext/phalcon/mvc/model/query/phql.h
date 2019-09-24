@@ -1,11 +1,10 @@
-
-/**
+/* phql.h
  * This file is part of the Phalcon Framework.
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 
 #ifndef PHALCON_MVC_MODEL_QUERY_PHQL_H
@@ -19,11 +18,7 @@ typedef struct _phql_parser_token {
 } phql_parser_token;
 
 typedef struct _phql_parser_status {
-#if PHP_VERSION_ID < 70000
-	zval *ret;
-#else
 	zval ret;
-#endif
 	char* phql;
 	unsigned int phql_length;
 	int status;
