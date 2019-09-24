@@ -17,13 +17,13 @@ LANGS=(mvc/model/query mvc/view/engine/volt annotations)
 
 function cleanup() {
   find . \( -name '*.o' -o -name '*.lo' -o -name '*.loT' \) -exec rm -f {} +
-  find . \( -name lemon -o -name parser.c \) -exec rm -f {} +
+  find . \( -name lemon -o -name parser.c -o -name lempar.c \) -exec rm -f {} +
   find . -name .libs -exec rm -rf {} +
 }
 
 function compile_lemon() {
-  "$CC" -g lemon.c -o ./lemon
-  chmod +x ./lemon
+  "$CC" -g "$BASE_PATH/3rdparty/lemon/lemon.c" -o "$BASE_PATH/.ci/lemon"
+  chmod +x "$BASE_PATH/.ci/lemon"
 }
 
 function replace() {
@@ -62,7 +62,8 @@ function generate_parser() {
   local lprefix="$2"
   local tprefix="$3"
 
-  ./lemon -s parser.php7.lemon
+  cp "$BASE_PATH/3rdparty/lemon/lempar.c" .
+  "$BASE_PATH/.ci/lemon" -s parser.php7.lemon
 
   echo '#include "php_phalcon.h"' > parser.c
   cat parser.php7.c >> parser.c
@@ -72,6 +73,8 @@ function generate_parser() {
   replace "s/define TOKEN/define ${tprefix}TOKEN/g" parser.c
   replace "s/YY/$uprefix/g" parser.c
   replace "s/yy/$lprefix/g" parser.c
+
+  rm -f lempar.c
 }
 
 for lang in "${LANGS[@]}"

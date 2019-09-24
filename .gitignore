@@ -41,8 +41,7 @@ ext/run-tests.php
 *.phc
 *.dSYM
 *.deps
-lemon
-!lemon/
+.ci/lemon
 
 .libs/
 autom4te.cache/
