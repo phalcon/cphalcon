@@ -17,6 +17,7 @@ use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Cache\Adapter\AdapterInterface;
 use Phalcon\Storage\Serializer\SerializerInterface;
+use Phalcon\Mvc\ModelInterface;
 
 /**
  * Phalcon\Mvc\Model\Resultset\Simple

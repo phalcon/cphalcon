@@ -13,7 +13,6 @@ namespace Phalcon\Cache;
 use Phalcon\Cache\Adapter\AdapterInterface;
 use Phalcon\Cache\AdapterFactory;
 use Phalcon\Cache;
-use Phalcon\Cache\CacheInterface;
 use Phalcon\Cache\Exception\Exception;
 use Phalcon\Config;
 use Phalcon\Helper\Arr;
@@ -68,7 +67,7 @@ class CacheFactory
     /**
      * Constructs a new Cache instance.
      */
-    public function newInstance(string! name, array! options = []) -> <CacheInterface>
+    public function newInstance(string! name, array! options = []) -> <AdapterInterface>
     {
         var adapter;
 

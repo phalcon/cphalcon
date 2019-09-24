@@ -10,7 +10,7 @@
 
 namespace Phalcon\Cache;
 
-use Phalcon\Cache\Adapter\AbstractAdapter;
+use Phalcon\Cache\Adapter\AdapterInterface;
 use Phalcon\Cache\Exception\Exception;
 use Phalcon\Factory\AbstractFactory;
 use Phalcon\Storage\SerializerFactory;
@@ -38,7 +38,7 @@ class AdapterFactory extends AbstractFactory
     /**
      * Create a new instance of the adapter
      */
-    public function newInstance(string! name, array! options = []) -> <AbstractAdapter>
+    public function newInstance(string! name, array! options = []) -> <AdapterInterface>
     {
         var definition;
 

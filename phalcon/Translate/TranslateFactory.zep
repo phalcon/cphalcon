@@ -14,6 +14,7 @@ use Phalcon\Config;
 use Phalcon\Factory\AbstractFactory;
 use Phalcon\Helper\Arr;
 use Phalcon\Translate\InterpolatorFactory;
+use Phalcon\Translate\Adapter\AdapterInterface;
 
 class TranslateFactory extends AbstractFactory
 {
@@ -49,7 +50,7 @@ class TranslateFactory extends AbstractFactory
     /**
      * Create a new instance of the adapter
      */
-    public function newInstance(string! name, array! options = []) -> <AbstractAdapter>
+    public function newInstance(string! name, array! options = []) -> <AdapterInterface>
     {
         var definition;
 

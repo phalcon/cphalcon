@@ -952,7 +952,7 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
      * );
      * ```
      */
-    public function setModelBinder(<BinderInterface> modelBinder, var cache = null) -> <Dispatcher>
+    public function setModelBinder(<BinderInterface> modelBinder, var cache = null) -> <DispatcherInterface>
     {
         var container;
 

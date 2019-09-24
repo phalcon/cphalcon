@@ -11,6 +11,7 @@
 namespace Phalcon\Logger;
 
 use Phalcon\Factory\AbstractFactory;
+use Phalcon\Logger\Adapter\AdapterInterface;
 
 class AdapterFactory extends AbstractFactory
 {
