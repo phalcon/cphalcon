@@ -153,7 +153,7 @@
 	}
 
 	if (status->token->len > 0) {
-		efree(status->token->value);
+		//efree(status->token->value);
 	}
 
 	status->status = PHVOLT_PARSING_FAILED;
