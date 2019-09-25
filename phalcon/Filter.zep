@@ -77,7 +77,7 @@ class Filter implements FilterInterface
         if !isset(this->services[name]) {
             let definition = this->mapper[name];
             if typeof definition === "string" {
-                let this->services[name] = new {definition}();
+                let this->services[name] = create_instance(definition);
             } else {
                 let this->services[name] = definition;
             }
