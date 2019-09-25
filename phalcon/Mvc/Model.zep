@@ -959,10 +959,13 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
          */
         if this->_exists(metaData, this->getWriteConnection()) {
             let this->errorMessages = [
-                new Message(
-                    "Record cannot be created because it already exists",
-                    null,
-                    "InvalidCreateAttempt"
+                create_instance_params(
+                    "Phalcon\\Messages\\Message",
+                    [
+                        "Record cannot be created because it already exists",
+                        null,
+                        "InvalidCreateAttempt"
+                    ]
                 )
             ];
 
@@ -2101,7 +2104,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 "Phalcon\\Mvc\\Model\\Criteria"
             );
         } else {
-            let criteria = new Criteria();
+            let criteria = create_instance("Phalcon\\Mvc\\Model\\Criteria");
 
             criteria->setDI(container);
         }
@@ -2969,10 +2972,13 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
             if !this->_exists(metaData, this->getReadConnection()) {
                 let this->errorMessages = [
-                    new Message(
-                        "Record cannot be updated because it does not exist",
-                        null,
-                        "InvalidUpdateAttempt"
+                    create_instance_params(
+                        "Phalcon\\Messages\\Message",
+                        [
+                            "Record cannot be updated because it does not exist",
+                            null,
+                            "InvalidUpdateAttempt"
+                        ]
                     )
                 ];
 
@@ -3135,7 +3141,14 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                  * Create a message
                  */
                 this->appendMessage(
-                    new Message(message, fields, "ConstraintViolation")
+                    create_instance_params(
+                        "Phalcon\\Messages\\Message",
+                        [
+                            message,
+                            fields,
+                            "ConstraintViolation"
+                        ]
+                    )
                 );
 
                 let error = true;
@@ -3378,7 +3391,14 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                  * Create a message
                  */
                 this->appendMessage(
-                    new Message(message, fields, "ConstraintViolation")
+                    create_instance(
+                        "Phalcon\\Messages\\Message",
+                        [
+                            message,
+                            fields,
+                            "ConstraintViolation"
+                        ]
+                    )
                 );
 
                 let error = true;
@@ -4247,7 +4267,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             );
         }
 
-        let model = new {modelName}(),
+        let model    = create_instance(modelName),
             metaData = model->getModelsMetaData();
 
         /**
@@ -4465,10 +4485,13 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                             /**
                              * An implicit PresenceOf message is created
                              */
-                            let this->errorMessages[] = new Message(
-                                attributeField . " is required",
-                                attributeField,
-                                "PresenceOf"
+                            let this->errorMessages[] = create_instance_params(
+                                "Phalcon\\Messages\\Message",
+                                [
+                                    attributeField . " is required",
+                                    attributeField,
+                                    "PresenceOf"
+                                ]
                             );
 
                             let error = true;
@@ -5326,11 +5349,14 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
         for message in iterator(messages) {
             this->appendMessage(
-                new Message(
-                    message->getMessage(),
-                    message->getField(),
-                    message->getType(),
-                    message->getCode()
+                create_instance_params(
+                    "Phalcon\\Messages\\Message",
+                    [
+                        message->getMessage(),
+                        message->getField(),
+                        message->getType(),
+                        message->getCode()
+                    ]
                 )
             );
         }

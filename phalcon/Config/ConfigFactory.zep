@@ -113,18 +113,19 @@ class ConfigFactory extends AbstractFactory
      */
     public function newInstance(string name, string fileName, var params = null) -> object
     {
-        var definition;
+        var definition, options;
 
         this->checkService(name);
 
         if !isset this->services[name] {
-            let definition = this->mapper[name];
+            let definition = this->mapper[name],
+                options    = fileName;
 
-            if "json" === name || "php" === name {
-                let this->services[name] = new {definition}(fileName);
-            } else {
-                let this->services[name] = new {definition}(fileName, params);
+            if "json" !== name && "php" !== name {
+                let options[] = params;
             }
+
+            let this->services[name] = create_instance_params(definition, options);
         }
 
         return this->services[name];
@@ -136,11 +137,11 @@ class ConfigFactory extends AbstractFactory
     protected function getAdapters() -> array
     {
         return [
-            "grouped" : "\\Phalcon\\Config\\Adapter\\Grouped",
-            "ini"     : "\\Phalcon\\Config\\Adapter\\Ini",
-            "json"    : "\\Phalcon\\Config\\Adapter\\Json",
-            "php"     : "\\Phalcon\\Config\\Adapter\\Php",
-            "yaml"    : "\\Phalcon\\Config\\Adapter\\Yaml"
+            "grouped" : "Phalcon\\Config\\Adapter\\Grouped",
+            "ini"     : "Phalcon\\Config\\Adapter\\Ini",
+            "json"    : "Phalcon\\Config\\Adapter\\Json",
+            "php"     : "Phalcon\\Config\\Adapter\\Php",
+            "yaml"    : "Phalcon\\Config\\Adapter\\Yaml"
         ];
     }
 }

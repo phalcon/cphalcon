@@ -74,6 +74,6 @@ class CacheFactory
 
         let adapter = this->adapterFactory->newInstance(name, options);
 
-        return new Cache(adapter);
+        return create_instance("Phalcon\\Cache", [adapter]);
     }
 }

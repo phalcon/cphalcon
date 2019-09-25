@@ -3100,7 +3100,7 @@ class Query implements QueryInterface, InjectionAwareInterface
                  * If the result is a simple standard object use an
                  * Phalcon\Mvc\Model\Row as base
                  */
-                let resultObject = new Row();
+                let resultObject = create_instance("Phalcon\\Mvc\\Model\\Row");
 
                 /**
                  * Standard objects can't keep snapshots
@@ -3165,12 +3165,15 @@ class Query implements QueryInterface, InjectionAwareInterface
                         );
                     }
 
-                    return new {resultsetClassName}(
-                        simpleColumnMap,
-                        resultObject,
-                        resultData,
-                        cache,
-                        isKeepingSnapshots
+                    return create_instance_params(
+                        resultsetClassName,
+                        [
+                            simpleColumnMap,
+                            resultObject,
+                            resultData,
+                            cache,
+                            isKeepingSnapshots
+                        ]
                     );
                 }
             }
@@ -3178,19 +3181,29 @@ class Query implements QueryInterface, InjectionAwareInterface
             /**
              * Simple resultsets contains only complete objects
              */
-            return new Simple(
-                simpleColumnMap,
-                resultObject,
-                resultData,
-                cache,
-                isKeepingSnapshots
+            return create_instance_params(
+                "Phalcon\\Mvc\\Model\\Resultset\\Simple",
+                [
+                    simpleColumnMap,
+                    resultObject,
+                    resultData,
+                    cache,
+                    isKeepingSnapshots
+                ]
             );
         }
 
         /**
          * Complex resultsets may contain complete objects and scalars
          */
-        return new Complex(columns1, resultData, cache);
+        return create_instance_params(
+            "Phalcon\\Mvc\\Model\\Resultset\\Complex",
+            [
+                columns1,
+                resultData,
+                cache
+            ]
+        );
     }
 
     /**

@@ -69,7 +69,12 @@ class PaginatorFactory extends AbstractFactory
 
         if !isset this->services[name] {
             let definition           = this->mapper[name],
-                this->services[name] = new {definition}(options);
+                this->services[name] = create_instance_params(
+                    definition,
+                    [
+                        options
+                    ]
+                );
         }
 
         return this->services[name];
@@ -78,9 +83,9 @@ class PaginatorFactory extends AbstractFactory
     protected function getAdapters() -> array
     {
         return [
-            "model"        : "\\Phalcon\\Paginator\\Adapter\\Model",
-            "nativeArray"  : "\\Phalcon\\Paginator\\Adapter\\NativeArray",
-            "queryBuilder" : "\\Phalcon\\Paginator\\Adapter\\QueryBuilder"
+            "model"        : "Phalcon\\Paginator\\Adapter\\Model",
+            "nativeArray"  : "Phalcon\\Paginator\\Adapter\\NativeArray",
+            "queryBuilder" : "Phalcon\\Paginator\\Adapter\\QueryBuilder"
         ];
     }
 }
