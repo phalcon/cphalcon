@@ -58,7 +58,7 @@ class TranslateFactory extends AbstractFactory
 
         if !isset this->services[name] {
             let definition           = this->mapper[name],
-                this->services[name] = create_instance_with_params(
+                this->services[name] = create_instance_params(
                     definition,
                     [
                         this->interpolator,

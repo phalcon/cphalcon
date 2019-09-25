@@ -42,7 +42,7 @@ class AdapterFactory extends AbstractFactory
 
         if !isset this->services[name] {
             let definition           = this->mapper[name],
-                this->services[name] = create_instance_params)
+                this->services[name] = create_instance_params(
                     definition,
                     [
                         this->serializerFactory,

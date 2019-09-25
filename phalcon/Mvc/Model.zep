@@ -3391,7 +3391,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                  * Create a message
                  */
                 this->appendMessage(
-                    create_instance(
+                    create_instance_params(
                         "Phalcon\\Messages\\Message",
                         [
                             message,
