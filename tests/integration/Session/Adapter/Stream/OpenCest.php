@@ -51,7 +51,7 @@ class OpenCest
     /**
      * Tests Phalcon\Session\Adapter\Stream :: open()
      *
-     * @author Phalcon Team <team@phalconphp.com>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2019-08-06
      */
     public function issue14265(IntegrationTester $I)

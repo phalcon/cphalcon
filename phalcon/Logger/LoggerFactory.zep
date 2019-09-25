@@ -87,6 +87,12 @@ class LoggerFactory
      */
     public function newInstance(string! name, array! adapters = []) -> <Logger>
     {
-        return new Logger(name, adapters);
+        return create_instance_params(
+            "Phalcon\\Logger",
+            [
+                name,
+                adapters
+            ]
+        );
     }
 }

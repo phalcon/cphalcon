@@ -48,7 +48,12 @@ class TagFactory extends AbstractFactory
 
         if !isset this->services[name] {
             let definition           = this->mapper[name],
-                this->services[name] = new {definition}(this->escaper);
+                this->services[name] = create_instance_params(
+                    definition,
+                    [
+                        this->escaper
+                    ]
+                );
         }
 
         return this->services[name];
@@ -57,17 +62,17 @@ class TagFactory extends AbstractFactory
     protected function getAdapters() -> array
     {
         return [
-            "a"          : "\\Phalcon\\Html\\Helper\\Anchor",
-            "aRaw"       : "\\Phalcon\\Html\\Helper\\AnchorRaw",
-            "body"       : "\\Phalcon\\Html\\Helper\\Body",
-            "button"     : "\\Phalcon\\Html\\Helper\\Button",
-            "close"      : "\\Phalcon\\Html\\Helper\\Close",
-            "element"    : "\\Phalcon\\Html\\Helper\\Element",
-            "elementRaw" : "\\Phalcon\\Html\\Helper\\ElementRaw",
-            "form"       : "\\Phalcon\\Html\\Helper\\Form",
-            "img"        : "\\Phalcon\\Html\\Helper\\Img",
-            "label"      : "\\Phalcon\\Html\\Helper\\Label",
-            "textarea"   : "\\Phalcon\\Html\\Helper\\TextArea"
+            "a"          : "Phalcon\\Html\\Helper\\Anchor",
+            "aRaw"       : "Phalcon\\Html\\Helper\\AnchorRaw",
+            "body"       : "Phalcon\\Html\\Helper\\Body",
+            "button"     : "Phalcon\\Html\\Helper\\Button",
+            "close"      : "Phalcon\\Html\\Helper\\Close",
+            "element"    : "Phalcon\\Html\\Helper\\Element",
+            "elementRaw" : "Phalcon\\Html\\Helper\\ElementRaw",
+            "form"       : "Phalcon\\Html\\Helper\\Form",
+            "img"        : "Phalcon\\Html\\Helper\\Img",
+            "label"      : "Phalcon\\Html\\Helper\\Label",
+            "textarea"   : "Phalcon\\Html\\Helper\\TextArea"
         ];
     }
 }

@@ -720,9 +720,14 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
         let conditions = [];
 
         if count(data) {
-            let metaData = container->getShared("modelsMetadata");
-
-            let model = new {modelName}(null, container),
+            let metaData  = container->getShared("modelsMetadata"),
+                model     = create_instance_params(
+                    modelName,
+                    [
+                        null,
+                        container
+                    ]
+                ),
                 dataTypes = metaData->getDataTypes(model),
                 columnMap = metaData->getReverseColumnMap(model);
 

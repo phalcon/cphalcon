@@ -282,7 +282,14 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         /**
          * Load it using an autoloader
          */
-        let model = new {modelName}(null, this->container, this);
+        let model = create_instance_params(
+            modelName,
+            [
+                null,
+                this->container,
+                this
+            ]
+        );
 
         return model;
     }

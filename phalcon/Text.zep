@@ -67,7 +67,7 @@ class Text
 
         let args = func_get_args();
 
-        return call_user_func_array("\\Phalcon\\Helper\\Str::concat", args);
+        return call_user_func_array("Phalcon\\Helper\\Str::concat", args);
     }
 
     /**

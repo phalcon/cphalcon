@@ -39,7 +39,7 @@ class SerializerFactory extends AbstractFactory
 
         if !isset this->services[name] {
             let definition           = this->mapper[name],
-                this->services[name] = new {definition}();
+                this->services[name] = create_instance(definition);
         }
 
         return this->services[name];
@@ -48,12 +48,12 @@ class SerializerFactory extends AbstractFactory
     protected function getAdapters() -> array
     {
         return [
-            "base64"   : "\\Phalcon\\Storage\\Serializer\\Base64",
-            "igbinary" : "\\Phalcon\\Storage\\Serializer\\Igbinary",
-            "json"     : "\\Phalcon\\Storage\\Serializer\\Json",
-            "msgpack"  : "\\Phalcon\\Storage\\Serializer\\Msgpack",
-            "none"     : "\\Phalcon\\Storage\\Serializer\\None",
-            "php"      : "\\Phalcon\\Storage\\Serializer\\Php"
+            "base64"   : "Phalcon\\Storage\\Serializer\\Base64",
+            "igbinary" : "Phalcon\\Storage\\Serializer\\Igbinary",
+            "json"     : "Phalcon\\Storage\\Serializer\\Json",
+            "msgpack"  : "Phalcon\\Storage\\Serializer\\Msgpack",
+            "none"     : "Phalcon\\Storage\\Serializer\\None",
+            "php"      : "Phalcon\\Storage\\Serializer\\Php"
         ];
     }
 }

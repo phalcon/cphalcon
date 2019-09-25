@@ -58,7 +58,13 @@ class TranslateFactory extends AbstractFactory
 
         if !isset this->services[name] {
             let definition           = this->mapper[name],
-                this->services[name] = new {definition}(this->interpolator, options);
+                this->services[name] = create_instance_with_params(
+                    definition,
+                    [
+                        this->interpolator,
+                        options
+                    ]
+                );
         }
 
         return this->services[name];
@@ -67,9 +73,9 @@ class TranslateFactory extends AbstractFactory
     protected function getAdapters() -> array
     {
         return [
-            "csv"     : "\\Phalcon\\Translate\\Adapter\\Csv",
-            "gettext" : "\\Phalcon\\Translate\\Adapter\\Gettext",
-            "array"   : "\\Phalcon\\Translate\\Adapter\\NativeArray"
+            "csv"     : "Phalcon\\Translate\\Adapter\\Csv",
+            "gettext" : "Phalcon\\Translate\\Adapter\\Gettext",
+            "array"   : "Phalcon\\Translate\\Adapter\\NativeArray"
         ];
     }
 }
