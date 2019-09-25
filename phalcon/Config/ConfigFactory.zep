@@ -119,7 +119,8 @@ class ConfigFactory extends AbstractFactory
 
         if !isset this->services[name] {
             let definition = this->mapper[name],
-                options    = fileName;
+                options    = [],
+                options[]  = fileName;
 
             if "json" !== name && "php" !== name {
                 let options[] = params;
