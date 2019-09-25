@@ -2,22 +2,26 @@
 ## Fixed
 - Fixed `Phalcon\Mvc\View\Engine\Volt\Compiler::parse()` Corrected syntax recognize for "set" keyword. [#14288](https://github.com/phalcon/cphalcon/issues/14288)
 - Fixed `Phalcon\Mvc\View\Engine\Volt\Compiler::parse()` Corrected syntax recognize for "is" keyword. [#11683](https://github.com/phalcon/cphalcon/issues/11683)
-- Fixed `Phalcon\Cache\Adapter\AbstractAdapter` use `AdapterInterface` instead of non existing `AbstractAdapter`
-- Fixed `Phalcon\Cache\CacheFactory` use `Psr\SimpleCache\CacheInterface` instead of non existing `Phalcon\Cache\CacheInterface`
-- Fixed `Phalcon\Cache\CacheFactory` use `Psr\SimpleCache\CacheInterface` instead of non existing `Phalcon\Cache\CacheInterface`
-- Fixed `Phalcon\Cli\Router` add missing `Phalcon\Cli\Router\RouteInterface`
-- Fixed `Phalcon\Dispatcher\AbstractDispatcher::setModelBinder()` to return DispatcherInterface instead of non existing Dispatcher:
+- Fixed `Phalcon\Cache\Adapter\AbstractAdapter` use `AdapterInterface` instead of non existing `AbstractAdapter` [#14414](https://github.com/phalcon/cphalcon/pull/14414)
+- Fixed `Phalcon\Cache\CacheFactory` use `Psr\SimpleCache\CacheInterface` instead of non existing `Phalcon\Cache\CacheInterface` [#14414](https://github.com/phalcon/cphalcon/pull/14414)
+- Fixed `Phalcon\Cache\CacheFactory` use `Psr\SimpleCache\CacheInterface` instead of non existing `Phalcon\Cache\CacheInterface` [#14414](https://github.com/phalcon/cphalcon/pull/14414)
+- Fixed `Phalcon\Cli\Router` add missing `Phalcon\Cli\Router\RouteInterface` [#14414](https://github.com/phalcon/cphalcon/pull/14414)
+- Fixed `Phalcon\Dispatcher\AbstractDispatcher::setModelBinder()` to return DispatcherInterface instead of non existing Dispatcher: [#14414](https://github.com/phalcon/cphalcon/pull/14414)
  - `Phalcon\Firewall\Adapter\Acl`
  - `Phalcon\Firewall\Adapter\Annotations`
  - `Phalcon\Firewall\Adapter\Annotations`
-- Fixed `Phalcon\Filter\FilterFactory::newInstance()` to return `FilterInterface` instead of non existing `LocatorInterface`
-- Fixed `Phalcon\Forms\Element\Select::addOption()` and `Phalcon\Forms\Element\Select::setOption()` to return `ElementInterface` instead of non existing Element
-- Fixed `Phalcon\Forms\Manager::set()` to return `Manager` instead of non existing `FormManager`
-- Fixed `Phalcon\Paginator\Adapter\AbstractAdapter::setCurrentPage()` and `Phalcon\Paginator\Adapter\AbstractAdapter::setLimit()` and `Phalcon\Paginator\Adapter\AbstractAdapter::setRepository()` to return `AdapterInterface` instead of non existing `Adapter`
-- Fixed `Phalcon\Translate\TranslateFactory::set()` to return `AdapterInterface` instead of non existing `AbstractAdapter`
+- Fixed `Phalcon\Filter\FilterFactory::newInstance()` to return `FilterInterface` instead of non existing `LocatorInterface` [#14414](https://github.com/phalcon/cphalcon/pull/14414)
+- Fixed `Phalcon\Forms\Element\Select::addOption()` and `Phalcon\Forms\Element\Select::setOption()` to return `ElementInterface` instead of non existing Element [#14414](https://github.com/phalcon/cphalcon/pull/14414)
+- Fixed `Phalcon\Forms\Manager::set()` to return `Manager` instead of non existing `FormManager` [#14414](https://github.com/phalcon/cphalcon/pull/14414)
+- Fixed 
+ - `Phalcon\Paginator\Adapter\AbstractAdapter::setCurrentPage()` 
+ - `Phalcon\Paginator\Adapter\AbstractAdapter::setLimit()` 
+ - `Phalcon\Paginator\Adapter\AbstractAdapter::setRepository()` to return `AdapterInterface` instead of non existing `Adapter` [#14414](https://github.com/phalcon/cphalcon/pull/14414)
+- Fixed `Phalcon\Translate\TranslateFactory::set()` to return `AdapterInterface` instead of non existing `AbstractAdapter` [#14414](https://github.com/phalcon/cphalcon/pull/14414)
+- Fixed `Phalcon\Filter` to properly work with closures [#14417](https://github.com/phalcon/cphalcon/issues/14417)
 
 ## Removed
-- Removed `Phalcon\Application\AbstractApplication::handle()` as it does not serve any purpose and causing issues with type hinting. 
+- Removed `Phalcon\Application\AbstractApplication::handle()` as it does not serve any purpose and causing issues with type hinting. [#14407](https://github.com/phalcon/cphalcon/pull/14407)
 
 # [4.0.0-rc.1](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-rc.1) (2019-09-23)
 
