@@ -15,7 +15,6 @@ namespace Phalcon\Test\Unit\Filter;
 use Phalcon\Filter;
 use Phalcon\Test\Fixtures\Service\HelloService;
 use UnitTester;
-use function var_dump;
 
 class GetSetHasCest
 {
