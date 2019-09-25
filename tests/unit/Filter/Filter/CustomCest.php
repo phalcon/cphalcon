@@ -29,9 +29,7 @@ class CustomCest
         $I->wantToTest('Filter\Filter - custom has()');
 
         $services = [
-            'ipv4' => function () {
-                return new IPv4();
-            },
+            'ipv4' => IPv4::class,
         ];
 
         $locator = new Filter($services);
@@ -52,9 +50,7 @@ class CustomCest
         $I->wantToTest('Filter\Filter - custom sanitizer');
 
         $services = [
-            'ipv4' => function () {
-                return new IPv4();
-            },
+            'ipv4' => IPv4::class,
         ];
 
         $locator = new Filter($services);
