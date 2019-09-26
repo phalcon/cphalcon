@@ -959,13 +959,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
          */
         if this->_exists(metaData, this->getWriteConnection()) {
             let this->errorMessages = [
-                create_instance_params(
-                    "Phalcon\\Messages\\Message",
-                    [
-                        "Record cannot be created because it already exists",
-                        null,
-                        "InvalidCreateAttempt"
-                    ]
+                new Message(
+                    "Record cannot be created because it already exists",
+                    null,
+                    "InvalidCreateAttempt"
                 )
             ];
 
