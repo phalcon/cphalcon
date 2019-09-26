@@ -52,4 +52,4 @@ Please, refer to [Phalcon documentation](https://phalcon.link/docs)
 
 ## Building extension for Windows
 
-Please, refer to [Phalcon Internals documentation](https://internals.phalcon.io)
+Please, refer to [PHP's step by step guide](https://wiki.php.net/internals/windows/stepbystepbuild)
