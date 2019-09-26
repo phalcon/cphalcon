@@ -175,13 +175,6 @@ PHP_METHOD(Phalcon_Application_AbstractApplication, getModules) {
 }
 
 /**
- * Handles a request
- */
-PHP_METHOD(Phalcon_Application_AbstractApplication, handle) {
-
-}
-
-/**
  * Register an array of modules present in the application
  *
  * ```php

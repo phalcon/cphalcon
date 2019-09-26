@@ -18,6 +18,7 @@ LANGS=(mvc/model/query mvc/view/engine/volt annotations)
 function cleanup() {
   find . \( -name '*.o' -o -name '*.lo' -o -name '*.loT' \) -exec rm -f {} +
   find . \( -name lemon -o -name parser.c -o -name lempar.c \) -exec rm -f {} +
+  find . \( -name scanner.c -o -name parser.c \) -exec rm -f {} +
   find . -name .libs -exec rm -rf {} +
 }
 

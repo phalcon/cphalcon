@@ -7,6 +7,9 @@
 # For the full copyright and license information, please view the
 # LICENSE.txt file that was distributed with this source code.
 
+# Example of call:
+#   tests/run-syntax-tests.sh
+
 set -e
 
 NO_INTERACTION=1
@@ -26,9 +29,10 @@ php ./ext/run-tests.php \
   -d "report_memleaks=1" \
   -d "report_zend_debug=0" \
   -d "zend.assertions=1" \
-  -d "extension=$(php-config --extension-dir)/psr.so" \
+  -d "extension=psr.so" \
   -d "extension=$(pwd)/ext/modules/phalcon.so" \
-  --offline \
+  -d extension_dir="$($(phpenv which php-config) --extension-dir)" \
+  -p "$TEST_PHP_EXECUTABLE" \
   --show-diff \
   --set-timeout 120 \
   -n \

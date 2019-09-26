@@ -32,7 +32,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Factory_AbstractFactory) {
 
-	ZEPHIR_REGISTER_CLASS(Phalcon\\Factory, AbstractFactory, phalcon, factory_abstractfactory, phalcon_factory_abstractfactory_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS(Phalcon\\Factory, AbstractFactory, phalcon, factory_abstractfactory, phalcon_factory_abstractfactory_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
 	/**
 	 * @var array

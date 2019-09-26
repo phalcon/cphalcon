@@ -81,9 +81,9 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_firewall_adapter_acl_beforeexecuteroute, 
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_firewall_adapter_acl_getdispatcher, 0, 0, Phalcon\\Firewall\\Adapter\\Dispatcher, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_firewall_adapter_acl_getdispatcher, 0, 0, Phalcon\\Mvc\\DispatcherInterface, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_firewall_adapter_acl_getdispatcher, 0, 0, IS_OBJECT, "Phalcon\\Firewall\\Adapter\\Dispatcher", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_firewall_adapter_acl_getdispatcher, 0, 0, IS_OBJECT, "Phalcon\\Mvc\\DispatcherInterface", 0)
 #endif
 ZEND_END_ARG_INFO()
 

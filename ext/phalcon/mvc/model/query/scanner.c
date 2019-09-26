@@ -436,25 +436,25 @@ pp46:
 			}
 pp47:
 			{
-            token->value = estrndup(q, PPCURSOR - q);
-            token->len = PPCURSOR - q;
-            if (token->len > 2 && !memcmp(token->value, "0x", 2)) {
-			    token->opcode = PHQL_T_HINTEGER;
-            } else {
-                int i, alpha = 0;
-                for (i = 0; i < token->len; i++) {
-                    unsigned char ch = token->value[i];
-                    if (!((ch >= '0') && (ch <= '9'))) {
-                        alpha = 1;
-                        break;
-                    }
-                }
-                if (alpha) {
-                    token->opcode = PHQL_T_IDENTIFIER;
-                } else {
-                    token->opcode = PHQL_T_INTEGER;
-                }
-            }
+			token->value = estrndup(q, PPCURSOR - q);
+			token->len = PPCURSOR - q;
+			if (token->len > 2 && !memcmp(token->value, "0x", 2)) {
+				token->opcode = PHQL_T_HINTEGER;
+			} else {
+				int i, alpha = 0;
+				for (i = 0; i < token->len; i++) {
+					unsigned char ch = token->value[i];
+					if (!((ch >= '0') && (ch <= '9'))) {
+						alpha = 1;
+						break;
+					}
+				}
+				if (alpha) {
+					token->opcode = PHQL_T_IDENTIFIER;
+				} else {
+					token->opcode = PHQL_T_INTEGER;
+				}
+			}
 			q = PPCURSOR;
 			return 0;
 		}
@@ -1017,10 +1017,10 @@ pp85:
 			}
 pp86:
 			PPCURSOR = PPMARKER;
-			if (ppaccept == 0) {
-				goto pp5;
-			} else {
-				goto pp37;
+			switch (ppaccept) {
+			case 0: 	goto pp5;
+			case 1: 	goto pp37;
+			default:	goto pp205;
 			}
 pp87:
 			++PPCURSOR;
@@ -2636,8 +2636,10 @@ pp203:
 			default:	goto pp59;
 			}
 pp204:
-			ppch = *++PPCURSOR;
+			ppaccept = 2;
+			ppch = *(PPMARKER = ++PPCURSOR);
 			switch (ppch) {
+			case ' ':	goto pp259;
 			case '0':
 			case '1':
 			case '2':
@@ -2714,42 +2716,42 @@ pp206:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
 			case 'L':
-			case 'l':	goto pp259;
+			case 'l':	goto pp260;
 			default:	goto pp59;
 			}
 pp207:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
 			case 'S':
-			case 's':	goto pp261;
+			case 's':	goto pp262;
 			default:	goto pp59;
 			}
 pp208:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
 			case 'E':
-			case 'e':	goto pp262;
+			case 'e':	goto pp263;
 			default:	goto pp59;
 			}
 pp209:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
 			case 'E':
-			case 'e':	goto pp263;
+			case 'e':	goto pp264;
 			default:	goto pp59;
 			}
 pp210:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
 			case 'H':
-			case 'h':	goto pp264;
+			case 'h':	goto pp265;
 			default:	goto pp59;
 			}
 pp211:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
 			case 'E':
-			case 'e':	goto pp265;
+			case 'e':	goto pp266;
 			default:	goto pp59;
 			}
 pp212:
@@ -2831,51 +2833,51 @@ pp214:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
 			case 'N':
-			case 'n':	goto pp266;
+			case 'n':	goto pp267;
 			default:	goto pp59;
 			}
 pp215:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
 			case 'E':
-			case 'e':	goto pp268;
+			case 'e':	goto pp269;
 			default:	goto pp59;
 			}
 pp216:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
 			case 'A':
-			case 'a':	goto pp270;
+			case 'a':	goto pp271;
 			default:	goto pp59;
 			}
 pp217:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
 			case 'N':
-			case 'n':	goto pp271;
+			case 'n':	goto pp272;
 			default:	goto pp59;
 			}
 pp218:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
 			case 'U':
-			case 'u':	goto pp272;
+			case 'u':	goto pp273;
 			default:	goto pp59;
 			}
 pp219:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
 			case 'N':
-			case 'n':	goto pp273;
+			case 'n':	goto pp274;
 			case 'R':
-			case 'r':	goto pp275;
+			case 'r':	goto pp276;
 			default:	goto pp59;
 			}
 pp220:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
 			case 'H':
-			case 'h':	goto pp276;
+			case 'h':	goto pp277;
 			default:	goto pp59;
 			}
 pp221:
@@ -2900,14 +2902,14 @@ pp225:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
 			case 'N':
-			case 'n':	goto pp278;
+			case 'n':	goto pp279;
 			default:	goto pp59;
 			}
 pp226:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
 			case 'E':
-			case 'e':	goto pp279;
+			case 'e':	goto pp280;
 			default:	goto pp59;
 			}
 pp227:
@@ -3064,21 +3066,21 @@ pp231:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
 			case 'E':
-			case 'e':	goto pp280;
+			case 'e':	goto pp281;
 			default:	goto pp59;
 			}
 pp232:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
 			case 'S':
-			case 's':	goto pp281;
+			case 's':	goto pp282;
 			default:	goto pp59;
 			}
 pp233:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
 			case 'T':
-			case 't':	goto pp283;
+			case 't':	goto pp284;
 			default:	goto pp59;
 			}
 pp234:
@@ -3160,7 +3162,7 @@ pp236:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
 			case 'I':
-			case 'i':	goto pp284;
+			case 'i':	goto pp285;
 			default:	goto pp59;
 			}
 pp237:
@@ -3242,14 +3244,14 @@ pp239:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
 			case 'T':
-			case 't':	goto pp285;
+			case 't':	goto pp286;
 			default:	goto pp59;
 			}
 pp240:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
 			case 'E':
-			case 'e':	goto pp286;
+			case 'e':	goto pp287;
 			default:	goto pp59;
 			}
 pp241:
@@ -3406,35 +3408,35 @@ pp245:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
 			case 'P':
-			case 'p':	goto pp288;
+			case 'p':	goto pp289;
 			default:	goto pp59;
 			}
 pp246:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
 			case 'N':
-			case 'n':	goto pp290;
+			case 'n':	goto pp291;
 			default:	goto pp59;
 			}
 pp247:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
 			case 'E':
-			case 'e':	goto pp291;
+			case 'e':	goto pp292;
 			default:	goto pp59;
 			}
 pp248:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
 			case 'R':
-			case 'r':	goto pp293;
+			case 'r':	goto pp294;
 			default:	goto pp59;
 			}
 pp249:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
 			case 'R':
-			case 'r':	goto pp295;
+			case 'r':	goto pp296;
 			default:	goto pp59;
 			}
 pp250:
@@ -3741,10 +3743,17 @@ pp258:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
 			case 'T':
-			case 't':	goto pp296;
+			case 't':	goto pp297;
 			default:	goto pp59;
 			}
 pp259:
+			ppch = *++PPCURSOR;
+			switch (ppch) {
+			case 'B':
+			case 'b':	goto pp299;
+			default:	goto pp86;
+			}
+pp260:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
 			case '0':
@@ -3812,25 +3821,18 @@ pp259:
 			case 'x':
 			case 'y':
 			case 'z':	goto pp58;
-			default:	goto pp260;
+			default:	goto pp261;
 			}
-pp260:
+pp261:
 			{
 			token->opcode = PHQL_T_NULL;
 			return 0;
 		}
-pp261:
-			ppch = *++PPCURSOR;
-			switch (ppch) {
-			case 'E':
-			case 'e':	goto pp298;
-			default:	goto pp59;
-			}
 pp262:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
-			case 'R':
-			case 'r':	goto pp299;
+			case 'E':
+			case 'e':	goto pp300;
 			default:	goto pp59;
 			}
 pp263:
@@ -3843,20 +3845,27 @@ pp263:
 pp264:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
-			case 'T':
-			case 't':	goto pp303;
+			case 'R':
+			case 'r':	goto pp303;
 			default:	goto pp59;
 			}
 pp265:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
-			case 'C':
-			case 'c':	goto pp305;
+			case 'T':
+			case 't':	goto pp305;
 			default:	goto pp59;
 			}
 pp266:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
+			case 'C':
+			case 'c':	goto pp307;
+			default:	goto pp59;
+			}
+pp267:
+			ppch = *++PPCURSOR;
+			switch (ppch) {
 			case '0':
 			case '1':
 			case '2':
@@ -3922,14 +3931,14 @@ pp266:
 			case 'x':
 			case 'y':
 			case 'z':	goto pp58;
-			default:	goto pp267;
+			default:	goto pp268;
 			}
-pp267:
+pp268:
 			{
 			token->opcode = PHQL_T_THEN;
 			return 0;
 		}
-pp268:
+pp269:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
 			case '0':
@@ -3997,37 +4006,37 @@ pp268:
 			case 'x':
 			case 'y':
 			case 'z':	goto pp58;
-			default:	goto pp269;
+			default:	goto pp270;
 			}
-pp269:
+pp270:
 			{
 			token->opcode = PHQL_T_TRUE;
 			return 0;
 		}
-pp270:
-			ppch = *++PPCURSOR;
-			switch (ppch) {
-			case 'T':
-			case 't':	goto pp306;
-			default:	goto pp59;
-			}
 pp271:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
-			case 'G':
-			case 'g':	goto pp307;
+			case 'T':
+			case 't':	goto pp308;
 			default:	goto pp59;
 			}
 pp272:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
-			case 'E':
-			case 'e':	goto pp309;
+			case 'G':
+			case 'g':	goto pp309;
 			default:	goto pp59;
 			}
 pp273:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
+			case 'E':
+			case 'e':	goto pp311;
+			default:	goto pp59;
+			}
+pp274:
+			ppch = *++PPCURSOR;
+			switch (ppch) {
 			case '0':
 			case '1':
 			case '2':
@@ -4093,21 +4102,21 @@ pp273:
 			case 'x':
 			case 'y':
 			case 'z':	goto pp58;
-			default:	goto pp274;
+			default:	goto pp275;
 			}
-pp274:
+pp275:
 			{
 			token->opcode = PHQL_T_WHEN;
 			return 0;
 		}
-pp275:
+pp276:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
 			case 'E':
-			case 'e':	goto pp310;
+			case 'e':	goto pp312;
 			default:	goto pp59;
 			}
-pp276:
+pp277:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
 			case '0':
@@ -4175,133 +4184,133 @@ pp276:
 			case 'x':
 			case 'y':
 			case 'z':	goto pp58;
-			default:	goto pp277;
+			default:	goto pp278;
 			}
-pp277:
+pp278:
 			{
 			token->opcode = PHQL_T_WITH;
 			return 0;
 		}
-pp278:
-			ppch = *++PPCURSOR;
-			switch (ppch) {
-			case 'S':
-			case 's':	goto pp312;
-			default:	goto pp59;
-			}
 pp279:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
-			case 'E':
-			case 'e':	goto pp313;
+			case 'S':
+			case 's':	goto pp314;
 			default:	goto pp59;
 			}
 pp280:
-			ppch = *++PPCURSOR;
-			switch (ppch) {
-			case 'R':
-			case 'r':	goto pp314;
-			default:	goto pp59;
-			}
-pp281:
-			ppch = *++PPCURSOR;
-			switch (ppch) {
-			case '0':
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-			case '8':
-			case '9':
-			case ':':
-			case 'A':
-			case 'B':
-			case 'C':
-			case 'D':
-			case 'E':
-			case 'F':
-			case 'G':
-			case 'H':
-			case 'I':
-			case 'J':
-			case 'K':
-			case 'L':
-			case 'M':
-			case 'N':
-			case 'O':
-			case 'P':
-			case 'Q':
-			case 'R':
-			case 'S':
-			case 'T':
-			case 'U':
-			case 'V':
-			case 'W':
-			case 'X':
-			case 'Y':
-			case 'Z':
-			case '\\':
-			case '_':
-			case 'a':
-			case 'b':
-			case 'c':
-			case 'd':
-			case 'e':
-			case 'f':
-			case 'g':
-			case 'h':
-			case 'i':
-			case 'j':
-			case 'k':
-			case 'l':
-			case 'm':
-			case 'n':
-			case 'o':
-			case 'p':
-			case 'q':
-			case 'r':
-			case 's':
-			case 't':
-			case 'u':
-			case 'v':
-			case 'w':
-			case 'x':
-			case 'y':
-			case 'z':	goto pp58;
-			default:	goto pp282;
-			}
-pp282:
-			{
-			token->opcode = PHQL_T_CROSS;
-			return 0;
-		}
-pp283:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
 			case 'E':
 			case 'e':	goto pp315;
 			default:	goto pp59;
 			}
+pp281:
+			ppch = *++PPCURSOR;
+			switch (ppch) {
+			case 'R':
+			case 'r':	goto pp316;
+			default:	goto pp59;
+			}
+pp282:
+			ppch = *++PPCURSOR;
+			switch (ppch) {
+			case '0':
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':
+			case ':':
+			case 'A':
+			case 'B':
+			case 'C':
+			case 'D':
+			case 'E':
+			case 'F':
+			case 'G':
+			case 'H':
+			case 'I':
+			case 'J':
+			case 'K':
+			case 'L':
+			case 'M':
+			case 'N':
+			case 'O':
+			case 'P':
+			case 'Q':
+			case 'R':
+			case 'S':
+			case 'T':
+			case 'U':
+			case 'V':
+			case 'W':
+			case 'X':
+			case 'Y':
+			case 'Z':
+			case '\\':
+			case '_':
+			case 'a':
+			case 'b':
+			case 'c':
+			case 'd':
+			case 'e':
+			case 'f':
+			case 'g':
+			case 'h':
+			case 'i':
+			case 'j':
+			case 'k':
+			case 'l':
+			case 'm':
+			case 'n':
+			case 'o':
+			case 'p':
+			case 'q':
+			case 'r':
+			case 's':
+			case 't':
+			case 'u':
+			case 'v':
+			case 'w':
+			case 'x':
+			case 'y':
+			case 'z':	goto pp58;
+			default:	goto pp283;
+			}
+pp283:
+			{
+			token->opcode = PHQL_T_CROSS;
+			return 0;
+		}
 pp284:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
-			case 'N':
-			case 'n':	goto pp317;
+			case 'E':
+			case 'e':	goto pp317;
 			default:	goto pp59;
 			}
 pp285:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
-			case 'S':
-			case 's':	goto pp318;
+			case 'N':
+			case 'n':	goto pp319;
 			default:	goto pp59;
 			}
 pp286:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
+			case 'S':
+			case 's':	goto pp320;
+			default:	goto pp59;
+			}
+pp287:
+			ppch = *++PPCURSOR;
+			switch (ppch) {
 			case '0':
 			case '1':
 			case '2':
@@ -4367,14 +4376,14 @@ pp286:
 			case 'x':
 			case 'y':
 			case 'z':	goto pp58;
-			default:	goto pp287;
+			default:	goto pp288;
 			}
-pp287:
+pp288:
 			{
 			token->opcode = PHQL_T_FALSE;
 			return 0;
 		}
-pp288:
+pp289:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
 			case '0':
@@ -4442,21 +4451,21 @@ pp288:
 			case 'x':
 			case 'y':
 			case 'z':	goto pp58;
-			default:	goto pp289;
+			default:	goto pp290;
 			}
-pp289:
+pp290:
 			{
 			token->opcode = PHQL_T_GROUP;
 			return 0;
 		}
-pp290:
+pp291:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
 			case 'G':
-			case 'g':	goto pp320;
+			case 'g':	goto pp322;
 			default:	goto pp59;
 			}
-pp291:
+pp292:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
 			case '0':
@@ -4524,14 +4533,14 @@ pp291:
 			case 'x':
 			case 'y':
 			case 'z':	goto pp58;
-			default:	goto pp292;
+			default:	goto pp293;
 			}
-pp292:
+pp293:
 			{
 			token->opcode = PHQL_T_ILIKE;
 			return 0;
 		}
-pp293:
+pp294:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
 			case '0':
@@ -4599,103 +4608,21 @@ pp293:
 			case 'x':
 			case 'y':
 			case 'z':	goto pp58;
-			default:	goto pp294;
+			default:	goto pp295;
 			}
-pp294:
+pp295:
 			{
 			token->opcode = PHQL_T_INNER;
 			return 0;
 		}
-pp295:
-			ppch = *++PPCURSOR;
-			switch (ppch) {
-			case 'T':
-			case 't':	goto pp322;
-			default:	goto pp59;
-			}
 pp296:
-			ppch = *++PPCURSOR;
-			switch (ppch) {
-			case '0':
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-			case '8':
-			case '9':
-			case ':':
-			case 'A':
-			case 'B':
-			case 'C':
-			case 'D':
-			case 'E':
-			case 'F':
-			case 'G':
-			case 'H':
-			case 'I':
-			case 'J':
-			case 'K':
-			case 'L':
-			case 'M':
-			case 'N':
-			case 'O':
-			case 'P':
-			case 'Q':
-			case 'R':
-			case 'S':
-			case 'T':
-			case 'U':
-			case 'V':
-			case 'W':
-			case 'X':
-			case 'Y':
-			case 'Z':
-			case '\\':
-			case '_':
-			case 'a':
-			case 'b':
-			case 'c':
-			case 'd':
-			case 'e':
-			case 'f':
-			case 'g':
-			case 'h':
-			case 'i':
-			case 'j':
-			case 'k':
-			case 'l':
-			case 'm':
-			case 'n':
-			case 'o':
-			case 'p':
-			case 'q':
-			case 'r':
-			case 's':
-			case 't':
-			case 'u':
-			case 'v':
-			case 'w':
-			case 'x':
-			case 'y':
-			case 'z':	goto pp58;
-			default:	goto pp297;
-			}
-pp297:
-			{
-			token->opcode = PHQL_T_LIMIT;
-			return 0;
-		}
-pp298:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
 			case 'T':
 			case 't':	goto pp324;
 			default:	goto pp59;
 			}
-pp299:
+pp297:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
 			case '0':
@@ -4763,13 +4690,27 @@ pp299:
 			case 'x':
 			case 'y':
 			case 'z':	goto pp58;
-			default:	goto pp300;
+			default:	goto pp298;
 			}
-pp300:
+pp298:
 			{
-			token->opcode = PHQL_T_ORDER;
+			token->opcode = PHQL_T_LIMIT;
 			return 0;
 		}
+pp299:
+			ppch = *++PPCURSOR;
+			switch (ppch) {
+			case 'E':
+			case 'e':	goto pp326;
+			default:	goto pp86;
+			}
+pp300:
+			ppch = *++PPCURSOR;
+			switch (ppch) {
+			case 'T':
+			case 't':	goto pp327;
+			default:	goto pp59;
+			}
 pp301:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
@@ -4842,7 +4783,7 @@ pp301:
 			}
 pp302:
 			{
-			token->opcode = PHQL_T_OUTER;
+			token->opcode = PHQL_T_ORDER;
 			return 0;
 		}
 pp303:
@@ -4917,24 +4858,99 @@ pp303:
 			}
 pp304:
 			{
-			token->opcode = PHQL_T_RIGHT;
+			token->opcode = PHQL_T_OUTER;
 			return 0;
 		}
 pp305:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
+			case '0':
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':
+			case ':':
+			case 'A':
+			case 'B':
+			case 'C':
+			case 'D':
+			case 'E':
+			case 'F':
+			case 'G':
+			case 'H':
+			case 'I':
+			case 'J':
+			case 'K':
+			case 'L':
+			case 'M':
+			case 'N':
+			case 'O':
+			case 'P':
+			case 'Q':
+			case 'R':
+			case 'S':
 			case 'T':
-			case 't':	goto pp326;
-			default:	goto pp59;
+			case 'U':
+			case 'V':
+			case 'W':
+			case 'X':
+			case 'Y':
+			case 'Z':
+			case '\\':
+			case '_':
+			case 'a':
+			case 'b':
+			case 'c':
+			case 'd':
+			case 'e':
+			case 'f':
+			case 'g':
+			case 'h':
+			case 'i':
+			case 'j':
+			case 'k':
+			case 'l':
+			case 'm':
+			case 'n':
+			case 'o':
+			case 'p':
+			case 'q':
+			case 'r':
+			case 's':
+			case 't':
+			case 'u':
+			case 'v':
+			case 'w':
+			case 'x':
+			case 'y':
+			case 'z':	goto pp58;
+			default:	goto pp306;
 			}
 pp306:
+			{
+			token->opcode = PHQL_T_RIGHT;
+			return 0;
+		}
+pp307:
+			ppch = *++PPCURSOR;
+			switch (ppch) {
+			case 'T':
+			case 't':	goto pp329;
+			default:	goto pp59;
+			}
+pp308:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
 			case 'E':
-			case 'e':	goto pp328;
+			case 'e':	goto pp331;
 			default:	goto pp59;
 			}
-pp307:
+pp309:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
 			case '0':
@@ -5002,21 +5018,21 @@ pp307:
 			case 'x':
 			case 'y':
 			case 'z':	goto pp58;
-			default:	goto pp308;
+			default:	goto pp310;
 			}
-pp308:
+pp310:
 			{
 			token->opcode = PHQL_T_USING;
 			return 0;
 		}
-pp309:
+pp311:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
 			case 'S':
-			case 's':	goto pp330;
+			case 's':	goto pp333;
 			default:	goto pp59;
 			}
-pp310:
+pp312:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
 			case '0':
@@ -5084,37 +5100,37 @@ pp310:
 			case 'x':
 			case 'y':
 			case 'z':	goto pp58;
-			default:	goto pp311;
+			default:	goto pp313;
 			}
-pp311:
+pp313:
 			{
 			token->opcode = PHQL_T_WHERE;
 			return 0;
 		}
-pp312:
-			ppch = *++PPCURSOR;
-			switch (ppch) {
-			case 'T':
-			case 't':	goto pp332;
-			default:	goto pp59;
-			}
-pp313:
-			ppch = *++PPCURSOR;
-			switch (ppch) {
-			case 'N':
-			case 'n':	goto pp334;
-			default:	goto pp59;
-			}
 pp314:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
 			case 'T':
-			case 't':	goto pp336;
+			case 't':	goto pp335;
 			default:	goto pp59;
 			}
 pp315:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
+			case 'N':
+			case 'n':	goto pp337;
+			default:	goto pp59;
+			}
+pp316:
+			ppch = *++PPCURSOR;
+			switch (ppch) {
+			case 'T':
+			case 't':	goto pp339;
+			default:	goto pp59;
+			}
+pp317:
+			ppch = *++PPCURSOR;
+			switch (ppch) {
 			case '0':
 			case '1':
 			case '2':
@@ -5180,95 +5196,20 @@ pp315:
 			case 'x':
 			case 'y':
 			case 'z':	goto pp58;
-			default:	goto pp316;
+			default:	goto pp318;
 			}
-pp316:
+pp318:
 			{
 			token->opcode = PHQL_T_DELETE;
 			return 0;
 		}
-pp317:
+pp319:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
 			case 'C':
-			case 'c':	goto pp338;
+			case 'c':	goto pp341;
 			default:	goto pp59;
 			}
-pp318:
-			ppch = *++PPCURSOR;
-			switch (ppch) {
-			case '0':
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-			case '8':
-			case '9':
-			case ':':
-			case 'A':
-			case 'B':
-			case 'C':
-			case 'D':
-			case 'E':
-			case 'F':
-			case 'G':
-			case 'H':
-			case 'I':
-			case 'J':
-			case 'K':
-			case 'L':
-			case 'M':
-			case 'N':
-			case 'O':
-			case 'P':
-			case 'Q':
-			case 'R':
-			case 'S':
-			case 'T':
-			case 'U':
-			case 'V':
-			case 'W':
-			case 'X':
-			case 'Y':
-			case 'Z':
-			case '\\':
-			case '_':
-			case 'a':
-			case 'b':
-			case 'c':
-			case 'd':
-			case 'e':
-			case 'f':
-			case 'g':
-			case 'h':
-			case 'i':
-			case 'j':
-			case 'k':
-			case 'l':
-			case 'm':
-			case 'n':
-			case 'o':
-			case 'p':
-			case 'q':
-			case 'r':
-			case 's':
-			case 't':
-			case 'u':
-			case 'v':
-			case 'w':
-			case 'x':
-			case 'y':
-			case 'z':	goto pp58;
-			default:	goto pp319;
-			}
-pp319:
-			{
-			token->opcode = PHQL_T_EXISTS;
-			return 0;
-		}
 pp320:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
@@ -5341,7 +5282,7 @@ pp320:
 			}
 pp321:
 			{
-			token->opcode = PHQL_T_HAVING;
+			token->opcode = PHQL_T_EXISTS;
 			return 0;
 		}
 pp322:
@@ -5416,7 +5357,7 @@ pp322:
 			}
 pp323:
 			{
-			token->opcode = PHQL_T_INSERT;
+			token->opcode = PHQL_T_HAVING;
 			return 0;
 		}
 pp324:
@@ -5491,12 +5432,19 @@ pp324:
 			}
 pp325:
 			{
-			token->opcode = PHQL_T_OFFSET;
+			token->opcode = PHQL_T_INSERT;
 			return 0;
 		}
 pp326:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
+			case 'T':
+			case 't':	goto pp342;
+			default:	goto pp86;
+			}
+pp327:
+			ppch = *++PPCURSOR;
+			switch (ppch) {
 			case '0':
 			case '1':
 			case '2':
@@ -5562,14 +5510,89 @@ pp326:
 			case 'x':
 			case 'y':
 			case 'z':	goto pp58;
-			default:	goto pp327;
+			default:	goto pp328;
 			}
-pp327:
+pp328:
+			{
+			token->opcode = PHQL_T_OFFSET;
+			return 0;
+		}
+pp329:
+			ppch = *++PPCURSOR;
+			switch (ppch) {
+			case '0':
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':
+			case ':':
+			case 'A':
+			case 'B':
+			case 'C':
+			case 'D':
+			case 'E':
+			case 'F':
+			case 'G':
+			case 'H':
+			case 'I':
+			case 'J':
+			case 'K':
+			case 'L':
+			case 'M':
+			case 'N':
+			case 'O':
+			case 'P':
+			case 'Q':
+			case 'R':
+			case 'S':
+			case 'T':
+			case 'U':
+			case 'V':
+			case 'W':
+			case 'X':
+			case 'Y':
+			case 'Z':
+			case '\\':
+			case '_':
+			case 'a':
+			case 'b':
+			case 'c':
+			case 'd':
+			case 'e':
+			case 'f':
+			case 'g':
+			case 'h':
+			case 'i':
+			case 'j':
+			case 'k':
+			case 'l':
+			case 'm':
+			case 'n':
+			case 'o':
+			case 'p':
+			case 'q':
+			case 'r':
+			case 's':
+			case 't':
+			case 'u':
+			case 'v':
+			case 'w':
+			case 'x':
+			case 'y':
+			case 'z':	goto pp58;
+			default:	goto pp330;
+			}
+pp330:
 			{
 			token->opcode = PHQL_T_SELECT;
 			return 0;
 		}
-pp328:
+pp331:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
 			case '0':
@@ -5637,14 +5660,14 @@ pp328:
 			case 'x':
 			case 'y':
 			case 'z':	goto pp58;
-			default:	goto pp329;
+			default:	goto pp332;
 			}
-pp329:
+pp332:
 			{
 			token->opcode = PHQL_T_UPDATE;
 			return 0;
 		}
-pp330:
+pp333:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
 			case '0':
@@ -5712,14 +5735,14 @@ pp330:
 			case 'x':
 			case 'y':
 			case 'z':	goto pp58;
-			default:	goto pp331;
+			default:	goto pp334;
 			}
-pp331:
+pp334:
 			{
 			token->opcode = PHQL_T_VALUES;
 			return 0;
 		}
-pp332:
+pp335:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
 			case '0':
@@ -5787,14 +5810,14 @@ pp332:
 			case 'x':
 			case 'y':
 			case 'z':	goto pp58;
-			default:	goto pp333;
+			default:	goto pp336;
 			}
-pp333:
+pp336:
 			{
 			token->opcode = PHQL_T_AGAINST;
 			return 0;
 		}
-pp334:
+pp337:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
 			case '0':
@@ -5862,95 +5885,13 @@ pp334:
 			case 'x':
 			case 'y':
 			case 'z':	goto pp58;
-			default:	goto pp335;
+			default:	goto pp338;
 			}
-pp335:
+pp338:
 			{
 			token->opcode = PHQL_T_BETWEEN;
 			return 0;
 		}
-pp336:
-			ppch = *++PPCURSOR;
-			switch (ppch) {
-			case '0':
-			case '1':
-			case '2':
-			case '3':
-			case '4':
-			case '5':
-			case '6':
-			case '7':
-			case '8':
-			case '9':
-			case ':':
-			case 'A':
-			case 'B':
-			case 'C':
-			case 'D':
-			case 'E':
-			case 'F':
-			case 'G':
-			case 'H':
-			case 'I':
-			case 'J':
-			case 'K':
-			case 'L':
-			case 'M':
-			case 'N':
-			case 'O':
-			case 'P':
-			case 'Q':
-			case 'R':
-			case 'S':
-			case 'T':
-			case 'U':
-			case 'V':
-			case 'W':
-			case 'X':
-			case 'Y':
-			case 'Z':
-			case '\\':
-			case '_':
-			case 'a':
-			case 'b':
-			case 'c':
-			case 'd':
-			case 'e':
-			case 'f':
-			case 'g':
-			case 'h':
-			case 'i':
-			case 'j':
-			case 'k':
-			case 'l':
-			case 'm':
-			case 'n':
-			case 'o':
-			case 'p':
-			case 'q':
-			case 'r':
-			case 's':
-			case 't':
-			case 'u':
-			case 'v':
-			case 'w':
-			case 'x':
-			case 'y':
-			case 'z':	goto pp58;
-			default:	goto pp337;
-			}
-pp337:
-			{
-			token->opcode = PHQL_T_CONVERT;
-			return 0;
-		}
-pp338:
-			ppch = *++PPCURSOR;
-			switch (ppch) {
-			case 'T':
-			case 't':	goto pp339;
-			default:	goto pp59;
-			}
 pp339:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
@@ -6023,7 +5964,123 @@ pp339:
 			}
 pp340:
 			{
+			token->opcode = PHQL_T_CONVERT;
+			return 0;
+		}
+pp341:
+			ppch = *++PPCURSOR;
+			switch (ppch) {
+			case 'T':
+			case 't':	goto pp343;
+			default:	goto pp59;
+			}
+pp342:
+			ppch = *++PPCURSOR;
+			switch (ppch) {
+			case 'W':
+			case 'w':	goto pp345;
+			default:	goto pp86;
+			}
+pp343:
+			ppch = *++PPCURSOR;
+			switch (ppch) {
+			case '0':
+			case '1':
+			case '2':
+			case '3':
+			case '4':
+			case '5':
+			case '6':
+			case '7':
+			case '8':
+			case '9':
+			case ':':
+			case 'A':
+			case 'B':
+			case 'C':
+			case 'D':
+			case 'E':
+			case 'F':
+			case 'G':
+			case 'H':
+			case 'I':
+			case 'J':
+			case 'K':
+			case 'L':
+			case 'M':
+			case 'N':
+			case 'O':
+			case 'P':
+			case 'Q':
+			case 'R':
+			case 'S':
+			case 'T':
+			case 'U':
+			case 'V':
+			case 'W':
+			case 'X':
+			case 'Y':
+			case 'Z':
+			case '\\':
+			case '_':
+			case 'a':
+			case 'b':
+			case 'c':
+			case 'd':
+			case 'e':
+			case 'f':
+			case 'g':
+			case 'h':
+			case 'i':
+			case 'j':
+			case 'k':
+			case 'l':
+			case 'm':
+			case 'n':
+			case 'o':
+			case 'p':
+			case 'q':
+			case 'r':
+			case 's':
+			case 't':
+			case 'u':
+			case 'v':
+			case 'w':
+			case 'x':
+			case 'y':
+			case 'z':	goto pp58;
+			default:	goto pp344;
+			}
+pp344:
+			{
 			token->opcode = PHQL_T_DISTINCT;
+			return 0;
+		}
+pp345:
+			ppch = *++PPCURSOR;
+			switch (ppch) {
+			case 'E':
+			case 'e':	goto pp346;
+			default:	goto pp86;
+			}
+pp346:
+			ppch = *++PPCURSOR;
+			switch (ppch) {
+			case 'E':
+			case 'e':	goto pp347;
+			default:	goto pp86;
+			}
+pp347:
+			ppch = *++PPCURSOR;
+			switch (ppch) {
+			case 'N':
+			case 'n':	goto pp348;
+			default:	goto pp86;
+			}
+pp348:
+			++PPCURSOR;
+			{
+			token->opcode = PHQL_T_BETWEEN_NOT;
 			return 0;
 		}
 		}
