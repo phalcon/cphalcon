@@ -64,16 +64,16 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
         let this->options = userOptions;
 
         /**
+        * Set form attributes
+        */
+        this->setAttributes(new Attributes());
+
+        /**
          * Check for an 'initialize' method and call it
          */
         if method_exists(this, "initialize") {
             this->{"initialize"}(entity, userOptions);
         }
-
-        /**
-        * Set form attributes
-        */
-        this->setAttributes(new Attributes());
     }
 
     /**
