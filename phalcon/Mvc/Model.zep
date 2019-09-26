@@ -2104,7 +2104,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 "Phalcon\\Mvc\\Model\\Criteria"
             );
         } else {
-            let criteria = create_instance("Phalcon\\Mvc\\Model\\Criteria");
+            let criteria = new Criteria();
 
             criteria->setDI(container);
         }
@@ -2972,13 +2972,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
             if !this->_exists(metaData, this->getReadConnection()) {
                 let this->errorMessages = [
-                    create_instance_params(
-                        "Phalcon\\Messages\\Message",
-                        [
-                            "Record cannot be updated because it does not exist",
-                            null,
-                            "InvalidUpdateAttempt"
-                        ]
+                    new Message(
+                        "Record cannot be updated because it does not exist",
+                        null,
+                        "InvalidUpdateAttempt"
                     )
                 ];
 
@@ -3141,13 +3138,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                  * Create a message
                  */
                 this->appendMessage(
-                    create_instance_params(
-                        "Phalcon\\Messages\\Message",
-                        [
-                            message,
-                            fields,
-                            "ConstraintViolation"
-                        ]
+                    new Message(
+                        message,
+                        fields,
+                        "ConstraintViolation"
                     )
                 );
 
@@ -3391,13 +3385,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                  * Create a message
                  */
                 this->appendMessage(
-                    create_instance_params(
-                        "Phalcon\\Messages\\Message",
-                        [
-                            message,
-                            fields,
-                            "ConstraintViolation"
-                        ]
+                    new Message(
+                        message,
+                        fields,
+                        "ConstraintViolation"
                     )
                 );
 
@@ -4485,13 +4476,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                             /**
                              * An implicit PresenceOf message is created
                              */
-                            let this->errorMessages[] = create_instance_params(
-                                "Phalcon\\Messages\\Message",
-                                [
-                                    attributeField . " is required",
-                                    attributeField,
-                                    "PresenceOf"
-                                ]
+                            let this->errorMessages[] = new Message(
+                                attributeField . " is required",
+                                attributeField,
+                                "PresenceOf"
                             );
 
                             let error = true;
@@ -5349,14 +5337,11 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
         for message in iterator(messages) {
             this->appendMessage(
-                create_instance_params(
-                    "Phalcon\\Messages\\Message",
-                    [
-                        message->getMessage(),
-                        message->getField(),
-                        message->getType(),
-                        message->getCode()
-                    ]
+                new Message(
+                    message->getMessage(),
+                    message->getField(),
+                    message->getType(),
+                    message->getCode()
                 )
             );
         }
