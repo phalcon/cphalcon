@@ -127,7 +127,7 @@ PHP_METHOD(Phalcon_Logger_AdapterFactory, newInstance) {
 	zephir_read_property(&_0, this_ptr, SL("services"), PH_NOISY_CC | PH_READONLY);
 	if (!(zephir_array_isset(&_0, &name))) {
 		zephir_read_property(&_1$$3, this_ptr, SL("mapper"), PH_NOISY_CC | PH_READONLY);
-		zephir_array_fetch(&definition, &_1$$3, &name, PH_NOISY | PH_READONLY, "phalcon/Logger/AdapterFactory.zep", 39 TSRMLS_CC);
+		zephir_array_fetch(&definition, &_1$$3, &name, PH_NOISY | PH_READONLY, "phalcon/Logger/AdapterFactory.zep", 40 TSRMLS_CC);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		zephir_fetch_safe_class(&_3$$3, &definition);
 		_4$$3 = zephir_fetch_class_str_ex(Z_STRVAL_P(&_3$$3), Z_STRLEN_P(&_3$$3), ZEND_FETCH_CLASS_AUTO);
@@ -142,7 +142,7 @@ PHP_METHOD(Phalcon_Logger_AdapterFactory, newInstance) {
 		zephir_update_property_array(this_ptr, SL("services"), &name, &_2$$3);
 	}
 	zephir_read_property(&_5, this_ptr, SL("services"), PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch(&_6, &_5, &name, PH_NOISY | PH_READONLY, "phalcon/Logger/AdapterFactory.zep", 43 TSRMLS_CC);
+	zephir_array_fetch(&_6, &_5, &name, PH_NOISY | PH_READONLY, "phalcon/Logger/AdapterFactory.zep", 44 TSRMLS_CC);
 	RETURN_CTOR(&_6);
 
 }

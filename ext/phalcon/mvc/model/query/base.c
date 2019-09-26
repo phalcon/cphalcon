@@ -124,7 +124,7 @@ static void phql_scanner_error_msg(phql_parser_status *parser_status, zval **err
 	unsigned int length;
 	phql_scanner_state *state = parser_status->scanner_state;
 
-    ZVAL_UNDEF(*error_msg);
+	ZVAL_UNDEF(*error_msg);
 
 	if (state->start) {
 		length = 64 + state->start_length + parser_status->phql_length;
@@ -137,7 +137,7 @@ static void phql_scanner_error_msg(phql_parser_status *parser_status, zval **err
 			snprintf(error, length, "Scanning error before '%s' when parsing: %s (%d)", state->start, parser_status->phql, parser_status->phql_length);
 		}
 		error[length - 1] = '\0';
-        ZVAL_STRING(*error_msg, error);
+		ZVAL_STRING(*error_msg, error);
 	} else {
 		ZVAL_STRING(*error_msg, "Scanning error near to EOF");
 	}
@@ -152,8 +152,8 @@ static void phql_scanner_error_msg(phql_parser_status *parser_status, zval **err
  */
 int phql_parse_phql(zval *result, zval *phql TSRMLS_DC)
 {
-    zval err_msg, *error_msg = &err_msg;
-    ZVAL_UNDEF(error_msg);
+	zval err_msg, *error_msg = &err_msg;
+	ZVAL_UNDEF(error_msg);
 	ZVAL_NULL(result);
 
 	if (phql_internal_parse_phql(&result, Z_STRVAL_P(phql), Z_STRLEN_P(phql), &error_msg TSRMLS_CC) == FAILURE) {
@@ -176,8 +176,8 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 	phql_scanner_token token;
 	void* phql_parser;
 	char *error;
-    unsigned long phql_key = 0;
-    zval *temp_ast;
+	unsigned long phql_key = 0;
+	zval *temp_ast;
 
 	if (!phql) {
 		ZVAL_STRING(*error_msg, "PHQL statement cannot be NULL");
@@ -188,11 +188,11 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 	if (cache_level >= 0) {
 		phql_key = zend_inline_hash_func(phql, phql_length + 1);
 		if (phalcon_globals_ptr->orm.parser_cache != NULL) {
-            if ((temp_ast = zend_hash_index_find(phalcon_globals_ptr->orm.parser_cache, phql_key)) != NULL) {
-                ZVAL_ZVAL(*result, temp_ast, 1, 0);
-                Z_TRY_ADDREF_P(*result);
-                return SUCCESS;
-            }
+			if ((temp_ast = zend_hash_index_find(phalcon_globals_ptr->orm.parser_cache, phql_key)) != NULL) {
+				ZVAL_ZVAL(*result, temp_ast, 1, 0);
+				Z_TRY_ADDREF_P(*result);
+				return SUCCESS;
+			}
 		}
 	}
 
@@ -203,7 +203,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 
 	parser_status->status = PHQL_PARSING_OK;
 	parser_status->scanner_state = state;
-    ZVAL_UNDEF(&parser_status->ret);
+	ZVAL_UNDEF(&parser_status->ret);
 
 	parser_status->syntax_error = NULL;
 	parser_status->token = &token;
@@ -332,9 +332,9 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 			case PHQL_T_FOR:
 				phql_(phql_parser, PHQL_FOR, NULL, parser_status);
 				break;
-            case PHQL_T_WITH:
-    			phql_(phql_parser, PHQL_WITH, NULL, parser_status);
-    			break;
+			case PHQL_T_WITH:
+				phql_(phql_parser, PHQL_WITH, NULL, parser_status);
+				break;
 
 			case PHQL_T_INTEGER:
 				if (parser_status->enable_literals) {
@@ -348,7 +348,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				if (parser_status->enable_literals) {
 					phql_parse_with_token(phql_parser, PHQL_T_DOUBLE, PHQL_DOUBLE, &token, parser_status);
 				} else {
-                    ZVAL_STRING(*error_msg, "Literals are disabled in PHQL statements");
+					ZVAL_STRING(*error_msg, "Literals are disabled in PHQL statements");
 					parser_status->status = PHQL_PARSING_FAILED;
 				}
 				break;
@@ -356,7 +356,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				if (parser_status->enable_literals) {
 					phql_parse_with_token(phql_parser, PHQL_T_STRING, PHQL_STRING, &token, parser_status);
 				} else {
-                    ZVAL_STRING(*error_msg, "Literals are disabled in PHQL statements");
+					ZVAL_STRING(*error_msg, "Literals are disabled in PHQL statements");
 					parser_status->status = PHQL_PARSING_FAILED;
 				}
 				break;
@@ -364,7 +364,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				if (parser_status->enable_literals) {
 					phql_(phql_parser, PHQL_TRUE, NULL, parser_status);
 				} else {
-                    ZVAL_STRING(*error_msg, "Literals are disabled in PHQL statements");
+					ZVAL_STRING(*error_msg, "Literals are disabled in PHQL statements");
 					parser_status->status = PHQL_PARSING_FAILED;
 				}
 				break;
@@ -372,7 +372,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				if (parser_status->enable_literals) {
 					phql_(phql_parser, PHQL_FALSE, NULL, parser_status);
 				} else {
-                    ZVAL_STRING(*error_msg, "Literals are disabled in PHQL statements");
+					ZVAL_STRING(*error_msg, "Literals are disabled in PHQL statements");
 					parser_status->status = PHQL_PARSING_FAILED;
 				}
 				break;
@@ -380,7 +380,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				if (parser_status->enable_literals) {
 					phql_parse_with_token(phql_parser, PHQL_T_HINTEGER, PHQL_HINTEGER, &token, parser_status);
 				} else {
-                    ZVAL_STRING(*error_msg, "Literals are disabled in PHQL statements");
+					ZVAL_STRING(*error_msg, "Literals are disabled in PHQL statements");
 					parser_status->status = PHQL_PARSING_FAILED;
 				}
 				break;
@@ -485,6 +485,9 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 			case PHQL_T_BETWEEN:
 				phql_(phql_parser, PHQL_BETWEEN, NULL, parser_status);
 				break;
+			case PHQL_T_BETWEEN_NOT:
+				phql_(phql_parser, PHQL_BETWEEN_NOT, NULL, parser_status);
+				break;
 			case PHQL_T_DISTINCT:
 				phql_(phql_parser, PHQL_DISTINCT, NULL, parser_status);
 				break;
@@ -510,7 +513,7 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				error = emalloc(error_length);
 				snprintf(error, error_length, "Scanner: Unknown opcode %d", token.opcode);
 				error[error_length - 1] = '\0';
-                ZVAL_STRING(*error_msg, error);
+				ZVAL_STRING(*error_msg, error);
 				efree(error);
 				break;
 		}
@@ -528,9 +531,9 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 
 			case PHQL_SCANNER_RETCODE_ERR:
 			case PHQL_SCANNER_RETCODE_IMPOSSIBLE:
-                if (Z_TYPE_P(*error_msg) == IS_UNDEF) {
-                    phql_scanner_error_msg(parser_status, error_msg TSRMLS_CC);
-                }
+				if (Z_TYPE_P(*error_msg) == IS_UNDEF) {
+					phql_scanner_error_msg(parser_status, error_msg TSRMLS_CC);
+				}
 
 				status = FAILURE;
 				break;
@@ -546,9 +549,9 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 	if (parser_status->status != PHQL_PARSING_OK) {
 		status = FAILURE;
 		if (parser_status->syntax_error) {
-            if (Z_TYPE_P(*error_msg) == IS_UNDEF) {
-                ZVAL_STRING(*error_msg, parser_status->syntax_error);
-            }
+			if (Z_TYPE_P(*error_msg) == IS_UNDEF) {
+				ZVAL_STRING(*error_msg, parser_status->syntax_error);
+			}
 
 			efree(parser_status->syntax_error);
 		}
@@ -564,30 +567,30 @@ int phql_internal_parse_phql(zval **result, char *phql, unsigned int phql_length
 				 * Set a unique id for the parsed ast
 				 */
 				if (phalcon_globals_ptr->orm.cache_level >= 1) {
-                    if (Z_TYPE_P(&parser_status->ret) == IS_ARRAY) {
-                        add_assoc_long(&parser_status->ret, "id", phalcon_globals_ptr->orm.unique_cache_id++);
-                    }
+					if (Z_TYPE_P(&parser_status->ret) == IS_ARRAY) {
+						add_assoc_long(&parser_status->ret, "id", phalcon_globals_ptr->orm.unique_cache_id++);
+					}
 				}
 
-                ZVAL_ZVAL(*result, &parser_status->ret, 1, 1);
+				ZVAL_ZVAL(*result, &parser_status->ret, 1, 1);
 
 				/**
 				 * Store the parsed definition in the cache
 				 */
 				if (cache_level >= 0) {
 
-                    if (!phalcon_globals_ptr->orm.parser_cache) {
-                        ALLOC_HASHTABLE(phalcon_globals_ptr->orm.parser_cache);
-                        zend_hash_init(phalcon_globals_ptr->orm.parser_cache, 0, NULL, ZVAL_PTR_DTOR, 0);
-                    }
+					if (!phalcon_globals_ptr->orm.parser_cache) {
+						ALLOC_HASHTABLE(phalcon_globals_ptr->orm.parser_cache);
+						zend_hash_init(phalcon_globals_ptr->orm.parser_cache, 0, NULL, ZVAL_PTR_DTOR, 0);
+					}
 
-                    Z_TRY_ADDREF_P(*result);
+					Z_TRY_ADDREF_P(*result);
 
-                    zend_hash_index_update(
-                        phalcon_globals_ptr->orm.parser_cache,
-                        phql_key,
-                        *result
-                    );
+					zend_hash_index_update(
+						phalcon_globals_ptr->orm.parser_cache,
+						phql_key,
+						*result
+					);
 				}
 
 			}

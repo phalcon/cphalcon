@@ -112,7 +112,7 @@ PHP_METHOD(Phalcon_Helper_Fs, basename) {
 	zephir_preg_match(&_2, &_5, &uri, &matches, 0, 0 , 0  TSRMLS_CC);
 	if (zephir_is_true(&_2)) {
 		ZEPHIR_OBS_VAR(&filename);
-		zephir_array_fetch_long(&filename, &matches, 0, PH_NOISY, "phalcon/Helper/Fs.zep", 36 TSRMLS_CC);
+		zephir_array_fetch_long(&filename, &matches, 0, PH_NOISY, "phalcon/Helper/Fs.zep", 37 TSRMLS_CC);
 	} else {
 		ZEPHIR_INIT_NVAR(&filename);
 		ZVAL_STRING(&filename, "");

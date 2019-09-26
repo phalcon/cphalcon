@@ -18,9 +18,9 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_translate_translatefactory_load, 0, 0, 1)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_translate_translatefactory_newinstance, 0, 1, Phalcon\\Translate\\AbstractAdapter, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_translate_translatefactory_newinstance, 0, 1, Phalcon\\Translate\\Adapter\\AdapterInterface, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_translate_translatefactory_newinstance, 0, 1, IS_OBJECT, "Phalcon\\Translate\\AbstractAdapter", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_translate_translatefactory_newinstance, 0, 1, IS_OBJECT, "Phalcon\\Translate\\Adapter\\AdapterInterface", 0)
 #endif
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)

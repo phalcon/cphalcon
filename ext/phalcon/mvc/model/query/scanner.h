@@ -90,13 +90,14 @@
 #define PHQL_T_OFFSET 329
 #define PHQL_T_DISTINCT 330
 #define PHQL_T_BETWEEN 331
-#define PHQL_T_CAST 332
-#define PHQL_T_TRUE 333
-#define PHQL_T_FALSE 334
-#define PHQL_T_CONVERT 335
-#define PHQL_T_USING 336
-#define PHQL_T_ALL 337
-#define PHQL_T_FOR 338
+#define PHQL_T_BETWEEN_NOT 332
+#define PHQL_T_CAST 333
+#define PHQL_T_TRUE 334
+#define PHQL_T_FALSE 335
+#define PHQL_T_CONVERT 336
+#define PHQL_T_USING 337
+#define PHQL_T_ALL 338
+#define PHQL_T_FOR 339
 
 /** Special Tokens */
 #define PHQL_T_FCALL 350
