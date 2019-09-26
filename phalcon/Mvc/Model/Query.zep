@@ -3100,7 +3100,7 @@ class Query implements QueryInterface, InjectionAwareInterface
                  * If the result is a simple standard object use an
                  * Phalcon\Mvc\Model\Row as base
                  */
-                let resultObject = create_instance("Phalcon\\Mvc\\Model\\Row");
+                let resultObject = new Row();
 
                 /**
                  * Standard objects can't keep snapshots
@@ -3181,28 +3181,22 @@ class Query implements QueryInterface, InjectionAwareInterface
             /**
              * Simple resultsets contains only complete objects
              */
-            return create_instance_params(
-                "Phalcon\\Mvc\\Model\\Resultset\\Simple",
-                [
-                    simpleColumnMap,
-                    resultObject,
-                    resultData,
-                    cache,
-                    isKeepingSnapshots
-                ]
+            return new Simple(
+                simpleColumnMap,
+                resultObject,
+                resultData,
+                cache,
+                isKeepingSnapshots
             );
         }
 
         /**
          * Complex resultsets may contain complete objects and scalars
          */
-        return create_instance_params(
-            "Phalcon\\Mvc\\Model\\Resultset\\Complex",
-            [
-                columns1,
-                resultData,
-                cache
-            ]
+        return new Complex(
+            columns1,
+            resultData,
+            cache
         );
     }
 
