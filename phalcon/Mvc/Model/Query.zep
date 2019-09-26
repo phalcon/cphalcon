@@ -30,6 +30,7 @@ use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Mvc\Model\RelationInterface;
 use Phalcon\Mvc\Model\TransactionInterface;
 use Phalcon\Db\DialectInterface;
+use Phalcon\Mvc\Model\Query\Lang;
 
 /**
  * Phalcon\Mvc\Model\Query
@@ -959,6 +960,16 @@ class Query implements QueryInterface, InjectionAwareInterface
                     let exprReturn = [
                         "type": "unary-op",
                         "op":   "DISTINCT ",
+                        "right": right
+                    ];
+
+                    break;
+
+                case PHQL_T_BETWEEN_NOT:
+                    let exprReturn = [
+                        "type": "binary-op",
+                        "op":   "BETWEEN NOT",
+                        "left": left,
                         "right": right
                     ];
 
@@ -2736,7 +2747,7 @@ class Query implements QueryInterface, InjectionAwareInterface
          * This function parses the PHQL statement
          */
         let phql = this->phql,
-            ast = phql_parse_phql(phql);
+            ast = Lang::parsePHQL(phql);
 
         let irPhql = null,
             uniqueId = null;

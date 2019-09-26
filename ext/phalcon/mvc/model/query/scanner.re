@@ -43,25 +43,25 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 
 		HINTEGER = [x0-9A-Fa-f]+;
 		HINTEGER {
-            token->value = estrndup(q, YYCURSOR - q);
-            token->len = YYCURSOR - q;
-            if (token->len > 2 && !memcmp(token->value, "0x", 2)) {
-			    token->opcode = PHQL_T_HINTEGER;
-            } else {
-                int i, alpha = 0;
-                for (i = 0; i < token->len; i++) {
-                    unsigned char ch = token->value[i];
-                    if (!((ch >= '0') && (ch <= '9'))) {
-                        alpha = 1;
-                        break;
-                    }
-                }
-                if (alpha) {
-                    token->opcode = PHQL_T_IDENTIFIER;
-                } else {
-                    token->opcode = PHQL_T_INTEGER;
-                }
-            }
+			token->value = estrndup(q, YYCURSOR - q);
+			token->len = YYCURSOR - q;
+			if (token->len > 2 && !memcmp(token->value, "0x", 2)) {
+				token->opcode = PHQL_T_HINTEGER;
+			} else {
+				int i, alpha = 0;
+				for (i = 0; i < token->len; i++) {
+					unsigned char ch = token->value[i];
+					if (!((ch >= '0') && (ch <= '9'))) {
+						alpha = 1;
+						break;
+					}
+				}
+				if (alpha) {
+					token->opcode = PHQL_T_IDENTIFIER;
+				} else {
+					token->opcode = PHQL_T_INTEGER;
+				}
+			}
 			q = YYCURSOR;
 			return 0;
 		}
@@ -287,6 +287,11 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 			return 0;
 		}
 
+		'NOT BETWEEN' {
+			token->opcode = PHQL_T_BETWEEN_NOT;
+			return 0;
+		}
+
 		'BETWEEN' {
 			token->opcode = PHQL_T_BETWEEN;
 			return 0;
@@ -307,7 +312,7 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 			return 0;
 		}
 
-        'EXISTS' {
+		'EXISTS' {
 			token->opcode = PHQL_T_EXISTS;
 			return 0;
 		}
@@ -322,27 +327,27 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 			return 0;
 		}
 
-        'CASE' {
+		'CASE' {
 			token->opcode = PHQL_T_CASE;
 			return 0;
 		}
 
-        'WHEN' {
+		'WHEN' {
 			token->opcode = PHQL_T_WHEN;
 			return 0;
 		}
 
-        'THEN' {
+		'THEN' {
 			token->opcode = PHQL_T_THEN;
 			return 0;
 		}
 
-        'ELSE' {
+		'ELSE' {
 			token->opcode = PHQL_T_ELSE;
 			return 0;
 		}
 
-        'END' {
+		'END' {
 			token->opcode = PHQL_T_END;
 			return 0;
 		}
@@ -352,7 +357,7 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 			return 0;
 		}
 
-        'WITH' {
+		'WITH' {
 			token->opcode = PHQL_T_WITH;
 			return 0;
 		}
