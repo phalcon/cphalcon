@@ -148,19 +148,19 @@ class GetSetCest
             $adapter->get('test-key', 'test')
         );
 
-//        // Expiry
-//        $data = 'Phalcon Framework';
-//
-//        $I->assertTrue(
-//            $adapter->set('test-key', $data, 1)
-//        );
-//
-//        sleep(2);
-//
-//        $I->assertEquals(
-//            'test',
-//            $adapter->get('test-key', 'test')
-//        );
+        // Expiry
+        $data = 'Phalcon Framework';
+
+        $I->assertTrue(
+            $adapter->set('test-key', $data, 1)
+        );
+
+        sleep(2);
+
+        $I->assertEquals(
+            'test',
+            $adapter->get('test-key', 'test')
+        );
 
         $I->safeDeleteFile($target . 'test-key');
     }
