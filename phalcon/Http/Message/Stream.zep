@@ -292,8 +292,10 @@ class Stream implements StreamInterface
         let handle = stream;
         if likely typeof stream === "string" {
             set_error_handler(
-                function (error) {
-                    let this->warning = true;
+                function (number, message, file, line, context) {
+                    if number === E_WARNING {
+                        let this->warning = true;
+                    }
                 }
             );
 
