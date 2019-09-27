@@ -59,7 +59,7 @@ class CacheCest
         $options = [
             'defaultSerializer' =>  $serializer[0],
             'lifetime'          => 30,
-            'cacheDir'          => cacheDir('mvcModelQueryCache'),
+            'storageDir'        => cacheDir('mvcModelQueryCache'),
         ];
 
         $adapter = $adapterFactory->newInstance('stream', $options);
