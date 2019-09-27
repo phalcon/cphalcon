@@ -36,7 +36,7 @@ class ConstructCest
         $adapter = new Stream(
             $serializer,
             [
-                'cacheDir' => outputDir(),
+                'storageDir' => outputDir(),
             ]
         );
 
@@ -62,7 +62,7 @@ class ConstructCest
         $I->wantToTest('Storage\Adapter\Stream - __construct() - exception');
 
         $I->expectThrowable(
-            new Exception("The 'cacheDir' must be specified in the options"),
+            new Exception("The 'storageDir' must be specified in the options"),
             function () {
                 $serializer = new SerializerFactory();
                 $adapter    = new Stream($serializer);

@@ -45,7 +45,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Storage_Adapter_Stream) {
 	/**
 	 * @var string
 	 */
-	zend_declare_property_string(phalcon_storage_adapter_stream_ce, SL("cacheDir"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_storage_adapter_stream_ce, SL("storageDir"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
 
 	/**
 	 * @var array
@@ -70,12 +70,12 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, __construct) {
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL, *_4 = NULL, *_5 = NULL;
 	zval options;
-	zval *factory = NULL, factory_sub, *options_param = NULL, __$null, cacheDir, _1, _2, _3;
+	zval *factory = NULL, factory_sub, *options_param = NULL, __$null, storageDir, _1, _2, _3;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&factory_sub);
 	ZVAL_NULL(&__$null);
-	ZVAL_UNDEF(&cacheDir);
+	ZVAL_UNDEF(&storageDir);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
@@ -97,18 +97,18 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, __construct) {
 
 
 	ZEPHIR_INIT_VAR(&_1);
-	ZVAL_STRING(&_1, "cacheDir");
+	ZVAL_STRING(&_1, "storageDir");
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "");
-	ZEPHIR_CALL_CE_STATIC(&cacheDir, phalcon_helper_arr_ce, "get", &_0, 12, &options, &_1, &_2);
+	ZEPHIR_CALL_CE_STATIC(&storageDir, phalcon_helper_arr_ce, "get", &_0, 12, &options, &_1, &_2);
 	zephir_check_call_status();
-	if (ZEPHIR_IS_EMPTY(&cacheDir)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_storage_exception_ce, "The 'cacheDir' must be specified in the options", "phalcon/Storage/Adapter/Stream.zep", 52);
+	if (ZEPHIR_IS_EMPTY(&storageDir)) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_storage_exception_ce, "The 'storageDir' must be specified in the options", "phalcon/Storage/Adapter/Stream.zep", 52);
 		return;
 	}
-	ZEPHIR_CALL_CE_STATIC(&_3, phalcon_helper_str_ce, "dirseparator", &_4, 117, &cacheDir);
+	ZEPHIR_CALL_CE_STATIC(&_3, phalcon_helper_str_ce, "dirseparator", &_4, 117, &storageDir);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, SL("cacheDir"), &_3);
+	zephir_update_property_zval(this_ptr, SL("storageDir"), &_3);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "phstrm-");
 	zephir_update_property_zval(this_ptr, SL("prefix"), &_1);
@@ -148,7 +148,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, clear) {
 	ZEPHIR_MM_GROW();
 
 	result = 1;
-	zephir_read_property(&_1, this_ptr, SL("cacheDir"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_1, this_ptr, SL("storageDir"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_CE_STATIC(&directory, phalcon_helper_str_ce, "dirseparator", &_0, 117, &_1);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&iterator, this_ptr, "getiterator", NULL, 118, &directory);
@@ -438,7 +438,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, getKeys) {
 
 	ZEPHIR_INIT_VAR(&results);
 	array_init(&results);
-	zephir_read_property(&_1, this_ptr, SL("cacheDir"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_1, this_ptr, SL("storageDir"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_CE_STATIC(&directory, phalcon_helper_str_ce, "dirseparator", &_0, 117, &_1);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&iterator, this_ptr, "getiterator", NULL, 118, &directory);
@@ -690,7 +690,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, set) {
 }
 
 /**
- * Returns the folder based on the cacheDir and the prefix
+ * Returns the folder based on the storageDir and the prefix
  *
  * @param string $key
  *
@@ -736,7 +736,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, getDir) {
 	}
 
 
-	zephir_read_property(&_0, this_ptr, SL("cacheDir"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, SL("storageDir"), PH_NOISY_CC | PH_READONLY);
 	zephir_read_property(&_1, this_ptr, SL("prefix"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&dirPrefix);
 	ZEPHIR_CONCAT_VV(&dirPrefix, &_0, &_1);

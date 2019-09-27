@@ -121,10 +121,10 @@ class NewInstanceCest
                 'stream',
                 Stream::class,
                 [
-                    'cacheDir' => outputDir(),
+                    'storageDir' => outputDir(),
                 ],
                 [
-                    'cacheDir' => outputDir(),
+                    'storageDir' => outputDir(),
                     'serializer' => $jsonSerializer,
                 ],
             ],

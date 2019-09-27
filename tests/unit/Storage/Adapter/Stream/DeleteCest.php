@@ -34,7 +34,7 @@ class DeleteCest
         $adapter = new Stream(
             $serializer,
             [
-                'cacheDir' => outputDir(),
+                'storageDir' => outputDir(),
             ]
         );
 
@@ -70,7 +70,7 @@ class DeleteCest
         $adapter = new Stream(
             $serializer,
             [
-                'cacheDir' => outputDir(),
+                'storageDir' => outputDir(),
             ]
         );
 
@@ -106,7 +106,7 @@ class DeleteCest
         $adapter = new Stream(
             $serializer,
             [
-                'cacheDir' => outputDir(),
+                'storageDir' => outputDir(),
             ]
         );
 

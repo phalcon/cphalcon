@@ -161,10 +161,9 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, getType) {
  */
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, __construct) {
 
-	zend_class_entry *_4$$4;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *descriptor_param = NULL, dialectClass, connectionId, _0, _1$$3, _2$$4, _3$$4;
+	zval *descriptor_param = NULL, dialectClass, connectionId, _0, _1$$3, _2$$4;
 	zval descriptor;
 	zval *this_ptr = getThis();
 
@@ -174,7 +173,6 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, __construct) {
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$4);
-	ZVAL_UNDEF(&_3$$4);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &descriptor_param);
@@ -196,16 +194,8 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, __construct) {
 	}
 	if (Z_TYPE_P(&dialectClass) == IS_STRING) {
 		ZEPHIR_INIT_VAR(&_2$$4);
-		zephir_fetch_safe_class(&_3$$4, &dialectClass);
-		_4$$4 = zephir_fetch_class_str_ex(Z_STRVAL_P(&_3$$4), Z_STRLEN_P(&_3$$4), ZEND_FETCH_CLASS_AUTO);
-		if(!_4$$4) {
-			RETURN_MM_NULL();
-		}
-		object_init_ex(&_2$$4, _4$$4);
-		if (zephir_has_constructor(&_2$$4 TSRMLS_CC)) {
-			ZEPHIR_CALL_METHOD(NULL, &_2$$4, "__construct", NULL, 0);
-			zephir_check_call_status();
-		}
+		ZEPHIR_LAST_CALL_STATUS = zephir_create_instance(&_2$$4, &dialectClass TSRMLS_CC);
+		zephir_check_call_status();
 		zephir_update_property_zval(this_ptr, SL("dialect"), &_2$$4);
 	} else if (Z_TYPE_P(&dialectClass) == IS_OBJECT) {
 		zephir_update_property_zval(this_ptr, SL("dialect"), &dialectClass);

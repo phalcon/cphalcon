@@ -35,7 +35,7 @@ class GetSetCest
         $I->wantToTest('Cache\Adapter\Stream - set()');
 
         $serializer = new SerializerFactory();
-        $adapter    = new Stream($serializer, ['cacheDir' => outputDir()]);
+        $adapter    = new Stream($serializer, ['storageDir' => outputDir()]);
 
         $data   = 'Phalcon Framework';
         $result = $adapter->set('test-key', $data);
@@ -62,7 +62,7 @@ class GetSetCest
         $I->wantToTest('Cache\Adapter\Stream - get()');
 
         $serializer = new SerializerFactory();
-        $adapter    = new Stream($serializer, ['cacheDir' => outputDir()]);
+        $adapter    = new Stream($serializer, ['storageDir' => outputDir()]);
 
         $target = outputDir() . 'phstrm-/te/st/-k/';
         $data   = 'Phalcon Framework';
@@ -90,7 +90,7 @@ class GetSetCest
         $I->wantToTest('Cache\Adapter\Stream - get() - errors');
 
         $serializer = new SerializerFactory();
-        $adapter    = new Stream($serializer, ['cacheDir' => outputDir()]);
+        $adapter    = new Stream($serializer, ['storageDir' => outputDir()]);
 
         $target = outputDir() . 'phstrm-/te/st/-k/';
 

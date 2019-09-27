@@ -32,7 +32,7 @@ class DecrementCest
     {
         $I->wantToTest('Cache\Adapter\Stream - decrement()');
         $serializer = new SerializerFactory();
-        $adapter    = new Stream($serializer, ['cacheDir' => outputDir()]);
+        $adapter    = new Stream($serializer, ['storageDir' => outputDir()]);
 
         $key    = 'cache-data';
         $result = $adapter->set($key, 100);
