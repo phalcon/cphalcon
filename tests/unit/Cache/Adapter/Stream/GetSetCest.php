@@ -44,7 +44,8 @@ class GetSetCest
         $target = outputDir() . 'phstrm-/te/st/-k/';
         $I->amInPath($target);
         $I->openFile('test-key');
-        $expected = '"ttl":3600,"content":"s:17:\"Phalcon Framework\";';
+        $expected = 's:3:"ttl";i:3600;s:7:"content";s:25:"s:17:"Phalcon Framework";";}';
+
         $I->seeInThisFile($expected);
         $I->safeDeleteFile($target . 'test-key');
     }
