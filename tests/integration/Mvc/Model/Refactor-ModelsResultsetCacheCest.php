@@ -51,7 +51,7 @@ class ModelsResultsetCacheCest
                 return new File(
                     $frontCache,
                     [
-                        'cacheDir' => cacheDir(),
+                        'storageDir' => cacheDir(),
                     ]
                 );
             },
@@ -191,7 +191,7 @@ class ModelsResultsetCacheCest
                 return new File(
                     $frontCache,
                     [
-                        'cacheDir' => cacheDir(),
+                        'storageDir' => cacheDir(),
                     ]
                 );
             },
