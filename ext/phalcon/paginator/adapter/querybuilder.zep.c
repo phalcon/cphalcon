@@ -17,9 +17,9 @@
 #include "kernel/memory.h"
 #include "kernel/object.h"
 #include "kernel/fcall.h"
+#include "kernel/concat.h"
 #include "kernel/operators.h"
 #include "kernel/string.h"
-#include "kernel/concat.h"
 #include "kernel/math.h"
 
 
@@ -76,16 +76,19 @@ ZEPHIR_INIT_CLASS(Phalcon_Paginator_Adapter_QueryBuilder) {
  */
 PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, __construct) {
 
+	zval _1$$5;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zephir_fcall_cache_entry *_2 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zephir_fcall_cache_entry *_0 = NULL;
-	zval *config_param = NULL, builder, columns;
+	zval *config_param = NULL, builder, columns, _0$$5;
 	zval config;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&config);
 	ZVAL_UNDEF(&builder);
 	ZVAL_UNDEF(&columns);
+	ZVAL_UNDEF(&_0$$5);
+	ZVAL_UNDEF(&_1$$5);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &config_param);
@@ -103,14 +106,21 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, __construct) {
 		return;
 	}
 	if (UNEXPECTED(!((zephir_instance_of_ev(&builder, phalcon_mvc_model_query_builder_ce TSRMLS_CC))))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "Parameter 'builder' must be an instance of Phalcon\\Mvc\\Model\\Query\\Builder", "phalcon/Paginator/Adapter/QueryBuilder.zep", 68);
+		ZEPHIR_INIT_VAR(&_0$$5);
+		object_init_ex(&_0$$5, phalcon_paginator_exception_ce);
+		ZEPHIR_INIT_VAR(&_1$$5);
+		ZEPHIR_CONCAT_SS(&_1$$5, "Parameter 'builder' must be an instance ", "of Phalcon\\Mvc\\Model\\Query\\Builder");
+		ZEPHIR_CALL_METHOD(NULL, &_0$$5, "__construct", NULL, 5, &_1$$5);
+		zephir_check_call_status();
+		zephir_throw_exception_debug(&_0$$5, "phalcon/Paginator/Adapter/QueryBuilder.zep", 71 TSRMLS_CC);
+		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	ZEPHIR_OBS_VAR(&columns);
 	if (zephir_array_isset_string_fetch(&columns, &config, SL("columns"), 0)) {
 		zephir_update_property_zval(this_ptr, SL("columns"), &columns);
 	}
-	ZEPHIR_CALL_PARENT(NULL, phalcon_paginator_adapter_querybuilder_ce, getThis(), "__construct", &_0, 0, &config);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_paginator_adapter_querybuilder_ce, getThis(), "__construct", &_2, 0, &config);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setquerybuilder", NULL, 0, &builder);
 	zephir_check_call_status();
@@ -147,10 +157,9 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getQueryBuilder) {
  */
 PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, paginate) {
 
-	zend_class_entry *_14$$16;
-	zval _25, _7$$14, _9$$15;
+	zval _23, _7$$14, _9$$15;
 	zend_bool hasHaving = 0, hasGroup = 0, _3;
-	zval originalBuilder, builder, totalBuilder, totalPages, limit, number, query, items, totalQuery, result, row, rowcount, next, sql, columns, db, model, modelClass, dbService, groups, groupColumn, _0, _1, _2, _26, _27, _4$$10, _5$$14, _6$$14, _8$$14, _10$$15, _11$$18, _12$$18, _13$$16, _15$$16, _16$$16, _17$$16, _18$$16, _19$$16, _20$$16, _21$$16, _22$$19, _23$$19, _24$$19;
+	zval originalBuilder, builder, totalBuilder, totalPages, limit, number, query, items, totalQuery, result, row, rowcount, next, sql, columns, db, model, modelClass, dbService, groups, groupColumn, _0, _1, _2, _24, _25, _4$$10, _5$$14, _6$$14, _8$$14, _10$$15, _11$$18, _12$$18, _13$$16, _14$$16, _15$$16, _16$$16, _17$$16, _18$$16, _19$$16, _20$$19, _21$$19, _22$$19;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS, previous = 0, numberPage = 0;
 	zval *this_ptr = getThis();
@@ -179,8 +188,8 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, paginate) {
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_26);
-	ZVAL_UNDEF(&_27);
+	ZVAL_UNDEF(&_24);
+	ZVAL_UNDEF(&_25);
 	ZVAL_UNDEF(&_4$$10);
 	ZVAL_UNDEF(&_5$$14);
 	ZVAL_UNDEF(&_6$$14);
@@ -189,17 +198,16 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, paginate) {
 	ZVAL_UNDEF(&_11$$18);
 	ZVAL_UNDEF(&_12$$18);
 	ZVAL_UNDEF(&_13$$16);
+	ZVAL_UNDEF(&_14$$16);
 	ZVAL_UNDEF(&_15$$16);
 	ZVAL_UNDEF(&_16$$16);
 	ZVAL_UNDEF(&_17$$16);
 	ZVAL_UNDEF(&_18$$16);
 	ZVAL_UNDEF(&_19$$16);
-	ZVAL_UNDEF(&_20$$16);
-	ZVAL_UNDEF(&_21$$16);
+	ZVAL_UNDEF(&_20$$19);
+	ZVAL_UNDEF(&_21$$19);
 	ZVAL_UNDEF(&_22$$19);
-	ZVAL_UNDEF(&_23$$19);
-	ZVAL_UNDEF(&_24$$19);
-	ZVAL_UNDEF(&_25);
+	ZVAL_UNDEF(&_23);
 	ZVAL_UNDEF(&_7$$14);
 	ZVAL_UNDEF(&_9$$15);
 
@@ -255,7 +263,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, paginate) {
 	}
 	if (_3) {
 		if (UNEXPECTED(ZEPHIR_IS_EMPTY(&columns))) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "When having is set there should be columns option provided for which calculate row count", "phalcon/Paginator/Adapter/QueryBuilder.zep", 165);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "When having is set there should be columns option provided for which calculate row count", "phalcon/Paginator/Adapter/QueryBuilder.zep", 168);
 			return;
 		}
 		ZEPHIR_CALL_METHOD(NULL, &totalBuilder, "columns", NULL, 0, &columns);
@@ -306,68 +314,60 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, paginate) {
 		ZEPHIR_CALL_METHOD(&modelClass, &builder, "getmodels", NULL, 0);
 		zephir_check_call_status();
 		if (UNEXPECTED(Z_TYPE_P(&modelClass) == IS_NULL)) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "Model not defined in builder", "phalcon/Paginator/Adapter/QueryBuilder.zep", 217);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "Model not defined in builder", "phalcon/Paginator/Adapter/QueryBuilder.zep", 220);
 			return;
 		}
 		if (Z_TYPE_P(&modelClass) == IS_ARRAY) {
 			ZEPHIR_CALL_FUNCTION(&_11$$18, "array_values", NULL, 160, &modelClass);
 			zephir_check_call_status();
-			zephir_array_fetch_long(&_12$$18, &_11$$18, 0, PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter/QueryBuilder.zep", 221 TSRMLS_CC);
+			zephir_array_fetch_long(&_12$$18, &_11$$18, 0, PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter/QueryBuilder.zep", 224 TSRMLS_CC);
 			ZEPHIR_CPY_WRT(&modelClass, &_12$$18);
 		}
 		ZEPHIR_INIT_VAR(&model);
-		zephir_fetch_safe_class(&_13$$16, &modelClass);
-		_14$$16 = zephir_fetch_class_str_ex(Z_STRVAL_P(&_13$$16), Z_STRLEN_P(&_13$$16), ZEND_FETCH_CLASS_AUTO);
-		if(!_14$$16) {
-			RETURN_MM_NULL();
-		}
-		object_init_ex(&model, _14$$16);
-		if (zephir_has_constructor(&model TSRMLS_CC)) {
-			ZEPHIR_CALL_METHOD(NULL, &model, "__construct", NULL, 0);
-			zephir_check_call_status();
-		}
+		ZEPHIR_LAST_CALL_STATUS = zephir_create_instance(&model, &modelClass TSRMLS_CC);
+		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(&dbService, &model, "getreadconnectionservice", NULL, 0);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(&_15$$16, &totalBuilder, "getdi", NULL, 0);
+		ZEPHIR_CALL_METHOD(&_13$$16, &totalBuilder, "getdi", NULL, 0);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(&db, &_15$$16, "get", NULL, 0, &dbService);
+		ZEPHIR_CALL_METHOD(&db, &_13$$16, "get", NULL, 0, &dbService);
 		zephir_check_call_status();
-		zephir_array_fetch_string(&_16$$16, &sql, SL("sql"), PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter/QueryBuilder.zep", 229 TSRMLS_CC);
-		ZEPHIR_INIT_VAR(&_17$$16);
-		ZEPHIR_CONCAT_SVS(&_17$$16, "SELECT COUNT(*) as \"rowcount\" FROM (", &_16$$16, ") as T1");
-		zephir_array_fetch_string(&_18$$16, &sql, SL("bind"), PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter/QueryBuilder.zep", 232 TSRMLS_CC);
-		ZVAL_LONG(&_19$$16, 2);
-		ZEPHIR_CALL_METHOD(&row, &db, "fetchone", NULL, 0, &_17$$16, &_19$$16, &_18$$16);
+		zephir_array_fetch_string(&_14$$16, &sql, SL("sql"), PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter/QueryBuilder.zep", 232 TSRMLS_CC);
+		ZEPHIR_INIT_VAR(&_15$$16);
+		ZEPHIR_CONCAT_SVS(&_15$$16, "SELECT COUNT(*) as \"rowcount\" FROM (", &_14$$16, ") as T1");
+		zephir_array_fetch_string(&_16$$16, &sql, SL("bind"), PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter/QueryBuilder.zep", 235 TSRMLS_CC);
+		ZVAL_LONG(&_17$$16, 2);
+		ZEPHIR_CALL_METHOD(&row, &db, "fetchone", NULL, 0, &_15$$16, &_17$$16, &_16$$16);
 		zephir_check_call_status();
 		if (zephir_is_true(&row)) {
-			zephir_array_fetch_string(&_20$$16, &row, SL("rowcount"), PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter/QueryBuilder.zep", 234 TSRMLS_CC);
-			ZVAL_LONG(&rowcount, zephir_get_intval(&_20$$16));
+			zephir_array_fetch_string(&_18$$16, &row, SL("rowcount"), PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter/QueryBuilder.zep", 237 TSRMLS_CC);
+			ZVAL_LONG(&rowcount, zephir_get_intval(&_18$$16));
 		} else {
 			ZVAL_LONG(&rowcount, 0);
 		}
-		ZEPHIR_SINIT_VAR(_21$$16);
-		div_function(&_21$$16, &rowcount, &limit TSRMLS_CC);
-		ZVAL_DOUBLE(&_19$$16, zephir_ceil(&_21$$16 TSRMLS_CC));
+		ZEPHIR_SINIT_VAR(_19$$16);
+		div_function(&_19$$16, &rowcount, &limit TSRMLS_CC);
+		ZVAL_DOUBLE(&_17$$16, zephir_ceil(&_19$$16 TSRMLS_CC));
 		ZEPHIR_INIT_VAR(&totalPages);
-		ZVAL_LONG(&totalPages, zephir_get_intval(&_19$$16));
+		ZVAL_LONG(&totalPages, zephir_get_intval(&_17$$16));
 	} else {
 		ZEPHIR_CALL_METHOD(&result, &totalQuery, "execute", NULL, 0);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(&row, &result, "getfirst", NULL, 0);
 		zephir_check_call_status();
 		if (zephir_is_true(&row)) {
-			zephir_read_property(&_22$$19, &row, SL("rowcount"), PH_NOISY_CC | PH_READONLY);
+			zephir_read_property(&_20$$19, &row, SL("rowcount"), PH_NOISY_CC | PH_READONLY);
 			ZEPHIR_INIT_NVAR(&rowcount);
-			ZVAL_LONG(&rowcount, zephir_get_intval(&_22$$19));
+			ZVAL_LONG(&rowcount, zephir_get_intval(&_20$$19));
 		} else {
 			ZEPHIR_INIT_NVAR(&rowcount);
 			ZVAL_LONG(&rowcount, 0);
 		}
-		ZEPHIR_SINIT_VAR(_23$$19);
-		div_function(&_23$$19, &rowcount, &limit TSRMLS_CC);
-		ZVAL_DOUBLE(&_24$$19, zephir_ceil(&_23$$19 TSRMLS_CC));
+		ZEPHIR_SINIT_VAR(_21$$19);
+		div_function(&_21$$19, &rowcount, &limit TSRMLS_CC);
+		ZVAL_DOUBLE(&_22$$19, zephir_ceil(&_21$$19 TSRMLS_CC));
 		ZEPHIR_INIT_NVAR(&totalPages);
-		ZVAL_LONG(&totalPages, zephir_get_intval(&_24$$19));
+		ZVAL_LONG(&totalPages, zephir_get_intval(&_22$$19));
 	}
 	if (ZEPHIR_GT_LONG(&totalPages, numberPage)) {
 		ZEPHIR_INIT_VAR(&next);
@@ -375,23 +375,23 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, paginate) {
 	} else {
 		ZEPHIR_CPY_WRT(&next, &totalPages);
 	}
+	ZEPHIR_INIT_VAR(&_23);
+	zephir_create_array(&_23, 8, 0 TSRMLS_CC);
+	zephir_array_update_string(&_23, SL("items"), &items, PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(&_23, SL("total_items"), &rowcount, PH_COPY | PH_SEPARATE);
+	ZEPHIR_OBS_VAR(&_24);
+	zephir_read_property(&_24, this_ptr, SL("limitRows"), PH_NOISY_CC);
+	zephir_array_update_string(&_23, SL("limit"), &_24, PH_COPY | PH_SEPARATE);
+	add_assoc_long_ex(&_23, SL("first"), 1);
 	ZEPHIR_INIT_VAR(&_25);
-	zephir_create_array(&_25, 8, 0 TSRMLS_CC);
-	zephir_array_update_string(&_25, SL("items"), &items, PH_COPY | PH_SEPARATE);
-	zephir_array_update_string(&_25, SL("total_items"), &rowcount, PH_COPY | PH_SEPARATE);
-	ZEPHIR_OBS_VAR(&_26);
-	zephir_read_property(&_26, this_ptr, SL("limitRows"), PH_NOISY_CC);
-	zephir_array_update_string(&_25, SL("limit"), &_26, PH_COPY | PH_SEPARATE);
-	add_assoc_long_ex(&_25, SL("first"), 1);
-	ZEPHIR_INIT_VAR(&_27);
-	ZVAL_LONG(&_27, previous);
-	zephir_array_update_string(&_25, SL("previous"), &_27, PH_COPY | PH_SEPARATE);
-	ZEPHIR_INIT_NVAR(&_27);
-	ZVAL_LONG(&_27, numberPage);
-	zephir_array_update_string(&_25, SL("current"), &_27, PH_COPY | PH_SEPARATE);
-	zephir_array_update_string(&_25, SL("next"), &next, PH_COPY | PH_SEPARATE);
-	zephir_array_update_string(&_25, SL("last"), &totalPages, PH_COPY | PH_SEPARATE);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getrepository", NULL, 0, &_25);
+	ZVAL_LONG(&_25, previous);
+	zephir_array_update_string(&_23, SL("previous"), &_25, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(&_25);
+	ZVAL_LONG(&_25, numberPage);
+	zephir_array_update_string(&_23, SL("current"), &_25, PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(&_23, SL("next"), &next, PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(&_23, SL("last"), &totalPages, PH_COPY | PH_SEPARATE);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getrepository", NULL, 0, &_23);
 	zephir_check_call_status();
 	RETURN_MM();
 

@@ -64,27 +64,27 @@ PHP_METHOD(Phalcon_Filter_FilterFactory, getAdapters) {
 
 
 	zephir_create_array(return_value, 21, 0 TSRMLS_CC);
-	add_assoc_stringl_ex(return_value, SL("absint"), SL("\\Phalcon\\Filter\\Sanitize\\AbsInt"));
-	add_assoc_stringl_ex(return_value, SL("alnum"), SL("\\Phalcon\\Filter\\Sanitize\\Alnum"));
-	add_assoc_stringl_ex(return_value, SL("alpha"), SL("\\Phalcon\\Filter\\Sanitize\\Alpha"));
-	add_assoc_stringl_ex(return_value, SL("bool"), SL("\\Phalcon\\Filter\\Sanitize\\BoolVal"));
-	add_assoc_stringl_ex(return_value, SL("email"), SL("\\Phalcon\\Filter\\Sanitize\\Email"));
-	add_assoc_stringl_ex(return_value, SL("float"), SL("\\Phalcon\\Filter\\Sanitize\\FloatVal"));
-	add_assoc_stringl_ex(return_value, SL("int"), SL("\\Phalcon\\Filter\\Sanitize\\IntVal"));
-	add_assoc_stringl_ex(return_value, SL("lower"), SL("\\Phalcon\\Filter\\Sanitize\\Lower"));
-	add_assoc_stringl_ex(return_value, SL("lowerFirst"), SL("\\Phalcon\\Filter\\Sanitize\\LowerFirst"));
-	add_assoc_stringl_ex(return_value, SL("regex"), SL("\\Phalcon\\Filter\\Sanitize\\Regex"));
-	add_assoc_stringl_ex(return_value, SL("remove"), SL("\\Phalcon\\Filter\\Sanitize\\Remove"));
-	add_assoc_stringl_ex(return_value, SL("replace"), SL("\\Phalcon\\Filter\\Sanitize\\Replace"));
-	add_assoc_stringl_ex(return_value, SL("special"), SL("\\Phalcon\\Filter\\Sanitize\\Special"));
-	add_assoc_stringl_ex(return_value, SL("specialFull"), SL("\\Phalcon\\Filter\\Sanitize\\SpecialFull"));
-	add_assoc_stringl_ex(return_value, SL("string"), SL("\\Phalcon\\Filter\\Sanitize\\StringVal"));
-	add_assoc_stringl_ex(return_value, SL("striptags"), SL("\\Phalcon\\Filter\\Sanitize\\Striptags"));
-	add_assoc_stringl_ex(return_value, SL("trim"), SL("\\Phalcon\\Filter\\Sanitize\\Trim"));
-	add_assoc_stringl_ex(return_value, SL("upper"), SL("\\Phalcon\\Filter\\Sanitize\\Upper"));
-	add_assoc_stringl_ex(return_value, SL("upperFirst"), SL("\\Phalcon\\Filter\\Sanitize\\UpperFirst"));
-	add_assoc_stringl_ex(return_value, SL("upperWords"), SL("\\Phalcon\\Filter\\Sanitize\\UpperWords"));
-	add_assoc_stringl_ex(return_value, SL("url"), SL("\\Phalcon\\Filter\\Sanitize\\Url"));
+	add_assoc_stringl_ex(return_value, SL("absint"), SL("Phalcon\\Filter\\Sanitize\\AbsInt"));
+	add_assoc_stringl_ex(return_value, SL("alnum"), SL("Phalcon\\Filter\\Sanitize\\Alnum"));
+	add_assoc_stringl_ex(return_value, SL("alpha"), SL("Phalcon\\Filter\\Sanitize\\Alpha"));
+	add_assoc_stringl_ex(return_value, SL("bool"), SL("Phalcon\\Filter\\Sanitize\\BoolVal"));
+	add_assoc_stringl_ex(return_value, SL("email"), SL("Phalcon\\Filter\\Sanitize\\Email"));
+	add_assoc_stringl_ex(return_value, SL("float"), SL("Phalcon\\Filter\\Sanitize\\FloatVal"));
+	add_assoc_stringl_ex(return_value, SL("int"), SL("Phalcon\\Filter\\Sanitize\\IntVal"));
+	add_assoc_stringl_ex(return_value, SL("lower"), SL("Phalcon\\Filter\\Sanitize\\Lower"));
+	add_assoc_stringl_ex(return_value, SL("lowerFirst"), SL("Phalcon\\Filter\\Sanitize\\LowerFirst"));
+	add_assoc_stringl_ex(return_value, SL("regex"), SL("Phalcon\\Filter\\Sanitize\\Regex"));
+	add_assoc_stringl_ex(return_value, SL("remove"), SL("Phalcon\\Filter\\Sanitize\\Remove"));
+	add_assoc_stringl_ex(return_value, SL("replace"), SL("Phalcon\\Filter\\Sanitize\\Replace"));
+	add_assoc_stringl_ex(return_value, SL("special"), SL("Phalcon\\Filter\\Sanitize\\Special"));
+	add_assoc_stringl_ex(return_value, SL("specialFull"), SL("Phalcon\\Filter\\Sanitize\\SpecialFull"));
+	add_assoc_stringl_ex(return_value, SL("string"), SL("Phalcon\\Filter\\Sanitize\\StringVal"));
+	add_assoc_stringl_ex(return_value, SL("striptags"), SL("Phalcon\\Filter\\Sanitize\\Striptags"));
+	add_assoc_stringl_ex(return_value, SL("trim"), SL("Phalcon\\Filter\\Sanitize\\Trim"));
+	add_assoc_stringl_ex(return_value, SL("upper"), SL("Phalcon\\Filter\\Sanitize\\Upper"));
+	add_assoc_stringl_ex(return_value, SL("upperFirst"), SL("Phalcon\\Filter\\Sanitize\\UpperFirst"));
+	add_assoc_stringl_ex(return_value, SL("upperWords"), SL("Phalcon\\Filter\\Sanitize\\UpperWords"));
+	add_assoc_stringl_ex(return_value, SL("url"), SL("Phalcon\\Filter\\Sanitize\\Url"));
 	return;
 
 }

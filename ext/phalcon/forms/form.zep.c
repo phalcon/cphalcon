@@ -134,16 +134,16 @@ PHP_METHOD(Phalcon_Forms_Form, __construct) {
 	}
 	zephir_update_property_zval(this_ptr, SL("entity"), entity);
 	zephir_update_property_zval(this_ptr, SL("options"), &userOptions);
-	if ((zephir_method_exists_ex(this_ptr, SL("initialize") TSRMLS_CC) == SUCCESS)) {
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "initialize", NULL, 0, entity, &userOptions);
-		zephir_check_call_status();
-	}
 	ZEPHIR_INIT_VAR(&_1);
 	object_init_ex(&_1, phalcon_html_attributes_ce);
 	ZEPHIR_CALL_METHOD(NULL, &_1, "__construct", NULL, 17);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setattributes", NULL, 0, &_1);
 	zephir_check_call_status();
+	if ((zephir_method_exists_ex(this_ptr, SL("initialize") TSRMLS_CC) == SUCCESS)) {
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "initialize", NULL, 0, entity, &userOptions);
+		zephir_check_call_status();
+	}
 	ZEPHIR_MM_RESTORE();
 
 }

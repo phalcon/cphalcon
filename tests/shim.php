@@ -201,7 +201,7 @@ if (!function_exists('getOptionsModelCacheStream')) {
 
         return [
             'lifetime' => 3600,
-            'cacheDir' => cacheModelsDir(),
+            'storageDir' => cacheModelsDir(),
         ];
     }
 }

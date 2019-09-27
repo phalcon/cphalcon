@@ -205,11 +205,10 @@ PHP_METHOD(Phalcon_Config_ConfigFactory, load) {
  */
 PHP_METHOD(Phalcon_Config_ConfigFactory, newInstance) {
 
-	zend_class_entry *_7$$4, *_10$$5;
 	zend_bool _3$$3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *name_param = NULL, *fileName_param = NULL, *params = NULL, params_sub, __$null, definition, _0, _11, _12, _1$$3, _2$$3, _4$$3, _5$$4, _6$$4, _8$$5, _9$$5;
+	zval *name_param = NULL, *fileName_param = NULL, *params = NULL, params_sub, __$null, definition, options, _0, _6, _7, _1$$3, _2$$3, _4$$3, _5$$3;
 	zval name, fileName;
 	zval *this_ptr = getThis();
 
@@ -218,16 +217,14 @@ PHP_METHOD(Phalcon_Config_ConfigFactory, newInstance) {
 	ZVAL_UNDEF(&params_sub);
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&definition);
+	ZVAL_UNDEF(&options);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_11);
-	ZVAL_UNDEF(&_12);
+	ZVAL_UNDEF(&_6);
+	ZVAL_UNDEF(&_7);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$3);
 	ZVAL_UNDEF(&_4$$3);
-	ZVAL_UNDEF(&_5$$4);
-	ZVAL_UNDEF(&_6$$4);
-	ZVAL_UNDEF(&_8$$5);
-	ZVAL_UNDEF(&_9$$5);
+	ZVAL_UNDEF(&_5$$3);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &name_param, &fileName_param, &params);
@@ -245,46 +242,30 @@ PHP_METHOD(Phalcon_Config_ConfigFactory, newInstance) {
 	zephir_read_property(&_0, this_ptr, SL("services"), PH_NOISY_CC | PH_READONLY);
 	if (!(zephir_array_isset(&_0, &name))) {
 		zephir_read_property(&_1$$3, this_ptr, SL("mapper"), PH_NOISY_CC | PH_READONLY);
-		zephir_array_fetch(&definition, &_1$$3, &name, PH_NOISY | PH_READONLY, "phalcon/Config/ConfigFactory.zep", 121 TSRMLS_CC);
+		ZEPHIR_OBS_VAR(&definition);
+		zephir_array_fetch(&definition, &_1$$3, &name, PH_NOISY, "phalcon/Config/ConfigFactory.zep", 121 TSRMLS_CC);
+		ZEPHIR_INIT_VAR(&options);
+		array_init(&options);
+		zephir_array_append(&options, &fileName, PH_SEPARATE, "phalcon/Config/ConfigFactory.zep", 123);
 		ZEPHIR_SINIT_VAR(_2$$3);
 		ZVAL_STRING(&_2$$3, "json");
-		_3$$3 = ZEPHIR_IS_IDENTICAL(&_2$$3, &name);
-		if (!(_3$$3)) {
+		_3$$3 = !ZEPHIR_IS_IDENTICAL(&_2$$3, &name);
+		if (_3$$3) {
 			ZEPHIR_SINIT_VAR(_4$$3);
 			ZVAL_STRING(&_4$$3, "php");
-			_3$$3 = ZEPHIR_IS_IDENTICAL(&_4$$3, &name);
+			_3$$3 = !ZEPHIR_IS_IDENTICAL(&_4$$3, &name);
 		}
 		if (_3$$3) {
-			ZEPHIR_INIT_VAR(&_5$$4);
-			zephir_fetch_safe_class(&_6$$4, &definition);
-			_7$$4 = zephir_fetch_class_str_ex(Z_STRVAL_P(&_6$$4), Z_STRLEN_P(&_6$$4), ZEND_FETCH_CLASS_AUTO);
-			if(!_7$$4) {
-				RETURN_MM_NULL();
-			}
-			object_init_ex(&_5$$4, _7$$4);
-			if (zephir_has_constructor(&_5$$4 TSRMLS_CC)) {
-				ZEPHIR_CALL_METHOD(NULL, &_5$$4, "__construct", NULL, 0, &fileName);
-				zephir_check_call_status();
-			}
-			zephir_update_property_array(this_ptr, SL("services"), &name, &_5$$4);
-		} else {
-			ZEPHIR_INIT_VAR(&_8$$5);
-			zephir_fetch_safe_class(&_9$$5, &definition);
-			_10$$5 = zephir_fetch_class_str_ex(Z_STRVAL_P(&_9$$5), Z_STRLEN_P(&_9$$5), ZEND_FETCH_CLASS_AUTO);
-			if(!_10$$5) {
-				RETURN_MM_NULL();
-			}
-			object_init_ex(&_8$$5, _10$$5);
-			if (zephir_has_constructor(&_8$$5 TSRMLS_CC)) {
-				ZEPHIR_CALL_METHOD(NULL, &_8$$5, "__construct", NULL, 0, &fileName, params);
-				zephir_check_call_status();
-			}
-			zephir_update_property_array(this_ptr, SL("services"), &name, &_8$$5);
+			zephir_array_append(&options, params, PH_SEPARATE, "phalcon/Config/ConfigFactory.zep", 126);
 		}
+		ZEPHIR_INIT_VAR(&_5$$3);
+		ZEPHIR_LAST_CALL_STATUS = zephir_create_instance_params(&_5$$3, &definition, &options TSRMLS_CC);
+		zephir_check_call_status();
+		zephir_update_property_array(this_ptr, SL("services"), &name, &_5$$3);
 	}
-	zephir_read_property(&_11, this_ptr, SL("services"), PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch(&_12, &_11, &name, PH_NOISY | PH_READONLY, "phalcon/Config/ConfigFactory.zep", 130 TSRMLS_CC);
-	RETURN_CTOR(&_12);
+	zephir_read_property(&_6, this_ptr, SL("services"), PH_NOISY_CC | PH_READONLY);
+	zephir_array_fetch(&_7, &_6, &name, PH_NOISY | PH_READONLY, "phalcon/Config/ConfigFactory.zep", 132 TSRMLS_CC);
+	RETURN_CTOR(&_7);
 
 }
 
@@ -297,11 +278,11 @@ PHP_METHOD(Phalcon_Config_ConfigFactory, getAdapters) {
 
 
 	zephir_create_array(return_value, 5, 0 TSRMLS_CC);
-	add_assoc_stringl_ex(return_value, SL("grouped"), SL("\\Phalcon\\Config\\Adapter\\Grouped"));
-	add_assoc_stringl_ex(return_value, SL("ini"), SL("\\Phalcon\\Config\\Adapter\\Ini"));
-	add_assoc_stringl_ex(return_value, SL("json"), SL("\\Phalcon\\Config\\Adapter\\Json"));
-	add_assoc_stringl_ex(return_value, SL("php"), SL("\\Phalcon\\Config\\Adapter\\Php"));
-	add_assoc_stringl_ex(return_value, SL("yaml"), SL("\\Phalcon\\Config\\Adapter\\Yaml"));
+	add_assoc_stringl_ex(return_value, SL("grouped"), SL("Phalcon\\Config\\Adapter\\Grouped"));
+	add_assoc_stringl_ex(return_value, SL("ini"), SL("Phalcon\\Config\\Adapter\\Ini"));
+	add_assoc_stringl_ex(return_value, SL("json"), SL("Phalcon\\Config\\Adapter\\Json"));
+	add_assoc_stringl_ex(return_value, SL("php"), SL("Phalcon\\Config\\Adapter\\Php"));
+	add_assoc_stringl_ex(return_value, SL("yaml"), SL("Phalcon\\Config\\Adapter\\Yaml"));
 	return;
 
 }

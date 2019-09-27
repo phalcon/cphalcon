@@ -199,8 +199,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, commit) {
 
 PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, getFormatter) {
 
-	zend_class_entry *_5$$3;
-	zval _0, _1$$3, _2$$3, _3$$3, _4$$3;
+	zval _0, _1$$3, _2$$3, _3$$3;
 	zval className;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -211,7 +210,6 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, getFormatter) {
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$3);
 	ZVAL_UNDEF(&_3$$3);
-	ZVAL_UNDEF(&_4$$3);
 
 	ZEPHIR_MM_GROW();
 
@@ -223,16 +221,8 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, getFormatter) {
 		ZEPHIR_CONCAT_SV(&_2$$3, "Phalcon\\Logger\\Formatter\\", &_1$$3);
 		zephir_get_strval(&className, &_2$$3);
 		ZEPHIR_INIT_VAR(&_3$$3);
-		zephir_fetch_safe_class(&_4$$3, &className);
-		_5$$3 = zephir_fetch_class_str_ex(Z_STRVAL_P(&_4$$3), Z_STRLEN_P(&_4$$3), ZEND_FETCH_CLASS_AUTO);
-		if(!_5$$3) {
-			RETURN_MM_NULL();
-		}
-		object_init_ex(&_3$$3, _5$$3);
-		if (zephir_has_constructor(&_3$$3 TSRMLS_CC)) {
-			ZEPHIR_CALL_METHOD(NULL, &_3$$3, "__construct", NULL, 0);
-			zephir_check_call_status();
-		}
+		ZEPHIR_LAST_CALL_STATUS = zephir_create_instance(&_3$$3, &className TSRMLS_CC);
+		zephir_check_call_status();
 		zephir_update_property_zval(this_ptr, SL("formatter"), &_3$$3);
 	}
 	RETURN_MM_MEMBER(getThis(), "formatter");

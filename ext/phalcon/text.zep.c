@@ -136,7 +136,7 @@ PHP_METHOD(Phalcon_Text, concat) {
 	ZEPHIR_INIT_VAR(&args);
 	zephir_get_args(&args);
 	ZEPHIR_INIT_VAR(&_0);
-	ZVAL_STRING(&_0, "\\Phalcon\\Helper\\Str::concat");
+	ZVAL_STRING(&_0, "Phalcon\\Helper\\Str::concat");
 	ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, &_0, &args);
 	zephir_check_call_status();
 	RETURN_MM();
