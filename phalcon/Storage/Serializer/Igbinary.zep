@@ -31,14 +31,13 @@ class Igbinary extends AbstractSerializer
 	 */
 	public function unserialize(var data) -> void
 	{
-		let this->data = igbinary_unserialize(data);
+		let this->data = this->igbinaryUnserialize(data);
 	}
 
 	/**
-     * Workaround for warning
-     * Related to https://github.com/msgpack/msgpack-php/issues/41 ?
+     * Workaround to catch igbinary warnings
      */
-    private function igbinary_unserialize(var data)
+    private function igbinaryUnserialize(var data) -> var | null
     {
         let this->warning = false;
 
