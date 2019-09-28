@@ -31,15 +31,6 @@ class Igbinary extends AbstractSerializer
 	 */
 	public function unserialize(var data) -> void
 	{
-		let this->data = igbinary_unserialize(data);
-	}
-
-	/**
-     * Workaround for warning
-     * Related to https://github.com/msgpack/msgpack-php/issues/41 ?
-     */
-    private function igbinary_unserialize(var data)
-    {
         let this->warning = false;
 
         set_error_handler(
@@ -50,10 +41,8 @@ class Igbinary extends AbstractSerializer
             }
         );
 
-        let data = igbinary_unserialize(data);
+		let this->data = igbinary_unserialize(data);
 
         restore_error_handler();
-
-        return data;
     }
 }
