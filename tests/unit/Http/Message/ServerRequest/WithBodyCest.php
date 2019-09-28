@@ -28,7 +28,7 @@ class WithBodyCest
     {
         $I->wantToTest('Http\Message\ServerRequest - withBody()');
 
-        $fileName = dataDir('/assets/stream/bill-of-rights.txt');
+        $fileName = dataDir('/assets/stream/mit.txt');
 
         $stream  = new Stream($fileName, 'rb');
         $request = new ServerRequest();

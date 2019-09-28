@@ -31,6 +31,18 @@ class Msgpack extends AbstractSerializer
 	 */
 	public function unserialize(var data) -> void
 	{
+        let this->warning = false;
+
+        set_error_handler(
+            function (number, message, file, line, context) {
+                if number === E_WARNING {
+                    let this->warning = true;
+                }
+            }
+        );
+
 		let this->data = msgpack_unpack(data);
+
+        restore_error_handler();
 	}
 }
