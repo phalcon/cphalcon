@@ -84,7 +84,8 @@ class CacheCest
                 ],
             ]
         );
-        $I->assertEquals($numberOfRobots, $robotscount, "Count() using cache"); // Test count against cache
+        // Test count against cache
+        $I->assertEquals($numberOfRobots, $robotscount, "Count() using cache");
 
         // Create a temporary robot to test if the count is cached or fresh
         $newrobot = new Robots();
