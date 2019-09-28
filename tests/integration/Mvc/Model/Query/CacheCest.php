@@ -66,7 +66,7 @@ class CacheCest
         $cache   = new Cache($adapter);
         $di->set('modelsCache', $cache);
 
-        $cacheKey         = 'uniqkey';
+        $cacheKey         = 'uniqkey' . $serializer[0];
         $options['cache'] = [
             'key'      => $cacheKey,
             'lifetime' => 50,
@@ -75,6 +75,16 @@ class CacheCest
         $result = Robots::find($options);
 
         $numberOfRobots = $result->count();
+
+        // Count should use cache
+        $robotscount = Robots::count(
+            [
+                'cache' => [
+                    'key' => $cacheKey,
+                ],
+            ]
+        );
+        $I->assertEquals($numberOfRobots, $robotscount, "Count() using cache"); // Test count against cache
 
         // Create a temporary robot to test if the count is cached or fresh
         $newrobot = new Robots();
@@ -86,24 +96,16 @@ class CacheCest
 
         $newrobot->create();
 
-        $robotscount = Robots::count(
-            [
-                'cache' => [
-                    'key' => $cacheKey,
-                ],
-            ]
-        );
-
         $result = Robots::find($options);
         $I->assertEquals($numberOfRobots, $result->count());
-        $I->assertEquals($numberOfRobots, $robotscount);
 
         // Delete the temp robot
         Robots::findFirst("type = 'notcached'")->delete();
 
+        // Test delete robot isn't affecting cache
         $result = Robots::find($options);
-
         $I->assertNotFalse($result);
+        $I->assertEquals($numberOfRobots, $result->count());
 
         $cache->delete($cacheKey);
     }
@@ -116,9 +118,6 @@ class CacheCest
             ],
             [
                 'Msgpack',
-            ],
-            [
-                'None',
             ],
             [
                 'Php',
