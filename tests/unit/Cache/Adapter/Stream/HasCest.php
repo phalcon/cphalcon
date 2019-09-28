@@ -31,7 +31,7 @@ class HasCest
         $I->wantToTest('Cache\Adapter\Stream - has()');
 
         $serializer = new SerializerFactory();
-        $adapter    = new Stream($serializer, ['cacheDir' => outputDir()]);
+        $adapter    = new Stream($serializer, ['storageDir' => outputDir()]);
 
         $key = uniqid();
 

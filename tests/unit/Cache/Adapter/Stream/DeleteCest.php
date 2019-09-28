@@ -29,7 +29,7 @@ class DeleteCest
     {
         $I->wantToTest('Cache\Adapter\Stream - delete()');
         $serializer = new SerializerFactory();
-        $adapter    = new Stream($serializer, ['cacheDir' => outputDir()]);
+        $adapter    = new Stream($serializer, ['storageDir' => outputDir()]);
 
         $key = 'cache-data';
         $adapter->set($key, 'test');
@@ -53,7 +53,7 @@ class DeleteCest
     {
         $I->wantToTest('Cache\Adapter\Stream - delete() - twice');
         $serializer = new SerializerFactory();
-        $adapter    = new Stream($serializer, ['cacheDir' => outputDir()]);
+        $adapter    = new Stream($serializer, ['storageDir' => outputDir()]);
 
         $key = 'cache-data';
         $adapter->set($key, 'test');
@@ -78,7 +78,7 @@ class DeleteCest
         $I->wantToTest('Cache\Adapter\Stream - delete() - unknown');
 
         $serializer = new SerializerFactory();
-        $adapter    = new Stream($serializer, ['cacheDir' => outputDir()]);
+        $adapter    = new Stream($serializer, ['storageDir' => outputDir()]);
 
         $key    = 'cache-data';
         $actual = $adapter->delete($key);

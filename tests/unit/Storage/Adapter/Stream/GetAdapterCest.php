@@ -33,7 +33,7 @@ class GetAdapterCest
         $adapter = new Stream(
             $serializer,
             [
-                'cacheDir' => '/tmp',
+                'storageDir' => '/tmp',
             ]
         );
 

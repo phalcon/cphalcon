@@ -33,7 +33,7 @@ class IncrementCest
         $I->wantToTest('Cache\Adapter\Stream - increment()');
 
         $serializer = new SerializerFactory();
-        $adapter    = new Stream($serializer, ['cacheDir' => outputDir()]);
+        $adapter    = new Stream($serializer, ['storageDir' => outputDir()]);
 
         $key    = 'cache-data';
         $result = $adapter->set($key, 1);

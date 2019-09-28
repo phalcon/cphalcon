@@ -24,7 +24,7 @@ trait OptionsTrait
     {
         return [
             'lifetime' => 3600,
-            'cacheDir' => cacheDir(),
+            'storageDir' => cacheDir(),
         ];
     }
 

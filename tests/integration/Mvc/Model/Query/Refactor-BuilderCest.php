@@ -60,7 +60,7 @@ class BuilderCest
                         ['lifetime' => 20,]
                     ),
                     [
-                        'cacheDir' => outputDir('tests/cache/'),
+                        'storageDir' => outputDir('tests/cache/'),
                     ]
                 );
             },

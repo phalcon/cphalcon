@@ -29,7 +29,7 @@ class Stream extends AbstractAdapter
     /**
     * @var string
     */
-    protected cacheDir = "";
+    protected storageDir = "";
 
     /**
      * @var array
@@ -45,19 +45,19 @@ class Stream extends AbstractAdapter
      */
     public function __construct(<SerializerFactory> factory = null, array! options = [])
     {
-        var cacheDir;
+        var storageDir;
 
-        let cacheDir = Arr::get(options, "cacheDir", "");
-        if empty cacheDir {
-            throw new Exception("The 'cacheDir' must be specified in the options");
+        let storageDir = Arr::get(options, "storageDir", "");
+        if empty storageDir {
+            throw new Exception("The 'storageDir' must be specified in the options");
         }
 
         /**
          * Lets set some defaults and options here
          */
-        let this->cacheDir = Str::dirSeparator(cacheDir),
-            this->prefix   = "phstrm-",
-            this->options  = options;
+        let this->storageDir = Str::dirSeparator(storageDir),
+            this->prefix     = "phstrm-",
+            this->options    = options;
 
         parent::__construct(factory, options);
 
@@ -73,7 +73,7 @@ class Stream extends AbstractAdapter
         bool result;
 
         let result    = true,
-            directory = Str::dirSeparator(this->cacheDir),
+            directory = Str::dirSeparator(this->storageDir),
             iterator  = this->getIterator(directory);
 
         for file in iterator {
@@ -179,7 +179,7 @@ class Stream extends AbstractAdapter
         var directory, iterator, file, split, results;
 
         let results   = [],
-            directory = Str::dirSeparator(this->cacheDir),
+            directory = Str::dirSeparator(this->storageDir),
             iterator  = this->getIterator(directory);
 
         for file in iterator {
@@ -269,7 +269,7 @@ class Stream extends AbstractAdapter
     }
 
     /**
-     * Returns the folder based on the cacheDir and the prefix
+     * Returns the folder based on the storageDir and the prefix
      *
      * @param string $key
      *
@@ -279,7 +279,7 @@ class Stream extends AbstractAdapter
     {
         var dirPrefix, dirFromFile;
 
-        let dirPrefix   = this->cacheDir . this->prefix,
+        let dirPrefix   = this->storageDir . this->prefix,
             dirFromFile = Str::dirFromFile(
                 str_replace(this->prefix, "", key, 1)
             );

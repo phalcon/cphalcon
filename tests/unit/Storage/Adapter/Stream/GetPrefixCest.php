@@ -34,7 +34,7 @@ class GetPrefixCest
         $adapter = new Stream(
             $serializer,
             [
-                'cacheDir' => outputDir(),
+                'storageDir' => outputDir(),
                 'prefix'   => 'my-prefix',
             ]
         );
@@ -60,7 +60,7 @@ class GetPrefixCest
         $adapter = new Stream(
             $serializer,
             [
-                'cacheDir' => outputDir(),
+                'storageDir' => outputDir(),
             ]
         );
 

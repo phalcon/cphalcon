@@ -102,7 +102,7 @@ class NewInstanceCest
                 'stream',
                 Stream::class,
                 [
-                    'cacheDir' => outputDir(),
+                    'storageDir' => outputDir(),
                 ],
             ],
         ];
