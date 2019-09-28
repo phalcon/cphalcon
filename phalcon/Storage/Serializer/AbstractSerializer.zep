@@ -20,6 +20,11 @@ abstract class AbstractSerializer implements SerializerInterface
      */
     protected data = null;
 
+    /**
+     * @var bool
+     */
+    protected warning = false;
+
 	/**
 	 * Constructor
 	 */

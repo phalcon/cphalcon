@@ -32,9 +32,17 @@ class Php extends AbstractSerializer
 	 */
 	public function unserialize(var data) -> void
 	{
+
 	    if !this->isSerializable(data) {
 	        let this->data = data;
 	    } else {
+
+            if typeof data !== "string" {
+                throw new InvalidArgumentException(
+                    "Data for the unserializer must of type string"
+                );
+            }
+
             let this->data = unserialize(data);
         }
 	}
