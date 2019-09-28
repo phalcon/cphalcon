@@ -73,19 +73,7 @@ class CacheCest
         ];
 
         $result = Robots::find($options);
-
         $numberOfRobots = $result->count();
-
-        // Count should use cache
-        $robotscount = Robots::count(
-            [
-                'cache' => [
-                    'key' => $cacheKey,
-                ],
-            ]
-        );
-        // Test count against cache
-        $I->assertEquals($numberOfRobots, $robotscount, "Count() using cache");
 
         // Create a temporary robot to test if the count is cached or fresh
         $newrobot = new Robots();
@@ -107,6 +95,66 @@ class CacheCest
         $result = Robots::find($options);
         $I->assertNotFalse($result);
         $I->assertEquals($numberOfRobots, $result->count());
+
+        $cache->delete($cacheKey);
+    }
+
+    /**
+     * Tests Phalcon\Mvc\Model\Query :: cache()
+     *
+     * @dataProvider getValidSerializers
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-09-28
+     */
+    public function mvcModelQueryCacheCount(IntegrationTester $I, Example $serializer)
+    {
+        $I->wantToTest('Mvc\Model\Query - cache() - '. $serializer[0]);
+
+        $di = $this->getDi();
+
+        // services: modelsCache
+        $serializerFactory = new SerializerFactory();
+        $adapterFactory    = new AdapterFactory($serializerFactory);
+
+        $options = [
+            'defaultSerializer' =>  $serializer[0],
+            'lifetime'          => 30,
+            'storageDir'        => cacheDir('mvcModelQueryCache'),
+        ];
+
+        $adapter = $adapterFactory->newInstance('stream', $options);
+        $cache   = new Cache($adapter);
+        $di->set('modelsCache', $cache);
+
+        $cacheKey         = 'uniqkey' . $serializer[0];
+        $options['cache'] = [
+            'key'      => $cacheKey,
+            'lifetime' => 50,
+        ];
+
+        $result1 = Robots::count($options);
+
+        // Create a temporary robot to test if the count is cached or fresh
+        $newrobot = new Robots();
+        $newrobot->name     = 'Not cached robot';
+        $newrobot->type     = 'notcached';
+        $newrobot->year     = 2014;
+        $newrobot->datetime = '2015-03-05 04:16:17';
+        $newrobot->text     = 'Not cached robot';
+
+        $newrobot->create();
+
+        $result2 = Robots::count($options);
+        $I->assertEquals($result1, $result2);
+
+        // Delete the temp robot
+        Robots::findFirst("type = 'notcached'")->delete();
+
+        // Test delete robot isn't affecting cache
+        $result2 = Robots::count($options);
+        $I->assertNotFalse($result2);
+        $I->assertEquals($result1, $result2);
 
         $cache->delete($cacheKey);
     }
