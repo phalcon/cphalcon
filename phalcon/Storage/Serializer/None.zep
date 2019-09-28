@@ -20,11 +20,6 @@ class None extends AbstractSerializer
 	 */
 	public function serialize() -> string
 	{
-        if typeof this->data !== "string" {
-            throw new InvalidArgumentException(
-                "Data for the serializer must of type string"
-            );
-        }
 		return this->data;
 	}
 
