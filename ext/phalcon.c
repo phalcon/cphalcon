@@ -173,6 +173,10 @@ zend_class_entry *phalcon_1__closure_ce;
 zend_class_entry *phalcon_2__closure_ce;
 zend_class_entry *phalcon_3__closure_ce;
 zend_class_entry *phalcon_4__closure_ce;
+zend_class_entry *phalcon_5__closure_ce;
+zend_class_entry *phalcon_6__closure_ce;
+zend_class_entry *phalcon_7__closure_ce;
+zend_class_entry *phalcon_8__closure_ce;
 zend_class_entry *phalcon_acl_adapter_memory_ce;
 zend_class_entry *phalcon_acl_component_ce;
 zend_class_entry *phalcon_acl_enum_ce;
@@ -517,6 +521,7 @@ PHP_INI_BEGIN()
 	
 	STD_PHP_INI_BOOLEAN("phalcon.orm.update_snapshot_on_save", "1", PHP_INI_ALL, OnUpdateBool, orm.update_snapshot_on_save, zend_phalcon_globals, phalcon_globals)
 	STD_PHP_INI_BOOLEAN("phalcon.orm.virtual_foreign_keys", "1", PHP_INI_ALL, OnUpdateBool, orm.virtual_foreign_keys, zend_phalcon_globals, phalcon_globals)
+	STD_PHP_INI_BOOLEAN("phalcon.warning.enable", "1", PHP_INI_ALL, OnUpdateBool, warning.enable, zend_phalcon_globals, phalcon_globals)
 PHP_INI_END()
 
 static PHP_MINIT_FUNCTION(phalcon)
@@ -990,6 +995,10 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(phalcon_2__closure);
 	ZEPHIR_INIT(phalcon_3__closure);
 	ZEPHIR_INIT(phalcon_4__closure);
+	ZEPHIR_INIT(phalcon_5__closure);
+	ZEPHIR_INIT(phalcon_6__closure);
+	ZEPHIR_INIT(phalcon_7__closure);
+	ZEPHIR_INIT(phalcon_8__closure);
 	
 	return SUCCESS;
 }
@@ -1040,6 +1049,7 @@ static void php_zephir_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS
 	phalcon_globals->orm.parser_cache = NULL;
 	phalcon_globals->orm.resultset_prefetch_records = 0;
 	phalcon_globals->orm.unique_cache_id = 3;
+
 
 
 

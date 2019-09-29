@@ -16,6 +16,8 @@
 #include "kernel/fcall.h"
 #include "kernel/object.h"
 #include "kernel/operators.h"
+#include "kernel/exception.h"
+#include "ext/spl/spl_exceptions.h"
 
 
 /**
@@ -70,12 +72,16 @@ PHP_METHOD(Phalcon_Storage_Serializer_Php, unserialize) {
 
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *data, data_sub, _0, _1$$4;
+	zval *data, data_sub, __$false, __$null, _0, _1$$4, _2$$4, _3$$4;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&data_sub);
+	ZVAL_BOOL(&__$false, 0);
+	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$4);
+	ZVAL_UNDEF(&_2$$4);
+	ZVAL_UNDEF(&_3$$4);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &data);
@@ -87,9 +93,25 @@ PHP_METHOD(Phalcon_Storage_Serializer_Php, unserialize) {
 	if (!(zephir_is_true(&_0))) {
 		zephir_update_property_zval(this_ptr, SL("data"), data);
 	} else {
-		ZEPHIR_CALL_FUNCTION(&_1$$4, "unserialize", NULL, 11, data);
+		if (Z_TYPE_P(data) != IS_STRING) {
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Data for the unserializer must of type string", "phalcon/Storage/Serializer/Php.zep", 44);
+			return;
+		}
+		ZEPHIR_GLOBAL(warning).enable = zend_is_true(&__$false);
+		ZEPHIR_INIT_VAR(&_1$$4);
+		ZEPHIR_INIT_NVAR(&_1$$4);
+		zephir_create_closure_ex(&_1$$4, NULL, phalcon_6__closure_ce, SL("__invoke"));
+		ZVAL_LONG(&_2$$4, 8);
+		ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 80, &_1$$4, &_2$$4);
 		zephir_check_call_status();
-		zephir_update_property_zval(this_ptr, SL("data"), &_1$$4);
+		ZEPHIR_CALL_FUNCTION(&_3$$4, "unserialize", NULL, 11, data);
+		zephir_check_call_status();
+		zephir_update_property_zval(this_ptr, SL("data"), &_3$$4);
+		ZEPHIR_CALL_FUNCTION(NULL, "restore_error_handler", NULL, 82);
+		zephir_check_call_status();
+		if (UNEXPECTED(ZEPHIR_GLOBAL(warning).enable)) {
+			zephir_update_property_zval(this_ptr, SL("data"), &__$null);
+		}
 	}
 	ZEPHIR_MM_RESTORE();
 

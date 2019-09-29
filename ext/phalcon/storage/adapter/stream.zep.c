@@ -52,6 +52,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Storage_Adapter_Stream) {
 	 */
 	zend_declare_property_null(phalcon_storage_adapter_stream_ce, SL("options"), ZEND_ACC_PROTECTED TSRMLS_CC);
 
+	/**
+	 * @var bool
+	 */
+	zend_declare_property_bool(phalcon_storage_adapter_stream_ce, SL("warning"), 0, ZEND_ACC_PRIVATE TSRMLS_CC);
+
 	phalcon_storage_adapter_stream_ce->create_object = zephir_init_properties_Phalcon_Storage_Adapter_Stream;
 	return SUCCESS;
 
@@ -103,7 +108,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, __construct) {
 	ZEPHIR_CALL_CE_STATIC(&storageDir, phalcon_helper_arr_ce, "get", &_0, 12, &options, &_1, &_2);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_EMPTY(&storageDir)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_storage_exception_ce, "The 'storageDir' must be specified in the options", "phalcon/Storage/Adapter/Stream.zep", 52);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_storage_exception_ce, "The 'storageDir' must be specified in the options", "phalcon/Storage/Adapter/Stream.zep", 57);
 		return;
 	}
 	ZEPHIR_CALL_CE_STATIC(&_3, phalcon_helper_str_ce, "dirseparator", &_4, 117, &storageDir);
@@ -153,7 +158,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, clear) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&iterator, this_ptr, "getiterator", NULL, 118, &directory);
 	zephir_check_call_status();
-	zephir_is_iterable(&iterator, 0, "phalcon/Storage/Adapter/Stream.zep", 85);
+	zephir_is_iterable(&iterator, 0, "phalcon/Storage/Adapter/Stream.zep", 90);
 	if (Z_TYPE_P(&iterator) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&iterator), _2)
 		{
@@ -321,23 +326,21 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, delete) {
 PHP_METHOD(Phalcon_Storage_Adapter_Stream, get) {
 
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_3 = NULL;
+	zephir_fcall_cache_entry *_1 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *key_param = NULL, *defaultValue = NULL, defaultValue_sub, __$true, __$null, content, payload, filepath, _0, _1, _2, _4;
+	zval *key_param = NULL, *defaultValue = NULL, defaultValue_sub, __$null, content, filepath, payload, _0, _2, _3;
 	zval key;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&key);
 	ZVAL_UNDEF(&defaultValue_sub);
-	ZVAL_BOOL(&__$true, 1);
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&content);
-	ZVAL_UNDEF(&payload);
 	ZVAL_UNDEF(&filepath);
+	ZVAL_UNDEF(&payload);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_3);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &key_param, &defaultValue);
@@ -364,27 +367,22 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, get) {
 		RETVAL_ZVAL(defaultValue, 1, 0);
 		RETURN_MM();
 	}
-	ZEPHIR_INIT_VAR(&payload);
-	zephir_file_get_contents(&payload, &filepath TSRMLS_CC);
-	ZEPHIR_INIT_VAR(&_0);
-	zephir_json_decode(&_0, &payload, zephir_get_intval(&__$true) );
-	ZEPHIR_CPY_WRT(&payload, &_0);
-	ZEPHIR_CALL_FUNCTION(&_1, "json_last_error", NULL, 121);
+	ZEPHIR_CALL_METHOD(&payload, this_ptr, "getpayload", NULL, 121, &filepath);
 	zephir_check_call_status();
-	if (!ZEPHIR_IS_LONG_IDENTICAL(&_1, 0)) {
+	if (UNEXPECTED(ZEPHIR_IS_EMPTY(&payload))) {
 		RETVAL_ZVAL(defaultValue, 1, 0);
 		RETURN_MM();
 	}
-	ZEPHIR_CALL_METHOD(&_2, this_ptr, "isexpired", NULL, 122, &payload);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "isexpired", NULL, 122, &payload);
 	zephir_check_call_status();
-	if (zephir_is_true(&_2)) {
+	if (zephir_is_true(&_0)) {
 		RETVAL_ZVAL(defaultValue, 1, 0);
 		RETURN_MM();
 	}
-	ZEPHIR_INIT_NVAR(&_0);
-	ZVAL_STRING(&_0, "content");
-	ZVAL_NULL(&_4);
-	ZEPHIR_CALL_CE_STATIC(&content, phalcon_helper_arr_ce, "get", &_3, 12, &payload, &_0, &_4);
+	ZEPHIR_INIT_VAR(&_2);
+	ZVAL_STRING(&_2, "content");
+	ZVAL_NULL(&_3);
+	ZEPHIR_CALL_CE_STATIC(&content, phalcon_helper_arr_ce, "get", &_1, 12, &payload, &_2, &_3);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getunserializeddata", NULL, 0, &content, defaultValue);
 	zephir_check_call_status();
@@ -443,7 +441,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, getKeys) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&iterator, this_ptr, "getiterator", NULL, 118, &directory);
 	zephir_check_call_status();
-	zephir_is_iterable(&iterator, 0, "phalcon/Storage/Adapter/Stream.zep", 192);
+	zephir_is_iterable(&iterator, 0, "phalcon/Storage/Adapter/Stream.zep", 196);
 	if (Z_TYPE_P(&iterator) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&iterator), _2)
 		{
@@ -461,7 +459,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, getKeys) {
 				zephir_check_call_status();
 				ZEPHIR_INIT_LNVAR(_9$$4);
 				ZEPHIR_CONCAT_VV(&_9$$4, &_6$$4, &_7$$4);
-				zephir_array_append(&results, &_9$$4, PH_SEPARATE, "phalcon/Storage/Adapter/Stream.zep", 188);
+				zephir_array_append(&results, &_9$$4, PH_SEPARATE, "phalcon/Storage/Adapter/Stream.zep", 192);
 			}
 		} ZEND_HASH_FOREACH_END();
 	} else {
@@ -487,7 +485,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, getKeys) {
 					zephir_check_call_status();
 					ZEPHIR_INIT_LNVAR(_14$$6);
 					ZEPHIR_CONCAT_VV(&_14$$6, &_12$$6, &_13$$6);
-					zephir_array_append(&results, &_14$$6, PH_SEPARATE, "phalcon/Storage/Adapter/Stream.zep", 188);
+					zephir_array_append(&results, &_14$$6, PH_SEPARATE, "phalcon/Storage/Adapter/Stream.zep", 192);
 				}
 			ZEPHIR_CALL_METHOD(NULL, &iterator, "next", NULL, 0);
 			zephir_check_call_status();
@@ -509,7 +507,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, has) {
 
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *key_param = NULL, payload, filepath, _0, _1;
+	zval *key_param = NULL, payload, filepath, _0;
 	zval key;
 	zval *this_ptr = getThis();
 
@@ -517,7 +515,6 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, has) {
 	ZVAL_UNDEF(&payload);
 	ZVAL_UNDEF(&filepath);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &key_param);
@@ -539,14 +536,14 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, has) {
 	if (!((zephir_file_exists(&filepath TSRMLS_CC) == SUCCESS))) {
 		RETURN_MM_BOOL(0);
 	}
-	ZEPHIR_INIT_VAR(&payload);
-	zephir_file_get_contents(&payload, &filepath TSRMLS_CC);
-	ZEPHIR_INIT_VAR(&_0);
-	zephir_json_decode(&_0, &payload, 0 );
-	ZEPHIR_CPY_WRT(&payload, &_0);
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "isexpired", NULL, 122, &payload);
+	ZEPHIR_CALL_METHOD(&payload, this_ptr, "getpayload", NULL, 121, &filepath);
 	zephir_check_call_status();
-	RETURN_MM_BOOL(!zephir_is_true(&_1));
+	if (UNEXPECTED(ZEPHIR_IS_EMPTY(&payload))) {
+		RETURN_MM_BOOL(0);
+	}
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "isexpired", NULL, 122, &payload);
+	zephir_check_call_status();
+	RETURN_MM_BOOL(!zephir_is_true(&_0));
 
 }
 
@@ -622,7 +619,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, set) {
 	zval payload;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *key_param = NULL, *value, value_sub, *ttl = NULL, ttl_sub, __$true, __$null, directory, _0, _1, _3, _4, _2$$3;
+	zval *key_param = NULL, *value, value_sub, *ttl = NULL, ttl_sub, __$true, __$null, directory, _0, _1, _2, _4, _3$$3;
 	zval key;
 	zval *this_ptr = getThis();
 
@@ -634,9 +631,9 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, set) {
 	ZVAL_UNDEF(&directory);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_4);
-	ZVAL_UNDEF(&_2$$3);
+	ZVAL_UNDEF(&_3$$3);
 	ZVAL_UNDEF(&payload);
 
 	ZEPHIR_MM_GROW();
@@ -669,23 +666,23 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, set) {
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getserializeddata", NULL, 0, value);
 	zephir_check_call_status();
 	zephir_array_update_string(&payload, SL("content"), &_1, PH_COPY | PH_SEPARATE);
-	ZEPHIR_INIT_NVAR(&_0);
-	zephir_json_encode(&_0, &payload, 0 );
-	ZEPHIR_CPY_WRT(&payload, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "serialize", NULL, 10, &payload);
+	zephir_check_call_status();
+	ZEPHIR_CPY_WRT(&payload, &_1);
 	ZEPHIR_CALL_METHOD(&directory, this_ptr, "getdir", NULL, 124, &key);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_1, "is_dir", NULL, 125, &directory);
+	ZEPHIR_CALL_FUNCTION(&_2, "is_dir", NULL, 125, &directory);
 	zephir_check_call_status();
-	if (!(zephir_is_true(&_1))) {
-		ZVAL_LONG(&_2$$3, 0777);
-		ZEPHIR_CALL_FUNCTION(NULL, "mkdir", NULL, 126, &directory, &_2$$3, &__$true);
+	if (!(zephir_is_true(&_2))) {
+		ZVAL_LONG(&_3$$3, 0777);
+		ZEPHIR_CALL_FUNCTION(NULL, "mkdir", NULL, 126, &directory, &_3$$3, &__$true);
 		zephir_check_call_status();
 	}
-	ZEPHIR_INIT_VAR(&_3);
+	ZEPHIR_INIT_NVAR(&_0);
 	ZEPHIR_INIT_VAR(&_4);
 	ZEPHIR_CONCAT_VV(&_4, &directory, &key);
-	zephir_file_put_contents(&_3, &_4, &payload TSRMLS_CC);
-	RETURN_MM_BOOL(!ZEPHIR_IS_FALSE_IDENTICAL(&_3));
+	zephir_file_put_contents(&_0, &_4, &payload TSRMLS_CC);
+	RETURN_MM_BOOL(!ZEPHIR_IS_FALSE_IDENTICAL(&_0));
 
 }
 
@@ -805,6 +802,9 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, getFilepath) {
 
 }
 
+/**
+ * Returns an iterator for the directory contents
+ */
 PHP_METHOD(Phalcon_Storage_Adapter_Stream, getIterator) {
 
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -842,6 +842,68 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, getIterator) {
 	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 130, &_0, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
+
+}
+
+/**
+ * Gets the file contents and returns an array or an error if something
+ * went wrong
+ */
+PHP_METHOD(Phalcon_Storage_Adapter_Stream, getPayload) {
+
+	zend_bool _3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *filepath_param = NULL, __$true, __$false, payload, _0, _1, _2;
+	zval filepath;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&filepath);
+	ZVAL_BOOL(&__$true, 1);
+	ZVAL_BOOL(&__$false, 0);
+	ZVAL_UNDEF(&payload);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &filepath_param);
+
+	zephir_get_strval(&filepath, filepath_param);
+
+
+	ZEPHIR_INIT_VAR(&payload);
+	zephir_file_get_contents(&payload, &filepath TSRMLS_CC);
+	if (0) {
+		zephir_update_property_zval(this_ptr, SL("warning"), &__$true);
+	} else {
+		zephir_update_property_zval(this_ptr, SL("warning"), &__$false);
+	}
+	if (ZEPHIR_IS_FALSE_IDENTICAL(&payload)) {
+		array_init(return_value);
+		RETURN_MM();
+	}
+	ZEPHIR_INIT_VAR(&_0);
+	ZEPHIR_INIT_NVAR(&_0);
+	zephir_create_closure_ex(&_0, NULL, phalcon_1__closure_ce, SL("__invoke"));
+	ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 80, &_0);
+	zephir_check_call_status();
+	ZEPHIR_CALL_FUNCTION(&_1, "unserialize", NULL, 11, &payload);
+	zephir_check_call_status();
+	ZEPHIR_CPY_WRT(&payload, &_1);
+	ZEPHIR_CALL_FUNCTION(NULL, "restore_error_handler", NULL, 82);
+	zephir_check_call_status();
+	ZEPHIR_OBS_VAR(&_2);
+	zephir_read_property(&_2, this_ptr, SL("warning"), PH_NOISY_CC);
+	_3 = zephir_is_true(&_2);
+	if (!(_3)) {
+		_3 = Z_TYPE_P(&payload) != IS_ARRAY;
+	}
+	if (UNEXPECTED(_3)) {
+		array_init(return_value);
+		RETURN_MM();
+	}
+	RETURN_CCTOR(&payload);
 
 }
 
