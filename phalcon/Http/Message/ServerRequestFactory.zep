@@ -445,7 +445,7 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
      *
      * @param Collection $server The server variables
      *
-     * @return Collection
+     * @return string
      */
     private function parseProtocol(<Collection> server) -> string
     {
@@ -455,7 +455,7 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
             return "1.1";
         }
 
-        let protocol  = server->has("SERVER_PROTOCOL", "HTTP/1.1"),
+        let protocol  = server->get("SERVER_PROTOCOL", "HTTP/1.1"),
             protocols = [
             "1.0" : 1,
             "1.1" : 1,

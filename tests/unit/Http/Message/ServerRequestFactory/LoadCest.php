@@ -561,7 +561,7 @@ class LoadCest
 
         $I->expectThrowable(
             new InvalidArgumentException(
-                'Unsupported protocol version'
+                'Incorrect protocol value HTTX/4.5'
             ),
             function () {
                 $factory = new ServerRequestFactory();
@@ -587,7 +587,7 @@ class LoadCest
 
         $I->expectThrowable(
             new InvalidArgumentException(
-                'Unsupported protocol version'
+                'Unsupported protocol 4.5'
             ),
             function () {
                 $factory = new ServerRequestFactory();
