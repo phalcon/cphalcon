@@ -79,27 +79,24 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
      * @see fromServer()
      */
     public function load(
-        array server = null,
-        array get = null,
-        array post = null,
-        array cookies = null,
-        array files = null
+        array server = [],
+        array get = [],
+        array post = [],
+        array cookies = [],
+        array files = []
     ) -> <ServerRequest> {
-        var cookies, filesCollection, headers, method, protocol, serverCollection;
+        var cookiesCollection, filesCollection, headers, method, protocol,
+            serverCollection;
 
-        let server           = this->checkNullArray(server, _SERVER),
-            files            = this->checkNullArray(files, _FILES),
-            cookies          = this->checkNullArray(cookies, _COOKIE),
-            get              = this->checkNullArray(get, _GET),
-            post             = this->checkNullArray(post, _POST),
-            serverCollection = this->parseServer(server),
-            method           = serverCollection->get("REQUEST_METHOD", "GET"),
-            protocol         = serverCollection->get("SERVER_PROTOCOL", "1.1"),
-            headers          = this->parseHeaders(serverCollection),
-            filesCollection  = this->parseUploadedFiles(files);
+        let serverCollection  = this->parseServer(server),
+            method            = serverCollection->get("REQUEST_METHOD", "GET"),
+            protocol          = serverCollection->get("SERVER_PROTOCOL", "1.1"),
+            headers           = this->parseHeaders(serverCollection),
+            filesCollection   = this->parseUploadedFiles(files),
+            cookiesCollection = cookies;
 
         if unlikely (empty(cookies) && headers->has("cookie")) {
-            let cookies = this->parseCookieHeader(headers->get("cookie"));
+            let cookiesCollection = this->parseCookieHeader(headers->get("cookie"));
         }
 
         return new ServerRequest(
@@ -108,7 +105,7 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
             serverCollection->toArray(),
             "php://input",
             headers->toArray(),
-            cookies,
+            cookiesCollection,
             get,
             filesCollection->toArray(),
             post,
@@ -262,19 +259,6 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
         }
 
         return scheme;
-    }
-
-    /**
-     * Checks the source if it null and returns the super, otherwise the source
-     * array
-     */
-    private function checkNullArray(var source, array super) -> array
-    {
-        if unlikely null === source {
-            return super;
-        }
-
-        return source;
     }
 
     /**

@@ -358,7 +358,7 @@ class LoadCest
         ];
 
         $factory = new ServerRequestFactory();
-        $request = $factory->load(null, null, null, null, $files);
+        $request = $factory->load([], [], [], [], $files);
 
         $actual = $request->getUploadedFiles();
 
@@ -407,7 +407,7 @@ class LoadCest
                 ];
 
                 $factory = new ServerRequestFactory();
-                $request = $factory->load(null, null, null, null, $files);
+                $request = $factory->load([], [], [], [], $files);
             }
         );
     }
@@ -441,7 +441,105 @@ class LoadCest
         $I->assertEquals('http', $uri->getScheme());
     }
 
+    /**
+     * Tests Phalcon\Http\Message\ServerRequestFactory :: load() - constructor
+     *
+     * @dataProvider getConstructorExamples
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-09-29
+     */
+    public function httpMessageServerRequestFactoryLoadConstructor(UnitTester $I, Example $example)
+    {
+        $I->wantToTest('Http\Message\ServerRequestFactory - load() - constructor ' . $example[0]);
 
+        $factory = new ServerRequestFactory();
+
+        $request = $factory->load($example[1], $example[2], $example[3], $example[4], $example[5]);
+        $I->assertInstanceOf(
+            ServerRequestInterface::class,
+            $request
+        );
+    }
+
+    /**
+     * Tests Phalcon\Http\Message\ServerRequestFactory :: load() - constructor - empty superglobals
+     *
+     * @dataProvider getConstructorExamples
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-09-29
+     */
+    public function httpMessageServerRequestFactoryLoadConstructorEmptySuperglobals(UnitTester $I, Example $example)
+    {
+        $I->wantToTest('Http\Message\ServerRequestFactory - load() - constructor - empty superglobals ' . $example[0]);
+
+        $factory = new ServerRequestFactory();
+
+        $request = $factory->load($example[1], $example[2], $example[3], $example[4], $example[5]);
+        $I->assertInstanceOf(
+            ServerRequestInterface::class,
+            $request
+        );
+    }
+
+    private function getConstructorExamples(): array
+    {
+        return [
+            [
+                'empty',
+                [],
+                [],
+                [],
+                [],
+                [],
+            ],
+            [
+                'server',
+                ['one' => 'two'],
+                [],
+                [],
+                [],
+                [],
+            ],
+            [
+                'get',
+                [],
+                ['one' => 'two'],
+                [],
+                [],
+                [],
+            ],
+            [
+                'post',
+                [],
+                [],
+                ['one' => 'two'],
+                [],
+                [],
+            ],
+            [
+                'cookie',
+                [],
+                [],
+                [],
+                ['one' => 'two'],
+                [],
+            ],
+            [
+                'files',
+                [],
+                [],
+                [],
+                [],
+                ['one' => 'two'],
+            ],
+        ];
+    }
+
+    /**
+     * @return array
+     */
     private function getServerNameExamples(): array
     {
         return [
