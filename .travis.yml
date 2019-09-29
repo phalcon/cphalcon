@@ -86,7 +86,8 @@ script:
   - vendor/bin/codecept build --quiet
   - vendor/bin/codecept run --ext DotReporter tests/cli/
   - vendor/bin/codecept run --ext DotReporter tests/integration/
-  - vendor/bin/codecept run --ext DotReporter tests/unit/
+#  - vendor/bin/codecept run --ext DotReporter tests/unit/
+  - vendor/bin/codecept run  tests/unit/
 
   - tests/run-syntax-tests.sh
 
