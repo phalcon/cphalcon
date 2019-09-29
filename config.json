@@ -145,6 +145,10 @@
     "orm.virtual_foreign_keys": {
       "type": "bool",
       "default": true
+    },
+    "warning.enable": {
+      "type": "bool",
+      "default": true
     }
   }
 }

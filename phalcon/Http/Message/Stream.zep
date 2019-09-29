@@ -35,11 +35,6 @@ class Stream implements StreamInterface
     protected stream;
 
     /**
-     * @var bool
-     */
-    protected warning = false;
-
-    /**
      * Stream constructor.
      *
      * @param mixed  $stream
@@ -290,13 +285,16 @@ class Stream implements StreamInterface
         var handle;
 
         let handle = stream;
+
+        globals_set("warning.enable", false);
+
         if likely typeof stream === "string" {
+
             set_error_handler(
                 function (number, message, file, line, context) {
-                    if number === E_WARNING {
-                        let this->warning = true;
-                    }
-                }
+                    globals_set("warning.enable", true);
+                },
+                E_WARNING
             );
 
             let handle = fopen(stream, mode);
@@ -304,7 +302,11 @@ class Stream implements StreamInterface
             restore_error_handler();
         }
 
-        if unlikely (this->warning || typeof handle !== "resource" || "stream" !== get_resource_type(handle)) {
+        if unlikely (
+            globals_get("warning.enable") ||
+            typeof handle !== "resource" ||
+            "stream" !== get_resource_type(handle)
+        ) {
             throw new RuntimeException(
                 "The stream provided is not valid (string/resource) or could not be opened."
             );

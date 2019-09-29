@@ -31,9 +31,10 @@ class Msgpack extends AbstractSerializer
 	 */
 	public function unserialize(var data) -> void
 	{
+	    globals_set("warning.enable", false);
         set_error_handler(
             function (number, message, file, line, context) {
-                let this->warning = true;
+        	    globals_set("warning.enable", true);
             },
             E_WARNING
         );
@@ -41,5 +42,9 @@ class Msgpack extends AbstractSerializer
         let this->data = msgpack_unpack(data);
 
         restore_error_handler();
+
+        if unlikely globals_get("warning.enable") {
+            let this->data = null;
+        }
 	}
 }
