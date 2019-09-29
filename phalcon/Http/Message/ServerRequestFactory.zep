@@ -117,7 +117,7 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
             post              = this->checkNullArray(post, globalPost),
             serverCollection  = this->parseServer(server),
             method            = serverCollection->get("REQUEST_METHOD", "GET"),
-            protocol          = serverCollection->get("SERVER_PROTOCOL", "1.1"),
+            protocol          = this->parseProtocol(serverCollection),
             headers           = this->parseHeaders(serverCollection),
             filesCollection   = this->parseUploadedFiles(files),
             cookiesCollection = cookies;
@@ -438,6 +438,32 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
         }
 
         return headers;
+    }
+
+    /**
+     * Parse the $_SERVER array amd check the server protocol. Raise an
+     *
+     * @param Collection $server The server variables
+     *
+     * @return Collection
+     */
+    private function parseProtocol(<Collection> server) -> string
+    {
+        var protocol, matches;
+
+        if true !== server->has("SERVER_PROTOCOL") {
+            return "1.1";
+        }
+
+        let protocol = server->has("SERVER_PROTOCOL", "HTTP/1.1");
+
+        if (! preg_match("#^(HTTP/)?(?P<version>[1-9]\d*(?:\.\d)?)$#", protocol, matches)) {
+            throw new InvalidArgumentException(
+                "Unsupported protocol " . protocol
+            );
+        }
+
+        return matches["version"];
     }
 
     /**
