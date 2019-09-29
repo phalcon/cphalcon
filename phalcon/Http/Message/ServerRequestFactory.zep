@@ -66,9 +66,6 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
      * If any argument is not supplied, the corresponding superglobal value will
      * be used.
      *
-     * The ServerRequest created is then passed to the fromServer() method in
-     * order to marshal the request URI and headers.
-     *
      * @param array $server  $_SERVER superglobal
      * @param array $get     $_GET superglobal
      * @param array $post    $_POST superglobal
@@ -79,16 +76,46 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
      * @see fromServer()
      */
     public function load(
-        array server = [],
-        array get = [],
-        array post = [],
-        array cookies = [],
-        array files = []
+        array server = null,
+        array get = null,
+        array post = null,
+        array cookies = null,
+        array files = null
     ) -> <ServerRequest> {
         var cookiesCollection, filesCollection, headers, method, protocol,
             serverCollection;
+        array globalCookies = [], globalFiles  = [], globalGet = [],
+              globalPost    = [], globalServer = [];
 
-        let serverCollection  = this->parseServer(server),
+        /**
+         * Ensure that superglobals are defined if not
+         */
+        if _COOKIE {
+            let globalCookies = _COOKIE;
+        }
+
+        if _FILES {
+            let globalFiles = _FILES;
+        }
+
+        if _GET {
+            let globalGet = _GET;
+        }
+
+        if _POST {
+            let globalPost = _POST;
+        }
+
+        if _SERVER {
+            let globalServer = _SERVER;
+        }
+
+        let server            = this->checkNullArray(server, globalServer),
+            files             = this->checkNullArray(files, globalFiles),
+            cookies           = this->checkNullArray(cookies, globalCookies),
+            get               = this->checkNullArray(get, globalGet),
+            post              = this->checkNullArray(post, globalPost),
+            serverCollection  = this->parseServer(server),
             method            = serverCollection->get("REQUEST_METHOD", "GET"),
             protocol          = serverCollection->get("SERVER_PROTOCOL", "1.1"),
             headers           = this->parseHeaders(serverCollection),
@@ -259,6 +286,19 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
         }
 
         return scheme;
+    }
+
+    /**
+     * Checks the source if it null and returns the super, otherwise the source
+     * array
+     */
+    private function checkNullArray(var source, array super) -> array
+    {
+        if unlikely null === source {
+            return super;
+        }
+
+        return source;
     }
 
     /**

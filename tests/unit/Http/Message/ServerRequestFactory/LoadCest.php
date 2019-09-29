@@ -358,7 +358,7 @@ class LoadCest
         ];
 
         $factory = new ServerRequestFactory();
-        $request = $factory->load([], [], [], [], $files);
+        $request = $factory->load(null, null, null, null, $files);
 
         $actual = $request->getUploadedFiles();
 
@@ -407,7 +407,7 @@ class LoadCest
                 ];
 
                 $factory = new ServerRequestFactory();
-                $request = $factory->load([], [], [], [], $files);
+                $request = $factory->load(null, null, null, null, $files);
             }
         );
     }
@@ -483,55 +483,58 @@ class LoadCest
         );
     }
 
+    /**
+     * @return array
+     */
     private function getConstructorExamples(): array
     {
         return [
             [
                 'empty',
-                [],
-                [],
-                [],
-                [],
-                [],
+                null,
+                null,
+                null,
+                null,
+                null,
             ],
             [
                 'server',
                 ['one' => 'two'],
-                [],
-                [],
-                [],
-                [],
+                null,
+                null,
+                null,
+                null,
             ],
             [
                 'get',
-                [],
+                null,
                 ['one' => 'two'],
-                [],
-                [],
-                [],
+                null,
+                null,
+                null,
             ],
             [
                 'post',
-                [],
-                [],
+                null,
+                null,
                 ['one' => 'two'],
-                [],
-                [],
+                null,
+                null,
             ],
             [
                 'cookie',
-                [],
-                [],
-                [],
+                null,
+                null,
+                null,
                 ['one' => 'two'],
-                [],
+                null,
             ],
             [
                 'files',
-                [],
-                [],
-                [],
-                [],
+                null,
+                null,
+                null,
+                null,
                 ['one' => 'two'],
             ],
         ];
