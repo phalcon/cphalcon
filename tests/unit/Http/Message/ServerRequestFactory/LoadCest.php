@@ -455,7 +455,27 @@ class LoadCest
 
         $factory = new ServerRequestFactory();
 
+        $server = $_SERVER;
+        $get    = $_GET;
+        $post   = $_POST;
+        $cookie = $_COOKIE;
+        $files  = $_FILES;
+
+        unset($_SERVER);
+        unset($_GET);
+        unset($_POST);
+        unset($_COOKIE);
+        unset($_FILES);
+
         $request = $factory->load($example[1], $example[2], $example[3], $example[4], $example[5]);
+
+        $_SERVER = $server;
+        $_GET    = $get;
+        $_POST   = $post;
+        $_COOKIE = $cookie;
+        $_FILES  = $files;
+
+
         $I->assertInstanceOf(
             ServerRequestInterface::class,
             $request
