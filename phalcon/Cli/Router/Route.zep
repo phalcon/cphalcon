@@ -9,6 +9,7 @@
  */
 
 namespace Phalcon\Cli\Router;
+
 use Phalcon\Cli\Router\RouteInterface;
 /**
  * This class represents every route added to the router
