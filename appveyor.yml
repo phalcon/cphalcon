@@ -129,8 +129,11 @@ after_build:
         -Platform       $Env:PLATFORM `
         -ConverMdToHtml $true `
         -ReleaseFiles   "${Env:RELEASE_DLL_PATH}",`
-                        "${Env:APPVEYOR_BUILD_FOLDER}\LICENSE-PHP.txt",`
-                        "${Env:APPVEYOR_BUILD_FOLDER}\LICENSE-ZEND.txt"
+                        "${Env:APPVEYOR_BUILD_FOLDER}\3rdparty\licenses\LICENSE-PHP.txt",`
+                        "${Env:APPVEYOR_BUILD_FOLDER}\3rdparty\licenses\LICENSE-ZEND.txt",`
+                        "${Env:APPVEYOR_BUILD_FOLDER}\3rdparty\licenses\LICENSE-ATLAS.txt",`
+                        "${Env:APPVEYOR_BUILD_FOLDER}\3rdparty\licenses\LICENSE-AURA.txt",`
+                        "${Env:APPVEYOR_BUILD_FOLDER}\3rdparty\licenses\\LICENSE-DIACTOROS.txt"
 
 artifacts:
     - path: '.\$(RELEASE_ZIPBALL).zip'
