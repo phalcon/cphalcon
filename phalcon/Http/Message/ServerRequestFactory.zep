@@ -449,47 +449,36 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
      */
     private function parseProtocol(<Collection> server) -> string
     {
-        var protocol, protocols, parts;
+        var localProtocol, protocol, protocols;
 
         if true !== server->has("SERVER_PROTOCOL") {
             return "1.1";
         }
 
-        let protocol  = server->get("SERVER_PROTOCOL", "HTTP/1.1"),
-            protocols = [
+        let protocol      = (string) server->get("SERVER_PROTOCOL", "HTTP/1.1"),
+            localProtocol = strtolower(protocol),
+            protocols     = [
             "1.0" : 1,
             "1.1" : 1,
             "2.0" : 1,
             "3.0" : 1
         ];
 
-        let parts = explode("/", protocol);
-
-        if unlikely (count(parts) < 2) {
+        if substr(localProtocol, 0, 5) !== "http/" {
             throw new InvalidArgumentException(
                 "Incorrect protocol value " . protocol
             );
         }
 
-        if unlikely (strtolower(parts[0]) !== "http") {
-            throw new InvalidArgumentException(
-                "Incorrect protocol value " . protocol
-            );
-        }
+        let localProtocol = str_replace("http/", "", localProtocol);
 
-        let protocol = parts[1];
-
-        if unlikely (empty(protocol) || typeof protocol !== "string") {
-            throw new InvalidArgumentException("Invalid protocol value");
-        }
-
-        if unlikely !isset protocols[protocol] {
+        if unlikely !isset protocols[localProtocol] {
             throw new InvalidArgumentException(
                 "Unsupported protocol " . protocol
             );
         }
 
-        return protocol;
+        return localProtocol;
     }
 
     /**

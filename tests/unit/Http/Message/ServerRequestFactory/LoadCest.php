@@ -587,7 +587,7 @@ class LoadCest
 
         $I->expectThrowable(
             new InvalidArgumentException(
-                'Unsupported protocol 4.5'
+                'Unsupported protocol HTTP/4.5'
             ),
             function () {
                 $factory = new ServerRequestFactory();
@@ -600,7 +600,7 @@ class LoadCest
             }
         );
     }
-    
+
     /**
      * @return array
      */
