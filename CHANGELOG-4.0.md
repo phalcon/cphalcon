@@ -12,7 +12,6 @@
 - Fixed `Phalcon\Dispatcher\AbstractDispatcher::setModelBinder()` to return DispatcherInterface instead of non existing Dispatcher: [#14414](https://github.com/phalcon/cphalcon/pull/14414)
  - `Phalcon\Firewall\Adapter\Acl`
  - `Phalcon\Firewall\Adapter\Annotations`
- - `Phalcon\Firewall\Adapter\Annotations`
 - Fixed `Phalcon\Filter\FilterFactory::newInstance()` to return `FilterInterface` instead of non existing `LocatorInterface` [#14414](https://github.com/phalcon/cphalcon/pull/14414)
 - Fixed `Phalcon\Forms\Element\Select::addOption()` and `Phalcon\Forms\Element\Select::setOption()` to return `ElementInterface` instead of non existing Element [#14414](https://github.com/phalcon/cphalcon/pull/14414)
 - Fixed `Phalcon\Forms\Manager::set()` to return `Manager` instead of non existing `FormManager` [#14414](https://github.com/phalcon/cphalcon/pull/14414)
