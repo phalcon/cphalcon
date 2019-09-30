@@ -31,7 +31,7 @@ class IsWritableCest
     {
         $I->wantToTest('Http\Message\Stream - isWritable() - ' . $example[0]);
 
-        $fileName = dataDir('assets/stream/bill-of-rights-empty.txt');
+        $fileName = dataDir('assets/stream/mit-empty.txt');
 
         $stream = new Stream($fileName, $example[0]);
 

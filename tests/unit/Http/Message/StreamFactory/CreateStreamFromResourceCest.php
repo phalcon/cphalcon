@@ -29,7 +29,7 @@ class CreateStreamFromResourceCest
     {
         $I->wantToTest('Http\Message\StreamFactory - createStreamFromResource()');
 
-        $fileName = dataDir('assets/stream/bill-of-rights.txt');
+        $fileName = dataDir('assets/stream/mit.txt');
         $expected = file_get_contents($fileName);
         $resource = fopen($fileName, 'r+b');
         $factory  = new StreamFactory();

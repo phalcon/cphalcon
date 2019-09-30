@@ -27,7 +27,7 @@ class ToStringCest
     {
         $I->wantToTest('Http\Message\Stream - __toString()');
 
-        $fileName = dataDir('assets/stream/bill-of-rights.txt');
+        $fileName = dataDir('assets/stream/mit.txt');
         $expected = file_get_contents($fileName);
         $stream   = new Stream($fileName, 'rb');
 

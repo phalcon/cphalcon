@@ -471,5 +471,9 @@
 #include "phalcon/2__closure.zep.h"
 #include "phalcon/3__closure.zep.h"
 #include "phalcon/4__closure.zep.h"
+#include "phalcon/5__closure.zep.h"
+#include "phalcon/6__closure.zep.h"
+#include "phalcon/7__closure.zep.h"
+#include "phalcon/8__closure.zep.h"
 
 #endif

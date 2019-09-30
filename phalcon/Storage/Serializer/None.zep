@@ -11,6 +11,7 @@
 namespace Phalcon\Storage\Serializer;
 
 use Phalcon\Storage\Serializer\AbstractSerializer;
+use InvalidArgumentException;
 
 class None extends AbstractSerializer
 {

@@ -25,6 +25,10 @@
 - Fixed `Phalcon\Form::setAction()` throwing error when called in `Form::initialize()` [#14421](https://github.com/phalcon/cphalcon/pull/14421)
 - Fixed `Phalcon\Mvc\Model\Query\Lang::parsePHQL` return type hint from `string` to `array`
 - Fixed `NOT BETWEEN` support in PHQL [#14253](https://github.com/phalcon/cphalcon/issues/14253)
+- Fixed `Phalcon\Storage\Adapter\Stream` to correctly serialize and unserialize data [#14408](https://github.com/phalcon/cphalcon/issues/14408)
+- Fixed `Phalcon\Storage\Serializer\Json` to throw an exception if storing an object [#14408](https://github.com/phalcon/cphalcon/issues/14408)
+- Fixed `Phalcon\Http\Message\ServerRequestFactory::load` to correctly handle superglobals that have not been defined [#14426](https://github.com/phalcon/cphalcon/issues/14426)
+- Fixed `Phalcon\Http\Message\ServerRequestFactory::load` to correctly detect the protocol passed from `$_SERVER` [#14432](https://github.com/phalcon/cphalcon/issues/14432)
 
 ## Removed
 - Removed `Phalcon\Application\AbstractApplication::handle()` as it does not serve any purpose and causing issues with type hinting. [#14407](https://github.com/phalcon/cphalcon/pull/14407)

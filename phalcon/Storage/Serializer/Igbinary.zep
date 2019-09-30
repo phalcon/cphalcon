@@ -31,6 +31,20 @@ class Igbinary extends AbstractSerializer
 	 */
 	public function unserialize(var data) -> void
 	{
+	    globals_set("warning.enable", false);
+        set_error_handler(
+            function (number, message, file, line, context) {
+        	    globals_set("warning.enable", true);
+            },
+            E_WARNING
+        );
+
 		let this->data = igbinary_unserialize(data);
-	}
+
+        restore_error_handler();
+
+        if unlikely globals_get("warning.enable") {
+            let this->data = null;
+        }
+    }
 }

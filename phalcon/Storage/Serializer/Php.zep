@@ -10,6 +10,7 @@
 
 namespace Phalcon\Storage\Serializer;
 
+use InvalidArgumentException;
 use Phalcon\Storage\Exception;
 use Phalcon\Storage\Serializer\AbstractSerializer;
 
@@ -32,10 +33,32 @@ class Php extends AbstractSerializer
 	 */
 	public function unserialize(var data) -> void
 	{
+
 	    if !this->isSerializable(data) {
 	        let this->data = data;
 	    } else {
+
+            if typeof data !== "string" {
+                throw new InvalidArgumentException(
+                    "Data for the unserializer must of type string"
+                );
+            }
+
+            globals_set("warning.enable", false);
+            set_error_handler(
+                function (number, message, file, line, context) {
+                    globals_set("warning.enable", true);
+                },
+                E_NOTICE
+            );
+
             let this->data = unserialize(data);
+
+            restore_error_handler();
+
+            if unlikely globals_get("warning.enable") {
+                let this->data = null;
+            }
         }
 	}
 }

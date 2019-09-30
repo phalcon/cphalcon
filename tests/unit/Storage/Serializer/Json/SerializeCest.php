@@ -13,8 +13,8 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Storage\Serializer\Json;
 
 use Codeception\Example;
+use InvalidArgumentException;
 use Phalcon\Storage\Serializer\Json;
-use stdClass;
 use UnitTester;
 
 class SerializeCest
@@ -35,6 +35,30 @@ class SerializeCest
         $expected = $example[2];
         $actual   = $serializer->serialize();
         $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Storage\Serializer\Json :: serialize() - error
+     *
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2019-03-30
+     */
+    public function storageSerializerJsonSerializeError(UnitTester $I)
+    {
+        $I->wantToTest('Storage\Serializer\Json - serialize() - error');
+
+        $I->expectThrowable(
+            new InvalidArgumentException(
+                'Data for JSON serializer cannot be of type object'
+            ),
+            function () {
+                $example = new \stdClass();
+                $example->one = 'two';
+
+                $serializer = new Json($example);
+                $actual     = $serializer->serialize();
+            }
+        );
     }
 
     private function getExamples(): array
@@ -74,11 +98,6 @@ class SerializeCest
                 'array',
                 ['Phalcon Framework'],
                 '["Phalcon Framework"]',
-            ],
-            [
-                'object',
-                new stdClass(),
-                '{}',
             ],
         ];
     }

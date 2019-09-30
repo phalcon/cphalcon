@@ -28,7 +28,7 @@ class GetMetadataCest
     public function httpMessageStreamGetMetadata(UnitTester $I)
     {
         $I->wantToTest('Http\Message\Stream - getMetadata()');
-        $fileName = dataDir('assets/stream/bill-of-rights.txt');
+        $fileName = dataDir('assets/stream/mit.txt');
         $handle   = fopen($fileName, 'rb');
         $stream   = new Stream($handle);
 
@@ -59,7 +59,7 @@ class GetMetadataCest
     public function httpMessageStreamGetMetadataByKey(UnitTester $I, Example $example)
     {
         $I->wantToTest('Http\Message\Stream - getMetadata() - by key - ' . $example[0]);
-        $fileName = dataDir('assets/stream/bill-of-rights.txt');
+        $fileName = dataDir('assets/stream/mit.txt');
         $handle   = fopen($fileName, 'rb');
         $stream   = new Stream($handle);
 
@@ -94,7 +94,7 @@ class GetMetadataCest
             ['mode', 'rb',],
             ['unread_bytes', 0,],
             ['seekable', true,],
-            ['uri', dataDir('assets/stream/bill-of-rights.txt'),],
+            ['uri', dataDir('assets/stream/mit.txt'),],
             ['unknown', [],],
         ];
     }

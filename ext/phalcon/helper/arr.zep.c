@@ -1074,7 +1074,7 @@ PHP_METHOD(Phalcon_Helper_Arr, whiteList) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_INIT_NVAR(&_0);
-	zephir_create_closure_ex(&_0, NULL, phalcon_1__closure_ce, SL("__invoke"));
+	zephir_create_closure_ex(&_0, NULL, phalcon_2__closure_ce, SL("__invoke"));
 	ZEPHIR_CALL_FUNCTION(&_1, "array_filter", NULL, 257, &whiteList, &_0);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&whiteList, &_1);

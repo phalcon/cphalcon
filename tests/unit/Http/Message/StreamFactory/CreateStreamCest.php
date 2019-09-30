@@ -28,7 +28,7 @@ class CreateStreamCest
     {
         $I->wantToTest('Http\Message\StreamFactory - createStream()');
 
-        $fileName = dataDir('assets/stream/bill-of-rights.txt');
+        $fileName = dataDir('assets/stream/mit.txt');
         $contents = file_get_contents($fileName);
         $factory  = new StreamFactory();
         $stream   = $factory->createStream($contents);
