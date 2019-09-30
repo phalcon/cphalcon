@@ -90,23 +90,23 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
         /**
          * Ensure that superglobals are defined if not
          */
-        if _COOKIE {
+        if _COOKIE && !empty _COOKIE {
             let globalCookies = _COOKIE;
         }
 
-        if _FILES {
+        if _FILES && !empty _FILES  {
             let globalFiles = _FILES;
         }
 
-        if _GET {
+        if _GET && !empty _GET  {
             let globalGet = _GET;
         }
 
-        if _POST {
+        if _POST && !empty _POST  {
             let globalPost = _POST;
         }
 
-        if _SERVER {
+        if _SERVER && !empty _SERVER  {
             let globalServer = _SERVER;
         }
 
@@ -117,7 +117,7 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
             post              = this->checkNullArray(post, globalPost),
             serverCollection  = this->parseServer(server),
             method            = serverCollection->get("REQUEST_METHOD", "GET"),
-            protocol          = serverCollection->get("SERVER_PROTOCOL", "1.1"),
+            protocol          = this->parseProtocol(serverCollection),
             headers           = this->parseHeaders(serverCollection),
             filesCollection   = this->parseUploadedFiles(files),
             cookiesCollection = cookies;
@@ -438,6 +438,58 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
         }
 
         return headers;
+    }
+
+    /**
+     * Parse the $_SERVER array amd check the server protocol. Raise an
+     *
+     * @param Collection $server The server variables
+     *
+     * @return string
+     */
+    private function parseProtocol(<Collection> server) -> string
+    {
+        var protocol, protocols, parts;
+
+        if true !== server->has("SERVER_PROTOCOL") {
+            return "1.1";
+        }
+
+        let protocol  = server->get("SERVER_PROTOCOL", "HTTP/1.1"),
+            protocols = [
+            "1.0" : 1,
+            "1.1" : 1,
+            "2.0" : 1,
+            "3.0" : 1
+        ];
+
+        let parts = explode("/", protocol);
+
+        if unlikely (count(parts) < 2) {
+            throw new InvalidArgumentException(
+                "Incorrect protocol value " . protocol
+            );
+        }
+
+        if unlikely (strtolower(parts[0]) !== "http") {
+            throw new InvalidArgumentException(
+                "Incorrect protocol value " . protocol
+            );
+        }
+
+        let protocol = parts[1];
+
+        if unlikely (empty(protocol) || typeof protocol !== "string") {
+            throw new InvalidArgumentException("Invalid protocol value");
+        }
+
+        if unlikely !isset protocols[protocol] {
+            throw new InvalidArgumentException(
+                "Unsupported protocol " . protocol
+            );
+        }
+
+        return protocol;
     }
 
     /**
