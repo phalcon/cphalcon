@@ -504,6 +504,104 @@ class LoadCest
     }
 
     /**
+     * Tests Phalcon\Http\Message\ServerRequestFactory :: load() - protocol default
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-09-29
+     */
+    public function httpMessageServerRequestFactoryLoadProtocolDefault(UnitTester $I)
+    {
+        $I->wantToTest('Http\Message\ServerRequestFactory - load() - protocol default');
+
+        $factory = new ServerRequestFactory();
+
+        $server = $_SERVER;
+        unset($_SERVER);
+
+        $request = $factory->load();
+        $_SERVER = $server;
+
+        $expected = '1.1';
+        $actual   = $request->getProtocolVersion();
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Http\Message\ServerRequestFactory :: load() - protocol defined
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-09-29
+     */
+    public function httpMessageServerRequestFactoryLoadProtocolDefined(UnitTester $I)
+    {
+        $I->wantToTest('Http\Message\ServerRequestFactory - load() - protocol defined');
+
+        $factory = new ServerRequestFactory();
+
+        $server = [
+            'SERVER_PROTOCOL' => 'HTTP/2.0'
+        ];
+
+        $request = $factory->load($server);
+
+        $expected = '2.0';
+        $actual   = $request->getProtocolVersion();
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Http\Message\ServerRequestFactory :: load() - protocol error
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-09-29
+     */
+    public function httpMessageServerRequestFactoryLoadProtocolError(UnitTester $I)
+    {
+        $I->wantToTest('Http\Message\ServerRequestFactory - load() - protocol error');
+
+        $I->expectThrowable(
+            new InvalidArgumentException(
+                'Incorrect protocol value HTTX/4.5'
+            ),
+            function () {
+                $factory = new ServerRequestFactory();
+
+                $server = [
+                    'SERVER_PROTOCOL' => 'HTTX/4.5'
+                ];
+
+                $request = $factory->load($server);
+            }
+        );
+    }
+
+    /**
+     * Tests Phalcon\Http\Message\ServerRequestFactory :: load() - protocol error unsupported
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-09-29
+     */
+    public function httpMessageServerRequestFactoryLoadProtocolErrorUnsupported(UnitTester $I)
+    {
+        $I->wantToTest('Http\Message\ServerRequestFactory - load() - protocol error unsupported');
+
+        $I->expectThrowable(
+            new InvalidArgumentException(
+                'Unsupported protocol 4.5'
+            ),
+            function () {
+                $factory = new ServerRequestFactory();
+
+                $server = [
+                    'SERVER_PROTOCOL' => 'HTTP/4.5'
+                ];
+
+                $request = $factory->load($server);
+            }
+        );
+    }
+    
+    /**
      * @return array
      */
     private function getConstructorExamples(): array
