@@ -28,6 +28,7 @@
 - Fixed `Phalcon\Storage\Adapter\Stream` to correctly serialize and unserialize data [#14408](https://github.com/phalcon/cphalcon/issues/14408)
 - Fixed `Phalcon\Storage\Serializer\Json` to throw an exception if storing an object [#14408](https://github.com/phalcon/cphalcon/issues/14408)
 - Fixed `Phalcon\Http\Message\ServerRequestFactory::load` to correctly handle superglobals that have not been defined [#14426](https://github.com/phalcon/cphalcon/issues/14426)
+- Fixed `Phalcon\Forms\Form` to initialize attributes object if not inititalized [#14430](https://github.com/phalcon/cphalcon/issues/14430)
 
 ## Removed
 - Removed `Phalcon\Application\AbstractApplication::handle()` as it does not serve any purpose and causing issues with type hinting. [#14407](https://github.com/phalcon/cphalcon/pull/14407)
