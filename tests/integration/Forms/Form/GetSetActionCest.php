@@ -14,6 +14,7 @@ namespace Phalcon\Test\Integration\Forms\Form;
 
 use IntegrationTester;
 use Phalcon\Forms\Form;
+use Phalcon\Test\Fixtures\Forms\SetActionForm;
 
 class GetSetActionCest
 {
@@ -29,15 +30,11 @@ class GetSetActionCest
 
         $form = new Form();
 
-
-
         // empty action
         $I->assertSame(
             '',
             $form->getAction()
         );
-
-
 
         // set an action
         $form->setAction('/some-url');
@@ -47,13 +44,29 @@ class GetSetActionCest
             $form->getAction()
         );
 
-
-
         // clean action
         $form->setAction('');
 
         $I->assertSame(
             '',
+            $form->getAction()
+        );
+    }
+
+    /**
+     * Tests Phalcon\Forms\Form :: getAction() / setAction() - initialize
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-05-11
+     */
+    public function formsFormGetSetActionInitialize(IntegrationTester $I)
+    {
+        $I->wantToTest('Forms\Form - getAction() / setAction() - initialize');
+
+        $form = new SetActionForm();
+
+        $I->assertSame(
+            '/users/login',
             $form->getAction()
         );
     }
