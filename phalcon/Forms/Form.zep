@@ -29,7 +29,10 @@ use Phalcon\Validation\ValidationInterface;
  */
 class Form extends Injectable implements Countable, Iterator, AttributesInterface
 {
-    protected attributes;
+    /**
+     * @var <Attributes> | null
+     */
+    protected attributes = null;
 
     protected data;
 
@@ -66,7 +69,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
         /**
         * Set form attributes
         */
-        this->setAttributes(new Attributes());
+        let this->attributes = new Attributes();
 
         /**
          * Check for an 'initialize' method and call it
@@ -302,6 +305,18 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     public function getAction() -> string
     {
         return (string) this->getAttributes()->get("action");
+    }
+
+    /**
+    * Get Form attributes collection
+    */
+    public function getAttributes() -> <Attributes>
+    {
+        if unlikely null === this->attributes {
+            let this->attributes = new Attributes();
+        }
+
+        return this->attributes;
     }
 
     /**
@@ -744,6 +759,16 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     }
 
     /**
+    * Set form attributes collection
+    */
+    public function setAttributes(<Attributes> attributes) -> <AttributesInterface>
+    {
+        let this->attributes = attributes;
+
+        return this;
+    }
+
+    /**
      * Sets an option for the form
      */
     public function setUserOption(string option, var value) -> <Form>
@@ -769,23 +794,5 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     public function valid() -> bool
     {
         return isset this->elementsIndexed[this->position];
-    }
-
-    /**
-    * Get Form attributes collection
-    */
-    public function getAttributes() -> <Attributes>
-    {
-        return this->attributes;
-    }
-
-    /**
-    * Set form attributes collection
-    */
-    public function setAttributes(<Attributes> attributes) -> <AttributesInterface>
-    {
-        let this->attributes = attributes;
-
-        return this;
     }
 }
