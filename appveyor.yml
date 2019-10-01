@@ -76,7 +76,7 @@ install:
   - ps: >-
       InstallPeclExtension `
         -Name       psr `
-        -Version    0.6.1 `
+        -Version    0.7.0 `
         -PhpVersion $Env:PHP_VERSION `
         -BuildType  $Env:BUILD_TYPE `
         -VC         $Env:VC_VERSION `
@@ -85,7 +85,7 @@ install:
   - ps: >-
       InstallPeclExtension `
         -Name       redis `
-        -Version    4.3.0 `
+        -Version    5.0.2 `
         -PhpVersion $Env:PHP_VERSION `
         -BuildType  $Env:BUILD_TYPE `
         -VC         $Env:VC_VERSION `
