@@ -94,6 +94,13 @@ class UnderscoreCallCest
             $robotParts
         );
 
+        $countRobotParts = $robot->countRobotsParts();
+
+        $I->assertEquals(
+            $robotParts->count(),
+            $countRobotParts
+        );
+
         $nonExistentRobotParts = $robot->getRobotsParts(
             [
                 'id < 0',
@@ -104,6 +111,37 @@ class UnderscoreCallCest
         $I->assertEquals(
             0,
             $nonExistentRobotParts->count()
+        );
+
+        /**
+         * Reusable has-many relationship
+         */
+        $reusableRobot = Models\Robots::findFirst();
+
+        $reusableRobotParts = $reusableRobot->getReusableRobotsParts();
+
+        $I->assertInstanceOf(
+            \Phalcon\Mvc\Model\Resultset\Simple::class,
+            $reusableRobotParts
+        );
+
+        $countReusableRobotParts = $reusableRobot->countReusableRobotsParts();
+
+        $I->assertEquals(
+            $reusableRobotParts->count(),
+            $countReusableRobotParts
+        );
+
+        $nonExistentReusableRobotParts = $reusableRobot->getReusableRobotsParts(
+            [
+                'id < 0',
+                'order' => 'id DESC',
+            ]
+        );
+
+        $I->assertEquals(
+            0,
+            $nonExistentReusableRobotParts->count()
         );
     }
 }

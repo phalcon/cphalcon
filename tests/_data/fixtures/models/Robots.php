@@ -26,5 +26,16 @@ class Robots extends Model
                 'foreignKey' => true,
             ]
         );
+
+        $this->hasMany(
+            'id',
+            RobotsParts::class,
+            'robots_id',
+            [
+                'alias' => 'reusableRobotsParts',
+                'foreignKey' => true,
+                'reusable' => true
+            ]
+        );
     }
 }
