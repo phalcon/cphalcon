@@ -12,9 +12,7 @@ namespace Phalcon\Di;
 
 use Phalcon\Di;
 use Phalcon\Di\DiInterface;
-use Phalcon\Events\ManagerInterface;
 use Phalcon\Di\InjectionAwareInterface;
-use Phalcon\Events\EventsAwareInterface;
 use Phalcon\Di\Exception;
 use Phalcon\Session\BagInterface;
 
@@ -47,7 +45,7 @@ use Phalcon\Session\BagInterface;
  * @property \Phalcon\Session\Bag|\Phalcon\Session\BagInterface $persistent
  * @property \Phalcon\Mvc\View|\Phalcon\Mvc\ViewInterface $view
  */
-abstract class Injectable implements InjectionAwareInterface, EventsAwareInterface
+abstract class Injectable implements InjectionAwareInterface
 {
     /**
      * Dependency Injector
@@ -57,40 +55,13 @@ abstract class Injectable implements InjectionAwareInterface, EventsAwareInterfa
     protected container;
 
     /**
-     * Events Manager
-     *
-     * @var \Phalcon\Events\ManagerInterface
-     */
-    protected eventsManager;
-
-    /**
      * Magic method __get
      */
     public function __get(string! propertyName) -> var | null
     {
         var container, service;
 
-        let container = <DiInterface> this->container;
-
-        if typeof container != "object" {
-            let container = Di::getDefault();
-
-            if unlikely typeof container != "object" {
-                throw new Exception(
-                    Exception::containerServiceNotFound("internal services")
-                );
-            }
-        }
-
-        /**
-         * Fallback to the PHP userland if the cache is not available
-         */
-        if container->has(propertyName) {
-            let service = container->getShared(propertyName);
-            let this->{propertyName} = service;
-
-            return service;
-        }
+        let container = <DiInterface> this->getDI();
 
         if propertyName == "di" {
             let this->{"di"} = container;
@@ -113,11 +84,29 @@ abstract class Injectable implements InjectionAwareInterface, EventsAwareInterfa
         }
 
         /**
+         * Fallback to the PHP userland if the cache is not available
+         */
+        if container->has(propertyName) {
+            let service = container->get(propertyName);
+            let this->{propertyName} = service;
+
+            return service;
+        }
+
+        /**
          * A notice is shown if the property is not defined and isn't a valid service
          */
         trigger_error("Access to undefined property " . propertyName);
 
         return null;
+    }
+
+    /**
+     * Magic method __isset
+     */
+    public function __isset(string! name) -> bool
+    {
+        return this->getDI()->has(name);
     }
 
     /**
@@ -127,21 +116,19 @@ abstract class Injectable implements InjectionAwareInterface, EventsAwareInterfa
     {
         var container;
 
-        let container = this->container;
+        let container = <DiInterface> this->container;
 
         if typeof container != "object" {
             let container = Di::getDefault();
+
+            if unlikely typeof container != "object" {
+                throw new Exception(
+                    Exception::containerServiceNotFound("internal services")
+                );
+            }
         }
 
         return container;
-    }
-
-    /**
-     * Returns the internal event manager
-     */
-    public function getEventsManager() -> <ManagerInterface> | null
-    {
-        return this->eventsManager;
     }
 
     /**
@@ -150,13 +137,5 @@ abstract class Injectable implements InjectionAwareInterface, EventsAwareInterfa
     public function setDI(<DiInterface> container) -> void
     {
         let this->container = container;
-    }
-
-    /**
-     * Sets the event manager
-     */
-    public function setEventsManager(<ManagerInterface> eventsManager) -> void
-    {
-        let this->eventsManager = eventsManager;
     }
 }

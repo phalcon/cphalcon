@@ -29,10 +29,11 @@
 - Fixed `Phalcon\Http\Message\ServerRequestFactory::load` to correctly handle superglobals that have not been defined [#14426](https://github.com/phalcon/cphalcon/issues/14426)
 - Fixed `Phalcon\Forms\Form` to initialize attributes object if not initialized [#14430](https://github.com/phalcon/cphalcon/issues/14430)
 - Fixed `Phalcon\Http\Message\ServerRequestFactory::load` to correctly detect the protocol passed from `$_SERVER` [#14432](https://github.com/phalcon/cphalcon/issues/14432)
-- Fixed `Phalcon\Cli\Router\Route` added missing `Phalcon\Cli\Router\RouteInterface` 
+- Fixed `Phalcon\Cli\Router\Route` added missing `Phalcon\Cli\Router\RouteInterface`
 
 ## Removed
 - Removed `Phalcon\Application\AbstractApplication::handle()` as it does not serve any purpose and causing issues with type hinting. [#14407](https://github.com/phalcon/cphalcon/pull/14407)
+- Removed `getEventsManager` and `setEventsManager` from `Phalcon\Di\Injectable` to the classes that utilise the methods or `eventsManager` property. [#14269](https://github.com/phalcon/cphalcon/issues/14269)
 
 # [4.0.0-rc.1](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-rc.1) (2019-09-23)
 
