@@ -1404,8 +1404,6 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
             let retrieveMethod = method;
         }
 
-        let arguments = [findParams];
-
         /**
          * Find first results could be reusable
          */
@@ -1419,6 +1417,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
                 return records;
             }
         }
+
+        let arguments = [findParams];
 
         /**
          * Load the referenced model
