@@ -13,7 +13,7 @@ namespace Phalcon\Test\Models;
 
 use Phalcon\Mvc\Model;
 
-class Robots extends Model
+class RobotsReusable extends Model
 {
     public function initialize()
     {
@@ -24,6 +24,7 @@ class Robots extends Model
             [
                 'alias' => 'robotsParts',
                 'foreignKey' => true,
+                'reusable' => true
             ]
         );
     }

@@ -116,23 +116,23 @@ class UnderscoreCallCest
         /**
          * Reusable has-many relationship
          */
-        $reusableRobot = Models\Robots::findFirst();
+        $reusableRobot = Models\RobotsReusable::findFirst();
 
-        $reusableRobotParts = $reusableRobot->getReusableRobotsParts();
+        $reusableRobotParts = $reusableRobot->getRobotsParts();
 
         $I->assertInstanceOf(
             \Phalcon\Mvc\Model\Resultset\Simple::class,
             $reusableRobotParts
         );
 
-        $countReusableRobotParts = $reusableRobot->countReusableRobotsParts();
+        $countReusableRobotParts = $reusableRobot->countRobotsParts();
 
         $I->assertEquals(
             $reusableRobotParts->count(),
             $countReusableRobotParts
         );
 
-        $nonExistentReusableRobotParts = $reusableRobot->getReusableRobotsParts(
+        $nonExistentReusableRobotParts = $reusableRobot->getRobotsParts(
             [
                 'id < 0',
                 'order' => 'id DESC',
