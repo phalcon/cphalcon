@@ -90,23 +90,23 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
         /**
          * Ensure that superglobals are defined if not
          */
-        if _COOKIE && !empty _COOKIE {
+        if !empty _COOKIE {
             let globalCookies = _COOKIE;
         }
 
-        if _FILES && !empty _FILES  {
+        if !empty _FILES  {
             let globalFiles = _FILES;
         }
 
-        if _GET && !empty _GET  {
+        if !empty _GET  {
             let globalGet = _GET;
         }
 
-        if _POST && !empty _POST  {
+        if !empty _POST  {
             let globalPost = _POST;
         }
 
-        if _SERVER && !empty _SERVER  {
+        if !empty _SERVER  {
             let globalServer = _SERVER;
         }
 
