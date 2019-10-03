@@ -1412,7 +1412,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         let reusable = (bool) relation->isReusable();
 
         if reusable {
-            let uniqueKey = unique_key(referencedModel, arguments),
+            let uniqueKey = unique_key(referencedModel, [findParams, retrieveMethod]),
                 records = this->getReusableRecords(referencedModel, uniqueKey);
 
             if typeof records == "array" || typeof records == "object" {
