@@ -85,9 +85,9 @@ before_script:
 
 script:
   - vendor/bin/codecept build --quiet
-  - vendor/bin/codecept run tests/cli/
-  - vendor/bin/codecept run tests/integration/
-  - vendor/bin/codecept run tests/unit/
+  - vendor/bin/codecept --ext DotReporter run tests/cli/
+  - vendor/bin/codecept --ext DotReporter run tests/integration/
+  - vendor/bin/codecept --ext DotReporter run tests/unit/
 
   - tests/run-syntax-tests.sh
 
