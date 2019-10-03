@@ -16,12 +16,14 @@ use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Test\Controllers\ViewRequestController;
+
 /**
  * Class GetEventsManagerCest
  */
 class GetEventsManagerCest
 {
     use DiTrait;
+ 
     /**
      * Tests Phalcon\Mvc\Controller :: getEventsManager()
      *
@@ -35,10 +37,10 @@ class GetEventsManagerCest
         $controller = new ViewRequestController();
 
         $controller->setDI($di);
-        
+
         $I->assertInstanceOf(
             EventsManager::class,
-            $controller->eventsManager,
+            $controller->eventsManager
         );
     }
 }
