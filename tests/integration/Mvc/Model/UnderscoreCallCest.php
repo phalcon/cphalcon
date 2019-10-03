@@ -12,18 +12,98 @@
 namespace Phalcon\Test\Integration\Mvc\Model;
 
 use IntegrationTester;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Models;
 
 class UnderscoreCallCest
 {
+    use DiTrait;
+
+    public function _before(IntegrationTester $I)
+    {
+        $this->setNewFactoryDefault();
+        $this->setDiMysql();
+    }
+
+    public function _after(IntegrationTester $I)
+    {
+        $this->container['db']->close();
+    }
+
     /**
      * Tests Phalcon\Mvc\Model :: __call()
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @author Balázs Németh <https://github.com/zsilbi>
+     * @since  2019-10-03
      */
     public function mvcModelCall(IntegrationTester $I)
     {
         $I->wantToTest("Mvc\Model - __call()");
-        $I->skipTest('Need implementation');
+
+        /**
+         * Belongs-to relationship
+         */
+        $robotPart = Models\RobotsParts::findFirst();
+
+        $part = $robotPart->getPart();
+
+        $I->assertInstanceOf(
+            Models\Parts::class,
+            $part
+        );
+
+        $nonExistentPart = $robotPart->getPart(
+            [
+                'id < 0',
+                'order' => 'id DESC',
+            ]
+        );
+
+        $I->assertNull($nonExistentPart);
+
+        /**
+         * Testing has-one relationship
+         */
+        $customer = Models\Customers::findFirst();
+
+        $user = $customer->getUser();
+
+        $I->assertInstanceOf(
+            Models\Users::class,
+            $user
+        );
+
+        $nonExistentUser = $customer->getUser(
+            [
+                'id < 0',
+                'order' => 'id DESC',
+            ]
+        );
+
+        $I->assertNull($nonExistentUser);
+
+        /**
+         * Has-many relationship
+         */
+        $robot = Models\Robots::findFirst();
+
+        $robotParts = $robot->getRobotsParts();
+
+        $I->assertInstanceOf(
+            \Phalcon\Mvc\Model\Resultset\Simple::class,
+            $robotParts
+        );
+
+        $nonExistentRobotParts = $robot->getRobotsParts(
+            [
+                'id < 0',
+                'order' => 'id DESC',
+            ]
+        );
+
+        $I->assertEquals(
+            0,
+            $nonExistentRobotParts->count()
+        );
     }
 }
