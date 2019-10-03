@@ -44,7 +44,7 @@ class BeforeExecuteRouteCest
         ob_start();
 
         $this->setNewFactoryDefault();
-        $this->setDiMysql();
+//        $this->setDiMysql();
 
         $dispatcher = new Dispatcher();
 
