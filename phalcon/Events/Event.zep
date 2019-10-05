@@ -17,6 +17,15 @@ use  \Phalcon\Exception;
  *
  * This class offers contextual information of a fired event in the
  * EventsManager
+ *
+ *```php
+ * Phalcon\Events\Event;
+ *
+ * $event = new Event("db:afterQuery", $this, ["data" => "mydata"], true);
+ * if ($event->isCancelable()) {
+ *     $event->stop();
+ * }
+ * ```
  */
 class Event implements EventInterface
 {
