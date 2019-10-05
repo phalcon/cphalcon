@@ -152,7 +152,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
 
         let roleCallback = this->roleCallback;
 
-        if unlikely !(roleCallback instanceof Closure) {
+        if unlikely !roleCallback {
             throw new Exception(
                 "You must set the roleCallback"
             );
@@ -161,12 +161,16 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
         let identity = {roleCallback}(container);
 
         if empty identity {
-            throw new Exception("Function defined as roleCallback must return something.");
+            throw new Exception(
+                "Function defined as roleCallback must return something."
+            );
         }
 
         if typeof identity == "object" {
             if !(identity instanceof RoleAware) {
-                throw new Exception("Role passed as object must implement 'Phalcon\\Acl\\RoleAware'");
+                throw new Exception(
+                    "Role passed as object must implement 'Phalcon\\Acl\\RoleAware'"
+                );
             }
             let this->activeIdentity = identity,
                 this->activeRole     = identity->getRoleName();
