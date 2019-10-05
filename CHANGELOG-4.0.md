@@ -30,6 +30,7 @@
 - Fixed `Phalcon\Forms\Form` to initialize attributes object if not initialized [#14430](https://github.com/phalcon/cphalcon/issues/14430)
 - Fixed `Phalcon\Http\Message\ServerRequestFactory::load` to correctly detect the protocol passed from `$_SERVER` [#14432](https://github.com/phalcon/cphalcon/issues/14432)
 - Fixed `Phalcon\Cli\Router\Route` added missing `Phalcon\Cli\Router\RouteInterface`
+- Fixed incorrect return types on `Phalcon\Mvc\View\Engine\AbstractEngine::partial` and `Phalcon\Mvc\View\Engine\EngineInterface::partial` [#14429](https://github.com/phalcon/cphalcon/issues/14429)
 
 ## Removed
 - Removed `Phalcon\Application\AbstractApplication::handle()` as it does not serve any purpose and causing issues with type hinting. [#14407](https://github.com/phalcon/cphalcon/pull/14407)

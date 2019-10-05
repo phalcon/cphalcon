@@ -23,7 +23,7 @@ interface EngineInterface
     /**
      * Renders a partial inside another view
      */
-    public function partial(string! partialPath, var params = null) -> string;
+    public function partial(string! partialPath, var params = null) -> void;
 
     /**
      * Renders a view using the template engine
