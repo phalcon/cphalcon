@@ -10,6 +10,7 @@
 
 namespace Phalcon\Firewall\Adapter;
 
+use Closure;
 use Phalcon\Mvc\DispatcherInterface;
 use Phalcon\Cache\Adapter\AdapterInterface as CacheAdapterInterface;
 
