@@ -32,7 +32,8 @@ then
   chmod +x "$HOME/bin/zephir"
 else
   git clone -b "$ZEPHIR_VERSION" --depth 1 -q https://github.com/phalcon/zephir
-  cd zephir || exit
-  composer install "$DEFAULT_COMPOSER_FLAGS"
+  cd zephir || exit 1
+  echo "composer install ${DEFAULT_COMPOSER_FLAGS[*]}"
+  eval "composer install ${DEFAULT_COMPOSER_FLAGS[*]}"
   ln -s "$(pwd)/zephir" "$HOME/bin/zephir"
 fi
