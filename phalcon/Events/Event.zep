@@ -73,7 +73,7 @@ class Event implements EventInterface
     {
         if unlikely typeof source != "object" {
             throw new Exception(
-                "The source of " . type . " event must be an object instance, got " . (typeof source)
+                "The source of " . type . " event must be an object, got " . (typeof source)
             );
         }
         let this->type = type,
