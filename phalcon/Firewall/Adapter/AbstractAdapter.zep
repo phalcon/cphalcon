@@ -66,7 +66,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     protected internalCache;
 
     /**
-     * Callable function for getting user identity - this function must
+     * Anonymous function for getting user identity - this function must
      * return string, array or object implementing Phalcon\Acl\RoleAware
      * @var mixed
      */
@@ -83,7 +83,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     /**
      * Gets role callback to fetch role name
      */
-    public function getRoleCallback() -> callable
+    public function getRoleCallback() -> <Closure>
     {
         return this->roleCallback;
     }
@@ -131,7 +131,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     /**
      * Sets role callback to fetch role name
      */
-    public function setRoleCallback(callable callback) -> <AdapterInterface>
+    public function setRoleCallback(<Closure> callback) -> <AdapterInterface>
     {
         let this->roleCallback = callback;
 
