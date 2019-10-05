@@ -10,7 +10,7 @@
 
 namespace Phalcon\Events;
 
-use  \Phalcon\Exception;
+use Phalcon\Events\Exception;
 
 /**
  * Phalcon\Events\Event
