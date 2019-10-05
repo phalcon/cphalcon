@@ -10,6 +10,8 @@
 
 namespace Phalcon\Events;
 
+use  \Phalcon\Exception;
+
 /**
  * Phalcon\Events\Event
  *
@@ -60,6 +62,11 @@ class Event implements EventInterface
      */
     public function __construct(string! type, source, var data = null, bool cancelable = true)
     {
+        if unlikely typeof source != "object" {
+            throw new Exception(
+                "The source must be an object"
+            );
+        }
         let this->type = type,
             this->source = source,
             this->data = data,
