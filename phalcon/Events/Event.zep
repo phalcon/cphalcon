@@ -62,6 +62,11 @@ class Event implements EventInterface
      */
     public function __construct(string! type, object source, var data = null, bool cancelable = true)
     {
+        if unlikely typeof source != "object" {
+            throw new Exception(
+                "The source of " . type . " event must be an object instance, got " . (typeof source)
+            );
+        }
         let this->type = type,
             this->source = source,
             this->data = data,
