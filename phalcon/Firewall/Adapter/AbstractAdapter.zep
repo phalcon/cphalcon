@@ -133,8 +133,10 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      */
     public function setRoleCallback(var callback) -> <AdapterInterface>
     {
-        if !is_callable(callback) {
-            throw new Exception("Role callback must be function.");
+        if unlikely !(roleCallback instanceof Closure) {
+            throw new Exception(
+                "Role callback must be a closure instance, got " . (typeof roleCallback)
+            );
         }
         let this->roleCallback = callback;
 
@@ -153,8 +155,15 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     {
         var roleCallback, identity;
 
-        let roleCallback = this->roleCallback,
-            identity     = {roleCallback}(container);
+        let roleCallback = this->roleCallback;
+
+        if unlikely !(roleCallback instanceof Closure) {
+            throw new Exception(
+                "You must set the roleCallback"
+            );
+        }
+
+        let identity = {roleCallback}(container);
 
         if empty identity {
             throw new Exception("Function defined as roleCallback must return something.");
