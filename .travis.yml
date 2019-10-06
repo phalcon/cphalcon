@@ -44,6 +44,7 @@ env:
     - REPORT_COVERAGE=1
     - PATH="${HOME}/.composer/vendor/bin:${PATH}"
     - TRAVIS_COMMIT_LOG="$(git log --format=fuller -5)"
+    - DEFAULT_COMPOSER_FLAGS="--no-interaction --no-ansi --no-progress --no-suggest"
 
 before_install:
   - |
@@ -59,12 +60,10 @@ before_install:
     [ -d ~/bin ] || mkdir ~/bin
     export PHP_PEAR_PHP_BIN="$(phpenv which php)"
 
-    DEFAULT_COMPOSER_FLAGS=("--no-interaction" "--no-ansi" "--no-progress" "--no-suggest")
     if [ "$(php-config --vernum)" -ge "70400" ]
     then
-      DEFAULT_COMPOSER_FLAGS+=("--ignore-platform-reqs")
+      export DEFAULT_COMPOSER_FLAGS="$DEFAULT_COMPOSER_FLAGS --ignore-platform-reqs"
     fi
-    export DEFAULT_COMPOSER_FLAGS
 
     # Hide "You are in 'detached HEAD' state" message
     git config --global advice.detachedHead false
@@ -75,7 +74,7 @@ install:
   - .ci/setup-dbs.sh
   - .ci/install-zephir.sh
   - .ci/install-php-extensions.sh
-  - travis_retry composer install ${DEFAULT_COMPOSER_FLAGS[*]}
+  - eval "composer install $DEFAULT_COMPOSER_FLAGS"
 
 before_script:
   - cat .ci/travis.ini >> "$(phpenv prefix)/etc/conf.d/travis.ini"
@@ -103,7 +102,7 @@ jobs:
       env:
         - REPORT_COVERAGE=0
       install:
-        - travis_retry composer install ${DEFAULT_COMPOSER_FLAGS[*]} --ignore-platform-reqs
+        - eval "composer install $DEFAULT_COMPOSER_FLAGS --ignore-platform-reqs"
       before_script:
         - phpenv config-rm xdebug.ini || true
       script:
