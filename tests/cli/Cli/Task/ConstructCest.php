@@ -15,6 +15,8 @@ namespace Phalcon\Test\Cli\Cli\Task;
 use CliTester;
 use OnConstructTask;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Cli\Task;
+use MainTask;
 
 class ConstructCest
 {
@@ -34,8 +36,9 @@ class ConstructCest
     public function cliTaskConstruct(CliTester $I)
     {
         $I->wantToTest('Cli\Task - __construct()');
-
-        $I->skipTest('Need implementation');
+        require_once dataDir('fixtures/tasks/MainTask.php');
+        $task = new MainTask();
+        $I->assertInstanceOf(Task::class, $task);
     }
 
     public function testOnConstruct(CliTester $I)
