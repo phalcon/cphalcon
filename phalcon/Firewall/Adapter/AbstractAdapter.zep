@@ -131,11 +131,8 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     /**
      * Sets role callback to fetch role name
      */
-    public function setRoleCallback(var callback) -> <AdapterInterface>
+    public function setRoleCallback(<Closure> callback) -> <AdapterInterface>
     {
-        if !is_callable(callback) {
-            throw new Exception("Role callback must be function.");
-        }
         let this->roleCallback = callback;
 
         return this;
@@ -153,16 +150,27 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     {
         var roleCallback, identity;
 
-        let roleCallback = this->roleCallback,
-            identity     = {roleCallback}(container);
+        let roleCallback = this->roleCallback;
+
+        if unlikely !roleCallback {
+            throw new Exception(
+                "You must set the roleCallback"
+            );
+        }
+
+        let identity = {roleCallback}(container);
 
         if empty identity {
-            throw new Exception("Function defined as roleCallback must return something.");
+            throw new Exception(
+                "Function defined as roleCallback must return something."
+            );
         }
 
         if typeof identity == "object" {
             if !(identity instanceof RoleAware) {
-                throw new Exception("Role passed as object must implement 'Phalcon\\Acl\\RoleAware'");
+                throw new Exception(
+                    "Role passed as object must implement 'Phalcon\\Acl\\RoleAware'"
+                );
             }
             let this->activeIdentity = identity,
                 this->activeRole     = identity->getRoleName();

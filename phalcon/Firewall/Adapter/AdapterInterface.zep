@@ -10,6 +10,7 @@
 
 namespace Phalcon\Firewall\Adapter;
 
+use Closure;
 use Phalcon\Mvc\DispatcherInterface;
 use Phalcon\Cache\Adapter\AdapterInterface as CacheAdapterInterface;
 
@@ -26,7 +27,7 @@ interface AdapterInterface
     /**
      * Gets role callback to fetch role name
      */
-    public function getRoleCallback();
+    public function getRoleCallback() -> <Closure>;
 
     /**
      * Gets always resolving role option
@@ -51,5 +52,5 @@ interface AdapterInterface
     /**
      * Sets role callback to fetch role name
      */
-    public function setRoleCallback(var callback) -> <AdapterInterface>;
+    public function setRoleCallback(<Closure> callback) -> <AdapterInterface>;
 }
