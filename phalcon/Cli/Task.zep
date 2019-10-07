@@ -36,8 +36,10 @@ use Phalcon\Di\Injectable;
  * }
  *```
  */
-class Task extends Injectable implements TaskInterface
+class Task extends Injectable implements TaskInterface, EventsAwareInterface
 {
+    protected eventsManager;
+
     /**
      * Phalcon\Cli\Task constructor
      */
@@ -46,5 +48,21 @@ class Task extends Injectable implements TaskInterface
         if method_exists(this, "onConstruct") {
             this->{"onConstruct"}();
         }
+    }
+
+     /**
+     * Returns the internal event manager
+     */
+    public function getEventsManager() -> <ManagerInterface> | null
+    {
+        return this->eventsManager;
+    }
+
+    /**
+     * Sets the events manager
+     */
+    public function setEventsManager(<ManagerInterface> eventsManager) -> void
+    {
+        let this->eventsManager = eventsManager;
     }
 }
