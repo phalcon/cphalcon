@@ -11,6 +11,7 @@
 namespace Phalcon\Cli;
 
 use Phalcon\Di\Injectable;
+use Phalcon\Events\EventsAwareInterface;
 
 /**
  * Every command-line task should extend this class that encapsulates all the
