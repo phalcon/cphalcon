@@ -14,13 +14,12 @@ namespace Phalcon\Test\Cli\Cli\Console;
 
 use CliTester;
 use Phalcon\Cli\Console\Exception;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Modules\Frontend\Module;
+use Phalcon\Test\Modules\Frontend\Module as FrontendModule;
+use Phalcon\Di\FactoryDefault\Cli as DiFactoryDefault;
+use Phalcon\Cli\Console as CliConsole;
 
 class RegisterModulesCest
 {
-    use DiTrait;
-
     /**
      * Tests Phalcon\Cli\Console :: registerModules()
      *
@@ -34,12 +33,12 @@ class RegisterModulesCest
     {
         $I->wantToTest("Cli\Console - registerModules()");
 
-        $console = $this->newCliConsole();
+        $console = new CliConsole(new DiFactoryDefault());
 
         $console->registerModules(
             [
                 'frontend' => [
-                    'className' => Module::class,
+                    'className' => FrontendModule::class,
                     'path'      => dataDir('fixtures/modules/frontend/Module.php'),
                 ],
             ]
@@ -58,7 +57,7 @@ class RegisterModulesCest
         $console->registerModules(
             [
                 'backend' => [
-                    'className' => \Phalcon\Test\Modules\Backend\Module::class,
+                    'className' => FrontendModule::class,
                     'path'      => dataDir('fixtures/modules/backend/Module.php'),
                 ],
             ]
@@ -77,7 +76,7 @@ class RegisterModulesCest
         $console->registerModules(
             [
                 'frontend' => [
-                    'className' => Module::class,
+                    'className' => FrontendModule::class,
                     'path'      => dataDir('fixtures/modules/frontend/Module.php'),
                 ],
             ],
@@ -110,11 +109,7 @@ class RegisterModulesCest
     {
         $I->wantToTest("Cli\Console - registerModules() - bad path throws exception");
 
-        $container = $this->newCliFactoryDefault();
-
-        $console = $this->newCliConsole();
-
-        $console->setDI($container);
+        $console = new CliConsole(new DiFactoryDefault());
 
         $console->registerModules(
             [

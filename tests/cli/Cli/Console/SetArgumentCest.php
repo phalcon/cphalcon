@@ -13,14 +13,12 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Cli\Console;
 
 use CliTester;
-use Phalcon\Cli\Console;
 use Phalcon\Cli\Router;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Di\FactoryDefault\Cli as DiFactoryDefault;
+use Phalcon\Cli\Console as CliConsole;
 
 class SetArgumentCest
 {
-    use DiTrait;
-
     /**
      * Tests Phalcon\Cli\Console :: setArgument()
      *
@@ -32,13 +30,12 @@ class SetArgumentCest
      */
     public function cliConsoleSetArgument(CliTester $I)
     {
-        require_once dataDir('fixtures/tasks/MainTask.php');
-
         $I->wantToTest("Cli\Console - setArgument()");
 
-        $this->setNewCliFactoryDefault();
+        $di = New DiFactoryDefault();
+        $console = new CliConsole($di);
 
-        $this->container->setShared(
+        $di->setShared(
             'router',
             function () {
                 $router = new Router(true);
@@ -47,10 +44,8 @@ class SetArgumentCest
             }
         );
 
-        $console = $this->newCliConsole();
-        $console->setDI($this->container);
-
-        $dispatcher = $this->container->getShared('dispatcher');
+        $dispatcher = $di->getShared('dispatcher');
+        $dispatcher->setDefaultNamespace('Phalcon\Test\Fixtures\Tasks');
         $console->setArgument([
             'php',
             '--foo=bar',
@@ -88,19 +83,12 @@ class SetArgumentCest
 
     public function testArgumentArray(CliTester $I)
     {
-        /**
-         * @todo Check the loader why those are not being autoloaded
-         */
-        require_once dataDir('fixtures/tasks/EchoTask.php');
-        require_once dataDir('fixtures/tasks/MainTask.php');
+        $di = New DiFactoryDefault();
+        $console = new CliConsole($di);
 
-        $console = new Console();
 
-        $console->setDI(
-            $this->container
-        );
-
-        $dispatcher = $console->getDI()->getShared('dispatcher');
+        $dispatcher = $di->getShared('dispatcher');
+        $dispatcher->setDefaultNamespace('Phalcon\Test\Fixtures\Tasks');
 
         $console->setArgument(
             [
@@ -224,20 +212,17 @@ class SetArgumentCest
 
     public function testArgumentNoShift(CliTester $I)
     {
-        $console = new Console();
+        $di = New DiFactoryDefault();
+        $console = new CliConsole($di);
 
-        $console->setDI(
-            $this->container
-        );
-
-        $dispatcher = $console->getDI()->getShared('dispatcher');
+        $dispatcher = $di->getShared('dispatcher');
+        $dispatcher->setDefaultNamespace('Phalcon\Test\Fixtures\Tasks');
 
         $console->setArgument(
             [],
             false,
             false
-        )->handle()
-        ;
+        )->handle();
 
         $I->assertEquals(
             'main',
@@ -349,7 +334,10 @@ class SetArgumentCest
 
     public function testArgumentRouter(CliTester $I)
     {
-        $this->container->setShared(
+        $di = New DiFactoryDefault();
+        $console = new CliConsole($di);
+
+        $di->setShared(
             'router',
             function () {
                 $router = new Router(true);
@@ -358,19 +346,15 @@ class SetArgumentCest
             }
         );
 
-        $console = new Console();
-
-        $console->setDI($this->container);
-
-        $dispatcher = $console->getDI()->getShared('dispatcher');
+        $dispatcher = $di->getShared('dispatcher');
+        $dispatcher->setDefaultNamespace('Phalcon\Test\Fixtures\Tasks');
 
 
         $console->setArgument(
             [
                 'php',
             ]
-        )->handle()
-        ;
+        )->handle();
 
         $I->assertEquals(
             'main',

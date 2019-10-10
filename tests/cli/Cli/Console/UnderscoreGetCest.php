@@ -14,12 +14,11 @@ namespace Phalcon\Test\Cli\Cli\Console;
 
 use CliTester;
 use Phalcon\Cli\Dispatcher;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Di\FactoryDefault\Cli as DiFactoryDefault;
+use Phalcon\Cli\Console as CliConsole;
 
 class UnderscoreGetCest
 {
-    use DiTrait;
-
     /**
      * Tests Phalcon\Cli\Console :: __get()
      *
@@ -33,13 +32,8 @@ class UnderscoreGetCest
     {
         $I->wantToTest("Cli\Console - __get()");
 
-        $this->setNewCliFactoryDefault();
-
-        $console = $this->newCliConsole();
-
-        $console->setDI(
-            $this->container
-        );
+        $di = New DiFactoryDefault();
+        $console = new CliConsole($di);
 
         $I->assertInstanceOf(
             Dispatcher::class,
@@ -47,7 +41,7 @@ class UnderscoreGetCest
         );
 
         $I->assertSame(
-            $this->container,
+            $di,
             $console->di
         );
     }

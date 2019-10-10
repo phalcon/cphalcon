@@ -14,7 +14,10 @@ namespace Phalcon\Test\Cli\Cli\Console;
 
 use CliTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Modules\Frontend\Module;
+use Phalcon\Test\Modules\Frontend\Module as FrontendModule;
+use Phalcon\Test\Modules\Backend\Module as BackendModule;
+use Phalcon\Cli\Console as CliConsole;
+use Phalcon\Di\FactoryDefault\Cli as DiFactoryDefault;
 
 class GetModulesCest
 {
@@ -33,7 +36,7 @@ class GetModulesCest
     {
         $I->wantToTest("Cli\Console - getModules() - empty");
 
-        $console = $this->newCliConsole();
+        $console = new CliConsole(new DiFactoryDefault);
 
         $I->assertEquals(
             [],
@@ -54,15 +57,15 @@ class GetModulesCest
     {
         $I->wantToTest("Cli\Console - getModules()");
 
-        $console = $this->newCliConsole();
+        $console = new CliConsole(new DiFactoryDefault);
 
         $definition = [
             'frontend' => [
-                'className' => Module::class,
+                'className' => FrontendModule::class,
                 'path'      => dataDir('fixtures/modules/frontend/Module.php'),
             ],
             'backend'  => [
-                'className' => \Phalcon\Test\Modules\Backend\Module::class,
+                'className' => BackendModule::class,
                 'path'      => dataDir('fixtures/modules/backend/Module.php'),
             ],
         ];

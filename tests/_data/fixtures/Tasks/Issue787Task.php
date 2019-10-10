@@ -1,5 +1,6 @@
 <?php
 
+namespace Phalcon\Test\Fixtures\Tasks;
 use Phalcon\Cli\Task;
 
 class Issue787Task extends Task

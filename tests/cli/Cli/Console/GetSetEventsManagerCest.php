@@ -12,13 +12,12 @@
 namespace Phalcon\Test\Cli\Cli\Console;
 
 use CliTester;
-use Phalcon\Events\Manager;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Di\FactoryDefault\Cli as DiFactoryDefault;
+use Phalcon\Cli\Console as CliConsole;
+use Phalcon\Events\Manager as EventsManager;
 
 class GetSetEventsManagerCest
 {
-    use DiTrait;
-
     /**
      * Tests Phalcon\Cli\Console :: getEventsManager()
      * Tests Phalcon\Cli\Console :: setEventsManager()
@@ -31,17 +30,16 @@ class GetSetEventsManagerCest
      */
     public function cliConsoleGetSetEventsManager(CliTester $I)
     {
-        $I->wantToTest("Cli\Console - getEventsManager()");
-        $I->wantToTest("Cli\Console - setEventsManager()");
+        $I->wantToTest("Cli\Console - getEventsManager() / setEventsManager()");
 
-        $console = $this->newCliConsole();
+        $console = new CliConsole(new DiFactoryDefault());
 
-        $eventsManager = $this->newEventsManager();
+        $eventsManager = new EventsManager();
 
         $console->setEventsManager($eventsManager);
 
-        $I->assertInstanceOf(
-            Manager::class,
+        $I->assertEquals(
+            $eventsManager,
             $console->getEventsManager()
         );
     }
