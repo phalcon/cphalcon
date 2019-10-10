@@ -13,13 +13,15 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Cli\Console;
 
 use CliTester;
-use function dataDir;
 use Exception;
 use Phalcon\Events\Event;
+use Phalcon\Test\Fixtures\Tasks\Issue787Task;
 use Phalcon\Test\Modules\Backend\Module as BackendModule;
 use Phalcon\Test\Modules\Frontend\Module as FrontendModule;
 use Phalcon\Di\FactoryDefault\Cli as DiFactoryDefault;
 use Phalcon\Cli\Console as CliConsole;
+use Phalcon\Cli\Console\Exception as ConsoleException;
+use Phalcon\Cli\Dispatcher\Exception as DispatcherException;
 
 
 class HandleCest
@@ -468,6 +470,75 @@ class HandleCest
                 'module' => 'backend',
                 'action' => 'noop',
             ]
+        );
+    }
+
+    public function shouldThrowExceptionWhenModuleDoesNotExists(CliTester $I)
+    {
+        $I->wantToTest("Cli\Console - handle() - Throw exception when module does not exists");
+
+        $console = new CliConsole(new DiFactoryDefault());
+        $I->expectThrowable(
+            new ConsoleException(
+                "Module 'devtools' isn't registered in the console container"
+            ),
+            function () use ($console) {
+                // testing module
+                $console->handle(
+                    [
+                        'module' => 'devtools',
+                        'task'   => 'main',
+                        'action' => 'hello',
+                        'World',
+                        '######',
+                    ]
+                );
+            }
+        );
+    }
+
+    public function shouldThrowExceptionWhenTaskDoesNotExists(CliTester $I)
+    {
+        $I->wantToTest("Cli\Console - handle() - Throw exception when task does not exists");
+
+        $console = new CliConsole(new DiFactoryDefault());
+
+        $console->dispatcher->setDefaultNamespace('Dummy\\');
+
+        $I->expectThrowable(
+            new DispatcherException(
+                "Dummy\MainTask handler class cannot be loaded",
+                2
+            ),
+            function () use ($console) {
+                // testing namespace
+                $console->handle(
+                    [
+                        'task'   => 'main',
+                        'action' => 'hello',
+                        'World',
+                        '!',
+                    ]
+                );
+            }
+        );
+    }
+
+    public function testIssue787(CliTester $I)
+    {
+        $console = new CliConsole(new DiFactoryDefault());
+        $console->dispatcher->setDefaultNamespace('Phalcon\Test\Fixtures\Tasks');
+
+        $console->handle(
+            [
+                'task'   => 'issue787',
+                'action' => 'main',
+            ]
+        );
+
+        $I->assertEquals(
+            'beforeExecuteRoute' . PHP_EOL . 'initialize' . PHP_EOL,
+            Issue787Task::$output
         );
     }
 }
