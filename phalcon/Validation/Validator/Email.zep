@@ -51,6 +51,21 @@ use Phalcon\Validation\AbstractValidator;
 class Email extends AbstractValidator
 {
     protected template = "Field :field must be an email address";
+
+    /**
+     * Constructor
+     *
+     * @param array options = [
+     *     'message' => '',
+     *     'template' => '',
+     *     'allowEmpty' => false
+     * ]
+     */
+    public function __construct(array! options = [])
+    {
+        parent::__construct(options);
+    }
+
     /**
      * Executes the validation
      */

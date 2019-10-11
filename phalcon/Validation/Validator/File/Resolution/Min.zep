@@ -63,6 +63,21 @@ class Min extends AbstractFile
     protected template = "File :field can not have the minimum resolution of :resolution";
 
     /**
+     * Constructor
+     *
+     * @param array options = [
+     *     'message' => '',
+     *     'template' => '',
+     *     'resolution' => '1000x1000',
+     *     'included' => false
+     * ]
+     */
+    public function __construct(array! options = [])
+    {
+        parent::__construct(options);
+    }
+
+    /**
      * Executes the validation
      */
     public function validate(<Validation> validation, var field) -> bool

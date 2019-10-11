@@ -59,6 +59,22 @@ class InclusionIn extends AbstractValidator
     protected template = "Field :field must be a part of list: :domain";
 
     /**
+     * Constructor
+     *
+     * @param array options = [
+     *     'message' => '',
+     *     'template' => '',
+     *     'domain' => [],
+     *     'strict' => false,
+     *     'allowEmpty' => false
+     * ]
+     */
+    public function __construct(array! options = [])
+    {
+        parent::__construct(options);
+    }
+
+    /**
      * Executes the validation
      */
     public function validate(<Validation> validation, var field) -> bool

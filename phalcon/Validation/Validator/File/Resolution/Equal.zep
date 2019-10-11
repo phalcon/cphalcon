@@ -58,6 +58,20 @@ class Equal extends AbstractFile
     protected template = "The resolution of the field :field has to be equal :resolution";
 
     /**
+     * Constructor
+     *
+     * @param array options = [
+     *     'message' => '',
+     *     'template' => '',
+     *     'resolution' => '1000x1000'
+     * ]
+     */
+    public function __construct(array! options = [])
+    {
+        parent::__construct(options);
+    }
+
+    /**
      * Executes the validation
      */
     public function validate(<Validation> validation, var field) -> bool

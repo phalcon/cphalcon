@@ -59,6 +59,21 @@ class Date extends AbstractValidator
     protected template = "Field :field is not a valid date";
 
     /**
+     * Constructor
+     *
+     * @param array options = [
+     *     'message' => '',
+     *     'template' => '',
+     *     'format' => 'Y-m-d',
+     *     'allowEmpty' => false
+     * ]
+     */
+    public function __construct(array! options = [])
+    {
+        parent::__construct(options);
+    }
+
+    /**
      * Executes the validation
      */
     public function validate(<Validation> validation, var field) -> bool

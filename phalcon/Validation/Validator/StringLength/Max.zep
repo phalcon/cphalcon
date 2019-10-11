@@ -66,6 +66,22 @@ class Max extends AbstractValidator
     protected template = "Field :field must not exceed :max characters long";
 
     /**
+     * Constructor
+     *
+     * @param array options = [
+     *     'message' => '',
+     *     'template' => '',
+     *     'allowEmpty' => false,
+     *     'max' => 1000,
+     *     'included' => false
+     * ]
+     */
+    public function __construct(array! options = [])
+    {
+        parent::__construct(options);
+    }
+
+    /**
      * Executes the validation
      */
     public function validate(<Validation> validation, var field) -> bool

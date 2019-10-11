@@ -44,7 +44,13 @@ class Stream extends AbstractAdapter
     /**
      * Stream constructor.
      *
-     * @param array $options
+     * @param array options = [
+     *     'storageDir' => '',
+     *     'defaultSerializer' => 'Php',
+     *     'lifetime' => 3600,
+     *     'serializer' => null,
+     *     'prefix' => ''
+     * ]
      *
      * @throws Exception
      */

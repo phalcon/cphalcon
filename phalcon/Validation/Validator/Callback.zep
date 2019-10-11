@@ -64,6 +64,21 @@ class Callback extends AbstractValidator
     protected template = "Field :field must match the callback function";
 
     /**
+     * Constructor
+     *
+     * @param array options = [
+     *     'message' => '',
+     *     'template' => '',
+     *     'callback' => null,
+     *     'allowEmpty' => false
+     * ]
+     */
+    public function __construct(array! options = [])
+    {
+        parent::__construct(options);
+    }
+
+    /**
      * Executes the validation
      */
     public function validate(<Validation> validation, var field) -> bool

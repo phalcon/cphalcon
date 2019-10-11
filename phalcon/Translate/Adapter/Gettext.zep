@@ -57,6 +57,13 @@ class Gettext extends AbstractAdapter implements ArrayAccess
 
     /**
      * Phalcon\Translate\Adapter\Gettext constructor
+     *
+     * @param array options = [
+     *     'locale' => '',
+     *     'defaultDomain' => '',
+     *     'directory' => '',
+     *     'category' => ''
+     * ]
      */
     public function __construct(<InterpolatorFactory> interpolator, array! options)
     {

@@ -40,6 +40,14 @@ class Stream extends Noop
      */
     private path = "";
 
+    /**
+     * Constructor
+     *
+     * @param array options = [
+     *     'prefix' => '',
+     *     'savePath' => ''
+     * ]
+     */
     public function __construct(array! options = [])
     {
         var path, options;
