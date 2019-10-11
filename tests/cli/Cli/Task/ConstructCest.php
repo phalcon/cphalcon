@@ -13,20 +13,15 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Cli\Task;
 
 use CliTester;
-use OnConstructTask;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Fixtures\Tasks\EchoTask;
+use Phalcon\Test\Fixtures\Tasks\MainTask;
+use Phalcon\Test\Fixtures\Tasks\OnConstructTask;
 use Phalcon\Cli\Task;
-use MainTask;
+use Phalcon\Di\FactoryDefault\Cli as DiFactoryDefault;
+use Phalcon\Registry;
 
 class ConstructCest
 {
-    use DiTrait;
-
-    public function _before(CliTester $I)
-    {
-        $this->setNewCliFactoryDefault();
-    }
-
     /**
      * Tests Phalcon\Cli\Task :: __construct()
      *
@@ -36,22 +31,58 @@ class ConstructCest
     public function cliTaskConstruct(CliTester $I)
     {
         $I->wantToTest('Cli\Task - __construct()');
-        require_once dataDir('fixtures/tasks/MainTask.php');
-        $task = new MainTask();
+        $task = new Task();
         $I->assertInstanceOf(Task::class, $task);
-    }
-
-    public function testOnConstruct(CliTester $I)
-    {
-        /**
-         * @todo Check the loader
-         */
-        require_once dataDir('fixtures/tasks/OnConstructTask.php');
 
         $task = new OnConstructTask();
-
         $I->assertTrue(
             $task->onConstructExecuted
+        );
+    }
+
+    public function extendTask(CliTester $I)
+    {
+        $di = new DiFactoryDefault();
+        $di['registry'] = function () {
+            $registry = new Registry();
+
+            $registry->data = 'data';
+
+            return $registry;
+        };
+
+        $task = new MainTask();
+
+        $task->setDI($di);
+
+        $I->assertEquals(
+            'data',
+            $task->requestRegistryAction()
+        );
+
+        $I->assertEquals(
+            'Hello !',
+            $task->helloAction()
+        );
+
+        $I->assertEquals(
+            'Hello World!',
+            $task->helloAction('World')
+        );
+    }
+
+    public function echoTask(CliTester $I)
+    {
+        $task = new EchoTask();
+        $di = new DiFactoryDefault();
+
+        $task->setDI(
+            $di
+        );
+
+        $I->assertEquals(
+            'echoMainAction',
+            $task->mainAction()
         );
     }
 }
