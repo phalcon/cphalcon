@@ -31,6 +31,7 @@ class GetSetDefaultModuleCest
     public function cliConsoleSetGetDefaultModule(CliTester $I)
     {
         $I->wantToTest("Cli\Console - getDefaultModule()");
+        $I->wantToTest("Cli\Console - setDefaultModule()");
 
         $console = new CliConsole(new DiFactoryDefault);
 
