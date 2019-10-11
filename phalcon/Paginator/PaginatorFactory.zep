@@ -46,6 +46,10 @@ class PaginatorFactory extends AbstractFactory
      *
      * $paginator = (new PaginatorFactory())->load($options);
      *```
+     *
+     * @param array|\Phalcon\Config = [
+     *
+     * ]
      */
     public function load(var config) -> <AdapterInterface>
     {

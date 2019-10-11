@@ -37,6 +37,16 @@ class CacheFactory
 
     /**
      * Factory to create an instace from a Config object
+     *
+     * @param array|\Phalcon\Config config = [
+     *      'adapter' => 'apcu',
+     *      'options' => [
+     *          'defaultSerializer' => 'Php',
+     *          'lifetime' => 3600,
+     *          'serializer' => null,
+     *          'prefix' => 'phalcon'
+     *      ]
+     * ]
      */
     public function load(var config) -> var
     {

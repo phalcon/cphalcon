@@ -25,6 +25,21 @@ class PdoFactory extends AbstractFactory
 
     /**
      * Factory to create an instace from a Config object
+     *
+     * @param array|\Phalcon\Config config = [
+     *     'adapter' => 'mysql',
+     *     'options' => [
+     *         'host' => 'localhost',
+     *         'port' => '3306',
+     *         'dbname' => 'blog',
+     *         'username' => 'sigma'
+     *         'password' => 'secret',
+     *         'dialectClass' => null,
+     *         'options' => [],
+     *         'dsn' => null,
+     *         'charset' => 'utf8mb4'
+     *     ]
+     * ]
      */
     public function load(var config) ->  <AdapterInterface>
     {

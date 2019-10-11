@@ -72,6 +72,10 @@ class Syslog extends AbstractAdapter
 
     /**
      * Phalcon\Logger\Adapter\Syslog constructor
+     * @param array options = [
+     *     'option' => null,
+     *     'facility' => null
+     * ]
      */
     public function __construct(string! name, array options = [])
     {

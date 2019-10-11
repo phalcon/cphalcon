@@ -30,6 +30,13 @@ class ImageFactory extends AbstractFactory
 
     /**
      * Factory to create an instace from a Config object
+     *
+     * @param array|\Phalcon\Config config = [
+     *     'adapter' => 'gd',
+     *     'file' => 'image.jpg',
+     *     'height' => null,
+     *     'width' => null
+     * ]
      */
     public function load(var config) -> <AdapterInterface>
     {

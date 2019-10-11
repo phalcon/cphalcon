@@ -51,6 +51,18 @@ abstract class AbstractPdo extends AbstractAdapter
 
     /**
      * Constructor for Phalcon\Db\Adapter\Pdo
+     *
+     * @param array|\Phalcon\Config descriptor = [
+     *     'host' => 'localhost',
+     *     'port' => '3306',
+     *     'dbname' => 'blog',
+     *     'username' => 'sigma'
+     *     'password' => 'secret'
+     *     'dialectClass' => null,
+     *     'options' => [],
+     *     'dsn' => null,
+     *     'charset' => 'utf8mb4'
+     * ]
      */
     public function __construct(array! descriptor)
     {
