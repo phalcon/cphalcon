@@ -13,6 +13,8 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Cli\Task;
 
 use CliTester;
+use Phalcon\Events\Manager;
+use Phalcon\Cli\Task;
 
 class GetEventsManagerCest
 {
@@ -25,7 +27,9 @@ class GetEventsManagerCest
     public function cliTaskGetEventsManager(CliTester $I)
     {
         $I->wantToTest('Cli\Task - getEventsManager()');
-
-        $I->skipTest('Need implementation');
+        $eventsManager = new Manager();
+        $task = new Task();
+        $task->setEventsManager($eventsManager);
+        $I->assertEquals($eventsManager, $task->getEventsManager());
     }
 }

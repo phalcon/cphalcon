@@ -1,5 +1,4 @@
 <?php
-
 namespace Phalcon\Test\Fixtures\Tasks;
 
 class ParamsTask extends \Phalcon\Cli\Task

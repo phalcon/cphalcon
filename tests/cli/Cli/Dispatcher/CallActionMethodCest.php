@@ -13,9 +13,8 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Cli\Dispatcher;
 
 use CliTester;
-use function dataDir;
-use MainTask;
 use Phalcon\Cli\Dispatcher;
+use Phalcon\Test\Fixtures\Tasks\MainTask;
 
 class CallActionMethodCest
 {
@@ -28,8 +27,6 @@ class CallActionMethodCest
     public function cliDispatcherCallActionMethod(CliTester $I)
     {
         $I->wantToTest('Cli\Dispatcher - callActionMethod()');
-
-        require_once dataDir('fixtures/tasks/MainTask.php');
 
         $dispatcher = new Dispatcher();
 

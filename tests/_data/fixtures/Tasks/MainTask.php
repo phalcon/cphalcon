@@ -1,4 +1,5 @@
 <?php
+namespace Phalcon\Test\Fixtures\Tasks;
 
 class MainTask extends \Phalcon\Cli\Task
 {
