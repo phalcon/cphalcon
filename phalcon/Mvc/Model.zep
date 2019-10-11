@@ -4050,12 +4050,16 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     }
 
     /**
-     * Returns related records defined relations depending on the method name
+     * Returns related records defined relations depending on the method name.
+     * Returns false if the relation is non-existent.
      *
-     * @param array arguments
-     * @return mixed
+     * @param string modelName
+     * @param string method
+     * @param array  arguments
+     *
+     * @return ResultsetInterface|ModelInterface|bool|null
      */
-    protected function _getRelatedRecords(string! modelName, string! method, var arguments)
+    protected function _getRelatedRecords(string! modelName, string! method, array! arguments)
     {
         var manager, relation, queryMethod, extraArgs, alias;
 
@@ -4077,7 +4081,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 );
 
             /**
-             * Return if the relation was not found because getRelated() throws an exception if the relation is unknown
+             * Return if the relation was not found because getRelated()
+             * throws an exception if the relation is unknown
              */
             if typeof relation != "object" {
                 return false;
