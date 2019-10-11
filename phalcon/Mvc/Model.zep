@@ -188,7 +188,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
         let records = self::_invokeFinder(method, arguments);
 
-        if records !== null {
+        if records !== false {
             return records;
         }
 
@@ -4246,7 +4246,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         let modelName = get_called_class();
 
         if !extraMethod {
-            return null;
+            return false;
         }
 
         if unlikely !fetch value, arguments[0] {
