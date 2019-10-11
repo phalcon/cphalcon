@@ -224,7 +224,7 @@ class Acl extends AbstractAdapter
 
         let defaultAccess     = (bool) this->defaultAccess,
             parameters        = [],
-            controllerName    = get_class(dispatcher->getActiveController()),
+            controllerName    = dispatcher->getControllerClass(),
             boundModels       = this->boundModels,
             boundModelsKeyMap = this->boundModelsKeyMap;
 
