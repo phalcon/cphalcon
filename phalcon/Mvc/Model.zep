@@ -199,7 +199,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
          */
         let records = this->_getRelatedRecords(modelName, method, arguments);
 
-        if records !== null {
+        if records !== false {
             return records;
         }
 
@@ -4080,7 +4080,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
              * Return if the relation was not found because getRelated() throws an exception if the relation is unknown
              */
             if typeof relation != "object" {
-                return null;
+                return false;
             }
 
             return this->getRelated(alias, extraArgs);
@@ -4101,7 +4101,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
              * If the relation was found perform the query via the models manager
              */
             if typeof relation != "object" {
-                return null;
+                return false;
             }
 
             return manager->getRelationRecords(
@@ -4112,7 +4112,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             );
         }
 
-        return null;
+        return false;
     }
 
     /**
