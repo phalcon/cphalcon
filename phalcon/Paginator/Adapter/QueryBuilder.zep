@@ -52,6 +52,12 @@ class QueryBuilder extends AbstractAdapter
 
     /**
      * Phalcon\Paginator\Adapter\QueryBuilder
+     *
+     * @param array config = [
+     *     'limit' => 10,
+     *     'builder' => null,
+     *     'columns' => ''
+     * ]
      */
     public function __construct(array config)
     {

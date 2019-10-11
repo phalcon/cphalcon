@@ -28,6 +28,15 @@ class AnnotationsFactory extends AbstractFactory
     }
 
     /**
+     * @param array|\Phalcon\Config config = [
+     *     'adapter' => 'apcu',
+     *     'options' => [
+     *         'prefix' => 'phalcon',
+     *         'lifetime' => 3600,
+     *         'annotationsDir' => 'phalconDir'
+     *     ]
+     * ]
+     *
      * Factory to create an instace from a Config object
      */
     public function load(var config) -> var

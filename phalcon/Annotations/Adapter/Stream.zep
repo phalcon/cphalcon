@@ -35,6 +35,10 @@ class Stream extends AbstractAdapter
     protected annotationsDir = "./";
 
     /**
+     * @param array options = [
+     *     'annotationsDir' => 'phalconDir'
+     * ]
+     *
      * Phalcon\Annotations\Adapter\Stream constructor
      */
     public function __construct(array options = [])

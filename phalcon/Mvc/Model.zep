@@ -1316,6 +1316,24 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * $transaction1->rollback();
      * $transaction2->rollback();
      * ```
+     *
+     * @param arrray|string|int|null parameters = [
+     *     'conditions' => ''
+     *     'columns' => '',
+     *     'bind' => [],
+     *     'bindTypes => [],
+     *     'order' => '',
+     *     'limit' => 10,
+     *     'offset' => 5,
+     *     'group' => 'name, status',
+     *     'for_updated' => false,
+     *     'shared_lock' => false,
+     *     'cache' => [
+     *         'lifetime' => 3600,
+     *         'key' => 'my-find-key'
+     *     ],
+     *     'hydration' => null
+     * ]
      */
     public static function find(var parameters = null) -> <ResultsetInterface>
     {
@@ -1416,7 +1434,23 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * );
      * ```
      *
-     * @param string|array parameters
+     * @param arrray|string|int|null parameters = [
+     *     'conditions' => ''
+     *     'columns' => '',
+     *     'bind' => [],
+     *     'bindTypes => [],
+     *     'order' => '',
+     *     'limit' => 10,
+     *     'offset' => 5,
+     *     'group' => 'name, status',
+     *     'for_updated' => false,
+     *     'shared_lock' => false,
+     *     'cache' => [
+     *         'lifetime' => 3600,
+     *         'key' => 'my-find-key'
+     *     ],
+     *     'hydration' => null
+     * ]
      */
     public static function findFirst(var parameters = null) -> <ModelInterface> | bool
     {
@@ -4958,6 +4992,33 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *     }
      * }
      *```
+     *
+     * @param array|null options = [
+     *     'reusable' => false,
+     *     'alias' => 'someAlias',
+     *     'foreignKey' => [
+     *         'message' => null,
+     *         'allowNulls' => false,
+     *         'action' => null
+     *     ],
+     *     'params' => [
+     *         'conditions' => ''
+     *         'columns' => '',
+     *         'bind' => [],
+     *         'bindTypes => [],
+     *         'order' => '',
+     *         'limit' => 10,
+     *         'offset' => 5,
+     *         'group' => 'name, status',
+     *         'for_updated' => false,
+     *         'shared_lock' => false,
+     *         'cache' => [
+     *             'lifetime' => 3600,
+     *             'key' => 'my-find-key'
+     *         ],
+     *         'hydration' => null
+     *     ]
+     * ]
      */
     protected function belongsTo(var fields, string! referenceModel, var referencedFields, options = null) -> <Relation>
     {
@@ -5043,6 +5104,33 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *     }
      * }
      *```
+     *
+     * @param array|null options = [
+     *     'reusable' => false,
+     *     'alias' => 'someAlias',
+     *     'foreignKey' => [
+     *         'message' => null,
+     *         'allowNulls' => false,
+     *         'action' => null
+     *     ],
+     *     'params' => [
+     *         'conditions' => ''
+     *         'columns' => '',
+     *         'bind' => [],
+     *         'bindTypes => [],
+     *         'order' => '',
+     *         'limit' => 10,
+     *         'offset' => 5,
+     *         'group' => 'name, status',
+     *         'for_updated' => false,
+     *         'shared_lock' => false,
+     *         'cache' => [
+     *             'lifetime' => 3600,
+     *             'key' => 'my-find-key'
+     *         ],
+     *         'hydration' => null
+     *     ]
+     * ]
      */
     protected function hasMany(var fields, string! referenceModel, var referencedFields, options = null) -> <Relation>
     {
@@ -5082,6 +5170,33 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * @param    string|array intermediateReferencedFields
      * @param    string|array referencedFields
      * @param    array options
+     *
+     * @param array|null options = [
+     *     'reusable' => false,
+     *     'alias' => 'someAlias',
+     *     'foreignKey' => [
+     *         'message' => null,
+     *         'allowNulls' => false,
+     *         'action' => null
+     *     ],
+     *     'params' => [
+     *         'conditions' => ''
+     *         'columns' => '',
+     *         'bind' => [],
+     *         'bindTypes => [],
+     *         'order' => '',
+     *         'limit' => 10,
+     *         'offset' => 5,
+     *         'group' => 'name, status',
+     *         'for_updated' => false,
+     *         'shared_lock' => false,
+     *         'cache' => [
+     *             'lifetime' => 3600,
+     *             'key' => 'my-find-key'
+     *         ],
+     *         'hydration' => null
+     *     ]
+     * ]
      */
     protected function hasManyToMany(var fields, string! intermediateModel, var intermediateFields, var intermediateReferencedFields,
         string! referenceModel, var referencedFields, options = null) -> <Relation>
@@ -5114,6 +5229,33 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *     }
      * }
      *```
+     *
+     * @param array|null options = [
+     *     'reusable' => false,
+     *     'alias' => 'someAlias',
+     *     'foreignKey' => [
+     *         'message' => null,
+     *         'allowNulls' => false,
+     *         'action' => null
+     *     ],
+     *     'params' => [
+     *         'conditions' => ''
+     *         'columns' => '',
+     *         'bind' => [],
+     *         'bindTypes => [],
+     *         'order' => '',
+     *         'limit' => 10,
+     *         'offset' => 5,
+     *         'group' => 'name, status',
+     *         'for_updated' => false,
+     *         'shared_lock' => false,
+     *         'cache' => [
+     *             'lifetime' => 3600,
+     *             'key' => 'my-find-key'
+     *         ],
+     *         'hydration' => null
+     *     ]
+     * ]
      */
     protected function hasOne(var fields, string! referenceModel, var referencedFields, options = null) -> <Relation>
     {
