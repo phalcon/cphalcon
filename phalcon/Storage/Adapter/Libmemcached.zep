@@ -28,7 +28,19 @@ class Libmemcached extends AbstractAdapter
     /**
      * Libmemcached constructor.
      *
-     * @param array $options
+     * @param array options = [
+     *     'servers' => [
+     *         [
+     *             'host' => '127.0.0.1',
+     *             'port' => 11211,
+     *             'weight' => 1
+     *         ]
+     *     ],
+     *     'defaultSerializer' => 'Php',
+     *     'lifetime' => 3600,
+     *     'serializer' => null,
+     *     'prefix' => ''
+     * ]
      */
     public function __construct(<SerializerFactory> factory = null, array! options = [])
     {

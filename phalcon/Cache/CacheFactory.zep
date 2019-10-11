@@ -39,13 +39,28 @@ class CacheFactory
      * Factory to create an instace from a Config object
      *
      * @param array|\Phalcon\Config config = [
-     *      'adapter' => 'apcu',
-     *      'options' => [
-     *          'defaultSerializer' => 'Php',
-     *          'lifetime' => 3600,
-     *          'serializer' => null,
-     *          'prefix' => 'phalcon'
-     *      ]
+     *     'adapter' => 'apcu',
+     *     'options' => [
+     *         'servers' => [
+     *             [
+     *                 'host' => 'localhost',
+     *                 'port' => 11211,
+     *                 'weight' => 1,
+     *
+     *             ]
+     *         ],
+     *         'host' => '127.0.0.1',
+     *         'port' => 6379,
+     *         'index' => 0,
+     *         'persistent' => false,
+     *         'auth' => '',
+     *         'socket' => '',
+     *         'defaultSerializer' => 'Php',
+     *         'lifetime' => 3600,
+     *         'serializer' => null,
+     *         'prefix' => 'phalcon',
+     *         'storageDir' => ''
+     *     ]
      * ]
      */
     public function load(var config) -> var
@@ -76,6 +91,28 @@ class CacheFactory
 
     /**
      * Constructs a new Cache instance.
+     *
+     * @param array options = [
+     *     'servers' => [
+     *         [
+     *             'host' => 'localhost',
+     *             'port' => 11211,
+     *             'weight' => 1,
+
+     *         ]
+     *     ],
+     *     'host' => '127.0.0.1',
+     *     'port' => 6379,
+     *     'index' => 0,
+     *     'persistent' => false,
+     *     'auth' => '',
+     *     'socket' => '',
+     *     'defaultSerializer' => 'Php',
+     *     'lifetime' => 3600,
+     *     'serializer' => null,
+     *     'prefix' => 'phalcon',
+     *     'storageDir' => ''
+     * ]
      */
     public function newInstance(string! name, array! options = []) -> <CacheInterface>
     {

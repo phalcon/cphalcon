@@ -58,6 +58,21 @@ class Regex extends AbstractValidator
     protected template = "Field :field does not match the required format";
 
     /**
+     * Constructor
+     *
+     * @param array options = [
+     *     'message' => '',
+     *     'template' => '',
+     *     'allowEmpty' => false,
+     *     'pattern' => ''
+     * ]
+     */
+    public function __construct(array! options = [])
+    {
+        parent::__construct(options);
+    }
+
+    /**
      * Executes the validation
      */
     public function validate(<Validation> validation, var field) -> bool

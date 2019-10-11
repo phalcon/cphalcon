@@ -48,7 +48,10 @@ class PaginatorFactory extends AbstractFactory
      *```
      *
      * @param array|\Phalcon\Config = [
-     *
+     *     'adapter' => 'queryBuilder',
+     *     'limit' => 20,
+     *     'page' => 1,
+     *     'builder' => null
      * ]
      */
     public function load(var config) -> <AdapterInterface>

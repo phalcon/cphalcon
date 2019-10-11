@@ -55,6 +55,12 @@ class AnnotationsFactory extends AbstractFactory
 
     /**
      * Create a new instance of the adapter
+     *
+     * @param array options = [
+     *     'prefix' => 'phalcon',
+     *     'lifetime' => 3600,
+     *     'annotationsDir' => 'phalconDir'
+     * ]
      */
     public function newInstance(string! name, array! options = []) -> <AdapterInterface>
     {

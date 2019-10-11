@@ -96,6 +96,23 @@ class Uniqueness extends AbstractCombinedFieldsValidator
     private columnMap = null;
 
     /**
+     * Constructor
+     *
+     * @param array options = [
+     *     'message' => '',
+     *     'template' => '',
+     *     'allowEmpty' => false,
+     *     'convert' => null,
+     *     'model' => null,
+     *     'except' => null
+     * ]
+     */
+    public function __construct(array! options = [])
+    {
+        parent::__construct(options);
+    }
+
+    /**
      * Executes the validation
      */
     public function validate(<Validation> validation, var field) -> bool

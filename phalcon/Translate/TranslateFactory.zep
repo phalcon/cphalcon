@@ -34,6 +34,20 @@ class TranslateFactory extends AbstractFactory
 
     /**
      * Factory to create an instace from a Config object
+     *
+     * @param array|\Phalcon\Config = [
+     *     'adapter' => 'ini,
+     *     'options' => [
+     *         'content' => '',
+     *         'delimiter' => ';',
+     *         'enclosure' => '"',
+     *         'locale' => '',
+     *         'defaultDomain' => '',
+     *         'directory' => '',
+     *         'category' => ''
+     *         'triggerError' => false
+     *     ]
+     * ]
      */
     public function load(var config) -> var
     {

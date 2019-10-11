@@ -33,6 +33,13 @@ class Memory extends AbstractAdapter
 
     /**
      * Constructor
+     *
+     * @param array options = [
+     *     'defaultSerializer' => 'Php',
+     *     'lifetime' => 3600,
+     *     'serializer' => null,
+     *     'prefix' => ''
+     * ]
      */
     public function __construct(<SerializerFactory> factory = null, array! options = [])
     {
