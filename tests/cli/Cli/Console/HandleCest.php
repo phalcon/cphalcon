@@ -23,7 +23,6 @@ use Phalcon\Cli\Console as CliConsole;
 use Phalcon\Cli\Console\Exception as ConsoleException;
 use Phalcon\Cli\Dispatcher\Exception as DispatcherException;
 
-
 class HandleCest
 {
     /**

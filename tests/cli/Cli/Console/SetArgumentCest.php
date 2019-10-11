@@ -32,7 +32,7 @@ class SetArgumentCest
     {
         $I->wantToTest("Cli\Console - setArgument()");
 
-        $di = New DiFactoryDefault();
+        $di = new DiFactoryDefault();
         $console = new CliConsole($di);
 
         $di->setShared(
@@ -83,7 +83,7 @@ class SetArgumentCest
 
     public function testArgumentArray(CliTester $I)
     {
-        $di = New DiFactoryDefault();
+        $di = new DiFactoryDefault();
         $console = new CliConsole($di);
 
 
@@ -212,7 +212,7 @@ class SetArgumentCest
 
     public function testArgumentNoShift(CliTester $I)
     {
-        $di = New DiFactoryDefault();
+        $di = new DiFactoryDefault();
         $console = new CliConsole($di);
 
         $dispatcher = $di->getShared('dispatcher');
@@ -334,7 +334,7 @@ class SetArgumentCest
 
     public function testArgumentRouter(CliTester $I)
     {
-        $di = New DiFactoryDefault();
+        $di = new DiFactoryDefault();
         $console = new CliConsole($di);
 
         $di->setShared(

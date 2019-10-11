@@ -32,7 +32,7 @@ class UnderscoreGetCest
     {
         $I->wantToTest("Cli\Console - __get()");
 
-        $di = New DiFactoryDefault();
+        $di = new DiFactoryDefault();
         $console = new CliConsole($di);
 
         $I->assertInstanceOf(

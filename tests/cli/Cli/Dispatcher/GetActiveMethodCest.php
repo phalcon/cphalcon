@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Cli\Dispatcher;
 
 use CliTester;
+use Phalcon\Cli\Dispatcher;
 
 /**
  * Class GetActiveMethodCest
@@ -28,6 +29,13 @@ class GetActiveMethodCest
     public function cliDispatcherGetActiveMethod(CliTester $I)
     {
         $I->wantToTest('Cli\Dispatcher - getActiveMethod()');
-        $I->skipTest('Need implementation');
+        $dispatcher = new Dispatcher();
+
+        $dispatcher->setActionName("phalcon");
+
+        $I->assertEquals(
+            "phalconAction",
+            $dispatcher->getActiveMethod()
+        );
     }
 }

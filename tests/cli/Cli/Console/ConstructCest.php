@@ -16,6 +16,7 @@ use CliTester;
 use Phalcon\Cli\Console as CliConsole;
 use Phalcon\Di\FactoryDefault\Cli as DiFactoryDefault;
 use ReflectionClass;
+
 /**
  * Class ConstructCest
  */
