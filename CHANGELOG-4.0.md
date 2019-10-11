@@ -34,6 +34,7 @@
 - Fixed `Phalcon\Firewall\Adapter\AbstractAdapter::getRoleCallback` and `Phalcon\Firewall\Adapter\AbstractAdapter::setRoleCallback` to correctly accept and return a `Closure` [#14450](https://github.com/phalcon/cphalcon/issues/14450)
 - Fixed `Phalcon\Firewall\Adapter\AdapterInterface::getRoleCallback` and `Phalcon\Firewall\Adapter\AbstractAdapter::setRoleCallback` to correctly accept and return a `Closure` [#14450](https://github.com/phalcon/cphalcon/issues/14450)
 - Fixed `Phalcon\Events\Event::__constructor` to correctly accept an `object` as the `source` parameter [#14449](https://github.com/phalcon/cphalcon/issues/14449)
+- Fixed `Phalcon\Cache::checkKey()` added `.` to key characters pattern [#14457](https://github.com/phalcon/cphalcon/pull/14457)
 
 ## Removed
 - Removed `Phalcon\Application\AbstractApplication::handle()` as it does not serve any purpose and causing issues with type hinting. [#14407](https://github.com/phalcon/cphalcon/pull/14407)
