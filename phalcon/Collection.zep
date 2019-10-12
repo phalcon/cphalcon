@@ -114,21 +114,38 @@ class Collection implements
     /**
      * Get the element from the collection
      */
-    public function get(string element, defaultValue = null) -> var
+    public function get(string element, defaultValue = null, string cast = null) -> var
     {
-        var key;
+        var key, value;
+        array casts;
 
         if likely this->insensitive {
             let element = element->lower();
         }
 
-        if likely isset this->lowerKeys[element] {
-            let key = this->lowerKeys[element];
-
-            return this->data[key];
+        if unlikely !fetch key, this->lowerKeys[element] {
+            return defaultValue;
         }
 
-        return defaultValue;
+        let value = this->data[key],
+            casts = [
+            "array"   : 1,
+            "bool"    : 1,
+            "boolean" : 1,
+            "double"  : 1,
+            "float"   : 1,
+            "int"     : 1,
+            "integer" : 1,
+            "null"    : 1,
+            "object"  : 1,
+            "string"  : 1
+        ];
+
+        if unlikely isset casts[cast] {
+            settype(value, cast);
+        }
+
+        return value;
     }
 
     /**
