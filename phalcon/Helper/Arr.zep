@@ -108,12 +108,34 @@ class Arr
     /**
      * Helper method to get an array element or a default
      */
-    final public static function get(array! collection, var index, var defaultValue = null) -> var
-    {
+    final public static function get(
+        array! collection,
+        var index,
+        var defaultValue = null,
+        string cast = null
+    ) -> var {
         var value;
+        array casts;
 
         if unlikely !fetch value, collection[index] {
             return defaultValue;
+        }
+
+        let casts = [
+            "array"   : 1,
+            "bool"    : 1,
+            "boolean" : 1,
+            "double"  : 1,
+            "float"   : 1,
+            "int"     : 1,
+            "integer" : 1,
+            "null"    : 1,
+            "object"  : 1,
+            "string"  : 1
+        ];
+
+        if unlikely isset casts[cast] {
+            settype(value, cast);
         }
 
         return value;
