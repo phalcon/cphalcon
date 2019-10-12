@@ -1,4 +1,7 @@
 # [4.0.0-rc.2](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-rc.2) (2019-XX-XX)
+## Added
+- Added `cast` parameter to `Phalcon\Collection::get` and `Phalcon\Helper\Arr::get` allowing developers to cast the result returned to the type they want to. [#14465](https://github.com/phalcon/cphalcon/pull/14465)
+
 ## Changed
 - Changed all calls to `new <object>` to use the `create_instance` or `create_instance_params` for better performance. [#14419](https://github.com/phalcon/cphalcon/pull/14419)
 
