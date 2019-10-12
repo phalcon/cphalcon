@@ -101,8 +101,7 @@ jobs:
   include:
     - stage: Development Zephir version
       php: '7.3'
-      env:
-        - ZEPHIR_VERSION="development"
+      env: ZEPHIR_VERSION="development"
     - stage: Static Code Analysis
       php: '7.2'
       env:
