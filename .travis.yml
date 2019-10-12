@@ -54,7 +54,7 @@ env:
 
 before_install:
   - |
-    # Core dump settings
+    # Core dump settings 2
     ulimit -c unlimited -S || true
     echo '/tmp/core.%e.%p.%t' | sudo tee /proc/sys/kernel/core_pattern
 
