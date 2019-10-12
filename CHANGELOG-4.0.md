@@ -200,11 +200,11 @@
 - Renamed `Phalcon\Mvc\View\Engine` to `Phalcon\Mvc\View\Engine\AbstractEngine` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
 - Renamed `Phalcon\Mvc\View\EngineInterface` to `Phalcon\Mvc\View\Engine\EngineInterface` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
 - Renamed `Phalcon\UrlInterface` to `Phalcon\Url\UrlInterface`
-- Renamed `Phalcon\Validator` to `Phalcon\Validator\Validator` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
-- Renamed `Phalcon\Validator\Validator` to `Phalcon\Validator\AbstractValidator` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
-- Renamed `Phalcon\Validator\ValidatorComposite` to `Phalcon\Validator\AbstractValidatorComposite` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
-- Renamed `Phalcon\Validator\CombinedFieldsValidator` to `Phalcon\Validator\AbstractCombinedFields` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
-- Renamed `Phalcon\Validator\Validator\File\FileAbstract` to `Phalcon\Validator\Validator\File\AbstractFile` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
+- Renamed `Phalcon\Validator` to `Phalcon\Validation\Validator` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
+- Renamed `Phalcon\Validator\Validator` to `Phalcon\Validation\AbstractValidator` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
+- Renamed `Phalcon\Validator\ValidatorComposite` to `Phalcon\Validation\AbstractValidatorComposite` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
+- Renamed `Phalcon\Validator\CombinedFieldsValidator` to `Phalcon\Validation\AbstractCombinedFields` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
+- Renamed `Phalcon\Validator\Validator\File\FileAbstract` to `Phalcon\Validation\Validator\File\AbstractFile` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
 
 ## Fixed
 - Fixed `Phalcon\Mvc\View::getRender()` to call `view->finish()` instead of `ob_end_clean()`. [#14095](https://github.com/phalcon/cphalcon/issues/14095)
