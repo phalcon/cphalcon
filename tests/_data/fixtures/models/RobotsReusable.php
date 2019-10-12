@@ -17,6 +17,8 @@ class RobotsReusable extends Model
 {
     public function initialize()
     {
+        $this->setSource('robots');
+
         $this->hasMany(
             'id',
             RobotsParts::class,
