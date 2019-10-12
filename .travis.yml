@@ -20,6 +20,9 @@ addons:
 
 matrix:
   fast_finish: true
+  include:
+    - php: '7.3'
+      env: ZEPHIR_VERSION="development"
   allow_failures:
     - php: '7.4snapshot'
     - env: ZEPHIR_VERSION="development"
@@ -93,10 +96,6 @@ script:
 
 jobs:
   include:
-    - stage: Development Zephir version
-      php: '7.3'
-      env:
-        - ZEPHIR_VERSION="development"
     - stage: Static Code Analysis
       php: '7.2'
       env:
