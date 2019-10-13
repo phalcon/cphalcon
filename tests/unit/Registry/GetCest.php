@@ -12,7 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Registry;
 
+use Codeception\Example;
 use Phalcon\Registry;
+use stdClass;
 use UnitTester;
 
 class GetCest
@@ -23,7 +25,7 @@ class GetCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function collectionGet(UnitTester $I)
+    public function registryGet(UnitTester $I)
     {
         $I->wantToTest('Registry - get()');
 
@@ -39,5 +41,90 @@ class GetCest
             'four',
             $registry->get('three')
         );
+    }
+
+    /**
+     * Tests Phalcon\Registry :: get() - cast
+     *
+     * @dataProvider getExamples
+     *
+     * @since  2019-10-12
+     */
+    public function registryGetCast(UnitTester $I, Example $example)
+    {
+        $I->wantToTest('Registry - get() - cast ' . $example[0]);
+
+        $collection = new Registry(
+            [
+                'value' => $example[1],
+            ]
+        );
+
+        $I->assertEquals(
+            $example[2],
+            $collection->get('value', null, $example[0])
+        );
+    }
+
+    /**
+     * @return array
+     */
+    private function getExamples(): array
+    {
+        $sample = new stdClass();
+        $sample->one = 'two';
+
+        return [
+            [
+                'boolean',
+                1,
+                true,
+            ],
+            [
+                'bool',
+                1,
+                true,
+            ],
+            [
+                'integer',
+                "123",
+                123,
+            ],
+            [
+                'int',
+                "123",
+                123,
+            ],
+            [
+                'float',
+                "123.45",
+                123.45,
+            ],
+            [
+                'double',
+                "123.45",
+                123.45,
+            ],
+            [
+                'string',
+                123,
+                "123",
+            ],
+            [
+                'array',
+                $sample,
+                ['one' => 'two'],
+            ],
+            [
+                'object',
+                ['one' => 'two'],
+                $sample,
+            ],
+            [
+                'null',
+                1234,
+                null,
+            ],
+        ];
     }
 }

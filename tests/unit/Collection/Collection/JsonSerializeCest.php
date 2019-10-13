@@ -25,7 +25,7 @@ class JsonSerializeCest
      */
     public function collectionJsonSerialize(UnitTester $I)
     {
-        $I->wantToTest('Collection\Collection - jsonSerialize()');
+        $I->wantToTest('Collection - jsonSerialize()');
 
         $data = [
             'one'   => 'two',

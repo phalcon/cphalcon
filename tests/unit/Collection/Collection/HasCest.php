@@ -25,7 +25,7 @@ class HasCest
      */
     public function collectionHas(UnitTester $I)
     {
-        $I->wantToTest('Collection\Collection - has()');
+        $I->wantToTest('Collection - has()');
 
         $data = [
             'one'   => 'two',

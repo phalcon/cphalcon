@@ -23,7 +23,7 @@ class ClearCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function collectionClear(UnitTester $I)
+    public function registryClear(UnitTester $I)
     {
         $I->wantToTest('Registry - clear()');
 

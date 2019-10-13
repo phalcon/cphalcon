@@ -23,7 +23,7 @@ class HasCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function collectionHas(UnitTester $I)
+    public function registryHas(UnitTester $I)
     {
         $I->wantToTest('Registry - has()');
 
