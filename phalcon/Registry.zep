@@ -126,8 +126,11 @@ final class Registry extends Collection
     /**
      * Get the element from the collection
      */
-    final public function get(string! element, var defaultValue = null, var cast = null) -> var
-    {
+    final public function get(
+        string! element,
+        var defaultValue = null,
+        string cast = null
+    ) -> var {
         return parent::get(element, defaultValue, cast);
     }
 
