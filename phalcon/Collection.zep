@@ -114,10 +114,12 @@ class Collection implements
     /**
      * Get the element from the collection
      */
-    public function get(string element, defaultValue = null, string cast = null) -> var
-    {
+    public function get(
+        string element,
+        var defaultValue = null,
+        string! cast = null
+    ) -> var {
         var key, value;
-        array casts;
 
         if likely this->insensitive {
             let element = element->lower();
@@ -127,21 +129,9 @@ class Collection implements
             return defaultValue;
         }
 
-        let value = this->data[key],
-            casts = [
-            "array"   : 1,
-            "bool"    : 1,
-            "boolean" : 1,
-            "double"  : 1,
-            "float"   : 1,
-            "int"     : 1,
-            "integer" : 1,
-            "null"    : 1,
-            "object"  : 1,
-            "string"  : 1
-        ];
+        let value = this->data[key];
 
-        if unlikely isset casts[cast] {
+        if unlikely null !== cast {
             settype(value, cast);
         }
 
