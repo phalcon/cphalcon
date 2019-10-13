@@ -25,7 +25,7 @@ class SerializeCest
      */
     public function collectionSerialize(UnitTester $I)
     {
-        $I->wantToTest('Collection\Collection - serialize()');
+        $I->wantToTest('Collection - serialize()');
 
         $data = [
             'one'   => 'two',

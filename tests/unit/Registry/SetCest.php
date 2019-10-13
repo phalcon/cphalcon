@@ -23,7 +23,7 @@ class SetCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function collectionSet(UnitTester $I)
+    public function registrySet(UnitTester $I)
     {
         $I->wantToTest('Registry - set()');
 

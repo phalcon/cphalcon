@@ -112,7 +112,7 @@ class Arr
         array! collection,
         var index,
         var defaultValue = null,
-        string! cast = null
+        var cast = null
     ) -> var {
         var value;
 
@@ -120,7 +120,7 @@ class Arr
             return defaultValue;
         }
 
-        if unlikely null !== cast {
+        if unlikely typeof cast === "string" {
             settype(value, cast);
         }
 

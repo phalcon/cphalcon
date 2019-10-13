@@ -27,7 +27,7 @@ class GetCest
      */
     public function collectionGet(UnitTester $I)
     {
-        $I->wantToTest('Collection\Collection - get()');
+        $I->wantToTest('Collection - get()');
 
         $data = [
             'one'   => 'two',
@@ -79,7 +79,7 @@ class GetCest
      */
     public function helperArrGetCast(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Collection\Collection - get() - cast ' . $example[0]);
+        $I->wantToTest('Collection - get() - cast ' . $example[0]);
 
         $collection = new Collection(
             [

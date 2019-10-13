@@ -25,7 +25,7 @@ class SetCest
      */
     public function collectionSet(UnitTester $I)
     {
-        $I->wantToTest('Collection\Collection - set()');
+        $I->wantToTest('Collection - set()');
 
         $collection = new Collection();
 

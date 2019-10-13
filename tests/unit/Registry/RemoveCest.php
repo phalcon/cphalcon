@@ -23,7 +23,7 @@ class RemoveCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function collectionRemove(UnitTester $I)
+    public function registryRemove(UnitTester $I)
     {
         $I->wantToTest('Registry - remove()');
 

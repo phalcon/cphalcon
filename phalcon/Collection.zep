@@ -117,7 +117,7 @@ class Collection implements
     public function get(
         string element,
         var defaultValue = null,
-        string! cast = null
+        var cast = null
     ) -> var {
         var key, value;
 
@@ -131,7 +131,7 @@ class Collection implements
 
         let value = this->data[key];
 
-        if unlikely null !== cast {
+        if unlikely typeof cast === "string" {
             settype(value, cast);
         }
 
