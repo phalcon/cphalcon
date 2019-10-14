@@ -164,7 +164,7 @@ class UnderscoreCallStaticCest
          */
         $I->expectThrowable(
             new Exception(
-                "Cannot resolve attribute 'unknownField' in the model"
+                "Cannot resolve attribute 'UnknownField' in the model"
             ),
             function () {
                 Models\Robots::findFirstByUnknownField(1);
@@ -176,7 +176,7 @@ class UnderscoreCallStaticCest
          */
         $I->expectThrowable(
             new Exception(
-                "Cannot resolve attribute 'unknownField' in the model"
+                "Cannot resolve attribute 'UnknownField' in the model"
             ),
             function () {
                 Models\Robots::countByUnknownField(1);
