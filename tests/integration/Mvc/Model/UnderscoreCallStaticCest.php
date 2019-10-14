@@ -135,7 +135,7 @@ class UnderscoreCallStaticCest
          * Testing Model::countByField()
          * with impossible conditions
          */
-        $countEmptyMagicRobots = Models\Robots::countById(0);
+        $countEmptyMagicRobots = Models\Robots::countById(null);
 
         $I->assertInternalType(
             'int',
@@ -155,7 +155,7 @@ class UnderscoreCallStaticCest
                 "The method 'nonExistentStaticMethod' doesn't exist on model '" . Models\Robots::class . "'"
             ),
             function () {
-                Models\Robots::nonExistentStaticMethod();
+                Models\Robots::nonExistentStaticMethod(1);
             }
         );
 
@@ -167,7 +167,7 @@ class UnderscoreCallStaticCest
                 "Cannot resolve attribute 'unknownField' in the model"
             ),
             function () {
-                Models\Robots::findFirstByUnknownField();
+                Models\Robots::findFirstByUnknownField(1);
             }
         );
 
@@ -179,7 +179,7 @@ class UnderscoreCallStaticCest
                 "Cannot resolve attribute 'unknownField' in the model"
             ),
             function () {
-                Models\Robots::countByUnknownField();
+                Models\Robots::countByUnknownField(1);
             }
         );
     }

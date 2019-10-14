@@ -4234,7 +4234,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     protected final static function _invokeFinder(string method, array arguments)
     {
         var extraMethod, type, modelName, value, model, attributes, field,
-            extraMethodFirst, metaData;
+            extraMethodFirst, metaData, params;
 
         let extraMethod = null;
 
@@ -4271,7 +4271,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             return false;
         }
 
-        if unlikely !fetch value, arguments[0] {
+        if unlikely !isset arguments[0] {
             throw new Exception(
                 "The static method '" . method . "' requires one argument"
             );
@@ -4316,15 +4316,23 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             }
         }
 
+        fetch value, arguments[0];
+
+        if value !== null {
+            let params = [
+                 "conditions": "[" . field . "] = ?0",
+                 "bind"      : [value]
+            ];
+        } else {
+            let params = [
+                 "conditions": "[" . field . "] IS NULL"
+            ];
+        }
+
         /**
          * Execute the query
          */
-        return {modelName}::{type}(
-            [
-                "conditions": "[" . field . "] = ?0",
-                "bind"      : [value]
-            ]
-        );
+        return {modelName}::{type}(params);
     }
 
     /**
