@@ -16,7 +16,7 @@ use Phalcon\Logger;
 use Phalcon\Logger\AdapterFactory;
 
 /**
- * PhalconNG\Logger\LoggerFactory
+ * Phalcon\Logger\LoggerFactory
  *
  * Logger factory
  */
