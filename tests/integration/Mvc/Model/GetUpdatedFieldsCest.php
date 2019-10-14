@@ -44,6 +44,5 @@ class GetUpdatedFieldsCest
                 $fields = $robot ->getUpdatedFields();
             }
         );
-
     }
 }
