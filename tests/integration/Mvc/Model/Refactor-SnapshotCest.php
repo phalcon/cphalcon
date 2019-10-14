@@ -506,31 +506,6 @@ class SnapshotCest
     }
 
     /**
-     * Tests get updated fields new instance exception
-     *
-     * @author Wojciech Ślawski <jurigag@gmail.com>
-     * @since  2017-03-28
-     */
-    public function testUpdatedFieldsNewException(IntegrationTester $I)
-    {
-        $I->expectThrowable(
-            new Exception("The record doesn't have a valid data snapshot"),
-            function () {
-                $robots = new Robots(
-                    [
-                        'name'     => 'test',
-                        'year'     => 2017,
-                        'datetime' => (new DateTime())->format('Y-m-d'),
-                        'text'     => 'asd',
-                    ]
-                );
-
-                $robots->getUpdatedFields();
-            }
-        );
-    }
-
-    /**
      * Tests get updated fields deleted instance exception
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
