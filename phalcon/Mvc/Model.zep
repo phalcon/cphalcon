@@ -180,7 +180,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     /**
      * Handles method calls when a method is not implemented
      *
-     * @return    mixed
+     * @return mixed
+     * @throws \Phalcon\Mvc\Model\Exception If the method doesn't exist
      */
     public function __call(string method, array arguments)
     {
@@ -225,10 +226,26 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * Handles method calls when a static method is not implemented
      *
      * @return mixed
+     * @throws \Phalcon\Mvc\Model\Exception If the method doesn't exist
      */
     public static function __callStatic(string method, array arguments)
     {
-        return self::_invokeFinder(method, arguments);
+        var modelName, records;
+
+        let records = self::_invokeFinder(method, arguments);
+
+        if records !== false {
+            return records;
+        }
+
+        let modelName = get_called_class();
+
+        /**
+         * The method doesn't exist throw an exception
+         */
+        throw new Exception(
+            "The method '" . method . "' doesn't exist on model '" . modelName . "'"
+        );
     }
 
 
