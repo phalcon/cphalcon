@@ -11,6 +11,7 @@
 namespace Phalcon\Logger\Adapter;
 
 use LogicException;
+use Phalcon\Helper\Arr;
 use Phalcon\Logger;
 use Phalcon\Logger\Adapter;
 use Phalcon\Logger\Exception;
@@ -74,19 +75,9 @@ class Syslog extends AbstractAdapter
      */
     public function __construct(string! name, array options = [])
     {
-        var option, facility;
-
-        if fetch option, options["option"] {
-            let option = LOG_ODELAY;
-        }
-
-        if !fetch facility, options["facility"] {
-            let facility = LOG_USER;
-        }
-
         let this->name     = name,
-            this->facility = facility,
-            this->option   = option;
+            this->facility = Arr::get(options, "facility", LOG_USER),
+            this->option   = Arr::get(options, "option", LOG_ODELAY);
     }
 
     /**
