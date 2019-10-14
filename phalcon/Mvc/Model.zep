@@ -1533,7 +1533,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
         if unlikely typeof snapshot != "array" {
             throw new Exception(
-                "The record doesn't have a valid data snapshot"
+                "The 'keepSnapshots' option must be enabled to track changes"
             );
         }
 
@@ -1872,13 +1872,13 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
         if unlikely !globals_get("orm.update_snapshot_on_save") {
             throw new Exception(
-                "Update snapshot on save must be enabled for this method to work properly"
+                "The 'updateSnapshotOnSave' option must be enabled for this method to work properly"
             );
         }
 
         if unlikely typeof snapshot != "array" {
             throw new Exception(
-                "The record doesn't have a valid data snapshot"
+                "The 'keepSnapshots' option must be enabled to track changes"
             );
         }
 

@@ -4,6 +4,7 @@
 
 ## Changed
 - Changed all calls to `new <object>` to use the `create_instance` or `create_instance_params` for better performance. [#14419](https://github.com/phalcon/cphalcon/pull/14419)
+- Changed the exception text for `Phalcon\Mvc\Model::getChangedFields` and `Phalcon\Mvc\Model::getUpdatedFields` when there is no snapshot setup [#14468](https://github.com/phalcon/cphalcon/pull/14468)
 - Changed `Phalcon\Mvc\Model::__callStatic()` to throw an exception if the called method is unknown. [#14467](https://github.com/phalcon/cphalcon/pull/14467)
 - Changed `Phalcon\Mvc\Model` to accept `0`, `null` and `""` as valid parameter for `findByField()`, `findFirstByField()` and `countByField()`. [#14467](https://github.com/phalcon/cphalcon/pull/14467)
 
