@@ -180,7 +180,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     /**
      * Handles method calls when a method is not implemented
      *
-     * @return    mixed
+     * @return mixed
+     * @throws \Phalcon\Mvc\Model\Exception If the method doesn't exist
      */
     public function __call(string method, array arguments)
     {
@@ -225,10 +226,26 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * Handles method calls when a static method is not implemented
      *
      * @return mixed
+     * @throws \Phalcon\Mvc\Model\Exception If the method doesn't exist
      */
     public static function __callStatic(string method, array arguments)
     {
-        return self::_invokeFinder(method, arguments);
+        var modelName, records;
+
+        let records = self::_invokeFinder(method, arguments);
+
+        if records !== false {
+            return records;
+        }
+
+        let modelName = get_called_class();
+
+        /**
+         * The method doesn't exist throw an exception
+         */
+        throw new Exception(
+            "The method '" . method . "' doesn't exist on model '" . modelName . "'"
+        );
     }
 
 
@@ -4217,7 +4234,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     protected final static function _invokeFinder(string method, array arguments)
     {
         var extraMethod, type, modelName, value, model, attributes, field,
-            extraMethodFirst, metaData;
+            extraMethodFirst, metaData, params;
 
         let extraMethod = null;
 
@@ -4254,7 +4271,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             return false;
         }
 
-        if unlikely !fetch value, arguments[0] {
+        if unlikely !isset arguments[0] {
             throw new Exception(
                 "The static method '" . method . "' requires one argument"
             );
@@ -4299,15 +4316,23 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             }
         }
 
+        fetch value, arguments[0];
+
+        if value !== null {
+            let params = [
+                 "conditions": "[" . field . "] = ?0",
+                 "bind"      : [value]
+            ];
+        } else {
+            let params = [
+                 "conditions": "[" . field . "] IS NULL"
+            ];
+        }
+
         /**
          * Execute the query
          */
-        return {modelName}::{type}(
-            [
-                "conditions": "[" . field . "] = ?0",
-                "bind"      : [value]
-            ]
-        );
+        return {modelName}::{type}(params);
     }
 
     /**
