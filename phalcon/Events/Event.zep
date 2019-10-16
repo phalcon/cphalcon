@@ -76,9 +76,9 @@ class Event implements EventInterface
                 "The source of " . type . " event must be an object, got " . (typeof source)
             );
         }
-        let this->type = type,
-            this->source = source,
-            this->data = data,
+        let this->type       = type,
+            this->source     = source,
+            this->data       = data,
             this->cancelable = cancelable;
     }
 

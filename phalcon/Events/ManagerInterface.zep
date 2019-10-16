@@ -47,7 +47,7 @@ interface ManagerInterface
      * @param mixed  data
      * @return mixed
      */
-    public function fire(string! eventType, source, data = null);
+    public function fire(string! eventType, object source, var data = null, bool cancelable = true);
 
     /**
      * Returns all the attached listeners of a certain type
