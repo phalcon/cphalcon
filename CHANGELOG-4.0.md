@@ -45,6 +45,7 @@
 - Fixed `Phalcon\Mvc\Model\Manager` to store reusable related records correctly. [#14444](https://github.com/phalcon/cphalcon/pull/14444)
 - Fixed `Phalcon\Mvc\Model::__call()` not to throw an exception when the return value is `null` for related records. [#14444](https://github.com/phalcon/cphalcon/pull/14444)
 - Fixed `Phalcon\Logger\Adapter\Syslog::__construct()` incorrect receipt of the `option` from the `options` parameter. [#14470](https://github.com/phalcon/cphalcon/pull/14470)
+- Fixed `Phalcon\Events\Manager::fire` and `Phalcon\Events\ManagerInterface::fire` correctly aligning parameters and types. [#14477](https://github.com/phalcon/cphalcon/pull/14477)
 
 ## Removed
 - Removed `Phalcon\Application\AbstractApplication::handle()` as it does not serve any purpose and causing issues with type hinting. [#14407](https://github.com/phalcon/cphalcon/pull/14407)
