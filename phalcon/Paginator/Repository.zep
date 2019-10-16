@@ -10,6 +10,7 @@
 
 namespace Phalcon\Paginator;
 
+use JsonSerializable;
 use Phalcon\Helper\Arr;
 
 /**
@@ -17,7 +18,7 @@ use Phalcon\Helper\Arr;
  *
  * Repository of current state Phalcon\Paginator\AdapterInterface::paginate()
  */
-class Repository implements RepositoryInterface
+class Repository implements RepositoryInterface, JsonSerializable
 {
     /**
      * @var array
@@ -124,6 +125,14 @@ class Repository implements RepositoryInterface
     public function getTotalItems() -> int
     {
         return this->getProperty(self::PROPERTY_TOTAL_ITEMS, 0);
+    }
+
+    /**
+     * See [jsonSerialize](https://php.net/manual/en/jsonserializable.jsonserialize.php)
+     */
+    public function jsonSerialize() -> array
+    {
+        return this->properties;
     }
 
     /**

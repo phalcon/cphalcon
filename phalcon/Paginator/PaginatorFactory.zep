@@ -10,7 +10,7 @@
 
 namespace Phalcon\Paginator;
 
-use Phalcon\Paginator\Adapter\AbstractAdapter;
+use Phalcon\Paginator\Adapter\AdapterInterface;
 use Phalcon\Factory\AbstractFactory;
 use Phalcon\Helper\Arr;
 
@@ -47,7 +47,7 @@ class PaginatorFactory extends AbstractFactory
      * $paginator = (new PaginatorFactory())->load($options);
      *```
      */
-    public function load(var config) -> var
+    public function load(var config) -> <AdapterInterface>
     {
         var name, options;
 
@@ -61,7 +61,7 @@ class PaginatorFactory extends AbstractFactory
     /**
      * Create a new instance of the adapter
      */
-    public function newInstance(string! name, array! options = []) -> <AbstractAdapter>
+    public function newInstance(string! name, array! options = []) -> <AdapterInterface>
     {
         var definition;
 
