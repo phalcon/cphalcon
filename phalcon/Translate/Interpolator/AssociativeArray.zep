@@ -17,8 +17,10 @@ class AssociativeArray implements InterpolatorInterface
     /**
      * Replaces placeholders by the values passed
      */
-    public function replacePlaceholders(string! translation, array placeholders = []) -> string
-    {
+    public function replacePlaceholders(
+        string! translation,
+        array! placeholders = []
+    ) -> string {
         var key, value;
 
         for key, value in placeholders {

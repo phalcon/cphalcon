@@ -66,7 +66,7 @@ class Csv extends AbstractAdapter implements ArrayAccess
     /**
      * Returns the translation related to the given key
      */
-    public function query(string! index, placeholders = null) -> string
+    public function query(string! index, array! placeholders = []) -> string
     {
         var translation;
 

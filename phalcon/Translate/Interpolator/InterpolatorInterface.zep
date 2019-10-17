@@ -20,5 +20,8 @@ interface InterpolatorInterface
     /**
      * Replaces placeholders by the values passed
      */
-    public function replacePlaceholders(string! translation, array placeholders = []) -> string;
+    public function replacePlaceholders(
+        string! translation,
+        array! placeholders = []
+    ) -> string;
 }

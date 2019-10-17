@@ -88,8 +88,13 @@ class Gettext extends AbstractAdapter implements ArrayAccess
      * Some languages have more than one form for plural messages dependent on
      * the count.
      */
-    public function nquery(string! msgid1, string! msgid2, int! count, placeholders = null, string! domain = null) -> string
-    {
+    public function nquery(
+        string! msgid1,
+        string! msgid2,
+        int! count,
+        array! placeholders = [],
+        string! domain = null
+    ) -> string {
         var translation;
 
         if !domain {
@@ -110,7 +115,7 @@ class Gettext extends AbstractAdapter implements ArrayAccess
      *
      * @param array   placeholders
      */
-    public function query(string! index, placeholders = null) -> string
+    public function query(string! index, array! placeholders = []) -> string
     {
         var translation;
 
