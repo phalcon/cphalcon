@@ -92,7 +92,7 @@ class Gettext extends AbstractAdapter implements ArrayAccess
         string! msgid1,
         string! msgid2,
         int! count,
-        array! placeholders = [],
+        array placeholders = [],
         string! domain = null
     ) -> string {
         var translation;
@@ -115,7 +115,7 @@ class Gettext extends AbstractAdapter implements ArrayAccess
      *
      * @param array   placeholders
      */
-    public function query(string! index, array! placeholders = []) -> string
+    public function query(string! index, array placeholders = []) -> string
     {
         var translation;
 
