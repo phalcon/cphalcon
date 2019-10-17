@@ -25,14 +25,14 @@ interface AdapterInterface
     /**
      * Returns the translation related to the given key
      *
-     * @param array! placeholders
+     * @param array placeholders
      */
-    public function query(string! translateKey, array! placeholders = []) -> string;
+    public function query(string! translateKey, array placeholders = []) -> string;
 
     /**
      * Returns the translation string of the given key
      *
-     * @param array! placeholders
+     * @param array placeholders
      */
-    public function t(string! translateKey, array! placeholders = []) -> string;
+    public function t(string! translateKey, array placeholders = []) -> string;
 }
