@@ -34,7 +34,7 @@ class AdapterFactory extends AbstractFactory
     /**
      * Create a new instance of the adapter
      */
-    public function newInstance(string! name, array! options = []) -> <AbstractAdapter>
+    public function newInstance(string! name, array! options = []) -> <AdapterInterface>
     {
         var definition;
 
