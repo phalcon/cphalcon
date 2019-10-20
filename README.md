@@ -77,4 +77,4 @@ Phalcon is open source software licensed under the BSD 3-Clause License.
 
 Copyright © 2011-present, Phalcon Team.
 
-See the [LICENSE.txt](https://github.com/phalcon/cphalcon/blob/master/LICENSE.txt) file for more. Additional licenses of packages that Phalcon uses, is inspired by or has adapted is located in the [3rdparty/licenses][https://github.com/phalcon/cphalcon/blob/master/3rdparty/licenses] directory.
+See the [LICENSE.txt](https://github.com/phalcon/cphalcon/blob/master/LICENSE.txt) file for more. Additional licenses of packages that Phalcon uses, is inspired by or has adapted is located in the [3rdparty/licenses](https://github.com/phalcon/cphalcon/blob/master/3rdparty/licenses) directory.
