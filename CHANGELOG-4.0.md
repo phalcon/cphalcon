@@ -48,7 +48,7 @@
 - Fixed `Phalcon\Events\Manager::fire` and `Phalcon\Events\ManagerInterface::fire` correctly aligning parameters and types. [#14477](https://github.com/phalcon/cphalcon/pull/14477)
 - Fixed `Phalcon\Translate\*` aligning `parameters` as `array` with the interpolator calls. [#14477](https://github.com/phalcon/cphalcon/pull/14477)
 - Fixed `Phalcon\Storage\AdapterFactory:newInstance` to return the correct interface [#14481](https://github.com/phalcon/cphalcon/issues/14481)
-- Fixed `Phalcon\Mvc\Dispatcher: forward` to accept an array vs a mixed variable  [#14481](https://github.com/phalcon/cphalcon/issues/14481)
+- Fixed `Phalcon\Mvc\Dispatcher:forward` to accept an array vs a mixed variable  [#14481](https://github.com/phalcon/cphalcon/issues/14481)
 
 ## Removed
 - Removed `Phalcon\Application\AbstractApplication::handle()` as it does not serve any purpose and causing issues with type hinting. [#14407](https://github.com/phalcon/cphalcon/pull/14407)
