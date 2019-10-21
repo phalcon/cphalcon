@@ -69,6 +69,13 @@ class Logger implements LoggerInterface
     protected adapters = [];
 
     /**
+     * Minimum log level for the logger
+     *
+     * @var int
+     */
+    protected logLevel = 8 { get };
+
+    /**
      * @var string
      */
     protected name = "";
@@ -297,6 +304,25 @@ class Logger implements LoggerInterface
     }
 
     /**
+     * Sets the adapters stack overriding what is already there
+     *
+     * @param array adapters An array of adapters
+     */
+    public function setLogLevel(int level) -> <Logger>
+    {
+        var levels;
+
+        let levels = this->getLevels();
+        if !isset levels[level] {
+            let level = self::CUSTOM;
+        }
+
+        let this->logLevel = level;
+
+        return this;
+    }
+
+    /**
      * Exceptional occurrences that are not errors.
      *
      * Example: Use of deprecated APIs, poor use of an API, undesirable things
@@ -321,34 +347,36 @@ class Logger implements LoggerInterface
     {
         var adapter, key, excluded, levelName, levels, item, registered;
 
-        let registered = this->adapters,
-            excluded   = this->excluded;
+        if this->logLevel >= level {
+            let registered = this->adapters,
+                excluded   = this->excluded;
 
-        if count(registered) === 0 {
-            throw new Exception("No adapters specified");
-        }
-
-        let levels = this->getLevels();
-
-        if !fetch levelName, levels[level] {
-            let levelName = levels[self::CUSTOM];
-        }
-
-        let item = new Item(message, levelName, level, time(), context);
-
-        /**
-         * Log only if the key does not exist in the excluded ones
-         */
-        for key, adapter in registered {
-            if !isset excluded[key] {
-                adapter->process(item);
+            if count(registered) === 0 {
+                throw new Exception("No adapters specified");
             }
-        }
 
-        /**
-         * Clear the excluded array since we made the call now
-         */
-        let this->excluded = [];
+            let levels = this->getLevels();
+
+            if !fetch levelName, levels[level] {
+                let levelName = levels[self::CUSTOM];
+            }
+
+            let item = new Item(message, levelName, level, time(), context);
+
+            /**
+             * Log only if the key does not exist in the excluded ones
+             */
+            for key, adapter in registered {
+                if !isset excluded[key] {
+                    adapter->process(item);
+                }
+            }
+
+            /**
+             * Clear the excluded array since we made the call now
+             */
+            let this->excluded = [];
+        }
 
         return true;
     }
