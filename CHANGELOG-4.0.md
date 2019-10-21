@@ -2,6 +2,7 @@
 ## Added
 - Added `cast` parameter to `Phalcon\Collection::get` and `Phalcon\Helper\Arr::get` allowing developers to cast the result returned to the type they want to. [#14465](https://github.com/phalcon/cphalcon/pull/14465)
 - Added `Phalcon\Paginator\Repository::jsonSerialize()` implementing `JsonSerializable` [#14475](https://github.com/phalcon/cphalcon/pull/14475)
+- Added `Phalcon\Logger::getLogLevel()` and `Phalcon\Logger::setLogLevel()` setting the minimum log level for the logger [#14480](https://github.com/phalcon/cphalcon/issues/14480)
 
 ## Changed
 - Changed all calls to `new <object>` to use the `create_instance` or `create_instance_params` for better performance. [#14419](https://github.com/phalcon/cphalcon/pull/14419)
