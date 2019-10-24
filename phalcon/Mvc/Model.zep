@@ -3715,9 +3715,11 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
              */
             if typeof columnMap == "array" {
                 if unlikely !fetch attributeField, columnMap[field] {
-                    throw new Exception(
-                        "Column '" . field . "' isn't part of the column map"
-                    );
+                    if unlikely !globals_get("orm.ignore_unknown_columns") {
+                        throw new Exception(
+                            "Column '" . field . "' isn't part of the column map"
+                        );
+                    }
                 }
             } else {
                 let attributeField = field;
@@ -4437,9 +4439,11 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 for field in notNull {
                     if typeof columnMap == "array" {
                         if unlikely !fetch attributeField, columnMap[field] {
-                            throw new Exception(
-                                "Column '" . field . "' isn't part of the column map"
-                            );
+                            if unlikely !globals_get("orm.ignore_unknown_columns") {
+                                throw new Exception(
+                                    "Column '" . field . "' isn't part of the column map"
+                                );
+                            }
                         }
                     } else {
                         let attributeField = field;

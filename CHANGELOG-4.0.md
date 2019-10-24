@@ -50,6 +50,7 @@
 - Fixed `Phalcon\Translate\*` aligning `parameters` as `array` with the interpolator calls. [#14477](https://github.com/phalcon/cphalcon/pull/14477)
 - Fixed `Phalcon\Storage\AdapterFactory:newInstance` to return the correct interface [#14481](https://github.com/phalcon/cphalcon/issues/14481)
 - Fixed `Phalcon\Mvc\Dispatcher:forward` to accept an array vs a mixed variable  [#14481](https://github.com/phalcon/cphalcon/issues/14481)
+- Fixed `Phalcon\Mvc\Model::_doLowUpdate` and `Phalcon\Mvc\Model::_doLowInsert` throwing errors about column mapping when `phalcon.orm.ignore_unknown_columns` is set `On` [#14485](https://github.com/phalcon/cphalcon/issues/14485)
 
 ## Removed
 - Removed `Phalcon\Application\AbstractApplication::handle()` as it does not serve any purpose and causing issues with type hinting. [#14407](https://github.com/phalcon/cphalcon/pull/14407)
