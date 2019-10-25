@@ -20,7 +20,7 @@ use Phalcon\Factory\AbstractFactory;
 class TagFactory extends AbstractFactory
 {
     /**
-     * @var <EscaperInterface>
+     * @var EscaperInterface
      */
     private escaper;
 

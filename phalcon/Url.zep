@@ -47,7 +47,7 @@ class Url extends AbstractInjectionAware implements UrlInterface
     protected basePath = null;
 
     /**
-     * @var <RouterInterface> | null
+     * @var RouterInterface | null
      */
     protected router = null;
 

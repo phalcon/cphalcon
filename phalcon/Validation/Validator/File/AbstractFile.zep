@@ -73,8 +73,8 @@ abstract class AbstractFile extends AbstractValidator
     /**
      * Check on empty
      *
-     * @param Valiation $validation
-     * @param mixed $field
+     * @param Validation $validation
+     * @param string $field
      * @return bool
      */
     public function isAllowEmpty(<Validation> validation, string! field) -> bool
@@ -87,7 +87,7 @@ abstract class AbstractFile extends AbstractValidator
     /**
     * Check upload
     *
-    * @param Valiation $validation
+    * @param Validation $validation
     * @param mixed $field
     * @return bool
     */
@@ -101,7 +101,7 @@ abstract class AbstractFile extends AbstractValidator
     /**
     * Check if uploaded file is larger than PHP allowed size
     *
-    * @param Valiation $validation
+    * @param Validation $validation
     * @param mixed $field
     * @return boolean
     */
@@ -141,7 +141,7 @@ abstract class AbstractFile extends AbstractValidator
     /**
     * Check if upload is empty
     *
-    * @param Valiation $validation
+    * @param Validation $validation
     * @param mixed $field
     * @return boolean
     */
@@ -175,7 +175,7 @@ abstract class AbstractFile extends AbstractValidator
     /**
     * Check if upload is valid
     *
-    * @param Valiation $validation
+    * @param Validation $validation
     * @param mixed $field
     * @return boolean
     */

@@ -41,8 +41,8 @@
     "psr/simple-cache": "^1.0"
   },
   "require-dev": {
-    "ext-gd": "*",
     "ext-dom": "*",
+    "ext-gd": "*",
     "ext-json": "*",
     "ext-libxml": "*",
     "ext-mbstring": "*",
@@ -51,9 +51,11 @@
     "codeception/codeception": "^2.5",
     "friendsofphp/php-cs-fixer": "~2.0",
     "mustache/mustache": "^2.12",
+    "phpstan/phpstan": "^0.11.19",
     "predis/predis": "^1.1",
     "squizlabs/php_codesniffer": "^3.4",
     "twig/twig": "~1.36",
+    "vimeo/psalm": "^3.6",
     "vlucas/phpdotenv": "^2.5"
   },
   "config": {
@@ -71,7 +73,8 @@
       "Phalcon\\Test\\Models\\": "tests/_data/fixtures/models/",
       "Phalcon\\Test\\Module\\": "tests/_support/Module/",
       "Phalcon\\Test\\Listener\\": "tests/_data/listener/",
-      "Phalcon\\Test\\Db\\": "tests/_data/db/"
+      "Phalcon\\Test\\Db\\": "tests/_data/db/",
+      "Phalcon\\": "ide/4.0.0-rc.1/Phalcon"
     }
   },
   "support": {

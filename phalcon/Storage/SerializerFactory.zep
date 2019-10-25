@@ -28,7 +28,7 @@ class SerializerFactory extends AbstractFactory
     /**
      * @param string name
      *
-     * @return mixed
+     * @return SerializerInterface
      * @throws Exception
      */
     public function newInstance(string! name) -> <SerializerInterface>

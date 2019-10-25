@@ -103,8 +103,8 @@ class Logger implements LoggerInterface
     /**
      * Add an adapter to the stack. For processing we use FIFO
      *
-     * @param string             name    The name of the adapter
-     * @param <AdapterInterface> adapter The adapter to add to the stack
+     * @param string           name    The name of the adapter
+     * @param AdapterInterface adapter The adapter to add to the stack
      */
     public function addAdapter(string name, <AdapterInterface> adapter) -> <Logger>
     {
@@ -197,7 +197,7 @@ class Logger implements LoggerInterface
      *
      * @param string name The name of the adapter
      *
-     * @throws <Exception>
+     * @throws Exception
      */
     public function getAdapter(string name) -> <AdapterInterface>
     {
@@ -272,7 +272,7 @@ class Logger implements LoggerInterface
      *
      * @param string name The name of the adapter
      *
-     * @throws <Logger\Exception>
+     * @throws Logger\Exception
      */
     public function removeAdapter(string name) -> <Logger>
     {
@@ -305,8 +305,6 @@ class Logger implements LoggerInterface
 
     /**
      * Sets the adapters stack overriding what is already there
-     *
-     * @param array adapters An array of adapters
      */
     public function setLogLevel(int level) -> <Logger>
     {
@@ -341,7 +339,7 @@ class Logger implements LoggerInterface
      * @param int    level
      * @param string message
      *
-     * @throws <Logger\Exception>
+     * @throws Logger\Exception
      */
     protected function addMessage(int level, string message, array context = []) -> bool
     {

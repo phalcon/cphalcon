@@ -156,7 +156,7 @@ title: '{$document['title']}'
         }
     }
 
-    $outputDoc = str_replace('.zep', '', $outputDoc);
+    $outputDoc = strtolower(str_replace('.zep', '', $outputDoc));
 
     file_put_contents(
         $outputDir . $outputDoc,

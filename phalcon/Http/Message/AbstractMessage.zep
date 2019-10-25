@@ -29,12 +29,12 @@ abstract class AbstractMessage extends AbstractCommon
     /**
      * Gets the body of the message.
      *
-     * @var <StreamInterface>
+     * @var StreamInterface
      */
     protected body { get };
 
     /**
-     * @var <Collection>
+     * @var Collection
      */
     protected headers;
 
@@ -324,8 +324,6 @@ abstract class AbstractMessage extends AbstractCommon
      * Check the name of the header. Throw exception if not valid
      *
      * @see http://tools.ietf.org/html/rfc7230#section-3.2
-     *
-     * @param $name
      */
     final protected function checkHeaderName(var name) -> void
     {
@@ -381,8 +379,6 @@ abstract class AbstractMessage extends AbstractCommon
      * backslash octets occurring within that comment.
      *
      * @see https://tools.ietf.org/html/rfc7230#section-3.2.6
-     *
-     * @param $value
      */
     final protected function checkHeaderValue(var value) -> void
     {
@@ -400,10 +396,6 @@ abstract class AbstractMessage extends AbstractCommon
 
     /**
      * Returns the header values checked for validity
-     *
-     * @param $values
-     *
-     * @return array
      */
     final protected function getHeaderValue(var values) -> array
     {
@@ -500,10 +492,6 @@ abstract class AbstractMessage extends AbstractCommon
 
     /**
      * Sets the headers
-     *
-     * @param $headers
-     *
-     * @return Collection
      */
     final protected function processHeaders(var headers) -> <Collection>
     {

@@ -103,6 +103,7 @@ abstract class AbstractElement implements ElementInterface
      * Adds a group of validators
      *
      * @param \Phalcon\Validation\ValidatorInterface[] validators
+     * @param bool                                     merge
      */
     public function addValidators(array! validators, bool merge = true) -> <ElementInterface>
     {

@@ -47,14 +47,14 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
      * Serializer
      *
-     * @var <SerializerInterface>
+     * @var SerializerInterface
      */
     protected serializer;
 
     /**
      * Serializer Factory
      *
-     * @var <SerializerFactory>
+     * @var SerializerFactory
      */
     protected serializerFactory;
 

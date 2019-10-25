@@ -43,7 +43,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
 
     /**
      * Cache for caching access
-     * @var <CacheAdapterInterface>
+     * @var CacheAdapterInterface
      */
     protected cache;
 

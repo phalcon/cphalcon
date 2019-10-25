@@ -21,7 +21,7 @@ use Phalcon\Escaper\EscaperInterface;
 abstract class AbstractHelper
 {
     /**
-     * @var <EscaperInterface>
+     * @var EscaperInterface
      */
     protected escaper;
 

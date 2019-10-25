@@ -13,7 +13,7 @@ namespace Phalcon\Flash;
 use Phalcon\Di\DiInterface;
 use Phalcon\Flash\AbstractFlash;
 use Phalcon\Flash\Exception;
-use Phalcon\Session\ManagerInterface as SessionInterface;
+use Phalcon\Session\ManagerInterface;
 
 /**
  * Temporarily stores the messages in session, then messages can be printed in
@@ -144,7 +144,7 @@ class Session extends AbstractFlash
     /**
      * Returns the Session Service
      */
-    public function getSessionService() -> <SessionInterface>
+    public function getSessionService() -> <ManagerInterface>
     {
         var container;
 
