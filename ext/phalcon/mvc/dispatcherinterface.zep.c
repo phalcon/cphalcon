@@ -29,7 +29,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_DispatcherInterface) {
 
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Mvc, DispatcherInterface, phalcon, mvc_dispatcherinterface, phalcon_mvc_dispatcherinterface_method_entry);
 
-	zend_class_implements(phalcon_mvc_dispatcherinterface_ce TSRMLS_CC, 1, phalcon_dispatcher_dispatcherinterface_ce);
+	zend_class_implements(phalcon_mvc_dispatcherinterface_ce, 1, phalcon_dispatcher_dispatcherinterface_ce);
 	return SUCCESS;
 
 }

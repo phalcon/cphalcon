@@ -67,7 +67,7 @@ PHP_METHOD(Phalcon_Html_Helper_AnchorRaw, __invoke) {
 	zephir_fetch_params(1, 2, 1, &href_param, &text_param, &attributes_param);
 
 	if (UNEXPECTED(Z_TYPE_P(href_param) != IS_STRING && Z_TYPE_P(href_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'href' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'href' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(href_param) == IS_STRING)) {
@@ -77,7 +77,7 @@ PHP_METHOD(Phalcon_Html_Helper_AnchorRaw, __invoke) {
 		ZVAL_EMPTY_STRING(&href);
 	}
 	if (UNEXPECTED(Z_TYPE_P(text_param) != IS_STRING && Z_TYPE_P(text_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'text' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'text' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(text_param) == IS_STRING)) {
@@ -95,11 +95,11 @@ PHP_METHOD(Phalcon_Html_Helper_AnchorRaw, __invoke) {
 
 
 	ZEPHIR_INIT_VAR(&overrides);
-	zephir_create_array(&overrides, 1, 0 TSRMLS_CC);
+	zephir_create_array(&overrides, 1, 0);
 	zephir_array_update_string(&overrides, SL("href"), &href, PH_COPY | PH_SEPARATE);
 	zephir_array_unset_string(&attributes, SL("href"), PH_SEPARATE);
 	ZEPHIR_INIT_VAR(&_0);
-	zephir_fast_array_merge(&_0, &overrides, &attributes TSRMLS_CC);
+	zephir_fast_array_merge(&_0, &overrides, &attributes);
 	ZEPHIR_CPY_WRT(&overrides, &_0);
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "a");

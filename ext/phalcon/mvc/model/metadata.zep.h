@@ -158,9 +158,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_metadata_getre
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_metadata_getstrategy, 0, 0, Phalcon\\Mvc\\Model\\MetaData\\StrategyInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_metadata_getstrategy, 0, 0, Phalcon\\Mvc\\Model\\MetaData\\Strategy\\StrategyInterface, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_metadata_getstrategy, 0, 0, IS_OBJECT, "Phalcon\\Mvc\\Model\\MetaData\\StrategyInterface", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_metadata_getstrategy, 0, 0, IS_OBJECT, "Phalcon\\Mvc\\Model\\MetaData\\Strategy\\StrategyInterface", 0)
 #endif
 ZEND_END_ARG_INFO()
 
@@ -311,7 +311,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_setstrategy, 0, 0, 1)
 #define arginfo_phalcon_mvc_model_metadata_setstrategy NULL
 #endif
 
-	ZEND_ARG_OBJ_INFO(0, strategy, Phalcon\\Mvc\\Model\\MetaData\\StrategyInterface, 0)
+	ZEND_ARG_OBJ_INFO(0, strategy, Phalcon\\Mvc\\Model\\MetaData\\Strategy\\StrategyInterface, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70100

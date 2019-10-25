@@ -64,7 +64,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Digit) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator, Digit, phalcon, validation_validator_digit, phalcon_validation_abstractvalidator_ce, phalcon_validation_validator_digit_method_entry, 0);
 
-	zend_declare_property_string(phalcon_validation_validator_digit_ce, SL("template"), "Field :field must be numeric", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_validation_validator_digit_ce, SL("template"), "Field :field must be numeric", ZEND_ACC_PROTECTED);
 
 	return SUCCESS;
 

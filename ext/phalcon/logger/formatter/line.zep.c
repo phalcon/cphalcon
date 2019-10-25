@@ -42,14 +42,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Formatter_Line) {
 	 *
 	 * @var string
 	 */
-	zend_declare_property_null(phalcon_logger_formatter_line_ce, SL("dateFormat"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_logger_formatter_line_ce, SL("dateFormat"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * Format applied to each message
 	 *
 	 * @var string
 	 */
-	zend_declare_property_null(phalcon_logger_formatter_line_ce, SL("format"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_logger_formatter_line_ce, SL("format"), ZEND_ACC_PROTECTED);
 
 	return SUCCESS;
 
@@ -202,11 +202,11 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, format) {
 		zephir_read_property(&_2$$3, this_ptr, SL("dateFormat"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(&_3$$3, item, "gettime", NULL, 0);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(&_4$$3, "date", NULL, 409, &_2$$3, &_3$$3);
+		ZEPHIR_CALL_FUNCTION(&_4$$3, "date", NULL, 413, &_2$$3, &_3$$3);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_5$$3);
 		ZVAL_STRING(&_5$$3, "%date%");
-		zephir_fast_str_replace(&_1$$3, &_5$$3, &_4$$3, &format TSRMLS_CC);
+		zephir_fast_str_replace(&_1$$3, &_5$$3, &_4$$3, &format);
 		ZEPHIR_CPY_WRT(&format, &_1$$3);
 	}
 	if (zephir_memnstr_str(&format, SL("%type%"), "phalcon/Logger/Formatter/Line.zep", 72)) {
@@ -215,7 +215,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, format) {
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_8$$4);
 		ZVAL_STRING(&_8$$4, "%type%");
-		zephir_fast_str_replace(&_6$$4, &_8$$4, &_7$$4, &format TSRMLS_CC);
+		zephir_fast_str_replace(&_6$$4, &_8$$4, &_7$$4, &format);
 		ZEPHIR_CPY_WRT(&format, &_6$$4);
 	}
 	ZEPHIR_INIT_VAR(&_9);
@@ -223,9 +223,9 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, format) {
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_11);
 	ZVAL_STRING(&_11, "%message%");
-	zephir_fast_str_replace(&_9, &_11, &_10, &format TSRMLS_CC);
+	zephir_fast_str_replace(&_9, &_11, &_10, &format);
 	ZEPHIR_INIT_VAR(&_12);
-	ZEPHIR_MM_GET_CONSTANT(&_12, "PHP_EOL");
+	ZEPHIR_GET_CONSTANT(&_12, "PHP_EOL");
 	ZEPHIR_INIT_VAR(&_13);
 	ZEPHIR_CONCAT_VV(&_13, &_9, &_12);
 	ZEPHIR_CPY_WRT(&format, &_13);

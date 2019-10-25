@@ -11,9 +11,9 @@ if test "$PHP_PHALCON" = "yes"; then
 	AC_DEFINE(HAVE_PHALCON, 1, [Whether you have Phalcon])
 	phalcon_sources="phalcon.c kernel/main.c kernel/memory.c kernel/exception.c kernel/debug.c kernel/backtrace.c kernel/object.c kernel/array.c kernel/string.c kernel/fcall.c kernel/require.c kernel/file.c kernel/operators.c kernel/math.c kernel/concat.c kernel/variables.c kernel/filter.c kernel/iterator.c kernel/time.c kernel/exit.c phalcon/exception.zep.c
 	phalcon/di/injectionawareinterface.zep.c
-	phalcon/events/eventsawareinterface.zep.c
 	phalcon/validation/validatorinterface.zep.c
 	phalcon/validation/abstractvalidator.zep.c
+	phalcon/events/eventsawareinterface.zep.c
 	phalcon/di/abstractinjectionaware.zep.c
 	phalcon/storage/adapter/adapterinterface.zep.c
 	phalcon/di/injectable.zep.c
@@ -77,7 +77,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/image/adapter/abstractadapter.zep.c
 	phalcon/mvc/entityinterface.zep.c
 	phalcon/mvc/model/behavior.zep.c
-	phalcon/mvc/model/metadata/strategyinterface.zep.c
+	phalcon/mvc/model/metadata/strategy/strategyinterface.zep.c
 	phalcon/mvc/model/resultinterface.zep.c
 	phalcon/mvc/model/resultset.zep.c
 	phalcon/mvc/routerinterface.zep.c
@@ -90,6 +90,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/acl/roleinterface.zep.c
 	phalcon/annotations/readerinterface.zep.c
 	phalcon/cli/dispatcherinterface.zep.c
+	phalcon/cli/router/routeinterface.zep.c
 	phalcon/cli/taskinterface.zep.c
 	phalcon/crypt/cryptinterface.zep.c
 	phalcon/crypt/exception.zep.c
@@ -187,7 +188,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/cli/router.zep.c
 	phalcon/cli/router/exception.zep.c
 	phalcon/cli/router/route.zep.c
-	phalcon/cli/router/routeinterface.zep.c
 	phalcon/cli/routerinterface.zep.c
 	phalcon/cli/task.zep.c
 	phalcon/collection/exception.zep.c

@@ -71,7 +71,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_File_Resolution_Equal) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator\\File\\Resolution, Equal, phalcon, validation_validator_file_resolution_equal, phalcon_validation_validator_file_abstractfile_ce, phalcon_validation_validator_file_resolution_equal_method_entry, 0);
 
-	zend_declare_property_string(phalcon_validation_validator_file_resolution_equal_ce, SL("template"), "The resolution of the field :field has to be equal :resolution", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_validation_validator_file_resolution_equal_ce, SL("template"), "The resolution of the field :field has to be equal :resolution", ZEND_ACC_PROTECTED);
 
 	return SUCCESS;
 
@@ -118,29 +118,29 @@ PHP_METHOD(Phalcon_Validation_Validator_File_Resolution_Equal, validate) {
 	}
 	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, 0, field);
 	zephir_check_call_status();
-	zephir_array_fetch_string(&_1, &value, SL("tmp_name"), PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/File/Resolution/Equal.zep", 74 TSRMLS_CC);
-	ZEPHIR_CALL_FUNCTION(&tmp, "getimagesize", NULL, 356, &_1);
+	zephir_array_fetch_string(&_1, &value, SL("tmp_name"), PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/File/Resolution/Equal.zep", 74);
+	ZEPHIR_CALL_FUNCTION(&tmp, "getimagesize", NULL, 358, &_1);
 	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(&width);
-	zephir_array_fetch_long(&width, &tmp, 0, PH_NOISY, "phalcon/Validation/Validator/File/Resolution/Equal.zep", 75 TSRMLS_CC);
+	zephir_array_fetch_long(&width, &tmp, 0, PH_NOISY, "phalcon/Validation/Validator/File/Resolution/Equal.zep", 75);
 	ZEPHIR_OBS_VAR(&height);
-	zephir_array_fetch_long(&height, &tmp, 1, PH_NOISY, "phalcon/Validation/Validator/File/Resolution/Equal.zep", 76 TSRMLS_CC);
+	zephir_array_fetch_long(&height, &tmp, 1, PH_NOISY, "phalcon/Validation/Validator/File/Resolution/Equal.zep", 76);
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "resolution");
 	ZEPHIR_CALL_METHOD(&resolution, this_ptr, "getoption", NULL, 0, &_2);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&resolution) == IS_ARRAY) {
-		zephir_array_fetch(&_3$$4, &resolution, field, PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/File/Resolution/Equal.zep", 81 TSRMLS_CC);
+		zephir_array_fetch(&_3$$4, &resolution, field, PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/File/Resolution/Equal.zep", 81);
 		ZEPHIR_CPY_WRT(&resolution, &_3$$4);
 	}
 	ZEPHIR_INIT_VAR(&resolutionArray);
-	zephir_fast_explode_str(&resolutionArray, SL("x"), &resolution, LONG_MAX TSRMLS_CC);
+	zephir_fast_explode_str(&resolutionArray, SL("x"), &resolution, LONG_MAX);
 	ZEPHIR_OBS_VAR(&equalWidth);
-	zephir_array_fetch_long(&equalWidth, &resolutionArray, 0, PH_NOISY, "phalcon/Validation/Validator/File/Resolution/Equal.zep", 85 TSRMLS_CC);
+	zephir_array_fetch_long(&equalWidth, &resolutionArray, 0, PH_NOISY, "phalcon/Validation/Validator/File/Resolution/Equal.zep", 85);
 	ZEPHIR_OBS_VAR(&equalHeight);
-	zephir_array_fetch_long(&equalHeight, &resolutionArray, 1, PH_NOISY, "phalcon/Validation/Validator/File/Resolution/Equal.zep", 86 TSRMLS_CC);
+	zephir_array_fetch_long(&equalHeight, &resolutionArray, 1, PH_NOISY, "phalcon/Validation/Validator/File/Resolution/Equal.zep", 86);
 	if (Z_TYPE_P(&resolution) == IS_ARRAY) {
-		zephir_array_fetch(&_4$$5, &resolution, field, PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/File/Resolution/Equal.zep", 89 TSRMLS_CC);
+		zephir_array_fetch(&_4$$5, &resolution, field, PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/File/Resolution/Equal.zep", 89);
 		ZEPHIR_CPY_WRT(&resolution, &_4$$5);
 	}
 	_5 = !ZEPHIR_IS_EQUAL(&width, &equalWidth);
@@ -149,7 +149,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File_Resolution_Equal, validate) {
 	}
 	if (_5) {
 		ZEPHIR_INIT_VAR(&replacePairs);
-		zephir_create_array(&replacePairs, 1, 0 TSRMLS_CC);
+		zephir_create_array(&replacePairs, 1, 0);
 		zephir_array_update_string(&replacePairs, SL(":resolution"), &resolution, PH_COPY | PH_SEPARATE);
 		ZEPHIR_CALL_METHOD(&_6$$6, this_ptr, "messagefactory", NULL, 0, validation, field, &replacePairs);
 		zephir_check_call_status();

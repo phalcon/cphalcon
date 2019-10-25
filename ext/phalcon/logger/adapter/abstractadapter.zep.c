@@ -37,32 +37,32 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Adapter_AbstractAdapter) {
 	 *
 	 * @var string
 	 */
-	zend_declare_property_string(phalcon_logger_adapter_abstractadapter_ce, SL("defaultFormatter"), "Line", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_logger_adapter_abstractadapter_ce, SL("defaultFormatter"), "Line", ZEND_ACC_PROTECTED);
 
 	/**
 	 * Formatter
 	 *
-	 * @var <FormatterInterface>
+	 * @var FormatterInterface
 	 */
-	zend_declare_property_null(phalcon_logger_adapter_abstractadapter_ce, SL("formatter"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_logger_adapter_abstractadapter_ce, SL("formatter"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * Tells if there is an active transaction or not
 	 *
 	 * @var bool
 	 */
-	zend_declare_property_bool(phalcon_logger_adapter_abstractadapter_ce, SL("inTransaction"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_bool(phalcon_logger_adapter_abstractadapter_ce, SL("inTransaction"), 0, ZEND_ACC_PROTECTED);
 
 	/**
 	 * Array with messages queued in the transaction
 	 *
 	 * @var array
 	 */
-	zend_declare_property_null(phalcon_logger_adapter_abstractadapter_ce, SL("queue"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_logger_adapter_abstractadapter_ce, SL("queue"), ZEND_ACC_PROTECTED);
 
 	phalcon_logger_adapter_abstractadapter_ce->create_object = zephir_init_properties_Phalcon_Logger_Adapter_AbstractAdapter;
 
-	zend_class_implements(phalcon_logger_adapter_abstractadapter_ce TSRMLS_CC, 1, phalcon_logger_adapter_adapterinterface_ce);
+	zend_class_implements(phalcon_logger_adapter_abstractadapter_ce, 1, phalcon_logger_adapter_adapterinterface_ce);
 	return SUCCESS;
 
 }
@@ -221,7 +221,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, getFormatter) {
 		ZEPHIR_CONCAT_SV(&_2$$3, "Phalcon\\Logger\\Formatter\\", &_1$$3);
 		zephir_get_strval(&className, &_2$$3);
 		ZEPHIR_INIT_VAR(&_3$$3);
-		ZEPHIR_LAST_CALL_STATUS = zephir_create_instance(&_3$$3, &className TSRMLS_CC);
+		ZEPHIR_LAST_CALL_STATUS = zephir_create_instance(&_3$$3, &className);
 		zephir_check_call_status();
 		zephir_update_property_zval(this_ptr, SL("formatter"), &_3$$3);
 	}

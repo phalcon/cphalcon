@@ -31,11 +31,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Session_Adapter_AbstractAdapter) {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Session\\Adapter, AbstractAdapter, phalcon, session_adapter_abstractadapter, phalcon_session_adapter_abstractadapter_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
 	/**
-	 * @var <AdapterInterface>
+	 * @var AdapterInterface
 	 */
-	zend_declare_property_null(phalcon_session_adapter_abstractadapter_ce, SL("adapter"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_session_adapter_abstractadapter_ce, SL("adapter"), ZEND_ACC_PROTECTED);
 
-	zend_class_implements(phalcon_session_adapter_abstractadapter_ce TSRMLS_CC, 1, zephir_get_internal_ce(SL("sessionhandlerinterface")));
+	zend_class_implements(phalcon_session_adapter_abstractadapter_ce, 1, zephir_get_internal_ce(SL("sessionhandlerinterface")));
 	return SUCCESS;
 
 }

@@ -37,14 +37,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Adapter_AbstractAdapter) {
 	 *
 	 * @var string
 	 */
-	zend_declare_property_null(phalcon_acl_adapter_abstractadapter_ce, SL("activeAccess"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_acl_adapter_abstractadapter_ce, SL("activeAccess"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * Access Granted
 	 *
 	 * @var bool
 	 */
-	zend_declare_property_bool(phalcon_acl_adapter_abstractadapter_ce, SL("accessGranted"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_bool(phalcon_acl_adapter_abstractadapter_ce, SL("accessGranted"), 0, ZEND_ACC_PROTECTED);
 
 	/**
 	 * Role which the list is checking if it's allowed to certain
@@ -52,31 +52,31 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Adapter_AbstractAdapter) {
 	 *
 	 * @var string
 	 */
-	zend_declare_property_null(phalcon_acl_adapter_abstractadapter_ce, SL("activeRole"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_acl_adapter_abstractadapter_ce, SL("activeRole"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * Component which the list is checking if some role can access it
 	 *
 	 * @var string
 	 */
-	zend_declare_property_null(phalcon_acl_adapter_abstractadapter_ce, SL("activeComponent"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_acl_adapter_abstractadapter_ce, SL("activeComponent"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * Default access
 	 *
 	 * @var bool
 	 */
-	zend_declare_property_bool(phalcon_acl_adapter_abstractadapter_ce, SL("defaultAccess"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_bool(phalcon_acl_adapter_abstractadapter_ce, SL("defaultAccess"), 0, ZEND_ACC_PROTECTED);
 
 	/**
 	 * Events manager
 	 *
 	 * @var mixed
 	 */
-	zend_declare_property_null(phalcon_acl_adapter_abstractadapter_ce, SL("eventsManager"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_acl_adapter_abstractadapter_ce, SL("eventsManager"), ZEND_ACC_PROTECTED);
 
-	zend_class_implements(phalcon_acl_adapter_abstractadapter_ce TSRMLS_CC, 1, phalcon_acl_adapter_adapterinterface_ce);
-	zend_class_implements(phalcon_acl_adapter_abstractadapter_ce TSRMLS_CC, 1, phalcon_events_eventsawareinterface_ce);
+	zend_class_implements(phalcon_acl_adapter_abstractadapter_ce, 1, phalcon_acl_adapter_adapterinterface_ce);
+	zend_class_implements(phalcon_acl_adapter_abstractadapter_ce, 1, phalcon_events_eventsawareinterface_ce);
 	return SUCCESS;
 
 }

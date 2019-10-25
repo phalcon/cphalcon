@@ -58,7 +58,7 @@ PHP_METHOD(Phalcon_Filter_Sanitize_Replace, __invoke) {
 
 
 	ZEPHIR_INIT_VAR(&_0);
-	zephir_fast_str_replace(&_0, from, to, input TSRMLS_CC);
+	zephir_fast_str_replace(&_0, from, to, input);
 	RETURN_CCTOR(&_0);
 
 }

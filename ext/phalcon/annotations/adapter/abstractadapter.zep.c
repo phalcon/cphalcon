@@ -37,16 +37,16 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_AbstractAdapter) {
 	/**
 	 * @var array
 	 */
-	zend_declare_property_null(phalcon_annotations_adapter_abstractadapter_ce, SL("annotations"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_annotations_adapter_abstractadapter_ce, SL("annotations"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * @var Reader
 	 */
-	zend_declare_property_null(phalcon_annotations_adapter_abstractadapter_ce, SL("reader"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_annotations_adapter_abstractadapter_ce, SL("reader"), ZEND_ACC_PROTECTED);
 
 	phalcon_annotations_adapter_abstractadapter_ce->create_object = zephir_init_properties_Phalcon_Annotations_Adapter_AbstractAdapter;
 
-	zend_class_implements(phalcon_annotations_adapter_abstractadapter_ce TSRMLS_CC, 1, phalcon_annotations_adapter_adapterinterface_ce);
+	zend_class_implements(phalcon_annotations_adapter_abstractadapter_ce, 1, phalcon_annotations_adapter_adapterinterface_ce);
 	return SUCCESS;
 
 }
@@ -78,14 +78,14 @@ PHP_METHOD(Phalcon_Annotations_Adapter_AbstractAdapter, get) {
 
 	if (Z_TYPE_P(className) == IS_OBJECT) {
 		ZEPHIR_INIT_VAR(&realClassName);
-		zephir_get_class(&realClassName, className, 0 TSRMLS_CC);
+		zephir_get_class(&realClassName, className, 0);
 	} else {
 		ZEPHIR_CPY_WRT(&realClassName, className);
 	}
 	zephir_read_property(&_0, this_ptr, SL("annotations"), PH_NOISY_CC | PH_READONLY);
 	if (zephir_array_isset(&_0, &realClassName)) {
 		zephir_read_property(&_1$$5, this_ptr, SL("annotations"), PH_NOISY_CC | PH_READONLY);
-		zephir_array_fetch(&_2$$5, &_1$$5, &realClassName, PH_NOISY | PH_READONLY, "phalcon/Annotations/Adapter/AbstractAdapter.zep", 52 TSRMLS_CC);
+		zephir_array_fetch(&_2$$5, &_1$$5, &realClassName, PH_NOISY | PH_READONLY, "phalcon/Annotations/Adapter/AbstractAdapter.zep", 52);
 		RETURN_CTOR(&_2$$5);
 	}
 	ZEPHIR_CALL_METHOD(&classAnnotations, this_ptr, "read", NULL, 0, &realClassName);
@@ -101,7 +101,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_AbstractAdapter, get) {
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(&classAnnotations);
 		object_init_ex(&classAnnotations, phalcon_annotations_reflection_ce);
-		ZEPHIR_CALL_METHOD(NULL, &classAnnotations, "__construct", NULL, 41, &parsedAnnotations);
+		ZEPHIR_CALL_METHOD(NULL, &classAnnotations, "__construct", NULL, 42, &parsedAnnotations);
 		zephir_check_call_status();
 		zephir_update_property_array(this_ptr, SL("annotations"), &realClassName, &classAnnotations);
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "write", NULL, 0, &realClassName, &classAnnotations);
@@ -159,7 +159,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_AbstractAdapter, getMethod) {
 				}
 				ZEPHIR_INIT_NVAR(&method);
 				ZVAL_COPY(&method, _0$$3);
-				ZEPHIR_CALL_FUNCTION(&_4$$4, "strcasecmp", &_5, 42, &methodKey, &methodName);
+				ZEPHIR_CALL_FUNCTION(&_4$$4, "strcasecmp", &_5, 43, &methodKey, &methodName);
 				zephir_check_call_status();
 				if (!(zephir_is_true(&_4$$4))) {
 					RETURN_CCTOR(&method);
@@ -178,7 +178,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_AbstractAdapter, getMethod) {
 				zephir_check_call_status();
 				ZEPHIR_CALL_METHOD(&method, &methods, "current", NULL, 0);
 				zephir_check_call_status();
-					ZEPHIR_CALL_FUNCTION(&_6$$6, "strcasecmp", &_5, 42, &methodKey, &methodName);
+					ZEPHIR_CALL_FUNCTION(&_6$$6, "strcasecmp", &_5, 43, &methodKey, &methodName);
 					zephir_check_call_status();
 					if (!(zephir_is_true(&_6$$6))) {
 						RETURN_CCTOR(&method);
@@ -191,7 +191,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_AbstractAdapter, getMethod) {
 		ZEPHIR_INIT_NVAR(&methodKey);
 	}
 	object_init_ex(return_value, phalcon_annotations_collection_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 43);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 44);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -253,9 +253,9 @@ PHP_METHOD(Phalcon_Annotations_Adapter_AbstractAdapter, getProperty) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&properties, &classAnnotations, "getpropertiesannotations", NULL, 0);
 	zephir_check_call_status();
-	if (!(zephir_array_isset_fetch(&property, &properties, &propertyName, 1 TSRMLS_CC))) {
+	if (!(zephir_array_isset_fetch(&property, &properties, &propertyName, 1))) {
 		object_init_ex(return_value, phalcon_annotations_collection_ce);
-		ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 43);
+		ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 44);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
@@ -311,7 +311,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_AbstractAdapter, getReader) {
 	if (Z_TYPE_P(&_0) != IS_OBJECT) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_annotations_reader_ce);
-		if (zephir_has_constructor(&_1$$3 TSRMLS_CC)) {
+		if (zephir_has_constructor(&_1$$3)) {
 			ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0);
 			zephir_check_call_status();
 		}

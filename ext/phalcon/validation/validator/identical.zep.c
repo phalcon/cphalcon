@@ -70,7 +70,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Identical) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator, Identical, phalcon, validation_validator_identical, phalcon_validation_abstractvalidator_ce, phalcon_validation_validator_identical_method_entry, 0);
 
-	zend_declare_property_string(phalcon_validation_validator_identical_ce, SL("template"), "Field :field does not have the expected value", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_validation_validator_identical_ce, SL("template"), "Field :field does not have the expected value", ZEND_ACC_PROTECTED);
 
 	return SUCCESS;
 
@@ -127,7 +127,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Identical, validate) {
 	}
 	if (zephir_is_true(&accepted)) {
 		if (Z_TYPE_P(&accepted) == IS_ARRAY) {
-			zephir_array_fetch(&_5$$6, &accepted, field, PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/Identical.zep", 78 TSRMLS_CC);
+			zephir_array_fetch(&_5$$6, &accepted, field, PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/Identical.zep", 78);
 			ZEPHIR_CPY_WRT(&accepted, &_5$$6);
 		}
 		valid = ZEPHIR_IS_EQUAL(&value, &accepted);

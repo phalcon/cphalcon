@@ -90,7 +90,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, paginate) {
 	zephir_read_property(&_1, this_ptr, SL("config"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&config, &_1);
 	ZEPHIR_OBS_VAR(&items);
-	zephir_array_fetch_string(&items, &config, SL("data"), PH_NOISY, "phalcon/Paginator/Adapter/Model.zep", 50 TSRMLS_CC);
+	zephir_array_fetch_string(&items, &config, SL("data"), PH_NOISY, "phalcon/Paginator/Adapter/Model.zep", 50);
 	ZEPHIR_OBS_VAR(&_2);
 	zephir_read_property(&_2, this_ptr, SL("page"), PH_NOISY_CC);
 	pageNumber = zephir_get_intval(&_2);
@@ -105,15 +105,15 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, paginate) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "The start page number is zero or less", "phalcon/Paginator/Adapter/Model.zep", 64);
 		return;
 	}
-	n = zephir_fast_count_int(&items TSRMLS_CC);
+	n = zephir_fast_count_int(&items);
 	lastShowPage = (pageNumber - 1);
 	start = (show * lastShowPage);
 	ZEPHIR_INIT_VAR(&pageItems);
 	array_init(&pageItems);
-	if (zephir_safe_mod_long_long(n, show TSRMLS_CC) != 0) {
-		totalPages = (int) ((zephir_safe_div_long_long(n, show TSRMLS_CC) + (double) (1)));
+	if (zephir_safe_mod_long_long(n, show) != 0) {
+		totalPages = (int) ((zephir_safe_div_long_long(n, show) + (double) (1)));
 	} else {
-		totalPages = (int) (zephir_safe_div_long_long(n, show TSRMLS_CC));
+		totalPages = (int) (zephir_safe_div_long_long(n, show));
 	}
 	if (n > 0) {
 		if (start <= n) {
@@ -154,7 +154,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, paginate) {
 		previous = 1;
 	}
 	ZEPHIR_INIT_VAR(&_9);
-	zephir_create_array(&_9, 8, 0 TSRMLS_CC);
+	zephir_create_array(&_9, 8, 0);
 	zephir_array_update_string(&_9, SL("items"), &pageItems, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_VAR(&_10);
 	ZVAL_LONG(&_10, n);

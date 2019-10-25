@@ -32,7 +32,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Formatter_AbstractFormatter) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Logger\\Formatter, AbstractFormatter, phalcon, logger_formatter_abstractformatter, phalcon_logger_formatter_abstractformatter_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
-	zend_class_implements(phalcon_logger_formatter_abstractformatter_ce TSRMLS_CC, 1, phalcon_logger_formatter_formatterinterface_ce);
+	zend_class_implements(phalcon_logger_formatter_abstractformatter_ce, 1, phalcon_logger_formatter_formatterinterface_ce);
 	return SUCCESS;
 
 }
@@ -78,7 +78,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_AbstractFormatter, interpolate) {
 
 	_0 = Z_TYPE_P(context) == IS_ARRAY;
 	if (_0) {
-		_0 = zephir_fast_count_int(context TSRMLS_CC) > 0;
+		_0 = zephir_fast_count_int(context) > 0;
 	}
 	if (_0) {
 		ZEPHIR_INIT_VAR(&replace);
@@ -95,7 +95,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_AbstractFormatter, interpolate) {
 				}
 				ZEPHIR_INIT_NVAR(&value);
 				ZVAL_COPY(&value, _1$$3);
-				ZEPHIR_INIT_LNVAR(_5$$4);
+				ZEPHIR_INIT_NVAR(&_5$$4);
 				ZEPHIR_CONCAT_SVS(&_5$$4, "{", &key, "}");
 				zephir_array_update_zval(&replace, &_5$$4, &value, PH_COPY | PH_SEPARATE);
 			} ZEND_HASH_FOREACH_END();
@@ -112,7 +112,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_AbstractFormatter, interpolate) {
 				zephir_check_call_status();
 				ZEPHIR_CALL_METHOD(&value, context, "current", NULL, 0);
 				zephir_check_call_status();
-					ZEPHIR_INIT_LNVAR(_6$$5);
+					ZEPHIR_INIT_NVAR(&_6$$5);
 					ZEPHIR_CONCAT_SVS(&_6$$5, "{", &key, "}");
 					zephir_array_update_zval(&replace, &_6$$5, &value, PH_COPY | PH_SEPARATE);
 				ZEPHIR_CALL_METHOD(NULL, context, "next", NULL, 0);

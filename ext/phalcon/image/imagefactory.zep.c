@@ -104,21 +104,21 @@ PHP_METHOD(Phalcon_Image_ImageFactory, load) {
 		return;
 	}
 	ZEPHIR_OBS_VAR(&name);
-	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Image/ImageFactory.zep", 46 TSRMLS_CC);
+	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Image/ImageFactory.zep", 46);
 	zephir_array_unset_string(config, SL("adapter"), PH_SEPARATE);
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "file");
-	ZEPHIR_CALL_CE_STATIC(&file, phalcon_helper_arr_ce, "get", &_1, 12, config, &_2);
+	ZEPHIR_CALL_CE_STATIC(&file, phalcon_helper_arr_ce, "get", &_1, 13, config, &_2);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "height");
 	ZVAL_NULL(&_3);
-	ZEPHIR_CALL_CE_STATIC(&height, phalcon_helper_arr_ce, "get", &_1, 12, config, &_2, &_3);
+	ZEPHIR_CALL_CE_STATIC(&height, phalcon_helper_arr_ce, "get", &_1, 13, config, &_2, &_3);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "width");
 	ZVAL_NULL(&_3);
-	ZEPHIR_CALL_CE_STATIC(&width, phalcon_helper_arr_ce, "get", &_1, 12, config, &_2, &_3);
+	ZEPHIR_CALL_CE_STATIC(&width, phalcon_helper_arr_ce, "get", &_1, 13, config, &_2, &_3);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "newinstance", NULL, 0, &name, &file, &width, &height);
 	zephir_check_call_status();
@@ -153,7 +153,7 @@ PHP_METHOD(Phalcon_Image_ImageFactory, newInstance) {
 	zephir_fetch_params(1, 2, 2, &name_param, &file_param, &width_param, &height_param);
 
 	if (UNEXPECTED(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(name_param) == IS_STRING)) {
@@ -163,7 +163,7 @@ PHP_METHOD(Phalcon_Image_ImageFactory, newInstance) {
 		ZVAL_EMPTY_STRING(&name);
 	}
 	if (UNEXPECTED(Z_TYPE_P(file_param) != IS_STRING && Z_TYPE_P(file_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'file' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'file' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(file_param) == IS_STRING)) {
@@ -190,10 +190,10 @@ PHP_METHOD(Phalcon_Image_ImageFactory, newInstance) {
 	if (!(zephir_array_isset(&_0, &name))) {
 		zephir_read_property(&_1$$3, this_ptr, SL("mapper"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_OBS_VAR(&definition);
-		zephir_array_fetch(&definition, &_1$$3, &name, PH_NOISY, "phalcon/Image/ImageFactory.zep", 72 TSRMLS_CC);
+		zephir_array_fetch(&definition, &_1$$3, &name, PH_NOISY, "phalcon/Image/ImageFactory.zep", 72);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZEPHIR_INIT_VAR(&_3$$3);
-		zephir_create_array(&_3$$3, 3, 0 TSRMLS_CC);
+		zephir_create_array(&_3$$3, 3, 0);
 		zephir_array_fast_append(&_3$$3, &file);
 		ZEPHIR_INIT_VAR(&_4$$3);
 		ZVAL_LONG(&_4$$3, width);
@@ -201,12 +201,12 @@ PHP_METHOD(Phalcon_Image_ImageFactory, newInstance) {
 		ZEPHIR_INIT_NVAR(&_4$$3);
 		ZVAL_LONG(&_4$$3, height);
 		zephir_array_fast_append(&_3$$3, &_4$$3);
-		ZEPHIR_LAST_CALL_STATUS = zephir_create_instance_params(&_2$$3, &definition, &_3$$3 TSRMLS_CC);
+		ZEPHIR_LAST_CALL_STATUS = zephir_create_instance_params(&_2$$3, &definition, &_3$$3);
 		zephir_check_call_status();
 		zephir_update_property_array(this_ptr, SL("services"), &name, &_2$$3);
 	}
 	zephir_read_property(&_5, this_ptr, SL("services"), PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch(&_6, &_5, &name, PH_NOISY | PH_READONLY, "phalcon/Image/ImageFactory.zep", 83 TSRMLS_CC);
+	zephir_array_fetch(&_6, &_5, &name, PH_NOISY | PH_READONLY, "phalcon/Image/ImageFactory.zep", 83);
 	RETURN_CTOR(&_6);
 
 }
@@ -216,7 +216,7 @@ PHP_METHOD(Phalcon_Image_ImageFactory, getAdapters) {
 	zval *this_ptr = getThis();
 
 
-	zephir_create_array(return_value, 2, 0 TSRMLS_CC);
+	zephir_create_array(return_value, 2, 0);
 	add_assoc_stringl_ex(return_value, SL("gd"), SL("Phalcon\\Image\\Adapter\\Gd"));
 	add_assoc_stringl_ex(return_value, SL("imagick"), SL("Phalcon\\Image\\Adapter\\Imagick"));
 	return;

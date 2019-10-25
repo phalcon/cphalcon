@@ -65,7 +65,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Alpha) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator, Alpha, phalcon, validation_validator_alpha, phalcon_validation_abstractvalidator_ce, phalcon_validation_validator_alpha_method_entry, 0);
 
-	zend_declare_property_string(phalcon_validation_validator_alpha_ce, SL("template"), "Field :field must contain only letters", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_validation_validator_alpha_ce, SL("template"), "Field :field must contain only letters", ZEND_ACC_PROTECTED);
 
 	return SUCCESS;
 
@@ -103,7 +103,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Alpha, validate) {
 	ZEPHIR_INIT_VAR(&_2);
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "/[^[:alpha:]]/imu");
-	zephir_preg_match(&_2, &_3, &value, &_0, 0, 0 , 0  TSRMLS_CC);
+	zephir_preg_match(&_2, &_3, &value, &_0, 0, 0 , 0 );
 	if (zephir_is_true(&_2)) {
 		ZEPHIR_CALL_METHOD(&_4$$3, this_ptr, "messagefactory", NULL, 0, validation, field);
 		zephir_check_call_status();

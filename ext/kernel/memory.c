@@ -1,22 +1,13 @@
-
 /*
-  +------------------------------------------------------------------------+
-  | Zephir Language                                                        |
-  +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2017 Zephir Team (http://www.zephir-lang.com)       |
-  +------------------------------------------------------------------------+
-  | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file docs/LICENSE.txt.                        |
-  |                                                                        |
-  | If you did not receive a copy of the license and are unable to         |
-  | obtain it through the world-wide-web, please send an email             |
-  | to license@zephir-lang.com so we can send you a copy immediately.      |
-  +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@zephir-lang.com>                     |
-  |          Eduar Carvajal <eduar@zephir-lang.com>                        |
-  |          Vladimir Kolesnikov <vladimir@extrememember.com>              |
-  +------------------------------------------------------------------------+
-*/
+ * This file is part of the Zephir.
+ *
+ * (c) Zephir Team <team@zephir-lang.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code. If you did not receive
+ * a copy of the license it is available through the world-wide-web at the
+ * following url: https://docs.zephir-lang.com/en/latest/license
+ */
 
 #include "php.h"
 #include "php_ext.h"
@@ -59,15 +50,13 @@ static zend_always_inline zend_execute_data* find_symbol_table(zend_execute_data
  */
 void ZEPHIR_FASTCALL zephir_memory_grow_stack(zephir_method_globals *g, const char *func)
 {
-	zephir_memory_entry *entry;
 	if (g->active_memory == NULL) {
 		zephir_memory_entry *active_memory;
-		size_t i;
 
 		active_memory = (zephir_memory_entry *) pecalloc(1, sizeof(zephir_memory_entry), 0);
 
-		active_memory->addresses       = pecalloc(24, sizeof(zval*), 0);
-		active_memory->capacity        = 24;
+		active_memory->addresses = pecalloc(24, sizeof(zval*), 0);
+		active_memory->capacity  = 24;
 
 		g->active_memory = active_memory;
 	}
@@ -83,7 +72,7 @@ void ZEPHIR_FASTCALL zephir_memory_grow_stack(zephir_method_globals *g, const ch
 void ZEPHIR_FASTCALL zephir_memory_restore_stack(zephir_method_globals *g, const char *func)
 {
 	size_t i;
-	zephir_memory_entry *prev, *active_memory;
+	zephir_memory_entry *active_memory;
 	zephir_symbol_table *active_symbol_table;
 	zval *ptr;
 #ifndef ZEPHIR_RELEASE
@@ -209,7 +198,6 @@ void zephir_initialize_memory(zend_zephir_globals_def *zephir_globals_ptr)
  */
 void zephir_deinitialize_memory()
 {
-	size_t i;
 	zend_zephir_globals_def *zephir_globals_ptr = ZEPHIR_VGLOBAL;
 
 	if (zephir_globals_ptr->initialized != 1) {

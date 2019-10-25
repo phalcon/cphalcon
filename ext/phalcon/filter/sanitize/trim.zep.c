@@ -57,7 +57,7 @@ PHP_METHOD(Phalcon_Filter_Sanitize_Trim, __invoke) {
 	zephir_fetch_params(1, 1, 0, &input_param);
 
 	if (UNEXPECTED(Z_TYPE_P(input_param) != IS_STRING && Z_TYPE_P(input_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'input' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'input' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(input_param) == IS_STRING)) {
@@ -68,7 +68,7 @@ PHP_METHOD(Phalcon_Filter_Sanitize_Trim, __invoke) {
 	}
 
 
-	zephir_fast_trim(return_value, &input, NULL , ZEPHIR_TRIM_BOTH TSRMLS_CC);
+	zephir_fast_trim(return_value, &input, NULL , ZEPHIR_TRIM_BOTH);
 	RETURN_MM();
 
 }

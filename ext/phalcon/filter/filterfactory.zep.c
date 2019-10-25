@@ -52,7 +52,7 @@ PHP_METHOD(Phalcon_Filter_FilterFactory, newInstance) {
 	object_init_ex(return_value, phalcon_filter_ce);
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getadapters", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 233, &_0);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 234, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -63,7 +63,7 @@ PHP_METHOD(Phalcon_Filter_FilterFactory, getAdapters) {
 	zval *this_ptr = getThis();
 
 
-	zephir_create_array(return_value, 21, 0 TSRMLS_CC);
+	zephir_create_array(return_value, 21, 0);
 	add_assoc_stringl_ex(return_value, SL("absint"), SL("Phalcon\\Filter\\Sanitize\\AbsInt"));
 	add_assoc_stringl_ex(return_value, SL("alnum"), SL("Phalcon\\Filter\\Sanitize\\Alnum"));
 	add_assoc_stringl_ex(return_value, SL("alpha"), SL("Phalcon\\Filter\\Sanitize\\Alpha"));

@@ -34,9 +34,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Storage_AdapterFactory) {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Storage, AdapterFactory, phalcon, storage_adapterfactory, phalcon_factory_abstractfactory_ce, phalcon_storage_adapterfactory_method_entry, 0);
 
 	/**
-	 * @var <SerializerFactory>
+	 * @var SerializerFactory
 	 */
-	zend_declare_property_null(phalcon_storage_adapterfactory_ce, SL("serializerFactory"), ZEND_ACC_PRIVATE TSRMLS_CC);
+	zend_declare_property_null(phalcon_storage_adapterfactory_ce, SL("serializerFactory"), ZEND_ACC_PRIVATE);
 
 	return SUCCESS;
 
@@ -106,7 +106,7 @@ PHP_METHOD(Phalcon_Storage_AdapterFactory, newInstance) {
 	zephir_fetch_params(1, 1, 1, &name_param, &options_param);
 
 	if (UNEXPECTED(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(name_param) == IS_STRING)) {
@@ -129,20 +129,20 @@ PHP_METHOD(Phalcon_Storage_AdapterFactory, newInstance) {
 	if (!(zephir_array_isset(&_0, &name))) {
 		zephir_read_property(&_1$$3, this_ptr, SL("mapper"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_OBS_VAR(&definition);
-		zephir_array_fetch(&definition, &_1$$3, &name, PH_NOISY, "phalcon/Storage/AdapterFactory.zep", 44 TSRMLS_CC);
+		zephir_array_fetch(&definition, &_1$$3, &name, PH_NOISY, "phalcon/Storage/AdapterFactory.zep", 45);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZEPHIR_INIT_VAR(&_3$$3);
-		zephir_create_array(&_3$$3, 2, 0 TSRMLS_CC);
+		zephir_create_array(&_3$$3, 2, 0);
 		ZEPHIR_OBS_VAR(&_4$$3);
 		zephir_read_property(&_4$$3, this_ptr, SL("serializerFactory"), PH_NOISY_CC);
 		zephir_array_fast_append(&_3$$3, &_4$$3);
 		zephir_array_fast_append(&_3$$3, &options);
-		ZEPHIR_LAST_CALL_STATUS = zephir_create_instance_params(&_2$$3, &definition, &_3$$3 TSRMLS_CC);
+		ZEPHIR_LAST_CALL_STATUS = zephir_create_instance_params(&_2$$3, &definition, &_3$$3);
 		zephir_check_call_status();
 		zephir_update_property_array(this_ptr, SL("services"), &name, &_2$$3);
 	}
 	zephir_read_property(&_5, this_ptr, SL("services"), PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch(&_6, &_5, &name, PH_NOISY | PH_READONLY, "phalcon/Storage/AdapterFactory.zep", 54 TSRMLS_CC);
+	zephir_array_fetch(&_6, &_5, &name, PH_NOISY | PH_READONLY, "phalcon/Storage/AdapterFactory.zep", 55);
 	RETURN_CTOR(&_6);
 
 }
@@ -152,7 +152,7 @@ PHP_METHOD(Phalcon_Storage_AdapterFactory, getAdapters) {
 	zval *this_ptr = getThis();
 
 
-	zephir_create_array(return_value, 5, 0 TSRMLS_CC);
+	zephir_create_array(return_value, 5, 0);
 	add_assoc_stringl_ex(return_value, SL("apcu"), SL("Phalcon\\Storage\\Adapter\\Apcu"));
 	add_assoc_stringl_ex(return_value, SL("libmemcached"), SL("Phalcon\\Storage\\Adapter\\Libmemcached"));
 	add_assoc_stringl_ex(return_value, SL("memory"), SL("Phalcon\\Storage\\Adapter\\Memory"));

@@ -52,7 +52,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Stream) {
 	/**
 	 * @var string
 	 */
-	zend_declare_property_string(phalcon_annotations_adapter_stream_ce, SL("annotationsDir"), "./", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_annotations_adapter_stream_ce, SL("annotationsDir"), "./", ZEND_ACC_PROTECTED);
 
 	return SUCCESS;
 
@@ -117,15 +117,15 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Stream, read) {
 	ZEPHIR_INIT_VAR(&_1);
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "_");
-	zephir_prepare_virtual_path(&_1, &key, &_2 TSRMLS_CC);
+	zephir_prepare_virtual_path(&_1, &key, &_2);
 	ZEPHIR_INIT_VAR(&_3);
 	ZEPHIR_CONCAT_VVS(&_3, &_0, &_1, ".php");
 	zephir_get_strval(&path, &_3);
-	if (!((zephir_file_exists(&path TSRMLS_CC) == SUCCESS))) {
+	if (!((zephir_file_exists(&path) == SUCCESS))) {
 		RETURN_MM_BOOL(0);
 	}
 	ZEPHIR_OBSERVE_OR_NULLIFY_PPZV(&_4);
-	if (zephir_require_zval_ret(&_4, &path TSRMLS_CC) == FAILURE) {
+	if (zephir_require_zval_ret(&_4, &path) == FAILURE) {
 		RETURN_MM_NULL();
 	}
 	RETURN_CCTOR(&_4);
@@ -158,7 +158,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Stream, write) {
 	zephir_fetch_params(1, 2, 0, &key_param, &data);
 
 	if (UNEXPECTED(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(key_param) == IS_STRING)) {
@@ -173,18 +173,18 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Stream, write) {
 	ZEPHIR_INIT_VAR(&_1);
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "_");
-	zephir_prepare_virtual_path(&_1, &key, &_2 TSRMLS_CC);
+	zephir_prepare_virtual_path(&_1, &key, &_2);
 	ZEPHIR_INIT_VAR(&_3);
 	ZEPHIR_CONCAT_VVS(&_3, &_0, &_1, ".php");
 	zephir_get_strval(&path, &_3);
 	ZEPHIR_INIT_VAR(&_4);
 	ZEPHIR_INIT_NVAR(&_4);
-	zephir_var_export_ex(&_4, data TSRMLS_CC);
+	zephir_var_export_ex(&_4, data);
 	ZEPHIR_INIT_VAR(&_5);
 	ZEPHIR_CONCAT_SVS(&_5, "<?php return ", &_4, "; ");
 	zephir_get_strval(&code, &_5);
 	ZEPHIR_INIT_VAR(&_6);
-	zephir_file_put_contents(&_6, &path, &code TSRMLS_CC);
+	zephir_file_put_contents(&_6, &path, &code);
 	if (UNEXPECTED(ZEPHIR_IS_FALSE_IDENTICAL(&_6))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_annotations_exception_ce, "Annotations directory cannot be written", "phalcon/Annotations/Adapter/Stream.zep", 83);
 		return;

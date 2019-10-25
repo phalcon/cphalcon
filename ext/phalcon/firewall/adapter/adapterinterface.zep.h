@@ -11,6 +11,13 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_firewall_adapter_adapter
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_firewall_adapter_adapterinterface_getrolecallback, 0, 0, Closure, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_firewall_adapter_adapterinterface_getrolecallback, 0, 0, IS_OBJECT, "Closure", 0)
+#endif
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_firewall_adapter_adapterinterface_isalwaysresolvingrole, 0, 0, _IS_BOOL, 0)
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_firewall_adapter_adapterinterface_isalwaysresolvingrole, 0, 0, _IS_BOOL, NULL, 0)
@@ -60,12 +67,12 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_firewall_adapter_adapteri
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_firewall_adapter_adapterinterface_setrolecallback, 0, 1, IS_OBJECT, "Phalcon\\Firewall\\Adapter\\AdapterInterface", 0)
 #endif
-	ZEND_ARG_INFO(0, callback)
+	ZEND_ARG_OBJ_INFO(0, callback, Closure, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_firewall_adapter_adapterinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Firewall_Adapter_AdapterInterface, getDefaultAccess, arginfo_phalcon_firewall_adapter_adapterinterface_getdefaultaccess)
-	PHP_ABSTRACT_ME(Phalcon_Firewall_Adapter_AdapterInterface, getRoleCallback, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Firewall_Adapter_AdapterInterface, getRoleCallback, arginfo_phalcon_firewall_adapter_adapterinterface_getrolecallback)
 	PHP_ABSTRACT_ME(Phalcon_Firewall_Adapter_AdapterInterface, isAlwaysResolvingRole, arginfo_phalcon_firewall_adapter_adapterinterface_isalwaysresolvingrole)
 	PHP_ABSTRACT_ME(Phalcon_Firewall_Adapter_AdapterInterface, setAlwaysResolvingRole, arginfo_phalcon_firewall_adapter_adapterinterface_setalwaysresolvingrole)
 	PHP_ABSTRACT_ME(Phalcon_Firewall_Adapter_AdapterInterface, setCache, arginfo_phalcon_firewall_adapter_adapterinterface_setcache)

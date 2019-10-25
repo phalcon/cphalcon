@@ -36,7 +36,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Translate_TranslateFactory) {
 	/**
 	 * @var InterpolatorFactory
 	 */
-	zend_declare_property_null(phalcon_translate_translatefactory_ce, SL("interpolator"), ZEND_ACC_PRIVATE TSRMLS_CC);
+	zend_declare_property_null(phalcon_translate_translatefactory_ce, SL("interpolator"), ZEND_ACC_PRIVATE);
 
 	return SUCCESS;
 
@@ -102,12 +102,12 @@ PHP_METHOD(Phalcon_Translate_TranslateFactory, load) {
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(config, &_0);
 	ZEPHIR_OBS_VAR(&name);
-	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Translate/TranslateFactory.zep", 44 TSRMLS_CC);
+	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Translate/TranslateFactory.zep", 44);
 	ZEPHIR_INIT_VAR(&_2);
 	array_init(&_2);
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "options");
-	ZEPHIR_CALL_CE_STATIC(&options, phalcon_helper_arr_ce, "get", &_1, 12, config, &_3, &_2);
+	ZEPHIR_CALL_CE_STATIC(&options, phalcon_helper_arr_ce, "get", &_1, 13, config, &_3, &_2);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "newinstance", NULL, 0, &name, &options);
 	zephir_check_call_status();
@@ -142,7 +142,7 @@ PHP_METHOD(Phalcon_Translate_TranslateFactory, newInstance) {
 	zephir_fetch_params(1, 1, 1, &name_param, &options_param);
 
 	if (UNEXPECTED(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(name_param) == IS_STRING)) {
@@ -165,20 +165,20 @@ PHP_METHOD(Phalcon_Translate_TranslateFactory, newInstance) {
 	if (!(zephir_array_isset(&_0, &name))) {
 		zephir_read_property(&_1$$3, this_ptr, SL("mapper"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_OBS_VAR(&definition);
-		zephir_array_fetch(&definition, &_1$$3, &name, PH_NOISY, "phalcon/Translate/TranslateFactory.zep", 60 TSRMLS_CC);
+		zephir_array_fetch(&definition, &_1$$3, &name, PH_NOISY, "phalcon/Translate/TranslateFactory.zep", 60);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZEPHIR_INIT_VAR(&_3$$3);
-		zephir_create_array(&_3$$3, 2, 0 TSRMLS_CC);
+		zephir_create_array(&_3$$3, 2, 0);
 		ZEPHIR_OBS_VAR(&_4$$3);
 		zephir_read_property(&_4$$3, this_ptr, SL("interpolator"), PH_NOISY_CC);
 		zephir_array_fast_append(&_3$$3, &_4$$3);
 		zephir_array_fast_append(&_3$$3, &options);
-		ZEPHIR_LAST_CALL_STATUS = zephir_create_instance_params(&_2$$3, &definition, &_3$$3 TSRMLS_CC);
+		ZEPHIR_LAST_CALL_STATUS = zephir_create_instance_params(&_2$$3, &definition, &_3$$3);
 		zephir_check_call_status();
 		zephir_update_property_array(this_ptr, SL("services"), &name, &_2$$3);
 	}
 	zephir_read_property(&_5, this_ptr, SL("services"), PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch(&_6, &_5, &name, PH_NOISY | PH_READONLY, "phalcon/Translate/TranslateFactory.zep", 70 TSRMLS_CC);
+	zephir_array_fetch(&_6, &_5, &name, PH_NOISY | PH_READONLY, "phalcon/Translate/TranslateFactory.zep", 70);
 	RETURN_CTOR(&_6);
 
 }
@@ -188,7 +188,7 @@ PHP_METHOD(Phalcon_Translate_TranslateFactory, getAdapters) {
 	zval *this_ptr = getThis();
 
 
-	zephir_create_array(return_value, 3, 0 TSRMLS_CC);
+	zephir_create_array(return_value, 3, 0);
 	add_assoc_stringl_ex(return_value, SL("csv"), SL("Phalcon\\Translate\\Adapter\\Csv"));
 	add_assoc_stringl_ex(return_value, SL("gettext"), SL("Phalcon\\Translate\\Adapter\\Gettext"));
 	add_assoc_stringl_ex(return_value, SL("array"), SL("Phalcon\\Translate\\Adapter\\NativeArray"));

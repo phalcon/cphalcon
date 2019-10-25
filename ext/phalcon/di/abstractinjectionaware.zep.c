@@ -36,9 +36,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Di_AbstractInjectionAware) {
 	 *
 	 * @var DiInterface
 	 */
-	zend_declare_property_null(phalcon_di_abstractinjectionaware_ce, SL("container"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_di_abstractinjectionaware_ce, SL("container"), ZEND_ACC_PROTECTED);
 
-	zend_class_implements(phalcon_di_abstractinjectionaware_ce TSRMLS_CC, 1, phalcon_di_injectionawareinterface_ce);
+	zend_class_implements(phalcon_di_abstractinjectionaware_ce, 1, phalcon_di_injectionawareinterface_ce);
 	return SUCCESS;
 
 }

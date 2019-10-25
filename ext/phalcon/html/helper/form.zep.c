@@ -68,7 +68,7 @@ PHP_METHOD(Phalcon_Html_Helper_Form, __invoke) {
 
 
 	ZEPHIR_INIT_VAR(&overrides);
-	zephir_create_array(&overrides, 2, 0 TSRMLS_CC);
+	zephir_create_array(&overrides, 2, 0);
 	add_assoc_stringl_ex(&overrides, SL("method"), SL("post"));
 	add_assoc_stringl_ex(&overrides, SL("enctype"), SL("multipart/form-data"));
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "orderattributes", NULL, 0, &overrides, &attributes);

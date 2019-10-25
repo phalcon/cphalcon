@@ -42,7 +42,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_Striptags) {
 }
 
 /**
- * @var mixed input The text to sanitize
+ * @var string input The text to sanitize
  */
 PHP_METHOD(Phalcon_Filter_Sanitize_Striptags, __invoke) {
 
@@ -58,7 +58,7 @@ PHP_METHOD(Phalcon_Filter_Sanitize_Striptags, __invoke) {
 	zephir_fetch_params(1, 1, 0, &input_param);
 
 	if (UNEXPECTED(Z_TYPE_P(input_param) != IS_STRING && Z_TYPE_P(input_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'input' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'input' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(input_param) == IS_STRING)) {
@@ -69,7 +69,7 @@ PHP_METHOD(Phalcon_Filter_Sanitize_Striptags, __invoke) {
 	}
 
 
-	ZEPHIR_RETURN_CALL_FUNCTION("strip_tags", NULL, 238, &input);
+	ZEPHIR_RETURN_CALL_FUNCTION("strip_tags", NULL, 239, &input);
 	zephir_check_call_status();
 	RETURN_MM();
 

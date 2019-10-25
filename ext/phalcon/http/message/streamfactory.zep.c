@@ -40,7 +40,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_StreamFactory) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Http\\Message, StreamFactory, phalcon, http_message_streamfactory, phalcon_http_message_streamfactory_method_entry, ZEND_ACC_FINAL_CLASS);
 
-	zend_class_implements(phalcon_http_message_streamfactory_ce TSRMLS_CC, 1, zephir_get_internal_ce(SL("psr\\http\\message\\streamfactoryinterface")));
+	zend_class_implements(phalcon_http_message_streamfactory_ce, 1, zephir_get_internal_ce(SL("psr\\http\\message\\streamfactoryinterface")));
 	return SUCCESS;
 
 }
@@ -75,7 +75,7 @@ PHP_METHOD(Phalcon_Http_Message_StreamFactory, createStream) {
 		ZVAL_STRING(&content, "");
 	} else {
 	if (UNEXPECTED(Z_TYPE_P(content_param) != IS_STRING && Z_TYPE_P(content_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'content' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'content' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(content_param) == IS_STRING)) {
@@ -91,16 +91,16 @@ PHP_METHOD(Phalcon_Http_Message_StreamFactory, createStream) {
 	ZVAL_STRING(&_0, "php://temp");
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "r+b");
-	ZEPHIR_CALL_FUNCTION(&handle, "fopen", NULL, 81, &_0, &_1);
+	ZEPHIR_CALL_FUNCTION(&handle, "fopen", NULL, 82, &_0, &_1);
 	zephir_check_call_status();
 	if (UNEXPECTED(ZEPHIR_IS_FALSE_IDENTICAL(&handle))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_message_exception_invalidargumentexception_ce, "Cannot write to file.", "phalcon/Http/Message/StreamFactory.zep", 42);
 		return;
 	}
-	zephir_fwrite(NULL, &handle, &content TSRMLS_CC);
-	ZEPHIR_CALL_FUNCTION(NULL, "rewind", NULL, 313, &handle);
+	zephir_fwrite(NULL, &handle, &content);
+	ZEPHIR_CALL_FUNCTION(NULL, "rewind", NULL, 315, &handle);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "createstreamfromresource", NULL, 314, &handle);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "createstreamfromresource", NULL, 316, &handle);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -136,7 +136,7 @@ PHP_METHOD(Phalcon_Http_Message_StreamFactory, createStreamFromFile) {
 	zephir_fetch_params(1, 1, 1, &filename_param, &mode_param);
 
 	if (UNEXPECTED(Z_TYPE_P(filename_param) != IS_STRING && Z_TYPE_P(filename_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'filename' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'filename' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(filename_param) == IS_STRING)) {
@@ -150,7 +150,7 @@ PHP_METHOD(Phalcon_Http_Message_StreamFactory, createStreamFromFile) {
 		ZVAL_STRING(&mode, "r+b");
 	} else {
 	if (UNEXPECTED(Z_TYPE_P(mode_param) != IS_STRING && Z_TYPE_P(mode_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'mode' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'mode' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(mode_param) == IS_STRING)) {
@@ -163,7 +163,7 @@ PHP_METHOD(Phalcon_Http_Message_StreamFactory, createStreamFromFile) {
 
 
 	object_init_ex(return_value, phalcon_http_message_stream_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 38, &filename, &mode);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 39, &filename, &mode);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -193,9 +193,9 @@ PHP_METHOD(Phalcon_Http_Message_StreamFactory, createStreamFromResource) {
 
 	_0 = Z_TYPE_P(phpResource) != IS_RESOURCE;
 	if (!(_0)) {
-		ZEPHIR_CALL_FUNCTION(&_1, "get_resource_type", NULL, 83, phpResource);
+		ZEPHIR_CALL_FUNCTION(&_1, "get_resource_type", NULL, 84, phpResource);
 		zephir_check_call_status();
-		ZEPHIR_SINIT_VAR(_2);
+		ZEPHIR_INIT_VAR(&_2);
 		ZVAL_STRING(&_2, "stream");
 		_0 = !ZEPHIR_IS_IDENTICAL(&_2, &_1);
 	}
@@ -204,7 +204,7 @@ PHP_METHOD(Phalcon_Http_Message_StreamFactory, createStreamFromResource) {
 		return;
 	}
 	object_init_ex(return_value, phalcon_http_message_stream_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 38, phpResource);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 39, phpResource);
 	zephir_check_call_status();
 	RETURN_MM();
 

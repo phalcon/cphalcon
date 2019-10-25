@@ -37,9 +37,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_TagFactory) {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Html, TagFactory, phalcon, html_tagfactory, phalcon_factory_abstractfactory_ce, phalcon_html_tagfactory_method_entry, 0);
 
 	/**
-	 * @var <EscaperInterface>
+	 * @var EscaperInterface
 	 */
-	zend_declare_property_null(phalcon_html_tagfactory_ce, SL("escaper"), ZEND_ACC_PRIVATE TSRMLS_CC);
+	zend_declare_property_null(phalcon_html_tagfactory_ce, SL("escaper"), ZEND_ACC_PRIVATE);
 
 	return SUCCESS;
 
@@ -114,19 +114,19 @@ PHP_METHOD(Phalcon_Html_TagFactory, newInstance) {
 	if (!(zephir_array_isset(&_0, &name))) {
 		zephir_read_property(&_1$$3, this_ptr, SL("mapper"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_OBS_VAR(&definition);
-		zephir_array_fetch(&definition, &_1$$3, &name, PH_NOISY, "phalcon/Html/TagFactory.zep", 50 TSRMLS_CC);
+		zephir_array_fetch(&definition, &_1$$3, &name, PH_NOISY, "phalcon/Html/TagFactory.zep", 50);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZEPHIR_INIT_VAR(&_3$$3);
-		zephir_create_array(&_3$$3, 1, 0 TSRMLS_CC);
+		zephir_create_array(&_3$$3, 1, 0);
 		ZEPHIR_OBS_VAR(&_4$$3);
 		zephir_read_property(&_4$$3, this_ptr, SL("escaper"), PH_NOISY_CC);
 		zephir_array_fast_append(&_3$$3, &_4$$3);
-		ZEPHIR_LAST_CALL_STATUS = zephir_create_instance_params(&_2$$3, &definition, &_3$$3 TSRMLS_CC);
+		ZEPHIR_LAST_CALL_STATUS = zephir_create_instance_params(&_2$$3, &definition, &_3$$3);
 		zephir_check_call_status();
 		zephir_update_property_array(this_ptr, SL("services"), &name, &_2$$3);
 	}
 	zephir_read_property(&_5, this_ptr, SL("services"), PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch(&_6, &_5, &name, PH_NOISY | PH_READONLY, "phalcon/Html/TagFactory.zep", 59 TSRMLS_CC);
+	zephir_array_fetch(&_6, &_5, &name, PH_NOISY | PH_READONLY, "phalcon/Html/TagFactory.zep", 59);
 	RETURN_CTOR(&_6);
 
 }
@@ -136,7 +136,7 @@ PHP_METHOD(Phalcon_Html_TagFactory, getAdapters) {
 	zval *this_ptr = getThis();
 
 
-	zephir_create_array(return_value, 11, 0 TSRMLS_CC);
+	zephir_create_array(return_value, 11, 0);
 	add_assoc_stringl_ex(return_value, SL("a"), SL("Phalcon\\Html\\Helper\\Anchor"));
 	add_assoc_stringl_ex(return_value, SL("aRaw"), SL("Phalcon\\Html\\Helper\\AnchorRaw"));
 	add_assoc_stringl_ex(return_value, SL("body"), SL("Phalcon\\Html\\Helper\\Body"));

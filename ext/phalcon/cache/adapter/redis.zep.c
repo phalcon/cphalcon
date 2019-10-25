@@ -29,7 +29,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Cache_Adapter_Redis) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Cache\\Adapter, Redis, phalcon, cache_adapter_redis, phalcon_storage_adapter_redis_ce, NULL, 0);
 
-	zend_class_implements(phalcon_cache_adapter_redis_ce TSRMLS_CC, 1, phalcon_cache_adapter_adapterinterface_ce);
+	zend_class_implements(phalcon_cache_adapter_redis_ce, 1, phalcon_cache_adapter_adapterinterface_ce);
 	return SUCCESS;
 
 }

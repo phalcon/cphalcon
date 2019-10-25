@@ -64,7 +64,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_CreditCard) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator, CreditCard, phalcon, validation_validator_creditcard, phalcon_validation_abstractvalidator_ce, phalcon_validation_validator_creditcard_method_entry, 0);
 
-	zend_declare_property_string(phalcon_validation_validator_creditcard_ce, SL("template"), "Field :field is not valid for a credit card number", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_validation_validator_creditcard_ce, SL("template"), "Field :field is not valid for a credit card number", ZEND_ACC_PROTECTED);
 
 	return SUCCESS;
 
@@ -144,7 +144,7 @@ PHP_METHOD(Phalcon_Validation_Validator_CreditCard, verifyByLuhnAlgorithm) {
 
 	ZEPHIR_INIT_VAR(&hash);
 	ZVAL_STRING(&hash, "");
-	ZEPHIR_CALL_FUNCTION(&_0, "str_split", NULL, 99, &number);
+	ZEPHIR_CALL_FUNCTION(&_0, "str_split", NULL, 100, &number);
 	zephir_check_call_status();
 	zephir_get_arrval(&_1, &_0);
 	ZEPHIR_CPY_WRT(&digits, &_1);
@@ -162,14 +162,14 @@ PHP_METHOD(Phalcon_Validation_Validator_CreditCard, verifyByLuhnAlgorithm) {
 			}
 			ZEPHIR_INIT_NVAR(&digit);
 			ZVAL_COPY(&digit, _4);
-			ZEPHIR_INIT_LNVAR(_8$$3);
-			if (zephir_safe_mod_zval_long(&position, 2 TSRMLS_CC)) {
+			ZEPHIR_INIT_NVAR(&_8$$3);
+			if (zephir_safe_mod_zval_long(&position, 2)) {
 				ZEPHIR_INIT_NVAR(&_8$$3);
 				ZVAL_LONG(&_8$$3, (zephir_get_numberval(&digit) * 2));
 			} else {
 				ZEPHIR_CPY_WRT(&_8$$3, &digit);
 			}
-			zephir_concat_self(&hash, &_8$$3 TSRMLS_CC);
+			zephir_concat_self(&hash, &_8$$3);
 		} ZEND_HASH_FOREACH_END();
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, &_3, "rewind", NULL, 0);
@@ -184,25 +184,25 @@ PHP_METHOD(Phalcon_Validation_Validator_CreditCard, verifyByLuhnAlgorithm) {
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&digit, &_3, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_INIT_LNVAR(_9$$4);
-				if (zephir_safe_mod_zval_long(&position, 2 TSRMLS_CC)) {
+				ZEPHIR_INIT_NVAR(&_9$$4);
+				if (zephir_safe_mod_zval_long(&position, 2)) {
 					ZEPHIR_INIT_NVAR(&_9$$4);
 					ZVAL_LONG(&_9$$4, (zephir_get_numberval(&digit) * 2));
 				} else {
 					ZEPHIR_CPY_WRT(&_9$$4, &digit);
 				}
-				zephir_concat_self(&hash, &_9$$4 TSRMLS_CC);
+				zephir_concat_self(&hash, &_9$$4);
 			ZEPHIR_CALL_METHOD(NULL, &_3, "next", NULL, 0);
 			zephir_check_call_status();
 		}
 	}
 	ZEPHIR_INIT_NVAR(&digit);
 	ZEPHIR_INIT_NVAR(&position);
-	ZEPHIR_CALL_FUNCTION(&_10, "str_split", NULL, 99, &hash);
+	ZEPHIR_CALL_FUNCTION(&_10, "str_split", NULL, 100, &hash);
 	zephir_check_call_status();
 	ZEPHIR_CALL_FUNCTION(&result, "array_sum", NULL, 0, &_10);
 	zephir_check_call_status();
-	RETURN_MM_BOOL((zephir_safe_mod_zval_long(&result, 10 TSRMLS_CC) == 0));
+	RETURN_MM_BOOL((zephir_safe_mod_zval_long(&result, 10) == 0));
 
 }
 

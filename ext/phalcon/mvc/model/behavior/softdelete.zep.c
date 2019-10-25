@@ -78,7 +78,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify) {
 	zephir_fetch_params(1, 2, 0, &type_param, &model);
 
 	if (UNEXPECTED(Z_TYPE_P(type_param) != IS_STRING && Z_TYPE_P(type_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'type' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'type' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(type_param) == IS_STRING)) {
@@ -115,7 +115,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_SoftDelete, notify) {
 	ZEPHIR_CALL_METHOD(&modelsManager, model, "getmodelsmanager", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&updateModel);
-	if (zephir_clone(&updateModel, model TSRMLS_CC) == FAILURE) {
+	if (zephir_clone(&updateModel, model) == FAILURE) {
 		RETURN_MM();
 	}
 	ZEPHIR_CALL_METHOD(NULL, &updateModel, "writeattribute", NULL, 0, &field, &value);

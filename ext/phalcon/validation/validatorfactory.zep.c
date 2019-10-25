@@ -90,7 +90,7 @@ PHP_METHOD(Phalcon_Validation_ValidatorFactory, newInstance) {
 	zephir_fetch_params(1, 1, 0, &name_param);
 
 	if (UNEXPECTED(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(name_param) == IS_STRING)) {
@@ -107,14 +107,14 @@ PHP_METHOD(Phalcon_Validation_ValidatorFactory, newInstance) {
 	if (!(zephir_array_isset(&_0, &name))) {
 		zephir_read_property(&_1$$3, this_ptr, SL("mapper"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_OBS_VAR(&definition);
-		zephir_array_fetch(&definition, &_1$$3, &name, PH_NOISY, "phalcon/Validation/ValidatorFactory.zep", 36 TSRMLS_CC);
+		zephir_array_fetch(&definition, &_1$$3, &name, PH_NOISY, "phalcon/Validation/ValidatorFactory.zep", 36);
 		ZEPHIR_INIT_VAR(&_2$$3);
-		ZEPHIR_LAST_CALL_STATUS = zephir_create_instance(&_2$$3, &definition TSRMLS_CC);
+		ZEPHIR_LAST_CALL_STATUS = zephir_create_instance(&_2$$3, &definition);
 		zephir_check_call_status();
 		zephir_update_property_array(this_ptr, SL("services"), &name, &_2$$3);
 	}
 	zephir_read_property(&_3, this_ptr, SL("services"), PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch(&_4, &_3, &name, PH_NOISY | PH_READONLY, "phalcon/Validation/ValidatorFactory.zep", 40 TSRMLS_CC);
+	zephir_array_fetch(&_4, &_3, &name, PH_NOISY | PH_READONLY, "phalcon/Validation/ValidatorFactory.zep", 40);
 	RETURN_CTOR(&_4);
 
 }
@@ -124,7 +124,7 @@ PHP_METHOD(Phalcon_Validation_ValidatorFactory, getAdapters) {
 	zval *this_ptr = getThis();
 
 
-	zephir_create_array(return_value, 21, 0 TSRMLS_CC);
+	zephir_create_array(return_value, 21, 0);
 	add_assoc_stringl_ex(return_value, SL("alnum"), SL("Phalcon\\Validation\\Validator\\Alnum"));
 	add_assoc_stringl_ex(return_value, SL("alpha"), SL("Phalcon\\Validation\\Validator\\Alpha"));
 	add_assoc_stringl_ex(return_value, SL("between"), SL("Phalcon\\Validation\\Validator\\Between"));

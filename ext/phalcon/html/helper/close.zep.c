@@ -59,7 +59,7 @@ PHP_METHOD(Phalcon_Html_Helper_Close, __invoke) {
 	zephir_fetch_params(1, 1, 0, &tag_param);
 
 	if (UNEXPECTED(Z_TYPE_P(tag_param) != IS_STRING && Z_TYPE_P(tag_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'tag' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'tag' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(tag_param) == IS_STRING)) {

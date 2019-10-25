@@ -37,35 +37,35 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Profiler_Item) {
 	 *
 	 * @var double
 	 */
-	zend_declare_property_null(phalcon_db_profiler_item_ce, SL("finalTime"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_profiler_item_ce, SL("finalTime"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * Timestamp when the profile started
 	 *
 	 * @var double
 	 */
-	zend_declare_property_null(phalcon_db_profiler_item_ce, SL("initialTime"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_profiler_item_ce, SL("initialTime"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * SQL bind types related to the profile
 	 *
 	 * @var array
 	 */
-	zend_declare_property_null(phalcon_db_profiler_item_ce, SL("sqlBindTypes"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_profiler_item_ce, SL("sqlBindTypes"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * SQL statement related to the profile
 	 *
 	 * @var string
 	 */
-	zend_declare_property_null(phalcon_db_profiler_item_ce, SL("sqlStatement"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_profiler_item_ce, SL("sqlStatement"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * SQL variables related to the profile
 	 *
 	 * @var array
 	 */
-	zend_declare_property_null(phalcon_db_profiler_item_ce, SL("sqlVariables"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_profiler_item_ce, SL("sqlVariables"), ZEND_ACC_PROTECTED);
 
 	return SUCCESS;
 

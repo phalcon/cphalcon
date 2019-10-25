@@ -39,7 +39,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_UriFactory) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Http\\Message, UriFactory, phalcon, http_message_urifactory, phalcon_http_message_urifactory_method_entry, ZEND_ACC_FINAL_CLASS);
 
-	zend_class_implements(phalcon_http_message_urifactory_ce TSRMLS_CC, 1, zephir_get_internal_ce(SL("psr\\http\\message\\urifactoryinterface")));
+	zend_class_implements(phalcon_http_message_urifactory_ce, 1, zephir_get_internal_ce(SL("psr\\http\\message\\urifactoryinterface")));
 	return SUCCESS;
 
 }
@@ -66,7 +66,7 @@ PHP_METHOD(Phalcon_Http_Message_UriFactory, createUri) {
 		ZVAL_STRING(&uri, "");
 	} else {
 	if (UNEXPECTED(Z_TYPE_P(uri_param) != IS_STRING && Z_TYPE_P(uri_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'uri' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'uri' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(uri_param) == IS_STRING)) {
@@ -79,7 +79,7 @@ PHP_METHOD(Phalcon_Http_Message_UriFactory, createUri) {
 
 
 	object_init_ex(return_value, phalcon_http_message_uri_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 98, &uri);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 99, &uri);
 	zephir_check_call_status();
 	RETURN_MM();
 

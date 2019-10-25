@@ -68,10 +68,10 @@ PHP_METHOD(Phalcon_Http_Message_AbstractCommon, cloneInstance) {
 
 
 	ZEPHIR_INIT_VAR(&newInstance);
-	if (zephir_clone(&newInstance, this_ptr TSRMLS_CC) == FAILURE) {
+	if (zephir_clone(&newInstance, this_ptr) == FAILURE) {
 		RETURN_MM();
 	}
-	zephir_update_property_zval_zval(&newInstance, &property, element TSRMLS_CC);
+	zephir_update_property_zval_zval(&newInstance, &property, element);
 	RETURN_CCTOR(&newInstance);
 
 }
@@ -125,9 +125,9 @@ PHP_METHOD(Phalcon_Http_Message_AbstractCommon, processWith) {
 	zephir_get_strval(&property, property_param);
 
 
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkstringparameter", NULL, 15, element);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkstringparameter", NULL, 16, element);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 16, element, &property);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 17, element, &property);
 	zephir_check_call_status();
 	RETURN_MM();
 

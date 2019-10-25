@@ -38,11 +38,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_AbstractValidatorComposite) {
 	/**
 	 * @var array
 	 */
-	zend_declare_property_null(phalcon_validation_abstractvalidatorcomposite_ce, SL("validators"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_validation_abstractvalidatorcomposite_ce, SL("validators"), ZEND_ACC_PROTECTED);
 
 	phalcon_validation_abstractvalidatorcomposite_ce->create_object = zephir_init_properties_Phalcon_Validation_AbstractValidatorComposite;
 
-	zend_class_implements(phalcon_validation_abstractvalidatorcomposite_ce TSRMLS_CC, 1, phalcon_validation_validatorcompositeinterface_ce);
+	zend_class_implements(phalcon_validation_abstractvalidatorcomposite_ce, 1, phalcon_validation_validatorcompositeinterface_ce);
 	return SUCCESS;
 
 }
@@ -87,16 +87,16 @@ PHP_METHOD(Phalcon_Validation_AbstractValidatorComposite, validate) {
 
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getvalidators", NULL, 0);
 	zephir_check_call_status();
-	if (UNEXPECTED(zephir_fast_count_int(&_0 TSRMLS_CC) == 0)) {
+	if (UNEXPECTED(zephir_fast_count_int(&_0) == 0)) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_validation_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
-		zephir_get_class(&_2$$3, this_ptr, 0 TSRMLS_CC);
+		zephir_get_class(&_2$$3, this_ptr, 0);
 		ZEPHIR_INIT_VAR(&_3$$3);
 		ZEPHIR_CONCAT_VS(&_3$$3, &_2$$3, " does not have any validator added");
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 5, &_3$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 6, &_3$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Validation/AbstractValidatorComposite.zep", 33 TSRMLS_CC);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Validation/AbstractValidatorComposite.zep", 33);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

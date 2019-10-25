@@ -67,6 +67,11 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_managerinterface_fire, 0, 0, 2)
 #endif
 	ZEND_ARG_INFO(0, source)
 	ZEND_ARG_INFO(0, data)
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, cancelable, _IS_BOOL, 0)
+#else
+	ZEND_ARG_INFO(0, cancelable)
+#endif
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200

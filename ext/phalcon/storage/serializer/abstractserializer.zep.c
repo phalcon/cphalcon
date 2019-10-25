@@ -32,9 +32,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Storage_Serializer_AbstractSerializer) {
 	/**
 	 * @var mixed
 	 */
-	zend_declare_property_null(phalcon_storage_serializer_abstractserializer_ce, SL("data"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_storage_serializer_abstractserializer_ce, SL("data"), ZEND_ACC_PROTECTED);
 
-	zend_class_implements(phalcon_storage_serializer_abstractserializer_ce TSRMLS_CC, 1, phalcon_storage_serializer_serializerinterface_ce);
+	zend_class_implements(phalcon_storage_serializer_abstractserializer_ce, 1, phalcon_storage_serializer_serializerinterface_ce);
 	return SUCCESS;
 
 }

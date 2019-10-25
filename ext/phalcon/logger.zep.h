@@ -3,6 +3,7 @@ extern zend_class_entry *phalcon_logger_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Logger);
 
+PHP_METHOD(Phalcon_Logger, getLogLevel);
 PHP_METHOD(Phalcon_Logger, __construct);
 PHP_METHOD(Phalcon_Logger, addAdapter);
 PHP_METHOD(Phalcon_Logger, alert);
@@ -19,11 +20,19 @@ PHP_METHOD(Phalcon_Logger, log);
 PHP_METHOD(Phalcon_Logger, notice);
 PHP_METHOD(Phalcon_Logger, removeAdapter);
 PHP_METHOD(Phalcon_Logger, setAdapters);
+PHP_METHOD(Phalcon_Logger, setLogLevel);
 PHP_METHOD(Phalcon_Logger, warning);
 PHP_METHOD(Phalcon_Logger, addMessage);
 PHP_METHOD(Phalcon_Logger, getLevels);
 PHP_METHOD(Phalcon_Logger, getLevelNumber);
 zend_object *zephir_init_properties_Phalcon_Logger(zend_class_entry *class_type TSRMLS_DC);
+
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_getloglevel, 0, 0, IS_LONG, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_getloglevel, 0, 0, IS_LONG, NULL, 0)
+#endif
+ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger___construct, 0, 0, 1)
 #if PHP_VERSION_ID >= 70200
@@ -222,6 +231,18 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_setadapters, 0, 1
 	ZEND_ARG_ARRAY_INFO(0, adapters, 0)
 ZEND_END_ARG_INFO()
 
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_logger_setloglevel, 0, 1, Phalcon\\Logger, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_setloglevel, 0, 1, IS_OBJECT, "Phalcon\\Logger", 0)
+#endif
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, level, IS_LONG, 0)
+#else
+	ZEND_ARG_INFO(0, level)
+#endif
+ZEND_END_ARG_INFO()
+
 #if PHP_VERSION_ID >= 70100
 #if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_warning, 0, 1, IS_VOID, 0)
@@ -271,6 +292,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_getlevelnumber, 0
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_logger_method_entry) {
+	PHP_ME(Phalcon_Logger, getLogLevel, arginfo_phalcon_logger_getloglevel, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger, __construct, arginfo_phalcon_logger___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Logger, addAdapter, arginfo_phalcon_logger_addadapter, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger, alert, arginfo_phalcon_logger_alert, ZEND_ACC_PUBLIC)
@@ -287,6 +309,7 @@ ZEPHIR_INIT_FUNCS(phalcon_logger_method_entry) {
 	PHP_ME(Phalcon_Logger, notice, arginfo_phalcon_logger_notice, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger, removeAdapter, arginfo_phalcon_logger_removeadapter, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger, setAdapters, arginfo_phalcon_logger_setadapters, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger, setLogLevel, arginfo_phalcon_logger_setloglevel, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger, warning, arginfo_phalcon_logger_warning, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger, addMessage, arginfo_phalcon_logger_addmessage, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Logger, getLevels, arginfo_phalcon_logger_getlevels, ZEND_ACC_PROTECTED)

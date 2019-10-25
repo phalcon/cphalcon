@@ -13,10 +13,12 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
-#include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
-#include "kernel/operators.h"
 #include "kernel/memory.h"
+#include "kernel/fcall.h"
+#include "kernel/concat.h"
+#include "ext/spl/spl_exceptions.h"
+#include "kernel/operators.h"
 
 
 /**
@@ -32,6 +34,15 @@
  *
  * This class offers contextual information of a fired event in the
  * EventsManager
+ *
+ *```php
+ * Phalcon\Events\Event;
+ *
+ * $event = new Event("db:afterQuery", $this, ["data" => "mydata"], true);
+ * if ($event->isCancelable()) {
+ *     $event->stop();
+ * }
+ * ```
  */
 ZEPHIR_INIT_CLASS(Phalcon_Events_Event) {
 
@@ -42,37 +53,37 @@ ZEPHIR_INIT_CLASS(Phalcon_Events_Event) {
 	 *
 	 * @var bool
 	 */
-	zend_declare_property_null(phalcon_events_event_ce, SL("cancelable"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_events_event_ce, SL("cancelable"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * Event data
 	 *
 	 * @var mixed
 	 */
-	zend_declare_property_null(phalcon_events_event_ce, SL("data"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_events_event_ce, SL("data"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * Event source
 	 *
 	 * @var object
 	 */
-	zend_declare_property_null(phalcon_events_event_ce, SL("source"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_events_event_ce, SL("source"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * Is event propagation stopped?
 	 *
 	 * @var bool
 	 */
-	zend_declare_property_bool(phalcon_events_event_ce, SL("stopped"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_bool(phalcon_events_event_ce, SL("stopped"), 0, ZEND_ACC_PROTECTED);
 
 	/**
 	 * Event type
 	 *
 	 * @var string
 	 */
-	zend_declare_property_null(phalcon_events_event_ce, SL("type"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_events_event_ce, SL("type"), ZEND_ACC_PROTECTED);
 
-	zend_class_implements(phalcon_events_event_ce TSRMLS_CC, 1, phalcon_events_eventinterface_ce);
+	zend_class_implements(phalcon_events_event_ce, 1, phalcon_events_eventinterface_ce);
 	return SUCCESS;
 
 }
@@ -121,8 +132,9 @@ PHP_METHOD(Phalcon_Events_Event, getType) {
 PHP_METHOD(Phalcon_Events_Event, __construct) {
 
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool cancelable;
-	zval *type_param = NULL, *source, source_sub, *data = NULL, data_sub, *cancelable_param = NULL, __$true, __$false, __$null;
+	zval *type_param = NULL, *source, source_sub, *data = NULL, data_sub, *cancelable_param = NULL, __$true, __$false, __$null, _0$$3, _1$$3, _2$$3;
 	zval type;
 	zval *this_ptr = getThis();
 
@@ -132,12 +144,15 @@ PHP_METHOD(Phalcon_Events_Event, __construct) {
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
 	ZVAL_NULL(&__$null);
+	ZVAL_UNDEF(&_0$$3);
+	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&_2$$3);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 2, &type_param, &source, &data, &cancelable_param);
 
 	if (UNEXPECTED(Z_TYPE_P(type_param) != IS_STRING && Z_TYPE_P(type_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'type' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'type' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(type_param) == IS_STRING)) {
@@ -157,6 +172,19 @@ PHP_METHOD(Phalcon_Events_Event, __construct) {
 	}
 
 
+	if (UNEXPECTED(Z_TYPE_P(source) != IS_OBJECT)) {
+		ZEPHIR_INIT_VAR(&_0$$3);
+		object_init_ex(&_0$$3, phalcon_events_exception_ce);
+		ZEPHIR_INIT_VAR(&_1$$3);
+		zephir_gettype(&_1$$3, source);
+		ZEPHIR_INIT_VAR(&_2$$3);
+		ZEPHIR_CONCAT_SVSV(&_2$$3, "The source of ", &type, " event must be an object, got ", &_1$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 6, &_2$$3);
+		zephir_check_call_status();
+		zephir_throw_exception_debug(&_0$$3, "phalcon/Events/Event.zep", 77);
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
 	zephir_update_property_zval(this_ptr, SL("type"), &type);
 	zephir_update_property_zval(this_ptr, SL("source"), source);
 	zephir_update_property_zval(this_ptr, SL("data"), data);
@@ -239,7 +267,7 @@ PHP_METHOD(Phalcon_Events_Event, setType) {
 	zephir_fetch_params(1, 1, 0, &type_param);
 
 	if (UNEXPECTED(Z_TYPE_P(type_param) != IS_STRING && Z_TYPE_P(type_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'type' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'type' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(type_param) == IS_STRING)) {
@@ -276,7 +304,7 @@ PHP_METHOD(Phalcon_Events_Event, stop) {
 
 	zephir_read_property(&_0, this_ptr, SL("cancelable"), PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(!zephir_is_true(&_0))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_events_exception_ce, "Trying to cancel a non-cancelable event", "phalcon/Events/Event.zep", 123);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_events_exception_ce, "Trying to cancel a non-cancelable event", "phalcon/Events/Event.zep", 139);
 		return;
 	}
 	if (1) {
