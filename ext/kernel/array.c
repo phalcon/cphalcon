@@ -1,22 +1,13 @@
-
 /*
-  +------------------------------------------------------------------------+
-  | Zephir Language                                                        |
-  +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2017 Zephir Team (http://www.zephir-lang.com)       |
-  +------------------------------------------------------------------------+
-  | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file docs/LICENSE.txt.                        |
-  |                                                                        |
-  | If you did not receive a copy of the license and are unable to         |
-  | obtain it through the world-wide-web, please send an email             |
-  | to license@zephir-lang.com so we can send you a copy immediately.      |
-  +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@zephir-lang.com>                     |
-  |          Eduar Carvajal <eduar@zephir-lang.com>                        |
-  |          Vladimir Kolesnikov <vladimir@extrememember.com>              |
-  +------------------------------------------------------------------------+
-*/
+ * This file is part of the Zephir.
+ *
+ * (c) Zephir Team <team@zephir-lang.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code. If you did not receive
+ * a copy of the license it is available through the world-wide-web at the
+ * following url: https://docs.zephir-lang.com/en/latest/license
+ */
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
@@ -205,7 +196,7 @@ int zephir_array_isset_string_fetch(zval *fetched, const zval *arr, char *index,
 int zephir_array_isset_long_fetch(zval *fetched, const zval *arr, unsigned long index, int readonly)
 {
 	zval *zv;
-	
+
 	if (UNEXPECTED(Z_TYPE_P(arr) == IS_OBJECT && zephir_instance_of_ev((zval *)arr, (const zend_class_entry *)zend_ce_arrayaccess))) {
 		zend_long ZEPHIR_LAST_CALL_STATUS;
 		zval exist, offset;
@@ -620,14 +611,13 @@ int zephir_array_fetch_long(zval *return_value, zval *arr, unsigned long index, 
  */
 void zephir_merge_append(zval *left, zval *values)
 {
-	zval *tmp;
-
 	if (Z_TYPE_P(left) != IS_ARRAY) {
 		zend_error(E_NOTICE, "First parameter of zephir_merge_append must be an array");
 		return;
 	}
 
 	if (Z_TYPE_P(values) == IS_ARRAY) {
+		zval *tmp;
 
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(values), tmp) {
 

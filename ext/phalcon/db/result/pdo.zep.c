@@ -51,31 +51,31 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Result_Pdo) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Db\\Result, Pdo, phalcon, db_result_pdo, phalcon_db_result_pdo_method_entry, 0);
 
-	zend_declare_property_null(phalcon_db_result_pdo_ce, SL("bindParams"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_result_pdo_ce, SL("bindParams"), ZEND_ACC_PROTECTED);
 
-	zend_declare_property_null(phalcon_db_result_pdo_ce, SL("bindTypes"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_result_pdo_ce, SL("bindTypes"), ZEND_ACC_PROTECTED);
 
-	zend_declare_property_null(phalcon_db_result_pdo_ce, SL("connection"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_result_pdo_ce, SL("connection"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * Active fetch mode
 	 */
-	zend_declare_property_long(phalcon_db_result_pdo_ce, SL("fetchMode"), 5, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_long(phalcon_db_result_pdo_ce, SL("fetchMode"), 5, ZEND_ACC_PROTECTED);
 
 	/**
 	 * Internal resultset
 	 *
 	 * @var \PDOStatement
 	 */
-	zend_declare_property_null(phalcon_db_result_pdo_ce, SL("pdoStatement"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_result_pdo_ce, SL("pdoStatement"), ZEND_ACC_PROTECTED);
 
-	zend_declare_property_null(phalcon_db_result_pdo_ce, SL("result"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_result_pdo_ce, SL("result"), ZEND_ACC_PROTECTED);
 
-	zend_declare_property_bool(phalcon_db_result_pdo_ce, SL("rowCount"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_bool(phalcon_db_result_pdo_ce, SL("rowCount"), 0, ZEND_ACC_PROTECTED);
 
-	zend_declare_property_null(phalcon_db_result_pdo_ce, SL("sqlStatement"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_result_pdo_ce, SL("sqlStatement"), ZEND_ACC_PROTECTED);
 
-	zend_class_implements(phalcon_db_result_pdo_ce TSRMLS_CC, 1, phalcon_db_resultinterface_ce);
+	zend_class_implements(phalcon_db_result_pdo_ce, 1, phalcon_db_resultinterface_ce);
 	return SUCCESS;
 
 }
@@ -460,9 +460,9 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows) {
 				ZEPHIR_INIT_VAR(&_6$$6);
 				ZEPHIR_INIT_VAR(&_7$$6);
 				ZVAL_STRING(&_7$$6, "/^SELECT\\s+(.*)/i");
-				zephir_preg_match(&_6$$6, &_7$$6, &sqlStatement, &matches, 0, 0 , 0  TSRMLS_CC);
+				zephir_preg_match(&_6$$6, &_7$$6, &sqlStatement, &matches, 0, 0 , 0 );
 				if (zephir_is_true(&_6$$6)) {
-					zephir_array_fetch_long(&_8$$7, &matches, 1, PH_NOISY | PH_READONLY, "phalcon/Db/Result/Pdo.zep", 284 TSRMLS_CC);
+					zephir_array_fetch_long(&_8$$7, &matches, 1, PH_NOISY | PH_READONLY, "phalcon/Db/Result/Pdo.zep", 284);
 					ZEPHIR_INIT_VAR(&_9$$7);
 					ZEPHIR_CONCAT_SVS(&_9$$7, "SELECT COUNT(*) \"numrows\" FROM (SELECT ", &_8$$7, ")");
 					zephir_read_property(&_10$$7, this_ptr, SL("bindParams"), PH_NOISY_CC | PH_READONLY);
@@ -472,7 +472,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows) {
 					ZEPHIR_CALL_METHOD(&row, &result, "fetch", NULL, 0);
 					zephir_check_call_status();
 					ZEPHIR_OBS_NVAR(&rowCount);
-					zephir_array_fetch_string(&rowCount, &row, SL("numrows"), PH_NOISY, "phalcon/Db/Result/Pdo.zep", 290 TSRMLS_CC);
+					zephir_array_fetch_string(&rowCount, &row, SL("numrows"), PH_NOISY, "phalcon/Db/Result/Pdo.zep", 290);
 				}
 			} else {
 				ZEPHIR_INIT_NVAR(&rowCount);

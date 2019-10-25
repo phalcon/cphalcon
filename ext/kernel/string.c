@@ -1,21 +1,13 @@
 /*
-  +------------------------------------------------------------------------+
-  | Zephir Language                                                        |
-  +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2017 Zephir Team (http://www.zephir-lang.com)       |
-  +------------------------------------------------------------------------+
-  | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file docs/LICENSE.txt.                        |
-  |                                                                        |
-  | If you did not receive a copy of the license and are unable to         |
-  | obtain it through the world-wide-web, please send an email             |
-  | to license@zephir-lang.com so we can send you a copy immediately.      |
-  +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@zephir-lang.com>                     |
-  |          Eduar Carvajal <eduar@zephir-lang.com>                        |
-  |          Vladimir Kolesnikov <vladimir@extrememember.com>              |
-  +------------------------------------------------------------------------+
-*/
+ * This file is part of the Zephir.
+ *
+ * (c) Zephir Team <team@zephir-lang.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code. If you did not receive
+ * a copy of the license it is available through the world-wide-web at the
+ * following url: https://docs.zephir-lang.com/en/latest/license
+ */
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
@@ -39,11 +31,11 @@
 #include <ext/standard/html.h>
 #include <ext/date/php_date.h>
 
-#ifdef ZEPHIR_USE_PHP_PCRE
+#if defined ZEPHIR_USE_PHP_PCRE && ZEPHIR_USE_PHP_PCRE
 #include <ext/pcre/php_pcre.h>
 #endif
 
-#ifdef ZEPHIR_USE_PHP_JSON
+#if defined ZEPHIR_USE_PHP_JSON && ZEPHIR_USE_PHP_JSON
 #include <ext/json/php_json.h>
 #endif
 
@@ -402,10 +394,8 @@ static void zephir_append_printable_zval(smart_str *implstr, zval *tmp)
 
 void zephir_append_printable_array(smart_str *implstr, const zval *value)
 {
-
-	zval           *tmp;
-	zend_array     *arr;
-	unsigned int numelems, i = 0;
+	zend_array *arr;
+	unsigned int numelems;
 
 	arr = Z_ARRVAL_P(value);
 	numelems = zend_hash_num_elements(arr);
@@ -413,6 +403,8 @@ void zephir_append_printable_array(smart_str *implstr, const zval *value)
 	smart_str_appendc(implstr, '[');
 
 	if (numelems > 0) {
+		zval *tmp;
+		unsigned int i = 0;
 
 		ZEND_HASH_FOREACH_VAL(arr, tmp) {
 
@@ -1041,7 +1033,7 @@ void zephir_fast_str_replace(zval *return_value_ptr, zval *search, zval *replace
 	}
 }
 
-#ifdef ZEPHIR_USE_PHP_PCRE
+#if defined ZEPHIR_USE_PHP_PCRE && ZEPHIR_USE_PHP_PCRE
 
 /**
  * Execute preg-match without function lookup in the PHP userland
@@ -1114,8 +1106,8 @@ void zephir_preg_match(zval *return_value, zval *regex, zval *subject, zval *mat
 	zval rv, tmp_matches;
 	zval *rvp = return_value ? return_value : &rv;
 
-	ZEPHIR_SINIT_VAR(tmp_flags);
-	ZEPHIR_SINIT_VAR(tmp_offset);
+	ZVAL_NULL(&tmp_flags);
+	ZVAL_NULL(&tmp_offset);
 
 	ZVAL_LONG(&tmp_flags, flags);
 	ZVAL_LONG(&tmp_offset, offset);
@@ -1150,7 +1142,7 @@ void zephir_preg_match(zval *return_value, zval *regex, zval *subject, zval *mat
 
 #endif /* ZEPHIR_USE_PHP_PCRE */
 
-#ifdef ZEPHIR_USE_PHP_JSON
+#if defined ZEPHIR_USE_PHP_JSON && ZEPHIR_USE_PHP_JSON
 
 int zephir_json_encode(zval *return_value, zval *v, int opts)
 {
@@ -1191,7 +1183,7 @@ int zephir_json_encode(zval *return_value, zval *v, int opts)
 	zval zopts;
 	zval *params[2];
 
-	ZEPHIR_SINIT_VAR(zopts);
+	ZVAL_NULL(&zopts);
 	ZVAL_LONG(&zopts, opts);
 
 	params[0] = v;
@@ -1205,7 +1197,7 @@ int zephir_json_decode(zval *return_value, zval *v, zend_bool assoc)
 	zval zassoc;
 	zval *params[2];
 
-	ZEPHIR_SINIT_VAR(zassoc);
+	ZVAL_NULL(&zassoc);
 	ZVAL_BOOL(&zassoc, assoc);
 
 	params[0] = v;
@@ -1222,10 +1214,9 @@ void zephir_md5(zval *return_value, zval *str)
 	unsigned char digest[16];
 	char hexdigest[33];
 	zval copy;
-	int use_copy = 0;
 
 	if (Z_TYPE_P(str) != IS_STRING) {
-		use_copy = zend_make_printable_zval(str, &copy);
+		int use_copy = zend_make_printable_zval(str, &copy);
 		if (use_copy) {
 			str = &copy;
 		}
@@ -1274,7 +1265,6 @@ void zephir_crc32(zval *return_value, zval *str)
 void zephir_ucfirst(zval *return_value, zval *s)
 {
 	zval copy;
-	char *c;
 	int use_copy = 0;
 
 	if (UNEXPECTED(Z_TYPE_P(s) != IS_STRING)) {
@@ -1286,8 +1276,8 @@ void zephir_ucfirst(zval *return_value, zval *s)
 
 	if (!Z_STRLEN_P(s)) {
 		ZVAL_EMPTY_STRING(return_value);
-	}
-	else {
+	} else {
+		char *c;
 		ZVAL_STRINGL(return_value, Z_STRVAL_P(s), Z_STRLEN_P(s));
 		c = Z_STRVAL_P(return_value);
 		*c = toupper((unsigned char)*c);
@@ -1407,7 +1397,7 @@ void zephir_string_to_hex(zval *return_value, zval *var)
 	res = zend_string_alloc(2*Z_STRLEN_P(var) + 1, 0);
 	s   = Z_STRVAL_P(var);
 	for (i=0; i<Z_STRLEN_P(var); ++i) {
-		sprintf(res->val + 2*i, "%hhX", s[i]);
+		sprintf(res->val + 2*i, "%hhX", (unsigned char) s[i]);
 	}
 
 	res->val[2*Z_STRLEN_P(var)] = 0;

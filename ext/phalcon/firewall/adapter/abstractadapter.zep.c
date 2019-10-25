@@ -41,52 +41,52 @@ ZEPHIR_INIT_CLASS(Phalcon_Firewall_Adapter_AbstractAdapter) {
 	/**
 	 * Storing active identity object implementing Phalcon/Acl/RoleAware
 	 */
-	zend_declare_property_null(phalcon_firewall_adapter_abstractadapter_ce, SL("activeIdentity"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_firewall_adapter_abstractadapter_ce, SL("activeIdentity"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * Storing active user role
 	 */
-	zend_declare_property_null(phalcon_firewall_adapter_abstractadapter_ce, SL("activeRole"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_firewall_adapter_abstractadapter_ce, SL("activeRole"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * Should role always be resolved using role callback or just once?
 	 * @var bool
 	 */
-	zend_declare_property_bool(phalcon_firewall_adapter_abstractadapter_ce, SL("alwaysResolvingRole"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_bool(phalcon_firewall_adapter_abstractadapter_ce, SL("alwaysResolvingRole"), 0, ZEND_ACC_PROTECTED);
 
 	/**
 	 * Cache for caching access
-	 * @var <CacheAdapterInterface>
+	 * @var CacheAdapterInterface
 	 */
-	zend_declare_property_null(phalcon_firewall_adapter_abstractadapter_ce, SL("cache"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_firewall_adapter_abstractadapter_ce, SL("cache"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * Default access
 	 * @var int
 	 */
-	zend_declare_property_long(phalcon_firewall_adapter_abstractadapter_ce, SL("defaultAccess"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_long(phalcon_firewall_adapter_abstractadapter_ce, SL("defaultAccess"), 0, ZEND_ACC_PROTECTED);
 
 	/**
 	 * Events manager
 	 * @var mixed
 	 */
-	zend_declare_property_null(phalcon_firewall_adapter_abstractadapter_ce, SL("eventsManager"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_firewall_adapter_abstractadapter_ce, SL("eventsManager"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * Internal cache for caching access during request time
 	 * @var mixed
 	 */
-	zend_declare_property_null(phalcon_firewall_adapter_abstractadapter_ce, SL("internalCache"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_firewall_adapter_abstractadapter_ce, SL("internalCache"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * Anonymous function for getting user identity - this function must
 	 * return string, array or object implementing Phalcon\Acl\RoleAware
 	 * @var mixed
 	 */
-	zend_declare_property_null(phalcon_firewall_adapter_abstractadapter_ce, SL("roleCallback"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_firewall_adapter_abstractadapter_ce, SL("roleCallback"), ZEND_ACC_PROTECTED);
 
-	zend_class_implements(phalcon_firewall_adapter_abstractadapter_ce TSRMLS_CC, 1, phalcon_firewall_adapter_adapterinterface_ce);
-	zend_class_implements(phalcon_firewall_adapter_abstractadapter_ce TSRMLS_CC, 1, phalcon_events_eventsawareinterface_ce);
+	zend_class_implements(phalcon_firewall_adapter_abstractadapter_ce, 1, phalcon_firewall_adapter_adapterinterface_ce);
+	zend_class_implements(phalcon_firewall_adapter_abstractadapter_ce, 1, phalcon_events_eventsawareinterface_ce);
 	return SUCCESS;
 
 }
@@ -251,10 +251,6 @@ PHP_METHOD(Phalcon_Firewall_Adapter_AbstractAdapter, setRoleCallback) {
 
 
 
-	if (!(zephir_is_callable(callback TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_firewall_exception_ce, "Role callback must be function.", "phalcon/Firewall/Adapter/AbstractAdapter.zep", 137);
-		return;
-	}
 	zephir_update_property_zval(this_ptr, SL("roleCallback"), callback);
 	RETURN_THISW();
 
@@ -289,14 +285,14 @@ PHP_METHOD(Phalcon_Firewall_Adapter_AbstractAdapter, callRoleCallback) {
 
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *container, container_sub, roleCallback, identity, _0, _1$$4;
+	zval *container, container_sub, roleCallback, identity, _0, _1$$5;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&container_sub);
 	ZVAL_UNDEF(&roleCallback);
 	ZVAL_UNDEF(&identity);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1$$4);
+	ZVAL_UNDEF(&_1$$5);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &container);
@@ -305,21 +301,25 @@ PHP_METHOD(Phalcon_Firewall_Adapter_AbstractAdapter, callRoleCallback) {
 
 	zephir_read_property(&_0, this_ptr, SL("roleCallback"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&roleCallback, &_0);
+	if (UNEXPECTED(!zephir_is_true(&roleCallback))) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_firewall_exception_ce, "You must set the roleCallback", "phalcon/Firewall/Adapter/AbstractAdapter.zep", 158);
+		return;
+	}
 	ZEPHIR_CALL_ZVAL_FUNCTION(&identity, &roleCallback, NULL, 0, container);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_EMPTY(&identity)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_firewall_exception_ce, "Function defined as roleCallback must return something.", "phalcon/Firewall/Adapter/AbstractAdapter.zep", 160);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_firewall_exception_ce, "Function defined as roleCallback must return something.", "phalcon/Firewall/Adapter/AbstractAdapter.zep", 166);
 		return;
 	}
 	if (Z_TYPE_P(&identity) == IS_OBJECT) {
-		if (!(zephir_instance_of_ev(&identity, phalcon_acl_roleaware_ce TSRMLS_CC))) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_firewall_exception_ce, "Role passed as object must implement 'Phalcon\\Acl\\RoleAware'", "phalcon/Firewall/Adapter/AbstractAdapter.zep", 165);
+		if (!(zephir_instance_of_ev(&identity, phalcon_acl_roleaware_ce))) {
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_firewall_exception_ce, "Role passed as object must implement 'Phalcon\\Acl\\RoleAware'", "phalcon/Firewall/Adapter/AbstractAdapter.zep", 173);
 			return;
 		}
 		zephir_update_property_zval(this_ptr, SL("activeIdentity"), &identity);
-		ZEPHIR_CALL_METHOD(&_1$$4, &identity, "getrolename", NULL, 0);
+		ZEPHIR_CALL_METHOD(&_1$$5, &identity, "getrolename", NULL, 0);
 		zephir_check_call_status();
-		zephir_update_property_zval(this_ptr, SL("activeRole"), &_1$$4);
+		zephir_update_property_zval(this_ptr, SL("activeRole"), &_1$$5);
 	} else {
 		zephir_update_property_zval(this_ptr, SL("activeRole"), &identity);
 	}
@@ -348,7 +348,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_AbstractAdapter, getAccessFromCache) {
 	zephir_fetch_params(1, 1, 2, &key_param, &originalValues_param, &roleCacheKey_param);
 
 	if (UNEXPECTED(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(key_param) == IS_STRING)) {
@@ -372,7 +372,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_AbstractAdapter, getAccessFromCache) {
 
 
 	zephir_read_property(&_0, this_ptr, SL("internalCache"), PH_NOISY_CC | PH_READONLY);
-	zephir_array_isset_fetch(&access, &_0, &key, 1 TSRMLS_CC);
+	zephir_array_isset_fetch(&access, &_0, &key, 1);
 	RETURN_CTOR(&access);
 
 }
@@ -455,7 +455,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_AbstractAdapter, fireEventOrThrowException) 
 	} else {
 		if (Z_TYPE_P(role) == IS_ARRAY) {
 			ZEPHIR_INIT_VAR(&roleName);
-			zephir_fast_join_str(&roleName, SL(", "), role TSRMLS_CC);
+			zephir_fast_join_str(&roleName, SL(", "), role);
 		} else {
 			ZEPHIR_CPY_WRT(&roleName, role);
 		}
@@ -493,7 +493,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_AbstractAdapter, saveAccessInCache) {
 	zephir_fetch_params(1, 2, 0, &key_param, &access_param);
 
 	if (UNEXPECTED(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(key_param) == IS_STRING)) {
@@ -551,14 +551,14 @@ PHP_METHOD(Phalcon_Firewall_Adapter_AbstractAdapter, throwFirewallException) {
 	ZEPHIR_INIT_VAR(&exception);
 	object_init_ex(&exception, phalcon_firewall_exception_ce);
 	ZVAL_LONG(&_0, exceptionCode);
-	ZEPHIR_CALL_METHOD(NULL, &exception, "__construct", NULL, 5, &message, &_0);
+	ZEPHIR_CALL_METHOD(NULL, &exception, "__construct", NULL, 6, &message, &_0);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "handleexception", NULL, 0, &exception);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&_1)) {
 		RETURN_MM_BOOL(0);
 	}
-	zephir_throw_exception_debug(&exception, "phalcon/Firewall/Adapter/AbstractAdapter.zep", 264 TSRMLS_CC);
+	zephir_throw_exception_debug(&exception, "phalcon/Firewall/Adapter/AbstractAdapter.zep", 272);
 	ZEPHIR_MM_RESTORE();
 	return;
 

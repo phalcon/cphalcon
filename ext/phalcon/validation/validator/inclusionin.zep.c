@@ -72,7 +72,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_InclusionIn) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator, InclusionIn, phalcon, validation_validator_inclusionin, phalcon_validation_abstractvalidator_ce, phalcon_validation_validator_inclusionin_method_entry, 0);
 
-	zend_declare_property_string(phalcon_validation_validator_inclusionin_ce, SL("template"), "Field :field must be a part of list: :domain", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_validation_validator_inclusionin_ce, SL("template"), "Field :field must be a part of list: :domain", ZEND_ACC_PROTECTED);
 
 	return SUCCESS;
 
@@ -115,7 +115,7 @@ PHP_METHOD(Phalcon_Validation_Validator_InclusionIn, validate) {
 	ZEPHIR_CALL_METHOD(&domain, this_ptr, "getoption", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(&fieldDomain);
-	if (zephir_array_isset_fetch(&fieldDomain, &domain, field, 0 TSRMLS_CC)) {
+	if (zephir_array_isset_fetch(&fieldDomain, &domain, field, 0)) {
 		if (Z_TYPE_P(&fieldDomain) == IS_ARRAY) {
 			ZEPHIR_CPY_WRT(&domain, &fieldDomain);
 		}
@@ -136,7 +136,7 @@ PHP_METHOD(Phalcon_Validation_Validator_InclusionIn, validate) {
 		ZEPHIR_CALL_METHOD(&strict, this_ptr, "getoption", NULL, 0, &_2$$6);
 		zephir_check_call_status();
 		if (Z_TYPE_P(&strict) == IS_ARRAY) {
-			zephir_array_fetch(&_3$$7, &strict, field, PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/InclusionIn.zep", 91 TSRMLS_CC);
+			zephir_array_fetch(&_3$$7, &strict, field, PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/InclusionIn.zep", 91);
 			ZEPHIR_CPY_WRT(&strict, &_3$$7);
 		}
 		if (UNEXPECTED(((Z_TYPE_P(&strict) == IS_TRUE || Z_TYPE_P(&strict) == IS_FALSE) != 1))) {
@@ -148,9 +148,9 @@ PHP_METHOD(Phalcon_Validation_Validator_InclusionIn, validate) {
 	zephir_check_call_status();
 	if (!(zephir_is_true(&_4))) {
 		ZEPHIR_INIT_VAR(&replacePairs);
-		zephir_create_array(&replacePairs, 1, 0 TSRMLS_CC);
+		zephir_create_array(&replacePairs, 1, 0);
 		ZEPHIR_INIT_VAR(&_5$$9);
-		zephir_fast_join_str(&_5$$9, SL(", "), &domain TSRMLS_CC);
+		zephir_fast_join_str(&_5$$9, SL(", "), &domain);
 		zephir_array_update_string(&replacePairs, SL(":domain"), &_5$$9, PH_COPY | PH_SEPARATE);
 		ZEPHIR_CALL_METHOD(&_6$$9, this_ptr, "messagefactory", NULL, 0, validation, field, &replacePairs);
 		zephir_check_call_status();

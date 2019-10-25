@@ -44,12 +44,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_Stream_Input) {
 	/**
 	 * @var string
 	 */
-	zend_declare_property_string(phalcon_http_message_stream_input_ce, SL("data"), "", ZEND_ACC_PRIVATE TSRMLS_CC);
+	zend_declare_property_string(phalcon_http_message_stream_input_ce, SL("data"), "", ZEND_ACC_PRIVATE);
 
 	/**
 	 * @var bool
 	 */
-	zend_declare_property_bool(phalcon_http_message_stream_input_ce, SL("eof"), 0, ZEND_ACC_PRIVATE TSRMLS_CC);
+	zend_declare_property_bool(phalcon_http_message_stream_input_ce, SL("eof"), 0, ZEND_ACC_PRIVATE);
 
 	return SUCCESS;
 
@@ -157,7 +157,7 @@ PHP_METHOD(Phalcon_Http_Message_Stream_Input, getContents) {
 	}
 	zephir_read_property(&_1, this_ptr, SL("handle"), PH_NOISY_CC | PH_READONLY);
 	ZVAL_LONG(&_2, length);
-	ZEPHIR_CALL_FUNCTION(&data, "stream_get_contents", NULL, 73, &_1, &_2);
+	ZEPHIR_CALL_FUNCTION(&data, "stream_get_contents", NULL, 74, &_1, &_2);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("data"), &data);
 	_3 = -1 == length;

@@ -33,11 +33,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Container) {
 	ZEPHIR_REGISTER_CLASS(Phalcon, Container, phalcon, container, phalcon_container_method_entry, 0);
 
 	/**
-	 * @var <DiInterface>
+	 * @var DiInterface
 	 */
-	zend_declare_property_null(phalcon_container_ce, SL("container"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_container_ce, SL("container"), ZEND_ACC_PROTECTED);
 
-	zend_class_implements(phalcon_container_ce TSRMLS_CC, 1, zephir_get_internal_ce(SL("psr\\container\\containerinterface")));
+	zend_class_implements(phalcon_container_ce, 1, zephir_get_internal_ce(SL("psr\\container\\containerinterface")));
 	return SUCCESS;
 
 }

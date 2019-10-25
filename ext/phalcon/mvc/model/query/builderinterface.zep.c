@@ -196,7 +196,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, inWhere);
  * @param string model
  * @param string conditions
  * @param string alias
- * @param string type
  * @return BuilderInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, join);

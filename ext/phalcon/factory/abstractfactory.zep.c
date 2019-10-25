@@ -37,12 +37,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Factory_AbstractFactory) {
 	/**
 	 * @var array
 	 */
-	zend_declare_property_null(phalcon_factory_abstractfactory_ce, SL("mapper"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_factory_abstractfactory_ce, SL("mapper"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * @var array
 	 */
-	zend_declare_property_null(phalcon_factory_abstractfactory_ce, SL("services"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_factory_abstractfactory_ce, SL("services"), ZEND_ACC_PROTECTED);
 
 	phalcon_factory_abstractfactory_ce->create_object = zephir_init_properties_Phalcon_Factory_AbstractFactory;
 	return SUCCESS;
@@ -69,7 +69,7 @@ PHP_METHOD(Phalcon_Factory_AbstractFactory, checkService) {
 	zephir_fetch_params(1, 1, 0, &name_param);
 
 	if (UNEXPECTED(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(name_param) == IS_STRING)) {
@@ -86,9 +86,9 @@ PHP_METHOD(Phalcon_Factory_AbstractFactory, checkService) {
 		object_init_ex(&_1$$3, phalcon_factory_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZEPHIR_CONCAT_SVS(&_2$$3, "Service ", &name, " is not registered");
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 5, &_2$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 6, &_2$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Factory/AbstractFactory.zep", 34 TSRMLS_CC);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Factory/AbstractFactory.zep", 34);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -118,7 +118,7 @@ PHP_METHOD(Phalcon_Factory_AbstractFactory, checkConfig) {
 
 	_0 = Z_TYPE_P(config) == IS_OBJECT;
 	if (_0) {
-		_0 = zephir_instance_of_ev(config, phalcon_config_ce TSRMLS_CC);
+		_0 = zephir_instance_of_ev(config, phalcon_config_ce);
 	}
 	if (_0) {
 		ZEPHIR_CALL_METHOD(&_1$$3, config, "toarray", NULL, 0);
@@ -181,7 +181,7 @@ PHP_METHOD(Phalcon_Factory_AbstractFactory, init) {
 	ZEPHIR_CALL_METHOD(&adapters, this_ptr, "getadapters", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_0);
-	zephir_fast_array_merge(&_0, &adapters, &services TSRMLS_CC);
+	zephir_fast_array_merge(&_0, &adapters, &services);
 	ZEPHIR_CPY_WRT(&adapters, &_0);
 	zephir_is_iterable(&adapters, 0, "phalcon/Factory/AbstractFactory.zep", 81);
 	if (Z_TYPE_P(&adapters) == IS_ARRAY) {

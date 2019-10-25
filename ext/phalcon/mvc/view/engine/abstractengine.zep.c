@@ -36,9 +36,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_View_Engine_AbstractEngine) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\View\\Engine, AbstractEngine, phalcon, mvc_view_engine_abstractengine, phalcon_di_injectable_ce, phalcon_mvc_view_engine_abstractengine_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
-	zend_declare_property_null(phalcon_mvc_view_engine_abstractengine_ce, SL("view"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_view_engine_abstractengine_ce, SL("view"), ZEND_ACC_PROTECTED);
 
-	zend_class_implements(phalcon_mvc_view_engine_abstractengine_ce TSRMLS_CC, 1, phalcon_mvc_view_engine_engineinterface_ce);
+	zend_class_implements(phalcon_mvc_view_engine_abstractengine_ce, 1, phalcon_mvc_view_engine_engineinterface_ce);
 	return SUCCESS;
 
 }
@@ -123,7 +123,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_AbstractEngine, partial) {
 	zephir_fetch_params(1, 1, 1, &partialPath_param, &params);
 
 	if (UNEXPECTED(Z_TYPE_P(partialPath_param) != IS_STRING && Z_TYPE_P(partialPath_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'partialPath' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'partialPath' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(partialPath_param) == IS_STRING)) {
@@ -139,9 +139,9 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_AbstractEngine, partial) {
 
 
 	zephir_read_property(&_0, this_ptr, SL("view"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_METHOD(&_0, "partial", NULL, 0, &partialPath, params);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "partial", NULL, 0, &partialPath, params);
 	zephir_check_call_status();
-	RETURN_MM();
+	ZEPHIR_MM_RESTORE();
 
 }
 

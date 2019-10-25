@@ -43,20 +43,20 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_AbstractValidator) {
 	 *
 	 * @var string|null
 	 */
-	zend_declare_property_null(phalcon_validation_abstractvalidator_ce, SL("template"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_validation_abstractvalidator_ce, SL("template"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * Message templates
 	 *
 	 * @var array
 	 */
-	zend_declare_property_null(phalcon_validation_abstractvalidator_ce, SL("templates"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_validation_abstractvalidator_ce, SL("templates"), ZEND_ACC_PROTECTED);
 
-	zend_declare_property_null(phalcon_validation_abstractvalidator_ce, SL("options"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_validation_abstractvalidator_ce, SL("options"), ZEND_ACC_PROTECTED);
 
 	phalcon_validation_abstractvalidator_ce->create_object = zephir_init_properties_Phalcon_Validation_AbstractValidator;
 
-	zend_class_implements(phalcon_validation_abstractvalidator_ce TSRMLS_CC, 1, phalcon_validation_validatorinterface_ce);
+	zend_class_implements(phalcon_validation_abstractvalidator_ce, 1, phalcon_validation_validatorinterface_ce);
 	return SUCCESS;
 
 }
@@ -91,7 +91,7 @@ PHP_METHOD(Phalcon_Validation_AbstractValidator, __construct) {
 
 
 	ZEPHIR_INIT_VAR(&_2);
-	zephir_create_array(&_2, 3, 0 TSRMLS_CC);
+	zephir_create_array(&_2, 3, 0);
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "template");
 	zephir_array_fast_append(&_2, &_3);
@@ -151,7 +151,7 @@ PHP_METHOD(Phalcon_Validation_AbstractValidator, getTemplate) {
 		ZVAL_STRING(&field, "");
 	} else {
 	if (UNEXPECTED(Z_TYPE_P(field_param) != IS_STRING && Z_TYPE_P(field_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'field' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'field' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(field_param) == IS_STRING)) {
@@ -170,7 +170,7 @@ PHP_METHOD(Phalcon_Validation_AbstractValidator, getTemplate) {
 	}
 	if (_0) {
 		zephir_read_property(&_2$$3, this_ptr, SL("templates"), PH_NOISY_CC | PH_READONLY);
-		zephir_array_fetch(&_3$$3, &_2$$3, &field, PH_NOISY | PH_READONLY, "phalcon/Validation/AbstractValidator.zep", 75 TSRMLS_CC);
+		zephir_array_fetch(&_3$$3, &_2$$3, &field, PH_NOISY | PH_READONLY, "phalcon/Validation/AbstractValidator.zep", 75);
 		RETURN_CTOR(&_3$$3);
 	}
 	zephir_read_property(&_4, this_ptr, SL("template"), PH_NOISY_CC | PH_READONLY);
@@ -178,7 +178,7 @@ PHP_METHOD(Phalcon_Validation_AbstractValidator, getTemplate) {
 		RETURN_MM_MEMBER(getThis(), "template");
 	}
 	ZEPHIR_INIT_VAR(&_5);
-	zephir_get_class(&_5, this_ptr, 0 TSRMLS_CC);
+	zephir_get_class(&_5, this_ptr, 0);
 	ZEPHIR_CONCAT_SV(return_value, "The field :field is not valid for ", &_5);
 	RETURN_MM();
 
@@ -201,7 +201,7 @@ PHP_METHOD(Phalcon_Validation_AbstractValidator, getTemplates) {
 /**
  * Clear current templates and set new from an array,
  *
- * @return Validator
+ * @return ValidatorInterface
  */
 PHP_METHOD(Phalcon_Validation_AbstractValidator, setTemplates) {
 
@@ -282,7 +282,7 @@ PHP_METHOD(Phalcon_Validation_AbstractValidator, setTemplates) {
 /**
  * Set a new template message
  *
- * @return Validator
+ * @return ValidatorInterface
  */
 PHP_METHOD(Phalcon_Validation_AbstractValidator, setTemplate) {
 
@@ -297,7 +297,7 @@ PHP_METHOD(Phalcon_Validation_AbstractValidator, setTemplate) {
 	zephir_fetch_params(1, 1, 0, &template_param);
 
 	if (UNEXPECTED(Z_TYPE_P(template_param) != IS_STRING && Z_TYPE_P(template_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'template' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'template' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(template_param) == IS_STRING)) {
@@ -336,7 +336,7 @@ PHP_METHOD(Phalcon_Validation_AbstractValidator, getOption) {
 	zephir_fetch_params(1, 1, 1, &key_param, &defaultValue);
 
 	if (UNEXPECTED(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(key_param) == IS_STRING)) {
@@ -352,7 +352,7 @@ PHP_METHOD(Phalcon_Validation_AbstractValidator, getOption) {
 
 
 	zephir_read_property(&_0, this_ptr, SL("options"), PH_NOISY_CC | PH_READONLY);
-	if (!(zephir_array_isset_fetch(&value, &_0, &key, 1 TSRMLS_CC))) {
+	if (!(zephir_array_isset_fetch(&value, &_0, &key, 1))) {
 		RETVAL_ZVAL(defaultValue, 1, 0);
 		RETURN_MM();
 	}
@@ -361,7 +361,7 @@ PHP_METHOD(Phalcon_Validation_AbstractValidator, getOption) {
 		_1 = Z_TYPE_P(&value) == IS_ARRAY;
 	}
 	if (_1) {
-		if (zephir_array_isset_fetch(&fieldValue, &value, &key, 1 TSRMLS_CC)) {
+		if (zephir_array_isset_fetch(&fieldValue, &value, &key, 1)) {
 			RETURN_CTOR(&fieldValue);
 		}
 	}
@@ -386,7 +386,7 @@ PHP_METHOD(Phalcon_Validation_AbstractValidator, hasOption) {
 	zephir_fetch_params(1, 1, 0, &key_param);
 
 	if (UNEXPECTED(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(key_param) == IS_STRING)) {
@@ -419,7 +419,7 @@ PHP_METHOD(Phalcon_Validation_AbstractValidator, setOption) {
 	zephir_fetch_params(1, 2, 0, &key_param, &value);
 
 	if (UNEXPECTED(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(key_param) == IS_STRING)) {
@@ -462,7 +462,7 @@ PHP_METHOD(Phalcon_Validation_AbstractValidator, prepareCode) {
 	zephir_fetch_params(1, 1, 0, &field_param);
 
 	if (UNEXPECTED(Z_TYPE_P(field_param) != IS_STRING && Z_TYPE_P(field_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'field' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'field' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(field_param) == IS_STRING)) {
@@ -478,7 +478,7 @@ PHP_METHOD(Phalcon_Validation_AbstractValidator, prepareCode) {
 	ZEPHIR_CALL_METHOD(&code, this_ptr, "getoption", NULL, 0, &_0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&code) == IS_ARRAY) {
-		zephir_array_fetch(&_1$$3, &code, &field, PH_NOISY | PH_READONLY, "phalcon/Validation/AbstractValidator.zep", 185 TSRMLS_CC);
+		zephir_array_fetch(&_1$$3, &code, &field, PH_NOISY | PH_READONLY, "phalcon/Validation/AbstractValidator.zep", 185);
 		ZEPHIR_CPY_WRT(&code, &_1$$3);
 	}
 	RETURN_CCTOR(&code);
@@ -506,7 +506,7 @@ PHP_METHOD(Phalcon_Validation_AbstractValidator, prepareLabel) {
 	zephir_fetch_params(1, 2, 0, &validation, &field_param);
 
 	if (UNEXPECTED(Z_TYPE_P(field_param) != IS_STRING && Z_TYPE_P(field_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'field' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'field' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(field_param) == IS_STRING)) {
@@ -522,7 +522,7 @@ PHP_METHOD(Phalcon_Validation_AbstractValidator, prepareLabel) {
 	ZEPHIR_CALL_METHOD(&label, this_ptr, "getoption", NULL, 0, &_0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&label) == IS_ARRAY) {
-		zephir_array_fetch(&_1$$3, &label, &field, PH_NOISY | PH_READONLY, "phalcon/Validation/AbstractValidator.zep", 201 TSRMLS_CC);
+		zephir_array_fetch(&_1$$3, &label, &field, PH_NOISY | PH_READONLY, "phalcon/Validation/AbstractValidator.zep", 201);
 		ZEPHIR_CPY_WRT(&label, &_1$$3);
 	}
 	if (ZEPHIR_IS_EMPTY(&label)) {
@@ -572,7 +572,7 @@ PHP_METHOD(Phalcon_Validation_AbstractValidator, messageFactory) {
 
 	if (Z_TYPE_P(field) == IS_ARRAY) {
 		ZEPHIR_INIT_VAR(&singleField);
-		zephir_fast_join_str(&singleField, SL(", "), field TSRMLS_CC);
+		zephir_fast_join_str(&singleField, SL(", "), field);
 	} else if (Z_TYPE_P(field) == IS_STRING) {
 		ZEPHIR_CPY_WRT(&singleField, field);
 	} else {
@@ -581,11 +581,11 @@ PHP_METHOD(Phalcon_Validation_AbstractValidator, messageFactory) {
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_INIT_VAR(&_1);
-	zephir_create_array(&_1, 1, 0 TSRMLS_CC);
+	zephir_create_array(&_1, 1, 0);
 	ZEPHIR_CALL_METHOD(&_2, this_ptr, "preparelabel", NULL, 0, validation, &singleField);
 	zephir_check_call_status();
 	zephir_array_update_string(&_1, SL(":field"), &_2, PH_COPY | PH_SEPARATE);
-	zephir_fast_array_merge(&_0, &_1, &replacements TSRMLS_CC);
+	zephir_fast_array_merge(&_0, &_1, &replacements);
 	ZEPHIR_CPY_WRT(&replacements, &_0);
 	object_init_ex(return_value, phalcon_messages_message_ce);
 	ZEPHIR_CALL_METHOD(&_2, this_ptr, "gettemplate", NULL, 0, &singleField);
@@ -593,7 +593,7 @@ PHP_METHOD(Phalcon_Validation_AbstractValidator, messageFactory) {
 	ZEPHIR_CALL_FUNCTION(&_3, "strtr", NULL, 3, &_2, &replacements);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_4);
-	zephir_get_class(&_4, this_ptr, 0 TSRMLS_CC);
+	zephir_get_class(&_4, this_ptr, 0);
 	ZEPHIR_CALL_METHOD(&_5, this_ptr, "preparecode", NULL, 0, &singleField);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 4, &_3, field, &_4, &_5);

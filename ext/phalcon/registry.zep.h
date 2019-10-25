@@ -112,6 +112,11 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_registry_get, 0, 0, 1)
 	ZEND_ARG_INFO(0, element)
 #endif
 	ZEND_ARG_INFO(0, defaultValue)
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, cast, IS_STRING, 1)
+#else
+	ZEND_ARG_INFO(0, cast)
+#endif
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200

@@ -76,7 +76,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Between) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator, Between, phalcon, validation_validator_between, phalcon_validation_abstractvalidator_ce, phalcon_validation_validator_between_method_entry, 0);
 
-	zend_declare_property_string(phalcon_validation_validator_between_ce, SL("template"), "Field :field must be within the range of :min to :max", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_validation_validator_between_ce, SL("template"), "Field :field must be within the range of :min to :max", ZEND_ACC_PROTECTED);
 
 	return SUCCESS;
 
@@ -120,11 +120,11 @@ PHP_METHOD(Phalcon_Validation_Validator_Between, validate) {
 	ZEPHIR_CALL_METHOD(&maximum, this_ptr, "getoption", NULL, 0, &_0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&minimum) == IS_ARRAY) {
-		zephir_array_fetch(&_1$$3, &minimum, field, PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/Between.zep", 78 TSRMLS_CC);
+		zephir_array_fetch(&_1$$3, &minimum, field, PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/Between.zep", 78);
 		ZEPHIR_CPY_WRT(&minimum, &_1$$3);
 	}
 	if (Z_TYPE_P(&maximum) == IS_ARRAY) {
-		zephir_array_fetch(&_2$$4, &maximum, field, PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/Between.zep", 82 TSRMLS_CC);
+		zephir_array_fetch(&_2$$4, &maximum, field, PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/Between.zep", 82);
 		ZEPHIR_CPY_WRT(&maximum, &_2$$4);
 	}
 	_3 = ZEPHIR_LT(&value, &minimum);
@@ -133,7 +133,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Between, validate) {
 	}
 	if (_3) {
 		ZEPHIR_INIT_VAR(&replacePairs);
-		zephir_create_array(&replacePairs, 2, 0 TSRMLS_CC);
+		zephir_create_array(&replacePairs, 2, 0);
 		zephir_array_update_string(&replacePairs, SL(":min"), &minimum, PH_COPY | PH_SEPARATE);
 		zephir_array_update_string(&replacePairs, SL(":max"), &maximum, PH_COPY | PH_SEPARATE);
 		ZEPHIR_CALL_METHOD(&_4$$5, this_ptr, "messagefactory", NULL, 0, validation, field, &replacePairs);

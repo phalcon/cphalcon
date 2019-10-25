@@ -32,7 +32,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Translate_Interpolator_IndexedArray) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Translate\\Interpolator, IndexedArray, phalcon, translate_interpolator_indexedarray, phalcon_translate_interpolator_indexedarray_method_entry, 0);
 
-	zend_class_implements(phalcon_translate_interpolator_indexedarray_ce TSRMLS_CC, 1, phalcon_translate_interpolator_interpolatorinterface_ce);
+	zend_class_implements(phalcon_translate_interpolator_indexedarray_ce, 1, phalcon_translate_interpolator_interpolatorinterface_ce);
 	return SUCCESS;
 
 }
@@ -57,7 +57,7 @@ PHP_METHOD(Phalcon_Translate_Interpolator_IndexedArray, replacePlaceholders) {
 	zephir_fetch_params(1, 1, 1, &translation_param, &placeholders_param);
 
 	if (UNEXPECTED(Z_TYPE_P(translation_param) != IS_STRING && Z_TYPE_P(translation_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'translation' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'translation' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(translation_param) == IS_STRING)) {
@@ -74,9 +74,9 @@ PHP_METHOD(Phalcon_Translate_Interpolator_IndexedArray, replacePlaceholders) {
 	}
 
 
-	if (zephir_fast_count_int(&placeholders TSRMLS_CC)) {
+	if (zephir_fast_count_int(&placeholders)) {
 		ZEPHIR_MAKE_REF(&placeholders);
-		ZEPHIR_CALL_FUNCTION(NULL, "array_unshift", NULL, 501, &placeholders, &translation);
+		ZEPHIR_CALL_FUNCTION(NULL, "array_unshift", NULL, 505, &placeholders, &translation);
 		ZEPHIR_UNREF(&placeholders);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_0$$3);

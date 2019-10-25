@@ -44,37 +44,37 @@ ZEPHIR_INIT_CLASS(Phalcon_Domain_Payload_Payload) {
 	 *
 	 * @var mixed
 	 */
-	zend_declare_property_null(phalcon_domain_payload_payload_ce, SL("extras"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_domain_payload_payload_ce, SL("extras"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * Input
 	 *
 	 * @var mixed
 	 */
-	zend_declare_property_null(phalcon_domain_payload_payload_ce, SL("input"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_domain_payload_payload_ce, SL("input"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * Messages
 	 *
 	 * @var mixed
 	 */
-	zend_declare_property_null(phalcon_domain_payload_payload_ce, SL("messages"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_domain_payload_payload_ce, SL("messages"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * Status
 	 *
 	 * @var mixed
 	 */
-	zend_declare_property_null(phalcon_domain_payload_payload_ce, SL("status"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_domain_payload_payload_ce, SL("status"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * Output
 	 *
 	 * @var mixed
 	 */
-	zend_declare_property_null(phalcon_domain_payload_payload_ce, SL("output"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_domain_payload_payload_ce, SL("output"), ZEND_ACC_PROTECTED);
 
-	zend_class_implements(phalcon_domain_payload_payload_ce TSRMLS_CC, 1, phalcon_domain_payload_payloadinterface_ce);
+	zend_class_implements(phalcon_domain_payload_payload_ce, 1, phalcon_domain_payload_payloadinterface_ce);
 	return SUCCESS;
 
 }

@@ -76,7 +76,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_File_Size_Equal) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator\\File\\Size, Equal, phalcon, validation_validator_file_size_equal, phalcon_validation_validator_file_abstractfile_ce, phalcon_validation_validator_file_size_equal_method_entry, 0);
 
-	zend_declare_property_string(phalcon_validation_validator_file_size_equal_ce, SL("template"), "File :field does not have the exact :size filesize", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_validation_validator_file_size_equal_ce, SL("template"), "File :field does not have the exact :size filesize", ZEND_ACC_PROTECTED);
 
 	return SUCCESS;
 
@@ -126,23 +126,23 @@ PHP_METHOD(Phalcon_Validation_Validator_File_Size_Equal, validate) {
 	ZEPHIR_CALL_METHOD(&size, this_ptr, "getoption", NULL, 0, &_1);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&size) == IS_ARRAY) {
-		zephir_array_fetch(&_2$$4, &size, field, PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/File/Size/Equal.zep", 81 TSRMLS_CC);
+		zephir_array_fetch(&_2$$4, &size, field, PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/File/Size/Equal.zep", 81);
 		ZEPHIR_CPY_WRT(&size, &_2$$4);
 	}
 	ZEPHIR_CALL_METHOD(&_3, this_ptr, "getfilesizeinbytes", NULL, 0, &size);
 	zephir_check_call_status();
 	ZVAL_LONG(&_4, 6);
 	ZEPHIR_INIT_VAR(&bytes);
-	zephir_round(&bytes, &_3, &_4, NULL TSRMLS_CC);
-	zephir_array_fetch_string(&_5, &value, SL("size"), PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/File/Size/Equal.zep", 85 TSRMLS_CC);
-	ZEPHIR_CALL_FUNCTION(&_6, "floatval", NULL, 14, &_5);
+	zephir_round(&bytes, &_3, &_4, NULL);
+	zephir_array_fetch_string(&_5, &value, SL("size"), PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/File/Size/Equal.zep", 85);
+	ZEPHIR_CALL_FUNCTION(&_6, "floatval", NULL, 15, &_5);
 	zephir_check_call_status();
 	ZVAL_LONG(&_7, 6);
 	ZEPHIR_INIT_VAR(&fileSize);
-	zephir_round(&fileSize, &_6, &_7, NULL TSRMLS_CC);
+	zephir_round(&fileSize, &_6, &_7, NULL);
 	if (!ZEPHIR_IS_IDENTICAL(&bytes, &fileSize)) {
 		ZEPHIR_INIT_VAR(&replacePairs);
-		zephir_create_array(&replacePairs, 1, 0 TSRMLS_CC);
+		zephir_create_array(&replacePairs, 1, 0);
 		zephir_array_update_string(&replacePairs, SL(":size"), &size, PH_COPY | PH_SEPARATE);
 		ZEPHIR_CALL_METHOD(&_8$$5, this_ptr, "messagefactory", NULL, 0, validation, field, &replacePairs);
 		zephir_check_call_status();

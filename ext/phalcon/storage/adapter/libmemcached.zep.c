@@ -40,7 +40,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Storage_Adapter_Libmemcached) {
 	/**
 	 * @var array
 	 */
-	zend_declare_property_null(phalcon_storage_adapter_libmemcached_ce, SL("options"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_storage_adapter_libmemcached_ce, SL("options"), ZEND_ACC_PROTECTED);
 
 	phalcon_storage_adapter_libmemcached_ce->create_object = zephir_init_properties_Phalcon_Storage_Adapter_Libmemcached;
 	return SUCCESS;
@@ -85,9 +85,9 @@ PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, __construct) {
 
 	if (!(zephir_array_isset_string(&options, SL("servers")))) {
 		ZEPHIR_INIT_VAR(&_0$$3);
-		zephir_create_array(&_0$$3, 1, 0 TSRMLS_CC);
+		zephir_create_array(&_0$$3, 1, 0);
 		ZEPHIR_INIT_VAR(&_1$$3);
-		zephir_create_array(&_1$$3, 3, 0 TSRMLS_CC);
+		zephir_create_array(&_1$$3, 3, 0);
 		add_assoc_stringl_ex(&_1$$3, SL("host"), SL("127.0.0.1"));
 		add_assoc_long_ex(&_1$$3, SL("port"), 11211);
 		add_assoc_long_ex(&_1$$3, SL("weight"), 1);
@@ -149,7 +149,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, decrement) {
 	zephir_fetch_params(1, 1, 1, &key_param, &value_param);
 
 	if (UNEXPECTED(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(key_param) == IS_STRING)) {
@@ -198,7 +198,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, delete) {
 	zephir_fetch_params(1, 1, 0, &key_param);
 
 	if (UNEXPECTED(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(key_param) == IS_STRING)) {
@@ -245,7 +245,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, get) {
 	zephir_fetch_params(1, 1, 1, &key_param, &defaultValue);
 
 	if (UNEXPECTED(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(key_param) == IS_STRING)) {
@@ -274,7 +274,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, get) {
  * Returns the already connected adapter or connects to the Memcached
  * server(s)
  *
- * @return Memcached
+ * @return \Memcached
  * @throws Exception
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, getAdapter) {
@@ -318,13 +318,13 @@ PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, getAdapter) {
 		ZVAL_STRING(&_3$$3, "persistentId");
 		ZEPHIR_INIT_VAR(&_4$$3);
 		ZVAL_STRING(&_4$$3, "ph-mcid-");
-		ZEPHIR_CALL_CE_STATIC(&persistentId, phalcon_helper_arr_ce, "get", &_2, 12, &options, &_3$$3, &_4$$3);
+		ZEPHIR_CALL_CE_STATIC(&persistentId, phalcon_helper_arr_ce, "get", &_2, 13, &options, &_3$$3, &_4$$3);
 		zephir_check_call_status();
 		ZEPHIR_INIT_NVAR(&_3$$3);
 		array_init(&_3$$3);
 		ZEPHIR_INIT_NVAR(&_4$$3);
 		ZVAL_STRING(&_4$$3, "saslAuthData");
-		ZEPHIR_CALL_CE_STATIC(&sasl, phalcon_helper_arr_ce, "get", &_2, 12, &options, &_4$$3, &_3$$3);
+		ZEPHIR_CALL_CE_STATIC(&sasl, phalcon_helper_arr_ce, "get", &_2, 13, &options, &_4$$3, &_3$$3);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&connection);
 		object_init_ex(&connection, zephir_get_internal_ce(SL("memcached")));
@@ -336,40 +336,40 @@ PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, getAdapter) {
 		ZVAL_LONG(&_5$$3, -1002);
 		ZEPHIR_CALL_METHOD(NULL, &connection, "setoption", NULL, 0, &_5$$3, &_1$$3);
 		zephir_check_call_status();
-		if (zephir_fast_count_int(&serverList TSRMLS_CC) < 1) {
+		if (zephir_fast_count_int(&serverList) < 1) {
 			ZEPHIR_INIT_VAR(&_6$$4);
 			array_init(&_6$$4);
 			ZEPHIR_INIT_VAR(&_7$$4);
 			ZVAL_STRING(&_7$$4, "servers");
-			ZEPHIR_CALL_CE_STATIC(&servers, phalcon_helper_arr_ce, "get", &_2, 12, &options, &_7$$4, &_6$$4);
+			ZEPHIR_CALL_CE_STATIC(&servers, phalcon_helper_arr_ce, "get", &_2, 13, &options, &_7$$4, &_6$$4);
 			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(&_7$$4);
 			array_init(&_7$$4);
 			ZEPHIR_INIT_VAR(&_8$$4);
 			ZVAL_STRING(&_8$$4, "client");
-			ZEPHIR_CALL_CE_STATIC(&client, phalcon_helper_arr_ce, "get", &_2, 12, &options, &_8$$4, &_7$$4);
+			ZEPHIR_CALL_CE_STATIC(&client, phalcon_helper_arr_ce, "get", &_2, 13, &options, &_8$$4, &_7$$4);
 			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(&_8$$4);
 			ZVAL_STRING(&_8$$4, "user");
 			ZEPHIR_INIT_VAR(&_9$$4);
 			ZVAL_STRING(&_9$$4, "");
-			ZEPHIR_CALL_CE_STATIC(&saslUser, phalcon_helper_arr_ce, "get", &_2, 12, &sasl, &_8$$4, &_9$$4);
+			ZEPHIR_CALL_CE_STATIC(&saslUser, phalcon_helper_arr_ce, "get", &_2, 13, &sasl, &_8$$4, &_9$$4);
 			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(&_8$$4);
 			ZVAL_STRING(&_8$$4, "pass");
 			ZEPHIR_INIT_NVAR(&_9$$4);
 			ZVAL_STRING(&_9$$4, "");
-			ZEPHIR_CALL_CE_STATIC(&saslPass, phalcon_helper_arr_ce, "get", &_2, 12, &sasl, &_8$$4, &_9$$4);
+			ZEPHIR_CALL_CE_STATIC(&saslPass, phalcon_helper_arr_ce, "get", &_2, 13, &sasl, &_8$$4, &_9$$4);
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(&failover);
-			zephir_create_array(&failover, 5, 0 TSRMLS_CC);
+			zephir_create_array(&failover, 5, 0);
 			add_index_long(&failover, 14, 10);
 			add_index_long(&failover, 9, 1);
 			add_index_long(&failover, 21, 2);
 			zephir_array_update_long(&failover, 35, &__$true, PH_COPY ZEPHIR_DEBUG_PARAMS_DUMMY);
 			add_index_long(&failover, 15, 1);
 			ZEPHIR_INIT_NVAR(&_8$$4);
-			zephir_fast_array_merge(&_8$$4, &failover, &client TSRMLS_CC);
+			zephir_fast_array_merge(&_8$$4, &failover, &client);
 			ZEPHIR_CPY_WRT(&client, &_8$$4);
 			ZEPHIR_CALL_METHOD(&_10$$4, &connection, "setoptions", NULL, 0, &client);
 			zephir_check_call_status();
@@ -388,7 +388,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, getAdapter) {
 				zephir_check_call_status();
 			}
 		}
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setserializer", NULL, 113, &connection);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setserializer", NULL, 114, &connection);
 		zephir_check_call_status();
 		zephir_update_property_zval(this_ptr, SL("adapter"), &connection);
 	}
@@ -454,7 +454,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, has) {
 	zephir_fetch_params(1, 1, 0, &key_param);
 
 	if (UNEXPECTED(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(key_param) == IS_STRING)) {
@@ -500,7 +500,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, increment) {
 	zephir_fetch_params(1, 1, 1, &key_param, &value_param);
 
 	if (UNEXPECTED(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(key_param) == IS_STRING)) {
@@ -555,7 +555,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, set) {
 	zephir_fetch_params(1, 2, 1, &key_param, &value, &ttl);
 
 	if (UNEXPECTED(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(key_param) == IS_STRING)) {
@@ -586,7 +586,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, set) {
  * Checks the serializer. If it is a supported one it is set, otherwise
  * the custom one is set.
  *
- * @param Memcached $connection
+ * @param \Memcached $connection
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, setSerializer) {
 
@@ -610,7 +610,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, setSerializer) {
 
 
 	ZEPHIR_INIT_VAR(&map);
-	zephir_create_array(&map, 3, 0 TSRMLS_CC);
+	zephir_create_array(&map, 3, 0);
 	add_assoc_long_ex(&map, SL("php"), 1);
 	add_assoc_long_ex(&map, SL("json"), 3);
 	add_assoc_long_ex(&map, SL("igbinary"), 2);
@@ -622,7 +622,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, setSerializer) {
 		ZEPHIR_INIT_NVAR(&_1$$3);
 		ZVAL_STRING(&_1$$3, "");
 		zephir_update_property_zval(this_ptr, SL("defaultSerializer"), &_1$$3);
-		zephir_array_fetch(&_2$$3, &map, &serializer, PH_NOISY | PH_READONLY, "phalcon/Storage/Adapter/Libmemcached.zep", 244 TSRMLS_CC);
+		zephir_array_fetch(&_2$$3, &map, &serializer, PH_NOISY | PH_READONLY, "phalcon/Storage/Adapter/Libmemcached.zep", 244);
 		ZVAL_LONG(&_3$$3, -1003);
 		ZEPHIR_CALL_METHOD(NULL, connection, "setoption", NULL, 0, &_3$$3, &_2$$3);
 		zephir_check_call_status();

@@ -40,26 +40,26 @@ ZEPHIR_INIT_CLASS(Phalcon_Application_AbstractApplication) {
 	/**
 	 * @var DiInterface
 	 */
-	zend_declare_property_null(phalcon_application_abstractapplication_ce, SL("container"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_application_abstractapplication_ce, SL("container"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * @var string
 	 */
-	zend_declare_property_null(phalcon_application_abstractapplication_ce, SL("defaultModule"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_application_abstractapplication_ce, SL("defaultModule"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * @var null | ManagerInterface
 	 */
-	zend_declare_property_null(phalcon_application_abstractapplication_ce, SL("eventsManager"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_application_abstractapplication_ce, SL("eventsManager"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * @var array
 	 */
-	zend_declare_property_null(phalcon_application_abstractapplication_ce, SL("modules"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_application_abstractapplication_ce, SL("modules"), ZEND_ACC_PROTECTED);
 
 	phalcon_application_abstractapplication_ce->create_object = zephir_init_properties_Phalcon_Application_AbstractApplication;
 
-	zend_class_implements(phalcon_application_abstractapplication_ce TSRMLS_CC, 1, phalcon_events_eventsawareinterface_ce);
+	zend_class_implements(phalcon_application_abstractapplication_ce, 1, phalcon_events_eventsawareinterface_ce);
 	return SUCCESS;
 
 }
@@ -134,7 +134,7 @@ PHP_METHOD(Phalcon_Application_AbstractApplication, getModule) {
 	zephir_fetch_params(1, 1, 0, &name_param);
 
 	if (UNEXPECTED(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(name_param) == IS_STRING)) {
@@ -147,14 +147,14 @@ PHP_METHOD(Phalcon_Application_AbstractApplication, getModule) {
 
 	ZEPHIR_OBS_VAR(&module);
 	zephir_read_property(&_0, this_ptr, SL("modules"), PH_NOISY_CC | PH_READONLY);
-	if (UNEXPECTED(!(zephir_array_isset_fetch(&module, &_0, &name, 0 TSRMLS_CC)))) {
+	if (UNEXPECTED(!(zephir_array_isset_fetch(&module, &_0, &name, 0)))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_application_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZEPHIR_CONCAT_SVS(&_2$$3, "Module '", &name, "' isn't registered in the application container");
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 5, &_2$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 6, &_2$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Application/AbstractApplication.zep", 80 TSRMLS_CC);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Application/AbstractApplication.zep", 80);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -218,7 +218,7 @@ PHP_METHOD(Phalcon_Application_AbstractApplication, registerModules) {
 	if (merge) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		zephir_read_property(&_1$$3, this_ptr, SL("modules"), PH_NOISY_CC | PH_READONLY);
-		zephir_fast_array_merge(&_0$$3, &_1$$3, &modules TSRMLS_CC);
+		zephir_fast_array_merge(&_0$$3, &_1$$3, &modules);
 		zephir_update_property_zval(this_ptr, SL("modules"), &_0$$3);
 	} else {
 		zephir_update_property_zval(this_ptr, SL("modules"), &modules);
@@ -243,7 +243,7 @@ PHP_METHOD(Phalcon_Application_AbstractApplication, setDefaultModule) {
 	zephir_fetch_params(1, 1, 0, &defaultModule_param);
 
 	if (UNEXPECTED(Z_TYPE_P(defaultModule_param) != IS_STRING && Z_TYPE_P(defaultModule_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'defaultModule' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'defaultModule' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(defaultModule_param) == IS_STRING)) {

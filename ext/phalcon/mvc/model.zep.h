@@ -757,7 +757,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model__getrelatedrecords, 0, 0, 3)
 #else
 	ZEND_ARG_INFO(0, method)
 #endif
-	ZEND_ARG_INFO(0, arguments)
+	ZEND_ARG_ARRAY_INFO(0, arguments, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200

@@ -75,7 +75,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Callback) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator, Callback, phalcon, validation_validator_callback, phalcon_validation_abstractvalidator_ce, phalcon_validation_validator_callback_method_entry, 0);
 
-	zend_declare_property_string(phalcon_validation_validator_callback_ce, SL("template"), "Field :field must match the callback function", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_validation_validator_callback_ce, SL("template"), "Field :field must match the callback function", ZEND_ACC_PROTECTED);
 
 	return SUCCESS;
 
@@ -109,18 +109,18 @@ PHP_METHOD(Phalcon_Validation_Validator_Callback, validate) {
 	ZVAL_STRING(&_0, "callback");
 	ZEPHIR_CALL_METHOD(&callback, this_ptr, "getoption", NULL, 0, &_0);
 	zephir_check_call_status();
-	if (zephir_is_callable(&callback TSRMLS_CC)) {
+	if (zephir_is_callable(&callback)) {
 		ZEPHIR_CALL_METHOD(&data, validation, "getentity", NULL, 0);
 		zephir_check_call_status();
 		if (ZEPHIR_IS_EMPTY(&data)) {
 			ZEPHIR_CALL_METHOD(&data, validation, "getdata", NULL, 0);
 			zephir_check_call_status();
 		}
-		ZEPHIR_CALL_FUNCTION(&returnedValue, "call_user_func", NULL, 251, &callback, &data);
+		ZEPHIR_CALL_FUNCTION(&returnedValue, "call_user_func", NULL, 252, &callback, &data);
 		zephir_check_call_status();
 		_1$$3 = Z_TYPE_P(&returnedValue) == IS_OBJECT;
 		if (_1$$3) {
-			_1$$3 = zephir_instance_of_ev(&returnedValue, phalcon_validation_validatorinterface_ce TSRMLS_CC);
+			_1$$3 = zephir_instance_of_ev(&returnedValue, phalcon_validation_validatorinterface_ce);
 		}
 		if (((Z_TYPE_P(&returnedValue) == IS_TRUE || Z_TYPE_P(&returnedValue) == IS_FALSE) == 1)) {
 			if (!(zephir_is_true(&returnedValue))) {

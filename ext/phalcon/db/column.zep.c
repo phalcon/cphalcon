@@ -61,97 +61,97 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Column) {
 	 *
 	 * @var string
 	 */
-	zend_declare_property_null(phalcon_db_column_ce, SL("after"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_column_ce, SL("after"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * Column is autoIncrement?
 	 *
 	 * @var bool
 	 */
-	zend_declare_property_bool(phalcon_db_column_ce, SL("autoIncrement"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_bool(phalcon_db_column_ce, SL("autoIncrement"), 0, ZEND_ACC_PROTECTED);
 
 	/**
 	 * Bind Type
 	 */
-	zend_declare_property_long(phalcon_db_column_ce, SL("bindType"), 2, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_long(phalcon_db_column_ce, SL("bindType"), 2, ZEND_ACC_PROTECTED);
 
 	/**
 	 * Default column value
 	 */
-	zend_declare_property_null(phalcon_db_column_ce, SL("_default"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_column_ce, SL("_default"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * Position is first
 	 *
 	 * @var bool
 	 */
-	zend_declare_property_bool(phalcon_db_column_ce, SL("first"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_bool(phalcon_db_column_ce, SL("first"), 0, ZEND_ACC_PROTECTED);
 
 	/**
 	 * The column have some numeric type?
 	 */
-	zend_declare_property_bool(phalcon_db_column_ce, SL("isNumeric"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_bool(phalcon_db_column_ce, SL("isNumeric"), 0, ZEND_ACC_PROTECTED);
 
 	/**
 	 * Column's name
 	 *
 	 * @var string
 	 */
-	zend_declare_property_null(phalcon_db_column_ce, SL("name"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_column_ce, SL("name"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * Column not nullable?
 	 *
 	 * @var bool
 	 */
-	zend_declare_property_bool(phalcon_db_column_ce, SL("notNull"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_bool(phalcon_db_column_ce, SL("notNull"), 0, ZEND_ACC_PROTECTED);
 
 	/**
 	 * Column is part of the primary key?
 	 */
-	zend_declare_property_bool(phalcon_db_column_ce, SL("primary"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_bool(phalcon_db_column_ce, SL("primary"), 0, ZEND_ACC_PROTECTED);
 
 	/**
 	 * Integer column number scale
 	 *
 	 * @var int
 	 */
-	zend_declare_property_long(phalcon_db_column_ce, SL("scale"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_long(phalcon_db_column_ce, SL("scale"), 0, ZEND_ACC_PROTECTED);
 
 	/**
 	 * Integer column size
 	 *
 	 * @var int
 	 */
-	zend_declare_property_long(phalcon_db_column_ce, SL("size"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_long(phalcon_db_column_ce, SL("size"), 0, ZEND_ACC_PROTECTED);
 
 	/**
 	 * Column data type
 	 *
 	 * @var int
 	 */
-	zend_declare_property_null(phalcon_db_column_ce, SL("type"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_column_ce, SL("type"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * Column data type reference
 	 *
 	 * @var int
 	 */
-	zend_declare_property_long(phalcon_db_column_ce, SL("typeReference"), -1, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_long(phalcon_db_column_ce, SL("typeReference"), -1, ZEND_ACC_PROTECTED);
 
 	/**
 	 * Column data type values
 	 *
 	 * @var array|string
 	 */
-	zend_declare_property_null(phalcon_db_column_ce, SL("typeValues"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_column_ce, SL("typeValues"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * Integer column unsigned?
 	 *
 	 * @var bool
 	 */
-	zend_declare_property_bool(phalcon_db_column_ce, SL("unsigned"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_bool(phalcon_db_column_ce, SL("unsigned"), 0, ZEND_ACC_PROTECTED);
 
 	/**
 	 * Bind Type Blob
@@ -323,7 +323,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Column) {
 	 */
 	zephir_declare_class_constant_long(phalcon_db_column_ce, SL("TYPE_VARCHAR"), 2);
 
-	zend_class_implements(phalcon_db_column_ce TSRMLS_CC, 1, phalcon_db_columninterface_ce);
+	zend_class_implements(phalcon_db_column_ce, 1, phalcon_db_columninterface_ce);
 	return SUCCESS;
 
 }
@@ -446,7 +446,7 @@ PHP_METHOD(Phalcon_Db_Column, __construct) {
 	zephir_fetch_params(1, 2, 0, &name_param, &definition_param);
 
 	if (UNEXPECTED(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(name_param) == IS_STRING)) {

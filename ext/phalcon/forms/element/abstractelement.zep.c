@@ -38,30 +38,30 @@ ZEPHIR_INIT_CLASS(Phalcon_Forms_Element_AbstractElement) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Forms\\Element, AbstractElement, phalcon, forms_element_abstractelement, phalcon_forms_element_abstractelement_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
-	zend_declare_property_null(phalcon_forms_element_abstractelement_ce, SL("attributes"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_forms_element_abstractelement_ce, SL("attributes"), ZEND_ACC_PROTECTED);
 
-	zend_declare_property_null(phalcon_forms_element_abstractelement_ce, SL("filters"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_forms_element_abstractelement_ce, SL("filters"), ZEND_ACC_PROTECTED);
 
-	zend_declare_property_null(phalcon_forms_element_abstractelement_ce, SL("form"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_forms_element_abstractelement_ce, SL("form"), ZEND_ACC_PROTECTED);
 
-	zend_declare_property_null(phalcon_forms_element_abstractelement_ce, SL("label"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_forms_element_abstractelement_ce, SL("label"), ZEND_ACC_PROTECTED);
 
-	zend_declare_property_null(phalcon_forms_element_abstractelement_ce, SL("messages"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_forms_element_abstractelement_ce, SL("messages"), ZEND_ACC_PROTECTED);
 
-	zend_declare_property_null(phalcon_forms_element_abstractelement_ce, SL("name"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_forms_element_abstractelement_ce, SL("name"), ZEND_ACC_PROTECTED);
 
-	zend_declare_property_null(phalcon_forms_element_abstractelement_ce, SL("options"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_forms_element_abstractelement_ce, SL("options"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * @var array
 	 */
-	zend_declare_property_null(phalcon_forms_element_abstractelement_ce, SL("validators"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_forms_element_abstractelement_ce, SL("validators"), ZEND_ACC_PROTECTED);
 
-	zend_declare_property_null(phalcon_forms_element_abstractelement_ce, SL("value"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_forms_element_abstractelement_ce, SL("value"), ZEND_ACC_PROTECTED);
 
 	phalcon_forms_element_abstractelement_ce->create_object = zephir_init_properties_Phalcon_Forms_Element_AbstractElement;
 
-	zend_class_implements(phalcon_forms_element_abstractelement_ce TSRMLS_CC, 1, phalcon_forms_element_elementinterface_ce);
+	zend_class_implements(phalcon_forms_element_abstractelement_ce, 1, phalcon_forms_element_elementinterface_ce);
 	return SUCCESS;
 
 }
@@ -99,7 +99,7 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, __construct) {
 
 
 	ZEPHIR_INIT_VAR(&_0);
-	zephir_fast_trim(&_0, &name, NULL , ZEPHIR_TRIM_BOTH TSRMLS_CC);
+	zephir_fast_trim(&_0, &name, NULL , ZEPHIR_TRIM_BOTH);
 	zephir_get_strval(&name, &_0);
 	if (UNEXPECTED(ZEPHIR_IS_EMPTY(&name))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Form element name is required", "phalcon/Forms/Element/AbstractElement.zep", 54);
@@ -164,13 +164,13 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, addFilter) {
 	} else {
 		if (Z_TYPE_P(&filters) == IS_STRING) {
 			ZEPHIR_INIT_VAR(&_1$$5);
-			zephir_create_array(&_1$$5, 2, 0 TSRMLS_CC);
+			zephir_create_array(&_1$$5, 2, 0);
 			zephir_array_fast_append(&_1$$5, &filters);
 			zephir_array_fast_append(&_1$$5, &filter);
 			zephir_update_property_zval(this_ptr, SL("filters"), &_1$$5);
 		} else {
 			ZEPHIR_INIT_VAR(&_2$$6);
-			zephir_create_array(&_2$$6, 1, 0 TSRMLS_CC);
+			zephir_create_array(&_2$$6, 1, 0);
 			zephir_array_fast_append(&_2$$6, &filter);
 			zephir_update_property_zval(this_ptr, SL("filters"), &_2$$6);
 		}
@@ -202,6 +202,7 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, addValidator) {
  * Adds a group of validators
  *
  * @param \Phalcon\Validation\ValidatorInterface[] validators
+ * @param bool                                     merge
  */
 PHP_METHOD(Phalcon_Forms_Element_AbstractElement, addValidators) {
 
@@ -229,7 +230,7 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, addValidators) {
 	if (merge) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		zephir_read_property(&_1$$3, this_ptr, SL("validators"), PH_NOISY_CC | PH_READONLY);
-		zephir_fast_array_merge(&_0$$3, &_1$$3, &validators TSRMLS_CC);
+		zephir_fast_array_merge(&_0$$3, &_1$$3, &validators);
 		ZEPHIR_CPY_WRT(&validators, &_0$$3);
 	}
 	zephir_update_property_zval(this_ptr, SL("validators"), &validators);
@@ -326,7 +327,7 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, getAttribute) {
 
 	zephir_read_property(&_0, this_ptr, SL("attributes"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&attributes, &_0);
-	if (!(zephir_array_isset_fetch(&value, &attributes, &attribute, 1 TSRMLS_CC))) {
+	if (!(zephir_array_isset_fetch(&value, &attributes, &attribute, 1))) {
 		RETVAL_ZVAL(defaultValue, 1, 0);
 		RETURN_MM();
 	}
@@ -456,7 +457,7 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, getUserOption) {
 
 
 	zephir_read_property(&_0, this_ptr, SL("options"), PH_NOISY_CC | PH_READONLY);
-	if (!(zephir_array_isset_fetch(&value, &_0, &option, 1 TSRMLS_CC))) {
+	if (!(zephir_array_isset_fetch(&value, &_0, &option, 1))) {
 		RETVAL_ZVAL(defaultValue, 1, 0);
 		RETURN_MM();
 	}
@@ -545,7 +546,7 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, hasMessages) {
 
 
 	zephir_read_property(&_0, this_ptr, SL("messages"), PH_NOISY_CC | PH_READONLY);
-	RETURN_BOOL(zephir_fast_count_int(&_0 TSRMLS_CC) > 0);
+	RETURN_BOOL(zephir_fast_count_int(&_0) > 0);
 
 }
 
@@ -607,11 +608,11 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, label) {
 	if (_4) {
 		ZEPHIR_INIT_VAR(&_5$$5);
 		ZEPHIR_CONCAT_SVS(&_5$$5, ">", &label, "</label>");
-		zephir_concat_self(&code, &_5$$5 TSRMLS_CC);
+		zephir_concat_self(&code, &_5$$5);
 	} else {
 		ZEPHIR_INIT_VAR(&_6$$6);
 		ZEPHIR_CONCAT_SVS(&_6$$6, ">", &name, "</label>");
-		zephir_concat_self(&code, &_6$$6 TSRMLS_CC);
+		zephir_concat_self(&code, &_6$$6);
 	}
 	RETURN_CCTOR(&code);
 
@@ -662,7 +663,7 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, prepareAttributes) {
 	ZEPHIR_OBS_VAR(&defaultAttributes);
 	zephir_read_property(&defaultAttributes, this_ptr, SL("attributes"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(&mergedAttributes);
-	zephir_fast_array_merge(&mergedAttributes, &defaultAttributes, &attributes TSRMLS_CC);
+	zephir_fast_array_merge(&mergedAttributes, &defaultAttributes, &attributes);
 	ZEPHIR_CALL_METHOD(&value, this_ptr, "getvalue", NULL, 0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&value) != IS_NULL) {
@@ -778,7 +779,7 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, setFilters) {
 		_0 = Z_TYPE_P(filters) != IS_ARRAY;
 	}
 	if (UNEXPECTED(_0)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_forms_exception_ce, "Wrong filter type added", "phalcon/Forms/Element/AbstractElement.zep", 434);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_forms_exception_ce, "Wrong filter type added", "phalcon/Forms/Element/AbstractElement.zep", 435);
 		return;
 	}
 	zephir_update_property_zval(this_ptr, SL("filters"), filters);
@@ -863,7 +864,7 @@ PHP_METHOD(Phalcon_Forms_Element_AbstractElement, setName) {
 	zephir_fetch_params(1, 1, 0, &name_param);
 
 	if (UNEXPECTED(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(name_param) == IS_STRING)) {

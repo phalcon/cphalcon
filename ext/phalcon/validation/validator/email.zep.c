@@ -64,7 +64,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Email) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator, Email, phalcon, validation_validator_email, phalcon_validation_abstractvalidator_ce, phalcon_validation_validator_email_method_entry, 0);
 
-	zend_declare_property_string(phalcon_validation_validator_email_ce, SL("template"), "Field :field must be an email address", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_validation_validator_email_ce, SL("template"), "Field :field must be an email address", ZEND_ACC_PROTECTED);
 
 	return SUCCESS;
 
@@ -95,7 +95,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Email, validate) {
 	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, 0, field);
 	zephir_check_call_status();
 	ZVAL_LONG(&_0, 274);
-	ZEPHIR_CALL_FUNCTION(&_1, "filter_var", NULL, 234, &value, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "filter_var", NULL, 235, &value, &_0);
 	zephir_check_call_status();
 	if (!(zephir_is_true(&_1))) {
 		ZEPHIR_CALL_METHOD(&_2$$3, this_ptr, "messagefactory", NULL, 0, validation, field);

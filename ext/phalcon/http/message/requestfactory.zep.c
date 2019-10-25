@@ -39,7 +39,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_RequestFactory) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Http\\Message, RequestFactory, phalcon, http_message_requestfactory, phalcon_http_message_requestfactory_method_entry, ZEND_ACC_FINAL_CLASS);
 
-	zend_class_implements(phalcon_http_message_requestfactory_ce TSRMLS_CC, 1, zephir_get_internal_ce(SL("psr\\http\\message\\requestfactoryinterface")));
+	zend_class_implements(phalcon_http_message_requestfactory_ce, 1, zephir_get_internal_ce(SL("psr\\http\\message\\requestfactoryinterface")));
 	return SUCCESS;
 
 }
@@ -67,7 +67,7 @@ PHP_METHOD(Phalcon_Http_Message_RequestFactory, createRequest) {
 	zephir_fetch_params(1, 2, 0, &method_param, &uri);
 
 	if (UNEXPECTED(Z_TYPE_P(method_param) != IS_STRING && Z_TYPE_P(method_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'method' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'method' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(method_param) == IS_STRING)) {
@@ -79,7 +79,7 @@ PHP_METHOD(Phalcon_Http_Message_RequestFactory, createRequest) {
 
 
 	object_init_ex(return_value, phalcon_http_message_request_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 279, &method, uri);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 280, &method, uri);
 	zephir_check_call_status();
 	RETURN_MM();
 

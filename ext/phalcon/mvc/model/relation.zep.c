@@ -37,21 +37,21 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Relation) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model, Relation, phalcon, mvc_model_relation, phalcon_mvc_model_relation_method_entry, 0);
 
-	zend_declare_property_null(phalcon_mvc_model_relation_ce, SL("fields"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_relation_ce, SL("fields"), ZEND_ACC_PROTECTED);
 
-	zend_declare_property_null(phalcon_mvc_model_relation_ce, SL("intermediateFields"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_relation_ce, SL("intermediateFields"), ZEND_ACC_PROTECTED);
 
-	zend_declare_property_null(phalcon_mvc_model_relation_ce, SL("intermediateModel"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_relation_ce, SL("intermediateModel"), ZEND_ACC_PROTECTED);
 
-	zend_declare_property_null(phalcon_mvc_model_relation_ce, SL("intermediateReferencedFields"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_relation_ce, SL("intermediateReferencedFields"), ZEND_ACC_PROTECTED);
 
-	zend_declare_property_null(phalcon_mvc_model_relation_ce, SL("options"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_relation_ce, SL("options"), ZEND_ACC_PROTECTED);
 
-	zend_declare_property_null(phalcon_mvc_model_relation_ce, SL("referencedFields"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_relation_ce, SL("referencedFields"), ZEND_ACC_PROTECTED);
 
-	zend_declare_property_null(phalcon_mvc_model_relation_ce, SL("referencedModel"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_relation_ce, SL("referencedModel"), ZEND_ACC_PROTECTED);
 
-	zend_declare_property_null(phalcon_mvc_model_relation_ce, SL("type"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_relation_ce, SL("type"), ZEND_ACC_PROTECTED);
 
 	zephir_declare_class_constant_long(phalcon_mvc_model_relation_ce, SL("ACTION_CASCADE"), 2);
 
@@ -69,7 +69,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Relation) {
 
 	zephir_declare_class_constant_long(phalcon_mvc_model_relation_ce, SL("NO_ACTION"), 0);
 
-	zend_class_implements(phalcon_mvc_model_relation_ce TSRMLS_CC, 1, phalcon_mvc_model_relationinterface_ce);
+	zend_class_implements(phalcon_mvc_model_relation_ce, 1, phalcon_mvc_model_relationinterface_ce);
 	return SUCCESS;
 
 }
@@ -100,7 +100,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, __construct) {
 
 	type = zephir_get_intval(type_param);
 	if (UNEXPECTED(Z_TYPE_P(referencedModel_param) != IS_STRING && Z_TYPE_P(referencedModel_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'referencedModel' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'referencedModel' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(referencedModel_param) == IS_STRING)) {
@@ -229,7 +229,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getOption) {
 	zephir_fetch_params(1, 1, 0, &name_param);
 
 	if (UNEXPECTED(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(name_param) == IS_STRING)) {
@@ -241,7 +241,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getOption) {
 
 
 	zephir_read_property(&_0, this_ptr, SL("options"), PH_NOISY_CC | PH_READONLY);
-	if (!(zephir_array_isset_fetch(&option, &_0, &name, 1 TSRMLS_CC))) {
+	if (!(zephir_array_isset_fetch(&option, &_0, &name, 1))) {
 		RETURN_MM_NULL();
 	}
 	RETURN_CTOR(&option);
@@ -416,7 +416,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, setIntermediateRelation) {
 	zephir_fetch_params(1, 3, 0, &intermediateFields, &intermediateModel_param, &intermediateReferencedFields);
 
 	if (UNEXPECTED(Z_TYPE_P(intermediateModel_param) != IS_STRING && Z_TYPE_P(intermediateModel_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'intermediateModel' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'intermediateModel' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(intermediateModel_param) == IS_STRING)) {

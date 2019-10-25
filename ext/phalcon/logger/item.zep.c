@@ -35,35 +35,35 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Item) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Logger, Item, phalcon, logger_item, phalcon_logger_item_method_entry, 0);
 
-	zend_declare_property_null(phalcon_logger_item_ce, SL("context"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_logger_item_ce, SL("context"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * Log message
 	 *
 	 * @var string
 	 */
-	zend_declare_property_null(phalcon_logger_item_ce, SL("message"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_logger_item_ce, SL("message"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * Log message
 	 *
 	 * @var string
 	 */
-	zend_declare_property_null(phalcon_logger_item_ce, SL("name"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_logger_item_ce, SL("name"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * Log timestamp
 	 *
 	 * @var integer
 	 */
-	zend_declare_property_null(phalcon_logger_item_ce, SL("time"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_logger_item_ce, SL("time"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * Log type
 	 *
 	 * @var integer
 	 */
-	zend_declare_property_null(phalcon_logger_item_ce, SL("type"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_logger_item_ce, SL("type"), ZEND_ACC_PROTECTED);
 
 	return SUCCESS;
 

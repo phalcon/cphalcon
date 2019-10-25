@@ -171,7 +171,7 @@ PHP_METHOD(Phalcon_Flash_Session, message) {
 		array_init(&_1$$3);
 		zephir_array_update_zval(&messages, &type, &_1$$3, PH_COPY | PH_SEPARATE);
 	}
-	zephir_array_update_multi(&messages, &message TSRMLS_CC, SL("za"), 2, &type);
+	zephir_array_update_multi(&messages, &message, SL("za"), 2, &type);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setsessionmessages", NULL, 0, &messages);
 	zephir_check_call_status();
 	RETURN_MM_NULL();
@@ -299,7 +299,7 @@ PHP_METHOD(Phalcon_Flash_Session, getSessionMessages) {
 	}
 	if (Z_TYPE_P(type) == IS_STRING) {
 		ZEPHIR_OBS_VAR(&returnMessages);
-		if (zephir_array_isset_fetch(&returnMessages, &messages, type, 0 TSRMLS_CC)) {
+		if (zephir_array_isset_fetch(&returnMessages, &messages, type, 0)) {
 			if (remove) {
 				zephir_array_unset(&messages, type, PH_SEPARATE);
 				ZEPHIR_INIT_VAR(&_1$$6);
@@ -393,9 +393,9 @@ PHP_METHOD(Phalcon_Flash_Session, getSessionService) {
 		ZVAL_STRING(&_5$$4, "the 'session' service");
 		ZEPHIR_CALL_CE_STATIC(&_3$$4, phalcon_flash_exception_ce, "containerservicenotfound", &_4, 0, &_5$$4);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, &_2$$4, "__construct", NULL, 5, &_3$$4);
+		ZEPHIR_CALL_METHOD(NULL, &_2$$4, "__construct", NULL, 6, &_3$$4);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_2$$4, "phalcon/Flash/Session.zep", 159 TSRMLS_CC);
+		zephir_throw_exception_debug(&_2$$4, "phalcon/Flash/Session.zep", 159);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -416,9 +416,9 @@ PHP_METHOD(Phalcon_Flash_Session, getSessionService) {
 		ZVAL_STRING(&_12$$6, "the 'session' service");
 		ZEPHIR_CALL_CE_STATIC(&_11$$6, phalcon_flash_exception_ce, "containerservicenotfound", &_4, 0, &_12$$6);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, &_10$$6, "__construct", NULL, 5, &_11$$6);
+		ZEPHIR_CALL_METHOD(NULL, &_10$$6, "__construct", NULL, 6, &_11$$6);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_10$$6, "phalcon/Flash/Session.zep", 167 TSRMLS_CC);
+		zephir_throw_exception_debug(&_10$$6, "phalcon/Flash/Session.zep", 167);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
