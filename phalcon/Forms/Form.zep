@@ -30,7 +30,7 @@ use Phalcon\Validation\ValidationInterface;
 class Form extends Injectable implements Countable, Iterator, AttributesInterface
 {
     /**
-     * @var <Attributes> | null
+     * @var Attributes | null
      */
     protected attributes = null;
 

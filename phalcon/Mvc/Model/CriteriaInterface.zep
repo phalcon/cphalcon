@@ -79,8 +79,6 @@ interface CriteriaInterface
 
     /**
      * Returns the columns to be queried
-     *
-     * @return string|array|null
      */
     public function getColumns() -> string | null;
 

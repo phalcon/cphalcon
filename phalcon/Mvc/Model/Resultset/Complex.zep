@@ -10,15 +10,16 @@
 
 namespace Phalcon\Mvc\Model\Resultset;
 
-use Phalcon\Mvc\Model;
-use Phalcon\Mvc\Model\Row;
-use Phalcon\Db\ResultInterface;
-use Phalcon\Mvc\Model\Resultset;
-use Phalcon\Mvc\Model\Exception;
-use Phalcon\Mvc\Model\ResultsetInterface;
-use Phalcon\Di\DiInterface;
-use Phalcon\Di;
 use Phalcon\Cache\Adapter\AdapterInterface;
+use Phalcon\Di;
+use Phalcon\Di\DiInterface;
+use Phalcon\Db\ResultInterface;
+use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\Exception;
+use Phalcon\Mvc\Model\Resultset;
+use Phalcon\Mvc\Model\ResultsetInterface;
+use Phalcon\Mvc\Model\Row;
+use Phalcon\Mvc\ModelInterface;
 use Phalcon\Storage\Serializer\SerializerInterface;
 use stdClass;
 

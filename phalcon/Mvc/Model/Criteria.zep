@@ -612,8 +612,6 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 
     /**
      * Returns the columns to be queried
-     *
-     * @return string|array|null
      */
     public function getColumns() -> string | null
     {

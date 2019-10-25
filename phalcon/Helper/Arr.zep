@@ -226,7 +226,7 @@ class Arr
      * Sorts a collection of arrays or objects by key
      *
      * @param array  $collection
-     * @param mixed  $attr
+     * @param mixed  $attribute
      * @param string $order
      *
      * @return array

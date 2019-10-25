@@ -13,7 +13,7 @@ namespace Phalcon\Session;
 use InvalidArgumentException;
 use RuntimeException;
 use SessionHandlerInterface;
-use Phalcon\DI\AbstractInjectionAware;
+use Phalcon\Di\AbstractInjectionAware;
 use Phalcon\Di\DiInterface;
 use Phalcon\Helper\Arr;
 use Phalcon\Session\ManagerInterface;
@@ -26,7 +26,7 @@ use Phalcon\Session\ManagerInterface;
 class Manager extends AbstractInjectionAware implements ManagerInterface
 {
     /**
-     * @var <SessionHandlerInterface>|null
+     * @var SessionHandlerInterface|null
      */
     private adapter = null;
 

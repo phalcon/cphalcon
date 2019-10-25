@@ -70,7 +70,7 @@ class MimeType extends AbstractFile
     /**
      * Executes the validation
      *
-     * @param Valiation $validation
+     * @param Validation $validation
      * @param mixed $field
      * @return bool
      */

@@ -181,7 +181,6 @@ interface BuilderInterface
      * @param string model
      * @param string conditions
      * @param string alias
-     * @param string type
      * @return BuilderInterface
      */
     public function join(string model, string conditions = null, string alias = null) -> <BuilderInterface>;

@@ -28,7 +28,7 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
      * Formatter
      *
-     * @var <FormatterInterface>
+     * @var FormatterInterface
      */
     protected formatter;
 

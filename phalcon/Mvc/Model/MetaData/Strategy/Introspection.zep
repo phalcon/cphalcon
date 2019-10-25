@@ -16,7 +16,7 @@ use Phalcon\Db\Column;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\MetaData;
-use Phalcon\Mvc\Model\MetaData\StrategyInterface;
+use Phalcon\Mvc\Model\MetaData\Strategy\StrategyInterface;
 
 /**
  * Phalcon\Mvc\Model\MetaData\Strategy\Introspection

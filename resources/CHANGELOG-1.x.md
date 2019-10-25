@@ -212,7 +212,7 @@
    - Phalcon\Debug::uri now supports both http and https ([#987](https://github.com/phalcon/cphalcon/issues/987))
    - Fixed array to string conversion notice ([#1103](https://github.com/phalcon/cphalcon/issues/1103))
    - Add support for xdebug.file_link_format ([#1401](https://github.com/phalcon/cphalcon/issues/1401))
- - Phalcon\DI:
+ - Phalcon\Di:
    - Phalcon\Di optimizations ([#1014](https://github.com/phalcon/cphalcon/issues/1014)) with workarounds for NuSphere DBG ([#1714](https://github.com/phalcon/cphalcon/issues/1714))
    - Added Phalcon\Di\Service::isResolved() method ([#1242](https://github.com/phalcon/cphalcon/issues/1242))
    - Make sure that 'persistent' is resolved only when accessed for the first time ([#1637](https://github.com/phalcon/cphalcon/issues/1637))
@@ -360,7 +360,7 @@
    - Added kick(), bury(), release(), touch() to Phalcon\Queue\Beanstalk\Job ([#1650](https://github.com/phalcon/cphalcon/issues/1650))
  - Phalcon\Registry ([#1209](https://github.com/phalcon/cphalcon/issues/1209), [#1935](https://github.com/phalcon/cphalcon/issues/1935))
  - Phalcon\Security:
-   - Phalcon\Security\Exception inherits from Phalcon\Exception, not from \Phalcon\DI\Exception
+   - Phalcon\Security\Exception inherits from Phalcon\Exception, not from \Phalcon\Di\Exception
    - Added Phalcon\Security::computeHmac() ([#1347](https://github.com/phalcon/cphalcon/issues/1347))
    - Bug fixes ([#1347](https://github.com/phalcon/cphalcon/issues/1347))
    - Constant-time string comparison in Phalcon\Security::checkHash() to prevent timing attacks ([#1755](https://github.com/phalcon/cphalcon/issues/1755))
@@ -546,7 +546,7 @@
  - Support for 'cascade' action in addition to 'restrict' in Virtual Foreign Keys (ORM)
  - Added missing Phalcon\Http\Request\File::getType()
  - Phalcon\Tag is not abstract anymore allowing to create instances of it
- - Phalcon\Tag is now registered as 'tag' in Phalcon\DI\FactoryDefault
+ - Phalcon\Tag is now registered as 'tag' in Phalcon\Di\FactoryDefault
  - In a handler in Phalcon\Mvc\Micro returns an object that implements Phalcon\Http\ResponseInterface the response is automatically send()
  - Phalcon\Mvc\View now have a chaineable API
  - Phalcon\Mvc\Micro now can optionally receive the DI in its constructor
@@ -580,7 +580,7 @@
  will be aborted if the validator fails
  - Added Phalcon\Validation\Validator\Between to check a value between a range of two values
  - Added Phalcon\Validation\Validator\Confirmation to check that a value match its confirmation value (another attribute in the data to validate)
- - Phalcon\Forms\Form now extends from Phalcon\DI\Injectable allowing developers to use application services in the form initialization
+ - Phalcon\Forms\Form now extends from Phalcon\Di\Injectable allowing developers to use application services in the form initialization
  - Now calls to Phalcon\Mvc\Router can be chained
  - Phalcon\Mvc\Router::getRewriteUri is now public
  - Added Phalcon\Mvc\Router\Route::beforeMatch to implement arbitrary conditions to unmatch a matched route
@@ -600,7 +600,7 @@
  - Added Phalcon\Tag::tagHtml and Phalcon\Tag::tagHtmlClose to generate any kind of HTML tags
  - Phalcon\Http\Response\Cookies is now fixed
  - Added support for automatic crypting of cookies in Phalcon\Http\Response\Cookies
- - Phalcon\DI\FactoryDefault now provides the 'crypt' service
+ - Phalcon\Di\FactoryDefault now provides the 'crypt' service
  - Volt's paths are now automatically normalized to realpaths
  - Fixed bug in convert_encoding in Volt
  - Added Phalcon\Filter\UserFilterInterface to be used in custom filters
@@ -706,7 +706,7 @@
  - Added Phalcon\Mvc\View::getRender to return contents of a template into a string
  - Added methods to support HTTP method PATCH
  - Now Phalcon\Mvc\Model uses the last part of a namespaced class name as source name
- - Phalcon\DI now implements ArrayAccess to get/set services
+ - Phalcon\Di now implements ArrayAccess to get/set services
  - Phalcon\Mvc\Micro now implements ArrayAccess to get services from the related services container
  - Improved building of complex service definitions in the DI
  - Added toArray method to Phalcon\Mvc\Model instances
@@ -827,9 +827,9 @@
  - Implemented fast copy/ctor to return_value reducing the overall memory usage
  - Added Phalcon\Tag::friendlyTitle to create friendly titles
  - Added a new C-based template engine highly coupled with Phalcon called Volt
- - Registered Phalcon\Mvc\Model\Transaction\Manager in Phalcon\DI\FactoryDefault as 'transactionManager'
+ - Registered Phalcon\Mvc\Model\Transaction\Manager in Phalcon\Di\FactoryDefault as 'transactionManager'
  - Added Phalcon\Escaper to add contextual escaping of different kinds of texts
- - Registered Phalcon\Escaper in Phalcon\DI\FactoryDefault as 'escaper'
+ - Registered Phalcon\Escaper in Phalcon\Di\FactoryDefault as 'escaper'
  - Phalcon\Tag now caches resolved services such as 'url' and 'dispatcher' making the view generation faster
  - Added support to the OFFSET clause in PHQL
  - Optimized Phalcon\Mvc\Model\Metadata to use fewer memory when using a high number of tables
@@ -879,7 +879,7 @@
 - Added Phalcon\Di\FactoryDefault that has the Phalcon Components registered as Default
 
 # 0.5.0a3
- - Added Phalcon\DI as dependency injector container
+ - Added Phalcon\Di as dependency injector container
  - Added Phalcon\Events as events management component
  - Removed Phalcon\Router\Rewrite
  - Phalcon\Router\Regex moved to Phalcon\Mvc\Router

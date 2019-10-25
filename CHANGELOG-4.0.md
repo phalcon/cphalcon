@@ -126,7 +126,7 @@
 - Fixed `Phalcon\Di::remove()` to remove service. [#14396](https://github.com/phalcon/cphalcon/issues/14396)
 
 ## Removed
-- Removed `Phalcon\Plugin` - duplicate of `Phalcon\DI\Injectable` [#14359](https://github.com/phalcon/cphalcon/issues/14359)
+- Removed `Phalcon\Plugin` - duplicate of `Phalcon\Di\Injectable` [#14359](https://github.com/phalcon/cphalcon/issues/14359)
 - Removed `Phalcon\Mvc\Collection` and all related references. 4.0 will not support mongo as it is being re-implemented to take advantage of the latest Mongo driver (see [#13697](https://github.com/phalcon/cphalcon/issues/13697)) [#14361](https://github.com/phalcon/cphalcon/pull/14361)
 - Removed `Phalcon\Session\Manager::registerHandler` - duplicate functionality [#14381](https://github.com/phalcon/cphalcon/pull/14381)
 - Removed `Phalcon\Html\Tag` - duplicate functionality [#14381](https://github.com/phalcon/cphalcon/pull/14381)
@@ -571,7 +571,7 @@ The implementation offers PSR-7/PSR-17 compatible components in a different name
     - `Phalcon\Validation\MessageInteraface` - `getCode`, `setCode`
     - `Phalcon\CryptInterface` - `setPadding`
     - `Phalcon\Mvc\RouterInterface` - `attach` [#12676](https://github.com/phalcon/cphalcon/issues/12676)
-- Added `Phalcon\Container`, a proxy container class to the `Phalcon\DI` implementing PSR-11 [#12295](https://github.com/phalcon/cphalcon/issues/12295)
+- Added `Phalcon\Container`, a proxy container class to the `Phalcon\Di` implementing PSR-11 [#12295](https://github.com/phalcon/cphalcon/issues/12295)
 - Added `Phalcon\Acl\Adapter\Memory::getActiveKey`, `Phalcon\Acl\Adapter\Memory::activeFunctionCustomArgumentsCount` and `Phalcon\Acl\Adapter\Memory::getActiveFunction` to get latest key, number of custom arguments, and function used to acquire access [#12547](https://github.com/phalcon/cphalcon/pull/12547)
 
 ## Changed
@@ -636,7 +636,7 @@ The implementation offers PSR-7/PSR-17 compatible components in a different name
 - Renamed `Phalcon\Acl\Adapter\Memory::getRoless` to `Phalcon\Acl\Adapter\Memory::getOperations` [#13639](https://github.com/phalcon/cphalcon/issues/13639)
 - Renamed `Phalcon\Acl\Adapter\Memory::getResources` to `Phalcon\Acl\Adapter\Memory::getSubjects` [#13639](https://github.com/phalcon/cphalcon/issues/13639)
 - Changed `Phalcon\Http\Response::setHeaders` now merges the headers with any pre-existing ones in the internal collection [#12836](https://github.com/phalcon/cphalcon/issues/12836)
-- Changed `Phalcon\DI\FactoryDefault` to not load by default
+- Changed `Phalcon\Di\FactoryDefault` to not load by default
     - the `Phalcon\Session\Adapter\Files` using the name `session`
     - the `Phalcon\Session\Bag` using the name `sessionBag` [#12921](https://github.com/phalcon/cphalcon/issues/12921)
   [#12921](https://github.com/phalcon/cphalcon/issues/12921)
