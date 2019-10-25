@@ -54,9 +54,7 @@
     "phpstan/phpstan": "^0.11.19",
     "predis/predis": "^1.1",
     "squizlabs/php_codesniffer": "^3.4",
-    "twig/twig": "~1.36",
-    "vimeo/psalm": "^3.6",
-    "vlucas/phpdotenv": "^2.5"
+    "twig/twig": "~1.36"
   },
   "config": {
     "optimize-autoloader": true,
@@ -73,8 +71,7 @@
       "Phalcon\\Test\\Models\\": "tests/_data/fixtures/models/",
       "Phalcon\\Test\\Module\\": "tests/_support/Module/",
       "Phalcon\\Test\\Listener\\": "tests/_data/listener/",
-      "Phalcon\\Test\\Db\\": "tests/_data/db/",
-      "Phalcon\\": "ide/4.0.0-rc.1/Phalcon"
+      "Phalcon\\Test\\Db\\": "tests/_data/db/"
     }
   },
   "support": {
