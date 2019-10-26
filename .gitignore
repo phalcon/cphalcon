@@ -50,7 +50,10 @@ autom4te.cache/
 
 .zephir/
 .temp/
+
+# Zephir compiler
 zephir.phar
+zephir-*.phar
 
 boxfile.yml
 composer.lock
