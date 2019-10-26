@@ -59,37 +59,6 @@ ZEPHIR_INIT_FUNCS(phalcon_di_injectionawareinterface_method_entry) {
 	PHP_FE_END
 };
 
-zend_class_entry *phalcon_events_eventsawareinterface_ce;
-
-ZEPHIR_INIT_CLASS(Phalcon_Events_EventsAwareInterface);
-
-#if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_events_eventsawareinterface_geteventsmanager, 0, 0, Phalcon\\Events\\ManagerInterface, 1)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_events_eventsawareinterface_geteventsmanager, 0, 0, IS_OBJECT, "Phalcon\\Events\\ManagerInterface", 1)
-#endif
-ZEND_END_ARG_INFO()
-
-#if PHP_VERSION_ID >= 70100
-#if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_events_eventsawareinterface_seteventsmanager, 0, 1, IS_VOID, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_events_eventsawareinterface_seteventsmanager, 0, 1, IS_VOID, NULL, 0)
-#endif
-#else
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_eventsawareinterface_seteventsmanager, 0, 0, 1)
-#define arginfo_phalcon_events_eventsawareinterface_seteventsmanager NULL
-#endif
-
-	ZEND_ARG_OBJ_INFO(0, eventsManager, Phalcon\\Events\\ManagerInterface, 0)
-ZEND_END_ARG_INFO()
-
-ZEPHIR_INIT_FUNCS(phalcon_events_eventsawareinterface_method_entry) {
-	PHP_ABSTRACT_ME(Phalcon_Events_EventsAwareInterface, getEventsManager, arginfo_phalcon_events_eventsawareinterface_geteventsmanager)
-	PHP_ABSTRACT_ME(Phalcon_Events_EventsAwareInterface, setEventsManager, arginfo_phalcon_events_eventsawareinterface_seteventsmanager)
-	PHP_FE_END
-};
-
 zend_class_entry *phalcon_validation_validatorinterface_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Validation_ValidatorInterface);
@@ -331,6 +300,37 @@ ZEPHIR_INIT_FUNCS(phalcon_validation_abstractvalidator_method_entry) {
 	PHP_FE_END
 };
 
+zend_class_entry *phalcon_events_eventsawareinterface_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Events_EventsAwareInterface);
+
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_events_eventsawareinterface_geteventsmanager, 0, 0, Phalcon\\Events\\ManagerInterface, 1)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_events_eventsawareinterface_geteventsmanager, 0, 0, IS_OBJECT, "Phalcon\\Events\\ManagerInterface", 1)
+#endif
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70100
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_events_eventsawareinterface_seteventsmanager, 0, 1, IS_VOID, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_events_eventsawareinterface_seteventsmanager, 0, 1, IS_VOID, NULL, 0)
+#endif
+#else
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_eventsawareinterface_seteventsmanager, 0, 0, 1)
+#define arginfo_phalcon_events_eventsawareinterface_seteventsmanager NULL
+#endif
+
+	ZEND_ARG_OBJ_INFO(0, eventsManager, Phalcon\\Events\\ManagerInterface, 0)
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_events_eventsawareinterface_method_entry) {
+	PHP_ABSTRACT_ME(Phalcon_Events_EventsAwareInterface, getEventsManager, arginfo_phalcon_events_eventsawareinterface_geteventsmanager)
+	PHP_ABSTRACT_ME(Phalcon_Events_EventsAwareInterface, setEventsManager, arginfo_phalcon_events_eventsawareinterface_seteventsmanager)
+	PHP_FE_END
+};
+
 zend_class_entry *phalcon_di_abstractinjectionaware_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Di_AbstractInjectionAware);
@@ -481,10 +481,9 @@ zend_class_entry *phalcon_di_injectable_ce;
 ZEPHIR_INIT_CLASS(Phalcon_Di_Injectable);
 
 static PHP_METHOD(Phalcon_Di_Injectable, __get);
+static PHP_METHOD(Phalcon_Di_Injectable, __isset);
 static PHP_METHOD(Phalcon_Di_Injectable, getDI);
-static PHP_METHOD(Phalcon_Di_Injectable, getEventsManager);
 static PHP_METHOD(Phalcon_Di_Injectable, setDI);
-static PHP_METHOD(Phalcon_Di_Injectable, setEventsManager);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_injectable___get, 0, 0, 1)
 #if PHP_VERSION_ID >= 70200
@@ -495,16 +494,21 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_injectable___get, 0, 0, 1)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_di_injectable_getdi, 0, 0, Phalcon\\Di\\DiInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_injectable___isset, 0, 1, _IS_BOOL, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_injectable_getdi, 0, 0, IS_OBJECT, "Phalcon\\Di\\DiInterface", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_injectable___isset, 0, 1, _IS_BOOL, NULL, 0)
+#endif
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+#else
+	ZEND_ARG_INFO(0, name)
 #endif
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_di_injectable_geteventsmanager, 0, 0, Phalcon\\Events\\ManagerInterface, 1)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_di_injectable_getdi, 0, 0, Phalcon\\Di\\DiInterface, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_injectable_geteventsmanager, 0, 0, IS_OBJECT, "Phalcon\\Events\\ManagerInterface", 1)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_injectable_getdi, 0, 0, IS_OBJECT, "Phalcon\\Di\\DiInterface", 0)
 #endif
 ZEND_END_ARG_INFO()
 
@@ -522,26 +526,11 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_injectable_setdi, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, container, Phalcon\\Di\\DiInterface, 0)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70100
-#if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_injectable_seteventsmanager, 0, 1, IS_VOID, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_injectable_seteventsmanager, 0, 1, IS_VOID, NULL, 0)
-#endif
-#else
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_injectable_seteventsmanager, 0, 0, 1)
-#define arginfo_phalcon_di_injectable_seteventsmanager NULL
-#endif
-
-	ZEND_ARG_OBJ_INFO(0, eventsManager, Phalcon\\Events\\ManagerInterface, 0)
-ZEND_END_ARG_INFO()
-
 ZEPHIR_INIT_FUNCS(phalcon_di_injectable_method_entry) {
 	PHP_ME(Phalcon_Di_Injectable, __get, arginfo_phalcon_di_injectable___get, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Di_Injectable, __isset, arginfo_phalcon_di_injectable___isset, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Di_Injectable, getDI, arginfo_phalcon_di_injectable_getdi, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Di_Injectable, getEventsManager, arginfo_phalcon_di_injectable_geteventsmanager, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Di_Injectable, setDI, arginfo_phalcon_di_injectable_setdi, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Di_Injectable, setEventsManager, arginfo_phalcon_di_injectable_seteventsmanager, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -1439,6 +1428,11 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_collection_get, 0, 0, 1)
 	ZEND_ARG_INFO(0, element)
 #endif
 	ZEND_ARG_INFO(0, defaultValue)
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, cast, IS_STRING, 1)
+#else
+	ZEND_ARG_INFO(0, cast)
+#endif
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
@@ -2460,9 +2454,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_metadatainterf
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_metadatainterface_getstrategy, 0, 0, Phalcon\\Mvc\\Model\\MetaData\\StrategyInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_metadatainterface_getstrategy, 0, 0, Phalcon\\Mvc\\Model\\MetaData\\Strategy\\StrategyInterface, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_metadatainterface_getstrategy, 0, 0, IS_OBJECT, "Phalcon\\Mvc\\Model\\MetaData\\StrategyInterface", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_metadatainterface_getstrategy, 0, 0, IS_OBJECT, "Phalcon\\Mvc\\Model\\MetaData\\Strategy\\StrategyInterface", 0)
 #endif
 ZEND_END_ARG_INFO()
 
@@ -2568,7 +2562,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadatainterface_writemetadata
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadatainterface_setstrategy, 0, 0, 1)
-	ZEND_ARG_OBJ_INFO(0, strategy, Phalcon\\Mvc\\Model\\MetaData\\StrategyInterface, 0)
+	ZEND_ARG_OBJ_INFO(0, strategy, Phalcon\\Mvc\\Model\\MetaData\\Strategy\\StrategyInterface, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70100
@@ -3265,9 +3259,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_adapterinterf
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_db_adapter_adapterinterface_getinternalhandler, 0, 0, Pdo, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_db_adapter_adapterinterface_getinternalhandler, 0, 0, PDO, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_adapterinterface_getinternalhandler, 0, 0, IS_OBJECT, "Pdo", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_adapterinterface_getinternalhandler, 0, 0, IS_OBJECT, "PDO", 0)
 #endif
 ZEND_END_ARG_INFO()
 
@@ -3814,9 +3808,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_metadata_getre
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_metadata_getstrategy, 0, 0, Phalcon\\Mvc\\Model\\MetaData\\StrategyInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_metadata_getstrategy, 0, 0, Phalcon\\Mvc\\Model\\MetaData\\Strategy\\StrategyInterface, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_metadata_getstrategy, 0, 0, IS_OBJECT, "Phalcon\\Mvc\\Model\\MetaData\\StrategyInterface", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_metadata_getstrategy, 0, 0, IS_OBJECT, "Phalcon\\Mvc\\Model\\MetaData\\Strategy\\StrategyInterface", 0)
 #endif
 ZEND_END_ARG_INFO()
 
@@ -3967,7 +3961,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_metadata_setstrategy, 0, 0, 1)
 #define arginfo_phalcon_mvc_model_metadata_setstrategy NULL
 #endif
 
-	ZEND_ARG_OBJ_INFO(0, strategy, Phalcon\\Mvc\\Model\\MetaData\\StrategyInterface, 0)
+	ZEND_ARG_OBJ_INFO(0, strategy, Phalcon\\Mvc\\Model\\MetaData\\Strategy\\StrategyInterface, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70100
@@ -5570,6 +5564,13 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_firewall_adapter_adapter
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_firewall_adapter_adapterinterface_getrolecallback, 0, 0, Closure, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_firewall_adapter_adapterinterface_getrolecallback, 0, 0, IS_OBJECT, "Closure", 0)
+#endif
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_firewall_adapter_adapterinterface_isalwaysresolvingrole, 0, 0, _IS_BOOL, 0)
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_firewall_adapter_adapterinterface_isalwaysresolvingrole, 0, 0, _IS_BOOL, NULL, 0)
@@ -5619,12 +5620,12 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_firewall_adapter_adapteri
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_firewall_adapter_adapterinterface_setrolecallback, 0, 1, IS_OBJECT, "Phalcon\\Firewall\\Adapter\\AdapterInterface", 0)
 #endif
-	ZEND_ARG_INFO(0, callback)
+	ZEND_ARG_OBJ_INFO(0, callback, Closure, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_firewall_adapter_adapterinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Firewall_Adapter_AdapterInterface, getDefaultAccess, arginfo_phalcon_firewall_adapter_adapterinterface_getdefaultaccess)
-	PHP_ABSTRACT_ME(Phalcon_Firewall_Adapter_AdapterInterface, getRoleCallback, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Firewall_Adapter_AdapterInterface, getRoleCallback, arginfo_phalcon_firewall_adapter_adapterinterface_getrolecallback)
 	PHP_ABSTRACT_ME(Phalcon_Firewall_Adapter_AdapterInterface, isAlwaysResolvingRole, arginfo_phalcon_firewall_adapter_adapterinterface_isalwaysresolvingrole)
 	PHP_ABSTRACT_ME(Phalcon_Firewall_Adapter_AdapterInterface, setAlwaysResolvingRole, arginfo_phalcon_firewall_adapter_adapterinterface_setalwaysresolvingrole)
 	PHP_ABSTRACT_ME(Phalcon_Firewall_Adapter_AdapterInterface, setCache, arginfo_phalcon_firewall_adapter_adapterinterface_setcache)
@@ -6141,7 +6142,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_translate_adapter_adapte
 #else
 	ZEND_ARG_INFO(0, translateKey)
 #endif
-	ZEND_ARG_INFO(0, placeholders)
+	ZEND_ARG_ARRAY_INFO(0, placeholders, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
@@ -6154,7 +6155,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_translate_adapter_adapte
 #else
 	ZEND_ARG_INFO(0, translateKey)
 #endif
-	ZEND_ARG_INFO(0, placeholders)
+	ZEND_ARG_ARRAY_INFO(0, placeholders, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_translate_adapter_adapterinterface_method_entry) {
@@ -6410,9 +6411,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_pdo_abstractp
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_db_adapter_pdo_abstractpdo_getinternalhandler, 0, 0, Pdo, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_db_adapter_pdo_abstractpdo_getinternalhandler, 0, 0, PDO, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_pdo_abstractpdo_getinternalhandler, 0, 0, IS_OBJECT, "Pdo", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_pdo_abstractpdo_getinternalhandler, 0, 0, IS_OBJECT, "PDO", 0)
 #endif
 ZEND_END_ARG_INFO()
 
@@ -7409,7 +7410,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_firewall_adapter_abstract
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_firewall_adapter_abstractadapter_setrolecallback, 0, 1, IS_OBJECT, "Phalcon\\Firewall\\Adapter\\AdapterInterface", 0)
 #endif
-	ZEND_ARG_INFO(0, callback)
+	ZEND_ARG_OBJ_INFO(0, callback, Closure, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70100
@@ -8297,11 +8298,17 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_engine_enginein
 #endif
 ZEND_END_ARG_INFO()
 
+#if PHP_VERSION_ID >= 70100
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_engine_engineinterface_partial, 0, 1, IS_STRING, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_engine_engineinterface_partial, 0, 1, IS_VOID, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_engine_engineinterface_partial, 0, 1, IS_STRING, NULL, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_engine_engineinterface_partial, 0, 1, IS_VOID, NULL, 0)
 #endif
+#else
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_engineinterface_partial, 0, 0, 1)
+#define arginfo_phalcon_mvc_view_engine_engineinterface_partial NULL
+#endif
+
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, partialPath, IS_STRING, 0)
 #else
@@ -8504,7 +8511,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_translate_adapter_abstra
 #else
 	ZEND_ARG_INFO(0, translateKey)
 #endif
-	ZEND_ARG_INFO(0, placeholders)
+	ZEND_ARG_ARRAY_INFO(0, placeholders, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
@@ -8558,7 +8565,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_translate_adapter_abstra
 #else
 	ZEND_ARG_INFO(0, translateKey)
 #endif
-	ZEND_ARG_INFO(0, placeholders)
+	ZEND_ARG_ARRAY_INFO(0, placeholders, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
@@ -8571,7 +8578,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_translate_adapter_abstra
 #else
 	ZEND_ARG_INFO(0, translation)
 #endif
-	ZEND_ARG_INFO(0, placeholders)
+	ZEND_ARG_ARRAY_INFO(0, placeholders, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_translate_adapter_abstractadapter_method_entry) {
@@ -11045,31 +11052,31 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_behavior_method_entry) {
 	PHP_FE_END
 };
 
-zend_class_entry *phalcon_mvc_model_metadata_strategyinterface_ce;
+zend_class_entry *phalcon_mvc_model_metadata_strategy_strategyinterface_ce;
 
-ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_StrategyInterface);
+ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Strategy_StrategyInterface);
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_metadata_strategyinterface_getcolumnmaps, 0, 2, IS_ARRAY, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_metadata_strategy_strategyinterface_getcolumnmaps, 0, 2, IS_ARRAY, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_metadata_strategyinterface_getcolumnmaps, 0, 2, IS_ARRAY, NULL, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_metadata_strategy_strategyinterface_getcolumnmaps, 0, 2, IS_ARRAY, NULL, 0)
 #endif
 	ZEND_ARG_OBJ_INFO(0, model, Phalcon\\Mvc\\ModelInterface, 0)
 	ZEND_ARG_OBJ_INFO(0, container, Phalcon\\Di\\DiInterface, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_metadata_strategyinterface_getmetadata, 0, 2, IS_ARRAY, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_metadata_strategy_strategyinterface_getmetadata, 0, 2, IS_ARRAY, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_metadata_strategyinterface_getmetadata, 0, 2, IS_ARRAY, NULL, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_metadata_strategy_strategyinterface_getmetadata, 0, 2, IS_ARRAY, NULL, 0)
 #endif
 	ZEND_ARG_OBJ_INFO(0, model, Phalcon\\Mvc\\ModelInterface, 0)
 	ZEND_ARG_OBJ_INFO(0, container, Phalcon\\Di\\DiInterface, 0)
 ZEND_END_ARG_INFO()
 
-ZEPHIR_INIT_FUNCS(phalcon_mvc_model_metadata_strategyinterface_method_entry) {
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_MetaData_StrategyInterface, getColumnMaps, arginfo_phalcon_mvc_model_metadata_strategyinterface_getcolumnmaps)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_MetaData_StrategyInterface, getMetaData, arginfo_phalcon_mvc_model_metadata_strategyinterface_getmetadata)
+ZEPHIR_INIT_FUNCS(phalcon_mvc_model_metadata_strategy_strategyinterface_method_entry) {
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_MetaData_Strategy_StrategyInterface, getColumnMaps, arginfo_phalcon_mvc_model_metadata_strategy_strategyinterface_getcolumnmaps)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_MetaData_Strategy_StrategyInterface, getMetaData, arginfo_phalcon_mvc_model_metadata_strategy_strategyinterface_getmetadata)
 	PHP_FE_END
 };
 
@@ -11730,11 +11737,17 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_engine_abstract
 #endif
 ZEND_END_ARG_INFO()
 
+#if PHP_VERSION_ID >= 70100
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_engine_abstractengine_partial, 0, 1, IS_STRING, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_engine_abstractengine_partial, 0, 1, IS_VOID, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_engine_abstractengine_partial, 0, 1, IS_STRING, NULL, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_engine_abstractengine_partial, 0, 1, IS_VOID, NULL, 0)
 #endif
+#else
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_abstractengine_partial, 0, 0, 1)
+#define arginfo_phalcon_mvc_view_engine_abstractengine_partial NULL
+#endif
+
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, partialPath, IS_STRING, 0)
 #else
@@ -12180,6 +12193,158 @@ ZEPHIR_INIT_FUNCS(phalcon_cli_dispatcherinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Cli_DispatcherInterface, setOptions, arginfo_phalcon_cli_dispatcherinterface_setoptions)
 	PHP_ABSTRACT_ME(Phalcon_Cli_DispatcherInterface, setTaskName, arginfo_phalcon_cli_dispatcherinterface_settaskname)
 	PHP_ABSTRACT_ME(Phalcon_Cli_DispatcherInterface, setTaskSuffix, arginfo_phalcon_cli_dispatcherinterface_settasksuffix)
+	PHP_FE_END
+};
+
+zend_class_entry *phalcon_cli_router_routeinterface_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Cli_Router_RouteInterface);
+
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_routeinterface_compilepattern, 0, 1, IS_STRING, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_routeinterface_compilepattern, 0, 1, IS_STRING, NULL, 0)
+#endif
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, pattern, IS_STRING, 0)
+#else
+	ZEND_ARG_INFO(0, pattern)
+#endif
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_router_routeinterface_delimiter, 0, 0, 0)
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, delimiter, IS_STRING, 1)
+#else
+	ZEND_ARG_INFO(0, delimiter)
+#endif
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_routeinterface_getcompiledpattern, 0, 0, IS_STRING, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_routeinterface_getcompiledpattern, 0, 0, IS_STRING, NULL, 0)
+#endif
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_routeinterface_getdelimiter, 0, 0, IS_STRING, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_routeinterface_getdelimiter, 0, 0, IS_STRING, NULL, 0)
+#endif
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_routeinterface_getdescription, 0, 0, IS_STRING, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_routeinterface_getdescription, 0, 0, IS_STRING, NULL, 0)
+#endif
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_routeinterface_getname, 0, 0, IS_STRING, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_routeinterface_getname, 0, 0, IS_STRING, NULL, 0)
+#endif
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_routeinterface_getpaths, 0, 0, IS_ARRAY, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_routeinterface_getpaths, 0, 0, IS_ARRAY, NULL, 0)
+#endif
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_routeinterface_getpattern, 0, 0, IS_STRING, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_routeinterface_getpattern, 0, 0, IS_STRING, NULL, 0)
+#endif
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_routeinterface_getreversedpaths, 0, 0, IS_ARRAY, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_routeinterface_getreversedpaths, 0, 0, IS_ARRAY, NULL, 0)
+#endif
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_routeinterface_getrouteid, 0, 0, IS_STRING, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_routeinterface_getrouteid, 0, 0, IS_STRING, NULL, 0)
+#endif
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70100
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_routeinterface_reconfigure, 0, 1, IS_VOID, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_routeinterface_reconfigure, 0, 1, IS_VOID, NULL, 0)
+#endif
+#else
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_router_routeinterface_reconfigure, 0, 0, 1)
+#define arginfo_phalcon_cli_router_routeinterface_reconfigure NULL
+#endif
+
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, pattern, IS_STRING, 0)
+#else
+	ZEND_ARG_INFO(0, pattern)
+#endif
+	ZEND_ARG_INFO(0, paths)
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70100
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_routeinterface_reset, 0, 0, IS_VOID, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_routeinterface_reset, 0, 0, IS_VOID, NULL, 0)
+#endif
+ZEND_END_ARG_INFO()
+#else
+#define arginfo_phalcon_cli_router_routeinterface_reset NULL
+#endif
+
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_cli_router_routeinterface_setdescription, 0, 1, Phalcon\\Cli\\Router\\RouteInterface, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_routeinterface_setdescription, 0, 1, IS_OBJECT, "Phalcon\\Cli\\Router\\RouteInterface", 0)
+#endif
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, description, IS_STRING, 0)
+#else
+	ZEND_ARG_INFO(0, description)
+#endif
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_cli_router_routeinterface_setname, 0, 1, Phalcon\\Cli\\Router\\RouteInterface, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_routeinterface_setname, 0, 1, IS_OBJECT, "Phalcon\\Cli\\Router\\RouteInterface", 0)
+#endif
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+#else
+	ZEND_ARG_INFO(0, name)
+#endif
+ZEND_END_ARG_INFO()
+
+ZEPHIR_INIT_FUNCS(phalcon_cli_router_routeinterface_method_entry) {
+	PHP_ABSTRACT_ME(Phalcon_Cli_Router_RouteInterface, compilePattern, arginfo_phalcon_cli_router_routeinterface_compilepattern)
+	ZEND_FENTRY(delimiter, NULL, arginfo_phalcon_cli_router_routeinterface_delimiter, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
+	PHP_ABSTRACT_ME(Phalcon_Cli_Router_RouteInterface, getCompiledPattern, arginfo_phalcon_cli_router_routeinterface_getcompiledpattern)
+	ZEND_FENTRY(getDelimiter, NULL, arginfo_phalcon_cli_router_routeinterface_getdelimiter, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
+	PHP_ABSTRACT_ME(Phalcon_Cli_Router_RouteInterface, getDescription, arginfo_phalcon_cli_router_routeinterface_getdescription)
+	PHP_ABSTRACT_ME(Phalcon_Cli_Router_RouteInterface, getName, arginfo_phalcon_cli_router_routeinterface_getname)
+	PHP_ABSTRACT_ME(Phalcon_Cli_Router_RouteInterface, getPaths, arginfo_phalcon_cli_router_routeinterface_getpaths)
+	PHP_ABSTRACT_ME(Phalcon_Cli_Router_RouteInterface, getPattern, arginfo_phalcon_cli_router_routeinterface_getpattern)
+	PHP_ABSTRACT_ME(Phalcon_Cli_Router_RouteInterface, getReversedPaths, arginfo_phalcon_cli_router_routeinterface_getreversedpaths)
+	PHP_ABSTRACT_ME(Phalcon_Cli_Router_RouteInterface, getRouteId, arginfo_phalcon_cli_router_routeinterface_getrouteid)
+	PHP_ABSTRACT_ME(Phalcon_Cli_Router_RouteInterface, reConfigure, arginfo_phalcon_cli_router_routeinterface_reconfigure)
+	ZEND_FENTRY(reset, NULL, arginfo_phalcon_cli_router_routeinterface_reset, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
+	PHP_ABSTRACT_ME(Phalcon_Cli_Router_RouteInterface, setDescription, arginfo_phalcon_cli_router_routeinterface_setdescription)
+	PHP_ABSTRACT_ME(Phalcon_Cli_Router_RouteInterface, setName, arginfo_phalcon_cli_router_routeinterface_setname)
 	PHP_FE_END
 };
 
@@ -13013,6 +13178,11 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_events_managerinterface_fire, 0, 0, 2)
 #endif
 	ZEND_ARG_INFO(0, source)
 	ZEND_ARG_INFO(0, data)
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, cancelable, _IS_BOOL, 0)
+#else
+	ZEND_ARG_INFO(0, cancelable)
+#endif
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
@@ -22485,158 +22655,6 @@ ZEPHIR_INIT_FUNCS(phalcon_cli_router_route_method_entry) {
 	PHP_FE_END
 };
 
-zend_class_entry *phalcon_cli_router_routeinterface_ce;
-
-ZEPHIR_INIT_CLASS(Phalcon_Cli_Router_RouteInterface);
-
-#if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_routeinterface_compilepattern, 0, 1, IS_STRING, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_routeinterface_compilepattern, 0, 1, IS_STRING, NULL, 0)
-#endif
-#if PHP_VERSION_ID >= 70200
-	ZEND_ARG_TYPE_INFO(0, pattern, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, pattern)
-#endif
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_router_routeinterface_delimiter, 0, 0, 0)
-#if PHP_VERSION_ID >= 70200
-	ZEND_ARG_TYPE_INFO(0, delimiter, IS_STRING, 1)
-#else
-	ZEND_ARG_INFO(0, delimiter)
-#endif
-ZEND_END_ARG_INFO()
-
-#if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_routeinterface_getcompiledpattern, 0, 0, IS_STRING, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_routeinterface_getcompiledpattern, 0, 0, IS_STRING, NULL, 0)
-#endif
-ZEND_END_ARG_INFO()
-
-#if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_routeinterface_getdelimiter, 0, 0, IS_STRING, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_routeinterface_getdelimiter, 0, 0, IS_STRING, NULL, 0)
-#endif
-ZEND_END_ARG_INFO()
-
-#if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_routeinterface_getdescription, 0, 0, IS_STRING, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_routeinterface_getdescription, 0, 0, IS_STRING, NULL, 0)
-#endif
-ZEND_END_ARG_INFO()
-
-#if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_routeinterface_getname, 0, 0, IS_STRING, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_routeinterface_getname, 0, 0, IS_STRING, NULL, 0)
-#endif
-ZEND_END_ARG_INFO()
-
-#if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_routeinterface_getpaths, 0, 0, IS_ARRAY, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_routeinterface_getpaths, 0, 0, IS_ARRAY, NULL, 0)
-#endif
-ZEND_END_ARG_INFO()
-
-#if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_routeinterface_getpattern, 0, 0, IS_STRING, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_routeinterface_getpattern, 0, 0, IS_STRING, NULL, 0)
-#endif
-ZEND_END_ARG_INFO()
-
-#if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_routeinterface_getreversedpaths, 0, 0, IS_ARRAY, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_routeinterface_getreversedpaths, 0, 0, IS_ARRAY, NULL, 0)
-#endif
-ZEND_END_ARG_INFO()
-
-#if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_routeinterface_getrouteid, 0, 0, IS_STRING, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_routeinterface_getrouteid, 0, 0, IS_STRING, NULL, 0)
-#endif
-ZEND_END_ARG_INFO()
-
-#if PHP_VERSION_ID >= 70100
-#if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_routeinterface_reconfigure, 0, 1, IS_VOID, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_routeinterface_reconfigure, 0, 1, IS_VOID, NULL, 0)
-#endif
-#else
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_router_routeinterface_reconfigure, 0, 0, 1)
-#define arginfo_phalcon_cli_router_routeinterface_reconfigure NULL
-#endif
-
-#if PHP_VERSION_ID >= 70200
-	ZEND_ARG_TYPE_INFO(0, pattern, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, pattern)
-#endif
-	ZEND_ARG_INFO(0, paths)
-ZEND_END_ARG_INFO()
-
-#if PHP_VERSION_ID >= 70100
-#if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_routeinterface_reset, 0, 0, IS_VOID, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_routeinterface_reset, 0, 0, IS_VOID, NULL, 0)
-#endif
-ZEND_END_ARG_INFO()
-#else
-#define arginfo_phalcon_cli_router_routeinterface_reset NULL
-#endif
-
-#if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_cli_router_routeinterface_setdescription, 0, 1, Phalcon\\Cli\\Router\\RouteInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_routeinterface_setdescription, 0, 1, IS_OBJECT, "Phalcon\\Cli\\Router\\RouteInterface", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
-	ZEND_ARG_TYPE_INFO(0, description, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, description)
-#endif
-ZEND_END_ARG_INFO()
-
-#if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_cli_router_routeinterface_setname, 0, 1, Phalcon\\Cli\\Router\\RouteInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_routeinterface_setname, 0, 1, IS_OBJECT, "Phalcon\\Cli\\Router\\RouteInterface", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
-	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, name)
-#endif
-ZEND_END_ARG_INFO()
-
-ZEPHIR_INIT_FUNCS(phalcon_cli_router_routeinterface_method_entry) {
-	PHP_ABSTRACT_ME(Phalcon_Cli_Router_RouteInterface, compilePattern, arginfo_phalcon_cli_router_routeinterface_compilepattern)
-	ZEND_FENTRY(delimiter, NULL, arginfo_phalcon_cli_router_routeinterface_delimiter, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
-	PHP_ABSTRACT_ME(Phalcon_Cli_Router_RouteInterface, getCompiledPattern, arginfo_phalcon_cli_router_routeinterface_getcompiledpattern)
-	ZEND_FENTRY(getDelimiter, NULL, arginfo_phalcon_cli_router_routeinterface_getdelimiter, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
-	PHP_ABSTRACT_ME(Phalcon_Cli_Router_RouteInterface, getDescription, arginfo_phalcon_cli_router_routeinterface_getdescription)
-	PHP_ABSTRACT_ME(Phalcon_Cli_Router_RouteInterface, getName, arginfo_phalcon_cli_router_routeinterface_getname)
-	PHP_ABSTRACT_ME(Phalcon_Cli_Router_RouteInterface, getPaths, arginfo_phalcon_cli_router_routeinterface_getpaths)
-	PHP_ABSTRACT_ME(Phalcon_Cli_Router_RouteInterface, getPattern, arginfo_phalcon_cli_router_routeinterface_getpattern)
-	PHP_ABSTRACT_ME(Phalcon_Cli_Router_RouteInterface, getReversedPaths, arginfo_phalcon_cli_router_routeinterface_getreversedpaths)
-	PHP_ABSTRACT_ME(Phalcon_Cli_Router_RouteInterface, getRouteId, arginfo_phalcon_cli_router_routeinterface_getrouteid)
-	PHP_ABSTRACT_ME(Phalcon_Cli_Router_RouteInterface, reConfigure, arginfo_phalcon_cli_router_routeinterface_reconfigure)
-	ZEND_FENTRY(reset, NULL, arginfo_phalcon_cli_router_routeinterface_reset, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
-	PHP_ABSTRACT_ME(Phalcon_Cli_Router_RouteInterface, setDescription, arginfo_phalcon_cli_router_routeinterface_setdescription)
-	PHP_ABSTRACT_ME(Phalcon_Cli_Router_RouteInterface, setName, arginfo_phalcon_cli_router_routeinterface_setname)
-	PHP_FE_END
-};
-
 zend_class_entry *phalcon_cli_routerinterface_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Cli_RouterInterface);
@@ -22827,9 +22845,34 @@ zend_class_entry *phalcon_cli_task_ce;
 ZEPHIR_INIT_CLASS(Phalcon_Cli_Task);
 
 static PHP_METHOD(Phalcon_Cli_Task, __construct);
+static PHP_METHOD(Phalcon_Cli_Task, getEventsManager);
+static PHP_METHOD(Phalcon_Cli_Task, setEventsManager);
+
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_cli_task_geteventsmanager, 0, 0, Phalcon\\Events\\ManagerInterface, 1)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_task_geteventsmanager, 0, 0, IS_OBJECT, "Phalcon\\Events\\ManagerInterface", 1)
+#endif
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70100
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_task_seteventsmanager, 0, 1, IS_VOID, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_task_seteventsmanager, 0, 1, IS_VOID, NULL, 0)
+#endif
+#else
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_task_seteventsmanager, 0, 0, 1)
+#define arginfo_phalcon_cli_task_seteventsmanager NULL
+#endif
+
+	ZEND_ARG_OBJ_INFO(0, eventsManager, Phalcon\\Events\\ManagerInterface, 0)
+ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_cli_task_method_entry) {
 	PHP_ME(Phalcon_Cli_Task, __construct, NULL, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Cli_Task, getEventsManager, arginfo_phalcon_cli_task_geteventsmanager, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Cli_Task, setEventsManager, arginfo_phalcon_cli_task_seteventsmanager, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -28689,6 +28732,7 @@ static PHP_METHOD(Phalcon_Forms_Form, count);
 static PHP_METHOD(Phalcon_Forms_Form, current);
 static PHP_METHOD(Phalcon_Forms_Form, get);
 static PHP_METHOD(Phalcon_Forms_Form, getAction);
+static PHP_METHOD(Phalcon_Forms_Form, getAttributes);
 static PHP_METHOD(Phalcon_Forms_Form, getElements);
 static PHP_METHOD(Phalcon_Forms_Form, getEntity);
 static PHP_METHOD(Phalcon_Forms_Form, getLabel);
@@ -28708,11 +28752,10 @@ static PHP_METHOD(Phalcon_Forms_Form, remove);
 static PHP_METHOD(Phalcon_Forms_Form, rewind);
 static PHP_METHOD(Phalcon_Forms_Form, setAction);
 static PHP_METHOD(Phalcon_Forms_Form, setEntity);
+static PHP_METHOD(Phalcon_Forms_Form, setAttributes);
 static PHP_METHOD(Phalcon_Forms_Form, setUserOption);
 static PHP_METHOD(Phalcon_Forms_Form, setUserOptions);
 static PHP_METHOD(Phalcon_Forms_Form, valid);
-static PHP_METHOD(Phalcon_Forms_Form, getAttributes);
-static PHP_METHOD(Phalcon_Forms_Form, setAttributes);
 zend_object *zephir_init_properties_Phalcon_Forms_Form(zend_class_entry *class_type TSRMLS_DC);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_form_setvalidation, 0, 0, 1)
@@ -28783,6 +28826,13 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_form_getaction, 0, 0, IS_STRING, 0)
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_form_getaction, 0, 0, IS_STRING, NULL, 0)
+#endif
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_forms_form_getattributes, 0, 0, Phalcon\\Html\\Attributes, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_form_getattributes, 0, 0, IS_OBJECT, "Phalcon\\Html\\Attributes", 0)
 #endif
 ZEND_END_ARG_INFO()
 
@@ -28962,6 +29012,14 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_form_setentity, 0,
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_forms_form_setattributes, 0, 1, Phalcon\\Html\\Attributes\\AttributesInterface, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_form_setattributes, 0, 1, IS_OBJECT, "Phalcon\\Html\\Attributes\\AttributesInterface", 0)
+#endif
+	ZEND_ARG_OBJ_INFO(0, attributes, Phalcon\\Html\\Attributes, 0)
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_forms_form_setuseroption, 0, 2, Phalcon\\Forms\\Form, 0)
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_form_setuseroption, 0, 2, IS_OBJECT, "Phalcon\\Forms\\Form", 0)
@@ -28989,21 +29047,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_form_valid, 0, 0, 
 #endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_forms_form_getattributes, 0, 0, Phalcon\\Html\\Attributes, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_form_getattributes, 0, 0, IS_OBJECT, "Phalcon\\Html\\Attributes", 0)
-#endif
-ZEND_END_ARG_INFO()
-
-#if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_forms_form_setattributes, 0, 1, Phalcon\\Html\\Attributes\\AttributesInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_form_setattributes, 0, 1, IS_OBJECT, "Phalcon\\Html\\Attributes\\AttributesInterface", 0)
-#endif
-	ZEND_ARG_OBJ_INFO(0, attributes, Phalcon\\Html\\Attributes, 0)
-ZEND_END_ARG_INFO()
-
 ZEPHIR_INIT_FUNCS(phalcon_forms_form_method_entry) {
 	PHP_ME(Phalcon_Forms_Form, setValidation, arginfo_phalcon_forms_form_setvalidation, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, getValidation, NULL, ZEND_ACC_PUBLIC)
@@ -29015,6 +29058,7 @@ ZEPHIR_INIT_FUNCS(phalcon_forms_form_method_entry) {
 	PHP_ME(Phalcon_Forms_Form, current, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, get, arginfo_phalcon_forms_form_get, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, getAction, arginfo_phalcon_forms_form_getaction, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Forms_Form, getAttributes, arginfo_phalcon_forms_form_getattributes, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, getElements, arginfo_phalcon_forms_form_getelements, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, getEntity, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, getLabel, arginfo_phalcon_forms_form_getlabel, ZEND_ACC_PUBLIC)
@@ -29034,11 +29078,10 @@ ZEPHIR_INIT_FUNCS(phalcon_forms_form_method_entry) {
 	PHP_ME(Phalcon_Forms_Form, rewind, arginfo_phalcon_forms_form_rewind, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, setAction, arginfo_phalcon_forms_form_setaction, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, setEntity, arginfo_phalcon_forms_form_setentity, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Forms_Form, setAttributes, arginfo_phalcon_forms_form_setattributes, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, setUserOption, arginfo_phalcon_forms_form_setuseroption, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, setUserOptions, arginfo_phalcon_forms_form_setuseroptions, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Form, valid, arginfo_phalcon_forms_form_valid, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Forms_Form, getAttributes, arginfo_phalcon_forms_form_getattributes, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Forms_Form, setAttributes, arginfo_phalcon_forms_form_setattributes, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };
 
@@ -29181,6 +29224,11 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_helper_arr_get, 0, 0, 2)
 	ZEND_ARG_ARRAY_INFO(0, collection, 0)
 	ZEND_ARG_INFO(0, index)
 	ZEND_ARG_INFO(0, defaultValue)
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, cast, IS_STRING, 1)
+#else
+	ZEND_ARG_INFO(0, cast)
+#endif
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
@@ -30923,6 +30971,7 @@ static PHP_METHOD(Phalcon_Http_Message_ServerRequestFactory, createUploadedFile)
 static PHP_METHOD(Phalcon_Http_Message_ServerRequestFactory, getHeader);
 static PHP_METHOD(Phalcon_Http_Message_ServerRequestFactory, parseCookieHeader);
 static PHP_METHOD(Phalcon_Http_Message_ServerRequestFactory, parseHeaders);
+static PHP_METHOD(Phalcon_Http_Message_ServerRequestFactory, parseProtocol);
 static PHP_METHOD(Phalcon_Http_Message_ServerRequestFactory, parseServer);
 static PHP_METHOD(Phalcon_Http_Message_ServerRequestFactory, parseUploadedFiles);
 static PHP_METHOD(Phalcon_Http_Message_ServerRequestFactory, parseUri);
@@ -31047,6 +31096,14 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverreque
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequestfactory_parseprotocol, 0, 1, IS_STRING, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequestfactory_parseprotocol, 0, 1, IS_STRING, NULL, 0)
+#endif
+	ZEND_ARG_OBJ_INFO(0, server, Phalcon\\Collection, 0)
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_message_serverrequestfactory_parseserver, 0, 1, Phalcon\\Collection, 0)
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequestfactory_parseserver, 0, 1, IS_OBJECT, "Phalcon\\Collection", 0)
@@ -31085,6 +31142,7 @@ ZEPHIR_INIT_FUNCS(phalcon_http_message_serverrequestfactory_method_entry) {
 	PHP_ME(Phalcon_Http_Message_ServerRequestFactory, getHeader, arginfo_phalcon_http_message_serverrequestfactory_getheader, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Http_Message_ServerRequestFactory, parseCookieHeader, arginfo_phalcon_http_message_serverrequestfactory_parsecookieheader, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Http_Message_ServerRequestFactory, parseHeaders, arginfo_phalcon_http_message_serverrequestfactory_parseheaders, ZEND_ACC_PRIVATE)
+	PHP_ME(Phalcon_Http_Message_ServerRequestFactory, parseProtocol, arginfo_phalcon_http_message_serverrequestfactory_parseprotocol, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Http_Message_ServerRequestFactory, parseServer, arginfo_phalcon_http_message_serverrequestfactory_parseserver, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Http_Message_ServerRequestFactory, parseUploadedFiles, arginfo_phalcon_http_message_serverrequestfactory_parseuploadedfiles, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Http_Message_ServerRequestFactory, parseUri, arginfo_phalcon_http_message_serverrequestfactory_parseuri, ZEND_ACC_PRIVATE)
@@ -34334,6 +34392,7 @@ zend_class_entry *phalcon_logger_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Logger);
 
+static PHP_METHOD(Phalcon_Logger, getLogLevel);
 static PHP_METHOD(Phalcon_Logger, __construct);
 static PHP_METHOD(Phalcon_Logger, addAdapter);
 static PHP_METHOD(Phalcon_Logger, alert);
@@ -34350,11 +34409,19 @@ static PHP_METHOD(Phalcon_Logger, log);
 static PHP_METHOD(Phalcon_Logger, notice);
 static PHP_METHOD(Phalcon_Logger, removeAdapter);
 static PHP_METHOD(Phalcon_Logger, setAdapters);
+static PHP_METHOD(Phalcon_Logger, setLogLevel);
 static PHP_METHOD(Phalcon_Logger, warning);
 static PHP_METHOD(Phalcon_Logger, addMessage);
 static PHP_METHOD(Phalcon_Logger, getLevels);
 static PHP_METHOD(Phalcon_Logger, getLevelNumber);
 zend_object *zephir_init_properties_Phalcon_Logger(zend_class_entry *class_type TSRMLS_DC);
+
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_getloglevel, 0, 0, IS_LONG, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_getloglevel, 0, 0, IS_LONG, NULL, 0)
+#endif
+ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger___construct, 0, 0, 1)
 #if PHP_VERSION_ID >= 70200
@@ -34553,6 +34620,18 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_setadapters, 0, 1
 	ZEND_ARG_ARRAY_INFO(0, adapters, 0)
 ZEND_END_ARG_INFO()
 
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_logger_setloglevel, 0, 1, Phalcon\\Logger, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_setloglevel, 0, 1, IS_OBJECT, "Phalcon\\Logger", 0)
+#endif
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, level, IS_LONG, 0)
+#else
+	ZEND_ARG_INFO(0, level)
+#endif
+ZEND_END_ARG_INFO()
+
 #if PHP_VERSION_ID >= 70100
 #if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_warning, 0, 1, IS_VOID, 0)
@@ -34602,6 +34681,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_getlevelnumber, 0
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_logger_method_entry) {
+	PHP_ME(Phalcon_Logger, getLogLevel, arginfo_phalcon_logger_getloglevel, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger, __construct, arginfo_phalcon_logger___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Logger, addAdapter, arginfo_phalcon_logger_addadapter, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger, alert, arginfo_phalcon_logger_alert, ZEND_ACC_PUBLIC)
@@ -34618,6 +34698,7 @@ ZEPHIR_INIT_FUNCS(phalcon_logger_method_entry) {
 	PHP_ME(Phalcon_Logger, notice, arginfo_phalcon_logger_notice, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger, removeAdapter, arginfo_phalcon_logger_removeadapter, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger, setAdapters, arginfo_phalcon_logger_setadapters, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger, setLogLevel, arginfo_phalcon_logger_setloglevel, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger, warning, arginfo_phalcon_logger_warning, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger, addMessage, arginfo_phalcon_logger_addmessage, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Logger, getLevels, arginfo_phalcon_logger_getlevels, ZEND_ACC_PROTECTED)
@@ -35500,7 +35581,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_dispatcher_forward, 0, 0, 1)
 #define arginfo_phalcon_mvc_dispatcher_forward NULL
 #endif
 
-	ZEND_ARG_INFO(0, forward)
+	ZEND_ARG_ARRAY_INFO(0, forward, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
@@ -35629,6 +35710,8 @@ static PHP_METHOD(Phalcon_Mvc_Micro, finish);
 static PHP_METHOD(Phalcon_Mvc_Micro, get);
 static PHP_METHOD(Phalcon_Mvc_Micro, getActiveHandler);
 static PHP_METHOD(Phalcon_Mvc_Micro, getBoundModels);
+static PHP_METHOD(Phalcon_Mvc_Micro, getEventsManager);
+static PHP_METHOD(Phalcon_Mvc_Micro, setEventsManager);
 static PHP_METHOD(Phalcon_Mvc_Micro, getHandlers);
 static PHP_METHOD(Phalcon_Mvc_Micro, getModelBinder);
 static PHP_METHOD(Phalcon_Mvc_Micro, getReturnedValue);
@@ -35732,6 +35815,27 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_micro_getboundmodels
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_micro_getboundmodels, 0, 0, IS_ARRAY, NULL, 0)
 #endif
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_micro_geteventsmanager, 0, 0, Phalcon\\Events\\ManagerInterface, 1)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_micro_geteventsmanager, 0, 0, IS_OBJECT, "Phalcon\\Events\\ManagerInterface", 1)
+#endif
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70100
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_micro_seteventsmanager, 0, 1, IS_VOID, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_micro_seteventsmanager, 0, 1, IS_VOID, NULL, 0)
+#endif
+#else
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_micro_seteventsmanager, 0, 0, 1)
+#define arginfo_phalcon_mvc_micro_seteventsmanager NULL
+#endif
+
+	ZEND_ARG_OBJ_INFO(0, eventsManager, Phalcon\\Events\\ManagerInterface, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
@@ -35990,6 +36094,8 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_micro_method_entry) {
 	PHP_ME(Phalcon_Mvc_Micro, get, arginfo_phalcon_mvc_micro_get, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Micro, getActiveHandler, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Micro, getBoundModels, arginfo_phalcon_mvc_micro_getboundmodels, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Micro, getEventsManager, arginfo_phalcon_mvc_micro_geteventsmanager, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Micro, setEventsManager, arginfo_phalcon_mvc_micro_seteventsmanager, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Micro, getHandlers, arginfo_phalcon_mvc_micro_gethandlers, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Micro, getModelBinder, arginfo_phalcon_mvc_micro_getmodelbinder, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Micro, getReturnedValue, NULL, ZEND_ACC_PUBLIC)
@@ -37108,7 +37214,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model__getrelatedrecords, 0, 0, 3)
 #else
 	ZEND_ARG_INFO(0, method)
 #endif
-	ZEND_ARG_INFO(0, arguments)
+	ZEND_ARG_ARRAY_INFO(0, arguments, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
@@ -42294,6 +42400,7 @@ static PHP_METHOD(Phalcon_Mvc_View, getActiveRenderPath);
 static PHP_METHOD(Phalcon_Mvc_View, getBasePath);
 static PHP_METHOD(Phalcon_Mvc_View, getContent);
 static PHP_METHOD(Phalcon_Mvc_View, getControllerName);
+static PHP_METHOD(Phalcon_Mvc_View, getEventsManager);
 static PHP_METHOD(Phalcon_Mvc_View, getLayout);
 static PHP_METHOD(Phalcon_Mvc_View, getLayoutsDir);
 static PHP_METHOD(Phalcon_Mvc_View, getMainView);
@@ -42312,6 +42419,7 @@ static PHP_METHOD(Phalcon_Mvc_View, render);
 static PHP_METHOD(Phalcon_Mvc_View, reset);
 static PHP_METHOD(Phalcon_Mvc_View, setBasePath);
 static PHP_METHOD(Phalcon_Mvc_View, setContent);
+static PHP_METHOD(Phalcon_Mvc_View, setEventsManager);
 static PHP_METHOD(Phalcon_Mvc_View, setLayout);
 static PHP_METHOD(Phalcon_Mvc_View, setLayoutsDir);
 static PHP_METHOD(Phalcon_Mvc_View, setMainView);
@@ -42444,6 +42552,13 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_getcontrollername, 0, 0, IS_STRING, 0)
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_getcontrollername, 0, 0, IS_STRING, NULL, 0)
+#endif
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_view_geteventsmanager, 0, 0, Phalcon\\Events\\ManagerInterface, 1)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_geteventsmanager, 0, 0, IS_OBJECT, "Phalcon\\Events\\ManagerInterface", 1)
 #endif
 ZEND_END_ARG_INFO()
 
@@ -42604,6 +42719,20 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_setcontent, 0, 
 #else
 	ZEND_ARG_INFO(0, content)
 #endif
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70100
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_seteventsmanager, 0, 1, IS_VOID, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_seteventsmanager, 0, 1, IS_VOID, NULL, 0)
+#endif
+#else
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_seteventsmanager, 0, 0, 1)
+#define arginfo_phalcon_mvc_view_seteventsmanager NULL
+#endif
+
+	ZEND_ARG_OBJ_INFO(0, eventsManager, Phalcon\\Events\\ManagerInterface, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
@@ -42831,6 +42960,7 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_view_method_entry) {
 	PHP_ME(Phalcon_Mvc_View, getBasePath, arginfo_phalcon_mvc_view_getbasepath, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, getContent, arginfo_phalcon_mvc_view_getcontent, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, getControllerName, arginfo_phalcon_mvc_view_getcontrollername, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, getEventsManager, arginfo_phalcon_mvc_view_geteventsmanager, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, getLayout, arginfo_phalcon_mvc_view_getlayout, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, getLayoutsDir, arginfo_phalcon_mvc_view_getlayoutsdir, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, getMainView, arginfo_phalcon_mvc_view_getmainview, ZEND_ACC_PUBLIC)
@@ -42849,6 +42979,7 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_view_method_entry) {
 	PHP_ME(Phalcon_Mvc_View, reset, arginfo_phalcon_mvc_view_reset, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, setBasePath, arginfo_phalcon_mvc_view_setbasepath, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, setContent, arginfo_phalcon_mvc_view_setcontent, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View, setEventsManager, arginfo_phalcon_mvc_view_seteventsmanager, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, setLayout, arginfo_phalcon_mvc_view_setlayout, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, setLayoutsDir, arginfo_phalcon_mvc_view_setlayoutsdir, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View, setMainView, arginfo_phalcon_mvc_view_setmainview, ZEND_ACC_PUBLIC)
@@ -42901,10 +43032,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_View_Engine_Volt);
 static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, callMacro);
 static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, convertEncoding);
 static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, getCompiler);
+static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, getEventsManager);
 static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, getOptions);
 static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, isIncluded);
 static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, length);
 static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, render);
+static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, setEventsManager);
 static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, setOptions);
 static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, slice);
 static PHP_METHOD(Phalcon_Mvc_View_Engine_Volt, sort);
@@ -42948,6 +43081,13 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_get
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_geteventsmanager, 0, 0, Phalcon\\Events\\ManagerInterface, 1)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_geteventsmanager, 0, 0, IS_OBJECT, "Phalcon\\Events\\ManagerInterface", 1)
+#endif
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_getoptions, 0, 0, IS_ARRAY, 0)
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_getoptions, 0, 0, IS_ARRAY, NULL, 0)
@@ -42985,6 +43125,20 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_render, 0, 0, 2)
 #endif
 ZEND_END_ARG_INFO()
 
+#if PHP_VERSION_ID >= 70100
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_seteventsmanager, 0, 1, IS_VOID, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_seteventsmanager, 0, 1, IS_VOID, NULL, 0)
+#endif
+#else
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_seteventsmanager, 0, 0, 1)
+#define arginfo_phalcon_mvc_view_engine_volt_seteventsmanager NULL
+#endif
+
+	ZEND_ARG_OBJ_INFO(0, eventsManager, Phalcon\\Events\\ManagerInterface, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_setoptions, 0, 0, 1)
 	ZEND_ARG_ARRAY_INFO(0, options, 0)
 ZEND_END_ARG_INFO()
@@ -43011,10 +43165,12 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_view_engine_volt_method_entry) {
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt, callMacro, arginfo_phalcon_mvc_view_engine_volt_callmacro, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt, convertEncoding, arginfo_phalcon_mvc_view_engine_volt_convertencoding, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt, getCompiler, arginfo_phalcon_mvc_view_engine_volt_getcompiler, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View_Engine_Volt, getEventsManager, arginfo_phalcon_mvc_view_engine_volt_geteventsmanager, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt, getOptions, arginfo_phalcon_mvc_view_engine_volt_getoptions, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt, isIncluded, arginfo_phalcon_mvc_view_engine_volt_isincluded, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt, length, arginfo_phalcon_mvc_view_engine_volt_length, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt, render, arginfo_phalcon_mvc_view_engine_volt_render, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View_Engine_Volt, setEventsManager, arginfo_phalcon_mvc_view_engine_volt_seteventsmanager, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt, setOptions, arginfo_phalcon_mvc_view_engine_volt_setoptions, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt, slice, arginfo_phalcon_mvc_view_engine_volt_slice, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt, sort, arginfo_phalcon_mvc_view_engine_volt_sort, ZEND_ACC_PUBLIC)
@@ -43620,6 +43776,7 @@ static PHP_METHOD(Phalcon_Mvc_View_Simple, __get);
 static PHP_METHOD(Phalcon_Mvc_View_Simple, __set);
 static PHP_METHOD(Phalcon_Mvc_View_Simple, getActiveRenderPath);
 static PHP_METHOD(Phalcon_Mvc_View_Simple, getContent);
+static PHP_METHOD(Phalcon_Mvc_View_Simple, getEventsManager);
 static PHP_METHOD(Phalcon_Mvc_View_Simple, getParamsToView);
 static PHP_METHOD(Phalcon_Mvc_View_Simple, getVar);
 static PHP_METHOD(Phalcon_Mvc_View_Simple, getViewsDir);
@@ -43627,6 +43784,7 @@ static PHP_METHOD(Phalcon_Mvc_View_Simple, partial);
 static PHP_METHOD(Phalcon_Mvc_View_Simple, registerEngines);
 static PHP_METHOD(Phalcon_Mvc_View_Simple, render);
 static PHP_METHOD(Phalcon_Mvc_View_Simple, setContent);
+static PHP_METHOD(Phalcon_Mvc_View_Simple, setEventsManager);
 static PHP_METHOD(Phalcon_Mvc_View_Simple, setParamToView);
 static PHP_METHOD(Phalcon_Mvc_View_Simple, setVar);
 static PHP_METHOD(Phalcon_Mvc_View_Simple, setVars);
@@ -43674,6 +43832,13 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_simple_getcontent, 0, 0, IS_STRING, 0)
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_simple_getcontent, 0, 0, IS_STRING, NULL, 0)
+#endif
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_view_simple_geteventsmanager, 0, 0, Phalcon\\Events\\ManagerInterface, 1)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_simple_geteventsmanager, 0, 0, IS_OBJECT, "Phalcon\\Events\\ManagerInterface", 1)
 #endif
 ZEND_END_ARG_INFO()
 
@@ -43735,6 +43900,20 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_simple_setconte
 #else
 	ZEND_ARG_INFO(0, content)
 #endif
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70100
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_simple_seteventsmanager, 0, 1, IS_VOID, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_simple_seteventsmanager, 0, 1, IS_VOID, NULL, 0)
+#endif
+#else
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_simple_seteventsmanager, 0, 0, 1)
+#define arginfo_phalcon_mvc_view_simple_seteventsmanager NULL
+#endif
+
+	ZEND_ARG_OBJ_INFO(0, eventsManager, Phalcon\\Events\\ManagerInterface, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
@@ -43807,6 +43986,7 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_view_simple_method_entry) {
 	PHP_ME(Phalcon_Mvc_View_Simple, __set, arginfo_phalcon_mvc_view_simple___set, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View_Simple, getActiveRenderPath, arginfo_phalcon_mvc_view_simple_getactiverenderpath, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View_Simple, getContent, arginfo_phalcon_mvc_view_simple_getcontent, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View_Simple, getEventsManager, arginfo_phalcon_mvc_view_simple_geteventsmanager, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View_Simple, getParamsToView, arginfo_phalcon_mvc_view_simple_getparamstoview, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View_Simple, getVar, arginfo_phalcon_mvc_view_simple_getvar, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View_Simple, getViewsDir, arginfo_phalcon_mvc_view_simple_getviewsdir, ZEND_ACC_PUBLIC)
@@ -43814,6 +43994,7 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_view_simple_method_entry) {
 	PHP_ME(Phalcon_Mvc_View_Simple, registerEngines, arginfo_phalcon_mvc_view_simple_registerengines, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View_Simple, render, arginfo_phalcon_mvc_view_simple_render, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View_Simple, setContent, arginfo_phalcon_mvc_view_simple_setcontent, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View_Simple, setEventsManager, arginfo_phalcon_mvc_view_simple_seteventsmanager, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View_Simple, setParamToView, arginfo_phalcon_mvc_view_simple_setparamtoview, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View_Simple, setVar, arginfo_phalcon_mvc_view_simple_setvar, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View_Simple, setVars, arginfo_phalcon_mvc_view_simple_setvars, ZEND_ACC_PUBLIC)
@@ -43929,14 +44110,18 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_paginator_paginatorfactory___construct, 0
 	ZEND_ARG_ARRAY_INFO(0, services, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_paginator_paginatorfactory_load, 0, 0, 1)
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_paginator_paginatorfactory_load, 0, 1, Phalcon\\Paginator\\Adapter\\AdapterInterface, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_paginator_paginatorfactory_load, 0, 1, IS_OBJECT, "Phalcon\\Paginator\\Adapter\\AdapterInterface", 0)
+#endif
 	ZEND_ARG_INFO(0, config)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_paginator_paginatorfactory_newinstance, 0, 1, Phalcon\\Paginator\\Adapter\\AbstractAdapter, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_paginator_paginatorfactory_newinstance, 0, 1, Phalcon\\Paginator\\Adapter\\AdapterInterface, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_paginator_paginatorfactory_newinstance, 0, 1, IS_OBJECT, "Phalcon\\Paginator\\Adapter\\AbstractAdapter", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_paginator_paginatorfactory_newinstance, 0, 1, IS_OBJECT, "Phalcon\\Paginator\\Adapter\\AdapterInterface", 0)
 #endif
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
@@ -43975,6 +44160,7 @@ static PHP_METHOD(Phalcon_Paginator_Repository, getLimit);
 static PHP_METHOD(Phalcon_Paginator_Repository, getNext);
 static PHP_METHOD(Phalcon_Paginator_Repository, getPrevious);
 static PHP_METHOD(Phalcon_Paginator_Repository, getTotalItems);
+static PHP_METHOD(Phalcon_Paginator_Repository, jsonSerialize);
 static PHP_METHOD(Phalcon_Paginator_Repository, setAliases);
 static PHP_METHOD(Phalcon_Paginator_Repository, setProperties);
 static PHP_METHOD(Phalcon_Paginator_Repository, getProperty);
@@ -44046,6 +44232,13 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_paginator_repository_get
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_paginator_repository_jsonserialize, 0, 0, IS_ARRAY, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_paginator_repository_jsonserialize, 0, 0, IS_ARRAY, NULL, 0)
+#endif
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_paginator_repository_setaliases, 0, 1, Phalcon\\Paginator\\RepositoryInterface, 0)
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_paginator_repository_setaliases, 0, 1, IS_OBJECT, "Phalcon\\Paginator\\RepositoryInterface", 0)
@@ -44093,6 +44286,7 @@ ZEPHIR_INIT_FUNCS(phalcon_paginator_repository_method_entry) {
 	PHP_ME(Phalcon_Paginator_Repository, getNext, arginfo_phalcon_paginator_repository_getnext, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Paginator_Repository, getPrevious, arginfo_phalcon_paginator_repository_getprevious, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Paginator_Repository, getTotalItems, arginfo_phalcon_paginator_repository_gettotalitems, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Paginator_Repository, jsonSerialize, arginfo_phalcon_paginator_repository_jsonserialize, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Paginator_Repository, setAliases, arginfo_phalcon_paginator_repository_setaliases, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Paginator_Repository, setProperties, arginfo_phalcon_paginator_repository_setproperties, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Paginator_Repository, getProperty, arginfo_phalcon_paginator_repository_getproperty, ZEND_ACC_PROTECTED)
@@ -44213,6 +44407,11 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_registry_get, 0, 0, 1)
 	ZEND_ARG_INFO(0, element)
 #endif
 	ZEND_ARG_INFO(0, defaultValue)
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, cast, IS_STRING, 1)
+#else
+	ZEND_ARG_INFO(0, cast)
+#endif
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
@@ -45341,9 +45540,9 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_storage_adapterfactory___construct, 0, 0,
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_storage_adapterfactory_newinstance, 0, 1, Phalcon\\Storage\\Adapter\\AbstractAdapter, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_storage_adapterfactory_newinstance, 0, 1, Phalcon\\Storage\\Adapter\\AdapterInterface, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_adapterfactory_newinstance, 0, 1, IS_OBJECT, "Phalcon\\Storage\\Adapter\\AbstractAdapter", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_adapterfactory_newinstance, 0, 1, IS_OBJECT, "Phalcon\\Storage\\Adapter\\AdapterInterface", 0)
 #endif
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
@@ -46717,7 +46916,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_translate_adapter_csv_qu
 #else
 	ZEND_ARG_INFO(0, index)
 #endif
-	ZEND_ARG_INFO(0, placeholders)
+	ZEND_ARG_ARRAY_INFO(0, placeholders, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70100
@@ -46839,7 +47038,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_translate_adapter_gettex
 #else
 	ZEND_ARG_INFO(0, count)
 #endif
-	ZEND_ARG_INFO(0, placeholders)
+	ZEND_ARG_ARRAY_INFO(0, placeholders, 0)
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, domain, IS_STRING, 1)
 #else
@@ -46857,7 +47056,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_translate_adapter_gettex
 #else
 	ZEND_ARG_INFO(0, index)
 #endif
-	ZEND_ARG_INFO(0, placeholders)
+	ZEND_ARG_ARRAY_INFO(0, placeholders, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
@@ -47008,7 +47207,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_translate_adapter_native
 #else
 	ZEND_ARG_INFO(0, index)
 #endif
-	ZEND_ARG_INFO(0, placeholders)
+	ZEND_ARG_ARRAY_INFO(0, placeholders, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_translate_adapter_nativearray_method_entry) {
