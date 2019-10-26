@@ -11,7 +11,8 @@
 namespace Phalcon\Forms\Element;
 
 use Phalcon\Forms\Element\AbstractElement;
-use Phalcon\Tag\Select;
+use Phalcon\Tag\Select as SelectTag;
+use Phalcon\Forms\Element\ElementInterface;
 
 /**
  * Phalcon\Forms\Element\Select
@@ -40,7 +41,7 @@ class Select extends AbstractElement
      *
      * @param array|string option
      */
-    public function addOption(var option) -> <Element>
+    public function addOption(var option) -> <ElementInterface>
     {
         var key, value;
 
@@ -73,7 +74,7 @@ class Select extends AbstractElement
         /**
          * Merged passed attributes with previously defined ones
          */
-        return Select::selectField(
+        return SelectTag::selectField(
             this->prepareAttributes(attributes),
             this->optionsValues
         );
@@ -84,7 +85,7 @@ class Select extends AbstractElement
      *
      * @param array|object options
      */
-    public function setOptions(var options) -> <Element>
+    public function setOptions(var options) -> <ElementInterface>
     {
         let this->optionsValues = options;
 

@@ -65,7 +65,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Numericality) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator, Numericality, phalcon, validation_validator_numericality, phalcon_validation_abstractvalidator_ce, phalcon_validation_validator_numericality_method_entry, 0);
 
-	zend_declare_property_string(phalcon_validation_validator_numericality_ce, SL("template"), "Field :field does not have a valid numeric format", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_validation_validator_numericality_ce, SL("template"), "Field :field does not have a valid numeric format", ZEND_ACC_PROTECTED);
 
 	return SUCCESS;
 
@@ -107,13 +107,13 @@ PHP_METHOD(Phalcon_Validation_Validator_Numericality, validate) {
 	ZVAL_STRING(&_2, " ");
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "");
-	zephir_fast_str_replace(&_1, &_2, &_3, &value TSRMLS_CC);
+	zephir_fast_str_replace(&_1, &_2, &_3, &value);
 	ZEPHIR_CPY_WRT(&value, &_1);
 	ZEPHIR_INIT_VAR(&pattern);
 	ZVAL_STRING(&pattern, "/((^[-]?[0-9,]+(.[0-9]+)?$)|(^[-]?[0-9.]+(,[0-9]+)?$))/");
 	ZEPHIR_INIT_VAR(&_4);
 	ZEPHIR_INIT_NVAR(&_1);
-	zephir_preg_match(&_1, &pattern, &value, &_4, 0, 0 , 0  TSRMLS_CC);
+	zephir_preg_match(&_1, &pattern, &value, &_4, 0, 0 , 0 );
 	if (!(zephir_is_true(&_1))) {
 		ZEPHIR_CALL_METHOD(&_5$$3, this_ptr, "messagefactory", NULL, 0, validation, field);
 		zephir_check_call_status();

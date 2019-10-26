@@ -19,7 +19,12 @@ use Serializable;
 use Traversable;
 
 /**
- * `Phalcon\Collection` is a supercharged object oriented array. It implements [ArrayAccess](https://www.php.net/manual/en/class.arrayaccess.php), [Countable](https://www.php.net/manual/en/class.countable.php), [IteratorAggregate](https://www.php.net/manual/en/class.iteratoraggregate.php), [JsonSerializable](https://www.php.net/manual/en/class.jsonserializable.php), [Serializable](https://www.php.net/manual/en/class.serializable.php)
+ * `Phalcon\Collection` is a supercharged object oriented array. It implements:
+ * - [ArrayAccess](https://www.php.net/manual/en/class.arrayaccess.php)
+ * - [Countable](https://www.php.net/manual/en/class.countable.php)
+ * - [IteratorAggregate](https://www.php.net/manual/en/class.iteratoraggregate.php)
+ * - [JsonSerializable](https://www.php.net/manual/en/class.jsonserializable.php)
+ * - [Serializable](https://www.php.net/manual/en/class.serializable.php)
  *
  * It can be used in any part of the application that needs collection of data
  * Such implementations are for instance accessing globals `$_GET`, `$_POST`
@@ -109,21 +114,28 @@ class Collection implements
     /**
      * Get the element from the collection
      */
-    public function get(string element, defaultValue = null) -> var
-    {
-        var key;
+    public function get(
+        string element,
+        var defaultValue = null,
+        string! cast = null
+    ) -> var {
+        var key, value;
 
         if likely this->insensitive {
             let element = element->lower();
         }
 
-        if likely isset this->lowerKeys[element] {
-            let key = this->lowerKeys[element];
-
-            return this->data[key];
+        if unlikely !fetch key, this->lowerKeys[element] {
+            return defaultValue;
         }
 
-        return defaultValue;
+        let value = this->data[key];
+
+        if unlikely cast {
+            settype(value, cast);
+        }
+
+        return value;
     }
 
     /**

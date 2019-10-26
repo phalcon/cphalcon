@@ -40,9 +40,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Behavior) {
 	/**
 	 * @var array
 	 */
-	zend_declare_property_null(phalcon_mvc_model_behavior_ce, SL("options"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_behavior_ce, SL("options"), ZEND_ACC_PROTECTED);
 
-	zend_class_implements(phalcon_mvc_model_behavior_ce TSRMLS_CC, 1, phalcon_mvc_model_behaviorinterface_ce);
+	zend_class_implements(phalcon_mvc_model_behavior_ce, 1, phalcon_mvc_model_behaviorinterface_ce);
 	return SUCCESS;
 
 }
@@ -100,7 +100,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, getOptions) {
 		ZVAL_STRING(&eventName, "");
 	} else {
 	if (UNEXPECTED(Z_TYPE_P(eventName_param) != IS_STRING && Z_TYPE_P(eventName_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'eventName' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'eventName' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(eventName_param) == IS_STRING)) {
@@ -115,7 +115,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, getOptions) {
 	zephir_read_property(&_0, this_ptr, SL("options"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&options, &_0);
 	if (!ZEPHIR_IS_STRING_IDENTICAL(&eventName, "")) {
-		if (!(zephir_array_isset_fetch(&eventOptions, &options, &eventName, 1 TSRMLS_CC))) {
+		if (!(zephir_array_isset_fetch(&eventOptions, &options, &eventName, 1))) {
 			RETURN_MM_NULL();
 		}
 		RETURN_CTOR(&eventOptions);
@@ -172,7 +172,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, mustTakeAction) {
 	zephir_fetch_params(1, 1, 0, &eventName_param);
 
 	if (UNEXPECTED(Z_TYPE_P(eventName_param) != IS_STRING && Z_TYPE_P(eventName_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'eventName' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'eventName' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(eventName_param) == IS_STRING)) {

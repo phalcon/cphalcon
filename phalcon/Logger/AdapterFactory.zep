@@ -11,6 +11,7 @@
 namespace Phalcon\Logger;
 
 use Phalcon\Factory\AbstractFactory;
+use Phalcon\Logger\Adapter\AdapterInterface;
 
 class AdapterFactory extends AbstractFactory
 {
@@ -37,7 +38,13 @@ class AdapterFactory extends AbstractFactory
 
         if !isset this->services[name] {
             let definition           = this->mapper[name],
-                this->services[name] = new {definition}(fileName, options);
+                this->services[name] = create_instance_params(
+                    definition,
+                    [
+                        fileName,
+                        options
+                    ]
+                );
         }
 
         return this->services[name];
@@ -46,9 +53,9 @@ class AdapterFactory extends AbstractFactory
     protected function getAdapters() -> array
     {
         return [
-            "noop"   : "\\Phalcon\\Logger\\Adapter\\Noop",
-            "stream" : "\\Phalcon\\Logger\\Adapter\\Stream",
-            "syslog" : "\\Phalcon\\Logger\\Adapter\\Syslog"
+            "noop"   : "Phalcon\\Logger\\Adapter\\Noop",
+            "stream" : "Phalcon\\Logger\\Adapter\\Stream",
+            "syslog" : "Phalcon\\Logger\\Adapter\\Syslog"
         ];
     }
 }

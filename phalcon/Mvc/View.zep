@@ -18,6 +18,7 @@ use Phalcon\Helper\Arr;
 use Phalcon\Helper\Str;
 use Phalcon\Mvc\View\Exception;
 use Phalcon\Mvc\ViewInterface;
+use Phalcon\Events\EventsAwareInterface;
 use Phalcon\Mvc\View\Engine\Php as PhpEngine;
 
 /**
@@ -46,7 +47,7 @@ use Phalcon\Mvc\View\Engine\Php as PhpEngine;
  * echo $view->getContent();
  * ```
  */
-class View extends Injectable implements ViewInterface
+class View extends Injectable implements ViewInterface, EventsAwareInterface
 {
     /**
      * Render Level: To the action view
@@ -87,6 +88,7 @@ class View extends Injectable implements ViewInterface
     protected disabled = false;
     protected disabledLevels;
     protected engines = false;
+    protected eventsManager;
     protected layout;
     protected layoutsDir = "";
     protected mainView = "index";
@@ -299,6 +301,14 @@ class View extends Injectable implements ViewInterface
     public function getControllerName() -> string
     {
         return this->controllerName;
+    }
+
+    /**
+     * Returns the internal event manager
+     */
+    public function getEventsManager() -> <ManagerInterface> | null
+    {
+        return this->eventsManager;
     }
 
     /**
@@ -669,6 +679,14 @@ class View extends Injectable implements ViewInterface
         let this->content = content;
 
         return this;
+    }
+
+    /**
+     * Sets the events manager
+     */
+    public function setEventsManager(<ManagerInterface> eventsManager) -> void
+    {
+        let this->eventsManager = eventsManager;
     }
 
     /**

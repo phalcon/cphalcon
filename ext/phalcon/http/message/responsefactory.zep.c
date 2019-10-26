@@ -37,7 +37,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_ResponseFactory) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Http\\Message, ResponseFactory, phalcon, http_message_responsefactory, phalcon_http_message_responsefactory_method_entry, ZEND_ACC_FINAL_CLASS);
 
-	zend_class_implements(phalcon_http_message_responsefactory_ce TSRMLS_CC, 1, zephir_get_internal_ce(SL("psr\\http\\message\\responsefactoryinterface")));
+	zend_class_implements(phalcon_http_message_responsefactory_ce, 1, zephir_get_internal_ce(SL("psr\\http\\message\\responsefactoryinterface")));
 	return SUCCESS;
 
 }
@@ -83,10 +83,10 @@ PHP_METHOD(Phalcon_Http_Message_ResponseFactory, createResponse) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, phalcon_http_message_response_ce);
-	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 285);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 286);
 	zephir_check_call_status();
 	ZVAL_LONG(&_1, code);
-	ZEPHIR_RETURN_CALL_METHOD(&_0, "withstatus", NULL, 286, &_1, &reasonPhrase);
+	ZEPHIR_RETURN_CALL_METHOD(&_0, "withstatus", NULL, 287, &_1, &reasonPhrase);
 	zephir_check_call_status();
 	RETURN_MM();
 

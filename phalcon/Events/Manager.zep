@@ -172,7 +172,7 @@ class Manager implements ManagerInterface
      * @param mixed  data
      * @return mixed
      */
-    public function fire(string! eventType, source, data = null, bool cancelable = true)
+    public function fire(string! eventType, object source, var data = null, bool cancelable = true)
     {
         var events, eventParts, type, eventName, event, status, fireEvents;
 

@@ -70,7 +70,14 @@ class ImageFactory extends AbstractFactory
 
         if !isset this->services[name] {
             let definition           = this->mapper[name],
-                this->services[name] = new {definition}(file, width, height);
+                this->services[name] = create_instance_params(
+                    definition,
+                    [
+                        file,
+                        width,
+                        height
+                    ]
+                );
         }
 
         return this->services[name];
@@ -79,8 +86,8 @@ class ImageFactory extends AbstractFactory
     protected function getAdapters() -> array
     {
         return [
-            "gd"      : "\\Phalcon\\Image\\Adapter\\Gd",
-            "imagick" : "\\Phalcon\\Image\\Adapter\\Imagick"
+            "gd"      : "Phalcon\\Image\\Adapter\\Gd",
+            "imagick" : "Phalcon\\Image\\Adapter\\Imagick"
         ];
     }
 }

@@ -44,7 +44,7 @@ class InterpolatorFactory extends AbstractFactory
 
         if !isset this->services[name] {
             let definition           = this->mapper[name],
-                this->services[name] = new {definition}();
+                this->services[name] = create_instance(definition);
         }
 
         return this->services[name];
@@ -53,8 +53,8 @@ class InterpolatorFactory extends AbstractFactory
     protected function getAdapters() -> array
     {
         return [
-            "associativeArray" : "\\Phalcon\\Translate\\Interpolator\\AssociativeArray",
-            "indexedArray"     : "\\Phalcon\\Translate\\Interpolator\\IndexedArray"
+            "associativeArray" : "Phalcon\\Translate\\Interpolator\\AssociativeArray",
+            "indexedArray"     : "Phalcon\\Translate\\Interpolator\\IndexedArray"
         ];
     }
 }

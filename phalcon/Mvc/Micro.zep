@@ -23,6 +23,8 @@ use Phalcon\Mvc\Micro\LazyLoader;
 use Phalcon\Http\ResponseInterface;
 use Phalcon\Mvc\Model\BinderInterface;
 use Phalcon\Mvc\Router\RouteInterface;
+use Phalcon\Events\EventsAwareInterface;
+use Phalcon\Events\ManagerInterface;
 use Phalcon\Mvc\Micro\MiddlewareInterface;
 use Phalcon\Mvc\Micro\CollectionInterface;
 use Throwable;
@@ -48,7 +50,7 @@ use Throwable;
  * $app->handle("/say/welcome/Phalcon");
  *```
  */
-class Micro extends Injectable implements ArrayAccess
+class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
 {
     protected activeHandler;
 
@@ -61,6 +63,8 @@ class Micro extends Injectable implements ArrayAccess
     protected container;
 
     protected errorHandler;
+
+    protected eventsManager;
 
     protected finishHandlers = [];
 
@@ -233,6 +237,22 @@ class Micro extends Injectable implements ArrayAccess
         }
 
         return modelBinder->getBoundModels();
+    }
+
+    /**
+     * Returns the internal event manager
+     */
+    public function getEventsManager() -> <ManagerInterface> | null
+    {
+        return this->eventsManager;
+    }
+
+    /**
+     * Sets the events manager
+     */
+    public function setEventsManager(<ManagerInterface> eventsManager) -> void
+    {
+        let this->eventsManager = eventsManager;
     }
 
     /**

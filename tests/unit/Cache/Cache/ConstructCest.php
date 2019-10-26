@@ -32,7 +32,12 @@ class ConstructCest
 
         $serializer = new SerializerFactory();
         $factory    = new AdapterFactory($serializer);
-        $instance   = $factory->newInstance('apcu');
+        $options = [
+            'defaultSerializer' => 'Json',
+            'lifetime'          => 7200
+        ];
+
+        $instance   = $factory->newInstance('apcu', $options);
 
         $adapter = new Cache($instance);
 

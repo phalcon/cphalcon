@@ -57,7 +57,7 @@ class Manager
     /**
      * Registers a form in the Forms Manager
      */
-    public function set(string name, <Form> form) -> <FormManager>
+    public function set(string name, <Form> form) -> <Manager>
     {
         let this->forms[name] = form;
 

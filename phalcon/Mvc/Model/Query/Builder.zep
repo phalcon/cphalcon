@@ -650,8 +650,14 @@ class Builder implements BuilderInterface, InjectionAwareInterface
              * Get the models metadata service to obtain the column names,
              * column map and primary key
              */
-            let metaData = container->getShared("modelsMetadata"),
-                modelInstance = new {model}(null, container);
+            let metaData      = container->getShared("modelsMetadata"),
+                modelInstance = create_instance_params(
+                    model,
+                    [
+                        null,
+                        container
+                    ]
+                );
 
             let noPrimary = true,
                 primaryKeys = metaData->getPrimaryKeyAttributes(modelInstance);

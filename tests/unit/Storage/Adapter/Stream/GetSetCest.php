@@ -17,6 +17,8 @@ use Phalcon\Storage\Exception;
 use Phalcon\Storage\SerializerFactory;
 use UnitTester;
 use function file_put_contents;
+use function is_dir;
+use function mkdir;
 use function outputDir;
 use function sleep;
 
@@ -39,7 +41,7 @@ class GetSetCest
         $adapter = new Stream(
             $serializer,
             [
-                'cacheDir' => outputDir(),
+                'storageDir' => outputDir(),
             ]
         );
 
@@ -50,7 +52,8 @@ class GetSetCest
         $target = outputDir() . 'phstrm-/te/st/-k/';
         $I->amInPath($target);
         $I->openFile('test-key');
-        $expected = '"ttl":3600,"content":"s:17:\"Phalcon Framework\";';
+        $expected = 's:3:"ttl";i:3600;s:7:"content";s:25:"s:17:"Phalcon Framework";";}';
+
         $I->seeInThisFile($expected);
         $I->safeDeleteFile($target . 'test-key');
     }
@@ -72,7 +75,7 @@ class GetSetCest
         $adapter = new Stream(
             $serializer,
             [
-                'cacheDir' => outputDir(),
+                'storageDir' => outputDir(),
             ]
         );
 
@@ -88,6 +91,15 @@ class GetSetCest
         $I->assertNotNull($actual);
         $I->assertEquals($expected, $actual);
 
+        $expected        = new \stdClass();
+        $expected->one   = 'two';
+        $expected->three = 'four';
+
+        $I->assertTrue(
+            $adapter->set('test-key', $expected)
+        );
+
+        $I->assertEquals($expected, $adapter->get('test-key'));
         $I->safeDeleteFile($target . 'test-key');
     }
 
@@ -108,11 +120,14 @@ class GetSetCest
         $adapter = new Stream(
             $serializer,
             [
-                'cacheDir' => outputDir(),
+                'storageDir' => outputDir(),
             ]
         );
 
         $target = outputDir() . 'phstrm-/te/st/-k/';
+        if (true !== is_dir($target)) {
+            mkdir($target, 0777, true);
+        }
 
         // Unknown key
         $I->assertEquals(
@@ -120,7 +135,7 @@ class GetSetCest
             $adapter->get('unknown', 'test')
         );
 
-        // Invalid JSON object
+        // Invalid stored object
         $I->assertNotFalse(
             file_put_contents(
                 $target . 'test-key',

@@ -223,7 +223,7 @@ interface AdapterInterface
     /**
      * Return internal PDO handler
      */
-    public function getInternalHandler() -> <\Pdo>;
+    public function getInternalHandler() -> <\PDO>;
 
     /**
      * Returns the savepoint name to use for nested transactions

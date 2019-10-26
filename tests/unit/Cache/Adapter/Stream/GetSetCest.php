@@ -35,7 +35,7 @@ class GetSetCest
         $I->wantToTest('Cache\Adapter\Stream - set()');
 
         $serializer = new SerializerFactory();
-        $adapter    = new Stream($serializer, ['cacheDir' => outputDir()]);
+        $adapter    = new Stream($serializer, ['storageDir' => outputDir()]);
 
         $data   = 'Phalcon Framework';
         $result = $adapter->set('test-key', $data);
@@ -44,7 +44,8 @@ class GetSetCest
         $target = outputDir() . 'phstrm-/te/st/-k/';
         $I->amInPath($target);
         $I->openFile('test-key');
-        $expected = '"ttl":3600,"content":"s:17:\"Phalcon Framework\";';
+        $expected = 's:3:"ttl";i:3600;s:7:"content";s:25:"s:17:"Phalcon Framework";";}';
+
         $I->seeInThisFile($expected);
         $I->safeDeleteFile($target . 'test-key');
     }
@@ -62,7 +63,7 @@ class GetSetCest
         $I->wantToTest('Cache\Adapter\Stream - get()');
 
         $serializer = new SerializerFactory();
-        $adapter    = new Stream($serializer, ['cacheDir' => outputDir()]);
+        $adapter    = new Stream($serializer, ['storageDir' => outputDir()]);
 
         $target = outputDir() . 'phstrm-/te/st/-k/';
         $data   = 'Phalcon Framework';
@@ -90,7 +91,7 @@ class GetSetCest
         $I->wantToTest('Cache\Adapter\Stream - get() - errors');
 
         $serializer = new SerializerFactory();
-        $adapter    = new Stream($serializer, ['cacheDir' => outputDir()]);
+        $adapter    = new Stream($serializer, ['storageDir' => outputDir()]);
 
         $target = outputDir() . 'phstrm-/te/st/-k/';
 

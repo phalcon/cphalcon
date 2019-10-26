@@ -23,7 +23,7 @@ class JsonSerializeCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function collectionJsonSerialize(UnitTester $I)
+    public function registryJsonSerialize(UnitTester $I)
     {
         $I->wantToTest('Registry - jsonSerialize()');
 

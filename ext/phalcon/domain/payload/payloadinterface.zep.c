@@ -35,8 +35,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Domain_Payload_PayloadInterface) {
 
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Domain\\Payload, PayloadInterface, phalcon, domain_payload_payloadinterface, NULL);
 
-	zend_class_implements(phalcon_domain_payload_payloadinterface_ce TSRMLS_CC, 1, phalcon_domain_payload_readableinterface_ce);
-	zend_class_implements(phalcon_domain_payload_payloadinterface_ce TSRMLS_CC, 1, phalcon_domain_payload_writeableinterface_ce);
+	zend_class_implements(phalcon_domain_payload_payloadinterface_ce, 1, phalcon_domain_payload_readableinterface_ce);
+	zend_class_implements(phalcon_domain_payload_payloadinterface_ce, 1, phalcon_domain_payload_writeableinterface_ce);
 	return SUCCESS;
 
 }

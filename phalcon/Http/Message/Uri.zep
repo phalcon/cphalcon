@@ -530,7 +530,7 @@ final class Uri extends AbstractCommon implements UriInterface
     /**
      * Checks the port. If it is a standard one (80,443) then it returns null
      *
-     * @param $port
+     * @param int|null $port
      *
      * @return int|null
      */

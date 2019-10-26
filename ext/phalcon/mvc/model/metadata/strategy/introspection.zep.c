@@ -38,7 +38,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Strategy_Introspection) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model\\MetaData\\Strategy, Introspection, phalcon, mvc_model_metadata_strategy_introspection, phalcon_mvc_model_metadata_strategy_introspection_method_entry, 0);
 
-	zend_class_implements(phalcon_mvc_model_metadata_strategy_introspection_ce TSRMLS_CC, 1, phalcon_mvc_model_metadata_strategyinterface_ce);
+	zend_class_implements(phalcon_mvc_model_metadata_strategy_introspection_ce, 1, phalcon_mvc_model_metadata_strategy_strategyinterface_ce);
 	return SUCCESS;
 
 }
@@ -73,7 +73,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getColumnMaps) {
 	ZVAL_NULL(&orderedColumnMap);
 	ZEPHIR_INIT_VAR(&reversedColumnMap);
 	ZVAL_NULL(&reversedColumnMap);
-	if ((zephir_method_exists_ex(model, SL("columnmap") TSRMLS_CC) == SUCCESS)) {
+	if ((zephir_method_exists_ex(model, SL("columnmap")) == SUCCESS)) {
 		ZEPHIR_CALL_METHOD(&userColumnMap, model, "columnmap", NULL, 0);
 		zephir_check_call_status();
 		if (UNEXPECTED(Z_TYPE_P(&userColumnMap) != IS_ARRAY)) {
@@ -118,7 +118,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getColumnMaps) {
 		ZEPHIR_INIT_NVAR(&userName);
 		ZEPHIR_INIT_NVAR(&name);
 	}
-	zephir_create_array(return_value, 2, 0 TSRMLS_CC);
+	zephir_create_array(return_value, 2, 0);
 	zephir_array_fast_append(return_value, &orderedColumnMap);
 	zephir_array_fast_append(return_value, &reversedColumnMap);
 	RETURN_MM();
@@ -210,18 +210,18 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData) {
 		ZEPHIR_INIT_VAR(&_2$$3);
 		object_init_ex(&_2$$3, phalcon_mvc_model_exception_ce);
 		ZEPHIR_INIT_VAR(&_3$$3);
-		zephir_get_class(&_3$$3, model, 0 TSRMLS_CC);
+		zephir_get_class(&_3$$3, model, 0);
 		ZEPHIR_INIT_VAR(&_4$$3);
 		ZEPHIR_CONCAT_SVSV(&_4$$3, "Table '", &completeTable, "' doesn't exist in database when dumping meta-data for ", &_3$$3);
-		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 5, &_4$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 6, &_4$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_2$$3, "phalcon/Mvc/Model/MetaData/Strategy/Introspection.zep", 93 TSRMLS_CC);
+		zephir_throw_exception_debug(&_2$$3, "phalcon/Mvc/Model/MetaData/Strategy/Introspection.zep", 93);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&columns, &readConnection, "describecolumns", NULL, 0, &table, &schema);
 	zephir_check_call_status();
-	if (UNEXPECTED(!(zephir_fast_count_int(&columns TSRMLS_CC)))) {
+	if (UNEXPECTED(!(zephir_fast_count_int(&columns)))) {
 		if (zephir_is_true(&schema)) {
 			ZEPHIR_INIT_VAR(&_5$$7);
 			ZEPHIR_CONCAT_VSV(&_5$$7, &schema, "'.'", &table);
@@ -232,12 +232,12 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData) {
 		ZEPHIR_INIT_VAR(&_6$$6);
 		object_init_ex(&_6$$6, phalcon_mvc_model_exception_ce);
 		ZEPHIR_INIT_VAR(&_7$$6);
-		zephir_get_class(&_7$$6, model, 0 TSRMLS_CC);
+		zephir_get_class(&_7$$6, model, 0);
 		ZEPHIR_INIT_VAR(&_8$$6);
 		ZEPHIR_CONCAT_SVSV(&_8$$6, "Cannot obtain table columns for the mapped source '", &completeTable, "' used in model ", &_7$$6);
-		ZEPHIR_CALL_METHOD(NULL, &_6$$6, "__construct", NULL, 5, &_8$$6);
+		ZEPHIR_CALL_METHOD(NULL, &_6$$6, "__construct", NULL, 6, &_8$$6);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_6$$6, "phalcon/Mvc/Model/MetaData/Strategy/Introspection.zep", 113 TSRMLS_CC);
+		zephir_throw_exception_debug(&_6$$6, "phalcon/Mvc/Model/MetaData/Strategy/Introspection.zep", 113);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -378,7 +378,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData) {
 		}
 	}
 	ZEPHIR_INIT_NVAR(&column);
-	zephir_create_array(return_value, 12, 0 TSRMLS_CC);
+	zephir_create_array(return_value, 12, 0);
 	zephir_array_update_long(return_value, 0, &attributes, PH_COPY ZEPHIR_DEBUG_PARAMS_DUMMY);
 	zephir_array_update_long(return_value, 1, &primaryKeys, PH_COPY ZEPHIR_DEBUG_PARAMS_DUMMY);
 	zephir_array_update_long(return_value, 2, &nonPrimaryKeys, PH_COPY ZEPHIR_DEBUG_PARAMS_DUMMY);

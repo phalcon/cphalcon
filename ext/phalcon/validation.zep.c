@@ -38,25 +38,25 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon, Validation, phalcon, validation, phalcon_di_injectable_ce, phalcon_validation_method_entry, 0);
 
-	zend_declare_property_null(phalcon_validation_ce, SL("combinedFieldsValidators"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_validation_ce, SL("combinedFieldsValidators"), ZEND_ACC_PROTECTED);
 
-	zend_declare_property_null(phalcon_validation_ce, SL("data"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_validation_ce, SL("data"), ZEND_ACC_PROTECTED);
 
-	zend_declare_property_null(phalcon_validation_ce, SL("entity"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_validation_ce, SL("entity"), ZEND_ACC_PROTECTED);
 
-	zend_declare_property_null(phalcon_validation_ce, SL("filters"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_validation_ce, SL("filters"), ZEND_ACC_PROTECTED);
 
-	zend_declare_property_null(phalcon_validation_ce, SL("labels"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_validation_ce, SL("labels"), ZEND_ACC_PROTECTED);
 
-	zend_declare_property_null(phalcon_validation_ce, SL("messages"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_validation_ce, SL("messages"), ZEND_ACC_PROTECTED);
 
-	zend_declare_property_null(phalcon_validation_ce, SL("validators"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_validation_ce, SL("validators"), ZEND_ACC_PROTECTED);
 
-	zend_declare_property_null(phalcon_validation_ce, SL("values"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_validation_ce, SL("values"), ZEND_ACC_PROTECTED);
 
 	phalcon_validation_ce->create_object = zephir_init_properties_Phalcon_Validation;
 
-	zend_class_implements(phalcon_validation_ce TSRMLS_CC, 1, phalcon_validation_validationinterface_ce);
+	zend_class_implements(phalcon_validation_ce, 1, phalcon_validation_validationinterface_ce);
 	return SUCCESS;
 
 }
@@ -116,17 +116,17 @@ PHP_METHOD(Phalcon_Validation, __construct) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_INIT_NVAR(&_0);
-	zephir_create_closure_ex(&_0, NULL, phalcon_3__closure_ce, SL("__invoke"));
-	ZEPHIR_CALL_FUNCTION(&_1, "array_filter", NULL, 257, &validators, &_0);
+	zephir_create_closure_ex(&_0, NULL, phalcon_7__closure_ce, SL("__invoke"));
+	ZEPHIR_CALL_FUNCTION(&_1, "array_filter", NULL, 258, &validators, &_0);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("validators"), &_1);
 	ZEPHIR_INIT_VAR(&_2);
 	ZEPHIR_INIT_NVAR(&_2);
-	zephir_create_closure_ex(&_2, NULL, phalcon_4__closure_ce, SL("__invoke"));
-	ZEPHIR_CALL_FUNCTION(&_3, "array_filter", NULL, 257, &validators, &_2);
+	zephir_create_closure_ex(&_2, NULL, phalcon_8__closure_ce, SL("__invoke"));
+	ZEPHIR_CALL_FUNCTION(&_3, "array_filter", NULL, 258, &validators, &_2);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("combinedFieldsValidators"), &_3);
-	if ((zephir_method_exists_ex(this_ptr, SL("initialize") TSRMLS_CC) == SUCCESS)) {
+	if ((zephir_method_exists_ex(this_ptr, SL("initialize")) == SUCCESS)) {
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "initialize", NULL, 0);
 		zephir_check_call_status();
 	}
@@ -157,9 +157,9 @@ PHP_METHOD(Phalcon_Validation, add) {
 
 
 	if (Z_TYPE_P(field) == IS_ARRAY) {
-		if (zephir_instance_of_ev(validator, phalcon_validation_abstractcombinedfieldsvalidator_ce TSRMLS_CC)) {
+		if (zephir_instance_of_ev(validator, phalcon_validation_abstractcombinedfieldsvalidator_ce)) {
 			ZEPHIR_INIT_VAR(&_0$$4);
-			zephir_create_array(&_0$$4, 2, 0 TSRMLS_CC);
+			zephir_create_array(&_0$$4, 2, 0);
 			zephir_array_fast_append(&_0$$4, field);
 			zephir_array_fast_append(&_0$$4, validator);
 			zephir_update_property_array_append(this_ptr, SL("combinedFieldsValidators"), &_0$$4);
@@ -170,7 +170,7 @@ PHP_METHOD(Phalcon_Validation, add) {
 				{
 					ZEPHIR_INIT_NVAR(&singleField);
 					ZVAL_COPY(&singleField, _1$$5);
-					zephir_update_property_array_multi(this_ptr, SL("validators"), validator TSRMLS_CC, SL("za"), 2, &singleField);
+					zephir_update_property_array_multi(this_ptr, SL("validators"), validator, SL("za"), 2, &singleField);
 				} ZEND_HASH_FOREACH_END();
 			} else {
 				ZEPHIR_CALL_METHOD(NULL, field, "rewind", NULL, 0);
@@ -183,7 +183,7 @@ PHP_METHOD(Phalcon_Validation, add) {
 					}
 					ZEPHIR_CALL_METHOD(&singleField, field, "current", NULL, 0);
 					zephir_check_call_status();
-						zephir_update_property_array_multi(this_ptr, SL("validators"), validator TSRMLS_CC, SL("za"), 2, &singleField);
+						zephir_update_property_array_multi(this_ptr, SL("validators"), validator, SL("za"), 2, &singleField);
 					ZEPHIR_CALL_METHOD(NULL, field, "next", NULL, 0);
 					zephir_check_call_status();
 				}
@@ -191,7 +191,7 @@ PHP_METHOD(Phalcon_Validation, add) {
 			ZEPHIR_INIT_NVAR(&singleField);
 		}
 	} else if (Z_TYPE_P(field) == IS_STRING) {
-		zephir_update_property_array_multi(this_ptr, SL("validators"), validator TSRMLS_CC, SL("za"), 2, field);
+		zephir_update_property_array_multi(this_ptr, SL("validators"), validator, SL("za"), 2, field);
 	} else {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "Field must be passed as array of fields or string", "phalcon/Validation.zep", 86);
 		return;
@@ -315,7 +315,7 @@ PHP_METHOD(Phalcon_Validation, getFilters) {
 	if (!(!(Z_TYPE_P(&field) == IS_UNDEF) && Z_STRLEN_P(&field))) {
 		RETURN_CCTOR(&filters);
 	}
-	if (!(zephir_array_isset_fetch(&fieldFilters, &filters, &field, 1 TSRMLS_CC))) {
+	if (!(zephir_array_isset_fetch(&fieldFilters, &filters, &field, 1))) {
 		RETURN_MM_NULL();
 	}
 	RETURN_CTOR(&fieldFilters);
@@ -346,10 +346,10 @@ PHP_METHOD(Phalcon_Validation, getLabel) {
 	zephir_read_property(&_0, this_ptr, SL("labels"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&labels, &_0);
 	if (Z_TYPE_P(field) == IS_ARRAY) {
-		zephir_fast_join_str(return_value, SL(", "), field TSRMLS_CC);
+		zephir_fast_join_str(return_value, SL(", "), field);
 		RETURN_MM();
 	}
-	if (zephir_array_isset_fetch(&value, &labels, field, 1 TSRMLS_CC)) {
+	if (zephir_array_isset_fetch(&value, &labels, field, 1)) {
 		RETURN_CTOR(&value);
 	}
 	RETVAL_ZVAL(field, 1, 0);
@@ -427,13 +427,13 @@ PHP_METHOD(Phalcon_Validation, getValue) {
 		zephir_camelize(&camelizedField, &field, NULL  );
 		ZEPHIR_INIT_VAR(&method);
 		ZEPHIR_CONCAT_SV(&method, "get", &camelizedField);
-		if ((zephir_method_exists(&entity, &method TSRMLS_CC)  == SUCCESS)) {
+		if ((zephir_method_exists(&entity, &method)  == SUCCESS)) {
 			ZEPHIR_CALL_METHOD_ZVAL(&value, &entity, &method, NULL, 0);
 			zephir_check_call_status();
-		} else if ((zephir_method_exists_ex(&entity, SL("readattribute") TSRMLS_CC) == SUCCESS)) {
+		} else if ((zephir_method_exists_ex(&entity, SL("readattribute")) == SUCCESS)) {
 			ZEPHIR_CALL_METHOD(&value, &entity, "readattribute", NULL, 0, &field);
 			zephir_check_call_status();
-		} else if (zephir_isset_property_zval(&entity, &field TSRMLS_CC)) {
+		} else if (zephir_isset_property_zval(&entity, &field)) {
 			ZEPHIR_OBS_NVAR(&value);
 			zephir_read_property_zval(&value, &entity, &field, PH_NOISY_CC);
 		} else {
@@ -454,7 +454,7 @@ PHP_METHOD(Phalcon_Validation, getValue) {
 		zephir_read_property(&_1$$8, this_ptr, SL("values"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CPY_WRT(&values, &_1$$8);
 		ZEPHIR_OBS_NVAR(&value);
-		if (zephir_array_isset_fetch(&value, &values, &field, 0 TSRMLS_CC)) {
+		if (zephir_array_isset_fetch(&value, &values, &field, 0)) {
 			RETURN_CCTOR(&value);
 		}
 		ZEPHIR_INIT_NVAR(&value);
@@ -462,10 +462,10 @@ PHP_METHOD(Phalcon_Validation, getValue) {
 		if (Z_TYPE_P(&data) == IS_ARRAY) {
 			if (zephir_array_isset(&data, &field)) {
 				ZEPHIR_OBS_NVAR(&value);
-				zephir_array_fetch(&value, &data, &field, PH_NOISY, "phalcon/Validation.zep", 240 TSRMLS_CC);
+				zephir_array_fetch(&value, &data, &field, PH_NOISY, "phalcon/Validation.zep", 240);
 			}
 		} else if (Z_TYPE_P(&data) == IS_OBJECT) {
-			if (zephir_isset_property_zval(&data, &field TSRMLS_CC)) {
+			if (zephir_isset_property_zval(&data, &field)) {
 				ZEPHIR_OBS_NVAR(&value);
 				zephir_read_property_zval(&value, &data, &field, PH_NOISY_CC);
 			}
@@ -477,7 +477,7 @@ PHP_METHOD(Phalcon_Validation, getValue) {
 	zephir_read_property(&_0, this_ptr, SL("filters"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&filters, &_0);
 	ZEPHIR_OBS_VAR(&fieldFilters);
-	if (zephir_array_isset_fetch(&fieldFilters, &filters, &field, 0 TSRMLS_CC)) {
+	if (zephir_array_isset_fetch(&fieldFilters, &filters, &field, 0)) {
 		if (zephir_is_true(&fieldFilters)) {
 			ZEPHIR_CALL_METHOD(&container, this_ptr, "getdi", NULL, 0);
 			zephir_check_call_status();
@@ -491,9 +491,9 @@ PHP_METHOD(Phalcon_Validation, getValue) {
 					ZVAL_STRING(&_7$$19, "the 'filter' service");
 					ZEPHIR_CALL_CE_STATIC(&_5$$19, phalcon_validation_exception_ce, "containerservicenotfound", &_6, 0, &_7$$19);
 					zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(NULL, &_4$$19, "__construct", NULL, 5, &_5$$19);
+					ZEPHIR_CALL_METHOD(NULL, &_4$$19, "__construct", NULL, 6, &_5$$19);
 					zephir_check_call_status();
-					zephir_throw_exception_debug(&_4$$19, "phalcon/Validation.zep", 267 TSRMLS_CC);
+					zephir_throw_exception_debug(&_4$$19, "phalcon/Validation.zep", 267);
 					ZEPHIR_MM_RESTORE();
 					return;
 				}
@@ -513,16 +513,16 @@ PHP_METHOD(Phalcon_Validation, getValue) {
 			if (Z_TYPE_P(&entity) == IS_OBJECT) {
 				ZEPHIR_INIT_NVAR(&method);
 				ZEPHIR_CONCAT_SV(&method, "set", &camelizedField);
-				ZEPHIR_CALL_FUNCTION(&_10$$21, "property_exists", NULL, 421, &entity, &field);
+				ZEPHIR_CALL_FUNCTION(&_10$$21, "property_exists", NULL, 423, &entity, &field);
 				zephir_check_call_status();
-				if ((zephir_method_exists(&entity, &method TSRMLS_CC)  == SUCCESS)) {
+				if ((zephir_method_exists(&entity, &method)  == SUCCESS)) {
 					ZEPHIR_CALL_METHOD_ZVAL(NULL, &entity, &method, NULL, 0, &value);
 					zephir_check_call_status();
-				} else if ((zephir_method_exists_ex(&entity, SL("writeattribute") TSRMLS_CC) == SUCCESS)) {
+				} else if ((zephir_method_exists_ex(&entity, SL("writeattribute")) == SUCCESS)) {
 					ZEPHIR_CALL_METHOD(NULL, &entity, "writeattribute", NULL, 0, &field, &value);
 					zephir_check_call_status();
 				} else if (zephir_is_true(&_10$$21)) {
-					zephir_update_property_zval_zval(&entity, &field, &value TSRMLS_CC);
+					zephir_update_property_zval_zval(&entity, &field, &value);
 				}
 			}
 			RETURN_CCTOR(&value);
@@ -588,7 +588,7 @@ PHP_METHOD(Phalcon_Validation, rules) {
 		{
 			ZEPHIR_INIT_NVAR(&validator);
 			ZVAL_COPY(&validator, _0);
-			if (zephir_instance_of_ev(&validator, phalcon_validation_validatorinterface_ce TSRMLS_CC)) {
+			if (zephir_instance_of_ev(&validator, phalcon_validation_validatorinterface_ce)) {
 				ZEPHIR_CALL_METHOD(NULL, this_ptr, "add", &_2, 0, field, &validator);
 				zephir_check_call_status();
 			}
@@ -604,8 +604,8 @@ PHP_METHOD(Phalcon_Validation, rules) {
 			}
 			ZEPHIR_CALL_METHOD(&validator, &validators, "current", NULL, 0);
 			zephir_check_call_status();
-				if (zephir_instance_of_ev(&validator, phalcon_validation_validatorinterface_ce TSRMLS_CC)) {
-					ZEPHIR_CALL_METHOD(NULL, this_ptr, "add", &_2, 242, field, &validator);
+				if (zephir_instance_of_ev(&validator, phalcon_validation_validatorinterface_ce)) {
+					ZEPHIR_CALL_METHOD(NULL, this_ptr, "add", &_2, 243, field, &validator);
 					zephir_check_call_status();
 				}
 			ZEPHIR_CALL_METHOD(NULL, &validators, "next", NULL, 0);
@@ -812,7 +812,7 @@ PHP_METHOD(Phalcon_Validation, validate) {
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setentity", NULL, 0, entity);
 		zephir_check_call_status();
 	}
-	if ((zephir_method_exists_ex(this_ptr, SL("beforevalidation") TSRMLS_CC) == SUCCESS)) {
+	if ((zephir_method_exists_ex(this_ptr, SL("beforevalidation")) == SUCCESS)) {
 		ZEPHIR_CALL_METHOD(&status, this_ptr, "beforevalidation", NULL, 0, data, entity, &messages);
 		zephir_check_call_status();
 		if (ZEPHIR_IS_FALSE_IDENTICAL(&status)) {
@@ -1000,9 +1000,9 @@ PHP_METHOD(Phalcon_Validation, validate) {
 				return;
 			}
 			ZEPHIR_OBS_NVAR(&field);
-			zephir_array_fetch_long(&field, &scope, 0, PH_NOISY, "phalcon/Validation.zep", 460 TSRMLS_CC);
+			zephir_array_fetch_long(&field, &scope, 0, PH_NOISY, "phalcon/Validation.zep", 460);
 			ZEPHIR_OBS_NVAR(&validator);
-			zephir_array_fetch_long(&validator, &scope, 1, PH_NOISY, "phalcon/Validation.zep", 461 TSRMLS_CC);
+			zephir_array_fetch_long(&validator, &scope, 1, PH_NOISY, "phalcon/Validation.zep", 461);
 			if (UNEXPECTED(Z_TYPE_P(&validator) != IS_OBJECT)) {
 				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "One of the validators is not valid", "phalcon/Validation.zep", 464);
 				return;
@@ -1040,9 +1040,9 @@ PHP_METHOD(Phalcon_Validation, validate) {
 					return;
 				}
 				ZEPHIR_OBS_NVAR(&field);
-				zephir_array_fetch_long(&field, &scope, 0, PH_NOISY, "phalcon/Validation.zep", 460 TSRMLS_CC);
+				zephir_array_fetch_long(&field, &scope, 0, PH_NOISY, "phalcon/Validation.zep", 460);
 				ZEPHIR_OBS_NVAR(&validator);
-				zephir_array_fetch_long(&validator, &scope, 1, PH_NOISY, "phalcon/Validation.zep", 461 TSRMLS_CC);
+				zephir_array_fetch_long(&validator, &scope, 1, PH_NOISY, "phalcon/Validation.zep", 461);
 				if (UNEXPECTED(Z_TYPE_P(&validator) != IS_OBJECT)) {
 					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "One of the validators is not valid", "phalcon/Validation.zep", 464);
 					return;
@@ -1068,7 +1068,7 @@ PHP_METHOD(Phalcon_Validation, validate) {
 		}
 	}
 	ZEPHIR_INIT_NVAR(&scope);
-	if ((zephir_method_exists_ex(this_ptr, SL("aftervalidation") TSRMLS_CC) == SUCCESS)) {
+	if ((zephir_method_exists_ex(this_ptr, SL("aftervalidation")) == SUCCESS)) {
 		zephir_read_property(&_37$$43, this_ptr, SL("messages"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "aftervalidation", NULL, 0, data, entity, &_37$$43);
 		zephir_check_call_status();
@@ -1146,7 +1146,7 @@ PHP_METHOD(Phalcon_Validation, preChecking) {
 		ZEPHIR_CALL_METHOD(&allowEmpty, validator, "getoption", NULL, 0, &_3$$8, &_4$$8);
 		zephir_check_call_status();
 		if (zephir_is_true(&allowEmpty)) {
-			if ((zephir_method_exists_ex(validator, SL("isallowempty") TSRMLS_CC) == SUCCESS)) {
+			if ((zephir_method_exists_ex(validator, SL("isallowempty")) == SUCCESS)) {
 				ZEPHIR_RETURN_CALL_METHOD(validator, "isallowempty", NULL, 0, this_ptr, field);
 				zephir_check_call_status();
 				RETURN_MM();

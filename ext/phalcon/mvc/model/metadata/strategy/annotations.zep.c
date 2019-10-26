@@ -33,7 +33,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Strategy_Annotations) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model\\MetaData\\Strategy, Annotations, phalcon, mvc_model_metadata_strategy_annotations, phalcon_mvc_model_metadata_strategy_annotations_method_entry, 0);
 
-	zend_class_implements(phalcon_mvc_model_metadata_strategy_annotations_ce TSRMLS_CC, 1, phalcon_mvc_model_metadata_strategyinterface_ce);
+	zend_class_implements(phalcon_mvc_model_metadata_strategy_annotations_ce, 1, phalcon_mvc_model_metadata_strategy_strategyinterface_ce);
 	return SUCCESS;
 
 }
@@ -90,7 +90,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getColumnMaps) {
 	ZEPHIR_CALL_METHOD(&annotations, container, "get", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&className);
-	zephir_get_class(&className, model, 0 TSRMLS_CC);
+	zephir_get_class(&className, model, 0);
 	ZEPHIR_CALL_METHOD(&reflection, &annotations, "get", NULL, 0, &className);
 	zephir_check_call_status();
 	if (UNEXPECTED(Z_TYPE_P(&reflection) != IS_OBJECT)) {
@@ -98,22 +98,22 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getColumnMaps) {
 		object_init_ex(&_1$$4, phalcon_mvc_model_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$4);
 		ZEPHIR_CONCAT_SV(&_2$$4, "No annotations were found in class ", &className);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 5, &_2$$4);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 6, &_2$$4);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$4, "phalcon/Mvc/Model/MetaData/Strategy/Annotations.zep", 44 TSRMLS_CC);
+		zephir_throw_exception_debug(&_1$$4, "phalcon/Mvc/Model/MetaData/Strategy/Annotations.zep", 44);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&propertiesAnnotations, &reflection, "getpropertiesannotations", NULL, 0);
 	zephir_check_call_status();
-	if (UNEXPECTED(!(zephir_fast_count_int(&propertiesAnnotations TSRMLS_CC)))) {
+	if (UNEXPECTED(!(zephir_fast_count_int(&propertiesAnnotations)))) {
 		ZEPHIR_INIT_VAR(&_3$$5);
 		object_init_ex(&_3$$5, phalcon_mvc_model_exception_ce);
 		ZEPHIR_INIT_VAR(&_4$$5);
 		ZEPHIR_CONCAT_SV(&_4$$5, "No properties with annotations were found in class ", &className);
-		ZEPHIR_CALL_METHOD(NULL, &_3$$5, "__construct", NULL, 5, &_4$$5);
+		ZEPHIR_CALL_METHOD(NULL, &_3$$5, "__construct", NULL, 6, &_4$$5);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_3$$5, "phalcon/Mvc/Model/MetaData/Strategy/Annotations.zep", 55 TSRMLS_CC);
+		zephir_throw_exception_debug(&_3$$5, "phalcon/Mvc/Model/MetaData/Strategy/Annotations.zep", 55);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -209,12 +209,12 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getColumnMaps) {
 	ZEPHIR_INIT_NVAR(&propAnnotations);
 	ZEPHIR_INIT_NVAR(&property);
 	if (!(hasReversedColumn)) {
-		zephir_create_array(return_value, 2, 0 TSRMLS_CC);
+		zephir_create_array(return_value, 2, 0);
 		zephir_array_fast_append(return_value, &__$null);
 		zephir_array_fast_append(return_value, &__$null);
 		RETURN_MM();
 	}
-	zephir_create_array(return_value, 2, 0 TSRMLS_CC);
+	zephir_create_array(return_value, 2, 0);
 	zephir_array_fast_append(return_value, &orderedColumnMap);
 	zephir_array_fast_append(return_value, &reversedColumnMap);
 	RETURN_MM();
@@ -406,7 +406,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData) {
 	ZEPHIR_CALL_METHOD(&annotations, container, "get", NULL, 0, &_0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&className);
-	zephir_get_class(&className, model, 0 TSRMLS_CC);
+	zephir_get_class(&className, model, 0);
 	ZEPHIR_CALL_METHOD(&reflection, &annotations, "get", NULL, 0, &className);
 	zephir_check_call_status();
 	if (UNEXPECTED(Z_TYPE_P(&reflection) != IS_OBJECT)) {
@@ -414,22 +414,22 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData) {
 		object_init_ex(&_1$$4, phalcon_mvc_model_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$4);
 		ZEPHIR_CONCAT_SV(&_2$$4, "No annotations were found in class ", &className);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 5, &_2$$4);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 6, &_2$$4);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$4, "phalcon/Mvc/Model/MetaData/Strategy/Annotations.zep", 125 TSRMLS_CC);
+		zephir_throw_exception_debug(&_1$$4, "phalcon/Mvc/Model/MetaData/Strategy/Annotations.zep", 125);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&propertiesAnnotations, &reflection, "getpropertiesannotations", NULL, 0);
 	zephir_check_call_status();
-	if (UNEXPECTED(!(zephir_fast_count_int(&propertiesAnnotations TSRMLS_CC)))) {
+	if (UNEXPECTED(!(zephir_fast_count_int(&propertiesAnnotations)))) {
 		ZEPHIR_INIT_VAR(&_3$$5);
 		object_init_ex(&_3$$5, phalcon_mvc_model_exception_ce);
 		ZEPHIR_INIT_VAR(&_4$$5);
 		ZEPHIR_CONCAT_SV(&_4$$5, "No properties with annotations were found in class ", &className);
-		ZEPHIR_CALL_METHOD(NULL, &_3$$5, "__construct", NULL, 5, &_4$$5);
+		ZEPHIR_CALL_METHOD(NULL, &_3$$5, "__construct", NULL, 6, &_4$$5);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_3$$5, "phalcon/Mvc/Model/MetaData/Strategy/Annotations.zep", 136 TSRMLS_CC);
+		zephir_throw_exception_debug(&_3$$5, "phalcon/Mvc/Model/MetaData/Strategy/Annotations.zep", 136);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -1159,7 +1159,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Annotations, getMetaData) {
 	}
 	ZEPHIR_INIT_NVAR(&propAnnotations);
 	ZEPHIR_INIT_NVAR(&property);
-	zephir_create_array(return_value, 12, 0 TSRMLS_CC);
+	zephir_create_array(return_value, 12, 0);
 	zephir_array_update_long(return_value, 0, &attributes, PH_COPY ZEPHIR_DEBUG_PARAMS_DUMMY);
 	zephir_array_update_long(return_value, 1, &primaryKeys, PH_COPY ZEPHIR_DEBUG_PARAMS_DUMMY);
 	zephir_array_update_long(return_value, 2, &nonPrimaryKeys, PH_COPY ZEPHIR_DEBUG_PARAMS_DUMMY);

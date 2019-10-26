@@ -108,12 +108,20 @@ class Arr
     /**
      * Helper method to get an array element or a default
      */
-    final public static function get(array! collection, var index, var defaultValue = null) -> var
-    {
+    final public static function get(
+        array! collection,
+        var index,
+        var defaultValue = null,
+        string! cast = null
+    ) -> var {
         var value;
 
         if unlikely !fetch value, collection[index] {
             return defaultValue;
+        }
+
+        if unlikely cast {
+            settype(value, cast);
         }
 
         return value;
@@ -218,7 +226,7 @@ class Arr
      * Sorts a collection of arrays or objects by key
      *
      * @param array  $collection
-     * @param mixed  $attr
+     * @param mixed  $attribute
      * @param string $order
      *
      * @return array

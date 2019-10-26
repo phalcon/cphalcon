@@ -39,6 +39,23 @@ class UnserializeCest
         $I->assertEquals($expected, $actual);
     }
 
+    /**
+     * Tests Phalcon\Storage\Serializer\Msgpack :: unserialize() - error
+     *
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2019-09-28
+     */
+    public function storageSerializerMsgpackUnserializeError(UnitTester $I)
+    {
+        $I->wantToTest('Storage\Serializer\Msgpack - unserialize() - error');
+        $serializer = new Msgpack();
+
+        $serialized = '??hello?messagepack"';
+        $serializer->unserialize($serialized);
+
+        $I->assertEmpty($serializer->getData());
+    }
+
     private function getExamples(): array
     {
         return [

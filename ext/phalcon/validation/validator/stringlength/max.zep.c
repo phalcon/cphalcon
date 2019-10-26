@@ -78,7 +78,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_StringLength_Max) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator\\StringLength, Max, phalcon, validation_validator_stringlength_max, phalcon_validation_abstractvalidator_ce, phalcon_validation_validator_stringlength_max_method_entry, 0);
 
-	zend_declare_property_string(phalcon_validation_validator_stringlength_max_ce, SL("template"), "Field :field must not exceed :max characters long", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_validation_validator_stringlength_max_ce, SL("template"), "Field :field must not exceed :max characters long", ZEND_ACC_PROTECTED);
 
 	return SUCCESS;
 
@@ -115,8 +115,8 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength_Max, validate) {
 
 	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, 0, field);
 	zephir_check_call_status();
-	if ((zephir_function_exists_ex(SL("mb_strlen") TSRMLS_CC) == SUCCESS)) {
-		ZEPHIR_CALL_FUNCTION(&length, "mb_strlen", NULL, 275, &value);
+	if ((zephir_function_exists_ex(SL("mb_strlen")) == SUCCESS)) {
+		ZEPHIR_CALL_FUNCTION(&length, "mb_strlen", NULL, 276, &value);
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_INIT_NVAR(&length);
@@ -127,7 +127,7 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength_Max, validate) {
 	ZEPHIR_CALL_METHOD(&maximum, this_ptr, "getoption", NULL, 0, &_0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&maximum) == IS_ARRAY) {
-		zephir_array_fetch(&_1$$5, &maximum, field, PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/StringLength/Max.zep", 87 TSRMLS_CC);
+		zephir_array_fetch(&_1$$5, &maximum, field, PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/StringLength/Max.zep", 87);
 		ZEPHIR_CPY_WRT(&maximum, &_1$$5);
 	}
 	ZEPHIR_INIT_NVAR(&_0);
@@ -136,7 +136,7 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength_Max, validate) {
 	zephir_check_call_status();
 	if (Z_TYPE_P(&included) == IS_ARRAY) {
 		ZEPHIR_OBS_VAR(&_2$$6);
-		zephir_array_fetch(&_2$$6, &included, field, PH_NOISY, "phalcon/Validation/Validator/StringLength/Max.zep", 93 TSRMLS_CC);
+		zephir_array_fetch(&_2$$6, &included, field, PH_NOISY, "phalcon/Validation/Validator/StringLength/Max.zep", 93);
 		_3$$6 = zephir_get_boolval(&_2$$6);
 		ZEPHIR_INIT_NVAR(&included);
 		ZVAL_BOOL(&included, _3$$6);
@@ -152,7 +152,7 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength_Max, validate) {
 	}
 	if (result) {
 		ZEPHIR_INIT_VAR(&replacePairs);
-		zephir_create_array(&replacePairs, 1, 0 TSRMLS_CC);
+		zephir_create_array(&replacePairs, 1, 0);
 		zephir_array_update_string(&replacePairs, SL(":max"), &maximum, PH_COPY | PH_SEPARATE);
 		ZEPHIR_CALL_METHOD(&_5$$10, this_ptr, "messagefactory", NULL, 0, validation, field, &replacePairs);
 		zephir_check_call_status();

@@ -13,21 +13,36 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Model;
 
 use IntegrationTester;
+use Phalcon\Mvc\Model\Exception;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Models\Robots;
 
 /**
  * Class GetUpdatedFieldsCest
  */
 class GetUpdatedFieldsCest
 {
+    use DiTrait;
+
     /**
-     * Tests Phalcon\Mvc\Model :: getUpdatedFields()
+     * Tests Phalcon\Mvc\Model :: getUpdatedFields() - keepSnapshots
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function mvcModelGetUpdatedFields(IntegrationTester $I)
+    public function mvcModelGetUpdatedFieldsKeepSnapshots(IntegrationTester $I)
     {
-        $I->wantToTest('Mvc\Model - getUpdatedFields()');
-        $I->skipTest('Need implementation');
+        $I->wantToTest('Mvc\Model - getUpdatedFields() - keepSnapshots');
+        $this->setNewFactoryDefault();
+        $this->setDiMysql();
+        $I->expectThrowable(
+            new Exception(
+                "The 'keepSnapshots' option must be enabled to track changes"
+            ),
+            function () {
+                $robot  = Robots::findFirst();
+                $fields = $robot ->getUpdatedFields();
+            }
+        );
     }
 }

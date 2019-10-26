@@ -133,7 +133,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct) {
 	zephir_fetch_params(1, 1, 1, &filePath_param, &mode);
 
 	if (UNEXPECTED(Z_TYPE_P(filePath_param) != IS_STRING && Z_TYPE_P(filePath_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'filePath' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'filePath' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(filePath_param) == IS_STRING)) {
@@ -154,18 +154,18 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct) {
 		ZEPHIR_INIT_NVAR(mode);
 		ZVAL_LONG(mode, 1);
 	}
-	ZEPHIR_CALL_FUNCTION(&iniConfig, "parse_ini_file", NULL, 165, &filePath, &__$true, mode);
+	ZEPHIR_CALL_FUNCTION(&iniConfig, "parse_ini_file", NULL, 166, &filePath, &__$true, mode);
 	zephir_check_call_status();
 	if (UNEXPECTED(ZEPHIR_IS_FALSE_IDENTICAL(&iniConfig))) {
 		ZEPHIR_INIT_VAR(&_0$$4);
 		object_init_ex(&_0$$4, phalcon_config_exception_ce);
 		ZEPHIR_INIT_VAR(&_1$$4);
-		zephir_basename(&_1$$4, &filePath TSRMLS_CC);
+		zephir_basename(&_1$$4, &filePath);
 		ZEPHIR_INIT_VAR(&_2$$4);
 		ZEPHIR_CONCAT_SVS(&_2$$4, "Configuration file ", &_1$$4, " cannot be loaded");
-		ZEPHIR_CALL_METHOD(NULL, &_0$$4, "__construct", NULL, 5, &_2$$4);
+		ZEPHIR_CALL_METHOD(NULL, &_0$$4, "__construct", NULL, 6, &_2$$4);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_0$$4, "phalcon/Config/Adapter/Ini.zep", 78 TSRMLS_CC);
+		zephir_throw_exception_debug(&_0$$4, "phalcon/Config/Adapter/Ini.zep", 78);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -226,7 +226,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct) {
 				}
 				ZEPHIR_INIT_NVAR(&lastValue);
 				ZEPHIR_INIT_NVAR(&path);
-				if (zephir_fast_count_int(&sections TSRMLS_CC)) {
+				if (zephir_fast_count_int(&sections)) {
 					ZEPHIR_INIT_NVAR(&_16$$9);
 					ZEPHIR_INIT_NVAR(&_17$$9);
 					ZVAL_STRING(&_17$$9, "array_replace_recursive");
@@ -296,7 +296,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct) {
 					}
 					ZEPHIR_INIT_NVAR(&lastValue);
 					ZEPHIR_INIT_NVAR(&path);
-					if (zephir_fast_count_int(&sections TSRMLS_CC)) {
+					if (zephir_fast_count_int(&sections)) {
 						ZEPHIR_INIT_NVAR(&_28$$15);
 						ZEPHIR_INIT_NVAR(&_29$$15);
 						ZVAL_STRING(&_29$$15, "array_replace_recursive");
@@ -369,7 +369,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, cast) {
 				}
 				ZEPHIR_INIT_NVAR(&value);
 				ZVAL_COPY(&value, _0$$3);
-				ZEPHIR_CALL_METHOD(&_4$$4, this_ptr, "cast", &_5, 166, &value);
+				ZEPHIR_CALL_METHOD(&_4$$4, this_ptr, "cast", &_5, 167, &value);
 				zephir_check_call_status();
 				zephir_array_update_zval(ini, &key, &_4$$4, PH_COPY | PH_SEPARATE);
 			} ZEND_HASH_FOREACH_END();
@@ -386,7 +386,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, cast) {
 				zephir_check_call_status();
 				ZEPHIR_CALL_METHOD(&value, ini, "current", NULL, 0);
 				zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(&_6$$5, this_ptr, "cast", &_5, 166, &value);
+					ZEPHIR_CALL_METHOD(&_6$$5, this_ptr, "cast", &_5, 167, &value);
 					zephir_check_call_status();
 					zephir_array_update_zval(ini, &key, &_6$$5, PH_COPY | PH_SEPARATE);
 				ZEPHIR_CALL_METHOD(NULL, ini, "next", NULL, 0);
@@ -425,7 +425,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, cast) {
 		ZEPHIR_INIT_VAR(&_11$$9);
 		ZEPHIR_INIT_VAR(&_12$$9);
 		ZVAL_STRING(&_12$$9, "/[.]+/");
-		zephir_preg_match(&_11$$9, &_12$$9, ini, &_9$$9, 0, 0 , 0  TSRMLS_CC);
+		zephir_preg_match(&_11$$9, &_12$$9, ini, &_9$$9, 0, 0 , 0 );
 		if (zephir_is_true(&_11$$9)) {
 			RETURN_MM_DOUBLE(zephir_get_doubleval(ini));
 		} else {
@@ -462,7 +462,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, parseIniString) {
 	zephir_fetch_params(1, 2, 0, &path_param, &value);
 
 	if (UNEXPECTED(Z_TYPE_P(path_param) != IS_STRING && Z_TYPE_P(path_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'path' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'path' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(path_param) == IS_STRING)) {
@@ -482,7 +482,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, parseIniString) {
 	ZEPHIR_INIT_VAR(&position);
 	zephir_fast_strpos(&position, &path, &_1, 0 );
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&position)) {
-		zephir_create_array(return_value, 1, 0 TSRMLS_CC);
+		zephir_create_array(return_value, 1, 0);
 		zephir_array_update_zval(return_value, &path, value, PH_COPY);
 		RETURN_MM();
 	}
@@ -493,8 +493,8 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, parseIniString) {
 	ZEPHIR_INIT_VAR(&_4);
 	zephir_substr(&_4, &path, zephir_get_intval(&_3), 0, ZEPHIR_SUBSTR_NO_LENGTH);
 	zephir_get_strval(&path, &_4);
-	zephir_create_array(return_value, 1, 0 TSRMLS_CC);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "parseinistring", NULL, 167, &path, value);
+	zephir_create_array(return_value, 1, 0);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "parseinistring", NULL, 168, &path, value);
 	zephir_check_call_status();
 	zephir_array_update_zval(return_value, &key, &_0, PH_COPY);
 	RETURN_MM();

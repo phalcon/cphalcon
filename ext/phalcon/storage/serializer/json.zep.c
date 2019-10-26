@@ -13,8 +13,10 @@
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-#include "kernel/fcall.h"
 #include "kernel/object.h"
+#include "kernel/exception.h"
+#include "ext/spl/spl_exceptions.h"
+#include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/string.h"
 
@@ -40,7 +42,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Storage_Serializer_Json) {
  */
 PHP_METHOD(Phalcon_Storage_Serializer_Json, serialize) {
 
-	zval _0, _1, _2;
+	zval _0, _1, _2, _3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
@@ -48,17 +50,24 @@ PHP_METHOD(Phalcon_Storage_Serializer_Json, serialize) {
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_3);
 
 	ZEPHIR_MM_GROW();
 
-	zephir_read_property(&_1, this_ptr, SL("data"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "isserializable", NULL, 0, &_1);
-	zephir_check_call_status();
-	if (!(zephir_is_true(&_0))) {
-		RETURN_MM_MEMBER(getThis(), "data");
+	ZEPHIR_OBS_VAR(&_0);
+	zephir_read_property(&_0, this_ptr, SL("data"), PH_NOISY_CC);
+	if (Z_TYPE_P(&_0) == IS_OBJECT) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Data for JSON serializer cannot be of type object", "phalcon/Storage/Serializer/Json.zep", 26);
+		return;
 	}
 	zephir_read_property(&_2, this_ptr, SL("data"), PH_NOISY_CC | PH_READONLY);
-	zephir_json_encode(return_value, &_2, 0 );
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "isserializable", NULL, 0, &_2);
+	zephir_check_call_status();
+	if (!(zephir_is_true(&_1))) {
+		RETURN_MM_MEMBER(getThis(), "data");
+	}
+	zephir_read_property(&_3, this_ptr, SL("data"), PH_NOISY_CC | PH_READONLY);
+	zephir_json_encode(return_value, &_3, 0 );
 	RETURN_MM();
 
 }

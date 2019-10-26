@@ -13,7 +13,8 @@ namespace Phalcon\Helper;
 /**
  * This class offers file operation helper
  */
-class Fs {
+class Fs
+{
 
     /**
      * Gets the filename from a given path, Same as PHP's basename() but has non-ASCII support.
@@ -30,8 +31,8 @@ class Fs {
     	var filename, matches;
         let uri = rtrim(uri, DIRECTORY_SEPARATOR);
         let filename = preg_match(
-        	"@[^" . preg_quote(DIRECTORY_SEPARATOR, "@") . "]+$@", 
-        	uri, 
+        	"@[^" . preg_quote(DIRECTORY_SEPARATOR, "@") . "]+$@",
+        	uri,
         	matches
         ) ? matches[0] : "";
         if suffix {

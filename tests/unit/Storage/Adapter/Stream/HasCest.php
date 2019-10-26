@@ -35,7 +35,7 @@ class HasCest
         $adapter = new Stream(
             $serializer,
             [
-                'cacheDir' => outputDir(),
+                'storageDir' => outputDir(),
             ]
         );
 

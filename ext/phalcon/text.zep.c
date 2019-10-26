@@ -78,7 +78,7 @@ PHP_METHOD(Phalcon_Text, camelize) {
 	zephir_fetch_params(1, 1, 1, &text_param, &delimiter);
 
 	if (UNEXPECTED(Z_TYPE_P(text_param) != IS_STRING && Z_TYPE_P(text_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'text' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'text' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(text_param) == IS_STRING)) {
@@ -136,7 +136,7 @@ PHP_METHOD(Phalcon_Text, concat) {
 	ZEPHIR_INIT_VAR(&args);
 	zephir_get_args(&args);
 	ZEPHIR_INIT_VAR(&_0);
-	ZVAL_STRING(&_0, "\\Phalcon\\Helper\\Str::concat");
+	ZVAL_STRING(&_0, "Phalcon\\Helper\\Str::concat");
 	ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, &_0, &args);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -182,7 +182,7 @@ PHP_METHOD(Phalcon_Text, dynamic) {
 	zephir_fetch_params(1, 1, 3, &text_param, &leftDelimiter_param, &rightDelimiter_param, &separator_param);
 
 	if (UNEXPECTED(Z_TYPE_P(text_param) != IS_STRING && Z_TYPE_P(text_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'text' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'text' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(text_param) == IS_STRING)) {
@@ -196,7 +196,7 @@ PHP_METHOD(Phalcon_Text, dynamic) {
 		ZVAL_STRING(&leftDelimiter, "{");
 	} else {
 	if (UNEXPECTED(Z_TYPE_P(leftDelimiter_param) != IS_STRING && Z_TYPE_P(leftDelimiter_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'leftDelimiter' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'leftDelimiter' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(leftDelimiter_param) == IS_STRING)) {
@@ -211,7 +211,7 @@ PHP_METHOD(Phalcon_Text, dynamic) {
 		ZVAL_STRING(&rightDelimiter, "}");
 	} else {
 	if (UNEXPECTED(Z_TYPE_P(rightDelimiter_param) != IS_STRING && Z_TYPE_P(rightDelimiter_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'rightDelimiter' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'rightDelimiter' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(rightDelimiter_param) == IS_STRING)) {
@@ -226,7 +226,7 @@ PHP_METHOD(Phalcon_Text, dynamic) {
 		ZVAL_STRING(&separator, "|");
 	} else {
 	if (UNEXPECTED(Z_TYPE_P(separator_param) != IS_STRING && Z_TYPE_P(separator_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'separator' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'separator' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(separator_param) == IS_STRING)) {
@@ -284,7 +284,7 @@ PHP_METHOD(Phalcon_Text, endsWith) {
 	} else {
 		ZVAL_BOOL(&_1, 0);
 	}
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_str_ce, "endswith", &_0, 262, &text, &end, &_1);
+	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_str_ce, "endswith", &_0, 263, &text, &end, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -313,7 +313,7 @@ PHP_METHOD(Phalcon_Text, humanize) {
 	zephir_fetch_params(1, 1, 0, &text_param);
 
 	if (UNEXPECTED(Z_TYPE_P(text_param) != IS_STRING && Z_TYPE_P(text_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'text' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'text' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(text_param) == IS_STRING)) {
@@ -393,7 +393,7 @@ PHP_METHOD(Phalcon_Text, lower) {
 	zephir_fetch_params(1, 1, 1, &text_param, &encoding_param);
 
 	if (UNEXPECTED(Z_TYPE_P(text_param) != IS_STRING && Z_TYPE_P(text_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'text' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'text' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(text_param) == IS_STRING)) {
@@ -407,7 +407,7 @@ PHP_METHOD(Phalcon_Text, lower) {
 		ZVAL_STRING(&encoding, "UTF-8");
 	} else {
 	if (UNEXPECTED(Z_TYPE_P(encoding_param) != IS_STRING && Z_TYPE_P(encoding_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'encoding' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'encoding' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(encoding_param) == IS_STRING)) {
@@ -465,7 +465,7 @@ PHP_METHOD(Phalcon_Text, startsWith) {
 	} else {
 		ZVAL_BOOL(&_1, 0);
 	}
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_str_ce, "startswith", &_0, 261, &text, &start, &_1);
+	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_str_ce, "startswith", &_0, 262, &text, &start, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -543,7 +543,7 @@ PHP_METHOD(Phalcon_Text, reduceSlashes) {
 	zephir_fetch_params(1, 1, 0, &text_param);
 
 	if (UNEXPECTED(Z_TYPE_P(text_param) != IS_STRING && Z_TYPE_P(text_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'text' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'text' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(text_param) == IS_STRING)) {
@@ -585,7 +585,7 @@ PHP_METHOD(Phalcon_Text, uncamelize) {
 	zephir_fetch_params(1, 1, 1, &text_param, &delimiter);
 
 	if (UNEXPECTED(Z_TYPE_P(text_param) != IS_STRING && Z_TYPE_P(text_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'text' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'text' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(text_param) == IS_STRING)) {
@@ -629,7 +629,7 @@ PHP_METHOD(Phalcon_Text, underscore) {
 	zephir_fetch_params(1, 1, 0, &text_param);
 
 	if (UNEXPECTED(Z_TYPE_P(text_param) != IS_STRING && Z_TYPE_P(text_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'text' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'text' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(text_param) == IS_STRING)) {
@@ -670,7 +670,7 @@ PHP_METHOD(Phalcon_Text, upper) {
 	zephir_fetch_params(1, 1, 1, &text_param, &encoding_param);
 
 	if (UNEXPECTED(Z_TYPE_P(text_param) != IS_STRING && Z_TYPE_P(text_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'text' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'text' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(text_param) == IS_STRING)) {
@@ -684,7 +684,7 @@ PHP_METHOD(Phalcon_Text, upper) {
 		ZVAL_STRING(&encoding, "UTF-8");
 	} else {
 	if (UNEXPECTED(Z_TYPE_P(encoding_param) != IS_STRING && Z_TYPE_P(encoding_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'encoding' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'encoding' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(encoding_param) == IS_STRING)) {

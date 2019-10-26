@@ -37,7 +37,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Exception) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon, Exception, phalcon, exception, zend_exception_get_default(TSRMLS_C), phalcon_exception_method_entry, 0);
 
-	zend_class_implements(phalcon_exception_ce TSRMLS_CC, 1, zephir_get_internal_ce(SL("throwable")));
+	zend_class_implements(phalcon_exception_ce, 1, zephir_get_internal_ce(SL("throwable")));
 	return SUCCESS;
 
 }
@@ -55,7 +55,7 @@ PHP_METHOD(Phalcon_Exception, containerServiceNotFound) {
 	zephir_fetch_params(1, 1, 0, &service_param);
 
 	if (UNEXPECTED(Z_TYPE_P(service_param) != IS_STRING && Z_TYPE_P(service_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'service' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'service' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(service_param) == IS_STRING)) {

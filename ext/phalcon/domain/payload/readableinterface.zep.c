@@ -70,7 +70,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Domain_Payload_ReadableInterface, getMessages);
 /**
  * Gets arbitrary extra values produced by the domain layer.
  *
- * @param mixed
+ * @return mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_Domain_Payload_ReadableInterface, getExtras);
 

@@ -25,7 +25,7 @@ class UnserializeCest
      */
     public function collectionUnserialize(UnitTester $I)
     {
-        $I->wantToTest('Collection\Collection - unserialize()');
+        $I->wantToTest('Collection - unserialize()');
 
         $data = [
             'one'   => 'two',

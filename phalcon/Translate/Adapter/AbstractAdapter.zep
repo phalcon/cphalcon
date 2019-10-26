@@ -43,7 +43,7 @@ abstract class AbstractAdapter implements AdapterInterface
      *
      * @param array   placeholders
      */
-    public function _(string! translateKey, placeholders = null) -> string
+    public function _(string! translateKey, array placeholders = []) -> string
     {
         return this->{"query"}(translateKey, placeholders);
     }
@@ -87,7 +87,7 @@ abstract class AbstractAdapter implements AdapterInterface
      *
      * @param array   placeholders
      */
-    public function t(string! translateKey, placeholders = null) -> string
+    public function t(string! translateKey, array placeholders = []) -> string
     {
         return this->{"query"}(translateKey, placeholders);
     }
@@ -95,8 +95,10 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
      * Replaces placeholders by the values passed
      */
-    protected function replacePlaceholders(string! translation, placeholders = null) -> string
-    {
+    protected function replacePlaceholders(
+        string! translation,
+        array placeholders = []
+    ) -> string {
         var interpolator;
 
         let interpolator = this->interpolatorFactory->newInstance(this->defaultInterpolator);

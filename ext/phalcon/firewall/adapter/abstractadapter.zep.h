@@ -88,7 +88,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_firewall_adapter_abstract
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_firewall_adapter_abstractadapter_setrolecallback, 0, 1, IS_OBJECT, "Phalcon\\Firewall\\Adapter\\AdapterInterface", 0)
 #endif
-	ZEND_ARG_INFO(0, callback)
+	ZEND_ARG_OBJ_INFO(0, callback, Closure, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70100

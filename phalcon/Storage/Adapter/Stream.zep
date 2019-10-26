@@ -29,12 +29,17 @@ class Stream extends AbstractAdapter
     /**
     * @var string
     */
-    protected cacheDir = "";
+    protected storageDir = "";
 
     /**
      * @var array
      */
     protected options = [];
+
+    /**
+     * @var bool
+     */
+    private warning = false;
 
     /**
      * Stream constructor.
@@ -45,19 +50,19 @@ class Stream extends AbstractAdapter
      */
     public function __construct(<SerializerFactory> factory = null, array! options = [])
     {
-        var cacheDir;
+        var storageDir;
 
-        let cacheDir = Arr::get(options, "cacheDir", "");
-        if empty cacheDir {
-            throw new Exception("The 'cacheDir' must be specified in the options");
+        let storageDir = Arr::get(options, "storageDir", "");
+        if empty storageDir {
+            throw new Exception("The 'storageDir' must be specified in the options");
         }
 
         /**
          * Lets set some defaults and options here
          */
-        let this->cacheDir = Str::dirSeparator(cacheDir),
-            this->prefix   = "phstrm-",
-            this->options  = options;
+        let this->storageDir = Str::dirSeparator(storageDir),
+            this->prefix     = "phstrm-",
+            this->options    = options;
 
         parent::__construct(factory, options);
 
@@ -73,7 +78,7 @@ class Stream extends AbstractAdapter
         bool result;
 
         let result    = true,
-            directory = Str::dirSeparator(this->cacheDir),
+            directory = Str::dirSeparator(this->storageDir),
             iterator  = this->getIterator(directory);
 
         for file in iterator {
@@ -138,7 +143,7 @@ class Stream extends AbstractAdapter
      */
     public function get(string! key, var defaultValue = null) -> var
     {
-        var content, payload, filepath;
+        var content, filepath, payload;
 
         let filepath = this->getFilepath(key);
 
@@ -146,10 +151,9 @@ class Stream extends AbstractAdapter
             return defaultValue;
         }
 
-        let payload   = file_get_contents(filepath),
-            payload = json_decode(payload, true);
+        let payload = this->getPayload(filepath);
 
-        if json_last_error() !== JSON_ERROR_NONE {
+        if unlikely empty payload {
             return defaultValue;
         }
 
@@ -179,7 +183,7 @@ class Stream extends AbstractAdapter
         var directory, iterator, file, split, results;
 
         let results   = [],
-            directory = Str::dirSeparator(this->cacheDir),
+            directory = Str::dirSeparator(this->storageDir),
             iterator  = this->getIterator(directory);
 
         for file in iterator {
@@ -209,8 +213,11 @@ class Stream extends AbstractAdapter
             return false;
         }
 
-        let payload = file_get_contents(filepath),
-            payload = json_decode(payload);
+        let payload = this->getPayload(filepath);
+
+        if unlikely empty payload {
+            return false;
+        }
 
         return !this->isExpired(payload);
     }
@@ -258,7 +265,7 @@ class Stream extends AbstractAdapter
                 "ttl"     : this->getTtl(ttl),
                 "content" : this->getSerializedData(value)
             ],
-            payload   = json_encode(payload),
+            payload   = serialize(payload),
             directory = this->getDir(key);
 
         if !is_dir(directory) {
@@ -269,7 +276,7 @@ class Stream extends AbstractAdapter
     }
 
     /**
-     * Returns the folder based on the cacheDir and the prefix
+     * Returns the folder based on the storageDir and the prefix
      *
      * @param string $key
      *
@@ -279,7 +286,7 @@ class Stream extends AbstractAdapter
     {
         var dirPrefix, dirFromFile;
 
-        let dirPrefix   = this->cacheDir . this->prefix,
+        let dirPrefix   = this->storageDir . this->prefix,
             dirFromFile = Str::dirFromFile(
                 str_replace(this->prefix, "", key, 1)
             );
@@ -295,6 +302,9 @@ class Stream extends AbstractAdapter
         return this->getDir(key) . str_replace(this->prefix, "", key, 1);
     }
 
+    /**
+     * Returns an iterator for the directory contents
+     */
     private function getIterator(string! dir) -> <Iterator>
     {
         return new RecursiveIteratorIterator(
@@ -304,6 +314,40 @@ class Stream extends AbstractAdapter
            ),
            RecursiveIteratorIterator::CHILD_FIRST
        );
+    }
+
+    /**
+     * Gets the file contents and returns an array or an error if something
+     * went wrong
+     */
+    private function getPayload(string filepath) -> array
+    {
+        var payload;
+
+        let payload       = file_get_contents(filepath),
+            this->warning = false;
+
+        if false === payload {
+            return [];
+        }
+
+        set_error_handler(
+            function (number, message, file, line, context) {
+                if number === E_WARNING {
+                    let this->warning = true;
+                }
+            }
+        );
+
+        let payload = unserialize(payload);
+
+        restore_error_handler();
+
+        if unlikely (this->warning || typeof payload !== "array") {
+            return [];
+        }
+
+        return payload;
     }
 
     /**

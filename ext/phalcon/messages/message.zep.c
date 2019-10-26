@@ -40,32 +40,32 @@ ZEPHIR_INIT_CLASS(Phalcon_Messages_Message) {
 	/**
 	 * @var int
 	 */
-	zend_declare_property_null(phalcon_messages_message_ce, SL("code"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_messages_message_ce, SL("code"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * @var string
 	 */
-	zend_declare_property_null(phalcon_messages_message_ce, SL("field"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_messages_message_ce, SL("field"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * @var string
 	 */
-	zend_declare_property_null(phalcon_messages_message_ce, SL("message"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_messages_message_ce, SL("message"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * @var string
 	 */
-	zend_declare_property_null(phalcon_messages_message_ce, SL("type"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_messages_message_ce, SL("type"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * @var array
 	 */
-	zend_declare_property_null(phalcon_messages_message_ce, SL("metaData"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_messages_message_ce, SL("metaData"), ZEND_ACC_PROTECTED);
 
 	phalcon_messages_message_ce->create_object = zephir_init_properties_Phalcon_Messages_Message;
 
-	zend_class_implements(phalcon_messages_message_ce TSRMLS_CC, 1, phalcon_messages_messageinterface_ce);
-	zend_class_implements(phalcon_messages_message_ce TSRMLS_CC, 1, zephir_get_internal_ce(SL("jsonserializable")));
+	zend_class_implements(phalcon_messages_message_ce, 1, phalcon_messages_messageinterface_ce);
+	zend_class_implements(phalcon_messages_message_ce, 1, zephir_get_internal_ce(SL("jsonserializable")));
 	return SUCCESS;
 
 }
@@ -147,7 +147,7 @@ PHP_METHOD(Phalcon_Messages_Message, __construct) {
 	zephir_fetch_params(1, 1, 4, &message_param, &field, &type_param, &code_param, &metaData_param);
 
 	if (UNEXPECTED(Z_TYPE_P(message_param) != IS_STRING && Z_TYPE_P(message_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'message' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'message' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(message_param) == IS_STRING)) {
@@ -216,7 +216,7 @@ PHP_METHOD(Phalcon_Messages_Message, jsonSerialize) {
 
 	ZEPHIR_MM_GROW();
 
-	zephir_create_array(return_value, 5, 0 TSRMLS_CC);
+	zephir_create_array(return_value, 5, 0);
 	ZEPHIR_OBS_VAR(&_0);
 	zephir_read_property(&_0, this_ptr, SL("field"), PH_NOISY_CC);
 	zephir_array_update_string(return_value, SL("field"), &_0, PH_COPY | PH_SEPARATE);
@@ -294,7 +294,7 @@ PHP_METHOD(Phalcon_Messages_Message, setMessage) {
 	zephir_fetch_params(1, 1, 0, &message_param);
 
 	if (UNEXPECTED(Z_TYPE_P(message_param) != IS_STRING && Z_TYPE_P(message_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'message' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'message' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(message_param) == IS_STRING)) {
@@ -349,7 +349,7 @@ PHP_METHOD(Phalcon_Messages_Message, setType) {
 	zephir_fetch_params(1, 1, 0, &type_param);
 
 	if (UNEXPECTED(Z_TYPE_P(type_param) != IS_STRING && Z_TYPE_P(type_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'type' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'type' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(type_param) == IS_STRING)) {

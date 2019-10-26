@@ -23,7 +23,7 @@ class UnserializeCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function collectionUnserialize(UnitTester $I)
+    public function registryUnserialize(UnitTester $I)
     {
         $I->wantToTest('Registry - unserialize()');
 

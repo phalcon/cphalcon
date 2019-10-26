@@ -35,7 +35,7 @@ class GetKeysCest
         $adapter = new Stream(
             $serializer,
             [
-                'cacheDir' => outputDir(),
+                'storageDir' => outputDir(),
             ]
         );
 
@@ -77,7 +77,7 @@ class GetKeysCest
         $adapter = new Stream(
             $serializer,
             [
-                'cacheDir' => outputDir(),
+                'storageDir' => outputDir(),
                 'prefix'   => 'basePrefix-',
             ]
         );

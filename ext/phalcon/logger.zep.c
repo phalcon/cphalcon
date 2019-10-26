@@ -73,19 +73,26 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger) {
 	 *
 	 * @var AdapterInterface[]
 	 */
-	zend_declare_property_null(phalcon_logger_ce, SL("adapters"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_logger_ce, SL("adapters"), ZEND_ACC_PROTECTED);
+
+	/**
+	 * Minimum log level for the logger
+	 *
+	 * @var int
+	 */
+	zend_declare_property_long(phalcon_logger_ce, SL("logLevel"), 8, ZEND_ACC_PROTECTED);
 
 	/**
 	 * @var string
 	 */
-	zend_declare_property_string(phalcon_logger_ce, SL("name"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_logger_ce, SL("name"), "", ZEND_ACC_PROTECTED);
 
 	/**
 	 * The excluded adapters for this log process
 	 *
 	 * @var AdapterInterface[]
 	 */
-	zend_declare_property_null(phalcon_logger_ce, SL("excluded"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_logger_ce, SL("excluded"), ZEND_ACC_PROTECTED);
 
 	phalcon_logger_ce->create_object = zephir_init_properties_Phalcon_Logger;
 	zephir_declare_class_constant_long(phalcon_logger_ce, SL("ALERT"), 2);
@@ -106,8 +113,20 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger) {
 
 	zephir_declare_class_constant_long(phalcon_logger_ce, SL("WARNING"), 4);
 
-	zend_class_implements(phalcon_logger_ce TSRMLS_CC, 1, zephir_get_internal_ce(SL("psr\\log\\loggerinterface")));
+	zend_class_implements(phalcon_logger_ce, 1, zephir_get_internal_ce(SL("psr\\log\\loggerinterface")));
 	return SUCCESS;
+
+}
+
+/**
+ * Minimum log level for the logger
+ */
+PHP_METHOD(Phalcon_Logger, getLogLevel) {
+
+	zval *this_ptr = getThis();
+
+
+	RETURN_MEMBER(getThis(), "logLevel");
 
 }
 
@@ -133,7 +152,7 @@ PHP_METHOD(Phalcon_Logger, __construct) {
 	zephir_fetch_params(1, 1, 1, &name_param, &adapters_param);
 
 	if (UNEXPECTED(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(name_param) == IS_STRING)) {
@@ -160,8 +179,8 @@ PHP_METHOD(Phalcon_Logger, __construct) {
 /**
  * Add an adapter to the stack. For processing we use FIFO
  *
- * @param string             name    The name of the adapter
- * @param <AdapterInterface> adapter The adapter to add to the stack
+ * @param string           name    The name of the adapter
+ * @param AdapterInterface adapter The adapter to add to the stack
  */
 PHP_METHOD(Phalcon_Logger, addAdapter) {
 
@@ -409,7 +428,7 @@ PHP_METHOD(Phalcon_Logger, excludeAdapters) {
 
 
 	zephir_read_property(&registered, this_ptr, SL("adapters"), PH_NOISY_CC | PH_READONLY);
-	zephir_is_iterable(&adapters, 0, "phalcon/Logger.zep", 185);
+	zephir_is_iterable(&adapters, 0, "phalcon/Logger.zep", 192);
 	if (Z_TYPE_P(&adapters) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&adapters), _0)
 		{
@@ -447,7 +466,7 @@ PHP_METHOD(Phalcon_Logger, excludeAdapters) {
  *
  * @param string name The name of the adapter
  *
- * @throws <Exception>
+ * @throws Exception
  */
 PHP_METHOD(Phalcon_Logger, getAdapter) {
 
@@ -470,8 +489,8 @@ PHP_METHOD(Phalcon_Logger, getAdapter) {
 	zephir_read_property(&_0, this_ptr, SL("adapters"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&adapters, &_0);
 	ZEPHIR_OBS_VAR(&adapter);
-	if (!(zephir_array_isset_fetch(&adapter, &adapters, &name, 0 TSRMLS_CC))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "Adapter does not exist for this logger", "phalcon/Logger.zep", 202);
+	if (!(zephir_array_isset_fetch(&adapter, &adapters, &name, 0))) {
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "Adapter does not exist for this logger", "phalcon/Logger.zep", 209);
 		return;
 	}
 	RETURN_CCTOR(&adapter);
@@ -576,7 +595,7 @@ PHP_METHOD(Phalcon_Logger, log) {
 	}
 
 
-	ZEPHIR_CALL_METHOD(&intLevel, this_ptr, "getlevelnumber", NULL, 402, level);
+	ZEPHIR_CALL_METHOD(&intLevel, this_ptr, "getlevelnumber", NULL, 404, level);
 	zephir_check_call_status();
 	zephir_get_strval(&_0, message);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addmessage", NULL, 0, level, &_0, &context);
@@ -628,7 +647,7 @@ PHP_METHOD(Phalcon_Logger, notice) {
  *
  * @param string name The name of the adapter
  *
- * @throws <Logger\Exception>
+ * @throws Logger\Exception
  */
 PHP_METHOD(Phalcon_Logger, removeAdapter) {
 
@@ -650,7 +669,7 @@ PHP_METHOD(Phalcon_Logger, removeAdapter) {
 	zephir_read_property(&_0, this_ptr, SL("adapters"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&adapters, &_0);
 	if (1 != zephir_array_isset(&adapters, &name)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "Adapter does not exist for this logger", "phalcon/Logger.zep", 277);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "Adapter does not exist for this logger", "phalcon/Logger.zep", 284);
 		return;
 	}
 	zephir_array_unset(&adapters, &name, PH_SEPARATE);
@@ -680,6 +699,37 @@ PHP_METHOD(Phalcon_Logger, setAdapters) {
 
 
 	zephir_update_property_zval(this_ptr, SL("adapters"), &adapters);
+	RETURN_THIS();
+
+}
+
+/**
+ * Sets the adapters stack overriding what is already there
+ */
+PHP_METHOD(Phalcon_Logger, setLogLevel) {
+
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zval *level_param = NULL, levels, _0;
+	zend_long level, ZEPHIR_LAST_CALL_STATUS;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&levels);
+	ZVAL_UNDEF(&_0);
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &level_param);
+
+	level = zephir_get_intval(level_param);
+
+
+	ZEPHIR_CALL_METHOD(&levels, this_ptr, "getlevels", NULL, 0);
+	zephir_check_call_status();
+	if (!(zephir_array_isset_long(&levels, level))) {
+		level = 8;
+	}
+	ZEPHIR_INIT_ZVAL_NREF(_0);
+	ZVAL_LONG(&_0, level);
+	zephir_update_property_zval(this_ptr, SL("logLevel"), &_0);
 	RETURN_THIS();
 
 }
@@ -731,16 +781,16 @@ PHP_METHOD(Phalcon_Logger, warning) {
  * @param int    level
  * @param string message
  *
- * @throws <Logger\Exception>
+ * @throws Logger\Exception
  */
 PHP_METHOD(Phalcon_Logger, addMessage) {
 
-	zend_string *_5;
-	zend_ulong _4;
+	zend_string *_6$$3;
+	zend_ulong _5$$3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval context;
 	zval message;
-	zval *level_param = NULL, *message_param = NULL, *context_param = NULL, adapter, key, excluded, levelName, levels, item, registered, _0, _1, *_2, _3, _6;
+	zval *level_param = NULL, *message_param = NULL, *context_param = NULL, adapter, key, excluded, levelName, levels, item, registered, _0, _1$$3, _2$$3, *_3$$3, _4$$3, _7$$3;
 	zend_long level, ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -752,9 +802,10 @@ PHP_METHOD(Phalcon_Logger, addMessage) {
 	ZVAL_UNDEF(&item);
 	ZVAL_UNDEF(&registered);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_3);
-	ZVAL_UNDEF(&_6);
+	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&_2$$3);
+	ZVAL_UNDEF(&_4$$3);
+	ZVAL_UNDEF(&_7$$3);
 	ZVAL_UNDEF(&message);
 	ZVAL_UNDEF(&context);
 
@@ -771,71 +822,74 @@ PHP_METHOD(Phalcon_Logger, addMessage) {
 	}
 
 
-	ZEPHIR_OBS_VAR(&registered);
-	zephir_read_property(&registered, this_ptr, SL("adapters"), PH_NOISY_CC);
-	zephir_read_property(&_0, this_ptr, SL("excluded"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CPY_WRT(&excluded, &_0);
-	if (zephir_fast_count_int(&registered TSRMLS_CC) == 0) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "No adapters specified", "phalcon/Logger.zep", 328);
-		return;
-	}
-	ZEPHIR_CALL_METHOD(&levels, this_ptr, "getlevels", NULL, 0);
-	zephir_check_call_status();
-	ZEPHIR_OBS_VAR(&levelName);
-	if (!(zephir_array_isset_long_fetch(&levelName, &levels, level, 0 TSRMLS_CC))) {
-		ZEPHIR_OBS_NVAR(&levelName);
-		zephir_array_fetch_long(&levelName, &levels, 8, PH_NOISY, "phalcon/Logger.zep", 334 TSRMLS_CC);
-	}
-	ZEPHIR_INIT_VAR(&item);
-	object_init_ex(&item, phalcon_logger_item_ce);
-	ZEPHIR_INIT_VAR(&_1);
-	zephir_time(&_1);
-	ZVAL_LONG(&_0, level);
-	ZEPHIR_CALL_METHOD(NULL, &item, "__construct", NULL, 403, &message, &levelName, &_0, &_1, &context);
-	zephir_check_call_status();
-	zephir_is_iterable(&registered, 0, "phalcon/Logger.zep", 351);
-	if (Z_TYPE_P(&registered) == IS_ARRAY) {
-		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&registered), _4, _5, _2)
-		{
-			ZEPHIR_INIT_NVAR(&key);
-			if (_5 != NULL) { 
-				ZVAL_STR_COPY(&key, _5);
-			} else {
-				ZVAL_LONG(&key, _4);
-			}
-			ZEPHIR_INIT_NVAR(&adapter);
-			ZVAL_COPY(&adapter, _2);
-			if (!(zephir_array_isset(&excluded, &key))) {
-				ZEPHIR_CALL_METHOD(NULL, &adapter, "process", NULL, 0, &item);
-				zephir_check_call_status();
-			}
-		} ZEND_HASH_FOREACH_END();
-	} else {
-		ZEPHIR_CALL_METHOD(NULL, &registered, "rewind", NULL, 0);
+	zephir_read_property(&_0, this_ptr, SL("logLevel"), PH_NOISY_CC | PH_READONLY);
+	if (ZEPHIR_GE_LONG(&_0, level)) {
+		ZEPHIR_OBS_VAR(&registered);
+		zephir_read_property(&registered, this_ptr, SL("adapters"), PH_NOISY_CC);
+		zephir_read_property(&_1$$3, this_ptr, SL("excluded"), PH_NOISY_CC | PH_READONLY);
+		ZEPHIR_CPY_WRT(&excluded, &_1$$3);
+		if (zephir_fast_count_int(&registered) == 0) {
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "No adapters specified", "phalcon/Logger.zep", 353);
+			return;
+		}
+		ZEPHIR_CALL_METHOD(&levels, this_ptr, "getlevels", NULL, 0);
 		zephir_check_call_status();
-		while (1) {
-			ZEPHIR_CALL_METHOD(&_3, &registered, "valid", NULL, 0);
-			zephir_check_call_status();
-			if (!zend_is_true(&_3)) {
-				break;
-			}
-			ZEPHIR_CALL_METHOD(&key, &registered, "key", NULL, 0);
-			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&adapter, &registered, "current", NULL, 0);
-			zephir_check_call_status();
+		ZEPHIR_OBS_VAR(&levelName);
+		if (!(zephir_array_isset_long_fetch(&levelName, &levels, level, 0))) {
+			ZEPHIR_OBS_NVAR(&levelName);
+			zephir_array_fetch_long(&levelName, &levels, 8, PH_NOISY, "phalcon/Logger.zep", 359);
+		}
+		ZEPHIR_INIT_VAR(&item);
+		object_init_ex(&item, phalcon_logger_item_ce);
+		ZEPHIR_INIT_VAR(&_2$$3);
+		zephir_time(&_2$$3);
+		ZVAL_LONG(&_1$$3, level);
+		ZEPHIR_CALL_METHOD(NULL, &item, "__construct", NULL, 405, &message, &levelName, &_1$$3, &_2$$3, &context);
+		zephir_check_call_status();
+		zephir_is_iterable(&registered, 0, "phalcon/Logger.zep", 376);
+		if (Z_TYPE_P(&registered) == IS_ARRAY) {
+			ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&registered), _5$$3, _6$$3, _3$$3)
+			{
+				ZEPHIR_INIT_NVAR(&key);
+				if (_6$$3 != NULL) { 
+					ZVAL_STR_COPY(&key, _6$$3);
+				} else {
+					ZVAL_LONG(&key, _5$$3);
+				}
+				ZEPHIR_INIT_NVAR(&adapter);
+				ZVAL_COPY(&adapter, _3$$3);
 				if (!(zephir_array_isset(&excluded, &key))) {
 					ZEPHIR_CALL_METHOD(NULL, &adapter, "process", NULL, 0, &item);
 					zephir_check_call_status();
 				}
-			ZEPHIR_CALL_METHOD(NULL, &registered, "next", NULL, 0);
+			} ZEND_HASH_FOREACH_END();
+		} else {
+			ZEPHIR_CALL_METHOD(NULL, &registered, "rewind", NULL, 0);
 			zephir_check_call_status();
+			while (1) {
+				ZEPHIR_CALL_METHOD(&_4$$3, &registered, "valid", NULL, 0);
+				zephir_check_call_status();
+				if (!zend_is_true(&_4$$3)) {
+					break;
+				}
+				ZEPHIR_CALL_METHOD(&key, &registered, "key", NULL, 0);
+				zephir_check_call_status();
+				ZEPHIR_CALL_METHOD(&adapter, &registered, "current", NULL, 0);
+				zephir_check_call_status();
+					if (!(zephir_array_isset(&excluded, &key))) {
+						ZEPHIR_CALL_METHOD(NULL, &adapter, "process", NULL, 0, &item);
+						zephir_check_call_status();
+					}
+				ZEPHIR_CALL_METHOD(NULL, &registered, "next", NULL, 0);
+				zephir_check_call_status();
+			}
 		}
+		ZEPHIR_INIT_NVAR(&adapter);
+		ZEPHIR_INIT_NVAR(&key);
+		ZEPHIR_INIT_VAR(&_7$$3);
+		array_init(&_7$$3);
+		zephir_update_property_zval(this_ptr, SL("excluded"), &_7$$3);
 	}
-	ZEPHIR_INIT_NVAR(&adapter);
-	ZEPHIR_INIT_NVAR(&key);
-	ZEPHIR_INIT_VAR(&_6);
-	array_init(&_6);
-	zephir_update_property_zval(this_ptr, SL("excluded"), &_6);
 	RETURN_MM_BOOL(1);
 
 }
@@ -848,7 +902,7 @@ PHP_METHOD(Phalcon_Logger, getLevels) {
 	zval *this_ptr = getThis();
 
 
-	zephir_create_array(return_value, 9, 0 TSRMLS_CC);
+	zephir_create_array(return_value, 9, 0);
 	add_index_stringl(return_value, 2, SL("alert"));
 	add_index_stringl(return_value, 1, SL("critical"));
 	add_index_stringl(return_value, 7, SL("debug"));
@@ -890,16 +944,16 @@ PHP_METHOD(Phalcon_Logger, getLevelNumber) {
 		zephir_fast_strtolower(&levelName, level);
 		ZEPHIR_CALL_METHOD(&_0$$3, this_ptr, "getlevels", NULL, 0);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(&levels, "array_flip", NULL, 162, &_0$$3);
+		ZEPHIR_CALL_FUNCTION(&levels, "array_flip", NULL, 163, &_0$$3);
 		zephir_check_call_status();
-		if (zephir_array_isset_fetch(&numberLevel, &levels, &levelName, 1 TSRMLS_CC)) {
+		if (zephir_array_isset_fetch(&numberLevel, &levels, &levelName, 1)) {
 			RETURN_CTOR(&numberLevel);
 		}
 	} else if (zephir_is_numeric(level)) {
 		ZEPHIR_CALL_METHOD(&levels, this_ptr, "getlevels", NULL, 0);
 		zephir_check_call_status();
 		ZEPHIR_OBS_VAR(&numberLevel);
-		if (zephir_array_isset_fetch(&numberLevel, &levels, level, 0 TSRMLS_CC)) {
+		if (zephir_array_isset_fetch(&numberLevel, &levels, level, 0)) {
 			RETURN_CTOR(&numberLevel);
 		}
 	}

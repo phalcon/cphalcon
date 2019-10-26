@@ -104,7 +104,7 @@ class Dispatcher extends BaseDispatcher implements DispatcherInterface
      *
      * @param array forward
      */
-    public function forward(var forward) -> void
+    public function forward(array forward) -> void
     {
         var eventsManager;
 

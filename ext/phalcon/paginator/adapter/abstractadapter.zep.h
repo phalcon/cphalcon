@@ -22,9 +22,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_paginator_adapter_abstra
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_paginator_adapter_abstractadapter_setcurrentpage, 0, 1, Phalcon\\Paginator\\Adapter\\Adapter, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_paginator_adapter_abstractadapter_setcurrentpage, 0, 1, Phalcon\\Paginator\\Adapter\\AdapterInterface, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_paginator_adapter_abstractadapter_setcurrentpage, 0, 1, IS_OBJECT, "Phalcon\\Paginator\\Adapter\\Adapter", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_paginator_adapter_abstractadapter_setcurrentpage, 0, 1, IS_OBJECT, "Phalcon\\Paginator\\Adapter\\AdapterInterface", 0)
 #endif
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, page, IS_LONG, 0)
@@ -34,9 +34,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_paginator_adapter_abstra
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_paginator_adapter_abstractadapter_setlimit, 0, 1, Phalcon\\Paginator\\Adapter\\Adapter, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_paginator_adapter_abstractadapter_setlimit, 0, 1, Phalcon\\Paginator\\Adapter\\AdapterInterface, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_paginator_adapter_abstractadapter_setlimit, 0, 1, IS_OBJECT, "Phalcon\\Paginator\\Adapter\\Adapter", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_paginator_adapter_abstractadapter_setlimit, 0, 1, IS_OBJECT, "Phalcon\\Paginator\\Adapter\\AdapterInterface", 0)
 #endif
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, limitRows, IS_LONG, 0)
@@ -46,9 +46,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_paginator_adapter_abstra
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_paginator_adapter_abstractadapter_setrepository, 0, 1, Phalcon\\Paginator\\Adapter\\Adapter, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_paginator_adapter_abstractadapter_setrepository, 0, 1, Phalcon\\Paginator\\Adapter\\AdapterInterface, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_paginator_adapter_abstractadapter_setrepository, 0, 1, IS_OBJECT, "Phalcon\\Paginator\\Adapter\\Adapter", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_paginator_adapter_abstractadapter_setrepository, 0, 1, IS_OBJECT, "Phalcon\\Paginator\\Adapter\\AdapterInterface", 0)
 #endif
 	ZEND_ARG_OBJ_INFO(0, repository, Phalcon\\Paginator\\RepositoryInterface, 0)
 ZEND_END_ARG_INFO()

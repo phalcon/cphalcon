@@ -70,7 +70,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify) {
 	zephir_fetch_params(1, 2, 0, &type_param, &model);
 
 	if (UNEXPECTED(Z_TYPE_P(type_param) != IS_STRING && Z_TYPE_P(type_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'type' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'type' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(type_param) == IS_STRING)) {
@@ -96,7 +96,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The option 'field' is required", "phalcon/Mvc/Model/Behavior/Timestampable.zep", 50);
 		return;
 	}
-	ZEPHIR_CALL_METHOD(&timestamp, this_ptr, "gettimestamp", NULL, 435, &options);
+	ZEPHIR_CALL_METHOD(&timestamp, this_ptr, "gettimestamp", NULL, 437, &options);
 	zephir_check_call_status();
 	if (UNEXPECTED(Z_TYPE_P(&field) == IS_ARRAY)) {
 		zephir_is_iterable(&field, 0, "phalcon/Mvc/Model/Behavior/Timestampable.zep", 63);
@@ -155,7 +155,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, getTimestamp) {
 
 	ZEPHIR_OBS_VAR(&format);
 	if (zephir_array_isset_string_fetch(&format, &options, SL("format"), 0)) {
-		ZEPHIR_RETURN_CALL_FUNCTION("date", NULL, 409, &format);
+		ZEPHIR_RETURN_CALL_FUNCTION("date", NULL, 411, &format);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
@@ -163,7 +163,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, getTimestamp) {
 	if (zephir_array_isset_string_fetch(&generator, &options, SL("generator"), 0)) {
 		_0$$4 = Z_TYPE_P(&generator) == IS_OBJECT;
 		if (_0$$4) {
-			_0$$4 = zephir_instance_of_ev(&generator, zend_ce_closure TSRMLS_CC);
+			_0$$4 = zephir_instance_of_ev(&generator, zend_ce_closure);
 		}
 		if (_0$$4) {
 			ZEPHIR_CALL_USER_FUNC(return_value, &generator);

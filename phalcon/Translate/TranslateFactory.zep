@@ -14,6 +14,7 @@ use Phalcon\Config;
 use Phalcon\Factory\AbstractFactory;
 use Phalcon\Helper\Arr;
 use Phalcon\Translate\InterpolatorFactory;
+use Phalcon\Translate\Adapter\AdapterInterface;
 
 class TranslateFactory extends AbstractFactory
 {
@@ -49,7 +50,7 @@ class TranslateFactory extends AbstractFactory
     /**
      * Create a new instance of the adapter
      */
-    public function newInstance(string! name, array! options = []) -> <AbstractAdapter>
+    public function newInstance(string! name, array! options = []) -> <AdapterInterface>
     {
         var definition;
 
@@ -57,7 +58,13 @@ class TranslateFactory extends AbstractFactory
 
         if !isset this->services[name] {
             let definition           = this->mapper[name],
-                this->services[name] = new {definition}(this->interpolator, options);
+                this->services[name] = create_instance_params(
+                    definition,
+                    [
+                        this->interpolator,
+                        options
+                    ]
+                );
         }
 
         return this->services[name];
@@ -66,9 +73,9 @@ class TranslateFactory extends AbstractFactory
     protected function getAdapters() -> array
     {
         return [
-            "csv"     : "\\Phalcon\\Translate\\Adapter\\Csv",
-            "gettext" : "\\Phalcon\\Translate\\Adapter\\Gettext",
-            "array"   : "\\Phalcon\\Translate\\Adapter\\NativeArray"
+            "csv"     : "Phalcon\\Translate\\Adapter\\Csv",
+            "gettext" : "Phalcon\\Translate\\Adapter\\Gettext",
+            "array"   : "Phalcon\\Translate\\Adapter\\NativeArray"
         ];
     }
 }

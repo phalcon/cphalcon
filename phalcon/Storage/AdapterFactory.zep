@@ -12,12 +12,13 @@ namespace Phalcon\Storage;
 
 use Phalcon\Factory\AbstractFactory;
 use Phalcon\Storage\Adapter\AbstractAdapter;
+use Phalcon\Storage\Adapter\AdapterInterface;
 use Phalcon\Storage\SerializerFactory;
 
 class AdapterFactory extends AbstractFactory
 {
     /**
-     * @var <SerializerFactory>
+     * @var SerializerFactory
      */
     private serializerFactory;
 
@@ -34,7 +35,7 @@ class AdapterFactory extends AbstractFactory
     /**
      * Create a new instance of the adapter
      */
-    public function newInstance(string! name, array! options = []) -> <AbstractAdapter>
+    public function newInstance(string! name, array! options = []) -> <AdapterInterface>
     {
         var definition;
 
@@ -42,7 +43,13 @@ class AdapterFactory extends AbstractFactory
 
         if !isset this->services[name] {
             let definition           = this->mapper[name],
-                this->services[name] = new {definition}(this->serializerFactory, options);
+                this->services[name] = create_instance_params(
+                    definition,
+                    [
+                        this->serializerFactory,
+                        options
+                    ]
+                );
         }
 
         return this->services[name];
@@ -51,11 +58,11 @@ class AdapterFactory extends AbstractFactory
     protected function getAdapters() -> array
     {
         return [
-            "apcu"         : "\\Phalcon\\Storage\\Adapter\\Apcu",
-            "libmemcached" : "\\Phalcon\\Storage\\Adapter\\Libmemcached",
-            "memory"       : "\\Phalcon\\Storage\\Adapter\\Memory",
-            "redis"        : "\\Phalcon\\Storage\\Adapter\\Redis",
-            "stream"       : "\\Phalcon\\Storage\\Adapter\\Stream"
+            "apcu"         : "Phalcon\\Storage\\Adapter\\Apcu",
+            "libmemcached" : "Phalcon\\Storage\\Adapter\\Libmemcached",
+            "memory"       : "Phalcon\\Storage\\Adapter\\Memory",
+            "redis"        : "Phalcon\\Storage\\Adapter\\Redis",
+            "stream"       : "Phalcon\\Storage\\Adapter\\Stream"
         ];
     }
 }

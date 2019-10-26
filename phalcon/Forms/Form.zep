@@ -14,7 +14,6 @@ use Countable;
 use Iterator;
 use Phalcon\Di\Injectable;
 use Phalcon\Di\DiInterface;
-use Phalcon\FilterInterface;
 use Phalcon\Filter\FilterInterface;
 use Phalcon\Forms\Exception;
 use Phalcon\Forms\Element\ElementInterface;
@@ -30,7 +29,10 @@ use Phalcon\Validation\ValidationInterface;
  */
 class Form extends Injectable implements Countable, Iterator, AttributesInterface
 {
-    protected attributes;
+    /**
+     * @var Attributes | null
+     */
+    protected attributes = null;
 
     protected data;
 
@@ -65,16 +67,16 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
         let this->options = userOptions;
 
         /**
+        * Set form attributes
+        */
+        let this->attributes = new Attributes();
+
+        /**
          * Check for an 'initialize' method and call it
          */
         if method_exists(this, "initialize") {
             this->{"initialize"}(entity, userOptions);
         }
-
-        /**
-        * Set form attributes
-        */
-        this->setAttributes(new Attributes());
     }
 
     /**
@@ -303,6 +305,18 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     public function getAction() -> string
     {
         return (string) this->getAttributes()->get("action");
+    }
+
+    /**
+    * Get Form attributes collection
+    */
+    public function getAttributes() -> <Attributes>
+    {
+        if unlikely null === this->attributes {
+            let this->attributes = new Attributes();
+        }
+
+        return this->attributes;
     }
 
     /**
@@ -745,6 +759,16 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     }
 
     /**
+    * Set form attributes collection
+    */
+    public function setAttributes(<Attributes> attributes) -> <AttributesInterface>
+    {
+        let this->attributes = attributes;
+
+        return this;
+    }
+
+    /**
      * Sets an option for the form
      */
     public function setUserOption(string option, var value) -> <Form>
@@ -770,23 +794,5 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
     public function valid() -> bool
     {
         return isset this->elementsIndexed[this->position];
-    }
-
-    /**
-    * Get Form attributes collection
-    */
-    public function getAttributes() -> <Attributes>
-    {
-        return this->attributes;
-    }
-
-    /**
-    * Set form attributes collection
-    */
-    public function setAttributes(<Attributes> attributes) -> <AttributesInterface>
-    {
-        let this->attributes = attributes;
-
-        return this;
     }
 }

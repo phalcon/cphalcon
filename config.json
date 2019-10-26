@@ -3,7 +3,7 @@
   "name": "phalcon",
   "description": "Web framework delivered as a C-extension for PHP",
   "author": "Phalcon Team and contributors",
-  "version": "4.0.0-rc.1",
+  "version": "4.0.0-rc.2",
   "verbose": false,
 
   "optimizer-dirs": [
@@ -143,6 +143,10 @@
       "default": true
     },
     "orm.virtual_foreign_keys": {
+      "type": "bool",
+      "default": true
+    },
+    "warning.enable": {
       "type": "bool",
       "default": true
     }

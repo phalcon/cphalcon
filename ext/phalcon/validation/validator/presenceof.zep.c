@@ -64,7 +64,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_PresenceOf) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator, PresenceOf, phalcon, validation_validator_presenceof, phalcon_validation_abstractvalidator_ce, phalcon_validation_validator_presenceof_method_entry, 0);
 
-	zend_declare_property_string(phalcon_validation_validator_presenceof_ce, SL("template"), "Field :field is required", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_validation_validator_presenceof_ce, SL("template"), "Field :field is required", ZEND_ACC_PROTECTED);
 
 	return SUCCESS;
 

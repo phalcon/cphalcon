@@ -1,11 +1,10 @@
-
-/**
+/* scanner.re
  * This file is part of the Phalcon Framework.
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 
 #ifdef HAVE_CONFIG_H
@@ -33,31 +32,6 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 		re2c:indent:top = 2;
 		re2c:yyfill:enable = 0;
 
-		HINTEGER = [x0-9A-Fa-f]+;
-		HINTEGER {
-            token->value = estrndup(q, YYCURSOR - q);
-            token->len = YYCURSOR - q;
-            if (token->len > 2 && !memcmp(token->value, "0x", 2)) {
-			    token->opcode = PHQL_T_HINTEGER;
-            } else {
-                int i, alpha = 0;
-                for (i = 0; i < token->len; i++) {
-                    unsigned char ch = token->value[i];
-                    if (!((ch >= '0') && (ch <= '9'))) {
-                        alpha = 1;
-                        break;
-                    }
-                }
-                if (alpha) {
-                    token->opcode = PHQL_T_IDENTIFIER;
-                } else {
-                    token->opcode = PHQL_T_INTEGER;
-                }
-            }
-			q = YYCURSOR;
-			return 0;
-		}
-
 		INTEGER = [0-9]+;
 		INTEGER {
 			token->opcode = PHQL_T_INTEGER;
@@ -67,7 +41,32 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 			return 0;
 		}
 
-		DOUBLE = ([0-9]*[\.][0-9]+)|([0-9]+[\.][0-9]*);
+		HINTEGER = [x0-9A-Fa-f]+;
+		HINTEGER {
+			token->value = estrndup(q, YYCURSOR - q);
+			token->len = YYCURSOR - q;
+			if (token->len > 2 && !memcmp(token->value, "0x", 2)) {
+				token->opcode = PHQL_T_HINTEGER;
+			} else {
+				int i, alpha = 0;
+				for (i = 0; i < token->len; i++) {
+					unsigned char ch = token->value[i];
+					if (!((ch >= '0') && (ch <= '9'))) {
+						alpha = 1;
+						break;
+					}
+				}
+				if (alpha) {
+					token->opcode = PHQL_T_IDENTIFIER;
+				} else {
+					token->opcode = PHQL_T_INTEGER;
+				}
+			}
+			q = YYCURSOR;
+			return 0;
+		}
+
+		DOUBLE = ([0-9]*[.][0-9]+)|([0-9]+[.][0-9]*);
 		DOUBLE {
 			token->opcode = PHQL_T_DOUBLE;
 			token->value = estrndup(q, YYCURSOR - q);
@@ -85,7 +84,7 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 			return 0;
 		}
 
-		SPLACEHOLDER = ":"[a-zA-Z0-9\_\-]+":";
+		SPLACEHOLDER = ":"[a-zA-Z0-9_\-]+":";
 		SPLACEHOLDER {
 			token->opcode = PHQL_T_SPLACEHOLDER;
 			token->value = estrndup(q, YYCURSOR - q - 1);
@@ -94,7 +93,7 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 			return 0;
 		}
 
-		BPLACEHOLDER = "{"[a-zA-Z0-9\_\-\:]+"}";
+		BPLACEHOLDER = "{"[a-zA-Z0-9_:\-]+"}";
 		BPLACEHOLDER {
 			token->opcode = PHQL_T_BPLACEHOLDER;
 			token->value = estrndup(q, YYCURSOR - q - 1);
@@ -288,6 +287,11 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 			return 0;
 		}
 
+		'NOT BETWEEN' {
+			token->opcode = PHQL_T_BETWEEN_NOT;
+			return 0;
+		}
+
 		'BETWEEN' {
 			token->opcode = PHQL_T_BETWEEN;
 			return 0;
@@ -308,7 +312,7 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 			return 0;
 		}
 
-        'EXISTS' {
+		'EXISTS' {
 			token->opcode = PHQL_T_EXISTS;
 			return 0;
 		}
@@ -323,27 +327,27 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 			return 0;
 		}
 
-        'CASE' {
+		'CASE' {
 			token->opcode = PHQL_T_CASE;
 			return 0;
 		}
 
-        'WHEN' {
+		'WHEN' {
 			token->opcode = PHQL_T_WHEN;
 			return 0;
 		}
 
-        'THEN' {
+		'THEN' {
 			token->opcode = PHQL_T_THEN;
 			return 0;
 		}
 
-        'ELSE' {
+		'ELSE' {
 			token->opcode = PHQL_T_ELSE;
 			return 0;
 		}
 
-        'END' {
+		'END' {
 			token->opcode = PHQL_T_END;
 			return 0;
 		}
@@ -353,7 +357,7 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 			return 0;
 		}
 
-        'WITH' {
+		'WITH' {
 			token->opcode = PHQL_T_WITH;
 			return 0;
 		}
@@ -367,7 +371,7 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 			return 0;
 		}
 
-		IDENTIFIER = [\\]?[a-zA-Z\_][a-zA-Z0-9\_\\:]*;
+		IDENTIFIER = [\\]?[a-zA-Z_][a-zA-Z0-9_\\:]*;
 		IDENTIFIER {
 			token->opcode = PHQL_T_IDENTIFIER;
 			if ((YYCURSOR - q) > 1) {
@@ -386,7 +390,7 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 			return 0;
 		}
 
-		EIDENTIFIER = [\[] [a-zA-Z\\\_][a-zA-Z0-9\_\\:]* [\]];
+		EIDENTIFIER = '[' [a-zA-Z\\_][a-zA-Z0-9_\\:]* ']';
 		EIDENTIFIER {
 			token->opcode = PHQL_T_IDENTIFIER;
 			token->value = estrndup(q, YYCURSOR - q - 1);
@@ -502,11 +506,6 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 
 		"@>" {
 			token->opcode = PHQL_T_TS_CONTAINS_ANOTHER;
-			return 0;
-		}
-
-		"@>" {
-			token->opcode = PHQL_T_TS_CONTAINS_IN;
 			return 0;
 		}
 

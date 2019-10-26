@@ -39,9 +39,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Micro_LazyLoader) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Micro, LazyLoader, phalcon, mvc_micro_lazyloader, phalcon_mvc_micro_lazyloader_method_entry, 0);
 
-	zend_declare_property_null(phalcon_mvc_micro_lazyloader_ce, SL("handler"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_micro_lazyloader_ce, SL("handler"), ZEND_ACC_PROTECTED);
 
-	zend_declare_property_null(phalcon_mvc_micro_lazyloader_ce, SL("definition"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_micro_lazyloader_ce, SL("definition"), ZEND_ACC_PROTECTED);
 
 	return SUCCESS;
 
@@ -72,7 +72,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __construct) {
 	zephir_fetch_params(1, 1, 0, &definition_param);
 
 	if (UNEXPECTED(Z_TYPE_P(definition_param) != IS_STRING && Z_TYPE_P(definition_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'definition' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'definition' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(definition_param) == IS_STRING)) {
@@ -120,7 +120,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, callMethod) {
 	zephir_fetch_params(1, 2, 1, &method_param, &arguments, &modelBinder);
 
 	if (UNEXPECTED(Z_TYPE_P(method_param) != IS_STRING && Z_TYPE_P(method_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'method' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'method' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(method_param) == IS_STRING)) {
@@ -141,19 +141,19 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, callMethod) {
 	zephir_read_property(&_0, this_ptr, SL("definition"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&definition, &_0);
 	if (Z_TYPE_P(&handler) != IS_OBJECT) {
-		if (!(zephir_class_exists(&definition, 1 TSRMLS_CC))) {
+		if (!(zephir_class_exists(&definition, 1))) {
 			ZEPHIR_INIT_VAR(&_1$$4);
 			object_init_ex(&_1$$4, phalcon_mvc_micro_exception_ce);
 			ZEPHIR_INIT_VAR(&_2$$4);
 			ZEPHIR_CONCAT_SVS(&_2$$4, "Handler '", &definition, "' doesn't exist");
-			ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 5, &_2$$4);
+			ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 6, &_2$$4);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_1$$4, "phalcon/Mvc/Micro/LazyLoader.zep", 49 TSRMLS_CC);
+			zephir_throw_exception_debug(&_1$$4, "phalcon/Mvc/Micro/LazyLoader.zep", 49);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
 		ZEPHIR_INIT_NVAR(&handler);
-		ZEPHIR_LAST_CALL_STATUS = zephir_create_instance(&handler, &definition TSRMLS_CC);
+		ZEPHIR_LAST_CALL_STATUS = zephir_create_instance(&handler, &definition);
 		zephir_check_call_status();
 		zephir_update_property_zval(this_ptr, SL("handler"), &handler);
 	}
@@ -165,7 +165,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, callMethod) {
 		ZEPHIR_CPY_WRT(arguments, &_3$$5);
 	}
 	ZEPHIR_INIT_VAR(&_4);
-	zephir_create_array(&_4, 2, 0 TSRMLS_CC);
+	zephir_create_array(&_4, 2, 0);
 	zephir_array_fast_append(&_4, &handler);
 	zephir_array_fast_append(&_4, &method);
 	ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, &_4, arguments);

@@ -41,7 +41,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Storage_Adapter_Apcu) {
 	/**
 	 * @var array
 	 */
-	zend_declare_property_null(phalcon_storage_adapter_apcu_ce, SL("options"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_storage_adapter_apcu_ce, SL("options"), ZEND_ACC_PROTECTED);
 
 	phalcon_storage_adapter_apcu_ce->create_object = zephir_init_properties_Phalcon_Storage_Adapter_Apcu;
 	return SUCCESS;
@@ -128,14 +128,14 @@ PHP_METHOD(Phalcon_Storage_Adapter_Apcu, clear) {
 	if (Z_TYPE_P(&apc) != IS_OBJECT) {
 		RETURN_MM_BOOL(0);
 	}
-	_1 = zephir_get_iterator(&apc TSRMLS_CC);
-	_1->funcs->rewind(_1 TSRMLS_CC);
-	for (;_1->funcs->valid(_1 TSRMLS_CC) == SUCCESS && !EG(exception); _1->funcs->move_forward(_1 TSRMLS_CC)) {
+	_1 = zephir_get_iterator(&apc);
+	_1->funcs->rewind(_1);
+	for (;_1->funcs->valid(_1) == SUCCESS && !EG(exception); _1->funcs->move_forward(_1)) {
 		{
 			ZEPHIR_ITERATOR_COPY(&item, _1);
 		}
-		zephir_array_fetch_string(&_2$$4, &item, SL("key"), PH_NOISY | PH_READONLY, "phalcon/Storage/Adapter/Apcu.zep", 63 TSRMLS_CC);
-		ZEPHIR_CALL_FUNCTION(&_3$$4, "apcu_delete", &_4, 107, &_2$$4);
+		zephir_array_fetch_string(&_2$$4, &item, SL("key"), PH_NOISY | PH_READONLY, "phalcon/Storage/Adapter/Apcu.zep", 63);
+		ZEPHIR_CALL_FUNCTION(&_3$$4, "apcu_delete", &_4, 108, &_2$$4);
 		zephir_check_call_status();
 		if (!(zephir_is_true(&_3$$4))) {
 			result = 0;
@@ -170,7 +170,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Apcu, decrement) {
 	zephir_fetch_params(1, 1, 1, &key_param, &value_param);
 
 	if (UNEXPECTED(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(key_param) == IS_STRING)) {
@@ -189,7 +189,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Apcu, decrement) {
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getprefixedkey", NULL, 0, &key);
 	zephir_check_call_status();
 	ZVAL_LONG(&_1, value);
-	ZEPHIR_RETURN_CALL_FUNCTION("apcu_dec", NULL, 108, &_0, &_1);
+	ZEPHIR_RETURN_CALL_FUNCTION("apcu_dec", NULL, 109, &_0, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -217,7 +217,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Apcu, delete) {
 	zephir_fetch_params(1, 1, 0, &key_param);
 
 	if (UNEXPECTED(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(key_param) == IS_STRING)) {
@@ -230,7 +230,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Apcu, delete) {
 
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getprefixedkey", NULL, 0, &key);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_FUNCTION("apcu_delete", NULL, 107, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("apcu_delete", NULL, 108, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -262,7 +262,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Apcu, get) {
 	zephir_fetch_params(1, 1, 1, &key_param, &defaultValue);
 
 	if (UNEXPECTED(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(key_param) == IS_STRING)) {
@@ -279,7 +279,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Apcu, get) {
 
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getprefixedkey", NULL, 0, &key);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&content, "apcu_fetch", NULL, 109, &_0);
+	ZEPHIR_CALL_FUNCTION(&content, "apcu_fetch", NULL, 110, &_0);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getunserializeddata", NULL, 0, &content, defaultValue);
 	zephir_check_call_status();
@@ -339,13 +339,13 @@ PHP_METHOD(Phalcon_Storage_Adapter_Apcu, getKeys) {
 	if (Z_TYPE_P(&apc) != IS_OBJECT) {
 		RETURN_CTOR(&results);
 	}
-	_1 = zephir_get_iterator(&apc TSRMLS_CC);
-	_1->funcs->rewind(_1 TSRMLS_CC);
-	for (;_1->funcs->valid(_1 TSRMLS_CC) == SUCCESS && !EG(exception); _1->funcs->move_forward(_1 TSRMLS_CC)) {
+	_1 = zephir_get_iterator(&apc);
+	_1->funcs->rewind(_1);
+	for (;_1->funcs->valid(_1) == SUCCESS && !EG(exception); _1->funcs->move_forward(_1)) {
 		{
 			ZEPHIR_ITERATOR_COPY(&item, _1);
 		}
-		zephir_array_fetch_string(&_2$$4, &item, SL("key"), PH_NOISY | PH_READONLY, "phalcon/Storage/Adapter/Apcu.zep", 143 TSRMLS_CC);
+		zephir_array_fetch_string(&_2$$4, &item, SL("key"), PH_NOISY | PH_READONLY, "phalcon/Storage/Adapter/Apcu.zep", 143);
 		zephir_array_append(&results, &_2$$4, PH_SEPARATE, "phalcon/Storage/Adapter/Apcu.zep", 143);
 	}
 	zend_iterator_dtor(_1);
@@ -375,7 +375,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Apcu, has) {
 	zephir_fetch_params(1, 1, 0, &key_param);
 
 	if (UNEXPECTED(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(key_param) == IS_STRING)) {
@@ -388,7 +388,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Apcu, has) {
 
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getprefixedkey", NULL, 0, &key);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_FUNCTION("apcu_exists", NULL, 110, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("apcu_exists", NULL, 111, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -418,7 +418,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Apcu, increment) {
 	zephir_fetch_params(1, 1, 1, &key_param, &value_param);
 
 	if (UNEXPECTED(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(key_param) == IS_STRING)) {
@@ -437,7 +437,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Apcu, increment) {
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getprefixedkey", NULL, 0, &key);
 	zephir_check_call_status();
 	ZVAL_LONG(&_1, value);
-	ZEPHIR_RETURN_CALL_FUNCTION("apcu_inc", NULL, 111, &_0, &_1);
+	ZEPHIR_RETURN_CALL_FUNCTION("apcu_inc", NULL, 112, &_0, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -473,7 +473,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Apcu, set) {
 	zephir_fetch_params(1, 2, 1, &key_param, &value, &ttl);
 
 	if (UNEXPECTED(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(key_param) == IS_STRING)) {
@@ -494,7 +494,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Apcu, set) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_2, this_ptr, "getttl", NULL, 0, ttl);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_FUNCTION("apcu_store", NULL, 112, &_0, &_1, &_2);
+	ZEPHIR_RETURN_CALL_FUNCTION("apcu_store", NULL, 113, &_0, &_1, &_2);
 	zephir_check_call_status();
 	RETURN_MM();
 

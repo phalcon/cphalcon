@@ -92,11 +92,6 @@ abstract class AbstractApplication extends Injectable implements EventsAwareInte
     }
 
     /**
-     * Handles a request
-     */
-    abstract public function handle();
-
-    /**
      * Register an array of modules present in the application
      *
      * ```php

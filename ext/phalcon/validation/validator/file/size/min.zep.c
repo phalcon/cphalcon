@@ -76,7 +76,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_File_Size_Min) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator\\File\\Size, Min, phalcon, validation_validator_file_size_min, phalcon_validation_validator_file_abstractfile_ce, phalcon_validation_validator_file_size_min_method_entry, 0);
 
-	zend_declare_property_string(phalcon_validation_validator_file_size_min_ce, SL("template"), "File :field can not have the minimum size of :size", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_validation_validator_file_size_min_ce, SL("template"), "File :field can not have the minimum size of :size", ZEND_ACC_PROTECTED);
 
 	return SUCCESS;
 
@@ -132,27 +132,27 @@ PHP_METHOD(Phalcon_Validation_Validator_File_Size_Min, validate) {
 	ZEPHIR_CALL_METHOD(&size, this_ptr, "getoption", NULL, 0, &_1);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&size) == IS_ARRAY) {
-		zephir_array_fetch(&_2$$4, &size, field, PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/File/Size/Min.zep", 82 TSRMLS_CC);
+		zephir_array_fetch(&_2$$4, &size, field, PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/File/Size/Min.zep", 81);
 		ZEPHIR_CPY_WRT(&size, &_2$$4);
 	}
 	ZEPHIR_CALL_METHOD(&_3, this_ptr, "getfilesizeinbytes", NULL, 0, &size);
 	zephir_check_call_status();
 	ZVAL_LONG(&_4, 6);
 	ZEPHIR_INIT_VAR(&bytes);
-	zephir_round(&bytes, &_3, &_4, NULL TSRMLS_CC);
-	zephir_array_fetch_string(&_5, &value, SL("size"), PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/File/Size/Min.zep", 86 TSRMLS_CC);
-	ZEPHIR_CALL_FUNCTION(&_6, "floatval", NULL, 14, &_5);
+	zephir_round(&bytes, &_3, &_4, NULL);
+	zephir_array_fetch_string(&_5, &value, SL("size"), PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/File/Size/Min.zep", 85);
+	ZEPHIR_CALL_FUNCTION(&_6, "floatval", NULL, 15, &_5);
 	zephir_check_call_status();
 	ZVAL_LONG(&_7, 6);
 	ZEPHIR_INIT_VAR(&fileSize);
-	zephir_round(&fileSize, &_6, &_7, NULL TSRMLS_CC);
+	zephir_round(&fileSize, &_6, &_7, NULL);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "included");
 	ZEPHIR_CALL_METHOD(&included, this_ptr, "getoption", NULL, 0, &_1);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&included) == IS_ARRAY) {
 		ZEPHIR_OBS_VAR(&_8$$5);
-		zephir_array_fetch(&_8$$5, &included, field, PH_NOISY, "phalcon/Validation/Validator/File/Size/Min.zep", 91 TSRMLS_CC);
+		zephir_array_fetch(&_8$$5, &included, field, PH_NOISY, "phalcon/Validation/Validator/File/Size/Min.zep", 90);
 		_9$$5 = zephir_get_boolval(&_8$$5);
 		ZEPHIR_INIT_NVAR(&included);
 		ZVAL_BOOL(&included, _9$$5);
@@ -168,7 +168,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File_Size_Min, validate) {
 	}
 	if (result) {
 		ZEPHIR_INIT_VAR(&replacePairs);
-		zephir_create_array(&replacePairs, 1, 0 TSRMLS_CC);
+		zephir_create_array(&replacePairs, 1, 0);
 		zephir_array_update_string(&replacePairs, SL(":size"), &size, PH_COPY | PH_SEPARATE);
 		ZEPHIR_CALL_METHOD(&_11$$9, this_ptr, "messagefactory", NULL, 0, validation, field, &replacePairs);
 		zephir_check_call_status();

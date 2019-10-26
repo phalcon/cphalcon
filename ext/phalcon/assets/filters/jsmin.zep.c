@@ -36,7 +36,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Filters_Jsmin) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Assets\\Filters, Jsmin, phalcon, assets_filters_jsmin, phalcon_assets_filters_jsmin_method_entry, 0);
 
-	zend_class_implements(phalcon_assets_filters_jsmin_ce TSRMLS_CC, 1, phalcon_assets_filterinterface_ce);
+	zend_class_implements(phalcon_assets_filters_jsmin_ce, 1, phalcon_assets_filterinterface_ce);
 	return SUCCESS;
 
 }
@@ -58,7 +58,7 @@ PHP_METHOD(Phalcon_Assets_Filters_Jsmin, filter) {
 	zephir_fetch_params(1, 1, 0, &content_param);
 
 	if (UNEXPECTED(Z_TYPE_P(content_param) != IS_STRING && Z_TYPE_P(content_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'content' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'content' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(content_param) == IS_STRING)) {

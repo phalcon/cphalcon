@@ -11,10 +11,10 @@
 #include "kernel/globals.h"
 
 #define PHP_PHALCON_NAME        "phalcon"
-#define PHP_PHALCON_VERSION     "4.0.0-rc.1"
+#define PHP_PHALCON_VERSION     "4.0.0-rc.2"
 #define PHP_PHALCON_EXTNAME     "phalcon"
 #define PHP_PHALCON_AUTHOR      "Phalcon Team and contributors"
-#define PHP_PHALCON_ZEPVERSION  "0.12.4-b386980"
+#define PHP_PHALCON_ZEPVERSION  "0.12.10-fedc314"
 #define PHP_PHALCON_DESCRIPTION "Web framework delivered as a C-extension for PHP"
 
 typedef struct _zephir_struct_db { 
@@ -45,6 +45,10 @@ typedef struct _zephir_struct_orm {
 	zend_bool virtual_foreign_keys;
 } zephir_struct_orm;
 
+typedef struct _zephir_struct_warning { 
+	zend_bool enable;
+} zephir_struct_warning;
+
 
 
 ZEND_BEGIN_MODULE_GLOBALS(phalcon)
@@ -66,6 +70,8 @@ ZEND_BEGIN_MODULE_GLOBALS(phalcon)
 	zephir_struct_db db;
 
 	zephir_struct_orm orm;
+
+	zephir_struct_warning warning;
 
 
 ZEND_END_MODULE_GLOBALS(phalcon)

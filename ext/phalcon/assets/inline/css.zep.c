@@ -77,7 +77,7 @@ PHP_METHOD(Phalcon_Assets_Inline_Css, __construct) {
 
 	if (Z_TYPE_P(attributes) == IS_NULL) {
 		ZEPHIR_INIT_VAR(&_0$$3);
-		zephir_create_array(&_0$$3, 1, 0 TSRMLS_CC);
+		zephir_create_array(&_0$$3, 1, 0);
 		add_assoc_stringl_ex(&_0$$3, SL("type"), SL("text/css"));
 		ZEPHIR_CPY_WRT(attributes, &_0$$3);
 	}

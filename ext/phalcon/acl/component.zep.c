@@ -39,16 +39,16 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Component) {
 	 *
 	 * @var string
 	 */
-	zend_declare_property_null(phalcon_acl_component_ce, SL("description"), ZEND_ACC_PRIVATE TSRMLS_CC);
+	zend_declare_property_null(phalcon_acl_component_ce, SL("description"), ZEND_ACC_PRIVATE);
 
 	/**
 	 * Component name
 	 *
 	 * @var string
 	 */
-	zend_declare_property_null(phalcon_acl_component_ce, SL("name"), ZEND_ACC_PRIVATE TSRMLS_CC);
+	zend_declare_property_null(phalcon_acl_component_ce, SL("name"), ZEND_ACC_PRIVATE);
 
-	zend_class_implements(phalcon_acl_component_ce TSRMLS_CC, 1, phalcon_acl_componentinterface_ce);
+	zend_class_implements(phalcon_acl_component_ce, 1, phalcon_acl_componentinterface_ce);
 	return SUCCESS;
 
 }
@@ -106,7 +106,7 @@ PHP_METHOD(Phalcon_Acl_Component, __construct) {
 	zephir_fetch_params(1, 1, 1, &name_param, &description_param);
 
 	if (UNEXPECTED(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(name_param) == IS_STRING)) {

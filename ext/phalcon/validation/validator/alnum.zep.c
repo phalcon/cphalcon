@@ -64,7 +64,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Alnum) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator, Alnum, phalcon, validation_validator_alnum, phalcon_validation_abstractvalidator_ce, phalcon_validation_validator_alnum_method_entry, 0);
 
-	zend_declare_property_string(phalcon_validation_validator_alnum_ce, SL("template"), "Field :field must contain only letters and numbers", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_validation_validator_alnum_ce, SL("template"), "Field :field must contain only letters and numbers", ZEND_ACC_PROTECTED);
 
 	return SUCCESS;
 

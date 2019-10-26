@@ -83,11 +83,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Application) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc, Application, phalcon, mvc_application, phalcon_application_abstractapplication_ce, phalcon_mvc_application_method_entry, 0);
 
-	zend_declare_property_bool(phalcon_mvc_application_ce, SL("implicitView"), 1, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_bool(phalcon_mvc_application_ce, SL("implicitView"), 1, ZEND_ACC_PROTECTED);
 
-	zend_declare_property_bool(phalcon_mvc_application_ce, SL("sendCookies"), 1, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_bool(phalcon_mvc_application_ce, SL("sendCookies"), 1, ZEND_ACC_PROTECTED);
 
-	zend_declare_property_bool(phalcon_mvc_application_ce, SL("sendHeaders"), 1, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_bool(phalcon_mvc_application_ce, SL("sendHeaders"), 1, ZEND_ACC_PROTECTED);
 
 	return SUCCESS;
 
@@ -172,7 +172,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 	zephir_fetch_params(1, 1, 0, &uri_param);
 
 	if (UNEXPECTED(Z_TYPE_P(uri_param) != IS_STRING && Z_TYPE_P(uri_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'uri' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'uri' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(uri_param) == IS_STRING)) {
@@ -192,9 +192,9 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 		ZVAL_STRING(&_4$$3, "internal services");
 		ZEPHIR_CALL_CE_STATIC(&_2$$3, phalcon_mvc_application_exception_ce, "containerservicenotfound", &_3, 0, &_4$$3);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 5, &_2$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 6, &_2$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Mvc/Application.zep", 94 TSRMLS_CC);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Mvc/Application.zep", 94);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -222,7 +222,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 		ZEPHIR_CALL_METHOD(&match, &matchedRoute, "getmatch", NULL, 0);
 		zephir_check_call_status();
 		if (Z_TYPE_P(&match) != IS_NULL) {
-			if (zephir_instance_of_ev(&match, zend_ce_closure TSRMLS_CC)) {
+			if (zephir_instance_of_ev(&match, zend_ce_closure)) {
 				_10$$8 = zephir_fetch_class_str_ex(SL("Closure"), ZEND_FETCH_CLASS_AUTO);
 				ZEPHIR_CALL_CE_STATIC(&_9$$8, _10$$8, "bind", NULL, 0, &match, &container);
 				zephir_check_call_status();
@@ -245,7 +245,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 			}
 			_14$$7 = Z_TYPE_P(&possibleResponse) == IS_OBJECT;
 			if (_14$$7) {
-				_14$$7 = zephir_instance_of_ev(&possibleResponse, phalcon_http_responseinterface_ce TSRMLS_CC);
+				_14$$7 = zephir_instance_of_ev(&possibleResponse, phalcon_http_responseinterface_ce);
 			}
 			if (_14$$7) {
 				ZEPHIR_CALL_METHOD(NULL, &possibleResponse, "sendheaders", NULL, 0);
@@ -292,19 +292,19 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 			}
 			ZEPHIR_OBS_VAR(&path);
 			if (zephir_array_isset_string_fetch(&path, &module, SL("path"), 0)) {
-				if (UNEXPECTED(!((zephir_file_exists(&path TSRMLS_CC) == SUCCESS)))) {
+				if (UNEXPECTED(!((zephir_file_exists(&path) == SUCCESS)))) {
 					ZEPHIR_INIT_VAR(&_18$$19);
 					object_init_ex(&_18$$19, phalcon_mvc_application_exception_ce);
 					ZEPHIR_INIT_VAR(&_19$$19);
 					ZEPHIR_CONCAT_SVS(&_19$$19, "Module definition path '", &path, "' doesn't exist");
-					ZEPHIR_CALL_METHOD(NULL, &_18$$19, "__construct", NULL, 5, &_19$$19);
+					ZEPHIR_CALL_METHOD(NULL, &_18$$19, "__construct", NULL, 6, &_19$$19);
 					zephir_check_call_status();
-					zephir_throw_exception_debug(&_18$$19, "phalcon/Mvc/Application.zep", 214 TSRMLS_CC);
+					zephir_throw_exception_debug(&_18$$19, "phalcon/Mvc/Application.zep", 214);
 					ZEPHIR_MM_RESTORE();
 					return;
 				}
-				if (!(zephir_class_exists(&className, zephir_is_true(&__$false)  TSRMLS_CC))) {
-					if (zephir_require_zval(&path TSRMLS_CC) == FAILURE) {
+				if (!(zephir_class_exists(&className, zephir_is_true(&__$false) ))) {
+					if (zephir_require_zval(&path) == FAILURE) {
 						RETURN_MM_NULL();
 					}
 				}
@@ -317,12 +317,12 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 			ZEPHIR_CALL_METHOD(NULL, &moduleObject, "registerservices", NULL, 0, &container);
 			zephir_check_call_status();
 		} else {
-			if (UNEXPECTED(!((zephir_instance_of_ev(&module, zend_ce_closure TSRMLS_CC))))) {
+			if (UNEXPECTED(!((zephir_instance_of_ev(&module, zend_ce_closure))))) {
 				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_application_exception_ce, "Invalid module definition", "phalcon/Mvc/Application.zep", 235);
 				return;
 			}
 			ZEPHIR_INIT_VAR(&_21$$21);
-			zephir_create_array(&_21$$21, 1, 0 TSRMLS_CC);
+			zephir_create_array(&_21$$21, 1, 0);
 			zephir_array_fast_append(&_21$$21, &container);
 			ZEPHIR_INIT_NVAR(&moduleObject);
 			ZEPHIR_CALL_USER_FUNC_ARRAY(&moduleObject, &module, &_21$$21);
@@ -404,7 +404,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 		} else {
 			_35$$31 = (Z_TYPE_P(&possibleResponse) == IS_OBJECT);
 			if (_35$$31) {
-				_35$$31 = (zephir_instance_of_ev(&possibleResponse, phalcon_http_responseinterface_ce TSRMLS_CC));
+				_35$$31 = (zephir_instance_of_ev(&possibleResponse, phalcon_http_responseinterface_ce));
 			}
 			returnedResponse = _35$$31;
 			if (Z_TYPE_P(&eventsManager) == IS_OBJECT) {

@@ -45,7 +45,7 @@ abstract class AbstractPdo extends AbstractAdapter
     /**
      * PDO Handler
      *
-     * @var \Pdo
+     * @var \PDO
      */
     protected pdo;
 
@@ -269,7 +269,7 @@ abstract class AbstractPdo extends AbstractAdapter
         }
 
         // Set PDO to throw exceptions when an error is encountered.
-        let options[\Pdo::ATTR_ERRMODE] = \Pdo::ERRMODE_EXCEPTION;
+        let options[\PDO::ATTR_ERRMODE] = \PDO::ERRMODE_EXCEPTION;
 
         let dsnParts = [];
 
@@ -299,7 +299,7 @@ abstract class AbstractPdo extends AbstractAdapter
         let dsnAttributes = join(";", dsnParts);
 
         // Create the connection using PDO
-        let this->pdo = new \Pdo(
+        let this->pdo = new \PDO(
             this->type . ":" . dsnAttributes,
             username,
             password,
@@ -419,7 +419,7 @@ abstract class AbstractPdo extends AbstractAdapter
          */
         let affectedRows = 0;
 
-        let pdo = <\Pdo> this->pdo;
+        let pdo = <\PDO> this->pdo;
 
         if typeof bindParams == "array" {
             let statement = pdo->prepare(sqlStatement);
@@ -578,7 +578,7 @@ abstract class AbstractPdo extends AbstractAdapter
     /**
      * Return internal PDO handler
      */
-    public function getInternalHandler() -> <\Pdo>
+    public function getInternalHandler() -> <\PDO>
     {
         return this->pdo;
     }
@@ -715,7 +715,7 @@ abstract class AbstractPdo extends AbstractAdapter
             }
         }
 
-        let pdo = <\Pdo> this->pdo;
+        let pdo = <\PDO> this->pdo;
         if typeof bindParams == "array" {
             let params = bindParams;
             let types = bindTypes;

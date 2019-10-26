@@ -33,7 +33,7 @@ class GetPrefixCest
         $adapter    = new Stream(
             $serializer,
             [
-                'cacheDir' => outputDir(),
+                'storageDir' => outputDir(),
                 'prefix'   => 'my-prefix',
             ]
         );
@@ -54,7 +54,7 @@ class GetPrefixCest
         $I->wantToTest('Cache\Adapter\Stream - getPrefix() - default');
 
         $serializer = new SerializerFactory();
-        $adapter    = new Stream($serializer, ['cacheDir' => outputDir()]);
+        $adapter    = new Stream($serializer, ['storageDir' => outputDir()]);
 
         $expected = 'phstrm-';
         $actual   = $adapter->getPrefix();

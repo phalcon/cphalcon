@@ -30,7 +30,7 @@ class ClearCest
     {
         $I->wantToTest('Cache\Adapter\Stream - clear()');
         $serializer = new SerializerFactory();
-        $adapter    = new Stream($serializer, ['cacheDir' => outputDir()]);
+        $adapter    = new Stream($serializer, ['storageDir' => outputDir()]);
 
         $key1 = uniqid();
         $key2 = uniqid();
@@ -62,7 +62,7 @@ class ClearCest
     {
         $I->wantToTest('Cache\Adapter\Stream - clear() - twice');
         $serializer = new SerializerFactory();
-        $adapter    = new Stream($serializer, ['cacheDir' => outputDir()]);
+        $adapter    = new Stream($serializer, ['storageDir' => outputDir()]);
 
         $key1 = uniqid();
         $key2 = uniqid();

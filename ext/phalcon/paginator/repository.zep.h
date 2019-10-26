@@ -13,6 +13,7 @@ PHP_METHOD(Phalcon_Paginator_Repository, getLimit);
 PHP_METHOD(Phalcon_Paginator_Repository, getNext);
 PHP_METHOD(Phalcon_Paginator_Repository, getPrevious);
 PHP_METHOD(Phalcon_Paginator_Repository, getTotalItems);
+PHP_METHOD(Phalcon_Paginator_Repository, jsonSerialize);
 PHP_METHOD(Phalcon_Paginator_Repository, setAliases);
 PHP_METHOD(Phalcon_Paginator_Repository, setProperties);
 PHP_METHOD(Phalcon_Paginator_Repository, getProperty);
@@ -84,6 +85,13 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_paginator_repository_get
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_paginator_repository_jsonserialize, 0, 0, IS_ARRAY, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_paginator_repository_jsonserialize, 0, 0, IS_ARRAY, NULL, 0)
+#endif
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_paginator_repository_setaliases, 0, 1, Phalcon\\Paginator\\RepositoryInterface, 0)
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_paginator_repository_setaliases, 0, 1, IS_OBJECT, "Phalcon\\Paginator\\RepositoryInterface", 0)
@@ -131,6 +139,7 @@ ZEPHIR_INIT_FUNCS(phalcon_paginator_repository_method_entry) {
 	PHP_ME(Phalcon_Paginator_Repository, getNext, arginfo_phalcon_paginator_repository_getnext, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Paginator_Repository, getPrevious, arginfo_phalcon_paginator_repository_getprevious, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Paginator_Repository, getTotalItems, arginfo_phalcon_paginator_repository_gettotalitems, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Paginator_Repository, jsonSerialize, arginfo_phalcon_paginator_repository_jsonserialize, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Paginator_Repository, setAliases, arginfo_phalcon_paginator_repository_setaliases, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Paginator_Repository, setProperties, arginfo_phalcon_paginator_repository_setproperties, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Paginator_Repository, getProperty, arginfo_phalcon_paginator_repository_getproperty, ZEND_ACC_PROTECTED)

@@ -52,7 +52,12 @@ class PdoFactory extends AbstractFactory
 
         if !isset this->services[name] {
             let definition           = this->mapper[name],
-                this->services[name] = new {definition}(options);
+                this->services[name] = create_instance_params(
+                    definition,
+                    [
+                        options
+                    ]
+                );
         }
 
         return this->services[name];
@@ -64,9 +69,9 @@ class PdoFactory extends AbstractFactory
     protected function getAdapters() -> array
     {
         return [
-            "mysql"      : "\\Phalcon\\Db\\Adapter\\Pdo\\Mysql",
-            "postgresql" : "\\Phalcon\\Db\\Adapter\\Pdo\\Postgresql",
-            "sqlite"     : "\\Phalcon\\Db\\Adapter\\Pdo\\Sqlite"
+            "mysql"      : "Phalcon\\Db\\Adapter\\Pdo\\Mysql",
+            "postgresql" : "Phalcon\\Db\\Adapter\\Pdo\\Postgresql",
+            "sqlite"     : "Phalcon\\Db\\Adapter\\Pdo\\Sqlite"
         ];
     }
 }

@@ -27,7 +27,7 @@ class CloseCest
     {
         $I->wantToTest('Http\Message\Stream - close()');
 
-        $fileName = dataDir('assets/stream/bill-of-rights.txt');
+        $fileName = dataDir('assets/stream/mit.txt');
 
         $handle = fopen($fileName, 'rb');
 
@@ -51,7 +51,7 @@ class CloseCest
     {
         $I->wantToTest('Http\Message\Stream - close()');
 
-        $fileName = dataDir('assets/stream/bill-of-rights.txt');
+        $fileName = dataDir('assets/stream/mit.txt');
 
         $handle = fopen($fileName, 'rb');
 

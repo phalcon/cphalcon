@@ -35,7 +35,7 @@ class GetSetDefaultSerializerCest
         $adapter = new Stream(
             $serializer,
             [
-                'cacheDir' => outputDir(),
+                'storageDir' => outputDir(),
             ]
         );
 

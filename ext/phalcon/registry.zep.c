@@ -135,7 +135,7 @@ PHP_METHOD(Phalcon_Registry, __get) {
 	zephir_fetch_params(1, 1, 0, &element_param);
 
 	if (UNEXPECTED(Z_TYPE_P(element_param) != IS_STRING && Z_TYPE_P(element_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'element' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'element' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(element_param) == IS_STRING)) {
@@ -170,7 +170,7 @@ PHP_METHOD(Phalcon_Registry, __isset) {
 	zephir_fetch_params(1, 1, 0, &element_param);
 
 	if (UNEXPECTED(Z_TYPE_P(element_param) != IS_STRING && Z_TYPE_P(element_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'element' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'element' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(element_param) == IS_STRING)) {
@@ -206,7 +206,7 @@ PHP_METHOD(Phalcon_Registry, __set) {
 	zephir_fetch_params(1, 2, 0, &element_param, &value);
 
 	if (UNEXPECTED(Z_TYPE_P(element_param) != IS_STRING && Z_TYPE_P(element_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'element' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'element' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(element_param) == IS_STRING)) {
@@ -241,7 +241,7 @@ PHP_METHOD(Phalcon_Registry, __unset) {
 	zephir_fetch_params(1, 1, 0, &element_param);
 
 	if (UNEXPECTED(Z_TYPE_P(element_param) != IS_STRING && Z_TYPE_P(element_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'element' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'element' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(element_param) == IS_STRING)) {
@@ -306,19 +306,20 @@ PHP_METHOD(Phalcon_Registry, get) {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
-	zval *element_param = NULL, *defaultValue = NULL, defaultValue_sub, __$null;
-	zval element;
+	zval *element_param = NULL, *defaultValue = NULL, defaultValue_sub, *cast_param = NULL, __$null;
+	zval element, cast;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&element);
+	ZVAL_UNDEF(&cast);
 	ZVAL_UNDEF(&defaultValue_sub);
 	ZVAL_NULL(&__$null);
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &element_param, &defaultValue);
+	zephir_fetch_params(1, 1, 2, &element_param, &defaultValue, &cast_param);
 
 	if (UNEXPECTED(Z_TYPE_P(element_param) != IS_STRING && Z_TYPE_P(element_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'element' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'element' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(element_param) == IS_STRING)) {
@@ -331,9 +332,24 @@ PHP_METHOD(Phalcon_Registry, get) {
 		defaultValue = &defaultValue_sub;
 		defaultValue = &__$null;
 	}
+	if (!cast_param) {
+		ZEPHIR_INIT_VAR(&cast);
+		ZVAL_STRING(&cast, "");
+	} else {
+	if (UNEXPECTED(Z_TYPE_P(cast_param) != IS_STRING && Z_TYPE_P(cast_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'cast' must be of the type string"));
+		RETURN_MM_NULL();
+	}
+	if (EXPECTED(Z_TYPE_P(cast_param) == IS_STRING)) {
+		zephir_get_strval(&cast, cast_param);
+	} else {
+		ZEPHIR_INIT_VAR(&cast);
+		ZVAL_EMPTY_STRING(&cast);
+	}
+	}
 
 
-	ZEPHIR_RETURN_CALL_PARENT(phalcon_registry_ce, getThis(), "get", &_0, 0, &element, defaultValue);
+	ZEPHIR_RETURN_CALL_PARENT(phalcon_registry_ce, getThis(), "get", &_0, 0, &element, defaultValue, &cast);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -376,7 +392,7 @@ PHP_METHOD(Phalcon_Registry, has) {
 	zephir_fetch_params(1, 1, 0, &element_param);
 
 	if (UNEXPECTED(Z_TYPE_P(element_param) != IS_STRING && Z_TYPE_P(element_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'element' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'element' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(element_param) == IS_STRING)) {
@@ -568,7 +584,7 @@ PHP_METHOD(Phalcon_Registry, remove) {
 	zephir_fetch_params(1, 1, 0, &element_param);
 
 	if (UNEXPECTED(Z_TYPE_P(element_param) != IS_STRING && Z_TYPE_P(element_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'element' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'element' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(element_param) == IS_STRING)) {
@@ -625,7 +641,7 @@ PHP_METHOD(Phalcon_Registry, set) {
 	zephir_fetch_params(1, 2, 0, &element_param, &value);
 
 	if (UNEXPECTED(Z_TYPE_P(element_param) != IS_STRING && Z_TYPE_P(element_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'element' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'element' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(element_param) == IS_STRING)) {

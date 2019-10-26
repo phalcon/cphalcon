@@ -57,7 +57,7 @@ PHP_METHOD(Phalcon_Domain_Payload_PayloadFactory, newInstance) {
 	ZEPHIR_MM_GROW();
 
 	object_init_ex(return_value, phalcon_domain_payload_payload_ce);
-	if (zephir_has_constructor(return_value TSRMLS_CC)) {
+	if (zephir_has_constructor(return_value)) {
 		ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0);
 		zephir_check_call_status();
 	}

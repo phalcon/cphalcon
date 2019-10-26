@@ -64,31 +64,34 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_View_Simple) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\View, Simple, phalcon, mvc_view_simple, phalcon_di_injectable_ce, phalcon_mvc_view_simple_method_entry, 0);
 
-	zend_declare_property_null(phalcon_mvc_view_simple_ce, SL("activeRenderPath"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_view_simple_ce, SL("activeRenderPath"), ZEND_ACC_PROTECTED);
 
-	zend_declare_property_null(phalcon_mvc_view_simple_ce, SL("content"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_view_simple_ce, SL("content"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * @var \Phalcon\Mvc\View\EngineInterface[]|false
 	 */
-	zend_declare_property_bool(phalcon_mvc_view_simple_ce, SL("engines"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_bool(phalcon_mvc_view_simple_ce, SL("engines"), 0, ZEND_ACC_PROTECTED);
 
-	zend_declare_property_null(phalcon_mvc_view_simple_ce, SL("options"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_view_simple_ce, SL("eventsManager"), ZEND_ACC_PROTECTED);
 
-	zend_declare_property_null(phalcon_mvc_view_simple_ce, SL("partialsDir"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_view_simple_ce, SL("options"), ZEND_ACC_PROTECTED);
+
+	zend_declare_property_null(phalcon_mvc_view_simple_ce, SL("partialsDir"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * @var array|null
 	 */
-	zend_declare_property_null(phalcon_mvc_view_simple_ce, SL("registeredEngines"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_view_simple_ce, SL("registeredEngines"), ZEND_ACC_PROTECTED);
 
-	zend_declare_property_null(phalcon_mvc_view_simple_ce, SL("viewsDir"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_view_simple_ce, SL("viewsDir"), ZEND_ACC_PROTECTED);
 
-	zend_declare_property_null(phalcon_mvc_view_simple_ce, SL("viewParams"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_view_simple_ce, SL("viewParams"), ZEND_ACC_PROTECTED);
 
 	phalcon_mvc_view_simple_ce->create_object = zephir_init_properties_Phalcon_Mvc_View_Simple;
 
-	zend_class_implements(phalcon_mvc_view_simple_ce TSRMLS_CC, 1, phalcon_mvc_viewbaseinterface_ce);
+	zend_class_implements(phalcon_mvc_view_simple_ce, 1, phalcon_mvc_viewbaseinterface_ce);
+	zend_class_implements(phalcon_mvc_view_simple_ce, 1, phalcon_events_eventsawareinterface_ce);
 	return SUCCESS;
 
 }
@@ -154,7 +157,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, __get) {
 	zephir_fetch_params(1, 1, 0, &key_param);
 
 	if (UNEXPECTED(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(key_param) == IS_STRING)) {
@@ -166,7 +169,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, __get) {
 
 
 	zephir_read_property(&_0, this_ptr, SL("viewParams"), PH_NOISY_CC | PH_READONLY);
-	if (!(zephir_array_isset_fetch(&value, &_0, &key, 1 TSRMLS_CC))) {
+	if (!(zephir_array_isset_fetch(&value, &_0, &key, 1))) {
 		RETURN_MM_NULL();
 	}
 	RETURN_CTOR(&value);
@@ -194,7 +197,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, __set) {
 	zephir_fetch_params(1, 2, 0, &key_param, &value);
 
 	if (UNEXPECTED(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(key_param) == IS_STRING)) {
@@ -235,6 +238,18 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, getContent) {
 }
 
 /**
+ * Returns the internal event manager
+ */
+PHP_METHOD(Phalcon_Mvc_View_Simple, getEventsManager) {
+
+	zval *this_ptr = getThis();
+
+
+	RETURN_MEMBER(getThis(), "eventsManager");
+
+}
+
+/**
  * Returns parameters to views
  */
 PHP_METHOD(Phalcon_Mvc_View_Simple, getParamsToView) {
@@ -264,7 +279,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, getVar) {
 	zephir_fetch_params(1, 1, 0, &key_param);
 
 	if (UNEXPECTED(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(key_param) == IS_STRING)) {
@@ -276,7 +291,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, getVar) {
 
 
 	zephir_read_property(&_0, this_ptr, SL("viewParams"), PH_NOISY_CC | PH_READONLY);
-	if (!(zephir_array_isset_fetch(&value, &_0, &key, 1 TSRMLS_CC))) {
+	if (!(zephir_array_isset_fetch(&value, &_0, &key, 1))) {
 		RETURN_MM_NULL();
 	}
 	RETURN_CTOR(&value);
@@ -334,7 +349,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, partial) {
 	zephir_fetch_params(1, 1, 1, &partialPath_param, &params);
 
 	if (UNEXPECTED(Z_TYPE_P(partialPath_param) != IS_STRING && Z_TYPE_P(partialPath_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'partialPath' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'partialPath' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(partialPath_param) == IS_STRING)) {
@@ -349,25 +364,25 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, partial) {
 	}
 
 
-	ZEPHIR_CALL_FUNCTION(NULL, "ob_start", NULL, 382);
+	ZEPHIR_CALL_FUNCTION(NULL, "ob_start", NULL, 384);
 	zephir_check_call_status();
 	if (Z_TYPE_P(params) == IS_ARRAY) {
 		zephir_read_property(&_0$$3, this_ptr, SL("viewParams"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CPY_WRT(&viewParams, &_0$$3);
 		ZEPHIR_INIT_VAR(&mergedParams);
-		zephir_fast_array_merge(&mergedParams, &viewParams, params TSRMLS_CC);
+		zephir_fast_array_merge(&mergedParams, &viewParams, params);
 		ZEPHIR_INIT_VAR(&_1$$3);
 		ZEPHIR_CREATE_SYMBOL_TABLE();
 		
 	} else {
 		ZEPHIR_CPY_WRT(&mergedParams, params);
 	}
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "internalrender", NULL, 502, &partialPath, &mergedParams);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "internalrender", NULL, 504, &partialPath, &mergedParams);
 	zephir_check_call_status();
 	if (Z_TYPE_P(params) == IS_ARRAY) {
 		zephir_update_property_zval(this_ptr, SL("viewParams"), &viewParams);
 	}
-	ZEPHIR_CALL_FUNCTION(NULL, "ob_end_clean", NULL, 200);
+	ZEPHIR_CALL_FUNCTION(NULL, "ob_end_clean", NULL, 201);
 	zephir_check_call_status();
 	zephir_read_property(&_2, this_ptr, SL("content"), PH_NOISY_CC | PH_READONLY);
 	zend_print_zval(&_2, 0);
@@ -431,7 +446,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, render) {
 	zephir_fetch_params(1, 1, 1, &path_param, &params_param);
 
 	if (UNEXPECTED(Z_TYPE_P(path_param) != IS_STRING && Z_TYPE_P(path_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'path' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'path' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(path_param) == IS_STRING)) {
@@ -451,15 +466,15 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, render) {
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CREATE_SYMBOL_TABLE();
 	
-	ZEPHIR_CALL_FUNCTION(NULL, "ob_start", NULL, 382);
+	ZEPHIR_CALL_FUNCTION(NULL, "ob_start", NULL, 384);
 	zephir_check_call_status();
 	zephir_read_property(&_1, this_ptr, SL("viewParams"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&viewParams, &_1);
 	ZEPHIR_INIT_VAR(&mergedParams);
-	zephir_fast_array_merge(&mergedParams, &viewParams, &params TSRMLS_CC);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "internalrender", NULL, 502, &path, &mergedParams);
+	zephir_fast_array_merge(&mergedParams, &viewParams, &params);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "internalrender", NULL, 504, &path, &mergedParams);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(NULL, "ob_end_clean", NULL, 200);
+	ZEPHIR_CALL_FUNCTION(NULL, "ob_end_clean", NULL, 201);
 	zephir_check_call_status();
 	RETURN_MM_MEMBER(getThis(), "content");
 
@@ -485,7 +500,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, setContent) {
 	zephir_fetch_params(1, 1, 0, &content_param);
 
 	if (UNEXPECTED(Z_TYPE_P(content_param) != IS_STRING && Z_TYPE_P(content_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'content' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'content' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(content_param) == IS_STRING)) {
@@ -498,6 +513,24 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, setContent) {
 
 	zephir_update_property_zval(this_ptr, SL("content"), &content);
 	RETURN_THIS();
+
+}
+
+/**
+ * Sets the events manager
+ */
+PHP_METHOD(Phalcon_Mvc_View_Simple, setEventsManager) {
+
+	zval *eventsManager, eventsManager_sub;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&eventsManager_sub);
+
+	zephir_fetch_params_without_memory_grow(1, 0, &eventsManager);
+
+
+
+	zephir_update_property_zval(this_ptr, SL("eventsManager"), eventsManager);
 
 }
 
@@ -523,7 +556,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, setParamToView) {
 	zephir_fetch_params(1, 2, 0, &key_param, &value);
 
 	if (UNEXPECTED(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(key_param) == IS_STRING)) {
@@ -561,7 +594,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, setVar) {
 	zephir_fetch_params(1, 2, 0, &key_param, &value);
 
 	if (UNEXPECTED(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(key_param) == IS_STRING)) {
@@ -614,7 +647,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, setVars) {
 	if (merge) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		zephir_read_property(&_1$$3, this_ptr, SL("viewParams"), PH_NOISY_CC | PH_READONLY);
-		zephir_fast_array_merge(&_0$$3, &_1$$3, &params TSRMLS_CC);
+		zephir_fast_array_merge(&_0$$3, &_1$$3, &params);
 		ZEPHIR_CPY_WRT(&params, &_0$$3);
 	}
 	zephir_update_property_zval(this_ptr, SL("viewParams"), &params);
@@ -641,7 +674,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, setViewsDir) {
 	zephir_fetch_params(1, 1, 0, &viewsDir_param);
 
 	if (UNEXPECTED(Z_TYPE_P(viewsDir_param) != IS_STRING && Z_TYPE_P(viewsDir_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'viewsDir' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'viewsDir' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(viewsDir_param) == IS_STRING)) {
@@ -652,7 +685,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, setViewsDir) {
 	}
 
 
-	ZEPHIR_CALL_CE_STATIC(&_0, phalcon_helper_str_ce, "dirseparator", &_1, 117, &viewsDir);
+	ZEPHIR_CALL_CE_STATIC(&_0, phalcon_helper_str_ce, "dirseparator", &_1, 118, &viewsDir);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("viewsDir"), &_0);
 	ZEPHIR_MM_RESTORE();
@@ -712,7 +745,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, loadTemplateEngines) {
 		if (Z_TYPE_P(&registeredEngines) != IS_ARRAY) {
 			ZEPHIR_INIT_VAR(&_2$$4);
 			object_init_ex(&_2$$4, phalcon_mvc_view_engine_php_ce);
-			ZEPHIR_CALL_METHOD(NULL, &_2$$4, "__construct", NULL, 486, this_ptr, &di);
+			ZEPHIR_CALL_METHOD(NULL, &_2$$4, "__construct", NULL, 488, this_ptr, &di);
 			zephir_check_call_status();
 			zephir_array_update_string(&engines, SL(".phtml"), &_2$$4, PH_COPY | PH_SEPARATE);
 		} else {
@@ -723,13 +756,13 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, loadTemplateEngines) {
 				ZVAL_STRING(&_6$$6, "the application services");
 				ZEPHIR_CALL_CE_STATIC(&_4$$6, phalcon_mvc_view_exception_ce, "containerservicenotfound", &_5, 0, &_6$$6);
 				zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(NULL, &_3$$6, "__construct", NULL, 5, &_4$$6);
+				ZEPHIR_CALL_METHOD(NULL, &_3$$6, "__construct", NULL, 6, &_4$$6);
 				zephir_check_call_status();
-				zephir_throw_exception_debug(&_3$$6, "phalcon/Mvc/View/Simple.zep", 378 TSRMLS_CC);
+				zephir_throw_exception_debug(&_3$$6, "phalcon/Mvc/View/Simple.zep", 397);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
-			zephir_is_iterable(&registeredEngines, 0, "phalcon/Mvc/View/Simple.zep", 411);
+			zephir_is_iterable(&registeredEngines, 0, "phalcon/Mvc/View/Simple.zep", 430);
 			if (Z_TYPE_P(&registeredEngines) == IS_ARRAY) {
 				ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&registeredEngines), _9$$5, _10$$5, _7$$5)
 				{
@@ -742,30 +775,30 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, loadTemplateEngines) {
 					ZEPHIR_INIT_NVAR(&engineService);
 					ZVAL_COPY(&engineService, _7$$5);
 					if (Z_TYPE_P(&engineService) == IS_OBJECT) {
-						if (zephir_instance_of_ev(&engineService, zend_ce_closure TSRMLS_CC)) {
+						if (zephir_instance_of_ev(&engineService, zend_ce_closure)) {
 							_12$$9 = zephir_fetch_class_str_ex(SL("Closure"), ZEND_FETCH_CLASS_AUTO);
 							ZEPHIR_CALL_CE_STATIC(&_11$$9, _12$$9, "bind", &_13, 0, &engineService, &di);
 							zephir_check_call_status();
 							ZEPHIR_CPY_WRT(&engineService, &_11$$9);
-							ZEPHIR_CALL_FUNCTION(&engineObject, "call_user_func", &_14, 251, &engineService, this_ptr);
+							ZEPHIR_CALL_FUNCTION(&engineObject, "call_user_func", &_14, 252, &engineService, this_ptr);
 							zephir_check_call_status();
 						} else {
 							ZEPHIR_CPY_WRT(&engineObject, &engineService);
 						}
 					} else if (Z_TYPE_P(&engineService) == IS_STRING) {
 						ZEPHIR_INIT_NVAR(&_15$$11);
-						zephir_create_array(&_15$$11, 1, 0 TSRMLS_CC);
+						zephir_create_array(&_15$$11, 1, 0);
 						zephir_array_fast_append(&_15$$11, this_ptr);
 						ZEPHIR_CALL_METHOD(&engineObject, &di, "getshared", NULL, 0, &engineService, &_15$$11);
 						zephir_check_call_status();
 					} else {
 						ZEPHIR_INIT_NVAR(&_16$$12);
 						object_init_ex(&_16$$12, phalcon_mvc_view_exception_ce);
-						ZEPHIR_INIT_LNVAR(_17$$12);
+						ZEPHIR_INIT_NVAR(&_17$$12);
 						ZEPHIR_CONCAT_SV(&_17$$12, "Invalid template engine registration for extension: ", &extension);
-						ZEPHIR_CALL_METHOD(NULL, &_16$$12, "__construct", NULL, 5, &_17$$12);
+						ZEPHIR_CALL_METHOD(NULL, &_16$$12, "__construct", NULL, 6, &_17$$12);
 						zephir_check_call_status();
-						zephir_throw_exception_debug(&_16$$12, "phalcon/Mvc/View/Simple.zep", 406 TSRMLS_CC);
+						zephir_throw_exception_debug(&_16$$12, "phalcon/Mvc/View/Simple.zep", 425);
 						ZEPHIR_MM_RESTORE();
 						return;
 					}
@@ -785,30 +818,30 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, loadTemplateEngines) {
 					ZEPHIR_CALL_METHOD(&engineService, &registeredEngines, "current", NULL, 0);
 					zephir_check_call_status();
 						if (Z_TYPE_P(&engineService) == IS_OBJECT) {
-							if (zephir_instance_of_ev(&engineService, zend_ce_closure TSRMLS_CC)) {
+							if (zephir_instance_of_ev(&engineService, zend_ce_closure)) {
 								_19$$15 = zephir_fetch_class_str_ex(SL("Closure"), ZEND_FETCH_CLASS_AUTO);
 								ZEPHIR_CALL_CE_STATIC(&_18$$15, _19$$15, "bind", &_13, 0, &engineService, &di);
 								zephir_check_call_status();
 								ZEPHIR_CPY_WRT(&engineService, &_18$$15);
-								ZEPHIR_CALL_FUNCTION(&engineObject, "call_user_func", &_14, 251, &engineService, this_ptr);
+								ZEPHIR_CALL_FUNCTION(&engineObject, "call_user_func", &_14, 252, &engineService, this_ptr);
 								zephir_check_call_status();
 							} else {
 								ZEPHIR_CPY_WRT(&engineObject, &engineService);
 							}
 						} else if (Z_TYPE_P(&engineService) == IS_STRING) {
 							ZEPHIR_INIT_NVAR(&_20$$17);
-							zephir_create_array(&_20$$17, 1, 0 TSRMLS_CC);
+							zephir_create_array(&_20$$17, 1, 0);
 							zephir_array_fast_append(&_20$$17, this_ptr);
 							ZEPHIR_CALL_METHOD(&engineObject, &di, "getshared", NULL, 0, &engineService, &_20$$17);
 							zephir_check_call_status();
 						} else {
 							ZEPHIR_INIT_NVAR(&_21$$18);
 							object_init_ex(&_21$$18, phalcon_mvc_view_exception_ce);
-							ZEPHIR_INIT_LNVAR(_22$$18);
+							ZEPHIR_INIT_NVAR(&_22$$18);
 							ZEPHIR_CONCAT_SV(&_22$$18, "Invalid template engine registration for extension: ", &extension);
-							ZEPHIR_CALL_METHOD(NULL, &_21$$18, "__construct", NULL, 5, &_22$$18);
+							ZEPHIR_CALL_METHOD(NULL, &_21$$18, "__construct", NULL, 6, &_22$$18);
 							zephir_check_call_status();
-							zephir_throw_exception_debug(&_21$$18, "phalcon/Mvc/View/Simple.zep", 406 TSRMLS_CC);
+							zephir_throw_exception_debug(&_21$$18, "phalcon/Mvc/View/Simple.zep", 425);
 							ZEPHIR_MM_RESTORE();
 							return;
 						}
@@ -883,7 +916,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, internalRender) {
 	zephir_fetch_params(1, 2, 0, &path_param, &params);
 
 	if (UNEXPECTED(Z_TYPE_P(path_param) != IS_STRING && Z_TYPE_P(path_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'path' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'path' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(path_param) == IS_STRING)) {
@@ -916,7 +949,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, internalRender) {
 	zephir_get_strval(&viewsDirPath, &_3);
 	ZEPHIR_CALL_METHOD(&engines, this_ptr, "loadtemplateengines", NULL, 0);
 	zephir_check_call_status();
-	zephir_is_iterable(&engines, 0, "phalcon/Mvc/View/Simple.zep", 499);
+	zephir_is_iterable(&engines, 0, "phalcon/Mvc/View/Simple.zep", 518);
 	if (Z_TYPE_P(&engines) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&engines), _6, _7, _4)
 		{
@@ -928,17 +961,17 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, internalRender) {
 			}
 			ZEPHIR_INIT_NVAR(&engine);
 			ZVAL_COPY(&engine, _4);
-			ZEPHIR_INIT_LNVAR(_8$$6);
+			ZEPHIR_INIT_NVAR(&_8$$6);
 			ZEPHIR_CONCAT_VV(&_8$$6, &viewsDirPath, &extension);
 			ZVAL_LONG(&_9$$6, -zephir_fast_strlen_ev(&extension));
 			ZEPHIR_INIT_NVAR(&_10$$6);
 			zephir_substr(&_10$$6, &viewsDirPath, zephir_get_intval(&_9$$6), 0, ZEPHIR_SUBSTR_NO_LENGTH);
 			_11$$6 = ZEPHIR_IS_EQUAL(&_10$$6, &extension);
 			if (_11$$6) {
-				_11$$6 = (zephir_file_exists(&viewsDirPath TSRMLS_CC) == SUCCESS);
+				_11$$6 = (zephir_file_exists(&viewsDirPath) == SUCCESS);
 			}
-			if ((zephir_file_exists(&_8$$6 TSRMLS_CC) == SUCCESS)) {
-				ZEPHIR_INIT_LNVAR(_12$$7);
+			if ((zephir_file_exists(&_8$$6) == SUCCESS)) {
+				ZEPHIR_INIT_NVAR(&_12$$7);
 				ZEPHIR_CONCAT_VV(&_12$$7, &viewsDirPath, &extension);
 				zephir_get_strval(&viewEnginePath, &_12$$7);
 			} else if (_11$$6) {
@@ -984,17 +1017,17 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, internalRender) {
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&engine, &engines, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_INIT_LNVAR(_19$$13);
+				ZEPHIR_INIT_NVAR(&_19$$13);
 				ZEPHIR_CONCAT_VV(&_19$$13, &viewsDirPath, &extension);
 				ZVAL_LONG(&_20$$13, -zephir_fast_strlen_ev(&extension));
 				ZEPHIR_INIT_NVAR(&_21$$13);
 				zephir_substr(&_21$$13, &viewsDirPath, zephir_get_intval(&_20$$13), 0, ZEPHIR_SUBSTR_NO_LENGTH);
 				_22$$13 = ZEPHIR_IS_EQUAL(&_21$$13, &extension);
 				if (_22$$13) {
-					_22$$13 = (zephir_file_exists(&viewsDirPath TSRMLS_CC) == SUCCESS);
+					_22$$13 = (zephir_file_exists(&viewsDirPath) == SUCCESS);
 				}
-				if ((zephir_file_exists(&_19$$13 TSRMLS_CC) == SUCCESS)) {
-					ZEPHIR_INIT_LNVAR(_23$$14);
+				if ((zephir_file_exists(&_19$$13) == SUCCESS)) {
+					ZEPHIR_INIT_NVAR(&_23$$14);
 					ZEPHIR_CONCAT_VV(&_23$$14, &viewsDirPath, &extension);
 					zephir_get_strval(&viewEnginePath, &_23$$14);
 				} else if (_22$$13) {
@@ -1037,9 +1070,9 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, internalRender) {
 		object_init_ex(&_30$$20, phalcon_mvc_view_exception_ce);
 		ZEPHIR_INIT_VAR(&_31$$20);
 		ZEPHIR_CONCAT_SVS(&_31$$20, "View '", &viewsDirPath, "' was not found in the views directory");
-		ZEPHIR_CALL_METHOD(NULL, &_30$$20, "__construct", NULL, 5, &_31$$20);
+		ZEPHIR_CALL_METHOD(NULL, &_30$$20, "__construct", NULL, 6, &_31$$20);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_30$$20, "phalcon/Mvc/View/Simple.zep", 502 TSRMLS_CC);
+		zephir_throw_exception_debug(&_30$$20, "phalcon/Mvc/View/Simple.zep", 521);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

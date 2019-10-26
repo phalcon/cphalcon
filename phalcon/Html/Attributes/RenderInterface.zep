@@ -14,7 +14,8 @@ namespace Phalcon\Html\Attributes;
 *
 * Interface Phalcon\Html\Attributes\RenderInterface
 */
-interface RenderInterface {
+interface RenderInterface
+{
     /**
      * Generate a string represetation
      */

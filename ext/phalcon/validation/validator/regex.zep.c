@@ -71,7 +71,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Regex) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator, Regex, phalcon, validation_validator_regex, phalcon_validation_abstractvalidator_ce, phalcon_validation_validator_regex_method_entry, 0);
 
-	zend_declare_property_string(phalcon_validation_validator_regex_ce, SL("template"), "Field :field does not match the required format", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_validation_validator_regex_ce, SL("template"), "Field :field does not match the required format", ZEND_ACC_PROTECTED);
 
 	return SUCCESS;
 
@@ -112,13 +112,13 @@ PHP_METHOD(Phalcon_Validation_Validator_Regex, validate) {
 	ZEPHIR_CALL_METHOD(&pattern, this_ptr, "getoption", NULL, 0, &_0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&pattern) == IS_ARRAY) {
-		zephir_array_fetch(&_1$$3, &pattern, field, PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/Regex.zep", 76 TSRMLS_CC);
+		zephir_array_fetch(&_1$$3, &pattern, field, PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/Regex.zep", 76);
 		ZEPHIR_CPY_WRT(&pattern, &_1$$3);
 	}
 	ZEPHIR_INIT_NVAR(&_0);
-	zephir_preg_match(&_0, &pattern, &value, &matches, 0, 0 , 0  TSRMLS_CC);
+	zephir_preg_match(&_0, &pattern, &value, &matches, 0, 0 , 0 );
 	if (zephir_is_true(&_0)) {
-		zephir_array_fetch_long(&_2$$4, &matches, 0, PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/Regex.zep", 80 TSRMLS_CC);
+		zephir_array_fetch_long(&_2$$4, &matches, 0, PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/Regex.zep", 80);
 		failed = !ZEPHIR_IS_EQUAL(&_2$$4, &value);
 	} else {
 		failed = 1;

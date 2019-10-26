@@ -65,23 +65,23 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Index) {
 	 *
 	 * @var array
 	 */
-	zend_declare_property_null(phalcon_db_index_ce, SL("columns"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_index_ce, SL("columns"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * Index name
 	 *
 	 * @var string
 	 */
-	zend_declare_property_null(phalcon_db_index_ce, SL("name"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_index_ce, SL("name"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * Index type
 	 *
 	 * @var string
 	 */
-	zend_declare_property_null(phalcon_db_index_ce, SL("type"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_db_index_ce, SL("type"), ZEND_ACC_PROTECTED);
 
-	zend_class_implements(phalcon_db_index_ce TSRMLS_CC, 1, phalcon_db_indexinterface_ce);
+	zend_class_implements(phalcon_db_index_ce, 1, phalcon_db_indexinterface_ce);
 	return SUCCESS;
 
 }
@@ -141,7 +141,7 @@ PHP_METHOD(Phalcon_Db_Index, __construct) {
 	zephir_fetch_params(1, 2, 1, &name_param, &columns_param, &type_param);
 
 	if (UNEXPECTED(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(name_param) == IS_STRING)) {

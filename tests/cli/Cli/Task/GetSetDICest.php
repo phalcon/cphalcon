@@ -13,6 +13,8 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Cli\Task;
 
 use CliTester;
+use Phalcon\Di\FactoryDefault\Cli as CliDi;
+use Phalcon\Cli\Task;
 
 class GetSetDICest
 {
@@ -26,6 +28,10 @@ class GetSetDICest
     {
         $I->wantToTest('Cli\Task - getDI() / setDI()');
 
-        $I->skipTest('Need implementation');
+        $task = new Task();
+        $di = new CliDi();
+        $task->setDi($di);
+
+        $I->assertEquals($di, $task->getDi());
     }
 }

@@ -58,7 +58,7 @@ class GetSetHasCest
         $actual  = $locator->has('helloFilter');
         $I->assertTrue($actual);
 
-        $class  = HelloService::class;
+        $class  = \Closure::class;
         $actual = $locator->get('helloFilter');
         $I->assertInstanceOf($class, $actual);
     }
@@ -73,9 +73,7 @@ class GetSetHasCest
     {
         $I->wantToTest('Filter\Filter - get()/set()/has() - get() - same');
         $services = [
-            'helloFilter' => function () {
-                return new HelloService();
-            },
+            'helloFilter' => HelloService::class,
         ];
 
         $locator = new Filter($services);
@@ -114,5 +112,33 @@ class GetSetHasCest
         );
         $actual = $locator->has('helloFilter');
         $I->assertTrue($actual);
+    }
+
+    /**
+     * Tests Phalcon\Filter :: get()/set()/has() - set() closure
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-09-25
+     */
+    public function filterFilterGetSetHasSetClosure(UnitTester $I)
+    {
+        $I->wantToTest('Filter\Filter - get()/set()/has() - set() closure');
+        $locator = new Filter();
+
+        $actual = $locator->has('testappend');
+        $I->assertFalse($actual);
+
+        $locator->set(
+            'testappend',
+            function ($input) {
+                return $input . 'test';
+            }
+        );
+
+        $value = 'cheese';
+        $actual = $locator->sanitize($value, 'testappend');
+
+        $expected = $value . 'test';
+        $I->assertEquals($expected, $actual);
     }
 }

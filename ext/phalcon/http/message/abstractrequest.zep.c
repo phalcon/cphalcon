@@ -46,14 +46,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_AbstractRequest) {
 	 *
 	 * @var string
 	 */
-	zend_declare_property_string(phalcon_http_message_abstractrequest_ce, SL("method"), "GET", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_http_message_abstractrequest_ce, SL("method"), "GET", ZEND_ACC_PROTECTED);
 
 	/**
 	 * The request-target, if it has been provided or calculated.
 	 *
 	 * @var null|string
 	 */
-	zend_declare_property_null(phalcon_http_message_abstractrequest_ce, SL("requestTarget"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_http_message_abstractrequest_ce, SL("requestTarget"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * Retrieves the URI instance.
@@ -64,7 +64,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_AbstractRequest) {
 	 *
 	 * @var UriInterface
 	 */
-	zend_declare_property_null(phalcon_http_message_abstractrequest_ce, SL("uri"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_http_message_abstractrequest_ce, SL("uri"), ZEND_ACC_PROTECTED);
 
 	return SUCCESS;
 
@@ -144,7 +144,7 @@ PHP_METHOD(Phalcon_Http_Message_AbstractRequest, getRequestTarget) {
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(&_6$$4);
 			ZEPHIR_CONCAT_SV(&_6$$4, "?", &_5$$4);
-			zephir_concat_self(&requestTarget, &_6$$4 TSRMLS_CC);
+			zephir_concat_self(&requestTarget, &_6$$4);
 		}
 		if (UNEXPECTED(ZEPHIR_IS_EMPTY(&requestTarget))) {
 			ZEPHIR_INIT_NVAR(&requestTarget);
@@ -187,11 +187,11 @@ PHP_METHOD(Phalcon_Http_Message_AbstractRequest, withMethod) {
 
 
 
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "processmethod", NULL, 97, method);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "processmethod", NULL, 98, method);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "method");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 16, method, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 17, method, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -241,14 +241,14 @@ PHP_METHOD(Phalcon_Http_Message_AbstractRequest, withRequestTarget) {
 	ZEPHIR_INIT_VAR(&_2);
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "/\\s/");
-	zephir_preg_match(&_2, &_3, requestTarget, &_0, 0, 0 , 0  TSRMLS_CC);
+	zephir_preg_match(&_2, &_3, requestTarget, &_0, 0, 0 , 0 );
 	if (UNEXPECTED(zephir_is_true(&_2))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_message_exception_invalidargumentexception_ce, "Invalid request target: cannot contain whitespace", "phalcon/Http/Message/AbstractRequest.zep", 135);
 		return;
 	}
 	ZEPHIR_INIT_VAR(&_4);
 	ZVAL_STRING(&_4, "requestTarget");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 16, requestTarget, &_4);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 17, requestTarget, &_4);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -321,16 +321,16 @@ PHP_METHOD(Phalcon_Http_Message_AbstractRequest, withUri) {
 	ZVAL_BOOL(preserveHost, _0);
 	zephir_read_property(&_1, this_ptr, SL("headers"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_2);
-	if (zephir_clone(&_2, &_1 TSRMLS_CC) == FAILURE) {
+	if (zephir_clone(&_2, &_1) == FAILURE) {
 		RETURN_MM();
 	}
 	ZEPHIR_CPY_WRT(&headers, &_2);
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "uri");
-	ZEPHIR_CALL_METHOD(&newInstance, this_ptr, "cloneinstance", NULL, 16, uri, &_3);
+	ZEPHIR_CALL_METHOD(&newInstance, this_ptr, "cloneinstance", NULL, 17, uri, &_3);
 	zephir_check_call_status();
 	if (UNEXPECTED(!zephir_is_true(preserveHost))) {
-		ZEPHIR_CALL_METHOD(&_4$$3, this_ptr, "checkheaderhost", NULL, 40, &headers);
+		ZEPHIR_CALL_METHOD(&_4$$3, this_ptr, "checkheaderhost", NULL, 41, &headers);
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(&headers, &_4$$3);
 		zephir_update_property_zval(&newInstance, SL("headers"), &headers);
@@ -370,7 +370,7 @@ PHP_METHOD(Phalcon_Http_Message_AbstractRequest, processMethod) {
 
 
 	ZEPHIR_INIT_VAR(&methods);
-	zephir_create_array(&methods, 9, 0 TSRMLS_CC);
+	zephir_create_array(&methods, 9, 0);
 	add_assoc_long_ex(&methods, SL("GET"), 1);
 	add_assoc_long_ex(&methods, SL("CONNECT"), 1);
 	add_assoc_long_ex(&methods, SL("DELETE"), 1);
@@ -393,9 +393,9 @@ PHP_METHOD(Phalcon_Http_Message_AbstractRequest, processMethod) {
 		object_init_ex(&_2$$3, phalcon_http_message_exception_invalidargumentexception_ce);
 		ZEPHIR_INIT_VAR(&_3$$3);
 		ZEPHIR_CONCAT_SV(&_3$$3, "Invalid or unsupported method ", method);
-		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 35, &_3$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 36, &_3$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_2$$3, "phalcon/Http/Message/AbstractRequest.zep", 219 TSRMLS_CC);
+		zephir_throw_exception_debug(&_2$$3, "phalcon/Http/Message/AbstractRequest.zep", 219);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -428,7 +428,7 @@ PHP_METHOD(Phalcon_Http_Message_AbstractRequest, processUri) {
 
 	_0 = Z_TYPE_P(uri) == IS_OBJECT;
 	if (_0) {
-		_0 = zephir_is_instance_of(uri, SL("Psr\\Http\\Message\\UriInterface") TSRMLS_CC);
+		_0 = zephir_is_instance_of(uri, SL("Psr\\Http\\Message\\UriInterface"));
 	}
 	if (UNEXPECTED(_0)) {
 		RETVAL_ZVAL(uri, 1, 0);
@@ -436,13 +436,13 @@ PHP_METHOD(Phalcon_Http_Message_AbstractRequest, processUri) {
 	}
 	if (EXPECTED(Z_TYPE_P(uri) == IS_STRING)) {
 		object_init_ex(return_value, phalcon_http_message_uri_ce);
-		ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 98, uri);
+		ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 99, uri);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
 	if (Z_TYPE_P(uri) == IS_NULL) {
 		object_init_ex(return_value, phalcon_http_message_uri_ce);
-		ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 98);
+		ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 99);
 		zephir_check_call_status();
 		RETURN_MM();
 	}

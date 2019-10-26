@@ -42,24 +42,24 @@ ZEPHIR_INIT_CLASS(Phalcon_Firewall_Adapter_Annotations) {
 	 * Number of active active arguments in active annotation
 	 * @var int
 	 */
-	zend_declare_property_long(phalcon_firewall_adapter_annotations_ce, SL("activeArgumentsNumber"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_long(phalcon_firewall_adapter_annotations_ce, SL("activeArgumentsNumber"), 0, ZEND_ACC_PROTECTED);
 
 	/**
 	 * Adapter for annotations
 	 * @var mixed
 	 */
-	zend_declare_property_null(phalcon_firewall_adapter_annotations_ce, SL("annotationsAdapter"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_firewall_adapter_annotations_ce, SL("annotationsAdapter"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * Dispatcher
 	 * @var mixed
 	 */
-	zend_declare_property_null(phalcon_firewall_adapter_annotations_ce, SL("dispatcher"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_firewall_adapter_annotations_ce, SL("dispatcher"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * Role for which access was granted
 	 */
-	zend_declare_property_null(phalcon_firewall_adapter_annotations_ce, SL("resolvedRole"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_firewall_adapter_annotations_ce, SL("resolvedRole"), ZEND_ACC_PROTECTED);
 
 	return SUCCESS;
 
@@ -243,9 +243,9 @@ PHP_METHOD(Phalcon_Firewall_Adapter_Annotations, beforeExecuteRoute) {
 		object_init_ex(&_8$$10, phalcon_firewall_exception_ce);
 		ZEPHIR_INIT_VAR(&_9$$10);
 		ZEPHIR_CONCAT_SS(&_9$$10, "When using firewall based on annotations you must pass ", "role as string, array or object implementing 'RoleAware'.");
-		ZEPHIR_CALL_METHOD(NULL, &_8$$10, "__construct", NULL, 5, &_9$$10);
+		ZEPHIR_CALL_METHOD(NULL, &_8$$10, "__construct", NULL, 6, &_9$$10);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_8$$10, "phalcon/Firewall/Adapter/Annotations.zep", 100 TSRMLS_CC);
+		zephir_throw_exception_debug(&_8$$10, "phalcon/Firewall/Adapter/Annotations.zep", 100);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -255,9 +255,9 @@ PHP_METHOD(Phalcon_Firewall_Adapter_Annotations, beforeExecuteRoute) {
 		object_init_ex(&_11$$11, phalcon_firewall_exception_ce);
 		ZEPHIR_INIT_VAR(&_12$$11);
 		ZEPHIR_CONCAT_SS(&_12$$11, "You need to set annotations adapter for firewall based ", "on annotations configurator to work");
-		ZEPHIR_CALL_METHOD(NULL, &_11$$11, "__construct", NULL, 5, &_12$$11);
+		ZEPHIR_CALL_METHOD(NULL, &_11$$11, "__construct", NULL, 6, &_12$$11);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_11$$11, "phalcon/Firewall/Adapter/Annotations.zep", 107 TSRMLS_CC);
+		zephir_throw_exception_debug(&_11$$11, "phalcon/Firewall/Adapter/Annotations.zep", 107);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -284,7 +284,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_Annotations, beforeExecuteRoute) {
 					{
 						ZEPHIR_INIT_NVAR(&singleRole);
 						ZVAL_COPY(&singleRole, _14$$16);
-						ZEPHIR_INIT_LNVAR(_16$$17);
+						ZEPHIR_INIT_NVAR(&_16$$17);
 						ZEPHIR_CONCAT_VSVSV(&_16$$17, &singleRole, "!", &controllerName, "!", &actionName);
 						ZEPHIR_CALL_METHOD(NULL, this_ptr, "saveaccessincache", &_17, 0, &_16$$17, &access);
 						zephir_check_call_status();
@@ -300,7 +300,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_Annotations, beforeExecuteRoute) {
 						}
 						ZEPHIR_CALL_METHOD(&singleRole, &role, "current", NULL, 0);
 						zephir_check_call_status();
-							ZEPHIR_INIT_LNVAR(_18$$18);
+							ZEPHIR_INIT_NVAR(&_18$$18);
 							ZEPHIR_CONCAT_VSVSV(&_18$$18, &singleRole, "!", &controllerName, "!", &actionName);
 							ZEPHIR_CALL_METHOD(NULL, this_ptr, "saveaccessincache", &_17, 0, &_18$$18, &access);
 							zephir_check_call_status();
@@ -392,7 +392,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_Annotations, checkControllerAnnotationAccess
 					{
 						ZEPHIR_INIT_NVAR(&singleRole);
 						ZVAL_COPY(&singleRole, _3$$5);
-						ZEPHIR_INIT_LNVAR(_5$$6);
+						ZEPHIR_INIT_NVAR(&_5$$6);
 						ZEPHIR_CONCAT_VSVS(&_5$$6, &singleRole, "!", &controllerName, "!*");
 						ZEPHIR_CALL_METHOD(NULL, this_ptr, "saveaccessincache", &_6, 0, &_5$$6, &access);
 						zephir_check_call_status();
@@ -408,7 +408,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_Annotations, checkControllerAnnotationAccess
 						}
 						ZEPHIR_CALL_METHOD(&singleRole, &resolvedRole, "current", NULL, 0);
 						zephir_check_call_status();
-							ZEPHIR_INIT_LNVAR(_7$$7);
+							ZEPHIR_INIT_NVAR(&_7$$7);
 							ZEPHIR_CONCAT_VSVS(&_7$$7, &singleRole, "!", &controllerName, "!*");
 							ZEPHIR_CALL_METHOD(NULL, this_ptr, "saveaccessincache", &_6, 0, &_7$$7, &access);
 							zephir_check_call_status();
@@ -553,7 +553,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_Annotations, checkActionAnnotationAccess) {
 					{
 						ZEPHIR_INIT_NVAR(&singleRole);
 						ZVAL_COPY(&singleRole, _4$$5);
-						ZEPHIR_INIT_LNVAR(_6$$6);
+						ZEPHIR_INIT_NVAR(&_6$$6);
 						ZEPHIR_CONCAT_VSVSV(&_6$$6, &singleRole, "!", &controllerName, "!", &actionName);
 						ZEPHIR_CALL_METHOD(NULL, this_ptr, "saveaccessincache", &_7, 0, &_6$$6, &access);
 						zephir_check_call_status();
@@ -569,7 +569,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_Annotations, checkActionAnnotationAccess) {
 						}
 						ZEPHIR_CALL_METHOD(&singleRole, &resolvedRole, "current", NULL, 0);
 						zephir_check_call_status();
-							ZEPHIR_INIT_LNVAR(_8$$7);
+							ZEPHIR_INIT_NVAR(&_8$$7);
 							ZEPHIR_CONCAT_VSVSV(&_8$$7, &singleRole, "!", &controllerName, "!", &actionName);
 							ZEPHIR_CALL_METHOD(NULL, this_ptr, "saveaccessincache", &_7, 0, &_8$$7, &access);
 							zephir_check_call_status();
@@ -623,7 +623,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_Annotations, getAccessFromCache) {
 	zephir_fetch_params(1, 1, 2, &key_param, &originalValues_param, &roleCacheKey_param);
 
 	if (UNEXPECTED(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(key_param) == IS_STRING)) {
@@ -652,9 +652,9 @@ PHP_METHOD(Phalcon_Firewall_Adapter_Annotations, getAccessFromCache) {
 		RETURN_CCTOR(&access);
 	}
 	ZEPHIR_INIT_VAR(&explodedKey);
-	zephir_fast_explode_str(&explodedKey, SL("!"), &key, LONG_MAX TSRMLS_CC);
-	zephir_array_fetch_long(&_1, &explodedKey, 0, PH_NOISY | PH_READONLY, "phalcon/Firewall/Adapter/Annotations.zep", 302 TSRMLS_CC);
-	zephir_array_fetch_long(&_2, &explodedKey, 1, PH_NOISY | PH_READONLY, "phalcon/Firewall/Adapter/Annotations.zep", 302 TSRMLS_CC);
+	zephir_fast_explode_str(&explodedKey, SL("!"), &key, LONG_MAX);
+	zephir_array_fetch_long(&_1, &explodedKey, 0, PH_NOISY | PH_READONLY, "phalcon/Firewall/Adapter/Annotations.zep", 302);
+	zephir_array_fetch_long(&_2, &explodedKey, 1, PH_NOISY | PH_READONLY, "phalcon/Firewall/Adapter/Annotations.zep", 302);
 	ZEPHIR_INIT_VAR(&_3);
 	ZEPHIR_CONCAT_VSVS(&_3, &_1, "!", &_2, "!*");
 	ZEPHIR_CALL_PARENT(&access, phalcon_firewall_adapter_annotations_ce, getThis(), "getaccessfromcache", &_0, 0, &_3);
@@ -662,8 +662,8 @@ PHP_METHOD(Phalcon_Firewall_Adapter_Annotations, getAccessFromCache) {
 	if (Z_TYPE_P(&access) != IS_NULL) {
 		RETURN_CCTOR(&access);
 	}
-	zephir_array_fetch_long(&_4, &explodedKey, 1, PH_NOISY | PH_READONLY, "phalcon/Firewall/Adapter/Annotations.zep", 314 TSRMLS_CC);
-	zephir_array_fetch_long(&_5, &explodedKey, 2, PH_NOISY | PH_READONLY, "phalcon/Firewall/Adapter/Annotations.zep", 315 TSRMLS_CC);
+	zephir_array_fetch_long(&_4, &explodedKey, 1, PH_NOISY | PH_READONLY, "phalcon/Firewall/Adapter/Annotations.zep", 314);
+	zephir_array_fetch_long(&_5, &explodedKey, 2, PH_NOISY | PH_READONLY, "phalcon/Firewall/Adapter/Annotations.zep", 315);
 	ZEPHIR_INIT_VAR(&_6);
 	ZEPHIR_CONCAT_SVSV(&_6, "*!", &_4, "!", &_5);
 	ZEPHIR_CALL_PARENT(&access, phalcon_firewall_adapter_annotations_ce, getThis(), "getaccessfromcache", &_0, 0, &_6);
@@ -671,7 +671,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_Annotations, getAccessFromCache) {
 	if (Z_TYPE_P(&access) != IS_NULL) {
 		RETURN_CCTOR(&access);
 	}
-	zephir_array_fetch_long(&_7, &explodedKey, 1, PH_NOISY | PH_READONLY, "phalcon/Firewall/Adapter/Annotations.zep", 326 TSRMLS_CC);
+	zephir_array_fetch_long(&_7, &explodedKey, 1, PH_NOISY | PH_READONLY, "phalcon/Firewall/Adapter/Annotations.zep", 326);
 	ZEPHIR_INIT_VAR(&_8);
 	ZEPHIR_CONCAT_SVS(&_8, "*!", &_7, "!*");
 	ZEPHIR_CALL_PARENT(&access, phalcon_firewall_adapter_annotations_ce, getThis(), "getaccessfromcache", &_0, 0, &_8);
@@ -708,17 +708,17 @@ PHP_METHOD(Phalcon_Firewall_Adapter_Annotations, handleAnnotation) {
 		ZEPHIR_CALL_METHOD(&_0$$3, annotation, "getarguments", NULL, 0);
 		zephir_check_call_status();
 		ZEPHIR_OBS_VAR(&annotationRoles);
-		zephir_array_fetch_long(&annotationRoles, &_0$$3, 0, PH_NOISY, "phalcon/Firewall/Adapter/Annotations.zep", 340 TSRMLS_CC);
+		zephir_array_fetch_long(&annotationRoles, &_0$$3, 0, PH_NOISY, "phalcon/Firewall/Adapter/Annotations.zep", 340);
 		if (Z_TYPE_P(&annotationRoles) == IS_ARRAY) {
 			_1$$4 = Z_TYPE_P(role) == IS_STRING;
 			if (_1$$4) {
-				_1$$4 = zephir_fast_in_array(role, &annotationRoles TSRMLS_CC);
+				_1$$4 = zephir_fast_in_array(role, &annotationRoles);
 			}
 			if (_1$$4) {
 				zephir_update_property_zval(this_ptr, SL("resolvedRole"), role);
 				RETURN_MM_BOOL(access);
 			} else if (Z_TYPE_P(role) == IS_ARRAY) {
-				ZEPHIR_CALL_FUNCTION(&roleIntersect, "array_intersect", NULL, 240, role, &annotationRoles);
+				ZEPHIR_CALL_FUNCTION(&roleIntersect, "array_intersect", NULL, 241, role, &annotationRoles);
 				zephir_check_call_status();
 				if (zephir_get_boolval(&roleIntersect)) {
 					zephir_update_property_zval(this_ptr, SL("resolvedRole"), &roleIntersect);
@@ -736,7 +736,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_Annotations, handleAnnotation) {
 			}
 			_3$$9 = Z_TYPE_P(role) == IS_ARRAY;
 			if (_3$$9) {
-				_3$$9 = zephir_fast_in_array(&annotationRoles, role TSRMLS_CC);
+				_3$$9 = zephir_fast_in_array(&annotationRoles, role);
 			}
 			if (_2$$9) {
 				zephir_update_property_zval(this_ptr, SL("resolvedRole"), role);

@@ -23,7 +23,7 @@ class ToJsonCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function collectionToJson(UnitTester $I)
+    public function registryToJson(UnitTester $I)
     {
         $I->wantToTest('Registry - toJson()');
 

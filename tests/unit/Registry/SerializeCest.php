@@ -23,7 +23,7 @@ class SerializeCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function collectionSerialize(UnitTester $I)
+    public function registrySerialize(UnitTester $I)
     {
         $I->wantToTest('Registry - serialize()');
 

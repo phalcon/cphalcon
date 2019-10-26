@@ -10,7 +10,7 @@
 
 namespace Phalcon\Cache;
 
-use Phalcon\Cache\Adapter\AbstractAdapter;
+use Phalcon\Cache\Adapter\AdapterInterface;
 use Phalcon\Cache\Exception\Exception;
 use Phalcon\Factory\AbstractFactory;
 use Phalcon\Storage\SerializerFactory;
@@ -38,7 +38,7 @@ class AdapterFactory extends AbstractFactory
     /**
      * Create a new instance of the adapter
      */
-    public function newInstance(string! name, array! options = []) -> <AbstractAdapter>
+    public function newInstance(string! name, array! options = []) -> <AdapterInterface>
     {
         var definition;
 
@@ -46,7 +46,13 @@ class AdapterFactory extends AbstractFactory
 
         if !isset this->services[name] {
             let definition           = this->mapper[name],
-                this->services[name] = new {definition}(this->serializerFactory, options);
+                this->services[name] = create_instance_params(
+                    definition,
+                    [
+                        this->serializerFactory,
+                        options
+                    ]
+                );
         }
 
         return this->services[name];
@@ -58,11 +64,11 @@ class AdapterFactory extends AbstractFactory
     protected function getAdapters() -> array
     {
         return [
-            "apcu"         : "\\Phalcon\\Cache\\Adapter\\Apcu",
-            "libmemcached" : "\\Phalcon\\Cache\\Adapter\\Libmemcached",
-            "memory"       : "\\Phalcon\\Cache\\Adapter\\Memory",
-            "redis"        : "\\Phalcon\\Cache\\Adapter\\Redis",
-            "stream"       : "\\Phalcon\\Cache\\Adapter\\Stream"
+            "apcu"         : "Phalcon\\Cache\\Adapter\\Apcu",
+            "libmemcached" : "Phalcon\\Cache\\Adapter\\Libmemcached",
+            "memory"       : "Phalcon\\Cache\\Adapter\\Memory",
+            "redis"        : "Phalcon\\Cache\\Adapter\\Redis",
+            "stream"       : "Phalcon\\Cache\\Adapter\\Stream"
         ];
     }
 }

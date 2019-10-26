@@ -28,7 +28,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_dispatcher_forward, 0, 0, 1)
 #define arginfo_phalcon_mvc_dispatcher_forward NULL
 #endif
 
-	ZEND_ARG_INFO(0, forward)
+	ZEND_ARG_ARRAY_INFO(0, forward, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200

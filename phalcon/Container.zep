@@ -19,7 +19,7 @@ use Phalcon\Di\DiInterface;
 class Container implements ContainerInterface
 {
     /**
-     * @var <DiInterface>
+     * @var DiInterface
      */
     protected container;
 

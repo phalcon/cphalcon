@@ -52,32 +52,32 @@ ZEPHIR_INIT_CLASS(Phalcon_Session_Adapter_Noop) {
 	/**
 	 * The connection of some adapters
 	 */
-	zend_declare_property_null(phalcon_session_adapter_noop_ce, SL("connection"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_session_adapter_noop_ce, SL("connection"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * Session options
 	 *
 	 * @var array
 	 */
-	zend_declare_property_null(phalcon_session_adapter_noop_ce, SL("options"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_session_adapter_noop_ce, SL("options"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * Session prefix
 	 *
 	 * @var string
 	 */
-	zend_declare_property_string(phalcon_session_adapter_noop_ce, SL("prefix"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_session_adapter_noop_ce, SL("prefix"), "", ZEND_ACC_PROTECTED);
 
 	/**
 	 * Time To Live
 	 *
 	 * @var int
 	 */
-	zend_declare_property_long(phalcon_session_adapter_noop_ce, SL("ttl"), 8600, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_long(phalcon_session_adapter_noop_ce, SL("ttl"), 8600, ZEND_ACC_PROTECTED);
 
 	phalcon_session_adapter_noop_ce->create_object = zephir_init_properties_Phalcon_Session_Adapter_Noop;
 
-	zend_class_implements(phalcon_session_adapter_noop_ce TSRMLS_CC, 1, zephir_get_internal_ce(SL("sessionhandlerinterface")));
+	zend_class_implements(phalcon_session_adapter_noop_ce, 1, zephir_get_internal_ce(SL("sessionhandlerinterface")));
 	return SUCCESS;
 
 }

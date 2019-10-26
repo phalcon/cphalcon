@@ -28,7 +28,7 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
      * Formatter
      *
-     * @var <FormatterInterface>
+     * @var FormatterInterface
      */
     protected formatter;
 
@@ -114,7 +114,7 @@ abstract class AbstractAdapter implements AdapterInterface
         if typeof this->formatter !== "object" {
             let className = "Phalcon\\Logger\\Formatter\\" . this->defaultFormatter;
 
-            let this->formatter = new {className}();
+            let this->formatter = create_instance(className);
         }
 
         return this->formatter;

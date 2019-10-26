@@ -34,7 +34,7 @@ class ValidatorFactory extends AbstractFactory
 
         if !isset this->services[name] {
             let definition           = this->mapper[name],
-                this->services[name] = new {definition}();
+                this->services[name] = create_instance(definition);
         }
 
         return this->services[name];
@@ -43,27 +43,27 @@ class ValidatorFactory extends AbstractFactory
     protected function getAdapters() -> array
     {
         return [
-            "alnum"        : "\\Phalcon\\Validation\\Validator\\Alnum",
-            "alpha"        : "\\Phalcon\\Validation\\Validator\\Alpha",
-            "between"      : "\\Phalcon\\Validation\\Validator\\Between",
-            "callback"     : "\\Phalcon\\Validation\\Validator\\Callback",
-            "confirmation" : "\\Phalcon\\Validation\\Validator\\Confirmation",
-            "creditCard"   : "\\Phalcon\\Validation\\Validator\\CreditCard",
-            "date"         : "\\Phalcon\\Validation\\Validator\\Date",
-            "digit"        : "\\Phalcon\\Validation\\Validator\\Digit",
-            "email"        : "\\Phalcon\\Validation\\Validator\\Email",
-            "exception"    : "\\Phalcon\\Validation\\Validator\\Exception",
-            "exclusionIn"  : "\\Phalcon\\Validation\\Validator\\ExclusionIn",
-            "file"         : "\\Phalcon\\Validation\\Validator\\File",
-            "identical"    : "\\Phalcon\\Validation\\Validator\\Identical",
-            "inclusionIn"  : "\\Phalcon\\Validation\\Validator\\InclusionIn",
-            "ip"           : "\\Phalcon\\Validation\\Validator\\Ip",
-            "numericality" : "\\Phalcon\\Validation\\Validator\\Numericality",
-            "presenceOf"   : "\\Phalcon\\Validation\\Validator\\PresenceOf",
-            "regex"        : "\\Phalcon\\Validation\\Validator\\Regex",
-            "stringLength" : "\\Phalcon\\Validation\\Validator\\StringLength",
-            "uniqueness"   : "\\Phalcon\\Validation\\Validator\\Uniqueness",
-            "url"          : "\\Phalcon\\Validation\\Validator\\Url"
+            "alnum"        : "Phalcon\\Validation\\Validator\\Alnum",
+            "alpha"        : "Phalcon\\Validation\\Validator\\Alpha",
+            "between"      : "Phalcon\\Validation\\Validator\\Between",
+            "callback"     : "Phalcon\\Validation\\Validator\\Callback",
+            "confirmation" : "Phalcon\\Validation\\Validator\\Confirmation",
+            "creditCard"   : "Phalcon\\Validation\\Validator\\CreditCard",
+            "date"         : "Phalcon\\Validation\\Validator\\Date",
+            "digit"        : "Phalcon\\Validation\\Validator\\Digit",
+            "email"        : "Phalcon\\Validation\\Validator\\Email",
+            "exception"    : "Phalcon\\Validation\\Validator\\Exception",
+            "exclusionIn"  : "Phalcon\\Validation\\Validator\\ExclusionIn",
+            "file"         : "Phalcon\\Validation\\Validator\\File",
+            "identical"    : "Phalcon\\Validation\\Validator\\Identical",
+            "inclusionIn"  : "Phalcon\\Validation\\Validator\\InclusionIn",
+            "ip"           : "Phalcon\\Validation\\Validator\\Ip",
+            "numericality" : "Phalcon\\Validation\\Validator\\Numericality",
+            "presenceOf"   : "Phalcon\\Validation\\Validator\\PresenceOf",
+            "regex"        : "Phalcon\\Validation\\Validator\\Regex",
+            "stringLength" : "Phalcon\\Validation\\Validator\\StringLength",
+            "uniqueness"   : "Phalcon\\Validation\\Validator\\Uniqueness",
+            "url"          : "Phalcon\\Validation\\Validator\\Url"
         ];
     }
 }

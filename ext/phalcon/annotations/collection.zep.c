@@ -54,15 +54,15 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Collection) {
 	/**
 	 * @var array
 	 */
-	zend_declare_property_null(phalcon_annotations_collection_ce, SL("annotations"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_annotations_collection_ce, SL("annotations"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * @var int
 	 */
-	zend_declare_property_long(phalcon_annotations_collection_ce, SL("position"), 0, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_long(phalcon_annotations_collection_ce, SL("position"), 0, ZEND_ACC_PROTECTED);
 
-	zend_class_implements(phalcon_annotations_collection_ce TSRMLS_CC, 1, zend_ce_iterator);
-	zend_class_implements(phalcon_annotations_collection_ce TSRMLS_CC, 1, spl_ce_Countable);
+	zend_class_implements(phalcon_annotations_collection_ce, 1, zend_ce_iterator);
+	zend_class_implements(phalcon_annotations_collection_ce, 1, spl_ce_Countable);
 	return SUCCESS;
 
 }
@@ -107,7 +107,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, __construct) {
 			ZVAL_COPY(&annotationData, _0);
 			ZEPHIR_INIT_NVAR(&_2$$3);
 			object_init_ex(&_2$$3, phalcon_annotations_annotation_ce);
-			ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", &_3, 142, &annotationData);
+			ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", &_3, 143, &annotationData);
 			zephir_check_call_status();
 			zephir_array_append(&annotations, &_2$$3, PH_SEPARATE, "phalcon/Annotations/Collection.zep", 57);
 		} ZEND_HASH_FOREACH_END();
@@ -124,7 +124,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, __construct) {
 			zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&_4$$4);
 				object_init_ex(&_4$$4, phalcon_annotations_annotation_ce);
-				ZEPHIR_CALL_METHOD(NULL, &_4$$4, "__construct", &_3, 142, &annotationData);
+				ZEPHIR_CALL_METHOD(NULL, &_4$$4, "__construct", &_3, 143, &annotationData);
 				zephir_check_call_status();
 				zephir_array_append(&annotations, &_4$$4, PH_SEPARATE, "phalcon/Annotations/Collection.zep", 57);
 			ZEPHIR_CALL_METHOD(NULL, &reflectionData, "next", NULL, 0);
@@ -149,7 +149,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, count) {
 
 
 	zephir_read_property(&_0, this_ptr, SL("annotations"), PH_NOISY_CC | PH_READONLY);
-	RETURN_LONG(zephir_fast_count_int(&_0 TSRMLS_CC));
+	RETURN_LONG(zephir_fast_count_int(&_0));
 
 }
 
@@ -168,7 +168,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, current) {
 
 	zephir_read_property(&_0, this_ptr, SL("annotations"), PH_NOISY_CC | PH_READONLY);
 	zephir_read_property(&_1, this_ptr, SL("position"), PH_NOISY_CC | PH_READONLY);
-	if (!(zephir_array_isset_fetch(&annotation, &_0, &_1, 1 TSRMLS_CC))) {
+	if (!(zephir_array_isset_fetch(&annotation, &_0, &_1, 1))) {
 		RETURN_BOOL(0);
 	}
 	RETURN_CTORW(&annotation);
@@ -241,9 +241,9 @@ PHP_METHOD(Phalcon_Annotations_Collection, get) {
 	object_init_ex(&_5, phalcon_annotations_exception_ce);
 	ZEPHIR_INIT_VAR(&_6);
 	ZEPHIR_CONCAT_SVS(&_6, "Collection doesn't have an annotation called '", &name, "'");
-	ZEPHIR_CALL_METHOD(NULL, &_5, "__construct", NULL, 5, &_6);
+	ZEPHIR_CALL_METHOD(NULL, &_5, "__construct", NULL, 6, &_6);
 	zephir_check_call_status();
-	zephir_throw_exception_debug(&_5, "phalcon/Annotations/Collection.zep", 102 TSRMLS_CC);
+	zephir_throw_exception_debug(&_5, "phalcon/Annotations/Collection.zep", 102);
 	ZEPHIR_MM_RESTORE();
 	return;
 
@@ -413,7 +413,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, next) {
 	zval *this_ptr = getThis();
 
 
-	RETURN_ON_FAILURE(zephir_property_incr(this_ptr, SL("position") TSRMLS_CC));
+	RETURN_ON_FAILURE(zephir_property_incr(this_ptr, SL("position")));
 
 }
 

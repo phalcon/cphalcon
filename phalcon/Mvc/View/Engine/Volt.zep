@@ -11,6 +11,8 @@
 namespace Phalcon\Mvc\View\Engine;
 
 use Phalcon\Di\DiInterface;
+use Phalcon\Events\EventsAwareInterface;
+use Phalcon\Events\ManagerInterface;
 use Phalcon\Mvc\View\Engine\AbstractEngine;
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
 use Phalcon\Mvc\View\Exception;
@@ -18,9 +20,10 @@ use Phalcon\Mvc\View\Exception;
 /**
  * Designer friendly and fast template engine for PHP written in Zephir/C
  */
-class Volt extends AbstractEngine
+class Volt extends AbstractEngine implements EventsAwareInterface
 {
     protected compiler;
+    protected eventsManager;
     protected macros;
     protected options;
 
@@ -116,6 +119,14 @@ class Volt extends AbstractEngine
     }
 
     /**
+     * Returns the internal event manager
+     */
+    public function getEventsManager() -> <ManagerInterface> | null
+    {
+        return this->eventsManager;
+    }
+
+    /**
      * Return Volt's options
      */
     public function getOptions() -> array
@@ -206,6 +217,14 @@ class Volt extends AbstractEngine
         if mustClean {
             this->view->setContent(ob_get_contents());
         }
+    }
+
+    /**
+     * Sets the events manager
+     */
+    public function setEventsManager(<ManagerInterface> eventsManager) -> void
+    {
+        let this->eventsManager = eventsManager;
     }
 
     /**

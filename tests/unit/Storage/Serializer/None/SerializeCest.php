@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Storage\Serializer\None;
 
+use Codeception\Example;
 use Phalcon\Storage\Serializer\None;
 use UnitTester;
 
@@ -20,17 +21,59 @@ class SerializeCest
     /**
      * Tests Phalcon\Storage\Serializer\None :: serialize()
      *
+     * @dataProvider getExamples
+     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-03-30
      */
-    public function storageSerializerNoneSerialize(UnitTester $I)
+    public function storageSerializerNoneSerialize(UnitTester $I, Example $example)
     {
         $I->wantToTest('Storage\Serializer\None - serialize()');
-        $data       = ['Phalcon Framework'];
-        $serializer = new None($data);
+        $serializer = new None($example[1]);
 
-        $expected = $data;
+        $expected = $example[2];
         $actual   = $serializer->serialize();
         $I->assertEquals($expected, $actual);
+    }
+
+    private function getExamples(): array
+    {
+        return [
+            [
+                'null',
+                null,
+                null,
+            ],
+            [
+                'true',
+                true,
+                true,
+            ],
+            [
+                'false',
+                false,
+                false,
+            ],
+            [
+                'integer',
+                1234,
+                1234,
+            ],
+            [
+                'float',
+                1.234,
+                1.234,
+            ],
+            [
+                'string',
+                'Phalcon Framework',
+                'Phalcon Framework',
+            ],
+            [
+                'array',
+                ['Phalcon Framework'],
+                ["Phalcon Framework"],
+            ],
+        ];
     }
 }

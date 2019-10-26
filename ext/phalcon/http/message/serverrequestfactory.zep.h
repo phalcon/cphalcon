@@ -16,6 +16,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequestFactory, createUploadedFile);
 PHP_METHOD(Phalcon_Http_Message_ServerRequestFactory, getHeader);
 PHP_METHOD(Phalcon_Http_Message_ServerRequestFactory, parseCookieHeader);
 PHP_METHOD(Phalcon_Http_Message_ServerRequestFactory, parseHeaders);
+PHP_METHOD(Phalcon_Http_Message_ServerRequestFactory, parseProtocol);
 PHP_METHOD(Phalcon_Http_Message_ServerRequestFactory, parseServer);
 PHP_METHOD(Phalcon_Http_Message_ServerRequestFactory, parseUploadedFiles);
 PHP_METHOD(Phalcon_Http_Message_ServerRequestFactory, parseUri);
@@ -140,6 +141,14 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverreque
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequestfactory_parseprotocol, 0, 1, IS_STRING, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequestfactory_parseprotocol, 0, 1, IS_STRING, NULL, 0)
+#endif
+	ZEND_ARG_OBJ_INFO(0, server, Phalcon\\Collection, 0)
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_message_serverrequestfactory_parseserver, 0, 1, Phalcon\\Collection, 0)
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequestfactory_parseserver, 0, 1, IS_OBJECT, "Phalcon\\Collection", 0)
@@ -178,6 +187,7 @@ ZEPHIR_INIT_FUNCS(phalcon_http_message_serverrequestfactory_method_entry) {
 	PHP_ME(Phalcon_Http_Message_ServerRequestFactory, getHeader, arginfo_phalcon_http_message_serverrequestfactory_getheader, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Http_Message_ServerRequestFactory, parseCookieHeader, arginfo_phalcon_http_message_serverrequestfactory_parsecookieheader, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Http_Message_ServerRequestFactory, parseHeaders, arginfo_phalcon_http_message_serverrequestfactory_parseheaders, ZEND_ACC_PRIVATE)
+	PHP_ME(Phalcon_Http_Message_ServerRequestFactory, parseProtocol, arginfo_phalcon_http_message_serverrequestfactory_parseprotocol, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Http_Message_ServerRequestFactory, parseServer, arginfo_phalcon_http_message_serverrequestfactory_parseserver, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Http_Message_ServerRequestFactory, parseUploadedFiles, arginfo_phalcon_http_message_serverrequestfactory_parseuploadedfiles, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Http_Message_ServerRequestFactory, parseUri, arginfo_phalcon_http_message_serverrequestfactory_parseuri, ZEND_ACC_PRIVATE)

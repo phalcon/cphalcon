@@ -13,6 +13,9 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Cli\Task;
 
 use CliTester;
+use Phalcon\Events\Manager;
+use Phalcon\Cli\Task;
+use Phalcon\Di\FactoryDefault\Cli as CliDi;
 
 class UnderscoreGetCest
 {
@@ -26,6 +29,15 @@ class UnderscoreGetCest
     {
         $I->wantToTest('Cli\Task - __get()');
 
-        $I->skipTest('Need implementation');
+
+        $task = new Task();
+        $di = new CliDi();
+        $task->setDi($di);
+
+        $eventsManager = new Manager();
+        $task->setEventsManager($eventsManager);
+
+        $I->assertEquals($di, $task->di);
+        $I->assertEquals($eventsManager, $task->eventsManager);
     }
 }

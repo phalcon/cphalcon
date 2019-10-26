@@ -19,7 +19,6 @@ use Phalcon\Acl\Exception;
 use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Acl\RoleAware;
 use Phalcon\Acl\ComponentAware;
-use Phalcon\Acl\RoleInterface;
 use Phalcon\Acl\ComponentInterface;
 use ReflectionFunction;
 

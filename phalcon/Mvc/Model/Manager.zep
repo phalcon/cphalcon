@@ -282,7 +282,14 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         /**
          * Load it using an autoloader
          */
-        let model = new {modelName}(null, this->container, this);
+        let model = create_instance_params(
+            modelName,
+            [
+                null,
+                this->container,
+                this
+            ]
+        );
 
         return model;
     }
@@ -1397,21 +1404,21 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
             let retrieveMethod = method;
         }
 
-        let arguments = [findParams];
-
         /**
          * Find first results could be reusable
          */
         let reusable = (bool) relation->isReusable();
 
         if reusable {
-            let uniqueKey = unique_key(referencedModel, arguments),
+            let uniqueKey = unique_key(referencedModel, [findParams, retrieveMethod]),
                 records = this->getReusableRecords(referencedModel, uniqueKey);
 
             if typeof records == "array" || typeof records == "object" {
                 return records;
             }
         }
+
+        let arguments = [findParams];
 
         /**
          * Load the referenced model

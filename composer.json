@@ -15,7 +15,7 @@
     {
       "name": "Phalcon Team",
       "email": "team@phalcon.io",
-      "homepage": "https://phalconphp.com/en/team"
+      "homepage": "https://phalcon.io/en/team"
     },
     {
       "name": "Contributors",
@@ -41,8 +41,8 @@
     "psr/simple-cache": "^1.0"
   },
   "require-dev": {
-    "ext-gd": "*",
     "ext-dom": "*",
+    "ext-gd": "*",
     "ext-json": "*",
     "ext-libxml": "*",
     "ext-mbstring": "*",

@@ -9,6 +9,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, __get);
 PHP_METHOD(Phalcon_Mvc_View_Simple, __set);
 PHP_METHOD(Phalcon_Mvc_View_Simple, getActiveRenderPath);
 PHP_METHOD(Phalcon_Mvc_View_Simple, getContent);
+PHP_METHOD(Phalcon_Mvc_View_Simple, getEventsManager);
 PHP_METHOD(Phalcon_Mvc_View_Simple, getParamsToView);
 PHP_METHOD(Phalcon_Mvc_View_Simple, getVar);
 PHP_METHOD(Phalcon_Mvc_View_Simple, getViewsDir);
@@ -16,6 +17,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, partial);
 PHP_METHOD(Phalcon_Mvc_View_Simple, registerEngines);
 PHP_METHOD(Phalcon_Mvc_View_Simple, render);
 PHP_METHOD(Phalcon_Mvc_View_Simple, setContent);
+PHP_METHOD(Phalcon_Mvc_View_Simple, setEventsManager);
 PHP_METHOD(Phalcon_Mvc_View_Simple, setParamToView);
 PHP_METHOD(Phalcon_Mvc_View_Simple, setVar);
 PHP_METHOD(Phalcon_Mvc_View_Simple, setVars);
@@ -63,6 +65,13 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_simple_getcontent, 0, 0, IS_STRING, 0)
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_simple_getcontent, 0, 0, IS_STRING, NULL, 0)
+#endif
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_view_simple_geteventsmanager, 0, 0, Phalcon\\Events\\ManagerInterface, 1)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_simple_geteventsmanager, 0, 0, IS_OBJECT, "Phalcon\\Events\\ManagerInterface", 1)
 #endif
 ZEND_END_ARG_INFO()
 
@@ -124,6 +133,20 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_simple_setconte
 #else
 	ZEND_ARG_INFO(0, content)
 #endif
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70100
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_simple_seteventsmanager, 0, 1, IS_VOID, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_simple_seteventsmanager, 0, 1, IS_VOID, NULL, 0)
+#endif
+#else
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_simple_seteventsmanager, 0, 0, 1)
+#define arginfo_phalcon_mvc_view_simple_seteventsmanager NULL
+#endif
+
+	ZEND_ARG_OBJ_INFO(0, eventsManager, Phalcon\\Events\\ManagerInterface, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
@@ -196,6 +219,7 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_view_simple_method_entry) {
 	PHP_ME(Phalcon_Mvc_View_Simple, __set, arginfo_phalcon_mvc_view_simple___set, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View_Simple, getActiveRenderPath, arginfo_phalcon_mvc_view_simple_getactiverenderpath, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View_Simple, getContent, arginfo_phalcon_mvc_view_simple_getcontent, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View_Simple, getEventsManager, arginfo_phalcon_mvc_view_simple_geteventsmanager, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View_Simple, getParamsToView, arginfo_phalcon_mvc_view_simple_getparamstoview, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View_Simple, getVar, arginfo_phalcon_mvc_view_simple_getvar, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View_Simple, getViewsDir, arginfo_phalcon_mvc_view_simple_getviewsdir, ZEND_ACC_PUBLIC)
@@ -203,6 +227,7 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_view_simple_method_entry) {
 	PHP_ME(Phalcon_Mvc_View_Simple, registerEngines, arginfo_phalcon_mvc_view_simple_registerengines, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View_Simple, render, arginfo_phalcon_mvc_view_simple_render, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View_Simple, setContent, arginfo_phalcon_mvc_view_simple_setcontent, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_View_Simple, setEventsManager, arginfo_phalcon_mvc_view_simple_seteventsmanager, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View_Simple, setParamToView, arginfo_phalcon_mvc_view_simple_setparamtoview, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View_Simple, setVar, arginfo_phalcon_mvc_view_simple_setvar, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View_Simple, setVars, arginfo_phalcon_mvc_view_simple_setvars, ZEND_ACC_PUBLIC)

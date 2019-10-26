@@ -31,7 +31,7 @@ class GetKeysCest
         $I->wantToTest('Cache\Adapter\Stream - getKeys()');
 
         $serializer = new SerializerFactory();
-        $adapter    = new Stream($serializer, ['cacheDir' => outputDir()]);
+        $adapter    = new Stream($serializer, ['storageDir' => outputDir()]);
 
         $adapter->clear();
 

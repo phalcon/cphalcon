@@ -23,7 +23,7 @@ class InitCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function collectionInit(UnitTester $I)
+    public function registryInit(UnitTester $I)
     {
         $I->wantToTest('Registry - init()');
 

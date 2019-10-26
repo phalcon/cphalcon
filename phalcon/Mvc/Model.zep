@@ -41,7 +41,6 @@ use Phalcon\Mvc\Model\TransactionInterface;
 use Phalcon\Mvc\Model\ValidationFailed;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\Validation\ValidationInterface;
-use Phalcon\Events\ManagerInterface as EventsManagerInterface;
 use Serializable;
 
 /**
@@ -181,7 +180,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     /**
      * Handles method calls when a method is not implemented
      *
-     * @return    mixed
+     * @return mixed
+     * @throws \Phalcon\Mvc\Model\Exception If the method doesn't exist
      */
     public function __call(string method, array arguments)
     {
@@ -189,7 +189,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
         let records = self::_invokeFinder(method, arguments);
 
-        if records !== null {
+        if records !== false {
             return records;
         }
 
@@ -200,7 +200,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
          */
         let records = this->_getRelatedRecords(modelName, method, arguments);
 
-        if records !== null {
+        if records !== false {
             return records;
         }
 
@@ -226,10 +226,26 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * Handles method calls when a static method is not implemented
      *
      * @return mixed
+     * @throws \Phalcon\Mvc\Model\Exception If the method doesn't exist
      */
     public static function __callStatic(string method, array arguments)
     {
-        return self::_invokeFinder(method, arguments);
+        var modelName, records;
+
+        let records = self::_invokeFinder(method, arguments);
+
+        if records !== false {
+            return records;
+        }
+
+        let modelName = get_called_class();
+
+        /**
+         * The method doesn't exist throw an exception
+         */
+        throw new Exception(
+            "The method '" . method . "' doesn't exist on model '" . modelName . "'"
+        );
     }
 
 
@@ -1517,7 +1533,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
         if unlikely typeof snapshot != "array" {
             throw new Exception(
-                "The record doesn't have a valid data snapshot"
+                "The 'keepSnapshots' option must be enabled to track changes"
             );
         }
 
@@ -1856,13 +1872,13 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
         if unlikely !globals_get("orm.update_snapshot_on_save") {
             throw new Exception(
-                "Update snapshot on save must be enabled for this method to work properly"
+                "The 'updateSnapshotOnSave' option must be enabled for this method to work properly"
             );
         }
 
         if unlikely typeof snapshot != "array" {
             throw new Exception(
-                "The record doesn't have a valid data snapshot"
+                "The 'keepSnapshots' option must be enabled to track changes"
             );
         }
 
@@ -3136,7 +3152,11 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                  * Create a message
                  */
                 this->appendMessage(
-                    new Message(message, fields, "ConstraintViolation")
+                    new Message(
+                        message,
+                        fields,
+                        "ConstraintViolation"
+                    )
                 );
 
                 let error = true;
@@ -3379,7 +3399,11 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                  * Create a message
                  */
                 this->appendMessage(
-                    new Message(message, fields, "ConstraintViolation")
+                    new Message(
+                        message,
+                        fields,
+                        "ConstraintViolation"
+                    )
                 );
 
                 let error = true;
@@ -3691,9 +3715,11 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
              */
             if typeof columnMap == "array" {
                 if unlikely !fetch attributeField, columnMap[field] {
-                    throw new Exception(
-                        "Column '" . field . "' isn't part of the column map"
-                    );
+                    if unlikely !globals_get("orm.ignore_unknown_columns") {
+                        throw new Exception(
+                            "Column '" . field . "' isn't part of the column map"
+                        );
+                    }
                 }
             } else {
                 let attributeField = field;
@@ -4043,12 +4069,16 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     }
 
     /**
-     * Returns related records defined relations depending on the method name
+     * Returns related records defined relations depending on the method name.
+     * Returns false if the relation is non-existent.
      *
-     * @param array arguments
-     * @return mixed
+     * @param string modelName
+     * @param string method
+     * @param array  arguments
+     *
+     * @return ResultsetInterface|ModelInterface|bool|null
      */
-    protected function _getRelatedRecords(string! modelName, string! method, var arguments)
+    protected function _getRelatedRecords(string! modelName, string! method, array! arguments)
     {
         var manager, relation, queryMethod, extraArgs, alias;
 
@@ -4070,10 +4100,11 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 );
 
             /**
-             * Return if the relation was not found because getRelated() throws an exception if the relation is unknown
+             * Return if the relation was not found because getRelated()
+             * throws an exception if the relation is unknown
              */
             if typeof relation != "object" {
-                return null;
+                return false;
             }
 
             return this->getRelated(alias, extraArgs);
@@ -4094,7 +4125,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
              * If the relation was found perform the query via the models manager
              */
             if typeof relation != "object" {
-                return null;
+                return false;
             }
 
             return manager->getRelationRecords(
@@ -4105,7 +4136,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             );
         }
 
-        return null;
+        return false;
     }
 
     /**
@@ -4205,7 +4236,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     protected final static function _invokeFinder(string method, array arguments)
     {
         var extraMethod, type, modelName, value, model, attributes, field,
-            extraMethodFirst, metaData;
+            extraMethodFirst, metaData, params;
 
         let extraMethod = null;
 
@@ -4239,16 +4270,16 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         let modelName = get_called_class();
 
         if !extraMethod {
-            return null;
+            return false;
         }
 
-        if unlikely !fetch value, arguments[0] {
+        if unlikely !isset arguments[0] {
             throw new Exception(
                 "The static method '" . method . "' requires one argument"
             );
         }
 
-        let model = new {modelName}(),
+        let model    = create_instance(modelName),
             metaData = model->getModelsMetaData();
 
         /**
@@ -4287,15 +4318,23 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             }
         }
 
+        fetch value, arguments[0];
+
+        if value !== null {
+            let params = [
+                 "conditions": "[" . field . "] = ?0",
+                 "bind"      : [value]
+            ];
+        } else {
+            let params = [
+                 "conditions": "[" . field . "] IS NULL"
+            ];
+        }
+
         /**
          * Execute the query
          */
-        return {modelName}::{type}(
-            [
-                "conditions": "[" . field . "] = ?0",
-                "bind"      : [value]
-            ]
-        );
+        return {modelName}::{type}(params);
     }
 
     /**
@@ -4400,9 +4439,11 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 for field in notNull {
                     if typeof columnMap == "array" {
                         if unlikely !fetch attributeField, columnMap[field] {
-                            throw new Exception(
-                                "Column '" . field . "' isn't part of the column map"
-                            );
+                            if unlikely !globals_get("orm.ignore_unknown_columns") {
+                                throw new Exception(
+                                    "Column '" . field . "' isn't part of the column map"
+                                );
+                            }
                         }
                     } else {
                         let attributeField = field;

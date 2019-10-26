@@ -124,7 +124,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
          * Create the instance only if the dialect is a string
          */
         if typeof dialectClass == "string" {
-            let this->dialect = new {dialectClass}();
+            let this->dialect = create_instance(dialectClass);
         } elseif typeof dialectClass == "object" {
             let this->dialect = dialectClass;
         }

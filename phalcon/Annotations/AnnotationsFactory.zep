@@ -55,7 +55,12 @@ class AnnotationsFactory extends AbstractFactory
 
         if !isset this->services[name] {
             let definition           = this->mapper[name],
-                this->services[name] = new {definition}(options);
+                this->services[name] = create_instance_params(
+                    definition,
+                    [
+                        options
+                    ]
+                );
         }
 
         return this->services[name];
@@ -67,9 +72,9 @@ class AnnotationsFactory extends AbstractFactory
     protected function getAdapters() -> array
     {
         return [
-            "apcu"   : "\\Phalcon\\Annotations\\Adapter\\Apcu",
-            "memory" : "\\Phalcon\\Annotations\\Adapter\\Memory",
-            "stream" : "\\Phalcon\\Annotations\\Adapter\\Stream"
+            "apcu"   : "Phalcon\\Annotations\\Adapter\\Apcu",
+            "memory" : "Phalcon\\Annotations\\Adapter\\Memory",
+            "stream" : "Phalcon\\Annotations\\Adapter\\Stream"
         ];
     }
 }

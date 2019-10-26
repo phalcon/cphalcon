@@ -39,42 +39,42 @@ ZEPHIR_INIT_CLASS(Phalcon_Storage_Adapter_AbstractAdapter) {
 	/**
 	 * @var mixed
 	 */
-	zend_declare_property_null(phalcon_storage_adapter_abstractadapter_ce, SL("adapter"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_storage_adapter_abstractadapter_ce, SL("adapter"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * Name of the default serializer class
 	 *
 	 * @var string
 	 */
-	zend_declare_property_string(phalcon_storage_adapter_abstractadapter_ce, SL("defaultSerializer"), "Php", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_storage_adapter_abstractadapter_ce, SL("defaultSerializer"), "Php", ZEND_ACC_PROTECTED);
 
 	/**
 	 * Name of the default TTL (time to live)
 	 *
 	 * @var int
 	 */
-	zend_declare_property_long(phalcon_storage_adapter_abstractadapter_ce, SL("lifetime"), 3600, ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_long(phalcon_storage_adapter_abstractadapter_ce, SL("lifetime"), 3600, ZEND_ACC_PROTECTED);
 
 	/**
 	 * @var string
 	 */
-	zend_declare_property_string(phalcon_storage_adapter_abstractadapter_ce, SL("prefix"), "", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_storage_adapter_abstractadapter_ce, SL("prefix"), "", ZEND_ACC_PROTECTED);
 
 	/**
 	 * Serializer
 	 *
-	 * @var <SerializerInterface>
+	 * @var SerializerInterface
 	 */
-	zend_declare_property_null(phalcon_storage_adapter_abstractadapter_ce, SL("serializer"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_storage_adapter_abstractadapter_ce, SL("serializer"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * Serializer Factory
 	 *
-	 * @var <SerializerFactory>
+	 * @var SerializerFactory
 	 */
-	zend_declare_property_null(phalcon_storage_adapter_abstractadapter_ce, SL("serializerFactory"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_storage_adapter_abstractadapter_ce, SL("serializerFactory"), ZEND_ACC_PROTECTED);
 
-	zend_class_implements(phalcon_storage_adapter_abstractadapter_ce TSRMLS_CC, 1, phalcon_storage_adapter_adapterinterface_ce);
+	zend_class_implements(phalcon_storage_adapter_abstractadapter_ce, 1, phalcon_storage_adapter_adapterinterface_ce);
 	return SUCCESS;
 
 }
@@ -162,24 +162,24 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, __construct) {
 	ZVAL_STRING(&_2, "defaultSerializer");
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "Php");
-	ZEPHIR_CALL_CE_STATIC(&_0, phalcon_helper_arr_ce, "get", &_1, 12, &options, &_2, &_3);
+	ZEPHIR_CALL_CE_STATIC(&_0, phalcon_helper_arr_ce, "get", &_1, 13, &options, &_2, &_3);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("defaultSerializer"), &_0);
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "lifetime");
 	ZVAL_LONG(&_5, 3600);
-	ZEPHIR_CALL_CE_STATIC(&_4, phalcon_helper_arr_ce, "get", &_1, 12, &options, &_2, &_5);
+	ZEPHIR_CALL_CE_STATIC(&_4, phalcon_helper_arr_ce, "get", &_1, 13, &options, &_2, &_5);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("lifetime"), &_4);
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "serializer");
 	ZVAL_NULL(&_5);
-	ZEPHIR_CALL_CE_STATIC(&_6, phalcon_helper_arr_ce, "get", &_1, 12, &options, &_2, &_5);
+	ZEPHIR_CALL_CE_STATIC(&_6, phalcon_helper_arr_ce, "get", &_1, 13, &options, &_2, &_5);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("serializer"), &_6);
 	zephir_update_property_zval(this_ptr, SL("serializerFactory"), factory);
 	if (zephir_array_isset_string(&options, SL("prefix"))) {
-		zephir_array_fetch_string(&_7$$3, &options, SL("prefix"), PH_NOISY | PH_READONLY, "phalcon/Storage/Adapter/AbstractAdapter.zep", 75 TSRMLS_CC);
+		zephir_array_fetch_string(&_7$$3, &options, SL("prefix"), PH_NOISY | PH_READONLY, "phalcon/Storage/Adapter/AbstractAdapter.zep", 75);
 		zephir_update_property_zval(this_ptr, SL("prefix"), &_7$$3);
 	}
 	ZEPHIR_MM_RESTORE();
@@ -343,7 +343,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, getTtl) {
 	}
 	_0 = Z_TYPE_P(ttl) == IS_OBJECT;
 	if (_0) {
-		_0 = zephir_instance_of_ev(ttl, zephir_get_internal_ce(SL("dateinterval")) TSRMLS_CC);
+		_0 = zephir_instance_of_ev(ttl, zephir_get_internal_ce(SL("dateinterval")));
 	}
 	if (_0) {
 		ZEPHIR_INIT_VAR(&dateTime);
@@ -446,7 +446,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, initSerializer) {
 	if (_4) {
 		ZEPHIR_OBS_VAR(&_5);
 		zephir_read_property(&_5, this_ptr, SL("serializer"), PH_NOISY_CC);
-		_4 = zephir_instance_of_ev(&_5, phalcon_storage_serializer_serializerinterface_ce TSRMLS_CC);
+		_4 = zephir_instance_of_ev(&_5, phalcon_storage_serializer_serializerinterface_ce);
 	}
 	if (!(_4)) {
 		zephir_read_property(&_6$$4, this_ptr, SL("defaultSerializer"), PH_NOISY_CC | PH_READONLY);

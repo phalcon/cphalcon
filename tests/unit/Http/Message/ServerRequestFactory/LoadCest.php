@@ -441,7 +441,226 @@ class LoadCest
         $I->assertEquals('http', $uri->getScheme());
     }
 
+    /**
+     * Tests Phalcon\Http\Message\ServerRequestFactory :: load() - constructor
+     *
+     * @dataProvider getConstructorExamples
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-09-29
+     */
+    public function httpMessageServerRequestFactoryLoadConstructor(UnitTester $I, Example $example)
+    {
+        $I->wantToTest('Http\Message\ServerRequestFactory - load() - constructor ' . $example[0]);
 
+        $factory = new ServerRequestFactory();
+
+        $server = $_SERVER;
+        $get    = $_GET;
+        $post   = $_POST;
+        $cookie = $_COOKIE;
+        $files  = $_FILES;
+
+        unset($_SERVER);
+        unset($_GET);
+        unset($_POST);
+        unset($_COOKIE);
+        unset($_FILES);
+
+        $request = $factory->load($example[1], $example[2], $example[3], $example[4], $example[5]);
+
+        $_SERVER = $server;
+        $_GET    = $get;
+        $_POST   = $post;
+        $_COOKIE = $cookie;
+        $_FILES  = $files;
+
+
+        $I->assertInstanceOf(
+            ServerRequestInterface::class,
+            $request
+        );
+    }
+
+    /**
+     * Tests Phalcon\Http\Message\ServerRequestFactory :: load() - constructor - empty superglobals
+     *
+     * @dataProvider getConstructorExamples
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-09-29
+     */
+    public function httpMessageServerRequestFactoryLoadConstructorEmptySuperglobals(UnitTester $I, Example $example)
+    {
+        $I->wantToTest('Http\Message\ServerRequestFactory - load() - constructor - empty superglobals ' . $example[0]);
+
+        $factory = new ServerRequestFactory();
+
+        $request = $factory->load($example[1], $example[2], $example[3], $example[4], $example[5]);
+        $I->assertInstanceOf(
+            ServerRequestInterface::class,
+            $request
+        );
+    }
+
+    /**
+     * Tests Phalcon\Http\Message\ServerRequestFactory :: load() - protocol default
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-09-29
+     */
+    public function httpMessageServerRequestFactoryLoadProtocolDefault(UnitTester $I)
+    {
+        $I->wantToTest('Http\Message\ServerRequestFactory - load() - protocol default');
+
+        $factory = new ServerRequestFactory();
+
+        $server = $_SERVER;
+        unset($_SERVER);
+
+        $request = $factory->load();
+        $_SERVER = $server;
+
+        $expected = '1.1';
+        $actual   = $request->getProtocolVersion();
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Http\Message\ServerRequestFactory :: load() - protocol defined
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-09-29
+     */
+    public function httpMessageServerRequestFactoryLoadProtocolDefined(UnitTester $I)
+    {
+        $I->wantToTest('Http\Message\ServerRequestFactory - load() - protocol defined');
+
+        $factory = new ServerRequestFactory();
+
+        $server = [
+            'SERVER_PROTOCOL' => 'HTTP/2.0'
+        ];
+
+        $request = $factory->load($server);
+
+        $expected = '2.0';
+        $actual   = $request->getProtocolVersion();
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Http\Message\ServerRequestFactory :: load() - protocol error
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-09-29
+     */
+    public function httpMessageServerRequestFactoryLoadProtocolError(UnitTester $I)
+    {
+        $I->wantToTest('Http\Message\ServerRequestFactory - load() - protocol error');
+
+        $I->expectThrowable(
+            new InvalidArgumentException(
+                'Incorrect protocol value HTTX/4.5'
+            ),
+            function () {
+                $factory = new ServerRequestFactory();
+
+                $server = [
+                    'SERVER_PROTOCOL' => 'HTTX/4.5'
+                ];
+
+                $request = $factory->load($server);
+            }
+        );
+    }
+
+    /**
+     * Tests Phalcon\Http\Message\ServerRequestFactory :: load() - protocol error unsupported
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-09-29
+     */
+    public function httpMessageServerRequestFactoryLoadProtocolErrorUnsupported(UnitTester $I)
+    {
+        $I->wantToTest('Http\Message\ServerRequestFactory - load() - protocol error unsupported');
+
+        $I->expectThrowable(
+            new InvalidArgumentException(
+                'Unsupported protocol HTTP/4.5'
+            ),
+            function () {
+                $factory = new ServerRequestFactory();
+
+                $server = [
+                    'SERVER_PROTOCOL' => 'HTTP/4.5'
+                ];
+
+                $request = $factory->load($server);
+            }
+        );
+    }
+
+    /**
+     * @return array
+     */
+    private function getConstructorExamples(): array
+    {
+        return [
+            [
+                'empty',
+                null,
+                null,
+                null,
+                null,
+                null,
+            ],
+            [
+                'server',
+                ['one' => 'two'],
+                null,
+                null,
+                null,
+                null,
+            ],
+            [
+                'get',
+                null,
+                ['one' => 'two'],
+                null,
+                null,
+                null,
+            ],
+            [
+                'post',
+                null,
+                null,
+                ['one' => 'two'],
+                null,
+                null,
+            ],
+            [
+                'cookie',
+                null,
+                null,
+                null,
+                ['one' => 'two'],
+                null,
+            ],
+            [
+                'files',
+                null,
+                null,
+                null,
+                null,
+                ['one' => 'two'],
+            ],
+        ];
+    }
+
+    /**
+     * @return array
+     */
     private function getServerNameExamples(): array
     {
         return [

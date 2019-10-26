@@ -1,3 +1,61 @@
+# [4.0.0-rc.2](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-rc.2) (2019-10-26)
+## Added
+- Added `cast` parameter to `Phalcon\Collection::get` and `Phalcon\Helper\Arr::get` allowing developers to cast the result returned to the type they want to. [#14465](https://github.com/phalcon/cphalcon/pull/14465)
+- Added `Phalcon\Paginator\Repository::jsonSerialize()` implementing `JsonSerializable` [#14475](https://github.com/phalcon/cphalcon/pull/14475)
+- Added `Phalcon\Logger::getLogLevel()` and `Phalcon\Logger::setLogLevel()` setting the minimum log level for the logger [#14480](https://github.com/phalcon/cphalcon/issues/14480)
+
+## Changed
+- Changed all calls to `new <object>` to use the `create_instance` or `create_instance_params` for better performance. [#14419](https://github.com/phalcon/cphalcon/pull/14419)
+- Changed the exception text for `Phalcon\Mvc\Model::getChangedFields` and `Phalcon\Mvc\Model::getUpdatedFields` when there is no snapshot setup [#14468](https://github.com/phalcon/cphalcon/pull/14468)
+- Changed `Phalcon\Mvc\Model::__callStatic()` to throw an exception if the called method is unknown. [#14467](https://github.com/phalcon/cphalcon/pull/14467)
+- Changed `Phalcon\Mvc\Model` to accept `0`, `null` and `""` as valid parameter for `findByField()`, `findFirstByField()` and `countByField()`. [#14467](https://github.com/phalcon/cphalcon/pull/14467)
+
+## Fixed
+- Fixed `Phalcon\Mvc\View\Engine\Volt\Compiler::parse()` Corrected syntax recognize for "set" keyword. [#14288](https://github.com/phalcon/cphalcon/issues/14288)
+- Fixed `Phalcon\Mvc\View\Engine\Volt\Compiler::parse()` Corrected syntax recognize for "is" keyword. [#11683](https://github.com/phalcon/cphalcon/issues/11683)
+- Fixed `Phalcon\Cache\Adapter\AbstractAdapter` use `AdapterInterface` instead of non existing `AbstractAdapter` [#14414](https://github.com/phalcon/cphalcon/pull/14414)
+- Fixed `Phalcon\Cache\CacheFactory` use `Psr\SimpleCache\CacheInterface` instead of non existing `Phalcon\Cache\CacheInterface` [#14414](https://github.com/phalcon/cphalcon/pull/14414)
+- Fixed `Phalcon\Cache\CacheFactory` use `Psr\SimpleCache\CacheInterface` instead of non existing `Phalcon\Cache\CacheInterface` [#14414](https://github.com/phalcon/cphalcon/pull/14414)
+- Fixed `Phalcon\Cli\Router` add missing `Phalcon\Cli\Router\RouteInterface` [#14414](https://github.com/phalcon/cphalcon/pull/14414)
+- Fixed `Phalcon\Dispatcher\AbstractDispatcher::setModelBinder()` to return DispatcherInterface instead of non existing Dispatcher: [#14414](https://github.com/phalcon/cphalcon/pull/14414)
+ - `Phalcon\Firewall\Adapter\Acl`
+ - `Phalcon\Firewall\Adapter\Annotations`
+- Fixed `Phalcon\Filter\FilterFactory::newInstance()` to return `FilterInterface` instead of non existing `LocatorInterface` [#14414](https://github.com/phalcon/cphalcon/pull/14414)
+- Fixed `Phalcon\Forms\Element\Select::addOption()` and `Phalcon\Forms\Element\Select::setOption()` to return `ElementInterface` instead of non existing Element [#14414](https://github.com/phalcon/cphalcon/pull/14414)
+- Fixed `Phalcon\Forms\Manager::set()` to return `Manager` instead of non existing `FormManager` [#14414](https://github.com/phalcon/cphalcon/pull/14414)
+- Fixed 
+ - `Phalcon\Paginator\Adapter\AbstractAdapter::setCurrentPage()` 
+ - `Phalcon\Paginator\Adapter\AbstractAdapter::setLimit()` 
+ - `Phalcon\Paginator\Adapter\AbstractAdapter::setRepository()` to return `AdapterInterface` instead of non existing `Adapter` [#14414](https://github.com/phalcon/cphalcon/pull/14414)
+- Fixed `Phalcon\Translate\TranslateFactory::set()` to return `AdapterInterface` instead of non existing `AbstractAdapter` [#14414](https://github.com/phalcon/cphalcon/pull/14414)
+- Fixed `Phalcon\Filter` to properly work with closures [#14417](https://github.com/phalcon/cphalcon/issues/14417)
+- Fixed `Phalcon\Form::setAction()` throwing error when called in `Form::initialize()` [#14421](https://github.com/phalcon/cphalcon/pull/14421)
+- Fixed `Phalcon\Mvc\Model\Query\Lang::parsePHQL` return type hint from `string` to `array`
+- Fixed `NOT BETWEEN` support in PHQL [#14253](https://github.com/phalcon/cphalcon/issues/14253)
+- Fixed `Phalcon\Storage\Adapter\Stream` to correctly serialize and unserialize data [#14408](https://github.com/phalcon/cphalcon/issues/14408)
+- Fixed `Phalcon\Storage\Serializer\Json` to throw an exception if storing an object [#14408](https://github.com/phalcon/cphalcon/issues/14408)
+- Fixed `Phalcon\Http\Message\ServerRequestFactory::load` to correctly handle superglobals that have not been defined [#14426](https://github.com/phalcon/cphalcon/issues/14426)
+- Fixed `Phalcon\Forms\Form` to initialize attributes object if not initialized [#14430](https://github.com/phalcon/cphalcon/issues/14430)
+- Fixed `Phalcon\Http\Message\ServerRequestFactory::load` to correctly detect the protocol passed from `$_SERVER` [#14432](https://github.com/phalcon/cphalcon/issues/14432)
+- Fixed `Phalcon\Cli\Router\Route` added missing `Phalcon\Cli\Router\RouteInterface`
+- Fixed incorrect return types on `Phalcon\Mvc\View\Engine\AbstractEngine::partial` and `Phalcon\Mvc\View\Engine\EngineInterface::partial` [#14429](https://github.com/phalcon/cphalcon/issues/14429)
+- Fixed `Phalcon\Firewall\Adapter\AbstractAdapter::getRoleCallback` and `Phalcon\Firewall\Adapter\AbstractAdapter::setRoleCallback` to correctly accept and return a `Closure` [#14450](https://github.com/phalcon/cphalcon/issues/14450)
+- Fixed `Phalcon\Firewall\Adapter\AdapterInterface::getRoleCallback` and `Phalcon\Firewall\Adapter\AbstractAdapter::setRoleCallback` to correctly accept and return a `Closure` [#14450](https://github.com/phalcon/cphalcon/issues/14450)
+- Fixed `Phalcon\Events\Event::__constructor` to correctly accept an `object` as the `source` parameter [#14449](https://github.com/phalcon/cphalcon/issues/14449)
+- Fixed `Phalcon\Cache::checkKey()` added `.` to key characters pattern [#14457](https://github.com/phalcon/cphalcon/pull/14457)
+- Fixed `Phalcon\Mvc\Model\Manager` to store reusable related records correctly. [#14444](https://github.com/phalcon/cphalcon/pull/14444)
+- Fixed `Phalcon\Mvc\Model::__call()` not to throw an exception when the return value is `null` for related records. [#14444](https://github.com/phalcon/cphalcon/pull/14444)
+- Fixed `Phalcon\Logger\Adapter\Syslog::__construct()` incorrect receipt of the `option` from the `options` parameter. [#14470](https://github.com/phalcon/cphalcon/pull/14470)
+- Fixed `Phalcon\Events\Manager::fire` and `Phalcon\Events\ManagerInterface::fire` correctly aligning parameters and types. [#14477](https://github.com/phalcon/cphalcon/pull/14477)
+- Fixed `Phalcon\Translate\*` aligning `parameters` as `array` with the interpolator calls. [#14477](https://github.com/phalcon/cphalcon/pull/14477)
+- Fixed `Phalcon\Storage\AdapterFactory:newInstance` to return the correct interface [#14481](https://github.com/phalcon/cphalcon/issues/14481)
+- Fixed `Phalcon\Mvc\Dispatcher:forward` to accept an array vs a mixed variable  [#14481](https://github.com/phalcon/cphalcon/issues/14481)
+- Fixed `Phalcon\Mvc\Model::_doLowUpdate` and `Phalcon\Mvc\Model::_doLowInsert` throwing errors about column mapping when `phalcon.orm.ignore_unknown_columns` is set `On` [#14485](https://github.com/phalcon/cphalcon/issues/14485)
+
+## Removed
+- Removed `Phalcon\Application\AbstractApplication::handle()` as it does not serve any purpose and causing issues with type hinting. [#14407](https://github.com/phalcon/cphalcon/pull/14407)
+- Removed `getEventsManager` and `setEventsManager` from `Phalcon\Di\Injectable` to the classes that utilise the methods or `eventsManager` property. [#14269](https://github.com/phalcon/cphalcon/issues/14269)
+
 # [4.0.0-rc.1](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-rc.1) (2019-09-23)
 
 ## Added
@@ -68,7 +126,7 @@
 - Fixed `Phalcon\Di::remove()` to remove service. [#14396](https://github.com/phalcon/cphalcon/issues/14396)
 
 ## Removed
-- Removed `Phalcon\Plugin` - duplicate of `Phalcon\DI\Injectable` [#14359](https://github.com/phalcon/cphalcon/issues/14359)
+- Removed `Phalcon\Plugin` - duplicate of `Phalcon\Di\Injectable` [#14359](https://github.com/phalcon/cphalcon/issues/14359)
 - Removed `Phalcon\Mvc\Collection` and all related references. 4.0 will not support mongo as it is being re-implemented to take advantage of the latest Mongo driver (see [#13697](https://github.com/phalcon/cphalcon/issues/13697)) [#14361](https://github.com/phalcon/cphalcon/pull/14361)
 - Removed `Phalcon\Session\Manager::registerHandler` - duplicate functionality [#14381](https://github.com/phalcon/cphalcon/pull/14381)
 - Removed `Phalcon\Html\Tag` - duplicate functionality [#14381](https://github.com/phalcon/cphalcon/pull/14381)
@@ -158,11 +216,11 @@
 - Renamed `Phalcon\Mvc\View\Engine` to `Phalcon\Mvc\View\Engine\AbstractEngine` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
 - Renamed `Phalcon\Mvc\View\EngineInterface` to `Phalcon\Mvc\View\Engine\EngineInterface` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
 - Renamed `Phalcon\UrlInterface` to `Phalcon\Url\UrlInterface`
-- Renamed `Phalcon\Validator` to `Phalcon\Validator\Validator` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
-- Renamed `Phalcon\Validator\Validator` to `Phalcon\Validator\AbstractValidator` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
-- Renamed `Phalcon\Validator\ValidatorComposite` to `Phalcon\Validator\AbstractValidatorComposite` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
-- Renamed `Phalcon\Validator\CombinedFieldsValidator` to `Phalcon\Validator\AbstractCombinedFields` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
-- Renamed `Phalcon\Validator\Validator\File\FileAbstract` to `Phalcon\Validator\Validator\File\AbstractFile` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
+- Renamed `Phalcon\Validator` to `Phalcon\Validation\Validator` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
+- Renamed `Phalcon\Validator\Validator` to `Phalcon\Validation\AbstractValidator` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
+- Renamed `Phalcon\Validator\ValidatorComposite` to `Phalcon\Validation\AbstractValidatorComposite` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
+- Renamed `Phalcon\Validator\CombinedFieldsValidator` to `Phalcon\Validation\AbstractCombinedFields` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
+- Renamed `Phalcon\Validator\Validator\File\FileAbstract` to `Phalcon\Validation\Validator\File\AbstractFile` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
 
 ## Fixed
 - Fixed `Phalcon\Mvc\View::getRender()` to call `view->finish()` instead of `ob_end_clean()`. [#14095](https://github.com/phalcon/cphalcon/issues/14095)
@@ -332,7 +390,12 @@
     - `Phalcon\Cache\Frontend\None`
     - `Phalcon\Cache\Frontend\Output`
 [#13439](https://github.com/phalcon/cphalcon/issues/13439)
-- Removed model namespace aliases.
+- Removed model namespace aliases
+    - `Phalcon\Model\Manager::registerNamespaceAlias()`
+    - `Phalcon\Model\Manager::getNamespaceAlias()`
+    - `Phalcon\Model\Manager::getNamespaceAliases()`
+    - `Phalcon\Model\ManagerInterface::getNamespaceAlias()`
+    - `Phalcon\Model\ManagerInterface::registerNamespaceAlias()`
 
 # [4.0.0-alpha.4](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-alpha.4) (2019-03-31)
 ## Added
@@ -498,7 +561,7 @@ The implementation offers PSR-7/PSR-17 compatible components in a different name
     - `Phalcon\Mvc\Model\Query\BuilderInterface` - `distinct`, `getDistinct`, `forUpdate`, `offset`, `getOffset`
     - `Phalcon\Mvc\Model\Transaction\ManagerInterface` - `setDbService`, `getDbService`, `setRollbackPendent`, `getRollbackPendent`
     - `Phalcon\Mvc\Model\CriteriaInterface` - `distinct`, `leftJoin`, `innerJoin`, `rightJoin`, `groupBy`, `having`, `cache`, `getColumns`, `getGroupBy`, `getHaving`,
-    - `Phalcon\Mvc\Model\ManagerInterface` - `isVisibleModelProperty`, `keepSnapshots`, `isKeepingSnapshots`, `useDynamicUpdate`, `isUsingDynamicUpdate`, `addHasManyToMany`, `existsHasManyToMany`, `getRelationRecords`, `getHasManyToMany`, `registerNamespaceAlias`, `getNamespaceAlias`
+    - `Phalcon\Mvc\Model\ManagerInterface` - `isVisibleModelProperty`, `keepSnapshots`, `isKeepingSnapshots`, `useDynamicUpdate`, `isUsingDynamicUpdate`, `addHasManyToMany`, `existsHasManyToMany`, `getRelationRecords`, `getHasManyToMany`
     - `Phalcon\Mvc\Model\MessageInterface` - `setModel`, `getModel`, `setCode`, `getCode`
     - `Phalcon\Mvc\Model\QueryInterface` - `getSingleResult`, `setBindParams`, `getBindParams`, `setBindTypes`, `setSharedLock`, `getBindTypes`, `getSql`
     - `Phalcon\Mvc\Model\RelationInterface` - `getParams`
@@ -508,7 +571,7 @@ The implementation offers PSR-7/PSR-17 compatible components in a different name
     - `Phalcon\Validation\MessageInteraface` - `getCode`, `setCode`
     - `Phalcon\CryptInterface` - `setPadding`
     - `Phalcon\Mvc\RouterInterface` - `attach` [#12676](https://github.com/phalcon/cphalcon/issues/12676)
-- Added `Phalcon\Container`, a proxy container class to the `Phalcon\DI` implementing PSR-11 [#12295](https://github.com/phalcon/cphalcon/issues/12295)
+- Added `Phalcon\Container`, a proxy container class to the `Phalcon\Di` implementing PSR-11 [#12295](https://github.com/phalcon/cphalcon/issues/12295)
 - Added `Phalcon\Acl\Adapter\Memory::getActiveKey`, `Phalcon\Acl\Adapter\Memory::activeFunctionCustomArgumentsCount` and `Phalcon\Acl\Adapter\Memory::getActiveFunction` to get latest key, number of custom arguments, and function used to acquire access [#12547](https://github.com/phalcon/cphalcon/pull/12547)
 
 ## Changed
@@ -573,7 +636,7 @@ The implementation offers PSR-7/PSR-17 compatible components in a different name
 - Renamed `Phalcon\Acl\Adapter\Memory::getRoless` to `Phalcon\Acl\Adapter\Memory::getOperations` [#13639](https://github.com/phalcon/cphalcon/issues/13639)
 - Renamed `Phalcon\Acl\Adapter\Memory::getResources` to `Phalcon\Acl\Adapter\Memory::getSubjects` [#13639](https://github.com/phalcon/cphalcon/issues/13639)
 - Changed `Phalcon\Http\Response::setHeaders` now merges the headers with any pre-existing ones in the internal collection [#12836](https://github.com/phalcon/cphalcon/issues/12836)
-- Changed `Phalcon\DI\FactoryDefault` to not load by default
+- Changed `Phalcon\Di\FactoryDefault` to not load by default
     - the `Phalcon\Session\Adapter\Files` using the name `session`
     - the `Phalcon\Session\Bag` using the name `sessionBag` [#12921](https://github.com/phalcon/cphalcon/issues/12921)
   [#12921](https://github.com/phalcon/cphalcon/issues/12921)

@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Cli\Dispatcher;
 
 use CliTester;
+use Phalcon\Cli\Dispatcher;
 
 /**
  * Class GetActionNameCest
@@ -28,6 +29,13 @@ class GetActionNameCest
     public function cliDispatcherGetActionName(CliTester $I)
     {
         $I->wantToTest('Cli\Dispatcher - getActionName()');
-        $I->skipTest('Need implementation');
+
+        $dispatcher = new Dispatcher();
+        $dispatcher->setActionName('hello');
+
+        $I->assertEquals(
+            'hello',
+            $dispatcher->getActionName()
+        );
     }
 }

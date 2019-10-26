@@ -35,7 +35,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Forms_Element_Select) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Forms\\Element, Select, phalcon, forms_element_select, phalcon_forms_element_abstractelement_ce, phalcon_forms_element_select_method_entry, 0);
 
-	zend_declare_property_null(phalcon_forms_element_select_ce, SL("optionsValues"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_forms_element_select_ce, SL("optionsValues"), ZEND_ACC_PROTECTED);
 
 	return SUCCESS;
 
@@ -107,7 +107,7 @@ PHP_METHOD(Phalcon_Forms_Element_Select, addOption) {
 
 
 	if (Z_TYPE_P(option) == IS_ARRAY) {
-		zephir_is_iterable(option, 0, "phalcon/Forms/Element/Select.zep", 51);
+		zephir_is_iterable(option, 0, "phalcon/Forms/Element/Select.zep", 52);
 		if (Z_TYPE_P(option) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(option), _2$$3, _3$$3, _0$$3)
 			{

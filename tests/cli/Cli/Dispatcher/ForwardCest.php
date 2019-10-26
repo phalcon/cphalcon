@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Cli\Dispatcher;
 
 use CliTester;
+use Phalcon\Cli\Dispatcher;
 
 /**
  * Class ForwardCest
@@ -28,6 +29,19 @@ class ForwardCest
     public function cliDispatcherForward(CliTester $I)
     {
         $I->wantToTest('Cli\Dispatcher - forward()');
-        $I->skipTest('Need implementation');
+
+        $dispatcher = new Dispatcher();
+        $dispatcher->setDefaultNamespace('Phalcon\Test\Fixtures\Tasks');
+        $dispatcher->setActionName('hello');
+        $dispatcher->forward(
+            [
+                'action'     => 'phalcon',
+            ]
+        );
+
+        $I->assertEquals(
+            'phalcon',
+            $dispatcher->getActionName()
+        );
     }
 }

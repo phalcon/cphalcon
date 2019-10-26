@@ -65,7 +65,10 @@ class QueryBuilder extends AbstractAdapter
             throw new Exception("Parameter 'builder' is required");
         }
         if unlikely !(builder instanceof Builder) {
-            throw new Exception("Parameter 'builder' must be an instance of Phalcon\Mvc\Model\Query\Builder");
+            throw new Exception(
+                "Parameter 'builder' must be an instance " .
+                "of Phalcon\\Mvc\\Model\\Query\\Builder"
+            );
         }
 
         if fetch columns, config["columns"] {
@@ -221,9 +224,9 @@ class QueryBuilder extends AbstractAdapter
                 let modelClass = array_values(modelClass)[0];
             }
 
-            let model = new {modelClass}();
-            let dbService = model->getReadConnectionService();
-            let db = totalBuilder->getDI()->get(dbService);
+            let model     = create_instance(modelClass),
+                dbService = model->getReadConnectionService(),
+                db        = totalBuilder->getDI()->get(dbService);
 
             let row = db->fetchOne(
                 "SELECT COUNT(*) as \"rowcount\" FROM (" .  sql["sql"] . ") as T1",

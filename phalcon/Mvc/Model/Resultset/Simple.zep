@@ -10,12 +10,13 @@
 
 namespace Phalcon\Mvc\Model\Resultset;
 
+use Phalcon\Cache\Adapter\AdapterInterface;
 use Phalcon\Di;
 use Phalcon\Di\DiInterface;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\Resultset;
-use Phalcon\Cache\Adapter\AdapterInterface;
+use Phalcon\Mvc\ModelInterface;
 use Phalcon\Storage\Serializer\SerializerInterface;
 
 /**

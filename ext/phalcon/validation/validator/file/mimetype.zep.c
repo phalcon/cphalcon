@@ -81,7 +81,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_File_MimeType) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator\\File, MimeType, phalcon, validation_validator_file_mimetype, phalcon_validation_validator_file_abstractfile_ce, phalcon_validation_validator_file_mimetype_method_entry, 0);
 
-	zend_declare_property_string(phalcon_validation_validator_file_mimetype_ce, SL("template"), "File :field must be of type: :types", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_validation_validator_file_mimetype_ce, SL("template"), "File :field must be of type: :types", ZEND_ACC_PROTECTED);
 
 	return SUCCESS;
 
@@ -90,7 +90,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_File_MimeType) {
 /**
  * Executes the validation
  *
- * @param Valiation $validation
+ * @param Validation $validation
  * @param mixed $field
  * @return bool
  */
@@ -133,31 +133,31 @@ PHP_METHOD(Phalcon_Validation_Validator_File_MimeType, validate) {
 	ZEPHIR_CALL_METHOD(&types, this_ptr, "getoption", NULL, 0, &_1);
 	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(&fieldTypes);
-	if (zephir_array_isset_fetch(&fieldTypes, &types, field, 0 TSRMLS_CC)) {
+	if (zephir_array_isset_fetch(&fieldTypes, &types, field, 0)) {
 		ZEPHIR_CPY_WRT(&types, &fieldTypes);
 	}
 	if (UNEXPECTED(Z_TYPE_P(&types) != IS_ARRAY)) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "Option 'allowedTypes' must be an array", "phalcon/Validation/Validator/File/MimeType.zep", 97);
 		return;
 	}
-	if ((zephir_function_exists_ex(SL("finfo_open") TSRMLS_CC) == SUCCESS)) {
+	if ((zephir_function_exists_ex(SL("finfo_open")) == SUCCESS)) {
 		ZVAL_LONG(&_2$$6, 16);
-		ZEPHIR_CALL_FUNCTION(&tmp, "finfo_open", NULL, 348, &_2$$6);
+		ZEPHIR_CALL_FUNCTION(&tmp, "finfo_open", NULL, 350, &_2$$6);
 		zephir_check_call_status();
-		zephir_array_fetch_string(&_3$$6, &value, SL("tmp_name"), PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/File/MimeType.zep", 102 TSRMLS_CC);
-		ZEPHIR_CALL_FUNCTION(&mime, "finfo_file", NULL, 349, &tmp, &_3$$6);
+		zephir_array_fetch_string(&_3$$6, &value, SL("tmp_name"), PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/File/MimeType.zep", 102);
+		ZEPHIR_CALL_FUNCTION(&mime, "finfo_file", NULL, 351, &tmp, &_3$$6);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(NULL, "finfo_close", NULL, 350, &tmp);
+		ZEPHIR_CALL_FUNCTION(NULL, "finfo_close", NULL, 352, &tmp);
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_OBS_NVAR(&mime);
-		zephir_array_fetch_string(&mime, &value, SL("type"), PH_NOISY, "phalcon/Validation/Validator/File/MimeType.zep", 106 TSRMLS_CC);
+		zephir_array_fetch_string(&mime, &value, SL("type"), PH_NOISY, "phalcon/Validation/Validator/File/MimeType.zep", 106);
 	}
-	if (!(zephir_fast_in_array(&mime, &types TSRMLS_CC))) {
+	if (!(zephir_fast_in_array(&mime, &types))) {
 		ZEPHIR_INIT_VAR(&replacePairs);
-		zephir_create_array(&replacePairs, 1, 0 TSRMLS_CC);
+		zephir_create_array(&replacePairs, 1, 0);
 		ZEPHIR_INIT_VAR(&_4$$8);
-		zephir_fast_join_str(&_4$$8, SL(", "), &types TSRMLS_CC);
+		zephir_fast_join_str(&_4$$8, SL(", "), &types);
 		zephir_array_update_string(&replacePairs, SL(":types"), &_4$$8, PH_COPY | PH_SEPARATE);
 		ZEPHIR_CALL_METHOD(&_5$$8, this_ptr, "messagefactory", NULL, 0, validation, field, &replacePairs);
 		zephir_check_call_status();

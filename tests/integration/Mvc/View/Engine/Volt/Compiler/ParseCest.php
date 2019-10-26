@@ -237,6 +237,11 @@ class ParseCest
             ['{% cache sidebar 500 %} hello {% endcache %}', 1],
             //Mixed
             ['{# some comment #}{{ "hello" }}{# other comment }}', 1],
+            //Issue 14288 use set() & is()
+            ['{{ cookie().set(\'key\', \'value\') }}', 1],
+            ['{{ test.is() }}', 1],
+            ['{{ test.is(true) }}', 1],
+            ['{{ cookie().is(true) }}', 1],
         ];
     }
 

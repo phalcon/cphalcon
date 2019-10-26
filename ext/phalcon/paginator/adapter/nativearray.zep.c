@@ -88,7 +88,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, paginate) {
 	zephir_read_property(&_0, this_ptr, SL("config"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&config, &_0);
 	ZEPHIR_OBS_VAR(&items);
-	zephir_array_fetch_string(&items, &config, SL("data"), PH_NOISY, "phalcon/Paginator/Adapter/NativeArray.zep", 55 TSRMLS_CC);
+	zephir_array_fetch_string(&items, &config, SL("data"), PH_NOISY, "phalcon/Paginator/Adapter/NativeArray.zep", 55);
 	if (UNEXPECTED(Z_TYPE_P(&items) != IS_ARRAY)) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "Invalid data for paginator", "phalcon/Paginator/Adapter/NativeArray.zep", 58);
 		return;
@@ -102,18 +102,18 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, paginate) {
 	if (pageNumber <= 0) {
 		pageNumber = 1;
 	}
-	number = zephir_fast_count_int(&items TSRMLS_CC);
+	number = zephir_fast_count_int(&items);
 	ZVAL_LONG(&_0, show);
-	ZEPHIR_CALL_FUNCTION(&_3, "floatval", NULL, 14, &_0);
+	ZEPHIR_CALL_FUNCTION(&_3, "floatval", NULL, 15, &_0);
 	zephir_check_call_status();
-	roundedTotal = zephir_safe_div_long_zval(number, &_3 TSRMLS_CC);
+	roundedTotal = zephir_safe_div_long_zval(number, &_3);
 	totalPages = (int) (roundedTotal);
 	if (totalPages != roundedTotal) {
 		totalPages++;
 	}
 	ZVAL_LONG(&_0, (show * ((pageNumber - 1))));
 	ZVAL_LONG(&_4, show);
-	ZEPHIR_CALL_FUNCTION(&_5, "array_slice", NULL, 256, &items, &_0, &_4);
+	ZEPHIR_CALL_FUNCTION(&_5, "array_slice", NULL, 257, &items, &_0, &_4);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&items, &_5);
 	if (pageNumber < totalPages) {
@@ -127,7 +127,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, paginate) {
 		previous = 1;
 	}
 	ZEPHIR_INIT_VAR(&_6);
-	zephir_create_array(&_6, 8, 0 TSRMLS_CC);
+	zephir_create_array(&_6, 8, 0);
 	zephir_array_update_string(&_6, SL("items"), &items, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_VAR(&_7);
 	ZVAL_LONG(&_7, number);

@@ -55,28 +55,28 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Adapter_Stream) {
 	 *
 	 * @var resource|null
 	 */
-	zend_declare_property_null(phalcon_logger_adapter_stream_ce, SL("handler"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_logger_adapter_stream_ce, SL("handler"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * The file open mode. Defaults to "ab"
 	 *
 	 * @var string
 	 */
-	zend_declare_property_string(phalcon_logger_adapter_stream_ce, SL("mode"), "ab", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_logger_adapter_stream_ce, SL("mode"), "ab", ZEND_ACC_PROTECTED);
 
 	/**
 	 * Stream name
 	 *
 	 * @var string
 	 */
-	zend_declare_property_null(phalcon_logger_adapter_stream_ce, SL("name"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_logger_adapter_stream_ce, SL("name"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * Path options
 	 *
 	 * @var array
 	 */
-	zend_declare_property_null(phalcon_logger_adapter_stream_ce, SL("options"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_logger_adapter_stream_ce, SL("options"), ZEND_ACC_PROTECTED);
 
 	return SUCCESS;
 
@@ -113,7 +113,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, __construct) {
 	zephir_fetch_params(1, 1, 1, &name_param, &options_param);
 
 	if (UNEXPECTED(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(name_param) == IS_STRING)) {
@@ -165,7 +165,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, close) {
 	zephir_read_property(&_0, this_ptr, SL("handler"), PH_NOISY_CC | PH_READONLY);
 	if (Z_TYPE_P(&_0) == IS_RESOURCE) {
 		zephir_read_property(&_1$$3, this_ptr, SL("handler"), PH_NOISY_CC | PH_READONLY);
-		result = zephir_fclose(&_1$$3 TSRMLS_CC);
+		result = zephir_fclose(&_1$$3);
 	}
 	zephir_update_property_zval(this_ptr, SL("handler"), &__$null);
 	RETURN_BOOL(result);
@@ -207,7 +207,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, process) {
 	if (!(Z_TYPE_P(&_0) == IS_RESOURCE)) {
 		zephir_read_property(&_1$$3, this_ptr, SL("name"), PH_NOISY_CC | PH_READONLY);
 		zephir_read_property(&_2$$3, this_ptr, SL("mode"), PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_CALL_FUNCTION(&_3$$3, "fopen", NULL, 81, &_1$$3, &_2$$3);
+		ZEPHIR_CALL_FUNCTION(&_3$$3, "fopen", NULL, 82, &_1$$3, &_2$$3);
 		zephir_check_call_status();
 		zephir_update_property_zval(this_ptr, SL("handler"), &_3$$3);
 		zephir_read_property(&_4$$3, this_ptr, SL("handler"), PH_NOISY_CC | PH_READONLY);
@@ -219,11 +219,11 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, process) {
 			zephir_read_property(&_7$$4, this_ptr, SL("mode"), PH_NOISY_CC | PH_READONLY);
 			ZEPHIR_INIT_VAR(&_8$$4);
 			ZVAL_STRING(&_8$$4, "The file '%s' cannot be opened with mode '%s'");
-			ZEPHIR_CALL_FUNCTION(&_9$$4, "sprintf", NULL, 182, &_8$$4, &_6$$4, &_7$$4);
+			ZEPHIR_CALL_FUNCTION(&_9$$4, "sprintf", NULL, 183, &_8$$4, &_6$$4, &_7$$4);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(NULL, &_5$$4, "__construct", NULL, 338, &_9$$4);
+			ZEPHIR_CALL_METHOD(NULL, &_5$$4, "__construct", NULL, 340, &_9$$4);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_5$$4, "phalcon/Logger/Adapter/Stream.zep", 123 TSRMLS_CC);
+			zephir_throw_exception_debug(&_5$$4, "phalcon/Logger/Adapter/Stream.zep", 123);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -233,7 +233,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, process) {
 	ZEPHIR_CALL_METHOD(&formattedMessage, &formatter, "format", NULL, 0, item);
 	zephir_check_call_status();
 	zephir_read_property(&_10, this_ptr, SL("handler"), PH_NOISY_CC | PH_READONLY);
-	zephir_fwrite(NULL, &_10, &formattedMessage TSRMLS_CC);
+	zephir_fwrite(NULL, &_10, &formattedMessage);
 	ZEPHIR_MM_RESTORE();
 
 }

@@ -43,6 +43,23 @@ class UnserializeCest
         );
     }
 
+    /**
+     * Tests Phalcon\Storage\Serializer\Php :: unserialize() - error
+     *
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2019-09-28
+     */
+    public function storageSerializerPhpUnserializeError(UnitTester $I)
+    {
+        $I->wantToTest('Storage\Serializer\Php - unserialize() - error');
+        $serializer = new Php();
+
+        $serialized = '??hello?unserialize"';
+        $serializer->unserialize($serialized);
+
+        $I->assertEmpty($serializer->getData());
+    }
+
     private function getExamples(): array
     {
         return [

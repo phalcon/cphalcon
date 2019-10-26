@@ -15,7 +15,7 @@
 %name phql_
 
 %right AGAINST .
-%left BETWEEN .
+%left BETWEEN BETWEEN_NOT .
 %left EQUALS NOTEQUALS LESS GREATER GREATEREQUAL LESSEQUAL .
 %left AND OR .
 %left LIKE ILIKE .
@@ -112,7 +112,7 @@ program ::= query_language(Q) . {
 }
 
 %destructor query_language {
-    zval_ptr_dtor(&$$);
+	zval_ptr_dtor(&$$);
 }
 
 query_language(R) ::= select_statement(S) . {
@@ -132,7 +132,7 @@ query_language(R) ::= delete_statement(D) . {
 }
 
 %destructor select_statement {
-    zval_ptr_dtor(&$$);
+	zval_ptr_dtor(&$$);
 }
 
 select_statement(R) ::= select_clause(S) where_clause(W) group_clause(G) having_clause(H) order_clause(O) select_limit_clause(L) for_update_clause(F) . {
@@ -140,7 +140,7 @@ select_statement(R) ::= select_clause(S) where_clause(W) group_clause(G) having_
 }
 
 %destructor select_clause {
-    zval_ptr_dtor(&$$);
+	zval_ptr_dtor(&$$);
 }
 
 select_clause(R) ::= SELECT distinct_all(D) column_list(C) FROM associated_name_list(A) join_list_or_null(J) . {
@@ -148,7 +148,7 @@ select_clause(R) ::= SELECT distinct_all(D) column_list(C) FROM associated_name_
 }
 
 %destructor distinct_all {
-    zephir_safe_zval_ptr_dtor($$);
+	zephir_safe_zval_ptr_dtor($$);
 }
 
 distinct_all(R) ::= DISTINCT . {
@@ -164,7 +164,7 @@ distinct_all(R) ::= . {
 }
 
 %destructor column_list {
-    zval_ptr_dtor(&$$);
+	zval_ptr_dtor(&$$);
 }
 
 column_list(R) ::= column_list(L) COMMA column_item(C) . {
@@ -176,7 +176,7 @@ column_list(R) ::= column_item(I) . {
 }
 
 %destructor column_item {
-    zval_ptr_dtor(&$$);
+	zval_ptr_dtor(&$$);
 }
 
 column_item(R) ::= TIMES . {
@@ -200,7 +200,7 @@ column_item(R) ::= expr(E) . {
 }
 
 %destructor associated_name_list {
-    zval_ptr_dtor(&$$);
+	zval_ptr_dtor(&$$);
 }
 
 associated_name_list(R) ::= associated_name_list(L) COMMA associated_name(A) . {
@@ -220,7 +220,7 @@ join_list_or_null(R) ::= . {
 }
 
 %destructor join_list {
-    zval_ptr_dtor(&$$);
+	zval_ptr_dtor(&$$);
 }
 
 join_list(R) ::= join_list(L) join_item(I) . {
@@ -232,7 +232,7 @@ join_list(R) ::= join_item(I) . {
 }
 
 %destructor join_item {
-    zval_ptr_dtor(&$$);
+	zval_ptr_dtor(&$$);
 }
 
 join_item(R) ::= join_clause(C) . {
@@ -240,7 +240,7 @@ join_item(R) ::= join_clause(C) . {
 }
 
 %destructor join_clause {
-    zval_ptr_dtor(&$$);
+	zval_ptr_dtor(&$$);
 }
 
 /** Join + conditions + alias */
@@ -249,7 +249,7 @@ join_clause(R) ::= join_type(T) aliased_or_qualified_name(Q) join_associated_nam
 }
 
 %destructor join_associated_name  {
-    zephir_safe_zval_ptr_dtor($$);
+	zephir_safe_zval_ptr_dtor($$);
 }
 
 join_associated_name(R) ::= AS IDENTIFIER(I) . {
@@ -265,7 +265,7 @@ join_associated_name(R) ::= . {
 }
 
 %destructor join_type {
-    zval_ptr_dtor(&$$);
+	zval_ptr_dtor(&$$);
 }
 
 join_type(R) ::= INNER JOIN . {
@@ -305,7 +305,7 @@ join_type(R) ::= JOIN . {
 }
 
 %destructor join_conditions  {
-    zephir_safe_zval_ptr_dtor($$);
+	zephir_safe_zval_ptr_dtor($$);
 }
 
 join_conditions(R) ::= ON expr(E) . {
@@ -317,7 +317,7 @@ join_conditions(R) ::= . {
 }
 
 %destructor insert_statement {
-    zval_ptr_dtor(&$$);
+	zval_ptr_dtor(&$$);
 }
 
 /* Insert */
@@ -330,7 +330,7 @@ insert_statement(R) ::= INSERT INTO aliased_or_qualified_name(Q) PARENTHESES_OPE
 }
 
 %destructor value_list {
-    zval_ptr_dtor(&$$);
+	zval_ptr_dtor(&$$);
 }
 
 values_list(R) ::= values_list(L) COMMA value_item(I) . {
@@ -346,7 +346,7 @@ value_item(R) ::= expr(E) . {
 }
 
 %destructor field_list {
-    zval_ptr_dtor(&$$);
+	zval_ptr_dtor(&$$);
 }
 
 field_list(R) ::= field_list(L) COMMA field_item(I) . {
@@ -358,7 +358,7 @@ field_list(R) ::= field_item(I) . {
 }
 
 %destructor field_item {
-    zval_ptr_dtor(&$$);
+	zval_ptr_dtor(&$$);
 }
 
 field_item(R) ::= IDENTIFIER(I) . {
@@ -368,7 +368,7 @@ field_item(R) ::= IDENTIFIER(I) . {
 /* Update */
 
 %destructor update_statement {
-    zval_ptr_dtor(&$$);
+	zval_ptr_dtor(&$$);
 }
 
 update_statement(R) ::= update_clause(U) where_clause(W) limit_clause(L) . {
@@ -376,7 +376,7 @@ update_statement(R) ::= update_clause(U) where_clause(W) limit_clause(L) . {
 }
 
 %destructor update_clause {
-    zval_ptr_dtor(&$$);
+	zval_ptr_dtor(&$$);
 }
 
 update_clause(R) ::= UPDATE associated_name(A) SET update_item_list(U) . {
@@ -384,7 +384,7 @@ update_clause(R) ::= UPDATE associated_name(A) SET update_item_list(U) . {
 }
 
 %destructor update_item_list {
-    zval_ptr_dtor(&$$);
+	zval_ptr_dtor(&$$);
 }
 
 update_item_list(R) ::= update_item_list(L) COMMA update_item(I) . {
@@ -396,7 +396,7 @@ update_item_list(R) ::= update_item(I) . {
 }
 
 %destructor update_item {
-    zval_ptr_dtor(&$$);
+	zval_ptr_dtor(&$$);
 }
 
 update_item(R) ::= qualified_name(Q) EQUALS new_value(N) . {
@@ -410,7 +410,7 @@ new_value(R) ::= expr(E) . {
 /* Delete */
 
 %destructor delete_statement {
-    zval_ptr_dtor(&$$);
+	zval_ptr_dtor(&$$);
 }
 
 delete_statement(R) ::= delete_clause(D) where_clause(W) limit_clause(L) . {
@@ -418,7 +418,7 @@ delete_statement(R) ::= delete_clause(D) where_clause(W) limit_clause(L) . {
 }
 
 %destructor delete_clause {
-    zval_ptr_dtor(&$$);
+	zval_ptr_dtor(&$$);
 }
 
 delete_clause(R) ::= DELETE FROM associated_name(A) . {
@@ -426,7 +426,7 @@ delete_clause(R) ::= DELETE FROM associated_name(A) . {
 }
 
 %destructor associated_name {
-    zval_ptr_dtor(&$$);
+	zval_ptr_dtor(&$$);
 }
 
 associated_name(R) ::= aliased_or_qualified_name(Q) AS IDENTIFIER(I) . {
@@ -466,7 +466,7 @@ associated_name(R) ::= aliased_or_qualified_name(Q) WITH with_item(W) . {
 }
 
 %destructor with_list {
-    zval_ptr_dtor(&$$);
+	zval_ptr_dtor(&$$);
 }
 
 with_list(R) ::= with_list(L) COMMA with_item(I) . {
@@ -478,7 +478,7 @@ with_list(R) ::= with_item(I) . {
 }
 
 %destructor with_item {
-    zval_ptr_dtor(&$$);
+	zval_ptr_dtor(&$$);
 }
 
 with_item(R) ::= IDENTIFIER(I) . {
@@ -486,7 +486,7 @@ with_item(R) ::= IDENTIFIER(I) . {
 }
 
 %destructor aliased_or_qualified_name {
-    zval_ptr_dtor(&$$);
+	zval_ptr_dtor(&$$);
 }
 
 aliased_or_qualified_name(R) ::= qualified_name(Q) . {
@@ -494,7 +494,7 @@ aliased_or_qualified_name(R) ::= qualified_name(Q) . {
 }
 
 %destructor where_clause  {
-    zephir_safe_zval_ptr_dtor($$);
+	zephir_safe_zval_ptr_dtor($$);
 }
 
 where_clause(R) ::= WHERE expr(E) . {
@@ -506,7 +506,7 @@ where_clause(R) ::= . {
 }
 
 %destructor order_clause  {
-    zephir_safe_zval_ptr_dtor($$);
+	zephir_safe_zval_ptr_dtor($$);
 }
 
 order_clause(R) ::= ORDER BY order_list(O) . {
@@ -518,7 +518,7 @@ order_clause(R) ::= . {
 }
 
 %destructor order_list {
-    zval_ptr_dtor(&$$);
+	zval_ptr_dtor(&$$);
 }
 
 order_list(R) ::= order_list(L) COMMA order_item(I) . {
@@ -530,7 +530,7 @@ order_list(R) ::= order_item(I) . {
 }
 
 %destructor order_item {
-    zval_ptr_dtor(&$$);
+	zval_ptr_dtor(&$$);
 }
 
 order_item(R) ::= expr(O) . {
@@ -546,7 +546,7 @@ order_item(R) ::= expr(O) DESC . {
 }
 
 %destructor group_clause {
-    zval_ptr_dtor(&$$);
+	zval_ptr_dtor(&$$);
 }
 
 group_clause(R) ::= GROUP BY group_list(G) . {
@@ -558,7 +558,7 @@ group_clause(R) ::= . {
 }
 
 %destructor group_list {
-    zval_ptr_dtor(&$$);
+	zval_ptr_dtor(&$$);
 }
 
 group_list(R) ::= group_list(L) COMMA group_item(I) . {
@@ -578,7 +578,7 @@ group_item(R) ::= expr(E) . {
 }
 
 %destructor having_clause  {
-    zephir_safe_zval_ptr_dtor($$);
+	zephir_safe_zval_ptr_dtor($$);
 }
 
 having_clause(R) ::= HAVING expr(E) . {
@@ -590,7 +590,7 @@ having_clause(R) ::= . {
 }
 
 %destructor for_update_clause  {
-    zephir_safe_zval_ptr_dtor($$);
+	zephir_safe_zval_ptr_dtor($$);
 }
 
 for_update_clause(R) ::= FOR UPDATE . {
@@ -602,7 +602,7 @@ for_update_clause(R) ::= . {
 }
 
 %destructor select_limit_clause  {
-    zephir_safe_zval_ptr_dtor($$);
+	zephir_safe_zval_ptr_dtor($$);
 }
 
 select_limit_clause(R) ::= LIMIT integer_or_placeholder(I) . {
@@ -622,7 +622,7 @@ select_limit_clause(R) ::= . {
 }
 
 %destructor limit_clause  {
-    zephir_safe_zval_ptr_dtor($$);
+	zephir_safe_zval_ptr_dtor($$);
 }
 
 limit_clause(R) ::= LIMIT integer_or_placeholder(I) . {
@@ -654,7 +654,7 @@ integer_or_placeholder(R) ::= BPLACEHOLDER(P) . {
 }
 
 %destructor expr {
-    zval_ptr_dtor(&$$);
+	zval_ptr_dtor(&$$);
 }
 
 expr(R) ::= MINUS expr(E) . {
@@ -818,7 +818,7 @@ function_call(R) ::= IDENTIFIER(I) PARENTHESES_OPEN distinct_or_null(D) argument
 }
 
 %destructor distinct_or_null  {
-    zephir_safe_zval_ptr_dtor($$);
+	zephir_safe_zval_ptr_dtor($$);
 }
 
 distinct_or_null(R) ::= DISTINCT . {
@@ -830,7 +830,7 @@ distinct_or_null(R) ::=  . {
 }
 
 %destructor argument_list_or_null  {
-    zephir_safe_zval_ptr_dtor($$);
+	zephir_safe_zval_ptr_dtor($$);
 }
 
 argument_list_or_null(R) ::= argument_list(L) . {
@@ -875,6 +875,10 @@ expr(R) ::= expr(E) IS NOT NULL . {
 
 expr(R) ::= expr(E) BETWEEN expr(L) . {
 	phql_ret_expr(&R, PHQL_T_BETWEEN, &E, &L);
+}
+
+expr(R) ::= expr(E) BETWEEN_NOT expr(L) . {
+	phql_ret_expr(&R, PHQL_T_BETWEEN_NOT, &E, &L);
 }
 
 expr(R) ::= NOT expr(E) . {

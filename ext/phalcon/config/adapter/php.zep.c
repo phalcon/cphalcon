@@ -91,7 +91,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Php, __construct) {
 	zephir_fetch_params(1, 1, 0, &filePath_param);
 
 	if (UNEXPECTED(Z_TYPE_P(filePath_param) != IS_STRING && Z_TYPE_P(filePath_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'filePath' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'filePath' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(filePath_param) == IS_STRING)) {
@@ -103,7 +103,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Php, __construct) {
 
 
 	ZEPHIR_OBSERVE_OR_NULLIFY_PPZV(&_1);
-	if (zephir_require_zval_ret(&_1, &filePath TSRMLS_CC) == FAILURE) {
+	if (zephir_require_zval_ret(&_1, &filePath) == FAILURE) {
 		RETURN_MM_NULL();
 	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_config_adapter_php_ce, getThis(), "__construct", &_0, 0, &_1);

@@ -10,11 +10,22 @@
 
 namespace Phalcon\Events;
 
+use Phalcon\Events\Exception;
+
 /**
  * Phalcon\Events\Event
  *
  * This class offers contextual information of a fired event in the
  * EventsManager
+ *
+ *```php
+ * Phalcon\Events\Event;
+ *
+ * $event = new Event("db:afterQuery", $this, ["data" => "mydata"], true);
+ * if ($event->isCancelable()) {
+ *     $event->stop();
+ * }
+ * ```
  */
 class Event implements EventInterface
 {
@@ -58,11 +69,16 @@ class Event implements EventInterface
      *
      * @param object source
      */
-    public function __construct(string! type, source, var data = null, bool cancelable = true)
+    public function __construct(string! type, object source, var data = null, bool cancelable = true)
     {
-        let this->type = type,
-            this->source = source,
-            this->data = data,
+        if unlikely typeof source != "object" {
+            throw new Exception(
+                "The source of " . type . " event must be an object, got " . (typeof source)
+            );
+        }
+        let this->type       = type,
+            this->source     = source,
+            this->data       = data,
             this->cancelable = cancelable;
     }
 

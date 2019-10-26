@@ -1,22 +1,13 @@
-
 /*
-  +------------------------------------------------------------------------+
-  | Zephir Language                                                        |
-  +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2017 Zephir Team (http://www.zephir-lang.com)       |
-  +------------------------------------------------------------------------+
-  | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file docs/LICENSE.txt.                        |
-  |                                                                        |
-  | If you did not receive a copy of the license and are unable to         |
-  | obtain it through the world-wide-web, please send an email             |
-  | to license@zephir-lang.com so we can send you a copy immediately.      |
-  +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@zephir-lang.com>                     |
-  |          Eduar Carvajal <eduar@zephir-lang.com>                        |
-  |          Vladimir Kolesnikov <vladimir@extrememember.com>              |
-  +------------------------------------------------------------------------+
-*/
+ * This file is part of the Zephir.
+ *
+ * (c) Zephir Team <team@zephir-lang.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code. If you did not receive
+ * a copy of the license it is available through the world-wide-web at the
+ * following url: https://docs.zephir-lang.com/en/latest/license
+ */
 
 #ifndef ZEPHIR_KERNEL_MEMORY_H
 #define ZEPHIR_KERNEL_MEMORY_H
@@ -75,7 +66,6 @@ void zephir_initialize_memory(zend_zephir_globals_def *zephir_globals_ptr);
 int zephir_cleanup_fcache(void *pDest, int num_args, va_list args, zend_hash_key *hash_key);
 void zephir_deinitialize_memory();
 
-#define zephir_dtor(x) zval_dtor(x)
 #define zephir_ptr_dtor(x) zval_ptr_dtor(x)
 
 void ZEPHIR_FASTCALL zephir_do_memory_observe(zval *var, const zephir_method_globals *g);
@@ -94,12 +84,7 @@ int zephir_set_symbol_str(char *key_name, unsigned int key_length, zval *value);
 	zephir_memory_observe(z); \
 	ZVAL_NULL(z);
 
-#define ZEPHIR_SINIT_VAR(z) ZVAL_NULL(&z);
-
-#define ZEPHIR_SINIT_NVAR(z) /*Z_SET_REFCOUNT_P(&z, 1)*/
-
-#define ZEPHIR_INIT_ZVAL_NREF(z) \
-	ZVAL_UNDEF(&z); \
+#define ZEPHIR_INIT_ZVAL_NREF(z) ZVAL_UNDEF(&z);
 
 #define ZEPHIR_INIT_NVAR(z) \
 	do { \
@@ -109,7 +94,7 @@ int zephir_set_symbol_str(char *key_name, unsigned int key_length, zval *value);
 			if (Z_REFCOUNT_P(z) > 1) { \
 				Z_DELREF_P(z); \
 			} else { \
-				zephir_dtor(z); \
+				zval_dtor(z); \
 			} \
 		} \
 		ZVAL_NULL(z); \
@@ -151,6 +136,11 @@ int zephir_set_symbol_str(char *key_name, unsigned int key_length, zval *value);
 		ZEPHIR_OBS_VAR_ONCE(z); \
 		ZVAL_COPY(z, v);
 
+#define ZEPHIR_HASH_COPY(z, v) \
+	if (Z_TYPE_P(z) == IS_ARRAY && Z_TYPE_P(v) == IS_ARRAY) { \
+		zend_hash_copy(Z_ARRVAL_P(z), Z_ARRVAL_P(v), (copy_ctor_func_t) zval_add_ref); \
+	}
+
 #define ZEPHIR_OBS_NVAR(z) \
 	if (Z_TYPE_P(z) != IS_UNDEF) { \
 		if (Z_REFCOUNTED_P(z) && Z_REFCOUNT_P(z) > 1) { \
@@ -183,7 +173,7 @@ int zephir_set_symbol_str(char *key_name, unsigned int key_length, zval *value);
 
 #define ZEPHIR_SEPARATE_PARAM(z) \
 	do { \
-		zval *orig_ptr = z;\
+		zval *orig_ptr = z; \
 		ZEPHIR_SEPARATE(orig_ptr); \
 		/*zephir_memory_observe(orig_ptr);*/ \
 	} while (0)

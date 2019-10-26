@@ -41,7 +41,7 @@ ext/run-tests.php
 *.phc
 *.dSYM
 *.deps
-lemon
+.ci/lemon
 
 .libs/
 autom4te.cache/
@@ -50,7 +50,10 @@ autom4te.cache/
 
 .zephir/
 .temp/
+
+# Zephir compiler
 zephir.phar
+zephir-*.phar
 
 boxfile.yml
 composer.lock

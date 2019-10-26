@@ -25,7 +25,7 @@ class GetIteratorCest
      */
     public function collectionGetIterator(UnitTester $I)
     {
-        $I->wantToTest('Collection\Collection - getIterator()');
+        $I->wantToTest('Collection - getIterator()');
 
         $data = [
             'one'   => 'two',

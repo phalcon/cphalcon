@@ -38,9 +38,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_ValidationFailed) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model, ValidationFailed, phalcon, mvc_model_validationfailed, phalcon_mvc_model_exception_ce, phalcon_mvc_model_validationfailed_method_entry, 0);
 
-	zend_declare_property_null(phalcon_mvc_model_validationfailed_ce, SL("messages"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_validationfailed_ce, SL("messages"), ZEND_ACC_PROTECTED);
 
-	zend_declare_property_null(phalcon_mvc_model_validationfailed_ce, SL("model"), ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_null(phalcon_mvc_model_validationfailed_ce, SL("model"), ZEND_ACC_PROTECTED);
 
 	return SUCCESS;
 
@@ -70,9 +70,9 @@ PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, __construct) {
 	ZEPHIR_OBS_COPY_OR_DUP(&validationMessages, validationMessages_param);
 
 
-	if (zephir_fast_count_int(&validationMessages TSRMLS_CC) > 0) {
+	if (zephir_fast_count_int(&validationMessages) > 0) {
 		ZEPHIR_OBS_VAR(&message);
-		zephir_array_fetch_long(&message, &validationMessages, 0, PH_NOISY, "phalcon/Mvc/Model/ValidationFailed.zep", 40 TSRMLS_CC);
+		zephir_array_fetch_long(&message, &validationMessages, 0, PH_NOISY, "phalcon/Mvc/Model/ValidationFailed.zep", 40);
 		ZEPHIR_CALL_METHOD(&messageStr, &message, "getmessage", NULL, 0);
 		zephir_check_call_status();
 	} else {

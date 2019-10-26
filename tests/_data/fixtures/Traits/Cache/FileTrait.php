@@ -30,7 +30,7 @@ trait FileTrait
         $this->cache = new File(
             $frontCache,
             [
-                'cacheDir' => cacheDir(),
+                'storageDir' => cacheDir(),
             ]
         );
     }

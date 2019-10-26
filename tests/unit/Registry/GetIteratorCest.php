@@ -23,7 +23,7 @@ class GetIteratorCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function collectionGetIterator(UnitTester $I)
+    public function registryGetIterator(UnitTester $I)
     {
         $I->wantToTest('Registry - getIterator()');
 

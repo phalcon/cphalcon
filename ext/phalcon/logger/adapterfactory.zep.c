@@ -72,11 +72,10 @@ PHP_METHOD(Phalcon_Logger_AdapterFactory, __construct) {
  */
 PHP_METHOD(Phalcon_Logger_AdapterFactory, newInstance) {
 
-	zend_class_entry *_4$$3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval options;
-	zval *name_param = NULL, *fileName_param = NULL, *options_param = NULL, definition, _0, _5, _6, _1$$3, _2$$3, _3$$3;
+	zval options, _3$$3;
+	zval *name_param = NULL, *fileName_param = NULL, *options_param = NULL, definition, _0, _4, _5, _1$$3, _2$$3;
 	zval name, fileName;
 	zval *this_ptr = getThis();
 
@@ -84,18 +83,18 @@ PHP_METHOD(Phalcon_Logger_AdapterFactory, newInstance) {
 	ZVAL_UNDEF(&fileName);
 	ZVAL_UNDEF(&definition);
 	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_5);
-	ZVAL_UNDEF(&_6);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$3);
-	ZVAL_UNDEF(&_3$$3);
 	ZVAL_UNDEF(&options);
+	ZVAL_UNDEF(&_3$$3);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &name_param, &fileName_param, &options_param);
 
 	if (UNEXPECTED(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(name_param) == IS_STRING)) {
@@ -105,7 +104,7 @@ PHP_METHOD(Phalcon_Logger_AdapterFactory, newInstance) {
 		ZVAL_EMPTY_STRING(&name);
 	}
 	if (UNEXPECTED(Z_TYPE_P(fileName_param) != IS_STRING && Z_TYPE_P(fileName_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'fileName' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'fileName' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(fileName_param) == IS_STRING)) {
@@ -127,23 +126,20 @@ PHP_METHOD(Phalcon_Logger_AdapterFactory, newInstance) {
 	zephir_read_property(&_0, this_ptr, SL("services"), PH_NOISY_CC | PH_READONLY);
 	if (!(zephir_array_isset(&_0, &name))) {
 		zephir_read_property(&_1$$3, this_ptr, SL("mapper"), PH_NOISY_CC | PH_READONLY);
-		zephir_array_fetch(&definition, &_1$$3, &name, PH_NOISY | PH_READONLY, "phalcon/Logger/AdapterFactory.zep", 39 TSRMLS_CC);
+		ZEPHIR_OBS_VAR(&definition);
+		zephir_array_fetch(&definition, &_1$$3, &name, PH_NOISY, "phalcon/Logger/AdapterFactory.zep", 40);
 		ZEPHIR_INIT_VAR(&_2$$3);
-		zephir_fetch_safe_class(&_3$$3, &definition);
-		_4$$3 = zephir_fetch_class_str_ex(Z_STRVAL_P(&_3$$3), Z_STRLEN_P(&_3$$3), ZEND_FETCH_CLASS_AUTO);
-		if(!_4$$3) {
-			RETURN_MM_NULL();
-		}
-		object_init_ex(&_2$$3, _4$$3);
-		if (zephir_has_constructor(&_2$$3 TSRMLS_CC)) {
-			ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 0, &fileName, &options);
-			zephir_check_call_status();
-		}
+		ZEPHIR_INIT_VAR(&_3$$3);
+		zephir_create_array(&_3$$3, 2, 0);
+		zephir_array_fast_append(&_3$$3, &fileName);
+		zephir_array_fast_append(&_3$$3, &options);
+		ZEPHIR_LAST_CALL_STATUS = zephir_create_instance_params(&_2$$3, &definition, &_3$$3);
+		zephir_check_call_status();
 		zephir_update_property_array(this_ptr, SL("services"), &name, &_2$$3);
 	}
-	zephir_read_property(&_5, this_ptr, SL("services"), PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch(&_6, &_5, &name, PH_NOISY | PH_READONLY, "phalcon/Logger/AdapterFactory.zep", 43 TSRMLS_CC);
-	RETURN_CTOR(&_6);
+	zephir_read_property(&_4, this_ptr, SL("services"), PH_NOISY_CC | PH_READONLY);
+	zephir_array_fetch(&_5, &_4, &name, PH_NOISY | PH_READONLY, "phalcon/Logger/AdapterFactory.zep", 50);
+	RETURN_CTOR(&_5);
 
 }
 
@@ -152,10 +148,10 @@ PHP_METHOD(Phalcon_Logger_AdapterFactory, getAdapters) {
 	zval *this_ptr = getThis();
 
 
-	zephir_create_array(return_value, 3, 0 TSRMLS_CC);
-	add_assoc_stringl_ex(return_value, SL("noop"), SL("\\Phalcon\\Logger\\Adapter\\Noop"));
-	add_assoc_stringl_ex(return_value, SL("stream"), SL("\\Phalcon\\Logger\\Adapter\\Stream"));
-	add_assoc_stringl_ex(return_value, SL("syslog"), SL("\\Phalcon\\Logger\\Adapter\\Syslog"));
+	zephir_create_array(return_value, 3, 0);
+	add_assoc_stringl_ex(return_value, SL("noop"), SL("Phalcon\\Logger\\Adapter\\Noop"));
+	add_assoc_stringl_ex(return_value, SL("stream"), SL("Phalcon\\Logger\\Adapter\\Stream"));
+	add_assoc_stringl_ex(return_value, SL("syslog"), SL("Phalcon\\Logger\\Adapter\\Syslog"));
 	return;
 
 }

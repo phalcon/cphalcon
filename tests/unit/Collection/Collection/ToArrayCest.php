@@ -25,7 +25,7 @@ class ToArrayCest
      */
     public function collectionToArray(UnitTester $I)
     {
-        $I->wantToTest('Collection\Collection - toArray()');
+        $I->wantToTest('Collection - toArray()');
 
         $data = [
             'one'   => 'two',

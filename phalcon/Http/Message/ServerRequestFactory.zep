@@ -66,9 +66,6 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
      * If any argument is not supplied, the corresponding superglobal value will
      * be used.
      *
-     * The ServerRequest created is then passed to the fromServer() method in
-     * order to marshal the request URI and headers.
-     *
      * @param array $server  $_SERVER superglobal
      * @param array $get     $_GET superglobal
      * @param array $post    $_POST superglobal
@@ -85,21 +82,48 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
         array cookies = null,
         array files = null
     ) -> <ServerRequest> {
-        var cookies, filesCollection, headers, method, protocol, serverCollection;
+        var cookiesCollection, filesCollection, headers, method, protocol,
+            serverCollection;
+        array globalCookies = [], globalFiles  = [], globalGet = [],
+              globalPost    = [], globalServer = [];
 
-        let server           = this->checkNullArray(server, _SERVER),
-            files            = this->checkNullArray(files, _FILES),
-            cookies          = this->checkNullArray(cookies, _COOKIE),
-            get              = this->checkNullArray(get, _GET),
-            post             = this->checkNullArray(post, _POST),
-            serverCollection = this->parseServer(server),
-            method           = serverCollection->get("REQUEST_METHOD", "GET"),
-            protocol         = serverCollection->get("SERVER_PROTOCOL", "1.1"),
-            headers          = this->parseHeaders(serverCollection),
-            filesCollection  = this->parseUploadedFiles(files);
+        /**
+         * Ensure that superglobals are defined if not
+         */
+        if !empty _COOKIE {
+            let globalCookies = _COOKIE;
+        }
+
+        if !empty _FILES  {
+            let globalFiles = _FILES;
+        }
+
+        if !empty _GET  {
+            let globalGet = _GET;
+        }
+
+        if !empty _POST  {
+            let globalPost = _POST;
+        }
+
+        if !empty _SERVER  {
+            let globalServer = _SERVER;
+        }
+
+        let server            = this->checkNullArray(server, globalServer),
+            files             = this->checkNullArray(files, globalFiles),
+            cookies           = this->checkNullArray(cookies, globalCookies),
+            get               = this->checkNullArray(get, globalGet),
+            post              = this->checkNullArray(post, globalPost),
+            serverCollection  = this->parseServer(server),
+            method            = serverCollection->get("REQUEST_METHOD", "GET"),
+            protocol          = this->parseProtocol(serverCollection),
+            headers           = this->parseHeaders(serverCollection),
+            filesCollection   = this->parseUploadedFiles(files),
+            cookiesCollection = cookies;
 
         if unlikely (empty(cookies) && headers->has("cookie")) {
-            let cookies = this->parseCookieHeader(headers->get("cookie"));
+            let cookiesCollection = this->parseCookieHeader(headers->get("cookie"));
         }
 
         return new ServerRequest(
@@ -108,7 +132,7 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
             serverCollection->toArray(),
             "php://input",
             headers->toArray(),
-            cookies,
+            cookiesCollection,
             get,
             filesCollection->toArray(),
             post,
@@ -414,6 +438,47 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
         }
 
         return headers;
+    }
+
+    /**
+     * Parse the $_SERVER array amd check the server protocol. Raise an
+     *
+     * @param Collection $server The server variables
+     *
+     * @return string
+     */
+    private function parseProtocol(<Collection> server) -> string
+    {
+        var localProtocol, protocol, protocols;
+
+        if true !== server->has("SERVER_PROTOCOL") {
+            return "1.1";
+        }
+
+        let protocol      = (string) server->get("SERVER_PROTOCOL", "HTTP/1.1"),
+            localProtocol = strtolower(protocol),
+            protocols     = [
+            "1.0" : 1,
+            "1.1" : 1,
+            "2.0" : 1,
+            "3.0" : 1
+        ];
+
+        if substr(localProtocol, 0, 5) !== "http/" {
+            throw new InvalidArgumentException(
+                "Incorrect protocol value " . protocol
+            );
+        }
+
+        let localProtocol = str_replace("http/", "", localProtocol);
+
+        if unlikely !isset protocols[localProtocol] {
+            throw new InvalidArgumentException(
+                "Unsupported protocol " . protocol
+            );
+        }
+
+        return localProtocol;
     }
 
     /**

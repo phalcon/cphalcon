@@ -50,7 +50,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Stream) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\MetaData, Stream, phalcon, mvc_model_metadata_stream, phalcon_mvc_model_metadata_ce, phalcon_mvc_model_metadata_stream_method_entry, 0);
 
-	zend_declare_property_string(phalcon_mvc_model_metadata_stream_ce, SL("metaDataDir"), "./", ZEND_ACC_PROTECTED TSRMLS_CC);
+	zend_declare_property_string(phalcon_mvc_model_metadata_stream_ce, SL("metaDataDir"), "./", ZEND_ACC_PROTECTED);
 
 	return SUCCESS;
 
@@ -105,7 +105,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, read) {
 	zephir_fetch_params(1, 1, 0, &key_param);
 
 	if (UNEXPECTED(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(key_param) == IS_STRING)) {
@@ -120,14 +120,14 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, read) {
 	ZEPHIR_INIT_VAR(&_1);
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "_");
-	zephir_prepare_virtual_path(&_1, &key, &_2 TSRMLS_CC);
+	zephir_prepare_virtual_path(&_1, &key, &_2);
 	ZEPHIR_INIT_VAR(&path);
 	ZEPHIR_CONCAT_VVS(&path, &_0, &_1, ".php");
-	if (!((zephir_file_exists(&path TSRMLS_CC) == SUCCESS))) {
+	if (!((zephir_file_exists(&path) == SUCCESS))) {
 		RETURN_MM_NULL();
 	}
 	ZEPHIR_OBSERVE_OR_NULLIFY_PPZV(&_3);
-	if (zephir_require_zval_ret(&_3, &path TSRMLS_CC) == FAILURE) {
+	if (zephir_require_zval_ret(&_3, &path) == FAILURE) {
 		RETURN_MM_NULL();
 	}
 	RETURN_CCTOR(&_3);
@@ -163,7 +163,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, write) {
 	zephir_fetch_params(1, 2, 0, &key_param, &data_param);
 
 	if (UNEXPECTED(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string") TSRMLS_CC);
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string"));
 		RETURN_MM_NULL();
 	}
 	if (EXPECTED(Z_TYPE_P(key_param) == IS_STRING)) {
@@ -182,7 +182,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, write) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "_");
-		zephir_prepare_virtual_path(&_1$$3, &key, &_2$$3 TSRMLS_CC);
+		zephir_prepare_virtual_path(&_1$$3, &key, &_2$$3);
 		ZEPHIR_INIT_VAR(&path);
 		ZEPHIR_CONCAT_VVS(&path, &_0$$3, &_1$$3, ".php");
 		ZEPHIR_INIT_VAR(&option);
@@ -190,12 +190,12 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, write) {
 		ZEPHIR_INIT_VAR(&_3$$3);
 		ZEPHIR_INIT_VAR(&_4$$3);
 		ZEPHIR_INIT_NVAR(&_4$$3);
-		zephir_var_export_ex(&_4$$3, &data TSRMLS_CC);
+		zephir_var_export_ex(&_4$$3, &data);
 		ZEPHIR_INIT_VAR(&_5$$3);
 		ZEPHIR_CONCAT_SVS(&_5$$3, "<?php return ", &_4$$3, "; ");
-		zephir_file_put_contents(&_3$$3, &path, &_5$$3 TSRMLS_CC);
+		zephir_file_put_contents(&_3$$3, &path, &_5$$3);
 		if (ZEPHIR_IS_FALSE_IDENTICAL(&_3$$3)) {
-			ZEPHIR_CALL_METHOD(NULL, this_ptr, "throwwriteexception", NULL, 443, &option);
+			ZEPHIR_CALL_METHOD(NULL, this_ptr, "throwwriteexception", NULL, 445, &option);
 			zephir_check_call_status_or_jump(try_end_1);
 		}
 
@@ -206,10 +206,10 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, write) {
 		ZVAL_OBJ(&_6, EG(exception));
 		Z_ADDREF_P(&_6);
 		ZEPHIR_INIT_VAR(&_7);
-		if (zephir_instance_of_ev(&_6, zend_exception_get_default(TSRMLS_C) TSRMLS_CC)) {
+		if (zephir_instance_of_ev(&_6, zend_exception_get_default(TSRMLS_C))) {
 			zend_clear_exception(TSRMLS_C);
 			ZEPHIR_CPY_WRT(&_7, &_6);
-			ZEPHIR_CALL_METHOD(NULL, this_ptr, "throwwriteexception", NULL, 443, &option);
+			ZEPHIR_CALL_METHOD(NULL, this_ptr, "throwwriteexception", NULL, 445, &option);
 			zephir_check_call_status();
 		}
 	}
@@ -241,7 +241,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, throwWriteException) {
 	} else {
 		ZEPHIR_INIT_VAR(&_0$$4);
 		ZVAL_STRING(&_0$$4, "Meta-Data directory cannot be written");
-		ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 6, &_0$$4);
+		ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 5, &_0$$4);
 		zephir_check_call_status();
 	}
 	ZEPHIR_MM_RESTORE();
