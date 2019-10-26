@@ -595,7 +595,7 @@ PHP_METHOD(Phalcon_Logger, log) {
 	}
 
 
-	ZEPHIR_CALL_METHOD(&intLevel, this_ptr, "getlevelnumber", NULL, 406, level);
+	ZEPHIR_CALL_METHOD(&intLevel, this_ptr, "getlevelnumber", NULL, 404, level);
 	zephir_check_call_status();
 	zephir_get_strval(&_0, message);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addmessage", NULL, 0, level, &_0, &context);
@@ -844,7 +844,7 @@ PHP_METHOD(Phalcon_Logger, addMessage) {
 		ZEPHIR_INIT_VAR(&_2$$3);
 		zephir_time(&_2$$3);
 		ZVAL_LONG(&_1$$3, level);
-		ZEPHIR_CALL_METHOD(NULL, &item, "__construct", NULL, 407, &message, &levelName, &_1$$3, &_2$$3, &context);
+		ZEPHIR_CALL_METHOD(NULL, &item, "__construct", NULL, 405, &message, &levelName, &_1$$3, &_2$$3, &context);
 		zephir_check_call_status();
 		zephir_is_iterable(&registered, 0, "phalcon/Logger.zep", 376);
 		if (Z_TYPE_P(&registered) == IS_ARRAY) {
