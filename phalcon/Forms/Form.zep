@@ -143,7 +143,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
      * @param object entity
      * @param array whitelist
      */
-    public function bind(array! data, var entity, var whitelist = null) -> <Form>
+    public function bind(array! data, var entity, array whitelist = []) -> <Form>
     {
         var filter, key, value, element, filters, container, filteredValue;
         string method;
@@ -165,10 +165,8 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
             /**
              * Check if the item is in the whitelist
              */
-            if typeof whitelist == "array" {
-                if !in_array(key, whitelist) {
-                    continue;
-                }
+            if !in_array(key, whitelist) {
+                continue;
             }
 
             /**
