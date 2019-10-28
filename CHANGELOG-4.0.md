@@ -1,4 +1,4 @@
-# [4.0.0-rc.r3](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-rc.2) (2019-XX-XX)
+# [4.0.0-rc.r3](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-rc.3) (2019-XX-XX)
 ## Added
 
 ## Changed
