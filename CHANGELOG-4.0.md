@@ -1,4 +1,12 @@
-# [4.0.0-rc.r32](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-rc.2) (2019-XX-XX)
+# [4.0.0-rc.r3](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-rc.2) (2019-XX-XX)
+## Added
+
+## Changed
+
+## Fixed
+- Fixed `Phalcon\Annotations\AnnotationsFactory:newInstance` to return the correct object back [#14494](https://github.com/phalcon/cphalcon/pull/14494)
+
+## Removed
 
 # [4.0.0-rc.2](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-rc.2) (2019-10-26)
 ## Added
