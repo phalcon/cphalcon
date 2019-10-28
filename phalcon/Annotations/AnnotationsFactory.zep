@@ -10,7 +10,7 @@
 
 namespace Phalcon\Annotations;
 
-use Phalcon\Annotations\Adapter\AbstractAdapter;
+use Phalcon\Annotations\Adapter\AdapterInterface;
 use Phalcon\Factory\AbstractFactory;
 use Phalcon\Helper\Arr;
 
@@ -47,7 +47,7 @@ class AnnotationsFactory extends AbstractFactory
     /**
      * Create a new instance of the adapter
      */
-    public function newInstance(string! name, array! options = []) -> <AbstractAdapter>
+    public function newInstance(string! name, array! options = []) -> <AdapterInterface>
     {
         var definition;
 
