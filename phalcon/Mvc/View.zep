@@ -1062,7 +1062,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
                                 this
                             );
                         } else {
-                            let engines[extension] = engineService;
+           de                 let engines[extension] = engineService;
                         }
                     } else {
                         /**
@@ -1074,7 +1074,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
                             );
                         }
 
-                        let engines[extension] = di->getShared(
+                        let engines[extension] = di->get(
                             engineService,
                             [this]
                         );
