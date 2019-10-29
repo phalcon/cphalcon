@@ -1,4 +1,7 @@
-# [4.0.0-rc.r32](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-rc.2) (2019-XX-XX)
+# [4.0.0-rc.3](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-rc.2) (2019-XX-XX)
+## Fixed
+- Fixed `Phalcon\Di\Injectable::__get()` to return shared instance by default
+- Fixed `Phalcon\Mvc\View::loadTemplateEngines()` to not share engine with other views by default
 
 # [4.0.0-rc.2](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-rc.2) (2019-10-26)
 ## Added
