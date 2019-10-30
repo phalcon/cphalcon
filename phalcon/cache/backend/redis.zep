@@ -317,7 +317,7 @@ class Redis extends Backend
 		/**
 		* Delete the key from redis
 		*/
-		return (bool) redis->delete(lastKey);
+		return (bool) redis->del(lastKey);
 	}
 
 	/**
