@@ -167,8 +167,9 @@ class Stream extends AbstractAdapter
     }
 
     /**
-     * Returns the already connected adapter or connects to the Memcached
-     * server(s)
+     * Always returns null
+     *
+     * @return null
      */
     public function getAdapter() -> var
     {
