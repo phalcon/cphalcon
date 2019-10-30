@@ -8,7 +8,6 @@
 - Fixed return types:
   - `Phalcon\Db\Adapter\PdoFactory::load()` now returns `Phalcon\Db\Adapter\AdapterInterface`
   - `Phalcon\Db\Adapter\PdoFactory::newInstance()` now returns `Phalcon\Db\Adapter\AdapterInterface`
-  - `Phalcon\Filter\FilterFactory::newInstance()` now returns `Phalcon\Filter`
   - `Phalcon\Logger\LoggerFactory::load()` now returns `Phalcon\Logger`
   - `Phalcon\Validation\ValidatorFactory::newInstance` now returns `Phalcon\Factory\ValidatorInterface`
 
