@@ -102,7 +102,7 @@ class Redis extends AbstractAdapter
     }
 
     /**
-     * Returns the already connected adapter or connects to the Memcached
+     * Returns the already connected adapter or connects to the Redis
      * server(s)
      *
      * @return mixed|\Redis

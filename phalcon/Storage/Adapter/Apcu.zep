@@ -111,10 +111,9 @@ class Apcu extends AbstractAdapter
     }
 
     /**
-     * Returns the already connected adapter or connects to the Memcached
-     * server(s)
+     * Always returns null
      *
-     * @return mixed
+     * @return null
      */
     public function getAdapter() -> var
     {
