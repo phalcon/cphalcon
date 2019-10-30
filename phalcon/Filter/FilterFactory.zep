@@ -11,7 +11,6 @@
 namespace Phalcon\Filter;
 
 use Phalcon\Filter;
-use Phalcon\Filter\FilterInterface;
 
 class FilterFactory
 {
@@ -19,7 +18,7 @@ class FilterFactory
      * Returns a Locator object with all the helpers defined in anonynous
      * functions
      */
-    public function newInstance() -> <FilterInterface>
+    public function newInstance() -> <Filter>
     {
         return new Filter(
             this->getAdapters()
