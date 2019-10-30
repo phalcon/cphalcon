@@ -12,7 +12,6 @@ namespace Phalcon\Storage;
 
 use Phalcon\Factory\AbstractFactory;
 use Phalcon\Storage\Adapter\AdapterInterface;
-use Phalcon\Storage\SerializerFactory;
 
 class AdapterFactory extends AbstractFactory
 {
