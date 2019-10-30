@@ -11,7 +11,6 @@
 namespace Phalcon\Storage\Serializer;
 
 use Phalcon\Storage\Exception;
-use Phalcon\Storage\Serializer\SerializerInterface;
 
 abstract class AbstractSerializer implements SerializerInterface
 {
