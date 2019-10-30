@@ -12,7 +12,6 @@ namespace Phalcon\Storage\Adapter;
 
 use Phalcon\Collection;
 use Phalcon\Helper\Arr;
-use Phalcon\Storage\Adapter\AbstractAdapter;
 use Phalcon\Storage\Exception;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Storage\Serializer\SerializerInterface;
