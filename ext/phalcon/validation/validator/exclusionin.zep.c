@@ -163,7 +163,7 @@ PHP_METHOD(Phalcon_Validation_Validator_ExclusionIn, validate) {
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(_7$$9);
 		ZVAL_STRING(_7$$9, "ExclusionIn", ZEPHIR_TEMP_PARAM_COPY);
-		ZEPHIR_CALL_METHOD(NULL, _5$$9, "__construct", NULL, 478, _6$$9, field, _7$$9, code);
+		ZEPHIR_CALL_METHOD(NULL, _5$$9, "__construct", NULL, 473, _6$$9, field, _7$$9, code);
 		zephir_check_temp_parameter(_7$$9);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, _5$$9);

@@ -115,8 +115,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect) {
 	zend_bool _5$$10;
 	HashTable *_3, *_15$$15;
 	HashPosition _2, _14$$15;
-	zephir_fcall_cache_entry *_9 = NULL, *_13 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zephir_fcall_cache_entry *_9 = NULL, *_13 = NULL;
 	zval *descriptor_param = NULL, *username = NULL, *password = NULL, *dsnParts = NULL, *dsnAttributes = NULL, *persistent = NULL, *options = NULL, *key = NULL, *value = NULL, **_4, *_18, *_19, *_20, *_21, *_0$$3, *_6$$10 = NULL, *_7$$10 = NULL, *_8$$10 = NULL, *_10$$11 = NULL, *_11$$11 = NULL, *_12$$11 = NULL, **_16$$15, *_17$$16 = NULL;
 	zval *descriptor = NULL, *_1$$3 = NULL;
 
@@ -167,8 +167,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect) {
 		ZEPHIR_GET_HVALUE(value, _4);
 		_5$$10 = Z_TYPE_P(key) == IS_STRING;
 		if (_5$$10) {
-			ZEPHIR_CALL_METHOD(&_6$$10, key, "upper", NULL, 0);
-			zephir_check_call_status();
+			ZEPHIR_INIT_NVAR(_6$$10);
+			zephir_fast_strtoupper(_6$$10, key);
 			ZEPHIR_INIT_LNVAR(_7$$10);
 			ZEPHIR_CONCAT_SV(_7$$10, "\\PDO::", _6$$10);
 			ZEPHIR_CALL_FUNCTION(&_8$$10, "defined", &_9, 37, _7$$10);
@@ -176,8 +176,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo, connect) {
 			_5$$10 = zephir_is_true(_8$$10);
 		}
 		if (_5$$10) {
-			ZEPHIR_CALL_METHOD(&_10$$11, key, "upper", NULL, 0);
-			zephir_check_call_status();
+			ZEPHIR_INIT_NVAR(_10$$11);
+			zephir_fast_strtoupper(_10$$11, key);
 			ZEPHIR_INIT_LNVAR(_11$$11);
 			ZEPHIR_CONCAT_SV(_11$$11, "\\PDO::", _10$$11);
 			ZEPHIR_CALL_FUNCTION(&_12$$11, "constant", &_13, 38, _11$$11);
