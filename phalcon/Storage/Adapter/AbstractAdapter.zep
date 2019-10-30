@@ -13,7 +13,6 @@ namespace Phalcon\Storage\Adapter;
 use DateInterval;
 use DateTime;
 use Phalcon\Helper\Arr;
-use Phalcon\Storage\Adapter\AdapterInterface;
 use Phalcon\Storage\Exception;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Storage\Serializer\SerializerInterface;
