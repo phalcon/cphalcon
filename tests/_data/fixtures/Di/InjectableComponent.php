@@ -15,7 +15,9 @@
  * through the world-wide-web, please send an email to license@phalcon.io
  * so that we can send you a copy immediately.
  */
-class InjectableComponent
+use Phalcon\Di\Injectable as AbstractInjectable;
+
+class InjectableComponent extends AbstractInjectable
 {
     public $response;
 
