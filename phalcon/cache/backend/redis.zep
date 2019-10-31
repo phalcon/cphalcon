@@ -258,7 +258,7 @@ class Redis extends Backend
 
 		// Don't set expiration for negative ttl or zero
 		if tt1 >= 1 {
-			redis->settimeout(lastKey, tt1);
+			redis->expire(lastKey, tt1);
 		}
 
 		let options = this->_options;
