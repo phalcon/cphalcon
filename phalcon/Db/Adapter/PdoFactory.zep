@@ -10,7 +10,7 @@
 
 namespace Phalcon\Db\Adapter;
 
-use Phalcon\Db\Adapter\AbstractAdapter;
+use Phalcon\Db\Adapter\AdapterInterface;
 use Phalcon\Factory\AbstractFactory;
 use Phalcon\Helper\Arr;
 
@@ -27,7 +27,7 @@ class PdoFactory extends AbstractFactory
     /**
      * Factory to create an instace from a Config object
      */
-    public function load(var config) -> var
+    public function load(var config) ->  <AdapterInterface>
     {
         var name, options;
 
@@ -44,7 +44,7 @@ class PdoFactory extends AbstractFactory
     /**
      * Create a new instance of the adapter
      */
-    public function newInstance(string! name, array! options = []) -> <AbstractAdapter>
+    public function newInstance(string! name, array! options = []) ->  <AdapterInterface>
     {
         var definition;
 

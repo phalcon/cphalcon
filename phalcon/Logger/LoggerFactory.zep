@@ -35,7 +35,7 @@ class LoggerFactory
     /**
      * Factory to create an instace from a Config object
      */
-    public function load(var config) -> var
+    public function load(var config) -> <Logger>
     {
         var adapter, adapterClass, adapterFileName, adapterOptions,
             adapters, name, options;

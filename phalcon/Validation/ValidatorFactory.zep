@@ -11,6 +11,7 @@
 namespace Phalcon\Validation;
 
 use Phalcon\Factory\AbstractFactory;
+use Phalcon\Factory\ValidatorInterface;
 use Phalcon\Helper\Arr;
 
 class ValidatorFactory extends AbstractFactory
@@ -26,7 +27,7 @@ class ValidatorFactory extends AbstractFactory
     /**
      * Creates a new instance
      */
-    public function newInstance(string! name) -> var
+    public function newInstance(string! name) -> <ValidatorInterface>
     {
         var definition;
 

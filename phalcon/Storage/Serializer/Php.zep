@@ -12,7 +12,6 @@ namespace Phalcon\Storage\Serializer;
 
 use InvalidArgumentException;
 use Phalcon\Storage\Exception;
-use Phalcon\Storage\Serializer\AbstractSerializer;
 
 class Php extends AbstractSerializer
 {
