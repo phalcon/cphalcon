@@ -13,21 +13,36 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Paginator\Adapter\Model;
 
 use IntegrationTester;
+use Phalcon\Paginator\Adapter\Model;
+use Phalcon\Test\Models\Personnes;
 
 /**
- * Class GetLimitCest
+ * Class SetGetLimitCest
  */
-class GetLimitCest
+class SetGetLimitCest
 {
     /**
      * Tests Phalcon\Paginator\Adapter\Model :: getLimit()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2019-11-1
      */
     public function paginatorAdapterModelGetLimit(IntegrationTester $I)
     {
         $I->wantToTest('Paginator\Adapter\Model - getLimit()');
-        $I->skipTest('Need implementation');
+
+        $paginator = new Model(
+            [
+                'model' => Personnes::class,
+                'limit' => 10,
+                'page'  => 1,
+            ]
+        );
+
+        $I->assertEquals(10, $paginator->getLimit());
+
+        $paginator->setLimit(12);
+
+        $I->assertEquals(12, $paginator->getLimit());
     }
 }
