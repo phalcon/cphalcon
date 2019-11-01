@@ -239,4 +239,34 @@ class PaginateCest
 
         $I->assertEquals(4, $page->getCurrent());
     }
+
+    public function paginatorAdapterModelPaginateParametersArrayString(IntegrationTester $I): void
+    {
+        $paginator = new Model(
+            [
+                'model'      => Personnes::class,
+                'parameters' => [
+                    'ciudad_id % 3',
+                ],
+                'limit'      => 10,
+                'page'       => 4,
+            ]
+        );
+
+        $page = $paginator->paginate();
+
+        $I->assertInstanceOf(Repository::class, $page);
+
+        $I->assertCount(10, $page->getItems());
+
+        $I->assertEquals(3, $page->getPrevious());
+
+        $I->assertEquals(5, $page->getNext());
+
+        $I->assertEquals(171, $page->getLast());
+
+        $I->assertEquals(10, $page->getLimit());
+
+        $I->assertEquals(4, $page->getCurrent());
+    }
 }

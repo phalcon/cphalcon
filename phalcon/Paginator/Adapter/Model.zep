@@ -71,6 +71,16 @@ use Phalcon\Paginator\RepositoryInterface;
  *     ]
  * );
  *
+ *
+ * $paginator = new Model(
+ *     [
+ *         "model" => Robots::class,
+ *         "parameters" => [ "(id % 2) = 0" ],
+ *         "limit" => 8,
+ *         "page"  => $currentPage,
+ *     ]
+ * );
+ *
  * $paginate = $paginator->paginate();
  *```
  */
