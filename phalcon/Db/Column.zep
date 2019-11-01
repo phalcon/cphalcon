@@ -10,9 +10,6 @@
 
 namespace Phalcon\Db;
 
-use Phalcon\Db\Exception;
-use Phalcon\Db\ColumnInterface;
-
 /**
  * Allows to define columns to be used on create or alter table operations
  *

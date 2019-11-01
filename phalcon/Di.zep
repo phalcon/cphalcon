@@ -10,7 +10,6 @@
 
 namespace Phalcon;
 
-use Phalcon\Config;
 use Phalcon\Di\Service;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\Exception;

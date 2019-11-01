@@ -14,7 +14,6 @@ use Phalcon\Di;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\AbstractInjectionAware;
 use Phalcon\Escaper\EscaperInterface;
-use Phalcon\Flash\Exception;
 use Phalcon\Session\ManagerInterface as SessionInterface;
 
 /**

@@ -18,9 +18,6 @@
 
 namespace Phalcon\Domain\Payload;
 
-use Phalcon\Domain\Payload\ReadableInterface;
-use Phalcon\Domain\Payload\WriteableInterface;
-
 /**
  * This interface is used for consumers
  */

@@ -10,8 +10,6 @@
 
 namespace Phalcon\Helper;
 
-use Phalcon\Helper\Exception;
-
 /**
  * Phalcon\Helper\number
  *

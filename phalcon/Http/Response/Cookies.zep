@@ -13,7 +13,6 @@ namespace Phalcon\Http\Response;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\AbstractInjectionAware;
 use Phalcon\Http\CookieInterface;
-use Phalcon\Http\Response\CookiesInterface;
 use Phalcon\Http\Cookie\Exception;
 
 /**

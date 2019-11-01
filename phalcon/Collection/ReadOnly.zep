@@ -11,7 +11,6 @@
 namespace Phalcon\Collection;
 
 use Phalcon\Collection;
-use Phalcon\Collection\Exception;
 
 /**
  * Phalcon\Collection\ReadOnly is a read only Collection object

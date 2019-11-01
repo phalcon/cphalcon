@@ -14,7 +14,6 @@ use ArrayAccess;
 use Closure;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\Injectable;
-use Phalcon\Mvc\Controller;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Mvc\Micro\Exception;
 use Phalcon\Di\ServiceInterface;

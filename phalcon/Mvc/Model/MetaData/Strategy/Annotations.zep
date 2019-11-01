@@ -14,7 +14,6 @@ use Phalcon\Di\DiInterface;
 use Phalcon\Db\Column;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\MetaData;
-use Phalcon\Mvc\Model\MetaData\Strategy\StrategyInterface;
 use Phalcon\Mvc\Model\Exception;
 
 class Annotations implements StrategyInterface

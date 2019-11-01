@@ -13,7 +13,6 @@ namespace Phalcon\Firewall\Adapter;
 use Phalcon\Annotations\Adapter\AdapterInterface;
 use Phalcon\Events\Event;
 use Phalcon\Events\ManagerInterface;
-use Phalcon\Firewall\Adapter\AbstractAdapter;
 use Phalcon\Firewall\Exception;
 use Phalcon\Mvc\DispatcherInterface;
 use ReflectionClass;

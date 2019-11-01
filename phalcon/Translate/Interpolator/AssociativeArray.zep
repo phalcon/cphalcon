@@ -10,8 +10,6 @@
 
 namespace Phalcon\Translate\Interpolator;
 
-use Phalcon\Translate\Interpolator\InterpolatorInterface;
-
 class AssociativeArray implements InterpolatorInterface
 {
     /**

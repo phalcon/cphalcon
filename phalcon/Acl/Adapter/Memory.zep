@@ -10,7 +10,6 @@
 
 namespace Phalcon\Acl\Adapter;
 
-use Phalcon\Acl\Adapter\AbstractAdapter;
 use Phalcon\Acl\Enum;
 use Phalcon\Acl\Role;
 use Phalcon\Acl\RoleInterface;

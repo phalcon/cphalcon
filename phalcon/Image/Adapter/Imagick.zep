@@ -11,7 +11,6 @@
 namespace Phalcon\Image\Adapter;
 
 use Phalcon\Image\Enum;
-use Phalcon\Image\Adapter\AbstractAdapter;
 use Phalcon\Image\Exception;
 
 /**

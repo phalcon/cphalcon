@@ -10,8 +10,6 @@
 
 namespace Phalcon\Http\Request;
 
-use Phalcon\Http\Request\FileInterface;
-
 /**
  * Phalcon\Http\Request\File
  *

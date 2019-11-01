@@ -10,7 +10,6 @@
 
 namespace Phalcon\Logger\Formatter;
 
-use Phalcon\Logger\Formatter\AbstractFormatter;
 use Phalcon\Logger\Item;
 
 /**

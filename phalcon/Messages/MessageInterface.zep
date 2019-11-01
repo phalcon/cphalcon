@@ -10,8 +10,6 @@
 
 namespace Phalcon\Messages;
 
-use Phalcon\Messages\Message;
-
 /**
  * Phalcon\Messages\MessageInterface
  *

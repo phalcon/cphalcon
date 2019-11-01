@@ -11,9 +11,6 @@
 namespace Phalcon\Di;
 
 use Phalcon\Di;
-use Phalcon\Di\DiInterface;
-use Phalcon\Di\InjectionAwareInterface;
-use Phalcon\Di\Exception;
 use Phalcon\Session\BagInterface;
 
 /**

@@ -10,8 +10,6 @@
 
 namespace Phalcon\Annotations;
 
-use Phalcon\Annotations\Collection;
-
 /**
  * Allows to manipulate the annotations reflection in an OO manner
  *

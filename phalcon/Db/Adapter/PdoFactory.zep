@@ -10,7 +10,6 @@
 
 namespace Phalcon\Db\Adapter;
 
-use Phalcon\Db\Adapter\AdapterInterface;
 use Phalcon\Factory\AbstractFactory;
 use Phalcon\Helper\Arr;
 

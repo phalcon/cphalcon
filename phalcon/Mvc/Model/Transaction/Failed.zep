@@ -12,7 +12,6 @@ namespace Phalcon\Mvc\Model\Transaction;
 
 use Phalcon\Messages\MessageInterface;
 use Phalcon\Mvc\ModelInterface;
-use Phalcon\Mvc\Model\Transaction\Exception;
 
 /**
  * Phalcon\Mvc\Model\Transaction\Failed

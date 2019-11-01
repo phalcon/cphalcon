@@ -10,8 +10,6 @@
 
 namespace Phalcon\Mvc\Model;
 
-use Phalcon\Mvc\Model\RelationInterface;
-
 /**
  * Phalcon\Mvc\Model\Relation
  *

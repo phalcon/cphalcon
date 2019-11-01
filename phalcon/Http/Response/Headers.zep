@@ -10,8 +10,6 @@
 
 namespace Phalcon\Http\Response;
 
-use Phalcon\Http\Response\HeadersInterface;
-
 /**
  * Phalcon\Http\Response\Headers
  *

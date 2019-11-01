@@ -10,7 +10,6 @@
 
 namespace Phalcon\Annotations\Adapter;
 
-use Phalcon\Annotations\Adapter\AdapterInterface;
 use Phalcon\Annotations\Reader;
 use Phalcon\Annotations\Exception;
 use Phalcon\Annotations\Collection;

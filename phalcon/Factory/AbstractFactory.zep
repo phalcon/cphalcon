@@ -11,7 +11,6 @@
 namespace Phalcon\Factory;
 
 use Phalcon\Config;
-use Phalcon\Factory\Exception;
 
 abstract class AbstractFactory
 {
