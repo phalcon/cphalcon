@@ -10,6 +10,7 @@
   - `Phalcon\Db\Adapter\PdoFactory::newInstance()` now returns `Phalcon\Db\Adapter\AdapterInterface`
   - `Phalcon\Logger\LoggerFactory::load()` now returns `Phalcon\Logger`
   - `Phalcon\Validation\ValidatorFactory::newInstance` now returns `Phalcon\Factory\ValidatorInterface`
+- Fixed `Phalcon\Container:get` to use `getShared` transparently [#14502](https://github.com/phalcon/cphalcon/pull/14502)
 
 ## Removed
 
