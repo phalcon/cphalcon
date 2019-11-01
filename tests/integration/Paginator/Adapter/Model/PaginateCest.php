@@ -35,17 +35,13 @@ class PaginateCest
 
     public function paginatorAdapterModelPaginate(IntegrationTester $I)
     {
-        $personnes = Personnes::find();
-
         $paginator = new Model(
             [
-                'data'  => $personnes,
+                'model' => Personnes::class,
                 'limit' => 10,
                 'page'  => 1,
             ]
         );
-
-
 
         //First Page
         $page = $paginator->paginate();
@@ -85,8 +81,6 @@ class PaginateCest
             $page->getCurrent()
         );
 
-
-
         //Middle Page
         $paginator->setCurrentPage(50);
 
@@ -121,8 +115,6 @@ class PaginateCest
             50,
             $page->getCurrent()
         );
-
-
 
         //Last Page
         $paginator->setCurrentPage(218);
@@ -162,27 +154,24 @@ class PaginateCest
 
     public function paginatorAdapterModelPaginateBind(IntegrationTester $I)
     {
-        $personnes = Personnes::find(
-            [
-                'conditions' => 'cedula >=:d1: AND cedula>=:d2: ',
-                'bind'       => [
-                    'd1' => '1',
-                    'd2' => '5',
-                ],
-                'order'      => 'cedula, nombres',
-                'limit'      => '33',
-            ]
-        );
+        $parameters = [
+            'conditions' => 'cedula >=:d1: AND cedula>=:d2: ',
+            'bind'       => [
+                'd1' => '1',
+                'd2' => '5',
+            ],
+            'order'      => 'cedula, nombres',
+            'limit'      => '33',
+        ];
 
         $paginator = new Model(
             [
-                'data'  => $personnes,
-                'limit' => 10,
-                'page'  => 1,
+                'model'      => Personnes::class,
+                'parameters' => $parameters,
+                'limit'      => 10,
+                'page'       => 1,
             ]
         );
-
-
 
         //First Page
         $page = $paginator->paginate();
