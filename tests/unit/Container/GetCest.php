@@ -17,6 +17,7 @@ use Phalcon\Di\Service;
 use Phalcon\Escaper;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
+use function spl_object_hash;
 
 class GetCest
 {
@@ -33,16 +34,27 @@ class GetCest
         $I->wantToTest('Container - get()');
 
         $this->newDi();
+
+        $escaper = new Escaper();
+        $this->container->setShared('test', $escaper);
         $this->setDiEscaper();
 
-        $container = new Container($this->container);
+        $container        = new Container($this->container);
+        $containerEscaper = $container->get('test');
 
-        /** @var Service $service */
-        $service = $container->get('escaper');
-
-        $I->assertEquals(
+        $I->assertInstanceOf(
             Escaper::class,
-            $service->getDefinition()
+            $containerEscaper
         );
+
+        $diEscaper = $this->container->getShared('test');
+
+        $expected = spl_object_hash($escaper);
+        $actual   = spl_object_hash($diEscaper);
+        $I->assertEquals($expected, $actual);
+
+        $expected = spl_object_hash($diEscaper);
+        $actual   = spl_object_hash($containerEscaper);
+        $I->assertEquals($expected, $actual);
     }
 }
