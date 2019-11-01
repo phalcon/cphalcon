@@ -2,6 +2,10 @@
 ## Added
 
 ## Changed
+- Changed `Phalcon\Paginator\Adapter\Model`
+  - Removed the `data` parameter
+  - Added `model` parameter to pass model class
+  - Added optional parameter `parameters` which is used as the parameter `Model::find()`
 
 ## Fixed
 - Fixed `Phalcon\Annotations\AnnotationsFactory:newInstance` to return the correct object back [#14494](https://github.com/phalcon/cphalcon/pull/14494)
