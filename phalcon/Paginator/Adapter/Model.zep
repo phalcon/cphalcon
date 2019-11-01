@@ -10,6 +10,9 @@
 
 namespace Phalcon\Paginator\Adapter;
 
+use Phalcon\Helper\Arr;
+use Phalcon\Mvc\ModelInterface;
+use Phalcon\Mvc\Model\ResultsetInterface;
 use Phalcon\Paginator\Exception;
 use Phalcon\Paginator\Adapter\AbstractAdapter;
 use Phalcon\Paginator\RepositoryInterface;
@@ -25,8 +28,45 @@ use Phalcon\Paginator\RepositoryInterface;
  *
  * $paginator = new Model(
  *     [
- *         "data"  => Robots::find(),
+ *         "model" => Robots::class,
  *         "limit" => 25,
+ *         "page"  => $currentPage,
+ *     ]
+ * );
+ *
+ *
+ * $paginator = new Model(
+ *     [
+ *         "model" => Robots::class,
+ *         "parameters" => [
+ *              "columns" => "id, name"
+ *         ],
+ *         "limit" => 12,
+ *         "page"  => $currentPage,
+ *     ]
+ * );
+ *
+ *
+ * $paginator = new Model(
+ *     [
+ *         "model" => Robots::class,
+ *         "parameters" => [
+ *              "type = :type:",
+ *              "bind" => [
+ *                  "type" => "mechanical"
+ *              ],
+ *              "order" => "name"
+ *         ],
+ *         "limit" => 16,
+ *         "page"  => $currentPage,
+ *     ]
+ * );
+ *
+ * $paginator = new Model(
+ *     [
+ *         "model" => Robots::class,
+ *         "parameters" => "(id % 2) = 0",
+ *         "limit" => 8,
  *         "page"  => $currentPage,
  *     ]
  * );
@@ -41,64 +81,39 @@ class Model extends AbstractAdapter
      */
     public function paginate() -> <RepositoryInterface>
     {
-        var config, items, pageItems;
-        int pageNumber, show, n, start, lastShowPage, i, next, totalPages,
+        var config, items, pageItems, modelClass, parameters;
+        int pageNumber, limit, rowcount, next, totalPages,
             previous;
 
-        let show       = (int) this->limitRows,
+        let limit      = (int) this->limitRows,
             config     = this->config,
-            items      = config["data"],
-            pageNumber = (int) this->page;
-
-        if unlikely typeof items != "object" {
-            throw new Exception("Invalid data for paginator");
-        }
+            pageNumber = (int) this->page,
+            modelClass = <ModelInterface> config["model"],
+            parameters = Arr::get(config, "parameters", [], "array");
 
         //Prevents 0 or negative page numbers
         if pageNumber <= 0 {
             let pageNumber = 1;
         }
 
-        //Prevents a limit creating a negative or zero first page
-        if unlikely show <= 0 {
-            throw new Exception("The start page number is zero or less");
-        }
+        let rowcount  = (int) call_user_func([modelClass, "count"], parameters),
+            pageItems = [];
 
-        let n            = count(items),
-            lastShowPage = pageNumber - 1,
-            start        = show * lastShowPage,
-            pageItems    = [];
-
-        if n % show != 0 {
-            let totalPages = (int) (n / show + 1);
+        if rowcount % limit != 0 {
+            let totalPages = (int) (rowcount / limit + 1);
         } else {
-            let totalPages = (int) (n / show);
+            let totalPages = (int) (rowcount / limit);
         }
 
-        if n > 0 {
-            //Seek to the desired position
-            if start <= n {
-                items->seek(start);
-            } else {
-                items->seek(0);
+        if rowcount > 0 {
+            let parameters["limit"]  = limit,
+                parameters["offset"] = limit * (pageNumber - 1);
 
-                let pageNumber = 1;
-            }
-
-            //The record must be iterable
-            let i = 1;
-
-            while items->valid() {
-                let pageItems[] = items->current();
-
-                if i >= show {
-                    break;
-                }
-
-                let i++;
-
-                items->next();
-            }
+            let items = <ResultsetInterface> call_user_func(
+                [modelClass, "find"],
+                parameters
+            );
+            let pageItems = items->toArray();
         }
 
         //Fix next
@@ -117,7 +132,7 @@ class Model extends AbstractAdapter
         return this->getRepository(
             [
                 RepositoryInterface::PROPERTY_ITEMS         : pageItems,
-                RepositoryInterface::PROPERTY_TOTAL_ITEMS   : n,
+                RepositoryInterface::PROPERTY_TOTAL_ITEMS   : rowcount,
                 RepositoryInterface::PROPERTY_LIMIT         : this->limitRows,
                 RepositoryInterface::PROPERTY_FIRST_PAGE    : 1,
                 RepositoryInterface::PROPERTY_PREVIOUS_PAGE : previous,
