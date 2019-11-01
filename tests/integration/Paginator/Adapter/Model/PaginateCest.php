@@ -161,7 +161,7 @@ class PaginateCest
                 'd2' => '5',
             ],
             'order'      => 'cedula, nombres',
-            'limit'      => '33',
+            'limit'      => '33',   // will be ignored
         ];
 
         $paginator = new Model(
@@ -197,7 +197,7 @@ class PaginateCest
         );
 
         $I->assertEquals(
-            4,
+            54,
             $page->getLast()
         );
 
