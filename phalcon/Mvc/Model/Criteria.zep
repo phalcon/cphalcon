@@ -13,10 +13,7 @@ namespace Phalcon\Mvc\Model;
 use Phalcon\Di;
 use Phalcon\Db\Column;
 use Phalcon\Di\DiInterface;
-use Phalcon\Mvc\Model\Exception;
 use Phalcon\Di\InjectionAwareInterface;
-use Phalcon\Mvc\Model\CriteriaInterface;
-use Phalcon\Mvc\Model\ResultsetInterface;
 use Phalcon\Mvc\Model\Query\BuilderInterface;
 
 /**

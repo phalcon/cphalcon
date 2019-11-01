@@ -13,7 +13,6 @@ namespace Phalcon\Logger;
 use Phalcon\Config;
 use Phalcon\Helper\Arr;
 use Phalcon\Logger;
-use Phalcon\Logger\AdapterFactory;
 
 /**
  * Phalcon\Logger\LoggerFactory

@@ -11,7 +11,6 @@
 namespace Phalcon\Messages;
 
 use JsonSerializable;
-use Phalcon\Messages\MessageInterface;
 
 /**
  * Phalcon\Messages\Message

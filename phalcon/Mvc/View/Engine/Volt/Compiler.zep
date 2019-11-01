@@ -14,7 +14,6 @@ use Closure;
 use Phalcon\Di\DiInterface;
 use Phalcon\Mvc\ViewBaseInterface;
 use Phalcon\Di\InjectionAwareInterface;
-use Phalcon\Mvc\View\Engine\Volt\Exception;
 
 /**
  * This class reads and compiles Volt templates into PHP plain code

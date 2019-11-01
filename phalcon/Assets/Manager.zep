@@ -11,9 +11,6 @@
 namespace Phalcon\Assets;
 
 use Phalcon\Tag;
-use Phalcon\Assets\Asset;
-use Phalcon\Assets\Collection;
-use Phalcon\Assets\Exception;
 use Phalcon\Assets\Asset\Js as AssetJs;
 use Phalcon\Assets\Asset\Css as AssetCss;
 use Phalcon\Assets\Inline\Css as InlineCss;

@@ -11,7 +11,6 @@
 namespace Phalcon\Filter;
 
 use Phalcon\Filter;
-use Phalcon\Filter\FilterInterface;
 
 class FilterFactory
 {

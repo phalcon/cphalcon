@@ -10,8 +10,6 @@
 
 namespace Phalcon\Mvc\Router;
 
-use Phalcon\Mvc\Router\RouteInterface;
-
 /**
  * Phalcon\Mvc\Router\GroupInterface
  *

@@ -10,8 +10,6 @@
 
 namespace Phalcon\Di;
 
-use Phalcon\Di\DiInterface;
-
 /**
  * Should be implemented by service providers, or such components, which
  * register a service in the service container.

@@ -11,7 +11,6 @@
 namespace Phalcon\Session\Adapter;
 
 use Phalcon\Storage\AdapterFactory;
-use Phalcon\Session\Adapter\AbstractAdapter;
 
 /**
  * Phalcon\Session\Adapter\Libmemcached

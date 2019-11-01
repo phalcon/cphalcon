@@ -11,7 +11,6 @@
 namespace Phalcon\Paginator\Adapter;
 
 use Phalcon\Paginator\Exception;
-use Phalcon\Paginator\Adapter\AbstractAdapter;
 use Phalcon\Paginator\RepositoryInterface;
 
 /**
