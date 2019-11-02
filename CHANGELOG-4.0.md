@@ -1,5 +1,12 @@
 # [4.0.0-rc.r3](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-rc.3) (2019-XX-XX)
 ## Added
+- Added support for [PSR-13](https://www.php-fig.org/psr/psr-13/) links and evolvable links [#14507](https://github.com/phalcon/cphalcon/issues/14507)
+  - Added `Phalcon\Html\Link\Link`
+  - Added `Phalcon\Html\Link\LinkProvider`
+  - Added `Phalcon\Html\Link\EvolvableLink`
+  - Added `Phalcon\Html\Link\EvolvableLinkProvider`
+  - Added `Phalcon\Html\Link\Serializer\Header`
+  - Added `Phalcon\Html\Link\Serializer\SerializerInterface`
 
 ## Changed
 - Changed `Phalcon\Paginator\Adapter\Model`
