@@ -26,7 +26,7 @@ class GetRelsCest
     {
         $I->wantToTest('Link\EvolvableLink - getRels()');
 
-        $href = 'https://dev.cardoe.ld';
+        $href = 'https://dev.phalcon.ld';
         $link = new EvolvableLink('payment', $href);
 
         $expected = ['payment'];

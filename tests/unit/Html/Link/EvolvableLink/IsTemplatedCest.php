@@ -26,7 +26,7 @@ class IsTemplatedCest
     {
         $I->wantToTest('Link\EvolvableLink - isTemplated()');
 
-        $href = 'https://dev.cardoe.ld';
+        $href = 'https://dev.phalcon.ld';
         $link = new EvolvableLink('payment', $href);
 
         $I->assertFalse($link->isTemplated());

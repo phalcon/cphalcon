@@ -29,11 +29,11 @@ class WithLinkCest
         $I->wantToTest('Link\EvolvableLinkProvider - withLink()');
 
         $links    = [
-            new Link('canonical', 'https://dev.cardoe.ld'),
+            new Link('canonical', 'https://dev.phalcon.ld'),
         ];
         $instance = new EvolvableLinkProvider($links);
 
-        $link        = new Link('cite-as', 'https://test.cardoe.ld');
+        $link        = new Link('cite-as', 'https://test.phalcon.ld');
         $newInstance = $instance->withLink($link);
 
         $I->assertNotSame($instance, $newInstance);

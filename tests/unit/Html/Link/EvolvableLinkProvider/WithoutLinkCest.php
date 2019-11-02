@@ -28,8 +28,8 @@ class WithoutLinkCest
     {
         $I->wantToTest('Link\EvolvableLinkProvider - withoutLink()');
 
-        $link1    = new Link('canonical', 'https://dev.cardoe.ld');
-        $link2    = new Link('cite-as', 'https://test.cardoe.ld');
+        $link1    = new Link('canonical', 'https://dev.phalcon.ld');
+        $link2    = new Link('cite-as', 'https://test.phalcon.ld');
         $instance = new EvolvableLinkProvider(
             [
                 $link1,

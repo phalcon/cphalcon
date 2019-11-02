@@ -26,7 +26,7 @@ class WithoutRelCest
     {
         $I->wantToTest('Link\EvolvableLink - withoutRel()');
 
-        $href = 'https://dev.cardoe.ld';
+        $href = 'https://dev.phalcon.ld';
         $link = new EvolvableLink('payment', $href);
 
         $I->assertEquals(['payment'], $link->getRels());

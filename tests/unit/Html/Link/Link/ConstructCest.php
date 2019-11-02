@@ -28,7 +28,7 @@ class ConstructCest
     {
         $I->wantToTest('Link\Link - __construct()');
 
-        $link = new Link('payment', 'https://dev.cardoe.ld');
+        $link = new Link('payment', 'https://dev.phalcon.ld');
 
         $class = LinkInterface::class;
         $I->assertInstanceOf($class, $link);

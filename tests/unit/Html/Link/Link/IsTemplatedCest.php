@@ -26,7 +26,7 @@ class IsTemplatedCest
     {
         $I->wantToTest('Link\Link - isTemplated()');
 
-        $href = 'https://dev.cardoe.ld';
+        $href = 'https://dev.phalcon.ld';
         $link = new Link('payment', $href);
 
         $I->assertFalse($link->isTemplated());
