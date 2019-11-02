@@ -7,6 +7,7 @@
   - Added `Phalcon\Html\Link\EvolvableLinkProvider`
   - Added `Phalcon\Html\Link\Serializer\Header`
   - Added `Phalcon\Html\Link\Serializer\SerializerInterface`
+- Added `Phalcon\Collection:getKeys` and `Phalcon\Collection\getValues` for getting data from the collection [#14507](https://github.com/phalcon/cphalcon/issues/14507)
 
 ## Changed
 - Changed `Phalcon\Paginator\Adapter\Model`
