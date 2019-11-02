@@ -20,11 +20,11 @@ class GetRelsCest
     /**
      * Tests Phalcon\Html\Link\Link :: getRels()
      *
-     * @since  2019-06-15
+     * @since  2019-11-02
      */
     public function linkEvolvableLinkGetRels(UnitTester $I)
     {
-        $I->wantToTest('Link\EvolvableLink - getRels()');
+        $I->wantToTest('Html\Link\EvolvableLink - getRels()');
 
         $href = 'https://dev.phalcon.ld';
         $link = new EvolvableLink('payment', $href);

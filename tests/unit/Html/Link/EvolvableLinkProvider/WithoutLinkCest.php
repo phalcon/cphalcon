@@ -22,11 +22,11 @@ class WithoutLinkCest
     /**
      * Tests Phalcon\Html\Link\EvolvableLinkProvider :: withoutLink()
      *
-     * @since  2019-06-15
+     * @since  2019-11-02
      */
     public function linkEvolvableLinkProviderWithoutLink(UnitTester $I)
     {
-        $I->wantToTest('Link\EvolvableLinkProvider - withoutLink()');
+        $I->wantToTest('Html\Link\EvolvableLinkProvider - withoutLink()');
 
         $link1    = new Link('canonical', 'https://dev.phalcon.ld');
         $link2    = new Link('cite-as', 'https://test.phalcon.ld');

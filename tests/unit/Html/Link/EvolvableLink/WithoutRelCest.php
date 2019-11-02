@@ -20,11 +20,11 @@ class WithoutRelCest
     /**
      * Tests Phalcon\Html\Link\Link :: withoutRel()
      *
-     * @since  2019-06-15
+     * @since  2019-11-02
      */
     public function linkEvolvableLinkWithoutRel(UnitTester $I)
     {
-        $I->wantToTest('Link\EvolvableLink - withoutRel()');
+        $I->wantToTest('Html\Link\EvolvableLink - withoutRel()');
 
         $href = 'https://dev.phalcon.ld';
         $link = new EvolvableLink('payment', $href);

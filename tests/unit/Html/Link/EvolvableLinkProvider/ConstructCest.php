@@ -21,11 +21,11 @@ class ConstructCest
     /**
      * Tests Phalcon\Html\Link\EvolvableLinkProvider :: __construct()
      *
-     * @since  2019-06-15
+     * @since  2019-11-02
      */
     public function linkEvolvableLinkConstruct(UnitTester $I)
     {
-        $I->wantToTest('Link\EvolvableLinkProvider - __construct()');
+        $I->wantToTest('Html\Link\EvolvableLinkProvider - __construct()');
 
         $link = new EvolvableLinkProvider();
 

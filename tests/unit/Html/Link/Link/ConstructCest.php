@@ -22,11 +22,11 @@ class ConstructCest
     /**
      * Tests Phalcon\Html\Link\Link :: __construct()
      *
-     * @since  2019-06-15
+     * @since  2019-11-02
      */
     public function linkLinkConstruct(UnitTester $I)
     {
-        $I->wantToTest('Link\Link - __construct()');
+        $I->wantToTest('Html\Link\Link - __construct()');
 
         $link = new Link('payment', 'https://dev.phalcon.ld');
 

@@ -20,11 +20,11 @@ class GetHrefCest
     /**
      * Tests Phalcon\Html\Link\Link :: getHref()
      *
-     * @since  2019-06-15
+     * @since  2019-11-02
      */
     public function linkEvolvableLinkGetHref(UnitTester $I)
     {
-        $I->wantToTest('Link\EvolvableLink - getHref()');
+        $I->wantToTest('Html\Link\EvolvableLink - getHref()');
 
         $href = 'https://dev.phalcon.ld';
         $link = new EvolvableLink('payment', $href);

@@ -20,11 +20,11 @@ class WithHrefCest
     /**
      * Tests Phalcon\Html\Link\Link :: withHref()
      *
-     * @since  2019-06-15
+     * @since  2019-11-02
      */
     public function linkEvolvableLinkWithHref(UnitTester $I)
     {
-        $I->wantToTest('Link\EvolvableLink - withHref()');
+        $I->wantToTest('Html\Link\EvolvableLink - withHref()');
 
         $href = 'https://dev.phalcon.ld';
         $link = new EvolvableLink('payment', $href);
