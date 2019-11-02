@@ -21,11 +21,11 @@ class GetLinksByRelCest
     /**
      * Tests Phalcon\Html\Link\LinkProvider :: getLinksByRel()
      *
-     * @since  2019-06-15
+     * @since  2019-11-02
      */
     public function linkLinkProviderGetLinksByRel(UnitTester $I)
     {
-        $I->wantToTest('Link\LinkProvider - getLinksByRel()');
+        $I->wantToTest('Html\Link\LinkProvider - getLinksByRel()');
 
         $links = [
             new Link('canonical', 'https://dev.phalcon.ld'),

@@ -20,11 +20,11 @@ class GetRelsCest
     /**
      * Tests Phalcon\Html\Link\Link :: getRels()
      *
-     * @since  2019-06-15
+     * @since  2019-11-02
      */
     public function linkLinkGetRels(UnitTester $I)
     {
-        $I->wantToTest('Link\Link - getRels()');
+        $I->wantToTest('Html\Link\Link - getRels()');
 
         $href = 'https://dev.phalcon.ld';
         $link = new Link('payment', $href);

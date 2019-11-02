@@ -20,11 +20,11 @@ class WithAttributeCest
     /**
      * Tests Phalcon\Html\Link\Link :: withAttribute()
      *
-     * @since  2019-06-15
+     * @since  2019-11-02
      */
     public function linkEvolvableLinkWithAttribute(UnitTester $I)
     {
-        $I->wantToTest('Link\EvolvableLink - withAttribute()');
+        $I->wantToTest('Html\Link\EvolvableLink - withAttribute()');
 
         $href       = 'https://dev.phalcon.ld';
         $attributes = ['one' => true];

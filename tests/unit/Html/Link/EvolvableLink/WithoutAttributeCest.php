@@ -20,11 +20,11 @@ class WithoutAttributeCest
     /**
      * Tests Phalcon\Html\Link\Link :: withoutAttribute()
      *
-     * @since  2019-06-15
+     * @since  2019-11-02
      */
     public function linkEvolvableLinkWithoutAttribute(UnitTester $I)
     {
-        $I->wantToTest('Link\EvolvableLink - withoutAttribute()');
+        $I->wantToTest('Html\Link\EvolvableLink - withoutAttribute()');
 
         $href       = 'https://dev.phalcon.ld';
         $attributes = [

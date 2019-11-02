@@ -22,11 +22,11 @@ class GetLinksCest
     /**
      * Tests Phalcon\Html\Link\EvolvableLinkProvider :: getLinks()
      *
-     * @since  2019-06-15
+     * @since  2019-11-02
      */
     public function linkEvolvableLinkProviderGetLinks(UnitTester $I)
     {
-        $I->wantToTest('Link\EvolvableLinkProvider - getLinks()');
+        $I->wantToTest('Html\Link\EvolvableLinkProvider - getLinks()');
 
         $links = [
             new Link('canonical', 'https://dev.phalcon.ld'),

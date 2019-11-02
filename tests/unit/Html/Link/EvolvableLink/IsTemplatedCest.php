@@ -20,11 +20,11 @@ class IsTemplatedCest
     /**
      * Tests Phalcon\Html\Link\Link :: isTemplated()
      *
-     * @since  2019-06-15
+     * @since  2019-11-02
      */
     public function linkEvolvableLinkIsTemplated(UnitTester $I)
     {
-        $I->wantToTest('Link\EvolvableLink - isTemplated()');
+        $I->wantToTest('Html\Link\EvolvableLink - isTemplated()');
 
         $href = 'https://dev.phalcon.ld';
         $link = new EvolvableLink('payment', $href);

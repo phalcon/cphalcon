@@ -20,11 +20,11 @@ class GetAttributesCest
     /**
      * Tests Phalcon\Html\Link\Link :: getAttributes()
      *
-     * @since  2019-06-15
+     * @since  2019-11-02
      */
     public function linkLinkGetAttributes(UnitTester $I)
     {
-        $I->wantToTest('Link\Link - getAttributes()');
+        $I->wantToTest('Html\Link\Link - getAttributes()');
 
         $href       = 'https://dev.phalcon.ld';
         $attributes = [

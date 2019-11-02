@@ -22,11 +22,11 @@ class WithLinkCest
     /**
      * Tests Phalcon\Html\Link\EvolvableLinkProvider :: withLink()
      *
-     * @since  2019-06-15
+     * @since  2019-11-02
      */
     public function linkEvolvableLinkProviderWithLink(UnitTester $I)
     {
-        $I->wantToTest('Link\EvolvableLinkProvider - withLink()');
+        $I->wantToTest('Html\Link\EvolvableLinkProvider - withLink()');
 
         $links    = [
             new Link('canonical', 'https://dev.phalcon.ld'),
