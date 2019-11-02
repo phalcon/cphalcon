@@ -146,6 +146,21 @@ class Collection implements
         return new ArrayIterator(this->data);
     }
 
+
+    public function getKeys(bool insensitive = true) -> array
+    {
+        if insensitive {
+            return array_keys(this->lowerKeys);
+        } else {
+            return array_keys(this->data);
+        }
+    }
+
+    public function getValues() -> array
+    {
+        return array_values(this->data);
+    }
+
     /**
      * Get the element from the collection
      */
