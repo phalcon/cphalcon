@@ -26,7 +26,7 @@ class GetHrefCest
     {
         $I->wantToTest('Link\Link - getHref()');
 
-        $href = 'https://dev.cardoe.ld';
+        $href = 'https://dev.phalcon.ld';
         $link = new Link('payment', $href);
 
         $I->assertEquals($href, $link->getHref());

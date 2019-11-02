@@ -26,7 +26,7 @@ class GetRelsCest
     {
         $I->wantToTest('Link\Link - getRels()');
 
-        $href = 'https://dev.cardoe.ld';
+        $href = 'https://dev.phalcon.ld';
         $link = new Link('payment', $href);
 
         $expected = ['payment'];

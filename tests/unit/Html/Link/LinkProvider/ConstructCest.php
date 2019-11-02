@@ -29,8 +29,8 @@ class ConstructCest
         $I->wantToTest('Link\LinkProvider - __construct()');
 
         $links = [
-            new Link('canonical', 'https://dev.cardoe.ld'),
-            new Link('cite-as', 'https://test.cardoe.ld'),
+            new Link('canonical', 'https://dev.phalcon.ld'),
+            new Link('cite-as', 'https://test.phalcon.ld'),
         ];
         $link  = new LinkProvider($links);
 

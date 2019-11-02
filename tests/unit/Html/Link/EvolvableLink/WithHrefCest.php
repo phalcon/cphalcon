@@ -26,12 +26,12 @@ class WithHrefCest
     {
         $I->wantToTest('Link\EvolvableLink - withHref()');
 
-        $href = 'https://dev.cardoe.ld';
+        $href = 'https://dev.phalcon.ld';
         $link = new EvolvableLink('payment', $href);
 
         $I->assertEquals($href, $link->getHref());
 
-        $href        = 'https://test.cardoe.ld';
+        $href        = 'https://test.phalcon.ld';
         $newInstance = $link->withHref($href);
 
         $I->assertNotSame($link, $newInstance);
