@@ -4866,7 +4866,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                                 ]
                             );
 
-                            if existingIntermediateModel instanceof ModelInterface {
+                            if existingIntermediateModel {
                                 let intermediateModel = existingIntermediateModel;
                             }
                         }
