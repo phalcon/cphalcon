@@ -8,6 +8,14 @@
   - Added `Phalcon\Html\Link\Serializer\Header`
   - Added `Phalcon\Html\Link\Serializer\SerializerInterface`
 - Added `Phalcon\Collection:getKeys` and `Phalcon\Collection\getValues` for getting data from the collection [#14507](https://github.com/phalcon/cphalcon/issues/14507)
+- Added has-one-through relations to `Phalcon\Mvc\Model` and `Phalcon\Mvc\Model\Manager` [#14511](https://github.com/phalcon/cphalcon/pull/14511)
+ - Added `Phalcon\Mvc\Model::hasOneThrough()`
+ - Added `Phalcon\Mvc\Model\Manager::addHasOneThrough()`
+ - Added `Phalcon\Mvc\Model\Manager::existsHasOneThrough()`
+ - Added `Phalcon\Mvc\Model\Manager::getHasOneThrough()`
+ - Added `Phalcon\Mvc\Model\ManagerInterface::addHasOneThrough()`
+ - Added `Phalcon\Mvc\Model\ManagerInterface::existsHasOneThrough()`
+ - Added `Phalcon\Mvc\Model\ManagerInterface::getHasOneThrough()`
 
 ## Changed
 - Changed `Phalcon\Paginator\Adapter\Model`
