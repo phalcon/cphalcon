@@ -55,6 +55,18 @@ interface ManagerInterface
     public function addHasOne(<ModelInterface> model, fields, string! referencedModel, referencedFields, options = null) -> <RelationInterface>;
 
     /**
+     * Setups a 1-1 relation between two models using an intermediate table
+     *
+     * @param    string fields
+     * @param    string intermediateFields
+     * @param    string intermediateReferencedFields
+     * @param    string referencedFields
+     * @param   array options
+     */
+    public function addHasOneThrough(<ModelInterface> model, var fields, string! intermediateModel,
+        var intermediateFields, var intermediateReferencedFields, string! referencedModel, var referencedFields, var options = null) -> <RelationInterface>;
+
+    /**
      * Setups a relation n-m between two models
      *
      * @param    string fields
@@ -99,6 +111,11 @@ interface ManagerInterface
      * Checks whether a model has a hasOne relation with another model
      */
     public function existsHasOne(string! modelName, string! modelRelation) -> bool;
+
+    /**
+     * Checks whether a model has a hasOneThrough relation with another model
+     */
+    public function existsHasOneThrough(string! modelName, string! modelRelation) -> bool;
 
     /**
      * Checks whether a model has a hasManyToMany relation with another model
@@ -148,12 +165,17 @@ interface ManagerInterface
     public function getHasOne(<ModelInterface> model) -> <RelationInterface[]> | array;
 
     /**
+     * Gets hasOneThrough relations defined on a model
+     */
+    public function getHasOneThrough(<ModelInterface> model) -> <RelationInterface[]> | array;
+
+    /**
      * Gets hasOne relations defined on a model
      */
     public function getHasOneAndHasMany(<ModelInterface> model) -> <RelationInterface[]>;
 
     /**
-     * Gets belongsTo related records from a model
+     * Gets hasOne related records from a model
      *
      * @param string            $modelName
      * @param string            $modelRelation
