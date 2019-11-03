@@ -4754,7 +4754,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                     connection->rollback(nesting);
 
                     throw new Exception(
-                        "Only objects/arrays can be stored as part of has-many/has-one/has-many-to-many relations"
+                        "Only objects/arrays can be stored as part of has-many/has-one/has-one-through/has-many-to-many relations"
                     );
                 }
 
