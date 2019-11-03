@@ -17,6 +17,7 @@ use Phalcon\Mvc\Model\ResultsetInterface;
 use Phalcon\Mvc\Model\ManagerInterface;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Events\EventsAwareInterface;
+use Phalcon\Mvc\Model\Query;
 use Phalcon\Mvc\Model\QueryInterface;
 use Phalcon\Mvc\Model\Query\Builder;
 use Phalcon\Mvc\Model\Query\BuilderInterface;
@@ -107,6 +108,16 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      * Has one relations by model
      */
     protected hasOneSingle = [];
+
+    /**
+     * Has one through relations
+     */
+    protected hasOneThrough = [];
+
+    /**
+     * Has one through relations by model
+     */
+    protected hasOneThroughSingle = [];
 
     /**
      * Mark initialized models
@@ -765,6 +776,125 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     }
 
     /**
+     * Setups a relation 1-1 between two models using an intermediate model
+     *
+     * @param    string fields
+     * @param    string intermediateFields
+     * @param    string intermediateReferencedFields
+     * @param    string referencedFields
+     * @param   array options
+     */
+    public function addHasOneThrough(<ModelInterface> model, var fields, string! intermediateModel,
+        var intermediateFields, var intermediateReferencedFields, string! referencedModel, var referencedFields, var options = null) -> <RelationInterface>
+    {
+        var entityName, referencedEntity, hasOneThrough, relation, relations,
+            alias, lowerAlias, singleRelations, intermediateEntity;
+        string keyRelation;
+
+        let entityName = get_class_lower(model),
+            intermediateEntity = strtolower(intermediateModel),
+            referencedEntity = strtolower(referencedModel),
+            keyRelation = entityName . "$" . referencedEntity;
+
+        let hasOneThrough = this->hasOneThrough;
+
+        if !fetch relations, hasOneThrough[keyRelation] {
+            let relations = [];
+        }
+
+        /**
+         * Check if the number of fields are the same from the model to the
+         * intermediate model
+         */
+        if typeof intermediateFields == "array" {
+            if unlikely count(fields) != count(intermediateFields) {
+                throw new Exception(
+                    "Number of referenced fields are not the same"
+                );
+            }
+        }
+
+        /**
+         * Check if the number of fields are the same from the intermediate
+         * model to the referenced model
+         */
+        if typeof intermediateReferencedFields == "array" {
+            if unlikely count(fields) != count(intermediateFields) {
+                throw new Exception(
+                    "Number of referenced fields are not the same"
+                );
+            }
+        }
+
+        /**
+         * Create a relationship instance
+         */
+        let relation = new Relation(
+            Relation::HAS_ONE_THROUGH,
+            referencedModel,
+            fields,
+            referencedFields,
+            options
+        );
+
+        /**
+         * Set extended intermediate relation data
+         */
+        relation->setIntermediateRelation(
+            intermediateFields,
+            intermediateModel,
+            intermediateReferencedFields
+        );
+
+        /**
+         * Check an alias for the relation
+         */
+        if fetch alias, options["alias"] {
+            if typeof alias != "string" {
+                throw new Exception("Relation alias must be a string");
+            }
+
+            let lowerAlias = strtolower(alias);
+        } else {
+            let lowerAlias = referencedEntity;
+        }
+
+        /**
+         * Append a new relationship
+         */
+        let relations[] = relation;
+
+        /**
+         * Update the global alias
+         */
+        let this->aliases[entityName . "$" . lowerAlias] = relation;
+
+        /**
+         * Update the relations
+         */
+        let this->hasOneThrough[keyRelation] = relations;
+
+        /**
+         * Get existing relations by model
+         */
+        if !fetch singleRelations, this->hasOneThroughSingle[entityName] {
+            let singleRelations = [];
+        }
+
+        /**
+         * Append a new relationship
+         */
+        let singleRelations[] = relation;
+
+        /**
+         * Update relations by model
+         */
+        let this->hasOneThroughSingle[entityName] = singleRelations;
+
+        return relation;
+    }
+
+    /**
      * Setup a relation reverse many to one between two models
      *
      * @param    array options
@@ -1131,6 +1261,31 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     }
 
     /**
+     * Checks whether a model has a hasOneThrough relation with another model
+     */
+    public function existsHasOneThrough(string! modelName, string! modelRelation) -> bool
+    {
+        var entityName;
+        string keyRelation;
+
+        let entityName = strtolower(modelName);
+
+        /**
+         * Relationship unique key
+         */
+        let keyRelation = entityName . "$" . strtolower(modelRelation);
+
+        /**
+         * Initialize the model first
+         */
+        if !isset this->initialized[entityName] {
+            this->load(modelName);
+        }
+
+        return isset this->hasOneThrough[keyRelation];
+    }
+
+    /**
      * Checks whether a model has a hasManyToMany relation with another model
      */
     public function existsHasManyToMany(string! modelName, string! modelRelation) -> bool
@@ -1243,7 +1398,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         var referencedModel, intermediateModel, intermediateFields, fields,
             builder, extraParameters, refPosition, field, referencedFields,
             findParams, findArguments, uniqueKey, records, arguments, rows,
-            firstRow;
+            firstRow, query;
         array placeholders, conditions, joinConditions;
         bool reusable;
         string retrieveMethod;
@@ -1331,9 +1486,19 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 
             /**
              * Get the query
-             * Execute the query
              */
-            return builder->getQuery()->execute();
+            let query = <QueryInterface> builder->getQuery();
+
+            switch relation->getType() {
+                case Relation::HAS_MANY_THROUGH:
+                    return query->execute();
+
+                case Relation::HAS_ONE_THROUGH:
+                    return query->setUniqueRow(true)->execute();
+
+                default:
+                    throw new Exception("Unknown relation type");
+            }
         }
 
         let conditions = [];
@@ -1607,6 +1772,20 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     }
 
     /**
+     * Gets hasOneThrough relations defined on a model
+     */
+    public function getHasOneThrough(<ModelInterface> model) -> <RelationInterface[]> | array
+    {
+        var relations;
+
+        if !fetch relations, this->hasOneThroughSingle[get_class_lower(model)] {
+            return [];
+        }
+
+        return relations;
+    }
+
+    /**
      * Gets hasManyToMany relations defined on a model
      */
     public function getHasManyToMany(<ModelInterface> model) -> <RelationInterface[]> | array
@@ -1670,6 +1849,15 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         }
 
         /**
+         * Get has-one-through relations
+         */
+        if fetch relations, this->hasOneThroughSingle[entityName] {
+            for relation in relations {
+                let allRelations[] = relation;
+            }
+        }
+
+        /**
          * Get many-to-many relations
          */
         if fetch relations, this->hasManyToMany[entityName] {
@@ -1709,6 +1897,13 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          * Check whether it's a has-one relationship
          */
         if fetch relations, this->hasOne[keyRelation] {
+            return relations;
+        }
+
+        /**
+         * Check whether it's a has-one-through relationship
+         */
+        if fetch relations, this->hasOneThrough[keyRelation] {
             return relations;
         }
 
