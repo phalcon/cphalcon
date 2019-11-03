@@ -4855,8 +4855,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                         );
 
                         /**
-                         *  Has-one-thorugh relations can only use one intermediate model.
-                         *  If it already exist, it can be updated with the new referenced keys.
+                         *  Has-one-through relations can only use one intermediate model.
+                         *  If it already exist, it can be updated with the new referenced key.
                          */
                         if relation->getType() == Relation::HAS_ONE_THROUGH {
                             let existingIntermediateModel = intermediateModel->findFirst(
