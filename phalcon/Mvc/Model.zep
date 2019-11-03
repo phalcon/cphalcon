@@ -347,9 +347,9 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 manager = this->getModelsManager();
 
             let relation = <RelationInterface> manager->getRelationByAlias(
-                    modelName,
-                    lowerProperty
-                );
+                modelName,
+                lowerProperty
+            );
 
             if typeof relation == "object" {
                 let dirtyState = this->dirtyState;
