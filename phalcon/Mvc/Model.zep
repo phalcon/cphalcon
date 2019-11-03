@@ -376,9 +376,9 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 manager = this->getModelsManager();
 
             let relation = <RelationInterface> manager->getRelationByAlias(
-                    modelName,
-                    lowerProperty
-                );
+                modelName,
+                lowerProperty
+            );
 
             if typeof relation == "object" {
                 switch relation->getType() {
@@ -388,8 +388,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                          * Load referenced model from local cache if its possible
                          */
                          let referencedModel = manager->load(
-                                relation->getReferencedModel()
-                            );
+                            relation->getReferencedModel()
+                        );
 
                         if typeof referencedModel == "object" {
                             referencedModel->assign(value);
@@ -4117,9 +4117,9 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             let queryMethod = "count";
 
             let relation = <RelationInterface> manager->getRelationByAlias(
-                    modelName,
-                    substr(method, 5)
-                );
+                modelName,
+                substr(method, 5)
+            );
 
             /**
              * If the relation was found perform the query via the models manager
