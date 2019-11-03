@@ -4850,7 +4850,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                         /**
                          * Create a new instance of the intermediate model
                          */
-                        let intermediateModel = manager->load(
+                        let intermediateModel = <ModelInterface> manager->load(
                             intermediateModelName
                         );
 
