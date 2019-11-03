@@ -5178,6 +5178,49 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     }
 
     /**
+     * Setup a 1-1 relation between two models, through an intermediate
+     * relation
+     *
+     *```php
+     * class Robots extends \Phalcon\Mvc\Model
+     * {
+     *     public function initialize()
+     *     {
+     *         // Setup a 1-1 relation to one item from Parts through RobotsParts
+     *         $this->hasOneThrough(
+     *             "id",
+     *             RobotsParts::class,
+     *             "robots_id",
+     *             "parts_id",
+     *             Parts::class,
+     *             "id",
+     *         );
+     *     }
+     * }
+     *```
+     *
+     * @param    string|array fields
+     * @param    string|array intermediateFields
+     * @param    string|array intermediateReferencedFields
+     * @param    string|array referencedFields
+     * @param    array options
+     */
+    protected function hasOneThrough(var fields, string! intermediateModel, var intermediateFields, var intermediateReferencedFields,
+        string! referenceModel, var referencedFields, options = null) -> <Relation>
+    {
+        return (<ManagerInterface> this->modelsManager)->addHasOneThrough(
+            this,
+            fields,
+            intermediateModel,
+            intermediateFields,
+            intermediateReferencedFields,
+            referenceModel,
+            referencedFields,
+            options
+        );
+    }
+
+    /**
      * Sets if the model must keep the original record snapshot in memory
      *
      *```php
