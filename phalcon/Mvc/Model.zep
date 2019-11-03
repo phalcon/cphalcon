@@ -4827,7 +4827,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                             if typeof message == "object" {
                                 message->setMetaData(
                                     [
-                                        "model": record
+                                        "model": recordAfter
                                     ]
                                 );
                             }
@@ -4891,7 +4891,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                                 if typeof message == "object" {
                                     message->setMetaData(
                                         [
-                                            "model": record
+                                            "model": intermediateModel
                                         ]
                                     );
                                 }
