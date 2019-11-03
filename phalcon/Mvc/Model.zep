@@ -4725,7 +4725,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             columns, referencedModel, referencedFields, relatedRecords, value,
             recordAfter, intermediateModel, intermediateFields,
             intermediateValue, intermediateModelName,
-            intermediateReferencedFields;
+            intermediateReferencedFields, existingIntermediateModel;
         bool isThrough;
 
         let nesting = false,
@@ -4853,6 +4853,23 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                         let intermediateModel = <ModelInterface> manager->load(
                             intermediateModelName
                         );
+
+                        /**
+                         *  Has-one-thorugh relations can only use one intermediate model.
+                         *  If it already exist, it can be updated with the new referenced keys.
+                         */
+                        if relation->getType() == Relation::HAS_ONE_THROUGH {
+                            let existingIntermediateModel = intermediateModel->findFirst(
+                                [
+                                    "[" . intermediateFields . "] = ?0",
+                                    "bind": [value]
+                                ]
+                            );
+
+                            if existingIntermediateModel instanceof ModelInterface {
+                                let intermediateModel = existingIntermediateModel;
+                            }
+                        }
 
                         /**
                          * Write value in the intermediate model
