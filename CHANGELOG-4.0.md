@@ -1,7 +1,19 @@
-# [4.0.0-rc.r3](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-rc.2) (2019-XX-XX)
+# [4.0.0-rc.r3](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-rc.3) (2019-XX-XX)
 ## Added
+- Added support for [PSR-13](https://www.php-fig.org/psr/psr-13/) links and evolvable links [#14507](https://github.com/phalcon/cphalcon/issues/14507)
+  - Added `Phalcon\Html\Link\Link`
+  - Added `Phalcon\Html\Link\LinkProvider`
+  - Added `Phalcon\Html\Link\EvolvableLink`
+  - Added `Phalcon\Html\Link\EvolvableLinkProvider`
+  - Added `Phalcon\Html\Link\Serializer\Header`
+  - Added `Phalcon\Html\Link\Serializer\SerializerInterface`
+- Added `Phalcon\Collection:getKeys` and `Phalcon\Collection\getValues` for getting data from the collection [#14507](https://github.com/phalcon/cphalcon/issues/14507)
 
 ## Changed
+- Changed `Phalcon\Paginator\Adapter\Model`
+  - Removed the `data` parameter
+  - Added `model` parameter to pass model class
+  - Added optional parameter `parameters` which is used as the parameter `Model::find()`
 
 ## Fixed
 - Fixed `Phalcon\Annotations\AnnotationsFactory:newInstance` to return the correct object back [#14494](https://github.com/phalcon/cphalcon/pull/14494)
@@ -11,8 +23,11 @@
   - `Phalcon\Logger\LoggerFactory::load()` now returns `Phalcon\Logger`
   - `Phalcon\Validation\ValidatorFactory::newInstance` now returns `Phalcon\Factory\ValidatorInterface`
 - Fixed `Phalcon\Di\Injectable::__get()` to return shared instance by default [#14491](https://github.com/phalcon/cphalcon/issues/14491)
-- Fixed `Phalcon\Mvc\View::loadTemplateEngines()` to not share engine with other views by default [#14491](https://github.com/phalcon/cphalcon/issues/14491)  
-  
+- Fixed `Phalcon\Mvc\View::loadTemplateEngines()` to not share engine with other views by default [#14491](https://github.com/phalcon/cphalcon/issues/14491)
+- Fixed `Phalcon\Container:get` to use `getShared` transparently [#14502](https://github.com/phalcon/cphalcon/pull/14502)
+- Fixed `Phalcon\Mvc\Model` to include correct model instances in messages metadata [#14510](https://github.com/phalcon/cphalcon/pull/14502)
+
+>>>>>>> upstream/4.0.x
 ## Removed
 
 # [4.0.0-rc.2](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-rc.2) (2019-10-26)
