@@ -32,7 +32,7 @@ class GetDICest
         Di::reset();
         $di= new Di();
         // Injection of parameters in the constructor
-        $di->set('std', function() {
+        $di->set('std', function () {
             return new \stdClass();
         });
         $di->set('component', InjectableComponent::class);
