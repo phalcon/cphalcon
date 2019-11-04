@@ -27,7 +27,6 @@
 - Fixed `Phalcon\Container:get` to use `getShared` transparently [#14502](https://github.com/phalcon/cphalcon/pull/14502)
 - Fixed `Phalcon\Mvc\Model` to include correct model instances in messages metadata [#14510](https://github.com/phalcon/cphalcon/pull/14502)
 
->>>>>>> upstream/4.0.x
 ## Removed
 
 # [4.0.0-rc.2](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-rc.2) (2019-10-26)
