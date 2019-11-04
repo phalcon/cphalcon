@@ -32,6 +32,8 @@
   - `Phalcon\Validation\ValidatorFactory::newInstance` now returns `Phalcon\Factory\ValidatorInterface`
 - Fixed `Phalcon\Container:get` to use `getShared` transparently [#14502](https://github.com/phalcon/cphalcon/pull/14502)
 - Fixed `Phalcon\Mvc\Model` to include correct model instances in messages metadata [#14510](https://github.com/phalcon/cphalcon/pull/14502)
+- Fixed `Phalcon\Di\Injectable::__get()` to return shared instance by default [#14491](https://github.com/phalcon/cphalcon/issues/14491)
+- Fixed `Phalcon\Mvc\View::loadTemplateEngines()` to not share engine with other views by default [#14491](https://github.com/phalcon/cphalcon/issues/14491)
 
 ## Removed
 
