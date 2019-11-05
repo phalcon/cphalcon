@@ -1860,7 +1860,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         /**
          * Get many-to-many relations
          */
-        if fetch relations, this->hasManyToMany[entityName] {
+        if fetch relations, this->hasManyToManySingle[entityName] {
             for relation in relations {
                 let allRelations[] = relation;
             }
@@ -1904,6 +1904,13 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
          * Check whether it's a has-one-through relationship
          */
         if fetch relations, this->hasOneThrough[keyRelation] {
+            return relations;
+        }
+
+        /**
+        * Check whether it's a has-many-to-many relationship
+        */
+        if fetch relations, this->hasManyToMany[keyRelation] {
             return relations;
         }
 
