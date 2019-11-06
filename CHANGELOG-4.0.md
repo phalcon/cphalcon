@@ -35,6 +35,7 @@
 - Fixed `Phalcon\Di\Injectable::__get()` to return shared instance by default [#14491](https://github.com/phalcon/cphalcon/issues/14491)
 - Fixed `Phalcon\Mvc\View::loadTemplateEngines()` to not share engine with other views by default [#14491](https://github.com/phalcon/cphalcon/issues/14491)
 - Fixed `Phalcon\Mvc\Model\Manager::getRelations()` and `getRelationsBetween()` to return many-to-many relations correctly [#14509](https://github.com/phalcon/cphalcon/pull/14509)
+- Fixed `Phalcon\Logger` to correctly allow transactional logging [#14514](https://github.com/phalcon/cphalcon/issues/14514)
 
 ## Removed
 
