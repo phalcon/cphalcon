@@ -36,6 +36,7 @@
 - Fixed `Phalcon\Mvc\View::loadTemplateEngines()` to not share engine with other views by default [#14491](https://github.com/phalcon/cphalcon/issues/14491)
 - Fixed `Phalcon\Mvc\Model\Manager::getRelations()` and `getRelationsBetween()` to return many-to-many relations correctly [#14509](https://github.com/phalcon/cphalcon/pull/14509)
 - Fixed `Phalcon\Logger` to correctly allow transactional logging [#14514](https://github.com/phalcon/cphalcon/issues/14514)
+- Fixed `Phalcon\Annotations\Adapter\Stream::read` and `Phalcon\Annotations\Adapter\Stream::write` to use `serialize`/`unserialize` vs. `var_export` [#14515](https://github.com/phalcon/cphalcon/issues/14515)
 
 ## Removed
 
