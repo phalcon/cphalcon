@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Annotations\Adapter\Stream;
 
-use Phalcon\Annotations\Adapter\Stream;
 use Phalcon\Annotations\Adapter\AdapterInterface;
+use Phalcon\Annotations\Adapter\Stream;
 use UnitTester;
 use function outputDir;
 

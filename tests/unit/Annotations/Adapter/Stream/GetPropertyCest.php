@@ -16,7 +16,6 @@ use Phalcon\Annotations\Adapter\Stream;
 use Phalcon\Annotations\Collection;
 use TestClass;
 use UnitTester;
-use function array_keys;
 use function dataDir;
 use function outputDir;
 

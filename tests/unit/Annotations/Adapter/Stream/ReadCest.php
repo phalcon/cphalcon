@@ -12,8 +12,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Annotations\Adapter\Stream;
 
-use Phalcon\Annotations\Reflection;
 use Phalcon\Annotations\Adapter\Stream;
+use Phalcon\Annotations\Reflection;
 use TestClass;
 use UnitTester;
 use function dataDir;
