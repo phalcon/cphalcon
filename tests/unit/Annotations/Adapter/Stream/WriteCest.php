@@ -12,7 +12,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Annotations\Adapter\Stream;
 
+use Phalcon\Annotations\Adapter\Stream;
+use TestClass;
 use UnitTester;
+use function dataDir;
+use function outputDir;
 
 class WriteCest
 {
@@ -26,6 +30,26 @@ class WriteCest
     {
         $I->wantToTest('Annotations\Adapter\Stream - write()');
 
-        $I->skipTest('Need implementation');
+        require_once dataDir('fixtures/Annotations/TestClass.php');
+
+        $adapter = new Stream(
+            [
+                'annotationsDir' => outputDir('tests/annotations/'),
+            ]
+        );
+
+
+        $classAnnotations = $adapter->get(
+            TestClass::class
+        );
+
+        $adapter->write('testwrite', $classAnnotations);
+
+        $I->assertFileExists(
+            outputDir('tests/annotations/testclass.php')
+        );
+
+        $I->safeDeleteFile('testwrite.php');
+        $I->safeDeleteFile('testclass.php');
     }
 }
