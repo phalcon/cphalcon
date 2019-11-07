@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Config\Adapter\Grouped;
 
+use Phalcon\Config;
 use Phalcon\Config\Adapter\Grouped;
 use Phalcon\Config\Exception;
 use Phalcon\Test\Fixtures\Traits\ConfigTrait;
@@ -35,6 +36,7 @@ class ConstructCest
         $I->wantToTest("Config\Adapter\Grouped - construct - complex instance");
 
         $this->config['test']['property2'] = 'something-else';
+        $this->config['test']['property'] = 'blah';
 
         $config = [
             dataDir('assets/config/config.php'),
@@ -50,6 +52,14 @@ class ConstructCest
                     ],
                 ],
             ],
+            [
+                'adapter' => 'config',
+                'config' => new Config([
+                    'test' => [
+                        'property' => 'blah'
+                    ]
+                ]),
+            ]
         ];
 
         foreach ([[], ['']] as $parameters) {
@@ -120,5 +130,25 @@ class ConstructCest
                 );
             }
         );
+    }
+
+    /**
+     * Tests Phalcon\Config\Adapter\Grouped :: __construct() - exception
+     *
+     * @author Fenikkusu
+     * @since  2017-06-06
+     */
+    public function configAdapterGroupedConstructThrowsConfigException(UnitTester $I)
+    {
+        $I->wantToTest("Config\Adapter\Grouped - construct config without config throws exception");
+
+        $I->expectThrowable(new Exception("To use 'config' adapter you have to specify the 'config' as a Phalcon\\Config instance."),
+            function () {
+                new Grouped([
+                        [
+                            'adapter' => 'array',
+                        ],
+                    ]);
+            });
     }
 }

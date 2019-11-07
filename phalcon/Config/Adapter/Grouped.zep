@@ -108,6 +108,15 @@ class Grouped extends Config
 
                 let configArray    = configInstance["config"],
                     configInstance = new Config(configArray);
+            } elseif "config" === configInstance["adapter"] {
+                if !isset configInstance["config"] {
+                    throw new Exception(
+                        "To use 'config' adapter you have to specify " .
+                        "the 'config' as a Phalcon\\Config instance."
+                    );
+                }
+
+                let configInstance = configInstance["config"];
             } else {
                 let configInstance = (new ConfigFactory())->load(configInstance);
             }
