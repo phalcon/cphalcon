@@ -142,11 +142,11 @@ class ConstructCest
     {
         $I->wantToTest("Config\Adapter\Grouped - construct config without config throws exception");
 
-        $I->expectThrowable(new Exception("To use 'config' adapter you have to specify the 'config' as a Phalcon\\Config instance."),
+        $I->expectThrowable(new Exception("To use 'config' adapter you have to specify the 'config' as a Phalcon\Config instance."),
             function () {
                 new Grouped([
                         [
-                            'adapter' => 'array',
+                            'adapter' => 'config',
                         ],
                     ]);
             });
