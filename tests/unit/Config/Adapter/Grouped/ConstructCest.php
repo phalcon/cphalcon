@@ -133,24 +133,4 @@ class ConstructCest
             }
         );
     }
-
-    /**
-     * Tests Phalcon\Config\Adapter\Grouped :: __construct() - exception
-     *
-     * @author Fenikkusu
-     * @since  2017-06-06
-     */
-    public function configAdapterGroupedConstructThrowsConfigException(UnitTester $I)
-    {
-        $I->wantToTest("Config\Adapter\Grouped - construct config without config throws exception");
-
-        $I->expectThrowable(new Exception("To use 'config' adapter you have to specify the 'config' as a Phalcon\Config instance."),
-            function () {
-                new Grouped([
-                        [
-                            'adapter' => 'config',
-                        ],
-                    ]);
-            });
-    }
 }
