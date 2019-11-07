@@ -23,113 +23,32 @@ class HasFilesCest extends HttpBase
      *
      * @author       Serghei Iakovelv <serghei@phalcon.io>
      * @since        2016-01-31
-     *
-     * @dataProvider filesProvider
      */
-    public function testRequestHasFiles(UnitTester $I, Example $example)
+    public function testRequestHasFiles(UnitTester $I)
     {
-        $files          = $example[0];
-        $all            = $example[1];
-        $onlySuccessful = $example[2];
+        $existing = $_FILES ?? [];
 
         $request = $this->getRequestObject();
-        $_FILES  = $files;
+        $_FILES   = [];
 
-        $I->assertEquals(
-            $all,
-            $request->hasFiles(false)
+        $I->assertFalse(
+            $request->hasFiles()
         );
 
-        $I->assertEquals(
-            $onlySuccessful,
-            $request->hasFiles(true)
-        );
-    }
-
-    private function filesProvider(): array
-    {
-        return [
-            [
-                [
-                    'test' => [
-                        'name'     => 'name',
-                        'type'     => 'text/plain',
-                        'size'     => 1,
-                        'tmp_name' => 'tmp_name',
-                        'error'    => 0,
-                    ],
-                ],
-                1,
-                1,
-            ],
-            [
-                [
-                    'test' => [
-                        'name'     => ['name1', 'name2'],
-                        'type'     => ['text/plain', 'text/plain'],
-                        'size'     => [1, 1],
-                        'tmp_name' => ['tmp_name1', 'tmp_name2'],
-                        'error'    => [0, 0],
-                    ],
-                ],
-                2,
-                2,
-            ],
-            [
-                [
-                    'photo' => [
-                        'name'     => [
-                            0 => '',
-                            1 => '',
-                            2 => [0 => '', 1 => '', 2 => ''],
-                            3 => [0 => ''],
-                            4 => [0 => [0 => '']],
-                            5 => [0 => [0 => [0 => [0 => '']]]],
-                        ],
-                        'type'     => [
-                            0 => '',
-                            1 => '',
-                            2 => [0 => '', 1 => '', 2 => ''],
-                            3 => [0 => ''],
-                            4 => [0 => [0 => '']],
-                            5 => [0 => [0 => [0 => [0 => '']]]],
-                        ],
-                        'tmp_name' => [
-                            0 => '',
-                            1 => '',
-                            2 => [0 => '', 1 => '', 2 => ''],
-                            3 => [0 => ''],
-                            4 => [0 => [0 => '']],
-                            5 => [0 => [0 => [0 => [0 => '']]]],
-                        ],
-                        'error'    => [
-                            0 => 4,
-                            1 => 4,
-                            2 => [0 => 4, 1 => 4, 2 => 4],
-                            3 => [0 => 4],
-                            4 => [0 => [0 => 4]],
-                            5 => [0 => [0 => [0 => [0 => 4]]]],
-                        ],
-                        'size'     => [
-                            0 => '',
-                            1 => '',
-                            2 => [0 => '', 1 => '', 2 => ''],
-                            3 => [0 => ''],
-                            4 => [0 => [0 => '']],
-                            5 => [0 => [0 => [0 => [0 => '']]]],
-                        ],
-                    ],
-                    'test'  => [
-                        'name'     => '',
-                        'type'     => '',
-                        'tmp_name' => '',
-                        'error'    => 4,
-                        'size'     => 0,
-                    ],
-                ],
-                9,
-                0,
+        $_FILES = [
+            'test' => [
+                'name'     => 'name',
+                'type'     => 'text/plain',
+                'size'     => 1,
+                'tmp_name' => 'tmp_name',
+                'error'    => 0,
             ],
         ];
+
+        $I->assertTrue(
+            $request->hasFiles()
+        );
+
+        $_FILES = $existing;
     }
 }
