@@ -16,6 +16,7 @@
  - Added `Phalcon\Mvc\Model\ManagerInterface::addHasOneThrough()`
  - Added `Phalcon\Mvc\Model\ManagerInterface::existsHasOneThrough()`
  - Added `Phalcon\Mvc\Model\ManagerInterface::getHasOneThrough()`
+ - Added `Phalcon\Http\Request::numFiles` to return the number of files in the request [#14519](https://github.com/phalcon/cphalcon/issues/14519)
 
 ## Changed
 - Changed `Phalcon\Paginator\Adapter\Model`
@@ -37,6 +38,7 @@
 - Fixed `Phalcon\Mvc\Model\Manager::getRelations()` and `getRelationsBetween()` to return many-to-many relations correctly [#14509](https://github.com/phalcon/cphalcon/pull/14509)
 - Fixed `Phalcon\Logger` to correctly allow transactional logging [#14514](https://github.com/phalcon/cphalcon/issues/14514)
 - Fixed `Phalcon\Annotations\Adapter\Stream::read` and `Phalcon\Annotations\Adapter\Stream::write` to use `serialize`/`unserialize` vs. `var_export` [#14515](https://github.com/phalcon/cphalcon/issues/14515)
+- Fixed `Phalcon\Http\Request::hasFiles` to return boolean and `true` if files are present [#14519](https://github.com/phalcon/cphalcon/issues/14519)
 
 ## Removed
 
