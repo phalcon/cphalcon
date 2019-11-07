@@ -81,7 +81,7 @@ class Grouped extends Config
             let configInstance = configName;
 
             // Set to default adapter if passed as string
-            if typeof configName === "Phalcon\\Config" {
+            if configName instanceof "Phalcon\\Config" {
                 this->merge(configInstance);
                 continue;
             } elseif typeof configName === "string" {
