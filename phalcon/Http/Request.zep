@@ -855,7 +855,7 @@ class Request extends AbstractInjectionAware implements RequestInterface
         if null === requestURI {
             return "";
         }
-        
+
         if onlyPath {
             let requestURI = explode('?', requestURI)[0];
         }
@@ -887,39 +887,11 @@ class Request extends AbstractInjectionAware implements RequestInterface
     }
 
     /**
-     * Returns the number of files available
-     *
-     * TODO: Check this
+     * Returns if the request has files or not
      */
-    public function hasFiles(bool onlySuccessful = false) -> long
+    public function hasFiles() -> bool
     {
-        var files, file, error;
-        int numberFiles = 0;
-
-        let files = _FILES;
-
-        if typeof files != "array" {
-            return 0;
-        }
-
-        for file in files {
-            if fetch error, file["error"] {
-                if typeof error != "array" {
-                    if !error || !onlySuccessful {
-                        let numberFiles++;
-                    }
-                }
-
-                if typeof error == "array" {
-                    let numberFiles += this->hasFileHelper(
-                        error,
-                        onlySuccessful
-                    );
-                }
-            }
-        }
-
-        return numberFiles;
+        return this->numFiles(true) > 0;
     }
 
     /**
@@ -1164,6 +1136,40 @@ class Request extends AbstractInjectionAware implements RequestInterface
         }
 
         return false;
+    }
+
+    /**
+     * Returns the number of files available
+     */
+    public function numFiles(bool onlySuccessful = false) -> long
+    {
+        var files, file, error;
+        int numberFiles = 0;
+
+        let files = _FILES;
+
+        if typeof files != "array" {
+            return 0;
+        }
+
+        for file in files {
+            if fetch error, file["error"] {
+                if typeof error != "array" {
+                    if !error || !onlySuccessful {
+                        let numberFiles++;
+                    }
+                }
+
+                if typeof error == "array" {
+                    let numberFiles += this->hasFileHelper(
+                        error,
+                        onlySuccessful
+                    );
+                }
+            }
+        }
+
+        return numberFiles;
     }
 
     /**
