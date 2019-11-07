@@ -21,8 +21,8 @@ class NumFilesCest extends HttpBase
     /**
      * Tests Request::numFiles
      *
-     * @author       Serghei Iakovelv <serghei@phalcon.io>
-     * @since        2016-01-31
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-11-07
      *
      * @dataProvider filesProvider
      */
@@ -37,12 +37,12 @@ class NumFilesCest extends HttpBase
 
         $I->assertEquals(
             $all,
-            $request->hasFiles(false)
+            $request->numFiles(false)
         );
 
         $I->assertEquals(
             $onlySuccessful,
-            $request->hasFiles(true)
+            $request->numFiles(true)
         );
     }
 
