@@ -57,14 +57,11 @@ class ConstructCest
                     ],
                 ],
             ],
-            [
-                'adapter' => 'config',
-                'config' => new Config([
-                    'test' => [
-                        'property' => 'blah'
-                    ]
-                ]),
-            ]
+            new Config([
+                'test' => [
+                    'property' => 'blah'
+                ]
+            ]),
         ];
 
         foreach ([[], ['']] as $parameters) {
