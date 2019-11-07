@@ -341,7 +341,7 @@ class RequestCest extends HttpBase
      *
      * @test
      * @issue  https://github.com/phalcon/cphalcon/issues/12478
-     * @author       Serghei Iakovelv <serghei@phalcon.io>
+     * @author       Phalcon Team <team@phalcon.io>
      * @since        2016-12-18
      *
      * @dataProvider overridenMethodProvider
@@ -641,7 +641,7 @@ class RequestCest extends HttpBase
     /**
      * Tests uploaded files
      *
-     * @author Serghei Iakovelv <serghei@phalcon.io>
+     * @author Phalcon Team <team@phalcon.io>
      * @since  2016-01-31
      */
     public function testGetUploadedFiles(UnitTester $I)

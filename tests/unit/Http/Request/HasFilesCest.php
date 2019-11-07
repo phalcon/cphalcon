@@ -21,7 +21,7 @@ class HasFilesCest extends HttpBase
     /**
      * Tests Request::hasFiles
      *
-     * @author       Serghei Iakovelv <serghei@phalcon.io>
+     * @author       Phalcon Team <team@phalcon.io>
      * @since        2016-01-31
      */
     public function testRequestHasFiles(UnitTester $I)
