@@ -24,6 +24,11 @@ use function dataDir;
 class ConstructCest
 {
     use ConfigTrait;
+    
+    public function _after()
+    {
+        unset($this->config['test']['property']); //Removing Extra Property
+    }
 
     /**
      * Tests Phalcon\Config\Adapter\Grouped :: __construct() - complex instance
