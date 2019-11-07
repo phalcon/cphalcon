@@ -81,7 +81,10 @@ class Grouped extends Config
             let configInstance = configName;
 
             // Set to default adapter if passed as string
-            if typeof configName === "string" {
+            if typeof configName === "Phalcon\\Config" {
+                this->merge(configInstance);
+                continue;
+            } elseif typeof configName === "string" {
                 if "" === defaultAdapter {
                     this->merge(
                         (new ConfigFactory())->load(configName)
@@ -108,15 +111,6 @@ class Grouped extends Config
 
                 let configArray    = configInstance["config"],
                     configInstance = new Config(configArray);
-            } elseif "config" === configInstance["adapter"] {
-                if !isset configInstance["config"] {
-                    throw new Exception(
-                        "To use 'config' adapter you have to specify " .
-                        "the 'config' as a Phalcon\\Config instance."
-                    );
-                }
-
-                let configInstance = configInstance["config"];
             } else {
                 let configInstance = (new ConfigFactory())->load(configInstance);
             }
