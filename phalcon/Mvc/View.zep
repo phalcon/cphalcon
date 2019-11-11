@@ -976,7 +976,8 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
                     if typeof eventsManager == "object" {
                         eventsManager->fire("view:afterRenderView", this);
                     }
-                    break;
+
+                    return;
                 }
 
                 let viewEnginePaths[] = viewEnginePath;
