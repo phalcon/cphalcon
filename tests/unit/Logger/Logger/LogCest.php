@@ -13,9 +13,12 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Logger\Logger;
 
 use Phalcon\Logger\Adapter\Stream;
+use Phalcon\Logger\Adapter\Syslog;
 use Phalcon\Logger;
 use UnitTester;
 use function date;
+use function fread;
+use function logsDir;
 use function sprintf;
 
 class LogCest
@@ -158,5 +161,24 @@ class LogCest
         }
 
         $I->safeDeleteFile($fileName);
+    }
+
+    /**
+     * Tests Phalcon\Logger :: log()
+     */
+    public function loggerLogSyslog(UnitTester $I)
+    {
+        $I->wantToTest('Logger - log() - syslog');
+
+        $adapter  = new Syslog("php:://memory");
+
+        $logger = new Logger(
+            'my-logger',
+            [
+                'one' => $adapter,
+            ]
+        );
+
+        $logger->log(Logger::ERROR, 'Message Error');
     }
 }
