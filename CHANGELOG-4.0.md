@@ -40,6 +40,8 @@
 - Fixed `Phalcon\Annotations\Adapter\Stream::read` and `Phalcon\Annotations\Adapter\Stream::write` to use `serialize`/`unserialize` vs. `var_export` [#14515](https://github.com/phalcon/cphalcon/issues/14515)
 - Fixed `Phalcon\Http\Request::hasFiles` to return boolean and `true` if files are present [#14519](https://github.com/phalcon/cphalcon/issues/14519)
 - Fixed `Phalcon\Logger\Adapter\Syslog` to correctly log Syslog messages [#14523](https://github.com/phalcon/cphalcon/issues/14523)
+- Fixed `Phalcon\Storage\Serializer\Json` to serialize objects that implement the `JsonSerializable` interface [#14528](https://github.com/phalcon/cphalcon/issues/14528) 
+- Fixed `Phalcon\Collection` to correctly return one level nested objects that implement `JsonSerializable` [#14528](https://github.com/phalcon/cphalcon/issues/14528)
 
 ## Removed
 - Removedd `Phalcon\Logger\Formatter\Syslog` - really did not do much [#14523](https://github.com/phalcon/cphalcon/issues/14523)
