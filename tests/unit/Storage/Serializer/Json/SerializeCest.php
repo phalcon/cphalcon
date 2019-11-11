@@ -14,8 +14,11 @@ namespace Phalcon\Test\Unit\Storage\Serializer\Json;
 
 use Codeception\Example;
 use InvalidArgumentException;
+use Phalcon\Collection;
 use Phalcon\Storage\Serializer\Json;
 use UnitTester;
+use function json_decode;
+use function json_encode;
 
 class SerializeCest
 {
@@ -38,6 +41,35 @@ class SerializeCest
     }
 
     /**
+     * Tests Phalcon\Storage\Serializer\Json :: serialize() - object
+     *
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2019-11-11
+     */
+    public function storageSerializerJsonSerializeObject(UnitTester $I)
+    {
+        $I->wantToTest('Storage\Serializer\Json - serialize() - object');
+
+        $collection1 = new Collection();
+        $collection1->set('one', 'two');
+        $collection2 = new Collection();
+        $collection2->set('three', 'four');
+        $collection2->set('object', $collection1);
+
+        $serializer = new Json($collection2);
+
+        $data = [
+            'three'  => 'four',
+            'object' => [
+                'one' => 'two',
+            ],
+        ];
+        $expected = json_encode($data);
+        $actual   = $serializer->serialize();
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
      * Tests Phalcon\Storage\Serializer\Json :: serialize() - error
      *
      * @author       Phalcon Team <team@phalcon.io>
@@ -49,7 +81,7 @@ class SerializeCest
 
         $I->expectThrowable(
             new InvalidArgumentException(
-                'Data for JSON serializer cannot be of type object'
+                'Data for JSON serializer cannot be of type object without implementing JsonSerializable'
             ),
             function () {
                 $example = new \stdClass();
@@ -61,6 +93,9 @@ class SerializeCest
         );
     }
 
+    /**
+     * @return array
+     */
     private function getExamples(): array
     {
         return [
