@@ -39,7 +39,8 @@
 - Fixed `Phalcon\Logger` to correctly allow transactional logging [#14514](https://github.com/phalcon/cphalcon/issues/14514)
 - Fixed `Phalcon\Annotations\Adapter\Stream::read` and `Phalcon\Annotations\Adapter\Stream::write` to use `serialize`/`unserialize` vs. `var_export` [#14515](https://github.com/phalcon/cphalcon/issues/14515)
 - Fixed `Phalcon\Http\Request::hasFiles` to return boolean and `true` if files are present [#14519](https://github.com/phalcon/cphalcon/issues/14519)
-- Fixed `Phalcon\Logger\Adapter\Syslog` to correctly log Syslog messages [#14523](https://github.com/phalcon/cphalcon/issues/14523)
+- Fixed `Phalcon\Logger\Adapter\Syslog` to correctly log Syslog messages [#14522](https://github.com/phalcon/cphalcon/issues/14522)
+- Fixed `Phalcon\Mvc\Model\MetaDataInterface::getIdentityField` and `Phalcon\Mvc\Model\MetaData::getIdentityField` to also return `null` if the identity field is not present [#14523](https://github.com/phalcon/cphalcon/issues/14523) 
 - Fixed `Phalcon\Storage\Serializer\Json` to serialize objects that implement the `JsonSerializable` interface [#14528](https://github.com/phalcon/cphalcon/issues/14528) 
 - Fixed `Phalcon\Collection` to correctly return one level nested objects that implement `JsonSerializable` [#14528](https://github.com/phalcon/cphalcon/issues/14528)
 

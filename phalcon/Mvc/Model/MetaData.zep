@@ -319,7 +319,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      * );
      *```
      */
-    public function getIdentityField(<ModelInterface> model) -> string
+    public function getIdentityField(<ModelInterface> model) -> string | null
     {
         return this->readMetaDataIndex(model, self::MODELS_IDENTITY_COLUMN);
     }

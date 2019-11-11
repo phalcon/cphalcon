@@ -68,7 +68,7 @@ interface MetaDataInterface
     /**
      * Returns the name of identity field (if one is present)
      */
-    public function getIdentityField(<ModelInterface> model) -> string;
+    public function getIdentityField(<ModelInterface> model) -> string | null;
 
     /**
      * Returns an array of fields which are not part of the primary key
