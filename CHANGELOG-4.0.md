@@ -44,7 +44,7 @@
 - Fixed `Phalcon\Collection` to correctly return one level nested objects that implement `JsonSerializable` [#14528](https://github.com/phalcon/cphalcon/issues/14528)
 
 ## Removed
-- Removedd `Phalcon\Logger\Formatter\Syslog` - really did not do much [#14523](https://github.com/phalcon/cphalcon/issues/14523)
+- Removed `Phalcon\Logger\Formatter\Syslog` - really did not do much [#14523](https://github.com/phalcon/cphalcon/issues/14523)
 
 # [4.0.0-rc.2](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-rc.2) (2019-10-26)
 ## Added
