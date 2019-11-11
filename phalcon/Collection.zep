@@ -191,7 +191,20 @@ class Collection implements
      */
     public function jsonSerialize() -> array
     {
-        return this->data;
+        var key, value;
+        array records;
+
+        let records = [];
+
+        for key, value in this->data {
+            if typeof value == "object" && method_exists(value, "jsonSerialize") {
+                let records[key] = value->{"jsonSerialize"}();
+            } else {
+                let records[key] = value;
+            }
+        }
+
+        return records;
     }
 
     /**

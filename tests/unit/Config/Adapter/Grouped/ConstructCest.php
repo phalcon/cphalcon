@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Config\Adapter\Grouped;
 
+use Phalcon\Config;
 use Phalcon\Config\Adapter\Grouped;
 use Phalcon\Config\Exception;
 use Phalcon\Test\Fixtures\Traits\ConfigTrait;
@@ -23,6 +24,11 @@ use function dataDir;
 class ConstructCest
 {
     use ConfigTrait;
+    
+    public function _after()
+    {
+        unset($this->config['test']['property']); //Removing Extra Property
+    }
 
     /**
      * Tests Phalcon\Config\Adapter\Grouped :: __construct() - complex instance
@@ -35,6 +41,7 @@ class ConstructCest
         $I->wantToTest("Config\Adapter\Grouped - construct - complex instance");
 
         $this->config['test']['property2'] = 'something-else';
+        $this->config['test']['property'] = 'blah';
 
         $config = [
             dataDir('assets/config/config.php'),
@@ -50,6 +57,11 @@ class ConstructCest
                     ],
                 ],
             ],
+            new Config([
+                'test' => [
+                    'property' => 'blah'
+                ]
+            ]),
         ];
 
         foreach ([[], ['']] as $parameters) {
