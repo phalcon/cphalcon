@@ -12,6 +12,7 @@
 namespace Phalcon\Test\Models;
 
 use Phalcon\Mvc\Model;
+use function getenv;
 
 class InvoicesSchema extends Model
 {
@@ -25,6 +26,8 @@ class InvoicesSchema extends Model
     public function initialize()
     {
         $this->setSource('co_invoices');
-        $this->setSchema('gonano');
+        $this->setSchema(
+            getenv('DATA_MYSQL_NAME')
+        );
     }
 }
