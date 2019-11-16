@@ -3436,26 +3436,23 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     protected function _doLowInsert(<MetaDataInterface> metaData, <AdapterInterface> connection,
         table, identityField) -> bool
     {
-        var bindSkip, fields, values, bindTypes, attributes, bindDataTypes,
-            automaticAttributes, field, columnMap, value, attributeField,
-            success, bindType, defaultValue, sequenceName, defaultValues,
-            unsetDefaultValues, source, schema, snapshot, lastInsertedId,
-            manager;
+        var attributeField, attributes, automaticAttributes, bindDataTypes,
+            bindSkip, bindType, bindTypes, columnMap, defaultValue, defaultValues,
+            field, fields, lastInsertedId, manager, sequenceName, schema,
+            snapshot, source, success, unsetDefaultValues, value, values;
         bool useExplicitIdentity;
 
-        let bindSkip = Column::BIND_SKIP;
-        let manager = <ManagerInterface> this->modelsManager;
-
-        let fields = [],
-            values = [],
-            snapshot = [],
-            bindTypes = [],
-            unsetDefaultValues = [];
-
-        let attributes = metaData->getAttributes(this),
-            bindDataTypes = metaData->getBindTypes(this),
+        let bindSkip            = Column::BIND_SKIP,
+            manager             = <ManagerInterface> this->modelsManager,
+            fields              = [],
+            values              = [],
+            snapshot            = [],
+            bindTypes           = [],
+            unsetDefaultValues  = [],
+            attributes          = metaData->getAttributes(this),
+            bindDataTypes       = metaData->getBindTypes(this),
             automaticAttributes = metaData->getAutomaticCreateAttributes(this),
-            defaultValues = metaData->getDefaultValues(this);
+            defaultValues       = metaData->getDefaultValues(this);
 
         if globals_get("orm.column_renaming") {
             let columnMap = metaData->getColumnMap(this);
@@ -3493,7 +3490,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                         if value === null && isset defaultValues[field] {
                             let value = connection->getDefaultValue();
 
-                            let snapshot[attributeField] = defaultValues[field],
+                            let snapshot[attributeField]           = defaultValues[field],
                                 unsetDefaultValues[attributeField] = defaultValues[field];
                         } else {
                             let snapshot[attributeField] = value;
@@ -3508,21 +3505,21 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                             );
                         }
 
-                        let fields[] = field,
-                            values[] = value,
+                        let fields[]    = field,
+                            values[]    = value,
                             bindTypes[] = bindType;
                     } else {
                         if isset defaultValues[field] {
                             let values[] = connection->getDefaultValue();
 
-                            let snapshot[attributeField] = defaultValues[field],
+                            let snapshot[attributeField]           = defaultValues[field],
                                 unsetDefaultValues[attributeField] = defaultValues[field];
                         } else {
-                            let values[] = value;
-                            let snapshot[attributeField] = value;
+                            let values[]                 = value,
+                                snapshot[attributeField] = value;
                         }
 
-                        let fields[] = field,
+                        let fields[]    = field,
                             bindTypes[] = bindSkip;
                     }
                 }
@@ -3584,16 +3581,23 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                         );
                     }
 
-                    let values[] = value,
+                    let values[]    = value,
                         bindTypes[] = bindType;
                 }
             } else {
                 if useExplicitIdentity {
-                    let values[] = defaultValue,
+                    let values[]    = defaultValue,
                         bindTypes[] = bindSkip;
                 }
             }
         }
+
+         /**
+          * The insert will escape the table name
+          */
+         if typeof table === "array" {
+            let table = table[0] . "." . table[1];
+         }
 
         /**
          * The low level insert is performed
@@ -3633,8 +3637,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 let lastInsertedId = intval(lastInsertedId, 10);
             }
 
-            let this->{attributeField} = lastInsertedId;
-            let snapshot[attributeField] = lastInsertedId;
+            let this->{attributeField}   = lastInsertedId,
+                snapshot[attributeField] = lastInsertedId;
 
             /**
              * Since the primary key was modified, we delete the uniqueParams
@@ -3668,25 +3672,24 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      */
      protected function _doLowUpdate(<MetaDataInterface> metaData, <AdapterInterface> connection, var table) -> bool
      {
-        var bindSkip, fields, values, dataType, dataTypes, bindTypes, manager,
-            bindDataTypes, field, automaticAttributes, snapshotValue, uniqueKey,
-            uniqueParams, uniqueTypes, snapshot, nonPrimary, columnMap,
-            attributeField, value, primaryKeys, bindType, newSnapshot, success;
-        bool useDynamicUpdate, changed;
+        var automaticAttributes, attributeField, bindSkip, bindDataTypes,
+            bindType, bindTypes, columnMap, dataType, dataTypes, field, fields,
+            manager, nonPrimary, newSnapshot, success, primaryKeys, snapshot,
+            snapshotValue, uniqueKey, uniqueParams, uniqueTypes, value, values;
+        bool changed, useDynamicUpdate;
 
-        let bindSkip = Column::BIND_SKIP,
-            fields = [],
-            values = [],
-            bindTypes = [],
+        let bindSkip    = Column::BIND_SKIP,
+            fields      = [],
+            values      = [],
+            bindTypes   = [],
             newSnapshot = [],
-            manager = <ManagerInterface> this->modelsManager;
+            manager     = <ManagerInterface> this->modelsManager;
 
         /**
          * Check if the model must use dynamic update
          */
-        let useDynamicUpdate = (bool) manager->isUsingDynamicUpdate(this);
-
-        let snapshot = this->snapshot;
+        let useDynamicUpdate = (bool) manager->isUsingDynamicUpdate(this),
+            snapshot         = this->snapshot;
 
         if useDynamicUpdate {
             if typeof snapshot != "array" {
@@ -3694,9 +3697,9 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             }
         }
 
-        let dataTypes = metaData->getDataTypes(this),
-            bindDataTypes = metaData->getBindTypes(this),
-            nonPrimary = metaData->getNonPrimaryKeyAttributes(this),
+        let dataTypes           = metaData->getDataTypes(this),
+            bindDataTypes       = metaData->getBindTypes(this),
+            nonPrimary          = metaData->getNonPrimaryKeyAttributes(this),
             automaticAttributes = metaData->getAutomaticUpdateAttributes(this);
 
         if globals_get("orm.column_renaming") {
@@ -3810,8 +3813,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                          * Only changed values are added to the SQL Update
                          */
                         if changed {
-                            let fields[] = field,
-                                values[] = value,
+                            let fields[]    = field,
+                                values[]    = value,
                                 bindTypes[] = bindType;
                         }
                     }
@@ -3820,8 +3823,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 } else {
                     let newSnapshot[attributeField] = null;
 
-                    let fields[] = field,
-                        values[] = null,
+                    let fields[]    = field,
+                        values[]    = null,
                         bindTypes[] = bindSkip;
                 }
             }
@@ -3838,9 +3841,9 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             return true;
         }
 
-        let uniqueKey = this->uniqueKey,
+        let uniqueKey    = this->uniqueKey,
             uniqueParams = this->uniqueParams,
-            uniqueTypes = this->uniqueTypes;
+            uniqueTypes  = this->uniqueTypes;
 
         /**
          * When unique params is null we need to rebuild the bind params
@@ -3883,21 +3886,28 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             }
         }
 
+         /**
+          * The insert will escape the table name
+          */
+         if typeof table === "array" {
+            let table = table[0] . "." . table[1];
+         }
+
         /**
          * We build the conditions as an array
          * Perform the low level update
          */
         let success = connection->update(
-            table,
-            fields,
-            values,
-            [
-                "conditions" : uniqueKey,
-                "bind"       : uniqueParams,
-                "bindTypes"  : uniqueTypes
-            ],
-            bindTypes
-        );
+                table,
+                fields,
+                values,
+                [
+                    "conditions" : uniqueKey,
+                    "bind"       : uniqueParams,
+                    "bindTypes"  : uniqueTypes
+                ],
+                bindTypes
+            );
 
         if success && manager->isKeepingSnapshots(this) && globals_get("orm.update_snapshot_on_save") {
             if typeof snapshot == "array" {
@@ -3918,12 +3928,12 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     protected function _exists(<MetaDataInterface> metaData, <AdapterInterface> connection) -> bool
     {
         int numberEmpty, numberPrimary;
-        var uniqueParams, uniqueTypes, uniqueKey, columnMap, primaryKeys,
-            wherePk, field, attributeField, value, bindDataTypes, joinWhere,
-            num, type, schema, source, table;
+        var attributeField, bindDataTypes, columnMap, field, joinWhere, num,
+            primaryKeys, schema, source, table, type, uniqueKey, uniqueParams,
+            uniqueTypes, value, wherePk;
 
         let uniqueParams = null,
-            uniqueTypes = null;
+            uniqueTypes  = null;
 
         /**
          * Builds a unique primary key condition
@@ -3931,10 +3941,9 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         let uniqueKey = this->uniqueKey;
 
         if uniqueKey === null {
-            let primaryKeys = metaData->getPrimaryKeyAttributes(this),
-                bindDataTypes = metaData->getBindTypes(this);
-
-            let numberPrimary = count(primaryKeys);
+            let primaryKeys   = metaData->getPrimaryKeyAttributes(this),
+                bindDataTypes = metaData->getBindTypes(this),
+                numberPrimary = count(primaryKeys);
 
             if !numberPrimary {
                 return false;
@@ -3949,10 +3958,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 let columnMap = null;
             }
 
-            let numberEmpty = 0,
-                wherePk = [],
+            let numberEmpty  = 0,
+                wherePk      = [],
                 uniqueParams = [],
-                uniqueTypes = [];
+                uniqueTypes  = [];
 
             /**
              * We need to create a primary key based on the current data
@@ -3996,7 +4005,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 }
 
                 let uniqueTypes[] = type,
-                    wherePk[] = connection->escapeIdentifier(field) . " = ?";
+                    wherePk[]     = connection->escapeIdentifier(field) . " = ?";
             }
 
             /**
@@ -4013,10 +4022,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
              * The unique key is composed of 3 parts uniqueKey, uniqueParams,
              * uniqueTypes
              */
-            let this->uniqueKey = joinWhere,
+            let this->uniqueKey    = joinWhere,
                 this->uniqueParams = uniqueParams,
-                this->uniqueTypes = uniqueTypes,
-                uniqueKey = joinWhere;
+                this->uniqueTypes  = uniqueTypes,
+                uniqueKey          = joinWhere;
         }
 
         /**
