@@ -44,6 +44,7 @@
 - Fixed `Phalcon\Storage\Serializer\Json` to serialize objects that implement the `JsonSerializable` interface [#14528](https://github.com/phalcon/cphalcon/issues/14528) 
 - Fixed `Phalcon\Collection` to correctly return one level nested objects that implement `JsonSerializable` [#14528](https://github.com/phalcon/cphalcon/issues/14528)
 - Fixed `Phalcon\Mvc\View` to only include first found instance of view when using multiple view directories [#12977](https://github.com/phalcon/cphalcon/issues/12977)
+- Fixed `Phalcon\Mvc\Model::save` (insert/update) to correctly create database statements when a schema is specified in the model [#14531](https://github.com/phalcon/cphalcon/issues/14531)
 
 ## Removed
 - Removed `Phalcon\Logger\Formatter\Syslog` - really did not do much [#14523](https://github.com/phalcon/cphalcon/issues/14523)
