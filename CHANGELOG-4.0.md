@@ -1,3 +1,12 @@
+# [4.0.0-rc.r3](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-????) (2019-xx-xx)
+
+## Added
+
+## Changed
+- Changed `PhalconMvc\Router\Annotations` to use `converters` instead of `conversors` [#14532](https://github.com/phalcon/cphalcon/issues/14532)
+
+## Fixed
+
 # [4.0.0-rc.r3](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-rc.3) (2019-11-16)
 ## Added
 - Added support for [PSR-13](https://www.php-fig.org/psr/psr-13/) links and evolvable links [#14507](https://github.com/phalcon/cphalcon/issues/14507)
