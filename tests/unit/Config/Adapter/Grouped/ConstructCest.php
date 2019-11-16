@@ -8,7 +8,7 @@ declare(strict_types=1);
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE.md
  * file that was distributed with this source code.
  */
 
@@ -24,7 +24,7 @@ use function dataDir;
 class ConstructCest
 {
     use ConfigTrait;
-    
+
     public function _after()
     {
         unset($this->config['test']['property']); //Removing Extra Property

@@ -7,7 +7,7 @@
  | Copyright (c) 2011-present Phalcon Team (https://phalcon.io)       |
  +------------------------------------------------------------------------+
  | This source file is subject to the New BSD License that is bundled     |
- | with this package in the file LICENSE.txt.                             |
+ | with this package in the file LICENSE.md.                             |
  |                                                                        |
  | If you did not receive a copy of the license and are unable to         |
  | obtain it through the world-wide-web, please send an email             |
