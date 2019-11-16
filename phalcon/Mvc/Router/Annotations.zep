@@ -241,7 +241,7 @@ class Annotations extends Router
         <Annotation> annotation)
     {
         var name, actionName, routePrefix, paths, value, uri, route, methods,
-            converts, param, convert, conversorParam, routeName, beforeMatch;
+            converts, param, convert, converterParam, routeName, beforeMatch;
         bool isRoute;
 
         let isRoute = false,
@@ -347,18 +347,18 @@ class Annotations extends Router
         }
 
         /**
-         * Add the conversors
+         * Add the converters
          */
-        let converts = annotation->getNamedArgument("conversors");
+        let converts = annotation->getNamedArgument("converters");
 
         if typeof converts == "array" {
-            for conversorParam, convert in converts {
-                route->convert(conversorParam, convert);
+            for converterParam, convert in converts {
+                route->convert(converterParam, convert);
             }
         }
 
         /**
-         * Add the conversors
+         * Add the converters
          */
         let beforeMatch = annotation->getNamedArgument("beforeMatch");
 
