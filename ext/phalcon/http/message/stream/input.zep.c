@@ -23,7 +23,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE.md
  * file that was distributed with this source code.
  *
  * Implementation of this file has been influenced by Zend Diactoros
@@ -157,7 +157,7 @@ PHP_METHOD(Phalcon_Http_Message_Stream_Input, getContents) {
 	}
 	zephir_read_property(&_1, this_ptr, SL("handle"), PH_NOISY_CC | PH_READONLY);
 	ZVAL_LONG(&_2, length);
-	ZEPHIR_CALL_FUNCTION(&data, "stream_get_contents", NULL, 74, &_1, &_2);
+	ZEPHIR_CALL_FUNCTION(&data, "stream_get_contents", NULL, 75, &_1, &_2);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("data"), &data);
 	_3 = -1 == length;

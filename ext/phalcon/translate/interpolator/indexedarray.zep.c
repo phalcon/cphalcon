@@ -25,7 +25,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE.md
  * file that was distributed with this source code.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Translate_Interpolator_IndexedArray) {
@@ -76,7 +76,7 @@ PHP_METHOD(Phalcon_Translate_Interpolator_IndexedArray, replacePlaceholders) {
 
 	if (zephir_fast_count_int(&placeholders)) {
 		ZEPHIR_MAKE_REF(&placeholders);
-		ZEPHIR_CALL_FUNCTION(NULL, "array_unshift", NULL, 503, &placeholders, &translation);
+		ZEPHIR_CALL_FUNCTION(NULL, "array_unshift", NULL, 505, &placeholders, &translation);
 		ZEPHIR_UNREF(&placeholders);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_0$$3);

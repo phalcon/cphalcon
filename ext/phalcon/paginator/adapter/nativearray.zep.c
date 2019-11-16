@@ -25,7 +25,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE.md
  * file that was distributed with this source code.
  */
 /**
@@ -88,9 +88,9 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, paginate) {
 	zephir_read_property(&_0, this_ptr, SL("config"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&config, &_0);
 	ZEPHIR_OBS_VAR(&items);
-	zephir_array_fetch_string(&items, &config, SL("data"), PH_NOISY, "phalcon/Paginator/Adapter/NativeArray.zep", 55);
+	zephir_array_fetch_string(&items, &config, SL("data"), PH_NOISY, "phalcon/Paginator/Adapter/NativeArray.zep", 54);
 	if (UNEXPECTED(Z_TYPE_P(&items) != IS_ARRAY)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "Invalid data for paginator", "phalcon/Paginator/Adapter/NativeArray.zep", 58);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_paginator_exception_ce, "Invalid data for paginator", "phalcon/Paginator/Adapter/NativeArray.zep", 57);
 		return;
 	}
 	ZEPHIR_OBS_VAR(&_1);
@@ -104,7 +104,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_NativeArray, paginate) {
 	}
 	number = zephir_fast_count_int(&items);
 	ZVAL_LONG(&_0, show);
-	ZEPHIR_CALL_FUNCTION(&_3, "floatval", NULL, 15, &_0);
+	ZEPHIR_CALL_FUNCTION(&_3, "floatval", NULL, 16, &_0);
 	zephir_check_call_status();
 	roundedTotal = zephir_safe_div_long_zval(number, &_3);
 	totalPages = (int) (roundedTotal);

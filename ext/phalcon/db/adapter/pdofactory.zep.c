@@ -26,7 +26,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE.md
  * file that was distributed with this source code.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Db_Adapter_PdoFactory) {
@@ -95,13 +95,13 @@ PHP_METHOD(Phalcon_Db_Adapter_PdoFactory, load) {
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(config, &_0);
 	ZEPHIR_OBS_VAR(&name);
-	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Db/Adapter/PdoFactory.zep", 35);
+	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Db/Adapter/PdoFactory.zep", 34);
 	zephir_array_unset_string(config, SL("adapter"), PH_SEPARATE);
 	ZEPHIR_INIT_VAR(&_2);
 	array_init(&_2);
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "options");
-	ZEPHIR_CALL_CE_STATIC(&options, phalcon_helper_arr_ce, "get", &_1, 13, config, &_3, &_2);
+	ZEPHIR_CALL_CE_STATIC(&options, phalcon_helper_arr_ce, "get", &_1, 14, config, &_3, &_2);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "newinstance", NULL, 0, &name, &options);
 	zephir_check_call_status();
@@ -158,7 +158,7 @@ PHP_METHOD(Phalcon_Db_Adapter_PdoFactory, newInstance) {
 	if (!(zephir_array_isset(&_0, &name))) {
 		zephir_read_property(&_1$$3, this_ptr, SL("mapper"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_OBS_VAR(&definition);
-		zephir_array_fetch(&definition, &_1$$3, &name, PH_NOISY, "phalcon/Db/Adapter/PdoFactory.zep", 54);
+		zephir_array_fetch(&definition, &_1$$3, &name, PH_NOISY, "phalcon/Db/Adapter/PdoFactory.zep", 53);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZEPHIR_INIT_VAR(&_3$$3);
 		zephir_create_array(&_3$$3, 1, 0);
@@ -168,7 +168,7 @@ PHP_METHOD(Phalcon_Db_Adapter_PdoFactory, newInstance) {
 		zephir_update_property_array(this_ptr, SL("services"), &name, &_2$$3);
 	}
 	zephir_read_property(&_4, this_ptr, SL("services"), PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch(&_5, &_4, &name, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/PdoFactory.zep", 63);
+	zephir_array_fetch(&_5, &_4, &name, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/PdoFactory.zep", 62);
 	RETURN_CTOR(&_5);
 
 }

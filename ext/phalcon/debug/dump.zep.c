@@ -29,7 +29,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE.md
  * file that was distributed with this source code.
  */
 /**
@@ -934,10 +934,10 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 		} else {
 			ZEPHIR_INIT_VAR(&reflect$$15);
 			object_init_ex(&reflect$$15, zephir_get_internal_ce(SL("reflectionclass")));
-			ZEPHIR_CALL_METHOD(NULL, &reflect$$15, "__construct", NULL, 144, variable);
+			ZEPHIR_CALL_METHOD(NULL, &reflect$$15, "__construct", NULL, 146, variable);
 			zephir_check_call_status();
 			ZVAL_LONG(&_67$$15, ((256 | 512) | 1024));
-			ZEPHIR_CALL_METHOD(&props$$15, &reflect$$15, "getproperties", NULL, 148, &_67$$15);
+			ZEPHIR_CALL_METHOD(&props$$15, &reflect$$15, "getproperties", NULL, 150, &_67$$15);
 			zephir_check_call_status();
 			zephir_is_iterable(&props$$15, 0, "phalcon/Debug/Dump.zep", 288);
 			if (Z_TYPE_P(&props$$15) == IS_ARRAY) {

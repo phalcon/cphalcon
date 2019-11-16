@@ -25,7 +25,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE.md
  * file that was distributed with this source code.
  */
 /**
@@ -69,7 +69,7 @@ PHP_METHOD(Phalcon_Filter_Sanitize_LowerFirst, __invoke) {
 	}
 
 
-	ZEPHIR_RETURN_CALL_FUNCTION("lcfirst", NULL, 88, &input);
+	ZEPHIR_RETURN_CALL_FUNCTION("lcfirst", NULL, 89, &input);
 	zephir_check_call_status();
 	RETURN_MM();
 

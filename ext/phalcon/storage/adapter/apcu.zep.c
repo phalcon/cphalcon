@@ -28,7 +28,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE.md
  * file that was distributed with this source code.
  */
 /**
@@ -134,8 +134,8 @@ PHP_METHOD(Phalcon_Storage_Adapter_Apcu, clear) {
 		{
 			ZEPHIR_ITERATOR_COPY(&item, _1);
 		}
-		zephir_array_fetch_string(&_2$$4, &item, SL("key"), PH_NOISY | PH_READONLY, "phalcon/Storage/Adapter/Apcu.zep", 63);
-		ZEPHIR_CALL_FUNCTION(&_3$$4, "apcu_delete", &_4, 108, &_2$$4);
+		zephir_array_fetch_string(&_2$$4, &item, SL("key"), PH_NOISY | PH_READONLY, "phalcon/Storage/Adapter/Apcu.zep", 62);
+		ZEPHIR_CALL_FUNCTION(&_3$$4, "apcu_delete", &_4, 110, &_2$$4);
 		zephir_check_call_status();
 		if (!(zephir_is_true(&_3$$4))) {
 			result = 0;
@@ -189,7 +189,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Apcu, decrement) {
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getprefixedkey", NULL, 0, &key);
 	zephir_check_call_status();
 	ZVAL_LONG(&_1, value);
-	ZEPHIR_RETURN_CALL_FUNCTION("apcu_dec", NULL, 109, &_0, &_1);
+	ZEPHIR_RETURN_CALL_FUNCTION("apcu_dec", NULL, 111, &_0, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -230,7 +230,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Apcu, delete) {
 
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getprefixedkey", NULL, 0, &key);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_FUNCTION("apcu_delete", NULL, 108, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("apcu_delete", NULL, 110, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -279,7 +279,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Apcu, get) {
 
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getprefixedkey", NULL, 0, &key);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&content, "apcu_fetch", NULL, 110, &_0);
+	ZEPHIR_CALL_FUNCTION(&content, "apcu_fetch", NULL, 112, &_0);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getunserializeddata", NULL, 0, &content, defaultValue);
 	zephir_check_call_status();
@@ -288,10 +288,9 @@ PHP_METHOD(Phalcon_Storage_Adapter_Apcu, get) {
 }
 
 /**
- * Returns the already connected adapter or connects to the Memcached
- * server(s)
+ * Always returns null
  *
- * @return mixed
+ * @return null
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Apcu, getAdapter) {
 
@@ -345,8 +344,8 @@ PHP_METHOD(Phalcon_Storage_Adapter_Apcu, getKeys) {
 		{
 			ZEPHIR_ITERATOR_COPY(&item, _1);
 		}
-		zephir_array_fetch_string(&_2$$4, &item, SL("key"), PH_NOISY | PH_READONLY, "phalcon/Storage/Adapter/Apcu.zep", 143);
-		zephir_array_append(&results, &_2$$4, PH_SEPARATE, "phalcon/Storage/Adapter/Apcu.zep", 143);
+		zephir_array_fetch_string(&_2$$4, &item, SL("key"), PH_NOISY | PH_READONLY, "phalcon/Storage/Adapter/Apcu.zep", 141);
+		zephir_array_append(&results, &_2$$4, PH_SEPARATE, "phalcon/Storage/Adapter/Apcu.zep", 141);
 	}
 	zend_iterator_dtor(_1);
 	RETURN_CTOR(&results);
@@ -388,7 +387,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Apcu, has) {
 
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getprefixedkey", NULL, 0, &key);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_FUNCTION("apcu_exists", NULL, 111, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("apcu_exists", NULL, 113, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -437,7 +436,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Apcu, increment) {
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getprefixedkey", NULL, 0, &key);
 	zephir_check_call_status();
 	ZVAL_LONG(&_1, value);
-	ZEPHIR_RETURN_CALL_FUNCTION("apcu_inc", NULL, 112, &_0, &_1);
+	ZEPHIR_RETURN_CALL_FUNCTION("apcu_inc", NULL, 114, &_0, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -494,7 +493,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Apcu, set) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_2, this_ptr, "getttl", NULL, 0, ttl);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_FUNCTION("apcu_store", NULL, 113, &_0, &_1, &_2);
+	ZEPHIR_RETURN_CALL_FUNCTION("apcu_store", NULL, 115, &_0, &_1, &_2);
 	zephir_check_call_status();
 	RETURN_MM();
 

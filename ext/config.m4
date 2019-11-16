@@ -40,7 +40,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/firewall/adapter/adapterinterface.zep.c
 	phalcon/http/message/abstractmessage.zep.c
 	phalcon/logger/adapter/adapterinterface.zep.c
-	phalcon/logger/formatter/formatterinterface.zep.c
 	phalcon/mvc/model/resultsetinterface.zep.c
 	phalcon/paginator/adapter/adapterinterface.zep.c
 	phalcon/translate/adapter/adapterinterface.zep.c
@@ -54,7 +53,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/http/message/stream.zep.c
 	phalcon/image/adapter/adapterinterface.zep.c
 	phalcon/logger/adapter/abstractadapter.zep.c
-	phalcon/logger/formatter/abstractformatter.zep.c
+	phalcon/logger/formatter/formatterinterface.zep.c
 	phalcon/mvc/model/behaviorinterface.zep.c
 	phalcon/mvc/model/exception.zep.c
 	phalcon/mvc/view/engine/engineinterface.zep.c
@@ -75,6 +74,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/flash/abstractflash.zep.c
 	phalcon/http/message/abstractrequest.zep.c
 	phalcon/image/adapter/abstractadapter.zep.c
+	phalcon/logger/formatter/abstractformatter.zep.c
 	phalcon/mvc/entityinterface.zep.c
 	phalcon/mvc/model/behavior.zep.c
 	phalcon/mvc/model/metadata/strategy/strategyinterface.zep.c
@@ -108,6 +108,9 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/filter/filterinterface.zep.c
 	phalcon/html/attributes/attributesinterface.zep.c
 	phalcon/html/attributes/renderinterface.zep.c
+	phalcon/html/link/link.zep.c
+	phalcon/html/link/linkprovider.zep.c
+	phalcon/html/link/serializer/serializerinterface.zep.c
 	phalcon/http/cookieinterface.zep.c
 	phalcon/http/request/fileinterface.zep.c
 	phalcon/http/requestinterface.zep.c
@@ -301,6 +304,9 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/html/helper/img.zep.c
 	phalcon/html/helper/label.zep.c
 	phalcon/html/helper/textarea.zep.c
+	phalcon/html/link/evolvablelink.zep.c
+	phalcon/html/link/evolvablelinkprovider.zep.c
+	phalcon/html/link/serializer/header.zep.c
 	phalcon/html/tagfactory.zep.c
 	phalcon/http/cookie.zep.c
 	phalcon/http/cookie/exception.zep.c
@@ -344,7 +350,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/logger/exception.zep.c
 	phalcon/logger/formatter/json.zep.c
 	phalcon/logger/formatter/line.zep.c
-	phalcon/logger/formatter/syslog.zep.c
 	phalcon/logger/item.zep.c
 	phalcon/logger/loggerfactory.zep.c
 	phalcon/messages/exception.zep.c
@@ -479,7 +484,8 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/5__closure.zep.c
 	phalcon/6__closure.zep.c
 	phalcon/7__closure.zep.c
-	phalcon/8__closure.zep.c phalcon/annotations/scanner.c
+	phalcon/8__closure.zep.c
+	phalcon/9__closure.zep.c phalcon/annotations/scanner.c
 	phalcon/annotations/parser.c
 	phalcon/mvc/model/orm.c
 	phalcon/mvc/model/query/scanner.c

@@ -29,7 +29,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE.md
  * file that was distributed with this source code.
  */
 /**
@@ -333,7 +333,7 @@ PHP_METHOD(Phalcon_Debug, listenLowSeverity) {
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "onUncaughtLowSeverity");
 	zephir_array_fast_append(&_0, &_1);
-	ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 81, &_0);
+	ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 82, &_0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_2);
 	zephir_create_array(&_2, 2, 0);
@@ -539,7 +539,7 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException) {
 		array_init(&_21$$5);
 		ZEPHIR_INIT_VAR(&_22$$5);
 		ZVAL_STRING(&_22$$5, "request");
-		ZEPHIR_CALL_CE_STATIC(&blacklist, phalcon_helper_arr_ce, "get", &_19, 13, &_20$$5, &_22$$5, &_21$$5);
+		ZEPHIR_CALL_CE_STATIC(&blacklist, phalcon_helper_arr_ce, "get", &_19, 14, &_20$$5, &_22$$5, &_21$$5);
 		zephir_check_call_status();
 		zephir_is_iterable(&_REQUEST, 0, "phalcon/Debug.zep", 317);
 		if (Z_TYPE_P(&_REQUEST) == IS_ARRAY) {
@@ -612,7 +612,7 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException) {
 		array_init(&_22$$5);
 		ZEPHIR_INIT_VAR(&_38$$5);
 		ZVAL_STRING(&_38$$5, "server");
-		ZEPHIR_CALL_CE_STATIC(&blacklist, phalcon_helper_arr_ce, "get", &_19, 13, &_37$$5, &_38$$5, &_22$$5);
+		ZEPHIR_CALL_CE_STATIC(&blacklist, phalcon_helper_arr_ce, "get", &_19, 14, &_37$$5, &_38$$5, &_22$$5);
 		zephir_check_call_status();
 		zephir_is_iterable(&_SERVER, 0, "phalcon/Debug.zep", 333);
 		if (Z_TYPE_P(&_SERVER) == IS_ARRAY) {
@@ -857,7 +857,7 @@ PHP_METHOD(Phalcon_Debug, setBlacklist) {
 	array_init(&_1);
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "request");
-	ZEPHIR_CALL_CE_STATIC(&area, phalcon_helper_arr_ce, "get", &_0, 13, &blacklist, &_2, &_1);
+	ZEPHIR_CALL_CE_STATIC(&area, phalcon_helper_arr_ce, "get", &_0, 14, &blacklist, &_2, &_1);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&subArray);
 	array_init(&subArray);
@@ -903,7 +903,7 @@ PHP_METHOD(Phalcon_Debug, setBlacklist) {
 	array_init(&_2);
 	ZEPHIR_INIT_VAR(&_7);
 	ZVAL_STRING(&_7, "server");
-	ZEPHIR_CALL_CE_STATIC(&area, phalcon_helper_arr_ce, "get", &_0, 13, &blacklist, &_7, &_2);
+	ZEPHIR_CALL_CE_STATIC(&area, phalcon_helper_arr_ce, "get", &_0, 14, &blacklist, &_7, &_2);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&subArray);
 	array_init(&subArray);
@@ -1285,7 +1285,7 @@ PHP_METHOD(Phalcon_Debug, getVarDump) {
 	if (Z_TYPE_P(variable) == IS_OBJECT) {
 		ZEPHIR_INIT_VAR(&className);
 		zephir_get_class(&className, variable, 0);
-		if ((zephir_method_exists_ex(variable, SL("dump")) == SUCCESS)) {
+		if ((zephir_method_exists_ex(variable, ZEND_STRL("dump")) == SUCCESS)) {
 			ZEPHIR_CALL_METHOD(&dumpedObject, variable, "dump", NULL, 0);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&_0$$8, this_ptr, "getarraydump", NULL, 0, &dumpedObject);
@@ -1430,7 +1430,7 @@ PHP_METHOD(Phalcon_Debug, showTraceItem) {
 		} else {
 			ZEPHIR_INIT_VAR(&classReflection);
 			object_init_ex(&classReflection, zephir_get_internal_ce(SL("reflectionclass")));
-			ZEPHIR_CALL_METHOD(NULL, &classReflection, "__construct", NULL, 144, &className);
+			ZEPHIR_CALL_METHOD(NULL, &classReflection, "__construct", NULL, 146, &className);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&_8$$5, &classReflection, "isinternal", NULL, 210);
 			zephir_check_call_status();
@@ -1463,7 +1463,7 @@ PHP_METHOD(Phalcon_Debug, showTraceItem) {
 		if ((zephir_function_exists(&functionName)  == SUCCESS)) {
 			ZEPHIR_INIT_VAR(&functionReflection);
 			object_init_ex(&functionReflection, zephir_get_internal_ce(SL("reflectionfunction")));
-			ZEPHIR_CALL_METHOD(NULL, &functionReflection, "__construct", NULL, 139, &functionName);
+			ZEPHIR_CALL_METHOD(NULL, &functionReflection, "__construct", NULL, 141, &functionName);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&_14$$10, &functionReflection, "isinternal", NULL, 211);
 			zephir_check_call_status();

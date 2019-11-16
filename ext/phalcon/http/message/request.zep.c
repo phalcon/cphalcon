@@ -23,7 +23,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE.md
  * file that was distributed with this source code.
  *
  * Implementation of this file has been influenced by Zend Diactoros
@@ -111,12 +111,12 @@ PHP_METHOD(Phalcon_Http_Message_Request, __construct) {
 	ZEPHIR_CALL_METHOD(&_2, this_ptr, "processheaders", NULL, 279, headers);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("headers"), &_2);
-	ZEPHIR_CALL_METHOD(&_3, this_ptr, "processmethod", NULL, 98, &method);
+	ZEPHIR_CALL_METHOD(&_3, this_ptr, "processmethod", NULL, 99, &method);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("method"), &_3);
 	ZEPHIR_INIT_VAR(&_5);
 	ZVAL_STRING(&_5, "w+b");
-	ZEPHIR_CALL_METHOD(&_4, this_ptr, "processbody", NULL, 33, body, &_5);
+	ZEPHIR_CALL_METHOD(&_4, this_ptr, "processbody", NULL, 34, body, &_5);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("body"), &_4);
 	ZEPHIR_MM_RESTORE();

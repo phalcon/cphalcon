@@ -24,7 +24,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE.md
  * file that was distributed with this source code.
  */
 /**
@@ -124,7 +124,7 @@ PHP_METHOD(Phalcon_Acl_Component, __construct) {
 
 
 	if (UNEXPECTED(ZEPHIR_IS_STRING(&name, "*"))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_acl_exception_ce, "Component name cannot be '*'", "phalcon/Acl/Component.zep", 40);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_acl_exception_ce, "Component name cannot be '*'", "phalcon/Acl/Component.zep", 38);
 		return;
 	}
 	zephir_update_property_zval(this_ptr, SL("name"), &name);

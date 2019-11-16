@@ -403,7 +403,7 @@ int zephir_declare_class_constant(zend_class_entry *ce, const char *name, size_t
 		key = zend_string_init(name, name_length, 0);
 	}
 
-	zend_declare_class_constant_ex(ce, key, value, ZEND_ACC_PUBLIC, NULL);
+	ret = zend_declare_class_constant_ex(ce, key, value, ZEND_ACC_PUBLIC, NULL);
 
 	if (ce->type != ZEND_INTERNAL_CLASS) {
 		zend_string_release(key);

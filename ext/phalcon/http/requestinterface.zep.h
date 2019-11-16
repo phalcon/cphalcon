@@ -298,14 +298,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_requestinterface_ha
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_requestinterface_hasfiles, 0, 0, IS_LONG, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_requestinterface_hasfiles, 0, 0, _IS_BOOL, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_requestinterface_hasfiles, 0, 0, IS_LONG, NULL, 0)
-#endif
-#if PHP_VERSION_ID >= 70200
-	ZEND_ARG_TYPE_INFO(0, onlySuccessful, _IS_BOOL, 0)
-#else
-	ZEND_ARG_INFO(0, onlySuccessful)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_requestinterface_hasfiles, 0, 0, _IS_BOOL, NULL, 0)
 #endif
 ZEND_END_ARG_INFO()
 
@@ -466,6 +461,18 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_requestinterface_is
 #endif
 ZEND_END_ARG_INFO()
 
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_requestinterface_numfiles, 0, 0, IS_LONG, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_requestinterface_numfiles, 0, 0, IS_LONG, NULL, 0)
+#endif
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, onlySuccessful, _IS_BOOL, 0)
+#else
+	ZEND_ARG_INFO(0, onlySuccessful)
+#endif
+ZEND_END_ARG_INFO()
+
 ZEPHIR_INIT_FUNCS(phalcon_http_requestinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Http_RequestInterface, get, arginfo_phalcon_http_requestinterface_get)
 	PHP_ABSTRACT_ME(Phalcon_Http_RequestInterface, getAcceptableContent, arginfo_phalcon_http_requestinterface_getacceptablecontent)
@@ -516,5 +523,6 @@ ZEPHIR_INIT_FUNCS(phalcon_http_requestinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Http_RequestInterface, isSecure, arginfo_phalcon_http_requestinterface_issecure)
 	PHP_ABSTRACT_ME(Phalcon_Http_RequestInterface, isSoap, arginfo_phalcon_http_requestinterface_issoap)
 	PHP_ABSTRACT_ME(Phalcon_Http_RequestInterface, isTrace, arginfo_phalcon_http_requestinterface_istrace)
+	PHP_ABSTRACT_ME(Phalcon_Http_RequestInterface, numFiles, arginfo_phalcon_http_requestinterface_numfiles)
 	PHP_FE_END
 };

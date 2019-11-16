@@ -22,7 +22,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE.md
  * file that was distributed with this source code.
  */
 /**
@@ -79,7 +79,7 @@ PHP_METHOD(Phalcon_Container, get) {
 
 
 	zephir_read_property(&_0, this_ptr, SL("container"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_METHOD(&_0, "getservice", NULL, 0, name);
+	ZEPHIR_RETURN_CALL_METHOD(&_0, "getshared", NULL, 0, name);
 	zephir_check_call_status();
 	RETURN_MM();
 

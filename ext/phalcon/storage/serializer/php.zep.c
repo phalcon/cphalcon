@@ -25,7 +25,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE.md
  * file that was distributed with this source code.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Storage_Serializer_Php) {
@@ -59,7 +59,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_Php, serialize) {
 		RETURN_MM_MEMBER(getThis(), "data");
 	}
 	zephir_read_property(&_2, this_ptr, SL("data"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 11, &_2);
+	ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 12, &_2);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -94,20 +94,20 @@ PHP_METHOD(Phalcon_Storage_Serializer_Php, unserialize) {
 		zephir_update_property_zval(this_ptr, SL("data"), data);
 	} else {
 		if (Z_TYPE_P(data) != IS_STRING) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Data for the unserializer must of type string", "phalcon/Storage/Serializer/Php.zep", 44);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Data for the unserializer must of type string", "phalcon/Storage/Serializer/Php.zep", 43);
 			return;
 		}
 		ZEPHIR_GLOBAL(warning).enable = zend_is_true(&__$false);
 		ZEPHIR_INIT_VAR(&_1$$4);
 		ZEPHIR_INIT_NVAR(&_1$$4);
-		zephir_create_closure_ex(&_1$$4, NULL, phalcon_6__closure_ce, SL("__invoke"));
+		zephir_create_closure_ex(&_1$$4, NULL, phalcon_7__closure_ce, SL("__invoke"));
 		ZVAL_LONG(&_2$$4, 8);
-		ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 81, &_1$$4, &_2$$4);
+		ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 82, &_1$$4, &_2$$4);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(&_3$$4, "unserialize", NULL, 12, data);
+		ZEPHIR_CALL_FUNCTION(&_3$$4, "unserialize", NULL, 13, data);
 		zephir_check_call_status();
 		zephir_update_property_zval(this_ptr, SL("data"), &_3$$4);
-		ZEPHIR_CALL_FUNCTION(NULL, "restore_error_handler", NULL, 83);
+		ZEPHIR_CALL_FUNCTION(NULL, "restore_error_handler", NULL, 84);
 		zephir_check_call_status();
 		if (UNEXPECTED(ZEPHIR_GLOBAL(warning).enable)) {
 			zephir_update_property_zval(this_ptr, SL("data"), &__$null);

@@ -23,7 +23,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE.md
  * file that was distributed with this source code.
  */
 /**
@@ -107,7 +107,7 @@ PHP_METHOD(Phalcon_Forms_Element_Select, addOption) {
 
 
 	if (Z_TYPE_P(option) == IS_ARRAY) {
-		zephir_is_iterable(option, 0, "phalcon/Forms/Element/Select.zep", 52);
+		zephir_is_iterable(option, 0, "phalcon/Forms/Element/Select.zep", 50);
 		if (Z_TYPE_P(option) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(option), _2$$3, _3$$3, _0$$3)
 			{

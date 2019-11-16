@@ -25,7 +25,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE.md
  * file that was distributed with this source code.
  */
 /**
@@ -115,7 +115,7 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength_Max, validate) {
 
 	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, 0, field);
 	zephir_check_call_status();
-	if ((zephir_function_exists_ex(SL("mb_strlen")) == SUCCESS)) {
+	if ((zephir_function_exists_ex(ZEND_STRL("mb_strlen")) == SUCCESS)) {
 		ZEPHIR_CALL_FUNCTION(&length, "mb_strlen", NULL, 276, &value);
 		zephir_check_call_status();
 	} else {

@@ -25,7 +25,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE.md
  * file that was distributed with this source code.
  */
 /**
@@ -141,7 +141,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File_Size_Min, validate) {
 	ZEPHIR_INIT_VAR(&bytes);
 	zephir_round(&bytes, &_3, &_4, NULL);
 	zephir_array_fetch_string(&_5, &value, SL("size"), PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/File/Size/Min.zep", 85);
-	ZEPHIR_CALL_FUNCTION(&_6, "floatval", NULL, 15, &_5);
+	ZEPHIR_CALL_FUNCTION(&_6, "floatval", NULL, 16, &_5);
 	zephir_check_call_status();
 	ZVAL_LONG(&_7, 6);
 	ZEPHIR_INIT_VAR(&fileSize);

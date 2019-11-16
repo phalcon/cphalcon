@@ -24,7 +24,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE.md
  * file that was distributed with this source code.
  */
 /**
@@ -117,7 +117,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getClassAnnotations) {
 		if (zephir_array_isset_string_fetch(&reflectionClass, &_1$$3, SL("class"), 1)) {
 			ZEPHIR_INIT_VAR(&_2$$4);
 			object_init_ex(&_2$$4, phalcon_annotations_collection_ce);
-			ZEPHIR_CALL_METHOD(NULL, &_2$$4, "__construct", NULL, 44, &reflectionClass);
+			ZEPHIR_CALL_METHOD(NULL, &_2$$4, "__construct", NULL, 45, &reflectionClass);
 			zephir_check_call_status();
 			zephir_update_property_zval(this_ptr, SL("classAnnotations"), &_2$$4);
 		} else {
@@ -168,7 +168,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getMethodsAnnotations) {
 				ZEPHIR_INIT_VAR(&_2$$5);
 				array_init(&_2$$5);
 				zephir_update_property_zval(this_ptr, SL("methodAnnotations"), &_2$$5);
-				zephir_is_iterable(&reflectionMethods, 0, "phalcon/Annotations/Reflection.zep", 90);
+				zephir_is_iterable(&reflectionMethods, 0, "phalcon/Annotations/Reflection.zep", 88);
 				if (Z_TYPE_P(&reflectionMethods) == IS_ARRAY) {
 					ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&reflectionMethods), _5$$5, _6$$5, _3$$5)
 					{
@@ -182,7 +182,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getMethodsAnnotations) {
 						ZVAL_COPY(&reflectionMethod, _3$$5);
 						ZEPHIR_INIT_NVAR(&_7$$6);
 						object_init_ex(&_7$$6, phalcon_annotations_collection_ce);
-						ZEPHIR_CALL_METHOD(NULL, &_7$$6, "__construct", &_8, 44, &reflectionMethod);
+						ZEPHIR_CALL_METHOD(NULL, &_7$$6, "__construct", &_8, 45, &reflectionMethod);
 						zephir_check_call_status();
 						zephir_update_property_array(this_ptr, SL("methodAnnotations"), &methodName, &_7$$6);
 					} ZEND_HASH_FOREACH_END();
@@ -201,7 +201,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getMethodsAnnotations) {
 						zephir_check_call_status();
 							ZEPHIR_INIT_NVAR(&_9$$7);
 							object_init_ex(&_9$$7, phalcon_annotations_collection_ce);
-							ZEPHIR_CALL_METHOD(NULL, &_9$$7, "__construct", &_8, 44, &reflectionMethod);
+							ZEPHIR_CALL_METHOD(NULL, &_9$$7, "__construct", &_8, 45, &reflectionMethod);
 							zephir_check_call_status();
 							zephir_update_property_array(this_ptr, SL("methodAnnotations"), &methodName, &_9$$7);
 						ZEPHIR_CALL_METHOD(NULL, &reflectionMethods, "next", NULL, 0);
@@ -259,7 +259,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getPropertiesAnnotations) {
 				ZEPHIR_INIT_VAR(&_2$$5);
 				array_init(&_2$$5);
 				zephir_update_property_zval(this_ptr, SL("propertyAnnotations"), &_2$$5);
-				zephir_is_iterable(&reflectionProperties, 0, "phalcon/Annotations/Reflection.zep", 118);
+				zephir_is_iterable(&reflectionProperties, 0, "phalcon/Annotations/Reflection.zep", 116);
 				if (Z_TYPE_P(&reflectionProperties) == IS_ARRAY) {
 					ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&reflectionProperties), _5$$5, _6$$5, _3$$5)
 					{
@@ -273,7 +273,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getPropertiesAnnotations) {
 						ZVAL_COPY(&reflectionProperty, _3$$5);
 						ZEPHIR_INIT_NVAR(&_7$$6);
 						object_init_ex(&_7$$6, phalcon_annotations_collection_ce);
-						ZEPHIR_CALL_METHOD(NULL, &_7$$6, "__construct", &_8, 44, &reflectionProperty);
+						ZEPHIR_CALL_METHOD(NULL, &_7$$6, "__construct", &_8, 45, &reflectionProperty);
 						zephir_check_call_status();
 						zephir_update_property_array(this_ptr, SL("propertyAnnotations"), &property, &_7$$6);
 					} ZEND_HASH_FOREACH_END();
@@ -292,7 +292,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getPropertiesAnnotations) {
 						zephir_check_call_status();
 							ZEPHIR_INIT_NVAR(&_9$$7);
 							object_init_ex(&_9$$7, phalcon_annotations_collection_ce);
-							ZEPHIR_CALL_METHOD(NULL, &_9$$7, "__construct", &_8, 44, &reflectionProperty);
+							ZEPHIR_CALL_METHOD(NULL, &_9$$7, "__construct", &_8, 45, &reflectionProperty);
 							zephir_check_call_status();
 							zephir_update_property_array(this_ptr, SL("propertyAnnotations"), &property, &_9$$7);
 						ZEPHIR_CALL_METHOD(NULL, &reflectionProperties, "next", NULL, 0);

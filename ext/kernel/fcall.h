@@ -77,7 +77,7 @@ typedef enum _zephir_call_type {
 
 #define ZEPHIR_SET_THIS_OBJ(obj) \
 	if (obj) { \
-		ZVAL_OBJ(&EG(current_execute_data)->This, obj); \
+		Z_OBJ_P(&EG(current_execute_data)->This) = obj; \
 	} \
 	else { ZEPHIR_SET_THIS_EXPLICIT_NULL(); } \
 

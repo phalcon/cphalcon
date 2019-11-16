@@ -28,7 +28,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE.md
  * file that was distributed with this source code.
  */
 /**
@@ -595,7 +595,7 @@ PHP_METHOD(Phalcon_Logger, log) {
 	}
 
 
-	ZEPHIR_CALL_METHOD(&intLevel, this_ptr, "getlevelnumber", NULL, 404, level);
+	ZEPHIR_CALL_METHOD(&intLevel, this_ptr, "getlevelnumber", NULL, 406, level);
 	zephir_check_call_status();
 	zephir_get_strval(&_0, message);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addmessage", NULL, 0, level, &_0, &context);
@@ -790,7 +790,7 @@ PHP_METHOD(Phalcon_Logger, addMessage) {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval context;
 	zval message;
-	zval *level_param = NULL, *message_param = NULL, *context_param = NULL, adapter, key, excluded, levelName, levels, item, registered, _0, _1$$3, _2$$3, *_3$$3, _4$$3, _7$$3;
+	zval *level_param = NULL, *message_param = NULL, *context_param = NULL, adapter, key, excluded, levelName, levels, item, registered, _0, _1$$3, _2$$3, *_3$$3, _4$$3, _9$$3, _7$$7, _8$$11;
 	zend_long level, ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -805,7 +805,9 @@ PHP_METHOD(Phalcon_Logger, addMessage) {
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$3);
 	ZVAL_UNDEF(&_4$$3);
-	ZVAL_UNDEF(&_7$$3);
+	ZVAL_UNDEF(&_9$$3);
+	ZVAL_UNDEF(&_7$$7);
+	ZVAL_UNDEF(&_8$$11);
 	ZVAL_UNDEF(&message);
 	ZVAL_UNDEF(&context);
 
@@ -844,9 +846,9 @@ PHP_METHOD(Phalcon_Logger, addMessage) {
 		ZEPHIR_INIT_VAR(&_2$$3);
 		zephir_time(&_2$$3);
 		ZVAL_LONG(&_1$$3, level);
-		ZEPHIR_CALL_METHOD(NULL, &item, "__construct", NULL, 405, &message, &levelName, &_1$$3, &_2$$3, &context);
+		ZEPHIR_CALL_METHOD(NULL, &item, "__construct", NULL, 407, &message, &levelName, &_1$$3, &_2$$3, &context);
 		zephir_check_call_status();
-		zephir_is_iterable(&registered, 0, "phalcon/Logger.zep", 376);
+		zephir_is_iterable(&registered, 0, "phalcon/Logger.zep", 380);
 		if (Z_TYPE_P(&registered) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&registered), _5$$3, _6$$3, _3$$3)
 			{
@@ -859,8 +861,15 @@ PHP_METHOD(Phalcon_Logger, addMessage) {
 				ZEPHIR_INIT_NVAR(&adapter);
 				ZVAL_COPY(&adapter, _3$$3);
 				if (!(zephir_array_isset(&excluded, &key))) {
-					ZEPHIR_CALL_METHOD(NULL, &adapter, "process", NULL, 0, &item);
+					ZEPHIR_CALL_METHOD(&_7$$7, &adapter, "intransaction", NULL, 0);
 					zephir_check_call_status();
+					if (UNEXPECTED(zephir_is_true(&_7$$7))) {
+						ZEPHIR_CALL_METHOD(NULL, &adapter, "add", NULL, 0, &item);
+						zephir_check_call_status();
+					} else {
+						ZEPHIR_CALL_METHOD(NULL, &adapter, "process", NULL, 0, &item);
+						zephir_check_call_status();
+					}
 				}
 			} ZEND_HASH_FOREACH_END();
 		} else {
@@ -877,8 +886,15 @@ PHP_METHOD(Phalcon_Logger, addMessage) {
 				ZEPHIR_CALL_METHOD(&adapter, &registered, "current", NULL, 0);
 				zephir_check_call_status();
 					if (!(zephir_array_isset(&excluded, &key))) {
-						ZEPHIR_CALL_METHOD(NULL, &adapter, "process", NULL, 0, &item);
+						ZEPHIR_CALL_METHOD(&_8$$11, &adapter, "intransaction", NULL, 0);
 						zephir_check_call_status();
+						if (UNEXPECTED(zephir_is_true(&_8$$11))) {
+							ZEPHIR_CALL_METHOD(NULL, &adapter, "add", NULL, 0, &item);
+							zephir_check_call_status();
+						} else {
+							ZEPHIR_CALL_METHOD(NULL, &adapter, "process", NULL, 0, &item);
+							zephir_check_call_status();
+						}
 					}
 				ZEPHIR_CALL_METHOD(NULL, &registered, "next", NULL, 0);
 				zephir_check_call_status();
@@ -886,9 +902,9 @@ PHP_METHOD(Phalcon_Logger, addMessage) {
 		}
 		ZEPHIR_INIT_NVAR(&adapter);
 		ZEPHIR_INIT_NVAR(&key);
-		ZEPHIR_INIT_VAR(&_7$$3);
-		array_init(&_7$$3);
-		zephir_update_property_zval(this_ptr, SL("excluded"), &_7$$3);
+		ZEPHIR_INIT_VAR(&_9$$3);
+		array_init(&_9$$3);
+		zephir_update_property_zval(this_ptr, SL("excluded"), &_9$$3);
 	}
 	RETURN_MM_BOOL(1);
 
@@ -944,7 +960,7 @@ PHP_METHOD(Phalcon_Logger, getLevelNumber) {
 		zephir_fast_strtolower(&levelName, level);
 		ZEPHIR_CALL_METHOD(&_0$$3, this_ptr, "getlevels", NULL, 0);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(&levels, "array_flip", NULL, 163, &_0$$3);
+		ZEPHIR_CALL_FUNCTION(&levels, "array_flip", NULL, 164, &_0$$3);
 		zephir_check_call_status();
 		if (zephir_array_isset_fetch(&numberLevel, &levels, &levelName, 1)) {
 			RETURN_CTOR(&numberLevel);

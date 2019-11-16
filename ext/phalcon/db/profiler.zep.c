@@ -24,7 +24,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE.md
  * file that was distributed with this source code.
  */
 /**
@@ -232,7 +232,7 @@ PHP_METHOD(Phalcon_Db_Profiler, startProfile) {
 	zephir_microtime(&_0, &__$true);
 	ZEPHIR_CALL_METHOD(NULL, &activeProfile, "setinitialtime", NULL, 197, &_0);
 	zephir_check_call_status();
-	if ((zephir_method_exists_ex(this_ptr, SL("beforestartprofile")) == SUCCESS)) {
+	if ((zephir_method_exists_ex(this_ptr, ZEND_STRL("beforestartprofile")) == SUCCESS)) {
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "beforestartprofile", NULL, 0, &activeProfile);
 		zephir_check_call_status();
 	}
@@ -276,7 +276,7 @@ PHP_METHOD(Phalcon_Db_Profiler, stopProfile) {
 	zephir_add_function(&_2, &_0, &_1);
 	zephir_update_property_zval(this_ptr, SL("totalSeconds"), &_2);
 	zephir_update_property_array_append(this_ptr, SL("allProfiles"), &activeProfile);
-	if ((zephir_method_exists_ex(this_ptr, SL("afterendprofile")) == SUCCESS)) {
+	if ((zephir_method_exists_ex(this_ptr, ZEND_STRL("afterendprofile")) == SUCCESS)) {
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "afterendprofile", NULL, 0, &activeProfile);
 		zephir_check_call_status();
 	}

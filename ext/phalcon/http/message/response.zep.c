@@ -26,7 +26,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE.md
  * file that was distributed with this source code.
  *
  * Implementation of this file has been influenced by Zend Diactoros
@@ -161,7 +161,7 @@ PHP_METHOD(Phalcon_Http_Message_Response, __construct) {
 	zephir_update_property_zval(this_ptr, SL("headers"), &_1);
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "w+b");
-	ZEPHIR_CALL_METHOD(&_2, this_ptr, "processbody", NULL, 33, body, &_3);
+	ZEPHIR_CALL_METHOD(&_2, this_ptr, "processbody", NULL, 34, body, &_3);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("body"), &_2);
 	ZEPHIR_MM_RESTORE();
@@ -287,7 +287,7 @@ PHP_METHOD(Phalcon_Http_Message_Response, checkCodeValue) {
 		ZVAL_LONG(&_6$$3, code);
 		ZEPHIR_INIT_VAR(&_7$$3);
 		ZEPHIR_CONCAT_SVS(&_7$$3, "Invalid status code '", &_6$$3, "', (allowed values 100-599)");
-		ZEPHIR_CALL_METHOD(NULL, &_5$$3, "__construct", NULL, 36, &_7$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_5$$3, "__construct", NULL, 37, &_7$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_5$$3, "phalcon/Http/Message/Response.zep", 124);
 		ZEPHIR_MM_RESTORE();

@@ -22,7 +22,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE.md
  * file that was distributed with this source code.
  */
 /**
@@ -57,7 +57,7 @@ PHP_METHOD(Phalcon_Filter_Sanitize_Regex, __invoke) {
 
 
 
-	ZEPHIR_RETURN_CALL_FUNCTION("preg_replace", NULL, 45, pattern, replace, input);
+	ZEPHIR_RETURN_CALL_FUNCTION("preg_replace", NULL, 46, pattern, replace, input);
 	zephir_check_call_status();
 	RETURN_MM();
 

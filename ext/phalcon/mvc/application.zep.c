@@ -30,7 +30,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE.md
  * file that was distributed with this source code.
  */
 /**
@@ -194,7 +194,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 6, &_2$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Mvc/Application.zep", 94);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Mvc/Application.zep", 91);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -281,7 +281,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 			_17$$12 = Z_TYPE_P(&module) != IS_OBJECT;
 		}
 		if (UNEXPECTED(_17$$12)) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_application_exception_ce, "Invalid module definition", "phalcon/Mvc/Application.zep", 192);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_application_exception_ce, "Invalid module definition", "phalcon/Mvc/Application.zep", 189);
 			return;
 		}
 		if (Z_TYPE_P(&module) == IS_ARRAY) {
@@ -299,7 +299,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 					ZEPHIR_CONCAT_SVS(&_19$$19, "Module definition path '", &path, "' doesn't exist");
 					ZEPHIR_CALL_METHOD(NULL, &_18$$19, "__construct", NULL, 6, &_19$$19);
 					zephir_check_call_status();
-					zephir_throw_exception_debug(&_18$$19, "phalcon/Mvc/Application.zep", 214);
+					zephir_throw_exception_debug(&_18$$19, "phalcon/Mvc/Application.zep", 211);
 					ZEPHIR_MM_RESTORE();
 					return;
 				}
@@ -318,7 +318,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 			zephir_check_call_status();
 		} else {
 			if (UNEXPECTED(!((zephir_instance_of_ev(&module, zend_ce_closure))))) {
-				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_application_exception_ce, "Invalid module definition", "phalcon/Mvc/Application.zep", 235);
+				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_application_exception_ce, "Invalid module definition", "phalcon/Mvc/Application.zep", 232);
 				return;
 			}
 			ZEPHIR_INIT_VAR(&_21$$21);

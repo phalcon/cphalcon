@@ -22,7 +22,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE.md
  * file that was distributed with this source code.
  */
 /**
@@ -73,7 +73,7 @@ PHP_METHOD(Phalcon_Cli_Task, __construct) {
 
 	ZEPHIR_MM_GROW();
 
-	if ((zephir_method_exists_ex(this_ptr, SL("onconstruct")) == SUCCESS)) {
+	if ((zephir_method_exists_ex(this_ptr, ZEND_STRL("onconstruct")) == SUCCESS)) {
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "onconstruct", NULL, 0);
 		zephir_check_call_status();
 	}

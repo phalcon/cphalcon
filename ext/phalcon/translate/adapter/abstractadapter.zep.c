@@ -25,7 +25,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE.md
  * file that was distributed with this source code.
  */
 /**
@@ -77,7 +77,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, __construct) {
 	ZVAL_STRING(&_2, "defaultInterpolator");
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "associativeArray");
-	ZEPHIR_CALL_CE_STATIC(&_0, phalcon_helper_arr_ce, "get", &_1, 13, &options, &_2, &_3);
+	ZEPHIR_CALL_CE_STATIC(&_0, phalcon_helper_arr_ce, "get", &_1, 14, &options, &_2, &_3);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("defaultInterpolator"), &_0);
 	zephir_update_property_zval(this_ptr, SL("interpolatorFactory"), interpolator);
@@ -194,7 +194,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, offsetSet) {
 
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_translate_exception_ce, "Translate is an immutable ArrayAccess object", "phalcon/Translate/Adapter/AbstractAdapter.zep", 74);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_translate_exception_ce, "Translate is an immutable ArrayAccess object", "phalcon/Translate/Adapter/AbstractAdapter.zep", 73);
 	return;
 
 }
@@ -213,7 +213,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, offsetUnset) {
 
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_translate_exception_ce, "Translate is an immutable ArrayAccess object", "phalcon/Translate/Adapter/AbstractAdapter.zep", 82);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_translate_exception_ce, "Translate is an immutable ArrayAccess object", "phalcon/Translate/Adapter/AbstractAdapter.zep", 81);
 	return;
 
 }

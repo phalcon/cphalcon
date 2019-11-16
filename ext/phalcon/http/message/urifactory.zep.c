@@ -25,7 +25,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE.md
  * file that was distributed with this source code.
  *
  * Implementation of this file has been influenced by Zend Diactoros
@@ -79,7 +79,7 @@ PHP_METHOD(Phalcon_Http_Message_UriFactory, createUri) {
 
 
 	object_init_ex(return_value, phalcon_http_message_uri_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 99, &uri);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 100, &uri);
 	zephir_check_call_status();
 	RETURN_MM();
 

@@ -27,7 +27,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE.md
  * file that was distributed with this source code.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Translate_Interpolator_AssociativeArray) {
@@ -84,7 +84,7 @@ PHP_METHOD(Phalcon_Translate_Interpolator_AssociativeArray, replacePlaceholders)
 	}
 
 
-	zephir_is_iterable(&placeholders, 0, "phalcon/Translate/Interpolator/AssociativeArray.zep", 34);
+	zephir_is_iterable(&placeholders, 0, "phalcon/Translate/Interpolator/AssociativeArray.zep", 32);
 	if (Z_TYPE_P(&placeholders) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&placeholders), _2, _3, _0)
 		{

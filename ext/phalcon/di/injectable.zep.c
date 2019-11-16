@@ -27,7 +27,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE.md
  * file that was distributed with this source code.
  */
 /**
@@ -137,7 +137,7 @@ PHP_METHOD(Phalcon_Di_Injectable, __get) {
 	ZEPHIR_CALL_METHOD(&_0, &container, "has", NULL, 0, &propertyName);
 	zephir_check_call_status();
 	if (zephir_is_true(&_0)) {
-		ZEPHIR_CALL_METHOD(&service, &container, "get", NULL, 0, &propertyName);
+		ZEPHIR_CALL_METHOD(&service, &container, "getshared", NULL, 0, &propertyName);
 		zephir_check_call_status();
 		zephir_update_property_zval_zval(this_ptr, &propertyName, &service);
 		RETURN_CCTOR(&service);
@@ -220,7 +220,7 @@ PHP_METHOD(Phalcon_Di_Injectable, getDI) {
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(NULL, &_2$$4, "__construct", NULL, 6, &_3$$4);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_2$$4, "phalcon/Di/Injectable.zep", 127);
+			zephir_throw_exception_debug(&_2$$4, "phalcon/Di/Injectable.zep", 124);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}

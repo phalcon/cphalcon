@@ -90,6 +90,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getPreparedQuery);
 PHP_METHOD(Phalcon_Mvc_Model, hasMany);
 PHP_METHOD(Phalcon_Mvc_Model, hasManyToMany);
 PHP_METHOD(Phalcon_Mvc_Model, hasOne);
+PHP_METHOD(Phalcon_Mvc_Model, hasOneThrough);
 PHP_METHOD(Phalcon_Mvc_Model, keepSnapshots);
 PHP_METHOD(Phalcon_Mvc_Model, setSchema);
 PHP_METHOD(Phalcon_Mvc_Model, setSource);
@@ -939,6 +940,28 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_hasone, 0, 3, 
 	ZEND_ARG_INFO(0, options)
 ZEND_END_ARG_INFO()
 
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_hasonethrough, 0, 6, Phalcon\\Mvc\\Model\\Relation, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_hasonethrough, 0, 6, IS_OBJECT, "Phalcon\\Mvc\\Model\\Relation", 0)
+#endif
+	ZEND_ARG_INFO(0, fields)
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, intermediateModel, IS_STRING, 0)
+#else
+	ZEND_ARG_INFO(0, intermediateModel)
+#endif
+	ZEND_ARG_INFO(0, intermediateFields)
+	ZEND_ARG_INFO(0, intermediateReferencedFields)
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, referenceModel, IS_STRING, 0)
+#else
+	ZEND_ARG_INFO(0, referenceModel)
+#endif
+	ZEND_ARG_INFO(0, referencedFields)
+	ZEND_ARG_INFO(0, options)
+ZEND_END_ARG_INFO()
+
 #if PHP_VERSION_ID >= 70100
 #if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_keepsnapshots, 0, 1, IS_VOID, 0)
@@ -1143,6 +1166,7 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model, hasMany, arginfo_phalcon_mvc_model_hasmany, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, hasManyToMany, arginfo_phalcon_mvc_model_hasmanytomany, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, hasOne, arginfo_phalcon_mvc_model_hasone, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model, hasOneThrough, arginfo_phalcon_mvc_model_hasonethrough, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, keepSnapshots, arginfo_phalcon_mvc_model_keepsnapshots, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, setSchema, arginfo_phalcon_mvc_model_setschema, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, setSource, arginfo_phalcon_mvc_model_setsource, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)

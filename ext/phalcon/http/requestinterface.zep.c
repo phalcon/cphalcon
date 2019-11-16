@@ -17,7 +17,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE.md
  * file that was distributed with this source code.
  */
 /**
@@ -293,7 +293,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, has);
 
 /**
  * Checks whether request include attached files
- * TODO: We need to check the name. Not very intuitive
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, hasFiles);
 
@@ -389,4 +388,9 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, isSoap);
  * if $_SERVER["REQUEST_METHOD"] === "TRACE"
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, isTrace);
+
+/**
+ * Returns the number of files available
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, numFiles);
 

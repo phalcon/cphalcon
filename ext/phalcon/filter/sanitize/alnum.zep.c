@@ -22,7 +22,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE.md
  * file that was distributed with this source code.
  */
 /**
@@ -61,7 +61,7 @@ PHP_METHOD(Phalcon_Filter_Sanitize_Alnum, __invoke) {
 	ZVAL_STRING(&_0, "/[^A-Za-z0-9]/");
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "");
-	ZEPHIR_RETURN_CALL_FUNCTION("preg_replace", NULL, 45, &_0, &_1, input);
+	ZEPHIR_RETURN_CALL_FUNCTION("preg_replace", NULL, 46, &_0, &_1, input);
 	zephir_check_call_status();
 	RETURN_MM();
 

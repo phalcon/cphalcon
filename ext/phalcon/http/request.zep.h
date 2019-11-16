@@ -60,6 +60,7 @@ PHP_METHOD(Phalcon_Http_Request, isStrictHostCheck);
 PHP_METHOD(Phalcon_Http_Request, isSoap);
 PHP_METHOD(Phalcon_Http_Request, isTrace);
 PHP_METHOD(Phalcon_Http_Request, isValidHttpMethod);
+PHP_METHOD(Phalcon_Http_Request, numFiles);
 PHP_METHOD(Phalcon_Http_Request, setParameterFilters);
 PHP_METHOD(Phalcon_Http_Request, setStrictHostCheck);
 PHP_METHOD(Phalcon_Http_Request, getBestQuality);
@@ -439,14 +440,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_has, 0, 1, 
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_hasfiles, 0, 0, IS_LONG, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_hasfiles, 0, 0, _IS_BOOL, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_hasfiles, 0, 0, IS_LONG, NULL, 0)
-#endif
-#if PHP_VERSION_ID >= 70200
-	ZEND_ARG_TYPE_INFO(0, onlySuccessful, _IS_BOOL, 0)
-#else
-	ZEND_ARG_INFO(0, onlySuccessful)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_hasfiles, 0, 0, _IS_BOOL, NULL, 0)
 #endif
 ZEND_END_ARG_INFO()
 
@@ -630,6 +626,18 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_isvalidhttp
 	ZEND_ARG_TYPE_INFO(0, method, IS_STRING, 0)
 #else
 	ZEND_ARG_INFO(0, method)
+#endif
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_numfiles, 0, 0, IS_LONG, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_request_numfiles, 0, 0, IS_LONG, NULL, 0)
+#endif
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, onlySuccessful, _IS_BOOL, 0)
+#else
+	ZEND_ARG_INFO(0, onlySuccessful)
 #endif
 ZEND_END_ARG_INFO()
 
@@ -819,6 +827,7 @@ ZEPHIR_INIT_FUNCS(phalcon_http_request_method_entry) {
 	PHP_ME(Phalcon_Http_Request, isSoap, arginfo_phalcon_http_request_issoap, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, isTrace, arginfo_phalcon_http_request_istrace, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, isValidHttpMethod, arginfo_phalcon_http_request_isvalidhttpmethod, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Request, numFiles, arginfo_phalcon_http_request_numfiles, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, setParameterFilters, arginfo_phalcon_http_request_setparameterfilters, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, setStrictHostCheck, arginfo_phalcon_http_request_setstricthostcheck, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Request, getBestQuality, arginfo_phalcon_http_request_getbestquality, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
