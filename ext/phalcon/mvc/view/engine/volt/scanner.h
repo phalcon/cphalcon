@@ -5,7 +5,7 @@
  * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the
- * LICENSE.txt file that was distributed with this source code.
+ * LICENSE.md file that was distributed with this source code.
  */
 
 #ifndef PHALCON_MVC_VIEW_ENGINE_VOLT_SCANNER_H

@@ -5,7 +5,7 @@
  * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the
- * LICENSE.txt file that was distributed with this source code.
+ * LICENSE.md file that was distributed with this source code.
  */
 
 #ifdef HAVE_CONFIG_H
@@ -29,7 +29,7 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 
 	while (PHQL_SCANNER_RETCODE_IMPOSSIBLE == status) {
 
-		
+
 		{
 			PPCTYPE ppch;
 			unsigned int ppaccept = 0;

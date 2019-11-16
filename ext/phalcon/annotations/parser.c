@@ -13,10 +13,10 @@
 /* Next is all token values, in a form suitable for use by makeheaders.
 ** This section will be null unless lemon is run with the -m switch.
 */
-/* 
+/*
 ** These constants (all generated automatically by the parser generator)
 ** specify the various kinds of tokens (terminals) that the parser
-** understands. 
+** understands.
 **
 ** Each symbol here is a terminal symbol in the grammar.
 */
@@ -33,7 +33,7 @@
 **                       and nonterminals.  "int" is used otherwise.
 **    AANOCODE           is a number of type AACODETYPE which corresponds
 **                       to no legal terminal or nonterminal number.  This
-**                       number is used to fill in empty slots of the hash 
+**                       number is used to fill in empty slots of the hash
 **                       table.
 **    AAFALLBACK         If defined, this indicates that one or more tokens
 **                       have fall-back values which should be used if the
@@ -42,7 +42,7 @@
 **                       and nonterminal numbers.  "unsigned char" is
 **                       used if there are fewer than 250 rules and
 **                       states combined.  "int" is used otherwise.
-**    phannot_TOKENTYPE     is the data type used for minor tokens given 
+**    phannot_TOKENTYPE     is the data type used for minor tokens given
 **                       directly to the parser from the tokenizer.
 **    AAMINORTYPE        is the data type used for all minor tokens.
 **                       This is typically a union of many types, one of
@@ -83,7 +83,7 @@ typedef union {
 /* Next are that tables used to determine what action to take based on the
 ** current state and lookahead token.  These tables are used to implement
 ** functions that take a state number and lookahead value and return an
-** action integer.  
+** action integer.
 **
 ** Suppose the action integer is N.  Then the action is determined as
 ** follows
@@ -108,7 +108,7 @@ typedef union {
 ** If the index value aa_shift_ofst[S]+X is out of range or if the value
 ** aa_lookahead[aa_shift_ofst[S]+X] is not equal to X or if aa_shift_ofst[S]
 ** is equal to AA_SHIFT_USE_DFLT, it means that the action is not in the table
-** and that aa_default[S] should be used instead.  
+** and that aa_default[S] should be used instead.
 **
 ** The formula above is for computing the action when the lookahead is
 ** a terminal symbol.  If the lookahead is a non-terminal (as occurs after
@@ -175,7 +175,7 @@ static AAACTIONTYPE aa_default[] = {
 
 /* The next table maps tokens into fallback tokens.  If a construct
 ** like the following:
-** 
+**
 **      %fallback ID X Y Z.
 **
 ** appears in the grammer, then ID becomes a fallback token for X, Y,
@@ -226,10 +226,10 @@ static char *aaTracePrompt = 0;
 #endif /* NDEBUG */
 
 #ifndef NDEBUG
-/* 
+/*
 ** Turn parser tracing on by giving a stream to which to write the trace
 ** and a prompt to preface each trace message.  Tracing is turned off
-** by making either argument NULL 
+** by making either argument NULL
 **
 ** Inputs:
 ** <ul>
@@ -254,14 +254,14 @@ void phannot_Trace(FILE *TraceFILE, char *zTracePrompt){
 #ifndef NDEBUG
 /* For tracing shifts, the names of all terminals and nonterminals
 ** are required.  The following table supplies these names */
-static const char *aaTokenName[] = { 
-  "$",             "COMMA",         "AT",            "IDENTIFIER",  
-  "PARENTHESES_OPEN",  "PARENTHESES_CLOSE",  "STRING",        "EQUALS",      
-  "COLON",         "INTEGER",       "DOUBLE",        "NULL",        
+static const char *aaTokenName[] = {
+  "$",             "COMMA",         "AT",            "IDENTIFIER",
+  "PARENTHESES_OPEN",  "PARENTHESES_CLOSE",  "STRING",        "EQUALS",
+  "COLON",         "INTEGER",       "DOUBLE",        "NULL",
   "FALSE",         "TRUE",          "BRACKET_OPEN",  "BRACKET_CLOSE",
-  "SBRACKET_OPEN",  "SBRACKET_CLOSE",  "error",         "program",     
+  "SBRACKET_OPEN",  "SBRACKET_CLOSE",  "error",         "program",
   "annotation_language",  "annotation_list",  "annotation",    "argument_list",
-  "argument_item",  "expr",          "array",       
+  "argument_item",  "expr",          "array",
 };
 #endif /* NDEBUG */
 
@@ -313,7 +313,7 @@ const char *phannot_TokenName(int tokenType){
 #endif
 }
 
-/* 
+/*
 ** This function allocates a new parser.
 ** The only argument is a pointer to a function which works like
 ** malloc.
@@ -344,7 +344,7 @@ static void aa_destructor(AACODETYPE aamajor, AAMINORTYPE *aapminor){
     /* Here is inserted the actions which take place when a
     ** terminal or non-terminal is destroyed.  This can happen
     ** when the symbol is popped from the stack during a
-    ** reduce or during error processing or when a parser is 
+    ** reduce or during error processing or when a parser is
     ** being destroyed before it is finished parsing.
     **
     ** Note: during a reduce, the only symbols destroyed are those
@@ -421,7 +421,7 @@ static int aa_pop_parser_stack(aaParser *pParser){
   return aamajor;
 }
 
-/* 
+/*
 ** Deallocate and destroy a parser.  Destructors are all called for
 ** all stack elements before shutting the parser down.
 **
@@ -457,7 +457,7 @@ static int aa_find_shift_action(
 ){
   int i;
   int stateno = pParser->aastack[pParser->aaidx].stateno;
- 
+
   /* if( pParser->aaidx<0 ) return AA_NO_ACTION;  */
   i = aa_shift_ofst[stateno];
   if( i==AA_SHIFT_USE_DFLT ){
@@ -501,7 +501,7 @@ static int aa_find_reduce_action(
 ){
   int i;
   int stateno = pParser->aastack[pParser->aaidx].stateno;
- 
+
   i = aa_reduce_ofst[stateno];
   if( i==AA_REDUCE_USE_DFLT ){
     return aa_default[stateno];
@@ -610,7 +610,7 @@ static void aa_reduce(
   phannot_ARG_FETCH;
   aamsp = &aapParser->aastack[aapParser->aaidx];
 #ifndef NDEBUG
-  if( aaTraceFILE && aaruleno>=0 
+  if( aaTraceFILE && aaruleno>=0
         && aaruleno<sizeof(aaRuleName)/sizeof(aaRuleName[0]) ){
     fprintf(aaTraceFILE, "%sReduce [%s].\n", aaTracePrompt,
       aaRuleName[aaruleno]);
@@ -967,7 +967,7 @@ void phannot_(
 #ifdef AAERRORSYMBOL
       /* A syntax error has occurred.
       ** The response to an error depends upon whether or not the
-      ** grammar defines an error token "ERROR".  
+      ** grammar defines an error token "ERROR".
       **
       ** This is what we do if the grammar does define ERROR:
       **
@@ -1050,7 +1050,7 @@ void phannot_(
  * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the
- * LICENSE.txt file that was distributed with this source code.
+ * LICENSE.md file that was distributed with this source code.
  */
 
 const phannot_token_names phannot_tokens[] =

@@ -6,7 +6,7 @@
  * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the
- * LICENSE.txt file that was distributed with this source code.
+ * LICENSE.md file that was distributed with this source code.
  */
 
 #include "php_phalcon.h"
@@ -156,7 +156,7 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 			}
 
 		} else {
-		
+
 		{
 			VVCTYPE vvch;
 			unsigned int vvaccept = 0;

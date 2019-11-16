@@ -5,7 +5,7 @@
  * (c) Phalcon Team <team@phalcon.io>
  *
  * For the full copyright and license information, please view the
- * LICENSE.txt file that was distributed with this source code.
+ * LICENSE.md file that was distributed with this source code.
  */
 
 #include "php_phalcon.h"
@@ -45,7 +45,7 @@ int phannot_get_token(phannot_scanner_state *s, phannot_scanner_token *token) {
 
 		} else {
 
-		
+
 		{
 			AACTYPE aach;
 			unsigned int aaaccept = 0;
