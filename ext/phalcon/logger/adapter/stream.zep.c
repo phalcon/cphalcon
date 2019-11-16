@@ -207,7 +207,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, process) {
 	if (!(Z_TYPE_P(&_0) == IS_RESOURCE)) {
 		zephir_read_property(&_1$$3, this_ptr, SL("name"), PH_NOISY_CC | PH_READONLY);
 		zephir_read_property(&_2$$3, this_ptr, SL("mode"), PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_CALL_FUNCTION(&_3$$3, "fopen", NULL, 82, &_1$$3, &_2$$3);
+		ZEPHIR_CALL_FUNCTION(&_3$$3, "fopen", NULL, 83, &_1$$3, &_2$$3);
 		zephir_check_call_status();
 		zephir_update_property_zval(this_ptr, SL("handler"), &_3$$3);
 		zephir_read_property(&_4$$3, this_ptr, SL("handler"), PH_NOISY_CC | PH_READONLY);

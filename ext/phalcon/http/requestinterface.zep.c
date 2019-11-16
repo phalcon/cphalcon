@@ -293,7 +293,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, has);
 
 /**
  * Checks whether request include attached files
- * TODO: We need to check the name. Not very intuitive
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, hasFiles);
 
@@ -389,4 +388,9 @@ ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, isSoap);
  * if $_SERVER["REQUEST_METHOD"] === "TRACE"
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, isTrace);
+
+/**
+ * Returns the number of files available
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Http_RequestInterface, numFiles);
 

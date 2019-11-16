@@ -12,6 +12,8 @@ PHP_METHOD(Phalcon_Collection, clear);
 PHP_METHOD(Phalcon_Collection, count);
 PHP_METHOD(Phalcon_Collection, get);
 PHP_METHOD(Phalcon_Collection, getIterator);
+PHP_METHOD(Phalcon_Collection, getKeys);
+PHP_METHOD(Phalcon_Collection, getValues);
 PHP_METHOD(Phalcon_Collection, has);
 PHP_METHOD(Phalcon_Collection, init);
 PHP_METHOD(Phalcon_Collection, jsonSerialize);
@@ -130,6 +132,25 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_collection_getiterator, 0, 0, Traversable, 0)
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_collection_getiterator, 0, 0, IS_OBJECT, "Traversable", 0)
+#endif
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_collection_getkeys, 0, 0, IS_ARRAY, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_collection_getkeys, 0, 0, IS_ARRAY, NULL, 0)
+#endif
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, insensitive, _IS_BOOL, 0)
+#else
+	ZEND_ARG_INFO(0, insensitive)
+#endif
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_collection_getvalues, 0, 0, IS_ARRAY, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_collection_getvalues, 0, 0, IS_ARRAY, NULL, 0)
 #endif
 ZEND_END_ARG_INFO()
 
@@ -313,6 +334,8 @@ ZEPHIR_INIT_FUNCS(phalcon_collection_method_entry) {
 	PHP_ME(Phalcon_Collection, count, arginfo_phalcon_collection_count, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Collection, get, arginfo_phalcon_collection_get, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Collection, getIterator, arginfo_phalcon_collection_getiterator, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Collection, getKeys, arginfo_phalcon_collection_getkeys, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Collection, getValues, arginfo_phalcon_collection_getvalues, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Collection, has, arginfo_phalcon_collection_has, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Collection, init, arginfo_phalcon_collection_init, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Collection, jsonSerialize, arginfo_phalcon_collection_jsonserialize, ZEND_ACC_PUBLIC)
