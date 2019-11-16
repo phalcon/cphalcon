@@ -4,7 +4,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE.md
  * file that was distributed with this source code.
  */
 
@@ -562,7 +562,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
                     mb_detect_order(),
                     true
                 );
-            }                
+            }
             this->setRawHeader("Content-Description: File Transfer");
             this->setRawHeader("Content-Type: application/octet-stream");
             this->setRawHeader("Content-Transfer-Encoding: binary");
