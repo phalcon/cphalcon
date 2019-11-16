@@ -10,8 +10,6 @@
 
 namespace Phalcon\Html\Helper;
 
-use Phalcon\Html\Helper\AbstractHelper;
-
 /**
  * Phalcon\Html\Helper\Address
  *

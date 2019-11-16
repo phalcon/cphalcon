@@ -11,7 +11,7 @@
 namespace Phalcon\Storage\Serializer;
 
 use InvalidArgumentException;
-use Phalcon\Storage\Serializer\AbstractSerializer;
+use JsonSerializable;
 
 class Json extends AbstractSerializer
 {
@@ -20,9 +20,9 @@ class Json extends AbstractSerializer
 	 */
 	public function serialize() -> string
 	{
-	    if typeof this->data == "object" {
+	    if typeof this->data == "object" && !(this->data instanceof JsonSerializable) {
             throw new InvalidArgumentException(
-                "Data for JSON serializer cannot be of type object"
+                "Data for JSON serializer cannot be of type object without implementing JsonSerializable"
             );
         }
 

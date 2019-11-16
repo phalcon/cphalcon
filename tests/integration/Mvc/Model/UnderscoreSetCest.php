@@ -196,6 +196,32 @@ class UnderscoreSetCest
     }
 
     /**
+     * Tests Phalcon\Mvc\Model :: __set() with has-one-through related record
+     *
+     * @author Balázs Németh <https://github.com/zsilbi>
+     * @since  2019-11-03
+     */
+    public function mvcModelUnderscoreSetWithHasOneThroughRelatedRecord(IntegrationTester $I)
+    {
+        $I->wantToTest('Mvc\Model - __set() with has-one-through related record');
+
+        $robot = new Models\Relations\Robots();
+
+        $relationsParts           = new Models\Relations\RelationsParts();
+        $relationsParts->oneRobot = $robot;
+
+        $I->assertInstanceOf(
+            Models\Relations\Robots::class,
+            $relationsParts->oneRobot
+        );
+
+        $I->assertEquals(
+            Model::DIRTY_STATE_TRANSIENT,
+            $relationsParts->getDirtyState()
+        );
+    }
+
+    /**
      * Tests Phalcon\Mvc\Model :: __set() with an array as properties of a has-one related record
      *
      * @author Balázs Németh <https://github.com/zsilbi>

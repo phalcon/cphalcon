@@ -11,7 +11,6 @@
 namespace Phalcon\Logger\Adapter;
 
 use Phalcon\Logger;
-use Phalcon\Logger\Adapter\AdapterInterface;
 use Phalcon\Logger\Exception;
 use Phalcon\Logger\Formatter\FormatterInterface;
 use Phalcon\Logger\Item;

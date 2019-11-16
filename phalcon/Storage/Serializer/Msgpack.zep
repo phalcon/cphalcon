@@ -10,8 +10,6 @@
 
 namespace Phalcon\Storage\Serializer;
 
-use Phalcon\Storage\Serializer\AbstractSerializer;
-
 class Msgpack extends AbstractSerializer
 {
 	/**

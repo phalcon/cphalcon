@@ -14,7 +14,6 @@ use FilesystemIterator;
 use Iterator;
 use Phalcon\Helper\Arr;
 use Phalcon\Helper\Str;
-use Phalcon\Storage\Adapter\AbstractAdapter;
 use Phalcon\Storage\Exception;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Storage\Serializer\SerializerInterface;
@@ -167,8 +166,9 @@ class Stream extends AbstractAdapter
     }
 
     /**
-     * Returns the already connected adapter or connects to the Memcached
-     * server(s)
+     * Always returns null
+     *
+     * @return null
      */
     public function getAdapter() -> var
     {

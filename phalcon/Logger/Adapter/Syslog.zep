@@ -48,7 +48,7 @@ class Syslog extends AbstractAdapter
      *
      * @var string
      */
-    protected defaultFormatter = "Syslog";
+    protected defaultFormatter = "Line";
 
     /**
      * @var int
@@ -101,15 +101,10 @@ class Syslog extends AbstractAdapter
         bool opened;
 
         let formatter = this->getFormatter(),
-            message   = formatter->format(item);
-
-        if typeof message !== "array" {
-            throw new Exception("The formatted message is not valid");
-        }
-
-        let name     = this->name,
-            facility = this->facility,
-            option   = this->option;
+            message   = formatter->format(item),
+            name      = this->name,
+            facility  = this->facility,
+            option    = this->option;
 
         let result = openlog(name, option, facility);
 
@@ -125,9 +120,9 @@ class Syslog extends AbstractAdapter
 
         let opened       = true,
             this->opened = opened,
-            level        = this->logLevelToSyslog(message[1]);
+            level        = this->logLevelToSyslog(item->getType());
 
-        syslog(level, message[1]);
+        syslog(level, message);
     }
 
     /**

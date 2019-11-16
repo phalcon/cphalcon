@@ -53,4 +53,34 @@ class RenderCest
             $view->getContent()
         );
     }
+
+    public function doesNotRenderMultiple(IntegrationTester $I)
+    {
+        $view = new View();
+
+        $view->setViewsDir(
+            [
+                dataDir('fixtures/views'),
+                dataDir('fixtures/views-alt')
+            ]
+        );
+
+        $view->start();
+
+        $view->render(
+            'simple',
+            'params',
+            [
+                'name' => 'Sam',
+                'age'  => 20,
+            ]
+        );
+
+        $view->finish();
+
+        $I->assertEquals(
+            'My name is Sam and I am 20 years old',
+            $view->getContent()
+        );
+    }
 }

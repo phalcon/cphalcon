@@ -11,7 +11,6 @@
 namespace Phalcon\Cache;
 
 use Phalcon\Cache\Adapter\AdapterInterface;
-use Phalcon\Cache\AdapterFactory;
 use Phalcon\Cache;
 use Psr\SimpleCache\CacheInterface;
 use Phalcon\Cache\Exception\Exception;

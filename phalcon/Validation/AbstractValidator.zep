@@ -14,8 +14,6 @@ use Phalcon\Collection;
 use Phalcon\Helper\Arr;
 use Phalcon\Messages\Message;
 use Phalcon\Validation;
-use Phalcon\Validation\Exception;
-use Phalcon\Validation\ValidatorInterface;
 
 /**
  * This is a base class for validators

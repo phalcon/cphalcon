@@ -15,7 +15,6 @@ use Phalcon\Di;
 use Phalcon\Cache\Adapter\AdapterInterface;
 use Phalcon\Events\Event;
 use Phalcon\Events\ManagerInterface;
-use Phalcon\Firewall\Adapter\AbstractAdapter;
 use Phalcon\Firewall\Exception;
 use Phalcon\Mvc\DispatcherInterface;
 

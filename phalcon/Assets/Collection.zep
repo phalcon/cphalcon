@@ -12,9 +12,6 @@ namespace Phalcon\Assets;
 
 use Countable;
 use Iterator;
-use Phalcon\Assets\Asset;
-use Phalcon\Assets\FilterInterface;
-use Phalcon\Assets\Inline;
 use Phalcon\Assets\Asset\Css as AssetCss;
 use Phalcon\Assets\Asset\Js as AssetJs;
 use Phalcon\Assets\Inline\Js as InlineJs;

@@ -11,9 +11,6 @@
 namespace Phalcon\Di;
 
 use Phalcon\Di;
-use Phalcon\Di\DiInterface;
-use Phalcon\Di\InjectionAwareInterface;
-use Phalcon\Di\Exception;
 use Phalcon\Session\BagInterface;
 
 /**
@@ -87,7 +84,7 @@ abstract class Injectable implements InjectionAwareInterface
          * Fallback to the PHP userland if the cache is not available
          */
         if container->has(propertyName) {
-            let service = container->get(propertyName);
+            let service = container->getShared(propertyName);
             let this->{propertyName} = service;
 
             return service;

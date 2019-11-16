@@ -36,7 +36,7 @@ class Container implements ContainerInterface
      */
     public function get(var name) -> var
     {
-        return this->container->getService(name);
+        return this->container->getShared(name);
     }
 
     /**

@@ -281,9 +281,8 @@ interface RequestInterface
 
     /**
      * Checks whether request include attached files
-     * TODO: We need to check the name. Not very intuitive
      */
-    public function hasFiles(bool onlySuccessful = false) -> long;
+    public function hasFiles() -> bool;
 
     /**
      * Checks whether headers has certain index
@@ -377,4 +376,9 @@ interface RequestInterface
      * if $_SERVER["REQUEST_METHOD"] === "TRACE"
      */
     public function isTrace() -> bool;
+
+    /**
+     * Returns the number of files available
+     */
+    public function numFiles(bool onlySuccessful = false) -> long;
 }

@@ -366,7 +366,11 @@ class Logger implements LoggerInterface
              */
             for key, adapter in registered {
                 if !isset excluded[key] {
-                    adapter->process(item);
+                    if unlikely adapter->inTransaction() {
+                        adapter->add(item);
+                    } else {
+                        adapter->process(item);
+                    }
                 }
             }
 

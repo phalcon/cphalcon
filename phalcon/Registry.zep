@@ -10,7 +10,6 @@
 
 namespace Phalcon;
 
-use Phalcon\Collection;
 use Traversable;
 
 /**

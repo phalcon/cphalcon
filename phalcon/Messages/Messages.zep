@@ -14,9 +14,6 @@ use ArrayAccess;
 use Countable;
 use Iterator;
 use JsonSerializable;
-use Phalcon\Messages\Message;
-use Phalcon\Messages\Exception;
-use Phalcon\Messages\MessageInterface;
 
 /**
  * Represents a collection of messages

@@ -1410,7 +1410,7 @@ PHP_METHOD(Phalcon_Loader, setFileCheckingCallback) {
 	} else if (Z_TYPE_P(callback) == IS_NULL) {
 		ZEPHIR_INIT_VAR(&_0$$4);
 		ZEPHIR_INIT_NVAR(&_0$$4);
-		zephir_create_closure_ex(&_0$$4, NULL, phalcon_3__closure_ce, SL("__invoke"));
+		zephir_create_closure_ex(&_0$$4, NULL, phalcon_4__closure_ce, SL("__invoke"));
 		zephir_update_property_zval(this_ptr, SL("fileCheckingCallback"), &_0$$4);
 	} else {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_loader_exception_ce, "The 'callback' parameter must be either a callable or NULL.", "phalcon/Loader.zep", 514);

@@ -14,7 +14,6 @@
 
 namespace Phalcon\Http\Message;
 
-use Phalcon\Http\Message\UploadedFile;
 use Psr\Http\Message\StreamInterface;
 use Psr\Http\Message\UploadedFileInterface;
 use Psr\Http\Message\UploadedFileFactoryInterface;

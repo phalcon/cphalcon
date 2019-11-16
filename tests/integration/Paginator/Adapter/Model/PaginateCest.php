@@ -33,19 +33,15 @@ class PaginateCest
         $this->container['db']->close();
     }
 
-    public function paginatorAdapterModelPaginate(IntegrationTester $I)
+    public function paginatorAdapterModelPaginate(IntegrationTester $I): void
     {
-        $personnes = Personnes::find();
-
         $paginator = new Model(
             [
-                'data'  => $personnes,
+                'model' => Personnes::class,
                 'limit' => 10,
                 'page'  => 1,
             ]
         );
-
-
 
         //First Page
         $page = $paginator->paginate();
@@ -85,8 +81,6 @@ class PaginateCest
             $page->getCurrent()
         );
 
-
-
         //Middle Page
         $paginator->setCurrentPage(50);
 
@@ -121,8 +115,6 @@ class PaginateCest
             50,
             $page->getCurrent()
         );
-
-
 
         //Last Page
         $paginator->setCurrentPage(218);
@@ -162,27 +154,24 @@ class PaginateCest
 
     public function paginatorAdapterModelPaginateBind(IntegrationTester $I)
     {
-        $personnes = Personnes::find(
-            [
-                'conditions' => 'cedula >=:d1: AND cedula>=:d2: ',
-                'bind'       => [
-                    'd1' => '1',
-                    'd2' => '5',
-                ],
-                'order'      => 'cedula, nombres',
-                'limit'      => '33',
-            ]
-        );
+        $parameters = [
+            'conditions' => 'cedula >=:d1: AND cedula>=:d2: ',
+            'bind'       => [
+                'd1' => '1',
+                'd2' => '5',
+            ],
+            'order'      => 'cedula, nombres',
+            'limit'      => '33',   // will be ignored
+        ];
 
         $paginator = new Model(
             [
-                'data'  => $personnes,
-                'limit' => 10,
-                'page'  => 1,
+                'model'      => Personnes::class,
+                'parameters' => $parameters,
+                'limit'      => 10,
+                'page'       => 1,
             ]
         );
-
-
 
         //First Page
         $page = $paginator->paginate();
@@ -208,7 +197,7 @@ class PaginateCest
         );
 
         $I->assertEquals(
-            4,
+            54,
             $page->getLast()
         );
 
@@ -221,5 +210,63 @@ class PaginateCest
             1,
             $page->getCurrent()
         );
+    }
+
+    public function paginatorAdapterModelPaginateParametersAsString(IntegrationTester $I): void
+    {
+        $paginator = new Model(
+            [
+                'model'      => Personnes::class,
+                'parameters' => 'ciudad_id % 3',
+                'limit'      => 10,
+                'page'       => 4,
+            ]
+        );
+
+        $page = $paginator->paginate();
+
+        $I->assertInstanceOf(Repository::class, $page);
+
+        $I->assertCount(10, $page->getItems());
+
+        $I->assertEquals(3, $page->getPrevious());
+
+        $I->assertEquals(5, $page->getNext());
+
+        $I->assertEquals(171, $page->getLast());
+
+        $I->assertEquals(10, $page->getLimit());
+
+        $I->assertEquals(4, $page->getCurrent());
+    }
+
+    public function paginatorAdapterModelPaginateParametersArrayString(IntegrationTester $I): void
+    {
+        $paginator = new Model(
+            [
+                'model'      => Personnes::class,
+                'parameters' => [
+                    'ciudad_id % 3',
+                ],
+                'limit'      => 10,
+                'page'       => 4,
+            ]
+        );
+
+        $page = $paginator->paginate();
+
+        $I->assertInstanceOf(Repository::class, $page);
+
+        $I->assertCount(10, $page->getItems());
+
+        $I->assertEquals(3, $page->getPrevious());
+
+        $I->assertEquals(5, $page->getNext());
+
+        $I->assertEquals(171, $page->getLast());
+
+        $I->assertEquals(10, $page->getLimit());
+
+        $I->assertEquals(4, $page->getCurrent());
     }
 }

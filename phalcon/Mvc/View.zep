@@ -17,7 +17,6 @@ use Phalcon\Events\ManagerInterface;
 use Phalcon\Helper\Arr;
 use Phalcon\Helper\Str;
 use Phalcon\Mvc\View\Exception;
-use Phalcon\Mvc\ViewInterface;
 use Phalcon\Events\EventsAwareInterface;
 use Phalcon\Mvc\View\Engine\Php as PhpEngine;
 
@@ -930,12 +929,10 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
         bool silence,
         bool mustClean = true
     ) {
-        bool notExists;
         var basePath, engine, eventsManager, extension, viewsDir, viewsDirPath,
             viewEnginePath, viewEnginePaths, viewParams;
 
-        let notExists       = true,
-            basePath        = this->basePath,
+        let basePath        = this->basePath,
             viewParams      = this->viewParams,
             eventsManager   = <ManagerInterface> this->eventsManager,
             viewEnginePaths = [];
@@ -968,37 +965,30 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
 
                     engine->render(viewEnginePath, viewParams, mustClean);
 
-                    /**
-                     * Call afterRenderView if there is an events manager
-                     * available
-                     */
-                    let notExists = false;
-
                     if typeof eventsManager == "object" {
                         eventsManager->fire("view:afterRenderView", this);
                     }
-                    break;
+
+                    return;
                 }
 
                 let viewEnginePaths[] = viewEnginePath;
             }
         }
 
-        if notExists {
-            /**
-             * Notify about not found views
-             */
-            if typeof eventsManager == "object" {
-                let this->activeRenderPaths = viewEnginePaths;
+        /**
+         * Notify about not found views
+         */
+        if typeof eventsManager == "object" {
+            let this->activeRenderPaths = viewEnginePaths;
 
-                eventsManager->fire("view:notFoundView", this, viewEnginePath);
-            }
+            eventsManager->fire("view:notFoundView", this, viewEnginePath);
+        }
 
-            if !silence {
-                throw new Exception(
-                    "View '" . viewPath . "' was not found in any of the views directory"
-                );
-            }
+        if !silence {
+            throw new Exception(
+                "View '" . viewPath . "' was not found in any of the views directory"
+            );
         }
     }
 
@@ -1074,7 +1064,7 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
                             );
                         }
 
-                        let engines[extension] = di->getShared(
+                        let engines[extension] = di->get(
                             engineService,
                             [this]
                         );

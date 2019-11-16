@@ -11,10 +11,7 @@
 namespace Phalcon\Di;
 
 use Closure;
-use Phalcon\Di\DiInterface;
-use Phalcon\Di\Exception;
 use Phalcon\Di\Exception\ServiceResolutionException;
-use Phalcon\Di\ServiceInterface;
 use Phalcon\Di\Service\Builder;
 
 /**

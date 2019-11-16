@@ -10,8 +10,6 @@
 
 namespace Phalcon\Mvc\View\Engine;
 
-use Phalcon\Mvc\View\Engine\AbstractEngine;
-
 /**
  * Adapter to use PHP itself as templating engine
  */

@@ -10,9 +10,9 @@
 
 namespace Phalcon\Annotations\Adapter;
 
-use Phalcon\Annotations\Adapter\AbstractAdapter;
 use Phalcon\Annotations\Reflection;
 use Phalcon\Annotations\Exception;
+use RuntimeException;
 
 /**
  * Stores the parsed annotations in files. This adapter is suitable for production
@@ -51,6 +51,7 @@ class Stream extends AbstractAdapter
      */
     public function read(string key) -> <Reflection> | bool | int
     {
+        var contents;
         string path;
 
         /**
@@ -62,7 +63,32 @@ class Stream extends AbstractAdapter
             return false;
         }
 
-        return require path;
+        let contents = file_get_contents(path);
+
+        if unlikely empty contents {
+            return false;
+        }
+
+        globals_set("warning.enable", false);
+
+        set_error_handler(
+            function (number, message, file, line, context) {
+                globals_set("warning.enable", true);
+            },
+            E_WARNING
+        );
+
+        let contents = unserialize(contents);
+
+        restore_error_handler();
+
+        if unlikely globals_get("warning.enable") {
+            throw new RuntimeException(
+                "Cannot read annotation data"
+            );
+        }
+
+        return contents;
     }
 
     /**
@@ -70,14 +96,14 @@ class Stream extends AbstractAdapter
      */
     public function write(string! key, <Reflection> data) -> void
     {
-        string path, code;
+        var code;
+        string path;
 
         /**
          * Paths must be normalized before be used as keys
          */
-        let path = this->annotationsDir . prepare_virtual_path(key, "_") . ".php";
-
-        let code = "<?php return " . var_export(data, true) . "; ";
+        let path = this->annotationsDir . prepare_virtual_path(key, "_") . ".php",
+            code = serialize(data);
 
         if unlikely file_put_contents(path, code) === false {
               throw new Exception("Annotations directory cannot be written");

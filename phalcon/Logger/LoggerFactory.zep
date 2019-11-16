@@ -13,7 +13,6 @@ namespace Phalcon\Logger;
 use Phalcon\Config;
 use Phalcon\Helper\Arr;
 use Phalcon\Logger;
-use Phalcon\Logger\AdapterFactory;
 
 /**
  * Phalcon\Logger\LoggerFactory
@@ -35,7 +34,7 @@ class LoggerFactory
     /**
      * Factory to create an instace from a Config object
      */
-    public function load(var config) -> var
+    public function load(var config) -> <Logger>
     {
         var adapter, adapterClass, adapterFileName, adapterOptions,
             adapters, name, options;

@@ -15,7 +15,6 @@ use Iterator;
 use Phalcon\Di\Injectable;
 use Phalcon\Di\DiInterface;
 use Phalcon\Filter\FilterInterface;
-use Phalcon\Forms\Exception;
 use Phalcon\Forms\Element\ElementInterface;
 use Phalcon\Html\Attributes;
 use Phalcon\Html\Attributes\AttributesInterface;
@@ -165,10 +164,8 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
             /**
              * Check if the item is in the whitelist
              */
-            if typeof whitelist == "array" {
-                if !in_array(key, whitelist) {
-                    continue;
-                }
+            if typeof whitelist === "array" && !in_array(key, whitelist) {
+                continue;
             }
 
             /**

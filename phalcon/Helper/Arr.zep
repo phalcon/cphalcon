@@ -10,7 +10,6 @@
 
 namespace Phalcon\Helper;
 
-use Phalcon\Helper\Exception;
 use stdClass;
 
 /**

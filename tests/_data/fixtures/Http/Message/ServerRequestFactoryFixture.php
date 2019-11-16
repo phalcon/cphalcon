@@ -24,7 +24,7 @@ class ServerRequestFactoryFixture extends ServerRequestFactory
         return [
             'Accept-Language' => 'en-us',
             'Accept-Encoding' => 'gzip, deflate',
-            'Host'            => 'dev.cardoe.ld',
+            'Host'            => 'dev.phalcon.ld',
             'Authorization'   => 'Bearer',
         ];
     }

@@ -12,7 +12,6 @@ namespace Phalcon\Translate\Adapter;
 
 use Phalcon\Helper\Arr;
 use Phalcon\Translate\Exception;
-use Phalcon\Translate\Adapter\AdapterInterface;
 use Phalcon\Translate\InterpolatorFactory;
 
 /**

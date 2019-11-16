@@ -11,7 +11,6 @@
 namespace Phalcon\Storage\Adapter;
 
 use Phalcon\Helper\Arr;
-use Phalcon\Storage\Adapter\AbstractAdapter;
 use Phalcon\Storage\Exception;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Storage\Serializer\SerializerInterface;
@@ -102,7 +101,7 @@ class Redis extends AbstractAdapter
     }
 
     /**
-     * Returns the already connected adapter or connects to the Memcached
+     * Returns the already connected adapter or connects to the Redis
      * server(s)
      *
      * @return mixed|\Redis

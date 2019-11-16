@@ -13,10 +13,7 @@ namespace Phalcon\Mvc\Model;
 use Phalcon\Di;
 use Phalcon\Db\Column;
 use Phalcon\Di\DiInterface;
-use Phalcon\Mvc\Model\Exception;
 use Phalcon\Di\InjectionAwareInterface;
-use Phalcon\Mvc\Model\CriteriaInterface;
-use Phalcon\Mvc\Model\ResultsetInterface;
 use Phalcon\Mvc\Model\Query\BuilderInterface;
 
 /**
@@ -643,7 +640,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      * limit was set without an offset, an array with 'number' and 'offset' keys
      * if an offset was set with the limit, or null if limit has not been set.
      *
-     * @return int|array|null
+     * @return string|null
      */
     public function getLimit() -> string | null
     {

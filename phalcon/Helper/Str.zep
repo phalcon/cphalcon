@@ -10,8 +10,6 @@
 
 namespace Phalcon\Helper;
 
-use Phalcon\Helper\Arr;
-use Phalcon\Helper\Exception;
 use RuntimeException;
 
 /**

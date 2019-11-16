@@ -114,7 +114,7 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, callActionMethod) {
 	}
 
 
-	ZEPHIR_CALL_FUNCTION(&_0, "array_values", NULL, 161, &params);
+	ZEPHIR_CALL_FUNCTION(&_0, "array_values", NULL, 11, &params);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&params, &_0);
 	ZEPHIR_INIT_VAR(&_1);

@@ -10,10 +10,6 @@
 
 namespace Phalcon\Di;
 
-use Phalcon\Di;
-use Phalcon\Di\DiInterface;
-use Phalcon\Di\InjectionAwareInterface;
-
 /**
  * This abstract class offers common access to the DI in a class
  */

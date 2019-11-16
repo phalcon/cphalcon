@@ -18,8 +18,6 @@
 
 namespace Phalcon\Domain\Payload;
 
-use Phalcon\Domain\Payload\PayloadInterface;
-
 /**
  * Holds the payload
  */

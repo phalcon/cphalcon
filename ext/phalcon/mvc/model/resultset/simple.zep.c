@@ -549,7 +549,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize) {
 		zephir_check_call_status();
 		RETURN_MM();
 	}
-	ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 11, &data);
+	ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 12, &data);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -608,7 +608,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, unserialize) {
 		ZEPHIR_CALL_METHOD(&resultset, &serializer, "unserialize", NULL, 0, data);
 		zephir_check_call_status();
 	} else {
-		ZEPHIR_CALL_FUNCTION(&resultset, "unserialize", NULL, 12, data);
+		ZEPHIR_CALL_FUNCTION(&resultset, "unserialize", NULL, 13, data);
 		zephir_check_call_status();
 	}
 	if (UNEXPECTED(Z_TYPE_P(&resultset) != IS_ARRAY)) {

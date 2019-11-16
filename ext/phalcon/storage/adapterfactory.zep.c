@@ -129,7 +129,7 @@ PHP_METHOD(Phalcon_Storage_AdapterFactory, newInstance) {
 	if (!(zephir_array_isset(&_0, &name))) {
 		zephir_read_property(&_1$$3, this_ptr, SL("mapper"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_OBS_VAR(&definition);
-		zephir_array_fetch(&definition, &_1$$3, &name, PH_NOISY, "phalcon/Storage/AdapterFactory.zep", 45);
+		zephir_array_fetch(&definition, &_1$$3, &name, PH_NOISY, "phalcon/Storage/AdapterFactory.zep", 43);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZEPHIR_INIT_VAR(&_3$$3);
 		zephir_create_array(&_3$$3, 2, 0);
@@ -142,7 +142,7 @@ PHP_METHOD(Phalcon_Storage_AdapterFactory, newInstance) {
 		zephir_update_property_array(this_ptr, SL("services"), &name, &_2$$3);
 	}
 	zephir_read_property(&_5, this_ptr, SL("services"), PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch(&_6, &_5, &name, PH_NOISY | PH_READONLY, "phalcon/Storage/AdapterFactory.zep", 55);
+	zephir_array_fetch(&_6, &_5, &name, PH_NOISY | PH_READONLY, "phalcon/Storage/AdapterFactory.zep", 53);
 	RETURN_CTOR(&_6);
 
 }

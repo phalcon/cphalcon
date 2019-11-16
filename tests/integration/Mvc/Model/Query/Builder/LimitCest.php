@@ -37,7 +37,7 @@ class LimitCest
      * Tests Phalcon\Mvc\Model\Query\Builder :: limit()
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/12419
-     * @author       Serghei Iakovelv <serghei@phalcon.io>
+     * @author       Phalcon Team <team@phalcon.io>
      * @since        2016-12-18
      *
      * @dataProvider limitOffsetProvider

@@ -13,8 +13,6 @@ namespace Phalcon\Mvc\Model\Transaction;
 use Phalcon\Di;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\InjectionAwareInterface;
-use Phalcon\Mvc\Model\Transaction\ManagerInterface;
-use Phalcon\Mvc\Model\Transaction\Exception;
 use Phalcon\Mvc\Model\Transaction;
 use Phalcon\Mvc\Model\TransactionInterface;
 

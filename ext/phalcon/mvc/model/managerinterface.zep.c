@@ -66,6 +66,17 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, addHasMany);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, addHasOne);
 
 /**
+ * Setups a 1-1 relation between two models using an intermediate table
+ *
+ * @param    string fields
+ * @param    string intermediateFields
+ * @param    string intermediateReferencedFields
+ * @param    string referencedFields
+ * @param   array options
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, addHasOneThrough);
+
+/**
  * Setups a relation n-m between two models
  *
  * @param    string fields
@@ -109,6 +120,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, existsHasMany);
  * Checks whether a model has a hasOne relation with another model
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, existsHasOne);
+
+/**
+ * Checks whether a model has a hasOneThrough relation with another model
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, existsHasOneThrough);
 
 /**
  * Checks whether a model has a hasManyToMany relation with another model
@@ -158,12 +174,17 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getHasManyToMany);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getHasOne);
 
 /**
+ * Gets hasOneThrough relations defined on a model
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getHasOneThrough);
+
+/**
  * Gets hasOne relations defined on a model
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getHasOneAndHasMany);
 
 /**
- * Gets belongsTo related records from a model
+ * Gets hasOne related records from a model
  *
  * @param string            $modelName
  * @param string            $modelRelation

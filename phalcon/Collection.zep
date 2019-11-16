@@ -146,6 +146,21 @@ class Collection implements
         return new ArrayIterator(this->data);
     }
 
+
+    public function getKeys(bool insensitive = true) -> array
+    {
+        if insensitive {
+            return array_keys(this->lowerKeys);
+        } else {
+            return array_keys(this->data);
+        }
+    }
+
+    public function getValues() -> array
+    {
+        return array_values(this->data);
+    }
+
     /**
      * Get the element from the collection
      */
@@ -176,7 +191,20 @@ class Collection implements
      */
     public function jsonSerialize() -> array
     {
-        return this->data;
+        var key, value;
+        array records;
+
+        let records = [];
+
+        for key, value in this->data {
+            if typeof value == "object" && method_exists(value, "jsonSerialize") {
+                let records[key] = value->{"jsonSerialize"}();
+            } else {
+                let records[key] = value;
+            }
+        }
+
+        return records;
     }
 
     /**

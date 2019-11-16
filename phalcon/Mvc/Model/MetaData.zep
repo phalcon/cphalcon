@@ -13,7 +13,6 @@ namespace Phalcon\Mvc\Model;
 use Phalcon\Cache\Adapter\AdapterInterface as CacheAdapterInterface;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\InjectionAwareInterface;
-use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\MetaData\Strategy\Introspection;
 use Phalcon\Mvc\Model\MetaData\Strategy\StrategyInterface;
 use Phalcon\Mvc\ModelInterface;
@@ -320,7 +319,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      * );
      *```
      */
-    public function getIdentityField(<ModelInterface> model) -> string
+    public function getIdentityField(<ModelInterface> model) -> string | null
     {
         return this->readMetaDataIndex(model, self::MODELS_IDENTITY_COLUMN);
     }

@@ -13,6 +13,8 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Di\Injectable;
 
 use UnitTester;
+use InjectableComponent;
+use Phalcon\Di;
 
 class GetDICest
 {
@@ -26,6 +28,17 @@ class GetDICest
     {
         $I->wantToTest('Di\Injectable - getDI()');
 
-        $I->skipTest('Need implementation');
+        require_once dataDir('fixtures/Di/InjectableComponent.php');
+        Di::reset();
+        $di= new Di();
+        // Injection of parameters in the constructor
+        $di->set('std', function () {
+            return new \stdClass();
+        });
+        $di->set('component', InjectableComponent::class);
+        $component = $di->get('component');
+        $I->assertEquals($di, $component->getDI());
+        $stdObject = $component->std;
+        $I->assertEquals($stdObject, $component->std);
     }
 }

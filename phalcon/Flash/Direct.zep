@@ -10,8 +10,6 @@
 
 namespace Phalcon\Flash;
 
-use Phalcon\Flash\AbstractFlash;
-
 /**
  * This is a variant of the Phalcon\Flash that immediately outputs any message
  * passed to it

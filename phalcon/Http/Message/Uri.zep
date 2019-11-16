@@ -17,7 +17,6 @@ namespace Phalcon\Http\Message;
 use Phalcon\Helper\Arr;
 use Phalcon\Helper\Str;
 use Phalcon\Http\Message\Exception\InvalidArgumentException;
-use Phalcon\Http\Message\AbstractCommon;
 use Psr\Http\Message\UriInterface;
 
 /**

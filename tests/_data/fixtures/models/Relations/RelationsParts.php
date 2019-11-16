@@ -29,5 +29,17 @@ class RelationsParts extends Model
                 ],
             ]
         );
+
+        $this->hasOneThrough(
+            'id',
+            RelationsRobotsParts::class,
+            'parts_id',
+            'robots_id',
+            RelationsRobots::class,
+            'id',
+            [
+                'alias' => 'oneRobot'
+            ]
+        );
     }
 }

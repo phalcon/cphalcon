@@ -12,7 +12,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Annotations\Adapter\Stream;
 
+use Phalcon\Annotations\Adapter\AdapterInterface;
+use Phalcon\Annotations\Adapter\Stream;
 use UnitTester;
+use function outputDir;
 
 class ConstructCest
 {
@@ -26,6 +29,15 @@ class ConstructCest
     {
         $I->wantToTest('Annotations\Adapter\Stream - __construct()');
 
-        $I->skipTest('Need implementation');
+        $adapter = new Stream(
+            [
+                'annotationsDir' => outputDir('tests/annotations/'),
+            ]
+        );
+
+        $I->assertInstanceOf(
+            AdapterInterface::class,
+            $adapter
+        );
     }
 }
