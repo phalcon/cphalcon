@@ -16,7 +16,7 @@
   | Copyright (c) 2011-2017 Zephir Team (http://www.zephir-lang.com)       |
   +------------------------------------------------------------------------+
   | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file docs/LICENSE.txt.                        |
+  | with this package in the file docs/LICENSE.md.                        |
   |                                                                        |
   | If you did not receive a copy of the license and are unable to         |
   | obtain it through the world-wide-web, please send an email             |
@@ -114,12 +114,12 @@ typedef zend_function zephir_fcall_cache_entry;
 #define PHP_PHALCON_ZEPVERSION  "0.12.10-fedc314"
 #define PHP_PHALCON_DESCRIPTION "Web framework delivered as a C-extension for PHP"
 
-typedef struct _zephir_struct_db { 
+typedef struct _zephir_struct_db {
 	zend_bool escape_identifiers;
 	zend_bool force_casting;
 } zephir_struct_db;
 
-typedef struct _zephir_struct_orm { 
+typedef struct _zephir_struct_orm {
 	HashTable*  ast_cache;
 	int cache_level;
 	zend_bool case_insensitive_column_map;
@@ -142,7 +142,7 @@ typedef struct _zephir_struct_orm {
 	zend_bool virtual_foreign_keys;
 } zephir_struct_orm;
 
-typedef struct _zephir_struct_warning { 
+typedef struct _zephir_struct_warning {
 	zend_bool enable;
 } zephir_struct_warning;
 
@@ -163,7 +163,7 @@ ZEND_BEGIN_MODULE_GLOBALS(phalcon)
 	/* Max recursion control */
 	unsigned int recursive_lock;
 
-	
+
 	zephir_struct_db db;
 
 	zephir_struct_orm orm;

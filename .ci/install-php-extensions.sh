@@ -5,7 +5,7 @@
 # (c) Phalcon Team <team@phalcon.io>
 #
 # For the full copyright and license information, please view the
-# LICENSE.txt file that was distributed with this source code.
+# LICENSE.md file that was distributed with this source code.
 
 # -e  Exit immediately if a command exits with a non-zero status.
 # -u  Treat unset variables as an error when substituting.

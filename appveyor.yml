@@ -3,7 +3,7 @@
 # (c) Phalcon Team <team@phalcon.io>
 #
 # For the full copyright and license information, please view
-# the LICENSE.txt file that was distributed with this source code.
+# the LICENSE.md file that was distributed with this source code.
 
 version: 4.0.0-rc.3+{build}
 
@@ -129,6 +129,7 @@ after_build:
         -Platform       $Env:PLATFORM `
         -ConverMdToHtml $true `
         -ReleaseFiles   "${Env:RELEASE_DLL_PATH}",`
+                        "${Env:APPVEYOR_BUILD_FOLDER}\LICENSE.md",`
                         "${Env:APPVEYOR_BUILD_FOLDER}\3rdparty\licenses\LICENSE-PHP.txt",`
                         "${Env:APPVEYOR_BUILD_FOLDER}\3rdparty\licenses\LICENSE-ZEND.txt",`
                         "${Env:APPVEYOR_BUILD_FOLDER}\3rdparty\licenses\LICENSE-ATLAS.txt",`

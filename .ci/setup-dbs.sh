@@ -5,7 +5,7 @@
 # (c) Phalcon Team <team@phalcon.io>
 #
 # For the full copyright and license information, please view the
-# LICENSE.txt file that was distributed with this source code.
+# LICENSE.md file that was distributed with this source code.
 
 (>&1 echo "Create MySQL database...")
 mysql -u root -e "CREATE DATABASE IF NOT EXISTS phalcon_test charset=utf8mb4 collate=utf8mb4_unicode_ci;"
