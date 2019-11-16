@@ -747,8 +747,9 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      */
     public function insert(string table, array! values, var fields = null, var dataTypes = null) -> bool
     {
-        var placeholders, insertValues, bindDataTypes, bindType, position,
-            value, escapedTable, joinedValues, escapedFields, field, insertSql;
+        var bindDataTypes, bindType, escapedTable, escapedFields, field,
+            insertSql, insertValues, joinedValues, placeholders, position,
+            tableName, value;
 
         /**
          * A valid array with more than one element is required
@@ -759,10 +760,9 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
             );
         }
 
-        let placeholders = [],
-            insertValues = [];
-
-        let bindDataTypes = [];
+        let placeholders  = [],
+            insertValues  = [],
+            bindDataTypes = [];
 
         /**
          * Objects are casted using __toString, null values are converted to
@@ -795,7 +795,13 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
             }
         }
 
-        let escapedTable = this->escapeIdentifier(table);
+        if strpos(table, ".") > 0 {
+            let tableName = explode(".", table);
+        } else {
+            let tableName = table;
+        }
+
+        let escapedTable = this->escapeIdentifier(tableName);
 
         /**
          * Build the final SQL INSERT statement
@@ -1118,14 +1124,13 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      */
     public function update(string table, var fields, var values, var whereCondition = null, var dataTypes = null) -> bool
     {
-        var placeholders, updateValues, position, value, field, bindDataTypes,
-            escapedField, bindType, escapedTable, setClause, updateSql,
-            conditions, whereBind, whereTypes;
+        var bindDataTypes, bindType, conditions, escapedField, escapedTable,
+            field, placeholders, position, setClause, tableName, updateSql,
+            updateValues, value, whereBind, whereTypes;
 
-        let placeholders = [],
-            updateValues = [];
-
-        let bindDataTypes = [];
+        let placeholders  = [],
+            updateValues  = [],
+            bindDataTypes = [];
 
         /**
          * Objects are casted using __toString, null values are converted to
@@ -1167,9 +1172,17 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
             }
         }
 
-        let escapedTable = this->escapeIdentifier(table);
+        /**
+         * Check if we got table and schema and escape it accordingly
+         */
+        if strpos(table, ".") > 0 {
+            let tableName = explode(".", table);
+        } else {
+            let tableName = table;
+        }
 
-        let setClause = join(", ", placeholders);
+        let escapedTable = this->escapeIdentifier(tableName),
+            setClause    = join(", ", placeholders);
 
         if whereCondition !== null {
             let updateSql = "UPDATE " . escapedTable . " SET " . setClause . " WHERE ";

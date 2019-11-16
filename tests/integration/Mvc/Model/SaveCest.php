@@ -15,14 +15,18 @@ namespace Phalcon\Test\Integration\Mvc\Model;
 use IntegrationTester;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\MetaData;
+use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\AlbumORama\Albums;
 use Phalcon\Test\Models\AlbumORama\Artists;
+use Phalcon\Test\Models\Invoices;
+use Phalcon\Test\Models\InvoicesSchema;
 use Phalcon\Test\Models\Parts;
 use Phalcon\Test\Models\Robots;
 use Phalcon\Test\Models\RobotsParts;
 use Phalcon\Test\Models\Users;
 use Phalcon\Test\Models\TinyIntTest;
+use function uniqid;
 
 class SaveCest
 {
@@ -345,6 +349,9 @@ class SaveCest
         );
     }
 
+    /**
+     * Tests Phalcon\Mvc\Model :: save() with circular unsaved relations
+     */
     public function mvcModelSaveCircularRelation(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Model::save() with circular unsaved relations');
@@ -377,7 +384,15 @@ class SaveCest
         $I->assertNotNull($artist->id);
     }
 
-    public function mvcModelSaveAfterFetchingRelatedIssue14270(IntegrationTester $I)
+    /**
+     * Tests Phalcon\Mvc\Model :: save() after fetching related using magic getter
+     *
+     * @see    https://github.com/phalcon/cphalcon/issues/14270
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-08-02
+     */
+    public function mvcModelSaveAfterFetchingRelatedWithMagicGetter(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Model::save() after fetching related using magic getter');
 
@@ -439,9 +454,17 @@ class SaveCest
         );
     }
 
-    public function tinyIntNotStoredIssue14355(IntegrationTester $I)
+    /**
+     * Tests Phalcon\Mvc\Model :: save() with a tinyint(1)
+     *
+     * @see    https://github.com/phalcon/cphalcon/issues/14355
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-08-02
+     */
+    public function mvcModelSaveWithTinyInt(IntegrationTester $I)
     {
-        $I->wantToTest('Saving a tinyint(1)');
+        $I->wantToTest('Mvc\Model::save() with a tinyint(1)');
 
         $referenceModel = new TinyIntTest();
         $referenceModel->test = 0;
@@ -459,5 +482,44 @@ class SaveCest
             '0',
             $storedModel->test
         );
+    }
+
+    /**
+     * Tests Phalcon\Mvc\Model\ :: save() with schema
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-11-16
+     */
+    public function mvcModelSaveWithSchema(IntegrationTester $I)
+    {
+        $I->wantToTest('Mvc\Model - save() with a schema');
+
+        /**
+         * Setup the table
+         */
+        (new InvoicesMigration())($this->container->get('db'));
+
+        $model = new Invoices();
+
+        $model->inv_cst_id      = 1;
+        $model->inv_status_flag = 1;
+        $model->inv_title       = uniqid();
+        $model->inv_total       = 100;
+        $model->inv_created_at  = date('Y-m-d H:i:s');
+
+        $result = $model->save();
+        $I->assertNotFalse($result);
+
+
+        $model = new InvoicesSchema();
+
+        $model->inv_cst_id      = 1;
+        $model->inv_status_flag = 1;
+        $model->inv_title       = uniqid();
+        $model->inv_total       = 100;
+        $model->inv_created_at  = date('Y-m-d H:i:s');
+
+        $result = $model->save();
+        $I->assertNotFalse($result);
     }
 }
