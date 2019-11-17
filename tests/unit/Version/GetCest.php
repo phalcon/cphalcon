@@ -56,7 +56,7 @@ class GetCest
 
 
         $I->assertEquals(
-            trim("{$major}.{$med}.{$min}-{$special}.{$specialNo}"),
+            trim("{$major}.{$med}.{$min}-{$special}.{$specialNo}", "-"),
             Version::get()
         );
     }
