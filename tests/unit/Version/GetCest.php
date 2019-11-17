@@ -53,10 +53,16 @@ class GetCest
         $min       = intval($id[3] . $id[4]);
         $special   = $this->numberToSpecial($id[5]);
         $specialNo = ($special) ? $id[6] : '';
-
+        $expected  = "{$major}.{$med}.{$min}";
+        if (true !== empty($special)) {
+            $expected .= "-{$special}";
+            if (true !== empty($specialNo)) {
+                $expected .= ".{$specialNo}";
+            }
+        }
 
         $I->assertEquals(
-            trim("{$major}.{$med}.{$min}-{$special}.{$specialNo}", "-"),
+            trim($expected),
             Version::get()
         );
     }
