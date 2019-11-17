@@ -314,7 +314,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         var modelName, manager, relation;
 
         let modelName = get_class(this),
-            manager = <ManagerInterface> this->getModelsManager();
+            manager   = <ManagerInterface> this->getModelsManager();
 
         /**
          * Check if the property is a relationship
@@ -343,13 +343,12 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
          */
         if typeof value == "object" && value instanceof ModelInterface {
             let lowerProperty = strtolower(property),
-                modelName = get_class(this),
-                manager = this->getModelsManager();
-
-            let relation = <RelationInterface> manager->getRelationByAlias(
-                modelName,
-                lowerProperty
-            );
+                modelName     = get_class(this),
+                manager       = this->getModelsManager(),
+                relation      = <RelationInterface> manager->getRelationByAlias(
+                    modelName,
+                    lowerProperty
+                );
 
             if typeof relation == "object" {
                 let dirtyState = this->dirtyState;
@@ -361,7 +360,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 unset this->related[lowerProperty];
 
                 let this->dirtyRelated[lowerProperty] = value,
-                    this->dirtyState = dirtyState;
+                    this->dirtyState                  = dirtyState;
 
                 return value;
             }
@@ -373,12 +372,11 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         elseif typeof value == "array" {
             let lowerProperty = strtolower(property),
                 modelName = get_class(this),
-                manager = this->getModelsManager();
-
-            let relation = <RelationInterface> manager->getRelationByAlias(
-                modelName,
-                lowerProperty
-            );
+                manager   = this->getModelsManager(),
+                relation  = <RelationInterface> manager->getRelationByAlias(
+                    modelName,
+                    lowerProperty
+                );
 
             if typeof relation == "object" {
                 switch relation->getType() {
@@ -4352,6 +4350,21 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     final protected function _possibleSetter(string property, var value) -> bool
     {
         var possibleSetter;
+        array localMethods;
+
+        let localMethods = [
+            "setConnectionService"      : 1,
+            "setDirtyState"             : 1,
+            "setEventsManager"          : 1,
+            "setReadConnectionService"  : 1,
+            "setOldSnapshotData"        : 1,
+            "setSchema"                 : 1,
+            "setSnapshotData"           : 1,
+            "setSource"                 : 1,
+            "setTransaction"            : 1,
+            "setWriteConnectionService" : 1
+        ];
+
 
         let possibleSetter = "set" . camelize(property);
 
@@ -4359,7 +4372,9 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             return false;
         }
 
-        this->{possibleSetter}(value);
+        if !isset localMethods[possibleSetter] {
+            this->{possibleSetter}(value);
+        }
 
         return true;
     }

@@ -16,6 +16,7 @@ use IntegrationTester;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\MetaData;
 use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
+use Phalcon\Test\Fixtures\Migrations\SourcesMigration;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\AlbumORama\Albums;
 use Phalcon\Test\Models\AlbumORama\Artists;
@@ -24,6 +25,7 @@ use Phalcon\Test\Models\InvoicesSchema;
 use Phalcon\Test\Models\Parts;
 use Phalcon\Test\Models\Robots;
 use Phalcon\Test\Models\RobotsParts;
+use Phalcon\Test\Models\Sources;
 use Phalcon\Test\Models\Users;
 use Phalcon\Test\Models\TinyIntTest;
 use function uniqid;
@@ -520,6 +522,41 @@ class SaveCest
         $model->inv_created_at  = date('Y-m-d H:i:s');
 
         $result = $model->save();
+        $I->assertNotFalse($result);
+    }
+
+    /**
+     * Tests Phalcon\Mvc\Model\ :: save() with property source
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-11-16
+     */
+    public function mvcModelSaveWithPropertySource(IntegrationTester $I)
+    {
+        $I->wantToTest('Mvc\Model - save() with property source');
+
+        /**
+         * Setup the table
+         */
+        (new SourcesMigration())($this->container->get('db'));
+
+        $model = Sources::findFirst(
+            [
+                'conditions' => 'id = :id:',
+                'bind'       => [
+                    'id' => 1,
+                ],
+            ]
+        );
+
+        $I->assertInstanceOf(Sources::class, $model);
+        $I->assertEquals(1, $model->id);
+        $I->assertEquals('co_sources', $model->getSource());
+
+        $model->username = 'vader';
+        $result = $model->save();
+
+        $I->assertCount(0, $model->getMessages());
         $I->assertNotFalse($result);
     }
 }
