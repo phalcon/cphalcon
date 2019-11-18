@@ -10,6 +10,7 @@
 
 namespace Phalcon\Mvc\Model\MetaData;
 
+use Phalcon\Helper\Arr;
 use Phalcon\Mvc\Model\MetaData;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Cache\AdapterFactory;
@@ -41,8 +42,8 @@ class Apcu extends MetaData
      */
     public function __construct(<AdapterFactory> factory, array! options = null)
     {
-        let options["prefix"]   = "ph-mm-apcu-",
-            options["lifetime"] = 172800,
+        let options["prefix"]   = Arr::get(options, "prefix", "ph-mm-apcu-"),
+            options["lifetime"] = Arr::get(options, "lifetime", 172800),
             this->adapter       = factory->newInstance("apcu", options);
     }
 }
