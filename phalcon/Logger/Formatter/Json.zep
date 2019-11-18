@@ -56,6 +56,6 @@ class Json extends AbstractFormatter
                 "message"   : message,
                 "timestamp" : date(this->dateFormat, item->getTime())
             ]
-        ) . PHP_EOL;
+        );
     }
 }

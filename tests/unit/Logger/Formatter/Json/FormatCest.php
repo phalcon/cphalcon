@@ -42,9 +42,8 @@ class FormatCest
         );
 
         $expected = sprintf(
-            '{"type":"debug","message":"log message","timestamp":"%s"}%s',
-            date('D, d M y H:i:s O', $time),
-            PHP_EOL
+            '{"type":"debug","message":"log message","timestamp":"%s"}',
+            date('D, d M y H:i:s O', $time)
         );
 
         $I->assertEquals(
@@ -75,9 +74,8 @@ class FormatCest
         );
 
         $expected = sprintf(
-            '{"type":"debug","message":"log message","timestamp":"%s"}%s',
-            date('YmdHis', $time),
-            PHP_EOL
+            '{"type":"debug","message":"log message","timestamp":"%s"}',
+            date('YmdHis', $time)
         );
 
         $I->assertEquals(
