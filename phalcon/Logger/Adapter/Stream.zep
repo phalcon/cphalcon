@@ -125,7 +125,7 @@ class Stream extends AbstractAdapter
         }
 
         let formatter        = this->getFormatter(),
-            formattedMessage = formatter->format(item);
+            formattedMessage = formatter->format(item) . PHP_EOL;
 
         fwrite(this->handler, formattedMessage);
     }
