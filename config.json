@@ -5,7 +5,11 @@
   "author": "Phalcon Team and contributors",
   "version": "4.0.0",
   "verbose": false,
-
+  "stubs": {
+    "path": "ide\/%version%\/%namespace%\/",
+    "stubs-run-after-generate": false,
+    "banner": "/* This file is part of the Phalcon Framework.\n *\n * (c) Phalcon Team <team@phalcon.io>\n *\n * For the full copyright and license information, please view the LICENSE.txt\n * file that was distributed with this source code.\n */"
+  },
   "optimizer-dirs": [
     "optimizers"
   ],
