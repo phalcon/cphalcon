@@ -111,9 +111,9 @@ class ConstructCest
 
         $I->seeInThisFile($expected);
 
-        $I->safeDeleteFile(
-            $outputPath . $fileName
-        );
+//        $I->safeDeleteFile(
+//            $outputPath . $fileName
+//        );
     }
 
     /**
