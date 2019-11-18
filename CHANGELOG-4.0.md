@@ -8,6 +8,7 @@
 ## Fixed
 - Fixed `PhalconMvc\Model` to ignore internal setters if properties have the same name as the setter [#14538](https://github.com/phalcon/cphalcon/issues/14538)
 - Fixed `Phalcon\Logger\Formatter\Line` to not add `PHP_EOL` at the end of the message and added it to the `Phalcon\Logger\Adapter\Stream` [#14547](https://github.com/phalcon/cphalcon/issues/14547)
+
 # [4.0.0-rc.r3](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-rc.3) (2019-11-16)
 ## Added
 - Added support for [PSR-13](https://www.php-fig.org/psr/psr-13/) links and evolvable links [#14507](https://github.com/phalcon/cphalcon/issues/14507)
