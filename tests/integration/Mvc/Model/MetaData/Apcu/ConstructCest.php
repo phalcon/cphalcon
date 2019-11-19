@@ -46,7 +46,6 @@ class ConstructCest
                 return new Apcu(
                     $factory,
                     [
-                        'prefix'   => 'app\\',
                         'lifetime' => 60,
                     ]
                 );
