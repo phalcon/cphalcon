@@ -13,12 +13,16 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Model\Resultset;
 
 use IntegrationTester;
+use Phalcon\Test\Fixtures\Migrations\ObjectsMigration;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 /**
  * Class GetFirstCest
  */
 class GetFirstCest
 {
+    use DiTrait;
+
     /**
      * Tests Phalcon\Mvc\Model\Resultset :: getFirst()
      *
@@ -28,6 +32,68 @@ class GetFirstCest
     public function mvcModelResultsetGetFirst(IntegrationTester $I)
     {
         $I->wantToTest('Mvc\Model\Resultset - getFirst()');
-        $I->skipTest('Need implementation');
+
+        $this->setNewFactoryDefault();
+        $this->setDiMysql();
+
+        /**
+         * Setup the table
+         */
+        (new ObjectsMigration())($this->container->get('db'));
+
+        $manager = $this->container->get('modelsManager');
+//        $results = $manager
+//            ->executeQuery(
+//                'SELECT o.* FROM Phalcon\Test\Models\Objects AS o LIMIT 1'
+//            )
+//        ;
+//        $record = $results->getFirst();
+//        $id     = $record->obj_id;
+//        $I->assertEquals(1, $id);
+//
+//        $results = $manager
+//            ->executeQuery(
+//                'SELECT obj_id FROM Phalcon\Test\Models\Objects AS o LIMIT 1'
+//            )
+//        ;
+//        $record = $results->getFirst();
+//        $id     = $record->obj_id;
+//        $I->assertEquals(1, $id);
+//
+//        $results = $manager
+//            ->executeQuery(
+//                'SELECT o.obj_id AS obj_id FROM Phalcon\Test\Models\Objects AS o LIMIT 1'
+//            )
+//        ;
+//        $record = $results->getFirst();
+//        $id     = $record->obj_id;
+//        $I->assertEquals(1, $id);
+
+        $results = $manager
+            ->executeQuery(
+                'SELECT 
+                    o.obj_id, 
+                    s.stf_id 
+                FROM 
+                    Phalcon\Test\Models\Objects AS o, 
+                    Phalcon\Test\Models\Stuff AS s
+                WHERE 
+                    o.obj_type = s.stf_type 
+                LIMIT 1'
+            )
+        ;
+        $record = $results->getFirst();
+        var_dump($record);
+        die();
+        $id     = $record->obj_id;
+        $I->assertEquals(1, $id);
+
+//        $resultset = $manager
+//            ->executeQuery(
+//                'SELECT o.obj_id FROM Objects AS o LIMIT 1' // err
+//        // Objects.obj_id // err
+//        // o.obj_id AS obj_id // ok
+//        // obj_id // ok
+//        )->getFirst()->obj_id;
     }
 }

@@ -3786,6 +3786,11 @@ class Query implements QueryInterface, InjectionAwareInterface
 
             cache->set(key, result, lifetime);
         }
+print_r(PHP_EOL);
+print_r("result");
+print_r(PHP_EOL);
+print_r(result);
+print_r(PHP_EOL);
 
         /**
          * Check if only the first row must be returned
@@ -3795,6 +3800,11 @@ class Query implements QueryInterface, InjectionAwareInterface
         } else {
             let preparedResult = result;
         }
+print_r(PHP_EOL);
+print_r("prepared");
+print_r(PHP_EOL);
+print_r(result);
+print_r(PHP_EOL);
 
         return preparedResult;
     }
