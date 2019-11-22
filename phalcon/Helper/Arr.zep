@@ -361,7 +361,7 @@ class Arr
      *
      * @return bool
      */
-    final public static function validateAll(array! collection, var method) -> bool
+    final public static function validateAll(array! collection, var method = null) -> bool
     {
         return count(self::filterCollection(collection, method)) === count(collection);
     }
@@ -375,7 +375,7 @@ class Arr
      *
      * @return bool
      */
-    final public static function validateAny(array! collection, var method) -> bool
+    final public static function validateAny(array! collection, var method = null) -> bool
     {
         return count(self::filterCollection(collection, method)) > 0;
     }
