@@ -60,7 +60,7 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
      * Sets parameters based on options
      */
-    protected function __construct(<SerializerFactory> factory = null, array! options)
+    protected function __construct(<SerializerFactory> factory = null, array! options = [])
     {
         /**
          * Lets set some defaults and options here
@@ -93,7 +93,7 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
      * Reads data from the adapter
      */
-    abstract public function get(string! key) -> var;
+    abstract public function get(string! key, var defaultValue = null) -> var;
 
     /**
      * Returns the adapter - connects to the storage if not connected

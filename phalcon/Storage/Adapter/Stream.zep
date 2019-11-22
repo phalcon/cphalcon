@@ -36,11 +36,6 @@ class Stream extends AbstractAdapter
     protected options = [];
 
     /**
-     * @var bool
-     */
-    private warning = false;
-
-    /**
      * Stream constructor.
      *
      * @param array $options
@@ -324,26 +319,25 @@ class Stream extends AbstractAdapter
     {
         var payload;
 
-        let payload       = file_get_contents(filepath),
-            this->warning = false;
+        let payload = file_get_contents(filepath);
 
         if false === payload {
             return [];
         }
 
+        globals_set("warning.enable", false);
         set_error_handler(
             function (number, message, file, line, context) {
-                if number === E_WARNING {
-                    let this->warning = true;
-                }
-            }
+                globals_set("warning.enable", true);
+            },
+            E_NOTICE
         );
 
         let payload = unserialize(payload);
 
         restore_error_handler();
 
-        if unlikely (this->warning || typeof payload !== "array") {
+        if unlikely (globals_get("warning.enable") || typeof payload !== "array") {
             return [];
         }
 
