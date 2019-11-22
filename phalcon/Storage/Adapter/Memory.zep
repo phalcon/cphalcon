@@ -24,7 +24,7 @@ class Memory extends AbstractAdapter
     /**
      * @var Collection
      */
-    protected data = [];
+    protected data;
 
     /**
      * @var array
