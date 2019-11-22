@@ -18,20 +18,20 @@ use UnitTester;
 class GetSetWorkFactorCest
 {
     /**
-     * Tests Phalcon\Security :: setWorkFactor() and getWorkFactor()
+     * Tests Phalcon\Security :: setWorkFactor()/getWorkFactor()
      *
      * @author Ruud Boon
      * @since  2018-11-13
      */
     public function securityGetSetWorkFactor(UnitTester $I)
     {
-        $I->wantToTest('Security - setWorkFactor()');
+        $I->wantToTest('Security - getWorkFactor()/setWorkFactor()');
 
         $security = new Security();
 
 
         $I->assertEquals(
-            8,
+            10,
             $security->getWorkFactor()
         );
 
