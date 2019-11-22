@@ -10,12 +10,11 @@
 - Fixed `Phalcon\Logger\Formatter\Line` to not add `PHP_EOL` at the end of the message and added it to the `Phalcon\Logger\Adapter\Stream` [#14547](https://github.com/phalcon/cphalcon/issues/14547)
 - Fixed `Phalcon\Mvc\Model\MetaData\Apcu` and `Phalcon\Mvc\Model\MetaData\Redis` to allow setting the `prefix` and `lifetime` using the options or use the default. [#14549](https://github.com/phalcon/cphalcon/issues/14549)
 - Fixed `Phalcon\Storage\Adapter\AbstractAdapter`, `Phalcon\Storage\Adapter\AbstractInterface` getters to contain a default value 
-- Fixed `Phalcon\Storage\Adapter\Memory` initializing the array store correctly
-- Fixed `Phalcon\Storage\Adapter\Stream` to capture notice if the stream is not opened properly
+- Fixed `Phalcon\Storage\Adapter\Memory` initializing the array store correctly [#14551](https://github.com/phalcon/cphalcon/issues/14551)
+- Fixed `Phalcon\Storage\Adapter\Stream` to capture notice if the stream is not opened properly [#14551](https://github.com/phalcon/cphalcon/issues/14551)
+- Fixed `Phalcon\Security::getRandomBytes` to return `int` [#14551](https://github.com/phalcon/cphalcon/issues/14551)
+- Fixed `Phalcon\Security` to use `10` as the default work factor [#14551](https://github.com/phalcon/cphalcon/issues/14551)
  
- 
-cor and `Phalcon\Mvc\Model\MetaData\Redis` to allow setting the `prefix` and `lifetime` using the options or use the default. [#14549](https://github.com/phalcon/cphalcon/issues/14549)
-
 # [4.0.0-rc.r3](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-rc.3) (2019-11-16)
 ## Added
 - Added support for [PSR-13](https://www.php-fig.org/psr/psr-13/) links and evolvable links [#14507](https://github.com/phalcon/cphalcon/issues/14507)
