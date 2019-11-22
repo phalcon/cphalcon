@@ -34,4 +34,22 @@ class EscapeHtmlCest
             $escaper->escapeHtml('<h1></h1>')
         );
     }
+
+    /**
+     * Tests Phalcon\Escaper :: escapeHtml() - null
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-11-22
+     */
+    public function escaperEscapeHtmlNull(UnitTester $I)
+    {
+        $I->wantToTest('Escaper - escapeHtml() - null');
+
+        $escaper = new Escaper();
+
+        $I->assertEquals(
+            '',
+            $escaper->escapeHtml(null)
+        );
+    }
 }
