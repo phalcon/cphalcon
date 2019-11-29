@@ -12,6 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Di\FactoryDefault;
 
+use Phalcon\Di\FactoryDefault\Cli;
+use Phalcon\Di\Service;
+use Phalcon\Escaper;
 use UnitTester;
 
 class SetRawCest
@@ -26,6 +29,13 @@ class SetRawCest
     {
         $I->wantToTest('Di\FactoryDefault - setRaw()');
 
-        $I->skipTest('Need implementation');
+
+        $di = new Cli();
+
+        $expected = new Service(Escaper::class);
+
+        $actual = $di->setService('escaper', $expected);
+
+        $I->assertSame($expected, $actual);
     }
 }
