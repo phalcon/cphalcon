@@ -85,7 +85,7 @@ interface DiInterface extends ArrayAccess
     /**
      * Sets a service using a raw Phalcon\Di\Service definition
      */
-    public function setRaw(string! name, <ServiceInterface> rawDefinition) -> <ServiceInterface>;
+    public function setService(string! name, <ServiceInterface> rawDefinition) -> <ServiceInterface>;
 
     /**
      * Registers an "always shared" service in the services container

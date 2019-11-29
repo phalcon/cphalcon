@@ -13,23 +13,22 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Di\FactoryDefault\Cli;
 
 use CliTester;
-use Phalcon\Di;
+use Phalcon\Di\FactoryDefault\Cli;
 use Phalcon\Di\Service;
 use Phalcon\Escaper;
-
-class SetRawCest
+class SetServiceCest
 {
     /**
-     * Tests Phalcon\Di\FactoryDefault\Cli :: setRaw()
+     * Tests Phalcon\Di\FactoryDefault\Cli :: setService()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function diFactorydefaultCliSetRaw(CliTester $I)
     {
-        $I->wantToTest('Di\FactoryDefault\Cli - setRaw()');
+        $I->wantToTest('Di\FactoryDefault\Cli - setService()');
 
-        $di = new Di();
+        $di = new Cli();
 
         $expected = new Service(Escaper::class);
 
