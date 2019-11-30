@@ -16,6 +16,7 @@ use CliTester;
 use Phalcon\Di\FactoryDefault\Cli;
 use Phalcon\Di\Service;
 use Phalcon\Escaper;
+
 class SetServiceCest
 {
     /**
