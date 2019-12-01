@@ -190,11 +190,6 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
         var data;
 
         let data = this->readColumnMapIndex(model, self::MODELS_COLUMN_MAP);
-print_r(PHP_EOL);
-print_r("getColumnMap");
-print_r(PHP_EOL);
-print_r(data);
-print_r(PHP_EOL);
 
         if unlikely (data !== null && typeof data != "array") {
             throw new Exception("The meta-data is invalid or is corrupt");

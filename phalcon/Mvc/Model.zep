@@ -749,22 +749,13 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      */
     public static function cloneResultMap(var base, array! data, var columnMap, int dirtyState = 0, bool keepSnapshots = null) -> <ModelInterface>
     {
-        var instance, attribute, key, value, castValue, attributeName;
+        var instance, attribute, key, value, castValue, attributeName, reverseMap;
 
         let instance = clone base;
 
         // Change the dirty state to persistent
         instance->setDirtyState(dirtyState);
 
-print_r(PHP_EOL);
-print_r("data");
-print_r(PHP_EOL);
-print_r(data);
-print_r(PHP_EOL);
-print_r("map");
-print_r(PHP_EOL);
-print_r(columnMap);
-print_r(PHP_EOL);
         for key, value in data {
             // Only string keys in the data are valid
             if typeof key !== "string" {
@@ -778,14 +769,17 @@ print_r(PHP_EOL);
             }
 
             // Every field must be part of the column map
+            let reverseMap = array_flip(columnMap);
             if !fetch attribute, columnMap[key] {
-                if unlikely !globals_get("orm.ignore_unknown_columns") {
-                    throw new Exception(
-                        "Column '" . key . "' doesn't make part of the column map"
-                    );
-                }
+                if !fetch attribute, reverseMap[key] {
+                    if unlikely !globals_get("orm.ignore_unknown_columns") {
+                        throw new Exception(
+                            "Column '" . key . "' doesn't make part of the column map"
+                        );
+                    }
 
-                continue;
+                    continue;
+                }
             }
 
             if typeof attribute != "array" {
