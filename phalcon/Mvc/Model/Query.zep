@@ -3046,7 +3046,7 @@ class Query implements QueryInterface, InjectionAwareInterface
          * The corresponding SQL dialect generates the SQL statement based
          * accordingly with the database system
          */
-        let dialect = connection->getDialect(),
+        let dialect   = connection->getDialect(),
             sqlSelect = dialect->select(intermediate);
 
         if this->sharedLock {
@@ -3068,6 +3068,7 @@ class Query implements QueryInterface, InjectionAwareInterface
          * Execute the query
          */
         let result = connection->query(sqlSelect, processed, processedTypes);
+
         /**
          * Check if the query has data
          *
@@ -3786,11 +3787,6 @@ class Query implements QueryInterface, InjectionAwareInterface
 
             cache->set(key, result, lifetime);
         }
-print_r(PHP_EOL);
-print_r("result");
-print_r(PHP_EOL);
-print_r(result);
-print_r(PHP_EOL);
 
         /**
          * Check if only the first row must be returned
@@ -3800,11 +3796,6 @@ print_r(PHP_EOL);
         } else {
             let preparedResult = result;
         }
-print_r(PHP_EOL);
-print_r("prepared");
-print_r(PHP_EOL);
-print_r(result);
-print_r(PHP_EOL);
 
         return preparedResult;
     }
