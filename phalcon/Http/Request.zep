@@ -1256,8 +1256,14 @@ class Request extends AbstractInjectionAware implements RequestInterface
      * Helper to get data from superglobals, applying filters if needed.
      * If no parameters are given the superglobal is returned.
      */
-    final protected function getHelper(array source, string! name = null, var filters = null, var defaultValue = null, bool notAllowEmpty = false, bool noRecursive = false) -> var
-    {
+    final protected function getHelper(
+        array source,
+        string! name = null,
+        var filters = null,
+        var defaultValue = null,
+        bool notAllowEmpty = false,
+        bool noRecursive = false
+    ) -> var {
         var value, filterService;
 
         if name === null {
@@ -1273,7 +1279,7 @@ class Request extends AbstractInjectionAware implements RequestInterface
                 value         = filterService->sanitize(value, filters, noRecursive);
         }
 
-        if empty value && notAllowEmpty {
+        if !is_numeric(value) && empty value && notAllowEmpty {
             return defaultValue;
         }
 
