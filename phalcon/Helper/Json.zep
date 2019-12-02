@@ -26,7 +26,7 @@ class Json
      *
      * $data = '{"one":"two","0":"three"}';
      *
-     * var_dump(Json::decode($data))
+     * var_dump(Json::decode($data));
      * // [
      * //     'one' => 'two',
      * //     'three'
@@ -64,7 +64,7 @@ class Json
     }
 
     /**
-     * Encoxes a string using `json_encode` and throws an exception if the
+     * Encodes a string using `json_encode` and throws an exception if the
      * JSON data cannot be encoded
      *
      * ```php
