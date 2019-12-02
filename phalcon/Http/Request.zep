@@ -14,6 +14,7 @@ use Phalcon\Di\DiInterface;
 use Phalcon\Di\AbstractInjectionAware;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Filter\FilterInterface;
+use Phalcon\Helper\Json;
 use Phalcon\Http\Request\File;
 use Phalcon\Http\Request\FileInterface;
 use Phalcon\Http\Request\Exception;
@@ -508,7 +509,7 @@ class Request extends AbstractInjectionAware implements RequestInterface
             return false;
         }
 
-        return json_decode(rawBody, associative);
+        return Json::decode(rawBody, associative);
     }
 
     /**

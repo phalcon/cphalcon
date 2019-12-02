@@ -15,6 +15,7 @@ use ArrayIterator;
 use Countable;
 use IteratorAggregate;
 use JsonSerializable;
+use Phalcon\Helper\Json;
 use Serializable;
 use Traversable;
 
@@ -313,7 +314,7 @@ class Collection implements
      */
     public function toJson(int options = 79) -> string
     {
-        return json_encode(this->toArray(), options);
+        return Json::encode(this->toArray(), options);
     }
 
     /**
