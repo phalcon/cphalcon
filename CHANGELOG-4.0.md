@@ -16,6 +16,7 @@
 - Fixed `Phalcon\Security` to use `10` as the default work factor [#14551](https://github.com/phalcon/cphalcon/issues/14551)
 - Fixed `Phalcon\Helper\Arr::validateAny` and `Phalcon\Helper\Arr::validateAll`to use `null` as default for the callback method [#14551](https://github.com/phalcon/cphalcon/issues/14551)
 - Fixed `Phalcon\Escaper::escapeHtml` and `Phalcon\Escaper::escapeHtmlAttr` to allow `null` values  [#14553](https://github.com/phalcon/cphalcon/issues/14553)
+- Fixed `Phalcon\Router::handle()` to use the `/` route on empty string [#14559](https://github.com/phalcon/cphalcon/issues/14559)
  
 # [4.0.0-rc.r3](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-rc.3) (2019-11-16)
 ## Added

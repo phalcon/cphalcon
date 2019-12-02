@@ -256,8 +256,8 @@ class RouterCest
         return [
             [
                 'uri'        => '',
-                'controller' => null,
-                'action'     => null,
+                'controller' => 'index',
+                'action'     => 'index',
                 'params'     => [],
             ],
             [
