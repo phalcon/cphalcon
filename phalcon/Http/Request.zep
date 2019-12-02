@@ -1274,13 +1274,13 @@ class Request extends AbstractInjectionAware implements RequestInterface
             return defaultValue;
         }
 
+        if !is_numeric(value) && empty value && notAllowEmpty {
+            return defaultValue;
+        }
+
         if filters !== null {
             let filterService = this->getFilterService(),
                 value         = filterService->sanitize(value, filters, noRecursive);
-        }
-
-        if !is_numeric(value) && empty value && notAllowEmpty {
-            return defaultValue;
         }
 
         return value;
