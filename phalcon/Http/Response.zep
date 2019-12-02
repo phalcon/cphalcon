@@ -15,6 +15,7 @@ use DateTimeZone;
 use Phalcon\Di;
 use Phalcon\Di\DiInterface;
 use Phalcon\Helper\Fs;
+use Phalcon\Helper\Json;
 use Phalcon\Http\Response\Exception;
 use Phalcon\Http\Response\HeadersInterface;
 use Phalcon\Http\Response\CookiesInterface;
@@ -562,7 +563,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
                     mb_detect_order(),
                     true
                 );
-            }                
+            }
             this->setRawHeader("Content-Description: File Transfer");
             this->setRawHeader("Content-Type: application/octet-stream");
             this->setRawHeader("Content-Transfer-Encoding: binary");
@@ -638,7 +639,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
         this->setContentType("application/json", "UTF-8");
 
         this->setContent(
-            json_encode(content, jsonOptions, depth)
+            Json::encode(content, jsonOptions, depth)
         );
 
         return this;

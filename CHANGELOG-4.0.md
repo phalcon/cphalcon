@@ -3,7 +3,8 @@
 ## Added
 
 ## Changed
-- Changed `PhalconMvc\Router\Annotations` to use `converters` instead of `conversors` [#14532](https://github.com/phalcon/cphalcon/issues/14532)
+- Changed `Phalcon\Mvc\Router\Annotations` to use `converters` instead of `conversors` [#14532](https://github.com/phalcon/cphalcon/issues/14532)
+- Changed `Phalcon\Di::setRaw` to `Phalcon\Di::setService` to align more with the use of the method [#14555](https://github.com/phalcon/cphalcon/issues/14555)
 
 ## Fixed
 - Fixed `PhalconMvc\Model` to ignore internal setters if properties have the same name as the setter [#14538](https://github.com/phalcon/cphalcon/issues/14538)
@@ -15,9 +16,11 @@
 - Fixed `Phalcon\Security::getRandomBytes` to return `int` [#14551](https://github.com/phalcon/cphalcon/issues/14551)
 - Fixed `Phalcon\Security` to use `10` as the default work factor [#14551](https://github.com/phalcon/cphalcon/issues/14551)
 - Fixed `Phalcon\Helper\Arr::validateAny` and `Phalcon\Helper\Arr::validateAll`to use `null` as default for the callback method [#14551](https://github.com/phalcon/cphalcon/issues/14551)
-- Fixed `Phalcon\Escaper::escapeHtml` and `Phalcon\Escaper::escapeHtmlAttr` to allow `null` values  [#14553](https://github.com/phalcon/cphalcon/issues/14553)
+- Fixed `Phalcon\Escaper::escapeHtml` and `Phalcon\Escaper::escapeHtmlAttr` to allow `null` values [#14553](https://github.com/phalcon/cphalcon/issues/14553)
+- Fixed `Phalcon\Mvc\Model::cloneResultMap` to correctly recognize aliased fields and include them in the resultset [#14488](https://github.com/phalcon/cphalcon/issues/14488)
+- Fixed `Phalcon\Http\Request::getQuery`,`Phalcon\Http\Request::getPut`,`Phalcon\Http\Request::getPost` to treat `0` as non empty for `allowNoEmpty` [#14556](https://github.com/phalcon/cphalcon/issues/14556)
 - Fixed `Phalcon\Router::handle()` to use the `/` route on empty string [#14559](https://github.com/phalcon/cphalcon/issues/14559)
- 
+
 # [4.0.0-rc.r3](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-rc.3) (2019-11-16)
 ## Added
 - Added support for [PSR-13](https://www.php-fig.org/psr/psr-13/) links and evolvable links [#14507](https://github.com/phalcon/cphalcon/issues/14507)

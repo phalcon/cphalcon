@@ -3046,7 +3046,7 @@ class Query implements QueryInterface, InjectionAwareInterface
          * The corresponding SQL dialect generates the SQL statement based
          * accordingly with the database system
          */
-        let dialect = connection->getDialect(),
+        let dialect   = connection->getDialect(),
             sqlSelect = dialect->select(intermediate);
 
         if this->sharedLock {
@@ -3068,6 +3068,7 @@ class Query implements QueryInterface, InjectionAwareInterface
          * Execute the query
          */
         let result = connection->query(sqlSelect, processed, processedTypes);
+
         /**
          * Check if the query has data
          *

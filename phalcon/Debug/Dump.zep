@@ -11,6 +11,7 @@
 namespace Phalcon\Debug;
 
 use Phalcon\Di;
+use Phalcon\Helper\Json;
 use Reflection;
 use ReflectionClass;
 use ReflectionProperty;
@@ -127,7 +128,7 @@ class Dump
      */
     public function toJson(var variable) -> string
     {
-        return json_encode(
+        return Json::encode(
             variable,
             JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
         );
