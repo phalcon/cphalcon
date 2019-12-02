@@ -415,6 +415,10 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
             let handledUri = uri;
         }
 
+        if empty handledUri {
+            let handledUri = "/";
+        }
+
         let request = null,
             currentHostName = null,
             routeFound = false,
