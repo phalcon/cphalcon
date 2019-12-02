@@ -15,6 +15,7 @@ use DateTimeZone;
 use Phalcon\Di;
 use Phalcon\Di\DiInterface;
 use Phalcon\Helper\Fs;
+use Phalcon\Helper\Json;
 use Phalcon\Http\Response\Exception;
 use Phalcon\Http\Response\HeadersInterface;
 use Phalcon\Http\Response\CookiesInterface;
