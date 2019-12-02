@@ -26,7 +26,7 @@ class Json
      *
      * $data = '{"one":"two","0":"three"}';
      *
-     * var_dump(Json::decode($data))
+     * var_dump(Json::decode($data));
      * // [
      * //     'one' => 'two',
      * //     'three'
@@ -64,7 +64,7 @@ class Json
     }
 
     /**
-     * Encoxes a string using `json_encode` and throws an exception if the
+     * Encodes a string using `json_encode` and throws an exception if the
      * JSON data cannot be encoded
      *
      * ```php
@@ -80,8 +80,8 @@ class Json
      * ```
      *
      * @param mixed  $data        JSON data to parse
-     * @param int    $depth       Recursion depth.
      * @param int    $options     Bitmask of JSON decode options.
+     * @param int    $depth       Recursion depth.
      *
      * @return mixed
      *
@@ -90,13 +90,13 @@ class Json
      */
     final public static function encode(
         var data,
-        int depth = 512,
-        int options = 0
+        int options = 0,
+        int depth = 512
     ) -> string
     {
         var encoded;
 
-        let encoded = json_encode(data, depth, options);
+        let encoded = json_encode(data, options, depth);
 
         if unlikely JSON_ERROR_NONE !== json_last_error() {
             throw new InvalidArgumentException(
