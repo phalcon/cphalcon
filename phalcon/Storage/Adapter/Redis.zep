@@ -67,7 +67,7 @@ class Redis extends AbstractAdapter
      */
     public function decrement(string! key, int value = 1) -> int | bool
     {
-        return this->getAdapter()->decrBy(this->getPrefixedKey(key), value);
+        return this->getAdapter()->decrBy(key, value);
     }
 
     /**
@@ -80,7 +80,7 @@ class Redis extends AbstractAdapter
      */
     public function delete(string! key) -> bool
     {
-        return (bool) this->getAdapter()->del(this->getPrefixedKey(key));
+        return (bool) this->getAdapter()->del(key);
     }
 
     /**
@@ -95,7 +95,7 @@ class Redis extends AbstractAdapter
     public function get(string! key, var defaultValue = null) -> var
     {
         return this->getUnserializedData(
-            this->getAdapter()->get(this->getPrefixedKey(key)),
+            this->getAdapter()->get(key),
             defaultValue
         );
     }
@@ -184,7 +184,7 @@ class Redis extends AbstractAdapter
      */
     public function has(string! key) -> bool
     {
-        return (bool) this->getAdapter()->exists(this->getPrefixedKey(key));
+        return (bool) this->getAdapter()->exists(key);
     }
 
     /**
@@ -198,7 +198,7 @@ class Redis extends AbstractAdapter
      */
     public function increment(string! key, int value = 1) -> int | bool
     {
-        return this->getAdapter()->incrBy(this->getPrefixedKey(key), value);
+        return this->getAdapter()->incrBy(key, value);
     }
 
     /**
@@ -214,7 +214,7 @@ class Redis extends AbstractAdapter
     public function set(string! key, var value, var ttl = null) -> bool
     {
         return this->getAdapter()->set(
-            this->getPrefixedKey(key),
+            key,
             this->getSerializedData(value),
             this->getTtl(ttl)
         );
