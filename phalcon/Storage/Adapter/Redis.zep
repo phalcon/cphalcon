@@ -67,7 +67,7 @@ class Redis extends AbstractAdapter
      */
     public function decrement(string! key, int value = 1) -> int | bool
     {
-        return this->getAdapter()->decrBy(key, value);
+        return this->getAdapter()->decrBy(this->getPrefixedKey(key), value);
     }
 
     /**
@@ -80,7 +80,7 @@ class Redis extends AbstractAdapter
      */
     public function delete(string! key) -> bool
     {
-        return (bool) this->getAdapter()->del(key);
+        return (bool) this->getAdapter()->del(this->getPrefixedKey(key));
     }
 
     /**
@@ -95,7 +95,7 @@ class Redis extends AbstractAdapter
     public function get(string! key, var defaultValue = null) -> var
     {
         return this->getUnserializedData(
-            this->getAdapter()->get(key),
+            this->getAdapter()->get(this->getPrefixedKey(key)),
             defaultValue
         );
     }
@@ -159,7 +159,19 @@ class Redis extends AbstractAdapter
      */
     public function getKeys() -> array
     {
-        return this->getAdapter()->keys("*");
+    	var key, keys;
+    	array results;
+
+        let keys    = this->getAdapter()->keys("*"),
+            keys    = !keys ? [] : keys,
+            results = Arr::filter(
+            keys,
+            function ($value) {
+                return substr($value, 0, strlen($this->prefix)) === $this->prefix;
+            }
+        );
+
+        return results;
     }
 
     /**
@@ -172,7 +184,7 @@ class Redis extends AbstractAdapter
      */
     public function has(string! key) -> bool
     {
-        return (bool) this->getAdapter()->exists(key);
+        return (bool) this->getAdapter()->exists(this->getPrefixedKey(key));
     }
 
     /**
@@ -186,7 +198,7 @@ class Redis extends AbstractAdapter
      */
     public function increment(string! key, int value = 1) -> int | bool
     {
-        return this->getAdapter()->incrBy(key, value);
+        return this->getAdapter()->incrBy(this->getPrefixedKey(key), value);
     }
 
     /**
@@ -202,7 +214,7 @@ class Redis extends AbstractAdapter
     public function set(string! key, var value, var ttl = null) -> bool
     {
         return this->getAdapter()->set(
-            key,
+            this->getPrefixedKey(key),
             this->getSerializedData(value),
             this->getTtl(ttl)
         );
