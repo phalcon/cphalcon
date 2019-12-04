@@ -4343,6 +4343,9 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             }
         }
 
+        /**
+         * Check if we have "conditions" and "bind" defined
+         */
         fetch value, arguments[0];
 
         if value !== null {
@@ -4350,11 +4353,21 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                  "conditions": "[" . field . "] = ?0",
                  "bind"      : [value]
             ];
+
+            unset arguments[0];
         } else {
             let params = [
                  "conditions": "[" . field . "] IS NULL"
             ];
         }
+
+        /**
+         * Just in case remove 'conditions' and 'bind'
+         */
+         unset arguments["conditions"];
+         unset arguments["bind"];
+
+        let params = array_merge(params, arguments);
 
         /**
          * Execute the query
