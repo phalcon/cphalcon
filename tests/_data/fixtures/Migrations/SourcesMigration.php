@@ -15,6 +15,9 @@ use Phalcon\Db\Adapter\AdapterInterface;
 
 class SourcesMigration
 {
+    /**
+     * @param AdapterInterface $db
+     */
     public function __invoke(AdapterInterface $db)
     {
         $sql = <<<SQL
@@ -38,10 +41,30 @@ create index co_sources_username_index
 SQL;
         $db->execute($sql);
 
+        $this->insert($db, 1, 'darth', 'vader');
+    }
+
+    /**
+     * @param AdapterInterface $db
+     * @param int              $id
+     * @param string           $username
+     * @param string           $source
+     */
+    public function insert(
+        AdapterInterface $db,
+        int $id,
+        string $username,
+        string $source
+    ) {
+        if (0 === $id) {
+            $id = null;
+        }
+
         $sql = <<<SQL
-insert into co_sources (id, username, source) 
-values (1, 'darth', 'conflict');
+insert into co_sources (id, username, source)
+values ({$id}, "{$username}", "{$source}");
 SQL;
+
         $db->execute($sql);
     }
 }

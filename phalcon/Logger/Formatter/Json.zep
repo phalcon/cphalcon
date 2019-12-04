@@ -10,6 +10,7 @@
 
 namespace Phalcon\Logger\Formatter;
 
+use Phalcon\Helper\Json;
 use Phalcon\Logger\Item;
 
 /**
@@ -50,7 +51,7 @@ class Json extends AbstractFormatter
             let message = item->getMessage();
         }
 
-        return json_encode(
+        return Json::encode(
             [
                 "type"      : item->getName(),
                 "message"   : message,

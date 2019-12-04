@@ -10,30 +10,30 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Di;
+namespace Phalcon\Test\Unit\Di\FactoryDefault;
 
-use Phalcon\Di;
+use Phalcon\Di\FactoryDefault;
 use Phalcon\Di\Service;
 use Phalcon\Escaper;
 use UnitTester;
 
-class SetRawCest
+class SetServiceCest
 {
     /**
-     * Unit Tests Phalcon\Di :: setRaw()
+     * Unit Tests Phalcon\Di\FactoryDefault :: setService()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-06-13
      */
-    public function diSetRaw(UnitTester $I)
+    public function diFactoryDefaultSetRaw(UnitTester $I)
     {
-        $I->wantToTest('Di - setRaw()');
+        $I->wantToTest('Di\FactoryDefault - setService()');
 
-        $di = new Di();
+        $di = new FactoryDefault();
 
         $expected = new Service(Escaper::class);
 
-        $actual = $di->setRaw('escaper', $expected);
+        $actual = $di->setService('escaper', $expected);
 
         $I->assertSame($expected, $actual);
     }

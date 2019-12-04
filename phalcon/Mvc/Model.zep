@@ -93,18 +93,30 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
     protected dirtyState = 1;
 
+    /**
+     * @var array
+     */
     protected dirtyRelated = [];
 
+    /**
+     * @var array
+     */
     protected errorMessages = [];
 
     protected modelsManager;
 
     protected modelsMetaData;
 
+    /**
+     * @var array
+     */
     protected related = [];
 
     protected operationMade = 0;
 
+    /**
+     * @var array
+     */
     protected oldSnapshot = [];
 
     protected skipped;
@@ -122,8 +134,11 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     /**
      * Phalcon\Mvc\Model constructor
      */
-    final public function __construct(var data = null, <DiInterface> container = null, <ManagerInterface> modelsManager = null)
-    {
+    final public function __construct(
+        var data = null,
+        <DiInterface> container = null,
+        <ManagerInterface> modelsManager = null
+    ) {
         /**
          * We use a default DI if the user doesn't define one
          */
@@ -734,7 +749,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      */
     public static function cloneResultMap(var base, array! data, var columnMap, int dirtyState = 0, bool keepSnapshots = null) -> <ModelInterface>
     {
-        var instance, attribute, key, value, castValue, attributeName;
+        var instance, attribute, key, value, castValue, attributeName, reverseMap;
 
         let instance = clone base;
 
@@ -754,14 +769,17 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             }
 
             // Every field must be part of the column map
+            let reverseMap = array_flip(columnMap);
             if !fetch attribute, columnMap[key] {
-                if unlikely !globals_get("orm.ignore_unknown_columns") {
-                    throw new Exception(
-                        "Column '" . key . "' doesn't make part of the column map"
-                    );
-                }
+                if !fetch attribute, reverseMap[key] {
+                    if unlikely !globals_get("orm.ignore_unknown_columns") {
+                        throw new Exception(
+                            "Column '" . key . "' doesn't make part of the column map"
+                        );
+                    }
 
-                continue;
+                    continue;
+                }
             }
 
             if typeof attribute != "array" {
@@ -4325,6 +4343,9 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             }
         }
 
+        /**
+         * Check if we have "conditions" and "bind" defined
+         */
         fetch value, arguments[0];
 
         if value !== null {
@@ -4332,11 +4353,21 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                  "conditions": "[" . field . "] = ?0",
                  "bind"      : [value]
             ];
+
         } else {
             let params = [
                  "conditions": "[" . field . "] IS NULL"
             ];
         }
+
+        /**
+         * Just in case remove 'conditions' and 'bind'
+         */
+        unset arguments[0];
+        unset arguments["conditions"];
+        unset arguments["bind"];
+
+        let params = array_merge(params, arguments);
 
         /**
          * Execute the query

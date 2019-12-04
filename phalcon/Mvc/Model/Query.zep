@@ -3003,10 +3003,9 @@ class Query implements QueryInterface, InjectionAwareInterface
             }
         }
 
-        let bindCounts = [],
+        let processed               = [],
+            bindCounts              = [],
             intermediate["columns"] = selectColumns;
-
-        let processed = [];
 
         /**
          * Replace the placeholders
@@ -3046,7 +3045,7 @@ class Query implements QueryInterface, InjectionAwareInterface
          * The corresponding SQL dialect generates the SQL statement based
          * accordingly with the database system
          */
-        let dialect = connection->getDialect(),
+        let dialect   = connection->getDialect(),
             sqlSelect = dialect->select(intermediate);
 
         if this->sharedLock {
@@ -3068,6 +3067,7 @@ class Query implements QueryInterface, InjectionAwareInterface
          * Execute the query
          */
         let result = connection->query(sqlSelect, processed, processedTypes);
+
         /**
          * Check if the query has data
          *
@@ -3113,7 +3113,7 @@ class Query implements QueryInterface, InjectionAwareInterface
                 if !globals_get("orm.cast_on_hydrate") {
                     let simpleColumnMap = metaData->getColumnMap(resultObject);
                 } else {
-                    let columnMap = metaData->getColumnMap(resultObject),
+                    let columnMap      = metaData->getColumnMap(resultObject),
                         typesColumnMap = metaData->getDataTypes(resultObject);
 
                     if columnMap === null {
