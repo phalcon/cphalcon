@@ -64,7 +64,7 @@ class Libmemcached extends AbstractAdapter
      */
     public function decrement(string! key, int value = 1) -> int | bool
     {
-        return this->getAdapter()->decrement(this->getPrefixedKey(key), value);
+        return this->getAdapter()->decrement(key, value);
     }
 
     /**
@@ -77,7 +77,7 @@ class Libmemcached extends AbstractAdapter
      */
     public function delete(string! key) -> bool
     {
-        return this->getAdapter()->delete(this->getPrefixedKey(key), 0);
+        return this->getAdapter()->delete(key, 0);
     }
 
     /**
@@ -92,7 +92,7 @@ class Libmemcached extends AbstractAdapter
     public function get(string! key, var defaultValue = null) -> var
     {
         return this->getUnserializedData(
-            this->getAdapter()->get(this->getPrefixedKey(key)),
+            this->getAdapter()->get(key),
             defaultValue
         );
     }
@@ -189,7 +189,7 @@ class Libmemcached extends AbstractAdapter
         var connection, result;
 
         let connection = this->getAdapter(),
-            result     = connection->get(this->getPrefixedKey(key));
+            result     = connection->get(key);
 
         return \Memcached::RES_NOTFOUND !== connection->getResultCode();
     }
@@ -205,7 +205,7 @@ class Libmemcached extends AbstractAdapter
      */
     public function increment(string! key, int value = 1) -> int | bool
     {
-        return this->getAdapter()->increment(this->getPrefixedKey(key), value);
+        return this->getAdapter()->increment(key, value);
     }
 
     /**
@@ -221,7 +221,7 @@ class Libmemcached extends AbstractAdapter
     public function set(string! key, var value, var ttl = null) -> bool
     {
         return this->getAdapter()->set(
-            this->getPrefixedKey(key),
+            key,
             this->getSerializedData(value),
             this->getTtl(ttl)
         );
