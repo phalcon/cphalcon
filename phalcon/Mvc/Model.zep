@@ -4354,7 +4354,6 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                  "bind"      : [value]
             ];
 
-            unset arguments[0];
         } else {
             let params = [
                  "conditions": "[" . field . "] IS NULL"
@@ -4364,8 +4363,9 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         /**
          * Just in case remove 'conditions' and 'bind'
          */
-         unset arguments["conditions"];
-         unset arguments["bind"];
+        unset arguments[0];
+        unset arguments["conditions"];
+        unset arguments["bind"];
 
         let params = array_merge(params, arguments);
 
