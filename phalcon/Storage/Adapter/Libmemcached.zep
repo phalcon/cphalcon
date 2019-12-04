@@ -161,17 +161,16 @@ class Libmemcached extends AbstractAdapter
      */
     public function getKeys() -> array
     {
-    	var key, keys;
-    	array results;
+    	var keys, results;
 
         let keys    = this->getAdapter()->getAllKeys(),
             keys    = !keys ? [] : keys,
             results = Arr::filter(
-            keys,
-            function ($value) {
-                return substr($value, 0, strlen($this->prefix)) === $this->prefix;
-            }
-        );
+                keys,
+                function ($value) {
+                    return substr($value, 0, strlen($this->prefix)) === $this->prefix;
+                }
+            );
 
         return results;
     }
