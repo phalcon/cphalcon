@@ -159,16 +159,18 @@ class Redis extends AbstractAdapter
      */
     public function getKeys() -> array
     {
-    	var keys, results;
+    	var key, keys;
+    	array results;
 
-        let keys    = this->getAdapter()->keys("*"),
-            keys    = !keys ? [] : keys,
-            results = array_filter(
-                keys,
-                function ($value) {
-                    return substr($value, 0, strlen($this->prefix)) === $this->prefix;
-                }
-            );
+        let results = [],
+            keys    = this->getAdapter()->keys("*"),
+            keys    = !keys ? [] : keys;
+
+        for key in keys {
+            if substr(value, 0, strlen(this->prefix)) === this->prefix {
+                let results[] = key;
+            }
+        }
 
         return results;
     }
