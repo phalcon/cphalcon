@@ -34,7 +34,6 @@ class Arr
         return array_chunk(collection, size, preserveKeys);
     }
 
-
     /**
      * Helper method to filter the collection
      *
