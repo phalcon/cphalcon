@@ -1,6 +1,7 @@
 # [4.0.0](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-????) (2019-xx-xx)
 
 ## Added
+- Added the ability to `Phalcon\Model::findFirstBy*` and `Phalcon\Model::findBy*` to process passed parameters (for `order` etc.) [#14573](https://github.com/phalcon/cphalcon/issues/14573)
 
 ## Changed
 - Changed `Phalcon\Mvc\Router\Annotations` to use `converters` instead of `conversors` [#14532](https://github.com/phalcon/cphalcon/issues/14532)
