@@ -169,7 +169,7 @@ class Libmemcached extends AbstractAdapter
             keys    = !keys ? [] : keys;
 
         for key in keys {
-            if substr(value, 0, strlen(this->prefix)) === this->prefix {
+            if substr(key, 0, strlen(this->prefix)) === this->prefix {
                 let results[] = key;
             }
         }
