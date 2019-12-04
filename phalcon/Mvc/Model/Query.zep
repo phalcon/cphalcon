@@ -3003,10 +3003,9 @@ class Query implements QueryInterface, InjectionAwareInterface
             }
         }
 
-        let bindCounts = [],
+        let processed               = [],
+            bindCounts              = [],
             intermediate["columns"] = selectColumns;
-
-        let processed = [];
 
         /**
          * Replace the placeholders
@@ -3114,7 +3113,7 @@ class Query implements QueryInterface, InjectionAwareInterface
                 if !globals_get("orm.cast_on_hydrate") {
                     let simpleColumnMap = metaData->getColumnMap(resultObject);
                 } else {
-                    let columnMap = metaData->getColumnMap(resultObject),
+                    let columnMap      = metaData->getColumnMap(resultObject),
                         typesColumnMap = metaData->getDataTypes(resultObject);
 
                     if columnMap === null {

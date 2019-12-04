@@ -32,11 +32,7 @@ create table objects
 SQL;
         $db->execute($sql);
 
-        $sql = <<<SQL
-insert into objects ( obj_id, obj_name, obj_type )
-values (1, 'random data', 1);
-SQL;
-        $db->execute($sql);
+        $this->insertObject($db, 1, 'random data', 1);
 
         $sql = <<<SQL
 drop table if exists stuff
@@ -53,10 +49,54 @@ create table stuff
 SQL;
         $db->execute($sql);
 
+        $this->insertStuff($db, 1, 'stuff data', 1);
+    }
+
+    /**
+     * @param AdapterInterface $db
+     * @param int              $id
+     * @param string           $name
+     * @param int              $type
+     */
+    public function insertObject(
+        AdapterInterface $db,
+        int $id,
+        string $name,
+        int $type
+    ) {
+        if (0 === $id) {
+            $id = null;
+        }
+
         $sql = <<<SQL
-insert into stuff ( stf_id, stf_name, stf_type )
-values (2, 'stuff data', 1);
+insert into objects (obj_id, obj_name, obj_type)
+values ({$id}, "{$name}", "{$type}");
 SQL;
+
+        $db->execute($sql);
+    }
+
+    /**
+     * @param AdapterInterface $db
+     * @param int              $id
+     * @param string           $name
+     * @param int              $type
+     */
+    public function insertStuff(
+        AdapterInterface $db,
+        int $id,
+        string $name,
+        int $type
+    ) {
+        if (0 === $id) {
+            $id = null;
+        }
+
+        $sql = <<<SQL
+insert into stuff (stf_id, stf_name, stf_type)
+values ({$id}, "{$name}", "{$type}");
+SQL;
+
         $db->execute($sql);
     }
 }
