@@ -534,7 +534,7 @@ class Debug
     {
         var className, dumpedObject;
 
-        if variable == true {
+        if variable === true {
             return "true";
         }
 
