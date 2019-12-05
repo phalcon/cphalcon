@@ -12,6 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
 
+use Phalcon\Acl\Adapter\Memory;
+use Phalcon\Acl\Role;
+use Phalcon\Acl\Component;
 use UnitTester;
 
 class AddInheritCest
