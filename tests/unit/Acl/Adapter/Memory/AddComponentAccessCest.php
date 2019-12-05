@@ -29,7 +29,21 @@ class AddComponentAccessCest
     {
         $I->wantToTest('Acl\Adapter\Memory - addComponentAccess()');
 
-        $I->skipTest('Need implementation');
+        $acl = new Memory();
+
+        $component = new Component('Customer', 'Customer component');
+
+        $added = $acl->addComponent(
+            'Customer',
+            ['index']
+        );
+
+        $accessAdded = $acl->addComponentAccess(
+            'Customer',
+            ['new']
+        );
+
+        $I->assertTrue($accessAdded);
     }
 
     /**
