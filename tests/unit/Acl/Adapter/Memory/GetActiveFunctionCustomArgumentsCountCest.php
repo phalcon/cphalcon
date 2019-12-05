@@ -55,7 +55,7 @@ class GetActiveFunctionCustomArgumentsCountCest
                 'accountType' => 'premium',
                 'active'      => true,
             ]
-            );
+        );
 
         $I->assertTrue($isAllowed);
 
