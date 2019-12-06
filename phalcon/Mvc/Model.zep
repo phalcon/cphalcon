@@ -756,6 +756,9 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         // Change the dirty state to persistent
         instance->setDirtyState(dirtyState);
 
+        /**
+         * Assign the data in the model
+         */
         for key, value in data {
             // Only string keys in the data are valid
             if typeof key !== "string" {
@@ -790,12 +793,16 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
             if value != "" && value !== null {
                 switch attribute[1] {
+                    case Column::TYPE_BIGINTEGER:
                     case Column::TYPE_INTEGER:
+                    case Column::TYPE_MEDIUMINTEGER:
+                    case Column::TYPE_SMALLINTEGER:
+                    case Column::TYPE_TINYINTEGER:
                         let castValue = intval(value, 10);
                         break;
 
-                    case Column::TYPE_DOUBLE:
                     case Column::TYPE_DECIMAL:
+                    case Column::TYPE_DOUBLE:
                     case Column::TYPE_FLOAT:
                         let castValue = doubleval(value);
                         break;
@@ -810,11 +817,15 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 }
             } else {
                 switch attribute[1] {
-                    case Column::TYPE_INTEGER:
-                    case Column::TYPE_DOUBLE:
-                    case Column::TYPE_DECIMAL:
-                    case Column::TYPE_FLOAT:
+                    case Column::TYPE_BIGINTEGER:
                     case Column::TYPE_BOOLEAN:
+                    case Column::TYPE_DECIMAL:
+                    case Column::TYPE_DOUBLE:
+                    case Column::TYPE_FLOAT:
+                    case Column::TYPE_INTEGER:
+                    case Column::TYPE_MEDIUMINTEGER:
+                    case Column::TYPE_SMALLINTEGER:
+                    case Column::TYPE_TINYINTEGER:
                         let castValue = null;
                         break;
 
