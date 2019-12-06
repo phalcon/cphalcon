@@ -12,9 +12,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Tag;
 
+use Phalcon\Tag;
+use Phalcon\Test\Fixtures\Helpers\TagSetup;
 use UnitTester;
 
-class DisplayToCest
+class DisplayToCest extends TagSetup
 {
     /**
      * Tests Phalcon\Tag :: displayTo()
@@ -26,6 +28,37 @@ class DisplayToCest
     {
         $I->wantToTest('Tag - displayTo()');
 
-        $I->skipTest('Need implementation');
+        //Init Data
+        Tag::displayTo('city', 'Miramas');
+        Tag::displayTo('country', 'France');
+        Tag::displayTo('zipcode', '13140');
+
+        //check if exists
+        $I->assertTrue(
+            Tag::hasValue('city')
+        );
+        $I->assertTrue(
+            Tag::hasValue('country')
+        );
+        $I->assertTrue(
+            Tag::hasValue('zipcode')
+        );
+        $I->assertFalse(
+            Tag::hasValue('area')
+        );
+
+        //Check value
+        $I->assertEquals(
+            'Miramas',
+            Tag::getValue('city')
+        );
+        $I->assertEquals(
+            'France',
+            Tag::getValue('country')
+        );
+        $I->assertEquals(
+            '13140',
+            Tag::getValue('zipcode')
+        );
     }
 }
