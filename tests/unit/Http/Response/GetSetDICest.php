@@ -26,7 +26,7 @@ class GetSetDICest
      */
     public function httpResponseGetSetDI(UnitTester $I)
     {
-        $I->wantToTest('Http\Response - setDI()');
+        $I->wantToTest('Http\Response - getDI() / setDI()');
 
         $container = new Di();
 
