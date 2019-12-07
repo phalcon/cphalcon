@@ -22,6 +22,19 @@
 - Fixed `Phalcon\Http\Request::getQuery`,`Phalcon\Http\Request::getPut`,`Phalcon\Http\Request::getPost` to treat `0` as non empty for `allowNoEmpty` [#14556](https://github.com/phalcon/cphalcon/issues/14556)
 - Fixed `Phalcon\Router::handle()` to use the `/` route on empty string [#14559](https://github.com/phalcon/cphalcon/issues/14559)
 - Fixed `Phalcon\Storage\Adapter\Libmemcached::getKeys` and `Phalcon\Storage\Adapter\Redis::getKeys` to return the keys that are prefixed only for that adapter [#14575](https://github.com/phalcon/cphalcon/issues/14575)
+- Fixed factories to return a new instance when calling `newInstance` and not a cached one from the internal mapper [#14584](https://github.com/phalcon/cphalcon/issues/14584)
+  - `Phalcon/Annotations/AnnotationsFactory`
+  - `Phalcon/Cache/AdapterFactory`
+  - `Phalcon/Config/ConfigFactory`
+  - `Phalcon/Db/Adapter/PdoFactory`
+  - `Phalcon/Image/ImageFactory`
+  - `Phalcon/Logger/AdapterFactory`
+  - `Phalcon/Paginator/PaginatorFactory`
+  - `Phalcon/Storage/AdapterFactory`
+  - `Phalcon/Storage/SerializerFactory`
+  - `Phalcon/Translate/InterpolatorFactory`
+  - `Phalcon/Translate/TranslateFactory`
+  - `Phalcon/Validation/ValidatorFactory`
 
 # [4.0.0-rc.r3](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-rc.3) (2019-11-16)
 ## Added
