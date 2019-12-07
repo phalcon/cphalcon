@@ -17,7 +17,7 @@ use Phalcon\Tag;
 
 use UnitTester;
 
-class SetDICest
+class GetSetDICest
 {
     /**
      * Tests Phalcon\Tag :: getDI() / setDI()
