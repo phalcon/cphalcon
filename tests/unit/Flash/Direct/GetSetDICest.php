@@ -42,6 +42,5 @@ class GetSetDICest
         $class  = Di::class;
         $actual = $oFlashDirect->getDI();
         $I->assertInstanceOf($class, $actual);
-
     }
 }
