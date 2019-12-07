@@ -55,18 +55,15 @@ class TranslateFactory extends AbstractFactory
 
         this->checkService(name);
 
-        if !isset this->services[name] {
-            let definition           = this->mapper[name],
-                this->services[name] = create_instance_params(
-                    definition,
-                    [
-                        this->interpolator,
-                        options
-                    ]
-                );
-        }
+        let definition = this->mapper[name];
 
-        return this->services[name];
+        return create_instance_params(
+            definition,
+            [
+                this->interpolator,
+                options
+            ]
+        );
     }
 
     protected function getAdapters() -> array
