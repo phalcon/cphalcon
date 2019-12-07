@@ -26,7 +26,7 @@ class GetSetDICest
     */
     public function httpResponseCookiesGetSetDI(UnitTester $I)
     {
-        $I->wantToTest('Http\Response\Cookies - getDI()');
+        $I->wantToTest('Http\Response\Cookies - getDI() / setDI()');
 
         $container = new Di();
 
