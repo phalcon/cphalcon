@@ -1,6 +1,4 @@
 <?php
-declare(strict_types=1);
-
 /**
  * This file is part of the Phalcon Framework.
  *
@@ -10,6 +8,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Unit\Config\ConfigFactory;
 
 use Phalcon\Config\Adapter\Ini;
@@ -18,8 +18,10 @@ use Phalcon\Config\ConfigFactory;
 use Phalcon\Config\Exception;
 use Phalcon\Test\Fixtures\Traits\FactoryTrait;
 use UnitTester;
+
 use function dataDir;
 use function hash;
+
 use const PATH_DATA;
 
 class LoadCest
@@ -174,5 +176,29 @@ class LoadCest
 
         $config = $factory->load($config);
         $I->assertInstanceOf(Yaml::class, $config);
+    }
+
+    /**
+     * Tests Phalcon\Config\ConfigFactory :: load() -  two calls new instances
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-12-07
+     * @issue  14584
+     */
+    public function configFactoryLoadTwoCallsNewInstances(UnitTester $I)
+    {
+        $I->wantToTest('Config\ConfigFactory - load() - two calls new instances');
+
+        $factory = new ConfigFactory();
+
+        $configFile1 = dataDir('assets/config/config.php');
+        $config = $factory->load($configFile1);
+
+        $I->assertEquals("/phalcon/", $config->phalcon->baseUri);
+
+        $configFile2 = dataDir('assets/config/config-2.php');
+        $config2 = $factory->load($configFile2);
+
+        $I->assertEquals("/phalcon4/", $config2->phalcon->baseUri);
     }
 }
