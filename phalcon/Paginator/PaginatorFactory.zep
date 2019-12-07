@@ -67,17 +67,14 @@ class PaginatorFactory extends AbstractFactory
 
         this->checkService(name);
 
-        if !isset this->services[name] {
-            let definition           = this->mapper[name],
-                this->services[name] = create_instance_params(
-                    definition,
-                    [
-                        options
-                    ]
-                );
-        }
+        let definition = this->mapper[name];
 
-        return this->services[name];
+        return create_instance_params(
+            definition,
+            [
+                options
+            ]
+        );
     }
 
     protected function getAdapters() -> array

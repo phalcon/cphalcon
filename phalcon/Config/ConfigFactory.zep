@@ -116,19 +116,15 @@ class ConfigFactory extends AbstractFactory
 
         this->checkService(name);
 
-        if !isset this->services[name] {
-            let definition = this->mapper[name],
-                options    = [],
-                options[]  = fileName;
+        let definition = this->mapper[name],
+            options    = [],
+            options[]  = fileName;
 
-            if "json" !== name && "php" !== name {
-                let options[] = params;
-            }
-
-            let this->services[name] = create_instance_params(definition, options);
+        if "json" !== name && "php" !== name {
+            let options[] = params;
         }
 
-        return this->services[name];
+        return create_instance_params(definition, options);
     }
 
     /**
