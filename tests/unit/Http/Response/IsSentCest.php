@@ -27,8 +27,15 @@ class IsSentCest
     {
         $I->wantToTest('Http\Response - isSent()');
 
+        $sData = '<h1>Phalcon</h1>';
         $oResponse = new Response('<h1>Phalcon</h1>');
+       
+        ob_start();
+
         $oResponse->send();
+        $sResult   = ob_get_clean();
+
+        $I->assertEquals($sData, $sResult);
 
         $I->assertTrue($oResponse->isSent());
     }
