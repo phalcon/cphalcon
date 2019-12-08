@@ -1,6 +1,5 @@
 <?php
 declare(strict_types=1);
-
 /**
  * This file is part of the Phalcon Framework.
  *
@@ -10,12 +9,9 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Http\Response;
-
 use Phalcon\Test\Unit\Http\Helper\HttpBase;
 use UnitTester;
-
-class GetSetStatusCodeCest
+class GetSetStatusCodeCest extends HttpBase
 {
     /**
      * Tests Phalcon\Http\Response :: getStatusCode() / setStatusCode()
@@ -26,10 +22,8 @@ class GetSetStatusCodeCest
     public function httpResponseGetSetStatusCode(UnitTester $I)
     {
         $I->wantToTest('Http\Response - getStatusCode() / setStatusCode()');
-
         $nCode = 200;
-
-        $oResponse = new Response();
+        $oResponse = $this->getResponseObject();
         $oResponse->setStatusCode($nCode);
         
         $I->assertSame(
@@ -47,11 +41,8 @@ class GetSetStatusCodeCest
     public function testHttpResponseSetStatusCode(UnitTester $I)
     {
         $response = $this->getResponseObject();
-
         $response->resetHeaders();
-
         $response->setStatusCode(404, 'Not Found');
-
         $actual = $response->getHeaders();
         $I->assertEquals(
             '',
@@ -62,7 +53,6 @@ class GetSetStatusCodeCest
             $actual->get('Status')
         );
     }
-
     /**
      * Tests the Multiple Status Codes
      *
@@ -73,13 +63,10 @@ class GetSetStatusCodeCest
     public function testMultipleHttpHeaders(UnitTester $I)
     {
         $response = $this->getResponseObject();
-
         $response->resetHeaders();
-
         $response->setStatusCode(200, 'OK');
         $response->setStatusCode(404, 'Not Found');
         $response->setStatusCode(409, 'Conflict');
-
         $actual = $response->getHeaders();
         $I->assertEquals(
             '',
@@ -90,15 +77,11 @@ class GetSetStatusCodeCest
             $actual->get('Status')
         );
     }
-
     public function testSetStatusCodeDefaultMessage(UnitTester $I)
     {
         $response = $this->getResponseObject();
-
         $response->resetHeaders();
-
         $response->setStatusCode(103);
-
         $actual = $response->getHeaders();
         $I->assertEquals(
             '',
@@ -108,9 +91,7 @@ class GetSetStatusCodeCest
             '103 Early Hints',
             $actual->get('Status')
         );
-
         $response->setStatusCode(200);
-
         $actual = $response->getHeaders();
         $I->assertEquals(
             '',
@@ -120,9 +101,7 @@ class GetSetStatusCodeCest
             '200 OK',
             $actual->get('Status')
         );
-
         $response->setStatusCode(418);
-
         $actual = $response->getHeaders();
         $I->assertEquals(
             '',
@@ -132,9 +111,7 @@ class GetSetStatusCodeCest
             "418 I'm a teapot",
             $actual->get('Status')
         );
-
         $response->setStatusCode(418, 'My own message');
-
         $actual = $response->getHeaders();
         $I->assertEquals(
             '',
