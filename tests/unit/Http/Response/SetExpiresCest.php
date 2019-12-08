@@ -12,6 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Response;
 
+use Phalcon\Http\Response;
+use DateTime;
+use DateTimeZone;
 use UnitTester;
 
 class SetExpiresCest
@@ -19,13 +22,28 @@ class SetExpiresCest
     /**
      * Tests Phalcon\Http\Response :: setExpires()
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
-     */
+     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
+     * @since  2019-12-08
+    */
     public function httpResponseSetExpires(UnitTester $I)
     {
         $I->wantToTest('Http\Response - setExpires()');
 
-        $I->skipTest('Need implementation');
+        $oResponse = new Response('<h1>Phalcon</h1>');
+
+        $oExpireDate = new DateTime();
+
+        $oExpireDate->modify('+1 months');
+
+        $oExpireDate->setTimezone(
+            new DateTimeZone("UTC")
+        );
+        
+        $oResponse->setExpires($oExpireDate);
+
+        $I->assertSame(
+            $oExpireDate->format("D, d M Y H:i:s") . " GMT", 
+            $oResponse->getHeaders()->get('Expires')
+        );
     }
 }
