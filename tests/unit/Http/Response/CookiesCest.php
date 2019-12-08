@@ -4,7 +4,7 @@ namespace Phalcon\Test\Unit\Http\Response;
 
 use Phalcon\Di;
 use Phalcon\Http\Cookie;
-use Phalcon\Http\CookieInterface;
+use Phalcon\Http\Cookie\CookieInterface;
 use Phalcon\Http\Response;
 use Phalcon\Http\Response\Cookies;
 use Phalcon\Session\Adapter\Stream as SessionFiles;
