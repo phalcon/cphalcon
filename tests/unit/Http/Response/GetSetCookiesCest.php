@@ -21,9 +21,9 @@ class GetSetCookiesCest
     /**
      * Tests Phalcon\Http\Response :: getCookies() / setCookies()
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
-     */
+     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
+     * @since  2019-12-08
+    */
     public function httpResponseGetSetCookies(UnitTester $I)
     {
         $I->wantToTest('Http\Response - getCookies() / setCookies');
