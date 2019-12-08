@@ -2,6 +2,7 @@
 
 ## Added
 - Added the ability to `Phalcon\Model::findFirstBy*` and `Phalcon\Model::findBy*` to process passed parameters (for `order` etc.) [#14573](https://github.com/phalcon/cphalcon/issues/14573)
+- Added `Phalcon\Helper\Str::decrement` to remove a number from a string or decrements that number if it already is defined [#14599](https://github.com/phalcon/cphalcon/issues/14599)
 
 ## Changed
 - Changed `Phalcon\Mvc\Router\Annotations` to use `converters` instead of `conversors` [#14532](https://github.com/phalcon/cphalcon/issues/14532)
