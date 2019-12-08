@@ -32,7 +32,7 @@ class GetSetCookiesCest
     {
         $I->wantToTest('Http\Response - getCookies() / setCookies');
 
-        $this->setNewFactoryDefault();;
+        $this->setNewFactoryDefault();
 
         $oCookies = new Cookies();
         $oCookies->setDI($this->container);
