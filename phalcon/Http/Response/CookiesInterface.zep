@@ -10,7 +10,7 @@
 
 namespace Phalcon\Http\Response;
 
-use Phalcon\Http\CookieInterface;
+use Phalcon\Http\Cookie\CookieInterface;
 
 /**
  * Phalcon\Http\Response\CookiesInterface
