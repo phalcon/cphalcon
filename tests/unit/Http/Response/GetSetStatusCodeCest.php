@@ -9,8 +9,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+namespace Phalcon\Test\Unit\Http\Response;
+
 use Phalcon\Test\Unit\Http\Helper\HttpBase;
 use UnitTester;
+
 class GetSetStatusCodeCest extends HttpBase
 {
     /**
@@ -25,13 +28,13 @@ class GetSetStatusCodeCest extends HttpBase
         $nCode = 200;
         $oResponse = $this->getResponseObject();
         $oResponse->setStatusCode($nCode);
-        
+
         $I->assertSame(
             $nCode,
             $oResponse->getStatusCode()
         );
     }
-    
+
     /**
      * Tests the setStatusCode
      *
