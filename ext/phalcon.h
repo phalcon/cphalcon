@@ -283,6 +283,7 @@
 #include "phalcon/helper/arr.zep.h"
 #include "phalcon/helper/exception.zep.h"
 #include "phalcon/helper/fs.zep.h"
+#include "phalcon/helper/json.zep.h"
 #include "phalcon/helper/number.zep.h"
 #include "phalcon/helper/str.zep.h"
 #include "phalcon/html/attributes.zep.h"

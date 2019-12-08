@@ -57,7 +57,7 @@ PHP_METHOD(Phalcon_Filter_Sanitize_Regex, __invoke) {
 
 
 
-	ZEPHIR_RETURN_CALL_FUNCTION("preg_replace", NULL, 46, pattern, replace, input);
+	ZEPHIR_RETURN_CALL_FUNCTION("preg_replace", NULL, 47, pattern, replace, input);
 	zephir_check_call_status();
 	RETURN_MM();
 

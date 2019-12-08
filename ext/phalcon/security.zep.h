@@ -3,7 +3,6 @@ extern zend_class_entry *phalcon_security_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Security);
 
-PHP_METHOD(Phalcon_Security, setWorkFactor);
 PHP_METHOD(Phalcon_Security, getWorkFactor);
 PHP_METHOD(Phalcon_Security, __construct);
 PHP_METHOD(Phalcon_Security, checkHash);
@@ -22,11 +21,15 @@ PHP_METHOD(Phalcon_Security, hash);
 PHP_METHOD(Phalcon_Security, isLegacyHash);
 PHP_METHOD(Phalcon_Security, setDefaultHash);
 PHP_METHOD(Phalcon_Security, setRandomBytes);
+PHP_METHOD(Phalcon_Security, setWorkFactor);
 PHP_METHOD(Phalcon_Security, getLocalRequest);
 PHP_METHOD(Phalcon_Security, getLocalSession);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_security_setworkfactor, 0, 0, 1)
-	ZEND_ARG_INFO(0, workFactor)
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_security_getworkfactor, 0, 0, IS_LONG, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_security_getworkfactor, 0, 0, IS_LONG, NULL, 0)
+#endif
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_security___construct, 0, 0, 0)
@@ -119,9 +122,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_security_getrandom, 0, 0
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_security_getrandombytes, 0, 0, IS_STRING, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_security_getrandombytes, 0, 0, IS_LONG, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_security_getrandombytes, 0, 0, IS_STRING, NULL, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_security_getrandombytes, 0, 0, IS_LONG, NULL, 0)
 #endif
 ZEND_END_ARG_INFO()
 
@@ -219,6 +222,18 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_security_setrandombytes,
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_security_setworkfactor, 0, 1, Phalcon\\Security, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_security_setworkfactor, 0, 1, IS_OBJECT, "Phalcon\\Security", 0)
+#endif
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, workFactor, IS_LONG, 0)
+#else
+	ZEND_ARG_INFO(0, workFactor)
+#endif
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_security_getlocalrequest, 0, 0, Phalcon\\Http\\RequestInterface, 1)
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_security_getlocalrequest, 0, 0, IS_OBJECT, "Phalcon\\Http\\RequestInterface", 1)
@@ -233,8 +248,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_security_getlocalsession
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_security_method_entry) {
-	PHP_ME(Phalcon_Security, setWorkFactor, arginfo_phalcon_security_setworkfactor, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Security, getWorkFactor, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Security, getWorkFactor, arginfo_phalcon_security_getworkfactor, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Security, __construct, arginfo_phalcon_security___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Security, checkHash, arginfo_phalcon_security_checkhash, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Security, checkToken, arginfo_phalcon_security_checktoken, ZEND_ACC_PUBLIC)
@@ -252,6 +266,7 @@ ZEPHIR_INIT_FUNCS(phalcon_security_method_entry) {
 	PHP_ME(Phalcon_Security, isLegacyHash, arginfo_phalcon_security_islegacyhash, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Security, setDefaultHash, arginfo_phalcon_security_setdefaulthash, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Security, setRandomBytes, arginfo_phalcon_security_setrandombytes, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Security, setWorkFactor, arginfo_phalcon_security_setworkfactor, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Security, getLocalRequest, arginfo_phalcon_security_getlocalrequest, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Security, getLocalSession, arginfo_phalcon_security_getlocalsession, ZEND_ACC_PRIVATE)
 	PHP_FE_END

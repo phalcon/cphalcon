@@ -72,17 +72,17 @@ PHP_METHOD(Phalcon_Filter_Sanitize_UpperWords, __invoke) {
 	}
 
 
-	if (1 == (zephir_function_exists_ex(SL("mb_convert_case")) == SUCCESS)) {
+	if (1 == (zephir_function_exists_ex(ZEND_STRL("mb_convert_case")) == SUCCESS)) {
 		ZVAL_LONG(&_0$$3, 2);
 		ZEPHIR_INIT_VAR(&_1$$3);
 		ZVAL_STRING(&_1$$3, "UTF-8");
-		ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_case", NULL, 237, &input, &_0$$3, &_1$$3);
+		ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_case", NULL, 233, &input, &_0$$3, &_1$$3);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
-	ZEPHIR_CALL_FUNCTION(&_2, "utf8_decode", NULL, 238, &input);
+	ZEPHIR_CALL_FUNCTION(&_2, "utf8_decode", NULL, 234, &input);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_FUNCTION("ucwords", NULL, 240, &_2);
+	ZEPHIR_RETURN_CALL_FUNCTION("ucwords", NULL, 236, &_2);
 	zephir_check_call_status();
 	RETURN_MM();
 

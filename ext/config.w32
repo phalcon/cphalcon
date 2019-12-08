@@ -91,7 +91,7 @@ if (PHP_PHALCON != "no") {
 	ADD_SOURCES(configure_module_dirname + "/phalcon/firewall/adapter/micro", "acl.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/firewall", "exception.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/forms", "exception.zep.c form.zep.c manager.zep.c", "phalcon");
-	ADD_SOURCES(configure_module_dirname + "/phalcon/helper", "arr.zep.c exception.zep.c fs.zep.c number.zep.c str.zep.c", "phalcon");
+	ADD_SOURCES(configure_module_dirname + "/phalcon/helper", "arr.zep.c exception.zep.c fs.zep.c json.zep.c number.zep.c str.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/html", "attributes.zep.c breadcrumbs.zep.c exception.zep.c tagfactory.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/http/cookie", "exception.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/http/message/exception", "invalidargumentexception.zep.c", "phalcon");

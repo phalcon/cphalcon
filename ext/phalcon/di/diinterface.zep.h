@@ -143,9 +143,9 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_diinterface_setdefault, 0, 0, 1)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_di_diinterface_setraw, 0, 2, Phalcon\\Di\\ServiceInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_di_diinterface_setservice, 0, 2, Phalcon\\Di\\ServiceInterface, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_diinterface_setraw, 0, 2, IS_OBJECT, "Phalcon\\Di\\ServiceInterface", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_diinterface_setservice, 0, 2, IS_OBJECT, "Phalcon\\Di\\ServiceInterface", 0)
 #endif
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
@@ -181,7 +181,7 @@ ZEPHIR_INIT_FUNCS(phalcon_di_diinterface_method_entry) {
 	ZEND_FENTRY(reset, NULL, arginfo_phalcon_di_diinterface_reset, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
 	PHP_ABSTRACT_ME(Phalcon_Di_DiInterface, set, arginfo_phalcon_di_diinterface_set)
 	ZEND_FENTRY(setDefault, NULL, arginfo_phalcon_di_diinterface_setdefault, ZEND_ACC_STATIC|ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
-	PHP_ABSTRACT_ME(Phalcon_Di_DiInterface, setRaw, arginfo_phalcon_di_diinterface_setraw)
+	PHP_ABSTRACT_ME(Phalcon_Di_DiInterface, setService, arginfo_phalcon_di_diinterface_setservice)
 	PHP_ABSTRACT_ME(Phalcon_Di_DiInterface, setShared, arginfo_phalcon_di_diinterface_setshared)
 	PHP_FE_END
 };

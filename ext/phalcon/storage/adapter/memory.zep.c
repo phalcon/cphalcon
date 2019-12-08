@@ -90,7 +90,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Memory, __construct) {
 	zephir_update_property_zval(this_ptr, SL("options"), &options);
 	ZEPHIR_INIT_NVAR(&_0);
 	object_init_ex(&_0, phalcon_collection_ce);
-	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 19);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 20);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("data"), &_0);
 	ZEPHIR_CALL_PARENT(NULL, phalcon_storage_adapter_memory_ce, getThis(), "__construct", &_1, 0, factory, &options);
@@ -495,12 +495,10 @@ PHP_METHOD(Phalcon_Storage_Adapter_Memory, set) {
 
 zend_object *zephir_init_properties_Phalcon_Storage_Adapter_Memory(zend_class_entry *class_type TSRMLS_DC) {
 
-		zval _0, _2, _1$$3, _3$$4;
+		zval _0, _1$$3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_3$$4);
 
 		ZEPHIR_MM_GROW();
 	
@@ -512,12 +510,6 @@ zend_object *zephir_init_properties_Phalcon_Storage_Adapter_Memory(zend_class_en
 			ZEPHIR_INIT_VAR(&_1$$3);
 			array_init(&_1$$3);
 			zephir_update_property_zval(this_ptr, SL("options"), &_1$$3);
-		}
-		zephir_read_property(&_2, this_ptr, SL("data"), PH_NOISY_CC | PH_READONLY);
-		if (Z_TYPE_P(&_2) == IS_NULL) {
-			ZEPHIR_INIT_VAR(&_3$$4);
-			array_init(&_3$$4);
-			zephir_update_property_zval(this_ptr, SL("data"), &_3$$4);
 		}
 		ZEPHIR_MM_RESTORE();
 		return Z_OBJ_P(this_ptr);

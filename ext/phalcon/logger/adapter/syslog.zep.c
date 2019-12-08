@@ -132,13 +132,13 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, __construct) {
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "facility");
 	ZVAL_LONG(&_3, 8);
-	ZEPHIR_CALL_CE_STATIC(&_0, phalcon_helper_arr_ce, "get", &_1, 14, &options, &_2, &_3);
+	ZEPHIR_CALL_CE_STATIC(&_0, phalcon_helper_arr_ce, "get", &_1, 15, &options, &_2, &_3);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("facility"), &_0);
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "option");
 	ZVAL_LONG(&_3, 4);
-	ZEPHIR_CALL_CE_STATIC(&_4, phalcon_helper_arr_ce, "get", &_1, 14, &options, &_2, &_3);
+	ZEPHIR_CALL_CE_STATIC(&_4, phalcon_helper_arr_ce, "get", &_1, 15, &options, &_2, &_3);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("option"), &_4);
 	ZEPHIR_MM_RESTORE();
@@ -174,7 +174,6 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, close) {
  */
 PHP_METHOD(Phalcon_Logger_Adapter_Syslog, process) {
 
-	zend_bool opened = 0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *item, item_sub, __$true, __$false, name, facility, formatter, level, message, option, result, _0, _4, _1$$3, _2$$3, _3$$3;
@@ -218,16 +217,15 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, process) {
 		object_init_ex(&_1$$3, spl_ce_LogicException);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "Cannot open syslog for name [%s] and facility [%s]");
-		ZEPHIR_CALL_FUNCTION(&_3$$3, "sprintf", NULL, 183, &_2$$3, &name, &facility);
+		ZEPHIR_CALL_FUNCTION(&_3$$3, "sprintf", NULL, 179, &_2$$3, &name, &facility);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 408, &_3$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Logger/Adapter/Syslog.zep", 118);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Logger/Adapter/Syslog.zep", 117);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	opened = 1;
-	if (opened) {
+	if (1) {
 		zephir_update_property_zval(this_ptr, SL("opened"), &__$true);
 	} else {
 		zephir_update_property_zval(this_ptr, SL("opened"), &__$false);
@@ -250,17 +248,16 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, logLevelToSyslog) {
 	zval levels;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *level_param = NULL, result;
-	zval level;
+	zend_long level;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&level);
 	ZVAL_UNDEF(&result);
 	ZVAL_UNDEF(&levels);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &level_param);
 
-	zephir_get_strval(&level, level_param);
+	level = zephir_get_intval(level_param);
 
 
 	ZEPHIR_INIT_VAR(&levels);
@@ -275,7 +272,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, logLevelToSyslog) {
 	add_index_long(&levels, 5, 5);
 	add_index_long(&levels, 4, 4);
 	ZEPHIR_OBS_VAR(&result);
-	if (!(zephir_array_isset_fetch(&result, &levels, &level, 0))) {
+	if (!(zephir_array_isset_long_fetch(&result, &levels, level, 0))) {
 		ZEPHIR_INIT_NVAR(&result);
 		ZVAL_LONG(&result, 3);
 	}
