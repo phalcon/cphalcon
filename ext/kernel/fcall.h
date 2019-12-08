@@ -58,18 +58,6 @@ typedef enum _zephir_call_type {
         	ZEPHIR_LAST_CALL_STATUS = zephir_call_zval_func_aparams(return_value_ptr, func_name, cache, cache_slot, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_)); \
 	} while (0)
 
-/* Saves the if pointer, and called/calling scope */
-#define ZEPHIR_BACKUP_THIS_PTR() \
-	zend_object *old_this_ptr = Z_OBJ(EG(current_execute_data)->This) ? Z_OBJ(EG(current_execute_data)->This) : NULL;
-
-#define ZEPHIR_RESTORE_THIS_PTR() do { \
-	if (old_this_ptr) { \
-		ZEPHIR_SET_THIS_OBJ(old_this_ptr); \
-	} else { \
-		ZEPHIR_SET_THIS_EXPLICIT_NULL(); \
-	} \
-} while (0)
-
 #define ZEPHIR_SET_THIS(zv) ZEPHIR_SET_THIS_OBJ((zv ? Z_OBJ_P(zv) : NULL))
 #define ZEPHIR_SET_THIS_EXPLICIT_NULL() \
  	ZVAL_NULL(&EG(current_execute_data)->This); \
@@ -81,15 +69,29 @@ typedef enum _zephir_call_type {
 	} \
 	else { ZEPHIR_SET_THIS_EXPLICIT_NULL(); } \
 
+
 #if PHP_VERSION_ID >= 70100
 
 #define ZEPHIR_BACKUP_SCOPE() \
 	zend_class_entry *old_scope = EG(fake_scope); \
-	zend_class_entry *old_called_scope = zend_get_called_scope(EG(current_execute_data));
+	zend_execute_data *old_call = execute_data; \
+	zend_execute_data *old_execute_data = EG(current_execute_data), new_execute_data; \
+	if (!EG(current_execute_data)) { \
+		memset(&new_execute_data, 0, sizeof(zend_execute_data)); \
+		execute_data = EG(current_execute_data) = &new_execute_data; \
+	} else { \
+		new_execute_data = *EG(current_execute_data); \
+		new_execute_data.prev_execute_data = EG(current_execute_data); \
+		new_execute_data.call = NULL; \
+		new_execute_data.opline = NULL; \
+		new_execute_data.func = NULL; \
+		execute_data = EG(current_execute_data) = &new_execute_data; \
+	}
 
 #define ZEPHIR_RESTORE_SCOPE() \
-	zephir_set_called_scope(EG(current_execute_data), old_called_scope); \
 	EG(fake_scope) = old_scope; \
+	execute_data = old_call; \
+	EG(current_execute_data) = old_execute_data;
 
 #define ZEPHIR_SET_SCOPE(_scope, _scope_called) \
 	EG(fake_scope) = _scope; \
@@ -99,15 +101,28 @@ typedef enum _zephir_call_type {
 
 #define ZEPHIR_BACKUP_SCOPE() \
 	zend_class_entry *old_scope = EG(scope); \
-	zend_class_entry *old_called_scope = EG(current_execute_data)->called_scope;
+	zend_execute_data *old_call = execute_data; \
+	zend_execute_data *old_execute_data = EG(current_execute_data), new_execute_data; \
+	if (!EG(current_execute_data)) { \
+		memset(&new_execute_data, 0, sizeof(zend_execute_data)); \
+		execute_data = EG(current_execute_data) = &new_execute_data; \
+	} else { \
+		new_execute_data = *EG(current_execute_data); \
+		new_execute_data.prev_execute_data = EG(current_execute_data); \
+		new_execute_data.call = NULL; \
+		new_execute_data.opline = NULL; \
+		new_execute_data.func = NULL; \
+		execute_data = EG(current_execute_data) = &new_execute_data; \
+	}
 
 #define ZEPHIR_RESTORE_SCOPE() \
-	EG(current_execute_data)->called_scope = old_called_scope; \
 	EG(scope) = old_scope; \
+	execute_data = old_call; \
+	EG(current_execute_data) = old_execute_data;
 
 #define ZEPHIR_SET_SCOPE(_scope, _scope_called) \
 	EG(scope) = _scope; \
-	EG(current_execute_data)->called_scope = _scope_called; \
+	EG(current_execute_data)->called_scope = _scope_called;
 
 #endif
 
@@ -437,13 +452,13 @@ static inline void zephir_set_called_scope(zend_execute_data *ex, zend_class_ent
 		if (Z_TYPE(ex->This) == IS_OBJECT) {
 			Z_OBJCE(ex->This) = called_scope;
 			return;
-		} else if (Z_CE(ex->This)) {
-			Z_CE(ex->This) = called_scope;
-			return;
-		} else if (ex->func) {
+		}else if (ex->func) {
 			if (ex->func->type != ZEND_INTERNAL_FUNCTION || ex->func->common.scope) {
 				return;
 			}
+		} else {
+			Z_CE(ex->This) = called_scope;
+			return;
 		}
 		ex = ex->prev_execute_data;
 	}

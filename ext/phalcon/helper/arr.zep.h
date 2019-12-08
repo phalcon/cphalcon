@@ -4,6 +4,7 @@ extern zend_class_entry *phalcon_helper_arr_ce;
 ZEPHIR_INIT_CLASS(Phalcon_Helper_Arr);
 
 PHP_METHOD(Phalcon_Helper_Arr, chunk);
+PHP_METHOD(Phalcon_Helper_Arr, filter);
 PHP_METHOD(Phalcon_Helper_Arr, first);
 PHP_METHOD(Phalcon_Helper_Arr, firstKey);
 PHP_METHOD(Phalcon_Helper_Arr, flatten);
@@ -22,7 +23,6 @@ PHP_METHOD(Phalcon_Helper_Arr, split);
 PHP_METHOD(Phalcon_Helper_Arr, toObject);
 PHP_METHOD(Phalcon_Helper_Arr, validateAll);
 PHP_METHOD(Phalcon_Helper_Arr, validateAny);
-PHP_METHOD(Phalcon_Helper_Arr, filterCollection);
 PHP_METHOD(Phalcon_Helper_Arr, whiteList);
 
 #if PHP_VERSION_ID >= 70200
@@ -41,6 +41,15 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_helper_arr_chunk, 0, 2, 
 #else
 	ZEND_ARG_INFO(0, preserveKeys)
 #endif
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_helper_arr_filter, 0, 1, IS_ARRAY, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_helper_arr_filter, 0, 1, IS_ARRAY, NULL, 0)
+#endif
+	ZEND_ARG_ARRAY_INFO(0, collection, 0)
+	ZEND_ARG_INFO(0, method)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_helper_arr_first, 0, 0, 1)
@@ -189,27 +198,18 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_helper_arr_toobject, 0, 0, 1)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_helper_arr_validateall, 0, 2, _IS_BOOL, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_helper_arr_validateall, 0, 1, _IS_BOOL, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_helper_arr_validateall, 0, 2, _IS_BOOL, NULL, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_helper_arr_validateall, 0, 1, _IS_BOOL, NULL, 0)
 #endif
 	ZEND_ARG_ARRAY_INFO(0, collection, 0)
 	ZEND_ARG_INFO(0, method)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_helper_arr_validateany, 0, 2, _IS_BOOL, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_helper_arr_validateany, 0, 1, _IS_BOOL, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_helper_arr_validateany, 0, 2, _IS_BOOL, NULL, 0)
-#endif
-	ZEND_ARG_ARRAY_INFO(0, collection, 0)
-	ZEND_ARG_INFO(0, method)
-ZEND_END_ARG_INFO()
-
-#if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_helper_arr_filtercollection, 0, 1, IS_ARRAY, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_helper_arr_filtercollection, 0, 1, IS_ARRAY, NULL, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_helper_arr_validateany, 0, 1, _IS_BOOL, NULL, 0)
 #endif
 	ZEND_ARG_ARRAY_INFO(0, collection, 0)
 	ZEND_ARG_INFO(0, method)
@@ -226,6 +226,7 @@ ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_helper_arr_method_entry) {
 	PHP_ME(Phalcon_Helper_Arr, chunk, arginfo_phalcon_helper_arr_chunk, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Helper_Arr, filter, arginfo_phalcon_helper_arr_filter, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Helper_Arr, first, arginfo_phalcon_helper_arr_first, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Helper_Arr, firstKey, arginfo_phalcon_helper_arr_firstkey, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Helper_Arr, flatten, arginfo_phalcon_helper_arr_flatten, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
@@ -244,7 +245,6 @@ ZEPHIR_INIT_FUNCS(phalcon_helper_arr_method_entry) {
 	PHP_ME(Phalcon_Helper_Arr, toObject, arginfo_phalcon_helper_arr_toobject, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Helper_Arr, validateAll, arginfo_phalcon_helper_arr_validateall, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Helper_Arr, validateAny, arginfo_phalcon_helper_arr_validateany, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
-	PHP_ME(Phalcon_Helper_Arr, filterCollection, arginfo_phalcon_helper_arr_filtercollection, ZEND_ACC_FINAL|ZEND_ACC_PRIVATE|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Helper_Arr, whiteList, arginfo_phalcon_helper_arr_whitelist, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_FE_END
 };

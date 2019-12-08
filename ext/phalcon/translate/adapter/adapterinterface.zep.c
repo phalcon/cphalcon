@@ -21,7 +21,7 @@
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Translate\AdapterInterface
+ * Phalcon\Translate\Adapter\AdapterInterface
  *
  * Interface for Phalcon\Translate adapters
  */

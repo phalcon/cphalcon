@@ -41,6 +41,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_storage_adapter_adapterinterface_get, 0, 
 #else
 	ZEND_ARG_INFO(0, key)
 #endif
+	ZEND_ARG_INFO(0, defaultValue)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200

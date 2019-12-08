@@ -17,7 +17,6 @@
 #include "kernel/memory.h"
 #include "kernel/string.h"
 #include "kernel/fcall.h"
-#include "kernel/concat.h"
 
 
 /**
@@ -168,7 +167,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, format) {
 
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *item, item_sub, format, _0, _9, _10, _11, _12, _13, _14, _1$$3, _2$$3, _3$$3, _4$$3, _5$$3, _6$$4, _7$$4, _8$$4, _15$$5;
+	zval *item, item_sub, format, _0, _9, _10, _11, _12, _1$$3, _2$$3, _3$$3, _4$$3, _5$$3, _6$$4, _7$$4, _8$$4, _13$$5;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&item_sub);
@@ -178,8 +177,6 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, format) {
 	ZVAL_UNDEF(&_10);
 	ZVAL_UNDEF(&_11);
 	ZVAL_UNDEF(&_12);
-	ZVAL_UNDEF(&_13);
-	ZVAL_UNDEF(&_14);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$3);
 	ZVAL_UNDEF(&_3$$3);
@@ -188,7 +185,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, format) {
 	ZVAL_UNDEF(&_6$$4);
 	ZVAL_UNDEF(&_7$$4);
 	ZVAL_UNDEF(&_8$$4);
-	ZVAL_UNDEF(&_15$$5);
+	ZVAL_UNDEF(&_13$$5);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &item);
@@ -224,17 +221,13 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, format) {
 	ZEPHIR_INIT_VAR(&_11);
 	ZVAL_STRING(&_11, "%message%");
 	zephir_fast_str_replace(&_9, &_11, &_10, &format);
-	ZEPHIR_INIT_VAR(&_12);
-	ZEPHIR_GET_CONSTANT(&_12, "PHP_EOL");
-	ZEPHIR_INIT_VAR(&_13);
-	ZEPHIR_CONCAT_VV(&_13, &_9, &_12);
-	ZEPHIR_CPY_WRT(&format, &_13);
-	ZEPHIR_CALL_METHOD(&_14, item, "getcontext", NULL, 0);
+	ZEPHIR_CPY_WRT(&format, &_9);
+	ZEPHIR_CALL_METHOD(&_12, item, "getcontext", NULL, 0);
 	zephir_check_call_status();
-	if (Z_TYPE_P(&_14) == IS_ARRAY) {
-		ZEPHIR_CALL_METHOD(&_15$$5, item, "getcontext", NULL, 0);
+	if (Z_TYPE_P(&_12) == IS_ARRAY) {
+		ZEPHIR_CALL_METHOD(&_13$$5, item, "getcontext", NULL, 0);
 		zephir_check_call_status();
-		ZEPHIR_RETURN_CALL_METHOD(this_ptr, "interpolate", NULL, 0, &format, &_15$$5);
+		ZEPHIR_RETURN_CALL_METHOD(this_ptr, "interpolate", NULL, 0, &format, &_13$$5);
 		zephir_check_call_status();
 		RETURN_MM();
 	}

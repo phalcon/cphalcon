@@ -149,12 +149,17 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, __construct) {
 	ZVAL_UNDEF(&options);
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &factory, &options_param);
+	zephir_fetch_params(1, 0, 2, &factory, &options_param);
 
-	ZEPHIR_OBS_COPY_OR_DUP(&options, options_param);
 	if (!factory) {
 		factory = &factory_sub;
 		factory = &__$null;
+	}
+	if (!options_param) {
+		ZEPHIR_INIT_VAR(&options);
+		array_init(&options);
+	} else {
+	ZEPHIR_OBS_COPY_OR_DUP(&options, options_param);
 	}
 
 
@@ -162,19 +167,19 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, __construct) {
 	ZVAL_STRING(&_2, "defaultSerializer");
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "Php");
-	ZEPHIR_CALL_CE_STATIC(&_0, phalcon_helper_arr_ce, "get", &_1, 14, &options, &_2, &_3);
+	ZEPHIR_CALL_CE_STATIC(&_0, phalcon_helper_arr_ce, "get", &_1, 15, &options, &_2, &_3);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("defaultSerializer"), &_0);
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "lifetime");
 	ZVAL_LONG(&_5, 3600);
-	ZEPHIR_CALL_CE_STATIC(&_4, phalcon_helper_arr_ce, "get", &_1, 14, &options, &_2, &_5);
+	ZEPHIR_CALL_CE_STATIC(&_4, phalcon_helper_arr_ce, "get", &_1, 15, &options, &_2, &_5);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("lifetime"), &_4);
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "serializer");
 	ZVAL_NULL(&_5);
-	ZEPHIR_CALL_CE_STATIC(&_6, phalcon_helper_arr_ce, "get", &_1, 14, &options, &_2, &_5);
+	ZEPHIR_CALL_CE_STATIC(&_6, phalcon_helper_arr_ce, "get", &_1, 15, &options, &_2, &_5);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("serializer"), &_6);
 	zephir_update_property_zval(this_ptr, SL("serializerFactory"), factory);

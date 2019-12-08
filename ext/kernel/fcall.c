@@ -26,12 +26,14 @@
 
 int zephir_has_constructor_ce(const zend_class_entry *ce)
 {
-	while (ce) {
+	do {
 		if (ce->constructor != NULL) {
 			return 1;
 		}
+
 		ce = ce->parent;
-	}
+	} while (ce);
+
 	return 0;
 }
 

@@ -160,11 +160,11 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, __construct) {
 			ZVAL_COPY(&value, _0);
 			ZEPHIR_INIT_NVAR(&_4$$3);
 			ZVAL_STRING(&_4$$3, "min");
-			ZEPHIR_CALL_FUNCTION(&_5$$3, "strcasecmp", &_6, 44, &key, &_4$$3);
+			ZEPHIR_CALL_FUNCTION(&_5$$3, "strcasecmp", &_6, 45, &key, &_4$$3);
 			zephir_check_call_status();
 			ZEPHIR_INIT_NVAR(&_4$$3);
 			ZVAL_STRING(&_4$$3, "max");
-			ZEPHIR_CALL_FUNCTION(&_7$$3, "strcasecmp", &_6, 44, &key, &_4$$3);
+			ZEPHIR_CALL_FUNCTION(&_7$$3, "strcasecmp", &_6, 45, &key, &_4$$3);
 			zephir_check_call_status();
 			if (ZEPHIR_IS_LONG_IDENTICAL(&_5$$3, 0)) {
 				if (zephir_array_isset_string(&options, SL("message"))) {
@@ -244,11 +244,11 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, __construct) {
 			zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&_11$$15);
 				ZVAL_STRING(&_11$$15, "min");
-				ZEPHIR_CALL_FUNCTION(&_12$$15, "strcasecmp", &_6, 44, &key, &_11$$15);
+				ZEPHIR_CALL_FUNCTION(&_12$$15, "strcasecmp", &_6, 45, &key, &_11$$15);
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&_11$$15);
 				ZVAL_STRING(&_11$$15, "max");
-				ZEPHIR_CALL_FUNCTION(&_13$$15, "strcasecmp", &_6, 44, &key, &_11$$15);
+				ZEPHIR_CALL_FUNCTION(&_13$$15, "strcasecmp", &_6, 45, &key, &_11$$15);
 				zephir_check_call_status();
 				if (ZEPHIR_IS_LONG_IDENTICAL(&_12$$15, 0)) {
 					if (zephir_array_isset_string(&options, SL("message"))) {

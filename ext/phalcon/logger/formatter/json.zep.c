@@ -16,8 +16,6 @@
 #include "kernel/operators.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
-#include "kernel/concat.h"
-#include "kernel/string.h"
 #include "kernel/array.h"
 
 
@@ -119,18 +117,17 @@ PHP_METHOD(Phalcon_Logger_Formatter_Json, format) {
 
 	zval _4;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zephir_fcall_cache_entry *_3 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *item, item_sub, message, _0, _3, _5, _6, _7, _8, _1$$3, _2$$3;
+	zval *item, item_sub, message, _0, _5, _6, _7, _1$$3, _2$$3;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&item_sub);
 	ZVAL_UNDEF(&message);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_5);
 	ZVAL_UNDEF(&_6);
 	ZVAL_UNDEF(&_7);
-	ZVAL_UNDEF(&_8);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$3);
 	ZVAL_UNDEF(&_4);
@@ -153,7 +150,6 @@ PHP_METHOD(Phalcon_Logger_Formatter_Json, format) {
 		ZEPHIR_CALL_METHOD(&message, item, "getmessage", NULL, 0);
 		zephir_check_call_status();
 	}
-	ZEPHIR_INIT_VAR(&_3);
 	ZEPHIR_INIT_VAR(&_4);
 	zephir_create_array(&_4, 3, 0);
 	ZEPHIR_CALL_METHOD(&_5, item, "getname", NULL, 0);
@@ -166,10 +162,8 @@ PHP_METHOD(Phalcon_Logger_Formatter_Json, format) {
 	ZEPHIR_CALL_FUNCTION(&_7, "date", NULL, 411, &_6, &_5);
 	zephir_check_call_status();
 	zephir_array_update_string(&_4, SL("timestamp"), &_7, PH_COPY | PH_SEPARATE);
-	zephir_json_encode(&_3, &_4, 0 );
-	ZEPHIR_INIT_VAR(&_8);
-	ZEPHIR_GET_CONSTANT(&_8, "PHP_EOL");
-	ZEPHIR_CONCAT_VV(return_value, &_3, &_8);
+	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_json_ce, "encode", &_3, 13, &_4);
+	zephir_check_call_status();
 	RETURN_MM();
 
 }

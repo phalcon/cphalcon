@@ -420,7 +420,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File_AbstractFile, checkUploadIsEmpty) {
 	_3 = _1;
 	if (!(_3)) {
 		zephir_array_fetch_string(&_4, &value, SL("tmp_name"), PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/File/AbstractFile.zep", 154);
-		ZEPHIR_CALL_FUNCTION(&_5, "is_uploaded_file", NULL, 15, &_4);
+		ZEPHIR_CALL_FUNCTION(&_5, "is_uploaded_file", NULL, 16, &_4);
 		zephir_check_call_status();
 		_3 = !zephir_is_true(&_5);
 	}
@@ -588,7 +588,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File_AbstractFile, getFileSizeInBytes) {
 		zephir_array_fetch_long(&unit, &matches, 2, PH_NOISY, "phalcon/Validation/Validator/File/AbstractFile.zep", 236);
 	}
 	zephir_array_fetch_long(&_4, &matches, 1, PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/File/AbstractFile.zep", 239);
-	ZEPHIR_CALL_FUNCTION(&_5, "floatval", NULL, 16, &_4);
+	ZEPHIR_CALL_FUNCTION(&_5, "floatval", NULL, 17, &_4);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_6);
 	zephir_array_fetch(&_7, &byteUnits, &unit, PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/File/AbstractFile.zep", 239);

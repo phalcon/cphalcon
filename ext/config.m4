@@ -288,6 +288,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/helper/arr.zep.c
 	phalcon/helper/exception.zep.c
 	phalcon/helper/fs.zep.c
+	phalcon/helper/json.zep.c
 	phalcon/helper/number.zep.c
 	phalcon/helper/str.zep.c
 	phalcon/html/attributes.zep.c

@@ -129,7 +129,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, __construct) {
 	if (_0) {
 		zephir_update_property_zval(this_ptr, SL("paths"), paths);
 	}
-	if ((zephir_method_exists_ex(this_ptr, SL("initialize")) == SUCCESS)) {
+	if ((zephir_method_exists_ex(this_ptr, ZEND_STRL("initialize")) == SUCCESS)) {
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "initialize", NULL, 0, paths);
 		zephir_check_call_status();
 	}
@@ -871,7 +871,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addRoute) {
 	zephir_read_property(&_1, this_ptr, SL("prefix"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_2);
 	ZEPHIR_CONCAT_VV(&_2, &_1, &pattern);
-	ZEPHIR_CALL_METHOD(NULL, &route, "__construct", NULL, 108, &_2, &mergedPaths, httpMethods);
+	ZEPHIR_CALL_METHOD(NULL, &route, "__construct", NULL, 109, &_2, &mergedPaths, httpMethods);
 	zephir_check_call_status();
 	zephir_update_property_array_append(this_ptr, SL("routes"), &route);
 	ZEPHIR_CALL_METHOD(NULL, &route, "setgroup", NULL, 486, this_ptr);

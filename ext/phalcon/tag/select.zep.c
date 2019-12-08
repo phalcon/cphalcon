@@ -271,7 +271,7 @@ PHP_METHOD(Phalcon_Tag_Select, optionsFromArray) {
 			}
 			ZEPHIR_INIT_NVAR(&optionText);
 			ZVAL_COPY(&optionText, _0);
-			ZEPHIR_CALL_FUNCTION(&escaped, "htmlspecialchars", &_4, 224, &optionValue);
+			ZEPHIR_CALL_FUNCTION(&escaped, "htmlspecialchars", &_4, 220, &optionValue);
 			zephir_check_call_status();
 			if (Z_TYPE_P(&optionText) == IS_ARRAY) {
 				ZEPHIR_INIT_NVAR(&_5$$4);
@@ -324,7 +324,7 @@ PHP_METHOD(Phalcon_Tag_Select, optionsFromArray) {
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&optionText, &data, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_FUNCTION(&escaped, "htmlspecialchars", &_4, 224, &optionValue);
+				ZEPHIR_CALL_FUNCTION(&escaped, "htmlspecialchars", &_4, 220, &optionValue);
 				zephir_check_call_status();
 				if (Z_TYPE_P(&optionText) == IS_ARRAY) {
 					ZEPHIR_INIT_NVAR(&_16$$12);
@@ -443,7 +443,7 @@ PHP_METHOD(Phalcon_Tag_Select, optionsFromResultset) {
 		}
 		if (Z_TYPE_P(using) == IS_ARRAY) {
 			if (Z_TYPE_P(&option) == IS_OBJECT) {
-				if ((zephir_method_exists_ex(&option, SL("readattribute")) == SUCCESS)) {
+				if ((zephir_method_exists_ex(&option, ZEND_STRL("readattribute")) == SUCCESS)) {
 					ZEPHIR_CALL_METHOD(&optionValue, &option, "readattribute", NULL, 0, &usingZero);
 					zephir_check_call_status();
 					ZEPHIR_CALL_METHOD(&optionText, &option, "readattribute", NULL, 0, &usingOne);

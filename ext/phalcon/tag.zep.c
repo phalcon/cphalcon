@@ -493,10 +493,10 @@ PHP_METHOD(Phalcon_Tag, friendlyTitle) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "iconv");
-	ZEPHIR_CALL_FUNCTION(&_1, "extension_loaded", NULL, 170, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "extension_loaded", NULL, 166, &_0);
 	zephir_check_call_status();
 	if (zephir_is_true(&_1)) {
-		ZVAL_LONG(&_2$$3, 6);
+		ZVAL_LONG(&_2$$3, 0);
 		ZEPHIR_INIT_VAR(&_3$$3);
 		ZVAL_STRING(&_3$$3, "en_US.UTF-8");
 		ZEPHIR_CALL_FUNCTION(&locale, "setlocale", NULL, 0, &_2$$3, &_3$$3);
@@ -564,7 +564,7 @@ PHP_METHOD(Phalcon_Tag, friendlyTitle) {
 	ZVAL_STRING(&_0, "/[^a-zA-Z0-9\\/_|+ -]/");
 	ZEPHIR_INIT_VAR(&_15);
 	ZVAL_STRING(&_15, "");
-	ZEPHIR_CALL_FUNCTION(&friendly, "preg_replace", NULL, 46, &_0, &_15, &text);
+	ZEPHIR_CALL_FUNCTION(&friendly, "preg_replace", NULL, 47, &_0, &_15, &text);
 	zephir_check_call_status();
 	if (lowercase) {
 		ZEPHIR_INIT_VAR(&_16$$10);
@@ -573,7 +573,7 @@ PHP_METHOD(Phalcon_Tag, friendlyTitle) {
 	}
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "/[\\/_|+ -]+/");
-	ZEPHIR_CALL_FUNCTION(&_17, "preg_replace", NULL, 46, &_0, &separator, &friendly);
+	ZEPHIR_CALL_FUNCTION(&_17, "preg_replace", NULL, 47, &_0, &separator, &friendly);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&friendly, &_17);
 	ZEPHIR_INIT_NVAR(&_0);
@@ -581,10 +581,10 @@ PHP_METHOD(Phalcon_Tag, friendlyTitle) {
 	ZEPHIR_CPY_WRT(&friendly, &_0);
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "iconv");
-	ZEPHIR_CALL_FUNCTION(&_17, "extension_loaded", NULL, 170, &_0);
+	ZEPHIR_CALL_FUNCTION(&_17, "extension_loaded", NULL, 166, &_0);
 	zephir_check_call_status();
 	if (zephir_is_true(&_17)) {
-		ZVAL_LONG(&_18$$11, 6);
+		ZVAL_LONG(&_18$$11, 0);
 		ZEPHIR_CALL_FUNCTION(NULL, "setlocale", NULL, 0, &_18$$11, &locale);
 		zephir_check_call_status();
 	}
@@ -2631,7 +2631,7 @@ PHP_METHOD(Phalcon_Tag, textArea) {
 	ZVAL_STRING(&_1, "<textarea");
 	ZEPHIR_CALL_SELF(&code, "renderattributes", NULL, 0, &_1, &params);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_2, "htmlspecialchars", NULL, 224, &content);
+	ZEPHIR_CALL_FUNCTION(&_2, "htmlspecialchars", NULL, 220, &content);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_3);
 	ZEPHIR_CONCAT_SVS(&_3, ">", &_2, "</textarea>");
