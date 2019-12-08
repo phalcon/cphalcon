@@ -13,11 +13,15 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Http\Response;
 
 use Phalcon\Http\Response;
-use Phalcon\Http\Cookie;
+use Phalcon\Http\Response\Cookies;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
+use function var_dump;
 
 class GetSetCookiesCest
 {
+    use DiTrait;
+
     /**
      * Tests Phalcon\Http\Response :: getCookies() / setCookies()
      *
@@ -28,13 +32,17 @@ class GetSetCookiesCest
     {
         $I->wantToTest('Http\Response - getCookies() / setCookies');
 
-        $oCookie = new Cookie('firstname','jeremy');
-        
+        $this->setNewFactoryDefault();;
+
+        $oCookies = new Cookies();
+        $oCookies->setDI($this->container);
+        $oCookies->set('firstname', 'jeremy');
+
         $oResponse = new Response();
-        $oResponse->setCookies($oCookie);
+        $oResponse->setCookies($oCookies);
 
         $I->assertSame(
-            $oCookie, 
+            $oCookies,
             $oResponse->getCookies()
         );
     }
