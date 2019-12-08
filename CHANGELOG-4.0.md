@@ -7,6 +7,7 @@
 ## Changed
 - Changed `Phalcon\Mvc\Router\Annotations` to use `converters` instead of `conversors` [#14532](https://github.com/phalcon/cphalcon/issues/14532)
 - Changed `Phalcon\Di::setRaw` to `Phalcon\Di::setService` to align more with the use of the method [#14555](https://github.com/phalcon/cphalcon/issues/14555)
+- Changed `Phalcon\Http\CookieInterface` to `Phalcon\Http\Cookie\CookieInterface` to avoid confusion [#14602](https://github.com/phalcon/cphalcon/issues/14602)
 
 ## Fixed
 - Fixed `PhalconMvc\Model` to ignore internal setters if properties have the same name as the setter [#14538](https://github.com/phalcon/cphalcon/issues/14538)
@@ -37,6 +38,7 @@
   - `Phalcon/Translate/TranslateFactory`
   - `Phalcon/Validation/ValidatorFactory`
 - Fixed `Phalcon\Mvc\Model::cloneResultMap` to cast integers when fields are `TYPE_BIGINTEGER`, `TYPE_INTEGER`, `TYPE_MEDIUMINTEGER`, `TYPE_SMALLINTEGER`, `TYPE_TINYINTEGER` [#14584](https://github.com/phalcon/cphalcon/issues/14584)
+- Fixed `Phalcon\Http\Response::setCookies` to use the correct interface [#14602](https://github.com/phalcon/cphalcon/issues/14602)
 
 # [4.0.0-rc.r3](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-rc.3) (2019-11-16)
 ## Added
