@@ -28,7 +28,7 @@ class GetReasonPhraseCest
         $I->wantToTest('Http\Response - getReasonPhrase()');
 
         $sPhrase = 'Success';
-        $oResponse = new Response('<h1>Test</h1>',200,'Success');
+        $oResponse = new Response('<h1>Test</h1>', 200, $sPhrase);
 
         $I->assertSame(
             $sPhrase, 
