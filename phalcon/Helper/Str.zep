@@ -162,6 +162,38 @@ class Str
     }
 
     /**
+     * Removes a number from a string or decrements that number if it already is defined.
+     * defined
+     *
+     * ```php
+     * use Phalcon\Helper\Str;
+     *
+     * echo Str::decrement("a_1");    // "a"
+     * echo Str::decrement("a_2");  // "a_1"
+     * ```
+     *
+     * @param string $text
+     * @param string $separator
+     *
+     * @return string
+     */
+    final public static function decrement(string text, string separator = "_") -> string
+    {
+        var parts, number;
+
+        let parts = explode(separator, text);
+
+        if fetch number, parts[1] {
+            let number--;
+            if (number <= 0) {
+                return parts[0];
+            }
+        }
+
+        return parts[0] . separator. number;
+    }
+
+    /**
      * Accepts a file name (without extension) and returns a calculated
      * directory structure with the filename in the end
      *
@@ -391,38 +423,6 @@ class Str
             let number++;
         } else {
             let number = 1;
-        }
-
-        return parts[0] . separator. number;
-    }
-
-    /**
-     * Removes a number from a string or decrements that number if it already is defined.
-     * defined
-     *
-     * ```php
-     * use Phalcon\Helper\Str;
-     *
-     * echo Str::decrement("a_1");    // "a"
-     * echo Str::decrement("a_2");  // "a_1"
-     * ```
-     *
-     * @param string $text
-     * @param string $separator
-     *
-     * @return string
-     */
-    final public static function decrement(string text, string separator = "_") -> string
-    {
-        var parts, number;
-
-        let parts = explode(separator, text);
-
-        if fetch number, parts[1] {
-            let number--;
-            if (number <= 0) {
-                return parts[0];
-            }
         }
 
         return parts[0] . separator. number;
