@@ -23,89 +23,26 @@ class DecrementCest
      *
      * @author Ruud Boon <https://github.com/ruudboon>
      * @since  2019-12-08
+     * @dataProvider strProvider
      */
-    public function helperStrDecrementSimpleString(UnitTester $I)
+    public function helperStrDecrement(UnitTester $I, \Codeception\Example $example)
     {
-        $I->wantToTest('Helper\Str - decrement() - string');
-        $source   = 'file_2';
-        $expected = 'file_1';
-        $actual   = Str::decrement($source);
-        $I->assertEquals($expected, $actual);
+        $I->wantToTest('Helper\Str - decrement()');
+        $actual   = Str::decrement($example['source'], $example['separator']);
+        $I->assertEquals($example['expected'], $actual);
     }
 
     /**
-     * Tests Phalcon\Helper\Str :: decrement() - already decremented string
-     *
-     * @author Ruud Boon <https://github.com/ruudboon>
-     * @since  2019-12-08
+     * @return array
      */
-    public function helperStrDecrementAlreadyDecremented(UnitTester $I)
+    protected function strProvider()
     {
-        $I->wantToTest('Helper\Str - decrement() - already decremented string');
-        $source   = 'file_1';
-        $expected = 'file';
-        $actual   = Str::decrement($source);
-        $I->assertEquals($expected, $actual);
-    }
-
-    /**
-     * Tests Phalcon\Helper\Str :: decrement() - already decremented string
-     * twice
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-04-06
-     */
-    public function helperStrDecrementAlreadyDecrementedTwice(UnitTester $I)
-    {
-        $I->wantToTest('Helper\Str - decrement() - already decremented string twice');
-        $source   = 'file_3';
-        $expected = 'file_2';
-        $actual   = Str::decrement($source);
-        $I->assertEquals($expected, $actual);
-    }
-
-    /**
-     * Tests Phalcon\Helper\Str :: decrement() - string with underscore
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-04-06
-     */
-    public function helperStrDecrementStringWithUnderscore(UnitTester $I)
-    {
-        $I->wantToTest('Helper\Str - decrement() - string with underscore');
-        $source   = 'file_';
-        $expected = 'file';
-        $actual   = Str::decrement($source);
-        $I->assertEquals($expected, $actual);
-    }
-
-    /**
-     * Tests Phalcon\Helper\Str :: decrement() - string with a space at the end
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-04-06
-     */
-    public function helperStrDecrementStringWithSpace(UnitTester $I)
-    {
-        $I->wantToTest('Helper\Str - decrement() - string with a space at the end');
-        $source   = 'file _1';
-        $expected = 'file ';
-        $actual   = Str::decrement($source);
-        $I->assertEquals($expected, $actual);
-    }
-
-    /**
-     * Tests Phalcon\Helper\Str :: decrement() - different separator
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-04-06
-     */
-    public function helperStrDecrementStringWithDifferentSeparator(UnitTester $I)
-    {
-        $I->wantToTest('Helper\Str - decrement() - string with different separator');
-        $source   = 'file-1';
-        $expected = 'file';
-        $actual   = Str::decrement($source, '-');
-        $I->assertEquals($expected, $actual);
+        return [
+            ['source'=>"file_2", 'expected'=>"file_1", "separator" => "_"],
+            ['source'=>"file_1", 'expected'=>"file", "separator" => "_"],
+            ['source'=>"file_3", 'expected'=>"file_2", "separator" => "_"],
+            ['source'=>"file _1", 'expected'=>"file ", "separator" => "_"],
+            ['source'=>"file-1", 'expected'=>"file", "separator" => "-"],
+        ];
     }
 }
