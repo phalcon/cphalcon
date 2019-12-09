@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -10,12 +9,14 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Cli\Cli\Console;
 
 use CliTester;
+use Phalcon\Cli\Console as CliConsole;
 use Phalcon\Cli\Router;
 use Phalcon\Di\FactoryDefault\Cli as DiFactoryDefault;
-use Phalcon\Cli\Console as CliConsole;
 
 class SetArgumentCest
 {
@@ -32,7 +33,7 @@ class SetArgumentCest
     {
         $I->wantToTest("Cli\Console - setArgument()");
 
-        $di = new DiFactoryDefault();
+        $di      = new DiFactoryDefault();
         $console = new CliConsole($di);
 
         $di->setShared(
@@ -83,7 +84,7 @@ class SetArgumentCest
 
     public function testArgumentArray(CliTester $I)
     {
-        $di = new DiFactoryDefault();
+        $di      = new DiFactoryDefault();
         $console = new CliConsole($di);
 
 
@@ -212,7 +213,7 @@ class SetArgumentCest
 
     public function testArgumentNoShift(CliTester $I)
     {
-        $di = new DiFactoryDefault();
+        $di      = new DiFactoryDefault();
         $console = new CliConsole($di);
 
         $dispatcher = $di->getShared('dispatcher');
@@ -222,7 +223,8 @@ class SetArgumentCest
             [],
             false,
             false
-        )->handle();
+        )->handle()
+        ;
 
         $I->assertEquals(
             'main',
@@ -334,7 +336,7 @@ class SetArgumentCest
 
     public function testArgumentRouter(CliTester $I)
     {
-        $di = new DiFactoryDefault();
+        $di      = new DiFactoryDefault();
         $console = new CliConsole($di);
 
         $di->setShared(
@@ -354,7 +356,8 @@ class SetArgumentCest
             [
                 'php',
             ]
-        )->handle();
+        )->handle()
+        ;
 
         $I->assertEquals(
             'main',
