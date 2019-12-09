@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -9,6 +8,8 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Response;
 
@@ -22,7 +23,7 @@ class ConstructCest
      *
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2019-12-08
-    */
+     */
     public function httpResponseConstruct(UnitTester $I)
     {
         $I->wantToTest('Http\Response - __construct()');
@@ -40,13 +41,13 @@ class ConstructCest
      *
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2019-12-08
-    */
+     */
     public function httpResponseConstructWithContent(UnitTester $I)
     {
         $I->wantToTest('Http\Response - __construct(content = null)');
 
         $aData = [
-            'user' => 'jeremy'
+            'user' => 'jeremy',
         ];
 
         $oResponse = new Response($aData);
@@ -62,13 +63,13 @@ class ConstructCest
      *
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2019-12-08
-    */
+     */
     public function httpResponseConstructWithContentCode(UnitTester $I)
     {
         $I->wantToTest('Http\Response - __construct(content = null, code = null)');
 
         $aData = [
-            'user' => 'jeremy'
+            'user' => 'jeremy',
         ];
 
         $nCodeSuccess = 200;
@@ -93,17 +94,18 @@ class ConstructCest
     }
 
     /**
-     * Tests Phalcon\Http\Response :: __construct(content = null, code = null, status = null)
+     * Tests Phalcon\Http\Response :: __construct(content = null, code = null,
+     * status = null)
      *
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2019-12-08
-    */
+     */
     public function httpResponseConstructWithContentCodeStatus(UnitTester $I)
     {
         $I->wantToTest('Http\Response - __construct(content = null, code = null, status = null)');
 
         $aData = [
-            'user' => 'jeremy'
+            'user' => 'jeremy',
         ];
 
         $nCodeSuccess = 200;

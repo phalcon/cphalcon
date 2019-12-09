@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -10,11 +9,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Unit\Di\Injectable;
 
-use UnitTester;
 use InjectableComponent;
 use Phalcon\Di;
+use UnitTester;
 
 class GetDICest
 {
@@ -30,7 +31,7 @@ class GetDICest
 
         require_once dataDir('fixtures/Di/InjectableComponent.php');
         Di::reset();
-        $di= new Di();
+        $di = new Di();
         // Injection of parameters in the constructor
         $di->set('std', function () {
             return new \stdClass();

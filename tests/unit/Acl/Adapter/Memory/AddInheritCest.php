@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -10,11 +9,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
 
 use Phalcon\Acl\Adapter\Memory;
-use Phalcon\Acl\Role;
 use Phalcon\Acl\Component;
+use Phalcon\Acl\Role;
 use UnitTester;
 
 class AddInheritCest
@@ -33,7 +34,7 @@ class AddInheritCest
 
         $acl->addRole(new Role('administrator'));
         $acl->addRole(new Role('apprentice'));
-       
+
         $addedInherit = $acl->addInherit('administrator', 'apprentice');
 
         $I->assertTrue($addedInherit);
@@ -58,7 +59,7 @@ class AddInheritCest
         //New Component
         $acl->addComponent(new Component('folder'), 'list');
         $acl->addComponent(new Component('folder'), 'add');
-       
+
         //Add Inherit
         $addedInherit = $acl->addInherit('administrator', 'apprentice');
 

@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -10,14 +9,16 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Cli\Cli\Console;
 
 use CliTester;
 use Phalcon\Application\Exception;
-use Phalcon\Test\Modules\Frontend\Module as FrontendModule;
-use Phalcon\Test\Modules\Backend\Module as BackendModule;
 use Phalcon\Cli\Console as CliConsole;
 use Phalcon\Di\FactoryDefault\Cli as DiFactoryDefault;
+use Phalcon\Test\Modules\Backend\Module as BackendModule;
+use Phalcon\Test\Modules\Frontend\Module as FrontendModule;
 
 class GetModuleCest
 {
@@ -34,7 +35,7 @@ class GetModuleCest
     {
         $I->wantToTest("Cli\Console - getModule()");
 
-        $console = new CliConsole(new DiFactoryDefault);
+        $console = new CliConsole(new DiFactoryDefault());
 
         $definition = [
             'frontend' => [
@@ -73,7 +74,7 @@ class GetModuleCest
     {
         $I->wantToTest("Cli\Console - getModule() - non-existent");
 
-        $console = new CliConsole(new DiFactoryDefault);
+        $console = new CliConsole(new DiFactoryDefault());
 
         $I->expectThrowable(
             new Exception(

@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -9,6 +8,8 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Helper\Json;
 
@@ -31,7 +32,7 @@ class DecodeCest
         $data     = '{"one":"two","0":"three"}';
         $expected = [
             'one' => 'two',
-            'three'
+            'three',
         ];
         $actual   = Json::decode($data, true);
         $I->assertEquals($expected, $actual);

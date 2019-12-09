@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -10,6 +9,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Unit\Helper\Fs;
 
 use Phalcon\Helper\Fs;
@@ -18,12 +19,12 @@ use UnitTester;
 class FsBasenameCest
 {
     /**
-    * Tests Phalcon\Helper\Fs :: basename()
-    * with ASCII $uri it should be same as PHP's basename
-    *
-    * @author Ian Hu <hu2008yinxiang@163.com>
-    * @since  2019-08-27
-    */
+     * Tests Phalcon\Helper\Fs :: basename()
+     * with ASCII $uri it should be same as PHP's basename
+     *
+     * @author Ian Hu <hu2008yinxiang@163.com>
+     * @since  2019-08-27
+     */
     public function helperFsBasenamePureASCII(UnitTester $I)
     {
         $I->wantToTest('Helper\Fs - basename() with pure ASCII uri');
@@ -33,11 +34,11 @@ class FsBasenameCest
             ['/etc/passwd', ''],
             ['/etc/', ''],
             ['.', ''],
-            ['/', '']
+            ['/', ''],
         ];
 
         foreach ($filePathAndSuffixes as $filePathAndSuffix) {
-            list($filePath, $suffix) = $filePathAndSuffix;
+            [$filePath, $suffix] = $filePathAndSuffix;
             $I->assertEquals(
                 basename($filePath, $suffix),
                 Fs::basename($filePath, $suffix)
@@ -46,22 +47,22 @@ class FsBasenameCest
     }
 
     /**
-    * Tests Phalcon\Helper\Fs :: basename()
-    * with non-ASCII $uri support
-    *
-    * @author Ian Hu <hu2008yinxiang@163.com>
-    * @since  2019-08-27
-    */
+     * Tests Phalcon\Helper\Fs :: basename()
+     * with non-ASCII $uri support
+     *
+     * @author Ian Hu <hu2008yinxiang@163.com>
+     * @since  2019-08-27
+     */
     public function helperFsBasenameNonASCII(UnitTester $I)
     {
         $I->wantToTest('Helper\Fs - basename() with non-ASCII uri');
         $filePathAndExpects = [
-            '/file/热爱中文.txt' => '热爱中文.txt',
-            '/中文目录/热爱中文.txt' => '热爱中文.txt',
+            '/file/热爱中文.txt'          => '热爱中文.txt',
+            '/中文目录/热爱中文.txt'          => '热爱中文.txt',
             '/myfolder/日本語のファイル名.txt' => '日本語のファイル名.txt',
-            '/のファ/日本語のファイル名.txt' => '日本語のファイル名.txt',
-            '/root/ελληνικά.txt' => 'ελληνικά.txt',
-            '/νικά/ελληνικά.txt' => 'ελληνικά.txt'
+            '/のファ/日本語のファイル名.txt'      => '日本語のファイル名.txt',
+            '/root/ελληνικά.txt'      => 'ελληνικά.txt',
+            '/νικά/ελληνικά.txt'      => 'ελληνικά.txt',
         ];
         foreach ($filePathAndExpects as $filePath => $expect) {
             $I->assertEquals(

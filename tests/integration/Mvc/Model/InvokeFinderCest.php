@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -10,14 +9,14 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Integration\Mvc\Model;
 
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Migrations\ObjectsMigration;
-use Phalcon\Test\Fixtures\Migrations\SourcesMigration;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Objects;
-use Phalcon\Test\Models\Sources;
 
 /**
  * Class InvokeFinderCest
@@ -42,7 +41,7 @@ class InvokeFinderCest
         /**
          * Setup the table
          */
-        $db = $this->container->get('db');
+        $db        = $this->container->get('db');
         $migration = new ObjectsMigration();
 
         $migration($db);

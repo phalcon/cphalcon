@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -9,6 +8,8 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Mvc\Micro\Collection;
 
@@ -21,8 +22,8 @@ class SetLazyCest
     /**
      * Tests Phalcon\Mvc\Micro\Collection :: setLazy()
      *
-     * @author Sid Roberts <https://github.com/SidRoberts>
-     * @since  2019-06-08
+     * @author       Sid Roberts <https://github.com/SidRoberts>
+     * @since        2019-06-08
      *
      * @dataProvider booleanProvider
      */

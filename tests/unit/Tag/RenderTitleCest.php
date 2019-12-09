@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -9,6 +8,8 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Tag;
 
@@ -34,7 +35,8 @@ class RenderTitleCest
         Tag::setTitle($value);
 
         $I->assertEquals(
-            '<title>Hello &lt;/title&gt;&lt;script&gt;alert(&#039;Got your nose!&#039;);&lt;/script&gt;&lt;title&gt;</title>' . PHP_EOL,
+            '<title>Hello &lt;/title&gt;&lt;script&gt;alert(&#039;' .
+            'Got your nose!&#039;);&lt;/script&gt;&lt;title&gt;</title>' . PHP_EOL,
             Tag::renderTitle()
         );
     }

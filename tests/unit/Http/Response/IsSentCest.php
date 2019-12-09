@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -9,6 +8,8 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Response;
 
@@ -22,18 +23,18 @@ class IsSentCest
      *
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2019-12-08
-    */
+     */
     public function httpResponseIsSent(UnitTester $I)
     {
         $I->wantToTest('Http\Response - isSent()');
 
-        $sData = '<h1>Phalcon</h1>';
+        $sData     = '<h1>Phalcon</h1>';
         $oResponse = new Response('<h1>Phalcon</h1>');
-       
+
         ob_start();
 
         $oResponse->send();
-        $sResult   = ob_get_clean();
+        $sResult = ob_get_clean();
 
         $I->assertEquals($sData, $sResult);
 

@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -10,11 +9,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
 
 use Phalcon\Acl\Adapter\Memory;
-use Phalcon\Acl\Role;
 use Phalcon\Acl\Component;
+use Phalcon\Acl\Role;
 use UnitTester;
 
 class GetActiveFunctionCustomArgumentsCountCest
@@ -42,7 +43,7 @@ class GetActiveFunctionCustomArgumentsCountCest
                 if ('premium' === $accountType && true === $active) {
                     return true;
                 }
-    
+
                 return false;
             }
         );

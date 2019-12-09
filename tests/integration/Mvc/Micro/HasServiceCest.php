@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -9,6 +8,8 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Mvc\Micro;
 
@@ -38,7 +39,6 @@ class HasServiceCest
         $micro->setDi($di);
 
 
-
         $I->assertFalse(
             $micro->hasService('fake')
         );
@@ -56,7 +56,6 @@ class HasServiceCest
         );
 
 
-
         $escaper = new Escaper();
 
         $micro->setService('escaper', $escaper);
@@ -66,7 +65,6 @@ class HasServiceCest
         );
 
 
-
         $dispatcher = new Dispatcher();
 
         $micro['dispatcher'] = $dispatcher;
@@ -74,7 +72,6 @@ class HasServiceCest
         $I->assertTrue(
             $micro->hasService('dispatcher')
         );
-
 
 
         $router = new Router();

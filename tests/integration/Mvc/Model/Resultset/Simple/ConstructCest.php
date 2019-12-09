@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -10,14 +9,17 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Integration\Mvc\Model\Resultset\Simple;
 
-use function cacheModelsDir;
 use IntegrationTester;
 use Phalcon\Helper\Str;
 use Phalcon\Mvc\Model\Resultset\Simple;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Robots;
+
+use function cacheModelsDir;
 
 class ConstructCest
 {

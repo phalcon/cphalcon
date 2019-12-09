@@ -81,7 +81,6 @@ class CompilerCest
         $view->setParamToView('song', 'Rock n roll');
 
 
-
         $view->start();
 
         $view->setRenderLevel(
@@ -93,14 +92,12 @@ class CompilerCest
         $view->finish();
 
 
-
         $I->assertEquals(
             'Hello Rock n roll!',
             $view->getContent()
         );
 
         $view->setParamToView('some_eval', true);
-
 
 
         $view->start();
@@ -112,7 +109,6 @@ class CompilerCest
         $view->render('extends', 'index');
 
         $view->finish();
-
 
 
         $I->assertEquals(

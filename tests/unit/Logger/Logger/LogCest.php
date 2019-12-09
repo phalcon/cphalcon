@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -10,14 +9,16 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Unit\Logger\Logger;
 
+use Phalcon\Logger;
 use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Logger\Adapter\Syslog;
-use Phalcon\Logger;
 use UnitTester;
+
 use function date;
-use function fread;
 use function logsDir;
 use function sprintf;
 
@@ -114,19 +115,19 @@ class LogCest
         ];
 
         $levelsNo = [
-            Logger::DEBUG     => 'debug',
-            Logger::ERROR     => 'error',
-            Logger::INFO      => 'info',
-            Logger::NOTICE    => 'notice',
-            Logger::WARNING   => 'warning',
-            Logger::CUSTOM    => 'custom',
-            'debug'           => 'debug',
-            'error'           => 'error',
-            'info'            => 'info',
-            'notice'          => 'notice',
-            'warning'         => 'warning',
-            'custom'          => 'custom',
-            'unknown'         => 'custom',
+            Logger::DEBUG   => 'debug',
+            Logger::ERROR   => 'error',
+            Logger::INFO    => 'info',
+            Logger::NOTICE  => 'notice',
+            Logger::WARNING => 'warning',
+            Logger::CUSTOM  => 'custom',
+            'debug'         => 'debug',
+            'error'         => 'error',
+            'info'          => 'info',
+            'notice'        => 'notice',
+            'warning'       => 'warning',
+            'custom'        => 'custom',
+            'unknown'       => 'custom',
         ];
 
         foreach ($levelsYes as $level => $levelName) {
@@ -170,7 +171,7 @@ class LogCest
     {
         $I->wantToTest('Logger - log() - syslog');
 
-        $adapter  = new Syslog("php:://memory");
+        $adapter = new Syslog("php:://memory");
 
         $logger = new Logger(
             'my-logger',

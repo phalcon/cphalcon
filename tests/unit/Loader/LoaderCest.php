@@ -17,6 +17,7 @@ use Phalcon\Events\Manager;
 use Phalcon\Loader;
 use Phalcon\Test\Fixtures\Traits\LoaderTrait;
 use UnitTester;
+
 use function dataDir;
 
 class LoaderCest

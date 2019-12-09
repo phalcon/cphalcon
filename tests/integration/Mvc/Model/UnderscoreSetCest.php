@@ -43,7 +43,7 @@ class UnderscoreSetCest
 
         $user = new Models\Users();
 
-        $user->id = 999;
+        $user->id   = 999;
         $user->name = 'Test';
 
         $I->assertEquals(
@@ -75,7 +75,7 @@ class UnderscoreSetCest
     {
         $I->wantToTest("Mvc\Model - __set() whether it is using setters correctly");
 
-        $model = new Models\Select();
+        $model     = new Models\Select();
         $model->id = 123;
 
         $I->assertEquals(
@@ -122,7 +122,7 @@ class UnderscoreSetCest
     {
         $I->wantToTest('Mvc\Model - __set() with belongs-to related record');
 
-        $robotPart = new Models\RobotsParts();
+        $robotPart        = new Models\RobotsParts();
         $robotPart->robot = new Models\Robots();
 
         $robot = $robotPart->robot;
@@ -139,7 +139,8 @@ class UnderscoreSetCest
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: __set() with an array as properties of a belongs-to related record
+     * Tests Phalcon\Mvc\Model :: __set() with an array as properties of a
+     * belongs-to related record
      *
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-05-02
@@ -148,7 +149,7 @@ class UnderscoreSetCest
     {
         $I->wantToTest('Mvc\Model - __set() with an array as properties of a belongs-to related record');
 
-        $robotPart = new Models\RobotsParts();
+        $robotPart        = new Models\RobotsParts();
         $robotPart->robot = ['name' => 'TestRobotName'];
 
         $robot = $robotPart->robot;
@@ -179,7 +180,7 @@ class UnderscoreSetCest
     {
         $I->wantToTest('Mvc\Model - __set() with has-one related record');
 
-        $customer = new Models\Customers();
+        $customer       = new Models\Customers();
         $customer->user = new Models\Users();
 
         $user = $customer->user;
@@ -222,7 +223,8 @@ class UnderscoreSetCest
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: __set() with an array as properties of a has-one related record
+     * Tests Phalcon\Mvc\Model :: __set() with an array as properties of a
+     * has-one related record
      *
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-05-02
@@ -231,7 +233,7 @@ class UnderscoreSetCest
     {
         $I->wantToTest('Mvc\Model - __set() with an array as properties of a has-one related record');
 
-        $customer = new Models\Customers();
+        $customer       = new Models\Customers();
         $customer->user = ['name' => 'TestUserName'];
 
         $user = $customer->user;
@@ -262,7 +264,7 @@ class UnderscoreSetCest
     {
         $I->wantToTest('Mvc\Model - __set() with has-many related records');
 
-        $robot = new Models\Robots();
+        $robot              = new Models\Robots();
         $robot->robotsParts = [
             new Models\RobotsParts(),
             new Models\RobotsParts(),
@@ -301,7 +303,7 @@ class UnderscoreSetCest
     {
         $I->wantToTest('Mvc\Model - __set() with has-many-to-many related records');
 
-        $robot = new Models\Relations\M2MRobots();
+        $robot           = new Models\Relations\M2MRobots();
         $robot->M2MParts = [
             new Models\Relations\M2MParts(),
             new Models\Relations\M2MParts(),
@@ -345,8 +347,8 @@ class UnderscoreSetCest
             'lastName'  => 'Last name',
         ];
 
-        $user = new Models\Users();
-        $user->id = 999;
+        $user       = new Models\Users();
+        $user->id   = 999;
         $user->name = $associativeArray;
 
         $I->assertEquals(
@@ -359,9 +361,10 @@ class UnderscoreSetCest
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: __set() undefined property with associative array
+     * Tests Phalcon\Mvc\Model :: __set() undefined property with associative
+     * array
      *
-     * @see https://github.com/phalcon/cphalcon/issues/14021
+     * @see    https://github.com/phalcon/cphalcon/issues/14021
      *
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-05-02
@@ -375,7 +378,7 @@ class UnderscoreSetCest
             'name' => 'My Name',
         ];
 
-        $user = new Models\Users();
+        $user                            = new Models\Users();
         $user->whatEverUndefinedProperty = $associativeArray;
 
         $I->assertEquals(

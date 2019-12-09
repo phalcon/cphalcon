@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -9,6 +8,8 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 /**
  * @todo Until I figure this approach, this stays here and can be used for other
@@ -25,9 +26,9 @@ namespace Phalcon\Test\Unit\Logger\Adapter\Syslog {
         return true;
     }
 
+    use Phalcon\Logger;
     use Phalcon\Logger\Adapter\Syslog;
     use Phalcon\Logger\Item;
-    use Phalcon\Logger;
     use UnitTester;
 
     class AddCest
