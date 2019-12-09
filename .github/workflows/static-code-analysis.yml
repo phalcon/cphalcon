@@ -9,7 +9,13 @@ jobs:
       - name: Install PHP_CodeSniffer
         run: composer require --prefer-dist --no-progress --no-suggest squizlabs/php_codesniffer
 
+      - name: Test
+        run: ls && ls vendor && ls vendor/bin
+
       - uses: actions/checkout@v2-beta
+
+      - name: Test
+        run: ls && ls vendor && ls vendor/bin
 
       - name: Run PHP_CodeSniffer
         run: vendor/bin/phpcs
