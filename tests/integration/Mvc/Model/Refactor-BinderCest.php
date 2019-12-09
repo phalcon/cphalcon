@@ -2,7 +2,6 @@
 
 namespace Phalcon\Test\Integration\Mvc\Model;
 
-use Exception;
 use IntegrationTester;
 use Phalcon\Cache\Backend\Apc;
 use Phalcon\Cache\Frontend\Data;
@@ -75,13 +74,17 @@ class BinderCest
 
         $I->checkExtensionIsLoaded('apcu');
 
-        if (!ini_get('apcu.enabled') ||
-            (PHP_SAPI === 'cli' && !ini_get('apcu.enable_cli'))) {
+        if (
+            !ini_get('apcu.enabled') ||
+            (PHP_SAPI === 'cli' && !ini_get('apcu.enable_cli'))
+        ) {
             $I->skipTest('Warning: apcu.enable_cli must be set to "On"');
         }
 
-        if (extension_loaded('apcu') &&
-            version_compare(phpversion('apcu'), '5.1.6', '=')) {
+        if (
+            extension_loaded('apcu') &&
+            version_compare(phpversion('apcu'), '5.1.6', '=')
+        ) {
             $I->skipError(
                 'Warning: APCu v5.1.6 was broken. See: https://github.com/krakjoe/apcu/issues/203'
             );
@@ -332,7 +335,8 @@ class BinderCest
 
         $I->expectThrowable(
             new TypeError(
-                'Argument 1 passed to Test9Controller::viewAction() must be an instance of Phalcon\Mvc\Model, string given'
+                'Argument 1 passed to Test9Controller::viewAction() must be an ' .
+                'instance of Phalcon\Mvc\Model, string given'
             ),
             function () use ($dispatcher) {
                 $dispatcher->dispatch();
@@ -483,7 +487,9 @@ class BinderCest
 
         $I->expectThrowable(
             new TypeError(
-                'Argument 1 passed to Phalcon\Test\Integration\Mvc\Model\BinderCest::Phalcon\Test\Integration\Mvc\Model\{closure}() must be an instance of Phalcon\Test\Models\People, string given'
+                'Argument 1 passed to Phalcon\Test\Integration\Mvc\Model\BinderCest::' .
+                'Phalcon\Test\Integration\Mvc\Model\{closure}() must be an instance ' .
+                'of Phalcon\Test\Models\People, string given'
             ),
             function () use ($micro) {
                 $micro->handle(
@@ -719,7 +725,8 @@ class BinderCest
 
         $I->expectThrowable(
             new TypeError(
-                'Argument 1 passed to Test9Controller::viewAction() must be an instance of Phalcon\Mvc\Model, string given'
+                'Argument 1 passed to Test9Controller::viewAction() must be an ' .
+                'instance of Phalcon\Mvc\Model, string given'
             ),
             function () use ($micro) {
                 $micro->handle(
@@ -956,7 +963,8 @@ class BinderCest
 
         $I->expectThrowable(
             new TypeError(
-                'Argument 1 passed to Test9Controller::viewAction() must be an instance of Phalcon\Mvc\Model, string given'
+                'Argument 1 passed to Test9Controller::viewAction() must be an ' .
+                'instance of Phalcon\Mvc\Model, string given'
             ),
             function () use ($micro) {
                 $micro->handle(
@@ -1030,7 +1038,7 @@ class BinderCest
      */
     public function testDispatcherSingleBindingNoCache(IntegrationTester $I)
     {
-        $dispatcher  = $this->createDispatcher(false);
+        $dispatcher = $this->createDispatcher(false);
 
         $modelBinder = new Binder();
 

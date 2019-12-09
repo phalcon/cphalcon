@@ -2,7 +2,6 @@
 
 namespace Phalcon\Test\Integration\Mvc\Model;
 
-use function date;
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Abonnes;
@@ -14,6 +13,8 @@ use Phalcon\Validation\Validator\Regex;
 use Phalcon\Validation\Validator\StringLength\Max;
 use Phalcon\Validation\Validator\StringLength\Min;
 use Phalcon\Validation\Validator\Uniqueness;
+
+use function date;
 
 class ModelsValidatorsCest
 {
@@ -61,7 +62,6 @@ class ModelsValidatorsCest
         $createdAt = date('Y-m-d H:i:s');
 
 
-
         //Save with success
         $abonne = new Abonnes();
 
@@ -74,7 +74,6 @@ class ModelsValidatorsCest
         );
 
 
-
         //PresenceOf
         $abonne = new Abonnes();
 
@@ -85,7 +84,6 @@ class ModelsValidatorsCest
         $I->assertFalse(
             $abonne->save()
         );
-
 
 
         $messages = $abonne->getMessages();
@@ -106,7 +104,6 @@ class ModelsValidatorsCest
             'La date de création est nécessaire',
             $messages[0]->getMessage()
         );
-
 
 
         //Email
@@ -141,7 +138,6 @@ class ModelsValidatorsCest
         );
 
 
-
         //ExclusionIn
         $abonne->courrierElectronique = 'le_fuego@hotmail.com';
         $abonne->statut               = 'X';
@@ -164,7 +160,6 @@ class ModelsValidatorsCest
             'L\'état ne doit être "X" ou "Z"',
             $messages[0]->getMessage()
         );
-
 
 
         //InclusionIn
@@ -190,7 +185,6 @@ class ModelsValidatorsCest
             'L\'état doit être "P", "I" ou "w"',
             $messages[0]->getMessage()
         );
-
 
 
         //Uniqueness validator
@@ -219,7 +213,6 @@ class ModelsValidatorsCest
         );
 
 
-
         //Regex validator
         $abonne->courrierElectronique = 'na_fuego@hotmail.com';
         $abonne->statut               = 'w';
@@ -232,7 +225,6 @@ class ModelsValidatorsCest
         $I->assertEquals($messages[0]->getType(), Regex::class);
         $I->assertEquals($messages[0]->getField(), 'statut');
         $I->assertEquals($messages[0]->getMessage(), "L'état ne correspond pas à l'expression régulière");
-
 
 
         //too_long
@@ -261,7 +253,6 @@ class ModelsValidatorsCest
         );
 
 
-
         //too_short
         $abonne->courrierElectronique = 'a@b.co';
         $abonne->status               = 'P';
@@ -288,7 +279,6 @@ class ModelsValidatorsCest
         );
 
 
-
         // Issue #885
         $abonne = new Abonnes();
 
@@ -304,7 +294,6 @@ class ModelsValidatorsCest
             2,
             $abonne->getMessages()
         );
-
 
 
         $messages = $abonne->getMessages();
@@ -325,7 +314,6 @@ class ModelsValidatorsCest
         );
 
 
-
         $I->assertEquals(
             Email::class,
             $messages[1]->getType()
@@ -340,7 +328,6 @@ class ModelsValidatorsCest
             'Le courrier électronique est invalide',
             $messages[1]->getMessage()
         );
-
 
 
         $messages = $abonne->getMessages('creeA');
@@ -361,7 +348,6 @@ class ModelsValidatorsCest
             'La date de création est nécessaire',
             $messages[0]->getMessage()
         );
-
 
 
         $messages = $abonne->getMessages('courrierElectronique');

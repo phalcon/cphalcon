@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -9,6 +8,8 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Mvc\Model\Resultset;
 
@@ -46,28 +47,25 @@ class GetFirstCest
         $results = $manager
             ->executeQuery(
                 'SELECT o.* FROM Phalcon\Test\Models\Objects AS o LIMIT 1'
-            )
-        ;
-        $record = $results->getFirst();
-        $id     = $record->obj_id;
+            );
+        $record  = $results->getFirst();
+        $id      = $record->obj_id;
         $I->assertEquals(1, $id);
 
         $results = $manager
             ->executeQuery(
                 'SELECT obj_id FROM Phalcon\Test\Models\Objects AS o LIMIT 1'
-            )
-        ;
-        $record = $results->getFirst();
-        $id     = $record->obj_id;
+            );
+        $record  = $results->getFirst();
+        $id      = $record->obj_id;
         $I->assertEquals(1, $id);
 
         $results = $manager
             ->executeQuery(
                 'SELECT o.obj_id AS obj_id FROM Phalcon\Test\Models\Objects AS o LIMIT 1'
-            )
-        ;
-        $record = $results->getFirst();
-        $id     = $record->obj_id;
+            );
+        $record  = $results->getFirst();
+        $id      = $record->obj_id;
         $I->assertEquals(1, $id);
 
         $results = $manager
@@ -81,10 +79,9 @@ class GetFirstCest
                 WHERE
                     o.obj_type = s.stf_type
                 LIMIT 1'
-            )
-        ;
-        $record = $results->getFirst();
-        $id     = $record->obj_id;
+            );
+        $record  = $results->getFirst();
+        $id      = $record->obj_id;
         $I->assertEquals(1, $id);
     }
 }

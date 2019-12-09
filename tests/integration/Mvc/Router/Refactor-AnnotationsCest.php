@@ -47,7 +47,6 @@ class AnnotationsCest
         );
 
 
-
         $router = new Annotations(false);
 
         $router->setDI($container);
@@ -71,7 +70,6 @@ class AnnotationsCest
         $container = $this->getDi();
 
 
-
         $router = new Annotations(false);
 
         $router->setDI($container);
@@ -86,7 +84,6 @@ class AnnotationsCest
             1,
             $router->getRoutes()
         );
-
 
 
         $router = new Annotations(false);

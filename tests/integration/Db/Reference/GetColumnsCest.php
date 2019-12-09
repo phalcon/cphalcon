@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -9,6 +8,8 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Db\Reference;
 
@@ -29,14 +30,12 @@ class GetColumnsCest
         $references = $this->getReferences();
 
 
-
         $reference1 = $references['fk1'];
 
         $I->assertEquals(
             ['column1'],
             $reference1->getColumns()
         );
-
 
 
         $reference2 = $references['fk2'];
@@ -47,7 +46,6 @@ class GetColumnsCest
         );
 
 
-
         $reference3 = $references['fk3'];
 
         $I->assertEquals(
@@ -56,14 +54,12 @@ class GetColumnsCest
         );
 
 
-
         $reference4 = $references['fk4'];
 
         $I->assertEquals(
             ['column1'],
             $reference4->getColumns()
         );
-
 
 
         $reference5 = $references['fk5'];

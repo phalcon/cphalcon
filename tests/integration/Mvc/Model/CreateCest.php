@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -10,11 +9,14 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Integration\Mvc\Model;
 
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\AlbumORama\Artists;
+
 use function uniqid;
 
 /**
@@ -41,9 +43,9 @@ class CreateCest
         // MySql
         $this->setDiMysql();
 
-        $artist = new Artists();
+        $artist       = new Artists();
         $artist->name = $name;
-        $result = $artist->save();
+        $result       = $artist->save();
 
         $I->assertNotFalse($result);
 
@@ -54,9 +56,9 @@ class CreateCest
         // Postgresql
         $this->setDiPostgresql();
 
-        $artist = new Artists();
+        $artist       = new Artists();
         $artist->name = $name;
-        $result = $artist->save();
+        $result       = $artist->save();
 
         $I->assertNotFalse($result);
 

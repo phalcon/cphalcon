@@ -11,7 +11,6 @@
 
 namespace Phalcon\Test\Integration\Mvc\Model;
 
-use function cacheModelsDir;
 use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Mvc\Model\Criteria;
@@ -23,6 +22,8 @@ use Phalcon\Test\Models\Personas;
 use Phalcon\Test\Models\Personers;
 use Phalcon\Test\Models\Robots;
 use Phalcon\Test\Models\Users;
+
+use function cacheModelsDir;
 
 class CriteriaCest
 {
@@ -65,8 +66,8 @@ class CriteriaCest
      * Tests work with limit / offset
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/12419
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2016-12-18
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2016-12-18
      *
      * @dataProvider getLimitOffset
      */

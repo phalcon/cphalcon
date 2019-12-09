@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -10,16 +9,19 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Integration\Db\Adapter\PdoFactory;
 
 use Codeception\Example;
-use function getOptionsPostgresql;
-use function getOptionsSqlite;
 use IntegrationTester;
 use Phalcon\Db\Adapter\Pdo\Mysql;
 use Phalcon\Db\Adapter\Pdo\Postgresql;
 use Phalcon\Db\Adapter\Pdo\Sqlite;
 use Phalcon\Db\Adapter\PdoFactory;
+
+use function getOptionsPostgresql;
+use function getOptionsSqlite;
 
 class NewInstanceCest
 {
@@ -28,8 +30,8 @@ class NewInstanceCest
      *
      * @dataProvider getProviders
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-05-19
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2019-05-19
      */
     public function dbAdapterPdoFactoryNewInstance(IntegrationTester $I, Example $example)
     {

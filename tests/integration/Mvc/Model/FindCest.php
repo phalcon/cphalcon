@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -10,6 +9,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Integration\Mvc\Model;
 
 use IntegrationTester;
@@ -19,6 +20,7 @@ use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Migrations\ObjectsMigration;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Objects;
+
 use function outputDir;
 
 /**
@@ -78,9 +80,9 @@ class FindCest
 
         $options = [
             'defaultSerializer' => 'Json',
-            'storageDir' => outputDir(),
-            'lifetime' => 172800,
-            'prefix' => 'data-'
+            'storageDir'        => outputDir(),
+            'lifetime'          => 172800,
+            'prefix'            => 'data-',
         ];
 
         // Models Cache setup
@@ -97,7 +99,7 @@ class FindCest
             [
                 'cache' => [
                     'key' => 'my-cache',
-                ]
+                ],
             ]
         );
 

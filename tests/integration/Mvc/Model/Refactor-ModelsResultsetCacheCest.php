@@ -2,13 +2,14 @@
 
 namespace Phalcon\Test\Integration\Mvc\Model;
 
-use function cacheDir;
 use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Cache\Backend\File;
 use Phalcon\Cache\Frontend\Data;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Robots;
+
+use function cacheDir;
 
 class ModelsResultsetCacheCest
 {

@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -9,6 +8,8 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Mvc\Micro;
 
@@ -44,7 +45,6 @@ class HandleCest
         );
 
 
-
         // Micro echoes out its result as well
         ob_start();
         $testResult = $micro->handle('/test');
@@ -54,7 +54,6 @@ class HandleCest
             'this is a test',
             $testResult
         );
-
 
 
         // Micro echoes out its result as well

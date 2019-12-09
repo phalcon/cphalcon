@@ -2,13 +2,14 @@
 
 namespace Phalcon\Test\Integration\Mvc\Dispatcher;
 
-use function dataDir;
 use IntegrationTester;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Events\Manager;
 use Phalcon\Mvc\Application;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\View;
+
+use function dataDir;
 
 /**
  * \Phalcon\Test\Integration\Mvc\Dispatcher\ForwardCest
