@@ -38,11 +38,11 @@ class DecrementCest
     protected function strProvider()
     {
         return [
-            ['source'=>"file_2", 'expected'=>"file_1", "separator" => "_"],
-            ['source'=>"file_1", 'expected'=>"file", "separator" => "_"],
-            ['source'=>"file_3", 'expected'=>"file_2", "separator" => "_"],
-            ['source'=>"file _1", 'expected'=>"file ", "separator" => "_"],
-            ['source'=>"file-1", 'expected'=>"file", "separator" => "-"],
+            ['source' => "file_2", 'expected' => "file_1", "separator" => "_"],
+            ['source' => "file_1", 'expected' => "file", "separator" => "_"],
+            ['source' => "file_3", 'expected' => "file_2", "separator" => "_"],
+            ['source' => "file _1", 'expected' => "file ", "separator" => "_"],
+            ['source' => "file-1", 'expected' => "file", "separator" => "-"],
         ];
     }
 }

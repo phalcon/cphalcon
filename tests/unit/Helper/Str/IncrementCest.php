@@ -38,12 +38,12 @@ class IncrementCest
     protected function strProvider()
     {
         return [
-            ['source'=>"file", 'expected'=>"file_1", "separator" => "_"],
-            ['source'=>"file_1", 'expected'=>"file_2", "separator" => "_"],
-            ['source'=>"file_2", 'expected'=>"file_3", "separator" => "_"],
-            ['source'=>"file_", 'expected'=>"file_1", "separator" => "_"],
-            ['source'=>"file ", 'expected'=>"file _1", "separator" => "_"],
-            ['source'=>"file", 'expected'=>"file-1", "separator" => "-"],
+            ['source' => "file", 'expected' => "file_1", "separator" => "_"],
+            ['source' => "file_1", 'expected' => "file_2", "separator" => "_"],
+            ['source' => "file_2", 'expected' => "file_3", "separator" => "_"],
+            ['source' => "file_", 'expected' => "file_1", "separator" => "_"],
+            ['source' => "file ", 'expected' => "file _1", "separator" => "_"],
+            ['source' => "file", 'expected' => "file-1", "separator" => "-"],
         ];
     }
 }
