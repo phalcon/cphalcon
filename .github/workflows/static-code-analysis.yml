@@ -8,11 +8,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2-beta
 
-      - name: Install Composer dependencies
-        run: composer install --prefer-dist --no-progress --no-suggest
-
       - name: Install PHP_CodeSniffer
         run: composer require --prefer-dist --no-progress --no-suggest --dev squizlabs/php_codesniffer
 
-      - name: Run Psalm
+      - name: Run PHP_CodeSniffer
         run: vendor/bin/phpcs
