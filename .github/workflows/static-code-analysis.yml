@@ -21,8 +21,9 @@ jobs:
       - uses: actions/checkout@v2-beta
         with:
           fetch-depth: 1
-
-    container:
-      image: cytopia/phpcs
-      volumes:
-        - $GITHUB_WORKSPACE:/data
+      - name: Run PHP_CodeSniffer
+        run: phpcs
+        container:
+          image: cytopia/phpcs
+          volumes:
+            - $GITHUB_WORKSPACE:/data
