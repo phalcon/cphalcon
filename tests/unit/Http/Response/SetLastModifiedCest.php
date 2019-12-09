@@ -42,7 +42,7 @@ class SetLastModifiedCest
         $oResponse->setLastModified($oLastModified);
 
         $I->assertSame(
-            $oLastModified->format("D, d M Y H:i:s") . " GMT", 
+            $oLastModified->format("D, d M Y H:i:s") . " GMT",
             $oResponse->getHeaders()->get('Last-Modified')
         );
     }

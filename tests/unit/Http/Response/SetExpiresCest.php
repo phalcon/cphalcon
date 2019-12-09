@@ -42,7 +42,7 @@ class SetExpiresCest
         $oResponse->setExpires($oExpireDate);
 
         $I->assertSame(
-            $oExpireDate->format("D, d M Y H:i:s") . " GMT", 
+            $oExpireDate->format("D, d M Y H:i:s") . " GMT",
             $oResponse->getHeaders()->get('Expires')
         );
     }
