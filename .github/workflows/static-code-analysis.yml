@@ -6,10 +6,10 @@ jobs:
   run:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2-beta
-
       - name: Install PHP_CodeSniffer
-        run: composer require --prefer-dist --no-progress --no-suggest --dev squizlabs/php_codesniffer
+        run: composer require --prefer-dist --no-progress --no-suggest --no-dev squizlabs/php_codesniffer
+
+      - uses: actions/checkout@v2-beta
 
       - name: Run PHP_CodeSniffer
         run: vendor/bin/phpcs
