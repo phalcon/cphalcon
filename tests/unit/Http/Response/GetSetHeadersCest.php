@@ -36,12 +36,12 @@ class GetSetHeadersCest
         $oResponse->setHeaders($oHeaders);
 
         $I->assertEquals(
-            $oHeaders, 
+            $oHeaders,
             $oResponse->getHeaders()
         );
 
         $I->assertSame(
-            $oHeaders->toArray(), 
+            $oHeaders->toArray(),
             $oResponse->getHeaders()->toArray()
         );
     }

@@ -31,7 +31,7 @@ class GetReasonPhraseCest
         $oResponse = new Response('<h1>Test</h1>', 200, $sPhrase);
 
         $I->assertSame(
-            $sPhrase, 
+            $sPhrase,
             $oResponse->getReasonPhrase()
         );
     }
