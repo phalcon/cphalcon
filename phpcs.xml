@@ -8,4 +8,5 @@
     </rule>
     <file>tests/cli</file>
     <file>tests/integration</file>
+    <file>tests/unit</file>
 </ruleset>
