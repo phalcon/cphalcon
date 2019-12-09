@@ -63,8 +63,8 @@ class DirectCest
         ob_end_clean();
 
         $I->assertEquals(
-            "<div class=\"{$function}Message\">' .
-            '<script>alert('This will execute as JavaScript!')</script></div>" . PHP_EOL,
+            "<div class=\"{$function}Message\">" .
+            "<script>alert('This will execute as JavaScript!')</script></div>" . PHP_EOL,
             $actual
         );
 
