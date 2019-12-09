@@ -22,4 +22,4 @@ jobs:
         with:
           fetch-depth: 1
       - name: Run PHP_CodeSniffer
-        run: docker run --rm -v $(pwd):/data cytopia/phpcs .
+        run: docker run --rm -v $(pwd):/data cytopia/phpcs --standard=./phpcs.xml
