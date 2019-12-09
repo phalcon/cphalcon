@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -10,10 +9,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Unit\Http\Request;
 
-use Phalcon\Di;
-use Phalcon\Di\FactoryDefault;
 use Phalcon\Http\Request;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
@@ -37,7 +36,7 @@ class GetPostCest //extends HttpBase
         $existing = $_POST ?? [];
 
         $_POST['status'] = ' Active ';
-        $request = new Request();
+        $request         = new Request();
 
         $expected = ' Active ';
         $actual   = $request->getPost('status');
@@ -61,7 +60,7 @@ class GetPostCest //extends HttpBase
         $existing = $_POST ?? [];
 
         $_POST['status'] = ' Active ';
-        $request = new Request();
+        $request         = new Request();
         $request->setDI($this->container);
 
         $expected = 'Active';
@@ -114,7 +113,7 @@ class GetPostCest //extends HttpBase
         $existing = $_POST ?? [];
 
         $_POST['status'] = ' 0 ';
-        $request = new Request();
+        $request         = new Request();
         $request->setDI($this->container);
 
         $expected = '0';

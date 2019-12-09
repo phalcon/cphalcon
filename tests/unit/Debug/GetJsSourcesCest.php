@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -10,10 +9,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Unit\Debug;
 
 use Phalcon\Debug;
 use UnitTester;
+
 use function sprintf;
 
 class GetJsSourcesCest
@@ -31,9 +33,12 @@ class GetJsSourcesCest
         $uri   = 'https://assets.phalcon.io/debug/4.0.x/';
 
         $expected = sprintf(
-            '<script type=\'text/javascript\' src=\'%1$sbower_components/jquery/dist/jquery.min.js\'></script>' .
-            '<script type=\'text/javascript\' src=\'%1$sbower_components/jquery-ui/jquery-ui.min.js\'></script>' .
-            '<script type=\'text/javascript\' src=\'%1$sbower_components/jquery.scrollTo/jquery.scrollTo.min.js\'></script>' .
+            '<script type=\'text/javascript\' ' .
+                'src=\'%1$sbower_components/jquery/dist/jquery.min.js\'></script>' .
+            '<script type=\'text/javascript\' ' .
+                'src=\'%1$sbower_components/jquery-ui/jquery-ui.min.js\'></script>' .
+            '<script type=\'text/javascript\' ' .
+                'src=\'%1$sbower_components/jquery.scrollTo/jquery.scrollTo.min.js\'></script>' .
             '<script type=\'text/javascript\' src=\'%1$sprettify/prettify.js\'></script>' .
             '<script type=\'text/javascript\' src=\'%1$spretty.js\'></script>',
             $uri

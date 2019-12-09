@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -9,6 +8,8 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Cache\AdapterFactory;
 
@@ -20,9 +21,10 @@ use Phalcon\Cache\Adapter\Redis;
 use Phalcon\Cache\Adapter\Stream;
 use Phalcon\Cache\AdapterFactory;
 use Phalcon\Factory\Exception;
+use Phalcon\Storage\Serializer\Json;
 use Phalcon\Storage\SerializerFactory;
 use UnitTester;
-use Phalcon\Storage\Serializer\Json;
+
 use function getOptionsLibmemcached;
 use function getOptionsRedis;
 use function outputDir;
@@ -88,9 +90,9 @@ class NewInstanceCest
 
     private function getExamples(): array
     {
-        $jsonSerializer = new Json();
+        $jsonSerializer        = new Json();
         $optionsWithSerializer = [
-            'serializer' => $jsonSerializer
+            'serializer' => $jsonSerializer,
         ];
         return [
             [
@@ -109,13 +111,13 @@ class NewInstanceCest
                 'memory',
                 Memory::class,
                 [],
-                $optionsWithSerializer
+                $optionsWithSerializer,
             ],
             [
                 'redis',
                 Redis::class,
                 getOptionsRedis(),
-                array_merge(getOptionsRedis(), $optionsWithSerializer)
+                array_merge(getOptionsRedis(), $optionsWithSerializer),
             ],
             [
                 'stream',

@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -9,6 +8,8 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Collection\Collection;
 
@@ -75,7 +76,7 @@ class GetCest
      *
      * @dataProvider getExamples
      *
-     * @since  2019-10-12
+     * @since        2019-10-12
      */
     public function helperArrGetCast(UnitTester $I, Example $example)
     {
@@ -98,7 +99,7 @@ class GetCest
      */
     private function getExamples(): array
     {
-        $sample = new stdClass();
+        $sample      = new stdClass();
         $sample->one = 'two';
 
         return [

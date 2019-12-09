@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Unit\Http\Request;
 
 use Codeception\Example;
@@ -293,7 +295,10 @@ class AuthHeaderCest extends HttpBase
 
             [
                 [
-                    'PHP_AUTH_DIGEST' => 'Digest username="myleft", realm="myleft", qop="auth", algorithm="MD5", uri="http://localhost:81/", nonce="nonce", nc=nc, cnonce="cnonce", opaque="opaque", response="response"',
+                    'PHP_AUTH_DIGEST' => 'Digest username="myleft", ' .
+                        'realm="myleft", qop="auth", algorithm="MD5", ' .
+                        'uri="http://localhost:81/", nonce="nonce", nc=nc, ' .
+                        'cnonce="cnonce", opaque="opaque", response="response"',
                 ],
                 'getDigestAuth',
                 [
@@ -312,7 +317,9 @@ class AuthHeaderCest extends HttpBase
 
             [
                 [
-                    'PHP_AUTH_DIGEST' => 'Digest username=myleft, realm=myleft, qop=auth, algorithm=MD5, uri=http://localhost:81/, nonce=nonce, nc=nc, cnonce=cnonce, opaque=opaque, response=response',
+                    'PHP_AUTH_DIGEST' => 'Digest username=myleft, realm=myleft, ' .
+                        'qop=auth, algorithm=MD5, uri=http://localhost:81/, ' .
+                        'nonce=nonce, nc=nc, cnonce=cnonce, opaque=opaque, response=response',
                 ],
                 'getDigestAuth',
                 [
@@ -331,7 +338,9 @@ class AuthHeaderCest extends HttpBase
 
             [
                 [
-                    'PHP_AUTH_DIGEST' => 'Digest username=myleft realm=myleft qop=auth algorithm=MD5 uri=http://localhost:81/ nonce=nonce nc=nc cnonce=cnonce opaque=opaque response=response',
+                    'PHP_AUTH_DIGEST' => 'Digest username=myleft realm=myleft ' .
+                        'qop=auth algorithm=MD5 uri=http://localhost:81/ ' .
+                        'nonce=nonce nc=nc cnonce=cnonce opaque=opaque response=response',
                 ],
                 'getDigestAuth',
                 [

@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -10,10 +9,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Unit\Tag;
 
 use Phalcon\Test\Fixtures\Helpers\TagHelper;
-
 use UnitTester;
 
 class CheckFieldCest extends TagHelper
@@ -26,7 +26,7 @@ class CheckFieldCest extends TagHelper
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
-    */
+     */
     public function tagFieldWithSetDefault(UnitTester $I)
     {
         $I->wantToTest(
@@ -55,7 +55,7 @@ class CheckFieldCest extends TagHelper
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-05
-    */
+     */
     public function tagFieldWithDisplayTo(UnitTester $I)
     {
         $I->wantToTest(

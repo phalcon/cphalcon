@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -10,12 +9,15 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Unit\Cache\Adapter\Libmemcached;
 
 use Phalcon\Cache\Adapter\Libmemcached;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\LibmemcachedTrait;
 use UnitTester;
+
 use function getOptionsLibmemcached;
 
 class GetKeysCest
@@ -39,13 +41,16 @@ class GetKeysCest
             getOptionsLibmemcached()
         );
 
-        $memcachedServerVersions = $adapter->getAdapter()->getVersion();
+        $memcachedServerVersions   = $adapter->getAdapter()->getVersion();
         $memcachedExtensionVersion = phpversion('memcached');
 
         foreach ($memcachedServerVersions as $server => $memcachedServerVersion) {
             // https://www.php.net/manual/en/memcached.getallkeys.php#123793
             // https://bugs.launchpad.net/libmemcached/+bug/1534062
-            if (version_compare($memcachedServerVersion, '1.4.23', '>=') && version_compare($memcachedExtensionVersion, '3.0.1', '<')) {
+            if (
+                version_compare($memcachedServerVersion, '1.4.23', '>=') &&
+                version_compare($memcachedExtensionVersion, '3.0.1', '<')
+            ) {
                 $I->skipTest(
                     'getAllKeys() does not work in certain Memcached versions'
                 );

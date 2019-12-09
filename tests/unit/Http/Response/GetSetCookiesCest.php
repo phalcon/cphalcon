@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -10,13 +9,14 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Unit\Http\Response;
 
 use Phalcon\Http\Response;
 use Phalcon\Http\Response\Cookies;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
-use function var_dump;
 
 class GetSetCookiesCest
 {
@@ -27,7 +27,7 @@ class GetSetCookiesCest
      *
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2019-12-08
-    */
+     */
     public function httpResponseGetSetCookies(UnitTester $I)
     {
         $I->wantToTest('Http\Response - getCookies() / setCookies');

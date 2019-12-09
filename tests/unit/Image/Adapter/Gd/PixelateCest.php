@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -9,6 +8,8 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Image\Adapter\Gd;
 
@@ -36,7 +37,7 @@ class PixelateCest
             [35, 'fbf9f3e3c3c18183'],
             [60, 'fbfbf3e3c3c3c383'],
         ];
-        foreach ($params as list($amount, $hash)) {
+        foreach ($params as [$amount, $hash]) {
             $image = new Gd(
                 dataDir('assets/images/phalconphp.jpg')
             );

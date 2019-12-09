@@ -1,4 +1,5 @@
 <?php
+
 /**
  * This file is part of the Phalcon Framework.
  *
@@ -192,12 +193,12 @@ class LoadCest
         $factory = new ConfigFactory();
 
         $configFile1 = dataDir('assets/config/config.php');
-        $config = $factory->load($configFile1);
+        $config      = $factory->load($configFile1);
 
         $I->assertEquals("/phalcon/", $config->phalcon->baseUri);
 
         $configFile2 = dataDir('assets/config/config-2.php');
-        $config2 = $factory->load($configFile2);
+        $config2     = $factory->load($configFile2);
 
         $I->assertEquals("/phalcon4/", $config2->phalcon->baseUri);
     }

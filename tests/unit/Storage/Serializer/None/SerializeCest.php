@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -9,6 +8,8 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Storage\Serializer\None;
 
@@ -23,8 +24,8 @@ class SerializeCest
      *
      * @dataProvider getExamples
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-03-30
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2019-03-30
      */
     public function storageSerializerNoneSerialize(UnitTester $I, Example $example)
     {

@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -10,11 +9,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Unit\Http\Response;
 
-use Phalcon\Http\Response;
 use DateTime;
 use DateTimeZone;
+use Phalcon\Http\Response;
 use UnitTester;
 
 class SetLastModifiedCest
@@ -38,7 +39,7 @@ class SetLastModifiedCest
         $oLastModified->setTimezone(
             new DateTimeZone("UTC")
         );
-        
+
         $oResponse->setLastModified($oLastModified);
 
         $I->assertSame(

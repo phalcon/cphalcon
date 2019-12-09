@@ -1,5 +1,5 @@
 <?php
-declare(strict_types=1);
+
 /**
  * This file is part of the Phalcon Framework.
  *
@@ -8,6 +8,8 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Response;
 
@@ -25,7 +27,7 @@ class GetSetStatusCodeCest extends HttpBase
     public function httpResponseGetSetStatusCode(UnitTester $I)
     {
         $I->wantToTest('Http\Response - getStatusCode() / setStatusCode()');
-        $nCode = 200;
+        $nCode     = 200;
         $oResponse = $this->getResponseObject();
         $oResponse->setStatusCode($nCode);
 
@@ -56,6 +58,7 @@ class GetSetStatusCodeCest extends HttpBase
             $actual->get('Status')
         );
     }
+
     /**
      * Tests the Multiple Status Codes
      *
@@ -80,6 +83,7 @@ class GetSetStatusCodeCest extends HttpBase
             $actual->get('Status')
         );
     }
+
     public function testSetStatusCodeDefaultMessage(UnitTester $I)
     {
         $response = $this->getResponseObject();

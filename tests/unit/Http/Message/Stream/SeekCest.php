@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -9,6 +8,8 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\Stream;
 
@@ -33,13 +34,13 @@ class SeekCest
 
         $stream->seek(64);
         $expected = 'Permission is hereby granted, free of charge, to any '
-                  . 'person obtaining a copy of this software and associated '
-                  . 'documentation files (the "Software"), to deal in the '
-                  . 'Software without restriction, including without limitation '
-                  . 'the rights to use, copy, modify, merge, publish, distribute, '
-                  . 'sublicense, and/or sell copies of the Software, and to permit '
-                  . 'persons to whom the Software is furnished to do so, subject '
-                  . 'to the following conditions:';
+            . 'person obtaining a copy of this software and associated '
+            . 'documentation files (the "Software"), to deal in the '
+            . 'Software without restriction, including without limitation '
+            . 'the rights to use, copy, modify, merge, publish, distribute, '
+            . 'sublicense, and/or sell copies of the Software, and to permit '
+            . 'persons to whom the Software is furnished to do so, subject '
+            . 'to the following conditions:';
         $actual   = $stream->read(432);
         $I->assertEquals($expected, $actual);
     }

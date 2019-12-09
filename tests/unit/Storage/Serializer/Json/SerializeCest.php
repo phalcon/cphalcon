@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -10,6 +9,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Unit\Storage\Serializer\Json;
 
 use Codeception\Example;
@@ -17,7 +18,7 @@ use InvalidArgumentException;
 use Phalcon\Collection;
 use Phalcon\Storage\Serializer\Json;
 use UnitTester;
-use function json_decode;
+
 use function json_encode;
 
 class SerializeCest
@@ -58,7 +59,7 @@ class SerializeCest
 
         $serializer = new Json($collection2);
 
-        $data = [
+        $data     = [
             'three'  => 'four',
             'object' => [
                 'one' => 'two',
@@ -85,7 +86,7 @@ class SerializeCest
                 "without implementing 'JsonSerializable'"
             ),
             function () {
-                $example = new \stdClass();
+                $example      = new \stdClass();
                 $example->one = 'two';
 
                 $serializer = new Json($example);

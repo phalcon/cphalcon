@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -9,6 +8,8 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Response;
 
@@ -22,14 +23,14 @@ class SetJsonContentCest
      *
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2019-12-07
-    */
+     */
     public function httpResponseSetJsonContent(UnitTester $I)
     {
         $I->wantToTest('Http\Response - setJsonContent()');
 
         $aData = [
-            'sentence'  => 'it\'s a "city"',
-            'word'      => '<h1>city</h1>'
+            'sentence' => 'it\'s a "city"',
+            'word'     => '<h1>city</h1>',
         ];
 
         $oResponse = new Response();
