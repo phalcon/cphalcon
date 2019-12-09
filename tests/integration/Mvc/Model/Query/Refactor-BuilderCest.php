@@ -656,8 +656,7 @@ class BuilderCest
 
         $I->assertEquals(
             'SELECT [' . Robots::class . '].* FROM [' .
-            Robots::class . "] WHERE (Robots.name = 'Voltron') ' .
-            'AND (Robots.id BETWEEN :AP0: AND :AP1:)",
+            Robots::class . "] WHERE (Robots.name = 'Voltron') AND (Robots.id BETWEEN :AP0: AND :AP1:)",
             $phql
         );
 

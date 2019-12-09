@@ -533,8 +533,8 @@ class CompileStringCest
             [
                 '{{ "hello" }}{% autoescape true %}{{ "hello" }}{% autoescape false %}' .
                 '{{ "hello" }}{% endautoescape %}{{ "hello" }}{% endautoescape %}{{ "hello" }}',
-                "<?= 'hello' ?><?= \$this->escaper->escapeHtml('hello') ?>' .
-                '<?= 'hello' ?><?= \$this->escaper->escapeHtml('hello') ?><?= 'hello' ?>",
+                "<?= 'hello' ?><?= \$this->escaper->escapeHtml('hello') ?>" .
+                "<?= 'hello' ?><?= \$this->escaper->escapeHtml('hello') ?><?= 'hello' ?>",
             ],
             //Mixed
             [
