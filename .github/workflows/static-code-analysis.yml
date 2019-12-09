@@ -3,19 +3,7 @@ name: Static Code Analysis
 on: [push, pull_request]
 
 jobs:
-  native:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Install PHP_CodeSniffer
-        run: composer global require --prefer-dist --no-progress --no-suggest squizlabs/php_codesniffer
-
-      - uses: actions/checkout@v2-beta
-        with:
-          fetch-depth: 1
-
-      - name: Run PHP_CodeSniffer
-        run: ~/.composer/vendor/bin/phpcs
-  docker:
+  phpcs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2-beta
