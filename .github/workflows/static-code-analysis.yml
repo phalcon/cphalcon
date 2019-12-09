@@ -22,8 +22,4 @@ jobs:
         with:
           fetch-depth: 1
       - name: Run PHP_CodeSniffer
-        run: phpcs
-        container:
-          image: cytopia/phpcs
-          volumes:
-            - $GITHUB_WORKSPACE:/data
+        run: docker run --rm -v $(pwd):/data cytopia/phpcs .
