@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Install PHP_CodeSniffer
-        run: composer require --prefer-dist --no-progress --no-suggest --no-dev squizlabs/php_codesniffer
+        run: composer require --prefer-dist --no-progress --no-suggest squizlabs/php_codesniffer
 
       - uses: actions/checkout@v2-beta
 
