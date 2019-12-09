@@ -22,8 +22,7 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Run PHP_CodeSniffer
-        container:
-          image: cytopia/phpcs
-          volumes:
-            - $GITHUB_WORKSPACE:/data
+    container:
+      image: cytopia/phpcs
+      volumes:
+        - $GITHUB_WORKSPACE:/data
