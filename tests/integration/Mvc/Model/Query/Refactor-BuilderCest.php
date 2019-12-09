@@ -663,48 +663,51 @@ class BuilderCest
         $builder = new Builder();
         $builder->setDi($this->container);
 
-        $phql = $builder->from(Robots::class)
-                        ->where("Robots.name = 'Voltron'")
-                        ->inWhere('Robots.id', [1, 2, 3])
-                        ->getPhql()
+        $phql = $builder
+            ->from(Robots::class)
+            ->where("Robots.name = 'Voltron'")
+            ->inWhere('Robots.id', [1, 2, 3])
+            ->getPhql()
         ;
 
         $I->assertEquals(
             'SELECT [' . Robots::class . '].* FROM [' .
-            Robots::class . "] WHERE (Robots.name = 'Voltron') ' .
-            'AND (Robots.id IN (:AP0:, :AP1:, :AP2:))",
+            Robots::class . "] WHERE (Robots.name = 'Voltron') " .
+            "AND (Robots.id IN (:AP0:, :AP1:, :AP2:))",
             $phql
         );
 
         $builder = new Builder();
         $builder->setDi($this->container);
 
-        $phql = $builder->from(Robots::class)
-                        ->where("Robots.name = 'Voltron'")
-                        ->betweenWhere('Robots.id', 0, 50, Builder::OPERATOR_OR)
-                        ->getPhql()
+        $phql = $builder
+            ->from(Robots::class)
+            ->where("Robots.name = 'Voltron'")
+            ->betweenWhere('Robots.id', 0, 50, Builder::OPERATOR_OR)
+            ->getPhql()
         ;
 
         $I->assertEquals(
             'SELECT [' . Robots::class . '].* FROM [' .
-            Robots::class . "] WHERE (Robots.name = 'Voltron') ' .
-            'OR (Robots.id BETWEEN :AP0: AND :AP1:)",
+            Robots::class . "] WHERE (Robots.name = 'Voltron') " .
+            "OR (Robots.id BETWEEN :AP0: AND :AP1:)",
             $phql
         );
 
         $builder = new Builder();
         $builder->setDi($this->container);
 
-        $phql = $builder->from(Robots::class)
-                        ->where("Robots.name = 'Voltron'")
-                        ->inWhere('Robots.id', [1, 2, 3], Builder::OPERATOR_OR)
-                        ->getPhql()
+        $phql = $builder
+            ->from(Robots::class)
+            ->where("Robots.name = 'Voltron'")
+            ->inWhere('Robots.id', [1, 2, 3], Builder::OPERATOR_OR)
+            ->getPhql()
         ;
 
         $I->assertEquals(
             'SELECT [' . Robots::class . '].* FROM [' .
-            Robots::class . "] WHERE (Robots.name = 'Voltron') ' .
-            'OR (Robots.id IN (:AP0:, :AP1:, :AP2:))",
+            Robots::class . "] WHERE (Robots.name = 'Voltron') " .
+            "OR (Robots.id IN (:AP0:, :AP1:, :AP2:))",
             $phql
         );
     }
@@ -792,12 +795,13 @@ class BuilderCest
 
         $standardBuilder = new Builder();
 
-        $standardBuilder->from(Robots::class)
-                        ->where(
-                            'year > :min: AND year < :max:',
-                            ['min' => '2013-01-01', 'max' => '2100-01-01'],
-                            ['min' => PDO::PARAM_STR, 'max' => PDO::PARAM_STR]
-                        )
+        $standardBuilder
+            ->from(Robots::class)
+            ->where(
+                'year > :min: AND year < :max:',
+                ['min' => '2013-01-01', 'max' => '2100-01-01'],
+                ['min' => PDO::PARAM_STR, 'max' => PDO::PARAM_STR]
+            )
         ;
 
         $standardResult = $standardBuilder->getQuery()->execute();
