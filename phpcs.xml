@@ -3,7 +3,7 @@
     <description>Phalcon Coding Standards</description>
     <arg value="-colors"/>
     <arg value="s"/>
-    <arg value="p" />
+    <arg value="p"/>
     <rule ref="PSR12">
         <exclude name="PSR2.Methods.MethodDeclaration.Underscore"/>
     </rule>
