@@ -20,7 +20,7 @@ use Phalcon\Di\FactoryDefault\Cli as DiFactoryDefault;
 class GetSetDefaultModuleCest
 {
     /**
-     * Tests Phalcon\Cli\Console :: getDefaultModule()
+     * Tests Phalcon\Cli\Console - getDefaultModule() / setDefaultModule()
      * Tests Phalcon\Cli\Console :: setDefaultModule()
      *
      * @author Phalcon Team <team@phalcon.io>
@@ -31,8 +31,7 @@ class GetSetDefaultModuleCest
      */
     public function cliConsoleSetGetDefaultModule(CliTester $I)
     {
-        $I->wantToTest("Cli\Console - getDefaultModule()");
-        $I->wantToTest("Cli\Console - setDefaultModule()");
+        $I->wantToTest("Cli\Console - getDefaultModule() / setDefaultModule()");
 
         $console = new CliConsole(new DiFactoryDefault());
 
