@@ -17,7 +17,6 @@ use CliTester;
 use Phalcon\Cli\Dispatcher;
 use Phalcon\Mvc\Model\Binder;
 
-
 /**
  * Class GetSetModelBinderCest
  */
