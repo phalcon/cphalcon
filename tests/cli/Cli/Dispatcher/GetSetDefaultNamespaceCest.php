@@ -35,6 +35,5 @@ class GetSetDefaultNamespaceCest
         $dispatcher->setDefaultNamespace($namespace);
 
         $I->assertEquals($namespace, $dispatcher->getDefaultNamespace());
-
     }
 }
