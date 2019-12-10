@@ -14,18 +14,24 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Cli\Dispatcher;
 
 use CliTester;
+use Phalcon\Cli\Dispatcher;
 
-class GetOptionsCest
+class GetSetOptionsCest
 {
     /**
-     * Tests Phalcon\Cli\Dispatcher :: getOptions()
+     * Tests Phalcon\Cli\Dispatcher - getOptions() / setOptions()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function cliDispatcherGetOptions(CliTester $I)
     {
-        $I->wantToTest('Cli\Dispatcher - getOptions()');
-        $I->skipTest('Need implementation');
+        $I->wantToTest('Cli\Dispatcher - getOptions() / setOptions()');
+        $dispatcher = new Dispatcher();
+        $I->assertEquals([], $dispatcher->getOptions());
+
+        $options = ["Phalcon", "Rocks"];
+        $dispatcher->setOptions($options);
+        $I->assertEquals($options, $dispatcher->getOptions());
     }
 }

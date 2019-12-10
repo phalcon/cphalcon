@@ -14,21 +14,28 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Cli\Dispatcher;
 
 use CliTester;
+use Phalcon\Cli\Dispatcher;
 
 /**
- * Class GetModuleNameCest
+ * Class GetSetModuleNameCest
  */
-class GetModuleNameCest
+class GetSetModuleNameCest
 {
     /**
-     * Tests Phalcon\Cli\Dispatcher :: getModuleName()
+     * Tests Phalcon\Cli\Dispatcher - getModuleName() / setModuleName()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function cliDispatcherGetModuleName(CliTester $I)
     {
-        $I->wantToTest('Cli\Dispatcher - getModuleName()');
-        $I->skipTest('Need implementation');
+        $I->wantToTest('Cli\Dispatcher - getModuleName() / setModuleName()');
+
+        $dispatcher = new Dispatcher();
+        $I->assertNull($dispatcher->getModuleName());
+
+        $moduleName = "Phalcon";
+        $dispatcher->setModuleName($moduleName);
+        $I->assertEquals($moduleName, $dispatcher->getModuleName());
     }
 }

@@ -15,33 +15,27 @@ namespace Phalcon\Test\Cli\Cli\Dispatcher;
 
 use CliTester;
 use Phalcon\Cli\Dispatcher;
-use Phalcon\Di\FactoryDefault\Cli as DiFactoryDefault;
 use Phalcon\Mvc\Model\Binder;
 
 /**
- * Class GetBoundModelsCest
+ * Class GetSetModelBinderCest
  */
-class GetBoundModelsCest
+class GetSetModelBinderCest
 {
     /**
-     * Tests Phalcon\Cli\Dispatcher :: getBoundModels()
+     * Tests Phalcon\Cli\Dispatcher - getModelBinder() / setModelBinder()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function cliDispatcherGetBoundModels(CliTester $I)
+    public function cliDispatcherGetModelBinder(CliTester $I)
     {
-        $I->wantToTest('Cli\Dispatcher - getBoundModels()');
+        $I->wantToTest('Cli\Dispatcher - getModelBinder() / setModelBinder()');
         $dispatcher = new Dispatcher();
-        $dispatcher->setDI(
-            new DiFactoryDefault()
-        );
-
-        //No binder set should return empty array
-        $I->assertEquals([], $dispatcher->getBoundModels());
+        $I->assertNull($dispatcher->getModelBinder());
 
         $modelBinder = new Binder();
         $dispatcher->setModelBinder($modelBinder);
-        $I->assertCount(0, $dispatcher->getBoundModels());
+        $I->assertEquals($modelBinder, $dispatcher->getModelBinder());
     }
 }
