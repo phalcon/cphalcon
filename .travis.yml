@@ -21,7 +21,6 @@ addons:
 matrix:
   fast_finish: true
   allow_failures:
-    - php: '7.4snapshot'
     - env: ZEPHIR_VERSION="development"
 
 cache:
@@ -78,7 +77,6 @@ install:
 
 before_script:
   - cat .ci/travis.ini >> "$(phpenv prefix)/etc/conf.d/travis.ini"
-  - 'if [ "$(php-config --vernum)" -ge "70400" ]; then export REPORT_COVERAGE=0; fi'
   - .ci/genparsers.sh
   - .ci/build.sh
   - zephir --version
@@ -94,19 +92,8 @@ script:
 jobs:
   include:
     - stage: Development Zephir version
-      php: '7.3'
+      php: '7.4'
       env: ZEPHIR_VERSION="development"
-    - stage: Static Code Analysis
-      php: '7.2'
-      env:
-        - REPORT_COVERAGE=0
-      install:
-        - eval "composer install $DEFAULT_COMPOSER_FLAGS --ignore-platform-reqs"
-      before_script:
-        - phpenv config-rm xdebug.ini || true
-      script:
-        - vendor/bin/phpcs
-        - shellcheck .ci/*.sh
 
 after_failure:
   - echo "$($(phpenv which php) -v)"
