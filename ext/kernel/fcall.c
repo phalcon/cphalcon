@@ -421,7 +421,7 @@ int zephir_call_user_function(zval *object_pp, zend_class_entry *obj_ce, zephir_
 	return status;
 }
 
-int zephir_call_func_aparams(zval *return_value_ptr, const char *func_name, uint func_length,
+int zephir_call_func_aparams(zval *return_value_ptr, const char *func_name, zend_uint func_length,
 	zephir_fcall_cache_entry **cache_entry, int cache_slot,
 	uint param_count, zval **params)
 {
@@ -489,7 +489,7 @@ int zephir_call_zval_func_aparams(zval *return_value_ptr, zval *func_name,
 }
 
 int zephir_call_class_method_aparams(zval *return_value, zend_class_entry *ce, zephir_call_type type, zval *object,
-	const char *method_name, uint method_len,
+	const char *method_name, zend_uint method_len,
 	zephir_fcall_cache_entry **cache_entry, int cache_slot,
 	uint param_count, zval **params)
 {

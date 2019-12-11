@@ -289,7 +289,7 @@ typedef enum _zephir_call_type {
 		ZEPHIR_LAST_CALL_STATUS = zephir_call_user_func_array_noex(return_value, handler, params); \
 	} while (0)
 
-int zephir_call_func_aparams(zval *return_value_ptr, const char *func_name, uint func_length,
+int zephir_call_func_aparams(zval *return_value_ptr, const char *func_name, zend_uint func_length,
 	zephir_fcall_cache_entry **cache_entry, int cache_slot,
 	uint param_count, zval **params);
 
@@ -309,7 +309,7 @@ int zephir_call_class_method_aparams(zval *return_value_ptr,
 	zval **params) ZEPHIR_ATTR_WARN_UNUSED_RESULT;
 
 ZEPHIR_ATTR_WARN_UNUSED_RESULT static inline int zephir_return_call_function(zval *return_value,
-	const char *func, uint func_len, zephir_fcall_cache_entry **cache_entry, int cache_slot, uint param_count, zval **params)
+	const char *func, zend_uint func_len, zephir_fcall_cache_entry **cache_entry, int cache_slot, zend_uint param_count, zval **params)
 {
 	zval rv, *rvp = return_value ? return_value : &rv;
 	int status;
@@ -337,7 +337,7 @@ ZEPHIR_ATTR_WARN_UNUSED_RESULT static inline int zephir_return_call_function(zva
 }
 
 ZEPHIR_ATTR_WARN_UNUSED_RESULT static inline int zephir_return_call_zval_function(zval *return_value,
-	zval *func, zephir_fcall_cache_entry **cache_entry, int cache_slot, uint param_count, zval **params)
+	zval *func, zephir_fcall_cache_entry **cache_entry, int cache_slot, zend_uint param_count, zval **params)
 {
 	zval rv, *rvp = return_value ? return_value : &rv;
 	int status;
@@ -366,7 +366,7 @@ ZEPHIR_ATTR_WARN_UNUSED_RESULT static inline int zephir_return_call_zval_functio
 
 ZEPHIR_ATTR_WARN_UNUSED_RESULT static inline int zephir_return_call_class_method(zval *return_value,
 	zend_class_entry *ce, zephir_call_type type, zval *object,
-	const char *method_name, uint method_len,
+	const char *method_name, zend_uint method_len,
 	zephir_fcall_cache_entry **cache_entry, int cache_slot,
 	uint param_count, zval **params)
 {
