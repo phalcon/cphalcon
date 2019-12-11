@@ -127,6 +127,8 @@ build_script:
     - ps: Set-Location "${Env:APPVEYOR_BUILD_FOLDER}\build\php7\safe"
     - cmd: C:\php-devpack\phpize
     - cmd: configure --with-prefix=C:\php --with-php-build=C:\php-devpack --disable-all --enable-phalcon
+    - cmd: type C:\projects\phalcon\build\php7\safe\phalcon.zep.c
+    - cmd: type C:\php-devpack/include/main\../main/config.w32.h
     - cmd: nmake 2> compile-errors.log 1> compile.log
     - ps: InitializeReleaseVars
 
