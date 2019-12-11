@@ -9,12 +9,12 @@ version: 4.0.0+{build}
 
 environment:
   matrix:
-    - PHP_VERSION: 7.2
+    - PHP_VERSION: 7.4
       VC_VERSION: 15
       BUILD_TYPE: Win32
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
 
-    - PHP_VERSION: 7.2
+    - PHP_VERSION: 7.4
       VC_VERSION: 15
       BUILD_TYPE: nts-Win32
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
@@ -29,12 +29,12 @@ environment:
       BUILD_TYPE: nts-Win32
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
 
-    - PHP_VERSION: 7.4
+    - PHP_VERSION: 7.2
       VC_VERSION: 15
       BUILD_TYPE: Win32
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
 
-    - PHP_VERSION: 7.4
+    - PHP_VERSION: 7.2
       VC_VERSION: 15
       BUILD_TYPE: nts-Win32
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
