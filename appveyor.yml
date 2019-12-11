@@ -111,7 +111,6 @@ install:
         -Platform   $Env:PLATFORM
 
 before_build:
-  - cmd: C:\php-devpack\pecl version
   - ps: EnablePhpExtension -Name psr
   - ps: EnablePhpExtension -Name redis
   - ps: EnablePhpExtension -Name zephir_parser -PrintableName "Zephir Parser"
