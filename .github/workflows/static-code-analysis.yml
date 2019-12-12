@@ -1,6 +1,16 @@
 name: Static Code Analysis
-# This workflow is triggered on pushes to the repository.
-on: [push, pull_request]
+
+on:
+  push:
+    branches-ignore:
+      - 'appveyor*'
+    paths-ignore:
+      - '*.md'
+
+  pull_request:
+    branches:
+      - 'master'
+      - '4.0.x'
 
 jobs:
   phpcs:

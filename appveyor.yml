@@ -9,32 +9,42 @@ version: 4.0.0+{build}
 
 environment:
   matrix:
-    - PHP_VERSION: 7.2
-      VC_VERSION: 15
+    - PHP_VERSION: '7.2'
+      VC_VERSION: '15'
       BUILD_TYPE: Win32
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
 
-    - PHP_VERSION: 7.2
-      VC_VERSION: 15
+    - PHP_VERSION: '7.2'
+      VC_VERSION: '15'
       BUILD_TYPE: nts-Win32
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
 
-    - PHP_VERSION: 7.3
-      VC_VERSION: 15
+    - PHP_VERSION: '7.3'
+      VC_VERSION: '15'
       BUILD_TYPE: Win32
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
 
-    - PHP_VERSION: 7.3
-      VC_VERSION: 15
+    - PHP_VERSION: '7.3'
+      VC_VERSION: '15'
+      BUILD_TYPE: nts-Win32
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+
+    - PHP_VERSION: '7.3'
+      VC_VERSION: '15'
+      BUILD_TYPE: Win32
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+
+    - PHP_VERSION: '7.4'
+      VC_VERSION: '15'
       BUILD_TYPE: nts-Win32
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
 
   PHP_AVM: https://raw.githubusercontent.com/sergeyklay/php-appveyor/master/php-appveyor.psm1
 
   PHP_SDK_VERSION: 2.1.9
-  ZEPHIR_PARSER_VERSION: 1.3.2
-  ZEPHIR_PARSER_RELEASE: 505
-  ZEPHIR_VERSION: 0.12.13
+  ZEPHIR_PARSER_VERSION: 1.3.3
+  ZEPHIR_PARSER_RELEASE: 514
+  ZEPHIR_VERSION: 0.12.15
 
   TEST_PHP_EXECUTABLE: C:\php\php.exe
   NO_INTERACTION: 1
@@ -85,7 +95,7 @@ install:
   - ps: >-
       InstallPeclExtension `
         -Name       redis `
-        -Version    5.0.2 `
+        -Version    5.1.1 `
         -PhpVersion $Env:PHP_VERSION `
         -BuildType  $Env:BUILD_TYPE `
         -VC         $Env:VC_VERSION `
@@ -111,7 +121,8 @@ build_script:
     - cmd: '"%VSCOMNTOOLS%\VsDevCmd" -arch=%PLATFORM%'
     - cmd: '"%VCVARSALL_FILE%" %ARCH%'
     - cmd: C:\php-sdk\bin\phpsdk_setvars
-    - cmd:  C:\php\php.exe zephir.phar generate --backend=ZendEngine3 -Wnonexistent-function -Wnonexistent-class -Wunused-variable
+    - cmd: C:\php\php.exe zephir.phar --version
+    - cmd: C:\php\php.exe zephir.phar generate --backend=ZendEngine3 -Wnonexistent-function -Wnonexistent-class -Wunused-variable
     - ps: Set-Location "${Env:APPVEYOR_BUILD_FOLDER}\build"
     - cmd: C:\php\php.exe gen-build.php
     - ps: Set-Location "${Env:APPVEYOR_BUILD_FOLDER}\build\php7\safe"
@@ -133,12 +144,12 @@ after_build:
                         "${Env:APPVEYOR_BUILD_FOLDER}\3rdparty\licenses\LICENSE-ZEND.txt",`
                         "${Env:APPVEYOR_BUILD_FOLDER}\3rdparty\licenses\LICENSE-ATLAS.txt",`
                         "${Env:APPVEYOR_BUILD_FOLDER}\3rdparty\licenses\LICENSE-AURA.txt",`
-                        "${Env:APPVEYOR_BUILD_FOLDER}\3rdparty\licenses\\LICENSE-DIACTOROS.txt"
+                        "${Env:APPVEYOR_BUILD_FOLDER}\3rdparty\licenses\LICENSE-DIACTOROS.txt"
 
 artifacts:
-    - path: '.\$(RELEASE_ZIPBALL).zip'
-      type: zip
-      name: Phalcon
+  - path: '.\$(RELEASE_ZIPBALL).zip'
+    type: zip
+    name: Phalcon
 
 on_failure:
   - ps: $LogsDirectory = "${Env:APPVEYOR_BUILD_FOLDER}\build\php7\safe"
