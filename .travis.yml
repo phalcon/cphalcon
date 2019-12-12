@@ -6,6 +6,10 @@ php:
 
 dist: bionic
 
+branches:
+  except:
+    - /appveyor.*/
+
 git:
   depth: 5
   quiet: true
