@@ -833,8 +833,8 @@ static void aa_syntax_error(
 	if (status->scanner_state->start_length) {
 		char *token_name = NULL;
 		const phannot_token_names *tokens = phannot_tokens;
-		uint active_token = status->scanner_state->active_token;
-		uint near_length = status->scanner_state->start_length;
+		int active_token = status->scanner_state->active_token;
+		unsigned int near_length = status->scanner_state->start_length;
 
 		if (active_token) {
 			do {
