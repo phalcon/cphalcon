@@ -784,15 +784,15 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
                         continue;
                     }
-                }
+                } else {
+                    if unlikely !globals_get("orm.ignore_unknown_columns") {
+                        throw new Exception(
+                            "Column '" . key . "' doesn't make part of the column map"
+                        );
+                    }
 
-                if unlikely !globals_get("orm.ignore_unknown_columns") {
-                    throw new Exception(
-                        "Column '" . key . "' doesn't make part of the column map"
-                    );
+                    continue;
                 }
-
-                continue;
             }
 
             if typeof attribute != "array" {
