@@ -26,7 +26,7 @@ class GetDateFormatCest
         $I->wantToTest('Logger\Formatter\Line - getDateFormat()');
         $formatter = new Line();
 
-        $expected = 'D, d M y H:i:s O';
+        $expected = 'c';
         $actual   = $formatter->getDateFormat();
         $I->assertEquals($expected, $actual);
     }

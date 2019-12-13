@@ -43,7 +43,7 @@ class FormatCest
 
         $expected = sprintf(
             '{"type":"debug","message":"log message","timestamp":"%s"}',
-            date('D, d M y H:i:s O', $time)
+            date('c', $time)
         );
 
         $I->assertEquals(

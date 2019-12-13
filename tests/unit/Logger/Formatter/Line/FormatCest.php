@@ -43,7 +43,7 @@ class FormatCest
 
         $expected = sprintf(
             '[%s][debug] log message',
-            date('D, d M y H:i:s O', $time)
+            date('c', $time)
         );
 
         $I->assertEquals(
@@ -75,7 +75,7 @@ class FormatCest
 
         $expected = sprintf(
             'log message-[debug]-%s',
-            date('D, d M y H:i:s O', $time)
+            date('c', $time)
         );
 
         $I->assertEquals(

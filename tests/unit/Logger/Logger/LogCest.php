@@ -74,7 +74,7 @@ class LogCest
         foreach ($levels as $levelName) {
             $expected = sprintf(
                 '[%s][%s] Message %s',
-                date('D, d M y H:i:s O'),
+                date('c'),
                 $levelName,
                 $levelName
             );
@@ -144,7 +144,7 @@ class LogCest
         foreach ($levelsYes as $levelName) {
             $expected = sprintf(
                 '[%s][%s] Message %s',
-                date('D, d M y H:i:s O'),
+                date('c'),
                 $levelName,
                 $levelName
             );
@@ -154,7 +154,7 @@ class LogCest
         foreach ($levelsNo as $levelName) {
             $expected = sprintf(
                 '[%s][%s] Message %s',
-                date('D, d M y H:i:s O'),
+                date('c'),
                 $levelName,
                 $levelName
             );

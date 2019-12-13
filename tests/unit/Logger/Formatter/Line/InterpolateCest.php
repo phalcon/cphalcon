@@ -73,7 +73,7 @@ class InterpolateCest
 
         $expected = sprintf(
             '[%s][debug] The sky is blue',
-            date('D, d M y H:i:s O', $time)
+            date('c', $time)
         );
 
         $I->assertEquals(

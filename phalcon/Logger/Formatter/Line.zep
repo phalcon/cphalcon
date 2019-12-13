@@ -36,7 +36,7 @@ class Line extends AbstractFormatter
     /**
      * Phalcon\Logger\Formatter\Line construct
      */
-    public function __construct(string format = "[%date%][%type%] %message%", string dateFormat = "D, d M y H:i:s O")
+    public function __construct(string format = "[%date%][%type%] %message%", string dateFormat = "c")
     {
         let this->format     = format,
             this->dateFormat = dateFormat;
