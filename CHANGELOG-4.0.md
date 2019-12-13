@@ -1,4 +1,4 @@
-# [4.0.0](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-????) (2019-xx-xx)
+# [4.0.0](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0) (2019-12-21)
 
 ## Added
 - Added the ability to `Phalcon\Model::findFirstBy*` and `Phalcon\Model::findBy*` to process passed parameters (for `order` etc.) [#14573](https://github.com/phalcon/cphalcon/issues/14573)
@@ -8,6 +8,7 @@
 - Changed `Phalcon\Mvc\Router\Annotations` to use `converters` instead of `conversors` [#14532](https://github.com/phalcon/cphalcon/issues/14532)
 - Changed `Phalcon\Di::setRaw` to `Phalcon\Di::setService` to align more with the use of the method [#14555](https://github.com/phalcon/cphalcon/issues/14555)
 - Changed `Phalcon\Http\CookieInterface` to `Phalcon\Http\Cookie\CookieInterface` to avoid confusion [#14602](https://github.com/phalcon/cphalcon/issues/14602)
+- Changed `Phalcon\Storage\Adapter\*::getKeys` to accept an optional `$prefix` so as to filter the keys returned [#14575](https://github.com/phalcon/cphalcon/issues/14575)
 
 ## Fixed
 - Fixed `PhalconMvc\Model` to ignore internal setters if properties have the same name as the setter [#14538](https://github.com/phalcon/cphalcon/issues/14538)
