@@ -63,6 +63,8 @@ class ClearCest
         $I->assertFalse(
             $adapter->has($key2)
         );
+
+        $I->safeDeleteDirectory(outputDir('ph-strm'));
     }
 
     /**
@@ -99,5 +101,7 @@ class ClearCest
 
         $actual = $adapter->clear();
         $I->assertTrue($actual);
+
+        $I->safeDeleteDirectory(outputDir('ph-strm'));
     }
 }

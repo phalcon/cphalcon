@@ -51,7 +51,7 @@ class GetSetCest
         $result = $adapter->set('test-key', $data);
         $I->assertTrue($result);
 
-        $target = outputDir() . 'phstrm-/te/st/-k/';
+        $target = outputDir() . 'ph-strm/te/st/-k/';
         $I->amInPath($target);
         $I->openFile('test-key');
         $expected = 's:3:"ttl";i:3600;s:7:"content";s:25:"s:17:"Phalcon Framework";";}';
@@ -81,7 +81,7 @@ class GetSetCest
             ]
         );
 
-        $target = outputDir() . 'phstrm-/te/st/-k/';
+        $target = outputDir() . 'ph-strm/te/st/-k/';
         $data   = 'Phalcon Framework';
 
         $I->assertTrue(
@@ -126,7 +126,7 @@ class GetSetCest
             ]
         );
 
-        $target = outputDir() . 'phstrm-/te/st/-k/';
+        $target = outputDir() . 'ph-strm/te/st/-k/';
         if (true !== is_dir($target)) {
             mkdir($target, 0777, true);
         }

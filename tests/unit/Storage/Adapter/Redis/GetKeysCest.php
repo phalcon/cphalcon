@@ -37,24 +37,33 @@ class GetKeysCest
         $serializer = new SerializerFactory();
         $adapter    = new Redis($serializer, getOptionsRedis());
 
-        $actual = $adapter->clear();
-        $I->assertTrue($actual);
+        $I->assertTrue($adapter->clear());
 
-        $key = 'key-1';
-        $adapter->set($key, 'test');
-        $actual = $adapter->has($key);
-        $I->assertTrue($actual);
+        $adapter->set('key-1', 'test');
+        $adapter->set('key-2', 'test');
+        $adapter->set('one-1', 'test');
+        $adapter->set('one-2', 'test');
 
-        $key = 'key-2';
-        $adapter->set($key, 'test');
-        $actual = $adapter->has($key);
-        $I->assertTrue($actual);
+        $I->assertTrue($adapter->has('key-1'));
+        $I->assertTrue($adapter->has('key-2'));
+        $I->assertTrue($adapter->has('one-1'));
+        $I->assertTrue($adapter->has('one-2'));
 
         $expected = [
             'ph-reds-key-1',
             'ph-reds-key-2',
+            'ph-reds-one-1',
+            'ph-reds-one-2',
         ];
         $actual   = $adapter->getKeys();
+        sort($actual);
+        $I->assertEquals($expected, $actual);
+
+        $expected = [
+            'ph-reds-one-1',
+            'ph-reds-one-2',
+        ];
+        $actual   = $adapter->getKeys("one");
         sort($actual);
         $I->assertEquals($expected, $actual);
     }

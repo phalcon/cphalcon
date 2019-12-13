@@ -35,13 +35,12 @@ class GetKeysCest
         $I->wantToTest('Storage\Adapter\Libmemcached - getKeys()');
 
         $serializer = new SerializerFactory();
-
-        $adapter = new Libmemcached(
+        $adapter    = new Libmemcached(
             $serializer,
             getOptionsLibmemcached()
         );
 
-        $memcachedServerVersions   = $adapter->getAdapter()->getVersion();
+        $memcachedServerVersions = $adapter->getAdapter()->getVersion();
         $memcachedExtensionVersion = phpversion('memcached');
 
         foreach ($memcachedServerVersions as $server => $memcachedServerVersion) {
@@ -64,19 +63,34 @@ class GetKeysCest
             }
         }
 
-        $adapter->clear();
+        $I->assertTrue($adapter->clear());
 
         $adapter->set('key-1', 'test');
         $adapter->set('key-2', 'test');
+        $adapter->set('one-1', 'test');
+        $adapter->set('one-2', 'test');
 
-        $actual = $adapter->getKeys();
+        $I->assertTrue($adapter->has('key-1'));
+        $I->assertTrue($adapter->has('key-2'));
+        $I->assertTrue($adapter->has('one-1'));
+        $I->assertTrue($adapter->has('one-2'));
+
+        $expected = [
+            'ph-memc-key-1',
+            'ph-memc-key-2',
+            'ph-memc-one-1',
+            'ph-memc-one-2',
+        ];
+        $actual   = $adapter->getKeys();
         sort($actual);
-        $I->assertEquals(
-            [
-                'ph-memc-key-1',
-                'ph-memc-key-2',
-            ],
-            $actual
-        );
+        $I->assertEquals($expected, $actual);
+
+        $expected = [
+            'ph-memc-one-1',
+            'ph-memc-one-2',
+        ];
+        $actual   = $adapter->getKeys("one");
+        sort($actual);
+        $I->assertEquals($expected, $actual);
     }
 }

@@ -3,8 +3,6 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalcon.io>
- *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
@@ -13,8 +11,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Storage\Serializer\Php;
 
-use Codeception\Example;
 use Phalcon\Storage\Serializer\Php;
+use Codeception\Example;
 use stdClass;
 use UnitTester;
 

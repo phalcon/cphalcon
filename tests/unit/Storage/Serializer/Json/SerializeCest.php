@@ -3,8 +3,6 @@
 /**
  * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalcon.io>
- *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
@@ -13,10 +11,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Storage\Serializer\Json;
 
+use Phalcon\Collection\Collection;
+use Phalcon\Storage\Serializer\Json;
 use Codeception\Example;
 use InvalidArgumentException;
-use Phalcon\Collection;
-use Phalcon\Storage\Serializer\Json;
 use UnitTester;
 
 use function json_encode;
@@ -82,7 +80,7 @@ class SerializeCest
 
         $I->expectThrowable(
             new InvalidArgumentException(
-                "Data for JSON the serializer cannot be of type 'object' " .
+                "Data for JSON serializer cannot be of type 'object' " .
                 "without implementing 'JsonSerializable'"
             ),
             function () {
