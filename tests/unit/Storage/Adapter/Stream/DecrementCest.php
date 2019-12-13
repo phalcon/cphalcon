@@ -80,5 +80,7 @@ class DecrementCest
         $I->assertFalse(
             $adapter->decrement($key)
         );
+
+        $I->safeDeleteDirectory(outputDir('ph-strm'));
     }
 }
