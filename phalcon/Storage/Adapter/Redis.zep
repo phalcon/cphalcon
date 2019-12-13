@@ -170,22 +170,12 @@ class Redis extends AbstractAdapter
      * @return array
      * @throws Exception
      */
-    public function getKeys() -> array
+    public function getKeys(string! prefix = "") -> array
     {
-    	var key, keys;
-    	array results;
-
-        let results = [],
-            keys    = this->getAdapter()->keys("*"),
-            keys    = !keys ? [] : keys;
-
-        for key in keys {
-            if substr(key, 0, strlen(this->prefix)) === this->prefix {
-                let results[] = key;
-            }
-        }
-
-        return results;
+        return this->getFilteredKeys(
+            this->getAdapter()->keys("*"),
+            prefix
+        );
     }
 
     /**

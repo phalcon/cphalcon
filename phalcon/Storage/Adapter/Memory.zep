@@ -143,9 +143,12 @@ class Memory extends AbstractAdapter
      *
      * @return array
      */
-    public function getKeys() -> array
+    public function getKeys(string! prefix = "") -> array
     {
-        return array_keys(this->data->toArray());
+        return this->getFilteredKeys(
+            this->data->getKeys(),
+            prefix
+        );
     }
 
     /**

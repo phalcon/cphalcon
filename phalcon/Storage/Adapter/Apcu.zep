@@ -131,12 +131,12 @@ class Apcu extends AbstractAdapter
      *
      * @return array
      */
-    public function getKeys() -> array
+    public function getKeys(string! prefix = "") -> array
     {
         var item, pattern, apc = null;
         array results;
 
-        let pattern = "/^" . this->prefix . "/",
+        let pattern = "/^" . this->prefix . prefix . "/",
             apc     = new APCuIterator(pattern),
             results = [];
 
