@@ -58,7 +58,7 @@ class GetPrefixCest
         $serializer = new SerializerFactory();
         $adapter    = new Stream($serializer, ['storageDir' => outputDir()]);
 
-        $expected = 'phstrm-';
+        $expected = 'ph-strm';
         $actual   = $adapter->getPrefix();
         $I->assertEquals($expected, $actual);
     }
