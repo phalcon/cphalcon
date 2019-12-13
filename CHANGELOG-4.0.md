@@ -43,6 +43,7 @@
 - Fixed `Phalcon\Http\Response::setCookies` to use the correct interface [#14602](https://github.com/phalcon/cphalcon/issues/14602)
 - Fixed `Phalcon\Test\Unit\Image\Adapter\Gd::processBackground` to correctly calculate the alpha value [#14609](https://github.com/phalcon/cphalcon/issues/14609)
 - Fixed `Phalcon\Logger\Adapter\AdapterInterface` adding missing `inTransaction()` [#14575](https://github.com/phalcon/cphalcon/issues/14575)
+- Fixed `Phalcon\Mvc\Model::cloneResultsetMap` to remove fatal error when looking up the columnMap. [#14619](https://github.com/phalcon/cphalcon/issues/14619)
 
 # [4.0.0-rc.r3](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-rc.3) (2019-11-16)
 ## Added
