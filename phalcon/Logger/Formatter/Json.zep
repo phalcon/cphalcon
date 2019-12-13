@@ -30,7 +30,7 @@ class Json extends AbstractFormatter
     /**
      * Phalcon\Logger\Formatter\Json construct
      */
-    public function __construct(string dateFormat = "D, d M y H:i:s O")
+    public function __construct(string dateFormat = "c")
     {
         let this->dateFormat = dateFormat;
     }

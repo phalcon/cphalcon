@@ -105,9 +105,9 @@ class ConstructCest
             '{"type":"debug","message":"This is a message","timestamp":"%s"}' . PHP_EOL .
             '{"type":"error","message":"This is an error","timestamp":"%s"}' . PHP_EOL .
             '{"type":"error","message":"This is another error","timestamp":"%s"}',
-            date('D, d M y H:i:s O', $time),
-            date('D, d M y H:i:s O', $time),
-            date('D, d M y H:i:s O', $time)
+            date('c', $time),
+            date('c', $time),
+            date('c', $time)
         );
 
         $I->seeInThisFile($expected);
