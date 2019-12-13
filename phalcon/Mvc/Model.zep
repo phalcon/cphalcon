@@ -772,17 +772,27 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             }
 
             // Every field must be part of the column map
-            let reverseMap = array_flip(columnMap);
             if !fetch attribute, columnMap[key] {
-                if !fetch attribute, reverseMap[key] {
-                    if unlikely !globals_get("orm.ignore_unknown_columns") {
-                        throw new Exception(
-                            "Column '" . key . "' doesn't make part of the column map"
-                        );
-                    }
+                if typeof columnMap === "array" && !empty columnMap {
+                    let reverseMap = array_flip(columnMap);
+                    if !fetch attribute, reverseMap[key] {
+                        if unlikely !globals_get("orm.ignore_unknown_columns") {
+                            throw new Exception(
+                                "Column '" . key . "' doesn't make part of the column map"
+                            );
+                        }
 
-                    continue;
+                        continue;
+                    }
                 }
+
+                if unlikely !globals_get("orm.ignore_unknown_columns") {
+                    throw new Exception(
+                        "Column '" . key . "' doesn't make part of the column map"
+                    );
+                }
+
+                continue;
             }
 
             if typeof attribute != "array" {
