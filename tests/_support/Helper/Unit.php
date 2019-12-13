@@ -3,12 +3,27 @@
 namespace Helper;
 
 use Codeception\Module;
-use function file_exists;
-use function is_file;
 use PHPUnit\Framework\SkippedTestError;
+
 use ReflectionClass;
 use ReflectionException;
+use function array_slice;
+use function array_unshift;
+use function call_user_func_array;
+use function extension_loaded;
+use function file_exists;
+use function func_get_args;
+use function glob;
+use function is_dir;
+use function is_file;
+use function is_object;
+use function rmdir;
+use function sprintf;
+use function substr;
+use function uniqid;
 use function unlink;
+
+use const GLOB_MARK;
 
 // here you can define custom actions
 // all public methods declared in helper class will be available in $I
@@ -19,7 +34,9 @@ class Unit extends Module
      * Calls private or protected method.
      *
      * @param string|object $obj
+     * @param string $method
      *
+     * @return mixed
      * @throws ReflectionException
      */
     public function callProtectedMethod($obj, string $method)
@@ -54,10 +71,7 @@ class Unit extends Module
     {
         if (true !== extension_loaded($extension)) {
             $this->skipTest(
-                sprintf(
-                    "Extension '%s' is not loaded. Skipping test",
-                    $extension
-                )
+                sprintf("Extension '%s' is not loaded. Skipping test", $extension)
             );
         }
     }
@@ -78,11 +92,9 @@ class Unit extends Module
      * @param string $prefix A prefix for the file
      * @param string $suffix A suffix for the file
      *
-     * @since  2014-09-13
-     *
-     * @author Nikos Dimopoulos <nikos@phalcon.io>
+     * @return string
      */
-    public function getNewFileName(string $prefix = '', string $suffix = 'log'): string
+    public function getNewFileName(string $prefix = '', string $suffix = 'log')
     {
         $prefix = ($prefix) ? $prefix . '_' : '';
         $suffix = ($suffix) ? $suffix : 'log';
@@ -90,6 +102,28 @@ class Unit extends Module
         return uniqid($prefix, true) . '.' . $suffix;
     }
 
+    /**
+     * @param string $directory
+     */
+    public function safeDeleteDirectory(string $directory)
+    {
+        $files = glob($directory . '*', GLOB_MARK);
+        foreach ($files as $file) {
+            if (substr($file, -1) == '/') {
+                $this->safeDeleteDirectory($file);
+            } else {
+                unlink($file);
+            }
+        }
+
+        if (is_dir($directory)) {
+            rmdir($directory);
+        }
+    }
+
+    /**
+     * @param string $filename
+     */
     public function safeDeleteFile(string $filename)
     {
         if (true === file_exists($filename) && true === is_file($filename)) {

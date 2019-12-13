@@ -37,10 +37,10 @@ class SetCest
             $collection->get('three')
         );
 
-        $collection->three = 'Cardoe';
+        $collection->three = 'Phalcon';
 
         $I->assertEquals(
-            'Cardoe',
+            'Phalcon',
             $collection->get('three')
         );
 

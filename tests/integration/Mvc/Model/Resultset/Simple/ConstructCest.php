@@ -55,7 +55,7 @@ class ConstructCest
         $cache   = $this->getAndSetModelsCacheStream();
         $manager = $this->getService('modelsManager');
 
-        $filePath = cacheModelsDir() . 'phstrm-/' . Str::dirFromFile('test-resultset');
+        $filePath = cacheModelsDir() . 'ph-strm/' . Str::dirFromFile('test-resultset');
 
         $robots = $manager->executeQuery('SELECT * FROM ' . Robots::class);
 
@@ -103,7 +103,7 @@ class ConstructCest
         $cache   = $this->getAndSetModelsCacheStream();
         $manager = $this->getService('modelsManager');
 
-        $filePath = cacheModelsDir() . 'phstrm-/' . Str::dirFromFile('test-resultset');
+        $filePath = cacheModelsDir() . 'ph-strm/' . Str::dirFromFile('test-resultset');
 
         $robots = $manager->executeQuery('SELECT id FROM ' . Robots::class);
 
