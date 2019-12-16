@@ -18,17 +18,26 @@
 
 namespace Phalcon\Domain\Payload;
 
+use Throwable;
+
 /**
  * This interface is used for consumers (read only)
  */
 interface ReadableInterface
 {
     /**
-     * Gets the status of this payload.
+     * Gets the potential exception thrown in the domain layer
+     *
+     * @return Throwable|null
+     */
+    public function getException() -> <Throwable> | null;
+
+    /**
+     * Gets arbitrary extra values produced by the domain layer.
      *
      * @return mixed
      */
-    public function getStatus() -> var;
+    public function getExtras() -> var;
 
     /**
      * Gets the input received by the domain layer.
@@ -38,13 +47,6 @@ interface ReadableInterface
     public function getInput() -> var;
 
     /**
-     * Gets the output produced from the domain layer.
-     *
-     * @return mixed
-     */
-    public function getOutput() -> var;
-
-    /**
      * Gets the messages produced by the domain layer.
      *
      * @return mixed
@@ -52,9 +54,16 @@ interface ReadableInterface
     public function getMessages() -> var;
 
     /**
-     * Gets arbitrary extra values produced by the domain layer.
+     * Gets the output produced from the domain layer.
      *
      * @return mixed
      */
-    public function getExtras() -> var;
+    public function getOutput() -> var;
+
+    /**
+     * Gets the status of this payload.
+     *
+     * @return mixed
+     */
+    public function getStatus() -> var;
 }

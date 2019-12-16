@@ -18,11 +18,20 @@
 
 namespace Phalcon\Domain\Payload;
 
+use Throwable;
+
 /**
  * Holds the payload
  */
 class Payload implements PayloadInterface
 {
+    /**
+     * Exception if any
+     *
+     * @var Throwable
+     */
+    protected exception { get };
+
     /**
      * Extra information
      *
@@ -57,6 +66,20 @@ class Payload implements PayloadInterface
      * @var mixed
      */
     protected output { get };
+
+    /**
+     * Sets an exception thrown in the domain
+     *
+     * @param Throwable $exception
+     *
+     * @return PayloadInterface
+     */
+    public function setException(<Throwable> exception) -> <PayloadInterface>
+    {
+        let this->exception = exception;
+
+        return this;
+    }
 
     /**
      * Sets arbitrary extra domain information.

@@ -28,7 +28,7 @@ class GetSetLogLevelCest
 
         $I->assertEquals(Logger::CUSTOM, $logger->getLogLevel());
 
-        $object = $logger->setLogLevel(LOGGER::INFO);
+        $object = $logger->setLogLevel(Logger::INFO);
         $I->assertInstanceOf(Logger::class, $object);
 
         $I->assertEquals(Logger::INFO, $logger->getLogLevel());
