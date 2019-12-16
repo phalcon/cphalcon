@@ -42,7 +42,7 @@ class Libmemcached extends AbstractAdapter
      *     'prefix' => ''
      * ]
      */
-    public function __construct(<SerializerFactory> factory = null, array! options = [])
+    public function __construct(<SerializerFactory> factory, array! options = [])
     {
         if !isset options["servers"] {
             let options["servers"] = [

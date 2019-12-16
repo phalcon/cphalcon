@@ -11,7 +11,6 @@
 namespace Phalcon;
 
 use Psr\Log\LoggerInterface;
-use Psr\Log\InvalidArgumentException;
 use Phalcon\Logger\Adapter\AdapterInterface;
 use Phalcon\Logger\Item;
 use Phalcon\Logger\Exception;
@@ -304,7 +303,7 @@ class Logger implements LoggerInterface
     }
 
     /**
-     * Sets the adapters stack overriding what is already there
+     * Sets the log level above which we can log
      */
     public function setLogLevel(int level) -> <Logger>
     {

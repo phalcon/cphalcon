@@ -558,7 +558,7 @@ class Str
                 break;
 
             default:
-                // Default type \Phalcon\Text::RANDOM_ALNUM
+                // RANDOM_ALNUM
                 let pool = array_merge(
                     range(0, 9),
                     range("a", "z"),

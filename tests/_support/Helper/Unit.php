@@ -31,38 +31,6 @@ use const GLOB_MARK;
 class Unit extends Module
 {
     /**
-     * Calls private or protected method.
-     *
-     * @param string|object $obj
-     * @param string $method
-     *
-     * @return mixed
-     * @throws ReflectionException
-     */
-    public function callProtectedMethod($obj, string $method)
-    {
-        $reflectionClass = new ReflectionClass($obj);
-
-        $reflectionMethod = $reflectionClass->getMethod($method);
-
-        $reflectionMethod->setAccessible(true);
-
-        if (!is_object($obj)) {
-            $obj = $reflectionClass->newInstanceWithoutConstructor();
-        }
-
-        // $obj, $method
-        $args = array_slice(func_get_args(), 2);
-
-        array_unshift($args, $obj);
-
-        return call_user_func_array(
-            [$reflectionMethod, 'invoke'],
-            $args
-        );
-    }
-
-    /**
      * Checks if an extension is loaded and if not, skips the test
      *
      * @param string $extension The extension to check
@@ -126,9 +94,41 @@ class Unit extends Module
      */
     public function safeDeleteFile(string $filename)
     {
-        if (true === file_exists($filename) && true === is_file($filename)) {
+        if (file_exists($filename) && is_file($filename)) {
             unlink($filename);
         }
+    }
+
+    /**
+     * Calls private or protected method.
+     *
+     * @param string|object $obj
+     * @param string $method
+     *
+     * @return mixed
+     * @throws ReflectionException
+     */
+    public function callProtectedMethod($obj, string $method)
+    {
+        $reflectionClass = new ReflectionClass($obj);
+
+        $reflectionMethod = $reflectionClass->getMethod($method);
+
+        $reflectionMethod->setAccessible(true);
+
+        if (!is_object($obj)) {
+            $obj = $reflectionClass->newInstanceWithoutConstructor();
+        }
+
+        // $obj, $method
+        $args = array_slice(func_get_args(), 2);
+
+        array_unshift($args, $obj);
+
+        return call_user_func_array(
+            [$reflectionMethod, 'invoke'],
+            $args
+        );
     }
 
     /**

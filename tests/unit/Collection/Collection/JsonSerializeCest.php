@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Collection\Collection;
 
 use Phalcon\Collection;
+use Phalcon\Test\Fixtures\Helper\JsonFixture;
 use UnitTester;
 
 class JsonSerializeCest
@@ -38,6 +39,29 @@ class JsonSerializeCest
 
         $I->assertEquals(
             $data,
+            $collection->jsonSerialize()
+        );
+
+        $data = [
+            'one'    => 'two',
+            'three'  => 'four',
+            'five'   => 'six',
+            'object' => new JsonFixture(),
+        ];
+
+        $expected = [
+            'one'    => 'two',
+            'three'  => 'four',
+            'five'   => 'six',
+            'object' => [
+                'one' => 'two'
+            ],
+        ];
+
+        $collection = new Collection($data);
+
+        $I->assertEquals(
+            $expected,
             $collection->jsonSerialize()
         );
     }

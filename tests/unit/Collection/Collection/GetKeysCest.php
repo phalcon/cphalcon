@@ -22,11 +22,27 @@ class GetKeysCest
      * Tests Phalcon\Collection :: get()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2019-12-12
      */
-    public function collectionGetKeys(UnitTester $I)
+    public function collectionCollectionGetKeys(UnitTester $I)
     {
-        $I->wantToTest('Collection - getKeys()');
+        $I->wantToTest('Collection\Collection - getKeys()');
+
+        $keys = [
+            'one',
+            'three',
+            'five',
+        ];
+
+        $data = [
+            'one'   => 'two',
+            'three' => 'four',
+            'five'  => 'six',
+        ];
+
+        $collection = new Collection($data);
+
+        $I->assertEquals($keys, $collection->getKeys());
 
         $data = [
             'one'   => 'two',
@@ -35,28 +51,7 @@ class GetKeysCest
         ];
 
         $collection = new Collection($data);
-
-        $expected = [
-            'one',
-            'Three',
-            'five',
-        ];
-
-        $I->assertEquals(
-            $expected,
-            $collection->getKeys(false)
-        );
-
-
-        $expected = [
-            'one',
-            'three',
-            'five',
-        ];
-
-        $I->assertEquals(
-            $expected,
-            $collection->getKeys()
-        );
+        $I->assertEquals($keys, $collection->getKeys());
+        $I->assertEquals(array_keys($data), $collection->getKeys(false));
     }
 }

@@ -56,7 +56,7 @@ class NewInstanceCest
         );
 
         // Given `serializer` parameter
-        $adapter = new AdapterFactory();
+        $adapter = new AdapterFactory($serializer);
         $service = $adapter->newInstance($example[0], $example[3]);
 
         $I->assertInstanceOf(
