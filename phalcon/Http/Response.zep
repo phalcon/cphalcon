@@ -226,8 +226,11 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
      * );
      *```
      */
-    public function redirect(location = null, bool externalRedirect = false, int statusCode = 302) -> <ResponseInterface>
-    {
+    public function redirect(
+        var location = null,
+        bool externalRedirect = false,
+        int statusCode = 302
+    ) -> <ResponseInterface> {
         var header, url, container, matched, view;
 
         if !location {

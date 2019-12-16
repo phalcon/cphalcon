@@ -53,7 +53,16 @@ interface CookiesInterface
     /**
      * Sets a cookie to be sent at the end of the request
      */
-    public function set(string! name, value = null, int expire = 0, string path = "/", bool secure = null, string! domain = null, bool httpOnly = null) -> <CookiesInterface>;
+    public function set(
+        string! name,
+        var value = null,
+        int expire = 0,
+        string path = "/",
+        bool secure = null,
+        string! domain = null,
+        bool httpOnly = null,
+        array options = []
+    ) -> <CookiesInterface>;
 
     /**
      * Set if cookies in the bag must be automatically encrypted/decrypted
