@@ -28,7 +28,7 @@ class Payload implements PayloadInterface
     /**
      * Exception if any
      *
-     * @var Throwable
+     * @var Throwable|null
      */
     protected exception { get };
 
