@@ -30,7 +30,7 @@ class Payload implements PayloadInterface
      *
      * @var Throwable|null
      */
-    protected exception { get };
+    protected exception = null;
 
     /**
      * Extra information
@@ -66,6 +66,16 @@ class Payload implements PayloadInterface
      * @var mixed
      */
     protected output { get };
+
+    /**
+     * Gets the potential exception thrown in the domain layer
+     *
+     * @return Throwable|null
+     */
+    public function getException() -> <Throwable> | null
+    {
+        return this->exception;
+    }
 
     /**
      * Sets an exception thrown in the domain
