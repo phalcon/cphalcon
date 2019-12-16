@@ -17,12 +17,12 @@ use RuntimeException;
  */
 class Str
 {
-    const RANDOM_ALNUM    = 0;
-    const RANDOM_ALPHA    = 1;
-    const RANDOM_DISTINCT = 5;
-    const RANDOM_HEXDEC   = 2;
-    const RANDOM_NOZERO   = 4;
-    const RANDOM_NUMERIC  = 3;
+    const RANDOM_ALNUM    = 0; // Only alpha numeric characters [a-zA-Z0-9]
+    const RANDOM_ALPHA    = 1; // Only alphabetical characters [azAZ]
+    const RANDOM_DISTINCT = 5; // Only alpha numeric uppercase characters exclude similar sharacters [2345679ACDEFHJKLMNPRSTUVWXYZ]
+    const RANDOM_HEXDEC   = 2; // Only hexadecimal characters [0-9a-f]
+    const RANDOM_NOZERO   = 4; // Only numbers without 0 [1-9]
+    const RANDOM_NUMERIC  = 3; // Only numbers [0-9]
 
     /**
      * Converts strings to camelize style
