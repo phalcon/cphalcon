@@ -41,6 +41,11 @@ interface CookieInterface
     public function getName() -> string;
 
     /**
+     * Returns the current cookie's options
+     */
+    public function getOptions() -> array;
+
+    /**
      * Returns the current cookie's path
      */
     public function getPath() -> string;
@@ -82,6 +87,11 @@ interface CookieInterface
     public function setHttpOnly(bool httpOnly) -> <CookieInterface>;
 
     /**
+     * Sets the cookie's options
+     */
+    public function setOptions(array! options) -> <CookieInterface>;
+
+    /**
      * Sets the cookie's expiration time
      */
     public function setPath(string! path) -> <CookieInterface>;
@@ -97,7 +107,7 @@ interface CookieInterface
      *
      * @param string value
      */
-    public function setValue(value) -> <CookieInterface>;
+    public function setValue(var value) -> <CookieInterface>;
 
     /**
      * Sets if the cookie must be encrypted/decrypted automatically
