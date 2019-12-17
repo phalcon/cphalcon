@@ -3,6 +3,9 @@
 ## Added
 - Added the ability to `Phalcon\Model::findFirstBy*` and `Phalcon\Model::findBy*` to process passed parameters (for `order` etc.) [#14573](https://github.com/phalcon/cphalcon/issues/14573)
 - Added `Phalcon\Helper\Str::decrement` to remove a number from a string or decrements that number if it already is defined [#14599](https://github.com/phalcon/cphalcon/issues/14599)
+- Added Exception storing and getting in the `Phalcon\Domain\Payload\*`  [#14575](https://github.com/phalcon/cphalcon/pull/14628)
+- Added options array in `Phalcon\Http\Cookie` in the constructor as well as `getOptions` and `setOptions` (ref #14627 - future work)  [#14575](https://github.com/phalcon/cphalcon/pull/14628)
+- Added options array in `Phalcon\Http\Response\Cookies` in the `set()` (ref #14627 - future work)  [#14575](https://github.com/phalcon/cphalcon/pull/14628)
 
 ## Changed
 - Changed `Phalcon\Mvc\Router\Annotations` to use `converters` instead of `conversors` [#14532](https://github.com/phalcon/cphalcon/issues/14532)
@@ -10,6 +13,7 @@
 - Changed `Phalcon\Http\CookieInterface` to `Phalcon\Http\Cookie\CookieInterface` to avoid confusion [#14602](https://github.com/phalcon/cphalcon/issues/14602)
 - Changed `Phalcon\Storage\Adapter\*::getKeys` to accept an optional `$prefix` so as to filter the keys returned [#14575](https://github.com/phalcon/cphalcon/issues/14575)
 - Changed dates reported by the logger to use the `"c"` date mask for better sorting [#14575](https://github.com/phalcon/cphalcon/issues/14575)
+- Changed the `Phalcon\Storage\Adapter\*` constructors to require the `Phalcon\Storage\SerializerFactory` object [#14575](https://github.com/phalcon/cphalcon/pull/14628)
 
 ## Fixed
 - Fixed `PhalconMvc\Model` to ignore internal setters if properties have the same name as the setter [#14538](https://github.com/phalcon/cphalcon/issues/14538)

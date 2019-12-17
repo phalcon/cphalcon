@@ -224,12 +224,13 @@ class Cookies extends AbstractInjectionAware implements CookiesInterface
      */
     public function set(
         string! name,
-        value = null,
+        var value = null,
         int expire = 0,
         string path = "/",
         bool secure = null,
         string! domain = null,
-        bool httpOnly = null
+        bool httpOnly = null,
+        array options = []
     ) -> <CookiesInterface> {
         var cookie, encryption, container, response;
 

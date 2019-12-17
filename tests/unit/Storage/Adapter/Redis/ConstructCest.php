@@ -53,29 +53,4 @@ class ConstructCest
             $adapter
         );
     }
-
-    /**
-     * Tests Phalcon\Storage\Adapter\Redis :: __construct() - invalid serializer
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-04-09
-     */
-    public function storageAdapterRedisConstructInvalidSerializerException(UnitTester $I)
-    {
-        $I->wantToTest('Storage\Adapter\Redis - __construct() - invalid serializer exception');
-
-        $I->expectThrowable(
-            new Exception('A valid serializer is required'),
-            function () {
-                $adapter = new Redis(
-                    null,
-                    getOptionsRedis()
-                );
-
-                $adapter->setDefaultSerializer('base64');
-
-                $value = $adapter->get('test');
-            }
-        );
-    }
 }

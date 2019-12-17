@@ -68,15 +68,15 @@ abstract class AbstractAdapter implements AdapterInterface
      *     'prefix' => ''
      * ]
      */
-    protected function __construct(<SerializerFactory> factory = null, array! options = [])
+    protected function __construct(<SerializerFactory> factory, array! options = [])
     {
         /**
          * Lets set some defaults and options here
          */
-        let this->defaultSerializer = Arr::get(options, "defaultSerializer", "Php"),
+        let this->serializerFactory = factory,
+            this->defaultSerializer = Arr::get(options, "defaultSerializer", "Php"),
             this->lifetime          = Arr::get(options, "lifetime", 3600),
-            this->serializer        = Arr::get(options, "serializer", null),
-            this->serializerFactory = factory;
+            this->serializer        = Arr::get(options, "serializer", null);
 
         if isset options["prefix"] {
             let this->prefix = options["prefix"];
@@ -224,10 +224,6 @@ abstract class AbstractAdapter implements AdapterInterface
     protected function initSerializer() -> void
     {
         string className;
-
-        if unlikely (null === this->serializer && null === this->serializerFactory) {
-            throw new Exception("A valid serializer is required");
-        }
 
         if !(typeof this->serializer == "object" && this->serializer instanceof SerializerInterface) {
             let className        = strtolower(this->defaultSerializer),

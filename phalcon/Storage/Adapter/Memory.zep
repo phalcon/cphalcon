@@ -41,7 +41,7 @@ class Memory extends AbstractAdapter
      *     'prefix' => ''
      * ]
      */
-    public function __construct(<SerializerFactory> factory = null, array! options = [])
+    public function __construct(<SerializerFactory> factory, array! options = [])
     {
         /**
          * Lets set some defaults and options here
