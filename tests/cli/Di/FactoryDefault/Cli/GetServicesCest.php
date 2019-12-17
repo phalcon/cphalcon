@@ -37,7 +37,7 @@ class GetServicesCest
 
         $di->set('newservice', Escaper::class);
 
-        $I->assertCount($numberOfFactoryServices+1, $di->getServices());
+        $I->assertCount($numberOfFactoryServices + 1, $di->getServices());
 
         $di->remove('newservice');
         $I->assertFalse($di->has('newservice'));
