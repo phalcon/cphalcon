@@ -14,6 +14,8 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Di\FactoryDefault\Cli;
 
 use CliTester;
+use Phalcon\Di\FactoryDefault\Cli as Di;
+use Phalcon\Escaper;
 
 class OffsetExistsCest
 {
@@ -26,6 +28,15 @@ class OffsetExistsCest
     public function diFactorydefaultCliOffsetExists(CliTester $I)
     {
         $I->wantToTest('Di\FactoryDefault\Cli - offsetExists()');
-        $I->skipTest('Need implementation');
+
+        $di = new Di();
+
+        $I->assertTrue(
+            $di->offsetExists('escaper')
+        );
+
+        $I->assertFalse(
+            $di->offsetExists('unknownservice')
+        );
     }
 }

@@ -14,6 +14,9 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Di\FactoryDefault\Cli;
 
 use CliTester;
+use Phalcon\Di\FactoryDefault\Cli as Di;
+use Phalcon\Di\Service;
+use Phalcon\Escaper;
 
 class AttemptCest
 {
@@ -26,6 +29,15 @@ class AttemptCest
     public function diFactorydefaultCliAttempt(CliTester $I)
     {
         $I->wantToTest('Di\FactoryDefault\Cli - attempt()');
-        $I->skipTest('Need implementation');
+
+        $di = new Di();
+
+        $actual = $di->attempt('nonexistingservice', Escaper::class);
+
+        $I->assertInstanceOf(Service::class, $actual);
+
+        $actual = $di->attempt('nonexistingservice', Escaper::class);
+
+        $I->assertFalse($actual);
     }
 }

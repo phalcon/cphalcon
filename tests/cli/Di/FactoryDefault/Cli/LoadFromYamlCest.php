@@ -14,6 +14,8 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Di\FactoryDefault\Cli;
 
 use CliTester;
+use Phalcon\Config;
+use Phalcon\Di\FactoryDefault\Cli as Di;
 
 class LoadFromYamlCest
 {
@@ -26,6 +28,21 @@ class LoadFromYamlCest
     public function diFactorydefaultCliLoadFromYaml(CliTester $I)
     {
         $I->wantToTest('Di\FactoryDefault\Cli - loadFromYaml()');
-        $I->skipTest('Need implementation');
+
+        $di = new Di();
+
+        // load php
+        $di->loadFromYaml(dataDir('fixtures/Di/services.yml'));
+
+        // there are 3 new + 10 from Default
+        $I->assertCount(13, $di->getServices());
+
+        // check some services
+        $actual = $di->get('config');
+        $I->assertInstanceOf(Config::class, $actual);
+
+        $I->assertTrue($di->has('config'));
+        $I->assertTrue($di->has('unit-test'));
+        $I->assertTrue($di->has('component'));
     }
 }
