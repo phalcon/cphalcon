@@ -14,6 +14,9 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Di\FactoryDefault\Cli;
 
 use CliTester;
+use Phalcon\Di\FactoryDefault\Cli as Di;
+use Phalcon\Events\Manager;
+use Phalcon\Events\ManagerInterface;
 
 class GetInternalEventsManagerCest
 {
@@ -26,6 +29,18 @@ class GetInternalEventsManagerCest
     public function diFactorydefaultCliGetInternalEventsManager(CliTester $I)
     {
         $I->wantToTest('Di\FactoryDefault\Cli - getInternalEventsManager()');
-        $I->skipTest('Need implementation');
+
+        $di = new Di();
+
+        $I->assertNull(
+            $di->getInternalEventsManager()
+        );
+
+        $di->setInternalEventsManager(new Manager());
+
+        $I->assertInstanceOf(
+            ManagerInterface::class,
+            $di->getInternalEventsManager()
+        );
     }
 }

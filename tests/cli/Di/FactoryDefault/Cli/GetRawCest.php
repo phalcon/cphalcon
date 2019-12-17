@@ -14,6 +14,9 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Di\FactoryDefault\Cli;
 
 use CliTester;
+use Phalcon\Di\FactoryDefault\Cli as Di;
+use Phalcon\Escaper;
+use Phalcon\Di\Exception;
 
 class GetRawCest
 {
@@ -26,6 +29,26 @@ class GetRawCest
     public function diFactorydefaultCliGetRaw(CliTester $I)
     {
         $I->wantToTest('Di\FactoryDefault\Cli - getRaw()');
-        $I->skipTest('Need implementation');
+
+        $di = new Di();
+
+        // nonexistent service
+        $expected = new Exception("Service 'nonexistent-service' wasn't found in the dependency injection container");
+        $actual   = function () use ($di) {
+            $di->getRaw('nonexistent-service');
+        };
+
+        $I->expectThrowable(
+            $expected,
+            $actual
+        );
+
+        // existing service
+        $di->set('escaper', Escaper::class);
+
+        $expected = Escaper::class;
+        $actual   = $di->getRaw('escaper');
+
+        $I->assertSame($expected, $actual);
     }
 }

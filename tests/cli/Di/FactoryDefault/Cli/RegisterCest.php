@@ -14,6 +14,9 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Di\FactoryDefault\Cli;
 
 use CliTester;
+use SomeComponent;
+use SomeServiceProvider;
+use Phalcon\Di\FactoryDefault\Cli as Di;
 
 class RegisterCest
 {
@@ -26,6 +29,15 @@ class RegisterCest
     public function diFactorydefaultCliRegister(CliTester $I)
     {
         $I->wantToTest('Di\FactoryDefault\Cli - register()');
-        $I->skipTest('Need implementation');
+
+        require_once dataDir('fixtures/Di/SomeComponent.php');
+        require_once dataDir('fixtures/Di/SomeServiceProvider.php');
+
+        $di = new Di();
+
+        $di->register(new SomeServiceProvider());
+
+        $I->assertEquals('bar', $di->get('foo'));
+        $I->assertInstanceOf(SomeComponent::class, $di->get('fooAction'));
     }
 }

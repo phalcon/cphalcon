@@ -14,6 +14,8 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Di\FactoryDefault\Cli;
 
 use CliTester;
+use Phalcon\Di\FactoryDefault\Cli as Di;
+use Phalcon\Escaper;
 
 class OffsetUnsetCest
 {
@@ -26,6 +28,23 @@ class OffsetUnsetCest
     public function diFactorydefaultCliOffsetUnset(CliTester $I)
     {
         $I->wantToTest('Di\FactoryDefault\Cli - offsetUnset()');
-        $I->skipTest('Need implementation');
+
+        $di = new Di();
+
+        $escaper = new Escaper();
+
+        $di->set('escaper', $escaper);
+
+        $I->assertTrue(
+            $di->has('escaper')
+        );
+
+        unset(
+            $di['escaper']
+        );
+
+        $I->assertFalse(
+            $di->has('escaper')
+        );
     }
 }

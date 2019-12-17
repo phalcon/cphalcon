@@ -14,6 +14,9 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Di\FactoryDefault\Cli;
 
 use CliTester;
+use Phalcon\Di\FactoryDefault\Cli as Di;
+use Phalcon\Di\Exception;
+use Phalcon\Escaper;
 
 class OffsetGetCest
 {
@@ -26,6 +29,38 @@ class OffsetGetCest
     public function diFactorydefaultCliOffsetGet(CliTester $I)
     {
         $I->wantToTest('Di\FactoryDefault\Cli - offsetGet()');
-        $I->skipTest('Need implementation');
+
+
+        $di = new Di();
+
+        $I->expectThrowable(
+            new Exception(
+                "Service 'non-exists' wasn't found in the dependency injection container"
+            ),
+            function () use ($di) {
+                $di['non-exists'];
+            }
+        );
+
+        $I->expectThrowable(
+            new Exception(
+                "Service 'non-exists' wasn't found in the dependency injection container"
+            ),
+            function () use ($di) {
+                $di->offsetGet('non-exists');
+            }
+        );
+
+        $di->set('escaper', Escaper::class);
+
+        $I->assertInstanceOf(
+            Escaper::class,
+            $di->offsetGet('escaper')
+        );
+
+        $I->assertInstanceOf(
+            Escaper::class,
+            $di['escaper']
+        );
     }
 }

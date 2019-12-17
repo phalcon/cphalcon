@@ -14,6 +14,8 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Di\FactoryDefault\Cli;
 
 use CliTester;
+use Phalcon\Di\FactoryDefault\Cli as Di;
+use Phalcon\Escaper;
 
 class SetSharedCest
 {
@@ -26,6 +28,15 @@ class SetSharedCest
     public function diFactorydefaultCliSetShared(CliTester $I)
     {
         $I->wantToTest('Di\FactoryDefault\Cli - setShared()');
-        $I->skipTest('Need implementation');
+        $di = new Di();
+
+        $di->setShared('escaper', Escaper::class);
+
+        // check shared service
+        $actual = $di->getService('escaper');
+        $I->assertTrue($actual->isShared());
+
+        $actual = $di->getShared('escaper');
+        $I->assertInstanceOf(Escaper::class, $actual);
     }
 }
