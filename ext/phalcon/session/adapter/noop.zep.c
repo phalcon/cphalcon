@@ -84,6 +84,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Session_Adapter_Noop) {
 
 /**
  * Constructor
+ *
+ * @param array options = [
+ *     'prefix' => ''
+ * ]
  */
 PHP_METHOD(Phalcon_Session_Adapter_Noop, __construct) {
 

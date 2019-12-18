@@ -555,9 +555,9 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, outputMessage) {
 			{
 				ZEPHIR_INIT_NVAR(&msg);
 				ZVAL_COPY(&msg, _1$$3);
-				ZEPHIR_CALL_METHOD(&preparedMsg, this_ptr, "prepareescapedmessage", &_3, 97, &msg);
+				ZEPHIR_CALL_METHOD(&preparedMsg, this_ptr, "prepareescapedmessage", &_3, 98, &msg);
 				zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&htmlMessage, this_ptr, "preparehtmlmessage", &_4, 98, &type, &preparedMsg);
+				ZEPHIR_CALL_METHOD(&htmlMessage, this_ptr, "preparehtmlmessage", &_4, 99, &type, &preparedMsg);
 				zephir_check_call_status();
 				if (implicitFlush) {
 					zend_print_zval(&htmlMessage, 0);
@@ -577,9 +577,9 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, outputMessage) {
 				}
 				ZEPHIR_CALL_METHOD(&msg, message, "current", NULL, 0);
 				zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(&preparedMsg, this_ptr, "prepareescapedmessage", &_3, 97, &msg);
+					ZEPHIR_CALL_METHOD(&preparedMsg, this_ptr, "prepareescapedmessage", &_3, 98, &msg);
 					zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(&htmlMessage, this_ptr, "preparehtmlmessage", &_4, 98, &type, &preparedMsg);
+					ZEPHIR_CALL_METHOD(&htmlMessage, this_ptr, "preparehtmlmessage", &_4, 99, &type, &preparedMsg);
 					zephir_check_call_status();
 					if (implicitFlush) {
 						zend_print_zval(&htmlMessage, 0);
@@ -596,9 +596,9 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, outputMessage) {
 			RETURN_CCTOR(&content);
 		}
 	} else {
-		ZEPHIR_CALL_METHOD(&preparedMsg, this_ptr, "prepareescapedmessage", &_3, 97, message);
+		ZEPHIR_CALL_METHOD(&preparedMsg, this_ptr, "prepareescapedmessage", &_3, 98, message);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(&htmlMessage, this_ptr, "preparehtmlmessage", &_4, 98, &type, &preparedMsg);
+		ZEPHIR_CALL_METHOD(&htmlMessage, this_ptr, "preparehtmlmessage", &_4, 99, &type, &preparedMsg);
 		zephir_check_call_status();
 		if (implicitFlush) {
 			zend_print_zval(&htmlMessage, 0);
@@ -786,7 +786,7 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, prepareHtmlMessage) {
 	zephir_create_array(&_3, 2, 0);
 	zephir_array_fast_append(&_3, &cssClasses);
 	zephir_array_fast_append(&_3, &message);
-	ZEPHIR_CALL_METHOD(&_4, this_ptr, "gettemplate", NULL, 99, &cssClasses);
+	ZEPHIR_CALL_METHOD(&_4, this_ptr, "gettemplate", NULL, 100, &cssClasses);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_2);
 	zephir_fast_str_replace(&_2, &_1, &_3, &_4);

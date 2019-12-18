@@ -125,9 +125,9 @@ PHP_METHOD(Phalcon_Http_Message_AbstractCommon, processWith) {
 	zephir_get_strval(&property, property_param);
 
 
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkstringparameter", NULL, 18, element);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkstringparameter", NULL, 19, element);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 19, element, &property);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 20, element, &property);
 	zephir_check_call_status();
 	RETURN_MM();
 

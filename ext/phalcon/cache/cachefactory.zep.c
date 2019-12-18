@@ -65,6 +65,31 @@ PHP_METHOD(Phalcon_Cache_CacheFactory, __construct) {
 
 /**
  * Factory to create an instace from a Config object
+ *
+ * @param array|\Phalcon\Config config = [
+ *     'adapter' => 'apcu',
+ *     'options' => [
+ *         'servers' => [
+ *             [
+ *                 'host' => 'localhost',
+ *                 'port' => 11211,
+ *                 'weight' => 1,
+ *
+ *             ]
+ *         ],
+ *         'host' => '127.0.0.1',
+ *         'port' => 6379,
+ *         'index' => 0,
+ *         'persistent' => false,
+ *         'auth' => '',
+ *         'socket' => '',
+ *         'defaultSerializer' => 'Php',
+ *         'lifetime' => 3600,
+ *         'serializer' => null,
+ *         'prefix' => 'phalcon',
+ *         'storageDir' => ''
+ *     ]
+ * ]
  */
 PHP_METHOD(Phalcon_Cache_CacheFactory, load) {
 
@@ -98,15 +123,15 @@ PHP_METHOD(Phalcon_Cache_CacheFactory, load) {
 		ZEPHIR_CPY_WRT(config, &_1$$3);
 	}
 	if (UNEXPECTED(Z_TYPE_P(config) != IS_ARRAY)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_exception_ce, "Config must be array or Phalcon\\Config object", "phalcon/Cache/CacheFactory.zep", 52);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_exception_ce, "Config must be array or Phalcon\\Config object", "phalcon/Cache/CacheFactory.zep", 77);
 		return;
 	}
 	if (UNEXPECTED(!(zephir_array_isset_string(config, SL("adapter"))))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_exception_ce, "You must provide 'adapter' option in factory config parameter.", "phalcon/Cache/CacheFactory.zep", 58);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_exception_ce, "You must provide 'adapter' option in factory config parameter.", "phalcon/Cache/CacheFactory.zep", 83);
 		return;
 	}
 	ZEPHIR_OBS_VAR(&name);
-	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Cache/CacheFactory.zep", 61);
+	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Cache/CacheFactory.zep", 86);
 	ZEPHIR_INIT_VAR(&_3);
 	array_init(&_3);
 	ZEPHIR_INIT_VAR(&_4);
@@ -121,6 +146,28 @@ PHP_METHOD(Phalcon_Cache_CacheFactory, load) {
 
 /**
  * Constructs a new Cache instance.
+ *
+ * @param array options = [
+ *     'servers' => [
+ *         [
+ *             'host' => 'localhost',
+ *             'port' => 11211,
+ *             'weight' => 1,
+
+ *         ]
+ *     ],
+ *     'host' => '127.0.0.1',
+ *     'port' => 6379,
+ *     'index' => 0,
+ *     'persistent' => false,
+ *     'auth' => '',
+ *     'socket' => '',
+ *     'defaultSerializer' => 'Php',
+ *     'lifetime' => 3600,
+ *     'serializer' => null,
+ *     'prefix' => 'phalcon',
+ *     'storageDir' => ''
+ * ]
  */
 PHP_METHOD(Phalcon_Cache_CacheFactory, newInstance) {
 
@@ -161,7 +208,7 @@ PHP_METHOD(Phalcon_Cache_CacheFactory, newInstance) {
 	ZEPHIR_CALL_METHOD(&adapter, &_0, "newinstance", NULL, 0, &name, &options);
 	zephir_check_call_status();
 	object_init_ex(return_value, phalcon_cache_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 156, &adapter);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 163, &adapter);
 	zephir_check_call_status();
 	RETURN_MM();
 

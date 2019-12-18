@@ -106,7 +106,7 @@
 #include "phalcon/html/link/link.zep.h"
 #include "phalcon/html/link/linkprovider.zep.h"
 #include "phalcon/html/link/serializer/serializerinterface.zep.h"
-#include "phalcon/http/cookieinterface.zep.h"
+#include "phalcon/http/cookie/cookieinterface.zep.h"
 #include "phalcon/http/request/fileinterface.zep.h"
 #include "phalcon/http/requestinterface.zep.h"
 #include "phalcon/http/response/cookiesinterface.zep.h"

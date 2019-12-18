@@ -28,9 +28,9 @@
 #include "kernel/object.h"
 #include "kernel/fcall.h"
 
-void ZEPHIR_FASTCALL zephir_create_array(zval *return_value, zend_uint size, int initialize)
+void ZEPHIR_FASTCALL zephir_create_array(zval *return_value, uint32_t size, int initialize)
 {
-	zend_uint i;
+	uint32_t i;
 	zval null_value;
 	HashTable *hashTable;
 	ZVAL_NULL(&null_value);
@@ -153,7 +153,7 @@ int zephir_array_isset_fetch(zval *fetched, const zval *arr, zval *index, int re
 	return 0;
 }
 
-int zephir_array_isset_string_fetch(zval *fetched, const zval *arr, char *index, zend_uint index_length, int readonly)
+int zephir_array_isset_string_fetch(zval *fetched, const zval *arr, char *index, uint32_t index_length, int readonly)
 {
 	zval *zv;
 	if (UNEXPECTED(Z_TYPE_P(arr) == IS_OBJECT && zephir_instance_of_ev((zval *)arr, (const zend_class_entry *)zend_ce_arrayaccess))) {
@@ -280,7 +280,7 @@ int ZEPHIR_FASTCALL zephir_array_isset(const zval *arr, zval *index)
 	}
 }
 
-int ZEPHIR_FASTCALL zephir_array_isset_string(const zval *arr, const char *index, zend_uint index_length)
+int ZEPHIR_FASTCALL zephir_array_isset_string(const zval *arr, const char *index, uint32_t index_length)
 {
 	if (UNEXPECTED(Z_TYPE_P(arr) == IS_OBJECT && zephir_instance_of_ev((zval *)arr, (const zend_class_entry *)zend_ce_arrayaccess))) {
 		zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -369,7 +369,7 @@ int ZEPHIR_FASTCALL zephir_array_unset(zval *arr, zval *index, int flags)
 	}
 }
 
-int ZEPHIR_FASTCALL zephir_array_unset_string(zval *arr, const char *index, zend_uint index_length, int flags)
+int ZEPHIR_FASTCALL zephir_array_unset_string(zval *arr, const char *index, uint32_t index_length, int flags)
 {
 	if (UNEXPECTED(Z_TYPE_P(arr) == IS_OBJECT && zephir_instance_of_ev(arr, (const zend_class_entry *)zend_ce_arrayaccess))) {
 		zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -515,7 +515,7 @@ int zephir_array_fetch(zval *return_value, zval *arr, zval *index, int flags ZEP
 	return FAILURE;
 }
 
-int zephir_array_fetch_string(zval *return_value, zval *arr, const char *index, zend_uint index_length, int flags ZEPHIR_DEBUG_PARAMS)
+int zephir_array_fetch_string(zval *return_value, zval *arr, const char *index, uint32_t index_length, int flags ZEPHIR_DEBUG_PARAMS)
 {
 	zval *zv;
 
@@ -698,7 +698,7 @@ int zephir_array_update_zval(zval *arr, zval *index, zval *value, int flags)
 	return ret != NULL ? FAILURE : SUCCESS;
 }
 
-int zephir_array_update_string(zval *arr, const char *index, zend_uint index_length, zval *value, int flags)
+int zephir_array_update_string(zval *arr, const char *index, uint32_t index_length, zval *value, int flags)
 {
 
 	if (UNEXPECTED(Z_TYPE_P(arr) == IS_OBJECT && zephir_instance_of_ev(arr, (const zend_class_entry *)zend_ce_arrayaccess))) {

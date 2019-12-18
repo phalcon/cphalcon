@@ -71,6 +71,15 @@ PHP_METHOD(Phalcon_Annotations_AnnotationsFactory, __construct) {
 }
 
 /**
+ * @param array|\Phalcon\Config config = [
+ *     'adapter' => 'apcu',
+ *     'options' => [
+ *         'prefix' => 'phalcon',
+ *         'lifetime' => 3600,
+ *         'annotationsDir' => 'phalconDir'
+ *     ]
+ * ]
+ *
  * Factory to create an instace from a Config object
  */
 PHP_METHOD(Phalcon_Annotations_AnnotationsFactory, load) {
@@ -98,7 +107,7 @@ PHP_METHOD(Phalcon_Annotations_AnnotationsFactory, load) {
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(config, &_0);
 	ZEPHIR_OBS_VAR(&name);
-	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Annotations/AnnotationsFactory.zep", 38);
+	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Annotations/AnnotationsFactory.zep", 47);
 	zephir_array_unset_string(config, SL("adapter"), PH_SEPARATE);
 	ZEPHIR_INIT_VAR(&_2);
 	array_init(&_2);
@@ -114,25 +123,27 @@ PHP_METHOD(Phalcon_Annotations_AnnotationsFactory, load) {
 
 /**
  * Create a new instance of the adapter
+ *
+ * @param array options = [
+ *     'prefix' => 'phalcon',
+ *     'lifetime' => 3600,
+ *     'annotationsDir' => 'phalconDir'
+ * ]
  */
 PHP_METHOD(Phalcon_Annotations_AnnotationsFactory, newInstance) {
 
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval options, _3$$3;
-	zval *name_param = NULL, *options_param = NULL, definition, _0, _4, _5, _1$$3, _2$$3;
+	zval options, _1;
+	zval *name_param = NULL, *options_param = NULL, definition, _0;
 	zval name;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&definition);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_4);
-	ZVAL_UNDEF(&_5);
-	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_2$$3);
 	ZVAL_UNDEF(&options);
-	ZVAL_UNDEF(&_3$$3);
+	ZVAL_UNDEF(&_1);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &name_param, &options_param);
@@ -157,22 +168,15 @@ PHP_METHOD(Phalcon_Annotations_AnnotationsFactory, newInstance) {
 
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkservice", NULL, 0, &name);
 	zephir_check_call_status();
-	zephir_read_property(&_0, this_ptr, SL("services"), PH_NOISY_CC | PH_READONLY);
-	if (!(zephir_array_isset(&_0, &name))) {
-		zephir_read_property(&_1$$3, this_ptr, SL("mapper"), PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_OBS_VAR(&definition);
-		zephir_array_fetch(&definition, &_1$$3, &name, PH_NOISY, "phalcon/Annotations/AnnotationsFactory.zep", 57);
-		ZEPHIR_INIT_VAR(&_2$$3);
-		ZEPHIR_INIT_VAR(&_3$$3);
-		zephir_create_array(&_3$$3, 1, 0);
-		zephir_array_fast_append(&_3$$3, &options);
-		ZEPHIR_LAST_CALL_STATUS = zephir_create_instance_params(&_2$$3, &definition, &_3$$3);
-		zephir_check_call_status();
-		zephir_update_property_array(this_ptr, SL("services"), &name, &_2$$3);
-	}
-	zephir_read_property(&_4, this_ptr, SL("services"), PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch(&_5, &_4, &name, PH_NOISY | PH_READONLY, "phalcon/Annotations/AnnotationsFactory.zep", 66);
-	RETURN_CTOR(&_5);
+	zephir_read_property(&_0, this_ptr, SL("mapper"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_OBS_VAR(&definition);
+	zephir_array_fetch(&definition, &_0, &name, PH_NOISY, "phalcon/Annotations/AnnotationsFactory.zep", 71);
+	ZEPHIR_INIT_VAR(&_1);
+	zephir_create_array(&_1, 1, 0);
+	zephir_array_fast_append(&_1, &options);
+	ZEPHIR_LAST_CALL_STATUS = zephir_create_instance_params(return_value, &definition, &_1);
+	zephir_check_call_status();
+	RETURN_MM();
 
 }
 

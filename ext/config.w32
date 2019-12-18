@@ -58,8 +58,9 @@ if (PHP_PHALCON != "no") {
 	ADD_SOURCES(configure_module_dirname + "/phalcon/html/attributes", "attributesinterface.zep.c renderinterface.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/html/link", "link.zep.c linkprovider.zep.c evolvablelink.zep.c evolvablelinkprovider.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/html/link/serializer", "serializerinterface.zep.c header.zep.c", "phalcon");
-	ADD_SOURCES(configure_module_dirname + "/phalcon/http", "cookieinterface.zep.c requestinterface.zep.c responseinterface.zep.c cookie.zep.c request.zep.c response.zep.c", "phalcon");
+	ADD_SOURCES(configure_module_dirname + "/phalcon/http/cookie", "cookieinterface.zep.c exception.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/http/request", "fileinterface.zep.c exception.zep.c file.zep.c", "phalcon");
+	ADD_SOURCES(configure_module_dirname + "/phalcon/http", "requestinterface.zep.c responseinterface.zep.c cookie.zep.c request.zep.c response.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/http/response", "cookiesinterface.zep.c headersinterface.zep.c cookies.zep.c exception.zep.c headers.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/messages", "messageinterface.zep.c exception.zep.c message.zep.c messages.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/mvc/micro", "collectioninterface.zep.c collection.zep.c exception.zep.c lazyloader.zep.c middlewareinterface.zep.c", "phalcon");
@@ -93,7 +94,6 @@ if (PHP_PHALCON != "no") {
 	ADD_SOURCES(configure_module_dirname + "/phalcon/forms", "exception.zep.c form.zep.c manager.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/helper", "arr.zep.c exception.zep.c fs.zep.c json.zep.c number.zep.c str.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/html", "attributes.zep.c breadcrumbs.zep.c exception.zep.c tagfactory.zep.c", "phalcon");
-	ADD_SOURCES(configure_module_dirname + "/phalcon/http/cookie", "exception.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/http/message/exception", "invalidargumentexception.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/http/message/stream", "input.zep.c memory.zep.c temp.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/http/server", "abstractmiddleware.zep.c abstractrequesthandler.zep.c", "phalcon");

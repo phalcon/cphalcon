@@ -130,6 +130,10 @@ PHP_METHOD(Phalcon_Url, __construct) {
  *     false
  * );
  *```
+ *
+ * @param array|string uri = [
+ *     'for' => '',
+ * ]
  */
 PHP_METHOD(Phalcon_Url, get) {
 
@@ -209,9 +213,9 @@ PHP_METHOD(Phalcon_Url, get) {
 	if (local == 0) {
 		_0$$3 = Z_TYPE_P(uri) == IS_STRING;
 		if (_0$$3) {
-			_1$$3 = zephir_memnstr_str(uri, SL("//"), "phalcon/Url.zep", 103);
+			_1$$3 = zephir_memnstr_str(uri, SL("//"), "phalcon/Url.zep", 107);
 			if (!(_1$$3)) {
-				_1$$3 = zephir_memnstr_str(uri, SL(":"), "phalcon/Url.zep", 103);
+				_1$$3 = zephir_memnstr_str(uri, SL(":"), "phalcon/Url.zep", 107);
 			}
 			_0$$3 = _1$$3;
 		}
@@ -239,7 +243,7 @@ PHP_METHOD(Phalcon_Url, get) {
 	if (Z_TYPE_P(uri) == IS_ARRAY) {
 		ZEPHIR_OBS_VAR(&routeName);
 		if (UNEXPECTED(!(zephir_array_isset_string_fetch(&routeName, uri, SL("for"), 0)))) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_url_exception_ce, "It's necessary to define the route name with the parameter 'for'", "phalcon/Url.zep", 122);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_url_exception_ce, "It's necessary to define the route name with the parameter 'for'", "phalcon/Url.zep", 126);
 			return;
 		}
 		zephir_read_property(&_6$$9, this_ptr, SL("router"), PH_NOISY_CC | PH_READONLY);
@@ -256,7 +260,7 @@ PHP_METHOD(Phalcon_Url, get) {
 				zephir_check_call_status();
 				ZEPHIR_CALL_METHOD(NULL, &_8$$12, "__construct", NULL, 6, &_9$$12);
 				zephir_check_call_status();
-				zephir_throw_exception_debug(&_8$$12, "phalcon/Url.zep", 138);
+				zephir_throw_exception_debug(&_8$$12, "phalcon/Url.zep", 142);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
@@ -273,7 +277,7 @@ PHP_METHOD(Phalcon_Url, get) {
 				zephir_check_call_status();
 				ZEPHIR_CALL_METHOD(NULL, &_14$$13, "__construct", NULL, 6, &_15$$13);
 				zephir_check_call_status();
-				zephir_throw_exception_debug(&_14$$13, "phalcon/Url.zep", 146);
+				zephir_throw_exception_debug(&_14$$13, "phalcon/Url.zep", 150);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
@@ -294,7 +298,7 @@ PHP_METHOD(Phalcon_Url, get) {
 			ZEPHIR_CONCAT_SVS(&_20$$14, "Cannot obtain a route using the name '", &routeName, "'");
 			ZEPHIR_CALL_METHOD(NULL, &_19$$14, "__construct", NULL, 6, &_20$$14);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_19$$14, "phalcon/Url.zep", 161);
+			zephir_throw_exception_debug(&_19$$14, "phalcon/Url.zep", 165);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -315,7 +319,7 @@ PHP_METHOD(Phalcon_Url, get) {
 		ZVAL_STRING(&_25$$15, "#(?<!:)//+#");
 		ZEPHIR_INIT_VAR(&_26$$15);
 		ZVAL_STRING(&_26$$15, "/");
-		ZEPHIR_CALL_FUNCTION(uri, "preg_replace", NULL, 47, &_25$$15, &_26$$15, &_24$$15);
+		ZEPHIR_CALL_FUNCTION(uri, "preg_replace", NULL, 48, &_25$$15, &_26$$15, &_24$$15);
 		zephir_check_call_status();
 	}
 	if (zephir_is_true(args)) {
@@ -413,6 +417,10 @@ PHP_METHOD(Phalcon_Url, getBaseUri) {
  *     ]
  * );
  *```
+ *
+ * @param array|string uri = [
+ *     'for' => ''
+ * ]
  */
 PHP_METHOD(Phalcon_Url, getStatic) {
 

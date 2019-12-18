@@ -111,7 +111,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/html/link/link.zep.c
 	phalcon/html/link/linkprovider.zep.c
 	phalcon/html/link/serializer/serializerinterface.zep.c
-	phalcon/http/cookieinterface.zep.c
+	phalcon/http/cookie/cookieinterface.zep.c
 	phalcon/http/request/fileinterface.zep.c
 	phalcon/http/requestinterface.zep.c
 	phalcon/http/response/cookiesinterface.zep.c

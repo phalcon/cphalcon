@@ -559,7 +559,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns) {
 			zephir_array_fetch_long(&columnName, &field, 0, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Mysql.zep", 445);
 			ZEPHIR_INIT_NVAR(&_54$$3);
 			object_init_ex(&_54$$3, phalcon_db_column_ce);
-			ZEPHIR_CALL_METHOD(NULL, &_54$$3, "__construct", &_55, 186, &columnName, &definition);
+			ZEPHIR_CALL_METHOD(NULL, &_54$$3, "__construct", &_55, 193, &columnName, &definition);
 			zephir_check_call_status();
 			zephir_array_append(&columns, &_54$$3, PH_SEPARATE, "phalcon/Db/Adapter/Pdo/Mysql.zep", 446);
 			ZEPHIR_CPY_WRT(&oldColumn, &columnName);
@@ -837,7 +837,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns) {
 				zephir_array_fetch_long(&columnName, &field, 0, PH_NOISY, "phalcon/Db/Adapter/Pdo/Mysql.zep", 445);
 				ZEPHIR_INIT_NVAR(&_106$$43);
 				object_init_ex(&_106$$43, phalcon_db_column_ce);
-				ZEPHIR_CALL_METHOD(NULL, &_106$$43, "__construct", &_55, 186, &columnName, &definition);
+				ZEPHIR_CALL_METHOD(NULL, &_106$$43, "__construct", &_55, 193, &columnName, &definition);
 				zephir_check_call_status();
 				zephir_array_append(&columns, &_106$$43, PH_SEPARATE, "phalcon/Db/Adapter/Pdo/Mysql.zep", 446);
 				ZEPHIR_CPY_WRT(&oldColumn, &columnName);
@@ -1060,7 +1060,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeIndexes) {
 			object_init_ex(&_26$$19, phalcon_db_index_ce);
 			zephir_array_fetch_string(&_27$$19, &index, SL("columns"), PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Mysql.zep", 501);
 			zephir_array_fetch_string(&_28$$19, &index, SL("type"), PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Mysql.zep", 503);
-			ZEPHIR_CALL_METHOD(NULL, &_26$$19, "__construct", &_29, 30, &name, &_27$$19, &_28$$19);
+			ZEPHIR_CALL_METHOD(NULL, &_26$$19, "__construct", &_29, 31, &name, &_27$$19, &_28$$19);
 			zephir_check_call_status();
 			zephir_array_update_zval(&indexObjects, &name, &_26$$19, PH_COPY | PH_SEPARATE);
 		} ZEND_HASH_FOREACH_END();
@@ -1081,7 +1081,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeIndexes) {
 				object_init_ex(&_30$$20, phalcon_db_index_ce);
 				zephir_array_fetch_string(&_31$$20, &index, SL("columns"), PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Mysql.zep", 501);
 				zephir_array_fetch_string(&_32$$20, &index, SL("type"), PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Mysql.zep", 503);
-				ZEPHIR_CALL_METHOD(NULL, &_30$$20, "__construct", &_29, 30, &name, &_31$$20, &_32$$20);
+				ZEPHIR_CALL_METHOD(NULL, &_30$$20, "__construct", &_29, 31, &name, &_31$$20, &_32$$20);
 				zephir_check_call_status();
 				zephir_array_update_zval(&indexObjects, &name, &_30$$20, PH_COPY | PH_SEPARATE);
 			ZEPHIR_CALL_METHOD(NULL, &indexes, "next", NULL, 0);
@@ -1352,7 +1352,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeReferences) {
 			ZEPHIR_OBS_NVAR(&_30$$9);
 			zephir_array_fetch_string(&_30$$9, &arrayReference, SL("onDelete"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Mysql.zep", 570);
 			zephir_array_update_string(&_29$$9, SL("onDelete"), &_30$$9, PH_COPY | PH_SEPARATE);
-			ZEPHIR_CALL_METHOD(NULL, &_28$$9, "__construct", &_31, 31, &name, &_29$$9);
+			ZEPHIR_CALL_METHOD(NULL, &_28$$9, "__construct", &_31, 32, &name, &_29$$9);
 			zephir_check_call_status();
 			zephir_array_update_zval(&referenceObjects, &name, &_28$$9, PH_COPY | PH_SEPARATE);
 		} ZEND_HASH_FOREACH_END();
@@ -1391,7 +1391,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeReferences) {
 				ZEPHIR_OBS_NVAR(&_34$$10);
 				zephir_array_fetch_string(&_34$$10, &arrayReference, SL("onDelete"), PH_NOISY, "phalcon/Db/Adapter/Pdo/Mysql.zep", 570);
 				zephir_array_update_string(&_33$$10, SL("onDelete"), &_34$$10, PH_COPY | PH_SEPARATE);
-				ZEPHIR_CALL_METHOD(NULL, &_32$$10, "__construct", &_31, 31, &name, &_33$$10);
+				ZEPHIR_CALL_METHOD(NULL, &_32$$10, "__construct", &_31, 32, &name, &_33$$10);
 				zephir_check_call_status();
 				zephir_array_update_zval(&referenceObjects, &name, &_32$$10, PH_COPY | PH_SEPARATE);
 			ZEPHIR_CALL_METHOD(NULL, &references, "next", NULL, 0);

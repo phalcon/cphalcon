@@ -61,7 +61,7 @@ PHP_METHOD(Phalcon_Filter_Sanitize_Alpha, __invoke) {
 	ZVAL_STRING(&_0, "/[^A-Za-z]/");
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "");
-	ZEPHIR_RETURN_CALL_FUNCTION("preg_replace", NULL, 47, &_0, &_1, input);
+	ZEPHIR_RETURN_CALL_FUNCTION("preg_replace", NULL, 48, &_0, &_1, input);
 	zephir_check_call_status();
 	RETURN_MM();
 

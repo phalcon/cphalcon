@@ -718,7 +718,7 @@ PHP_METHOD(Phalcon_Firewall_Adapter_Annotations, handleAnnotation) {
 				zephir_update_property_zval(this_ptr, SL("resolvedRole"), role);
 				RETURN_MM_BOOL(access);
 			} else if (Z_TYPE_P(role) == IS_ARRAY) {
-				ZEPHIR_CALL_FUNCTION(&roleIntersect, "array_intersect", NULL, 237, role, &annotationRoles);
+				ZEPHIR_CALL_FUNCTION(&roleIntersect, "array_intersect", NULL, 244, role, &annotationRoles);
 				zephir_check_call_status();
 				if (zephir_get_boolval(&roleIntersect)) {
 					zephir_update_property_zval(this_ptr, SL("resolvedRole"), &roleIntersect);

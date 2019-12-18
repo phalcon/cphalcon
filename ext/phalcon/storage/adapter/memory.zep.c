@@ -18,7 +18,6 @@
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
 #include "kernel/operators.h"
-#include "kernel/array.h"
 
 
 /**
@@ -53,6 +52,13 @@ ZEPHIR_INIT_CLASS(Phalcon_Storage_Adapter_Memory) {
 
 /**
  * Constructor
+ *
+ * @param array options = [
+ *     'defaultSerializer' => 'Php',
+ *     'lifetime' => 3600,
+ *     'serializer' => null,
+ *     'prefix' => ''
+ * ]
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Memory, __construct) {
 
@@ -60,21 +66,16 @@ PHP_METHOD(Phalcon_Storage_Adapter_Memory, __construct) {
 	zephir_fcall_cache_entry *_1 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval options;
-	zval *factory = NULL, factory_sub, *options_param = NULL, __$null, _0;
+	zval *factory, factory_sub, *options_param = NULL, _0;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&factory_sub);
-	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&options);
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 2, &factory, &options_param);
+	zephir_fetch_params(1, 1, 1, &factory, &options_param);
 
-	if (!factory) {
-		factory = &factory_sub;
-		factory = &__$null;
-	}
 	if (!options_param) {
 		ZEPHIR_INIT_VAR(&options);
 		array_init(&options);
@@ -90,7 +91,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Memory, __construct) {
 	zephir_update_property_zval(this_ptr, SL("options"), &options);
 	ZEPHIR_INIT_NVAR(&_0);
 	object_init_ex(&_0, phalcon_collection_ce);
-	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 20);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 21);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("data"), &_0);
 	ZEPHIR_CALL_PARENT(NULL, phalcon_storage_adapter_memory_ce, getThis(), "__construct", &_1, 0, factory, &options);
@@ -309,20 +310,41 @@ PHP_METHOD(Phalcon_Storage_Adapter_Memory, getAdapter) {
  */
 PHP_METHOD(Phalcon_Storage_Adapter_Memory, getKeys) {
 
-	zval _0, _1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *prefix_param = NULL, _0, _1;
+	zval prefix;
 	zval *this_ptr = getThis();
 
+	ZVAL_UNDEF(&prefix);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 
 	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 0, 1, &prefix_param);
+
+	if (!prefix_param) {
+		ZEPHIR_INIT_VAR(&prefix);
+		ZVAL_STRING(&prefix, "");
+	} else {
+	if (UNEXPECTED(Z_TYPE_P(prefix_param) != IS_STRING && Z_TYPE_P(prefix_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'prefix' must be of the type string"));
+		RETURN_MM_NULL();
+	}
+	if (EXPECTED(Z_TYPE_P(prefix_param) == IS_STRING)) {
+		zephir_get_strval(&prefix, prefix_param);
+	} else {
+		ZEPHIR_INIT_VAR(&prefix);
+		ZVAL_EMPTY_STRING(&prefix);
+	}
+	}
+
 
 	zephir_read_property(&_0, this_ptr, SL("data"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_1, &_0, "toarray", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_1, &_0, "getkeys", NULL, 0);
 	zephir_check_call_status();
-	zephir_array_keys(return_value, &_1);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getfilteredkeys", NULL, 0, &_1, &prefix);
+	zephir_check_call_status();
 	RETURN_MM();
 
 }
