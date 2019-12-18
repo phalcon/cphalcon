@@ -49,6 +49,9 @@
 - Fixed `Phalcon\Logger\Adapter\AdapterInterface` adding missing `inTransaction()` [#14575](https://github.com/phalcon/cphalcon/issues/14575)
 - Fixed `Phalcon\Mvc\Model::cloneResultsetMap` to remove fatal error when looking up the columnMap. [#14619](https://github.com/phalcon/cphalcon/issues/14619)
 
+## Removed
+- Removed ACL Firewall component from 4.0.x branch [#14630](https://github.com/phalcon/cphalcon/issues/14630)
+
 # [4.0.0-rc.r3](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-rc.3) (2019-11-16)
 ## Added
 - Added support for [PSR-13](https://www.php-fig.org/psr/psr-13/) links and evolvable links [#14507](https://github.com/phalcon/cphalcon/issues/14507)

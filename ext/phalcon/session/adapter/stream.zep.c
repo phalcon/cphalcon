@@ -112,7 +112,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, __construct) {
 		ZEPHIR_CALL_FUNCTION(&path, "ini_get", NULL, 486, &_2$$3);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_FUNCTION(&_3, "is_writable", NULL, 326, &path);
+	ZEPHIR_CALL_FUNCTION(&_3, "is_writable", NULL, 325, &path);
 	zephir_check_call_status();
 	if (UNEXPECTED(!zephir_is_true(&_3))) {
 		ZEPHIR_INIT_VAR(&_4$$4);

@@ -155,7 +155,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, getTimestamp) {
 
 	ZEPHIR_OBS_VAR(&format);
 	if (zephir_array_isset_string_fetch(&format, &options, SL("format"), 0)) {
-		ZEPHIR_RETURN_CALL_FUNCTION("date", NULL, 386, &format);
+		ZEPHIR_RETURN_CALL_FUNCTION("date", NULL, 385, &format);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
