@@ -32,7 +32,6 @@ if (PHP_PHALCON != "no") {
 	ADD_SOURCES(configure_module_dirname + "/phalcon/db/adapter", "adapterinterface.zep.c abstractadapter.zep.c pdofactory.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/annotations/adapter", "adapterinterface.zep.c abstractadapter.zep.c apcu.zep.c memory.zep.c stream.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/db", "dialectinterface.zep.c dialect.zep.c columninterface.zep.c indexinterface.zep.c referenceinterface.zep.c resultinterface.zep.c abstractdb.zep.c column.zep.c enum.zep.c exception.zep.c index.zep.c profiler.zep.c rawvalue.zep.c reference.zep.c", "phalcon");
-	ADD_SOURCES(configure_module_dirname + "/phalcon/firewall/adapter", "adapterinterface.zep.c abstractadapter.zep.c acl.zep.c annotations.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/logger/adapter", "adapterinterface.zep.c abstractadapter.zep.c noop.zep.c stream.zep.c syslog.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/paginator/adapter", "adapterinterface.zep.c abstractadapter.zep.c model.zep.c nativearray.zep.c querybuilder.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/translate/adapter", "adapterinterface.zep.c abstractadapter.zep.c csv.zep.c gettext.zep.c nativearray.zep.c", "phalcon");
@@ -89,8 +88,6 @@ if (PHP_PHALCON != "no") {
 	ADD_SOURCES(configure_module_dirname + "/phalcon/di/factorydefault", "cli.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/di/service", "builder.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/filter/sanitize", "absint.zep.c alnum.zep.c alpha.zep.c boolval.zep.c email.zep.c floatval.zep.c intval.zep.c lower.zep.c lowerfirst.zep.c regex.zep.c remove.zep.c replace.zep.c special.zep.c specialfull.zep.c stringval.zep.c striptags.zep.c trim.zep.c upper.zep.c upperfirst.zep.c upperwords.zep.c url.zep.c", "phalcon");
-	ADD_SOURCES(configure_module_dirname + "/phalcon/firewall/adapter/micro", "acl.zep.c", "phalcon");
-	ADD_SOURCES(configure_module_dirname + "/phalcon/firewall", "exception.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/forms", "exception.zep.c form.zep.c manager.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/helper", "arr.zep.c exception.zep.c fs.zep.c json.zep.c number.zep.c str.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/html", "attributes.zep.c breadcrumbs.zep.c exception.zep.c tagfactory.zep.c", "phalcon");

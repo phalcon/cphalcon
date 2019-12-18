@@ -199,7 +199,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, format) {
 		zephir_read_property(&_2$$3, this_ptr, SL("dateFormat"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(&_3$$3, item, "gettime", NULL, 0);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(&_4$$3, "date", NULL, 386, &_2$$3, &_3$$3);
+		ZEPHIR_CALL_FUNCTION(&_4$$3, "date", NULL, 385, &_2$$3, &_3$$3);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_5$$3);
 		ZVAL_STRING(&_5$$3, "%date%");

@@ -982,7 +982,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Builder, getModels) {
 		_1 = zephir_fast_count_int(&models) == 1;
 	}
 	if (_1) {
-		ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_arr_ce, "first", &_2, 265, &models);
+		ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_arr_ce, "first", &_2, 264, &models);
 		zephir_check_call_status();
 		RETURN_MM();
 	}

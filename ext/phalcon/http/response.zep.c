@@ -450,7 +450,7 @@ PHP_METHOD(Phalcon_Http_Response, redirect) {
 		if (_0$$5) {
 			ZEPHIR_INIT_VAR(&_1$$5);
 			ZVAL_STRING(&_1$$5, "://");
-			ZEPHIR_CALL_FUNCTION(&_2$$5, "strstr", NULL, 274, location, &_1$$5);
+			ZEPHIR_CALL_FUNCTION(&_2$$5, "strstr", NULL, 273, location, &_1$$5);
 			zephir_check_call_status();
 			_0$$5 = zephir_is_true(&_2$$5);
 		}
@@ -612,7 +612,7 @@ PHP_METHOD(Phalcon_Http_Response, send) {
 			_3$$5 = ((zephir_fast_strlen_ev(&file)) ? 1 : 0);
 		}
 		if (_3$$5) {
-			ZEPHIR_CALL_FUNCTION(NULL, "readfile", NULL, 358, &file);
+			ZEPHIR_CALL_FUNCTION(NULL, "readfile", NULL, 357, &file);
 			zephir_check_call_status();
 		}
 	}
@@ -1051,14 +1051,14 @@ PHP_METHOD(Phalcon_Http_Response, setFileToSend) {
 	ZEPHIR_INIT_VAR(&basePathEncoding);
 	ZVAL_STRING(&basePathEncoding, "ASCII");
 	if (Z_TYPE_P(attachmentName) != IS_STRING) {
-		ZEPHIR_CALL_CE_STATIC(&basePath, phalcon_helper_fs_ce, "basename", &_0, 359, &filePath);
+		ZEPHIR_CALL_CE_STATIC(&basePath, phalcon_helper_fs_ce, "basename", &_0, 358, &filePath);
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_CPY_WRT(&basePath, attachmentName);
 	}
 	if (zephir_is_true(attachment)) {
 		if ((zephir_function_exists_ex(ZEND_STRL("mb_detect_encoding")) == SUCCESS)) {
-			ZEPHIR_CALL_FUNCTION(&_1$$6, "mb_detect_order", NULL, 360);
+			ZEPHIR_CALL_FUNCTION(&_1$$6, "mb_detect_order", NULL, 359);
 			zephir_check_call_status();
 			ZEPHIR_CALL_FUNCTION(&basePathEncoding, "mb_detect_encoding", NULL, 225, &basePath, &_1$$6, &__$true);
 			zephir_check_call_status();
@@ -1411,7 +1411,7 @@ PHP_METHOD(Phalcon_Http_Response, setStatusCode) {
 			if (_5$$3) {
 				ZEPHIR_INIT_NVAR(&_6$$3);
 				ZVAL_STRING(&_6$$3, "HTTP/");
-				ZEPHIR_CALL_FUNCTION(&_7$$3, "strstr", &_8, 274, &key, &_6$$3);
+				ZEPHIR_CALL_FUNCTION(&_7$$3, "strstr", &_8, 273, &key, &_6$$3);
 				zephir_check_call_status();
 				_5$$3 = zephir_is_true(&_7$$3);
 			}
@@ -1437,7 +1437,7 @@ PHP_METHOD(Phalcon_Http_Response, setStatusCode) {
 				if (_10$$5) {
 					ZEPHIR_INIT_NVAR(&_11$$5);
 					ZVAL_STRING(&_11$$5, "HTTP/");
-					ZEPHIR_CALL_FUNCTION(&_12$$5, "strstr", &_8, 274, &key, &_11$$5);
+					ZEPHIR_CALL_FUNCTION(&_12$$5, "strstr", &_8, 273, &key, &_11$$5);
 					zephir_check_call_status();
 					_10$$5 = zephir_is_true(&_12$$5);
 				}
