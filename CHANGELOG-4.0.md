@@ -49,6 +49,7 @@
 - Fixed `Phalcon\Logger\Adapter\AdapterInterface` adding missing `inTransaction()` [#14575](https://github.com/phalcon/cphalcon/issues/14575)
 - Fixed `Phalcon\Mvc\Model::cloneResultsetMap` to remove fatal error when looking up the columnMap. [#14619](https://github.com/phalcon/cphalcon/issues/14619)
 - Fixed `Phalcon\Http\Request\FileInterface` by adding `getError` that was missing. [#14633](https://github.com/phalcon/cphalcon/issues/14633)
+
 ## Removed
 - Removed ACL Firewall component from 4.0.x branch [#14630](https://github.com/phalcon/cphalcon/issues/14630)
 
