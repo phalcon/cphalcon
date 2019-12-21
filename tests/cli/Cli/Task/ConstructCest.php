@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -10,15 +9,17 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Cli\Cli\Task;
 
 use CliTester;
-use Phalcon\Test\Fixtures\Tasks\EchoTask;
-use Phalcon\Test\Fixtures\Tasks\MainTask;
-use Phalcon\Test\Fixtures\Tasks\OnConstructTask;
 use Phalcon\Cli\Task;
 use Phalcon\Di\FactoryDefault\Cli as DiFactoryDefault;
 use Phalcon\Registry;
+use Phalcon\Test\Fixtures\Tasks\EchoTask;
+use Phalcon\Test\Fixtures\Tasks\MainTask;
+use Phalcon\Test\Fixtures\Tasks\OnConstructTask;
 
 class ConstructCest
 {
@@ -42,7 +43,7 @@ class ConstructCest
 
     public function extendTask(CliTester $I)
     {
-        $di = new DiFactoryDefault();
+        $di             = new DiFactoryDefault();
         $di['registry'] = function () {
             $registry = new Registry();
 
@@ -74,7 +75,7 @@ class ConstructCest
     public function echoTask(CliTester $I)
     {
         $task = new EchoTask();
-        $di = new DiFactoryDefault();
+        $di   = new DiFactoryDefault();
 
         $task->setDI(
             $di

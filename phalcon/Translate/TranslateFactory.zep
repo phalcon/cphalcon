@@ -34,6 +34,20 @@ class TranslateFactory extends AbstractFactory
 
     /**
      * Factory to create an instace from a Config object
+     *
+     * @param array|\Phalcon\Config = [
+     *     'adapter' => 'ini,
+     *     'options' => [
+     *         'content' => '',
+     *         'delimiter' => ';',
+     *         'enclosure' => '"',
+     *         'locale' => '',
+     *         'defaultDomain' => '',
+     *         'directory' => '',
+     *         'category' => ''
+     *         'triggerError' => false
+     *     ]
+     * ]
      */
     public function load(var config) -> var
     {
@@ -55,18 +69,15 @@ class TranslateFactory extends AbstractFactory
 
         this->checkService(name);
 
-        if !isset this->services[name] {
-            let definition           = this->mapper[name],
-                this->services[name] = create_instance_params(
-                    definition,
-                    [
-                        this->interpolator,
-                        options
-                    ]
-                );
-        }
+        let definition = this->mapper[name];
 
-        return this->services[name];
+        return create_instance_params(
+            definition,
+            [
+                this->interpolator,
+                options
+            ]
+        );
     }
 
     protected function getAdapters() -> array

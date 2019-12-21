@@ -58,6 +58,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Stream) {
 }
 
 /**
+ * @param array options = [
+ *     'annotationsDir' => 'phalconDir'
+ * ]
+ *
  * Phalcon\Annotations\Adapter\Stream constructor
  */
 PHP_METHOD(Phalcon_Annotations_Adapter_Stream, __construct) {
@@ -138,15 +142,15 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Stream, read) {
 	ZEPHIR_INIT_NVAR(&_4);
 	zephir_create_closure_ex(&_4, NULL, phalcon_2__closure_ce, SL("__invoke"));
 	ZVAL_LONG(&_5, 2);
-	ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 82, &_4, &_5);
+	ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 84, &_4, &_5);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_6, "unserialize", NULL, 13, &contents);
+	ZEPHIR_CALL_FUNCTION(&_6, "unserialize", NULL, 14, &contents);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&contents, &_6);
-	ZEPHIR_CALL_FUNCTION(NULL, "restore_error_handler", NULL, 84);
+	ZEPHIR_CALL_FUNCTION(NULL, "restore_error_handler", NULL, 86);
 	zephir_check_call_status();
 	if (UNEXPECTED(ZEPHIR_GLOBAL(warning).enable)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_RuntimeException, "Cannot read annotation data", "phalcon/Annotations/Adapter/Stream.zep", 88);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_RuntimeException, "Cannot read annotation data", "phalcon/Annotations/Adapter/Stream.zep", 92);
 		return;
 	}
 	RETURN_CCTOR(&contents);
@@ -202,7 +206,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Stream, write) {
 	ZEPHIR_INIT_VAR(&_4);
 	zephir_file_put_contents(&_4, &path, &code);
 	if (UNEXPECTED(ZEPHIR_IS_FALSE_IDENTICAL(&_4))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_annotations_exception_ce, "Annotations directory cannot be written", "phalcon/Annotations/Adapter/Stream.zep", 109);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_annotations_exception_ce, "Annotations directory cannot be written", "phalcon/Annotations/Adapter/Stream.zep", 113);
 		return;
 	}
 	ZEPHIR_MM_RESTORE();

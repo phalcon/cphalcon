@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -10,6 +9,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Cli\Cli\Console;
 
 use CliTester;
@@ -19,7 +20,7 @@ use Phalcon\Di\FactoryDefault\Cli as DiFactoryDefault;
 class GetSetDefaultModuleCest
 {
     /**
-     * Tests Phalcon\Cli\Console :: getDefaultModule()
+     * Tests Phalcon\Cli\Console - getDefaultModule() / setDefaultModule()
      * Tests Phalcon\Cli\Console :: setDefaultModule()
      *
      * @author Phalcon Team <team@phalcon.io>
@@ -30,10 +31,9 @@ class GetSetDefaultModuleCest
      */
     public function cliConsoleSetGetDefaultModule(CliTester $I)
     {
-        $I->wantToTest("Cli\Console - getDefaultModule()");
-        $I->wantToTest("Cli\Console - setDefaultModule()");
+        $I->wantToTest("Cli\Console - getDefaultModule() / setDefaultModule()");
 
-        $console = new CliConsole(new DiFactoryDefault);
+        $console = new CliConsole(new DiFactoryDefault());
 
         $console->setDefaultModule('moduleName');
 

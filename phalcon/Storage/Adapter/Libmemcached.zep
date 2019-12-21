@@ -28,9 +28,21 @@ class Libmemcached extends AbstractAdapter
     /**
      * Libmemcached constructor.
      *
-     * @param array $options
+     * @param array options = [
+     *     'servers' => [
+     *         [
+     *             'host' => '127.0.0.1',
+     *             'port' => 11211,
+     *             'weight' => 1
+     *         ]
+     *     ],
+     *     'defaultSerializer' => 'Php',
+     *     'lifetime' => 3600,
+     *     'serializer' => null,
+     *     'prefix' => ''
+     * ]
      */
-    public function __construct(<SerializerFactory> factory = null, array! options = [])
+    public function __construct(<SerializerFactory> factory, array! options = [])
     {
         if !isset options["servers"] {
             let options["servers"] = [
@@ -157,15 +169,13 @@ class Libmemcached extends AbstractAdapter
      * Stores data in the adapter
      *
      * @return array
-     * @throws Exception
      */
-    public function getKeys() -> array
+    public function getKeys(string! prefix = "") -> array
     {
-    	var keys;
-
-        let keys = this->getAdapter()->getAllKeys();
-
-        return !keys ? [] : keys;
+        return this->getFilteredKeys(
+            this->getAdapter()->getAllKeys(),
+            prefix
+        );
     }
 
     /**

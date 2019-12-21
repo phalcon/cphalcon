@@ -121,7 +121,8 @@ class DispatcherAfterExecuteRouteMethodCest extends BaseDispatcher
             function () {
                 return false;
             }
-        );
+        )
+        ;
 
         $dispatcher->dispatch();
 
@@ -171,7 +172,8 @@ class DispatcherAfterExecuteRouteMethodCest extends BaseDispatcher
 
                 return null;
             }
-        );
+        )
+        ;
 
         $I->expectThrowable(
             Exception::class,
@@ -228,7 +230,8 @@ class DispatcherAfterExecuteRouteMethodCest extends BaseDispatcher
                     ]
                 );
             }
-        );
+        )
+        ;
 
         $dispatcher->dispatch();
 

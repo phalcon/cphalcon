@@ -14,9 +14,11 @@
 #include "kernel/main.h"
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
+#include "ext/spl/spl_exceptions.h"
+#include "kernel/exception.h"
+#include "kernel/object.h"
 #include "kernel/array.h"
 #include "kernel/operators.h"
-#include "kernel/object.h"
 
 
 /**
@@ -77,6 +79,44 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Date) {
 }
 
 /**
+ * Constructor
+ *
+ * @param array options = [
+ *     'message' => '',
+ *     'template' => '',
+ *     'format' => 'Y-m-d',
+ *     'allowEmpty' => false
+ * ]
+ */
+PHP_METHOD(Phalcon_Validation_Validator_Date, __construct) {
+
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zephir_fcall_cache_entry *_0 = NULL;
+	zval *options_param = NULL;
+	zval options;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&options);
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 0, 1, &options_param);
+
+	if (!options_param) {
+		ZEPHIR_INIT_VAR(&options);
+		array_init(&options);
+	} else {
+	ZEPHIR_OBS_COPY_OR_DUP(&options, options_param);
+	}
+
+
+	ZEPHIR_CALL_PARENT(NULL, phalcon_validation_validator_date_ce, getThis(), "__construct", &_0, 0, &options);
+	zephir_check_call_status();
+	ZEPHIR_MM_RESTORE();
+
+}
+
+/**
  * Executes the validation
  */
 PHP_METHOD(Phalcon_Validation_Validator_Date, validate) {
@@ -107,7 +147,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Date, validate) {
 	ZEPHIR_CALL_METHOD(&format, this_ptr, "getoption", NULL, 0, &_0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&format) == IS_ARRAY) {
-		zephir_array_fetch(&_1$$3, &format, field, PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/Date.zep", 72);
+		zephir_array_fetch(&_1$$3, &format, field, PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/Date.zep", 87);
 		ZEPHIR_CPY_WRT(&format, &_1$$3);
 	}
 	if (ZEPHIR_IS_EMPTY(&format)) {
@@ -157,10 +197,10 @@ PHP_METHOD(Phalcon_Validation_Validator_Date, checkDate) {
 	_1 = zephir_fetch_class_str_ex(SL("DateTime"), ZEND_FETCH_CLASS_AUTO);
 	ZEPHIR_CALL_CE_STATIC(&errors, _1, "getlasterrors", NULL, 0);
 	zephir_check_call_status();
-	zephir_array_fetch_string(&_2, &errors, SL("warning_count"), PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/Date.zep", 101);
+	zephir_array_fetch_string(&_2, &errors, SL("warning_count"), PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/Date.zep", 116);
 	_3 = ZEPHIR_IS_LONG(&_2, 0);
 	if (_3) {
-		zephir_array_fetch_string(&_4, &errors, SL("error_count"), PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/Date.zep", 101);
+		zephir_array_fetch_string(&_4, &errors, SL("error_count"), PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/Date.zep", 116);
 		_3 = ZEPHIR_IS_LONG(&_4, 0);
 	}
 	RETURN_MM_BOOL(_3);

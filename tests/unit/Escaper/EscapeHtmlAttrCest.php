@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -10,11 +9,14 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Unit\Escaper;
 
 use Codeception\Example;
 use Phalcon\Escaper;
 use UnitTester;
+
 use const ENT_HTML401;
 use const ENT_HTML5;
 use const ENT_XHTML;
@@ -73,6 +75,29 @@ class EscapeHtmlAttrCest
                 'htmlQuoteType' => ENT_HTML5,
                 'expected'      => 'That&#039;s right',
                 'text'          => "That's right",
+            ],
+            [
+                'htmlQuoteType' => ENT_HTML401,
+                'expected'      => '',
+                'text'          => null,
+            ],
+
+            [
+                'htmlQuoteType' => ENT_XML1,
+                'expected'      => '',
+                'text'          => null,
+            ],
+
+            [
+                'htmlQuoteType' => ENT_XHTML,
+                'expected'      => '',
+                'text'          => null,
+            ],
+
+            [
+                'htmlQuoteType' => ENT_HTML5,
+                'expected'      => '',
+                'text'          => null,
             ],
         ];
     }

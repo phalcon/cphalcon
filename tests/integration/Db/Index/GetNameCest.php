@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -9,6 +8,8 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Db\Index;
 
@@ -29,14 +30,12 @@ class GetNameCest
         $indexes = $this->getIndexes();
 
 
-
         $index1 = $indexes['index1'];
 
         $I->assertEquals(
             'index1',
             $index1->getName()
         );
-
 
 
         $index2 = $indexes['index2'];
@@ -47,7 +46,6 @@ class GetNameCest
         );
 
 
-
         $index3 = $indexes['PRIMARY'];
 
         $I->assertEquals(
@@ -56,14 +54,12 @@ class GetNameCest
         );
 
 
-
         $index4 = $indexes['index4'];
 
         $I->assertEquals(
             'index4',
             $index4->getName()
         );
-
 
 
         $index5 = $indexes['index5'];

@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -10,6 +9,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Unit\Security;
 
 use Phalcon\Security;
@@ -18,20 +19,20 @@ use UnitTester;
 class GetSetWorkFactorCest
 {
     /**
-     * Tests Phalcon\Security :: setWorkFactor() and getWorkFactor()
+     * Tests Phalcon\Security :: setWorkFactor()/getWorkFactor()
      *
      * @author Ruud Boon
      * @since  2018-11-13
      */
     public function securityGetSetWorkFactor(UnitTester $I)
     {
-        $I->wantToTest('Security - setWorkFactor()');
+        $I->wantToTest('Security - getWorkFactor()/setWorkFactor()');
 
         $security = new Security();
 
 
         $I->assertEquals(
-            8,
+            10,
             $security->getWorkFactor()
         );
 

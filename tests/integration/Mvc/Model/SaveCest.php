@@ -1,14 +1,15 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.md
+ * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Mvc\Model;
 
@@ -16,6 +17,7 @@ use IntegrationTester;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\MetaData;
 use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
+use Phalcon\Test\Fixtures\Migrations\SourcesMigration;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\AlbumORama\Albums;
 use Phalcon\Test\Models\AlbumORama\Artists;
@@ -24,8 +26,10 @@ use Phalcon\Test\Models\InvoicesSchema;
 use Phalcon\Test\Models\Parts;
 use Phalcon\Test\Models\Robots;
 use Phalcon\Test\Models\RobotsParts;
-use Phalcon\Test\Models\Users;
+use Phalcon\Test\Models\Sources;
 use Phalcon\Test\Models\TinyIntTest;
+use Phalcon\Test\Models\Users;
+
 use function uniqid;
 
 class SaveCest
@@ -369,7 +373,7 @@ class SaveCest
         );
 
         // Assign relationship in both directions on unsaved models
-        $album->artist = $artist;
+        $album->artist  = $artist;
         $artist->albums = [
             $album,
         ];
@@ -385,7 +389,8 @@ class SaveCest
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: save() after fetching related using magic getter
+     * Tests Phalcon\Mvc\Model :: save() after fetching related using magic
+     * getter
      *
      * @see    https://github.com/phalcon/cphalcon/issues/14270
      *
@@ -431,12 +436,12 @@ class SaveCest
             count($firstAlbums)
         );
 
-        $album3 = new Albums(
+        $album3         = new Albums(
             [
                 'name' => 'Feedback 2',
             ]
         );
-        $album4 = new Albums(
+        $album4         = new Albums(
             [
                 'name' => 'Syntax Error 2',
             ]
@@ -466,7 +471,7 @@ class SaveCest
     {
         $I->wantToTest('Mvc\Model::save() with a tinyint(1)');
 
-        $referenceModel = new TinyIntTest();
+        $referenceModel       = new TinyIntTest();
         $referenceModel->test = 0;
 
         $I->assertTrue(
@@ -520,6 +525,41 @@ class SaveCest
         $model->inv_created_at  = date('Y-m-d H:i:s');
 
         $result = $model->save();
+        $I->assertNotFalse($result);
+    }
+
+    /**
+     * Tests Phalcon\Mvc\Model\ :: save() with property source
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-11-16
+     */
+    public function mvcModelSaveWithPropertySource(IntegrationTester $I)
+    {
+        $I->wantToTest('Mvc\Model - save() with property source');
+
+        /**
+         * Setup the table
+         */
+        (new SourcesMigration())($this->container->get('db'));
+
+        $model = Sources::findFirst(
+            [
+                'conditions' => 'id = :id:',
+                'bind'       => [
+                    'id' => 1,
+                ],
+            ]
+        );
+
+        $I->assertInstanceOf(Sources::class, $model);
+        $I->assertEquals(1, $model->id);
+        $I->assertEquals('co_sources', $model->getSource());
+
+        $model->username = 'vader';
+        $result          = $model->save();
+
+        $I->assertCount(0, $model->getMessages());
         $I->assertNotFalse($result);
     }
 }

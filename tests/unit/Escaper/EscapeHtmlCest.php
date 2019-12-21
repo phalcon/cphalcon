@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -9,6 +8,8 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Escaper;
 
@@ -32,6 +33,24 @@ class EscapeHtmlCest
         $I->assertEquals(
             '&lt;h1&gt;&lt;/h1&gt;',
             $escaper->escapeHtml('<h1></h1>')
+        );
+    }
+
+    /**
+     * Tests Phalcon\Escaper :: escapeHtml() - null
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-11-22
+     */
+    public function escaperEscapeHtmlNull(UnitTester $I)
+    {
+        $I->wantToTest('Escaper - escapeHtml() - null');
+
+        $escaper = new Escaper();
+
+        $I->assertEquals(
+            '',
+            $escaper->escapeHtml(null)
         );
     }
 }

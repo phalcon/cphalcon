@@ -10,6 +10,7 @@
 
 namespace Phalcon\Logger\Formatter;
 
+use Phalcon\Helper\Json;
 use Phalcon\Logger\Item;
 
 /**
@@ -29,7 +30,7 @@ class Json extends AbstractFormatter
     /**
      * Phalcon\Logger\Formatter\Json construct
      */
-    public function __construct(string dateFormat = "D, d M y H:i:s O")
+    public function __construct(string dateFormat = "c")
     {
         let this->dateFormat = dateFormat;
     }
@@ -50,12 +51,12 @@ class Json extends AbstractFormatter
             let message = item->getMessage();
         }
 
-        return json_encode(
+        return Json::encode(
             [
                 "type"      : item->getName(),
                 "message"   : message,
                 "timestamp" : date(this->dateFormat, item->getTime())
             ]
-        ) . PHP_EOL;
+        );
     }
 }

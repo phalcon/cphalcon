@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Integration\Db;
 
 use Codeception\Example;
@@ -35,8 +37,8 @@ class DbCest
     /**
      * Tests Phalcon\Db
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2018-11-13
      *
      * @dataProvider adaptersProvider
      */
@@ -354,7 +356,8 @@ class DbCest
         );
 
         //Auto-Increment/Serial Columns
-        $sql = 'INSERT INTO subscriptores(id, email, created_at, status) VALUES (' . $connection->getDefaultIdValue() . ', ?, ?, ?)';
+        $sql = 'INSERT INTO subscriptores(id, email, created_at, status) '
+            . 'VALUES (' . $connection->getDefaultIdValue() . ', ?, ?, ?)';
         $I->assertTrue(
             $connection->execute(
                 $sql,
@@ -371,7 +374,6 @@ class DbCest
             0,
             $connection->lastInsertId('subscriptores_id_seq')
         );
-
 
 
         // Create View
@@ -404,7 +406,6 @@ class DbCest
         $I->assertTrue(
             $connection->dropView('phalcon_test_view')
         );
-
 
 
         //Transactions without savepoints.

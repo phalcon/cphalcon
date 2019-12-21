@@ -137,7 +137,7 @@ PHP_METHOD(Phalcon_Config, merge) {
 	if (Z_TYPE_P(toMerge) == IS_ARRAY) {
 		ZEPHIR_INIT_VAR(&config);
 		object_init_ex(&config, phalcon_config_ce);
-		ZEPHIR_CALL_METHOD(NULL, &config, "__construct", NULL, 19, toMerge);
+		ZEPHIR_CALL_METHOD(NULL, &config, "__construct", NULL, 21, toMerge);
 		zephir_check_call_status();
 	} else if (_0) {
 		ZEPHIR_CPY_WRT(&config, toMerge);
@@ -149,7 +149,7 @@ PHP_METHOD(Phalcon_Config, merge) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&target, &config, "toarray", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&result, this_ptr, "internalmerge", NULL, 20, &source, &target);
+	ZEPHIR_CALL_METHOD(&result, this_ptr, "internalmerge", NULL, 22, &source, &target);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "clear", NULL, 0);
 	zephir_check_call_status();
@@ -224,7 +224,7 @@ PHP_METHOD(Phalcon_Config, path) {
 			break;
 		}
 		ZEPHIR_MAKE_REF(&keys);
-		ZEPHIR_CALL_FUNCTION(&key, "array_shift", &_1, 21, &keys);
+		ZEPHIR_CALL_FUNCTION(&key, "array_shift", &_1, 23, &keys);
 		ZEPHIR_UNREF(&keys);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(&_2$$5, &config, "has", NULL, 0, &key);
@@ -426,7 +426,7 @@ PHP_METHOD(Phalcon_Config, internalMerge) {
 			}
 			if (_5$$3) {
 				zephir_array_fetch(&_8$$4, &source, &key, PH_NOISY | PH_READONLY, "phalcon/Config.zep", 190);
-				ZEPHIR_CALL_METHOD(&_7$$4, this_ptr, "internalmerge", &_9, 20, &_8$$4, &value);
+				ZEPHIR_CALL_METHOD(&_7$$4, this_ptr, "internalmerge", &_9, 22, &_8$$4, &value);
 				zephir_check_call_status();
 				zephir_array_update_zval(&source, &key, &_7$$4, PH_COPY | PH_SEPARATE);
 			} else if (Z_TYPE_P(&key) == IS_LONG) {
@@ -460,7 +460,7 @@ PHP_METHOD(Phalcon_Config, internalMerge) {
 				}
 				if (_11$$7) {
 					zephir_array_fetch(&_14$$8, &source, &key, PH_NOISY | PH_READONLY, "phalcon/Config.zep", 190);
-					ZEPHIR_CALL_METHOD(&_13$$8, this_ptr, "internalmerge", &_9, 20, &_14$$8, &value);
+					ZEPHIR_CALL_METHOD(&_13$$8, this_ptr, "internalmerge", &_9, 22, &_14$$8, &value);
 					zephir_check_call_status();
 					zephir_array_update_zval(&source, &key, &_13$$8, PH_COPY | PH_SEPARATE);
 				} else if (Z_TYPE_P(&key) == IS_LONG) {
@@ -506,7 +506,7 @@ PHP_METHOD(Phalcon_Config, setData) {
 	ZEPHIR_CPY_WRT(element, &_0);
 	zephir_read_property(&_1, this_ptr, SL("insensitive"), PH_NOISY_CC | PH_READONLY);
 	if (zephir_is_true(&_1)) {
-		ZEPHIR_CALL_FUNCTION(&key, "mb_strtolower", NULL, 22, element);
+		ZEPHIR_CALL_FUNCTION(&key, "mb_strtolower", NULL, 24, element);
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_CPY_WRT(&key, element);
@@ -515,7 +515,7 @@ PHP_METHOD(Phalcon_Config, setData) {
 	if (Z_TYPE_P(value) == IS_ARRAY) {
 		ZEPHIR_INIT_VAR(&data);
 		object_init_ex(&data, phalcon_config_ce);
-		ZEPHIR_CALL_METHOD(NULL, &data, "__construct", NULL, 19, value);
+		ZEPHIR_CALL_METHOD(NULL, &data, "__construct", NULL, 21, value);
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_CPY_WRT(&data, value);

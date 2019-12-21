@@ -53,6 +53,20 @@ class Digit extends AbstractValidator
     protected template = "Field :field must be numeric";
 
     /**
+     * Constructor
+     *
+     * @param array options = [
+     *     'message' => '',
+     *     'template' => '',
+     *     'allowEmpty' => false
+     * ]
+     */
+    public function __construct(array! options = [])
+    {
+        parent::__construct(options);
+    }
+
+    /**
      * Executes the validation
      */
     public function validate(<Validation> validation, var field) -> bool

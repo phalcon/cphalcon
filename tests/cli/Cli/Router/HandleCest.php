@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -9,6 +8,8 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Phalcon\Test\Cli\Cli\Router;
 
@@ -189,7 +190,7 @@ class HandleCest
             ' ',
             [
                 'module' => 'devtools',
-                'task' => 'main',
+                'task'   => 'main',
                 'action' => 'hello',
             ]
         );
@@ -197,7 +198,7 @@ class HandleCest
         $router->add(
             'system :task a :action :params',
             [
-                'task' => 1,
+                'task'   => 1,
                 'action' => 2,
                 'params' => 3,
             ]
@@ -206,8 +207,8 @@ class HandleCest
         $router->add(
             '([a-z]{2}) :task',
             [
-                'task' => 2,
-                'action' => 'index',
+                'task'     => 2,
+                'action'   => 'index',
                 'language' => 1,
             ]
         );
@@ -216,20 +217,20 @@ class HandleCest
             'admin :task :action :int',
             [
                 'module' => 'admin',
-                'task' => 1,
+                'task'   => 1,
                 'action' => 2,
-                'id' => 3,
+                'id'     => 3,
             ]
         );
 
         $router->add(
             'posts ([0-9]{4}) ([0-9]{2}) ([0-9]{2}) :params',
             [
-                'task' => 'posts',
+                'task'   => 'posts',
                 'action' => 'show',
-                'year' => 1,
-                'month' => 2,
-                'day' => 3,
+                'year'   => 1,
+                'month'  => 2,
+                'day'    => 3,
                 'params' => 4,
             ]
         );
@@ -237,17 +238,17 @@ class HandleCest
         $router->add(
             'manual ([a-z]{2}) ([a-z\.]+)\.txt',
             [
-                'task' => 'manual',
-                'action' => 'show',
+                'task'     => 'manual',
+                'action'   => 'show',
                 'language' => 1,
-                'file' => 2,
+                'file'     => 2,
             ]
         );
 
         $router->add(
             'named-manual {language:([a-z]{2})} {file:[a-z\.]+}\.txt',
             [
-                'task' => 'manual',
+                'task'   => 'manual',
                 'action' => 'show',
             ]
         );
@@ -255,7 +256,7 @@ class HandleCest
         $router->add(
             'very static route',
             [
-                'task' => 'static',
+                'task'   => 'static',
                 'action' => 'route',
             ]
         );

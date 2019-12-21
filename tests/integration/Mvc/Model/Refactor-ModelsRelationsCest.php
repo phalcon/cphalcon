@@ -42,7 +42,6 @@ class ModelsRelationsCest
         $I->assertNotFalse($robot);
 
 
-
         $robotsParts = $robot->getRelationsRobotsParts();
 
         $I->assertInstanceOf(
@@ -51,7 +50,6 @@ class ModelsRelationsCest
         );
 
         $I->assertCount(3, $robotsParts);
-
 
 
         $parts = $robot->getRelationsParts();
@@ -64,11 +62,9 @@ class ModelsRelationsCest
         $I->assertCount(3, $parts);
 
 
-
         $partsCount = $robot->countRelationsParts();
 
         $I->assertEquals(3, $partsCount);
-
 
 
         /** Passing parameters to magic methods **/
@@ -82,7 +78,6 @@ class ModelsRelationsCest
         $I->assertCount(1, $robotsParts);
 
 
-
         /** Passing parameters to magic methods **/
         $parts = $robot->getRelationsParts('RelationsParts.id = 1');
 
@@ -92,7 +87,6 @@ class ModelsRelationsCest
         );
 
         $I->assertCount(1, $parts);
-
 
 
         $robotsParts = $robot->getRelationsRobotsParts(
@@ -114,7 +108,6 @@ class ModelsRelationsCest
         $I->assertEquals(2, $robotsParts->getFirst()->parts_id);
 
 
-
         $parts = $robot->getRelationsParts(
             [
                 'RelationsParts.id > :id:',
@@ -132,7 +125,6 @@ class ModelsRelationsCest
         $I->assertCount(2, $parts);
 
         $I->assertEquals(2, $parts->getFirst()->id);
-
 
 
         $robotsParts = $robot->getRelationsRobotsParts(
@@ -155,18 +147,15 @@ class ModelsRelationsCest
         $I->assertEquals(3, $robotsParts->getFirst()->parts_id);
 
 
-
         /** Magic counting */
         $number = $robot->countRelationsRobotsParts();
 
         $I->assertEquals(3, $number);
 
 
-
         $part = RelationsParts::findFirst();
 
         $I->assertNotFalse($part);
-
 
 
         $robotsParts = $part->getRelationsRobotsParts();
@@ -179,17 +168,14 @@ class ModelsRelationsCest
         $I->assertCount(1, $robotsParts);
 
 
-
         $number = $part->countRelationsRobotsParts();
 
         $I->assertEquals(1, $number);
 
 
-
         $robotPart = RelationsRobotsParts::findFirst();
 
         $I->assertNotFalse($robotPart);
-
 
 
         $robot = $robotPart->getRelationsRobots();
@@ -200,7 +186,6 @@ class ModelsRelationsCest
         );
 
 
-
         $part = $robotPart->getRelationsParts();
 
         $I->assertInstanceOf(
@@ -209,12 +194,10 @@ class ModelsRelationsCest
         );
 
 
-
         /** Relations in namespaced models */
         $robot = Some\Robots::findFirst();
 
         $I->assertNotFalse($robot);
-
 
 
         $robotsParts = $robot->getRobotsParts();
@@ -227,7 +210,6 @@ class ModelsRelationsCest
         $I->assertCount(3, $robotsParts);
 
 
-
         $robotsParts = $robot->getRobotsParts('parts_id = 1');
 
         $I->assertInstanceOf(
@@ -236,7 +218,6 @@ class ModelsRelationsCest
         );
 
         $I->assertCount(1, $robotsParts);
-
 
 
         $robotsParts = $robot->getRobotsParts(
@@ -299,11 +280,9 @@ class ModelsRelationsCest
         );
 
 
-
         $robotter = Robotters::findFirst();
 
         $I->assertNotFalse($robotter);
-
 
 
         /**

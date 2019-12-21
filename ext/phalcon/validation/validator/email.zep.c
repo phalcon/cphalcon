@@ -14,8 +14,10 @@
 #include "kernel/main.h"
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
-#include "kernel/operators.h"
+#include "ext/spl/spl_exceptions.h"
+#include "kernel/exception.h"
 #include "kernel/object.h"
+#include "kernel/operators.h"
 
 
 /**
@@ -71,6 +73,43 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Email) {
 }
 
 /**
+ * Constructor
+ *
+ * @param array options = [
+ *     'message' => '',
+ *     'template' => '',
+ *     'allowEmpty' => false
+ * ]
+ */
+PHP_METHOD(Phalcon_Validation_Validator_Email, __construct) {
+
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zephir_fcall_cache_entry *_0 = NULL;
+	zval *options_param = NULL;
+	zval options;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&options);
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 0, 1, &options_param);
+
+	if (!options_param) {
+		ZEPHIR_INIT_VAR(&options);
+		array_init(&options);
+	} else {
+	ZEPHIR_OBS_COPY_OR_DUP(&options, options_param);
+	}
+
+
+	ZEPHIR_CALL_PARENT(NULL, phalcon_validation_validator_email_ce, getThis(), "__construct", &_0, 0, &options);
+	zephir_check_call_status();
+	ZEPHIR_MM_RESTORE();
+
+}
+
+/**
  * Executes the validation
  */
 PHP_METHOD(Phalcon_Validation_Validator_Email, validate) {
@@ -95,7 +134,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Email, validate) {
 	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, 0, field);
 	zephir_check_call_status();
 	ZVAL_LONG(&_0, 274);
-	ZEPHIR_CALL_FUNCTION(&_1, "filter_var", NULL, 235, &value, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "filter_var", NULL, 238, &value, &_0);
 	zephir_check_call_status();
 	if (!(zephir_is_true(&_1))) {
 		ZEPHIR_CALL_METHOD(&_2$$3, this_ptr, "messagefactory", NULL, 0, validation, field);

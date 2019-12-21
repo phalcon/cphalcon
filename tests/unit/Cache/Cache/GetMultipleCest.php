@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -10,6 +9,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Unit\Cache\Cache;
 
 use Phalcon\Cache;
@@ -17,6 +18,7 @@ use Phalcon\Cache\AdapterFactory;
 use Phalcon\Cache\Exception\InvalidArgumentException;
 use Phalcon\Storage\SerializerFactory;
 use UnitTester;
+
 use function uniqid;
 
 class GetMultipleCest

@@ -25,7 +25,14 @@ abstract class Select
     /**
      * Generates a SELECT tag
      *
-     * @param array parameters
+     * @param array parameters = [
+     *     'id' => '',
+     *     'name' => '',
+     *     'value' => '',
+     *     'useEmpty' => false,
+     *     'emptyValue' => '',
+     *     'emptyText' => '',
+     * ]
      * @param array data
      */
     public static function selectField(parameters, data = null) -> string

@@ -121,8 +121,8 @@ class RouterCest
     /**
      * Tests router
      *
-     * @author Andy Gutierrez <andres.gutierrez@phalcon.io>
-     * @since  2013-01-17
+     * @author       Andy Gutierrez <andres.gutierrez@phalcon.io>
+     * @since        2013-01-17
      *
      * @dataProvider getMatchingWithRouter
      */
@@ -256,8 +256,8 @@ class RouterCest
         return [
             [
                 'uri'        => '',
-                'controller' => null,
-                'action'     => null,
+                'controller' => 'index',
+                'action'     => 'index',
                 'params'     => [],
             ],
             [
@@ -363,8 +363,8 @@ class RouterCest
     /**
      * Tests router by using rote params
      *
-     * @author Andy Gutierrez <andres.gutierrez@phalcon.io>
-     * @since  2012-08-22
+     * @author       Andy Gutierrez <andres.gutierrez@phalcon.io>
+     * @since        2012-08-22
      *
      * @dataProvider getMatchingWithRouterHttp
      */
@@ -498,8 +498,8 @@ class RouterCest
     /**
      * Tests router by using http method
      *
-     * @author Andy Gutierrez <andres.gutierrez@phalcon.io>
-     * @since  2012-08-22
+     * @author       Andy Gutierrez <andres.gutierrez@phalcon.io>
+     * @since        2012-08-22
      *
      * @dataProvider getMatchingWithToRouter
      */
@@ -599,8 +599,8 @@ class RouterCest
      * Tests setting host name by using regexp
      *
      * @test
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2016-06-23
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2016-06-23
      *
      * @dataProvider getMatchingWithHostnameRegex
      */
@@ -685,8 +685,8 @@ class RouterCest
      * Tests setting host name by using regexp
      *
      * @issue  https://github.com/phalcon/cphalcon/issues/2573
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2016-06-26
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2016-06-26
      *
      * @dataProvider getMatchingWithRegexRouterHostPort
      */
@@ -823,8 +823,8 @@ class RouterCest
     /**
      * Tests setting host name
      *
-     * @author Andy Gutierrez <andres.gutierrez@phalcon.io>
-     * @since  2013-04-15
+     * @author       Andy Gutierrez <andres.gutierrez@phalcon.io>
+     * @since        2013-04-15
      *
      * @dataProvider getMatchingWithHostName
      */

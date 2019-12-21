@@ -82,6 +82,13 @@ class Tag
 
     /**
      * Builds a HTML input[type="check"] tag
+     *
+     * @param array parameters = [
+     *     'class' => '',
+     *     'id' => '',
+     *     'name' => ''
+     *     'value' => ''
+     * ]
      */
     public static function checkField(var parameters) -> string
     {
@@ -90,6 +97,13 @@ class Tag
 
     /**
      * Builds a HTML input[type="color"] tag
+     *
+     * @param array parameters = [
+     *     'class' => '',
+     *     'id' => '',
+     *     'name' => ''
+     *     'value' => ''
+     * ]
      */
     public static function colorField(var parameters) -> string
     {
@@ -98,6 +112,13 @@ class Tag
 
     /**
      * Builds a HTML input[type="date"] tag
+     *
+     * @param array parameters = [
+     *     'class' => '',
+     *     'id' => '',
+     *     'name' => ''
+     *     'value' => ''
+     * ]
      */
     public static function dateField(var parameters) -> string
     {
@@ -106,6 +127,13 @@ class Tag
 
     /**
     * Builds a HTML input[type="datetime"] tag
+    *
+     * @param array parameters = [
+     *     'class' => '',
+     *     'id' => '',
+     *     'name' => ''
+     *     'value' => ''
+     * ]
     */
     public static function dateTimeField(var parameters) -> string
     {
@@ -114,6 +142,13 @@ class Tag
 
     /**
     * Builds a HTML input[type="datetime-local"] tag
+    *
+     * @param array parameters = [
+     *     'class' => '',
+     *     'id' => '',
+     *     'name' => ''
+     *     'value' => ''
+     * ]
     */
     public static function dateTimeLocalField(var parameters) -> string
     {
@@ -130,6 +165,13 @@ class Tag
 
     /**
      * Builds a HTML input[type="email"] tag
+     *
+     * @param array parameters = [
+     *     'class' => '',
+     *     'id' => '',
+     *     'name' => ''
+     *     'value' => ''
+     * ]
      */
     public static function emailField(var parameters) -> string
     {
@@ -146,6 +188,13 @@ class Tag
 
     /**
      * Builds a HTML input[type="file"] tag
+     *
+     * @param array parameters = [
+     *     'class' => '',
+     *     'id' => '',
+     *     'name' => ''
+     *     'value' => ''
+     * ]
      */
     public static function fileField(var parameters) -> string
     {
@@ -154,6 +203,15 @@ class Tag
 
     /**
      * Builds a HTML FORM tag
+     *
+     * @param array parameters = [
+     *     'method' => 'post',
+     *     'action' => '',
+     *     'parameters' => '',
+     *     'name' => '',
+     *     'class' => '',
+     *     'id' => ''
+     * ]
      */
     public static function form(var parameters) -> string
     {
@@ -492,6 +550,14 @@ class Tag
 
     /**
      * Builds a HTML input[type="hidden"] tag
+     *
+     * @param array parameters = [
+     *     'class' => '',
+     *     'name' => '',
+     *     'src' => '',
+     *     'id' => '',
+     *     'value' => ''
+     * ]
      */
     public static function hiddenField(var parameters) -> string
     {
@@ -500,6 +566,13 @@ class Tag
 
     /**
      * Builds HTML IMG tags
+     *
+     * @param array|string parameters = [
+     *     'src' => '',
+     *     'class' => '',
+     *     'id' => '',
+     *     'name' => ''
+     * ]
      */
     public static function image(var parameters = null, bool local = true) -> string
     {
@@ -546,6 +619,13 @@ class Tag
 
     /**
      * Builds a HTML input[type="image"] tag
+     *
+     * @param array parameters = [
+     *     'class' => '',
+     *     'name' => '',
+     *     'src' => '',
+     *     'id' => ''
+     * ]
      */
     public static function imageInput(var parameters) -> string
     {
@@ -554,6 +634,13 @@ class Tag
 
     /**
      * Builds a SCRIPT[type="javascript"] tag
+     *
+     * @param array|string parameters = [
+     *     'local' => false,
+     *     'src' => '',
+     *     'type' => 'text/javascript'
+     *     'rel' => ''
+     * ]
      */
     public static function javascriptInclude(var parameters = null, bool local = true) -> string
     {
@@ -602,6 +689,17 @@ class Tag
 
     /**
      * Builds a HTML A tag using framework conventions
+     *
+     * @param parameters array|string = [
+     *     'action' => '',
+     *     'text' => '',
+     *     'local' => false,
+     *     'query' => '',
+     *     'class' => '',
+     *     'name' => '',
+     *     'href' => '',
+     *     'id' => ''
+     * ]
      */
     public static function linkTo(parameters, text = null, local = true) -> string
     {
@@ -653,6 +751,14 @@ class Tag
 
     /**
      * Builds a HTML input[type="month"] tag
+     *
+     * @param array parameters = [
+     *     'class' => '',
+     *     'name' => '',
+     *     'src' => '',
+     *     'id' => '',
+     *     'value' => ''
+     * ]
      */
     public static function monthField(var parameters) -> string
     {
@@ -661,6 +767,14 @@ class Tag
 
     /**
      * Builds a HTML input[type="number"] tag
+     *
+     * @param array parameters = [
+     *     'class' => '',
+     *     'name' => '',
+     *     'src' => '',
+     *     'id' => '',
+     *     'value' => ''
+     * ]
      */
     public static function numericField(var parameters) -> string
     {
@@ -670,6 +784,14 @@ class Tag
 
     /**
      * Builds a HTML input[type="password"] tag
+     *
+     * @param array parameters = [
+     *     'class' => '',
+     *     'name' => '',
+     *     'src' => '',
+     *     'id' => '',
+     *     'value' => ''
+     * ]
      */
     public static function passwordField(var parameters) -> string
     {
@@ -694,6 +816,14 @@ class Tag
 
     /**
      * Builds a HTML input[type="radio"] tag
+     *
+     * @param array parameters = [
+     *     'class' => '',
+     *     'name' => '',
+     *     'src' => '',
+     *     'id' => '',
+     *     'value' => ''
+     * ]
      */
     public static function radioField(var parameters) -> string
     {
@@ -702,6 +832,14 @@ class Tag
 
     /**
     * Builds a HTML input[type="range"] tag
+    *
+     * @param array parameters = [
+     *     'class' => '',
+     *     'name' => '',
+     *     'src' => '',
+     *     'id' => '',
+     *     'value' => ''
+     * ]
     */
     public static function rangeField(var parameters) -> string
     {
@@ -710,6 +848,19 @@ class Tag
 
     /**
      * Renders parameters keeping order in their HTML attributes
+     *
+     * @param array attributes = [
+     *     'rel' => null,
+     *     'type' => null,
+     *     'for' => null,
+     *     'src' => null,
+     *     'href' => null,
+     *     'action' => null,
+     *     'id' => null,
+     *     'name' => null,
+     *     'value' => null,
+     *     'class' => null
+     * ]
      */
     public static function renderAttributes(string! code, array! attributes) -> string
     {
@@ -794,6 +945,14 @@ class Tag
 
     /**
      * Builds a HTML input[type="search"] tag
+     *
+     * @param array parameters = [
+     *     'class' => '',
+     *     'name' => '',
+     *     'src' => '',
+     *     'id' => '',
+     *     'value' => ''
+     * ]
      */
     public static function searchField(var parameters) -> string
     {
@@ -802,6 +961,15 @@ class Tag
 
     /**
      * Builds a HTML SELECT tag using a Phalcon\Mvc\Model resultset as options
+     *
+     * @param array parameters = [
+     *     'id' => '',
+     *     'name' => '',
+     *     'value' => '',
+     *     'useEmpty' => false,
+     *     'emptyValue' => '',
+     *     'emptyText' => '',
+     * ]
      */
     public static function select(var parameters, data = null) -> string
     {
@@ -810,6 +978,15 @@ class Tag
 
     /**
      * Builds a HTML SELECT tag using a PHP array for options
+     *
+     * @param array parameters = [
+     *     'id' => '',
+     *     'name' => '',
+     *     'value' => '',
+     *     'useEmpty' => false,
+     *     'emptyValue' => '',
+     *     'emptyText' => '',
+     * ]
      */
     public static function selectStatic(parameters, data = null) -> string
     {
@@ -1017,6 +1194,13 @@ class Tag
 
     /**
     * Builds a HTML input[type="tel"] tag
+    *
+    * @param array parameters = [
+    *     'id' => '',
+    *     'name' => '',
+    *     'value' => '',
+    *     'class' => ''
+    * ]
     */
     public static function telField(var parameters) -> string
     {
@@ -1025,6 +1209,13 @@ class Tag
 
     /**
      * Builds a HTML TEXTAREA tag
+     *
+     * @paraym array parameters = [
+     *     'id' => '',
+     *     'name' => '',
+     *     'value' => '',
+     *     'class' => ''
+     * ]
      */
     public static function textArea(var parameters) -> string
     {
@@ -1074,6 +1265,13 @@ class Tag
 
     /**
      * Builds a HTML input[type="text"] tag
+     *
+     * @param array parameters = [
+     *     'id' => '',
+     *     'name' => '',
+     *     'value' => '',
+     *     'class' => ''
+     * ]
      */
     public static function textField(var parameters) -> string
     {
@@ -1082,6 +1280,13 @@ class Tag
 
     /**
      * Builds a HTML input[type="time"] tag
+     *
+     * @param array paramters = [
+     *     'id' => '',
+     *     'name' => '',
+     *     'value' => '',
+     *     'class' => ''
+     * ]
      */
     public static function timeField(var parameters) -> string
     {
@@ -1090,6 +1295,13 @@ class Tag
 
     /**
      * Builds a HTML input[type="url"] tag
+     *
+     * @param array paramters = [
+     *     'id' => '',
+     *     'name' => '',
+     *     'value' => '',
+     *     'class' => ''
+     * ]
      */
     public static function urlField(var parameters) -> string
     {
@@ -1098,6 +1310,13 @@ class Tag
 
     /**
      * Builds a HTML input[type="week"] tag
+     *
+     * @param array parameters = [
+     *     'id' => '',
+     *     'name' => '',
+     *     'value' => '',
+     *     'class' => ''
+     * ]
      */
     public static function weekField(var parameters) -> string
     {
@@ -1106,6 +1325,14 @@ class Tag
 
     /**
      * Builds generic INPUT tags
+     *
+     * @param array paramters = [
+     *     'id' => '',
+     *     'name' => '',
+     *     'value' => '',
+     *     'class' => '',
+     *     'type' => ''
+     * ]
      */
     static final protected function inputField(string type, parameters, bool asValue = false) -> string
     {

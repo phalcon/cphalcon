@@ -1,3 +1,73 @@
+# [4.0.0](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-????) (2019-xx-xx)
+
+## Added
+
+## Changed
+- Changed `Phalcon\Mvc\Router\Annotations` to use `converters` instead of `conversors` [#14532](https://github.com/phalcon/cphalcon/issues/14532)
+- Changed `Phalcon\Di::setRaw` to `Phalcon\Di::setService` to align more with the use of the method [#14555](https://github.com/phalcon/cphalcon/issues/14555)
+
+## Fixed
+- Fixed `PhalconMvc\Model` to ignore internal setters if properties have the same name as the setter [#14538](https://github.com/phalcon/cphalcon/issues/14538)
+- Fixed `Phalcon\Logger\Formatter\Line` to not add `PHP_EOL` at the end of the message and added it to the `Phalcon\Logger\Adapter\Stream` [#14547](https://github.com/phalcon/cphalcon/issues/14547)
+- Fixed `Phalcon\Mvc\Model\MetaData\Apcu` and `Phalcon\Mvc\Model\MetaData\Redis` to allow setting the `prefix` and `lifetime` using the options or use the default. [#14549](https://github.com/phalcon/cphalcon/issues/14549)
+- Fixed `Phalcon\Storage\Adapter\AbstractAdapter`, `Phalcon\Storage\Adapter\AbstractInterface` getters to contain a default value 
+- Fixed `Phalcon\Storage\Adapter\Memory` initializing the array store correctly [#14551](https://github.com/phalcon/cphalcon/issues/14551)
+- Fixed `Phalcon\Storage\Adapter\Stream` to capture notice if the stream is not opened properly [#14551](https://github.com/phalcon/cphalcon/issues/14551)
+- Fixed `Phalcon\Security::getRandomBytes` to return `int` [#14551](https://github.com/phalcon/cphalcon/issues/14551)
+- Fixed `Phalcon\Security` to use `10` as the default work factor [#14551](https://github.com/phalcon/cphalcon/issues/14551)
+- Fixed `Phalcon\Helper\Arr::validateAny` and `Phalcon\Helper\Arr::validateAll`to use `null` as default for the callback method [#14551](https://github.com/phalcon/cphalcon/issues/14551)
+- Fixed `Phalcon\Escaper::escapeHtml` and `Phalcon\Escaper::escapeHtmlAttr` to allow `null` values  [#14553](https://github.com/phalcon/cphalcon/issues/14553)
+ 
+# [4.0.0-rc.r3](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-rc.3) (2019-11-16)
+## Added
+- Added support for [PSR-13](https://www.php-fig.org/psr/psr-13/) links and evolvable links [#14507](https://github.com/phalcon/cphalcon/issues/14507)
+  - Added `Phalcon\Html\Link\Link`
+  - Added `Phalcon\Html\Link\LinkProvider`
+  - Added `Phalcon\Html\Link\EvolvableLink`
+  - Added `Phalcon\Html\Link\EvolvableLinkProvider`
+  - Added `Phalcon\Html\Link\Serializer\Header`
+  - Added `Phalcon\Html\Link\Serializer\SerializerInterface`
+- Added `Phalcon\Collection:getKeys` and `Phalcon\Collection\getValues` for getting data from the collection [#14507](https://github.com/phalcon/cphalcon/issues/14507)
+- Added has-one-through relations to `Phalcon\Mvc\Model` and `Phalcon\Mvc\Model\Manager` [#14511](https://github.com/phalcon/cphalcon/pull/14511)
+ - Added `Phalcon\Mvc\Model::hasOneThrough()`
+ - Added `Phalcon\Mvc\Model\Manager::addHasOneThrough()`
+ - Added `Phalcon\Mvc\Model\Manager::existsHasOneThrough()`
+ - Added `Phalcon\Mvc\Model\Manager::getHasOneThrough()`
+ - Added `Phalcon\Mvc\Model\ManagerInterface::addHasOneThrough()`
+ - Added `Phalcon\Mvc\Model\ManagerInterface::existsHasOneThrough()`
+ - Added `Phalcon\Mvc\Model\ManagerInterface::getHasOneThrough()`
+ - Added `Phalcon\Http\Request::numFiles` to return the number of files in the request [#14519](https://github.com/phalcon/cphalcon/issues/14519)
+
+## Changed
+- Changed `Phalcon\Paginator\Adapter\Model`
+  - Removed the `data` parameter
+  - Added `model` parameter to pass model class
+  - Added optional parameter `parameters` which is used as the parameter `Model::find()`
+
+## Fixed
+- Fixed `Phalcon\Annotations\AnnotationsFactory:newInstance` to return the correct object back [#14494](https://github.com/phalcon/cphalcon/pull/14494)
+- Fixed return types:
+  - `Phalcon\Db\Adapter\PdoFactory::load()` now returns `Phalcon\Db\Adapter\AdapterInterface`
+  - `Phalcon\Db\Adapter\PdoFactory::newInstance()` now returns `Phalcon\Db\Adapter\AdapterInterface`
+  - `Phalcon\Logger\LoggerFactory::load()` now returns `Phalcon\Logger`
+  - `Phalcon\Validation\ValidatorFactory::newInstance` now returns `Phalcon\Factory\ValidatorInterface`
+- Fixed `Phalcon\Container:get` to use `getShared` transparently [#14502](https://github.com/phalcon/cphalcon/pull/14502)
+- Fixed `Phalcon\Mvc\Model` to include correct model instances in messages metadata [#14510](https://github.com/phalcon/cphalcon/pull/14502)
+- Fixed `Phalcon\Di\Injectable::__get()` to return shared instance by default [#14491](https://github.com/phalcon/cphalcon/issues/14491)
+- Fixed `Phalcon\Mvc\View::loadTemplateEngines()` to not share engine with other views by default [#14491](https://github.com/phalcon/cphalcon/issues/14491)
+- Fixed `Phalcon\Mvc\Model\Manager::getRelations()` and `getRelationsBetween()` to return many-to-many relations correctly [#14509](https://github.com/phalcon/cphalcon/pull/14509)
+- Fixed `Phalcon\Logger` to correctly allow transactional logging [#14514](https://github.com/phalcon/cphalcon/issues/14514)
+- Fixed `Phalcon\Annotations\Adapter\Stream::read` and `Phalcon\Annotations\Adapter\Stream::write` to use `serialize`/`unserialize` vs. `var_export` [#14515](https://github.com/phalcon/cphalcon/issues/14515)
+- Fixed `Phalcon\Http\Request::hasFiles` to return boolean and `true` if files are present [#14519](https://github.com/phalcon/cphalcon/issues/14519)
+- Fixed `Phalcon\Logger\Adapter\Syslog` to correctly log Syslog messages [#14522](https://github.com/phalcon/cphalcon/issues/14522)
+- Fixed `Phalcon\Mvc\Model\MetaDataInterface::getIdentityField` and `Phalcon\Mvc\Model\MetaData::getIdentityField` to also return `null` if the identity field is not present [#14523](https://github.com/phalcon/cphalcon/issues/14523) 
+- Fixed `Phalcon\Storage\Serializer\Json` to serialize objects that implement the `JsonSerializable` interface [#14528](https://github.com/phalcon/cphalcon/issues/14528) 
+- Fixed `Phalcon\Collection` to correctly return one level nested objects that implement `JsonSerializable` [#14528](https://github.com/phalcon/cphalcon/issues/14528)
+- Fixed `Phalcon\Mvc\View` to only include first found instance of view when using multiple view directories [#12977](https://github.com/phalcon/cphalcon/issues/12977)
+
+## Removed
+- Removed `Phalcon\Logger\Formatter\Syslog` - really did not do much [#14523](https://github.com/phalcon/cphalcon/issues/14523)
+
 # [4.0.0-rc.2](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-rc.2) (2019-10-26)
 ## Added
 - Added `cast` parameter to `Phalcon\Collection::get` and `Phalcon\Helper\Arr::get` allowing developers to cast the result returned to the type they want to. [#14465](https://github.com/phalcon/cphalcon/pull/14465)

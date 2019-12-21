@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -10,11 +9,15 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Unit\Tag\Select;
 
+use Phalcon\Tag\Select;
+use Phalcon\Test\Fixtures\Helpers\TagSetup;
 use UnitTester;
 
-class SelectFieldCest
+class SelectFieldCest extends TagSetup
 {
     /**
      * Tests Phalcon\Tag\Select :: selectField()
@@ -26,6 +29,13 @@ class SelectFieldCest
     {
         $I->wantToTest('Tag\Select - selectField()');
 
-        $I->skipTest('Need implementation');
+        $sSelect = Select::selectField('city', ['Lyon', 'Miramas']);
+
+        $I->assertEquals(
+            $sSelect,
+            "<select id=\"city\" name=\"city\">\n\t" .
+            "<option value=\"0\">Lyon</option>\n\t<option value=\"1\">" .
+            "Miramas</option>\n</select>"
+        );
     }
 }

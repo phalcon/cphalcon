@@ -28,8 +28,15 @@ class Apcu extends AbstractAdapter
 
     /**
      * Constructor
+     *
+     * @param array options = [
+     *     'defaultSerializer' => 'Php',
+     *     'lifetime' => 3600,
+     *     'serializer' => null,
+     *     'prefix' => ''
+     * ]
      */
-    public function __construct(<SerializerFactory> factory = null, array! options = [])
+    public function __construct(<SerializerFactory> factory, array! options = [])
     {
         /**
          * Lets set some defaults and options here
@@ -124,12 +131,12 @@ class Apcu extends AbstractAdapter
      *
      * @return array
      */
-    public function getKeys() -> array
+    public function getKeys(string! prefix = "") -> array
     {
         var item, pattern, apc = null;
         array results;
 
-        let pattern = "/^" . this->prefix . "/",
+        let pattern = "/^" . this->prefix . prefix . "/",
             apc     = new APCuIterator(pattern),
             results = [];
 

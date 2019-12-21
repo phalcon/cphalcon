@@ -15,10 +15,11 @@
  +------------------------------------------------------------------------+
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Integration\Mvc;
 
 use Codeception\Example;
-use function dataDir;
 use IntegrationTester;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Php;
@@ -27,14 +28,16 @@ use Phalcon\Test\Fixtures\Mvc\View\Engine\Twig;
 use Phalcon\Test\Fixtures\Mvc\View\IteratorObject;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
+use function dataDir;
+
 class ViewEnginesCest
 {
+    use DiTrait;
+
     /**
      * @var int
      */
     private $level;
-
-    use DiTrait;
 
     public function _before(IntegrationTester $I)
     {
@@ -54,8 +57,8 @@ class ViewEnginesCest
     /**
      * Tests View::render test template engines in function
      *
-     * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
-     * @since  2017-01-29
+     * @author       Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
+     * @since        2017-01-29
      *
      * @dataProvider getViewBuiltinFunction
      */
@@ -75,7 +78,6 @@ class ViewEnginesCest
         }
 
 
-
         $view->start();
 
         $view->render(
@@ -84,7 +86,6 @@ class ViewEnginesCest
         );
 
         $view->finish();
-
 
 
         $I->assertEquals(

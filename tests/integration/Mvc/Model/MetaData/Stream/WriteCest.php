@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -10,15 +9,18 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Integration\Mvc\Model\MetaData\Stream;
 
-use function file_exists;
-use function file_put_contents;
 use IntegrationTester;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\MetaData\Stream;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Robots;
+
+use function file_exists;
+use function file_put_contents;
 use function unlink;
 
 class WriteCest

@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -10,10 +9,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Integration\Mvc\Dispatcher;
 
 use IntegrationTester;
-use Phalcon\Dispatcher;
 use Phalcon\Test\Integration\Mvc\Dispatcher\Helper\BaseDispatcher;
 use Phalcon\Test\Integration\Mvc\Dispatcher\Helper\DispatcherTestDefaultController;
 
@@ -42,7 +42,8 @@ class CallActionMethodCest extends BaseDispatcher
             $controller,
             'multiplyAction',
             $multiply
-        );
+        )
+        ;
 
         $I->assertEquals(30, $returnValue);
 

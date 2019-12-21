@@ -8,8 +8,11 @@ class MysqlHelper
 {
     use DialectTrait;
 
-    protected function addForeignKeySql(string $foreignKeyName = '', string $onUpdate = '', string $onDelete = ''): string
-    {
+    protected function addForeignKeySql(
+        string $foreignKeyName = '',
+        string $onUpdate = '',
+        string $onDelete = ''
+    ): string {
         $sql = 'ALTER TABLE `foreign_key_child` ADD';
 
         if ($foreignKeyName) {

@@ -161,7 +161,7 @@ class Gd extends AbstractAdapter
     {
         var background, color;
 
-        let opacity = (opacity * 127 / 100) - 127;
+        let opacity = (int) round(abs((opacity * 127 / 100) - 127));
 
         let background = this->processCreate(this->width, this->height);
 

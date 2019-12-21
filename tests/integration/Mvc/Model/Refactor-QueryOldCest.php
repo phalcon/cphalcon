@@ -392,7 +392,8 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT ' . Robots::class . '.id AS le_id, ' . Robots::class . '.name AS le_name FROM ' . Robots::class,
+                'phql'     => 'SELECT ' . Robots::class . '.id AS le_id, ' .
+                    Robots::class . '.name AS le_name FROM ' . Robots::class,
                 'expected' => [
                     'models'  => [
                         Robots::class,
@@ -491,7 +492,8 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'select ' . strtolower(People::class) . '.cedula from ' . strtolower(People::class),
+                'phql'     => 'select ' . strtolower(People::class) .
+                    '.cedula from ' . strtolower(People::class),
                 'expected' => [
                     'models'  => [
                         strtolower(People::class),
@@ -583,7 +585,8 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT CONCAT(' . People::class . '.cedula,\'-\',' . People::class . '.nombres) AS nombre FROM ' . People::class,
+                'phql'     => 'SELECT CONCAT(' . People::class . '.cedula,\'-\',' .
+                    People::class . '.nombres) AS nombre FROM ' . People::class,
                 'expected' => [
                     'models'  => [
                         People::class,
@@ -727,7 +730,8 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT * FROM ' . Robots::class . ' LEFT JOIN ' . RobotsParts::class . ' RIGHT JOIN ' . Parts::class,
+                'phql'     => 'SELECT * FROM ' . Robots::class . ' LEFT JOIN ' .
+                    RobotsParts::class . ' RIGHT JOIN ' . Parts::class,
                 'expected' => [
                     'models'  => [
                         Robots::class,
@@ -794,7 +798,8 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT * FROM ' . RobotsParts::class . ' LEFT OUTER JOIN ' . Robots::class . ' RIGHT OUTER JOIN ' . Parts::class,
+                'phql'     => 'SELECT * FROM ' . RobotsParts::class . ' LEFT OUTER JOIN ' .
+                    Robots::class . ' RIGHT OUTER JOIN ' . Parts::class,
                 'expected' => [
                     'models'  => [
                         RobotsParts::class,
@@ -877,7 +882,8 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT * FROM ' . Robots::class . ' JOIN ' . RobotsParts::class . ' ON ' . Robots::class . '.id = ' . RobotsParts::class . '.robots_id',
+                'phql'     => 'SELECT * FROM ' . Robots::class . ' JOIN ' .
+                    RobotsParts::class . ' ON ' . Robots::class . '.id = ' . RobotsParts::class . '.robots_id',
                 'expected' => [
                     'models'  => [
                         Robots::class,
@@ -929,7 +935,10 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT * FROM ' . Robots::class . ' LEFT OUTER JOIN ' . RobotsParts::class . ' ON ' . Robots::class . '.id = ' . RobotsParts::class . '.robots_id AND ' . RobotsParts::class . '.robots_id = ' . Robots::class . '.id WHERE ' . Robots::class . '.id IS NULL',
+                'phql'     => 'SELECT * FROM ' . Robots::class . ' LEFT OUTER JOIN ' .
+                    RobotsParts::class . ' ON ' . Robots::class . '.id = ' .
+                    RobotsParts::class . '.robots_id AND ' . RobotsParts::class . '.robots_id = ' .
+                    Robots::class . '.id WHERE ' . Robots::class . '.id IS NULL',
                 'expected' => [
                     'models'  => [
                         Robots::class,
@@ -1011,7 +1020,10 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT * FROM ' . Robots::class . ' RIGHT OUTER JOIN ' . RobotsParts::class . ' ON ' . Robots::class . '.id = ' . RobotsParts::class . '.robots_id AND ' . RobotsParts::class . '.robots_id = ' . Robots::class . '.id WHERE ' . RobotsParts::class . '.robots_id IS NOT NULL',
+                'phql'     => 'SELECT * FROM ' . Robots::class . ' RIGHT OUTER JOIN ' .
+                    RobotsParts::class . ' ON ' . Robots::class . '.id = ' . RobotsParts::class . '.robots_id AND ' .
+                    RobotsParts::class . '.robots_id = ' . Robots::class . '.id WHERE ' .
+                    RobotsParts::class . '.robots_id IS NOT NULL',
                 'expected' => [
                     'models'  => [
                         Robots::class,
@@ -1361,7 +1373,8 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT ( ' . People::class . '.cupo + 100) / (' . Products::class . '.price * 0.15) FROM ' . People::class . ' JOIN ' . Products::class,
+                'phql'     => 'SELECT ( ' . People::class . '.cupo + 100) / (' .
+                    Products::class . '.price * 0.15) FROM ' . People::class . ' JOIN ' . Products::class,
                 'expected' => [
                     'models'  => [
                         People::class,
@@ -1426,7 +1439,9 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT ( ' . People::class . '.cupo + 100) / (' . SomeProducts::class . '.price * 0.15) AS price FROM ' . People::class . ' JOIN ' . SomeProducts::class,
+                'phql'     => 'SELECT ( ' . People::class . '.cupo + 100) / (' .
+                    SomeProducts::class . '.price * 0.15) AS price FROM ' .
+                    People::class . ' JOIN ' . SomeProducts::class,
                 'expected' => [
                     'models'  => [
                         People::class,
@@ -1493,7 +1508,8 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT (p.cupo + 100) / (s.price * 0.15) AS price FROM ' . People::class . ' AS p JOIN ' . SomeProducts::class . ' AS s',
+                'phql'     => 'SELECT (p.cupo + 100) / (s.price * 0.15) AS price FROM ' .
+                    People::class . ' AS p JOIN ' . SomeProducts::class . ' AS s',
                 'expected' => [
                     'models'  => [
                         People::class,
@@ -1707,7 +1723,8 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT * FROM ' . Robots::class . ' AS r, ' . RobotsParts::class . ' AS p WHERE r.id = p.robots_id',
+                'phql'     => 'SELECT * FROM ' . Robots::class . ' AS r, ' .
+                    RobotsParts::class . ' AS p WHERE r.id = p.robots_id',
                 'expected' => [
                     'models'  => [
                         Robots::class,
@@ -1758,7 +1775,9 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT * FROM ' . Robots::class . ', ' . RobotsParts::class . ' WHERE ' . Robots::class . '.id = ' . RobotsParts::class . '.robots_id',
+                'phql'     => 'SELECT * FROM ' . Robots::class . ', ' .
+                    RobotsParts::class . ' WHERE ' . Robots::class . '.id = ' .
+                    RobotsParts::class . '.robots_id',
                 'expected' => [
                     'models'  => [
                         Robots::class,
@@ -2065,7 +2084,8 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT * FROM ' . Robots::class . ' WHERE ' . Robots::class . '.name BETWEEN \'john\' AND \'mike\'',
+                'phql'     => 'SELECT * FROM ' . Robots::class . ' WHERE ' .
+                    Robots::class . '.name BETWEEN \'john\' AND \'mike\'',
                 'expected' => [
                     'models'  => [
                         Robots::class,
@@ -2106,7 +2126,8 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT * FROM ' . SomeProducts::class . ' WHERE DATE(' . SomeProducts::class . '.created_at) = "2010-10-02"',
+                'phql'     => 'SELECT * FROM ' . SomeProducts::class . ' WHERE DATE(' .
+                    SomeProducts::class . '.created_at) = "2010-10-02"',
                 'expected' => [
                     'models'  => [
                         SomeProducts::class,
@@ -2145,7 +2166,8 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT * FROM ' . SomeProducts::class . ' WHERE ' . SomeProducts::class . '.created_at < now()',
+                'phql'     => 'SELECT * FROM ' . SomeProducts::class . ' WHERE ' .
+                    SomeProducts::class . '.created_at < now()',
                 'expected' => [
                     'models'  => [
                         SomeProducts::class,
@@ -2398,7 +2420,8 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT * FROM ' . Robots::class . ' WHERE ' . Robots::class . '.name = \'R2D2\' OR ' . Robots::class . '.name <> \'C3PO\'',
+                'phql'     => 'SELECT * FROM ' . Robots::class . ' WHERE ' .
+                    Robots::class . '.name = \'R2D2\' OR ' . Robots::class . '.name <> \'C3PO\'',
                 'expected' => [
                     'models'  => [
                         Robots::class,
@@ -2449,7 +2472,8 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT * FROM ' . Robots::class . ' WHERE ' . Robots::class . '.name = \'R2D2\' AND ' . Robots::class . '.name <> \'C3PO\'',
+                'phql'     => 'SELECT * FROM ' . Robots::class . ' WHERE ' .
+                    Robots::class . '.name = \'R2D2\' AND ' . Robots::class . '.name <> \'C3PO\'',
                 'expected' => [
                     'models'  => [
                         Robots::class,
@@ -2500,7 +2524,8 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT * FROM ' . Robots::class . ' WHERE ' . Robots::class . '.name = :first_name: AND ' . Robots::class . '.name <> :second_name:',
+                'phql'     => 'SELECT * FROM ' . Robots::class . ' WHERE ' .
+                    Robots::class . '.name = :first_name: AND ' . Robots::class . '.name <> :second_name:',
                 'expected' => [
                     'models'  => [
                         Robots::class,
@@ -2551,7 +2576,9 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT * FROM ' . Robots::class . ' WHERE ' . Robots::class . '.name = \'R2D2\' AND ' . Robots::class . '.name <> \'C3PO\' AND ' . Robots::class . '.id > 100',
+                'phql'     => 'SELECT * FROM ' . Robots::class . ' WHERE ' .
+                    Robots::class . '.name = \'R2D2\' AND ' . Robots::class . '.name <> \'C3PO\' AND ' .
+                    Robots::class . '.id > 100',
                 'expected' => [
                     'models'  => [
                         Robots::class,
@@ -2620,7 +2647,9 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT * FROM ' . Robots::class . ' WHERE (' . Robots::class . '.name = \'R2D2\' AND ' . Robots::class . '.name <> \'C3PO\') OR ' . Robots::class . '.id > 100',
+                'phql'     => 'SELECT * FROM ' . Robots::class . ' WHERE (' .
+                    Robots::class . '.name = \'R2D2\' AND ' . Robots::class . '.name <> \'C3PO\') OR ' .
+                    Robots::class . '.id > 100',
                 'expected' => [
                     'models'  => [
                         Robots::class,
@@ -2692,7 +2721,9 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT * FROM ' . Robots::class . ' WHERE (' . Robots::class . '.name = \'R2D2\' AND ' . Robots::class . '.name <> \'C3PO\') OR (' . Robots::class . '.id > 100 AND ' . Robots::class . '.id <= 150)',
+                'phql'     => 'SELECT * FROM ' . Robots::class . ' WHERE (' .
+                    Robots::class . '.name = \'R2D2\' AND ' . Robots::class . '.name <> \'C3PO\') OR (' .
+                    Robots::class . '.id > 100 AND ' . Robots::class . '.id <= 150)',
                 'expected' => [
                     'models'  => [
                         Robots::class,
@@ -3051,7 +3082,8 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT * FROM ' . SomeProducts::class . ' ORDER BY id, ' . SomeProducts::class . '.name, 3',
+                'phql'     => 'SELECT * FROM ' . SomeProducts::class . ' ORDER BY id, ' .
+                    SomeProducts::class . '.name, 3',
                 'expected' => [
                     'models'  => [
                         SomeProducts::class,
@@ -3154,7 +3186,8 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT * FROM ' . Robots::class . ' r WHERE NOT (r.name = "shaggy") ORDER BY 1 DESC, r.name',
+                'phql'     => 'SELECT * FROM ' . Robots::class .
+                    ' r WHERE NOT (r.name = "shaggy") ORDER BY 1 DESC, r.name',
                 'expected' => [
                     'models'  => [
                         Robots::class,
@@ -3332,7 +3365,8 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT * FROM ' . Robots::class . ' r WHERE r.name <> "shaggy" ORDER BY 1 ASC, 2 DESC LIMIT 5',
+                'phql'     => 'SELECT * FROM ' . Robots::class .
+                    ' r WHERE r.name <> "shaggy" ORDER BY 1 ASC, 2 DESC LIMIT 5',
                 'expected' => [
                     'models'  => [
                         Robots::class,
@@ -3418,7 +3452,8 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT * FROM ' . Robots::class . ' GROUP BY ' . Robots::class . '.name, ' . Robots::class . '.id',
+                'phql'     => 'SELECT * FROM ' . Robots::class . ' GROUP BY ' .
+                    Robots::class . '.name, ' . Robots::class . '.id',
                 'expected' => [
                     'models'  => [
                         Robots::class,
@@ -3451,7 +3486,9 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT ' . Robots::class . '.name, SUM(' . Robots::class . '.price) AS summatory FROM ' . Robots::class . ' GROUP BY ' . Robots::class . '.name',
+                'phql'     => 'SELECT ' . Robots::class . '.name, SUM(' .
+                    Robots::class . '.price) AS summatory FROM ' .
+                    Robots::class . ' GROUP BY ' . Robots::class . '.name',
                 'expected' => [
                     'models'  => [
                         Robots::class,
@@ -3500,7 +3537,8 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT r.id, r.name, SUM(r.price) AS summatory, MIN(r.price) FROM ' . Robots::class . ' r GROUP BY r.id, r.name',
+                'phql'     => 'SELECT r.id, r.name, SUM(r.price) AS summatory, MIN(r.price) FROM ' .
+                    Robots::class . ' r GROUP BY r.id, r.name',
                 'expected' => [
                     'models'  => [
                         Robots::class,
@@ -3585,7 +3623,8 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT * FROM ' . Robots::class . ' WHERE ' . Robots::class . '.id > 5 GROUP BY ' . Robots::class . '.name',
+                'phql'     => 'SELECT * FROM ' . Robots::class . ' WHERE ' .
+                    Robots::class . '.id > 5 GROUP BY ' . Robots::class . '.name',
                 'expected' => [
                     'models'  => [
                         Robots::class,
@@ -3626,7 +3665,8 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT * FROM ' . Robots::class . ' WHERE ' . Robots::class . '.id > 5 GROUP BY ' . Robots::class . '.name LIMIT 10',
+                'phql'     => 'SELECT * FROM ' . Robots::class . ' WHERE ' .
+                    Robots::class . '.id > 5 GROUP BY ' . Robots::class . '.name LIMIT 10',
                 'expected' => [
                     'models'  => [
                         Robots::class,
@@ -3673,7 +3713,9 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT * FROM ' . Robots::class . ' WHERE ' . Robots::class . '.id > 5 GROUP BY ' . Robots::class . '.name ORDER BY ' . Robots::class . '.id LIMIT 10',
+                'phql'     => 'SELECT * FROM ' . Robots::class . ' WHERE ' .
+                    Robots::class . '.id > 5 GROUP BY ' . Robots::class . '.name ORDER BY ' .
+                    Robots::class . '.id LIMIT 10',
                 'expected' => [
                     'models'  => [
                         Robots::class,
@@ -3730,7 +3772,8 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT * FROM ' . Robots::class . ' GROUP BY ' . Robots::class . '.name ORDER BY ' . Robots::class . '.id',
+                'phql'     => 'SELECT * FROM ' . Robots::class . ' GROUP BY ' .
+                    Robots::class . '.name ORDER BY ' . Robots::class . '.id',
                 'expected' => [
                     'models'  => [
                         Robots::class,
@@ -3767,7 +3810,9 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT * FROM ' . Robots::class . ' WHERE ' . Robots::class . '.id != 10 GROUP BY ' . Robots::class . '.name ORDER BY ' . Robots::class . '.id',
+                'phql'     => 'SELECT * FROM ' . Robots::class . ' WHERE ' .
+                    Robots::class . '.id != 10 GROUP BY ' .
+                    Robots::class . '.name ORDER BY ' . Robots::class . '.id',
                 'expected' => [
                     'models'  => [
                         Robots::class,
@@ -3819,7 +3864,8 @@ class QueryOldCest
             ],
             [
 
-                'phql'     => 'SELECT ' . Robots::class . '.name, COUNT(*) FROM ' . Robots::class . ' GROUP BY ' . Robots::class . '.name HAVING COUNT(*)>100',
+                'phql'     => 'SELECT ' . Robots::class . '.name, COUNT(*) FROM ' .
+                    Robots::class . ' GROUP BY ' . Robots::class . '.name HAVING COUNT(*)>100',
                 'expected' => [
                     'models'  => [
                         Robots::class,
@@ -3880,7 +3926,9 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT ' . SomeProducts::class . '.type, SUM(' . SomeProducts::class . '.price) AS price FROM ' . SomeProducts::class . ' GROUP BY ' . SomeProducts::class . '.type HAVING SUM(' . SomeProducts::class . '.price)<100',
+                'phql'     => 'SELECT ' . SomeProducts::class . '.type, SUM(' .
+                    SomeProducts::class . '.price) AS price FROM ' . SomeProducts::class . ' GROUP BY ' .
+                    SomeProducts::class . '.type HAVING SUM(' . SomeProducts::class . '.price)<100',
                 'expected' => [
                     'models'  => [
                         SomeProducts::class,
@@ -3949,7 +3997,8 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT type, SUM(price) AS price FROM ' . SomeProducts::class . ' GROUP BY 1 HAVING SUM(price)<100',
+                'phql'     => 'SELECT type, SUM(price) AS price FROM ' .
+                    SomeProducts::class . ' GROUP BY 1 HAVING SUM(price)<100',
                 'expected' => [
                     'models'  => [
                         SomeProducts::class,
@@ -4014,7 +4063,8 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT COUNT(DISTINCT ' . SomeProducts::class . '.type) AS price FROM ' . SomeProducts::class,
+                'phql'     => 'SELECT COUNT(DISTINCT ' . SomeProducts::class . '.type) AS price FROM ' .
+                    SomeProducts::class,
                 'expected' => [
                     'models'  => [
                         SomeProducts::class,
@@ -4045,7 +4095,8 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT COUNT(DISTINCT ' . SomeProducts::class . '.type) price FROM ' . SomeProducts::class,
+                'phql'     => 'SELECT COUNT(DISTINCT ' . SomeProducts::class . '.type) price FROM ' .
+                    SomeProducts::class,
                 'expected' => [
                     'models'  => [
                         SomeProducts::class,
@@ -4076,7 +4127,9 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT ' . Robots::class . '.name, COUNT(*) FROM ' . Robots::class . ' WHERE ' . Robots::class . '.type = "virtual" GROUP BY ' . Robots::class . '.name HAVING COUNT(*)>100',
+                'phql'     => 'SELECT ' . Robots::class . '.name, COUNT(*) FROM ' .
+                    Robots::class . ' WHERE ' . Robots::class . '.type = "virtual" GROUP BY ' .
+                    Robots::class . '.name HAVING COUNT(*)>100',
                 'expected' => [
                     'models'  => [
                         Robots::class,
@@ -4151,7 +4204,9 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT ' . Robots::class . '.name, COUNT(*) FROM ' . Robots::class . ' WHERE ' . Robots::class . '.type = "virtual" GROUP BY ' . Robots::class . '.name HAVING COUNT(*)>100 ORDER BY 2',
+                'phql'     => 'SELECT ' . Robots::class . '.name, COUNT(*) FROM ' .
+                    Robots::class . ' WHERE ' . Robots::class . '.type = "virtual" GROUP BY ' .
+                    Robots::class . '.name HAVING COUNT(*)>100 ORDER BY 2',
                 'expected' => [
                     'models'  => [
                         Robots::class,
@@ -4234,7 +4289,9 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT ' . Robots::class . '.name, COUNT(*) FROM ' . Robots::class . ' WHERE ' . Robots::class . '.type = "virtual" GROUP BY ' . Robots::class . '.name HAVING COUNT(*)>100 ORDER BY 2 LIMIT 15',
+                'phql'     => 'SELECT ' . Robots::class . '.name, COUNT(*) FROM ' .
+                    Robots::class . ' WHERE ' . Robots::class . '.type = "virtual" GROUP BY ' .
+                    Robots::class . '.name HAVING COUNT(*)>100 ORDER BY 2 LIMIT 15',
                 'expected' => [
                     'models'  => [
                         Robots::class,
@@ -4323,7 +4380,8 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT ' . Robots::class . '.name, COUNT(*) FROM ' . Robots::class . ' GROUP BY ' . Robots::class . '.name HAVING COUNT(*)>100 ORDER BY 2 LIMIT 15',
+                'phql'     => 'SELECT ' . Robots::class . '.name, COUNT(*) FROM ' .
+                    Robots::class . ' GROUP BY ' . Robots::class . '.name HAVING COUNT(*)>100 ORDER BY 2 LIMIT 15',
                 'expected' => [
                     'models'  => [
                         Robots::class,
@@ -4398,7 +4456,8 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT name, COUNT(*) FROM ' . Robots::class . ' WHERE type = "virtual" GROUP BY name HAVING COUNT(*)>100 LIMIT 15',
+                'phql'     => 'SELECT name, COUNT(*) FROM ' .
+                    Robots::class . ' WHERE type = "virtual" GROUP BY name HAVING COUNT(*)>100 LIMIT 15',
                 'expected' => [
                     'models'  => [
                         Robots::class,
@@ -4479,7 +4538,9 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT ' . Robots::class . '.name, COUNT(*) FROM ' . Robots::class . ' WHERE ' . Robots::class . '.type = "virtual" GROUP BY ' . Robots::class . '.name HAVING COUNT(*)>100 LIMIT 15',
+                'phql'     => 'SELECT ' . Robots::class . '.name, COUNT(*) FROM ' .
+                    Robots::class . ' WHERE ' . Robots::class . '.type = "virtual" GROUP BY ' .
+                    Robots::class . '.name HAVING COUNT(*)>100 LIMIT 15',
                 'expected' => [
                     'models'  => [
                         Robots::class,
@@ -4560,7 +4621,8 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT ' . Robots::class . '.name, COUNT(*) FROM ' . Robots::class . ' GROUP BY ' . Robots::class . '.name HAVING COUNT(*)>100 LIMIT 15',
+                'phql'     => 'SELECT ' . Robots::class . '.name, COUNT(*) FROM ' .
+                    Robots::class . ' GROUP BY ' . Robots::class . '.name HAVING COUNT(*)>100 LIMIT 15',
                 'expected' => [
                     'models'  => [
                         Robots::class,
@@ -4885,7 +4947,8 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT ' . Robotters::class . '.code AS le_id, ' . Robotters::class . '.theName AS le_name FROM ' . Robotters::class,
+                'phql'     => 'SELECT ' . Robotters::class . '.code AS le_id, ' .
+                    Robotters::class . '.theName AS le_name FROM ' . Robotters::class,
                 'expected' => [
                     'models'  => [
                         Robotters::class,
@@ -4984,7 +5047,8 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'select ' . strtolower(Personers::class) . '.borgerId from ' . strtolower(Personers::class),
+                'phql'     => 'select ' . strtolower(Personers::class) .
+                    '.borgerId from ' . strtolower(Personers::class),
                 'expected' => [
                     'models'  => [
                         strtolower(Personers::class),
@@ -5036,7 +5100,8 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT CONCAT(' . Personers::class . '.borgerId,\'-\',' . Personers::class . '.navnes) AS navne FROM ' . Personers::class,
+                'phql'     => 'SELECT CONCAT(' . Personers::class . '.borgerId,\'-\',' .
+                    Personers::class . '.navnes) AS navne FROM ' . Personers::class,
                 'expected' => [
                     'models'  => [
                         Personers::class,
@@ -5180,7 +5245,8 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT * FROM ' . Robotters::class . ' LEFT JOIN ' . RobottersDeles::class . ' RIGHT JOIN ' . Deles::class,
+                'phql'     => 'SELECT * FROM ' . Robotters::class . ' LEFT JOIN ' .
+                    RobottersDeles::class . ' RIGHT JOIN ' . Deles::class,
                 'expected' => [
                     'models'  => [
                         Robotters::class,
@@ -5247,7 +5313,8 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT * FROM ' . RobottersDeles::class . ' LEFT OUTER JOIN ' . Robotters::class . ' RIGHT OUTER JOIN ' . Deles::class,
+                'phql'     => 'SELECT * FROM ' . RobottersDeles::class . ' LEFT OUTER JOIN ' .
+                    Robotters::class . ' RIGHT OUTER JOIN ' . Deles::class,
                 'expected' => [
                     'models'  => [
                         RobottersDeles::class,
@@ -5330,7 +5397,9 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT * FROM ' . Robotters::class . ' JOIN ' . RobottersDeles::class . ' ON ' . Robotters::class . '.code = ' . RobottersDeles::class . '.robottersCode',
+                'phql'     => 'SELECT * FROM ' . Robotters::class . ' JOIN ' .
+                    RobottersDeles::class . ' ON ' . Robotters::class . '.code = ' .
+                    RobottersDeles::class . '.robottersCode',
                 'expected' => [
                     'models'  => [
                         Robotters::class,
@@ -5382,7 +5451,10 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT * FROM ' . Robotters::class . ' LEFT OUTER JOIN ' . RobottersDeles::class . ' ON ' . Robotters::class . '.code = ' . RobottersDeles::class . '.robottersCode AND ' . RobottersDeles::class . '.robottersCode = ' . Robotters::class . '.code WHERE ' . Robotters::class . '.code IS NULL',
+                'phql'     => 'SELECT * FROM ' . Robotters::class . ' LEFT OUTER JOIN ' .
+                    RobottersDeles::class . ' ON ' . Robotters::class . '.code = ' .
+                    RobottersDeles::class . '.robottersCode AND ' . RobottersDeles::class . '.robottersCode = ' .
+                    Robotters::class . '.code WHERE ' . Robotters::class . '.code IS NULL',
                 'expected' => [
                     'models'  => [
                         Robotters::class,
@@ -5464,7 +5536,10 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT * FROM ' . Robotters::class . ' RIGHT OUTER JOIN ' . RobottersDeles::class . ' ON ' . Robotters::class . '.code = ' . RobottersDeles::class . '.robottersCode AND ' . RobottersDeles::class . '.robottersCode = ' . Robotters::class . '.code WHERE ' . RobottersDeles::class . '.robottersCode IS NOT NULL',
+                'phql'     => 'SELECT * FROM ' . Robotters::class . ' RIGHT OUTER JOIN ' .
+                    RobottersDeles::class . ' ON ' . Robotters::class . '.code = ' .
+                    RobottersDeles::class . '.robottersCode AND ' . RobottersDeles::class . '.robottersCode = ' .
+                    Robotters::class . '.code WHERE ' . RobottersDeles::class . '.robottersCode IS NOT NULL',
                 'expected' => [
                     'models'  => [
                         Robotters::class,
@@ -5650,7 +5725,8 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT r.*, p.* FROM ' . Robotters::class . ' AS r JOIN ' . RobottersDeles::class . ' AS p',
+                'phql'     => 'SELECT r.*, p.* FROM ' . Robotters::class . ' AS r JOIN ' .
+                    RobottersDeles::class . ' AS p',
                 'expected' => [
                     'models'  => [
                         Robotters::class,
@@ -5866,7 +5942,8 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT r.*, p.* FROM ' . Robotters::class . ' AS r JOIN ' . RobottersDeles::class . ' AS p',
+                'phql'     => 'SELECT r.*, p.* FROM ' . Robotters::class . ' AS r JOIN ' .
+                    RobottersDeles::class . ' AS p',
                 'expected' => [
                     'models'  => [
                         Robotters::class,
@@ -6030,7 +6107,8 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT ( ' . Personers::class . '.kredit + 100) / (' . Products::class . '.price * 0.15) FROM ' . Personers::class . ' JOIN ' . Products::class,
+                'phql'     => 'SELECT ( ' . Personers::class . '.kredit + 100) / (' .
+                    Products::class . '.price * 0.15) FROM ' . Personers::class . ' JOIN ' . Products::class,
                 'expected' => [
                     'models'  => [
                         Personers::class,
@@ -6095,7 +6173,9 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT ( ' . Personers::class . '.kredit + 100) / (' . SomeProducts::class . '.price * 0.15) AS price FROM ' . Personers::class . ' JOIN ' . SomeProducts::class,
+                'phql'     => 'SELECT ( ' . Personers::class . '.kredit + 100) / (' .
+                    SomeProducts::class . '.price * 0.15) AS price FROM ' .
+                    Personers::class . ' JOIN ' . SomeProducts::class,
                 'expected' => [
                     'models'  => [
                         Personers::class,
@@ -6162,7 +6242,8 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT (p.kredit + 100) / (s.price * 0.15) AS price FROM ' . Personers::class . ' AS p JOIN ' . SomeProducts::class . ' AS s',
+                'phql'     => 'SELECT (p.kredit + 100) / (s.price * 0.15) AS price FROM ' .
+                    Personers::class . ' AS p JOIN ' . SomeProducts::class . ' AS s',
                 'expected' => [
                     'models'  => [
                         Personers::class,
@@ -6331,7 +6412,8 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT theName, delesCode FROM ' . Robotters::class . ' AS r, ' . RobottersDeles::class . ' AS p',
+                'phql'     => 'SELECT theName, delesCode FROM ' .
+                    Robotters::class . ' AS r, ' . RobottersDeles::class . ' AS p',
                 'expected' => [
                     'models'  => [
                         Robotters::class,
@@ -6376,7 +6458,8 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT * FROM ' . Robotters::class . ' AS r, ' . RobottersDeles::class . ' AS p WHERE r.code = p.robottersCode',
+                'phql'     => 'SELECT * FROM ' . Robotters::class . ' AS r, ' .
+                    RobottersDeles::class . ' AS p WHERE r.code = p.robottersCode',
                 'expected' => [
                     'models'  => [
                         Robotters::class,
@@ -6427,7 +6510,9 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT * FROM ' . Robotters::class . ', ' . RobottersDeles::class . ' WHERE ' . Robotters::class . '.code = ' . RobottersDeles::class . '.robottersCode',
+                'phql'     => 'SELECT * FROM ' . Robotters::class . ', ' .
+                    RobottersDeles::class . ' WHERE ' . Robotters::class . '.code = ' .
+                    RobottersDeles::class . '.robottersCode',
                 'expected' => [
                     'models'  => [
                         Robotters::class,
@@ -6470,7 +6555,8 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT * FROM ' . Robotters::class . ' r WHERE NOT (r.theName = "shaggy") ORDER BY 1, r.theName',
+                'phql'     => 'SELECT * FROM ' . Robotters::class .
+                    ' r WHERE NOT (r.theName = "shaggy") ORDER BY 1, r.theName',
                 'expected' => [
                     'models'  => [
                         Robotters::class,
@@ -6530,7 +6616,8 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT * FROM ' . Robotters::class . ' r WHERE NOT (r.theName = "shaggy") ORDER BY 1 DESC, r.theName',
+                'phql'     => 'SELECT * FROM ' . Robotters::class .
+                    ' r WHERE NOT (r.theName = "shaggy") ORDER BY 1 DESC, r.theName',
                 'expected' => [
                     'models'  => [
                         Robotters::class,
@@ -6591,7 +6678,8 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT * FROM ' . Robotters::class . ' r WHERE NOT (r.theName = "shaggy") ORDER BY 1, r.theName',
+                'phql'     => 'SELECT * FROM ' . Robotters::class .
+                    ' r WHERE NOT (r.theName = "shaggy") ORDER BY 1, r.theName',
                 'expected' => [
                     'models'  => [
                         Robotters::class,
@@ -6651,7 +6739,8 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT * FROM ' . Robotters::class . ' r WHERE r.theName <> "shaggy" ORDER BY 1, 2 LIMIT 5',
+                'phql'     => 'SELECT * FROM ' . Robotters::class .
+                    ' r WHERE r.theName <> "shaggy" ORDER BY 1, 2 LIMIT 5',
                 'expected' => [
                     'models'  => [
                         Robotters::class,
@@ -6708,7 +6797,8 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT * FROM ' . Robotters::class . ' r WHERE r.theName <> "shaggy" ORDER BY 1 ASC, 2 DESC LIMIT 5',
+                'phql'     => 'SELECT * FROM ' . Robotters::class .
+                    ' r WHERE r.theName <> "shaggy" ORDER BY 1 ASC, 2 DESC LIMIT 5',
                 'expected' => [
                     'models'  => [
                         Robotters::class,
@@ -6794,7 +6884,8 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT * FROM ' . Robotters::class . ' GROUP BY ' . Robotters::class . '.theName, ' . Robotters::class . '.code',
+                'phql'     => 'SELECT * FROM ' . Robotters::class . ' GROUP BY ' .
+                    Robotters::class . '.theName, ' . Robotters::class . '.code',
                 'expected' => [
                     'models'  => [
                         Robotters::class,
@@ -6935,7 +7026,8 @@ class QueryOldCest
                 ],
             ],
             [
-                'phql'     => 'SELECT * FROM ' . Robots::class . ' WHERE id IN (SELECT robots_id FROM ' . RobotsParts::class . ')',
+                'phql'     => 'SELECT * FROM ' . Robots::class .
+                    ' WHERE id IN (SELECT robots_id FROM ' . RobotsParts::class . ')',
                 'expected' => [
                     'models'  => [
                         Robots::class,
@@ -6989,7 +7081,8 @@ class QueryOldCest
             ],
             [
                 // PR #13124, ISSUE #12971
-                'phql'     => 'SELECT UPPER(' . Robots::class . '.name) AS name FROM ' . Robots::class . ' WHERE ' . Robots::class . '.name = "Robotina"',
+                'phql'     => 'SELECT UPPER(' . Robots::class . '.name) AS name FROM ' .
+                    Robots::class . ' WHERE ' . Robots::class . '.name = "Robotina"',
                 'expected' => [
                     'models'  => [
                         Robots::class,
@@ -7104,7 +7197,8 @@ class QueryOldCest
             ],
             [
                 [
-                    'query' => 'INSERT INTO ' . SomeProducts::class . ' VALUES ("Some name", 100.15, current_date(), now())',
+                    'query' => 'INSERT INTO ' . SomeProducts::class .
+                        ' VALUES ("Some name", 100.15, current_date(), now())',
                 ],
                 [
                     'model'  => SomeProducts::class,
@@ -7127,14 +7221,14 @@ class QueryOldCest
                         [
                             'type'  => 350,
                             'value' => [
-                                'type'  => 'functionCall',
+                                'type' => 'functionCall',
                                 'name' => 'current_date',
                             ],
                         ],
                         [
                             'type'  => 350,
                             'value' => [
-                                'type'  => 'functionCall',
+                                'type' => 'functionCall',
                                 'name' => 'now',
                             ],
                         ],
@@ -7143,7 +7237,8 @@ class QueryOldCest
             ],
             [
                 [
-                    'query' => 'INSERT INTO ' . Robots::class . ' VALUES ((1+1000*:le_id:), CONCAT(\'some\', \'robot\'), 2011)',
+                    'query' => 'INSERT INTO ' . Robots::class .
+                        ' VALUES ((1+1000*:le_id:), CONCAT(\'some\', \'robot\'), 2011)',
                 ],
                 [
                     'model'  => Robots::class,
@@ -7204,7 +7299,8 @@ class QueryOldCest
             ],
             [
                 [
-                    'query' => 'INSERT INTO ' . Robots::class . ' (name, type, year) VALUES (\'a name\', \'virtual\', ?0)',
+                    'query' => 'INSERT INTO ' . Robots::class .
+                        ' (name, type, year) VALUES (\'a name\', \'virtual\', ?0)',
                 ],
                 [
                     'model'  => Robots::class,
@@ -7269,7 +7365,8 @@ class QueryOldCest
             ],
             [
                 [
-                    'query' => 'insert into ' . strtolower(Robotters::class) . ' values (null, \'some robot\', 1945)',
+                    'query' => 'insert into ' . strtolower(Robotters::class) .
+                        ' values (null, \'some robot\', 1945)',
                 ],
                 [
                     'model'  => strtolower(Robotters::class),
@@ -7301,7 +7398,8 @@ class QueryOldCest
             ],
             [
                 [
-                    'query' => 'INSERT INTO ' . Robotters::class . ' VALUES ((1+1000*:le_id:), CONCAT(\'some\', \'robot\'), 2011)',
+                    'query' => 'INSERT INTO ' . Robotters::class .
+                        ' VALUES ((1+1000*:le_id:), CONCAT(\'some\', \'robot\'), 2011)',
                 ],
                 [
                     'model'  => Robotters::class,
@@ -7362,7 +7460,8 @@ class QueryOldCest
             ],
             [
                 [
-                    'query' => 'INSERT INTO ' . Robotters::class . ' (theName, theType, theYear) VALUES (\'a name\', \'virtual\', ?0)',
+                    'query' => 'INSERT INTO ' . Robotters::class .
+                        ' (theName, theType, theYear) VALUES (\'a name\', \'virtual\', ?0)',
                 ],
                 [
                     'model'  => Robotters::class,
@@ -7511,7 +7610,8 @@ class QueryOldCest
             ],
             [
                 [
-                    'query' => 'UPDATE ' . Robots::class . ' SET ' . Robots::class . '.name = \'some name\', ' . Robots::class . '.year = 1990',
+                    'query' => 'UPDATE ' . Robots::class . ' SET ' .
+                        Robots::class . '.name = \'some name\', ' . Robots::class . '.year = 1990',
                 ],
                 [
                     'tables' => ['robots',],
@@ -7591,7 +7691,9 @@ class QueryOldCest
             ],
             [
                 [
-                    'query' => 'UPDATE ' . Robots::class . ' SET ' . Robots::class . '.name = \'some name\', ' . Robots::class . '.year = YEAR(current_date()) + ' . Robots::class . '.year',
+                    'query' => 'UPDATE ' . Robots::class . ' SET ' .
+                        Robots::class . '.name = \'some name\', ' .
+                        Robots::class . '.year = YEAR(current_date()) + ' . Robots::class . '.year',
                 ],
                 [
                     'tables' => ['robots',],
@@ -7646,7 +7748,8 @@ class QueryOldCest
             ],
             [
                 [
-                    'query' => 'UPDATE ' . Robots::class . ' AS r SET r.name = \'some name\', r.year = YEAR(current_date()) + r.year',
+                    'query' => 'UPDATE ' . Robots::class .
+                        ' AS r SET r.name = \'some name\', r.year = YEAR(current_date()) + r.year',
                 ],
                 [
                     'tables' => [
@@ -7745,7 +7848,8 @@ class QueryOldCest
             ],
             [
                 [
-                    'query' => 'UPDATE ' . Robots::class . ' as r set r.name = \'some name\', r.year = r.year*2 where r.id > 100 and r.id <= 200',
+                    'query' => 'UPDATE ' . Robots::class .
+                        ' as r set r.name = \'some name\', r.year = r.year*2 where r.id > 100 and r.id <= 200',
                 ],
                 [
                     'tables' => [

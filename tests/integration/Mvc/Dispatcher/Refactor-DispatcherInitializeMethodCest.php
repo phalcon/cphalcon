@@ -118,7 +118,8 @@ class DispatcherInitializeMethodCest extends BaseDispatcher
                 // Returning <tt>false</tt> should prevent the exception from bubbling up.
                 return false;
             }
-        );
+        )
+        ;
 
         $dispatcher->dispatch();
 
@@ -219,7 +220,8 @@ class DispatcherInitializeMethodCest extends BaseDispatcher
                     ]
                 );
             }
-        );
+        )
+        ;
 
         $dispatcher->dispatch();
 

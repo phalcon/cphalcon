@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -10,8 +9,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Unit\Http\Response;
 
+use Phalcon\Http\Response;
 use UnitTester;
 
 class GetReasonPhraseCest
@@ -19,13 +21,19 @@ class GetReasonPhraseCest
     /**
      * Tests Phalcon\Http\Response :: getReasonPhrase()
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
+     * @since  2019-12-08
      */
     public function httpResponseGetReasonPhrase(UnitTester $I)
     {
         $I->wantToTest('Http\Response - getReasonPhrase()');
 
-        $I->skipTest('Need implementation');
+        $sPhrase   = 'Success';
+        $oResponse = new Response('<h1>Test</h1>', 200, $sPhrase);
+
+        $I->assertSame(
+            $sPhrase,
+            $oResponse->getReasonPhrase()
+        );
     }
 }

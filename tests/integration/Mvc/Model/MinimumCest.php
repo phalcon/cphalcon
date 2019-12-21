@@ -66,8 +66,8 @@ class MinimumCest
         $group = Personnes::minimum(
             [
                 'column' => 'ciudad_id',
-                'group' => 'estado',
-                'order' => 'minimum DESC',
+                'group'  => 'estado',
+                'order'  => 'minimum DESC',
             ]
         );
 
@@ -79,8 +79,8 @@ class MinimumCest
         $group = Personnes::minimum(
             [
                 'column' => 'ciudad_id',
-                'group' => 'estado',
-                'order' => 'minimum ASC',
+                'group'  => 'estado',
+                'order'  => 'minimum ASC',
             ]
         );
 

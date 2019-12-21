@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -9,6 +8,8 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Db\Reference;
 
@@ -29,7 +30,6 @@ class GetOnDeleteCest
         $references = $this->getReferences();
 
 
-
         $reference1 = $references['fk1'];
 
         $I->assertNull(
@@ -37,13 +37,11 @@ class GetOnDeleteCest
         );
 
 
-
         $reference2 = $references['fk2'];
 
         $I->assertNull(
             $reference1->getOnDelete()
         );
-
 
 
         $reference3 = $references['fk3'];
@@ -54,13 +52,11 @@ class GetOnDeleteCest
         );
 
 
-
         $reference4 = $references['fk4'];
 
         $I->assertNull(
             $reference4->getOnDelete()
         );
-
 
 
         $reference5 = $references['fk5'];

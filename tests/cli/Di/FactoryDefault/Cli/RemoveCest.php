@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -10,9 +9,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Cli\Di\FactoryDefault\Cli;
 
 use CliTester;
+use Phalcon\Di\FactoryDefault\Cli as Di;
+use Phalcon\Escaper;
 
 class RemoveCest
 {
@@ -25,6 +28,19 @@ class RemoveCest
     public function diFactorydefaultCliRemove(CliTester $I)
     {
         $I->wantToTest('Di\FactoryDefault\Cli - remove()');
-        $I->skipTest('Need implementation');
+
+        $di = new Di();
+
+        $di->set('escaper', Escaper::class);
+
+        $I->assertTrue(
+            $di->has('escaper')
+        );
+
+        $di->remove('escaper');
+
+        $I->assertFalse(
+            $di->has('escaper')
+        );
     }
 }

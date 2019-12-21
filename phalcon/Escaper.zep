@@ -121,7 +121,7 @@ class Escaper implements EscaperInterface
     /**
      * Escapes a HTML string. Internally uses htmlspecialchars
      */
-    public function escapeHtml(string text) -> string
+    public function escapeHtml(string text = null) -> string
     {
         return htmlspecialchars(
             text,
@@ -134,7 +134,7 @@ class Escaper implements EscaperInterface
     /**
      * Escapes a HTML attribute string
      */
-    public function escapeHtmlAttr(string attribute) -> string
+    public function escapeHtmlAttr(string attribute = null) -> string
     {
         return htmlspecialchars(
             attribute,

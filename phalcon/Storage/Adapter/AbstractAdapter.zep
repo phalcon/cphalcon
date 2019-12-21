@@ -13,6 +13,7 @@ namespace Phalcon\Storage\Adapter;
 use DateInterval;
 use DateTime;
 use Phalcon\Helper\Arr;
+use Phalcon\Helper\Str;
 use Phalcon\Storage\Exception;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Storage\Serializer\SerializerInterface;
@@ -59,16 +60,23 @@ abstract class AbstractAdapter implements AdapterInterface
 
     /**
      * Sets parameters based on options
+     *
+     * @param array options = [
+     *     'defaultSerializer' => 'Php',
+     *     'lifetime' => 3600,
+     *     'serializer' => null,
+     *     'prefix' => ''
+     * ]
      */
-    protected function __construct(<SerializerFactory> factory = null, array! options)
+    protected function __construct(<SerializerFactory> factory, array! options = [])
     {
         /**
          * Lets set some defaults and options here
          */
-        let this->defaultSerializer = Arr::get(options, "defaultSerializer", "Php"),
+        let this->serializerFactory = factory,
+            this->defaultSerializer = Arr::get(options, "defaultSerializer", "Php"),
             this->lifetime          = Arr::get(options, "lifetime", 3600),
-            this->serializer        = Arr::get(options, "serializer", null),
-            this->serializerFactory = factory;
+            this->serializer        = Arr::get(options, "serializer", null);
 
         if isset options["prefix"] {
             let this->prefix = options["prefix"];
@@ -93,7 +101,7 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
      * Reads data from the adapter
      */
-    abstract public function get(string! key) -> var;
+    abstract public function get(string! key, var defaultValue = null) -> var;
 
     /**
      * Returns the adapter - connects to the storage if not connected
@@ -103,7 +111,7 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
      * Returns all the keys stored
      */
-    abstract public function getKeys() -> array;
+    abstract public function getKeys(string! prefix = "") -> array;
 
     /**
      * Checks if an element exists in the cache
@@ -119,6 +127,32 @@ abstract class AbstractAdapter implements AdapterInterface
      * Stores data in the adapter
      */
     abstract public function set(string! key, var value, var ttl = null) -> bool;
+
+    /**
+     * Filters the keys array based on global and passed prefix
+     *
+     * @param mixed  $keys
+     * @param string $prefix
+     *
+     * @return array
+     */
+    protected function getFilteredKeys(var keys, string! prefix) -> array
+    {
+        var key, pattern;
+        array results;
+
+        let results = [],
+            pattern = this->prefix . prefix,
+            keys    = !keys ? [] : keys;
+
+        for key in keys {
+            if Str::startsWith(key, pattern) {
+                let results[] = key;
+            }
+        }
+
+        return results;
+    }
 
     /**
      * Returns the key requested, prefixed
@@ -190,10 +224,6 @@ abstract class AbstractAdapter implements AdapterInterface
     protected function initSerializer() -> void
     {
         string className;
-
-        if unlikely (null === this->serializer && null === this->serializerFactory) {
-            throw new Exception("A valid serializer is required");
-        }
 
         if !(typeof this->serializer == "object" && this->serializer instanceof SerializerInterface) {
             let className        = strtolower(this->defaultSerializer),

@@ -391,7 +391,7 @@ PHP_METHOD(Phalcon_Paginator_Repository, getProperty) {
 
 
 	zephir_read_property(&_1, this_ptr, SL("properties"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_arr_ce, "get", &_0, 14, &_1, &property, defaultValue);
+	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_arr_ce, "get", &_0, 15, &_1, &property, defaultValue);
 	zephir_check_call_status();
 	RETURN_MM();
 

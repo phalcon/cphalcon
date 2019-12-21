@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -10,11 +9,14 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Unit\Storage\Adapter\Stream;
 
 use Phalcon\Storage\Adapter\Stream;
 use Phalcon\Storage\SerializerFactory;
 use UnitTester;
+
 use function outputDir;
 use function uniqid;
 
@@ -61,6 +63,8 @@ class ClearCest
         $I->assertFalse(
             $adapter->has($key2)
         );
+
+        $I->safeDeleteDirectory(outputDir('ph-strm'));
     }
 
     /**
@@ -97,5 +101,7 @@ class ClearCest
 
         $actual = $adapter->clear();
         $I->assertTrue($actual);
+
+        $I->safeDeleteDirectory(outputDir('ph-strm'));
     }
 }

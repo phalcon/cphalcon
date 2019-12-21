@@ -48,7 +48,7 @@ class Simple extends Resultset
         bool keepSnapshots = null
     )
     {
-        let this->model = model,
+        let this->model     = model,
             this->columnMap = columnMap;
         /**
          * Set if the returned resultset must keep the record snapshots

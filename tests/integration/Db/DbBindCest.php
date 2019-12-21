@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Integration\Db;
 
 use IntegrationTester;
@@ -68,7 +70,6 @@ class DbBindCest
         );
 
 
-
         $params = $connection->convertBoundParams(
             'a=?0',
             [
@@ -86,7 +87,6 @@ class DbBindCest
             ],
             $params
         );
-
 
 
         $params = $connection->convertBoundParams(
@@ -109,7 +109,6 @@ class DbBindCest
         );
 
 
-
         $params = $connection->convertBoundParams(
             'a=?1 AND b = ?0',
             [
@@ -128,7 +127,6 @@ class DbBindCest
             ],
             $params
         );
-
 
 
         $params = $connection->convertBoundParams(

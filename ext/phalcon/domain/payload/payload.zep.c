@@ -40,6 +40,13 @@ ZEPHIR_INIT_CLASS(Phalcon_Domain_Payload_Payload) {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Domain\\Payload, Payload, phalcon, domain_payload_payload, phalcon_domain_payload_payload_method_entry, 0);
 
 	/**
+	 * Exception if any
+	 *
+	 * @var Throwable|null
+	 */
+	zend_declare_property_null(phalcon_domain_payload_payload_ce, SL("exception"), ZEND_ACC_PROTECTED);
+
+	/**
 	 * Extra information
 	 *
 	 * @var mixed
@@ -136,6 +143,43 @@ PHP_METHOD(Phalcon_Domain_Payload_Payload, getOutput) {
 
 
 	RETURN_MEMBER(getThis(), "output");
+
+}
+
+/**
+ * Gets the potential exception thrown in the domain layer
+ *
+ * @return Throwable|null
+ */
+PHP_METHOD(Phalcon_Domain_Payload_Payload, getException) {
+
+	zval *this_ptr = getThis();
+
+
+	RETURN_MEMBER(getThis(), "exception");
+
+}
+
+/**
+ * Sets an exception thrown in the domain
+ *
+ * @param Throwable $exception
+ *
+ * @return PayloadInterface
+ */
+PHP_METHOD(Phalcon_Domain_Payload_Payload, setException) {
+
+	zval *exception, exception_sub;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&exception_sub);
+
+	zephir_fetch_params_without_memory_grow(1, 0, &exception);
+
+
+
+	zephir_update_property_zval(this_ptr, SL("exception"), exception);
+	RETURN_THISW();
 
 }
 

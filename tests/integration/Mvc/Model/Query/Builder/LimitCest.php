@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -9,6 +8,8 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Mvc\Model\Query\Builder;
 
@@ -60,7 +61,7 @@ class LimitCest
         ;
 
         $I->assertEquals(
-            /** Just prevent IDE to highlight this as not valid SQL dialect */
+        /** Just prevent IDE to highlight this as not valid SQL dialect */
             'SELECT name ' . "FROM {$expected}",
             $phql
         );
@@ -73,13 +74,16 @@ class LimitCest
             /**
              * @todo Check these examples
              */
-            //            ["-7234", null, "[" . Robots::class . "] LIMIT :APL0:"],
-            //            ["18", null, "[" . Robots::class . "] LIMIT :APL0:"],
-            //            ["18", 2, "[" . Robots::class . "] LIMIT :APL0: OFFSET :APL1:"],
-            //            ["-1000", -200, "[" . Robots::class . "] LIMIT :APL0: OFFSET :APL1:"],
-            //            ["1000", "-200", "[" . Robots::class . "] LIMIT :APL0: OFFSET :APL1:"],
-            //            ["0", "-200", "[" . Robots::class . "]"],
-            //            ["%3CMETA%20HTTP-EQUIV%3D%22refresh%22%20CONT ENT%3D%220%3Burl%3Djavascript%3Aqss%3D7%22%3E", 50, "[" . Robots::class . "]"],
+            //  ["-7234", null, "[" . Robots::class . "] LIMIT :APL0:"],
+            //  ["18", null, "[" . Robots::class . "] LIMIT :APL0:"],
+            //  ["18", 2, "[" . Robots::class . "] LIMIT :APL0: OFFSET :APL1:"],
+            //  ["-1000", -200, "[" . Robots::class . "] LIMIT :APL0: OFFSET :APL1:"],
+            //  ["1000", "-200", "[" . Robots::class . "] LIMIT :APL0: OFFSET :APL1:"],
+            //  ["0", "-200", "[" . Robots::class . "]"],
+            //  [
+            //      "%3CMETA%20HTTP-EQUIV%3D%22refresh%22%20CONT ENT%3D%220%3Burl%3Djavascript%3Aqss%3D7%22%3E",
+            //      50, "[" . Robots::class . "]"
+            //  ],
         ];
     }
 }

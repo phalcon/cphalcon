@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Integration\Db;
 
 use IntegrationTester;
@@ -22,7 +24,6 @@ class ColumnCest
     public function shouldWorkPerfectlyWithColumnAsObject(IntegrationTester $I)
     {
         $columns = $this->getColumns();
-
 
 
         //Varchar column
@@ -57,7 +58,6 @@ class ColumnCest
         );
 
 
-
         //Integer column
         $column2 = $columns['column2'];
 
@@ -88,7 +88,6 @@ class ColumnCest
         $I->assertFalse(
             $column2->isNotNull()
         );
-
 
 
         // Decimal column
@@ -123,7 +122,6 @@ class ColumnCest
         );
 
 
-
         // Char column
         $column4 = $columns['column4'];
 
@@ -154,7 +152,6 @@ class ColumnCest
         $I->assertTrue(
             $column4->isNotNull()
         );
-
 
 
         // Date column
@@ -189,7 +186,6 @@ class ColumnCest
         );
 
 
-
         // Datetime column
         $column6 = $columns['column6'];
 
@@ -220,7 +216,6 @@ class ColumnCest
         $I->assertTrue(
             $column6->isNotNull()
         );
-
 
 
         //Text column
@@ -255,7 +250,6 @@ class ColumnCest
         );
 
 
-
         //Float column
         $column8 = $columns['column8'];
 
@@ -286,7 +280,6 @@ class ColumnCest
         $I->assertTrue(
             $column8->isNotNull()
         );
-
 
 
         //Varchar column + default value
@@ -326,7 +319,6 @@ class ColumnCest
         );
 
 
-
         //Integer column + default value
         $column10 = $columns['column10'];
 
@@ -364,7 +356,6 @@ class ColumnCest
         );
 
 
-
         //Bigint column
         $column11 = $columns['column11'];
 
@@ -400,7 +391,6 @@ class ColumnCest
         $I->assertFalse(
             $column11->isNotNull()
         );
-
 
 
         // Enum column
@@ -445,7 +435,6 @@ class ColumnCest
         );
 
 
-
         // Timestamp column
         $column13 = $columns['column13'];
 
@@ -469,7 +458,6 @@ class ColumnCest
         );
 
 
-
         // Tinyblob column
         $column14 = $columns['column14'];
 
@@ -486,7 +474,6 @@ class ColumnCest
         $I->assertTrue(
             $column14->isNotNull()
         );
-
 
 
         // Mediumblob column
@@ -507,7 +494,6 @@ class ColumnCest
         );
 
 
-
         // Blob column
         $column16 = $columns['column16'];
 
@@ -524,7 +510,6 @@ class ColumnCest
         $I->assertTrue(
             $column16->isNotNull()
         );
-
 
 
         // Longblob column
@@ -545,7 +530,6 @@ class ColumnCest
         );
 
 
-
         // Boolean column
         $column18 = $columns['column18'];
 
@@ -558,7 +542,6 @@ class ColumnCest
             Column::TYPE_BOOLEAN,
             $column18->getType()
         );
-
 
 
         // Double column
@@ -577,7 +560,6 @@ class ColumnCest
         $I->assertFalse(
             $column19->isUnsigned()
         );
-
 
 
         // Unsigned double column

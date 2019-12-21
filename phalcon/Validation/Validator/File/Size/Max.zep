@@ -63,6 +63,21 @@ class Max extends AbstractFile
     protected template = "File :field exceeds the size of :size";
 
     /**
+     * Constructor
+     *
+     * @param array options = [
+     *     'message' => '',
+     *     'template' => '',
+     *     'size' => '2.5MB',
+     *     'included' => false
+     * ]
+     */
+    public function __construct(array! options = [])
+    {
+        parent::__construct(options);
+    }
+
+    /**
      * Executes the validation
      */
     public function validate(<Validation> validation, var field) -> bool

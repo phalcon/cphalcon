@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -10,13 +9,14 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Unit\Logger\Formatter\Json;
 
+use Phalcon\Logger;
 use Phalcon\Logger\Formatter\Json;
 use Phalcon\Logger\Item;
-use Phalcon\Logger;
 use UnitTester;
-use const PHP_EOL;
 
 class FormatCest
 {
@@ -42,9 +42,8 @@ class FormatCest
         );
 
         $expected = sprintf(
-            '{"type":"debug","message":"log message","timestamp":"%s"}%s',
-            date('D, d M y H:i:s O', $time),
-            PHP_EOL
+            '{"type":"debug","message":"log message","timestamp":"%s"}',
+            date('c', $time)
         );
 
         $I->assertEquals(
@@ -75,9 +74,8 @@ class FormatCest
         );
 
         $expected = sprintf(
-            '{"type":"debug","message":"log message","timestamp":"%s"}%s',
-            date('YmdHis', $time),
-            PHP_EOL
+            '{"type":"debug","message":"log message","timestamp":"%s"}',
+            date('YmdHis', $time)
         );
 
         $I->assertEquals(

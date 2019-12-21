@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -9,6 +8,8 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Mvc\Micro;
 
@@ -38,7 +39,6 @@ class OffsetExistsCest
         $micro->setDi($di);
 
 
-
         $I->assertFalse(
             isset($micro['fake'])
         );
@@ -56,7 +56,6 @@ class OffsetExistsCest
         );
 
 
-
         $escaper = new Escaper();
 
         $micro->setService('escaper', $escaper);
@@ -66,7 +65,6 @@ class OffsetExistsCest
         );
 
 
-
         $dispatcher = new Dispatcher();
 
         $micro['dispatcher'] = $dispatcher;
@@ -74,7 +72,6 @@ class OffsetExistsCest
         $I->assertTrue(
             isset($micro['dispatcher'])
         );
-
 
 
         $router = new Router();

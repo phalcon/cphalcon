@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -10,11 +9,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Integration\Mvc\Model\MetaData\Apcu;
 
-use function apcu_clear_cache;
-use function apcu_fetch;
-use function dataDir;
 use IntegrationTester;
 use Phalcon\Cache\AdapterFactory;
 use Phalcon\Mvc\Model\MetaData\Apcu;
@@ -22,6 +20,10 @@ use Phalcon\Mvc\Model\MetaDataInterface;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Robots;
+
+use function apcu_clear_cache;
+use function apcu_fetch;
+use function dataDir;
 use function serialize;
 
 class ConstructCest
@@ -46,7 +48,6 @@ class ConstructCest
                 return new Apcu(
                     $factory,
                     [
-                        'prefix'   => 'app\\',
                         'lifetime' => 60,
                     ]
                 );

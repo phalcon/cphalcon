@@ -144,7 +144,7 @@ void phalcon_replace_paths(zval *return_value, zval *pattern, zval *paths, zval 
 	unsigned int bracket_count = 0, parentheses_count = 0, intermediate = 0;
 	unsigned char ch;
 	smart_str route_str = {0};
-	ulong position = 1;
+	zend_ulong position = 1;
 	int i;
 	zval *replace, replace_copy;
 	int use_copy, looking_placeholder = 0;

@@ -13,10 +13,12 @@
 
 #include "kernel/main.h"
 #include "kernel/fcall.h"
-#include "kernel/operators.h"
 #include "kernel/memory.h"
-#include "kernel/string.h"
+#include "ext/spl/spl_exceptions.h"
+#include "kernel/exception.h"
 #include "kernel/object.h"
+#include "kernel/operators.h"
+#include "kernel/string.h"
 
 
 /**
@@ -68,6 +70,43 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Numericality) {
 	zend_declare_property_string(phalcon_validation_validator_numericality_ce, SL("template"), "Field :field does not have a valid numeric format", ZEND_ACC_PROTECTED);
 
 	return SUCCESS;
+
+}
+
+/**
+ * Constructor
+ *
+ * @param array options = [
+ *     'message' => '',
+ *     'template' => '',
+ *     'allowEmpty' => false
+ * ]
+ */
+PHP_METHOD(Phalcon_Validation_Validator_Numericality, __construct) {
+
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zephir_fcall_cache_entry *_0 = NULL;
+	zval *options_param = NULL;
+	zval options;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&options);
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 0, 1, &options_param);
+
+	if (!options_param) {
+		ZEPHIR_INIT_VAR(&options);
+		array_init(&options);
+	} else {
+	ZEPHIR_OBS_COPY_OR_DUP(&options, options_param);
+	}
+
+
+	ZEPHIR_CALL_PARENT(NULL, phalcon_validation_validator_numericality_ce, getThis(), "__construct", &_0, 0, &options);
+	zephir_check_call_status();
+	ZEPHIR_MM_RESTORE();
 
 }
 

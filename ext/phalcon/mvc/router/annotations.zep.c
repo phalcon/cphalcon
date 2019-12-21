@@ -327,9 +327,9 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle) {
 			if (!(ZEPHIR_IS_EMPTY(&prefix))) {
 				ZEPHIR_INIT_NVAR(&route);
 				object_init_ex(&route, phalcon_mvc_router_route_ce);
-				ZEPHIR_CALL_METHOD(NULL, &route, "__construct", &_8, 108, &prefix);
+				ZEPHIR_CALL_METHOD(NULL, &route, "__construct", &_8, 110, &prefix);
 				zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_9$$6, &route, "getcompiledpattern", &_10, 485);
+				ZEPHIR_CALL_METHOD(&_9$$6, &route, "getcompiledpattern", &_10, 460);
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&_11$$6);
 				ZVAL_STRING(&_11$$6, "$#");
@@ -533,9 +533,9 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle) {
 				if (!(ZEPHIR_IS_EMPTY(&prefix))) {
 					ZEPHIR_INIT_NVAR(&route);
 					object_init_ex(&route, phalcon_mvc_router_route_ce);
-					ZEPHIR_CALL_METHOD(NULL, &route, "__construct", &_8, 108, &prefix);
+					ZEPHIR_CALL_METHOD(NULL, &route, "__construct", &_8, 110, &prefix);
 					zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(&_32$$29, &route, "getcompiledpattern", &_10, 485);
+					ZEPHIR_CALL_METHOD(&_32$$29, &route, "getcompiledpattern", &_10, 460);
 					zephir_check_call_status();
 					ZEPHIR_INIT_NVAR(&_33$$29);
 					ZVAL_STRING(&_33$$29, "$#");
@@ -741,7 +741,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation) {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_11 = NULL, *_12 = NULL, *_17 = NULL, *_18 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *module_param = NULL, *namespaceName_param = NULL, *controller_param = NULL, *action_param = NULL, *annotation, annotation_sub, name, actionName, routePrefix, paths, value, uri, route, methods, converts, param, convert, conversorParam, routeName, beforeMatch, _0, _1, _2, _3, _4, _5$$15, *_7$$17, _8$$17, *_13$$20, _14$$20;
+	zval *module_param = NULL, *namespaceName_param = NULL, *controller_param = NULL, *action_param = NULL, *annotation, annotation_sub, name, actionName, routePrefix, paths, value, uri, route, methods, converts, param, convert, converterParam, routeName, beforeMatch, _0, _1, _2, _3, _4, _5$$15, *_7$$17, _8$$17, *_13$$20, _14$$20;
 	zval module, namespaceName, controller, action;
 	zval *this_ptr = getThis();
 
@@ -761,7 +761,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation) {
 	ZVAL_UNDEF(&converts);
 	ZVAL_UNDEF(&param);
 	ZVAL_UNDEF(&convert);
-	ZVAL_UNDEF(&conversorParam);
+	ZVAL_UNDEF(&converterParam);
 	ZVAL_UNDEF(&routeName);
 	ZVAL_UNDEF(&beforeMatch);
 	ZVAL_UNDEF(&_0);
@@ -941,7 +941,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation) {
 		ZEPHIR_INIT_NVAR(&param);
 	}
 	ZEPHIR_INIT_NVAR(&_4);
-	ZVAL_STRING(&_4, "conversors");
+	ZVAL_STRING(&_4, "converters");
 	ZEPHIR_CALL_METHOD(&converts, annotation, "getnamedargument", NULL, 0, &_4);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&converts) == IS_ARRAY) {
@@ -949,15 +949,15 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation) {
 		if (Z_TYPE_P(&converts) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&converts), _15$$20, _16$$20, _13$$20)
 			{
-				ZEPHIR_INIT_NVAR(&conversorParam);
+				ZEPHIR_INIT_NVAR(&converterParam);
 				if (_16$$20 != NULL) { 
-					ZVAL_STR_COPY(&conversorParam, _16$$20);
+					ZVAL_STR_COPY(&converterParam, _16$$20);
 				} else {
-					ZVAL_LONG(&conversorParam, _15$$20);
+					ZVAL_LONG(&converterParam, _15$$20);
 				}
 				ZEPHIR_INIT_NVAR(&convert);
 				ZVAL_COPY(&convert, _13$$20);
-				ZEPHIR_CALL_METHOD(NULL, &route, "convert", &_17, 0, &conversorParam, &convert);
+				ZEPHIR_CALL_METHOD(NULL, &route, "convert", &_17, 0, &converterParam, &convert);
 				zephir_check_call_status();
 			} ZEND_HASH_FOREACH_END();
 		} else {
@@ -969,18 +969,18 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation) {
 				if (!zend_is_true(&_14$$20)) {
 					break;
 				}
-				ZEPHIR_CALL_METHOD(&conversorParam, &converts, "key", NULL, 0);
+				ZEPHIR_CALL_METHOD(&converterParam, &converts, "key", NULL, 0);
 				zephir_check_call_status();
 				ZEPHIR_CALL_METHOD(&convert, &converts, "current", NULL, 0);
 				zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(NULL, &route, "convert", &_18, 0, &conversorParam, &convert);
+					ZEPHIR_CALL_METHOD(NULL, &route, "convert", &_18, 0, &converterParam, &convert);
 					zephir_check_call_status();
 				ZEPHIR_CALL_METHOD(NULL, &converts, "next", NULL, 0);
 				zephir_check_call_status();
 			}
 		}
 		ZEPHIR_INIT_NVAR(&convert);
-		ZEPHIR_INIT_NVAR(&conversorParam);
+		ZEPHIR_INIT_NVAR(&converterParam);
 	}
 	ZEPHIR_INIT_NVAR(&_4);
 	ZVAL_STRING(&_4, "beforeMatch");

@@ -63,6 +63,10 @@ class Stream extends AbstractAdapter
 
     /**
      * Constructor. Accepts the name and some options
+     *
+     * @param array options = [
+     *     'mode' => 'ab'
+     * ]
      */
     public function __construct(string! name, array options = [])
     {
@@ -125,7 +129,7 @@ class Stream extends AbstractAdapter
         }
 
         let formatter        = this->getFormatter(),
-            formattedMessage = formatter->format(item);
+            formattedMessage = formatter->format(item) . PHP_EOL;
 
         fwrite(this->handler, formattedMessage);
     }

@@ -47,6 +47,13 @@ class ConfigFactory extends AbstractFactory
 
     /**
      * Load a config to create a new instance
+     *
+     * @param string|array|\Phalcon\Config config = [
+     *      'adapter' => 'ini',
+     *      'filePath' => 'config.ini',
+     *      'mode' => null,
+     *      'callbacks' => null
+     * ]
      */
     public function load(config) -> object
     {
@@ -116,19 +123,15 @@ class ConfigFactory extends AbstractFactory
 
         this->checkService(name);
 
-        if !isset this->services[name] {
-            let definition = this->mapper[name],
-                options    = [],
-                options[]  = fileName;
+        let definition = this->mapper[name],
+            options    = [],
+            options[]  = fileName;
 
-            if "json" !== name && "php" !== name {
-                let options[] = params;
-            }
-
-            let this->services[name] = create_instance_params(definition, options);
+        if "json" !== name && "php" !== name {
+            let options[] = params;
         }
 
-        return this->services[name];
+        return create_instance_params(definition, options);
     }
 
     /**

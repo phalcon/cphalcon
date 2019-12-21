@@ -27,7 +27,7 @@ PHP_METHOD(Phalcon_Di, reset);
 PHP_METHOD(Phalcon_Di, set);
 PHP_METHOD(Phalcon_Di, setDefault);
 PHP_METHOD(Phalcon_Di, setInternalEventsManager);
-PHP_METHOD(Phalcon_Di, setRaw);
+PHP_METHOD(Phalcon_Di, setService);
 PHP_METHOD(Phalcon_Di, setShared);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di___call, 0, 0, 1)
@@ -296,9 +296,9 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_setinternaleventsmanager, 0, 0, 1)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_di_setraw, 0, 2, Phalcon\\Di\\ServiceInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_di_setservice, 0, 2, Phalcon\\Di\\ServiceInterface, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_setraw, 0, 2, IS_OBJECT, "Phalcon\\Di\\ServiceInterface", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_setservice, 0, 2, IS_OBJECT, "Phalcon\\Di\\ServiceInterface", 0)
 #endif
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
@@ -346,7 +346,7 @@ ZEPHIR_INIT_FUNCS(phalcon_di_method_entry) {
 	PHP_ME(Phalcon_Di, set, arginfo_phalcon_di_set, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Di, setDefault, arginfo_phalcon_di_setdefault, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Di, setInternalEventsManager, arginfo_phalcon_di_setinternaleventsmanager, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Di, setRaw, arginfo_phalcon_di_setraw, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Di, setService, arginfo_phalcon_di_setservice, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Di, setShared, arginfo_phalcon_di_setshared, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };

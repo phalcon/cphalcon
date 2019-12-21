@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -9,6 +8,8 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Logger\Formatter\Json;
 
@@ -30,7 +31,7 @@ class GetDateFormatCest
         $formatter = new Json();
 
         $I->assertEquals(
-            'D, d M y H:i:s O',
+            'c',
             $formatter->getDateFormat()
         );
     }

@@ -46,6 +46,10 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
 
     /**
      * Manager constructor.
+     *
+     * @param array options = [
+     *     'uniqueId' => null
+     * ]
      */
     public function __construct(array options = [])
     {
