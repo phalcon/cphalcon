@@ -293,7 +293,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, check) {
 	if (zephir_is_true(&_0)) {
 		RETURN_MM_BOOL(1);
 	}
-	if (UNEXPECTED(!((zephir_function_exists_ex(ZEND_STRL("gd_info")) == SUCCESS)))) {
+	if (UNEXPECTED(!((zephir_function_exists_ex(SL("gd_info")) == SUCCESS)))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_image_exception_ce, "GD is either not installed or not enabled, check your configuration", "phalcon/Image/Adapter/Gd.zep", 118);
 		return;
 	}
@@ -341,7 +341,7 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, getVersion) {
 
 	ZEPHIR_MM_GROW();
 
-	if (UNEXPECTED(!((zephir_function_exists_ex(ZEND_STRL("gd_info")) == SUCCESS)))) {
+	if (UNEXPECTED(!((zephir_function_exists_ex(SL("gd_info")) == SUCCESS)))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_image_exception_ce, "GD is either not installed or not enabled, check your configuration", "phalcon/Image/Adapter/Gd.zep", 141);
 		return;
 	}

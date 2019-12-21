@@ -129,7 +129,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, __construct) {
 	if (_0) {
 		zephir_update_property_zval(this_ptr, SL("paths"), paths);
 	}
-	if ((zephir_method_exists_ex(this_ptr, ZEND_STRL("initialize")) == SUCCESS)) {
+	if ((zephir_method_exists_ex(this_ptr, SL("initialize")) == SUCCESS)) {
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "initialize", NULL, 0, paths);
 		zephir_check_call_status();
 	}

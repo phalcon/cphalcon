@@ -260,7 +260,7 @@ PHP_METHOD(Phalcon_Messages_Messages, filter) {
 			{
 				ZEPHIR_INIT_NVAR(&message);
 				ZVAL_COPY(&message, _1$$3);
-				if ((zephir_method_exists_ex(&message, ZEND_STRL("getfield")) == SUCCESS)) {
+				if ((zephir_method_exists_ex(&message, SL("getfield")) == SUCCESS)) {
 					ZEPHIR_CALL_METHOD(&_3$$5, &message, "getfield", NULL, 0);
 					zephir_check_call_status();
 					if (ZEPHIR_IS_EQUAL(&fieldName, &_3$$5)) {
@@ -279,7 +279,7 @@ PHP_METHOD(Phalcon_Messages_Messages, filter) {
 				}
 				ZEPHIR_CALL_METHOD(&message, &messages, "current", NULL, 0);
 				zephir_check_call_status();
-					if ((zephir_method_exists_ex(&message, ZEND_STRL("getfield")) == SUCCESS)) {
+					if ((zephir_method_exists_ex(&message, SL("getfield")) == SUCCESS)) {
 						ZEPHIR_CALL_METHOD(&_4$$8, &message, "getfield", NULL, 0);
 						zephir_check_call_status();
 						if (ZEPHIR_IS_EQUAL(&fieldName, &_4$$8)) {
@@ -334,7 +334,7 @@ PHP_METHOD(Phalcon_Messages_Messages, jsonSerialize) {
 			ZVAL_COPY(&message, _1);
 			_3$$3 = Z_TYPE_P(&message) == IS_OBJECT;
 			if (_3$$3) {
-				_3$$3 = (zephir_method_exists_ex(&message, ZEND_STRL("jsonserialize")) == SUCCESS);
+				_3$$3 = (zephir_method_exists_ex(&message, SL("jsonserialize")) == SUCCESS);
 			}
 			if (_3$$3) {
 				ZEPHIR_CALL_METHOD(&_4$$4, &message, "jsonserialize", NULL, 0);
@@ -357,7 +357,7 @@ PHP_METHOD(Phalcon_Messages_Messages, jsonSerialize) {
 			zephir_check_call_status();
 				_5$$6 = Z_TYPE_P(&message) == IS_OBJECT;
 				if (_5$$6) {
-					_5$$6 = (zephir_method_exists_ex(&message, ZEND_STRL("jsonserialize")) == SUCCESS);
+					_5$$6 = (zephir_method_exists_ex(&message, SL("jsonserialize")) == SUCCESS);
 				}
 				if (_5$$6) {
 					ZEPHIR_CALL_METHOD(&_6$$7, &message, "jsonserialize", NULL, 0);

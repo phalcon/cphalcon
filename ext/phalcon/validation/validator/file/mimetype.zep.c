@@ -140,7 +140,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File_MimeType, validate) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "Option 'allowedTypes' must be an array", "phalcon/Validation/Validator/File/MimeType.zep", 96);
 		return;
 	}
-	if ((zephir_function_exists_ex(ZEND_STRL("finfo_open")) == SUCCESS)) {
+	if ((zephir_function_exists_ex(SL("finfo_open")) == SUCCESS)) {
 		ZVAL_LONG(&_2$$6, 16);
 		ZEPHIR_CALL_FUNCTION(&tmp, "finfo_open", NULL, 354, &_2$$6);
 		zephir_check_call_status();

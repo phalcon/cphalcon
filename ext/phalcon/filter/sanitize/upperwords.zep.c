@@ -72,7 +72,7 @@ PHP_METHOD(Phalcon_Filter_Sanitize_UpperWords, __invoke) {
 	}
 
 
-	if (1 == (zephir_function_exists_ex(ZEND_STRL("mb_convert_case")) == SUCCESS)) {
+	if (1 == (zephir_function_exists_ex(SL("mb_convert_case")) == SUCCESS)) {
 		ZVAL_LONG(&_0$$3, 2);
 		ZEPHIR_INIT_VAR(&_1$$3);
 		ZVAL_STRING(&_1$$3, "UTF-8");

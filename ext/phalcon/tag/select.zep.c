@@ -450,7 +450,7 @@ PHP_METHOD(Phalcon_Tag_Select, optionsFromResultset) {
 		}
 		if (Z_TYPE_P(using) == IS_ARRAY) {
 			if (Z_TYPE_P(&option) == IS_OBJECT) {
-				if ((zephir_method_exists_ex(&option, ZEND_STRL("readattribute")) == SUCCESS)) {
+				if ((zephir_method_exists_ex(&option, SL("readattribute")) == SUCCESS)) {
 					ZEPHIR_CALL_METHOD(&optionValue, &option, "readattribute", NULL, 0, &usingZero);
 					zephir_check_call_status();
 					ZEPHIR_CALL_METHOD(&optionText, &option, "readattribute", NULL, 0, &usingOne);

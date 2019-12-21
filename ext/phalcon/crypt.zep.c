@@ -921,7 +921,7 @@ PHP_METHOD(Phalcon_Crypt, getAvailableHashAlgos) {
 
 	ZEPHIR_MM_GROW();
 
-	if (EXPECTED((zephir_function_exists_ex(ZEND_STRL("hash_hmac_algos")) == SUCCESS))) {
+	if (EXPECTED((zephir_function_exists_ex(SL("hash_hmac_algos")) == SUCCESS))) {
 		ZEPHIR_RETURN_CALL_FUNCTION("hash_hmac_algos", NULL, 184);
 		zephir_check_call_status();
 		RETURN_MM();
@@ -1362,7 +1362,7 @@ PHP_METHOD(Phalcon_Crypt, getIvLength) {
 	}
 
 
-	if (UNEXPECTED(!((zephir_function_exists_ex(ZEND_STRL("openssl_cipher_iv_length")) == SUCCESS)))) {
+	if (UNEXPECTED(!((zephir_function_exists_ex(SL("openssl_cipher_iv_length")) == SUCCESS)))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "openssl extension is required", "phalcon/Crypt.zep", 572);
 		return;
 	}
@@ -1394,7 +1394,7 @@ PHP_METHOD(Phalcon_Crypt, initializeAvailableCiphers) {
 
 	ZEPHIR_MM_GROW();
 
-	if (UNEXPECTED(!((zephir_function_exists_ex(ZEND_STRL("openssl_get_cipher_methods")) == SUCCESS)))) {
+	if (UNEXPECTED(!((zephir_function_exists_ex(SL("openssl_get_cipher_methods")) == SUCCESS)))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "openssl extension is required", "phalcon/Crypt.zep", 586);
 		return;
 	}

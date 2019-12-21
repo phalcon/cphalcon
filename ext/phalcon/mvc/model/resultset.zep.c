@@ -255,7 +255,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete) {
 		ZEPHIR_CALL_METHOD(&record, this_ptr, "current", &_2, 0);
 		zephir_check_call_status();
 		if (transaction == 0) {
-			if (UNEXPECTED(!((zephir_method_exists_ex(&record, ZEND_STRL("getwriteconnection")) == SUCCESS)))) {
+			if (UNEXPECTED(!((zephir_method_exists_ex(&record, SL("getwriteconnection")) == SUCCESS)))) {
 				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The returned record is not valid", "phalcon/Mvc/Model/Resultset.zep", 198);
 				return;
 			}
@@ -543,7 +543,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, jsonSerialize) {
 		zephir_check_call_status();
 		_3$$3 = Z_TYPE_P(&current) == IS_OBJECT;
 		if (_3$$3) {
-			_3$$3 = (zephir_method_exists_ex(&current, ZEND_STRL("jsonserialize")) == SUCCESS);
+			_3$$3 = (zephir_method_exists_ex(&current, SL("jsonserialize")) == SUCCESS);
 		}
 		if (_3$$3) {
 			ZEPHIR_CALL_METHOD(&_4$$4, &current, "jsonserialize", NULL, 0);
@@ -909,7 +909,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, update) {
 		ZEPHIR_CALL_METHOD(&record, this_ptr, "current", &_2, 0);
 		zephir_check_call_status();
 		if (transaction == 0) {
-			if (UNEXPECTED(!((zephir_method_exists_ex(&record, ZEND_STRL("getwriteconnection")) == SUCCESS)))) {
+			if (UNEXPECTED(!((zephir_method_exists_ex(&record, SL("getwriteconnection")) == SUCCESS)))) {
 				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The returned record is not valid", "phalcon/Mvc/Model/Resultset.zep", 587);
 				return;
 			}

@@ -141,7 +141,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, addExtension) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_view_engine_volt_exception_ce, "The extension is not valid", "phalcon/Mvc/View/Engine/Volt/Compiler.zep", 67);
 		return;
 	}
-	if ((zephir_method_exists_ex(extension, ZEND_STRL("initialize")) == SUCCESS)) {
+	if ((zephir_method_exists_ex(extension, SL("initialize")) == SUCCESS)) {
 		ZEPHIR_CALL_METHOD(NULL, extension, "initialize", NULL, 0, this_ptr);
 		zephir_check_call_status();
 	}

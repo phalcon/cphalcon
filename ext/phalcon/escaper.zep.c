@@ -104,7 +104,7 @@ PHP_METHOD(Phalcon_Escaper, detectEncoding) {
 	if (Z_TYPE_P(&charset) == IS_STRING) {
 		RETURN_CCTOR(&charset);
 	}
-	if (!((zephir_function_exists_ex(ZEND_STRL("mb_detect_encoding")) == SUCCESS))) {
+	if (!((zephir_function_exists_ex(SL("mb_detect_encoding")) == SUCCESS))) {
 		RETURN_MM_NULL();
 	}
 	ZEPHIR_INIT_VAR(&_0);
@@ -346,7 +346,7 @@ PHP_METHOD(Phalcon_Escaper, normalizeEncoding) {
 	zephir_get_strval(&str, str_param);
 
 
-	if (UNEXPECTED(!((zephir_function_exists_ex(ZEND_STRL("mb_convert_encoding")) == SUCCESS)))) {
+	if (UNEXPECTED(!((zephir_function_exists_ex(SL("mb_convert_encoding")) == SUCCESS)))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_escaper_exception_ce, "Extension 'mbstring' is required", "phalcon/Escaper.zep", 172);
 		return;
 	}

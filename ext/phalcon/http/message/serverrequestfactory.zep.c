@@ -301,7 +301,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequestFactory, getHeaders) {
 
 	ZEPHIR_MM_GROW();
 
-	if (EXPECTED((zephir_function_exists_ex(ZEND_STRL("apache_request_headers")) == SUCCESS))) {
+	if (EXPECTED((zephir_function_exists_ex(SL("apache_request_headers")) == SUCCESS))) {
 		ZEPHIR_RETURN_CALL_FUNCTION("apache_request_headers", NULL, 301);
 		zephir_check_call_status();
 		RETURN_MM();

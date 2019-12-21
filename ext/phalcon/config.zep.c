@@ -326,7 +326,7 @@ PHP_METHOD(Phalcon_Config, toArray) {
 			ZVAL_COPY(&value, _1);
 			_5$$3 = Z_TYPE_P(&value) == IS_OBJECT;
 			if (_5$$3) {
-				_5$$3 = (zephir_method_exists_ex(&value, ZEND_STRL("toarray")) == SUCCESS);
+				_5$$3 = (zephir_method_exists_ex(&value, SL("toarray")) == SUCCESS);
 			}
 			if (_5$$3) {
 				ZEPHIR_CALL_METHOD(&_6$$4, &value, "toarray", NULL, 0);
@@ -350,7 +350,7 @@ PHP_METHOD(Phalcon_Config, toArray) {
 			zephir_check_call_status();
 				_7$$5 = Z_TYPE_P(&value) == IS_OBJECT;
 				if (_7$$5) {
-					_7$$5 = (zephir_method_exists_ex(&value, ZEND_STRL("toarray")) == SUCCESS);
+					_7$$5 = (zephir_method_exists_ex(&value, SL("toarray")) == SUCCESS);
 				}
 				if (_7$$5) {
 					ZEPHIR_CALL_METHOD(&_8$$6, &value, "toarray", NULL, 0);

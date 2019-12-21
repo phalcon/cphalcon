@@ -1375,7 +1375,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, initialize) {
 			if (Z_TYPE_P(&data) != IS_NULL) {
 				zephir_update_property_array(this_ptr, SL("metaData"), key, &data);
 			} else {
-				if ((zephir_method_exists_ex(model, ZEND_STRL("metadata")) == SUCCESS)) {
+				if ((zephir_method_exists_ex(model, SL("metadata")) == SUCCESS)) {
 					ZEPHIR_CALL_METHOD(&modelMetadata, model, "metadata", NULL, 0);
 					zephir_check_call_status();
 					if (UNEXPECTED(Z_TYPE_P(&modelMetadata) != IS_ARRAY)) {

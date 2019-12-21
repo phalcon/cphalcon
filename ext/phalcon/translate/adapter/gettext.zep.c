@@ -150,7 +150,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, __construct) {
 	ZEPHIR_OBS_COPY_OR_DUP(&options, options_param);
 
 
-	if (UNEXPECTED(!((zephir_function_exists_ex(ZEND_STRL("gettext")) == SUCCESS)))) {
+	if (UNEXPECTED(!((zephir_function_exists_ex(SL("gettext")) == SUCCESS)))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_translate_exception_ce, "This class requires the gettext extension for PHP", "phalcon/Translate/Adapter/Gettext.zep", 72);
 		return;
 	}

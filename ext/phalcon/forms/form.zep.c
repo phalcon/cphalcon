@@ -142,7 +142,7 @@ PHP_METHOD(Phalcon_Forms_Form, __construct) {
 	ZEPHIR_CALL_METHOD(NULL, &_1, "__construct", NULL, 21);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("attributes"), &_1);
-	if ((zephir_method_exists_ex(this_ptr, ZEND_STRL("initialize")) == SUCCESS)) {
+	if ((zephir_method_exists_ex(this_ptr, SL("initialize")) == SUCCESS)) {
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "initialize", NULL, 0, entity, &userOptions);
 		zephir_check_call_status();
 	}
@@ -997,7 +997,7 @@ PHP_METHOD(Phalcon_Forms_Form, getValue) {
 	ZEPHIR_CPY_WRT(&entity, &_0);
 	zephir_read_property(&_0, this_ptr, SL("data"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&data, &_0);
-	if ((zephir_method_exists_ex(this_ptr, ZEND_STRL("getcustomvalue")) == SUCCESS)) {
+	if ((zephir_method_exists_ex(this_ptr, SL("getcustomvalue")) == SUCCESS)) {
 		ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getcustomvalue", NULL, 0, &name, &entity, &data);
 		zephir_check_call_status();
 		RETURN_MM();
@@ -1218,7 +1218,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid) {
 			zephir_check_call_status();
 		}
 	}
-	if ((zephir_method_exists_ex(this_ptr, ZEND_STRL("beforevalidation")) == SUCCESS)) {
+	if ((zephir_method_exists_ex(this_ptr, SL("beforevalidation")) == SUCCESS)) {
 		ZEPHIR_CALL_METHOD(&_4$$8, this_ptr, "beforevalidation", NULL, 0, data, entity);
 		zephir_check_call_status();
 		if (ZEPHIR_IS_FALSE_IDENTICAL(&_4$$8)) {
@@ -1368,7 +1368,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid) {
 	if (!(validationStatus)) {
 		zephir_update_property_zval(this_ptr, SL("messages"), &messages);
 	}
-	if ((zephir_method_exists_ex(this_ptr, ZEND_STRL("aftervalidation")) == SUCCESS)) {
+	if ((zephir_method_exists_ex(this_ptr, SL("aftervalidation")) == SUCCESS)) {
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "aftervalidation", NULL, 0, &messages);
 		zephir_check_call_status();
 	}

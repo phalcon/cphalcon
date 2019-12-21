@@ -299,7 +299,7 @@ int zephir_cleanup_fcache(void *pDest, int num_args, va_list args, zend_hash_key
 {
 	zephir_fcall_cache_entry **entry = (zephir_fcall_cache_entry**) pDest;
 	zend_class_entry *scope;
-	size_t len = ZSTR_LEN(hash_key->key);
+	uint len = ZSTR_LEN(hash_key->key);
 
 	assert(hash_key->key != NULL);
 	assert(len > 2 * sizeof(zend_class_entry**));

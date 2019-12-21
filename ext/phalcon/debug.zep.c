@@ -1285,7 +1285,7 @@ PHP_METHOD(Phalcon_Debug, getVarDump) {
 	if (Z_TYPE_P(variable) == IS_OBJECT) {
 		ZEPHIR_INIT_VAR(&className);
 		zephir_get_class(&className, variable, 0);
-		if ((zephir_method_exists_ex(variable, ZEND_STRL("dump")) == SUCCESS)) {
+		if ((zephir_method_exists_ex(variable, SL("dump")) == SUCCESS)) {
 			ZEPHIR_CALL_METHOD(&dumpedObject, variable, "dump", NULL, 0);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&_0$$8, this_ptr, "getarraydump", NULL, 0, &dumpedObject);

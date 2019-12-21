@@ -35,6 +35,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Request_FileInterface) {
 }
 
 /**
+ * Returns the error if any
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Http_Request_FileInterface, getError);
+
+/**
  * Returns the real name of the uploaded file
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_Request_FileInterface, getName);

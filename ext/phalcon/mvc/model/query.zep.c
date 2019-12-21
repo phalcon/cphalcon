@@ -6516,7 +6516,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _executeSelect) {
 		}
 		_90$$83 = zephir_instance_of_ev(&resultObject, phalcon_mvc_modelinterface_ce);
 		if (_90$$83) {
-			_90$$83 = (zephir_method_exists_ex(&resultObject, ZEND_STRL("getresultsetclass")) == SUCCESS);
+			_90$$83 = (zephir_method_exists_ex(&resultObject, SL("getresultsetclass")) == SUCCESS);
 		}
 		if (_90$$83) {
 			ZEPHIR_CALL_METHOD(&resultsetClassName, &resultObject, "getresultsetclass", NULL, 0);
@@ -7930,7 +7930,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getReadConnection) {
 		zephir_check_call_status();
 		RETURN_MM();
 	}
-	if ((zephir_method_exists_ex(model, ZEND_STRL("selectreadconnection")) == SUCCESS)) {
+	if ((zephir_method_exists_ex(model, SL("selectreadconnection")) == SUCCESS)) {
 		ZEPHIR_CALL_METHOD(&connection, model, "selectreadconnection", NULL, 0, &intermediate, &bindParams, &bindTypes);
 		zephir_check_call_status();
 		if (UNEXPECTED(Z_TYPE_P(&connection) != IS_OBJECT)) {
@@ -8001,7 +8001,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, getWriteConnection) {
 		zephir_check_call_status();
 		RETURN_MM();
 	}
-	if ((zephir_method_exists_ex(model, ZEND_STRL("selectwriteconnection")) == SUCCESS)) {
+	if ((zephir_method_exists_ex(model, SL("selectwriteconnection")) == SUCCESS)) {
 		ZEPHIR_CALL_METHOD(&connection, model, "selectwriteconnection", NULL, 0, &intermediate, &bindParams, &bindTypes);
 		zephir_check_call_status();
 		if (UNEXPECTED(Z_TYPE_P(&connection) != IS_OBJECT)) {

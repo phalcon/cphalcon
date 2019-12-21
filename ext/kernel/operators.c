@@ -40,7 +40,7 @@
 void zephir_concat_self(zval *left, zval *right)
 {
 	zval left_copy, right_copy;
-	size_t length, left_length, right_length;
+	uint length, left_length, right_length;
 	int use_copy_left = 0, use_copy_right = 0;
 	zend_string *target;
 
@@ -131,7 +131,7 @@ void zephir_concat_self_char(zval *left, unsigned char right)
 void zephir_concat_self_str(zval *left, const char *right, int right_length)
 {
 	zval left_copy;
-	size_t length, left_length;
+	uint length, left_length;
 	int use_copy = 0;
 	zend_string *target;
 

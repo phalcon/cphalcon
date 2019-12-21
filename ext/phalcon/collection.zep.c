@@ -544,7 +544,7 @@ PHP_METHOD(Phalcon_Collection, jsonSerialize) {
 			ZVAL_COPY(&value, _1);
 			_5$$3 = Z_TYPE_P(&value) == IS_OBJECT;
 			if (_5$$3) {
-				_5$$3 = (zephir_method_exists_ex(&value, ZEND_STRL("jsonserialize")) == SUCCESS);
+				_5$$3 = (zephir_method_exists_ex(&value, SL("jsonserialize")) == SUCCESS);
 			}
 			if (_5$$3) {
 				ZEPHIR_CALL_METHOD(&_6$$4, &value, "jsonserialize", NULL, 0);
@@ -569,7 +569,7 @@ PHP_METHOD(Phalcon_Collection, jsonSerialize) {
 			zephir_check_call_status();
 				_7$$6 = Z_TYPE_P(&value) == IS_OBJECT;
 				if (_7$$6) {
-					_7$$6 = (zephir_method_exists_ex(&value, ZEND_STRL("jsonserialize")) == SUCCESS);
+					_7$$6 = (zephir_method_exists_ex(&value, SL("jsonserialize")) == SUCCESS);
 				}
 				if (_7$$6) {
 					ZEPHIR_CALL_METHOD(&_8$$7, &value, "jsonserialize", NULL, 0);

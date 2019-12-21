@@ -316,7 +316,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, initialize) {
 		RETURN_MM_BOOL(0);
 	}
 	zephir_update_property_array(this_ptr, SL("initialized"), &className, &__$true);
-	if ((zephir_method_exists_ex(model, ZEND_STRL("initialize")) == SUCCESS)) {
+	if ((zephir_method_exists_ex(model, SL("initialize")) == SUCCESS)) {
 		ZEPHIR_CALL_METHOD(NULL, model, "initialize", NULL, 0);
 		zephir_check_call_status();
 	}

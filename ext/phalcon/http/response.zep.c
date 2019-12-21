@@ -1057,7 +1057,7 @@ PHP_METHOD(Phalcon_Http_Response, setFileToSend) {
 		ZEPHIR_CPY_WRT(&basePath, attachmentName);
 	}
 	if (zephir_is_true(attachment)) {
-		if ((zephir_function_exists_ex(ZEND_STRL("mb_detect_encoding")) == SUCCESS)) {
+		if ((zephir_function_exists_ex(SL("mb_detect_encoding")) == SUCCESS)) {
 			ZEPHIR_CALL_FUNCTION(&_1$$6, "mb_detect_order", NULL, 359);
 			zephir_check_call_status();
 			ZEPHIR_CALL_FUNCTION(&basePathEncoding, "mb_detect_encoding", NULL, 225, &basePath, &_1$$6, &__$true);

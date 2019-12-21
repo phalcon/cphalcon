@@ -67,7 +67,7 @@ int zephir_is_instance_of(zval *object, const char *class_name, unsigned int cla
 int zephir_zval_is_traversable(zval *object)
 {
 	zend_class_entry *ce;
-	uint32_t i;
+	zend_uint i;
 	zval *z = Z_ISREF_P(object) ? Z_REFVAL_P(object) : object;
 
 	if (Z_TYPE_P(z) == IS_OBJECT) {
@@ -462,7 +462,7 @@ static inline zend_class_entry *zephir_lookup_class_ce(zend_class_entry *ce, con
 /**
  * Reads a property from an object
  */
-int zephir_read_property(zval *result, zval *object, const char *property_name, uint32_t property_length, int flags)
+int zephir_read_property(zval *result, zval *object, const char *property_name, zend_uint property_length, int flags)
 {
 	zval property;
 	zend_class_entry *ce, *old_scope;
@@ -524,7 +524,7 @@ int zephir_read_property(zval *result, zval *object, const char *property_name, 
 /**
  * Fetches a property using a const char
  */
-int zephir_fetch_property(zval *result, zval *object, const char *property_name, uint32_t property_length, int silent)
+int zephir_fetch_property(zval *result, zval *object, const char *property_name, zend_uint property_length, int silent)
 {
 	if (zephir_isset_property(object, property_name, property_length)) {
 		zephir_read_property(result, object, property_name, property_length, 0);
@@ -655,7 +655,7 @@ int zephir_update_property_zval_zval(zval *object, zval *property, zval *value)
 /**
  * Updates an array property
  */
-int zephir_update_property_array(zval *object, const char *property, uint32_t property_length, const zval *index, zval *value)
+int zephir_update_property_array(zval *object, const char *property, zend_uint property_length, const zval *index, zval *value)
 {
 	zval tmp, sep_value;
 	int separated = 0;
@@ -818,7 +818,7 @@ int zephir_update_property_array_append(zval *object, char *property, unsigned i
 /**
  * Multiple array-offset update
  */
-int zephir_update_property_array_multi(zval *object, const char *property, uint32_t property_length, zval *value, const char *types, int types_length, int types_count, ...)
+int zephir_update_property_array_multi(zval *object, const char *property, zend_uint property_length, zval *value, const char *types, int types_length, int types_count, ...)
 {
 	va_list ap;
 	zval tmp_arr;
@@ -1049,7 +1049,7 @@ int zephir_update_static_property_ce(zend_class_entry *ce, const char *property_
 /*
  * Multiple array-offset update
  */
-int zephir_update_static_property_array_multi_ce(zend_class_entry *ce, const char *property, uint32_t property_length, zval *value, const char *types, int types_length, int types_count, ...)
+int zephir_update_static_property_array_multi_ce(zend_class_entry *ce, const char *property, zend_uint property_length, zval *value, const char *types, int types_length, int types_count, ...)
 {
 	va_list ap;
 	zval tmp_arr;
@@ -1191,7 +1191,7 @@ typedef struct _zend_closure {
 /**
  * Creates a closure
  */
-int zephir_create_closure_ex(zval *return_value, zval *this_ptr, zend_class_entry *ce, const char *method_name, uint32_t method_length)
+int zephir_create_closure_ex(zval *return_value, zval *this_ptr, zend_class_entry *ce, const char *method_name, zend_uint method_length)
 {
 	zend_function *function_ptr;
 	zend_closure *closure;

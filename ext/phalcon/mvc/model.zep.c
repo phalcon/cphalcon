@@ -222,7 +222,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __construct) {
 	zephir_update_property_zval(this_ptr, SL("modelsManager"), modelsManager);
 	ZEPHIR_CALL_METHOD(NULL, modelsManager, "initialize", NULL, 0, this_ptr);
 	zephir_check_call_status();
-	if ((zephir_method_exists_ex(this_ptr, ZEND_STRL("onconstruct")) == SUCCESS)) {
+	if ((zephir_method_exists_ex(this_ptr, SL("onconstruct")) == SUCCESS)) {
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "onconstruct", NULL, 0, data);
 		zephir_check_call_status();
 	}
@@ -1492,7 +1492,7 @@ PHP_METHOD(Phalcon_Mvc_Model, cloneResultMap) {
 		ZEPHIR_CALL_METHOD(NULL, &instance, "setoldsnapshotdata", NULL, 0, &data, columnMap);
 		zephir_check_call_status();
 	}
-	if ((zephir_method_exists_ex(&instance, ZEND_STRL("fireevent")) == SUCCESS)) {
+	if ((zephir_method_exists_ex(&instance, SL("fireevent")) == SUCCESS)) {
 		ZEPHIR_INIT_VAR(&_26$$40);
 		ZVAL_STRING(&_26$$40, "afterFetch");
 		ZEPHIR_CALL_METHOD(NULL, &instance, "fireevent", NULL, 0, &_26$$40);
@@ -6503,7 +6503,7 @@ PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert) {
 		ZEPHIR_CALL_METHOD(&_38$$45, connection, "supportsequences", NULL, 0);
 		zephir_check_call_status();
 		if (zephir_is_true(&_38$$45)) {
-			if ((zephir_method_exists_ex(this_ptr, ZEND_STRL("getsequencename")) == SUCCESS)) {
+			if ((zephir_method_exists_ex(this_ptr, SL("getsequencename")) == SUCCESS)) {
 				ZEPHIR_CALL_METHOD(&sequenceName, this_ptr, "getsequencename", NULL, 0);
 				zephir_check_call_status();
 			} else {
