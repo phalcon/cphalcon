@@ -764,6 +764,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
          * Create an object instance and pass the parameters to it
          */
         let criteria = new self();
+        criteria->setDI(container);
 
         if count(conditions) {
             criteria->where(
