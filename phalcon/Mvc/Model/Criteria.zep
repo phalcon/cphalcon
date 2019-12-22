@@ -714,9 +714,6 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 
         let conditions = [];
 
-        let criteria = new self();
-        criteria->setDI(container);
-
         if count(data) {
             let metaData  = container->getShared("modelsMetadata"),
                 model     = create_instance_params(
@@ -767,6 +764,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
          * Create an object instance and pass the parameters to it
          */
         let criteria = new self();
+        criteria->setDI(container);
 
         if count(conditions) {
             criteria->where(
