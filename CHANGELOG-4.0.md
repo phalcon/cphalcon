@@ -1,3 +1,11 @@
+# [4.0.1](https://github.com/phalcon/cphalcon/releases/tag/v4.0.1) (xxx-xx-xx)
+## Added
+
+## Changed
+
+## Fixed
+- Fixed `Phalcon\Mvc\Model\Criteria` Di isn't set when using Criteria::fromInput() [#14538](https://github.com/phalcon/cphalcon/issues/14639)
+
 # [4.0.0](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0) (2019-12-21)
 
 ## Added
@@ -16,7 +24,7 @@
 - Changed the `Phalcon\Storage\Adapter\*` constructors to require the `Phalcon\Storage\SerializerFactory` object [#14575](https://github.com/phalcon/cphalcon/pull/14628)
 
 ## Fixed
-- Fixed `PhalconMvc\Model` to ignore internal setters if properties have the same name as the setter [#14538](https://github.com/phalcon/cphalcon/issues/14538)
+- Fixed `Phalcon\Mvc\Model` to ignore internal setters if properties have the same name as the setter [#14538](https://github.com/phalcon/cphalcon/issues/14538)
 - Fixed `Phalcon\Logger\Formatter\Line` to not add `PHP_EOL` at the end of the message and added it to the `Phalcon\Logger\Adapter\Stream` [#14547](https://github.com/phalcon/cphalcon/issues/14547)
 - Fixed `Phalcon\Mvc\Model\MetaData\Apcu` and `Phalcon\Mvc\Model\MetaData\Redis` to allow setting the `prefix` and `lifetime` using the options or use the default. [#14549](https://github.com/phalcon/cphalcon/issues/14549)
 - Fixed `Phalcon\Storage\Adapter\AbstractAdapter`, `Phalcon\Storage\Adapter\AbstractInterface` getters to contain a default value 
