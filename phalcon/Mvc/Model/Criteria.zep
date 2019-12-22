@@ -256,9 +256,6 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 
         let conditions = [];
 
-        let criteria = new self();
-        criteria->setDI(container);
-
         if count(data) {
             let metaData  = container->getShared("modelsMetadata"),
                 model     = create_instance_params(
