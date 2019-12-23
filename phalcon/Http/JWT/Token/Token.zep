@@ -24,17 +24,17 @@ class Token
     /**
      * @var Item
      */
-    private claims;
+    private claims { get };
 
     /**
      * @var Item
      */
-    private jose;
+    private jose { get };
 
     /**
      * @var Signature
      */
-    private signature;
+    private signature { get };
 
     /**
      * Token constructor.
@@ -54,35 +54,11 @@ class Token
     }
 
     /**
-     * @return Item
-     */
-    public function getClaims() -> <Item>
-    {
-        return this->claims;
-    }
-
-    /**
-     * @return Item
-     */
-    public function getHeaders() -> <Item>
-    {
-        return this->jose;
-    }
-
-    /**
      * @return string
      */
     public function getPayload() -> string
     {
         return this->jose->getEncoded() . "." . this->claims->getEncoded();
-    }
-
-    /**
-     * @return Signature
-     */
-    public function getSignature() -> <Signature>
-    {
-        return this->signature;
     }
 
     /**
