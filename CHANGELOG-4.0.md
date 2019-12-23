@@ -2,6 +2,7 @@
 ## Added
 
 ## Changed
+- Changed `Phalcon\Http\Cookie`. Removed cookie binding to session [#11770](https://github.com/phalcon/cphalcon/issues/11770)
 
 ## Fixed
 - Fixed `Phalcon\Db\Adapter\Pdo\Mysql` Tinyint(1) is handled as boolean under MySql [#14708](https://github.com/phalcon/cphalcon/issues/14708)
