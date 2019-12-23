@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Cookie;
 
+use Phalcon\Http\Cookie;
 use UnitTester;
 
 class GetNameCest
@@ -27,6 +28,8 @@ class GetNameCest
     {
         $I->wantToTest('Http\Cookie - getName()');
 
-        $I->skipTest('Need implementation');
+        $cookie = new Cookie('test-cookie');
+
+        $I->assertEquals('test-cookie', $cookie->getName());
     }
 }

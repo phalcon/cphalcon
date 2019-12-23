@@ -13,9 +13,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Cookie;
 
+use Phalcon\Http\Cookie;
 use UnitTester;
 
-class GetDomainCest
+class GetSetDomainCest
 {
     /**
      * Tests Phalcon\Http\Cookie :: getDomain()
@@ -27,6 +28,19 @@ class GetDomainCest
     {
         $I->wantToTest('Http\Cookie - getDomain()');
 
-        $I->skipTest('Need implementation');
+        $cookie = new Cookie(
+            'test-cookie',
+            'test',
+            time() + 3600,
+            '/',
+            null,
+            'phalcon.ltd'
+        );
+
+        $I->assertEquals('phalcon.ltd', $cookie->getDomain());
+
+        $cookie->setDomain('phalcon.io');
+
+        $I->assertEquals('phalcon.io', $cookie->getDomain());
     }
 }

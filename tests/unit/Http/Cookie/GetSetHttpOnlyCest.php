@@ -13,9 +13,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Cookie;
 
+use Phalcon\Http\Cookie;
 use UnitTester;
 
-class GetHttpOnlyCest
+class GetSetHttpOnlyCest
 {
     /**
      * Tests Phalcon\Http\Cookie :: getHttpOnly()
@@ -27,6 +28,19 @@ class GetHttpOnlyCest
     {
         $I->wantToTest('Http\Cookie - getHttpOnly()');
 
-        $I->skipTest('Need implementation');
+        $cookie = new Cookie(
+            'test-cookie',
+            'test',
+            time() + 3600,
+            '/',
+            null,
+            'phalcon.ltd'
+        );
+
+        $I->assertFalse($cookie->getHttpOnly());
+
+        $cookie->setHttpOnly(true);
+
+        $I->assertTrue($cookie->getHttpOnly());
     }
 }
