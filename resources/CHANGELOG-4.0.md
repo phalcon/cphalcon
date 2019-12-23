@@ -1,13 +1,22 @@
-# [4.0.0](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-????) (2019-xx-xx)
+# [4.0.0](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0) (2019-12-21)
 
 ## Added
+- Added the ability to `Phalcon\Model::findFirstBy*` and `Phalcon\Model::findBy*` to process passed parameters (for `order` etc.) [#14573](https://github.com/phalcon/cphalcon/issues/14573)
+- Added `Phalcon\Helper\Str::decrement` to remove a number from a string or decrements that number if it already is defined [#14599](https://github.com/phalcon/cphalcon/issues/14599)
+- Added Exception storing and getting in the `Phalcon\Domain\Payload\*`  [#14575](https://github.com/phalcon/cphalcon/pull/14628)
+- Added options array in `Phalcon\Http\Cookie` in the constructor as well as `getOptions` and `setOptions` (ref #14627 - future work)  [#14575](https://github.com/phalcon/cphalcon/pull/14628)
+- Added options array in `Phalcon\Http\Response\Cookies` in the `set()` (ref #14627 - future work)  [#14575](https://github.com/phalcon/cphalcon/pull/14628)
 
 ## Changed
 - Changed `Phalcon\Mvc\Router\Annotations` to use `converters` instead of `conversors` [#14532](https://github.com/phalcon/cphalcon/issues/14532)
 - Changed `Phalcon\Di::setRaw` to `Phalcon\Di::setService` to align more with the use of the method [#14555](https://github.com/phalcon/cphalcon/issues/14555)
+- Changed `Phalcon\Http\CookieInterface` to `Phalcon\Http\Cookie\CookieInterface` to avoid confusion [#14602](https://github.com/phalcon/cphalcon/issues/14602)
+- Changed `Phalcon\Storage\Adapter\*::getKeys` to accept an optional `$prefix` so as to filter the keys returned [#14575](https://github.com/phalcon/cphalcon/issues/14575)
+- Changed dates reported by the logger to use the `"c"` date mask for better sorting [#14575](https://github.com/phalcon/cphalcon/issues/14575)
+- Changed the `Phalcon\Storage\Adapter\*` constructors to require the `Phalcon\Storage\SerializerFactory` object [#14575](https://github.com/phalcon/cphalcon/pull/14628)
 
 ## Fixed
-- Fixed `PhalconMvc\Model` to ignore internal setters if properties have the same name as the setter [#14538](https://github.com/phalcon/cphalcon/issues/14538)
+- Fixed `Phalcon\Mvc\Model` to ignore internal setters if properties have the same name as the setter [#14538](https://github.com/phalcon/cphalcon/issues/14538)
 - Fixed `Phalcon\Logger\Formatter\Line` to not add `PHP_EOL` at the end of the message and added it to the `Phalcon\Logger\Adapter\Stream` [#14547](https://github.com/phalcon/cphalcon/issues/14547)
 - Fixed `Phalcon\Mvc\Model\MetaData\Apcu` and `Phalcon\Mvc\Model\MetaData\Redis` to allow setting the `prefix` and `lifetime` using the options or use the default. [#14549](https://github.com/phalcon/cphalcon/issues/14549)
 - Fixed `Phalcon\Storage\Adapter\AbstractAdapter`, `Phalcon\Storage\Adapter\AbstractInterface` getters to contain a default value 
@@ -16,8 +25,34 @@
 - Fixed `Phalcon\Security::getRandomBytes` to return `int` [#14551](https://github.com/phalcon/cphalcon/issues/14551)
 - Fixed `Phalcon\Security` to use `10` as the default work factor [#14551](https://github.com/phalcon/cphalcon/issues/14551)
 - Fixed `Phalcon\Helper\Arr::validateAny` and `Phalcon\Helper\Arr::validateAll`to use `null` as default for the callback method [#14551](https://github.com/phalcon/cphalcon/issues/14551)
-- Fixed `Phalcon\Escaper::escapeHtml` and `Phalcon\Escaper::escapeHtmlAttr` to allow `null` values  [#14553](https://github.com/phalcon/cphalcon/issues/14553)
- 
+- Fixed `Phalcon\Escaper::escapeHtml` and `Phalcon\Escaper::escapeHtmlAttr` to allow `null` values [#14553](https://github.com/phalcon/cphalcon/issues/14553)
+- Fixed `Phalcon\Mvc\Model::cloneResultMap` to correctly recognize aliased fields and include them in the resultset [#14488](https://github.com/phalcon/cphalcon/issues/14488)
+- Fixed `Phalcon\Http\Request::getQuery`,`Phalcon\Http\Request::getPut`,`Phalcon\Http\Request::getPost` to treat `0` as non empty for `allowNoEmpty` [#14556](https://github.com/phalcon/cphalcon/issues/14556)
+- Fixed `Phalcon\Router::handle()` to use the `/` route on empty string [#14559](https://github.com/phalcon/cphalcon/issues/14559)
+- Fixed `Phalcon\Storage\Adapter\Libmemcached::getKeys` and `Phalcon\Storage\Adapter\Redis::getKeys` to return the keys that are prefixed only for that adapter [#14575](https://github.com/phalcon/cphalcon/issues/14575)
+- Fixed factories to return a new instance when calling `newInstance` and not a cached one from the internal mapper [#14584](https://github.com/phalcon/cphalcon/issues/14584)
+  - `Phalcon/Annotations/AnnotationsFactory`
+  - `Phalcon/Cache/AdapterFactory`
+  - `Phalcon/Config/ConfigFactory`
+  - `Phalcon/Db/Adapter/PdoFactory`
+  - `Phalcon/Image/ImageFactory`
+  - `Phalcon/Logger/AdapterFactory`
+  - `Phalcon/Paginator/PaginatorFactory`
+  - `Phalcon/Storage/AdapterFactory`
+  - `Phalcon/Storage/SerializerFactory`
+  - `Phalcon/Translate/InterpolatorFactory`
+  - `Phalcon/Translate/TranslateFactory`
+  - `Phalcon/Validation/ValidatorFactory`
+- Fixed `Phalcon\Mvc\Model::cloneResultMap` to cast integers when fields are `TYPE_BIGINTEGER`, `TYPE_INTEGER`, `TYPE_MEDIUMINTEGER`, `TYPE_SMALLINTEGER`, `TYPE_TINYINTEGER` [#14584](https://github.com/phalcon/cphalcon/issues/14584)
+- Fixed `Phalcon\Http\Response::setCookies` to use the correct interface [#14602](https://github.com/phalcon/cphalcon/issues/14602)
+- Fixed `Phalcon\Test\Unit\Image\Adapter\Gd::processBackground` to correctly calculate the alpha value [#14609](https://github.com/phalcon/cphalcon/issues/14609)
+- Fixed `Phalcon\Logger\Adapter\AdapterInterface` adding missing `inTransaction()` [#14575](https://github.com/phalcon/cphalcon/issues/14575)
+- Fixed `Phalcon\Mvc\Model::cloneResultsetMap` to remove fatal error when looking up the columnMap. [#14619](https://github.com/phalcon/cphalcon/issues/14619)
+- Fixed `Phalcon\Http\Request\FileInterface` by adding `getError` that was missing. [#14633](https://github.com/phalcon/cphalcon/issues/14633)
+
+## Removed
+- Removed ACL Firewall component from 4.0.x branch [#14630](https://github.com/phalcon/cphalcon/issues/14630)
+
 # [4.0.0-rc.r3](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-rc.3) (2019-11-16)
 ## Added
 - Added support for [PSR-13](https://www.php-fig.org/psr/psr-13/) links and evolvable links [#14507](https://github.com/phalcon/cphalcon/issues/14507)
