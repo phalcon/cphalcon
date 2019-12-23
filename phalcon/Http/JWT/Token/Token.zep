@@ -78,11 +78,11 @@ class Token
     }
 
     /**
-     * @return string
+     * @return Signature
      */
-    public function getSignature() -> string
+    public function getSignature() -> <Signature>
     {
-        return this->signature->getEncoded();
+        return this->signature;
     }
 
     /**
@@ -90,6 +90,6 @@ class Token
      */
     public function getToken() -> string
     {
-        return this->getPayload() . "." . this->getSignature();
+        return this->getPayload() . "." . this->getSignature()->getEncoded();
     }
 }
