@@ -11,6 +11,7 @@
 namespace Phalcon\Http\JWT;
 
 use Phalcon\Http\JWT\Exceptions\ValidatorException;
+use Phalcon\Http\JWT\Signer\SignerInterface;
 use Phalcon\Http\JWT\Token\Enum;
 use Phalcon\Http\JWT\Token\Token;
 
@@ -155,6 +156,30 @@ class Validator
         if (this->getTimestamp(timestamp) <= (int) this->token->getClaims()->get(Enum::NOT_BEFORE)) {
             throw new ValidatorException(
                 "Validation: the token cannot be used yet (not before)"
+            );
+        }
+
+        return this;
+    }
+
+    /**
+     * @param SignerInterface $signer
+     * @param string          $passphrase
+     *
+     * @return Validator
+     * @throws ValidatorException
+     */
+    public function validateSignature(<SignerInterface> signer, string passphrase) -> <Validator>
+    {
+        if (
+            !signer->verify(
+                this->token->getSignature()->getHash(),
+                this->token->getPayload(),
+                passphrase
+            )
+        ) {
+            throw new ValidatorException(
+                "Validation: the signature does not match"
             );
         }
 
