@@ -226,13 +226,13 @@ class Builder
     {
         var aud;
 
-        if !is_string(audience) && !is_array(audience) {
+        if typeof audience !== "string" && typeof audience !== "array" {
             throw new ValidatorException(
                 "Invalid Audience"
             );
         }
 
-        if is_string(audience) {
+        if typeof audience !== "string" {
             let aud = [audience];
         } else {
             let aud = audience;
