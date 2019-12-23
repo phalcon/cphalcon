@@ -21,13 +21,6 @@ use Phalcon\Logger\Item;
 class Json extends AbstractFormatter
 {
     /**
-     * Default date format
-     *
-     * @var string
-     */
-    protected dateFormat { get, set };
-
-    /**
      * Phalcon\Logger\Formatter\Json construct
      */
     public function __construct(string dateFormat = "c")
@@ -55,7 +48,7 @@ class Json extends AbstractFormatter
             [
                 "type"      : item->getName(),
                 "message"   : message,
-                "timestamp" : date(this->dateFormat, item->getTime())
+                "timestamp" : this->getFormattedDate()
             ]
         );
     }
