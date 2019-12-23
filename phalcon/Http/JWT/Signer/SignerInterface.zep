@@ -1,4 +1,3 @@
-<?php
 
 /**
  * This file is part of the Phalcon Framework.
@@ -9,8 +8,6 @@
  * file that was distributed with this source code.
  */
 
-declare(strict_types=1);
-
 namespace Phalcon\Http\JWT\Signer;
 
 interface SignerInterface
@@ -20,14 +17,14 @@ interface SignerInterface
      *
      * @return string
      */
-    public function getAlgHeader(): string;
+    public function getAlgHeader() -> string;
 
     /**
      * Return the algorithm used
      *
      * @return string
      */
-    public function getAlgorithm(): string;
+    public function getAlgorithm() -> string;
 
     /**
      * Sign a payload using the passphrase
@@ -37,7 +34,7 @@ interface SignerInterface
      *
      * @return string
      */
-    public function sign(string $payload, string $passphrase): string;
+    public function sign(string! payload, string! passphrase) -> string;
 
     /**
      * Verify a passed source with a payload and passphrase
@@ -48,5 +45,5 @@ interface SignerInterface
      *
      * @return bool
      */
-    public function verify(string $source, string $payload, string $passphrase): bool;
+    public function verify(string! source, string! payload, string! passphrase) -> bool;
 }
