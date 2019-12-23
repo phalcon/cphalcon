@@ -21,15 +21,5 @@ abstract class AbstractSigner implements SignerInterface
     /**
      * @var string
      */
-    protected algo;
-
-    /**
-     * Return the algorithm used
-     *
-     * @return string
-     */
-    public function getAlgorithm() -> string
-    {
-        return this->algo;
-    }
+    protected algorithm { get };
 }

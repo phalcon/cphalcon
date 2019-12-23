@@ -34,13 +34,13 @@ class Hmac extends AbstractSigner
             "sha256" : 1
         ];
 
-        if (!isset(supported[algo])) {
+        if !isset supported[algo] {
             throw new UnsupportedAlgorithmException(
                 "Unsupported HMAC algorithm"
             );
         };
 
-        let this->algo = algo;
+        let this->algorithm = algo;
     }
 
     /**
@@ -50,7 +50,7 @@ class Hmac extends AbstractSigner
      */
     public function getAlgHeader() -> string
     {
-        return "HS" . str_replace("sha", "", this->algo);
+        return "HS" . str_replace("sha", "", this->algorithm);
     }
 
     /**
