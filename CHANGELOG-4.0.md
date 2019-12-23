@@ -4,6 +4,7 @@
 - Added the latest version of Codeception (v4) and utilized the phalcon4 module. [#14779](https://github.com/phalcon/cphalcon/issues/14779)
 
 ## Changed
+- Changed `Phalcon\Http\Cookie`. Removed cookie binding to session [#11770](https://github.com/phalcon/cphalcon/issues/11770)
 
 ## Fixed
 - Fixed `Phalcon\Db\Adapter\Pdo\Postgresql` to correctly identify `bool` fields instead of treating them as `tinyint` [#14722](https://github.com/phalcon/cphalcon/issues/14722) [@tidytrax](https://github.com/tidytrax)
