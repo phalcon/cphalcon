@@ -58,7 +58,7 @@ abstract class AbstractFormatter implements FormatterInterface
     {
         var date, timezone;
 
-        let timezone = date_default_timezone_get();
+        let timezone = date_default_timezone_get(),
             date     = new DateTimeImmutable("now", new DateTimeZone(timezone));
 
         return date->format(this->dateFormat);
