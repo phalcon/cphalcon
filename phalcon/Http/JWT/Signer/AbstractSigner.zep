@@ -1,4 +1,3 @@
-<?php
 
 /**
  * This file is part of the Phalcon Framework.
@@ -9,7 +8,6 @@
  * file that was distributed with this source code.
  */
 
-declare(strict_types=1);
 
 namespace Phalcon\Http\JWT\Signer;
 
@@ -23,15 +21,15 @@ abstract class AbstractSigner implements SignerInterface
     /**
      * @var string
      */
-    protected $algo;
+    protected algo;
 
     /**
      * Return the algorithm used
      *
      * @return string
      */
-    public function getAlgorithm(): string
+    public function getAlgorithm() -> string
     {
-        return $this->algo;
+        return this->algo;
     }
 }
