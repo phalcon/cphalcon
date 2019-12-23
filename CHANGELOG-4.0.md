@@ -4,7 +4,8 @@
 ## Changed
 
 ## Fixed
-- Fixed `Phalcon\Mvc\Model\Criteria` Di isn't set when using Criteria::fromInput() [#14538](https://github.com/phalcon/cphalcon/issues/14639)
+- Fixed `Phalcon\Mvc\Model\Criteria` Di isn't set when using `Criteria::fromInput()` [#14538](https://github.com/phalcon/cphalcon/issues/14639)
+- Fixed `Phalcon\Http\Cookie::delete` to parse the correct parameters - cannot use alternative syntax until PHP 7.3 [#14643](https://github.com/phalcon/cphalcon/issues/14643)
 
 # [4.0.0](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0) (2019-12-21)
 
