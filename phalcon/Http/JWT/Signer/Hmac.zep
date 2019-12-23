@@ -1,4 +1,3 @@
-<?php
 
 /**
  * This file is part of the Phalcon Framework.
@@ -9,14 +8,9 @@
  * file that was distributed with this source code.
  */
 
-declare(strict_types=1);
-
 namespace Phalcon\Http\JWT\Signer;
 
 use Phalcon\Http\JWT\Exceptions\UnsupportedAlgorithmException;
-use function hash_equals;
-use function hash_hmac;
-use function str_replace;
 
 /**
  * Class Hmac
@@ -30,21 +24,23 @@ class Hmac extends AbstractSigner
      *
      * @throws UnsupportedAlgorithmException
      */
-    public function __construct(string $algo = "sha512")
+    public function __construct(string! algo = "sha512")
     {
-        $supported = [
-            "sha512" => 1,
-            "sha384" => 1,
-            "sha256" => 1,
+        array supported;
+
+        let supported = [
+            "sha512" : 1,
+            "sha384" : 1,
+            "sha256" : 1
         ];
 
-        if (!isset($supported[$algo])) {
+        if (!isset(supported[algo])) {
             throw new UnsupportedAlgorithmException(
                 "Unsupported HMAC algorithm"
             );
         };
 
-        $this->algo = $algo;
+        let this->algo = algo;
     }
 
     /**
@@ -52,9 +48,9 @@ class Hmac extends AbstractSigner
      *
      * @return string
      */
-    public function getAlgHeader(): string
+    public function getAlgHeader() -> string
     {
-        return "HS" . str_replace("sha", "", $this->algo);
+        return "HS" . str_replace("sha", "", this->algo);
     }
 
     /**
@@ -65,9 +61,9 @@ class Hmac extends AbstractSigner
      *
      * @return string
      */
-    public function sign(string $payload, string $passphrase): string
+    public function sign(string! payload, string! passphrase) -> string
     {
-        return $this->getHash($payload, $passphrase);
+        return this->getHash(payload, passphrase);
     }
 
     /**
@@ -79,9 +75,9 @@ class Hmac extends AbstractSigner
      *
      * @return bool
      */
-    public function verify(string $source, string $payload, string $passphrase): bool
+    public function verify(string! source, string! payload, string! passphrase) -> bool
     {
-        return hash_equals($source, $this->getHash($payload, $passphrase));
+        return hash_equals(source, this->getHash(payload, passphrase));
     }
 
     /**
@@ -92,8 +88,8 @@ class Hmac extends AbstractSigner
      *
      * @return string
      */
-    private function getHash(string $payload, string $passphrase): string
+    private function getHash(string! payload, string! passphrase) -> string
     {
-        return hash_hmac($this->getAlgorithm(), $payload, $passphrase, true);
+        return hash_hmac(this->getAlgorithm(), payload, passphrase, true);
     }
 }
