@@ -1,4 +1,3 @@
-<?php
 
 /**
  * This file is part of the Phalcon Framework.
@@ -8,8 +7,6 @@
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
 
 namespace Phalcon\Http\JWT\Signer;
 
@@ -23,7 +20,7 @@ class None implements SignerInterface
      *
      * @return string
      */
-    public function getAlgHeader(): string
+    public function getAlgHeader() -> string
     {
         return "none";
     }
@@ -33,7 +30,7 @@ class None implements SignerInterface
      *
      * @return string
      */
-    public function getAlgorithm(): string
+    public function getAlgorithm() -> string
     {
         return "None";
     }
@@ -46,7 +43,7 @@ class None implements SignerInterface
      *
      * @return string
      */
-    public function sign(string $payload, string $passphrase): string
+    public function sign(string! payload, string passphrase) -> string
     {
         return "";
     }
@@ -60,8 +57,8 @@ class None implements SignerInterface
      *
      * @return bool
      */
-    public function verify(string $source, string $payload, string $passphrase): bool
+    public function verify(string! source, string! payload, string! passphrase) -> bool
     {
-        return "" === $source;
+        return "" === source;
     }
 }
