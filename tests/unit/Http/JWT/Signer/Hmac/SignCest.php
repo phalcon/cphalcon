@@ -13,6 +13,7 @@ namespace Phalcon\Test\Unit\Http\JWT\Signer\Hmac;
 
 use Phalcon\Http\JWT\Signer\Hmac;
 use UnitTester;
+
 use function hash_hmac;
 
 class SignCest
