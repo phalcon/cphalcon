@@ -264,5 +264,4 @@ class ParseCest
             }
         );
     }
-
 }
