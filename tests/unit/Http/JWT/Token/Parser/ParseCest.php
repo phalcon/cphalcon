@@ -14,6 +14,7 @@ namespace Phalcon\Test\Unit\Http\JWT\Token\Parser;
 use Phalcon\Http\JWT\Signer\None;
 use Phalcon\Http\JWT\Token\Item;
 use Phalcon\Http\JWT\Token\Parser;
+use Phalcon\Http\JWT\Token\Signature;
 use Phalcon\Test\Fixtures\Traits\JWTTrait;
 use UnitTester;
 
@@ -39,7 +40,7 @@ class ParseCest
 
         $I->assertInstanceOf(Item::class, $headers);
         $I->assertInstanceOf(Item::class, $claims);
-        $I->assertTrue(is_string($signature));
+        $I->assertInstanceOf(Signature::class, $signature);
 
         $I->assertTrue($headers->has("typ"));
         $I->assertTrue($headers->has("alg"));
@@ -82,7 +83,7 @@ class ParseCest
 
         $I->assertInstanceOf(Item::class, $headers);
         $I->assertInstanceOf(Item::class, $claims);
-        $I->assertTrue(is_string($signature));
+        $I->assertInstanceOf(Signature::class, $signature);
 
         $I->assertTrue($headers->has("typ"));
         $I->assertTrue($headers->has("alg"));
@@ -106,7 +107,7 @@ class ParseCest
         $I->assertEquals($token->getClaims()->get('nbf'), $claims->get("nbf"));
         $I->assertEquals("Mary had a little lamb", $claims->get("sub"));
 
-        $I->assertEmpty($signature);
+        $I->assertEmpty($signature->getEncoded());
     }
 
     /**
@@ -119,12 +120,12 @@ class ParseCest
         $I->wantToTest('Http\JWT\Token\Parser - parse() - aud not an array');
 
         $tokenString = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9."
-                     . "eyJhdWQiOiJteS1hdWRpZW5jZSIsImV4cCI6MTU3NzE1NDg5"
-                     . "NiwiaXNzIjoiUGhhbGNvbiBKV1QiLCJpYXQiOjE1NzcwNjg0O"
-                     . "TYsImp0aSI6IlBILUpXVCIsIm5iZiI6MTU3Njk4MjA5Niwic3"
-                     . "ViIjoiTWFyeSBoYWQgYSBsaXR0bGUgbGFtYiJ9."
-                     . "Dg33cVxxCit5Tq7TTG14DNe8eb_B94OtSIb_KGjVhdIeFyrI8D"
-                     . "xZyjDfbwsyyk2LVCUVe01k1bbudjjPr-l_wA";
+            . "eyJhdWQiOiJteS1hdWRpZW5jZSIsImV4cCI6MTU3NzE1NDg5"
+            . "NiwiaXNzIjoiUGhhbGNvbiBKV1QiLCJpYXQiOjE1NzcwNjg0O"
+            . "TYsImp0aSI6IlBILUpXVCIsIm5iZiI6MTU3Njk4MjA5Niwic3"
+            . "ViIjoiTWFyeSBoYWQgYSBsaXR0bGUgbGFtYiJ9."
+            . "Dg33cVxxCit5Tq7TTG14DNe8eb_B94OtSIb_KGjVhdIeFyrI8D"
+            . "xZyjDfbwsyyk2LVCUVe01k1bbudjjPr-l_wA";
 
         $parser    = new Parser();
         $token     = $parser->parse($tokenString);
@@ -134,7 +135,7 @@ class ParseCest
 
         $I->assertInstanceOf(Item::class, $headers);
         $I->assertInstanceOf(Item::class, $claims);
-        $I->assertTrue(is_string($signature));
+        $I->assertInstanceOf(Signature::class, $signature);
 
         $I->assertTrue($headers->has("typ"));
         $I->assertTrue($headers->has("alg"));
