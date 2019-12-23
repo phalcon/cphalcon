@@ -853,8 +853,6 @@ class Mysql extends Dialect
             } else {
                 let columnSql .= ")";
             }
-        } else {
-            let columnSql .= ")";
         }
 
         return columnSql;
