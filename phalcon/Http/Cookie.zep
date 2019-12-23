@@ -135,8 +135,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
             domain   = this->domain,
             path     = this->path,
             secure   = this->secure,
-            httpOnly = this->httpOnly,
-            options  = this->options;
+            httpOnly = this->httpOnly;
 
         let container = <DiInterface> this->container;
 
