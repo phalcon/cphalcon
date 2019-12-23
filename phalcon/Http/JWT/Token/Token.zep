@@ -14,7 +14,7 @@ namespace Phalcon\Http\JWT\Token;
  * Class Token
  *
  * @property Item      $claims
- * @property Item      $jose
+ * @property Item      $headers
  * @property Signature $signature
  *
  * @link https://tools.ietf.org/html/rfc7519
@@ -39,7 +39,7 @@ class Token
     /**
      * Token constructor.
      *
-     * @param Item      $jose
+     * @param Item      $headers
      * @param Item      $claims
      * @param Signature $signature
      */
@@ -48,7 +48,7 @@ class Token
         <Item> claims,
         <Signature> signature
     ) {
-        let this->headers   = jose,
+        let this->headers   = headers,
             this->claims    = claims,
             this->signature = signature;
     }
