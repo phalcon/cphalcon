@@ -232,7 +232,7 @@ class Builder
             );
         }
 
-        if typeof audience !== "string" {
+        if typeof audience === "string" {
             let aud = [audience];
         } else {
             let aud = audience;
