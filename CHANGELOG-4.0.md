@@ -3,7 +3,6 @@
 
 ## Changed
 - Changed the logic when logging times for `Phalcon\Logger` to use `DateTimeImmutable` so as to handle microseconds if necessary. [#2893](https://github.com/phalcon/cphalcon/issues/2893)
-- Changed `Phalcon\Http\Cookie`. Removed cookie binding to session [#11770](https://github.com/phalcon/cphalcon/issues/11770)
 
 ## Fixed
 - Fixed `Phalcon\Mvc\Model\Criteria` Di isn't set when using `Criteria::fromInput()` [#14538](https://github.com/phalcon/cphalcon/issues/14639)
