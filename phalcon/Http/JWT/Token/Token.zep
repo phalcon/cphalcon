@@ -29,7 +29,7 @@ class Token
     /**
      * @var Item
      */
-    private jose { get };
+    private headers { get };
 
     /**
      * @var Signature
@@ -44,11 +44,11 @@ class Token
      * @param Signature $signature
      */
     public function __construct(
-        <Item> jose,
+        <Item> headers,
         <Item> claims,
         <Signature> signature
     ) {
-        let this->jose      = jose,
+        let this->headers   = jose,
             this->claims    = claims,
             this->signature = signature;
     }
@@ -58,7 +58,7 @@ class Token
      */
     public function getPayload() -> string
     {
-        return this->jose->getEncoded() . "." . this->claims->getEncoded();
+        return this->headers->getEncoded() . "." . this->claims->getEncoded();
     }
 
     /**
