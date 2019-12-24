@@ -1,13 +1,5 @@
 # [4.0.1](https://github.com/phalcon/cphalcon/releases/tag/v4.0.1) (xxx-xx-xx)
 ## Added
-- Added JWT (JSON Web Tokens) support under `Phalcon\Http\JWT`. Offers support for:
-  - Token
-  - Parser
-  - Builder
-  - Validator
-  - Signers (None, HMAC)
-  - Base64 encode/decodeUrl helper class
-[#13856](https://github.com/phalcon/cphalcon/issues/13856)
 
 ## Changed
 - Changed the logic when logging times for `Phalcon\Logger` to use `DateTimeImmutable` so as to handle microseconds if necessary. [#2893](https://github.com/phalcon/cphalcon/issues/2893)
