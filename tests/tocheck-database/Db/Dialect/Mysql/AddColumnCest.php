@@ -15,11 +15,14 @@ namespace Phalcon\Test\Integration\Db\Dialect\Mysql;
 
 use Codeception\Example;
 use IntegrationTester;
+use Phalcon\Db\Column;
 use Phalcon\Db\Dialect\Mysql;
 use Phalcon\Test\Fixtures\Traits\DialectTrait;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 class AddColumnCest
 {
+    use DiTrait;
     use DialectTrait;
 
     /**
@@ -43,6 +46,54 @@ class AddColumnCest
 
         $I->assertEquals($expected, $actual);
     }
+
+    /**
+     * Tests Dialect::addColumn
+     *
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2019-12-23
+     */
+    public function dbDialectAddColumnDateFractal(IntegrationTester $I)
+    {
+        $dialect = new Mysql();
+
+        $options = [
+            "type"    => Column::TYPE_DATETIME,
+            "notNull" => false,
+            "size"    => 2,
+        ];
+        $column  = new Column('ftest', $options);
+        $actual  = $dialect->addColumn('fractal_dates', "", $column);
+        $I->assertEquals(
+            "ALTER TABLE `fractal_dates` ADD `ftest` DATETIME(2)",
+            $actual
+        );
+
+        $options = [
+            "type"    => Column::TYPE_TIME,
+            "notNull" => false,
+            "size"    => 2,
+        ];
+        $column  = new Column('ftest', $options);
+        $actual  = $dialect->addColumn('fractal_dates', "", $column);
+        $I->assertEquals(
+            "ALTER TABLE `fractal_dates` ADD `ftest` TIME(2)",
+            $actual
+        );
+
+        $options = [
+            "type"    => Column::TYPE_TIMESTAMP,
+            "notNull" => false,
+            "size"    => 2,
+        ];
+        $column  = new Column('ftest', $options);
+        $actual  = $dialect->addColumn('fractal_dates', "", $column);
+        $I->assertEquals(
+            "ALTER TABLE `fractal_dates` ADD `ftest` TIMESTAMP(2)",
+            $actual
+        );
+    }
+
 
     protected function getAddColumnFixtures(): array
     {
