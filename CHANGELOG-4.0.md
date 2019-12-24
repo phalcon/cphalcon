@@ -1,13 +1,5 @@
 # [4.0.3](https://github.com/phalcon/cphalcon/releases/tag/v4.0.3) (XXX-XX-XX)
 ## Added
-- Added JWT (JSON Web Tokens) support under `Phalcon\Http\JWT`. Offers support for:
-  - Token
-  - Parser
-  - Builder
-  - Validator
-  - Signers (None, HMAC)
-  - Base64 encode/decodeUrl helper class
-[#13856](https://github.com/phalcon/cphalcon/issues/13856)
 
 ## Changed
 - Changed `Phalcon\Http\Cookie`. Removed cookie binding to session [#11770](https://github.com/phalcon/cphalcon/issues/11770)
