@@ -576,7 +576,11 @@ abstract class Dialect implements DialectInterface
      */
     protected function getColumnSize(<ColumnInterface> column) -> string
     {
-        return "(" . column->getSize() . ")";
+        if column->getSize() > 0 {
+            return "(" . column->getSize() . ")";
+        }
+
+        return "";
     }
 
     /**
