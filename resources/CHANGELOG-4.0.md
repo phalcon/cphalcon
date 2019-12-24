@@ -321,11 +321,11 @@
 - Renamed `Phalcon\Mvc\View\Engine` to `Phalcon\Mvc\View\Engine\AbstractEngine` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
 - Renamed `Phalcon\Mvc\View\EngineInterface` to `Phalcon\Mvc\View\Engine\EngineInterface` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
 - Renamed `Phalcon\UrlInterface` to `Phalcon\Url\UrlInterface`
-- Renamed `Phalcon\Validator` to `Phalcon\Validator\Validator` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
-- Renamed `Phalcon\Validator\Validator` to `Phalcon\Validator\AbstractValidator` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
-- Renamed `Phalcon\Validator\ValidatorComposite` to `Phalcon\Validator\AbstractValidatorComposite` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
-- Renamed `Phalcon\Validator\CombinedFieldsValidator` to `Phalcon\Validator\AbstractCombinedFields` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
-- Renamed `Phalcon\Validator\Validator\File\FileAbstract` to `Phalcon\Validator\Validator\File\AbstractFile` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
+- Renamed `Phalcon\Validator` to `Phalcon\Validation\Validator` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
+- Renamed `Phalcon\Validator\Validator` to `Phalcon\Validation\AbstractValidator` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
+- Renamed `Phalcon\Validator\ValidatorComposite` to `Phalcon\Validation\AbstractValidatorComposite` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
+- Renamed `Phalcon\Validator\CombinedFieldsValidator` to `Phalcon\Validation\AbstractCombinedFields` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
+- Renamed `Phalcon\Validator\Validator\File\FileAbstract` to `Phalcon\Validation\Validator\File\AbstractFile` [#14213](https://github.com/phalcon/cphalcon/issues/14213)
 
 ## Fixed
 - Fixed `Phalcon\Mvc\View::getRender()` to call `view->finish()` instead of `ob_end_clean()`. [#14095](https://github.com/phalcon/cphalcon/issues/14095)
@@ -495,7 +495,12 @@
     - `Phalcon\Cache\Frontend\None`
     - `Phalcon\Cache\Frontend\Output`
 [#13439](https://github.com/phalcon/cphalcon/issues/13439)
-- Removed model namespace aliases.
+- Removed model namespace aliases
+    - `Phalcon\Model\Manager::registerNamespaceAlias()`
+    - `Phalcon\Model\Manager::getNamespaceAlias()`
+    - `Phalcon\Model\Manager::getNamespaceAliases()`
+    - `Phalcon\Model\ManagerInterface::getNamespaceAlias()`
+    - `Phalcon\Model\ManagerInterface::registerNamespaceAlias()`
 
 # [4.0.0-alpha.4](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0-alpha.4) (2019-03-31)
 ## Added
@@ -661,7 +666,7 @@ The implementation offers PSR-7/PSR-17 compatible components in a different name
     - `Phalcon\Mvc\Model\Query\BuilderInterface` - `distinct`, `getDistinct`, `forUpdate`, `offset`, `getOffset`
     - `Phalcon\Mvc\Model\Transaction\ManagerInterface` - `setDbService`, `getDbService`, `setRollbackPendent`, `getRollbackPendent`
     - `Phalcon\Mvc\Model\CriteriaInterface` - `distinct`, `leftJoin`, `innerJoin`, `rightJoin`, `groupBy`, `having`, `cache`, `getColumns`, `getGroupBy`, `getHaving`,
-    - `Phalcon\Mvc\Model\ManagerInterface` - `isVisibleModelProperty`, `keepSnapshots`, `isKeepingSnapshots`, `useDynamicUpdate`, `isUsingDynamicUpdate`, `addHasManyToMany`, `existsHasManyToMany`, `getRelationRecords`, `getHasManyToMany`, `registerNamespaceAlias`, `getNamespaceAlias`
+    - `Phalcon\Mvc\Model\ManagerInterface` - `isVisibleModelProperty`, `keepSnapshots`, `isKeepingSnapshots`, `useDynamicUpdate`, `isUsingDynamicUpdate`, `addHasManyToMany`, `existsHasManyToMany`, `getRelationRecords`, `getHasManyToMany`
     - `Phalcon\Mvc\Model\MessageInterface` - `setModel`, `getModel`, `setCode`, `getCode`
     - `Phalcon\Mvc\Model\QueryInterface` - `getSingleResult`, `setBindParams`, `getBindParams`, `setBindTypes`, `setSharedLock`, `getBindTypes`, `getSql`
     - `Phalcon\Mvc\Model\RelationInterface` - `getParams`
