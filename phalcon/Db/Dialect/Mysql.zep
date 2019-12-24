@@ -448,7 +448,9 @@ class Mysql extends Dialect
                     let columnSql .= "DATETIME";
                 }
 
-                let columnSql .= this->getColumnSize(column);
+                if column->getSize() > 0 {
+                    let columnSql .= this->getColumnSize(column);
+                }
 
                 break;
 
@@ -562,7 +564,9 @@ class Mysql extends Dialect
                     let columnSql .= "TIME";
                 }
 
-                let columnSql .= this->getColumnSize(column);
+                if column->getSize() > 0 {
+                    let columnSql .= this->getColumnSize(column);
+                }
 
                 break;
 
@@ -571,7 +575,9 @@ class Mysql extends Dialect
                     let columnSql .= "TIMESTAMP";
                 }
 
-                let columnSql .= this->getColumnSize(column);
+                if column->getSize() > 0 {
+                    let columnSql .= this->getColumnSize(column);
+                }
 
                 break;
 
