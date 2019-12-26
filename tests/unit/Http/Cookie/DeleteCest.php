@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Cookie;
 
+use Phalcon\Http\Cookie;
 use UnitTester;
 
 class DeleteCest
@@ -27,6 +28,14 @@ class DeleteCest
     {
         $I->wantToTest('Http\Cookie - delete()');
 
-        $I->skipTest('Need implementation');
+        $name = "tets";
+        $value = "phalcon";
+
+        $cookie = new Cookie($name);
+        $I->assertNull($cookie->getValue());
+        $cookie->setValue($value);
+        $I->assertEquals($value, $cookie->getValue());
+        $cookie->delete();
+        $I->assertNull($cookie->getValue());
     }
 }
