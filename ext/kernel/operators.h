@@ -103,7 +103,7 @@ int zephir_compare_strict_long(zval *op1, long op2);
 int zephir_compare_strict_double(zval *op1, double op2);
 int zephir_compare_strict_bool(zval *op1, zend_bool op2);
 
-void zephir_cast(zval *result, zval *var, zend_uint type);
+void zephir_cast(zval *result, zval *var, uint32_t type);
 void zephir_convert_to_object(zval *op);
 long zephir_get_intval_ex(const zval *op);
 long zephir_get_charval_ex(const zval *op);

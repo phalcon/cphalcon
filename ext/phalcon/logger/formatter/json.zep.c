@@ -13,8 +13,8 @@
 
 #include "kernel/main.h"
 #include "kernel/object.h"
-#include "kernel/operators.h"
 #include "kernel/memory.h"
+#include "kernel/operators.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
 
@@ -36,49 +36,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Formatter_Json) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Logger\\Formatter, Json, phalcon, logger_formatter_json, phalcon_logger_formatter_abstractformatter_ce, phalcon_logger_formatter_json_method_entry, 0);
 
-	/**
-	 * Default date format
-	 *
-	 * @var string
-	 */
-	zend_declare_property_null(phalcon_logger_formatter_json_ce, SL("dateFormat"), ZEND_ACC_PROTECTED);
-
 	return SUCCESS;
-
-}
-
-/**
- * Default date format
- */
-PHP_METHOD(Phalcon_Logger_Formatter_Json, getDateFormat) {
-
-	zval *this_ptr = getThis();
-
-
-	RETURN_MEMBER(getThis(), "dateFormat");
-
-}
-
-/**
- * Default date format
- */
-PHP_METHOD(Phalcon_Logger_Formatter_Json, setDateFormat) {
-
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval *dateFormat_param = NULL;
-	zval dateFormat;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&dateFormat);
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &dateFormat_param);
-
-	zephir_get_strval(&dateFormat, dateFormat_param);
-
-
-	zephir_update_property_zval(this_ptr, SL("dateFormat"), &dateFormat);
-	RETURN_THIS();
 
 }
 
@@ -119,15 +77,13 @@ PHP_METHOD(Phalcon_Logger_Formatter_Json, format) {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_3 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *item, item_sub, message, _0, _5, _6, _7, _1$$3, _2$$3;
+	zval *item, item_sub, message, _0, _5, _1$$3, _2$$3;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&item_sub);
 	ZVAL_UNDEF(&message);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_5);
-	ZVAL_UNDEF(&_6);
-	ZVAL_UNDEF(&_7);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$3);
 	ZVAL_UNDEF(&_4);
@@ -156,12 +112,9 @@ PHP_METHOD(Phalcon_Logger_Formatter_Json, format) {
 	zephir_check_call_status();
 	zephir_array_update_string(&_4, SL("type"), &_5, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_4, SL("message"), &message, PH_COPY | PH_SEPARATE);
-	zephir_read_property(&_6, this_ptr, SL("dateFormat"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_5, item, "gettime", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_5, this_ptr, "getformatteddate", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_7, "date", NULL, 385, &_6, &_5);
-	zephir_check_call_status();
-	zephir_array_update_string(&_4, SL("timestamp"), &_7, PH_COPY | PH_SEPARATE);
+	zephir_array_update_string(&_4, SL("timestamp"), &_5, PH_COPY | PH_SEPARATE);
 	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_json_ce, "encode", &_3, 13, &_4);
 	zephir_check_call_status();
 	RETURN_MM();

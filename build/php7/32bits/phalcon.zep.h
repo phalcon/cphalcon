@@ -10714,7 +10714,25 @@ zend_class_entry *phalcon_logger_formatter_abstractformatter_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Logger_Formatter_AbstractFormatter);
 
+static PHP_METHOD(Phalcon_Logger_Formatter_AbstractFormatter, getDateFormat);
+static PHP_METHOD(Phalcon_Logger_Formatter_AbstractFormatter, setDateFormat);
 static PHP_METHOD(Phalcon_Logger_Formatter_AbstractFormatter, interpolate);
+static PHP_METHOD(Phalcon_Logger_Formatter_AbstractFormatter, getFormattedDate);
+
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_formatter_abstractformatter_getdateformat, 0, 0, IS_STRING, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_formatter_abstractformatter_getdateformat, 0, 0, IS_STRING, NULL, 0)
+#endif
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_formatter_abstractformatter_setdateformat, 0, 0, 1)
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, dateFormat, IS_STRING, 0)
+#else
+	ZEND_ARG_INFO(0, dateFormat)
+#endif
+ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_formatter_abstractformatter_interpolate, 0, 0, 1)
 #if PHP_VERSION_ID >= 70200
@@ -10725,8 +10743,18 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_formatter_abstractformatter_interp
 	ZEND_ARG_INFO(0, context)
 ZEND_END_ARG_INFO()
 
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_formatter_abstractformatter_getformatteddate, 0, 0, IS_STRING, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_formatter_abstractformatter_getformatteddate, 0, 0, IS_STRING, NULL, 0)
+#endif
+ZEND_END_ARG_INFO()
+
 ZEPHIR_INIT_FUNCS(phalcon_logger_formatter_abstractformatter_method_entry) {
+	PHP_ME(Phalcon_Logger_Formatter_AbstractFormatter, getDateFormat, arginfo_phalcon_logger_formatter_abstractformatter_getdateformat, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Formatter_AbstractFormatter, setDateFormat, arginfo_phalcon_logger_formatter_abstractformatter_setdateformat, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_Formatter_AbstractFormatter, interpolate, arginfo_phalcon_logger_formatter_abstractformatter_interpolate, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Formatter_AbstractFormatter, getFormattedDate, arginfo_phalcon_logger_formatter_abstractformatter_getformatteddate, ZEND_ACC_PROTECTED)
 	PHP_FE_END
 };
 
@@ -34608,25 +34636,8 @@ zend_class_entry *phalcon_logger_formatter_json_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Logger_Formatter_Json);
 
-static PHP_METHOD(Phalcon_Logger_Formatter_Json, getDateFormat);
-static PHP_METHOD(Phalcon_Logger_Formatter_Json, setDateFormat);
 static PHP_METHOD(Phalcon_Logger_Formatter_Json, __construct);
 static PHP_METHOD(Phalcon_Logger_Formatter_Json, format);
-
-#if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_formatter_json_getdateformat, 0, 0, IS_STRING, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_formatter_json_getdateformat, 0, 0, IS_STRING, NULL, 0)
-#endif
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_formatter_json_setdateformat, 0, 0, 1)
-#if PHP_VERSION_ID >= 70200
-	ZEND_ARG_TYPE_INFO(0, dateFormat, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, dateFormat)
-#endif
-ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_formatter_json___construct, 0, 0, 0)
 #if PHP_VERSION_ID >= 70200
@@ -34645,8 +34656,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_formatter_json_fo
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_logger_formatter_json_method_entry) {
-	PHP_ME(Phalcon_Logger_Formatter_Json, getDateFormat, arginfo_phalcon_logger_formatter_json_getdateformat, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Logger_Formatter_Json, setDateFormat, arginfo_phalcon_logger_formatter_json_setdateformat, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_Formatter_Json, __construct, arginfo_phalcon_logger_formatter_json___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Logger_Formatter_Json, format, arginfo_phalcon_logger_formatter_json_format, ZEND_ACC_PUBLIC)
 	PHP_FE_END
@@ -34656,27 +34665,10 @@ zend_class_entry *phalcon_logger_formatter_line_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Logger_Formatter_Line);
 
-static PHP_METHOD(Phalcon_Logger_Formatter_Line, getDateFormat);
-static PHP_METHOD(Phalcon_Logger_Formatter_Line, setDateFormat);
 static PHP_METHOD(Phalcon_Logger_Formatter_Line, getFormat);
 static PHP_METHOD(Phalcon_Logger_Formatter_Line, setFormat);
 static PHP_METHOD(Phalcon_Logger_Formatter_Line, __construct);
 static PHP_METHOD(Phalcon_Logger_Formatter_Line, format);
-
-#if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_formatter_line_getdateformat, 0, 0, IS_STRING, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_formatter_line_getdateformat, 0, 0, IS_STRING, NULL, 0)
-#endif
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_formatter_line_setdateformat, 0, 0, 1)
-#if PHP_VERSION_ID >= 70200
-	ZEND_ARG_TYPE_INFO(0, dateFormat, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, dateFormat)
-#endif
-ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_formatter_line_getformat, 0, 0, IS_STRING, 0)
@@ -34715,8 +34707,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_formatter_line_fo
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_logger_formatter_line_method_entry) {
-	PHP_ME(Phalcon_Logger_Formatter_Line, getDateFormat, arginfo_phalcon_logger_formatter_line_getdateformat, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Logger_Formatter_Line, setDateFormat, arginfo_phalcon_logger_formatter_line_setdateformat, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_Formatter_Line, getFormat, arginfo_phalcon_logger_formatter_line_getformat, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_Formatter_Line, setFormat, arginfo_phalcon_logger_formatter_line_setformat, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_Formatter_Line, __construct, arginfo_phalcon_logger_formatter_line___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)

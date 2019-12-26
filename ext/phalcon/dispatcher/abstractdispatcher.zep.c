@@ -577,7 +577,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, dispatch) {
 				}
 			}
 		}
-		if ((zephir_method_exists_ex(&handler, SL("beforeexecuteroute")) == SUCCESS)) {
+		if ((zephir_method_exists_ex(&handler, ZEND_STRL("beforeexecuteroute")) == SUCCESS)) {
 
 			/* try_start_4: */
 
@@ -622,7 +622,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, dispatch) {
 			}
 		}
 		if (isNewHandler) {
-			if ((zephir_method_exists_ex(&handler, SL("initialize")) == SUCCESS)) {
+			if ((zephir_method_exists_ex(&handler, ZEND_STRL("initialize")) == SUCCESS)) {
 
 				/* try_start_5: */
 
@@ -735,7 +735,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, dispatch) {
 				continue;
 			}
 		}
-		if ((zephir_method_exists_ex(&handler, SL("afterbinding")) == SUCCESS)) {
+		if ((zephir_method_exists_ex(&handler, ZEND_STRL("afterbinding")) == SUCCESS)) {
 			ZEPHIR_CALL_METHOD(&_97$$54, &handler, "afterbinding", NULL, 0, this_ptr);
 			zephir_check_call_status();
 			if (ZEPHIR_IS_FALSE_IDENTICAL(&_97$$54)) {
@@ -824,7 +824,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, dispatch) {
 				}
 			}
 		}
-		if ((zephir_method_exists_ex(&handler, SL("afterexecuteroute")) == SUCCESS)) {
+		if ((zephir_method_exists_ex(&handler, ZEND_STRL("afterexecuteroute")) == SUCCESS)) {
 
 			/* try_start_9: */
 

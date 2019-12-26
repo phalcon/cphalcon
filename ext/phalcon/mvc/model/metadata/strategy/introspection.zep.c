@@ -73,7 +73,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getColumnMaps) {
 	ZVAL_NULL(&orderedColumnMap);
 	ZEPHIR_INIT_VAR(&reversedColumnMap);
 	ZVAL_NULL(&reversedColumnMap);
-	if ((zephir_method_exists_ex(model, SL("columnmap")) == SUCCESS)) {
+	if ((zephir_method_exists_ex(model, ZEND_STRL("columnmap")) == SUCCESS)) {
 		ZEPHIR_CALL_METHOD(&userColumnMap, model, "columnmap", NULL, 0);
 		zephir_check_call_status();
 		if (UNEXPECTED(Z_TYPE_P(&userColumnMap) != IS_ARRAY)) {
