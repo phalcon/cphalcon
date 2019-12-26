@@ -36,8 +36,9 @@ extern zend_string* i_self;
 #define PH_COPY 1024
 #define PH_CTOR 4096
 
+/* Deprecated */
 #ifndef zend_uint
- #define zend_uint uint
+ #define zend_uint uint32_t
 #endif
 
 #ifndef ZEND_ACC_FINAL_CLASS

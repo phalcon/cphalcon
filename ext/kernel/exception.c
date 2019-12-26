@@ -37,7 +37,7 @@
 /**
  * Throws a zval object as exception
  */
-void zephir_throw_exception_debug(zval *object, const char *file, zend_uint line)
+void zephir_throw_exception_debug(zval *object, const char *file, uint32_t line)
 {
 	zend_class_entry *default_exception_ce;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -77,7 +77,7 @@ void zephir_throw_exception_debug(zval *object, const char *file, zend_uint line
 /**
  * Throws an exception with a single string parameter + debug info
  */
-void zephir_throw_exception_string_debug(zend_class_entry *ce, const char *message, zend_uint message_len, const char *file, zend_uint line)
+void zephir_throw_exception_string_debug(zend_class_entry *ce, const char *message, uint32_t message_len, const char *file, uint32_t line)
 {
 	zval object, msg;
 	int ZEPHIR_LAST_CALL_STATUS = 0;
@@ -105,7 +105,7 @@ void zephir_throw_exception_string_debug(zend_class_entry *ce, const char *messa
 /**
  * Throws an exception with a single string parameter
  */
-void zephir_throw_exception_string(zend_class_entry *ce, const char *message, zend_uint message_len)
+void zephir_throw_exception_string(zend_class_entry *ce, const char *message, uint32_t message_len)
 {
 	zval object, msg;
 	int ZEPHIR_LAST_CALL_STATUS = 0;

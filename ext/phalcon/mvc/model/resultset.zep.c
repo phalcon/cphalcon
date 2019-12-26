@@ -244,7 +244,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete) {
 	ZVAL_NULL(&connection);
 	result = 1;
 	transaction = 0;
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "rewind", NULL, 106);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "rewind", NULL, 107);
 	zephir_check_call_status();
 	while (1) {
 		ZEPHIR_CALL_METHOD(&_0, this_ptr, "valid", &_1, 0);
@@ -255,7 +255,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete) {
 		ZEPHIR_CALL_METHOD(&record, this_ptr, "current", &_2, 0);
 		zephir_check_call_status();
 		if (transaction == 0) {
-			if (UNEXPECTED(!((zephir_method_exists_ex(&record, SL("getwriteconnection")) == SUCCESS)))) {
+			if (UNEXPECTED(!((zephir_method_exists_ex(&record, ZEND_STRL("getwriteconnection")) == SUCCESS)))) {
 				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The returned record is not valid", "phalcon/Mvc/Model/Resultset.zep", 198);
 				return;
 			}
@@ -338,7 +338,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, filter) {
 
 	ZEPHIR_INIT_VAR(&records);
 	array_init(&records);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "rewind", NULL, 106);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "rewind", NULL, 107);
 	zephir_check_call_status();
 	while (1) {
 		ZEPHIR_CALL_METHOD(&_0, this_ptr, "valid", &_1, 0);
@@ -403,7 +403,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, getFirst) {
 		RETURN_MM_NULL();
 	}
 	ZVAL_LONG(&_1, 0);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "seek", NULL, 107, &_1);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "seek", NULL, 108, &_1);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "current", NULL, 0);
 	zephir_check_call_status();
@@ -444,7 +444,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, getLast) {
 		RETURN_MM_NULL();
 	}
 	ZVAL_LONG(&_0, (zephir_get_numberval(&count) - 1));
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "seek", NULL, 107, &_0);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "seek", NULL, 108, &_0);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "current", NULL, 0);
 	zephir_check_call_status();
@@ -531,7 +531,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, jsonSerialize) {
 
 	ZEPHIR_INIT_VAR(&records);
 	array_init(&records);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "rewind", NULL, 106);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "rewind", NULL, 107);
 	zephir_check_call_status();
 	while (1) {
 		ZEPHIR_CALL_METHOD(&_0, this_ptr, "valid", &_1, 0);
@@ -543,7 +543,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, jsonSerialize) {
 		zephir_check_call_status();
 		_3$$3 = Z_TYPE_P(&current) == IS_OBJECT;
 		if (_3$$3) {
-			_3$$3 = (zephir_method_exists_ex(&current, SL("jsonserialize")) == SUCCESS);
+			_3$$3 = (zephir_method_exists_ex(&current, ZEND_STRL("jsonserialize")) == SUCCESS);
 		}
 		if (_3$$3) {
 			ZEPHIR_CALL_METHOD(&_4$$4, &current, "jsonserialize", NULL, 0);
@@ -599,7 +599,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, next) {
 
 	zephir_read_property(&_0, this_ptr, SL("pointer"), PH_NOISY_CC | PH_READONLY);
 	ZVAL_LONG(&_1, (zephir_get_numberval(&_0) + 1));
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "seek", NULL, 107, &_1);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "seek", NULL, 108, &_1);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -628,7 +628,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetGet) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The index does not exist in the cursor", "phalcon/Mvc/Model/Resultset.zep", 435);
 		return;
 	}
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "seek", NULL, 107, index);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "seek", NULL, 108, index);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "current", NULL, 0);
 	zephir_check_call_status();
@@ -713,7 +713,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, rewind) {
 	ZEPHIR_MM_GROW();
 
 	ZVAL_LONG(&_0, 0);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "seek", NULL, 107, &_0);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "seek", NULL, 108, &_0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -898,7 +898,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, update) {
 	ZEPHIR_INIT_VAR(&connection);
 	ZVAL_NULL(&connection);
 	transaction = 0;
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "rewind", NULL, 106);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "rewind", NULL, 107);
 	zephir_check_call_status();
 	while (1) {
 		ZEPHIR_CALL_METHOD(&_0, this_ptr, "valid", &_1, 0);
@@ -909,7 +909,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, update) {
 		ZEPHIR_CALL_METHOD(&record, this_ptr, "current", &_2, 0);
 		zephir_check_call_status();
 		if (transaction == 0) {
-			if (UNEXPECTED(!((zephir_method_exists_ex(&record, SL("getwriteconnection")) == SUCCESS)))) {
+			if (UNEXPECTED(!((zephir_method_exists_ex(&record, ZEND_STRL("getwriteconnection")) == SUCCESS)))) {
 				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The returned record is not valid", "phalcon/Mvc/Model/Resultset.zep", 587);
 				return;
 			}
