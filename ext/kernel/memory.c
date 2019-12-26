@@ -299,7 +299,7 @@ int zephir_cleanup_fcache(void *pDest, int num_args, va_list args, zend_hash_key
 {
 	zephir_fcall_cache_entry **entry = (zephir_fcall_cache_entry**) pDest;
 	zend_class_entry *scope;
-	uint len = ZSTR_LEN(hash_key->key);
+	zend_uint len = ZSTR_LEN(hash_key->key);
 
 	assert(hash_key->key != NULL);
 	assert(len > 2 * sizeof(zend_class_entry**));
@@ -312,7 +312,7 @@ int zephir_cleanup_fcache(void *pDest, int num_args, va_list args, zend_hash_key
 		zend_class_entry *cls;
 		memcpy(&cls, &hash_key->arKey[len - sizeof(zend_class_entry**)], sizeof(zend_class_entry*));
 
-		fprintf(stderr, "func: %s, cls: %s, scope: %s [%u]\n", (*entry)->f->common.function_name, (cls ? cls->name : "N/A"), (scope ? scope->name : "N/A"), (uint)(*entry)->times);
+		fprintf(stderr, "func: %s, cls: %s, scope: %s [%u]\n", (*entry)->f->common.function_name, (cls ? cls->name : "N/A"), (scope ? scope->name : "N/A"), (zend_uint)(*entry)->times);
 	}
 #endif
 */

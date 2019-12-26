@@ -18,7 +18,7 @@
 #include "kernel/globals.h"
 #include "kernel/main.h"
 
-void ZEPHIR_FASTCALL zephir_create_array(zval *return_value, uint size, int initialize);
+void ZEPHIR_FASTCALL zephir_create_array(zval *return_value, zend_uint size, int initialize);
 
 /**
  * Simple convenience function which ensures that you are dealing with an array and you can
@@ -28,22 +28,22 @@ void ZEPHIR_FASTCALL zephir_ensure_array(zval *probable_array);
 
 /** Combined isset/fetch */
 int zephir_array_isset_fetch(zval *fetched, const zval *arr, zval *index, int readonly);
-int zephir_array_isset_string_fetch(zval *fetched, const zval *arr, char *index, uint index_length, int readonly);
+int zephir_array_isset_string_fetch(zval *fetched, const zval *arr, char *index, zend_uint index_length, int readonly);
 int zephir_array_isset_long_fetch(zval *fetched, const zval *arr, unsigned long index, int readonly);
 
 /** Check for index existence */
 int ZEPHIR_FASTCALL zephir_array_isset(const zval *arr, zval *index);
 int ZEPHIR_FASTCALL zephir_array_isset_long(const zval *arr, unsigned long index);
-int ZEPHIR_FASTCALL zephir_array_isset_string(const zval *arr, const char *index, uint index_length);
+int ZEPHIR_FASTCALL zephir_array_isset_string(const zval *arr, const char *index, zend_uint index_length);
 
 /** Unset existing indexes */
 int ZEPHIR_FASTCALL zephir_array_unset(zval *arr, zval *index, int flags);
 int ZEPHIR_FASTCALL zephir_array_unset_long(zval *arr, unsigned long index, int flags);
-int ZEPHIR_FASTCALL zephir_array_unset_string(zval *arr, const char *index, uint index_length, int flags);
+int ZEPHIR_FASTCALL zephir_array_unset_string(zval *arr, const char *index, zend_uint index_length, int flags);
 
 /** Fetch items from arrays */
 int zephir_array_fetch(zval *return_value, zval *arr, zval *index, int flags ZEPHIR_DEBUG_PARAMS);
-int zephir_array_fetch_string(zval *return_value, zval *arr, const char *index, uint index_length, int flags ZEPHIR_DEBUG_PARAMS);
+int zephir_array_fetch_string(zval *return_value, zval *arr, const char *index, zend_uint index_length, int flags ZEPHIR_DEBUG_PARAMS);
 int zephir_array_fetch_long(zval *return_value, zval *arr, unsigned long index, int flags ZEPHIR_DEBUG_PARAMS);
 
 /** Append elements to arrays */
@@ -52,7 +52,7 @@ void zephir_merge_append(zval *left, zval *values);
 
 /** Modify array */
 int zephir_array_update_zval(zval *arr, zval *index, zval *value, int flags);
-int zephir_array_update_string(zval *arr, const char *index, uint index_length, zval *value, int flags);
+int zephir_array_update_string(zval *arr, const char *index, zend_uint index_length, zval *value, int flags);
 int zephir_array_update_long(zval *arr, unsigned long index, zval *value, int flags ZEPHIR_DEBUG_PARAMS);
 
 void zephir_array_keys(zval *return_value, zval *arr);

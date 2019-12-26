@@ -833,7 +833,7 @@ static void yy_syntax_error(
 		char *token_name = NULL;
 		const phannot_token_names *tokens = phannot_tokens;
 		zend_uint active_token = status->scanner_state->active_token;
-		uint near_length = status->scanner_state->start_length;
+		zend_uint near_length = status->scanner_state->start_length;
 
 		if (active_token) {
 			do {
