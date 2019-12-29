@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -10,9 +9,14 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Cli\Di\FactoryDefault\Cli;
 
 use CliTester;
+use Phalcon\Crypt;
+use Phalcon\Di\FactoryDefault\Cli as Di;
+use Phalcon\Escaper;
 
 class GetSharedCest
 {
@@ -25,6 +29,27 @@ class GetSharedCest
     public function diFactorydefaultCliGetShared(CliTester $I)
     {
         $I->wantToTest('Di\FactoryDefault\Cli - getShared()');
-        $I->skipTest('Need implementation');
+
+        $di = new Di();
+
+        // check non shared service
+        $di->set('escaper', Escaper::class);
+        $actual = $di->getShared('escaper');
+
+        $I->assertInstanceOf(Escaper::class, $actual);
+
+        $expected = new Escaper();
+        $I->assertEquals($expected, $actual);
+
+        // check shared service
+        $di->set('crypt', Crypt::class, true);
+        $actual = $di->getShared('crypt');
+
+        $I->assertInstanceOf(Crypt::class, $actual);
+
+        $actual   = $di->getShared('crypt');
+        $expected = new Crypt();
+
+        $I->assertEquals($expected, $actual);
     }
 }

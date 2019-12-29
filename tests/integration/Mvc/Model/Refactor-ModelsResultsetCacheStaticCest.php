@@ -2,11 +2,12 @@
 
 namespace Phalcon\Test\Integration\Mvc\Model;
 
-use function cacheDir;
 use IntegrationTester;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Cacheable\Parts;
 use Phalcon\Test\Models\Cacheable\Robots;
+
+use function cacheDir;
 
 class ModelsResultsetCacheStaticCest
 {

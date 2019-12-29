@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -9,6 +8,8 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Db\Adapter\Pdo\Postgresql;
 
@@ -62,7 +63,6 @@ class QueryCest
         $I->assertEquals(3, $result->numRows());
 
 
-
         $number = 0;
         $result = $connection->query('SELECT * FROM personas LIMIT 5');
         $I->assertInternalType('object', $result);
@@ -71,7 +71,6 @@ class QueryCest
             $number++;
         }
         $I->assertEquals(5, $number);
-
 
 
         $result = $connection->query('SELECT * FROM personas LIMIT 5');
@@ -84,7 +83,6 @@ class QueryCest
         $I->assertFalse(isset($row->cedula));
 
 
-
         $result = $connection->query('SELECT * FROM personas LIMIT 5');
         $result->setFetchMode(Enum::FETCH_ASSOC);
         $row = $result->fetch();
@@ -95,13 +93,11 @@ class QueryCest
         $I->assertFalse(isset($row->cedula));
 
 
-
         $result = $connection->query('SELECT * FROM personas LIMIT 5');
         $result->setFetchMode(Enum::FETCH_OBJ);
         $row = $result->fetch();
         $I->assertInternalType('object', $row);
         $I->assertTrue(isset($row->cedula));
-
 
 
         $result = $connection->query('SELECT * FROM personas LIMIT 5');

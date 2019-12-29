@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -12,6 +11,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Unit\Config\Adapter\Grouped;
 
 use Phalcon\Config;
@@ -19,12 +20,13 @@ use Phalcon\Config\Adapter\Grouped;
 use Phalcon\Config\Exception;
 use Phalcon\Test\Fixtures\Traits\ConfigTrait;
 use UnitTester;
+
 use function dataDir;
 
 class ConstructCest
 {
     use ConfigTrait;
-    
+
     public function _after()
     {
         unset($this->config['test']['property']); //Removing Extra Property
@@ -41,7 +43,7 @@ class ConstructCest
         $I->wantToTest("Config\Adapter\Grouped - construct - complex instance");
 
         $this->config['test']['property2'] = 'something-else';
-        $this->config['test']['property'] = 'blah';
+        $this->config['test']['property']  = 'blah';
 
         $config = [
             dataDir('assets/config/config.php'),
@@ -59,8 +61,8 @@ class ConstructCest
             ],
             new Config([
                 'test' => [
-                    'property' => 'blah'
-                ]
+                    'property' => 'blah',
+                ],
             ]),
         ];
 

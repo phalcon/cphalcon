@@ -41,6 +41,21 @@ ZEPHIR_INIT_CLASS(Phalcon_Session_Adapter_Libmemcached) {
 
 /**
  * Constructor
+ *
+ * @param array options = [
+ *     'servers' => [
+ *         [
+ *             'host' => 'localhost',
+ *             'port' => 11211,
+ *             'weight' => 1,
+ *
+ *         ]
+ *     ],
+ *     'defaultSerializer' => 'Php',
+ *     'lifetime' => 3600,
+ *     'serializer' => null,
+ *     'prefix' => 'sess-memc-'
+ * ]
  */
 PHP_METHOD(Phalcon_Session_Adapter_Libmemcached, __construct) {
 

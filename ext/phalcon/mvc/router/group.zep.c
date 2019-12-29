@@ -143,6 +143,13 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, __construct) {
  *```php
  * $router->add("/about", "About::index");
  *```
+ *
+ * @param string|array paths = [
+ *     'module => '',
+ *     'controller' => '',
+ *     'action' => '',
+ *     'namespace' => ''
+ * ]
  */
 PHP_METHOD(Phalcon_Mvc_Router_Group, add) {
 
@@ -189,7 +196,12 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, add) {
 /**
  * Adds a route to the router that only match if the HTTP method is CONNECT
  *
- * @param string|array paths
+ * @param string|array paths = [
+ *     'module => '',
+ *     'controller' => '',
+ *     'action' => '',
+ *     'namespace' => ''
+ * ]
  */
 PHP_METHOD(Phalcon_Mvc_Router_Group, addConnect) {
 
@@ -234,7 +246,12 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addConnect) {
 /**
  * Adds a route to the router that only match if the HTTP method is DELETE
  *
- * @param string|array paths
+ * @param string|array paths = [
+ *     'module => '',
+ *     'controller' => '',
+ *     'action' => '',
+ *     'namespace' => ''
+ * ]
  */
 PHP_METHOD(Phalcon_Mvc_Router_Group, addDelete) {
 
@@ -279,7 +296,12 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addDelete) {
 /**
  * Adds a route to the router that only match if the HTTP method is GET
  *
- * @param string|array paths
+ * @param string|array paths = [
+ *     'module => '',
+ *     'controller' => '',
+ *     'action' => '',
+ *     'namespace' => ''
+ * ]
  */
 PHP_METHOD(Phalcon_Mvc_Router_Group, addGet) {
 
@@ -324,7 +346,12 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addGet) {
 /**
  * Adds a route to the router that only match if the HTTP method is HEAD
  *
- * @param string|array paths
+ * @param string|array paths = [
+ *     'module => '',
+ *     'controller' => '',
+ *     'action' => '',
+ *     'namespace' => ''
+ * ]
  */
 PHP_METHOD(Phalcon_Mvc_Router_Group, addHead) {
 
@@ -369,7 +396,12 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addHead) {
 /**
  * Add a route to the router that only match if the HTTP method is OPTIONS
  *
- * @param string|array paths
+ * @param string|array paths = [
+ *     'module => '',
+ *     'controller' => '',
+ *     'action' => '',
+ *     'namespace' => ''
+ * ]
  */
 PHP_METHOD(Phalcon_Mvc_Router_Group, addOptions) {
 
@@ -414,7 +446,12 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addOptions) {
 /**
  * Adds a route to the router that only match if the HTTP method is PATCH
  *
- * @param string|array paths
+ * @param string|array paths = [
+ *     'module => '',
+ *     'controller' => '',
+ *     'action' => '',
+ *     'namespace' => ''
+ * ]
  */
 PHP_METHOD(Phalcon_Mvc_Router_Group, addPatch) {
 
@@ -459,7 +496,12 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addPatch) {
 /**
  * Adds a route to the router that only match if the HTTP method is POST
  *
- * @param string|array paths
+ * @param string|array paths = [
+ *     'module => '',
+ *     'controller' => '',
+ *     'action' => '',
+ *     'namespace' => ''
+ * ]
  */
 PHP_METHOD(Phalcon_Mvc_Router_Group, addPost) {
 
@@ -504,7 +546,12 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addPost) {
 /**
  * Adds a route to the router that only match if the HTTP method is PURGE
  *
- * @param string|array paths
+ * @param string|array paths = [
+ *     'module => '',
+ *     'controller' => '',
+ *     'action' => '',
+ *     'namespace' => ''
+ * ]
  */
 PHP_METHOD(Phalcon_Mvc_Router_Group, addPurge) {
 
@@ -549,7 +596,12 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addPurge) {
 /**
  * Adds a route to the router that only match if the HTTP method is PUT
  *
- * @param string|array paths
+ * @param string|array paths = [
+ *     'module => '',
+ *     'controller' => '',
+ *     'action' => '',
+ *     'namespace' => ''
+ * ]
  */
 PHP_METHOD(Phalcon_Mvc_Router_Group, addPut) {
 
@@ -594,7 +646,12 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addPut) {
 /**
  * Adds a route to the router that only match if the HTTP method is TRACE
  *
- * @param string|array paths
+ * @param string|array paths = [
+ *     'module => '',
+ *     'controller' => '',
+ *     'action' => '',
+ *     'namespace' => ''
+ * ]
  */
 PHP_METHOD(Phalcon_Mvc_Router_Group, addTrace) {
 
@@ -804,6 +861,13 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, setPrefix) {
 
 /**
  * Adds a route applying the common attributes
+ *
+ * @param string|array paths = [
+ *     'module => '',
+ *     'controller' => '',
+ *     'action' => '',
+ *     'namespace' => ''
+ * ]
  */
 PHP_METHOD(Phalcon_Mvc_Router_Group, addRoute) {
 
@@ -871,10 +935,10 @@ PHP_METHOD(Phalcon_Mvc_Router_Group, addRoute) {
 	zephir_read_property(&_1, this_ptr, SL("prefix"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_2);
 	ZEPHIR_CONCAT_VV(&_2, &_1, &pattern);
-	ZEPHIR_CALL_METHOD(NULL, &route, "__construct", NULL, 108, &_2, &mergedPaths, httpMethods);
+	ZEPHIR_CALL_METHOD(NULL, &route, "__construct", NULL, 110, &_2, &mergedPaths, httpMethods);
 	zephir_check_call_status();
 	zephir_update_property_array_append(this_ptr, SL("routes"), &route);
-	ZEPHIR_CALL_METHOD(NULL, &route, "setgroup", NULL, 486, this_ptr);
+	ZEPHIR_CALL_METHOD(NULL, &route, "setgroup", NULL, 461, this_ptr);
 	zephir_check_call_status();
 	RETURN_CCTOR(&route);
 

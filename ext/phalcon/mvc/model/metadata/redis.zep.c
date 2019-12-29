@@ -13,8 +13,8 @@
 
 #include "kernel/main.h"
 #include "kernel/memory.h"
-#include "kernel/array.h"
 #include "kernel/fcall.h"
+#include "kernel/array.h"
 #include "kernel/object.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
@@ -66,15 +66,18 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Redis, __construct) {
 
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zephir_fcall_cache_entry *_1 = NULL;
 	zval options;
-	zval *factory, factory_sub, *options_param = NULL, _0, _1, _2, _3;
+	zval *factory, factory_sub, *options_param = NULL, _0, _2, _3, _4, _5, _6;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&factory_sub);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_5);
+	ZVAL_UNDEF(&_6);
 	ZVAL_UNDEF(&options);
 
 	ZEPHIR_MM_GROW();
@@ -88,17 +91,24 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Redis, __construct) {
 	}
 
 
-	ZEPHIR_INIT_VAR(&_0);
-	ZVAL_STRING(&_0, "ph-mm-reds-");
-	zephir_array_update_string(&options, SL("prefix"), &_0, PH_COPY | PH_SEPARATE);
-	ZEPHIR_INIT_VAR(&_1);
-	ZVAL_LONG(&_1, 172800);
-	zephir_array_update_string(&options, SL("lifetime"), &_1, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_VAR(&_2);
+	ZVAL_STRING(&_2, "prefix");
 	ZEPHIR_INIT_VAR(&_3);
-	ZVAL_STRING(&_3, "redis");
-	ZEPHIR_CALL_METHOD(&_2, factory, "newinstance", NULL, 0, &_3, &options);
+	ZVAL_STRING(&_3, "ph-mm-reds-");
+	ZEPHIR_CALL_CE_STATIC(&_0, phalcon_helper_arr_ce, "get", &_1, 15, &options, &_2, &_3);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, SL("adapter"), &_2);
+	zephir_array_update_string(&options, SL("prefix"), &_0, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(&_2);
+	ZVAL_STRING(&_2, "lifetime");
+	ZVAL_LONG(&_5, 172800);
+	ZEPHIR_CALL_CE_STATIC(&_4, phalcon_helper_arr_ce, "get", &_1, 15, &options, &_2, &_5);
+	zephir_check_call_status();
+	zephir_array_update_string(&options, SL("lifetime"), &_4, PH_COPY | PH_SEPARATE);
+	ZEPHIR_INIT_NVAR(&_2);
+	ZVAL_STRING(&_2, "redis");
+	ZEPHIR_CALL_METHOD(&_6, factory, "newinstance", NULL, 0, &_2, &options);
+	zephir_check_call_status();
+	zephir_update_property_zval(this_ptr, SL("adapter"), &_6);
 	ZEPHIR_MM_RESTORE();
 
 }

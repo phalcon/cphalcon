@@ -46,6 +46,13 @@ class PaginatorFactory extends AbstractFactory
      *
      * $paginator = (new PaginatorFactory())->load($options);
      *```
+     *
+     * @param array|\Phalcon\Config = [
+     *     'adapter' => 'queryBuilder',
+     *     'limit' => 20,
+     *     'page' => 1,
+     *     'builder' => null
+     * ]
      */
     public function load(var config) -> <AdapterInterface>
     {
@@ -67,17 +74,14 @@ class PaginatorFactory extends AbstractFactory
 
         this->checkService(name);
 
-        if !isset this->services[name] {
-            let definition           = this->mapper[name],
-                this->services[name] = create_instance_params(
-                    definition,
-                    [
-                        options
-                    ]
-                );
-        }
+        let definition = this->mapper[name];
 
-        return this->services[name];
+        return create_instance_params(
+            definition,
+            [
+                options
+            ]
+        );
     }
 
     protected function getAdapters() -> array

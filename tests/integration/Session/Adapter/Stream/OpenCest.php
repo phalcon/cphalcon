@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -10,13 +9,15 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Integration\Session\Adapter\Stream;
 
 use IntegrationTester;
+use Phalcon\Session\Adapter\Stream;
+use Phalcon\Session\Manager;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionTrait;
-use Phalcon\Session\Manager;
-use Phalcon\Session\Adapter\Stream;
 
 class OpenCest
 {
@@ -58,12 +59,12 @@ class OpenCest
     {
         $I->wantToTest('Session\Adapter\Stream - open() for issue 14265');
         $session = new Manager();
-        $stream = new Stream(getOptionsSessionStream());
+        $stream  = new Stream(getOptionsSessionStream());
         $session->setAdapter($stream);
         $I->assertTrue(
             $session->start()
         );
-        $value   = uniqid();
+        $value = uniqid();
         $stream->write('test1', $value);
         $I->amInPath(cacheDir('sessions'));
         $I->seeFileFound('test1');

@@ -23,8 +23,8 @@ use Phalcon\Mvc\Controller;
  */
 class DispatcherTestDefaultController extends Controller
 {
-    const RETURN_VALUE_STRING = 'string';
-    const RETURN_VALUE_INT    = 5;
+    public const RETURN_VALUE_STRING = 'string';
+    public const RETURN_VALUE_INT    = 5;
 
     public function beforeExecuteRoute()
     {

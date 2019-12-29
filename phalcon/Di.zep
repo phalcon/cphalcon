@@ -560,7 +560,7 @@ class Di implements DiInterface
     /**
      * Sets a service using a raw Phalcon\Di\Service definition
      */
-    public function setRaw(string! name, <ServiceInterface> rawDefinition) -> <ServiceInterface>
+    public function setService(string! name, <ServiceInterface> rawDefinition) -> <ServiceInterface>
     {
         let this->services[name] = rawDefinition;
 

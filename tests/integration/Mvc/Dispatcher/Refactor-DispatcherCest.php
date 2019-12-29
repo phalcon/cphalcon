@@ -502,7 +502,8 @@ class DispatcherCest extends BaseDispatcher
                     ]
                 );
             }
-        );
+        )
+        ;
 
         $I->expectThrowable(
             new Exception(
@@ -534,7 +535,8 @@ class DispatcherCest extends BaseDispatcher
                 // Don't return an object
                 return 3;
             }
-        );
+        )
+        ;
 
         $I->expectThrowable(
             new Exception(
@@ -767,7 +769,8 @@ class DispatcherCest extends BaseDispatcher
 
                 return false;
             }
-        );
+        )
+        ;
 
         $handler = $dispatcher->dispatch();
 

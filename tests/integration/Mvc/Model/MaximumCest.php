@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Integration\Mvc\Model;
 
 use Codeception\Example;

@@ -36,10 +36,10 @@ class Line extends AbstractFormatter
     /**
      * Phalcon\Logger\Formatter\Line construct
      */
-    public function __construct(string format = "[%date%][%type%] %message%", string dateFormat = "D, d M y H:i:s O")
+    public function __construct(string format = "[%date%][%type%] %message%", string dateFormat = "c")
     {
-        let this->format = format;
-        let this->dateFormat = dateFormat;
+        let this->format     = format,
+            this->dateFormat = dateFormat;
     }
 
     /**
@@ -72,7 +72,7 @@ class Line extends AbstractFormatter
             let format = str_replace("%type%", item->getName(), format);
         }
 
-        let format = str_replace("%message%", item->getMessage(), format) . PHP_EOL;
+        let format = str_replace("%message%", item->getMessage(), format);
 
         if typeof item->getContext() === "array" {
             return this->interpolate(

@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -10,22 +9,117 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Unit\Http\Request;
 
+use Phalcon\Http\Request;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
 class GetQueryCest
 {
+    use DiTrait;
+
     /**
      * Tests Phalcon\Http\Request :: getQuery()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2019-12-01
      */
     public function httpRequestGetQuery(UnitTester $I)
     {
         $I->wantToTest('Http\Request - getQuery()');
 
-        $I->skipTest('Need implementation');
+        $this->setNewFactoryDefault();
+
+        $existing = $_GET ?? [];
+
+        $_GET['status'] = ' Active ';
+        $request        = new Request();
+
+        $expected = ' Active ';
+        $actual   = $request->getQuery('status');
+        $I->assertEquals($expected, $actual);
+
+        $_GET = $existing;
+    }
+
+    /**
+     * Tests Phalcon\Http\Request :: getQuery() - filter
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-12-01
+     */
+    public function httpRequestGetQueryFilter(UnitTester $I)
+    {
+        $I->wantToTest('Http\Request - getQuery() - filter');
+
+        $this->setNewFactoryDefault();
+
+        $existing = $_GET ?? [];
+
+        $_GET['status'] = ' Active ';
+        $request        = new Request();
+        $request->setDI($this->container);
+
+        $expected = 'Active';
+        $actual   = $request->getQuery('status', 'trim');
+        $I->assertEquals($expected, $actual);
+
+        $expected = 'active';
+        $actual   = $request->getQuery('status', ['trim', 'lower']);
+        $I->assertEquals($expected, $actual);
+
+        $_GET = $existing;
+    }
+
+    /**
+     * Tests Phalcon\Http\Request :: getQuery() - default
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-12-01
+     */
+    public function httpRequestGetQueryDefault(UnitTester $I)
+    {
+        $I->wantToTest('Http\Request - getQuery() - default');
+
+        $this->setNewFactoryDefault();
+
+        $existing = $_GET ?? [];
+
+        $request = new Request();
+        $request->setDI($this->container);
+
+        $expected = 'default';
+        $actual   = $request->getQuery('status', null, 'default');
+        $I->assertEquals($expected, $actual);
+
+        $_GET = $existing;
+    }
+
+    /**
+     * Tests Phalcon\Http\Request :: getQuery() - allowNoEmpty
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-12-01
+     */
+    public function httpRequestGetQueryAllowNoEmpty(UnitTester $I)
+    {
+        $I->wantToTest('Http\Request - getQuery() - allowNoEmpty');
+
+        $this->setNewFactoryDefault();
+
+        $existing = $_GET ?? [];
+
+        $_GET['status'] = ' 0 ';
+        $request        = new Request();
+        $request->setDI($this->container);
+
+        $expected = '0';
+        $actual   = $request->getQuery('status', 'trim', 'zero value', true);
+        $I->assertEquals($expected, $actual);
+
+        $_GET = $existing;
     }
 }

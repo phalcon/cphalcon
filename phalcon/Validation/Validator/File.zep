@@ -93,6 +93,28 @@ class File extends AbstractValidatorComposite
 {
     /**
      * Constructor
+     *
+     * @param array options = [
+     *     'messageMinSize' => '',
+     *     'includedMinSize' => false,
+     *     'minSize' => 100,
+     *     'maxSize' => 1000,
+     *     'messageSize' => '',
+     *     'includedSize' => false,
+     *     'equalSize' => '',
+     *     'messageEqualSize' => '',
+     *     'allowedTypes' => [],
+     *     'messageType' => '',
+     *     'maxResolution' => '1000x1000',
+     *     'messageMaxResolution' => '',
+     *     'includedMaxResolution' => false,
+     *     'minResolution => '500x500',
+     *     'includedMinResolution' => false,
+     *     'messageMinResolution' => '',
+     *     'equalResolution' => '1000x1000',
+     *     'messageEqualResolution' => '',
+     *     'allowEmpty' => false
+     * ]
      */
     public function __construct(array! options = [])
     {

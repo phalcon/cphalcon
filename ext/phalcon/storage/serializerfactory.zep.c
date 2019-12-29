@@ -79,17 +79,13 @@ PHP_METHOD(Phalcon_Storage_SerializerFactory, newInstance) {
 
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *name_param = NULL, definition, _0, _3, _4, _1$$3, _2$$3;
+	zval *name_param = NULL, definition, _0;
 	zval name;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&definition);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_3);
-	ZVAL_UNDEF(&_4);
-	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_2$$3);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
@@ -108,19 +104,12 @@ PHP_METHOD(Phalcon_Storage_SerializerFactory, newInstance) {
 
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkservice", NULL, 0, &name);
 	zephir_check_call_status();
-	zephir_read_property(&_0, this_ptr, SL("services"), PH_NOISY_CC | PH_READONLY);
-	if (!(zephir_array_isset(&_0, &name))) {
-		zephir_read_property(&_1$$3, this_ptr, SL("mapper"), PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_OBS_VAR(&definition);
-		zephir_array_fetch(&definition, &_1$$3, &name, PH_NOISY, "phalcon/Storage/SerializerFactory.zep", 41);
-		ZEPHIR_INIT_VAR(&_2$$3);
-		ZEPHIR_LAST_CALL_STATUS = zephir_create_instance(&_2$$3, &definition);
-		zephir_check_call_status();
-		zephir_update_property_array(this_ptr, SL("services"), &name, &_2$$3);
-	}
-	zephir_read_property(&_3, this_ptr, SL("services"), PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch(&_4, &_3, &name, PH_NOISY | PH_READONLY, "phalcon/Storage/SerializerFactory.zep", 45);
-	RETURN_CTOR(&_4);
+	zephir_read_property(&_0, this_ptr, SL("mapper"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_OBS_VAR(&definition);
+	zephir_array_fetch(&definition, &_0, &name, PH_NOISY, "phalcon/Storage/SerializerFactory.zep", 40);
+	ZEPHIR_LAST_CALL_STATUS = zephir_create_instance(return_value, &definition);
+	zephir_check_call_status();
+	RETURN_MM();
 
 }
 

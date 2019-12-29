@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -10,9 +9,14 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Cli\Di\FactoryDefault\Cli;
 
 use CliTester;
+use Phalcon\Di\Exception;
+use Phalcon\Escaper;
+use Phalcon\Di\FactoryDefault\Cli as Di;
 
 class UnderscoreCallCest
 {
@@ -25,6 +29,37 @@ class UnderscoreCallCest
     public function diFactorydefaultCliUnderscoreCall(CliTester $I)
     {
         $I->wantToTest('Di\FactoryDefault\Cli - __call()');
-        $I->skipTest('Need implementation');
+
+        $di = new Di();
+
+        $actual = $di->setEscaper(Escaper::class);
+
+        $I->assertNull($actual);
+
+        $actual = $di->getEscaper();
+
+        $I->assertInstanceOf(Escaper::class, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Di\FactoryDefault\Cli :: __call() - unknown method
+     *
+     * @author Sid Roberts <https://github.com/SidRoberts>
+     * @since  2019-05-28
+     */
+    public function testUnderscoreCallUnknownMethod(CliTester $I)
+    {
+        $I->wantToTest('Phalcon\Di :: __call() - unknown method');
+
+        $di = new Di();
+
+        $I->expectThrowable(
+            new Exception(
+                "Call to undefined method or service 'notARealMethod'"
+            ),
+            function () use ($di) {
+                $di->notARealMethod();
+            }
+        );
     }
 }

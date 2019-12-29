@@ -35,7 +35,7 @@ interface AdapterInterface
     /**
      * Reads data from the adapter
      */
-    public function get(string! key) -> var;
+    public function get(string! key, var defaultValue = null) -> var;
 
     /**
      * Returns the already connected adapter or connects to the backend
@@ -46,7 +46,7 @@ interface AdapterInterface
     /**
      * Returns all the keys stored
      */
-    public function getKeys() -> array;
+    public function getKeys(string! prefix = "") -> array;
 
     /**
      * Returns the prefix for the keys

@@ -46,6 +46,14 @@ interface AdapterInterface
     public function getFormatter() -> <FormatterInterface>;
 
     /**
+     * Returns the whether the logger is currently in an active transaction or
+     * not
+     *
+     * @return bool
+     */
+    public function inTransaction() -> bool;
+
+    /**
      * Processes the message in the adapter
      */
     public function process(<Item> item) -> void;

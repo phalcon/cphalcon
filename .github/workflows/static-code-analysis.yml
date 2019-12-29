@@ -1,0 +1,23 @@
+name: Static Code Analysis
+
+on:
+  push:
+    branches-ignore:
+      - 'appveyor*'
+    paths-ignore:
+      - '*.md'
+
+  pull_request:
+    branches:
+      - 'master'
+      - '4.0.x'
+
+jobs:
+  phpcs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2-beta
+        with:
+          fetch-depth: 1
+      - name: Run PHP_CodeSniffer
+        run: docker run --rm -v $(pwd):/data cytopia/phpcs --standard=./phpcs.xml

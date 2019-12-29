@@ -51,7 +51,8 @@ class DispatcherAfterInitializeCest extends BaseDispatcher
                     $forwarded = true;
                 }
             }
-        );
+        )
+        ;
 
         $dispatcher->dispatch();
 
@@ -96,7 +97,8 @@ class DispatcherAfterInitializeCest extends BaseDispatcher
 
                 return false;
             }
-        );
+        )
+        ;
 
         $dispatcher->dispatch();
 
@@ -134,14 +136,16 @@ class DispatcherAfterInitializeCest extends BaseDispatcher
             function () {
                 throw new Exception('afterInitialize exception occurred');
             }
-        );
+        )
+        ;
 
         $dispatcher->getEventsManager()->attach(
             'dispatch:beforeException',
             function () {
                 return false;
             }
-        );
+        )
+        ;
 
         $dispatcher->dispatch();
 
@@ -180,7 +184,8 @@ class DispatcherAfterInitializeCest extends BaseDispatcher
             function () {
                 throw new Exception('afterInitialize exception occurred');
             }
-        );
+        )
+        ;
 
         $dispatcher->getEventsManager()->attach(
             'dispatch:beforeException',
@@ -191,7 +196,8 @@ class DispatcherAfterInitializeCest extends BaseDispatcher
 
                 return null;
             }
-        );
+        )
+        ;
 
         $I->expectThrowable(
             Exception::class,
@@ -239,7 +245,8 @@ class DispatcherAfterInitializeCest extends BaseDispatcher
                     throw new Exception('afterInitialize exception occurred');
                 }
             }
-        );
+        )
+        ;
 
         $dispatcher->getEventsManager()->attach(
             'dispatch:beforeException',
@@ -254,7 +261,8 @@ class DispatcherAfterInitializeCest extends BaseDispatcher
                     ]
                 );
             }
-        );
+        )
+        ;
 
         $dispatcher->dispatch();
 

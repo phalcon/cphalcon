@@ -100,7 +100,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Di_DiInterface, setDefault);
 /**
  * Sets a service using a raw Phalcon\Di\Service definition
  */
-ZEPHIR_DOC_METHOD(Phalcon_Di_DiInterface, setRaw);
+ZEPHIR_DOC_METHOD(Phalcon_Di_DiInterface, setService);
 
 /**
  * Registers an "always shared" service in the services container

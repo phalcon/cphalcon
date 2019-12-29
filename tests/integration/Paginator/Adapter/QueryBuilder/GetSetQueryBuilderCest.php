@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -9,6 +8,8 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Paginator\Adapter\QueryBuilder;
 
@@ -33,7 +34,8 @@ class GetSetQueryBuilderCest
     }
 
     /**
-     * Tests Phalcon\Paginator\Adapter\QueryBuilder :: getQueryBuilder() / setQueryBuilder()
+     * Tests Phalcon\Paginator\Adapter\QueryBuilder :: getQueryBuilder() /
+     * setQueryBuilder()
      */
     public function paginatorAdapterQuerybuilderGetSetQueryBuilder(IntegrationTester $I)
     {
@@ -42,9 +44,9 @@ class GetSetQueryBuilderCest
         $manager = $this->getService('modelsManager');
 
         $builder1 = $manager->createBuilder()
-                           ->columns('cedula, nombres')
-                           ->from(Personnes::class)
-                           ->orderBy('cedula')
+                            ->columns('cedula, nombres')
+                            ->from(Personnes::class)
+                            ->orderBy('cedula')
         ;
 
         $paginator = new QueryBuilder(
@@ -56,12 +58,10 @@ class GetSetQueryBuilderCest
         );
 
 
-
         $I->assertEquals(
             $builder1,
             $paginator->getQueryBuilder()
         );
-
 
 
         $builder2 = $manager->createBuilder()

@@ -59,6 +59,14 @@ ZEPHIR_DOC_METHOD(Phalcon_Logger_Adapter_AdapterInterface, commit);
 ZEPHIR_DOC_METHOD(Phalcon_Logger_Adapter_AdapterInterface, getFormatter);
 
 /**
+ * Returns the whether the logger is currently in an active transaction or
+ * not
+ *
+ * @return bool
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Logger_Adapter_AdapterInterface, inTransaction);
+
+/**
  * Processes the message in the adapter
  */
 ZEPHIR_DOC_METHOD(Phalcon_Logger_Adapter_AdapterInterface, process);

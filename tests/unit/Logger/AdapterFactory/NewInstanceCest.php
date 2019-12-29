@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -10,11 +9,15 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Unit\Logger\AdapterFactory;
 
 use Phalcon\Logger\Adapter\AdapterInterface;
 use Phalcon\Logger\AdapterFactory;
+use Phalcon\Factory\Exception;
 use UnitTester;
+
 use function outputDir;
 
 class NewInstanceCest
@@ -35,5 +38,24 @@ class NewInstanceCest
 
         $logger = $factory->newInstance('stream', $fileName);
         $I->assertInstanceOf(AdapterInterface::class, $logger);
+    }
+
+    /**
+     * Tests Phalcon\Logger\AdapterFactory :: newInstance() - exception
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-05-20
+     */
+    public function loggerAdapterFactoryNewInstanceException(UnitTester $I)
+    {
+        $I->wantToTest('Logger\AdapterFactory - newInstance() - exception');
+
+        $factory = new AdapterFactory();
+        $I->expectThrowable(
+            new Exception('Service unknown is not registered'),
+            function () use ($factory) {
+                $logger = $factory->newInstance('unknown', '123.log');
+            }
+        );
     }
 }

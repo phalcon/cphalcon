@@ -16,6 +16,7 @@ use Phalcon\Crypt\CryptInterface;
 use Phalcon\Crypt\Mismatch;
 use Phalcon\Filter\FilterInterface;
 use Phalcon\Http\Response\Exception;
+use Phalcon\Http\Cookie\CookieInterface;
 use Phalcon\Http\Cookie\Exception as CookieException;
 use Phalcon\Session\ManagerInterface as SessionManagerInterface;
 
@@ -24,22 +25,51 @@ use Phalcon\Session\ManagerInterface as SessionManagerInterface;
  */
 class Cookie extends AbstractInjectionAware implements CookieInterface
 {
+    /**
+     * @var string
+     */
     protected domain;
 
+    /**
+     * @var int
+     */
     protected expire;
 
     protected filter;
 
+    /**
+     * @var bool
+     */
     protected httpOnly;
 
+    /**
+     * @var string
+     */
     protected name;
 
+    /**
+     * @var array
+     */
+    protected options = [];
+
+    /**
+     * @var string
+     */
     protected path;
 
+    /**
+     * @var bool
+     */
     protected read = false;
 
+    /**
+     * @var bool
+     */
     protected restored = false;
 
+    /**
+     * @var bool
+     */
     protected secure;
 
     /**
@@ -48,8 +78,14 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
      */
     protected signKey = null;
 
+    /**
+     * @var bool
+     */
     protected useEncryption = false;
 
+    /**
+     * @var mixed
+     */
     protected value;
 
     /**
@@ -62,23 +98,20 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
         string path = "/",
         bool secure = null,
         string domain = null,
-        bool httpOnly = false
+        bool httpOnly = false,
+        array options = []
     ) {
-        let this->name = name;
+        let this->name     = name,
+            this->expire   = expire,
+            this->path     = path,
+            this->secure   = secure,
+            this->domain   = domain,
+            this->httpOnly = httpOnly,
+            this->options  = options;
 
         if value !== null {
             this->setValue(value);
         }
-
-        let this->expire = expire;
-
-        let this->path = path;
-
-        let this->secure = secure;
-
-        let this->domain = domain;
-
-        let this->httpOnly = httpOnly;
     }
 
     /**
@@ -94,13 +127,14 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
      */
     public function delete()
     {
-        var name, domain, path, secure, httpOnly, container, session;
+        var container, domain, httpOnly, name, options, path, secure, session;
 
         let name     = this->name,
             domain   = this->domain,
             path     = this->path,
             secure   = this->secure,
-            httpOnly = this->httpOnly;
+            httpOnly = this->httpOnly,
+            options  = this->options;
 
         let container = <DiInterface> this->container;
 
@@ -121,7 +155,8 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
             path,
             domain,
             secure,
-            httpOnly
+            httpOnly,
+            options
         );
     }
 
@@ -167,6 +202,14 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
     public function getName() -> string
     {
         return this->name;
+    }
+
+    /**
+     * Returns the current cookie's options
+     */
+    public function getOptions() -> array
+    {
+        return this->options;
     }
 
     /**
@@ -501,7 +544,17 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
     }
 
     /**
-     * Sets the cookie's expiration time
+     * Sets the cookie's options
+     */
+    public function setOptions(array! options) -> <CookieInterface>
+    {
+        let this->options = options;
+
+        return this;
+    }
+
+    /**
+     * Sets the cookie's path
      */
     public function setPath(string! path) -> <CookieInterface>
     {

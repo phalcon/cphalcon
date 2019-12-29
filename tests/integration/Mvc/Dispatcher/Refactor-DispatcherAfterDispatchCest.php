@@ -132,14 +132,16 @@ class DispatcherAfterDispatchCest extends BaseDispatcher
             function () {
                 throw new Exception('afterDispatch exception occurred');
             }
-        );
+        )
+        ;
 
         $dispatcher->getEventsManager()->attach(
             'dispatch:beforeException',
             function () {
                 return false;
             }
-        );
+        )
+        ;
 
         $dispatcher->dispatch();
 
@@ -238,7 +240,8 @@ class DispatcherAfterDispatchCest extends BaseDispatcher
                     throw new Exception('afterDispatch exception occurred');
                 }
             }
-        );
+        )
+        ;
 
         $dispatcher->getEventsManager()->attach(
             'dispatch:beforeException',

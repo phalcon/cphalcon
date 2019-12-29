@@ -93,6 +93,10 @@ class Url extends AbstractInjectionAware implements UrlInterface
      *     false
      * );
      *```
+     *
+     * @param array|string uri = [
+     *     'for' => '',
+     * ]
      */
     public function get(var uri = null, var args = null, bool local = null, var baseUri = null) -> string
     {
@@ -241,6 +245,10 @@ class Url extends AbstractInjectionAware implements UrlInterface
      *     ]
      * );
      *```
+     *
+     * @param array|string uri = [
+     *     'for' => ''
+     * ]
      */
     public function getStatic(var uri = null) -> string
     {

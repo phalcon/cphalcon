@@ -37,7 +37,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/annotations/adapter/adapterinterface.zep.c
 	phalcon/db/adapter/abstractadapter.zep.c
 	phalcon/db/dialectinterface.zep.c
-	phalcon/firewall/adapter/adapterinterface.zep.c
 	phalcon/http/message/abstractmessage.zep.c
 	phalcon/logger/adapter/adapterinterface.zep.c
 	phalcon/mvc/model/resultsetinterface.zep.c
@@ -48,7 +47,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/db/adapter/pdo/abstractpdo.zep.c
 	phalcon/db/dialect.zep.c
 	phalcon/di/diinterface.zep.c
-	phalcon/firewall/adapter/abstractadapter.zep.c
 	phalcon/flash/flashinterface.zep.c
 	phalcon/http/message/stream.zep.c
 	phalcon/image/adapter/adapterinterface.zep.c
@@ -111,7 +109,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/html/link/link.zep.c
 	phalcon/html/link/linkprovider.zep.c
 	phalcon/html/link/serializer/serializerinterface.zep.c
-	phalcon/http/cookieinterface.zep.c
+	phalcon/http/cookie/cookieinterface.zep.c
 	phalcon/http/request/fileinterface.zep.c
 	phalcon/http/requestinterface.zep.c
 	phalcon/http/response/cookiesinterface.zep.c
@@ -263,10 +261,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/filter/sanitize/upperfirst.zep.c
 	phalcon/filter/sanitize/upperwords.zep.c
 	phalcon/filter/sanitize/url.zep.c
-	phalcon/firewall/adapter/acl.zep.c
-	phalcon/firewall/adapter/annotations.zep.c
-	phalcon/firewall/adapter/micro/acl.zep.c
-	phalcon/firewall/exception.zep.c
 	phalcon/flash/direct.zep.c
 	phalcon/flash/exception.zep.c
 	phalcon/flash/session.zep.c
@@ -288,6 +282,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/helper/arr.zep.c
 	phalcon/helper/exception.zep.c
 	phalcon/helper/fs.zep.c
+	phalcon/helper/json.zep.c
 	phalcon/helper/number.zep.c
 	phalcon/helper/str.zep.c
 	phalcon/html/attributes.zep.c

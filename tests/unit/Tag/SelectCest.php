@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -9,6 +8,8 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Tag;
 
@@ -37,7 +38,9 @@ class SelectCest extends TagSetup
                     'PHP',
                 ],
             ],
-            "<select id=\"potato\" name=\"potato\">\n\t<option value=\"0\">Phalcon</option>\n\t<option value=\"1\">PHP</option>\n</select"
+            "<select id=\"potato\" name=\"potato\">\n\t" .
+            "<option value=\"0\">Phalcon</option>\n\t<option value=\"1\">" .
+            "PHP</option>\n</select"
         );
     }
 

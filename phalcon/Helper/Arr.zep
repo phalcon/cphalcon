@@ -26,9 +26,29 @@ class Arr
      *
      * @return array
      */
-    final public static function chunk(array! collection, int size, bool preserveKeys = false) -> array
-    {
+    final public static function chunk(
+        array! collection,
+        int size,
+        bool preserveKeys = false
+    ) -> array {
         return array_chunk(collection, size, preserveKeys);
+    }
+
+    /**
+     * Helper method to filter the collection
+     *
+     * @param array    $collection
+     * @param callable $method
+     *
+     * @return array
+     */
+    final public static function filter(array collection, var method = null) -> array
+    {
+        if null === method || !is_callable(method)  {
+            return collection;
+        }
+
+        return array_filter(collection, method);
     }
 
     /**
@@ -44,7 +64,7 @@ class Arr
     {
         var filtered;
 
-        let filtered = self::filterCollection(collection, method);
+        let filtered = self::filter(collection, method);
 
         return reset(filtered);
     }
@@ -62,7 +82,7 @@ class Arr
     {
         var filtered;
 
-        let filtered = self::filterCollection(collection, method);
+        let filtered = self::filter(collection, method);
 
         reset(filtered);
 
@@ -196,7 +216,7 @@ class Arr
     {
         var filtered;
 
-        let filtered = self::filterCollection(collection, method);
+        let filtered = self::filter(collection, method);
 
         return end(filtered);
     }
@@ -214,7 +234,7 @@ class Arr
     {
         var filtered;
 
-        let filtered = self::filterCollection(collection, method);
+        let filtered = self::filter(collection, method);
 
         end(filtered);
 
@@ -230,8 +250,11 @@ class Arr
      *
      * @return array
      */
-    final public static function order(array! collection, var attribute, string order = "asc") -> array
-    {
+    final public static function order(
+        array! collection,
+        var attribute,
+        string order = "asc"
+    ) -> array {
         var item, key;
         array sorted;
 
@@ -291,8 +314,11 @@ class Arr
      *
      * @return array
      */
-    final public static function set(array! collection, var value, var index = null) -> array
-    {
+    final public static function set(
+        array! collection,
+        var value,
+        var index = null
+    ) -> array {
         if null === index {
             let collection[] = value;
         } else {
@@ -361,9 +387,9 @@ class Arr
      *
      * @return bool
      */
-    final public static function validateAll(array! collection, var method) -> bool
+    final public static function validateAll(array! collection, var method = null) -> bool
     {
-        return count(self::filterCollection(collection, method)) === count(collection);
+        return count(self::filter(collection, method)) === count(collection);
     }
 
     /**
@@ -375,26 +401,9 @@ class Arr
      *
      * @return bool
      */
-    final public static function validateAny(array! collection, var method) -> bool
+    final public static function validateAny(array! collection, var method = null) -> bool
     {
-        return count(self::filterCollection(collection, method)) > 0;
-    }
-
-    /**
-     * Helper method to filter the collection
-     *
-     * @param array    $collection
-     * @param callable $method
-     *
-     * @return array
-     */
-    final private static function filterCollection(array collection, var method = null) -> array
-    {
-        if null === method || !is_callable(method)  {
-            return collection;
-        }
-
-        return array_filter(collection, method);
+        return count(self::filter(collection, method)) > 0;
     }
 
     /**

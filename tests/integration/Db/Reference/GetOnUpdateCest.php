@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -9,6 +8,8 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Db\Reference;
 
@@ -29,13 +30,11 @@ class GetOnUpdateCest
         $references = $this->getReferences();
 
 
-
         $reference1 = $references['fk1'];
 
         $I->assertNull(
             $reference1->getOnUpdate()
         );
-
 
 
         $reference2 = $references['fk2'];
@@ -45,13 +44,11 @@ class GetOnUpdateCest
         );
 
 
-
         $reference3 = $references['fk3'];
 
         $I->assertNull(
             $reference3->getOnUpdate()
         );
-
 
 
         $reference4 = $references['fk4'];
@@ -60,7 +57,6 @@ class GetOnUpdateCest
             'SET NULL',
             $reference4->getOnUpdate()
         );
-
 
 
         $reference5 = $references['fk5'];

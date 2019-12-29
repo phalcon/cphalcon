@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -10,12 +9,15 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Integration\Session\Manager;
 
 use IntegrationTester;
 use Phalcon\Session\Manager;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionTrait;
+
 use function uniqid;
 
 class GetSetIdCest
@@ -43,7 +45,6 @@ class GetSetIdCest
             '',
             $manager->getId()
         );
-
 
 
         $id = uniqid();

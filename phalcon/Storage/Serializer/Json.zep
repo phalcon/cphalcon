@@ -12,6 +12,7 @@ namespace Phalcon\Storage\Serializer;
 
 use InvalidArgumentException;
 use JsonSerializable;
+use Phalcon\Helper\Json;
 
 class Json extends AbstractSerializer
 {
@@ -22,7 +23,8 @@ class Json extends AbstractSerializer
 	{
 	    if typeof this->data == "object" && !(this->data instanceof JsonSerializable) {
             throw new InvalidArgumentException(
-                "Data for JSON serializer cannot be of type object without implementing JsonSerializable"
+                "Data for the JSON serializer cannot be of type 'object' " .
+                "without implementing 'JsonSerializable'"
             );
         }
 
@@ -30,7 +32,7 @@ class Json extends AbstractSerializer
             return this->data;
         }
 
-		return json_encode(this->data);
+		return Json::encode(this->data);
 	}
 
 	/**
@@ -38,6 +40,6 @@ class Json extends AbstractSerializer
 	 */
 	public function unserialize(var data) -> void
 	{
-		let this->data = json_decode(data);
+		let this->data = Json::decode(data);
 	}
 }

@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -10,12 +9,14 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Unit\Logger\Logger;
 
+use Phalcon\Logger;
 use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Logger\Exception;
 use Phalcon\Logger\Formatter\Json;
-use Phalcon\Logger;
 use Phalcon\Test\Fixtures\Traits\LoggerTrait;
 use Psr\Log\LoggerInterface;
 use UnitTester;
@@ -104,9 +105,9 @@ class ConstructCest
             '{"type":"debug","message":"This is a message","timestamp":"%s"}' . PHP_EOL .
             '{"type":"error","message":"This is an error","timestamp":"%s"}' . PHP_EOL .
             '{"type":"error","message":"This is another error","timestamp":"%s"}',
-            date('D, d M y H:i:s O', $time),
-            date('D, d M y H:i:s O', $time),
-            date('D, d M y H:i:s O', $time)
+            date('c', $time),
+            date('c', $time),
+            date('c', $time)
         );
 
         $I->seeInThisFile($expected);

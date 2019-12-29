@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -10,13 +9,17 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Unit\Storage\Adapter\Stream;
 
 use Phalcon\Storage\Adapter\Stream;
 use Phalcon\Storage\SerializerFactory;
 use UnitTester;
+
 use function outputDir;
 use function sort;
+use function uniqid;
 
 class GetKeysCest
 {
@@ -39,29 +42,42 @@ class GetKeysCest
             ]
         );
 
-        $adapter->clear();
+        $I->assertTrue($adapter->clear());
 
-        $key = 'key-1';
-        $adapter->set($key, 'test');
+        $key1 = uniqid('key');
+        $key2 = uniqid('key');
+        $key3 = uniqid('one');
+        $key4 = uniqid('one');
 
-        $I->assertTrue(
-            $adapter->has($key)
-        );
+        $adapter->set($key1, 'test');
+        $adapter->set($key2, 'test');
+        $adapter->set($key3, 'test');
+        $adapter->set($key4, 'test');
 
-        $key = 'key-2';
-        $adapter->set($key, 'test');
-
-        $I->assertTrue(
-            $adapter->has($key)
-        );
+        $I->assertTrue($adapter->has($key1));
+        $I->assertTrue($adapter->has($key2));
+        $I->assertTrue($adapter->has($key3));
+        $I->assertTrue($adapter->has($key4));
 
         $expected = [
-            'phstrm-key-1',
-            'phstrm-key-2',
+            'ph-strm' . $key1,
+            'ph-strm' . $key2,
+            'ph-strm' . $key3,
+            'ph-strm' . $key4,
         ];
         $actual   = $adapter->getKeys();
         sort($actual);
         $I->assertEquals($expected, $actual);
+
+        $expected = [
+            'ph-strm' . $key3,
+            'ph-strm' . $key4,
+        ];
+        $actual   = $adapter->getKeys("one");
+        sort($actual);
+        $I->assertEquals($expected, $actual);
+
+        $I->safeDeleteDirectory(outputDir('ph-strm'));
     }
 
     /**
@@ -102,5 +118,7 @@ class GetKeysCest
                 $adapter->delete($key)
             );
         }
+
+        $I->safeDeleteDirectory(outputDir('basePrefix-'));
     }
 }

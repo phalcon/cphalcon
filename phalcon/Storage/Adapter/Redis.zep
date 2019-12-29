@@ -27,8 +27,21 @@ class Redis extends AbstractAdapter
 
     /**
      * Constructor
+     *
+     * @param array options = [
+     *     'host' => '127.0.0.1',
+     *     'port' => 6379,
+     *     'index' => 0,
+     *     'persistent' => false,
+     *     'auth' => '',
+     *     'socket' => '',
+     *     'defaultSerializer' => 'Php',
+     *     'lifetime' => 3600,
+     *     'serializer' => null,
+     *     'prefix' => ''
+     * ]
      */
-    public function __construct(<SerializerFactory> factory = null, array! options = [])
+    public function __construct(<SerializerFactory> factory, array! options = [])
     {
         /**
          * Lets set some defaults and options here
@@ -157,9 +170,12 @@ class Redis extends AbstractAdapter
      * @return array
      * @throws Exception
      */
-    public function getKeys() -> array
+    public function getKeys(string! prefix = "") -> array
     {
-        return this->getAdapter()->keys("*");
+        return this->getFilteredKeys(
+            this->getAdapter()->keys("*"),
+            prefix
+        );
     }
 
     /**

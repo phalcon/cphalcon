@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -9,6 +8,8 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Mvc\View\Engine\Volt\Compiler;
 
@@ -306,7 +307,8 @@ class ParseCest
                 'Syntax error, unexpected token ~ in eval code on line 4',
             ],
             [
-                '\'{{ link_to("album/" ~ album.id ~ "/" ~ $album.uri, "<img src=\"" ~ album.url ~ "\" alt=\"" ~ album.name ~ "\"/>") }}\'',
+                '\'{{ link_to("album/" ~ album.id ~ "/" ~ $album.uri, ' .
+                '"<img src=\"" ~ album.url ~ "\" alt=\"" ~ album.name ~ "\"/>") }}\'',
                 "Scanning error before 'album.uri, \"<img...' in eval code on line 1",
             ],
         ];

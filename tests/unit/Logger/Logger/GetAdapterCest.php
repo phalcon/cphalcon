@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -10,14 +9,16 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Unit\Logger\Logger;
 
+use Phalcon\Logger;
 use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Logger\Exception;
-use Phalcon\Logger;
 use UnitTester;
+
 use function logsDir;
-use function sprintf;
 
 class GetAdapterCest
 {
@@ -72,8 +73,8 @@ class GetAdapterCest
         $fileName2  = $I->getNewFileName('log', 'log');
         $outputPath = logsDir();
 
-        $adapter1   = new Stream($outputPath . $fileName1);
-        $adapter2   = new Stream($outputPath . $fileName2);
+        $adapter1 = new Stream($outputPath . $fileName1);
+        $adapter2 = new Stream($outputPath . $fileName2);
 
         $logger = new Logger(
             'my-logger',

@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -9,6 +8,8 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Version;
 
@@ -53,10 +54,16 @@ class GetCest
         $min       = intval($id[3] . $id[4]);
         $special   = $this->numberToSpecial($id[5]);
         $specialNo = ($special) ? $id[6] : '';
-
+        $expected  = "{$major}.{$med}.{$min}";
+        if (true !== empty($special)) {
+            $expected .= "-{$special}";
+            if (true !== empty($specialNo)) {
+                $expected .= ".{$specialNo}";
+            }
+        }
 
         $I->assertEquals(
-            trim("{$major}.{$med}.{$min}-{$special}.{$specialNo}"),
+            trim($expected),
             Version::get()
         );
     }

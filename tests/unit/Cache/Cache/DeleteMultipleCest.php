@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -10,6 +9,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Unit\Cache\Cache;
 
 use Phalcon\Cache;
@@ -17,6 +18,7 @@ use Phalcon\Cache\AdapterFactory;
 use Phalcon\Cache\Exception\InvalidArgumentException;
 use Phalcon\Storage\SerializerFactory;
 use UnitTester;
+
 use function uniqid;
 
 class DeleteMultipleCest
@@ -40,26 +42,21 @@ class DeleteMultipleCest
         $key1 = uniqid();
         $key2 = uniqid();
         $key3 = uniqid();
+        $key4 = uniqid();
 
         $adapter->setMultiple(
             [
                 $key1 => 'test1',
                 $key2 => 'test2',
                 $key3 => 'test3',
+                $key4 => 'test4',
             ]
         );
 
-        $I->assertTrue(
-            $adapter->has($key1)
-        );
-
-        $I->assertTrue(
-            $adapter->has($key2)
-        );
-
-        $I->assertTrue(
-            $adapter->has($key3)
-        );
+        $I->assertTrue($adapter->has($key1));
+        $I->assertTrue($adapter->has($key2));
+        $I->assertTrue($adapter->has($key3));
+        $I->assertTrue($adapter->has($key4));
 
         $I->assertTrue(
             $adapter->deleteMultiple(
@@ -70,17 +67,27 @@ class DeleteMultipleCest
             )
         );
 
-        $I->assertFalse(
-            $adapter->has($key1)
-        );
+        $I->assertFalse($adapter->has($key1));
+        $I->assertFalse($adapter->has($key2));
+        $I->assertTrue($adapter->has($key3));
+        $I->assertTrue($adapter->has($key4));
+
+        $I->assertTrue($adapter->delete($key3));
+        $I->assertTrue($adapter->delete($key4));
 
         $I->assertFalse(
-            $adapter->has($key2)
+            $adapter->deleteMultiple(
+                [
+                    $key3,
+                    $key4,
+                ]
+            )
         );
 
-        $I->assertTrue(
-            $adapter->has($key3)
-        );
+        $I->assertFalse($adapter->has($key1));
+        $I->assertFalse($adapter->has($key2));
+        $I->assertFalse($adapter->has($key3));
+        $I->assertFalse($adapter->has($key4));
     }
 
     /**

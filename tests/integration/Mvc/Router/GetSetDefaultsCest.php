@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -9,6 +8,8 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Mvc\Router;
 
@@ -42,15 +43,15 @@ class GetSetDefaultsCest
 
         $router->setDefaults(
             [
-                'namespace'  => 'Phalcon',
-                'module'     => 'front',
+                'namespace' => 'Phalcon',
+                'module'    => 'front',
             ]
         );
 
         $router->setDefaults(
             [
-                'action'     => 'default',
-                'params'     => [1,2,3],
+                'action' => 'default',
+                'params' => [1, 2, 3],
             ]
         );
 
@@ -60,7 +61,7 @@ class GetSetDefaultsCest
                 'module'     => 'front',
                 'controller' => null,
                 'action'     => 'default',
-                'params'     => [1,2,3],
+                'params'     => [1, 2, 3],
             ],
             $router->getDefaults()
         );

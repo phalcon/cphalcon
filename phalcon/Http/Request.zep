@@ -14,6 +14,7 @@ use Phalcon\Di\DiInterface;
 use Phalcon\Di\AbstractInjectionAware;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Filter\FilterInterface;
+use Phalcon\Helper\Json;
 use Phalcon\Http\Request\File;
 use Phalcon\Http\Request\FileInterface;
 use Phalcon\Http\Request\Exception;
@@ -508,7 +509,7 @@ class Request extends AbstractInjectionAware implements RequestInterface
             return false;
         }
 
-        return json_decode(rawBody, associative);
+        return Json::decode(rawBody, associative);
     }
 
     /**
@@ -1256,8 +1257,14 @@ class Request extends AbstractInjectionAware implements RequestInterface
      * Helper to get data from superglobals, applying filters if needed.
      * If no parameters are given the superglobal is returned.
      */
-    final protected function getHelper(array source, string! name = null, var filters = null, var defaultValue = null, bool notAllowEmpty = false, bool noRecursive = false) -> var
-    {
+    final protected function getHelper(
+        array source,
+        string! name = null,
+        var filters = null,
+        var defaultValue = null,
+        bool notAllowEmpty = false,
+        bool noRecursive = false
+    ) -> var {
         var value, filterService;
 
         if name === null {
@@ -1268,13 +1275,13 @@ class Request extends AbstractInjectionAware implements RequestInterface
             return defaultValue;
         }
 
+        if !is_numeric(value) && empty value && notAllowEmpty {
+            return defaultValue;
+        }
+
         if filters !== null {
             let filterService = this->getFilterService(),
                 value         = filterService->sanitize(value, filters, noRecursive);
-        }
-
-        if empty value && notAllowEmpty {
-            return defaultValue;
         }
 
         return value;

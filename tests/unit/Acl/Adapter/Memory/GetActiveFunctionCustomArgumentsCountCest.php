@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -10,8 +9,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Unit\Acl\Adapter\Memory;
 
+use Phalcon\Acl\Adapter\Memory;
+use Phalcon\Acl\Component;
+use Phalcon\Acl\Role;
 use UnitTester;
 
 class GetActiveFunctionCustomArgumentsCountCest
@@ -27,6 +31,38 @@ class GetActiveFunctionCustomArgumentsCountCest
     {
         $I->wantToTest('Acl\Adapter\Memory - getActiveFunctionCustomArgumentsCount()');
 
-        $I->skipTest('Need implementation');
+        $acl = new Memory();
+
+        $acl->addRole(new Role('member'));
+        $acl->addComponent(new Component('group'), 'add');
+        $acl->allow(
+            'member',
+            'group',
+            'add',
+            function ($accountType, $active) {
+                if ('premium' === $accountType && true === $active) {
+                    return true;
+                }
+
+                return false;
+            }
+        );
+
+        $isAllowed = $acl->isAllowed(
+            'member',
+            'group',
+            'add',
+            [
+                'accountType' => 'premium',
+                'active'      => true,
+            ]
+        );
+
+        $I->assertTrue($isAllowed);
+
+        $I->assertEquals(
+            2,
+            $acl->getActiveFunctionCustomArgumentsCount()
+        );
     }
 }

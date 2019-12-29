@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -9,6 +8,8 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Db\Dialect\Mysql;
 
@@ -25,8 +26,8 @@ class AddForeignKeyCest
     /**
      * Tests Phalcon\Db\Dialect\Mysql :: addForeignKey()
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2017-02-26
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2017-02-26
      *
      * @dataProvider getAddForeignKeyFixtures
      */
@@ -52,18 +53,20 @@ class AddForeignKeyCest
         $reference = new Reference(
             "fk_id_user",
             [
-                'referencedTable' => 'users',
-                'referencedSchema' => 'database2',
-                'columns' => ['id_user'],
+                'referencedTable'   => 'users',
+                'referencedSchema'  => 'database2',
+                'columns'           => ['id_user'],
                 'referencedColumns' => ['id'],
-                'onUpdate' => 'CASCADE',
-                'onDelete' => 'SET NULL',
+                'onUpdate'          => 'CASCADE',
+                'onDelete'          => 'SET NULL',
             ]
         );
-        $dialect = new Mysql();
-        $actual  = $dialect->addForeignKey("table", "schema", $reference);
+        $dialect   = new Mysql();
+        $actual    = $dialect->addForeignKey("table", "schema", $reference);
 
-        $expect = "ALTER TABLE `schema`.`table` ADD CONSTRAINT `fk_id_user` FOREIGN KEY (`id_user`) REFERENCES `database2`.`users`(`id`) ON DELETE SET NULL ON UPDATE CASCADE";
+        $expect = "ALTER TABLE `schema`.`table` "
+            . "ADD CONSTRAINT `fk_id_user` FOREIGN KEY (`id_user`) "
+            . "REFERENCES `database2`.`users`(`id`) ON DELETE SET NULL ON UPDATE CASCADE";
         $I->assertEquals($expect, $actual);
     }
 

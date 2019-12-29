@@ -1,50 +1,45 @@
 <?php
-declare(strict_types=1);
 
 /**
- * This file is part of the Phalcon Framework.
- *
- * (c) Phalcon Team <team@phalcon.io>
+* This file is part of the Phalcon Framework.
  *
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Fixtures\Traits;
 
-use function logsDir;
 use Phalcon\Logger\Adapter\Stream;
+use Phalcon\Logger\Exception;
 use Phalcon\Logger;
 use UnitTester;
 
+use function logsDir;
+
 trait LoggerTrait
 {
+    /**
+     * @param UnitTester $I
+     * @param string     $level
+     *
+     * @throws Exception
+     */
     protected function runLoggerFile(UnitTester $I, string $level)
     {
-        $logPath = logsDir();
-
         $fileName = $I->getNewFileName('log', 'log');
-
-        $adapter = new Stream(
-            $logPath . $fileName
-        );
+        $fileName = logsDir($fileName);
+        $logger   = $this->getLogger($fileName);
 
         $logString = 'Hello';
-
-        $logger = new Logger(
-            'my-logger',
-            [
-                'one' => $adapter,
-            ]
-        );
-
-        $logTime = date('D, d M y H:i:s O');
+        $logTime   = date('c');
 
         $logger->{$level}($logString);
 
         $logger->getAdapter('one')->close();
 
-        $I->amInPath($logPath);
+        $I->amInPath(logsDir());
         $I->openFile($fileName);
 
         $I->seeInThisFile(
@@ -56,5 +51,23 @@ trait LoggerTrait
         );
 
         $I->safeDeleteFile($fileName);
+    }
+
+    /**
+     * @param string $fileName
+     *
+     * @return Logger
+     * @throws Exception
+     */
+    protected function getLogger(string $fileName): Logger
+    {
+        $adapter = new Stream($fileName);
+
+        return new Logger(
+            'my-logger',
+            [
+                'one' => $adapter,
+            ]
+        );
     }
 }

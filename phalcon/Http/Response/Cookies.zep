@@ -12,8 +12,8 @@ namespace Phalcon\Http\Response;
 
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\AbstractInjectionAware;
-use Phalcon\Http\CookieInterface;
 use Phalcon\Http\Cookie\Exception;
+use Phalcon\Http\Cookie\CookieInterface;
 
 /**
  * Phalcon\Http\Response\Cookies
@@ -224,12 +224,13 @@ class Cookies extends AbstractInjectionAware implements CookiesInterface
      */
     public function set(
         string! name,
-        value = null,
+        var value = null,
         int expire = 0,
         string path = "/",
         bool secure = null,
         string! domain = null,
-        bool httpOnly = null
+        bool httpOnly = null,
+        array options = []
     ) -> <CookiesInterface> {
         var cookie, encryption, container, response;
 

@@ -319,7 +319,7 @@ PHP_METHOD(Phalcon_Collection, get) {
 	}
 	zephir_read_property(&_3, this_ptr, SL("data"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_OBS_VAR(&value);
-	zephir_array_fetch(&value, &_3, &key, PH_NOISY, "phalcon/Collection.zep", 132);
+	zephir_array_fetch(&value, &_3, &key, PH_NOISY, "phalcon/Collection.zep", 133);
 	if (UNEXPECTED(zephir_is_true(&cast))) {
 		ZEPHIR_MAKE_REF(&value);
 		ZEPHIR_CALL_FUNCTION(NULL, "settype", NULL, 9, &value, &cast);
@@ -462,7 +462,7 @@ PHP_METHOD(Phalcon_Collection, init) {
 	}
 
 
-	zephir_is_iterable(&data, 0, "phalcon/Collection.zep", 186);
+	zephir_is_iterable(&data, 0, "phalcon/Collection.zep", 187);
 	if (Z_TYPE_P(&data) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&data), _2, _3, _0)
 		{
@@ -530,7 +530,7 @@ PHP_METHOD(Phalcon_Collection, jsonSerialize) {
 	ZEPHIR_INIT_VAR(&records);
 	array_init(&records);
 	zephir_read_property(&_0, this_ptr, SL("data"), PH_NOISY_CC | PH_READONLY);
-	zephir_is_iterable(&_0, 0, "phalcon/Collection.zep", 207);
+	zephir_is_iterable(&_0, 0, "phalcon/Collection.zep", 208);
 	if (Z_TYPE_P(&_0) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&_0), _3, _4, _1)
 		{
@@ -746,7 +746,7 @@ PHP_METHOD(Phalcon_Collection, remove) {
 		ZEPHIR_CPY_WRT(&data, &_3$$3);
 		zephir_read_property(&_4$$3, this_ptr, SL("lowerKeys"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CPY_WRT(&lowerKeys, &_4$$3);
-		zephir_array_fetch(&key, &lowerKeys, &element, PH_NOISY | PH_READONLY, "phalcon/Collection.zep", 269);
+		zephir_array_fetch(&key, &lowerKeys, &element, PH_NOISY | PH_READONLY, "phalcon/Collection.zep", 270);
 		zephir_array_unset(&lowerKeys, &element, PH_SEPARATE);
 		zephir_array_unset(&data, &key, PH_SEPARATE);
 		zephir_update_property_zval(this_ptr, SL("data"), &data);
@@ -830,12 +830,13 @@ PHP_METHOD(Phalcon_Collection, toArray) {
 PHP_METHOD(Phalcon_Collection, toJson) {
 
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval *options_param = NULL, _0, _1;
+	zephir_fcall_cache_entry *_0 = NULL;
+	zval *options_param = NULL, _1, _2;
 	zend_long options, ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &options_param);
@@ -847,10 +848,11 @@ PHP_METHOD(Phalcon_Collection, toJson) {
 	}
 
 
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "toarray", NULL, 0);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "toarray", NULL, 0);
 	zephir_check_call_status();
-	ZVAL_LONG(&_1, options);
-	zephir_json_encode(return_value, &_0, zephir_get_intval(&_1) );
+	ZVAL_LONG(&_2, options);
+	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_json_ce, "encode", &_0, 13, &_1, &_2);
+	zephir_check_call_status();
 	RETURN_MM();
 
 }
@@ -879,7 +881,7 @@ PHP_METHOD(Phalcon_Collection, unserialize) {
 
 	zephir_get_strval(&_0, serialized);
 	ZEPHIR_CPY_WRT(serialized, &_0);
-	ZEPHIR_CALL_FUNCTION(&data, "unserialize", NULL, 13, serialized);
+	ZEPHIR_CALL_FUNCTION(&data, "unserialize", NULL, 14, serialized);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "init", NULL, 0, &data);
 	zephir_check_call_status();

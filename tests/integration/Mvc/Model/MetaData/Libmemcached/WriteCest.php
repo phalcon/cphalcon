@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -10,9 +9,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Integration\Mvc\Model\MetaData\Libmemcached;
 
-use function getOptionsLibmemcached;
 use IntegrationTester;
 use Phalcon\Cache\AdapterFactory;
 use Phalcon\Mvc\Model\Exception;
@@ -20,6 +20,8 @@ use Phalcon\Mvc\Model\MetaData\Libmemcached;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Robots;
+
+use function getOptionsLibmemcached;
 
 class WriteCest
 {
@@ -57,7 +59,7 @@ class WriteCest
 
         $I->skipTest('Check this to clear the cache if the key is there');
 
-        $options  = getOptionsLibmemcached();
+        $options = getOptionsLibmemcached();
 
         $options['servers'][0]['port'] = 4000;
 

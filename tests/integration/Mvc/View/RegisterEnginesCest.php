@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -10,10 +9,11 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Integration\Mvc\View;
 
 use IntegrationTester;
-use Phalcon\Mvc\View;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 class RegisterEnginesCest

@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -10,9 +9,14 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Cli\Di\FactoryDefault\Cli;
 
 use CliTester;
+use Phalcon\Crypt;
+use Phalcon\Di\FactoryDefault\Cli  as Di;
+use Phalcon\Escaper;
 
 class SetCest
 {
@@ -25,6 +29,32 @@ class SetCest
     public function diFactorydefaultCliSet(CliTester $I)
     {
         $I->wantToTest('Di\FactoryDefault\Cli - set()');
-        $I->skipTest('Need implementation');
+
+        $di = new Di();
+
+        // set non shared service
+        $di->set('escaper', Escaper::class);
+
+        $actual = $di->get('escaper');
+        $I->assertInstanceOf(Escaper::class, $actual);
+
+        $actual = $di->getService('escaper');
+        $I->assertFalse($actual->isShared());
+
+        // set shared service
+        $di->set('crypt', Crypt::class, true);
+
+        $actual = $di->get('crypt');
+        $I->assertInstanceOf(Crypt::class, $actual);
+
+        $actual = $di->getService('crypt');
+        $I->assertTrue($actual->isShared());
+
+        // testing closure
+        $returnValue = "Closure Test!";
+        $di->set('closure', function () use ($returnValue) {
+            return $returnValue;
+        });
+        $I->assertEquals($returnValue, $di->get('closure'));
     }
 }

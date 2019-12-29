@@ -30,6 +30,13 @@ class ImageFactory extends AbstractFactory
 
     /**
      * Factory to create an instace from a Config object
+     *
+     * @param array|\Phalcon\Config config = [
+     *     'adapter' => 'gd',
+     *     'file' => 'image.jpg',
+     *     'height' => null,
+     *     'width' => null
+     * ]
      */
     public function load(var config) -> <AdapterInterface>
     {
@@ -68,19 +75,16 @@ class ImageFactory extends AbstractFactory
 
         this->checkService(name);
 
-        if !isset this->services[name] {
-            let definition           = this->mapper[name],
-                this->services[name] = create_instance_params(
-                    definition,
-                    [
-                        file,
-                        width,
-                        height
-                    ]
-                );
-        }
+        let definition = this->mapper[name];
 
-        return this->services[name];
+        return create_instance_params(
+            definition,
+            [
+                file,
+                width,
+                height
+            ]
+        );
     }
 
     protected function getAdapters() -> array
