@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -10,9 +9,12 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Unit\Collection\Collection;
 
 use Phalcon\Collection;
+use Phalcon\Test\Fixtures\Helper\JsonFixture;
 use UnitTester;
 
 class JsonSerializeCest
@@ -37,6 +39,29 @@ class JsonSerializeCest
 
         $I->assertEquals(
             $data,
+            $collection->jsonSerialize()
+        );
+
+        $data = [
+            'one'    => 'two',
+            'three'  => 'four',
+            'five'   => 'six',
+            'object' => new JsonFixture(),
+        ];
+
+        $expected = [
+            'one'    => 'two',
+            'three'  => 'four',
+            'five'   => 'six',
+            'object' => [
+                'one' => 'two'
+            ],
+        ];
+
+        $collection = new Collection($data);
+
+        $I->assertEquals(
+            $expected,
             $collection->jsonSerialize()
         );
     }

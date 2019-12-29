@@ -51,7 +51,8 @@ class DispatcherAfterDispatchLoopCest extends BaseDispatcher
                     $forwarded = true;
                 }
             }
-        );
+        )
+        ;
 
         $dispatcher->dispatch();
 
@@ -93,7 +94,8 @@ class DispatcherAfterDispatchLoopCest extends BaseDispatcher
 
                 return false;
             }
-        );
+        )
+        ;
 
         $dispatcher->dispatch();
 
@@ -135,14 +137,16 @@ class DispatcherAfterDispatchLoopCest extends BaseDispatcher
             function () {
                 throw new Exception('afterDispatch exception occurred');
             }
-        );
+        )
+        ;
 
         $dispatcher->getEventsManager()->attach(
             'dispatch:beforeException',
             function () {
                 return false;
             }
-        );
+        )
+        ;
 
         $dispatcher->dispatch();
 
@@ -196,7 +200,8 @@ class DispatcherAfterDispatchLoopCest extends BaseDispatcher
 
                 return null;
             }
-        );
+        )
+        ;
 
         $I->expectThrowable(
             Exception::class,
@@ -249,7 +254,8 @@ class DispatcherAfterDispatchLoopCest extends BaseDispatcher
                     throw new Exception('afterDispatchLoop exception occurred');
                 }
             }
-        );
+        )
+        ;
 
         $dispatcher->getEventsManager()->attach(
             'dispatch:beforeException',
@@ -262,7 +268,8 @@ class DispatcherAfterDispatchLoopCest extends BaseDispatcher
                     ]
                 );
             }
-        );
+        )
+        ;
 
         $I->expectThrowable(
             Exception::class,

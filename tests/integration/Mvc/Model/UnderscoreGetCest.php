@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -10,11 +9,18 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Integration\Mvc\Model;
 
 use IntegrationTester;
+use Phalcon\Mvc\Model\Exception;
+use Phalcon\Mvc\Model\Resultset\Simple;
+use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models;
+use Phalcon\Test\Models\Invoices;
+use Phalcon\Test\Models\InvoicesSchema;
 
 class UnderscoreGetCest
 {
@@ -43,7 +49,7 @@ class UnderscoreGetCest
 
         $user = new Models\Users();
 
-        $user->id = 999;
+        $user->id   = 999;
         $user->name = 'Test';
 
         $I->assertEquals(
@@ -137,7 +143,7 @@ class UnderscoreGetCest
         $robotParts = $robot->robotsParts;
 
         $I->assertInstanceOf(
-            \Phalcon\Mvc\Model\Resultset\Simple::class,
+            Simple::class,
             $robotParts
         );
     }
@@ -160,7 +166,7 @@ class UnderscoreGetCest
         $robotsParts = $robot->robotsParts;
 
         $I->assertInstanceOf(
-            \Phalcon\Mvc\Model\Resultset\Simple::class,
+            Simple::class,
             $robotsParts
         );
 
@@ -190,6 +196,58 @@ class UnderscoreGetCest
         $I->assertInstanceOf(
             Models\RobotsParts::class,
             $dirtyRobotsParts[0]
+        );
+    }
+
+    /**
+     * Tests Phalcon\Mvc\Model :: __get() private property
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-12-24
+     */
+    public function mvcModelUnderscorePrivateProperty(IntegrationTester $I)
+    {
+        $I->wantToTest('Mvc\Model - __get() private property');
+
+        /**
+         * Setup the table
+         */
+        (new InvoicesMigration())($this->container->get('db'));
+
+        $model = new Invoices();
+
+        $I->assertFalse(isset($model->superSecret));
+        $I->assertTrue(isset($model->secretValue));
+
+        $model->setSecretValue(123);
+        $I->assertEquals(123, $model->getSecretValue());
+        $model->secretValue = 123;
+        $I->assertEquals(123, $model->secretValue);
+    }
+
+    /**
+     * Tests Phalcon\Mvc\Model :: __get() private property - exception
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-12-24
+     */
+    public function mvcModelUnderscorePrivatePropertyException(IntegrationTester $I)
+    {
+        $I->wantToTest('Mvc\Model - __get() private property - exception');
+
+        /**
+         * Setup the table
+         */
+        (new InvoicesMigration())($this->container->get('db'));
+
+        $I->expectThrowable(
+            new Exception(
+                "Cannot access property 'superSecret' (not public)."
+            ),
+            function () {
+                $model = new Invoices();
+                $model->superSecret = 123;
+            }
         );
     }
 }

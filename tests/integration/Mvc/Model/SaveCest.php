@@ -1,14 +1,15 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.md
+ * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Mvc\Model;
 
@@ -26,8 +27,9 @@ use Phalcon\Test\Models\Parts;
 use Phalcon\Test\Models\Robots;
 use Phalcon\Test\Models\RobotsParts;
 use Phalcon\Test\Models\Sources;
-use Phalcon\Test\Models\Users;
 use Phalcon\Test\Models\TinyIntTest;
+use Phalcon\Test\Models\Users;
+
 use function uniqid;
 
 class SaveCest
@@ -371,7 +373,7 @@ class SaveCest
         );
 
         // Assign relationship in both directions on unsaved models
-        $album->artist = $artist;
+        $album->artist  = $artist;
         $artist->albums = [
             $album,
         ];
@@ -387,7 +389,8 @@ class SaveCest
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: save() after fetching related using magic getter
+     * Tests Phalcon\Mvc\Model :: save() after fetching related using magic
+     * getter
      *
      * @see    https://github.com/phalcon/cphalcon/issues/14270
      *
@@ -433,12 +436,12 @@ class SaveCest
             count($firstAlbums)
         );
 
-        $album3 = new Albums(
+        $album3         = new Albums(
             [
                 'name' => 'Feedback 2',
             ]
         );
-        $album4 = new Albums(
+        $album4         = new Albums(
             [
                 'name' => 'Syntax Error 2',
             ]
@@ -468,7 +471,7 @@ class SaveCest
     {
         $I->wantToTest('Mvc\Model::save() with a tinyint(1)');
 
-        $referenceModel = new TinyIntTest();
+        $referenceModel       = new TinyIntTest();
         $referenceModel->test = 0;
 
         $I->assertTrue(
@@ -554,7 +557,7 @@ class SaveCest
         $I->assertEquals('co_sources', $model->getSource());
 
         $model->username = 'vader';
-        $result = $model->save();
+        $result          = $model->save();
 
         $I->assertCount(0, $model->getMessages());
         $I->assertNotFalse($result);

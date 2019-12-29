@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -9,6 +8,8 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Mvc\View\Engine\Volt\Compiler;
 
@@ -258,7 +259,8 @@ class CompileStringCest
             ],
             [
                 "{{ email_field('email', 'class': 'form-control', 'placeholder': 'Email Address') }}",
-                "<?= \$this->tag->emailField(['email', 'class' => 'form-control', 'placeholder' => 'Email Address']) ?>",
+                "<?= \$this->tag->emailField(['email', 'class' => 'form-control', " .
+                "'placeholder' => 'Email Address']) ?>",
             ],
             //Filters
             [
@@ -421,23 +423,28 @@ class CompileStringCest
             ],
             [
                 '{% if a==b %} {% if c==d %} hello {% endif %} {% else %} not hello {% endif %}',
-                '<?php if ($a == $b) { ?> <?php if ($c == $d) { ?> hello <?php } ?> <?php } else { ?> not hello <?php } ?>',
+                '<?php if ($a == $b) { ?> <?php if ($c == $d) { ?> hello <?php } ?>' .
+                ' <?php } else { ?> not hello <?php } ?>',
             ],
             [
                 '{% if a==b %} {% if c==d %} hello {% else %} not hello {% endif %}{% endif %}',
-                '<?php if ($a == $b) { ?> <?php if ($c == $d) { ?> hello <?php } else { ?> not hello <?php } ?><?php } ?>',
+                '<?php if ($a == $b) { ?> <?php if ($c == $d) { ?> hello <?php } ' .
+                'else { ?> not hello <?php } ?><?php } ?>',
             ],
             [
                 '{% if a==b %} hello {% else %} {% if c==d %} not hello {% endif %} {% endif %}',
-                '<?php if ($a == $b) { ?> hello <?php } else { ?> <?php if ($c == $d) { ?> not hello <?php } ?> <?php } ?>',
+                '<?php if ($a == $b) { ?> hello <?php } else { ?> ' .
+                '<?php if ($c == $d) { ?> not hello <?php } ?> <?php } ?>',
             ],
             [
                 '{% if a is empty or a is defined %} hello {% else %} not hello {% endif %}',
-                '<?php if (empty($a) || isset($a)) { ?> hello <?php } else { ?> not hello <?php } ?>',
+                '<?php if (empty($a) || isset($a)) { ?> hello <?php } else ' .
+                '{ ?> not hello <?php } ?>',
             ],
             [
                 '{% if a is even or b is odd %} hello {% else %} not hello {% endif %}',
-                '<?php if (((($a) % 2) == 0) || ((($b) % 2) != 0)) { ?> hello <?php } else { ?> not hello <?php } ?>',
+                '<?php if (((($a) % 2) == 0) || ((($b) % 2) != 0)) { ?> hello ' .
+                '<?php } else { ?> not hello <?php } ?>',
             ],
             //for statement
             [
@@ -470,7 +477,8 @@ class CompileStringCest
             ],
             [
                 '{% for a in 1..10 %} {% for b in 1..10 %} hello {% endfor %} {% endfor %}',
-                '<?php foreach (range(1, 10) as $a) { ?> <?php foreach (range(1, 10) as $b) { ?> hello <?php } ?> <?php } ?>',
+                '<?php foreach (range(1, 10) as $a) { ?> ' .
+                '<?php foreach (range(1, 10) as $b) { ?> hello <?php } ?> <?php } ?>',
             ],
             [
                 '{% for a in 1..10 %}{% break %}{% endfor %}',
@@ -500,20 +508,33 @@ class CompileStringCest
             // Cache statement
             [
                 '{% cache somekey %} hello {% endcache %}',
-                '<?php $_cache[$somekey] = $this->di->get(\'viewCache\'); $_cacheKey[$somekey] = $_cache[$somekey]->start($somekey); if ($_cacheKey[$somekey] === null) { ?> hello <?php $_cache[$somekey]->save($somekey); } else { echo $_cacheKey[$somekey]; } ?>',
+                '<?php $_cache[$somekey] = $this->di->get(\'viewCache\'); ' .
+                '$_cacheKey[$somekey] = $_cache[$somekey]->start($somekey); ' .
+                'if ($_cacheKey[$somekey] === null) { ?> hello <?php $_cache[$somekey]->save($somekey); } ' .
+                'else { echo $_cacheKey[$somekey]; } ?>',
             ],
             [
                 '{% set lifetime = 500 %}{% cache somekey lifetime %} hello {% endcache %}',
-                '<?php $lifetime = 500; ?><?php $_cache[$somekey] = $this->di->get(\'viewCache\'); $_cacheKey[$somekey] = $_cache[$somekey]->start($somekey, $lifetime); if ($_cacheKey[$somekey] === null) { ?> hello <?php $_cache[$somekey]->save($somekey, null, $lifetime); } else { echo $_cacheKey[$somekey]; } ?>',
+                '<?php $lifetime = 500; ?>' .
+                '<?php $_cache[$somekey] = $this->di->get(\'viewCache\'); ' .
+                '$_cacheKey[$somekey] = $_cache[$somekey]->start($somekey, $lifetime); ' .
+                'if ($_cacheKey[$somekey] === null) { ?> hello ' .
+                '<?php $_cache[$somekey]->save($somekey, null, $lifetime); } else ' .
+                '{ echo $_cacheKey[$somekey]; } ?>',
             ],
             [
                 '{% cache somekey 500 %} hello {% endcache %}',
-                '<?php $_cache[$somekey] = $this->di->get(\'viewCache\'); $_cacheKey[$somekey] = $_cache[$somekey]->start($somekey, 500); if ($_cacheKey[$somekey] === null) { ?> hello <?php $_cache[$somekey]->save($somekey, null, 500); } else { echo $_cacheKey[$somekey]; } ?>',
+                '<?php $_cache[$somekey] = $this->di->get(\'viewCache\'); ' .
+                '$_cacheKey[$somekey] = $_cache[$somekey]->start($somekey, 500); ' .
+                'if ($_cacheKey[$somekey] === null) { ?> hello ' .
+                '<?php $_cache[$somekey]->save($somekey, null, 500); } else { echo $_cacheKey[$somekey]; } ?>',
             ],
             //Autoescape mode
             [
-                '{{ "hello" }}{% autoescape true %}{{ "hello" }}{% autoescape false %}{{ "hello" }}{% endautoescape %}{{ "hello" }}{% endautoescape %}{{ "hello" }}',
-                "<?= 'hello' ?><?= \$this->escaper->escapeHtml('hello') ?><?= 'hello' ?><?= \$this->escaper->escapeHtml('hello') ?><?= 'hello' ?>",
+                '{{ "hello" }}{% autoescape true %}{{ "hello" }}{% autoescape false %}' .
+                '{{ "hello" }}{% endautoescape %}{{ "hello" }}{% endautoescape %}{{ "hello" }}',
+                "<?= 'hello' ?><?= \$this->escaper->escapeHtml('hello') ?>" .
+                "<?= 'hello' ?><?= \$this->escaper->escapeHtml('hello') ?><?= 'hello' ?>",
             ],
             //Mixed
             [

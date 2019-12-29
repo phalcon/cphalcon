@@ -74,7 +74,6 @@ class ModelsCest
         $this->prepareDb();
 
 
-
         //Count tests
         $I->assertEquals(
             People::count(),
@@ -104,7 +103,6 @@ class ModelsCest
             People::count($params),
             Personas::count($params)
         );
-
 
 
         //Find first
@@ -178,7 +176,6 @@ class ModelsCest
             \Phalcon\Test\Models\Robots::class,
             $robot
         );
-
 
 
         //Find tests
@@ -276,7 +273,6 @@ class ModelsCest
         );
 
 
-
         //Save
         $persona = new Personas();
 
@@ -347,7 +343,6 @@ class ModelsCest
         );
 
 
-
         // Update
         $persona->assign(
             [
@@ -378,7 +373,6 @@ class ModelsCest
             '2121',
             $persona->telefono
         );
-
 
 
         // Create
@@ -413,14 +407,12 @@ class ModelsCest
         );
 
 
-
         //Grouping
         $difEstados = People::count(['distinct' => 'estado']);
         $I->assertEquals($difEstados, 3);
 
         $group = People::count(['group' => 'estado']);
         $I->assertCount(3, $group);
-
 
 
         //Deleting
@@ -436,7 +428,6 @@ class ModelsCest
         );
 
 
-
         // Issue 1701
         $expected = [
             'nombres' => 'LOST CREATE',
@@ -450,16 +441,14 @@ class ModelsCest
         );
 
 
-
         // Issue 1314
         $parts = new Parts2();
 
         $parts->save();
 
 
-
         // Issue 1506
-        $persona  = Personas::findFirst(
+        $persona = Personas::findFirst(
             [
                 'columns' => 'nombres, telefono, estado',
                 "nombres = 'LOST CREATE'",
@@ -671,7 +660,6 @@ class ModelsCest
         );
 
 
-
         //Save
         $personer = new Personers();
 
@@ -746,7 +734,6 @@ class ModelsCest
         );
 
 
-
         //Update
         $personer->assign(
             [
@@ -758,7 +745,6 @@ class ModelsCest
         $I->assertTrue(
             $personer->update()
         );
-
 
 
         //Checking correct update
@@ -779,7 +765,6 @@ class ModelsCest
             '2121',
             $personer->telefon
         );
-
 
 
         //Create
@@ -814,7 +799,6 @@ class ModelsCest
         );
 
 
-
         //Deleting
         $before = Personers::count();
 
@@ -826,7 +810,6 @@ class ModelsCest
             $before - 1,
             Personers::count()
         );
-
 
 
         //Assign
@@ -984,7 +967,6 @@ class ModelsCest
         $I->assertEquals(1, I1534::count());
 
 
-
         $entry = I1534::findFirst();
         $I->assertEquals('bb', $entry->language);
         $I->assertEquals('bb', $entry->language2);
@@ -996,11 +978,9 @@ class ModelsCest
         );
 
 
-
         $entry = I1534::findFirst();
 
         $I->assertEquals('en', $entry->language2);
-
 
 
         $entry->language2 = new RawValue('default');
@@ -1010,11 +990,9 @@ class ModelsCest
         );
 
 
-
         $entry = I1534::findFirst();
 
         $I->assertEquals('bb', $entry->language2);
-
 
 
         $I->assertTrue(
@@ -1053,7 +1031,6 @@ class ModelsCest
         $this->prepareDb();
 
 
-
         $child = new Childs();
 
         $child->for = '1';
@@ -1061,13 +1038,11 @@ class ModelsCest
         $child->create();
 
 
-
         $child = new Childs();
 
         $child->group = '1';
 
         $child->create();
-
 
 
         $children = Childs::findByFor(1);

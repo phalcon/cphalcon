@@ -123,14 +123,16 @@ class DispatcherBeforeDispatchCest extends BaseDispatcher
             function () {
                 throw new Exception('beforeDispatch exception occurred');
             }
-        );
+        )
+        ;
 
         $dispatcher->getEventsManager()->attach(
             'dispatch:beforeException',
             function () {
                 return false;
             }
-        );
+        )
+        ;
 
         $dispatcher->dispatch();
 
@@ -162,7 +164,8 @@ class DispatcherBeforeDispatchCest extends BaseDispatcher
             function () {
                 throw new Exception('beforeDispatch exception occurred');
             }
-        );
+        )
+        ;
 
         $dispatcher->getEventsManager()->attach(
             'dispatch:beforeException',
@@ -173,7 +176,8 @@ class DispatcherBeforeDispatchCest extends BaseDispatcher
 
                 return null;
             }
-        );
+        )
+        ;
 
         $I->expectThrowable(
             Exception::class,
@@ -214,7 +218,8 @@ class DispatcherBeforeDispatchCest extends BaseDispatcher
                     throw new Exception('beforeDispatch exception occurred');
                 }
             }
-        );
+        )
+        ;
 
         $dispatcher->getEventsManager()->attach(
             'dispatch:beforeException',
@@ -229,7 +234,8 @@ class DispatcherBeforeDispatchCest extends BaseDispatcher
                     ]
                 );
             }
-        );
+        )
+        ;
 
         $dispatcher->dispatch();
 

@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -10,9 +9,14 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Cli\Di\FactoryDefault\Cli;
 
 use CliTester;
+use Phalcon\Di\FactoryDefault\Cli as Di;
+use Phalcon\Events\Manager;
+use Phalcon\Events\ManagerInterface;
 
 class SetInternalEventsManagerCest
 {
@@ -25,6 +29,18 @@ class SetInternalEventsManagerCest
     public function diFactorydefaultCliSetInternalEventsManager(CliTester $I)
     {
         $I->wantToTest('Di\FactoryDefault\Cli - setInternalEventsManager()');
-        $I->skipTest('Need implementation');
+
+        $di = new Di();
+
+        $I->assertNull(
+            $di->getInternalEventsManager()
+        );
+
+        $di->setInternalEventsManager(new Manager());
+
+        $I->assertInstanceOf(
+            ManagerInterface::class,
+            $di->getInternalEventsManager()
+        );
     }
 }

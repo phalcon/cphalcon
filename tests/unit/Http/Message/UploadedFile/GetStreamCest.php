@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -10,6 +9,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Unit\Http\Message\UploadedFile;
 
 use Phalcon\Http\Message\Exception\InvalidArgumentException;
@@ -17,7 +18,9 @@ use Phalcon\Http\Message\Stream;
 use Phalcon\Http\Message\UploadedFile;
 use Psr\Http\Message\StreamInterface;
 use UnitTester;
+
 use function outputDir;
+
 use const UPLOAD_ERR_CANT_WRITE;
 
 class GetStreamCest

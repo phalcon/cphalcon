@@ -38,11 +38,17 @@ class Stream extends AbstractAdapter
     /**
      * Stream constructor.
      *
-     * @param array $options
+     * @param array options = [
+     *     'storageDir' => '',
+     *     'defaultSerializer' => 'Php',
+     *     'lifetime' => 3600,
+     *     'serializer' => null,
+     *     'prefix' => ''
+     * ]
      *
      * @throws Exception
      */
-    public function __construct(<SerializerFactory> factory = null, array! options = [])
+    public function __construct(<SerializerFactory> factory, array! options = [])
     {
         var storageDir;
 
@@ -55,7 +61,7 @@ class Stream extends AbstractAdapter
          * Lets set some defaults and options here
          */
         let this->storageDir = Str::dirSeparator(storageDir),
-            this->prefix     = "phstrm-",
+            this->prefix     = "ph-strm",
             this->options    = options;
 
         parent::__construct(factory, options);
@@ -173,22 +179,28 @@ class Stream extends AbstractAdapter
     /**
      * Stores data in the adapter
      */
-    public function getKeys() -> array
+    public function getKeys(string! prefix = "") -> array
     {
-        var directory, iterator, file, split, results;
+        var directory, file, iterator;
+        array files;
 
-        let results   = [],
-            directory = Str::dirSeparator(this->storageDir),
+        let files     = [],
+            directory = this->getDir(),
             iterator  = this->getIterator(directory);
 
         for file in iterator {
             if file->isFile() {
-                let split     = explode("/", file->getPathName()),
-                    results[] = this->prefix . Arr::last(split);
+                let files[] = this->prefix . str_replace(
+                    "/", "",
+                    strrchr(
+                        str_replace(directory, "", file->getPathName()),
+                        "/"
+                    )
+                );
             }
         }
 
-        return results;
+        return this->getFilteredKeys(files, prefix);
     }
 
     /**
@@ -243,9 +255,9 @@ class Stream extends AbstractAdapter
     /**
      * Stores data in the adapter
      *
-     * @param string $key
-     * @param mixed  $value
-     * @param null   $ttl
+     * @param string                $key
+     * @param mixed                 $value
+     * @param DateInterval|int|null $ttl
      *
      * @return bool
      * @throws \Exception
@@ -279,14 +291,14 @@ class Stream extends AbstractAdapter
      */
     private function getDir(string! key = "") -> string
     {
-        var dirPrefix, dirFromFile;
+        var dirFromFile, dirPrefix;
 
-        let dirPrefix   = this->storageDir . this->prefix,
+        let dirPrefix   = Str::dirSeparator(this->storageDir . this->prefix),
             dirFromFile = Str::dirFromFile(
-                str_replace(this->prefix, "", key, 1)
+                str_replace(this->prefix, "", key)
             );
 
-        return Str::dirSeparator(dirPrefix) . dirFromFile;
+        return Str::dirSeparator(dirPrefix . dirFromFile);
     }
 
     /**

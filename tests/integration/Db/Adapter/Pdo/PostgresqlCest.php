@@ -12,11 +12,12 @@
 namespace Phalcon\Test\Integration\Db\Adapter\Pdo;
 
 use Codeception\Example;
-use function env;
 use IntegrationTester;
 use Phalcon\Db\Dialect\Postgresql as DialectPostgresql;
 use Phalcon\Db\Reference;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
+
+use function env;
 
 class PostgresqlCest
 {
@@ -70,8 +71,8 @@ class PostgresqlCest
     /**
      * Tests Postgresql::addForeignKey
      *
-     * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
-     * @since  2017-07-05
+     * @author       Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
+     * @since        2017-07-05
      *
      * @dataProvider shouldAddForeignKeyProvider
      */
@@ -139,8 +140,8 @@ class PostgresqlCest
     /**
      * Tests Postgresql::is created
      *
-     * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
-     * @since  2017-07-05
+     * @author       Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
+     * @since        2017-07-05
      *
      * @dataProvider shouldCheckAddedForeignKeyProvider
      */
@@ -194,8 +195,8 @@ class PostgresqlCest
      * Tests Postgresql::dropAddForeignKey
      *
      * @test
-     * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
-     * @since  2017-07-05
+     * @author       Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
+     * @since        2017-07-05
      *
      * @dataProvider shouldDropForeignKeyProvider
      */

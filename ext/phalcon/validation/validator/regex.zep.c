@@ -12,12 +12,14 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/memory.h"
 #include "kernel/fcall.h"
+#include "kernel/memory.h"
+#include "ext/spl/spl_exceptions.h"
+#include "kernel/exception.h"
+#include "kernel/object.h"
 #include "kernel/array.h"
 #include "kernel/string.h"
 #include "kernel/operators.h"
-#include "kernel/object.h"
 
 
 /**
@@ -78,6 +80,44 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Regex) {
 }
 
 /**
+ * Constructor
+ *
+ * @param array options = [
+ *     'message' => '',
+ *     'template' => '',
+ *     'allowEmpty' => false,
+ *     'pattern' => ''
+ * ]
+ */
+PHP_METHOD(Phalcon_Validation_Validator_Regex, __construct) {
+
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zephir_fcall_cache_entry *_0 = NULL;
+	zval *options_param = NULL;
+	zval options;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&options);
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 0, 1, &options_param);
+
+	if (!options_param) {
+		ZEPHIR_INIT_VAR(&options);
+		array_init(&options);
+	} else {
+	ZEPHIR_OBS_COPY_OR_DUP(&options, options_param);
+	}
+
+
+	ZEPHIR_CALL_PARENT(NULL, phalcon_validation_validator_regex_ce, getThis(), "__construct", &_0, 0, &options);
+	zephir_check_call_status();
+	ZEPHIR_MM_RESTORE();
+
+}
+
+/**
  * Executes the validation
  */
 PHP_METHOD(Phalcon_Validation_Validator_Regex, validate) {
@@ -112,13 +152,13 @@ PHP_METHOD(Phalcon_Validation_Validator_Regex, validate) {
 	ZEPHIR_CALL_METHOD(&pattern, this_ptr, "getoption", NULL, 0, &_0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&pattern) == IS_ARRAY) {
-		zephir_array_fetch(&_1$$3, &pattern, field, PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/Regex.zep", 76);
+		zephir_array_fetch(&_1$$3, &pattern, field, PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/Regex.zep", 91);
 		ZEPHIR_CPY_WRT(&pattern, &_1$$3);
 	}
 	ZEPHIR_INIT_NVAR(&_0);
 	zephir_preg_match(&_0, &pattern, &value, &matches, 0, 0 , 0 );
 	if (zephir_is_true(&_0)) {
-		zephir_array_fetch_long(&_2$$4, &matches, 0, PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/Regex.zep", 80);
+		zephir_array_fetch_long(&_2$$4, &matches, 0, PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/Regex.zep", 95);
 		failed = !ZEPHIR_IS_EQUAL(&_2$$4, &value);
 	} else {
 		failed = 1;

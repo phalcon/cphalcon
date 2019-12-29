@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -9,6 +8,8 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Message\ServerRequestFactory;
 
@@ -446,8 +447,8 @@ class LoadCest
      *
      * @dataProvider getConstructorExamples
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-09-29
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2019-09-29
      */
     public function httpMessageServerRequestFactoryLoadConstructor(UnitTester $I, Example $example)
     {
@@ -483,12 +484,13 @@ class LoadCest
     }
 
     /**
-     * Tests Phalcon\Http\Message\ServerRequestFactory :: load() - constructor - empty superglobals
+     * Tests Phalcon\Http\Message\ServerRequestFactory :: load() - constructor
+     * - empty superglobals
      *
      * @dataProvider getConstructorExamples
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-09-29
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2019-09-29
      */
     public function httpMessageServerRequestFactoryLoadConstructorEmptySuperglobals(UnitTester $I, Example $example)
     {
@@ -504,7 +506,8 @@ class LoadCest
     }
 
     /**
-     * Tests Phalcon\Http\Message\ServerRequestFactory :: load() - protocol default
+     * Tests Phalcon\Http\Message\ServerRequestFactory :: load() - protocol
+     * default
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-09-29
@@ -527,7 +530,8 @@ class LoadCest
     }
 
     /**
-     * Tests Phalcon\Http\Message\ServerRequestFactory :: load() - protocol defined
+     * Tests Phalcon\Http\Message\ServerRequestFactory :: load() - protocol
+     * defined
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-09-29
@@ -539,7 +543,7 @@ class LoadCest
         $factory = new ServerRequestFactory();
 
         $server = [
-            'SERVER_PROTOCOL' => 'HTTP/2.0'
+            'SERVER_PROTOCOL' => 'HTTP/2.0',
         ];
 
         $request = $factory->load($server);
@@ -550,7 +554,8 @@ class LoadCest
     }
 
     /**
-     * Tests Phalcon\Http\Message\ServerRequestFactory :: load() - protocol error
+     * Tests Phalcon\Http\Message\ServerRequestFactory :: load() - protocol
+     * error
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-09-29
@@ -567,7 +572,7 @@ class LoadCest
                 $factory = new ServerRequestFactory();
 
                 $server = [
-                    'SERVER_PROTOCOL' => 'HTTX/4.5'
+                    'SERVER_PROTOCOL' => 'HTTX/4.5',
                 ];
 
                 $request = $factory->load($server);
@@ -576,7 +581,8 @@ class LoadCest
     }
 
     /**
-     * Tests Phalcon\Http\Message\ServerRequestFactory :: load() - protocol error unsupported
+     * Tests Phalcon\Http\Message\ServerRequestFactory :: load() - protocol
+     * error unsupported
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-09-29
@@ -593,7 +599,7 @@ class LoadCest
                 $factory = new ServerRequestFactory();
 
                 $server = [
-                    'SERVER_PROTOCOL' => 'HTTP/4.5'
+                    'SERVER_PROTOCOL' => 'HTTP/4.5',
                 ];
 
                 $request = $factory->load($server);

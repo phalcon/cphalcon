@@ -33,8 +33,15 @@ class Memory extends AbstractAdapter
 
     /**
      * Constructor
+     *
+     * @param array options = [
+     *     'defaultSerializer' => 'Php',
+     *     'lifetime' => 3600,
+     *     'serializer' => null,
+     *     'prefix' => ''
+     * ]
      */
-    public function __construct(<SerializerFactory> factory = null, array! options = [])
+    public function __construct(<SerializerFactory> factory, array! options = [])
     {
         /**
          * Lets set some defaults and options here
@@ -136,9 +143,12 @@ class Memory extends AbstractAdapter
      *
      * @return array
      */
-    public function getKeys() -> array
+    public function getKeys(string! prefix = "") -> array
     {
-        return array_keys(this->data->toArray());
+        return this->getFilteredKeys(
+            this->data->getKeys(),
+            prefix
+        );
     }
 
     /**

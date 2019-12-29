@@ -12,8 +12,8 @@
 namespace Phalcon\Test\Cli\Cli\Console;
 
 use CliTester;
-use Phalcon\Di\FactoryDefault\Cli as DiFactoryDefault;
 use Phalcon\Cli\Console as CliConsole;
+use Phalcon\Di\FactoryDefault\Cli as DiFactoryDefault;
 use Phalcon\Events\Manager as EventsManager;
 
 class GetSetEventsManagerCest

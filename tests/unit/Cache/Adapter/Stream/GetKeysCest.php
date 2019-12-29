@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -10,11 +9,14 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Unit\Cache\Adapter\Stream;
 
 use Phalcon\Cache\Adapter\Stream;
 use Phalcon\Storage\SerializerFactory;
 use UnitTester;
+
 use function outputDir;
 use function sort;
 
@@ -46,8 +48,8 @@ class GetKeysCest
         $I->assertTrue($actual);
 
         $expected = [
-            'phstrm-key-1',
-            'phstrm-key-2',
+            'ph-strmkey-1',
+            'ph-strmkey-2',
         ];
         $actual   = $adapter->getKeys();
         sort($actual);

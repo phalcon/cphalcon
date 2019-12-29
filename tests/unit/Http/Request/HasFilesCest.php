@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -10,9 +9,10 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Unit\Http\Request;
 
-use Codeception\Example;
 use Phalcon\Test\Unit\Http\Helper\HttpBase;
 use UnitTester;
 
@@ -29,7 +29,7 @@ class HasFilesCest extends HttpBase
         $existing = $_FILES ?? [];
 
         $request = $this->getRequestObject();
-        $_FILES   = [];
+        $_FILES  = [];
 
         $I->assertFalse(
             $request->hasFiles()

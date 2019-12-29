@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -10,11 +9,12 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Unit\Html\Link\Serializer;
 
 use Phalcon\Html\Link\EvolvableLink;
 use Phalcon\Html\Link\Serializer\Header;
-use Phalcon\Html\Link\Serializer\SerializerInterface;
 use UnitTester;
 
 class SerializeCest
@@ -41,12 +41,11 @@ class SerializeCest
                 ->withAttribute('nopush', true),
             (new EvolvableLink('alternate', '/2'))
                 ->withRel('next')
-                ->withAttribute('hreflang', ['en', 'es'])
+                ->withAttribute('hreflang', ['en', 'es']),
         ];
 
         $expected = '</1>; rel="preload"; as="image"; nopush,'
-                  . '</2>; rel="alternate next"; hreflang="en"; hreflang="es"'
-        ;
+            . '</2>; rel="alternate next"; hreflang="en"; hreflang="es"';
         $actual   = $serializer->serialize($links);
         $I->assertEquals($expected, $actual);
     }

@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -10,15 +9,17 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Integration\Mvc\Model\Query;
 
+use Codeception\Example;
 use IntegrationTester;
-use Phalcon\Storage\SerializerFactory;
-use Phalcon\Cache\AdapterFactory;
 use Phalcon\Cache;
+use Phalcon\Cache\AdapterFactory;
+use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Robots;
-use Codeception\Example;
 
 /**
  * Class CacheCest
@@ -43,12 +44,12 @@ class CacheCest
      *
      * @dataProvider getValidSerializers
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-09-27
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2019-09-27
      */
     public function mvcModelQueryCache(IntegrationTester $I, Example $serializer)
     {
-        $I->wantToTest('Mvc\Model\Query - cache() - '. $serializer[0]);
+        $I->wantToTest('Mvc\Model\Query - cache() - ' . $serializer[0]);
 
         $di = $this->getDi();
 
@@ -57,7 +58,7 @@ class CacheCest
         $adapterFactory    = new AdapterFactory($serializerFactory);
 
         $options = [
-            'defaultSerializer' =>  $serializer[0],
+            'defaultSerializer' => $serializer[0],
             'lifetime'          => 30,
             'storageDir'        => cacheDir('mvcModelQueryCache'),
         ];
@@ -72,11 +73,11 @@ class CacheCest
             'lifetime' => 50,
         ];
 
-        $result = Robots::find($options);
+        $result         = Robots::find($options);
         $numberOfRobots = $result->count();
 
         // Create a temporary robot to test if the count is cached or fresh
-        $newrobot = new Robots();
+        $newrobot           = new Robots();
         $newrobot->name     = 'Not cached robot';
         $newrobot->type     = 'notcached';
         $newrobot->year     = 2014;
@@ -104,12 +105,12 @@ class CacheCest
      *
      * @dataProvider getValidSerializers
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-09-28
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2019-09-28
      */
     public function mvcModelQueryCacheCount(IntegrationTester $I, Example $serializer)
     {
-        $I->wantToTest('Mvc\Model\Query - cache() - '. $serializer[0]);
+        $I->wantToTest('Mvc\Model\Query - cache() - ' . $serializer[0]);
 
         $di = $this->getDi();
 
@@ -118,7 +119,7 @@ class CacheCest
         $adapterFactory    = new AdapterFactory($serializerFactory);
 
         $options = [
-            'defaultSerializer' =>  $serializer[0],
+            'defaultSerializer' => $serializer[0],
             'lifetime'          => 30,
             'storageDir'        => cacheDir('mvcModelQueryCache'),
         ];
@@ -136,7 +137,7 @@ class CacheCest
         $result1 = Robots::count($options);
 
         // Create a temporary robot to test if the count is cached or fresh
-        $newrobot = new Robots();
+        $newrobot           = new Robots();
         $newrobot->name     = 'Not cached robot';
         $newrobot->type     = 'notcached';
         $newrobot->year     = 2014;
@@ -170,7 +171,7 @@ class CacheCest
             ],
             [
                 'Php',
-            ]
+            ],
         ];
     }
 }

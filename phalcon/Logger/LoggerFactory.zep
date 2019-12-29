@@ -33,6 +33,19 @@ class LoggerFactory
 
     /**
      * Factory to create an instace from a Config object
+     *
+     * @param array|\Phalcon\Config config = [
+     *     'name' => 'messages',
+     *     'adapters' => [
+     *         'adapter' => 'stream',
+     *         'name' => 'file.log',
+     *         'options' => [
+     *             'mode' => 'ab',
+     *             'option' => null,
+     *             'facility' => null
+     *         ]
+     *     ]
+     * ]
      */
     public function load(var config) -> <Logger>
     {

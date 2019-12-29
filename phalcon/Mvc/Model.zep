@@ -326,7 +326,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      */
     public function __isset(string! property) -> bool
     {
-        var modelName, manager, relation;
+        var manager, method, modelName, relation, result;
 
         let modelName = get_class(this),
             manager   = <ManagerInterface> this->getModelsManager();
@@ -339,7 +339,16 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             property
         );
 
-        return typeof relation == "object";
+        if typeof relation === "object" {
+            let result = true;
+        } else {
+            // If this is a property
+            let method = "get" . camelize(property);
+
+            let result = method_exists(this, method);
+        }
+
+        return result;
     }
 
     /**
@@ -457,7 +466,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
             if unlikely !manager->isVisibleModelProperty(this, property) {
                 throw new Exception(
-                    "Property '" . property . "' does not have a setter."
+                    "Cannot access property '" . property . "' (not public)."
                 );
             }
         }
@@ -756,6 +765,9 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         // Change the dirty state to persistent
         instance->setDirtyState(dirtyState);
 
+        /**
+         * Assign the data in the model
+         */
         for key, value in data {
             // Only string keys in the data are valid
             if typeof key !== "string" {
@@ -769,9 +781,19 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             }
 
             // Every field must be part of the column map
-            let reverseMap = array_flip(columnMap);
             if !fetch attribute, columnMap[key] {
-                if !fetch attribute, reverseMap[key] {
+                if typeof columnMap === "array" && !empty columnMap {
+                    let reverseMap = array_flip(columnMap);
+                    if !fetch attribute, reverseMap[key] {
+                        if unlikely !globals_get("orm.ignore_unknown_columns") {
+                            throw new Exception(
+                                "Column '" . key . "' doesn't make part of the column map"
+                            );
+                        }
+
+                        continue;
+                    }
+                } else {
                     if unlikely !globals_get("orm.ignore_unknown_columns") {
                         throw new Exception(
                             "Column '" . key . "' doesn't make part of the column map"
@@ -790,12 +812,16 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
             if value != "" && value !== null {
                 switch attribute[1] {
+                    case Column::TYPE_BIGINTEGER:
                     case Column::TYPE_INTEGER:
+                    case Column::TYPE_MEDIUMINTEGER:
+                    case Column::TYPE_SMALLINTEGER:
+                    case Column::TYPE_TINYINTEGER:
                         let castValue = intval(value, 10);
                         break;
 
-                    case Column::TYPE_DOUBLE:
                     case Column::TYPE_DECIMAL:
+                    case Column::TYPE_DOUBLE:
                     case Column::TYPE_FLOAT:
                         let castValue = doubleval(value);
                         break;
@@ -810,11 +836,15 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 }
             } else {
                 switch attribute[1] {
-                    case Column::TYPE_INTEGER:
-                    case Column::TYPE_DOUBLE:
-                    case Column::TYPE_DECIMAL:
-                    case Column::TYPE_FLOAT:
+                    case Column::TYPE_BIGINTEGER:
                     case Column::TYPE_BOOLEAN:
+                    case Column::TYPE_DECIMAL:
+                    case Column::TYPE_DOUBLE:
+                    case Column::TYPE_FLOAT:
+                    case Column::TYPE_INTEGER:
+                    case Column::TYPE_MEDIUMINTEGER:
+                    case Column::TYPE_SMALLINTEGER:
+                    case Column::TYPE_TINYINTEGER:
                         let castValue = null;
                         break;
 
@@ -1349,6 +1379,24 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * $transaction1->rollback();
      * $transaction2->rollback();
      * ```
+     *
+     * @param arrray|string|int|null parameters = [
+     *     'conditions' => ''
+     *     'columns' => '',
+     *     'bind' => [],
+     *     'bindTypes => [],
+     *     'order' => '',
+     *     'limit' => 10,
+     *     'offset' => 5,
+     *     'group' => 'name, status',
+     *     'for_updated' => false,
+     *     'shared_lock' => false,
+     *     'cache' => [
+     *         'lifetime' => 3600,
+     *         'key' => 'my-find-key'
+     *     ],
+     *     'hydration' => null
+     * ]
      */
     public static function find(var parameters = null) -> <ResultsetInterface>
     {
@@ -1449,7 +1497,23 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * );
      * ```
      *
-     * @param string|array parameters
+     * @param arrray|string|int|null parameters = [
+     *     'conditions' => ''
+     *     'columns' => '',
+     *     'bind' => [],
+     *     'bindTypes => [],
+     *     'order' => '',
+     *     'limit' => 10,
+     *     'offset' => 5,
+     *     'group' => 'name, status',
+     *     'for_updated' => false,
+     *     'shared_lock' => false,
+     *     'cache' => [
+     *         'lifetime' => 3600,
+     *         'key' => 'my-find-key'
+     *     ],
+     *     'hydration' => null
+     * ]
      */
     public static function findFirst(var parameters = null) -> <ModelInterface> | bool
     {
@@ -5064,6 +5128,33 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *     }
      * }
      *```
+     *
+     * @param array|null options = [
+     *     'reusable' => false,
+     *     'alias' => 'someAlias',
+     *     'foreignKey' => [
+     *         'message' => null,
+     *         'allowNulls' => false,
+     *         'action' => null
+     *     ],
+     *     'params' => [
+     *         'conditions' => ''
+     *         'columns' => '',
+     *         'bind' => [],
+     *         'bindTypes => [],
+     *         'order' => '',
+     *         'limit' => 10,
+     *         'offset' => 5,
+     *         'group' => 'name, status',
+     *         'for_updated' => false,
+     *         'shared_lock' => false,
+     *         'cache' => [
+     *             'lifetime' => 3600,
+     *             'key' => 'my-find-key'
+     *         ],
+     *         'hydration' => null
+     *     ]
+     * ]
      */
     protected function belongsTo(var fields, string! referenceModel, var referencedFields, options = null) -> <Relation>
     {
@@ -5149,6 +5240,33 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *     }
      * }
      *```
+     *
+     * @param array|null options = [
+     *     'reusable' => false,
+     *     'alias' => 'someAlias',
+     *     'foreignKey' => [
+     *         'message' => null,
+     *         'allowNulls' => false,
+     *         'action' => null
+     *     ],
+     *     'params' => [
+     *         'conditions' => ''
+     *         'columns' => '',
+     *         'bind' => [],
+     *         'bindTypes => [],
+     *         'order' => '',
+     *         'limit' => 10,
+     *         'offset' => 5,
+     *         'group' => 'name, status',
+     *         'for_updated' => false,
+     *         'shared_lock' => false,
+     *         'cache' => [
+     *             'lifetime' => 3600,
+     *             'key' => 'my-find-key'
+     *         ],
+     *         'hydration' => null
+     *     ]
+     * ]
      */
     protected function hasMany(var fields, string! referenceModel, var referencedFields, options = null) -> <Relation>
     {
@@ -5188,6 +5306,33 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * @param    string|array intermediateReferencedFields
      * @param    string|array referencedFields
      * @param    array options
+     *
+     * @param array|null options = [
+     *     'reusable' => false,
+     *     'alias' => 'someAlias',
+     *     'foreignKey' => [
+     *         'message' => null,
+     *         'allowNulls' => false,
+     *         'action' => null
+     *     ],
+     *     'params' => [
+     *         'conditions' => ''
+     *         'columns' => '',
+     *         'bind' => [],
+     *         'bindTypes => [],
+     *         'order' => '',
+     *         'limit' => 10,
+     *         'offset' => 5,
+     *         'group' => 'name, status',
+     *         'for_updated' => false,
+     *         'shared_lock' => false,
+     *         'cache' => [
+     *             'lifetime' => 3600,
+     *             'key' => 'my-find-key'
+     *         ],
+     *         'hydration' => null
+     *     ]
+     * ]
      */
     protected function hasManyToMany(var fields, string! intermediateModel, var intermediateFields, var intermediateReferencedFields,
         string! referenceModel, var referencedFields, options = null) -> <Relation>
@@ -5220,6 +5365,33 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *     }
      * }
      *```
+     *
+     * @param array|null options = [
+     *     'reusable' => false,
+     *     'alias' => 'someAlias',
+     *     'foreignKey' => [
+     *         'message' => null,
+     *         'allowNulls' => false,
+     *         'action' => null
+     *     ],
+     *     'params' => [
+     *         'conditions' => ''
+     *         'columns' => '',
+     *         'bind' => [],
+     *         'bindTypes => [],
+     *         'order' => '',
+     *         'limit' => 10,
+     *         'offset' => 5,
+     *         'group' => 'name, status',
+     *         'for_updated' => false,
+     *         'shared_lock' => false,
+     *         'cache' => [
+     *             'lifetime' => 3600,
+     *             'key' => 'my-find-key'
+     *         ],
+     *         'hydration' => null
+     *     ]
+     * ]
      */
     protected function hasOne(var fields, string! referenceModel, var referencedFields, options = null) -> <Relation>
     {

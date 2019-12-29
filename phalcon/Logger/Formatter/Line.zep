@@ -10,6 +10,7 @@
 
 namespace Phalcon\Logger\Formatter;
 
+use DateTime;
 use Phalcon\Logger\Item;
 
 /**
@@ -20,13 +21,6 @@ use Phalcon\Logger\Item;
 class Line extends AbstractFormatter
 {
     /**
-     * Default date format
-     *
-     * @var string
-     */
-    protected dateFormat { get, set };
-
-    /**
      * Format applied to each message
      *
      * @var string
@@ -36,7 +30,7 @@ class Line extends AbstractFormatter
     /**
      * Phalcon\Logger\Formatter\Line construct
      */
-    public function __construct(string format = "[%date%][%type%] %message%", string dateFormat = "D, d M y H:i:s O")
+    public function __construct(string format = "[%date%][%type%] %message%", string dateFormat = "c")
     {
         let this->format     = format,
             this->dateFormat = dateFormat;
@@ -57,10 +51,7 @@ class Line extends AbstractFormatter
         if memstr(format, "%date%") {
             let format = str_replace(
                 "%date%",
-                date(
-                    this->dateFormat,
-                    item->getTime()
-                ),
+                this->getFormattedDate(),
                 format
             );
         }

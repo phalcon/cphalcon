@@ -268,7 +268,8 @@ class DispatcherBeforeDispatchLoopCest extends BaseDispatcher
             function () {
                 throw new Exception('beforeDispatchLoop exception occurred');
             }
-        );
+        )
+        ;
 
         $dispatcher->getEventsManager()->attach(
             'dispatch:beforeException',
@@ -277,7 +278,8 @@ class DispatcherBeforeDispatchLoopCest extends BaseDispatcher
 
                 return null;
             }
-        );
+        )
+        ;
 
         $I->expectThrowable(
             Exception::class,

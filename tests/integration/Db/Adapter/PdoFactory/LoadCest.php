@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -10,13 +9,16 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Integration\Db\Adapter\PdoFactory;
 
-use function array_intersect_assoc;
 use IntegrationTester;
 use Phalcon\Db\Adapter\Pdo\Mysql;
 use Phalcon\Db\Adapter\PdoFactory;
 use Phalcon\Test\Fixtures\Traits\FactoryTrait;
+
+use function array_intersect_assoc;
 
 class LoadCest
 {

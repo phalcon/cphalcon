@@ -17,12 +17,12 @@ use RuntimeException;
  */
 class Str
 {
-    const RANDOM_ALNUM    = 0;
-    const RANDOM_ALPHA    = 1;
-    const RANDOM_DISTINCT = 5;
-    const RANDOM_HEXDEC   = 2;
-    const RANDOM_NOZERO   = 4;
-    const RANDOM_NUMERIC  = 3;
+    const RANDOM_ALNUM    = 0; // Only alpha numeric characters [a-zA-Z0-9]
+    const RANDOM_ALPHA    = 1; // Only alphabetical characters [azAZ]
+    const RANDOM_DISTINCT = 5; // Only alpha numeric uppercase characters exclude similar sharacters [2345679ACDEFHJKLMNPRSTUVWXYZ]
+    const RANDOM_HEXDEC   = 2; // Only hexadecimal characters [0-9a-f]
+    const RANDOM_NOZERO   = 4; // Only numbers without 0 [1-9]
+    const RANDOM_NUMERIC  = 3; // Only numbers [0-9]
 
     /**
      * Converts strings to camelize style
@@ -159,6 +159,38 @@ class Str
         } else {
             return strtolower(substr(text, 0, 1)) . suffix;
         }
+    }
+
+    /**
+     * Removes a number from a string or decrements that number if it already is defined.
+     * defined
+     *
+     * ```php
+     * use Phalcon\Helper\Str;
+     *
+     * echo Str::decrement("a_1");    // "a"
+     * echo Str::decrement("a_2");  // "a_1"
+     * ```
+     *
+     * @param string $text
+     * @param string $separator
+     *
+     * @return string
+     */
+    final public static function decrement(string text, string separator = "_") -> string
+    {
+        var parts, number;
+
+        let parts = explode(separator, text);
+
+        if fetch number, parts[1] {
+            let number--;
+            if (number <= 0) {
+                return parts[0];
+            }
+        }
+
+        return parts[0] . separator. number;
     }
 
     /**
@@ -526,7 +558,7 @@ class Str
                 break;
 
             default:
-                // Default type \Phalcon\Text::RANDOM_ALNUM
+                // RANDOM_ALNUM
                 let pool = array_merge(
                     range(0, 9),
                     range("a", "z"),

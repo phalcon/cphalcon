@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -10,18 +9,20 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Cli\Cli\Console;
 
 use CliTester;
 use Exception;
+use Phalcon\Cli\Console as CliConsole;
+use Phalcon\Cli\Console\Exception as ConsoleException;
+use Phalcon\Cli\Dispatcher\Exception as DispatcherException;
+use Phalcon\Di\FactoryDefault\Cli as DiFactoryDefault;
 use Phalcon\Events\Event;
 use Phalcon\Test\Fixtures\Tasks\Issue787Task;
 use Phalcon\Test\Modules\Backend\Module as BackendModule;
 use Phalcon\Test\Modules\Frontend\Module as FrontendModule;
-use Phalcon\Di\FactoryDefault\Cli as DiFactoryDefault;
-use Phalcon\Cli\Console as CliConsole;
-use Phalcon\Cli\Console\Exception as ConsoleException;
-use Phalcon\Cli\Dispatcher\Exception as DispatcherException;
 
 class HandleCest
 {

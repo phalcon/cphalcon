@@ -90,7 +90,8 @@ class SessionCest
         ob_end_clean();
 
         $I->assertEquals(
-            "<div class=\"{$function}Message\"><script>alert('This will execute as JavaScript!')</script></div>" . PHP_EOL,
+            "<div class=\"{$function}Message\">" .
+            "<script>alert('This will execute as JavaScript!')</script></div>" . PHP_EOL,
             $actual
         );
 
@@ -118,7 +119,9 @@ class SessionCest
         ob_end_clean();
 
         $I->assertEquals(
-            "<div class=\"{$function}Message\">&lt;script&gt;alert(&#039;This will execute as JavaScript!&#039;)&lt;/script&gt;</div>" . PHP_EOL,
+            "<div class=\"{$function}Message\">" .
+            "&lt;script&gt;alert(&#039;This will execute as JavaScript!" .
+            "&#039;)&lt;/script&gt;</div>" . PHP_EOL,
             $actual
         );
     }

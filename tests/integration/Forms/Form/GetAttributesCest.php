@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -9,6 +8,8 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Forms\Form;
 
@@ -71,13 +72,11 @@ class GetAttributesCest
         );
 
 
-
         // Empty attributes
         $I->assertCount(
             0,
             $form->getAttributes()
         );
-
 
 
         // Set an attribute
@@ -87,7 +86,6 @@ class GetAttributesCest
             1,
             $form->getAttributes()
         );
-
 
 
         // Check has attribute
@@ -104,13 +102,11 @@ class GetAttributesCest
         );
 
 
-
         // Render an attribute
         $I->assertEquals(
             ' attr="value"',
             $form->getAttributes()->render()
         );
-
 
 
         // Reset attributes
@@ -128,13 +124,13 @@ class GetAttributesCest
                 'attr2' => 'value2',
                 'attr3' => 'value3',
             ]
-        );
+        )
+        ;
 
         $I->assertCount(
             3,
             $form->getAttributes()
         );
-
 
 
         // Render multi attributes
@@ -144,13 +140,11 @@ class GetAttributesCest
         );
 
 
-
         // Get an attribute
         $I->assertEquals(
             'value2',
             $form->getAttributes()->get('attr2')
         );
-
 
 
         // Test action attribute
@@ -172,7 +166,6 @@ class GetAttributesCest
         );
 
 
-
         // Remove an attribute
         $form->getAttributes()->remove('attr2');
 
@@ -185,7 +178,6 @@ class GetAttributesCest
             3,
             $form->getAttributes()
         );
-
 
 
         // Delete a nonexistent attribute
@@ -202,7 +194,6 @@ class GetAttributesCest
         );
 
 
-
         // Reset attributes
         $form->getAttributes()->clear();
 
@@ -210,7 +201,6 @@ class GetAttributesCest
             0,
             $form->getAttributes()
         );
-
 
 
         // Exception on non exists attribute

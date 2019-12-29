@@ -34,6 +34,11 @@ class Apcu extends AbstractAdapter
     protected ttl = 172800;
 
     /**
+     * @param array options = [
+     *     'prefix' => 'phalcon'
+     *     'lifetime' => 3600
+     * ]
+     *
      * Phalcon\Annotations\Adapter\Apcu constructor
      */
     public function __construct(array options = [])

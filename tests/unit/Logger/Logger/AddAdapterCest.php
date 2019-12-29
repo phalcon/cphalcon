@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -10,10 +9,12 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Unit\Logger\Logger;
 
-use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Logger;
+use Phalcon\Logger\Adapter\Stream;
 use UnitTester;
 
 class AddAdapterCest

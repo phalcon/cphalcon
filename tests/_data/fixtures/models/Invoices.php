@@ -5,7 +5,7 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.md
+ * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
 
@@ -22,8 +22,21 @@ class Invoices extends Model
     public $inv_total;
     public $inv_created_at;
 
+    private $secretValue;
+    private $superSecret;
+
     public function initialize()
     {
         $this->setSource('co_invoices');
+    }
+
+    public function setSecretValue($value)
+    {
+        $this->secretValue = $value;
+    }
+
+    public function getSecretValue()
+    {
+        return $this->secretValue;
     }
 }

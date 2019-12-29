@@ -12,9 +12,8 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/operators.h"
-#include "kernel/object.h"
 #include "kernel/memory.h"
+#include "kernel/object.h"
 
 
 ZEPHIR_INIT_CLASS(phalcon_1__closure) {
@@ -27,7 +26,7 @@ ZEPHIR_INIT_CLASS(phalcon_1__closure) {
 
 PHP_METHOD(phalcon_1__closure, __invoke) {
 
-	zval *number, number_sub, *message, message_sub, *file, file_sub, *line, line_sub, *context, context_sub, __$true, __$false;
+	zval *number, number_sub, *message, message_sub, *file, file_sub, *line, line_sub, *context, context_sub, __$true;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&number_sub);
@@ -36,19 +35,12 @@ PHP_METHOD(phalcon_1__closure, __invoke) {
 	ZVAL_UNDEF(&line_sub);
 	ZVAL_UNDEF(&context_sub);
 	ZVAL_BOOL(&__$true, 1);
-	ZVAL_BOOL(&__$false, 0);
 
 	zephir_fetch_params_without_memory_grow(5, 0, &number, &message, &file, &line, &context);
 
 
 
-	if (ZEPHIR_IS_LONG_IDENTICAL(number, 2)) {
-		if (1) {
-			zephir_update_property_zval(this_ptr, SL("warning"), &__$true);
-		} else {
-			zephir_update_property_zval(this_ptr, SL("warning"), &__$false);
-		}
-	}
+	ZEPHIR_GLOBAL(warning).enable = zend_is_true(&__$true);
 
 }
 

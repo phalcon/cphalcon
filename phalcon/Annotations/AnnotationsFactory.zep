@@ -28,6 +28,15 @@ class AnnotationsFactory extends AbstractFactory
     }
 
     /**
+     * @param array|\Phalcon\Config config = [
+     *     'adapter' => 'apcu',
+     *     'options' => [
+     *         'prefix' => 'phalcon',
+     *         'lifetime' => 3600,
+     *         'annotationsDir' => 'phalconDir'
+     *     ]
+     * ]
+     *
      * Factory to create an instace from a Config object
      */
     public function load(var config) -> var
@@ -46,6 +55,12 @@ class AnnotationsFactory extends AbstractFactory
 
     /**
      * Create a new instance of the adapter
+     *
+     * @param array options = [
+     *     'prefix' => 'phalcon',
+     *     'lifetime' => 3600,
+     *     'annotationsDir' => 'phalconDir'
+     * ]
      */
     public function newInstance(string! name, array! options = []) -> <AdapterInterface>
     {
@@ -53,17 +68,14 @@ class AnnotationsFactory extends AbstractFactory
 
         this->checkService(name);
 
-        if !isset this->services[name] {
-            let definition           = this->mapper[name],
-                this->services[name] = create_instance_params(
-                    definition,
-                    [
-                        options
-                    ]
-                );
-        }
+        let definition = this->mapper[name];
 
-        return this->services[name];
+        return create_instance_params(
+            definition,
+            [
+                options
+            ]
+        );
     }
 
     /**

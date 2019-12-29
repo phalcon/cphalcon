@@ -10,7 +10,7 @@
 
 namespace Phalcon\Logger\Formatter;
 
-use Phalcon\Helper\Json;
+use Phalcon\Helper\Json as JsonHelper;
 use Phalcon\Logger\Item;
 
 /**
@@ -21,16 +21,9 @@ use Phalcon\Logger\Item;
 class Json extends AbstractFormatter
 {
     /**
-     * Default date format
-     *
-     * @var string
-     */
-    protected dateFormat { get, set };
-
-    /**
      * Phalcon\Logger\Formatter\Json construct
      */
-    public function __construct(string dateFormat = "D, d M y H:i:s O")
+    public function __construct(string dateFormat = "c")
     {
         let this->dateFormat = dateFormat;
     }
@@ -51,11 +44,11 @@ class Json extends AbstractFormatter
             let message = item->getMessage();
         }
 
-        return Json::encode(
+        return JsonHelper::encode(
             [
                 "type"      : item->getName(),
                 "message"   : message,
-                "timestamp" : date(this->dateFormat, item->getTime())
+                "timestamp" : this->getFormattedDate()
             ]
         );
     }

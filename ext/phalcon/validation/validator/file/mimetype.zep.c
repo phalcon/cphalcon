@@ -140,14 +140,14 @@ PHP_METHOD(Phalcon_Validation_Validator_File_MimeType, validate) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "Option 'allowedTypes' must be an array", "phalcon/Validation/Validator/File/MimeType.zep", 96);
 		return;
 	}
-	if ((zephir_function_exists_ex(SL("finfo_open")) == SUCCESS)) {
+	if ((zephir_function_exists_ex(ZEND_STRL("finfo_open")) == SUCCESS)) {
 		ZVAL_LONG(&_2$$6, 16);
-		ZEPHIR_CALL_FUNCTION(&tmp, "finfo_open", NULL, 350, &_2$$6);
+		ZEPHIR_CALL_FUNCTION(&tmp, "finfo_open", NULL, 349, &_2$$6);
 		zephir_check_call_status();
 		zephir_array_fetch_string(&_3$$6, &value, SL("tmp_name"), PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/File/MimeType.zep", 101);
-		ZEPHIR_CALL_FUNCTION(&mime, "finfo_file", NULL, 351, &tmp, &_3$$6);
+		ZEPHIR_CALL_FUNCTION(&mime, "finfo_file", NULL, 350, &tmp, &_3$$6);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(NULL, "finfo_close", NULL, 352, &tmp);
+		ZEPHIR_CALL_FUNCTION(NULL, "finfo_close", NULL, 351, &tmp);
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_OBS_NVAR(&mime);

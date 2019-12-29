@@ -69,6 +69,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Session_Manager) {
 
 /**
  * Manager constructor.
+ *
+ * @param array options = [
+ *     'uniqueId' => null
+ * ]
  */
 PHP_METHOD(Phalcon_Session_Manager, __construct) {
 
@@ -292,7 +296,7 @@ PHP_METHOD(Phalcon_Session_Manager, get) {
 	}
 	ZEPHIR_CALL_METHOD(&uniqueKey, this_ptr, "getuniquekey", NULL, 0, &key);
 	zephir_check_call_status();
-	ZEPHIR_CALL_CE_STATIC(&value, phalcon_helper_arr_ce, "get", &_1, 14, &_SESSION, &uniqueKey, defaultValue);
+	ZEPHIR_CALL_CE_STATIC(&value, phalcon_helper_arr_ce, "get", &_1, 15, &_SESSION, &uniqueKey, defaultValue);
 	zephir_check_call_status();
 	if (remove) {
 		zephir_array_unset(&_SESSION, &uniqueKey, PH_SEPARATE);
@@ -561,9 +565,9 @@ PHP_METHOD(Phalcon_Session_Manager, setId) {
 		object_init_ex(&_1$$3, spl_ce_RuntimeException);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZEPHIR_CONCAT_SS(&_2$$3, "The session has already been started. ", "To change the id, use regenerateId()");
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 266, &_2$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 265, &_2$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Session/Manager.zep", 250);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Session/Manager.zep", 254);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -607,7 +611,7 @@ PHP_METHOD(Phalcon_Session_Manager, setName) {
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "exists", NULL, 0);
 	zephir_check_call_status();
 	if (UNEXPECTED(zephir_is_true(&_0))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Cannot set session name after a session has started", "phalcon/Session/Manager.zep", 273);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Cannot set session name after a session has started", "phalcon/Session/Manager.zep", 277);
 		return;
 	}
 	ZEPHIR_INIT_VAR(&_1);
@@ -618,7 +622,7 @@ PHP_METHOD(Phalcon_Session_Manager, setName) {
 	ZVAL_STRING(&_4, "/^[\\p{L}\\p{N}_-]+$/u");
 	zephir_preg_match(&_3, &_4, &name, &_1, 0, 0 , 0 );
 	if (UNEXPECTED(!zephir_is_true(&_3))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "The name contains non alphanum characters", "phalcon/Session/Manager.zep", 279);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "The name contains non alphanum characters", "phalcon/Session/Manager.zep", 283);
 		return;
 	}
 	zephir_update_property_zval(this_ptr, SL("name"), &name);
@@ -655,7 +659,7 @@ PHP_METHOD(Phalcon_Session_Manager, setOptions) {
 	ZVAL_STRING(&_2, "uniqueId");
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "");
-	ZEPHIR_CALL_CE_STATIC(&_0, phalcon_helper_arr_ce, "get", &_1, 14, &options, &_2, &_3);
+	ZEPHIR_CALL_CE_STATIC(&_0, phalcon_helper_arr_ce, "get", &_1, 15, &options, &_2, &_3);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("uniqueId"), &_0);
 	zephir_update_property_zval(this_ptr, SL("options"), &options);
@@ -686,7 +690,7 @@ PHP_METHOD(Phalcon_Session_Manager, start) {
 	if (ZEPHIR_IS_TRUE_IDENTICAL(&_0)) {
 		RETURN_MM_BOOL(1);
 	}
-	ZEPHIR_CALL_FUNCTION(&_1, "headers_sent", NULL, 356);
+	ZEPHIR_CALL_FUNCTION(&_1, "headers_sent", NULL, 355);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_TRUE_IDENTICAL(&_1)) {
 		RETURN_MM_BOOL(0);
@@ -694,7 +698,7 @@ PHP_METHOD(Phalcon_Session_Manager, start) {
 	ZEPHIR_OBS_VAR(&_2);
 	zephir_read_property(&_2, this_ptr, SL("adapter"), PH_NOISY_CC);
 	if (UNEXPECTED(!(zephir_is_instance_of(&_2, SL("SessionHandlerInterface"))))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_session_exception_ce, "The session adapter is not valid", "phalcon/Session/Manager.zep", 319);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_session_exception_ce, "The session adapter is not valid", "phalcon/Session/Manager.zep", 323);
 		return;
 	}
 	zephir_read_property(&_3, this_ptr, SL("adapter"), PH_NOISY_CC | PH_READONLY);

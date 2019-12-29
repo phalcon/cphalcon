@@ -37,6 +37,27 @@ class AdapterFactory extends AbstractFactory
 
     /**
      * Create a new instance of the adapter
+     *
+     * @param array options = [
+     *     'servers' => [
+     *         [
+     *             'host' => 'localhost',
+     *             'port' => 11211,
+     *             'weight' => 1,
+     *         ]
+     *     ],
+     *     'host' => '127.0.0.1',
+     *     'port' => 6379,
+     *     'index' => 0,
+     *     'persistent' => false,
+     *     'auth' => '',
+     *     'socket' => '',
+     *     'defaultSerializer' => 'Php',
+     *     'lifetime' => 3600,
+     *     'serializer' => null,
+     *     'prefix' => 'phalcon',
+     *     'storageDir' => ''
+     * ]
      */
     public function newInstance(string! name, array! options = []) -> <AdapterInterface>
     {
@@ -44,18 +65,15 @@ class AdapterFactory extends AbstractFactory
 
         this->checkService(name);
 
-        if !isset this->services[name] {
-            let definition           = this->mapper[name],
-                this->services[name] = create_instance_params(
-                    definition,
-                    [
-                        this->serializerFactory,
-                        options
-                    ]
-                );
-        }
+        let definition = this->mapper[name];
 
-        return this->services[name];
+        return create_instance_params(
+            definition,
+            [
+                this->serializerFactory,
+                options
+            ]
+        );
     }
 
     /**

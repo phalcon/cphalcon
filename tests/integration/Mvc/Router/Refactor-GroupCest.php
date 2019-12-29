@@ -65,7 +65,6 @@ class GroupCest
         $router->mount($blog);
 
 
-
         $router->handle(
             $example['route']
         );

@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -10,12 +9,15 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Unit\Storage\Serializer\Igbinary;
 
-use Codeception\Example;
 use Phalcon\Storage\Serializer\Igbinary;
+use Codeception\Example;
 use stdClass;
 use UnitTester;
+
 use function igbinary_serialize;
 
 class UnserializeCest
@@ -38,6 +40,21 @@ class UnserializeCest
         $expected = $example[1];
         $actual   = $serializer->getData();
         $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Storage\Serializer\Igbinary :: unserialize() - error
+     *
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2019-11-21
+     */
+    public function storageSerializerIgbinaryUnserializeError(UnitTester $I)
+    {
+        $I->wantToTest('Storage\Serializer\Igbinary - unserialize() - error');
+        $serializer = new Igbinary();
+        $serializer->unserialize('[DATA]');
+
+        $I->assertNull($serializer->getData());
     }
 
     private function getExamples(): array

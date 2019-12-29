@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -10,10 +9,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Unit\Storage\Unserializer\Php;
 
-use Codeception\Example;
 use Phalcon\Storage\Serializer\Php;
+use Codeception\Example;
+use InvalidArgumentException;
 use stdClass;
 use UnitTester;
 
@@ -44,17 +46,39 @@ class UnserializeCest
     }
 
     /**
+     * Tests Phalcon\Storage\Serializer\Php :: unserialize() - error not string
+     *
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2019-11-21
+     */
+    public function storageSerializerPhpUnserializeErrorNotString(UnitTester $I)
+    {
+        $I->wantToTest('Storage\Serializer\Php - unserialize() - error not string');
+        $I->expectThrowable(
+            new InvalidArgumentException(
+                'Data for the unserializer must of type string'
+            ),
+            function () {
+                $serializer = new Php();
+
+                $serialized = new stdClass();
+                $serializer->unserialize($serialized);
+            }
+        );
+    }
+
+    /**
      * Tests Phalcon\Storage\Serializer\Php :: unserialize() - error
      *
      * @author       Phalcon Team <team@phalcon.io>
-     * @since        2019-09-28
+     * @since        2019-11-21
      */
     public function storageSerializerPhpUnserializeError(UnitTester $I)
     {
         $I->wantToTest('Storage\Serializer\Php - unserialize() - error');
         $serializer = new Php();
 
-        $serialized = '??hello?unserialize"';
+        $serialized = '{??hello?unserialize"';
         $serializer->unserialize($serialized);
 
         $I->assertEmpty($serializer->getData());

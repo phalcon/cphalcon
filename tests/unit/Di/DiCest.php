@@ -1,4 +1,5 @@
 <?php
+
 /*
  +------------------------------------------------------------------------+
  | Phalcon Framework                                                      |
@@ -16,8 +17,8 @@
 
 namespace Phalcon\Test\Unit\Di;
 
-use Phalcon\Config;
 use InjectableComponent;
+use Phalcon\Config;
 use Phalcon\Di;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\Exception;
@@ -28,6 +29,7 @@ use SomeComponent;
 use SomeServiceProvider;
 use stdClass;
 use UnitTester;
+
 use function dataDir;
 
 /**

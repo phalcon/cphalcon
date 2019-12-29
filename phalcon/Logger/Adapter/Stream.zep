@@ -63,6 +63,10 @@ class Stream extends AbstractAdapter
 
     /**
      * Constructor. Accepts the name and some options
+     *
+     * @param array options = [
+     *     'mode' => 'ab'
+     * ]
      */
     public function __construct(string! name, array options = [])
     {

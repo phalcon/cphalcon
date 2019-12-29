@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -10,11 +9,13 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Unit\Logger\Formatter\Json;
 
+use Phalcon\Logger;
 use Phalcon\Logger\Formatter\Json;
 use Phalcon\Logger\Item;
-use Phalcon\Logger;
 use UnitTester;
 
 class InterpolateCest
@@ -71,7 +72,7 @@ class InterpolateCest
 
         $expected = sprintf(
             '{"type":"debug","message":"The sky is blue","timestamp":"%s"}',
-            date('D, d M y H:i:s O', $time)
+            date('c', $time)
         );
 
         $I->assertEquals(

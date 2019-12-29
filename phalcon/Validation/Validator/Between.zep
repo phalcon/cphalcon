@@ -64,6 +64,22 @@ class Between extends AbstractValidator
     protected template = "Field :field must be within the range of :min to :max";
 
     /**
+     * Constructor
+     *
+     * @param array options = [
+     *     'message' => '',
+     *     'template' => '',
+     *     'minimum' => 5,
+     *     'maximum' => 50,
+     *     'allowEmpty' => false
+     * ]
+     */
+    public function __construct(array! options = [])
+    {
+        parent::__construct(options);
+    }
+
+    /**
      * Executes the validation
      */
     public function validate(<Validation> validation, var field) -> bool

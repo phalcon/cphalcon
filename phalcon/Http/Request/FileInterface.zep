@@ -19,6 +19,11 @@ namespace Phalcon\Http\Request;
 interface FileInterface
 {
     /**
+     * Returns the error if any
+     */
+    public function getError() -> string | null;
+
+    /**
      * Returns the real name of the uploaded file
      */
     public function getName() -> string;

@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -10,12 +9,14 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Cli\Cli\Task;
 
 use CliTester;
-use Phalcon\Events\Manager;
 use Phalcon\Cli\Task;
 use Phalcon\Di\FactoryDefault\Cli as CliDi;
+use Phalcon\Events\Manager;
 
 class UnderscoreGetCest
 {
@@ -31,7 +32,7 @@ class UnderscoreGetCest
 
 
         $task = new Task();
-        $di = new CliDi();
+        $di   = new CliDi();
         $task->setDi($di);
 
         $eventsManager = new Manager();

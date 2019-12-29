@@ -42,7 +42,6 @@ class IteratorCest
         );
 
 
-
         $form->add(
             new Text('name')
         );

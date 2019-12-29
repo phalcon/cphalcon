@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Unit\Http;
 
 use Codeception\Example;
@@ -650,7 +652,12 @@ class RequestCest extends HttpBase
         $_FILES  = [
             'photo' => [
                 'name'     => ['f0', 'f1', ['f2', 'f3'], [[[['f4']]]]],
-                'type'     => ['text/plain', 'text/csv', ['image/png', 'image/gif'], [[[['application/octet-stream']]]]],
+                'type'     => [
+                    'text/plain',
+                    'text/csv',
+                    ['image/png', 'image/gif'],
+                    [[[['application/octet-stream']]]]
+                ],
                 'tmp_name' => ['t0', 't1', ['t2', 't3'], [[[['t4']]]]],
                 'error'    => [0, 0, [0, 0], [[[[8]]]]],
                 'size'     => [10, 20, [30, 40], [[[[50]]]]],

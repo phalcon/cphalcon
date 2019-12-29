@@ -10,10 +10,20 @@
 
 namespace Phalcon\Logger\Formatter;
 
+use DateTimeImmutable;
+use DateTimeZone;
 use Phalcon\Logger;
+use Phalcon\Logger\Item;
 
 abstract class AbstractFormatter implements FormatterInterface
 {
+    /**
+     * Default date format
+     *
+     * @var string
+     */
+    protected dateFormat { get, set };
+
     /**
      * Interpolates context values into the message placeholders
      *
@@ -37,5 +47,20 @@ abstract class AbstractFormatter implements FormatterInterface
         }
 
         return message;
+    }
+
+    /**
+     * Returns the date formatted for the logger.
+     * @todo Not using the set time from the Item since we have interface
+     * misalignment which will break semver This will change in the future
+     */
+    protected function getFormattedDate() -> string
+    {
+        var date, timezone;
+
+        let timezone = date_default_timezone_get(),
+            date     = new DateTimeImmutable("now", new DateTimeZone(timezone));
+
+        return date->format(this->dateFormat);
     }
 }

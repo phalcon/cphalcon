@@ -81,7 +81,6 @@ class ModelsForeignKeysCest
         );
 
 
-
         //Reverse foreign keys
 
         $robot = Robots::findFirst();
@@ -179,7 +178,6 @@ class ModelsForeignKeysCest
             $messages,
             $robottersDeles->getMessages()
         );
-
 
 
         //Reverse foreign keys with renaming

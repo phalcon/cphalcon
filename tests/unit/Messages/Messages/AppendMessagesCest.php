@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -9,6 +8,8 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Messages\Messages;
 
@@ -92,7 +93,8 @@ class AppendMessagesCest
         }
 
         $I->assertEquals(
-            'Argument 1 passed to Phalcon\Messages\Messages::appendMessage() must implement interface Phalcon\Messages\MessageInterface, bool',
+            'Argument 1 passed to Phalcon\Messages\Messages::appendMessage()' .
+            ' must implement interface Phalcon\Messages\MessageInterface, bool',
             substr($actual, 0, 128)
         );
     }

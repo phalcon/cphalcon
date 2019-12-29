@@ -33,6 +33,11 @@ class NativeArray extends AbstractAdapter implements ArrayAccess
 
     /**
      * Phalcon\Translate\Adapter\NativeArray constructor
+     *
+     * @param array options = [
+     *     'content' => '',
+     *     'triggerError' => false
+     * ]
      */
     public function __construct(<InterpolatorFactory> interpolator, array! options)
     {
