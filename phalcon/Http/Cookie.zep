@@ -15,6 +15,7 @@ use Phalcon\Di\AbstractInjectionAware;
 use Phalcon\Crypt\CryptInterface;
 use Phalcon\Crypt\Mismatch;
 use Phalcon\Filter\FilterInterface;
+use Phalcon\Helper\Arr;
 use Phalcon\Http\Response\Exception;
 use Phalcon\Http\Cookie\CookieInterface;
 use Phalcon\Http\Cookie\Exception as CookieException;
@@ -127,14 +128,13 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
      */
     public function delete()
     {
-        var container, domain, httpOnly, name, options, path, secure, session;
+        var container, domain, httpOnly, name, path, secure, session;
 
         let name     = this->name,
             domain   = this->domain,
             path     = this->path,
             secure   = this->secure,
-            httpOnly = this->httpOnly,
-            options  = this->options;
+            httpOnly = this->httpOnly;
 
         let container = <DiInterface> this->container;
 
@@ -155,8 +155,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
             path,
             domain,
             secure,
-            httpOnly,
-            options
+            httpOnly
         );
     }
 
@@ -401,15 +400,15 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
      */
     public function send() -> <CookieInterface>
     {
-        var name, value, expire, domain, path, secure, httpOnly, container,
-            definition, session, crypt, encryptValue, signKey;
+        var container, crypt, definition, encryptValue, expire, domain,
+            httpOnly, name, path, secure, session, signKey, value;
 
-        let name = this->name,
-            value = this->value,
-            expire = this->expire,
-            domain = this->domain,
-            path = this->path,
-            secure = this->secure,
+        let name     = this->name,
+            value    = this->value,
+            expire   = this->expire,
+            domain   = this->domain,
+            path     = this->path,
+            secure   = this->secure,
             httpOnly = this->httpOnly;
 
         let container = this->container;

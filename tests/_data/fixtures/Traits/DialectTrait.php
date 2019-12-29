@@ -203,6 +203,12 @@ trait DialectTrait
                     'autoIncrement' => true,
                 ]
             ),
+            'column24'  => new Column(
+                'column24',
+                [
+                    'type'     => Column::TYPE_FLOAT,
+                ]
+            ),
         ];
     }
 

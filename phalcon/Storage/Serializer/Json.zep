@@ -12,7 +12,7 @@ namespace Phalcon\Storage\Serializer;
 
 use InvalidArgumentException;
 use JsonSerializable;
-use Phalcon\Helper\Json;
+use Phalcon\Helper\Json as JsonHelper;
 
 class Json extends AbstractSerializer
 {
@@ -32,7 +32,7 @@ class Json extends AbstractSerializer
             return this->data;
         }
 
-		return Json::encode(this->data);
+		return JsonHelper::encode(this->data);
 	}
 
 	/**
@@ -40,6 +40,6 @@ class Json extends AbstractSerializer
 	 */
 	public function unserialize(var data) -> void
 	{
-		let this->data = Json::decode(data);
+		let this->data = JsonHelper::decode(data);
 	}
 }

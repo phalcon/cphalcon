@@ -2,7 +2,7 @@
 name: Feature request
 about: Suggest an idea for this project
 title: "[NFR]: "
-labels: Feature - NFR
+labels: new feature request
 assignees: ''
 
 ---

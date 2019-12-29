@@ -11,7 +11,7 @@
 namespace Phalcon\Config\Adapter;
 
 use Phalcon\Config;
-use Phalcon\Helper\Json;
+use Phalcon\Helper\Json as JsonHelper;
 
 /**
  * Reads JSON files and converts them to Phalcon\Config objects.
@@ -41,7 +41,7 @@ class Json extends Config
     public function __construct(string! filePath)
     {
         parent::__construct(
-            Json::decode(
+            JsonHelper::decode(
                 file_get_contents(filePath),
                 true
             )

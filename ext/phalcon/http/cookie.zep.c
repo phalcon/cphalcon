@@ -237,7 +237,7 @@ PHP_METHOD(Phalcon_Http_Cookie, __toString) {
 PHP_METHOD(Phalcon_Http_Cookie, delete) {
 
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zval __$null, container, domain, httpOnly, name, options, path, secure, session, _0, _4, _1$$3, _2$$3, _3$$4;
+	zval __$null, container, domain, httpOnly, name, path, secure, session, _0, _4, _1$$3, _2$$3, _3$$4;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
@@ -246,7 +246,6 @@ PHP_METHOD(Phalcon_Http_Cookie, delete) {
 	ZVAL_UNDEF(&domain);
 	ZVAL_UNDEF(&httpOnly);
 	ZVAL_UNDEF(&name);
-	ZVAL_UNDEF(&options);
 	ZVAL_UNDEF(&path);
 	ZVAL_UNDEF(&secure);
 	ZVAL_UNDEF(&session);
@@ -268,8 +267,6 @@ PHP_METHOD(Phalcon_Http_Cookie, delete) {
 	ZEPHIR_CPY_WRT(&secure, &_0);
 	zephir_read_property(&_0, this_ptr, SL("httpOnly"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&httpOnly, &_0);
-	zephir_read_property(&_0, this_ptr, SL("options"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CPY_WRT(&options, &_0);
 	zephir_read_property(&_0, this_ptr, SL("container"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&container, &_0);
 	if (Z_TYPE_P(&container) == IS_OBJECT) {
@@ -291,7 +288,7 @@ PHP_METHOD(Phalcon_Http_Cookie, delete) {
 	ZEPHIR_INIT_VAR(&_4);
 	zephir_time(&_4);
 	ZVAL_LONG(&_0, (zephir_get_numberval(&_4) - 691200));
-	ZEPHIR_CALL_FUNCTION(NULL, "setcookie", NULL, 279, &name, &__$null, &_0, &path, &domain, &secure, &httpOnly, &options);
+	ZEPHIR_CALL_FUNCTION(NULL, "setcookie", NULL, 274, &name, &__$null, &_0, &path, &domain, &secure, &httpOnly);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -519,7 +516,7 @@ PHP_METHOD(Phalcon_Http_Cookie, getValue) {
 				zephir_check_call_status();
 				ZEPHIR_CALL_METHOD(NULL, &_4$$7, "__construct", NULL, 6, &_5$$7);
 				zephir_check_call_status();
-				zephir_throw_exception_debug(&_4$$7, "phalcon/Http/Cookie.zep", 267);
+				zephir_throw_exception_debug(&_4$$7, "phalcon/Http/Cookie.zep", 266);
 				ZEPHIR_MM_RESTORE();
 				return;
 			}
@@ -529,7 +526,7 @@ PHP_METHOD(Phalcon_Http_Cookie, getValue) {
 			zephir_check_call_status();
 			ZEPHIR_CPY_WRT(&crypt, &_8$$6);
 			if (UNEXPECTED(Z_TYPE_P(&crypt) != IS_OBJECT)) {
-				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_response_exception_ce, "A dependency which implements CryptInterface is required to use encryption", "phalcon/Http/Cookie.zep", 275);
+				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_response_exception_ce, "A dependency which implements CryptInterface is required to use encryption", "phalcon/Http/Cookie.zep", 274);
 				return;
 			}
 			zephir_read_property(&_3$$6, this_ptr, SL("signKey"), PH_NOISY_CC | PH_READONLY);
@@ -561,7 +558,7 @@ PHP_METHOD(Phalcon_Http_Cookie, getValue) {
 						zephir_check_call_status();
 						ZEPHIR_CALL_METHOD(NULL, &_12$$15, "__construct", NULL, 6, &_13$$15);
 						zephir_check_call_status();
-						zephir_throw_exception_debug(&_12$$15, "phalcon/Http/Cookie.zep", 318);
+						zephir_throw_exception_debug(&_12$$15, "phalcon/Http/Cookie.zep", 317);
 						ZEPHIR_MM_RESTORE();
 						return;
 					}
@@ -681,25 +678,25 @@ PHP_METHOD(Phalcon_Http_Cookie, send) {
 
 	zval _15$$14, _16$$15;
 	zend_bool _8;
-	zval name, value, expire, domain, path, secure, httpOnly, container, definition, session, crypt, encryptValue, signKey, _0, _1$$3, _2$$3, _4$$3, _5$$9, _6$$9, _7$$10, _9$$12, _10$$12, _11$$12, _12$$11, _13$$11, _14$$11;
+	zval container, crypt, definition, encryptValue, expire, domain, httpOnly, name, path, secure, session, signKey, value, _0, _1$$3, _2$$3, _4$$3, _5$$9, _6$$9, _7$$10, _9$$12, _10$$12, _11$$12, _12$$11, _13$$11, _14$$11;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_3 = NULL;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&name);
-	ZVAL_UNDEF(&value);
+	ZVAL_UNDEF(&container);
+	ZVAL_UNDEF(&crypt);
+	ZVAL_UNDEF(&definition);
+	ZVAL_UNDEF(&encryptValue);
 	ZVAL_UNDEF(&expire);
 	ZVAL_UNDEF(&domain);
+	ZVAL_UNDEF(&httpOnly);
+	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&path);
 	ZVAL_UNDEF(&secure);
-	ZVAL_UNDEF(&httpOnly);
-	ZVAL_UNDEF(&container);
-	ZVAL_UNDEF(&definition);
 	ZVAL_UNDEF(&session);
-	ZVAL_UNDEF(&crypt);
-	ZVAL_UNDEF(&encryptValue);
 	ZVAL_UNDEF(&signKey);
+	ZVAL_UNDEF(&value);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$3);
@@ -743,7 +740,7 @@ PHP_METHOD(Phalcon_Http_Cookie, send) {
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 6, &_2$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Http/Cookie.zep", 420);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Http/Cookie.zep", 419);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -794,7 +791,7 @@ PHP_METHOD(Phalcon_Http_Cookie, send) {
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(NULL, &_9$$12, "__construct", NULL, 6, &_10$$12);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_9$$12, "phalcon/Http/Cookie.zep", 465);
+			zephir_throw_exception_debug(&_9$$12, "phalcon/Http/Cookie.zep", 464);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -804,7 +801,7 @@ PHP_METHOD(Phalcon_Http_Cookie, send) {
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(&crypt, &_12$$11);
 		if (UNEXPECTED(Z_TYPE_P(&crypt) != IS_OBJECT)) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_response_exception_ce, "A dependency which implements CryptInterface is required to use encryption", "phalcon/Http/Cookie.zep", 473);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_response_exception_ce, "A dependency which implements CryptInterface is required to use encryption", "phalcon/Http/Cookie.zep", 472);
 			return;
 		}
 		zephir_read_property(&_14$$11, this_ptr, SL("signKey"), PH_NOISY_CC | PH_READONLY);
@@ -821,7 +818,7 @@ PHP_METHOD(Phalcon_Http_Cookie, send) {
 	} else {
 		ZEPHIR_CPY_WRT(&encryptValue, &value);
 	}
-	ZEPHIR_CALL_FUNCTION(NULL, "setcookie", NULL, 279, &name, &encryptValue, &expire, &path, &domain, &secure, &httpOnly);
+	ZEPHIR_CALL_FUNCTION(NULL, "setcookie", NULL, 274, &name, &encryptValue, &expire, &path, &domain, &secure, &httpOnly);
 	zephir_check_call_status();
 	RETURN_THIS();
 
@@ -1158,18 +1155,18 @@ PHP_METHOD(Phalcon_Http_Cookie, assertSignKeyIsLongEnough) {
 	}
 
 
-	ZEPHIR_CALL_FUNCTION(&length, "mb_strlen", NULL, 280, &signKey);
+	ZEPHIR_CALL_FUNCTION(&length, "mb_strlen", NULL, 275, &signKey);
 	zephir_check_call_status();
 	if (UNEXPECTED(ZEPHIR_LT_LONG(&length, 32))) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		object_init_ex(&_0$$3, phalcon_http_cookie_exception_ce);
 		ZEPHIR_INIT_VAR(&_1$$3);
 		ZVAL_STRING(&_1$$3, "The cookie's key should be at least 32 characters long. Current length is %d.");
-		ZEPHIR_CALL_FUNCTION(&_2$$3, "sprintf", NULL, 186, &_1$$3, &length);
+		ZEPHIR_CALL_FUNCTION(&_2$$3, "sprintf", NULL, 181, &_1$$3, &length);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 6, &_2$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_0$$3, "phalcon/Http/Cookie.zep", 646);
+		zephir_throw_exception_debug(&_0$$3, "phalcon/Http/Cookie.zep", 645);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

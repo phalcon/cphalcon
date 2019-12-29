@@ -64,6 +64,9 @@ class GetColumnDefinitionCest
             ['column11', 'BIGINT(20) UNSIGNED'],
             ['column12', 'ENUM("A", "B", "C")'],
             ['column13', 'TIMESTAMP'],
+            ['column19', 'DOUBLE'],
+            ['column20', 'DOUBLE UNSIGNED'],
+            ['column24', 'FLOAT'],
         ];
     }
 }

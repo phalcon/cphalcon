@@ -326,7 +326,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      */
     public function __isset(string! property) -> bool
     {
-        var modelName, manager, relation;
+        var manager, method, modelName, relation, result;
 
         let modelName = get_class(this),
             manager   = <ManagerInterface> this->getModelsManager();
@@ -339,7 +339,16 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             property
         );
 
-        return typeof relation == "object";
+        if typeof relation === "object" {
+            let result = true;
+        } else {
+            // If this is a property
+            let method = "get" . camelize(property);
+
+            let result = method_exists(this, method);
+        }
+
+        return result;
     }
 
     /**
@@ -457,7 +466,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
             if unlikely !manager->isVisibleModelProperty(this, property) {
                 throw new Exception(
-                    "Property '" . property . "' does not have a setter."
+                    "Cannot access property '" . property . "' (not public)."
                 );
             }
         }

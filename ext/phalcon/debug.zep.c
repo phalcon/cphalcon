@@ -129,7 +129,7 @@ PHP_METHOD(Phalcon_Debug, debugVar) {
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_create_array(&_0, 3, 0);
 	zephir_array_fast_append(&_0, varz);
-	ZEPHIR_CALL_FUNCTION(&_1, "debug_backtrace", NULL, 201);
+	ZEPHIR_CALL_FUNCTION(&_1, "debug_backtrace", NULL, 196);
 	zephir_check_call_status();
 	zephir_array_fast_append(&_0, &_1);
 	ZEPHIR_INIT_VAR(&_2);
@@ -304,7 +304,7 @@ PHP_METHOD(Phalcon_Debug, listenExceptions) {
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "onUncaughtException");
 	zephir_array_fast_append(&_0, &_1);
-	ZEPHIR_CALL_FUNCTION(NULL, "set_exception_handler", NULL, 202, &_0);
+	ZEPHIR_CALL_FUNCTION(NULL, "set_exception_handler", NULL, 197, &_0);
 	zephir_check_call_status();
 	RETURN_THIS();
 
@@ -341,7 +341,7 @@ PHP_METHOD(Phalcon_Debug, listenLowSeverity) {
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "onUncaughtException");
 	zephir_array_fast_append(&_2, &_1);
-	ZEPHIR_CALL_FUNCTION(NULL, "set_exception_handler", NULL, 202, &_2);
+	ZEPHIR_CALL_FUNCTION(NULL, "set_exception_handler", NULL, 197, &_2);
 	zephir_check_call_status();
 	RETURN_THIS();
 
@@ -443,10 +443,10 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException) {
 
 
 
-	ZEPHIR_CALL_FUNCTION(&obLevel, "ob_get_level", NULL, 203);
+	ZEPHIR_CALL_FUNCTION(&obLevel, "ob_get_level", NULL, 198);
 	zephir_check_call_status();
 	if (ZEPHIR_GT_LONG(&obLevel, 0)) {
-		ZEPHIR_CALL_FUNCTION(NULL, "ob_end_clean", NULL, 204);
+		ZEPHIR_CALL_FUNCTION(NULL, "ob_end_clean", NULL, 199);
 		zephir_check_call_status();
 	}
 	zephir_read_static_property_ce(&_0, phalcon_debug_ce, SL("isActive"), PH_NOISY_CC | PH_READONLY);
@@ -504,7 +504,7 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException) {
 				}
 				ZEPHIR_INIT_NVAR(&traceItem);
 				ZVAL_COPY(&traceItem, _11$$5);
-				ZEPHIR_CALL_METHOD(&_15$$7, this_ptr, "showtraceitem", &_16, 205, &n, &traceItem);
+				ZEPHIR_CALL_METHOD(&_15$$7, this_ptr, "showtraceitem", &_16, 200, &n, &traceItem);
 				zephir_check_call_status();
 				zephir_concat_self(&html, &_15$$7);
 			} ZEND_HASH_FOREACH_END();
@@ -521,7 +521,7 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException) {
 				zephir_check_call_status();
 				ZEPHIR_CALL_METHOD(&traceItem, &_10$$5, "current", NULL, 0);
 				zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(&_17$$8, this_ptr, "showtraceitem", &_16, 205, &n, &traceItem);
+					ZEPHIR_CALL_METHOD(&_17$$8, this_ptr, "showtraceitem", &_16, 200, &n, &traceItem);
 					zephir_check_call_status();
 					zephir_concat_self(&html, &_17$$8);
 				ZEPHIR_CALL_METHOD(NULL, &_10$$5, "next", NULL, 0);
@@ -561,7 +561,7 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException) {
 						ZEPHIR_CONCAT_SVSVS(&_28$$11, "<tr><td class='key'>", &keyRequest, "</td><td>", &value, "</td></tr>");
 						zephir_concat_self(&html, &_28$$11);
 					} else {
-						ZEPHIR_CALL_FUNCTION(&_29$$12, "print_r", &_30, 206, &value, &__$true);
+						ZEPHIR_CALL_FUNCTION(&_29$$12, "print_r", &_30, 201, &value, &__$true);
 						zephir_check_call_status();
 						ZEPHIR_INIT_NVAR(&_31$$12);
 						ZEPHIR_CONCAT_SVSVS(&_31$$12, "<tr><td class='key'>", &keyRequest, "</td><td>", &_29$$12, "</td></tr>");
@@ -590,7 +590,7 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException) {
 							ZEPHIR_CONCAT_SVSVS(&_33$$15, "<tr><td class='key'>", &keyRequest, "</td><td>", &value, "</td></tr>");
 							zephir_concat_self(&html, &_33$$15);
 						} else {
-							ZEPHIR_CALL_FUNCTION(&_34$$16, "print_r", &_30, 206, &value, &__$true);
+							ZEPHIR_CALL_FUNCTION(&_34$$16, "print_r", &_30, 201, &value, &__$true);
 							zephir_check_call_status();
 							ZEPHIR_INIT_NVAR(&_35$$16);
 							ZEPHIR_CONCAT_SVSVS(&_35$$16, "<tr><td class='key'>", &keyRequest, "</td><td>", &_34$$16, "</td></tr>");
@@ -668,7 +668,7 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException) {
 		ZEPHIR_INIT_VAR(&_50$$5);
 		ZEPHIR_CONCAT_SSS(&_50$$5, "<div id='error-tabs-4'>", "<table cellspacing='0' align='center' class='superglobal-detail'>", "<tr><th>#</th><th>Path</th></tr>");
 		zephir_concat_self(&html, &_50$$5);
-		ZEPHIR_CALL_FUNCTION(&_51$$5, "get_included_files", NULL, 207);
+		ZEPHIR_CALL_FUNCTION(&_51$$5, "get_included_files", NULL, 202);
 		zephir_check_call_status();
 		zephir_is_iterable(&_51$$5, 0, "phalcon/Debug.zep", 346);
 		if (Z_TYPE_P(&_51$$5) == IS_ARRAY) {
@@ -709,7 +709,7 @@ PHP_METHOD(Phalcon_Debug, onUncaughtException) {
 		ZEPHIR_INIT_NVAR(&value);
 		ZEPHIR_INIT_NVAR(&keyFile);
 		zephir_concat_self_str(&html, SL("</table></div>"));
-		ZEPHIR_CALL_FUNCTION(&_58$$5, "memory_get_usage", NULL, 208, &__$true);
+		ZEPHIR_CALL_FUNCTION(&_58$$5, "memory_get_usage", NULL, 203, &__$true);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_59$$5);
 		ZEPHIR_CONCAT_SSSVSS(&_59$$5, "<div id='error-tabs-5'>", "<table cellspacing='0' align='center' class='superglobal-detail'>", "<tr><th colspan='2'>Memory</th></tr><tr><td>Usage</td><td>", &_58$$5, "</td></tr>", "</table></div>");
@@ -802,7 +802,7 @@ PHP_METHOD(Phalcon_Debug, onUncaughtLowSeverity) {
 
 
 
-	ZEPHIR_CALL_FUNCTION(&_0, "error_reporting", NULL, 209);
+	ZEPHIR_CALL_FUNCTION(&_0, "error_reporting", NULL, 204);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_1);
 	zephir_bitwise_and_function(&_1, &_0, severity);
@@ -810,7 +810,7 @@ PHP_METHOD(Phalcon_Debug, onUncaughtLowSeverity) {
 		ZEPHIR_INIT_VAR(&_2$$3);
 		object_init_ex(&_2$$3, zephir_get_internal_ce(SL("errorexception")));
 		ZVAL_LONG(&_3$$3, 0);
-		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 210, message, &_3$$3, severity, file, line);
+		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 205, message, &_3$$3, severity, file, line);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_2$$3, "phalcon/Debug.zep", 398);
 		ZEPHIR_MM_RESTORE();
@@ -1091,7 +1091,7 @@ PHP_METHOD(Phalcon_Debug, escapeString) {
 		ZVAL_LONG(&_3$$3, 2);
 		ZEPHIR_INIT_VAR(&_4$$3);
 		ZVAL_STRING(&_4$$3, "utf-8");
-		ZEPHIR_RETURN_CALL_FUNCTION("htmlentities", NULL, 211, &_0$$3, &_3$$3, &_4$$3);
+		ZEPHIR_RETURN_CALL_FUNCTION("htmlentities", NULL, 206, &_0$$3, &_3$$3, &_4$$3);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
@@ -1177,7 +1177,7 @@ PHP_METHOD(Phalcon_Debug, getArrayDump) {
 				zephir_check_call_status();
 			} else if (Z_TYPE_P(&v) == IS_ARRAY) {
 				ZVAL_LONG(&_7$$8, (zephir_get_numberval(n) + 1));
-				ZEPHIR_CALL_METHOD(&_6$$8, this_ptr, "getarraydump", &_8, 212, &v, &_7$$8);
+				ZEPHIR_CALL_METHOD(&_6$$8, this_ptr, "getarraydump", &_8, 207, &v, &_7$$8);
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&varDump);
 				ZEPHIR_CONCAT_SVS(&varDump, "Array(", &_6$$8, ")");
@@ -1217,7 +1217,7 @@ PHP_METHOD(Phalcon_Debug, getArrayDump) {
 					zephir_check_call_status();
 				} else if (Z_TYPE_P(&v) == IS_ARRAY) {
 					ZVAL_LONG(&_12$$15, (zephir_get_numberval(n) + 1));
-					ZEPHIR_CALL_METHOD(&_11$$15, this_ptr, "getarraydump", &_8, 212, &v, &_12$$15);
+					ZEPHIR_CALL_METHOD(&_11$$15, this_ptr, "getarraydump", &_8, 207, &v, &_12$$15);
 					zephir_check_call_status();
 					ZEPHIR_INIT_NVAR(&varDump);
 					ZEPHIR_CONCAT_SVS(&varDump, "Array(", &_11$$15, ")");
@@ -1285,7 +1285,7 @@ PHP_METHOD(Phalcon_Debug, getVarDump) {
 	if (Z_TYPE_P(variable) == IS_OBJECT) {
 		ZEPHIR_INIT_VAR(&className);
 		zephir_get_class(&className, variable, 0);
-		if ((zephir_method_exists_ex(variable, SL("dump")) == SUCCESS)) {
+		if ((zephir_method_exists_ex(variable, ZEND_STRL("dump")) == SUCCESS)) {
 			ZEPHIR_CALL_METHOD(&dumpedObject, variable, "dump", NULL, 0);
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&_0$$8, this_ptr, "getarraydump", NULL, 0, &dumpedObject);
@@ -1298,7 +1298,7 @@ PHP_METHOD(Phalcon_Debug, getVarDump) {
 		}
 	}
 	if (Z_TYPE_P(variable) == IS_ARRAY) {
-		ZEPHIR_CALL_METHOD(&_1$$10, this_ptr, "getarraydump", NULL, 212, variable);
+		ZEPHIR_CALL_METHOD(&_1$$10, this_ptr, "getarraydump", NULL, 207, variable);
 		zephir_check_call_status();
 		ZEPHIR_CONCAT_SVS(return_value, "Array(", &_1$$10, ")");
 		RETURN_MM();
@@ -1430,9 +1430,9 @@ PHP_METHOD(Phalcon_Debug, showTraceItem) {
 		} else {
 			ZEPHIR_INIT_VAR(&classReflection);
 			object_init_ex(&classReflection, zephir_get_internal_ce(SL("reflectionclass")));
-			ZEPHIR_CALL_METHOD(NULL, &classReflection, "__construct", NULL, 148, &className);
+			ZEPHIR_CALL_METHOD(NULL, &classReflection, "__construct", NULL, 143, &className);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&_8$$5, &classReflection, "isinternal", NULL, 213);
+			ZEPHIR_CALL_METHOD(&_8$$5, &classReflection, "isinternal", NULL, 208);
 			zephir_check_call_status();
 			if (zephir_is_true(&_8$$5)) {
 				ZEPHIR_INIT_VAR(&_9$$6);
@@ -1463,9 +1463,9 @@ PHP_METHOD(Phalcon_Debug, showTraceItem) {
 		if ((zephir_function_exists(&functionName)  == SUCCESS)) {
 			ZEPHIR_INIT_VAR(&functionReflection);
 			object_init_ex(&functionReflection, zephir_get_internal_ce(SL("reflectionfunction")));
-			ZEPHIR_CALL_METHOD(NULL, &functionReflection, "__construct", NULL, 143, &functionName);
+			ZEPHIR_CALL_METHOD(NULL, &functionReflection, "__construct", NULL, 138, &functionName);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(&_14$$10, &functionReflection, "isinternal", NULL, 214);
+			ZEPHIR_CALL_METHOD(&_14$$10, &functionReflection, "isinternal", NULL, 209);
 			zephir_check_call_status();
 			if (zephir_is_true(&_14$$10)) {
 				ZEPHIR_INIT_VAR(&_15$$11);
@@ -1541,7 +1541,7 @@ PHP_METHOD(Phalcon_Debug, showTraceItem) {
 		zephir_read_property(&_30$$17, this_ptr, SL("showFiles"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CPY_WRT(&showFiles, &_30$$17);
 		if (zephir_is_true(&showFiles)) {
-			ZEPHIR_CALL_FUNCTION(&lines, "file", NULL, 215, &filez);
+			ZEPHIR_CALL_FUNCTION(&lines, "file", NULL, 210, &filez);
 			zephir_check_call_status();
 			ZEPHIR_INIT_VAR(&numberLines);
 			ZVAL_LONG(&numberLines, zephir_fast_count_int(&lines));
@@ -1621,7 +1621,7 @@ PHP_METHOD(Phalcon_Debug, showTraceItem) {
 					ZVAL_LONG(&_46$$30, 2);
 					ZEPHIR_INIT_NVAR(&_47$$30);
 					ZVAL_STRING(&_47$$30, "UTF-8");
-					ZEPHIR_CALL_FUNCTION(&_48$$30, "htmlentities", &_49, 211, &_43$$30, &_46$$30, &_47$$30);
+					ZEPHIR_CALL_FUNCTION(&_48$$30, "htmlentities", &_49, 206, &_43$$30, &_46$$30, &_47$$30);
 					zephir_check_call_status();
 					zephir_concat_self(&html, &_48$$30);
 				}
