@@ -1,0 +1,25 @@
+This file is a list of the people responsible for ensuring that patches for a
+particular part of Phalcon are reviewed, either by themself or by someone else.
+They are also the gatekeepers for their part of Phalcon, with the final word on
+what goes in or not.
+
+The list is sorted by surname and formatted to allow easy grepping and
+beautification by scripts.  The fields are: name (N), email (E), web-address
+(W), PGP key ID and fingerprint (P), description (D), and snail-mail address
+(S).
+
+N: Nikolaos Dimopoulos
+E: niden@phalcon.io
+W: https://niden.net
+D: Core Team
+
+N: Ruud Boon
+E: ruud@phalcon.io
+W: http://www.ruudboon.io
+D: Core Team
+
+N: Serghei Iakovlev
+E: serghei@phalcon.io
+W: https://serghei.blog
+P: 0x1E0B5331219BEA88
+D: CI/CD Integration, Zephir support, Parsers and Scanners, Volt, Annotation, PHQL support
