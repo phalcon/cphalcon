@@ -14,11 +14,13 @@ Sample of querying command:
 N: Ruud Boon
 E: ruud@phalcon.io
 W: https://ruudboon.io
+P: 0xF2E9F914DFA1BCD7
 D: Core Team
 
 N: Nikolaos Dimopoulos
 E: niden@phalcon.io
 W: https://niden.net
+P: 0x93F8CA07B9C8C41D
 D: Core Team
 
 N: Serghei Iakovlev
