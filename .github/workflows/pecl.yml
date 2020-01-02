@@ -8,6 +8,11 @@ on:
       - .github/workflows/pecl.yml
       - package.xml
       - 'build/php7/safe/**'
+  pull_request:
+    paths:
+      - .github/workflows/pecl.yml
+      - package.xml
+      - 'build/php7/safe/**'
 jobs:
   build:
     runs-on: ubuntu-latest
