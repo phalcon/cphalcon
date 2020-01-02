@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Cli\Router;
 
 use CliTester;
+use Phalcon\Cli\Router;
 
 class ConstructCest
 {
@@ -26,6 +27,20 @@ class ConstructCest
     public function cliRouterConstruct(CliTester $I)
     {
         $I->wantToTest('Cli\Router - __construct()');
-        $I->skipTest('Need implementation');
+        $router = new Router(false);
+
+        $I->assertInstanceOf('Phalcon\Cli\Router', $router);
+
+        $I->assertEquals([], $router->getRoutes());
+
+        //Should contain 2 default routes.
+        $router = new Router();
+
+        $I->assertInstanceOf('Phalcon\Cli\Router', $router);
+        $routes = $router->getRoutes();
+        $I->assertCount(2, $routes);
+
+        $I->assertEquals("#^(?: )?([a-zA-Z0-9\\_\\-]+)[ ]{0,1}$#", $routes[0]->getPattern());
+        $I->assertEquals("#^(?: )?([a-zA-Z0-9\\_\\-]+) ([a-zA-Z0-9\\.\\_]+)( .*)*$#", $routes[1]->getPattern());
     }
 }

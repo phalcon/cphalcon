@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Cli\Router;
 
 use CliTester;
+use Phalcon\Cli\Router;
 
 class GetActionNameCest
 {
@@ -26,6 +27,14 @@ class GetActionNameCest
     public function cliRouterGetActionName(CliTester $I)
     {
         $I->wantToTest('Cli\Router - getActionName()');
-        $I->skipTest('Need implementation');
+        $router = new Router();
+        $I->assertNull(
+            $router->getActionName()
+        );
+        $router->handle([
+            'action' => 'test',
+        ]);
+
+        $I->assertEquals("test", $router->getActionName());
     }
 }
