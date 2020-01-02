@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Di\FactoryDefault\Cli;
 
 use CliTester;
+use Phalcon\Di\FactoryDefault\Cli as Di;
 
 class HasCest
 {
@@ -26,6 +27,8 @@ class HasCest
     public function diFactorydefaultCliHas(CliTester $I)
     {
         $I->wantToTest('Di\FactoryDefault\Cli - has()');
-        $I->skipTest('Need implementation');
+        $di = new Di();
+        $I->assertFalse($di->has("nonExisting"));
+        $I->assertTrue($di->has("router"));
     }
 }
