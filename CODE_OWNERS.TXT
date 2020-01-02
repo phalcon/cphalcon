@@ -1,0 +1,30 @@
+This file is a list of the people responsible for ensuring that patches for a
+particular part of Phalcon are reviewed, either by themselves or by someone
+else. They are also the gatekeepers for their part of Phalcon, with the final
+word on what goes in or not.
+
+The list is sorted by last name and formatted to allow easy grepping and
+beautification by scripts.  The fields are: name (N), email (E), web-address
+(W), PGP key ID and fingerprint (P), description (D), and snail-mail address
+(S).
+
+Sample of querying command:
+  cat CODE_OWNERS.TXT | awk -v RS='' -v ORS='\n\n' '/Volt/'
+
+N: Ruud Boon
+E: ruud@phalcon.io
+W: https://ruudboon.io
+P: 0xF2E9F914DFA1BCD7
+D: Core Team
+
+N: Nikolaos Dimopoulos
+E: niden@phalcon.io
+W: https://niden.net
+P: 0x93F8CA07B9C8C41D
+D: Core Team
+
+N: Serghei Iakovlev
+E: serghei@phalcon.io
+W: https://serghei.blog
+P: 0x1E0B5331219BEA88
+D: CI/CD Integration, Zephir support, Parsers and Scanners, Volt, Annotation, PHQL support
