@@ -14,6 +14,8 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Cli\Dispatcher;
 
 use CliTester;
+use Phalcon\Cli\Dispatcher;
+use Phalcon\Di\FactoryDefault\Cli as DiFactoryDefault;
 
 class WasForwardedCest
 {
@@ -26,6 +28,20 @@ class WasForwardedCest
     public function cliDispatcherWasForwarded(CliTester $I)
     {
         $I->wantToTest('Cli\Dispatcher - wasForwarded()');
-        $I->skipTest('Need implementation');
+
+        $dispatcher = new Dispatcher();
+        $dispatcher->setDefaultNamespace('Phalcon\Test\Fixtures\Tasks');
+        $dispatcher->setDI(
+            new DiFactoryDefault()
+        );
+        $I->assertFalse($dispatcher->wasForwarded());
+        $dispatcher->forward(
+            [
+                'task' => 'echo',
+                'action'     => 'main'
+            ]
+        );
+        $dispatcher->dispatch();
+        $I->assertTrue($dispatcher->wasForwarded());
     }
 }

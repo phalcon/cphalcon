@@ -18,7 +18,7 @@ use Phalcon\Cli\Dispatcher;
 use Phalcon\Cli\Dispatcher\Exception;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-class GetHandlerSuffixCest
+class GetSetHandlerSuffixCest
 {
     use DiTrait;
 

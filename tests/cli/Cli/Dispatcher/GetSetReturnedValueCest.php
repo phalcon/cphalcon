@@ -16,27 +16,22 @@ namespace Phalcon\Test\Cli\Cli\Dispatcher;
 use CliTester;
 use Phalcon\Cli\Dispatcher;
 
-/**
- * Class GetActionNameCest
- */
-class GetActionNameCest
+class GetSetReturnedValueCest
 {
     /**
-     * Tests Phalcon\Cli\Dispatcher :: getActionName()
+     * Tests Phalcon\Cli\Dispatcher :: getReturnedValue()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function cliDispatcherGetActionName(CliTester $I)
+    public function cliDispatcherGetReturnedValue(CliTester $I)
     {
-        $I->wantToTest('Cli\Dispatcher - getActionName()');
-
+        $I->wantToTest('Cli\Dispatcher - getReturnedValue()');
         $dispatcher = new Dispatcher();
-        $dispatcher->setActionName('hello');
+        $I->assertNull($dispatcher->getReturnedValue());
 
-        $I->assertEquals(
-            'hello',
-            $dispatcher->getActionName()
-        );
+        $value = "Phalcon";
+        $dispatcher->setReturnedValue($value);
+        $I->assertEquals($value, $dispatcher->getReturnedValue());
     }
 }

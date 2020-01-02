@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Cli\Dispatcher;
 
 use CliTester;
+use Phalcon\Cli\Dispatcher;
 
 /**
  * Class HasOptionCest
@@ -29,6 +30,14 @@ class HasOptionCest
     public function cliDispatcherHasOption(CliTester $I)
     {
         $I->wantToTest('Cli\Dispatcher - hasOption()');
-        $I->skipTest('Need implementation');
+        $dispatcher = new Dispatcher();
+        $optionName = "Phalcon";
+        $I->assertFalse($dispatcher->hasOption($optionName));
+
+        $dispatcher->setOptions([$optionName => "value"]);
+        $I->assertTrue($dispatcher->hasOption($optionName));
+
+        //Options should be case sensitive
+        $I->assertFalse($dispatcher->hasOption(strtolower($optionName)));
     }
 }
