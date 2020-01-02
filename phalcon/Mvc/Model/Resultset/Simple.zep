@@ -16,6 +16,7 @@ use Phalcon\Di\DiInterface;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\Resultset;
+use Phalcon\Mvc\Model\Row;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\Storage\Serializer\SerializerInterface;
 
@@ -181,8 +182,10 @@ class Simple extends Resultset
 
         /**
          * We need to rename the whole set here, this could be slow
+         *
+         * Only rename when it is Model
          */
-        if renameColumns {
+        if renameColumns && !(this->model instanceof Row) {
             /**
              * Get the resultset column map
              */

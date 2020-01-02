@@ -53,11 +53,12 @@ class ToArrayCest
             ->getQuery()
             ->execute();
 
-        //$renamedArray = $rows->toArray();
+        $renamedArray = $rows->toArray();
         $untouchedArray = $rows->toArray(false);
 
         $I->assertInternalType('array', $untouchedArray);
-        //$I->assertInternalType('array', $renamedArray);
+        $I->assertInternalType('array', $renamedArray);
         $I->assertArrayHasKey('robot_name', $untouchedArray[0]);
+        $I->assertArrayHasKey('robot_name', $renamedArray[0]);
     }
 }
