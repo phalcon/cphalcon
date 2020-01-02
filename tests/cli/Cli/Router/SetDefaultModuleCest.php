@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Cli\Router;
 
 use CliTester;
+use Phalcon\Cli\Router;
 
 class SetDefaultModuleCest
 {
@@ -26,6 +27,13 @@ class SetDefaultModuleCest
     public function cliRouterSetDefaultModule(CliTester $I)
     {
         $I->wantToTest('Cli\Router - setDefaultModule()');
-        $I->skipTest('Need implementation');
+
+        $router = new Router(false);
+        $I->assertNull($router->getModuleName());
+        $router->handle("");
+        $I->assertNull($router->getModuleName());
+        $router->setDefaultModule("test");
+        $router->handle("");
+        $I->assertEquals("test", $router->getModuleName());
     }
 }

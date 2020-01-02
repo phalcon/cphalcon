@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Cli\Router;
 
 use CliTester;
+use Phalcon\Cli\Router;
 
 class GetTaskNameCest
 {
@@ -26,6 +27,13 @@ class GetTaskNameCest
     public function cliRouterGetTaskName(CliTester $I)
     {
         $I->wantToTest('Cli\Router - getTaskName()');
-        $I->skipTest('Need implementation');
+
+        $router = new Router();
+        $I->assertNull(
+            $router->getTaskName()
+        );
+        $router->handle("task action param1 param2");
+
+        $I->assertEquals("task", $router->getTaskName());
     }
 }

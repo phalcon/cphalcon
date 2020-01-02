@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Cli\Router;
 
 use CliTester;
+use Phalcon\Cli\Router;
 
 class GetMatchedRouteCest
 {
@@ -26,6 +27,27 @@ class GetMatchedRouteCest
     public function cliRouterGetMatchedRoute(CliTester $I)
     {
         $I->wantToTest('Cli\Router - getMatchedRoute()');
-        $I->skipTest('Need implementation');
+
+        $router = new Router();
+
+        $router->add(
+            'route1',
+            [
+                'module' => 'devtools',
+                'task'   => 'main',
+                'action' => 'hello',
+            ]
+        );
+
+        $router->add(
+            'route2',
+            [
+                'module' => 'devtools2',
+                'task'   => 'main2',
+                'action' => 'hello2',
+            ]
+        );
+        $router->handle('route2');
+        $I->assertEquals("route2", $router->getMatchedRoute()->getPattern());
     }
 }

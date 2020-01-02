@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Cli\Router;
 
 use CliTester;
+use Phalcon\Cli\Router;
 
 class GetModuleNameCest
 {
@@ -26,6 +27,15 @@ class GetModuleNameCest
     public function cliRouterGetModuleName(CliTester $I)
     {
         $I->wantToTest('Cli\Router - getModuleName()');
-        $I->skipTest('Need implementation');
+
+        $router = new Router();
+        $I->assertNull(
+            $router->getModuleName()
+        );
+        $router->handle([
+            'module' => 'test',
+        ]);
+
+        $I->assertEquals("test", $router->getModuleName());
     }
 }
