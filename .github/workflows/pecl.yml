@@ -8,11 +8,19 @@ on:
       - .github/workflows/pecl.yml
       - package.xml
       - 'build/php7/safe/**'
+      - LICENSE.txt
+      - CHANGELOG-4.0.md
+      - CODE_OF_CONDUCT.md
+      - CODE_OWNERS.TXT
   pull_request:
     paths:
       - .github/workflows/pecl.yml
       - package.xml
       - 'build/php7/safe/**'
+      - LICENSE.txt
+      - CHANGELOG-4.0.md
+      - CODE_OF_CONDUCT.md
+      - CODE_OWNERS.TXT
 jobs:
   build:
     runs-on: ubuntu-latest
