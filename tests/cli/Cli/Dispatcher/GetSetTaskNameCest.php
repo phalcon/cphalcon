@@ -14,8 +14,9 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Cli\Dispatcher;
 
 use CliTester;
+use Phalcon\Cli\Dispatcher;
 
-class GetTaskNameCest
+class GetSetTaskNameCest
 {
     /**
      * Tests Phalcon\Cli\Dispatcher :: getTaskName()
@@ -26,6 +27,11 @@ class GetTaskNameCest
     public function cliDispatcherGetTaskName(CliTester $I)
     {
         $I->wantToTest('Cli\Dispatcher - getTaskName()');
-        $I->skipTest('Need implementation');
+        $dispatcher = new Dispatcher();
+        $I->assertNull($dispatcher->getTaskName());
+
+        $value = "Phalcon";
+        $dispatcher->setTaskName($value);
+        $I->assertEquals($value, $dispatcher->getTaskName());
     }
 }

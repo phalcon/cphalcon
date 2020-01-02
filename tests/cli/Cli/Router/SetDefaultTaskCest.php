@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Cli\Router;
 
 use CliTester;
+use Phalcon\Cli\Router;
 
 class SetDefaultTaskCest
 {
@@ -26,6 +27,13 @@ class SetDefaultTaskCest
     public function cliRouterSetDefaultTask(CliTester $I)
     {
         $I->wantToTest('Cli\Router - setDefaultTask()');
-        $I->skipTest('Need implementation');
+
+        $router = new Router();
+        $I->assertNull($router->getTaskName());
+        $router->handle("");
+        $I->assertNull($router->getTaskName());
+        $router->setDefaultTask("test");
+        $router->handle("");
+        $I->assertEquals("test", $router->getTaskName());
     }
 }

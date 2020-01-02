@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Cli\Router;
 
 use CliTester;
+use Phalcon\Cli\Router;
 
 class GetParamsCest
 {
@@ -26,6 +27,14 @@ class GetParamsCest
     public function cliRouterGetParams(CliTester $I)
     {
         $I->wantToTest('Cli\Router - getParams()');
-        $I->skipTest('Need implementation');
+
+        $router = new Router();
+        $I->assertEquals(
+            [],
+            $router->getParams()
+        );
+        $router->handle("task action param1 param2");
+
+        $I->assertEquals(["param1", "param2"], $router->getParams());
     }
 }

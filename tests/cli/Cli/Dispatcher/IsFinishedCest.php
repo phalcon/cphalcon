@@ -14,6 +14,8 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Cli\Dispatcher;
 
 use CliTester;
+use Phalcon\Cli\Dispatcher;
+use Phalcon\Di\FactoryDefault\Cli as DiFactoryDefault;
 
 /**
  * Class IsFinishedCest
@@ -29,6 +31,14 @@ class IsFinishedCest
     public function cliDispatcherIsFinished(CliTester $I)
     {
         $I->wantToTest('Cli\Dispatcher - isFinished()');
-        $I->skipTest('Need implementation');
+
+        $dispatcher = new Dispatcher();
+        $dispatcher->setDefaultNamespace('Phalcon\Test\Fixtures\Tasks');
+        $dispatcher->setDI(
+            new DiFactoryDefault()
+        );
+        $I->assertFalse($dispatcher->isFinished());
+        $dispatcher->dispatch();
+        $I->assertTrue($dispatcher->isFinished());
     }
 }

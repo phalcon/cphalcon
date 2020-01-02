@@ -14,6 +14,8 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Cli\Dispatcher;
 
 use CliTester;
+use Phalcon\Cli\Dispatcher;
+use Phalcon\Di\FactoryDefault\Cli as DiFactoryDefault;
 
 /**
  * Class GetOptionCest
@@ -29,6 +31,21 @@ class GetOptionCest
     public function cliDispatcherGetOption(CliTester $I)
     {
         $I->wantToTest('Cli\Dispatcher - getOption()');
-        $I->skipTest('Need implementation');
+        $di = new DiFactoryDefault();
+        $dispatcher = new Dispatcher();
+        $dispatcher->setDi($di);
+        $options = [
+            "phalcon" => "value123!"
+        ];
+
+        $dispatcher->setOptions($options);
+        $optionName = "phalcon";
+        $defaultValue = "Phalcon Rocks!";
+        $I->assertEquals($options[$optionName], $dispatcher->getOption($optionName));
+        $I->assertEquals($options[$optionName], $dispatcher->getOption($optionName, '', $defaultValue));
+        $I->assertEquals($defaultValue, $dispatcher->getOption('nonExisting', '', $defaultValue));
+
+        $I->assertSame('value123', $dispatcher->getOption($optionName, 'alnum'));
+        $I->assertSame(123, $dispatcher->getOption($optionName, ['int']));
     }
 }
