@@ -8,20 +8,20 @@ beautification by scripts.  The fields are: name (N), email (E), web-address
 (W), PGP key ID and fingerprint (P), description (D), and snail-mail address
 (S).
 
-Sample of querying command:
-  cat CODE_OWNERS.TXT | awk -v RS='' -v ORS='\n\n' '/Volt/'
+The sample of querying command to search Volt keyword:
+  awk -v RS='' -v ORS='\n\n' '/\nD: .*Volt/' CODE_OWNERS.TXT
 
 N: Ruud Boon
 E: ruud@phalcon.io
 W: https://ruudboon.io
 P: 0xF2E9F914DFA1BCD7
-D: Core Team
+D: All parts of Phalcon not covered by someone else
 
 N: Nikolaos Dimopoulos
 E: niden@phalcon.io
 W: https://niden.net
 P: 0x93F8CA07B9C8C41D
-D: Core Team
+D: All parts of Phalcon not covered by someone else
 
 N: Serghei Iakovlev
 E: serghei@phalcon.io
