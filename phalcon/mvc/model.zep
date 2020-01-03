@@ -330,7 +330,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Sets the DependencyInjection connection service name
 	 */
-	public function setConnectionService(string! connectionService) -> <Model>
+	public function setConnectionService(string! connectionService) -> <ModelInterface>
 	{
 		(<ManagerInterface> this->_modelsManager)->setConnectionService(this, connectionService);
 		return this;
@@ -339,7 +339,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Sets the DependencyInjection connection service name used to read data
 	 */
-	public function setReadConnectionService(string! connectionService) -> <Model>
+	public function setReadConnectionService(string! connectionService) -> <ModelInterface>
 	{
 		(<ManagerInterface> this->_modelsManager)->setReadConnectionService(this, connectionService);
 		return this;
@@ -348,7 +348,7 @@ abstract class Model implements EntityInterface, ModelInterface, ResultInterface
 	/**
 	 * Sets the DependencyInjection connection service name used to write data
 	 */
-	public function setWriteConnectionService(string! connectionService) -> <Model>
+	public function setWriteConnectionService(string! connectionService) -> <ModelInterface>
 	{
 		return (<ManagerInterface> this->_modelsManager)->setWriteConnectionService(this, connectionService);
 	}

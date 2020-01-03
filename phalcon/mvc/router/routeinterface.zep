@@ -44,7 +44,7 @@ interface RouteInterface
 	/**
 	 * Set one or more HTTP methods that constraint the matching of the route
 	 */
-	public function via(var httpMethods) -> void;
+	public function via(var httpMethods) -> <RouteInterface>;
 
 	/**
 	 * Reconfigure the route adding a new pattern and a set of paths
@@ -59,7 +59,7 @@ interface RouteInterface
 	/**
 	 * Sets the route's name
 	 */
-	public function setName(string name) -> void;
+	public function setName(string name) -> <RouteInterface>;
 
 	/**
 	 * Sets a set of HTTP methods that constraint the matching of the route

@@ -32,9 +32,9 @@ class Direct extends FlashBase
 	/**
 	 * Outputs a message
 	 */
-	public function message(string type, var message) -> string
+	public function message(string type, var message) -> void
 	{
-		return this->outputMessage(type, message);
+		this->outputMessage(type, message);
 	}
 
 	/**
