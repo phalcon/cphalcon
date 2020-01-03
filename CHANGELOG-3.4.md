@@ -1,3 +1,7 @@
+# [3.4.6]
+- Fixed some `return type` constraint issues, or elseif your `phalcon.so` was built with `zephir`, it would raise errors in runtime. [#14682](https://github.com/phalcon/cphalcon/pull/14682)
+
+
 # [3.4.5](https://github.com/phalcon/cphalcon/releases/tag/v3.4.5) (2019-10-30)
 - Fixed segfault in `Phalcon\Mvc\Micro\LazyLoader::__call()` when the handler has a syntax error. [#12396](https://github.com/phalcon/cphalcon/issues/12396)
 - Fixed RuntimeException in `Phalcon\Db\Adapter\Pdo` Trying to call method upper on a non-object. [#14330](https://github.com/phalcon/cphalcon/issues/14330)
