@@ -80,7 +80,7 @@ class Session extends FlashBase
 	/**
 	 * Adds a message to the session flasher
 	 */
-	public function message(string type, string message) -> void
+	public function message(string type, string message)
 	{
 		var messages;
 
