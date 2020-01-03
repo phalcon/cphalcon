@@ -1,0 +1,92 @@
+name: Pecl builder
+
+on:
+  create:
+    tags:
+  push:
+    paths:
+      - .github/workflows/pecl.yml
+      - package.xml
+      - 'build/php7/safe/**'
+      - LICENSE.txt
+      - CHANGELOG-4.0.md
+      - CODE_OF_CONDUCT.md
+      - CODE_OWNERS.TXT
+  pull_request:
+    paths:
+      - .github/workflows/pecl.yml
+      - package.xml
+      - 'build/php7/safe/**'
+      - LICENSE.txt
+      - CHANGELOG-4.0.md
+      - CODE_OF_CONDUCT.md
+      - CODE_OWNERS.TXT
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Build Phalcon Pecl Package
+    steps:
+      - name: Show system info
+        run: uname -m
+      - name: Git checkout
+        uses: actions/checkout@v2-beta
+        with:
+          fetch-depth: 1
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v1
+        with:
+          php-version: '7.4'
+          extensions: mbstring, intl, json
+          pecl: true
+      - name: Create pecl package
+        id: pecl_create
+        run: |
+          cp build/php7/safe/config.w32 config.w32
+          cp build/php7/safe/phalcon.zep.c phalcon.zep.c
+          cp build/php7/safe/config.m4 config.m4
+          cp build/php7/safe/php_phalcon.h php_phalcon.h
+          cp build/php7/safe/phalcon.zep.h phalcon.zep.h
+          pecl package
+          phalcon_package="`ls | grep phalcon-*tgz`"
+          mv $phalcon_package phalcon-pecl.tgz
+      - name: Validate pecl package
+        run: pecl package-validate phalcon-pecl.tgz
+      - uses: actions/upload-artifact@v1
+        with:
+          name: 'phalcon-pecl'
+          path: phalcon-pecl.tgz
+  install-nix:
+    needs: build
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      fail-fast: false
+      matrix:
+        operating-system: [ubuntu-latest, macOS-latest]
+        php-versions: ['7.2', '7.3', '7.4']
+    name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
+    steps:
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v1
+        with:
+          php-version: ${{ matrix.php-versions }}
+          extensions: mbstring, intl, json
+          pecl: true
+      - name: Testing PHP version
+        run: |
+          php -m
+          php -v | head -n 1
+          php-cgi -v | head -n 1
+          phpdbg -V | head -n 1
+          pecl -V
+          php-config --version
+          phpize -v
+      - name: Download phalcon pecl package
+        uses: actions/download-artifact@v1
+        with:
+          name: phalcon-pecl
+      - name: Install package
+        run: |
+          export MAKEFLAGS="-j$(getconf _NPROCESSORS_ONLN)"
+          sudo pecl -v install phalcon-pecl/phalcon-pecl.tgz
+      - name: Verify install
+        run: php -m | grep phalcon
