@@ -21,6 +21,7 @@ namespace Phalcon\Mvc;
 
 use Phalcon\Mvc\Router\RouteInterface;
 use Phalcon\Mvc\Router\GroupInterface;
+use Phalcon\Mvc\RouterInterface;
 
 /**
  * Phalcon\Mvc\RouterInterface
@@ -33,22 +34,22 @@ interface RouterInterface
 	/**
 	 * Sets the name of the default module
 	 */
-	public function setDefaultModule(string! moduleName) -> void;
+	public function setDefaultModule(string! moduleName) -> <RouterInterface>;
 
 	/**
 	 * Sets the default controller name
 	 */
-	public function setDefaultController(string! controllerName) -> void;
+	public function setDefaultController(string! controllerName) -> <RouterInterface>;
 
 	/**
 	 * Sets the default action name
 	 */
-	public function setDefaultAction(string! actionName) -> void;
+	public function setDefaultAction(string! actionName) -> <RouterInterface>;
 
 	/**
 	 * Sets an array of default paths
 	 */
-	public function setDefaults(array! defaults) -> void;
+	public function setDefaults(array! defaults) -> <RouterInterface>;
 
 	/**
 	 * Handles routing information received from the rewrite engine

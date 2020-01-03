@@ -149,7 +149,7 @@ class Route implements RouteInterface
 	 * );
 	 *</code>
 	 */
-	public function via(var httpMethods) -> <Route>
+	public function via(var httpMethods) -> <RouteInterface>
 	{
 		let this->_methods = httpMethods;
 		return this;
@@ -448,7 +448,7 @@ class Route implements RouteInterface
 	 * )->setName("about");
 	 *</code>
 	 */
-	public function setName(string name) -> <Route>
+	public function setName(string name) -> <RouteInterface>
 	{
 		let this->_name = name;
 		return this;

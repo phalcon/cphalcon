@@ -326,7 +326,7 @@ class Router implements InjectionAwareInterface, RouterInterface, EventsAwareInt
 	 * $router->handle("/posts/edit/1");
 	 *</code>
 	 */
-	public function handle(string uri = null)
+	public function handle(string uri = null) -> void
 	{
 		var realUri, request, currentHostName, routeFound, parts,
 			params, matches, notFoundPaths,
