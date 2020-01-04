@@ -19,14 +19,14 @@ use UnitTester;
 class GetSetHttpOnlyCest
 {
     /**
-     * Tests Phalcon\Http\Cookie :: getHttpOnly()
+     * Tests Phalcon\Http\Cookie :: getHttpOnly() / setHttpOnly()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function httpCookieGetHttpOnly(UnitTester $I)
     {
-        $I->wantToTest('Http\Cookie - getHttpOnly()');
+        $I->wantToTest('Http\Cookie - getHttpOnly() / setHttpOnly()');
 
         $cookie = new Cookie(
             'test-cookie',

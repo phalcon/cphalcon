@@ -16,17 +16,17 @@ namespace Phalcon\Test\Unit\Http\Cookie;
 use Phalcon\Http\Cookie;
 use UnitTester;
 
-class GetSetDomainCest
+class GetSetValueCest
 {
     /**
-     * Tests Phalcon\Http\Cookie :: getDomain() / setDomain()
+     * Tests Phalcon\Http\Cookie :: getValue() / setValue()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2010-01-5
      */
-    public function httpCookieGetDomain(UnitTester $I)
+    public function httpCookieGetSetValue(UnitTester $I)
     {
-        $I->wantToTest('Http\Cookie - getDomain() / setDomain()');
+        $I->wantToTest('Http\Cookie - getValue() / setValue()');
 
         $cookie = new Cookie(
             'test-cookie',
@@ -37,10 +37,9 @@ class GetSetDomainCest
             'phalcon.ltd'
         );
 
-        $I->assertEquals('phalcon.ltd', $cookie->getDomain());
+        $I->assertEquals('test', $cookie->getValue());
 
-        $cookie->setDomain('phalcon.io');
-
-        $I->assertEquals('phalcon.io', $cookie->getDomain());
+        $cookie->setValue('new-value');
+        $I->assertEquals('new-value', $cookie->getValue());
     }
 }

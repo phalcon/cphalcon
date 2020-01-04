@@ -19,14 +19,14 @@ use UnitTester;
 class GetSetExpirationCest
 {
     /**
-     * Tests Phalcon\Http\Cookie :: getExpiration()
+     * Tests Phalcon\Http\Cookie :: getExpiration() / setExpiration()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-12-23
      */
     public function httpCookieGetExpiration(UnitTester $I)
     {
-        $I->wantToTest('Http\Cookie - getExpiration()');
+        $I->wantToTest('Http\Cookie - getExpiration() / setExpiration()');
 
         $exptime = time() + 3600;
 
