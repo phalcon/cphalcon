@@ -139,7 +139,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
 
         let container = <DiInterface> this->container;
 
-        if typeof container == "object" {
+        if typeof container == "object" && container->has("session") {
             let session = <SessionManagerInterface> container->getShared("session");
 
             if session->exists() {
@@ -373,7 +373,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
         if !this->restored {
             let container = this->container;
 
-            if typeof container == "object" {
+            if typeof container == "object" && container->has("session") {
                 let session = container->getShared("session");
 
                 if session->exists() {
@@ -434,12 +434,6 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
 
         let container = this->container;
 
-        if unlikely typeof container != "object" {
-            throw new Exception(
-                Exception::containerServiceNotFound("the 'session' service")
-            );
-        }
-
         let definition = [];
 
         if expire != 0 {
@@ -469,7 +463,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
         /**
          * The definition is stored in session
          */
-        if count(definition) {
+        if count(definition) && container->has("session") {
             let session = <SessionManagerInterface> container->getShared("session");
 
             if session->exists() {
