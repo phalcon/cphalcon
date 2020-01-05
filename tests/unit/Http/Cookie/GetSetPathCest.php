@@ -14,13 +14,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Http\Cookie;
 
 use Phalcon\Http\Cookie;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
 class GetSetPathCest
 {
-    use DiTrait;
-
     /**
      * Tests Phalcon\Http\Cookie :: getPath()/setPath()
      *
@@ -30,9 +27,6 @@ class GetSetPathCest
     public function httpCookieGetSetPath(UnitTester $I)
     {
         $I->wantToTest('Http\Cookie - getPath()/setPath()');
-
-        $this->setNewFactoryDefault();
-        $this->setDiSessionFiles();
 
         $name     = 'test';
         $value    = "phalcon";
@@ -53,7 +47,6 @@ class GetSetPathCest
             $httpOnly,
             $options
         );
-        $cookie->setDI($this->container);
 
         $I->assertEquals($path, $cookie->getPath());
 

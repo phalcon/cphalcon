@@ -14,13 +14,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Http\Cookie;
 
 use Phalcon\Http\Cookie;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
 class GetSetDomainCest
 {
-    use DiTrait;
-
     /**
      * Tests Phalcon\Http\Cookie :: getDomain()/setDomain()
      *
@@ -30,9 +27,6 @@ class GetSetDomainCest
     public function httpCookieGetSetDomain(UnitTester $I)
     {
         $I->wantToTest('Http\Cookie - getDomain()/setDomain()');
-
-        $this->setNewFactoryDefault();
-        $this->setDiSessionFiles();
 
         $name     = 'test';
         $value    = "phalcon";
@@ -53,8 +47,6 @@ class GetSetDomainCest
             $httpOnly,
             $options
         );
-        $cookie->setDI($this->container);
-
         $I->assertEquals($domain, $cookie->getDomain());
 
         $domain = 'phalcon.io';

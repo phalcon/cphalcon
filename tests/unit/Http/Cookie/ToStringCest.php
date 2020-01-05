@@ -14,13 +14,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Http\Cookie;
 
 use Phalcon\Http\Cookie;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
 class ToStringCest
 {
-    use DiTrait;
-
     /**
      * Tests Phalcon\Http\Cookie :: __toString()
      *
@@ -30,9 +27,6 @@ class ToStringCest
     public function httpCookieToString(UnitTester $I)
     {
         $I->wantToTest('Http\Cookie - __toString()');
-
-        $this->setNewFactoryDefault();
-        $this->setDiSessionFiles();
 
         $name     = 'test';
         $value    = "phalcon";

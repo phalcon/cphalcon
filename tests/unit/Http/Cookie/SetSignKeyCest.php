@@ -15,13 +15,10 @@ namespace Phalcon\Test\Unit\Http\Cookie;
 
 use Phalcon\Http\Cookie;
 use Phalcon\Http\Cookie\Exception;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
 class SetSignKeyCest
 {
-    use DiTrait;
-
     /**
      * Tests Phalcon\Http\Cookie :: setSignKey() - exception
      *
@@ -31,9 +28,6 @@ class SetSignKeyCest
     public function httpCookieSetSignKeyException(UnitTester $I)
     {
         $I->wantToTest('Http\Cookie - setSignKey() - exception');
-
-        $this->setNewFactoryDefault();
-        $this->setDiSessionFiles();
 
         $I->expectThrowable(
             new Exception(
@@ -60,7 +54,6 @@ class SetSignKeyCest
                     $httpOnly,
                     $options
                 );
-                $cookie->setDI($this->container);
                 $cookie->setSignKey('12345');
             }
         );
