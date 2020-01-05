@@ -56,8 +56,8 @@ class Route implements RouteInterface
         let uniqueId = self::uniqueId;
 
         // TODO: Add a function that increase static members
-        let routeId = uniqueId,
-            this->id = routeId,
+        let routeId        = uniqueId,
+            this->id       = routeId,
             self::uniqueId = uniqueId + 1;
     }
 
@@ -416,12 +416,12 @@ class Route implements RouteInterface
 
                 case 3:
                     let moduleName = parts[0],
-                        taskName = parts[1],
+                        taskName   = parts[1],
                         actionName = parts[2];
                     break;
 
                 case 2:
-                    let taskName = parts[0],
+                    let taskName   = parts[0],
                         actionName = parts[1];
                     break;
 
