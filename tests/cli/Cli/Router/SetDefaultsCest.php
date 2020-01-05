@@ -43,7 +43,7 @@ class SetDefaultsCest
         );
         $defaults = [
             'module' => "testModule",
-            'task' => "testTask",
+            'task'   => "testTask",
             'action' => "testAction",
         ];
         $router->setDefaults($defaults);
