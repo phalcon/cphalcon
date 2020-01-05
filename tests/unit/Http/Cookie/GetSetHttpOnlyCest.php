@@ -14,13 +14,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Http\Cookie;
 
 use Phalcon\Http\Cookie;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
 class GetSetHttpOnlyCest
 {
-    use DiTrait;
-
     /**
      * Tests Phalcon\Http\Cookie :: getHttpOnly()/setHttpOnly()
      *
@@ -30,9 +27,6 @@ class GetSetHttpOnlyCest
     public function httpCookieGetSetHttpOnly(UnitTester $I)
     {
         $I->wantToTest('Http\Cookie - getHttpOnly()/setHttpOnly()');
-
-        $this->setNewFactoryDefault();
-        $this->setDiSessionFiles();
 
         $name     = 'test';
         $value    = "phalcon";
@@ -53,7 +47,6 @@ class GetSetHttpOnlyCest
             $httpOnly,
             $options
         );
-        $cookie->setDI($this->container);
 
         $I->assertEquals($httpOnly, $cookie->getHttpOnly());
 

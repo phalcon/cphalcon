@@ -14,13 +14,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Http\Cookie;
 
 use Phalcon\Http\Cookie;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
 class GetSetValueCest
 {
-    use DiTrait;
-
     /**
      * Tests Phalcon\Http\Cookie :: getValue()
      *
@@ -30,9 +27,6 @@ class GetSetValueCest
     public function httpCookieGetValue(UnitTester $I)
     {
         $I->wantToTest('Http\Cookie - getValue()');
-
-        $this->setNewFactoryDefault();
-        $this->setDiSessionFiles();
 
         $name     = 'test';
         $value    = "phalcon";
@@ -53,7 +47,6 @@ class GetSetValueCest
             $httpOnly,
             $options
         );
-        $cookie->setDI($this->container);
 
         $I->assertEquals($value, $cookie->getValue());
 

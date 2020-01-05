@@ -14,13 +14,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Http\Cookie;
 
 use Phalcon\Http\Cookie;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
 class GetSetExpirationCest
 {
-    use DiTrait;
-
     /**
      * Tests Phalcon\Http\Cookie :: getExpiration()/setExpiration()
      *
@@ -30,9 +27,6 @@ class GetSetExpirationCest
     public function httpCookieGetSetExpiration(UnitTester $I)
     {
         $I->wantToTest('Http\Cookie - getExpiration()/setExpiration()');
-
-        $this->setNewFactoryDefault();
-        $this->setDiSessionFiles();
 
         $name     = 'test';
         $value    = "phalcon";
@@ -53,7 +47,6 @@ class GetSetExpirationCest
             $httpOnly,
             $options
         );
-        $cookie->setDI($this->container);
 
         $I->assertEquals($expire, $cookie->getExpiration());
 

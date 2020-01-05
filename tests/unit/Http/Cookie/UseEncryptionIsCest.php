@@ -14,13 +14,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Http\Cookie;
 
 use Phalcon\Http\Cookie;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
 class UseEncryptionIsCest
 {
-    use DiTrait;
-
     /**
      * Tests Phalcon\Http\Cookie :: useEncryption()
      *
@@ -30,9 +27,6 @@ class UseEncryptionIsCest
     public function httpCookieUseEncryption(UnitTester $I)
     {
         $I->wantToTest('Http\Cookie - useEncryption()');
-
-        $this->setNewFactoryDefault();
-        $this->setDiSessionFiles();
 
         $name     = 'test';
         $value    = "phalcon";
@@ -53,7 +47,6 @@ class UseEncryptionIsCest
             $httpOnly,
             $options
         );
-        $cookie->setDI($this->container);
 
         $I->assertFalse($cookie->isUsingEncryption());
 
