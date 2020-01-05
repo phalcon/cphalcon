@@ -17,19 +17,19 @@ use Phalcon\Http\Cookie;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
-class ToStringCest
+class GetSetHttpOnlyCest
 {
     use DiTrait;
 
     /**
-     * Tests Phalcon\Http\Cookie :: __toString()
+     * Tests Phalcon\Http\Cookie :: getHttpOnly()/setHttpOnly()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function httpCookieToString(UnitTester $I)
+    public function httpCookieGetSetHttpOnly(UnitTester $I)
     {
-        $I->wantToTest('Http\Cookie - __toString()');
+        $I->wantToTest('Http\Cookie - getHttpOnly()/setHttpOnly()');
 
         $this->setNewFactoryDefault();
         $this->setDiSessionFiles();
@@ -55,6 +55,10 @@ class ToStringCest
         );
         $cookie->setDI($this->container);
 
-        $I->assertEquals('phalcon', (string) $cookie);
+        $I->assertEquals($httpOnly, $cookie->getHttpOnly());
+
+        $httpOnly = false;
+        $cookie->setHttpOnly($httpOnly);
+        $I->assertEquals($httpOnly, $cookie->getHttpOnly());
     }
 }

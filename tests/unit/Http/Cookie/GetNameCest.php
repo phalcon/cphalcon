@@ -13,10 +13,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Cookie;
 
+use Phalcon\Http\Cookie;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
 class GetNameCest
 {
+    use DiTrait;
+
     /**
      * Tests Phalcon\Http\Cookie :: getName()
      *
@@ -27,6 +31,29 @@ class GetNameCest
     {
         $I->wantToTest('Http\Cookie - getName()');
 
-        $I->skipTest('Need implementation');
+        $this->setNewFactoryDefault();
+
+        $name     = 'test';
+        $value    = "phalcon";
+        $expire   = time() - 100;
+        $path     = "/";
+        $secure   = true;
+        $domain   = "phalcon.ld";
+        $httpOnly = true;
+        $options  = ["samesite" => "Lax"];
+
+        $cookie = new Cookie(
+            $name,
+            $value,
+            $expire,
+            $path,
+            $secure,
+            $domain,
+            $httpOnly,
+            $options
+        );
+        $cookie->setDI($this->container);
+
+        $I->assertEquals($name, $cookie->getName());
     }
 }
