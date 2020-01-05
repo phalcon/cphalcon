@@ -53,7 +53,6 @@ class ToStringCest
             $httpOnly,
             $options
         );
-        $cookie->setDI($this->container);
 
         $I->assertEquals('phalcon', (string) $cookie);
     }
