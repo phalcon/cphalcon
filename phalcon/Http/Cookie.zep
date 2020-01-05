@@ -138,7 +138,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
 
         let container = <DiInterface> this->container;
 
-        if typeof container == "object" {
+        if typeof container == "object" && container->has("session") {
             let session = <SessionManagerInterface> container->getShared("session");
 
             if session->exists() {
@@ -357,7 +357,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
         if !this->restored {
             let container = this->container;
 
-            if typeof container == "object" {
+            if typeof container == "object" && container->has("session") {
                 let session = container->getShared("session");
 
                 if session->exists() {
@@ -403,23 +403,15 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
         var container, crypt, definition, encryptValue, expire, domain,
             httpOnly, name, path, secure, session, signKey, value;
 
-        let name     = this->name,
-            value    = this->value,
-            expire   = this->expire,
-            domain   = this->domain,
-            path     = this->path,
-            secure   = this->secure,
-            httpOnly = this->httpOnly;
-
-        let container = this->container;
-
-        if unlikely typeof container != "object" {
-            throw new Exception(
-                Exception::containerServiceNotFound("the 'session' service")
-            );
-        }
-
-        let definition = [];
+        let name       = this->name,
+            value      = this->value,
+            expire     = this->expire,
+            domain     = this->domain,
+            path       = this->path,
+            secure     = this->secure,
+            httpOnly   = this->httpOnly,
+            container  = this->container,
+            definition = [];
 
         if expire != 0 {
             let definition["expire"] = expire;
@@ -444,7 +436,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
         /**
          * The definition is stored in session
          */
-        if count(definition) {
+        if count(definition) && container->has("session") {
             let session = <SessionManagerInterface> container->getShared("session");
 
             if session->exists() {

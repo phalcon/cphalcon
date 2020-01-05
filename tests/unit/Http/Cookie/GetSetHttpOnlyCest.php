@@ -16,26 +16,31 @@ namespace Phalcon\Test\Unit\Http\Cookie;
 use Phalcon\Http\Cookie;
 use UnitTester;
 
-class DeleteCest
+class GetSetHttpOnlyCest
 {
     /**
-     * Tests Phalcon\Http\Cookie :: delete()
+     * Tests Phalcon\Http\Cookie :: getHttpOnly() / setHttpOnly()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-12-23
+     * @since  2018-11-13
      */
-    public function httpCookieDelete(UnitTester $I)
+    public function httpCookieGetHttpOnly(UnitTester $I)
     {
-        $I->wantToTest('Http\Cookie - delete()');
+        $I->wantToTest('Http\Cookie - getHttpOnly() / setHttpOnly()');
 
         $cookie = new Cookie(
             'test-cookie',
             'test',
-            time() + 3600
+            time() + 3600,
+            '/',
+            null,
+            'phalcon.ltd'
         );
 
-        $cookie->delete();
+        $I->assertFalse($cookie->getHttpOnly());
 
-        $I->assertNull($cookie->getValue());
+        $cookie->setHttpOnly(true);
+
+        $I->assertTrue($cookie->getHttpOnly());
     }
 }

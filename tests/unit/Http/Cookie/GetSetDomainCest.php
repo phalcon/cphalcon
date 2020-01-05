@@ -16,26 +16,31 @@ namespace Phalcon\Test\Unit\Http\Cookie;
 use Phalcon\Http\Cookie;
 use UnitTester;
 
-class DeleteCest
+class GetSetDomainCest
 {
     /**
-     * Tests Phalcon\Http\Cookie :: delete()
+     * Tests Phalcon\Http\Cookie :: getDomain() / setDomain()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-12-23
+     * @since  2018-11-13
      */
-    public function httpCookieDelete(UnitTester $I)
+    public function httpCookieGetDomain(UnitTester $I)
     {
-        $I->wantToTest('Http\Cookie - delete()');
+        $I->wantToTest('Http\Cookie - getDomain() / setDomain()');
 
         $cookie = new Cookie(
             'test-cookie',
             'test',
-            time() + 3600
+            time() + 3600,
+            '/',
+            null,
+            'phalcon.ltd'
         );
 
-        $cookie->delete();
+        $I->assertEquals('phalcon.ltd', $cookie->getDomain());
 
-        $I->assertNull($cookie->getValue());
+        $cookie->setDomain('phalcon.io');
+
+        $I->assertEquals('phalcon.io', $cookie->getDomain());
     }
 }
