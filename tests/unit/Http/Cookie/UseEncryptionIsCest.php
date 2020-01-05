@@ -17,19 +17,19 @@ use Phalcon\Http\Cookie;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
-class ToStringCest
+class UseEncryptionIsCest
 {
     use DiTrait;
 
     /**
-     * Tests Phalcon\Http\Cookie :: __toString()
+     * Tests Phalcon\Http\Cookie :: useEncryption()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function httpCookieToString(UnitTester $I)
+    public function httpCookieUseEncryption(UnitTester $I)
     {
-        $I->wantToTest('Http\Cookie - __toString()');
+        $I->wantToTest('Http\Cookie - useEncryption()');
 
         $this->setNewFactoryDefault();
         $this->setDiSessionFiles();
@@ -55,6 +55,9 @@ class ToStringCest
         );
         $cookie->setDI($this->container);
 
-        $I->assertEquals('phalcon', (string) $cookie);
+        $I->assertFalse($cookie->isUsingEncryption());
+
+        $cookie->useEncryption(true);
+        $I->assertTrue($cookie->isUsingEncryption());
     }
 }
