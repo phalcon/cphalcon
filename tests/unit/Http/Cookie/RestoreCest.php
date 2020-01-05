@@ -17,19 +17,19 @@ use Phalcon\Http\Cookie;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
-class GetSetValueCest
+class RestoreCest
 {
     use DiTrait;
 
     /**
-     * Tests Phalcon\Http\Cookie :: getValue()
+     * Tests Phalcon\Http\Cookie :: restore()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function httpCookieGetValue(UnitTester $I)
+    public function httpCookieRestore(UnitTester $I)
     {
-        $I->wantToTest('Http\Cookie - getValue()');
+        $I->wantToTest('Http\Cookie - restore()');
 
         $this->setNewFactoryDefault();
         $this->setDiSessionFiles();
@@ -55,10 +55,22 @@ class GetSetValueCest
         );
         $cookie->setDI($this->container);
 
+        $I->assertEquals($name, $cookie->getName());
         $I->assertEquals($value, $cookie->getValue());
+        $I->assertEquals($expire, $cookie->getExpiration());
+        $I->assertEquals($path, $cookie->getPath());
+        $I->assertEquals($secure, $cookie->getSecure());
+        $I->assertEquals($domain, $cookie->getDomain());
+        $I->assertEquals($httpOnly, $cookie->getHttpOnly());
 
-        $value = 'framework';
-        $cookie->setValue($value);
+        $cookie->restore();
+
+        $I->assertEquals($name, $cookie->getName());
         $I->assertEquals($value, $cookie->getValue());
+        $I->assertEquals($expire, $cookie->getExpiration());
+        $I->assertEquals($path, $cookie->getPath());
+        $I->assertEquals($secure, $cookie->getSecure());
+        $I->assertEquals($domain, $cookie->getDomain());
+        $I->assertEquals($httpOnly, $cookie->getHttpOnly());
     }
 }

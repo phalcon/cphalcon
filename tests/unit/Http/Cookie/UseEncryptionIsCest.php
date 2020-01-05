@@ -17,19 +17,19 @@ use Phalcon\Http\Cookie;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
-class GetSetValueCest
+class UseEncryptionIsCest
 {
     use DiTrait;
 
     /**
-     * Tests Phalcon\Http\Cookie :: getValue()
+     * Tests Phalcon\Http\Cookie :: useEncryption()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function httpCookieGetValue(UnitTester $I)
+    public function httpCookieUseEncryption(UnitTester $I)
     {
-        $I->wantToTest('Http\Cookie - getValue()');
+        $I->wantToTest('Http\Cookie - useEncryption()');
 
         $this->setNewFactoryDefault();
         $this->setDiSessionFiles();
@@ -55,10 +55,9 @@ class GetSetValueCest
         );
         $cookie->setDI($this->container);
 
-        $I->assertEquals($value, $cookie->getValue());
+        $I->assertFalse($cookie->isUsingEncryption());
 
-        $value = 'framework';
-        $cookie->setValue($value);
-        $I->assertEquals($value, $cookie->getValue());
+        $cookie->useEncryption(true);
+        $I->assertTrue($cookie->isUsingEncryption());
     }
 }

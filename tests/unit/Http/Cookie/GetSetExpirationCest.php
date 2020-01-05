@@ -14,34 +14,51 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Http\Cookie;
 
 use Phalcon\Http\Cookie;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
 class GetSetExpirationCest
 {
+    use DiTrait;
+
     /**
-     * Tests Phalcon\Http\Cookie :: getExpiration() / setExpiration()
+     * Tests Phalcon\Http\Cookie :: getExpiration()/setExpiration()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-12-23
+     * @since  2018-11-13
      */
-    public function httpCookieGetExpiration(UnitTester $I)
+    public function httpCookieGetSetExpiration(UnitTester $I)
     {
-        $I->wantToTest('Http\Cookie - getExpiration() / setExpiration()');
+        $I->wantToTest('Http\Cookie - getExpiration()/setExpiration()');
 
-        $exptime = time() + 3600;
+        $this->setNewFactoryDefault();
+        $this->setDiSessionFiles();
+
+        $name     = 'test';
+        $value    = "phalcon";
+        $expire   = time() - 100;
+        $path     = "/";
+        $secure   = true;
+        $domain   = "phalcon.ld";
+        $httpOnly = true;
+        $options  = ["samesite" => "Lax"];
 
         $cookie = new Cookie(
-            'test-cookie',
-            'test',
-            $exptime
+            $name,
+            $value,
+            $expire,
+            $path,
+            $secure,
+            $domain,
+            $httpOnly,
+            $options
         );
+        $cookie->setDI($this->container);
 
-        $I->assertEquals($exptime, $cookie->getExpiration());
+        $I->assertEquals($expire, $cookie->getExpiration());
 
-        $exptime1 = time() + 7200;
-
-        $cookie->setExpiration($exptime1);
-
-        $I->assertEquals($exptime1, $cookie->getExpiration());
+        $expire = time() - 200;
+        $cookie->setExpiration($expire);
+        $I->assertEquals($expire, $cookie->getExpiration());
     }
 }

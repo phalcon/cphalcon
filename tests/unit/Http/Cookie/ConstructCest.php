@@ -13,10 +13,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Cookie;
 
+use Phalcon\Http\Cookie;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
 class ConstructCest
 {
+    use DiTrait;
+
     /**
      * Tests Phalcon\Http\Cookie :: __construct()
      *
@@ -27,6 +31,11 @@ class ConstructCest
     {
         $I->wantToTest('Http\Cookie - __construct()');
 
-        $I->skipTest('Need implementation');
+        $this->setNewFactoryDefault();
+        $this->setDiSessionFiles();
+
+        $cookie = new Cookie('test');
+        $I->assertInstanceOf(Cookie\CookieInterface::class, $cookie);
+        $I->assertInstanceOf(Cookie::class, $cookie);
     }
 }

@@ -14,33 +14,51 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Http\Cookie;
 
 use Phalcon\Http\Cookie;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
 class GetSetDomainCest
 {
+    use DiTrait;
+
     /**
-     * Tests Phalcon\Http\Cookie :: getDomain() / setDomain()
+     * Tests Phalcon\Http\Cookie :: getDomain()/setDomain()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function httpCookieGetDomain(UnitTester $I)
+    public function httpCookieGetSetDomain(UnitTester $I)
     {
-        $I->wantToTest('Http\Cookie - getDomain() / setDomain()');
+        $I->wantToTest('Http\Cookie - getDomain()/setDomain()');
+
+        $this->setNewFactoryDefault();
+        $this->setDiSessionFiles();
+
+        $name     = 'test';
+        $value    = "phalcon";
+        $expire   = time() - 100;
+        $path     = "/";
+        $secure   = true;
+        $domain   = "phalcon.ld";
+        $httpOnly = true;
+        $options  = ["samesite" => "Lax"];
 
         $cookie = new Cookie(
-            'test-cookie',
-            'test',
-            time() + 3600,
-            '/',
-            null,
-            'phalcon.ltd'
+            $name,
+            $value,
+            $expire,
+            $path,
+            $secure,
+            $domain,
+            $httpOnly,
+            $options
         );
+        $cookie->setDI($this->container);
 
-        $I->assertEquals('phalcon.ltd', $cookie->getDomain());
+        $I->assertEquals($domain, $cookie->getDomain());
 
-        $cookie->setDomain('phalcon.io');
-
-        $I->assertEquals('phalcon.io', $cookie->getDomain());
+        $domain = 'phalcon.io';
+        $cookie->setDomain($domain);
+        $I->assertEquals($domain, $cookie->getDomain());
     }
 }

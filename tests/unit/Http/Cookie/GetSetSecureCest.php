@@ -17,19 +17,19 @@ use Phalcon\Http\Cookie;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
-class GetSetValueCest
+class GetSetSecureCest
 {
     use DiTrait;
 
     /**
-     * Tests Phalcon\Http\Cookie :: getValue()
+     * Tests Phalcon\Http\Cookie :: getSecure()/setSecure()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function httpCookieGetValue(UnitTester $I)
+    public function httpCookieGetSetSecure(UnitTester $I)
     {
-        $I->wantToTest('Http\Cookie - getValue()');
+        $I->wantToTest('Http\Cookie - getSecure()/setSecure()');
 
         $this->setNewFactoryDefault();
         $this->setDiSessionFiles();
@@ -55,10 +55,10 @@ class GetSetValueCest
         );
         $cookie->setDI($this->container);
 
-        $I->assertEquals($value, $cookie->getValue());
+        $I->assertEquals($secure, $cookie->getSecure());
 
-        $value = 'framework';
-        $cookie->setValue($value);
-        $I->assertEquals($value, $cookie->getValue());
+        $secure = false;
+        $cookie->setSecure($secure);
+        $I->assertEquals($secure, $cookie->getSecure());
     }
 }

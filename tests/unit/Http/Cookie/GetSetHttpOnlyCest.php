@@ -14,33 +14,51 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Http\Cookie;
 
 use Phalcon\Http\Cookie;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
 class GetSetHttpOnlyCest
 {
+    use DiTrait;
+
     /**
-     * Tests Phalcon\Http\Cookie :: getHttpOnly() / setHttpOnly()
+     * Tests Phalcon\Http\Cookie :: getHttpOnly()/setHttpOnly()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function httpCookieGetHttpOnly(UnitTester $I)
+    public function httpCookieGetSetHttpOnly(UnitTester $I)
     {
-        $I->wantToTest('Http\Cookie - getHttpOnly() / setHttpOnly()');
+        $I->wantToTest('Http\Cookie - getHttpOnly()/setHttpOnly()');
+
+        $this->setNewFactoryDefault();
+        $this->setDiSessionFiles();
+
+        $name     = 'test';
+        $value    = "phalcon";
+        $expire   = time() - 100;
+        $path     = "/";
+        $secure   = true;
+        $domain   = "phalcon.ld";
+        $httpOnly = true;
+        $options  = ["samesite" => "Lax"];
 
         $cookie = new Cookie(
-            'test-cookie',
-            'test',
-            time() + 3600,
-            '/',
-            null,
-            'phalcon.ltd'
+            $name,
+            $value,
+            $expire,
+            $path,
+            $secure,
+            $domain,
+            $httpOnly,
+            $options
         );
+        $cookie->setDI($this->container);
 
-        $I->assertFalse($cookie->getHttpOnly());
+        $I->assertEquals($httpOnly, $cookie->getHttpOnly());
 
-        $cookie->setHttpOnly(true);
-
-        $I->assertTrue($cookie->getHttpOnly());
+        $httpOnly = false;
+        $cookie->setHttpOnly($httpOnly);
+        $I->assertEquals($httpOnly, $cookie->getHttpOnly());
     }
 }
