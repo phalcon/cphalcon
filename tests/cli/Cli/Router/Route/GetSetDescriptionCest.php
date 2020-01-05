@@ -16,16 +16,16 @@ namespace Phalcon\Test\Cli\Cli\Router\Route;
 use CliTester;
 use Phalcon\Cli\Router;
 
-class SetDescriptionCest
+class GetSetDescriptionCest
 {
     /**
-     * Tests Phalcon\Cli\Router\Route :: setDescription()
+     * Tests Phalcon\Cli\Router\Route :: getDescription()/setDescription()
      *
-     * @since 2019-04-02
+     * @since 2020-01-05
      */
-    public function cliRouterRouteSetDescription(CliTester $I)
+    public function cliRouterRouteGetSetDescription(CliTester $I)
     {
-        $I->wantToTest('Phalcon\Cli\Router\Route - setDescription()');
+        $I->wantToTest('Phalcon\Cli\Router\Route - getDescription()/setDescription()');
 
         $routes = $this->getExampleRoutes();
 
@@ -43,6 +43,9 @@ class SetDescriptionCest
         }
     }
 
+    /**
+     * @return array
+     */
     private function getExampleRoutes(): array
     {
         return [

@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Cli\Router\Route;
 
 use CliTester;
+use Phalcon\Cli\Router\Route;
 
 class ExtractNamedParamsCest
 {
@@ -26,6 +27,22 @@ class ExtractNamedParamsCest
     public function cliRouterRouteExtractNamedParams(CliTester $I)
     {
         $I->wantToTest('Cli\Router\Route - extractNamedParams()');
-        $I->skipTest('Need implementation');
+
+        Route::reset();
+        Route::delimiter('/');
+        $route = new Route('test');
+
+        $pattern  = '{task:[a-z\-]+} {action:[a-z\-]+} this-is-a-country';
+        $expected = [
+            '([a-z\-]+) ([a-z\-]+) this-is-a-country',
+            [
+                'task'   => 1,
+                'action' => 2,
+            ],
+        ];
+        $I->assertEquals(
+            $expected,
+            $route->extractNamedParams($pattern)
+        );
     }
 }

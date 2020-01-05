@@ -14,19 +14,72 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Cli\Router\Route;
 
 use CliTester;
+use Codeception\Example;
+use Phalcon\Cli\Router\Route;
 
 class CompilePatternCest
 {
     /**
      * Tests Phalcon\Cli\Router\Route :: compilePattern()
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2020-01-05
+     * @dataProvider getExamples
      */
-    public function cliRouterRouteCompilePattern(CliTester $I)
+    public function cliRouterRouteCompilePattern(CliTester $I, Example $example)
     {
-        $I->wantToTest('Cli\Router\Route - compilePattern()');
+        $I->wantToTest('Cli\Router\Route - compilePattern() ' . $example[0]);
 
-        $I->skipTest('Need implementation');
+        Route::reset();
+        Route::delimiter('/');
+        $route = new Route('test');
+        $I->assertEquals(
+            $example[2],
+            $route->compilePattern($example[1])
+        );
+    }
+
+    /**
+     * @return array
+     */
+    private function getExamples(): array
+    {
+        return [
+            [
+                'module',
+                '/:module',
+                '#^/([a-zA-Z0-9\_\-]+)$#',
+            ],
+            [
+                'task',
+                '/:task',
+                '#^/([a-zA-Z0-9\_\-]+)$#',
+            ],
+            [
+                'namespace',
+                '/:namespace',
+                '#^/([a-zA-Z0-9\_\-]+)$#',
+            ],
+            [
+                'action',
+                '/:action',
+                '#^/([a-zA-Z0-9\_\-]+)$#',
+            ],
+            [
+                'params',
+                '/:params',
+                '#^(/.*)*$#',
+            ],
+            [
+                'delimiter',
+                ':delimiter',
+                '/',
+            ],
+            [
+                'all',
+                '/:module/:namespace/:task/:action/:params/:delimiter',
+                '#^/([a-zA-Z0-9\_\-]+)/([a-zA-Z0-9\_\-]+)/([a-zA-Z0-9\_\-]+)/([a-zA-Z0-9\_\-]+)(/.*)*//$#',
+            ],
+        ];
     }
 }
