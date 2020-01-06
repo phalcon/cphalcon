@@ -24,7 +24,7 @@ use UnitTester;
 class QueryCest
 {
     use TranslateGettextTrait;
-    
+
     /**
      * Tests Phalcon\Translate\Adapter\Gettext :: query()
      *
@@ -45,6 +45,8 @@ class QueryCest
 
         $I->assertEquals('Hello Jeremy', $translator->query('hello-key', ['name' => 'Jeremy']));
 
-        $I->assertEquals('The song is Phalcon rocks (Phalcon team)', $translator->query('song-key', ['song' => 'Phalcon rocks', 'artist' => 'Phalcon team']));
+        $sTranslateResult = $translator->query('song-key', ['song' => 'Phalcon rocks', 'artist' => 'Phalcon team']);
+
+        $I->assertEquals('The song is Phalcon rocks (Phalcon team)', $sTranslateResult);
     }
 }
