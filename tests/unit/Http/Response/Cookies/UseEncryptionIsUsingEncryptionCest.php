@@ -19,7 +19,7 @@ use Phalcon\Test\Fixtures\Traits\CookieTrait;
 use Phalcon\Test\Unit\Http\Helper\HttpBase;
 use UnitTester;
 
-class GetCookiesCest extends HttpBase
+class IsUsingEncryptionCest extends HttpBase
 {
     use CookieTrait;
 
@@ -33,30 +33,28 @@ class GetCookiesCest extends HttpBase
     }
 
     /**
-     * Tests Phalcon\Http\Response\Cookies :: getCookies()
+     * Tests Phalcon\Http\Response\Cookies :: useEncryption / isUsingEncryption()
      *
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2020-01-06
      */
-    public function httpResponseCookiesGetCookies(UnitTester $I)
+    public function httpResponseCookiesUseEncryptionIsUsingEncryption(UnitTester $I)
     {
-        $I->wantToTest('Http\Response\Cookies - getCookies()');
+        $I->wantToTest('Http\Response\Cookies - useEncryption / isUsingEncryption()');
+
         $sName = 'framework';
         $sValue = 'phalcon';
 
         $this->setDiCrypt();
         $container = $this->getDi();
 
-        $oCookie = new Cookies();
+        $oCookie = new Cookies(false);
         $oCookie->setDI($container);
-        $oCookie->set($sName, $sValue);
-        
-        $aCookies = $oCookie->getCookies();
 
-        $I->assertTrue(array_key_exists($sName, $aCookies));
-        
-        $I->assertEquals($sValue,$aCookies[$sName]);
+        $I->assertFalse($oCookie->isUsingEncryption());
 
-        $I->assertEquals(1, count($aCookies));
+        $oCookie->useEncryption(true);
+        
+        $I->assertTrue($oCookie->isUsingEncryption());
     }
 }
