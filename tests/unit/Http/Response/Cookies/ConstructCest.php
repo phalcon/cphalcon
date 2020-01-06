@@ -15,7 +15,6 @@ namespace Phalcon\Test\Unit\Http\Response\Cookies;
 
 use Phalcon\Http\Response\Cookies;
 use Phalcon\Http\Response\CookiesInterface;
-
 use UnitTester;
 
 class ConstructCest

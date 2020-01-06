@@ -55,7 +55,7 @@ class ResetCest extends HttpBase
 
         $I->assertTrue(array_key_exists($sName, $aCookies));
         
-        $I->assertEquals($sValue,$aCookies[$sName]);
+        $I->assertEquals($sValue, $aCookies[$sName]);
 
         $I->assertEquals(1, count($aCookies));
 
