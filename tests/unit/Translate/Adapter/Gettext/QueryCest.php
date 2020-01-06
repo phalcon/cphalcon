@@ -24,6 +24,7 @@ use UnitTester;
 class QueryCest
 {
     use TranslateGettextTrait;
+    
     /**
      * Tests Phalcon\Translate\Adapter\Gettext :: query()
      *

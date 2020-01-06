@@ -24,6 +24,7 @@ use UnitTester;
 class NqueryCest
 {
     use TranslateGettextTrait;
+    
     /**
      * Tests Phalcon\Translate\Adapter\Gettext :: nquery()
      *
