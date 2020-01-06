@@ -45,7 +45,9 @@ class QueryCest
 
         $I->assertEquals('Hello Jeremy', $translator->query('hello-key', ['name' => 'Jeremy']));
 
-        $sTranslateResult = $translator->query('song-key', ['song' => 'Phalcon rocks', 'artist' => 'Phalcon team']);
+        $aParamQuery = ['song' => 'Phalcon rocks', 'artist' => 'Phalcon team'];
+
+        $sTranslateResult = $translator->query('song-key', $aParamQuery);
 
         $I->assertEquals('The song is Phalcon rocks (Phalcon team)', $sTranslateResult);
     }
