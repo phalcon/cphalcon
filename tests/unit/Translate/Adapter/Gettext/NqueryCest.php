@@ -13,10 +13,17 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Translate\Adapter\Gettext;
 
+use ArrayAccess;
+use Phalcon\Test\Fixtures\Traits\TranslateGettextTrait;
+use Phalcon\Translate\Adapter\AdapterInterface;
+use Phalcon\Translate\Adapter\Gettext;
+use Phalcon\Translate\Exception;
+use Phalcon\Translate\InterpolatorFactory;
 use UnitTester;
 
 class NqueryCest
 {
+    use TranslateGettextTrait;
     /**
      * Tests Phalcon\Translate\Adapter\Gettext :: nquery()
      *
@@ -27,6 +34,12 @@ class NqueryCest
     {
         $I->wantToTest('Translate\Adapter\Gettext - nquery()');
 
-        $I->skipTest('Need implementation');
+        $params     = $this->getGettextConfig();
+        $translator = new Gettext(
+            new InterpolatorFactory(),
+            $params
+        );
+
+        $I->assertEquals('two files', $translator->nquery('file', 'files', 2));
     }
 }
