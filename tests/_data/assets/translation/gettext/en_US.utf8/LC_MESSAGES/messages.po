@@ -24,3 +24,8 @@ msgstr "Hello %name%"
 
 msgid "song-key"
 msgstr "The song is %song% (%artist%)"
+
+msgid "file"
+msgid_plural "files"
+msgstr[0] "one file"
+msgstr[1] "two files"

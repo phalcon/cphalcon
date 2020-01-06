@@ -13,20 +13,38 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Translate\Adapter\Gettext;
 
+use ArrayAccess;
+use Phalcon\Test\Fixtures\Traits\TranslateGettextTrait;
+use Phalcon\Translate\Adapter\AdapterInterface;
+use Phalcon\Translate\Adapter\Gettext;
+use Phalcon\Translate\Exception;
+use Phalcon\Translate\InterpolatorFactory;
 use UnitTester;
 
 class UnderscoreCest
 {
+    use TranslateGettextTrait;
+
     /**
      * Tests Phalcon\Translate\Adapter\Gettext :: _()
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
+     * @since  2020-01-06
      */
     public function translateAdapterGettextUnderscore(UnitTester $I)
     {
         $I->wantToTest("Translate\Adapter\Gettext - _()");
 
-        $I->skipTest('Need implementation');
+        $params     = $this->getGettextConfig();
+        $translator = new Gettext(
+            new InterpolatorFactory(),
+            $params
+        );
+
+        $I->assertEquals('Hello', $translator->_('hi'));
+
+        $I->assertEquals('Hello Jeremy', $translator->_('hello-key', ['name' => 'Jeremy']));
+
+        $I->assertEquals('The song is Phalcon rocks (Phalcon team)', $translator->_('song-key', ['song' => 'Phalcon rocks', 'artist' => 'Phalcon team']));
     }
 }
