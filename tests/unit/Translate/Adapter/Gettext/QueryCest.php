@@ -13,10 +13,18 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Translate\Adapter\Gettext;
 
+use ArrayAccess;
+use Phalcon\Test\Fixtures\Traits\TranslateGettextTrait;
+use Phalcon\Translate\Adapter\AdapterInterface;
+use Phalcon\Translate\Adapter\Gettext;
+use Phalcon\Translate\Exception;
+use Phalcon\Translate\InterpolatorFactory;
 use UnitTester;
 
 class QueryCest
 {
+    use TranslateGettextTrait;
+
     /**
      * Tests Phalcon\Translate\Adapter\Gettext :: query()
      *
@@ -27,6 +35,20 @@ class QueryCest
     {
         $I->wantToTest('Translate\Adapter\Gettext - query()');
 
-        $I->skipTest('Need implementation');
+        $params     = $this->getGettextConfig();
+        $translator = new Gettext(
+            new InterpolatorFactory(),
+            $params
+        );
+
+        $I->assertEquals('Hello', $translator->query('hi'));
+
+        $I->assertEquals('Hello Jeremy', $translator->query('hello-key', ['name' => 'Jeremy']));
+
+        $aParamQuery = ['song' => 'Phalcon rocks', 'artist' => 'Phalcon team'];
+
+        $sTranslateResult = $translator->query('song-key', $aParamQuery);
+
+        $I->assertEquals('The song is Phalcon rocks (Phalcon team)', $sTranslateResult);
     }
 }
