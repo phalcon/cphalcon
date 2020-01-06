@@ -32,15 +32,25 @@ class SetCest extends HttpBase
     }
 
     /**
-     * Tests Phalcon\Http\Response\Cookies :: set()
+     * Tests Phalcon\Http\Response\Cookies :: get / set()
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
+     * @since  2020-01-06
      */
-    public function httpResponseCookiesSet(UnitTester $I)
+    public function httpResponseCookiesGetSet(UnitTester $I)
     {
-        $I->wantToTest('Http\Response\Cookies - set()');
-        $I->skipTest('Need implementation');
+        $I->wantToTest('Http\Response\Cookies - get / set()');
+        $sName = 'framework';
+        $sValue = 'phalcon';
+
+        $this->setDiCrypt();
+        $container = $this->getDi();
+
+        $oCookie = new Cookies();
+        $oCookie->setDI($container);
+        $oCookie->set($sName, $sValue);
+
+        $I->assertEquals($sValue, $oCookie->get($sName));
     }
 
     /**
