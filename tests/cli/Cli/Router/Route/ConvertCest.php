@@ -40,20 +40,19 @@ class ConvertCest
 
         $router = new Router();
 
-        $router
-            ->add('{task:[a-z\-]+} {action:[a-z\-]+} this-is-a-country')
-            ->convert(
-                'task',
-                function ($task) {
-                    return str_replace('-', '', $task);
-                }
-            )
-            ->convert(
-                'action',
-                function ($action) {
-                    return str_replace('-', '', $action);
-                }
-            )
+        $route1 = $router
+            ->add('{task:[a-z\-]+} {action:[a-z\-]+} this-is-a-country');
+
+        $taskConverter   = function ($task) {
+            return str_replace('-', '', $task);
+        };
+        $actionConverter = function ($action) {
+            return str_replace('-', '', $action);
+        };
+
+        $route1
+            ->convert('task', $taskConverter)
+            ->convert('action', $actionConverter)
         ;
 
         $router
@@ -103,6 +102,15 @@ class ConvertCest
         $I->assertEquals(
             $paths['action'],
             $router->getActionName()
+        );
+
+        $expected = [
+            'task'   => $taskConverter,
+            'action' => $actionConverter,
+        ];
+        $I->assertEquals(
+            $expected,
+            $route1->getConverters()
         );
     }
 

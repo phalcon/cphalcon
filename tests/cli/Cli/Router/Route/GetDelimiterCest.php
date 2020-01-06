@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Cli\Router\Route;
 
 use CliTester;
+use Phalcon\Cli\Router\Route;
 
 class GetDelimiterCest
 {
@@ -21,11 +22,31 @@ class GetDelimiterCest
      * Tests Phalcon\Cli\Router\Route :: getDelimiter()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-01-05
      */
     public function cliRouterRouteGetDelimiter(CliTester $I)
     {
         $I->wantToTest('Cli\Router\Route - getDelimiter()');
-        $I->skipTest('Need implementation');
+
+        $store = Route::getDelimiter();
+
+        Route::delimiter(Route::DEFAULT_DELIMITER);
+        $route = new Route("test");
+
+        //Default delimiter
+        $I->assertEquals(" ", Route::DEFAULT_DELIMITER);
+        $I->assertEquals(" ", $route->getDelimiter());
+
+        $route = new Route("test");
+        $route::delimiter("-");
+        $I->assertEquals(" ", Route::DEFAULT_DELIMITER);
+        $I->assertEquals("-", $route->getDelimiter());
+
+        $route = new Route("test");
+        $route::delimiter("-");
+        $I->assertEquals(" ", Route::DEFAULT_DELIMITER);
+        $I->assertEquals("-", $route->getDelimiter());
+
+        Route::delimiter($store);
     }
 }

@@ -128,7 +128,8 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
      */
     public function delete()
     {
-        var container, domain, httpOnly, name, path, secure, session;
+        var container, domain, httpOnly, name, options, path, secure,
+            session, version;
 
         let name     = this->name,
             domain   = this->domain,
@@ -148,15 +149,30 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
 
         let this->value = null;
 
-        setcookie(
-            name,
-            null,
-            time() - 691200,
-            path,
-            domain,
-            secure,
-            httpOnly
-        );
+        /**
+         * @todo Remove this check when we target min PHP 7.3
+         */
+        let version = phpversion();
+        if starts_with(version, "7.2") {
+            setcookie(
+                name,
+                null,
+                time() - 691200,
+                path,
+                domain,
+                secure,
+                httpOnly
+            );
+        } else {
+            let options = this->options,
+                options["expires"]  = Arr::get(options, "expires", time() - 691200),
+                options["domain"]   = Arr::get(options, "domain", domain),
+                options["path"]     = Arr::get(options, "path", path),
+                options["secure"]   = Arr::get(options, "secure", secure),
+                options["httponly"] = Arr::get(options, "httponly", httpOnly);
+
+            setcookie(name, null, options);
+        }
     }
 
     /**
@@ -351,8 +367,8 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
      */
     public function restore() -> <CookieInterface>
     {
-        var container, expire, domain, path, secure, httpOnly, session,
-            definition;
+        var container, definition, domain, expire, httpOnly, options, path,
+            secure, session;
 
         if !this->restored {
             let container = this->container;
@@ -384,6 +400,10 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
                     if fetch httpOnly, definition["httpOnly"] {
                         let this->httpOnly = httpOnly;
                     }
+
+                    if fetch options, definition["options"] {
+                        let this->options = options;
+                    }
                 }
             }
 
@@ -400,8 +420,8 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
      */
     public function send() -> <CookieInterface>
     {
-        var container, crypt, definition, encryptValue, expire, domain,
-            httpOnly, name, path, secure, session, signKey, value;
+        var container, crypt, definition, encryptValue, expire, domain, httpOnly,
+            name, options, path, secure, session, signKey, value, version;
 
         let name     = this->name,
             value    = this->value,
@@ -409,7 +429,8 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
             domain   = this->domain,
             path     = this->path,
             secure   = this->secure,
-            httpOnly = this->httpOnly;
+            httpOnly = this->httpOnly,
+            options  = this->options;
 
         let container = this->container;
 
@@ -439,6 +460,10 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
 
         if !empty httpOnly {
             let definition["httpOnly"] = httpOnly;
+        }
+
+        if !empty httpOnly {
+            let definition["options"] = options;
         }
 
         /**
@@ -495,7 +520,23 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
         /**
          * Sets the cookie using the standard 'setcookie' function
          */
-        setcookie(name, encryptValue, expire, path, domain, secure, httpOnly);
+        /**
+         * @todo Remove this check when we target min PHP 7.3
+         */
+        let version = phpversion();
+        if starts_with(version, "7.2") {
+            setcookie(name, encryptValue, expire, path, domain, secure, httpOnly);
+        } else {
+            let options["expires"]  = Arr::get(options, "expires", expire),
+                options["domain"]   = Arr::get(options, "domain", domain),
+                options["path"]     = Arr::get(options, "path", path),
+                options["secure"]   = Arr::get(options, "secure", secure),
+                options["httponly"] = Arr::get(options, "httponly", httpOnly);
+
+            setcookie(name, encryptValue, options);
+        }
+
+
 
         return this;
     }

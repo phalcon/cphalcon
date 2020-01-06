@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Cli\Router\Route;
 
 use CliTester;
+use Phalcon\Cli\Router\Route;
 
 class ResetCest
 {
@@ -26,6 +27,19 @@ class ResetCest
     public function cliRouterRouteReset(CliTester $I)
     {
         $I->wantToTest('Cli\Router\Route - reset()');
-        $I->skipTest('Need implementation');
+
+        Route::reset();
+        Route::delimiter('/');
+        $route = new Route('test');
+        $I->assertEquals(0, $route->getRouteId());
+
+        $route = new Route('test');
+        $route = new Route('test');
+        $route = new Route('test');
+        $I->assertEquals(3, $route->getRouteId());
+
+        Route::reset();
+        $route = new Route('test');
+        $I->assertEquals(0, $route->getRouteId());
     }
 }

@@ -17,26 +17,26 @@ use CliTester;
 use Phalcon\Cli\Dispatcher;
 
 /**
- * Class GetActionSuffixCest
+ * Class GetActionNameCest
  */
-class GetActionSuffixCest
+class GetSetActionNameCest
 {
     /**
-     * Tests Phalcon\Cli\Dispatcher :: getActionSuffix()
+     * Tests Phalcon\Cli\Dispatcher :: getActionName()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function cliDispatcherGetActionSuffix(CliTester $I)
+    public function cliDispatcherGetActionName(CliTester $I)
     {
-        $I->wantToTest('Cli\Dispatcher - getActionSuffix()');
+        $I->wantToTest('Cli\Dispatcher - getActionName()');
 
         $dispatcher = new Dispatcher();
-        $dispatcher->setActionSuffix('Task');
+        $dispatcher->setActionName('hello');
 
         $I->assertEquals(
-            'Task',
-            $dispatcher->getActionSuffix()
+            'hello',
+            $dispatcher->getActionName()
         );
     }
 }

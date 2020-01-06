@@ -17,19 +17,19 @@ use Phalcon\Http\Cookie;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
-class ToStringCest
+class GetSetDomainCest
 {
     use DiTrait;
 
     /**
-     * Tests Phalcon\Http\Cookie :: __toString()
+     * Tests Phalcon\Http\Cookie :: getDomain()/setDomain()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function httpCookieToString(UnitTester $I)
+    public function httpCookieGetSetDomain(UnitTester $I)
     {
-        $I->wantToTest('Http\Cookie - __toString()');
+        $I->wantToTest('Http\Cookie - getDomain()/setDomain()');
 
         $this->setNewFactoryDefault();
         $this->setDiSessionFiles();
@@ -55,6 +55,10 @@ class ToStringCest
         );
         $cookie->setDI($this->container);
 
-        $I->assertEquals('phalcon', (string) $cookie);
+        $I->assertEquals($domain, $cookie->getDomain());
+
+        $domain = 'phalcon.io';
+        $cookie->setDomain($domain);
+        $I->assertEquals($domain, $cookie->getDomain());
     }
 }

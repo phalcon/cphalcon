@@ -14,11 +14,12 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Cli\Dispatcher;
 
 use CliTester;
+use Phalcon\Cli\Dispatcher;
 
 /**
  * Class GetTaskSuffixCest
  */
-class GetTaskSuffixCest
+class GetSetTaskSuffixCest
 {
     /**
      * Tests Phalcon\Cli\Dispatcher :: getTaskSuffix()
@@ -29,6 +30,12 @@ class GetTaskSuffixCest
     public function cliDispatcherGetTaskSuffix(CliTester $I)
     {
         $I->wantToTest('Cli\Dispatcher - getTaskSuffix()');
-        $I->skipTest('Need implementation');
+
+        $dispatcher = new Dispatcher();
+        $I->assertEquals("Task", $dispatcher->getTaskSuffix());
+
+        $value = "Phalcon";
+        $dispatcher->setTaskSuffix($value);
+        $I->assertEquals($value, $dispatcher->getTaskSuffix());
     }
 }

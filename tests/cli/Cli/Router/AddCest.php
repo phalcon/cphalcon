@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Cli\Router;
 
 use CliTester;
+use Phalcon\Cli\Router;
 
 class AddCest
 {
@@ -27,6 +28,18 @@ class AddCest
     {
         $I->wantToTest('Cli\Router - add()');
 
-        $I->skipTest('Need implementation');
+        $router = new Router(false);
+        $I->assertEquals([], $router->getRoutes());
+
+        $router->add(
+            'route',
+            [
+                'module' => 'devtools',
+                'task'   => 'main',
+                'action' => 'hello',
+            ]
+        );
+        $router->handle('route');
+        $I->assertInstanceOf('Phalcon\Cli\Router\Route', $router->getRoutes()[0]);
     }
 }

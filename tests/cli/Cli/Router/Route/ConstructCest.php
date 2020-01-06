@@ -14,6 +14,8 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Cli\Router\Route;
 
 use CliTester;
+use Phalcon\Cli\Router\Route;
+use Phalcon\Cli\Router\RouteInterface;
 
 class ConstructCest
 {
@@ -21,12 +23,14 @@ class ConstructCest
      * Tests Phalcon\Cli\Router\Route :: __construct()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-01-05
      */
     public function cliRouterRouteConstruct(CliTester $I)
     {
         $I->wantToTest('Cli\Router\Route - __construct()');
 
-        $I->skipTest('Need implementation');
+        $route = new Route('test');
+        $I->assertInstanceOf(RouteInterface::class, $route);
+        $I->assertInstanceOf(Route::class, $route);
     }
 }

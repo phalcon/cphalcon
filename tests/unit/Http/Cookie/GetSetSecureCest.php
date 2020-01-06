@@ -17,19 +17,19 @@ use Phalcon\Http\Cookie;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
-class ToStringCest
+class GetSetSecureCest
 {
     use DiTrait;
 
     /**
-     * Tests Phalcon\Http\Cookie :: __toString()
+     * Tests Phalcon\Http\Cookie :: getSecure()/setSecure()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function httpCookieToString(UnitTester $I)
+    public function httpCookieGetSetSecure(UnitTester $I)
     {
-        $I->wantToTest('Http\Cookie - __toString()');
+        $I->wantToTest('Http\Cookie - getSecure()/setSecure()');
 
         $this->setNewFactoryDefault();
         $this->setDiSessionFiles();
@@ -55,6 +55,10 @@ class ToStringCest
         );
         $cookie->setDI($this->container);
 
-        $I->assertEquals('phalcon', (string) $cookie);
+        $I->assertEquals($secure, $cookie->getSecure());
+
+        $secure = false;
+        $cookie->setSecure($secure);
+        $I->assertEquals($secure, $cookie->getSecure());
     }
 }
