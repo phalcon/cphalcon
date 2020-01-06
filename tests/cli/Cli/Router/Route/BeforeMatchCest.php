@@ -35,16 +35,14 @@ class BeforeMatchCest
 
         $router = new Router(false);
 
-        $router
-            ->add('static route')
-            ->beforeMatch(
-                function () use (&$trace) {
-                    $trace++;
+        $callback = function () use (&$trace) {
+            $trace++;
 
-                    return false;
-                }
-            )
-        ;
+            return false;
+        };
+
+        $route1 = $router->add('static route');
+        $route1->beforeMatch($callback);
 
         $router
             ->add('static route2')
@@ -79,5 +77,7 @@ class BeforeMatchCest
         );
 
         $I->assertEquals(2, $trace);
+
+        $I->assertEquals($callback, $route1->getBeforeMatch());
     }
 }
