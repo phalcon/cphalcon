@@ -45,6 +45,8 @@ class UnderscoreCest
 
         $I->assertEquals('Hello Jeremy', $translator->_('hello-key', ['name' => 'Jeremy']));
 
-        $I->assertEquals('The song is Phalcon rocks (Phalcon team)', $translator->_('song-key', ['song' => 'Phalcon rocks', 'artist' => 'Phalcon team']));
+        $sResultTranslate = $translator->_('song-key', ['song' => 'Phalcon rocks', 'artist' => 'Phalcon team']);
+
+        $I->assertEquals('The song is Phalcon rocks (Phalcon team)', $sResultTranslate);
     }
 }
