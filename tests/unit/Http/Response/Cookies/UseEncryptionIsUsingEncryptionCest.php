@@ -16,10 +16,9 @@ namespace Phalcon\Test\Unit\Http\Response\Cookies;
 use Phalcon\Http\Response\Cookies;
 use Phalcon\Test\Fixtures\Traits\CookieTrait;
 use Phalcon\Test\Unit\Http\Helper\HttpBase;
-use Phalcon\Http\Response\CookiesInterface;
 use UnitTester;
 
-class SetSignKeyCest extends HttpBase
+class IsUsingEncryptionCest extends HttpBase
 {
     use CookieTrait;
 
@@ -33,14 +32,14 @@ class SetSignKeyCest extends HttpBase
     }
 
     /**
-     * Tests Phalcon\Http\Response\Cookies :: setSignKey()
+     * Tests Phalcon\Http\Response\Cookies :: useEncryption / isUsingEncryption()
      *
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2020-01-06
      */
-    public function httpResponseCookiesSetSignKey(UnitTester $I)
+    public function httpResponseCookiesUseEncryptionIsUsingEncryption(UnitTester $I)
     {
-        $I->wantToTest('Http\Response\Cookies - setSignKey()');
+        $I->wantToTest('Http\Response\Cookies - useEncryption / isUsingEncryption()');
 
         $sName = 'framework';
         $sValue = 'phalcon';
@@ -48,14 +47,13 @@ class SetSignKeyCest extends HttpBase
         $this->setDiCrypt();
         $container = $this->getDi();
 
-        $oCookie = new Cookies();
+        $oCookie = new Cookies(false);
         $oCookie->setDI($container);
 
-        $oCookie->setSignKey("#1dj8$=dp?.ak//j1V$~%*0XaK\xb1\x8d\xa9\x98\x054t7w!z%C*F-Jk\x98\x05\\\x5c");
+        $I->assertFalse($oCookie->isUsingEncryption());
 
-        $oCookieSign = new Cookies(true, "#1dj8$=dp?.ak//j1V$~%*0XaK\xb1\x8d\xa9\x98\x054t7w!z%C*F-Jk\x98\x05\\\x5c");
-        $oCookieSign->setDI($container);
-
-        $I->assertEquals($oCookie, $oCookieSign);
+        $oCookie->useEncryption(true);
+        
+        $I->assertTrue($oCookie->isUsingEncryption());
     }
 }
