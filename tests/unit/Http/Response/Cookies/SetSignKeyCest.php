@@ -53,7 +53,7 @@ class SetSignKeyCest extends HttpBase
 
         $oCookie->setSignKey("#1dj8$=dp?.ak//j1V$~%*0XaK\xb1\x8d\xa9\x98\x054t7w!z%C*F-Jk\x98\x05\\\x5c");
 
-        $oCookieSign = new Cookies(true,"#1dj8$=dp?.ak//j1V$~%*0XaK\xb1\x8d\xa9\x98\x054t7w!z%C*F-Jk\x98\x05\\\x5c");
+        $oCookieSign = new Cookies(true, "#1dj8$=dp?.ak//j1V$~%*0XaK\xb1\x8d\xa9\x98\x054t7w!z%C*F-Jk\x98\x05\\\x5c");
         $oCookieSign->setDI($container);
 
         $I->assertEquals($oCookie, $oCookieSign);

@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Http\Response\Cookies;
 
 use Phalcon\Http\Response\Cookies;
-
 use Phalcon\Test\Fixtures\Traits\CookieTrait;
 use Phalcon\Test\Unit\Http\Helper\HttpBase;
 use UnitTester;
