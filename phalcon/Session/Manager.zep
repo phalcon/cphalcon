@@ -359,6 +359,14 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
      */
     private function getUniqueKey(string key) -> string
     {
-        return this->uniqueId . "#" . key;
+        var uniqueId;
+
+        let uniqueId = this->uniqueId;
+
+		if !empty uniqueId {
+			return this->uniqueId . "#" . key;
+		} else {
+			return key;
+		}
     }
 }
