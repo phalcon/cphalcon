@@ -189,7 +189,11 @@ void phalcon_replace_paths(zval *return_value, zval *pattern, zval *paths, zval 
 	unsigned int bracket_count = 0, parentheses_count = 0, intermediate = 0;
 	unsigned char ch;
 	smart_str route_str = {0};
+#if PHP_VERSION_ID < 70000
 	ulong position = 1;
+#else
+	zend_ulong position = 1;
+#endif
 	int i;
 	zval *replace, replace_copy;
 	int use_copy, looking_placeholder = 0;
