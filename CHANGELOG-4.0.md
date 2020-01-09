@@ -13,6 +13,7 @@
 - Fixed `Phalcon\Mvc\Model::__set` to return a more informative message if we are tying to access a non visible property [#13518](https://github.com/phalcon/cphalcon/issues/13518) [#13900](https://github.com/phalcon/cphalcon/issues/13900)
 - Fixed `Phalcon\Mvc\Model\Resultset\Simple::toArray` to correctly process virtual fields [#14669](https://github.com/phalcon/cphalcon/issues/14669)
 - Fixed `Phalcon\Session\Manager::getUniqueKey` to prefix the key only if `uniqueId` is present [#14688](https://github.com/phalcon/cphalcon/issues/14688)
+- Fixed `Phalcon\Db\Adapter\Pdo::describeColumns` to correctly detect ENUM columns [#14691](https://github.com/phalcon/cphalcon/issues/14691)
 
 # [4.0.0](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0) (2019-12-21)
 
