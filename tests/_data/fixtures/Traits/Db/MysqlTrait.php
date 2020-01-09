@@ -266,7 +266,7 @@ trait MysqlTrait
                 'columnName'    => 'field_enum',
                 'type'          => Column::TYPE_ENUM,
                 'isNumeric'     => false,
-                'size'          => "'xs','s','m','l','xl'",
+                'size'          => "'xs','s','m','l','xl', 'internal'",
                 'default'       => null,
                 'unsigned'      => false,
                 'notNull'       => false,
