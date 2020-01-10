@@ -42,8 +42,10 @@ class PackageCloud
 
         if (false === ($retval = curl_exec($ch))) {
             print_r(curl_error($ch));
+            curl_close($ch);
         } else {
             $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            curl_close($ch);
             switch ($httpCode) {
                 case "200":
                     return json_decode($retval);
@@ -89,8 +91,10 @@ class PackageCloud
 
         if (false === ($retval = curl_exec($ch))) {
             print_r(curl_error($ch));
+            curl_close($ch);
         } else {
             $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            curl_close($ch);
             switch ($httpCode) {
                 case "200":
                     echo "done" . PHP_EOL;
