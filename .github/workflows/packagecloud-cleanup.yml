@@ -1,8 +1,6 @@
 name: Cleanup Packagecloud packages
 on:
   push:
-    branches:
-      - master
   schedule:
     - cron: '0 2 * * *' # Daily at 02:00
 jobs:
