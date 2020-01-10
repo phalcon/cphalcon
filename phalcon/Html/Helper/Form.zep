@@ -30,8 +30,8 @@ class Form extends AbstractHelper
         var overrides;
 
         let overrides = [
-            "method"  => "post",
-            "enctype" => "multipart/form-data",
+            "method"  : "post",
+            "enctype" : "multipart/form-data"
         ];
 
         let overrides = this->orderAttributes(overrides, attributes);
