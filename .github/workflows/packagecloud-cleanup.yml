@@ -14,3 +14,5 @@ jobs:
           php-version: '7.4'
       - name: Cleanup Packagecloud
         run: php .ci/cleanup-packages.php
+        env:
+          PACKAGECLOUD_TOKEN: ${{ secrets.PACKAGECLOUD_TOKEN }}
