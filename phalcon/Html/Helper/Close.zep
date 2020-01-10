@@ -10,23 +10,21 @@
 
 namespace Phalcon\Html\Helper;
 
-use Phalcon\Html\Exception;
-
 /**
- * Class Body
+ * Class Close
  */
-class Body extends AbstractHelper
+class Close extends AbstractHelper
 {
     /**
-     * Produce a `<body>` tag.
+     * Produce a `</...>` tag.
      *
-     * @param array $attributes
+     * @param string $tag
+     * @param bool   $raw
      *
      * @return string
-     * @throws Exception
      */
-    public function __invoke(array attributes = []) -> string
+    public function __invoke(string tag, bool raw = false) -> string
     {
-        return this->renderElement("body", attributes);
+        return $this->close(tag, raw);
     }
 }
