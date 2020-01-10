@@ -12,6 +12,7 @@ namespace Phalcon;
 
 use Phalcon\Di\DiInterface;
 use Phalcon\Escaper\EscaperInterface;
+use Phalcon\Helper\Str;
 use Phalcon\Tag\Select;
 use Phalcon\Tag\Exception;
 use Phalcon\Url\UrlInterface;
