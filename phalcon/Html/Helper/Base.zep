@@ -26,7 +26,7 @@ class Base extends AbstractHelper
      * @return string
      * @throws Exception
      */
-    public function __invoke(string href, array attributes = [])
+    public function __invoke(string href, array attributes = []) -> string
     {
         var overrides = [];
 
