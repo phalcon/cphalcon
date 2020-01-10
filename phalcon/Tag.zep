@@ -12,6 +12,7 @@ namespace Phalcon;
 
 use Phalcon\Di\DiInterface;
 use Phalcon\Escaper\EscaperInterface;
+use Phalcon\Helper\Str;
 use Phalcon\Tag\Select;
 use Phalcon\Tag\Exception;
 use Phalcon\Url\UrlInterface;
@@ -267,7 +268,7 @@ class Tag
         var replace = null
     ) -> string
     {
-        var friendly, locale, search;
+        var friendly, locale;
 
         if extension_loaded("iconv") {
             /**
@@ -277,34 +278,7 @@ class Tag
                 text = iconv("UTF-8", "ASCII//TRANSLIT", text);
         }
 
-        if replace {
-            if unlikely (typeof replace != "array" && typeof replace != "string") {
-                throw new Exception(
-                    "Parameter replace must be an array or a string"
-                );
-            }
-
-            if typeof replace == "array" {
-                for search in replace {
-                    let text = str_replace(search, " ", text);
-                }
-            } else {
-                let text = str_replace(replace, " ", text);
-            }
-        }
-
-        let friendly = preg_replace(
-            "/[^a-zA-Z0-9\\/_|+ -]/",
-            "",
-            text
-        );
-
-        if lowercase {
-            let friendly = strtolower(friendly);
-        }
-
-        let friendly = preg_replace("/[\\/_|+ -]+/", separator, friendly),
-            friendly = trim(friendly, separator);
+        let friendly = Str::friendly(text, separator, lowercase, replace);
 
         if extension_loaded("iconv") {
             /**
