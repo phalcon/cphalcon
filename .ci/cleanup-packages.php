@@ -58,7 +58,7 @@ class PackageCloud
     {
         $now = new \DateTime();
 
-        $packages =  $this->query("/api/v1/repos/" . $this->user . "/" . $this->repo . "/packages.json?per_page=1");
+        $packages =  $this->query("/api/v1/repos/" . $this->user . "/" . $this->repo . "/packages.json?per_page=100");
         $outdatedPackages =  [];
         foreach ($packages as $package) {
             $packageDate = \DateTime::createFromFormat("Y-m-d\TH:i:s.u\Z", $package->created_at);
