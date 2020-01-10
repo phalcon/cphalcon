@@ -43,7 +43,14 @@ class PackageCloud
         if (false === ($retval = curl_exec($ch))) {
             print_r(curl_error($ch));
         } else {
-            return json_decode($retval);
+            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+            switch ($httpCode) {
+                case "200":
+                    return json_decode($retval);
+                    break;
+                default:
+                    exit("Unable to connect to api");
+            }
         }
     }
 
