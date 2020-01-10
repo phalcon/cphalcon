@@ -54,7 +54,7 @@ class PackageCloud
         $packages =  $this->query("/api/v1/repos/" . $this->user . "/" . $this->repo . "/packages.json?per_page=1");
         $outdatedPackages =  [];
         foreach ($packages as $package) {
-            $packageDate = DateTime::createFromFormat("Y-m-d\TH:i:s.u\Z", $package->created_at);
+            $packageDate = \DateTime::createFromFormat("Y-m-d\TH:i:s.u\Z", $package->created_at);
             $age = $packageDate->diff($now)->days;
             if ($age > $days) {
                 $package->age = $age;
