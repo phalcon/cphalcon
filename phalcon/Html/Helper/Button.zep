@@ -13,20 +13,25 @@ namespace Phalcon\Html\Helper;
 use Phalcon\Html\Exception;
 
 /**
- * Class Body
+ * Class Button
  */
-class Body extends AbstractHelper
+class Button extends AbstractHelper
 {
     /**
-     * Produce a `<body>` tag.
+     * Produce a `<button>` tag.
      *
-     * @param array $attributes
+     * @param string $text
+     * @param array  $attributes
+     * @param bool   $raw
      *
      * @return string
      * @throws Exception
      */
-    public function __invoke(array attributes = []) -> string
-    {
-        return this->renderElement("body", attributes);
+    public function __invoke(
+        string text,
+        array attributes = [],
+        bool raw = false
+    ) -> string {
+        return this->renderFullElement("button", text, attributes, raw);
     }
 }
