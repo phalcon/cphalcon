@@ -11,32 +11,33 @@
 namespace Phalcon\Html\Helper;
 
 /**
- * Class Ol
+ * Class Link
  */
-class Ol extends AbstractList
+class Link extends AbstractSeries
 {
-
     /**
      * Add an element to the list
      *
-     * @param string $text
-     * @param array  $attributes
-     * @param bool   $raw
+     * @param string $rel
+     * @param string $href
      *
-     * @return $this
+     * @return Link
      */
-    public function add(
-        string text,
-        array attributes = [],
-        bool raw = false
-    ) -> <AbstractList> {
+    public function add(string rel, string href) -> <Link>
+    {
+        var attributes;
+
+        let attributes = [
+            "rel"  : rel,
+            "href" : href
+        ];
+
         let this->store[] = [
-            "renderFullElement",
+            "renderTag",
             [
-                this->elementTag,
-                text,
+                this->getTag(),
                 attributes,
-                raw
+                "/"
             ],
             this->indent()
         ];
@@ -49,6 +50,6 @@ class Ol extends AbstractList
      */
     protected function getTag() -> string
     {
-        return "ol";
+        return "link";
     }
 }
