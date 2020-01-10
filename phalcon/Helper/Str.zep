@@ -362,6 +362,55 @@ class Str
     }
 
     /**
+     * Changes a text to a URL friendly one
+     *
+     * @param string     $text
+     * @param string     $separator
+     * @param bool       $lowercase
+     * @param mixed|null $replace
+     *
+     * @return string
+     * @throws Exception
+     */
+    final public static function friendly(
+        string! text,
+        string! separator = "-",
+        bool lowercase = true,
+        var replace = null
+    ) -> string {
+        var friendly;
+
+        if null !== replace {
+            if typeof replace !== "array" && typeof replace !== "string" {
+                throw new Exception(
+                    "Parameter replace must be an array or a string"
+                );
+            }
+
+            if typeof replace === "string" {
+                let replace = [replace];
+            }
+
+            let text = str_replace(replace, " ", text);
+        }
+
+        let friendly = preg_replace(
+            "/[^a-zA-Z0-9\\/_|+ -]/",
+            "",
+            text
+        );
+
+        if lowercase {
+            let friendly = strtolower(friendly);
+        }
+
+        let friendly = preg_replace("/[\\/_|+ -]+/", separator, friendly),
+            friendly = trim(friendly, separator);
+
+        return friendly;
+    }
+
+    /**
      * Makes an underscored or dashed phrase human-readable
      *
      * ```php
