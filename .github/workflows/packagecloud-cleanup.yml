@@ -1,0 +1,18 @@
+name: Cleanup Packagecloud packages
+on:
+  push:
+    branches:
+      - master
+  schedule:
+    - cron: '0 2 * * *' # Daily at 02:00
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v1
+        with:
+          php-version: '7.4'
+      - name: Cleanup Packagecloud
+        run: php .ci/cleanup-packages.php
