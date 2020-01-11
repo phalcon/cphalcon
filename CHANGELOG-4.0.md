@@ -1,3 +1,7 @@
+# [4.0.2](https://github.com/phalcon/cphalcon/releases/tag/v4.0.1) (2020-01-12)
+## Fixed
+- Fixed Phalcon version number incorrectly set in the previous release
+
 # [4.0.1](https://github.com/phalcon/cphalcon/releases/tag/v4.0.1) (2020-01-11)
 ## Added
 
