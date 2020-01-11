@@ -82,6 +82,11 @@ class GetPreferredIsoLocaleVariantCest
                 'result'  => 'here',
             ],
             [
+                'message' => 'wildcard',
+                'header'  => '*',
+                'result'  => '*',
+            ],
+            [
                 'message' => 'empty',
                 'header'  => '',
                 'result'  => '',
