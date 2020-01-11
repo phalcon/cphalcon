@@ -147,6 +147,21 @@ class Request extends AbstractInjectionAware implements RequestInterface
     }
 
     /**
+     * Gets best language accepted by the browser/client from
+     * _SERVER["HTTP_ACCEPT_LANGUAGE"] and returns the base part of it i.e.
+     * `en` instead of `en-US`
+     */
+    public function getBestLanguageIso() -> string
+    {
+        var language;
+
+        let language = this->getBestLanguage(),
+            language = explode("-", language);
+
+        return language[0];
+    }
+
+    /**
      * Gets most possible client IPv4 Address. This method searches in
      * `$_SERVER["REMOTE_ADDR"]` and optionally in
      * `$_SERVER["HTTP_X_FORWARDED_FOR"]`
