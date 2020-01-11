@@ -10,8 +10,8 @@
 
 namespace Phalcon\Html\Helper\Input;
 
+use Phalcon\Escaper\EscaperInterface;
 use Phalcon\Helper\Arr;
-use Phalcon\Html\Escaper;
 
 /**
  * Class Checkbox
@@ -33,7 +33,7 @@ class Checkbox extends AbstractInput
     /**
      * AbstractHelper constructor.
      *
-     * @param Escaper $escaper
+     * @param EscaperInterface $escaper
      */
     public function __construct(<EscaperInterface> escaper)
     {
@@ -57,7 +57,7 @@ class Checkbox extends AbstractInput
 
         this->processChecked();
 
-        let unchecked   = $this->processUnchecked(),
+        let unchecked   = this->processUnchecked(),
             element     = parent::__toString(),
             label       = this->label,
             this->label = [
