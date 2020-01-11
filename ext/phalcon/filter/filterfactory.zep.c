@@ -52,7 +52,7 @@ PHP_METHOD(Phalcon_Filter_FilterFactory, newInstance) {
 	object_init_ex(return_value, phalcon_filter_ce);
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getadapters", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 238, &_0);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 232, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 

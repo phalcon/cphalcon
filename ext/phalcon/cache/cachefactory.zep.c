@@ -208,7 +208,7 @@ PHP_METHOD(Phalcon_Cache_CacheFactory, newInstance) {
 	ZEPHIR_CALL_METHOD(&adapter, &_0, "newinstance", NULL, 0, &name, &options);
 	zephir_check_call_status();
 	object_init_ex(return_value, phalcon_cache_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 164, &adapter);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 158, &adapter);
 	zephir_check_call_status();
 	RETURN_MM();
 
