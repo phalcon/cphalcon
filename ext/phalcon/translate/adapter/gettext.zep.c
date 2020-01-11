@@ -582,7 +582,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, setLocale) {
 	ZEPHIR_CALL_FUNCTION(NULL, "putenv", NULL, 0, &_8);
 	zephir_check_call_status();
 	zephir_read_property(&_9, this_ptr, SL("locale"), PH_NOISY_CC | PH_READONLY);
-	ZVAL_LONG(&_10, 0);
+	ZVAL_LONG(&_10, 6);
 	ZEPHIR_CALL_FUNCTION(NULL, "setlocale", NULL, 0, &_10, &_9);
 	zephir_check_call_status();
 	RETURN_MM_MEMBER(getThis(), "locale");
@@ -598,7 +598,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, getOptionsDefault) {
 
 
 	zephir_create_array(return_value, 2, 0);
-	add_assoc_long_ex(return_value, SL("category"), 0);
+	add_assoc_long_ex(return_value, SL("category"), 6);
 	add_assoc_stringl_ex(return_value, SL("defaultDomain"), SL("messages"));
 	return;
 
