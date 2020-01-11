@@ -1,3 +1,20 @@
+# [4.0.1](https://github.com/phalcon/cphalcon/releases/tag/v4.0.1) (2020-01-11)
+## Added
+
+## Changed
+- Changed the logic when logging times for `Phalcon\Logger` to use `DateTimeImmutable` so as to handle microseconds if necessary. [#2893](https://github.com/phalcon/cphalcon/issues/2893)
+- Changed `Phalcon\Http\Cookie::send` and `Phalcon\Http\Cookie::delete` to allow for `samesite` to be passed in the `options` when using PHP > 7.3 [#14627](https://github.com/phalcon/cphalcon/issues/14627)
+
+## Fixed
+- Fixed `Phalcon\Mvc\Model\Criteria` Di isn't set when using `Criteria::fromInput()` [#14538](https://github.com/phalcon/cphalcon/issues/14639)
+- Fixed `Phalcon\Db\Dialect\Mysql` removing unnecessary parentheses for `double` and `float` [#14645](https://github.com/phalcon/cphalcon/pull/14645) [@pfz](https://github.com/pfz)
+- Fixed `Phalcon\Http\Cookie::delete` to parse the correct parameters - cannot use alternative syntax until PHP 7.3 [#14643](https://github.com/phalcon/cphalcon/issues/14643)
+- Fixed `Phalcon\Mvc\Model::__isset` to take into account non visible properties by checking the getter if it exists [#13518](https://github.com/phalcon/cphalcon/issues/13518) [#13900](https://github.com/phalcon/cphalcon/issues/13900)
+- Fixed `Phalcon\Mvc\Model::__set` to return a more informative message if we are tying to access a non visible property [#13518](https://github.com/phalcon/cphalcon/issues/13518) [#13900](https://github.com/phalcon/cphalcon/issues/13900)
+- Fixed `Phalcon\Mvc\Model\Resultset\Simple::toArray` to correctly process virtual fields [#14669](https://github.com/phalcon/cphalcon/issues/14669)
+- Fixed `Phalcon\Session\Manager::getUniqueKey` to prefix the key only if `uniqueId` is present [#14688](https://github.com/phalcon/cphalcon/issues/14688)
+- Fixed `Phalcon\Db\Adapter\Pdo::describeColumns` to correctly detect ENUM columns [#14691](https://github.com/phalcon/cphalcon/issues/14691)
+
 # [4.0.0](https://github.com/phalcon/cphalcon/releases/tag/v4.0.0) (2019-12-21)
 
 ## Added
@@ -16,7 +33,7 @@
 - Changed the `Phalcon\Storage\Adapter\*` constructors to require the `Phalcon\Storage\SerializerFactory` object [#14575](https://github.com/phalcon/cphalcon/pull/14628)
 
 ## Fixed
-- Fixed `PhalconMvc\Model` to ignore internal setters if properties have the same name as the setter [#14538](https://github.com/phalcon/cphalcon/issues/14538)
+- Fixed `Phalcon\Mvc\Model` to ignore internal setters if properties have the same name as the setter [#14538](https://github.com/phalcon/cphalcon/issues/14538)
 - Fixed `Phalcon\Logger\Formatter\Line` to not add `PHP_EOL` at the end of the message and added it to the `Phalcon\Logger\Adapter\Stream` [#14547](https://github.com/phalcon/cphalcon/issues/14547)
 - Fixed `Phalcon\Mvc\Model\MetaData\Apcu` and `Phalcon\Mvc\Model\MetaData\Redis` to allow setting the `prefix` and `lifetime` using the options or use the default. [#14549](https://github.com/phalcon/cphalcon/issues/14549)
 - Fixed `Phalcon\Storage\Adapter\AbstractAdapter`, `Phalcon\Storage\Adapter\AbstractInterface` getters to contain a default value 

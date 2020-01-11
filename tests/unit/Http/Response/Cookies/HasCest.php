@@ -13,20 +13,46 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Response\Cookies;
 
+use Phalcon\Http\Response\Cookies;
+use Phalcon\Test\Fixtures\Traits\CookieTrait;
+use Phalcon\Test\Unit\Http\Helper\HttpBase;
 use UnitTester;
 
-class HasCest
+class HasCest extends HttpBase
 {
+    use CookieTrait;
+
+    /**
+     * executed before each test
+     */
+    public function _before(UnitTester $I)
+    {
+        parent::_before($I);
+        $this->setDiSessionFiles();
+    }
+
     /**
      * Tests Phalcon\Http\Response\Cookies :: has()
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
+     * @since  2020-01-06
      */
     public function httpResponseCookiesHas(UnitTester $I)
     {
         $I->wantToTest('Http\Response\Cookies - has()');
 
-        $I->skipTest('Need implementation');
+        $sName = 'framework';
+        $sValue = 'phalcon';
+
+        $this->setDiCrypt();
+        $container = $this->getDi();
+
+        $oCookie = new Cookies();
+        $oCookie->setDI($container);
+        $oCookie->set($sName, $sValue);
+
+        $I->assertTrue($oCookie->has($sName));
+
+        $I->assertFalse($oCookie->has('test'));
     }
 }

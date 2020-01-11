@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Cli\Router\Route;
 
 use CliTester;
+use Phalcon\Cli\Router\Route;
 
 class GetRouteIdCest
 {
@@ -21,11 +22,16 @@ class GetRouteIdCest
      * Tests Phalcon\Cli\Router\Route :: getRouteId()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-01-05
      */
     public function cliRouterRouteGetRouteId(CliTester $I)
     {
         $I->wantToTest('Cli\Router\Route - getRouteId()');
-        $I->skipTest('Need implementation');
+
+        Route::reset();
+        Route::delimiter('/');
+        $route = new Route('test');
+
+        $I->assertEquals(0, $route->getRouteId());
     }
 }

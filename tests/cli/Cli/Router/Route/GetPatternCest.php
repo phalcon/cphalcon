@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Cli\Router\Route;
 
 use CliTester;
+use Phalcon\Cli\Router\Route;
 
 class GetPatternCest
 {
@@ -21,11 +22,23 @@ class GetPatternCest
      * Tests Phalcon\Cli\Router\Route :: getPattern()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-01-05
      */
     public function cliRouterRouteGetPattern(CliTester $I)
     {
         $I->wantToTest('Cli\Router\Route - getPattern()');
-        $I->skipTest('Need implementation');
+
+        Route::reset();
+        Route::delimiter('/');
+        $route = new Route(
+            '/:module/:namespace/:task/:action/:params/:delimiter'
+        );
+
+        $expected = '#^/([a-zA-Z0-9\_\-]+)/([a-zA-Z0-9\_\-]+)/'
+            . '([a-zA-Z0-9\_\-]+)/([a-zA-Z0-9\_\-]+)(/.*)*//$#';
+        $I->assertEquals(
+            $expected,
+            $route->getCompiledPattern()
+        );
     }
 }

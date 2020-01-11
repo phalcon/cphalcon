@@ -128,6 +128,7 @@ PHP_METHOD(Phalcon_Logger_Item, getType) {
 
 /**
  * Phalcon\Logger\Item constructor
+ * @todo Remove the time or change the signature to an array
  */
 PHP_METHOD(Phalcon_Logger_Item, __construct) {
 

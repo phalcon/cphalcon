@@ -50,6 +50,7 @@ class Item
 
     /**
      * Phalcon\Logger\Item constructor
+     * @todo Remove the time or change the signature to an array
      */
     public function __construct(string message, string name, int type, int time = 0, var context = [])
     {

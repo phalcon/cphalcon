@@ -136,7 +136,7 @@ class Mysql extends PdoAdapter
                 /**
                  * BOOL
                  */
-                 case memstr(columnType, "tinyint(1)"):
+                 case starts_with(columnType, "tinyint(1)", true):
                     /**
                      * tinyint(1) is boolean
                      */
@@ -149,7 +149,7 @@ class Mysql extends PdoAdapter
                 /**
                  * BIGINT
                  */
-                case memstr(columnType, "bigint"):
+                case starts_with(columnType, "bigint", true):
                     let definition["type"] = Column::TYPE_BIGINTEGER,
                         definition["isNumeric"] = true,
                         definition["bindType"] = Column::BIND_PARAM_INT;
@@ -159,7 +159,7 @@ class Mysql extends PdoAdapter
                 /**
                  * MEDIUMINT
                  */
-                case memstr(columnType, "mediumint"):
+                case starts_with(columnType, "mediumint", true):
                     let definition["type"] = Column::TYPE_MEDIUMINTEGER,
                         definition["isNumeric"] = true,
                         definition["bindType"] = Column::BIND_PARAM_INT;
@@ -169,7 +169,7 @@ class Mysql extends PdoAdapter
                 /**
                  * SMALLINT
                  */
-                case memstr(columnType, "smallint"):
+                case starts_with(columnType, "smallint", true):
                     let definition["type"] = Column::TYPE_SMALLINTEGER,
                         definition["isNumeric"] = true,
                         definition["bindType"] = Column::BIND_PARAM_INT;
@@ -179,7 +179,7 @@ class Mysql extends PdoAdapter
                 /**
                  * TINYINT
                  */
-                case memstr(columnType, "tinyint"):
+                case starts_with(columnType, "tinyint", true):
                     /**
                      * Smallint/Bigint/Integers/Int are int
                      */
@@ -192,7 +192,7 @@ class Mysql extends PdoAdapter
                 /**
                  * INT
                  */
-                case memstr(columnType, "int"):
+                case starts_with(columnType, "int", true):
                     let definition["type"] = Column::TYPE_INTEGER,
                         definition["isNumeric"] = true,
                         definition["bindType"] = Column::BIND_PARAM_INT;
@@ -202,7 +202,7 @@ class Mysql extends PdoAdapter
                 /**
                  * BIT
                  */
-                case memstr(columnType, "bit"):
+                case starts_with(columnType, "bit", true):
                     let definition["type"] = Column::TYPE_BIT,
                         definition["bindType"] = Column::BIND_PARAM_INT;
 
@@ -211,7 +211,7 @@ class Mysql extends PdoAdapter
                 /**
                  * ENUM
                  */
-                case memstr(columnType, "enum"):
+                case starts_with(columnType, "enum", true):
                     let definition["type"] = Column::TYPE_ENUM;
 
                     break;
@@ -219,7 +219,7 @@ class Mysql extends PdoAdapter
                 /**
                  * DATE
                  */
-                case memstr(columnType, "datetime"):
+                case starts_with(columnType, "datetime", true):
                     let definition["type"] = Column::TYPE_DATETIME;
 
                     break;
@@ -227,7 +227,7 @@ class Mysql extends PdoAdapter
                 /**
                  * DATETIME
                  */
-                case memstr(columnType, "date"):
+                case starts_with(columnType, "date", true):
                     let definition["type"] = Column::TYPE_DATE;
 
                     break;
@@ -236,7 +236,7 @@ class Mysql extends PdoAdapter
                  * DECIMAL - This will need to be a string so as not to lose
                  * the decimals
                  */
-                case memstr(columnType, "decimal"):
+                case starts_with(columnType, "decimal", true):
                     let definition["type"] = Column::TYPE_DECIMAL,
                         definition["isNumeric"] = true;
 
@@ -245,7 +245,7 @@ class Mysql extends PdoAdapter
                 /**
                  * DOUBLE
                  */
-                case memstr(columnType, "double"):
+                case starts_with(columnType, "double", true):
                     let definition["type"] = Column::TYPE_DOUBLE,
                         definition["isNumeric"] = true,
                         definition["bindType"] = Column::BIND_PARAM_DECIMAL;
@@ -255,7 +255,7 @@ class Mysql extends PdoAdapter
                 /**
                  * FLOAT
                  */
-                case memstr(columnType, "float"):
+                case starts_with(columnType, "float", true):
                     let definition["type"] = Column::TYPE_FLOAT,
                         definition["isNumeric"] = true,
                         definition["bindType"] = Column::BIND_PARAM_DECIMAL;
@@ -265,7 +265,7 @@ class Mysql extends PdoAdapter
                 /**
                  * MEDIUMBLOB
                  */
-                case memstr(columnType, "mediumblob"):
+                case starts_with(columnType, "mediumblob", true):
                     let definition["type"] = Column::TYPE_MEDIUMBLOB;
 
                     break;
@@ -273,7 +273,7 @@ class Mysql extends PdoAdapter
                 /**
                  * LONGBLOB
                  */
-                case memstr(columnType, "longblob"):
+                case starts_with(columnType, "longblob", true):
                     let definition["type"] = Column::TYPE_LONGBLOB;
 
                     break;
@@ -281,7 +281,7 @@ class Mysql extends PdoAdapter
                 /**
                  * TINYBLOB
                  */
-                case memstr(columnType, "tinyblob"):
+                case starts_with(columnType, "tinyblob", true):
                     let definition["type"] = Column::TYPE_TINYBLOB;
 
                     break;
@@ -289,7 +289,7 @@ class Mysql extends PdoAdapter
                 /**
                  * BLOB
                  */
-                case memstr(columnType, "blob"):
+                case starts_with(columnType, "blob", true):
                     let definition["type"] = Column::TYPE_BLOB;
 
                     break;
@@ -297,7 +297,7 @@ class Mysql extends PdoAdapter
                 /**
                  * TIMESTAMP
                  */
-                case memstr(columnType, "timestamp"):
+                case starts_with(columnType, "timestamp", true):
                     let definition["type"] = Column::TYPE_TIMESTAMP;
 
                     break;
@@ -305,7 +305,7 @@ class Mysql extends PdoAdapter
                 /**
                  * TIME
                  */
-                case memstr(columnType, "time"):
+                case starts_with(columnType, "time", true):
                     let definition["type"] = Column::TYPE_TIME;
 
                     break;
@@ -313,7 +313,7 @@ class Mysql extends PdoAdapter
                 /**
                  * JSON
                  */
-                case memstr(columnType, "json"):
+                case starts_with(columnType, "json", true):
                     let definition["type"] = Column::TYPE_JSON;
 
                     break;
@@ -321,7 +321,7 @@ class Mysql extends PdoAdapter
                 /**
                  * LONGTEXT
                  */
-                case memstr(columnType, "longtext"):
+                case starts_with(columnType, "longtext", true):
                     let definition["type"] = Column::TYPE_LONGTEXT;
 
                     break;
@@ -329,7 +329,7 @@ class Mysql extends PdoAdapter
                 /**
                  * MEDIUMTEXT
                  */
-                case memstr(columnType, "mediumtext"):
+                case starts_with(columnType, "mediumtext", true):
                     let definition["type"] = Column::TYPE_MEDIUMTEXT;
 
                     break;
@@ -337,7 +337,7 @@ class Mysql extends PdoAdapter
                 /**
                  * TINYTEXT
                  */
-                case memstr(columnType, "tinytext"):
+                case starts_with(columnType, "tinytext", true):
                     let definition["type"] = Column::TYPE_TINYTEXT;
 
                     break;
@@ -345,7 +345,7 @@ class Mysql extends PdoAdapter
                 /**
                  * TEXT
                  */
-                case memstr(columnType, "text"):
+                case starts_with(columnType, "text", true):
                     let definition["type"] = Column::TYPE_TEXT;
 
                     break;
@@ -353,7 +353,7 @@ class Mysql extends PdoAdapter
                 /**
                  * VARCHAR
                  */
-                case memstr(columnType, "varchar"):
+                case starts_with(columnType, "varchar", true):
                     let definition["type"] = Column::TYPE_VARCHAR;
 
                     break;
@@ -361,7 +361,7 @@ class Mysql extends PdoAdapter
                 /**
                  * CHAR
                  */
-                case memstr(columnType, "char"):
+                case starts_with(columnType, "char", true):
                     let definition["type"] = Column::TYPE_CHAR;
 
                     break;

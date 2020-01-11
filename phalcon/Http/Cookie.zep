@@ -15,6 +15,7 @@ use Phalcon\Di\AbstractInjectionAware;
 use Phalcon\Crypt\CryptInterface;
 use Phalcon\Crypt\Mismatch;
 use Phalcon\Filter\FilterInterface;
+use Phalcon\Helper\Arr;
 use Phalcon\Http\Response\Exception;
 use Phalcon\Http\Cookie\CookieInterface;
 use Phalcon\Http\Cookie\Exception as CookieException;
@@ -127,14 +128,14 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
      */
     public function delete()
     {
-        var container, domain, httpOnly, name, options, path, secure, session;
+        var container, domain, httpOnly, name, options, path, secure,
+            session, version;
 
         let name     = this->name,
             domain   = this->domain,
             path     = this->path,
             secure   = this->secure,
-            httpOnly = this->httpOnly,
-            options  = this->options;
+            httpOnly = this->httpOnly;
 
         let container = <DiInterface> this->container;
 
@@ -148,16 +149,30 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
 
         let this->value = null;
 
-        setcookie(
-            name,
-            null,
-            time() - 691200,
-            path,
-            domain,
-            secure,
-            httpOnly,
-            options
-        );
+        /**
+         * @todo Remove this check when we target min PHP 7.3
+         */
+        let version = phpversion();
+        if starts_with(version, "7.2") {
+            setcookie(
+                name,
+                null,
+                time() - 691200,
+                path,
+                domain,
+                secure,
+                httpOnly
+            );
+        } else {
+            let options = this->options,
+                options["expires"]  = Arr::get(options, "expires", time() - 691200),
+                options["domain"]   = Arr::get(options, "domain", domain),
+                options["path"]     = Arr::get(options, "path", path),
+                options["secure"]   = Arr::get(options, "secure", secure),
+                options["httponly"] = Arr::get(options, "httponly", httpOnly);
+
+            setcookie(name, null, options);
+        }
     }
 
     /**
@@ -352,8 +367,8 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
      */
     public function restore() -> <CookieInterface>
     {
-        var container, expire, domain, path, secure, httpOnly, session,
-            definition;
+        var container, definition, domain, expire, httpOnly, options, path,
+            secure, session;
 
         if !this->restored {
             let container = this->container;
@@ -385,6 +400,10 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
                     if fetch httpOnly, definition["httpOnly"] {
                         let this->httpOnly = httpOnly;
                     }
+
+                    if fetch options, definition["options"] {
+                        let this->options = options;
+                    }
                 }
             }
 
@@ -401,16 +420,17 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
      */
     public function send() -> <CookieInterface>
     {
-        var name, value, expire, domain, path, secure, httpOnly, container,
-            definition, session, crypt, encryptValue, signKey;
+        var container, crypt, definition, encryptValue, expire, domain, httpOnly,
+            name, options, path, secure, session, signKey, value, version;
 
-        let name = this->name,
-            value = this->value,
-            expire = this->expire,
-            domain = this->domain,
-            path = this->path,
-            secure = this->secure,
-            httpOnly = this->httpOnly;
+        let name     = this->name,
+            value    = this->value,
+            expire   = this->expire,
+            domain   = this->domain,
+            path     = this->path,
+            secure   = this->secure,
+            httpOnly = this->httpOnly,
+            options  = this->options;
 
         let container = this->container;
 
@@ -440,6 +460,10 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
 
         if !empty httpOnly {
             let definition["httpOnly"] = httpOnly;
+        }
+
+        if !empty httpOnly {
+            let definition["options"] = options;
         }
 
         /**
@@ -496,7 +520,23 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
         /**
          * Sets the cookie using the standard 'setcookie' function
          */
-        setcookie(name, encryptValue, expire, path, domain, secure, httpOnly);
+        /**
+         * @todo Remove this check when we target min PHP 7.3
+         */
+        let version = phpversion();
+        if starts_with(version, "7.2") {
+            setcookie(name, encryptValue, expire, path, domain, secure, httpOnly);
+        } else {
+            let options["expires"]  = Arr::get(options, "expires", expire),
+                options["domain"]   = Arr::get(options, "domain", domain),
+                options["path"]     = Arr::get(options, "path", path),
+                options["secure"]   = Arr::get(options, "secure", secure),
+                options["httponly"] = Arr::get(options, "httponly", httpOnly);
+
+            setcookie(name, encryptValue, options);
+        }
+
+
 
         return this;
     }

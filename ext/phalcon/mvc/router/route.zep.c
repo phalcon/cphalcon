@@ -708,7 +708,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, getReversedPaths) {
 	ZEPHIR_MM_GROW();
 
 	zephir_read_property(&_0, this_ptr, SL("paths"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_FUNCTION("array_flip", NULL, 166, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("array_flip", NULL, 167, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 

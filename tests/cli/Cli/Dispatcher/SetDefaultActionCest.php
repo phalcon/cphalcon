@@ -14,6 +14,8 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Cli\Dispatcher;
 
 use CliTester;
+use Phalcon\Cli\Dispatcher;
+use Phalcon\Di\FactoryDefault\Cli as DiFactoryDefault;
 
 class SetDefaultActionCest
 {
@@ -26,6 +28,16 @@ class SetDefaultActionCest
     public function cliDispatcherSetDefaultAction(CliTester $I)
     {
         $I->wantToTest('Cli\Dispatcher - setDefaultAction()');
-        $I->skipTest('Need implementation');
+
+        $dispatcher = new Dispatcher();
+        $dispatcher->setDefaultNamespace('Phalcon\Test\Fixtures\Tasks');
+        $dispatcher->setDI(
+            new DiFactoryDefault()
+        );
+        $defaultAction = "noop";
+        $dispatcher->setDefaultAction($defaultAction);
+        $I->assertEquals("", $dispatcher->getActionName());
+        $dispatcher->dispatch();
+        $I->assertEquals($defaultAction, $dispatcher->getActionName());
     }
 }

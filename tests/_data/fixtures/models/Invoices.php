@@ -22,8 +22,21 @@ class Invoices extends Model
     public $inv_total;
     public $inv_created_at;
 
+    private $secretValue;
+    private $superSecret;
+
     public function initialize()
     {
         $this->setSource('co_invoices');
+    }
+
+    public function setSecretValue($value)
+    {
+        $this->secretValue = $value;
+    }
+
+    public function getSecretValue()
+    {
+        return $this->secretValue;
     }
 }

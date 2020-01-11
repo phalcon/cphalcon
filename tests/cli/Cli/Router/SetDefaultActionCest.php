@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Cli\Router;
 
 use CliTester;
+use Phalcon\Cli\Router;
 
 class SetDefaultActionCest
 {
@@ -26,6 +27,13 @@ class SetDefaultActionCest
     public function cliRouterSetDefaultAction(CliTester $I)
     {
         $I->wantToTest('Cli\Router - setDefaultAction()');
-        $I->skipTest('Need implementation');
+
+        $router = new Router(false);
+        $I->assertNull($router->getActionName());
+        $router->handle("");
+        $I->assertNull($router->getActionName());
+        $router->setDefaultAction("test");
+        $router->handle("");
+        $I->assertEquals("test", $router->getActionName());
     }
 }
