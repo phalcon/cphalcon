@@ -52,7 +52,7 @@ abstract class AbstractInput extends AbstractHelper
             let this->attributes["id"] = name;
         }
 
-        this->setValue($value);
+        this->setValue(value);
 
         let this->attributes = array_merge(this->attributes, attributes);
 
@@ -87,7 +87,7 @@ abstract class AbstractInput extends AbstractHelper
      */
     public function setValue(string value = null) -> <AbstractInput>
     {
-        if !empty value {
+        if is_numeric(value) || !empty(value)  {
             let this->attributes["value"] = value;
         }
 
