@@ -30,16 +30,6 @@ class Title extends AbstractHelper
     protected append = [];
 
     /**
-     * @var string
-     */
-    protected delimiter = "";
-
-    /**
-     * @var string
-     */
-    protected indent = "    ";
-
-    /**
      * @var array
      */
     protected prepend = [];
@@ -68,7 +58,7 @@ class Title extends AbstractHelper
         string indent = null,
         string delimiter = null
     ) -> <Title> {
-        let this->delimiter = PHP_EOL,
+        let this->delimiter = delimiter,
             this->indent    = indent,
             this->separator = separator;
 
