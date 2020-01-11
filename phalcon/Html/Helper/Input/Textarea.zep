@@ -10,6 +10,7 @@
 
 namespace Phalcon\Html\Helper\Input;
 
+use Phalcon\Helper\Arr;
 use Phalcon\Html\Exception;
 
 /**
@@ -33,13 +34,9 @@ class Textarea extends AbstractInput
         var value;
         array attributes;
 
-        let value            = "",
-            attributes       = this->attributes,
+        let attributes       = this->attributes,
+            value            = Arr::get(attributes, "value", ""),
             this->attributes = [];
-
-        if isset attributes["value"] {
-            let value = attributes["value"];
-        }
 
         unset attributes["type"];
         unset attributes["value"];
