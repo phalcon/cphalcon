@@ -80,12 +80,12 @@ class Select extends AbstractList
      */
     public function addPlaceholder(
         string text,
-        string value = null,
+        var value = null,
         array attributes = [],
         bool raw = false
     ) -> <Select> {
-        if !empty value {
-            let attributes["value"] = value;
+        if null !== value {
+            let attributes["value"] = (string) value;
         }
 
         let this->store[] = [
@@ -129,13 +129,13 @@ class Select extends AbstractList
                 this->store[]     = [
                     "optGroupEnd",
                     [],
-                    $this->indent()
+                    this->indent()
                 ];
         }
 
         let this->inOptGroup = !this->inOptGroup;
 
-        return $this;
+        return this;
     }
 
     /**
@@ -192,9 +192,9 @@ class Select extends AbstractList
      */
     private function processValue(
         array attributes,
-        string value = null
+        var value = null
     ) -> array {
-        if !empty value {
+        if is_numeric(value) || !empty(value)  {
             let attributes["value"] = value;
             if !empty this->selected && value === this->selected {
                 let attributes["selected"] = "selected";
