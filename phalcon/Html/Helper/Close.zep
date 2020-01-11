@@ -25,6 +25,6 @@ class Close extends AbstractHelper
      */
     public function __invoke(string tag, bool raw = false) -> string
     {
-        return $this->close(tag, raw);
+        return this->close(tag, raw);
     }
 }
