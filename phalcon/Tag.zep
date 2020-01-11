@@ -268,7 +268,7 @@ class Tag
         var replace = null
     ) -> string
     {
-        var friendly, locale;
+        var ex, friendly, locale;
 
         if extension_loaded("iconv") {
             /**
@@ -278,7 +278,11 @@ class Tag
                 text = iconv("UTF-8", "ASCII//TRANSLIT", text);
         }
 
-        let friendly = Str::friendly(text, separator, lowercase, replace);
+        try {
+            let friendly = Str::friendly(text, separator, lowercase, replace);
+        } catch \Exception, ex {
+            throw new Exception(ex->getMessage());
+        }
 
         if extension_loaded("iconv") {
             /**
