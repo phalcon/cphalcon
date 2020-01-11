@@ -158,7 +158,11 @@ class Request extends AbstractInjectionAware implements RequestInterface
         let language = this->getBestLanguage(),
             language = explode("-", language);
 
-        return language[0];
+        if isset language[0] {
+            return language[0];
+        } else {
+            return "";
+        }
     }
 
     /**
