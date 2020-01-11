@@ -1,4 +1,4 @@
-# [4.0.1](https://github.com/phalcon/cphalcon/releases/tag/v4.0.1) (xxx-xx-xx)
+# [4.0.1](https://github.com/phalcon/cphalcon/releases/tag/v4.0.1) (2020-01-11)
 ## Added
 
 ## Changed
