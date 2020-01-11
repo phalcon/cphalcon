@@ -296,11 +296,11 @@ PHP_METHOD(Phalcon_Filter, sanitize) {
 					_4$$5 = !noRecursive;
 				}
 				if (_4$$5) {
-					ZEPHIR_CALL_METHOD(&_5$$8, this_ptr, "processarrayvalues", &_6, 230, value, &sanitizerName, &sanitizerParams);
+					ZEPHIR_CALL_METHOD(&_5$$8, this_ptr, "processarrayvalues", &_6, 236, value, &sanitizerName, &sanitizerParams);
 					zephir_check_call_status();
 					ZEPHIR_CPY_WRT(value, &_5$$8);
 				} else {
-					ZEPHIR_CALL_METHOD(&_7$$9, this_ptr, "sanitizer", &_8, 231, value, &sanitizerName, &sanitizerParams);
+					ZEPHIR_CALL_METHOD(&_7$$9, this_ptr, "sanitizer", &_8, 237, value, &sanitizerName, &sanitizerParams);
 					zephir_check_call_status();
 					ZEPHIR_CPY_WRT(value, &_7$$9);
 				}
@@ -331,11 +331,11 @@ PHP_METHOD(Phalcon_Filter, sanitize) {
 						_9$$10 = !noRecursive;
 					}
 					if (_9$$10) {
-						ZEPHIR_CALL_METHOD(&_10$$13, this_ptr, "processarrayvalues", &_6, 230, value, &sanitizerName, &sanitizerParams);
+						ZEPHIR_CALL_METHOD(&_10$$13, this_ptr, "processarrayvalues", &_6, 236, value, &sanitizerName, &sanitizerParams);
 						zephir_check_call_status();
 						ZEPHIR_CPY_WRT(value, &_10$$13);
 					} else {
-						ZEPHIR_CALL_METHOD(&_11$$14, this_ptr, "sanitizer", &_8, 231, value, &sanitizerName, &sanitizerParams);
+						ZEPHIR_CALL_METHOD(&_11$$14, this_ptr, "sanitizer", &_8, 237, value, &sanitizerName, &sanitizerParams);
 						zephir_check_call_status();
 						ZEPHIR_CPY_WRT(value, &_11$$14);
 					}
@@ -353,11 +353,11 @@ PHP_METHOD(Phalcon_Filter, sanitize) {
 		_12 = !noRecursive;
 	}
 	if (_12) {
-		ZEPHIR_RETURN_CALL_METHOD(this_ptr, "processarrayvalues", &_6, 230, value, sanitizers);
+		ZEPHIR_RETURN_CALL_METHOD(this_ptr, "processarrayvalues", &_6, 236, value, sanitizers);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "sanitizer", &_8, 231, value, sanitizers);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "sanitizer", &_8, 237, value, sanitizers);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -516,7 +516,7 @@ PHP_METHOD(Phalcon_Filter, processArrayValues) {
 			}
 			ZEPHIR_INIT_NVAR(&itemValue);
 			ZVAL_COPY(&itemValue, _0);
-			ZEPHIR_CALL_METHOD(&_4$$3, this_ptr, "sanitizer", &_5, 231, &itemValue, &sanitizerName, &sanitizerParams);
+			ZEPHIR_CALL_METHOD(&_4$$3, this_ptr, "sanitizer", &_5, 237, &itemValue, &sanitizerName, &sanitizerParams);
 			zephir_check_call_status();
 			zephir_array_update_zval(&arrayValue, &itemKey, &_4$$3, PH_COPY | PH_SEPARATE);
 		} ZEND_HASH_FOREACH_END();
@@ -533,7 +533,7 @@ PHP_METHOD(Phalcon_Filter, processArrayValues) {
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&itemValue, &values, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_6$$4, this_ptr, "sanitizer", &_5, 231, &itemValue, &sanitizerName, &sanitizerParams);
+				ZEPHIR_CALL_METHOD(&_6$$4, this_ptr, "sanitizer", &_5, 237, &itemValue, &sanitizerName, &sanitizerParams);
 				zephir_check_call_status();
 				zephir_array_update_zval(&arrayValue, &itemKey, &_6$$4, PH_COPY | PH_SEPARATE);
 			ZEPHIR_CALL_METHOD(NULL, &values, "next", NULL, 0);
