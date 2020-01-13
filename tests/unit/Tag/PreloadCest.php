@@ -14,12 +14,11 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Tag;
 
 use Phalcon\Http\Response;
-use Phalcon\Mvc\View\Engine\Volt\Compiler;
 use Phalcon\Tag;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
-class PrefetchCest
+class PreloadCest
 {
     use DiTrait;
 
@@ -30,9 +29,9 @@ class PrefetchCest
      * @since  2012-09-05
      * @since  2018-11-13
      */
-    public function tagPrefetch(UnitTester $I)
+    public function tagPreload(UnitTester $I)
     {
-        $I->wantToTest('Tag - prefetch()');
+        $I->wantToTest('Tag - preload()');
 
         /**
          * Making sure we have a response object
@@ -44,7 +43,7 @@ class PrefetchCest
         Tag::setDI($this->container);
 
         $expected = "abc.css";
-        $actual = Tag::prefetch(["abc.css"]);
+        $actual = Tag::preload(["abc.css"]);
         $I->assertEquals($expected, $actual);
 
         $expected = [
@@ -54,7 +53,7 @@ class PrefetchCest
         $I->assertEquals($expected, $actual);
 
         $expected = "abc.jpg";
-        $actual = Tag::prefetch(['abc.jpg', ['as' => 'image']]);
+        $actual = Tag::preload(['abc.jpg', ['as' => 'image']]);
         $I->assertEquals($expected, $actual);
 
         $expected = [
@@ -65,7 +64,7 @@ class PrefetchCest
         $I->assertEquals($expected, $actual);
 
         $expected = "abc.css";
-        $actual = Tag::prefetch(['abc.css', ['as' => 'style', 'nopush' => true]]);
+        $actual = Tag::preload(['abc.css', ['as' => 'style', 'nopush' => true]]);
         $I->assertEquals($expected, $actual);
 
         $expected = [
