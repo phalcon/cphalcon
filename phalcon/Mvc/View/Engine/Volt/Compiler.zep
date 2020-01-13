@@ -1824,8 +1824,8 @@ class Compiler implements InjectionAwareInterface
                 return "Phalcon\\Version::getId()";
             }
 
-            if name == "prefetch" {
-                return "$this->tag->prefetch(" . arguments . ")";
+            if name == "preload" {
+                return "$this->tag->preload(" . arguments . ")";
             }
 
             /**

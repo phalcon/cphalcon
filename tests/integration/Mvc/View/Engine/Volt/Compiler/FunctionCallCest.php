@@ -189,14 +189,14 @@ class FunctionCallCest
                 '<?= constant(\'abc\') ?>',
             ],
             [
-                'prefetch',
-                '{{ prefetch(\'abc.css\') }}',
-                '<?= $this->tag->prefetch(\'abc.css\') ?>',
+                'preload',
+                '{{ preload(\'abc.css\') }}',
+                '<?= $this->tag->preload(\'abc.css\') ?>',
             ],
             [
-                'prefetch array',
-                '{{ prefetch(\'abc.jpg\', [\'as\' : \'image\']) }}',
-                '<?= $this->tag->prefetch(\'abc.jpg\', [\'as\' => \'image\']) ?>',
+                'preload array',
+                '{{ preload(\'abc.jpg\', [\'as\' : \'image\']) }}',
+                '<?= $this->tag->preload(\'abc.jpg\', [\'as\' => \'image\']) ?>',
             ],
             [
                 'somefunction',
