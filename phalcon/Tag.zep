@@ -12,6 +12,8 @@ namespace Phalcon;
 
 use Phalcon\Di\DiInterface;
 use Phalcon\Escaper\EscaperInterface;
+use Phalcon\Html\Link\Link;
+use Phalcon\Html\Link\Serializer\Header;
 use Phalcon\Helper\Str;
 use Phalcon\Tag\Select;
 use Phalcon\Tag\Exception;
