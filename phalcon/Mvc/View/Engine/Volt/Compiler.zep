@@ -1573,9 +1573,8 @@ class Compiler implements InjectionAwareInterface
             extensions, functions, definition, extendedBlocks, block,
             currentBlock, exprLevel, escapedCode, method, arrayHelpers;
 
-        let code = null;
-
-        let funcArguments = null;
+        let code          = null,
+            funcArguments = null;
 
         if fetch funcArguments, expr["arguments"] {
             let arguments = this->expression(funcArguments);
@@ -1821,6 +1820,10 @@ class Compiler implements InjectionAwareInterface
 
             if name == "version_id" {
                 return "Phalcon\\Version::getId()";
+            }
+
+            if name == "prefetch" {
+                return "$this->tag->prefetch(" . arguments . ")";
             }
 
             /**
