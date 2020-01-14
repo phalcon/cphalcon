@@ -134,19 +134,6 @@ class Mysql extends PdoAdapter
 
             switch true {
                 /**
-                 * BOOL
-                 */
-                 case starts_with(columnType, "tinyint(1)", true):
-                    /**
-                     * tinyint(1) is boolean
-                     */
-                    let definition["type"] = Column::TYPE_BOOLEAN,
-                        definition["isNumeric"] = true,
-                        definition["bindType"] = Column::BIND_PARAM_BOOL;
-
-                    break;
-
-                /**
                  * BIGINT
                  */
                 case starts_with(columnType, "bigint", true):

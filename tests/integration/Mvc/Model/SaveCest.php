@@ -479,7 +479,7 @@ class SaveCest
      * @since  2019-08-02
      * @dataProvider tinyintProvider
      */
-    public function mvcModelSaveWithTinyInt(IntegrationTester $I,  \Codeception\Example $example)
+    public function mvcModelSaveWithTinyInt(IntegrationTester $I, \Codeception\Example $example)
     {
         $I->wantToTest('Mvc\Model::save() with a tinyint(1)');
 
@@ -504,7 +504,7 @@ class SaveCest
     /**
      * @return array
      */
-    protected function tinyintProvider() // alternatively, if you want the function to be public, be sure to prefix it with `_`
+    protected function tinyintProvider()
     {
         return [
             ['value' => "1"],
