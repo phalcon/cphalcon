@@ -477,13 +477,14 @@ class SaveCest
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-08-02
+     * @dataProvider tinyintProvider
      */
-    public function mvcModelSaveWithTinyInt(IntegrationTester $I)
+    public function mvcModelSaveWithTinyInt(IntegrationTester $I,  \Codeception\Example $example)
     {
         $I->wantToTest('Mvc\Model::save() with a tinyint(1)');
 
         $referenceModel       = new TinyIntTest();
-        $referenceModel->test = 0;
+        $referenceModel->test = $example['value'];
 
         $I->assertTrue(
             $referenceModel->save()
@@ -495,9 +496,22 @@ class SaveCest
 
         $storedModel = TinyIntTest::findFirstById($id);
         $I->assertEquals(
-            '0',
+            $example['value'],
             $storedModel->test
         );
+    }
+
+    /**
+     * @return array
+     */
+    protected function tinyintProvider() // alternatively, if you want the function to be public, be sure to prefix it with `_`
+    {
+        return [
+            ['value' => "1"],
+            ['value' => "0"],
+            ['value' => "100"],
+            ['value' => "-100"]
+        ];
     }
 
     /**
