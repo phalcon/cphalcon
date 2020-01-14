@@ -498,8 +498,7 @@ class SaveCest
         return [
             ['value' => "1"],
             ['value' => "0"],
-            ['value' => "100"],
-            ['value' => "-100"]
+            ['value' => "250"]
         ];
     }
 
