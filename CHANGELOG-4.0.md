@@ -1,5 +1,12 @@
-# [4.0.1](https://github.com/phalcon/cphalcon/releases/tag/v4.0.1) (2020-01-11)
+# [4.0.3](https://github.com/phalcon/cphalcon/releases/tag/v4.0.3) (XXX-XX-XX)
 ## Added
+
+## Changed
+
+## Fixed
+- Fixed `Phalcon\Db\Adapter\Pdo\Mysql` Tinyint(1) is handled as boolean under MySql [#14708](https://github.com/phalcon/cphalcon/issues/14708)
+
+# [4.0.1](https://github.com/phalcon/cphalcon/releases/tag/v4.0.1) (2020-01-11)
 
 ## Changed
 - Changed the logic when logging times for `Phalcon\Logger` to use `DateTimeImmutable` so as to handle microseconds if necessary. [#2893](https://github.com/phalcon/cphalcon/issues/2893)
