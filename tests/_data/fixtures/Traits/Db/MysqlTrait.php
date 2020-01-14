@@ -188,7 +188,7 @@ trait MysqlTrait
                 'primary'       => false,
                 'first'         => false,
                 'after'         => 'field_bigint_default',
-                'bindType'      => Column::BIND_PARAM_BOOL,
+                'bindType'      => Column::BIND_PARAM_INT,
             ],
             7  => [
                 'columnName'    => 'field_boolean_default',
@@ -202,7 +202,7 @@ trait MysqlTrait
                 'primary'       => false,
                 'first'         => false,
                 'after'         => 'field_boolean',
-                'bindType'      => Column::BIND_PARAM_BOOL,
+                'bindType'      => Column::BIND_PARAM_INT,
             ],
             8  => [
                 'columnName'    => 'field_char',
