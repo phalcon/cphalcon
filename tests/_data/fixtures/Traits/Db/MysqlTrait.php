@@ -178,7 +178,7 @@ trait MysqlTrait
             ],
             6  => [
                 'columnName'    => 'field_boolean',
-                'type'          => Column::TYPE_BOOLEAN,
+                'type'          => Column::BIND_PARAM_INT,
                 'isNumeric'     => true,
                 'size'          => 1,
                 'default'       => null,
@@ -192,7 +192,7 @@ trait MysqlTrait
             ],
             7  => [
                 'columnName'    => 'field_boolean_default',
-                'type'          => Column::TYPE_BOOLEAN,
+                'type'          => Column::BIND_PARAM_INT,
                 'isNumeric'     => true,
                 'size'          => 1,
                 'default'       => 1,
