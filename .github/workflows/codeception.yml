@@ -42,7 +42,9 @@ jobs:
         uses: shivammathur/setup-php@v1
         with:
           php-version: '7.4'
-          ini-values: apc.enable_cli=on
+          ini-values:
+          - apc.enable_cli=on
+          - session.save_path="/tmp"
           tools: pecl
           extensions: mbstring, intl, json, phalcon, imagick, apcu_bc
       - name: Install packages
