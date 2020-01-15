@@ -9,7 +9,7 @@ jobs:
       mysql:
         image: mysql:8
         ports:
-          - 3306:3306
+          - 33006:3306
         env:
           MYSQL_ROOT_PASSWORD: secret
           MYSQL_USER: phalcon
@@ -43,6 +43,8 @@ jobs:
       - name: Install packages
         run: composer install
       - name: Run tests
+        env:
+          DATA_MYSQL_PORT: 33006
         run: |
           cp tests/_ci/.env.default .env
           vendor/bin/codecept run
