@@ -27,6 +27,10 @@ jobs:
         image: redis:5-alpine
         ports:
           - 6379
+      memcached:
+        image: memcached:1.5-alpine
+        ports:
+          - 11211
     runs-on: ubuntu-latest
     name: Run basic test on latest Phalcon
     steps:
@@ -48,6 +52,7 @@ jobs:
           DATA_MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
           DATA_POSTGRES_PORT: ${{ job.services.postgres.ports['5432'] }}
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
+          DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
         run: |
           cp tests/_ci/.env.default .env
           vendor/bin/codecept build
