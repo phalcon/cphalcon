@@ -1272,7 +1272,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 
 				[
 					"type" : joinType,
-					"source" : intermediateSource,
+					"source" : [intermediateSource, intermediateSchema],
 					"conditions" : [[
 						"type" : "binary-op",
 						"op" : "=",
