@@ -38,7 +38,7 @@ jobs:
         uses: shivammathur/setup-php@v1
         with:
           php-version: '7.4'
-          extensions: mbstring, intl, json, phalcon
+          extensions: mbstring, intl, json, phalcon, imagick, apcu_bc
           pecl: true
       - name: Install packages
         run: composer install
