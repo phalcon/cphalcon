@@ -9,7 +9,7 @@ jobs:
       mysql:
         image: mysql:8
         ports:
-          - 33006:3306
+          - 3306
         env:
           MYSQL_ROOT_PASSWORD: secret
           MYSQL_USER: phalcon
@@ -18,7 +18,7 @@ jobs:
       postgres:
         image: postgres:12-alpine
         ports:
-          - 5432:5432
+          - 5432
         env:
           POSTGRES_PASSWORD: secret
           POSTGRES_USER: phalcon
@@ -26,7 +26,7 @@ jobs:
       redis:
         image: redis:5-alpine
         ports:
-          - 6379:6379
+          - 6379
     runs-on: ubuntu-latest
     name: Run basic test on latest Phalcon
     steps:
@@ -44,8 +44,7 @@ jobs:
         run: composer install
       - name: Run tests
         env:
-          DATA_MYSQL_PORT: 33006
-          DATA_MYSQL_HOST: mysql
+          DATA_MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
         run: |
           cp tests/_ci/.env.default .env
           vendor/bin/codecept run
