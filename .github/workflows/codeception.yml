@@ -7,7 +7,6 @@ jobs:
   build:
     services:
       mysql:
-        restart: always
         image: mysql:8
         ports:
           - 3306:3306
@@ -17,7 +16,6 @@ jobs:
           - MYSQL_DATABASE=phalcon
           - MYSQL_PASSWORD=secret
       postgres:
-        restart: always
         image: postgres:12-alpine
         ports:
           - 5432:5432
@@ -26,7 +24,6 @@ jobs:
           - POSTGRES_USER=phalcon
           - POSTGRES_DB=phalcon
       redis:
-        restart: always
         image: redis:5-alpine
         ports:
           - 6379:6379
