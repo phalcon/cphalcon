@@ -38,13 +38,14 @@ jobs:
         uses: shivammathur/setup-php@v1
         with:
           php-version: '7.4'
+          tools: pecl
           extensions: mbstring, intl, json, phalcon, imagick, apcu_bc
-          pecl: true
       - name: Install packages
         run: composer install
       - name: Run tests
         env:
           DATA_MYSQL_PORT: 33006
+          DATA_MYSQL_HOST: mysql
         run: |
           cp tests/_ci/.env.default .env
           vendor/bin/codecept run
