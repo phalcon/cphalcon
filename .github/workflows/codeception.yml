@@ -49,4 +49,4 @@ jobs:
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
         run: |
           cp tests/_ci/.env.default .env
-          vendor/bin/codecept run
+          vendor/bin/codecept run --ext DotReporter
