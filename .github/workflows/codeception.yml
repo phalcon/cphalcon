@@ -45,6 +45,8 @@ jobs:
       - name: Run tests
         env:
           DATA_MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
+          DATA_POSTGRES_PORT: ${{ job.services.postgres.ports['5432'] }}
+          DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
         run: |
           cp tests/_ci/.env.default .env
           vendor/bin/codecept run

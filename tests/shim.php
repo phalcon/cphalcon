@@ -217,6 +217,7 @@ if (!function_exists('getOptionsMysql')) {
             'username' => env('DATA_MYSQL_USER'),
             'password' => env('DATA_MYSQL_PASS'),
             'dbname'   => env('DATA_MYSQL_NAME'),
+            'port'     => env('DATA_MYSQL_PORT'),
             'charset'  => env('DATA_MYSQL_CHARSET'),
         ];
     }
@@ -232,6 +233,7 @@ if (!function_exists('getOptionsPostgresql')) {
             'host'     => env('DATA_POSTGRES_HOST'),
             'username' => env('DATA_POSTGRES_USER'),
             'password' => env('DATA_POSTGRES_PASS'),
+            'port'     => env('DATA_POSTGRES_PORT'),
             'dbname'   => env('DATA_POSTGRES_NAME'),
             'schema'   => env('DATA_POSTGRES_SCHEMA'),
         ];
