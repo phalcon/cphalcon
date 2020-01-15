@@ -21,6 +21,14 @@ modules:
             cleanup: false
             dump:
               - 'tests/_data/assets/db/schemas/sqlite_schema.sql'
+          translations:
+            dsn: 'sqlite:%DATA_SQLITE_I18N_NAME%'
+            user: ''
+            password: ''
+            populate: true
+            cleanup: false
+            dump:
+              - 'tests/_data/assets/db/schemas/sqlite_translations_schema.sql'
           postgres:
             dsn: 'pgsql:host=%DATA_POSTGRES_HOST%;dbname=%DATA_POSTGRES_NAME%;port=%DATA_POSTGRES_PORT%'
             user: '%DATA_POSTGRES_USER%'

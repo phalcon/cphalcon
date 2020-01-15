@@ -53,6 +53,7 @@
         "ext-msgpack": "*",
         "ext-apcu": "*",
         "ext-imagick": "*",
+        "ext-intl": "*",
         "codeception/codeception": "^4.0",
         "friendsofphp/php-cs-fixer": "~2.0",
         "mustache/mustache": "^2.12",
