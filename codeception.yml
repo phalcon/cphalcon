@@ -17,6 +17,39 @@ settings:
     memory_limit: 1024M
     lint: true
 
+modules:
+  - Db:
+      dsn: 'mysql:host=%DATA_MYSQL_HOST%;dbname=%DATA_MYSQL_NAME%;port=%DATA_MYSQL_PORT%'
+      user: '%DATA_MYSQL_USER%'
+      password: '%DATA_MYSQL_PASS%'
+      databases:
+        mysql:
+          dsn: 'mysql:host=%DATA_MYSQL_HOST%;dbname=%DATA_MYSQL_NAME%;port=%DATA_MYSQL_PORT%'
+          user: '%DATA_MYSQL_USER%'
+          password: '%DATA_MYSQL_PASS%'
+          populate: true
+          cleanup: false
+          dump: 'tests/_data/assets/db/schemas/mysql_schema.sql'
+        sqlite:
+          dsn: 'sqlite:%DATA_SQLITE_NAME%'
+          user: ''
+          password: ''
+          populate: true
+          cleanup: false
+          dump:
+            - 'tests/_data/assets/db/schemas/sqlite_schema.sql'
+        postgres:
+          dsn: 'pgsql:host=%DATA_POSTGRES_HOST%;dbname=%DATA_POSTGRES_NAME%;port=%DATA_POSTGRES_PORT%'
+          user: '%DATA_POSTGRES_USER%'
+          password: '%DATA_POSTGRES_PASS%'
+          populate: true
+          cleanup: false
+          dump: 'tests/_data/assets/db/schemas/postgresql_schema.sql'
+          initial_queries:
+            - 'DROP SCHEMA public CASCADE;'
+            - 'CREATE SCHEMA public;'
+            - 'GRANT ALL ON SCHEMA public TO phalcon;'
+            - 'GRANT ALL ON SCHEMA public TO public;'
 # name of bootstrap that will be used
 # each bootstrap file should be
 # inside a suite directory.

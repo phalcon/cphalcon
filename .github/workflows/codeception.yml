@@ -50,4 +50,6 @@ jobs:
         run: |
           cp tests/_ci/.env.default .env
           vendor/bin/codecept build
-          vendor/bin/codecept run --ext DotReporter
+          vendor/bin/codecept run --ext DotReporter cli
+          vendor/bin/codecept run --ext DotReporter unit
+          vendor/bin/codecept run --ext DotReporter integration
