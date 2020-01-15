@@ -5,7 +5,11 @@ error_reporting(-1);
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 
-setlocale(LC_ALL, 'en_US.utf-8');
+$locale = 'en_US.utf-8';
+$currentLocale = setlocale(LC_ALL, $locale);
+if ($currentLocale !== $locale) {
+    echo "Unable to set locale to :" . $locale . PHP_EOL;
+}
 
 date_default_timezone_set('UTC');
 
@@ -45,3 +49,6 @@ if (extension_loaded('xdebug')) {
 }
 
 unset($root);
+
+echo "Running on Phalcon v" . phpversion('phalcon') . PHP_EOL;
+echo "Project path: " . $_ENV["PROJECT_PATH"] . PHP_EOL;
