@@ -1,0 +1,54 @@
+name: Pecl builder
+
+on:
+  push:
+
+services:
+  mysql:
+    restart: always
+    image: mysql:8
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_ROOT_PASSWORD=secret
+      - MYSQL_USER=phalcon
+      - MYSQL_DATABASE=phalcon
+      - MYSQL_PASSWORD=secret
+
+  postgres:
+    restart: always
+    image: postgres:12-alpine
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_USER=phalcon
+      - POSTGRES_DB=phalcon
+
+  redis:
+    restart: always
+    image: redis:5-alpine
+    ports:
+      - 6379:6379
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Run basic test on latest Phalcon
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@v2-beta
+        with:
+          fetch-depth: 1
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v1
+        with:
+          php-version: '7.4'
+          extensions: mbstring, intl, json, phalcon
+          pecl: true
+      - name: Install packages
+        run: composer install
+      - name: Run tests
+        run: |
+          cp tests/_ci/.env.default .env
+          vendor/bin/codecept run

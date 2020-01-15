@@ -1,23 +1,27 @@
 actor: IntegrationTester
 modules:
-  config:
-    Phalcon:
-      bootstrap: 'tests/_config/bootstrap.php'
-    Phalcon\Test\Module\Libmemcached:
-      host: '%DATA_MEMCACHED_HOST%'
-      port: '%DATA_MEMCACHED_PORT%'
-      weight: '%DATA_MEMCACHED_WEIGHT%'
-    Redis:
-      #      database: '%DATA_REDIS_NAME%' # This needs to be checked as to why codeception does not parse it
-      database: 0
-      host: '%DATA_REDIS_HOST%'
-      #      port: '%DATA_REDIS_PORT%' # This needs to be checked as to why codeception does not parse it
-      port: 6379
   enabled:
+    - Db:
+        dsn: 'mysql:host=%DATA_MYSQL_HOST%;dbname=%DATA_MYSQL_NAME%;port=%DATA_MYSQL_PORT%'
+        user: '%DATA_MYSQL_USER%'
+        password: '%DATA_MYSQL_PASS%'
+        populate: true
+        cleanup: false
+        dump: 'tests/_data/assets/db/schemas/mysql_schema.sql'
+    - Phalcon4:
+        bootstrap: 'tests/_config/bootstrap.php'
+    - Helper\PhalconLibmemcached:
+        host: '%DATA_MEMCACHED_HOST%'
+        port: '%DATA_MEMCACHED_PORT%'
+        weight: '%DATA_MEMCACHED_WEIGHT%'
+    - Redis:
+        #      database: '%DATA_REDIS_NAME%' # This needs to be checked as to why codeception does not parse it
+        database: 0
+        host: '%DATA_REDIS_HOST%'
+        #      port: '%DATA_REDIS_PORT%' # This needs to be checked as to why codeception does not parse it
+        port: 6379
     - Asserts
     - Filesystem
     - Helper\Integration
     - Helper\PhalconLibmemcached
     - Helper\Unit
-    - Phalcon
-    - Redis
