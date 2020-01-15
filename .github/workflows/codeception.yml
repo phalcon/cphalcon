@@ -11,18 +11,18 @@ jobs:
         ports:
           - 3306:3306
         env:
-          MYSQL_ROOT_PASSWORD=secret
-          MYSQL_USER=phalcon
-          MYSQL_DATABASE=phalcon
-          MYSQL_PASSWORD=secret
+          MYSQL_ROOT_PASSWORD: secret
+          MYSQL_USER: phalcon
+          MYSQL_DATABASE: phalcon
+          MYSQL_PASSWORD: secret
       postgres:
         image: postgres:12-alpine
         ports:
           - 5432:5432
         env:
-          POSTGRES_PASSWORD=secret
-          POSTGRES_USER=phalcon
-          POSTGRES_DB=phalcon
+          POSTGRES_PASSWORD: secret
+          POSTGRES_USER: phalcon
+          POSTGRES_DB: phalcon
       redis:
         image: redis:5-alpine
         ports:
