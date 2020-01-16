@@ -62,7 +62,7 @@ class BlurCest
                 $I->seeFileFound($resultImage);
 
                 $I->assertTrue(
-                    $this->checkImageHash($output, $hash)
+                    $this->checkImageHash($output, $hash, 70)
                 );
 
                 $I->safeDeleteFile($output);
