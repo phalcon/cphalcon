@@ -52,7 +52,7 @@ modules:
         database: 0
         host: '%DATA_REDIS_HOST%'
         #      port: '%DATA_REDIS_PORT%' # This needs to be checked as to why codeception does not parse it
-        port: 6379
+        port: '%DATA_REDIS_PORT%'
     - Asserts
     - Filesystem
     - Helper\Integration
