@@ -1224,7 +1224,7 @@ class Compiler implements InjectionAwareInterface
                     }
                 }
 
-                let exprCode = join(", ", items);
+                let exprCode = implode(", ", items);
 
                 break;
             }
@@ -2462,7 +2462,7 @@ class Compiler implements InjectionAwareInterface
          * "join" uses calls the "join" function in the PHP userland
          */
         if name == "join" {
-            return "join(" . arguments . ")";
+            return "join('" . funcArguments[1]["expr"]["value"] . "', " . funcArguments[0]["expr"]["value"] . ")";
         }
 
         /**
