@@ -541,6 +541,11 @@ class CompileStringCest
                 '{# some comment #}{{ "hello" }}{# other comment }}',
                 "<?= 'hello' ?>",
             ],
+            // join filter
+            [
+                "{{ [1, 2]|join(',') }}",
+                "<?= join(',', [1, 2]) ?>",
+            ],
         ];
     }
 
