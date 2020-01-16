@@ -64,6 +64,13 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     protected eventsManager;
 
     /**
+     * The real SQL statement - what was executed
+     *
+     * @var string
+     */
+    protected realSqlStatement;
+
+    /**
      * Active SQL Bind Types
      *
      * @var array
@@ -723,7 +730,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      */
     public function getRealSQLStatement() -> string
     {
-        return this->sqlStatement;
+        return this->realSqlStatement;
     }
 
     /**
