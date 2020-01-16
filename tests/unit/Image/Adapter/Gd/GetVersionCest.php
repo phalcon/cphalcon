@@ -33,6 +33,8 @@ class GetVersionCest
 
         $gd = new Gd(dataDir('assets/images/phalconphp.jpg'));
 
+        print_r(gd_info());
+
         $I->assertEquals(
             '2.0.35',
             $gd->getVersion()
