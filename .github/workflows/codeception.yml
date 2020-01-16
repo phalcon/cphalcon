@@ -54,9 +54,9 @@ jobs:
           php-version: '7.4'
           ini-values: apc.enable_cli=on, session.save_path=/tmp
           tools: pecl
-          extensions: mbstring, intl, json, phalcon, imagick, apcu_bc
+          extensions: mbstring, intl, json, phalcon, imagick
       - name: Install packages
-        run: composer install
+        run: composer install --prefer-dist
       - name: Run tests
         env:
           DATA_MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
@@ -66,6 +66,7 @@ jobs:
         run: |
           cp tests/_ci/.env.default .env
           vendor/bin/codecept build
+          vendor/bin/codecept run --debug --ext DotReporter integration
           vendor/bin/codecept run --ext DotReporter cli
           vendor/bin/codecept run --ext DotReporter unit
-          vendor/bin/codecept run --ext DotReporter integration
+
