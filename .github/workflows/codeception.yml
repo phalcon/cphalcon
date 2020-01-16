@@ -38,7 +38,13 @@ jobs:
         uses: actions/checkout@v2-beta
         with:
           fetch-depth: 1
+      - uses: actions/cache@v1
+        id: cache
+        with:
+          path: path/to/dependencies
+          key: ${{ runner.os }}-${{ hashFiles('.github/codeception.yml')-${{ hashFiles('composer.json') }}
       - name: Setup PHP
+        if: steps.cache-primes.outputs.cache-hit != 'true'
         uses: shivammathur/setup-php@v1
         with:
           php-version: '7.4'
@@ -46,6 +52,7 @@ jobs:
           tools: pecl
           extensions: mbstring, intl, json, phalcon, imagick, apcu_bc
       - name: Install packages
+        if: steps.cache-primes.outputs.cache-hit != 'true'
         run: composer install
       - name: Run tests
         env:
