@@ -247,7 +247,7 @@ if (!function_exists('getOptionsSqlite')) {
     function getOptionsSqlite(): array
     {
         return [
-            'dbname' => env('DATA_SQLITE_NAME'),
+            'dbname' => dirname(__DIR__ ) . "/" . env('DATA_SQLITE_NAME'),
         ];
     }
 }
