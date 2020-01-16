@@ -34,6 +34,8 @@ jobs:
     runs-on: ubuntu-latest
     name: Run basic test on latest Phalcon
     steps:
+      - name: Docker overview
+        run: docker ps
       - name: Git checkout
         uses: actions/checkout@v2-beta
         with:
