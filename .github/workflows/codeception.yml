@@ -54,7 +54,7 @@ jobs:
           php-version: '7.4'
           ini-values: apc.enable_cli=on, session.save_path=/tmp
           tools: pecl
-          extensions: mbstring, intl, json, phalcon, imagick
+          extensions: mbstring, intl, json, phalcon, imagick, apcu_bc
       - name: Install packages
         run: composer install --prefer-dist
       - name: Run tests
@@ -69,4 +69,3 @@ jobs:
           vendor/bin/codecept run --debug --ext DotReporter integration
           vendor/bin/codecept run --ext DotReporter cli
           vendor/bin/codecept run --ext DotReporter unit
-
