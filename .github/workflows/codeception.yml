@@ -38,13 +38,17 @@ jobs:
         uses: actions/checkout@v2-beta
         with:
           fetch-depth: 1
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: |
+          echo "::set-output name=dir::$(composer config cache-files-dir)"
       - uses: actions/cache@v1
-        id: cache
         with:
-          path: path/to/dependencies
-          key: ${{ runner.os }}_${{ hashFiles('.github/codeception.yml')_${{ hashFiles('composer.json') }}
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
       - name: Setup PHP
-        if: steps.cache-primes.outputs.cache-hit != 'true'
         uses: shivammathur/setup-php@v1
         with:
           php-version: '7.4'
@@ -52,7 +56,6 @@ jobs:
           tools: pecl
           extensions: mbstring, intl, json, phalcon, imagick, apcu_bc
       - name: Install packages
-        if: steps.cache-primes.outputs.cache-hit != 'true'
         run: composer install
       - name: Run tests
         env:
