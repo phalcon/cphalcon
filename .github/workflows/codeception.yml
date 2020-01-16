@@ -7,7 +7,7 @@ jobs:
   build:
     services:
       mysql:
-        image: mysql:8
+        image: mysql:5.7
         ports:
           - 3306
         env:

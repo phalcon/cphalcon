@@ -3,7 +3,7 @@ version: '3.2'
 services:
   mysql:
     restart: always
-    image: mysql:8
+    image: mysql:5.7
     ports:
       - 3306:3306
     environment:
