@@ -42,7 +42,7 @@ jobs:
         id: cache
         with:
           path: path/to/dependencies
-          key: ${{ runner.os }}-${{ hashFiles('.github/codeception.yml')-${{ hashFiles('composer.json') }}
+          key: ${{ runner.os }}_${{ hashFiles('.github/codeception.yml')_${{ hashFiles('composer.json') }}
       - name: Setup PHP
         if: steps.cache-primes.outputs.cache-hit != 'true'
         uses: shivammathur/setup-php@v1

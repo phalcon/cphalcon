@@ -54,6 +54,7 @@
         "ext-apcu": "*",
         "ext-imagick": "*",
         "ext-intl": "*",
+        "ext-iconv": "*",
         "codeception/codeception": "^4.0",
         "friendsofphp/php-cs-fixer": "~2.0",
         "mustache/mustache": "^2.12",
