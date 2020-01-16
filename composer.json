@@ -55,6 +55,7 @@
         "ext-imagick": "*",
         "ext-intl": "*",
         "ext-iconv": "*",
+        "ext-sqlite3": "*",
         "codeception/codeception": "^4.0",
         "friendsofphp/php-cs-fixer": "~2.0",
         "mustache/mustache": "^2.12",
