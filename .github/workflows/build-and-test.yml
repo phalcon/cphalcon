@@ -1,0 +1,195 @@
+name: Build and Test Phalcon
+
+on:
+  push:
+    paths-ignore:
+      - '**.md'
+      - '**.txt'
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    name: Build Phalcon Pecl Package
+    steps:
+      - name: Set environment variables
+        run: |
+          echo "::set-env name=ZEPHIR_PARSER_VERSION::v1.3.3"
+          echo "::set-env name=ZEPHIR_VERSION::v0.12.16"
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v1
+        with:
+          php-version: '7.4'
+          extensions: mbstring, intl, json
+          tools: pecl
+      - name: Common settings
+        run: |
+          # Core dump settings
+          ulimit -c unlimited -S || true
+
+          # Hide "You are in 'detached HEAD' state" message
+          git config --global advice.detachedHead false
+
+          # Will be used before as a cache key
+          export CPUHASH="$(cat /proc/cpuinfo | grep "model name" | head -n 1 | cut -d':' -f2 | md5sum)"
+      - name: Git checkout
+        uses: actions/checkout@v2-beta
+        with:
+          fetch-depth: 1
+      - name: Setup APT repositories
+        run: |
+          # We don't need this at all, and our
+          # builds often fails because Microsoft
+          # servers are unstable or even offline.
+          sudo rm -f /etc/apt/sources.list.d/dotnetdev.list
+          sudo rm -f /etc/apt/sources.list.d/azure*.list
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update --quiet --yes 1>/dev/null
+          sudo apt-get install --no-install-recommends -q -y re2c
+
+      - name: Get Zephir Parser Cache Key
+        id: zephir-parser-cache-key
+        run: echo "::set-output name=key::$(echo -n ${ZEPHIR_PARSER_VERSION}_${CPUHASH})"
+
+      - name: Cache Zephir Parser
+        uses: actions/cache@v1
+        with:
+          path: ~/php-zephir-parser
+          key: ${{ runner.os }}-${{ matrix.php }}-zephir-parser-${{ steps.zephir-parser-cache.outputs.key }}
+          restore-keys: ${{ runner.os }}-${{ matrix.php }}-zephir-parser-
+
+      - name: Install Zephir Parser
+        run: |
+          if [ ! -f ~/php-zephir-parser/LICENSE ]; then
+            rm -rf ~/php-zephir-parser
+            git clone -b "$ZEPHIR_PARSER_VERSION" \
+              --depth 1 \
+              -q https://github.com/phalcon/php-zephir-parser \
+              ~/php-zephir-parser
+          fi
+
+          cd ~/php-zephir-parser
+          phpize
+          ./configure --with-php-config=/usr/bin/php-config --enable-zephir_parser
+          make -j"$(getconf _NPROCESSORS_ONLN)"
+          sudo make install
+          echo 'extension="zephir_parser.so"' | sudo tee "/etc/php/${{ matrix.php }}/cli/conf.d/zephir_parser.ini"
+
+      - name: Setup GitHub Token
+        run: |
+          # To increase the GitHub rate limit we're use GitHub authentication
+          if [ -n "${{ secrets.GH_TOKEN }}" ]; then
+            composer config github-oauth.github.com "${{ secrets.GH_TOKEN }}"
+          fi
+
+      - name: Install Zephir
+        run: |
+          wget \
+              --no-clobber \
+              -O "$HOME/bin/zephir" \
+              "https://github.com/phalcon/zephir/releases/download/${{ ZEPHIR_VERSION }}/zephir.phar"
+            chmod +x "$HOME/bin/zephir"
+      - name: Generate C code
+        run: |
+          zephir fullclean
+          zephir generate
+          cd build
+          php gen-build.php
+          cd ..
+
+      - name: Create pecl package
+        id: pecl_create
+        run: |
+          cp build/php7/safe/config.w32 config.w32
+          cp build/php7/safe/phalcon.zep.c phalcon.zep.c
+          cp build/php7/safe/config.m4 config.m4
+          cp build/php7/safe/php_phalcon.h php_phalcon.h
+          cp build/php7/safe/phalcon.zep.h phalcon.zep.h
+          pecl package
+          phalcon_package="`ls | grep phalcon-*tgz`"
+          mv $phalcon_package phalcon-pecl.tgz
+      - name: Validate pecl package
+        run: pecl package-validate phalcon-pecl.tgz
+      - uses: actions/upload-artifact@v1
+        with:
+          name: 'phalcon-pecl'
+          path: phalcon-pecl.tgz
+  build:
+    services:
+      mysql:
+        image: mysql:5.7
+        ports:
+          - 3306
+        env:
+          MYSQL_ROOT_PASSWORD: secret
+          MYSQL_USER: phalcon
+          MYSQL_DATABASE: phalcon
+          MYSQL_PASSWORD: secret
+      postgres:
+        image: postgres:12-alpine
+        ports:
+          - 5432
+        env:
+          POSTGRES_PASSWORD: secret
+          POSTGRES_USER: phalcon
+          POSTGRES_DB: phalcon
+      redis:
+        image: redis:5-alpine
+        ports:
+          - 6379
+      memcached:
+        image: memcached:1.5-alpine
+        ports:
+          - 11211
+    runs-on: ubuntu-latest
+    name: Run basic test on latest Phalcon
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@v2-beta
+        with:
+          fetch-depth: 1
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: |
+          echo "::set-output name=dir::$(composer config cache-files-dir)"
+      - uses: actions/cache@v1
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v1
+        with:
+          php-version: '7.4'
+          ini-values: apc.enable_cli=on, session.save_path=/tmp
+          tools: pecl
+          extensions: mbstring, intl, json, imagick, apcu_bc
+      - name: Download phalcon pecl package
+        uses: actions/download-artifact@v1
+        with:
+          name: phalcon-pecl
+          - name: Install package
+            run: |
+              export MAKEFLAGS="-j$(getconf _NPROCESSORS_ONLN)"
+              sudo pecl -v install phalcon-pecl/phalcon-pecl.tgz
+          - name: Verify install
+            run: php -m | grep phalcon
+      - name: Install packages
+        run: composer install --prefer-dist
+      - name: Run tests
+        env:
+          DATA_MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
+          DATA_POSTGRES_PORT: ${{ job.services.postgres.ports['5432'] }}
+          DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
+          DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
+        run: |
+          cp tests/_ci/.env.default .env
+          vendor/bin/codecept build
+          vendor/bin/codecept run --ext DotReporter integration
+          vendor/bin/codecept run --ext DotReporter cli
+          vendor/bin/codecept run --ext DotReporter unit
