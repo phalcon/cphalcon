@@ -2462,7 +2462,7 @@ class Compiler implements InjectionAwareInterface
          * "join" uses calls the "join" function in the PHP userland
          */
         if name == "join" {
-            return "join('" . funcArguments[1]["expr"]["value"] . "', " . funcArguments[0]["expr"]["value"] . ")";
+            return "implode('" . funcArguments[1]["expr"]["value"] . "', " . funcArguments[0]["expr"]["value"] . ")";
         }
 
         /**

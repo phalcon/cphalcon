@@ -423,18 +423,16 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
         var container, crypt, definition, encryptValue, expire, domain, httpOnly,
             name, options, path, secure, session, signKey, value, version;
 
-        let name     = this->name,
-            value    = this->value,
-            expire   = this->expire,
-            domain   = this->domain,
-            path     = this->path,
-            secure   = this->secure,
-            httpOnly = this->httpOnly,
-            options  = this->options;
-
-        let container = this->container;
-
-        let definition = [];
+        let name       = this->name,
+            value      = this->value,
+            expire     = this->expire,
+            domain     = this->domain,
+            path       = this->path,
+            secure     = this->secure,
+            httpOnly   = this->httpOnly,
+            options    = this->options,
+            container  = this->container,
+            definition = [];
 
         if expire != 0 {
             let definition["expire"] = expire;
