@@ -43,13 +43,6 @@ abstract class AbstractPdo extends AbstractAdapter
     protected affectedRows;
 
     /**
-     * The real SQL statement - what was executed
-     *
-     * @var string
-     */
-    protected realSqlStatement;
-
-    /**
      * PDO Handler
      *
      * @var \PDO
@@ -750,9 +743,9 @@ abstract class AbstractPdo extends AbstractAdapter
             throw new Exception("Cannot prepare statement");
         }
 
-        let statement = this->executePrepared(statement, params, types);
-
         this->prepareRealSql(statement, bindParams);
+
+        let statement = this->executePrepared(statement, params, types);
 
         /**
          * Execute the afterQuery event if an EventsManager is available
