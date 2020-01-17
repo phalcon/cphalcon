@@ -22,7 +22,7 @@ jobs:
         uses: shivammathur/setup-php@v1
         with:
           php-version: '7.4'
-          extensions: mbstring, intl, json
+          extensions: mbstring, intl, json, psr
           tools: pecl
       - name: Common settings
         run: |
