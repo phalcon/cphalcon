@@ -122,13 +122,6 @@ class Confirmation extends AbstractValidator
     final protected function compare(string a, string b) -> bool
     {
         if this->getOption("ignoreCase", false) {
-            /**
-             * mbstring is required here
-             */
-            if unlikely !function_exists("mb_strtolower") {
-                throw new Exception("Extension 'mbstring' is required");
-            }
-
             let a = mb_strtolower(a, "utf-8");
             let b = mb_strtolower(b, "utf-8");
         }

@@ -305,7 +305,7 @@ class Debug
             let blacklist = Arr::get(this->blacklist, "request", []);
 
             for keyRequest, value in _REQUEST {
-                if true !== isset(blacklist[strtolower(keyRequest)]) {
+                if true !== isset(blacklist[mb_strtolower(keyRequest)]) {
                     if typeof value != "array" {
                         let html .= "<tr><td class='key'>" . keyRequest . "</td><td>" . value . "</td></tr>";
                     } else {
@@ -325,7 +325,7 @@ class Debug
             let blacklist = Arr::get(this->blacklist, "server", []);
 
             for keyServer, value in _SERVER {
-                if true !== isset(blacklist[strtolower(keyServer)]) {
+                if true !== isset(blacklist[mb_strtolower(keyServer)]) {
                     let html .= "<tr><td class='key'>" . keyServer . "</td><td>" . this->getVarDump(value) . "</td></tr>";
                 }
             }
@@ -411,7 +411,7 @@ class Debug
             result   = [];
 
         for value in area {
-            let value           = strtolower(value),
+            let value           = mb_strtolower(value),
                 subArray[value] = 1;
         }
 
@@ -420,7 +420,7 @@ class Debug
             subArray          = [];
 
         for value in area {
-            let value           = strtolower(value),
+            let value           = mb_strtolower(value),
                 subArray[value] = 1;
         }
 
@@ -646,7 +646,7 @@ class Debug
                     let prepareInternalClass = str_replace(
                         "_",
                         "-",
-                        strtolower(className)
+                        mb_strtolower(className)
                     );
 
                     /**

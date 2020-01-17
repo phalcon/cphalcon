@@ -43,7 +43,7 @@ class Sqlite extends Dialect
         if column->hasDefault() {
             let defaultValue = column->getDefault();
 
-            if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
+            if memstr(mb_strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
                 let sql .= " DEFAULT CURRENT_TIMESTAMP";
             } else {
                 let sql .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
@@ -170,7 +170,7 @@ class Sqlite extends Dialect
             if column->hasDefault() {
                 let defaultValue = column->getDefault();
 
-                if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
+                if memstr(mb_strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
                     let columnLine .= " DEFAULT CURRENT_TIMESTAMP";
                 } else {
                     let columnLine .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
@@ -200,7 +200,7 @@ class Sqlite extends Dialect
                  */
                 if indexName == "PRIMARY" && !hasPrimary {
                     let createLines[] = "PRIMARY KEY (" . this->getColumnList(index->getColumns()) . ")";
-                } elseif !empty indexType && memstr(strtoupper(indexType), "UNIQUE") {
+                } elseif !empty indexType && memstr(mb_strtoupper(indexType), "UNIQUE") {
                     let createLines[] = "UNIQUE (" . this->getColumnList(index->getColumns()) . ")";
                 }
             }
@@ -527,7 +527,7 @@ class Sqlite extends Dialect
                             let valueSql .= "\"" . addcslashes(value, "\"") . "\", ";
                         }
 
-                        let columnSql .= "(" . substr(valueSql, 0, -2) . ")";
+                        let columnSql .= "(" . mb_substr(valueSql, 0, -2) . ")";
                     } else {
                         let columnSql .= "(\"" . addcslashes(typeValues, "\"") . "\")";
                     }

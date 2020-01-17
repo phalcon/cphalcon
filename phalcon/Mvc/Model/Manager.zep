@@ -259,7 +259,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     public function isInitialized(string! className) -> bool
     {
-        return isset this->initialized[strtolower(className)];
+        return isset this->initialized[mb_strtolower(className)];
     }
 
     /**
@@ -703,7 +703,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         string keyRelation;
 
         let entityName = get_class_lower(model),
-            referencedEntity = strtolower(referencedModel);
+            referencedEntity = mb_strtolower(referencedModel);
 
         let keyRelation = entityName . "$" . referencedEntity;
 
@@ -741,7 +741,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
                 throw new Exception("Relation alias must be a string");
             }
 
-            let lowerAlias = strtolower(alias);
+            let lowerAlias = mb_strtolower(alias);
         } else {
             let lowerAlias = referencedEntity;
         }
@@ -792,8 +792,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         string keyRelation;
 
         let entityName = get_class_lower(model),
-            intermediateEntity = strtolower(intermediateModel),
-            referencedEntity = strtolower(referencedModel),
+            intermediateEntity = mb_strtolower(intermediateModel),
+            referencedEntity = mb_strtolower(referencedModel),
             keyRelation = entityName . "$" . referencedEntity;
 
         let hasOneThrough = this->hasOneThrough;
@@ -854,7 +854,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
                 throw new Exception("Relation alias must be a string");
             }
 
-            let lowerAlias = strtolower(alias);
+            let lowerAlias = mb_strtolower(alias);
         } else {
             let lowerAlias = referencedEntity;
         }
@@ -907,7 +907,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         string keyRelation;
 
         let entityName = get_class_lower(model),
-            referencedEntity = strtolower(referencedModel);
+            referencedEntity = mb_strtolower(referencedModel);
 
         let keyRelation = entityName . "$" . referencedEntity;
 
@@ -945,7 +945,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
                 throw new Exception("Relation alias must be a string");
             }
 
-            let lowerAlias = strtolower(alias);
+            let lowerAlias = mb_strtolower(alias);
         } else {
             let lowerAlias = referencedEntity;
         }
@@ -993,7 +993,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         string keyRelation;
 
         let entityName = get_class_lower(model),
-            referencedEntity = strtolower(referencedModel),
+            referencedEntity = mb_strtolower(referencedModel),
             keyRelation = entityName . "$" . referencedEntity;
 
         let hasMany = this->hasMany;
@@ -1032,7 +1032,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
                 throw new Exception("Relation alias must be a string");
             }
 
-            let lowerAlias = strtolower(alias);
+            let lowerAlias = mb_strtolower(alias);
         } else {
             let lowerAlias = referencedEntity;
         }
@@ -1083,8 +1083,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         string keyRelation;
 
         let entityName = get_class_lower(model),
-            intermediateEntity = strtolower(intermediateModel),
-            referencedEntity = strtolower(referencedModel),
+            intermediateEntity = mb_strtolower(intermediateModel),
+            referencedEntity = mb_strtolower(referencedModel),
             keyRelation = entityName . "$" . referencedEntity;
 
         let hasManyToMany = this->hasManyToMany;
@@ -1145,7 +1145,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
                 throw new Exception("Relation alias must be a string");
             }
 
-            let lowerAlias = strtolower(alias);
+            let lowerAlias = mb_strtolower(alias);
         } else {
             let lowerAlias = referencedEntity;
         }
@@ -1193,12 +1193,12 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         var entityName;
         string keyRelation;
 
-        let entityName = strtolower(modelName);
+        let entityName = mb_strtolower(modelName);
 
         /**
          * Relationship unique key
          */
-        let keyRelation = entityName . "$" . strtolower(modelRelation);
+        let keyRelation = entityName . "$" . mb_strtolower(modelRelation);
 
         /**
          * Initialize the model first
@@ -1218,12 +1218,12 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         var entityName;
         string keyRelation;
 
-        let entityName = strtolower(modelName);
+        let entityName = mb_strtolower(modelName);
 
         /**
          * Relationship unique key
          */
-        let keyRelation = entityName . "$" . strtolower(modelRelation);
+        let keyRelation = entityName . "$" . mb_strtolower(modelRelation);
 
         /**
          * Initialize the model first
@@ -1243,12 +1243,12 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         var entityName;
         string keyRelation;
 
-        let entityName = strtolower(modelName);
+        let entityName = mb_strtolower(modelName);
 
         /**
          * Relationship unique key
          */
-        let keyRelation = entityName . "$" . strtolower(modelRelation);
+        let keyRelation = entityName . "$" . mb_strtolower(modelRelation);
 
         /**
          * Initialize the model first
@@ -1268,12 +1268,12 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         var entityName;
         string keyRelation;
 
-        let entityName = strtolower(modelName);
+        let entityName = mb_strtolower(modelName);
 
         /**
          * Relationship unique key
          */
-        let keyRelation = entityName . "$" . strtolower(modelRelation);
+        let keyRelation = entityName . "$" . mb_strtolower(modelRelation);
 
         /**
          * Initialize the model first
@@ -1293,12 +1293,12 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         var entityName;
         string keyRelation;
 
-        let entityName = strtolower(modelName);
+        let entityName = mb_strtolower(modelName);
 
         /**
          * Relationship unique key
          */
-        let keyRelation = entityName . "$" . strtolower(modelRelation);
+        let keyRelation = entityName . "$" . mb_strtolower(modelRelation);
 
         /**
          * Initialize the model first
@@ -1317,7 +1317,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     {
         var relation;
 
-        if !fetch relation, this->aliases[strtolower(modelName . "$" . alias)] {
+        if !fetch relation, this->aliases[mb_strtolower(modelName . "$" . alias)] {
             return false;
         }
 
@@ -1645,7 +1645,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         /**
          * Check if there is a relation between them
          */
-        let keyRelation = strtolower(modelName) . "$" . strtolower(modelRelation);
+        let keyRelation = mb_strtolower(modelName) . "$" . mb_strtolower(modelRelation);
 
         if !fetch relations, this->hasMany[keyRelation] {
             return false;
@@ -1675,7 +1675,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         /**
          * Check if there is a relation between them
          */
-        let keyRelation = strtolower(modelName) . "$" . strtolower(modelRelation);
+        let keyRelation = mb_strtolower(modelName) . "$" . mb_strtolower(modelRelation);
 
         if !fetch relations, this->hasMany[keyRelation] {
             return false;
@@ -1705,7 +1705,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         /**
          * Check if there is a relation between them
          */
-        let keyRelation = strtolower(modelName) . "$" . strtolower(modelRelation);
+        let keyRelation = mb_strtolower(modelName) . "$" . mb_strtolower(modelRelation);
 
         if !fetch relations, this->hasOne[keyRelation] {
             return false;
@@ -1818,7 +1818,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         var entityName, relations, relation;
         array allRelations;
 
-        let entityName = strtolower(modelName),
+        let entityName = mb_strtolower(modelName),
             allRelations = [];
 
         /**
@@ -1877,7 +1877,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         var relations;
         string keyRelation;
 
-        let keyRelation = strtolower(first) . "$" . strtolower(second);
+        let keyRelation = mb_strtolower(first) . "$" . mb_strtolower(second);
 
         /**
          * Check if it's a belongs-to relationship

@@ -120,7 +120,7 @@ final class Uri extends AbstractCommon implements UriInterface
             }
 
             let this->fragment = this->filterFragment(Arr::get(urlParts, "fragment", "")),
-                this->host     = strtolower(Arr::get(urlParts, "host", "")),
+                this->host     = mb_strtolower(Arr::get(urlParts, "host", "")),
                 this->pass     = rawurlencode(Arr::get(urlParts, "pass", "")),
                 this->path     = this->filterPath(Arr::get(urlParts, "path", "")),
                 this->port     = this->filterPort(Arr::get(urlParts, "port", null)),
@@ -284,7 +284,7 @@ final class Uri extends AbstractCommon implements UriInterface
     {
         this->checkStringParameter(path);
 
-        if unlikely (false !== strpos(path, "?") || false !== strpos(path, "#")) {
+        if unlikely (false !== mb_strpos(path, "?") || false !== mb_strpos(path, "#")) {
             throw new InvalidArgumentException(
                 "Path cannot contain a query string or fragment"
             );
@@ -347,7 +347,7 @@ final class Uri extends AbstractCommon implements UriInterface
     {
         this->checkStringParameter(query);
 
-        if unlikely false !== strpos(query, "#") {
+        if unlikely false !== mb_strpos(query, "#") {
             throw new InvalidArgumentException(
                 "Query cannot contain a query fragment"
             );

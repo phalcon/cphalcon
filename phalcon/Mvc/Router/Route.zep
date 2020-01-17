@@ -159,7 +159,7 @@ class Route implements RouteInterface
         int intermediate = 0, numberMatches = 0;
         string route, item, variable, regexp;
 
-        if strlen(pattern) === 0 {
+        if mb_strlen(pattern) === 0 {
             return false;
         }
 
@@ -184,7 +184,7 @@ class Route implements RouteInterface
                             let numberMatches++,
                                 variable = null,
                                 regexp = null,
-                                item = (string) substr(pattern, marker, cursor - marker);
+                                item = (string) mb_substr(pattern, marker, cursor - marker);
 
                             for cursorVar, ch in item {
                                 if ch == '\0' {
@@ -199,8 +199,8 @@ class Route implements RouteInterface
 
                                 if (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || (ch >= '0' && ch <='9') || ch == '-' || ch == '_' || ch ==  ':' {
                                     if ch == ':' {
-                                        let variable = (string) substr(item, 0, cursorVar),
-                                            regexp = (string) substr(item, cursorVar + 1);
+                                        let variable = (string) mb_substr(item, 0, cursorVar),
+                                            regexp = (string) mb_substr(item, cursorVar + 1);
 
                                         break;
                                     }

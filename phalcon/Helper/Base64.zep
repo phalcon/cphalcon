@@ -41,7 +41,7 @@ class Base64
     {
         var data, remainder;
 
-        let remainder = strlen(input) % 4;
+        let remainder = mb_strlen(input) % 4;
         if remainder {
             let input .= str_repeat("=", 4 - remainder);
         }

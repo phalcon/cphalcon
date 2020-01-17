@@ -60,7 +60,7 @@ class Apcu extends AbstractAdapter
     public function read(string! key) -> <Reflection> | bool
     {
         return apcu_fetch(
-            strtolower(
+            mb_strtolower(
                 "_PHAN" . this->prefix . key
             )
         );
@@ -72,7 +72,7 @@ class Apcu extends AbstractAdapter
     public function write(string! key, <Reflection> data) -> bool
     {
         return apcu_store(
-            strtolower(
+            mb_strtolower(
                 "_PHAN" . this->prefix . key
             ),
             data,

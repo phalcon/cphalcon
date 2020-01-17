@@ -119,21 +119,19 @@ class Security extends AbstractInjectionAware
     public function checkHash(string password, string passwordHash, int maxPassLength = 0) -> bool
     {
         char ch;
+        int i, sum;
         string cryptedHash;
-        int i, sum, cryptedLength, passwordLength;
+        var cryptedLength, passwordLength;
 
-        if maxPassLength > 0 && strlen(password) > maxPassLength {
+        if maxPassLength > 0 && mb_strlen(password) > maxPassLength {
             return false;
         }
 
-        let cryptedHash = (string) crypt(password, passwordHash);
-
-        let cryptedLength = strlen(cryptedHash),
-            passwordLength = strlen(passwordHash);
-
-        let cryptedHash .= passwordHash;
-
-        let sum = cryptedLength - passwordLength;
+        let cryptedHash    = (string) crypt(password, passwordHash),
+            cryptedLength  = mb_strlen(cryptedHash),
+            passwordLength = mb_strlen(passwordHash),
+            cryptedHash   .= passwordHash,
+            sum            = cryptedLength - passwordLength;
 
         for i, ch in passwordHash {
             let sum = sum | (cryptedHash[i] ^ ch);
@@ -307,7 +305,7 @@ class Security extends AbstractInjectionAware
         loop {
             let safeBytes = this->random->base64Safe(numberBytes);
 
-            if safeBytes && strlen(safeBytes) >= numberBytes {
+            if safeBytes && mb_strlen(safeBytes) >= numberBytes {
                 break;
             }
         }

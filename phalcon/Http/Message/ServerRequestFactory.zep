@@ -196,7 +196,7 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
 
         // works for regname, IPv4 & IPv6
         if unlikely preg_match("|:(\d+)$|", host, matches) {
-            let host = substr(host, 0, -1 * (strlen(matches[1]) + 1)),
+            let host = mb_substr(host, 0, -1 * (mb_strlen(matches[1]) + 1)),
                 port = (int) matches[1];
         }
 
@@ -274,7 +274,7 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
             isHttps = true;
         if likely server->has("HTTPS") {
             let isHttps = (string) server->get("HTTPS", "on"),
-                isHttps = "off" !== strtolower(isHttps);
+                isHttps = "off" !== mb_strtolower(isHttps);
         }
 
         let header = this->getHeader(headers, "x-forwarded-proto", "https");
@@ -365,7 +365,7 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
         var cookies;
 
         let cookies = [];
-        parse_str(
+        mb_parse_str(
             strtr(
                 cookieHeader,
                 [
@@ -403,8 +403,8 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
                  * Apache prefixes environment variables with REDIRECT_
                  * if they are added by rewrite rules
                  */
-                if unlikely strpos(key, "REDIRECT_") === 0 {
-                    let key = substr(key, 9);
+                if unlikely mb_strpos(key, "REDIRECT_") === 0 {
+                    let key = mb_substr(key, 9);
                     /**
                      * We will not overwrite existing variables with the
                      * prefixed versions, though
@@ -414,19 +414,19 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
                     }
                 }
 
-                if likely strpos(key, "HTTP_") === 0 {
+                if likely mb_strpos(key, "HTTP_") === 0 {
                     let name = str_replace(
                         "_",
                         "-",
-                        strtolower(substr(key, 5))
+                        mb_strtolower(mb_substr(key, 5))
                     );
 
                     headers->set(name, value);
                     continue;
                 }
 
-                if unlikely strpos(key, "CONTENT_") === 0 {
-                    let name = "content-" . strtolower(substr(key, 8));
+                if unlikely mb_strpos(key, "CONTENT_") === 0 {
+                    let name = "content-" . mb_strtolower(mb_substr(key, 8));
 
                     headers->set(name, value);
                     continue;
@@ -453,7 +453,7 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
         }
 
         let protocol      = (string) server->get("SERVER_PROTOCOL", "HTTP/1.1"),
-            localProtocol = strtolower(protocol),
+            localProtocol = mb_strtolower(protocol),
             protocols     = [
             "1.0" : 1,
             "1.1" : 1,
@@ -461,7 +461,7 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
             "3.0" : 1
         ];
 
-        if substr(localProtocol, 0, 5) !== "http/" {
+        if mb_substr(localProtocol, 0, 5) !== "http/" {
             throw new InvalidArgumentException(
                 "Incorrect protocol value " . protocol
             );

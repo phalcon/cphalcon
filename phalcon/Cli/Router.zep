@@ -391,7 +391,7 @@ class Router extends AbstractInjectionAware
          */
         if fetch params, parts["params"] {
             if typeof params != "array" {
-                let strParams = substr(
+                let strParams = mb_substr(
                     (string) params,
                     1
                 );

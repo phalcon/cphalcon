@@ -277,7 +277,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
         let modelName     = get_class(this),
             manager       = this->getModelsManager(),
-            lowerProperty = strtolower(property);
+            lowerProperty = mb_strtolower(property);
 
         /**
          * Check if the property is a relationship
@@ -366,7 +366,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
          * Values are probably relationships if they are objects
          */
         if typeof value == "object" && value instanceof ModelInterface {
-            let lowerProperty = strtolower(property),
+            let lowerProperty = mb_strtolower(property),
                 modelName     = get_class(this),
                 manager       = this->getModelsManager(),
                 relation      = <RelationInterface> manager->getRelationByAlias(
@@ -394,7 +394,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
          * Check if the value is an array
          */
         elseif typeof value == "array" {
-            let lowerProperty = strtolower(property),
+            let lowerProperty = mb_strtolower(property),
                 modelName = get_class(this),
                 manager   = this->getModelsManager(),
                 relation  = <RelationInterface> manager->getRelationByAlias(
@@ -1832,7 +1832,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
          */
         let className = get_class(this),
             manager = <ManagerInterface> this->modelsManager,
-            lowerAlias = strtolower(alias);
+            lowerAlias = mb_strtolower(alias);
 
         let relation = <RelationInterface> manager->getRelationByAlias(
             className,
@@ -1899,7 +1899,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      */
     public function isRelationshipLoaded(string relationshipAlias) -> bool
     {
-        return isset this->related[strtolower(relationshipAlias)];
+        return isset this->related[mb_strtolower(relationshipAlias)];
     }
 
     /**
@@ -4182,7 +4182,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
          * Calling find/findFirst if the method starts with "get"
          */
         if starts_with(method, "get") {
-            let alias = substr(method, 3);
+            let alias = mb_substr(method, 3);
             let relation = <RelationInterface> manager->getRelationByAlias(
                     modelName,
                     alias
@@ -4207,7 +4207,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
             let relation = <RelationInterface> manager->getRelationByAlias(
                 modelName,
-                substr(method, 5)
+                mb_substr(method, 5)
             );
 
             /**
@@ -4334,7 +4334,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
          */
         if starts_with(method, "findFirstBy") {
             let type = "findFirst",
-                extraMethod = substr(method, 11);
+                extraMethod = mb_substr(method, 11);
         }
 
         /**
@@ -4342,7 +4342,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
          */
         elseif starts_with(method, "findBy") {
             let type = "find",
-                extraMethod = substr(method, 6);
+                extraMethod = mb_substr(method, 6);
         }
 
         /**
@@ -4350,7 +4350,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
          */
         elseif starts_with(method, "countBy") {
             let type = "count",
-                extraMethod = substr(method, 7);
+                extraMethod = mb_substr(method, 7);
         }
 
         /**
@@ -5712,7 +5712,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         var cmKey;
 
         for cmKey in array_keys(columnMap) {
-            if strtolower(cmKey) == strtolower(key) {
+            if mb_strtolower(cmKey) == mb_strtolower(key) {
                 return cmKey;
             }
         }

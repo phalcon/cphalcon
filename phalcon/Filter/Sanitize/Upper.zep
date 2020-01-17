@@ -26,7 +26,7 @@ class Upper
             return mb_convert_case(input, MB_CASE_UPPER, "UTF-8");
         }
 
-        return strtoupper(
+        return mb_strtoupper(
             utf8_decode(input)
         );
     }

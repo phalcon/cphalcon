@@ -223,10 +223,10 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     protected function initSerializer() -> void
     {
-        string className;
+        var className;
 
         if !(typeof this->serializer == "object" && this->serializer instanceof SerializerInterface) {
-            let className        = strtolower(this->defaultSerializer),
+            let className        = mb_strtolower(this->defaultSerializer),
                 this->serializer = this->serializerFactory->newInstance(className);
         }
     }

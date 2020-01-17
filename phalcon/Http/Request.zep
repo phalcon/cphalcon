@@ -331,7 +331,7 @@ class Request extends AbstractInjectionAware implements RequestInterface
     {
         var value, name, server;
 
-        let name = strtoupper(
+        let name = mb_strtoupper(
             strtr(header, "-", "_")
         );
 
@@ -380,11 +380,11 @@ class Request extends AbstractInjectionAware implements RequestInterface
             // Note: The starts_with uses case insensitive search here
             if starts_with(name, "HTTP_") {
                 let name = ucwords(
-                    strtolower(
+                    mb_strtolower(
                         str_replace(
                             "_",
                             " ",
-                            substr(name, 5)
+                            mb_substr(name, 5)
                         )
                     )
                 );
@@ -397,11 +397,11 @@ class Request extends AbstractInjectionAware implements RequestInterface
             }
 
             // The "CONTENT_" headers are not prefixed with "HTTP_".
-            let name = strtoupper(name);
+            let name = mb_strtoupper(name);
 
             if isset contentHeaders[name] {
                 let name = ucwords(
-                    strtolower(
+                    mb_strtolower(
                         str_replace("_", " ", name)
                     )
                 );
@@ -482,7 +482,7 @@ class Request extends AbstractInjectionAware implements RequestInterface
             /**
              * Cleanup. Force lowercase as per RFC 952/2181
              */
-            let host = strtolower(
+            let host = mb_strtolower(
                 trim(host)
             );
 
@@ -557,13 +557,12 @@ class Request extends AbstractInjectionAware implements RequestInterface
      */
     final public function getMethod() -> string
     {
-        var overridedMethod, spoofedMethod, requestMethod, server;
-        string returnMethod = "";
+        var overridedMethod, spoofedMethod, requestMethod, returnMethod, server;
 
         let server = this->getServerArray();
 
         if likely fetch requestMethod, server["REQUEST_METHOD"] {
-            let returnMethod = strtoupper(requestMethod);
+            let returnMethod = mb_strtoupper(requestMethod);
         } else {
             return "GET";
         }
@@ -572,10 +571,10 @@ class Request extends AbstractInjectionAware implements RequestInterface
             let overridedMethod = this->getHeader("X-HTTP-METHOD-OVERRIDE");
 
             if !empty overridedMethod {
-                let returnMethod = strtoupper(overridedMethod);
+                let returnMethod = mb_strtoupper(overridedMethod);
             } elseif this->httpMethodParameterOverride {
                 if fetch spoofedMethod, _REQUEST["_method"] {
-                    let returnMethod = strtoupper(spoofedMethod);
+                    let returnMethod = mb_strtoupper(spoofedMethod);
                 }
             }
         }
@@ -607,7 +606,7 @@ class Request extends AbstractInjectionAware implements RequestInterface
             let pos = strrpos(host, ":");
 
             if false !== pos {
-                return (int) substr(host, pos + 1);
+                return (int) mb_substr(host, pos + 1);
             }
         }
 
@@ -658,7 +657,7 @@ class Request extends AbstractInjectionAware implements RequestInterface
         if typeof put != "array" {
             let contentType = this->getContentType();
 
-            if typeof contentType == "string" && stripos(contentType, "json") != false {
+            if typeof contentType == "string" && mb_stripos(contentType, "json") != false {
                 let put = this->getJsonRawBody(true);
 
                 if typeof put != "array" {
@@ -667,7 +666,7 @@ class Request extends AbstractInjectionAware implements RequestInterface
             } else {
                 let put = [];
 
-                parse_str(this->getRawBody(), put);
+                mb_parse_str(this->getRawBody(), put);
             }
 
             let this->putCache = put;
@@ -925,7 +924,7 @@ class Request extends AbstractInjectionAware implements RequestInterface
     {
         var name;
 
-        let name = strtoupper(strtr(header, "-", "_"));
+        let name = mb_strtoupper(strtr(header, "-", "_"));
 
         return this->hasServer(name) || this->hasServer("HTTP_" . name);
     }
@@ -1145,7 +1144,7 @@ class Request extends AbstractInjectionAware implements RequestInterface
      */
     public function isValidHttpMethod(string method) -> bool
     {
-        switch strtoupper(method) {
+        switch mb_strtoupper(method) {
             case "GET":
             case "POST":
             case "PUT":
@@ -1357,7 +1356,7 @@ class Request extends AbstractInjectionAware implements RequestInterface
             let headerParts = [];
 
             for headerPart in preg_split("/\s*;\s*/", trim(part), -1, PREG_SPLIT_NO_EMPTY) {
-                if strpos(headerPart, "=") !== false {
+                if mb_strpos(headerPart, "=") !== false {
                     let split = explode("=", headerPart, 2);
 
                     if split[0] === "q" {
@@ -1423,11 +1422,11 @@ class Request extends AbstractInjectionAware implements RequestInterface
             }
 
             if authHeader {
-                if stripos(authHeader, "basic ") === 0 {
+                if mb_stripos(authHeader, "basic ") === 0 {
                     let exploded = explode(
                         ":",
                         base64_decode(
-                            substr(authHeader, 6)
+                            mb_substr(authHeader, 6)
                         ),
                         2
                     );
@@ -1436,9 +1435,9 @@ class Request extends AbstractInjectionAware implements RequestInterface
                         let headers["Php-Auth-User"] = exploded[0],
                             headers["Php-Auth-Pw"]   = exploded[1];
                     }
-                } elseif stripos(authHeader, "digest ") === 0 && !this->hasServer("PHP_AUTH_DIGEST") {
+                } elseif mb_stripos(authHeader, "digest ") === 0 && !this->hasServer("PHP_AUTH_DIGEST") {
                     let headers["Php-Auth-Digest"] = authHeader;
-                } elseif stripos(authHeader, "bearer ") === 0 {
+                } elseif mb_stripos(authHeader, "bearer ") === 0 {
                     let headers["Authorization"] = authHeader;
                 }
             }

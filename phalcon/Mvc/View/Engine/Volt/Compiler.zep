@@ -1153,7 +1153,7 @@ class Compiler implements InjectionAwareInterface
              *
              * http://php.net/control-structures.alternative-syntax
              */
-             if strlen(lines) !== 0 {
+             if mb_strlen(lines) !== 0 {
                 /**
                  * (*ANYCRLF) - specifies a newline convention: (*CR), (*LF) or (*CRLF)
                  * \h+ - 1+ horizontal whitespace chars
@@ -2466,16 +2466,14 @@ class Compiler implements InjectionAwareInterface
         }
 
         /**
-         * "lower"/"lowercase" calls the "strtolower" function or
-         * "mb_strtolower" if the mbstring extension is loaded
+         * "lower"/"lowercase" calls the "mb_strtolower"
          */
         if name == "lower" || name == "lowercase" {
             return "Phalcon\\Text::lower(" . arguments . ")";
         }
 
         /**
-         * "upper"/"uppercase" calls the "strtoupper" function or
-         * "mb_strtoupper" if the mbstring extension is loaded
+         * "upper"/"uppercase" calls the "mb_strtoupper"
          */
         if name == "upper" || name == "uppercase" {
             return "Phalcon\\Text::upper(" . arguments . ")";

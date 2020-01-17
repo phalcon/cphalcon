@@ -80,7 +80,7 @@ use Phalcon\Validation\Exception;
  *     new UniquenessValidator(
  *         [
  *             "convert" => function (array $values) {
- *                 $values["username"] = strtolower($values["username"]);
+ *                 $values["username"] = mb_strtolower($values["username"]);
  *
  *                 return $values;
  *             }

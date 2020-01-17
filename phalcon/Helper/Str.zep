@@ -141,7 +141,7 @@ class Str
         if function_exists("mb_substr") {
             let substr = mb_substr(text, 1);
         } else {
-            let substr = substr(text, 1);
+            let substr = mb_substr(text, 1);
         }
 
         if upperRest {
@@ -157,7 +157,7 @@ class Str
         if function_exists("mb_strtolower") {
             return mb_strtolower(mb_substr(text, 0, 1), encoding) . suffix;
         } else {
-            return strtolower(substr(text, 0, 1)) . suffix;
+            return mb_strtolower(mb_substr(text, 0, 1)) . suffix;
         }
     }
 
@@ -212,10 +212,10 @@ class Str
         var name, start;
 
         let name  = pathinfo(file, PATHINFO_FILENAME),
-            start = substr(name, 0, -2);
+            start = mb_substr(name, 0, -2);
 
         if !start {
-            let start = substr(name, 0, 1);
+            let start = mb_substr(name, 0, 1);
         }
 
         return implode("/", str_split(start, 2)) . "/";
@@ -401,7 +401,7 @@ class Str
         );
 
         if lowercase {
-            let friendly = strtolower(friendly);
+            let friendly = mb_strtolower(friendly);
         }
 
         let friendly = preg_replace("/[\\/_|+ -]+/", separator, friendly),
@@ -442,7 +442,7 @@ class Str
         if function_exists("mb_strpos") {
             return false !== mb_strpos(haystack, needle);
         } else {
-            return false !== strpos(haystack, needle);
+            return false !== mb_strpos(haystack, needle);
         }
     }
 
@@ -538,8 +538,7 @@ class Str
     }
 
     /**
-     * Lowercases a string, this function makes use of the mbstring extension if
-     * available
+     * Lowercases a string
      *
      * ```php
      * echo Phalcon\Helper\Str::lower("HELLO"); // hello
@@ -552,15 +551,7 @@ class Str
      */
     final public static function lower(string! text, string! encoding = "UTF-8") -> string
     {
-        /**
-         * 'lower' checks for the mbstring extension to make a correct lowercase
-         * transformation
-         */
-        if function_exists("mb_strtolower") {
-            return mb_strtolower(text, encoding);
-        }
-
-        return text->lower();
+        return mb_strtolower(text, encoding);
     }
 
     /**
@@ -619,7 +610,7 @@ class Str
 
         let end = count(pool) - 1;
 
-        while strlen(text) < length {
+        while mb_strlen(text) < length {
             let text .= pool[mt_rand(0, end)];
         }
 
@@ -708,8 +699,7 @@ class Str
     }
 
     /**
-     * Uppercases a string, this function makes use of the mbstring extension if
-     * available
+     * Uppercases a string
      *
      * ```php
      * echo Phalcon\Helper\Str::upper("hello"); // HELLO
@@ -722,14 +712,6 @@ class Str
      */
     final public static function upper(string! text, string! encoding = "UTF-8") -> string
     {
-        /**
-         * 'upper' checks for the mbstring extension to make a correct lowercase
-         * transformation
-         */
-        if function_exists("mb_strtoupper") {
-            return mb_strtoupper(text, encoding);
-        }
-
-        return text->upper();
+        return mb_strtoupper(text, encoding);
     }
 }

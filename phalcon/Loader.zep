@@ -136,7 +136,7 @@ class Loader implements EventsAwareInterface
             /**
              * Append the namespace separator to the prefix
              */
-            let fileName = substr(className, strlen(nsPrefix . ns));
+            let fileName = mb_substr(className, mb_strlen(nsPrefix . ns));
 
             if !fileName {
                 continue;

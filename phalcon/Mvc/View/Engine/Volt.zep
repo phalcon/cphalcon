@@ -60,25 +60,13 @@ class Volt extends AbstractEngine implements EventsAwareInterface
         }
 
         /**
-         * Fallback to mb_convert_encoding
-         */
-        if function_exists("mb_convert_encoding") {
-            return mb_convert_encoding(text, from, to);
-        }
-
-        /**
          * Fallback to iconv
          */
         if function_exists("iconv") {
             return iconv(from, to, text);
         }
 
-        /**
-         * There are no enough extensions available
-         */
-        throw new Exception(
-            "Any of 'mbstring' or 'iconv' is required to perform the charset conversion"
-        );
+        return mb_convert_encoding(text, from, to);
     }
 
     /**
@@ -147,7 +135,7 @@ class Volt extends AbstractEngine implements EventsAwareInterface
                 return mb_strpos(haystack, needle) !== false;
             }
 
-            return strpos(haystack, needle) !== false;
+            return mb_strpos(haystack, needle) !== false;
         }
 
         throw new Exception("Invalid haystack");
@@ -166,7 +154,7 @@ class Volt extends AbstractEngine implements EventsAwareInterface
             return mb_strlen(item);
         }
 
-        return strlen(item);
+        return mb_strlen(item);
     }
 
     /**
@@ -300,10 +288,10 @@ class Volt extends AbstractEngine implements EventsAwareInterface
          * Use the standard substr function
          */
         if length !== null {
-            return substr(value, start, length);
+            return mb_substr(value, start, length);
         }
 
-        return substr(value, start);
+        return mb_substr(value, start);
     }
 
     /**

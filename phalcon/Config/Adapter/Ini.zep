@@ -123,7 +123,7 @@ class Ini extends Config
 
         // Decode true
         let ini      = (string) ini,
-            lowerIni = strtolower(ini);
+            lowerIni = mb_strtolower(ini);
 
         switch (lowerIni) {
             case "true":
@@ -158,7 +158,7 @@ class Ini extends Config
         var key, position;
 
         let value    = this->cast(value),
-            position = strpos(path, ".");
+            position = mb_strpos(path, ".");
 
         if false === position {
             return [
@@ -166,8 +166,8 @@ class Ini extends Config
             ];
         }
 
-        let key  = substr(path, 0, position),
-            path = substr(path, position + 1);
+        let key  = mb_substr(path, 0, position),
+            path = mb_substr(path, position + 1);
 
         return [
             key : this->parseIniString(path, value)

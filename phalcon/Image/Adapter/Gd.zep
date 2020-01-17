@@ -431,7 +431,7 @@ class Gd extends AbstractAdapter
 
     protected function processRender(string ext, int quality)
     {
-        let ext = strtolower(ext);
+        let ext = mb_strtolower(ext);
 
         ob_start();
 
@@ -511,7 +511,7 @@ class Gd extends AbstractAdapter
             let ext = image_type_to_extension(this->type, false);
         }
 
-        let ext = strtolower(ext);
+        let ext = mb_strtolower(ext);
 
         if strcmp(ext, "gif") == 0 {
             let this->type = 1;
@@ -638,7 +638,7 @@ class Gd extends AbstractAdapter
                 text
             );
         } else {
-            let width  = (int) imagefontwidth(size) * strlen(text);
+            let width  = (int) imagefontwidth(size) * mb_strlen(text);
             let height = (int) imagefontheight(size);
 
             if offsetX < 0 {

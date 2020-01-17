@@ -167,16 +167,16 @@ class Console extends AbstractApplication
         for arg in arguments {
             if typeof arg == "string" {
                 if strncmp(arg, "--", 2) == 0 {
-                    let pos = strpos(arg, "=");
+                    let pos = mb_strpos(arg, "=");
 
                     if pos {
-                        let opts[trim(substr(arg, 2, pos - 2))] = trim(substr(arg, pos + 1));
+                        let opts[trim(mb_substr(arg, 2, pos - 2))] = trim(mb_substr(arg, pos + 1));
                     } else {
-                        let opts[trim(substr(arg, 2))] = true;
+                        let opts[trim(mb_substr(arg, 2))] = true;
                     }
                 } else {
                     if strncmp(arg, "-", 1) == 0 {
-                        let opts[substr(arg, 1)] = true;
+                        let opts[mb_substr(arg, 1)] = true;
                     } else {
                         let args[] = arg;
                     }

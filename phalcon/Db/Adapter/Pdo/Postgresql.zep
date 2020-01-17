@@ -82,7 +82,7 @@ class Postgresql extends PdoAdapter
         }
 
         if isset descriptor["password"] {
-            if typeof descriptor["password"] == "string" && strlen(descriptor["password"]) == 0 {
+            if typeof descriptor["password"] == "string" && mb_strlen(descriptor["password"]) == 0 {
                 let descriptor["password"] = null;
             }
         }

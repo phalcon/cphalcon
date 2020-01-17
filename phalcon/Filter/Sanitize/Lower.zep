@@ -26,6 +26,6 @@ class Lower
             return mb_convert_case(input, MB_CASE_LOWER, "UTF-8");
         }
 
-        return strtolower(utf8_decode(input));
+        return mb_strtolower(utf8_decode(input));
     }
 }

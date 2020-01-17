@@ -143,8 +143,7 @@ class Text
     }
 
     /**
-     * Lowercases a string, this function makes use of the mbstring extension if
-     * available
+     * Lowercases a string
      *
      * ```php
      * echo Phalcon\Text::lower("HELLO"); // hello
@@ -228,8 +227,7 @@ class Text
     }
 
     /**
-     * Uppercases a string, this function makes use of the mbstring extension if
-     * available
+     * Uppercases a string
      *
      * ```php
      * echo Phalcon\Text::upper("hello"); // HELLO

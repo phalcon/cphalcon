@@ -97,11 +97,11 @@ class ConfigFactory extends AbstractFactory
             );
         }
 
-        let adapter = strtolower(config["adapter"]),
+        let adapter = mb_strtolower(config["adapter"]),
             first   = config["filePath"],
             second  = null;
 
-        if !strpos(first, ".") {
+        if !mb_strpos(first, ".") {
             let first = first . "." . lcfirst(adapter);
         }
 

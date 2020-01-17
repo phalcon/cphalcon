@@ -95,13 +95,6 @@ class Escaper implements EscaperInterface
         }
 
         /**
-        * We require mbstring extension here
-        */
-        if !function_exists("mb_detect_encoding") {
-            return null;
-        }
-
-        /**
          * Strict encoding detection with fallback to non-strict detection.
          * Check encoding
          */
@@ -208,13 +201,6 @@ class Escaper implements EscaperInterface
      */
     final public function normalizeEncoding(string str) -> string
     {
-        /**
-         * mbstring is required here
-         */
-        if unlikely !function_exists("mb_convert_encoding") {
-            throw new Exception("Extension 'mbstring' is required");
-        }
-
         /**
          * Convert to UTF-32 (4 byte characters, regardless of actual number of
          * bytes in the character).

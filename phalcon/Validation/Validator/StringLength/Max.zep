@@ -88,16 +88,9 @@ class Max extends AbstractValidator
     {
         var value, length, maximum, replacePairs, included, result;
 
-        let value = validation->getValue(field);
-
-        // Check if mbstring is available to calculate the correct length
-        if function_exists("mb_strlen") {
-            let length = mb_strlen(value);
-        } else {
-            let length = strlen(value);
-        }
-
-        let maximum = this->getOption("max");
+        let value   = validation->getValue(field),
+            length  = mb_strlen(value),
+            maximum = this->getOption("max");
 
         if typeof maximum == "array" {
             let maximum = maximum[field];

@@ -1456,7 +1456,7 @@ class Tag
         /**
         * Automatically assign the id if the name is not an array
         */
-        if !strpos(id, "[") {
+        if !mb_strpos(id, "[") {
             if !isset params["id"] {
                 let params["id"] = id;
             }

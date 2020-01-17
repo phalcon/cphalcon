@@ -155,7 +155,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     {
         var statusReasonPhrase;
 
-        let statusReasonPhrase = substr(
+        let statusReasonPhrase = mb_substr(
             this->getHeaders()->get("Status"),
             4
         );
@@ -174,7 +174,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     {
         var statusCode;
 
-        let statusCode = substr(
+        let statusCode = mb_substr(
             this->getHeaders()->get("Status"),
             0,
             3
@@ -341,7 +341,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
         } else {
             let file = this->file;
 
-            if typeof file == "string" && strlen(file) {
+            if typeof file == "string" && mb_strlen(file) {
                 readfile(file);
             }
         }
@@ -559,21 +559,19 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
             let basePath = attachmentName;
         }
         if attachment {
-            // mbstring is a non-default extension
-            if function_exists("mb_detect_encoding") {
-                let basePathEncoding = mb_detect_encoding(
-                    basePath,
-                    mb_detect_order(),
-                    true
-                );
-            }
+            let basePathEncoding = mb_detect_encoding(
+                basePath,
+                mb_detect_order(),
+                true
+            );
+
             this->setRawHeader("Content-Description: File Transfer");
             this->setRawHeader("Content-Type: application/octet-stream");
             this->setRawHeader("Content-Transfer-Encoding: binary");
             // According RFC2231 section-7, non-ASCII header param must add a extended one to indicate charset
             if basePathEncoding != "ASCII" {
                 let basePath = rawurlencode(basePath);
-                this->setRawHeader("Content-Disposition: attachment; filename=" . basePath . "; filename*=". strtolower(basePathEncoding) . "''" . basePath);
+                this->setRawHeader("Content-Disposition: attachment; filename=" . basePath . "; filename*=". mb_strtolower(basePathEncoding) . "''" . basePath);
             } else {
                 // According RFC2045 section-5.1, header param value contains special chars must be as quoted-string
                 // Always quote value is accepted because the special chars is a large list

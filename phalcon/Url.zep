@@ -183,8 +183,8 @@ class Url extends AbstractInjectionAware implements UrlInterface
         if args {
             let queryString = http_build_query(args);
 
-            if typeof queryString == "string" && strlen(queryString) {
-                if strpos(uri, "?") !== false {
+            if typeof queryString == "string" && mb_strlen(queryString) {
+                if mb_strpos(uri, "?") !== false {
                     let uri .= "&" . queryString;
                 } else {
                     let uri .= "?" . queryString;

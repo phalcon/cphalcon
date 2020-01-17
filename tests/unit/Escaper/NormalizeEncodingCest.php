@@ -28,8 +28,6 @@ class NormalizeEncodingCest
     {
         $I->wantToTest('Escaper - normalizeEncoding()');
 
-        $I->checkExtensionIsLoaded('mbstring');
-
         $escaper = new Escaper();
 
         $I->assertEquals(

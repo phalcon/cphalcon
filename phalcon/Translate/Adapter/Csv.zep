@@ -104,7 +104,7 @@ class Csv extends AbstractAdapter implements ArrayAccess
                 break;
             }
 
-            if substr(data[0], 0, 1) === "#" || !isset data[1] {
+            if mb_substr(data[0], 0, 1) === "#" || !isset data[1] {
                 continue;
             }
 

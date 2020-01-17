@@ -83,7 +83,7 @@ class Headers implements HeadersInterface
                     true
                 );
             } else {
-                if memstr(header, ":") || substr(header, 0, 5) == "HTTP/" {
+                if memstr(header, ":") || mb_substr(header, 0, 5) == "HTTP/" {
                     header(
                         header,
                         true

@@ -268,7 +268,7 @@ final class ServerRequest extends AbstractRequest implements ServerRequestInterf
      * request. They MAY be injected during instantiation, such as from PHP's
      * $_GET superglobal, or MAY be derived from some other value such as the
      * URI. In cases where the arguments are parsed from the URI, the data
-     * MUST be compatible with what PHP's parse_str() would return for
+     * MUST be compatible with what PHP's mb_parse_str() would return for
      * purposes of how duplicate query parameters are handled, and how nested
      * sets are handled.
      *

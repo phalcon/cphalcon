@@ -478,7 +478,7 @@ class Simple extends Injectable implements ViewBaseInterface, EventsAwareInterfa
         for extension, engine in engines {
             if file_exists(viewsDirPath . extension) {
                 let viewEnginePath = viewsDirPath . extension;
-            } elseif substr(viewsDirPath, -strlen(extension)) == extension && file_exists(viewsDirPath) {
+            } elseif mb_substr(viewsDirPath, -mb_strlen(extension)) == extension && file_exists(viewsDirPath) {
                 /**
                  * if passed filename with engine extension
                  */

@@ -826,7 +826,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
             return null;
         }
 
-        let keyName = strtolower(className);
+        let keyName = mb_strtolower(className);
 
         if isset this->columnMap[keyName] {
             return null;
