@@ -10,14 +10,14 @@ modules:
             dsn: 'mysql:host=%DATA_MYSQL_HOST%;dbname=%DATA_MYSQL_NAME%;port=%DATA_MYSQL_PORT%'
             user: '%DATA_MYSQL_USER%'
             password: '%DATA_MYSQL_PASS%'
-            populate: false
+            populate: true
             cleanup: false
             dump: 'tests/_data/assets/db/schemas/mysql_schema.sql'
           sqlite:
             dsn: 'sqlite:%DATA_SQLITE_NAME%'
             user: ''
             password: ''
-            populate: false
+            populate: true
             cleanup: false
             dump:
               - 'tests/_data/assets/db/schemas/sqlite_schema.sql'
@@ -25,7 +25,7 @@ modules:
             dsn: 'sqlite:%DATA_SQLITE_I18N_NAME%'
             user: ''
             password: ''
-            populate: false
+            populate: true
             cleanup: false
             dump:
               - 'tests/_data/assets/db/schemas/sqlite_translations_schema.sql'
@@ -33,7 +33,7 @@ modules:
             dsn: 'pgsql:host=%DATA_POSTGRES_HOST%;dbname=%DATA_POSTGRES_NAME%;port=%DATA_POSTGRES_PORT%'
             user: '%DATA_POSTGRES_USER%'
             password: '%DATA_POSTGRES_PASS%'
-            populate: false
+            populate: true
             cleanup: false
             dump: 'tests/_data/assets/db/schemas/postgresql_schema.sql'
             initial_queries:

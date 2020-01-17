@@ -71,39 +71,39 @@ $container->setShared(
     }
 );
 
-/**
- * Autoloader
- */
-$loader = new Loader();
-
-// Register the Library namespace as well as the common module
-// since it needs to always be available
-$namespaces = [
-    'Phalcon\Test\Controllers'                  => $configFile['application']['controllersDir'],
-    'Phalcon\Test\Models'                       => $configFile['application']['modelsDir'],
-    'Phalcon\Test\Resultsets'                   => $configFile['application']['resultsetsDir'],
-    'Phalcon\Test\Modules\Frontend\Controllers' => $configFile['application']['modulesDir'] . 'frontend/controllers/',
-    'Phalcon\Test\Modules\Backend\Controllers'  => $configFile['application']['modulesDir'] . 'backend/controllers/',
-    'Phalcon\Test\Tasks'                        => $configFile['application']['tasksDir'],
-    //    'Phalcon\Test\Acl'                          => $configFile['application']['aclDir'],
-    //    'Phalcon\Test\Collections'                  => $configFile['application']['collectionsDir'],
-    //    'Phalcon\Test\Debug'                        => $configFile['application']['debugDir'],
-    //    'Phalcon\Test\Objectsets'                   => $configFile['application']['objectsetsDir'],
-];
-
-$loader->registerNamespaces($namespaces);
-
-$loader->registerDirs(
-    [
-        $configFile['application']['tasksDir'],
-        $configFile['application']['controllersDir'],
-        //        $configFile['application']['microDir'],
-    ]
-);
-
-$loader->register();
-
-$container->setShared('loader', $loader);
+///**
+// * Autoloader
+// */
+//$loader = new Loader();
+//
+//// Register the Library namespace as well as the common module
+//// since it needs to always be available
+//$namespaces = [
+//    'Phalcon\Test\Controllers'                  => $configFile['application']['controllersDir'],
+//    'Phalcon\Test\Models'                       => $configFile['application']['modelsDir'],
+//    'Phalcon\Test\Resultsets'                   => $configFile['application']['resultsetsDir'],
+//    'Phalcon\Test\Modules\Frontend\Controllers' => $configFile['application']['modulesDir'] . 'frontend/controllers/',
+//    'Phalcon\Test\Modules\Backend\Controllers'  => $configFile['application']['modulesDir'] . 'backend/controllers/',
+//    'Phalcon\Test\Tasks'                        => $configFile['application']['tasksDir'],
+//    //    'Phalcon\Test\Acl'                          => $configFile['application']['aclDir'],
+//    //    'Phalcon\Test\Collections'                  => $configFile['application']['collectionsDir'],
+//    //    'Phalcon\Test\Debug'                        => $configFile['application']['debugDir'],
+//    //    'Phalcon\Test\Objectsets'                   => $configFile['application']['objectsetsDir'],
+//];
+//
+//$loader->registerNamespaces($namespaces);
+//
+//$loader->registerDirs(
+//    [
+//        $configFile['application']['tasksDir'],
+//        $configFile['application']['controllersDir'],
+//        //        $configFile['application']['microDir'],
+//    ]
+//);
+//
+//$loader->register();
+//
+//$container->setShared('loader', $loader);
 
 /**
  * The URL component is used to generate all kind of urls in the
