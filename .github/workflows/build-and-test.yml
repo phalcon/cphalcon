@@ -149,11 +149,6 @@ jobs:
       matrix:
         operating-system: [ubuntu-latest]
         php-versions: ['7.2', '7.3', '7.4']
-    env:
-      DATA_MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
-      DATA_POSTGRES_PORT: ${{ job.services.postgres.ports['5432'] }}
-      DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
-      DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
     name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
     steps:
       - name: Git checkout
@@ -195,9 +190,24 @@ jobs:
           vendor/bin/codecept build
       - name: Run unit tests
         run: vendor/bin/codecept run --ext DotReporter unit
+        env:
+          DATA_MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
+          DATA_POSTGRES_PORT: ${{ job.services.postgres.ports['5432'] }}
+          DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
+          DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
       - name: Run cli tests
         run: vendor/bin/codecept run --ext DotReporter cli
+        env:
+          DATA_MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
+          DATA_POSTGRES_PORT: ${{ job.services.postgres.ports['5432'] }}
+          DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
+          DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
       - name: Run integrations tests
+        env:
+          DATA_MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
+          DATA_POSTGRES_PORT: ${{ job.services.postgres.ports['5432'] }}
+          DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
+          DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
         run: vendor/bin/codecept run --ext DotReporter integration
   build-and-test-without-db:
     needs: generate
