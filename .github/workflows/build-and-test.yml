@@ -221,6 +221,8 @@ jobs:
         uses: actions/checkout@v2-beta
         with:
           fetch-depth: 1
+      - name: Install requirements for ext-imagick #Remove after setup-php 1.7.4 https://github.com/shivammathur/setup-php/issues/155#issuecomment-575774700
+        run: brew install pkg-config imagemagick
       - name: Setup PHP
         uses: shivammathur/setup-php@v1
         with:
@@ -254,8 +256,7 @@ jobs:
         run: |
           cp tests/_ci/.env.default .env
           vendor/bin/codecept build
-#      Our unit test contain a memcached dependency and should be moved to integration or mocked.
-#      - name: Run unit tests
-#        run: vendor/bin/codecept run --ext DotReporter unit
+      - name: Run unit tests
+        run: vendor/bin/codecept run --ext DotReporter unit
       - name: Run cli tests
         run: vendor/bin/codecept run --ext DotReporter cli

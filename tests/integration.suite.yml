@@ -48,10 +48,8 @@ modules:
         port: '%DATA_MEMCACHED_PORT%'
         weight: '%DATA_MEMCACHED_WEIGHT%'
     - Redis:
-        #      database: '%DATA_REDIS_NAME%' # This needs to be checked as to why codeception does not parse it
-        database: 0
+        database: '%DATA_REDIS_NAME%'
         host: '%DATA_REDIS_HOST%'
-        #      port: '%DATA_REDIS_PORT%' # This needs to be checked as to why codeception does not parse it
         port: '%DATA_REDIS_PORT%'
     - Asserts
     - Filesystem
