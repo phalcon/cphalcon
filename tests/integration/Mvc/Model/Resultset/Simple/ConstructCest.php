@@ -16,8 +16,9 @@ namespace Phalcon\Test\Integration\Mvc\Model\Resultset\Simple;
 use IntegrationTester;
 use Phalcon\Helper\Str;
 use Phalcon\Mvc\Model\Resultset\Simple;
+use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\Robots;
+use Phalcon\Test\Models\Invoices;
 
 use function cacheModelsDir;
 
@@ -30,9 +31,7 @@ class ConstructCest
         $this->setNewFactoryDefault();
         $this->setDiMysql();
 
-        $I->cleanDir(
-            cacheModelsDir()
-        );
+        $I->cleanDir(cacheModelsDir());
     }
 
     public function _after(IntegrationTester $I)
@@ -52,27 +51,39 @@ class ConstructCest
     {
         $I->wantToTest('Mvc\Model\Resultset\Simple - __construct() - complete PHQL');
 
+        $migration = new InvoicesMigration($this->container->get('db'));
+        $migration->create();
+
+        /**
+         * Insert 5 records
+         */
+        $migration->insert(1, 1, 1, "title 1", 100.00, "2019-12-25 01:02:03");
+        $migration->insert(2, 1, 1, "title 2", 200.00, "2019-12-25 01:02:03");
+        $migration->insert(3, 1, 1, "title 3", 300.00, "2019-12-25 01:02:03");
+        $migration->insert(4, 1, 1, "title 4", 400.00, "2019-12-25 01:02:03");
+        $migration->insert(5, 1, 1, "title 5", 500.00, "2019-12-25 01:02:03");
+
         $cache   = $this->getAndSetModelsCacheStream();
         $manager = $this->getService('modelsManager');
 
         $filePath = cacheModelsDir() . 'ph-strm/' . Str::dirFromFile('test-resultset');
 
-        $robots = $manager->executeQuery('SELECT * FROM ' . Robots::class);
+        $invoices = $manager->executeQuery('SELECT * FROM ' . Invoices::class);
 
-        $I->assertInstanceOf(Simple::class, $robots);
+        $I->assertInstanceOf(Simple::class, $invoices);
 
-        $I->assertCount(6, $robots);
-        $I->assertEquals(6, $robots->count());
+        $I->assertCount(5, $invoices);
+        $I->assertEquals(5, $invoices->count());
 
-        $cache->set('test-resultset', $robots);
+        $cache->set('test-resultset', $invoices);
 
         $I->seeFileFound('test-resultset', $filePath);
 
-        $robots = $cache->get('test-resultset');
+        $invoices = $cache->get('test-resultset');
 
-        $I->assertInstanceOf(Simple::class, $robots);
-        $I->assertCount(6, $robots);
-        $I->assertEquals(6, $robots->count());
+        $I->assertInstanceOf(Simple::class, $invoices);
+        $I->assertCount(5, $invoices);
+        $I->assertEquals(5, $invoices->count());
 
         $I->assertTrue(
             $cache->clear()
@@ -86,6 +97,8 @@ class ConstructCest
             'test-resultset',
             $filePath
         );
+
+        $migration->drop();
     }
 
     /**
@@ -100,26 +113,38 @@ class ConstructCest
     {
         $I->wantToTest('Mvc\Model\Resultset\Simple - __construct() - incomplete PHQL');
 
+        $migration = new InvoicesMigration($this->container->get('db'));
+        $migration->create();
+
+        /**
+         * Insert 5 records
+         */
+        $migration->insert(1, 1, 1, "title 1", 100.00, "2019-12-25 01:02:03");
+        $migration->insert(2, 1, 1, "title 2", 200.00, "2019-12-25 01:02:03");
+        $migration->insert(3, 1, 1, "title 3", 300.00, "2019-12-25 01:02:03");
+        $migration->insert(4, 1, 1, "title 4", 400.00, "2019-12-25 01:02:03");
+        $migration->insert(5, 1, 1, "title 5", 500.00, "2019-12-25 01:02:03");
+
         $cache   = $this->getAndSetModelsCacheStream();
         $manager = $this->getService('modelsManager');
 
         $filePath = cacheModelsDir() . 'ph-strm/' . Str::dirFromFile('test-resultset');
 
-        $robots = $manager->executeQuery('SELECT id FROM ' . Robots::class);
+        $invoices = $manager->executeQuery('SELECT inv_id FROM ' . Invoices::class);
 
-        $I->assertInstanceOf(Simple::class, $robots);
-        $I->assertCount(6, $robots);
-        $I->assertEquals(6, $robots->count());
+        $I->assertInstanceOf(Simple::class, $invoices);
+        $I->assertCount(5, $invoices);
+        $I->assertEquals(5, $invoices->count());
 
-        $cache->set('test-resultset', $robots);
+        $cache->set('test-resultset', $invoices);
 
         $I->seeFileFound('test-resultset', $filePath);
 
-        $robots = $cache->get('test-resultset');
+        $invoices = $cache->get('test-resultset');
 
-        $I->assertInstanceOf(Simple::class, $robots);
-        $I->assertCount(6, $robots);
-        $I->assertEquals(6, $robots->count());
+        $I->assertInstanceOf(Simple::class, $invoices);
+        $I->assertCount(5, $invoices);
+        $I->assertEquals(5, $invoices->count());
 
         $cache->delete('test-resultset');
 
