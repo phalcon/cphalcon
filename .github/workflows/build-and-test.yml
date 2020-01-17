@@ -210,6 +210,13 @@ jobs:
         uses: actions/checkout@v2-beta
         with:
           fetch-depth: 1
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v1
+        with:
+          php-version: ${{ matrix.php-versions }}
+          ini-values: apc.enable_cli=on, session.save_path=/tmp
+          tools: pecl
+          extensions: mbstring, intl, json, imagick
       - name: Get Composer Cache Directory
         id: composer-cache
         run: |
@@ -220,13 +227,6 @@ jobs:
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
           restore-keys: |
             ${{ runner.os }}-composer-
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v1
-        with:
-          php-version: ${{ matrix.php-versions }}
-          ini-values: apc.enable_cli=on, session.save_path=/tmp
-          tools: pecl
-          extensions: mbstring, intl, json, imagick
       - name: Download phalcon pecl package
         uses: actions/download-artifact@v1
         with:
