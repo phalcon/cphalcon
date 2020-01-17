@@ -19,10 +19,7 @@ class SourcesMigration extends AbstractMigration
 
     public function create()
     {
-        $sql = <<<SQL
-drop table if exists `co_sources`
-SQL;
-        $this->connection->execute($sql);
+        $this->drop();
 
         $sql = <<<SQL
 create table co_sources

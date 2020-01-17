@@ -19,10 +19,7 @@ class StuffMigration extends AbstractMigration
 
     public function create()
     {
-        $sql = <<<SQL
-drop table if exists stuff
-SQL;
-        $this->connection->execute($sql);
+        $this->drop();
 
         $sql = <<<SQL
 create table stuff

@@ -19,10 +19,7 @@ class InvoicesMigration extends AbstractMigration
 
     public function create()
     {
-        $sql = <<<SQL
-drop table if exists `co_invoices`
-SQL;
-        $this->connection->execute($sql);
+        $this->drop();
 
         $sql = <<<SQL
 create table co_invoices
