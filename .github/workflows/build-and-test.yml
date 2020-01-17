@@ -229,7 +229,7 @@ jobs:
           php-version: ${{ matrix.php-versions }}
           ini-values: apc.enable_cli=on, session.save_path=/tmp
           tools: pecl
-          extensions: mbstring, intl, json, imagick, yaml
+          extensions: mbstring, intl, json, imagick, yaml, apcu
       - name: Get Composer Cache Directory
         id: composer-cache
         run: |
