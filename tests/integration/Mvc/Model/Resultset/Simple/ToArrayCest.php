@@ -52,18 +52,19 @@ class ToArrayCest
         $migration = new InvoicesMigration($db);
         $migration->create();
         $data = [
-            [1, 0, 'Title 1', 10.51, date('Y-m-d H:i:s')],
-            [123, 1, 'Title 2', 5.2, date('Y-m-d H:i:s')],
-            [321, 1, 'Title 3', 0.25, null],
+            [null, 1,   0, 'Title 1', 10.51, date('Y-m-d H:i:s')],
+            [null, 123, 1, 'Title 2', 5.2,   date('Y-m-d H:i:s')],
+            [null, 321, 1, 'Title 3', 0.25,  null],
         ];
 
         foreach ($data as $row) {
             $migration->insert(
-                null,
+                $row[0],
                 $row[1],
                 $row[2],
                 $row[3],
-                $row[4]
+                $row[4],
+                $row[5]
             );
         }
 
