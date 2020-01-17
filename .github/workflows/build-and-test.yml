@@ -166,7 +166,7 @@ jobs:
           php-version: '7.4'
           ini-values: apc.enable_cli=on, session.save_path=/tmp
           tools: pecl
-          extensions: mbstring, intl, json, imagick, apcu_bc
+          extensions: mbstring, intl, json, imagick
       - name: Download phalcon pecl package
         uses: actions/download-artifact@v1
         with:
