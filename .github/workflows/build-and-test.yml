@@ -184,18 +184,21 @@ jobs:
         run: php -m | grep phalcon
       - name: Install packages
         run: composer install --prefer-dist --ignore-platform-reqs
-      - name: Run tests
+      - name: Setup tests
+        run: |
+          cp tests/_ci/.env.default .env
+          vendor/bin/codecept build
+      - name: Run unit tests
+        run: vendor/bin/codecept run --ext DotReporter unit
+      - name: Run cli tests
+        run: vendor/bin/codecept run --ext DotReporter unit
+      - name: Run integrations tests
         env:
           DATA_MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
           DATA_POSTGRES_PORT: ${{ job.services.postgres.ports['5432'] }}
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
-        run: |
-          cp tests/_ci/.env.default .env
-          vendor/bin/codecept build
-          vendor/bin/codecept run --ext DotReporter integration
-          vendor/bin/codecept run --ext DotReporter cli
-          vendor/bin/codecept run --ext DotReporter unit
+        run: vendor/bin/codecept run --ext DotReporter integration
   build-and-test-without-db:
     needs: generate
     runs-on: ${{ matrix.operating-system }}
@@ -216,7 +219,7 @@ jobs:
           php-version: ${{ matrix.php-versions }}
           ini-values: apc.enable_cli=on, session.save_path=/tmp
           tools: pecl
-          extensions: mbstring, intl, json, imagick
+          extensions: mbstring, intl, json, imagick, yaml
       - name: Get Composer Cache Directory
         id: composer-cache
         run: |
@@ -239,9 +242,11 @@ jobs:
         run: php -m | grep phalcon
       - name: Install packages
         run: composer install --prefer-dist --ignore-platform-reqs
-      - name: Run tests
+      - name: Setup tests
         run: |
           cp tests/_ci/.env.default .env
           vendor/bin/codecept build
-          vendor/bin/codecept run --ext DotReporter cli
-          vendor/bin/codecept run --ext DotReporter unit
+      - name: Run unit tests
+        run: vendor/bin/codecept run --ext DotReporter unit
+      - name: Run cli tests
+        run: vendor/bin/codecept run --ext DotReporter unit
