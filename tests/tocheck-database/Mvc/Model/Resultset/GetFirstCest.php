@@ -43,7 +43,7 @@ class GetFirstCest
         /**
          * Setup the table
          */
-        $oMigration = new InvoicesMigration($this->container->get('db'));
+        $oMigration = new ObjectsMigration($this->container->get('db'));
         $oMigration->create();
         $sMigration = new StuffMigration($this->container->get('db'));
         $sMigration->create();
