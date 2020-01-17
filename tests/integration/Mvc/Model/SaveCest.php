@@ -401,20 +401,25 @@ class SaveCest
     {
         $I->wantToTest('Mvc\Model::save() after fetching related using magic getter');
 
+        $artistName = uniqid('art-');
+        $albumName1 = uniqid('alb-');
+        $albumName2 = uniqid('alb-');
+        $albumName3 = uniqid('alb-');
+        $albumName4 = uniqid('alb-');
         $artist = new Artists(
             [
-                'name' => 'Mr Robot',
+                'name' => $artistName,
             ]
         );
 
         $album1 = new Albums(
             [
-                'name' => 'Feedback',
+                'name' => $albumName1,
             ]
         );
         $album2 = new Albums(
             [
-                'name' => 'Syntax Error',
+                'name' => $albumName2,
             ]
         );
 
@@ -425,7 +430,7 @@ class SaveCest
             $artist->save()
         );
 
-        $artist = Artists::findFirstByName("Mr Robot");
+        $artist = Artists::findFirstByName($artistName);
 
         // Query the parts, for some reason,
         // for example to check if the parts are in the db already...
@@ -438,18 +443,18 @@ class SaveCest
 
         $album3         = new Albums(
             [
-                'name' => 'Feedback 2',
+                'name' => $albumName3,
             ]
         );
         $album4         = new Albums(
             [
-                'name' => 'Syntax Error 2',
+                'name' => $albumName4,
             ]
         );
         $artist->albums = [$album3, $album4];
         $artist->save();
 
-        $artist = Artists::findFirstByName("Mr Robot");
+        $artist = Artists::findFirstByName($artistName);
 
         $allAlbums = $artist->getRelated('albums');
 
@@ -457,6 +462,12 @@ class SaveCest
             4,
             count($allAlbums)
         );
+
+        $I->assertTrue($album1->delete());
+        $I->assertTrue($album2->delete());
+        $I->assertTrue($album3->delete());
+        $I->assertTrue($album4->delete());
+        $I->assertTrue($artist->delete());
     }
 
     /**
