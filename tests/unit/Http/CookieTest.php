@@ -183,4 +183,33 @@ class CookieTest extends HttpBase
             }
         );
     }
+
+    public function testHttpOnly()
+    {
+        $this->specify(
+            "The httpOnly is not correctly set",
+            function () {
+                $cookie = new Cookie(
+                    'test-cookie',
+                    'test',
+                    time() + 3600,
+                    '/',
+                    false,
+                    'phalcon.test',
+                    false
+                );
+                expect($cookie->getHttpOnly())->equals(false);
+                $cookie = new Cookie(
+                    'test-cookie',
+                    'test',
+                    time() + 3600,
+                    '/',
+                    false,
+                    'phalcon.test',
+                    true
+                );
+                expect($cookie->getHttpOnly())->equals(true);
+            }
+        );
+    }
 }
