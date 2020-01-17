@@ -48,14 +48,16 @@ class GetRealSQLStatementCest
 
         /** @var Mysql $db */
         $db = $this->container->get('db');
-
-        (new InvoicesMigration())($db);
+        $migration = new InvoicesMigration();
+        $migration($db);
 
         $db->execute($example[1], $example[2]);
 
         $expected = $example[3];
         $actual   = $db->getRealSQLStatement();
         $I->assertEquals($expected, $actual);
+
+        $migration->drop($db);
     }
 
     /**
