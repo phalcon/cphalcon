@@ -88,12 +88,12 @@ jobs:
 
       - name: Install Zephir
         run: |
-          wget --no-clobber -O "$HOME/bin/zephir" "https://github.com/phalcon/zephir/releases/download/${ZEPHIR_VERSION}/zephir.phar"
-          chmod +x "$HOME/bin/zephir"
+          wget --no-clobber -O "$HOME/zephir" "https://github.com/phalcon/zephir/releases/download/${ZEPHIR_VERSION}/zephir.phar"
+          chmod +x "$HOME/zephir"
       - name: Generate C code
         run: |
-          zephir fullclean
-          zephir generate
+          $HOME/zephir fullclean
+          $HOME/zephir generate
           cd build
           php gen-build.php
           cd ..
@@ -116,6 +116,7 @@ jobs:
           name: 'phalcon-pecl'
           path: phalcon-pecl.tgz
   build:
+    needs: generate
     services:
       mysql:
         image: mysql:5.7
