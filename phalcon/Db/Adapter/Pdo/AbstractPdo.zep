@@ -43,6 +43,13 @@ abstract class AbstractPdo extends AbstractAdapter
     protected affectedRows;
 
     /**
+     * The real SQL statement - what was executed
+     *
+     * @var string
+     */
+    protected realSqlStatement;
+
+    /**
      * PDO Handler
      *
      * @var \PDO
