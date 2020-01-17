@@ -17,7 +17,7 @@ jobs:
       - name: Set environment variables
         run: |
           echo "::set-env name=ZEPHIR_PARSER_VERSION::v1.3.3"
-          echo "::set-env name=ZEPHIR_VERSION::v0.12.16"
+          echo "::set-env name=ZEPHIR_VERSION::0.12.16"
       - name: Setup PHP
         uses: shivammathur/setup-php@v1
         with:
@@ -49,7 +49,7 @@ jobs:
       - name: Install system dependencies
         run: |
           sudo apt-get update --quiet --yes 1>/dev/null
-          sudo apt-get install --no-install-recommends -q -y re2c wget
+          sudo apt-get install --no-install-recommends -q -y re2c
 
       - name: Get Zephir Parser Cache Key
         id: zephir-parser-cache-key
@@ -90,7 +90,6 @@ jobs:
         run: |
           wget --no-clobber -O "$HOME/bin/zephir" "https://github.com/phalcon/zephir/releases/download/${ZEPHIR_VERSION}/zephir.phar"
           chmod +x "$HOME/bin/zephir"
-
       - name: Generate C code
         run: |
           zephir fullclean
