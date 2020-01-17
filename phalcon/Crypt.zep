@@ -131,7 +131,7 @@ class Crypt implements CryptInterface
         }
 
         let cipher   = this->cipher,
-            mode     = mb_strtolower(mb_substr(cipher, strrpos(cipher, "-") - mb_strlen(cipher))),
+            mode     = strtolower(substr(cipher, strrpos(cipher, "-") - strlen(cipher))),
             authData = this->authData,
             authTag  = this->authTag;
 
@@ -149,7 +149,7 @@ class Crypt implements CryptInterface
 
         if this->useSigning {
             let hashAlgo   = this->getHashAlgo(),
-                hashLength = mb_strlen(hash(hashAlgo, "", true)),
+                hashLength = strlen(hash(hashAlgo, "", true)),
                 hash       = mb_substr(text, ivLength, hashLength, "8bit"),
                 ciphertext = mb_substr(text, ivLength + hashLength, null, "8bit");
 
@@ -229,7 +229,7 @@ class Crypt implements CryptInterface
     public function decryptBase64(string! text, key = null, bool! safe = false) -> string
     {
         if safe {
-            let text = strtr(text, "-_", "+/") . mb_substr("===", (mb_strlen(text) + 3) % 4);
+            let text = strtr(text, "-_", "+/") . substr("===", (strlen(text) + 3) % 4);
         }
 
         return this->decrypt(
@@ -265,10 +265,10 @@ class Crypt implements CryptInterface
 
         let cipher = this->cipher;
 
-        let mode = mb_strtolower(
-            mb_substr(
+        let mode = strtolower(
+            substr(
                 cipher,
-                strrpos(cipher, "-") - mb_strlen(cipher)
+                strrpos(cipher, "-") - strlen(cipher)
             )
         );
 
@@ -381,11 +381,11 @@ class Crypt implements CryptInterface
 
         let allowedCiphers = [];
         for cipher in availableCiphers {
-            if !(starts_with(mb_strtolower(cipher), "des") ||
-                 starts_with(mb_strtolower(cipher), "rc2") ||
-                 starts_with(mb_strtolower(cipher), "rc4") ||
-                 starts_with(mb_strtolower(cipher), "des") ||
-                 ends_with(mb_strtolower(cipher), "ecb")) {
+            if !(starts_with(strtolower(cipher), "des") ||
+                 starts_with(strtolower(cipher), "rc2") ||
+                 starts_with(strtolower(cipher), "rc4") ||
+                 starts_with(strtolower(cipher), "des") ||
+                 ends_with(strtolower(cipher), "ecb")) {
                 let allowedCiphers[] = cipher;
             }
         }
@@ -534,7 +534,7 @@ class Crypt implements CryptInterface
 
         let availableCiphers = this->getAvailableCiphers();
 
-        if unlikely !in_array(mb_strtoupper(cipher), availableCiphers) {
+        if unlikely !in_array(strtoupper(cipher), availableCiphers) {
             throw new Exception(
                 sprintf(
                     "The cipher algorithm \"%s\" is not supported on this system.",
@@ -589,7 +589,7 @@ class Crypt implements CryptInterface
         let availableCiphers = openssl_get_cipher_methods(true);
 
         for i, cipher in availableCiphers {
-            let availableCiphers[i] = mb_strtoupper(cipher);
+            let availableCiphers[i] = strtoupper(cipher);
         }
 
         let this->availableCiphers = availableCiphers;
@@ -604,7 +604,7 @@ class Crypt implements CryptInterface
         var paddingSize = 0, padding = null;
 
         if mode == "cbc" || mode == "ecb" {
-            let paddingSize = blockSize - (mb_strlen(text) % blockSize);
+            let paddingSize = blockSize - (strlen(text) % blockSize);
 
             if unlikely paddingSize >= 256 {
                 throw new Exception("Block size is bigger than 256");
@@ -613,30 +613,30 @@ class Crypt implements CryptInterface
             switch paddingType {
 
                 case self::PADDING_ANSI_X_923:
-                    let padding = str_repeat(mb_chr(0), paddingSize - 1) . mb_chr(paddingSize);
+                    let padding = str_repeat(chr(0), paddingSize - 1) . chr(paddingSize);
                     break;
 
                 case self::PADDING_PKCS7:
-                    let padding = str_repeat(mb_chr(paddingSize), paddingSize);
+                    let padding = str_repeat(chr(paddingSize), paddingSize);
                     break;
 
                 case self::PADDING_ISO_10126:
                     let padding = "";
 
                     for i in range(0, paddingSize - 2) {
-                        let padding .= mb_chr(rand());
+                        let padding .= chr(rand());
                     }
 
-                    let padding .= mb_chr(paddingSize);
+                    let padding .= chr(paddingSize);
 
                     break;
 
                 case self::PADDING_ISO_IEC_7816_4:
-                    let padding = mb_chr(0x80) . str_repeat(mb_chr(0), paddingSize - 1);
+                    let padding = chr(0x80) . str_repeat(chr(0), paddingSize - 1);
                     break;
 
                 case self::PADDING_ZERO:
-                    let padding = str_repeat(mb_chr(0), paddingSize);
+                    let padding = str_repeat(chr(0), paddingSize);
                     break;
 
                 case self::PADDING_SPACE:
@@ -657,7 +657,7 @@ class Crypt implements CryptInterface
             throw new Exception("Invalid padding size");
         }
 
-        return text . mb_substr(padding, 0, paddingSize);
+        return text . substr(padding, 0, paddingSize);
     }
 
     /**
@@ -668,23 +668,24 @@ class Crypt implements CryptInterface
      */
     protected function cryptUnpadText(string text, string! mode, int! blockSize, int! paddingType)
     {
-        var padding, last, length;
+        var padding, last;
+        long length;
         int i, paddingSize = 0, ord;
 
-        let length = mb_strlen(text);
+        let length = strlen(text);
 
         if length > 0 && (length % blockSize == 0) && (mode == "cbc" || mode == "ecb") {
             switch paddingType {
 
                 case self::PADDING_ANSI_X_923:
-                    let last = mb_substr(text, length - 1, 1),
-                        ord  = (int) mb_ord(last);
+                    let last = substr(text, length - 1, 1);
+                    let ord = (int) ord(last);
 
                     if ord <= blockSize {
-                        let paddingSize = ord,
-                            padding     = str_repeat(mb_chr(0), paddingSize - 1) . last;
+                        let paddingSize = ord;
+                        let padding = str_repeat(chr(0), paddingSize - 1) . last;
 
-                        if mb_substr(text, length - paddingSize) != padding {
+                        if substr(text, length - paddingSize) != padding {
                             let paddingSize = 0;
                         }
                     }
@@ -692,14 +693,14 @@ class Crypt implements CryptInterface
                     break;
 
                 case self::PADDING_PKCS7:
-                    let last = mb_substr(text, length - 1, 1),
-                        ord  = (int) mb_ord(last);
+                    let last = substr(text, length - 1, 1);
+                    let ord = (int) ord(last);
 
                     if ord <= blockSize {
-                        let paddingSize = ord,
-                            padding     = str_repeat(mb_chr(paddingSize), paddingSize);
+                        let paddingSize = ord;
+                        let padding = str_repeat(chr(paddingSize), paddingSize);
 
-                        if mb_substr(text, length - paddingSize) != padding {
+                        if substr(text, length - paddingSize) != padding {
                             let paddingSize = 0;
                         }
                     }
@@ -707,8 +708,8 @@ class Crypt implements CryptInterface
                     break;
 
                 case self::PADDING_ISO_10126:
-                    let last        = mb_substr(text, length - 1, 1),
-                        paddingSize = (int) mb_ord(last);
+                    let last = substr(text, length - 1, 1);
+                    let paddingSize = (int) ord(last);
                     break;
 
                 case self::PADDING_ISO_IEC_7816_4:
@@ -753,7 +754,7 @@ class Crypt implements CryptInterface
 
             if paddingSize && paddingSize <= blockSize {
                 if paddingSize < length {
-                    return mb_substr(text, 0, length - paddingSize);
+                    return substr(text, 0, length - paddingSize);
                 }
 
                 return "";
