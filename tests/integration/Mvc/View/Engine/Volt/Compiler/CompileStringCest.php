@@ -544,7 +544,7 @@ class CompileStringCest
             // join filter
             [
                 "{{ [1, 2]|join(',') }}",
-                "<?= join(',', [1, 2]) ?>",
+                "<?= implode(',', [1, 2]) ?>",
             ],
         ];
     }

@@ -49,7 +49,8 @@ class ToArrayCest
          * Re-create DB table with data
          */
         $db = $this->getService('db');
-        (new InvoicesMigration())($db);
+        $migration = new InvoicesMigration($db);
+        $migration->create();
         $data = [
             [1, 0, 'Title 1', 10.51, date('Y-m-d H:i:s')],
             [123, 1, 'Title 2', 5.2, date('Y-m-d H:i:s')],
@@ -57,10 +58,12 @@ class ToArrayCest
         ];
 
         foreach ($data as $row) {
-            $db->insert(
-                'co_invoices',
-                $row,
-                ['inv_cst_id', 'inv_status_flag', 'inv_title', 'inv_total', 'inv_created_at']
+            $migration->insert(
+                $row[0],
+                $row[1],
+                $row[2],
+                $row[3],
+                $row[4]
             );
         }
 
@@ -149,5 +152,7 @@ class ToArrayCest
         $I->assertArrayHasKey('title', $renamedArray6);
         $I->assertArrayNotHasKey('inv_title', $untouchedArray6);
         $I->assertArrayNotHasKey('inv_title', $renamedArray6);
+
+        $migration->drop();
     }
 }
