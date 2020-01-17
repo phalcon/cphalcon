@@ -502,7 +502,8 @@ class SaveCest
         /**
          * Setup the table
          */
-        (new InvoicesMigration())($this->container->get('db'));
+        $migration = new InvoicesMigration($this->container->get('db'));
+        $migration->create();
 
         $model = new Invoices();
 
@@ -515,7 +516,6 @@ class SaveCest
         $result = $model->save();
         $I->assertNotFalse($result);
 
-
         $model = new InvoicesSchema();
 
         $model->inv_cst_id      = 1;
@@ -526,6 +526,8 @@ class SaveCest
 
         $result = $model->save();
         $I->assertNotFalse($result);
+
+        $migration->drop();
     }
 
     /**
@@ -541,7 +543,8 @@ class SaveCest
         /**
          * Setup the table
          */
-        (new SourcesMigration())($this->container->get('db'));
+        $migration = new SourcesMigration($this->container->get('db'));
+        $migration->create();
 
         $model = Sources::findFirst(
             [
@@ -561,5 +564,7 @@ class SaveCest
 
         $I->assertCount(0, $model->getMessages());
         $I->assertNotFalse($result);
+
+        $migration->drop();
     }
 }

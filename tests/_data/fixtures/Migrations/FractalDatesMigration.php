@@ -11,16 +11,16 @@
 
 namespace Phalcon\Test\Fixtures\Migrations;
 
-use Phalcon\Db\Adapter\AdapterInterface;
-
-class FractalDatesMigration
+class FractalDatesMigration extends AbstractMigration
 {
-    public function __invoke(AdapterInterface $db)
+    protected $table = "fractal_dates";
+
+    public function create()
     {
         $sql = <<<SQL
 drop table if exists fractal_dates
 SQL;
-        $db->execute($sql);
+        $this->connection->execute($sql);
 
         $sql = <<<SQL
 create table fractal_dates
@@ -31,10 +31,9 @@ create table fractal_dates
     ftimestamp timestamp(2) null
 );
 SQL;
-        $db->execute($sql);
+        $this->connection->execute($sql);
 
         $this->insert(
-            $db,
             1,
             '14:15:16.444',
             '2019-12-25 17:18:19.666',
@@ -43,14 +42,12 @@ SQL;
     }
 
     /**
-     * @param AdapterInterface $db
      * @param int              $id
      * @param string|null      $time
      * @param string|null      $dateTime
      * @param string|null      $timeStamp
      */
     public function insert(
-        AdapterInterface $db,
         int $id,
         string $time = null,
         string $dateTime = null,
@@ -64,6 +61,6 @@ insert into fractal_dates (id, ftime, fdatetime, ftimestamp)
 values ({$id}, "{$time}", "{$dateTime}", "{$timeStamp}");
 SQL;
 
-        $db->execute($sql);
+        $this->connection->execute($sql);
     }
 }

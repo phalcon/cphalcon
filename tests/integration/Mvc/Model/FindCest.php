@@ -46,7 +46,8 @@ class FindCest
         /**
          * Setup the table
          */
-        (new ObjectsMigration())($this->container->get('db'));
+        $migration = new ObjectsMigration($this->container->get('db'));
+        $migration->create();
 
         $data = Objects::find();
 
@@ -55,6 +56,8 @@ class FindCest
         $record = $data[0];
         $I->assertEquals(1, $record->obj_id);
         $I->assertEquals('random data', $record->obj_name);
+
+        $migration->drop();
     }
 
     /**
@@ -76,7 +79,8 @@ class FindCest
         /**
          * Setup the table
          */
-        (new ObjectsMigration())($this->container->get('db'));
+        $migration = new ObjectsMigration($this->container->get('db'));
+        $migration->create();
 
         $options = [
             'defaultSerializer' => 'Json',
@@ -132,5 +136,7 @@ class FindCest
         $record = $data[0];
         $I->assertEquals(1, $record->obj_id);
         $I->assertEquals('random data', $record->obj_name);
+
+        $migration->drop();
     }
 }
