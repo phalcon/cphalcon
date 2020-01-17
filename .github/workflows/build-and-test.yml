@@ -115,7 +115,7 @@ jobs:
         with:
           name: 'phalcon-pecl'
           path: phalcon-pecl.tgz
-  build:
+  build-and-test-with-db:
     needs: generate
     services:
       mysql:
@@ -194,5 +194,54 @@ jobs:
           cp tests/_ci/.env.default .env
           vendor/bin/codecept build
           vendor/bin/codecept run --ext DotReporter integration
+          vendor/bin/codecept run --ext DotReporter cli
+          vendor/bin/codecept run --ext DotReporter unit
+  build-and-test-without-db:
+    needs: generate
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      fail-fast: false
+      matrix:
+        operating-system: [macos-latest]
+        php-versions: ['7.2', '7.3', '7.4']
+    name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
+    steps:
+      - name: Git checkout
+        uses: actions/checkout@v2-beta
+        with:
+          fetch-depth: 1
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: |
+          echo "::set-output name=dir::$(composer config cache-files-dir)"
+      - uses: actions/cache@v1
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v1
+        with:
+          php-version: ${{ matrix.php-versions }}
+          ini-values: apc.enable_cli=on, session.save_path=/tmp
+          tools: pecl
+          extensions: mbstring, intl, json, imagick
+      - name: Download phalcon pecl package
+        uses: actions/download-artifact@v1
+        with:
+          name: phalcon-pecl
+      - name: Install package
+        run: |
+          export MAKEFLAGS="-j$(getconf _NPROCESSORS_ONLN)"
+          sudo pecl -v install phalcon-pecl/phalcon-pecl.tgz
+      - name: Verify install
+        run: php -m | grep phalcon
+      - name: Install packages
+        run: composer install --prefer-dist --ignore-platform-reqs
+      - name: Run tests
+        run: |
+          cp tests/_ci/.env.default .env
+          vendor/bin/codecept build
           vendor/bin/codecept run --ext DotReporter cli
           vendor/bin/codecept run --ext DotReporter unit
