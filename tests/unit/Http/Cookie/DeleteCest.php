@@ -22,20 +22,20 @@ class DeleteCest
      * Tests Phalcon\Http\Cookie :: delete()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2019-12-23
      */
     public function httpCookieDelete(UnitTester $I)
     {
         $I->wantToTest('Http\Cookie - delete()');
 
-        $name = "tets";
-        $value = "phalcon";
+        $cookie = new Cookie(
+            'test-cookie',
+            'test',
+            time() + 3600
+        );
 
-        $cookie = new Cookie($name);
-        $I->assertNull($cookie->getValue());
-        $cookie->setValue($value);
-        $I->assertEquals($value, $cookie->getValue());
         $cookie->delete();
+
         $I->assertNull($cookie->getValue());
     }
 }
