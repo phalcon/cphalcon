@@ -178,7 +178,7 @@ jobs:
       - name: Verify install
         run: php -m | grep phalcon
       - name: Install packages
-        run: composer install --prefer-dist
+        run: composer install --prefer-dist --ignore-platform-reqs
       - name: Run tests
         env:
           DATA_MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
