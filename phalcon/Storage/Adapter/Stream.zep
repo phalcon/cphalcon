@@ -185,8 +185,13 @@ class Stream extends AbstractAdapter
         array files;
 
         let files     = [],
-            directory = this->getDir(),
-            iterator  = this->getIterator(directory);
+            directory = this->getDir();
+
+        if !file_exists(directory) {
+            return [];
+        }
+
+        let iterator  = this->getIterator(directory);
 
         for file in iterator {
             if file->isFile() {
