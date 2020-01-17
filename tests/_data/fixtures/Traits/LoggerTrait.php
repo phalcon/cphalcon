@@ -41,11 +41,18 @@ trait LoggerTrait
 
         $I->amInPath(logsDir());
         $I->openFile($fileName);
+        
+        //extract seconds 
+        $sSeconds = date('s',strtotime($logTime));
+        
+        //prepare regex to avoid seconds
+        $sRegexDate = str_replace($sSeconds, '[0-9]{2}\\', $logTime);
 
-        $I->seeInThisFile(
+        //Check with a regex and avoid seconds
+        $I->seeThisFileMatches(
             sprintf(
-                '[%s][%s] ' . $logString,
-                $logTime,
+                '/\[%s\]\[%s\] ' . $logString . '/',
+                $sRegexDate,
                 $level
             )
         );

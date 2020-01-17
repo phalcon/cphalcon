@@ -81,6 +81,8 @@ class GetKeysCest
     }
 
     /**
+     * Tests Phalcon\Storage\Adapter\Stream :: getKeys()
+     *
      * @author       ekmst <https://github.com/ekmst>
      * @since        2019-06-26
      */
@@ -94,7 +96,7 @@ class GetKeysCest
             $serializer,
             [
                 'storageDir' => outputDir(),
-                'prefix'   => 'basePrefix-',
+                'prefix'     => 'basePrefix-',
             ]
         );
 
@@ -120,5 +122,57 @@ class GetKeysCest
         }
 
         $I->safeDeleteDirectory(outputDir('basePrefix-'));
+    }
+
+    /**
+     * Tests Phalcon\Storage\Adapter\Stream :: getKeys()
+     *
+     * @author       ekmst <https://github.com/ekmst>
+     * @since        2020-01-17
+     */
+    public function storageAdapterStreamGetKeysPrefix(UnitTester $I)
+    {
+        $I->wantToTest('Storage\Adapter\Stream - getKeys() - prefix');
+
+        $serializer = new SerializerFactory();
+
+        $adapter = new Stream(
+            $serializer,
+            [
+                'storageDir' => outputDir(),
+                'prefix'     => 'pref-',
+            ]
+        );
+
+        $I->assertTrue($adapter->clear());
+        $I->assertEmpty($adapter->getKeys());
+
+        $adapter->set('key', 'test');
+        $adapter->set('key1', 'test');
+        $adapter->set('somekey', 'test');
+        $adapter->set('somekey1', 'test');
+
+        $expected = [
+            'pref-key',
+            'pref-key1',
+            'pref-somekey',
+            'pref-somekey1',
+        ];
+        $actual   = $adapter->getKeys();
+        sort($actual);
+        $I->assertEquals($expected, $actual);
+
+        $expected1 = [
+            'pref-somekey',
+            'pref-somekey1',
+        ];
+
+        $actual1 = $adapter->getKeys('so');
+        sort($actual1);
+        $I->assertEquals($expected1, $actual1);
+
+        $I->assertTrue($adapter->clear());
+
+        $I->safeDeleteDirectory(outputDir('pref-'));
     }
 }
