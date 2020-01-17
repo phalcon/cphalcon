@@ -849,11 +849,13 @@ abstract class AbstractPdo extends AbstractAdapter
     protected function prepareRealSql(string statement, array parameters) -> void
     {
         var key, result, value;
-        array keys = [], values = [];
+        array keys, values;
 
         let result = statement,
             values = parameters;
         if !empty parameters {
+            let keys = [];
+
             for key, value in parameters {
                 if typeof key === "string" {
                     let keys[] = "/:" . key . "/";
