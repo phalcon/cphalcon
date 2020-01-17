@@ -165,7 +165,8 @@ class Redis extends AbstractAdapter
     }
 
     /**
-     * Stores data in the adapter
+     * Gets the keys from the adapter. Accepts an optional prefix which will
+     * filter the keys returned
      *
      * @return array
      * @throws Exception
