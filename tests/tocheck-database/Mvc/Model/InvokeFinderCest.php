@@ -51,8 +51,8 @@ class InvokeFinderCest
         $I->assertEquals('random data', $record->obj_name);
         $I->assertEquals(1, $record->obj_type);
 
-        $migration->insertObject($db, 2, 'random one', 1);
-        $migration->insertObject($db, 3, 'random two', 1);
+        $migration->insert(2, 'random one', 1);
+        $migration->insert(3, 'random two', 1);
 
         $data = Objects::findByObjType(1);
 
