@@ -59,7 +59,7 @@ class ToArrayCest
 
         foreach ($data as $row) {
             $migration->insert(
-                $row[0],
+                null,
                 $row[1],
                 $row[2],
                 $row[3],
