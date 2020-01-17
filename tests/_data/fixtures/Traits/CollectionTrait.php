@@ -51,7 +51,7 @@ trait CollectionTrait
             true
         );
 
-        $I->haveServiceInDi(
+        $I->addServiceToContainer(
             'collectionManager',
             function () {
                 return new Manager();
