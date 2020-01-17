@@ -13,14 +13,16 @@ namespace Phalcon\Test\Fixtures\Migrations;
 
 use Phalcon\Db\Adapter\AdapterInterface;
 
-class InvoicesMigration
+class InvoicesMigration extends AbstractMigration
 {
-    public function __invoke(AdapterInterface $db)
+    protected $table = "co_invoices";
+
+    public function create()
     {
         $sql = <<<SQL
 drop table if exists `co_invoices`
 SQL;
-        $db->execute($sql);
+        $this->connection->execute($sql);
 
         $sql = <<<SQL
 create table co_invoices
@@ -33,34 +35,24 @@ create table co_invoices
     inv_created_at  datetime     null
 );
 SQL;
-        $db->execute($sql);
+        $this->connection->execute($sql);
 
         $sql = <<<SQL
 create index co_invoices_inv_created_at_index
     on co_invoices (inv_created_at);
 SQL;
-        $db->execute($sql);
+        $this->connection->execute($sql);
 
         $sql = <<<SQL
 create index co_invoices_inv_cst_id_index
     on co_invoices (inv_cst_id);
 SQL;
-        $db->execute($sql);
+        $this->connection->execute($sql);
 
         $sql = <<<SQL
 create index co_invoices_inv_status_flag_index
     on co_invoices (inv_status_flag);
 SQL;
-        $db->execute($sql);
-    }
-
-    public function clear(AdapterInterface $db)
-    {
-        $db->execute("delete from `co_invoices`");
-    }
-
-    public function drop(AdapterInterface $db)
-    {
-        $db->execute("drop table if exists `co_invoices`");
+        $this->connection->execute($sql);
     }
 }
