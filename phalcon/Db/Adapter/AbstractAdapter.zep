@@ -64,6 +64,13 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     protected eventsManager;
 
     /**
+     * The real SQL statement - what was executed
+     *
+     * @var string
+     */
+    protected realSqlStatement;
+
+    /**
      * Active SQL Bind Types
      *
      * @var array
