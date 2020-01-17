@@ -743,7 +743,7 @@ abstract class AbstractPdo extends AbstractAdapter
             throw new Exception("Cannot prepare statement");
         }
 
-        this->prepareRealSql(statement, bindParams);
+        this->prepareRealSql(sqlStatement, bindParams);
 
         let statement = this->executePrepared(statement, params, types);
 
