@@ -143,8 +143,13 @@ jobs:
         image: memcached:1.5-alpine
         ports:
           - 11211
-    runs-on: ubuntu-latest
-    name: Run basic test on latest Phalcon
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      fail-fast: false
+      matrix:
+        operating-system: [ubuntu-latest, macOS-latest]
+        php-versions: ['7.2', '7.3', '7.4']
+    name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
     steps:
       - name: Git checkout
         uses: actions/checkout@v2-beta
@@ -163,7 +168,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v1
         with:
-          php-version: '7.4'
+          php-version: ${{ matrix.php-versions }}
           ini-values: apc.enable_cli=on, session.save_path=/tmp
           tools: pecl
           extensions: mbstring, intl, json, imagick

@@ -1,6 +1,7 @@
 name: Pecl builder
 
 on:
+  FAIL
   create:
     tags:
   push:
