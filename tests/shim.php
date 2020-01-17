@@ -9,8 +9,6 @@
  * file that was distributed with this source code.
  */
 
-use Dotenv\Dotenv;
-
 if (!function_exists('env')) {
     function env(string $key, $default = null)
     {
@@ -28,11 +26,6 @@ if (!function_exists('env')) {
 if (!function_exists('loadEnvironment')) {
     function loadEnvironment(string $root)
     {
-        /**
-         * Load local environment if it exists
-         */
-        (new Dotenv($root, 'tests/_ci/.env.default'))->load();
-
         /**
          * Necessary evil. We need to set some constants for INI files to work
          */

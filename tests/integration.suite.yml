@@ -17,7 +17,7 @@ modules:
             dsn: 'sqlite:%DATA_SQLITE_NAME%'
             user: ''
             password: ''
-            populate: true
+            populate: false
             cleanup: false
             dump:
               - 'tests/_data/assets/db/schemas/sqlite_schema.sql'
