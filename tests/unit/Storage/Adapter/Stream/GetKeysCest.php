@@ -145,7 +145,6 @@ class GetKeysCest
         );
 
         $I->assertTrue($adapter->clear());
-        $I->assertEmpty($adapter->getKeys());
 
         $adapter->set('key', 'test');
         $adapter->set('key1', 'test');
