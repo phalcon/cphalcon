@@ -6,8 +6,6 @@ on:
       - '**.md'
       - '**.txt'
   pull_request:
-    branches:
-      - master
 
 jobs:
   generate:
