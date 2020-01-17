@@ -152,4 +152,14 @@ create index co_invoices_inv_status_flag_index
     {
         return [];
     }
+
+    public function clear(AdapterInterface $db)
+    {
+        $db->execute("delete from `co_invoices`");
+    }
+
+    public function drop(AdapterInterface $db)
+    {
+        $db->execute("drop table if exists `co_invoices`");
+    }
 }
