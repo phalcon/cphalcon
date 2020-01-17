@@ -17,10 +17,7 @@ class FractalDatesMigration extends AbstractMigration
 
     public function create()
     {
-        $sql = <<<SQL
-drop table if exists fractal_dates
-SQL;
-        $this->connection->execute($sql);
+        $this->drop();
 
         $sql = <<<SQL
 create table fractal_dates

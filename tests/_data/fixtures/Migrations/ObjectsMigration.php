@@ -17,10 +17,7 @@ class ObjectsMigration extends AbstractMigration
 
     public function create()
     {
-        $sql = <<<SQL
-drop table if exists objects
-SQL;
-        $this->connection->execute($sql);
+        $this->drop();
 
         $sql = <<<SQL
 create table objects
