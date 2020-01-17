@@ -91,7 +91,7 @@ jobs:
           wget \
               --no-clobber \
               -O "$HOME/bin/zephir" \
-              "https://github.com/phalcon/zephir/releases/download/${ ZEPHIR_VERSION }/zephir.phar"
+              "https://github.com/phalcon/zephir/releases/download/${ZEPHIR_VERSION}/zephir.phar"
             chmod +x "$HOME/bin/zephir"
       - name: Generate C code
         run: |
