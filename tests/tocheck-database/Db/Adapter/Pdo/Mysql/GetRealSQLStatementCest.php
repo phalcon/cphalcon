@@ -18,7 +18,6 @@ use IntegrationTester;
 use Phalcon\Db\Adapter\Pdo\Mysql;
 use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
-use function sprintf;
 
 /**
  * Class GetRealSQLStatementCest
