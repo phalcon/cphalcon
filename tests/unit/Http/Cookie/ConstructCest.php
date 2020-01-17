@@ -38,4 +38,33 @@ class ConstructCest
         $I->assertInstanceOf(Cookie\CookieInterface::class, $cookie);
         $I->assertInstanceOf(Cookie::class, $cookie);
     }
+
+    public function secureCorrectConstruct(UnitTester $I)
+    {
+        $I->wantToTest('Http\Cookie - __construct() sets correct secure value');
+
+        $this->setNewFactoryDefault();
+        $this->setDiSessionFiles();
+        $time = time() + 3600;
+        $cookie = new Cookie('test-name', 'test-value', $time, '/', false, 'phalcon.test', true);
+        $I->assertInstanceOf(Cookie\CookieInterface::class, $cookie);
+        $I->assertInstanceOf(Cookie::class, $cookie);
+        $I->assertEquals(false, $cookie->getSecure());
+        $I->assertEquals('test-name', $cookie->getName());
+        $I->assertEquals('test-value', $cookie->getValue());
+        $I->assertEquals($time, $cookie->getExpiration());
+        $I->assertEquals('/', $cookie->getPath());
+        $I->assertEquals('phalcon.test', $cookie->getDomain());
+        $I->assertEquals(true, $cookie->getHttpOnly());
+        $cookie = new Cookie('test-name', 'test-value', $time, '/', true, 'phalcon.test', true);
+        $I->assertInstanceOf(Cookie\CookieInterface::class, $cookie);
+        $I->assertInstanceOf(Cookie::class, $cookie);
+        $I->assertEquals(true, $cookie->getSecure());
+        $I->assertEquals('test-name', $cookie->getName());
+        $I->assertEquals('test-value', $cookie->getValue());
+        $I->assertEquals($time, $cookie->getExpiration());
+        $I->assertEquals('/', $cookie->getPath());
+        $I->assertEquals('phalcon.test', $cookie->getDomain());
+        $I->assertEquals(true, $cookie->getHttpOnly());
+    }
 }
