@@ -190,13 +190,7 @@ class Stream extends AbstractAdapter
 
         for file in iterator {
             if file->isFile() {
-                let files[] = this->prefix . str_replace(
-                    "/", "",
-                    strrchr(
-                        str_replace(directory, "", file->getPathName()),
-                        "/"
-                    )
-                );
+                let files[] = this->prefix . file->getFilename();
             }
         }
 
