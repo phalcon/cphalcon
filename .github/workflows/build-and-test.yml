@@ -386,7 +386,9 @@ jobs:
           InstallPhpDevPack
 
       - name: Getting Details About Installed PHP
-        run: Get-Php "${env:PHPROOT}"
+        run: |
+          Import-Module .\.ci\win-ci-tools.psm1
+          Get-Php "${env:PHPROOT}"
 
       - name: Install System Dependencies
         run: choco install -y --cache-location=C:\Downloads\Choco re2c
