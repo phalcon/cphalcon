@@ -432,6 +432,7 @@ jobs:
         run: |
           $env:Path += ";${env:PHP_SRC_PATH}"
           cd ${env:PHPROOT}\pecl
+          vcvars32
           buildconf.bat
           configure
           nmake
