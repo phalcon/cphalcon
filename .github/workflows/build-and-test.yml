@@ -303,6 +303,7 @@ jobs:
         run: vendor/bin/codecept run --ext DotReporter cli
 
   build-and-test-windows:
+    name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
     needs: generate
     runs-on: ${{ matrix.operating-system }}
     strategy:
@@ -324,6 +325,7 @@ jobs:
             arch: x64
             build_type: Win32
 
+    steps:
       - name: Git checkout
         uses: actions/checkout@v2-beta
         with:
@@ -337,8 +339,7 @@ jobs:
           tools: pecl
           extensions: mbstring, intl, json, imagick
 
-      - name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
-        steps:
+
             - name: Set Up Environment Variables
               run: |
                 echo "::set-env name=PHP_SDK_VERSION::2.2.0"
@@ -378,9 +379,7 @@ jobs:
           name: phalcon-pecl
 
       - name: Install PHP SDK Binary Tools
-        run: |
-          Import-Module .\.ci\win-ci-tools.psm1
-          InstallPhpSdk
+        run: InstallPhpSdk
 
       - name: Install PHP Dev pack
         run: |
