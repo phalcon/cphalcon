@@ -426,12 +426,11 @@ jobs:
           Import-Module .\.ci\win-ci-tools.psm1
           Expand-Item7zip "phalcon-pecl\phalcon-pecl.tgz" "${env:PHP_SRC_PATH}\ext\phalcon"
 
-      # TODO (ruudboon): Replace path with PHP_SRC env
       - name: Compile Phalcon
         shell: powershell
         run: |
           $env:Path += ";${env:PHP_SRC_PATH}"
-          cd ${env:PHP_SRC_PATH}\ext\phalcon
+          cd ${env:PHPROOT}\pecl
           buildconf.bat
           configure
           nmake
