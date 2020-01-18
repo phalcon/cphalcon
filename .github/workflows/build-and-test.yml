@@ -420,9 +420,11 @@ jobs:
           Expand-Item7zip "phalcon-pecl\phalcon-pecl.tgz" "${env:PHPROOT}\pecl"
 
       - name: Make Test Extension
-        shell: cmd
+        shell: powershell
         run: |
           cd ${env:PHPROOT}\pecl
+          buildconf
+          configure --enable-snapshot-build
           nmake 2> "%GITHUB_WORKSPACE%\compile-errors.log" 1> "%GITHUB_WORKSPACE%\compile.log"
 
       - name: Enable Phalcon
