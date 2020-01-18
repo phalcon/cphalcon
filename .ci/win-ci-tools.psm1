@@ -258,10 +258,10 @@ Function EnablePhalconExtension {
     # TODO(klay): Sortout with this:
     #
     # Multiple extensions match the name (or handle) "phalcon":
-    # - handle: test version 1.0.0
-    # - handle: test version 0.1.0
+    # - handle: phalcon version 1.0.0
+    # - handle: phalcon version 0.1.0
     # You can filter the extension to enable by adding :version to the -Extension parameter
-    # (example: "-Extension 'test:0.1.0'")
+    # (example: "-Extension 'phalcon:0.1.0'")
     #
     Enable-PhpExtension -Extension "${env:EXTENSION_NAME}:1.0.0" -Path "${env:PHPROOT}"
 }

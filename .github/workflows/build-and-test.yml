@@ -344,6 +344,7 @@ jobs:
           echo "::set-env name=PHP_SDK_VERSION::2.2.0"
           echo "::set-env name=PHP_DEVPACK::C:\tools\php-devpack"
           echo "::set-env name=PHP_SDK_PATH::C:\tools\php-sdk"
+          echo "::set-env name=PHP_SRC_PATH::C:\tools\php-src"
           echo "::set-env name=PHP_VERSION::$(php -r 'echo phpversion();')"
           echo "::set-env name=PHP_MINOR::${{ matrix.php }}"
           echo "::set-env name=TEST_PHP_EXECUTABLE::${env:PHPROOT}\php.exe"
