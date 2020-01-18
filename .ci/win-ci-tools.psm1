@@ -14,10 +14,6 @@ Function SetupCommonEnvironment {
         New-Item -ItemType Directory -Force -Path 'C:\Downloads\Choco' | Out-Null
     }
 
-#     If (-not (Test-Path $env:secrets.COMPOSER_TOKEN)) {
-#         composer config github-oauth.github.com $env:secrets.COMPOSER_TOKEN
-#     }
-
     # Hide "You are in 'detached HEAD' state" message
     git config --global advice.detachedHead false
 }

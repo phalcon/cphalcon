@@ -354,6 +354,13 @@ jobs:
           echo "::set-env name=EXTENSION_NAME::phalcon"
           echo "::set-env name=EXTENSION_FILE::php_phalcon.dll"
 
+      - name: Setup GitHub Token
+        run: |
+          # To increase the GitHub rate limit we're use GitHub authentication
+          if (-not [string]::IsNullOrEmpty("${{ secrets.COMPOSER_TOKEN }}")) {
+              composer config github-oauth.github.com ${{ secrets.COMPOSER_TOKEN }}
+          }
+
       - name: Setup Common Environment
         run: |
           Import-Module .\.ci\win-ci-tools.psm1
@@ -389,6 +396,7 @@ jobs:
         run: |
           Import-Module .\.ci\win-ci-tools.psm1
           Get-Php "${env:PHPROOT}"
+
 
       - name: Install System Dependencies
         run: choco install -y --cache-location=C:\Downloads\Choco re2c
