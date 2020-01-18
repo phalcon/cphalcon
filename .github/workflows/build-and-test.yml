@@ -431,8 +431,7 @@ jobs:
         shell: powershell
         run: |
           cd ${env:PHPROOT}\pecl
-          dir C:\tools\php-src
-          C:\tools\php-src\buildconf
+          C:\tools\php-src\buildconf.bat
           C:\tools\php-src\configure --enable-snapshot-build
           nmake
 
