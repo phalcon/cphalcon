@@ -432,7 +432,7 @@ jobs:
         run: |
           cd ${env:PHPROOT}\pecl
           C:\tools\php-src\buildconf.bat
-          C:\tools\php-src\configure --enable-snapshot-build
+          C:\tools\php-src\configure
           nmake
 
       - name: Enable Phalcon
