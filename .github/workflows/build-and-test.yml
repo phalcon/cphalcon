@@ -402,6 +402,18 @@ jobs:
       - name: Install System Dependencies
         run: choco install -y --cache-location=C:\Downloads\Choco re2c
 
+      - name: "Setup Visual Studio Command Line for PHP SDK ${{ matrix.arch }}"
+        run: .ci\vsenv.bat -arch=${{ matrix.arch }} -host_arch=${{ matrix.arch }}
+
+      - name: Fix Environment Variables
+        shell: powershell
+        run: |
+          $v = "${env:WindowsSDKVersion}" -replace '\\$', ''
+          Write-Output "::set-env name=WindowsSDKVersion::$v"
+
+          $v = "${env:WindowsSDKLibVersion}" -replace '\\$', ''
+          Write-Output "::set-env name=WindowsSDKLibVersion::$v"
+
       - name: Unpack package
         run: |
           Import-Module .\.ci\win-ci-tools.psm1
@@ -420,18 +432,6 @@ jobs:
 
       - name: Verify install
         run: php -m | grep phalcon
-
-      - name: "Setup Visual Studio Command Line for PHP SDK ${{ matrix.arch }}"
-        run: .ci\vsenv.bat -arch=${{ matrix.arch }} -host_arch=${{ matrix.arch }}
-
-      - name: Fix Environment Variables
-        shell: powershell
-        run: |
-          $v = "${env:WindowsSDKVersion}" -replace '\\$', ''
-          Write-Output "::set-env name=WindowsSDKVersion::$v"
-
-          $v = "${env:WindowsSDKLibVersion}" -replace '\\$', ''
-          Write-Output "::set-env name=WindowsSDKLibVersion::$v"
 
       - name: Install packages
         run: composer install --prefer-dist --ignore-platform-reqs
