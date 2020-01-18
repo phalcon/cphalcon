@@ -339,21 +339,20 @@ jobs:
           tools: pecl
           extensions: mbstring, intl, json, imagick
 
-
-            - name: Set Up Environment Variables
-              run: |
-                echo "::set-env name=PHP_SDK_VERSION::2.2.0"
-                echo "::set-env name=PHP_DEVPACK::C:\tools\php-devpack"
-                echo "::set-env name=PHP_SDK_PATH::C:\tools\php-sdk"
-                echo "::set-env name=PHP_VERSION::$(php -r 'echo phpversion();')"
-                echo "::set-env name=PHP_MINOR::${{ matrix.php }}"
-                echo "::set-env name=TEST_PHP_EXECUTABLE::${env:PHPROOT}\php.exe"
-                echo "::set-env name=BUILD_TYPE::${{ matrix.build_type }}"
-                echo "::set-env name=VC_VERSION::${{ matrix.vc_num }}"
-                echo "::set-env name=PHP_ARCH::${{ matrix.arch }}"
-                echo "::set-env name=PACKAGE_PREFIX::phalcon"
-                echo "::set-env name=EXTENSION_NAME::phalcon"
-                echo "::set-env name=EXTENSION_FILE::php_phalcon.dll"
+      - name: Set Up Environment Variables
+        run: |
+          echo "::set-env name=PHP_SDK_VERSION::2.2.0"
+          echo "::set-env name=PHP_DEVPACK::C:\tools\php-devpack"
+          echo "::set-env name=PHP_SDK_PATH::C:\tools\php-sdk"
+          echo "::set-env name=PHP_VERSION::$(php -r 'echo phpversion();')"
+          echo "::set-env name=PHP_MINOR::${{ matrix.php }}"
+          echo "::set-env name=TEST_PHP_EXECUTABLE::${env:PHPROOT}\php.exe"
+          echo "::set-env name=BUILD_TYPE::${{ matrix.build_type }}"
+          echo "::set-env name=VC_VERSION::${{ matrix.vc_num }}"
+          echo "::set-env name=PHP_ARCH::${{ matrix.arch }}"
+          echo "::set-env name=PACKAGE_PREFIX::phalcon"
+          echo "::set-env name=EXTENSION_NAME::phalcon"
+          echo "::set-env name=EXTENSION_FILE::php_phalcon.dll"
 
       - name: Setup Common Environment
         run: |
