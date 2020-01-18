@@ -329,13 +329,6 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Setup GitHub Token
-        run: |
-          # To increase the GitHub rate limit we're use GitHub authentication
-          if [ -n "${{ secrets.COMPOSER_TOKEN }}" ]; then
-            composer config github-oauth.github.com "${{ secrets.COMPOSER_TOKEN }}"
-          fi
-
       - name: Setup PHP
         uses: shivammathur/setup-php@v1
         with:
