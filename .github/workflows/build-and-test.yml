@@ -411,8 +411,8 @@ jobs:
         shell: cmd
         run: |
           cd ${env:PHPROOT}\pecl
-          C:\tools\php-sdk\buildconf
-          C:\tools\php-sdk\configure --enable-snapshot-build
+          buildconf
+          configure --enable-snapshot-build
           nmake 2> "%GITHUB_WORKSPACE%\compile-errors.log" 1> "%GITHUB_WORKSPACE%\compile.log"
 
       - name: Enable Phalcon

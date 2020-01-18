@@ -37,6 +37,7 @@ Function InstallPhpSdk {
         }
 
         Move-Item -Path $DestinationUnzipPath -Destination $env:PHP_SDK_PATH
+        ${env:PHP_SDK_PATH}\bin\phpsdk_setvars.bat
     }
 }
 
