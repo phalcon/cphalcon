@@ -43,8 +43,8 @@ Function InstallPhpSdk {
 Function DownloadPhpSrc {
     Write-Output "Download PHP Src: ${env:PHP_VERSION}"
 
-    $RemoteUrl = "http://windows.php.net/downloads/releases/php-${env:PHP_VERSION}.zip"
-    $DestinationPath = "C:\Downloads\php-${env:PHP_VERSION}.zip"
+    $RemoteUrl = "http://windows.php.net/downloads/releases/php-${env:PHP_VERSION}-src.zip"
+    $DestinationPath = "C:\Downloads\php-${env:PHP_VERSION}-src.zip"
 
     If (-not (Test-Path $env:PHP_SRC_PATH)) {
         If (-not [System.IO.File]::Exists($DestinationPath)) {
@@ -52,7 +52,7 @@ Function DownloadPhpSrc {
             DownloadFile $RemoteUrl $DestinationPath
         }
 
-        $DestinationUnzipPath = "${env:Temp}\php-${env:PHP_VERSION}"
+        $DestinationUnzipPath = "${env:Temp}\php-${env:PHP_VERSION}-src"
 
         If (-not (Test-Path "$DestinationUnzipPath")) {
             Expand-Item7zip $DestinationPath $env:Temp
