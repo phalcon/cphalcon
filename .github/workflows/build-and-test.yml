@@ -312,8 +312,6 @@ jobs:
 
     name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
     steps:
-      - name: Show PHP version
-        run: php -v
       - name: Set Up Environment Variables
         run: |
           echo "::set-env name=PHP_SDK_VERSION::2.2.0"
@@ -334,11 +332,6 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Setup Common Environment
-        run: |
-          Import-Module .\.ci\win-ci-tools.psm1
-          SetupCommonEnvironment
-
       - name: Setup PHP
         uses: shivammathur/setup-php@v1
         with:
@@ -346,6 +339,11 @@ jobs:
           ini-values: apc.enable_cli=on, session.save_path=/tmp
           tools: pecl
           extensions: mbstring, intl, json, imagick
+
+      - name: Setup Common Environment
+        run: |
+          Import-Module .\.ci\win-ci-tools.psm1
+          SetupCommonEnvironment
 
       - name: Get Composer Cache Directory
         id: composer-cache
