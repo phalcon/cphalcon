@@ -430,7 +430,7 @@ jobs:
       - name: Compile Phalcon
         shell: powershell
         run: |
-          $env:Path += ";${env:PHPROOT}"
+          $env:Path += ";${env:PHP_SRC_PATH}"
           cd ${env:PHPROOT}\pecl
           buildconf.bat
           configure
