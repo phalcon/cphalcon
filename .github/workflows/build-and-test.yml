@@ -357,7 +357,7 @@ jobs:
       - name: Setup GitHub Token
         run: |
           # To increase the GitHub rate limit we're use GitHub authentication
-          if (-not [string]::IsNullOrEmpty("${{ secrets.COMPOSER_TOKEN }}")) {
+          if ("${{ secrets.COMPOSER_TOKEN }}" -ne "") {
               composer config github-oauth.github.com ${{ secrets.COMPOSER_TOKEN }}
           }
 
@@ -399,7 +399,6 @@ jobs:
           Import-Module .\.ci\win-ci-tools.psm1
           Get-Php "${env:PHPROOT}"
 
-
       - name: Install System Dependencies
         run: choco install -y --cache-location=C:\Downloads\Choco re2c
 
@@ -411,7 +410,7 @@ jobs:
       - name: Make Test Extension
         shell: cmd
         run: |
-          cd pecl
+          cd ${env:PHPROOT}\pecl
           nmake 2> "%GITHUB_WORKSPACE%\compile-errors.log" 1> "%GITHUB_WORKSPACE%\compile.log"
 
       - name: Enable Phalcon
