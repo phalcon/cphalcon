@@ -62,29 +62,6 @@ Function InstallPhpDevPack {
     }
 }
 
-Function InstallPhalcon {
-    $BaseUri = "https://github.com/phalcon/php-zephir-parser/releases/download"
-    $LocalPart = "zephir_parser_${env:PHP_ARCH}_vc${env:VC_VERSION}_php${env:PHP_MINOR}"
-
-    If ($env:BUILD_TYPE -Match "nts-Win32") {
-        $VersionPrefix = "-nts"
-    } Else {
-        $VersionPrefix = ""
-    }
-
-    $RemoteUrl = "${BaseUri}/v${env:PARSER_VERSION}/${LocalPart}${VersionPrefix}_${env:PARSER_VERSION}-${env:PARSER_RELEASE}.zip"
-    $DestinationPath = "C:\Downloads\${LocalPart}${VersionPrefix}_${env:PARSER_VERSION}-${env:PARSER_RELEASE}.zip"
-
-    If (-not (Test-Path "${env:PHPROOT}\ext\php_zephir_parser.dll")) {
-        If (-not [System.IO.File]::Exists($DestinationPath)) {
-            Write-Output "Downloading Zephir Parser: ${RemoteUrl} ..."
-            DownloadFile $RemoteUrl $DestinationPath
-        }
-
-        Expand-Item7zip $DestinationPath "${env:PHPROOT}\ext"
-    }
-}
-
 
 Function Expand-Item7zip {
     Param(

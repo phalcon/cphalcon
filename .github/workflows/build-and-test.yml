@@ -85,8 +85,8 @@ jobs:
       - name: Setup GitHub Token
         run: |
           # To increase the GitHub rate limit we're use GitHub authentication
-          if [ -n "${{ secrets.GH_TOKEN }}" ]; then
-            composer config github-oauth.github.com "${{ secrets.GH_TOKEN }}"
+          if [ -n "${{ secrets.COMPOSER_TOKEN }}" ]; then
+            composer config github-oauth.github.com "${{ secrets.COMPOSER_TOKEN }}"
           fi
 
       - name: Install Zephir
@@ -177,6 +177,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-composer-
 
+      - name: Setup GitHub Token
+        run: |
+          # To increase the GitHub rate limit we're use GitHub authentication
+          if [ -n "${{ secrets.COMPOSER_TOKEN }}" ]; then
+            composer config github-oauth.github.com "${{ secrets.COMPOSER_TOKEN }}"
+          fi
+
       - name: Setup PHP
         uses: shivammathur/setup-php@v1
         with:
@@ -239,6 +246,13 @@ jobs:
 
       - name: Install requirements for ext-imagick #Remove after setup-php 1.7.4 https://github.com/shivammathur/setup-php/issues/155#issuecomment-575774700
         run: brew install pkg-config imagemagick
+
+      - name: Setup GitHub Token
+        run: |
+          # To increase the GitHub rate limit we're use GitHub authentication
+          if [ -n "${{ secrets.COMPOSER_TOKEN }}" ]; then
+            composer config github-oauth.github.com "${{ secrets.COMPOSER_TOKEN }}"
+          fi
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v1
@@ -332,6 +346,13 @@ jobs:
         with:
           fetch-depth: 1
 
+      - name: Setup GitHub Token
+        run: |
+          # To increase the GitHub rate limit we're use GitHub authentication
+          if [ -n "${{ secrets.COMPOSER_TOKEN }}" ]; then
+            composer config github-oauth.github.com "${{ secrets.COMPOSER_TOKEN }}"
+          fi
+
       - name: Setup PHP
         uses: shivammathur/setup-php@v1
         with:
@@ -379,16 +400,19 @@ jobs:
       - name: Install System Dependencies
         run: choco install -y --cache-location=C:\Downloads\Choco re2c
 
-      - name: Install package
-        run: pecl -v install phalcon-pecl/phalcon-pecl.tgz
+      - name: Unpack package
+        run: |
+          Import-Module .\.ci\win-ci-tools.psm1
+          Expand-Item7zip "phalcon-pecl\phalcon-pecl.tgz" "${env:PHPROOT}\pecl"
 
-#      - name: Install Phalcon
-#        run: |
-#          Import-Module .\.ci\win-ci-tools.psm1
-#          InstallPhalcon
-#
-#      - name: Enable Phalcon
-#        run: Enable-PhpExtension -Extension 'Phalcon' -Path "${env:PHPROOT}"
+      - name: Make Test Extension
+        shell: cmd
+        run: |
+          cd pecl
+          nmake 2> "%GITHUB_WORKSPACE%\compile-errors.log" 1> "%GITHUB_WORKSPACE%\compile.log"
+
+      - name: Enable Phalcon
+        run: Enable-PhpExtension -Extension 'Phalcon' -Path "${env:PHPROOT}"
 
       - name: Verify install
         run: php -m | grep phalcon
