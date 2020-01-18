@@ -82,9 +82,9 @@ jobs:
           sudo make install
           echo 'extension="zephir_parser.so"' | sudo tee "/etc/php/7.4/cli/conf.d/zephir_parser.ini"
 
-      - name: Setup GitHub Token
+      - name: Setup Composer Token
         run: |
-          # To increase the GitHub rate limit we're use GitHub authentication
+          # To increase the Composer rate limit we're use GitHub authentication
           if [ -n "${{ secrets.COMPOSER_TOKEN }}" ]; then
             composer config github-oauth.github.com "${{ secrets.COMPOSER_TOKEN }}"
           fi
@@ -177,9 +177,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-composer-
 
-      - name: Setup GitHub Token
+      - name: Setup Composer Token
         run: |
-          # To increase the GitHub rate limit we're use GitHub authentication
+          # To increase the Composer rate limit we're use GitHub authentication
           if [ -n "${{ secrets.COMPOSER_TOKEN }}" ]; then
             composer config github-oauth.github.com "${{ secrets.COMPOSER_TOKEN }}"
           fi
@@ -203,7 +203,7 @@ jobs:
           sudo pecl -v install phalcon-pecl/phalcon-pecl.tgz
 
       - name: Verify install
-        run: php -m | grep phalcon
+        run: php --ri phalcon
 
       - name: Install packages
         run: composer install --prefer-dist --ignore-platform-reqs
@@ -244,7 +244,8 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Install requirements for ext-imagick #Remove after setup-php 1.7.4 https://github.com/shivammathur/setup-php/issues/155#issuecomment-575774700
+      #TODO(ruudboon): Remove after setup-php 1.7.4 and add imagick to extensions. https://github.com/shivammathur/setup-php/issues/155#issuecomment-575774700
+      - name: Install requirements for ext-imagick
         run: brew install pkg-config imagemagick
 
       - name: Setup PHP
@@ -253,7 +254,7 @@ jobs:
           php-version: ${{ matrix.php-versions }}
           ini-values: apc.enable_cli=on, session.save_path=/tmp
           tools: pecl
-          extensions: mbstring, intl, json, imagick, yaml, apcu
+          extensions: mbstring, intl, json, yaml, apcu
 
       - name: Get Composer Cache Directory
         id: composer-cache
@@ -286,7 +287,7 @@ jobs:
           sudo pecl -v install phalcon-pecl/phalcon-pecl.tgz
 
       - name: Verify install
-        run: php -m | grep phalcon
+        run: php --ri phalcon
 
       - name: Install packages
         run: composer install --prefer-dist --ignore-platform-reqs
@@ -355,9 +356,9 @@ jobs:
           echo "::set-env name=EXTENSION_NAME::phalcon"
           echo "::set-env name=EXTENSION_FILE::php_phalcon.dll"
 
-      - name: Setup GitHub Token
+      - name: Setup Composer Token
         run: |
-          # To increase the GitHub rate limit we're use GitHub authentication
+          # To increase the Composer rate limit we're use GitHub authentication
           if ("${{ secrets.COMPOSER_TOKEN }}" -ne "") {
               composer config github-oauth.github.com ${{ secrets.COMPOSER_TOKEN }}
           }
@@ -425,19 +426,21 @@ jobs:
           Import-Module .\.ci\win-ci-tools.psm1
           Expand-Item7zip "phalcon-pecl\phalcon-pecl.tgz" "${env:PHPROOT}\pecl"
 
+      # TODO (ruudboon): Replace path with PHP_SRC env
       - name: Compile Phalcon
         shell: powershell
         run: |
           cd ${env:PHPROOT}\pecl
-          ${env:PHP_SRC_PATH}\buildconf
-          ${env:PHP_SRC_PATH}\configure --enable-snapshot-build
+          dir C:\tools\php-src
+          C:\tools\php-src\buildconf
+          C:\tools\php-src\configure --enable-snapshot-build
           nmake
 
       - name: Enable Phalcon
         run: Enable-PhpExtension -Extension 'Phalcon' -Path "${env:PHPROOT}"
 
       - name: Verify install
-        run: php -m | grep phalcon
+        run: php --ri phalcon
 
       - name: Install packages
         run: composer install --prefer-dist --ignore-platform-reqs
