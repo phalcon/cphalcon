@@ -1,4 +1,4 @@
-name: Build and Test Phalcon
+name: Phalcon CI
 
 on:
   push:
@@ -12,16 +12,19 @@ jobs:
     runs-on: ubuntu-latest
     name: Build Phalcon Pecl Package
     steps:
+
       - name: Set environment variables
         run: |
           echo "::set-env name=ZEPHIR_PARSER_VERSION::v1.3.3"
           echo "::set-env name=ZEPHIR_VERSION::0.12.16"
+
       - name: Setup PHP
         uses: shivammathur/setup-php@v1
         with:
           php-version: '7.4'
           extensions: mbstring, intl, json, psr
           tools: pecl
+
       - name: Common settings
         run: |
           # Core dump settings
@@ -32,10 +35,12 @@ jobs:
 
           # Will be used before as a cache key
           export CPUHASH="$(cat /proc/cpuinfo | grep "model name" | head -n 1 | cut -d':' -f2 | md5sum)"
+
       - name: Git checkout
         uses: actions/checkout@v2-beta
         with:
           fetch-depth: 1
+
       - name: Setup APT repositories
         run: |
           # We don't need this at all, and our
@@ -88,6 +93,7 @@ jobs:
         run: |
           wget --no-clobber -O "$HOME/zephir" "https://github.com/phalcon/zephir/releases/download/${ZEPHIR_VERSION}/zephir.phar"
           chmod +x "$HOME/zephir"
+
       - name: Generate C code
         run: |
           $HOME/zephir fullclean
@@ -107,13 +113,15 @@ jobs:
           pecl package
           phalcon_package="`ls | grep phalcon-*tgz`"
           mv $phalcon_package phalcon-pecl.tgz
+
       - name: Validate pecl package
         run: pecl package-validate phalcon-pecl.tgz
       - uses: actions/upload-artifact@v1
         with:
           name: 'phalcon-pecl'
           path: phalcon-pecl.tgz
-  build-and-test-with-db:
+
+  build-and-test-linux:
     needs: generate
     services:
       mysql:
@@ -147,22 +155,28 @@ jobs:
       matrix:
         operating-system: [ubuntu-latest]
         php-versions: ['7.2', '7.3', '7.4']
+
     name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
     steps:
+
       - name: Git checkout
         uses: actions/checkout@v2-beta
         with:
           fetch-depth: 1
+
       - name: Get Composer Cache Directory
         id: composer-cache
         run: |
           echo "::set-output name=dir::$(composer config cache-files-dir)"
-      - uses: actions/cache@v1
+
+      - name: Setup Cache
+        uses: actions/cache@v1
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
           restore-keys: |
             ${{ runner.os }}-composer-
+
       - name: Setup PHP
         uses: shivammathur/setup-php@v1
         with:
@@ -170,22 +184,28 @@ jobs:
           ini-values: apc.enable_cli=on, session.save_path=/tmp
           tools: pecl
           extensions: mbstring, intl, json, imagick
+
       - name: Download phalcon pecl package
         uses: actions/download-artifact@v1
         with:
           name: phalcon-pecl
+
       - name: Install package
         run: |
           export MAKEFLAGS="-j$(getconf _NPROCESSORS_ONLN)"
           sudo pecl -v install phalcon-pecl/phalcon-pecl.tgz
+
       - name: Verify install
         run: php -m | grep phalcon
+
       - name: Install packages
         run: composer install --prefer-dist --ignore-platform-reqs
+
       - name: Setup tests
         run: |
           cp tests/_ci/.env.default .env
           vendor/bin/codecept build
+
       - name: Run unit tests
         run: vendor/bin/codecept run --ext DotReporter unit
         env:
@@ -193,6 +213,7 @@ jobs:
           DATA_POSTGRES_PORT: ${{ job.services.postgres.ports['5432'] }}
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
+
       - name: Run cli tests
         run: vendor/bin/codecept run --ext DotReporter cli
         env:
@@ -200,6 +221,7 @@ jobs:
           DATA_POSTGRES_PORT: ${{ job.services.postgres.ports['5432'] }}
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
+
       - name: Run integrations tests
         env:
           DATA_MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
@@ -207,7 +229,8 @@ jobs:
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
         run: vendor/bin/codecept run --ext DotReporter integration
-  build-and-test-without-db:
+
+  build-and-test-macos:
     needs: generate
     runs-on: ${{ matrix.operating-system }}
     strategy:
@@ -215,14 +238,18 @@ jobs:
       matrix:
         operating-system: [macos-latest]
         php-versions: ['7.2', '7.3', '7.4']
+
     name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
     steps:
+
       - name: Git checkout
         uses: actions/checkout@v2-beta
         with:
           fetch-depth: 1
+
       - name: Install requirements for ext-imagick #Remove after setup-php 1.7.4 https://github.com/shivammathur/setup-php/issues/155#issuecomment-575774700
         run: brew install pkg-config imagemagick
+
       - name: Setup PHP
         uses: shivammathur/setup-php@v1
         with:
@@ -230,33 +257,209 @@ jobs:
           ini-values: apc.enable_cli=on, session.save_path=/tmp
           tools: pecl
           extensions: mbstring, intl, json, imagick, yaml, apcu
+
       - name: Get Composer Cache Directory
         id: composer-cache
         run: |
           echo "::set-output name=dir::$(composer config cache-files-dir)"
-      - uses: actions/cache@v1
+
+      - name: Setup cache
+        uses: actions/cache@v1
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
           restore-keys: |
             ${{ runner.os }}-composer-
+
       - name: Download phalcon pecl package
         uses: actions/download-artifact@v1
         with:
           name: phalcon-pecl
+
       - name: Install package
         run: |
           export MAKEFLAGS="-j$(getconf _NPROCESSORS_ONLN)"
           sudo pecl -v install phalcon-pecl/phalcon-pecl.tgz
+
       - name: Verify install
         run: php -m | grep phalcon
+
       - name: Install packages
         run: composer install --prefer-dist --ignore-platform-reqs
+
       - name: Setup tests
         run: |
           cp tests/_ci/.env.default .env
           vendor/bin/codecept build
+
       - name: Run unit tests
         run: vendor/bin/codecept run --ext DotReporter unit
+
       - name: Run cli tests
         run: vendor/bin/codecept run --ext DotReporter cli
+
+  build-and-test-windows:
+    needs: generate
+    services:
+      mysql:
+        image: mysql:5.7
+        ports:
+          - 3306
+        env:
+          MYSQL_ROOT_PASSWORD: secret
+          MYSQL_USER: phalcon
+          MYSQL_DATABASE: phalcon
+          MYSQL_PASSWORD: secret
+      postgres:
+        image: postgres:12-alpine
+        ports:
+          - 5432
+        env:
+          POSTGRES_PASSWORD: secret
+          POSTGRES_USER: phalcon
+          POSTGRES_DB: phalcon
+      redis:
+        image: redis:5-alpine
+        ports:
+          - 6379
+      memcached:
+        image: memcached:1.5-alpine
+        ports:
+          - 11211
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      fail-fast: false
+      matrix:
+        operating-system: [windows-latest]
+        php-versions: ['7.2', '7.3', '7.4']
+
+    name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
+    steps:
+
+      - name: Set Up Environment Variables
+        run: |
+          echo "::set-env name=PHP_SDK_VERSION::2.2.0"
+          echo "::set-env name=PHP_DEVPACK::C:\tools\php-devpack"
+          echo "::set-env name=PHP_SDK_PATH::C:\tools\php-sdk"
+          echo "::set-env name=PHP_VERSION::$(php -r 'echo phpversion();')"
+          echo "::set-env name=PHP_MINOR::${{ matrix.php }}"
+          echo "::set-env name=TEST_PHP_EXECUTABLE::${env:PHPROOT}\php.exe"
+          echo "::set-env name=BUILD_TYPE::${{ matrix.build_type }}"
+          echo "::set-env name=VC_VERSION::${{ matrix.vc_num }}"
+          echo "::set-env name=PHP_ARCH::${{ matrix.arch }}"
+          echo "::set-env name=PACKAGE_PREFIX::phalcon"
+          echo "::set-env name=EXTENSION_NAME::phalcon"
+          echo "::set-env name=EXTENSION_FILE::php_phalcon.dll"
+
+      - name: Git checkout
+        uses: actions/checkout@v2-beta
+        with:
+          fetch-depth: 1
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: |
+          echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Setup Cache
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: Setup Common Environment
+        run: |
+          Import-Module .\.ci\win-ci-tools.psm1
+          SetupCommonEnvironment
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v1
+        with:
+          php-version: ${{ matrix.php-versions }}
+          ini-values: apc.enable_cli=on, session.save_path=/tmp
+          tools: pecl
+          extensions: mbstring, intl, json, imagick
+
+
+      - name: Download phalcon pecl package
+        uses: actions/download-artifact@v1
+        with:
+          name: phalcon-pecl
+
+      - name: Install PHP SDK Binary Tools
+        run: |
+          Import-Module .\.ci\win-ci-tools.psm1
+          InstallPhpSdk
+
+      - name: Install PHP Dev pack
+        run: |
+          Import-Module .\.ci\win-ci-tools.psm1
+          InstallPhpDevPack
+
+      - name: Getting Details About Installed PHP
+        run: Get-Php "${env:PHPROOT}"
+
+      - name: Install System Dependencies
+        run: choco install -y --cache-location=C:\Downloads\Choco re2c
+
+      - name: Install package
+        run: |
+#          export MAKEFLAGS="-j$(getconf _NPROCESSORS_ONLN)"
+          pecl -v install phalcon-pecl/phalcon-pecl.tgz
+
+#      - name: Install Phalcon
+#        run: |
+#          Import-Module .\.ci\win-ci-tools.psm1
+#          InstallPhalcon
+#
+#      - name: Enable Phalcon
+#        run: Enable-PhpExtension -Extension 'Phalcon' -Path "${env:PHPROOT}"
+
+      - name: Verify install
+        run: php -m | grep phalcon
+
+      - name: "Setup Visual Studio Command Line for PHP SDK ${{ matrix.arch }}"
+        run: .ci\vsenv.bat -arch=${{ matrix.arch }} -host_arch=${{ matrix.arch }}
+
+      - name: Fix Environment Variables
+        shell: powershell
+        run: |
+          $v = "${env:WindowsSDKVersion}" -replace '\\$', ''
+          Write-Output "::set-env name=WindowsSDKVersion::$v"
+
+          $v = "${env:WindowsSDKLibVersion}" -replace '\\$', ''
+          Write-Output "::set-env name=WindowsSDKLibVersion::$v"
+
+      - name: Install packages
+        run: composer install --prefer-dist --ignore-platform-reqs
+
+      - name: Setup tests
+        run: |
+          cp tests/_ci/.env.default .env
+          vendor/bin/codecept build
+
+      - name: Run unit tests
+        run: vendor/bin/codecept run --ext DotReporter unit
+        env:
+          DATA_MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
+          DATA_POSTGRES_PORT: ${{ job.services.postgres.ports['5432'] }}
+          DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
+          DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
+
+      - name: Run cli tests
+        run: vendor/bin/codecept run --ext DotReporter cli
+        env:
+          DATA_MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
+          DATA_POSTGRES_PORT: ${{ job.services.postgres.ports['5432'] }}
+          DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
+          DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
+
+      - name: Run integrations tests
+        env:
+          DATA_MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
+          DATA_POSTGRES_PORT: ${{ job.services.postgres.ports['5432'] }}
+          DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
+          DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
+        run: vendor/bin/codecept run --ext DotReporter integration
