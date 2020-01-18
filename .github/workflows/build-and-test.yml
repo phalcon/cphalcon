@@ -405,9 +405,7 @@ jobs:
         run: choco install -y --cache-location=C:\Downloads\Choco re2c
 
       - name: Install package
-        run: |
-#          export MAKEFLAGS="-j$(getconf _NPROCESSORS_ONLN)"
-          pecl -v install phalcon-pecl/phalcon-pecl.tgz
+        run: pecl -v install phalcon-pecl/phalcon-pecl.tgz
 
 #      - name: Install Phalcon
 #        run: |
