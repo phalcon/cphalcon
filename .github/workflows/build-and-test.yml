@@ -247,13 +247,6 @@ jobs:
       - name: Install requirements for ext-imagick #Remove after setup-php 1.7.4 https://github.com/shivammathur/setup-php/issues/155#issuecomment-575774700
         run: brew install pkg-config imagemagick
 
-      - name: Setup GitHub Token
-        run: |
-          # To increase the GitHub rate limit we're use GitHub authentication
-          if [ -n "${{ secrets.COMPOSER_TOKEN }}" ]; then
-            composer config github-oauth.github.com "${{ secrets.COMPOSER_TOKEN }}"
-          fi
-
       - name: Setup PHP
         uses: shivammathur/setup-php@v1
         with:
@@ -266,6 +259,13 @@ jobs:
         id: composer-cache
         run: |
           echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Setup GitHub Token
+        run: |
+          # To increase the GitHub rate limit we're use GitHub authentication
+          if [ -n "${{ secrets.COMPOSER_TOKEN }}" ]; then
+            composer config github-oauth.github.com "${{ secrets.COMPOSER_TOKEN }}"
+          fi
 
       - name: Setup cache
         uses: actions/cache@v1
