@@ -432,7 +432,7 @@ jobs:
         run: |
           $env:Path += ";${env:PHPROOT}"
           cd ${env:PHPROOT}\pecl
-          buildconf
+          buildconf.bat
           configure
           nmake
 
