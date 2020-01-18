@@ -385,7 +385,9 @@ jobs:
           name: phalcon-pecl
 
       - name: Install PHP SDK Binary Tools
-        run: InstallPhpSdk
+        run: |
+          Import-Module .\.ci\win-ci-tools.psm1
+          InstallPhpSdk
 
       - name: Install PHP Dev pack
         run: |
