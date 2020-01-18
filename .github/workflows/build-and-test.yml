@@ -423,6 +423,8 @@ jobs:
         shell: powershell
         run: |
           cd ${env:PHPROOT}\pecl
+          ${PHP_DEVPACK}\buildconf
+          ${PHP_DEVPACK}\configure --enable-snapshot-build
           nmake
 
       - name: Enable Phalcon
