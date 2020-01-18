@@ -430,9 +430,10 @@ jobs:
       - name: Compile Phalcon
         shell: powershell
         run: |
+          $env:Path += ";${env:PHPROOT}"
           cd ${env:PHPROOT}\pecl
-          C:\tools\php-src\buildconf.bat
-          C:\tools\php-src\configure
+          buildconf
+          configure
           nmake
 
       - name: Enable Phalcon
