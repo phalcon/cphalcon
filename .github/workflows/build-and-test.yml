@@ -394,6 +394,11 @@ jobs:
           Import-Module .\.ci\win-ci-tools.psm1
           InstallPhpDevPack
 
+      - name: Download PHP src
+          run: |
+            Import-Module .\.ci\win-ci-tools.psm1
+            DownloadPhpSrc
+
       - name: Getting Details About Installed PHP
         run: |
           Import-Module .\.ci\win-ci-tools.psm1
@@ -423,9 +428,8 @@ jobs:
         shell: powershell
         run: |
           cd ${env:PHPROOT}\pecl
-          dir C:\tools\php-devpack
-          C:\tools\php-devpack\buildconf
-          C:\tools\php-devpack\configure --enable-snapshot-build
+          ${env:PHP_SRC_PATH}\buildconf
+          ${env:PHP_SRC_PATH}\configure --enable-snapshot-build
           nmake
 
       - name: Enable Phalcon

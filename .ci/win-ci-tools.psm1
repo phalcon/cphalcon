@@ -40,6 +40,28 @@ Function InstallPhpSdk {
     }
 }
 
+Function DownloadPhpSrc {
+    Write-Output "Download PHP Src: ${env:PHP_VERSION}"
+
+    $RemoteUrl = "http://windows.php.net/downloads/releases/php-${env:PHP_VERSION}.zip"
+    $DestinationPath = "C:\Downloads\php-${env:PHP_VERSION}.zip"
+
+    If (-not (Test-Path $env:PHP_SRC_PATH)) {
+        If (-not [System.IO.File]::Exists($DestinationPath)) {
+            Write-Output "Downloading PHP Dev pack: ${RemoteUrl} ..."
+            DownloadFile $RemoteUrl $DestinationPath
+        }
+
+        $DestinationUnzipPath = "${env:Temp}\php-${env:PHP_VERSION}"
+
+        If (-not (Test-Path "$DestinationUnzipPath")) {
+            Expand-Item7zip $DestinationPath $env:Temp
+        }
+
+        Move-Item -Path $DestinationUnzipPath -Destination $env:PHP_SRC_PATH
+    }
+}
+
 Function InstallPhpDevPack {
     Write-Output "Install PHP Dev pack: ${env:PHP_VERSION}"
 
