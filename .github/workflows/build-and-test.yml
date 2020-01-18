@@ -423,8 +423,6 @@ jobs:
         shell: powershell
         run: |
           cd ${env:PHPROOT}\pecl
-          buildconf
-          configure --enable-snapshot-build
           nmake 2> "%GITHUB_WORKSPACE%\compile-errors.log" 1> "%GITHUB_WORKSPACE%\compile.log"
 
       - name: Enable Phalcon
