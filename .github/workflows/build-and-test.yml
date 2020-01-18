@@ -296,6 +296,11 @@ jobs:
       matrix:
         operating-system: [windows-latest]
         php-versions: ['7.2', '7.3', '7.4']
+        include:
+          - php: '7.2'
+            vc_num: '15'
+            arch: x64
+            build_type: Win32
 
     name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
     steps:
