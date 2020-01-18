@@ -395,9 +395,9 @@ jobs:
           InstallPhpDevPack
 
       - name: Download PHP src
-          run: |
-            Import-Module .\.ci\win-ci-tools.psm1
-            DownloadPhpSrc
+        run: |
+          Import-Module .\.ci\win-ci-tools.psm1
+          DownloadPhpSrc
 
       - name: Getting Details About Installed PHP
         run: |
