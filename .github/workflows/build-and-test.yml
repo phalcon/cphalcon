@@ -297,15 +297,15 @@ jobs:
         operating-system: [windows-latest]
         php-versions: ['7.2', '7.3', '7.4']
         include:
-          - php: '7.2'
+          - php-versions: '7.2'
             vc_num: '15'
             arch: x64
             build_type: Win32
-          - php: '7.3'
+          - php-versions: '7.3'
             vc_num: '15'
             arch: x64
             build_type: Win32
-          - php: '7.4'
+          - php-versions: '7.4'
             vc_num: '15'
             arch: x64
             build_type: Win32
