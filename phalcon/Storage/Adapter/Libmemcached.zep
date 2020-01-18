@@ -246,7 +246,7 @@ class Libmemcached extends AbstractAdapter
             "igbinary" : \Memcached::SERIALIZER_IGBINARY
         ];
 
-        let serializer = mb_strtolower(this->defaultSerializer);
+        let serializer = strtolower(this->defaultSerializer);
 
         if isset map[serializer] {
             let this->defaultSerializer = "";

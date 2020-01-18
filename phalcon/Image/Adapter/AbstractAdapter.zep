@@ -64,11 +64,11 @@ abstract class AbstractAdapter implements AdapterInterface
     {
         var colors;
 
-        if mb_strlen(color) > 1 && mb_substr(color, 0, 1) === "#" {
-            let color = mb_substr(color, 1);
+        if strlen(color) > 1 && substr(color, 0, 1) === "#" {
+            let color = substr(color, 1);
         }
 
-        if mb_strlen(color) === 3 {
+        if strlen(color) === 3 {
             let color = preg_replace("/./", "$0$0", color);
         }
 
@@ -416,11 +416,11 @@ abstract class AbstractAdapter implements AdapterInterface
             }
         }
 
-        if mb_strlen(color) > 1 && mb_substr(color, 0, 1) === "#" {
-            let color = mb_substr(color, 1);
+        if strlen(color) > 1 && substr(color, 0, 1) === "#" {
+            let color = substr(color, 1);
         }
 
-        if mb_strlen(color) === 3 {
+        if strlen(color) === 3 {
             let color = preg_replace("/./", "$0$0", color);
         }
 

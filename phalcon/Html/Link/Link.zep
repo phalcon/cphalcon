@@ -130,7 +130,7 @@ class Link implements LinkInterface
     protected function hrefIsTemplated(string href) -> bool
     {
         return (
-            false !== mb_strpos(href, "{") &&
+            false !== strpos(href, "{") &&
             false !== strrpos(href, "}")
         );
     }

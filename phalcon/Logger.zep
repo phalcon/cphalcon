@@ -410,7 +410,7 @@ class Logger implements LoggerInterface
         var levelName, numberLevel, levels;
 
         if typeof level === "string" {
-            let levelName = mb_strtolower(level),
+            let levelName = strtolower(level),
                 levels    = array_flip(this->getLevels());
 
             if fetch numberLevel, levels[levelName] {

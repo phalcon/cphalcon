@@ -105,7 +105,7 @@ class Di implements DiInterface
          * that name
          */
         if starts_with(method, "get") {
-            let possibleService = lcfirst(mb_substr(method, 3));
+            let possibleService = lcfirst(substr(method, 3));
 
             if isset this->services[possibleService] {
                 let instance = this->get(possibleService, arguments);
@@ -122,7 +122,7 @@ class Di implements DiInterface
             if fetch definition, arguments[0] {
                 this->set(
                     lcfirst(
-                        mb_substr(method, 3)
+                        substr(method, 3)
                     ),
                     definition
                 );

@@ -30,7 +30,7 @@ class Memory extends AbstractAdapter
     {
         var data;
 
-        if !fetch data, this->data[mb_strtolower(key)] {
+        if !fetch data, this->data[strtolower(key)] {
             return false;
         }
 
@@ -44,7 +44,7 @@ class Memory extends AbstractAdapter
     {
         var lowercasedKey;
 
-        let lowercasedKey = mb_strtolower(key);
+        let lowercasedKey = strtolower(key);
         let this->data[lowercasedKey] = data;
     }
 }

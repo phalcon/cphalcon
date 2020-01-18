@@ -138,27 +138,15 @@ class Str
     {
         var substr, suffix;
 
-        if function_exists("mb_substr") {
-            let substr = mb_substr(text, 1);
-        } else {
-            let substr = mb_substr(text, 1);
-        }
+        let substr = mb_substr(text, 1);
 
         if upperRest {
-            if function_exists("mb_strtoupper") {
-                let suffix = mb_strtoupper(substr, encoding);
-            } else {
-                let suffix = substr->upper();
-            }
+            let suffix = mb_strtoupper(substr, encoding);
         } else {
             let suffix = substr;
         }
 
-        if function_exists("mb_strtolower") {
-            return mb_strtolower(mb_substr(text, 0, 1), encoding) . suffix;
-        } else {
-            return mb_strtolower(mb_substr(text, 0, 1)) . suffix;
-        }
+        return mb_strtolower(mb_substr(text, 0, 1), encoding) . suffix;
     }
 
     /**
@@ -349,11 +337,7 @@ class Str
         string! end
     ) -> string
     {
-        if function_exists("mb_strstr") {
-            let text = (string) mb_strstr(mb_strstr(text, start), end, true);
-        } else {
-            let text = (string) strstr(strstr(text, start), end, true);
-        }
+        let text = (string) mb_strstr(mb_strstr(text, start), end, true);
 
         return trim(
             text,
@@ -439,11 +423,7 @@ class Str
      */
     final public static function includes(string! needle, string! haystack) -> bool
     {
-        if function_exists("mb_strpos") {
-            return false !== mb_strpos(haystack, needle);
-        } else {
-            return false !== mb_strpos(haystack, needle);
-        }
+        return false !== mb_strpos(haystack, needle);
     }
 
     /**
@@ -501,11 +481,7 @@ class Str
      */
     final public static function isLower(string! text, string! encoding = "UTF-8") ->  bool
     {
-        if function_exists("mb_strtolower") {
-            return text === mb_strtolower(text, encoding);
-        } else {
-            return text === text->lower();
-        }
+        return text === mb_strtolower(text, encoding);
     }
 
     /**
@@ -530,11 +506,7 @@ class Str
      */
     final public static function isUpper(string! text, string! encoding = "UTF-8") -> bool
     {
-        if function_exists("mb_strtoupper") {
-            return text === mb_strtoupper(text, encoding);
-        } else {
-            return text === text->upper();
-        }
+        return text === mb_strtoupper(text, encoding);
     }
 
     /**

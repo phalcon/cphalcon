@@ -505,7 +505,7 @@ class Postgresql extends Dialect
                             let valueSql .= "'" . addcslashes(value, "\'") . "', ";
                         }
 
-                        let columnSql .= "(" . mb_substr(valueSql, 0, -2) . ")";
+                        let columnSql .= "(" . substr(valueSql, 0, -2) . ")";
                     } else {
                         let columnSql .= "('" . addcslashes(typeValues, "\'") . "')";
                     }
@@ -588,7 +588,7 @@ class Postgresql extends Dialect
             if column->hasDefault() {
                 let defaultValue = this->castDefault(column);
 
-                if memstr(mb_strtoupper(columnDefinition), "BOOLEAN") {
+                if memstr(strtoupper(columnDefinition), "BOOLEAN") {
                     let sql .= " ALTER COLUMN \"" . column->getName() . "\" SET DEFAULT " . defaultValue;
                 } else {
                     let sql .= sqlAlterTable . " ALTER COLUMN \"" . column->getName() . "\" SET DEFAULT " . defaultValue;
@@ -671,11 +671,11 @@ class Postgresql extends Dialect
             columnDefinition = this->getColumnDefinition(column),
             columnType = column->getType();
 
-        if memstr(mb_strtoupper(columnDefinition), "BOOLEAN") {
+        if memstr(strtoupper(columnDefinition), "BOOLEAN") {
             return defaultValue;
         }
 
-        if memstr(mb_strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
+        if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
             return "CURRENT_TIMESTAMP";
         }
 

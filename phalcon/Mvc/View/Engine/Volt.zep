@@ -131,10 +131,6 @@ class Volt extends AbstractEngine implements EventsAwareInterface
         }
 
         if typeof haystack == "string" {
-            if function_exists("mb_strpos") {
-                return mb_strpos(haystack, needle) !== false;
-            }
-
             return mb_strpos(haystack, needle) !== false;
         }
 
@@ -148,10 +144,6 @@ class Volt extends AbstractEngine implements EventsAwareInterface
     {
         if typeof item == "object" || typeof item == "array" {
             return count(item);
-        }
-
-        if function_exists("mb_strlen") {
-            return mb_strlen(item);
         }
 
         return mb_strlen(item);
@@ -273,20 +265,6 @@ class Volt extends AbstractEngine implements EventsAwareInterface
             return array_slice(value, start, length);
         }
 
-        /**
-         * Use mb_substr if available
-         */
-        if function_exists("mb_substr") {
-            if length !== null {
-                return mb_substr(value, start, length);
-            }
-
-            return mb_substr(value, start);
-        }
-
-        /**
-         * Use the standard substr function
-         */
         if length !== null {
             return mb_substr(value, start, length);
         }

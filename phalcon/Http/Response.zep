@@ -155,7 +155,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     {
         var statusReasonPhrase;
 
-        let statusReasonPhrase = mb_substr(
+        let statusReasonPhrase = substr(
             this->getHeaders()->get("Status"),
             4
         );
@@ -174,7 +174,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     {
         var statusCode;
 
-        let statusCode = mb_substr(
+        let statusCode = substr(
             this->getHeaders()->get("Status"),
             0,
             3
@@ -341,7 +341,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
         } else {
             let file = this->file;
 
-            if typeof file == "string" && mb_strlen(file) {
+            if typeof file == "string" && strlen(file) {
                 readfile(file);
             }
         }
@@ -571,7 +571,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
             // According RFC2231 section-7, non-ASCII header param must add a extended one to indicate charset
             if basePathEncoding != "ASCII" {
                 let basePath = rawurlencode(basePath);
-                this->setRawHeader("Content-Disposition: attachment; filename=" . basePath . "; filename*=". mb_strtolower(basePathEncoding) . "''" . basePath);
+                this->setRawHeader("Content-Disposition: attachment; filename=" . basePath . "; filename*=". strtolower(basePathEncoding) . "''" . basePath);
             } else {
                 // According RFC2045 section-5.1, header param value contains special chars must be as quoted-string
                 // Always quote value is accepted because the special chars is a large list

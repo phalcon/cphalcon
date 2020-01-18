@@ -331,7 +331,7 @@ class Request extends AbstractInjectionAware implements RequestInterface
     {
         var value, name, server;
 
-        let name = mb_strtoupper(
+        let name = strtoupper(
             strtr(header, "-", "_")
         );
 
@@ -380,11 +380,11 @@ class Request extends AbstractInjectionAware implements RequestInterface
             // Note: The starts_with uses case insensitive search here
             if starts_with(name, "HTTP_") {
                 let name = ucwords(
-                    mb_strtolower(
+                    strtolower(
                         str_replace(
                             "_",
                             " ",
-                            mb_substr(name, 5)
+                            substr(name, 5)
                         )
                     )
                 );
@@ -397,11 +397,11 @@ class Request extends AbstractInjectionAware implements RequestInterface
             }
 
             // The "CONTENT_" headers are not prefixed with "HTTP_".
-            let name = mb_strtoupper(name);
+            let name = strtoupper(name);
 
             if isset contentHeaders[name] {
                 let name = ucwords(
-                    mb_strtolower(
+                    strtolower(
                         str_replace("_", " ", name)
                     )
                 );
@@ -562,7 +562,7 @@ class Request extends AbstractInjectionAware implements RequestInterface
         let server = this->getServerArray();
 
         if likely fetch requestMethod, server["REQUEST_METHOD"] {
-            let returnMethod = mb_strtoupper(requestMethod);
+            let returnMethod = strtoupper(requestMethod);
         } else {
             return "GET";
         }
@@ -571,10 +571,10 @@ class Request extends AbstractInjectionAware implements RequestInterface
             let overridedMethod = this->getHeader("X-HTTP-METHOD-OVERRIDE");
 
             if !empty overridedMethod {
-                let returnMethod = mb_strtoupper(overridedMethod);
+                let returnMethod = strtoupper(overridedMethod);
             } elseif this->httpMethodParameterOverride {
                 if fetch spoofedMethod, _REQUEST["_method"] {
-                    let returnMethod = mb_strtoupper(spoofedMethod);
+                    let returnMethod = strtoupper(spoofedMethod);
                 }
             }
         }
@@ -606,7 +606,7 @@ class Request extends AbstractInjectionAware implements RequestInterface
             let pos = strrpos(host, ":");
 
             if false !== pos {
-                return (int) mb_substr(host, pos + 1);
+                return (int) substr(host, pos + 1);
             }
         }
 
@@ -657,7 +657,7 @@ class Request extends AbstractInjectionAware implements RequestInterface
         if typeof put != "array" {
             let contentType = this->getContentType();
 
-            if typeof contentType == "string" && mb_stripos(contentType, "json") != false {
+            if typeof contentType == "string" && stripos(contentType, "json") != false {
                 let put = this->getJsonRawBody(true);
 
                 if typeof put != "array" {
@@ -924,7 +924,7 @@ class Request extends AbstractInjectionAware implements RequestInterface
     {
         var name;
 
-        let name = mb_strtoupper(strtr(header, "-", "_"));
+        let name = strtoupper(strtr(header, "-", "_"));
 
         return this->hasServer(name) || this->hasServer("HTTP_" . name);
     }
@@ -1144,7 +1144,7 @@ class Request extends AbstractInjectionAware implements RequestInterface
      */
     public function isValidHttpMethod(string method) -> bool
     {
-        switch mb_strtoupper(method) {
+        switch strtoupper(method) {
             case "GET":
             case "POST":
             case "PUT":
@@ -1356,7 +1356,7 @@ class Request extends AbstractInjectionAware implements RequestInterface
             let headerParts = [];
 
             for headerPart in preg_split("/\s*;\s*/", trim(part), -1, PREG_SPLIT_NO_EMPTY) {
-                if mb_strpos(headerPart, "=") !== false {
+                if strpos(headerPart, "=") !== false {
                     let split = explode("=", headerPart, 2);
 
                     if split[0] === "q" {
@@ -1422,11 +1422,11 @@ class Request extends AbstractInjectionAware implements RequestInterface
             }
 
             if authHeader {
-                if mb_stripos(authHeader, "basic ") === 0 {
+                if stripos(authHeader, "basic ") === 0 {
                     let exploded = explode(
                         ":",
                         base64_decode(
-                            mb_substr(authHeader, 6)
+                            substr(authHeader, 6)
                         ),
                         2
                     );
@@ -1435,9 +1435,9 @@ class Request extends AbstractInjectionAware implements RequestInterface
                         let headers["Php-Auth-User"] = exploded[0],
                             headers["Php-Auth-Pw"]   = exploded[1];
                     }
-                } elseif mb_stripos(authHeader, "digest ") === 0 && !this->hasServer("PHP_AUTH_DIGEST") {
+                } elseif stripos(authHeader, "digest ") === 0 && !this->hasServer("PHP_AUTH_DIGEST") {
                     let headers["Php-Auth-Digest"] = authHeader;
-                } elseif mb_stripos(authHeader, "bearer ") === 0 {
+                } elseif stripos(authHeader, "bearer ") === 0 {
                     let headers["Authorization"] = authHeader;
                 }
             }

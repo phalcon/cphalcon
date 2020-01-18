@@ -263,7 +263,7 @@ class Annotations extends Router
             case "Delete":
             case "Options":
                 let isRoute = true,
-                    methods = mb_strtoupper(name);
+                    methods = strtoupper(name);
                 break;
         }
 
@@ -271,7 +271,7 @@ class Annotations extends Router
             return;
         }
 
-        let actionName = mb_strtolower(str_replace(this->actionSuffix, "", action)),
+        let actionName = strtolower(str_replace(this->actionSuffix, "", action)),
             routePrefix = this->routePrefix;
 
         /**

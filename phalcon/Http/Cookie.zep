@@ -668,7 +668,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
     {
         var length;
 
-        let length = mb_strlen(signKey);
+        let length = strlen(signKey);
 
         if unlikely length < 32 {
             throw new CookieException(

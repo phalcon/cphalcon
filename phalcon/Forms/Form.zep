@@ -483,7 +483,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
         /**
          * Check if the method is internal
          */
-        let internalEntity = mb_strtolower(name);
+        let internalEntity = strtolower(name);
         if isset forbidden[internalEntity] {
             return null;
         }

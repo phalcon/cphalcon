@@ -370,7 +370,7 @@ class Mysql extends PdoAdapter
                 let matches = null;
 
                 if definition["type"] == Column::TYPE_ENUM {
-                    let definition["size"] = mb_substr(columnType, 5, -1);
+                    let definition["size"] = substr(columnType, 5, -1);
                 } elseif preg_match(sizePattern, columnType, matches) {
                     if fetch matchOne, matches[1] {
                         let definition["size"] = (int) matchOne;

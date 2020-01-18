@@ -416,7 +416,7 @@ abstract class Dialect implements DialectInterface
         if typeof number == "array" {
             let sqlQuery .= " LIMIT " . number[0];
 
-            if isset number[1] && mb_strlen(number[1]) {
+            if isset number[1] && strlen(number[1]) {
                 let sqlQuery .= " OFFSET " . number[1];
             }
 

@@ -998,10 +998,10 @@ class View extends Injectable implements ViewInterface, EventsAwareInterface
     final protected function isAbsolutePath(string path)
     {
         if PHP_OS == "WINNT" {
-            return mb_strlen(path) >= 3 && path[1] == ':' && path[2] == '\\';
+            return strlen(path) >= 3 && path[1] == ':' && path[2] == '\\';
         }
 
-        return mb_strlen(path) >= 1 && path[0] == '/';
+        return strlen(path) >= 1 && path[0] == '/';
     }
     /**
      * Loads registered template engines, if none is registered it will use

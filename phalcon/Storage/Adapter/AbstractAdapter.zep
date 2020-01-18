@@ -226,7 +226,7 @@ abstract class AbstractAdapter implements AdapterInterface
         var className;
 
         if !(typeof this->serializer == "object" && this->serializer instanceof SerializerInterface) {
-            let className        = mb_strtolower(this->defaultSerializer),
+            let className        = strtolower(this->defaultSerializer),
                 this->serializer = this->serializerFactory->newInstance(className);
         }
     }

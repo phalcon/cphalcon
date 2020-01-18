@@ -21,6 +21,7 @@
       "standard",
       "hash",
       "json",
+      "mbstring",
       "psr"
     ]
   },

@@ -41,7 +41,7 @@ class Mysql extends Dialect
         if column->hasDefault() {
             let defaultValue = column->getDefault();
 
-            if memstr(mb_strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
+            if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
                 let sql .= " DEFAULT CURRENT_TIMESTAMP";
             } else {
                 let sql .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
@@ -172,7 +172,7 @@ class Mysql extends Dialect
             if column->hasDefault() {
                 let defaultValue = column->getDefault();
 
-                if memstr(mb_strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
+                if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
                     let columnLine .= " DEFAULT CURRENT_TIMESTAMP";
                 } else {
                     let columnLine .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
@@ -627,7 +627,7 @@ class Mysql extends Dialect
                             let valueSql .= "\"" . addcslashes(value, "\"") . "\", ";
                         }
 
-                        let columnSql .= "(" . mb_substr(valueSql, 0, -2) . ")";
+                        let columnSql .= "(" . substr(valueSql, 0, -2) . ")";
                     } else {
                         let columnSql .= "(\"" . addcslashes(typeValues, "\"") . "\")";
                     }
@@ -699,7 +699,7 @@ class Mysql extends Dialect
         if column->hasDefault() {
             let defaultValue = column->getDefault();
 
-            if memstr(mb_strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
+            if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
                 let sql .= " DEFAULT CURRENT_TIMESTAMP";
             } else {
                 let sql .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
