@@ -13,20 +13,34 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Loader;
 
+use Phalcon\Loader;
+use Phalcon\Events\Manager;
 use UnitTester;
 
-class SetEventsManagerCest
+class GetSetEventsManagerCest
 {
     /**
-     * Tests Phalcon\Loader :: setEventsManager()
+     * Tests Phalcon\Loader :: getEventsManager() / setEventsManager()
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
+     * @since  2020-01-19
      */
-    public function loaderSetEventsManager(UnitTester $I)
+    public function loaderGetSetEventsManager(UnitTester $I)
     {
-        $I->wantToTest('Loader - setEventsManager()');
+        $I->wantToTest('Loader - getEventsManager() / setEventsManager()');
 
-        $I->skipTest('Need implementation');
+        $oLoader = new Loader();
+        $oManager = new Manager();
+
+        $oLoader->setEventsManager($oManager);
+
+        $oActual = $oLoader->getEventsManager();
+
+        $I->assertInstanceOf(
+            Manager::class,
+            $oActual
+        );
+
+        $I->assertEquals($oManager, $oActual);
     }
 }
