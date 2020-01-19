@@ -11,30 +11,30 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Loader;
+namespace Phalcon\Test\Unit\Http\Response;
 
-use Phalcon\Loader;
+use Phalcon\Http\Response;
 use Phalcon\Events\Manager;
 use UnitTester;
 
 class GetSetEventsManagerCest
 {
     /**
-     * Tests Phalcon\Loader :: getEventsManager() / setEventsManager()
+     * Unit Tests Phalcon\Http\Response :: getEventsManager() / setEventsManager()
      *
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2020-01-17
      */
-    public function loaderGetSetEventsManager(UnitTester $I)
+    public function httpResponseGetSetEventsManager(UnitTester $I)
     {
-        $I->wantToTest('Loader - getEventsManager() / setEventsManager()');
+        $I->wantToTest('Http\Response - getEventsManager() / setEventsManager()');
 
-        $oLoader = new Loader();
+        $oResponse = new Response();
         $oManager = new Manager();
 
-        $oLoader->setEventsManager($oManager);
+        $oResponse->setEventsManager($oManager);
 
-        $oActual = $oLoader->getEventsManager();
+        $oActual = $oResponse->getEventsManager();
 
         $I->assertInstanceOf(
             Manager::class,
