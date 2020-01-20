@@ -75,7 +75,7 @@ if (!function_exists('loadFolders')) {
         ];
 
         foreach ($folders as $folder) {
-            $item = outputDir('tests/' . $folder);
+            $item = outputDir('tests' . PHP_EOL  . $folder);
 
             if (true !== file_exists($item)) {
                 mkdir($item, 0777, true);
@@ -90,7 +90,7 @@ if (!function_exists('loadFolders')) {
 if (!function_exists('cacheDir')) {
     function cacheDir(string $fileName = ''): string
     {
-        return codecept_output_dir() . 'tests/cache/' . $fileName;
+        return codecept_output_dir() . 'tests' . PHP_EOL . 'cache' . PHP_EOL . $fileName;
     }
 }
 
@@ -110,7 +110,7 @@ if (!function_exists('dataDir')) {
 if (!function_exists('logsDir')) {
     function logsDir(string $fileName = ''): string
     {
-        return codecept_output_dir() . 'tests/logs/' . $fileName;
+        return codecept_output_dir() . 'tests' . PHP_EOL . 'logs' . PHP_EOL . $fileName;
     }
 }
 
@@ -130,7 +130,7 @@ if (!function_exists('outputDir')) {
 if (!function_exists('cacheModelsDir')) {
     function cacheModelsDir(string $fileName = ''): string
     {
-        return codecept_output_dir() . 'tests/cache/models/' . $fileName;
+        return codecept_output_dir() . 'tests' . PHP_EOL . 'cache' . PHP_EOL . 'models' . PHP_EOL . $fileName;
     }
 }
 
@@ -240,7 +240,7 @@ if (!function_exists('getOptionsSqlite')) {
     function getOptionsSqlite(): array
     {
         return [
-            'dbname' => dirname(__DIR__ ) . "/" . env('DATA_SQLITE_NAME'),
+            'dbname' => dirname(__DIR__ ) . PHP_EOL . env('DATA_SQLITE_NAME'),
         ];
     }
 }
