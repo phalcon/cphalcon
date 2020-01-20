@@ -426,7 +426,9 @@ jobs:
         shell: powershell
         run: |
           cd ${env:PHP_PECL_PATH}\phalcon
-          phpize
+          dir C:\tools\php-devpack
+          C:\tools\php-devpack\phpize.bat
+          phpize.bat
           configure --enable-phalcon
           nmake
 
