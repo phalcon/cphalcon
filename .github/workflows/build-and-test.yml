@@ -395,7 +395,6 @@ jobs:
         run: |
           Import-Module .\.ci\win-ci-tools.psm1
           InstallPhpDevPack
-          PrintEnvVars
 
       - name: Getting Details About Installed PHP
         run: |
@@ -425,6 +424,8 @@ jobs:
       - name: Compile Phalcon
         shell: powershell
         run: |
+          Import-Module .\.ci\win-ci-tools.psm1
+          PrintEnvVars
           cd ${env:PHP_PECL_PATH}\phalcon
           dir C:\tools\php-devpack
           C:\tools\php-devpack\phpize.bat
