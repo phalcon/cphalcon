@@ -245,6 +245,7 @@ Function InitializeReleaseVars {
 }
 
 Function EnablePhalconExtension {
+    $env:PATH += ';' + ${env:PHPROOT}
     if (-not (Phalcon-Path env:RELEASE_DLL_PATH)) {
         InitializeReleaseVars
     }
