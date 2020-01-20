@@ -346,6 +346,7 @@ jobs:
           echo "::set-env name=PHP_DEVPACK::C:\tools\php-devpack"
           echo "::set-env name=PHP_SDK_PATH::C:\tools\php-sdk"
           echo "::set-env name=PHP_PECL_PATH::C:\tools\pecl"
+          echo "::set-env name=PHP_SRC_PATH::C:\tools\php-src"
           echo "::set-env name=PHP_VERSION::$(php -r 'echo phpversion();')"
           echo "::set-env name=PHP_MINOR::${{ matrix.php }}"
           echo "::set-env name=TEST_PHP_EXECUTABLE::${env:PHPROOT}\php.exe"
@@ -421,12 +422,17 @@ jobs:
           Import-Module .\.ci\win-ci-tools.psm1
           Expand-Item7zip "phalcon-pecl\phalcon-pecl.tgz" "${env:PHP_PECL_PATH}\phalcon"
 
+      - name: Download PHP Src
+        run: |
+          Import-Module .\.ci\win-ci-tools.psm1
+          DownloadPhpSrc
+
       - name: Compile Phalcon
         shell: powershell
         run: |
           Import-Module .\.ci\win-ci-tools.psm1
-          $env:PATH += ';' + ${env:PHP_DEVPACK} + ';' + ${env:PHPROOT} + ';' + ${env:PHPROOT} + '\bin'
-          dir ${env:PHPROOT}
+          $env:PATH += ';' + ${env:PHP_DEVPACK} + ';' + ${env:PHP_SRC_PATH} + ';' + ${env:PHP_SRC_PATH} + '\bin'
+          dir ${env:PHP_SRC_PATH}
           cd ${env:PHP_PECL_PATH}\phalcon
           dir C:\tools\php-devpack
           phpize
