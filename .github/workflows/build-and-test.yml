@@ -336,7 +336,7 @@ jobs:
         uses: shivammathur/setup-php@v1
         with:
           php-version: ${{ matrix.php-versions }}
-          ini-values: apc.enable_cli=on, session.save_path=${env:Temp}
+          ini-values: apc.enable_cli=on, session.save_path=C:\temp
           tools: pecl
           extensions: mbstring, intl, json, yaml, apcu, psr, imagick
 
