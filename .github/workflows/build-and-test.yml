@@ -338,7 +338,7 @@ jobs:
           php-version: ${{ matrix.php-versions }}
           ini-values: apc.enable_cli=on, session.save_path=/tmp
           tools: pecl
-          extensions: mbstring, intl, json, imagick
+          extensions: mbstring, intl, json, imagick, psr
 
       - name: Set Up Environment Variables
         run: |
