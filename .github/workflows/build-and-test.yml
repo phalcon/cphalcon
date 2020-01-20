@@ -425,12 +425,21 @@ jobs:
 
       - name: Compile Phalcon
         run: |
-          $env:PATH += ';' + ${env:PHP_DEVPACK}
-          set-location ${env:PHP_PECL_PATH}\phalcon\phalcon-${env:PHALCON_VERSION}
+          set PATH=%PATH%;%PHP_DEVPACK%
+          cd %PHP_PECL_PATH%\phalcon\phalcon-%PHALCON_VERSION%
           phpize
           dir
-          Start-Process configure.bat --enable-phalcon
+          configure --enable-phalcon
           nmake
+
+#      - name: Compile Phalcon
+#        run: |
+#          $env:PATH += ';' + ${env:PHP_DEVPACK}
+#          set-location ${env:PHP_PECL_PATH}\phalcon\phalcon-${env:PHALCON_VERSION}
+#          phpize
+#          dir
+#          Start-Process configure.bat --enable-phalcon
+#          nmake
 
       - name: Enable Phalcon
         run: Enable-PhpExtension -Extension 'Phalcon' -Path "${env:PHP_PECL_PATH}\phalcon"
