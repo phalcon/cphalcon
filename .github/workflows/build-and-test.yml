@@ -395,6 +395,7 @@ jobs:
         run: |
           Import-Module .\.ci\win-ci-tools.psm1
           InstallPhpDevPack
+          PrintEnvVars
 
       - name: Getting Details About Installed PHP
         run: |
