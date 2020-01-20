@@ -428,7 +428,7 @@ jobs:
         run: |
           set PHALCON_VERSION=4.0.2
           set PATH=%PATH%;%PHP_DEVPACK%
-          cd %PHP_PECL_PATH%\phalcon\phalcon-%PHALCON_VERSION%
+          cd /d %PHP_PECL_PATH%\phalcon\phalcon-%PHALCON_VERSION%
           dir
           phpize
           configure --enable-phalcon
