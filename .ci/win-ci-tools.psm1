@@ -256,5 +256,5 @@ Function EnablePhalconExtension {
 
     Copy-Item "${env:RELEASE_DLL_PATH}" "${env:PHPROOT}\ext\${env:EXTENSION_FILE}"
 
-    Enable-PhpExtension -Extension "${env:EXTENSION_NAME}" -Path "${env:RELEASE_DLL_PATH}"
+    Enable-PhpExtension -Extension "${env:EXTENSION_NAME}" -Path "${env:PHPROOT}"
 }
