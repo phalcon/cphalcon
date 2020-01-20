@@ -229,7 +229,7 @@ Function InitializeReleaseVars {
             $env:RELEASE_FOLDER = "x64\Release"
         }
     } Else {
-        $env:RELEASE_ZIPBALL = "${env:PACKAGE_PREFIX}_${env:PHP_ARCH}_vc${env:VC_VERSION}_php${env:PHP_MINOR}"
+        $env:RELEASE_ZIPBALL = "${env:PACKAGE_PREFIX}-${env:PHALCON_VERSION}_${env:PHP_ARCH}_vc${env:VC_VERSION}_php${env:PHP_MINOR}"
 
         If ($env:PHP_ARCH -eq 'x86') {
             $env:RELEASE_FOLDER = "Release_TS"
@@ -238,7 +238,7 @@ Function InitializeReleaseVars {
         }
     }
 
-    $env:RELEASE_DLL_PATH = "${env:GITHUB_WORKSPACE}\ext\${env:RELEASE_FOLDER}\${env:EXTENSION_FILE}"
+    $env:RELEASE_DLL_PATH = "${env:PHP_PECL_PATH}\phalcon\${env:RELEASE_FOLDER}\${env:EXTENSION_FILE}"
 
     Write-Output "::set-env name=RELEASE_ZIPBALL::${env:RELEASE_ZIPBALL}"
     Write-Output "::set-env name=RELEASE_DLL_PATH::${env:RELEASE_DLL_PATH}"
@@ -263,5 +263,5 @@ Function EnablePhalconExtension {
     # You can filter the extension to enable by adding :version to the -Extension parameter
     # (example: "-Extension 'phalcon:0.1.0'")
     #
-    Enable-PhpExtension -Extension "${env:EXTENSION_NAME}:1.0.0" -Path "${env:PHPROOT}"
+    Enable-PhpExtension -Extension "${env:EXTENSION_NAME}" -Path "${env:PHPROOT}"
 }
