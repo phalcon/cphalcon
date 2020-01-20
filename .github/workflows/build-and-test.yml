@@ -423,24 +423,28 @@ jobs:
           Expand-Item7zip "phalcon-pecl\phalcon-pecl.tgz" "${env:Temp}"
           Expand-Item7zip "${env:Temp}\phalcon-pecl.tar" "${env:PHP_PECL_PATH}\phalcon"
 
-      - name: Compile Phalcon
+      - name: Phpize
         shell: cmd
         run: |
           set PHALCON_VERSION=4.0.2
           set PATH=%PATH%;%PHP_DEVPACK%
           cd /d %PHP_PECL_PATH%\phalcon\phalcon-%PHALCON_VERSION%
-          dir
           phpize
 
-      - name: Compile Phalcon 2
+      - name: Configure
         shell: cmd
         run: |
           set PHALCON_VERSION=4.0.2
           set PATH=%PATH%;%PHP_DEVPACK%
           cd /d %PHP_PECL_PATH%\phalcon\phalcon-%PHALCON_VERSION%
-          dir
-          configure
-          dir
+          configure --enable-phalcon
+
+      - name: Nmake
+        shell: cmd
+        run: |
+          set PHALCON_VERSION=4.0.2
+          set PATH=%PATH%;%PHP_DEVPACK%
+          cd /d %PHP_PECL_PATH%\phalcon\phalcon-%PHALCON_VERSION%
           nmake
 
 #      - name: Compile Phalcon
