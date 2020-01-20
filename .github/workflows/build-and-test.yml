@@ -433,15 +433,15 @@ jobs:
           phpize
 
       - name: Compile Phalcon 2
-          shell: cmd
-          run: |
-            set PHALCON_VERSION=4.0.2
-            set PATH=%PATH%;%PHP_DEVPACK%
-            cd /d %PHP_PECL_PATH%\phalcon\phalcon-%PHALCON_VERSION%
-            dir
-            configure
-            dir
-            nmake
+        shell: cmd
+        run: |
+          set PHALCON_VERSION=4.0.2
+          set PATH=%PATH%;%PHP_DEVPACK%
+          cd /d %PHP_PECL_PATH%\phalcon\phalcon-%PHALCON_VERSION%
+          dir
+          configure
+          dir
+          nmake
 
 #      - name: Compile Phalcon
 #        run: |
