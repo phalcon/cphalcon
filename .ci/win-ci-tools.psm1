@@ -16,6 +16,7 @@ Function SetupCommonEnvironment {
 
     # Hide "You are in 'detached HEAD' state" message
     git config --global advice.detachedHead false
+    git config --global core.autocrlf false
 }
 
 Function InstallPhpSdk {

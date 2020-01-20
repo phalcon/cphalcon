@@ -8,5 +8,3 @@ build/php5/* linguist-vendored
 build/php7/* linguist-vendored
 
 *.png   binary
-
-tests/*  text eol=lf
