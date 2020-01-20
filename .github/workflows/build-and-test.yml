@@ -425,11 +425,11 @@ jobs:
         shell: powershell
         run: |
           Import-Module .\.ci\win-ci-tools.psm1
+          $env:PATH += ';' + ${env:PHP_DEVPACK}
           PrintEnvVars
           cd ${env:PHP_PECL_PATH}\phalcon
           dir C:\tools\php-devpack
-          C:\tools\php-devpack\phpize.bat
-          phpize.bat
+          phpize
           configure --enable-phalcon
           nmake
 

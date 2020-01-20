@@ -81,7 +81,6 @@ Function InstallPhpDevPack {
         }
 
         Move-Item -Path $DestinationUnzipPath -Destination $env:PHP_DEVPACK
-        $env:PATH += ';' + ${env:PHP_DEVPACK}
     }
 }
 
