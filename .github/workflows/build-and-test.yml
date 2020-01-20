@@ -355,6 +355,7 @@ jobs:
           echo "::set-env name=PACKAGE_PREFIX::phalcon"
           echo "::set-env name=EXTENSION_NAME::phalcon"
           echo "::set-env name=EXTENSION_FILE::php_phalcon.dll"
+          echo "::set-env name=PHALCON_VERSION::4.0.2"
 
       - name: Setup Composer Token
         run: |
@@ -425,8 +426,7 @@ jobs:
       - name: Compile Phalcon
         run: |
           $env:PATH += ';' + ${env:PHP_DEVPACK}
-          set-location ${env:PHP_PECL_PATH}\phalcon
-          dir C:\tools\php-devpack
+          set-location ${env:PHP_PECL_PATH}\phalcon\phalcon-{$env:PHALCON_VERSION}
           phpize
           dir
           Start-Process configure.bat --enable-phalcon
