@@ -425,8 +425,8 @@ jobs:
         shell: powershell
         run: |
           Import-Module .\.ci\win-ci-tools.psm1
-          $env:PATH += ';' + ${env:PHP_DEVPACK}
-          PrintEnvVars
+          $env:PATH += ';' + ${env:PHP_DEVPACK} + ';' + ${env:PHPROOT} + ';' + ${env:PHPROOT} + '\bin'
+          dir ${env:PHPROOT}
           cd ${env:PHP_PECL_PATH}\phalcon
           dir C:\tools\php-devpack
           phpize
