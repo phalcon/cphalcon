@@ -430,7 +430,7 @@ jobs:
           dir C:\tools\php-devpack
           phpize
           dir
-          configure --enable-phalcon
+          configure.bat --enable-phalcon
           nmake
 
       - name: Enable Phalcon
