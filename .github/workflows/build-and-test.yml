@@ -431,7 +431,7 @@ jobs:
           cd /d %PHP_PECL_PATH%\phalcon\phalcon-%PHALCON_VERSION%
           dir
           phpize
-          configure --enable-phalcon
+          configure
           nmake
 
 #      - name: Compile Phalcon
