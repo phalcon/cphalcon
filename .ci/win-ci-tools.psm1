@@ -81,6 +81,7 @@ Function InstallPhpDevPack {
         }
 
         Move-Item -Path $DestinationUnzipPath -Destination $env:PHP_DEVPACK
+        $env:PATH += ';' + $env:PHP_DEVPACK
     }
 }
 
@@ -245,11 +246,11 @@ Function InitializeReleaseVars {
 }
 
 Function EnablePhalconExtension {
-    if (-not (Phalon-Path env:RELEASE_DLL_PATH)) {
+    if (-not (Phalcon-Path env:RELEASE_DLL_PATH)) {
         InitializeReleaseVars
     }
 
-    If (-not (Phalon-Path "${env:RELEASE_DLL_PATH}")) {
+    If (-not (Phalcon-Path "${env:RELEASE_DLL_PATH}")) {
         Throw "Unable to locate extension path: ${env:RELEASE_DLL_PATH}"
     }
 
