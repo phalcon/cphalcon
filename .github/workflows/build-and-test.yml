@@ -424,7 +424,9 @@ jobs:
           Expand-Item7zip "${env:Temp}\phalcon-pecl.tar" "${env:PHP_PECL_PATH}\phalcon"
 
       - name: Compile Phalcon
+        shell: cmd
         run: |
+          set PHALCON_VERSION=4.0.2
           set PATH=%PATH%;%PHP_DEVPACK%
           cd %PHP_PECL_PATH%\phalcon\phalcon-%PHALCON_VERSION%
           phpize
