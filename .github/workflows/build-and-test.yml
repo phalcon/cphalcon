@@ -419,7 +419,8 @@ jobs:
       - name: Unpack package
         run: |
           Import-Module .\.ci\win-ci-tools.psm1
-          Expand-Item7zip "phalcon-pecl\phalcon-pecl.tgz" "${env:PHP_PECL_PATH}\phalcon"
+          Expand-Item7zip "phalcon-pecl\phalcon-pecl.tgz" "${env:Temp}"
+          Expand-Item7zip "${env:Temp}\phalcon-pecl.tar" "${env:PHP_PECL_PATH}\phalcon"
 
       - name: Compile Phalcon
         shell: powershell
