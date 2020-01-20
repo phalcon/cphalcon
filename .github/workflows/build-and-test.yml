@@ -426,7 +426,7 @@ jobs:
       - name: Compile Phalcon
         run: |
           $env:PATH += ';' + ${env:PHP_DEVPACK}
-          set-location "${env:PHP_PECL_PATH}\phalcon\phalcon-{$env:PHALCON_VERSION}"
+          set-location ${env:PHP_PECL_PATH} + '\phalcon\phalcon-' + {$env:PHALCON_VERSION}
           phpize
           dir
           Start-Process configure.bat --enable-phalcon
