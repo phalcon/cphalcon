@@ -1,6 +1,6 @@
-# This file is part of the Zephir.
+# This file is part of Phalcon.
 #
-# (c) Phalcon Team <team@zephir-lang.com>
+# (c) Phalcon Team <team@phalcon.io>
 #
 # For the full copyright and license information, please view
 # the LICENSE file that was distributed with this source code.
@@ -238,7 +238,7 @@ Function InitializeReleaseVars {
         }
     }
 
-    $env:RELEASE_DLL_PATH = "${env:PHP_PECL_PATH}\phalcon\${env:RELEASE_FOLDER}\${env:EXTENSION_FILE}"
+    $env:RELEASE_DLL_PATH = "${env:PHP_PECL_PATH}\phalcon\${env:PHALCON_VERSION}\${env:RELEASE_FOLDER}\${env:EXTENSION_FILE}"
 
     Write-Output "::set-env name=RELEASE_ZIPBALL::${env:RELEASE_ZIPBALL}"
     Write-Output "::set-env name=RELEASE_DLL_PATH::${env:RELEASE_DLL_PATH}"

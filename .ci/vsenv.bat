@@ -1,5 +1,5 @@
 @echo off
-rem This file is part of the Phalcon.
+rem This file is part of Phalcon.
 rem
 rem (c) Phalcon Team <team@phalcon.io>
 rem
