@@ -244,7 +244,7 @@ jobs:
         with:
           fetch-depth: 1
 
-      #TODO(ruudboon): Remove after setup-php 1.7.4 and add imagick to extensions. https://github.com/shivammathur/setup-php/issues/155#issuecomment-575774700
+      #TODO(ruudboon): Remove after setup-php 1.7.4 extensions. https://github.com/shivammathur/setup-php/issues/155#issuecomment-575774700
       - name: Install requirements for ext-imagick
         run: brew install pkg-config imagemagick
 
@@ -254,7 +254,7 @@ jobs:
           php-version: ${{ matrix.php-versions }}
           ini-values: apc.enable_cli=on, session.save_path=/tmp
           tools: pecl
-          extensions: mbstring, intl, json, yaml, apcu
+          extensions: mbstring, intl, json, yaml, apcu, imagemagick
 
       - name: Get Composer Cache Directory
         id: composer-cache
