@@ -405,6 +405,11 @@ jobs:
       - name: Install System Dependencies
         run: choco install -y --cache-location=C:\Downloads\Choco re2c
 
+      - name: Initialize Release Variables
+        run: |
+          Import-Module .\.ci\win-ci-tools.psm1
+          InitializeReleaseVars
+
       - name: "Setup Visual Studio Command Line for PHP SDK ${{ matrix.arch }}"
         run: .ci\vsenv.bat -arch=${{ matrix.arch }} -host_arch=${{ matrix.arch }}
 
