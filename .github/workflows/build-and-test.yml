@@ -246,7 +246,7 @@ jobs:
 
       #TODO(ruudboon): Remove after setup-php 1.7.4 extensions. https://github.com/shivammathur/setup-php/issues/155#issuecomment-575774700
       - name: Install requirements for ext-imagick
-        run: brew install pkg-config imagemagick
+        run: brew install pkg-config imagick
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v1
@@ -447,14 +447,8 @@ jobs:
           cd /d %PHP_PECL_PATH%\phalcon\phalcon-%PHALCON_VERSION%
           nmake
 
-#      - name: Compile Phalcon
-#        run: |
-#          $env:PATH += ';' + ${env:PHP_DEVPACK}
-#          set-location ${env:PHP_PECL_PATH}\phalcon\phalcon-${env:PHALCON_VERSION}
-#          phpize
-#          dir
-#          Start-Process configure.bat --enable-phalcon
-#          nmake
+      - name: Inspecting Phalcon Extension DLL File
+        run: Get-PhpExtension "${env:RELEASE_DLL_PATH}"
 
       - name: Enable Phalcon
         run: Enable-PhpExtension -Extension 'Phalcon' -Path "${env:PHP_PECL_PATH}\phalcon"
