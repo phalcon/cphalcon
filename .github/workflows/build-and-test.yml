@@ -456,7 +456,9 @@ jobs:
         run: Get-PhpExtension "${env:RELEASE_DLL_PATH}"
 
       - name: Enable Phalcon
-        run: Enable-PhpExtension -Extension 'Phalcon' -Path "${env:PHP_PECL_PATH}\phalcon"
+        run: |
+          Import-Module .\.ci\win-ci-tools.psm1
+          EnablePhalconExtension
 
       - name: Verify install
         run: php --ri phalcon

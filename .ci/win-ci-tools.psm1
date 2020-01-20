@@ -245,7 +245,6 @@ Function InitializeReleaseVars {
 }
 
 Function EnablePhalconExtension {
-    $env:PATH += ';' + ${env:PHPROOT}
     if (-not (Phalcon-Path env:RELEASE_DLL_PATH)) {
         InitializeReleaseVars
     }
@@ -256,13 +255,5 @@ Function EnablePhalconExtension {
 
     Copy-Item "${env:RELEASE_DLL_PATH}" "${env:PHPROOT}\ext\${env:EXTENSION_FILE}"
 
-    # TODO(klay): Sortout with this:
-    #
-    # Multiple extensions match the name (or handle) "phalcon":
-    # - handle: phalcon version 1.0.0
-    # - handle: phalcon version 0.1.0
-    # You can filter the extension to enable by adding :version to the -Extension parameter
-    # (example: "-Extension 'phalcon:0.1.0'")
-    #
     Enable-PhpExtension -Extension "${env:EXTENSION_NAME}" -Path "${env:PHPROOT}"
 }
