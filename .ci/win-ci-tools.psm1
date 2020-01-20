@@ -238,7 +238,7 @@ Function InitializeReleaseVars {
         }
     }
 
-    $env:RELEASE_DLL_PATH = "${env:PHP_PECL_PATH}\phalcon\${env:PHALCON_VERSION}\${env:RELEASE_FOLDER}\${env:EXTENSION_FILE}"
+    $env:RELEASE_DLL_PATH = "${env:PHP_PECL_PATH}\phalcon\phalcon-${env:PHALCON_VERSION}\${env:RELEASE_FOLDER}\${env:EXTENSION_FILE}"
 
     Write-Output "::set-env name=RELEASE_ZIPBALL::${env:RELEASE_ZIPBALL}"
     Write-Output "::set-env name=RELEASE_DLL_PATH::${env:RELEASE_DLL_PATH}"
