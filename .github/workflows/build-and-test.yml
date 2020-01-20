@@ -327,15 +327,11 @@ jobs:
             build_type: Win32
 
     steps:
-      - name: Setup Common Environment
-        run: |
-          Import-Module .\.ci\win-ci-tools.psm1
-          SetupCommonEnvironment
-
       - name: Git checkout
         uses: actions/checkout@v2-beta
         with:
           fetch-depth: 1
+        run: git config --system core.autocrlf false
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v1
@@ -368,6 +364,11 @@ jobs:
           if ("${{ secrets.COMPOSER_TOKEN }}" -ne "") {
               composer config github-oauth.github.com ${{ secrets.COMPOSER_TOKEN }}
           }
+
+      - name: Setup Common Environment
+        run: |
+          Import-Module .\.ci\win-ci-tools.psm1
+          SetupCommonEnvironment
 
       - name: Get Composer Cache Directory
         id: composer-cache
