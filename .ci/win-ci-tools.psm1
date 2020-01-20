@@ -245,11 +245,11 @@ Function InitializeReleaseVars {
 }
 
 Function EnablePhalconExtension {
-    if (-not (Test-Path env:RELEASE_DLL_PATH)) {
+    if (-not (Phalon-Path env:RELEASE_DLL_PATH)) {
         InitializeReleaseVars
     }
 
-    If (-not (Test-Path "${env:RELEASE_DLL_PATH}")) {
+    If (-not (Phalon-Path "${env:RELEASE_DLL_PATH}")) {
         Throw "Unable to locate extension path: ${env:RELEASE_DLL_PATH}"
     }
 

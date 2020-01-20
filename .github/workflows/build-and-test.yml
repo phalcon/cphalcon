@@ -345,7 +345,7 @@ jobs:
           echo "::set-env name=PHP_SDK_VERSION::2.2.0"
           echo "::set-env name=PHP_DEVPACK::C:\tools\php-devpack"
           echo "::set-env name=PHP_SDK_PATH::C:\tools\php-sdk"
-          echo "::set-env name=PHP_SRC_PATH::C:\tools\php-src"
+          echo "::set-env name=PHP_PECL_PATH::C:\tools\pecl"
           echo "::set-env name=PHP_VERSION::$(php -r 'echo phpversion();')"
           echo "::set-env name=PHP_MINOR::${{ matrix.php }}"
           echo "::set-env name=TEST_PHP_EXECUTABLE::${env:PHPROOT}\php.exe"
@@ -396,11 +396,6 @@ jobs:
           Import-Module .\.ci\win-ci-tools.psm1
           InstallPhpDevPack
 
-      - name: Download PHP src
-        run: |
-          Import-Module .\.ci\win-ci-tools.psm1
-          DownloadPhpSrc
-
       - name: Getting Details About Installed PHP
         run: |
           Import-Module .\.ci\win-ci-tools.psm1
@@ -424,19 +419,18 @@ jobs:
       - name: Unpack package
         run: |
           Import-Module .\.ci\win-ci-tools.psm1
-          Expand-Item7zip "phalcon-pecl\phalcon-pecl.tgz" "${env:PHP_SRC_PATH}\ext\phalcon"
+          Expand-Item7zip "phalcon-pecl\phalcon-pecl.tgz" "${env:PHP_PECL_PATH}\phalcon"
 
       - name: Compile Phalcon
         shell: powershell
         run: |
-          $env:Path += ";${env:PHP_SRC_PATH}"
-          cd ${env:PHPROOT}\pecl
-          buildconf.bat
-          configure
+          cd ${env:PHP_PECL_PATH}\phalcon
+          phpize
+          configure --enable-phalcon
           nmake
 
       - name: Enable Phalcon
-        run: Enable-PhpExtension -Extension 'Phalcon' -Path "${env:PHPROOT}"
+        run: Enable-PhpExtension -Extension 'Phalcon' -Path "${env:PHP_PECL_PATH}\phalcon"
 
       - name: Verify install
         run: php --ri phalcon
