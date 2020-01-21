@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Micro;
 
 use IntegrationTester;
+use Phalcon\Mvc\Micro;
 
 /**
  * Class GetActiveHandlerCest
@@ -30,5 +31,12 @@ class GetActiveHandlerCest
     {
         $I->wantToTest('Mvc\Micro - getActiveHandler()');
         $I->skipTest('Need implementation');
+    }
+
+    public function lazyLoaderActiveHandler(IntegrationTester $I)
+    {
+        $I->wantToTest('Mvc\Micro - getActiveHandler() with lazy loader');
+        $app = new Micro();
+        $app->get('/api/site', [$handler, 'find']);
     }
 }

@@ -1,6 +1,8 @@
 # [4.0.3](https://github.com/phalcon/cphalcon/releases/tag/v4.0.3) (XXX-XX-XX)
 ## Added
 
+- Added `Phalcon\Mvc\Micro\LazyLoader::getHandler()` to return real handler when using lazy loaded controllers for `Phalcon\Mvc\Micro`
+
 ## Changed
 
 ## Fixed
