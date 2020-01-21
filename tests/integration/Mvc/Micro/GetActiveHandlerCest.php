@@ -15,6 +15,7 @@ namespace Phalcon\Test\Integration\Mvc\Micro;
 
 use IntegrationTester;
 use Phalcon\Mvc\Micro;
+use Phalcon\Test\Fixtures\Micro\RestHandler;
 
 /**
  * Class GetActiveHandlerCest
@@ -37,6 +38,12 @@ class GetActiveHandlerCest
     {
         $I->wantToTest('Mvc\Micro - getActiveHandler() with lazy loader');
         $app = new Micro();
-        $app->get('/api/site', [$handler, 'find']);
+        $microCollection = new Micro\Collection();
+        $microCollection->setHandler(RestHandler::class, true);
+        $microCollection->get('/api/site', 'find');
+        $app->mount($microCollection);
+        $app->handle('/api/site');
+        $I->assertInstanceOf(Micro\LazyLoader::class, $app->getActiveHandler());
+        $I->assertInstanceOf(RestHandler::class, $app->getActiveHandler()->getHandler());
     }
 }
