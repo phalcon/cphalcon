@@ -361,7 +361,7 @@ jobs:
           echo "::set-env name=EXTENSION_FILE::php_phalcon.dll"
           echo "::set-env name=PHALCON_VERSION::4.0.2"
           echo "::set-env name=PHPTS::${{ matrix.PHPTS }}"
-          If (${{ matrix.PHPTS }} -Match "nts") {
+          If (${{ matrix.PHPTS }} -eq "nts") {
             echo "::set-env name=BUILD_TYPE::nts-${{ matrix.build_type }}"
           } Else {
             echo "::set-env name=BUILD_TYPE::${{ matrix.build_type }}"
