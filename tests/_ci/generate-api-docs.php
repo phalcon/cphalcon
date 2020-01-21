@@ -84,7 +84,7 @@ title: '{$document['title']}'
         $methods      = orderMethods($methods);
 
         $output .= "
-        
+
 <h1 id=\"{$href}\">{$signature}</h1>
 
 [Source on GitHub](https://github.com/phalcon/cphalcon/tree/v{{ page.version }}.0/phalcon/{$github})
@@ -141,16 +141,19 @@ title: '{$document['title']}'
             $elements = [];
             foreach ($methods as $method) {
                 // Ignore method params lines as they are already in signature
-                $methodComment = preg_replace('/\@param(.+?)\n/', '', $method['comment']);
+                $methodComment = preg_replace('/\@(param|return)(.+)\n?/s', '', $method['comment']);
+                $methodComment = trim($methodComment, "\t\n");
+                $methodComment = preg_replace('/^\/\/$/', '', $methodComment);
 
-                $elements[] = '```php' . PHP_EOL
+                $elements[] = $methodComment . PHP_EOL
+                    . '```php' . PHP_EOL
                     . $method['signature'] . PHP_EOL
-                    . '```' . PHP_EOL
-                    . $methodComment . PHP_EOL;
+                    . '```' . PHP_EOL;
             }
             $signature = implode(PHP_EOL, $elements);
             $output    .= "
 ## Methods
+
 {$signature}
 ";
         }
