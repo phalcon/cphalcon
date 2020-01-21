@@ -44,10 +44,10 @@ trait LoggerTrait
         $I->openFile($fileName);
         
         //Check if the $logString is in the log file
-        $I->seeInThisFile($logTime);
+        $I->seeInThisFile($logString);
 
         //Check if the level is in the log file
-        $I->seeInThisFile($level);
+        $I->seeInThisFile('['.$level.']');
 
         //Check time content
         $sContent = file_get_contents($fileName);
