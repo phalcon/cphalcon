@@ -65,7 +65,7 @@ trait LoggerTrait
         $nInterval          = $sLogDateTime->diff($sDateTimeAfterLog)->format('%s');
         $nSecondThreshold   = 60;
 
-        $I->assertLessThan($nSecondThreshold,$nInterval);
+        $I->assertLessThan($nSecondThreshold, $nInterval);
 
         $I->safeDeleteFile($fileName);
     }
