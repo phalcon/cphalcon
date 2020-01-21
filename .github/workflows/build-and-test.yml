@@ -244,10 +244,6 @@ jobs:
         with:
           fetch-depth: 1
 
-      #TODO(ruudboon): Remove after setup-php 1.7.4 extensions. https://github.com/shivammathur/setup-php/issues/155#issuecomment-575774700
-      - name: Install requirements for ext-imagick
-        run: brew install pkg-config imagemagick
-
       - name: Setup PHP
         uses: shivammathur/setup-php@v1
         with:
@@ -336,7 +332,7 @@ jobs:
           fetch-depth: 1
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@develop
+        uses: shivammathur/setup-php@v1
         with:
           php-version: ${{ matrix.php-versions }}
           ini-values: apc.enable_cli=on, session.save_path=C:\temp
