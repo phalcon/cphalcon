@@ -81,6 +81,7 @@ Thanks for the support
 [//]: github-sponsors
 
 <a href="https://github.com/ninjapanzer"><img src="https://avatars1.githubusercontent.com/u/159591?s=460&v=4" title="Paul Scarrone" width="60" height="60"></a>
+<a href="https://github.com/sinbadxiii"><img src="https://avatars2.githubusercontent.com/u/900273?s=460&v=4" title="Sergey Mukhin" width="60" height="60"></a>
 <a href="https://github.com/niden"><img src="https://avatars2.githubusercontent.com/u/1073784?s=460&v=4" title="Nikolaos Dimopoulos" width="60" height="60"></a>
 <a href="https://github.com/qmegas"><img src="https://avatars3.githubusercontent.com/u/2444896?s=460&v=4" title="qmegas" width="60" height="60"></a>
 <a href="https://github.com/terolblade"><img src="https://avatars3.githubusercontent.com/u/3078649?s=460&v=4" title="Stanislav Sviridenko" width="60" height="60"></a>
