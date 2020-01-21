@@ -43,21 +43,21 @@ trait LoggerTrait
         $I->amInPath(logsDir());
         $I->openFile($fileName);
         
-        //Check if the $logString is in the log file
+        // Check if the $logString is in the log file
         $I->seeInThisFile($logString);
 
-        //Check if the level is in the log file
+        // Check if the level is in the log file
         $I->seeInThisFile('['.$level.']');
 
-        //Check time content
+        // Check time content
         $sContent = file_get_contents($fileName);
 
-        //Get time part
+        // Get time part
         $aDate = [];
         preg_match('/\[(.*)\]\['.$level.'\]/', $sContent, $aDate);
         $I->assertEquals(count($aDate), 2);
 
-        //Get Extract time
+        // Get Extract time
         $sDate              = end($aDate);
         $sLogDateTime       = new DateTime($sDate);
         $sDateTimeAfterLog  = new DateTime($logTime);
