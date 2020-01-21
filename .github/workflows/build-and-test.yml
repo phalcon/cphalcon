@@ -342,8 +342,8 @@ jobs:
           ini-values: apc.enable_cli=on, session.save_path=C:\temp
           tools: pecl
           extensions: mbstring, intl, json, yaml, apcu, psr, imagick
-          env:
-            PHPTS: ${{ matrix.ts }}
+        env:
+          PHPTS: ${{ matrix.ts }}
 
       - name: Set Up Environment Variables
         run: |
