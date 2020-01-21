@@ -310,7 +310,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        operating-system: [windows-latest]
+        operating-system: [windows-2016]
         php-versions: ['7.2', '7.3', '7.4']
         ts: [ts, nts]
         include:
