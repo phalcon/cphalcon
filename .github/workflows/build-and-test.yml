@@ -304,7 +304,7 @@ jobs:
         run: vendor/bin/codecept run --ext DotReporter cli
 
   build-and-test-windows:
-    name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
+    name: PHP ${{ matrix.php-versions }} (${{ matrix.ts }}) test on ${{ matrix.operating-system }}
     needs: generate
     runs-on: ${{ matrix.operating-system }}
     strategy:
@@ -312,6 +312,7 @@ jobs:
       matrix:
         operating-system: [windows-latest]
         php-versions: ['7.2', '7.3', '7.4']
+        ts: [ts, nts]
         include:
           - php-versions: '7.2'
             vc_num: '15'
@@ -325,7 +326,6 @@ jobs:
             vc_num: '15'
             arch: x64
             build_type: Win32
-
     steps:
       - name: Disable git autocrlf
         run: git config --system core.autocrlf false
@@ -336,12 +336,14 @@ jobs:
           fetch-depth: 1
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@v1
+        uses: shivammathur/setup-php@develop
         with:
           php-version: ${{ matrix.php-versions }}
           ini-values: apc.enable_cli=on, session.save_path=C:\temp
           tools: pecl
           extensions: mbstring, intl, json, yaml, apcu, psr, imagick
+          env:
+            PHPTS: ${{ matrix.ts }}
 
       - name: Set Up Environment Variables
         run: |
@@ -359,6 +361,7 @@ jobs:
           echo "::set-env name=EXTENSION_NAME::phalcon"
           echo "::set-env name=EXTENSION_FILE::php_phalcon.dll"
           echo "::set-env name=PHALCON_VERSION::4.0.2"
+          echo "::set-env name=PHPTS::${{ matrix.PHPTS }}"
 
       - name: Setup Composer Token
         run: |
