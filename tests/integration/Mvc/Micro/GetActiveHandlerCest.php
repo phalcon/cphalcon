@@ -18,6 +18,7 @@ use Phalcon\Mvc\Micro;
 use Phalcon\Mvc\Micro\Collection;
 use Phalcon\Mvc\Micro\LazyLoader;
 use Phalcon\Test\Fixtures\Micro\RestHandler;
+use function var_dump;
 
 /**
  * Class GetActiveHandlerCest
@@ -53,15 +54,17 @@ class GetActiveHandlerCest
         $microCollection->get('/api/site', 'find');
 
         $app->mount($microCollection);
+        $app->notFound(
+            function () {
+                return "404";
+            }
+        );
         $app->handle('/api/site');
 
-        $I->assertInstanceOf(
-            LazyLoader::class,
-            $app->getActiveHandler()
-        );
-        $I->assertInstanceOf(
-            RestHandler::class,
-            $app->getActiveHandler()->getHandler()
-        );
+        $result = $app->getActiveHandler();
+        $handler = $result[0];
+
+        $I->assertInstanceOf(LazyLoader::class, $handler);
+        $I->assertInstanceOf(RestHandler::class, $handler->getHandler());
     }
 }
