@@ -264,5 +264,5 @@ Function EnablePhalconExtension {
     # You can filter the extension to enable by adding :version to the -Extension parameter
     # (example: "-Extension 'test:0.1.0'")
     #
-    Enable-PhpExtension -Extension "${env:EXTENSION_NAME}:1.0.0" -Path "${env:PHPROOT}"
+    Enable-PhpExtension -Extension "${env:EXTENSION_NAME}:{$env:PHALCON_VERSION}" -Path "${env:PHPROOT}"
 }
