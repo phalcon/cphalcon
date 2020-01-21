@@ -1,6 +1,8 @@
 # [4.0.1](https://github.com/phalcon/cphalcon/releases/tag/v4.0.1) (xxx-xx-xx)
 ## Added
 
+- Added `Phalcon\Mvc\Micro\LazyLoader::getHandler()` to return real handler when using lazy loaded controllers for `Phalcon\Mvc\Micro`
+
 ## Changed
 - Changed the logic when logging times for `Phalcon\Logger` to use `DateTimeImmutable` so as to handle microseconds if necessary. [#2893](https://github.com/phalcon/cphalcon/issues/2893)
 - Changed `Phalcon\Http\Cookie::send` and `Phalcon\Http\Cookie::delete` to allow for `samesite` to be passed in the `options` when using PHP > 7.3 [#14627](https://github.com/phalcon/cphalcon/issues/14627)
