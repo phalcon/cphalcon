@@ -354,7 +354,6 @@ jobs:
           echo "::set-env name=PHP_VERSION::$(php -r 'echo phpversion();')"
           echo "::set-env name=PHP_MINOR::${{ matrix.php }}"
           echo "::set-env name=TEST_PHP_EXECUTABLE::${env:PHPROOT}\php.exe"
-          echo "::set-env name=BUILD_TYPE::${{ matrix.build_type }}"
           echo "::set-env name=VC_VERSION::${{ matrix.vc_num }}"
           echo "::set-env name=PHP_ARCH::${{ matrix.arch }}"
           echo "::set-env name=PACKAGE_PREFIX::phalcon"
@@ -362,7 +361,11 @@ jobs:
           echo "::set-env name=EXTENSION_FILE::php_phalcon.dll"
           echo "::set-env name=PHALCON_VERSION::4.0.2"
           echo "::set-env name=PHPTS::${{ matrix.PHPTS }}"
-
+          If (${{ matrix.PHPTS }} -Match "nts") {
+            echo "::set-env name=BUILD_TYPE::nts-${{ matrix.build_type }}"
+          } Else {
+            echo "::set-env name=BUILD_TYPE::${{ matrix.build_type }}"
+          }
       - name: Setup Composer Token
         run: |
           # To increase the Composer rate limit we're use GitHub authentication
