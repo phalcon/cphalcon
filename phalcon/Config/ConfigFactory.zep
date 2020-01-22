@@ -101,9 +101,8 @@ class ConfigFactory extends AbstractFactory
             first   = config["filePath"],
             second  = null;
 
-        if !strpos(first, ".") {
-            let first = first . "." . lcfirst(adapter);
-        }
+
+        let first = first . "." . lcfirst(adapter);
 
         if "ini" === adapter {
             let second = Arr::get(config, "mode", 1);
