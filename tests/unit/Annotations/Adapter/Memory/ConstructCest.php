@@ -17,7 +17,7 @@ use Phalcon\Annotations\Adapter\AdapterInterface;
 use Phalcon\Annotations\Adapter\Memory;
 use UnitTester;
 
-class GetCest
+class ConstructCest
 {
     /**
      * Tests Phalcon\Annotations\Adapter\Memory :: __construct()
@@ -25,7 +25,7 @@ class GetCest
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2020-01-22
      */
-    public function annotationsAdapterMemoryGet(UnitTester $I)
+    public function annotationsAdapterMemoryConstruct(UnitTester $I)
     {
         $I->wantToTest('Annotations\Adapter\Memory - __construct()');
         
