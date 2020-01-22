@@ -324,7 +324,7 @@ jobs:
             build_type: Win32
     steps:
       - name: Disable git autocrlf
-        run: git config --system core.autocrlf false
+        run: git config --global core.autocrlf false
 
       - name: Git checkout
         uses: actions/checkout@v2-beta
