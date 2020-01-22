@@ -114,7 +114,7 @@ class Stream extends Noop
 
     public function read(var id) -> string
     {
-        var data, name;
+        var data, name, pointer;
 
         let name = this->path . this->getPrefixedName(id),
             data = "";
