@@ -12793,3 +12793,15 @@ CREATE TABLE `tiny_int_test` (
   `test` tinyint(1) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+drop table if exists `table_with_uuid_primary`;
+create table table_with_uuid_primary
+(
+    `uuid` CHAR(36) NOT NULL,
+    `int_field` INT NULL,
+    PRIMARY KEY (`uuid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+insert into `table_with_uuid_primary` (`uuid`, `int_field`) VALUES
+('5741bfd7-6870-40b7-adf6-cbacb515b9a9', 1),
+('1c53079c-249e-0c63-af8d-52413bfa2a2b', 2);
