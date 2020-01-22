@@ -32,7 +32,7 @@ class GetMethodCest
     {
         $I->wantToTest('Annotations\Adapter\Memory - getMethod()');
 
-        require_once dataDir('fixtures/Annotations/TestClass.php');   
+        require_once dataDir('fixtures/Annotations/TestClass.php');
 
         $oAdapter = new Memory();
     
