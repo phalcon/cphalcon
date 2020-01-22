@@ -21,7 +21,7 @@ class GetSetReaderCest
 {
     /**
      * Tests Phalcon\Annotations\Adapter\Stream :: getReader() / setReader()
-     * 
+     *
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2020-01-22
      */
