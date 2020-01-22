@@ -1497,7 +1497,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * );
      * ```
      *
-     * @param arrray|string|int|null parameters = [
+     * @param array|string|int|null parameters = [
      *     'conditions' => ''
      *     'columns' => '',
      *     'bind' => [],
