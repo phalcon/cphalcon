@@ -332,7 +332,7 @@ class Stream extends AbstractAdapter
 
         let pointer = fopen(filepath, 'r');
 
-        if(flock(pointer, LOCK_SH)) {
+        if (flock(pointer, LOCK_SH)) {
             let payload = file_get_contents(filepath);
         }
 
