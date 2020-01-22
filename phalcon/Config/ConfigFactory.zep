@@ -57,7 +57,7 @@ class ConfigFactory extends AbstractFactory
      */
     public function load(config) -> object
     {
-        var adapter, extension, first, oldConfig, second, pathParts;
+        var adapter, extension, first, oldConfig, second;
 
         if typeof config === "string" {
             let oldConfig = config,
@@ -101,8 +101,9 @@ class ConfigFactory extends AbstractFactory
             first   = config["filePath"],
             second  = null;
 
-        let pathParts = pathinfo(first);
-        let first = pathParts["dirname"] . DIRECTORY_SEPARATOR . pathParts["filename"];
+        if (empty(pathinfo(first, PATHINFO_EXTENSION))) {
+            let first = first . "." . lcfirst(adapter);
+        }
 
         if "ini" === adapter {
             let second = Arr::get(config, "mode", 1);
