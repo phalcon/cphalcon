@@ -57,7 +57,5 @@ class GetMethodsCest
                 $oMethodAnnotation
             );
         }
-
-        $I->safeDeleteFile('testclass.php');
     }
 }
