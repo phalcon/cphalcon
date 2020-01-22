@@ -101,7 +101,7 @@ class ConfigFactory extends AbstractFactory
             first   = config["filePath"],
             second  = null;
 
-        pathParts = pathinfo(first);
+        let pathParts = pathinfo(first);
         let first = pathParts["dirname"] . DIRECTORY_SEPARATOR . pathParts["filename"];
 
         if "ini" === adapter {
