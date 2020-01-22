@@ -122,7 +122,7 @@ class Stream extends Noop
         if file_exists(name) {
             let pointer = fopen(name, 'r');
 
-            if(flock(pointer, LOCK_SH)) {
+            if (flock(pointer, LOCK_SH)) {
                 let data = file_get_contents(name);
             }
 
