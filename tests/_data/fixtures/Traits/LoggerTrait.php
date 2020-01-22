@@ -14,6 +14,7 @@ namespace Phalcon\Test\Fixtures\Traits;
 use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Logger\Exception;
 use Phalcon\Logger;
+use DateTime;
 use UnitTester;
 
 use function logsDir;
@@ -42,20 +43,29 @@ trait LoggerTrait
         $I->amInPath(logsDir());
         $I->openFile($fileName);
         
-        //extract seconds 
-        $sSeconds = date('s',strtotime($logTime));
-        
-        //prepare regex to avoid seconds
-        $sRegexDate = str_replace($sSeconds, '[0-9]{2}\\', $logTime);
+        // Check if the $logString is in the log file
+        $I->seeInThisFile($logString);
 
-        //Check with a regex and avoid seconds
-        $I->seeThisFileMatches(
-            sprintf(
-                '/\[%s\]\[%s\] ' . $logString . '/',
-                $sRegexDate,
-                $level
-            )
-        );
+        // Check if the level is in the log file
+        $I->seeInThisFile('['.$level.']');
+
+        // Check time content
+        $sContent = file_get_contents($fileName);
+
+        // Get time part
+        $aDate = [];
+        preg_match('/\[(.*)\]\['.$level.'\]/', $sContent, $aDate);
+        $I->assertEquals(count($aDate), 2);
+
+        // Get Extract time
+        $sDate              = end($aDate);
+        $sLogDateTime       = new DateTime($sDate);
+        $sDateTimeAfterLog  = new DateTime($logTime);
+
+        $nInterval          = $sLogDateTime->diff($sDateTimeAfterLog)->format('%s');
+        $nSecondThreshold   = 60;
+
+        $I->assertLessThan($nSecondThreshold, $nInterval);
 
         $I->safeDeleteFile($fileName);
     }
