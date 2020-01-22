@@ -45,7 +45,5 @@ class GetMethodCest
             Collection::class,
             $sMethodAnnotation
         );
-
-        $I->safeDeleteFile('testclass.php');
     }
 }

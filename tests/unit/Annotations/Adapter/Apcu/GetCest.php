@@ -55,7 +55,5 @@ class GetCest
             Collection::class,
             $oClassAnnotations->getClassAnnotations()
         );
-
-        $I->safeDeleteFile('testclass.php');
     }
 }
