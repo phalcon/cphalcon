@@ -206,7 +206,7 @@ jobs:
         run: php --ri phalcon
 
       - name: Install packages
-        run: composer install --prefer-dist --ignore-platform-reqs
+        run: composer install --prefer-dist
 
       - name: Setup tests
         run: |
@@ -286,7 +286,7 @@ jobs:
         run: php --ri phalcon
 
       - name: Install packages
-        run: composer install --prefer-dist --ignore-platform-reqs
+        run: composer install --prefer-dist
 
       - name: Setup tests
         run: |
@@ -469,7 +469,7 @@ jobs:
         run: php --ri phalcon
 
       - name: Install packages
-        run: composer install --prefer-dist --ignore-platform-reqs
+        run: composer install --prefer-dist
 
       - name: Setup tests
         run: |
