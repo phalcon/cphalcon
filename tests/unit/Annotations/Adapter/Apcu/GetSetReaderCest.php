@@ -14,25 +14,20 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Annotations\Adapter\Apcu;
 
 use Phalcon\Annotations\Adapter\Apcu;
-use Phalcon\Annotations\Collection;
-use TestClass;
+use Phalcon\Annotations\Reader;
 use UnitTester;
 
-use function dataDir;
-
-class GetMethodCest
+class GetSetReaderCest
 {
     /**
-     * Tests Phalcon\Annotations\Adapter\Apcu :: getMethod()
+     * Tests Phalcon\Annotations\Adapter\Apcu :: getReader() / setReader()
      *
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2020-01-22
      */
-    public function annotationsAdapterApcuGetMethod(UnitTester $I)
+    public function annotationsAdapterApcuGetSetReader(UnitTester $I)
     {
-        $I->wantToTest('Annotations\Adapter\Apcu - getMethod()');
-
-        require_once dataDir('fixtures/Annotations/TestClass.php');
+        $I->wantToTest('Annotations\Adapter\Apcu - getReader() / setReader');
 
         $oAdapter = new Apcu(
             [
@@ -41,16 +36,16 @@ class GetMethodCest
             ]
         );
 
-        $sMethodAnnotation = $oAdapter->getMethod(
-            TestClass::class,
-            'testMethod1'
+        $oReader = new Reader();
+        $oAdapter->setReader($oReader);
+
+        $I->assertSame(
+            $oReader,
+            $oAdapter->getReader()
         );
 
-        $I->assertInstanceOf(
-            Collection::class,
-            $sMethodAnnotation
-        );
-
-        $I->safeDeleteFile('testclass.php');
+        $oClass  = Reader::class;
+        $oActual = $oAdapter->getReader();
+        $I->assertInstanceOf($oClass, $oActual);
     }
 }

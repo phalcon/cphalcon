@@ -14,22 +14,23 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Annotations\Adapter\Apcu;
 
 use Phalcon\Annotations\Adapter\Apcu;
-use Phalcon\Annotations\Collection;
 use Phalcon\Annotations\Reflection;
 use TestClass;
 use UnitTester;
 
-class GetCest
+use function dataDir;
+
+class ReadWriteCest
 {
     /**
-     * Tests Phalcon\Annotations\Adapter\Apcu :: get()
+     * Tests Phalcon\Annotations\Adapter\Apcu :: read() / write()
      *
-     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
-     * @since  2020-01-22
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2018-11-13
      */
-    public function annotationsAdapterApcuGet(UnitTester $I)
+    public function annotationsAdapterApcuReadWrite(UnitTester $I)
     {
-        $I->wantToTest('Annotations\Adapter\Apcu - get()');
+        $I->wantToTest('Annotations\Adapter\Apcu - read() / write()');
 
         require_once dataDir('fixtures/Annotations/TestClass.php');
 
@@ -44,16 +45,13 @@ class GetCest
             TestClass::class
         );
 
-        $I->assertInternalType('object', $oClassAnnotations);
+        $oAdapter->write('testwrite', $oClassAnnotations);
+
+        $oNewClass = $oAdapter->read('testwrite');
 
         $I->assertInstanceOf(
             Reflection::class,
-            $oClassAnnotations
-        );
-
-        $I->assertInstanceOf(
-            Collection::class,
-            $oClassAnnotations->getClassAnnotations()
+            $oNewClass
         );
 
         $I->safeDeleteFile('testclass.php');
