@@ -61,7 +61,5 @@ class GetPropertiesCest
                 $oPropertyAnnotation
             );
         }
-
-        $I->safeDeleteFile('testclass.php');
     }
 }

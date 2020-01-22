@@ -48,7 +48,5 @@ class ReadWriteCest
             Reflection::class,
             $oNewClass
         );
-
-        $I->safeDeleteFile('testclass.php');
     }
 }

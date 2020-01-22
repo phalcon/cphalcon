@@ -43,7 +43,5 @@ class GetPropertyCest
             Collection::class,
             $oPropertyAnnotations
         );
-
-        $I->safeDeleteFile('testclass.php');
     }
 }

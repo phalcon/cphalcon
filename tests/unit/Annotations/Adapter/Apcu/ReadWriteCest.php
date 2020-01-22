@@ -34,9 +34,12 @@ class ReadWriteCest
 
         require_once dataDir('fixtures/Annotations/TestClass.php');
 
+        $sPrefix = 'nova_prefix';
+        $sKey    = 'testwrite';
+
         $oAdapter = new Apcu(
             [
-                'prefix'   => 'nova_prefix',
+                'prefix'   => $sPrefix,
                 'lifetime' => 3600,
             ]
         );
@@ -45,7 +48,7 @@ class ReadWriteCest
             TestClass::class
         );
 
-        $oAdapter->write('testwrite', $oClassAnnotations);
+        $oAdapter->write($sKey, $oClassAnnotations);
 
         $oNewClass = $oAdapter->read('testwrite');
 
@@ -54,6 +57,10 @@ class ReadWriteCest
             $oNewClass
         );
 
-        $I->safeDeleteFile('testclass.php');
+        // Check APC value with Codecept
+        $sKeyAPC = strtolower("_PHAN" . $sPrefix . $sKey);
+
+        $I->seeInApc($sKeyAPC);
+        $I->seeInApc($sKeyAPC, $oClassAnnotations);
     }
 }
