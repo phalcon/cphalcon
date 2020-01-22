@@ -125,6 +125,7 @@ class Stream extends Noop
             if(flock(pointer, LOCK_SH)) {
                 let data = file_get_contents(name);
             }
+
             fclose(pointer);
 
             if false === data {
