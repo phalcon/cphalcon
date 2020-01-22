@@ -1,11 +1,13 @@
 <?php
+use codeception\Util\Autoload;
 
 error_reporting(-1);
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 
-setlocale(LC_ALL, 'en_US.utf-8');
+$locale = 'en_US.utf-8';
+$currentLocale = setlocale(LC_ALL, $locale);
 
 date_default_timezone_set('UTC');
 
@@ -28,9 +30,17 @@ $_ENV['PROJECT_PATH'] = $root;
 
 require_once $root . 'tests/shim.php';
 
+
 define('APP_DATA', dataDir());
 define('APP_PATH', codecept_root_dir());
 define('APP_PATH_OUTPUT', outputDir());
+
+Autoload::addNamespace('Phalcon\Test\Controllers', APP_DATA . 'fixtures/controllers');
+Autoload::addNamespace('Phalcon\Test\Models', APP_DATA . 'fixtures/models');
+Autoload::addNamespace('Phalcon\Test\Resultsets', APP_DATA . 'fixtures/resultsets');
+Autoload::addNamespace('Phalcon\Test\Modules\Frontend\Controllers', APP_DATA . 'fixtures/modules/frontend/controllers/');
+Autoload::addNamespace('Phalcon\Test\Modules\Backend\Controllers',  APP_DATA . 'fixtures/modules/backend/controllers/');
+//Autoload::addNamespace('Phalcon\Test\Tasks', $configFile['application']['tasksDir']);
 
 loadEnvironment($root);
 loadFolders();

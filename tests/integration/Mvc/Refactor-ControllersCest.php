@@ -42,7 +42,7 @@ class ControllersCest
 
         $this->modelsManager = $I->getApplication()->getDI()->getShared('modelsManager');
 
-        $I->haveServiceInDi(
+        $I->addServiceToContainer(
             'modelsMetadata',
             function () {
                 return new Memory();

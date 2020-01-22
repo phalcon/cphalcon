@@ -33,8 +33,8 @@ class GetVersionCest
 
         $gd = new Gd(dataDir('assets/images/phalconphp.jpg'));
 
-        $I->assertEquals(
-            '2.0.35',
+        $I->assertRegExp(
+            '/^2.[0-9].[0-9]/',
             $gd->getVersion()
         );
     }

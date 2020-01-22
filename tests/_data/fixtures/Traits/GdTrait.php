@@ -44,7 +44,7 @@ trait GdTrait
      * @param float $simility percent of similarity
      * @return bool
      */
-    private function checkImageHash(string $image, string $hash, float $simility = 95.0): bool
+    private function checkImageHash(string $image, string $hash, float $simility = 70.0): bool
     {
         $imageHash = $this->hashAsString($this->getHash($image));
 

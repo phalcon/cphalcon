@@ -5,24 +5,8 @@
 actor: UnitTester
 modules:
   config:
-    Redis:
-      #      database: '%DATA_REDIS_NAME%' # This needs to be checked as to why codeception does not parse it
-      database: 0
-      host: '%DATA_REDIS_HOST%'
-      #      port: '%DATA_REDIS_PORT%' # This needs to be checked as to why codeception does not parse it
-      port: 6379
-    Phalcon\Test\Module\Libmemcached:
-      host: '%DATA_MEMCACHED_HOST%'
-      port: '%DATA_MEMCACHED_PORT%'
-      weight: '%DATA_MEMCACHED_WEIGHT%'
-  #    Phalcon\Test\Module\Cache\Backend\File:
-  #      frontend: Phalcon\Cache\Frontend\Data
-  #      cache_dir: '%PATH_CACHE%'
   enabled:
     - Apc
     - Asserts
     - Filesystem
-    #    - Helper\PhalconCacheFile
-    - Helper\PhalconLibmemcached
     - Helper\Unit
-    - Redis

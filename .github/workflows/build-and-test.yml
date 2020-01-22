@@ -1,0 +1,483 @@
+name: Phalcon CI
+
+on:
+  push:
+    paths-ignore:
+      - '**.md'
+      - '**.txt'
+  pull_request:
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    name: Build Phalcon Pecl Package
+    steps:
+
+      - name: Set environment variables
+        run: |
+          echo "::set-env name=ZEPHIR_PARSER_VERSION::v1.3.3"
+          echo "::set-env name=ZEPHIR_VERSION::0.12.16"
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v1
+        with:
+          php-version: '7.4'
+          extensions: mbstring, intl, json, psr
+          tools: pecl
+
+      - name: Common settings
+        run: |
+          # Core dump settings
+          ulimit -c unlimited -S || true
+
+          # Hide "You are in 'detached HEAD' state" message
+          git config --global advice.detachedHead false
+
+          # Will be used before as a cache key
+          export CPUHASH="$(cat /proc/cpuinfo | grep "model name" | head -n 1 | cut -d':' -f2 | md5sum)"
+
+      - name: Git checkout
+        uses: actions/checkout@v2-beta
+        with:
+          fetch-depth: 1
+
+      - name: Setup APT repositories
+        run: |
+          # We don't need this at all, and our
+          # builds often fails because Microsoft
+          # servers are unstable or even offline.
+          sudo rm -f /etc/apt/sources.list.d/dotnetdev.list
+          sudo rm -f /etc/apt/sources.list.d/azure*.list
+
+      - name: Install system dependencies
+        run: |
+          sudo apt-get update --quiet --yes 1>/dev/null
+          sudo apt-get install --no-install-recommends -q -y re2c
+
+      - name: Get Zephir Parser Cache Key
+        id: zephir-parser-cache-key
+        run: echo "::set-output name=key::$(echo -n ${ZEPHIR_PARSER_VERSION}_${CPUHASH})"
+
+      - name: Cache Zephir Parser
+        uses: actions/cache@v1
+        with:
+          path: ~/php-zephir-parser
+          key: ${{ runner.os }}-${{ matrix.php }}-zephir-parser-${{ steps.zephir-parser-cache.outputs.key }}
+          restore-keys: ${{ runner.os }}-${{ matrix.php }}-zephir-parser-
+
+      - name: Install Zephir Parser
+        run: |
+          if [ ! -f ~/php-zephir-parser/LICENSE ]; then
+            rm -rf ~/php-zephir-parser
+            git clone -b "$ZEPHIR_PARSER_VERSION" \
+              --depth 1 \
+              -q https://github.com/phalcon/php-zephir-parser \
+              ~/php-zephir-parser
+          fi
+
+          cd ~/php-zephir-parser
+          phpize
+          ./configure --with-php-config=/usr/bin/php-config --enable-zephir_parser
+          make -j"$(getconf _NPROCESSORS_ONLN)"
+          sudo make install
+          echo 'extension="zephir_parser.so"' | sudo tee "/etc/php/7.4/cli/conf.d/zephir_parser.ini"
+
+      - name: Setup Composer Token
+        run: |
+          # To increase the Composer rate limit we're use GitHub authentication
+          if [ -n "${{ secrets.COMPOSER_TOKEN }}" ]; then
+            composer config github-oauth.github.com "${{ secrets.COMPOSER_TOKEN }}"
+          fi
+
+      - name: Install Zephir
+        run: |
+          wget --no-clobber -O "$HOME/zephir" "https://github.com/phalcon/zephir/releases/download/${ZEPHIR_VERSION}/zephir.phar"
+          chmod +x "$HOME/zephir"
+
+      - name: Generate C code
+        run: |
+          $HOME/zephir fullclean
+          $HOME/zephir generate
+          cd build
+          php gen-build.php
+          cd ..
+
+      - name: Create pecl package
+        id: pecl_create
+        run: |
+          cp build/php7/safe/config.w32 config.w32
+          cp build/php7/safe/phalcon.zep.c phalcon.zep.c
+          cp build/php7/safe/config.m4 config.m4
+          cp build/php7/safe/php_phalcon.h php_phalcon.h
+          cp build/php7/safe/phalcon.zep.h phalcon.zep.h
+          pecl package
+          phalcon_package="`ls | grep phalcon-*tgz`"
+          mv $phalcon_package phalcon-pecl.tgz
+
+      - name: Validate pecl package
+        run: pecl package-validate phalcon-pecl.tgz
+      - uses: actions/upload-artifact@v1
+        with:
+          name: 'phalcon-pecl'
+          path: phalcon-pecl.tgz
+
+  build-and-test-linux:
+    needs: generate
+    services:
+      mysql:
+        image: mysql:5.7
+        ports:
+          - 3306
+        env:
+          MYSQL_ROOT_PASSWORD: secret
+          MYSQL_USER: phalcon
+          MYSQL_DATABASE: phalcon
+          MYSQL_PASSWORD: secret
+      postgres:
+        image: postgres:12-alpine
+        ports:
+          - 5432
+        env:
+          POSTGRES_PASSWORD: secret
+          POSTGRES_USER: phalcon
+          POSTGRES_DB: phalcon
+      redis:
+        image: redis:5-alpine
+        ports:
+          - 6379
+      memcached:
+        image: memcached:1.5-alpine
+        ports:
+          - 11211
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      fail-fast: false
+      matrix:
+        operating-system: [ubuntu-latest]
+        php-versions: ['7.2', '7.3', '7.4']
+
+    name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
+    steps:
+
+      - name: Git checkout
+        uses: actions/checkout@v2-beta
+        with:
+          fetch-depth: 1
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: |
+          echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Setup Cache
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: Setup Composer Token
+        run: |
+          # To increase the Composer rate limit we're use GitHub authentication
+          if [ -n "${{ secrets.COMPOSER_TOKEN }}" ]; then
+            composer config github-oauth.github.com "${{ secrets.COMPOSER_TOKEN }}"
+          fi
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v1
+        with:
+          php-version: ${{ matrix.php-versions }}
+          ini-values: apc.enable_cli=on, session.save_path=/tmp
+          tools: pecl
+          extensions: mbstring, intl, json, imagick
+
+      - name: Download phalcon pecl package
+        uses: actions/download-artifact@v1
+        with:
+          name: phalcon-pecl
+
+      - name: Install package
+        run: |
+          export MAKEFLAGS="-j$(getconf _NPROCESSORS_ONLN)"
+          sudo pecl -v install phalcon-pecl/phalcon-pecl.tgz
+
+      - name: Verify install
+        run: php --ri phalcon
+
+      - name: Install packages
+        run: composer install --prefer-dist --ignore-platform-reqs
+
+      - name: Setup tests
+        run: |
+          cp tests/_ci/.env.default .env
+          vendor/bin/codecept build
+
+      - name: Run unit tests
+        run: vendor/bin/codecept run --ext DotReporter unit
+
+      - name: Run cli tests
+        run: vendor/bin/codecept run --ext DotReporter cli
+
+      - name: Run integrations tests
+        env:
+          DATA_MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
+          DATA_POSTGRES_PORT: ${{ job.services.postgres.ports['5432'] }}
+          DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
+          DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
+        run: vendor/bin/codecept run --ext DotReporter integration
+
+  build-and-test-macos:
+    needs: generate
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      fail-fast: false
+      matrix:
+        operating-system: [macos-latest]
+        php-versions: ['7.2', '7.3', '7.4']
+
+    name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
+    steps:
+
+      - name: Git checkout
+        uses: actions/checkout@v2-beta
+        with:
+          fetch-depth: 1
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v1
+        with:
+          php-version: ${{ matrix.php-versions }}
+          ini-values: apc.enable_cli=on, session.save_path=/tmp
+          tools: pecl
+          extensions: mbstring, intl, json, yaml, apcu, imagick
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: |
+          echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Setup GitHub Token
+        run: |
+          # To increase the GitHub rate limit we're use GitHub authentication
+          if [ -n "${{ secrets.COMPOSER_TOKEN }}" ]; then
+            composer config github-oauth.github.com "${{ secrets.COMPOSER_TOKEN }}"
+          fi
+
+      - name: Setup cache
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: Download phalcon pecl package
+        uses: actions/download-artifact@v1
+        with:
+          name: phalcon-pecl
+
+      - name: Install package
+        run: |
+          export MAKEFLAGS="-j$(getconf _NPROCESSORS_ONLN)"
+          sudo pecl -v install phalcon-pecl/phalcon-pecl.tgz
+
+      - name: Verify install
+        run: php --ri phalcon
+
+      - name: Install packages
+        run: composer install --prefer-dist --ignore-platform-reqs
+
+      - name: Setup tests
+        run: |
+          cp tests/_ci/.env.default .env
+          vendor/bin/codecept build
+
+      - name: Run unit tests
+        run: vendor/bin/codecept run --ext DotReporter unit
+
+      - name: Run cli tests
+        run: vendor/bin/codecept run --ext DotReporter cli
+
+  build-and-test-windows:
+    name: PHP ${{ matrix.php-versions }} (${{ matrix.ts }}) test on ${{ matrix.operating-system }}
+    needs: generate
+    runs-on: ${{ matrix.operating-system }}
+    strategy:
+      fail-fast: false
+      matrix:
+        operating-system: [windows-2016]
+        php-versions: ['7.2', '7.3', '7.4']
+        ts: [ts, nts]
+        include:
+          - php-versions: '7.2'
+            vc_num: '15'
+            arch: x64
+            build_type: Win32
+          - php-versions: '7.3'
+            vc_num: '15'
+            arch: x64
+            build_type: Win32
+          - php-versions: '7.4'
+            vc_num: '15'
+            arch: x64
+            build_type: Win32
+    steps:
+      - name: Disable git autocrlf
+        run: git config --system core.autocrlf false
+
+      - name: Git checkout
+        uses: actions/checkout@v2-beta
+        with:
+          fetch-depth: 1
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v1
+        with:
+          php-version: ${{ matrix.php-versions }}
+          ini-values: apc.enable_cli=on, session.save_path=C:\temp
+          tools: pecl
+          extensions: mbstring, intl, json, yaml, apcu, psr, imagick
+        env:
+          PHPTS: ${{ matrix.ts }}
+
+      - name: Set Up Environment Variables
+        run: |
+          echo "::set-env name=PHP_SDK_VERSION::2.2.0"
+          echo "::set-env name=PHP_DEVPACK::C:\tools\php-devpack"
+          echo "::set-env name=PHP_SDK_PATH::C:\tools\php-sdk"
+          echo "::set-env name=PHP_PECL_PATH::C:\tools\pecl"
+          echo "::set-env name=PHP_VERSION::$(php -r 'echo phpversion();')"
+          echo "::set-env name=PHP_MINOR::${{ matrix.php }}"
+          echo "::set-env name=TEST_PHP_EXECUTABLE::${env:PHPROOT}\php.exe"
+          echo "::set-env name=VC_VERSION::${{ matrix.vc_num }}"
+          echo "::set-env name=PHP_ARCH::${{ matrix.arch }}"
+          echo "::set-env name=PACKAGE_PREFIX::phalcon"
+          echo "::set-env name=EXTENSION_NAME::phalcon"
+          echo "::set-env name=EXTENSION_FILE::php_phalcon.dll"
+          echo "::set-env name=PHALCON_VERSION::4.0.2"
+          echo "::set-env name=PHPTS::${{ matrix.ts }}"
+          If ("${{ matrix.ts }}" -eq "nts") {
+            echo "::set-env name=BUILD_TYPE::nts-${{ matrix.build_type }}"
+          } Else {
+            echo "::set-env name=BUILD_TYPE::${{ matrix.build_type }}"
+          }
+      - name: Setup Composer Token
+        run: |
+          # To increase the Composer rate limit we're use GitHub authentication
+          if ("${{ secrets.COMPOSER_TOKEN }}" -ne "") {
+              composer config github-oauth.github.com ${{ secrets.COMPOSER_TOKEN }}
+          }
+
+      - name: Setup Common Environment
+        run: |
+          Import-Module .\.ci\win-ci-tools.psm1
+          SetupCommonEnvironment
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: |
+          echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Setup Cache
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
+      - name: Download phalcon pecl package
+        uses: actions/download-artifact@v1
+        with:
+          name: phalcon-pecl
+
+      - name: Install PHP SDK Binary Tools
+        run: |
+          Import-Module .\.ci\win-ci-tools.psm1
+          InstallPhpSdk
+
+      - name: Install PHP Dev pack
+        run: |
+          Import-Module .\.ci\win-ci-tools.psm1
+          InstallPhpDevPack
+
+      - name: Getting Details About Installed PHP
+        run: |
+          Import-Module .\.ci\win-ci-tools.psm1
+          Get-Php "${env:PHPROOT}"
+
+      - name: Install System Dependencies
+        run: choco install -y --cache-location=C:\Downloads\Choco re2c
+
+      - name: Initialize Release Variables
+        run: |
+          Import-Module .\.ci\win-ci-tools.psm1
+          InitializeReleaseVars
+
+      - name: "Setup Visual Studio Command Line for PHP SDK ${{ matrix.arch }}"
+        run: .ci\vsenv.bat -arch=${{ matrix.arch }} -host_arch=${{ matrix.arch }}
+
+      - name: Fix Environment Variables
+        shell: powershell
+        run: |
+          $v = "${env:WindowsSDKVersion}" -replace '\\$', ''
+          Write-Output "::set-env name=WindowsSDKVersion::$v"
+
+          $v = "${env:WindowsSDKLibVersion}" -replace '\\$', ''
+          Write-Output "::set-env name=WindowsSDKLibVersion::$v"
+
+      - name: Unpack package
+        run: |
+          Import-Module .\.ci\win-ci-tools.psm1
+          Expand-Item7zip "phalcon-pecl\phalcon-pecl.tgz" "${env:Temp}"
+          Expand-Item7zip "${env:Temp}\phalcon-pecl.tar" "${env:PHP_PECL_PATH}\phalcon"
+
+      - name: Phpize
+        shell: cmd
+        run: |
+          set PHALCON_VERSION=4.0.2
+          set PATH=%PATH%;%PHP_DEVPACK%
+          cd /d %PHP_PECL_PATH%\phalcon\phalcon-%PHALCON_VERSION%
+          phpize
+
+      - name: Configure
+        shell: cmd
+        run: |
+          set PHALCON_VERSION=4.0.2
+          set PATH=%PATH%;%PHP_DEVPACK%
+          cd /d %PHP_PECL_PATH%\phalcon\phalcon-%PHALCON_VERSION%
+          configure --enable-phalcon
+
+      - name: Nmake
+        shell: cmd
+        run: |
+          set PHALCON_VERSION=4.0.2
+          set PATH=%PATH%;%PHP_DEVPACK%
+          cd /d %PHP_PECL_PATH%\phalcon\phalcon-%PHALCON_VERSION%
+          nmake
+
+      - name: Inspecting Phalcon Extension DLL File
+        run: Get-PhpExtension "${env:RELEASE_DLL_PATH}"
+
+      - name: Enable Phalcon
+        run: |
+          Import-Module .\.ci\win-ci-tools.psm1
+          EnablePhalconExtension
+
+      - name: Verify install
+        run: php --ri phalcon
+
+      - name: Install packages
+        run: composer install --prefer-dist --ignore-platform-reqs
+
+      - name: Setup tests
+        run: |
+          cp tests/_ci/.env.default .env
+          vendor/bin/codecept build
+
+      - name: Run unit tests
+        run: vendor/bin/codecept run --ext DotReporter unit
+
+      - name: Run cli tests
+        run: vendor/bin/codecept run --ext DotReporter cli
