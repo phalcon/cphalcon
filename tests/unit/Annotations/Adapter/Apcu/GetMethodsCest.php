@@ -13,20 +13,54 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Annotations\Adapter\Apcu;
 
+use Phalcon\Annotations\Adapter\Apcu;
+use Phalcon\Annotations\Collection;
+use TestClass;
 use UnitTester;
+
+use function dataDir;
 
 class GetMethodsCest
 {
     /**
      * Tests Phalcon\Annotations\Adapter\Apcu :: getMethods()
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
+     * @since  2020-01-22
      */
     public function annotationsAdapterApcuGetMethods(UnitTester $I)
     {
         $I->wantToTest('Annotations\Adapter\Apcu - getMethods()');
 
-        $I->skipTest('Need implementation');
+        require_once dataDir('fixtures/Annotations/TestClass.php');
+
+        $oAdapter = new Apcu(
+            [
+                'prefix'   => 'nova_prefix',
+                'lifetime' => 3600,
+            ]
+        );
+
+        $aMethodAnnotations = $oAdapter->getMethods(
+            TestClass::class
+        );
+
+        $aKeys = array_keys($aMethodAnnotations);
+        $I->assertEquals(
+            [
+                'testMethod1',
+                'testMethod3',
+                'testMethod4',
+                'testMethod5',
+            ],
+            $aKeys
+        );
+
+        foreach ($aMethodAnnotations as $oMethodAnnotation) {
+            $I->assertInstanceOf(
+                Collection::class,
+                $oMethodAnnotation
+            );
+        }
     }
 }

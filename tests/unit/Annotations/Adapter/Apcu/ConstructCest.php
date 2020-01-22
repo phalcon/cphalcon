@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Annotations\Adapter\Apcu;
 
+use Phalcon\Annotations\Adapter\AdapterInterface;
+use Phalcon\Annotations\Adapter\Apcu;
 use UnitTester;
 
 class ConstructCest
@@ -20,13 +22,23 @@ class ConstructCest
     /**
      * Tests Phalcon\Annotations\Adapter\Apcu :: __construct()
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
+     * @since  2020-01-22
      */
     public function annotationsAdapterApcuConstruct(UnitTester $I)
     {
         $I->wantToTest('Annotations\Adapter\Apcu - __construct()');
 
-        $I->skipTest('Need implementation');
+        $oAdapter = new Apcu(
+            [
+                'prefix'   => 'nova_prefix',
+                'lifetime' => 3600,
+            ]
+        );
+
+        $I->assertInstanceOf(
+            AdapterInterface::class,
+            $oAdapter
+        );
     }
 }
