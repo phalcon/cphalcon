@@ -278,7 +278,7 @@ class Stream extends AbstractAdapter
             mkdir(directory, 0777, true);
         }
 
-        return false !== file_put_contents(directory . key, payload);
+        return false !== file_put_contents(directory . key, payload, LOCK_EX);
     }
 
     /**

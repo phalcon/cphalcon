@@ -136,6 +136,6 @@ class Stream extends Noop
 
         let name = this->path . this->getPrefixedName(id);
 
-        return false !== file_put_contents(name, data);
+        return false !== file_put_contents(name, data, LOCK_EX);
     }
 }
