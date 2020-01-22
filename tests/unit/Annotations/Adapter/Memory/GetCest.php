@@ -13,6 +13,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Annotations\Adapter\Memory;
 
+use Phalcon\Annotations\Adapter\Memory;
+use Phalcon\Annotations\Collection;
+use Phalcon\Annotations\Reflection;
+use TestClass;
 use UnitTester;
 
 class GetCest
@@ -20,13 +24,33 @@ class GetCest
     /**
      * Tests Phalcon\Annotations\Adapter\Memory :: get()
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
+     * @since  2020-01-22
      */
     public function annotationsAdapterMemoryGet(UnitTester $I)
     {
         $I->wantToTest('Annotations\Adapter\Memory - get()');
 
-        $I->skipTest('Need implementation');
+        require_once dataDir('fixtures/Annotations/TestClass.php');
+
+        $oAdapter = new Memory();
+    
+        $oClassAnnotations = $oAdapter->get(
+            TestClass::class
+        );
+
+        $I->assertInternalType('object', $oClassAnnotations);
+
+        $I->assertInstanceOf(
+            Reflection::class,
+            $oClassAnnotations
+        );
+
+        $I->assertInstanceOf(
+            Collection::class,
+            $oClassAnnotations->getClassAnnotations()
+        );
+
+        $I->safeDeleteFile('testclass.php');
     }
 }

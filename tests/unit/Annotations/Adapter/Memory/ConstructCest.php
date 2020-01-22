@@ -13,37 +13,27 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Annotations\Adapter\Memory;
 
+use Phalcon\Annotations\Adapter\AdapterInterface;
 use Phalcon\Annotations\Adapter\Memory;
-use Phalcon\Annotations\Collection;
-use TestClass;
 use UnitTester;
 
-class GetPropertyCest
+class GetCest
 {
     /**
-     * Tests Phalcon\Annotations\Adapter\Memory :: getProperty()
+     * Tests Phalcon\Annotations\Adapter\Memory :: __construct()
      *
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2020-01-22
      */
-    public function annotationsAdapterMemoryGetProperty(UnitTester $I)
+    public function annotationsAdapterMemoryGet(UnitTester $I)
     {
-        $I->wantToTest('Annotations\Adapter\Memory - getProperty()');
-
-        require_once dataDir('fixtures/Annotations/TestClass.php');
-
+        $I->wantToTest('Annotations\Adapter\Memory - __construct()');
+        
         $oAdapter = new Memory();
 
-        $oPropertyAnnotations = $oAdapter->getProperty(
-            TestClass::class,
-            'testProp1'
-        );
-
         $I->assertInstanceOf(
-            Collection::class,
-            $oPropertyAnnotations
+            AdapterInterface::class,
+            $oAdapter
         );
-
-        $I->safeDeleteFile('testclass.php');
     }
 }

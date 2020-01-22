@@ -14,34 +14,39 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Annotations\Adapter\Memory;
 
 use Phalcon\Annotations\Adapter\Memory;
-use Phalcon\Annotations\Collection;
+use Phalcon\Annotations\Reflection;
 use TestClass;
 use UnitTester;
 
-class GetPropertyCest
+use function dataDir;
+
+class ReadWriteCest
 {
     /**
-     * Tests Phalcon\Annotations\Adapter\Memory :: getProperty()
+     * Tests Phalcon\Annotations\Adapter\Memory :: read() / write()
      *
-     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
-     * @since  2020-01-22
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2018-11-13
      */
-    public function annotationsAdapterMemoryGetProperty(UnitTester $I)
+    public function annotationsAdapterMemoryReadWrite(UnitTester $I)
     {
-        $I->wantToTest('Annotations\Adapter\Memory - getProperty()');
+        $I->wantToTest('Annotations\Adapter\Memory - read() / write()');
 
         require_once dataDir('fixtures/Annotations/TestClass.php');
 
         $oAdapter = new Memory();
 
-        $oPropertyAnnotations = $oAdapter->getProperty(
-            TestClass::class,
-            'testProp1'
+        $oClassAnnotations = $oAdapter->get(
+            TestClass::class
         );
 
+        $oAdapter->write('testwrite', $oClassAnnotations);
+
+        $oNewClass = $oAdapter->read('testwrite');
+
         $I->assertInstanceOf(
-            Collection::class,
-            $oPropertyAnnotations
+            Reflection::class,
+            $oNewClass
         );
 
         $I->safeDeleteFile('testclass.php');
