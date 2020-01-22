@@ -12,19 +12,19 @@
 namespace Phalcon\Test\Integration\Mvc;
 
 use IntegrationTester;
-use Phalcon\Cache\Backend\Apc;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\AlbumORama\Albums;
+use Phalcon\Test\Models\ModelWithStringPrimary;
 
 class ModelCest
 {
-//    use ModelTrait;
     use DiTrait;
 
     public function _before(IntegrationTester $I)
     {
         $this->newDi();
 
+        $this->setDiMysql();
         $this->setDiModelsManager();
         $this->setDiModelsMetadata();
     }
@@ -49,6 +49,19 @@ class ModelCest
         $expected = $album->Artist->name;
         $actual   = $album->artist->name;
         $I->assertEquals($expected, $actual);
+    }
+
+    public function findFirstByStringPrimaryKey(IntegrationTester $I)
+    {
+        $I->wantToTest('Phalcon\Mvc\Model - findFirst()');
+
+        $uuid = '5741bfd7-6870-40b7-adf6-cbacb515b9a9';
+        $model = ModelWithStringPrimary::findFirst([
+            'uuid = ?0',
+            'bind' => [$uuid],
+        ]);
+
+        $I->assertSame($uuid, $model->uuid);
     }
 
 //    /**
