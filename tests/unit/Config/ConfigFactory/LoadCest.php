@@ -53,6 +53,22 @@ class LoadCest
             Ini::class,
             $ini
         );
+
+        //Issue 14756
+        $configFile = dataDir('assets/config/config-with.in-file.name.ini');
+        $ini = new Ini($configFile, INI_SCANNER_NORMAL);
+        $I->assertInstanceOf(
+            Ini::class,
+            $ini
+        );
+
+        /** @var Ini $ini */
+        $ini = (new ConfigFactory())->load($ini->config->toArray());
+
+        $I->assertInstanceOf(
+            Ini::class,
+            $ini
+        );
     }
 
     /**
