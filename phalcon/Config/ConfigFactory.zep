@@ -101,7 +101,7 @@ class ConfigFactory extends AbstractFactory
             first   = config["filePath"],
             second  = null;
 
-        if !strpos(first, ".") {
+        if (empty(pathinfo(first, PATHINFO_EXTENSION))) {
             let first = first . "." . lcfirst(adapter);
         }
 
