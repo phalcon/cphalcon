@@ -29,29 +29,29 @@ class GetExprArgumentsCest
     {
         $I->wantToTest('Annotations\Annotation - getExprArguments()');
 
-        $sValue = 'test';
-        $sValue1 = 'test1';
+        $value = 'test';
+        $value1 = 'test1';
 
-        $aExpr = [
+        $expr = [
             [
                 'expr' => [
                     'type'  => $this->PHANNOT_T_STRING,
-                    'value' => $sValue
+                    'value' => $value
                 ]
             ],
             [
                 'expr' => [
                     'type'  => $this->PHANNOT_T_STRING,
-                    'value' => $sValue1
+                    'value' => $value1
                 ]
             ]
         ];
 
-        $oAnnotation = new Annotation([
+        $annotation = new Annotation([
             'name'       => 'NovAnnotation',
-            'arguments'  => $aExpr
+            'arguments'  => $expr
         ]);
 
-        $I->assertEquals($oAnnotation->getExprArguments(), $aExpr);
+        $I->assertEquals($annotation->getExprArguments(), $expr);
     }
 }

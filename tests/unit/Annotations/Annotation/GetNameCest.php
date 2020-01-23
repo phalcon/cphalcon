@@ -28,12 +28,12 @@ class GetNameCest
     {
         $I->wantToTest('Annotations\Annotation - getName()');
 
-        $sName = 'NovAnnotation';
+        $name = 'NovAnnotation';
 
-        $oAnnotation = new Annotation([
+        $annotation = new Annotation([
             'name' => 'NovAnnotation'
         ]);
 
-        $I->assertEquals($oAnnotation->getName(), $sName);
+        $I->assertEquals($annotation->getName(), $name);
     }
 }

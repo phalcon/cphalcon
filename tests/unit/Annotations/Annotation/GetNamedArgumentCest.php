@@ -30,59 +30,59 @@ class GetNamedArgumentCest
     {
         $I->wantToTest('Annotations\Annotation - getNamedArgument()');
 
-        $sValue = 'test';
-        $sValue1 = 'test1';
-        $sValue2 = 'test2';
+        $value = 'test';
+        $value1 = 'test1';
+        $value2 = 'test2';
 
-        $aOneExpr = [
+        $oneExpr = [
             'type'  => $this->PHANNOT_T_STRING,
-            'value' => $sValue
+            'value' => $value
         ];
 
-        $aTwoExpr = [
+        $twoExpr = [
             'type'  => $this->PHANNOT_T_STRING,
-            'value' => $sValue1
+            'value' => $value1
         ];
 
-        $aThreeExpr = [
+        $threeExpr = [
             'type'  => $this->PHANNOT_T_STRING,
-            'value' => $sValue2
+            'value' => $value2
         ];
 
-        $sName  = 'one_item';
-        $sName1 = 'two_item';
-        $sName2 = 'three_item';
+        $name  = 'one_item';
+        $name1 = 'two_item';
+        $name2 = 'three_item';
         
-        $sExprName  = 'first_argument';
-        $sExprName1 = 'second_argument';
+        $exprName  = 'first_argument';
+        $exprName1 = 'second_argument';
 
-        $oAnnotation = new Annotation([
+        $annotation = new Annotation([
             'name'       => 'NovAnnotation',
             'arguments'  => [
                 [
-                    'name' => $sExprName,
+                    'name' => $exprName,
                     'expr' => [
                         'type'  => $this->PHANNOT_T_ARRAY,
                         'items' => [
                             [
-                                'name' => $sName,
-                                'expr' => $aOneExpr
+                                'name' => $name,
+                                'expr' => $oneExpr
                             ],
                             [
-                                'name' => $sName1,
-                                'expr' => $aTwoExpr
+                                'name' => $name1,
+                                'expr' => $twoExpr
                             ]
                         ]
                     ]
                 ],
                 [
-                    'name' => $sExprName1,
+                    'name' => $exprName1,
                     'expr' => [
                         'type'  => $this->PHANNOT_T_ARRAY,
                         'items' => [
                             [
-                                'name' => $sName2,
-                                'expr' => $aThreeExpr
+                                'name' => $name2,
+                                'expr' => $threeExpr
                             ]
                         ]
                     ]
@@ -90,17 +90,17 @@ class GetNamedArgumentCest
             ]
         ]);
 
-        $aResult = [
-            $sName  => $sValue,
-            $sName1 => $sValue1
+        $result = [
+            $name  => $value,
+            $name1 => $value1
         ];
 
-        $I->assertEquals($oAnnotation->getNamedArgument($sExprName), $aResult);
+        $I->assertEquals($annotation->getNamedArgument($exprName), $result);
 
-        $aResult1 = [
-            $sName2  => $sValue2
+        $result1 = [
+            $name2  => $value2
         ];
         
-        $I->assertEquals($oAnnotation->getNamedArgument($sExprName1), $aResult1);
+        $I->assertEquals($annotation->getNamedArgument($exprName1), $result1);
     }
 }

@@ -29,27 +29,27 @@ class GetArgumentsCest
     {
         $I->wantToTest('Annotations\Annotation - getArguments()');
 
-        $sValue = 'test';
-        $sValue1 = 'test1';
+        $value = 'test';
+        $value1 = 'test1';
 
-        $oAnnotation = new Annotation([
+        $annotation = new Annotation([
             'name'       => 'NovAnnotation',
             'arguments'  => [
                 [
                     'expr' => [
                         'type'  => $this->PHANNOT_T_STRING,
-                        'value' => $sValue
+                        'value' => $value
                     ]
                 ],
                 [
                     'expr' => [
                         'type'  => $this->PHANNOT_T_STRING,
-                        'value' => $sValue1
+                        'value' => $value1
                     ]
                 ]
             ]
         ]);
 
-        $I->assertEquals([$sValue, $sValue1], $oAnnotation->getArguments());
+        $I->assertEquals([$value, $value1], $annotation->getArguments());
     }
 }

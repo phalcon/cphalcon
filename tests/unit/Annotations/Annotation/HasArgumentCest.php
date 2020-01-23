@@ -29,31 +29,31 @@ class HasArgumentCest
     {
         $I->wantToTest('Annotations\Annotation - hasArgument()');
 
-        $sValue = 'test';
-        $sValue1 = 'test1';
+        $value = 'test';
+        $value1 = 'test1';
 
-        $oAnnotation = new Annotation([
+        $annotation = new Annotation([
             'name'       => 'NovAnnotation',
             'arguments'  => [
                 [
                     'expr' => [
                         'type'  => $this->PHANNOT_T_STRING,
-                        'value' => $sValue
+                        'value' => $value
                     ]
                 ],
                 [
                     'expr' => [
                         'type'  => $this->PHANNOT_T_STRING,
-                        'value' => $sValue1
+                        'value' => $value1
                     ]
                 ]
             ]
         ]);
         
-        $I->assertTrue($oAnnotation->hasArgument(0));
+        $I->assertTrue($annotation->hasArgument(0));
 
-        $I->assertTrue($oAnnotation->hasArgument(1));
+        $I->assertTrue($annotation->hasArgument(1));
 
-        $I->assertFalse($oAnnotation->hasArgument(2));
+        $I->assertFalse($annotation->hasArgument(2));
     }
 }

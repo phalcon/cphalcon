@@ -30,34 +30,34 @@ class GetExpressionCest
     {
         $I->wantToTest('Annotations\Annotation - getExpression()');
 
-        $sValue = 'test';
-        $sValue1 = 'test1';
+        $value = 'test';
+        $value1 = 'test1';
 
-        $aOneExpr = [
+        $oneExpr = [
             'type'  => $this->PHANNOT_T_STRING,
-            'value' => $sValue
+            'value' => $value
         ];
 
-        $aTwoExpr = [
+        $twoExpr = [
             'type'  => $this->PHANNOT_T_STRING,
-            'value' => $sValue1
+            'value' => $value1
         ];
 
-        $aExpr = [
+        $expr = [
             [
-                'expr' => $aOneExpr
+                'expr' => $oneExpr
             ],
             [
-                'expr' => $aTwoExpr
+                'expr' => $twoExpr
             ]
         ];
 
-        $oAnnotation = new Annotation([
+        $annotation = new Annotation([
             'name'       => 'NovAnnotation',
-            'arguments'  => $aExpr
+            'arguments'  => $expr
         ]);
 
-        $I->assertEquals($oAnnotation->GetExpression($aOneExpr), $sValue);
-        $I->assertEquals($oAnnotation->GetExpression($aTwoExpr), $sValue1);
+        $I->assertEquals($annotation->GetExpression($oneExpr), $value);
+        $I->assertEquals($annotation->GetExpression($twoExpr), $value1);
     }
 }

@@ -29,13 +29,13 @@ class ConstructCest
     {
         $I->wantToTest('Annotations\Annotation - __construct()');
 
-        $oAnnotation = new Annotation([
+        $annotation = new Annotation([
             'name' => 'NovAnnotation'
         ]);
 
         $I->assertInstanceOf(
             Annotation::class,
-            $oAnnotation
+            $annotation
         );
     }
 }

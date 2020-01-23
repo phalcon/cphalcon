@@ -29,27 +29,27 @@ class NumberArgumentsCest
     {
         $I->wantToTest('Annotations\Annotation - numberArguments()');
 
-        $sValue = 'test';
-        $sValue1 = 'test1';
+        $value = 'test';
+        $value1 = 'test1';
 
-        $oAnnotation = new Annotation([
+        $annotation = new Annotation([
             'name'       => 'NovAnnotation',
             'arguments'  => [
                 [
                     'expr' => [
                         'type'  => $this->PHANNOT_T_STRING,
-                        'value' => $sValue
+                        'value' => $value
                     ]
                 ],
                 [
                     'expr' => [
                         'type'  => $this->PHANNOT_T_STRING,
-                        'value' => $sValue1
+                        'value' => $value1
                     ]
                 ]
             ]
         ]);
         
-        $I->assertEquals($oAnnotation->numberArguments(), 2);
+        $I->assertEquals($annotation->numberArguments(), 2);
     }
 }
