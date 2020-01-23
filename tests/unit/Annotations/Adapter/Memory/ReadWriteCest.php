@@ -14,41 +14,39 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Annotations\Adapter\Memory;
 
 use Phalcon\Annotations\Adapter\Memory;
-use Phalcon\Annotations\Collection;
 use Phalcon\Annotations\Reflection;
 use TestClass;
 use UnitTester;
 
-class GetCest
+use function dataDir;
+
+class ReadWriteCest
 {
     /**
-     * Tests Phalcon\Annotations\Adapter\Memory :: get()
+     * Tests Phalcon\Annotations\Adapter\Memory :: read() / write()
      *
-     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
-     * @since  2020-01-22
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2018-11-13
      */
-    public function annotationsAdapterMemoryGet(UnitTester $I)
+    public function annotationsAdapterMemoryReadWrite(UnitTester $I)
     {
-        $I->wantToTest('Annotations\Adapter\Memory - get()');
+        $I->wantToTest('Annotations\Adapter\Memory - read() / write()');
 
         require_once dataDir('fixtures/Annotations/TestClass.php');
 
         $oAdapter = new Memory();
-    
+
         $oClassAnnotations = $oAdapter->get(
             TestClass::class
         );
 
-        $I->assertInternalType('object', $oClassAnnotations);
+        $oAdapter->write('testwrite', $oClassAnnotations);
+
+        $oNewClass = $oAdapter->read('testwrite');
 
         $I->assertInstanceOf(
             Reflection::class,
-            $oClassAnnotations
-        );
-
-        $I->assertInstanceOf(
-            Collection::class,
-            $oClassAnnotations->getClassAnnotations()
+            $oNewClass
         );
     }
 }

@@ -11,7 +11,6 @@
 namespace Phalcon\Validation;
 
 use Phalcon\Factory\AbstractFactory;
-use Phalcon\Factory\ValidatorInterface;
 use Phalcon\Helper\Arr;
 
 class ValidatorFactory extends AbstractFactory
