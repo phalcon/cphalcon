@@ -337,7 +337,7 @@ jobs:
           php-version: ${{ matrix.php-versions }}
           ini-values: apc.enable_cli=on, session.save_path=C:\temp
           tools: pecl
-          extensions: mbstring, intl, json, yaml, apcu, psr, imagick, igbinary, msgpack, redis
+          extensions: mbstring, intl, json, yaml, apcu, psr, imagick, gd, redis, igbinary, msgpack, sqlite3
         env:
           PHPTS: ${{ matrix.ts }}
 
