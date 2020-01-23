@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Annotations\Annotation;
 
+use Phalcon\Annotations\Annotation;
 use UnitTester;
 
 class GetNameCest
@@ -20,13 +21,19 @@ class GetNameCest
     /**
      * Tests Phalcon\Annotations\Annotation :: getName()
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
+     * @since  2020-01-22
      */
     public function annotationsAnnotationGetName(UnitTester $I)
     {
         $I->wantToTest('Annotations\Annotation - getName()');
 
-        $I->skipTest('Need implementation');
+        $sName = 'NovAnnotation';
+
+        $oAnnotation = new Annotation([
+            'name' => 'NovAnnotation'
+        ]);
+
+        $I->assertEquals($oAnnotation->getName(), $sName);
     }
 }

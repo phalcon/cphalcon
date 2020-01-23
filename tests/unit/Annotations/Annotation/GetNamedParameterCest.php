@@ -13,20 +13,94 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Annotations\Annotation;
 
+use Phalcon\Annotations\Annotation;
 use UnitTester;
 
 class GetNamedParameterCest
 {
+    private $PHANNOT_T_ARRAY = 308;
+    private $PHANNOT_T_STRING = 303;
     /**
      * Tests Phalcon\Annotations\Annotation :: getNamedParameter()
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
+     * @since  2020-01-22
      */
     public function annotationsAnnotationGetNamedParameter(UnitTester $I)
     {
         $I->wantToTest('Annotations\Annotation - getNamedParameter()');
 
-        $I->skipTest('Need implementation');
+        $sValue = 'test';
+        $sValue1 = 'test1';
+        $sValue2 = 'test2';
+
+        $aOneExpr = [
+            'type'  => $this->PHANNOT_T_STRING,
+            'value' => $sValue
+        ];
+
+        $aTwoExpr = [
+            'type'  => $this->PHANNOT_T_STRING,
+            'value' => $sValue1
+        ];
+
+        $aThreeExpr = [
+            'type'  => $this->PHANNOT_T_STRING,
+            'value' => $sValue2
+        ];
+
+        $sName  = 'one_item';
+        $sName1 = 'two_item';
+        $sName2 = 'three_item';
+        
+        $sExprName  = 'first_argument';
+        $sExprName1 = 'second_argument';
+
+        $oAnnotation = new Annotation([
+            'name'       => 'NovAnnotation',
+            'arguments'  => [
+                [
+                    'name' => $sExprName,
+                    'expr' => [
+                        'type'  => $this->PHANNOT_T_ARRAY,
+                        'items' => [
+                            [
+                                'name' => $sName,
+                                'expr' => $aOneExpr
+                            ],
+                            [
+                                'name' => $sName1,
+                                'expr' => $aTwoExpr
+                            ]
+                        ]
+                    ]
+                ],
+                [
+                    'name' => $sExprName1,
+                    'expr' => [
+                        'type'  => $this->PHANNOT_T_ARRAY,
+                        'items' => [
+                            [
+                                'name' => $sName2,
+                                'expr' => $aThreeExpr
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ]);
+
+        $aResult = [
+            $sName  => $sValue,
+            $sName1 => $sValue1
+        ];
+
+        $I->assertEquals($oAnnotation->getNamedParameter($sExprName), $aResult);
+
+        $aResult1 = [
+            $sName2  => $sValue2
+        ];
+        
+        $I->assertEquals($oAnnotation->getNamedParameter($sExprName1), $aResult1);
     }
 }
