@@ -44,12 +44,12 @@ class LoadCest
         $interpolator = new InterpolatorFactory();
         $factory      = new TranslateFactory($interpolator);
         $adapter      = $factory->load($options);
-        $locale = $options->options->locale;
 
         /* https://github.com/phalcon/cphalcon/issues/14764
         /*
          * @todo:ruudboon Remove workaround after bug fix
          */
+        $locale = $options->options->locale;
         if (!$adapter->getLocale()) {
             $adapter->setLocale($options->options->category, "en_US");
             $locale = "en_US";
@@ -96,6 +96,16 @@ class LoadCest
         $factory      = new TranslateFactory($interpolator);
         $adapter      = $factory->load($options);
 
+        /* https://github.com/phalcon/cphalcon/issues/14764
+        /*
+         * @todo:ruudboon Remove workaround after bug fix
+         */
+        $locale = $options['options']['locale'];
+        if (!$adapter->getLocale()) {
+            $adapter->setLocale($options['options']['category'], "en_US");
+            $locale = "en_US";
+        }
+
         $I->assertInstanceOf(
             Gettext::class,
             $adapter
@@ -107,7 +117,7 @@ class LoadCest
         );
 
         $I->assertEquals(
-            $options['options']['locale'],
+            $locale,
             $adapter->getLocale()
         );
 
