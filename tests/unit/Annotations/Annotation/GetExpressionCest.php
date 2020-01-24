@@ -13,20 +13,51 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Annotations\Annotation;
 
+use Phalcon\Annotations\Annotation;
 use UnitTester;
 
 class GetExpressionCest
 {
+    private $PHANNOT_T_STRING = 303;
+
     /**
      * Tests Phalcon\Annotations\Annotation :: getExpression()
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
+     * @since  2020-01-22
      */
     public function annotationsAnnotationGetExpression(UnitTester $I)
     {
         $I->wantToTest('Annotations\Annotation - getExpression()');
 
-        $I->skipTest('Need implementation');
+        $value = 'test';
+        $value1 = 'test1';
+
+        $oneExpr = [
+            'type'  => $this->PHANNOT_T_STRING,
+            'value' => $value
+        ];
+
+        $twoExpr = [
+            'type'  => $this->PHANNOT_T_STRING,
+            'value' => $value1
+        ];
+
+        $expr = [
+            [
+                'expr' => $oneExpr
+            ],
+            [
+                'expr' => $twoExpr
+            ]
+        ];
+
+        $annotation = new Annotation([
+            'name'       => 'NovAnnotation',
+            'arguments'  => $expr
+        ]);
+
+        $I->assertEquals($annotation->GetExpression($oneExpr), $value);
+        $I->assertEquals($annotation->GetExpression($twoExpr), $value1);
     }
 }
