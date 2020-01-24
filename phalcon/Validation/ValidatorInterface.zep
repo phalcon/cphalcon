@@ -63,7 +63,7 @@ interface ValidatorInterface
     public function setTemplates(array! templates) -> <ValidatorInterface>;
 
     /**
-    * Set a new temlate message
+    * Set a new template message
     *
     * @return ValidatorInterface
     */

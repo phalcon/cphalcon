@@ -15,7 +15,7 @@ use Phalcon\Filter;
 class FilterFactory
 {
     /**
-     * Returns a Locator object with all the helpers defined in anonynous
+     * Returns a Locator object with all the helpers defined in anonymous
      * functions
      */
     public function newInstance() -> <FilterInterface>

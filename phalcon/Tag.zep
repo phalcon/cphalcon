@@ -921,7 +921,7 @@ class Tag
     }
 
     /**
-     * Renders the title with title tags. The title is automaticall escaped
+     * Renders the title with title tags. The title is automatically escaped
      */
     public static function renderTitle(bool prepend = true, bool append = true) -> string
     {

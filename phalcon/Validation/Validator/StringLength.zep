@@ -21,7 +21,7 @@ use Phalcon\Validation\Exception;
  * Validates that a string has the specified maximum and minimum constraints
  * The test is passed if for a string's length L, min<=L<=max, i.e. L must
  * be at least min, and at most max.
- * Since Phalcon v4.0 this valitor works like a container
+ * Since Phalcon v4.0 this validator works like a container
  *
  * ```php
  * use Phalcon\Validation;
