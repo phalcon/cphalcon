@@ -101,7 +101,7 @@ interface RelationInterface
     public function isThrough() -> bool;
 
     /**
-     * Sets the intermediate model dat for has-*-through relations
+     * Sets the intermediate model data for has-*-through relations
      *
      * @param string|array intermediateFields
      * @param string|array intermediateReferencedFields

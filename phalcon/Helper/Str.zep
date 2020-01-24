@@ -103,7 +103,7 @@ class Str
     }
 
     /**
-     * Retuns number of vowels in provided string. Uses a regular expression
+     * Returns number of vowels in provided string. Uses a regular expression
      * to count the number of vowels (A, E, I, O, U) in a string.
      *
      * @param string $string
@@ -120,7 +120,7 @@ class Str
     }
 
     /**
-     * Decapitalizes the first letter of the sring and then adds it with rest
+     * Decapitalizes the first letter of the string and then adds it with rest
      * of the string. Omit the upperRest parameter to keep the rest of the
      * string intact, or set it to true to convert to uppercase.
      *
