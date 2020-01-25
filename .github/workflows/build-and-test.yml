@@ -333,6 +333,11 @@ jobs:
         with:
           fetch-depth: 1
 
+      - name: Run docker services
+        run: |
+          cd tests
+          docker-compose up -d
+
       - name: Setup PHP
         uses: shivammathur/setup-php@v1
         with:
@@ -461,8 +466,8 @@ jobs:
 
       - uses: actions/upload-artifact@v1
         with:
-          name: ${{ env:RELEASE_ZIPBALL }}
-          path: ${{ env:RELEASE_DLL_PATH }}
+          name: ${{ env.RELEASE_ZIPBALL }}
+          path: ${{ env.RELEASE_DLL_PATH }}
 
       - name: Enable Phalcon
         run: |
