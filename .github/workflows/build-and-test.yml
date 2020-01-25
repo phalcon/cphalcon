@@ -333,11 +333,6 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Run docker services
-        run: |
-          cd tests
-          docker-compose up -d
-
       - name: Setup PHP
         uses: shivammathur/setup-php@v1
         with:
