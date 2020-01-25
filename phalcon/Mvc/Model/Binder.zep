@@ -121,7 +121,7 @@ class Binder implements BinderInterface
 
         let cache = this->cache;
 
-        if cache === null || !cache->exists(cacheKey) {
+        if cache === null || !cache->has(cacheKey) {
             return null;
         }
 
@@ -213,7 +213,7 @@ class Binder implements BinderInterface
         }
 
         if cache != null {
-            cache->save(cacheKey, paramsCache);
+            cache->set(cacheKey, paramsCache);
         }
 
         let this->internalCache[cacheKey] = paramsCache;

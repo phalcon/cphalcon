@@ -69,7 +69,7 @@ class NativeArray extends AbstractAdapter implements ArrayAccess
     }
 
     /**
-     * Whenever a key is not found this medhod will be called
+     * Whenever a key is not found this method will be called
      */
     public function notFound(string! index) -> string
     {

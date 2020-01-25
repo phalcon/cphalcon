@@ -197,7 +197,7 @@ class Debug
     /**
      * Handles uncaught exceptions
      */
-    public function onUncaughtException(<\Exception> exception) -> bool
+    public function onUncaughtException(<\Throwable> exception) -> bool
     {
         var blacklist, className, dataVar, dataVars, escapedMessage, html,
             keyFile, keyRequest, keyServer, keyVar, n, showBackTrace, traceItem,

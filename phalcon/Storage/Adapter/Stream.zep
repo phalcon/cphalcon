@@ -185,18 +185,17 @@ class Stream extends AbstractAdapter
         array files;
 
         let files     = [],
-            directory = this->getDir(),
-            iterator  = this->getIterator(directory);
+            directory = this->getDir();
+
+        if !file_exists(directory) {
+            return [];
+        }
+
+        let iterator  = this->getIterator(directory);
 
         for file in iterator {
             if file->isFile() {
-                let files[] = this->prefix . str_replace(
-                    "/", "",
-                    strrchr(
-                        str_replace(directory, "", file->getPathName()),
-                        "/"
-                    )
-                );
+                let files[] = this->prefix . file->getFilename();
             }
         }
 
@@ -279,7 +278,7 @@ class Stream extends AbstractAdapter
             mkdir(directory, 0777, true);
         }
 
-        return false !== file_put_contents(directory . key, payload);
+        return false !== file_put_contents(directory . key, payload, LOCK_EX);
     }
 
     /**
@@ -329,9 +328,15 @@ class Stream extends AbstractAdapter
      */
     private function getPayload(string filepath) -> array
     {
-        var payload;
+        var payload, pointer;
 
-        let payload = file_get_contents(filepath);
+        let pointer = fopen(filepath, 'r');
+
+        if (flock(pointer, LOCK_SH)) {
+            let payload = file_get_contents(filepath);
+        }
+
+        fclose(pointer);
 
         if false === payload {
             return [];

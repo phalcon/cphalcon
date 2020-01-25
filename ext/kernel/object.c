@@ -1,7 +1,7 @@
 /*
  * This file is part of the Zephir.
  *
- * (c) Zephir Team <team@zephir-lang.com>
+ * (c) Phalcon Team <team@zephir-lang.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code. If you did not receive
@@ -1044,6 +1044,22 @@ int zephir_update_static_property_ce(zend_class_entry *ce, const char *property_
 //#else
 	return zend_update_static_property(ce, property_name, property_length, value);
 //#endif
+}
+
+int zephir_add_static_property_ce(zend_class_entry *ce, const char *property_name, uint32_t property_length, zval *value)
+{
+	zval tmp_value, new_value;
+	zephir_read_static_property_ce(&tmp_value, ce, property_name, property_length, PH_NOISY | PH_READONLY);
+	zephir_add_function(&new_value, &tmp_value, value);
+	return zend_update_static_property(ce, property_name, property_length, &new_value);
+}
+
+int zephir_sub_static_property_ce(zend_class_entry *ce, const char *property_name, uint32_t property_length, zval *value)
+{
+	zval tmp_value, new_value;
+	zephir_read_static_property_ce(&tmp_value, ce, property_name, property_length, PH_NOISY | PH_READONLY);
+	zephir_sub_function(&new_value, &tmp_value, value);
+	return zend_update_static_property(ce, property_name, property_length, &new_value);
 }
 
 /*

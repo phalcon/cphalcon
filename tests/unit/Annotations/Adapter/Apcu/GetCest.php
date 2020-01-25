@@ -13,6 +13,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Annotations\Adapter\Apcu;
 
+use Phalcon\Annotations\Adapter\Apcu;
+use Phalcon\Annotations\Collection;
+use Phalcon\Annotations\Reflection;
+use TestClass;
 use UnitTester;
 
 class GetCest
@@ -20,13 +24,36 @@ class GetCest
     /**
      * Tests Phalcon\Annotations\Adapter\Apcu :: get()
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
+     * @since  2020-01-22
      */
     public function annotationsAdapterApcuGet(UnitTester $I)
     {
         $I->wantToTest('Annotations\Adapter\Apcu - get()');
 
-        $I->skipTest('Need implementation');
+        require_once dataDir('fixtures/Annotations/TestClass.php');
+
+        $oAdapter = new Apcu(
+            [
+                'prefix'   => 'nova_prefix',
+                'lifetime' => 3600,
+            ]
+        );
+
+        $oClassAnnotations = $oAdapter->get(
+            TestClass::class
+        );
+
+        $I->assertInternalType('object', $oClassAnnotations);
+
+        $I->assertInstanceOf(
+            Reflection::class,
+            $oClassAnnotations
+        );
+
+        $I->assertInstanceOf(
+            Collection::class,
+            $oClassAnnotations->getClassAnnotations()
+        );
     }
 }

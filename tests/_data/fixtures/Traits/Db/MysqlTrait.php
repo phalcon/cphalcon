@@ -178,7 +178,7 @@ trait MysqlTrait
             ],
             6  => [
                 'columnName'    => 'field_boolean',
-                'type'          => Column::TYPE_BOOLEAN,
+                'type'          => Column::TYPE_TINYINTEGER,
                 'isNumeric'     => true,
                 'size'          => 1,
                 'default'       => null,
@@ -188,11 +188,11 @@ trait MysqlTrait
                 'primary'       => false,
                 'first'         => false,
                 'after'         => 'field_bigint_default',
-                'bindType'      => Column::BIND_PARAM_BOOL,
+                'bindType'      => Column::BIND_PARAM_INT,
             ],
             7  => [
                 'columnName'    => 'field_boolean_default',
-                'type'          => Column::TYPE_BOOLEAN,
+                'type'          => Column::TYPE_TINYINTEGER,
                 'isNumeric'     => true,
                 'size'          => 1,
                 'default'       => 1,
@@ -202,7 +202,7 @@ trait MysqlTrait
                 'primary'       => false,
                 'first'         => false,
                 'after'         => 'field_boolean',
-                'bindType'      => Column::BIND_PARAM_BOOL,
+                'bindType'      => Column::BIND_PARAM_INT,
             ],
             8  => [
                 'columnName'    => 'field_char',

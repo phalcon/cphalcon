@@ -112,7 +112,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, __construct) {
 		ZEPHIR_CALL_FUNCTION(&path, "ini_get", NULL, 0, &_2$$3);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_FUNCTION(&_3, "is_writable", NULL, 321, &path);
+	ZEPHIR_CALL_FUNCTION(&_3, "is_writable", NULL, 328, &path);
 	zephir_check_call_status();
 	if (UNEXPECTED(!zephir_is_true(&_3))) {
 		ZEPHIR_INIT_VAR(&_4$$4);
@@ -125,7 +125,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, __construct) {
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	ZEPHIR_CALL_CE_STATIC(&_6, phalcon_helper_str_ce, "dirseparator", &_7, 117, &path);
+	ZEPHIR_CALL_CE_STATIC(&_6, phalcon_helper_str_ce, "dirseparator", &_7, 123, &path);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("path"), &_6);
 	ZEPHIR_MM_RESTORE();
@@ -163,7 +163,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, destroy) {
 		_2 = zephir_is_true(&_3);
 	}
 	if (_2) {
-		ZEPHIR_CALL_FUNCTION(NULL, "unlink", NULL, 119, &file);
+		ZEPHIR_CALL_FUNCTION(NULL, "unlink", NULL, 125, &file);
 		zephir_check_call_status();
 	}
 	RETURN_MM_BOOL(1);
@@ -227,7 +227,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, gc) {
 				_9$$3 = ZEPHIR_LT(&_10$$3, &time);
 			}
 			if (_9$$3) {
-				ZEPHIR_CALL_FUNCTION(NULL, "unlink", &_11, 119, &file);
+				ZEPHIR_CALL_FUNCTION(NULL, "unlink", &_11, 125, &file);
 				zephir_check_call_status();
 			}
 		} ZEND_HASH_FOREACH_END();
@@ -255,7 +255,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, gc) {
 					_14$$5 = ZEPHIR_LT(&_15$$5, &time);
 				}
 				if (_14$$5) {
-					ZEPHIR_CALL_FUNCTION(NULL, "unlink", &_11, 119, &file);
+					ZEPHIR_CALL_FUNCTION(NULL, "unlink", &_11, 125, &file);
 					zephir_check_call_status();
 				}
 			ZEPHIR_CALL_METHOD(NULL, &_3, "next", NULL, 0);
@@ -292,14 +292,18 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, read) {
 
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *id, id_sub, data, name, _0, _1;
+	zval *id, id_sub, data, name, pointer, _0, _1, _2$$3, _3$$3, _4$$3;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&id_sub);
 	ZVAL_UNDEF(&data);
 	ZVAL_UNDEF(&name);
+	ZVAL_UNDEF(&pointer);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_2$$3);
+	ZVAL_UNDEF(&_3$$3);
+	ZVAL_UNDEF(&_4$$3);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &id);
@@ -314,8 +318,18 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, read) {
 	ZEPHIR_INIT_VAR(&data);
 	ZVAL_STRING(&data, "");
 	if ((zephir_file_exists(&name) == SUCCESS)) {
-		ZEPHIR_INIT_NVAR(&data);
-		zephir_file_get_contents(&data, &name);
+		ZEPHIR_INIT_VAR(&_2$$3);
+		ZVAL_STRING(&_2$$3, "r");
+		ZEPHIR_CALL_FUNCTION(&pointer, "fopen", NULL, 85, &name, &_2$$3);
+		zephir_check_call_status();
+		ZVAL_LONG(&_3$$3, 1);
+		ZEPHIR_CALL_FUNCTION(&_4$$3, "flock", NULL, 137, &pointer, &_3$$3);
+		zephir_check_call_status();
+		if (zephir_is_true(&_4$$3)) {
+			ZEPHIR_INIT_NVAR(&data);
+			zephir_file_get_contents(&data, &name);
+		}
+		zephir_fclose(&pointer);
 		if (ZEPHIR_IS_FALSE_IDENTICAL(&data)) {
 			RETURN_MM_STRING("");
 		}
@@ -328,7 +342,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, write) {
 
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *id, id_sub, *data, data_sub, name, _0, _1, _2;
+	zval *id, id_sub, *data, data_sub, name, _0, _1, _2, _3;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&id_sub);
@@ -337,6 +351,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, write) {
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_3);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &id, &data);
@@ -348,9 +363,10 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, write) {
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&name);
 	ZEPHIR_CONCAT_VV(&name, &_0, &_1);
-	ZEPHIR_INIT_VAR(&_2);
-	zephir_file_put_contents(&_2, &name, data);
-	RETURN_MM_BOOL(!ZEPHIR_IS_FALSE_IDENTICAL(&_2));
+	ZVAL_LONG(&_2, 2);
+	ZEPHIR_CALL_FUNCTION(&_3, "file_put_contents", NULL, 132, &name, data, &_2);
+	zephir_check_call_status();
+	RETURN_MM_BOOL(!ZEPHIR_IS_FALSE_IDENTICAL(&_3));
 
 }
 
