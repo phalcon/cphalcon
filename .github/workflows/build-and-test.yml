@@ -438,7 +438,7 @@ jobs:
       - name: Phpize
         shell: cmd
         run: |
-          set PHALCON_VERSION=4.0.2
+          set PHALCON_VERSION=${{ PHALCON_VERSION }}
           set PATH=%PATH%;%PHP_DEVPACK%
           cd /d %PHP_PECL_PATH%\phalcon\phalcon-%PHALCON_VERSION%
           phpize
@@ -446,7 +446,7 @@ jobs:
       - name: Configure
         shell: cmd
         run: |
-          set PHALCON_VERSION=4.0.2
+          set PHALCON_VERSION=${{ PHALCON_VERSION }}
           set PATH=%PATH%;%PHP_DEVPACK%
           cd /d %PHP_PECL_PATH%\phalcon\phalcon-%PHALCON_VERSION%
           configure --enable-phalcon
@@ -454,13 +454,18 @@ jobs:
       - name: Nmake
         shell: cmd
         run: |
-          set PHALCON_VERSION=4.0.2
+          set PHALCON_VERSION=${{ PHALCON_VERSION }}
           set PATH=%PATH%;%PHP_DEVPACK%
           cd /d %PHP_PECL_PATH%\phalcon\phalcon-%PHALCON_VERSION%
           nmake
 
       - name: Inspecting Phalcon Extension DLL File
         run: Get-PhpExtension "${env:RELEASE_DLL_PATH}"
+
+      - uses: actions/upload-artifact@v1
+        with:
+          name: ${$env:RELEASE_ZIPBALL}
+          path: ${env:RELEASE_DLL_PATH}
 
       - name: Enable Phalcon
         run: |
