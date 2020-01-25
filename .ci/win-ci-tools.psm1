@@ -230,7 +230,7 @@ Function InitializeReleaseVars {
             $env:RELEASE_FOLDER = "x64\Release"
         }
     } Else {
-        $env:RELEASE_ZIPBALL = "${env:PACKAGE_PREFIX}-${env:PHALCON_VERSION}_${env:PHP_ARCH}_vc${env:VC_VERSION}_php${env:PHP_MINOR}"
+        $env:RELEASE_ZIPBALL = "${env:PACKAGE_PREFIX}_${env:PHP_ARCH}_vc${env:VC_VERSION}_php${env:PHP_MINOR}"
 
         If ($env:PHP_ARCH -eq 'x86') {
             $env:RELEASE_FOLDER = "Release_TS"
