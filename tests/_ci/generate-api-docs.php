@@ -2,8 +2,8 @@
 declare(strict_types=1);
 
 $baseDir   = dirname(dirname(__DIR__));
-$sourceDir = $baseDir . '/phalcon/';
-$outputDir = $baseDir . '/nikos/api/';
+$sourceDir = implode(DIRECTORY_SEPARATOR, [$baseDir, 'phalcon', '']);
+$outputDir = implode(DIRECTORY_SEPARATOR, [$baseDir, 'nikos', 'api', '']);
 
 if (!is_dir($outputDir)) {
     mkdir($outputDir, 0777, true);
@@ -28,12 +28,12 @@ asort($iteratorDocs);
 
 $documents = [];
 foreach ($iteratorDocs as $fileName) {
-    $split    = explode("/", $fileName);
+    $split    = explode(DIRECTORY_SEPARATOR, $fileName);
     $title    = str_replace('Phalcon\\', '', $fileName);
     $key      = str_replace('.zep', '', $split[0]);
 
     $documents[$key]['title']           = 'Phalcon\\' . $key;
-    $documents[$key]['docs'][$fileName] = $fileName;
+    $documents[$key]['docs'][implode('/', $split)] = $fileName;
 
     if (strpos($documents[$key]['title'], 'Url') > 0) {
         $documents[$key]['title'] = 'Phalcon\Url';
@@ -54,7 +54,7 @@ title: '{$document['title']}'
 ---
 ";
     foreach ($document['docs'] as $file) {
-        $link   = str_replace(['.zep', '/'], ['', '\\'], $file);
+        $link   = str_replace(['.zep', DIRECTORY_SEPARATOR], ['', '\\'], $file);
         $href   = str_replace(['Phalcon\\', '\\'], ['', '-'], strtolower($link));
         $output .= "
 * [Phalcon\\{$link}](#$href)";
@@ -63,8 +63,8 @@ title: '{$document['title']}'
     $outputDoc = str_replace('\\', '_', $document['title']) . '.md';
     foreach ($document['docs'] as $file) {
         echo '    - ' . $file . PHP_EOL;
-        $github = strtolower($file);
-        $href   = str_replace(['.zep', '/'], ['', '-'], $github);
+        $github = str_replace('\\', '/', $file);
+        $href   = str_replace(['.zep', DIRECTORY_SEPARATOR], ['', '-'], strtolower($file));
         $file   = $sourceDir . $file;
 
         $data = processDocument($file);
@@ -174,7 +174,7 @@ foreach ($documents as $document) {
         'title' => $document['title'],
         'docs'  => array_map(
             function ($value) {
-                return str_replace('.zep', '', $value);
+                return str_replace(['.zep', DIRECTORY_SEPARATOR], ['', '\\'], $value);
             },
             array_values($document['docs'])
         ),
@@ -289,7 +289,7 @@ function parseMethods(array $item): array
         $line = getDocblockMethod($line);
 
         $visibility = $method['visibility'] ?? [];
-        $signature  = join(' ', $visibility);
+        $signature  = implode(' ', $visibility);
         $signature .= ' function ' . $method['name'] . '(';
 
         $params  = $method['parameters'] ?? [];
