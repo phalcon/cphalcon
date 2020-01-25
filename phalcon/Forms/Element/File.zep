@@ -18,7 +18,7 @@ use Phalcon\Tag;
 class File extends AbstractElement
 {
     /**
-     * Renders the element widget returning html
+     * Renders the element widget returning HTML
      */
     public function render(array attributes = []) -> string
     {

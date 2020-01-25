@@ -193,7 +193,7 @@ class Collection implements Countable, Iterator
     }
 
     /**
-     * Adds an inline javascript to the collection
+     * Adds an inline JavaScript to the collection
      */
     public function addInlineJs(string content, bool filter = true, attributes = null) -> <Collection>
     {
@@ -211,7 +211,7 @@ class Collection implements Countable, Iterator
     }
 
     /**
-     * Adds a javascript asset to the collection
+     * Adds a JavaScript asset to the collection
      *
      * @param array attributes
      */

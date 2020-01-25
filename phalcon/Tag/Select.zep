@@ -17,7 +17,7 @@ use Phalcon\Mvc\Model\ResultsetInterface;
 /**
  * Phalcon\Tag\Select
  *
- * Generates a SELECT html tag using a static array of values or a
+ * Generates a SELECT HTML tag using a static array of values or a
  * Phalcon\Mvc\Model resultset
  */
 abstract class Select

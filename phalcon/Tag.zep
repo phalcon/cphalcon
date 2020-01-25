@@ -994,7 +994,7 @@ class Tag
     }
 
     /**
-     * Set autoescape mode in generated html
+     * Set autoescape mode in generated HTML
      */
     public static function setAutoescape(bool autoescape) -> void
     {
