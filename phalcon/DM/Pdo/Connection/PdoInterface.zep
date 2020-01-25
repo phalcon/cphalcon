@@ -15,8 +15,6 @@
 
 namespace Phalcon\DM\Pdo\Connection;
 
-use PDO;
-use PDOStatement;
 use Phalcon\DM\Pdo\Exception\CannotBindValue;
 
 /**
@@ -107,7 +105,7 @@ interface PdoInterface
      *
      * @return PDOStatement|false
      */
-    public function prepare(string statement, array options = []) -> <PDOStatement> | bool;
+    public function prepare(string statement, array options = []) -> <\PDOStatement> | bool;
 
     /**
      * Prepares an SQL statement with bound values. The method only binds values
@@ -122,7 +120,7 @@ interface PdoInterface
      * @return PDOStatement|false
      * @throws CannotBindValue
      */
-    public function prepareWithValues(string statement, array values = []) -> <PDOStatement>;
+    public function prepareWithValues(string statement, array values = []) -> <\PDOStatement>;
 
     /**
      * Queries the database and returns a PDOStatement. If the profiler is
@@ -133,7 +131,7 @@ interface PdoInterface
      *
      * @return PDOStatement|false
      */
-    public function query(string statement) -> <PDOStatement> | bool;
+    public function query(string statement) -> <\PDOStatement> | bool;
 
     /**
      * Quotes a value for use in an SQL statement. This differs from
@@ -181,5 +179,5 @@ interface PdoInterface
      *
      * @return bool
      */
-    public function setAttribute(int attribute, mixed value) -> bool;
+    public function setAttribute(int attribute, var value) -> bool;
 }
