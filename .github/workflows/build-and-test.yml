@@ -461,7 +461,7 @@ jobs:
 
       - uses: actions/upload-artifact@v1
         with:
-          name: ${$env:RELEASE_ZIPBALL}
+          name: ${env:RELEASE_ZIPBALL}
           path: ${env:RELEASE_DLL_PATH}
 
       - name: Enable Phalcon
