@@ -21,7 +21,7 @@ use Phalcon\Db\ReferenceInterface;
 use Throwable;
 
 /**
- * Specific functions for the Postgresql database system
+ * Specific functions for the PostgreSQL database system
  *
  * ```php
  * use Phalcon\Db\Adapter\Pdo\Postgresql;
