@@ -198,7 +198,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, dataSeek) {
 /**
  * Allows to execute the statement again. Some database systems don't
  * support scrollable cursors. So, as cursors are forward only, we need to
- * execute the cursor again to fetch rows from the begining
+ * execute the cursor again to fetch rows from the beginning
  */
 PHP_METHOD(Phalcon_Db_Result_Pdo, execute) {
 

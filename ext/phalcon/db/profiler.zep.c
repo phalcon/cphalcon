@@ -218,19 +218,19 @@ PHP_METHOD(Phalcon_Db_Profiler, startProfile) {
 		ZEPHIR_CALL_METHOD(NULL, &activeProfile, "__construct", NULL, 0);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_METHOD(NULL, &activeProfile, "setsqlstatement", NULL, 192, &sqlStatement);
+	ZEPHIR_CALL_METHOD(NULL, &activeProfile, "setsqlstatement", NULL, 199, &sqlStatement);
 	zephir_check_call_status();
 	if (Z_TYPE_P(sqlVariables) == IS_ARRAY) {
-		ZEPHIR_CALL_METHOD(NULL, &activeProfile, "setsqlvariables", NULL, 193, sqlVariables);
+		ZEPHIR_CALL_METHOD(NULL, &activeProfile, "setsqlvariables", NULL, 200, sqlVariables);
 		zephir_check_call_status();
 	}
 	if (Z_TYPE_P(sqlBindTypes) == IS_ARRAY) {
-		ZEPHIR_CALL_METHOD(NULL, &activeProfile, "setsqlbindtypes", NULL, 194, sqlBindTypes);
+		ZEPHIR_CALL_METHOD(NULL, &activeProfile, "setsqlbindtypes", NULL, 201, sqlBindTypes);
 		zephir_check_call_status();
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_microtime(&_0, &__$true);
-	ZEPHIR_CALL_METHOD(NULL, &activeProfile, "setinitialtime", NULL, 195, &_0);
+	ZEPHIR_CALL_METHOD(NULL, &activeProfile, "setinitialtime", NULL, 202, &_0);
 	zephir_check_call_status();
 	if ((zephir_method_exists_ex(this_ptr, ZEND_STRL("beforestartprofile")) == SUCCESS)) {
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "beforestartprofile", NULL, 0, &activeProfile);
