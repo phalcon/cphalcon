@@ -188,8 +188,6 @@ class Config extends Collection
         for key, value in target {
             if typeof value === "array" && isset source[key]  && typeof source[key] === "array" {
                 let source[key] = this->internalMerge(source[key], value);
-            } elseif typeof key === "int" {
-                let source[] = value;
             } else {
                 let source[key] = value;
             }

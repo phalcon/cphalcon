@@ -129,6 +129,34 @@ class MergeCest
         );
 
         $I->assertEquals($expected->toArray(), $actual->toArray());
+
+        //Issue - #14705
+        $expected = [
+            'test' => 123,
+            'empty' => [
+                3 => 'toEmpty'
+            ],
+            'nonEmpty' => [
+                3 => 'test',
+                5 => 'toNonEmpty'
+            ]
+        ];
+
+        $cfg = new Config([
+            'test' => 123,
+            'empty' => [],
+            'nonEmpty' => [
+                5 => 'test'
+            ]
+        ]);
+
+        $emptyMerge = new \Phalcon\Config([3 => 'toEmpty']);
+        $nonEmptyMerge = new \Phalcon\Config([3 => 'toNonEmpty']);
+
+        $cfg->empty->merge($emptyMerge);
+        $cfg->nonEmpty->merge($nonEmptyMerge);
+
+        $I->assertEquals($expected, $cfg->toArray());
     }
 
     /**
