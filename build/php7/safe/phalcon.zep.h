@@ -26245,7 +26245,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_debug_onuncaughtexceptio
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_debug_onuncaughtexception, 0, 1, _IS_BOOL, NULL, 0)
 #endif
-	ZEND_ARG_OBJ_INFO(0, exception, Exception, 0)
+	ZEND_ARG_OBJ_INFO(0, exception, Throwable, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70100
@@ -48283,9 +48283,9 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_validatorfactory___construct, 
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_validation_validatorfactory_newinstance, 0, 1, Phalcon\\Factory\\ValidatorInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_validation_validatorfactory_newinstance, 0, 1, Phalcon\\Validation\\ValidatorInterface, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_validation_validatorfactory_newinstance, 0, 1, IS_OBJECT, "Phalcon\\Factory\\ValidatorInterface", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_validation_validatorfactory_newinstance, 0, 1, IS_OBJECT, "Phalcon\\Validation\\ValidatorInterface", 0)
 #endif
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
