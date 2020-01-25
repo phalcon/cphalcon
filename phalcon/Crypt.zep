@@ -178,7 +178,7 @@ class Crypt implements CryptInterface
             }
 
             /**
-             * Checkson the decrypted's message digest using the HMAC method.
+             * Checks on the decrypted's message digest using the HMAC method.
              */
             if unlikely hash_hmac(hashAlgo, decrypted, decryptKey, true) !== hash {
                 throw new Mismatch("Hash does not match.");
