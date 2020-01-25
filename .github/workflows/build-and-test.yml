@@ -1,6 +1,8 @@
 name: Phalcon CI
 
 on:
+  schedule:
+    - cron: '0 2 * * *' # Daily at 02:00 runs only on default branch
   push:
     paths-ignore:
       - '**.md'
