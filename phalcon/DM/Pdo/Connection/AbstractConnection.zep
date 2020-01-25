@@ -16,7 +16,6 @@
 namespace Phalcon\DM\Pdo\Connection;
 
 use BadMethodCallException;
-use PDO;
 use PDOStatement;
 use Phalcon\DM\Pdo\Exception\CannotBindValue;
 use Phalcon\DM\Pdo\Parser\ParserInterface;
@@ -237,8 +236,10 @@ abstract class AbstractConnection implements ConnectionInterface
         let data = [],
             sth  = this->perform(statement, values);
 
-        while (row = sth->$fetch(\PDO::FETCH_ASSOC)) {
+        let row = sth->$fetch(\PDO::FETCH_ASSOC);
+        while (row) {
             let data[current(row)] = row;
+            let row = sth->$fetch(\PDO::FETCH_ASSOC);
         }
 
         return data;
@@ -415,7 +416,7 @@ abstract class AbstractConnection implements ConnectionInterface
      *
      * @return PDO
      */
-    public function getAdapter() -> <PDO>
+    public function getAdapter() -> <\PDO>
     {
         this->connect();
 
@@ -488,6 +489,7 @@ abstract class AbstractConnection implements ConnectionInterface
     public function getQuoteNames(string driver = "") -> array
     {
         var option;
+        array quotes;
 
         let option = driver;
         if empty option {
@@ -496,29 +498,34 @@ abstract class AbstractConnection implements ConnectionInterface
 
         switch option {
             case "mysql":
-                return [
+                let quotes = [
                     "prefix"  : "`",
                     "suffix"  : "`",
                     "find"    : "`",
-                    "replace" : "``",
+                    "replace" : "``"
                 ];
+                break;
 
             case "sqlsrv":
-                return [
+                let quotes = [
                     "prefix"  : "[",
                     "suffix"  : "]",
                     "find"    : "]",
-                    "replace" : "][",
+                    "replace" : "]["
                 ];
+                break;
 
             default:
-                return [
+                let quotes = [
                     "prefix"  : "\"",
                     "suffix"  : "\"",
                     "find"    : "\"",
-                    "replace" : "\"\"",
+                    "replace" : "\"\""
                 ];
+                break;
         }
+
+        return quotes;
     }
 
     /**
@@ -587,7 +594,7 @@ abstract class AbstractConnection implements ConnectionInterface
      * @return PDOStatement
      * @throws CannotBindValue
      */
-    public function perform(string statement, array values = []) -> <PDOStatement>
+    public function perform(string statement, array values = []) -> <\PDOStatement>
     {
         var sth;
 
@@ -630,7 +637,7 @@ abstract class AbstractConnection implements ConnectionInterface
      * @return PDOStatement|false
      * @throws CannotBindValue
      */
-    public function prepareWithValues(string statement, array values = []) -> <PDOStatement>
+    public function prepareWithValues(string statement, array values = []) -> <\PDOStatement>
     {
         var key, parser, parts, statement, value, values;
         array valueNames = [];
@@ -844,7 +851,7 @@ abstract class AbstractConnection implements ConnectionInterface
      * @return bool
      * @throws CannotBindValue
      */
-    protected function bindValue(<PDOStatement> statement, var key, var value) -> bool
+    protected function bindValue(<\PDOStatement> statement, var key, var value) -> bool
     {
         var type;
 
