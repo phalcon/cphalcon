@@ -38,6 +38,7 @@ class InTransactionCest
         $actual = $adapter->inTransaction();
         $I->assertFalse($actual);
 
+        $adapter->close();
         $I->safeDeleteFile($outputPath . $fileName);
     }
 }

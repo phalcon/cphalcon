@@ -33,6 +33,7 @@ class BeginCest
         $actual = $adapter->inTransaction();
         $I->assertTrue($actual);
 
+        $adapter->close();
         $I->safeDeleteFile($outputPath . $fileName);
     }
 }
