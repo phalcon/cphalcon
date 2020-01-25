@@ -15,8 +15,6 @@
 
 namespace Phalcon\DM\Pdo\Connection;
 
-use PDO;
-use PDOStatement;
 use Phalcon\DM\Pdo\Exception\CannotBindValue;
 use Phalcon\DM\Pdo\Parser\ParserInterface;
 use Phalcon\DM\Pdo\Profiler\ProfilerInterface;
@@ -187,7 +185,7 @@ interface ConnectionInterface extends PdoInterface
      *
      * @return PDO
      */
-    public function getAdapter() -> <PDO>;
+    public function getAdapter() -> <\PDO>;
 
     /**
      * Returns the Parser instance.
@@ -222,7 +220,7 @@ interface ConnectionInterface extends PdoInterface
      * @return PDOStatement
      * @throws CannotBindValue
      */
-    public function perform(string statement, array values = []) -> <PDOStatement>;
+    public function perform(string statement, array values = []) -> <\PDOStatement>;
 
     /**
      * Sets the Parser instance.
