@@ -553,7 +553,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      *
      * // Getting name of last edited robot
      * $robot = $connection->fetchColumn(
-     *     "SELECT id, name FROM robots order by modified desc",
+     *     "SELECT id, name FROM robots ORDER BY modified DESC",
      *     1
      * );
      * print_r($robot);
@@ -1215,7 +1215,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
 
                 /**
                  * If an index 'conditions' is present it contains string where
-                 * conditions that are appended to the UPDATE sql
+                 * conditions that are appended to the UPDATE SQL
                  */
                 if fetch conditions, whereCondition["conditions"] {
                     let updateSql .= conditions;
