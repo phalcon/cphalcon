@@ -21,7 +21,7 @@ jobs:
           echo "::set-env name=ZEPHIR_VERSION::0.12.16"
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@v1
+        uses: shivammathur/setup-php@develop
         with:
           php-version: '7.4'
           extensions: mbstring, intl, json, psr
@@ -350,7 +350,7 @@ jobs:
           echo "::set-env name=PHP_SDK_PATH::C:\tools\php-sdk"
           echo "::set-env name=PHP_PECL_PATH::C:\tools\pecl"
           echo "::set-env name=PHP_VERSION::$(php -r 'echo phpversion();')"
-          echo "::set-env name=PHP_MINOR::${{ matrix.php }}"
+          echo "::set-env name=PHP_MINOR::${{ matrix.php-versions }}"
           echo "::set-env name=TEST_PHP_EXECUTABLE::${env:PHPROOT}\php.exe"
           echo "::set-env name=VC_VERSION::${{ matrix.vc_num }}"
           echo "::set-env name=PHP_ARCH::${{ matrix.arch }}"
