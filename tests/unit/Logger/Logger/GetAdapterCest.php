@@ -44,7 +44,7 @@ class GetAdapterCest
         $actual = $logger->getAdapter('one');
         $I->assertInstanceOf($class, $actual);
 
-        $adapter1>close();
+        $adapter1->close();
         $I->safeDeleteFile($outputPath . $fileName1);
     }
 
