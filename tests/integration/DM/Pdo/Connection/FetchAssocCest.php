@@ -28,7 +28,8 @@ class FetchAssocCest
 
         /** @var Connection $connection */
         $connection = $I->getConnection();
-        $invoice    = new Invoices($connection);
+        $invoice = new Invoices();
+        $invoice->create($connection);
 
         $result = $invoice->insert($connection, 1);
         $I->assertEquals(1, $result);
