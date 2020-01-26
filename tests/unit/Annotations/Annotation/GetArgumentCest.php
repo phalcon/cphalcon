@@ -13,20 +13,45 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Annotations\Annotation;
 
+use Phalcon\Annotations\Annotation;
 use UnitTester;
 
 class GetArgumentCest
 {
+    private $PHANNOT_T_STRING = 303;
     /**
      * Tests Phalcon\Annotations\Annotation :: getArgument()
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
+     * @since  2020-01-22
      */
     public function annotationsAnnotationGetArgument(UnitTester $I)
     {
         $I->wantToTest('Annotations\Annotation - getArgument()');
 
-        $I->skipTest('Need implementation');
+        $value = 'test';
+        $value1 = 'test1';
+
+        $annotation = new Annotation([
+            'name'       => 'NovAnnotation',
+            'arguments'  => [
+                [
+                    'expr' => [
+                        'type'  => $this->PHANNOT_T_STRING,
+                        'value' => $value
+                    ]
+                ],
+                [
+                    'expr' => [
+                        'type'  => $this->PHANNOT_T_STRING,
+                        'value' => $value1
+                    ]
+                ]
+            ]
+        ]);
+        
+        $I->assertEquals($annotation->getArgument(0), $value);
+
+        $I->assertEquals($annotation->getArgument(1), $value1);
     }
 }

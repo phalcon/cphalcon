@@ -117,7 +117,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_RelationInterface, isReusable);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_RelationInterface, isThrough);
 
 /**
- * Sets the intermediate model dat for has-*-through relations
+ * Sets the intermediate model data for has-*-through relations
  *
  * @param string|array intermediateFields
  * @param string|array intermediateReferencedFields

@@ -76,7 +76,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Validation_ValidatorInterface, getTemplates);
 ZEPHIR_DOC_METHOD(Phalcon_Validation_ValidatorInterface, setTemplates);
 
 /**
- * Set a new temlate message
+ * Set a new template message
  *
  * @return ValidatorInterface
  */

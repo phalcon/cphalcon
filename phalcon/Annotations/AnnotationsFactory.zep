@@ -37,7 +37,7 @@ class AnnotationsFactory extends AbstractFactory
      *     ]
      * ]
      *
-     * Factory to create an instace from a Config object
+     * Factory to create an instance from a Config object
      */
     public function load(var config) -> var
     {

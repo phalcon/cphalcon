@@ -114,13 +114,19 @@ class Stream extends Noop
 
     public function read(var id) -> string
     {
-        var data, name;
+        var data, name, pointer;
 
         let name = this->path . this->getPrefixedName(id),
             data = "";
 
         if file_exists(name) {
-            let data = file_get_contents(name);
+            let pointer = fopen(name, 'r');
+
+            if (flock(pointer, LOCK_SH)) {
+                let data = file_get_contents(name);
+            }
+
+            fclose(pointer);
 
             if false === data {
                 return "";
@@ -136,6 +142,6 @@ class Stream extends Noop
 
         let name = this->path . this->getPrefixedName(id);
 
-        return false !== file_put_contents(name, data);
+        return false !== file_put_contents(name, data, LOCK_EX);
     }
 }

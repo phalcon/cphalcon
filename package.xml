@@ -11,11 +11,11 @@
     <email>ruud@ruudboon.io</email>
     <active>yes</active>
   </lead>
-  <date>2020-01-11</date>
+  <date>2020-01-25</date>
   <time>18:00:00</time>
   <version>
-    <release>4.0.2</release>
-    <api>4.0.2</api>
+    <release>4.0.3</release>
+    <api>4.0.3</api>
   </version>
   <stability>
     <release>stable</release>
@@ -25,22 +25,17 @@
   <notes>
     Full changelog can be found at: https://github.com/phalcon/cphalcon/blob/master/CHANGELOG-4.0.md
 
-    # [4.0.2]
-    ## Added
-
-    ## Changed
-    - Changed the logic when logging times for `Phalcon\Logger` to use `DateTimeImmutable` so as to handle microseconds if necessary. [#2893](https://github.com/phalcon/cphalcon/issues/2893)
-    - Changed `Phalcon\Http\Cookie::send` and `Phalcon\Http\Cookie::delete` to allow for `samesite` to be passed in the `options` when using PHP > 7.3 [#14627](https://github.com/phalcon/cphalcon/issues/14627)
-
+    # [4.0.3]
     ## Fixed
-    - Fixed `Phalcon\Mvc\Model\Criteria` Di isn't set when using `Criteria::fromInput()` [#14538](https://github.com/phalcon/cphalcon/issues/14639)
-    - Fixed `Phalcon\Db\Dialect\Mysql` removing unnecessary parentheses for `double` and `float` [#14645](https://github.com/phalcon/cphalcon/pull/14645) [@pfz](https://github.com/pfz)
-    - Fixed `Phalcon\Http\Cookie::delete` to parse the correct parameters - cannot use alternative syntax until PHP 7.3 [#14643](https://github.com/phalcon/cphalcon/issues/14643)
-    - Fixed `Phalcon\Mvc\Model::__isset` to take into account non visible properties by checking the getter if it exists [#13518](https://github.com/phalcon/cphalcon/issues/13518) [#13900](https://github.com/phalcon/cphalcon/issues/13900)
-    - Fixed `Phalcon\Mvc\Model::__set` to return a more informative message if we are tying to access a non visible property [#13518](https://github.com/phalcon/cphalcon/issues/13518) [#13900](https://github.com/phalcon/cphalcon/issues/13900)
-    - Fixed `Phalcon\Mvc\Model\Resultset\Simple::toArray` to correctly process virtual fields [#14669](https://github.com/phalcon/cphalcon/issues/14669)
-    - Fixed `Phalcon\Session\Manager::getUniqueKey` to prefix the key only if `uniqueId` is present [#14688](https://github.com/phalcon/cphalcon/issues/14688)
-    - Fixed `Phalcon\Db\Adapter\Pdo::describeColumns` to correctly detect ENUM columns [#14691](https://github.com/phalcon/cphalcon/issues/14691)
+    - Fixed `Phalcon\Db\Adapter\Pdo\Mysql` Tinyint(1) is handled as boolean under MySql [#14708](https://github.com/phalcon/cphalcon/issues/14708)
+    - Fixed `Phalcon\Mvc\View\Engine\Volt` to produce the correct order of variables for the `join` filter [#14771](https://github.com/phalcon/cphalcon/issues/14771)
+    - Fixed `Phalcon\Storage\Adapter\Stream::getKeys()` bug in the absence of a directory with a prefix name [#14725](https://github.com/phalcon/cphalcon/issues/14725), [#14721](https://github.com/phalcon/cphalcon/pull/14721)
+    - Fixed `Phalcon\Debug::onUncaughtException` Should accept `\Throwable` instead of `\Exception` as an argument [#14738](https://github.com/phalcon/cphalcon/pull/14738)
+    - Fixed `Phalcon\Validation\ValidatorFactory` Should return Phalcon\Validation\ValidatorInterface [14749](https://github.com/phalcon/cphalcon/pull/14749)
+    - Fixed `Phalcon\Mvc\Model\Binder` to now correctly call `has` and `set` on the cache object [#14743](https://github.com/phalcon/cphalcon/pull/14743)
+    - Fixed `Phalcon\Session\Adapter\Stream` and `Phalcon\Storage\Adapter\Stream` to correctly handle simultaneous read/write [#14694](https://github.com/phalcon/cphalcon/issues/14694)
+    - Fixed `Phalcon\Config\ConfigFactory` to always add the correct extension [#14756](https://github.com/phalcon/cphalcon/issues/14756)
+
   </notes>
   <contents>
     <dir name="/">

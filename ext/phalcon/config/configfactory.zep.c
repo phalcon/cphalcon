@@ -172,11 +172,10 @@ PHP_METHOD(Phalcon_Config_ConfigFactory, load) {
 	zephir_array_fetch_string(&first, config, SL("filePath"), PH_NOISY, "phalcon/Config/ConfigFactory.zep", 101);
 	ZEPHIR_INIT_VAR(&second);
 	ZVAL_NULL(&second);
-	ZEPHIR_INIT_VAR(&_5);
-	ZVAL_STRING(&_5, ".");
-	ZEPHIR_INIT_VAR(&_6);
-	zephir_fast_strpos(&_6, &first, &_5, 0 );
-	if (!(zephir_is_true(&_6))) {
+	ZVAL_LONG(&_5, 4);
+	ZEPHIR_CALL_FUNCTION(&_6, "pathinfo", NULL, 104, &first, &_5);
+	zephir_check_call_status();
+	if (ZEPHIR_IS_EMPTY(&_6)) {
 		ZEPHIR_CALL_FUNCTION(&_7$$9, "lcfirst", NULL, 91, &adapter);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_8$$9);
