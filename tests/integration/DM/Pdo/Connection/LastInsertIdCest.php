@@ -14,6 +14,7 @@ namespace Phalcon\Test\Integration\DM\Pdo\Connection;
 use IntegrationTester;
 use Phalcon\DM\Pdo\Connection;
 
+use Phalcon\Test\Fixtures\Migrations\Invoices;
 use function date;
 use function str_replace;
 use function uniqid;
@@ -31,6 +32,8 @@ class LastInsertIdCest
 
         /** @var Connection $connection */
         $connection = $I->getConnection();
+        $invoice = new Invoices();
+        $invoice->create($connection);
 
         $template = 'insert into co_invoices (inv_id, inv_cst_id, inv_status_flag, '
             . 'inv_title, inv_total, inv_created_at) values ('
