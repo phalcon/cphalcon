@@ -200,11 +200,11 @@ jobs:
           name: phalcon-pecl
 
       - name: Enable codecoverage on 7.4
-        if: matrix.php-versions == '7.4'
+        if: matrix.php-version == '7.4'
         run: |
-          LDFLAGS="${LDFLAGS} --coverage"
-          CFLAGS="${CFLAGS} -O0 -ggdb -fprofile-arcs -ftest-coverage"
-          CXXFLAGS="${CXXFLAGS} -O0 -ggdb -fprofile-arcs -ftest-coverage"
+          export LDFLAGS="${LDFLAGS} --coverage"
+          export CFLAGS="${CFLAGS} -O0 -ggdb -fprofile-arcs -ftest-coverage"
+          export CXXFLAGS="${CXXFLAGS} -O0 -ggdb -fprofile-arcs -ftest-coverage"
 
       - name: Install package
         run: |
