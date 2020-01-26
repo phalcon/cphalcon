@@ -86,6 +86,7 @@ before_script:
   - zephir --version
 
 script:
+  - cp tests/_ci/.env.default .env
   - vendor/bin/codecept build --quiet
   - vendor/bin/codecept run --ext DotReporter tests/cli/
   - vendor/bin/codecept run --ext DotReporter tests/integration/
