@@ -16,7 +16,6 @@ namespace Phalcon\DM\Pdo;
 
 use InvalidArgumentException;
 use Phalcon\DM\Pdo\Connection\AbstractConnection;
-use Phalcon\DM\Pdo\Parser\ParserInterface;
 use Phalcon\DM\Pdo\Profiler\Profiler;
 use Phalcon\DM\Pdo\Profiler\ProfilerInterface;
 
@@ -24,8 +23,7 @@ use Phalcon\DM\Pdo\Profiler\ProfilerInterface;
  * Provides array quoting, profiling, a new `perform()` method, new `fetch*()`
  * methods
  *
- * @property array             $args
- * @property ParserInterface   $parser
+ * @property array             $arguments
  * @property PDO               $pdo
  * @property ProfilerInterface $profiler
  */
@@ -57,7 +55,7 @@ class Connection extends AbstractConnection
         array queries = [],
         <ProfilerInterface> profiler = null
     ) {
-        var parser, parts;
+        var parts;
         array available;
 
         let parts     = explode(":", dsn),
@@ -81,7 +79,7 @@ class Connection extends AbstractConnection
         }
 
         // Arguments store
-        let this->args = [
+        let this->arguments = [
             dsn,
             username,
             password,
@@ -94,13 +92,6 @@ class Connection extends AbstractConnection
             let profiler = new Profiler();
         }
         this->setProfiler(profiler);
-
-        // Set the new Query parser
-        let parser = this->newParser(parts[0]);
-        this->setParser(parser);
-
-        // Quotes
-        let this->quote = this->getQuoteNames(parts[0]);
     }
 
     /**
