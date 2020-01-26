@@ -1,0 +1,168 @@
+This file is part of the Phalcon Framework.
+#
+# (c) Phalcon Team <team@phalcon.io>
+#
+# For the full copyright and license information, please view
+# the LICENSE.txt file that was distributed with this source code.
+
+version: 4.0.2+{build}
+
+environment:
+  matrix:
+    - PHP_VERSION: '7.4'
+      VC_VERSION: '15'
+      BUILD_TYPE: Win32
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+
+    - PHP_VERSION: '7.4'
+      VC_VERSION: '15'
+      BUILD_TYPE: nts-Win32
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+
+    - PHP_VERSION: '7.3'
+      VC_VERSION: '15'
+      BUILD_TYPE: Win32
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+
+    - PHP_VERSION: '7.3'
+      VC_VERSION: '15'
+      BUILD_TYPE: nts-Win32
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+
+    - PHP_VERSION: '7.2'
+      VC_VERSION: '15'
+      BUILD_TYPE: Win32
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+
+    - PHP_VERSION: '7.2'
+      VC_VERSION: '15'
+      BUILD_TYPE: nts-Win32
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
+
+  PHP_AVM: https://raw.githubusercontent.com/sergeyklay/php-appveyor/master/php-appveyor.psm1
+
+  PHP_SDK_VERSION: 2.1.9
+  ZEPHIR_PARSER_VERSION: 1.3.3
+  ZEPHIR_PARSER_RELEASE: 514
+  ZEPHIR_VERSION: 0.12.15
+
+  TEST_PHP_EXECUTABLE: C:\php\php.exe
+  NO_INTERACTION: 1
+  REPORT_EXIT_STATUS: 1
+  COMPOSER_NO_INTERACTION: 1
+
+matrix:
+  fast_finish: true
+
+cache:
+  - 'C:\Downloads -> appveyor.yml'
+
+clone_depth: 1
+clone_folder: c:\projects\phalcon
+
+platform:
+  - x86
+  - x64
+
+branches:
+  only:
+    - master
+    - 4.0.x
+
+init:
+  - ps: $DebugPreference = 'SilentlyContinue' # Continue
+
+install:
+  - ps: (new-object Net.WebClient).DownloadString($Env:PHP_AVM) | iex
+
+  - ps: InstallPhpSdk     $Env:PHP_SDK_VERSION $Env:VC_VERSION $Env:PLATFORM
+  - ps: InstallPhp        $Env:PHP_VERSION $Env:BUILD_TYPE $Env:VC_VERSION $Env:PLATFORM
+  - ps: InstallPhpDevPack $Env:PHP_VERSION $Env:BUILD_TYPE $Env:VC_VERSION $Env:PLATFORM
+
+  - ps: TuneUpPhp -DefaultExtensions openssl,mbstring,pdo_sqlite,fileinfo,gettext,gd2
+  - ps: InstallComposer
+  - ps: InstallZephir -Version $Env:ZEPHIR_VERSION
+
+  - ps: >-
+      InstallPeclExtension `
+        -Name       psr `
+        -Version    0.7.0 `
+        -PhpVersion $Env:PHP_VERSION `
+        -BuildType  $Env:BUILD_TYPE `
+        -VC         $Env:VC_VERSION `
+        -Platform   $Env:PLATFORM
+
+  - ps: >-
+      InstallPeclExtension `
+        -Name       redis `
+        -Version    5.1.1 `
+        -PhpVersion $Env:PHP_VERSION `
+        -BuildType  $Env:BUILD_TYPE `
+        -VC         $Env:VC_VERSION `
+        -Platform   $Env:PLATFORM
+
+  - ps: >-
+      InstallZephirParser `
+        -Version    $Env:ZEPHIR_PARSER_VERSION `
+        -BuildId    $Env:ZEPHIR_PARSER_RELEASE `
+        -PhpVersion $Env:PHP_VERSION `
+        -BuildType  $Env:BUILD_TYPE `
+        -VC         $Env:VC_VERSION `
+        -Platform   $Env:PLATFORM
+
+before_build:
+  - ps: EnablePhpExtension -Name psr
+  - ps: EnablePhpExtension -Name redis
+  - ps: EnablePhpExtension -Name zephir_parser -PrintableName "Zephir Parser"
+
+build_script:
+  - ps: Import-Module .\.ci\appveyor.psm1
+  - ps: InitializeBuildVars
+  - cmd: '"%VSCOMNTOOLS%\VsDevCmd" -arch=%PLATFORM%'
+  - cmd: '"%VCVARSALL_FILE%" %ARCH%'
+  - cmd: C:\php-sdk\bin\phpsdk_setvars
+  - cmd: C:\php\php.exe zephir.phar --version
+  - cmd: C:\php\php.exe zephir.phar generate --backend=ZendEngine3 -Wnonexistent-function -Wnonexistent-class -Wunused-variable
+  - ps: Set-Location "${Env:APPVEYOR_BUILD_FOLDER}\build"
+  - cmd: C:\php\php.exe gen-build.php
+  - ps: Set-Location "${Env:APPVEYOR_BUILD_FOLDER}\build\php7\safe"
+  - cmd: C:\php-devpack\phpize
+  - cmd: configure --with-prefix=C:\php --with-php-build=C:\php-devpack --disable-all --enable-phalcon
+  - cmd: nmake 2> compile-errors.log 1> compile.log
+  - ps: InitializeReleaseVars
+
+after_build:
+  - ps: Set-Location "${Env:APPVEYOR_BUILD_FOLDER}"
+  - ps: >-
+      PrepareReleasePackage `
+        -PhpVersion     $Env:PHP_VERSION `
+        -BuildType      $Env:BUILD_TYPE `
+        -Platform       $Env:PLATFORM `
+        -ConverMdToHtml $true `
+        -ReleaseFiles   "${Env:RELEASE_DLL_PATH}",`
+                        "${Env:APPVEYOR_BUILD_FOLDER}\3rdparty\licenses\LICENSE-PHP.txt",`
+                        "${Env:APPVEYOR_BUILD_FOLDER}\3rdparty\licenses\LICENSE-ZEND.txt",`
+                        "${Env:APPVEYOR_BUILD_FOLDER}\3rdparty\licenses\LICENSE-ATLAS.txt",`
+                        "${Env:APPVEYOR_BUILD_FOLDER}\3rdparty\licenses\LICENSE-AURA.txt",`
+                        "${Env:APPVEYOR_BUILD_FOLDER}\3rdparty\licenses\LICENSE-DIACTOROS.txt"
+
+artifacts:
+  - path: '.\$(RELEASE_ZIPBALL).zip'
+    type: zip
+    name: Phalcon
+
+on_failure:
+  - ps: $LogsDirectory = "${Env:APPVEYOR_BUILD_FOLDER}\build\php7\safe"
+  - ps: $FilterPattern = "(warning C4267)|(warning C4244)|(warning C4018)"
+
+  - ps: >-
+      if (Test-Path -Path "${LogsDirectory}\compile-errors.log") {
+        Get-Content -Path "${LogsDirectory}\compile-errors.log" | Where-Object {
+          $_ -notMatch "${FilterPattern}"
+        }
+      }
+      if (Test-Path -Path "${LogsDirectory}\compile.log") {
+        Get-Content -Path "${LogsDirectory}\compile.log" | Where-Object {
+          $_ -notMatch "${FilterPattern}"
+        }
+      }
