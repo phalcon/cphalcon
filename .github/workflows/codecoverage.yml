@@ -45,7 +45,7 @@ jobs:
           echo "::set-env name=ZEPHIR_VERSION::0.12.16"
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@development #replace with v1 after 1.8.0  release https://github.com/shivammathur/setup-php/issues/164
+        uses: shivammathur/setup-php@develop #replace with v1 after 1.8.0  release https://github.com/shivammathur/setup-php/issues/164
         with:
           php-version: '7.4'
           extensions: mbstring, intl, json, psr, imagick, apcu
