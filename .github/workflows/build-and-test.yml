@@ -187,7 +187,7 @@ jobs:
           fi
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@develop #replace with v1 after 1.8.0  release https://github.com/shivammathur/setup-php/issues/164
+        uses: shivammathur/setup-php@v1
         with:
           php-version: ${{ matrix.php-versions }}
           ini-values: apc.enable_cli=on, session.save_path=/tmp

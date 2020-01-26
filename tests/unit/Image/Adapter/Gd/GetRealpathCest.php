@@ -32,7 +32,7 @@ class GetRealpathCest
         $I->wantToTest('Image\Adapter\Gd - getRealpath()');
 
         foreach ($this->getImages() as $image) {
-            $file    = str_replace("/", DIRECTORY_SEPARATOR, $image);
+            $image    = str_replace("/", DIRECTORY_SEPARATOR, $image);
             $gd = new Gd($image);
 
             $I->assertSame(
