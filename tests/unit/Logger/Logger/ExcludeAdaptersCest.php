@@ -69,6 +69,9 @@ class ExcludeAdaptersCest
         $I->openFile($fileName2);
         $I->dontSeeInThisFile('Goodbye');
 
+        $adapter1->close();
+        $adapter2->close();
+
         $I->safeDeleteFile($fileName1);
         $I->safeDeleteFile($fileName2);
     }

@@ -39,6 +39,7 @@ class CommitCest
         $actual = $adapter->inTransaction();
         $I->assertFalse($actual);
 
+        $adapter->close();
         $I->safeDeleteFile($outputPath . $fileName);
     }
 
@@ -58,6 +59,7 @@ class CommitCest
             $I->assertFalse($actual);
 
             $adapter->commit();
+            $adapter->close();
         } catch (Exception $ex) {
             $expected = 'There is no active transaction';
             $actual   = $ex->getMessage();

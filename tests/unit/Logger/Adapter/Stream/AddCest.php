@@ -53,6 +53,7 @@ class AddCest
         $I->seeInThisFile('Message 2');
         $I->seeInThisFile('Message 3');
 
+        $adapter->close();
         $I->safeDeleteFile($outputPath . $fileName);
     }
 }
