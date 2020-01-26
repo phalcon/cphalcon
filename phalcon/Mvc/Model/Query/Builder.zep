@@ -607,7 +607,8 @@ class Builder implements BuilderInterface, InjectionAwareInterface
             selectedColumn, selectedModel, selectedModels, columnAlias,
             modelColumnAlias, joins, join, joinModel, joinConditions,
             joinAlias, joinType, group, groupItems, groupItem, having, order,
-            orderItems, orderItem, limit, number, offset, forUpdate, distinct;
+            orderItems, orderItem, limit, number, offset, forUpdate, distinct,
+            numericColumnMap, conditionPattern;
         bool noPrimary;
 
         let container = this->container;
@@ -707,8 +708,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
                             container
                         ]
                     ),
-                    primaryKeys = metaData->getPrimaryKeyAttributes(modelInstance),
-                    noPrimary = true;
+                    primaryKeys = metaData->getPrimaryKeyAttributes(modelInstance);
 
                 if count(primaryKeys) {
                     if fetch firstPrimaryKey, primaryKeys[0] {
@@ -733,14 +733,13 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
                         let columns = join("|", metaData->getAttributes(modelInstance));
                         let numericColumnMap = metaData->getDataTypesNumeric(modelInstance);
-                        let conditionPattern = "[`]?(" . columns . ")[`]?\s?([=<>!like]?)\s?(['\"%]?)(.+)(['\"%]?)";
+                        let conditionPattern = "/^[`]?(" . columns . ")[`]?\s?([=<>!like]?)\s?(['\"%]?)(.+)(['\"%]?)$/i";
 
                         /**
                          * Primary key is not numeric
                          */
                         if !isset numericColumnMap[firstPrimaryKey] && !preg_match(conditionPattern, conditions) {
-                            let conditions = this->autoescape(model) . "." . this->autoescape(attributeField) . " = '" . this->autoescape(conditions) . "'",
-                                noPrimary = false;
+                            let conditions = this->autoescape(model) . "." . this->autoescape(attributeField) . " = '" . conditions . "'";
                         }
                     }
                 }
@@ -1742,7 +1741,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
      */
     protected function getFirstModel(var models) -> string
     {
-        string model;
+        var model;
 
         if typeof models == "array" {
             let model = models[0];
