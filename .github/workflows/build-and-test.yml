@@ -200,7 +200,7 @@ jobs:
           name: phalcon-pecl
 
       - name: Enable codecoverage on 7.4
-        if: ${{ matrix.php-versions }} == '7.4'
+        if: "${{ matrix.php-versions }}" == '7.4'
         run: |
           LDFLAGS="${LDFLAGS} --coverage"
           CFLAGS="${CFLAGS} -O0 -ggdb -fprofile-arcs -ftest-coverage"
@@ -238,7 +238,7 @@ jobs:
 
       - name: Upload codecoverage on 7.4
         uses: codecov/codecov-action@v1
-        if: ${{ matrix.php-versions }} == '7.4'
+        if: "${{ matrix.php-versions }}" == '7.4'
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
 
