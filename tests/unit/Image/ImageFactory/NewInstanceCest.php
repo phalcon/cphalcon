@@ -32,7 +32,7 @@ class NewInstanceCest
         $I->wantToTest('Image\ImageFactory - newInstance()');
 
         $factory = new ImageFactory();
-        $file    = dataDir('assets/images/phalconphp.jpg');
+        $file    = dataDir('assets' . DIRECTORY_SEPARATOR . 'images' . DIRECTORY_SEPARATOR . 'phalconphp.jpg');
         $name    = 'imagick';
 
         $image = $factory->newInstance($name, $file);

@@ -44,6 +44,7 @@ class GetAdapterCest
         $actual = $logger->getAdapter('one');
         $I->assertInstanceOf($class, $actual);
 
+        $adapter1>close();
         $I->safeDeleteFile($outputPath . $fileName1);
     }
 
@@ -127,6 +128,9 @@ class GetAdapterCest
         $I->seeInThisFile('Phlying');
         $I->seeInThisFile('with');
         $I->seeInThisFile('Phalcon');
+
+        $adapter1->close();
+        $adapter2->close();
 
         $I->safeDeleteFile($outputPath . $fileName1);
         $I->safeDeleteFile($outputPath . $fileName2);
