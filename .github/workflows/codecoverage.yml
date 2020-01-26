@@ -144,7 +144,9 @@ jobs:
       - name: Generate C code
         run: |
           $HOME/zephir fullclean
-          $HOME/zephir build --enable-phalcon
+          $HOME/zephir build
+          php --ini
+          echo "extension=phalcon.so" > /etc/php/7.4/cli/php.ini
 
       - name: Verify install
         run: php --ri phalcon
