@@ -200,12 +200,11 @@ jobs:
           name: phalcon-pecl
 
       - name: Enable codecoverage on 7.4
+        if: ${{ matrix.php-versions }} == '7.4'
         run: |
-          if [[ "${{ matrix.php-versions }}" = "7.4" ]]; then
-            LDFLAGS="${LDFLAGS} --coverage"
-            CFLAGS="${CFLAGS} -O0 -ggdb -fprofile-arcs -ftest-coverage"
-            CXXFLAGS="${CXXFLAGS} -O0 -ggdb -fprofile-arcs -ftest-coverage"
-          fi
+          LDFLAGS="${LDFLAGS} --coverage"
+          CFLAGS="${CFLAGS} -O0 -ggdb -fprofile-arcs -ftest-coverage"
+          CXXFLAGS="${CXXFLAGS} -O0 -ggdb -fprofile-arcs -ftest-coverage"
 
       - name: Install package
         run: |
@@ -238,10 +237,10 @@ jobs:
         run: vendor/bin/codecept run --ext DotReporter integration
 
       - name: Upload codecoverage on 7.4
-        run: |
-          if [[ "${{ matrix.php-versions }}" = "7.4" ]]; then
-            bash <(curl -s https://codecov.io/bash)'
-          fi
+        uses: codecov/codecov-action@v1
+        if: ${{ matrix.php-versions }} == '7.4'
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
 
   build-and-test-macos:
     needs: generate
