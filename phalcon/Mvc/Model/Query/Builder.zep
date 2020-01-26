@@ -639,12 +639,6 @@ class Builder implements BuilderInterface, InjectionAwareInterface
              * a condition using the related primary key
              */
             if typeof models == "array" {
-                if unlikely count(models) > 1 {
-                    throw new Exception(
-                        "Cannot build the query. Invalid condition"
-                    );
-                }
-
                 let model = models[0];
             } else {
                 let model = models;
