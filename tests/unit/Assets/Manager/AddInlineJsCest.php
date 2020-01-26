@@ -57,7 +57,7 @@ class AddInlineJsCest
 
         $manager->addInlineJs($js);
 
-        $expected = "<script type=\"text/javascript\">{$js}</script>". PHP_EOL;
+        $expected = "<script type=\"text/javascript\">{$js}</script>" . PHP_EOL;
 
         ob_start();
         $manager->outputInlineJs();

@@ -62,7 +62,7 @@ class SelectCest extends TagSetup
             [
                 'potato',
             ],
-            "<select id=\"potato\" name=\"potato\">". PHP_EOL ."</select"
+            "<select id=\"potato\" name=\"potato\">" . PHP_EOL . "</select"
         );
     }
 }
