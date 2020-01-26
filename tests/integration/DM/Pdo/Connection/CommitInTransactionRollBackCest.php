@@ -32,7 +32,8 @@ class CommitInTransactionRollBackCest
 
         /** @var Connection $connection */
         $connection = $I->getConnection();
-        (new Invoices($connection));
+        $migration = new Invoices();
+        $migration->create($connection);
         $connection->beginTransaction();
 
         $I->assertTrue($connection->inTransaction());
@@ -88,7 +89,8 @@ class CommitInTransactionRollBackCest
 
         /** @var Connection $connection */
         $connection = $I->getConnection();
-        (new Invoices($connection));
+        $migration = new Invoices();
+        $migration->create($connection);
         $connection->beginTransaction();
 
         $I->assertTrue($connection->inTransaction());
