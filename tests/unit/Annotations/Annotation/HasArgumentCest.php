@@ -13,20 +13,47 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Annotations\Annotation;
 
+use Phalcon\Annotations\Annotation;
 use UnitTester;
 
 class HasArgumentCest
 {
+    private $PHANNOT_T_STRING = 303;
     /**
      * Tests Phalcon\Annotations\Annotation :: hasArgument()
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
+     * @since  2020-01-22
      */
     public function annotationsAnnotationHasArgument(UnitTester $I)
     {
         $I->wantToTest('Annotations\Annotation - hasArgument()');
 
-        $I->skipTest('Need implementation');
+        $value = 'test';
+        $value1 = 'test1';
+
+        $annotation = new Annotation([
+            'name'       => 'NovAnnotation',
+            'arguments'  => [
+                [
+                    'expr' => [
+                        'type'  => $this->PHANNOT_T_STRING,
+                        'value' => $value
+                    ]
+                ],
+                [
+                    'expr' => [
+                        'type'  => $this->PHANNOT_T_STRING,
+                        'value' => $value1
+                    ]
+                ]
+            ]
+        ]);
+        
+        $I->assertTrue($annotation->hasArgument(0));
+
+        $I->assertTrue($annotation->hasArgument(1));
+
+        $I->assertFalse($annotation->hasArgument(2));
     }
 }

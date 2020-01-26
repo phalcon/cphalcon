@@ -278,7 +278,7 @@ class Stream extends AbstractAdapter
             mkdir(directory, 0777, true);
         }
 
-        return false !== file_put_contents(directory . key, payload);
+        return false !== file_put_contents(directory . key, payload, LOCK_EX);
     }
 
     /**
@@ -328,9 +328,15 @@ class Stream extends AbstractAdapter
      */
     private function getPayload(string filepath) -> array
     {
-        var payload;
+        var payload, pointer;
 
-        let payload = file_get_contents(filepath);
+        let pointer = fopen(filepath, 'r');
+
+        if (flock(pointer, LOCK_SH)) {
+            let payload = file_get_contents(filepath);
+        }
+
+        fclose(pointer);
 
         if false === payload {
             return [];

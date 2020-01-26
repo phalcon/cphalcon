@@ -50,7 +50,7 @@ use Phalcon\Validation\Validator\File\AbstractFile;
  *                 "anotherFile" => true,
  *             ],
  *             "message" => [
- *                 "file"        => "file does not have the rigth filesize",
+ *                 "file"        => "file does not have the right filesize",
  *                 "anotherFile" => "anotherFile wrong filesize (4MB)",
  *             ],
  *         ]

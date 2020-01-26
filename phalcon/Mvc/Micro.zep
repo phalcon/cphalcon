@@ -1176,7 +1176,7 @@ class Micro extends Injectable implements ArrayAccess, EventsAwareInterface
     }
 
     /**
-     * Appends a custom 'reponse' handler to be called insted of the default
+     * Appends a custom 'response' handler to be called instead of the default
      * response handler
      *
      * @param callable handler

@@ -395,7 +395,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, getAdapter) {
 				zephir_check_call_status();
 			}
 		}
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setserializer", NULL, 113, &connection);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setserializer", NULL, 119, &connection);
 		zephir_check_call_status();
 		zephir_update_property_zval(this_ptr, SL("adapter"), &connection);
 	}

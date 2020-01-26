@@ -142,7 +142,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, exists) {
 }
 
 /**
- * Whenever a key is not found this medhod will be called
+ * Whenever a key is not found this method will be called
  */
 PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, notFound) {
 

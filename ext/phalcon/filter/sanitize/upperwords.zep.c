@@ -31,7 +31,7 @@
 /**
  * Phalcon\Filter\Sanitize\UpperWords
  *
- * Sanitizes a value to uppercase teh first character of each word
+ * Sanitizes a value to uppercase the first character of each word
  */
 ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_UpperWords) {
 
@@ -76,13 +76,13 @@ PHP_METHOD(Phalcon_Filter_Sanitize_UpperWords, __invoke) {
 		ZVAL_LONG(&_0$$3, 2);
 		ZEPHIR_INIT_VAR(&_1$$3);
 		ZVAL_STRING(&_1$$3, "UTF-8");
-		ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_case", NULL, 235, &input, &_0$$3, &_1$$3);
+		ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_case", NULL, 242, &input, &_0$$3, &_1$$3);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
-	ZEPHIR_CALL_FUNCTION(&_2, "utf8_decode", NULL, 236, &input);
+	ZEPHIR_CALL_FUNCTION(&_2, "utf8_decode", NULL, 243, &input);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_FUNCTION("ucwords", NULL, 238, &_2);
+	ZEPHIR_RETURN_CALL_FUNCTION("ucwords", NULL, 245, &_2);
 	zephir_check_call_status();
 	RETURN_MM();
 

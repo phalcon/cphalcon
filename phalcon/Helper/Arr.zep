@@ -394,7 +394,7 @@ class Arr
 
     /**
      * Returns true if the provided function returns true for at least one
-     * element fo the collection, false otherwise.
+     * element of the collection, false otherwise.
      *
      * @param array    $collection
      * @param callable $method

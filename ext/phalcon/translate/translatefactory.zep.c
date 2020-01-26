@@ -75,7 +75,7 @@ PHP_METHOD(Phalcon_Translate_TranslateFactory, __construct) {
 }
 
 /**
- * Factory to create an instace from a Config object
+ * Factory to create an instance from a Config object
  *
  * @param array|\Phalcon\Config = [
  *     'adapter' => 'ini,
