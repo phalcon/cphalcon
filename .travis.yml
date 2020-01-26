@@ -105,7 +105,7 @@ after_failure:
   - .ci/after-failure.sh
 
 after_success:
-  - '[[ "$REPORT_COVERAGE" -eq 1 ]] && bash <(curl -s https://codecov.io/bash)'
+#  - '[[ "$REPORT_COVERAGE" -eq 1 ]] && bash <(curl -s https://codecov.io/bash)'
 
 after_script:
   - printf "$TRAVIS_COMMIT_RANGE\n"
