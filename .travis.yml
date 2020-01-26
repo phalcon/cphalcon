@@ -44,7 +44,7 @@ env:
     - CC="gcc"
     - ZEPHIR_VERSION="0.12.16"
     - ZEPHIR_PARSER_VERSION="v1.3.2"
-    - REPORT_COVERAGE=1
+    - REPORT_COVERAGE=0
     - PATH="${HOME}/.composer/vendor/bin:${PATH}"
     - TRAVIS_COMMIT_LOG="$(git log --format=fuller -5)"
     - DEFAULT_COMPOSER_FLAGS="--no-interaction --no-ansi --no-progress --no-suggest"
@@ -77,7 +77,7 @@ install:
   - .ci/setup-dbs.sh
   - .ci/install-zephir.sh
   - .ci/install-php-extensions.sh
-  - eval "composer install $DEFAULT_COMPOSER_FLAGS"
+  - eval "composer install --ignore-platform-reqs"
 
 before_script:
   - cat .ci/travis.ini >> "$(phpenv prefix)/etc/conf.d/travis.ini"
