@@ -15,7 +15,6 @@
 
 namespace Phalcon\DM\Pdo\Connection;
 
-use Phalcon\DM\Pdo\Exception\CannotBindValue;
 
 /**
  * An interface to the native PDO object.
@@ -108,21 +107,6 @@ interface PdoInterface
     public function prepare(string statement, array options = []) -> <\PDOStatement> | bool;
 
     /**
-     * Prepares an SQL statement with bound values. The method only binds values
-     * that have associated placeholders in the statement. It also binds
-     * sequential (question-mark) placeholders. If a placeholder is an array, it
-     * is converted to a comma separated string to be used with a `IN`
-     * condition.
-     *
-     * @param string $statement
-     * @param array  $values
-     *
-     * @return PDOStatement|false
-     * @throws CannotBindValue
-     */
-    public function prepareWithValues(string statement, array values = []) -> <\PDOStatement>;
-
-    /**
      * Queries the database and returns a PDOStatement. If the profiler is
      * enabled, the operation will be recorded.
      *
@@ -144,24 +128,6 @@ interface PdoInterface
      * @return string The quoted value.
      */
     public function quote(var value, int type = \PDO::PARAM_STR) -> string;
-
-    /**
-     * Quotes a multi-part (dotted) identifier name.
-     *
-     * @param string $name
-     *
-     * @return string
-     */
-    public function quoteName(string name) -> string;
-
-    /**
-     * Quotes a single identifier name.
-     *
-     * @param string $name
-     *
-     * @return string
-     */
-    public function quoteSingleName(string name) -> string;
 
     /**
      * Rolls back the current transaction, and restores autocommit mode. If the

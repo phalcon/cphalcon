@@ -16,27 +16,18 @@
 namespace Phalcon\DM\Pdo\Connection;
 
 use BadMethodCallException;
-use PDOStatement;
 use Phalcon\DM\Pdo\Exception\CannotBindValue;
-use Phalcon\DM\Pdo\Parser\ParserInterface;
 use Phalcon\DM\Pdo\Profiler\ProfilerInterface;
 
 /**
  * Provides array quoting, profiling, a new `perform()` method, new `fetch*()`
  * methods
  *
- * @property array             $args
- * @property ParserInterface   $parser
  * @property PDO               $pdo
  * @property ProfilerInterface $profiler
  */
 abstract class AbstractConnection implements ConnectionInterface
 {
-    /**
-     * @var ParserInterface
-     */
-    protected parser;
-
     /**
      * @var PDO
      */
@@ -68,7 +59,7 @@ abstract class AbstractConnection implements ConnectionInterface
                 message   = "Class '" . className
                           . "' does not have a method '" . name . "'";
 
-            throw new BadMethodCallException($message);
+            throw new BadMethodCallException(message);
         }
 
         return call_user_func_array(
@@ -183,7 +174,6 @@ abstract class AbstractConnection implements ConnectionInterface
      * @param array  $values
      *
      * @return int
-     * @throws CannotBindValue
      */
     public function fetchAffected(string statement, array values = []) -> int
     {
@@ -202,7 +192,6 @@ abstract class AbstractConnection implements ConnectionInterface
      * @param array  $values
      *
      * @return array
-     * @throws CannotBindValue
      */
     public function fetchAll(string statement, array values = []) -> array
     {
@@ -227,7 +216,6 @@ abstract class AbstractConnection implements ConnectionInterface
      * @param array  $values
      *
      * @return array
-     * @throws CannotBindValue
      */
     public function fetchAssoc(string statement, array values = []) -> array
     {
@@ -253,7 +241,6 @@ abstract class AbstractConnection implements ConnectionInterface
      * @param int    $column
      *
      * @return array
-     * @throws CannotBindValue
      */
     public function fetchColumn(
         string statement,
@@ -278,7 +265,6 @@ abstract class AbstractConnection implements ConnectionInterface
      * @param int    $flags
      *
      * @return array
-     * @throws CannotBindValue
      */
     public function fetchGroup(
         string statement,
@@ -308,7 +294,6 @@ abstract class AbstractConnection implements ConnectionInterface
      * @param array  $arguments
      *
      * @return object
-     * @throws CannotBindValue
      */
     public function fetchObject(
         string statement,
@@ -339,7 +324,6 @@ abstract class AbstractConnection implements ConnectionInterface
      * @param array  $arguments
      *
      * @return array
-     * @throws CannotBindValue
      */
     public function fetchObjects(
         string statement,
@@ -361,7 +345,6 @@ abstract class AbstractConnection implements ConnectionInterface
      * @param array  $values
      *
      * @return array
-     * @throws CannotBindValue
      */
     public function fetchOne(string statement, array values = []) -> array
     {
@@ -381,7 +364,6 @@ abstract class AbstractConnection implements ConnectionInterface
      * @param array  $values
      *
      * @return array
-     * @throws CannotBindValue
      */
     public function fetchPairs(string statement, array values = []) -> array
     {
@@ -400,7 +382,6 @@ abstract class AbstractConnection implements ConnectionInterface
      * @param array  $values
      *
      * @return mixed
-     * @throws CannotBindValue
      */
     public function fetchValue(string statement, array values = [])
     {
@@ -457,16 +438,6 @@ abstract class AbstractConnection implements ConnectionInterface
         this->connect();
 
         return this->pdo->getAttribute(\PDO::ATTR_DRIVER_NAME);
-    }
-
-    /**
-     * Returns the Parser instance.
-     *
-     * @return ParserInterface
-     */
-    public function getParser() -> <ParserInterface>
-    {
-        return this->parser;
     }
 
     /**
@@ -592,18 +563,22 @@ abstract class AbstractConnection implements ConnectionInterface
      * @param array  $values
      *
      * @return PDOStatement
-     * @throws CannotBindValue
      */
     public function perform(string statement, array values = []) -> <\PDOStatement>
     {
-        var sth;
+        var name, sth, value;
 
         this->connect();
 
-        let sth = this->prepareWithValues(statement, values);
-
         this->profiler->start(__FUNCTION__);
+
+        let sth = this->prepare(statement);
+        for name, value in values {
+            this->performBind(sth, name, value);
+        }
+
         sth->execute();
+
         this->profiler->finish(statement, values);
 
         return sth;
@@ -619,64 +594,17 @@ abstract class AbstractConnection implements ConnectionInterface
      */
     public function prepare(string statement, array options = [])
     {
-        this->connect();
-
-        return this->pdo->prepare(statement, options);
-    }
-
-    /**
-     * Prepares an SQL statement with bound values. The method only binds values
-     * that have associated placeholders in the statement. It also binds
-     * sequential (question-mark) placeholders. If a placeholder is an array, it
-     * is converted to a comma separated string to be used with a `IN`
-     * condition.
-     *
-     * @param string $statement
-     * @param array  $values
-     *
-     * @return PDOStatement|false
-     * @throws CannotBindValue
-     */
-    public function prepareWithValues(string statement, array values = []) -> <\PDOStatement>
-    {
-        var key, parser, parts, statement, value, values;
-        array valueNames = [];
-
-        // if there are no values to bind ...
-        if empty values {
-            // ... use the normal preparation
-            return this->prepare(statement);
-        }
+        var sth;
 
         this->connect();
 
-        let parser = clone this->parser;
+        this->profiler->start(__FUNCTION__);
 
-        /**
-         * $values can be an array with value in the first element and the type
-         * in the second
-         */
-        for key, value in values {
-            if typeof value === "array" {
-                let valueNames[key] = value[0];
-            } else {
-                let valueNames[key] = value;
-            }
-        }
+        let sth = this->pdo->prepare(statement, options);
 
-        let parts     = parser->rebuild(statement, valueNames),
-            statement = parts[0],
-            values    = parts[1],
-            statement = this->pdo->prepare(statement);
+        this->profiler->finish(sth->queryString);
 
-        /**
-         * Bind placeholders to values
-         */
-        for key, value in values {
-            this->bindValue(statement, key, value);
-        }
-
-        return statement;
+        return sth;
     }
 
     /**
@@ -688,7 +616,7 @@ abstract class AbstractConnection implements ConnectionInterface
      *
      * @return PDOStatement|false
      */
-    public function query(string $statement)
+    public function query(string statement)
     {
         var sth;
 
@@ -721,68 +649,27 @@ abstract class AbstractConnection implements ConnectionInterface
      */
     public function quote(var value, int type = \PDO::PARAM_STR) -> string
     {
-        var element, key;
-        array values;
+        var element, key, quotes;
+        array elements = [];
 
         this->connect();
 
-        // non-array quoting
-        if typeof value !== "array" {
-            return this->pdo->quote((string) value, type);
+        let element = value,
+            quotes  = this->getQuoteNames();
+
+        if typeof element !== "array" {
+            let element = (string) element;
+
+            return quotes["prefix"] . element . quotes["suffix"];
         }
 
         // quote array values, not keys, then combine with commas
         for key, element in value {
-            let values[key] = this->pdo->quote((string) element, type);
+            let element       = (string) element,
+                elements[key] = quotes["prefix"] . element . quotes["suffix"];
         }
 
-        return implode(", ", values);
-    }
-
-    /**
-     * Quotes a multi-part (dotted) identifier name.
-     *
-     * @param string $name
-     *
-     * @return string
-     */
-    public function quoteName(string name) -> string
-    {
-        if (strpos(name, '.') === false) {
-            return this->quoteSingleName(name);
-        }
-
-        return implode(
-            ".",
-            array_map(
-                [
-                    this,
-                    "quoteSingleName"
-                ],
-                explode(".", $name)
-            )
-        );
-    }
-
-    /**
-     * Quotes a single identifier name based on the driver
-     *
-     * @param string $name
-     *
-     * @return string
-     */
-    public function quoteSingleName(string name) -> string
-    {
-        var name, quote;
-
-        let quote = this->getQuoteNames(),
-            name  = str_replace(
-                quote["find"],
-                quote["replace"],
-                name
-            );
-
-        return quote["prefix"] . name . quote["suffix"];
+        return implode(", ", elements);
     }
 
     /**
@@ -822,16 +709,6 @@ abstract class AbstractConnection implements ConnectionInterface
     }
 
     /**
-     * Sets the Parser instance.
-     *
-     * @param ParserInterface $parser
-     */
-    public function setParser(<ParserInterface> parser)
-    {
-        let this->parser = parser;
-    }
-
-    /**
      * Sets the Profiler instance.
      *
      * @param ProfilerInterface $profiler
@@ -845,37 +722,41 @@ abstract class AbstractConnection implements ConnectionInterface
      * Bind a value using the proper PDO::PARAM_* type.
      *
      * @param PDOStatement $statement
-     * @param mixed        $key
-     * @param mixed        $value
-     *
-     * @return bool
-     * @throws CannotBindValue
+     * @param mixed        $name
+     * @param mixed        $arguments
      */
-    protected function bindValue(<\PDOStatement> statement, var key, var value) -> bool
+    protected function performBind(<\PDOStatement> statement, var name, var arguments) -> void
     {
-        var type;
+        var key, parameters, type;
 
-        if typeof value === "integer" {
-            return statement->bindValue(key, value, \PDO::PARAM_INT);
+        let key = name;
+        if typeof key === "integer" {
+            let key = key + 1;
         }
 
-        if typeof value === "boolean" {
-            return statement->bindValue(key, value, \PDO::PARAM_BOOL);
+        if typeof arguments === "array" {
+            if isset arguments[1] {
+                let type = arguments[1];
+            } else {
+                let type = \PDO::PARAM_STR;
+            }
+
+            if type === \PDO::PARAM_BOOL && typeof arguments[0] === "boolean" {
+                let arguments[0] = arguments[0] ? "1" : "0";
+            }
+
+            let parameters = array_merge([key], arguments);
+        } else {
+            let parameters = [key, arguments];
         }
 
-        if null === value {
-            return statement->bindValue(key, value, \PDO::PARAM_NULL);
-        }
-
-        if !is_scalar(value) {
-            let type = gettype(value);
-            throw new CannotBindValue(
-                "Cannot bind value of type '" . type .
-                "' to placeholder '" . key . "'"
-            );
-        }
-
-        return statement->bindValue(key, value);
+        call_user_func_array(
+            [
+                statement,
+                "bindValue"
+            ],
+            parameters
+        );
     }
 
     /**
@@ -887,7 +768,6 @@ abstract class AbstractConnection implements ConnectionInterface
      * @param array  $values
      *
      * @return array
-     * @throws CannotBindValue
      */
     protected function fetchData(
         string method,
@@ -915,24 +795,5 @@ abstract class AbstractConnection implements ConnectionInterface
         }
 
         return result;
-    }
-
-    /**
-     * Returns a new Parser instance.
-     *
-     * @param string $driver
-     *
-     * @return ParserInterface
-     */
-    protected function newParser(string driver) -> <ParserInterface>
-    {
-        var definition;
-
-        let definition = sprintf(
-            "\\Phalcon\\DM\Pdo\\Parser\\%sParser",
-            ucfirst(driver)
-        );
-
-        return create_instance(definition);
     }
 }

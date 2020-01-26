@@ -48,7 +48,7 @@ class ConnectionLocator implements ConnectionLocatorInterface
     protected write = [];
 
     /**
-     * Collection of resolved instances
+     * A collection of resolved instances
      *
      * @var array
      */
@@ -57,9 +57,9 @@ class ConnectionLocator implements ConnectionLocatorInterface
     /**
      * Constructor.
      *
-     * @param callable $master
-     * @param array    $read
-     * @param array    $write
+     * @param callable|null $master
+     * @param array         $read
+     * @param array         $write
      */
     public function __construct(
         callable master,
@@ -68,9 +68,7 @@ class ConnectionLocator implements ConnectionLocatorInterface
     ) {
         var name, callableObject;
 
-        if master {
-            this->setMaster(master);
-        }
+        this->setMaster(master);
 
         for name, callableObject in read {
             this->setRead(name, callableObject);
@@ -124,11 +122,11 @@ class ConnectionLocator implements ConnectionLocatorInterface
     /**
      * Sets the default connection factory.
      *
-     * @param callable|null $callable
+     * @param ConnectionInterface $callable
      *
      * @return ConnectionLocatorInterface
      */
-    public function setMaster(callable callableObject) -> <ConnectionLocatorInterface>
+    public function setMaster(<ConnectionInterface> callableObject) -> <ConnectionLocatorInterface>
     {
         let this->master = callableObject;
 
@@ -169,6 +167,15 @@ class ConnectionLocator implements ConnectionLocatorInterface
         return this;
     }
 
+    /**
+     * Returns a connection by name.
+     *
+     * @param string $type
+     * @param string $name
+     *
+     * @return ConnectionInterface
+     * @throws ConnectionNotFound
+     */
     protected function getConnection(
         string type,
         string name = ""
@@ -207,7 +214,7 @@ class ConnectionLocator implements ConnectionLocatorInterface
          * it, otherwise resolve it. The keys in the `resolved` array are
          * formatted as "type-name"
          */
-        let instanceName = this->{type} . "-" . requested;
+        let instanceName = type . "-" . requested;
 
         if !isset instances[instanceName] {
             let instances[instanceName] = call_user_func(collection[requested]),
