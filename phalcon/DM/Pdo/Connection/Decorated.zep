@@ -37,20 +37,12 @@ class Decorated extends AbstractConnection
      */
     public function __construct(<\PDO> pdo, <ProfilerInterface> profiler = null)
     {
-        var driver;
-
         let this->pdo = pdo;
 
         if null === profiler {
             let profiler = new Profiler();
         }
-        this->setProfiler(profiler);
-
-        let driver = pdo->getAttribute(\PDO::ATTR_DRIVER_NAME);
-
-        this->setParser(this->newParser(driver));
-
-        let this->quote = this->getQuoteNames(driver);
+        $this->setProfiler($profiler);
     }
 
     /**
