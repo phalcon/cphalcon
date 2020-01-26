@@ -54,11 +54,11 @@ interface ConnectionLocatorInterface
     /**
      * Sets the default connection registry entry.
      *
-     * @param callable $callable
+     * @param ConnectionInterface $callable
      *
      * @return ConnectionLocatorInterface
      */
-    public function setMaster(callable callableObject) -> <ConnectionLocatorInterface>;
+    public function setMaster(<ConnectionInterface> callableObject) -> <ConnectionLocatorInterface>;
 
     /**
      * Sets a read connection registry entry by name.

@@ -24,7 +24,6 @@ use Phalcon\DM\Pdo\Profiler\ProfilerInterface;
  * methods
  *
  * @property array             $args
- * @property ParserInterface   $parser
  * @property PDO               $pdo
  * @property ProfilerInterface $profiler
  * @property array             $quote
@@ -48,7 +47,6 @@ interface ConnectionInterface extends PdoInterface
      * @param array  $values
      *
      * @return int
-     * @throws CannotBindValue
      */
     public function fetchAffected(string statement, array values = []) -> int;
 
@@ -60,7 +58,6 @@ interface ConnectionInterface extends PdoInterface
      * @param array  $values
      *
      * @return array
-     * @throws CannotBindValue
      */
     public function fetchAll(string statement, array values = []) -> array;
 
@@ -77,7 +74,6 @@ interface ConnectionInterface extends PdoInterface
      * @param array  $values
      *
      * @return array
-     * @throws CannotBindValue
      */
     public function fetchAssoc(string statement, array values = []) -> array;
 
@@ -89,7 +85,6 @@ interface ConnectionInterface extends PdoInterface
      * @param int    $column
      *
      * @return array
-     * @throws CannotBindValue
      */
     public function fetchColumn(string statement, array values = [], int column = 0) -> array;
 
@@ -103,7 +98,6 @@ interface ConnectionInterface extends PdoInterface
      * @param int    $flags
      *
      * @return array
-     * @throws CannotBindValue
      */
     public function fetchGroup(string statement, array values = [], int flags = \PDO::FETCH_ASSOC) -> array;
 
@@ -122,7 +116,6 @@ interface ConnectionInterface extends PdoInterface
      * @param array  $arguments
      *
      * @return object
-     * @throws CannotBindValue
      */
     public function fetchObject(string statement, array values = [], string className = "stdClass", array arguments = []) -> object;
 
@@ -142,7 +135,6 @@ interface ConnectionInterface extends PdoInterface
      * @param array  $arguments
      *
      * @return array
-     * @throws CannotBindValue
      */
     public function fetchObjects(string statement, array values = [], string className = "stdClass", array arguments = []) -> array;
 
@@ -153,7 +145,6 @@ interface ConnectionInterface extends PdoInterface
      * @param array  $values
      *
      * @return array
-     * @throws CannotBindValue
      */
     public function fetchOne(string statement, array values = []) -> array;
 
@@ -165,7 +156,6 @@ interface ConnectionInterface extends PdoInterface
      * @param array  $values
      *
      * @return array
-     * @throws CannotBindValue
      */
     public function fetchPairs(string statement, array values = []) -> array;
 
@@ -176,7 +166,6 @@ interface ConnectionInterface extends PdoInterface
      * @param array  $values
      *
      * @return mixed
-     * @throws CannotBindValue
      */
     public function fetchValue(string statement, array values = []);
 
@@ -186,13 +175,6 @@ interface ConnectionInterface extends PdoInterface
      * @return PDO
      */
     public function getAdapter() -> <\PDO>;
-
-    /**
-     * Returns the Parser instance.
-     *
-     * @return ParserInterface
-     */
-    public function getParser() -> <ParserInterface>;
 
     /**
      * Returns the Profiler instance.
@@ -218,16 +200,8 @@ interface ConnectionInterface extends PdoInterface
      * @param array  $values
      *
      * @return PDOStatement
-     * @throws CannotBindValue
      */
     public function perform(string statement, array values = []) -> <\PDOStatement>;
-
-    /**
-     * Sets the Parser instance.
-     *
-     * @param ParserInterface $parser The Parser instance.
-     */
-    public function setParser(<ParserInterface> parser);
 
     /**
      * Sets the Profiler instance.
