@@ -4,6 +4,18 @@ Welcome to the Phalcon Testing Suite.
 
 This folder contains all the tests for the Phalcon Framework. 
 
+## Codeception 4 + docker method
+```
+cp tests/ci/.env.default .env
+cd tests 
+docker-compose up -d
+cd ..
+codecept run unit
+codecept run cli
+codecept run integration
+```
+
+
 ## Getting Started
 
 This testing suite uses [Travis CI][0] for each run. Every commit pushed to this repository will queue a build into the continuous integration service and will run all tests to ensure that everything is going well and the project is stable.

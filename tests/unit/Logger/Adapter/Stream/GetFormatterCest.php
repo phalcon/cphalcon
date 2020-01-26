@@ -41,6 +41,7 @@ class GetFormatterCest
             $adapter->getFormatter()
         );
 
+        $adapter->close();
         $I->safeDeleteFile($fileName);
     }
 }

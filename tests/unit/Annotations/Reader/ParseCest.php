@@ -50,7 +50,7 @@ class ParseCest
     public function testParseWithInvalidAnnotation(UnitTester $I)
     {
         $filename = 'fixtures' . DIRECTORY_SEPARATOR . 'Annotations' . DIRECTORY_SEPARATOR . 'TestInvalid.php';
-        $includeFile = dataDir($filename);
+        $includeFile = dataDir(str_replace("/", DIRECTORY_SEPARATOR, $filename));
 
         $I->seeFileFound($includeFile);
 

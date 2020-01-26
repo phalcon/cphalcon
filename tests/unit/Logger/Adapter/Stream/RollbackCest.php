@@ -41,6 +41,7 @@ class RollbackCest
         $actual = $adapter->inTransaction();
         $I->assertFalse($actual);
 
+        $adapter->close();
         $I->safeDeleteFile($outputPath . $fileName);
     }
 
@@ -58,6 +59,7 @@ class RollbackCest
                 $adapter    = new Stream($outputPath . $fileName);
 
                 $adapter->rollback();
+                $adapter->close();
             }
         );
     }
