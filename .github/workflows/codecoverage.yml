@@ -48,7 +48,7 @@ jobs:
         uses: shivammathur/setup-php@v1
         with:
           php-version: '7.4'
-          extensions: mbstring, intl, json, psr, imagick
+          extensions: mbstring, intl, json, psr, imagick, apcu
           ini-values: apc.enable_cli=on, session.save_path=/tmp
 
       - name: Common settings
@@ -145,8 +145,7 @@ jobs:
         run: |
           $HOME/zephir fullclean
           $HOME/zephir build
-          php --ini
-          echo "extension=phalcon.so" > /etc/php/7.4/cli/php.ini
+          echo "extension=phalcon.so" > /etc/php/7.4/cli/conf.d/50-phalcon.ini
 
       - name: Verify install
         run: php --ri phalcon
