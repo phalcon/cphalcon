@@ -199,13 +199,6 @@ jobs:
         with:
           name: phalcon-pecl
 
-      - name: Enable codecoverage on 7.4
-        if: matrix.php-version == '7.4'
-        run: |
-          export LDFLAGS="${LDFLAGS} --coverage"
-          export CFLAGS="${CFLAGS} -O0 -ggdb -fprofile-arcs -ftest-coverage"
-          export CXXFLAGS="${CXXFLAGS} -O0 -ggdb -fprofile-arcs -ftest-coverage"
-
       - name: Install package
         run: |
           export MAKEFLAGS="-j$(getconf _NPROCESSORS_ONLN)"
@@ -235,12 +228,6 @@ jobs:
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
         run: vendor/bin/codecept run --ext DotReporter integration
-
-      - name: Upload codecoverage on 7.4
-        uses: codecov/codecov-action@v1
-        if: matrix.php-versions == '7.4'
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
 
   build-and-test-macos:
     needs: generate
