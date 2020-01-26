@@ -73,7 +73,12 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     protected hiddenParamNumber = 0;
     protected joins;
     protected limit;
+
+    /**
+     * @var array|string
+     */
     protected models;
+
     protected offset;
     protected order;
     protected sharedLock;
