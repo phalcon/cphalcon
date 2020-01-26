@@ -638,11 +638,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
              * If the conditions is a single numeric field. We internally create
              * a condition using the related primary key
              */
-            if typeof models == "array" {
-                let model = models[0];
-            } else {
-                let model = models;
-            }
+            let model = this->getFirstModel(models);
 
             /**
              * Get the models metadata service to obtain the column names,
@@ -662,7 +658,6 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
             if count(primaryKeys) {
                 if fetch firstPrimaryKey, primaryKeys[0] {
-
                     /**
                      * The PHQL contains the renamed columns if available
                      */
@@ -694,6 +689,61 @@ class Builder implements BuilderInterface, InjectionAwareInterface
                 throw new Exception(
                     "Source related to this model does not have a primary key defined"
                 );
+            }
+        } else {
+            // Check if primary key is string and inside condition there is no column
+            if (this->isSingleModel(models)) {
+                let model = this->getFirstModel(models);
+
+                /**
+                 * Get the models metadata service to obtain the column names,
+                 * column map and primary key
+                 */
+                let metaData      = container->getShared("modelsMetadata"),
+                    modelInstance = create_instance_params(
+                        model,
+                        [
+                            null,
+                            container
+                        ]
+                    ),
+                    primaryKeys = metaData->getPrimaryKeyAttributes(modelInstance),
+                    noPrimary = true;
+
+                if count(primaryKeys) {
+                    if fetch firstPrimaryKey, primaryKeys[0] {
+                        /**
+                         * The PHQL contains the renamed columns if available
+                         */
+                        if globals_get("orm.column_renaming") {
+                            let columnMap = metaData->getColumnMap(modelInstance);
+                        } else {
+                            let columnMap = null;
+                        }
+
+                        if typeof columnMap == "array" {
+                            if unlikely !fetch attributeField, columnMap[firstPrimaryKey] {
+                                throw new Exception(
+                                    "Column '" . firstPrimaryKey . "' isn't part of the column map"
+                                );
+                            }
+                        } else {
+                            let attributeField = firstPrimaryKey;
+                        }
+
+                        let columns = join("|", metaData->getAttributes(modelInstance));
+                        let numericColumnMap = metaData->getDataTypesNumeric(modelInstance);
+                        let conditionPattern = "[`]?(" . columns . ")[`]?\s?([=<>!like]?)\s?(['\"%]?)(.+)(['\"%]?)";
+
+                        /**
+                         * Primary key is not numeric
+                         */
+                        if !isset numericColumnMap[firstPrimaryKey] && !preg_match(conditionPattern, conditions) {
+                            let conditions = this->autoescape(model) . "." . this->autoescape(attributeField) . " = '" . this->autoescape(conditions) . "'",
+                                noPrimary = false;
+                        }
+                    }
+                }
             }
         }
 
@@ -1685,5 +1735,33 @@ class Builder implements BuilderInterface, InjectionAwareInterface
         let this->hiddenParamNumber = hiddenParam;
 
         return this;
+    }
+
+    /**
+     * Appends a NOT IN condition
+     */
+    protected function getFirstModel(var models) -> string
+    {
+        string model;
+
+        if typeof models == "array" {
+            let model = models[0];
+        } else {
+            let model = models;
+        }
+
+        return model;
+    }
+
+    /**
+     * Check if there is only one model
+     */
+    protected function isSingleModel(var models) -> bool
+    {
+        if typeof models == "array" {
+            return isset models[0];
+        }
+
+        return true;
     }
 }
