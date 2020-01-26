@@ -9,4 +9,4 @@ build/php7/* linguist-vendored
 
 *.png   binary
 
-tests/_data/assets/assets/*  text
+tests/_data/assets/assets/*  -text
