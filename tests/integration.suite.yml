@@ -39,8 +39,8 @@ modules:
             initial_queries:
               - 'DROP SCHEMA public CASCADE;'
               - 'CREATE SCHEMA public;'
-              - 'REVOKE ALL ON SCHEMA public FROM PUBLIC';
-              - 'REVOKE ALL ON SCHEMA public FROM %DATA_POSTGRES_NAME%;';
+              - 'REVOKE ALL ON SCHEMA public FROM PUBLIC;'
+              - 'REVOKE ALL ON SCHEMA public FROM %DATA_POSTGRES_NAME%;'
               - 'GRANT ALL ON SCHEMA public TO %DATA_POSTGRES_NAME%;'
               - 'GRANT ALL ON SCHEMA public TO public;'
     - Phalcon4:
