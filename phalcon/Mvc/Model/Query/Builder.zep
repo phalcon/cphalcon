@@ -73,7 +73,12 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     protected hiddenParamNumber = 0;
     protected joins;
     protected limit;
+
+    /**
+     * @var array|string
+     */
     protected models;
+
     protected offset;
     protected order;
     protected sharedLock;
@@ -663,7 +668,6 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
             if count(primaryKeys) {
                 if fetch firstPrimaryKey, primaryKeys[0] {
-
                     /**
                      * The PHQL contains the renamed columns if available
                      */
