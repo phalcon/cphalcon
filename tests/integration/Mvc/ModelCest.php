@@ -14,6 +14,7 @@ namespace Phalcon\Test\Integration\Mvc;
 use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Mvc\Model;
+use Phalcon\Test\Fixtures\Migrations\StringPrimaryMigration;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\AlbumORama\Albums;
 use Phalcon\Test\Models\ModelWithStringPrimary;
@@ -63,6 +64,7 @@ class ModelCest
     {
         $I->wantToTest('Phalcon\Mvc\Model - findFirst()');
 
+        (new StringPrimaryMigration())($this->container->get('db'));
         $model = ModelWithStringPrimary::findFirst($example['params']);
 
         $I->assertSame($example['found'], $model instanceof Model);
