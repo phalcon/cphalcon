@@ -6,8 +6,7 @@ error_reporting(-1);
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 
-$locale = 'en_US.utf-8';
-$currentLocale = setlocale(LC_ALL, $locale);
+setlocale(LC_ALL, 'en_US.utf-8');
 
 date_default_timezone_set('UTC');
 
@@ -40,7 +39,6 @@ Autoload::addNamespace('Phalcon\Test\Models', APP_DATA . 'fixtures/models');
 Autoload::addNamespace('Phalcon\Test\Resultsets', APP_DATA . 'fixtures/resultsets');
 Autoload::addNamespace('Phalcon\Test\Modules\Frontend\Controllers', APP_DATA . 'fixtures/modules/frontend/controllers/');
 Autoload::addNamespace('Phalcon\Test\Modules\Backend\Controllers',  APP_DATA . 'fixtures/modules/backend/controllers/');
-//Autoload::addNamespace('Phalcon\Test\Tasks', $configFile['application']['tasksDir']);
 
 loadEnvironment($root);
 loadFolders();
