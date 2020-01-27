@@ -1,3 +1,11 @@
+# [4.0.4](https://github.com/phalcon/cphalcon/releases/tag/v4.0.4) (2020-xx-xx)
+## Added
+
+## Changed
+
+## Fixed
+- Fixed `Phalcon\Db\Adapter\Pdo\Postgresql` to correctly identify `bool` fields instead of treating them as `tinyint` [#14722](https://github.com/phalcon/cphalcon/issues/14722) [@tidytrax](https://github.com/tidytrax)
+
 # [4.0.3](https://github.com/phalcon/cphalcon/releases/tag/v4.0.3) (2020-01-25)
 ## Added
 

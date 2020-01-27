@@ -84,7 +84,7 @@ class Debug
     }
 
     /**
-     * Returns the css sources
+     * Returns the CSS sources
      */
     public function getCssSources() -> string
     {
@@ -103,7 +103,7 @@ class Debug
     }
 
     /**
-     * Returns the javascript sources
+     * Returns the JavaScript sources
      */
     public function getJsSources() -> string
     {
@@ -372,12 +372,12 @@ class Debug
         }
 
         /**
-         * Get Javascript sources
+         * Get JavaScript sources
          */
         let html .= this->getJsSources() . "</div></body></html>";
 
         /**
-         * Print the HTML, @TODO, add an option to store the html
+         * Print the HTML, @TODO, add an option to store the HTML
          */
         echo html;
 
@@ -821,7 +821,7 @@ class Debug
 
                     /**
                      * Print a non break space if the current line is a line
-                     * break, this allows to show the html zebra properly
+                     * break, this allows to show the HTML zebra properly
                      */
                     if currentLine == "\n" || currentLine == "\r\n" {
                         let html .= "&nbsp;\n";

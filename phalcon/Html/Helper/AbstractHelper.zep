@@ -16,7 +16,7 @@ use Phalcon\Escaper\EscaperInterface;
 /**
  * Phalcon\Html\Helper\AbstractHelper
  *
- * Abstract class for all html helpers
+ * Abstract class for all HTML helpers
  */
 abstract class AbstractHelper
 {

@@ -28,7 +28,7 @@ use Phalcon\Validation\AbstractValidator;
  *     new Size(
  *         [
  *             "maxSize"              => "2M",
- *             "messageSize"          => ":field exceeds the max filesize (:size)",
+ *             "messageSize"          => ":field exceeds the max file size (:size)",
  *         ]
  *     )
  * );
@@ -45,8 +45,8 @@ use Phalcon\Validation\AbstractValidator;
  *                 "anotherFile" => "4M",
  *             ],
  *             "messageSize" => [
- *                 "file"        => "file exceeds the max filesize 2M",
- *                 "anotherFile" => "anotherFile exceeds the max filesize 4M",
+ *                 "file"        => "file exceeds the max file size 2M",
+ *                 "anotherFile" => "anotherFile exceeds the max file size 4M",
  *             ],
  *         ]
  *     )
@@ -61,7 +61,7 @@ abstract class AbstractFile extends AbstractValidator
     protected messageFileEmpty = "Field :field must not be empty" { get, set };
 
     /**
-    * File exceeed the file size setted in PHP configuration
+    * File exceeds the file size set in PHP configuration
     */
     protected messageIniSize = "File :field exceeds the maximum file size" { get, set };
 

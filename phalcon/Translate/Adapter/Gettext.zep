@@ -203,7 +203,7 @@ class Gettext extends AbstractAdapter implements ArrayAccess
      * // Set locale to Dutch
      * $gettext->setLocale(LC_ALL, "nl_NL");
      *
-     * // Try different possible locale names for german
+     * // Try different possible locale names for German
      * $gettext->setLocale(LC_ALL, "de_DE@euro", "de_DE", "de", "ge");
      * ```
      */
