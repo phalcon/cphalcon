@@ -607,8 +607,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
             selectedColumn, selectedModel, selectedModels, columnAlias,
             modelColumnAlias, joins, join, joinModel, joinConditions,
             joinAlias, joinType, group, groupItems, groupItem, having, order,
-            orderItems, orderItem, limit, number, offset, forUpdate, distinct,
-            numericColumnMap, conditionPattern;
+            orderItems, orderItem, limit, number, offset, forUpdate, distinct;
         bool noPrimary;
 
         let container = this->container;
