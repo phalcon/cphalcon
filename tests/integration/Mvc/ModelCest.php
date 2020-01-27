@@ -11,7 +11,9 @@
 
 namespace Phalcon\Test\Integration\Mvc;
 
+use Codeception\Example;
 use IntegrationTester;
+use Phalcon\Mvc\Model;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\AlbumORama\Albums;
 use Phalcon\Test\Models\ModelWithStringPrimary;
@@ -51,17 +53,30 @@ class ModelCest
         $I->assertEquals($expected, $actual);
     }
 
-    public function findFirstByStringPrimaryKey(IntegrationTester $I)
+    /**
+     * @dataProvider findFirstProvider
+     *
+     * @param IntegrationTester $I
+     * @param Example $example
+     */
+    public function findFirstByStringPrimaryKey(IntegrationTester $I, Example $example)
     {
         $I->wantToTest('Phalcon\Mvc\Model - findFirst()');
 
-        $uuid = '5741bfd7-6870-40b7-adf6-cbacb515b9a9';
-        $model = ModelWithStringPrimary::findFirst([
-            'uuid = ?0',
-            'bind' => [$uuid],
-        ]);
+        $model = ModelWithStringPrimary::findFirst($example['params']);
 
-        $I->assertSame($uuid, $model->uuid);
+        $I->assertSame($example['found'], $model instanceof Model);
+    }
+
+    protected function findFirstProvider(): array
+    {
+        return [
+            ['params' => ['uuid = ?0', 'bind' => ['5741bfd7-6870-40b7-adf6-cbacb515b9a9']], 'found' => true],
+            ['params' => ['uuid = ?0', 'bind' => ['1c53079c-249e-0c63-af8d-52413bfa2a2b']], 'found' => true],
+            ['params' => ['uuid = ?0', 'bind' => ['1c53079c-249e-0c63-af8d-52413bfa2a2c']], 'found' => false],
+            ['params' => 134, 'found' => false],
+            ['params' => 'uuid = 134', 'found' => false],
+        ];
     }
 
 //    /**
