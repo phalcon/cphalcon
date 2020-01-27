@@ -116,20 +116,20 @@ before_build:
   - ps: EnablePhpExtension -Name zephir_parser -PrintableName "Zephir Parser"
 
 build_script:
-    - ps: Import-Module .\.ci\appveyor.psm1
-    - ps: InitializeBuildVars
-    - cmd: '"%VSCOMNTOOLS%\VsDevCmd" -arch=%PLATFORM%'
-    - cmd: '"%VCVARSALL_FILE%" %ARCH%'
-    - cmd: C:\php-sdk\bin\phpsdk_setvars
-    - cmd: C:\php\php.exe zephir.phar --version
-    - cmd: C:\php\php.exe zephir.phar generate --backend=ZendEngine3 -Wnonexistent-function -Wnonexistent-class -Wunused-variable
-    - ps: Set-Location "${Env:APPVEYOR_BUILD_FOLDER}\build"
-    - cmd: C:\php\php.exe gen-build.php
-    - ps: Set-Location "${Env:APPVEYOR_BUILD_FOLDER}\build\php7\safe"
-    - cmd: C:\php-devpack\phpize
-    - cmd: configure --with-prefix=C:\php --with-php-build=C:\php-devpack --disable-all --enable-phalcon
-    - cmd: nmake 2> compile-errors.log 1> compile.log
-    - ps: InitializeReleaseVars
+  - ps: Import-Module .\.ci\appveyor.psm1
+  - ps: InitializeBuildVars
+  - cmd: '"%VSCOMNTOOLS%\VsDevCmd" -arch=%PLATFORM%'
+  - cmd: '"%VCVARSALL_FILE%" %ARCH%'
+  - cmd: C:\php-sdk\bin\phpsdk_setvars
+  - cmd: C:\php\php.exe zephir.phar --version
+  - cmd: C:\php\php.exe zephir.phar generate --backend=ZendEngine3 -Wnonexistent-function -Wnonexistent-class -Wunused-variable
+  - ps: Set-Location "${Env:APPVEYOR_BUILD_FOLDER}\build"
+  - cmd: C:\php\php.exe gen-build.php
+  - ps: Set-Location "${Env:APPVEYOR_BUILD_FOLDER}\build\php7\safe"
+  - cmd: C:\php-devpack\phpize
+  - cmd: configure --with-prefix=C:\php --with-php-build=C:\php-devpack --disable-all --enable-phalcon
+  - cmd: nmake 2> compile-errors.log 1> compile.log
+  - ps: InitializeReleaseVars
 
 after_build:
   - ps: Set-Location "${Env:APPVEYOR_BUILD_FOLDER}"
@@ -166,3 +166,4 @@ on_failure:
           $_ -notMatch "${FilterPattern}"
         }
       }
+

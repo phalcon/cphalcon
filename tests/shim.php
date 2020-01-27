@@ -9,8 +9,6 @@
  * file that was distributed with this source code.
  */
 
-use Dotenv\Dotenv;
-
 if (!function_exists('env')) {
     function env(string $key, $default = null)
     {
@@ -28,11 +26,6 @@ if (!function_exists('env')) {
 if (!function_exists('loadEnvironment')) {
     function loadEnvironment(string $root)
     {
-        /**
-         * Load local environment if it exists
-         */
-        (new Dotenv($root, 'tests/_ci/.env.default'))->load();
-
         /**
          * Necessary evil. We need to set some constants for INI files to work
          */
@@ -82,7 +75,7 @@ if (!function_exists('loadFolders')) {
         ];
 
         foreach ($folders as $folder) {
-            $item = outputDir('tests/' . $folder);
+            $item = outputDir('tests' . DIRECTORY_SEPARATOR  . $folder);
 
             if (true !== file_exists($item)) {
                 mkdir($item, 0777, true);
@@ -97,7 +90,7 @@ if (!function_exists('loadFolders')) {
 if (!function_exists('cacheDir')) {
     function cacheDir(string $fileName = ''): string
     {
-        return codecept_output_dir() . 'tests/cache/' . $fileName;
+        return codecept_output_dir() . 'tests' . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . $fileName;
     }
 }
 
@@ -117,7 +110,7 @@ if (!function_exists('dataDir')) {
 if (!function_exists('logsDir')) {
     function logsDir(string $fileName = ''): string
     {
-        return codecept_output_dir() . 'tests/logs/' . $fileName;
+        return codecept_output_dir() . 'tests' . DIRECTORY_SEPARATOR . 'logs' . DIRECTORY_SEPARATOR . $fileName;
     }
 }
 
@@ -137,7 +130,7 @@ if (!function_exists('outputDir')) {
 if (!function_exists('cacheModelsDir')) {
     function cacheModelsDir(string $fileName = ''): string
     {
-        return codecept_output_dir() . 'tests/cache/models/' . $fileName;
+        return codecept_output_dir() . 'tests' . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'models' . DIRECTORY_SEPARATOR . $fileName;
     }
 }
 
@@ -217,6 +210,7 @@ if (!function_exists('getOptionsMysql')) {
             'username' => env('DATA_MYSQL_USER'),
             'password' => env('DATA_MYSQL_PASS'),
             'dbname'   => env('DATA_MYSQL_NAME'),
+            'port'     => env('DATA_MYSQL_PORT'),
             'charset'  => env('DATA_MYSQL_CHARSET'),
         ];
     }
@@ -232,6 +226,7 @@ if (!function_exists('getOptionsPostgresql')) {
             'host'     => env('DATA_POSTGRES_HOST'),
             'username' => env('DATA_POSTGRES_USER'),
             'password' => env('DATA_POSTGRES_PASS'),
+            'port'     => env('DATA_POSTGRES_PORT'),
             'dbname'   => env('DATA_POSTGRES_NAME'),
             'schema'   => env('DATA_POSTGRES_SCHEMA'),
         ];
@@ -245,7 +240,7 @@ if (!function_exists('getOptionsSqlite')) {
     function getOptionsSqlite(): array
     {
         return [
-            'dbname' => env('DATA_SQLITE_NAME'),
+            'dbname' => dirname(__DIR__ ) . DIRECTORY_SEPARATOR . env('DATA_SQLITE_NAME'),
         ];
     }
 }

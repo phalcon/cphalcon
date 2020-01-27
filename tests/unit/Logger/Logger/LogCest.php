@@ -80,6 +80,7 @@ class LogCest
             $I->seeInThisFile($expected);
         }
 
+        $adapter->close();
         $I->safeDeleteFile($fileName);
     }
 
@@ -157,6 +158,7 @@ class LogCest
             $I->dontSeeInThisFile($expected);
         }
 
+        $adapter->close();
         $I->safeDeleteFile($fileName);
     }
 

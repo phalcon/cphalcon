@@ -49,13 +49,14 @@ class ParseCest
      */
     public function testParseWithInvalidAnnotation(UnitTester $I)
     {
-        $includeFile = dataDir('fixtures/Annotations/TestInvalid.php');
+        $filename = 'fixtures' . DIRECTORY_SEPARATOR . 'Annotations' . DIRECTORY_SEPARATOR . 'TestInvalid.php';
+        $includeFile = dataDir(str_replace("/", DIRECTORY_SEPARATOR, $filename));
 
         $I->seeFileFound($includeFile);
 
         require_once $includeFile;
 
-        $file = dataDir('fixtures/Annotations/TestInvalid.php');
+        $file = dataDir($filename);
 
         $I->expectThrowable(
             new Exception('Syntax error, unexpected EOF in ' . $file),

@@ -11,15 +11,16 @@ paths:
     envs: tests/_envs
 
 settings:
-    # name of bootstrap that will be used
-    # each bootstrap file should be
-    # inside a suite directory.
-    bootstrap: _bootstrap.php
     colors: true
     # Tests (especially functional) can take a lot of memory
     # We set a high limit for them by default.
     memory_limit: 1024M
     lint: true
+
+# name of bootstrap that will be used
+# each bootstrap file should be
+# inside a suite directory.
+bootstrap: _bootstrap.php
 
 coverage:
     # Disable Code Coverage by default to speed up Travis tests
@@ -31,4 +32,4 @@ extensions:
 
 params:
     # get params from environment vars
-    - env
+    - .env

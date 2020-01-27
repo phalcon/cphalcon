@@ -38,9 +38,9 @@ class SelectCest extends TagSetup
                     'PHP',
                 ],
             ],
-            "<select id=\"potato\" name=\"potato\">\n\t" .
-            "<option value=\"0\">Phalcon</option>\n\t<option value=\"1\">" .
-            "PHP</option>\n</select"
+            "<select id=\"potato\" name=\"potato\">" . PHP_EOL . "\t" .
+            "<option value=\"0\">Phalcon</option>" . PHP_EOL . "\t<option value=\"1\">" .
+            "PHP</option>" . PHP_EOL . "</select"
         );
     }
 
@@ -62,7 +62,7 @@ class SelectCest extends TagSetup
             [
                 'potato',
             ],
-            "<select id=\"potato\" name=\"potato\">\n</select"
+            "<select id=\"potato\" name=\"potato\">" . PHP_EOL . "</select"
         );
     }
 }

@@ -95,6 +95,7 @@ class Unit extends Module
     public function safeDeleteFile(string $filename)
     {
         if (file_exists($filename) && is_file($filename)) {
+            gc_collect_cycles();
             unlink($filename);
         }
     }

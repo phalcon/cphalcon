@@ -63,3 +63,4 @@ build/gccarch
 tests/_cache
 
 .php_cs.cache
+.env

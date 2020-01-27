@@ -1,4 +1,5 @@
 <?php
+use codeception\Util\Autoload;
 
 error_reporting(-1);
 
@@ -28,9 +29,16 @@ $_ENV['PROJECT_PATH'] = $root;
 
 require_once $root . 'tests/shim.php';
 
+
 define('APP_DATA', dataDir());
 define('APP_PATH', codecept_root_dir());
 define('APP_PATH_OUTPUT', outputDir());
+
+Autoload::addNamespace('Phalcon\Test\Controllers', APP_DATA . 'fixtures/controllers');
+Autoload::addNamespace('Phalcon\Test\Models', APP_DATA . 'fixtures/models');
+Autoload::addNamespace('Phalcon\Test\Resultsets', APP_DATA . 'fixtures/resultsets');
+Autoload::addNamespace('Phalcon\Test\Modules\Frontend\Controllers', APP_DATA . 'fixtures/modules/frontend/controllers/');
+Autoload::addNamespace('Phalcon\Test\Modules\Backend\Controllers',  APP_DATA . 'fixtures/modules/backend/controllers/');
 
 loadEnvironment($root);
 loadFolders();

@@ -104,7 +104,7 @@ class BinderCest
         $this->robot         = Robots::findFirst();
         $this->people        = People::findFirst();
 
-        $I->haveServiceInDi(
+        $I->addServiceToContainer(
             'modelsMetadata',
             function () {
                 return new Memory();

@@ -43,6 +43,7 @@ class SetFormatterCest
             $actual
         );
 
+        $adapter->close();
         $I->safeDeleteFile($fileName);
     }
 }

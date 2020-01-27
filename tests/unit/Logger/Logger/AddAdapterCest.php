@@ -50,6 +50,9 @@ class AddAdapterCest
 
         $logger->debug('Hello');
 
+        $adapter1->close();
+        $adapter2->close();
+
         $I->amInPath($outputPath);
         $I->openFile($fileName1);
         $I->seeInThisFile('Hello');
