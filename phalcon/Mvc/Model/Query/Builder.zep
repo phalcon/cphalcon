@@ -638,7 +638,17 @@ class Builder implements BuilderInterface, InjectionAwareInterface
              * If the conditions is a single numeric field. We internally create
              * a condition using the related primary key
              */
-            let model = this->getFirstModel(models);
+            if typeof models == "array" {
+                if unlikely count(models) > 1 {
+                    throw new Exception(
+                        "Cannot build the query. Invalid condition"
+                    );
+                }
+
+                let model = models[0];
+            } else {
+                let model = models;
+            }
 
             /**
              * Get the models metadata service to obtain the column names,
@@ -1680,21 +1690,5 @@ class Builder implements BuilderInterface, InjectionAwareInterface
         let this->hiddenParamNumber = hiddenParam;
 
         return this;
-    }
-
-    /**
-     * Get first key from models array
-     */
-    private function getFirstModel(var models) -> string
-    {
-        var model;
-
-        if typeof models == "array" {
-            let model = models[0];
-        } else {
-            let model = models;
-        }
-
-        return model;
     }
 }
