@@ -691,59 +691,6 @@ class Builder implements BuilderInterface, InjectionAwareInterface
                     "Source related to this model does not have a primary key defined"
                 );
             }
-        } else {
-            // Check if primary key is string and inside condition there is no column
-            if (this->isSingleModel(models)) {
-                let model = this->getFirstModel(models);
-
-                /**
-                 * Get the models metadata service to obtain the column names,
-                 * column map and primary key
-                 */
-                let metaData      = container->getShared("modelsMetadata"),
-                    modelInstance = create_instance_params(
-                        model,
-                        [
-                            null,
-                            container
-                        ]
-                    ),
-                    primaryKeys = metaData->getPrimaryKeyAttributes(modelInstance);
-
-                if count(primaryKeys) {
-                    if fetch firstPrimaryKey, primaryKeys[0] {
-                        /**
-                         * The PHQL contains the renamed columns if available
-                         */
-                        if globals_get("orm.column_renaming") {
-                            let columnMap = metaData->getColumnMap(modelInstance);
-                        } else {
-                            let columnMap = null;
-                        }
-
-                        if typeof columnMap == "array" {
-                            if unlikely !fetch attributeField, columnMap[firstPrimaryKey] {
-                                throw new Exception(
-                                    "Column '" . firstPrimaryKey . "' isn't part of the column map"
-                                );
-                            }
-                        } else {
-                            let attributeField = firstPrimaryKey;
-                        }
-
-                        let columns = join("|", metaData->getAttributes(modelInstance));
-                        let numericColumnMap = metaData->getDataTypesNumeric(modelInstance);
-                        let conditionPattern = "/^[`]?(" . columns . ")[`]?\s?([=<>!like]?)\s?(['\"%]?)(.+)(['\"%]?)$/i";
-
-                        /**
-                         * Primary key is not numeric
-                         */
-                        if !isset numericColumnMap[firstPrimaryKey] && !preg_match(conditionPattern, conditions) {
-                            let conditions = this->autoescape(model) . "." . this->autoescape(attributeField) . " = '" . conditions . "'";
-                        }
-                    }
-                }
-            }
         }
 
         let distinct = this->distinct;
@@ -1737,9 +1684,9 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     }
 
     /**
-     * Appends a NOT IN condition
+     * Get first key from models array
      */
-    protected function getFirstModel(var models) -> string
+    private function getFirstModel(var models) -> string
     {
         var model;
 
@@ -1750,17 +1697,5 @@ class Builder implements BuilderInterface, InjectionAwareInterface
         }
 
         return model;
-    }
-
-    /**
-     * Check if there is only one model
-     */
-    protected function isSingleModel(var models) -> bool
-    {
-        if typeof models == "array" {
-            return isset models[0];
-        }
-
-        return true;
     }
 }
