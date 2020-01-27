@@ -8,12 +8,12 @@
 # LICENSE.txt file that was distributed with this source code.
 
 (>&1 echo "Create MySQL database...")
-mysql -u root -e "CREATE DATABASE IF NOT EXISTS phalcon_test charset=utf8mb4 collate=utf8mb4_unicode_ci;"
+mysql -u root -e "CREATE DATABASE IF NOT EXISTS phalcon charset=utf8mb4 collate=utf8mb4_unicode_ci;"
 #mysql -u root phalcon_test < ./tests/_data/assets/db/schemas/mysql_schema.sql
 (>&1 echo "Done.")
 
 (>&1 echo "Create PostgreSQL database...")
-psql -c 'create database phalcon_test;' -U postgres
+psql -c 'create database phalcon;' -U postgres
 #psql -U postgres phalcon_test -q -f ./tests/_data/assets/db/schemas/postgresql_schema.sql
 (>&1 echo "Done.")
 

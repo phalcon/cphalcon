@@ -71,7 +71,7 @@ before_install:
     # Hide "You are in 'detached HEAD' state" message
     git config --global advice.detachedHead false
 
-  - source .ci/export-variables.sh
+#  - source .ci/export-variables.sh
 
 install:
   - .ci/setup-dbs.sh

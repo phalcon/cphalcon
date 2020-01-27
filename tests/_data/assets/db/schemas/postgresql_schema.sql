@@ -51,7 +51,7 @@ CREATE INDEX customers_customer_id_idx ON customers (customer_id);
 CREATE INDEX customers_credit_line_idx ON customers (credit_line);
 CREATE INDEX customers_status_idx ON customers (status);
 
-ALTER TABLE public.customers OWNER TO phalcon;
+-- ALTER TABLE public.customers OWNER TO phalcon;
 
 --
 -- Name: parts; Type: TABLE; Schema: public; Owner: phalcon; Tablespace:
@@ -63,7 +63,7 @@ CREATE TABLE parts (
     name character varying(70) NOT NULL
 );
 
-ALTER TABLE public.parts OWNER TO phalcon;
+-- ALTER TABLE public.parts OWNER TO phalcon;
 
 --
 -- Name: images; Type: TABLE; Schema: public; Owner: phalcon; Tablespace:
@@ -75,7 +75,7 @@ CREATE TABLE images (
   base64 TEXT
 );
 
-ALTER TABLE public.images OWNER TO phalcon;
+-- ALTER TABLE public.images OWNER TO phalcon;
 
 --
 -- Name: personas; Type: TABLE; Schema: public; Owner: phalcon; Tablespace:
@@ -96,7 +96,7 @@ CREATE TABLE personas (
     estado character(1) NOT NULL
 );
 
-ALTER TABLE public.personas OWNER TO phalcon;
+-- ALTER TABLE public.personas OWNER TO phalcon;
 
 --
 -- Name: personnes; Type: TABLE; Schema: public; Owner: phalcon; Tablespace:
@@ -117,7 +117,7 @@ CREATE TABLE personnes (
     estado character(1) NOT NULL
 );
 
-ALTER TABLE public.personnes OWNER TO phalcon;
+-- ALTER TABLE public.personnes OWNER TO phalcon;
 
 --
 -- Name: prueba; Type: TABLE; Schema: public; Owner: phalcon; Tablespace:
@@ -130,7 +130,7 @@ CREATE TABLE prueba (
     estado character(1) NOT NULL
 );
 
-ALTER TABLE public.prueba OWNER TO phalcon;
+-- ALTER TABLE public.prueba OWNER TO phalcon;
 
 --
 -- Name: prueba_id_seq; Type: SEQUENCE; Schema: public; Owner: phalcon
@@ -144,7 +144,7 @@ CREATE SEQUENCE prueba_id_seq
     NO MAXVALUE
     CACHE 1;
 
-ALTER TABLE public.prueba_id_seq OWNER TO phalcon;
+-- ALTER TABLE public.prueba_id_seq OWNER TO phalcon;
 
 --
 -- Name: prueba_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: phalcon
@@ -173,7 +173,7 @@ CREATE TABLE robots (
     text text NOT NULL
 );
 
-ALTER TABLE public.robots OWNER TO phalcon;
+-- ALTER TABLE public.robots OWNER TO phalcon;
 
 --
 -- Name: robots_id_seq; Type: SEQUENCE; Schema: public; Owner: phalcon
@@ -187,7 +187,7 @@ CREATE SEQUENCE robots_id_seq
     NO MAXVALUE
     CACHE 1;
 
-ALTER TABLE public.robots_id_seq OWNER TO phalcon;
+-- ALTER TABLE public.robots_id_seq OWNER TO phalcon;
 
 --
 -- Name: robots_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: phalcon
@@ -212,7 +212,7 @@ CREATE TABLE robots_parts (
     parts_id integer NOT NULL
 );
 
-ALTER TABLE public.robots_parts OWNER TO phalcon;
+-- ALTER TABLE public.robots_parts OWNER TO phalcon;
 
 --
 -- Name: robots_parts_id_seq; Type: SEQUENCE; Schema: public; Owner: phalcon
@@ -226,7 +226,7 @@ CREATE SEQUENCE robots_parts_id_seq
     NO MAXVALUE
     CACHE 1;
 
-ALTER TABLE public.robots_parts_id_seq OWNER TO phalcon;
+-- ALTER TABLE public.robots_parts_id_seq OWNER TO phalcon;
 
 --
 -- Name: robots_parts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: phalcon
@@ -252,7 +252,7 @@ CREATE TABLE subscriptores (
     status character(1) NOT NULL
 );
 
-ALTER TABLE public.subscriptores OWNER TO phalcon;
+-- ALTER TABLE public.subscriptores OWNER TO phalcon;
 
 --
 -- Name: subscriptores_id_seq; Type: SEQUENCE; Schema: public; Owner: phalcon
@@ -266,7 +266,7 @@ CREATE SEQUENCE subscriptores_id_seq
     NO MAXVALUE
     CACHE 1;
 
-ALTER TABLE public.subscriptores_id_seq OWNER TO phalcon;
+-- ALTER TABLE public.subscriptores_id_seq OWNER TO phalcon;
 
 --
 -- Name: subscriptores_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: phalcon
@@ -290,7 +290,7 @@ CREATE TABLE tipo_documento (
     detalle character varying(32) NOT NULL
 );
 
-ALTER TABLE public.tipo_documento OWNER TO phalcon;
+-- ALTER TABLE public.tipo_documento OWNER TO phalcon;
 
 --
 -- Name: tipo_documento_id_seq; Type: SEQUENCE; Schema: public; Owner: phalcon
@@ -317,7 +317,7 @@ CREATE TABLE foreign_key_parent (
     UNIQUE (refer_int)
 );
 
-ALTER TABLE public.foreign_key_parent OWNER TO phalcon;
+-- ALTER TABLE public.foreign_key_parent OWNER TO phalcon;
 
 --
 -- Name: ph_select; Type: TABLE TABLE; Schema: public; Owner: phalcon; Tablespace:
@@ -341,7 +341,7 @@ INSERT INTO ph_select (sel_id, sel_name, sel_text) VALUES
     (7, 'Saturn', 'A car'),
     (8, 'Uranus', 'Loads of jokes for this one');
 
-ALTER TABLE public.ph_select OWNER TO phalcon;
+-- ALTER TABLE public.ph_select OWNER TO phalcon;
 
 --
 -- Name: foreign_key_child; Type: TABLE; Schema: public; Owner: phalcon; Tablespace:
@@ -356,8 +356,8 @@ CREATE TABLE foreign_key_child (
     UNIQUE (child_int)
 );
 
-ALTER TABLE public.foreign_key_child OWNER TO phalcon;
-ALTER TABLE public.tipo_documento_id_seq OWNER TO phalcon;
+-- ALTER TABLE public.foreign_key_child OWNER TO phalcon;
+-- ALTER TABLE public.tipo_documento_id_seq OWNER TO phalcon;
 
 ALTER TABLE foreign_key_child ADD CONSTRAINT test_describeReferences FOREIGN KEY (child_int) REFERENCES foreign_key_parent (refer_int) ON UPDATE CASCADE ON DELETE RESTRICT;
 
@@ -6993,7 +6993,7 @@ create table dialect_table
   field_varchar_default   varchar(10)   default 'D':: character varying
 );
 
-alter table public.dialect_table OWNER TO phalcon;
+-- alter table public.dialect_table OWNER TO phalcon;
 
 create index dialect_table_index
 on dialect_table (field_bigint);
@@ -7012,7 +7012,7 @@ create table dialect_table_remote
       primary key,
   field_text    varchar(20)
 );
-alter table public.dialect_table_remote OWNER TO phalcon;
+-- alter table public.dialect_table_remote OWNER TO phalcon;
 
 drop table if exists dialect_table_intermediate;
 create table dialect_table_intermediate
@@ -7020,7 +7020,7 @@ create table dialect_table_intermediate
   field_primary_id integer,
   field_remote_id  integer
 );
-alter table public.dialect_table_intermediate OWNER TO phalcon;
+-- alter table public.dialect_table_intermediate OWNER TO phalcon;
 
 alter table only dialect_table_intermediate
   add constraint dialect_table_intermediate_primary__fk
@@ -7032,16 +7032,3 @@ alter table only dialect_table_intermediate
   add constraint dialect_table_intermediate_remote__fk
     foreign key (field_remote_id)
       references dialect_table_remote (field_primary);
-
---
--- Name: public; Type: ACL; Schema: -; Owner: phalcon
---
-
-REVOKE ALL ON SCHEMA public FROM PUBLIC;
-REVOKE ALL ON SCHEMA public FROM phalcon;
-GRANT ALL ON SCHEMA public TO phalcon;
-GRANT ALL ON SCHEMA public TO PUBLIC;
-
---
--- PostgreSQL database dump complete
---
