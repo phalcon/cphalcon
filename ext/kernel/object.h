@@ -1,7 +1,7 @@
 /*
  * This file is part of the Zephir.
  *
- * (c) Zephir Team <team@zephir-lang.com>
+ * (c) Phalcon Team <team@zephir-lang.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code. If you did not receive
@@ -65,6 +65,8 @@ int zephir_unset_property_array(zval *object, char *property, unsigned int prope
 /** Static properties */
 int zephir_read_static_property_ce(zval *result, zend_class_entry *ce, const char *property, int len, int flags);
 int zephir_update_static_property_ce(zend_class_entry *ce, const char *property, uint32_t len, zval *value);
+int zephir_add_static_property_ce(zend_class_entry *ce, const char *property, uint32_t len, zval *value);
+int zephir_sub_static_property_ce(zend_class_entry *ce, const char *property, uint32_t len, zval *value);
 int zephir_update_static_property_array_multi_ce(zend_class_entry *ce, const char *property, uint32_t property_length, zval *value, const char *types, int types_length, int types_count, ...);
 
 /** Create closures */

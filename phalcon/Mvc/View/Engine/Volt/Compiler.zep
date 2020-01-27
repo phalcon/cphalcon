@@ -1149,7 +1149,7 @@ class Compiler implements InjectionAwareInterface
              * Any output (including whitespace) between a switch statement and
              * the first case will result in a syntax error. This is the
              * responsibility of the user. However, we can clear empty lines and
-             * whitespaces here to reduce the number of errors.
+             * whitespace here to reduce the number of errors.
              *
              * http://php.net/control-structures.alternative-syntax
              */

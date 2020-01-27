@@ -20,7 +20,7 @@ use Phalcon\Tag;
 class Email extends AbstractElement
 {
     /**
-     * Renders the element widget returning html
+     * Renders the element widget returning HTML
      */
     public function render(array attributes = []) -> string
     {

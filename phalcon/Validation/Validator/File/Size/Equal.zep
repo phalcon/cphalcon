@@ -29,7 +29,7 @@ use Phalcon\Validation\Validator\File\AbstractFile;
  *         [
  *             "size"     => "2M",
  *             "included" => true,
- *             "message"  => ":field exceeds the equal filesize (:size)",
+ *             "message"  => ":field exceeds the equal file size (:size)",
  *         ]
  *     )
  * );
@@ -50,8 +50,8 @@ use Phalcon\Validation\Validator\File\AbstractFile;
  *                 "anotherFile" => true,
  *             ],
  *             "message" => [
- *                 "file"        => "file does not have the rigth filesize",
- *                 "anotherFile" => "anotherFile wrong filesize (4MB)",
+ *                 "file"        => "file does not have the right file size",
+ *                 "anotherFile" => "anotherFile wrong file size (4MB)",
  *             ],
  *         ]
  *     )
@@ -60,7 +60,7 @@ use Phalcon\Validation\Validator\File\AbstractFile;
  */
 class Equal extends AbstractFile
 {
-    protected template = "File :field does not have the exact :size filesize";
+    protected template = "File :field does not have the exact :size file size";
 
     /**
      * Constructor

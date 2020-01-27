@@ -143,7 +143,7 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
     }
 
     /**
-     * Set the autoescape mode in generated html
+     * Set the autoescape mode in generated HTML
      */
     public function setAutoescape(bool autoescape) -> <FlashInterface>
     {

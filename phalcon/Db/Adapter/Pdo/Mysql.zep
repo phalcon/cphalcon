@@ -21,7 +21,7 @@ use Phalcon\Db\Reference;
 use Phalcon\Db\ReferenceInterface;
 
 /**
- * Specific functions for the Mysql database system
+ * Specific functions for the MySQL database system
  *
  *```php
  * use Phalcon\Db\Adapter\Pdo\Mysql;

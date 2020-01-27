@@ -1380,7 +1380,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * $transaction2->rollback();
      * ```
      *
-     * @param arrray|string|int|null parameters = [
+     * @param array|string|int|null parameters = [
      *     'conditions' => ''
      *     'columns' => '',
      *     'bind' => [],

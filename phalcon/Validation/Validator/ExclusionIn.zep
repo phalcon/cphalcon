@@ -71,7 +71,7 @@ class ExclusionIn extends AbstractValidator
      *     'message' => '',
      *     'template' => '',
      *     'domain' => [],
-     *     'strct' => false,
+     *     'strict' => false,
      *     'allowEmpty' => false
      * ]
      */

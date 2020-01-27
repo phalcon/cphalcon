@@ -162,12 +162,12 @@ interface AdapterInterface
      *
      *```php
      * // Getting count of robots
-     * $robotsCount = $connection->fetchColumn("SELECT count(*) FROM robots");
+     * $robotsCount = $connection->fetchColumn("SELECT COUNT(*) FROM robots");
      * print_r($robotsCount);
      *
      * // Getting name of last edited robot
      * $robot = $connection->fetchColumn(
-     *     "SELECT id, name FROM robots order by modified desc",
+     *     "SELECT id, name FROM robots ORDER BY modified DESC",
      *     1
      * );
      * print_r($robot);

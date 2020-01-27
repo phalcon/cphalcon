@@ -31,7 +31,7 @@
  * file that was distributed with this source code.
  */
 /**
- * Checks if a file has the rigth resolution
+ * Checks if a file has the right resolution
  *
  * ```php
  * use Phalcon\Validation;
@@ -169,7 +169,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File_Resolution_Min, validate) {
 	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, 0, field);
 	zephir_check_call_status();
 	zephir_array_fetch_string(&_1, &value, SL("tmp_name"), PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/File/Resolution/Min.zep", 94);
-	ZEPHIR_CALL_FUNCTION(&tmp, "getimagesize", NULL, 358, &_1);
+	ZEPHIR_CALL_FUNCTION(&tmp, "getimagesize", NULL, 365, &_1);
 	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(&width);
 	zephir_array_fetch_long(&width, &tmp, 0, PH_NOISY, "phalcon/Validation/Validator/File/Resolution/Min.zep", 95);
