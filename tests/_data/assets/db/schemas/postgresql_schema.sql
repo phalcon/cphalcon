@@ -7032,16 +7032,3 @@ alter table only dialect_table_intermediate
   add constraint dialect_table_intermediate_remote__fk
     foreign key (field_remote_id)
       references dialect_table_remote (field_primary);
-
---
--- Name: public; Type: ACL; Schema: -; Owner: phalcon
---
-
-REVOKE ALL ON SCHEMA public FROM PUBLIC;
-REVOKE ALL ON SCHEMA public FROM phalcon;
-GRANT ALL ON SCHEMA public TO phalcon;
-GRANT ALL ON SCHEMA public TO PUBLIC;
-
---
--- PostgreSQL database dump complete
---
