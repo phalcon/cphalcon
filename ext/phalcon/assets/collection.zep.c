@@ -551,7 +551,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addInlineCss) {
 }
 
 /**
- * Adds an inline javascript to the collection
+ * Adds an inline JavaScript to the collection
  */
 PHP_METHOD(Phalcon_Assets_Collection, addInlineJs) {
 
@@ -605,7 +605,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addInlineJs) {
 }
 
 /**
- * Adds a javascript asset to the collection
+ * Adds a JavaScript asset to the collection
  *
  * @param array attributes
  */

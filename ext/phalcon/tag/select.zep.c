@@ -34,7 +34,7 @@
 /**
  * Phalcon\Tag\Select
  *
- * Generates a SELECT html tag using a static array of values or a
+ * Generates a SELECT HTML tag using a static array of values or a
  * Phalcon\Mvc\Model resultset
  */
 ZEPHIR_INIT_CLASS(Phalcon_Tag_Select) {

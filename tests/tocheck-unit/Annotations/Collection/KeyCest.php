@@ -11,21 +11,21 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Debug;
+namespace Phalcon\Test\Unit\Annotations\Collection;
 
 use UnitTester;
 
-class DebugVarCest
+class KeyCest
 {
     /**
-     * Tests Phalcon\Debug :: debugVar()
+     * Tests Phalcon\Annotations\Collection :: key()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function debugDebugVar(UnitTester $I)
+    public function annotationsCollectionKey(UnitTester $I)
     {
-        $I->wantToTest('Debug - debugVar()');
+        $I->wantToTest('Annotations\Collection - key()');
 
         $I->skipTest('Need implementation');
     }

@@ -45,7 +45,7 @@
  *         [
  *             "size"     => "2M",
  *             "included" => true,
- *             "message"  => ":field exceeds the min filesize (:size)",
+ *             "message"  => ":field exceeds the min file size (:size)",
  *         ]
  *     )
  * );
@@ -66,8 +66,8 @@
  *                 "anotherFile" => true,
  *             ],
  *             "message" => [
- *                 "file"        => "file exceeds the min filesize 2M",
- *                 "anotherFile" => "anotherFile exceeds the min filesize 4M",
+ *                 "file"        => "file exceeds the min file size 2M",
+ *                 "anotherFile" => "anotherFile exceeds the min file size 4M",
  *             ],
  *         ]
  *     )

@@ -92,7 +92,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_ExclusionIn) {
  *     'message' => '',
  *     'template' => '',
  *     'domain' => [],
- *     'strct' => false,
+ *     'strict' => false,
  *     'allowEmpty' => false
  * ]
  */

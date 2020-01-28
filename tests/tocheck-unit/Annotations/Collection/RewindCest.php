@@ -11,21 +11,21 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Debug;
+namespace Phalcon\Test\Unit\Annotations\Collection;
 
 use UnitTester;
 
-class HaltCest
+class RewindCest
 {
     /**
-     * Tests Phalcon\Debug :: halt()
+     * Tests Phalcon\Annotations\Collection :: rewind()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function debugHalt(UnitTester $I)
+    public function annotationsCollectionRewind(UnitTester $I)
     {
-        $I->wantToTest('Debug - halt()');
+        $I->wantToTest('Annotations\Collection - rewind()');
 
         $I->skipTest('Need implementation');
     }

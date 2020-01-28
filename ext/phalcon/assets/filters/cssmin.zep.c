@@ -28,7 +28,7 @@
  * file that was distributed with this source code.
  */
 /**
- * Minify the css - removes comments removes newlines and line feeds keeping
+ * Minify the CSS - removes comments removes newlines and line feeds keeping
  * removes last semicolon from last property
  */
 ZEPHIR_INIT_CLASS(Phalcon_Assets_Filters_Cssmin) {

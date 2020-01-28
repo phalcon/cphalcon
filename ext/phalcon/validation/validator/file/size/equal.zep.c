@@ -45,7 +45,7 @@
  *         [
  *             "size"     => "2M",
  *             "included" => true,
- *             "message"  => ":field exceeds the equal filesize (:size)",
+ *             "message"  => ":field exceeds the equal file size (:size)",
  *         ]
  *     )
  * );
@@ -66,8 +66,8 @@
  *                 "anotherFile" => true,
  *             ],
  *             "message" => [
- *                 "file"        => "file does not have the right filesize",
- *                 "anotherFile" => "anotherFile wrong filesize (4MB)",
+ *                 "file"        => "file does not have the right file size",
+ *                 "anotherFile" => "anotherFile wrong file size (4MB)",
  *             ],
  *         ]
  *     )
@@ -78,7 +78,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_File_Size_Equal) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator\\File\\Size, Equal, phalcon, validation_validator_file_size_equal, phalcon_validation_validator_file_abstractfile_ce, phalcon_validation_validator_file_size_equal_method_entry, 0);
 
-	zend_declare_property_string(phalcon_validation_validator_file_size_equal_ce, SL("template"), "File :field does not have the exact :size filesize", ZEND_ACC_PROTECTED);
+	zend_declare_property_string(phalcon_validation_validator_file_size_equal_ce, SL("template"), "File :field does not have the exact :size file size", ZEND_ACC_PROTECTED);
 
 	return SUCCESS;
 

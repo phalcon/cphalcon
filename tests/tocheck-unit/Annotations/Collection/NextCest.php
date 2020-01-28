@@ -11,21 +11,21 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Debug;
+namespace Phalcon\Test\Unit\Annotations\Collection;
 
 use UnitTester;
 
-class ClearVarsCest
+class NextCest
 {
     /**
-     * Tests Phalcon\Debug :: clearVars()
+     * Tests Phalcon\Annotations\Collection :: next()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function debugClearVars(UnitTester $I)
+    public function annotationsCollectionNext(UnitTester $I)
     {
-        $I->wantToTest('Debug - clearVars()');
+        $I->wantToTest('Annotations\Collection - next()');
 
         $I->skipTest('Need implementation');
     }
