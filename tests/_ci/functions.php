@@ -59,8 +59,13 @@ if (!function_exists('loadDefined')) {
         defineFromEnv('DATA_MYSQL_USER');
 
 //        define('PATH_CACHE');
-        define('PATH_DATA', dataDir());
-        define('PATH_OUTPUT', outputDir());
+        if (!defined('PATH_DATA')) {
+            define('PATH_DATA', dataDir());
+        }
+
+        if (!defined('PATH_OUTPUT')) {
+            define('PATH_OUTPUT', outputDir());
+        }
 //        define('PATH_FIXTURES');
     }
 }
@@ -223,6 +228,33 @@ if (!function_exists('defineFromEnv')) {
 /*******************************************************************************
  * Options
  *******************************************************************************/
+if (!function_exists('getOptionsLibmemcached')) {
+    function getOptionsLibmemcached(): array
+    {
+        return [
+            'client'  => [],
+            'servers' => [
+                [
+                    'host'   => env('DATA_MEMCACHED_HOST', '127.0.0.1'),
+                    'port'   => env('DATA_MEMCACHED_PORT', 11211),
+                    'weight' => env('DATA_MEMCACHED_WEIGHT', 0),
+                ],
+            ],
+        ];
+    }
+}
+
+if (!function_exists('getOptionsRedis')) {
+    function getOptionsRedis(): array
+    {
+        return [
+            'host'  => env('DATA_REDIS_HOST'),
+            'port'  => env('DATA_REDIS_PORT'),
+            'index' => env('DATA_REDIS_NAME'),
+        ];
+    }
+}
+
 if (!function_exists('getOptionsSessionStream')) {
     /**
      * Get Session Stream options
@@ -246,32 +278,6 @@ if (!function_exists('getOptionsSessionStream')) {
 ///*******************************************************************************
 // * Options
 // *******************************************************************************/
-//if (!function_exists('getOptionsLibmemcached')) {
-//    function getOptionsLibmemcached(): array
-//    {
-//        return [
-//            'client'  => [],
-//            'servers' => [
-//                [
-//                    'host'   => env('DATA_MEMCACHED_HOST', '127.0.0.1'),
-//                    'port'   => env('DATA_MEMCACHED_PORT', 11211),
-//                    'weight' => env('DATA_MEMCACHED_WEIGHT', 0),
-//                ],
-//            ],
-//        ];
-//    }
-//}
-//
-//if (!function_exists('getOptionsRedis')) {
-//    function getOptionsRedis(): array
-//    {
-//        return [
-//            'host'  => env('DATA_REDIS_HOST'),
-//            'port'  => env('DATA_REDIS_PORT'),
-//            'index' => env('DATA_REDIS_NAME'),
-//        ];
-//    }
-//}
 //
 //if (!function_exists('getOptionsModelCacheStream')) {
 //    /**
