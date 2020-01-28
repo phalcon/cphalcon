@@ -322,7 +322,7 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, notice) {
 }
 
 /**
- * Set the autoescape mode in generated html
+ * Set the autoescape mode in generated HTML
  */
 PHP_METHOD(Phalcon_Flash_AbstractFlash, setAutoescape) {
 

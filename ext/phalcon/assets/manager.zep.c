@@ -34,7 +34,7 @@
 /**
  * Phalcon\Assets\Manager
  *
- * Manages collections of CSS/Javascript assets
+ * Manages collections of CSS/JavaScript assets
  */
 ZEPHIR_INIT_CLASS(Phalcon_Assets_Manager) {
 
@@ -171,7 +171,7 @@ PHP_METHOD(Phalcon_Assets_Manager, addAssetByType) {
 }
 
 /**
- * Adds a Css asset to the 'css' collection
+ * Adds a CSS asset to the 'css' collection
  *
  *```php
  * $assets->addCss("css/bootstrap.css");
@@ -332,7 +332,7 @@ PHP_METHOD(Phalcon_Assets_Manager, addInlineCodeByType) {
 }
 
 /**
- * Adds an inline Css to the 'css' collection
+ * Adds an inline CSS to the 'css' collection
  */
 PHP_METHOD(Phalcon_Assets_Manager, addInlineCss) {
 
@@ -377,7 +377,7 @@ PHP_METHOD(Phalcon_Assets_Manager, addInlineCss) {
 }
 
 /**
- * Adds an inline javascript to the 'js' collection
+ * Adds an inline JavaScript to the 'js' collection
  */
 PHP_METHOD(Phalcon_Assets_Manager, addInlineJs) {
 
@@ -422,7 +422,7 @@ PHP_METHOD(Phalcon_Assets_Manager, addInlineJs) {
 }
 
 /**
- * Adds a javascript asset to the 'js' collection
+ * Adds a JavaScript asset to the 'js' collection
  *
  *```php
  * $assets->addJs("scripts/jquery.js");

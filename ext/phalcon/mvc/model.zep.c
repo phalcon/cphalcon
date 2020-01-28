@@ -2275,7 +2275,7 @@ PHP_METHOD(Phalcon_Mvc_Model, dump) {
  * $transaction2->rollback();
  * ```
  *
- * @param arrray|string|int|null parameters = [
+ * @param array|string|int|null parameters = [
  *     'conditions' => ''
  *     'columns' => '',
  *     'bind' => [],
@@ -2407,7 +2407,7 @@ PHP_METHOD(Phalcon_Mvc_Model, find) {
  * );
  * ```
  *
- * @param arrray|string|int|null parameters = [
+ * @param array|string|int|null parameters = [
  *     'conditions' => ''
  *     'columns' => '',
  *     'bind' => [],

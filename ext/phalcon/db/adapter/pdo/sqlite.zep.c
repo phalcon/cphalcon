@@ -32,7 +32,7 @@
  * file that was distributed with this source code.
  */
 /**
- * Specific functions for the Sqlite database system
+ * Specific functions for the SQLite database system
  *
  * ```php
  * use Phalcon\Db\Adapter\Pdo\Sqlite;
@@ -85,7 +85,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, __construct) {
 
 	if (zephir_array_isset_string(&descriptor, SL("charset"))) {
 		ZEPHIR_INIT_VAR(&_0$$3);
-		ZVAL_STRING(&_0$$3, "Sqlite does not allow the charset to be changed in the DSN.");
+		ZVAL_STRING(&_0$$3, "SQLite does not allow the charset to be changed in the DSN.");
 		ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 5, &_0$$3);
 		zephir_check_call_status();
 	}
