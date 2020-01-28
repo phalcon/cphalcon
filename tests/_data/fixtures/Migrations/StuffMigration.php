@@ -13,25 +13,25 @@ namespace Phalcon\Test\Fixtures\Migrations;
 
 use Phalcon\Db\Adapter\AdapterInterface;
 
-class ObjectsMigration extends AbstractMigration
+class StuffMigration extends AbstractMigration
 {
-    protected $table = "objects";
+    protected $table = "stuff";
 
     public function getSql(): array
     {
         return [
             "
-drop table if exists objects
+drop table if exists stuff
             ",
             "
-create table objects
+create table stuff
 (
-    obj_id          int(10) auto_increment primary key,
-    obj_name        varchar(100) not null,
-    obj_type        tinyint(3) unsigned not null
+    stf_id          int(10) auto_increment primary key,
+    stf_name        varchar(100) not null,
+    stf_type        tinyint(3) unsigned not null
 );
             ",
-//        $this->insertObject($db, 1, 'random data', 1);
+//            $this->insertStuff($db, 1, 'stuff data', 1);
         ];
     }
 
@@ -40,7 +40,7 @@ create table objects
      * @param string           $name
      * @param int              $type
      */
-    public function insert(
+    public function insertStuff(
         int $id,
         string $name,
         int $type
@@ -50,7 +50,7 @@ create table objects
         }
 
         $sql = <<<SQL
-insert into objects (obj_id, obj_name, obj_type)
+insert into stuff (stf_id, stf_name, stf_type)
 values ({$id}, "{$name}", "{$type}");
 SQL;
 

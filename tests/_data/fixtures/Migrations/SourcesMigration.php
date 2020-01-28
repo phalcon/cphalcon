@@ -13,45 +13,38 @@ namespace Phalcon\Test\Fixtures\Migrations;
 
 use Phalcon\Db\Adapter\AdapterInterface;
 
-class SourcesMigration
+class SourcesMigration extends AbstractMigration
 {
-    /**
-     * @param AdapterInterface $db
-     */
-    public function __invoke(AdapterInterface $db)
-    {
-        $sql = <<<SQL
-drop table if exists `co_sources`
-SQL;
-        $db->execute($sql);
+    protected $table = "co_sources";
 
-        $sql = <<<SQL
+    public function getSql(): array
+    {
+        return [
+            "
+drop table if exists `co_sources`
+            ",
+            "
 create table co_sources
 (
     id       int(10) auto_increment primary key,
     username varchar(100) null,
     source   varchar(100) null
 );
-SQL;
-        $db->execute($sql);
-
-        $sql = <<<SQL
+            ",
+            "
 create index co_sources_username_index
     on co_sources (username);
-SQL;
-        $db->execute($sql);
-
-        $this->insert($db, 1, 'darth', 'vader');
+            ",
+//            $this->insert($db, 1, 'darth', 'vader');
+        ];
     }
 
     /**
-     * @param AdapterInterface $db
      * @param int              $id
      * @param string           $username
      * @param string           $source
      */
     public function insert(
-        AdapterInterface $db,
         int $id,
         string $username,
         string $source
@@ -65,6 +58,6 @@ insert into co_sources (id, username, source)
 values ({$id}, "{$username}", "{$source}");
 SQL;
 
-        $db->execute($sql);
+        $this->connection->execute($sql);
     }
 }
