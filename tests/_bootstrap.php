@@ -12,9 +12,7 @@ require_once $root . 'tests/_ci/functions.php';
 loadIni();
 loadAutoloader($root);
 loadFolders();
-
-
-
+loadDefined();
 
 //
 ///**

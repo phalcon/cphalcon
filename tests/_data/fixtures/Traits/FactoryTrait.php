@@ -17,6 +17,12 @@ use function outputDir;
 use Phalcon\Config\Adapter\Ini;
 use Phalcon\Config;
 
+/**
+ * Trait FactoryTrait
+ *
+ * @property Ini   $config
+ * @property array $arrayConfig
+ */
 trait FactoryTrait
 {
     protected $config;

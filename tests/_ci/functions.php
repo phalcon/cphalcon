@@ -46,6 +46,26 @@ if (!function_exists('loadAutoloader')) {
 }
 
 /**
+ * Converts ENV variables to defined for tests to work
+ */
+if (!function_exists('loadDefined')) {
+    function loadDefined()
+    {
+        defineFromEnv('DATA_MYSQL_CHARSET');
+        defineFromEnv('DATA_MYSQL_HOST');
+        defineFromEnv('DATA_MYSQL_NAME');
+        defineFromEnv('DATA_MYSQL_PASS');
+        defineFromEnv('DATA_MYSQL_PORT');
+        defineFromEnv('DATA_MYSQL_USER');
+
+//        define('PATH_CACHE');
+        define('PATH_DATA', dataDir());
+        define('PATH_OUTPUT', outputDir());
+//        define('PATH_FIXTURES');
+    }
+}
+
+/**
  * Ensures that certain folders are always ready for us.
  */
 if (!function_exists('loadFolders')) {
@@ -173,6 +193,34 @@ if (!function_exists('outputDir')) {
 }
 
 /*******************************************************************************
+ * Utility
+ *******************************************************************************/
+if (!function_exists('env')) {
+    function env(string $key, $default = null)
+    {
+        if (defined($key)) {
+            return constant($key);
+        }
+
+        return getenv($key) ?: $default;
+    }
+}
+
+if (!function_exists('defineFromEnv')) {
+    function defineFromEnv(string $name)
+    {
+        if (defined($name)) {
+            return;
+        }
+
+        define(
+            $name,
+            env($name)
+        );
+    }
+}
+
+/*******************************************************************************
  * Options
  *******************************************************************************/
 if (!function_exists('getOptionsSessionStream')) {
@@ -195,54 +243,6 @@ if (!function_exists('getOptionsSessionStream')) {
 
 
 
-//if (!function_exists('env')) {
-//    function env(string $key, $default = null)
-//    {
-//        if (defined($key)) {
-//            return constant($key);
-//        }
-//
-//        return getenv($key) ?: $default;
-//    }
-//}
-//
-///**
-// * Calls .env and merges the global and local configurations
-// */
-//if (!function_exists('loadEnvironment')) {
-//    function loadEnvironment()
-//    {
-//        /**
-//         * Necessary evil. We need to set some constants for INI files to work
-//         */
-//        defineFromEnv('DATA_MYSQL_CHARSET');
-//        defineFromEnv('DATA_MYSQL_HOST');
-//        defineFromEnv('DATA_MYSQL_NAME');
-//        defineFromEnv('DATA_MYSQL_PASS');
-//        defineFromEnv('DATA_MYSQL_PORT');
-//        defineFromEnv('DATA_MYSQL_USER');
-//        defineFromEnv('PATH_CACHE');
-//        defineFromEnv('PATH_DATA');
-//        defineFromEnv('PATH_OUTPUT');
-//    }
-//}
-//
-//if (!function_exists('defineFromEnv')) {
-//    function defineFromEnv(string $name)
-//    {
-//        if (defined($name)) {
-//            return;
-//        }
-//
-//        define(
-//            $name,
-//            env($name)
-//        );
-//    }
-//}
-//
-//
-//
 ///*******************************************************************************
 // * Options
 // *******************************************************************************/

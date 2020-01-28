@@ -23,7 +23,7 @@ use UnitTester;
 use function dataDir;
 use function hash;
 
-use const APP_PATH;
+use const PROJECT_PATH;
 
 class LoadCest
 {
@@ -186,7 +186,7 @@ class LoadCest
                     return hash('sha256', $value);
                 },
                 '!approot' => function ($value) {
-                    return APP_PATH . $value;
+                    return PROJECT_PATH . $value;
                 },
             ],
         ];
