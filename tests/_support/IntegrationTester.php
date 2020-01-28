@@ -29,8 +29,10 @@ class IntegrationTester extends Actor
     /**
      * Get file name from path
      *
-     * @param string $path
-     * @param string $separator
+     * @param mixed $path
+     * @param mixed $separator
+     *
+     * @return string
      */
     public function preparePathToFileWithDelimiter($path, $separator): string
     {

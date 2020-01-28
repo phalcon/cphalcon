@@ -45,10 +45,10 @@ modules:
 #              - 'GRANT ALL ON SCHEMA public TO public;'
     - Phalcon4:
         bootstrap: 'tests/_config/bootstrap.php'
-    - Helper\PhalconLibmemcached:
-        host: '%DATA_MEMCACHED_HOST%'
-        port: '%DATA_MEMCACHED_PORT%'
-        weight: '%DATA_MEMCACHED_WEIGHT%'
+#    - Helper\PhalconLibmemcached:
+#        host: '%DATA_MEMCACHED_HOST%'
+#        port: '%DATA_MEMCACHED_PORT%'
+#        weight: '%DATA_MEMCACHED_WEIGHT%'
     - Redis:
         database: '%DATA_REDIS_NAME%'
         host: '%DATA_REDIS_HOST%'
@@ -56,5 +56,5 @@ modules:
     - Asserts
     - Filesystem
     - Helper\Integration
-    - Helper\PhalconLibmemcached
+#    - Helper\PhalconLibmemcached
     - Helper\Unit
