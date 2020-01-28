@@ -17,24 +17,6 @@ class ObjectsMigration extends AbstractMigration
 {
     protected $table = "objects";
 
-    public function getSql(): array
-    {
-        return [
-            "
-drop table if exists objects
-            ",
-            "
-create table objects
-(
-    obj_id          int(10) auto_increment primary key,
-    obj_name        varchar(100) not null,
-    obj_type        tinyint(3) unsigned not null
-);
-            ",
-//        $this->insertObject($db, 1, 'random data', 1);
-        ];
-    }
-
     /**
      * @param int              $id
      * @param string           $name
@@ -55,5 +37,38 @@ values ({$id}, "{$name}", "{$type}");
 SQL;
 
         $this->connection->execute($sql);
+    }
+
+    protected function getSqlMysql(): array
+    {
+        return [
+            "
+drop table if exists objects;
+            ",
+            "
+create table objects
+(
+    obj_id          int(10) auto_increment primary key,
+    obj_name        varchar(100) not null,
+    obj_type        tinyint(3) unsigned not null
+);
+            ",
+            //        $this->insertObject($db, 1, 'random data', 1);
+        ];
+    }
+
+    protected function getSqlSqlite(): array
+    {
+        return [];
+    }
+
+    protected function getSqlPgsql(): array
+    {
+        return [];
+    }
+
+    protected function getSqlSqlsrv(): array
+    {
+        return [];
     }
 }

@@ -34,11 +34,11 @@ abstract class AbstractMigration
     /**
      * AbstractMigration constructor.
      *
-     * @param AdapterInterface $db
+     * @param AdapterInterface|null $connection
      */
-    public function __construct(AdapterInterface $db)
+    public function __construct(AdapterInterface $connection = null)
     {
-        $this->connection = $db;
+        $this->connection = $connection;
     }
 
     /**
@@ -58,7 +58,7 @@ abstract class AbstractMigration
     public function clear()
     {
         $this->connection->execute(
-            sprintf("delete from `%s`", $this->table)
+            sprintf("delete from `%s`;", $this->table)
         );
     }
 
@@ -68,14 +68,46 @@ abstract class AbstractMigration
     public function drop()
     {
         $this->connection->execute(
-            sprintf("drop table if exists `%s`", $this->table)
+            sprintf("drop table if exists `%s`;", $this->table)
         );
     }
 
     /**
      * Get all the SQL statements that create this table
      *
+     * @param string $driver
+     *
      * @return array
      */
-    abstract public function getSql(): array;
+    public function getSql(string $driver = 'mysql'): array
+    {
+        switch ($driver) {
+            case 'mysql':
+                return $this->getSqlMysql();
+            case 'sqlite':
+                return $this->getSqlSqlite();
+            case 'pgsql':
+            case 'postgres':
+                return $this->getSqlPgsql();
+            case 'sqlsrv':
+                return $this->getSqlSqlsrv();
+            default:
+                return [];
+        }
+    }
+
+    /**
+     * Sets the connection
+     *
+     * @param AdapterInterface $connection
+     */
+    public function setConnection(AdapterInterface $connection): void
+    {
+        $this->connection = $connection;
+    }
+
+    abstract protected function getSqlMysql(): array;
+    abstract protected function getSqlSqlite(): array;
+    abstract protected function getSqlPgsql(): array;
+    abstract protected function getSqlSqlsrv(): array;
 }

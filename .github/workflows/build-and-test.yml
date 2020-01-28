@@ -224,10 +224,31 @@ jobs:
       - name: Run integrations tests
         env:
           DATA_MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
-          DATA_POSTGRES_PORT: ${{ job.services.postgres.ports['5432'] }}
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
-        run: vendor/bin/codecept run --ext DotReporter integration
+        run: |
+          php tests/_ci/generate-db-schemas.php
+          vendor/bin/codecept run --ext DotReporter integration --env mysql
+
+#      # TODO Enable these one at a time and also for MacOS/Windows
+#      - name: Run integrations tests Sqlite
+#        env:
+#          DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
+#          DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
+#        run: vendor/bin/codecept run --ext DotReporter integration --env sqlite
+#
+#      - name: Run integrations tests Postgres
+#        env:
+#          DATA_POSTGRES_PORT: ${{ job.services.postgres.ports['5432'] }}
+#          DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
+#          DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
+#        run: vendor/bin/codecept run --ext DotReporter integration --env pgsql
+#
+#      - name: Run integrations tests SQL Server
+#        env:
+#          DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
+#          DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
+#        run: vendor/bin/codecept run --ext DotReporter integration --env sqlsrv
 
   build-and-test-macos:
     needs: generate

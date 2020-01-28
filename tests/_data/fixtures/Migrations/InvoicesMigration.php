@@ -17,11 +17,11 @@ class InvoicesMigration extends AbstractMigration
 {
     protected $table = "co_invoices";
 
-    public function getSql(): array
+    protected function getSqlMysql(): array
     {
         return [
             "
-drop table if exists `co_invoices`
+drop table if exists `co_invoices`;
             ",
             "
 create table co_invoices
@@ -47,5 +47,20 @@ create index co_invoices_inv_status_flag_index
     on co_invoices (inv_status_flag);
             ",
         ];
+    }
+
+    protected function getSqlSqlite(): array
+    {
+        return [];
+    }
+
+    protected function getSqlPgsql(): array
+    {
+        return [];
+    }
+
+    protected function getSqlSqlsrv(): array
+    {
+        return [];
     }
 }
