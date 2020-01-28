@@ -13,16 +13,9 @@ declare(strict_types=1);
 
 use Codeception\Util\Autoload;
 
-/**
- * Returns the output folder
- */
-if (!function_exists('dataDir')) {
-    function dataDir(string $fileName = ''): string
-    {
-        return codecept_data_dir() . $fileName;
-    }
-}
-
+/*******************************************************************************
+ * Load settings and setup
+ *******************************************************************************/
 /**
  * Initialize ini values and xdebug if it is loaded
  */
@@ -49,6 +42,35 @@ if (!function_exists('loadAutoloader')) {
             'Phalcon\Test\Modules\Backend\Controllers',
             $root . 'fixtures/modules/backend/controllers/'
         );
+    }
+}
+
+/**
+ * Ensures that certain folders are always ready for us.
+ */
+if (!function_exists('loadFolders')) {
+    function loadFolders()
+    {
+        $folders = [
+            'annotations',
+            'assets',
+            'cache',
+            'cache/models',
+            'image',
+            'image/gd',
+            'image/imagick',
+            'logs',
+            'session',
+            'stream',
+        ];
+
+        foreach ($folders as $folder) {
+            $item = outputDir('tests' . DIRECTORY_SEPARATOR  . $folder);
+
+            if (true !== file_exists($item)) {
+                mkdir($item, 0777, true);
+            }
+        }
     }
 }
 
@@ -86,6 +108,90 @@ if (!function_exists('loadIni')) {
         }
     }
 }
+
+/*******************************************************************************
+ * Directories
+ *******************************************************************************/
+/**
+ * Returns the cache folder
+ */
+if (!function_exists('cacheDir')) {
+    function cacheDir(string $fileName = ''): string
+    {
+        return codecept_output_dir()
+            . 'tests' . DIRECTORY_SEPARATOR
+            . 'cache' . DIRECTORY_SEPARATOR
+            . $fileName;
+    }
+}
+
+/**
+ * Returns the output folder
+ */
+if (!function_exists('dataDir')) {
+    function dataDir(string $fileName = ''): string
+    {
+        return codecept_data_dir() . $fileName;
+    }
+}
+
+/**
+ * Returns the output folder
+ */
+if (!function_exists('logsDir')) {
+    function logsDir(string $fileName = ''): string
+    {
+        return codecept_output_dir()
+            . 'tests' . DIRECTORY_SEPARATOR
+            . 'logs' . DIRECTORY_SEPARATOR
+            . $fileName;
+    }
+}
+
+/**
+ * Returns the output folder
+ */
+if (!function_exists('cacheModelsDir')) {
+    function cacheModelsDir(string $fileName = ''): string
+    {
+        return codecept_output_dir()
+            . 'tests' . DIRECTORY_SEPARATOR
+            . 'cache' . DIRECTORY_SEPARATOR
+            . 'models' . DIRECTORY_SEPARATOR
+            . $fileName;
+    }
+}
+
+/**
+ * Returns the output folder
+ */
+if (!function_exists('outputDir')) {
+    function outputDir(string $fileName = ''): string
+    {
+        return codecept_output_dir() . $fileName;
+    }
+}
+
+/*******************************************************************************
+ * Options
+ *******************************************************************************/
+if (!function_exists('getOptionsSessionStream')) {
+    /**
+     * Get Session Stream options
+     */
+    function getOptionsSessionStream(): array
+    {
+        if (!is_dir(cacheDir('sessions'))) {
+            mkdir(cacheDir('sessions'));
+        }
+
+        return [
+            'savePath' => cacheDir('sessions'),
+        ];
+    }
+}
+
+
 
 
 
@@ -135,74 +241,7 @@ if (!function_exists('loadIni')) {
 //    }
 //}
 //
-///**
-// * Ensures that certain folders are always ready for us.
-// */
-//if (!function_exists('loadFolders')) {
-//    function loadFolders()
-//    {
-//        $folders = [
-//            'annotations',
-//            'assets',
-//            'cache',
-//            'cache/models',
-//            'image',
-//            'image/gd',
-//            'image/imagick',
-//            'logs',
-//            'session',
-//            'stream',
-//        ];
 //
-//        foreach ($folders as $folder) {
-//            $item = outputDir('tests' . DIRECTORY_SEPARATOR  . $folder);
-//
-//            if (true !== file_exists($item)) {
-//                mkdir($item, 0777, true);
-//            }
-//        }
-//    }
-//}
-//
-///**
-// * Returns the cache folder
-// */
-//if (!function_exists('cacheDir')) {
-//    function cacheDir(string $fileName = ''): string
-//    {
-//        return codecept_output_dir() . 'tests' . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . $fileName;
-//    }
-//}
-//
-///**
-// * Returns the output folder
-// */
-//if (!function_exists('logsDir')) {
-//    function logsDir(string $fileName = ''): string
-//    {
-//        return codecept_output_dir() . 'tests' . DIRECTORY_SEPARATOR . 'logs' . DIRECTORY_SEPARATOR . $fileName;
-//    }
-//}
-//
-///**
-// * Returns the output folder
-// */
-//if (!function_exists('outputDir')) {
-//    function outputDir(string $fileName = ''): string
-//    {
-//        return codecept_output_dir() . $fileName;
-//    }
-//}
-//
-///**
-// * Returns the output folder
-// */
-//if (!function_exists('cacheModelsDir')) {
-//    function cacheModelsDir(string $fileName = ''): string
-//    {
-//        return codecept_output_dir() . 'tests' . DIRECTORY_SEPARATOR . 'cache' . DIRECTORY_SEPARATOR . 'models' . DIRECTORY_SEPARATOR . $fileName;
-//    }
-//}
 //
 ///*******************************************************************************
 // * Options
@@ -230,22 +269,6 @@ if (!function_exists('loadIni')) {
 //            'host'  => env('DATA_REDIS_HOST'),
 //            'port'  => env('DATA_REDIS_PORT'),
 //            'index' => env('DATA_REDIS_NAME'),
-//        ];
-//    }
-//}
-//
-//if (!function_exists('getOptionsSessionStream')) {
-//    /**
-//     * Get Session Stream options
-//     */
-//    function getOptionsSessionStream(): array
-//    {
-//        if (!is_dir(cacheDir('sessions'))) {
-//            mkdir(cacheDir('sessions'));
-//        }
-//
-//        return [
-//            'savePath' => cacheDir('sessions'),
 //        ];
 //    }
 //}
