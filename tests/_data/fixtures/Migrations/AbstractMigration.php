@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of the Phalcon Framework.
  *
@@ -110,7 +112,10 @@ abstract class AbstractMigration
     }
 
     abstract protected function getSqlMysql(): array;
+
     abstract protected function getSqlSqlite(): array;
+
     abstract protected function getSqlPgsql(): array;
+
     abstract protected function getSqlSqlsrv(): array;
 }

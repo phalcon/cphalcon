@@ -15,7 +15,6 @@ namespace Phalcon\Test\Fixtures\Traits\Db;
 use Phalcon\Db\Column;
 use Phalcon\Db\Index;
 use Phalcon\Db\Reference;
-use function array_flip;
 use function array_shift;
 
 trait MysqlTrait
@@ -68,12 +67,12 @@ trait MysqlTrait
      */
     protected function getExpectedColumns(): array
     {
-        $result  = [];
+        $result = [];
 
         $columns = $this->getColumns();
 
         foreach ($columns as $index => $array) {
-            $name = array_shift($array);
+            $name           = array_shift($array);
             $result[$index] = new Column($name, $array);
         }
 

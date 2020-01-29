@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of the Phalcon Framework.
  *
@@ -28,8 +30,8 @@ class TranslateCsvHelper
      *
      * @dataProvider getQueryProvider
      *
-     * @author Ivan Zubok <chi_no@ukr.net>
-     * @since  2014-11-04
+     * @author       Ivan Zubok <chi_no@ukr.net>
+     * @since        2014-11-04
      */
     public function translateAdapterCsvQuery(UnitTester $I, Example $data)
     {
@@ -62,8 +64,8 @@ class TranslateCsvHelper
      *
      * @dataProvider getQueryProvider
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2014-09-12
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2014-09-12
      */
     public function translateAdapterCsvVariableSubstitutionNoVariables(UnitTester $I, Example $data)
     {
@@ -100,8 +102,8 @@ class TranslateCsvHelper
      *
      * @dataProvider getQueryOneVariable
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2014-09-12
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2014-09-12
      */
     public function translateAdapterCsvVariableSubstitutionOneVariable(UnitTester $I, Example $data)
     {
@@ -120,7 +122,7 @@ class TranslateCsvHelper
         );
 
         foreach ($data['tests'] as $key => $expected) {
-            $actual   = $translator->{$this->function}($key, ['name' => 'my friend']);
+            $actual = $translator->{$this->function}($key, ['name' => 'my friend']);
             $I->assertEquals($expected, $actual);
         }
     }
@@ -131,8 +133,8 @@ class TranslateCsvHelper
      *
      * @dataProvider getQueryTwoVariables
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2014-09-12
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2014-09-12
      */
     public function translateAdapterCsvVariableSubstitutionTwoVariable(UnitTester $I, Example $data)
     {
@@ -164,7 +166,8 @@ class TranslateCsvHelper
     }
 
     /**
-     * Tests Phalcon\Translate\Adapter\Csv :: query() - array access and UTF8 strings
+     * Tests Phalcon\Translate\Adapter\Csv :: query() - array access and UTF8
+     * strings
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-12

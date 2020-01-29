@@ -11,16 +11,17 @@
 
 namespace Phalcon\Test\Fixtures\Migrations;
 
-use Phalcon\Db\Adapter\AdapterInterface;
-
+/**
+ * Class StuffMigration
+ */
 class StuffMigration extends AbstractMigration
 {
     protected $table = "stuff";
 
     /**
-     * @param int              $id
-     * @param string           $name
-     * @param int              $type
+     * @param int    $id
+     * @param string $name
+     * @param int    $type
      */
     public function insert(
         int $id,
@@ -70,7 +71,7 @@ create table stuff
     stf_name    text not null,
     stf_type    integer not null
 );
-            "
+            ",
         ];
     }
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of the Phalcon Framework.
  *
@@ -24,7 +26,6 @@ class RestHandler
     protected $trace = [];
 
 
-
     public function find()
     {
         $this->access++;
@@ -45,7 +46,6 @@ class RestHandler
 
         $this->trace[] = 'delete';
     }
-
 
 
     public function getNumberAccess(): int

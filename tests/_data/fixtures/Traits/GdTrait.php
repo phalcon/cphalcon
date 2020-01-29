@@ -39,9 +39,10 @@ trait GdTrait
     }
 
     /**
-     * @param string $image path to image
-     * @param string $hash expected hash
-     * @param float $simility percent of similarity
+     * @param string $image    path to image
+     * @param string $hash     expected hash
+     * @param float  $simility percent of similarity
+     *
      * @return bool
      */
     private function checkImageHash(string $image, string $hash, float $simility = 70.0): bool
@@ -53,14 +54,15 @@ trait GdTrait
 
 
     /**
-     * Compare hash strings (no rotation) this assumes the strings will be the same length, which they will be
-     * as hashes.
+     * Compare hash strings (no rotation) this assumes the strings will be the
+     * same length, which they will be as hashes.
      *
      * @author https://github.com/xwiz/phash
      *
      * @param array|string $hash1
      * @param array|string $hash2
-     * @param int $precision
+     * @param int          $precision
+     *
      * @return float
      */
     private function getSimilarityHamming($hash1, $hash2, int $precision = 1): float
@@ -98,6 +100,7 @@ trait GdTrait
      * @author https://github.com/xwiz/phash
      *
      * @param string $filepath
+     *
      * @return array|string
      */
     private function getHash(string $filepath)
@@ -135,7 +138,7 @@ trait GdTrait
         }
 
         $averageValue = 0;
-        $grayscale = [];
+        $grayscale    = [];
 
         for ($y = 0; $y < $scale; $y++) {
             for ($x = 0; $x < $scale; $x++) {
@@ -173,7 +176,8 @@ trait GdTrait
      * @author https://github.com/xwiz/phash
      *
      * @param array $hash
-     * @param bool $hex
+     * @param bool  $hex
+     *
      * @return string|null
      */
     private function hashAsString(array $hash, $hex = true): ?string
@@ -206,6 +210,7 @@ trait GdTrait
      * @param $thumbheight
      * @param $width
      * @param $height
+     *
      * @return false|resource
      */
     private function makeThumbnail($img, int $thumbwidth, int $thumbheight, int $width, int $height)
@@ -225,17 +230,18 @@ trait GdTrait
     /**
      * @author https://github.com/xwiz/phash
      *
-     * @param $dst_image
-     * @param $src_image
-     * @param $dst_x
-     * @param $dst_y
-     * @param $src_x
-     * @param $src_y
-     * @param $dst_w
-     * @param $dst_h
-     * @param $src_w
-     * @param $src_h
+     * @param     $dst_image
+     * @param     $src_image
+     * @param     $dst_x
+     * @param     $dst_y
+     * @param     $src_x
+     * @param     $src_y
+     * @param     $dst_w
+     * @param     $dst_h
+     * @param     $src_w
+     * @param     $src_h
      * @param int $quality
+     *
      * @return bool
      */
     private function fastimagecopyresampled(

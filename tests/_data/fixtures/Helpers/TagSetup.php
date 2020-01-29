@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of the Phalcon Framework.
  *
@@ -37,10 +39,10 @@ class TagSetup
     /**
      * Converts a doctype code to a string output
      *
-     * @author Phalcon Team <team@phalcon.io>
+     * @return string
      * @since  2014-09-04
      *
-     * @return string
+     * @author Phalcon Team <team@phalcon.io>
      */
     protected function docTypeStringToConstant(string $doctype)
     {
@@ -144,10 +146,10 @@ class TagSetup
     /**
      * Converts a doctype code to a string output
      *
-     * @author Phalcon Team <team@phalcon.io>
+     * @return string
      * @since  2014-09-04
      *
-     * @return string
+     * @author Phalcon Team <team@phalcon.io>
      */
     protected function docTypeToString(int $doctype)
     {

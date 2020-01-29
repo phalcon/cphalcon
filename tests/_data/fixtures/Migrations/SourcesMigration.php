@@ -11,16 +11,17 @@
 
 namespace Phalcon\Test\Fixtures\Migrations;
 
-use Phalcon\Db\Adapter\AdapterInterface;
-
+/**
+ * Class SourcesMigration
+ */
 class SourcesMigration extends AbstractMigration
 {
     protected $table = "co_sources";
 
     /**
-     * @param int              $id
-     * @param string           $username
-     * @param string           $source
+     * @param int    $id
+     * @param string $username
+     * @param string $source
      */
     public function insert(
         int $id,

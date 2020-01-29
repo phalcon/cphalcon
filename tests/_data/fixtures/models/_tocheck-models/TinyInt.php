@@ -4,7 +4,7 @@ namespace Phalcon\Test\Models;
 
 use Phalcon\Mvc\Model;
 
-class TinyIntTest extends Model
+class TinyInt extends Model
 {
     public $id;
     public $test;
