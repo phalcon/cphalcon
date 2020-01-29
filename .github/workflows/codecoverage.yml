@@ -167,8 +167,9 @@ jobs:
         run: |
           vendor/bin/codecept run --ext DotReporter cli
           vendor/bin/codecept run --ext DotReporter unit
-          vendor/bin/codecept run --ext DotReporter integration --env mysql
-          vendor/bin/codecept run --ext DotReporter integration --env sqlite
+          vendor/bin/codecept run --ext DotReporter integration
+          vendor/bin/codecept run --ext DotReporter database --env mysql
+          vendor/bin/codecept run --ext DotReporter database --env sqlite
 
       - name: Upload codecoverage on 7.4
         uses: codecov/codecov-action@v1
