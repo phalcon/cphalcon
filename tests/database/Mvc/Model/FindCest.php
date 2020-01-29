@@ -11,9 +11,10 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\Model;
+namespace Phalcon\Test\Database\Mvc\Model;
 
-use IntegrationTester;
+use DatabaseTester;
+use PDO;
 use Phalcon\Cache;
 use Phalcon\Cache\AdapterFactory;
 use Phalcon\Storage\SerializerFactory;
@@ -30,23 +31,31 @@ class FindCest
 {
     use DiTrait;
 
+    public function _before(DatabaseTester $I)
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase($I);
+
+        /** @var PDO $connection */
+        $connection = $I->getConnection();
+        $migration = new ObjectsMigration($connection);
+        $migration->clear();
+    }
+
     /**
      * Tests Phalcon\Mvc\Model :: find()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function mvcModelFind(IntegrationTester $I)
+    public function mvcModelFind(DatabaseTester $I)
     {
         $I->wantToTest('Mvc\Model - find()');
 
-        $this->setNewFactoryDefault();
-        $this->setDiMysql();
-
-        /**
-         * Setup the table
-         */
-        (new ObjectsMigration())($this->container->get('db'));
+        /** @var PDO $connection */
+        $connection = $I->getConnection();
+        $migration = new ObjectsMigration($connection);
+        $migration->insert(1, 'random data', 1);
 
         $data = Objects::find();
 
@@ -63,20 +72,17 @@ class FindCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function mvcModelFindWithCache(IntegrationTester $I)
+    public function mvcModelFindWithCache(DatabaseTester $I)
     {
         $I->wantToTest('Mvc\Model - find() - with cache');
-
-        $this->setNewFactoryDefault();
-        $this->setDiMysql();
 
         $file = outputDir('data-/my/-c/ac/my-cache');
         $I->safeDeleteFile($file);
 
-        /**
-         * Setup the table
-         */
-        (new ObjectsMigration())($this->container->get('db'));
+        /** @var PDO $connection */
+        $connection = $I->getConnection();
+        $migration = new ObjectsMigration($connection);
+        $migration->insert(1, 'random data', 1);
 
         $options = [
             'defaultSerializer' => 'Json',

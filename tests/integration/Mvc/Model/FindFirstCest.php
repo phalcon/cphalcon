@@ -33,6 +33,11 @@ class FindFirstCest
     {
         $this->setNewFactoryDefault();
         $this->setDatabase($I);
+
+        /** @var PDO $connection */
+        $connection = $I->getConnection();
+        $migration = new InvoicesMigration($connection);
+        $migration->clear();
     }
 
     /**
