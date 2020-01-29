@@ -12,6 +12,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Fixtures\Traits;
 
+use IntegrationTester;
+use PDO;
+use Phalcon\Db\Adapter\PdoFactory;
 use function dataDir;
 use function getOptionsLibmemcached;
 use function getOptionsModelCacheStream;
@@ -50,8 +53,6 @@ use Phalcon\Url;
 
 trait DiTrait
 {
-    use OptionsTrait;
-
     /**
      * @var null|DiInterface
      */
@@ -65,6 +66,68 @@ trait DiTrait
         return $this->container;
     }
 
+    protected function newCliConsole(): CliConsole
+    {
+        return new CliConsole();
+    }
+
+    protected function newCliFactoryDefault(): CliFactoryDefault
+    {
+        return new CliFactoryDefault();
+    }
+
+    protected function setDatabase(IntegrationTester $I)
+    {
+        /** @var PDO $connection */
+        $connection = $I->getConnection();
+        $driver     = $connection->getAttribute(PDO::ATTR_DRIVER_NAME);
+
+        switch ($driver) {
+            case 'mysql':
+                $options = getOptionsMysql();
+                break;
+            case 'pgsql':
+                $options = getOptionsPostgresql();
+                break;
+            case 'sqlite':
+                $options = getOptionsSqlite();
+                break;
+            case 'sqlsrv':
+            default:
+                $options = [];
+        }
+
+        $db = (new PdoFactory())->newInstance($driver, $options);
+        $this->container->setShared('db', $db);
+    }
+
+    protected function newFactoryDefault(): FactoryDefault
+    {
+        return new FactoryDefault();
+    }
+
+    /**
+     * Set up a new Cli\FactoryDefault
+     */
+    protected function setNewCliFactoryDefault()
+    {
+        FactoryDefault::reset();//Di::reset();
+        $this->container = $this->newCliFactoryDefault();
+        FactoryDefault::setDefault($this->container);
+        //Di::setDefault($this->container);
+    }
+
+    /**
+     * Set up a new FactoryDefault
+     */
+    protected function setNewFactoryDefault()
+    {
+        Di::reset();
+        $this->container = $this->newFactoryDefault();
+        Di::setDefault($this->container);
+    }
+
+//------------------------------------------------------------------------------
     protected function getAndSetModelsCacheStream(): StorageStream
     {
         $serializer = new SerializerFactory();
@@ -115,26 +178,6 @@ trait DiTrait
         Di::reset();
         $this->container = new Di();
         Di::setDefault($this->container);
-    }
-
-    /**
-     * Set up a new Cli\FactoryDefault
-     */
-    protected function setNewCliFactoryDefault()
-    {
-        Di::reset();
-        $this->container = $this->newCliFactoryDefault();
-        Di::setDefault($this->container);
-    }
-
-    protected function newCliFactoryDefault(): CliFactoryDefault
-    {
-        return new CliFactoryDefault();
-    }
-
-    protected function newCliConsole(): CliConsole
-    {
-        return new CliConsole();
     }
 
     protected function newEventsManager(): EventsManager
@@ -252,16 +295,6 @@ trait DiTrait
     }
 
     /**
-     * Set up db service (mysql)
-     */
-    protected function newDiMysql()
-    {
-        return new Mysql(
-            getOptionsMysql()
-        );
-    }
-
-    /**
      * Setup a new Response
      */
     protected function setDiResponse()
@@ -360,27 +393,6 @@ trait DiTrait
     }
 
     /**
-     * Set up db service (Sqlite)
-     */
-    protected function setDiSqlite()
-    {
-        $this->container->set(
-            'db',
-            $this->newDiSqlite()
-        );
-    }
-
-    /**
-     * Set up db service (Sqlite)
-     */
-    protected function newDiSqlite()
-    {
-        return new Sqlite(
-            getOptionsSqlite()
-        );
-    }
-
-    /**
      * Setup a new Url
      */
     protected function setDiUrl()
@@ -447,21 +459,6 @@ trait DiTrait
     }
 
     /**
-     * Set up a new FactoryDefault
-     */
-    protected function setNewFactoryDefault()
-    {
-        Di::reset();
-        $this->container = $this->newFactoryDefault();
-        Di::setDefault($this->container);
-    }
-
-    protected function newFactoryDefault(): FactoryDefault
-    {
-        return new FactoryDefault();
-    }
-
-    /**
      * Set up db service (Postgresql)
      */
     protected function setDiPostgresql()
@@ -469,16 +466,6 @@ trait DiTrait
         $this->container->set(
             'db',
             $this->newDiPostgresql()
-        );
-    }
-
-    /**
-     * Set up db service (Postgresql)
-     */
-    protected function newDiPostgresql()
-    {
-        return new Postgresql(
-            getOptionsPostgresql()
         );
     }
 

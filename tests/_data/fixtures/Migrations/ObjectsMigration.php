@@ -32,11 +32,11 @@ class ObjectsMigration extends AbstractMigration
         }
 
         $sql = <<<SQL
-insert into objects (obj_id, obj_name, obj_type)
+insert into objects (`obj_id`, `obj_name`, `obj_type`)
 values ({$id}, "{$name}", "{$type}");
 SQL;
 
-        $this->connection->execute($sql);
+        $this->connection->exec($sql);
     }
 
     protected function getSqlMysql(): array
@@ -48,9 +48,9 @@ drop table if exists objects;
             "
 create table objects
 (
-    obj_id          int(10) auto_increment primary key,
-    obj_name        varchar(100) not null,
-    obj_type        tinyint(3) unsigned not null
+    `obj_id`   int(10) auto_increment primary key,
+    `obj_name` varchar(100) not null,
+    `obj_type` tinyint(3) unsigned not null
 );
             ",
             //        $this->insertObject($db, 1, 'random data', 1);

@@ -56,5 +56,5 @@ modules:
     - Asserts
     - Filesystem
     - Helper\Integration
-#    - Helper\PhalconLibmemcached
+    - Helper\PhalconLibmemcached
     - Helper\Unit

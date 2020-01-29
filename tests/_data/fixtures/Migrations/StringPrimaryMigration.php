@@ -35,11 +35,11 @@ class StringPrimaryMigration extends AbstractMigration
 //    ('1c53079c-249e-0c63-af8d-52413bfa2a2b', 2);
 //SQL;
         $sql = <<<SQL
-insert into `table_with_uuid_primary` (`uuid`, `int_field`) VALUES
-    ('{$uuid}', {$id});
+insert into `table_with_uuid_primary` (`uuid`, `int_field`)
+VALUES ('{$uuid}', {$id});
 SQL;
 
-        $this->connection->execute($sql);
+        $this->connection->exec($sql);
     }
 
     protected function getSqlMysql(): array

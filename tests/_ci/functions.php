@@ -90,7 +90,7 @@ if (!function_exists('loadFolders')) {
         ];
 
         foreach ($folders as $folder) {
-            $item = outputDir('tests' . DIRECTORY_SEPARATOR  . $folder);
+            $item = outputDir('tests' . DIRECTORY_SEPARATOR . $folder);
 
             if (true !== file_exists($item)) {
                 mkdir($item, 0777, true);
@@ -103,7 +103,8 @@ if (!function_exists('loadFolders')) {
  * Initialize ini values and xdebug if it is loaded
  */
 if (!function_exists('loadIni')) {
-    function loadIni() {
+    function loadIni()
+    {
         error_reporting(-1);
 
         ini_set('display_errors', '1');
@@ -244,6 +245,40 @@ if (!function_exists('getOptionsLibmemcached')) {
     }
 }
 
+if (!function_exists('getOptionsMysql')) {
+    /**
+     * Get mysql db options
+     */
+    function getOptionsMysql(): array
+    {
+        return [
+            'host'     => env('DATA_MYSQL_HOST'),
+            'username' => env('DATA_MYSQL_USER'),
+            'password' => env('DATA_MYSQL_PASS'),
+            'dbname'   => env('DATA_MYSQL_NAME'),
+            'port'     => env('DATA_MYSQL_PORT'),
+            'charset'  => env('DATA_MYSQL_CHARSET'),
+        ];
+    }
+}
+
+if (!function_exists('getOptionsPostgresql')) {
+    /**
+     * Get postgresql db options
+     */
+    function getOptionsPostgresql(): array
+    {
+        return [
+            'host'     => env('DATA_POSTGRES_HOST'),
+            'username' => env('DATA_POSTGRES_USER'),
+            'password' => env('DATA_POSTGRES_PASS'),
+            'port'     => env('DATA_POSTGRES_PORT'),
+            'dbname'   => env('DATA_POSTGRES_NAME'),
+            'schema'   => env('DATA_POSTGRES_SCHEMA'),
+        ];
+    }
+}
+
 if (!function_exists('getOptionsRedis')) {
     function getOptionsRedis(): array
     {
@@ -271,9 +306,17 @@ if (!function_exists('getOptionsSessionStream')) {
     }
 }
 
-
-
-
+if (!function_exists('getOptionsSqlite')) {
+    /**
+     * Get sqlite db options
+     */
+    function getOptionsSqlite(): array
+    {
+        return [
+            'dbname' => dirname(__DIR__) . DIRECTORY_SEPARATOR . env('DATA_SQLITE_NAME'),
+        ];
+    }
+}
 
 ///*******************************************************************************
 // * Options
@@ -298,49 +341,4 @@ if (!function_exists('getOptionsSessionStream')) {
 //    }
 //}
 //
-//if (!function_exists('getOptionsMysql')) {
-//    /**
-//     * Get mysql db options
-//     */
-//    function getOptionsMysql(): array
-//    {
-//        return [
-//            'host'     => env('DATA_MYSQL_HOST'),
-//            'username' => env('DATA_MYSQL_USER'),
-//            'password' => env('DATA_MYSQL_PASS'),
-//            'dbname'   => env('DATA_MYSQL_NAME'),
-//            'port'     => env('DATA_MYSQL_PORT'),
-//            'charset'  => env('DATA_MYSQL_CHARSET'),
-//        ];
-//    }
-//}
-//
-//if (!function_exists('getOptionsPostgresql')) {
-//    /**
-//     * Get postgresql db options
-//     */
-//    function getOptionsPostgresql(): array
-//    {
-//        return [
-//            'host'     => env('DATA_POSTGRES_HOST'),
-//            'username' => env('DATA_POSTGRES_USER'),
-//            'password' => env('DATA_POSTGRES_PASS'),
-//            'port'     => env('DATA_POSTGRES_PORT'),
-//            'dbname'   => env('DATA_POSTGRES_NAME'),
-//            'schema'   => env('DATA_POSTGRES_SCHEMA'),
-//        ];
-//    }
-//}
-//
-//if (!function_exists('getOptionsSqlite')) {
-//    /**
-//     * Get sqlite db options
-//     */
-//    function getOptionsSqlite(): array
-//    {
-//        return [
-//            'dbname' => dirname(__DIR__ ) . DIRECTORY_SEPARATOR . env('DATA_SQLITE_NAME'),
-//        ];
-//    }
-//}
 

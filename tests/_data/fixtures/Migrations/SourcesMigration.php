@@ -32,11 +32,11 @@ class SourcesMigration extends AbstractMigration
         }
 
         $sql = <<<SQL
-insert into co_sources (id, username, source)
+insert into co_sources (`id`, `username`, `source`)
 values ({$id}, "{$username}", "{$source}");
 SQL;
 
-        $this->connection->execute($sql);
+        $this->connection->exec($sql);
     }
 
     protected function getSqlMysql(): array
@@ -48,9 +48,9 @@ drop table if exists `co_sources`;
             "
 create table co_sources
 (
-    id       int(10) auto_increment primary key,
-    username varchar(100) null,
-    source   varchar(100) null
+    `id`       int(10) auto_increment primary key,
+    `username` varchar(100) null,
+    `source`   varchar(100) null
 );
             ",
             "
