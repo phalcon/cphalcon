@@ -38,7 +38,7 @@ class RelationsParts extends Model
             RelationsRobots::class,
             'id',
             [
-                'alias' => 'oneRobot'
+                'alias' => 'oneRobot',
             ]
         );
     }

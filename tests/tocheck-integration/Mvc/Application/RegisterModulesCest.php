@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of the Phalcon Framework.
  *
@@ -9,7 +11,6 @@
  * file that was distributed with this source code.
  */
 
-declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Mvc\Application;
 

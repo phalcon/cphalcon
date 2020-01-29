@@ -24,9 +24,9 @@ class RobotsReusable extends Model
             RobotsParts::class,
             'robots_id',
             [
-                'alias' => 'robotsParts',
+                'alias'      => 'robotsParts',
                 'foreignKey' => true,
-                'reusable' => true
+                'reusable'   => true,
             ]
         );
     }
