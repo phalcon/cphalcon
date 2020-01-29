@@ -15,11 +15,16 @@ namespace Phalcon\Test\Integration\Mvc\Model;
 
 use IntegrationTester;
 use Phalcon\Mvc\Model\Exception;
+use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\Customers;
-use Phalcon\Test\Models\Robots;
-use Phalcon\Test\Models\RobotsExtended;
+use Phalcon\Test\Models\Invoices;
+use Phalcon\Test\Models\InvoicesExtended;
 
+use function uniqid;
+
+/**
+ * Class FindFirstCest
+ */
 class FindFirstCest
 {
     use DiTrait;
@@ -27,12 +32,7 @@ class FindFirstCest
     public function _before(IntegrationTester $I)
     {
         $this->setNewFactoryDefault();
-        $this->setDiMysql();
-    }
-
-    public function _after(IntegrationTester $I)
-    {
-        $this->container['db']->close();
+        $this->setDatabase($I);
     }
 
     /**
@@ -45,27 +45,34 @@ class FindFirstCest
     {
         $I->wantToTest('Mvc\Model - findFirst()');
 
-        $robot = Robots::findFirst();
+        $title = uniqid('inv-');
+        /** @var PDO $connection */
+        $connection = $I->getConnection();
+        $migration = new InvoicesMigration($connection);
+        $migration->insert(4, $title);
+
+        $invoice = Invoices::findFirst();
 
         $I->assertInstanceOf(
-            Robots::class,
-            $robot
+            Invoices::class,
+            $invoice
         );
 
-        $I->assertEquals(1, $robot->id);
-
-        $robot = Robots::findFirst(null);
-
-        $I->assertInstanceOf(
-            Robots::class,
-            $robot
+        $I->assertEquals(
+            4,
+            $invoice->inv_id
         );
 
-        $robot = Robots::findFirst(1);
+        $invoice = Invoices::findFirst(null);
 
         $I->assertInstanceOf(
-            Robots::class,
-            $robot
+            Invoices::class,
+            $invoice
+        );
+
+        $I->assertEquals(
+            4,
+            $invoice->inv_id
         );
     }
 
@@ -79,9 +86,9 @@ class FindFirstCest
     {
         $I->wantToTest('Mvc\Model - findFirst() - not found');
 
-        $robot = Robots::findFirst(
+        $robot = Invoices::findFirst(
             [
-                'conditions' => 'id < 0',
+                'conditions' => 'inv_id < 0',
             ]
         );
 
@@ -99,7 +106,7 @@ class FindFirstCest
         $I->wantToTest('Mvc\Model - findFirstBy() - not found');
 
         $I->assertNull(
-            Customers::findFirstByEmail('unknown')
+            Invoices::findFirstByInvTitle('unknown')
         );
     }
 
@@ -113,17 +120,23 @@ class FindFirstCest
     {
         $I->wantToTest('Mvc\Model - findFirst() - extended');
 
-        $robot = RobotsExtended::findFirst(1);
+        $title = uniqid('inv-');
+        /** @var PDO $connection */
+        $connection = $I->getConnection();
+        $migration = new InvoicesMigration($connection);
+        $migration->insert(4, $title);
+
+        $invoice = InvoicesExtended::findFirst(4);
 
         $I->assertInstanceOf(
-            RobotsExtended::class,
-            $robot
+            InvoicesExtended::class,
+            $invoice
         );
 
-        $I->assertEquals(1, $robot->id);
+        $I->assertEquals(4, $invoice->inv_id);
 
-        $robot = RobotsExtended::findFirst(0);
-        $I->assertNull($robot);
+        $invoice = InvoicesExtended::findFirst(0);
+        $I->assertNull($invoice);
     }
 
     /**
@@ -141,7 +154,7 @@ class FindFirstCest
                 'Parameters passed must be of type array, string, numeric or null'
             ),
             function () {
-                Robots::findFirst(false);
+                Invoices::findFirst(false);
             }
         );
     }

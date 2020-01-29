@@ -11,7 +11,6 @@
 
 declare(strict_types=1);
 
-use Phalcon\Db\Adapter\AdapterInterface;
 use Phalcon\Test\Fixtures\Migrations\AbstractMigration;
 
 $root = dirname(dirname(__DIR__));

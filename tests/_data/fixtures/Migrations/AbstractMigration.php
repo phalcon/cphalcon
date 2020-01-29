@@ -11,18 +11,18 @@
 
 namespace Phalcon\Test\Fixtures\Migrations;
 
-use Phalcon\Db\Adapter\AdapterInterface;
+use PDO;
 
 /**
  * Class AbstractMigration
  *
- * @property AdapterInterface $connection
- * @property string           $table
+ * @property PDO    $connection
+ * @property string $table
  */
 abstract class AbstractMigration
 {
     /**
-     * @var AdapterInterface
+     * @var PDO
      */
     protected $connection;
 
@@ -34,11 +34,12 @@ abstract class AbstractMigration
     /**
      * AbstractMigration constructor.
      *
-     * @param AdapterInterface|null $connection
+     * @param PDO|null $connection
      */
-    public function __construct(AdapterInterface $connection = null)
+    public function __construct(PDO $connection = null)
     {
         $this->connection = $connection;
+        $this->clear();
     }
 
     /**
@@ -48,7 +49,7 @@ abstract class AbstractMigration
     {
         $statements = $this->getSql();
         foreach ($statements as $statement) {
-            $this->connection->execute($statement);
+            $this->connection->exec($statement);
         }
     }
 
@@ -57,9 +58,11 @@ abstract class AbstractMigration
      */
     public function clear()
     {
-        $this->connection->execute(
-            sprintf("delete from `%s`;", $this->table)
-        );
+        if ($this->connection) {
+            $this->connection->exec(
+                sprintf("delete from `%s`;", $this->table)
+            );
+        }
     }
 
     /**
@@ -67,7 +70,7 @@ abstract class AbstractMigration
      */
     public function drop()
     {
-        $this->connection->execute(
+        $this->connection->exec(
             sprintf("drop table if exists `%s`;", $this->table)
         );
     }
@@ -99,9 +102,9 @@ abstract class AbstractMigration
     /**
      * Sets the connection
      *
-     * @param AdapterInterface $connection
+     * @param PDO $connection
      */
-    public function setConnection(AdapterInterface $connection): void
+    public function setConnection(PDO $connection): void
     {
         $this->connection = $connection;
     }

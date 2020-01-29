@@ -22,7 +22,7 @@ class StuffMigration extends AbstractMigration
      * @param string           $name
      * @param int              $type
      */
-    public function insertStuff(
+    public function insert(
         int $id,
         string $name,
         int $type
@@ -32,25 +32,25 @@ class StuffMigration extends AbstractMigration
         }
 
         $sql = <<<SQL
-insert into stuff (stf_id, stf_name, stf_type)
+insert into stuff (`stf_id`, `stf_name`, `stf_type`)
 values ({$id}, "{$name}", "{$type}");
 SQL;
 
-        $this->connection->execute($sql);
+        $this->connection->exec($sql);
     }
 
     protected function getSqlMysql(): array
     {
         return [
             "
-drop table if exists stuff;
+drop table if exists `stuff`;
             ",
             "
 create table stuff
 (
-    stf_id          int(10) auto_increment primary key,
-    stf_name        varchar(100) not null,
-    stf_type        tinyint(3) unsigned not null
+    `stf_id`   int(10) auto_increment primary key,
+    `stf_name` varchar(100) not null,
+    `stf_type` tinyint(3) unsigned not null
 );
             ",
             //            $this->insertStuff($db, 1, 'stuff data', 1);

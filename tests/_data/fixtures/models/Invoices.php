@@ -13,6 +13,16 @@ namespace Phalcon\Test\Models;
 
 use Phalcon\Mvc\Model;
 
+/**
+ * Class Invoices
+ *
+ * @property int    $inv_id
+ * @property int    $inv_cst_id
+ * @property int    $inv_status_flag
+ * @property string $inv_title
+ * @property float  $inv_total
+ * @property string $inv_created_at
+ */
 class Invoices extends Model
 {
     public $inv_id;
