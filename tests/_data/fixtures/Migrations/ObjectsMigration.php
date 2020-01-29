@@ -59,7 +59,19 @@ create table objects
 
     protected function getSqlSqlite(): array
     {
-        return [];
+        return [
+            "
+drop table if exists objects;
+            ",
+            "
+create table objects
+    (
+    obj_id     integer constraint objects_pk primary key autoincrement,
+    obj_name   text not null,
+    obj_type   integer not null
+);
+            ",
+        ];
     }
 
     protected function getSqlPgsql(): array

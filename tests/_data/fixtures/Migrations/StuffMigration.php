@@ -59,7 +59,19 @@ create table stuff
 
     protected function getSqlSqlite(): array
     {
-        return [];
+        return [
+            "
+drop table if exists stuff;
+            ",
+            "
+create table stuff
+(
+    stf_id      integer constraint stf_id_pk primary key autoincrement,
+    stf_name    text not null,
+    stf_type    integer not null
+);
+            "
+        ];
     }
 
     protected function getSqlPgsql(): array

@@ -229,13 +229,13 @@ jobs:
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
         run: vendor/bin/codecept run --ext DotReporter integration --env mysql
 
-#      # TODO Enable these one at a time and also for MacOS/Windows
-#      - name: Run integrations tests Sqlite
-#        env:
-#          DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
-#          DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
-#        run: vendor/bin/codecept run --ext DotReporter integration --env sqlite
-#
+      - name: Run integrations tests Sqlite
+        env:
+          DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
+          DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
+        run: vendor/bin/codecept run --ext DotReporter integration --env sqlite
+
+  #      # TODO Enable these one at a time and also for MacOS/Windows
 #      - name: Run integrations tests Postgres
 #        env:
 #          DATA_POSTGRES_PORT: ${{ job.services.postgres.ports['5432'] }}
@@ -248,13 +248,6 @@ jobs:
 #          DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
 #          DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
 #        run: vendor/bin/codecept run --ext DotReporter integration --env sqlsrv
-      - name: Upload coverage to Codecov
-        uses: codecov/codecov-action@v1
-        with:
-          token: ${{ secrets.CODECOV_TOKEN }}
-          file: ./tests/_output/coverage.xml
-          name: codecov-umbrella
-          fail_ci_if_error: true
 
   build-and-test-macos:
     needs: generate
