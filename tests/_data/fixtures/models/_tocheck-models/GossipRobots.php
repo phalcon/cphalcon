@@ -29,7 +29,7 @@ class GossipRobots extends Model
 
     protected function _talk(string $completeMethod)
     {
-        $class = get_class($this);
+        $class  = get_class($this);
         $method = explode('::', $completeMethod);
 
         if (!isset($this->trace[$method[1]][$class])) {

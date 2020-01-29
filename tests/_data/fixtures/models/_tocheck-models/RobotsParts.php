@@ -22,7 +22,7 @@ class RobotsParts extends Model
             Parts::class,
             'id',
             [
-                'alias' => 'part',
+                'alias'      => 'part',
                 'foreignKey' => true,
             ]
         );
@@ -32,7 +32,7 @@ class RobotsParts extends Model
             Robots::class,
             'id',
             [
-                'alias' => 'robot',
+                'alias'      => 'robot',
                 'foreignKey' => [
                     'message' => 'The robot code does not exist',
                 ],

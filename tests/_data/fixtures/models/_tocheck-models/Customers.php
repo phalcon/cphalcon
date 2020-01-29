@@ -34,7 +34,7 @@ class Customers extends Model
     public $created_at;
 
     protected $protected_field;
-    private $private_field;
+    private   $private_field;
 
     public function initialize()
     {

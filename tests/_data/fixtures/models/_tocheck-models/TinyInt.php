@@ -1,6 +1,7 @@
 <?php
 
 namespace Phalcon\Test\Models;
+
 use Phalcon\Mvc\Model;
 
 class TinyIntTest extends Model
