@@ -232,6 +232,8 @@ jobs:
   build-and-test-macos:
     needs: generate
     runs-on: ${{ matrix.operating-system }}
+    env:
+      PHP_EXTENSIONS: mbstring, intl, json, yaml, apcu, imagick, igbinary, msgpack-beta, redis
     strategy:
       fail-fast: false
       matrix:
@@ -246,13 +248,31 @@ jobs:
         with:
           fetch-depth: 1
 
+      - name: Get extension directory
+        id: extension-step
+        run: |
+          suffix=$(curl -sSL --retry 3 https://raw.githubusercontent.com/php/php-src/PHP-${{ matrix.php-versions }}/main/php.h | grep "PHP_API_VERSION" | cut -d' ' -f 3)
+          ext_dir="/usr/local/lib/php/pecl/$suffix"
+          ext_hash=$(echo -n "${{ env.PHP_EXTENSIONS }}" | shasum -a 256 | cut -d' ' -f 1)
+          echo "::set-output name=ext_dir::$ext_dir"
+          echo "::set-output name=ext_hash::$ext_hash"
+
+      - name: Cache extensions
+        uses: actions/cache@v1
+        with:
+          path: ${{ steps.extension-step.outputs.ext_dir }}
+          key: ${{ runner.os }}-extensions-${{ matrix.php-versions }}-${{ steps.extension-step.outputs.ext_hash }}
+          restore-keys: ${{ runner.os }}-extensions-${{ matrix.php-versions }}-${{ steps.extension-step.outputs.ext_hash }}
+
+      - name: Install requirements for imagick
+        run: brew install pkg-config imagemagick
+
       - name: Setup PHP
         uses: shivammathur/setup-php@v1
         with:
           php-version: ${{ matrix.php-versions }}
           ini-values: apc.enable_cli=on, session.save_path=/tmp
-          tools: pecl
-          extensions: mbstring, intl, json, yaml, apcu, imagick, igbinary, msgpack-beta, redis
+          extensions: ${{ env.PHP_EXTENSIONS }}
 
       - name: Get Composer Cache Directory
         id: composer-cache
