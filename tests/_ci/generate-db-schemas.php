@@ -19,7 +19,7 @@ require_once $root . '/vendor/autoload.php';
 
 $drivers = [
     'mysql',
-    //    'sqlite',
+    'sqlite',
     //    'pgsql',
     //    'sqlsrv',
 ];
@@ -35,7 +35,7 @@ foreach ($drivers as $driver) {
         $className  = sprintf($migrationClass, $migration);
         /** @var AbstractMigration $class */
         $class      = new $className();
-        $statements = $class->getSql();
+        $statements = $class->getSql($driver);
 
         logStatements($statements, $schema);
     }
@@ -46,10 +46,12 @@ foreach ($drivers as $driver) {
 
 function cleanFile(string $schema)
 {
-    $handle = fopen($schema, "r+");
-    if ($schema !== false) {
-        ftruncate($handle, 0);
-        fclose($handle);
+    if (file_exists($schema)) {
+        $handle = fopen($schema, "r+");
+        if ($schema !== false) {
+            ftruncate($handle, 0);
+            fclose($handle);
+        }
     }
 }
 

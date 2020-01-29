@@ -52,10 +52,9 @@ drop table if exists `table_with_uuid_primary`;
             
 create table table_with_uuid_primary
 (
-    `uuid` CHAR(36) NOT NULL,
-    `int_field` INT NULL,
-    PRIMARY KEY (`uuid`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+    `uuid`          char(36) not null primary key,
+    `int_field`     int null
+);
             
 
 

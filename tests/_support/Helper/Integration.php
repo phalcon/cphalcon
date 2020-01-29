@@ -5,6 +5,7 @@ namespace Helper;
 // here you can define custom actions
 // all public methods declared in helper class will be available in $I
 
+use Codeception\Exception\ModuleException;
 use Codeception\Module;
 use Codeception\TestInterface;
 use PDO;
@@ -66,25 +67,11 @@ class Integration extends Module
 
     /**
      * @return PDO
+     * @throws ModuleException
      */
     public function getConnection(): PDO
     {
         return $this->getModule('Db')->dbh;
-//        $container = FactoryDefault::getDefault();
-//
-//        if (!$container->has('db')) {
-//            $container->setShared(
-//                'db',
-//                (new PdoFactory())->newInstance(
-//                    $this->driver,
-//                    $this->getDatabaseOptions()
-//                )
-//            );
-//        }
-//
-//        var_dump($container);
-//        die();
-//        return $container->get('db');
     }
 
     /**
