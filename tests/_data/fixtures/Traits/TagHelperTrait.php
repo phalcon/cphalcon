@@ -155,7 +155,7 @@ trait TagHelperTrait
             $this->container
         );
 
-        $options  = [
+        $options = [
             'name'  => 'x_name',
             'class' => 'x_class',
             'size'  => '10',

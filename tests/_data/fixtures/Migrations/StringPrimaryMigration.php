@@ -11,8 +11,9 @@
 
 namespace Phalcon\Test\Fixtures\Migrations;
 
-use Phalcon\Db\Adapter\AdapterInterface;
-
+/**
+ * Class StringPrimaryMigration
+ */
 class StringPrimaryMigration extends AbstractMigration
 {
     protected $table = "table_with_uuid_primary";
@@ -54,7 +55,7 @@ create table table_with_uuid_primary
     `uuid`          char(36) not null primary key,
     `int_field`     int null
 );
-            "
+            ",
         ];
     }
 
@@ -70,7 +71,7 @@ create table table_with_uuid_primary
     uuid        text constraint uuid_pk primary key,
     int_field   integer
 );
-            "
+            ",
         ];
     }
 

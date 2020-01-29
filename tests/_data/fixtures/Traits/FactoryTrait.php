@@ -12,10 +12,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Fixtures\Traits;
 
+use Phalcon\Config;
+use Phalcon\Config\Adapter\Ini;
 use function dataDir;
 use function outputDir;
-use Phalcon\Config\Adapter\Ini;
-use Phalcon\Config;
 
 /**
  * Trait FactoryTrait

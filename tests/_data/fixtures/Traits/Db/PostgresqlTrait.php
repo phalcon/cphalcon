@@ -67,12 +67,12 @@ trait PostgresqlTrait
      */
     protected function getExpectedColumns(): array
     {
-        $result  = [];
+        $result = [];
 
         $columns = $this->getColumns();
 
         foreach ($columns as $index => $array) {
-            $name = array_shift($array);
+            $name           = array_shift($array);
             $result[$index] = new Column($name, $array);
         }
 

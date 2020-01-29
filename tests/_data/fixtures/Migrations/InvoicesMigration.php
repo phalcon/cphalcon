@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of the Phalcon Framework.
  *
@@ -11,8 +13,9 @@
 
 namespace Phalcon\Test\Fixtures\Migrations;
 
-use Phalcon\Db\Adapter\AdapterInterface;
-
+/**
+ * Class InvoicesMigration
+ */
 class InvoicesMigration extends AbstractMigration
 {
     protected $table = "co_invoices";

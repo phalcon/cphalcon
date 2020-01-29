@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of the Phalcon Framework.
  *
@@ -11,16 +13,17 @@
 
 namespace Phalcon\Test\Fixtures\Migrations;
 
-use Phalcon\Db\Adapter\AdapterInterface;
-
+/**
+ * Class ObjectsMigration
+ */
 class ObjectsMigration extends AbstractMigration
 {
     protected $table = "objects";
 
     /**
-     * @param int              $id
-     * @param string           $name
-     * @param int              $type
+     * @param int    $id
+     * @param string $name
+     * @param int    $type
      */
     public function insert(
         int $id,

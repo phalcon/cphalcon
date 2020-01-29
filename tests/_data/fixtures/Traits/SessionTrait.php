@@ -12,14 +12,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Fixtures\Traits;
 
-use function getOptionsLibmemcached;
-use function getOptionsRedis;
 use Phalcon\Session\Adapter\Libmemcached;
 use Phalcon\Session\Adapter\Noop;
 use Phalcon\Session\Adapter\Redis;
 use Phalcon\Session\Adapter\Stream;
 use Phalcon\Storage\AdapterFactory;
 use Phalcon\Storage\SerializerFactory;
+use function getOptionsLibmemcached;
+use function getOptionsRedis;
 
 trait SessionTrait
 {

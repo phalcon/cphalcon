@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -12,9 +13,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Fixtures\Traits\Cache;
 
-use function cacheDir;
 use Phalcon\Cache\Backend\File;
 use Phalcon\Cache\Frontend\Data;
+
+use function cacheDir;
 
 trait FileTrait
 {

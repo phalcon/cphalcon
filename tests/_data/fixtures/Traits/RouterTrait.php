@@ -113,7 +113,8 @@ trait RouterTrait
             function (string $action): string {
                 return str_replace('-', '', $action);
             }
-        );
+        )
+        ;
 
         $router->add(
             '/([A-Z]+)/([0-9]+)',
@@ -137,7 +138,8 @@ trait RouterTrait
             function (string $id): string {
                 return strrev($id);
             }
-        );
+        )
+        ;
 
         return $router;
     }
