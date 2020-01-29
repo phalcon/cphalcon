@@ -213,6 +213,7 @@ jobs:
       - name: Setup tests
         run: |
           cp tests/_ci/.env.default .env
+          php tests/_ci/generate-db-schemas.php
           vendor/bin/codecept build
 
       - name: Run unit tests
@@ -226,9 +227,7 @@ jobs:
           DATA_MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
-        run: |
-          php tests/_ci/generate-db-schemas.php
-          vendor/bin/codecept run --ext DotReporter integration --env mysql
+        run: vendor/bin/codecept run --ext DotReporter integration --env mysql
 
 #      # TODO Enable these one at a time and also for MacOS/Windows
 #      - name: Run integrations tests Sqlite
