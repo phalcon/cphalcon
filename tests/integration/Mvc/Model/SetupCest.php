@@ -49,7 +49,7 @@ class SetupCest
         Model::setup([
             $key => $value,
         ]);
-        $I->arrayHasKey($key, Model::getModelSetup());
+        $I->assertArrayHasKey($key, Model::getModelSetup());
         $I->assertEquals($value, Model::getModelSetup()[$key]);
         Model::setup($currentSetup);
     }
