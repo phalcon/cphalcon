@@ -16,9 +16,8 @@ namespace Phalcon\Test\Database\Mvc\Model;
 use DatabaseTester;
 use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\AlbumORama\Artists;
-
 use Phalcon\Test\Models\Invoices;
+
 use function date;
 use function uniqid;
 
@@ -36,7 +35,7 @@ class CreateCest
 
         /** @var PDO $connection */
         $connection = $I->getConnection();
-        $migration = new InvoicesMigration($connection);
+        $migration  = new InvoicesMigration($connection);
         $migration->clear();
     }
 
@@ -50,9 +49,9 @@ class CreateCest
     {
         $I->wantToTest('Mvc\Model - create()');
 
-        $title   = uniqid('inv-');
-        $date    = date('Y-m-d H:i:s');
-        $invoice = new Invoices();
+        $title                    = uniqid('inv-');
+        $date                     = date('Y-m-d H:i:s');
+        $invoice                  = new Invoices();
         $invoice->inv_id          = 1;
         $invoice->inv_cst_id      = 2;
         $invoice->inv_status_flag = 3;

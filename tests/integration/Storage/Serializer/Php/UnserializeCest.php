@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Storage\Unserializer\Php;
 
-use Phalcon\Storage\Serializer\Php;
 use Codeception\Example;
 use InvalidArgumentException;
+use Phalcon\Storage\Serializer\Php;
 use stdClass;
 use UnitTester;
 

@@ -20,7 +20,8 @@ use UnitTester;
 class GetSetExceptionCest
 {
     /**
-     * Unit Tests Phalcon\Domain\Payload\Payload :: getException()/setException()
+     * Unit Tests Phalcon\Domain\Payload\Payload ::
+     * getException()/setException()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-06-07

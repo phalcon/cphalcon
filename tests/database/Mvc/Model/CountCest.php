@@ -20,10 +20,6 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\RecordsTrait;
 use Phalcon\Test\Models\Invoices;
 use Phalcon\Test\Models\InvoicesMap;
-use Phalcon\Test\Models\Personnes;
-use Phalcon\Test\Models\Pessoas;
-use function uniqid;
-use function var_dump;
 
 class CountCest
 {
@@ -37,7 +33,7 @@ class CountCest
 
         /** @var PDO $connection */
         $connection = $I->getConnection();
-        $migration = new InvoicesMigration($connection);
+        $migration  = new InvoicesMigration($connection);
         $migration->clear();
     }
 
@@ -58,7 +54,7 @@ class CountCest
         if ('sqlite' !== $driver) {
             /** @var PDO $connection */
             $connection = $I->getConnection();
-            $migration = new InvoicesMigration($connection);
+            $migration  = new InvoicesMigration($connection);
 
             $this->insertDataInvoices($migration, 7, 2, 'ccc');
             $this->insertDataInvoices($migration, 1, 3, 'aaa');
@@ -128,7 +124,7 @@ class CountCest
         if ('sqlite' !== $driver) {
             /** @var PDO $connection */
             $connection = $I->getConnection();
-            $migration = new InvoicesMigration($connection);
+            $migration  = new InvoicesMigration($connection);
 
             $this->insertDataInvoices($migration, 7, 2, 'ccc');
             $this->insertDataInvoices($migration, 1, 3, 'aaa');

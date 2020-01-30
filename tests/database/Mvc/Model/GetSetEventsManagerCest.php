@@ -35,7 +35,7 @@ class GetSetEventsManagerCest
 
         /** @var PDO $connection */
         $connection = $I->getConnection();
-        $migration = new InvoicesMigration($connection);
+        $migration  = new InvoicesMigration($connection);
         $migration->clear();
     }
 
@@ -52,7 +52,7 @@ class GetSetEventsManagerCest
         $title = uniqid('inv-');
         /** @var PDO $connection */
         $connection = $I->getConnection();
-        $migration = new InvoicesMigration($connection);
+        $migration  = new InvoicesMigration($connection);
         $migration->insert(4, null, 0, $title);
 
         $invoice = Invoices::findFirst();

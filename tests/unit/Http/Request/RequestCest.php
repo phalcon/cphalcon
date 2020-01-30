@@ -656,7 +656,7 @@ class RequestCest extends HttpBase
                     'text/plain',
                     'text/csv',
                     ['image/png', 'image/gif'],
-                    [[[['application/octet-stream']]]]
+                    [[[['application/octet-stream']]]],
                 ],
                 'tmp_name' => ['t0', 't1', ['t2', 't3'], [[[['t4']]]]],
                 'error'    => [0, 0, [0, 0], [[[[8]]]]],

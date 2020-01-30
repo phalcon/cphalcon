@@ -15,12 +15,10 @@ namespace Phalcon\Test\Database\Paginator\Adapter\Model;
 
 use DatabaseTester;
 use Phalcon\Paginator\Adapter\Model;
-use Phalcon\Paginator\Repository;
 use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\RecordsTrait;
 use Phalcon\Test\Models\Invoices;
-use Phalcon\Test\Models\Personnes;
 
 /**
  * Class SetGetLimitCest
@@ -37,7 +35,7 @@ class SetGetLimitCest
 
         /** @var PDO $connection */
         $connection = $I->getConnection();
-        $migration = new InvoicesMigration($connection);
+        $migration  = new InvoicesMigration($connection);
         $migration->clear();
     }
 
@@ -53,7 +51,7 @@ class SetGetLimitCest
 
         /** @var PDO $connection */
         $connection = $I->getConnection();
-        $migration = new InvoicesMigration($connection);
+        $migration  = new InvoicesMigration($connection);
         $this->insertDataInvoices($migration, 17, 2, 'ccc');
         $this->insertDataInvoices($migration, 11, 3, 'aaa');
         $this->insertDataInvoices($migration, 31, 1, 'aaa');

@@ -37,7 +37,7 @@ class SerializeCest
 
         /** @var PDO $connection */
         $connection = $I->getConnection();
-        $migration = new InvoicesMigration($connection);
+        $migration  = new InvoicesMigration($connection);
         $migration->clear();
     }
 
@@ -51,9 +51,9 @@ class SerializeCest
     {
         $I->wantToTest('Mvc\Model - serialize()');
 
-        $title   = uniqid('inv-');
-        $date    = date('Y-m-d H:i:s');
-        $data    = [
+        $title = uniqid('inv-');
+        $date  = date('Y-m-d H:i:s');
+        $data  = [
             'inv_id'          => 1,
             'inv_cst_id'      => 2,
             'inv_status_flag' => 3,

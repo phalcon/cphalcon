@@ -32,7 +32,7 @@ class ExistsDestroyCest
     public function sessionManagerExistsDestroy(IntegrationTester $I)
     {
         $I->wantToTest('Session\Manager - exists()/destroy()');
-        $store = $_SESSION ?? [];
+        $store    = $_SESSION ?? [];
         $_SESSION = [];
 
         $manager = new Manager();
@@ -65,7 +65,7 @@ class ExistsDestroyCest
     public function sessionManagerDestroySuperGlobal(IntegrationTester $I)
     {
         $I->wantToTest('Session\Manager - destroy() - clean $_SESSION');
-        $store = $_SESSION ?? [];
+        $store    = $_SESSION ?? [];
         $_SESSION = [];
 
         $manager = new Manager();
@@ -101,7 +101,7 @@ class ExistsDestroyCest
     {
         $I->wantToTest('Session\Manager - destroy() - clean $_SESSION with uniquid');
 
-        $store = $_SESSION ?? [];
+        $store    = $_SESSION ?? [];
         $_SESSION = [];
 
         $manager = new Manager();
@@ -109,7 +109,7 @@ class ExistsDestroyCest
         $manager->setAdapter($files);
         $manager->setOptions(
             [
-                'uniqueId' => 'aaa'
+                'uniqueId' => 'aaa',
             ]
         );
 

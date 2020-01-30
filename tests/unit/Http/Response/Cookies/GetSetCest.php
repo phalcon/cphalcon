@@ -40,7 +40,7 @@ class SetCest extends HttpBase
     public function httpResponseCookiesGetSet(UnitTester $I)
     {
         $I->wantToTest('Http\Response\Cookies - get / set()');
-        $sName = 'framework';
+        $sName  = 'framework';
         $sValue = 'phalcon';
 
         $this->setDiCrypt();

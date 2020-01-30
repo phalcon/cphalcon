@@ -41,7 +41,7 @@ class ResetCest extends HttpBase
     {
         $I->wantToTest('Http\Response\Cookies - reset()');
 
-        $sName = 'framework';
+        $sName  = 'framework';
         $sValue = 'phalcon';
 
         $this->setDiCrypt();
@@ -50,11 +50,11 @@ class ResetCest extends HttpBase
         $oCookie = new Cookies();
         $oCookie->setDI($container);
         $oCookie->set($sName, $sValue);
-        
+
         $aCookies = $oCookie->getCookies();
 
         $I->assertTrue(array_key_exists($sName, $aCookies));
-        
+
         $I->assertEquals($sValue, $aCookies[$sName]);
 
         $I->assertEquals(1, count($aCookies));

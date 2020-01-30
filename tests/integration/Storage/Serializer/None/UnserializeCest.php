@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Storage\Serializer\None;
 
-use Phalcon\Storage\Serializer\None;
 use Codeception\Example;
+use Phalcon\Storage\Serializer\None;
 use stdClass;
 use UnitTester;
 

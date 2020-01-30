@@ -13,11 +13,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Translate\Adapter\Gettext;
 
-use ArrayAccess;
 use Phalcon\Test\Fixtures\Traits\TranslateGettextTrait;
-use Phalcon\Translate\Adapter\AdapterInterface;
 use Phalcon\Translate\Adapter\Gettext;
-use Phalcon\Translate\Exception;
 use Phalcon\Translate\InterpolatorFactory;
 use UnitTester;
 

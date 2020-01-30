@@ -8,6 +8,7 @@
         <exclude name="PSR2.Methods.MethodDeclaration.Underscore"/>
     </rule>
     <file>tests/cli</file>
+    <file>tests/database</file>
     <file>tests/integration</file>
     <file>tests/unit</file>
 </ruleset>

@@ -40,7 +40,7 @@ class GetKeysCest
             getOptionsLibmemcached()
         );
 
-        $memcachedServerVersions = $adapter->getAdapter()->getVersion();
+        $memcachedServerVersions   = $adapter->getAdapter()->getVersion();
         $memcachedExtensionVersion = phpversion('memcached');
 
         foreach ($memcachedServerVersions as $server => $memcachedServerVersion) {

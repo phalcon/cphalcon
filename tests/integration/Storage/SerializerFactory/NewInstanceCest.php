@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Storage\SerializerFactory;
 
+use Codeception\Example;
 use Phalcon\Factory\Exception;
 use Phalcon\Storage\Serializer\Base64;
 use Phalcon\Storage\Serializer\Igbinary;
@@ -21,7 +22,6 @@ use Phalcon\Storage\Serializer\Msgpack;
 use Phalcon\Storage\Serializer\None;
 use Phalcon\Storage\Serializer\Php;
 use Phalcon\Storage\SerializerFactory;
-use Codeception\Example;
 use UnitTester;
 
 class NewInstanceCest

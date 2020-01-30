@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Storage\Serializer\Base64;
 
-use Phalcon\Storage\Serializer\Base64;
 use InvalidArgumentException;
+use Phalcon\Storage\Serializer\Base64;
 use UnitTester;
 
 class UnserializeCest

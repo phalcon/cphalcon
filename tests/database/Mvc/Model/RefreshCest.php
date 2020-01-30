@@ -17,8 +17,7 @@ use DatabaseTester;
 use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Invoices;
-use Phalcon\Test\Models\Personas;
-use function date;
+
 use function uniqid;
 
 class RefreshCest
@@ -32,7 +31,7 @@ class RefreshCest
 
         /** @var PDO $connection */
         $connection = $I->getConnection();
-        $migration = new InvoicesMigration($connection);
+        $migration  = new InvoicesMigration($connection);
         $migration->clear();
     }
 
@@ -46,7 +45,7 @@ class RefreshCest
         $title = uniqid('inv-');
         /** @var PDO $connection */
         $connection = $I->getConnection();
-        $migration = new InvoicesMigration($connection);
+        $migration  = new InvoicesMigration($connection);
         $migration->insert(4, null, 0, $title);
 
         $invoice = Invoices::findFirst();

@@ -47,9 +47,9 @@ class ConstructCest
     {
         $I->wantToTest('Http\Response\Cookies - __construct() - with Sign Key');
 
-        $sSignKey  = "#1dj8$=dp?.ak//j1V$~%*0XaK\xb1\x8d\xa9\x98\x054t7w!z%C*F-Jk\x98\x05\\\x5c";
+        $sSignKey = "#1dj8$=dp?.ak//j1V$~%*0XaK\xb1\x8d\xa9\x98\x054t7w!z%C*F-Jk\x98\x05\\\x5c";
 
-        $oCookie  = new Cookies(true, $sSignKey);
+        $oCookie = new Cookies(true, $sSignKey);
 
         $I->assertInstanceOf(
             CookiesInterface::class,
