@@ -56,9 +56,8 @@ create table co_sources
             ",
             "
 create index co_sources_username_index
-    on co_sources (username);
+    on `co_sources` (`username`);
             ",
-            //            $this->insert($db, 1, 'darth', 'vader');
         ];
     }
 
@@ -85,7 +84,26 @@ create index co_sources_username_index
 
     protected function getSqlPgsql(): array
     {
-        return [];
+        return [
+            "
+drop table if exists co_sources;
+            ",
+            "
+create table co_sources
+(
+    id        serial not null constraint co_sources_pk primary key,
+    username  varchar(100),
+    source    varchar(100)
+);
+            ",
+            "
+alter table co_sources owner to postgres;
+            ",
+            "
+create index co_sources_username_index
+    on co_sources (username);
+            ",
+        ];
     }
 
     protected function getSqlSqlsrv(): array

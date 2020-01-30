@@ -23,7 +23,7 @@ create index co_invoices_inv_status_flag_index
             
 
 
-drop table if exists objects;
+drop table if exists `objects`;
             
 create table objects
 (
@@ -44,7 +44,7 @@ create table co_sources
 );
             
 create index co_sources_username_index
-    on co_sources (username);
+    on `co_sources` (`username`);
             
 
 
