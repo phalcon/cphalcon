@@ -11,9 +11,9 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\Model\Row;
+namespace Phalcon\Test\Database\Mvc\Model\Row;
 
-use IntegrationTester;
+use DatabaseTester;
 use Phalcon\Mvc\Model\Row;
 
 class ReadWriteAttributeCest
@@ -24,17 +24,17 @@ class ReadWriteAttributeCest
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-06-01
      */
-    public function mvcModelRowReadWriteAttribute(IntegrationTester $I)
+    public function mvcModelRowReadWriteAttribute(DatabaseTester $I)
     {
         $I->wantToTest('Mvc\Model\Row - readAttribute() / writeAttribute()');
 
         $row = new Row();
 
-        $row->writeAttribute('estado', 'A');
+        $row->writeAttribute('inv_title', 'Sample title');
 
         $I->assertEquals(
-            'A',
-            $row->readAttribute('estado')
+            'Sample title',
+            $row->readAttribute('inv_title')
         );
     }
 }

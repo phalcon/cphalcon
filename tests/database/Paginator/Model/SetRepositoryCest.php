@@ -11,24 +11,24 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\Model;
+namespace Phalcon\Test\Database\Paginator\Adapter\Model;
 
-use IntegrationTester;
+use DatabaseTester;
 
 /**
- * Class ConstructCest
+ * Class SetRepositoryCest
  */
-class ConstructCest
+class SetRepositoryCest
 {
     /**
-     * Tests Phalcon\Mvc\Model :: __construct()
+     * Tests Phalcon\Paginator\Adapter\Model :: setRepository()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function mvcModelConstruct(IntegrationTester $I)
+    public function paginatorAdapterModelSetRepository(DatabaseTester $I)
     {
-        $I->wantToTest('Mvc\Model - __construct()');
+        $I->wantToTest('Paginator\Adapter\Model - setRepository()');
         $I->skipTest('Need implementation');
     }
 }
