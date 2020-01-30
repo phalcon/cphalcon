@@ -80,7 +80,7 @@ class Integration extends Module
     public function getDatabaseOptions(): array
     {
         switch ($this->driver) {
-            case 'postgres':
+            case 'pgsql':
                 return getOptionsPostgresql();
             case 'sqlsrv':
                 return getOptionsSqlite();
@@ -106,7 +106,7 @@ class Integration extends Module
                     getenv('TEST_MYSQL_HOST'),
                     getenv('TEST_MYSQL_NAME')
                 );
-            case 'postgres':
+            case 'pgsql':
                 $this->password = getenv('TEST_POSTGRES_PASS');
                 $this->username = getenv('TEST_POSTGRES_USER');
 

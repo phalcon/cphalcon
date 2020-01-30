@@ -46,7 +46,7 @@ SQL;
     {
         return [
             "
-drop table if exists objects;
+drop table if exists `objects`;
             ",
             "
 create table objects
@@ -56,7 +56,6 @@ create table objects
     `obj_type` tinyint(3) unsigned not null
 );
             ",
-            //        $this->insertObject($db, 1, 'random data', 1);
         ];
     }
 
@@ -79,7 +78,22 @@ create table objects
 
     protected function getSqlPgsql(): array
     {
-        return [];
+        return [
+            "
+drop table if exists objects;
+            ",
+            "
+create table objects
+(
+    obj_id   serial       not null constraint co_objects_pk primary key,
+    obj_name varchar(100) not null,
+    obj_type smallint     not null
+);
+            ",
+            "
+alter table objects owner to postgres;
+            ",
+        ];
     }
 
     protected function getSqlSqlsrv(): array
