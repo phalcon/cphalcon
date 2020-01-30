@@ -11,9 +11,10 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\Model\Row;
+namespace Phalcon\Test\Database\Mvc\Model\Row;
 
-use IntegrationTester;
+use DatabaseTester;
+use Phalcon\Mvc\Model\Row;
 
 /**
  * Class SetDirtyStateCest
@@ -26,9 +27,13 @@ class SetDirtyStateCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function mvcModelRowSetDirtyState(IntegrationTester $I)
+    public function mvcModelRowSetDirtyState(DatabaseTester $I)
     {
         $I->wantToTest('Mvc\Model\Row - setDirtyState()');
-        $I->skipTest('Need implementation');
+
+        $row = new Row();
+
+        $I->assertFalse($row->setDirtyState(0));
+        $I->assertFalse($row->setDirtyState(1));
     }
 }

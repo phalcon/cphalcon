@@ -11,9 +11,9 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\Model\Row;
+namespace Phalcon\Test\Database\Mvc\Model\Row;
 
-use IntegrationTester;
+use DatabaseTester;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\Row;
 
@@ -25,7 +25,7 @@ class OffsetSetCest
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-06-01
      */
-    public function mvcModelRowOffsetSet(IntegrationTester $I)
+    public function mvcModelRowOffsetSet(DatabaseTester $I)
     {
         $I->wantToTest('Mvc\Model\Row - offsetSet()');
 
@@ -34,7 +34,7 @@ class OffsetSetCest
         $I->expectThrowable(
             new Exception('Row is an immutable ArrayAccess object'),
             function () use ($row) {
-                $row['estado'] = 'A';
+                $row['inv_id'] = 1;
             }
         );
     }

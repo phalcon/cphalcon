@@ -11,9 +11,9 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\Model\Row;
+namespace Phalcon\Test\Database\Mvc\Model\Row;
 
-use IntegrationTester;
+use DatabaseTester;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\Row;
 
@@ -25,18 +25,18 @@ class OffsetUnsetCest
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-06-01
      */
-    public function mvcModelRowOffsetUnset(IntegrationTester $I)
+    public function mvcModelRowOffsetUnset(DatabaseTester $I)
     {
         $I->wantToTest('Mvc\Model\Row - offsetUnset()');
 
         $row = new Row();
 
-        $row->writeAttribute('estado', 'A');
+        $row->writeAttribute('inv_id', 1);
 
         $I->expectThrowable(
             new Exception('Row is an immutable ArrayAccess object'),
             function () use ($row) {
-                unset($row['estado']);
+                unset($row['inv_id']);
             }
         );
     }

@@ -22,23 +22,31 @@ class InvoicesMigration extends AbstractMigration
 
     /**
      * @param int         $id
+     * @param int|null    $custId
+     * @param int         $status
      * @param string|null $title
+     * @param float       $total
+     * @param string|null $createdAt
      *
      * @return int
      */
     public function insert(
-        int $id,
-        string $title = null
+        $id,
+        int $custId = null,
+        int $status = 0,
+        string $title = null,
+        float $total = 0,
+        string $createdAt = null
     ): int {
-        $title = $title ?: uniqid();
-        $now   = date('Y-m-d H:i:s');
-        $total = 100 + $id;
-        $flag  = (int) ($id % 2);
-        $sql   = <<<SQL
+        $id     = $id ?: 'null';
+        $title  = $title ?: uniqid();
+        $custId = $custId ?: 1;
+        $now    = $createdAt ?: date('Y-m-d H:i:s');
+        $sql    = <<<SQL
 insert into co_invoices (
     `inv_id`, `inv_cst_id`, `inv_status_flag`, `inv_title`, `inv_total`, `inv_created_at`
 ) values (
-    {$id}, 1, {$flag}, "{$title}", {$total}, "{$now}"
+    {$id}, {$custId}, {$status}, "{$title}", {$total}, "{$now}"
 )
 SQL;
 

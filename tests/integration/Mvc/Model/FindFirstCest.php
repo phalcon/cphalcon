@@ -54,7 +54,7 @@ class FindFirstCest
         /** @var PDO $connection */
         $connection = $I->getConnection();
         $migration = new InvoicesMigration($connection);
-        $migration->insert(4, $title);
+        $migration->insert(4, null, 0, $title);
 
         $invoice = Invoices::findFirst();
 
@@ -129,7 +129,7 @@ class FindFirstCest
         /** @var PDO $connection */
         $connection = $I->getConnection();
         $migration = new InvoicesMigration($connection);
-        $migration->insert(4, $title);
+        $migration->insert(4, null, 0, $title);
 
         $invoice = InvoicesExtended::findFirst(4);
 
