@@ -77,21 +77,7 @@ create table table_with_uuid_primary
 
     protected function getSqlPgsql(): array
     {
-        return [
-            "
-drop table if exists table_with_uuid_primary;
-            ",
-            "
-create table table_with_uuid_primary
-(
-    uuid          char(36) not null constraint uuid_pk primary key,
-    int_field     integer
-);
-            ",
-            "
-alter table table_with_uuid_primary owner to postgres;
-            ",
-        ];
+        return [];
     }
 
     protected function getSqlSqlsrv(): array

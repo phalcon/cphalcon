@@ -19,7 +19,6 @@ use PDO;
  * Class AbstractMigration
  *
  * @property PDO    $connection
- * @property string $driver
  * @property string $table
  */
 abstract class AbstractMigration
@@ -28,11 +27,6 @@ abstract class AbstractMigration
      * @var PDO
      */
     protected $connection;
-
-    /**
-     * @var string
-     */
-    protected $driver = '';
 
     /**
      * @var string
@@ -47,10 +41,6 @@ abstract class AbstractMigration
     public function __construct(PDO $connection = null)
     {
         $this->connection = $connection;
-        if (null !== $connection) {
-            $this->driver = $connection->getAttribute(PDO::ATTR_DRIVER_NAME);
-        }
-
         $this->clear();
     }
 
@@ -71,13 +61,9 @@ abstract class AbstractMigration
     public function clear()
     {
         if ($this->connection) {
-            if ('sqlite' === $this->driver) {
-                $statement = 'delete from ' . $this->table;
-            } else {
-                $statement = 'truncate table ' . $this->table;
-            }
-
-            $this->connection->exec($statement);
+            $this->connection->exec(
+                sprintf("delete from `%s`;", $this->table)
+            );
         }
     }
 
@@ -87,24 +73,26 @@ abstract class AbstractMigration
     public function drop()
     {
         $this->connection->exec(
-            sprintf("drop table if exists %s;", $this->table)
+            sprintf("drop table if exists `%s`;", $this->table)
         );
     }
 
     /**
      * Get all the SQL statements that create this table
      *
+     * @param string $driver
+     *
      * @return array
      */
-    public function getSql(): array
+    public function getSql(string $driver = 'mysql'): array
     {
-        switch ($this->driver) {
+        switch ($driver) {
             case 'mysql':
                 return $this->getSqlMysql();
             case 'sqlite':
                 return $this->getSqlSqlite();
             case 'pgsql':
-            case 'postgresql':
+            case 'postgres':
                 return $this->getSqlPgsql();
             case 'sqlsrv':
                 return $this->getSqlSqlsrv();
