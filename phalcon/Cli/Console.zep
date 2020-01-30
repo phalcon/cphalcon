@@ -115,7 +115,7 @@ class Console extends AbstractApplication
 
             let moduleObject = container->get(className);
 
-            moduleObject->registerAutoloaders();
+            moduleObject->registerAutoloaders(container);
             moduleObject->registerServices(container);
 
             if typeof eventsManager == "object" {
