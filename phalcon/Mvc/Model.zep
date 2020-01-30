@@ -2932,7 +2932,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     /**
      * Returns current model setup
      */
-    public static function getSetup() -> array
+    public static function getModelSetup() -> array
     {
         return [
             "events": globals_get("orm.events"),
