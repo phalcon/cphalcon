@@ -54,6 +54,7 @@ create table stuff
     `stf_type` tinyint(3) unsigned not null
 );
             ",
+            //            $this->insertStuff($db, 1, 'stuff data', 1);
         ];
     }
 
@@ -76,22 +77,7 @@ create table stuff
 
     protected function getSqlPgsql(): array
     {
-        return [
-            "
-drop table if exists stuff;
-            ",
-            "
-create table stuff
-(
-    stf_id   serial         not null constraint stuff_pk primary key,
-    stf_name varchar(100)   not null,
-    stf_type smallint       not null
-);
-            ",
-            "
-alter table stuff owner to postgres;
-            ",
-        ];
+        return [];
     }
 
     protected function getSqlSqlsrv(): array
