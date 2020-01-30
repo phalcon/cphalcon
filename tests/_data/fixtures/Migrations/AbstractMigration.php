@@ -19,6 +19,7 @@ use PDO;
  * Class AbstractMigration
  *
  * @property PDO    $connection
+ * @property string $driver
  * @property string $table
  */
 abstract class AbstractMigration
@@ -28,6 +29,10 @@ abstract class AbstractMigration
      */
     protected $connection;
 
+    /**
+     * @var string
+     */
+    protected $driver = '';
     /**
      * @var string
      */
@@ -41,6 +46,10 @@ abstract class AbstractMigration
     public function __construct(PDO $connection = null)
     {
         $this->connection = $connection;
+        if (null !== $connection) {
+            $this->driver = $connection->getAttribute(PDO::ATTR_DRIVER_NAME);
+        }
+
         $this->clear();
     }
 
@@ -61,9 +70,13 @@ abstract class AbstractMigration
     public function clear()
     {
         if ($this->connection) {
-            $this->connection->exec(
-                sprintf("delete from `%s`;", $this->table)
-            );
+            if ('sqlite' === $this->driver) {
+                $statement = 'delete from ' . $this->table;
+            } else {
+                $statement = 'truncate table ' . $this->table;
+            }
+
+            $this->connection->exec($statement);
         }
     }
 
@@ -80,13 +93,11 @@ abstract class AbstractMigration
     /**
      * Get all the SQL statements that create this table
      *
-     * @param string $driver
-     *
      * @return array
      */
-    public function getSql(string $driver = 'mysql'): array
+    public function getSql(): array
     {
-        switch ($driver) {
+        switch ($this->driver) {
             case 'mysql':
                 return $this->getSqlMysql();
             case 'sqlite':
