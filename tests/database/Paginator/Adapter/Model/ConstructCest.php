@@ -18,7 +18,6 @@ use Phalcon\Paginator\Adapter\Model;
 use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Invoices;
-
 use function uniqid;
 
 /**
