@@ -2950,7 +2950,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             "disableAssignSetters": globals_get("orm.disable_assign_setters"),
             "prefetchRecords": globals_get("orm.resultset_prefetch_records"),
             "castLastInsertIdToInt": globals_get("orm.cast_last_insert_id_to_int"),
-            "cacheLevel": globals_get("orm.cacheLevel")
+            "cacheLevel": globals_get("orm.cache_level")
         ];
     }
 
