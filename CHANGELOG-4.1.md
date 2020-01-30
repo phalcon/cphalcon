@@ -13,7 +13,6 @@
 - Added `Phalcon\Http\Request::getPreferredIsoLocaleVariant()` to return the base language if this is a specific one (`en` vs `en-US`) [#3135](https://github.com/phalcon/cphalcon/issues/3135)
 - Added `preload` for Volt, which will send a HTTP/2 preload header [#13128](https://github.com/phalcon/cphalcon/issues/13128)
 - Added `Phalcon\Mvc\Model::getModelSetup()` to return current model setup
-- Removed `phalcon.orm.ast_cache` because it wasn't used anywhere
 - Added `Phalcon\Mvc\Model\Query::cleanInteral()` to destroy internal parser cache
 
 ## Changed
@@ -24,3 +23,7 @@
 ## Fixed
 - Fixed `Phalcon\Db\Dialect\Mysql::getColumnDefinition` to recognize `size` for `DATETIME`, `TIME` and `TIMESTAMP` columns [#13297](https://github.com/phalcon/cphalcon/issues/13297)
 - Fixed `Phalcon\Mvc\Model::setup()` for `cacheLevel`, it wasn't previously set
+
+
+## Removed
+- Removed `phalcon.orm.ast_cache` because it wasn't used anywhere

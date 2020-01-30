@@ -45,7 +45,7 @@ class SetupCest
     protected function setAndCheckValue(IntegrationTester $I, $key, $value)
     {
         $currentSetup = Model::getModelSetup();
-        $I->assertIsArray($currentSetup);
+        $I->assertCount(16, $currentSetup);
         Model::setup([
             $key => $value,
         ]);
