@@ -17,13 +17,12 @@
 #define PHP_PHALCON_ZEPVERSION  "0.12.15-814db50"
 #define PHP_PHALCON_DESCRIPTION "Phalcon is a full stack PHP framework, delivered as a PHP extension, offering lower resource consumption and high performance."
 
-typedef struct _zephir_struct_db { 
+typedef struct _zephir_struct_db {
 	zend_bool escape_identifiers;
 	zend_bool force_casting;
 } zephir_struct_db;
 
-typedef struct _zephir_struct_orm { 
-	HashTable*  ast_cache;
+typedef struct _zephir_struct_orm {
 	int cache_level;
 	zend_bool case_insensitive_column_map;
 	zend_bool cast_last_insert_id_to_int;
@@ -45,7 +44,7 @@ typedef struct _zephir_struct_orm {
 	zend_bool virtual_foreign_keys;
 } zephir_struct_orm;
 
-typedef struct _zephir_struct_warning { 
+typedef struct _zephir_struct_warning {
 	zend_bool enable;
 } zephir_struct_warning;
 
@@ -66,7 +65,7 @@ ZEND_BEGIN_MODULE_GLOBALS(phalcon)
 	/* Max recursion control */
 	unsigned int recursive_lock;
 
-	
+
 	zephir_struct_db db;
 
 	zephir_struct_orm orm;

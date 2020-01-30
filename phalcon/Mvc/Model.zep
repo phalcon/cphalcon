@@ -2828,7 +2828,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             exceptionOnFailedSave, exceptionOnFailedMetaDataSave, phqlLiterals,
             virtualForeignKeys, lateStateBinding, castOnHydrate,
             ignoreUnknownColumns, updateSnapshotOnSave, disableAssignSetters,
-            caseInsensitiveColumnMap, prefetchRecords, lastInsertId;
+            caseInsensitiveColumnMap, prefetchRecords, lastInsertId, cacheLevel;
 
         /**
          * Enables/Disables globally the internal events
@@ -2923,6 +2923,35 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         if fetch lastInsertId, options["castLastInsertIdToInt"] {
             globals_set("orm.cast_last_insert_id_to_int", lastInsertId);
         }
+
+        if fetch cacheLevel, options["cacheLevel"] {
+            globals_set("orm.cache_level", cacheLevel);
+        }
+    }
+
+    /**
+     * Returns current model setup
+     */
+    public static function getSetup() -> array
+    {
+        return [
+            "events": globals_get("orm.events"),
+            "virtualForeignKeys": globals_get("orm.virtual_foreign_keys"),
+            "columnRenaming": globals_get("orm.column_renaming"),
+            "notNullValidations": globals_get("orm.not_null_validations"),
+            "exceptionOnFailedSave": globals_get("orm.exception_on_failed_save"),
+            "exceptionOnFailedMetaDataSave": globals_get("orm.exception_on_failed_metadata_save"),
+            "phqlLiterals": globals_get("orm.enable_literals"),
+            "lateStateBinding": globals_get("orm.late_state_binding"),
+            "castOnHydrate": globals_get("orm.cast_on_hydrate"),
+            "ignoreUnknownColumns": globals_get("orm.ignore_unknown_columns"),
+            "caseInsensitiveColumnMap": globals_get("orm.case_insensitive_column_map"),
+            "updateSnapshotOnSave": globals_get("orm.update_snapshot_on_save"),
+            "disableAssignSetters": globals_get("orm.disable_assign_setters"),
+            "prefetchRecords": globals_get("orm.resultset_prefetch_records"),
+            "castLastInsertIdToInt": globals_get("orm.cast_last_insert_id_to_int"),
+            "cacheLevel": globals_get("orm.cacheLevel")
+        ];
     }
 
     /**

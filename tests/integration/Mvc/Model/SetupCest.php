@@ -14,21 +14,43 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Model;
 
 use IntegrationTester;
+use Phalcon\Mvc\Model;
 
 /**
  * Class SetupCest
  */
 class SetupCest
 {
-    /**
-     * Tests Phalcon\Mvc\Model :: setup()
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
-     */
-    public function mvcModelSetup(IntegrationTester $I)
+    public function testSetupCacheLevel(IntegrationTester $I)
     {
-        $I->wantToTest('Mvc\Model - setup()');
-        $I->skipTest('Need implementation');
+        $I->wantToTest('Mvc\Model - setup() cache level');
+        $this->setAndCheckValue($I, 'cacheLevel', -1);
+        $this->setAndCheckValue($I, 'cacheLevel', 1);
+    }
+
+    public function testSetupEvents(IntegrationTester $I)
+    {
+        $I->wantToTest('Mvc\Model - setup() events');
+        $this->setAndCheckValue($I, 'events', false);
+        $this->setAndCheckValue($I, 'events', true);
+    }
+
+    public function testPrefetchRecords(IntegrationTester $I)
+    {
+        $I->wantToTest('Mvc\Model - setup() prefetch records');
+        $this->setAndCheckValue($I, 'prefetchRecords', 20);
+        $this->setAndCheckValue($I, 'prefetchRecords', 0);
+    }
+
+    protected function setAndCheckValue(IntegrationTester $I, $key, $value)
+    {
+        $currentSetup = Model::getSetup();
+        $I->assertIsArray($currentSetup);
+        Model::setup([
+            $key => $value,
+        ]);
+        $I->arrayHasKey($key, Model::getSetup());
+        $I->assertEquals($value, Model::getSetup()[$key]);
+        Model::setup($currentSetup);
     }
 }

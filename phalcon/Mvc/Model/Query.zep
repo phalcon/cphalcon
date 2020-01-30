@@ -3975,6 +3975,14 @@ class Query implements QueryInterface, InjectionAwareInterface
     }
 
     /**
+     * Destroys the internal Parser cache
+     */
+    public static function cleanInteral()
+    {
+        phalcon_orm_destroy_cache();
+    }
+
+    /**
      * Gets the read connection from the model if there is no transaction set
      * inside the query object
      */

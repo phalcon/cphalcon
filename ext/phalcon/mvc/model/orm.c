@@ -34,12 +34,6 @@ void phalcon_orm_destroy_cache(TSRMLS_D) {
 		FREE_HASHTABLE(phalcon_globals_ptr->orm.parser_cache);
 		phalcon_globals_ptr->orm.parser_cache = NULL;
 	}
-
-	if (phalcon_globals_ptr->orm.ast_cache != NULL) {
-		zend_hash_destroy(phalcon_globals_ptr->orm.ast_cache);
-		FREE_HASHTABLE(phalcon_globals_ptr->orm.ast_cache);
-		phalcon_globals_ptr->orm.ast_cache = NULL;
-	}
 }
 
 /**

@@ -70,13 +70,9 @@
       "type": "bool",
       "default": false
     },
-    "orm.ast_cache": {
-      "type": "hash",
-      "default": "NULL"
-    },
     "orm.cache_level": {
       "type": "int",
-      "default": 3
+      "default": 1
     },
     "orm.case_insensitive_column_map": {
       "type": "bool",
