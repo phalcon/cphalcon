@@ -41,7 +41,7 @@ class HasCest extends HttpBase
     {
         $I->wantToTest('Http\Response\Cookies - has()');
 
-        $sName = 'framework';
+        $sName  = 'framework';
         $sValue = 'phalcon';
 
         $this->setDiCrypt();

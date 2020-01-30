@@ -21,14 +21,14 @@ class DecrementCest
     /**
      * Tests Phalcon\Helper\Str :: decrement() - string
      *
-     * @author Ruud Boon <https://github.com/ruudboon>
-     * @since  2019-12-08
+     * @author       Ruud Boon <https://github.com/ruudboon>
+     * @since        2019-12-08
      * @dataProvider strProvider
      */
     public function helperStrDecrement(UnitTester $I, \Codeception\Example $example)
     {
         $I->wantToTest('Helper\Str - decrement()');
-        $actual   = Str::decrement($example['source'], $example['separator']);
+        $actual = Str::decrement($example['source'], $example['separator']);
         $I->assertEquals($example['expected'], $actual);
     }
 

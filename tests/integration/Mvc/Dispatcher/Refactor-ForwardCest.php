@@ -56,7 +56,7 @@ class RefactorForwardCest
             function ($event, $dispatcher, $exception) {
                 $dispatcher->forward(
                     [
-                        'namespace' => 'Phalcon\Test\Controllers',
+                        'namespace'  => 'Phalcon\Test\Controllers',
                         'controller' => 'exception',
                         'action'     => 'second',
                     ]

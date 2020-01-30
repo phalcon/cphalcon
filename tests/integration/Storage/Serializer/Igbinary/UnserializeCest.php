@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Storage\Serializer\Igbinary;
 
-use Phalcon\Storage\Serializer\Igbinary;
 use Codeception\Example;
+use Phalcon\Storage\Serializer\Igbinary;
 use stdClass;
 use UnitTester;
 

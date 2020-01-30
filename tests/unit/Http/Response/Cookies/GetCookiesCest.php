@@ -40,7 +40,7 @@ class GetCookiesCest extends HttpBase
     public function httpResponseCookiesGetCookies(UnitTester $I)
     {
         $I->wantToTest('Http\Response\Cookies - getCookies()');
-        $sName = 'framework';
+        $sName  = 'framework';
         $sValue = 'phalcon';
 
         $this->setDiCrypt();
@@ -49,11 +49,11 @@ class GetCookiesCest extends HttpBase
         $oCookie = new Cookies();
         $oCookie->setDI($container);
         $oCookie->set($sName, $sValue);
-        
+
         $aCookies = $oCookie->getCookies();
 
         $I->assertTrue(array_key_exists($sName, $aCookies));
-        
+
         $I->assertEquals($sValue, $aCookies[$sName]);
 
         $I->assertEquals(1, count($aCookies));

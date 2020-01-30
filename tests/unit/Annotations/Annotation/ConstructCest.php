@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Annotations\Annotation;
 
 use Phalcon\Annotations\Annotation;
-use Phalcon\Annotations\Adapter\AdapterInterface;
 use UnitTester;
 
 class ConstructCest
@@ -30,7 +29,7 @@ class ConstructCest
         $I->wantToTest('Annotations\Annotation - __construct()');
 
         $annotation = new Annotation([
-            'name' => 'NovAnnotation'
+            'name' => 'NovAnnotation',
         ]);
 
         $I->assertInstanceOf(

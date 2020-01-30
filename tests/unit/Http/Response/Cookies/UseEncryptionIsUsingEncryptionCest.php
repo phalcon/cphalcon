@@ -32,7 +32,8 @@ class IsUsingEncryptionCest extends HttpBase
     }
 
     /**
-     * Tests Phalcon\Http\Response\Cookies :: useEncryption / isUsingEncryption()
+     * Tests Phalcon\Http\Response\Cookies :: useEncryption /
+     * isUsingEncryption()
      *
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2020-01-06
@@ -41,7 +42,7 @@ class IsUsingEncryptionCest extends HttpBase
     {
         $I->wantToTest('Http\Response\Cookies - useEncryption / isUsingEncryption()');
 
-        $sName = 'framework';
+        $sName  = 'framework';
         $sValue = 'phalcon';
 
         $this->setDiCrypt();
@@ -53,7 +54,7 @@ class IsUsingEncryptionCest extends HttpBase
         $I->assertFalse($oCookie->isUsingEncryption());
 
         $oCookie->useEncryption(true);
-        
+
         $I->assertTrue($oCookie->isUsingEncryption());
     }
 }

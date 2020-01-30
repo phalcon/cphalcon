@@ -35,7 +35,7 @@ class GetMethodCest
         require_once dataDir('fixtures/Annotations/TestClass.php');
 
         $oAdapter = new Memory();
-    
+
         $sMethodAnnotation = $oAdapter->getMethod(
             TestClass::class,
             'testMethod1'

@@ -18,8 +18,9 @@ use UnitTester;
 
 class GetNamedArgumentCest
 {
-    private $PHANNOT_T_ARRAY = 308;
+    private $PHANNOT_T_ARRAY  = 308;
     private $PHANNOT_T_STRING = 303;
+
     /**
      * Tests Phalcon\Annotations\Annotation :: getNamedArgument()
      *
@@ -30,35 +31,35 @@ class GetNamedArgumentCest
     {
         $I->wantToTest('Annotations\Annotation - getNamedArgument()');
 
-        $value = 'test';
+        $value  = 'test';
         $value1 = 'test1';
         $value2 = 'test2';
 
         $oneExpr = [
             'type'  => $this->PHANNOT_T_STRING,
-            'value' => $value
+            'value' => $value,
         ];
 
         $twoExpr = [
             'type'  => $this->PHANNOT_T_STRING,
-            'value' => $value1
+            'value' => $value1,
         ];
 
         $threeExpr = [
             'type'  => $this->PHANNOT_T_STRING,
-            'value' => $value2
+            'value' => $value2,
         ];
 
         $name  = 'one_item';
         $name1 = 'two_item';
         $name2 = 'three_item';
-        
+
         $exprName  = 'first_argument';
         $exprName1 = 'second_argument';
 
         $annotation = new Annotation([
-            'name'       => 'NovAnnotation',
-            'arguments'  => [
+            'name'      => 'NovAnnotation',
+            'arguments' => [
                 [
                     'name' => $exprName,
                     'expr' => [
@@ -66,14 +67,14 @@ class GetNamedArgumentCest
                         'items' => [
                             [
                                 'name' => $name,
-                                'expr' => $oneExpr
+                                'expr' => $oneExpr,
                             ],
                             [
                                 'name' => $name1,
-                                'expr' => $twoExpr
-                            ]
-                        ]
-                    ]
+                                'expr' => $twoExpr,
+                            ],
+                        ],
+                    ],
                 ],
                 [
                     'name' => $exprName1,
@@ -82,25 +83,25 @@ class GetNamedArgumentCest
                         'items' => [
                             [
                                 'name' => $name2,
-                                'expr' => $threeExpr
-                            ]
-                        ]
-                    ]
-                ]
-            ]
+                                'expr' => $threeExpr,
+                            ],
+                        ],
+                    ],
+                ],
+            ],
         ]);
 
         $result = [
             $name  => $value,
-            $name1 => $value1
+            $name1 => $value1,
         ];
 
         $I->assertEquals($annotation->getNamedArgument($exprName), $result);
 
         $result1 = [
-            $name2  => $value2
+            $name2 => $value2,
         ];
-        
+
         $I->assertEquals($annotation->getNamedArgument($exprName1), $result1);
     }
 }

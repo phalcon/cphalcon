@@ -21,14 +21,14 @@ class IncrementCest
     /**
      * Tests Phalcon\Helper\Str :: increment()
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-04-06
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2019-04-06
      * @dataProvider strProvider
      */
     public function helperStrIncrementSimpleString(UnitTester $I, \Codeception\Example $example)
     {
         $I->wantToTest('Helper\Str - increment()');
-        $actual   = Str::increment($example['source'], $example['separator']);
+        $actual = Str::increment($example['source'], $example['separator']);
         $I->assertEquals($example['expected'], $actual);
     }
 

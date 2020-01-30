@@ -16,7 +16,6 @@ namespace Phalcon\Test\Unit\Http\Response\Cookies;
 use Phalcon\Http\Response\Cookies;
 use Phalcon\Test\Fixtures\Traits\CookieTrait;
 use Phalcon\Test\Unit\Http\Helper\HttpBase;
-use Phalcon\Http\Response\CookiesInterface;
 use UnitTester;
 
 class SendCest extends HttpBase
@@ -42,7 +41,7 @@ class SendCest extends HttpBase
     {
         $I->wantToTest('Http\Response\Cookies - send()');
 
-        $sName = 'framework';
+        $sName  = 'framework';
         $sValue = 'phalcon';
 
         $this->setDiCrypt();

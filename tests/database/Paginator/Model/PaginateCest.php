@@ -21,8 +21,6 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\RecordsTrait;
 use Phalcon\Test\Models\Invoices;
 
-use function uniqid;
-
 class PaginateCest
 {
     use DiTrait;
@@ -35,7 +33,7 @@ class PaginateCest
 
         /** @var PDO $connection */
         $connection = $I->getConnection();
-        $migration = new InvoicesMigration($connection);
+        $migration  = new InvoicesMigration($connection);
         $migration->clear();
     }
 
@@ -43,7 +41,7 @@ class PaginateCest
     {
         /** @var PDO $connection */
         $connection = $I->getConnection();
-        $migration = new InvoicesMigration($connection);
+        $migration  = new InvoicesMigration($connection);
         $this->insertDataInvoices($migration, 17, 2, 'ccc');
         $this->insertDataInvoices($migration, 11, 3, 'aaa');
         $this->insertDataInvoices($migration, 31, 1, 'aaa');
@@ -96,7 +94,7 @@ class PaginateCest
     {
         /** @var PDO $connection */
         $connection = $I->getConnection();
-        $migration = new InvoicesMigration($connection);
+        $migration  = new InvoicesMigration($connection);
         $this->insertDataInvoices($migration, 17, 2, 'ccc');
         $this->insertDataInvoices($migration, 11, 3, 'aaa');
         $this->insertDataInvoices($migration, 31, 1, 'aaa');
@@ -137,7 +135,7 @@ class PaginateCest
     {
         /** @var PDO $connection */
         $connection = $I->getConnection();
-        $migration = new InvoicesMigration($connection);
+        $migration  = new InvoicesMigration($connection);
         $this->insertDataInvoices($migration, 17, 2, 'ccc');
         $this->insertDataInvoices($migration, 11, 3, 'aaa');
         $this->insertDataInvoices($migration, 31, 1, 'aaa');
@@ -169,7 +167,7 @@ class PaginateCest
     {
         /** @var PDO $connection */
         $connection = $I->getConnection();
-        $migration = new InvoicesMigration($connection);
+        $migration  = new InvoicesMigration($connection);
         $this->insertDataInvoices($migration, 17, 2, 'ccc');
         $this->insertDataInvoices($migration, 11, 3, 'aaa');
         $this->insertDataInvoices($migration, 31, 1, 'aaa');
@@ -179,7 +177,7 @@ class PaginateCest
             [
                 'model'      => Invoices::class,
                 'parameters' => [
-                    'inv_cst_id >= 2'
+                    'inv_cst_id >= 2',
                 ],
                 'limit'      => 5,
                 'page'       => 1,
@@ -198,5 +196,4 @@ class PaginateCest
         $I->assertEquals(5, $page->getLimit());
         $I->assertEquals(1, $page->getCurrent());
     }
-
 }

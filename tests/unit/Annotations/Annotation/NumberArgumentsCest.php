@@ -19,6 +19,7 @@ use UnitTester;
 class NumberArgumentsCest
 {
     private $PHANNOT_T_STRING = 303;
+
     /**
      * Tests Phalcon\Annotations\Annotation :: numberArguments()
      *
@@ -29,27 +30,27 @@ class NumberArgumentsCest
     {
         $I->wantToTest('Annotations\Annotation - numberArguments()');
 
-        $value = 'test';
+        $value  = 'test';
         $value1 = 'test1';
 
         $annotation = new Annotation([
-            'name'       => 'NovAnnotation',
-            'arguments'  => [
+            'name'      => 'NovAnnotation',
+            'arguments' => [
                 [
                     'expr' => [
                         'type'  => $this->PHANNOT_T_STRING,
-                        'value' => $value
-                    ]
+                        'value' => $value,
+                    ],
                 ],
                 [
                     'expr' => [
                         'type'  => $this->PHANNOT_T_STRING,
-                        'value' => $value1
-                    ]
-                ]
-            ]
+                        'value' => $value1,
+                    ],
+                ],
+            ],
         ]);
-        
+
         $I->assertEquals($annotation->numberArguments(), 2);
     }
 }

@@ -38,7 +38,7 @@ class FindCest
 
         /** @var PDO $connection */
         $connection = $I->getConnection();
-        $migration = new ObjectsMigration($connection);
+        $migration  = new ObjectsMigration($connection);
         $migration->clear();
     }
 
@@ -54,7 +54,7 @@ class FindCest
 
         /** @var PDO $connection */
         $connection = $I->getConnection();
-        $migration = new ObjectsMigration($connection);
+        $migration  = new ObjectsMigration($connection);
         $migration->insert(1, 'random data', 1);
 
         $data = Objects::find();
@@ -81,7 +81,7 @@ class FindCest
 
         /** @var PDO $connection */
         $connection = $I->getConnection();
-        $migration = new ObjectsMigration($connection);
+        $migration  = new ObjectsMigration($connection);
         $migration->insert(1, 'random data', 1);
 
         $options = [

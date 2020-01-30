@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Storage\Serializer\Msgpack;
 
-use Phalcon\Storage\Serializer\Msgpack;
 use Codeception\Example;
+use Phalcon\Storage\Serializer\Msgpack;
 use stdClass;
 use UnitTester;
 

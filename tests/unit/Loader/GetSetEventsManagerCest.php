@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Loader;
 
-use Phalcon\Loader;
 use Phalcon\Events\Manager;
+use Phalcon\Loader;
 use UnitTester;
 
 class GetSetEventsManagerCest
@@ -29,7 +29,7 @@ class GetSetEventsManagerCest
     {
         $I->wantToTest('Loader - getEventsManager() / setEventsManager()');
 
-        $oLoader = new Loader();
+        $oLoader  = new Loader();
         $oManager = new Manager();
 
         $oLoader->setEventsManager($oManager);
