@@ -44,13 +44,13 @@ class SetupCest
 
     protected function setAndCheckValue(IntegrationTester $I, $key, $value)
     {
-        $currentSetup = Model::getSetup();
+        $currentSetup = Model::getModelSetup();
         $I->assertIsArray($currentSetup);
         Model::setup([
             $key => $value,
         ]);
-        $I->arrayHasKey($key, Model::getSetup());
-        $I->assertEquals($value, Model::getSetup()[$key]);
+        $I->arrayHasKey($key, Model::getModelSetup());
+        $I->assertEquals($value, Model::getModelSetup()[$key]);
         Model::setup($currentSetup);
     }
 }
