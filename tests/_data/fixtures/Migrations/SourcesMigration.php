@@ -78,7 +78,7 @@ create table co_sources
             ",
             "
 create index co_sources_username_index
-    on `co_sources` (`username`);
+    on co_sources (username);
             ",
         ];
     }
