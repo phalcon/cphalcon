@@ -11,24 +11,24 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Paginator\Adapter\QueryBuilder;
+namespace Phalcon\Test\Database\Paginator\Adapter\QueryBuilder;
 
-use IntegrationTester;
+use DatabaseTester;
 
 /**
- * Class GetCurrentPageCest
+ * Class SetRepositoryCest
  */
-class GetCurrentPageCest
+class SetRepositoryCest
 {
     /**
-     * Tests Phalcon\Paginator\Adapter\QueryBuilder :: getCurrentPage()
+     * Tests Phalcon\Paginator\Adapter\QueryBuilder :: setRepository()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function paginatorAdapterQuerybuilderGetCurrentPage(IntegrationTester $I)
+    public function paginatorAdapterQuerybuilderSetRepository(DatabaseTester $I)
     {
-        $I->wantToTest('Paginator\Adapter\QueryBuilder - getCurrentPage()');
+        $I->wantToTest('Paginator\Adapter\QueryBuilder - setRepository()');
         $I->skipTest('Need implementation');
     }
 }
