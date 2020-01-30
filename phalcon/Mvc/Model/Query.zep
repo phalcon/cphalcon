@@ -3977,7 +3977,7 @@ class Query implements QueryInterface, InjectionAwareInterface
     /**
      * Destroys the internal Parser cache
      */
-    public static function cleanInteral()
+    public static function cleanInteral() -> void
     {
         phalcon_orm_destroy_cache();
     }
