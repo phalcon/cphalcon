@@ -49,7 +49,11 @@ abstract class AbstractMigration
      */
     public function create()
     {
-        $statements = $this->getSql();
+        $driver     = $this
+            ->connection
+            ->getAttribute(PDO::ATTR_DRIVER_NAME)
+        ;
+        $statements = $this->getSql($driver);
         foreach ($statements as $statement) {
             $this->connection->exec($statement);
         }
@@ -61,9 +65,19 @@ abstract class AbstractMigration
     public function clear()
     {
         if ($this->connection) {
-            $this->connection->exec(
-                sprintf("delete from `%s`;", $this->table)
-            );
+            $driver     = $this
+                ->connection
+                ->getAttribute(PDO::ATTR_DRIVER_NAME)
+            ;
+            if ('sqlite' !== $driver) {
+                $this->connection->exec(
+                    'truncate table ' . $this->table . ';'
+                );
+            } else {
+                $this->connection->exec(
+                    'delete from ' . $this->table . ';'
+                );
+            }
         }
     }
 
@@ -73,7 +87,7 @@ abstract class AbstractMigration
     public function drop()
     {
         $this->connection->exec(
-            sprintf("drop table if exists `%s`;", $this->table)
+            'drop table if exists ' . $this->table . ';'
         );
     }
 
@@ -84,7 +98,7 @@ abstract class AbstractMigration
      *
      * @return array
      */
-    public function getSql(string $driver = 'mysql'): array
+    public function getSql(string $driver): array
     {
         switch ($driver) {
             case 'mysql':

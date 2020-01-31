@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of the Phalcon Framework.
  *
@@ -9,9 +11,10 @@
  * file that was distributed with this source code.
  */
 
-declare(strict_types=1);
-
 use Phalcon\Test\Fixtures\Migrations\AbstractMigration;
+
+error_reporting(E_ALL);
+ini_set('display_errors', 'On');
 
 $root = dirname(dirname(__DIR__));
 
@@ -20,7 +23,7 @@ require_once $root . '/vendor/autoload.php';
 $drivers = [
     'mysql',
     'sqlite',
-    //    'pgsql',
+    'pgsql',
     //    'sqlsrv',
 ];
 
