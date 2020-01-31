@@ -6,28 +6,24 @@ namespace Helper;
 // all public methods declared in helper class will be available in $I
 
 use Codeception\Exception\ModuleException;
-use Codeception\Module;
 use Codeception\TestInterface;
 use PDO;
-use Phalcon\Db\Adapter\AdapterInterface;
-use Phalcon\Db\Adapter\Pdo\Mysql;
-use Phalcon\Db\Adapter\Pdo\Postgresql;
-use Phalcon\Db\Adapter\Pdo\Sqlite;
-use Phalcon\Db\Adapter\PdoFactory;
-use Phalcon\Di\FactoryDefault;
+
+use function date;
+use function getenv;
 use function getOptionsMysql;
 use function getOptionsPostgresql;
 use function getOptionsSqlite;
-use function var_dump;
+use function sprintf;
 
 /**
- * Class Integration
+ * Class Database
  *
  * @property string $driver
  * @property string $password
  * @property string $username
  */
-class Integration extends Module
+class Database extends \Codeception\Module
 {
     /**
      * @var string
@@ -71,7 +67,7 @@ class Integration extends Module
      */
     public function getConnection(): PDO
     {
-        return $this->getModule('Db')->dbh;
+        return $this->getModule('Db')->_getDbh();
     }
 
     /**
@@ -80,6 +76,7 @@ class Integration extends Module
     public function getDatabaseOptions(): array
     {
         switch ($this->driver) {
+            case 'pgsql':
             case 'postgres':
                 return getOptionsPostgresql();
             case 'sqlsrv':
@@ -106,6 +103,7 @@ class Integration extends Module
                     getenv('TEST_MYSQL_HOST'),
                     getenv('TEST_MYSQL_NAME')
                 );
+            case 'pgsql':
             case 'postgres':
                 $this->password = getenv('TEST_POSTGRES_PASS');
                 $this->username = getenv('TEST_POSTGRES_USER');

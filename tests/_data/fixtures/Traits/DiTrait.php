@@ -82,6 +82,7 @@ trait DiTrait
         /** @var PDO $connection */
         $connection = $I->getConnection();
         $driver     = $connection->getAttribute(PDO::ATTR_DRIVER_NAME);
+        $service    = $driver;
 
         switch ($driver) {
             case 'mysql':
@@ -89,6 +90,7 @@ trait DiTrait
                 break;
             case 'pgsql':
                 $options = getOptionsPostgresql();
+                $service = 'postgresql';
                 break;
             case 'sqlite':
                 $options = getOptionsSqlite();
@@ -98,7 +100,7 @@ trait DiTrait
                 $options = [];
         }
 
-        $db = (new PdoFactory())->newInstance($driver, $options);
+        $db = (new PdoFactory())->newInstance($service, $options);
         $this->container->setShared('db', $db);
     }
 
