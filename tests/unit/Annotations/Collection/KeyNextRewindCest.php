@@ -17,49 +17,49 @@ use Phalcon\Annotations\Collection;
 use Phalcon\Annotations\Annotation;
 use UnitTester;
 
-class GetAnnotationsCest
+class KeyNextRewindCest
 {
     /**
-     * Tests Phalcon\Annotations\Collection :: getAnnotations()
+     * Tests Phalcon\Annotations\Collection :: key() / next() / rewind()
      *
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
-     * @since  2020-01-27
+     * @since  2020-01-31
      */
-    public function annotationsCollectionGetAnnotations(UnitTester $I)
+    public function annotationsCollectionKeyNextRewind(UnitTester $I)
     {
-        $I->wantToTest('Annotations\Collection - getAnnotations()');
+        $I->wantToTest('Annotations\Collection - key() / next() / rewind()');
 
         $dataAnnotation = [
             'name' => 'NovAnnotation'
         ];
 
         $dataAnnotation1 = [
-            'name' => 'NovAnnotation1'
-        ];
-
-        $dataAnnotation2 = [
-            'name' => 'NovAnnotation'
+            'name' => 'Phalconatation'
         ];
 
         $reflectionData = [
             $dataAnnotation,
-            $dataAnnotation1,
-            $dataAnnotation2
+            $dataAnnotation1
         ];
 
-        $collection = new Collection($reflectionData);
-
+        $collection  = new Collection($reflectionData);
         $annotation  = new Annotation($dataAnnotation);
         $annotation1 = new Annotation($dataAnnotation1);
-        $annotation2 = new Annotation($dataAnnotation2);
 
-        $resultAnnotation = [
-            $annotation,
-            $annotation1,
-            $annotation2
-        ];
+        $I->assertEquals(0, $collection->key());
 
-        //Need to find two annotations with the name NovAnnotation
-        $I->assertEquals($resultAnnotation, $collection->getAnnotations());
+        $I->assertEquals($annotation, $collection->current());
+
+        $collection->next();
+
+        $I->assertEquals(1, $collection->key());
+
+        $I->assertEquals($annotation1, $collection->current());
+
+        $collection->rewind();
+
+        $I->assertEquals(0, $collection->key());
+
+        $I->assertEquals($annotation, $collection->current());
     }
 }
