@@ -256,9 +256,10 @@ class CreateTableCest
                         new Column(
                             'default_timestamp_update',
                             [
-                                'type'          => 'BIGINT',
+                                'type'          => 'TIMESTAMP',
                                 'typeReference' => Column::TYPE_TIMESTAMP,
-                                'default' => 'CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP',
+                                'default'       => 'CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP',
+                                'nutNull'       => true,
                             ]
                         ),
                     ]
