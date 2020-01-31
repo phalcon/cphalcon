@@ -1,5 +1,6 @@
 # [4.0.4](https://github.com/phalcon/cphalcon/releases/tag/v4.0.4) (2020-xx-xx)
 ## Added
+Added `Phalcon\Debug::renderHtml()` to get a string representation of the exception as HTML [#14794](https://github.com/phalcon/cphalcon/issues/14794) [@TimurFlush](https://github.com/TimurFlush)
 
 ## Changed
 
