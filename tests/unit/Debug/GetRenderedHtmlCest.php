@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Debug;
 
 use UnitTester;
-use Phalcon\Debug;
 
 class GetRenderedHtmlCest
 {
