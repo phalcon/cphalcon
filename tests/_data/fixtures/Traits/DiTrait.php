@@ -13,28 +13,19 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Fixtures\Traits;
 
-use IntegrationTester;
+use DatabaseTester;
 use PDO;
-use Phalcon\Db\Adapter\PdoFactory;
-use function dataDir;
-use function getOptionsLibmemcached;
-use function getOptionsModelCacheStream;
-use function getOptionsMysql;
-use function getOptionsPostgresql;
-use function getOptionsRedis;
-use function getOptionsSqlite;
 use Phalcon\Annotations\Adapter\Memory as AnnotationsMemory;
 use Phalcon\Cache\Adapter\Libmemcached as StorageLibmemcached;
 use Phalcon\Cache\Adapter\Stream as StorageStream;
 use Phalcon\Cli\Console as CliConsole;
 use Phalcon\Crypt;
-use Phalcon\Db\Adapter\Pdo\Mysql;
-use Phalcon\Db\Adapter\Pdo\Postgresql;
-use Phalcon\Db\Adapter\Pdo\Sqlite;
+use Phalcon\Db\Adapter\AdapterInterface;
+use Phalcon\Db\Adapter\PdoFactory;
 use Phalcon\Di;
+use Phalcon\Di\DiInterface;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Di\FactoryDefault\Cli as CliFactoryDefault;
-use Phalcon\Di\DiInterface;
 use Phalcon\Escaper;
 use Phalcon\Events\Manager as EventsManager;
 use Phalcon\Filter;
@@ -52,6 +43,18 @@ use Phalcon\Session\Manager as SessionManager;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Url;
 
+use function dataDir;
+use function getOptionsLibmemcached;
+use function getOptionsMysql;
+use function getOptionsPostgresql;
+use function getOptionsRedis;
+use function getOptionsSqlite;
+
+/**
+ * Trait DiTrait
+ *
+ * @property null|DiInterface $container
+ */
 trait DiTrait
 {
     /**
@@ -67,17 +70,28 @@ trait DiTrait
         return $this->container;
     }
 
+    /**
+     * @return CliConsole
+     */
     protected function newCliConsole(): CliConsole
     {
         return new CliConsole();
     }
 
+    /**
+     * @return CliFactoryDefault
+     */
     protected function newCliFactoryDefault(): CliFactoryDefault
     {
         return new CliFactoryDefault();
     }
 
-    protected function setDatabase(IntegrationTester $I)
+    /**
+     * @param DatabaseTester $I
+     *
+     * @return AdapterInterface
+     */
+    protected function newDbService(DatabaseTester $I): AdapterInterface
     {
         /** @var PDO $connection */
         $connection = $I->getConnection();
@@ -100,7 +114,16 @@ trait DiTrait
                 $options = [];
         }
 
-        $db = (new PdoFactory())->newInstance($service, $options);
+        return (new PdoFactory())->newInstance($service, $options);
+    }
+
+    /**
+     * @param DatabaseTester $I
+     */
+    protected function setDatabase(DatabaseTester $I)
+    {
+        $db = $this->newDbService($I);
+
         $this->container->setShared('db', $db);
     }
 
@@ -474,6 +497,10 @@ trait DiTrait
 
     /**
      * Return a service from the container
+     *
+     * @param string $name
+     *
+     * @return mixed
      */
     protected function getService(string $name)
     {
