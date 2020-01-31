@@ -173,7 +173,7 @@ class Mysql extends Dialect
                 let defaultValue = column->getDefault();
 
                 if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
-                    let columnLine .= " DEFAULT CURRENT_TIMESTAMP";
+                    let columnLine .= " DEFAULT " . defaultValue;
                 } else {
                     let columnLine .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
                 }
