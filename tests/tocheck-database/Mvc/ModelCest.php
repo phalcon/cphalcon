@@ -54,32 +54,6 @@ class ModelCest
         $I->assertEquals($expected, $actual);
     }
 
-    /**
-     * @dataProvider findFirstProvider
-     *
-     * @param IntegrationTester $I
-     * @param Example $example
-     */
-    public function findFirstByStringPrimaryKey(IntegrationTester $I, Example $example)
-    {
-        $I->wantToTest('Phalcon\Mvc\Model - findFirst()');
-
-        (new StringPrimaryMigration())($this->container->get('db'));
-        $model = ModelWithStringPrimary::findFirst($example['params']);
-
-        $I->assertSame($example['found'], $model instanceof Model);
-    }
-
-    protected function findFirstProvider(): array
-    {
-        return [
-            ['params' => ['uuid = ?0', 'bind' => ['5741bfd7-6870-40b7-adf6-cbacb515b9a9']], 'found' => true],
-            ['params' => ['uuid = ?0', 'bind' => ['1c53079c-249e-0c63-af8d-52413bfa2a2b']], 'found' => true],
-            ['params' => ['uuid = ?0', 'bind' => ['1c53079c-249e-0c63-af8d-52413bfa2a2c']], 'found' => false],
-            ['params' => 134, 'found' => false],
-            ['params' => 'uuid = 134', 'found' => false],
-        ];
-    }
 
 //    /**
 //     * Tests find with empty conditions + bind and limit.
