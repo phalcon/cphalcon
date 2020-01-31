@@ -259,7 +259,7 @@ class CreateTableCest
                                 'type'          => 'TIMESTAMP',
                                 'typeReference' => Column::TYPE_TIMESTAMP,
                                 'default'       => 'CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP',
-                                'nutNull'       => true,
+                                'notNull'       => true,
                             ]
                         ),
                     ]
