@@ -28,11 +28,6 @@ class GetRenderedHtmlCest
     {
         $I->wantToTest('Debug - renderHtml()');
 
-        /*
-         * Let's make sure there are no exceptions.
-         */
-        Debug::renderHtml(new \Exception());
-
         $I->skipTest('Need implementation');
     }
 }
