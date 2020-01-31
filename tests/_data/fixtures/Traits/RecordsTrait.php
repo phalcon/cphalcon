@@ -53,16 +53,28 @@ use function uniqid;
 trait RecordsTrait
 {
     /**
+     * @param int $number
+     *
+     * @return false|float
+     */
+    private function getFibonacci(int $number)
+    {
+        return round(pow((sqrt(5) + 1) / 2, $number) / sqrt(5));
+    }
+
+    /**
      * @param InvoicesMigration $migration
      * @param int               $count
      * @param int               $custId
      * @param string            $prefix
+     * @param int               $pad
      */
     private function insertDataInvoices(
         InvoicesMigration $migration,
         int $count,
         int $custId,
-        string $prefix
+        string $prefix,
+        int $pad = 0
     ) {
         $title = uniqid($prefix . '-');
         for ($counter = 1; $counter <= $count; $counter++) {
@@ -70,7 +82,8 @@ trait RecordsTrait
                 null,
                 $custId,
                 1,
-                $title
+                $title,
+                $this->getFibonacci($pad + $counter)
             );
         }
     }

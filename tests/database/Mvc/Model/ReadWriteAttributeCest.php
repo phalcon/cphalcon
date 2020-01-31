@@ -20,7 +20,7 @@ use Phalcon\Test\Models\Invoices;
 
 use function uniqid;
 
-class WriteAttributeCest
+class ReadWriteAttributeCest
 {
     use DiTrait;
 
