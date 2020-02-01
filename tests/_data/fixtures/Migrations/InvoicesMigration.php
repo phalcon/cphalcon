@@ -98,6 +98,7 @@ create table co_invoices
     inv_cst_id      integer,
     inv_status_flag integer,
     inv_title       text,
+    inv_total       real ,
     inv_created_at  text
 );
             ",
