@@ -158,11 +158,11 @@ class ToArrayCest
         );
 
         $expected = [
-            'inv_id'          => 4,
-            'inv_cst_id'      => 5,
-            'inv_title'       => $title,
+            'inv_id'     => 4,
+            'inv_cst_id' => 5,
+            'inv_title'  => $title,
         ];
-        $actual = $invoice->toArray();
+        $actual   = $invoice->toArray();
         $I->assertEquals($expected, $actual);
     }
 }
