@@ -433,4 +433,34 @@ class Arr
             array_flip(whiteList)
         );
     }
+
+    /**
+     * Black list filter by key: exclude elements of an array
+     * by the keys obtained from the elements of a blacklist
+     *
+     * @param array $collection
+     * @param array $whiteList
+     *
+     * @return array
+     */
+    final public static function blackList(array! collection, array! blackList) -> array
+    {
+        let blackList = array_filter(
+            blackList,
+            function (element)
+            {
+                return is_int(element) || is_string(element);
+            }
+        );
+
+        return array_intersect_key(
+            collection,
+            array_flip(
+                array_filter(
+                    array_keys(collection),
+                    key => !in_array(key, blackList)
+                )
+            )
+        );
+    }
 }
