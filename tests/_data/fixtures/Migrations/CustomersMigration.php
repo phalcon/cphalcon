@@ -66,11 +66,11 @@ create index co_customers_cst_status_flag_index
     on `co_customers` (`cst_status_flag`);
             ",
             "
-create index co_customers_cst_cst_id_index
+create index co_customers_cst_name_last_index
     on `co_customers` (`cst_name_last`);
             ",
             "
-create index co_customers_cst_status_flag_index
+create index co_customers_cst_name_first_index
     on `co_customers` (`cst_name_first`);
             ",
         ];
@@ -96,11 +96,11 @@ create index co_customers_cst_status_flag_index
     on co_customers (cst_status_flag);
             ",
             "
-create index co_customers_cst_cst_id_index
+create index co_customers_cst_name_last_index
     on co_customers (cst_name_last);
             ",
             "
-create index co_customers_cst_status_flag_index
+create index co_customers_cst_name_first_index
     on co_customers (cst_name_first);
             ",
         ];

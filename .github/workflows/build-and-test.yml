@@ -222,32 +222,36 @@ jobs:
       - name: Run cli tests
         run: vendor/bin/codecept run --ext DotReporter cli
 
-      - name: Run integrations tests
+      - name: Run integration tests
+          DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
+          DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
+        run: vendor/bin/codecept run --ext DotReporter integration
+
+      - name: Run database tests MySQL
         env:
           DATA_MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
-        run: vendor/bin/codecept run --ext DotReporter integration --env mysql
+        run: vendor/bin/codecept run --ext DotReporter database --env mysql
 
-      - name: Run integrations tests Sqlite
+      - name: Run database tests Sqlite
         env:
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
-        run: vendor/bin/codecept run --ext DotReporter integration --env sqlite
+        run: vendor/bin/codecept run --ext DotReporter database --env sqlite
 
-  #      # TODO Enable these one at a time and also for MacOS/Windows
-#      - name: Run integrations tests Postgres
+#      # TODO Enable these one at a time and also for MacOS/Windows
+#      - name: Run database tests Postgres
 #        env:
 #          DATA_POSTGRES_PORT: ${{ job.services.postgres.ports['5432'] }}
 #          DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
 #          DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
-#        run: vendor/bin/codecept run --ext DotReporter integration --env pgsql
-#
+#        run: vendor/bin/codecept run --ext DotReporter database --env pgsql
 #      - name: Run integrations tests SQL Server
 #        env:
 #          DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
 #          DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
-#        run: vendor/bin/codecept run --ext DotReporter integration --env sqlsrv
+#        run: vendor/bin/codecept run --ext DotReporter database --env sqlsrv
 
   build-and-test-macos:
     needs: generate
