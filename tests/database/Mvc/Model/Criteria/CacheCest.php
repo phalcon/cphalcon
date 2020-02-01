@@ -35,7 +35,7 @@ class CacheCest
      * Tests Phalcon\Mvc\Model\Criteria :: cache()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-02-01
      */
     public function mvcModelCriteriaCache(DatabaseTester $I)
     {

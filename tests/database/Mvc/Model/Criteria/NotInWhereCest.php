@@ -35,7 +35,7 @@ class NotInWhereCest
      * Tests Phalcon\Mvc\Model\Criteria :: notInWhere()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-02-01
      */
     public function mvcModelCriteriaNotInWhere(DatabaseTester $I)
     {

@@ -25,7 +25,7 @@ class SharedLockCest
      * Tests Phalcon\Mvc\Model\Criteria :: sharedLock()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-02-01
      */
     public function mvcModelCriteriaSharedLock(DatabaseTester $I)
     {

@@ -11,9 +11,9 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Db\Column;
+namespace Phalcon\Test\Database\Db\Column;
 
-use IntegrationTester;
+use DatabaseTester;
 use Phalcon\Test\Fixtures\Traits\DbTrait;
 
 class GetTypeValuesCest
@@ -24,9 +24,9 @@ class GetTypeValuesCest
      * Tests Phalcon\Db\Column :: getTypeValues()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-02-01
      */
-    public function dbColumnGetTypeValues(IntegrationTester $I)
+    public function dbColumnGetTypeValues(DatabaseTester $I)
     {
         $I->wantToTest('Db\Column - getTypeValues()');
 

@@ -23,7 +23,7 @@ class ConstructCest
      * Tests Phalcon\Db\Column :: __construct()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-02-01
      */
     public function dbColumnConstruct(DatabaseTester $I)
     {

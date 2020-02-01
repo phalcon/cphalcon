@@ -26,7 +26,7 @@ class GetAfterPositionCest
      * Tests Phalcon\Db\Column :: getAfterPosition()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-02-01
      */
     public function dbColumnGetAfterPosition(DatabaseTester $I)
     {

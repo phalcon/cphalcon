@@ -48,7 +48,7 @@ class FindFirstCest
      * Tests Phalcon\Mvc\Model :: findFirst()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-02-01
      */
     public function mvcModelFindFirst(DatabaseTester $I)
     {
@@ -89,7 +89,7 @@ class FindFirstCest
      * Tests Phalcon\Mvc\Model :: findFirst() - not found
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-02-01
      */
     public function mvcModelFindFirstNotFound(DatabaseTester $I)
     {
@@ -108,7 +108,7 @@ class FindFirstCest
      * Tests Phalcon\Mvc\Model :: findFirstBy() - not found
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-02-01
      */
     public function mvcModelFindFirstByNotFound(DatabaseTester $I)
     {
@@ -123,7 +123,7 @@ class FindFirstCest
      * Tests Phalcon\Mvc\Model :: findFirst() - extended
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-02-01
      */
     public function mvcModelFindFirstExtended(DatabaseTester $I)
     {
@@ -152,7 +152,7 @@ class FindFirstCest
      * Tests Phalcon\Mvc\Model :: findFirst() - exception
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-02-01
      */
     public function mvcModelFindFirstException(DatabaseTester $I)
     {

@@ -24,7 +24,7 @@ class SetRepositoryCest
      * Tests Phalcon\Paginator\Adapter\Model :: setRepository()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-02-01
      */
     public function paginatorAdapterModelSetRepository(DatabaseTester $I)
     {

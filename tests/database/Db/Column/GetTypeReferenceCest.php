@@ -11,9 +11,9 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Db\Column;
+namespace Phalcon\Test\Database\Db\Column;
 
-use IntegrationTester;
+use DatabaseTester;
 use Phalcon\Test\Fixtures\Traits\DbTrait;
 
 class GetTypeReferenceCest
@@ -24,9 +24,9 @@ class GetTypeReferenceCest
      * Tests Phalcon\Db\Column :: getTypeReference()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-02-01
      */
-    public function dbColumnGetTypeReference(IntegrationTester $I)
+    public function dbColumnGetTypeReference(DatabaseTester $I)
     {
         $I->wantToTest('Db\Column - getTypeReference()');
 
