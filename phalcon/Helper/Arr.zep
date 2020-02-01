@@ -459,7 +459,7 @@ class Arr
              * of the numeric type we get true.
              */
             return !in_array(key, blackList, true);
-        }
+        };
 
         return array_intersect_key(
             collection,
