@@ -35,7 +35,7 @@ class ObjectsMigration extends AbstractMigration
         }
 
         $sql = <<<SQL
-insert into objects (`obj_id`, `obj_name`, `obj_type`)
+insert into objects (obj_id, obj_name, obj_type)
 values ({$id}, "{$name}", "{$type}");
 SQL;
 

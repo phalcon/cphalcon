@@ -31,7 +31,7 @@ class StringPrimaryMigration extends AbstractMigration
         }
 
         $sql = <<<SQL
-insert into `table_with_uuid_primary` (`uuid`, `int_field`)
+insert into table_with_uuid_primary (uuid, int_field)
 VALUES ('{$uuid}', {$id});
 SQL;
 
