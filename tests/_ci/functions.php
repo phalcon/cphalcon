@@ -313,7 +313,7 @@ if (!function_exists('getOptionsSqlite')) {
     function getOptionsSqlite(): array
     {
         return [
-            'dbname' => dirname(__DIR__) . DIRECTORY_SEPARATOR . env('DATA_SQLITE_NAME'),
+            'dbname' => codecept_root_dir(env('DATA_SQLITE_NAME')),
         ];
     }
 }
