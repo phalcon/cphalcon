@@ -46,9 +46,9 @@ class GetMessagesCest
     {
         $I->wantToTest('Mvc\Model - getMessages()');
 
-        $record = new Objects();
+        $record         = new Objects();
         $record->obj_id = 1;
-        $result = $record->save();
+        $result         = $record->save();
         $I->assertFalse($result);
 
         $messages = $record->getMessages();

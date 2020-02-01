@@ -25,40 +25,25 @@ use Phalcon\Mvc\Model;
  * @property float  $inv_total
  * @property string $inv_created_at
  */
-class Invoices extends Model
+class Customers extends Model
 {
-    public $inv_id;
-    public $inv_cst_id;
-    public $inv_status_flag;
-    public $inv_title;
-    public $inv_total;
-    public $inv_created_at;
-
-    private $secretValue;
-    private $superSecret;
+    public $cst_id;
+    public $cst_status_flag;
+    public $cst_name_last;
+    public $cst_name_first;
 
     public function initialize()
     {
-        $this->setSource('co_invoices');
+        $this->setSource('co_customers');
 
-        $this->hasOne(
-            'inv_cst_id',
-            Customers::class,
+        $this->hasMany(
             'cst_id',
+            Invoices::class,
+            'inv_cst_id',
             [
-                'alias'    => 'customer',
+                'alias'    => 'invoices',
                 'reusable' => true,
             ]
         );
-    }
-
-    public function setSecretValue($value)
-    {
-        $this->secretValue = $value;
-    }
-
-    public function getSecretValue()
-    {
-        return $this->secretValue;
     }
 }

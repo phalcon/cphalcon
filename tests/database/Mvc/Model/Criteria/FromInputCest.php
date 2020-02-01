@@ -11,22 +11,24 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\Model\MetaData;
+namespace Phalcon\Test\Database\Mvc\Model\Criteria;
 
-use IntegrationTester;
+use DatabaseTester;
 
-class GetSetDICest
+/**
+ * Class FromInputCest
+ */
+class FromInputCest
 {
     /**
-     * Tests Phalcon\Mvc\Model\MetaData :: getDI() / setDI()
+     * Tests Phalcon\Mvc\Model\Criteria :: fromInput()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function mvcModelMetadataGetSetDI(IntegrationTester $I)
+    public function mvcModelCriteriaFromInput(DatabaseTester $I)
     {
-        $I->wantToTest('Mvc\Model\MetaData - getDI() / setDI()');
-
+        $I->wantToTest('Mvc\Model\Criteria - fromInput()');
         $I->skipTest('Need implementation');
     }
 }

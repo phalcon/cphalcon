@@ -4,18 +4,12 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Database\Mvc\Model;
 
-use Codeception\Example;
 use DatabaseTester;
 use Phalcon\Mvc\Model\Resultset\Simple;
 use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\RecordsTrait;
 use Phalcon\Test\Models\Invoices;
-use Phalcon\Test\Models\Personnes;
-use Phalcon\Test\Models\Pessoas;
-use function number_format;
-use function uniqid;
-use function var_dump;
 
 class AverageCest
 {
@@ -73,7 +67,7 @@ class AverageCest
             $total = Invoices::average(
                 [
                     'column' => 'inv_total',
-                    'inv_cst_id = 2'
+                    'inv_cst_id = 2',
                 ]
             );
             $I->assertEquals('4.714286', $total);
@@ -81,7 +75,7 @@ class AverageCest
             $total = Invoices::average(
                 [
                     'column' => 'inv_total',
-                    'where'  => 'inv_cst_id = 2'
+                    'where'  => 'inv_cst_id = 2',
                 ]
             );
             $I->assertEquals(14.00, $total);
@@ -92,7 +86,7 @@ class AverageCest
                     'conditions' => 'inv_cst_id = :custId:',
                     'bind'       => [
                         'custId' => 2,
-                    ]
+                    ],
                 ]
             );
             $I->assertEquals('4.714286', $total);
