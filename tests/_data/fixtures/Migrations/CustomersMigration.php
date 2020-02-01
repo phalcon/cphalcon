@@ -43,7 +43,7 @@ class CustomersMigration extends AbstractMigration
         $custId = $custId ?: 1;
         $now    = $createdAt ?: date('Y-m-d H:i:s');
         $sql    = <<<SQL
-insert into co_invoices (
+insert into co_customers (
     `inv_id`, `inv_cst_id`, `inv_status_flag`, `inv_title`, `inv_total`, `inv_created_at`
 ) values (
     {$id}, {$custId}, {$status}, "{$title}", {$total}, "{$now}"
@@ -69,15 +69,15 @@ create table co_customers
 );
             ",
             "
-create index co_invoices_inv_status_flag_index
+create index co_customers_inv_status_flag_index
     on `co_customers` (`cst_status_flag`);
             ",
             "
-create index co_invoices_inv_cst_id_index
+create index co_customers_inv_cst_id_index
     on `co_customers` (`cst_name_last`);
             ",
             "
-create index co_invoices_inv_status_flag_index
+create index co_customers_inv_status_flag_index
     on `co_customers` (`cst_name_first`);
             ",
         ];
@@ -99,15 +99,15 @@ create table co_customers
 );
             ",
             "
-create index co_invoices_inv_status_flag_index
+create index co_customers_inv_status_flag_index
     on co_customers (cst_status_flag);
             ",
             "
-create index co_invoices_inv_cst_id_index
+create index co_customers_inv_cst_id_index
     on co_customers (cst_name_last);
             ",
             "
-create index co_invoices_inv_status_flag_index
+create index co_customers_inv_status_flag_index
     on co_customers (cst_name_first);
             ",
         ];
