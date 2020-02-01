@@ -11,34 +11,34 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Db\Column;
+namespace Phalcon\Test\Database\Db\Column;
 
-use IntegrationTester;
+use DatabaseTester;
 use Phalcon\Test\Fixtures\Traits\Db\MysqlTrait;
+use Phalcon\Test\Fixtures\Traits\DbTrait;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-class GetAfterPositionCest
+class GetDefaultCest
 {
-    use DiTrait;
-    use MysqlTrait;
+    use DbTrait;
 
     /**
-     * Tests Phalcon\Db\Column :: getAfterPosition()
+     * Tests Phalcon\Db\Column :: getDefault()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function dbColumnGetAfterPosition(IntegrationTester $I)
+    public function dbColumnGetDefault(DatabaseTester $I)
     {
-        $I->wantToTest("Db\Column - getAfterPosition()");
+        $I->wantToTest("Db\Column - getDefault()");
 
-        $columns         = $this->getColumns();
-        $expectedColumns = $this->getExpectedColumns();
+        $columns         = $this->getColumnsArray();
+        $expectedColumns = $this->getColumnsObjects();
 
         foreach ($expectedColumns as $index => $column) {
             $I->assertEquals(
-                $columns[$index]['after'],
-                $column->getAfterPosition()
+                $columns[$index]['default'],
+                $column->getDefault()
             );
         }
     }

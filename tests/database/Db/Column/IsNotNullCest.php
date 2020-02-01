@@ -11,34 +11,34 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Db\Column;
+namespace Phalcon\Test\Database\Db\Column;
 
-use IntegrationTester;
+use DatabaseTester;
 use Phalcon\Test\Fixtures\Traits\Db\MysqlTrait;
+use Phalcon\Test\Fixtures\Traits\DbTrait;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-class IsUnsignedCest
+class IsNotNullCest
 {
-    use DiTrait;
-    use MysqlTrait;
+    use DbTrait;
 
     /**
-     * Tests Phalcon\Db\Column :: isUnsigned()
+     * Tests Phalcon\Db\Column :: isNotNull()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function dbColumnIsUnsigned(IntegrationTester $I)
+    public function dbColumnIsNotNull(DatabaseTester $I)
     {
-        $I->wantToTest("Db\Column - isUnsigned()");
+        $I->wantToTest("Db\Column - isNotNull()");
 
-        $columns         = $this->getColumns();
-        $expectedColumns = $this->getExpectedColumns();
+        $columns         = $this->getColumnsArray();
+        $expectedColumns = $this->getColumnsObjects();
 
         foreach ($expectedColumns as $index => $column) {
             $I->assertEquals(
-                $columns[$index]['unsigned'],
-                $column->isUnsigned()
+                $columns[$index]['notNull'],
+                $column->isNotNull()
             );
         }
     }

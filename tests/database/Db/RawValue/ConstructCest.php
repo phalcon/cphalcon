@@ -11,10 +11,10 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Db\RawValue;
+namespace Phalcon\Test\Database\Db\RawValue;
 
 use Codeception\Example;
-use IntegrationTester;
+use DatabaseTester;
 use Phalcon\Db\RawValue;
 
 class ConstructCest
@@ -27,7 +27,7 @@ class ConstructCest
      *
      * @dataProvider valueProvider
      */
-    public function dbRawvalueConstruct(IntegrationTester $I, Example $example)
+    public function dbRawvalueConstruct(DatabaseTester $I, Example $example)
     {
         $I->wantToTest('Db\RawValue - __construct()');
 

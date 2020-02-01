@@ -11,9 +11,9 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Db\Column;
+namespace Phalcon\Test\Database\Db\Column;
 
-use IntegrationTester;
+use DatabaseTester;
 use Phalcon\Db\Column;
 
 class ConstantsCest
@@ -24,7 +24,7 @@ class ConstantsCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-10-26
      */
-    public function checkClassConstants(IntegrationTester $I)
+    public function checkClassConstants(DatabaseTester $I)
     {
         $I->wantToTest("Db\Column :: constants");
 

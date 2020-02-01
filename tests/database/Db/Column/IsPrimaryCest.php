@@ -11,34 +11,34 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Db\Column;
+namespace Phalcon\Test\Database\Db\Column;
 
-use IntegrationTester;
+use DatabaseTester;
 use Phalcon\Test\Fixtures\Traits\Db\MysqlTrait;
+use Phalcon\Test\Fixtures\Traits\DbTrait;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-class GetScaleCest
+class IsPrimaryCest
 {
-    use DiTrait;
-    use MysqlTrait;
+    use DbTrait;
 
     /**
-     * Tests Phalcon\Db\Column :: getScale()
+     * Tests Phalcon\Db\Column :: isPrimary()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function dbColumnGetScale(IntegrationTester $I)
+    public function dbColumnIsPrimary(DatabaseTester $I)
     {
-        $I->wantToTest("Db\Column - getScale()");
+        $I->wantToTest("Db\Column - isPrimary()");
 
-        $columns         = $this->getColumns();
-        $expectedColumns = $this->getExpectedColumns();
+        $columns         = $this->getColumnsArray();
+        $expectedColumns = $this->getColumnsObjects();
 
         foreach ($expectedColumns as $index => $column) {
             $I->assertEquals(
-                $columns[$index]['scale'] ?? null,
-                $column->getScale()
+                $columns[$index]['primary'],
+                $column->isPrimary()
             );
         }
     }

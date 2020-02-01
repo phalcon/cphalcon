@@ -41,7 +41,7 @@ class TableOptionsCest
 
         $actual = $this->connection->tableOptions(
             'dialect_table',
-            $this->getDatabaseName()
+            $this->getIntegrationName()
         );
 
         $I->assertEquals($expected, $actual);

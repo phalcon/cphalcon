@@ -11,34 +11,34 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Db\Column;
+namespace Phalcon\Test\Database\Db\Column;
 
-use IntegrationTester;
+use DatabaseTester;
 use Phalcon\Test\Fixtures\Traits\Db\MysqlTrait;
+use Phalcon\Test\Fixtures\Traits\DbTrait;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-class GetSizeCest
+class GetBindTypeCest
 {
-    use DiTrait;
-    use MysqlTrait;
+    use DbTrait;
 
     /**
-     * Tests Phalcon\Db\Column :: getSize()
+     * Tests Phalcon\Db\Column :: getBindType()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function dbColumnGetSize(IntegrationTester $I)
+    public function dbColumnGetBindType(DatabaseTester $I)
     {
-        $I->wantToTest("Db\Column - getSize()");
+        $I->wantToTest("Db\Column - getBindType()");
 
-        $columns         = $this->getColumns();
-        $expectedColumns = $this->getExpectedColumns();
+        $columns         = $this->getColumnsArray();
+        $expectedColumns = $this->getColumnsObjects();
 
         foreach ($expectedColumns as $index => $column) {
             $I->assertEquals(
-                $columns[$index]['size'],
-                $column->getSize()
+                $columns[$index]['bindType'],
+                $column->getBindType()
             );
         }
     }

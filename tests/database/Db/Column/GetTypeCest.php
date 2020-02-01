@@ -11,34 +11,34 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Db\Column;
+namespace Phalcon\Test\Database\Db\Column;
 
-use IntegrationTester;
+use DatabaseTester;
 use Phalcon\Test\Fixtures\Traits\Db\MysqlTrait;
+use Phalcon\Test\Fixtures\Traits\DbTrait;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
-class IsNumericCest
+class GetTypeCest
 {
-    use DiTrait;
-    use MysqlTrait;
+    use DbTrait;
 
     /**
-     * Tests Phalcon\Db\Column :: isNumeric()
+     * Tests Phalcon\Db\Column :: getType()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function dbColumnIsNumeric(IntegrationTester $I)
+    public function dbColumnGetType(DatabaseTester $I)
     {
-        $I->wantToTest("Db\Column - isNumeric()");
+        $I->wantToTest("Db\Column - getType()");
 
-        $columns         = $this->getColumns();
-        $expectedColumns = $this->getExpectedColumns();
+        $columns         = $this->getColumnsArray();
+        $expectedColumns = $this->getColumnsObjects();
 
         foreach ($expectedColumns as $index => $column) {
             $I->assertEquals(
-                $columns[$index]['isNumeric'],
-                $column->isNumeric()
+                $columns[$index]['type'],
+                $column->getType()
             );
         }
     }

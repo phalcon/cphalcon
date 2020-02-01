@@ -14,9 +14,12 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Db\Column;
 
 use IntegrationTester;
+use Phalcon\Test\Fixtures\Traits\DbTrait;
 
 class GetTypeReferenceCest
 {
+    use DbTrait;
+
     /**
      * Tests Phalcon\Db\Column :: getTypeReference()
      *
@@ -26,6 +29,15 @@ class GetTypeReferenceCest
     public function dbColumnGetTypeReference(IntegrationTester $I)
     {
         $I->wantToTest('Db\Column - getTypeReference()');
-        $I->skipTest('Need implementation');
+
+        $columns         = $this->getColumnsArray();
+        $expectedColumns = $this->getColumnsObjects();
+
+        foreach ($expectedColumns as $index => $column) {
+            $I->assertEquals(
+                $columns[$index]['typeReference'],
+                $column->getTypeReference()
+            );
+        }
     }
 }

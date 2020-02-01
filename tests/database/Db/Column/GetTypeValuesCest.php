@@ -14,31 +14,29 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Db\Column;
 
 use IntegrationTester;
-use Phalcon\Test\Fixtures\Traits\Db\MysqlTrait;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Fixtures\Traits\DbTrait;
 
-class IsPrimaryCest
+class GetTypeValuesCest
 {
-    use DiTrait;
-    use MysqlTrait;
+    use DbTrait;
 
     /**
-     * Tests Phalcon\Db\Column :: isPrimary()
+     * Tests Phalcon\Db\Column :: getTypeValues()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function dbColumnIsPrimary(IntegrationTester $I)
+    public function dbColumnGetTypeValues(IntegrationTester $I)
     {
-        $I->wantToTest("Db\Column - isPrimary()");
+        $I->wantToTest('Db\Column - getTypeValues()');
 
-        $columns         = $this->getColumns();
-        $expectedColumns = $this->getExpectedColumns();
+        $columns         = $this->getColumnsArray();
+        $expectedColumns = $this->getColumnsObjects();
 
         foreach ($expectedColumns as $index => $column) {
             $I->assertEquals(
-                $columns[$index]['primary'],
-                $column->isPrimary()
+                $columns[$index]['typeValues'],
+                $column->getTypeValues()
             );
         }
     }
