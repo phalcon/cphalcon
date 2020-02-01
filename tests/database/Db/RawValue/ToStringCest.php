@@ -11,28 +11,28 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Db\RawValue;
+namespace Phalcon\Test\Database\Db\RawValue;
 
-use IntegrationTester;
+use DatabaseTester;
 use Phalcon\Db\RawValue;
 
-class GetValueCest
+class ToStringCest
 {
     /**
-     * Tests Phalcon\Db\RawValue :: getValue()
+     * Tests Phalcon\Db\RawValue :: __toString()
      *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-17
      */
-    public function dbRawvalueGetValue(IntegrationTester $I)
+    public function dbRawvalueToString(DatabaseTester $I)
     {
-        $I->wantToTest('Db\RawValue - getValue()');
+        $I->wantToTest('Db\RawValue - __toString()');
 
         $rawValue = new RawValue('example string');
 
         $I->assertEquals(
             'example string',
-            $rawValue->getValue()
+            (string) $rawValue
         );
     }
 }

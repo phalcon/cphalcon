@@ -11,9 +11,10 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Db\Profiler\Item;
+namespace Phalcon\Test\Database\Db\Profiler\Item;
 
-use IntegrationTester;
+use DatabaseTester;
+use Phalcon\Db\Profiler\Item;
 
 class GetTotalElapsedSecondsCest
 {
@@ -23,9 +24,13 @@ class GetTotalElapsedSecondsCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function dbProfilerItemGetTotalElapsedSeconds(IntegrationTester $I)
+    public function dbProfilerItemGetTotalElapsedSeconds(DatabaseTester $I)
     {
         $I->wantToTest('Db\Profiler\Item - getTotalElapsedSeconds()');
-        $I->skipTest('Need implementation');
+
+        $item = new Item();
+        $item->setInitialTime(100.45);
+        $item->setFinalTime(220.15);
+        $I->assertEquals(119.7, $item->getTotalElapsedSeconds());
     }
 }
