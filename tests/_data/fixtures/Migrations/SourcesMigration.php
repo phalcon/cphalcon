@@ -33,7 +33,7 @@ class SourcesMigration extends AbstractMigration
         }
 
         $sql = <<<SQL
-insert into co_sources (`id`, `username`, `source`)
+insert into co_sources (id, username, source)
 values ({$id}, "{$username}", "{$source}");
 SQL;
 

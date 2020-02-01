@@ -44,7 +44,7 @@ class InvoicesMigration extends AbstractMigration
         $now    = $createdAt ?: date('Y-m-d H:i:s');
         $sql    = <<<SQL
 insert into co_invoices (
-    `inv_id`, `inv_cst_id`, `inv_status_flag`, `inv_title`, `inv_total`, `inv_created_at`
+    inv_id, inv_cst_id, inv_status_flag, inv_title, inv_total, inv_created_at
 ) values (
     {$id}, {$custId}, {$status}, "{$title}", {$total}, "{$now}"
 )

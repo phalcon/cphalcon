@@ -33,7 +33,7 @@ class StuffMigration extends AbstractMigration
         }
 
         $sql = <<<SQL
-insert into stuff (`stf_id`, `stf_name`, `stf_type`)
+insert into stuff (stf_id, stf_name, stf_type)
 values ({$id}, "{$name}", "{$type}");
 SQL;
 

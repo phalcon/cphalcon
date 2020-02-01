@@ -21,32 +21,25 @@ class CustomersMigration extends AbstractMigration
     protected $table = "co_customers";
 
     /**
-     * @param int         $id
-     * @param int|null    $custId
+     * @param int|null    $id
      * @param int         $status
-     * @param string|null $title
-     * @param float       $total
-     * @param string|null $createdAt
+     * @param string|null $first
+     * @param string|null $last
      *
      * @return int
      */
     public function insert(
         $id,
-        int $custId = null,
         int $status = 0,
-        string $title = null,
-        float $total = 0,
-        string $createdAt = null
+        string $first = null,
+        string $last = null
     ): int {
-        $id     = $id ?: 'null';
-        $title  = $title ?: uniqid();
-        $custId = $custId ?: 1;
-        $now    = $createdAt ?: date('Y-m-d H:i:s');
-        $sql    = <<<SQL
+        $id  = $id ?: 'null';
+        $sql = <<<SQL
 insert into co_customers (
-    `inv_id`, `inv_cst_id`, `inv_status_flag`, `inv_title`, `inv_total`, `inv_created_at`
+    cst_id, cst_status_flag, cst_name_last, cst_name_first
 ) values (
-    {$id}, {$custId}, {$status}, "{$title}", {$total}, "{$now}"
+    {$id}, {$status}, "{$first}", "{$last}"
 )
 SQL;
 
@@ -69,15 +62,15 @@ create table co_customers
 );
             ",
             "
-create index co_customers_inv_status_flag_index
+create index co_customers_cst_status_flag_index
     on `co_customers` (`cst_status_flag`);
             ",
             "
-create index co_customers_inv_cst_id_index
+create index co_customers_cst_cst_id_index
     on `co_customers` (`cst_name_last`);
             ",
             "
-create index co_customers_inv_status_flag_index
+create index co_customers_cst_status_flag_index
     on `co_customers` (`cst_name_first`);
             ",
         ];
@@ -99,15 +92,15 @@ create table co_customers
 );
             ",
             "
-create index co_customers_inv_status_flag_index
+create index co_customers_cst_status_flag_index
     on co_customers (cst_status_flag);
             ",
             "
-create index co_customers_inv_cst_id_index
+create index co_customers_cst_cst_id_index
     on co_customers (cst_name_last);
             ",
             "
-create index co_customers_inv_status_flag_index
+create index co_customers_cst_status_flag_index
     on co_customers (cst_name_first);
             ",
         ];
