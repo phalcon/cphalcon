@@ -64,7 +64,7 @@ create table objects
     {
         return [
             "
-drop table if exists objects;
+drop table if exists `objects`;
             ",
             "
 create table objects
