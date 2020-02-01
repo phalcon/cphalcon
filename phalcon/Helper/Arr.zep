@@ -458,7 +458,7 @@ class Arr
             array_flip(
                 array_filter(
                     array_keys(collection),
-                    key => !in_array(key, blackList)
+                    function (key) use (blackList) { return !in_array(key, blackList); }
                 )
             )
         );
