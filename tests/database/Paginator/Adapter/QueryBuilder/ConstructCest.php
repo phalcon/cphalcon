@@ -44,7 +44,7 @@ class ConstructCest
      * Tests Phalcon\Paginator\Adapter\QueryBuilder :: __construct()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-02-01
      */
     public function paginatorAdapterQuerybuilderConstruct(DatabaseTester $I)
     {
@@ -73,7 +73,7 @@ class ConstructCest
      * Tests Phalcon\Paginator\Adapter\QueryBuilder :: __construct() - exception
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-02-01
      */
     public function paginatorAdapterQuerybuilderConstructException(DatabaseTester $I)
     {

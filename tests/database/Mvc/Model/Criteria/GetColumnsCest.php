@@ -25,7 +25,7 @@ class GetColumnsCest
      * Tests Phalcon\Mvc\Model\Criteria :: getColumns()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-02-01
      */
     public function mvcModelCriteriaGetColumns(DatabaseTester $I)
     {
@@ -44,7 +44,7 @@ class GetColumnsCest
      * Tests Phalcon\Mvc\Model\Criteria :: getColumns() - array
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-02-01
      */
     public function mvcModelCriteriaGetColumnsArray(DatabaseTester $I)
     {

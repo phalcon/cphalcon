@@ -11,10 +11,10 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Database\Mvc\Model\Criteria;
+namespace Phalcon\Test\Database\Mvc\Model\MetaData;
 
 use DatabaseTester;
-use Phalcon\Mvc\Model\Criteria;
+use Phalcon\Mvc\Model\MetaData\Memory;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 class GetSetDICest
@@ -27,18 +27,21 @@ class GetSetDICest
     }
 
     /**
-     * Tests Phalcon\Mvc\Model\Criteria :: getDI() / setDI()
+     * Tests Phalcon\Mvc\Model\MetaData :: getDI() / setDI()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
      */
-    public function mvcModelCriteriaGetSetDI(DatabaseTester $I)
+    public function mvcModelMetadataGetSetDI(DatabaseTester $I)
     {
-        $I->wantToTest('Mvc\Model\Criteria - getDI() / setDI()');
+        $I->wantToTest('Mvc\Model\MetaData - getDI() / setDI()');
 
-        $criteria = new Criteria();
-        $criteria->setDI($this->container);
+        $metadata = new Memory();
 
-        $I->assertEquals($this->container, $criteria->getDI());
+        $I->assertNull($metadata->getDI());
+
+        $metadata->setDI($this->container);
+
+        $I->assertEquals($this->container, $metadata->getDI());
     }
 }

@@ -22,7 +22,7 @@ class GetSetSqlStatementCest
      * Tests Phalcon\Db\Profiler\Item :: getSqlStatement()/setSqlStatement()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-02-01
      */
     public function dbProfilerItemGetSetSqlStatement(DatabaseTester $I)
     {

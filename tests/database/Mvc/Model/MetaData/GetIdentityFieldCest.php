@@ -11,18 +11,17 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Database\Mvc\Model;
+namespace Phalcon\Test\Database\Mvc\Model\MetaData;
 
 use DatabaseTester;
-use Phalcon\Mvc\Model;
-use Phalcon\Mvc\ModelInterface;
+use Phalcon\Mvc\Model\MetaData;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Invoices;
 
 /**
- * Class ConstructCest
+ * Class GetIdentityFieldCest
  */
-class ConstructCest
+class GetIdentityFieldCest
 {
     use DiTrait;
 
@@ -33,24 +32,21 @@ class ConstructCest
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: __construct()
+     * Tests Phalcon\Mvc\Model\MetaData :: getIdentityField()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
      */
-    public function mvcModelConstruct(DatabaseTester $I)
+    public function mvcModelMetadataGetIdentityField(DatabaseTester $I)
     {
-        $I->wantToTest('Mvc\Model - __construct()');
+        $I->wantToTest('Mvc\Model\MetaData - getIdentityField()');
 
-        $invoice = new Invoices();
+        /** @var MetaData $metadata */
+        $metadata = $this->container->get('modelsMetadata');
 
-        $I->assertInstanceOf(
-            Model::class,
-            $invoice
-        );
-        $I->assertInstanceOf(
-            ModelInterface::class,
-            $invoice
-        );
+        $model    = new Invoices();
+        $expected = 'inv_id';
+        $actual   = $metadata->getIdentityField($model);
+        $I->assertEquals($expected, $actual);
     }
 }

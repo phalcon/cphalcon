@@ -22,7 +22,7 @@ class GetSetSqlBindTypesCest
      * Tests Phalcon\Db\Profiler\Item :: getSqlBindTypes()/setSqlBindTypes()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-02-01
      */
     public function dbProfilerItemGetSetSqlBindTypes(DatabaseTester $I)
     {

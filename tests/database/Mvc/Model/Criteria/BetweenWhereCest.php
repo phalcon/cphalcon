@@ -35,7 +35,7 @@ class BetweenWhereCest
      * Tests Phalcon\Mvc\Model\Criteria :: betweenWhere()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-02-01
      */
     public function mvcModelCriteriaBetweenWhere(DatabaseTester $I)
     {
