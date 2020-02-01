@@ -468,7 +468,7 @@ class UniquenessCest
             )
         );
 
-        $I->expectException(
+        $I->expectThrowable(
             Exception::class,
             function () use ($validation) {
                 $validation->validate(null, $this->robot);

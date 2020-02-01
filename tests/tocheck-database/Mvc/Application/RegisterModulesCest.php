@@ -203,7 +203,7 @@ class RegisterModulesCest
 
         $application->setDI($di);
 
-        $I->expectException(
+        $I->expectThrowable(
             new \Phalcon\Mvc\Application\Exception(
                 "Module definition path '" . dataDir('not-a-real-file.php') . "' doesn't exist"
             ),
