@@ -13,10 +13,10 @@ create table co_customers
 create index co_customers_cst_status_flag_index
     on co_customers (cst_status_flag);
             
-create index co_customers_cst_cst_id_index
+create index co_customers_cst_name_last_index
     on co_customers (cst_name_last);
             
-create index co_customers_cst_status_flag_index
+create index co_customers_cst_name_first_index
     on co_customers (cst_name_first);
             
 
@@ -32,18 +32,18 @@ create table co_invoices
     inv_created_at  text
 );
             
-create index co_invoices_inv_created_at_index
-    on co_invoices (inv_created_at);
-            
 create index co_invoices_inv_cst_id_index
     on co_invoices (inv_cst_id);
             
 create index co_invoices_inv_status_flag_index
     on co_invoices (inv_status_flag);
             
+create index co_invoices_inv_created_at_index
+    on co_invoices (inv_created_at);
+            
 
 
-drop table if exists objects;
+drop table if exists `objects`;
             
 create table objects
     (
