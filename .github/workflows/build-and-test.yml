@@ -223,6 +223,7 @@ jobs:
         run: vendor/bin/codecept run --ext DotReporter cli
 
       - name: Run integration tests
+        env:
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
         run: vendor/bin/codecept run --ext DotReporter integration
