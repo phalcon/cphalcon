@@ -445,6 +445,8 @@ class Arr
      */
     final public static function blackList(array! collection, array! blackList) -> array
     {
+        var filteringClosure;
+
         let blackList = array_filter(
             blackList,
             function (element)
