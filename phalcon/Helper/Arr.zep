@@ -439,7 +439,7 @@ class Arr
      * by the keys obtained from the elements of a blacklist
      *
      * @param array $collection
-     * @param array $whiteList
+     * @param array $blackList
      *
      * @return array
      */
