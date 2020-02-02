@@ -445,8 +445,6 @@ class Arr
      */
     final public static function blackList(array! collection, array! blackList) -> array
     {
-        var filteringClosure;
-
         let blackList = array_filter(
             blackList,
             function (element)
@@ -455,22 +453,9 @@ class Arr
             }
         );
 
-        let filteringClosure = function (key) use (blackList) {
-            /*
-             * If we have strings in an array, then in a non-strict search
-             * of the numeric type we get true.
-             */
-            return !in_array(key, blackList, true);
-        };
-
-        return array_intersect_key(
+        return array_diff_key(
             collection,
-            array_flip(
-                array_filter(
-                    array_keys(collection),
-                    filteringClosure
-                )
-            )
+            array_flip(blackList)
         );
     }
 }
