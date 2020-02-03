@@ -50,22 +50,22 @@ class AddColumnCest
             [
                 '',
                 'column1',
-                'ALTER TABLE `table` ADD `column1` VARCHAR(10)',
+                'ALTER TABLE `table` ADD `column1` VARCHAR(10) NOT NULL',
             ],
             [
                 'schema',
                 'column1',
-                'ALTER TABLE `schema`.`table` ADD `column1` VARCHAR(10)',
+                'ALTER TABLE `schema`.`table` ADD `column1` VARCHAR(10) NOT NULL',
             ],
             [
                 '',
                 'column2',
-                'ALTER TABLE `table` ADD `column2` INT(18) UNSIGNED',
+                'ALTER TABLE `table` ADD `column2` INT(18) UNSIGNED NULL',
             ],
             [
                 'schema',
                 'column2',
-                'ALTER TABLE `schema`.`table` ADD `column2` INT(18) UNSIGNED',
+                'ALTER TABLE `schema`.`table` ADD `column2` INT(18) UNSIGNED NULL',
             ],
             [
                 '',
@@ -130,32 +130,32 @@ class AddColumnCest
             [
                 '',
                 'column9',
-                'ALTER TABLE `table` ADD `column9` VARCHAR(10) DEFAULT "column9"',
+                'ALTER TABLE `table` ADD `column9` VARCHAR(10) DEFAULT "column9" NOT NULL',
             ],
             [
                 'schema',
                 'column9',
-                'ALTER TABLE `schema`.`table` ADD `column9` VARCHAR(10) DEFAULT "column9"',
+                'ALTER TABLE `schema`.`table` ADD `column9` VARCHAR(10) DEFAULT "column9" NOT NULL',
             ],
             [
                 '',
                 'column10',
-                'ALTER TABLE `table` ADD `column10` INT(18) UNSIGNED DEFAULT "10"',
+                'ALTER TABLE `table` ADD `column10` INT(18) UNSIGNED DEFAULT "10" NOT NULL',
             ],
             [
                 'schema',
                 'column10',
-                'ALTER TABLE `schema`.`table` ADD `column10` INT(18) UNSIGNED DEFAULT "10"',
+                'ALTER TABLE `schema`.`table` ADD `column10` INT(18) UNSIGNED DEFAULT "10" NOT NULL',
             ],
             [
                 '',
                 'column11',
-                'ALTER TABLE `table` ADD `column11` BIGINT(20) UNSIGNED',
+                'ALTER TABLE `table` ADD `column11` BIGINT(20) UNSIGNED NOT NULL',
             ],
             [
                 'schema',
                 'column11',
-                'ALTER TABLE `schema`.`table` ADD `column11` BIGINT(20) UNSIGNED',
+                'ALTER TABLE `schema`.`table` ADD `column11` BIGINT(20) UNSIGNED NOT NULL',
             ],
             [
                 '',
