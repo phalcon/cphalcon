@@ -34,12 +34,12 @@ class HttpBase
         $_SERVER      = [];
 
         $this->newDi();
-        $this->setDiEscaper();
-        $this->setDiUrl();
-        $this->setDiFilter();
-        $this->setDiEventsManager();
-        $this->setDiRequest();
-        $this->setDiResponse();
+        $this->setDiService('escaper');
+        $this->setDiService('eventsManager');
+        $this->setDiService('filter');
+        $this->setDiService('url');
+        $this->setDiService('request');
+        $this->setDiService('response');
     }
 
     /**

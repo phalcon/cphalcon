@@ -22,7 +22,6 @@ use function uniqid;
 class ReadCest
 {
     use DiTrait;
-    use SessionTrait;
 
     public function _before(IntegrationTester $I)
     {
@@ -39,7 +38,7 @@ class ReadCest
     {
         $I->wantToTest('Session\Adapter\Noop - write()');
 
-        $adapter = $this->getSessionNoop();
+        $adapter = $this->newService('sessionNoop');
         $value   = uniqid();
 
         $adapter->write('test1', $value);

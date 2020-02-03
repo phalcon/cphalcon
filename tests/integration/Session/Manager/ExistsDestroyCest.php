@@ -36,7 +36,7 @@ class ExistsDestroyCest
         $_SESSION = [];
 
         $manager = new Manager();
-        $files   = $this->getSessionStream();
+        $files   = $this->newService('sessionStream');
         $manager->setAdapter($files);
 
         $actual = $manager->start();
@@ -69,7 +69,7 @@ class ExistsDestroyCest
         $_SESSION = [];
 
         $manager = new Manager();
-        $files   = $this->getSessionStream();
+        $files   = $this->newService('sessionStream');
         $manager->setAdapter($files);
 
         $actual = $manager->start();
@@ -105,7 +105,7 @@ class ExistsDestroyCest
         $_SESSION = [];
 
         $manager = new Manager();
-        $files   = $this->getSessionStream();
+        $files   = $this->newService('sessionStream');
         $manager->setAdapter($files);
         $manager->setOptions(
             [

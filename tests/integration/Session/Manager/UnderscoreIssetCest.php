@@ -33,7 +33,7 @@ class UnderscoreIssetCest
     {
         $I->wantToTest('Session\Manager - __isset()');
         $manager = new Manager();
-        $files   = $this->getSessionStream();
+        $files   = $this->newService('sessionStream');
         $manager->setAdapter($files);
 
         $actual = $manager->start();

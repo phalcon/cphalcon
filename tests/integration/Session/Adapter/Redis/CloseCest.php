@@ -20,7 +20,6 @@ use Phalcon\Test\Fixtures\Traits\SessionTrait;
 class CloseCest
 {
     use DiTrait;
-    use SessionTrait;
 
     public function _before(IntegrationTester $I)
     {
@@ -37,7 +36,7 @@ class CloseCest
     {
         $I->wantToTest('Session\Adapter\Redis - close()');
 
-        $adapter = $this->getSessionRedis();
+        $adapter = $this->newService('sessionRedis');
 
         $I->assertTrue(
             $adapter->close()

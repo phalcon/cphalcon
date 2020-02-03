@@ -25,7 +25,6 @@ use function uniqid;
 class GcCest
 {
     use DiTrait;
-    use SessionTrait;
 
     public function _before(IntegrationTester $I)
     {
@@ -42,7 +41,7 @@ class GcCest
     {
         $I->wantToTest('Session\Adapter\Stream - gc()');
 
-        $adapter = $this->getSessionStream();
+        $adapter = $this->newService('sessionStream');
 
         /**
          * Add two session files

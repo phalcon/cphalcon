@@ -22,7 +22,12 @@ use Phalcon\Test\Fixtures\Traits\SessionBagTrait;
 class GetSetDICest
 {
     use DiTrait;
-    use SessionBagTrait;
+
+    public function _before(IntegrationTester $I)
+    {
+        $this->setNewFactoryDefault();
+        $this->setDiService('sessionStream');
+    }
 
     /**
      * Tests Phalcon\Session\Bag :: getDI()/setDI()

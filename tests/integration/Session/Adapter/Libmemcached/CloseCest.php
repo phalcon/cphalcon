@@ -20,7 +20,6 @@ use Phalcon\Test\Fixtures\Traits\SessionTrait;
 class CloseCest
 {
     use DiTrait;
-    use SessionTrait;
 
     public function _before(IntegrationTester $I)
     {
@@ -37,7 +36,7 @@ class CloseCest
     {
         $I->wantToTest('Session\Adapter\Libmemcached - close()');
 
-        $adapter = $this->getSessionLibmemcached();
+        $adapter = $this->newService('sessionLibmemcached');
 
         $I->assertTrue(
             $adapter->close()

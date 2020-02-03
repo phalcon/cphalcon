@@ -20,7 +20,6 @@ use Phalcon\Test\Fixtures\Traits\SessionTrait;
 class DestroyCest
 {
     use DiTrait;
-    use SessionTrait;
 
     public function _before(IntegrationTester $I)
     {
@@ -37,7 +36,7 @@ class DestroyCest
     {
         $I->wantToTest('Session\Adapter\Noop - destroy()');
 
-        $adapter = $this->getSessionNoop();
+        $adapter = $this->newService('sessionNoop');
 
         $I->assertTrue(
             $adapter->destroy('test1')

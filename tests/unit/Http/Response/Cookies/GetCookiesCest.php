@@ -28,7 +28,7 @@ class GetCookiesCest extends HttpBase
     public function _before(UnitTester $I)
     {
         parent::_before($I);
-        $this->setDiSessionFiles();
+        $this->setDiService('sessionStream');;
     }
 
     /**
@@ -43,7 +43,7 @@ class GetCookiesCest extends HttpBase
         $sName  = 'framework';
         $sValue = 'phalcon';
 
-        $this->setDiCrypt();
+        $this->setDiService('crypt');
         $container = $this->getDi();
 
         $oCookie = new Cookies();

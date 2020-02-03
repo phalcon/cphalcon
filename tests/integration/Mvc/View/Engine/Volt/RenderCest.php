@@ -45,10 +45,10 @@ class RenderCest
         $I->wantToTest('Mvc\View\Engine\Volt - render() - events');
 
         $this->setNewFactoryDefault();
-        $this->setDiViewSimple();
+        $this->setDiService('viewSimple');
 
         $view          = $this->getService('viewSimple');
-        $eventsManager = $this->newEventsManager();
+        $eventsManager = $this->newService('eventsManager');
 
         $listener = new ViewCompileListener();
 

@@ -39,7 +39,7 @@ class ReadCest
     {
         $I->wantToTest('Session\Adapter\Libmemcached - read()');
 
-        $adapter = $this->getSessionLibmemcached();
+        $adapter = $this->newService('sessionLibmemcached');
 
         $value = uniqid();
 

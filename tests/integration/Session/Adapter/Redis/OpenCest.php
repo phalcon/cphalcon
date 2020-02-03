@@ -20,7 +20,6 @@ use Phalcon\Test\Fixtures\Traits\SessionTrait;
 class OpenCest
 {
     use DiTrait;
-    use SessionTrait;
 
     public function _before(IntegrationTester $I)
     {
@@ -37,7 +36,7 @@ class OpenCest
     {
         $I->wantToTest('Session\Adapter\Redis - open()');
 
-        $adapter = $this->getSessionRedis();
+        $adapter = $this->newService('sessionRedis');
 
         $I->assertTrue(
             $adapter->open('test', 'test1')

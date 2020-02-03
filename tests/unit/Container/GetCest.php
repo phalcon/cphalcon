@@ -38,7 +38,7 @@ class GetCest
 
         $escaper = new Escaper();
         $this->container->setShared('test', $escaper);
-        $this->setDiEscaper();
+        $this->setDiService('escaper');
 
         $container        = new Container($this->container);
         $containerEscaper = $container->get('test');

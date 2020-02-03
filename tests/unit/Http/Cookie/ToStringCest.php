@@ -32,7 +32,7 @@ class ToStringCest
         $I->wantToTest('Http\Cookie - __toString()');
 
         $this->setNewFactoryDefault();
-        $this->setDiSessionFiles();
+        $this->setDiService('sessionStream');;
 
         $name     = 'test';
         $value    = "phalcon";

@@ -21,7 +21,6 @@ use SessionHandlerInterface;
 class ConstructCest
 {
     use DiTrait;
-    use SessionTrait;
 
     public function _before(IntegrationTester $I)
     {
@@ -38,7 +37,7 @@ class ConstructCest
     {
         $I->wantToTest('Session\Adapter\Libmemcached - __construct()');
 
-        $adapter = $this->getSessionLibmemcached();
+        $adapter = $this->newService('sessionLibmemcached');
 
         $I->assertInstanceOf(
             SessionHandlerInterface::class,

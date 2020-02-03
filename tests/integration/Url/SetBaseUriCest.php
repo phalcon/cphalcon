@@ -33,76 +33,8 @@ class SetBaseUriCest
     public function _before()
     {
         $this->newDi();
-        $this->setDiUrl();
+        $this->setDiService('url');
         $this->setupRoutes();
-    }
-
-    /**
-     * Depends on the RouterTrait
-     */
-    private function setupRoutes()
-    {
-        $container  = $this->getDi();
-        $router     = new Router(false);
-        $routerData = $this->getDataToSetDi();
-
-        foreach ($routerData as $data) {
-            $this->getRouteAndSetRouteMethod($router, $data)->setName($data['setname']);
-        }
-
-        $router->removeExtraSlashes(true);
-
-        $container->set('router', $router);
-    }
-
-    private function getDataToSetDi(): array
-    {
-        return [
-            [
-                '/admin/:controller/p/:action',
-                [
-                    'controller' => 1,
-                    'action'     => 2,
-                ],
-                'methodName' => 'add',
-                'setname'    => 'adminProducts',
-            ],
-            [
-                '/api/classes/{class}',
-                'methodName' => 'add',
-                'setname'    => 'classApi',
-            ],
-            [
-                '/{year}/{month}/{title}',
-                'methodName' => 'add',
-                'setname'    => 'blogPost',
-            ],
-            [
-                '/wiki/{article:[a-z]+}',
-                'methodName' => 'add',
-                'setname'    => 'wikipedia',
-            ],
-            [
-                '/news/{country:[a-z]{2}}/([a-z+])/([a-z\-+])/{page}',
-                [
-                    'section' => 2,
-                    'article' => 3,
-                ],
-                'methodName' => 'add',
-                'setname'    => 'news',
-            ],
-            [
-                '/([a-z]{2})/([a-zA-Z0-9_-]+)(/|)',
-                [
-                    'lang'       => 1,
-                    'module'     => 'main',
-                    'controller' => 2,
-                    'action'     => 'index',
-                ],
-                'methodName' => 'add',
-                'setname'    => 'lang-controller',
-            ],
-        ];
     }
 
     /**
@@ -161,9 +93,9 @@ class SetBaseUriCest
     /**
      * Test should avoid double slash when joining baseUri to provided uri
      *
-     * @author       Olivier Monaco <olivier.monaco@nospam.free.fr>
-     * @since        2015-02-03
-     * @issue  https://github.com/phalcon/cphalcon/issues/3315
+     * @author  Olivier Monaco <olivier.monaco@nospam.free.fr>
+     * @since   2015-02-03
+     * @issue   @3315
      *
      * @dataProvider getUrlToSetWithoutDiTwoParam
      */
@@ -184,6 +116,59 @@ class SetBaseUriCest
         );
 
         $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * @return array
+     */
+    private function getDataToSetDi(): array
+    {
+        return [
+            [
+                '/admin/:controller/p/:action',
+                [
+                    'controller' => 1,
+                    'action'     => 2,
+                ],
+                'methodName' => 'add',
+                'setname'    => 'adminProducts',
+            ],
+            [
+                '/api/classes/{class}',
+                'methodName' => 'add',
+                'setname'    => 'classApi',
+            ],
+            [
+                '/{year}/{month}/{title}',
+                'methodName' => 'add',
+                'setname'    => 'blogPost',
+            ],
+            [
+                '/wiki/{article:[a-z]+}',
+                'methodName' => 'add',
+                'setname'    => 'wikipedia',
+            ],
+            [
+                '/news/{country:[a-z]{2}}/([a-z+])/([a-z\-+])/{page}',
+                [
+                    'section' => 2,
+                    'article' => 3,
+                ],
+                'methodName' => 'add',
+                'setname'    => 'news',
+            ],
+            [
+                '/([a-z]{2})/([a-zA-Z0-9_-]+)(/|)',
+                [
+                    'lang'       => 1,
+                    'module'     => 'main',
+                    'controller' => 2,
+                    'action'     => 'index',
+                ],
+                'methodName' => 'add',
+                'setname'    => 'lang-controller',
+            ],
+        ];
     }
 
     private function getUrlToSetBaseUri(): array
@@ -313,5 +298,22 @@ class SetBaseUriCest
                 'http://www.test.com/?_url=/path&params=one',
             ],
         ];
+    }
+
+    /**
+     * Depends on the RouterTrait
+     */
+    private function setupRoutes()
+    {
+        $router     = new Router(false);
+        $routerData = $this->getDataToSetDi();
+
+        foreach ($routerData as $data) {
+            $this->getRouteAndSetRouteMethod($router, $data)->setName($data['setname']);
+        }
+
+        $router->removeExtraSlashes(true);
+
+        $this->container->set('router', $router);
     }
 }

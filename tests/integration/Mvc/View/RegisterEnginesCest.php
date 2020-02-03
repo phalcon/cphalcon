@@ -23,7 +23,7 @@ class RegisterEnginesCest
     public function _before(IntegrationTester $I)
     {
         $this->newDi();
-        $this->setDiView();
+        $this->setDiService('view');
     }
 
     /**
