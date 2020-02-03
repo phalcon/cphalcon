@@ -32,7 +32,8 @@ class GetSetSecureCest
         $I->wantToTest('Http\Cookie - getSecure()/setSecure()');
 
         $this->setNewFactoryDefault();
-        $this->setDiService('sessionStream');;
+        $this->setDiService('sessionStream');
+        ;
 
         $name     = 'test';
         $value    = "phalcon";

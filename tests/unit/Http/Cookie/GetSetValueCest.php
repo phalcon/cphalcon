@@ -32,7 +32,8 @@ class GetSetValueCest
         $I->wantToTest('Http\Cookie - getValue()');
 
         $this->setNewFactoryDefault();
-        $this->setDiService('sessionStream');;
+        $this->setDiService('sessionStream');
+        ;
 
         $name     = 'test';
         $value    = "phalcon";

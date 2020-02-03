@@ -32,7 +32,8 @@ class GetSetPathCest
         $I->wantToTest('Http\Cookie - getPath()/setPath()');
 
         $this->setNewFactoryDefault();
-        $this->setDiService('sessionStream');;
+        $this->setDiService('sessionStream');
+        ;
 
         $name     = 'test';
         $value    = "phalcon";

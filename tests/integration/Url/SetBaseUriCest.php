@@ -93,9 +93,9 @@ class SetBaseUriCest
     /**
      * Test should avoid double slash when joining baseUri to provided uri
      *
-     * @author  Olivier Monaco <olivier.monaco@nospam.free.fr>
-     * @since   2015-02-03
-     * @issue   @3315
+     * @author       Olivier Monaco <olivier.monaco@nospam.free.fr>
+     * @since        2015-02-03
+     * @issue        @3315
      *
      * @dataProvider getUrlToSetWithoutDiTwoParam
      */

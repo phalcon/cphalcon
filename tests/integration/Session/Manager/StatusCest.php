@@ -21,7 +21,11 @@ use Phalcon\Test\Fixtures\Traits\SessionTrait;
 class StatusCest
 {
     use DiTrait;
-    use SessionTrait;
+
+    public function _before(IntegrationTester $I)
+    {
+        $this->newFactoryDefault();
+    }
 
     /**
      * Tests Phalcon\Session\Manager :: status()

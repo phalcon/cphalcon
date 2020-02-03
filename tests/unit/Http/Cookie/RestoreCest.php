@@ -32,7 +32,8 @@ class RestoreCest
         $I->wantToTest('Http\Cookie - restore()');
 
         $this->setNewFactoryDefault();
-        $this->setDiService('sessionStream');;
+        $this->setDiService('sessionStream');
+        ;
 
         $name     = 'test';
         $value    = "phalcon";

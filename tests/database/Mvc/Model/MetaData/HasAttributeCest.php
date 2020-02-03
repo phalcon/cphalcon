@@ -44,7 +44,7 @@ class HasAttributeCest
         /** @var MetaData $metadata */
         $metadata = $this->container->get('modelsMetadata');
 
-        $model    = new Invoices();
+        $model = new Invoices();
         $I->assertTrue($metadata->hasAttribute($model, 'inv_id'));
         $I->assertTrue($metadata->hasAttribute($model, 'inv_cst_id'));
         $I->assertTrue($metadata->hasAttribute($model, 'inv_status_flag'));

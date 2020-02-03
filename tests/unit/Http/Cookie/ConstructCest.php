@@ -32,7 +32,8 @@ class ConstructCest
         $I->wantToTest('Http\Cookie - __construct()');
 
         $this->setNewFactoryDefault();
-        $this->setDiService('sessionStream');;
+        $this->setDiService('sessionStream');
+        ;
 
         $cookie = new Cookie('test');
         $I->assertInstanceOf(Cookie\CookieInterface::class, $cookie);
