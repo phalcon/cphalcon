@@ -242,7 +242,7 @@ class Annotations extends Router
     public function processActionAnnotation(string! module, string! namespaceName, string! controller, string! action,
         <Annotation> annotation)
     {
-        var name, actionName, routePrefix, paths, value, uri, route, methods,
+        var name, proxyActionName, actionName, routePrefix, paths, value, uri, route, methods,
             converts, param, convert, converterParam, routeName, beforeMatch;
         bool isRoute;
 
