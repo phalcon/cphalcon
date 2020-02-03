@@ -12,8 +12,8 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Html\Helper\Meta;
 
 use Codeception\Example;
-use Phalcon\Factory\Exception;
 use Phalcon\Escaper;
+use Phalcon\Factory\Exception;
 use Phalcon\Html\Helper\Meta;
 use Phalcon\Html\TagFactory;
 use UnitTester;

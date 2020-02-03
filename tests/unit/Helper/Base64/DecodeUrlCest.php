@@ -29,7 +29,7 @@ class DecodeUrlCest
 
         $source   = 'aHR0cHM6Ly9jYXJkb2UubGQ_b25lPXR3byZkYXRhPWpzb24rdmRp';
         $expected = 'https://cardoe.ld?one=two&data=json+vdi';
-        $actual = Base64::decodeUrl($source);
+        $actual   = Base64::decodeUrl($source);
         $I->assertEquals($expected, $actual);
     }
 }

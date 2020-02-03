@@ -36,7 +36,7 @@ class GetBestLanguageCest
         $request = $this->container->get('request');
 
         $_SERVER = [
-            'HTTP_ACCEPT_LANGUAGE' => 'es,es-ar;q=0.8,en;q=0.5,en-us;q=0.3,de-de; q=0.9'
+            'HTTP_ACCEPT_LANGUAGE' => 'es,es-ar;q=0.8,en;q=0.5,en-us;q=0.3,de-de; q=0.9',
         ];
 
         $accept = $request->getLanguages();

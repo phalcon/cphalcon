@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Annotations\Collection;
 
-use Phalcon\Annotations\Collection;
 use Phalcon\Annotations\Annotation;
+use Phalcon\Annotations\Collection;
 use UnitTester;
 
 class GetAllCest
@@ -30,21 +30,21 @@ class GetAllCest
         $I->wantToTest('Annotations\Collection - getAll()');
 
         $dataAnnotation = [
-            'name' => 'NovAnnotation'
+            'name' => 'NovAnnotation',
         ];
 
         $dataAnnotation1 = [
-            'name' => 'NovAnnotation1'
+            'name' => 'NovAnnotation1',
         ];
 
         $dataAnnotation2 = [
-            'name' => 'NovAnnotation'
+            'name' => 'NovAnnotation',
         ];
 
         $reflectionData = [
             $dataAnnotation,
             $dataAnnotation1,
-            $dataAnnotation2
+            $dataAnnotation2,
         ];
 
         $collection = new Collection($reflectionData);
@@ -54,7 +54,7 @@ class GetAllCest
 
         $resultAnnotation = [
             $annotation,
-            $annotation2
+            $annotation2,
         ];
 
         //Check the result if the annotation doesn't exist

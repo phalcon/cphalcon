@@ -12,8 +12,8 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Html\Helper\Input;
 
 use Codeception\Example;
-use Phalcon\Factory\Exception as ExceptionAlias;
 use Phalcon\Escaper;
+use Phalcon\Factory\Exception as ExceptionAlias;
 use Phalcon\Html\Helper\Input\Input;
 use Phalcon\Html\Helper\Input\Textarea;
 use Phalcon\Html\TagFactory;

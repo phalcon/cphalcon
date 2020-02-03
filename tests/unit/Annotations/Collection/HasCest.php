@@ -29,16 +29,16 @@ class HasCest
         $I->wantToTest('Annotations\Collection - has()');
 
         $dataAnnotation = [
-            'name' => 'NovAnnotation'
+            'name' => 'NovAnnotation',
         ];
 
         $dataAnnotation1 = [
-            'name' => 'Phalconatation'
+            'name' => 'Phalconatation',
         ];
 
         $reflectionData = [
             $dataAnnotation,
-            $dataAnnotation1
+            $dataAnnotation1,
         ];
 
         $collection = new Collection($reflectionData);

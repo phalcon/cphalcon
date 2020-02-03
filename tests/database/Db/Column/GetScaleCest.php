@@ -65,7 +65,7 @@ class GetScaleCest
     public function dbColumnGetScaleDateTimeTimeTimeStamp(DatabaseTester $I)
     {
         $I->wantToTest("Db\Column - getScale() - datetime, time, timestamp");
-        
+
         $driver = $I->getDriver();
 
         if ('mysql' === $driver) {
@@ -87,7 +87,6 @@ class GetScaleCest
             $I->assertEquals('14:15:16.44', $record->ftime);
             $I->assertEquals('2019-12-25 17:18:19.67', $record->fdatetime);
             $I->assertEquals('2019-12-25 20:21:22.89', $record->ftimestamp);
-
         }
     }
 }
