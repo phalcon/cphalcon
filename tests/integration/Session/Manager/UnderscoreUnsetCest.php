@@ -33,7 +33,7 @@ class UnderscoreUnsetCest
     {
         $I->wantToTest('Session\Manager - __unset()');
         $manager = new Manager();
-        $files   = $this->getSessionStream();
+        $files   = $this->newService('sessionStream');
         $manager->setAdapter($files);
 
         $actual = $manager->start();

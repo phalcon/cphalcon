@@ -26,7 +26,7 @@ class AddJsCest
     public function _before(UnitTester $I)
     {
         $this->newDi();
-        $this->setDiUrl();
+        $this->setDiService('url');
     }
 
     public function _after(UnitTester $I)

@@ -22,7 +22,6 @@ use function uniqid;
 class DestroyCest
 {
     use DiTrait;
-    use SessionTrait;
 
     public function _before(IntegrationTester $I)
     {
@@ -39,7 +38,7 @@ class DestroyCest
     {
         $I->wantToTest('Session\Adapter\Libmemcached - destroy()');
 
-        $adapter = $this->getSessionLibmemcached();
+        $adapter = $this->newService('sessionLibmemcached');
 
         $value = uniqid();
 

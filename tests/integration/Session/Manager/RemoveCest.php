@@ -38,7 +38,7 @@ class RemoveCest
     {
         $I->wantToTest('Session\Manager - remove()');
         $manager = new Manager();
-        $files   = $this->getSessionStream();
+        $files   = $this->newService('sessionStream');
         $manager->setAdapter($files);
 
         $actual = $manager->start();

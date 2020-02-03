@@ -20,7 +20,6 @@ use Phalcon\Test\Fixtures\Traits\SessionTrait;
 class CloseCest
 {
     use DiTrait;
-    use SessionTrait;
 
     public function _before(IntegrationTester $I)
     {
@@ -36,7 +35,8 @@ class CloseCest
     public function sessionAdapterStreamClose(IntegrationTester $I)
     {
         $I->wantToTest('Session\Adapter\Stream - close()');
-        $adapter = $this->getSessionStream();
+
+        $adapter = $this->newService('sessionStream');
         $actual  = $adapter->close();
         $I->assertTrue($actual);
     }

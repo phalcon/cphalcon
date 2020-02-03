@@ -38,7 +38,8 @@ class WriteCest
     public function sessionAdapterRedisWrite(IntegrationTester $I)
     {
         $I->wantToTest('Session\Adapter\Redis - write()');
-        $adapter = $this->getSessionRedis();
+
+        $adapter = $this->newService('sessionRedis');
         $value   = uniqid();
         $adapter->write('test1', $value);
 

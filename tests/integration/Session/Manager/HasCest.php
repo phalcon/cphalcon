@@ -35,7 +35,7 @@ class HasCest
 
         $manager = new Manager();
 
-        $files = $this->getSessionStream();
+        $files = $this->newService('sessionStream');
 
         $manager->setAdapter($files);
 

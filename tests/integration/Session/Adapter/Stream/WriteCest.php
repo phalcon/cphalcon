@@ -23,7 +23,6 @@ use function uniqid;
 class WriteCest
 {
     use DiTrait;
-    use SessionTrait;
 
     public function _before(IntegrationTester $I)
     {
@@ -39,7 +38,8 @@ class WriteCest
     public function sessionAdapterStreamWrite(IntegrationTester $I)
     {
         $I->wantToTest('Session\Adapter\Stream - write()');
-        $adapter = $this->getSessionStream();
+
+        $adapter = $this->newService('sessionStream');
         $value   = uniqid();
         $adapter->write('test1', $value);
         $I->amInPath(cacheDir('sessions'));

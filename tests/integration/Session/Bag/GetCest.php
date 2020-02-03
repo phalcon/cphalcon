@@ -21,7 +21,12 @@ use Phalcon\Test\Fixtures\Traits\SessionBagTrait;
 class GetCest
 {
     use DiTrait;
-    use SessionBagTrait;
+
+    public function _before(IntegrationTester $I)
+    {
+        $this->setNewFactoryDefault();
+        $this->setDiService('sessionStream');
+    }
 
     /**
      * Tests Phalcon\Session\Bag :: get()

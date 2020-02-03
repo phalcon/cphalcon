@@ -27,7 +27,7 @@ class GetRegisteredEnginesCest
     public function _before(IntegrationTester $I)
     {
         $this->newDi();
-        $this->setDiViewSimple();
+        $this->setDiService('viewSimple');
     }
 
     /**

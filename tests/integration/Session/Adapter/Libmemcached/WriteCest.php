@@ -22,7 +22,6 @@ use function uniqid;
 class WriteCest
 {
     use DiTrait;
-    use SessionTrait;
 
     public function _before(IntegrationTester $I)
     {
@@ -38,7 +37,8 @@ class WriteCest
     public function sessionAdapterLibmemcachedWrite(IntegrationTester $I)
     {
         $I->wantToTest('Session\Adapter\Libmemcached - write()');
-        $adapter = $this->getSessionLibmemcached();
+
+        $adapter = $this->newService('sessionLibmemcached');
         $value   = uniqid();
         $adapter->write('test1', $value);
 

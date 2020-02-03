@@ -20,7 +20,6 @@ use Phalcon\Test\Fixtures\Traits\SessionTrait;
 class GcCest
 {
     use DiTrait;
-    use SessionTrait;
 
     public function _before(IntegrationTester $I)
     {
@@ -37,7 +36,7 @@ class GcCest
     {
         $I->wantToTest('Session\Adapter\Noop - gc()');
 
-        $adapter = $this->getSessionNoop();
+        $adapter = $this->newService('sessionNoop');
 
         $I->assertTrue(
             $adapter->gc(1)

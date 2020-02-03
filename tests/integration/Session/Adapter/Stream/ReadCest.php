@@ -23,7 +23,6 @@ use function uniqid;
 class ReadCest
 {
     use DiTrait;
-    use SessionTrait;
 
     public function _before(IntegrationTester $I)
     {
@@ -40,7 +39,7 @@ class ReadCest
     {
         $I->wantToTest('Session\Adapter\Stream - write()');
 
-        $adapter = $this->getSessionStream();
+        $adapter = $this->newService('sessionStream');
 
         $value = uniqid();
 

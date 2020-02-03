@@ -29,7 +29,7 @@ class CookieCest extends HttpBase
     {
         parent::_before($I);
 
-        $this->setDiSessionFiles();
+        $this->setDiService('sessionStream');;
     }
 
     /**
@@ -52,7 +52,7 @@ class CookieCest extends HttpBase
         $I->expectThrowable(
             new Exception('Hash does not match.'),
             function () use ($I) {
-                $this->setDiCrypt();
+                $this->setDiService('crypt');
 
                 $container = $this->getDi();
 
@@ -96,7 +96,7 @@ class CookieCest extends HttpBase
     {
         $I->checkExtensionIsLoaded('xdebug');
 
-        $this->setDiCrypt();
+        $this->setDiService('crypt');
 
         $container = $this->getDi();
 
@@ -138,7 +138,7 @@ class CookieCest extends HttpBase
      */
     public function shouldDecryptValueByUsingDefaultEncryptionAlgo(UnitTester $I)
     {
-        $this->setDiCrypt();
+        $this->setDiService('crypt');
 
         $container = $this->getDi();
 

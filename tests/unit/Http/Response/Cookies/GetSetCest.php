@@ -28,7 +28,7 @@ class SetCest extends HttpBase
     public function _before(UnitTester $I)
     {
         parent::_before($I);
-        $this->setDiSessionFiles();
+        $this->setDiService('sessionStream');;
     }
 
     /**
@@ -43,7 +43,7 @@ class SetCest extends HttpBase
         $sName  = 'framework';
         $sValue = 'phalcon';
 
-        $this->setDiCrypt();
+        $this->setDiService('crypt');
         $container = $this->getDi();
 
         $oCookie = new Cookies();
@@ -65,7 +65,7 @@ class SetCest extends HttpBase
         $I->wantToTest('Issue #13464');
         $I->checkExtensionIsLoaded('xdebug');
 
-        $this->setDiCrypt();
+        $this->setDiService('crypt');
         $container = $this->getDi();
 
         $cookie = new Cookies();

@@ -26,8 +26,8 @@ class OutputJsCest
     public function _before(UnitTester $I)
     {
         $this->newDi();
-        $this->setDiEscaper();
-        $this->setDiUrl();
+        $this->setDiService('escaper');
+        $this->setDiService('url');
     }
 
     public function _after(UnitTester $I)

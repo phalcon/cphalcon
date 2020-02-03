@@ -32,7 +32,7 @@ class GetSetDomainCest
         $I->wantToTest('Http\Cookie - getDomain()/setDomain()');
 
         $this->setNewFactoryDefault();
-        $this->setDiSessionFiles();
+        $this->setDiService('sessionStream');;
 
         $name     = 'test';
         $value    = "phalcon";

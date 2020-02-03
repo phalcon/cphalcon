@@ -33,8 +33,8 @@ class SessionCest
     public function _before(UnitTester $I)
     {
         $this->newDi();
-        $this->setDiEscaper();
-        $this->setDiSessionFiles();
+        $this->setDiService('escaper');
+        $this->setDiService('sessionStream');;
 
         if (PHP_SESSION_ACTIVE !== session_status()) {
             session_start();

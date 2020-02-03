@@ -37,7 +37,7 @@ class GetSetNameCest
     {
         $I->wantToTest('Session\Manager - getName()/setName()');
         $manager = new Manager();
-        $files   = $this->getSessionStream();
+        $files   = $this->newService('sessionStream');
         $manager->setAdapter($files);
 
         if (false !== $manager->exists()) {
@@ -63,7 +63,7 @@ class GetSetNameCest
             new InvalidArgumentException('The name contains non alphanum characters'),
             function () {
                 $manager = new Manager();
-                $files   = $this->getSessionStream();
+                $files   = $this->newService('sessionStream');
                 $manager->setAdapter($files);
 
                 $manager->setName('%-gga34');
@@ -82,7 +82,7 @@ class GetSetNameCest
         $I->wantToTest('Session\Manager - getName()/setName() - session started');
         $valid   = false;
         $manager = new Manager();
-        $files   = $this->getSessionStream();
+        $files   = $this->newService('sessionStream');
         $manager->setAdapter($files);
 
         try {

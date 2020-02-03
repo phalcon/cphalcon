@@ -26,8 +26,8 @@ class GetAttributesCest
     public function _before(IntegrationTester $I)
     {
         $this->newDi();
-        $this->setDiEscaper();
-        $this->setDiUrl();
+        $this->setDiService('escaper');
+        $this->setDiService('url');
     }
 
     /**

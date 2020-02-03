@@ -23,7 +23,6 @@ use function uniqid;
 class GcCest
 {
     use DiTrait;
-    use SessionTrait;
 
     public function _before(IntegrationTester $I)
     {
@@ -39,7 +38,7 @@ class GcCest
     public function sessionAdapterLibmemcachedGc(IntegrationTester $I)
     {
         $I->wantToTest('Session\Adapter\Libmemcached - gc()');
-        $adapter = $this->getSessionLibmemcached();
+        $adapter = $this->newService('sessionLibmemcached');
 
         /**
          * Add two session keys
