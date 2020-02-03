@@ -19,7 +19,6 @@ use Phalcon\Annotations\Adapter\Memory as AnnotationsMemory;
 use Phalcon\Cache\Adapter\Libmemcached as StorageLibmemcached;
 use Phalcon\Cache\Adapter\Stream as StorageStream;
 use Phalcon\Cli\Console;
-use Phalcon\Cli\Console as CliConsole;
 use Phalcon\Crypt;
 use Phalcon\Db\Adapter\AdapterInterface;
 use Phalcon\Db\Adapter\PdoFactory;
@@ -41,17 +40,19 @@ use Phalcon\Session\Adapter\Noop as SessionNoop;
 use Phalcon\Session\Adapter\Redis as SessionRedis;
 use Phalcon\Session\Adapter\Stream as SessionStream;
 use Phalcon\Session\Manager;
-use Phalcon\Session\Manager as SessionManager;
 use Phalcon\Storage\AdapterFactory as StorageAdapterFactory;
+use Phalcon\Storage\Exception;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Url;
 
 use function getOptionsLibmemcached;
+use function getOptionsModelCacheStream;
 use function getOptionsMysql;
 use function getOptionsPostgresql;
 use function getOptionsRedis;
 use function getOptionsSessionStream;
 use function getOptionsSqlite;
+use function var_dump;
 
 /**
  * Trait DiTrait
@@ -86,32 +87,6 @@ trait DiTrait
     }
 
     /**
-     * @return CliConsole
-     */
-    protected function newCliConsole(): CliConsole
-    {
-        return new CliConsole();
-    }
-
-    /**
-     * @return CliFactoryDefault
-     */
-    protected function newCliFactoryDefault(): CliFactoryDefault
-    {
-        return new CliFactoryDefault();
-    }
-
-    /**
-     * Set up a new DI
-     */
-    protected function newDi()
-    {
-        Di::reset();
-        $this->container = new Di();
-        Di::setDefault($this->container);
-    }
-
-    /**
      * @param DatabaseTester $I
      *
      * @return AdapterInterface
@@ -139,31 +114,59 @@ trait DiTrait
                 $options = [];
         }
 
+        $options['options'][PDO::ATTR_TIMEOUT] = 0;
+
         return (new PdoFactory())->newInstance($service, $options);
     }
 
     /**
-     * @param string $service
+     * Set up a new DI
+     */
+    protected function newDi()
+    {
+        Di::reset();
+        $this->container = new Di();
+        Di::setDefault($this->container);
+    }
+
+    /**
+     * @param string     $service
+     * @param mixed|null $options
      *
      * @return mixed|null
+     * @throws Exception
      */
-    protected function newService(string $service)
+    protected function newService(string $service, $options = null)
     {
         switch ($service) {
             case 'annotations':
                 return new AnnotationsMemory();
+            case 'cliFactoryDefault':
+                return new CliFactoryDefault();
             case 'console':
-                return new Console();
+                return new Console($options);
             case 'crypt':
                 return new Crypt();
             case 'eventsManager':
                 return new EventsManager();
             case 'escaper':
                 return new Escaper();
+            case 'factoryDefault':
+                return new FactoryDefault();
             case 'filter':
                 return (new Filter\FilterFactory())->newInstance();
             case 'metadataMemory':
                 return new MetadataMemory();
+            case 'modelsCacheLibmemcached':
+                return new StorageLibmemcached(
+                    new SerializerFactory(),
+                    getOptionsLibmemcached()
+                );
+            case 'modelsCacheStream':
+                return new StorageStream(
+                    new SerializerFactory(),
+                    getOptionsModelCacheStream()
+                );
             case 'modelsManager':
                 return new ModelsManager();
             case 'request':
@@ -219,18 +222,20 @@ trait DiTrait
 
     /**
      * @param string $service
+     *
+     * @throws Exception
      */
     protected function setDiService(string $service)
     {
         $class = $this->newService($service);
         switch ($service) {
-            case 'console':
             case 'annotations':
+            case 'console':
+            case 'escaper':
+            case 'eventsManager':
             case 'filter':
             case 'modelsManager':
             case 'modelsMetadata':
-            case 'escaper':
-            case 'eventsManager':
             case 'request':
             case 'response':
                 $this->container->set($service, $class);
@@ -244,6 +249,11 @@ trait DiTrait
                         return $class;
                     }
                 );
+                break;
+
+            case 'modelsCacheLibmemcached':
+            case 'modelsCacheStream':
+                $this->container->set('modelsCache', $class);
                 break;
 
             case 'sessionStream':
@@ -286,168 +296,26 @@ trait DiTrait
     }
 
     /**
-     * @return FactoryDefault
-     */
-    protected function newFactoryDefault(): FactoryDefault
-    {
-        return new FactoryDefault();
-    }
-
-    /**
      * Set up a new Cli\FactoryDefault
+     *
+     * @throws Exception
      */
     protected function setNewCliFactoryDefault()
     {
-        FactoryDefault::reset();//Di::reset();
-        $this->container = $this->newCliFactoryDefault();
+        FactoryDefault::reset();
+        $this->container = $this->newService('cliFactoryDefault');
         FactoryDefault::setDefault($this->container);
-        //Di::setDefault($this->container);
     }
 
     /**
      * Set up a new FactoryDefault
+     *
+     * @throws Exception
      */
     protected function setNewFactoryDefault()
     {
         Di::reset();
-        $this->container = $this->newFactoryDefault();
+        $this->container = $this->newService('factoryDefault');
         Di::setDefault($this->container);
     }
-
-//------------------------------------------------------------------------------
-//    protected function getAndSetModelsCacheStream(): StorageStream
-//    {
-//        $serializer = new SerializerFactory();
-//
-//        $cache = new StorageStream(
-//            $serializer,
-//            getOptionsModelCacheStream()
-//        );
-//
-//        $this->container->set('modelsCache', $cache);
-//
-//        return $cache;
-//    }
-//
-//    protected function getAndSetViewCacheStream(): StorageStream
-//    {
-//        $serializer = new SerializerFactory();
-//
-//        $cache = new StorageStream(
-//            $serializer,
-//            getOptionsModelCacheStream()
-//        );
-//
-//        $this->container->set('viewCache', $cache);
-//
-//        return $cache;
-//    }
-//
-//    protected function getAndSetModelsCacheLibmemcached(): StorageLibmemcached
-//    {
-//        $serializer = new SerializerFactory();
-//
-//        $cache = new StorageLibmemcached(
-//            $serializer,
-//            getOptionsLibmemcached()
-//        );
-//
-//        $this->container->set('modelsCache', $cache);
-//
-//        return $cache;
-//    }
-//
-//    /**
-//     * Set up db service (mysql)
-//     */
-//    protected function setDiMysql()
-//    {
-//        $this->container->setShared(
-//            'db',
-//            $this->newDiMysql()
-//        );
-//    }
-//
-//    /**
-//     * Setup a new Session Manager (Libmemcached)
-//     */
-//    protected function setDiSessionLibmemcached()
-//    {
-//        $this->container->set(
-//            'session',
-//            function () {
-//                $manager = new SessionManager();
-//
-//                $manager->setAdapter(
-//                    new SessionLibmemcached(
-//                        getOptionsLibmemcached()
-//                    )
-//                );
-//
-//                return $manager;
-//            }
-//        );
-//    }
-//
-//    /**
-//     * Setup a new Session Manager (Noop)
-//     */
-//    protected function setDiSessionNoop()
-//    {
-//        $this->container->set(
-//            'session',
-//            function () {
-//                $manager = new SessionManager();
-//
-//                $manager->setAdapter(
-//                    new SessionNoop()
-//                );
-//
-//                return $manager;
-//            }
-//        );
-//    }
-//
-//    /**
-//     * Setup a new Session Manager (Redis)
-//     */
-//    protected function setDiSessionRedis()
-//    {
-//        $this->container->set(
-//            'session',
-//            function () {
-//                $manager = new SessionManager();
-//
-//                $manager->setAdapter(
-//                    new SessionRedis(
-//                        getOptionsRedis()
-//                    )
-//                );
-//
-//                return $manager;
-//            }
-//        );
-//    }
-//
-//    /**
-//     * Setup a new Postgresql connection
-//     */
-//    protected function setupPostgres()
-//    {
-//        $this->setNewFactoryDefault();
-//        $this->setDiPostgresql();
-//
-//        $this->connection = $this->getService('db');
-//    }
-//
-//    /**
-//     * Set up db service (Postgresql)
-//     */
-//    protected function setDiPostgresql()
-//    {
-//        $this->container->set(
-//            'db',
-//            $this->newDiPostgresql()
-//        );
-//    }
 }
