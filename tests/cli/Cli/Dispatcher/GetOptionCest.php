@@ -31,15 +31,15 @@ class GetOptionCest
     public function cliDispatcherGetOption(CliTester $I)
     {
         $I->wantToTest('Cli\Dispatcher - getOption()');
-        $di = new DiFactoryDefault();
+        $di         = new DiFactoryDefault();
         $dispatcher = new Dispatcher();
         $dispatcher->setDi($di);
         $options = [
-            "phalcon" => "value123!"
+            "phalcon" => "value123!",
         ];
 
         $dispatcher->setOptions($options);
-        $optionName = "phalcon";
+        $optionName   = "phalcon";
         $defaultValue = "Phalcon Rocks!";
         $I->assertEquals($options[$optionName], $dispatcher->getOption($optionName));
         $I->assertEquals($options[$optionName], $dispatcher->getOption($optionName, '', $defaultValue));
