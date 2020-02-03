@@ -32,11 +32,6 @@ class DeleteCest
     {
         $this->setNewFactoryDefault();
         $this->setDatabase($I);
-
-        /** @var PDO $connection */
-        $connection = $I->getConnection();
-        $migration  = new InvoicesMigration($connection);
-        $migration->clear();
     }
 
     /**
@@ -49,20 +44,27 @@ class DeleteCest
     {
         $I->wantToTest('Mvc\Model - delete()');
 
-        $title                    = uniqid('inv-');
-        $date                     = date('Y-m-d H:i:s');
-        $invoice                  = new Invoices();
-        $invoice->inv_id          = 1;
-        $invoice->inv_cst_id      = 2;
-        $invoice->inv_status_flag = 3;
-        $invoice->inv_title       = $title;
-        $invoice->inv_total       = 100.12;
-        $invoice->inv_created_at  = $date;
+        $driver = $I->getDriver();
 
-        $result = $invoice->create();
-        $I->assertNotFalse($result);
+        /**
+         * The following tests need to skip sqlite because we will get
+         * a General Error 5 database is locked error
+         */
+        if ('sqlite' !== $driver) {
+            $title                    = uniqid('inv-');
+            $date                     = date('Y-m-d H:i:s');
+            $invoice                  = new Invoices();
+            $invoice->inv_cst_id      = 2;
+            $invoice->inv_status_flag = 3;
+            $invoice->inv_title       = $title;
+            $invoice->inv_total       = 100.12;
+            $invoice->inv_created_at  = $date;
 
-        $result = $invoice->delete();
-        $I->assertTrue($result);
+            $result = $invoice->create();
+            $I->assertNotFalse($result);
+
+            $result = $invoice->delete();
+            $I->assertTrue($result);
+        }
     }
 }
