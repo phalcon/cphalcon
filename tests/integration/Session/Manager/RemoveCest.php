@@ -21,7 +21,11 @@ use Phalcon\Test\Fixtures\Traits\SessionTrait;
 class RemoveCest
 {
     use DiTrait;
-    use SessionTrait;
+
+    public function _before(IntegrationTester $I)
+    {
+        $this->newFactoryDefault();
+    }
 
     public function _after(IntegrationTester $I)
     {

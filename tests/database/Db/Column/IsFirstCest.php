@@ -14,9 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Database\Db\Column;
 
 use DatabaseTester;
-use Phalcon\Test\Fixtures\Traits\Db\MysqlTrait;
 use Phalcon\Test\Fixtures\Traits\DbTrait;
-use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 class IsFirstCest
 {

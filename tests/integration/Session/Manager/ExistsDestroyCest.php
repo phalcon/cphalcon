@@ -21,7 +21,11 @@ use Phalcon\Test\Fixtures\Traits\SessionTrait;
 class ExistsDestroyCest
 {
     use DiTrait;
-    use SessionTrait;
+
+    public function _before(IntegrationTester $I)
+    {
+        $this->newFactoryDefault();
+    }
 
     /**
      * Tests Phalcon\Session\Manager :: exists()/destroy()

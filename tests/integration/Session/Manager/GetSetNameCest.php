@@ -25,7 +25,11 @@ use Phalcon\Test\Fixtures\Traits\SessionTrait;
 class GetSetNameCest
 {
     use DiTrait;
-    use SessionTrait;
+
+    public function _before(IntegrationTester $I)
+    {
+        $this->newFactoryDefault();
+    }
 
     /**
      * Tests Phalcon\Session\Manager :: getName()/setName()

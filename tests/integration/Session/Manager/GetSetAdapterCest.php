@@ -22,7 +22,11 @@ use SessionHandlerInterface;
 class GetSetAdapterCest
 {
     use DiTrait;
-    use SessionTrait;
+
+    public function _before(IntegrationTester $I)
+    {
+        $this->newFactoryDefault();
+    }
 
     /**
      * Tests Phalcon\Session\Manager :: getAdapter()/setAdapter()

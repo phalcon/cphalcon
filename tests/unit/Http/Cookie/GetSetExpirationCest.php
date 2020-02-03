@@ -32,7 +32,8 @@ class GetSetExpirationCest
         $I->wantToTest('Http\Cookie - getExpiration()/setExpiration()');
 
         $this->setNewFactoryDefault();
-        $this->setDiService('sessionStream');;
+        $this->setDiService('sessionStream');
+        ;
 
         $name     = 'test';
         $value    = "phalcon";

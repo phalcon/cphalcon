@@ -57,6 +57,11 @@ trait RouterTrait
 
     /**
      * Add method and return route
+     *
+     * @param Router $router
+     * @param array  $data
+     *
+     * @return Route
      */
     protected function getRouteAndSetRouteMethod(Router $router, array $data): Route
     {

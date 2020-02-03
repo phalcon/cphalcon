@@ -15,9 +15,7 @@ namespace Phalcon\Test\Database\Mvc\Model\Criteria;
 
 use DatabaseTester;
 use Phalcon\Mvc\Model\Criteria;
-use Phalcon\Mvc\Model\Query\Builder;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\Invoices;
 
 /**
  * Class BindTypesCest
@@ -41,23 +39,25 @@ class BindTypesCest
     {
         $I->wantToTest('Mvc\Model\Criteria - bindTypes()');
 
-        $I->skipTest('Need implementation');
+
         $criteria = new Criteria();
         $criteria->setDI($this->container);
 
-        $criteria
-            ->setModelName(Invoices::class)
-            ->andWhere('inv_cst_id = :custId:', ['custId' => 1])
-        ;
+        $criteria->bindTypes(
+            [
+                'one',
+                'two',
+            ]
+        );
 
-        $builder = $criteria->createBuilder();
+        $actual = $criteria->getParams();
+        $I->assertArrayHasKey('bindTypes', $actual);
 
-        $I->assertInstanceOf(Builder::class, $builder);
-
-        $expected = 'SELECT [Phalcon\Test\Models\Invoices].* '
-            . 'FROM [Phalcon\Test\Models\Invoices] '
-            . 'WHERE inv_cst_id = :custId:';
-        $actual   = $builder->getPhql();
+        $expected = [
+            'one',
+            'two',
+        ];
+        $actual   = $actual['bindTypes'];
         $I->assertEquals($expected, $actual);
     }
 }

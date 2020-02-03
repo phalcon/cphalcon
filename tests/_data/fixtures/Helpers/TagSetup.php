@@ -26,8 +26,8 @@ class TagSetup
     public function _before(UnitTester $I)
     {
         $this->newDi();
-        $this->setDiEscaper();
-        $this->setDiUrl();
+        $this->setDiService('escaper');
+        $this->setDiService('url');
 
         Tag::resetInput();
 

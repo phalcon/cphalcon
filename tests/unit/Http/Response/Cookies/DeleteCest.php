@@ -28,7 +28,8 @@ class DeleteCest extends HttpBase
     public function _before(UnitTester $I)
     {
         parent::_before($I);
-        $this->setDiService('sessionStream');;
+        $this->setDiService('sessionStream');
+        ;
     }
 
     /**

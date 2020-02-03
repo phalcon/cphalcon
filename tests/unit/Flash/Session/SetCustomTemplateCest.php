@@ -35,7 +35,8 @@ class SetCustomTemplateCest
     {
         $this->newDi();
         $this->setDiService('escaper');
-        $this->setDiService('sessionStream');;
+        $this->setDiService('sessionStream');
+        ;
     }
 
     /**
