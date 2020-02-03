@@ -140,22 +140,22 @@ class AddColumnCest
             [
                 '',
                 'column10',
-                'ALTER TABLE `table` ADD `column10` INT(18) UNSIGNED DEFAULT "10" NOT NULL',
+                'ALTER TABLE `table` ADD `column10` INT(18) UNSIGNED DEFAULT "10" NULL',
             ],
             [
                 'schema',
                 'column10',
-                'ALTER TABLE `schema`.`table` ADD `column10` INT(18) UNSIGNED DEFAULT "10" NOT NULL',
+                'ALTER TABLE `schema`.`table` ADD `column10` INT(18) UNSIGNED DEFAULT "10" NULL',
             ],
             [
                 '',
                 'column11',
-                'ALTER TABLE `table` ADD `column11` BIGINT(20) UNSIGNED NOT NULL',
+                'ALTER TABLE `table` ADD `column11` BIGINT(20) UNSIGNED NULL',
             ],
             [
                 'schema',
                 'column11',
-                'ALTER TABLE `schema`.`table` ADD `column11` BIGINT(20) UNSIGNED NOT NULL',
+                'ALTER TABLE `schema`.`table` ADD `column11` BIGINT(20) UNSIGNED NULL',
             ],
             [
                 '',
