@@ -50,26 +50,34 @@ class ExecuteCest
     {
         $I->wantToTest('Mvc\Model\Criteria - execute()');
 
-        $title      = uniqid('inv-');
-        $connection = $I->getConnection();
-        $migration  = new InvoicesMigration($connection);
-        $migration->insert(4, 1, 2, $title);
+        $driver = $I->getDriver();
 
-        $criteria = new Criteria();
-        $criteria->setDI($this->container);
+        /**
+         * The following tests need to skip sqlite because we will get
+         * a General Error 5 database is locked error
+         */
+        if ('sqlite' !== $driver) {
+            $title      = uniqid('inv-');
+            $connection = $I->getConnection();
+            $migration  = new InvoicesMigration($connection);
+            $migration->insert(4, 1, 2, $title);
 
-        $result = $criteria
-            ->setModelName(Invoices::class)
-            ->andWhere('inv_cst_id = :custId:', ['custId' => 1])
-            ->execute()
-        ;
+            $criteria = new Criteria();
+            $criteria->setDI($this->container);
 
-        $I->assertInstanceOf(Simple::class, $result);
+            $result = $criteria
+                ->setModelName(Invoices::class)
+                ->andWhere('inv_cst_id = :custId:', ['custId' => 1])
+                ->execute()
+            ;
 
-        $I->assertEquals(4, $result[0]->inv_id);
-        $I->assertEquals(1, $result[0]->inv_cst_id);
-        $I->assertEquals(2, $result[0]->inv_status_flag);
-        $I->assertEquals($title, $result[0]->inv_title);
-        $I->assertEquals(0.00, $result[0]->inv_total);
+            $I->assertInstanceOf(Simple::class, $result);
+
+            $I->assertEquals(4, $result[0]->inv_id);
+            $I->assertEquals(1, $result[0]->inv_cst_id);
+            $I->assertEquals(2, $result[0]->inv_status_flag);
+            $I->assertEquals($title, $result[0]->inv_title);
+            $I->assertEquals(0.00, $result[0]->inv_total);
+        }
     }
 }

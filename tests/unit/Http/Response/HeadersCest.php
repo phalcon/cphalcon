@@ -223,7 +223,7 @@ class HeadersCest extends HttpBase
      */
     public function testEventBeforeSendHeaders(UnitTester $I)
     {
-        $this->newFactoryDefault();
+        $this->setNewFactoryDefault();
 
         $eventsManager = $this->getDI()->getShared('eventsManager');
 

@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Database\Mvc\Model;
 
 use DatabaseTester;
-use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
+use Phalcon\Test\Fixtures\Migrations\ObjectsMigration;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Objects;
 
@@ -32,7 +32,7 @@ class GetMessagesCest
 
         /** @var PDO $connection */
         $connection = $I->getConnection();
-        $migration  = new InvoicesMigration($connection);
+        $migration  = new ObjectsMigration($connection);
         $migration->clear();
     }
 

@@ -24,11 +24,6 @@ class DestroyCest
 {
     use DiTrait;
 
-    public function _before(IntegrationTester $I)
-    {
-        $this->newFactoryDefault();
-    }
-
     /**
      * Tests Phalcon\Session\Adapter\Stream :: destroy()
      *

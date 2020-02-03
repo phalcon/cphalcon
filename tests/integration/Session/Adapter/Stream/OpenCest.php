@@ -22,11 +22,6 @@ class OpenCest
 {
     use DiTrait;
 
-    public function _before(IntegrationTester $I)
-    {
-        $this->newFactoryDefault();
-    }
-
     /**
      * Tests Phalcon\Session\Adapter\Stream :: open()
      *
