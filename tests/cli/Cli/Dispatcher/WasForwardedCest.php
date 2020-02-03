@@ -37,8 +37,8 @@ class WasForwardedCest
         $I->assertFalse($dispatcher->wasForwarded());
         $dispatcher->forward(
             [
-                'task' => 'echo',
-                'action'     => 'main'
+                'task'   => 'echo',
+                'action' => 'main',
             ]
         );
         $dispatcher->dispatch();

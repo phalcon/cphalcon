@@ -11,6 +11,7 @@ cd tests
 docker-compose up -d
 cd ..
 php tests/_ci/generage-db-schemas.php
+codecept build
 codecept run unit
 codecept run cli
 codecept run integration
@@ -148,6 +149,9 @@ To generate the necessary database schemas, you need to run the relevant script:
 ```sh
 /app $ php ./tests/_ci/generage-db-schemas.php
 ```
+The script looks for classes located under `tests/_data/fixtures/Migrations`. These classes contain the necessary code to create the relevant SQL statements for each RDBMS. You can easily inspect one of those files to understand its structure. Additionally, these migration classes can be instantiated in your tests to clear the target table, insert new records etc. This methodology allows us to create the database schema per RDBMS, which will be loaded automatically from Codeception, but also allows us to clear tables and insert data we need to them so that our tests are more controlled and isolated.
+
+If there is a need to add an additional table, all you have to do is create the Phalcon model of course but also create the migration class with the relevant SQL statements. Running the generate script (as seen above) will update the schema file so that Codeception can load it in your RDBMS prior to running the tests.
 
 ## Run tests
 

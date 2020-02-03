@@ -15,7 +15,7 @@ namespace Phalcon\Test\Cli\Di\FactoryDefault\Cli;
 
 use CliTester;
 use Phalcon\Crypt;
-use Phalcon\Di\FactoryDefault\Cli  as Di;
+use Phalcon\Di\FactoryDefault\Cli as Di;
 use Phalcon\Escaper;
 
 class SetCest
