@@ -43,7 +43,7 @@ class PreloadCest
         Tag::setDI($this->container);
 
         $expected = "abc.css";
-        $actual = Tag::preload(["abc.css"]);
+        $actual   = Tag::preload(["abc.css"]);
         $I->assertEquals($expected, $actual);
 
         $expected = [
@@ -53,7 +53,7 @@ class PreloadCest
         $I->assertEquals($expected, $actual);
 
         $expected = "abc.jpg";
-        $actual = Tag::preload(['abc.jpg', ['as' => 'image']]);
+        $actual   = Tag::preload(['abc.jpg', ['as' => 'image']]);
         $I->assertEquals($expected, $actual);
 
         $expected = [
@@ -64,12 +64,12 @@ class PreloadCest
         $I->assertEquals($expected, $actual);
 
         $expected = "abc.css";
-        $actual = Tag::preload(['abc.css', ['as' => 'style', 'nopush' => true]]);
+        $actual   = Tag::preload(['abc.css', ['as' => 'style', 'nopush' => true]]);
         $I->assertEquals($expected, $actual);
 
         $expected = [
-            'Link: <abc.css>; rel="preload"; as="style"' => null,
-            'Link: <abc.jpg>; rel="preload"; as="image"' => null,
+            'Link: <abc.css>; rel="preload"; as="style"'         => null,
+            'Link: <abc.jpg>; rel="preload"; as="image"'         => null,
             'Link: <abc.css>; rel="preload"; as="style"; nopush' => null,
         ];
         $actual   = $response->getHeaders()->toArray();

@@ -47,7 +47,7 @@ class GetNameCest
             $httpOnly,
             $options
         );
- 
+
         $I->assertEquals($name, $cookie->getName());
     }
 }
