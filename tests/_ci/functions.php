@@ -229,6 +229,25 @@ if (!function_exists('defineFromEnv')) {
 /*******************************************************************************
  * Options
  *******************************************************************************/
+if (!function_exists('getOptionsModelCacheStream')) {
+    /**
+     * Get Model cache options - Stream
+     */
+    function getOptionsModelCacheStream(): array
+    {
+        if (!is_dir(cacheDir('models'))) {
+            mkdir(
+                cacheDir('models')
+            );
+        }
+
+        return [
+            'lifetime'   => 3600,
+            'storageDir' => cacheModelsDir(),
+        ];
+    }
+}
+
 if (!function_exists('getOptionsLibmemcached')) {
     function getOptionsLibmemcached(): array
     {
@@ -317,28 +336,3 @@ if (!function_exists('getOptionsSqlite')) {
         ];
     }
 }
-
-///*******************************************************************************
-// * Options
-// *******************************************************************************/
-//
-//if (!function_exists('getOptionsModelCacheStream')) {
-//    /**
-//     * Get Model cache options - Stream
-//     */
-//    function getOptionsModelCacheStream(): array
-//    {
-//        if (!is_dir(cacheDir('models'))) {
-//            mkdir(
-//                cacheDir('models')
-//            );
-//        }
-//
-//        return [
-//            'lifetime' => 3600,
-//            'storageDir' => cacheModelsDir(),
-//        ];
-//    }
-//}
-//
-
