@@ -22,8 +22,6 @@ use Phalcon\Text;
  */
 class SetActionPreformatCallbackCest
 {
-    public const TESTING_ACTION = 'somePrettyControllerAction';
-    
     /**
      * Tests Phalcon\Mvc\Router\Annotations :: setActionPreformatCallback()
      *
@@ -35,7 +33,6 @@ class SetActionPreformatCallbackCest
         $I->wantToTest('Mvc\Router\Annotations - setDefaultAction()');
 
         $router = new Annotations(false);
-
         $callback = [Text::class, 'uncamelize'];
         $router->setActionPreformatCallback($callback);
         $attachedCallback = $router->getActionPreformatCallback();
