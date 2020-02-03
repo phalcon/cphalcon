@@ -37,7 +37,7 @@ class GetClientAddressCest
 
         $_SERVER = [
             'REMOTE_ADDR'          => '192.168.0.1',
-            'HTTP_X_FORWARDED_FOR' => '192.168.7.21'
+            'HTTP_X_FORWARDED_FOR' => '192.168.7.21',
         ];
 
         $I->assertEquals(
@@ -51,7 +51,7 @@ class GetClientAddressCest
         );
 
         $_SERVER = [
-            'REMOTE_ADDR' => '86.45.89.47, 214.55.34.56'
+            'REMOTE_ADDR' => '86.45.89.47, 214.55.34.56',
         ];
 
         $I->assertEquals(

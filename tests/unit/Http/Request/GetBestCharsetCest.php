@@ -36,7 +36,7 @@ class GetBestCharsetCest
         $request = $this->container->get('request');
 
         $_SERVER = [
-            'HTTP_ACCEPT_CHARSET' => 'iso-8859-5,unicode-1-1;q=0.8'
+            'HTTP_ACCEPT_CHARSET' => 'iso-8859-5,unicode-1-1;q=0.8',
         ];
 
         $accept = $request->getClientCharsets();

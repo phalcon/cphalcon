@@ -24,12 +24,12 @@ class GetPreferredIsoLocaleVariantCest
     /**
      * Tests Phalcon\Http\Request :: getPreferredIsoLocaleVariant()
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
      * @param UnitTester $I
      * @param Example    $example
      *
      * @dataProvider getExamples
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2018-11-13
      */
     public function httpRequestGetBestLanguageIso(UnitTester $I, Example $example)
     {
@@ -43,7 +43,7 @@ class GetPreferredIsoLocaleVariantCest
 
         $_SERVER = [
             'HTTP_ACCEPT_LANGUAGE' => $example['header'],
-            'REQUEST_TIME_FLOAT'    => $time,
+            'REQUEST_TIME_FLOAT'   => $time,
         ];
         $I->assertEquals($example['result'], $request->getPreferredIsoLocaleVariant());
 
