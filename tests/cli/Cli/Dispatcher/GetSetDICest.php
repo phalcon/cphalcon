@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Cli\Dispatcher;
 
 use CliTester;
-use Phalcon\Cli\Console;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 class GetSetDICest

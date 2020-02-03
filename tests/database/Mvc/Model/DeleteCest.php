@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Phalcon\Test\Database\Mvc\Model;
 
 use DatabaseTester;
-use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Invoices;
 
