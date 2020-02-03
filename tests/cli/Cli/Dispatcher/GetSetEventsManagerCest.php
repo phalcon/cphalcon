@@ -16,9 +16,12 @@ namespace Phalcon\Test\Cli\Cli\Dispatcher;
 use CliTester;
 use Phalcon\Cli\Console;
 use Phalcon\Events\Manager;
+use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 class GetSetEventsManagerCest
 {
+    use DiTrait;
+
     /**
      * Tests Phalcon\Cli\Dispatcher :: getEventsManager()/setEventsManager()
      *
@@ -29,8 +32,8 @@ class GetSetEventsManagerCest
     {
         $I->wantToTest('Cli\Dispatcher - getEventsManager()/setEventsManager()');
 
-        $console = new Console();
-        $manager = new Manager();
+        $console = $this->newService('console');
+        $manager = $this->newService('eventsManager');
 
         $console->setEventsManager($manager);
 

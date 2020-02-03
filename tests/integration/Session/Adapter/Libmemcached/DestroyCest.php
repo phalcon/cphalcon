@@ -23,11 +23,6 @@ class DestroyCest
 {
     use DiTrait;
 
-    public function _before(IntegrationTester $I)
-    {
-        $this->newFactoryDefault();
-    }
-
     /**
      * Tests Phalcon\Session\Adapter\Libmemcached :: destroy()
      *

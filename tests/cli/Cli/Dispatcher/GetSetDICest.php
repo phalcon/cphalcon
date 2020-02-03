@@ -31,8 +31,8 @@ class GetSetDICest
     {
         $I->wantToTest('Cli\Dispatcher - getDI()/getDI()');
 
-        $container = $this->newCliFactoryDefault();
-        $console   = new Console();
+        $container = $this->newService('cliFactoryDefault');
+        $console   = $this->newService('console');
 
         $console->setDI($container);
 

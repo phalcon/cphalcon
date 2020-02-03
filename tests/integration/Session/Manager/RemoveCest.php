@@ -22,16 +22,6 @@ class RemoveCest
 {
     use DiTrait;
 
-    public function _before(IntegrationTester $I)
-    {
-        $this->newFactoryDefault();
-    }
-
-    public function _after(IntegrationTester $I)
-    {
-        $_SESSION = [];
-    }
-
     /**
      * Tests Phalcon\Session\Manager :: remove()
      *
@@ -41,6 +31,10 @@ class RemoveCest
     public function sessionManagerRemove(IntegrationTester $I)
     {
         $I->wantToTest('Session\Manager - remove()');
+
+        $store    = $_SESSION ?? [];
+        $_SESSION = [];
+
         $manager = new Manager();
         $files   = $this->newService('sessionStream');
         $manager->setAdapter($files);
@@ -63,5 +57,7 @@ class RemoveCest
 
         $actual = $manager->exists();
         $I->assertFalse($actual);
+
+        $_SESSION = $store;
     }
 }
