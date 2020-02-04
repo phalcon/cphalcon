@@ -11,24 +11,22 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Db\Adapter\Pdo\Mysql;
+namespace Phalcon\Test\Unit\Annotations\Reflection;
 
-use IntegrationTester;
+use UnitTester;
 
-/**
- * Class GetRealSQLStatementCest
- */
-class GetRealSQLStatementCest
+class GetReflectionDataCest
 {
     /**
-     * Tests Phalcon\Db\Adapter\Pdo\Mysql :: getRealSQLStatement()
+     * Tests Phalcon\Annotations\Reflection :: getReflectionData()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function dbAdapterPdoMysqlGetRealSQLStatement(IntegrationTester $I)
+    public function annotationsReflectionGetReflectionData(UnitTester $I)
     {
-        $I->wantToTest('Db\Adapter\Pdo\Mysql - getRealSQLStatement()');
+        $I->wantToTest('Annotations\Reflection - getReflectionData()');
+
         $I->skipTest('Need implementation');
     }
 }

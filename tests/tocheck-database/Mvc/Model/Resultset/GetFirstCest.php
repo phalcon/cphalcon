@@ -14,9 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Model\Resultset;
 
 use IntegrationTester;
-use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
 use Phalcon\Test\Fixtures\Migrations\ObjectsMigration;
-use Phalcon\Test\Fixtures\Migrations\StuffMigration;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 /**
@@ -43,11 +41,7 @@ class GetFirstCest
         /**
          * Setup the table
          */
-        $oMigration = new ObjectsMigration($this->container->get('db'));
-        $oMigration->create();
-        $sMigration = new StuffMigration($this->container->get('db'));
-        $sMigration->create();
-
+        (new ObjectsMigration())($this->container->get('db'));
 
         $manager = $this->container->get('modelsManager');
         $results = $manager
@@ -89,8 +83,5 @@ class GetFirstCest
         $record  = $results->getFirst();
         $id      = $record->obj_id;
         $I->assertEquals(1, $id);
-
-        $oMigration->drop();
-        $sMigration->drop();
     }
 }

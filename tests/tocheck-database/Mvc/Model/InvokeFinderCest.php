@@ -42,8 +42,9 @@ class InvokeFinderCest
          * Setup the table
          */
         $db        = $this->container->get('db');
-        $migration = new ObjectsMigration($db);
-        $migration->create();
+        $migration = new ObjectsMigration();
+
+        $migration($db);
 
         $record = Objects::findFirstByObjId(1);
 
@@ -51,8 +52,8 @@ class InvokeFinderCest
         $I->assertEquals('random data', $record->obj_name);
         $I->assertEquals(1, $record->obj_type);
 
-        $migration->insert(2, 'random one', 1);
-        $migration->insert(3, 'random two', 1);
+        $migration->insertObject($db, 2, 'random one', 1);
+        $migration->insertObject($db, 3, 'random two', 1);
 
         $data = Objects::findByObjType(1);
 
@@ -81,7 +82,5 @@ class InvokeFinderCest
         $I->assertEquals(3, $record->obj_id);
         $I->assertEquals('random two', $record->obj_name);
         $I->assertEquals(1, $record->obj_type);
-
-        $migration->drop();
     }
 }

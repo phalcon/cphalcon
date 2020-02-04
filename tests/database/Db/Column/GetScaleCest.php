@@ -11,33 +11,42 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Db\Column;
+namespace Phalcon\Test\Database\Db\Column;
 
-use IntegrationTester;
-use Phalcon\Db\Adapter\Pdo\Mysql as DbMysql;
-use Phalcon\Db\Dialect\Mysql as DialectMysql;
+use DatabaseTester;
 use Phalcon\Test\Fixtures\Migrations\FractalDatesMigration;
-use Phalcon\Test\Fixtures\Traits\Db\MysqlTrait;
+use Phalcon\Test\Fixtures\Traits\DbTrait;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\FractalDates;
 
 class GetScaleCest
 {
+    use DbTrait;
     use DiTrait;
-    use MysqlTrait;
+
+    public function _before(DatabaseTester $I)
+    {
+        $this->setNewFactoryDefault();
+        $this->setDatabase($I);
+
+        /** @var PDO $connection */
+        $connection = $I->getConnection();
+        $migration  = new FractalDatesMigration($connection);
+        $migration->clear();
+    }
 
     /**
      * Tests Phalcon\Db\Column :: getScale()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-02-01
      */
-    public function dbColumnGetScale(IntegrationTester $I)
+    public function dbColumnGetScale(DatabaseTester $I)
     {
         $I->wantToTest("Db\Column - getScale()");
 
-        $columns         = $this->getColumns();
-        $expectedColumns = $this->getExpectedColumns();
+        $columns         = $this->getColumnsArray();
+        $expectedColumns = $this->getColumnsObjects();
 
         foreach ($expectedColumns as $index => $column) {
             $I->assertEquals(
@@ -53,25 +62,32 @@ class GetScaleCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-12-23
      */
-    public function dbColumnGetScaleDateTimeTimeTimeStamp(IntegrationTester $I)
+    public function dbColumnGetScaleDateTimeTimeTimeStamp(DatabaseTester $I)
     {
         $I->wantToTest("Db\Column - getScale() - datetime, time, timestamp");
+        
+        $driver = $I->getDriver();
 
-        /**
-         * @todo this is for MySql
-         */
-        /** @var DbMysql $db */
-        $db = $this->container->get('db');
-        $migration = new FractalDatesMigration($db);
-        $migration->create();
+        if ('mysql' === $driver) {
+            /**
+             * @todo this is for MySql
+             */
+            $connection = $I->getConnection();
+            $migration  = new FractalDatesMigration($connection);
+            $migration->insert(
+                1,
+                '14:15:16.444',
+                '2019-12-25 17:18:19.666',
+                '2019-12-25 20:21:22.888'
+            );
 
-        $record = FractalDates::findFirst('id = 1');
+            $record = FractalDates::findFirst('id = 1');
 
-        $I->assertEquals(1, $record->id);
-        $I->assertEquals('14:15:16.44', $record->ftime);
-        $I->assertEquals('2019-12-25 17:18:19.67', $record->fdatetime);
-        $I->assertEquals('2019-12-25 20:21:22.89', $record->ftimestamp);
+            $I->assertEquals(1, $record->id);
+            $I->assertEquals('14:15:16.44', $record->ftime);
+            $I->assertEquals('2019-12-25 17:18:19.67', $record->fdatetime);
+            $I->assertEquals('2019-12-25 20:21:22.89', $record->ftimestamp);
 
-        $migration->drop();
+        }
     }
 }

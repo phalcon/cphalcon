@@ -401,25 +401,20 @@ class SaveCest
     {
         $I->wantToTest('Mvc\Model::save() after fetching related using magic getter');
 
-        $artistName = uniqid('art-');
-        $albumName1 = uniqid('alb-');
-        $albumName2 = uniqid('alb-');
-        $albumName3 = uniqid('alb-');
-        $albumName4 = uniqid('alb-');
         $artist = new Artists(
             [
-                'name' => $artistName,
+                'name' => 'Mr Robot',
             ]
         );
 
         $album1 = new Albums(
             [
-                'name' => $albumName1,
+                'name' => 'Feedback',
             ]
         );
         $album2 = new Albums(
             [
-                'name' => $albumName2,
+                'name' => 'Syntax Error',
             ]
         );
 
@@ -430,7 +425,7 @@ class SaveCest
             $artist->save()
         );
 
-        $artist = Artists::findFirstByName($artistName);
+        $artist = Artists::findFirstByName("Mr Robot");
 
         // Query the parts, for some reason,
         // for example to check if the parts are in the db already...
@@ -443,18 +438,18 @@ class SaveCest
 
         $album3         = new Albums(
             [
-                'name' => $albumName3,
+                'name' => 'Feedback 2',
             ]
         );
         $album4         = new Albums(
             [
-                'name' => $albumName4,
+                'name' => 'Syntax Error 2',
             ]
         );
         $artist->albums = [$album3, $album4];
         $artist->save();
 
-        $artist = Artists::findFirstByName($artistName);
+        $artist = Artists::findFirstByName("Mr Robot");
 
         $allAlbums = $artist->getRelated('albums');
 
@@ -462,12 +457,6 @@ class SaveCest
             4,
             count($allAlbums)
         );
-
-        $I->assertTrue($album1->delete());
-        $I->assertTrue($album2->delete());
-        $I->assertTrue($album3->delete());
-        $I->assertTrue($album4->delete());
-        $I->assertTrue($artist->delete());
     }
 
     /**
@@ -526,8 +515,7 @@ class SaveCest
         /**
          * Setup the table
          */
-        $migration = new InvoicesMigration($this->container->get('db'));
-        $migration->create();
+        (new InvoicesMigration())($this->container->get('db'));
 
         $model = new Invoices();
 
@@ -540,6 +528,7 @@ class SaveCest
         $result = $model->save();
         $I->assertNotFalse($result);
 
+
         $model = new InvoicesSchema();
 
         $model->inv_cst_id      = 1;
@@ -550,8 +539,6 @@ class SaveCest
 
         $result = $model->save();
         $I->assertNotFalse($result);
-
-        $migration->drop();
     }
 
     /**
@@ -567,8 +554,7 @@ class SaveCest
         /**
          * Setup the table
          */
-        $migration = new SourcesMigration($this->container->get('db'));
-        $migration->create();
+        (new SourcesMigration())($this->container->get('db'));
 
         $model = Sources::findFirst(
             [
@@ -588,7 +574,5 @@ class SaveCest
 
         $I->assertCount(0, $model->getMessages());
         $I->assertNotFalse($result);
-
-        $migration->drop();
     }
 }

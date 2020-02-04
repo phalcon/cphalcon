@@ -212,8 +212,7 @@ class UnderscoreGetCest
         /**
          * Setup the table
          */
-        $migration = new InvoicesMigration($this->container->get('db'));
-        $migration->create();
+        (new InvoicesMigration())($this->container->get('db'));
 
         $model = new Invoices();
 
@@ -224,8 +223,6 @@ class UnderscoreGetCest
         $I->assertEquals(123, $model->getSecretValue());
         $model->secretValue = 123;
         $I->assertEquals(123, $model->secretValue);
-
-        $migration->drop();
     }
 
     /**
@@ -241,8 +238,7 @@ class UnderscoreGetCest
         /**
          * Setup the table
          */
-        $migration = new InvoicesMigration($this->container->get('db'));
-        $migration->create();
+        (new InvoicesMigration())($this->container->get('db'));
 
         $I->expectThrowable(
             new Exception(
@@ -253,7 +249,5 @@ class UnderscoreGetCest
                 $model->superSecret = 123;
             }
         );
-
-        $migration->drop();
     }
 }

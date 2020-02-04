@@ -11,24 +11,24 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Db\Adapter\Pdo\Mysql;
+namespace Phalcon\Test\Integration\Mvc\Dispatcher;
 
 use IntegrationTester;
 
 /**
- * Class GetRealSQLStatementCest
+ * Class SetReturnedValueCest
  */
-class GetRealSQLStatementCest
+class SetReturnedValueCest
 {
     /**
-     * Tests Phalcon\Db\Adapter\Pdo\Mysql :: getRealSQLStatement()
+     * Tests Phalcon\Mvc\Dispatcher :: setReturnedValue()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function dbAdapterPdoMysqlGetRealSQLStatement(IntegrationTester $I)
+    public function mvcDispatcherSetReturnedValue(IntegrationTester $I)
     {
-        $I->wantToTest('Db\Adapter\Pdo\Mysql - getRealSQLStatement()');
+        $I->wantToTest('Mvc\Dispatcher - setReturnedValue()');
         $I->skipTest('Need implementation');
     }
 }

@@ -21,6 +21,18 @@ create index co_customers_cst_name_first_index
             
 
 
+drop table if exists `fractal_dates`;
+            
+create table fractal_dates
+(
+    `id`           int(10)      auto_increment primary key,
+    `ftime`        time(2)      null,
+    `fdatetime`    datetime(2)  null,
+    `ftimestamp`   timestamp(2) null
+);
+            
+
+
 drop table if exists `co_invoices`;
             
 create table co_invoices
