@@ -285,8 +285,8 @@ class Sqlite extends PdoAdapter
             /**
              * Check if the column allows null values
              */
-            if field[3] {
-                let definition["notNull"] = true;
+            if field[3] == 0 {
+                let definition["notNull"] = false;
             }
 
             /**
