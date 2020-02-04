@@ -215,7 +215,7 @@ PHP_METHOD(Phalcon_Flash_Session, output) {
 	}
 	ZEPHIR_CALL_METHOD(&messages, this_ptr, "getsessionmessages", NULL, 0, &_0);
 	zephir_check_call_status();
-	zephir_is_iterable(&messages, 0, "/home/nikos/Work/niden/cphalcon/phalcon/Flash/Session.zep", 88);
+	zephir_is_iterable(&messages, 0, "phalcon/Flash/Session.zep", 88);
 	if (Z_TYPE_P(&messages) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&messages), _3, _4, _1)
 		{
@@ -395,7 +395,7 @@ PHP_METHOD(Phalcon_Flash_Session, getSessionService) {
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, &_2$$4, "__construct", NULL, 8, &_3$$4);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_2$$4, "/home/nikos/Work/niden/cphalcon/phalcon/Flash/Session.zep", 157);
+		zephir_throw_exception_debug(&_2$$4, "phalcon/Flash/Session.zep", 157);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -418,7 +418,7 @@ PHP_METHOD(Phalcon_Flash_Session, getSessionService) {
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, &_10$$6, "__construct", NULL, 8, &_11$$6);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_10$$6, "/home/nikos/Work/niden/cphalcon/phalcon/Flash/Session.zep", 165);
+		zephir_throw_exception_debug(&_10$$6, "phalcon/Flash/Session.zep", 165);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

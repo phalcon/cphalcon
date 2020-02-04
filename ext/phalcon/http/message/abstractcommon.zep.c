@@ -93,7 +93,7 @@ PHP_METHOD(Phalcon_Http_Message_AbstractCommon, checkStringParameter) {
 
 
 	if (Z_TYPE_P(element) != IS_STRING) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_http_message_exception_invalidargumentexception_ce, "Method requires a string argument", "/home/nikos/Work/niden/cphalcon/phalcon/Http/Message/AbstractCommon.zep", 52);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_http_message_exception_invalidargumentexception_ce, "Method requires a string argument", "phalcon/Http/Message/AbstractCommon.zep", 52);
 		return;
 	}
 

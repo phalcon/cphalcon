@@ -363,15 +363,15 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, getAdapter) {
 		ZEPHIR_CALL_METHOD(NULL, &connection, "__construct", NULL, 0);
 		zephir_check_call_status();
 		ZEPHIR_OBS_VAR(&auth);
-		zephir_array_fetch_string(&auth, &options, SL("auth"), PH_NOISY, "/home/nikos/Work/niden/cphalcon/phalcon/Storage/Adapter/Redis.zep", 131);
+		zephir_array_fetch_string(&auth, &options, SL("auth"), PH_NOISY, "phalcon/Storage/Adapter/Redis.zep", 131);
 		ZEPHIR_OBS_VAR(&host);
-		zephir_array_fetch_string(&host, &options, SL("host"), PH_NOISY, "/home/nikos/Work/niden/cphalcon/phalcon/Storage/Adapter/Redis.zep", 132);
+		zephir_array_fetch_string(&host, &options, SL("host"), PH_NOISY, "phalcon/Storage/Adapter/Redis.zep", 132);
 		ZEPHIR_OBS_VAR(&port);
-		zephir_array_fetch_string(&port, &options, SL("port"), PH_NOISY, "/home/nikos/Work/niden/cphalcon/phalcon/Storage/Adapter/Redis.zep", 133);
+		zephir_array_fetch_string(&port, &options, SL("port"), PH_NOISY, "phalcon/Storage/Adapter/Redis.zep", 133);
 		ZEPHIR_OBS_VAR(&index);
-		zephir_array_fetch_string(&index, &options, SL("index"), PH_NOISY, "/home/nikos/Work/niden/cphalcon/phalcon/Storage/Adapter/Redis.zep", 134);
+		zephir_array_fetch_string(&index, &options, SL("index"), PH_NOISY, "phalcon/Storage/Adapter/Redis.zep", 134);
 		ZEPHIR_OBS_VAR(&persistent);
-		zephir_array_fetch_string(&persistent, &options, SL("persistent"), PH_NOISY, "/home/nikos/Work/niden/cphalcon/phalcon/Storage/Adapter/Redis.zep", 135);
+		zephir_array_fetch_string(&persistent, &options, SL("persistent"), PH_NOISY, "phalcon/Storage/Adapter/Redis.zep", 135);
 		if (!(zephir_is_true(&persistent))) {
 			zephir_read_property(&_2$$4, this_ptr, SL("lifetime"), PH_NOISY_CC | PH_READONLY);
 			ZEPHIR_CALL_METHOD(&result, &connection, "connect", NULL, 0, &host, &port, &_2$$4);
@@ -390,7 +390,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, getAdapter) {
 			ZEPHIR_CONCAT_SVSVS(&_5$$6, "Could not connect to the Redisd server [", &host, ":", &port, "]");
 			ZEPHIR_CALL_METHOD(NULL, &_4$$6, "__construct", NULL, 8, &_5$$6);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_4$$6, "/home/nikos/Work/niden/cphalcon/phalcon/Storage/Adapter/Redis.zep", 147);
+			zephir_throw_exception_debug(&_4$$6, "phalcon/Storage/Adapter/Redis.zep", 147);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -401,7 +401,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, getAdapter) {
 			_6$$3 = !zephir_is_true(&_7$$3);
 		}
 		if (_6$$3) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_storage_exception_ce, "Failed to authenticate with the Redis server", "/home/nikos/Work/niden/cphalcon/phalcon/Storage/Adapter/Redis.zep", 151);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_storage_exception_ce, "Failed to authenticate with the Redis server", "phalcon/Storage/Adapter/Redis.zep", 151);
 			return;
 		}
 		_8$$3 = ZEPHIR_GT_LONG(&index, 0);
@@ -411,7 +411,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, getAdapter) {
 			_8$$3 = !zephir_is_true(&_9$$3);
 		}
 		if (_8$$3) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_storage_exception_ce, "Redis server selected database failed", "/home/nikos/Work/niden/cphalcon/phalcon/Storage/Adapter/Redis.zep", 155);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_storage_exception_ce, "Redis server selected database failed", "phalcon/Storage/Adapter/Redis.zep", 155);
 			return;
 		}
 		zephir_read_property(&_1$$3, this_ptr, SL("prefix"), PH_NOISY_CC | PH_READONLY);
@@ -696,7 +696,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, setSerializer) {
 		ZEPHIR_INIT_NVAR(&_8$$5);
 		ZVAL_STRING(&_8$$5, "");
 		zephir_update_property_zval(this_ptr, SL("defaultSerializer"), &_8$$5);
-		zephir_array_fetch(&_9$$5, &map, &serializer, PH_NOISY | PH_READONLY, "/home/nikos/Work/niden/cphalcon/phalcon/Storage/Adapter/Redis.zep", 260);
+		zephir_array_fetch(&_9$$5, &map, &serializer, PH_NOISY | PH_READONLY, "phalcon/Storage/Adapter/Redis.zep", 260);
 		ZVAL_LONG(&_10$$5, 1);
 		ZEPHIR_CALL_METHOD(NULL, connection, "setoption", NULL, 0, &_10$$5, &_9$$5);
 		zephir_check_call_status();

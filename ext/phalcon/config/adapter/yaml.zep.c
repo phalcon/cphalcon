@@ -126,7 +126,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Yaml, __construct) {
 	ZEPHIR_CALL_FUNCTION(&_1, "extension_loaded", NULL, 178, &_0);
 	zephir_check_call_status();
 	if (UNEXPECTED(!zephir_is_true(&_1))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_config_exception_ce, "Yaml extension not loaded", "/home/nikos/Work/niden/cphalcon/phalcon/Config/Adapter/Yaml.zep", 64);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_config_exception_ce, "Yaml extension not loaded", "phalcon/Config/Adapter/Yaml.zep", 64);
 		return;
 	}
 	if (ZEPHIR_IS_EMPTY(&callbacks)) {
@@ -149,7 +149,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Yaml, __construct) {
 		ZEPHIR_CONCAT_SVS(&_6$$6, "Configuration file ", &_5$$6, " can't be loaded");
 		ZEPHIR_CALL_METHOD(NULL, &_4$$6, "__construct", NULL, 8, &_6$$6);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_4$$6, "/home/nikos/Work/niden/cphalcon/phalcon/Config/Adapter/Yaml.zep", 76);
+		zephir_throw_exception_debug(&_4$$6, "phalcon/Config/Adapter/Yaml.zep", 76);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

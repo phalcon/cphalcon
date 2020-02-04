@@ -381,13 +381,13 @@ PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, getAdapter) {
 			ZEPHIR_CALL_METHOD(&_10$$4, &connection, "setoptions", NULL, 0, &client);
 			zephir_check_call_status();
 			if (!(zephir_is_true(&_10$$4))) {
-				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_storage_exception_ce, "Cannot set Memcached client options", "/home/nikos/Work/niden/cphalcon/phalcon/Storage/Adapter/Libmemcached.zep", 148);
+				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_storage_exception_ce, "Cannot set Memcached client options", "phalcon/Storage/Adapter/Libmemcached.zep", 148);
 				return;
 			}
 			ZEPHIR_CALL_METHOD(&_11$$4, &connection, "addservers", NULL, 0, &servers);
 			zephir_check_call_status();
 			if (!(zephir_is_true(&_11$$4))) {
-				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_storage_exception_ce, "Cannot connect to the Memcached server(s)", "/home/nikos/Work/niden/cphalcon/phalcon/Storage/Adapter/Libmemcached.zep", 152);
+				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_storage_exception_ce, "Cannot connect to the Memcached server(s)", "phalcon/Storage/Adapter/Libmemcached.zep", 152);
 				return;
 			}
 			if (!(ZEPHIR_IS_EMPTY(&saslUser))) {
@@ -643,7 +643,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Libmemcached, setSerializer) {
 		ZEPHIR_INIT_NVAR(&_1$$3);
 		ZVAL_STRING(&_1$$3, "");
 		zephir_update_property_zval(this_ptr, SL("defaultSerializer"), &_1$$3);
-		zephir_array_fetch(&_2$$3, &map, &serializer, PH_NOISY | PH_READONLY, "/home/nikos/Work/niden/cphalcon/phalcon/Storage/Adapter/Libmemcached.zep", 253);
+		zephir_array_fetch(&_2$$3, &map, &serializer, PH_NOISY | PH_READONLY, "phalcon/Storage/Adapter/Libmemcached.zep", 253);
 		ZVAL_LONG(&_3$$3, -1003);
 		ZEPHIR_CALL_METHOD(NULL, connection, "setoption", NULL, 0, &_3$$3, &_2$$3);
 		zephir_check_call_status();

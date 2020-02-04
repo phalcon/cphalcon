@@ -241,7 +241,7 @@ PHP_METHOD(Phalcon_Http_Message_Response, checkCodeType) {
 		_0 = Z_TYPE_P(code) != IS_STRING;
 	}
 	if (UNEXPECTED(_0)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_http_message_exception_invalidargumentexception_ce, "Invalid status code; it must be an integer or string", "/home/nikos/Work/niden/cphalcon/phalcon/Http/Message/Response.zep", 110);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_http_message_exception_invalidargumentexception_ce, "Invalid status code; it must be an integer or string", "phalcon/Http/Message/Response.zep", 110);
 		return;
 	}
 
@@ -289,7 +289,7 @@ PHP_METHOD(Phalcon_Http_Message_Response, checkCodeValue) {
 		ZEPHIR_CONCAT_SVS(&_7$$3, "Invalid status code '", &_6$$3, "', (allowed values 100-599)");
 		ZEPHIR_CALL_METHOD(NULL, &_5$$3, "__construct", NULL, 40, &_7$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_5$$3, "/home/nikos/Work/niden/cphalcon/phalcon/Http/Message/Response.zep", 124);
+		zephir_throw_exception_debug(&_5$$3, "phalcon/Http/Message/Response.zep", 124);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -440,7 +440,7 @@ PHP_METHOD(Phalcon_Http_Message_Response, processCode) {
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkcodevalue", NULL, 308, code);
 	zephir_check_call_status();
 	if (UNEXPECTED(Z_TYPE_P(phrase) != IS_STRING)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_message_exception_invalidargumentexception_ce, "Invalid response reason", "/home/nikos/Work/niden/cphalcon/phalcon/Http/Message/Response.zep", 243);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_message_exception_invalidargumentexception_ce, "Invalid response reason", "phalcon/Http/Message/Response.zep", 243);
 		return;
 	}
 	ZEPHIR_INIT_VAR(&_1);
@@ -451,7 +451,7 @@ PHP_METHOD(Phalcon_Http_Message_Response, processCode) {
 	}
 	if (EXPECTED(_2)) {
 		ZEPHIR_OBS_NVAR(phrase);
-		zephir_array_fetch(phrase, &phrases, code, PH_NOISY, "/home/nikos/Work/niden/cphalcon/phalcon/Http/Message/Response.zep", 247);
+		zephir_array_fetch(phrase, &phrases, code, PH_NOISY, "phalcon/Http/Message/Response.zep", 247);
 	}
 	zephir_update_property_zval(this_ptr, SL("statusCode"), code);
 	zephir_update_property_zval(this_ptr, SL("reasonPhrase"), phrase);
