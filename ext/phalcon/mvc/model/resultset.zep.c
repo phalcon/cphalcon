@@ -256,7 +256,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete) {
 		zephir_check_call_status();
 		if (transaction == 0) {
 			if (UNEXPECTED(!((zephir_method_exists_ex(&record, ZEND_STRL("getwriteconnection")) == SUCCESS)))) {
-				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The returned record is not valid", "/home/nikos/Work/niden/cphalcon/phalcon/Mvc/Model/Resultset.zep", 198);
+				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The returned record is not valid", "phalcon/Mvc/Model/Resultset.zep", 198);
 				return;
 			}
 			ZEPHIR_CALL_METHOD(&connection, &record, "getwriteconnection", NULL, 0);
@@ -363,7 +363,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, filter) {
 			zephir_check_call_status();
 			continue;
 		}
-		zephir_array_append(&records, &processedRecord, PH_SEPARATE, "/home/nikos/Work/niden/cphalcon/phalcon/Mvc/Model/Resultset.zep", 292);
+		zephir_array_append(&records, &processedRecord, PH_SEPARATE, "phalcon/Mvc/Model/Resultset.zep", 292);
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "next", &_5, 0);
 		zephir_check_call_status();
 	}
@@ -548,9 +548,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, jsonSerialize) {
 		if (_3$$3) {
 			ZEPHIR_CALL_METHOD(&_4$$4, &current, "jsonserialize", NULL, 0);
 			zephir_check_call_status();
-			zephir_array_append(&records, &_4$$4, PH_SEPARATE, "/home/nikos/Work/niden/cphalcon/phalcon/Mvc/Model/Resultset.zep", 395);
+			zephir_array_append(&records, &_4$$4, PH_SEPARATE, "phalcon/Mvc/Model/Resultset.zep", 395);
 		} else {
-			zephir_array_append(&records, &current, PH_SEPARATE, "/home/nikos/Work/niden/cphalcon/phalcon/Mvc/Model/Resultset.zep", 397);
+			zephir_array_append(&records, &current, PH_SEPARATE, "phalcon/Mvc/Model/Resultset.zep", 397);
 		}
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "next", &_5, 0);
 		zephir_check_call_status();
@@ -625,7 +625,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetGet) {
 
 	zephir_read_property(&_0, this_ptr, SL("count"), PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(ZEPHIR_GE(index, &_0))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The index does not exist in the cursor", "/home/nikos/Work/niden/cphalcon/phalcon/Mvc/Model/Resultset.zep", 435);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The index does not exist in the cursor", "phalcon/Mvc/Model/Resultset.zep", 435);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "seek", NULL, 109, index);
@@ -674,7 +674,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetSet) {
 
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_mvc_model_exception_ce, "Cursor is an immutable ArrayAccess object", "/home/nikos/Work/niden/cphalcon/phalcon/Mvc/Model/Resultset.zep", 462);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_mvc_model_exception_ce, "Cursor is an immutable ArrayAccess object", "phalcon/Mvc/Model/Resultset.zep", 462);
 	return;
 
 }
@@ -693,7 +693,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, offsetUnset) {
 
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_mvc_model_exception_ce, "Cursor is an immutable ArrayAccess object", "/home/nikos/Work/niden/cphalcon/phalcon/Mvc/Model/Resultset.zep", 470);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_mvc_model_exception_ce, "Cursor is an immutable ArrayAccess object", "phalcon/Mvc/Model/Resultset.zep", 470);
 	return;
 
 }
@@ -910,7 +910,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, update) {
 		zephir_check_call_status();
 		if (transaction == 0) {
 			if (UNEXPECTED(!((zephir_method_exists_ex(&record, ZEND_STRL("getwriteconnection")) == SUCCESS)))) {
-				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The returned record is not valid", "/home/nikos/Work/niden/cphalcon/phalcon/Mvc/Model/Resultset.zep", 587);
+				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The returned record is not valid", "phalcon/Mvc/Model/Resultset.zep", 587);
 				return;
 			}
 			ZEPHIR_CALL_METHOD(&connection, &record, "getwriteconnection", NULL, 0);

@@ -85,7 +85,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_AbstractAdapter, get) {
 	zephir_read_property(&_0, this_ptr, SL("annotations"), PH_NOISY_CC | PH_READONLY);
 	if (zephir_array_isset(&_0, &realClassName)) {
 		zephir_read_property(&_1$$5, this_ptr, SL("annotations"), PH_NOISY_CC | PH_READONLY);
-		zephir_array_fetch(&_2$$5, &_1$$5, &realClassName, PH_NOISY | PH_READONLY, "/home/nikos/Work/niden/cphalcon/phalcon/Annotations/Adapter/AbstractAdapter.zep", 51);
+		zephir_array_fetch(&_2$$5, &_1$$5, &realClassName, PH_NOISY | PH_READONLY, "phalcon/Annotations/Adapter/AbstractAdapter.zep", 51);
 		RETURN_CTOR(&_2$$5);
 	}
 	ZEPHIR_CALL_METHOD(&classAnnotations, this_ptr, "read", NULL, 0, &realClassName);
@@ -147,7 +147,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_AbstractAdapter, getMethod) {
 	ZEPHIR_CALL_METHOD(&methods, &classAnnotations, "getmethodsannotations", NULL, 0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&methods) == IS_ARRAY) {
-		zephir_is_iterable(&methods, 0, "/home/nikos/Work/niden/cphalcon/phalcon/Annotations/Adapter/AbstractAdapter.zep", 94);
+		zephir_is_iterable(&methods, 0, "phalcon/Annotations/Adapter/AbstractAdapter.zep", 94);
 		if (Z_TYPE_P(&methods) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&methods), _2$$3, _3$$3, _0$$3)
 			{

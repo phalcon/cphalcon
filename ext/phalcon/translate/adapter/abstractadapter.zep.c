@@ -194,7 +194,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, offsetSet) {
 
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_translate_exception_ce, "Translate is an immutable ArrayAccess object", "/home/nikos/Work/niden/cphalcon/phalcon/Translate/Adapter/AbstractAdapter.zep", 73);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_translate_exception_ce, "Translate is an immutable ArrayAccess object", "phalcon/Translate/Adapter/AbstractAdapter.zep", 73);
 	return;
 
 }
@@ -213,7 +213,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, offsetUnset) {
 
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_translate_exception_ce, "Translate is an immutable ArrayAccess object", "/home/nikos/Work/niden/cphalcon/phalcon/Translate/Adapter/AbstractAdapter.zep", 81);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_translate_exception_ce, "Translate is an immutable ArrayAccess object", "phalcon/Translate/Adapter/AbstractAdapter.zep", 81);
 	return;
 
 }

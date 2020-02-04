@@ -126,7 +126,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_AbstractFormatter, interpolate) {
 	if (_0) {
 		ZEPHIR_INIT_VAR(&replace);
 		array_init(&replace);
-		zephir_is_iterable(context, 0, "phalcon/Logger/Formatter/AbstractFormatter.zep", 46);
+		zephir_is_iterable(context, 0, "/home/nikos/Work/phalcon/cphalcon/phalcon/Logger/Formatter/AbstractFormatter.zep", 46);
 		if (Z_TYPE_P(context) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(context), _3$$3, _4$$3, _1$$3)
 			{

@@ -136,7 +136,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Apcu, clear) {
 		{
 			ZEPHIR_ITERATOR_COPY(&item, _1);
 		}
-		zephir_array_fetch_string(&_2$$4, &item, SL("key"), PH_NOISY | PH_READONLY, "/home/nikos/Work/niden/cphalcon/phalcon/Storage/Adapter/Apcu.zep", 69);
+		zephir_array_fetch_string(&_2$$4, &item, SL("key"), PH_NOISY | PH_READONLY, "phalcon/Storage/Adapter/Apcu.zep", 69);
 		ZEPHIR_CALL_FUNCTION(&_3$$4, "apcu_delete", &_4, 116, &_2$$4);
 		zephir_check_call_status();
 		if (!(zephir_is_true(&_3$$4))) {
@@ -366,8 +366,8 @@ PHP_METHOD(Phalcon_Storage_Adapter_Apcu, getKeys) {
 		{
 			ZEPHIR_ITERATOR_COPY(&item, _1);
 		}
-		zephir_array_fetch_string(&_2$$4, &item, SL("key"), PH_NOISY | PH_READONLY, "/home/nikos/Work/niden/cphalcon/phalcon/Storage/Adapter/Apcu.zep", 148);
-		zephir_array_append(&results, &_2$$4, PH_SEPARATE, "/home/nikos/Work/niden/cphalcon/phalcon/Storage/Adapter/Apcu.zep", 148);
+		zephir_array_fetch_string(&_2$$4, &item, SL("key"), PH_NOISY | PH_READONLY, "phalcon/Storage/Adapter/Apcu.zep", 148);
+		zephir_array_append(&results, &_2$$4, PH_SEPARATE, "phalcon/Storage/Adapter/Apcu.zep", 148);
 	}
 	zend_iterator_dtor(_1);
 	RETURN_CTOR(&results);
