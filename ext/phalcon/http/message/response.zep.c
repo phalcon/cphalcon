@@ -154,14 +154,14 @@ PHP_METHOD(Phalcon_Http_Message_Response, __construct) {
 
 
 	ZVAL_LONG(&_0, code);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "processcode", NULL, 288, &_0);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "processcode", NULL, 304, &_0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "processheaders", NULL, 286, &headers);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "processheaders", NULL, 302, &headers);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("headers"), &_1);
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "w+b");
-	ZEPHIR_CALL_METHOD(&_2, this_ptr, "processbody", NULL, 36, body, &_3);
+	ZEPHIR_CALL_METHOD(&_2, this_ptr, "processbody", NULL, 37, body, &_3);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("body"), &_2);
 	ZEPHIR_MM_RESTORE();
@@ -241,7 +241,7 @@ PHP_METHOD(Phalcon_Http_Message_Response, checkCodeType) {
 		_0 = Z_TYPE_P(code) != IS_STRING;
 	}
 	if (UNEXPECTED(_0)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_http_message_exception_invalidargumentexception_ce, "Invalid status code; it must be an integer or string", "phalcon/Http/Message/Response.zep", 110);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_http_message_exception_invalidargumentexception_ce, "Invalid status code; it must be an integer or string", "/home/nikos/Work/niden/cphalcon/phalcon/Http/Message/Response.zep", 110);
 		return;
 	}
 
@@ -278,7 +278,7 @@ PHP_METHOD(Phalcon_Http_Message_Response, checkCodeValue) {
 	ZVAL_LONG(&_2, code);
 	ZVAL_LONG(&_3, 100);
 	ZVAL_LONG(&_4, 599);
-	ZEPHIR_CALL_CE_STATIC(&_0, phalcon_helper_number_ce, "between", &_1, 289, &_2, &_3, &_4);
+	ZEPHIR_CALL_CE_STATIC(&_0, phalcon_helper_number_ce, "between", &_1, 305, &_2, &_3, &_4);
 	zephir_check_call_status();
 	if (!ZEPHIR_IS_TRUE_IDENTICAL(&_0)) {
 		ZEPHIR_INIT_VAR(&_5$$3);
@@ -287,9 +287,9 @@ PHP_METHOD(Phalcon_Http_Message_Response, checkCodeValue) {
 		ZVAL_LONG(&_6$$3, code);
 		ZEPHIR_INIT_VAR(&_7$$3);
 		ZEPHIR_CONCAT_SVS(&_7$$3, "Invalid status code '", &_6$$3, "', (allowed values 100-599)");
-		ZEPHIR_CALL_METHOD(NULL, &_5$$3, "__construct", NULL, 39, &_7$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_5$$3, "__construct", NULL, 40, &_7$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_5$$3, "phalcon/Http/Message/Response.zep", 124);
+		zephir_throw_exception_debug(&_5$$3, "/home/nikos/Work/niden/cphalcon/phalcon/Http/Message/Response.zep", 124);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -430,17 +430,17 @@ PHP_METHOD(Phalcon_Http_Message_Response, processCode) {
 	}
 
 
-	ZEPHIR_CALL_METHOD(&phrases, this_ptr, "getphrases", NULL, 290);
+	ZEPHIR_CALL_METHOD(&phrases, this_ptr, "getphrases", NULL, 306);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkcodetype", NULL, 291, code);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkcodetype", NULL, 307, code);
 	zephir_check_call_status();
 	_0 = zephir_get_intval(code);
 	ZEPHIR_INIT_NVAR(code);
 	ZVAL_LONG(code, _0);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkcodevalue", NULL, 292, code);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkcodevalue", NULL, 308, code);
 	zephir_check_call_status();
 	if (UNEXPECTED(Z_TYPE_P(phrase) != IS_STRING)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_message_exception_invalidargumentexception_ce, "Invalid response reason", "phalcon/Http/Message/Response.zep", 243);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_message_exception_invalidargumentexception_ce, "Invalid response reason", "/home/nikos/Work/niden/cphalcon/phalcon/Http/Message/Response.zep", 243);
 		return;
 	}
 	ZEPHIR_INIT_VAR(&_1);
@@ -451,7 +451,7 @@ PHP_METHOD(Phalcon_Http_Message_Response, processCode) {
 	}
 	if (EXPECTED(_2)) {
 		ZEPHIR_OBS_NVAR(phrase);
-		zephir_array_fetch(phrase, &phrases, code, PH_NOISY, "phalcon/Http/Message/Response.zep", 247);
+		zephir_array_fetch(phrase, &phrases, code, PH_NOISY, "/home/nikos/Work/niden/cphalcon/phalcon/Http/Message/Response.zep", 247);
 	}
 	zephir_update_property_zval(this_ptr, SL("statusCode"), code);
 	zephir_update_property_zval(this_ptr, SL("reasonPhrase"), phrase);

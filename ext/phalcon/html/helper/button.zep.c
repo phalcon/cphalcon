@@ -14,24 +14,20 @@
 #include "kernel/main.h"
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
-#include "ext/spl/spl_exceptions.h"
-#include "kernel/exception.h"
 #include "kernel/operators.h"
 #include "kernel/object.h"
 
 
 /**
- * This file is part of the Phalcon Framework.
+ * This file is part of the Phalcon.
  *
- * (c) Phalcon Team <team@phalcon.io>
+ * (c) Phalcon Team <team@phalcon.com>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Html\Helper\Button
- *
- * Creates a button tag
+ * Class Button
  */
 ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Button) {
 
@@ -42,46 +38,55 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Button) {
 }
 
 /**
- * @var string text       The text for the anchor
- * @var array  attributes Any additional attributes
+ * Produce a `<button>` tag.
+ *
+ * @param string $text
+ * @param array  $attributes
+ * @param bool   $raw
+ *
+ * @return string
+ * @throws Exception
  */
 PHP_METHOD(Phalcon_Html_Helper_Button, __invoke) {
 
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zend_bool raw;
 	zval attributes;
-	zval *text_param = NULL, *attributes_param = NULL, _0;
+	zval *text_param = NULL, *attributes_param = NULL, *raw_param = NULL, _0, _1;
 	zval text;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&text);
 	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&attributes);
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 1, &text_param, &attributes_param);
+	zephir_fetch_params(1, 1, 2, &text_param, &attributes_param, &raw_param);
 
-	if (UNEXPECTED(Z_TYPE_P(text_param) != IS_STRING && Z_TYPE_P(text_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'text' must be of the type string"));
-		RETURN_MM_NULL();
-	}
-	if (EXPECTED(Z_TYPE_P(text_param) == IS_STRING)) {
-		zephir_get_strval(&text, text_param);
-	} else {
-		ZEPHIR_INIT_VAR(&text);
-		ZVAL_EMPTY_STRING(&text);
-	}
+	zephir_get_strval(&text, text_param);
 	if (!attributes_param) {
 		ZEPHIR_INIT_VAR(&attributes);
 		array_init(&attributes);
 	} else {
 		zephir_get_arrval(&attributes, attributes_param);
 	}
+	if (!raw_param) {
+		raw = 0;
+	} else {
+		raw = zephir_get_boolval(raw_param);
+	}
 
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "button");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "renderfullelement", NULL, 0, &_0, &text, &attributes);
+	if (raw) {
+		ZVAL_BOOL(&_1, 1);
+	} else {
+		ZVAL_BOOL(&_1, 0);
+	}
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "renderfullelement", NULL, 0, &_0, &text, &attributes, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 

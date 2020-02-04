@@ -101,9 +101,9 @@ PHP_METHOD(Phalcon_Validation_AbstractValidator, __construct) {
 	ZEPHIR_INIT_NVAR(&_3);
 	ZVAL_LONG(&_3, 0);
 	zephir_array_fast_append(&_2, &_3);
-	ZEPHIR_CALL_CE_STATIC(&_0, phalcon_helper_arr_ce, "whitelist", &_1, 1, &options, &_2);
+	ZEPHIR_CALL_CE_STATIC(&_0, phalcon_helper_arr_ce, "whitelist", &_1, 3, &options, &_2);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&template, "current", NULL, 2, &_0);
+	ZEPHIR_CALL_FUNCTION(&template, "current", NULL, 4, &_0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&template) == IS_ARRAY) {
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "settemplates", NULL, 0, &template);
@@ -170,7 +170,7 @@ PHP_METHOD(Phalcon_Validation_AbstractValidator, getTemplate) {
 	}
 	if (_0) {
 		zephir_read_property(&_2$$3, this_ptr, SL("templates"), PH_NOISY_CC | PH_READONLY);
-		zephir_array_fetch(&_3$$3, &_2$$3, &field, PH_NOISY | PH_READONLY, "phalcon/Validation/AbstractValidator.zep", 73);
+		zephir_array_fetch(&_3$$3, &_2$$3, &field, PH_NOISY | PH_READONLY, "/home/nikos/Work/niden/cphalcon/phalcon/Validation/AbstractValidator.zep", 73);
 		RETURN_CTOR(&_3$$3);
 	}
 	zephir_read_property(&_4, this_ptr, SL("template"), PH_NOISY_CC | PH_READONLY);
@@ -233,7 +233,7 @@ PHP_METHOD(Phalcon_Validation_AbstractValidator, setTemplates) {
 	ZEPHIR_INIT_VAR(&_0);
 	array_init(&_0);
 	zephir_update_property_zval(this_ptr, SL("templates"), &_0);
-	zephir_is_iterable(&templates, 0, "phalcon/Validation/AbstractValidator.zep", 112);
+	zephir_is_iterable(&templates, 0, "/home/nikos/Work/niden/cphalcon/phalcon/Validation/AbstractValidator.zep", 112);
 	if (Z_TYPE_P(&templates) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&templates), _3, _4, _1)
 		{
@@ -478,7 +478,7 @@ PHP_METHOD(Phalcon_Validation_AbstractValidator, prepareCode) {
 	ZEPHIR_CALL_METHOD(&code, this_ptr, "getoption", NULL, 0, &_0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&code) == IS_ARRAY) {
-		zephir_array_fetch(&_1$$3, &code, &field, PH_NOISY | PH_READONLY, "phalcon/Validation/AbstractValidator.zep", 183);
+		zephir_array_fetch(&_1$$3, &code, &field, PH_NOISY | PH_READONLY, "/home/nikos/Work/niden/cphalcon/phalcon/Validation/AbstractValidator.zep", 183);
 		ZEPHIR_CPY_WRT(&code, &_1$$3);
 	}
 	RETURN_CCTOR(&code);
@@ -522,7 +522,7 @@ PHP_METHOD(Phalcon_Validation_AbstractValidator, prepareLabel) {
 	ZEPHIR_CALL_METHOD(&label, this_ptr, "getoption", NULL, 0, &_0);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&label) == IS_ARRAY) {
-		zephir_array_fetch(&_1$$3, &label, &field, PH_NOISY | PH_READONLY, "phalcon/Validation/AbstractValidator.zep", 199);
+		zephir_array_fetch(&_1$$3, &label, &field, PH_NOISY | PH_READONLY, "/home/nikos/Work/niden/cphalcon/phalcon/Validation/AbstractValidator.zep", 199);
 		ZEPHIR_CPY_WRT(&label, &_1$$3);
 	}
 	if (ZEPHIR_IS_EMPTY(&label)) {
@@ -576,7 +576,7 @@ PHP_METHOD(Phalcon_Validation_AbstractValidator, messageFactory) {
 	} else if (Z_TYPE_P(field) == IS_STRING) {
 		ZEPHIR_CPY_WRT(&singleField, field);
 	} else {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "The field can not be printed", "phalcon/Validation/AbstractValidator.zep", 225);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_exception_ce, "The field can not be printed", "/home/nikos/Work/niden/cphalcon/phalcon/Validation/AbstractValidator.zep", 225);
 		return;
 	}
 	ZEPHIR_INIT_VAR(&_0);
@@ -590,13 +590,13 @@ PHP_METHOD(Phalcon_Validation_AbstractValidator, messageFactory) {
 	object_init_ex(return_value, phalcon_messages_message_ce);
 	ZEPHIR_CALL_METHOD(&_2, this_ptr, "gettemplate", NULL, 0, &singleField);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_3, "strtr", NULL, 3, &_2, &replacements);
+	ZEPHIR_CALL_FUNCTION(&_3, "strtr", NULL, 5, &_2, &replacements);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_4);
 	zephir_get_class(&_4, this_ptr, 0);
 	ZEPHIR_CALL_METHOD(&_5, this_ptr, "preparecode", NULL, 0, &singleField);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 4, &_3, field, &_4, &_5);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 6, &_3, field, &_4, &_5);
 	zephir_check_call_status();
 	RETURN_MM();
 

@@ -319,10 +319,10 @@ PHP_METHOD(Phalcon_Collection, get) {
 	}
 	zephir_read_property(&_3, this_ptr, SL("data"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_OBS_VAR(&value);
-	zephir_array_fetch(&value, &_3, &key, PH_NOISY, "phalcon/Collection.zep", 133);
+	zephir_array_fetch(&value, &_3, &key, PH_NOISY, "/home/nikos/Work/niden/cphalcon/phalcon/Collection.zep", 133);
 	if (UNEXPECTED(zephir_is_true(&cast))) {
 		ZEPHIR_MAKE_REF(&value);
-		ZEPHIR_CALL_FUNCTION(NULL, "settype", NULL, 9, &value, &cast);
+		ZEPHIR_CALL_FUNCTION(NULL, "settype", NULL, 10, &value, &cast);
 		ZEPHIR_UNREF(&value);
 		zephir_check_call_status();
 	}
@@ -346,7 +346,7 @@ PHP_METHOD(Phalcon_Collection, getIterator) {
 
 	object_init_ex(return_value, zephir_get_internal_ce(SL("arrayiterator")));
 	zephir_read_property(&_0, this_ptr, SL("data"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 10, &_0);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 11, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -394,7 +394,7 @@ PHP_METHOD(Phalcon_Collection, getValues) {
 	ZEPHIR_MM_GROW();
 
 	zephir_read_property(&_0, this_ptr, SL("data"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_FUNCTION("array_values", NULL, 11, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("array_values", NULL, 12, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -462,7 +462,7 @@ PHP_METHOD(Phalcon_Collection, init) {
 	}
 
 
-	zephir_is_iterable(&data, 0, "phalcon/Collection.zep", 187);
+	zephir_is_iterable(&data, 0, "/home/nikos/Work/niden/cphalcon/phalcon/Collection.zep", 187);
 	if (Z_TYPE_P(&data) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&data), _2, _3, _0)
 		{
@@ -530,7 +530,7 @@ PHP_METHOD(Phalcon_Collection, jsonSerialize) {
 	ZEPHIR_INIT_VAR(&records);
 	array_init(&records);
 	zephir_read_property(&_0, this_ptr, SL("data"), PH_NOISY_CC | PH_READONLY);
-	zephir_is_iterable(&_0, 0, "phalcon/Collection.zep", 208);
+	zephir_is_iterable(&_0, 0, "/home/nikos/Work/niden/cphalcon/phalcon/Collection.zep", 208);
 	if (Z_TYPE_P(&_0) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&_0), _3, _4, _1)
 		{
@@ -746,7 +746,7 @@ PHP_METHOD(Phalcon_Collection, remove) {
 		ZEPHIR_CPY_WRT(&data, &_3$$3);
 		zephir_read_property(&_4$$3, this_ptr, SL("lowerKeys"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CPY_WRT(&lowerKeys, &_4$$3);
-		zephir_array_fetch(&key, &lowerKeys, &element, PH_NOISY | PH_READONLY, "phalcon/Collection.zep", 270);
+		zephir_array_fetch(&key, &lowerKeys, &element, PH_NOISY | PH_READONLY, "/home/nikos/Work/niden/cphalcon/phalcon/Collection.zep", 270);
 		zephir_array_unset(&lowerKeys, &element, PH_SEPARATE);
 		zephir_array_unset(&data, &key, PH_SEPARATE);
 		zephir_update_property_zval(this_ptr, SL("data"), &data);
@@ -799,7 +799,7 @@ PHP_METHOD(Phalcon_Collection, serialize) {
 
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "toarray", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 12, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 13, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -851,7 +851,7 @@ PHP_METHOD(Phalcon_Collection, toJson) {
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "toarray", NULL, 0);
 	zephir_check_call_status();
 	ZVAL_LONG(&_2, options);
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_json_ce, "encode", &_0, 13, &_1, &_2);
+	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_json_ce, "encode", &_0, 14, &_1, &_2);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -881,7 +881,7 @@ PHP_METHOD(Phalcon_Collection, unserialize) {
 
 	zephir_get_strval(&_0, serialized);
 	ZEPHIR_CPY_WRT(serialized, &_0);
-	ZEPHIR_CALL_FUNCTION(&data, "unserialize", NULL, 14, serialized);
+	ZEPHIR_CALL_FUNCTION(&data, "unserialize", NULL, 15, serialized);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "init", NULL, 0, &data);
 	zephir_check_call_status();

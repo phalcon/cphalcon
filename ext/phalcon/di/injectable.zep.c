@@ -144,7 +144,7 @@ PHP_METHOD(Phalcon_Di_Injectable, __get) {
 	}
 	ZEPHIR_INIT_VAR(&_5);
 	ZEPHIR_CONCAT_SV(&_5, "Access to undefined property ", &propertyName);
-	ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 5, &_5);
+	ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 7, &_5);
 	zephir_check_call_status();
 	RETURN_MM_NULL();
 
@@ -218,9 +218,9 @@ PHP_METHOD(Phalcon_Di_Injectable, getDI) {
 			ZVAL_STRING(&_5$$4, "internal services");
 			ZEPHIR_CALL_CE_STATIC(&_3$$4, phalcon_di_exception_ce, "containerservicenotfound", &_4, 0, &_5$$4);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(NULL, &_2$$4, "__construct", NULL, 6, &_3$$4);
+			ZEPHIR_CALL_METHOD(NULL, &_2$$4, "__construct", NULL, 8, &_3$$4);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_2$$4, "phalcon/Di/Injectable.zep", 124);
+			zephir_throw_exception_debug(&_2$$4, "/home/nikos/Work/niden/cphalcon/phalcon/Di/Injectable.zep", 124);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}

@@ -18,7 +18,6 @@ use Phalcon\Test\Fixtures\Migrations\FractalDatesMigration;
 use Phalcon\Test\Fixtures\Traits\DbTrait;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\FractalDates;
-use function var_dump;
 
 class GetScaleCest
 {
