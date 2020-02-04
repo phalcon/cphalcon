@@ -10,9 +10,13 @@ cp tests/ci/.env.default .env
 cd tests 
 docker-compose up -d
 cd ..
+php tests/_ci/generage-db-schemas.php
+codecept build
 codecept run unit
 codecept run cli
 codecept run integration
+codecept run database --env mysql
+codecept run database --env sqlite
 ```
 
 
@@ -140,16 +144,14 @@ After the compilation is completed, you can check if the extension is loaded:
 ```
 
 ## Setup databases
-The SQL dump files are located under `tests/_data/assets/db/schemas`. When importing your Postgresql database, please make sure you use the file suffixed with `*nanobox`. You can run the following commands from your nanobox environment
+To generate the necessary database schemas, you need to run the relevant script:
 
 ```sh
-/app $ cat ./tests/_data/assets/db/schemas/mysql_schema.sql | mysql -u root gonano
-
-/app $ psql -U nanobox gonano -q -f ./tests/_data/assets/db/schemas/postgresql_schema.sql
-
-/app $ sqlite3 ./tests/_output/phalcon_test.sqlite < ./tests/_data/assets/db/schemas/sqlite_schema.sql
-/app $ sqlite3 ./tests/_output/translations.sqlite < ./tests/_data/assets/db/schemas/sqlite_translations_schema.sql
+/app $ php ./tests/_ci/generage-db-schemas.php
 ```
+The script looks for classes located under `tests/_data/fixtures/Migrations`. These classes contain the necessary code to create the relevant SQL statements for each RDBMS. You can easily inspect one of those files to understand its structure. Additionally, these migration classes can be instantiated in your tests to clear the target table, insert new records etc. This methodology allows us to create the database schema per RDBMS, which will be loaded automatically from Codeception, but also allows us to clear tables and insert data we need to them so that our tests are more controlled and isolated.
+
+If there is a need to add an additional table, all you have to do is create the Phalcon model of course but also create the migration class with the relevant SQL statements. Running the generate script (as seen above) will update the schema file so that Codeception can load it in your RDBMS prior to running the tests.
 
 ## Run tests
 
@@ -159,7 +161,7 @@ First you need to re-generate base classes for all suites:
 /app $ codecept build
 ```
 
-Once the database is created, run the tests on a terminal:
+Then, run the tests on a terminal:
 
 ```sh
 /app $ codecept run
@@ -183,6 +185,19 @@ Execute single test:
 
 ```sh
 /app $ codecept run tests/unit/some/folder/some/test/file.php
+```
+
+To run database related tests you need to run the `database` suite specifying the RDBMS
+
+```sh
+/app $ codecept run tests/database --env mysql
+```
+
+Available options:
+
+```sh
+-- env mysql
+-- env sqlite
 ```
 
 ## Todo

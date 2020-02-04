@@ -18,7 +18,10 @@ $container = new FactoryDefault();
  */
 $root = dirname(dirname(__DIR__)) . DIRECTORY_SEPARATOR;
 
-loadEnvironment($root);
+loadIni();
+loadAutoloader($root);
+loadFolders();
+loadDefined();
 
 /**
  * Config
@@ -34,21 +37,7 @@ $configFile = [
         'viewsDir'       => $root . 'tests/_data/fixtures/views/',
         'resultsetsDir'  => $root . 'tests/_data/fixtures/resultsets/',
         'tasksDir'       => $root . 'tests/_data/fixtures/tasks/',
-        //        'microDir'       => $root . 'tests/_data/micro/',
-        //        'objectsetsDir'  => $root . 'tests/_data/objectsets/',
-        //        'debugDir'       => $root . 'tests/_data/debug/',
-        //        'collectionsDir' => $root . 'tests/_data/collections/',
-        //        'aclDir'         => $root . 'tests/_data/acl/',
-    ],
-    'database'    => [
-        'adapter'  => 'Mysql',
-        'host'     => env('DATA_MYSQL_HOST'),
-        'username' => env('DATA_MYSQL_USER'),
-        'password' => env('DATA_MYSQL_PASS'),
-        'dbname'   => env('DATA_MYSQL_NAME'),
-        'port'     => env('DATA_MYSQL_PORT'),
-        'charset'  => env('DATA_MYSQL_CHARSET'),
-    ],
+    ]
 ];
 
 $config = new Config($configFile);
@@ -106,14 +95,6 @@ $container->setShared(
  * Dispatcher
  */
 $container->set('dispatcher', Dispatcher::class);
-
-/**
- * Session
- */
-$container->set(
-    CodeceptionMemorySession::class,
-    PhalconMemorySession::class
-);
 
 $application = new Application();
 

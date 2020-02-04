@@ -33,7 +33,7 @@ class DirectCest
     public function _before(UnitTester $I)
     {
         $this->newDi();
-        $this->setDiEscaper();
+        $this->setDiService('escaper');
     }
 
     /**

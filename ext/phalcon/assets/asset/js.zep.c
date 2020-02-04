@@ -29,7 +29,7 @@
  * file that was distributed with this source code.
  */
 /**
- * Represents Javascript assets
+ * Represents JavaScript assets
  */
 ZEPHIR_INIT_CLASS(Phalcon_Assets_Asset_Js) {
 

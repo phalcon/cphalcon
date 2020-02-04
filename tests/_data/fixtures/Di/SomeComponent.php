@@ -1,19 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+
 /**
  * SomeComponent class
- *
- * @copyright (c) 2011-2017 Phalcon Team
- * @link      http://www.phalcon.io
- * @author    Andres Gutierrez <andres@phalcon.io>
- * @author    Phalcon Team <team@phalcon.io>
- *
- * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file LICENSE.txt
- *
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world-wide-web, please send an email to license@phalcon.io
- * so that we can send you a copy immediately.
  */
 class SomeComponent
 {

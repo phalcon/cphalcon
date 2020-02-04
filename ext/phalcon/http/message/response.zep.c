@@ -305,7 +305,7 @@ PHP_METHOD(Phalcon_Http_Message_Response, getPhrases) {
 	zval *this_ptr = getThis();
 
 
-	zephir_create_array(return_value, 89, 0);
+	zephir_create_array(return_value, 88, 0);
 	add_index_stringl(return_value, 100, SL("Continue"));
 	add_index_stringl(return_value, 101, SL("Switching Protocols"));
 	add_index_stringl(return_value, 102, SL("Processing"));

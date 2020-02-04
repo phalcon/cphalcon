@@ -54,7 +54,7 @@ class JsonSerializeCest
             'three'  => 'four',
             'five'   => 'six',
             'object' => [
-                'one' => 'two'
+                'one' => 'two',
             ],
         ];
 

@@ -24,8 +24,8 @@ class IsExactControllerNameCest
     public function _before(IntegrationTester $I)
     {
         $this->newDi();
-        $this->setDiRequest();
-        $this->setDiAnnotations();
+        $this->setDiService('request');
+        $this->setDiService('annotations');
     }
 
     /**

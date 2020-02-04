@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -12,8 +13,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Fixtures\Traits;
 
-use function dataDir;
 use UnitTester;
+use function dataDir;
 
 trait TranslateGettextTrait
 {

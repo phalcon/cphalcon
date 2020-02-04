@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -23,7 +24,7 @@ class NegotiateAuthorizationListener
             return false;
         }
 
-        list($type,) = explode(' ', $data['server']['CUSTOM_KERBEROS_AUTH'], 2);
+        [$type,] = explode(' ', $data['server']['CUSTOM_KERBEROS_AUTH'], 2);
 
         if (!$type || stripos($type, 'negotiate') !== 0) {
             return false;

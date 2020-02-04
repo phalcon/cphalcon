@@ -23,12 +23,6 @@ use function uniqid;
 class DestroyCest
 {
     use DiTrait;
-    use SessionTrait;
-
-    public function _before(IntegrationTester $I)
-    {
-        $this->newFactoryDefault();
-    }
 
     /**
      * Tests Phalcon\Session\Adapter\Stream :: destroy()
@@ -40,7 +34,7 @@ class DestroyCest
     {
         $I->wantToTest('Session\Adapter\Stream - destroy()');
 
-        $adapter = $this->getSessionStream();
+        $adapter = $this->newService('sessionStream');
 
         /**
          * Create a file in the session folder

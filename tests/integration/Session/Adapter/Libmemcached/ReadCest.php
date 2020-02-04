@@ -22,12 +22,6 @@ use function uniqid;
 class ReadCest
 {
     use DiTrait;
-    use SessionTrait;
-
-    public function _before(IntegrationTester $I)
-    {
-        $this->newFactoryDefault();
-    }
 
     /**
      * Tests Phalcon\Session\Adapter\Libmemcached :: write()
@@ -39,7 +33,7 @@ class ReadCest
     {
         $I->wantToTest('Session\Adapter\Libmemcached - read()');
 
-        $adapter = $this->getSessionLibmemcached();
+        $adapter = $this->newService('sessionLibmemcached');
 
         $value = uniqid();
 

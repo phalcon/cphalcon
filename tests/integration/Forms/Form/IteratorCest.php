@@ -23,8 +23,8 @@ class IteratorCest
     public function _before(IntegrationTester $I)
     {
         $this->newDi();
-        $this->setDiEscaper();
-        $this->setDiUrl();
+        $this->setDiService('escaper');
+        $this->setDiService('url');
     }
 
     public function testIterator(IntegrationTester $I)

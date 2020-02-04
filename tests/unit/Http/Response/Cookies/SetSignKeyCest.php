@@ -16,7 +16,6 @@ namespace Phalcon\Test\Unit\Http\Response\Cookies;
 use Phalcon\Http\Response\Cookies;
 use Phalcon\Test\Fixtures\Traits\CookieTrait;
 use Phalcon\Test\Unit\Http\Helper\HttpBase;
-use Phalcon\Http\Response\CookiesInterface;
 use UnitTester;
 
 class SetSignKeyCest extends HttpBase
@@ -29,7 +28,8 @@ class SetSignKeyCest extends HttpBase
     public function _before(UnitTester $I)
     {
         parent::_before($I);
-        $this->setDiSessionFiles();
+        $this->setDiService('sessionStream');
+        ;
     }
 
     /**
@@ -42,10 +42,10 @@ class SetSignKeyCest extends HttpBase
     {
         $I->wantToTest('Http\Response\Cookies - setSignKey()');
 
-        $sName = 'framework';
+        $sName  = 'framework';
         $sValue = 'phalcon';
 
-        $this->setDiCrypt();
+        $this->setDiService('crypt');
         $container = $this->getDi();
 
         $oCookie = new Cookies();

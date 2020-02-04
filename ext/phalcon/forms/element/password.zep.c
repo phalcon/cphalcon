@@ -40,7 +40,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Forms_Element_Password) {
 }
 
 /**
- * Renders the element widget returning html
+ * Renders the element widget returning HTML
  */
 PHP_METHOD(Phalcon_Forms_Element_Password, render) {
 

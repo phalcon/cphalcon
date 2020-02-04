@@ -189,7 +189,7 @@ PHP_METHOD(Phalcon_Escaper, escapeCss) {
 }
 
 /**
- * Escape javascript strings by replacing non-alphanumeric chars by their
+ * Escape JavaScript strings by replacing non-alphanumeric chars by their
  * hexadecimal escaped representation
  */
 PHP_METHOD(Phalcon_Escaper, escapeJs) {

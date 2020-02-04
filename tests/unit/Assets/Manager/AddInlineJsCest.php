@@ -29,8 +29,8 @@ class AddInlineJsCest
     public function _before(UnitTester $I)
     {
         $this->newDi();
-        $this->setDiEscaper();
-        $this->setDiUrl();
+        $this->setDiService('escaper');
+        $this->setDiService('url');
     }
 
     /**

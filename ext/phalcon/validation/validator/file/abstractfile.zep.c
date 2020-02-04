@@ -45,7 +45,7 @@
  *     new Size(
  *         [
  *             "maxSize"              => "2M",
- *             "messageSize"          => ":field exceeds the max filesize (:size)",
+ *             "messageSize"          => ":field exceeds the max file size (:size)",
  *         ]
  *     )
  * );
@@ -62,8 +62,8 @@
  *                 "anotherFile" => "4M",
  *             ],
  *             "messageSize" => [
- *                 "file"        => "file exceeds the max filesize 2M",
- *                 "anotherFile" => "anotherFile exceeds the max filesize 4M",
+ *                 "file"        => "file exceeds the max file size 2M",
+ *                 "anotherFile" => "anotherFile exceeds the max file size 4M",
  *             ],
  *         ]
  *     )
@@ -80,7 +80,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_File_AbstractFile) {
 	zend_declare_property_string(phalcon_validation_validator_file_abstractfile_ce, SL("messageFileEmpty"), "Field :field must not be empty", ZEND_ACC_PROTECTED);
 
 	/**
-	 * File exceeed the file size setted in PHP configuration
+	 * File exceeds the file size set in PHP configuration
 	 */
 	zend_declare_property_string(phalcon_validation_validator_file_abstractfile_ce, SL("messageIniSize"), "File :field exceeds the maximum file size", ZEND_ACC_PROTECTED);
 
@@ -125,7 +125,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File_AbstractFile, setMessageFileEmpty) 
 }
 
 /**
- * File exceeed the file size setted in PHP configuration
+ * File exceeds the file size set in PHP configuration
  */
 PHP_METHOD(Phalcon_Validation_Validator_File_AbstractFile, getMessageIniSize) {
 
@@ -137,7 +137,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File_AbstractFile, getMessageIniSize) {
 }
 
 /**
- * File exceeed the file size setted in PHP configuration
+ * File exceeds the file size set in PHP configuration
  */
 PHP_METHOD(Phalcon_Validation_Validator_File_AbstractFile, setMessageIniSize) {
 

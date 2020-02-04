@@ -14,9 +14,9 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Di\FactoryDefault\Cli;
 
 use CliTester;
+use Phalcon\Di\Exception;
 use Phalcon\Di\FactoryDefault\Cli as Di;
 use Phalcon\Escaper;
-use Phalcon\Di\Exception;
 
 class GetRawCest
 {

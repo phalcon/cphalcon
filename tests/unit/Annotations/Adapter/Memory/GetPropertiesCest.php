@@ -33,7 +33,7 @@ class GetPropertiesCest
         $I->wantToTest('Annotations\Adapter\Memory - getProperties()');
 
         require_once dataDir('fixtures/Annotations/TestClass.php');
-        
+
         $oAdapter = new Memory();
 
         $aPropertyAnnotations = $oAdapter->getProperties(

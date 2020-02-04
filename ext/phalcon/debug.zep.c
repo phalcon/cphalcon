@@ -141,7 +141,7 @@ PHP_METHOD(Phalcon_Debug, debugVar) {
 }
 
 /**
- * Returns the css sources
+ * Returns the CSS sources
  */
 PHP_METHOD(Phalcon_Debug, getCssSources) {
 
@@ -164,7 +164,7 @@ PHP_METHOD(Phalcon_Debug, getCssSources) {
 }
 
 /**
- * Returns the javascript sources
+ * Returns the JavaScript sources
  */
 PHP_METHOD(Phalcon_Debug, getJsSources) {
 

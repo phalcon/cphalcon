@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Session\Adapter\Stream;
 
 use IntegrationTester;
-use Phalcon\Session\Adapter\Stream;
 use Phalcon\Session\Manager;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\SessionTrait;
@@ -22,12 +21,6 @@ use Phalcon\Test\Fixtures\Traits\SessionTrait;
 class OpenCest
 {
     use DiTrait;
-    use SessionTrait;
-
-    public function _before(IntegrationTester $I)
-    {
-        $this->newFactoryDefault();
-    }
 
     /**
      * Tests Phalcon\Session\Adapter\Stream :: open()
@@ -39,7 +32,7 @@ class OpenCest
     {
         $I->wantToTest('Session\Adapter\Stream - open()');
 
-        $adapter = $this->getSessionStream();
+        $adapter = $this->newService('sessionStream');
 
         $I->assertTrue(
             $adapter->open(
@@ -59,7 +52,7 @@ class OpenCest
     {
         $I->wantToTest('Session\Adapter\Stream - open() for issue 14265');
         $session = new Manager();
-        $stream  = new Stream(getOptionsSessionStream());
+        $stream  = $this->newService('sessionStream');
         $session->setAdapter($stream);
         $I->assertTrue(
             $session->start()

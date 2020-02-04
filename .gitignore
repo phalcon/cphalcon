@@ -60,7 +60,8 @@ composer.lock
 php_test_results_*.txt
 docker-compose.yml
 build/gccarch
-tests/_cache
+tests/_data/phalcon_test*
+tests/_output/*
 
 .php_cs.cache
 .env

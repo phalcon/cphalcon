@@ -35,7 +35,8 @@ class GetRequestTokenCest
         $I->checkExtensionIsLoaded('openssl');
 
         $this->setNewFactoryDefault();
-        $this->setDiSessionFiles();
+        $this->setDiService('sessionStream');
+        ;
 
         $_SESSION = [];
         global $_SESSION;

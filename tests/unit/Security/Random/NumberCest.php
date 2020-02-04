@@ -32,14 +32,14 @@ class NumberCest
         $random = new Random();
 
 
-        $I->expectException(
+        $I->expectThrowable(
             Exception::class,
             function () {
                 $randNumber = $random->number();
             }
         );
 
-        $I->expectException(
+        $I->expectThrowable(
             Exception::class,
             function () {
                 $randNumber = $random->number(-1);

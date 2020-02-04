@@ -31,7 +31,7 @@
  * file that was distributed with this source code.
  */
 /**
- * Specific functions for the Mysql database system
+ * Specific functions for the MySQL database system
  *
  *```php
  * use Phalcon\Db\Adapter\Pdo\Mysql;

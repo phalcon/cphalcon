@@ -34,7 +34,7 @@ class GetCest
         require_once dataDir('fixtures/Annotations/TestClass.php');
 
         $oAdapter = new Memory();
-    
+
         $oClassAnnotations = $oAdapter->get(
             TestClass::class
         );

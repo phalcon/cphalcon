@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -19,7 +20,7 @@ trait TranslateCsvTrait
     protected function getCsvConfig(): array
     {
         return [
-            'en'    => [
+            'en' => [
                 'content' => dataDir('assets/translation/csv/en.csv'),
             ],
             'es' => [

@@ -21,7 +21,6 @@ use Phalcon\Test\Fixtures\Traits\SessionTrait;
 class UnderscoreIssetCest
 {
     use DiTrait;
-    use SessionTrait;
 
     /**
      * Tests Phalcon\Session\Manager :: __isset()
@@ -33,7 +32,7 @@ class UnderscoreIssetCest
     {
         $I->wantToTest('Session\Manager - __isset()');
         $manager = new Manager();
-        $files   = $this->getSessionStream();
+        $files   = $this->newService('sessionStream');
         $manager->setAdapter($files);
 
         $actual = $manager->start();

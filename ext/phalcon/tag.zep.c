@@ -2242,7 +2242,7 @@ PHP_METHOD(Phalcon_Tag, selectStatic) {
 }
 
 /**
- * Set autoescape mode in generated html
+ * Set autoescape mode in generated HTML
  */
 PHP_METHOD(Phalcon_Tag, setAutoescape) {
 

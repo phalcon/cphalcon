@@ -21,12 +21,6 @@ use SessionHandlerInterface;
 class ConstructCest
 {
     use DiTrait;
-    use SessionTrait;
-
-    public function _before(IntegrationTester $I)
-    {
-        $this->newFactoryDefault();
-    }
 
     /**
      * Tests Phalcon\Session\Adapter\Redis :: __construct()
@@ -38,7 +32,7 @@ class ConstructCest
     {
         $I->wantToTest('Session\Adapter\Redis - __construct()');
 
-        $adapter = $this->getSessionRedis();
+        $adapter = $this->newService('sessionRedis');
 
         $I->assertInstanceOf(
             SessionHandlerInterface::class,

@@ -22,7 +22,6 @@ use SessionHandlerInterface;
 class GetSetAdapterCest
 {
     use DiTrait;
-    use SessionTrait;
 
     /**
      * Tests Phalcon\Session\Manager :: getAdapter()/setAdapter()
@@ -34,7 +33,7 @@ class GetSetAdapterCest
     {
         $I->wantToTest('Session\Manager - getAdapter()/setAdapter()');
         $manager = new Manager();
-        $files   = $this->getSessionStream();
+        $files   = $this->newService('sessionStream');
         $manager->setAdapter($files);
 
         $actual = $manager->getAdapter();

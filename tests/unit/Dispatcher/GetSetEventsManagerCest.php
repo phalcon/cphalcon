@@ -30,7 +30,7 @@ class GetSetEventsManagerCest
         $I->wantToTest('Dispatcher - getEventsManager() / setEventsManager()');
 
         $oDispatcher = new Dispatcher();
-        $oManager = new Manager();
+        $oManager    = new Manager();
 
         $oDispatcher->setEventsManager($oManager);
 

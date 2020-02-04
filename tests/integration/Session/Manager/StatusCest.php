@@ -21,7 +21,6 @@ use Phalcon\Test\Fixtures\Traits\SessionTrait;
 class StatusCest
 {
     use DiTrait;
-    use SessionTrait;
 
     /**
      * Tests Phalcon\Session\Manager :: status()
@@ -33,7 +32,7 @@ class StatusCest
     {
         $I->wantToTest('Session\Manager - status()');
         $manager = new Manager();
-        $files   = $this->getSessionStream();
+        $files   = $this->newService('sessionStream');
         $manager->setAdapter($files);
 
         $expected = $manager::SESSION_NONE;

@@ -34,7 +34,7 @@
 /**
  * Phalcon\Html\Helper\AbstractHelper
  *
- * Abstract class for all html helpers
+ * Abstract class for all HTML helpers
  */
 ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_AbstractHelper) {
 

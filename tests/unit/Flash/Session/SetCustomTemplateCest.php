@@ -34,8 +34,9 @@ class SetCustomTemplateCest
     public function _before(UnitTester $I)
     {
         $this->newDi();
-        $this->setDiEscaper();
-        $this->setDiSessionFiles();
+        $this->setDiService('escaper');
+        $this->setDiService('sessionStream');
+        ;
     }
 
     /**
