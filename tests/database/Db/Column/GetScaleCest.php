@@ -18,6 +18,7 @@ use Phalcon\Test\Fixtures\Migrations\FractalDatesMigration;
 use Phalcon\Test\Fixtures\Traits\DbTrait;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\FractalDates;
+use function var_dump;
 
 class GetScaleCest
 {
@@ -28,11 +29,6 @@ class GetScaleCest
     {
         $this->setNewFactoryDefault();
         $this->setDatabase($I);
-
-        /** @var PDO $connection */
-        $connection = $I->getConnection();
-        $migration  = new FractalDatesMigration($connection);
-        $migration->clear();
     }
 
     /**
@@ -74,6 +70,7 @@ class GetScaleCest
              */
             $connection = $I->getConnection();
             $migration  = new FractalDatesMigration($connection);
+            $migration->clear();
             $migration->insert(
                 1,
                 '14:15:16.444',
