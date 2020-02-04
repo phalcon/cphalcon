@@ -87,17 +87,17 @@ PHP_METHOD(Phalcon_Paginator_Adapter_AbstractAdapter, __construct) {
 
 	zephir_update_property_zval(this_ptr, SL("config"), &config);
 	if (zephir_array_isset_string(&config, SL("limit"))) {
-		zephir_array_fetch_string(&_0$$3, &config, SL("limit"), PH_NOISY | PH_READONLY, "/home/nikos/Work/niden/cphalcon/phalcon/Paginator/Adapter/AbstractAdapter.zep", 54);
+		zephir_array_fetch_string(&_0$$3, &config, SL("limit"), PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter/AbstractAdapter.zep", 54);
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setlimit", NULL, 0, &_0$$3);
 		zephir_check_call_status();
 	}
 	if (zephir_array_isset_string(&config, SL("page"))) {
-		zephir_array_fetch_string(&_1$$4, &config, SL("page"), PH_NOISY | PH_READONLY, "/home/nikos/Work/niden/cphalcon/phalcon/Paginator/Adapter/AbstractAdapter.zep", 60);
+		zephir_array_fetch_string(&_1$$4, &config, SL("page"), PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter/AbstractAdapter.zep", 60);
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setcurrentpage", NULL, 0, &_1$$4);
 		zephir_check_call_status();
 	}
 	if (zephir_array_isset_string(&config, SL("repository"))) {
-		zephir_array_fetch_string(&_2$$5, &config, SL("repository"), PH_NOISY | PH_READONLY, "/home/nikos/Work/niden/cphalcon/phalcon/Paginator/Adapter/AbstractAdapter.zep", 66);
+		zephir_array_fetch_string(&_2$$5, &config, SL("repository"), PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter/AbstractAdapter.zep", 66);
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setrepository", NULL, 0, &_2$$5);
 		zephir_check_call_status();
 	}
@@ -157,7 +157,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_AbstractAdapter, setLimit) {
 
 
 	if (limitRows <= 0) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_paginator_exception_ce, "Limit must be greater then zero", "/home/nikos/Work/niden/cphalcon/phalcon/Paginator/Adapter/AbstractAdapter.zep", 94);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_paginator_exception_ce, "Limit must be greater then zero", "phalcon/Paginator/Adapter/AbstractAdapter.zep", 94);
 		return;
 	}
 	ZEPHIR_INIT_ZVAL_NREF(_0);

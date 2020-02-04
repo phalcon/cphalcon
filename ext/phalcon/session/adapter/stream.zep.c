@@ -121,7 +121,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, __construct) {
 		ZEPHIR_CONCAT_SVS(&_5$$4, "The session save path [", &path, "] is not writable");
 		ZEPHIR_CALL_METHOD(NULL, &_4$$4, "__construct", NULL, 8, &_5$$4);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_4$$4, "/home/nikos/Work/niden/cphalcon/phalcon/Session/Adapter/Stream.zep", 68);
+		zephir_throw_exception_debug(&_4$$4, "phalcon/Session/Adapter/Stream.zep", 68);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -208,7 +208,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, gc) {
 	zephir_sub_function(&time, &_2, maxlifetime);
 	ZEPHIR_CALL_FUNCTION(&_3, "glob", NULL, 491, &pattern);
 	zephir_check_call_status();
-	zephir_is_iterable(&_3, 0, "/home/nikos/Work/niden/cphalcon/phalcon/Session/Adapter/Stream.zep", 102);
+	zephir_is_iterable(&_3, 0, "phalcon/Session/Adapter/Stream.zep", 102);
 	if (Z_TYPE_P(&_3) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_3), _4)
 		{
