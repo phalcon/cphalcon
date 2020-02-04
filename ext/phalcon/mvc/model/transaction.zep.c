@@ -337,7 +337,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback) {
 			zephir_read_property(&_4$$7, this_ptr, SL("rollbackRecord"), PH_NOISY_CC | PH_READONLY);
 			ZEPHIR_CALL_METHOD(NULL, &_3$$7, "__construct", NULL, 507, &rollbackMessage, &_4$$7);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_3$$7, "/home/nikos/Work/niden/cphalcon/phalcon/Mvc/Model/Transaction.zep", 186);
+			zephir_throw_exception_debug(&_3$$7, "phalcon/Mvc/Model/Transaction.zep", 186);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}

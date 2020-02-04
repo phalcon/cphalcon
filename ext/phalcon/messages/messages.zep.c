@@ -141,7 +141,7 @@ PHP_METHOD(Phalcon_Messages_Messages, appendMessages) {
 		_0 = Z_TYPE_P(messages) != IS_OBJECT;
 	}
 	if (_0) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_messages_exception_ce, "The messages must be array or object", "/home/nikos/Work/niden/cphalcon/phalcon/Messages/Messages.zep", 69);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_messages_exception_ce, "The messages must be array or object", "phalcon/Messages/Messages.zep", 69);
 		return;
 	}
 	ZEPHIR_OBS_VAR(&currentMessages);
@@ -209,7 +209,7 @@ PHP_METHOD(Phalcon_Messages_Messages, current) {
 	zephir_read_property(&_0, this_ptr, SL("messages"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_OBS_VAR(&_2);
 	zephir_read_property(&_2, this_ptr, SL("position"), PH_NOISY_CC);
-	zephir_array_fetch(&_1, &_0, &_2, PH_NOISY | PH_READONLY, "/home/nikos/Work/niden/cphalcon/phalcon/Messages/Messages.zep", 117);
+	zephir_array_fetch(&_1, &_0, &_2, PH_NOISY | PH_READONLY, "phalcon/Messages/Messages.zep", 117);
 	RETURN_CTOR(&_1);
 
 }
@@ -254,7 +254,7 @@ PHP_METHOD(Phalcon_Messages_Messages, filter) {
 	zephir_read_property(&_0, this_ptr, SL("messages"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&messages, &_0);
 	if (Z_TYPE_P(&messages) == IS_ARRAY) {
-		zephir_is_iterable(&messages, 0, "/home/nikos/Work/niden/cphalcon/phalcon/Messages/Messages.zep", 145);
+		zephir_is_iterable(&messages, 0, "phalcon/Messages/Messages.zep", 145);
 		if (Z_TYPE_P(&messages) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&messages), _1$$3)
 			{
@@ -264,7 +264,7 @@ PHP_METHOD(Phalcon_Messages_Messages, filter) {
 					ZEPHIR_CALL_METHOD(&_3$$5, &message, "getfield", NULL, 0);
 					zephir_check_call_status();
 					if (ZEPHIR_IS_EQUAL(&fieldName, &_3$$5)) {
-						zephir_array_append(&filtered, &message, PH_SEPARATE, "/home/nikos/Work/niden/cphalcon/phalcon/Messages/Messages.zep", 141);
+						zephir_array_append(&filtered, &message, PH_SEPARATE, "phalcon/Messages/Messages.zep", 141);
 					}
 				}
 			} ZEND_HASH_FOREACH_END();
@@ -283,7 +283,7 @@ PHP_METHOD(Phalcon_Messages_Messages, filter) {
 						ZEPHIR_CALL_METHOD(&_4$$8, &message, "getfield", NULL, 0);
 						zephir_check_call_status();
 						if (ZEPHIR_IS_EQUAL(&fieldName, &_4$$8)) {
-							zephir_array_append(&filtered, &message, PH_SEPARATE, "/home/nikos/Work/niden/cphalcon/phalcon/Messages/Messages.zep", 141);
+							zephir_array_append(&filtered, &message, PH_SEPARATE, "phalcon/Messages/Messages.zep", 141);
 						}
 					}
 				ZEPHIR_CALL_METHOD(NULL, &messages, "next", NULL, 0);
@@ -326,7 +326,7 @@ PHP_METHOD(Phalcon_Messages_Messages, jsonSerialize) {
 	ZEPHIR_INIT_VAR(&records);
 	array_init(&records);
 	zephir_read_property(&_0, this_ptr, SL("messages"), PH_NOISY_CC | PH_READONLY);
-	zephir_is_iterable(&_0, 0, "/home/nikos/Work/niden/cphalcon/phalcon/Messages/Messages.zep", 174);
+	zephir_is_iterable(&_0, 0, "phalcon/Messages/Messages.zep", 174);
 	if (Z_TYPE_P(&_0) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_0), _1)
 		{
@@ -339,9 +339,9 @@ PHP_METHOD(Phalcon_Messages_Messages, jsonSerialize) {
 			if (_3$$3) {
 				ZEPHIR_CALL_METHOD(&_4$$4, &message, "jsonserialize", NULL, 0);
 				zephir_check_call_status();
-				zephir_array_append(&records, &_4$$4, PH_SEPARATE, "/home/nikos/Work/niden/cphalcon/phalcon/Messages/Messages.zep", 168);
+				zephir_array_append(&records, &_4$$4, PH_SEPARATE, "phalcon/Messages/Messages.zep", 168);
 			} else {
-				zephir_array_append(&records, &message, PH_SEPARATE, "/home/nikos/Work/niden/cphalcon/phalcon/Messages/Messages.zep", 170);
+				zephir_array_append(&records, &message, PH_SEPARATE, "phalcon/Messages/Messages.zep", 170);
 			}
 		} ZEND_HASH_FOREACH_END();
 	} else {
@@ -362,9 +362,9 @@ PHP_METHOD(Phalcon_Messages_Messages, jsonSerialize) {
 				if (_5$$6) {
 					ZEPHIR_CALL_METHOD(&_6$$7, &message, "jsonserialize", NULL, 0);
 					zephir_check_call_status();
-					zephir_array_append(&records, &_6$$7, PH_SEPARATE, "/home/nikos/Work/niden/cphalcon/phalcon/Messages/Messages.zep", 168);
+					zephir_array_append(&records, &_6$$7, PH_SEPARATE, "phalcon/Messages/Messages.zep", 168);
 				} else {
-					zephir_array_append(&records, &message, PH_SEPARATE, "/home/nikos/Work/niden/cphalcon/phalcon/Messages/Messages.zep", 170);
+					zephir_array_append(&records, &message, PH_SEPARATE, "phalcon/Messages/Messages.zep", 170);
 				}
 			ZEPHIR_CALL_METHOD(NULL, &_0, "next", NULL, 0);
 			zephir_check_call_status();
@@ -484,7 +484,7 @@ PHP_METHOD(Phalcon_Messages_Messages, offsetSet) {
 
 
 	if (Z_TYPE_P(message) != IS_OBJECT) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_messages_exception_ce, "The message must be an object", "/home/nikos/Work/niden/cphalcon/phalcon/Messages/Messages.zep", 241);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_messages_exception_ce, "The message must be an object", "phalcon/Messages/Messages.zep", 241);
 		return;
 	}
 	zephir_update_property_array(this_ptr, SL("messages"), index, message);

@@ -421,7 +421,7 @@ PHP_METHOD(Phalcon_Paginator_Repository, getRealNameProperty) {
 	ZEPHIR_CALL_METHOD(&aliases, this_ptr, "getaliases", NULL, 0);
 	zephir_check_call_status();
 	if (zephir_array_isset(&aliases, &property)) {
-		zephir_array_fetch(&_0$$3, &aliases, &property, PH_NOISY | PH_READONLY, "/home/nikos/Work/niden/cphalcon/phalcon/Paginator/Repository.zep", 180);
+		zephir_array_fetch(&_0$$3, &aliases, &property, PH_NOISY | PH_READONLY, "phalcon/Paginator/Repository.zep", 180);
 		RETURN_CTOR(&_0$$3);
 	}
 	RETURN_CTOR(&property);

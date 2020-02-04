@@ -250,19 +250,19 @@ PHP_METHOD(Phalcon_Db_Reference, __construct) {
 	zephir_update_property_zval(this_ptr, SL("name"), &name);
 	ZEPHIR_OBS_VAR(&referencedTable);
 	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&referencedTable, &definition, SL("referencedTable"), 0)))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Referenced table is required", "/home/nikos/Work/niden/cphalcon/phalcon/Db/Reference.zep", 103);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Referenced table is required", "phalcon/Db/Reference.zep", 103);
 		return;
 	}
 	zephir_update_property_zval(this_ptr, SL("referencedTable"), &referencedTable);
 	ZEPHIR_OBS_VAR(&columns);
 	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&columns, &definition, SL("columns"), 0)))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Foreign key columns are required", "/home/nikos/Work/niden/cphalcon/phalcon/Db/Reference.zep", 109);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Foreign key columns are required", "phalcon/Db/Reference.zep", 109);
 		return;
 	}
 	zephir_update_property_zval(this_ptr, SL("columns"), &columns);
 	ZEPHIR_OBS_VAR(&referencedColumns);
 	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&referencedColumns, &definition, SL("referencedColumns"), 0)))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Referenced columns of the foreign key are required", "/home/nikos/Work/niden/cphalcon/phalcon/Db/Reference.zep", 117);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Referenced columns of the foreign key are required", "phalcon/Db/Reference.zep", 117);
 		return;
 	}
 	zephir_update_property_zval(this_ptr, SL("referencedColumns"), &referencedColumns);
@@ -283,7 +283,7 @@ PHP_METHOD(Phalcon_Db_Reference, __construct) {
 		zephir_update_property_zval(this_ptr, SL("onUpdate"), &onUpdate);
 	}
 	if (UNEXPECTED(zephir_fast_count_int(&columns) != zephir_fast_count_int(&referencedColumns))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Number of columns is not equals than the number of columns referenced", "/home/nikos/Work/niden/cphalcon/phalcon/Db/Reference.zep", 141);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Number of columns is not equals than the number of columns referenced", "phalcon/Db/Reference.zep", 141);
 		return;
 	}
 	ZEPHIR_MM_RESTORE();

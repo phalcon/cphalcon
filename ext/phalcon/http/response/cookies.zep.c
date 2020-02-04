@@ -366,7 +366,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, send) {
 		RETURN_MM_BOOL(0);
 	}
 	zephir_read_property(&_1, this_ptr, SL("cookies"), PH_NOISY_CC | PH_READONLY);
-	zephir_is_iterable(&_1, 0, "/home/nikos/Work/niden/cphalcon/phalcon/Http/Response/Cookies.zep", 203);
+	zephir_is_iterable(&_1, 0, "phalcon/Http/Response/Cookies.zep", 203);
 	if (Z_TYPE_P(&_1) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_1), _2)
 		{
@@ -595,7 +595,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set) {
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(NULL, &_12$$7, "__construct", NULL, 8, &_13$$7);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_12$$7, "/home/nikos/Work/niden/cphalcon/phalcon/Http/Response/Cookies.zep", 288);
+			zephir_throw_exception_debug(&_12$$7, "phalcon/Http/Response/Cookies.zep", 288);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}

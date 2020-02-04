@@ -243,7 +243,7 @@ PHP_METHOD(Phalcon_Http_Message_AbstractRequest, withRequestTarget) {
 	ZVAL_STRING(&_3, "/\\s/");
 	zephir_preg_match(&_2, &_3, requestTarget, &_0, 0, 0 , 0 );
 	if (UNEXPECTED(zephir_is_true(&_2))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_message_exception_invalidargumentexception_ce, "Invalid request target: cannot contain whitespace", "/home/nikos/Work/niden/cphalcon/phalcon/Http/Message/AbstractRequest.zep", 133);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_message_exception_invalidargumentexception_ce, "Invalid request target: cannot contain whitespace", "phalcon/Http/Message/AbstractRequest.zep", 133);
 		return;
 	}
 	ZEPHIR_INIT_VAR(&_4);
@@ -395,7 +395,7 @@ PHP_METHOD(Phalcon_Http_Message_AbstractRequest, processMethod) {
 		ZEPHIR_CONCAT_SV(&_3$$3, "Invalid or unsupported method ", method);
 		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 40, &_3$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_2$$3, "/home/nikos/Work/niden/cphalcon/phalcon/Http/Message/AbstractRequest.zep", 217);
+		zephir_throw_exception_debug(&_2$$3, "phalcon/Http/Message/AbstractRequest.zep", 217);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -446,7 +446,7 @@ PHP_METHOD(Phalcon_Http_Message_AbstractRequest, processUri) {
 		zephir_check_call_status();
 		RETURN_MM();
 	}
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_message_exception_invalidargumentexception_ce, "Invalid uri passed as a parameter", "/home/nikos/Work/niden/cphalcon/phalcon/Http/Message/AbstractRequest.zep", 246);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_message_exception_invalidargumentexception_ce, "Invalid uri passed as a parameter", "phalcon/Http/Message/AbstractRequest.zep", 246);
 	return;
 
 }
