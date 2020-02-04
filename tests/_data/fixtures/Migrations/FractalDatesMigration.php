@@ -11,32 +11,12 @@
 
 namespace Phalcon\Test\Fixtures\Migrations;
 
+/**
+ * Class FractalDatesMigration
+ */
 class FractalDatesMigration extends AbstractMigration
 {
     protected $table = "fractal_dates";
-
-    public function create()
-    {
-        $this->drop();
-
-        $sql = <<<SQL
-create table fractal_dates
-(
-    id         int(10) auto_increment primary key,
-    ftime      time(2) null,
-    fdatetime  datetime(2) null,
-    ftimestamp timestamp(2) null
-);
-SQL;
-        $this->connection->execute($sql);
-
-        $this->insert(
-            1,
-            '14:15:16.444',
-            '2019-12-25 17:18:19.666',
-            '2019-12-25 20:21:22.888'
-        );
-    }
 
     /**
      * @param int              $id
@@ -58,6 +38,39 @@ insert into fractal_dates (id, ftime, fdatetime, ftimestamp)
 values ({$id}, "{$time}", "{$dateTime}", "{$timeStamp}");
 SQL;
 
-        $this->connection->execute($sql);
+        $this->connection->exec($sql);
+    }
+
+    protected function getSqlMysql(): array
+    {
+        return [
+            "
+drop table if exists `fractal_dates`;
+            ",
+            "
+create table fractal_dates
+(
+    `id`           int(10)      auto_increment primary key,
+    `ftime`        time(2)      null,
+    `fdatetime`    datetime(2)  null,
+    `ftimestamp`   timestamp(2) null
+);
+            ",
+        ];
+    }
+
+    protected function getSqlSqlite(): array
+    {
+        return [];
+    }
+
+    protected function getSqlPgsql(): array
+    {
+        return [];
+    }
+
+    protected function getSqlSqlsrv(): array
+    {
+        return [];
     }
 }

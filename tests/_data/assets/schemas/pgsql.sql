@@ -46,6 +46,8 @@ create index co_customers_cst_name_first_index
             
 
 
+
+
 drop table if exists co_invoices;
             
 create table co_invoices
