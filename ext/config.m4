@@ -11,16 +11,17 @@ if test "$PHP_PHALCON" = "yes"; then
 	AC_DEFINE(HAVE_PHALCON, 1, [Whether you have Phalcon])
 	phalcon_sources="phalcon.c kernel/main.c kernel/memory.c kernel/exception.c kernel/debug.c kernel/backtrace.c kernel/object.c kernel/array.c kernel/string.c kernel/fcall.c kernel/require.c kernel/file.c kernel/operators.c kernel/math.c kernel/concat.c kernel/variables.c kernel/filter.c kernel/iterator.c kernel/time.c kernel/exit.c phalcon/exception.zep.c
 	phalcon/di/injectionawareinterface.zep.c
+	phalcon/html/helper/abstracthelper.zep.c
 	phalcon/validation/validatorinterface.zep.c
 	phalcon/validation/abstractvalidator.zep.c
 	phalcon/events/eventsawareinterface.zep.c
+	phalcon/html/helper/input/abstractinput.zep.c
 	phalcon/di/abstractinjectionaware.zep.c
 	phalcon/storage/adapter/adapterinterface.zep.c
 	phalcon/di/injectable.zep.c
 	phalcon/factory/abstractfactory.zep.c
 	phalcon/forms/element/elementinterface.zep.c
 	phalcon/forms/element/abstractelement.zep.c
-	phalcon/html/helper/abstracthelper.zep.c
 	phalcon/collection.zep.c
 	phalcon/storage/adapter/abstractadapter.zep.c
 	phalcon/dispatcher/dispatcherinterface.zep.c
@@ -37,6 +38,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/annotations/adapter/adapterinterface.zep.c
 	phalcon/db/adapter/abstractadapter.zep.c
 	phalcon/db/dialectinterface.zep.c
+	phalcon/html/helper/abstractseries.zep.c
 	phalcon/http/message/abstractmessage.zep.c
 	phalcon/logger/adapter/adapterinterface.zep.c
 	phalcon/mvc/model/resultsetinterface.zep.c
@@ -48,6 +50,8 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/db/dialect.zep.c
 	phalcon/di/diinterface.zep.c
 	phalcon/flash/flashinterface.zep.c
+	phalcon/html/helper/abstractlist.zep.c
+	phalcon/http/jwt/signer/signerinterface.zep.c
 	phalcon/http/message/stream.zep.c
 	phalcon/image/adapter/adapterinterface.zep.c
 	phalcon/logger/adapter/abstractadapter.zep.c
@@ -70,6 +74,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/domain/payload/readableinterface.zep.c
 	phalcon/domain/payload/writeableinterface.zep.c
 	phalcon/flash/abstractflash.zep.c
+	phalcon/http/jwt/token/abstractitem.zep.c
 	phalcon/http/message/abstractrequest.zep.c
 	phalcon/image/adapter/abstractadapter.zep.c
 	phalcon/logger/formatter/abstractformatter.zep.c
@@ -106,10 +111,14 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/filter/filterinterface.zep.c
 	phalcon/html/attributes/attributesinterface.zep.c
 	phalcon/html/attributes/renderinterface.zep.c
+	phalcon/html/helper/input/checkbox.zep.c
+	phalcon/html/helper/ol.zep.c
+	phalcon/html/helper/style.zep.c
 	phalcon/html/link/link.zep.c
 	phalcon/html/link/linkprovider.zep.c
 	phalcon/html/link/serializer/serializerinterface.zep.c
 	phalcon/http/cookie/cookieinterface.zep.c
+	phalcon/http/jwt/signer/abstractsigner.zep.c
 	phalcon/http/request/fileinterface.zep.c
 	phalcon/http/requestinterface.zep.c
 	phalcon/http/response/cookiesinterface.zep.c
@@ -280,6 +289,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/forms/form.zep.c
 	phalcon/forms/manager.zep.c
 	phalcon/helper/arr.zep.c
+	phalcon/helper/base64.zep.c
 	phalcon/helper/exception.zep.c
 	phalcon/helper/fs.zep.c
 	phalcon/helper/json.zep.c
@@ -289,22 +299,59 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/html/breadcrumbs.zep.c
 	phalcon/html/exception.zep.c
 	phalcon/html/helper/anchor.zep.c
-	phalcon/html/helper/anchorraw.zep.c
+	phalcon/html/helper/base.zep.c
 	phalcon/html/helper/body.zep.c
 	phalcon/html/helper/button.zep.c
 	phalcon/html/helper/close.zep.c
 	phalcon/html/helper/element.zep.c
-	phalcon/html/helper/elementraw.zep.c
 	phalcon/html/helper/form.zep.c
 	phalcon/html/helper/img.zep.c
+	phalcon/html/helper/input/color.zep.c
+	phalcon/html/helper/input/date.zep.c
+	phalcon/html/helper/input/datetime.zep.c
+	phalcon/html/helper/input/datetimelocal.zep.c
+	phalcon/html/helper/input/email.zep.c
+	phalcon/html/helper/input/file.zep.c
+	phalcon/html/helper/input/hidden.zep.c
+	phalcon/html/helper/input/image.zep.c
+	phalcon/html/helper/input/input.zep.c
+	phalcon/html/helper/input/month.zep.c
+	phalcon/html/helper/input/numeric.zep.c
+	phalcon/html/helper/input/password.zep.c
+	phalcon/html/helper/input/radio.zep.c
+	phalcon/html/helper/input/range.zep.c
+	phalcon/html/helper/input/search.zep.c
+	phalcon/html/helper/input/select.zep.c
+	phalcon/html/helper/input/submit.zep.c
+	phalcon/html/helper/input/tel.zep.c
+	phalcon/html/helper/input/text.zep.c
+	phalcon/html/helper/input/textarea.zep.c
+	phalcon/html/helper/input/time.zep.c
+	phalcon/html/helper/input/url.zep.c
+	phalcon/html/helper/input/week.zep.c
 	phalcon/html/helper/label.zep.c
-	phalcon/html/helper/textarea.zep.c
+	phalcon/html/helper/link.zep.c
+	phalcon/html/helper/meta.zep.c
+	phalcon/html/helper/script.zep.c
+	phalcon/html/helper/title.zep.c
+	phalcon/html/helper/ul.zep.c
 	phalcon/html/link/evolvablelink.zep.c
 	phalcon/html/link/evolvablelinkprovider.zep.c
 	phalcon/html/link/serializer/header.zep.c
 	phalcon/html/tagfactory.zep.c
 	phalcon/http/cookie.zep.c
 	phalcon/http/cookie/exception.zep.c
+	phalcon/http/jwt/builder.zep.c
+	phalcon/http/jwt/exceptions/unsupportedalgorithmexception.zep.c
+	phalcon/http/jwt/exceptions/validatorexception.zep.c
+	phalcon/http/jwt/signer/hmac.zep.c
+	phalcon/http/jwt/signer/none.zep.c
+	phalcon/http/jwt/token/enum.zep.c
+	phalcon/http/jwt/token/item.zep.c
+	phalcon/http/jwt/token/parser.zep.c
+	phalcon/http/jwt/token/signature.zep.c
+	phalcon/http/jwt/token/token.zep.c
+	phalcon/http/jwt/validator.zep.c
 	phalcon/http/message/exception/invalidargumentexception.zep.c
 	phalcon/http/message/request.zep.c
 	phalcon/http/message/requestfactory.zep.c

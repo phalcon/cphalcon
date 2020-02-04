@@ -90,12 +90,12 @@ PHP_METHOD(Phalcon_Storage_Serializer_Msgpack, unserialize) {
 	ZEPHIR_INIT_NVAR(&_0);
 	zephir_create_closure_ex(&_0, NULL, phalcon_6__closure_ce, SL("__invoke"));
 	ZVAL_LONG(&_1, 2);
-	ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 84, &_0, &_1);
+	ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 85, &_0, &_1);
 	zephir_check_call_status();
 	ZEPHIR_CALL_FUNCTION(&_2, "msgpack_unpack", NULL, 0, data);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("data"), &_2);
-	ZEPHIR_CALL_FUNCTION(NULL, "restore_error_handler", NULL, 86);
+	ZEPHIR_CALL_FUNCTION(NULL, "restore_error_handler", NULL, 87);
 	zephir_check_call_status();
 	if (UNEXPECTED(ZEPHIR_GLOBAL(warning).enable)) {
 		zephir_update_property_zval(this_ptr, SL("data"), &__$null);

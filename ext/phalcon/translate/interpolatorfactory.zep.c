@@ -112,7 +112,7 @@ PHP_METHOD(Phalcon_Translate_InterpolatorFactory, newInstance) {
 	zephir_check_call_status();
 	zephir_read_property(&_0, this_ptr, SL("mapper"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_OBS_VAR(&definition);
-	zephir_array_fetch(&definition, &_0, &name, PH_NOISY, "phalcon/Translate/InterpolatorFactory.zep", 45);
+	zephir_array_fetch(&definition, &_0, &name, PH_NOISY, "/home/nikos/Work/niden/cphalcon/phalcon/Translate/InterpolatorFactory.zep", 45);
 	ZEPHIR_LAST_CALL_STATUS = zephir_create_instance(return_value, &definition);
 	zephir_check_call_status();
 	RETURN_MM();

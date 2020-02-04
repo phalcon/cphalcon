@@ -1,0 +1,5 @@
+
+extern zend_class_entry *phalcon_http_jwt_exceptions_validatorexception_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Http_JWT_Exceptions_ValidatorException);
+

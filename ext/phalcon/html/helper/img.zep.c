@@ -15,24 +15,20 @@
 #include "kernel/array.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
-#include "ext/spl/spl_exceptions.h"
-#include "kernel/exception.h"
 #include "kernel/operators.h"
 #include "kernel/object.h"
 
 
 /**
- * This file is part of the Phalcon Framework.
+ * This file is part of the Phalcon.
  *
- * (c) Phalcon Team <team@phalcon.io>
+ * (c) Phalcon Team <team@phalcon.com>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Html\Helper\Img
- *
- * Creates am img tag
+ * Class Img
  */
 ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Img) {
 
@@ -43,8 +39,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Img) {
 }
 
 /**
+ * Produce a <img> tag.
+ *
  * @param string $src
- * @param array  $attributes Any additional attributes
+ * @param array  $attributes
  *
  * @return string
  * @throws Exception
@@ -66,21 +64,12 @@ PHP_METHOD(Phalcon_Html_Helper_Img, __invoke) {
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &src_param, &attributes_param);
 
-	if (UNEXPECTED(Z_TYPE_P(src_param) != IS_STRING && Z_TYPE_P(src_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'src' must be of the type string"));
-		RETURN_MM_NULL();
-	}
-	if (EXPECTED(Z_TYPE_P(src_param) == IS_STRING)) {
-		zephir_get_strval(&src, src_param);
-	} else {
-		ZEPHIR_INIT_VAR(&src);
-		ZVAL_EMPTY_STRING(&src);
-	}
+	zephir_get_strval(&src, src_param);
 	if (!attributes_param) {
 		ZEPHIR_INIT_VAR(&attributes);
 		array_init(&attributes);
 	} else {
-	ZEPHIR_OBS_COPY_OR_DUP(&attributes, attributes_param);
+		zephir_get_arrval(&attributes, attributes_param);
 	}
 
 

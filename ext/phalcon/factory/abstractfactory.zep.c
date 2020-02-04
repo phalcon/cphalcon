@@ -86,9 +86,9 @@ PHP_METHOD(Phalcon_Factory_AbstractFactory, checkService) {
 		object_init_ex(&_1$$3, phalcon_factory_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZEPHIR_CONCAT_SVS(&_2$$3, "Service ", &name, " is not registered");
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 6, &_2$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 8, &_2$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Factory/AbstractFactory.zep", 33);
+		zephir_throw_exception_debug(&_1$$3, "/home/nikos/Work/niden/cphalcon/phalcon/Factory/AbstractFactory.zep", 33);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -126,11 +126,11 @@ PHP_METHOD(Phalcon_Factory_AbstractFactory, checkConfig) {
 		ZEPHIR_CPY_WRT(config, &_1$$3);
 	}
 	if (UNEXPECTED(Z_TYPE_P(config) != IS_ARRAY)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_factory_exception_ce, "Config must be array or Phalcon\\Config object", "phalcon/Factory/AbstractFactory.zep", 49);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_factory_exception_ce, "Config must be array or Phalcon\\Config object", "/home/nikos/Work/niden/cphalcon/phalcon/Factory/AbstractFactory.zep", 49);
 		return;
 	}
 	if (UNEXPECTED(!(zephir_array_isset_string(config, SL("adapter"))))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_factory_exception_ce, "You must provide 'adapter' option in factory config parameter.", "phalcon/Factory/AbstractFactory.zep", 55);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_factory_exception_ce, "You must provide 'adapter' option in factory config parameter.", "/home/nikos/Work/niden/cphalcon/phalcon/Factory/AbstractFactory.zep", 55);
 		return;
 	}
 	RETVAL_ZVAL(config, 1, 0);
@@ -183,7 +183,7 @@ PHP_METHOD(Phalcon_Factory_AbstractFactory, init) {
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_fast_array_merge(&_0, &adapters, &services);
 	ZEPHIR_CPY_WRT(&adapters, &_0);
-	zephir_is_iterable(&adapters, 0, "phalcon/Factory/AbstractFactory.zep", 80);
+	zephir_is_iterable(&adapters, 0, "/home/nikos/Work/niden/cphalcon/phalcon/Factory/AbstractFactory.zep", 80);
 	if (Z_TYPE_P(&adapters) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&adapters), _3, _4, _1)
 		{

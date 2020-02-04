@@ -170,23 +170,23 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, __construct) {
 	ZVAL_STRING(&_2, "defaultSerializer");
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "Php");
-	ZEPHIR_CALL_CE_STATIC(&_0, phalcon_helper_arr_ce, "get", &_1, 15, &options, &_2, &_3);
+	ZEPHIR_CALL_CE_STATIC(&_0, phalcon_helper_arr_ce, "get", &_1, 16, &options, &_2, &_3);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("defaultSerializer"), &_0);
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "lifetime");
 	ZVAL_LONG(&_5, 3600);
-	ZEPHIR_CALL_CE_STATIC(&_4, phalcon_helper_arr_ce, "get", &_1, 15, &options, &_2, &_5);
+	ZEPHIR_CALL_CE_STATIC(&_4, phalcon_helper_arr_ce, "get", &_1, 16, &options, &_2, &_5);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("lifetime"), &_4);
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "serializer");
 	ZVAL_NULL(&_5);
-	ZEPHIR_CALL_CE_STATIC(&_6, phalcon_helper_arr_ce, "get", &_1, 15, &options, &_2, &_5);
+	ZEPHIR_CALL_CE_STATIC(&_6, phalcon_helper_arr_ce, "get", &_1, 16, &options, &_2, &_5);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("serializer"), &_6);
 	if (zephir_array_isset_string(&options, SL("prefix"))) {
-		zephir_array_fetch_string(&_7$$3, &options, SL("prefix"), PH_NOISY | PH_READONLY, "phalcon/Storage/Adapter/AbstractAdapter.zep", 82);
+		zephir_array_fetch_string(&_7$$3, &options, SL("prefix"), PH_NOISY | PH_READONLY, "/home/nikos/Work/niden/cphalcon/phalcon/Storage/Adapter/AbstractAdapter.zep", 82);
 		zephir_update_property_zval(this_ptr, SL("prefix"), &_7$$3);
 	}
 	ZEPHIR_MM_RESTORE();
@@ -314,16 +314,16 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, getFilteredKeys) {
 		ZEPHIR_CPY_WRT(&_1, keys);
 	}
 	ZEPHIR_CPY_WRT(keys, &_1);
-	zephir_is_iterable(keys, 0, "phalcon/Storage/Adapter/AbstractAdapter.zep", 154);
+	zephir_is_iterable(keys, 0, "/home/nikos/Work/niden/cphalcon/phalcon/Storage/Adapter/AbstractAdapter.zep", 154);
 	if (Z_TYPE_P(keys) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(keys), _2)
 		{
 			ZEPHIR_INIT_NVAR(&key);
 			ZVAL_COPY(&key, _2);
-			ZEPHIR_CALL_CE_STATIC(&_4$$3, phalcon_helper_str_ce, "startswith", &_5, 16, &key, &pattern);
+			ZEPHIR_CALL_CE_STATIC(&_4$$3, phalcon_helper_str_ce, "startswith", &_5, 17, &key, &pattern);
 			zephir_check_call_status();
 			if (zephir_is_true(&_4$$3)) {
-				zephir_array_append(&results, &key, PH_SEPARATE, "phalcon/Storage/Adapter/AbstractAdapter.zep", 150);
+				zephir_array_append(&results, &key, PH_SEPARATE, "/home/nikos/Work/niden/cphalcon/phalcon/Storage/Adapter/AbstractAdapter.zep", 150);
 			}
 		} ZEND_HASH_FOREACH_END();
 	} else {
@@ -337,10 +337,10 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, getFilteredKeys) {
 			}
 			ZEPHIR_CALL_METHOD(&key, keys, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_CE_STATIC(&_6$$5, phalcon_helper_str_ce, "startswith", &_5, 16, &key, &pattern);
+				ZEPHIR_CALL_CE_STATIC(&_6$$5, phalcon_helper_str_ce, "startswith", &_5, 17, &key, &pattern);
 				zephir_check_call_status();
 				if (zephir_is_true(&_6$$5)) {
-					zephir_array_append(&results, &key, PH_SEPARATE, "phalcon/Storage/Adapter/AbstractAdapter.zep", 150);
+					zephir_array_append(&results, &key, PH_SEPARATE, "/home/nikos/Work/niden/cphalcon/phalcon/Storage/Adapter/AbstractAdapter.zep", 150);
 				}
 			ZEPHIR_CALL_METHOD(NULL, keys, "next", NULL, 0);
 			zephir_check_call_status();
