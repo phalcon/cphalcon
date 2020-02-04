@@ -152,48 +152,4 @@ create index co_invoices_inv_status_flag_index
     {
         return [];
     }
-
-    public function clear(AdapterInterface $db)
-    {
-        $db->execute("delete from `co_invoices`");
-    }
-
-    public function drop(AdapterInterface $db)
-    {
-        $db->execute("drop table if exists `co_invoices`");
-    }
-
-    /**
-     * @param int|null    $id
-     * @param int|null    $cstId
-     * @param int|null    $statusId
-     * @param string|null $title
-     * @param float|null  $total
-     * @param string|null $dateTime
-     */
-    public function insert(
-        int $id = null,
-        int $cstId = null,
-        int $statusId = null,
-        string $title = null,
-        float $total = null,
-        string $dateTime = null
-    ) {
-        if (0 === $id) {
-            $id = null;
-        }
-
-        $id       = null === $id       ? "null" : $id;
-        $cstId    = null === $cstId    ? "null" : $cstId;
-        $statusId = null === $statusId ? "null" : $statusId;
-        $title    = null === $title    ? "null" : '"' . $title . '"';
-        $total    = null === $total    ? "null" : $total;
-        $dateTime = null === $dateTime ? "null" : '"' . $dateTime . '"';
-
-        $sql = "insert into co_invoices (inv_id, inv_cst_id, inv_status_flag, "
-            . "inv_title, inv_total, inv_created_at) values ("
-            . "{$id}, {$cstId}, {$statusId}, {$title}, {$total}, {$dateTime})";
-
-        $this->connection->execute($sql);
-    }
 }
