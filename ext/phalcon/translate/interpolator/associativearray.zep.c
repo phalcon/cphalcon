@@ -84,7 +84,7 @@ PHP_METHOD(Phalcon_Translate_Interpolator_AssociativeArray, replacePlaceholders)
 	}
 
 
-	zephir_is_iterable(&placeholders, 0, "phalcon/Translate/Interpolator/AssociativeArray.zep", 32);
+	zephir_is_iterable(&placeholders, 0, "/home/nikos/Work/niden/cphalcon/phalcon/Translate/Interpolator/AssociativeArray.zep", 32);
 	if (Z_TYPE_P(&placeholders) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&placeholders), _2, _3, _0)
 		{

@@ -121,7 +121,7 @@ PHP_METHOD(Phalcon_Logger_AdapterFactory, newInstance) {
 	zephir_check_call_status();
 	zephir_read_property(&_0, this_ptr, SL("mapper"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_OBS_VAR(&definition);
-	zephir_array_fetch(&definition, &_0, &name, PH_NOISY, "phalcon/Logger/AdapterFactory.zep", 39);
+	zephir_array_fetch(&definition, &_0, &name, PH_NOISY, "/home/nikos/Work/niden/cphalcon/phalcon/Logger/AdapterFactory.zep", 39);
 	ZEPHIR_INIT_VAR(&_1);
 	zephir_create_array(&_1, 2, 0);
 	zephir_array_fast_append(&_1, &fileName);

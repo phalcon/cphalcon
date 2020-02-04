@@ -170,7 +170,7 @@ PHP_METHOD(Phalcon_Cache, deleteMultiple) {
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkkeys", NULL, 0, keys);
 	zephir_check_call_status();
 	result = 1;
-	zephir_is_iterable(keys, 0, "phalcon/Cache.zep", 91);
+	zephir_is_iterable(keys, 0, "/home/nikos/Work/niden/cphalcon/phalcon/Cache.zep", 91);
 	if (Z_TYPE_P(keys) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(keys), _0)
 		{
@@ -290,7 +290,7 @@ PHP_METHOD(Phalcon_Cache, getMultiple) {
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&results);
 	array_init(&results);
-	zephir_is_iterable(keys, 0, "phalcon/Cache.zep", 133);
+	zephir_is_iterable(keys, 0, "/home/nikos/Work/niden/cphalcon/phalcon/Cache.zep", 133);
 	if (Z_TYPE_P(keys) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(keys), _0)
 		{
@@ -444,7 +444,7 @@ PHP_METHOD(Phalcon_Cache, setMultiple) {
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkkeys", NULL, 0, values);
 	zephir_check_call_status();
 	result = 1;
-	zephir_is_iterable(values, 0, "phalcon/Cache.zep", 198);
+	zephir_is_iterable(values, 0, "/home/nikos/Work/niden/cphalcon/phalcon/Cache.zep", 198);
 	if (Z_TYPE_P(values) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(values), _2, _3, _0)
 		{
@@ -523,7 +523,7 @@ PHP_METHOD(Phalcon_Cache, checkKey) {
 	ZVAL_STRING(&_4, "/[^A-Za-z0-9-_.]/");
 	zephir_preg_match(&_3, &_4, key, &_1, 0, 0 , 0 );
 	if (zephir_is_true(&_3)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_invalidargumentexception_ce, "The key contains invalid characters", "phalcon/Cache.zep", 211);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_invalidargumentexception_ce, "The key contains invalid characters", "/home/nikos/Work/niden/cphalcon/phalcon/Cache.zep", 211);
 		return;
 	}
 	ZEPHIR_MM_RESTORE();
@@ -550,7 +550,7 @@ PHP_METHOD(Phalcon_Cache, checkKeys) {
 		_0 = zephir_zval_is_traversable(keys);
 	}
 	if (!(_0)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_cache_exception_invalidargumentexception_ce, "The keys need to be an array or instance of Traversable", "phalcon/Cache.zep", 223);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_cache_exception_invalidargumentexception_ce, "The keys need to be an array or instance of Traversable", "/home/nikos/Work/niden/cphalcon/phalcon/Cache.zep", 223);
 		return;
 	}
 

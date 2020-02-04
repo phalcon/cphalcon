@@ -19,17 +19,15 @@
 
 
 /**
- * This file is part of the Phalcon Framework.
+ * This file is part of the Phalcon.
  *
- * (c) Phalcon Team <team@phalcon.io>
+ * (c) Phalcon Team <team@phalcon.com>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Html\Helper\Body
- *
- * Creates a body tag
+ * Class Body
  */
 ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Body) {
 
@@ -40,7 +38,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Body) {
 }
 
 /**
- * @var array  attributes Any additional attributes
+ * Produce a `<body>` tag.
+ *
+ * @param array $attributes
+ *
+ * @return string
+ * @throws Exception
  */
 PHP_METHOD(Phalcon_Html_Helper_Body, __invoke) {
 

@@ -93,7 +93,7 @@ PHP_METHOD(Phalcon_Http_Message_AbstractCommon, checkStringParameter) {
 
 
 	if (Z_TYPE_P(element) != IS_STRING) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_http_message_exception_invalidargumentexception_ce, "Method requires a string argument", "phalcon/Http/Message/AbstractCommon.zep", 52);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_http_message_exception_invalidargumentexception_ce, "Method requires a string argument", "/home/nikos/Work/niden/cphalcon/phalcon/Http/Message/AbstractCommon.zep", 52);
 		return;
 	}
 
@@ -125,9 +125,9 @@ PHP_METHOD(Phalcon_Http_Message_AbstractCommon, processWith) {
 	zephir_get_strval(&property, property_param);
 
 
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkstringparameter", NULL, 19, element);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkstringparameter", NULL, 20, element);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 20, element, &property);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 21, element, &property);
 	zephir_check_call_status();
 	RETURN_MM();
 

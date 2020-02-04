@@ -72,7 +72,7 @@ PHP_METHOD(Phalcon_Mvc_Model_ValidationFailed, __construct) {
 
 	if (zephir_fast_count_int(&validationMessages) > 0) {
 		ZEPHIR_OBS_VAR(&message);
-		zephir_array_fetch_long(&message, &validationMessages, 0, PH_NOISY, "phalcon/Mvc/Model/ValidationFailed.zep", 40);
+		zephir_array_fetch_long(&message, &validationMessages, 0, PH_NOISY, "/home/nikos/Work/niden/cphalcon/phalcon/Mvc/Model/ValidationFailed.zep", 40);
 		ZEPHIR_CALL_METHOD(&messageStr, &message, "getmessage", NULL, 0);
 		zephir_check_call_status();
 	} else {

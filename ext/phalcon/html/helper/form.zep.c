@@ -20,17 +20,15 @@
 
 
 /**
- * This file is part of the Phalcon Framework.
+ * This file is part of the Phalcon.
  *
- * (c) Phalcon Team <team@phalcon.io>
+ * (c) Phalcon Team <team@phalcon.com>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Html\Helper\Form
- *
- * Creates a form opening tag
+ * Class Form
  */
 ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Form) {
 
@@ -41,7 +39,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Form) {
 }
 
 /**
- * @var array  attributes Any additional attributes
+ * Produce a <form> tag.
+ *
+ * @param array $attributes
+ *
+ * @return string
+ * @throws Exception
  */
 PHP_METHOD(Phalcon_Html_Helper_Form, __invoke) {
 
