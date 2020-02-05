@@ -9,6 +9,7 @@ use Codeception\Exception\ModuleException;
 use Codeception\TestInterface;
 use PDO;
 
+use Phalcon\DM\Pdo\Connection;
 use function date;
 use function getenv;
 use function getOptionsMysql;
@@ -152,5 +153,17 @@ class Database extends \Codeception\Module
     public function getDatabaseUsername(): string
     {
         return $this->username;
+    }
+
+    /**
+     * @return Connection
+     */
+    public function getDMConnection(): Connection
+    {
+        return new Connection(
+            $this->getDatabaseDsn(),
+            $this->getDatabaseUsername(),
+            $this->getDatabasePassword()
+        );
     }
 }
