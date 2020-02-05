@@ -15,7 +15,7 @@
 
  use UnitTester;
 
- class GetRenderedHtmlCest
+class GetRenderedHtmlCest
 {
     /**
      * Tests Phalcon\Debug :: renderHtml()
