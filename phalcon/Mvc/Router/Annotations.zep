@@ -442,6 +442,14 @@ class Annotations extends Router
     }
 
     /**
+     * @return callable|string|null
+     */
+    public function getActionPreformatCallback()
+    {
+        return this->actionPreformatCallback;
+    }
+
+    /**
      * Changes the controller class suffix
      */
     public function setControllerSuffix(string! controllerSuffix)
