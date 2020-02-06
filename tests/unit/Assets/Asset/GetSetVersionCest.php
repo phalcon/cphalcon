@@ -28,7 +28,7 @@ class GetSetVersionCest
     {
         $I->wantToTest('Assets\Asset - getVersion() / setVersion()');
 
-        $asset = new Asset('css','css/docs.css');
+        $asset = new Asset('css', 'css/docs.css');
 
         $version = '4.1.0-rc.3';
         $asset->setVersion($version);
