@@ -16,6 +16,7 @@ use DatabaseTester;
 use PDO;
 use Phalcon\DM\Pdo\Connection;
 use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
+use function var_dump;
 
 class FetchOneCest
 {
@@ -96,7 +97,7 @@ class FetchOneCest
         $migration  = new InvoicesMigration($connection);
         $migration->clear();
 
-        $result = $migration->insert(1, 'test-1');
+        $result = $migration->insert(1, 1, 1, 'test-1');
         $I->assertEquals(1, $result);
 
         $all = $connection->fetchOne(
@@ -161,7 +162,6 @@ class FetchOneCest
                     'title' => 'test-1',
                 ],
             ],
-
         ];
     }
 }
