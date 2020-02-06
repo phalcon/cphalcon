@@ -30,11 +30,6 @@ class ConstructCest
         /** @var Connection $connection */
         $connection = $I->getDMConnection();
 
-        $all = $connection->fetchAll('show tables');
-
-        var_dump($all);
-
-
         $I->assertInstanceOf(Connection::class, $connection);
     }
 
