@@ -14,7 +14,6 @@ namespace Phalcon\Test\Database\DM\Pdo\Connection;
 use DatabaseTester;
 use InvalidArgumentException;
 use Phalcon\DM\Pdo\Connection;
-use function var_dump;
 
 class ConstructCest
 {
