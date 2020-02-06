@@ -38,25 +38,11 @@ class CommitInTransactionRollBackCest
 
         $I->assertTrue($connection->inTransaction());
 
-        $template = 'insert into co_invoices (inv_id, inv_cst_id, inv_status_flag, '
+        $invId = 2;
+        $sql   = 'insert into co_invoices (inv_id, inv_cst_id, inv_status_flag, '
             . 'inv_title, inv_total, inv_created_at) values ('
-            . '%id%, 1, 1, "%title%", %total%, "%now%")';
-
-        $sql = str_replace(
-            [
-                '%id%',
-                '%title%',
-                '%total%',
-                '%now%',
-            ],
-            [
-                2,
-                uniqid(),
-                102,
-                date('Y-m-d H:i:s'),
-            ],
-            $template
-        );
+            . $invId . ', 1, 1, "' . uniqid('inv-') . '", 102, '
+            . '"' . date('Y-m-d H:i:s') . '")';
 
         $result = $connection->exec($sql);
         $I->assertEquals(1, $result);
@@ -70,12 +56,12 @@ class CommitInTransactionRollBackCest
             ->fetchOne(
                 'select * from co_invoices WHERE inv_id = ?',
                 [
-                    0 => 2,
+                    0 => $invId,
                 ]
             );
 
         $I->assertIsArray($all);
-        $I->assertEquals(2, $all['inv_id']);
+        $I->assertEquals($invId, $all['inv_id']);
     }
 
     /**
@@ -95,25 +81,11 @@ class CommitInTransactionRollBackCest
 
         $I->assertTrue($connection->inTransaction());
 
-        $template = 'insert into co_invoices (inv_id, inv_cst_id, inv_status_flag, '
+        $invId = 2;
+        $sql   = 'insert into co_invoices (inv_id, inv_cst_id, inv_status_flag, '
             . 'inv_title, inv_total, inv_created_at) values ('
-            . '%id%, 1, 1, "%title%", %total%, "%now%")';
-
-        $sql = str_replace(
-            [
-                '%id%',
-                '%title%',
-                '%total%',
-                '%now%',
-            ],
-            [
-                2,
-                uniqid(),
-                102,
-                date('Y-m-d H:i:s'),
-            ],
-            $template
-        );
+            . $invId . ', 1, 1, "' . uniqid('inv-') . ', 102, '
+            . '"' . date('Y-m-d H:i:s') . '")';
 
         $result = $connection->exec($sql);
         $I->assertEquals(1, $result);
@@ -125,7 +97,7 @@ class CommitInTransactionRollBackCest
             ->fetchOne(
                 'select * from co_invoices WHERE inv_id = ?',
                 [
-                    0 => 2,
+                    0 => $invId,
                 ]
             );
 
@@ -135,7 +107,7 @@ class CommitInTransactionRollBackCest
             ->fetchOne(
                 'select * from co_invoices WHERE inv_id = ?',
                 [
-                    0 => 2,
+                    0 => $invId,
                 ]
             );
 
