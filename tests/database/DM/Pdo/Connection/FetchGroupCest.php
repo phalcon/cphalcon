@@ -14,7 +14,6 @@ namespace Phalcon\Test\Database\DM\Pdo\Connection;
 use DatabaseTester;
 use Phalcon\DM\Pdo\Connection;
 use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
-use function var_dump;
 
 class FetchGroupCest
 {

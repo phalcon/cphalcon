@@ -16,7 +16,6 @@ use DatabaseTester;
 use PDO;
 use Phalcon\DM\Pdo\Connection;
 use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
-use function var_dump;
 
 class FetchOneCest
 {
