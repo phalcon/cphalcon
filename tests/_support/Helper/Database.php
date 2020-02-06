@@ -11,6 +11,7 @@ use PDO;
 use Phalcon\DM\Pdo\Connection;
 
 use function date;
+use function env;
 use function getenv;
 use function getOptionsMysql;
 use function getOptionsPostgresql;
@@ -96,23 +97,24 @@ class Database extends \Codeception\Module
     {
         switch ($this->driver) {
             case 'mysql':
-                $this->password = getenv('DATA_MYSQL_PASS');
-                $this->username = getenv('DATA_MYSQL_USER');
+                $this->password = env('DATA_MYSQL_PASS', '');
+                $this->username = env('DATA_MYSQL_USER', 'root');
 
                 return sprintf(
-                    "mysql:host=%s;dbname=%s;charset=utf8mb4",
-                    getenv('DATA_MYSQL_HOST'),
-                    getenv('DATA_MYSQL_NAME')
+                    "mysql:host=%s;dbname=%s;charset=utf8mb4;port=%s",
+                    env('DATA_MYSQL_HOST', '127.0.0.1'),
+                    env('DATA_MYSQL_NAME', 'phalcon'),
+                    env('DATA_MYSQL_PORT', 3306)
                 );
             case 'pgsql':
             case 'postgres':
-                $this->password = getenv('DATA_POSTGRES_PASS');
-                $this->username = getenv('DATA_POSTGRES_USER');
+                $this->password = env('DATA_POSTGRES_PASS', '');
+                $this->username = env('DATA_POSTGRES_USER', 'postgres');
 
                 return sprintf(
                     "pgsql:host=%s;dbname=%s;user=%s;password=%s",
-                    getenv('DATA_POSTGRES_HOST'),
-                    getenv('DATA_POSTGRES_NAME'),
+                    env('DATA_POSTGRES_HOST', '127.0.0.1'),
+                    getenv('DATA_POSTGRES_NAME', 'phalcon'),
                     $this->username,
                     $this->password
                 );
