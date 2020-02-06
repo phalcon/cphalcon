@@ -28,7 +28,7 @@ class IsSetAutoVersionCest
     {
         $I->wantToTest('Assets\Asset - isAutoVersion() / setAutoVersion()');
 
-        $asset = new Asset('css','css/docs.css');
+        $asset = new Asset('css', 'css/docs.css');
 
         $I->assertFalse($asset->isAutoVersion());
 
