@@ -32,8 +32,18 @@ class CommitInTransactionRollBackCest
 
         /** @var Connection $connection */
         $connection = $I->getDMConnection();
+
+        $all = $connection->fetchAll('show tables');
+        var_dump($all);
+
         $migration  = new InvoicesMigration($connection);
         $migration->clear();
+
+        $all = $connection->fetchAll('show tables');
+        var_dump($all);
+        var_dump($connection->getAdapter());
+        var_dump($connection->getDriverName());
+
         $connection->beginTransaction();
 
         $I->assertTrue($connection->inTransaction());
