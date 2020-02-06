@@ -14,6 +14,7 @@ namespace Phalcon\Test\Database\DM\Pdo\Connection;
 use DatabaseTester;
 use Phalcon\DM\Pdo\Connection;
 use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
+use function var_dump;
 
 class FetchGroupCest
 {
@@ -31,13 +32,13 @@ class FetchGroupCest
         $migration  = new InvoicesMigration($connection);
         $migration->clear();
 
-        $result = $migration->insert(1);
+        $result = $migration->insert(1, 1, 1, null, 101);
         $I->assertEquals(1, $result);
-        $result = $migration->insert(2);
+        $result = $migration->insert(2, 1, 0, null, 102);
         $I->assertEquals(1, $result);
-        $result = $migration->insert(3);
+        $result = $migration->insert(3, 1, 1, null, 103);
         $I->assertEquals(1, $result);
-        $result = $migration->insert(4);
+        $result = $migration->insert(4, 1, 0, null, 104);
         $I->assertEquals(1, $result);
 
         $all = $connection->fetchGroup(

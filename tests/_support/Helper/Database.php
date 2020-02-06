@@ -8,8 +8,8 @@ namespace Helper;
 use Codeception\Exception\ModuleException;
 use Codeception\TestInterface;
 use PDO;
-
 use Phalcon\DM\Pdo\Connection;
+
 use function date;
 use function getenv;
 use function getOptionsMysql;
@@ -96,23 +96,23 @@ class Database extends \Codeception\Module
     {
         switch ($this->driver) {
             case 'mysql':
-                $this->password = getenv('TEST_MYSQL_PASS');
-                $this->username = getenv('TEST_MYSQL_USER');
+                $this->password = getenv('DATA_MYSQL_PASS');
+                $this->username = getenv('DATA_MYSQL_USER');
 
                 return sprintf(
                     "mysql:host=%s;dbname=%s;charset=utf8mb4",
-                    getenv('TEST_MYSQL_HOST'),
-                    getenv('TEST_MYSQL_NAME')
+                    getenv('DATA_MYSQL_HOST'),
+                    getenv('DATA_MYSQL_NAME')
                 );
             case 'pgsql':
             case 'postgres':
-                $this->password = getenv('TEST_POSTGRES_PASS');
-                $this->username = getenv('TEST_POSTGRES_USER');
+                $this->password = getenv('DATA_POSTGRES_PASS');
+                $this->username = getenv('DATA_POSTGRES_USER');
 
                 return sprintf(
                     "pgsql:host=%s;dbname=%s;user=%s;password=%s",
-                    getenv('TEST_POSTGRES_HOST'),
-                    getenv('TEST_POSTGRES_NAME'),
+                    getenv('DATA_POSTGRES_HOST'),
+                    getenv('DATA_POSTGRES_NAME'),
                     $this->username,
                     $this->password
                 );
