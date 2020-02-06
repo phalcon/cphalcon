@@ -31,7 +31,7 @@ class FetchValueCest
         $migration  = new InvoicesMigration($connection);
         $migration->clear();
 
-        $result = $migration->insert(1);
+        $result = $migration->insert(1, 1, 1, null, 101);
         $I->assertEquals(1, $result);
 
         $all = $connection->fetchValue(

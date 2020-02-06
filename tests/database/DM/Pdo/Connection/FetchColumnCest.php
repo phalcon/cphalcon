@@ -31,11 +31,11 @@ class FetchColumnCest
         $migration  = new InvoicesMigration($connection);
         $migration->clear();
 
-        $result = $migration->insert(1);
+        $result = $migration->insert(1, 1, 1, null, 101);
         $I->assertEquals(1, $result);
-        $result = $migration->insert(2);
+        $result = $migration->insert(2, 1, 1, null, 102);
         $I->assertEquals(1, $result);
-        $result = $migration->insert(3);
+        $result = $migration->insert(3, 1, 1, null, 103);
         $I->assertEquals(1, $result);
 
         $all = $connection->fetchColumn(
