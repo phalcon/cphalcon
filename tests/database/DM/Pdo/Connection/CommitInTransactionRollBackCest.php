@@ -39,10 +39,11 @@ class CommitInTransactionRollBackCest
         $I->assertTrue($connection->inTransaction());
 
         $invId = 2;
-        $sql   = 'insert into co_invoices (inv_id, inv_cst_id, inv_status_flag, '
-            . 'inv_title, inv_total, inv_created_at) values ('
-            . $invId . ', 1, 1, "' . uniqid('inv-') . '", 102, '
-            . '"' . date('Y-m-d H:i:s') . '")';
+        $title = uniqid('inv-');
+        $date  = date('Y-m-d H:i:s');
+        $sql   = "insert into co_invoices (inv_id, inv_cst_id, inv_status_flag, "
+            . "inv_title, inv_total, inv_created_at) values ("
+            . "{$invId}, 1, 1, \"{$title}\", 102, \"{$date}\")";
 
         $result = $connection->exec($sql);
         $I->assertEquals(1, $result);
@@ -82,10 +83,11 @@ class CommitInTransactionRollBackCest
         $I->assertTrue($connection->inTransaction());
 
         $invId = 2;
-        $sql   = 'insert into co_invoices (inv_id, inv_cst_id, inv_status_flag, '
-            . 'inv_title, inv_total, inv_created_at) values ('
-            . $invId . ', 1, 1, "' . uniqid('inv-') . ', 102, '
-            . '"' . date('Y-m-d H:i:s') . '")';
+        $title = uniqid('inv-');
+        $date  = date('Y-m-d H:i:s');
+        $sql   = "insert into co_invoices (inv_id, inv_cst_id, inv_status_flag, "
+            . "inv_title, inv_total, inv_created_at) values ("
+            . "{$invId}, 1, 1, \"{$title}\", 102, \"{$date}\")";
 
         $result = $connection->exec($sql);
         $I->assertEquals(1, $result);
