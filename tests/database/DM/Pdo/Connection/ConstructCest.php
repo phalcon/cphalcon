@@ -14,6 +14,7 @@ namespace Phalcon\Test\Database\DM\Pdo\Connection;
 use DatabaseTester;
 use InvalidArgumentException;
 use Phalcon\DM\Pdo\Connection;
+use function var_dump;
 
 class ConstructCest
 {
@@ -28,6 +29,11 @@ class ConstructCest
 
         /** @var Connection $connection */
         $connection = $I->getDMConnection();
+
+        $all = $connection->fetchAll('show tables');
+
+        var_dump($all);
+
 
         $I->assertInstanceOf(Connection::class, $connection);
     }
