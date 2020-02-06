@@ -16,7 +16,6 @@ use Phalcon\DM\Pdo\Connection;
 use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
 
 use function date;
-use function str_replace;
 use function uniqid;
 
 class CommitInTransactionRollBackCest
@@ -36,13 +35,8 @@ class CommitInTransactionRollBackCest
         $all = $connection->fetchAll('show tables');
         var_dump($all);
 
-        $migration  = new InvoicesMigration($connection);
+        $migration = new InvoicesMigration($connection);
         $migration->clear();
-
-        $all = $connection->fetchAll('show tables');
-        var_dump($all);
-        var_dump($connection->getAdapter());
-        var_dump($connection->getDriverName());
 
         $connection->beginTransaction();
 
