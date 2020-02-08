@@ -15,8 +15,6 @@
 
 namespace Phalcon\DataMapper\Query;
 
-use PDO;
-
 /**
  * Class Bind
  *
@@ -41,8 +39,10 @@ class Bind
      *
      * @return string
      */
-    public function bind(var value, int type = -1) -> string
+    public function bindInline(var value, int type = -1) -> string
     {
+        var key;
+
         if value instanceof Select {
             return "(" . value->getStatement() . ")";
         }
@@ -78,11 +78,14 @@ class Bind
      */
     public function setValue(string key, var value, int type = -1) -> void
     {
-        if type === -1 {
-            let type = this->getType(value);
+        var localType;
+
+        let localType = type;
+        if localType === -1 {
+            let localType = this->getType(value);
         }
 
-        let this->store[key] = [value, type];
+        let this->store[key] = [value, localType];
     }
 
     /**

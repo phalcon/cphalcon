@@ -167,7 +167,7 @@ class Select extends AbstractConditions
         var end, from, key;
 
         if !empty value {
-            let condition .= this->bind->bind(value, type);
+            let condition .= this->bind->bindInline(value, type);
         }
 
         let from = this->store["FROM"],
@@ -327,7 +327,7 @@ class Select extends AbstractConditions
         }
 
         if !empty(value) {
-            let condition .= this->bind->bind(value, type);
+            let condition .= this->bind->bindInline(value, type);
         }
 
         let end = Arr::lastKey(this->store["FROM"]);
