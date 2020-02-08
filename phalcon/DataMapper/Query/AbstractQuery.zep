@@ -67,7 +67,7 @@ abstract class AbstractQuery
      */
     public function bindInline(var value, int type = -1) -> string
     {
-        return this->bind->bind(value, type);
+        return this->bind->bindInline(value, type);
     }
 
     /**
