@@ -15,6 +15,8 @@ namespace Phalcon\Test\Fixtures\Migrations;
 
 use PDO;
 use Phalcon\DM\Pdo\Connection;
+use function get_class;
+use function var_dump;
 
 /**
  * Class AbstractMigration
@@ -46,6 +48,7 @@ abstract class AbstractMigration
         } else {
             $this->connection = $connection;
         }
+
         $this->clear();
     }
 
@@ -74,6 +77,7 @@ abstract class AbstractMigration
                 ->connection
                 ->getAttribute(PDO::ATTR_DRIVER_NAME)
             ;
+
             if ('sqlite' !== $driver) {
                 $this->connection->exec(
                     'truncate table ' . $this->table . ';'
