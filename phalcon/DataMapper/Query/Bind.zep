@@ -13,7 +13,7 @@
  * @license https://github.com/atlasphp/Atlas.Qyert/blob/1.x/LICENSE.md
  */
 
-namespace Phalcon\DM\Query;
+namespace Phalcon\DataMapper\Query;
 
 use PDO;
 
