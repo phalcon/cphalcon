@@ -9,10 +9,10 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Fixtures\DM\Pdo;
+namespace Phalcon\Test\Fixtures\DataMapper\Pdo;
 
-use Phalcon\DM\Pdo\Connection;
-use Phalcon\DM\Pdo\Profiler\ProfilerInterface;
+use Phalcon\DataMapper\Pdo\Connection;
+use Phalcon\DataMapper\Pdo\Profiler\ProfilerInterface;
 
 class ConnectionFixture extends Connection
 {

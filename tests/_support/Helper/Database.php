@@ -8,7 +8,7 @@ namespace Helper;
 use Codeception\Exception\ModuleException;
 use Codeception\TestInterface;
 use PDO;
-use Phalcon\DM\Pdo\Connection;
+use Phalcon\DataMapper\Pdo\Connection;
 
 use function date;
 use function env;
@@ -166,7 +166,7 @@ class Database extends \Codeception\Module
     /**
      * @return Connection
      */
-    public function getDMConnection(): Connection
+    public function getDataMapperConnection(): Connection
     {
         return new Connection(
             $this->getDatabaseDsn(),
