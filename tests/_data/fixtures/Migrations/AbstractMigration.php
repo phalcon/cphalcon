@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Fixtures\Migrations;
 
 use PDO;
-use Phalcon\DM\Pdo\Connection;
+use Phalcon\DataMapper\Pdo\Connection;
 use function get_class;
 use function var_dump;
 
