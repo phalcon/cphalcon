@@ -31,13 +31,7 @@ class CommitInTransactionRollBackCest
 
         /** @var Connection $connection */
         $connection = $I->getDMConnection();
-
-        $all = $connection->fetchAll('show tables');
-        var_dump($all);
-
-        $migration = new InvoicesMigration($connection);
-        $migration->clear();
-
+        (new InvoicesMigration($connection));
         $connection->beginTransaction();
 
         $I->assertTrue($connection->inTransaction());
@@ -80,8 +74,7 @@ class CommitInTransactionRollBackCest
 
         /** @var Connection $connection */
         $connection = $I->getDMConnection();
-        $migration  = new InvoicesMigration($connection);
-        $migration->clear();
+        (new InvoicesMigration($connection));
         $connection->beginTransaction();
 
         $I->assertTrue($connection->inTransaction());
