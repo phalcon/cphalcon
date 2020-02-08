@@ -118,6 +118,12 @@ class Database extends \Codeception\Module
                     $this->username,
                     $this->password
                 );
+            case 'sqlite':
+                return sprintf(
+                    'sqlite:%s',
+                    env('DATA_SQLITE_NAME', 'memory')
+                );
+
             case 'sqlsrv':
                 return "";
                 break;

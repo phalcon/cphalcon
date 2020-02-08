@@ -25,6 +25,7 @@ use Phalcon\Test\Models\InvoicesExtended;
 use Phalcon\Test\Models\ModelWithStringPrimary;
 
 use function uniqid;
+use function var_dump;
 
 /**
  * Class FindFirstCest
@@ -40,8 +41,7 @@ class FindFirstCest
 
         /** @var PDO $connection */
         $connection = $I->getConnection();
-        $migration  = new InvoicesMigration($connection);
-        $migration->clear();
+        (new InvoicesMigration($connection));
     }
 
     /**
