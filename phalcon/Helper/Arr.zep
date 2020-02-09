@@ -18,6 +18,30 @@ use stdClass;
 class Arr
 {
     /**
+     * Black list filter by key: exclude elements of an array
+     * by the keys obtained from the elements of a blacklist
+     *
+     * @param array $collection
+     * @param array $blackList
+     *
+     * @return array
+     */
+    final public static function blackList(array! collection, array! blackList) -> array
+    {
+        let blackList = array_filter(
+            blackList,
+            function (element) {
+                return typeof element === "integer" || typeof element === "string";
+            }
+        );
+
+        return array_diff_key(
+            collection,
+            array_flip(blackList)
+        );
+    }
+
+    /**
      * Chunks an array into smaller arrays of a specified size.
      *
      * @param array $collection
@@ -431,31 +455,6 @@ class Arr
         return array_intersect_key(
             collection,
             array_flip(whiteList)
-        );
-    }
-
-    /**
-     * Black list filter by key: exclude elements of an array
-     * by the keys obtained from the elements of a blacklist
-     *
-     * @param array $collection
-     * @param array $blackList
-     *
-     * @return array
-     */
-    final public static function blackList(array! collection, array! blackList) -> array
-    {
-        let blackList = array_filter(
-            blackList,
-            function (element)
-            {
-                return is_int(element) || is_string(element);
-            }
-        );
-
-        return array_diff_key(
-            collection,
-            array_flip(blackList)
         );
     }
 }
