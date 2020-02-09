@@ -13,6 +13,7 @@ namespace Phalcon\Test\Database\DataMapper\Pdo\ConnectionLocator;
 
 use DatabaseTester;
 use Phalcon\DataMapper\Pdo\ConnectionLocator;
+
 use function spl_object_hash;
 
 class GetSetMasterCest

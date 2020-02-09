@@ -1,6 +1,6 @@
 <?php
 
- /**
+/**
  * This file is part of the Phalcon Framework.
  *
  * (c) Phalcon Team <team@phalcon.io>
@@ -9,11 +9,11 @@
  * file that was distributed with this source code.
  */
 
- declare(strict_types=1);
+declare(strict_types=1);
 
- namespace Phalcon\Test\Unit\Debug;
+namespace Phalcon\Test\Unit\Debug;
 
- use UnitTester;
+use UnitTester;
 
 class GetRenderedHtmlCest
 {
@@ -27,6 +27,6 @@ class GetRenderedHtmlCest
     {
         $I->wantToTest('Debug - renderHtml()');
 
-         $I->skipTest('Need implementation');
+        $I->skipTest('Need implementation');
     }
 }
