@@ -1,3 +1,4 @@
+
 /**
  * This file is part of the Phalcon Framework.
  *
@@ -43,12 +44,12 @@ class Profiler implements ProfilerInterface
     /**
      * @var string
      */
-    protected logFormat;
+    protected logFormat = "";
 
     /**
      * @var string
      */
-    protected logLevel;
+    protected logLevel = 0;
 
     /**
      * @var LoggerInterface
@@ -62,13 +63,13 @@ class Profiler implements ProfilerInterface
      */
     public function __construct(<LoggerInterface> logger = null)
     {
-        if unlikely null === logger {
+        if logger === null {
             let logger = new MemoryLogger();
         }
 
-        let this->logger    = logger,
-            this->logFormat = "{method} ({duration} seconds): {statement} {backtrace}",
-            this->logLevel  = LogLevel::DEBUG;
+        let this->logFormat = "{method} ({duration} seconds) -> {statement} {backtrace}",
+            this->logLevel  = LogLevel::DEBUG,
+            this->logger    = logger;
     }
 
     /**
@@ -79,22 +80,27 @@ class Profiler implements ProfilerInterface
      */
     public function finish(string statement = null, array values = []) -> void
     {
-        var ex, finish, params;
+        var ex, finish, version;
 
         if unlikely this->active {
-            let finish = microtime(true),
-                ex     = new Exception(),
-                params = "";
+            let version = phpversion(),
+                ex      = new Exception();
 
-            if !empty values {
-                let params = Json::encode(values);
+            /**
+             * @todo Remove this check when we target min PHP 7.3
+             */
+            if starts_with(version, "7.2") {
+                let finish = microtime(true);
+            } else {
+                let finish = hrtime(true);
             }
+
 
             let this->context["backtrace"] = ex->getTraceAsString(),
                 this->context["duration"]  = finish - this->context["start"],
                 this->context["finish"]    = finish,
                 this->context["statement"] = statement,
-                this->context["values"]    = params;
+                this->context["values"]    = empty(values) ? "" : Json::encode(values);
 
             this->logger->log(this->logLevel, this->logFormat, this->context);
 
@@ -151,7 +157,7 @@ class Profiler implements ProfilerInterface
      */
     public function setActive(bool active) -> <ProfilerInterface>
     {
-        let this->active = active;
+        let this->active = (bool) active;
 
         return this;
     }
@@ -191,10 +197,23 @@ class Profiler implements ProfilerInterface
      */
     public function start(string method) -> void
     {
+        var start, version;
+
         if unlikely this->active {
+            let version = phpversion();
+
+            /**
+             * @todo Remove this check when we target min PHP 7.3
+             */
+            if starts_with(version, "7.2") {
+                let start = microtime(true);
+            } else {
+                let start = hrtime(true);
+            }
+
             let this->context = [
                 "method" : method,
-                "start"  : microtime(true)
+                "start"  : start
             ];
         }
     }
