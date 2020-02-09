@@ -33,7 +33,8 @@ class ConstructCest
     }
 
     /**
-     * Database Tests Phalcon\DataMapper\Pdo\Connection :: __construct() - exception
+     * Database Tests Phalcon\DataMapper\Pdo\Connection :: __construct() -
+     * exception
      *
      * @since  2020-01-20
      */

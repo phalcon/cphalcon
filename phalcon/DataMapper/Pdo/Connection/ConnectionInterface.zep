@@ -167,7 +167,7 @@ interface ConnectionInterface extends PdoInterface
      *
      * @return mixed
      */
-    public function fetchValue(string statement, array values = []);
+    public function fetchValue(string statement, array values = []) -> var;
 
     /**
      * Return the inner PDO (if any)

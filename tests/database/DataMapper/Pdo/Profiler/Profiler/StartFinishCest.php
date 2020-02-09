@@ -13,15 +13,14 @@ namespace Phalcon\Test\Database\DataMapper\Pdo\Profiler\Profiler;
 
 use DatabaseTester;
 use Phalcon\DataMapper\Pdo\Profiler\Profiler;
-
 use function sleep;
 use function strpos;
-use function var_dump;
 
 class StartFinishCest
 {
     /**
-     * Database Tests Phalcon\DataMapper\Pdo\Profiler\Profiler :: start()/finish()
+     * Database Tests Phalcon\DataMapper\Pdo\Profiler\Profiler ::
+     * start()/finish()
      *
      * @since  2020-01-25
      */

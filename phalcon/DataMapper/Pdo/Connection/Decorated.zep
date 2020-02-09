@@ -39,7 +39,7 @@ class Decorated extends AbstractConnection
     {
         let this->pdo = pdo;
 
-        if profiler === null {
+        if null === profiler {
             let profiler = new Profiler();
         }
 
