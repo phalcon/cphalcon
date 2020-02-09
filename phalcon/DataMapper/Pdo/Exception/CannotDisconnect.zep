@@ -13,6 +13,7 @@
  * @license https://github.com/atlasphp/Atlas.Pdo/blob/1.x/LICENSE.md
  */
 
+
 namespace Phalcon\DataMapper\Pdo\Exception;
 
 /**
