@@ -15,6 +15,7 @@
 
 namespace Phalcon\DataMapper\Pdo\Connection;
 
+use PDO;
 use Phalcon\DataMapper\Pdo\Exception\CannotDisconnect;
 use Phalcon\DataMapper\Pdo\Profiler\Profiler;
 use Phalcon\DataMapper\Pdo\Profiler\ProfilerInterface;
@@ -39,10 +40,11 @@ class Decorated extends AbstractConnection
     {
         let this->pdo = pdo;
 
-        if null === profiler {
+        if profiler === null {
             let profiler = new Profiler();
         }
-        $this->setProfiler($profiler);
+
+        this->setProfiler(profiler);
     }
 
     /**

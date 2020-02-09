@@ -411,7 +411,7 @@ abstract class AbstractConnection implements ConnectionInterface
      *
      * @return mixed
      */
-    public function getAttribute(int attribute)
+    public function getAttribute(int attribute) -> var
     {
         this->connect();
 
@@ -564,8 +564,10 @@ abstract class AbstractConnection implements ConnectionInterface
      *
      * @return PDOStatement
      */
-    public function perform(string statement, array values = []) -> <\PDOStatement>
-    {
+    public function perform(
+        string statement,
+        array values = []
+    ) -> <\PDOStatement> {
         var name, sth, value;
 
         this->connect();
@@ -592,8 +594,10 @@ abstract class AbstractConnection implements ConnectionInterface
      *
      * @return PDOStatement|false
      */
-    public function prepare(string statement, array options = [])
-    {
+    public function prepare(
+        string statement,
+        array options = []
+    ) -> \PDOStatement | bool {
         var sth;
 
         this->connect();
@@ -616,7 +620,7 @@ abstract class AbstractConnection implements ConnectionInterface
      *
      * @return PDOStatement|false
      */
-    public function query(string statement)
+    public function query(string statement) -> \PDOStatement | bool
     {
         var sth;
 
@@ -725,8 +729,11 @@ abstract class AbstractConnection implements ConnectionInterface
      * @param mixed        $name
      * @param mixed        $arguments
      */
-    protected function performBind(<\PDOStatement> statement, var name, var arguments) -> void
-    {
+    protected function performBind(
+        <\PDOStatement> statement,
+        var name,
+        var arguments
+    ) -> void {
         var key, parameters, type;
 
         let key = name;
@@ -774,7 +781,7 @@ abstract class AbstractConnection implements ConnectionInterface
         array arguments,
         string statement,
         array values = []
-    ) {
+    ) -> array {
         var result, sth;
 
         let sth    = this->perform(statement, values),
