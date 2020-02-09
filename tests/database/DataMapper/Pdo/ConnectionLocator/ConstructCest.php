@@ -26,12 +26,9 @@ class ConstructCest
     {
         $I->wantToTest('DataMapper\Pdo\ConnectionLocator - __construct()');
 
-        $connection1 = $I->getDataMapperConnection();
-        $locator     = new ConnectionLocator(
-            function () use ($connection1) {
-                return $connection1;
-            }
-        );
+        $connection = $I->getDataMapperConnection();
+        $locator    = new ConnectionLocator($connection);
+
         $I->assertInstanceOf(ConnectionLocatorInterface::class, $locator);
         $I->assertInstanceOf(ConnectionLocator::class, $locator);
     }
