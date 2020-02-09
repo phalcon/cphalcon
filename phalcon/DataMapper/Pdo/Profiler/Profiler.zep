@@ -67,7 +67,7 @@ class Profiler implements ProfilerInterface
             let logger = new MemoryLogger();
         }
 
-        let this->logFormat = "{method} ({duration} seconds) -> {statement} {backtrace}",
+        let this->logFormat = "{method} ({duration}s): {statement} {backtrace}",
             this->logLevel  = LogLevel::DEBUG,
             this->logger    = logger;
     }
