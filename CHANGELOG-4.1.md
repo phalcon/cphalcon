@@ -16,12 +16,20 @@
 - Added `Phalcon\Debug::renderHtml()` to get a HTML representation of the exception [#14794](https://github.com/phalcon/cphalcon/issues/14794) [@TimurFlush](https://github.com/TimurFlush)
 - Added `Phalcon\Mvc\Router\Annotations->setActionPreformatCallback($callback)` to set a callback which pre-formats actions to custom pattern [#14819](https://github.com/phalcon/cphalcon/pull/14819)
 - Added new PDO wrapper for the Data Mapper implementation, with decorated instance, locator and profiler
-  - `DM\Connection`
-  - `DM\Connection\Decorated`
-  - `DM\Profiler\Profiler`
-  - `DM\Profiler\MemoryLogger`
-  - `DM\ConnectionLocator`
+  - `Phalcon\DataMapper\Pdo\Connection`
+  - `Phalcon\DataMapper\Pdo\Connection\Decorated`
+  - `Phalcon\DataMapper\Pdo\Profiler\Profiler`
+  - `Phalcon\DataMapper\Pdo\Profiler\MemoryLogger`
+  - `Phalcon\DataMapper\Pdo\ConnectionLocator`
 This component will be used in the Data Mapper implementation but can be used as a stand alone component for PDO connections. [#14733](https://github.com/phalcon/cphalcon/issues/14733)
+- Added new Query Builder, as well as a factory, for the Data Mapper implementation supporting CRUD with bound parameters
+  - `Phalcon\DataMapper\Query\Bind`
+  - `Phalcon\DataMapper\Query\Delete`
+  - `Phalcon\DataMapper\Query\Insert`
+  - `Phalcon\DataMapper\Query\Select`
+  - `Phalcon\DataMapper\Query\Update`
+  - `Phalcon\DataMapper\Query\QueryFactory`
+This component can be used to create SQL statements using a fluent interface. Optionally the statements can be executed from the builder itself using the `DataMapper\Pdo` connection. [#14734](https://github.com/phalcon/cphalcon/issues/14734)
 
 ## Changed
 - Added service checks for the session. Now cookies will be saved in the session only when the `session` service is defined [#11770](https://github.com/phalcon/cphalcon/issues/11770), [#14649](https://github.com/phalcon/cphalcon/pull/14649)
