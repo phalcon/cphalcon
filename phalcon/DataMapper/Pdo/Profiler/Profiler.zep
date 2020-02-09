@@ -157,7 +157,7 @@ class Profiler implements ProfilerInterface
      */
     public function setActive(bool active) -> <ProfilerInterface>
     {
-        let this->active = (bool) active;
+        let this->active = active;
 
         return this;
     }
