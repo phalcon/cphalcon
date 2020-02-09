@@ -14,14 +14,14 @@ namespace Phalcon\Test\Database\DataMapper\Pdo\Connection;
 use DatabaseTester;
 use Phalcon\DataMapper\Pdo\Connection;
 use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
-
 use function date;
 use function uniqid;
 
 class CommitInTransactionRollBackCest
 {
     /**
-     * Database Tests Phalcon\DataMapper\Pdo\Connection :: commit()/inTransaction()
+     * Database Tests Phalcon\DataMapper\Pdo\Connection ::
+     * commit()/inTransaction()
      *
      * @since  2020-01-25
      */

@@ -19,7 +19,8 @@ use Phalcon\DataMapper\Pdo\Profiler\Profiler;
 class ConstructCest
 {
     /**
-     * Database Tests Phalcon\DataMapper\Pdo\Connection\Decorated :: __construct()
+     * Database Tests Phalcon\DataMapper\Pdo\Connection\Decorated ::
+     * __construct()
      *
      * @since  2020-01-25
      */

@@ -16,9 +16,7 @@ namespace Phalcon\Test\Database\DataMapper\Query\Update;
 use DatabaseTester;
 use PDO;
 use Phalcon\DataMapper\Query\QueryFactory;
-
 use function sprintf;
-use function var_dump;
 
 class GetStatementCest
 {
@@ -68,7 +66,7 @@ class GetStatementCest
             $quotes["suffix"]
         );
 
-        $actual   = $update->getStatement();
+        $actual = $update->getStatement();
         $I->assertEquals($expected, $actual);
 
         $expected = [
