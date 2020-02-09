@@ -14,6 +14,7 @@ namespace Phalcon\Test\Database\DataMapper\Pdo\ConnectionLocator;
 use DatabaseTester;
 use Phalcon\DataMapper\Pdo\ConnectionLocator;
 use Phalcon\DataMapper\Pdo\Exception\ConnectionNotFound;
+
 use function in_array;
 use function spl_object_hash;
 

@@ -64,7 +64,8 @@ class GetLastInsertIdCest
     }
 
     /**
-     * Database Tests Phalcon\DataMapper\Query\Insert :: getLastInsertId() - real
+     * Database Tests Phalcon\DataMapper\Query\Insert :: getLastInsertId() -
+     * real
      *
      * @since  2020-01-20
      */

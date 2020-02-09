@@ -31,28 +31,27 @@ class BlackListCest
 
         $value = [
             'value-1',
-            'key-2'    => 'value-2',
-            'key-3'    => 'value-3',
-            9          => 'value-4',
-            12         => 'value-5',
-            ' key-6 '  => 'value-6',
-            99         => 'value-7',
-            'key-8'    => 'value-8',
+            'key-2'   => 'value-2',
+            'key-3'   => 'value-3',
+            9         => 'value-4',
+            12        => 'value-5',
+            ' key-6 ' => 'value-6',
+            99        => 'value-7',
+            'key-8'   => 'value-8',
         ];
 
         $blackList = [
-            99, 48, 31, 9, 'key-45', null, -228, new stdClass(), [], 3.501, false, 'key-2', 'key-3'
+            99, 48, 31, 9, 'key-45', null, -228, new stdClass(), [], 3.501, false, 'key-2', 'key-3',
         ];
 
         $expected = [
             'value-1',
 
 
+            12        => 'value-5',
+            ' key-6 ' => 'value-6',
 
-            12         => 'value-5',
-            ' key-6 '  => 'value-6',
-
-            'key-8'    => 'value-8',
+            'key-8' => 'value-8',
         ];
 
         $actual = Arr::blackList($value, $blackList);

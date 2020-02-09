@@ -32,7 +32,7 @@ class SetActionPreformatCallbackCest
     {
         $I->wantToTest('Mvc\Router\Annotations - setDefaultAction()');
 
-        $router = new Annotations(false);
+        $router   = new Annotations(false);
         $callback = [Text::class, 'uncamelize'];
         $router->setActionPreformatCallback($callback);
         $attachedCallback = $router->getActionPreformatCallback();

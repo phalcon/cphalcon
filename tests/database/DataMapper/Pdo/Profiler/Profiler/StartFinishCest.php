@@ -13,6 +13,7 @@ namespace Phalcon\Test\Database\DataMapper\Pdo\Profiler\Profiler;
 
 use DatabaseTester;
 use Phalcon\DataMapper\Pdo\Profiler\Profiler;
+
 use function sleep;
 use function strpos;
 
