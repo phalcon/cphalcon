@@ -114,7 +114,7 @@ interface PdoInterface
      *
      * @return PDOStatement|false
      */
-    public function query(string statement) -> \PDOStatement | bool;
+    public function query(string statement) -> <\PDOStatement> | bool;
 
     /**
      * Quotes a value for use in an SQL statement. This differs from

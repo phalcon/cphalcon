@@ -15,8 +15,6 @@
 
 namespace Phalcon\DataMapper\Pdo\Connection;
 
-use PDO;
-use PDOStatement;
 use Phalcon\DataMapper\Pdo\Exception\CannotBindValue;
 use Phalcon\DataMapper\Pdo\Parser\ParserInterface;
 use Phalcon\DataMapper\Pdo\Profiler\ProfilerInterface;
@@ -49,9 +47,8 @@ interface ConnectionInterface extends PdoInterface
      * @param array  $values
      *
      * @return int
-     * @throws CannotBindValue
      */
-    public function fetchAffected(string $statement, array $values = []) -> int;
+    public function fetchAffected(string statement, array values = []) -> int;
 
     /**
      * Fetches a sequential array of rows from the database; the rows are
@@ -61,9 +58,8 @@ interface ConnectionInterface extends PdoInterface
      * @param array  $values
      *
      * @return array
-     * @throws CannotBindValue
      */
-    public function fetchAll(string $statement, array $values = []) -> array;
+    public function fetchAll(string statement, array values = []) -> array;
 
     /**
      * Fetches an associative array of rows from the database; the rows are
@@ -78,9 +74,8 @@ interface ConnectionInterface extends PdoInterface
      * @param array  $values
      *
      * @return array
-     * @throws CannotBindValue
      */
-    public function fetchAssoc(string $statement, array $values = []) -> array;
+    public function fetchAssoc(string statement, array values = []) -> array;
 
     /**
      * Fetches a column of rows as a sequential array (default first one).
@@ -90,9 +85,8 @@ interface ConnectionInterface extends PdoInterface
      * @param int    $column
      *
      * @return array
-     * @throws CannotBindValue
      */
-    public function fetchColumn(string $statement, array $values = [], int $column = 0) -> array;
+    public function fetchColumn(string statement, array values = [], int column = 0) -> array;
 
     /**
      * Fetches multiple from the database as an associative array. The first
@@ -104,13 +98,8 @@ interface ConnectionInterface extends PdoInterface
      * @param int    $flags
      *
      * @return array
-     * @throws CannotBindValue
      */
-    public function fetchGroup(
-        string $statement,
-        array $values = [],
-        int $flags = PDO::FETCH_ASSOC
-    ) -> array;
+    public function fetchGroup(string statement, array values = [], int flags = \PDO::FETCH_ASSOC) -> array;
 
     /**
      * Fetches one row from the database as an object where the column values
@@ -127,14 +116,8 @@ interface ConnectionInterface extends PdoInterface
      * @param array  $arguments
      *
      * @return object
-     * @throws CannotBindValue
      */
-    public function fetchObject(
-        string $statement,
-        array $values = [],
-        string $class = 'stdClass',
-        array $arguments = []
-    ) -> object;
+    public function fetchObject(string statement, array values = [], string className = "stdClass", array arguments = []) -> object;
 
     /**
      * Fetches a sequential array of rows from the database; the rows are
@@ -152,14 +135,8 @@ interface ConnectionInterface extends PdoInterface
      * @param array  $arguments
      *
      * @return array
-     * @throws CannotBindValue
      */
-    public function fetchObjects(
-        string $statement,
-        array $values = [],
-        string $class = 'stdClass',
-        array $arguments = []
-    ) -> array;
+    public function fetchObjects(string statement, array values = [], string className = "stdClass", array arguments = []) -> array;
 
     /**
      * Fetches one row from the database as an associative array.
@@ -168,9 +145,8 @@ interface ConnectionInterface extends PdoInterface
      * @param array  $values
      *
      * @return array
-     * @throws CannotBindValue
      */
-    public function fetchOne(string $statement, array $values = []) -> array;
+    public function fetchOne(string statement, array values = []) -> array;
 
     /**
      * Fetches an associative array of rows as key-value pairs (first column is
@@ -180,9 +156,8 @@ interface ConnectionInterface extends PdoInterface
      * @param array  $values
      *
      * @return array
-     * @throws CannotBindValue
      */
-    public function fetchPairs(string $statement, array $values = []) -> array;
+    public function fetchPairs(string statement, array values = []) -> array;
 
     /**
      * Fetches the very first value (i.e., first column of the first row).
@@ -191,23 +166,22 @@ interface ConnectionInterface extends PdoInterface
      * @param array  $values
      *
      * @return mixed
-     * @throws CannotBindValue
      */
-    public function fetchValue(string $statement, array $values = []);
+    public function fetchValue(string statement, array values = []);
 
     /**
      * Return the inner PDO (if any)
      *
      * @return PDO
      */
-    public function getAdapter() -> PDO;
+    public function getAdapter() -> <\PDO>;
 
     /**
      * Returns the Profiler instance.
      *
      * @return ProfilerInterface
      */
-    public function getProfiler() -> ProfilerInterface;
+    public function getProfiler() -> <ProfilerInterface>;
 
     /**
      * Is the PDO connection active?
@@ -226,14 +200,13 @@ interface ConnectionInterface extends PdoInterface
      * @param array  $values
      *
      * @return PDOStatement
-     * @throws CannotBindValue
      */
-    public function perform(string $statement, array $values = []) -> PDOStatement;
+    public function perform(string statement, array values = []) -> <\PDOStatement>;
 
     /**
      * Sets the Profiler instance.
      *
      * @param ProfilerInterface $profiler The Profiler instance.
      */
-    public function setProfiler(ProfilerInterface $profiler);
+    public function setProfiler(<ProfilerInterface> profiler);
 }
