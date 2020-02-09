@@ -30,11 +30,11 @@ class GetSetLogFormatCest
         $profiler = new Profiler();
 
         $I->assertEquals(
-            "{method} ({duration} seconds): {statement} {backtrace}",
+            "{method} ({duration}s): {statement} {backtrace}",
             $profiler->getLogFormat()
         );
 
-        $format = "{method} ({duration} seconds): {statement}";
+        $format = "{method} ({duration}s): {statement}";
         $profiler->setLogFormat($format);
         $I->assertEquals(
             $format,
