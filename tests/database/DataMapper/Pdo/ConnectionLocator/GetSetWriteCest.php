@@ -14,7 +14,6 @@ namespace Phalcon\Test\Database\DataMapper\Pdo\ConnectionLocator;
 use DatabaseTester;
 use Phalcon\DataMapper\Pdo\ConnectionLocator;
 use Phalcon\DataMapper\Pdo\Exception\ConnectionNotFound;
-
 use function in_array;
 use function spl_object_hash;
 
@@ -54,7 +53,8 @@ class GetSetWriteCest
     }
 
     /**
-     * Database Tests Phalcon\DataMapper\Pdo\ConnectionLocator :: getWrite() - random
+     * Database Tests Phalcon\DataMapper\Pdo\ConnectionLocator :: getWrite() -
+     * random
      *
      * @since  2020-01-25
      */
@@ -88,7 +88,8 @@ class GetSetWriteCest
     }
 
     /**
-     * Database Tests Phalcon\DataMapper\Pdo\ConnectionLocator :: getWrite() - empty
+     * Database Tests Phalcon\DataMapper\Pdo\ConnectionLocator :: getWrite() -
+     * empty
      *
      * @since  2020-01-25
      */
