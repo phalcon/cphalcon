@@ -16,6 +16,7 @@ use Phalcon\DataMapper\Pdo\Profiler\Profiler;
 
 use function sleep;
 use function strpos;
+use function var_dump;
 
 class StartFinishCest
 {
@@ -41,7 +42,7 @@ class StartFinishCest
         $logger  = $profiler->getLogger();
         $message = $logger->getMessages()[0];
 
-        $I->assertNotFalse(strpos($message, 'my-method (1.'));
+        $I->assertNotFalse(strpos($message, 'my-method ('));
         $I->assertNotFalse(strpos($message, 'select from something #0'));
     }
 }
