@@ -597,7 +597,7 @@ abstract class AbstractConnection implements ConnectionInterface
     public function prepare(
         string statement,
         array options = []
-    ) -> \PDOStatement | bool {
+    ) -> <\PDOStatement> | bool {
         var sth;
 
         this->connect();
@@ -620,7 +620,7 @@ abstract class AbstractConnection implements ConnectionInterface
      *
      * @return PDOStatement|false
      */
-    public function query(string statement) -> \PDOStatement | bool
+    public function query(string statement) -> <\PDOStatement> | bool
     {
         var sth;
 
