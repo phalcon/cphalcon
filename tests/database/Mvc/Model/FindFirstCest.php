@@ -25,7 +25,6 @@ use Phalcon\Test\Models\InvoicesExtended;
 use Phalcon\Test\Models\ModelWithStringPrimary;
 
 use function uniqid;
-use function var_dump;
 
 /**
  * Class FindFirstCest
