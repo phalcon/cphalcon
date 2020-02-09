@@ -19,7 +19,8 @@ use Phalcon\DataMapper\Pdo\Exception\CannotDisconnect;
 class DisconnectCest
 {
     /**
-     * Database Tests Phalcon\DataMapper\Pdo\Connection\Decorated :: disconnect()
+     * Database Tests Phalcon\DataMapper\Pdo\Connection\Decorated ::
+     * disconnect()
      *
      * @since  2020-01-25
      */

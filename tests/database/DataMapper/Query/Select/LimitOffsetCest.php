@@ -49,7 +49,8 @@ class LimitOffsetCest
     }
 
     /**
-     * Database Tests Phalcon\DataMapper\Query\Select :: limit()/offset() - MSSSQL
+     * Database Tests Phalcon\DataMapper\Query\Select :: limit()/offset() -
+     * MSSSQL
      *
      * @since  2020-01-20
      */

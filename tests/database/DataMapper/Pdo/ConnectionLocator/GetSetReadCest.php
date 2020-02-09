@@ -14,14 +14,14 @@ namespace Phalcon\Test\Database\DataMapper\Pdo\ConnectionLocator;
 use DatabaseTester;
 use Phalcon\DataMapper\Pdo\ConnectionLocator;
 use Phalcon\DataMapper\Pdo\Exception\ConnectionNotFound;
-
 use function in_array;
 use function spl_object_hash;
 
 class GetSetReadCest
 {
     /**
-     * Database Tests Phalcon\DataMapper\Pdo\ConnectionLocator :: getRead()/setRead()
+     * Database Tests Phalcon\DataMapper\Pdo\ConnectionLocator ::
+     * getRead()/setRead()
      *
      * @since  2020-01-25
      */
@@ -52,7 +52,8 @@ class GetSetReadCest
     }
 
     /**
-     * Database Tests Phalcon\DataMapper\Pdo\ConnectionLocator :: getRead() - random
+     * Database Tests Phalcon\DataMapper\Pdo\ConnectionLocator :: getRead() -
+     * random
      *
      * @since  2020-01-25
      */
@@ -85,7 +86,8 @@ class GetSetReadCest
     }
 
     /**
-     * Database Tests Phalcon\DataMapper\Pdo\ConnectionLocator :: getRead() - empty
+     * Database Tests Phalcon\DataMapper\Pdo\ConnectionLocator :: getRead() -
+     * empty
      *
      * @since  2020-01-25
      */

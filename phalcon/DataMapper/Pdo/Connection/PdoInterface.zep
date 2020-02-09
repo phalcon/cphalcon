@@ -103,7 +103,7 @@ interface PdoInterface
      *
      * @return PDOStatement|false
      */
-    public function prepare(string statement, array options = []);
+    public function prepare(string statement, array options = []) -> <\PDOStatement> | bool;
 
     /**
      * Queries the database and returns a PDOStatement. If the profiler is

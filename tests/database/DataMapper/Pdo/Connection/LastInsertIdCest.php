@@ -14,7 +14,6 @@ namespace Phalcon\Test\Database\DataMapper\Pdo\Connection;
 use DatabaseTester;
 use Phalcon\DataMapper\Pdo\Connection;
 use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
-
 use function date;
 use function str_replace;
 use function uniqid;

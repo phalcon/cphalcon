@@ -16,7 +16,6 @@ namespace Phalcon\Test\Database\DataMapper\Query\Insert;
 use DatabaseTester;
 use PDO;
 use Phalcon\DataMapper\Query\QueryFactory;
-
 use function sprintf;
 
 class GetStatementCest

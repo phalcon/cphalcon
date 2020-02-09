@@ -44,29 +44,11 @@ class Insert extends AbstractQuery
      *
      * @return this
      */
-    public function column() -> <Insert>
+    public function column(string column, var value = null, int type = -1) -> <Insert>
     {
-        var arguments, column, type, value;
-
-        let arguments = func_get_args();
-
-        if (0 === count(arguments)) {
-            throw new BadMethodCallException(
-                "The column name must be specified"
-            );
-        }
-
-        let column = arguments[0];
-
         let this->store["COLUMNS"][column] = ":" . column;
 
-        if isset(arguments[1]) && !empty(arguments[1]) {
-            let value = $arguments[1],
-                type  = -1;
-            if isset arguments[2] {
-                let type = arguments[2];
-            }
-
+        if null !== value {
             this->bind->setValue(column, value, type);
         }
 
@@ -74,7 +56,7 @@ class Insert extends AbstractQuery
     }
 
     /**
-     * Mass sets columns and values for the `UPDATE`
+     * Mass sets columns and values for the `INSERT`
      *
      * @param array $columns
      *
@@ -86,28 +68,12 @@ class Insert extends AbstractQuery
 
         for column, value in columns {
             if typeof column === "integer" {
-                call_user_func_array(
-                    [
-                        this,
-                        "column"
-                    ],
-                    [
-                        value
-                    ]
-                );
+                this->column(value);
             } else {
-                call_user_func_array(
-                    [
-                        this,
-                        "column"
-                    ],
-                    [
-                        column,
-                        value
-                    ]
-                );
+                this->column(column, value);
             }
         }
+
         return this;
     }
 
