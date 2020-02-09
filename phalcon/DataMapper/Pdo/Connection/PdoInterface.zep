@@ -15,7 +15,6 @@
 
 namespace Phalcon\DataMapper\Pdo\Connection;
 
-
 /**
  * An interface to the native PDO object.
  */
@@ -42,7 +41,7 @@ interface PdoInterface
      *
      * @return string|null
      */
-    public function errorCode() -> string | null;
+    public function errorCode() -> null | string;
 
     /**
      * Gets the most recent error info.
@@ -104,7 +103,7 @@ interface PdoInterface
      *
      * @return PDOStatement|false
      */
-    public function prepare(string statement, array options = []) -> <\PDOStatement> | bool;
+    public function prepare(string statement, array options = []);
 
     /**
      * Queries the database and returns a PDOStatement. If the profiler is
@@ -115,7 +114,7 @@ interface PdoInterface
      *
      * @return PDOStatement|false
      */
-    public function query(string statement) -> <\PDOStatement> | bool;
+    public function query(string statement) -> \PDOStatement | bool;
 
     /**
      * Quotes a value for use in an SQL statement. This differs from

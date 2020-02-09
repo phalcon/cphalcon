@@ -1,3 +1,4 @@
+
 /**
  * This file is part of the Phalcon Framework.
  *
@@ -29,7 +30,7 @@ class ConnectionLocator implements ConnectionLocatorInterface
     /**
      * A default Connection connection factory/instance.
      *
-     * @var callable
+     * @var ConnectionInterface
      */
     protected master;
 
@@ -57,12 +58,12 @@ class ConnectionLocator implements ConnectionLocatorInterface
     /**
      * Constructor.
      *
-     * @param callable|null $master
-     * @param array         $read
-     * @param array         $write
+     * @param ConnectionInterface $master
+     * @param array               $read
+     * @param array               $write
      */
     public function __construct(
-        callable master,
+        <ConnectionInterface> master,
         array read = [],
         array write = []
     ) {

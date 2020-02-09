@@ -84,7 +84,7 @@ interface ProfilerInterface
      * @return ProfilerInterface
      *
      */
-    public function setLogLevel(string $logLevel) -> <ProfilerInterface>;
+    public function setLogLevel(string logLevel) -> <ProfilerInterface>;
 
     /**
      * Starts a profile entry.
