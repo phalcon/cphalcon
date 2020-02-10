@@ -43,4 +43,30 @@ class RemoveCest
             $di->has('escaper')
         );
     }
+
+    /**
+     * Tests Phalcon\Di :: remove()
+     *
+     * @author Timur Flush <https://github.com/TimurFlush>
+     * @since  2020-02-10
+     */
+    public function diRemoveWithBinders(UnitTester $I)
+    {
+        $I->wantToTest('Di - remove() with binders');
+
+        $di = new Di();
+
+        $di->set('escaper', Escaper::class);
+        $di->rebind('escaper', function () {});
+
+        $I->assertTrue(
+            $di->has('escaper') && sizeof($di->getBinders('escaper')) > 0
+        );
+
+        $di->remove('escaper');
+
+        $I->assertTrue(
+            ! $di->has('escaper') && sizeof($di->getBinders('escaper')) == 0
+        );
+    }
 }
