@@ -201,7 +201,7 @@ class Di implements DiInterface
                 // The service is registered in the DI.
                 try {
                     let instance = service->resolve(parameters, this);
-                    this->applyRebinders(instance);
+                    this->applyRebinders(name, instance);
                 } catch ServiceResolutionException {
                     throw new Exception(
                         "Service '" . name . "' cannot be resolved"
@@ -229,7 +229,7 @@ class Di implements DiInterface
                     let instance = create_instance(name);
                 }
 
-                this->applyRebinders(instance);
+                this->applyRebinders(name, instance);
             }
         }
 
@@ -618,7 +618,7 @@ class Di implements DiInterface
     /**
      * Apply rebinders to a instance
      */
-    protected function applyRebinders(var instance) -> void
+    protected function applyRebinders(string! name, var instance) -> void
     {
         var rebinders, rebinder;
 
