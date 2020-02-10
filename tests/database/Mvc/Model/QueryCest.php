@@ -82,8 +82,8 @@ class QueryCest
 
         foreach ($resultsets as $resultset) {
             $model = $this->transform($resultset);
-            $I->assertInstanceOf(InvoicesKeepSnapshots::class, $model);
-            $I->assertInstanceOf(CustomersKeepSnapshots::class, $model->customer);
+            $I->assertInstanceOf(CustomersKeepSnapshots::class, $model);
+            $I->assertInstanceOf(InvoicesKeepSnapshots::class, $model->invoices);
         }
     }
 
@@ -97,7 +97,7 @@ class QueryCest
      */
     private function transform($resultset)
     {
-        $invoice  = $resultset->readAttribute(lcfirst(CustomersKeepSnapshots::class));
+        $invoice  = $resultset->readAttribute(lcfirst(InvoicesKeepSnapshots::class));
         $customer = $resultset->readAttribute('join_1');
         $invoice->customer = $customer;
 
