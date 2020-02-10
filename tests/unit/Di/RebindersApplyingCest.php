@@ -23,7 +23,7 @@ class RebindersApplyingCest
     /**
      * Unit Tests Phalcon\Di :: rebind()
      *
-     * @author Phalcon Team <team@phalcon.io>
+     * @author Timur Flush <https://github.com/TimurFlush>
      * @since  2020-02-10
      */
     public function diApplyingRebindersOnNonShared(UnitTester $I)
@@ -76,7 +76,7 @@ class RebindersApplyingCest
     /**
      * Unit Tests Phalcon\Di :: rebind()
      *
-     * @author Phalcon Team <team@phalcon.io>
+     * @author Timur Flush <https://github.com/TimurFlush>
      * @since  2020-02-10
      */
     public function diApplyingRebindersOnShared(UnitTester $I)

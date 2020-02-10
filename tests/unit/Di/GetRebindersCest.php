@@ -24,7 +24,7 @@ class GetRebindersCest
     /**
      * Unit Tests Phalcon\Di :: getRebinders()
      *
-     * @author Phalcon Team <team@phalcon.io>
+     * @author Timur Flush <https://github.com/TimurFlush>
      * @since  2020-02-10
      */
     public function diGetRebindersWithKey(UnitTester $I)
@@ -96,7 +96,7 @@ class GetRebindersCest
     /**
      * Unit Tests Phalcon\Di :: getRebinders()
      *
-     * @author Phalcon Team <team@phalcon.io>
+     * @author Timur Flush <https://github.com/TimurFlush>
      * @since  2020-02-10
      */
     public function diGetRebindersIfServiceNotExists(UnitTester $I)

@@ -23,7 +23,7 @@ class RebindCest
     /**
      * Unit Tests Phalcon\Di :: rebind()
      *
-     * @author Phalcon Team <team@phalcon.io>
+     * @author Timur Flush <https://github.com/TimurFlush>
      * @since  2020-02-10
      */
     public function diRebind(UnitTester $I)
