@@ -611,10 +611,16 @@ class Di implements DiInterface
      */
     public function getRebinders(string! name = null) -> array
     {
+        var ret;
+
         if typeof name == "string" {
             if isset this->rebinders[name] {
-                return this->rebinders[name];
+                let ret = this->rebinders[name];
+            } else {
+                let ret = [];
             }
+
+            return ret;
         }
 
         return this->rebinders;
