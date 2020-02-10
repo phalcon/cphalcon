@@ -57,6 +57,27 @@ class DiCest
         $this->phDi = new Di();
     }
 
+    public function testCheckFault(UnitTester $I)
+    {
+        Di::reset();
+        
+        $di = new \Phalcon\Di();
+
+        // Please note that there is no need to announce the service in advance: the segmentation error will still be thrown out.
+        // It's just as an example
+        $di->setShared('request', function () {
+            return new \Phalcon\Http\Request();
+        });
+
+        $di->setShared('request', function () {
+            $request = $this->get('request'); // throw a Segmentation Fault
+
+            return $request;
+        });
+
+        $di->get('request');
+    }
+
     /**
      * Tests registering a service via string
      *
