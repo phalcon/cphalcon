@@ -86,7 +86,7 @@ class Di implements DiInterface
     /**
      * Array of rebinders
      */
-    protected rebinders;
+    protected rebinders = [];
 
     /**
      * Phalcon\Di constructor
@@ -588,7 +588,15 @@ class Di implements DiInterface
      */
     public function rebind(string! name, callable! callback) -> callable
     {
-        this->rebinders[name][] = callback;
+        var rebinders;
+
+        if isset this->rebinders[name] {
+            let rebinders = this->rebinders[name];
+            let rebinders[] = callback;
+            let this->rebinders[name] = rebinders;
+        } else {
+            let this->rebinders[name] = [callback];
+        }
 
         return callback;
     }
@@ -602,11 +610,9 @@ class Di implements DiInterface
             if isset this->rebinders[name] {
                 return this->rebinders[name];
             }
-        } elseif typeof this->rebinders == "array" {
-            return this->rebinders;
         }
-        
-        return [];
+
+        return this->rebinders;
     }
 
     /**
