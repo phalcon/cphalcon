@@ -601,13 +601,13 @@ class Di implements DiInterface
             );
         }
 
-        if isset this->rebinders[name] {
-            let rebinders = this->rebinders[name];
+        if fetch rebinders, this->rebinders[name] {
             let rebinders[] = callback;
-            let this->rebinders[name] = rebinders;
         } else {
-            let this->rebinders[name] = [callback];
+            let rebinders = [callback];
         }
+
+        let this->rebinders[name] = rebinders;
 
         return callback;
     }
@@ -620,9 +620,7 @@ class Di implements DiInterface
         var ret;
 
         if typeof name == "string" {
-            if isset this->rebinders[name] {
-                let ret = this->rebinders[name];
-            } else {
+            if !fetch ret, this->rebinders[name] {
                 let ret = [];
             }
 
