@@ -22,6 +22,10 @@
   - `DM\Profiler\MemoryLogger`
   - `DM\ConnectionLocator`
 This component will be used in the Data Mapper implementation but can be used as a stand alone component for PDO connections. [#14733](https://github.com/phalcon/cphalcon/issues/14733)
+- Added the rebind mechanism to `Phalcon\Di`. [#14832](https://github.com/phalcon/cphalcon/issues/14832) [@TimurFlush](https://github.com/TimurFlush)
+ - Added `Phalcon\Di::rebind()`
+ - Added `Phalcon\Di::getRebinders()`
+ - Added `Phalcon\Di::applyRebinders()`
 
 ## Changed
 - Added service checks for the session. Now cookies will be saved in the session only when the `session` service is defined [#11770](https://github.com/phalcon/cphalcon/issues/11770), [#14649](https://github.com/phalcon/cphalcon/pull/14649)
