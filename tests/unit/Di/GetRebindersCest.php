@@ -38,7 +38,7 @@ class GetRebindersCest
         };
 
         $expected2 = function (Di $di, Request $service) {
-            $service->setStrictHostCheck(false)
+            $service->setStrictHostCheck(false);
         };
 
         $di->rebind('request', $expected1);
@@ -72,7 +72,7 @@ class GetRebindersCest
         };
 
         $expected2 = function (Di $di, Request $service) {
-            $service->setStrictHostCheck(true)
+            $service->setStrictHostCheck(true);
         };
 
         $di->rebind('request', $expected1);
