@@ -32,6 +32,8 @@ class RebindCest
 
         $di = new Di();
 
+        $di->set('request', 'definition');
+
         $expected = function (Di $di, $service) {
 
         };

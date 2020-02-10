@@ -33,6 +33,8 @@ class GetRebindersCest
 
         $di = new Di();
 
+        $di->set('request', 'definition');
+
         $expected1 = function (Di $di, Request $service) {
             $service->setStrictHostCheck(true);
         };
@@ -67,6 +69,8 @@ class GetRebindersCest
 
         $di = new Di();
 
+        $di->set('request', 'definition');
+
         $expected1 = function (Di $di, Request $service) {
             $service->setStrictHostCheck(false);
         };
@@ -100,6 +104,9 @@ class GetRebindersCest
         $I->wantToTest('Di - getRebinders() if service does not exist');
 
         $di = new Di();
+
+        $di->set('request', 'definition');
+        $di->set('response', 'definition');
 
         $di->rebind('request', function () {});
         $di->rebind('response', function () {});
