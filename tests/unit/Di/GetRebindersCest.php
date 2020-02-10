@@ -29,7 +29,7 @@ class GetRebindersCest
      */
     public function diGetRebindersWithKey(UnitTester $I)
     {
-        $I->wantToTest('Di - getRebinders()');
+        $I->wantToTest('Di - getRebinders() with key');
 
         $di = new Di();
 
@@ -63,7 +63,7 @@ class GetRebindersCest
      */
     public function diGetRebindersWithoutKey(UnitTester $I)
     {
-        $I->wantToTest('Di - getRebinders()');
+        $I->wantToTest('Di - getRebinders() without key');
 
         $di = new Di();
 
@@ -87,5 +87,28 @@ class GetRebindersCest
                 $I->assertSame($expected2, $actual);
             }
         }
+    }
+
+    /**
+     * Unit Tests Phalcon\Di :: getRebinders()
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-02-10
+     */
+    public function diGetRebindersIfServiceNotExists(UnitTester $I)
+    {
+        $I->wantToTest('Di - getRebinders() if service does not exist');
+
+        $di = new Di();
+
+        $di->rebind('request', function () {});
+        $di->rebind('response', function () {});
+
+        $rebinders = $di->getRebinders();
+
+
+        $I->assertTrue(
+            is_array($rebinders) && empty($rebinders)
+        );
     }
 }
