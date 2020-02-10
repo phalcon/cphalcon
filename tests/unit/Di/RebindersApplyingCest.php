@@ -40,11 +40,11 @@ class RebindersApplyingCest
         });
 
         $di->rebind('someService', function (Di $di, \stdClass $std) {
-            $std->count++;
+            $std->counter++;
         });
 
         $di->rebind('someService', function (Di $di, \stdClass $std) {
-            $std->count++;
+            $std->counter++;
         });  
 
         $di->rebind('someService', function (Di $di, \stdClass $std) {
@@ -84,11 +84,11 @@ class RebindersApplyingCest
         });
 
         $di->rebind('someService', function (Di $di, \stdClass $std) {
-            $std->count++;
+            $std->counter++;
         });
 
         $di->rebind('someService', function (Di $di, \stdClass $std) {
-            $std->count++;
+            $std->counter++;
         });  
 
         $di->rebind('someService', function (Di $di, \stdClass $std) {
