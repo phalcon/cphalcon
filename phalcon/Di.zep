@@ -528,6 +528,11 @@ class Di implements DiInterface
         let sharedInstances = this->sharedInstances;
         unset sharedInstances[name];
         let this->sharedInstances = sharedInstances;
+
+        var binders;
+        let binders = this->binders;
+        unset binders[name];
+        let this->binders = binders;
     }
 
     /**
