@@ -586,9 +586,23 @@ class Di implements DiInterface
     /**
      * Register a rebinder for a service.
      */
-    public function rebind(string! name, callable! callback)
+    public function rebind(string! name, callable! callback) -> callable
     {
         this->rebinders[name][] = callback;
+
+        return callback;
+    }
+
+    /**
+     * Get rebinders for a service.
+     */
+    public function getRebinders(string! name) -> array
+    {
+        if isset this->rebinders[name] {
+            return this->rebinders[name];
+        }
+
+        return [];
     }
 
     /**
