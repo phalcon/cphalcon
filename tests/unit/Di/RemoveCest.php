@@ -60,13 +60,13 @@ class RemoveCest
         $di->rebind('escaper', function () {});
 
         $I->assertTrue(
-            $di->has('escaper') && sizeof($di->getBinders('escaper')) > 0
+            $di->has('escaper') && sizeof($di->getRebinders('escaper')) > 0
         );
 
         $di->remove('escaper');
 
         $I->assertTrue(
-            ! $di->has('escaper') && sizeof($di->getBinders('escaper')) == 0
+            ! $di->has('escaper') && sizeof($di->getRebinders('escaper')) == 0
         );
     }
 }
