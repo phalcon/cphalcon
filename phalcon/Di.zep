@@ -84,6 +84,11 @@ class Di implements DiInterface
     protected static _default;
 
     /**
+     * Array of rebinders
+     */
+    protected rebinders;
+
+    /**
      * Phalcon\Di constructor
      */
     public function __construct()
@@ -196,6 +201,7 @@ class Di implements DiInterface
                 // The service is registered in the DI.
                 try {
                     let instance = service->resolve(parameters, this);
+                    this->applyRebinders(instance);
                 } catch ServiceResolutionException {
                     throw new Exception(
                         "Service '" . name . "' cannot be resolved"
@@ -222,6 +228,8 @@ class Di implements DiInterface
                 } else {
                     let instance = create_instance(name);
                 }
+
+                this->applyRebinders(instance);
             }
         }
 
@@ -573,5 +581,27 @@ class Di implements DiInterface
     public function setShared(string! name, var definition) -> <ServiceInterface>
     {
         return this->set(name, definition, true);
+    }
+
+    /**
+     * Register a rebinder for a service.
+     */
+    public function rebind(string! name, callable! callback)
+    {
+        this->rebinders[name][] = callback;
+    }
+
+    /**
+     * Apply rebinders to a instance
+     */
+    protected function applyRebinders(var instance) -> void
+    {
+        var rebinders, rebinder;
+
+        if fetch rebinders, this->rebinders[name] {
+            for rebinder in rebinders {
+                call_user_func_array(rebinder, [this, instance]);
+            }
+        }   
     }
 }
