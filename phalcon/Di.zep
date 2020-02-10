@@ -594,14 +594,18 @@ class Di implements DiInterface
     }
 
     /**
-     * Get rebinders for a service.
+     * Get all rebinders or only for a service.
      */
-    public function getRebinders(string! name) -> array
+    public function getRebinders(string! name = null) -> array
     {
-        if isset this->rebinders[name] {
-            return this->rebinders[name];
+        if typeof name == "string" {
+            if isset this->rebinders[name] {
+                return this->rebinders[name];
+            }
+        } elseif typeof this->rebinders == "array" {
+            return this->rebinders;
         }
-
+        
         return [];
     }
 
