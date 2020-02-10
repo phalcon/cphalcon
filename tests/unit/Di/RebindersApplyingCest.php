@@ -53,12 +53,21 @@ class RebindersApplyingCest
 
         $std = $di->get('someService');
 
-        $expectedCounter = 1;
+        $expectedCounter = 2;
         $actualCounter   = $std->counter;
 
         $I->assertSame($expectedCounter, $actualCounter);
 
-        $expectedLastRebind = true;
+        /*
+         * Check the integrity of the non shared service by define new rebind on the resolved shared service
+         */
+        $di->rebind('someService', function (Di $di, \stdClass $std) {
+            $std->lastRebind = false;
+        });
+
+        $std = $di->get('someService');
+
+        $expectedLastRebind = false;
         $actualLastRebind   = $std->lastRebind;
 
         $I->assertSame($expectedLastRebind, $actualLastRebind);
@@ -104,6 +113,15 @@ class RebindersApplyingCest
         $actualCounter   = $std->counter;
 
         $I->assertSame($expectedCounter, $actualCounter);
+
+        /*
+         * Check the integrity of the shared service by define new rebind on the resolved shared service
+         */
+        $di->rebind('someService', function (Di $di, \stdClass $std) {
+            $std->lastRebind = true;
+        });
+
+        $std = $di->get('someService');
 
         $expectedLastRebind = false;
         $actualLastRebind   = $std->lastRebind;
