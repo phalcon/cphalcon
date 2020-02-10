@@ -51,7 +51,7 @@ class RebindersApplyingCest
             $std->lastRebind = true;
         });
 
-        $std = $di->get('std');
+        $std = $di->get('someService');
 
         $expectedCounter = 1;
         $actualCounter   = $std->counter;
@@ -95,8 +95,8 @@ class RebindersApplyingCest
             $std->lastRebind = false;
         });
 
-        $stdViaGet = $std = $di->get('std');
-        $stdViaGetShared  = $di->getShared('std');
+        $stdViaGet = $std = $di->get('someService');
+        $stdViaGetShared  = $di->getShared('someService');
 
         $I->assertSame($stdViaGet, $stdViaGetShared);
 
