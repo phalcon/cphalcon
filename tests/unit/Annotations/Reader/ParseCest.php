@@ -58,8 +58,8 @@ class ParseCest
 
         $file = dataDir($filename);
 
-        //Replace windows dir separator.
-        $file = str_replace("\\", "/", $file);
+        //directory based on DIRECTORY_SEPARATOR
+        $file = str_replace("\\", DIRECTORY_SEPARATOR, $file);
 
         $I->expectThrowable(
             new Exception('Syntax error, unexpected EOF in ' . $file),
