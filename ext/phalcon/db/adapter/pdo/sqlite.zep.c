@@ -159,14 +159,13 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns) {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_33 = NULL, *_40 = NULL, *_41 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *table_param = NULL, *schema_param = NULL, __$true, __$false, columns, columnType, fields, field, definition, oldColumn, sizePattern, matches, matchOne, matchTwo, columnName, _0, _1, _2, *_3, _4, _28$$3, _29$$3, _30$$3, _31$$3, _32$$3, _35$$3, _6$$4, _7$$4, _8$$5, _9$$5, _10$$5, _11$$7, _12$$7, _13$$8, _14$$9, _15$$10, _16$$11, _17$$11, _18$$12, _19$$12, _20$$13, _21$$14, _22$$15, _23$$16, _24$$17, _25$$18, _26$$20, _27$$21, _36$$27, _37$$27, _38$$27, _39$$27, _42$$28, _66$$28, _67$$28, _68$$28, _69$$28, _70$$28, _72$$28, _44$$29, _45$$29, _46$$30, _47$$30, _48$$30, _49$$32, _50$$32, _51$$33, _52$$34, _53$$35, _54$$36, _55$$36, _56$$37, _57$$37, _58$$38, _59$$39, _60$$40, _61$$41, _62$$42, _63$$43, _64$$45, _65$$46, _73$$52, _74$$52, _75$$52, _76$$52;
+	zval *table_param = NULL, *schema_param = NULL, __$true, columns, columnType, fields, field, definition, oldColumn, sizePattern, matches, matchOne, matchTwo, columnName, _0, _1, _2, *_3, _4, _28$$3, _29$$3, _30$$3, _31$$3, _32$$3, _35$$3, _6$$4, _7$$4, _8$$5, _9$$5, _10$$5, _11$$7, _12$$7, _13$$8, _14$$9, _15$$10, _16$$11, _17$$11, _18$$12, _19$$12, _20$$13, _21$$14, _22$$15, _23$$16, _24$$17, _25$$18, _26$$20, _27$$21, _36$$27, _37$$27, _38$$27, _39$$27, _42$$28, _66$$28, _67$$28, _68$$28, _69$$28, _70$$28, _72$$28, _44$$29, _45$$29, _46$$30, _47$$30, _48$$30, _49$$32, _50$$32, _51$$33, _52$$34, _53$$35, _54$$36, _55$$36, _56$$37, _57$$37, _58$$38, _59$$39, _60$$40, _61$$41, _62$$42, _63$$43, _64$$45, _65$$46, _73$$52, _74$$52, _75$$52, _76$$52;
 	zval table, schema;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&table);
 	ZVAL_UNDEF(&schema);
 	ZVAL_BOOL(&__$true, 1);
-	ZVAL_BOOL(&__$false, 0);
 	ZVAL_UNDEF(&columns);
 	ZVAL_UNDEF(&columnType);
 	ZVAL_UNDEF(&fields);
@@ -416,8 +415,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns) {
 				zephir_array_update_string(&definition, SL("primary"), &__$true, PH_COPY | PH_SEPARATE);
 			}
 			zephir_array_fetch_long(&_29$$3, &field, 3, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 288);
-			if (ZEPHIR_IS_LONG(&_29$$3, 0)) {
-				zephir_array_update_string(&definition, SL("notNull"), &__$false, PH_COPY | PH_SEPARATE);
+			if (zephir_is_true(&_29$$3)) {
+				zephir_array_update_string(&definition, SL("notNull"), &__$true, PH_COPY | PH_SEPARATE);
 			}
 			zephir_array_fetch_long(&_30$$3, &field, 4, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 296);
 			ZEPHIR_INIT_NVAR(&_31$$3);
@@ -579,8 +578,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Sqlite, describeColumns) {
 					zephir_array_update_string(&definition, SL("primary"), &__$true, PH_COPY | PH_SEPARATE);
 				}
 				zephir_array_fetch_long(&_67$$28, &field, 3, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 288);
-				if (ZEPHIR_IS_LONG(&_67$$28, 0)) {
-					zephir_array_update_string(&definition, SL("notNull"), &__$false, PH_COPY | PH_SEPARATE);
+				if (zephir_is_true(&_67$$28)) {
+					zephir_array_update_string(&definition, SL("notNull"), &__$true, PH_COPY | PH_SEPARATE);
 				}
 				zephir_array_fetch_long(&_68$$28, &field, 4, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Sqlite.zep", 296);
 				ZEPHIR_INIT_NVAR(&_69$$28);

@@ -147,14 +147,13 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns) {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_53 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *table_param = NULL, *schema_param = NULL, __$true, __$false, columns, columnType, fields, field, oldColumn, sizePattern, matches, matchOne, matchTwo, columnName, _0, _1, _2, *_3, _4, _47$$3, _48$$3, _49$$3, _50$$3, _52$$3, _6$$4, _7$$4, _8$$5, _9$$5, _10$$6, _11$$6, _12$$7, _13$$7, _14$$8, _15$$8, _16$$9, _17$$9, _18$$10, _19$$11, _20$$12, _21$$13, _22$$14, _23$$14, _24$$15, _25$$15, _26$$16, _27$$17, _28$$18, _29$$19, _30$$20, _31$$21, _32$$22, _33$$23, _34$$24, _35$$25, _36$$26, _37$$27, _38$$28, _39$$29, _40$$30, _41$$30, _42$$31, _43$$31, _44$$31, _45$$33, _46$$34, _51$$41, _54$$42, _97$$42, _98$$42, _99$$42, _100$$42, _102$$42, _56$$43, _57$$43, _58$$44, _59$$44, _60$$45, _61$$45, _62$$46, _63$$46, _64$$47, _65$$47, _66$$48, _67$$48, _68$$49, _69$$50, _70$$51, _71$$52, _72$$53, _73$$53, _74$$54, _75$$54, _76$$55, _77$$56, _78$$57, _79$$58, _80$$59, _81$$60, _82$$61, _83$$62, _84$$63, _85$$64, _86$$65, _87$$66, _88$$67, _89$$68, _90$$69, _91$$69, _92$$70, _93$$70, _94$$70, _95$$72, _96$$73, _101$$80;
+	zval *table_param = NULL, *schema_param = NULL, __$true, columns, columnType, fields, field, oldColumn, sizePattern, matches, matchOne, matchTwo, columnName, _0, _1, _2, *_3, _4, _47$$3, _48$$3, _49$$3, _50$$3, _52$$3, _6$$4, _7$$4, _8$$5, _9$$5, _10$$6, _11$$6, _12$$7, _13$$7, _14$$8, _15$$8, _16$$9, _17$$9, _18$$10, _19$$11, _20$$12, _21$$13, _22$$14, _23$$14, _24$$15, _25$$15, _26$$16, _27$$17, _28$$18, _29$$19, _30$$20, _31$$21, _32$$22, _33$$23, _34$$24, _35$$25, _36$$26, _37$$27, _38$$28, _39$$29, _40$$30, _41$$30, _42$$31, _43$$31, _44$$31, _45$$33, _46$$34, _51$$41, _54$$42, _97$$42, _98$$42, _99$$42, _100$$42, _102$$42, _56$$43, _57$$43, _58$$44, _59$$44, _60$$45, _61$$45, _62$$46, _63$$46, _64$$47, _65$$47, _66$$48, _67$$48, _68$$49, _69$$50, _70$$51, _71$$52, _72$$53, _73$$53, _74$$54, _75$$54, _76$$55, _77$$56, _78$$57, _79$$58, _80$$59, _81$$60, _82$$61, _83$$62, _84$$63, _85$$64, _86$$65, _87$$66, _88$$67, _89$$68, _90$$69, _91$$69, _92$$70, _93$$70, _94$$70, _95$$72, _96$$73, _101$$80;
 	zval table, schema;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&table);
 	ZVAL_UNDEF(&schema);
 	ZVAL_BOOL(&__$true, 1);
-	ZVAL_BOOL(&__$false, 0);
 	ZVAL_UNDEF(&columns);
 	ZVAL_UNDEF(&columnType);
 	ZVAL_UNDEF(&fields);
@@ -531,8 +530,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns) {
 				zephir_array_update_string(&definition, SL("primary"), &__$true, PH_COPY | PH_SEPARATE);
 			}
 			zephir_array_fetch_long(&_48$$3, &field, 2, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Mysql.zep", 411);
-			if (ZEPHIR_IS_STRING(&_48$$3, "YES")) {
-				zephir_array_update_string(&definition, SL("notNull"), &__$false, PH_COPY | PH_SEPARATE);
+			if (ZEPHIR_IS_STRING(&_48$$3, "NO")) {
+				zephir_array_update_string(&definition, SL("notNull"), &__$true, PH_COPY | PH_SEPARATE);
 			}
 			zephir_array_fetch_long(&_49$$3, &field, 5, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Mysql.zep", 418);
 			if (ZEPHIR_IS_STRING(&_49$$3, "auto_increment")) {
@@ -798,8 +797,8 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns) {
 					zephir_array_update_string(&definition, SL("primary"), &__$true, PH_COPY | PH_SEPARATE);
 				}
 				zephir_array_fetch_long(&_98$$42, &field, 2, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Mysql.zep", 411);
-				if (ZEPHIR_IS_STRING(&_98$$42, "YES")) {
-					zephir_array_update_string(&definition, SL("notNull"), &__$false, PH_COPY | PH_SEPARATE);
+				if (ZEPHIR_IS_STRING(&_98$$42, "NO")) {
+					zephir_array_update_string(&definition, SL("notNull"), &__$true, PH_COPY | PH_SEPARATE);
 				}
 				zephir_array_fetch_long(&_99$$42, &field, 5, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Mysql.zep", 418);
 				if (ZEPHIR_IS_STRING(&_99$$42, "auto_increment")) {
