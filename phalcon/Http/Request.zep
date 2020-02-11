@@ -475,9 +475,11 @@ class Request extends AbstractInjectionAware implements RequestInterface
             if unlikely ("" !== preg_replace("/[a-z0-9-]+\.?/", "", cleanHost)) {
                 throw new UnexpectedValueException("Invalid host " . host);
             }
+        } else {
+            let cleanHost = host;
         }
 
-        return (string) host;
+        return (string) cleanHost;
     }
 
     /**
