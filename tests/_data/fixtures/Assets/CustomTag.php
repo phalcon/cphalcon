@@ -18,7 +18,7 @@ class CustomTag extends \Phalcon\Tag
     public static function stylesheetLink($parameters = null, bool $local = true): string
     {
         return sprintf(
-            "<link href=\"%s\">\n",
+            "<link href=\"%s\">" . PHP_EOL,
             $parameters[0]
         );
     }
@@ -26,7 +26,7 @@ class CustomTag extends \Phalcon\Tag
     public static function javascriptInclude($parameters = null, bool $local = true): string
     {
         return sprintf(
-            "<script src=\"%s\" type=\"application/javascript\"></script>\n",
+            "<script src=\"%s\" type=\"application/javascript\"></script>" . PHP_EOL,
             $parameters[0]
         );
     }
