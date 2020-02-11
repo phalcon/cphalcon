@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Di;
 
 use Phalcon\Di;
+use Phalcon\Di\Exception;
 use Phalcon\Di\Service;
 use Phalcon\Escaper;
 use UnitTester;
@@ -41,5 +42,22 @@ class RebindCest
         $actual = $di->rebind('request', $expected);
 
         $I->assertSame($expected, $actual);
+    }
+
+    /**
+     * Unit Tests Phalcon\Di :: rebind()
+     *
+     * @author Timur Flush <https://github.com/TimurFlush>
+     * @since  2020-02-11
+     */
+    public function diRebindThrowException(UnitTester $I)
+    {
+        $I->wantToTest('Di - rebind() with exception throwing');
+
+        $di = new Di();
+
+        $di->rebind('nonExistingService', function () {})
+
+        $I->expectException(new Exception("Service 'nonExistingService' wasn't found in the dependency injection container"));
     }
 }
