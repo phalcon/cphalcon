@@ -33,7 +33,7 @@ class IsStrictHostCheckCest extends HttpBase
         $this->setServerVar('SERVER_NAME', 'LOCALHOST:80');
 
         $I->assertEquals(
-            'LOCALHOST:80',
+            'localhost',
             $request->getHttpHost()
         );
 

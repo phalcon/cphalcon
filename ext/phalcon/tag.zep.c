@@ -554,7 +554,7 @@ PHP_METHOD(Phalcon_Tag, friendlyTitle) {
 	ZEPHIR_CALL_FUNCTION(&_1, "extension_loaded", NULL, 175, &_0);
 	zephir_check_call_status();
 	if (zephir_is_true(&_1)) {
-		ZVAL_LONG(&_2$$3, 6);
+		ZVAL_LONG(&_2$$3, 0);
 		ZEPHIR_INIT_VAR(&_3$$3);
 		ZVAL_STRING(&_3$$3, "en_US.UTF-8");
 		ZEPHIR_CALL_FUNCTION(&locale, "setlocale", NULL, 0, &_2$$3, &_3$$3);
@@ -642,7 +642,7 @@ PHP_METHOD(Phalcon_Tag, friendlyTitle) {
 	ZEPHIR_CALL_FUNCTION(&_17, "extension_loaded", NULL, 175, &_0);
 	zephir_check_call_status();
 	if (zephir_is_true(&_17)) {
-		ZVAL_LONG(&_18$$11, 6);
+		ZVAL_LONG(&_18$$11, 0);
 		ZEPHIR_CALL_FUNCTION(NULL, "setlocale", NULL, 0, &_18$$11, &locale);
 		zephir_check_call_status();
 	}
