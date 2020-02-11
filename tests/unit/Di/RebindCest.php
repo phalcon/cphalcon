@@ -56,8 +56,11 @@ class RebindCest
 
         $di = new Di();
 
-        $I->expectException(new Exception("Service 'nonExistingService' wasn't found in the dependency injection container"));
-
-        $di->rebind('nonExistingService', function () {});
+        $I->expectException(
+            new Exception("Service 'nonExistingService' wasn't found in the dependency injection container"),
+            function () use ($di) {
+                $di->rebind('nonExistingService', function () {});
+            }
+        );
     }
 }
