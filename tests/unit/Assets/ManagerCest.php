@@ -133,7 +133,7 @@ class ManagerCest
 
 
         $expectedJS = sprintf(
-            "%s\n%s\n",
+            "%s".PHP_EOL."%s".PHP_EOL,
             '<script src="http:://cdn.example.com/js/script1.js"></script>',
             '<script src="http:://cdn.example.com/js/script2.js"></script>'
         );
