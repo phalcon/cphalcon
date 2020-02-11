@@ -25,7 +25,7 @@ jobs:
         with:
           php-version: '7.4'
           extensions: mbstring, intl, json, psr
-          tools: pecl
+          tools: pecl, prestissimo
 
       - name: Common settings
         run: |
@@ -191,7 +191,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-versions }}
           ini-values: apc.enable_cli=on, session.save_path=/tmp
-          tools: pecl
+          tools: pecl, prestissimo
           extensions: mbstring, intl, json, imagick
 
       - name: Download phalcon pecl package
@@ -384,7 +384,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-versions }}
           ini-values: apc.enable_cli=on, session.save_path=C:\temp
-          tools: pecl
+          tools: pecl, prestissimo
           extensions: mbstring, intl, json, yaml, apcu, psr, imagick, gd, redis, igbinary, msgpack-beta, sqlite3
         env:
           PHPTS: ${{ matrix.ts }}
