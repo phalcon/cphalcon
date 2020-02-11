@@ -79,7 +79,7 @@ class SetAutoVersionCest
         );
 
         $expected = sprintf(
-            "%s".PHP_EOL."%s".PHP_EOL."%s".PHP_EOL,
+            "%s" . PHP_EOL . "%s" . PHP_EOL . "%s" . PHP_EOL,
             "<script src=\"{$pathData}assets/assets-version-1.js?ver=1.0.0\"></script>",
             "<script src=\"{$pathData}assets/assets-version-2.js?ver=$modificationTime\"></script>",
             "<script src=\"{$pathData}assets/assets-version-3.js\"></script>"
