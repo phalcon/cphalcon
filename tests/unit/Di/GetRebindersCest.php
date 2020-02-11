@@ -111,11 +111,11 @@ class GetRebindersCest
         $di->rebind('request', function () {});
         $di->rebind('response', function () {});
 
-        $rebinders = $di->getRebinders();
 
+        $expected  = [];
+        $actual    = $di->getRebinders('nonExisingService');
 
-        $I->assertTrue(
-            is_array($rebinders) && empty($rebinders)
-        );
+        $I->assertTrue(is_array($actual));
+        $I->assertSame($expected, $actual);
     }
 }
