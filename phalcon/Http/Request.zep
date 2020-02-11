@@ -433,7 +433,7 @@ class Request extends AbstractInjectionAware implements RequestInterface
      */
     public function getHttpHost() -> string
     {
-        var host, strict;
+        var host, strict, cleanHost;
 
         let strict = this->strictHostCheck;
 
@@ -459,12 +459,12 @@ class Request extends AbstractInjectionAware implements RequestInterface
             /**
              * Cleanup. Force lowercase as per RFC 952/2181
              */
-            let host = strtolower(
+            let cleanHost = strtolower(
                 trim(host)
             );
 
-            if memstr(host, ":") {
-                let host = preg_replace("/:[[:digit:]]+$/", "", host);
+            if memstr(cleanHost, ":") {
+                let cleanHost = preg_replace("/:[[:digit:]]+$/", "", cleanHost);
             }
 
             /**
@@ -472,7 +472,7 @@ class Request extends AbstractInjectionAware implements RequestInterface
              * (in a case-insensitive manner), the digits '0' through '9', and
              * the hyphen ('-') as per RFC 952/2181
              */
-            if unlikely ("" !== preg_replace("/[a-z0-9-]+\.?/", "", host)) {
+            if unlikely ("" !== preg_replace("/[a-z0-9-]+\.?/", "", cleanHost)) {
                 throw new UnexpectedValueException("Invalid host " . host);
             }
         }
