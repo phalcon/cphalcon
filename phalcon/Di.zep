@@ -595,7 +595,7 @@ class Di implements DiInterface
     {
         var rebinders;
 
-        if !isset this->services[name] {
+        if unlikely !isset this->services[name] {
             throw new Exception(
                 "Service '" . name . "' wasn't found in the dependency injection container"
             );
@@ -619,7 +619,7 @@ class Di implements DiInterface
     {
         var ret;
 
-        if typeof name == "string" {
+        if !empty name {
             if !fetch ret, this->rebinders[name] {
                 let ret = [];
             }
