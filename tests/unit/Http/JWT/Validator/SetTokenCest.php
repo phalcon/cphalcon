@@ -11,9 +11,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\JWT\Validator;
 
-use Phalcon\Http\JWT\Exceptions\ValidatorException;
-use Phalcon\Http\JWT\Signer\Hmac;
-use Phalcon\Http\JWT\Validator;
+use Phalcon\Security\JWT\Exceptions\ValidatorException;
+use Phalcon\Security\JWT\Signer\Hmac;
+use Phalcon\Security\JWT\Validator;
 use Phalcon\Test\Fixtures\Traits\JWTTrait;
 use UnitTester;
 
@@ -22,7 +22,7 @@ class SetTokenCest
     use JWTTrait;
 
     /**
-     * Unit Tests Phalcon\Http\JWT\Validator :: setToken()
+     * Unit Tests Phalcon\Security\JWT\Validator :: setToken()
      *
      * @since  2019-12-22
      */

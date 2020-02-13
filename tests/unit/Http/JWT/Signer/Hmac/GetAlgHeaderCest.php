@@ -11,13 +11,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\JWT\Signer\Hmac;
 
-use Phalcon\Http\JWT\Signer\Hmac;
+use Phalcon\Security\JWT\Signer\Hmac;
 use UnitTester;
 
 class GetAlgHeaderCest
 {
     /**
-     * Unit Tests Phalcon\Http\JWT\Signer\Hmac :: getAlgHeader()
+     * Unit Tests Phalcon\Security\JWT\Signer\Hmac :: getAlgHeader()
      *
      * @since  2019-12-19
      */

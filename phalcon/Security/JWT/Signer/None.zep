@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Http\JWT\Signer;
+namespace Phalcon\Security\JWT\Signer;
 
 /**
  * Class None

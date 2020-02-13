@@ -11,14 +11,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\JWT\Builder;
 
-use Phalcon\Http\JWT\Builder;
-use Phalcon\Http\JWT\Signer\Hmac;
+use Phalcon\Security\JWT\Builder;
+use Phalcon\Security\JWT\Signer\Hmac;
 use UnitTester;
 
 class GetClaimsCest
 {
     /**
-     * Unit Tests Phalcon\Http\JWT\Builder :: getClaims()
+     * Unit Tests Phalcon\Security\JWT\Builder :: getClaims()
      *
      * @since  2019-12-22
      */
