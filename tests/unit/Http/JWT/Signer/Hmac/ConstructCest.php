@@ -11,14 +11,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\JWT\Signer\Hmac;
 
-use Phalcon\Http\JWT\Exceptions\UnsupportedAlgorithmException;
-use Phalcon\Http\JWT\Signer\Hmac;
+use Phalcon\Security\JWT\Exceptions\UnsupportedAlgorithmException;
+use Phalcon\Security\JWT\Signer\Hmac;
 use UnitTester;
 
 class ConstructCest
 {
     /**
-     * Unit Tests Phalcon\Http\JWT\Signer\Hmac :: __construct()
+     * Unit Tests Phalcon\Security\JWT\Signer\Hmac :: __construct()
      *
      * @since  2019-12-15
      */
@@ -31,7 +31,7 @@ class ConstructCest
     }
 
     /**
-     * Unit Tests Phalcon\Http\JWT\Signer\Hmac :: __construct() - exception
+     * Unit Tests Phalcon\Security\JWT\Signer\Hmac :: __construct() - exception
      *
      * @since  2019-12-15
      */

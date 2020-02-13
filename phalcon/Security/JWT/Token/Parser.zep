@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Http\JWT\Token;
+namespace Phalcon\Security\JWT\Token;
 
 use InvalidArgumentException;
 use Phalcon\Helper\Arr;

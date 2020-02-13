@@ -11,13 +11,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\JWT\Token\Item;
 
-use Phalcon\Http\JWT\Token\Item;
+use Phalcon\Security\JWT\Token\Item;
 use UnitTester;
 
 class HasCest
 {
     /**
-     * Unit Tests Phalcon\Http\JWT\Token\Item :: has()
+     * Unit Tests Phalcon\Security\JWT\Token\Item :: has()
      *
      * @since  2019-12-22
      */

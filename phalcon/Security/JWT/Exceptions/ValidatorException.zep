@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Http\JWT\Exceptions;
+namespace Phalcon\Security\JWT\Exceptions;
 
 use Exception;
 use Throwable;

@@ -11,10 +11,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\JWT\Builder;
 
-use Phalcon\Http\JWT\Builder;
-use Phalcon\Http\JWT\Exceptions\ValidatorException;
-use Phalcon\Http\JWT\Signer\Hmac;
-use Phalcon\Http\JWT\Token\Token;
+use Phalcon\Security\JWT\Builder;
+use Phalcon\Security\JWT\Exceptions\ValidatorException;
+use Phalcon\Security\JWT\Signer\Hmac;
+use Phalcon\Security\JWT\Token\Token;
 use Phalcon\Test\Fixtures\Traits\JWTTrait;
 use UnitTester;
 
@@ -23,7 +23,7 @@ class GetTokenCest
     use JWTTrait;
 
     /**
-     * Unit Tests Phalcon\Http\JWT\Builder :: getToken()
+     * Unit Tests Phalcon\Security\JWT\Builder :: getToken()
      *
      * @since  2019-12-19
      */
@@ -40,7 +40,7 @@ class GetTokenCest
     }
 
     /**
-     * Unit Tests Phalcon\Http\JWT\Builder :: getToken() - exception
+     * Unit Tests Phalcon\Security\JWT\Builder :: getToken() - exception
      *
      * @since  2019-12-19
      */

@@ -11,8 +11,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\JWT\Validator;
 
-use Phalcon\Http\JWT\Exceptions\ValidatorException;
-use Phalcon\Http\JWT\Validator;
+use Phalcon\Security\JWT\Exceptions\ValidatorException;
+use Phalcon\Security\JWT\Validator;
 use Phalcon\Test\Fixtures\Traits\JWTTrait;
 use UnitTester;
 
@@ -21,7 +21,7 @@ class ValidateExpirationCest
     use JWTTrait;
 
     /**
-     * Unit Tests Phalcon\Http\JWT\Validator :: validateExpiration()
+     * Unit Tests Phalcon\Security\JWT\Validator :: validateExpiration()
      *
      * @since  2019-12-22
      */
