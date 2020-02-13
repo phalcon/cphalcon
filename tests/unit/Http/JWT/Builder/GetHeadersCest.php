@@ -11,14 +11,14 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\JWT\Builder;
 
-use Phalcon\Http\JWT\Builder;
-use Phalcon\Http\JWT\Signer\Hmac;
+use Phalcon\Security\JWT\Builder;
+use Phalcon\Security\JWT\Signer\Hmac;
 use UnitTester;
 
 class GetHeadersCest
 {
     /**
-     * Unit Tests Phalcon\Http\JWT\Builder :: getHeaders()
+     * Unit Tests Phalcon\Security\JWT\Builder :: getHeaders()
      *
      * @since  2019-12-19
      */

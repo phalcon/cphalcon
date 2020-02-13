@@ -11,10 +11,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\JWT\Token\Parser;
 
-use Phalcon\Http\JWT\Signer\None;
-use Phalcon\Http\JWT\Token\Item;
-use Phalcon\Http\JWT\Token\Parser;
-use Phalcon\Http\JWT\Token\Signature;
+use Phalcon\Security\JWT\Signer\None;
+use Phalcon\Security\JWT\Token\Item;
+use Phalcon\Security\JWT\Token\Parser;
+use Phalcon\Security\JWT\Token\Signature;
 use Phalcon\Test\Fixtures\Traits\JWTTrait;
 use UnitTester;
 
@@ -23,7 +23,7 @@ class ParseCest
     use JWTTrait;
 
     /**
-     * Unit Tests Phalcon\Http\JWT\Token\Parser :: parse()
+     * Unit Tests Phalcon\Security\JWT\Token\Parser :: parse()
      *
      * @since  2019-12-22
      */
@@ -66,7 +66,7 @@ class ParseCest
     }
 
     /**
-     * Unit Tests Phalcon\Http\JWT\Token\Parser :: parse() - no signature
+     * Unit Tests Phalcon\Security\JWT\Token\Parser :: parse() - no signature
      *
      * @since  2019-12-22
      */
@@ -111,7 +111,7 @@ class ParseCest
     }
 
     /**
-     * Unit Tests Phalcon\Http\JWT\Token\Parser :: parse() - aud not an array
+     * Unit Tests Phalcon\Security\JWT\Token\Parser :: parse() - aud not an array
      *
      * @since  2019-12-22
      */
@@ -161,7 +161,7 @@ class ParseCest
     }
 
     /**
-     * Unit Tests Phalcon\Http\JWT\Token\Parser :: parse() - exception claims
+     * Unit Tests Phalcon\Security\JWT\Token\Parser :: parse() - exception claims
      * not array
      *
      * @since  2019-12-22
@@ -187,7 +187,7 @@ class ParseCest
     }
 
     /**
-     * Unit Tests Phalcon\Http\JWT\Token\Parser :: parse() - exception headers
+     * Unit Tests Phalcon\Security\JWT\Token\Parser :: parse() - exception headers
      * not array
      *
      * @since  2019-12-22
@@ -216,7 +216,7 @@ class ParseCest
     }
 
     /**
-     * Unit Tests Phalcon\Http\JWT\Token\Parser :: parse() - exception no typ
+     * Unit Tests Phalcon\Security\JWT\Token\Parser :: parse() - exception no typ
      *
      * @since  2019-12-22
      */
@@ -245,7 +245,7 @@ class ParseCest
     }
 
     /**
-     * Unit Tests Phalcon\Http\JWT\Token\Parser :: parse() - exception wrong JWT
+     * Unit Tests Phalcon\Security\JWT\Token\Parser :: parse() - exception wrong JWT
      *
      * @since  2019-12-22
      */

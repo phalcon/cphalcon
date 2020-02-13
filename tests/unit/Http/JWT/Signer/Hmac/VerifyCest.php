@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\JWT\Signer\Hmac;
 
-use Phalcon\Http\JWT\Signer\Hmac;
+use Phalcon\Security\JWT\Signer\Hmac;
 use UnitTester;
 
 use function hash_hmac;
@@ -19,7 +19,7 @@ use function hash_hmac;
 class VerifyCest
 {
     /**
-     * Unit Tests Phalcon\Http\JWT\Signer\Hmac :: verify()
+     * Unit Tests Phalcon\Security\JWT\Signer\Hmac :: verify()
      *
      * @since  2019-12-15
      */

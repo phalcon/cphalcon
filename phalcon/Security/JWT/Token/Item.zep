@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Http\JWT\Token;
+namespace Phalcon\Security\JWT\Token;
 
 /**
  * Class Item

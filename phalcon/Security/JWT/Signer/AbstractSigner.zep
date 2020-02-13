@@ -9,12 +9,17 @@
  */
 
 
-namespace Phalcon\Http\JWT\Exceptions;
+namespace Phalcon\Security\JWT\Signer;
 
-use Exception;
-use Throwable;
-
-class UnsupportedAlgorithmException extends Exception implements Throwable
+/**
+ * Class AbstractSigner
+ *
+ * @property string $algo
+ */
+abstract class AbstractSigner implements SignerInterface
 {
-
+    /**
+     * @var string
+     */
+    protected algorithm { get };
 }

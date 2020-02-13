@@ -8,17 +8,17 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Http\JWT;
+namespace Phalcon\Security\JWT;
 
 use Phalcon\Collection;
 use Phalcon\Helper\Base64;
 use Phalcon\Helper\Json;
-use Phalcon\Http\JWT\Exceptions\ValidatorException;
-use Phalcon\Http\JWT\Signer\SignerInterface;
-use Phalcon\Http\JWT\Token\Enum;
-use Phalcon\Http\JWT\Token\Item;
-use Phalcon\Http\JWT\Token\Signature;
-use Phalcon\Http\JWT\Token\Token;
+use Phalcon\Security\JWT\Exceptions\ValidatorException;
+use Phalcon\Security\JWT\Signer\SignerInterface;
+use Phalcon\Security\JWT\Token\Enum;
+use Phalcon\Security\JWT\Token\Item;
+use Phalcon\Security\JWT\Token\Signature;
+use Phalcon\Security\JWT\Token\Token;
 
 /**
  * Class Builder

@@ -8,12 +8,12 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Http\JWT;
+namespace Phalcon\Security\JWT;
 
-use Phalcon\Http\JWT\Exceptions\ValidatorException;
-use Phalcon\Http\JWT\Signer\SignerInterface;
-use Phalcon\Http\JWT\Token\Enum;
-use Phalcon\Http\JWT\Token\Token;
+use Phalcon\Security\JWT\Exceptions\ValidatorException;
+use Phalcon\Security\JWT\Signer\SignerInterface;
+use Phalcon\Security\JWT\Token\Enum;
+use Phalcon\Security\JWT\Token\Token;
 
 /**
  * Class Validator
