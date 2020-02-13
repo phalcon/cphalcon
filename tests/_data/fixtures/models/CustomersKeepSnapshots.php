@@ -16,14 +16,14 @@ namespace Phalcon\Test\Models;
 use Phalcon\Mvc\Model;
 
 /**
- * Class Customers
+ * Class CustomersKeepSnapshots
  *
  * @property int    $cst_id;
  * @property int    $cst_status_flag;
  * @property string $cst_name_last;
  * @property string $cst_name_first;
  */
-class Customers extends Model
+class CustomersKeepSnapshots extends Model
 {
     public $cst_id;
     public $cst_status_flag;
@@ -32,11 +32,12 @@ class Customers extends Model
 
     public function initialize()
     {
+        $this->keepSnapshots(true);
         $this->setSource('co_customers');
 
-        $this->hasMany(
+        $this->belongsTo(
             'cst_id',
-            Invoices::class,
+            __NAMESPACE__ . 'InvoicesKeepSnapshots',
             'inv_cst_id',
             [
                 'alias'    => 'invoices',

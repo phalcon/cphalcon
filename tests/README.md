@@ -10,7 +10,7 @@ cp tests/ci/.env.default .env
 cd tests 
 docker-compose up -d
 cd ..
-php tests/_ci/generage-db-schemas.php
+php tests/_ci/generate-db-schemas.php
 codecept build
 codecept run unit
 codecept run cli
