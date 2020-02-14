@@ -42,7 +42,7 @@ jobs:
       - name: Set environment variables
         run: |
           echo "::set-env name=ZEPHIR_PARSER_VERSION::v1.3.3"
-          echo "::set-env name=ZEPHIR_VERSION::0.12.16"
+          echo "::set-env name=ZEPHIR_VERSION::0.12.17"
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v1
