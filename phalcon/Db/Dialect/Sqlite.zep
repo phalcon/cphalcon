@@ -52,6 +52,8 @@ class Sqlite extends Dialect
 
         if column->isNotNull() {
             let sql .= " NOT NULL";
+        } else {
+            let sql .= " NULL";
         }
 
         if column->isAutoincrement() {
@@ -182,6 +184,8 @@ class Sqlite extends Dialect
              */
             if column->isNotNull() {
                 let columnLine .= " NOT NULL";
+            } else {
+                let columnLine .= " NULL";
             }
 
             let createLines[] = columnLine;

@@ -408,8 +408,8 @@ class Mysql extends PdoAdapter
             /**
              * Check if the column allows null values
              */
-            if field[2] == "NO" {
-                let definition["notNull"] = true;
+            if field[2] == "YES" {
+                let definition["notNull"] = false;
             }
 
             /**

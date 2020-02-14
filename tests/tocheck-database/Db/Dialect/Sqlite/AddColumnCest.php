@@ -56,22 +56,22 @@ class AddColumnCest
             [
                 '',
                 'column1',
-                'ALTER TABLE "table" ADD COLUMN "column1" VARCHAR(10)',
+                'ALTER TABLE "table" ADD COLUMN "column1" VARCHAR(10) NOT NULL',
             ],
             [
                 'schema',
                 'column1',
-                'ALTER TABLE "schema"."table" ADD COLUMN "column1" VARCHAR(10)',
+                'ALTER TABLE "schema"."table" ADD COLUMN "column1" VARCHAR(10) NOT NULL',
             ],
             [
                 '',
                 'column2',
-                'ALTER TABLE "table" ADD COLUMN "column2" INTEGER',
+                'ALTER TABLE "table" ADD COLUMN "column2" INTEGER NULL',
             ],
             [
                 'schema',
                 'column2',
-                'ALTER TABLE "schema"."table" ADD COLUMN "column2" INTEGER',
+                'ALTER TABLE "schema"."table" ADD COLUMN "column2" INTEGER NULL',
             ],
             [
                 '',
@@ -136,22 +136,22 @@ class AddColumnCest
             [
                 '',
                 'column9',
-                'ALTER TABLE "table" ADD COLUMN "column9" VARCHAR(10) DEFAULT "column9"',
+                'ALTER TABLE "table" ADD COLUMN "column9" VARCHAR(10) DEFAULT "column9" NOT NULL',
             ],
             [
                 'schema',
                 'column9',
-                'ALTER TABLE "schema"."table" ADD COLUMN "column9" VARCHAR(10) DEFAULT "column9"',
+                'ALTER TABLE "schema"."table" ADD COLUMN "column9" VARCHAR(10) DEFAULT "column9" NOT NULL',
             ],
             [
                 '',
                 'column10',
-                'ALTER TABLE "table" ADD COLUMN "column10" INTEGER DEFAULT "10"',
+                'ALTER TABLE "table" ADD COLUMN "column10" INTEGER DEFAULT "10" NULL',
             ],
             [
                 'schema',
                 'column10',
-                'ALTER TABLE "schema"."table" ADD COLUMN "column10" INTEGER DEFAULT "10"',
+                'ALTER TABLE "schema"."table" ADD COLUMN "column10" INTEGER DEFAULT "10" NULL',
             ],
             [
                 '',
@@ -206,32 +206,32 @@ class AddColumnCest
             [
                 '',
                 'column18',
-                'ALTER TABLE "table" ADD COLUMN "column18" TINYINT',
+                'ALTER TABLE "table" ADD COLUMN "column18" TINYINT NOT NULL',
             ],
             [
                 'schema',
                 'column18',
-                'ALTER TABLE "schema"."table" ADD COLUMN "column18" TINYINT',
+                'ALTER TABLE "schema"."table" ADD COLUMN "column18" TINYINT NOT NULL',
             ],
             [
                 '',
                 'column19',
-                'ALTER TABLE "table" ADD COLUMN "column19" DOUBLE',
+                'ALTER TABLE "table" ADD COLUMN "column19" DOUBLE NOT NULL',
             ],
             [
                 'schema',
                 'column19',
-                'ALTER TABLE "schema"."table" ADD COLUMN "column19" DOUBLE',
+                'ALTER TABLE "schema"."table" ADD COLUMN "column19" DOUBLE NOT NULL',
             ],
             [
                 '',
                 'column20',
-                'ALTER TABLE "table" ADD COLUMN "column20" DOUBLE UNSIGNED',
+                'ALTER TABLE "table" ADD COLUMN "column20" DOUBLE UNSIGNED NOT NULL',
             ],
             [
                 'schema',
                 'column20',
-                'ALTER TABLE "schema"."table" ADD COLUMN "column20" DOUBLE UNSIGNED',
+                'ALTER TABLE "schema"."table" ADD COLUMN "column20" DOUBLE UNSIGNED NOT NULL',
             ],
         ];
     }
