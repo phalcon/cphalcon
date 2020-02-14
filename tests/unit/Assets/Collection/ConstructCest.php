@@ -21,8 +21,8 @@ class ConstructCest
     /**
      * Tests Phalcon\Assets\Collection :: __construct()
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @author Naut de Jong <https://github.com/andejong>
+     * @since  2020-02-14
      */
     public function assetsCollectionConstruct(UnitTester $I)
     {
