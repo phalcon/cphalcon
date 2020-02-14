@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Collection;
 
+use Phalcon\Assets\Collection;
 use UnitTester;
 
 class ConstructCest
@@ -27,6 +28,11 @@ class ConstructCest
     {
         $I->wantToTest('Assets\Collection - __construct()');
 
-        $I->skipTest('Need implementation');
+        $collection = new Collection();
+
+        $I->assertInstanceOf(
+            Collection::class,
+            $collection
+        );
     }
 }
