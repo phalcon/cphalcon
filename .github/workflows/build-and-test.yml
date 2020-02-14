@@ -341,7 +341,6 @@ jobs:
           vendor/bin/codecept build
 
       - name: Run unit tests
-        continue-on-error: true #remove after bug fix #14763
         run: vendor/bin/codecept run --ext DotReporter unit
 
       - name: Run cli tests
@@ -527,7 +526,6 @@ jobs:
           vendor/bin/codecept build
 
       - name: Run unit tests
-        continue-on-error: true #remove after bug fix #14763
         run: vendor/bin/codecept run --ext DotReporter unit
 
       - name: Run cli tests
