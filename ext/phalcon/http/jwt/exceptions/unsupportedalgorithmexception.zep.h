@@ -1,5 +1,0 @@
-
-extern zend_class_entry *phalcon_http_jwt_exceptions_unsupportedalgorithmexception_ce;
-
-ZEPHIR_INIT_CLASS(Phalcon_Http_JWT_Exceptions_UnsupportedAlgorithmException);
-

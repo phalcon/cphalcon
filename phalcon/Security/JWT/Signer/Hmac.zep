@@ -8,9 +8,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Http\JWT\Signer;
+namespace Phalcon\Security\JWT\Signer;
 
-use Phalcon\Http\JWT\Exceptions\UnsupportedAlgorithmException;
+use Phalcon\Security\JWT\Exceptions\UnsupportedAlgorithmException;
 
 /**
  * Class Hmac

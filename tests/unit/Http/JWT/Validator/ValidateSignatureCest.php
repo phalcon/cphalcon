@@ -11,10 +11,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\JWT\Validator;
 
-use Phalcon\Http\JWT\Builder;
-use Phalcon\Http\JWT\Exceptions\ValidatorException;
-use Phalcon\Http\JWT\Signer\Hmac;
-use Phalcon\Http\JWT\Validator;
+use Phalcon\Security\JWT\Builder;
+use Phalcon\Security\JWT\Exceptions\ValidatorException;
+use Phalcon\Security\JWT\Signer\Hmac;
+use Phalcon\Security\JWT\Validator;
 use Phalcon\Test\Fixtures\Traits\JWTTrait;
 use UnitTester;
 
@@ -23,7 +23,7 @@ class ValidateSignatureCest
     use JWTTrait;
 
     /**
-     * Unit Tests Phalcon\Http\JWT\Validator :: validateSignature()
+     * Unit Tests Phalcon\Security\JWT\Validator :: validateSignature()
      *
      * @since  2019-12-22
      */
@@ -60,7 +60,7 @@ class ValidateSignatureCest
     }
 
     /**
-     * Unit Tests Phalcon\Http\JWT\Validator :: validateSignature() - exception
+     * Unit Tests Phalcon\Security\JWT\Validator :: validateSignature() - exception
      *
      * @since  2019-12-22
      */

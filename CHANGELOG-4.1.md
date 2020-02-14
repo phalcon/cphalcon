@@ -1,6 +1,6 @@
 # [4.1.0](https://github.com/phalcon/cphalcon/releases/tag/v4.1.0) (xxx-xx-xx)
 ## Added
-- Added JWT (JSON Web Tokens) support under `Phalcon\Http\JWT`. Offers support for:
+- Added JWT (JSON Web Tokens) support under `Phalcon\Security\JWT`. Offers support for:
   - Token
   - Parser
   - Builder
