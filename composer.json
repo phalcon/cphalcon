@@ -57,6 +57,7 @@
     "ext-iconv": "*",
     "ext-sqlite3": "*",
     "codeception/codeception": "^4.0",
+    "phpunit/phpunit": "^8.0",
     "friendsofphp/php-cs-fixer": "~2.0",
     "mustache/mustache": "^2.12",
     "predis/predis": "^1.1",
