@@ -6,7 +6,7 @@ This folder contains all the tests for the Phalcon Framework.
 
 ## Codeception 4 + docker method
 ```
-cp tests/ci/.env.default .env
+cp tests/_ci/.env.default .env
 cd tests 
 docker-compose up -d
 cd ..
