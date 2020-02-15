@@ -85,7 +85,12 @@ class JoinCest
         $builder->from(Robot::class);
         $builder->join(RobotPart::class);
 
-        $expected = 'SELECT `robot`.`robot_id`, `robot`.`robot_name` FROM `hardware`.`robot` INNER JOIN `app`.`robot_to_robot_part` ON `robot`.`robot_id` = `robot_to_robot_part`.`robot_id` INNER JOIN `hardware`.`robot_part` ON `robot_to_robot_part`.`robot_part_id` = `robot_part`.`robot_part_id`';
+        $expected = 'SELECT `robot`.`robot_id`, `robot`.`robot_name` '
+                    . 'FROM `hardware`.`robot`  '
+                    . 'INNER JOIN `app`.`robot_to_robot_part` '
+                    . 'ON `robot`.`robot_id` = `robot_to_robot_part`.`robot_id` '
+                    . 'INNER JOIN `hardware`.`robot_part` '
+                    . 'ON `robot_to_robot_part`.`robot_part_id` = `robot_part`.`robot_part_id`';
         $actual   = $builder->getQuery()->getSql();
 
         $I->assertEquals($expected, $actual['sql']);
