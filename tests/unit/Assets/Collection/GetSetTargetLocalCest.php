@@ -16,28 +16,24 @@ namespace Phalcon\Test\Unit\Assets\Collection;
 use Phalcon\Assets\Collection;
 use UnitTester;
 
-class GetPositionCest
+class GetSetTargetLocalCest
 {
     /**
-     * Tests Phalcon\Assets\Collection :: getPosition()
+     * Tests Phalcon\Assets\Collection :: getTargetLocal() / setTargetLocal()
      *
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2020-02-15
      */
-    public function assetsCollectionGetPosition(UnitTester $I)
+    public function assetsCollectionGetSetTargetLocal(UnitTester $I)
     {
-        $I->wantToTest('Assets\Collection - getPosition()');
+        $I->wantToTest('Assets\Collection - getTargetLocal() / setTargetLocal()');
 
         $collection = new Collection();
 
-        $I->assertEquals(0, $collection->getPosition());
+        $I->assertEquals(true, $collection->getTargetLocal());
 
-        $collection->next();
+        $collection->setTargetLocal(false);
 
-        $I->assertEquals(1, $collection->getPosition());
-
-        $collection->rewind();
-
-        $I->assertEquals(0, $collection->getPosition());
+        $I->assertEquals(false, $collection->getTargetLocal());
     }
 }

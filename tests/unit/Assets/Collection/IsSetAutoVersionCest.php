@@ -16,28 +16,24 @@ namespace Phalcon\Test\Unit\Assets\Collection;
 use Phalcon\Assets\Collection;
 use UnitTester;
 
-class GetPositionCest
+class IsSetAutoVersionCest
 {
     /**
-     * Tests Phalcon\Assets\Collection :: getPosition()
+     * Unit Tests Phalcon\Assets\Collection :: isAutoVersion() / setAutoVersion()
      *
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2020-02-15
      */
-    public function assetsCollectionGetPosition(UnitTester $I)
+    public function assetsCollectionIsSetAutoVersion(UnitTester $I)
     {
-        $I->wantToTest('Assets\Collection - getPosition()');
+        $I->wantToTest('Assets\Collection - isAutoVersion() / setAutoVersion()');
 
         $collection = new Collection();
 
-        $I->assertEquals(0, $collection->getPosition());
+        $I->assertFalse($collection->isAutoVersion());
 
-        $collection->next();
+        $collection->setAutoVersion(true);
 
-        $I->assertEquals(1, $collection->getPosition());
-
-        $collection->rewind();
-
-        $I->assertEquals(0, $collection->getPosition());
+        $I->assertTrue($collection->isAutoVersion());
     }
 }

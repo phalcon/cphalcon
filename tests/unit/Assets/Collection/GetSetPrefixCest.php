@@ -16,28 +16,24 @@ namespace Phalcon\Test\Unit\Assets\Collection;
 use Phalcon\Assets\Collection;
 use UnitTester;
 
-class GetPositionCest
+class GetSetPrefixCest
 {
     /**
-     * Tests Phalcon\Assets\Collection :: getPosition()
+     * Tests Phalcon\Assets\Collection :: getPrefix() / setPrefix()
      *
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2020-02-15
      */
-    public function assetsCollectionGetPosition(UnitTester $I)
+    public function assetsCollectionGetSetPrefix(UnitTester $I)
     {
-        $I->wantToTest('Assets\Collection - getPosition()');
+        $I->wantToTest('Assets\Collection - getPrefix() / setPrefix()');
 
         $collection = new Collection();
 
-        $I->assertEquals(0, $collection->getPosition());
+        $prefix = 'phly_';
 
-        $collection->next();
+        $collection->setPrefix($prefix);
 
-        $I->assertEquals(1, $collection->getPosition());
-
-        $collection->rewind();
-
-        $I->assertEquals(0, $collection->getPosition());
+        $I->assertEquals($prefix, $collection->getPrefix());
     }
 }

@@ -14,30 +14,30 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Assets\Collection;
 
 use Phalcon\Assets\Collection;
+use Phalcon\Assets\Filters\None;
 use UnitTester;
 
-class GetPositionCest
+class GetSetFiltersCest
 {
     /**
-     * Tests Phalcon\Assets\Collection :: getPosition()
+     * Tests Phalcon\Assets\Collection :: getFilters() / setFilters()
      *
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2020-02-15
      */
-    public function assetsCollectionGetPosition(UnitTester $I)
+    public function assetsCollectionGetSetFilters(UnitTester $I)
     {
-        $I->wantToTest('Assets\Collection - getPosition()');
+        $I->wantToTest('Assets\Collection - getFilters() / setFilters()');
 
         $collection = new Collection();
+        
+        $filters = [
+            new None(),
+            new None()
+        ];
 
-        $I->assertEquals(0, $collection->getPosition());
+        $collection->setFilters($filters);
 
-        $collection->next();
-
-        $I->assertEquals(1, $collection->getPosition());
-
-        $collection->rewind();
-
-        $I->assertEquals(0, $collection->getPosition());
+        $I->assertEquals($filters, $collection->getFilters());
     }
 }

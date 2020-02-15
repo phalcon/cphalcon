@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Collection;
 
+use Phalcon\Assets\Collection;
 use UnitTester;
 
 class CountCest
@@ -20,13 +21,34 @@ class CountCest
     /**
      * Tests Phalcon\Assets\Collection :: count()
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
+     * @since  2020-02-06
      */
     public function assetsCollectionCount(UnitTester $I)
     {
         $I->wantToTest('Assets\Collection - count()');
 
-        $I->skipTest('Need implementation');
+        $collection = new Collection();
+
+        $collection->addCss(
+            'css/docs.css'
+        );
+
+        $collection->addCss(
+            'https://assets.phalcon.io/phalcon/css/core.css'
+        );
+
+        $collection->addJs(
+            'js/jquery.css'
+        );
+
+        $collection->addJs(
+            'https://assets.phalcon.io/phalcon/js/core.js'
+        );
+
+        $I->assertEquals(
+            4,
+            $collection->count()
+        );
     }
 }

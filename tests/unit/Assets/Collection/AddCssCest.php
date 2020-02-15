@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Collection;
 
+use Phalcon\Assets\Collection;
 use UnitTester;
 
 class AddCssCest
@@ -20,13 +21,30 @@ class AddCssCest
     /**
      * Tests Phalcon\Assets\Collection :: addCss()
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
+     * @since  2020-02-06
      */
     public function assetsCollectionAddCss(UnitTester $I)
     {
         $I->wantToTest('Assets\Collection - addCss()');
 
-        $I->skipTest('Need implementation');
+        $collection = new Collection();
+
+        $collection->addCss(
+            'css/docs.css'
+        );
+
+        $collection->addCss(
+            'https://assets.phalcon.io/phalcon/css/core.css'
+        );
+
+        foreach ($collection as $asset) {
+            $I->assertEquals(
+                'css',
+                $asset->getType()
+            );
+        }
+
+        $I->assertCount(2, $collection);
     }
 }
