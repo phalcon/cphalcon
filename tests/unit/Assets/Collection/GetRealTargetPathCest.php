@@ -13,20 +13,35 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Collection;
 
+use Phalcon\Assets\Collection;
 use UnitTester;
+
+use function dataDir;
 
 class GetRealTargetPathCest
 {
     /**
      * Tests Phalcon\Assets\Collection :: getRealTargetPath()
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
+     * @since  2020-02-15
      */
     public function assetsCollectionGetRealTargetPath(UnitTester $I)
     {
         $I->wantToTest('Assets\Collection - getRealTargetPath()');
 
-        $I->skipTest('Need implementation');
+        $collection = new Collection();
+
+        $targetPath = '/assets';
+
+        $basePath = dataDir('assets');
+
+        $constructRealPath = realpath($basePath . $targetPath);
+
+        $collection->setTargetPath($targetPath);
+
+        $realBasePath = $collection->getRealTargetPath($basePath);
+
+        $I->assertEquals($constructRealPath, $realBasePath);
     }
 }

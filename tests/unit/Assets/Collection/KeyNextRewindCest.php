@@ -16,28 +16,28 @@ namespace Phalcon\Test\Unit\Assets\Collection;
 use Phalcon\Assets\Collection;
 use UnitTester;
 
-class GetPositionCest
+class KeyNextRewindCest
 {
     /**
-     * Tests Phalcon\Assets\Collection :: getPosition()
+     * Tests Phalcon\Assets\Collection :: key() / next() / rewind()
      *
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2020-02-15
      */
-    public function assetsCollectionGetPosition(UnitTester $I)
+    public function assetsCollectionKeyNextRewind(UnitTester $I)
     {
-        $I->wantToTest('Assets\Collection - getPosition()');
+        $I->wantToTest('Assets\Collection - key() / next() / rewind()');
 
         $collection = new Collection();
 
-        $I->assertEquals(0, $collection->getPosition());
+        $I->assertEquals(0, $collection->key());
 
         $collection->next();
 
-        $I->assertEquals(1, $collection->getPosition());
+        $I->assertEquals(1, $collection->key());
 
         $collection->rewind();
 
-        $I->assertEquals(0, $collection->getPosition());
+        $I->assertEquals(0, $collection->key());
     }
 }
