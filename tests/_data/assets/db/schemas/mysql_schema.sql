@@ -12644,8 +12644,8 @@ CREATE TABLE `issue12071_body`
     `head_1_id` INT,
     `head_2_id` INT,
     PRIMARY KEY (`id`),
-    CONSTRAINT `issue12071_body_head_1_fkey` FOREIGN KEY (`head_1_id`) REFERENCES `issue12071_head` (`id`),
-    CONSTRAINT `issue12071_body_head_2_fkey` FOREIGN KEY (`head_2_id`) REFERENCES `issue12071_head` (`id`)
+    CONSTRAINT `issue12071_body_head_1_fkey` FOREIGN KEY (`head_1_id`) REFERENCES `issue12071_head` (`id`) ON DELETE CASCADE,
+    CONSTRAINT `issue12071_body_head_2_fkey` FOREIGN KEY (`head_2_id`) REFERENCES `issue12071_head` (`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -12792,4 +12792,31 @@ CREATE TABLE `tiny_int_test` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `test` tinyint(1) unsigned DEFAULT NULL,
   PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+-- NEW SCHEMA TO TEST MULTIPLE SCHEMA
+CREATE SCHEMA IF NOT EXISTS hardware;
+
+drop table if exists hardware.`robot`;
+CREATE TABLE hardware.`robot` (
+  `robot_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `robot_name` VARCHAR(70) NULL,
+  PRIMARY KEY (`robot_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+drop table if exists hardware.`robot_part`;
+CREATE TABLE hardware.`robot_part` (
+  `robot_part_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `robot_part_name` VARCHAR(70) NULL,
+  PRIMARY KEY (`robot_part_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE SCHEMA IF NOT EXISTS app;
+
+drop table if exists app.`robot_to_robot_part`;
+CREATE TABLE app.`robot_to_robot_part` (
+  `robot_id` int(10) unsigned NOT NULL,
+  `robot_part_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`robot_id`, `robot_part_id` )
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

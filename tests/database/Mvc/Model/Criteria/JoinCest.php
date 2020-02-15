@@ -19,6 +19,8 @@ use Phalcon\Mvc\Model\Query\Builder;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Customers;
 use Phalcon\Test\Models\Invoices;
+use Phalcon\Test\Models\Robot;
+use Phalcon\Test\Models\RobotPart;
 
 /**
  * Class JoinCest
@@ -30,6 +32,10 @@ class JoinCest
     public function _before(DatabaseTester $I)
     {
         $this->setNewFactoryDefault();
+        $this->setDatabase($I);
+
+        /** @var PDO $connection */
+        $connection = $I->getConnection();
     }
 
     /**
@@ -59,5 +65,29 @@ class JoinCest
             . 'JOIN [Phalcon\Test\Models\Customers] AS [customer] ON inv_cst_id = cst_id';
         $actual   = $builder->getPhql();
         $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Mvc\Model\Criteria :: join() and use ManyToMany with Multiple schemas
+     *
+     * Bugfix : #14716
+     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
+     * @since  2020-02-06
+     */
+    public function mvcModelCriteriaJoinManyToManyMultipleSchema(DatabaseTester $I)
+    {
+        $I->wantToTest('Mvc\Model\Criteria - join() and use ManyToMany with Multiple schemas');
+
+        $criteria = new Criteria();
+        $criteria->setDI($this->container);
+
+        $builder = $criteria->createBuilder();
+        $builder->from(Robot::class);
+        $builder->join(RobotPart::class);
+
+        $expected = 'SELECT `robot`.`robot_id`, `robot`.`robot_name` FROM `hardware`.`robot` INNER JOIN `app`.`robot_to_robot_part` ON `robot`.`robot_id` = `robot_to_robot_part`.`robot_id` INNER JOIN `hardware`.`robot_part` ON `robot_to_robot_part`.`robot_part_id` = `robot_part`.`robot_part_id`';
+        $actual   = $builder->getQuery()->getSql();
+
+        $I->assertEquals($expected, $actual['sql']);
     }
 }
