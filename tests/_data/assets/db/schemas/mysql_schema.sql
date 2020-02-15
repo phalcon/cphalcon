@@ -12644,8 +12644,8 @@ CREATE TABLE `issue12071_body`
     `head_1_id` INT,
     `head_2_id` INT,
     PRIMARY KEY (`id`),
-    CONSTRAINT `issue12071_body_head_1_fkey` FOREIGN KEY (`head_1_id`) REFERENCES `issue12071_head` (`id`) ON DELETE CASCADE,
-    CONSTRAINT `issue12071_body_head_2_fkey` FOREIGN KEY (`head_2_id`) REFERENCES `issue12071_head` (`id`) ON DELETE CASCADE
+    CONSTRAINT `issue12071_body_head_1_fkey` FOREIGN KEY (`head_1_id`) REFERENCES `issue12071_head` (`id`),
+    CONSTRAINT `issue12071_body_head_2_fkey` FOREIGN KEY (`head_2_id`) REFERENCES `issue12071_head` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
