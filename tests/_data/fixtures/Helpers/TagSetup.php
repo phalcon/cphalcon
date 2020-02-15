@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of the Phalcon Framework.
  *
@@ -24,8 +26,8 @@ class TagSetup
     public function _before(UnitTester $I)
     {
         $this->newDi();
-        $this->setDiEscaper();
-        $this->setDiUrl();
+        $this->setDiService('escaper');
+        $this->setDiService('url');
 
         Tag::resetInput();
 
@@ -37,10 +39,10 @@ class TagSetup
     /**
      * Converts a doctype code to a string output
      *
-     * @author Phalcon Team <team@phalcon.io>
+     * @return string
      * @since  2014-09-04
      *
-     * @return string
+     * @author Phalcon Team <team@phalcon.io>
      */
     protected function docTypeStringToConstant(string $doctype)
     {
@@ -144,10 +146,10 @@ class TagSetup
     /**
      * Converts a doctype code to a string output
      *
-     * @author Phalcon Team <team@phalcon.io>
+     * @return string
      * @since  2014-09-04
      *
-     * @return string
+     * @author Phalcon Team <team@phalcon.io>
      */
     protected function docTypeToString(int $doctype)
     {

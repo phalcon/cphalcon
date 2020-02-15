@@ -32,8 +32,8 @@ class ManagerCest
     public function _before(UnitTester $I)
     {
         $this->newDi();
-        $this->setDiEscaper();
-        $this->setDiUrl();
+        $this->setDiService('escaper');
+        $this->setDiService('url');
     }
 
     /**
@@ -64,7 +64,7 @@ class ManagerCest
         $footer->addCss('css/style2.css');
 
         $expected = sprintf(
-            "%s\n%s\n",
+            "%s" . PHP_EOL . "%s" . PHP_EOL,
             '<link rel="stylesheet" type="text/css" href="/css/style1.css" />',
             '<link rel="stylesheet" type="text/css" href="/css/style2.css" />'
         );
@@ -98,7 +98,7 @@ class ManagerCest
         $assets->useImplicitOutput(false);
 
         $expected = sprintf(
-            "%s\n%s\n",
+            "%s" . PHP_EOL . "%s" . PHP_EOL,
             '<script src="http:://cdn.example.com/js/script1.js"></script>',
             '<script src="http:://cdn.example.com/js/script2.js"></script>'
         );
@@ -133,7 +133,7 @@ class ManagerCest
 
 
         $expectedJS = sprintf(
-            "%s\n%s\n",
+            "%s" . PHP_EOL . "%s" . PHP_EOL,
             '<script src="http:://cdn.example.com/js/script1.js"></script>',
             '<script src="http:://cdn.example.com/js/script2.js"></script>'
         );
@@ -145,7 +145,7 @@ class ManagerCest
 
 
         $expectedCSS = sprintf(
-            "%s\n%s\n",
+            "%s" . PHP_EOL . "%s" . PHP_EOL,
             '<link rel="stylesheet" type="text/css" href="http:://cdn.example.com/css/styles1.css" />',
             '<link rel="stylesheet" type="text/css" href="http:://cdn.example.com/css/styles2.css" />'
         );

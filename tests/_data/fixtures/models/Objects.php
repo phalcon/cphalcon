@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of the Phalcon Framework.
  *
@@ -13,6 +15,9 @@ namespace Phalcon\Test\Models;
 
 use Phalcon\Mvc\Model;
 
+/**
+ * Class Objects
+ */
 class Objects extends Model
 {
     public $obj_id;

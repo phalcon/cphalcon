@@ -75,8 +75,7 @@ abstract class AbstractAdapter implements AdapterInterface
          */
         let this->serializerFactory = factory,
             this->defaultSerializer = Arr::get(options, "defaultSerializer", "Php"),
-            this->lifetime          = Arr::get(options, "lifetime", 3600),
-            this->serializer        = Arr::get(options, "serializer", null);
+            this->lifetime          = Arr::get(options, "lifetime", 3600);
 
         if isset options["prefix"] {
             let this->prefix = options["prefix"];

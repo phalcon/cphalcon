@@ -26,7 +26,7 @@ class AddJsCest
     public function _before(UnitTester $I)
     {
         $this->newDi();
-        $this->setDiUrl();
+        $this->setDiService('url');
     }
 
     public function _after(UnitTester $I)
@@ -103,7 +103,7 @@ class AddJsCest
         $pathData = dataDir('assets/');
 
         $expected = sprintf(
-            "%s\n%s\n%s\n",
+            "%s" . PHP_EOL . "%s" . PHP_EOL . "%s" . PHP_EOL,
             "<script src=\"{$pathData}assets/assets-version-1.js?ver=1.0.0\"></script>",
             "<script src=\"{$pathData}assets/assets-version-2.js?ver=2.0.0\"></script>",
             "<script src=\"{$pathData}assets/assets-version-3.js\"></script>"

@@ -13,7 +13,7 @@ namespace Phalcon\Assets\Filters;
 use Phalcon\Assets\FilterInterface;
 
 /**
- * Minify the css - removes comments removes newlines and line feeds keeping
+ * Minify the CSS - removes comments removes newlines and line feeds keeping
  * removes last semicolon from last property
  */
 class Cssmin implements FilterInterface

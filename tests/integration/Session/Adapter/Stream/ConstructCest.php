@@ -21,12 +21,6 @@ use SessionHandlerInterface;
 class ConstructCest
 {
     use DiTrait;
-    use SessionTrait;
-
-    public function _before(IntegrationTester $I)
-    {
-        $this->newFactoryDefault();
-    }
 
     /**
      * Tests Phalcon\Session\Adapter\Stream :: __construct()
@@ -37,7 +31,8 @@ class ConstructCest
     public function sessionAdapterStreamConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Session\Adapter\Stream - __construct()');
-        $adapter = $this->getSessionStream();
+
+        $adapter = $this->newService('sessionStream');
         $class   = SessionHandlerInterface::class;
         $I->assertInstanceOf($class, $adapter);
     }

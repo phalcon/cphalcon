@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Collection;
 
+use Phalcon\Assets\Collection;
 use UnitTester;
 
 class AddJsCest
@@ -20,13 +21,30 @@ class AddJsCest
     /**
      * Tests Phalcon\Assets\Collection :: addJs()
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
+     * @since  2020-02-06
      */
     public function assetsCollectionAddJs(UnitTester $I)
     {
         $I->wantToTest('Assets\Collection - addJs()');
 
-        $I->skipTest('Need implementation');
+        $collection = new Collection();
+
+        $collection->addJs(
+            'js/jquery.css'
+        );
+
+        $collection->addJs(
+            'https://assets.phalcon.io/phalcon/js/core.js'
+        );
+
+        foreach ($collection as $asset) {
+            $I->assertEquals(
+                'js',
+                $asset->getType()
+            );
+        }
+
+        $I->assertCount(2, $collection);
     }
 }

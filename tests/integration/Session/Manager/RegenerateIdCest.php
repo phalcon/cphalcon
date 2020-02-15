@@ -21,7 +21,6 @@ use Phalcon\Test\Fixtures\Traits\SessionTrait;
 class RegenerateIdCest
 {
     use DiTrait;
-    use SessionTrait;
 
     /**
      * Tests Phalcon\Session\Manager :: regenerateId()
@@ -35,7 +34,7 @@ class RegenerateIdCest
 
         $manager = new Manager();
 
-        $files = $this->getSessionStream();
+        $files = $this->newService('sessionStream');
 
         $manager->setAdapter($files);
         $manager->start();

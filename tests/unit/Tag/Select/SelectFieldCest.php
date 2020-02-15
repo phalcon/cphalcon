@@ -31,11 +31,13 @@ class SelectFieldCest extends TagSetup
 
         $sSelect = Select::selectField('city', ['Lyon', 'Miramas']);
 
+        $expected = "<select id=\"city\" name=\"city\">" . PHP_EOL . "\t" .
+            "<option value=\"0\">Lyon</option>" . PHP_EOL . "\t<option value=\"1\">" .
+            "Miramas</option>" . PHP_EOL . "</select>";
+
         $I->assertEquals(
-            $sSelect,
-            "<select id=\"city\" name=\"city\">\n\t" .
-            "<option value=\"0\">Lyon</option>\n\t<option value=\"1\">" .
-            "Miramas</option>\n</select>"
+            $expected,
+            $sSelect
         );
     }
 }

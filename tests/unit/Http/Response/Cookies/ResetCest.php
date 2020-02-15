@@ -28,7 +28,8 @@ class ResetCest extends HttpBase
     public function _before(UnitTester $I)
     {
         parent::_before($I);
-        $this->setDiSessionFiles();
+        $this->setDiService('sessionStream');
+        ;
     }
 
     /**
@@ -41,20 +42,20 @@ class ResetCest extends HttpBase
     {
         $I->wantToTest('Http\Response\Cookies - reset()');
 
-        $sName = 'framework';
+        $sName  = 'framework';
         $sValue = 'phalcon';
 
-        $this->setDiCrypt();
+        $this->setDiService('crypt');
         $container = $this->getDi();
 
         $oCookie = new Cookies();
         $oCookie->setDI($container);
         $oCookie->set($sName, $sValue);
-        
+
         $aCookies = $oCookie->getCookies();
 
         $I->assertTrue(array_key_exists($sName, $aCookies));
-        
+
         $I->assertEquals($sValue, $aCookies[$sName]);
 
         $I->assertEquals(1, count($aCookies));

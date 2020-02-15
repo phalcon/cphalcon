@@ -22,7 +22,7 @@ use Phalcon\Db\Reference;
 use Phalcon\Db\ReferenceInterface;
 
 /**
- * Specific functions for the Sqlite database system
+ * Specific functions for the SQLite database system
  *
  * ```php
  * use Phalcon\Db\Adapter\Pdo\Sqlite;
@@ -53,7 +53,7 @@ class Sqlite extends PdoAdapter
     {
         if isset descriptor["charset"] {
             trigger_error(
-                "Sqlite does not allow the charset to be changed in the DSN."
+                "SQLite does not allow the charset to be changed in the DSN."
             );
         }
 
@@ -285,8 +285,8 @@ class Sqlite extends PdoAdapter
             /**
              * Check if the column allows null values
              */
-            if field[3] {
-                let definition["notNull"] = true;
+            if field[3] == 0 {
+                let definition["notNull"] = false;
             }
 
             /**

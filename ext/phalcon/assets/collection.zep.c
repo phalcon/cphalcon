@@ -88,7 +88,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Collection) {
 	/**
 	 * @var int
 	 */
-	zend_declare_property_null(phalcon_assets_collection_ce, SL("position"), ZEND_ACC_PROTECTED);
+	zend_declare_property_long(phalcon_assets_collection_ce, SL("position"), 0, ZEND_ACC_PROTECTED);
 
 	/**
 	 * @var string
@@ -551,7 +551,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addInlineCss) {
 }
 
 /**
- * Adds an inline javascript to the collection
+ * Adds an inline JavaScript to the collection
  */
 PHP_METHOD(Phalcon_Assets_Collection, addInlineJs) {
 
@@ -605,7 +605,7 @@ PHP_METHOD(Phalcon_Assets_Collection, addInlineJs) {
 }
 
 /**
- * Adds a javascript asset to the collection
+ * Adds a JavaScript asset to the collection
  *
  * @param array attributes
  */

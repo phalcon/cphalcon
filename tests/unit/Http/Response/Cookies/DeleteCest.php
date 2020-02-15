@@ -28,9 +28,10 @@ class DeleteCest extends HttpBase
     public function _before(UnitTester $I)
     {
         parent::_before($I);
-        $this->setDiSessionFiles();
+        $this->setDiService('sessionStream');
+        ;
     }
-    
+
     /**
      * Tests Phalcon\Http\Response\Cookies :: delete()
      *
@@ -41,10 +42,10 @@ class DeleteCest extends HttpBase
     {
         $I->wantToTest('Http\Response\Cookies - delete()');
 
-        $sName = 'framework';
+        $sName  = 'framework';
         $sValue = 'phalcon';
 
-        $this->setDiCrypt();
+        $this->setDiService('crypt');
         $container = $this->getDi();
 
         $oCookie = new Cookies();
@@ -54,7 +55,7 @@ class DeleteCest extends HttpBase
         $I->assertEquals($sValue, $oCookie->get($sName));
 
         $oCookie->delete($sName);
-        
+
         $I->assertEquals("", $oCookie->get($sName));
     }
 }

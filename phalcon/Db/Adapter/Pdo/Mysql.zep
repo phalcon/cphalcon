@@ -21,7 +21,7 @@ use Phalcon\Db\Reference;
 use Phalcon\Db\ReferenceInterface;
 
 /**
- * Specific functions for the Mysql database system
+ * Specific functions for the MySQL database system
  *
  *```php
  * use Phalcon\Db\Adapter\Pdo\Mysql;
@@ -408,8 +408,8 @@ class Mysql extends PdoAdapter
             /**
              * Check if the column allows null values
              */
-            if field[2] == "NO" {
-                let definition["notNull"] = true;
+            if field[2] == "YES" {
+                let definition["notNull"] = false;
             }
 
             /**

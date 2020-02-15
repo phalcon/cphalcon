@@ -36,7 +36,7 @@ class GetFilteredPostCest
     {
         $I->wantToTest('Http\Request - getFiltered*() - ' . $example[0]);
 
-        $container = $this->newFactoryDefault();
+        $container = $this->newService('factoryDefault');
 
         /** @var Request $request */
         $request = $container->get('request');
@@ -68,7 +68,7 @@ class GetFilteredPostCest
     public function httpRequestGetFilteredDefault(UnitTester $I)
     {
         $I->wantToTest('Http\Request - getFiltered*() - default');
-        $container = $this->newFactoryDefault();
+        $container = $this->newService('factoryDefault');
         /** @var Request $request */
         $request = $container->get('request');
         $request

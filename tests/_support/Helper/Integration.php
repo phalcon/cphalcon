@@ -7,6 +7,13 @@ namespace Helper;
 
 use Codeception\Module;
 
+/**
+ * Class Integration
+ *
+ * @property string $driver
+ * @property string $password
+ * @property string $username
+ */
 class Integration extends Module
 {
 }

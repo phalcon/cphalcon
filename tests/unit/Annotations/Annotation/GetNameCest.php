@@ -31,7 +31,7 @@ class GetNameCest
         $name = 'NovAnnotation';
 
         $annotation = new Annotation([
-            'name' => 'NovAnnotation'
+            'name' => 'NovAnnotation',
         ]);
 
         $I->assertEquals($annotation->getName(), $name);

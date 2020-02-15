@@ -19,6 +19,7 @@ use UnitTester;
 class GetExprArgumentsCest
 {
     private $PHANNOT_T_STRING = 303;
+
     /**
      * Tests Phalcon\Annotations\Annotation :: getExprArguments()
      *
@@ -29,27 +30,27 @@ class GetExprArgumentsCest
     {
         $I->wantToTest('Annotations\Annotation - getExprArguments()');
 
-        $value = 'test';
+        $value  = 'test';
         $value1 = 'test1';
 
         $expr = [
             [
                 'expr' => [
                     'type'  => $this->PHANNOT_T_STRING,
-                    'value' => $value
-                ]
+                    'value' => $value,
+                ],
             ],
             [
                 'expr' => [
                     'type'  => $this->PHANNOT_T_STRING,
-                    'value' => $value1
-                ]
-            ]
+                    'value' => $value1,
+                ],
+            ],
         ];
 
         $annotation = new Annotation([
-            'name'       => 'NovAnnotation',
-            'arguments'  => $expr
+            'name'      => 'NovAnnotation',
+            'arguments' => $expr,
         ]);
 
         $I->assertEquals($annotation->getExprArguments(), $expr);

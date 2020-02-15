@@ -32,7 +32,8 @@ class GetSetHttpOnlyCest
         $I->wantToTest('Http\Cookie - getHttpOnly()/setHttpOnly()');
 
         $this->setNewFactoryDefault();
-        $this->setDiSessionFiles();
+        $this->setDiService('sessionStream');
+        ;
 
         $name     = 'test';
         $value    = "phalcon";

@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Annotations\Collection;
 
+use Phalcon\Annotations\Collection;
 use UnitTester;
 
 class CountCest
@@ -20,13 +21,24 @@ class CountCest
     /**
      * Tests Phalcon\Annotations\Collection :: count()
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
+     * @since  2020-01-27
      */
     public function annotationsCollectionCount(UnitTester $I)
     {
         $I->wantToTest('Annotations\Collection - count()');
+        
+        $reflectionData = [
+            [
+                'name' => 'NovAnnotation'
+            ],
+            [
+                'name' => 'NovAnnotation1'
+            ]
+        ];
 
-        $I->skipTest('Need implementation');
+        $collection = new Collection($reflectionData);
+
+        $I->assertEquals(count($reflectionData), $collection->count());
     }
 }

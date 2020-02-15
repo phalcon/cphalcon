@@ -163,7 +163,7 @@ PHP_METHOD(Phalcon_Forms_Element_Select, getOptions) {
 }
 
 /**
- * Renders the element widget returning html
+ * Renders the element widget returning HTML
  */
 PHP_METHOD(Phalcon_Forms_Element_Select, render) {
 

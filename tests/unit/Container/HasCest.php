@@ -32,7 +32,7 @@ class HasCest
         $I->wantToTest('Container - has()');
 
         $this->newDi();
-        $this->setDiFilter();
+        $this->setDiService('filter');
 
         $container = new Container($this->container);
 

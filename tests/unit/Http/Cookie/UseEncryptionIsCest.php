@@ -32,7 +32,8 @@ class UseEncryptionIsCest
         $I->wantToTest('Http\Cookie - useEncryption()');
 
         $this->setNewFactoryDefault();
-        $this->setDiSessionFiles();
+        $this->setDiService('sessionStream');
+        ;
 
         $name     = 'test';
         $value    = "phalcon";

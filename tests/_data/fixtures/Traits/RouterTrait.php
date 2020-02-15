@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -56,6 +57,11 @@ trait RouterTrait
 
     /**
      * Add method and return route
+     *
+     * @param Router $router
+     * @param array  $data
+     *
+     * @return Route
      */
     protected function getRouteAndSetRouteMethod(Router $router, array $data): Route
     {
@@ -113,7 +119,8 @@ trait RouterTrait
             function (string $action): string {
                 return str_replace('-', '', $action);
             }
-        );
+        )
+        ;
 
         $router->add(
             '/([A-Z]+)/([0-9]+)',
@@ -137,7 +144,8 @@ trait RouterTrait
             function (string $id): string {
                 return strrev($id);
             }
-        );
+        )
+        ;
 
         return $router;
     }

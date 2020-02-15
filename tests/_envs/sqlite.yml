@@ -1,1 +1,11 @@
 # `sqlite` environment config goes here
+modules:
+  enabled:
+    - Db:
+        dsn: 'sqlite:%DATA_SQLITE_NAME%'
+        user: ''
+        password: ''
+        populate: true
+        cleanup: false
+        dump:
+          - 'tests/_data/assets/schemas/sqlite.sql'

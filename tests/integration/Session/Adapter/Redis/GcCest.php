@@ -20,12 +20,6 @@ use Phalcon\Test\Fixtures\Traits\SessionTrait;
 class GcCest
 {
     use DiTrait;
-    use SessionTrait;
-
-    public function _before(IntegrationTester $I)
-    {
-        $this->newFactoryDefault();
-    }
 
     /**
      * Tests Phalcon\Session\Adapter\Redis :: gc()
@@ -37,7 +31,7 @@ class GcCest
     {
         $I->wantToTest('Session\Adapter\Redis - gc()');
 
-        $adapter = $this->getSessionRedis();
+        $adapter = $this->newService('sessionRedis');
 
         $I->assertTrue(
             $adapter->gc(1)

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of the Phalcon Framework.
  *
@@ -21,12 +23,14 @@ class Mustache extends AbstractEngine implements EngineInterface
 {
     /**
      * The internal Mustache Engine
+     *
      * @var Mustache_Engine
      */
     protected $mustache;
 
     /**
      * The view params
+     *
      * @var array
      */
     protected $params = [];

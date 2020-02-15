@@ -33,7 +33,8 @@ class SetSignKeyCest
         $I->wantToTest('Http\Cookie - setSignKey() - exception');
 
         $this->setNewFactoryDefault();
-        $this->setDiSessionFiles();
+        $this->setDiService('sessionStream');
+        ;
 
         $I->expectThrowable(
             new Exception(

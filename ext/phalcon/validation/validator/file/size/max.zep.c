@@ -45,7 +45,7 @@
  *         [
  *             "size"     => "2M",
  *             "included" => true,
- *             "message"  => ":field exceeds the max filesize (:size)",
+ *             "message"  => ":field exceeds the max file size (:size)",
  *         ]
  *     )
  * );
@@ -66,8 +66,8 @@
  *                 "anotherFile" => true,
  *             ],
  *             "message" => [
- *                 "file"        => "file exceeds the max filesize 2M",
- *                 "anotherFile" => "anotherFile exceeds the max filesize 4M",
+ *                 "file"        => "file exceeds the max file size 2M",
+ *                 "anotherFile" => "anotherFile exceeds the max file size 4M",
  *             ],
  *         ]
  *     )

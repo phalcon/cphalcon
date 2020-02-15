@@ -1568,7 +1568,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, fetchAll) {
  *
  * // Getting name of last edited robot
  * $robot = $connection->fetchColumn(
- *     "SELECT id, name FROM robots order by modified desc",
+ *     "SELECT id, name FROM robots ORDER BY modified DESC",
  *     1
  * );
  * print_r($robot);

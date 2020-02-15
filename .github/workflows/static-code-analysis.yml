@@ -2,8 +2,6 @@ name: Static Code Analysis
 
 on:
   push:
-    branches-ignore:
-      - 'appveyor*'
     paths-ignore:
       - '*.md'
 

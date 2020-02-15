@@ -28,7 +28,7 @@ class ConstructCest
     public function annotationsAdapterMemoryConstruct(UnitTester $I)
     {
         $I->wantToTest('Annotations\Adapter\Memory - __construct()');
-        
+
         $oAdapter = new Memory();
 
         $I->assertInstanceOf(

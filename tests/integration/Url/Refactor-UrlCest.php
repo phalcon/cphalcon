@@ -28,7 +28,7 @@ class UrlCest
     public function _before()
     {
         $this->newDi();
-        $this->setDiUrl();
+        $this->setDiService('url');
         $this->setupRoutes();
     }
 

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -55,7 +56,7 @@ class ValidationForm extends Form
         $validators = [
             new PresenceOf(
                 [
-                    'message'      => 'valid :field is required',
+                    'message' => 'valid :field is required',
                 ]
             ),
         ];
@@ -69,7 +70,7 @@ class ValidationForm extends Form
         $validators = [
             new PresenceOf(
                 [
-                    'message'      => 'your :field is required',
+                    'message' => 'your :field is required',
                 ]
             ),
         ];

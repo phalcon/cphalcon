@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Phalcon\Test\Cli\Cli\Dispatcher;
 
 use CliTester;
-use Phalcon\Cli\Console;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 class GetSetDICest
@@ -31,8 +30,8 @@ class GetSetDICest
     {
         $I->wantToTest('Cli\Dispatcher - getDI()/getDI()');
 
-        $container = $this->newCliFactoryDefault();
-        $console   = new Console();
+        $container = $this->newService('cliFactoryDefault');
+        $console   = $this->newService('console');
 
         $console->setDI($container);
 

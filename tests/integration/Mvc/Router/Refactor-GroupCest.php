@@ -130,7 +130,7 @@ class GroupCest
         Route::reset();
 
         $this->newDi();
-        $this->setDiRequest();
+        $this->setDiService('request');
 
         $container = $this->getDi();
 
@@ -208,7 +208,7 @@ class GroupCest
         Route::reset();
 
         $this->newDi();
-        $this->setDiRequest();
+        $this->setDiService('request');
 
         $container = $this->getDi();
 

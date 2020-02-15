@@ -1,6 +1,7 @@
 PRAGMA foreign_keys=OFF;
 BEGIN TRANSACTION;
 
+DROP TABLE IF EXISTS `languagei18n`;
 CREATE TABLE `languagei18n` (
 	`from_lang`	TEXT NOT NULL,
 	`from_locale`	TEXT NOT NULL,
@@ -16,6 +17,7 @@ INSERT INTO `languagei18n` (from_lang,from_locale,lang,locale) VALUES
  ('Dutch','nl-nl','Dutch','Netherlands'),
  ('Dutch','nl-be','Dutch','Belgium-2');
 
+DROP TABLE IF EXISTS `language`;
 CREATE TABLE "language" (
 	`lang`	TEXT NOT NULL,
 	`locale`	TEXT NOT NULL

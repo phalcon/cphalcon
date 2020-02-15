@@ -21,7 +21,7 @@ use Phalcon\Db\ReferenceInterface;
 use Throwable;
 
 /**
- * Specific functions for the Postgresql database system
+ * Specific functions for the PostgreSQL database system
  *
  * ```php
  * use Phalcon\Db\Adapter\Pdo\Postgresql;
@@ -207,7 +207,6 @@ class Postgresql extends PdoAdapter
                      * tinyint(1) is boolean
                      */
                     let definition["type"] = Column::TYPE_BOOLEAN,
-                        definition["isNumeric"] = true,
                         definition["bindType"] = Column::BIND_PARAM_BOOL;
 
                     break;

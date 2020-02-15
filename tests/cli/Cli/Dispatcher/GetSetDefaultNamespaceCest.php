@@ -19,7 +19,8 @@ use Phalcon\Cli\Dispatcher;
 class GetSetDefaultNamespaceCest
 {
     /**
-     * Tests Phalcon\Cli\Dispatcher :: getDefaultNamespace() / setDefaultNamespace()
+     * Tests Phalcon\Cli\Dispatcher :: getDefaultNamespace() /
+     * setDefaultNamespace()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13

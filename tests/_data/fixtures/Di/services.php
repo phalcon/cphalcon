@@ -7,7 +7,7 @@ return [
     'unit-test' => [
         'className' => UnitTest::class,
     ],
-    'config' => [
+    'config'    => [
         'className' => Config::class,
         'shared'    => true,
     ],

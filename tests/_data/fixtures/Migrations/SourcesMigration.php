@@ -11,47 +11,19 @@
 
 namespace Phalcon\Test\Fixtures\Migrations;
 
-use Phalcon\Db\Adapter\AdapterInterface;
-
-class SourcesMigration
+/**
+ * Class SourcesMigration
+ */
+class SourcesMigration extends AbstractMigration
 {
-    /**
-     * @param AdapterInterface $db
-     */
-    public function __invoke(AdapterInterface $db)
-    {
-        $sql = <<<SQL
-drop table if exists `co_sources`
-SQL;
-        $db->execute($sql);
-
-        $sql = <<<SQL
-create table co_sources
-(
-    id       int(10) auto_increment primary key,
-    username varchar(100) null,
-    source   varchar(100) null
-);
-SQL;
-        $db->execute($sql);
-
-        $sql = <<<SQL
-create index co_sources_username_index
-    on co_sources (username);
-SQL;
-        $db->execute($sql);
-
-        $this->insert($db, 1, 'darth', 'vader');
-    }
+    protected $table = "co_sources";
 
     /**
-     * @param AdapterInterface $db
-     * @param int              $id
-     * @param string           $username
-     * @param string           $source
+     * @param int    $id
+     * @param string $username
+     * @param string $source
      */
     public function insert(
-        AdapterInterface $db,
         int $id,
         string $username,
         string $source
@@ -65,6 +37,59 @@ insert into co_sources (id, username, source)
 values ({$id}, "{$username}", "{$source}");
 SQL;
 
-        $db->execute($sql);
+        $this->connection->exec($sql);
+    }
+
+    protected function getSqlMysql(): array
+    {
+        return [
+            "
+drop table if exists `co_sources`;
+            ",
+            "
+create table co_sources
+(
+    `id`       int(10) auto_increment primary key,
+    `username` varchar(100) null,
+    `source`   varchar(100) null
+);
+            ",
+            "
+create index co_sources_username_index
+    on co_sources (username);
+            ",
+            //            $this->insert($db, 1, 'darth', 'vader');
+        ];
+    }
+
+    protected function getSqlSqlite(): array
+    {
+        return [
+            "
+drop table if exists co_sources;
+            ",
+            "
+create table co_sources
+    (
+    id          integer constraint co_sources_pk primary key autoincrement,
+    username    text,
+    source      text
+);
+            ",
+            "
+create index co_sources_username_index
+    on co_sources (username);
+            ",
+        ];
+    }
+
+    protected function getSqlPgsql(): array
+    {
+        return [];
+    }
+
+    protected function getSqlSqlsrv(): array
+    {
+        return [];
     }
 }

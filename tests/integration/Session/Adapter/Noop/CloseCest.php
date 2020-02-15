@@ -20,12 +20,6 @@ use Phalcon\Test\Fixtures\Traits\SessionTrait;
 class CloseCest
 {
     use DiTrait;
-    use SessionTrait;
-
-    public function _before(IntegrationTester $I)
-    {
-        $this->newFactoryDefault();
-    }
 
     /**
      * Tests Phalcon\Session\Adapter\Noop :: close()
@@ -37,7 +31,7 @@ class CloseCest
     {
         $I->wantToTest('Session\Adapter\Noop - close()');
 
-        $adapter = $this->getSessionNoop();
+        $adapter = $this->newService('sessionNoop');
 
         $I->assertTrue(
             $adapter->close()

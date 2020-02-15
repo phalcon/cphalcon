@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * This file is part of the Phalcon Framework.
  *
@@ -12,38 +14,32 @@
 namespace Phalcon\Test\Models;
 
 use Phalcon\Mvc\Model;
-use Phalcon\Mvc\Model\Resultset\Simple;
 
 /**
- * @method static Simple|Customers[] find($parameters = null)
- * @property Simple|Users $user
+ * Class Customers
+ *
+ * @property int    $cst_id;
+ * @property int    $cst_status_flag;
+ * @property string $cst_name_last;
+ * @property string $cst_name_first;
  */
 class Customers extends Model
 {
-    public $id;
-    public $document_id;
-    public $customer_id;
-    public $first_name;
-    public $last_name;
-    public $phone;
-    public $email;
-    public $instructions;
-    public $status;
-    public $birth_date;
-    public $credit_line;
-    public $created_at;
-
-    protected $protected_field;
-    private $private_field;
+    public $cst_id;
+    public $cst_status_flag;
+    public $cst_name_last;
+    public $cst_name_first;
 
     public function initialize()
     {
-        $this->hasOne(
-            'customer_id',
-            Users::class,
-            'id',
+        $this->setSource('co_customers');
+
+        $this->hasMany(
+            'cst_id',
+            Invoices::class,
+            'inv_cst_id',
             [
-                'alias'    => 'user',
+                'alias'    => 'invoices',
                 'reusable' => true,
             ]
         );
