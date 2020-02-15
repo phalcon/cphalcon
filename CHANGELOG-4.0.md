@@ -1,3 +1,11 @@
+# [4.0.5](https://github.com/phalcon/cphalcon/releases/tag/v4.0.5) (2020-xx-xx)
+## Added
+
+## Changed
+
+## Fixed
+
+
 # [4.0.4](https://github.com/phalcon/cphalcon/releases/tag/v4.0.4) (2020-02-15)
 ## Added
 - Added a way to utilize GitHub actions to run database tests against each RDBMS and reworked the testing suite. [#14779](https://github.com/phalcon/cphalcon/issues/14779)
