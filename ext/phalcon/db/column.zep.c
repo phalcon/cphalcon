@@ -102,9 +102,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Column) {
 	/**
 	 * Column not nullable?
 	 *
+	 * Default SQL definition is NOT NULL.
+	 *
 	 * @var bool
 	 */
-	zend_declare_property_bool(phalcon_db_column_ce, SL("notNull"), 0, ZEND_ACC_PROTECTED);
+	zend_declare_property_bool(phalcon_db_column_ce, SL("notNull"), 1, ZEND_ACC_PROTECTED);
 
 	/**
 	 * Column is part of the primary key?
@@ -461,7 +463,7 @@ PHP_METHOD(Phalcon_Db_Column, __construct) {
 	zephir_update_property_zval(this_ptr, SL("name"), &name);
 	ZEPHIR_OBS_VAR(&type);
 	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&type, &definition, SL("type"), 0)))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column type is required", "phalcon/Db/Column.zep", 320);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column type is required", "phalcon/Db/Column.zep", 322);
 		return;
 	}
 	zephir_update_property_zval(this_ptr, SL("type"), &type);
@@ -492,7 +494,7 @@ PHP_METHOD(Phalcon_Db_Column, __construct) {
 				zephir_update_property_zval(this_ptr, SL("scale"), &scale);
 				break;
 			}
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column type does not support scale parameter", "phalcon/Db/Column.zep", 370);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column type does not support scale parameter", "phalcon/Db/Column.zep", 372);
 			return;
 		} while(0);
 
@@ -527,7 +529,7 @@ PHP_METHOD(Phalcon_Db_Column, __construct) {
 					}
 					break;
 				}
-				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column type cannot be auto-increment", "phalcon/Db/Column.zep", 414);
+				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column type cannot be auto-increment", "phalcon/Db/Column.zep", 416);
 				return;
 			} while(0);
 

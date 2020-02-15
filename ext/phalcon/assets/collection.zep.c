@@ -88,7 +88,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Assets_Collection) {
 	/**
 	 * @var int
 	 */
-	zend_declare_property_null(phalcon_assets_collection_ce, SL("position"), ZEND_ACC_PROTECTED);
+	zend_declare_property_long(phalcon_assets_collection_ce, SL("position"), 0, ZEND_ACC_PROTECTED);
 
 	/**
 	 * @var string
