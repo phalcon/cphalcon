@@ -11,10 +11,10 @@
 #include "kernel/globals.h"
 
 #define PHP_PHALCON_NAME        "phalcon"
-#define PHP_PHALCON_VERSION     "4.0.3"
+#define PHP_PHALCON_VERSION     "4.0.4"
 #define PHP_PHALCON_EXTNAME     "phalcon"
 #define PHP_PHALCON_AUTHOR      "Phalcon Team and contributors"
-#define PHP_PHALCON_ZEPVERSION  "0.12.16-12256a1"
+#define PHP_PHALCON_ZEPVERSION  "0.12.17-6724dbf"
 #define PHP_PHALCON_DESCRIPTION "Phalcon is a full stack PHP framework, delivered as a PHP extension, offering lower resource consumption and high performance."
 
 typedef struct _zephir_struct_db { 

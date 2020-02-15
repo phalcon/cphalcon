@@ -223,7 +223,7 @@ PHP_METHOD(Phalcon_Cli_Console, handle) {
 		}
 		ZEPHIR_CALL_METHOD(&moduleObject, &container, "get", NULL, 0, &className);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, &moduleObject, "registerautoloaders", NULL, 0);
+		ZEPHIR_CALL_METHOD(NULL, &moduleObject, "registerautoloaders", NULL, 0, &container);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, &moduleObject, "registerservices", NULL, 0, &container);
 		zephir_check_call_status();
