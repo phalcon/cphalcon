@@ -18,7 +18,7 @@ use Phalcon\Mvc\Model\Resultset\Simple;
  * @method static Simple|Customers[] find($parameters = null)
  * @property Simple|Users $user
  */
-class Customers extends Model
+class Customers1 extends Model
 {
     public $id;
     public $document_id;

@@ -10,6 +10,8 @@
 - Fixed `Phalcon\Db\Adapter\Pdo\Postgresql` to correctly identify `bool` fields instead of treating them as `tinyint` [#14722](https://github.com/phalcon/cphalcon/issues/14722) [@tidytrax](https://github.com/tidytrax)
 - Fixed `Phalcon\Cli\Console` to pass current container to the `Phalcon\Mvc\ModuleDefinitionInterface::registerAutoloaders()` [#14787](https://github.com/phalcon/cphalcon/issues/14787) [@TimurFlush](https://github.com/TimurFlush)
 - Fixed `Phalcon\Db\Dialect\Mysql::createTable()` to create default value with CURRENT_TIMESTAMP ON UPDATE/DELETE [#14797]
+- Fixed `Phalcon\Storage\Adapter\*` to no longer accept the `serializer` option as it was clashing with the factory [#14828](https://github.com/phalcon/cphalcon/pull/14828)
+- Fixed `Phalcon\Http\Request` to return the correct host on an `UnexpectedValueException` [#14763](https://github.com/phalcon/cphalcon/issues/14763)
 
 # [4.0.3](https://github.com/phalcon/cphalcon/releases/tag/v4.0.3) (2020-01-25)
 ## Added

@@ -42,7 +42,7 @@ jobs:
       - name: Set environment variables
         run: |
           echo "::set-env name=ZEPHIR_PARSER_VERSION::v1.3.3"
-          echo "::set-env name=ZEPHIR_VERSION::0.12.16"
+          echo "::set-env name=ZEPHIR_VERSION::0.12.17"
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v1
@@ -50,6 +50,7 @@ jobs:
           php-version: '7.4'
           extensions: mbstring, intl, json, psr, imagick, apcu
           ini-values: apc.enable_cli=on, session.save_path=/tmp
+          tools: prestissimo
 
       - name: Common settings
         run: |

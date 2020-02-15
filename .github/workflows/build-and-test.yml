@@ -18,14 +18,14 @@ jobs:
       - name: Set environment variables
         run: |
           echo "::set-env name=ZEPHIR_PARSER_VERSION::v1.3.3"
-          echo "::set-env name=ZEPHIR_VERSION::0.12.16"
+          echo "::set-env name=ZEPHIR_VERSION::0.12.17"
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v1
         with:
           php-version: '7.4'
           extensions: mbstring, intl, json, psr
-          tools: pecl
+          tools: pecl, prestissimo
 
       - name: Common settings
         run: |
@@ -191,7 +191,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-versions }}
           ini-values: apc.enable_cli=on, session.save_path=/tmp
-          tools: pecl
+          tools: pecl, prestissimo
           extensions: mbstring, intl, json, imagick
 
       - name: Download phalcon pecl package
@@ -341,7 +341,6 @@ jobs:
           vendor/bin/codecept build
 
       - name: Run unit tests
-        continue-on-error: true #remove after bug fix #14763
         run: vendor/bin/codecept run --ext DotReporter unit
 
       - name: Run cli tests
@@ -384,7 +383,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-versions }}
           ini-values: apc.enable_cli=on, session.save_path=C:\temp
-          tools: pecl
+          tools: pecl, prestissimo
           extensions: mbstring, intl, json, yaml, apcu, psr, imagick, gd, redis, igbinary, msgpack-beta, sqlite3
         env:
           PHPTS: ${{ matrix.ts }}
@@ -527,7 +526,6 @@ jobs:
           vendor/bin/codecept build
 
       - name: Run unit tests
-        continue-on-error: true #remove after bug fix #14763
         run: vendor/bin/codecept run --ext DotReporter unit
 
       - name: Run cli tests
