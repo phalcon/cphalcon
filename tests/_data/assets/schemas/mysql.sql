@@ -55,6 +55,42 @@ create table objects
             
 
 
+CREATE SCHEMA IF NOT EXISTS hardware;
+            
+drop table if exists hardware.`robot`;
+            
+CREATE TABLE hardware.`robot` (
+  `robot_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `robot_name` VARCHAR(70) NULL,
+  PRIMARY KEY (`robot_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+            
+
+
+CREATE SCHEMA IF NOT EXISTS hardware;
+            
+drop table if exists hardware.`robot_part`;
+            
+CREATE TABLE hardware.`robot_part` (
+    `robot_part_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `robot_part_name` VARCHAR(70) NULL,
+    PRIMARY KEY (`robot_part_id`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+            
+
+
+CREATE SCHEMA IF NOT EXISTS app;
+            
+drop table if exists app.`robot_to_robot_part`;
+            
+CREATE TABLE app.`robot_to_robot_part` (
+  `robot_id` int(10) unsigned NOT NULL,
+  `robot_part_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`robot_id`, `robot_part_id` )
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+            
+
+
 drop table if exists `co_sources`;
             
 create table co_sources
