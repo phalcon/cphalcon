@@ -47,14 +47,10 @@ SQL;
     {
         return [
             "
-CREATE SCHEMA IF NOT EXISTS app;
-            "
-            ,
-            "
-drop table if exists app.`robot_to_robot_part`;
+drop table if exists private.`robot_to_robot_part`;
             ",
             "
-CREATE TABLE app.`robot_to_robot_part` (
+CREATE TABLE private.`robot_to_robot_part` (
   `robot_id` int(10) unsigned NOT NULL,
   `robot_part_id` int(10) unsigned NOT NULL,
   PRIMARY KEY (`robot_id`, `robot_part_id` )
@@ -72,20 +68,17 @@ CREATE TABLE app.`robot_to_robot_part` (
     {
         return [
             "
-CREATE SCHEMA IF NOT EXISTS app;
+drop table if exists private.robot_to_robot_part;
             ",
             "
-drop table if exists app.robot_to_robot_part;
-            ",
-            "
-create table app.robot_to_robot_part
+create table private.robot_to_robot_part
 (
   robot_id int not null,
   robot_part_id int not null
 );
             ",
             "
-alter table app.robot_to_robot_part owner to postgres;
+alter table private.robot_to_robot_part owner to postgres;
             "
         ];
     }

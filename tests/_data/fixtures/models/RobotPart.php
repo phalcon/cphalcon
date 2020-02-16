@@ -28,7 +28,7 @@ class RobotPart extends Model
 
     public function initialize()
     {
-        $this->setSchema('hardware');
+        $this->setSchema('public');
         $this->setSource('robot_part');
     }
 }

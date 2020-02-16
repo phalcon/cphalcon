@@ -47,14 +47,10 @@ SQL;
     {
         return [
             "
-CREATE SCHEMA IF NOT EXISTS hardware;
-            "
-            ,
-            "
-drop table if exists hardware.`robot_part`;
+drop table if exists public.`robot_part`;
             ",
             "
-CREATE TABLE hardware.`robot_part` (
+CREATE TABLE public.`robot_part` (
     `robot_part_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
     `robot_part_name` VARCHAR(70) NULL,
     PRIMARY KEY (`robot_part_id`)
@@ -72,13 +68,10 @@ CREATE TABLE hardware.`robot_part` (
     {
         return [
             "
-CREATE SCHEMA IF NOT EXISTS hardware;
+drop table if exists public.robot_part;            
             ",
             "
-drop table if exists hardware.robot_part;            
-            ",
-            "
-create table hardware.robot_part
+create table public.robot_part
 (
   robot_part_id serial not null
     constraint robot_part_pk
@@ -87,7 +80,7 @@ create table hardware.robot_part
 );
             ",
             "
-alter table hardware.robot_part owner to postgres;
+alter table public.robot_part owner to postgres;
             "
         ];
     }

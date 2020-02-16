@@ -47,14 +47,10 @@ SQL;
     {
         return [
             "
-CREATE SCHEMA IF NOT EXISTS hardware;
-            "
-            ,
-            "
-drop table if exists hardware.`robot`;
+drop table if exists public.`robot`;
             ",
             "
-CREATE TABLE hardware.`robot` (
+CREATE TABLE public.`robot` (
   `robot_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `robot_name` VARCHAR(70) NULL,
   PRIMARY KEY (`robot_id`)

@@ -28,7 +28,7 @@ class Robot extends Model
 
     public function initialize()
     {
-        $this->setSchema('hardware');
+        $this->setSchema('public');
         $this->setSource('robot');
 
         $this->hasManyToMany(

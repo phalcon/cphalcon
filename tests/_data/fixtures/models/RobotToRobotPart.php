@@ -28,7 +28,7 @@ class RobotToRobotPart extends Model
 
     public function initialize()
     {
-        $this->setSchema('app');
+        $this->setSchema('private');
         $this->setSource('robot_to_robot_part');
     }
 }
