@@ -17,3 +17,5 @@ modules:
           - 'REVOKE ALL ON SCHEMA public FROM %DATA_POSTGRES_USER%;'
           - 'GRANT ALL ON SCHEMA public TO %DATA_POSTGRES_USER%;'
           - 'GRANT ALL ON SCHEMA public TO public;'
+          - 'GRANT CREATE ON SCHEMA hardware TO %DATA_POSTGRES_USER%;'
+          - 'GRANT CREATE ON SCHEMA app TO %DATA_POSTGRES_USER%;'
