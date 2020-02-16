@@ -145,7 +145,7 @@ class Select extends AbstractConditions
         var value = null,
         int type = -1
     ) -> <Select> {
-        this->catCondition("HAVING", condition, value, type);
+        this->appendCondition("HAVING", condition, value, type);
 
         return this;
     }
@@ -284,7 +284,7 @@ class Select extends AbstractConditions
         var value = null,
         int type = -1
     ) -> <Select> {
-        this->appendCondition("HAVING", "AND ", condition, value, type);
+        this->addCondition("HAVING", "AND ", condition, value, type);
 
         return this;
     }
@@ -349,7 +349,7 @@ class Select extends AbstractConditions
         var value = null,
         int type = -1
     ) -> <Select> {
-        this->appendCondition("HAVING", "OR ", condition, value, type);
+        this->addCondition("HAVING", "OR ", condition, value, type);
 
         return this;
     }
