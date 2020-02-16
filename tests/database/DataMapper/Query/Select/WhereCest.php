@@ -65,7 +65,7 @@ class WhereCest
             ->where('inv_id > 1')
             ->andWhere('inv_total > :total')
             ->andWhere('inv_cst_id IN ', [1, 2, 3])
-            ->catWhere(' AND inv_status_flag = ' . $select->bindInline(1))
+            ->appendWhere(' AND inv_status_flag = ' . $select->bindInline(1))
             ->bindValue('total', 100)
         ;
 
@@ -102,7 +102,7 @@ class WhereCest
 
         $select
             ->from('co_invoices')
-            ->catWhere('inv_total > ', 100)
+            ->appendWhere('inv_total > ', 100)
             ->orWhere("inv_status_flag = :status")
             ->bindValue('status', 1)
         ;
