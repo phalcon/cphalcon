@@ -12,6 +12,7 @@ modules:
         waitlock: 10
         initial_queries:
           - 'DROP SCHEMA public CASCADE;'
+          - 'DROP SCHEMA private CASCADE;'
           - 'CREATE SCHEMA public;'
           - 'CREATE SCHEMA private;'
           - 'REVOKE ALL ON SCHEMA public FROM PUBLIC;'
