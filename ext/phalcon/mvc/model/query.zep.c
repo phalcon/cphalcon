@@ -2492,8 +2492,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Query, _getMultiJoin) {
 		ZEPHIR_INIT_VAR(&_21$$8);
 		zephir_create_array(&_21$$8, 3, 0);
 		zephir_array_update_string(&_21$$8, SL("type"), &joinType, PH_COPY | PH_SEPARATE);
-		zephir_array_update_string(&_21$$8, SL("source"), &intermediateSource, PH_COPY | PH_SEPARATE);
 		ZEPHIR_INIT_VAR(&_22$$8);
+		zephir_create_array(&_22$$8, 2, 0);
+		zephir_array_fast_append(&_22$$8, &intermediateSource);
+		zephir_array_fast_append(&_22$$8, &intermediateSchema);
+		zephir_array_update_string(&_21$$8, SL("source"), &_22$$8, PH_COPY | PH_SEPARATE);
+		ZEPHIR_INIT_NVAR(&_22$$8);
 		zephir_create_array(&_22$$8, 1, 0);
 		ZEPHIR_INIT_VAR(&_23$$8);
 		zephir_create_array(&_23$$8, 4, 0);

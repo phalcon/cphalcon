@@ -78,21 +78,29 @@ class JoinCest
     {
         $I->wantToTest('Mvc\Model\Criteria - join() and use ManyToMany with Multiple schemas');
 
-        $criteria = new Criteria();
-        $criteria->setDI($this->container);
+        $driver = $I->getDriver();
 
-        $builder = $criteria->createBuilder();
-        $builder->from(Robot::class);
-        $builder->join(RobotPart::class);
+        /**
+         * The following test needs to skip sqlite because I think
+         * we can't create multiple schemas with sqlite
+         */
+        if ('sqlite' !== $driver) {
+            $criteria = new Criteria();
+            $criteria->setDI($this->container);
 
-        $expected = 'SELECT `robot`.`robot_id`, `robot`.`robot_name` '
-                    . 'FROM `public`.`robot`  '
-                    . 'INNER JOIN `private`.`robot_to_robot_part` '
-                    . 'ON `robot`.`robot_id` = `robot_to_robot_part`.`robot_id` '
-                    . 'INNER JOIN `public`.`robot_part` '
-                    . 'ON `robot_to_robot_part`.`robot_part_id` = `robot_part`.`robot_part_id`';
-        $actual   = $builder->getQuery()->getSql();
+            $builder = $criteria->createBuilder();
+            $builder->from(Robot::class);
+            $builder->join(RobotPart::class);
 
-        $I->assertEquals($expected, $actual['sql']);
+            $expected = 'SELECT `robot`.`robot_id`, `robot`.`robot_name` '
+                        . 'FROM `public`.`robot`  '
+                        . 'INNER JOIN `private`.`robot_to_robot_part` '
+                        . 'ON `robot`.`robot_id` = `robot_to_robot_part`.`robot_id` '
+                        . 'INNER JOIN `public`.`robot_part` '
+                        . 'ON `robot_to_robot_part`.`robot_part_id` = `robot_part`.`robot_part_id`';
+            $actual   = $builder->getQuery()->getSql();
+
+            $I->assertEquals($expected, $actual['sql']);
+        }
     }
 }
