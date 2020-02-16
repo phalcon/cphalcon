@@ -29,8 +29,6 @@ create index co_invoices_inv_status_flag_index
 
 
 
-CREATE SCHEMA IF NOT EXISTS hardware;
-            
 drop table if exists hardware.robot;            
             
 create table hardware.robot
@@ -45,11 +43,9 @@ alter table hardware.robot owner to postgres;
             
 
 
-CREATE SCHEMA IF NOT EXISTS hardware;
+drop table if exists public.robot_part;            
             
-drop table if exists hardware.robot_part;            
-            
-create table hardware.robot_part
+create table public.robot_part
 (
   robot_part_id serial not null
     constraint robot_part_pk
@@ -57,21 +53,19 @@ create table hardware.robot_part
   robot_part_name varchar(70)
 );
             
-alter table hardware.robot_part owner to postgres;
+alter table public.robot_part owner to postgres;
             
 
 
-CREATE SCHEMA IF NOT EXISTS app;
+drop table if exists private.robot_to_robot_part;
             
-drop table if exists app.robot_to_robot_part;
-            
-create table app.robot_to_robot_part
+create table private.robot_to_robot_part
 (
   robot_id int not null,
   robot_part_id int not null
 );
             
-alter table app.robot_to_robot_part owner to postgres;
+alter table private.robot_to_robot_part owner to postgres;
             
 
 

@@ -68,9 +68,6 @@ CREATE TABLE public.`robot` (
     {
         return [
             "
-CREATE SCHEMA IF NOT EXISTS hardware;
-            ",
-            "
 drop table if exists hardware.robot;            
             ",
             "
