@@ -118,6 +118,20 @@ class Select extends AbstractConditions
     }
 
     /**
+     * The `AS` statement for the query - useful in sub-queries
+     *
+     * @param string $asAlias
+     *
+     * @return Select
+     */
+    public function asAlias(string asAlias) -> <Select>
+    {
+        let this->asAlias = asAlias;
+
+        return this;
+    }
+
+    /**
      * Concatenates to the most recent `HAVING` clause
      *
      * @param string     $condition
@@ -126,12 +140,12 @@ class Select extends AbstractConditions
      *
      * @return Select
      */
-    public function appendHaving(
+    public function catHaving(
         string condition,
         var value = null,
         int type = -1
     ) -> <Select> {
-        this->appendCondition("HAVING", condition, value, type);
+        this->catCondition("HAVING", condition, value, type);
 
         return this;
     }
@@ -145,7 +159,7 @@ class Select extends AbstractConditions
      *
      * @return Select
      */
-    public function appendJoin(
+    public function catJoin(
         string condition,
         var value = null,
         int type = -1
@@ -160,20 +174,6 @@ class Select extends AbstractConditions
             key = Arr::lastKey(this->store["FROM"][end]);
 
         let this->store["FROM"][end][key] = this->store["FROM"][end][key] . condition;
-
-        return this;
-    }
-
-    /**
-     * The `AS` statement for the query - useful in sub-queries
-     *
-     * @param string $asAlias
-     *
-     * @return Select
-     */
-    public function asAlias(string asAlias) -> <Select>
-    {
-        let this->asAlias = asAlias;
 
         return this;
     }
@@ -284,7 +284,7 @@ class Select extends AbstractConditions
         var value = null,
         int type = -1
     ) -> <Select> {
-        this->addCondition("HAVING", "AND ", condition, value, type);
+        this->appendCondition("HAVING", "AND ", condition, value, type);
 
         return this;
     }
@@ -349,7 +349,7 @@ class Select extends AbstractConditions
         var value = null,
         int type = -1
     ) -> <Select> {
-        this->addCondition("HAVING", "OR ", condition, value, type);
+        this->appendCondition("HAVING", "OR ", condition, value, type);
 
         return this;
     }
