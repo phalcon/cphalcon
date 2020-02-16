@@ -29,9 +29,9 @@ create index co_invoices_inv_status_flag_index
 
 
 
-drop table if exists hardware.robot;            
+drop table if exists public.robot;            
             
-create table hardware.robot
+create table public.robot
 (
   robot_id serial not null
     constraint robot_pk
@@ -39,7 +39,7 @@ create table hardware.robot
   robot_name varchar(70)
 );
             
-alter table hardware.robot owner to postgres;
+alter table public.robot owner to postgres;
             
 
 

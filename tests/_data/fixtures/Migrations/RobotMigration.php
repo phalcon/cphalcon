@@ -68,10 +68,10 @@ CREATE TABLE public.`robot` (
     {
         return [
             "
-drop table if exists hardware.robot;            
+drop table if exists public.robot;            
             ",
             "
-create table hardware.robot
+create table public.robot
 (
   robot_id serial not null
     constraint robot_pk
@@ -80,7 +80,7 @@ create table hardware.robot
 );
             ",
             "
-alter table hardware.robot owner to postgres;
+alter table public.robot owner to postgres;
             "
         ];
     }
