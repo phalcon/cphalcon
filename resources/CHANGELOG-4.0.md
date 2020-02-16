@@ -1,11 +1,26 @@
-# [4.0.4](https://github.com/phalcon/cphalcon/releases/tag/v4.0.4) (2020-xx-xx)
+# [4.0.5](https://github.com/phalcon/cphalcon/releases/tag/v4.0.5) (2020-xx-xx)
 ## Added
 
 ## Changed
 
 ## Fixed
+
+
+# [4.0.4](https://github.com/phalcon/cphalcon/releases/tag/v4.0.4) (2020-02-15)
+## Added
+- Added a way to utilize GitHub actions to run database tests against each RDBMS and reworked the testing suite. [#14779](https://github.com/phalcon/cphalcon/issues/14779)
+- Added the latest version of Codeception (v4) and utilized the phalcon4 module. [#14779](https://github.com/phalcon/cphalcon/issues/14779)
+
+## Changed
+- Changed Column 'notNull' definition to make possible create nullable (NULL) columns [#14804](https://github.com/phalcon/cphalcon/pull/14804)
+
+## Fixed
 - Fixed `Phalcon\Db\Adapter\Pdo\Postgresql` to correctly identify `bool` fields instead of treating them as `tinyint` [#14722](https://github.com/phalcon/cphalcon/issues/14722) [@tidytrax](https://github.com/tidytrax)
 - Fixed `Phalcon\Cli\Console` to pass current container to the `Phalcon\Mvc\ModuleDefinitionInterface::registerAutoloaders()` [#14787](https://github.com/phalcon/cphalcon/issues/14787) [@TimurFlush](https://github.com/TimurFlush)
+- Fixed `Phalcon\Db\Dialect\Mysql::createTable()` to create default value with CURRENT_TIMESTAMP ON UPDATE/DELETE [#14797]
+- Fixed `Phalcon\Storage\Adapter\*` to no longer accept the `serializer` option as it was clashing with the factory [#14828](https://github.com/phalcon/cphalcon/pull/14828)
+- Fixed `Phalcon\Http\Request` to return the correct host on an `UnexpectedValueException` [#14763](https://github.com/phalcon/cphalcon/issues/14763)
+- Fixed `Phalcon\Assets\Collection` to initialize `position` to 0 [#14848](https://github.com/phalcon/cphalcon/pull/14848)
 
 # [4.0.3](https://github.com/phalcon/cphalcon/releases/tag/v4.0.3) (2020-01-25)
 ## Added
