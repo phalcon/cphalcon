@@ -78,12 +78,12 @@ abstract class AbstractConditions extends AbstractQuery
      *
      * @return AbstractConditions
      */
-    public function catWhere(
+    public function appendWhere(
         string condition,
         var value = null,
         int type = -1
     ) -> <AbstractConditions> {
-        this->catCondition("WHERE", condition, value, type);
+        this->appendCondition("WHERE", condition, value, type);
 
         return this;
     }
@@ -116,7 +116,7 @@ abstract class AbstractConditions extends AbstractQuery
         var value = null,
         int type = -1
     ) -> <AbstractConditions> {
-        this->appendCondition("WHERE", "OR ", condition, value, type);
+        this->addCondition("WHERE", "OR ", condition, value, type);
 
         return this;
     }
@@ -135,7 +135,7 @@ abstract class AbstractConditions extends AbstractQuery
         var value = null,
         int type = -1
     ) -> <AbstractConditions> {
-        this->appendCondition("WHERE", "AND ", condition, value, type);
+        this->addCondition("WHERE", "AND ", condition, value, type);
 
         return this;
     }
@@ -173,7 +173,7 @@ abstract class AbstractConditions extends AbstractQuery
      * @param mixed|null $value
      * @param int        $type
      */
-    protected function appendCondition(
+    protected function addCondition(
         string store,
         string andor,
         string condition,
@@ -315,7 +315,7 @@ abstract class AbstractConditions extends AbstractQuery
      * @param mixed  $value
      * @param int    $type
      */
-    protected function catCondition(
+    protected function appendCondition(
         string store,
         string condition,
         var value = null,
