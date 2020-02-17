@@ -42,8 +42,8 @@ class GetStatementCest
             ->set('inv_status_flag', 1)
             ->set('inv_created_date', 'NOW()')
             ->columns(['inv_cst_id' => 1])
-            ->returning('inv_id', 'inv_cst_id')
-            ->returning('inv_total')
+            ->returning(['inv_id', 'inv_cst_id'])
+            ->returning(['inv_total'])
         ;
 
         $expected = sprintf(

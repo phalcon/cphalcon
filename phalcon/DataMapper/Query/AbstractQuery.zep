@@ -16,7 +16,6 @@
 namespace Phalcon\DataMapper\Query;
 
 use Phalcon\DataMapper\Pdo\Connection;
-use Phalcon\DataMapper\Pdo\Exception\CannotBindValue;
 
 /**
  * Class AbstractQuery
@@ -124,7 +123,6 @@ abstract class AbstractQuery
      * Performs a statement in the connection
      *
      * @return PDOStatement
-     * @throws CannotBindValue
      */
     public function perform()
     {
