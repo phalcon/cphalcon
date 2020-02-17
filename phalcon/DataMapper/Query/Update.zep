@@ -15,7 +15,6 @@
 
 namespace Phalcon\DataMapper\Query;
 
-use BadMethodCallException;
 use Phalcon\DataMapper\Pdo\Connection;
 
 /**
@@ -117,15 +116,15 @@ class Update extends AbstractConditions
     /**
      * Adds the `RETURNING` clause
      *
-     * @param string ...$columns
+     * @param array $columns
      *
      * @return Update
      */
-    public function returning() -> <Update>
+    public function returning(array columns) -> <Update>
     {
         let this->store["RETURNING"] = array_merge(
             this->store["RETURNING"],
-            func_get_args()
+            columns
         );
 
         return this;

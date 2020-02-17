@@ -68,7 +68,7 @@ class HavingCest
             ->having('inv_total = :total')
             ->andHaving('inv_cst_id = 1')
             ->orHaving('(inv_status_flag = 0 ')
-            ->catHaving('OR inv_status_flag = 1)')
+            ->appendHaving('OR inv_status_flag = 1)')
             ->bindValue('total', 100)
         ;
 

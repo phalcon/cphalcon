@@ -36,7 +36,7 @@ class GetStatementCest
             ->where('inv_total > :total')
             ->where('inv_cst_id = :cstId')
             ->orWhere('inv_status_flag = :flag')
-            ->returning('inv_total', 'inv_cst_id', 'inv_status_flag')
+            ->returning(['inv_total', 'inv_cst_id', 'inv_status_flag'])
             ->bindValues(
                 [
                     'total' => 100,

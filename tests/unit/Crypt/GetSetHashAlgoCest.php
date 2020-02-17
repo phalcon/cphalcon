@@ -30,12 +30,12 @@ class GetSetHashAlgoCest
 
         $crypt = new Crypt();
 
-        $I->assertEquals('sha256', $crypt->getHashAlgo());
+        $I->assertEquals('sha512', $crypt->getHashAlgo());
 
-        $crypt->setHashAlgo('sha512');
+        $crypt->setHashAlgo('sha256');
 
         $I->assertEquals(
-            'sha512',
+            'sha256',
             $crypt->getHashAlgo()
         );
     }
