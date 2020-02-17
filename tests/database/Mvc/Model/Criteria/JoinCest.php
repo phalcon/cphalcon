@@ -96,7 +96,7 @@ class JoinCest
                         . 'FROM `co_customers`  '
                         . 'INNER JOIN `private`.`co_order_products` '
                         . 'ON `co_customers`.`cst_id` = `co_order_products`.`cst_id` '
-                        . 'INNER JOIN `co_products` ON `co_order_products`.`prdt_id` = `products`.`prdt_id`';
+                        . 'INNER JOIN `co_products` ON `co_order_products`.`prdt_id` = `co_products`.`prdt_id`';
             $actual   = $builder->getQuery()->getSql();
 
             $I->assertEquals($expected, $actual['sql']);
