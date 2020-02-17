@@ -14,29 +14,29 @@ declare(strict_types=1);
 namespace Phalcon\Test\Fixtures\Migrations;
 
 /**
- * Class RobotToRobotPartMigration
+ * Class OrderProductsMigration
  */
-class RobotToRobotPartMigration extends AbstractMigration
+class OrderProductsMigration extends AbstractMigration
 {
-    protected $table = "robot_to_robot_part";
+    protected $table = "co_order_products";
 
     /**
-     * @param int $robot_id
-     * @param int $robot_part_id
+     * @param int $cst_id
+     * @param int $prdt_id
      *
      * @return int
      */
     public function insert(
-        $robot_id,
-        int $robot_part_id
+        $cst_id,
+        int $prdt_id
     ): int {
-        $robot_id      = $robot_id ?: 'null';
-        $robot_part_id = $robot_part_id ?: 'null';
+        $cst_id      = $cst_id ?: 'null';
+        $prdt_id = $prdt_id ?: 'null';
         $sql    = <<<SQL
-insert into robot_to_robot_part (
-    robot_id, robot_part_id
+insert into co_order_products (
+    cst_id, prdt_id
 ) values (
-    {$robot_id}, {$robot_part_id}
+    {$cst_id}, {$prdt_id}
 )
 SQL;
 
@@ -47,13 +47,13 @@ SQL;
     {
         return [
             "
-drop table if exists private.`robot_to_robot_part`;
+drop table if exists private.`co_order_products`;
             ",
             "
-CREATE TABLE private.`robot_to_robot_part` (
-  `robot_id` int(10) unsigned NOT NULL,
-  `robot_part_id` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`robot_id`, `robot_part_id` )
+CREATE TABLE private.`co_order_products` (
+  `cst_id` int(10) unsigned NOT NULL,
+  `prdt_id` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`cst_id`, `prdt_id` )
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
             "
         ];
@@ -68,17 +68,17 @@ CREATE TABLE private.`robot_to_robot_part` (
     {
         return [
             "
-drop table if exists private.robot_to_robot_part;
+drop table if exists private.co_order_products;
             ",
             "
-create table private.robot_to_robot_part
+create table private.co_order_products
 (
-  robot_id int not null,
-  robot_part_id int not null
+    cst_id int not null,
+    prdt_id int not null
 );
             ",
             "
-alter table private.robot_to_robot_part owner to postgres;
+alter table private.co_order_products owner to postgres;
             "
         ];
     }

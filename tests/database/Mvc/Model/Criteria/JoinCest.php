@@ -19,8 +19,7 @@ use Phalcon\Mvc\Model\Query\Builder;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Customers;
 use Phalcon\Test\Models\Invoices;
-use Phalcon\Test\Models\Robot;
-use Phalcon\Test\Models\RobotPart;
+use Phalcon\Test\Models\Products;
 
 /**
  * Class JoinCest
@@ -89,15 +88,14 @@ class JoinCest
             $criteria->setDI($this->container);
 
             $builder = $criteria->createBuilder();
-            $builder->from(Robot::class);
-            $builder->join(RobotPart::class);
+            $builder->from(Customers::class);
+            $builder->join(Products::class);
 
-            $expected = 'SELECT `robot`.`robot_id`, `robot`.`robot_name` '
-                        . 'FROM `public`.`robot`  '
-                        . 'INNER JOIN `private`.`robot_to_robot_part` '
-                        . 'ON `robot`.`robot_id` = `robot_to_robot_part`.`robot_id` '
-                        . 'INNER JOIN `public`.`robot_part` '
-                        . 'ON `robot_to_robot_part`.`robot_part_id` = `robot_part`.`robot_part_id`';
+            $expected = 'SELECT `co_customers`.`cst_id`, `co_customers`.`cst_status_flag`, '
+                        . '`co_customers`.`cst_name_last`, `co_customers`.`cst_name_first` '
+                        . 'FROM `co_customers`  '
+                        . 'INNER JOIN `private`.`co_order_products` ON `co_customers`.`cst_id` = `co_order_products`.`cst_id` '
+                        . 'INNER JOIN `products` ON `co_order_products`.`prdt_id` = `products`.`prdt_id`';
             $actual   = $builder->getQuery()->getSql();
 
             $I->assertEquals($expected, $actual['sql']);

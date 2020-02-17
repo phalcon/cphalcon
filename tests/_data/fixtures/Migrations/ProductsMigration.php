@@ -14,29 +14,29 @@ declare(strict_types=1);
 namespace Phalcon\Test\Fixtures\Migrations;
 
 /**
- * Class RobotMigration
+ * Class ProductsMigration
  */
-class RobotMigration extends AbstractMigration
+class ProductsMigration extends AbstractMigration
 {
-    protected $table = "robot";
+    protected $table = "co_products";
 
     /**
-     * @param int         $robot_id
-     * @param string|null $robot_name
+     * @param int         $prdt_id
+     * @param string|null $prdt_name
      *
      * @return int
      */
     public function insert(
-        $robot_id,
-        string $robot_name = null
+        $prdt_id,
+        string $prdt_name = null
     ): int {
-        $robot_id    = $robot_id ?: 'null';
-        $robot_name  = $robot_name ?: uniqid();
+        $prdt_id    = $prdt_id ?: 'null';
+        $prdt_name  = $prdt_name ?: uniqid();
         $sql    = <<<SQL
-insert into robot (
-    robot_id, robot_name
+insert into co_products (
+    prdt_id, prdt_name
 ) values (
-    {$robot_id}, {$robot_name}
+    {$prdt_id}, {$prdt_name}
 )
 SQL;
 
@@ -47,14 +47,14 @@ SQL;
     {
         return [
             "
-drop table if exists public.`robot`;
+drop table if exists `co_products`;
             ",
             "
-CREATE TABLE public.`robot` (
-  `robot_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `robot_name` VARCHAR(70) NULL,
-  PRIMARY KEY (`robot_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `co_products` (
+    `prdt_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `prdt_name` VARCHAR(70) NULL,
+    PRIMARY KEY (`prdt_id`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
             "
         ];
     }
@@ -68,19 +68,19 @@ CREATE TABLE public.`robot` (
     {
         return [
             "
-drop table if exists public.robot;            
+drop table if exists co_products;            
             ",
             "
-create table public.robot
+create table co_products
 (
-  robot_id serial not null
-    constraint robot_pk
+    prdt_id serial not null
+    constraint robot_part_pk
       primary key,
-  robot_name varchar(70)
+      prdt_name varchar(70)
 );
             ",
             "
-alter table public.robot owner to postgres;
+alter table public.co_products owner to postgres;
             "
         ];
     }
