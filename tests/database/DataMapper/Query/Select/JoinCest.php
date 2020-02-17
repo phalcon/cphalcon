@@ -137,7 +137,7 @@ class JoinCest
                 'inv_cst_id = cst_id AND cst_status_flag = ',
                 1
             )
-            ->catJoin(' AND cst_name LIKE ', '%john%')
+            ->appendJoin(' AND cst_name LIKE ', '%john%')
         ;
 
         $expected = "SELECT * FROM co_invoices "
