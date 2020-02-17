@@ -140,7 +140,7 @@ class Select extends AbstractConditions
      *
      * @return Select
      */
-    public function catHaving(
+    public function appendHaving(
         string condition,
         var value = null,
         int type = -1
@@ -159,7 +159,7 @@ class Select extends AbstractConditions
      *
      * @return Select
      */
-    public function catJoin(
+    public function appendJoin(
         string condition,
         var value = null,
         int type = -1

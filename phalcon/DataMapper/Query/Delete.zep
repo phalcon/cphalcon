@@ -50,15 +50,15 @@ class Delete extends AbstractConditions
     /**
      * Adds the `RETURNING` clause
      *
-     * @param string ...$columns
+     * @param array $columns
      *
      * @return Delete
      */
-    public function returning() -> <Delete>
+    public function returning(array columns) -> <Delete>
     {
         let this->store["RETURNING"] = array_merge(
             this->store["RETURNING"],
-            func_get_args()
+            columns
         );
 
         return this;

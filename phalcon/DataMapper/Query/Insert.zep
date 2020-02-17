@@ -15,7 +15,6 @@
 
 namespace Phalcon\DataMapper\Query;
 
-use BadMethodCallException;
 use Phalcon\DataMapper\Pdo\Connection;
 
 /**
@@ -118,15 +117,15 @@ class Insert extends AbstractQuery
     /**
      * Adds the `RETURNING` clause
      *
-     * @param string ...$columns
+     * @param array $columns
      *
      * @return Insert
      */
-    public function returning() -> <Insert>
+    public function returning(array columns) -> <Insert>
     {
         let this->store["RETURNING"] = array_merge(
             this->store["RETURNING"],
-            func_get_args()
+            columns
         );
 
         return this;

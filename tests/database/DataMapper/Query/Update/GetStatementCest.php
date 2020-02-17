@@ -80,8 +80,8 @@ class GetStatementCest
         $I->assertEquals($expected, $actual);
 
         $update
-            ->returning('inv_id', 'inv_cst_id')
-            ->returning('inv_total')
+            ->returning(['inv_id', 'inv_cst_id'])
+            ->returning(['inv_total'])
         ;
 
         $expected = sprintf(
