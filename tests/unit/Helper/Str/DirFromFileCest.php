@@ -46,4 +46,20 @@ class DirFromFileCest
         $actual   = Str::dirFromFile($fileName);
         $I->assertEquals($expected, $actual);
     }
+
+    /**
+     * Tests Phalcon\Helper\Str :: dirFromFile()
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-04-16
+     */
+    public function helperStrFolderFromFileWithDots(UnitTester $I)
+    {
+        $I->wantToTest('Helper\Str - dirFromFile()');
+        $fileName = 'index.12321321.cache.html';
+
+        $expected = 'in/de/x./12/32/13/21/.c/ac/ch/e';
+        $actual   = Str::dirFromFile($fileName);
+        $I->assertEquals($expected, $actual);
+    }
 }
