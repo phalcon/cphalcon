@@ -47,7 +47,7 @@ class Profiler implements ProfilerInterface
     protected logFormat = "";
 
     /**
-     * @var string
+     * @var int
      */
     protected logLevel = 0;
 
