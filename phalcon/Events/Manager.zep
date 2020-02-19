@@ -173,7 +173,7 @@ class Manager implements ManagerInterface
      */
     public function fire(string! eventType, object source, var data = null, bool cancelable = true)
     {
-        var events, eventParts, type, eventName, event, status, fireEvents, singleHandlerMethod;
+        var events, eventParts, type, eventName, event, status, fireEvents;
 
         let events = this->events;
 
@@ -181,8 +181,8 @@ class Manager implements ManagerInterface
             return null;
         }
 
-        // Only handler objects and callables are valid
-        if false === this->isValidHandler(handler, true) {
+        // All valid events must have a colon separator
+        if unlikely !memstr(eventType, ":") {
             throw new Exception("Invalid event type " . eventType);
         }
 
@@ -226,7 +226,7 @@ class Manager implements ManagerInterface
      */
     final public function fireQueue(<SplPriorityQueue> queue, <EventInterface> event)
     {
-        var status, eventName, data, iterator, source, handler;
+        var status, eventName, data, iterator, source, handler, singleHandlerMethod;
         bool collect, cancelable;
 
         let status = null;
@@ -262,8 +262,8 @@ class Manager implements ManagerInterface
 
             iterator->next();
 
-            // Only handler objects are valid
-            if unlikely typeof handler != "object" {
+            // Only handler objects and callables are valid
+            if false === this->isValidHandler(handler, true) {
                 continue;
             }
 
@@ -286,8 +286,6 @@ class Manager implements ManagerInterface
                 } else {
                     continue;
                 }
-
-                let status = handler->{eventName}(event, source, data);
             }
 
             // Trace the response
@@ -382,7 +380,7 @@ class Manager implements ManagerInterface
         let this->singleHandlerMethod = method;
     }
 
-    public function getSingleHandlerMethod() -> string|null
+    public function getSingleHandlerMethod() -> null | string
     {
         return this->singleHandlerMethod;
     }
