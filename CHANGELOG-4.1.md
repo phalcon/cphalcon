@@ -30,9 +30,10 @@ This component will be used in the Data Mapper implementation but can be used as
   - `Phalcon\DataMapper\Query\Update`
   - `Phalcon\DataMapper\Query\QueryFactory`
 This component can be used to create SQL statements using a fluent interface. Optionally the statements can be executed from the builder itself using the `DataMapper\Pdo` connection. [#14734](https://github.com/phalcon/cphalcon/issues/14734)
-- Added single event handlers. Now u can use as handlers in Events Manager: [#14859](https://github.com/phalcon/cphalcon/pull/14859)
+- Added single-event handlers. Now u can use as handlers in Events Manager: [#14859](https://github.com/phalcon/cphalcon/pull/14859)
     - Invokable listener `BeforeExceptionListener::__invoke` by enabling `$eventsManager->toggleInvokableUsage(true);`. Default is **false**
     - Single method listener `BeforeExceptionListener::handle` by setting `$eventsManager->setSingleHandlerMethod('handle');`. Default is **null**
+- Added `Phalcon\Events\Provider` to use Events Listeners lists [#14859](https://github.com/phalcon/cphalcon/pull/14859)
 
 ## Changed
 - Added service checks for the session. Now cookies will be saved in the session only when the `session` service is defined [#11770](https://github.com/phalcon/cphalcon/issues/11770), [#14649](https://github.com/phalcon/cphalcon/pull/14649)
