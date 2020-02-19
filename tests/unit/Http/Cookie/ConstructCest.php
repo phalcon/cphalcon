@@ -33,7 +33,6 @@ class ConstructCest
 
         $this->setNewFactoryDefault();
         $this->setDiService('sessionStream');
-        ;
 
         $cookie = new Cookie('test');
         $I->assertInstanceOf(Cookie\CookieInterface::class, $cookie);

@@ -33,7 +33,6 @@ class GetSetDomainCest
 
         $this->setNewFactoryDefault();
         $this->setDiService('sessionStream');
-        ;
 
         $name     = 'test';
         $value    = "phalcon";

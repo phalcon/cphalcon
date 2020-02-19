@@ -33,7 +33,6 @@ class UseEncryptionIsCest
 
         $this->setNewFactoryDefault();
         $this->setDiService('sessionStream');
-        ;
 
         $name     = 'test';
         $value    = "phalcon";

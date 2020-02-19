@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Mvc\Dispatcher;
 
+use Foo\IndexController;
 use IntegrationTester;
 use Phalcon\Test\Integration\Mvc\Dispatcher\Helper\BaseDispatcher;
 
@@ -50,7 +51,7 @@ class GetControllerClassCest extends BaseDispatcher
         );
 
         $I->assertEquals(
-            \Foo\IndexController::class,
+            IndexController::class,
             $dispatcher->getControllerClass()
         );
     }
