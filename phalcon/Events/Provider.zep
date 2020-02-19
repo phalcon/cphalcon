@@ -10,6 +10,8 @@
 
 namespace Phalcon\Events;
 
+use Closure;
+
 /**
  * Phalcon\Events\Provider
  *
@@ -26,14 +28,21 @@ class Provider implements ProviderInterface
      * ```php
      * $listeners = [
      *    'router:notMatchedRoute' => NotMatchedRoute::class,
-     *    'router:beforeCheckRoute' => [
-     *        BeforeCheckRoutes::class,
+     *    'router:notMatchedRoute' => function($event, $router) { return true; }
+     *    'router:notMatchedRoute' => [
+     *        'class' => NotMatchedRoute::class,
+     *        'method' => 'handle',
      *    ],
-     *    'router:matchedRoute' => [
+     *    'router:notMatchedRoute' => [
+     *        NotMatchedRoute::class,
+     *        function($event, $router) { return true; },
+     *    ],
+     *    'router:notMatchedRoute' => [
      *        [
-     *            'class' => MatchedRoute::class,
+     *            'class' => NotMatchedRoute::class,
      *            'method' => 'handle',
      *        ],
+     *        function($event, $router) { return true; },
      *    ],
      * ]
      * ```
@@ -63,23 +72,62 @@ class Provider implements ProviderInterface
      */
     final public function getListeners() -> array
     {
-        var listeners, eventType, items, item;
+        var listeners, eventType, values, value;
 
         let listeners = [];
 
-        for eventType, items in this->listeners {
+        for eventType, values in this->listeners {
             let eventType = (string) eventType;
 
-            if likely typeof items == "array" {
-                for item in items {
-                    let listeners[eventType][] = this->getListener(items);
+            if likely typeof values == "array" {
+                if is_callable(values) {
+                    let listeners[eventType][] = values;
+                } else {
+                    for value in values {
+                        let listeners[eventType][] = this->getListener(value);
+                    }
                 }
-            } elseif typeof items == "string" {
-                let listeners[eventType][] = this->getListener(items);
+            } else {
+                let listeners[eventType][] = this->getListener(values);
             }
         }
 
         return listeners;
+    }
+
+    /**
+     * @param mixed $value
+     *
+     * @return array|object|null
+     */
+    final protected function getListener(var value) -> null | array | object
+    {
+        var className;
+
+        if likely typeof value == "string" {
+            return new {value}();
+        } elseif typeof value == "object" || value instanceof Closure {
+            return value;
+        } elseif typeof value == "array" {
+            if is_callable(value) {
+                return value;
+            }
+            if !isset(value["class"]) {
+                return null;
+            }
+            if isset(value["method"]) {
+                return [
+                    0 : value["class"],
+                    1 : value["method"]
+                ];
+            }
+
+            let className = value["class"];
+
+            return new {className}();
+        }
+
+        return null;
     }
 
     /**
@@ -90,35 +138,5 @@ class Provider implements ProviderInterface
     final public function getOptions() -> array
     {
         return this->options;
-    }
-
-    /**
-     * @param mixed $item
-     *
-     * @return array|object|null
-     */
-    final protected function getListener(var item) -> null | array | object
-    {
-        var className;
-
-        if likely typeof item == "array" {
-            if unlikely !isset(item["class"]) {
-                return null;
-            }
-            if isset(item["method"]) {
-                return [
-                    0 : item["class"],
-                    1 : item["method"]
-                ];
-            }
-
-            let className = item["class"];
-
-            return new {className}();
-        } elseif typeof item == "string" {
-            return new {item}();
-        }
-
-        return null;
     }
 }
