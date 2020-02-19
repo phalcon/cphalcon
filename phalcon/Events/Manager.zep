@@ -39,6 +39,10 @@ class Manager implements ManagerInterface
 
     protected responses;
 
+    protected useInvokable = false;
+
+    protected singleHandlerMethod = null;
+
     /**
      * Attach a listener to the events manager
      *
@@ -48,9 +52,7 @@ class Manager implements ManagerInterface
     {
         var priorityQueue;
 
-        if unlikely typeof handler != "object" {
-            throw new Exception("Event handler must be an Object");
-        }
+        this->isValidHandler(handler);
 
         if !fetch priorityQueue, this->events[eventType] {
             // Create a SplPriorityQueue to store the events with priorities
@@ -99,9 +101,7 @@ class Manager implements ManagerInterface
     {
         var priorityQueue, newPriorityQueue, data;
 
-        if unlikely typeof handler != "object" {
-            throw new Exception("Event handler must be an Object");
-        }
+        this->isValidHandler(handler);
 
         if fetch priorityQueue, this->events[eventType] {
             /**
@@ -173,7 +173,7 @@ class Manager implements ManagerInterface
      */
     public function fire(string! eventType, object source, var data = null, bool cancelable = true)
     {
-        var events, eventParts, type, eventName, event, status, fireEvents;
+        var events, eventParts, type, eventName, event, status, fireEvents, singleHandlerMethod;
 
         let events = this->events;
 
@@ -181,8 +181,8 @@ class Manager implements ManagerInterface
             return null;
         }
 
-        // All valid events must have a colon separator
-        if unlikely !memstr(eventType, ":") {
+        // Only handler objects and callables are valid
+        if false === this->isValidHandler(handler, true) {
             throw new Exception("Invalid event type " . eventType);
         }
 
@@ -267,8 +267,8 @@ class Manager implements ManagerInterface
                 continue;
             }
 
-            // Check if the event is a closure
-            if handler instanceof Closure {
+            // Check if the event is a closure or callable
+            if handler instanceof Closure || is_callable(handler) {
                 // Call the function in the PHP userland
                 let status = call_user_func_array(
                     handler,
@@ -276,7 +276,14 @@ class Manager implements ManagerInterface
                 );
             } else {
                 // Check if the listener has implemented an event with the same name
-                if !method_exists(handler, eventName) {
+                if method_exists(handler, eventName) {
+                    let status = handler->{eventName}(event, source, data);
+                } elseif this->useInvokable && method_exists(handler, "__invoke") {
+                    let status = handler->__invoke(event, source, data);
+                } elseif null !== this->singleHandlerMethod && method_exists(handler, this->singleHandlerMethod) {
+                    let singleHandlerMethod = this->singleHandlerMethod;
+                    let status = handler->{singleHandlerMethod}(event, source, data);
+                } else {
                     continue;
                 }
 
@@ -350,5 +357,33 @@ class Manager implements ManagerInterface
     public function isCollecting() -> bool
     {
         return this->collect;
+    }
+
+    public function isValidHandler(var handler, bool silent = false) -> bool
+    {
+        if unlikely (typeof handler != "object" && !is_callable(handler)) {
+            if silent {
+                return false;
+            } else {
+                throw new Exception("Event handler must be an Object or Callable");
+            }
+        }
+
+        return true;
+    }
+
+    public function toggleInvokableUsage(bool! $state = true)
+    {
+        let this->useInvokable = state;
+    }
+
+    public function setSingleHandlerMethod(string! method = null) -> void
+    {
+        let this->singleHandlerMethod = method;
+    }
+
+    public function getSingleHandlerMethod() -> string|null
+    {
+        return this->singleHandlerMethod;
     }
 }
