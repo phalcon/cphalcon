@@ -44,6 +44,25 @@ class Manager implements ManagerInterface
     protected singleHandlerMethod = null;
 
     /**
+     * Attach a listeneres to the events manager from provider
+     *
+     * @param \Phalcon\Events\ProviderInterface provider
+     */
+    public function registerProvider(<ProviderInterface> provider) -> void
+    {
+        var events, listeners, listener, eventType;
+
+        let events = provider->getListeners();
+
+        for eventType, listeners in events {
+            let eventType = (string) eventType;
+            for listener in listeners {
+                this->attach(eventType, listener);
+            }
+        }
+    }
+
+    /**
      * Attach a listener to the events manager
      *
      * @param object|callable handler
