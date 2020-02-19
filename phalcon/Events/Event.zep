@@ -35,6 +35,13 @@ class Event implements EventInterface
     protected cancelable;
 
     /**
+     * Is event strict?
+     *
+     * @var bool
+     */
+    protected strict;
+
+    /**
      * Event data
      *
      * @var mixed
@@ -67,8 +74,13 @@ class Event implements EventInterface
      *
      * @param object source
      */
-    public function __construct(string! type, object source, var data = null, bool cancelable = true)
-    {
+    public function __construct(
+        string! type,
+        object source,
+        var data = null,
+        bool cancelable = true,
+        bool strict = false
+    ) {
         if unlikely typeof source != "object" {
             throw new Exception(
                 "The source of " . type . " event must be an object, got " . (typeof source)
@@ -77,7 +89,8 @@ class Event implements EventInterface
         let this->type       = type,
             this->source     = source,
             this->data       = data,
-            this->cancelable = cancelable;
+            this->cancelable = cancelable,
+            this->strict     = strict;
     }
 
     /**
@@ -92,6 +105,21 @@ class Event implements EventInterface
     public function isCancelable() -> bool
     {
         return this->cancelable;
+    }
+
+    /**
+     * Check whether the event is strict.
+     * Strict events stops event loop if Listener returns false
+     *
+     * ```php
+     * if ($event->isStrict()) {
+     *     throw new \Exception(...);
+     * }
+     * ```
+     */
+    public function isStrict() -> bool
+    {
+        return this->strict;
     }
 
     /**

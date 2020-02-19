@@ -17,10 +17,7 @@ namespace Phalcon\Events;
  */
 interface ProviderInterface
 {
-    /**
-     * Get list of listeners
-     *
-     * @return array
-     */
     public function getListeners() -> array;
+
+    public function getOptions() -> array;
 }

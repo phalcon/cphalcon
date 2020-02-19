@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Events\Manager;
 
+use Phalcon\Events\Manager;
+use Phalcon\Events\Provider;
 use UnitTester;
 
 class RegisterProviderCest
@@ -27,6 +29,35 @@ class RegisterProviderCest
     {
         $I->wantToTest('Events\Manager - registerProvider()');
 
-        $I->skipTest('Need implementation');
+        $listeners = [
+            'dispatch:beforeExecuteRoute' => function($event, $dispatcher) {
+                return true;
+            }
+        ];
+        $options = [
+            'dispatch:beforeExecuteRoute' => [
+                'strict' => true,
+            ],
+        ];
+
+        $manager = new Manager();
+        $provider = new Provider();
+
+        $I->setProtectedProperty($provider, 'listeners', $listeners);
+        $I->setProtectedProperty($provider, 'options', $options);
+
+        $manager->registerProvider($provider);
+
+        $events = $I->getProtectedProperty($manager, 'managerEvents');
+        $managerOptions = $I->getProtectedProperty($manager, 'options');
+
+        $I->assertCount(
+            1,
+            $events
+        );
+        $I->assertCount(
+            1,
+            $managerOptions
+        );
     }
 }

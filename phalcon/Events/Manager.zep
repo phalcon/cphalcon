@@ -37,20 +37,20 @@ class Manager implements ManagerInterface
 
     protected events = null;
 
+    protected options = null;
+
     protected responses;
 
     protected useInvokable = false;
-
-    protected singleHandlerMethod = null;
 
     /**
      * Attach a listeneres to the events manager from provider
      *
      * @param \Phalcon\Events\ProviderInterface provider
      */
-    public function registerProvider(<ProviderInterface> provider) -> void
+    final public function registerProvider(<ProviderInterface> provider) -> <ManagerInterface>
     {
-        var events, listeners, listener, eventType;
+        var events, listeners, listener, eventType, options, option;
 
         let events = provider->getListeners();
 
@@ -60,6 +60,14 @@ class Manager implements ManagerInterface
                 this->attach(eventType, listener);
             }
         }
+
+        let options = provider->getOptions();
+
+        for eventType, option in options {
+            this->setEventOptions(eventType, option);
+        }
+
+        return this;
     }
 
     /**
@@ -190,11 +198,17 @@ class Manager implements ManagerInterface
      * @param mixed  data
      * @return mixed
      */
-    public function fire(string! eventType, object source, var data = null, bool cancelable = true)
-    {
-        var events, eventParts, type, eventName, event, status, fireEvents;
+    public function fire(
+        string! eventType,
+        object source,
+        var data = null,
+        bool cancelable = true,
+        bool strict = false
+    ) {
+        var events, eventParts, type, eventName, event, status, fireEvents, options, option;
 
-        let events = this->events;
+        let events = this->events,
+            options = this->options;
 
         if typeof events != "array" {
             return null;
@@ -216,8 +230,17 @@ class Manager implements ManagerInterface
             let this->responses = null;
         }
 
+        if fetch option, options[eventType] {
+            if isset option["strict"] && typeof option["strict"] === "boolean" {
+                let strict = (bool) option["strict"];
+            }
+            if isset option["cancelable"] && typeof option["cancelable"] === "boolean" {
+                let cancelable = (bool) option["cancelable"];
+            }
+        }
+
         // Create the event context
-        let event = new Event(eventName, source, data, cancelable);
+        let event = new Event(eventName, source, data, cancelable, strict);
 
         // Check if events are grouped by type
         if fetch fireEvents, events[type] {
@@ -245,8 +268,8 @@ class Manager implements ManagerInterface
      */
     final public function fireQueue(<SplPriorityQueue> queue, <EventInterface> event)
     {
-        var status, eventName, data, iterator, source, handler, singleHandlerMethod;
-        bool collect, cancelable;
+        var status, eventName, data, iterator, source, handler;
+        bool collect, cancelable, strict;
 
         let status = null;
 
@@ -265,6 +288,9 @@ class Manager implements ManagerInterface
 
         // Tell if the event is cancelable
         let cancelable = (bool) event->isCancelable();
+
+        // Tell if the event is strict
+        let strict = (bool) event->isStrict();
 
         // Responses need to be traced?
         let collect = (bool) this->collect;
@@ -299,9 +325,6 @@ class Manager implements ManagerInterface
                     let status = handler->{eventName}(event, source, data);
                 } elseif this->useInvokable && method_exists(handler, "__invoke") {
                     let status = handler->__invoke(event, source, data);
-                } elseif null !== this->singleHandlerMethod && method_exists(handler, this->singleHandlerMethod) {
-                    let singleHandlerMethod = this->singleHandlerMethod;
-                    let status = handler->{singleHandlerMethod}(event, source, data);
                 } else {
                     continue;
                 }
@@ -310,6 +333,13 @@ class Manager implements ManagerInterface
             // Trace the response
             if collect {
                 let this->responses[] = status;
+            }
+
+            if strict {
+                // Check if status is null or false
+                if null === status || false === status {
+                    break;
+                }
             }
 
             if cancelable {
@@ -376,7 +406,10 @@ class Manager implements ManagerInterface
         return this->collect;
     }
 
-    public function isValidHandler(var handler, bool silent = false) -> bool
+    /**
+     * Check if given handler is object or callable
+     */
+    protected function isValidHandler(var handler, bool silent = false) -> bool
     {
         if unlikely (typeof handler != "object" && !is_callable(handler)) {
             if silent {
@@ -389,18 +422,41 @@ class Manager implements ManagerInterface
         return true;
     }
 
-    public function toggleInvokableUsage(bool! $state = true)
+    /**
+     * Toggles option making handlers with __invoke() usable as Listener
+     */
+    public function toggleInvokableUsage(bool! state = true) -> <ManagerInterface>
     {
         let this->useInvokable = state;
+
+        return this;
     }
 
-    public function setSingleHandlerMethod(string! method = null) -> void
+    /**
+     * Sets events options
+     */
+    public function setEventOptions(string! eventType, array! options) -> <ManagerInterface>
     {
-        let this->singleHandlerMethod = method;
+        if unlikely !isset this->options[eventType] {
+            let this->options[eventType] = options;
+        }
+
+        return this;
     }
 
-    public function getSingleHandlerMethod() -> null | string
+    /**
+     * Returns given event options
+     */
+    public function getEventOptions(string! eventType) -> null | array
     {
-        return this->singleHandlerMethod;
+        var options, option;
+
+        let options = this->options;
+
+        if fetch option, options[eventType] {
+            return option;
+        }
+
+        return null;
     }
 }

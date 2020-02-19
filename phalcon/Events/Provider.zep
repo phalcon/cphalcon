@@ -41,6 +41,22 @@ class Provider implements ProviderInterface
      protected listeners = [];
 
     /**
+     * @var array
+     *
+     * Available options for events:
+     *
+     * ```php
+     * $options = [
+     *    'dispatcher:beforeExecuteRoute' => [
+     *        'cancelable' => true,
+     *        'strict'     => true,
+     *    ],
+     * ]
+     * ```
+     */
+     protected options = [];
+
+    /**
      * Returns array of event listeners grouped by event type
      *
      * @return array
@@ -64,6 +80,16 @@ class Provider implements ProviderInterface
         }
 
         return listeners;
+    }
+
+    /**
+     * Returns array of events options by event name
+     *
+     * @return array
+     */
+    final public function getOptions() -> array
+    {
+        return this->options;
     }
 
     /**

@@ -33,6 +33,11 @@ interface EventInterface
     public function isCancelable() -> bool;
 
     /**
+     * Check whether the event is strict
+     */
+    public function isStrict() -> bool;
+
+    /**
      * Check whether the event is currently stopped
      */
     public function isStopped() -> bool;
