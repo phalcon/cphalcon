@@ -51,7 +51,7 @@ class DirFromFileCest
      * Tests Phalcon\Helper\Str :: dirFromFile()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-04-16
+     * @since  2020-02-19
      */
     public function helperStrFolderFromFileWithDots(UnitTester $I)
     {
