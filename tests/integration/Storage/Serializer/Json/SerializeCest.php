@@ -17,6 +17,7 @@ use Codeception\Example;
 use InvalidArgumentException;
 use Phalcon\Collection;
 use Phalcon\Storage\Serializer\Json;
+use stdClass;
 use UnitTester;
 
 use function json_encode;
@@ -86,7 +87,7 @@ class SerializeCest
                 "without implementing 'JsonSerializable'"
             ),
             function () {
-                $example      = new \stdClass();
+                $example      = new stdClass();
                 $example->one = 'two';
 
                 $serializer = new Json($example);

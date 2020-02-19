@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Crypt;
 
 use Phalcon\Crypt;
-use Phalcon\Crypt\MismatchException;
+use Phalcon\Crypt\Mismatch;
 use UnitTester;
 
 class DecryptCest
@@ -52,7 +52,7 @@ class DecryptCest
     public function shouldThrowExceptionIfHashMismatch(UnitTester $I)
     {
         $I->expectThrowable(
-            new MismatchException('Hash does not match.'),
+            new Mismatch('Hash does not match.'),
             function () {
                 $crypt = new Crypt();
 
