@@ -58,7 +58,7 @@ class DirFromFileCest
         $I->wantToTest('Helper\Str - dirFromFile()');
         $fileName = 'index.12321321.cache.html';
 
-        $expected = 'in/de/x./12/32/13/21/.c/ac/ch/e';
+        $expected = 'in/de/x./12/32/13/21/.c/ac/c';
         $actual   = Str::dirFromFile($fileName);
         $I->assertEquals($expected, $actual);
     }
