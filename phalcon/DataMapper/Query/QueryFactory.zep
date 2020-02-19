@@ -25,6 +25,25 @@ use Phalcon\DataMapper\Pdo\Connection;
 class QueryFactory
 {
     /**
+     * @var string
+     */
+    protected selectClass = "";
+
+    /**
+     * QueryFactory constructor.
+     *
+     * @param string $selectClass
+     */
+    public function __construct(string selectClass = "")
+    {
+        if empty selectClass {
+            let selectClass = "Phalcon\\DataMapper\\Query\\Select";
+        }
+
+        let this->selectClass = selectClass;
+    }
+
+    /**
      * Create a new Bind object
      *
      * @return Bind
@@ -67,7 +86,11 @@ class QueryFactory
      */
     public function newSelect(<Connection> connection) -> <Select>
     {
-        return new Select(connection, this->newBind());
+        string selectClass;
+
+        let selectClass = this->selectClass;
+
+        return new {selectClass}(connection, this->newBind());
     }
 
     /**
