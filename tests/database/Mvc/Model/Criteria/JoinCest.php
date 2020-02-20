@@ -68,9 +68,11 @@ class JoinCest
     }
 
     /**
-     * Tests Phalcon\Mvc\Model\Criteria :: join() and use ManyToMany with Multiple schemas
+     * Tests Phalcon\Mvc\Model\Criteria :: join() and use ManyToMany with
+     * Multiple schemas
      *
      * Bugfix : #14716
+     *
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2020-02-06
      */
@@ -93,11 +95,11 @@ class JoinCest
             $builder->join(RobotPart::class);
 
             $expected = 'SELECT `robot`.`robot_id`, `robot`.`robot_name` '
-                        . 'FROM `public`.`robot`  '
-                        . 'INNER JOIN `private`.`robot_to_robot_part` '
-                        . 'ON `robot`.`robot_id` = `robot_to_robot_part`.`robot_id` '
-                        . 'INNER JOIN `public`.`robot_part` '
-                        . 'ON `robot_to_robot_part`.`robot_part_id` = `robot_part`.`robot_part_id`';
+                . 'FROM `public`.`robot`  '
+                . 'INNER JOIN `private`.`robot_to_robot_part` '
+                . 'ON `robot`.`robot_id` = `robot_to_robot_part`.`robot_id` '
+                . 'INNER JOIN `public`.`robot_part` '
+                . 'ON `robot_to_robot_part`.`robot_part_id` = `robot_part`.`robot_part_id`';
             $actual   = $builder->getQuery()->getSql();
 
             $I->assertEquals($expected, $actual['sql']);

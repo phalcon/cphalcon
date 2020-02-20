@@ -51,7 +51,7 @@ class GetAssetsCest
         );
 
         $I->assertEquals(
-            [ $asset, $asset1 ],
+            [$asset, $asset1],
             $asserts
         );
     }

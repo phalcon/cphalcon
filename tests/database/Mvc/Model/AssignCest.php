@@ -125,8 +125,10 @@ class AssignCest
     /**
      * Tests Phalcon\Mvc\Model :: assign() - auto_increment primary
      *
-     * Current test serves for example with PHP 7.4 and nullable model's property.
-     * > Uncaught Error: Typed property Model::$id must not be accessed before initialization
+     * Current test serves for example with PHP 7.4 and nullable model's
+     * property.
+     * > Uncaught Error: Typed property Model::$id must not be accessed before
+     * initialization
      *
      * Example: public ?int $id = null;
      *
@@ -137,7 +139,7 @@ class AssignCest
     {
         $I->wantToTest('Mvc\Model - assign() - auto_increment primary');
 
-        $data  = [
+        $data = [
             'inv_cst_id'      => 2,
             'inv_status_flag' => 3,
             'inv_title'       => uniqid('inv-'),

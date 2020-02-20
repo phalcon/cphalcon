@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Helper\Str;
 
+use Codeception\Example;
 use Phalcon\Helper\Str;
 use UnitTester;
 
@@ -25,7 +26,7 @@ class DecrementCest
      * @since        2019-12-08
      * @dataProvider strProvider
      */
-    public function helperStrDecrement(UnitTester $I, \Codeception\Example $example)
+    public function helperStrDecrement(UnitTester $I, Example $example)
     {
         $I->wantToTest('Helper\Str - decrement()');
         $actual = Str::decrement($example['source'], $example['separator']);

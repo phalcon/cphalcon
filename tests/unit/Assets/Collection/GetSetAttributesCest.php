@@ -32,7 +32,7 @@ class GetSetAttributesCest
 
         $attributes = [
             'data-name' => 'phalon',
-            'data-type' => 'book'
+            'data-type' => 'book',
         ];
 
         $I->assertEquals([], $collection->getAttributes());

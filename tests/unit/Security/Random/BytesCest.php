@@ -15,6 +15,7 @@ namespace Phalcon\Test\Unit\Security\Random;
 
 use Phalcon\Security\Random;
 use UnitTester;
+
 use function strlen;
 
 class BytesCest
