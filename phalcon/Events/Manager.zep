@@ -37,11 +37,9 @@ class Manager implements ManagerInterface
 
     protected events = null;
 
-    protected options = null;
+    protected eventsOptions = null;
 
     protected responses;
-
-    protected useInvokable = false;
 
     /**
      * Attach a listeneres to the events manager from provider
@@ -50,7 +48,7 @@ class Manager implements ManagerInterface
      */
     final public function registerProvider(<ProviderInterface> provider) -> <ManagerInterface>
     {
-        var events, listeners, listener, eventType, options, option;
+        var events, listeners, listener, eventType, eventsOptions, eventOptions;
 
         let events = provider->getListeners();
 
@@ -61,10 +59,10 @@ class Manager implements ManagerInterface
             }
         }
 
-        let options = provider->getOptions();
+        let eventsOptions = provider->getOptions();
 
-        for eventType, option in options {
-            this->setEventOptions(eventType, option);
+        for eventType, eventOptions in eventsOptions {
+            this->setEventOptions(eventType, eventOptions);
         }
 
         return this;
@@ -198,19 +196,11 @@ class Manager implements ManagerInterface
      * @param mixed  data
      * @return mixed
      */
-    public function fire(
-        string! eventType,
-        object source,
-        var data = null,
-        bool cancelable = true,
-        bool strict = false
-    ) {
-        var events, eventParts, type, eventName, event, status, fireEvents, options, option;
+    public function fire(string! eventType, object source, var data = null, bool cancelable = true, bool strict = false)
+    {
+        var eventParts, type, eventName, status, eventArgs;
 
-        let events = this->events,
-            options = this->options;
-
-        if typeof events != "array" {
+        if typeof this->events != "array" {
             return null;
         }
 
@@ -230,28 +220,35 @@ class Manager implements ManagerInterface
             let this->responses = null;
         }
 
-        if fetch option, options[eventType] {
-            if isset option["strict"] && typeof option["strict"] === "boolean" {
-                let strict = (bool) option["strict"];
-            }
-            if isset option["cancelable"] && typeof option["cancelable"] === "boolean" {
-                let cancelable = (bool) option["cancelable"];
-            }
-        }
-
-        // Create the event context
-        let event = new Event(eventName, source, data, cancelable, strict);
+        let eventArgs  = [eventName, source, data, cancelable, strict];
 
         // Check if events are grouped by type
-        if fetch fireEvents, events[type] {
-            if typeof fireEvents == "object" {
-                // Call the events queue
-                let status = this->fireQueue(fireEvents, event);
-            }
-        }
+        let status = this->fireEvents(type, eventArgs, status);
 
         // Check if there are listeners for the event type itself
+        let status = this->fireEvents(eventType, eventArgs, status);
+
+        return status;
+    }
+
+    final public function fireEvents(string! eventType, array! eventArgs, var status = null) -> null | bool
+    {
+        var events, event, fireEvents, eventName, source, data, cancelable, strict;
+
+        let events = this->events;
         if fetch fireEvents, events[eventType] {
+            let eventName   = eventArgs[0],
+                source      = eventArgs[1],
+                data        = eventArgs[2],
+                cancelable  = eventArgs[3],
+                strict      = eventArgs[4];
+
+            let cancelable = this->getEventOption(eventType, "cancelable", cancelable),
+                strict     = this->getEventOption(eventType, "strict", strict);
+
+            // Create the event context
+            let event = new Event(eventName, source, data, cancelable, strict);
+
             if typeof fireEvents == "object" {
                 // Call the events queue
                 let status = this->fireQueue(fireEvents, event);
@@ -312,7 +309,7 @@ class Manager implements ManagerInterface
                 continue;
             }
 
-            // Check if the event is a closure or callable
+            // Check if the event handler is a closure or callable|invokable
             if handler instanceof Closure || is_callable(handler) {
                 // Call the function in the PHP userland
                 let status = call_user_func_array(
@@ -321,13 +318,11 @@ class Manager implements ManagerInterface
                 );
             } else {
                 // Check if the listener has implemented an event with the same name
-                if method_exists(handler, eventName) {
-                    let status = handler->{eventName}(event, source, data);
-                } elseif this->useInvokable && method_exists(handler, "__invoke") {
-                    let status = handler->__invoke(event, source, data);
-                } else {
+                if !method_exists(handler, eventName) {
                     continue;
                 }
+
+                let status = handler->{eventName}(event, source, data);
             }
 
             // Trace the response
@@ -423,22 +418,12 @@ class Manager implements ManagerInterface
     }
 
     /**
-     * Toggles option making handlers with __invoke() usable as Listener
-     */
-    public function toggleInvokableUsage(bool! state = true) -> <ManagerInterface>
-    {
-        let this->useInvokable = state;
-
-        return this;
-    }
-
-    /**
      * Sets events options
      */
-    public function setEventOptions(string! eventType, array! options) -> <ManagerInterface>
+    public function setEventOptions(string! eventType, array! eventOptions) -> <ManagerInterface>
     {
-        if unlikely !isset this->options[eventType] {
-            let this->options[eventType] = options;
+        if unlikely !isset this->eventsOptions[eventType] {
+            let this->eventsOptions[eventType] = eventOptions;
         }
 
         return this;
@@ -447,14 +432,43 @@ class Manager implements ManagerInterface
     /**
      * Returns given event options
      */
+    public function getEventOption(string! eventType, string option, var defaultValue = null) -> null | bool
+    {
+        var eventOptions;
+
+        let eventOptions = this->getEventOptions(eventType);
+
+        if null !== eventOptions && isset eventOptions[option] && typeof eventOptions[option] === "boolean" {
+            return eventOptions[option];
+        }
+
+        return defaultValue;
+    }
+
+    /**
+     * Returns given event options
+     */
     public function getEventOptions(string! eventType) -> null | array
     {
-        var options, option;
+        var eventsOptions, eventOptions, eventParts, type;
 
-        let options = this->options;
+        let eventsOptions = this->eventsOptions;
 
-        if fetch option, options[eventType] {
-            return option;
+        if fetch eventOptions, eventsOptions[eventType] {
+            return eventOptions;
+        }
+
+        // Get by event type namespace, if not found by event type name
+        if likely memstr(eventType, ":") {
+            let eventParts = explode(":", eventType),
+                type = eventParts[0];
+
+            if fetch eventOptions, eventsOptions[type] {
+                if typeof eventOptions == "array" {
+                    return eventOptions;
+                }
+
+            }
         }
 
         return null;

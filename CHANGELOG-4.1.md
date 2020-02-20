@@ -30,13 +30,12 @@ This component will be used in the Data Mapper implementation but can be used as
   - `Phalcon\DataMapper\Query\Update`
   - `Phalcon\DataMapper\Query\QueryFactory`
 This component can be used to create SQL statements using a fluent interface. Optionally the statements can be executed from the builder itself using the `DataMapper\Pdo` connection. [#14734](https://github.com/phalcon/cphalcon/issues/14734)
-- Added invokable listener usage option in `Phalcon\Events\Manager` (example: `BeforeExceptionListener::__invoke`). Enabling by `$eventsManager->toggleInvokableUsage(true);`. Default state is `false` [#14861](https://github.com/phalcon/cphalcon/issues/14861)
 - Added `Phalcon\Events\Provider` to use events Listeners lists and event type options in `Phalcon\Events\Manager` [#14861](https://github.com/phalcon/cphalcon/issues/14861)
 
 ## Changed
 - Added service checks for the session. Now cookies will be saved in the session only when the `session` service is defined [#11770](https://github.com/phalcon/cphalcon/issues/11770), [#14649](https://github.com/phalcon/cphalcon/pull/14649)
 - Changed `Phalcon\Db\Adapter\*::getRawSQLStatement()` to return the full SQL query with parameters [#12196](https://github.com/phalcon/cphalcon/issues/12196)
-- Changed `Phalcon\Events\Manager::attach()` handler validation logic. Now allowed to pass `callable`, not only `object` and `closure` [#14861](https://github.com/phalcon/cphalcon/issues/14861)
+- Changed `Phalcon\Events\Manager::attach()` handler validation logic. Now allowed to pass `callable`, not only `object` and `closure`, so you can use invokable classes and callable arrays and methods [#14861](https://github.com/phalcon/cphalcon/issues/14861)
 
 ## Fixed
 - Fixed `Phalcon\Db\Dialect\Mysql::getColumnDefinition` to recognize `size` for `DATETIME`, `TIME` and `TIMESTAMP` columns [#13297](https://github.com/phalcon/cphalcon/issues/13297)

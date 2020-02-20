@@ -49,7 +49,7 @@ class RegisterProviderCest
         $manager->registerProvider($provider);
 
         $events = $I->getProtectedProperty($manager, 'events');
-        $options = $I->getProtectedProperty($manager, 'options');
+        $eventsOptions = $I->getProtectedProperty($manager, 'eventsOptions');
 
         $I->assertCount(
             1,
@@ -57,7 +57,7 @@ class RegisterProviderCest
         );
         $I->assertCount(
             1,
-            $options
+            $eventsOptions
         );
     }
 }
