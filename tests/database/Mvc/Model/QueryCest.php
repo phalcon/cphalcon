@@ -69,7 +69,7 @@ class QueryCest
         $query->columns(
             [
                 CustomersKeepSnapshots::class . '.*',
-                'join_1.*'
+                'join_1.*',
             ]
         );
         $query->leftJoin(
@@ -91,14 +91,15 @@ class QueryCest
      * Transforming method used for test
      *
      * @param $resultset
+     *
      * @issue 14783
      *
      * @return mixed
      */
     private function transform($resultset)
     {
-        $invoice  = $resultset->readAttribute(lcfirst(InvoicesKeepSnapshots::class));
-        $customer = $resultset->readAttribute('join_1');
+        $invoice           = $resultset->readAttribute(lcfirst(InvoicesKeepSnapshots::class));
+        $customer          = $resultset->readAttribute('join_1');
         $invoice->customer = $customer;
 
         return $invoice;

@@ -16,6 +16,7 @@ namespace Phalcon\Test\Integration\Storage\Adapter\Stream;
 use Phalcon\Storage\Adapter\Stream;
 use Phalcon\Storage\Exception;
 use Phalcon\Storage\SerializerFactory;
+use stdClass;
 use UnitTester;
 
 use function file_put_contents;
@@ -93,7 +94,7 @@ class GetSetCest
         $I->assertNotNull($actual);
         $I->assertEquals($expected, $actual);
 
-        $expected        = new \stdClass();
+        $expected        = new stdClass();
         $expected->one   = 'two';
         $expected->three = 'four';
 

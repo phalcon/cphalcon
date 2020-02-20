@@ -19,7 +19,8 @@ use UnitTester;
 class IsSetAutoVersionCest
 {
     /**
-     * Unit Tests Phalcon\Assets\Collection :: isAutoVersion() / setAutoVersion()
+     * Unit Tests Phalcon\Assets\Collection :: isAutoVersion() /
+     * setAutoVersion()
      *
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2020-02-15

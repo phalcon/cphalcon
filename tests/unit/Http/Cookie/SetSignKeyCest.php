@@ -34,7 +34,6 @@ class SetSignKeyCest
 
         $this->setNewFactoryDefault();
         $this->setDiService('sessionStream');
-        ;
 
         $I->expectThrowable(
             new Exception(

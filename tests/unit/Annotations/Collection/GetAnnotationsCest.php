@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Annotations\Collection;
 
-use Phalcon\Annotations\Collection;
 use Phalcon\Annotations\Annotation;
+use Phalcon\Annotations\Collection;
 use UnitTester;
 
 class GetAnnotationsCest
@@ -30,21 +30,21 @@ class GetAnnotationsCest
         $I->wantToTest('Annotations\Collection - getAnnotations()');
 
         $dataAnnotation = [
-            'name' => 'NovAnnotation'
+            'name' => 'NovAnnotation',
         ];
 
         $dataAnnotation1 = [
-            'name' => 'NovAnnotation1'
+            'name' => 'NovAnnotation1',
         ];
 
         $dataAnnotation2 = [
-            'name' => 'NovAnnotation'
+            'name' => 'NovAnnotation',
         ];
 
         $reflectionData = [
             $dataAnnotation,
             $dataAnnotation1,
-            $dataAnnotation2
+            $dataAnnotation2,
         ];
 
         $collection = new Collection($reflectionData);
@@ -56,7 +56,7 @@ class GetAnnotationsCest
         $resultAnnotation = [
             $annotation,
             $annotation1,
-            $annotation2
+            $annotation2,
         ];
 
         //Need to find two annotations with the name NovAnnotation

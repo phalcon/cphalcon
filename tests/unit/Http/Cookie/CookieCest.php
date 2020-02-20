@@ -30,7 +30,6 @@ class CookieCest extends HttpBase
         parent::_before($I);
 
         $this->setDiService('sessionStream');
-        ;
     }
 
     /**

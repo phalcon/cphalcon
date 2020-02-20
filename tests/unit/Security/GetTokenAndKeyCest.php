@@ -36,7 +36,6 @@ class GetTokenAndKeyCest
 
         $this->setNewFactoryDefault();
         $this->setDiService('sessionStream');
-        ;
 
         $_SESSION = [];
         global $_SESSION;
