@@ -15,7 +15,9 @@ namespace Phalcon\Test\Unit\Assets\Manager;
 
 use Phalcon\Assets\Manager;
 use UnitTester;
+
 use function sprintf;
+
 use const PHP_EOL;
 
 class UseImplicitOutputCest
