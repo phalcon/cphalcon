@@ -15,6 +15,7 @@ namespace Phalcon\Test\Unit\Http\Message\Stream;
 
 use Phalcon\Http\Message\Stream;
 use UnitTester;
+
 use function dataDir;
 
 class SetStreamCest
