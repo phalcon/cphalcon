@@ -15,6 +15,7 @@ use Phalcon\Escaper\EscaperInterface;
 use Phalcon\Tag\Select;
 use Phalcon\Tag\Exception;
 use Phalcon\Url\UrlInterface;
+use Normalizer;
 
 /**
  * Phalcon\Tag is designed to simplify building of HTML tags.
@@ -269,13 +270,7 @@ class Tag
     {
         var friendly, locale, search;
 
-        if extension_loaded("iconv") {
-            /**
-             * Save the old locale and set the new locale to UTF-8
-             */
-            let locale = setlocale(LC_ALL, "en_US.UTF-8"),
-                text = iconv("UTF-8", "ASCII//TRANSLIT", text);
-        }
+        let text = Normalizer::normalize(text, Normalizer::FORM_D);
 
         if replace {
             if unlikely (typeof replace != "array" && typeof replace != "string") {
@@ -288,7 +283,7 @@ class Tag
                 for search in replace {
                     let text = str_replace(search, " ", text);
                 }
-            } else {
+            } elseif replace !== null {
                 let text = str_replace(replace, " ", text);
             }
         }
@@ -296,7 +291,7 @@ class Tag
         let friendly = preg_replace(
             "/[^a-zA-Z0-9\\/_|+ -]/",
             "",
-            text
+            friendly
         );
 
         if lowercase {
@@ -306,12 +301,6 @@ class Tag
         let friendly = preg_replace("/[\\/_|+ -]+/", separator, friendly),
             friendly = trim(friendly, separator);
 
-        if extension_loaded("iconv") {
-            /**
-             * Revert back to the old locale
-             */
-            setlocale(LC_ALL, locale);
-        }
         return friendly;
     }
 
