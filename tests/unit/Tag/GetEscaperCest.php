@@ -13,20 +13,31 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Tag;
 
+use Phalcon\Escaper;
+use Phalcon\Escaper\EscaperInterface;
+use Phalcon\Tag;
+use Phalcon\Test\Fixtures\Helpers\TagSetup;
 use UnitTester;
 
-class GetEscaperCest
+class GetEscaperCest extends TagSetup
 {
     /**
      * Tests Phalcon\Tag :: getEscaper()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
+     *
+     * @param UnitTester $I
      */
     public function tagGetEscaper(UnitTester $I)
     {
         $I->wantToTest('Tag - getEscaper()');
 
-        $I->skipTest('Need implementation');
+        $escaper = Tag::getEscaper([]);
+        $I->assertInstanceOf(Escaper::class, $escaper);
+        $I->assertInstanceOf(EscaperInterface::class, $escaper);
+
+        $escaper = Tag::getEscaper(["escape" => false]);
+        $I->assertNull($escaper);
     }
 }

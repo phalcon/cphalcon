@@ -20,12 +20,14 @@ use Phalcon\Assets\Manager;
 use Phalcon\Test\Fixtures\Assets\CustomTag;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
+
 use function dataDir;
 use function ob_get_clean;
 use function ob_start;
 use function outputDir;
 use function sprintf;
 use function uniqid;
+
 use const PHP_EOL;
 
 class OutputJsCest

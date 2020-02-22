@@ -29,6 +29,7 @@ class TagSetup
         $this->setDiService('escaper');
         $this->setDiService('url');
 
+        Tag::setDI($this->container);
         Tag::resetInput();
 
         $this->doctype = $this->docTypeStringToConstant(
