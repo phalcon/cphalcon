@@ -13,11 +13,23 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Annotations\Reflection;
 
+use Phalcon\Annotations\Collection;
+use Phalcon\Annotations\Reader;
 use Phalcon\Annotations\Reflection;
 use UnitTester;
 
+use function dataDir;
+
 class GetPropertiesAnnotationsCest
 {
+    /**
+     * executed before each test
+     */
+    protected function _before(UnitTester $I)
+    {
+        require_once dataDir('fixtures/Annotations/TestClass.php');
+    }
+
     /**
      * Tests creating empty Reflection object
      *
@@ -37,12 +49,34 @@ class GetPropertiesAnnotationsCest
      * Tests Phalcon\Annotations\Reflection :: getPropertiesAnnotations()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-02-21
      */
     public function annotationsReflectionGetPropertiesAnnotations(UnitTester $I)
     {
         $I->wantToTest('Annotations\Reflection - getPropertiesAnnotations()');
 
-        $I->skipTest('Need implementation');
+        $reader = new Reader();
+
+        $reflection = new Reflection(
+            $reader->parse('TestClass')
+        );
+
+        $propertiesAnnotations = $reflection->getPropertiesAnnotations();
+
+        $I->assertIsArray($propertiesAnnotations);
+
+        $number = 0;
+
+        foreach ($propertiesAnnotations as $annotation) {
+            $I->assertInstanceOf(
+                Collection::class,
+                $annotation
+            );
+
+            $number++;
+        }
+
+        $I->assertEquals(3, $number);
+        $I->assertCount(3, $propertiesAnnotations);
     }
 }

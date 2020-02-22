@@ -13,53 +13,39 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Annotations\Collection;
 
-use Phalcon\Annotations\Annotation;
 use Phalcon\Annotations\Collection;
 use UnitTester;
 
 class KeyNextRewindCest
 {
     /**
-     * Tests Phalcon\Annotations\Collection :: key() / next() / rewind()
+     * Tests Phalcon\Annotations\Collection :: key()
      *
-     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
-     * @since  2020-01-31
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2002-02-21
      */
-    public function annotationsCollectionKeyNextRewind(UnitTester $I)
+    public function annotationsCollectionKey(UnitTester $I)
     {
-        $I->wantToTest('Annotations\Collection - key() / next() / rewind()');
-
-        $dataAnnotation = [
-            'name' => 'NovAnnotation',
-        ];
-
-        $dataAnnotation1 = [
-            'name' => 'Phalconatation',
-        ];
+        $I->wantToTest('Annotations\Collection - key()');
 
         $reflectionData = [
-            $dataAnnotation,
-            $dataAnnotation1,
+            [
+                'name' => 'Annotation-one',
+            ],
+            [
+                'name' => 'Annotation-two',
+            ],
         ];
 
-        $collection  = new Collection($reflectionData);
-        $annotation  = new Annotation($dataAnnotation);
-        $annotation1 = new Annotation($dataAnnotation1);
+        $collection = new Collection($reflectionData);
 
+        $I->assertTrue($collection->has('Annotation-one'));
         $I->assertEquals(0, $collection->key());
-
-        $I->assertEquals($annotation, $collection->current());
 
         $collection->next();
-
         $I->assertEquals(1, $collection->key());
 
-        $I->assertEquals($annotation1, $collection->current());
-
         $collection->rewind();
-
         $I->assertEquals(0, $collection->key());
-
-        $I->assertEquals($annotation, $collection->current());
     }
 }
