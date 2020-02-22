@@ -291,7 +291,7 @@ class Tag
         let friendly = preg_replace(
             "/[^a-zA-Z0-9\\/_|+ -]/",
             "",
-            friendly
+            text
         );
 
         if lowercase {

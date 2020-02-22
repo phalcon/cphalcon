@@ -4,7 +4,7 @@
 ## Changed
 
 ## Fixed
-
+- Fixed `Phalcon\Tag\friendlyTitle` to normalize string cross platform [#14866](https://github.com/phalcon/cphalcon/issues/14866)
 
 # [4.0.4](https://github.com/phalcon/cphalcon/releases/tag/v4.0.4) (2020-02-15)
 ## Added
