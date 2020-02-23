@@ -19,6 +19,7 @@ use Phalcon\Db\Enum;
 use Phalcon\Db\Result\Pdo;
 use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
+
 use function is_array;
 use function is_object;
 use function var_dump;
@@ -124,12 +125,14 @@ class QueryCest
         $I->assertEquals(1, $row['inv_id']);
 
         // FETCH_COLUMN
-        $result = $db->query('SELECT inv_id FROM co_invoices LIMIT 5');
-        $row = $result->fetchAll(Enum::FETCH_COLUMN);
+        $result = $db->fetchAll(
+            'SELECT inv_id FROM co_invoices LIMIT 5',
+            Enum::FETCH_COLUMN
+        );
 
-        $I->assertTrue(is_array($row));
+        $I->assertTrue(is_array($result));
 
         $expected = ['1', '2', '3', '4', '5'];
-        $I->assertEquals($expected, $row);
+        $I->assertEquals($expected, $result);
     }
 }
