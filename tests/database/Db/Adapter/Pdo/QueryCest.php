@@ -11,11 +11,9 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Database\Db\Adapter\Pdo\Mysql;
+namespace Phalcon\Test\Database\Db\Adapter\Pdo;
 
 use DatabaseTester;
-use Phalcon\Db\Adapter\AdapterInterface;
-use Phalcon\Db\Adapter\Pdo\Mysql;
 use Phalcon\Db\Enum;
 use Phalcon\Db\Result\Pdo;
 use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
@@ -35,18 +33,18 @@ class QueryCest
     }
 
     /**
-     * Tests Phalcon\Db\Adapter\Pdo\Mysql :: query()
+     * Tests Phalcon\Db\Adapter\Pdo :: query()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-02-22
      */
-    public function dbAdapterPdoMysqlQuery(DatabaseTester $I)
+    public function dbAdapterPdoQuery(DatabaseTester $I)
     {
         $I->wantToTest('Db\Adapter\Pdo\Mysql - query()');
 
         $connection = $I->getConnection();
         $db = $this->container->get('db');
-        
+
         $migration = new InvoicesMigration($connection);
         $migration->insert(1, 1, 1, 'title 1', 101);
         $migration->insert(2, 1, 1, 'title 2', 102);
