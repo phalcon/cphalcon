@@ -87,17 +87,12 @@ trait DiTrait
     }
 
     /**
-     * @param DatabaseTester $I
+     * @param string $driver
      *
      * @return AdapterInterface
      */
-    protected function newDbService(DatabaseTester $I): AdapterInterface
+    protected function newDbConnection(string $driver): AdapterInterface
     {
-        /** @var PDO $connection */
-        $connection = $I->getConnection();
-        $driver     = $connection->getAttribute(PDO::ATTR_DRIVER_NAME);
-        $service    = $driver;
-
         switch ($driver) {
             case 'mysql':
                 $options = getOptionsMysql();
@@ -116,7 +111,21 @@ trait DiTrait
 
         $options['options'][PDO::ATTR_TIMEOUT] = 0;
 
-        return (new PdoFactory())->newInstance($service, $options);
+        return (new PdoFactory())->newInstance($driver, $options);
+    }
+
+    /**
+     * @param DatabaseTester $I
+     *
+     * @return AdapterInterface
+     */
+    protected function newDbService(DatabaseTester $I): AdapterInterface
+    {
+        /** @var PDO $connection */
+        $connection = $I->getConnection();
+        $driver     = $connection->getAttribute(PDO::ATTR_DRIVER_NAME);
+
+        return $this->newDbConnection($driver);
     }
 
     /**
