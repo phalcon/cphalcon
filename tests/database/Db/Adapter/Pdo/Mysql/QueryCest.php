@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Database\Db\Adapter\Pdo\Mysql;
 
 use DatabaseTester;
+use Phalcon\Db\Adapter\AdapterInterface;
 use Phalcon\Db\Adapter\Pdo\Mysql;
 use Phalcon\Db\Enum;
 use Phalcon\Db\Result\Pdo;
@@ -22,7 +23,6 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 use function is_array;
 use function is_object;
-use function var_dump;
 
 class QueryCest
 {
@@ -31,8 +31,7 @@ class QueryCest
     public function _before(DatabaseTester $I)
     {
         $this->setNewFactoryDefault();
-        $service = $this->newDbConnection('mysql');
-        $this->container->setShared('db', $service);
+        $this->setDatabase($I);
     }
 
     /**
@@ -45,11 +44,9 @@ class QueryCest
     {
         $I->wantToTest('Db\Adapter\Pdo\Mysql - query()');
 
-        /** @var Mysql $db */
-        $db         = $this->getService('db');
-        $connection = $db->getInternalHandler();
-
-
+        $connection = $I->getConnection();
+        $db = $this->container->get('db');
+        
         $migration = new InvoicesMigration($connection);
         $migration->insert(1, 1, 1, 'title 1', 101);
         $migration->insert(2, 1, 1, 'title 2', 102);
