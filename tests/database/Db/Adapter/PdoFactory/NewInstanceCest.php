@@ -48,9 +48,12 @@ class NewInstanceCest
 
     private function getProviders(): array
     {
+        /**
+         * @todo Enable this when Postgres is ready
+         */
         return [
             ['Mysql', 'mysql', Mysql::class, getOptionsMysql()],
-            ['Postgresql', 'postgresql', Postgresql::class, getOptionsPostgresql()],
+//            ['Postgresql', 'postgresql', Postgresql::class, getOptionsPostgresql()],
             ['Sqlite', 'sqlite', Sqlite::class, getOptionsSqlite()],
         ];
     }
