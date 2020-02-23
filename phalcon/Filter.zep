@@ -253,6 +253,11 @@ class Filter implements FilterInterface
         var sanitizerObject, params;
 
         if !this->has(sanitizerName) {
+            trigger_error(
+                "Sanitizer '" . sanitizerName . "' is not registered",
+                E_USER_NOTICE
+            );
+
             return value;
         }
 
