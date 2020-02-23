@@ -15,10 +15,12 @@ codecept build
 codecept run unit
 codecept run cli
 codecept run integration
-codecept run database --env mysql
-codecept run database --env sqlite
+codecept run database -g common
+codecept run database -g mysql --env mysql
+codecept run database -g sqlite --env sqlite
 ```
 
+Note that certain tests are grouped as `common`. Those do not require a specific database connection. Any other type of test requires the group parameter for Codeception `-g` in order to run. There are certain tests that can only run in specific RDBMs, and for that our tests use the `@group` annotation from Codeception.
 
 ## Getting Started
 
@@ -187,10 +189,12 @@ Execute single test:
 /app $ codecept run tests/unit/some/folder/some/test/file.php
 ```
 
-To run database related tests you need to run the `database` suite specifying the RDBMS
+To run database related tests you need to run the `database` suite specifying the RDBMS and group
 
 ```sh
-/app $ codecept run tests/database --env mysql
+/app $ codecept run tests/database -g common
+/app $ codecept run tests/database -g mysql --env mysql
+/app $ codecept run tests/database -g sqlite --env sqlite
 ```
 
 Available options:
