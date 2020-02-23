@@ -228,19 +228,26 @@ jobs:
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
         run: vendor/bin/codecept run --ext DotReporter integration
 
+      - name: Run database tests Common
+        env:
+          DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
+          DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
+          DATA_MYSQL_USER: root
+        run: vendor/bin/codecept run --ext DotReporter database -g common
+
       - name: Run database tests MySQL
         env:
           DATA_MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
           DATA_MYSQL_USER: root
-        run: vendor/bin/codecept run --ext DotReporter database --env mysql
+        run: vendor/bin/codecept run --ext DotReporter database --env mysql -g mysql
 
       - name: Run database tests Sqlite
         env:
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
-        run: vendor/bin/codecept run --ext DotReporter database --env sqlite
+        run: vendor/bin/codecept run --ext DotReporter database --env sqlite -g sqlite
 
 #      # TODO Enable these one at a time and also for MacOS/Windows
 #      - name: Run database tests Postgres
