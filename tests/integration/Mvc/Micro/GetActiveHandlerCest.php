@@ -18,6 +18,7 @@ use Phalcon\Mvc\Micro;
 use Phalcon\Mvc\Micro\Collection;
 use Phalcon\Mvc\Micro\LazyLoader;
 use Phalcon\Test\Fixtures\Micro\RestHandler;
+
 use function var_dump;
 
 /**

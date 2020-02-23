@@ -15,8 +15,10 @@ namespace Phalcon\Test\Unit\Filter\Filter;
 
 use Phalcon\Filter\FilterFactory;
 use UnitTester;
+
 use function restore_error_handler;
 use function set_error_handler;
+
 use const E_USER_NOTICE;
 
 class SanitizeMultipleCest
