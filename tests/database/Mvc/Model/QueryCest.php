@@ -45,6 +45,9 @@ class QueryCest
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
+     *
+     * @group mysql
+     * @group sqlite
      */
     public function mvcModelQuery(DatabaseTester $I)
     {
@@ -58,6 +61,9 @@ class QueryCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      * @issue  14783
+     *
+     * @group mysql
+     * @group sqlite
      */
     public function mvcModelQueryIssue14783(DatabaseTester $I)
     {

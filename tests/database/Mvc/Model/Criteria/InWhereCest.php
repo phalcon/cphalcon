@@ -36,6 +36,8 @@ class InWhereCest
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
+     *
+     * @group common
      */
     public function mvcModelCriteriaInWhere(DatabaseTester $I)
     {
