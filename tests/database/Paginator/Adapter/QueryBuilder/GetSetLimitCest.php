@@ -39,6 +39,9 @@ class GetSetLimitCest
 
     /**
      * Tests Phalcon\Paginator\Adapter\QueryBuilder :: getLimit() / setLimit()
+     *
+     * @group mysql
+     * @group sqlite
      */
     public function paginatorAdapterQuerybuilderGetSetLimit(DatabaseTester $I)
     {

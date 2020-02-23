@@ -35,6 +35,9 @@ class GetReadConnectionCest
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-31
+     *
+     * @group mysql
+     * @group sqlite
      */
     public function mvcModelGetReadConnection(DatabaseTester $I)
     {

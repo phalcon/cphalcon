@@ -40,6 +40,9 @@ class AssignCest
      *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-18
+     *
+     * @group mysql
+     * @group sqlite
      */
     public function mvcModelAssign(DatabaseTester $I)
     {
@@ -95,6 +98,9 @@ class AssignCest
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-29
+     *
+     * @group mysql
+     * @group sqlite
      */
     public function mvcModelAssignIncomplete(DatabaseTester $I)
     {
@@ -134,6 +140,9 @@ class AssignCest
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-13
+     *
+     * @group mysql
+     * @group sqlite
      */
     public function mvcModelAssignAutoPrimary(DatabaseTester $I)
     {

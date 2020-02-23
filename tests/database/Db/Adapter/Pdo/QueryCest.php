@@ -37,6 +37,9 @@ class QueryCest
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-22
+     *
+     * @group mysql
+     * @group sqlite
      */
     public function dbAdapterPdoQuery(DatabaseTester $I)
     {

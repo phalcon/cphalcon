@@ -43,6 +43,9 @@ class UpdateCest
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-31
+     *
+     * @group mysql
+     * @group sqlite
      */
     public function mvcModelUpdate(DatabaseTester $I)
     {
