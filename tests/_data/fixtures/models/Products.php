@@ -18,13 +18,13 @@ use Phalcon\Mvc\Model;
 /**
  * Class Products
  *
- * @property int    $prdt_id;
- * @property string $prdt_name;
+ * @property int    $prd_id;
+ * @property string $prd_name;
  */
 class Products extends Model
 {
-    public $prdt_id;
-    public $prdt_name;
+    public $prd_id;
+    public $prd_name;
 
     public function initialize()
     {

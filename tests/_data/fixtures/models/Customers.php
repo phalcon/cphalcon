@@ -43,14 +43,5 @@ class Customers extends Model
                 'reusable' => true,
             ]
         );
-
-        $this->hasManyToMany(
-            'cst_id',
-            OrderProducts::class,
-            'cst_id',
-            'prdt_id',
-            Products::class,
-            'prdt_id'
-        );
     }
 }

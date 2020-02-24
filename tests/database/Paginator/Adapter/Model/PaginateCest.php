@@ -37,6 +37,12 @@ class PaginateCest
         $migration->clear();
     }
 
+    /**
+     * @param DatabaseTester $I
+     *
+     * @group mysql
+     * @group sqlite
+     */
     public function paginatorAdapterModelPaginate(DatabaseTester $I)
     {
         /** @var PDO $connection */
@@ -90,6 +96,12 @@ class PaginateCest
         $I->assertEquals(5, $page->getCurrent());
     }
 
+    /**
+     * @param DatabaseTester $I
+     *
+     * @group mysql
+     * @group sqlite
+     */
     public function paginatorAdapterModelPaginateBind(DatabaseTester $I)
     {
         /** @var PDO $connection */
@@ -131,6 +143,12 @@ class PaginateCest
         $I->assertEquals(1, $page->getCurrent());
     }
 
+    /**
+     * @param DatabaseTester $I
+     *
+     * @group mysql
+     * @group sqlite
+     */
     public function paginatorAdapterModelPaginateParametersString(DatabaseTester $I): void
     {
         /** @var PDO $connection */
@@ -163,6 +181,12 @@ class PaginateCest
         $I->assertEquals(1, $page->getCurrent());
     }
 
+    /**
+     * @param DatabaseTester $I
+     *
+     * @group mysql
+     * @group sqlite
+     */
     public function paginatorAdapterModelPaginateParametersArrayString(DatabaseTester $I): void
     {
         /** @var PDO $connection */

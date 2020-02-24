@@ -14,29 +14,29 @@ declare(strict_types=1);
 namespace Phalcon\Test\Fixtures\Migrations;
 
 /**
- * Class OrderProductsMigration
+ * Class OrdersMigration
  */
-class OrderProductsMigration extends AbstractMigration
+class OrdersMigration extends AbstractMigration
 {
-    protected $table = "co_order_products";
+    protected $table = "co_orders";
 
     /**
-     * @param int $cst_id
-     * @param int $prdt_id
+     * @param int         $prdt_id
+     * @param string|null $prdt_name
      *
      * @return int
      */
     public function insert(
-        $cst_id,
-        int $prdt_id
+        $ord_id,
+        string $ord_name = null
     ): int {
-        $cst_id      = $cst_id ?: 'null';
-        $prdt_id = $prdt_id ?: 'null';
+        $ord_id    = $ord_id ?: 'null';
+        $ord_name  = $ord_name ?: uniqid();
         $sql    = <<<SQL
-insert into co_order_products (
-    cst_id, prdt_id
+insert into co_orders (
+    ord_id, ord_name
 ) values (
-    {$cst_id}, {$prdt_id}
+    {$ord_id}, {$ord_name}
 )
 SQL;
 
@@ -47,14 +47,14 @@ SQL;
     {
         return [
             "
-drop table if exists private.`co_order_products`;
+drop table if exists `co_orders`;
             ",
             "
-CREATE TABLE private.`co_order_products` (
-  `cst_id` int(10) unsigned NOT NULL,
-  `prdt_id` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`cst_id`, `prdt_id` )
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `co_orders` (
+    `ord_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `ord_name` VARCHAR(70) NULL,
+    PRIMARY KEY (`ord_id`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
             "
         ];
     }
@@ -68,17 +68,19 @@ CREATE TABLE private.`co_order_products` (
     {
         return [
             "
-drop table if exists private.co_order_products;
+drop table if exists co_orders;            
             ",
             "
-create table private.co_order_products
+create table co_orders
 (
-    cst_id int not null,
-    prdt_id int not null
+    ord_id serial not null
+    constraint ord_pk
+      primary key,
+      ord_name varchar(70)
 );
             ",
             "
-alter table private.co_order_products owner to postgres;
+alter table public.co_orders owner to postgres;
             "
         ];
     }

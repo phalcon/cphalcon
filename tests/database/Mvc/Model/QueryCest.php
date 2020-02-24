@@ -45,6 +45,9 @@ class QueryCest
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
+     *
+     * @group mysql
+     * @group sqlite
      */
     public function mvcModelQuery(DatabaseTester $I)
     {
@@ -58,6 +61,9 @@ class QueryCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      * @issue  14783
+     *
+     * @group mysql
+     * @group sqlite
      */
     public function mvcModelQueryIssue14783(DatabaseTester $I)
     {
@@ -69,7 +75,7 @@ class QueryCest
         $query->columns(
             [
                 CustomersKeepSnapshots::class . '.*',
-                'join_1.*'
+                'join_1.*',
             ]
         );
         $query->leftJoin(
@@ -91,14 +97,15 @@ class QueryCest
      * Transforming method used for test
      *
      * @param $resultset
+     *
      * @issue 14783
      *
      * @return mixed
      */
     private function transform($resultset)
     {
-        $invoice  = $resultset->readAttribute(lcfirst(InvoicesKeepSnapshots::class));
-        $customer = $resultset->readAttribute('join_1');
+        $invoice           = $resultset->readAttribute(lcfirst(InvoicesKeepSnapshots::class));
+        $customer          = $resultset->readAttribute('join_1');
         $invoice->customer = $customer;
 
         return $invoice;

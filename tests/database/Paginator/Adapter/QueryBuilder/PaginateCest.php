@@ -42,6 +42,9 @@ class PaginateCest
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
+     *
+     * @group mysql
+     * @group sqlite
      */
     public function paginatorAdapterQuerybuilderPaginate(DatabaseTester $I)
     {
@@ -91,6 +94,9 @@ class PaginateCest
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-29
+     *
+     * @group mysql
+     * @group sqlite
      */
     public function paginatorAdapterQuerybuilderPaginateGroupBy(DatabaseTester $I)
     {

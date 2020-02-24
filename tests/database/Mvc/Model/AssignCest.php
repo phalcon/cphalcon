@@ -40,6 +40,9 @@ class AssignCest
      *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-18
+     *
+     * @group mysql
+     * @group sqlite
      */
     public function mvcModelAssign(DatabaseTester $I)
     {
@@ -95,6 +98,9 @@ class AssignCest
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-29
+     *
+     * @group mysql
+     * @group sqlite
      */
     public function mvcModelAssignIncomplete(DatabaseTester $I)
     {
@@ -125,19 +131,24 @@ class AssignCest
     /**
      * Tests Phalcon\Mvc\Model :: assign() - auto_increment primary
      *
-     * Current test serves for example with PHP 7.4 and nullable model's property.
-     * > Uncaught Error: Typed property Model::$id must not be accessed before initialization
+     * Current test serves for example with PHP 7.4 and nullable model's
+     * property.
+     * > Uncaught Error: Typed property Model::$id must not be accessed before
+     * initialization
      *
      * Example: public ?int $id = null;
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-13
+     *
+     * @group mysql
+     * @group sqlite
      */
     public function mvcModelAssignAutoPrimary(DatabaseTester $I)
     {
         $I->wantToTest('Mvc\Model - assign() - auto_increment primary');
 
-        $data  = [
+        $data = [
             'inv_cst_id'      => 2,
             'inv_status_flag' => 3,
             'inv_title'       => uniqid('inv-'),

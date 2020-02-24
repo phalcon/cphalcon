@@ -39,6 +39,9 @@ class GetSetQueryBuilderCest
     /**
      * Tests Phalcon\Paginator\Adapter\QueryBuilder :: getQueryBuilder() /
      * setQueryBuilder()
+     *
+     * @group mysql
+     * @group sqlite
      */
     public function paginatorAdapterQuerybuilderGetSetQueryBuilder(DatabaseTester $I)
     {

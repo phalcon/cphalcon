@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Annotations\Collection;
 
-use Phalcon\Annotations\Collection;
 use Phalcon\Annotations\Annotation;
+use Phalcon\Annotations\Collection;
 use UnitTester;
 
 class ValidCest
@@ -30,20 +30,20 @@ class ValidCest
         $I->wantToTest('Annotations\Collection - valid()');
 
         $dataAnnotation = [
-            'name' => 'NovAnnotation'
+            'name' => 'NovAnnotation',
         ];
 
         $dataAnnotation1 = [
-            'name' => 'Phalconatation'
+            'name' => 'Phalconatation',
         ];
 
         $reflectionData = [
             $dataAnnotation,
-            $dataAnnotation1
+            $dataAnnotation1,
         ];
 
-        $collection = new Collection($reflectionData);
-        $annotation = new Annotation($dataAnnotation);
+        $collection  = new Collection($reflectionData);
+        $annotation  = new Annotation($dataAnnotation);
         $annotation1 = new Annotation($dataAnnotation1);
 
         $I->assertTrue($collection->valid());

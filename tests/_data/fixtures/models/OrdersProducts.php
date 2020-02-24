@@ -16,19 +16,20 @@ namespace Phalcon\Test\Models;
 use Phalcon\Mvc\Model;
 
 /**
- * Class OrderProducts
+ * Class OrdersProducts
  *
- * @property int    $cst_id;
- * @property string $prdt_id;
+ * @property int    $oxp_ord_id;
+ * @property string $oxp_prd_id;
+ * @property string $oxp_quantity;
  */
-class OrderProducts extends Model
+class OrdersProducts extends Model
 {
-    public $cst_id;
-    public $prdt_id;
+    public $oxp_ord_id;
+    public $oxp_prd_id;
 
     public function initialize()
     {
         $this->setSchema('private');
-        $this->setSource('co_order_products');
+        $this->setSource('co_orders_x_products');
     }
 }

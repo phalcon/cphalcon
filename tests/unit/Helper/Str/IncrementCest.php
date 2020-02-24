@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Helper\Str;
 
+use Codeception\Example;
 use Phalcon\Helper\Str;
 use UnitTester;
 
@@ -25,7 +26,7 @@ class IncrementCest
      * @since        2019-04-06
      * @dataProvider strProvider
      */
-    public function helperStrIncrementSimpleString(UnitTester $I, \Codeception\Example $example)
+    public function helperStrIncrementSimpleString(UnitTester $I, Example $example)
     {
         $I->wantToTest('Helper\Str - increment()');
         $actual = Str::increment($example['source'], $example['separator']);

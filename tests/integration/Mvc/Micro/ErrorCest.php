@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Mvc\Micro;
 
+use Exception;
 use IntegrationTester;
 use Phalcon\Http\Response;
 use Phalcon\Mvc\Micro;
@@ -37,7 +38,7 @@ class ErrorCest
             '/say/hello/{name}',
             function ($name) use ($response) {
                 if (is_numeric($name)) {
-                    throw new \Exception(
+                    throw new Exception(
                         'Not a human name.'
                     );
                 }
