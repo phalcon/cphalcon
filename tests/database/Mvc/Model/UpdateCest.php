@@ -46,6 +46,7 @@ class UpdateCest
      *
      * @group mysql
      * @group sqlite
+     * @group pgsql
      */
     public function mvcModelUpdate(DatabaseTester $I)
     {

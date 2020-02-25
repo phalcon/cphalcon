@@ -47,6 +47,7 @@ class CreateCest
      *
      * @group mysql
      * @group sqlite
+     * @group pgsql
      */
     public function mvcModelCreate(DatabaseTester $I)
     {
