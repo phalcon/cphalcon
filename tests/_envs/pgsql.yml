@@ -10,12 +10,3 @@ modules:
         cleanup: false
         reconnect: true
         waitlock: 10
-        initial_queries:
-          - 'DROP SCHEMA IF EXISTS public CASCADE;'
-          - 'DROP SCHEMA IF EXISTS private CASCADE;'
-          - 'CREATE SCHEMA public;'
-          - 'CREATE SCHEMA private;'
-          - 'REVOKE ALL ON SCHEMA public FROM PUBLIC;'
-          - 'REVOKE ALL ON SCHEMA public FROM %DATA_POSTGRES_USER%;'
-          - 'GRANT ALL ON SCHEMA public TO %DATA_POSTGRES_USER%;'
-          - 'GRANT ALL ON SCHEMA public TO public;'
