@@ -69,14 +69,25 @@ abstract class AbstractMigration
                 ->connection
                 ->getAttribute(PDO::ATTR_DRIVER_NAME)
             ;
-            if ('sqlite' !== $driver) {
+            if ($driver === 'mysql') {
                 $this->connection->exec(
                     'truncate table ' . $this->table . ';'
                 );
-            } else {
+            } elseif ($driver === 'sqlite') {
                 $this->connection->exec(
                     'delete from ' . $this->table . ';'
                 );
+            } else {
+                $schema = getenv('DATA_POSTGRES_SCHEMA');
+                $exists = $this
+                    ->connection
+                    ->query("SELECT to_regclass('$schema.$this->table') AS exists;")
+                    ->fetchColumn();
+                if ($exists) {
+                    $this->connection->exec(
+                        'truncate table ' . $this->table . ' cascade;'
+                    );
+                }
             }
         }
     }
