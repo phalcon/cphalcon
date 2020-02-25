@@ -55,33 +55,34 @@ create table objects
             
 
 
-drop table if exists public.`robot`;
+drop table if exists `co_orders`;
             
-CREATE TABLE public.`robot` (
-  `robot_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `robot_name` VARCHAR(70) NULL,
-  PRIMARY KEY (`robot_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-            
-
-
-drop table if exists public.`robot_part`;
-            
-CREATE TABLE public.`robot_part` (
-    `robot_part_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-    `robot_part_name` VARCHAR(70) NULL,
-    PRIMARY KEY (`robot_part_id`)
+CREATE TABLE `co_orders` (
+    `ord_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `ord_name` VARCHAR(70) NULL,
+    PRIMARY KEY (`ord_id`)
   ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
             
 
 
-drop table if exists private.`robot_to_robot_part`;
+drop table if exists private.`co_orders_x_products`;
             
-CREATE TABLE private.`robot_to_robot_part` (
-  `robot_id` int(10) unsigned NOT NULL,
-  `robot_part_id` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`robot_id`, `robot_part_id` )
+CREATE TABLE private.`co_orders_x_products` (
+  `oxp_ord_id` int(10) unsigned NOT NULL,
+  `oxp_prd_id` int(10) unsigned NOT NULL,
+  `oxp_quantity` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`oxp_ord_id`, `oxp_prd_id` )
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+            
+
+
+drop table if exists `co_products`;
+            
+CREATE TABLE `co_products` (
+    `prd_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `prd_name` VARCHAR(70) NULL,
+    PRIMARY KEY (`prd_id`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
             
 
 

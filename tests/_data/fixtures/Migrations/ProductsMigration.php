@@ -14,29 +14,29 @@ declare(strict_types=1);
 namespace Phalcon\Test\Fixtures\Migrations;
 
 /**
- * Class RobotMigration
+ * Class ProductsMigration
  */
-class RobotMigration extends AbstractMigration
+class ProductsMigration extends AbstractMigration
 {
-    protected $table = "robot";
+    protected $table = "co_products";
 
     /**
-     * @param int         $robot_id
-     * @param string|null $robot_name
+     * @param int         $prd_id
+     * @param string|null $prd_name
      *
      * @return int
      */
     public function insert(
-        $robot_id,
-        string $robot_name = null
+        $prd_id,
+        string $prd_name = null
     ): int {
-        $robot_id    = $robot_id ?: 'null';
-        $robot_name  = $robot_name ?: uniqid();
+        $prd_id    = $prd_id ?: 'null';
+        $prd_name  = $prd_name ?: uniqid();
         $sql    = <<<SQL
-insert into robot (
-    robot_id, robot_name
+insert into co_products (
+    prd_id, prd_name
 ) values (
-    {$robot_id}, {$robot_name}
+    {$prd_id}, {$prd_name}
 )
 SQL;
 
@@ -47,14 +47,14 @@ SQL;
     {
         return [
             "
-drop table if exists public.`robot`;
+drop table if exists `co_products`;
             ",
             "
-CREATE TABLE public.`robot` (
-  `robot_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `robot_name` VARCHAR(70) NULL,
-  PRIMARY KEY (`robot_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `co_products` (
+    `prd_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `prd_name` VARCHAR(70) NULL,
+    PRIMARY KEY (`prd_id`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
             "
         ];
     }
@@ -68,19 +68,19 @@ CREATE TABLE public.`robot` (
     {
         return [
             "
-drop table if exists public.robot;            
+drop table if exists co_products;            
             ",
             "
-create table public.robot
+create table co_products
 (
-  robot_id serial not null
-    constraint robot_pk
+    prd_id serial not null
+    constraint prd_pk
       primary key,
-  robot_name varchar(70)
+      prd_name varchar(70)
 );
             ",
             "
-alter table public.robot owner to postgres;
+alter table public.co_products owner to postgres;
             "
         ];
     }
