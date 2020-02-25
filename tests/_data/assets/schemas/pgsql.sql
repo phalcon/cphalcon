@@ -1,9 +1,5 @@
-
-
-
-
 drop table if exists co_invoices;
-            
+
 create table co_invoices
 (
     inv_id          serial not null constraint co_invoices_pk primary key,
@@ -13,24 +9,23 @@ create table co_invoices
     inv_total       numeric(10, 2),
     inv_created_at  timestamp
 );
-            
+
 alter table co_invoices owner to postgres;
-            
+
 create index co_invoices_inv_created_at_index
     on co_invoices (inv_created_at);
-            
+
 create index co_invoices_inv_cst_id_index
     on co_invoices (inv_cst_id);
-            
+
 create index co_invoices_inv_status_flag_index
     on co_invoices (inv_status_flag);
-            
 
 
 
 
-drop table if exists co_orders;            
-            
+drop table if exists co_orders;
+
 create table co_orders
 (
     ord_id serial not null
@@ -38,26 +33,26 @@ create table co_orders
       primary key,
       ord_name varchar(70)
 );
-            
+
 alter table public.co_orders owner to postgres;
-            
 
 
-drop table if exists private.co_orders_x_products;
-            
-create table private.co_orders_x_products
+
+drop table if exists public.co_orders_x_products;
+
+create table public.co_orders_x_products
 (
     oxp_ord_id int not null,
     oxp_prd_id int not null,
     oxp_quantity int not null
 );
-            
-alter table private.co_orders_x_products owner to postgres;
-            
+
+alter table public.co_orders_x_products owner to postgres;
 
 
-drop table if exists co_products;            
-            
+
+drop table if exists co_products;
+
 create table co_products
 (
     prd_id serial not null
@@ -65,12 +60,5 @@ create table co_products
       primary key,
       prd_name varchar(70)
 );
-            
+
 alter table public.co_products owner to postgres;
-            
-
-
-
-
-
-
