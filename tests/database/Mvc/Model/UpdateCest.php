@@ -83,7 +83,7 @@ class UpdateCest
 
         $I->assertEquals(
             [
-                'inv_id'          => 123,
+                'inv_id'          => $invoice->inv_id,
                 'inv_title'       => $title,
                 'inv_cst_id'      => 456,
                 'inv_status_flag' => 2,
