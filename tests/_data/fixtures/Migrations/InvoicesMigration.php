@@ -135,9 +135,6 @@ create table co_invoices
 );
             ",
             "
-alter table co_invoices owner to postgres;
-            ",
-            "
 create index co_invoices_inv_created_at_index
     on co_invoices (inv_created_at);
             ",
