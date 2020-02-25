@@ -56,7 +56,6 @@ class UpdateCest
         $invoice = new Invoices();
         $invoice->assign(
             [
-                'inv_id'    => 123,
                 'inv_title' => $title,
             ]
         );
