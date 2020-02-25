@@ -62,6 +62,41 @@ class GetSetCest
     }
 
     /**
+     * Tests Phalcon\Storage\Adapter\Stream :: set()
+     *
+     * @throws Exception
+     * @since  2020-02-25
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     */
+    public function storageAdapterStreamSetWithDots(UnitTester $I)
+    {
+        $I->wantToTest('Storage\Adapter\Stream - set()');
+
+        $serializer = new SerializerFactory();
+
+        $adapter = new Stream(
+            $serializer,
+            [
+                'storageDir' => outputDir(),
+            ]
+        );
+
+        $data     = 'Phalcon Framework';
+        $filename = 'index.12321321.cache.html';
+        $result   = $adapter->set($filename, $data);
+        $I->assertTrue($result);
+
+        $target = outputDir() . 'ph-strm/in/de/x./12/32/13/21/.c/ac/';
+        $I->amInPath($target);
+        $I->openFile('test-key');
+        $expected = 's:3:"ttl";i:3600;s:7:"content";s:25:"s:17:"Phalcon Framework";";}';
+
+        $I->seeInThisFile($expected);
+        $I->safeDeleteFile($target . $filename);
+    }
+
+    /**
      * Tests Phalcon\Storage\Adapter\Stream :: get()
      *
      * @throws Exception
