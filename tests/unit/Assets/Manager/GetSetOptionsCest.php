@@ -15,17 +15,17 @@ namespace Phalcon\Test\Unit\Assets\Manager;
 
 use UnitTester;
 
-class GetOptionsCest
+class GetSetOptionsCest
 {
     /**
-     * Tests Phalcon\Assets\Manager :: getOptions()
+     * Tests Phalcon\Assets\Manager :: getOptions()/setOptions()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function assetsManagerGetOptions(UnitTester $I)
+    public function assetsManagerGetSetOptions(UnitTester $I)
     {
-        $I->wantToTest('Assets\Manager - getOptions()');
+        $I->wantToTest('Assets\Manager - getOptions()/setOptions()');
 
         $I->skipTest('Need implementation');
     }

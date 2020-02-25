@@ -16,18 +16,18 @@ namespace Phalcon\Test\Unit\Tag;
 use Phalcon\Tag;
 use UnitTester;
 
-class SetTitleSeparatorCest
+class GetSetTitleSeparatorCest
 {
     /**
-     * Tests Phalcon\Tag :: setTitleSeparator()
+     * Tests Phalcon\Tag :: getTitleSeparator()/setTitleSeparator()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2012-09-05
      * @since  2018-11-13
      */
-    public function tagSetTitleSeparator(UnitTester $I)
+    public function tagGetSetTitleSeparator(UnitTester $I)
     {
-        $I->wantToTest('Tag - setTitleSeparator()');
+        $I->wantToTest('Tag - getTitleSeparator()/setTitleSeparator()');
         Tag::resetInput();
         Tag::setTitleSeparator('-');
 

@@ -19,8 +19,8 @@ use Phalcon\Mvc\Model\Query\Builder;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Customers;
 use Phalcon\Test\Models\Invoices;
-use Phalcon\Test\Models\Robot;
-use Phalcon\Test\Models\RobotPart;
+use Phalcon\Test\Models\Orders;
+use Phalcon\Test\Models\Products;
 
 /**
  * Class JoinCest
@@ -32,10 +32,6 @@ class JoinCest
     public function _before(DatabaseTester $I)
     {
         $this->setNewFactoryDefault();
-        $this->setDatabase($I);
-
-        /** @var PDO $connection */
-        $connection = $I->getConnection();
     }
 
     /**
@@ -43,6 +39,8 @@ class JoinCest
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
+     *
+     * @group common
      */
     public function mvcModelCriteriaJoin(DatabaseTester $I)
     {
@@ -68,39 +66,39 @@ class JoinCest
     }
 
     /**
-     * Tests Phalcon\Mvc\Model\Criteria :: join() and use ManyToMany with Multiple schemas
+     * Tests Phalcon\Mvc\Model\Criteria :: join() and use ManyToMany with
+     * Multiple schemas
      *
-     * Bugfix : #14716
+     * @issue  14716
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2020-02-06
+     *
+     * @group mysql
      */
     public function mvcModelCriteriaJoinManyToManyMultipleSchema(DatabaseTester $I)
     {
         $I->wantToTest('Mvc\Model\Criteria - join() and use ManyToMany with Multiple schemas');
 
-        $driver = $I->getDriver();
+        $this->setDatabase($I);
 
         /**
          * The following test needs to skip sqlite because I think
          * we can't create multiple schemas with sqlite
          */
-        if ('sqlite' !== $driver) {
-            $criteria = new Criteria();
-            $criteria->setDI($this->container);
+        $criteria = new Criteria();
+        $criteria->setDI($this->container);
 
-            $builder = $criteria->createBuilder();
-            $builder->from(Robot::class);
-            $builder->join(RobotPart::class);
+        $builder = $criteria->createBuilder();
+        $builder->from(Orders::class);
+        $builder->join(Products::class);
 
-            $expected = 'SELECT `robot`.`robot_id`, `robot`.`robot_name` '
-                        . 'FROM `public`.`robot`  '
-                        . 'INNER JOIN `private`.`robot_to_robot_part` '
-                        . 'ON `robot`.`robot_id` = `robot_to_robot_part`.`robot_id` '
-                        . 'INNER JOIN `public`.`robot_part` '
-                        . 'ON `robot_to_robot_part`.`robot_part_id` = `robot_part`.`robot_part_id`';
-            $actual   = $builder->getQuery()->getSql();
+        $expected = 'SELECT `co_orders`.`ord_id`, `co_orders`.`ord_name` '
+            . 'FROM `co_orders`  '
+            . 'INNER JOIN `private`.`co_orders_x_products` '
+            . 'ON `co_orders`.`ord_id` = `co_orders_x_products`.`oxp_ord_id` '
+            . 'INNER JOIN `co_products` ON `co_orders_x_products`.`oxp_prd_id` = `co_products`.`prd_id`';
+        $actual   = $builder->getQuery()->getSql();
 
-            $I->assertEquals($expected, $actual['sql']);
-        }
+        $I->assertEquals($expected, $actual['sql']);
     }
 }

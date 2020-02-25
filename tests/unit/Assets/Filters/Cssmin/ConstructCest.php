@@ -13,9 +13,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Filters\Cssmin;
 
+use Phalcon\Assets\FilterInterface;
 use Phalcon\Assets\Filters\Cssmin;
-use stdClass;
-use TypeError;
 use UnitTester;
 
 class ConstructCest
@@ -31,20 +30,8 @@ class ConstructCest
     {
         $I->wantToTest('Assets\Filters\Cssmin - filter() - no string exception');
 
-        $I->skipTest('Need Phalcon implementation');
-
-        $I->expectThrowable(
-            new TypeError(
-                'Argument 1 passed to Phalcon\Assets\Filters\Cssmin::filter() ' .
-                'must be of the type string, object given'
-            ),
-            function () {
-                $cssmin = new Cssmin();
-
-                $cssmin->filter(
-                    new stdClass()
-                );
-            }
-        );
+        $cssMin = new Cssmin();
+        $I->assertInstanceOf(Cssmin::class, $cssMin);
+        $I->assertInstanceOf(FilterInterface::class, $cssMin);
     }
 }

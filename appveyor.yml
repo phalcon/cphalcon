@@ -86,7 +86,7 @@ install:
   - ps: >-
       InstallPeclExtension `
         -Name       psr `
-        -Version    0.7.0 `
+        -Version    1.0.0 `
         -PhpVersion $Env:PHP_VERSION `
         -BuildType  $Env:BUILD_TYPE `
         -VC         $Env:VC_VERSION `

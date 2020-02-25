@@ -37,6 +37,8 @@ class RightJoinCest
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
+     *
+     * @group common
      */
     public function mvcModelCriteriaRightJoin(DatabaseTester $I)
     {

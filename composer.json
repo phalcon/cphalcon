@@ -46,7 +46,7 @@
     "ext-json": "*",
     "ext-libxml": "*",
     "ext-mbstring": "*",
-    "ext-psr": "^0.7|^1.0",
+    "ext-psr": "^0.7|1.0",
     "ext-xml": "*",
     "ext-redis": "*",
     "ext-igbinary": "*",

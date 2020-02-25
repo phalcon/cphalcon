@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Annotations\Collection;
 
-use Phalcon\Annotations\Exception;
-use Phalcon\Annotations\Collection;
 use Phalcon\Annotations\Annotation;
+use Phalcon\Annotations\Collection;
+use Phalcon\Annotations\Exception;
 use UnitTester;
 
 class GetCest
@@ -31,16 +31,16 @@ class GetCest
         $I->wantToTest('Annotations\Collection - get()');
 
         $dataAnnotation = [
-            'name' => 'NovAnnotation'
+            'name' => 'NovAnnotation',
         ];
 
         $dataAnnotation1 = [
-            'name' => 'Phalconatation'
+            'name' => 'Phalconatation',
         ];
 
         $reflectionData = [
             $dataAnnotation,
-            $dataAnnotation1
+            $dataAnnotation1,
         ];
 
         $collection = new Collection($reflectionData);

@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Annotations\Collection;
 
-use Phalcon\Annotations\Collection;
 use Phalcon\Annotations\Annotation;
+use Phalcon\Annotations\Collection;
 use UnitTester;
 
 class CurrentCest
@@ -45,16 +45,16 @@ class CurrentCest
         $I->wantToTest('Annotations\Collection - current() with annotations');
 
         $dataAnnotation = [
-            'name' => 'NovAnnotation'
+            'name' => 'NovAnnotation',
         ];
 
         $dataAnnotation1 = [
-            'name' => 'NovAnnotation1'
+            'name' => 'NovAnnotation1',
         ];
 
         $reflectionData = [
             $dataAnnotation,
-            $dataAnnotation1
+            $dataAnnotation1,
         ];
 
         $collection = new Collection($reflectionData);

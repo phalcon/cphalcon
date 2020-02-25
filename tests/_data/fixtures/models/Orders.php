@@ -16,28 +16,27 @@ namespace Phalcon\Test\Models;
 use Phalcon\Mvc\Model;
 
 /**
- * Class Robot
+ * Class Orders
  *
- * @property int    $robot_id;
- * @property string $robot_name;
+ * @property int    $ord_id;
+ * @property string $ord_name;
  */
-class Robot extends Model
+class Orders extends Model
 {
-    public $robot_id;
-    public $robot_name;
+    public $ord_id;
+    public $ord_name;
 
     public function initialize()
     {
-        $this->setSchema('public');
-        $this->setSource('robot');
+        $this->setSource('co_orders');
 
         $this->hasManyToMany(
-            'robot_id',
-            RobotToRobotPart::class,
-            'robot_id',
-            'robot_part_id',
-            RobotPart::class,
-            'robot_part_id'
+            'ord_id',
+            OrdersProducts::class,
+            'oxp_ord_id',
+            'oxp_prd_id',
+            Products::class,
+            'prd_id'
         );
     }
 }

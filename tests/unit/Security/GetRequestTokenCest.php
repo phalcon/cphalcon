@@ -36,7 +36,6 @@ class GetRequestTokenCest
 
         $this->setNewFactoryDefault();
         $this->setDiService('sessionStream');
-        ;
 
         $_SESSION = [];
         global $_SESSION;

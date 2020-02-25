@@ -42,7 +42,7 @@ class CurrentCest
         $collection->add(
             $asset1
         );
-        
+
         // ERROR TO FIX IN PHALCON Undefined index:  in phalcon/Assets/Collection.zep on line 261
         $I->assertEquals($asset, $collection->current());
 

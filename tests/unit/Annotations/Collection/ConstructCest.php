@@ -37,11 +37,12 @@ class ConstructCest
     }
 
     /**
-     * Tests Phalcon\Annotations\Collection :: __construct() with array parameter
+     * Tests Phalcon\Annotations\Collection :: __construct() with array
+     * parameter
      *
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2020-01-27
-    */
+     */
     public function annotationsCollectionConstructWithArrayParam(UnitTester $I)
     {
         $I->wantToTest('Annotations\Collection - __construct() with array parameter');
@@ -49,8 +50,8 @@ class ConstructCest
         $collection = new Collection(
             [
                 [
-                    'name' => 'NovAnnotation'
-                ]
+                    'name' => 'NovAnnotation',
+                ],
             ]
         );
 
