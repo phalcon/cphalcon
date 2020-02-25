@@ -249,13 +249,12 @@ jobs:
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
         run: vendor/bin/codecept run --ext DotReporter database --env sqlite -g sqlite
 
-#      # TODO Enable these one at a time and also for MacOS/Windows
-#      - name: Run database tests Postgres
-#        env:
-#          DATA_POSTGRES_PORT: ${{ job.services.postgres.ports['5432'] }}
-#          DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
-#          DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
-#        run: vendor/bin/codecept run --ext DotReporter database --env pgsql
+      - name: Run database tests Postgres
+        env:
+          DATA_POSTGRES_PORT: ${{ job.services.postgres.ports['5432'] }}
+          DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
+          DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
+        run: vendor/bin/codecept run --ext DotReporter database --env pgsql -g pgsql
 #      - name: Run integrations tests SQL Server
 #        env:
 #          DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
