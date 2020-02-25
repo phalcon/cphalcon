@@ -99,7 +99,7 @@ trait DiTrait
                 break;
             case 'pgsql':
                 $options = getOptionsPostgresql();
-                $service = 'postgresql';
+                $driver = 'postgresql';
                 break;
             case 'sqlite':
                 $options = getOptionsSqlite();
