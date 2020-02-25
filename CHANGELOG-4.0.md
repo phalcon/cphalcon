@@ -4,7 +4,7 @@
 - Added the latest version of Codeception (v4) and utilized the phalcon4 module. [#14779](https://github.com/phalcon/cphalcon/issues/14779)
 
 ## Changed
-- Changed Column 'notNull' definition to make possible create nullable (NULL) columns [#14804](https://github.com/phalcon/cphalcon/pull/14804)
+- Changed Column `notNull` definition to make possible create nullable (NULL) columns [#14804](https://github.com/phalcon/cphalcon/pull/14804)
 - Changed `Phalcon\Http\Cookie`. Removed cookie binding to session [#11770](https://github.com/phalcon/cphalcon/issues/11770)
 
 ## Fixed
