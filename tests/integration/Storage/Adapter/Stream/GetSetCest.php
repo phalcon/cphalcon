@@ -84,12 +84,12 @@ class GetSetCest
 
         $data     = 'Phalcon Framework';
         $filename = 'index.12321321.cache.html';
-        $result   = $adapter->set($filename, $data);
+        $result   = $adapter->set($filename, $data, 30);
         $I->assertTrue($result);
 
         $target = outputDir() . 'ph-strm/in/de/x./12/32/13/21/.c/ac/';
         $I->amInPath($target);
-        $I->openFile('test-key');
+        $I->openFile($filename);
         $expected = 's:3:"ttl";i:3600;s:7:"content";s:25:"s:17:"Phalcon Framework";";}';
 
         $I->seeInThisFile($expected);
