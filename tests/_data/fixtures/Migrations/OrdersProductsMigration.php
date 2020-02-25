@@ -71,10 +71,10 @@ CREATE TABLE private.`co_orders_x_products` (
     {
         return [
             "
-drop table if exists private.co_orders_x_products;
+drop table if exists public.co_orders_x_products;
             ",
             "
-create table private.co_orders_x_products
+create table public.co_orders_x_products
 (
     oxp_ord_id int not null,
     oxp_prd_id int not null,
@@ -82,7 +82,7 @@ create table private.co_orders_x_products
 );
             ",
             "
-alter table private.co_orders_x_products owner to postgres;
+alter table public.co_orders_x_products owner to postgres;
             "
         ];
     }

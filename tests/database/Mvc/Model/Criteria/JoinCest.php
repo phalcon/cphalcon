@@ -94,7 +94,7 @@ class JoinCest
 
         $expected = 'SELECT `co_orders`.`ord_id`, `co_orders`.`ord_name` '
             . 'FROM `co_orders`  '
-            . 'INNER JOIN `public`.`co_orders_x_products` '
+            . 'INNER JOIN `private`.`co_orders_x_products` '
             . 'ON `co_orders`.`ord_id` = `co_orders_x_products`.`oxp_ord_id` '
             . 'INNER JOIN `co_products` ON `co_orders_x_products`.`oxp_prd_id` = `co_products`.`prd_id`';
         $actual   = $builder->getQuery()->getSql();
