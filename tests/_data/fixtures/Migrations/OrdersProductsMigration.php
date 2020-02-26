@@ -80,9 +80,6 @@ create table private.co_orders_x_products
     oxp_prd_id int not null,
     oxp_quantity int not null
 );
-            ",
-            "
-alter table private.co_orders_x_products owner to postgres;
             "
         ];
     }

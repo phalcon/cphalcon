@@ -78,9 +78,6 @@ create table co_orders
       primary key,
       ord_name varchar(70)
 );
-            ",
-            "
-alter table public.co_orders owner to postgres;
             "
         ];
     }
