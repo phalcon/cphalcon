@@ -38,12 +38,13 @@ class QueryCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-22
      *
+     * @group pgsql
      * @group mysql
      * @group sqlite
      */
     public function dbAdapterPdoQuery(DatabaseTester $I)
     {
-        $I->wantToTest('Db\Adapter\Pdo\Mysql - query()');
+        $I->wantToTest('Db\Adapter\Pdo - query()');
 
         $connection = $I->getConnection();
         $db = $this->container->get('db');
