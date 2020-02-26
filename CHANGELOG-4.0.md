@@ -5,6 +5,7 @@
 
 ## Fixed
 - Fixed `Phalcon\Db::fetchAll` to correctly return data when `Enum::FETCH_COLUMN` is supplied. [#13321](https://github.com/phalcon/cphalcon/issues/13321)
+- Fixed Postgres NULL values to not be required during model update. [#14862](https://github.com/phalcon/cphalcon/issues/14862)
 
 # [4.0.4](https://github.com/phalcon/cphalcon/releases/tag/v4.0.4) (2020-02-15)
 ## Added
