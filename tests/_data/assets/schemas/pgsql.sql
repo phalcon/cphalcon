@@ -14,8 +14,6 @@ create table co_invoices
     inv_created_at  timestamp
 );
             
-alter table co_invoices owner to postgres;
-            
 create index co_invoices_inv_created_at_index
     on co_invoices (inv_created_at);
             
@@ -39,8 +37,6 @@ create table co_orders
       ord_name varchar(70)
 );
             
-alter table public.co_orders owner to postgres;
-            
 
 
 drop table if exists private.co_orders_x_products;
@@ -51,8 +47,6 @@ create table private.co_orders_x_products
     oxp_prd_id int not null,
     oxp_quantity int not null
 );
-            
-alter table private.co_orders_x_products owner to postgres;
             
 
 
@@ -65,8 +59,6 @@ create table co_products
       primary key,
       prd_name varchar(70)
 );
-            
-alter table public.co_products owner to postgres;
             
 
 
