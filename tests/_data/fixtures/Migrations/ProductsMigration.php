@@ -78,9 +78,6 @@ create table co_products
       primary key,
       prd_name varchar(70)
 );
-            ",
-            "
-alter table public.co_products owner to postgres;
             "
         ];
     }

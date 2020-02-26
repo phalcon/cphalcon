@@ -10,3 +10,5 @@ modules:
         cleanup: false
         reconnect: true
         waitlock: 10
+        initial_queries:
+          - 'CREATE SCHEMA IF NOT EXISTS private;'

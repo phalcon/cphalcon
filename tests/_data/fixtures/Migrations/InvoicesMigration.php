@@ -46,10 +46,9 @@ class InvoicesMigration extends AbstractMigration
 insert into co_invoices (
     inv_id, inv_cst_id, inv_status_flag, inv_title, inv_total, inv_created_at
 ) values (
-    {$id}, {$custId}, {$status}, "{$title}", {$total}, "{$now}"
+    {$id}, {$custId}, {$status}, '{$title}', {$total}, '{$now}'
 )
 SQL;
-
         return $this->connection->exec($sql);
     }
 
