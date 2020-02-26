@@ -19,8 +19,8 @@ use Phalcon\Mvc\Model\Query\Builder;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Customers;
 use Phalcon\Test\Models\Invoices;
-use Phalcon\Test\Models\Robot;
-use Phalcon\Test\Models\RobotPart;
+use Phalcon\Test\Models\Orders;
+use Phalcon\Test\Models\Products;
 
 /**
  * Class JoinCest
@@ -89,15 +89,14 @@ class JoinCest
         $criteria->setDI($this->container);
 
         $builder = $criteria->createBuilder();
-        $builder->from(Robot::class);
-        $builder->join(RobotPart::class);
+        $builder->from(Orders::class);
+        $builder->join(Products::class);
 
-        $expected = 'SELECT `robot`.`robot_id`, `robot`.`robot_name` '
-            . 'FROM `public`.`robot`  '
-            . 'INNER JOIN `private`.`robot_to_robot_part` '
-            . 'ON `robot`.`robot_id` = `robot_to_robot_part`.`robot_id` '
-            . 'INNER JOIN `public`.`robot_part` '
-            . 'ON `robot_to_robot_part`.`robot_part_id` = `robot_part`.`robot_part_id`';
+        $expected = 'SELECT `co_orders`.`ord_id`, `co_orders`.`ord_name` '
+            . 'FROM `co_orders`  '
+            . 'INNER JOIN `private`.`co_orders_x_products` '
+            . 'ON `co_orders`.`ord_id` = `co_orders_x_products`.`oxp_ord_id` '
+            . 'INNER JOIN `co_products` ON `co_orders_x_products`.`oxp_prd_id` = `co_products`.`prd_id`';
         $actual   = $builder->getQuery()->getSql();
 
         $I->assertEquals($expected, $actual['sql']);

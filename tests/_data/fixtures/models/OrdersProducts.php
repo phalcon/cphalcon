@@ -16,19 +16,20 @@ namespace Phalcon\Test\Models;
 use Phalcon\Mvc\Model;
 
 /**
- * Class RobotPart
+ * Class OrdersProducts
  *
- * @property int    $robot_part_id;
- * @property string $robot_part_name;
+ * @property int    $oxp_ord_id;
+ * @property string $oxp_prd_id;
+ * @property string $oxp_quantity;
  */
-class RobotPart extends Model
+class OrdersProducts extends Model
 {
-    public $robot_part_id;
-    public $robot_part_name;
+    public $oxp_ord_id;
+    public $oxp_prd_id;
 
     public function initialize()
     {
-        $this->setSchema('public');
-        $this->setSource('robot_part');
+        $this->setSchema('private');
+        $this->setSource('co_orders_x_products');
     }
 }

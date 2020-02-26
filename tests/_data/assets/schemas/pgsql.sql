@@ -29,43 +29,44 @@ create index co_invoices_inv_status_flag_index
 
 
 
-drop table if exists public.robot;            
+drop table if exists co_orders;            
             
-create table public.robot
+create table co_orders
 (
-  robot_id serial not null
-    constraint robot_pk
+    ord_id serial not null
+    constraint ord_pk
       primary key,
-  robot_name varchar(70)
+      ord_name varchar(70)
 );
             
-alter table public.robot owner to postgres;
+alter table public.co_orders owner to postgres;
             
 
 
-drop table if exists public.robot_part;            
+drop table if exists private.co_orders_x_products;
             
-create table public.robot_part
+create table private.co_orders_x_products
 (
-  robot_part_id serial not null
-    constraint robot_part_pk
+    oxp_ord_id int not null,
+    oxp_prd_id int not null,
+    oxp_quantity int not null
+);
+            
+alter table private.co_orders_x_products owner to postgres;
+            
+
+
+drop table if exists co_products;            
+            
+create table co_products
+(
+    prd_id serial not null
+    constraint prd_pk
       primary key,
-  robot_part_name varchar(70)
+      prd_name varchar(70)
 );
             
-alter table public.robot_part owner to postgres;
-            
-
-
-drop table if exists private.robot_to_robot_part;
-            
-create table private.robot_to_robot_part
-(
-  robot_id int not null,
-  robot_part_id int not null
-);
-            
-alter table private.robot_to_robot_part owner to postgres;
+alter table public.co_products owner to postgres;
             
 
 

@@ -14,29 +14,29 @@ declare(strict_types=1);
 namespace Phalcon\Test\Fixtures\Migrations;
 
 /**
- * Class RobotToRobotPartMigration
+ * Class OrdersMigration
  */
-class RobotToRobotPartMigration extends AbstractMigration
+class OrdersMigration extends AbstractMigration
 {
-    protected $table = "robot_to_robot_part";
+    protected $table = "co_orders";
 
     /**
-     * @param int $robot_id
-     * @param int $robot_part_id
+     * @param int         $prdt_id
+     * @param string|null $prdt_name
      *
      * @return int
      */
     public function insert(
-        $robot_id,
-        int $robot_part_id
+        $ord_id,
+        string $ord_name = null
     ): int {
-        $robot_id      = $robot_id ?: 'null';
-        $robot_part_id = $robot_part_id ?: 'null';
+        $ord_id    = $ord_id ?: 'null';
+        $ord_name  = $ord_name ?: uniqid();
         $sql    = <<<SQL
-insert into robot_to_robot_part (
-    robot_id, robot_part_id
+insert into co_orders (
+    ord_id, ord_name
 ) values (
-    {$robot_id}, {$robot_part_id}
+    {$ord_id}, {$ord_name}
 )
 SQL;
 
@@ -47,14 +47,14 @@ SQL;
     {
         return [
             "
-drop table if exists private.`robot_to_robot_part`;
+drop table if exists `co_orders`;
             ",
             "
-CREATE TABLE private.`robot_to_robot_part` (
-  `robot_id` int(10) unsigned NOT NULL,
-  `robot_part_id` int(10) unsigned NOT NULL,
-  PRIMARY KEY (`robot_id`, `robot_part_id` )
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+CREATE TABLE `co_orders` (
+    `ord_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `ord_name` VARCHAR(70) NULL,
+    PRIMARY KEY (`ord_id`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
             "
         ];
     }
@@ -68,17 +68,19 @@ CREATE TABLE private.`robot_to_robot_part` (
     {
         return [
             "
-drop table if exists private.robot_to_robot_part;
+drop table if exists co_orders;            
             ",
             "
-create table private.robot_to_robot_part
+create table co_orders
 (
-  robot_id int not null,
-  robot_part_id int not null
+    ord_id serial not null
+    constraint ord_pk
+      primary key,
+      ord_name varchar(70)
 );
             ",
             "
-alter table private.robot_to_robot_part owner to postgres;
+alter table public.co_orders owner to postgres;
             "
         ];
     }
