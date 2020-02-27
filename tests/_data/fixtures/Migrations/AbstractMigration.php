@@ -69,13 +69,17 @@ abstract class AbstractMigration
                 ->connection
                 ->getAttribute(PDO::ATTR_DRIVER_NAME)
             ;
-            if ('sqlite' !== $driver) {
+            if ($driver === 'mysql') {
                 $this->connection->exec(
                     'truncate table ' . $this->table . ';'
                 );
-            } else {
+            } elseif ($driver === 'sqlite') {
                 $this->connection->exec(
                     'delete from ' . $this->table . ';'
+                );
+            } else {
+                $this->connection->exec(
+                    'truncate table ' . $this->table . ' cascade;'
                 );
             }
         }
