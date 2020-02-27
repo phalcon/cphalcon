@@ -42,7 +42,7 @@ class Mysql extends Dialect
             let defaultValue = column->getDefault();
 
             if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
-                let sql .= " DEFAULT CURRENT_TIMESTAMP";
+                let sql .= " DEFAULT " . defaultValue;
             } else {
                 let sql .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
             }
@@ -696,7 +696,7 @@ class Mysql extends Dialect
             let defaultValue = column->getDefault();
 
             if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
-                let sql .= " DEFAULT CURRENT_TIMESTAMP";
+                let sql .= " DEFAULT " . defaultValue;
             } else {
                 let sql .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
             }
