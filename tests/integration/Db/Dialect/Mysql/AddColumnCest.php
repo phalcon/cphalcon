@@ -41,7 +41,8 @@ class AddColumnCest
 
         $mysql = new Mysql();
         $sql = $mysql->addColumn('test', '', $column);
-        $expected = 'ALTER TABLE `test` ADD `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NULL AFTER `created_at`';
+        $expected = 'ALTER TABLE `test` ADD `updated_at` TIMESTAMP ' .
+            'DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NULL AFTER `created_at`';
 
         $I->assertSame($expected, $sql);
     }
