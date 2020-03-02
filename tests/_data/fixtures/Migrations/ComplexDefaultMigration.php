@@ -33,7 +33,7 @@ class ComplexDefaultMigration extends AbstractMigration
 insert into complex_default (
     id, created, updated
 ) values (
-    {$id}, {$created}, "{$updated}"
+    {$id}, "{$created}", "{$updated}"
 )
 SQL;
 
