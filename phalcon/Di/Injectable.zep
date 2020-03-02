@@ -52,6 +52,11 @@ abstract class Injectable implements InjectionAwareInterface
     protected container;
 
     /**
+     * Persistent Holder
+     */
+    protected _persistent;
+
+    /**
      * Magic method __get
      */
     public function __get(string! propertyName) -> var | null
@@ -70,14 +75,7 @@ abstract class Injectable implements InjectionAwareInterface
          * Accessing the persistent property will create a session bag on any class
          */
         if propertyName == "persistent" {
-            let this->{"persistent"} = <BagInterface> container->get(
-                "sessionBag",
-                [
-                    get_class(this)
-                ]
-            );
-
-            return this->{"persistent"};
+            return this->getPersistent();
         }
 
         /**
@@ -134,5 +132,41 @@ abstract class Injectable implements InjectionAwareInterface
     public function setDI(<DiInterface> container) -> void
     {
         let this->container = container;
+    }
+
+    protected function getPersistent() -> <BagInterface>
+    {
+        if this->_persistent === null {
+            let this->_persistent = this->loadPersistent();
+        } elseif !this->_persistent->has("_isInitialized") {
+            this->initializePersistent(this->_persistent);
+        }
+
+        return this->_persistent;
+    }
+
+    private function loadPersistent() -> <BagInterface>
+    {
+        var container;
+
+        let container = <DiInterface> this->getDi();
+
+        if unlikely !container->has("sessionBag") {
+            throw new Exception(
+                Exception::containerServiceNotFound("sessionBag")
+            );
+        }
+
+        return <BagInterface> container->get(
+            "sessionBag",
+            [
+                get_class(this)
+            ]
+        );
+    }
+
+    protected function initializePersistent(<BagInterface> sessionBag) -> void
+    {
+        sessionBag->set("_isInitialized", true);
     }
 }
