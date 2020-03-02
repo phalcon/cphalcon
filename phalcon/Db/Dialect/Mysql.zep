@@ -50,8 +50,6 @@ class Mysql extends Dialect
 
         if column->isNotNull() {
             let sql .= " NOT NULL";
-        } else {
-            let sql .= " NULL";
         }
 
         if column->isAutoIncrement() {
@@ -190,8 +188,6 @@ class Mysql extends Dialect
              */
             if column->isNotNull() {
                 let columnLine .= " NOT NULL";
-            } else {
-                let columnLine .= " NULL";
             }
 
             /**
@@ -704,8 +700,6 @@ class Mysql extends Dialect
 
         if column->isNotNull() {
             let sql .= " NOT NULL";
-        } else {
-            let sql .= " NULL";
         }
 
         if column->isAutoIncrement() {
