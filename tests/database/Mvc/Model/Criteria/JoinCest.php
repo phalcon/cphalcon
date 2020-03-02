@@ -87,8 +87,6 @@ class JoinCest
     {
         $I->wantToTest('Mvc\Model\Criteria - join() and use ManyToMany with Multiple schemas');
 
-        $this->setDatabase($I);
-
         /**
          * The following test needs to skip sqlite because I think
          * we can't create multiple schemas with sqlite
