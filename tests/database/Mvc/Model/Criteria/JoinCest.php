@@ -38,7 +38,6 @@ class JoinCest
     public function _before(DatabaseTester $I)
     {
         $this->setNewFactoryDefault();
-        $this->setDatabase($I);
     }
 
     /**
@@ -86,6 +85,8 @@ class JoinCest
     public function mvcModelCriteriaJoinManyToManyMultipleSchema(DatabaseTester $I)
     {
         $I->wantToTest('Mvc\Model\Criteria - join() and use ManyToMany with Multiple schemas');
+
+        $this->setDatabase($I);
 
         /**
          * The following test needs to skip sqlite because I think
