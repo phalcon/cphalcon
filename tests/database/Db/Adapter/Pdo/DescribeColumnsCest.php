@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Database\Db\Adapter\Pdo;
 
-use Codeception\Example;
 use DatabaseTester;
 use Phalcon\Storage\Exception;
 use Phalcon\Test\Fixtures\Migrations\ComplexDefaultMigration;
@@ -41,7 +40,7 @@ final class DescribeColumnsCest
      *
      * @group mysql
      */
-    public function dbAdapterPdoDescribeColumnsOnUpdate(DatabaseTester $I, Example $example)
+    public function dbAdapterPdoDescribeColumnsOnUpdate(DatabaseTester $I)
     {
         $I->wantToTest('Db\Adapter\Pdo - describeColumns()');
 
