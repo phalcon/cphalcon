@@ -52,7 +52,7 @@ class ModifyColumnCest
         $mysql = new Mysql();
         $sql = $mysql->modifyColumn('test', '', $column, $currentColumn);
         $expected = 'ALTER TABLE `test` MODIFY `updated_at` TIMESTAMP ' .
-            'DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NULL AFTER `created_at`';
+            'DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP AFTER `created_at`';
 
         $I->assertSame($expected, $sql);
     }
