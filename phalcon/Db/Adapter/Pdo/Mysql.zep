@@ -428,6 +428,10 @@ class Mysql extends PdoAdapter
                 } else {
                     let definition["default"] = field[4];
                 }
+            } else {
+                if memstr(field[5], "on update") {
+                    let definition["default"] = "NULL " . field[5];
+                }
             }
 
             /**
