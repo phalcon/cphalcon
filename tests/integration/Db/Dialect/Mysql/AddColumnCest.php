@@ -29,21 +29,39 @@ class AddColumnCest
     {
         $I->wantToTest('Db\Adapter\Pdo\Mysql - addColumn()');
 
-        $column = new Column(
-            'updated_at',
+        $additions = [
             [
-                'type' => Column::TYPE_TIMESTAMP,
-                'default' => "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
-                'notNull' => false,
-                'after' => 'created_at'
+                new Column(
+                    'updated_at',
+                    [
+                        'type' => Column::TYPE_TIMESTAMP,
+                        'default' => "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+                        'notNull' => false,
+                        'after' => 'created_at'
+                    ]
+                ),
+                'ALTER TABLE `test` ADD `updated_at` TIMESTAMP ' .
+                    'DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP AFTER `created_at`'
+            ],
+            [
+                new Column(
+                    'numeric_val',
+                    [
+                        'type' => Column::TYPE_FLOAT,
+                        'default' => 21.42,
+                        'notNull' => true,
+                        'after' => 'updated_at'
+                    ]
+                ),
+                'ALTER TABLE `test` ADD `numeric_val` FLOAT DEFAULT 21.42 NOT NULL AFTER `updated_at`'
             ]
-        );
+        ];
 
         $mysql = new Mysql();
-        $sql = $mysql->addColumn('test', '', $column);
-        $expected = 'ALTER TABLE `test` ADD `updated_at` TIMESTAMP ' .
-            'DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NULL AFTER `created_at`';
-
-        $I->assertSame($expected, $sql);
+        foreach ($additions as [$column, $expected]) {
+            $sql = $mysql->addColumn('test', '', $column);
+            
+            $I->assertSame($expected, $sql);
+        }
     }
 }
