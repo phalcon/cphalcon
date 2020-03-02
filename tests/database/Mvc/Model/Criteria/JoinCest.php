@@ -16,6 +16,7 @@ namespace Phalcon\Test\Database\Mvc\Model\Criteria;
 use DatabaseTester;
 use Phalcon\Mvc\Model\Criteria;
 use Phalcon\Mvc\Model\Query\Builder;
+use Phalcon\Storage\Exception;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Customers;
 use Phalcon\Test\Models\Invoices;
@@ -30,9 +31,14 @@ class JoinCest
 {
     use DiTrait;
 
+    /**
+     * @param DatabaseTester $I
+     * @throws Exception
+     */
     public function _before(DatabaseTester $I)
     {
         $this->setNewFactoryDefault();
+        $this->setDatabase($I);
     }
 
     /**
