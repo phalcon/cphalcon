@@ -36,8 +36,6 @@ final class DescribeColumnsCest
     /**
      * Tests Phalcon\Db\Adapter\Pdo :: describeColumns()
      *
-     * @dataProvider dataProvider
-     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-03-02
      *
