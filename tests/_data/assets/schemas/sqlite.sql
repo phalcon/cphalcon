@@ -1,5 +1,7 @@
 
 
+
+
 drop table if exists co_customers;
             
 create table co_customers
