@@ -423,10 +423,10 @@ class Mysql extends PdoAdapter
              * Check if the column has default value
              */
             if field[4] !== null {
-                let definition["default"] = field[4];
-
                 if memstr(field[5], "on update") {
-                    definition["default"] .= " " . field[5];
+                    let definition["default"] = field[4] . " " . field[5];
+                } else {
+                    let definition["default"] = field[4];
                 }
             }
 
