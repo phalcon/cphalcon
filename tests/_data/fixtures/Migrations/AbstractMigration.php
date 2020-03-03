@@ -129,6 +129,16 @@ abstract class AbstractMigration
         $this->connection = $connection;
     }
 
+    /**
+     * Get table name
+     *
+     * @return string
+     */
+    public function getTable(): string
+    {
+        return $this->table;
+    }
+
     abstract protected function getSqlMysql(): array;
 
     abstract protected function getSqlSqlite(): array;

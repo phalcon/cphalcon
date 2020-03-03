@@ -52,7 +52,6 @@ use function getOptionsPostgresql;
 use function getOptionsRedis;
 use function getOptionsSessionStream;
 use function getOptionsSqlite;
-use function var_dump;
 
 /**
  * Trait DiTrait
