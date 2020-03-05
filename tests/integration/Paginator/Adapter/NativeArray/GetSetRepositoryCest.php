@@ -17,6 +17,7 @@ use IntegrationTester;
 use Phalcon\Paginator\Adapter\NativeArray;
 use Phalcon\Paginator\Repository;
 use Phalcon\Test\Fixtures\Paginator\Store;
+
 use function array_fill;
 
 /**
