@@ -8,6 +8,7 @@
 - Fixed Postgres NULL values to not be required during model update. [#14862](https://github.com/phalcon/cphalcon/issues/14862)
 - Fixed MySQL alter column when default value contains not only CURRENT_TIMESTAMP [#14880](https://github.com/phalcon/cphalcon/issues/14880)
 - Fixed MySQL default value with ON UPDATE expression [#14887](https://github.com/phalcon/cphalcon/pull/14887)
+- Fixed `Str::dirFromFile()` to replace `.` with `-` to avoid issues with Windows environments [#14858](https://github.com/phalcon/cphalcon/issues/14858)
 
 # [4.0.4](https://github.com/phalcon/cphalcon/releases/tag/v4.0.4) (2020-02-15)
 ## Added
