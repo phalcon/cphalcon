@@ -11,12 +11,10 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Fixtures\Tasks;
+namespace Phalcon\Test\Fixtures\Paginator;
 
-class EchoTask extends \Phalcon\Cli\Task
+use Phalcon\Paginator\Repository;
+
+class Store extends Repository
 {
-    public function mainAction()
-    {
-        return 'echoMainAction';
-    }
 }
