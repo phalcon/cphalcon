@@ -214,6 +214,10 @@ class Str
         let name  = pathinfo(file, PATHINFO_FILENAME),
             start = substr(name, 0, -2);
 
+         if !empty start {
+            let start = str_replace(".", "-", start);
+        }
+
         if !start {
             let start = substr(name, 0, 1);
         }
@@ -302,9 +306,9 @@ class Str
                 }
 
                 let words = explode(separator, match[1]),
-                    word = words[array_rand(words)],
-                    sub = preg_quote(match[0], separator),
-                    text = preg_replace("/" . sub . "/", word, text, 1);
+                    word  = words[array_rand(words)],
+                    sub   = preg_quote(match[0], separator),
+                    text  = preg_replace("/" . sub . "/", word, text, 1);
             }
         }
 
