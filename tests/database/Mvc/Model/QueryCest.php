@@ -17,6 +17,7 @@ use DatabaseTester;
 use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\RecordsTrait;
+use Phalcon\Test\Models\Customers;
 use Phalcon\Test\Models\CustomersKeepSnapshots;
 use Phalcon\Test\Models\InvoicesKeepSnapshots;
 
@@ -52,7 +53,15 @@ class QueryCest
     public function mvcModelQuery(DatabaseTester $I)
     {
         $I->wantToTest('Mvc\Model - query()');
-        $I->skipTest('Need implementation');
+        $this->addTestData($I);
+
+        $query = Customers::query();
+        $query->limit(20, 0);//I have 50 rows in my db
+        $resultsets = $query->execute();
+
+        foreach ($resultsets as $resultset) {
+            $I->assertInstanceOf(Customers::class, $resultset);
+        }
     }
 
     /**

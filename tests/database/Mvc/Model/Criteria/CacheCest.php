@@ -43,23 +43,16 @@ class CacheCest
     {
         $I->wantToTest('Mvc\Model\Criteria - cache()');
 
-        $I->skipTest('Need implementation');
         $criteria = new Criteria();
         $criteria->setDI($this->container);
 
-        $criteria
-            ->setModelName(Invoices::class)
-            ->andWhere('inv_cst_id = :custId:', ['custId' => 1])
-        ;
+        $options = [
+            'lifetime' => 120
+        ];
+        $criteria->cache($options);
 
-        $builder = $criteria->createBuilder();
+        $actual = $criteria->getParams();
 
-        $I->assertInstanceOf(Builder::class, $builder);
-
-        $expected = 'SELECT [Phalcon\Test\Models\Invoices].* '
-            . 'FROM [Phalcon\Test\Models\Invoices] '
-            . 'WHERE inv_cst_id = :custId:';
-        $actual   = $builder->getPhql();
-        $I->assertEquals($expected, $actual);
+        $I->assertEquals($options, $actual['cache']);
     }
 }
