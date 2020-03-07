@@ -11,11 +11,11 @@
     <email>ruud@ruudboon.io</email>
     <active>yes</active>
   </lead>
-  <date>2020-02-15</date>
-  <time>14:39:00</time>
+  <date>2020-03-07</date>
+  <time>17:00:00</time>
   <version>
-    <release>4.0.4</release>
-    <api>4.0.4</api>
+    <release>4.0.5</release>
+    <api>4.0.5</api>
   </version>
   <stability>
     <release>stable</release>
