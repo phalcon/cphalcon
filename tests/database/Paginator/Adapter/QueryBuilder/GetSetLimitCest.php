@@ -33,12 +33,14 @@ class GetSetLimitCest
 
         /** @var PDO $connection */
         $connection = $I->getConnection();
-        $migration  = new InvoicesMigration($connection);
-        $migration->clear();
+        (new InvoicesMigration($connection));
     }
 
     /**
      * Tests Phalcon\Paginator\Adapter\QueryBuilder :: getLimit() / setLimit()
+     *
+     * @group mysql
+     * @group sqlite
      */
     public function paginatorAdapterQuerybuilderGetSetLimit(DatabaseTester $I)
     {

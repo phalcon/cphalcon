@@ -43,6 +43,10 @@ class UpdateCest
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-31
+     *
+     * @group mysql
+     * @group sqlite
+     * @group pgsql
      */
     public function mvcModelUpdate(DatabaseTester $I)
     {
@@ -52,7 +56,6 @@ class UpdateCest
         $invoice = new Invoices();
         $invoice->assign(
             [
-                'inv_id'    => 123,
                 'inv_title' => $title,
             ]
         );
@@ -80,7 +83,7 @@ class UpdateCest
 
         $I->assertEquals(
             [
-                'inv_id'          => 123,
+                'inv_id'          => $invoice->inv_id,
                 'inv_title'       => $title,
                 'inv_cst_id'      => 456,
                 'inv_status_flag' => 2,

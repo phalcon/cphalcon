@@ -13,20 +13,29 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Tag;
 
+use Phalcon\Tag;
+use Phalcon\Test\Fixtures\Helpers\TagSetup;
 use UnitTester;
 
-class FormCest
+class FormCest extends TagSetup
 {
     /**
      * Tests Phalcon\Tag :: form()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-02-22
      */
     public function tagForm(UnitTester $I)
     {
         $I->wantToTest('Tag - form()');
 
-        $I->skipTest('Need implementation');
+        $options = [
+            'x_name',
+            'class' => 'x_class',
+        ];
+
+        $expected = '<form action="/x_name" class="x_class" method="post">';
+        $actual   = Tag::form($options);
+        $I->assertEquals($expected, $actual);
     }
 }

@@ -37,6 +37,9 @@ class RefreshCest
 
     /**
      * Tests Phalcon\Mvc\Model :: refresh()
+     *
+     * @group mysql
+     * @group sqlite
      */
     public function mvcModelRefresh(DatabaseTester $I)
     {

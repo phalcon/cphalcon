@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of the Phalcon Framework.
  *
@@ -10,6 +8,8 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Phalcon\Test\Fixtures\Migrations;
 
@@ -46,10 +46,9 @@ class InvoicesMigration extends AbstractMigration
 insert into co_invoices (
     inv_id, inv_cst_id, inv_status_flag, inv_title, inv_total, inv_created_at
 ) values (
-    {$id}, {$custId}, {$status}, "{$title}", {$total}, "{$now}"
+    {$id}, {$custId}, {$status}, '{$title}', {$total}, '{$now}'
 )
 SQL;
-
         return $this->connection->exec($sql);
     }
 
@@ -133,9 +132,6 @@ create table co_invoices
     inv_total       numeric(10, 2),
     inv_created_at  timestamp
 );
-            ",
-            "
-alter table co_invoices owner to postgres;
             ",
             "
 create index co_invoices_inv_created_at_index

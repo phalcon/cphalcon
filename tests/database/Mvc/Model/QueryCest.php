@@ -17,6 +17,7 @@ use DatabaseTester;
 use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\RecordsTrait;
+use Phalcon\Test\Models\Customers;
 use Phalcon\Test\Models\CustomersKeepSnapshots;
 use Phalcon\Test\Models\InvoicesKeepSnapshots;
 
@@ -45,11 +46,22 @@ class QueryCest
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
+     *
+     * @group mysql
+     * @group sqlite
      */
     public function mvcModelQuery(DatabaseTester $I)
     {
         $I->wantToTest('Mvc\Model - query()');
-        $I->skipTest('Need implementation');
+        $this->addTestData($I);
+
+        $query = Customers::query();
+        $query->limit(20, 0);//I have 50 rows in my db
+        $resultsets = $query->execute();
+
+        foreach ($resultsets as $resultset) {
+            $I->assertInstanceOf(Customers::class, $resultset);
+        }
     }
 
     /**
@@ -58,6 +70,9 @@ class QueryCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      * @issue  14783
+     *
+     * @group mysql
+     * @group sqlite
      */
     public function mvcModelQueryIssue14783(DatabaseTester $I)
     {
@@ -69,7 +84,7 @@ class QueryCest
         $query->columns(
             [
                 CustomersKeepSnapshots::class . '.*',
-                'join_1.*'
+                'join_1.*',
             ]
         );
         $query->leftJoin(
@@ -91,14 +106,15 @@ class QueryCest
      * Transforming method used for test
      *
      * @param $resultset
+     *
      * @issue 14783
      *
      * @return mixed
      */
     private function transform($resultset)
     {
-        $invoice  = $resultset->readAttribute(lcfirst(InvoicesKeepSnapshots::class));
-        $customer = $resultset->readAttribute('join_1');
+        $invoice           = $resultset->readAttribute(lcfirst(InvoicesKeepSnapshots::class));
+        $customer          = $resultset->readAttribute('join_1');
         $invoice->customer = $customer;
 
         return $invoice;

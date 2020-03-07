@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Annotations\Reflection;
 
+use Phalcon\Annotations\Reflection;
 use UnitTester;
 
 class ConstructCest
@@ -21,12 +22,14 @@ class ConstructCest
      * Tests Phalcon\Annotations\Reflection :: __construct()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-02-21
      */
     public function annotationsReflectionConstruct(UnitTester $I)
     {
         $I->wantToTest('Annotations\Reflection - __construct()');
 
-        $I->skipTest('Need implementation');
+        $reflection = new Reflection();
+
+        $I->assertInstanceOf(Reflection::class, $reflection);
     }
 }

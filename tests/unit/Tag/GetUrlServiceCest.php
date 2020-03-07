@@ -13,9 +13,12 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Tag;
 
+use Phalcon\Tag;
+use Phalcon\Test\Fixtures\Helpers\TagSetup;
+use Phalcon\Url;
 use UnitTester;
 
-class GetUrlServiceCest
+class GetUrlServiceCest extends TagSetup
 {
     /**
      * Tests Phalcon\Tag :: getUrlService()
@@ -26,6 +29,10 @@ class GetUrlServiceCest
     public function tagGetUrlService(UnitTester $I)
     {
         $I->wantToTest('Tag - getUrlService()');
-        $I->skipTest('Need implementation');
+
+        $url = Tag::getUrlService();
+
+        $I->assertInstanceOf(Url::class, $url);
+        $I->assertInstanceOf(Url\UrlInterface::class, $url);
     }
 }

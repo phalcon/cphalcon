@@ -15,6 +15,7 @@ namespace Phalcon\Test\Unit\Di\Injectable;
 
 use InjectableComponent;
 use Phalcon\Di;
+use stdClass;
 use UnitTester;
 
 class GetDICest
@@ -34,7 +35,7 @@ class GetDICest
         $di = new Di();
         // Injection of parameters in the constructor
         $di->set('std', function () {
-            return new \stdClass();
+            return new stdClass();
         });
         $di->set('component', InjectableComponent::class);
         $component = $di->get('component');

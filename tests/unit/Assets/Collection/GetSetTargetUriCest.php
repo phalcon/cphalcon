@@ -16,7 +16,7 @@ namespace Phalcon\Test\Unit\Assets\Collection;
 use Phalcon\Assets\Collection;
 use UnitTester;
 
-class GetTargetUriCest
+class GetSetTargetUriCest
 {
     /**
      * Tests Phalcon\Assets\Collection :: getTargetUri() / setTargetUri()

@@ -1520,7 +1520,7 @@ class Query implements QueryInterface, InjectionAwareInterface
             let sqlJoins = [
                 [
                     "type"       : joinType,
-                    "source"     : intermediateSource,
+                    "source"     : [intermediateSource, intermediateSchema],
                     "conditions" : [
                         [
                             "type" : "binary-op",

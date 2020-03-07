@@ -166,12 +166,14 @@ jobs:
           DATA_POSTGRES_PORT: ${{ job.services.postgres.ports['5432'] }}
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
+          DATA_MYSQL_USER: root
         run: |
           vendor/bin/codecept run --ext DotReporter cli
           vendor/bin/codecept run --ext DotReporter unit
           vendor/bin/codecept run --ext DotReporter integration
-          vendor/bin/codecept run --ext DotReporter database --env mysql
-          vendor/bin/codecept run --ext DotReporter database --env sqlite
+          vendor/bin/codecept run --ext DotReporter database -g common
+          vendor/bin/codecept run --ext DotReporter database -g mysql --env mysql
+          vendor/bin/codecept run --ext DotReporter database -g sqlite --env sqlite
 
       - name: Upload codecoverage on 7.4
         uses: codecov/codecov-action@v1

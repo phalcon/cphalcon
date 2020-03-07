@@ -26,6 +26,8 @@ class ConstructCest
      * @since        2019-04-17
      *
      * @dataProvider valueProvider
+     *
+     * @group common
      */
     public function dbRawvalueConstruct(DatabaseTester $I, Example $example)
     {

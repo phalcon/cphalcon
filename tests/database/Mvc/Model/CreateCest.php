@@ -44,6 +44,10 @@ class CreateCest
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
+     *
+     * @group mysql
+     * @group sqlite
+     * @group pgsql
      */
     public function mvcModelCreate(DatabaseTester $I)
     {
@@ -52,7 +56,6 @@ class CreateCest
         $title                    = uniqid('inv-');
         $date                     = date('Y-m-d H:i:s');
         $invoice                  = new Invoices();
-        $invoice->inv_id          = 1;
         $invoice->inv_cst_id      = 2;
         $invoice->inv_status_flag = 3;
         $invoice->inv_title       = $title;

@@ -13,9 +13,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Tag;
 
+use Phalcon\Tag;
+use Phalcon\Test\Fixtures\Helpers\TagSetup;
 use UnitTester;
 
-class RenderAttributesCest
+class RenderAttributesCest extends TagSetup
 {
     /**
      * Tests Phalcon\Tag :: renderAttributes()
@@ -25,6 +27,15 @@ class RenderAttributesCest
      */
     public function testRenderAttributes(UnitTester $I)
     {
-        $I->skipTest('Need implementation');
+        $options = [
+            'x_name',
+            'id'    => 'x_id',
+            'class' => 'x_class',
+            'size'  => '10',
+        ];
+
+        $expected = 'password id="x_id" class="x_class" size="10"';
+        $actual   = Tag::renderAttributes("password", $options);
+        $I->assertEquals($expected, $actual);
     }
 }

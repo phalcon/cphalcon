@@ -27,14 +27,14 @@ class CountCest
     public function annotationsCollectionCount(UnitTester $I)
     {
         $I->wantToTest('Annotations\Collection - count()');
-        
+
         $reflectionData = [
             [
-                'name' => 'NovAnnotation'
+                'name' => 'NovAnnotation',
             ],
             [
-                'name' => 'NovAnnotation1'
-            ]
+                'name' => 'NovAnnotation1',
+            ],
         ];
 
         $collection = new Collection($reflectionData);

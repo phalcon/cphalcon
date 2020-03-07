@@ -13,11 +13,23 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Annotations\Reflection;
 
+use Phalcon\Annotations\Collection;
+use Phalcon\Annotations\Reader;
 use Phalcon\Annotations\Reflection;
 use UnitTester;
 
+use function dataDir;
+
 class GetMethodsAnnotationsCest
 {
+    /**
+     * executed before each test
+     */
+    protected function _before(UnitTester $I)
+    {
+        require_once dataDir('fixtures/Annotations/TestClass.php');
+    }
+
     /**
      * Tests creating empty Reflection object
      *
@@ -37,12 +49,34 @@ class GetMethodsAnnotationsCest
      * Tests Phalcon\Annotations\Reflection :: getMethodsAnnotations()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-02-21
      */
     public function annotationsReflectionGetMethodsAnnotations(UnitTester $I)
     {
         $I->wantToTest('Annotations\Reflection - getMethodsAnnotations()');
 
-        $I->skipTest('Need implementation');
+        $reader = new Reader();
+
+        $reflection = new Reflection(
+            $reader->parse('TestClass')
+        );
+
+        $methodsAnnotations = $reflection->getMethodsAnnotations();
+
+        $I->assertIsArray($methodsAnnotations);
+
+        $number = 0;
+
+        foreach ($methodsAnnotations as $annotation) {
+            $I->assertInstanceOf(
+                Collection::class,
+                $annotation
+            );
+
+            $number++;
+        }
+
+        $I->assertEquals(4, $number);
+        $I->assertCount(4, $methodsAnnotations);
     }
 }

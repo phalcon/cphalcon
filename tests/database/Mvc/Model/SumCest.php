@@ -32,6 +32,9 @@ class SumCest
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-30
+     *
+     * @group mysql
+     * @group sqlite
      */
     public function mvcModelSum(DatabaseTester $I)
     {
