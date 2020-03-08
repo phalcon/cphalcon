@@ -246,7 +246,7 @@ jobs:
         env:
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
-        run: vendor/bin/codecept run --ext DotReporter --debug database --env sqlite -g sqlite
+        run: vendor/bin/codecept run --ext DotReporter database --env sqlite -g sqlite
 
       - name: Run database tests Postgres
         env:

@@ -38,7 +38,7 @@ class GetReadConnectionCest
      *
      * @group mysql
      * @group pgsql
-     * @group sqlite
+     * @group sqlites
      */
     public function mvcModelGetReadConnection(DatabaseTester $I)
     {

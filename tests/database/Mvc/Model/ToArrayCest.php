@@ -41,7 +41,7 @@ class ToArrayCest
      *
      * @group mysql
      * @group pgsql
-     * @group sqlite
+     * @group sqlites
      */
     public function mvcModelToArray(DatabaseTester $I)
     {
@@ -89,7 +89,7 @@ class ToArrayCest
      *
      * @group mysql
      * @group pgsql
-     * @group sqlite
+     * @group sqlites
      */
     public function mvcModelToArrayColumnMap(DatabaseTester $I)
     {

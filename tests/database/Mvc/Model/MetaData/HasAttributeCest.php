@@ -39,7 +39,7 @@ class HasAttributeCest
      *
      * @group mysql
      * @group pgsql
-     * @group sqlite
+     * @group sqlites
      */
     public function mvcModelMetadataHasAttribute(DatabaseTester $I)
     {

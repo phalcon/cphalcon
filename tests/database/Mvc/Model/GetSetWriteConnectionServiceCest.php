@@ -39,7 +39,7 @@ class GetSetWriteConnectionServiceCest
      *
      * @group mysql
      * @group pgsql
-     * @group sqlite
+     * @group sqlites
      */
     public function mvcModelGetSetWriteConnectionService(DatabaseTester $I)
     {

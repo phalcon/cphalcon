@@ -44,7 +44,7 @@ class GetMessagesCest
      *
      * @group mysql
      * @group pgsql
-     * @group sqlite
+     * @group sqlites
      */
     public function mvcModelGetMessages(DatabaseTester $I)
     {

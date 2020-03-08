@@ -40,7 +40,7 @@ class GetColumnMapCest
      *
      * @group mysql
      * @group pgsql
-     * @group sqlite
+     * @group sqlites
      */
     public function mvcModelMetadataGetColumnMap(DatabaseTester $I)
     {

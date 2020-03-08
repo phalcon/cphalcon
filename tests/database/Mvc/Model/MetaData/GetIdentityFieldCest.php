@@ -39,7 +39,7 @@ class GetIdentityFieldCest
      *
      * @group mysql
      * @group pgsql
-     * @group sqlite
+     * @group sqlites
      */
     public function mvcModelMetadataGetIdentityField(DatabaseTester $I)
     {
