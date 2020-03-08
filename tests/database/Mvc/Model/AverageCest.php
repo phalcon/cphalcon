@@ -35,7 +35,7 @@ class AverageCest
      *
      * @group mysql
      * @group pgsql
-     * @group sqlite
+     * @group sqlites
      */
     public function mvcModelAverage(DatabaseTester $I)
     {
