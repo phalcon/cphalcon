@@ -49,7 +49,7 @@ class SerializeCest
      *
      * @group mysql
      * @group pgsql
-     * @group sqlites
+     * @group sqlite
      */
     public function mvcModelSerialize(DatabaseTester $I)
     {

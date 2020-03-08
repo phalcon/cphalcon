@@ -47,7 +47,7 @@ class ConstructCest
      *
      * @group mysql
      * @group pgsql
-     * @group sqlites
+     * @group sqlite
      */
     public function paginatorAdapterModelConstruct(DatabaseTester $I)
     {
