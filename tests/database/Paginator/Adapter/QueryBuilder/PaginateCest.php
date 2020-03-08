@@ -44,6 +44,7 @@ class PaginateCest
      * @since  2020-02-01
      *
      * @group mysql
+     * @group sqlite
      * @group pgsql
      */
     public function paginatorAdapterQuerybuilderPaginate(DatabaseTester $I)
@@ -96,6 +97,7 @@ class PaginateCest
      *
      * @group mysql
      * @group pgsql
+     * @group sqlite
      */
     public function paginatorAdapterQuerybuilderPaginateGroupBy(DatabaseTester $I)
     {
