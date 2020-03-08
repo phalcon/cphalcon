@@ -34,6 +34,7 @@ class MinimumCest
      * @since  2020-01-30
      *
      * @group mysql
+     * @group pgsql
      */
     public function mvcModelMinimum(DatabaseTester $I)
     {
@@ -92,6 +93,7 @@ class MinimumCest
             [
                 'column' => 'inv_total',
                 'group'  => 'inv_cst_id',
+                'order'  => 'inv_cst_id'
             ]
         );
         $I->assertInstanceOf(Simple::class, $results);

@@ -1,5 +1,28 @@
 
 
+drop table if exists complex_default;
+            
+create table complex_default
+(
+    id           SERIAL PRIMARY KEY,
+    created      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_null TIMESTAMP NULL DEFAULT NULL
+);
+            
+CREATE OR REPLACE FUNCTION update_timestamp()
+RETURNS TRIGGER AS $$
+BEGIN
+   NEW.updated = NOW(); 
+   NEW.updated_null = NOW();
+   RETURN NEW;
+END;
+$$ language 'plpgsql';
+            
+CREATE TRIGGER update_timestamp BEFORE UPDATE
+ON complex_default FOR EACH ROW EXECUTE PROCEDURE 
+update_timestamp();
+            
 
 
 drop table if exists co_customers;
@@ -27,7 +50,7 @@ drop table if exists co_invoices;
             
 create table co_invoices
 (
-    inv_id          serial not null constraint co_invoices_pk primary key,
+    inv_id          serial constraint co_invoices_pk primary key,
     inv_cst_id      integer,
     inv_status_flag smallint,
     inv_title       varchar(100),
@@ -46,9 +69,18 @@ create index co_invoices_inv_status_flag_index
             
 
 
+drop table if exists objects;
+            
+create table objects
+(
+    obj_id serial not null constraint objects_pk primary key,
+    obj_name varchar(100) not null,
+    obj_type smallint not null
+);
+            
 
 
-drop table if exists co_orders;            
+drop table if exists co_orders;
             
 create table co_orders
 (
@@ -71,7 +103,7 @@ create table private.co_orders_x_products
             
 
 
-drop table if exists co_products;            
+drop table if exists co_products;
             
 create table co_products
 (
@@ -85,5 +117,13 @@ create table co_products
 
 
 
+drop table if exists table_with_uuid_primary;
+            
+create table table_with_uuid_primary
+(
+    uuid char(36) not null primary key,
+    int_field int null
+);
+            
 
 

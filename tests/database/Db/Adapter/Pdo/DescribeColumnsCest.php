@@ -56,4 +56,29 @@ final class DescribeColumnsCest
         $I->assertSame('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP', $columns[2]->getDefault());
         $I->assertSame('NULL on update CURRENT_TIMESTAMP', $columns[3]->getDefault());
     }
+
+    /**
+     * Tests Phalcon\Db\Adapter\Pdo :: describeColumns()
+     *
+     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
+     * @since  2019-12-07
+     *
+     * @group pgsql
+     */
+    public function dbAdapterPdoDescribeColumnsDefaultPostgres(DatabaseTester $I)
+    {
+        $I->wantToTest('Db\Adapter\Pdo - describeColumns() - CheckPostgres Default value');
+
+        $connection = $I->getConnection();
+        $db = $this->container->get('db');
+
+        $now = date('Y-m-d H:i:s');
+        $migration = new ComplexDefaultMigration($connection);
+        $migration->insert(1, $now, $now);
+
+        $columns = $db->describeColumns($migration->getTable());
+
+        $I->assertSame('now()', $columns[1]->getDefault());
+        $I->assertSame('now()', $columns[2]->getDefault());
+    }
 }

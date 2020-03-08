@@ -34,11 +34,10 @@ class AverageCest
      * @since  2020-01-30
      *
      * @group mysql
+     * @group pgsql
      */
     public function mvcModelAverage(DatabaseTester $I)
     {
-        $driver = $I->getDriver();
-
         /** @var PDO $connection */
         $connection = $I->getConnection();
         $migration  = new InvoicesMigration($connection);
@@ -67,7 +66,8 @@ class AverageCest
                 'inv_cst_id = 2',
             ]
         );
-        $I->assertEquals('4.714286', $total);
+        //Handle Postgres need round because Postgres send (4.7142857142857143) and mysql (4.714286)
+        $I->assertEquals('4.714286', round($total, 6));
 
         $total = Invoices::average(
             [
@@ -86,12 +86,14 @@ class AverageCest
                 ],
             ]
         );
-        $I->assertEquals('4.714286', $total);
+        //Handle Postgres need round because Postgres send (4.7142857142857143) and mysql (4.714286)
+        $I->assertEquals('4.714286', round($total, 6));
 
         $results = Invoices::average(
             [
                 'column' => 'inv_total',
                 'group'  => 'inv_cst_id',
+                'order'  => 'inv_cst_id'
             ]
         );
         $I->assertInstanceOf(Simple::class, $results);
