@@ -43,7 +43,7 @@ class ReadWriteAttributeCest
      *
      * @group mysql
      * @group pgsql
-     * @group sqlite
+     * @group sqlites
      */
     public function mvcModelWriteAttribute(DatabaseTester $I)
     {
@@ -78,7 +78,7 @@ class ReadWriteAttributeCest
      *
      * @group mysql
      * @group pgsql
-     * @group sqlite
+     * @group sqlites
      */
     public function mvcModelWriteAttributeWithAssociativeArray(DatabaseTester $I)
     {
@@ -121,7 +121,7 @@ class ReadWriteAttributeCest
      *
      * @group mysql
      * @group pgsql
-     * @group sqlite
+     * @group sqlites
      */
     public function mvcModelWriteAttributeUndefinedPropertyWithAssociativeArray(DatabaseTester $I)
     {

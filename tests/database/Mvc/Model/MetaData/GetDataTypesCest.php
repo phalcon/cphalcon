@@ -39,7 +39,7 @@ class GetDataTypesCest
      *
      * @group mysql
      * @group pgsql
-     * @group sqlite
+     * @group sqlites
      */
     public function mvcModelMetadataGetDataTypes(DatabaseTester $I)
     {

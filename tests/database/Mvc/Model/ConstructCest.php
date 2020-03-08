@@ -40,7 +40,7 @@ class ConstructCest
      *
      * @group mysql
      * @group pgsql
-     * @group sqlite
+     * @group sqlites
      */
     public function mvcModelConstruct(DatabaseTester $I)
     {

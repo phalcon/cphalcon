@@ -39,7 +39,7 @@ class GetNotNullAttributesCest
      *
      * @group mysql
      * @group pgsql
-     * @group sqlite
+     * @group sqlites
      */
     public function mvcModelMetadataGetNotNullAttributes(DatabaseTester $I)
     {
