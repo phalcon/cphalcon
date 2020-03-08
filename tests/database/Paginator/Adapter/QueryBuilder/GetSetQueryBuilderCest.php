@@ -41,6 +41,7 @@ class GetSetQueryBuilderCest
      * setQueryBuilder()
      *
      * @group mysql
+     * @group sqlite
      * @group pgsql
      */
     public function paginatorAdapterQuerybuilderGetSetQueryBuilder(DatabaseTester $I)
