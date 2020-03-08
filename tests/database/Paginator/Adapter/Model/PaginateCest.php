@@ -40,7 +40,9 @@ class PaginateCest
     /**
      * @param DatabaseTester $I
      *
-     * @group common
+     * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function paginatorAdapterModelPaginate(DatabaseTester $I)
     {
@@ -146,7 +148,9 @@ class PaginateCest
     /**
      * @param DatabaseTester $I
      *
-     * @group common
+     * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function paginatorAdapterModelPaginateParametersString(DatabaseTester $I): void
     {
@@ -183,7 +187,9 @@ class PaginateCest
     /**
      * @param DatabaseTester $I
      *
-     * @group common
+     * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function paginatorAdapterModelPaginateParametersArrayString(DatabaseTester $I): void
     {
