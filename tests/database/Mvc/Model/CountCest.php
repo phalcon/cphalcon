@@ -135,8 +135,8 @@ class CountCest
         $this->insertDataInvoices($migration, 7, $invId, 2, 'ccc');
         $this->insertDataInvoices($migration, 1, $invId, 3, 'aaa');
         $this->insertDataInvoices($migration, 11, $invId, 1, 'aaa');
-        $this->insertDataInvoices($migration, 9, $invId,1, 'bbb');
-        $this->insertDataInvoices($migration, 5, $invId,2, 'aaa');
+        $this->insertDataInvoices($migration, 9, $invId, 1, 'bbb');
+        $this->insertDataInvoices($migration, 5, $invId, 2, 'aaa');
 
         $total = InvoicesMap::count();
         $I->assertEquals(33, $total);
