@@ -17,6 +17,7 @@ use DatabaseTester;
 use Phalcon\Mvc\Model\MetaData;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Invoices;
+use Phalcon\Test\Models\Customers;
 
 /**
  * Class GetAttributesCest

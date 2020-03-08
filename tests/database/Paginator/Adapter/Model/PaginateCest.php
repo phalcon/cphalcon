@@ -48,10 +48,12 @@ class PaginateCest
         /** @var PDO $connection */
         $connection = $I->getConnection();
         $migration  = new InvoicesMigration($connection);
-        $this->insertDataInvoices($migration, 17, 2, 'ccc');
-        $this->insertDataInvoices($migration, 11, 3, 'aaa');
-        $this->insertDataInvoices($migration, 31, 1, 'aaa');
-        $this->insertDataInvoices($migration, 15, 2, 'bbb');
+        $invId = ('sqlite' === $I->getDriver()) ? 'null' : 'default';
+
+        $this->insertDataInvoices($migration, 17, $invId, 2, 'ccc');
+        $this->insertDataInvoices($migration, 11, $invId, 3, 'aaa');
+        $this->insertDataInvoices($migration, 31, $invId, 1, 'aaa');
+        $this->insertDataInvoices($migration, 15, $invId, 2, 'bbb');
 
         $paginator = new Model(
             [
@@ -107,10 +109,13 @@ class PaginateCest
         /** @var PDO $connection */
         $connection = $I->getConnection();
         $migration  = new InvoicesMigration($connection);
-        $this->insertDataInvoices($migration, 17, 2, 'ccc');
-        $this->insertDataInvoices($migration, 11, 3, 'aaa');
-        $this->insertDataInvoices($migration, 31, 1, 'aaa');
-        $this->insertDataInvoices($migration, 15, 2, 'bbb');
+
+        $invId = ('sqlite' === $I->getDriver()) ? 'null' : 'default';
+
+        $this->insertDataInvoices($migration, 17, $invId, 2, 'ccc');
+        $this->insertDataInvoices($migration, 11, $invId, 3, 'aaa');
+        $this->insertDataInvoices($migration, 31, $invId, 1, 'aaa');
+        $this->insertDataInvoices($migration, 15, $invId, 2, 'bbb');
 
         $parameters = [
             'columns' => 'inv_cst_id',
@@ -155,10 +160,12 @@ class PaginateCest
         /** @var PDO $connection */
         $connection = $I->getConnection();
         $migration  = new InvoicesMigration($connection);
-        $this->insertDataInvoices($migration, 17, 2, 'ccc');
-        $this->insertDataInvoices($migration, 11, 3, 'aaa');
-        $this->insertDataInvoices($migration, 31, 1, 'aaa');
-        $this->insertDataInvoices($migration, 15, 2, 'bbb');
+        $invId = ('sqlite' === $I->getDriver()) ? 'null' : 'default';
+
+        $this->insertDataInvoices($migration, 17, $invId, 2, 'ccc');
+        $this->insertDataInvoices($migration, 11, $invId, 3, 'aaa');
+        $this->insertDataInvoices($migration, 31, $invId, 1, 'aaa');
+        $this->insertDataInvoices($migration, 15, $invId, 2, 'bbb');
 
         $paginator = new Model(
             [
@@ -193,10 +200,12 @@ class PaginateCest
         /** @var PDO $connection */
         $connection = $I->getConnection();
         $migration  = new InvoicesMigration($connection);
-        $this->insertDataInvoices($migration, 17, 2, 'ccc');
-        $this->insertDataInvoices($migration, 11, 3, 'aaa');
-        $this->insertDataInvoices($migration, 31, 1, 'aaa');
-        $this->insertDataInvoices($migration, 15, 2, 'bbb');
+        $invId = ('sqlite' === $I->getDriver()) ? 'null' : 'default';
+
+        $this->insertDataInvoices($migration, 17, $invId, 2, 'ccc');
+        $this->insertDataInvoices($migration, 11, $invId, 3, 'aaa');
+        $this->insertDataInvoices($migration, 31, $invId, 1, 'aaa');
+        $this->insertDataInvoices($migration, 15, $invId, 2, 'bbb');
 
         $paginator = new Model(
             [
