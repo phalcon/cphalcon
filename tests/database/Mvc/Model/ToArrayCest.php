@@ -192,7 +192,7 @@ class ToArrayCest
         $date  = date('Y-m-d H:i:s');
 
         $data = [
-            'inv_id'          => null,
+            'inv_id'          => 4,
             'inv_cst_id'      => 5,
             'inv_status_flag' => 2,
             'inv_title'       => $title,
@@ -213,7 +213,7 @@ class ToArrayCest
         );
 
         $expected = [
-            'inv_id'     => 12,
+            'inv_id'     => 4,
             'inv_cst_id' => 5,
             'inv_title'  => $title,
         ];

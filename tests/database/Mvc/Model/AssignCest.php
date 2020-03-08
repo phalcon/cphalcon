@@ -43,7 +43,7 @@ class AssignCest
      *
      * @group mysql
      * @group pgsql
-     * @group sqlites
+     * @group sqlite
      */
     public function mvcModelAssign(DatabaseTester $I)
     {
@@ -102,7 +102,7 @@ class AssignCest
      *
      * @group mysql
      * @group pgsql
-     * @group sqlites
+     * @group sqlite
      */
     public function mvcModelAssignIncomplete(DatabaseTester $I)
     {
@@ -145,7 +145,7 @@ class AssignCest
      *
      * @group mysql
      * @group pgsql
-     * @group sqlites
+     * @group sqlite
      */
     public function mvcModelAssignAutoPrimary(DatabaseTester $I)
     {
