@@ -47,7 +47,7 @@ class UnserializeCest
      *
      * @group mysql
      * @group pgsql
-     * @group sqlites
+     * @group sqlite
      */
     public function mvcModelUnserialize(DatabaseTester $I)
     {
