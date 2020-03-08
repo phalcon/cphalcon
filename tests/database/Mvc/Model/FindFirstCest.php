@@ -251,7 +251,7 @@ class FindFirstCest
                 'found'  => false,
             ],
             [
-                'params' => 134,
+                'params' => '134',
                 'found'  => false,
             ],
             [
