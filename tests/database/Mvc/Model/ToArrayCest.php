@@ -39,7 +39,9 @@ class ToArrayCest
     /**
      * Tests Phalcon\Mvc\Model :: toArray()
      *
-     * @group common
+     * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function mvcModelToArray(DatabaseTester $I)
     {
@@ -85,7 +87,9 @@ class ToArrayCest
     /**
      * Tests Phalcon\Mvc\Model :: toArray() - column map
      *
-     * @group common
+     * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function mvcModelToArrayColumnMap(DatabaseTester $I)
     {
@@ -133,7 +137,9 @@ class ToArrayCest
      *
      * @issue 1701
      *
-     * @group common
+     * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function mvcModelToArrayFindFirstColumns(DatabaseTester $I)
     {
