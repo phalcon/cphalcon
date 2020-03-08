@@ -41,8 +41,7 @@ class ReadWriteAttributeCest
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-18
      *
-     * @group mysql
-     * @group sqlite
+     * @group common
      */
     public function mvcModelWriteAttribute(DatabaseTester $I)
     {
@@ -75,8 +74,7 @@ class ReadWriteAttributeCest
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-04-30
      *
-     * @group mysql
-     * @group sqlite
+     * @group common
      */
     public function mvcModelWriteAttributeWithAssociativeArray(DatabaseTester $I)
     {
@@ -117,8 +115,7 @@ class ReadWriteAttributeCest
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-04-30
      *
-     * @group mysql
-     * @group sqlite
+     * @group common
      */
     public function mvcModelWriteAttributeUndefinedPropertyWithAssociativeArray(DatabaseTester $I)
     {

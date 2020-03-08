@@ -125,7 +125,7 @@ drop table if exists co_invoices;
             "
 create table co_invoices
 (
-    inv_id          serial not null constraint co_invoices_pk primary key,
+    inv_id          serial constraint co_invoices_pk primary key,
     inv_cst_id      integer,
     inv_status_flag smallint,
     inv_title       varchar(100),

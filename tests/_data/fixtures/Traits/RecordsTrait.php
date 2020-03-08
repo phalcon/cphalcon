@@ -79,7 +79,7 @@ trait RecordsTrait
         $title = uniqid($prefix . '-');
         for ($counter = 1; $counter <= $count; $counter++) {
             $migration->insert(
-                null,
+                'default',
                 $custId,
                 1,
                 $title,

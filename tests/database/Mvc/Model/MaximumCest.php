@@ -34,6 +34,7 @@ class MaximumCest
      * @since  2020-01-30
      *
      * @group mysql
+     * @group pgsql
      */
     public function mvcModelMaximum(DatabaseTester $I)
     {
@@ -92,6 +93,7 @@ class MaximumCest
             [
                 'column' => 'inv_total',
                 'group'  => 'inv_cst_id',
+                'order'  => 'inv_cst_id'
             ]
         );
         $I->assertInstanceOf(Simple::class, $results);
