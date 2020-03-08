@@ -37,8 +37,7 @@ class GetSetReadConnectionServiceCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-31
      *
-     * @group mysql
-     * @group sqlite
+     * @group common
      */
     public function mvcModelGetSetReadConnectionService(DatabaseTester $I)
     {

@@ -40,8 +40,7 @@ class PaginateCest
     /**
      * @param DatabaseTester $I
      *
-     * @group mysql
-     * @group sqlite
+     * @group common
      */
     public function paginatorAdapterModelPaginate(DatabaseTester $I)
     {
@@ -113,6 +112,7 @@ class PaginateCest
         $this->insertDataInvoices($migration, 15, 2, 'bbb');
 
         $parameters = [
+            'columns' => 'inv_cst_id',
             'conditions' => 'inv_cst_id >= :d1:',
             'bind'       => [
                 'd1' => '2',
@@ -146,8 +146,7 @@ class PaginateCest
     /**
      * @param DatabaseTester $I
      *
-     * @group mysql
-     * @group sqlite
+     * @group common
      */
     public function paginatorAdapterModelPaginateParametersString(DatabaseTester $I): void
     {
@@ -184,8 +183,7 @@ class PaginateCest
     /**
      * @param DatabaseTester $I
      *
-     * @group mysql
-     * @group sqlite
+     * @group common
      */
     public function paginatorAdapterModelPaginateParametersArrayString(DatabaseTester $I): void
     {

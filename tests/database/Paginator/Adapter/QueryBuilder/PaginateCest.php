@@ -44,7 +44,7 @@ class PaginateCest
      * @since  2020-02-01
      *
      * @group mysql
-     * @group sqlite
+     * @group pgsql
      */
     public function paginatorAdapterQuerybuilderPaginate(DatabaseTester $I)
     {
@@ -53,40 +53,37 @@ class PaginateCest
         /**
          * Sqlite does not like `where` that much and locks the database
          */
-        if ('sqlite' !== $I->getDriver()) {
+        /** @var PDO $connection */
+        $connection = $I->getConnection();
+        $migration  = new InvoicesMigration($connection);
+        $this->insertDataInvoices($migration, 17, 2, 'ccc');
 
-            /** @var PDO $connection */
-            $connection = $I->getConnection();
-            $migration  = new InvoicesMigration($connection);
-            $this->insertDataInvoices($migration, 17, 2, 'ccc');
+        $manager = $this->getService('modelsManager');
+        $builder = $manager
+            ->createBuilder()
+            ->from(Invoices::class)
+        ;
 
-            $manager = $this->getService('modelsManager');
-            $builder = $manager
-                ->createBuilder()
-                ->from(Invoices::class)
-            ;
+        $paginator = new QueryBuilder(
+            [
+                'builder' => $builder,
+                'limit'   => 5,
+                'page'    => 1,
+            ]
+        );
 
-            $paginator = new QueryBuilder(
-                [
-                    'builder' => $builder,
-                    'limit'   => 5,
-                    'page'    => 1,
-                ]
-            );
+        $page = $paginator->paginate();
 
-            $page = $paginator->paginate();
-
-            $I->assertInstanceOf(Repository::class, $page);
-            $I->assertCount(5, $page->getItems());
-            $I->assertEquals(1, $page->getPrevious());
-            $I->assertEquals(2, $page->getNext());
-            $I->assertEquals(4, $page->getLast());
-            $I->assertEquals(5, $page->getLimit());
-            $I->assertEquals(1, $page->getCurrent());
-            $I->assertEquals(5, $page->limit);
-            $I->assertEquals(17, $page->getTotalItems());
-            $I->assertInternalType('int', $page->getTotalItems());
-        }
+        $I->assertInstanceOf(Repository::class, $page);
+        $I->assertCount(5, $page->getItems());
+        $I->assertEquals(1, $page->getPrevious());
+        $I->assertEquals(2, $page->getNext());
+        $I->assertEquals(4, $page->getLast());
+        $I->assertEquals(5, $page->getLimit());
+        $I->assertEquals(1, $page->getCurrent());
+        $I->assertEquals(5, $page->limit);
+        $I->assertEquals(17, $page->getTotalItems());
+        $I->assertInternalType('int', $page->getTotalItems());
     }
 
     /**
@@ -96,7 +93,7 @@ class PaginateCest
      * @since  2020-01-29
      *
      * @group mysql
-     * @group sqlite
+     * @group pgsql
      */
     public function paginatorAdapterQuerybuilderPaginateGroupBy(DatabaseTester $I)
     {
@@ -105,60 +102,59 @@ class PaginateCest
         /**
          * Sqlite does not like `where` that much and locks the database
          */
-        if ('sqlite' !== $I->getDriver()) {
-            /** @var PDO $connection */
-            $connection = $I->getConnection();
-            $migration  = new InvoicesMigration($connection);
-            $this->insertDataInvoices($migration, 17, 2, 'ccc');
-            $this->insertDataInvoices($migration, 11, 3, 'aaa');
 
-            $manager = $this->getService('modelsManager');
-            $builder = $manager
-                ->createBuilder()
-                ->from(Invoices::class)
-            ;
+        /** @var PDO $connection */
+        $connection = $I->getConnection();
+        $migration  = new InvoicesMigration($connection);
+        $this->insertDataInvoices($migration, 17, 2, 'ccc');
+        $this->insertDataInvoices($migration, 11, 3, 'aaa');
 
-            $paginator = new QueryBuilder(
-                [
-                    'builder' => $builder,
-                    'limit'   => 5,
-                    'page'    => 1,
-                ]
-            );
+        $manager = $this->getService('modelsManager');
+        $builder = $manager
+            ->createBuilder()
+            ->from(Invoices::class)
+        ;
 
-            $page = $paginator->paginate();
+        $paginator = new QueryBuilder(
+            [
+                'builder' => $builder,
+                'limit'   => 5,
+                'page'    => 1,
+            ]
+        );
 
-            $I->assertInstanceOf(Repository::class, $page);
-            $I->assertCount(5, $page->getItems());
-            $I->assertEquals(1, $page->getPrevious());
-            $I->assertEquals(2, $page->getNext());
-            $I->assertEquals(6, $page->getLast());
-            $I->assertEquals(5, $page->getLimit());
-            $I->assertEquals(1, $page->getCurrent());
-            $I->assertEquals(5, $page->limit);
-            $I->assertEquals(28, $page->getTotalItems());
-            $I->assertInternalType('int', $page->getTotalItems());
+        $page = $paginator->paginate();
 
-            $builder = $manager
-                ->createBuilder()
-                ->from(Invoices::class)
-                ->where('inv_cst_id = :custId:', ['custId' => 2])
-            ;
+        $I->assertInstanceOf(Repository::class, $page);
+        $I->assertCount(5, $page->getItems());
+        $I->assertEquals(1, $page->getPrevious());
+        $I->assertEquals(2, $page->getNext());
+        $I->assertEquals(6, $page->getLast());
+        $I->assertEquals(5, $page->getLimit());
+        $I->assertEquals(1, $page->getCurrent());
+        $I->assertEquals(5, $page->limit);
+        $I->assertEquals(28, $page->getTotalItems());
+        $I->assertInternalType('int', $page->getTotalItems());
 
-            $paginator->setQueryBuilder($builder);
+        $builder = $manager
+            ->createBuilder()
+            ->from(Invoices::class)
+            ->where('inv_cst_id = :custId:', ['custId' => 2])
+        ;
 
-            $page = $paginator->paginate();
+        $paginator->setQueryBuilder($builder);
 
-            $I->assertInstanceOf(Repository::class, $page);
-            $I->assertCount(5, $page->getItems());
-            $I->assertEquals(1, $page->getPrevious());
-            $I->assertEquals(2, $page->getNext());
-            $I->assertEquals(4, $page->getLast());
-            $I->assertEquals(5, $page->getLimit());
-            $I->assertEquals(1, $page->getCurrent());
-            $I->assertEquals(5, $page->limit);
-            $I->assertEquals(17, $page->getTotalItems());
-            $I->assertInternalType('int', $page->getTotalItems());
-        }
+        $page = $paginator->paginate();
+
+        $I->assertInstanceOf(Repository::class, $page);
+        $I->assertCount(5, $page->getItems());
+        $I->assertEquals(1, $page->getPrevious());
+        $I->assertEquals(2, $page->getNext());
+        $I->assertEquals(4, $page->getLast());
+        $I->assertEquals(5, $page->getLimit());
+        $I->assertEquals(1, $page->getCurrent());
+        $I->assertEquals(5, $page->limit);
+        $I->assertEquals(17, $page->getTotalItems());
+        $I->assertInternalType('int', $page->getTotalItems());
     }
 }
