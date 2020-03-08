@@ -50,7 +50,7 @@ class FindCest
      *
      * @group mysql
      * @group pgsql
-     * @group sqlites
+     * @group sqlite
      */
     public function mvcModelFind(DatabaseTester $I)
     {
@@ -78,7 +78,7 @@ class FindCest
      *
      * @group mysql
      * @group pgsql
-     * @group sqlites
+     * @group sqlite
      */
     public function mvcModelFindWithCache(DatabaseTester $I)
     {

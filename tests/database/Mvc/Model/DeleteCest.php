@@ -41,7 +41,7 @@ class DeleteCest
      *
      * @group mysql
      * @group pgsql
-     * @group sqlites
+     * @group sqlite
      */
     public function mvcModelDelete(DatabaseTester $I)
     {
