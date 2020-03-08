@@ -131,7 +131,9 @@ class FindFirstCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
      *
-     * @group common
+     * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function mvcModelFindFirstExtended(DatabaseTester $I)
     {
@@ -162,7 +164,9 @@ class FindFirstCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
      *
-     * @group common
+     * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function mvcModelFindFirstException(DatabaseTester $I)
     {
@@ -189,7 +193,9 @@ class FindFirstCest
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2020-01-27
      *
-     * @group common
+     * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function mvcModelFindFirstStringPrimaryKey(DatabaseTester $I, Example $example)
     {
