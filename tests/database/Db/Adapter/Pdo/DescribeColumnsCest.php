@@ -79,6 +79,6 @@ final class DescribeColumnsCest
         $columns = $db->describeColumns($migration->getTable());
 
         $I->assertSame('CURRENT_TIMESTAMP', $columns[1]->getDefault());
-        $I->assertSame('now()', $columns[2]->getDefault());
+        $I->assertSame('CURRENT_TIMESTAMP', $columns[2]->getDefault());
     }
 }
