@@ -43,7 +43,7 @@ class ReadWriteAttributeCest
      *
      * @group mysql
      * @group pgsql
-     * @group sqlites
+     * @group sqlite
      */
     public function mvcModelWriteAttribute(DatabaseTester $I)
     {
