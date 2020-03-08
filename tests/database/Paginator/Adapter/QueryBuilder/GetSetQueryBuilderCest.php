@@ -50,8 +50,10 @@ class GetSetQueryBuilderCest
         /** @var PDO $connection */
         $connection = $I->getConnection();
         $migration  = new InvoicesMigration($connection);
-        $this->insertDataInvoices($migration, 17, 2, 'ccc');
-        $this->insertDataInvoices($migration, 15, 2, 'bbb');
+        $invId = ('sqlite' === $I->getDriver()) ? 'null' : 'default';
+
+        $this->insertDataInvoices($migration, 17, $invId, 2, 'ccc');
+        $this->insertDataInvoices($migration, 15, $invId, 2, 'bbb');
 
         $manager  = $this->getService('modelsManager');
         $builder1 = $manager
