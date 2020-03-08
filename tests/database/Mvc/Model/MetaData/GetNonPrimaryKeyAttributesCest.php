@@ -57,7 +57,7 @@ class GetNonPrimaryKeyAttributesCest
             'inv_created_at',
         ];
         $actual   = $metadata->getNonPrimaryKeyAttributes($model);
-        var_dump($actual);
+
         $I->assertEquals($expected, $actual);
     }
 }
