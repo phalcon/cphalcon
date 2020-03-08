@@ -138,7 +138,6 @@ class ToArrayCest
      * @issue 1701
      *
      * @group mysql
-     * @group pgsql
      * @group sqlite
      */
     public function mvcModelToArrayFindFirstColumns(DatabaseTester $I)
@@ -170,7 +169,7 @@ class ToArrayCest
         );
 
         $expected = [
-            'inv_id'     => 1,
+            'inv_id'     => 52,
             'inv_cst_id' => 5,
             'inv_title'  => $title,
         ];

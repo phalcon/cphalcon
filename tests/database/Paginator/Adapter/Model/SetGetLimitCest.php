@@ -46,7 +46,6 @@ class SetGetLimitCest
      * @since  2019-11-01
      *
      * @group mysql
-     * @group pgsql
      * @group sqlite
      */
     public function paginatorAdapterModelGetLimit(DatabaseTester $I)

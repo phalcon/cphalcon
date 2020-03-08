@@ -200,7 +200,6 @@ class FindFirstCest
      * @since        2020-01-27
      *
      * @group mysql
-     * @group pgsql
      * @group sqlite
      */
     public function mvcModelFindFirstStringPrimaryKey(DatabaseTester $I, Example $example)
