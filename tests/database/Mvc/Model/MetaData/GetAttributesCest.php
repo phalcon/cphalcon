@@ -37,7 +37,9 @@ class GetAttributesCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
      *
-     * @group common
+     * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function mvcModelMetadataGetAttributes(DatabaseTester $I)
     {
