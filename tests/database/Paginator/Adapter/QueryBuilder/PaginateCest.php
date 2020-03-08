@@ -97,7 +97,6 @@ class PaginateCest
      *
      * @group mysql
      * @group pgsql
-     * @group sqlite
      */
     public function paginatorAdapterQuerybuilderPaginateGroupBy(DatabaseTester $I)
     {
