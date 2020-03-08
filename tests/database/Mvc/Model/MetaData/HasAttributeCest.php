@@ -37,8 +37,7 @@ class HasAttributeCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      *
-     * @group mysql
-     * @group sqlite
+     * @group common
      */
     public function mvcModelMetadataHasAttribute(DatabaseTester $I)
     {

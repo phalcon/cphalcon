@@ -38,8 +38,7 @@ class GetColumnMapCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
      *
-     * @group mysql
-     * @group sqlite
+     * @group common
      */
     public function mvcModelMetadataGetColumnMap(DatabaseTester $I)
     {
