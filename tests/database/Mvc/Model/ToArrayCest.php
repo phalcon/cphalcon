@@ -213,7 +213,7 @@ class ToArrayCest
         );
 
         $expected = [
-            'inv_id'     => 52,
+            'inv_id'     => 12,
             'inv_cst_id' => 5,
             'inv_title'  => $title,
         ];
