@@ -1,3 +1,11 @@
+# [4.0.6](https://github.com/phalcon/cphalcon/releases/tag/v4.0.5) (2020-xx-xx)
+## Added
+
+## Changed
+
+## Fixed
+- Fixed `Phalcon\Mvc\Model\Query\Builder::getPhql` to add single quote between string value on a simple condition. [#14874](https://github.com/phalcon/cphalcon/issues/14874)
+
 # [4.0.5](https://github.com/phalcon/cphalcon/releases/tag/v4.0.5) (2020-03-07)
 ## Added
 

@@ -41,7 +41,7 @@ class GetSetLimitCest
      *
      * @group mysql
      * @group pgsql
-     * @group sqlite
+     * @group sqlites
      */
     public function paginatorAdapterQuerybuilderGetSetLimit(DatabaseTester $I)
     {

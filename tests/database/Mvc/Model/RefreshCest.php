@@ -40,7 +40,7 @@ class RefreshCest
      *
      * @group mysql
      * @group pgsql
-     * @group sqlite
+     * @group sqlites
      */
     public function mvcModelRefresh(DatabaseTester $I)
     {

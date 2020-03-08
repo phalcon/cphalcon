@@ -48,7 +48,7 @@ class ConstructCest
      *
      * @group mysql
      * @group pgsql
-     * @group sqlite
+     * @group sqlites
      */
     public function paginatorAdapterQuerybuilderConstruct(DatabaseTester $I)
     {
@@ -81,7 +81,7 @@ class ConstructCest
      *
      * @group mysql
      * @group pgsql
-     * @group sqlite
+     * @group sqlites
      */
     public function paginatorAdapterQuerybuilderConstructException(DatabaseTester $I)
     {
