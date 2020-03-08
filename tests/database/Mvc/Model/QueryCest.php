@@ -49,7 +49,7 @@ class QueryCest
      *
      * @group mysql
      * @group pgsql
-     * @group sqlites
+     * @group sqlite
      */
     public function mvcModelQuery(DatabaseTester $I)
     {
@@ -74,7 +74,7 @@ class QueryCest
      *
      * @group mysql
      * @group pgsql
-     * @group sqlites
+     * @group sqlite
      */
     public function mvcModelQueryIssue14783(DatabaseTester $I)
     {
