@@ -607,8 +607,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
             selectedColumn, selectedModel, selectedModels, columnAlias,
             modelColumnAlias, joins, join, joinModel, joinConditions,
             joinAlias, joinType, group, groupItems, groupItem, having, order,
-            orderItems, orderItem, limit, number, offset, forUpdate, distinct,
-            columnType, primaryKeyType, textTypes;
+            orderItems, orderItem, limit, number, offset, forUpdate, distinct;
         bool noPrimary;
 
         let container = this->container;
@@ -689,18 +688,9 @@ class Builder implements BuilderInterface, InjectionAwareInterface
                     }
 
                     //check the type of the primary key, if it's a string put single quote between the value
-                    let columnType = metaData->getDataTypes(modelInstance);
-
-                    if fetch primaryKeyType, columnType[firstPrimaryKey] {
-                           let textTypes = [
-                                Column::TYPE_CHAR, Column::TYPE_LONGTEXT,
-                                Column::TYPE_MEDIUMTEXT, Column::TYPE_TEXT,
-                                Column::TYPE_TINYTEXT, Column::TYPE_VARCHAR
-                           ];
-                           if true === in_array(primaryKeyType, textTypes) {
-                                // put single quote arround the value - make trouble with PostgreSQL
-                                let conditions = "'" . conditions . "'";
-                           }
+                    if is_string(conditions) {
+                        // put single quote arround the value - make trouble with PostgreSQL
+                        let conditions = "'" . conditions . "'";
                     }
 
                     let conditions = this->autoescape(model) . "." . this->autoescape(attributeField) . " = " . conditions,
