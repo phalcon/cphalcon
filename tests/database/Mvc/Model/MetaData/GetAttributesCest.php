@@ -40,7 +40,7 @@ class GetAttributesCest
      *
      * @group mysql
      * @group pgsql
-     * @group sqlites
+     * @group sqlite
      */
     public function mvcModelMetadataGetAttributes(DatabaseTester $I)
     {

@@ -39,7 +39,7 @@ class GetNonPrimaryKeyAttributesCest
      *
      * @group mysql
      * @group pgsql
-     * @group sqlites
+     * @group sqlite
      */
     public function mvcModelMetadataGetNonPrimaryKeyAttributes(DatabaseTester $I)
     {
