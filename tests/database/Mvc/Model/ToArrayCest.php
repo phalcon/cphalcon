@@ -138,11 +138,55 @@ class ToArrayCest
      * @issue 1701
      *
      * @group mysql
-     * @group sqlite
+     * @group pgsql
      */
     public function mvcModelToArrayFindFirstColumns(DatabaseTester $I)
     {
         $I->wantToTest('Mvc\Model - toArray() - find first columns');
+
+        $title = uniqid('inv-');
+        $date  = date('Y-m-d H:i:s');
+
+        $data = [
+            'inv_id'          => null,
+            'inv_cst_id'      => 5,
+            'inv_status_flag' => 2,
+            'inv_title'       => $title,
+            'inv_total'       => 100.12,
+            'inv_created_at'  => $date,
+        ];
+
+        $invoice = new Invoices();
+        $invoice->assign($data);
+        $result = $invoice->save();
+        $I->assertNotFalse($result);
+
+        $invoice = Invoices::findFirst(
+            [
+                'columns' => 'inv_id, inv_cst_id, inv_title',
+                'inv_title = "' . $title . '"',
+            ]
+        );
+
+        $expected = [
+            'inv_id'     => 1,
+            'inv_cst_id' => 5,
+            'inv_title'  => $title,
+        ];
+        $actual   = $invoice->toArray();
+        $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests Phalcon\Mvc\Model :: toArray() - find first columns
+     *
+     * @issue 1701
+     *
+     * @group sqlite
+     */
+    public function mvcModelToArrayFindFirstColumnsSQLite(DatabaseTester $I)
+    {
+        $I->wantToTest('Mvc\Model - toArray() - find first columns - sqlite');
 
         $title = uniqid('inv-');
         $date  = date('Y-m-d H:i:s');
