@@ -218,7 +218,7 @@ void zephir_escape_multi(zval *return_value, zval *param, const char *escape_cha
 		/**
 		 * Alphanumeric characters are not escaped
 		 */
-		if (value < 256 && isalnum(value)) {
+		if (value < 123 && isalnum(value)) {
 			smart_str_appendc(&escaped_str, (unsigned char) value);
 			continue;
 		}

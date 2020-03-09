@@ -61,7 +61,7 @@ final class DescribeColumnsCest
      * Tests Phalcon\Db\Adapter\Pdo :: describeColumns()
      *
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
-     * @since  2019-12-07
+     * @since  2020-03-09
      *
      * @group pgsql
      */
