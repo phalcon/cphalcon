@@ -490,6 +490,8 @@ jobs:
       - name: Phpize
         shell: cmd
         run: |
+          echo %PHP_PECL_PATH%
+          dir
           cd /d %PHP_PECL_PATH%\phalcon\phalcon-%PHALCON_VERSION%
           phpize
 
