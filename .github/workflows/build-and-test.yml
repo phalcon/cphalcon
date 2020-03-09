@@ -490,7 +490,7 @@ jobs:
       - name: Phpize
         shell: cmd
         run: |
-          set PATH=%PATH%;${env:PHP_DEVPACK}
+          set PATH=%PATH%;%PHP_DEVPACK%
           cd /d ${env:PHP_PECL_PATH}\phalcon\phalcon-${env:PHALCON_VERSION}
           phpize
 
