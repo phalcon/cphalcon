@@ -497,7 +497,6 @@ jobs:
       - name: Configure
         shell: cmd
         run: |
-          cd /d %PHP_PECL_PATH%\phalcon\phalcon-%PHALCON_VERSION%
           configure --enable-phalcon
 
       - name: Nmake
