@@ -267,15 +267,30 @@ class Tag
         var replace = null
     ) -> string
     {
-        var friendly, locale, search;
+        var friendly, matrix, search;
 
-        if extension_loaded("iconv") {
-            /**
-             * Save the old locale and set the new locale to UTF-8
-             */
-            let locale = setlocale(LC_ALL, "en_US.UTF-8"),
-                text = iconv("UTF-8", "ASCII//TRANSLIT", text);
-        }
+        let matrix = [
+                "Š"    : "S",     "š"    : "s", "Đ"    : "Dj", "Ð"    : "Dj",
+                "đ"    : "dj",    "Ž"    : "Z", "ž"    : "z",  "Č"    : "C",
+                "č"    : "c",     "Ć"    : "C", "ć"    : "c",  "À"    : "A",
+                "Á"    : "A",     "Â"    : "A", "Ã"    : "A",  "Ä"    : "A",
+                "Å"    : "A",     "Æ"    : "A", "Ç"    : "C",  "È"    : "E",
+                "É"    : "E",     "Ê"    : "E", "Ë"    : "E",  "Ì"    : "I",
+                "Í"    : "I",     "Î"    : "I", "Ï"    : "I",  "Ñ"    : "N",
+                "Ò"    : "O",     "Ó"    : "O", "Ô"    : "O",  "Õ"    : "O",
+                "Ö"    : "O",     "Ø"    : "O", "Ù"    : "U",  "Ú"    : "U",
+                "Û"    : "U",     "Ü"    : "U", "Ý"    : "Y",  "Þ"    : "B",
+                "ß"    : "Ss",    "à"    : "a", "á"    : "a",  "â"    : "a",
+                "ã"    : "a",     "ä"    : "a", "å"    : "a",  "æ"    : "a",
+                "ç"    : "c",     "è"    : "e", "é"    : "e",  "ê"    : "e",
+                "ë"    : "e",     "ì"    : "i", "í"    : "i",  "î"    : "i",
+                "ï"    : "i",     "ð"    : "o", "ñ"    : "n",  "ò"    : "o",
+                "ó"    : "o",     "ô"    : "o", "õ"    : "o",  "ö"    : "o",
+                "ø"    : "o",     "ù"    : "u", "ú"    : "u",  "û"    : "u",
+                "ý"    : "y",     "ý"    : "y", "þ"    : "b",  "ÿ"    : "y",
+                "Ŕ"    : "R",     "ŕ"    : "r", "ē"    : "e",  "'"    : "",
+                "&"    : " and ", "\r\n" : " ", "\n"   : " "
+        ];
 
         if replace {
             if unlikely (typeof replace != "array" && typeof replace != "string") {
@@ -284,20 +299,21 @@ class Tag
                 );
             }
 
-            if typeof replace == "array" {
-                for search in replace {
-                    let text = str_replace(search, " ", text);
-                }
-            } else {
-                let text = str_replace(replace, " ", text);
+            if typeof replace !== "array" {
+                let replace = [replace];
+            }
+
+            for search in replace {
+                let matrix[search] = " ";
             }
         }
 
-        let friendly = preg_replace(
-            "/[^a-zA-Z0-9\\/_|+ -]/",
-            "",
-            text
-        );
+        let text     = str_replace(array_keys(matrix), array_values(matrix), text),
+            friendly = preg_replace(
+                "/[^a-zA-Z0-9\\/_|+ -]/",
+                "",
+                text
+            );
 
         if lowercase {
             let friendly = strtolower(friendly);
@@ -306,12 +322,6 @@ class Tag
         let friendly = preg_replace("/[\\/_|+ -]+/", separator, friendly),
             friendly = trim(friendly, separator);
 
-        if extension_loaded("iconv") {
-            /**
-             * Revert back to the old locale
-             */
-            setlocale(LC_ALL, locale);
-        }
         return friendly;
     }
 
