@@ -26,16 +26,21 @@ ZEPHIR_INIT_CLASS(phalcon_4__closure) {
 
 PHP_METHOD(phalcon_4__closure, __invoke) {
 
-	zval *file, file_sub;
+	zend_bool _0;
+	zval *element, element_sub;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&file_sub);
+	ZVAL_UNDEF(&element_sub);
 
-	zephir_fetch_params_without_memory_grow(1, 0, &file);
+	zephir_fetch_params_without_memory_grow(1, 0, &element);
 
 
 
-	RETURN_BOOL(1);
+	_0 = Z_TYPE_P(element) == IS_LONG;
+	if (!(_0)) {
+		_0 = Z_TYPE_P(element) == IS_STRING;
+	}
+	RETURN_BOOL(_0);
 
 }
 

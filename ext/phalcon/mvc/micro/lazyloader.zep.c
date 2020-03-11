@@ -47,6 +47,15 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Micro_LazyLoader) {
 
 }
 
+PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, getHandler) {
+
+	zval *this_ptr = getThis();
+
+
+	RETURN_MEMBER(getThis(), "handler");
+
+}
+
 PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, getDefinition) {
 
 	zval *this_ptr = getThis();

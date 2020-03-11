@@ -100,14 +100,14 @@ PHP_METHOD(Phalcon_Storage_Serializer_Php, unserialize) {
 		ZEPHIR_GLOBAL(warning).enable = zend_is_true(&__$false);
 		ZEPHIR_INIT_VAR(&_1$$4);
 		ZEPHIR_INIT_NVAR(&_1$$4);
-		zephir_create_closure_ex(&_1$$4, NULL, phalcon_7__closure_ce, SL("__invoke"));
+		zephir_create_closure_ex(&_1$$4, NULL, phalcon_9__closure_ce, SL("__invoke"));
 		ZVAL_LONG(&_2$$4, 8);
-		ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 85, &_1$$4, &_2$$4);
+		ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 86, &_1$$4, &_2$$4);
 		zephir_check_call_status();
 		ZEPHIR_CALL_FUNCTION(&_3$$4, "unserialize", NULL, 15, data);
 		zephir_check_call_status();
 		zephir_update_property_zval(this_ptr, SL("data"), &_3$$4);
-		ZEPHIR_CALL_FUNCTION(NULL, "restore_error_handler", NULL, 87);
+		ZEPHIR_CALL_FUNCTION(NULL, "restore_error_handler", NULL, 88);
 		zephir_check_call_status();
 		if (UNEXPECTED(ZEPHIR_GLOBAL(warning).enable)) {
 			zephir_update_property_zval(this_ptr, SL("data"), &__$null);

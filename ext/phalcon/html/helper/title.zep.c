@@ -160,7 +160,7 @@ PHP_METHOD(Phalcon_Html_Helper_Title, __toString) {
 	zephir_read_property(&_2, this_ptr, SL("title"), PH_NOISY_CC);
 	zephir_array_fast_append(&_1, &_2);
 	zephir_read_property(&_3, this_ptr, SL("append"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_FUNCTION(&items, "array_merge", NULL, 282, &_0, &_1, &_3);
+	ZEPHIR_CALL_FUNCTION(&items, "array_merge", NULL, 297, &_0, &_1, &_3);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_4);
 	zephir_read_property(&_5, this_ptr, SL("indent"), PH_NOISY_CC | PH_READONLY);
