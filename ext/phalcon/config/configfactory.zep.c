@@ -132,7 +132,7 @@ PHP_METHOD(Phalcon_Config_ConfigFactory, load) {
 	if (Z_TYPE_P(config) == IS_STRING) {
 		ZEPHIR_CPY_WRT(&oldConfig, config);
 		ZVAL_LONG(&_0$$3, 4);
-		ZEPHIR_CALL_FUNCTION(&extension, "pathinfo", NULL, 105, config, &_0$$3);
+		ZEPHIR_CALL_FUNCTION(&extension, "pathinfo", NULL, 107, config, &_0$$3);
 		zephir_check_call_status();
 		if (UNEXPECTED(ZEPHIR_IS_EMPTY(&extension))) {
 			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_config_exception_ce, "You need to provide the extension in the file path", "phalcon/Config/ConfigFactory.zep", 69);
@@ -173,10 +173,10 @@ PHP_METHOD(Phalcon_Config_ConfigFactory, load) {
 	ZEPHIR_INIT_VAR(&second);
 	ZVAL_NULL(&second);
 	ZVAL_LONG(&_5, 4);
-	ZEPHIR_CALL_FUNCTION(&_6, "pathinfo", NULL, 105, &first, &_5);
+	ZEPHIR_CALL_FUNCTION(&_6, "pathinfo", NULL, 107, &first, &_5);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_EMPTY(&_6)) {
-		ZEPHIR_CALL_FUNCTION(&_7$$9, "lcfirst", NULL, 92, &adapter);
+		ZEPHIR_CALL_FUNCTION(&_7$$9, "lcfirst", NULL, 94, &adapter);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_8$$9);
 		ZEPHIR_CONCAT_VSV(&_8$$9, &first, ".", &_7$$9);

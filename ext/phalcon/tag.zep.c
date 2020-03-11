@@ -547,7 +547,7 @@ PHP_METHOD(Phalcon_Tag, friendlyTitle) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "iconv");
-	ZEPHIR_CALL_FUNCTION(&_1, "extension_loaded", NULL, 178, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "extension_loaded", NULL, 180, &_0);
 	zephir_check_call_status();
 	if (zephir_is_true(&_1)) {
 		ZVAL_LONG(&_2$$3, 6);
@@ -559,7 +559,7 @@ PHP_METHOD(Phalcon_Tag, friendlyTitle) {
 		ZVAL_STRING(&_3$$3, "UTF-8");
 		ZEPHIR_INIT_VAR(&_4$$3);
 		ZVAL_STRING(&_4$$3, "ASCII//TRANSLIT");
-		ZEPHIR_CALL_FUNCTION(&_5$$3, "iconv", NULL, 0, &_3$$3, &_4$$3, &text);
+		ZEPHIR_CALL_FUNCTION(&_5$$3, "iconv", NULL, 488, &_3$$3, &_4$$3, &text);
 		zephir_check_call_status();
 		zephir_get_strval(&text, &_5$$3);
 	}
@@ -596,7 +596,7 @@ PHP_METHOD(Phalcon_Tag, friendlyTitle) {
 	}
 	ZEPHIR_INIT_VAR(&_10);
 	ZVAL_STRING(&_10, "iconv");
-	ZEPHIR_CALL_FUNCTION(&_11, "extension_loaded", NULL, 178, &_10);
+	ZEPHIR_CALL_FUNCTION(&_11, "extension_loaded", NULL, 180, &_10);
 	zephir_check_call_status();
 	if (zephir_is_true(&_11)) {
 		ZVAL_LONG(&_12$$6, 6);
@@ -2883,7 +2883,7 @@ PHP_METHOD(Phalcon_Tag, textArea) {
 	ZVAL_STRING(&_1, "<textarea");
 	ZEPHIR_CALL_SELF(&code, "renderattributes", NULL, 0, &_1, &params);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_2, "htmlspecialchars", NULL, 229, &content);
+	ZEPHIR_CALL_FUNCTION(&_2, "htmlspecialchars", NULL, 244, &content);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_3);
 	ZEPHIR_CONCAT_SVS(&_3, ">", &_2, "</textarea>");

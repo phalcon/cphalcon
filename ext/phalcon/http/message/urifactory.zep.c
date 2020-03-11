@@ -79,7 +79,7 @@ PHP_METHOD(Phalcon_Http_Message_UriFactory, createUri) {
 
 
 	object_init_ex(return_value, phalcon_http_message_uri_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 103, &uri);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 105, &uri);
 	zephir_check_call_status();
 	RETURN_MM();
 
