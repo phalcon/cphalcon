@@ -241,7 +241,7 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 		}
 
 		'set' {
-			if (s->mode == PHVOLT_MODE_ECHO) {
+			if (s->active_token == PHVOLT_T_DOT) {
 				token->opcode = PHVOLT_T_IDENTIFIER;
 				token->value = estrndup(start, YYCURSOR - start);
 				token->len = YYCURSOR - start;
@@ -339,7 +339,7 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 		}
 
 		'is' {
-			if (s->mode == PHVOLT_MODE_ECHO) {
+			if (s->active_token == PHVOLT_T_DOT) {
 				token->opcode = PHVOLT_T_IDENTIFIER;
 				token->value = estrndup(start, YYCURSOR - start);
 				token->len = YYCURSOR - start;
@@ -484,7 +484,6 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 		}
 
 		"{{" {
-			s->mode = PHVOLT_MODE_ECHO;
 			s->whitespace_control = 0;
 			s->statement_position++;
 			token->opcode = PHVOLT_T_OPEN_EDELIMITER;
@@ -498,7 +497,6 @@ int phvolt_get_token(phvolt_scanner_state *s, phvolt_scanner_token *token) {
 		}
 
 		"{{-" {
-			s->mode = PHVOLT_MODE_ECHO;
 			s->whitespace_control = 0;
 			s->statement_position++;
 			token->opcode = PHVOLT_T_OPEN_EDELIMITER;
