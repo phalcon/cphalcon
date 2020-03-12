@@ -1,5 +1,5 @@
 --TEST--
-is - Perform test for equals
+is - Using as a object property and {{ }}
 --SKIPIF--
 <?php if (!extension_loaded("phalcon")) print "skip extension not loaded"; ?>
 --FILE--
@@ -7,24 +7,24 @@ is - Perform test for equals
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
 
 $compiler = new Compiler();
-var_dump($compiler->parse("{% if a is b %}c{% endif %}"));
+var_dump($compiler->parse("{{ object.is }}"));
 ?>
 --EXPECT--
 array(1) {
   [0]=>
-  array(5) {
+  array(4) {
     ["type"]=>
-    int(300)
+    int(359)
     ["expr"]=>
     array(5) {
       ["type"]=>
-      int(311)
+      int(46)
       ["left"]=>
       array(4) {
         ["type"]=>
         int(265)
         ["value"]=>
-        string(1) "a"
+        string(6) "object"
         ["file"]=>
         string(9) "eval code"
         ["line"]=>
@@ -35,7 +35,7 @@ array(1) {
         ["type"]=>
         int(265)
         ["value"]=>
-        string(1) "b"
+        string(2) "is"
         ["file"]=>
         string(9) "eval code"
         ["line"]=>
@@ -45,20 +45,6 @@ array(1) {
       string(9) "eval code"
       ["line"]=>
       int(1)
-    }
-    ["true_statements"]=>
-    array(1) {
-      [0]=>
-      array(4) {
-        ["type"]=>
-        int(357)
-        ["value"]=>
-        string(1) "c"
-        ["file"]=>
-        string(9) "eval code"
-        ["line"]=>
-        int(1)
-      }
     }
     ["file"]=>
     string(9) "eval code"
