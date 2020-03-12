@@ -1,5 +1,5 @@
 --TEST--
-is - Using as a object property and {{ }}
+is - Using as an object property and {{ }}
 --SKIPIF--
 <?php if (!extension_loaded("phalcon")) print "skip extension not loaded"; ?>
 --FILE--
