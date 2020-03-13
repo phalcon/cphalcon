@@ -2,13 +2,13 @@
 ## Added
 
 ## Changed
+- Changed `Volt::convertEncoding` to no longer using `iconv` for a fallback since it causes issues with macOS [#14912](https://github.com/phalcon/cphalcon/issues/14912)
 
 ## Fixed
 - Fixed `Phalcon\Mvc\Model\Query\Builder::getPhql` to add single quote between string value on a simple condition. [#14874](https://github.com/phalcon/cphalcon/issues/14874) [@jenovateurs](https://github.com/jenovateurs)
 - Fixed schema manipulation in `Phalcon\Db\Dialect\Mysql`, remove unnecessary `NULL` in column definition, unquote numerical defaults. [#14888](https://github.com/phalcon/cphalcon/pull/14888) [@pfz](https://github.com/pfz)
 - Fixed recognizing language operators inside Volt's echo mode (`{{ ... }}`) [#14476](https://github.com/phalcon/cphalcon/issues/14476)
 - Fixed `Tag::friendlyTitle` to correctly convert titles under MacOS and Windows [#14866](https://github.com/phalcon/cphalcon/issues/14866)
-- Fixed `Volt::convertEncoding` to no longer using `iconv` for a fallback since it causes issues with macOS [#14912](https://github.com/phalcon/cphalcon/issues/14912)
 
 # [4.0.5](https://github.com/phalcon/cphalcon/releases/tag/v4.0.5) (2020-03-07)
 ## Added
