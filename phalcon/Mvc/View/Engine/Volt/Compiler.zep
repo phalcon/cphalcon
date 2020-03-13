@@ -420,7 +420,9 @@ class Compiler implements InjectionAwareInterface
     {
         var expr, exprCode, lifetime;
         string compilation;
-
+        /**
+         * @todo Remove this in the next major version
+         */
         /**
          * A valid expression is required
          */
@@ -2756,14 +2758,6 @@ class Compiler implements InjectionAwareInterface
 
                 case PHVOLT_T_INCLUDE:
                     let compilation .= this->compileInclude(statement);
-
-                    break;
-
-                case PHVOLT_T_CACHE:
-                    let compilation .= this->compileCache(
-                        statement,
-                        extendsMode
-                    );
 
                     break;
 
