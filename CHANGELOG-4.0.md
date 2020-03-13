@@ -9,6 +9,7 @@
 - Fixed schema manipulation in `Phalcon\Db\Dialect\Mysql`, remove unnecessary `NULL` in column definition, unquote numerical defaults. [#14888](https://github.com/phalcon/cphalcon/pull/14888) [@pfz](https://github.com/pfz)
 - Fixed recognizing language operators inside Volt's echo mode (`{{ ... }}`) [#14476](https://github.com/phalcon/cphalcon/issues/14476)
 - Fixed `Tag::friendlyTitle` to correctly convert titles under MacOS and Windows [#14866](https://github.com/phalcon/cphalcon/issues/14866)
+- Fixed the Volt compiler to no longer parse `cache` fragments and thus searching for the `viewCache` service (deprecated for v4) [#14907](https://github.com/phalcon/cphalcon/issues/14907)
 
 # [4.0.5](https://github.com/phalcon/cphalcon/releases/tag/v4.0.5) (2020-03-07)
 ## Added
