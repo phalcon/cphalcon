@@ -116,14 +116,14 @@ PHP_METHOD(Phalcon_Validation, __construct) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_INIT_NVAR(&_0);
-	zephir_create_closure_ex(&_0, NULL, phalcon_8__closure_ce, SL("__invoke"));
-	ZEPHIR_CALL_FUNCTION(&_1, "array_filter", NULL, 252, &validators, &_0);
+	zephir_create_closure_ex(&_0, NULL, phalcon_10__closure_ce, SL("__invoke"));
+	ZEPHIR_CALL_FUNCTION(&_1, "array_filter", NULL, 268, &validators, &_0);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("validators"), &_1);
 	ZEPHIR_INIT_VAR(&_2);
 	ZEPHIR_INIT_NVAR(&_2);
-	zephir_create_closure_ex(&_2, NULL, phalcon_9__closure_ce, SL("__invoke"));
-	ZEPHIR_CALL_FUNCTION(&_3, "array_filter", NULL, 252, &validators, &_2);
+	zephir_create_closure_ex(&_2, NULL, phalcon_11__closure_ce, SL("__invoke"));
+	ZEPHIR_CALL_FUNCTION(&_3, "array_filter", NULL, 268, &validators, &_2);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, SL("combinedFieldsValidators"), &_3);
 	if ((zephir_method_exists_ex(this_ptr, ZEND_STRL("initialize")) == SUCCESS)) {
@@ -224,7 +224,7 @@ PHP_METHOD(Phalcon_Validation, appendMessage) {
 	if (Z_TYPE_P(&messages) != IS_OBJECT) {
 		ZEPHIR_INIT_NVAR(&messages);
 		object_init_ex(&messages, phalcon_messages_messages_ce);
-		ZEPHIR_CALL_METHOD(NULL, &messages, "__construct", NULL, 7);
+		ZEPHIR_CALL_METHOD(NULL, &messages, "__construct", NULL, 9);
 		zephir_check_call_status();
 	}
 	ZEPHIR_CALL_METHOD(NULL, &messages, "appendmessage", NULL, 0, message);
@@ -491,7 +491,7 @@ PHP_METHOD(Phalcon_Validation, getValue) {
 					ZVAL_STRING(&_7$$19, "the 'filter' service");
 					ZEPHIR_CALL_CE_STATIC(&_5$$19, phalcon_validation_exception_ce, "containerservicenotfound", &_6, 0, &_7$$19);
 					zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(NULL, &_4$$19, "__construct", NULL, 6, &_5$$19);
+					ZEPHIR_CALL_METHOD(NULL, &_4$$19, "__construct", NULL, 8, &_5$$19);
 					zephir_check_call_status();
 					zephir_throw_exception_debug(&_4$$19, "phalcon/Validation.zep", 266);
 					ZEPHIR_MM_RESTORE();
@@ -513,7 +513,7 @@ PHP_METHOD(Phalcon_Validation, getValue) {
 			if (Z_TYPE_P(&entity) == IS_OBJECT) {
 				ZEPHIR_INIT_NVAR(&method);
 				ZEPHIR_CONCAT_SV(&method, "set", &camelizedField);
-				ZEPHIR_CALL_FUNCTION(&_10$$21, "property_exists", NULL, 399, &entity, &field);
+				ZEPHIR_CALL_FUNCTION(&_10$$21, "property_exists", NULL, 449, &entity, &field);
 				zephir_check_call_status();
 				if ((zephir_method_exists(&entity, &method)  == SUCCESS)) {
 					ZEPHIR_CALL_METHOD_ZVAL(NULL, &entity, &method, NULL, 0, &value);
@@ -605,7 +605,7 @@ PHP_METHOD(Phalcon_Validation, rules) {
 			ZEPHIR_CALL_METHOD(&validator, &validators, "current", NULL, 0);
 			zephir_check_call_status();
 				if (zephir_instance_of_ev(&validator, phalcon_validation_validatorinterface_ce)) {
-					ZEPHIR_CALL_METHOD(NULL, this_ptr, "add", &_2, 247, field, &validator);
+					ZEPHIR_CALL_METHOD(NULL, this_ptr, "add", &_2, 264, field, &validator);
 					zephir_check_call_status();
 				}
 			ZEPHIR_CALL_METHOD(NULL, &validators, "next", NULL, 0);
@@ -806,7 +806,7 @@ PHP_METHOD(Phalcon_Validation, validate) {
 	zephir_update_property_zval(this_ptr, SL("values"), &__$null);
 	ZEPHIR_INIT_VAR(&messages);
 	object_init_ex(&messages, phalcon_messages_messages_ce);
-	ZEPHIR_CALL_METHOD(NULL, &messages, "__construct", NULL, 7);
+	ZEPHIR_CALL_METHOD(NULL, &messages, "__construct", NULL, 9);
 	zephir_check_call_status();
 	if (Z_TYPE_P(entity) != IS_NULL) {
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setentity", NULL, 0, entity);

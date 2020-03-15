@@ -143,7 +143,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, __construct) {
 		ZVAL_STRING(&_4$$4, "the services related to the ORM");
 		ZEPHIR_CALL_CE_STATIC(&_2$$4, phalcon_mvc_model_transaction_exception_ce, "containerservicenotfound", &_3, 0, &_4$$4);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 6, &_2$$4);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 8, &_2$$4);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$4, "phalcon/Mvc/Model/Transaction/Manager.zep", 99);
 		ZEPHIR_MM_RESTORE();
@@ -312,7 +312,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, get) {
 			ZEPHIR_INIT_VAR(&_3$$4);
 			ZVAL_STRING(&_3$$4, "rollbackPendent");
 			zephir_array_fast_append(&_2$$4, &_3$$4);
-			ZEPHIR_CALL_FUNCTION(NULL, "register_shutdown_function", NULL, 460, &_2$$4);
+			ZEPHIR_CALL_FUNCTION(NULL, "register_shutdown_function", NULL, 510, &_2$$4);
 			zephir_check_call_status();
 		}
 		if (1) {
@@ -401,7 +401,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, getOrCreateTransaction) {
 		ZVAL_STRING(&_4$$3, "the services related to the ORM");
 		ZEPHIR_CALL_CE_STATIC(&_2$$3, phalcon_mvc_model_transaction_exception_ce, "containerservicenotfound", &_3, 0, &_4$$3);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 6, &_2$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 8, &_2$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Mvc/Model/Transaction/Manager.zep", 189);
 		ZEPHIR_MM_RESTORE();
@@ -455,9 +455,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, getOrCreateTransaction) {
 	} else {
 		ZVAL_BOOL(&_11, 0);
 	}
-	ZEPHIR_CALL_METHOD(NULL, &transaction, "__construct", NULL, 461, &container, &_11, &_10);
+	ZEPHIR_CALL_METHOD(NULL, &transaction, "__construct", NULL, 511, &container, &_11, &_10);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, &transaction, "settransactionmanager", NULL, 462, this_ptr);
+	ZEPHIR_CALL_METHOD(NULL, &transaction, "settransactionmanager", NULL, 0, this_ptr);
 	zephir_check_call_status();
 	zephir_update_property_array_append(this_ptr, SL("transactions"), &transaction);
 	RETURN_ON_FAILURE(zephir_property_incr(this_ptr, SL("number")));

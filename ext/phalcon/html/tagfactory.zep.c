@@ -136,7 +136,7 @@ PHP_METHOD(Phalcon_Html_TagFactory, getAdapters) {
 	zval *this_ptr = getThis();
 
 
-	zephir_create_array(return_value, 41, 0);
+	zephir_create_array(return_value, 38, 0);
 	add_assoc_stringl_ex(return_value, SL("a"), SL("Phalcon\\Html\\Helper\\Anchor"));
 	add_assoc_stringl_ex(return_value, SL("base"), SL("Phalcon\\Html\\Helper\\Base"));
 	add_assoc_stringl_ex(return_value, SL("body"), SL("Phalcon\\Html\\Helper\\Body"));
