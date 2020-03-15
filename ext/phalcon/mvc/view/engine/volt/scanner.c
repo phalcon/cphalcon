@@ -1358,7 +1358,7 @@ vv135:
 			}
 vv136:
 			{
-			if (s->mode == PHVOLT_MODE_ECHO) {
+			if (s->active_token == PHVOLT_T_DOT) {
 				token->opcode = PHVOLT_T_IDENTIFIER;
 				token->value = estrndup(start, VVCURSOR - start);
 				token->len = VVCURSOR - start;
@@ -1620,7 +1620,6 @@ vv154:
 			}
 vv155:
 			{
-			s->mode = PHVOLT_MODE_ECHO;
 			s->whitespace_control = 0;
 			s->statement_position++;
 			token->opcode = PHVOLT_T_OPEN_EDELIMITER;
@@ -2298,7 +2297,7 @@ vv201:
 			}
 vv202:
 			{
-			if (s->mode == PHVOLT_MODE_ECHO) {
+			if (s->active_token == PHVOLT_T_DOT) {
 				token->opcode = PHVOLT_T_IDENTIFIER;
 				token->value = estrndup(start, VVCURSOR - start);
 				token->len = VVCURSOR - start;
@@ -2346,7 +2345,6 @@ vv207:
 vv209:
 			++VVCURSOR;
 			{
-			s->mode = PHVOLT_MODE_ECHO;
 			s->whitespace_control = 0;
 			s->statement_position++;
 			token->opcode = PHVOLT_T_OPEN_EDELIMITER;

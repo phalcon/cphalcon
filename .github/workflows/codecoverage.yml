@@ -42,7 +42,7 @@ jobs:
       - name: Set environment variables
         run: |
           echo "::set-env name=ZEPHIR_PARSER_VERSION::v1.3.3"
-          echo "::set-env name=ZEPHIR_VERSION::0.12.16"
+          echo "::set-env name=ZEPHIR_VERSION::0.12.17"
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v1
@@ -122,7 +122,7 @@ jobs:
         run: |
           echo "::set-output name=dir::$(composer config cache-files-dir)"
 
-      - name: Setup Cache
+      - name: Setup Composer Cache
         uses: actions/cache@v1
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
@@ -166,12 +166,14 @@ jobs:
           DATA_POSTGRES_PORT: ${{ job.services.postgres.ports['5432'] }}
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
+          DATA_MYSQL_USER: root
         run: |
           vendor/bin/codecept run --ext DotReporter cli
           vendor/bin/codecept run --ext DotReporter unit
           vendor/bin/codecept run --ext DotReporter integration
-          vendor/bin/codecept run --ext DotReporter database --env mysql
-          vendor/bin/codecept run --ext DotReporter database --env sqlite
+          vendor/bin/codecept run --ext DotReporter database -g common
+          vendor/bin/codecept run --ext DotReporter database -g mysql --env mysql
+          vendor/bin/codecept run --ext DotReporter database -g sqlite --env sqlite
 
       - name: Upload codecoverage on 7.4
         uses: codecov/codecov-action@v1

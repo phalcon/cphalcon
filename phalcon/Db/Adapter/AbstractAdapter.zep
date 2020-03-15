@@ -545,6 +545,10 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
             return [];
         }
 
+        if unlikely fetchMode === Enum::FETCH_COLUMN {
+            return result->fetchAll(Enum::FETCH_COLUMN);
+        }
+
         result->setFetchMode(fetchMode);
 
         return result->fetchAll();

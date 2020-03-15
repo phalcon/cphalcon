@@ -1088,7 +1088,7 @@ PHP_METHOD(Phalcon_Http_Response, setFileToSend) {
 		} else {
 			ZEPHIR_INIT_VAR(&_6$$8);
 			ZVAL_STRING(&_6$$8, "\\15\\17\\\"");
-			ZEPHIR_CALL_FUNCTION(&_7$$8, "addcslashes", NULL, 213, &basePath, &_6$$8);
+			ZEPHIR_CALL_FUNCTION(&_7$$8, "addcslashes", NULL, 214, &basePath, &_6$$8);
 			zephir_check_call_status();
 			ZEPHIR_CPY_WRT(&basePath, &_7$$8);
 			ZEPHIR_INIT_VAR(&_8$$8);
@@ -1453,7 +1453,7 @@ PHP_METHOD(Phalcon_Http_Response, setStatusCode) {
 	ZEPHIR_INIT_NVAR(&key);
 	if (ZEPHIR_IS_STRING_IDENTICAL(&message, "")) {
 		ZEPHIR_INIT_VAR(&statusCodes);
-		zephir_create_array(&statusCodes, 67, 0);
+		zephir_create_array(&statusCodes, 64, 0);
 		add_index_stringl(&statusCodes, 100, SL("Continue"));
 		add_index_stringl(&statusCodes, 101, SL("Switching Protocols"));
 		add_index_stringl(&statusCodes, 102, SL("Processing"));

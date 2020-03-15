@@ -505,30 +505,6 @@ class CompileStringCest
                 '{% set a = 1.2+1*(20/b) and c %}',
                 '<?php $a = 1.2 + 1 * (20 / $b) && $c; ?>',
             ],
-            // Cache statement
-            [
-                '{% cache somekey %} hello {% endcache %}',
-                '<?php $_cache[$somekey] = $this->di->get(\'viewCache\'); ' .
-                '$_cacheKey[$somekey] = $_cache[$somekey]->start($somekey); ' .
-                'if ($_cacheKey[$somekey] === null) { ?> hello <?php $_cache[$somekey]->save($somekey); } ' .
-                'else { echo $_cacheKey[$somekey]; } ?>',
-            ],
-            [
-                '{% set lifetime = 500 %}{% cache somekey lifetime %} hello {% endcache %}',
-                '<?php $lifetime = 500; ?>' .
-                '<?php $_cache[$somekey] = $this->di->get(\'viewCache\'); ' .
-                '$_cacheKey[$somekey] = $_cache[$somekey]->start($somekey, $lifetime); ' .
-                'if ($_cacheKey[$somekey] === null) { ?> hello ' .
-                '<?php $_cache[$somekey]->save($somekey, null, $lifetime); } else ' .
-                '{ echo $_cacheKey[$somekey]; } ?>',
-            ],
-            [
-                '{% cache somekey 500 %} hello {% endcache %}',
-                '<?php $_cache[$somekey] = $this->di->get(\'viewCache\'); ' .
-                '$_cacheKey[$somekey] = $_cache[$somekey]->start($somekey, 500); ' .
-                'if ($_cacheKey[$somekey] === null) { ?> hello ' .
-                '<?php $_cache[$somekey]->save($somekey, null, 500); } else { echo $_cacheKey[$somekey]; } ?>',
-            ],
             //Autoescape mode
             [
                 '{{ "hello" }}{% autoescape true %}{{ "hello" }}{% autoescape false %}' .

@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Storage\Serializer\Igbinary;
 
 use Phalcon\Storage\Serializer\Igbinary;
-use UnitTester;
+use IntegrationTester;
 
 class SetDataCest
 {
@@ -24,7 +24,7 @@ class SetDataCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-03-30
      */
-    public function storageSerializerIgbinarySetData(UnitTester $I)
+    public function storageSerializerIgbinarySetData(IntegrationTester $I)
     {
         $I->wantToTest('Storage\Serializer\Igbinary - setData()');
         $data       = ['Phalcon Framework'];

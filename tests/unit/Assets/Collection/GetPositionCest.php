@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Collection;
 
+use Phalcon\Assets\Collection;
 use UnitTester;
 
 class GetPositionCest
@@ -20,13 +21,23 @@ class GetPositionCest
     /**
      * Tests Phalcon\Assets\Collection :: getPosition()
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
+     * @since  2020-02-15
      */
     public function assetsCollectionGetPosition(UnitTester $I)
     {
         $I->wantToTest('Assets\Collection - getPosition()');
 
-        $I->skipTest('Need implementation');
+        $collection = new Collection();
+
+        $I->assertEquals(0, $collection->getPosition());
+
+        $collection->next();
+
+        $I->assertEquals(1, $collection->getPosition());
+
+        $collection->rewind();
+
+        $I->assertEquals(0, $collection->getPosition());
     }
 }

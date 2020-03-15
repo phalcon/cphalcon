@@ -15,7 +15,7 @@ namespace Phalcon\Test\Integration\Cache\Adapter\Stream;
 
 use Phalcon\Cache\Adapter\Stream;
 use Phalcon\Storage\SerializerFactory;
-use UnitTester;
+use IntegrationTester;
 
 class GetAdapterCest
 {
@@ -25,7 +25,7 @@ class GetAdapterCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-24
      */
-    public function cacheAdapterStreamGetAdapter(UnitTester $I)
+    public function cacheAdapterStreamGetAdapter(IntegrationTester $I)
     {
         $I->wantToTest('Cache\Adapter\Stream - getAdapter()');
 

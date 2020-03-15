@@ -18,7 +18,7 @@ use Phalcon\Cache\AdapterFactory;
 use Phalcon\Cache\CacheFactory;
 use Phalcon\Storage\SerializerFactory;
 use Psr\SimpleCache\CacheInterface;
-use UnitTester;
+use IntegrationTester;
 
 class NewInstanceCest
 {
@@ -28,7 +28,7 @@ class NewInstanceCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-03
      */
-    public function cacheCacheFactoryNewInstance(UnitTester $I)
+    public function cacheCacheFactoryNewInstance(IntegrationTester $I)
     {
         $I->wantToTest('Cache\CacheFactory - newInstance()');
 

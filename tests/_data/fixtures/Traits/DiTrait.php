@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of the Phalcon Framework.
  *
@@ -11,6 +9,7 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
 namespace Phalcon\Test\Fixtures\Traits;
 
 use DatabaseTester;
@@ -52,7 +51,6 @@ use function getOptionsPostgresql;
 use function getOptionsRedis;
 use function getOptionsSessionStream;
 use function getOptionsSqlite;
-use function var_dump;
 
 /**
  * Trait DiTrait
@@ -87,24 +85,19 @@ trait DiTrait
     }
 
     /**
-     * @param DatabaseTester $I
+     * @param string $driver
      *
      * @return AdapterInterface
      */
-    protected function newDbService(DatabaseTester $I): AdapterInterface
+    protected function newDbConnection(string $driver): AdapterInterface
     {
-        /** @var PDO $connection */
-        $connection = $I->getConnection();
-        $driver     = $connection->getAttribute(PDO::ATTR_DRIVER_NAME);
-        $service    = $driver;
-
         switch ($driver) {
             case 'mysql':
                 $options = getOptionsMysql();
                 break;
             case 'pgsql':
                 $options = getOptionsPostgresql();
-                $service = 'postgresql';
+                $driver = 'postgresql';
                 break;
             case 'sqlite':
                 $options = getOptionsSqlite();
@@ -116,7 +109,21 @@ trait DiTrait
 
         $options['options'][PDO::ATTR_TIMEOUT] = 0;
 
-        return (new PdoFactory())->newInstance($service, $options);
+        return (new PdoFactory())->newInstance($driver, $options);
+    }
+
+    /**
+     * @param DatabaseTester $I
+     *
+     * @return AdapterInterface
+     */
+    protected function newDbService(DatabaseTester $I): AdapterInterface
+    {
+        /** @var PDO $connection */
+        $connection = $I->getConnection();
+        $driver     = $connection->getAttribute(PDO::ATTR_DRIVER_NAME);
+
+        return $this->newDbConnection($driver);
     }
 
     /**

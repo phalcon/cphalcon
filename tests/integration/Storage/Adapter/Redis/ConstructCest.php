@@ -17,7 +17,7 @@ use Phalcon\Storage\Adapter\AdapterInterface;
 use Phalcon\Storage\Adapter\Redis;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\RedisTrait;
-use UnitTester;
+use IntegrationTester;
 
 use function getOptionsRedis;
 
@@ -31,7 +31,7 @@ class ConstructCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-09
      */
-    public function storageAdapterRedisConstruct(UnitTester $I)
+    public function storageAdapterRedisConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Storage\Adapter\Redis - __construct()');
 

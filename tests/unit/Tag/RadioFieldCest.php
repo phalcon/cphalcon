@@ -13,9 +13,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Tag;
 
+use Phalcon\Tag;
+use Phalcon\Test\Fixtures\Helpers\TagSetup;
 use UnitTester;
 
-class RadioFieldCest
+class RadioFieldCest extends TagSetup
 {
     /**
      * Tests Phalcon\Tag :: radioField()
@@ -26,6 +28,17 @@ class RadioFieldCest
     public function testRadioField(UnitTester $I)
     {
         $I->wantToTest('Tag - radioField()');
-        $I->skipTest('Need implementation');
+
+        $options = [
+            'x_name',
+            'id'    => 'x_id',
+            'class' => 'x_class',
+            'size'  => '10',
+        ];
+
+        $expected = '<input type="radio" id="x_id" name="x_name" '
+            . 'class="x_class" size="10">';
+        $actual   = Tag::radioField($options);
+        $I->assertEquals($expected, $actual);
     }
 }

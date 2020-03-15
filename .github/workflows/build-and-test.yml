@@ -18,7 +18,7 @@ jobs:
       - name: Set environment variables
         run: |
           echo "::set-env name=ZEPHIR_PARSER_VERSION::v1.3.3"
-          echo "::set-env name=ZEPHIR_VERSION::0.12.16"
+          echo "::set-env name=ZEPHIR_VERSION::0.12.17"
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v1
@@ -36,7 +36,7 @@ jobs:
           git config --global advice.detachedHead false
 
           # Will be used before as a cache key
-          export CPUHASH="$(cat /proc/cpuinfo | grep "model name" | head -n 1 | cut -d':' -f2 | md5sum)"
+          export CPUHASH="$(cat /proc/cpuinfo | grep 'model name' | head -n 1 | cut -d':' -f2 | md5sum)"
 
       - name: Git checkout
         uses: actions/checkout@v2-beta
@@ -141,7 +141,6 @@ jobs:
           - 5432
         env:
           POSTGRES_PASSWORD: secret
-          POSTGRES_USER: phalcon
           POSTGRES_DB: phalcon
       redis:
         image: redis:5-alpine
@@ -228,26 +227,34 @@ jobs:
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
         run: vendor/bin/codecept run --ext DotReporter integration
 
+      - name: Run database tests Common
+        env:
+          DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
+          DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
+          DATA_MYSQL_USER: root
+        run: vendor/bin/codecept run --ext DotReporter database -g common
+
       - name: Run database tests MySQL
         env:
           DATA_MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
-        run: vendor/bin/codecept run --ext DotReporter database --env mysql
+          DATA_MYSQL_USER: root
+        run: vendor/bin/codecept run --ext DotReporter database --env mysql -g mysql
 
       - name: Run database tests Sqlite
         env:
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
-        run: vendor/bin/codecept run --ext DotReporter database --env sqlite
+        run: vendor/bin/codecept run --ext DotReporter database --env sqlite -g sqlite
 
-#      # TODO Enable these one at a time and also for MacOS/Windows
-#      - name: Run database tests Postgres
-#        env:
-#          DATA_POSTGRES_PORT: ${{ job.services.postgres.ports['5432'] }}
-#          DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
-#          DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
-#        run: vendor/bin/codecept run --ext DotReporter database --env pgsql
+      - name: Run database tests Postgres
+        env:
+          DATA_POSTGRES_USER: postgres
+          DATA_POSTGRES_PORT: ${{ job.services.postgres.ports['5432'] }}
+          DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
+          DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
+        run: vendor/bin/codecept run --ext DotReporter database --env pgsql -g pgsql
 #      - name: Run integrations tests SQL Server
 #        env:
 #          DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
@@ -341,7 +348,6 @@ jobs:
           vendor/bin/codecept build
 
       - name: Run unit tests
-        continue-on-error: true #remove after bug fix #14763
         run: vendor/bin/codecept run --ext DotReporter unit
 
       - name: Run cli tests
@@ -403,7 +409,7 @@ jobs:
           echo "::set-env name=PACKAGE_PREFIX::phalcon"
           echo "::set-env name=EXTENSION_NAME::phalcon"
           echo "::set-env name=EXTENSION_FILE::php_phalcon.dll"
-          echo "::set-env name=PHALCON_VERSION::4.0.3"
+          echo "::set-env name=PHALCON_VERSION::4.0.5"
           echo "::set-env name=PHPTS::${{ matrix.ts }}"
           If ("${{ matrix.ts }}" -eq "nts") {
             echo "::set-env name=BUILD_TYPE::nts-${{ matrix.build_type }}"
@@ -527,7 +533,6 @@ jobs:
           vendor/bin/codecept build
 
       - name: Run unit tests
-        continue-on-error: true #remove after bug fix #14763
         run: vendor/bin/codecept run --ext DotReporter unit
 
       - name: Run cli tests

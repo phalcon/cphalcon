@@ -15,7 +15,7 @@ namespace Phalcon\Test\Integration\Storage\Adapter\Memory;
 
 use Phalcon\Storage\Adapter\Memory;
 use Phalcon\Storage\SerializerFactory;
-use UnitTester;
+use IntegrationTester;
 
 class HasCest
 {
@@ -25,7 +25,7 @@ class HasCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-03-31
      */
-    public function storageAdapterMemoryGetSetHas(UnitTester $I)
+    public function storageAdapterMemoryGetSetHas(IntegrationTester $I)
     {
         $I->wantToTest('Storage\Adapter\Memory - has()');
 

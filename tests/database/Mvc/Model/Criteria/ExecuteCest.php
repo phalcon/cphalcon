@@ -44,39 +44,33 @@ class ExecuteCest
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
+     *
+     * @group mysql
      */
     public function mvcModelCriteriaExecute(DatabaseTester $I)
     {
         $I->wantToTest('Mvc\Model\Criteria - execute()');
 
-        $driver = $I->getDriver();
+        $title      = uniqid('inv-');
+        $connection = $I->getConnection();
+        $migration  = new InvoicesMigration($connection);
+        $migration->insert(4, 1, 2, $title);
 
-        /**
-         * The following tests need to skip sqlite because we will get
-         * a General Error 5 database is locked error
-         */
-        if ('sqlite' !== $driver) {
-            $title      = uniqid('inv-');
-            $connection = $I->getConnection();
-            $migration  = new InvoicesMigration($connection);
-            $migration->insert(4, 1, 2, $title);
+        $criteria = new Criteria();
+        $criteria->setDI($this->container);
 
-            $criteria = new Criteria();
-            $criteria->setDI($this->container);
+        $result = $criteria
+            ->setModelName(Invoices::class)
+            ->andWhere('inv_cst_id = :custId:', ['custId' => 1])
+            ->execute()
+        ;
 
-            $result = $criteria
-                ->setModelName(Invoices::class)
-                ->andWhere('inv_cst_id = :custId:', ['custId' => 1])
-                ->execute()
-            ;
+        $I->assertInstanceOf(Simple::class, $result);
 
-            $I->assertInstanceOf(Simple::class, $result);
-
-            $I->assertEquals(4, $result[0]->inv_id);
-            $I->assertEquals(1, $result[0]->inv_cst_id);
-            $I->assertEquals(2, $result[0]->inv_status_flag);
-            $I->assertEquals($title, $result[0]->inv_title);
-            $I->assertEquals(0.00, $result[0]->inv_total);
-        }
+        $I->assertEquals(4, $result[0]->inv_id);
+        $I->assertEquals(1, $result[0]->inv_cst_id);
+        $I->assertEquals(2, $result[0]->inv_status_flag);
+        $I->assertEquals($title, $result[0]->inv_title);
+        $I->assertEquals(0.00, $result[0]->inv_total);
     }
 }

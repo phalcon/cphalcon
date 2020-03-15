@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Collection;
 
+use Phalcon\Assets\Collection;
+use Phalcon\Assets\Filters\None;
 use UnitTester;
 
 class AddFilterCest
@@ -20,13 +22,32 @@ class AddFilterCest
     /**
      * Tests Phalcon\Assets\Collection :: addFilter()
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
+     * @since  2020-02-06
      */
     public function assetsCollectionAddFilter(UnitTester $I)
     {
         $I->wantToTest('Assets\Collection - addFilter()');
 
-        $I->skipTest('Need implementation');
+        $collection = new Collection();
+
+        $collection->addFilter(
+            new None()
+        );
+
+        $collection->addFilter(
+            new None()
+        );
+
+        $filters = $collection->getFilters();
+
+        foreach ($filters as $filter) {
+            $I->assertInstanceOf(
+                None::class,
+                $filter
+            );
+        }
+
+        $I->assertCount(2, $filters);
     }
 }
