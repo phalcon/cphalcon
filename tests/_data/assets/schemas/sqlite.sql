@@ -1,7 +1,5 @@
 
 
-
-
 drop table if exists co_customers;
             
 create table co_customers
@@ -57,12 +55,6 @@ create table objects
     obj_type   integer not null
 );
             
-
-
-
-
-
-
 
 
 drop table if exists co_sources;

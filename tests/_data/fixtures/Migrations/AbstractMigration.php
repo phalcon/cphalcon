@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Fixtures\Migrations;
 
 use PDO;
-use Phalcon\DM\Pdo\Connection;
+use Phalcon\DataMapper\Pdo\Connection;
 
 /**
  * Class AbstractMigration
@@ -46,6 +46,7 @@ abstract class AbstractMigration
         } else {
             $this->connection = $connection;
         }
+
         $this->clear();
     }
 
