@@ -274,7 +274,7 @@ class Tag
         var ex;
 
         try {
-            return Str::friendlyTitle(text, separator, lowercase, replace);
+            return Str::friendly(text, separator, lowercase, replace);
         } catch HelperException, ex {
             throw new Exception(ex->getMessage());
         }
