@@ -272,7 +272,7 @@ class Tag
     ) -> string
     {
         var ex;
-        
+
         try {
             return Str::friendly(text, separator, lowercase, replace);
         } catch HelperException, ex {
