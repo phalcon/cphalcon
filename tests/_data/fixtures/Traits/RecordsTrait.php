@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of the Phalcon Framework.
  *
@@ -10,6 +8,8 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Phalcon\Test\Fixtures\Traits;
 
@@ -65,6 +65,7 @@ trait RecordsTrait
     /**
      * @param InvoicesMigration $migration
      * @param int               $count
+     * @param string            $invId
      * @param int               $custId
      * @param string            $prefix
      * @param int               $pad
@@ -72,6 +73,7 @@ trait RecordsTrait
     private function insertDataInvoices(
         InvoicesMigration $migration,
         int $count,
+        string $invId = null,
         int $custId,
         string $prefix,
         int $pad = 0
@@ -79,7 +81,7 @@ trait RecordsTrait
         $title = uniqid($prefix . '-');
         for ($counter = 1; $counter <= $count; $counter++) {
             $migration->insert(
-                null,
+                $invId,
                 $custId,
                 1,
                 $title,

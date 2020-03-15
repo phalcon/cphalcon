@@ -23,6 +23,8 @@ class OffsetGetCest
      *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-06-01
+     *
+     * @group common
      */
     public function mvcModelRowOffsetGet(DatabaseTester $I)
     {

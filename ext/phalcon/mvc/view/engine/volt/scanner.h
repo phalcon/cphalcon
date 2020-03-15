@@ -23,7 +23,6 @@
 #define PHVOLT_MODE_RAW 0
 #define PHVOLT_MODE_CODE 1
 #define PHVOLT_MODE_COMMENT 2
-#define PHVOLT_MODE_ECHO 4 /* To indicates we're in {{ }} */
 
 #define PHVOLT_T_IGNORE 257
 

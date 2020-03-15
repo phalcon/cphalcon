@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of the Phalcon Framework.
  *
@@ -10,6 +8,8 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Phalcon\Test\Fixtures\Migrations;
 
@@ -108,7 +108,32 @@ create index co_customers_cst_name_first_index
 
     protected function getSqlPgsql(): array
     {
-        return [];
+        return [
+            "
+drop table if exists co_customers;
+            ",
+            "
+create table co_customers
+(
+    cst_id          serial not null constraint co_customers_pk primary key,
+    cst_status_flag smallint   null,
+    cst_name_last   varchar(100) null,
+    cst_name_first  varchar(50)  null
+);
+            ",
+            "
+create index co_customers_cst_status_flag_index
+    on co_customers (cst_status_flag);
+            ",
+            "
+create index co_customers_cst_name_last_index
+    on co_customers (cst_name_last);
+            ",
+            "
+create index co_customers_cst_name_first_index
+    on co_customers (cst_name_first);
+            ",
+        ];
     }
 
     protected function getSqlSqlsrv(): array

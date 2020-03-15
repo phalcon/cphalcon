@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of the Phalcon Framework.
  *
@@ -11,9 +9,12 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Fixtures\Migrations;
 
 use PDO;
+use Phalcon\DataMapper\Pdo\Connection;
 
 /**
  * Class AbstractMigration
@@ -36,11 +37,15 @@ abstract class AbstractMigration
     /**
      * AbstractMigration constructor.
      *
-     * @param PDO|null $connection
+     * @param PDO|Connection|null $connection
      */
-    public function __construct(PDO $connection = null)
+    public function __construct($connection = null)
     {
-        $this->connection = $connection;
+        if ($connection instanceof Connection) {
+            $this->connection = $connection->getAdapter();
+        } else {
+            $this->connection = $connection;
+        }
         $this->clear();
     }
 
@@ -69,13 +74,17 @@ abstract class AbstractMigration
                 ->connection
                 ->getAttribute(PDO::ATTR_DRIVER_NAME)
             ;
-            if ('sqlite' !== $driver) {
+            if ($driver === 'mysql') {
                 $this->connection->exec(
                     'truncate table ' . $this->table . ';'
                 );
-            } else {
+            } elseif ($driver === 'sqlite') {
                 $this->connection->exec(
                     'delete from ' . $this->table . ';'
+                );
+            } else {
+                $this->connection->exec(
+                    'truncate table ' . $this->table . ' cascade;'
                 );
             }
         }
@@ -123,6 +132,16 @@ abstract class AbstractMigration
     public function setConnection(PDO $connection): void
     {
         $this->connection = $connection;
+    }
+
+    /**
+     * Get table name
+     *
+     * @return string
+     */
+    public function getTable(): string
+    {
+        return $this->table;
     }
 
     abstract protected function getSqlMysql(): array;

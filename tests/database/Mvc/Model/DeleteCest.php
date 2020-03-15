@@ -38,32 +38,32 @@ class DeleteCest
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
+     *
+     * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function mvcModelDelete(DatabaseTester $I)
     {
         $I->wantToTest('Mvc\Model - delete()');
 
-        $driver = $I->getDriver();
-
         /**
          * The following tests need to skip sqlite because we will get
          * a General Error 5 database is locked error
          */
-        if ('sqlite' !== $driver) {
-            $title                    = uniqid('inv-');
-            $date                     = date('Y-m-d H:i:s');
-            $invoice                  = new Invoices();
-            $invoice->inv_cst_id      = 2;
-            $invoice->inv_status_flag = 3;
-            $invoice->inv_title       = $title;
-            $invoice->inv_total       = 100.12;
-            $invoice->inv_created_at  = $date;
+        $title                    = uniqid('inv-');
+        $date                     = date('Y-m-d H:i:s');
+        $invoice                  = new Invoices();
+        $invoice->inv_cst_id      = 2;
+        $invoice->inv_status_flag = 3;
+        $invoice->inv_title       = $title;
+        $invoice->inv_total       = 100.12;
+        $invoice->inv_created_at  = $date;
 
-            $result = $invoice->create();
-            $I->assertNotFalse($result);
+        $result = $invoice->create();
+        $I->assertNotFalse($result);
 
-            $result = $invoice->delete();
-            $I->assertTrue($result);
-        }
+        $result = $invoice->delete();
+        $I->assertTrue($result);
     }
 }

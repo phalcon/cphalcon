@@ -1,5 +1,17 @@
 
 
+drop table if exists `complex_default`;
+            
+create table complex_default
+(
+    `id`           int(10) auto_increment primary key,
+    `created`      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    `updated`      TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    `updated_null` TIMESTAMP NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
+);
+            
+
+
 drop table if exists `co_customers`;
             
 create table co_customers
@@ -64,6 +76,37 @@ create table objects
     `obj_name` varchar(100) not null,
     `obj_type` tinyint(3) unsigned not null
 );
+            
+
+
+drop table if exists `co_orders`;
+            
+CREATE TABLE `co_orders` (
+    `ord_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `ord_name` VARCHAR(70) NULL,
+    PRIMARY KEY (`ord_id`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+            
+
+
+drop table if exists private.`co_orders_x_products`;
+            
+CREATE TABLE private.`co_orders_x_products` (
+  `oxp_ord_id` int(10) unsigned NOT NULL,
+  `oxp_prd_id` int(10) unsigned NOT NULL,
+  `oxp_quantity` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`oxp_ord_id`, `oxp_prd_id` )
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+            
+
+
+drop table if exists `co_products`;
+            
+CREATE TABLE `co_products` (
+    `prd_id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+    `prd_name` VARCHAR(70) NULL,
+    PRIMARY KEY (`prd_id`)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
             
 
 

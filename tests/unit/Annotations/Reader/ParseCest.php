@@ -19,6 +19,9 @@ use ReflectionException;
 use UnitTester;
 
 use function dataDir;
+use function str_replace;
+
+use const DIRECTORY_SEPARATOR;
 
 class ParseCest
 {
@@ -49,14 +52,18 @@ class ParseCest
      */
     public function testParseWithInvalidAnnotation(UnitTester $I)
     {
-        $filename    = 'fixtures' . DIRECTORY_SEPARATOR . 'Annotations' . DIRECTORY_SEPARATOR . 'TestInvalid.php';
-        $includeFile = dataDir(str_replace("/", DIRECTORY_SEPARATOR, $filename));
+        $filename    = 'fixtures' . DIRECTORY_SEPARATOR . 'Annotations'
+            . DIRECTORY_SEPARATOR . 'TestInvalid.php';
+        $includeFile = str_replace("/", DIRECTORY_SEPARATOR, dataDir($filename));
 
         $I->seeFileFound($includeFile);
 
         require_once $includeFile;
 
         $file = dataDir($filename);
+
+        //directory based on DIRECTORY_SEPARATOR
+        $file = str_replace("/", DIRECTORY_SEPARATOR, $file);
 
         $I->expectThrowable(
             new Exception('Syntax error, unexpected EOF in ' . $file),

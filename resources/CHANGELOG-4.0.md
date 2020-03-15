@@ -1,11 +1,30 @@
-# [4.0.4](https://github.com/phalcon/cphalcon/releases/tag/v4.0.4) (2020-xx-xx)
+# [4.0.5](https://github.com/phalcon/cphalcon/releases/tag/v4.0.5) (2020-03-07)
 ## Added
 
 ## Changed
 
 ## Fixed
+- Fixed `Phalcon\Db::fetchAll` to correctly return data when `Enum::FETCH_COLUMN` is supplied. [#13321](https://github.com/phalcon/cphalcon/issues/13321)
+- Fixed Postgres NULL values to not be required during model update. [#14862](https://github.com/phalcon/cphalcon/issues/14862)
+- Fixed MySQL alter column when default value contains not only CURRENT_TIMESTAMP [#14880](https://github.com/phalcon/cphalcon/issues/14880)
+- Fixed MySQL default value with ON UPDATE expression [#14887](https://github.com/phalcon/cphalcon/pull/14887)
+- Fixed `Str::dirFromFile()` to replace `.` with `-` to avoid issues with Windows environments [#14858](https://github.com/phalcon/cphalcon/issues/14858)
+
+# [4.0.4](https://github.com/phalcon/cphalcon/releases/tag/v4.0.4) (2020-02-15)
+## Added
+- Added a way to utilize GitHub actions to run database tests against each RDBMS and reworked the testing suite. [#14779](https://github.com/phalcon/cphalcon/issues/14779)
+- Added the latest version of Codeception (v4) and utilized the phalcon4 module. [#14779](https://github.com/phalcon/cphalcon/issues/14779)
+
+## Changed
+- Changed Column 'notNull' definition to make possible create nullable (NULL) columns [#14804](https://github.com/phalcon/cphalcon/pull/14804)
+
+## Fixed
 - Fixed `Phalcon\Db\Adapter\Pdo\Postgresql` to correctly identify `bool` fields instead of treating them as `tinyint` [#14722](https://github.com/phalcon/cphalcon/issues/14722) [@tidytrax](https://github.com/tidytrax)
 - Fixed `Phalcon\Cli\Console` to pass current container to the `Phalcon\Mvc\ModuleDefinitionInterface::registerAutoloaders()` [#14787](https://github.com/phalcon/cphalcon/issues/14787) [@TimurFlush](https://github.com/TimurFlush)
+- Fixed `Phalcon\Db\Dialect\Mysql::createTable()` to create default value with CURRENT_TIMESTAMP ON UPDATE/DELETE [#14797]
+- Fixed `Phalcon\Storage\Adapter\*` to no longer accept the `serializer` option as it was clashing with the factory [#14828](https://github.com/phalcon/cphalcon/pull/14828)
+- Fixed `Phalcon\Http\Request` to return the correct host on an `UnexpectedValueException` [#14763](https://github.com/phalcon/cphalcon/issues/14763)
+- Fixed `Phalcon\Assets\Collection` to initialize `position` to 0 [#14848](https://github.com/phalcon/cphalcon/pull/14848)
 
 # [4.0.3](https://github.com/phalcon/cphalcon/releases/tag/v4.0.3) (2020-01-25)
 ## Added

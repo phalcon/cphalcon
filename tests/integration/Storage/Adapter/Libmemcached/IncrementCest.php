@@ -16,7 +16,7 @@ namespace Phalcon\Test\Integration\Storage\Adapter\Libmemcached;
 use Phalcon\Storage\Adapter\Libmemcached;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\LibmemcachedTrait;
-use UnitTester;
+use IntegrationTester;
 
 use function getOptionsLibmemcached;
 
@@ -30,7 +30,7 @@ class IncrementCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-03-31
      */
-    public function storageAdapterLibmemcachedIncrement(UnitTester $I)
+    public function storageAdapterLibmemcachedIncrement(IntegrationTester $I)
     {
         $I->wantToTest('Storage\Adapter\Libmemcached - increment()');
 

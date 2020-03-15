@@ -32,12 +32,15 @@ class ToArrayCest
 
         /** @var PDO $connection */
         $connection = $I->getConnection();
-        $migration  = new InvoicesMigration($connection);
-        $migration->clear();
+        (new InvoicesMigration($connection));
     }
 
     /**
      * Tests Phalcon\Mvc\Model :: toArray()
+     *
+     * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function mvcModelToArray(DatabaseTester $I)
     {
@@ -47,7 +50,7 @@ class ToArrayCest
         $date  = date('Y-m-d H:i:s');
 
         $data = [
-            'inv_id'          => 4,
+            'inv_id'          => 1,
             'inv_cst_id'      => 5,
             'inv_status_flag' => 2,
             'inv_title'       => $title,
@@ -82,6 +85,10 @@ class ToArrayCest
 
     /**
      * Tests Phalcon\Mvc\Model :: toArray() - column map
+     *
+     * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function mvcModelToArrayColumnMap(DatabaseTester $I)
     {
@@ -128,6 +135,9 @@ class ToArrayCest
      * Tests Phalcon\Mvc\Model :: toArray() - find first columns
      *
      * @issue 1701
+     *
+     * @group mysql
+     * @group sqlite
      */
     public function mvcModelToArrayFindFirstColumns(DatabaseTester $I)
     {

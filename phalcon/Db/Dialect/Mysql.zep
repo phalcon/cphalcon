@@ -41,8 +41,8 @@ class Mysql extends Dialect
         if column->hasDefault() {
             let defaultValue = column->getDefault();
 
-            if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
-                let sql .= " DEFAULT CURRENT_TIMESTAMP";
+            if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") || is_int(defaultValue) || is_float(defaultValue) {
+                let sql .= " DEFAULT " . defaultValue;
             } else {
                 let sql .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
             }
@@ -172,10 +172,14 @@ class Mysql extends Dialect
             if column->hasDefault() {
                 let defaultValue = column->getDefault();
 
-                if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
-                    let columnLine .= " DEFAULT " . defaultValue;
+                if (defaultValue === null) {
+                    let columnLine .= " DEFAULT NULL";
                 } else {
-                    let columnLine .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
+                    if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") || is_int(defaultValue) || is_float(defaultValue) {
+                        let columnLine .= " DEFAULT " . defaultValue;
+                    } else {
+                        let columnLine .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
+                    }
                 }
             }
 
@@ -699,16 +703,16 @@ class Mysql extends Dialect
         if column->hasDefault() {
             let defaultValue = column->getDefault();
 
-            if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
-                let sql .= " DEFAULT CURRENT_TIMESTAMP";
-            } else {
+            if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") || is_int(defaultValue) || is_float(defaultValue) {
+                let sql .= " DEFAULT " . defaultValue;
+            }  else {
                 let sql .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
             }
         }
 
         if column->isNotNull() {
             let sql .= " NOT NULL";
-        }
+        } 
 
         if column->isAutoIncrement() {
             let sql .= " AUTO_INCREMENT";

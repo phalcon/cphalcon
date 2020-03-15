@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Html\Attributes;
 
+use Phalcon\Collection;
+use Phalcon\Html\Attributes;
 use UnitTester;
 
 class ConstructCest
@@ -27,6 +29,8 @@ class ConstructCest
     {
         $I->wantToTest('Html\Attributes - __construct()');
 
-        $I->skipTest('Need implementation');
+        $attributes = new Attributes();
+        $I->assertInstanceOf(Attributes::class, $attributes);
+        $I->assertInstanceOf(Collection::class, $attributes);
     }
 }

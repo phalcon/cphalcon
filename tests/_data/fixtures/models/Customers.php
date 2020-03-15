@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of the Phalcon Framework.
  *
@@ -11,19 +9,19 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Models;
 
 use Phalcon\Mvc\Model;
 
 /**
- * Class Invoices
+ * Class Customers
  *
- * @property int    $inv_id
- * @property int    $inv_cst_id
- * @property int    $inv_status_flag
- * @property string $inv_title
- * @property float  $inv_total
- * @property string $inv_created_at
+ * @property int    $cst_id;
+ * @property int    $cst_status_flag;
+ * @property string $cst_name_last;
+ * @property string $cst_name_first;
  */
 class Customers extends Model
 {

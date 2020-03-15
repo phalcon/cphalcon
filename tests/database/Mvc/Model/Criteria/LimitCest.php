@@ -36,6 +36,8 @@ class LimitCest
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
+     *
+     * @group common
      */
     public function mvcModelCriteriaLimit(DatabaseTester $I)
     {
@@ -72,6 +74,8 @@ class LimitCest
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
+     *
+     * @group common
      */
     public function mvcModelCriteriaLimitOffset(DatabaseTester $I)
     {

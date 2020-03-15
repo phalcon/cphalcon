@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * This file is part of the Phalcon Framework.
  *
@@ -10,6 +8,8 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Phalcon\Test\Fixtures\Migrations;
 
@@ -36,7 +36,7 @@ class ObjectsMigration extends AbstractMigration
 
         $sql = <<<SQL
 insert into objects (obj_id, obj_name, obj_type)
-values ({$id}, "{$name}", "{$type}");
+values ({$id}, '{$name}', '{$type}');
 SQL;
 
         $this->connection->exec($sql);
@@ -79,7 +79,19 @@ create table objects
 
     protected function getSqlPgsql(): array
     {
-        return [];
+        return [
+            "
+drop table if exists objects;
+            ",
+            "
+create table objects
+(
+    obj_id serial not null constraint objects_pk primary key,
+    obj_name varchar(100) not null,
+    obj_type smallint not null
+);
+            "
+        ];
     }
 
     protected function getSqlSqlsrv(): array

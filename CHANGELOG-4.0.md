@@ -1,15 +1,43 @@
-# [4.0.4](https://github.com/phalcon/cphalcon/releases/tag/v4.0.4) (2020-xx-xx)
+# [4.0.6](https://github.com/phalcon/cphalcon/releases/tag/v4.0.5) (2020-xx-xx)
+## Added
+
+## Changed
+- Changed `Volt::convertEncoding` to no longer using `iconv` for a fallback since it causes issues with macOS [#14912](https://github.com/phalcon/cphalcon/issues/14912)
+
+## Fixed
+- Fixed `Phalcon\Mvc\Model\Query\Builder::getPhql` to add single quote between string value on a simple condition. [#14874](https://github.com/phalcon/cphalcon/issues/14874) [@jenovateurs](https://github.com/jenovateurs)
+- Fixed schema manipulation in `Phalcon\Db\Dialect\Mysql`, remove unnecessary `NULL` in column definition, unquote numerical defaults. [#14888](https://github.com/phalcon/cphalcon/pull/14888) [@pfz](https://github.com/pfz)
+- Fixed recognizing language operators inside Volt's echo mode (`{{ ... }}`) [#14476](https://github.com/phalcon/cphalcon/issues/14476)
+- Fixed `Tag::friendlyTitle` to correctly convert titles under MacOS and Windows [#14866](https://github.com/phalcon/cphalcon/issues/14866)
+- Fixed the Volt compiler to no longer parse `cache` fragments and thus searching for the `viewCache` service (deprecated for v4) [#14907](https://github.com/phalcon/cphalcon/issues/14907)
+
+# [4.0.5](https://github.com/phalcon/cphalcon/releases/tag/v4.0.5) (2020-03-07)
+## Added
+
+## Changed
+
+## Fixed
+- Fixed `Phalcon\Db::fetchAll` to correctly return data when `Enum::FETCH_COLUMN` is supplied. [#13321](https://github.com/phalcon/cphalcon/issues/13321)
+- Fixed Postgres NULL values to not be required during model update. [#14862](https://github.com/phalcon/cphalcon/issues/14862)
+- Fixed MySQL alter column when default value contains not only CURRENT_TIMESTAMP [#14880](https://github.com/phalcon/cphalcon/issues/14880)
+- Fixed MySQL default value with ON UPDATE expression [#14887](https://github.com/phalcon/cphalcon/pull/14887)
+- Fixed `Str::dirFromFile()` to replace `.` with `-` to avoid issues with Windows environments [#14858](https://github.com/phalcon/cphalcon/issues/14858)
+
+# [4.0.4](https://github.com/phalcon/cphalcon/releases/tag/v4.0.4) (2020-02-15)
 ## Added
 - Added a way to utilize GitHub actions to run database tests against each RDBMS and reworked the testing suite. [#14779](https://github.com/phalcon/cphalcon/issues/14779)
 - Added the latest version of Codeception (v4) and utilized the phalcon4 module. [#14779](https://github.com/phalcon/cphalcon/issues/14779)
 
 ## Changed
-- Changed `Phalcon\Http\Cookie`. Removed cookie binding to session [#11770](https://github.com/phalcon/cphalcon/issues/11770)
+- Changed Column 'notNull' definition to make possible create nullable (NULL) columns [#14804](https://github.com/phalcon/cphalcon/pull/14804)
 
 ## Fixed
 - Fixed `Phalcon\Db\Adapter\Pdo\Postgresql` to correctly identify `bool` fields instead of treating them as `tinyint` [#14722](https://github.com/phalcon/cphalcon/issues/14722) [@tidytrax](https://github.com/tidytrax)
 - Fixed `Phalcon\Cli\Console` to pass current container to the `Phalcon\Mvc\ModuleDefinitionInterface::registerAutoloaders()` [#14787](https://github.com/phalcon/cphalcon/issues/14787) [@TimurFlush](https://github.com/TimurFlush)
 - Fixed `Phalcon\Db\Dialect\Mysql::createTable()` to create default value with CURRENT_TIMESTAMP ON UPDATE/DELETE [#14797]
+- Fixed `Phalcon\Storage\Adapter\*` to no longer accept the `serializer` option as it was clashing with the factory [#14828](https://github.com/phalcon/cphalcon/pull/14828)
+- Fixed `Phalcon\Http\Request` to return the correct host on an `UnexpectedValueException` [#14763](https://github.com/phalcon/cphalcon/issues/14763)
+- Fixed `Phalcon\Assets\Collection` to initialize `position` to 0 [#14848](https://github.com/phalcon/cphalcon/pull/14848)
 
 # [4.0.3](https://github.com/phalcon/cphalcon/releases/tag/v4.0.3) (2020-01-25)
 ## Added
@@ -68,7 +96,7 @@
 - Fixed `Phalcon\Mvc\Model` to ignore internal setters if properties have the same name as the setter [#14538](https://github.com/phalcon/cphalcon/issues/14538)
 - Fixed `Phalcon\Logger\Formatter\Line` to not add `PHP_EOL` at the end of the message and added it to the `Phalcon\Logger\Adapter\Stream` [#14547](https://github.com/phalcon/cphalcon/issues/14547)
 - Fixed `Phalcon\Mvc\Model\MetaData\Apcu` and `Phalcon\Mvc\Model\MetaData\Redis` to allow setting the `prefix` and `lifetime` using the options or use the default. [#14549](https://github.com/phalcon/cphalcon/issues/14549)
-- Fixed `Phalcon\Storage\Adapter\AbstractAdapter`, `Phalcon\Storage\Adapter\AbstractInterface` getters to contain a default value 
+- Fixed `Phalcon\Storage\Adapter\AbstractAdapter`, `Phalcon\Storage\Adapter\AbstractInterface` getters to contain a default value
 - Fixed `Phalcon\Storage\Adapter\Memory` initializing the array store correctly [#14551](https://github.com/phalcon/cphalcon/issues/14551)
 - Fixed `Phalcon\Storage\Adapter\Stream` to capture notice if the stream is not opened properly [#14551](https://github.com/phalcon/cphalcon/issues/14551)
 - Fixed `Phalcon\Security::getRandomBytes` to return `int` [#14551](https://github.com/phalcon/cphalcon/issues/14551)
@@ -144,8 +172,8 @@
 - Fixed `Phalcon\Annotations\Adapter\Stream::read` and `Phalcon\Annotations\Adapter\Stream::write` to use `serialize`/`unserialize` vs. `var_export` [#14515](https://github.com/phalcon/cphalcon/issues/14515)
 - Fixed `Phalcon\Http\Request::hasFiles` to return boolean and `true` if files are present [#14519](https://github.com/phalcon/cphalcon/issues/14519)
 - Fixed `Phalcon\Logger\Adapter\Syslog` to correctly log Syslog messages [#14522](https://github.com/phalcon/cphalcon/issues/14522)
-- Fixed `Phalcon\Mvc\Model\MetaDataInterface::getIdentityField` and `Phalcon\Mvc\Model\MetaData::getIdentityField` to also return `null` if the identity field is not present [#14523](https://github.com/phalcon/cphalcon/issues/14523) 
-- Fixed `Phalcon\Storage\Serializer\Json` to serialize objects that implement the `JsonSerializable` interface [#14528](https://github.com/phalcon/cphalcon/issues/14528) 
+- Fixed `Phalcon\Mvc\Model\MetaDataInterface::getIdentityField` and `Phalcon\Mvc\Model\MetaData::getIdentityField` to also return `null` if the identity field is not present [#14523](https://github.com/phalcon/cphalcon/issues/14523)
+- Fixed `Phalcon\Storage\Serializer\Json` to serialize objects that implement the `JsonSerializable` interface [#14528](https://github.com/phalcon/cphalcon/issues/14528)
 - Fixed `Phalcon\Collection` to correctly return one level nested objects that implement `JsonSerializable` [#14528](https://github.com/phalcon/cphalcon/issues/14528)
 - Fixed `Phalcon\Mvc\View` to only include first found instance of view when using multiple view directories [#12977](https://github.com/phalcon/cphalcon/issues/12977)
 
@@ -177,9 +205,9 @@
 - Fixed `Phalcon\Filter\FilterFactory::newInstance()` to return `FilterInterface` instead of non existing `LocatorInterface` [#14414](https://github.com/phalcon/cphalcon/pull/14414)
 - Fixed `Phalcon\Forms\Element\Select::addOption()` and `Phalcon\Forms\Element\Select::setOption()` to return `ElementInterface` instead of non existing Element [#14414](https://github.com/phalcon/cphalcon/pull/14414)
 - Fixed `Phalcon\Forms\Manager::set()` to return `Manager` instead of non existing `FormManager` [#14414](https://github.com/phalcon/cphalcon/pull/14414)
-- Fixed 
- - `Phalcon\Paginator\Adapter\AbstractAdapter::setCurrentPage()` 
- - `Phalcon\Paginator\Adapter\AbstractAdapter::setLimit()` 
+- Fixed
+ - `Phalcon\Paginator\Adapter\AbstractAdapter::setCurrentPage()`
+ - `Phalcon\Paginator\Adapter\AbstractAdapter::setLimit()`
  - `Phalcon\Paginator\Adapter\AbstractAdapter::setRepository()` to return `AdapterInterface` instead of non existing `Adapter` [#14414](https://github.com/phalcon/cphalcon/pull/14414)
 - Fixed `Phalcon\Translate\TranslateFactory::set()` to return `AdapterInterface` instead of non existing `AbstractAdapter` [#14414](https://github.com/phalcon/cphalcon/pull/14414)
 - Fixed `Phalcon\Filter` to properly work with closures [#14417](https://github.com/phalcon/cphalcon/issues/14417)

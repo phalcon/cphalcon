@@ -35,7 +35,6 @@ class SessionCest
         $this->newDi();
         $this->setDiService('escaper');
         $this->setDiService('sessionStream');
-        ;
 
         if (PHP_SESSION_ACTIVE !== session_status()) {
             session_start();

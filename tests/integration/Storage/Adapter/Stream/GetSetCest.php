@@ -16,7 +16,8 @@ namespace Phalcon\Test\Integration\Storage\Adapter\Stream;
 use Phalcon\Storage\Adapter\Stream;
 use Phalcon\Storage\Exception;
 use Phalcon\Storage\SerializerFactory;
-use UnitTester;
+use stdClass;
+use IntegrationTester;
 
 use function file_put_contents;
 use function is_dir;
@@ -34,16 +35,16 @@ class GetSetCest
      *
      * @author Phalcon Team <team@phalcon.io>
      */
-    public function storageAdapterStreamSet(UnitTester $I)
+    public function storageAdapterStreamSet(IntegrationTester $I)
     {
         $I->wantToTest('Storage\Adapter\Stream - set()');
 
         $serializer = new SerializerFactory();
-
-        $adapter = new Stream(
+        $storageDir = outputDir() . 'tests/stream/';
+        $adapter    = new Stream(
             $serializer,
             [
-                'storageDir' => outputDir(),
+                'storageDir' => $storageDir,
             ]
         );
 
@@ -51,13 +52,48 @@ class GetSetCest
         $result = $adapter->set('test-key', $data);
         $I->assertTrue($result);
 
-        $target = outputDir() . 'ph-strm/te/st/-k/';
+        $target = $storageDir . 'ph-strm/te/st/-k/';
         $I->amInPath($target);
         $I->openFile('test-key');
         $expected = 's:3:"ttl";i:3600;s:7:"content";s:25:"s:17:"Phalcon Framework";";}';
 
         $I->seeInThisFile($expected);
         $I->safeDeleteFile($target . 'test-key');
+    }
+
+    /**
+     * Tests Phalcon\Storage\Adapter\Stream :: set()
+     *
+     * @throws Exception
+     * @since  2020-02-25
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     */
+    public function storageAdapterStreamSetWithDots(IntegrationTester $I)
+    {
+        $I->wantToTest('Storage\Adapter\Stream - set()');
+
+        $serializer = new SerializerFactory();
+        $storageDir = outputDir() . 'tests/stream/';
+        $adapter    = new Stream(
+            $serializer,
+            [
+                'storageDir' => $storageDir,
+            ]
+        );
+
+        $data     = 'Phalcon Framework';
+        $filename = 'index.12321321.cache.html';
+        $result   = $adapter->set($filename, $data, 30);
+        $I->assertTrue($result);
+
+        $target = $storageDir . 'ph-strm/in/de/x-/12/32/13/21/-c/ac/';
+        $I->amInPath($target);
+        $I->openFile($filename);
+        $expected = 's:3:"ttl";i:30;s:7:"content";s:25:"s:17:"Phalcon Framework";";}';
+
+        $I->seeInThisFile($expected);
+        $I->safeDeleteFile($target . $filename);
     }
 
     /**
@@ -68,20 +104,20 @@ class GetSetCest
      *
      * @author Phalcon Team <team@phalcon.io>
      */
-    public function storageAdapterStreamGet(UnitTester $I)
+    public function storageAdapterStreamGet(IntegrationTester $I)
     {
         $I->wantToTest('Storage\Adapter\Stream - get()');
 
         $serializer = new SerializerFactory();
-
-        $adapter = new Stream(
+        $storageDir = outputDir() . 'tests/stream/';
+        $adapter    = new Stream(
             $serializer,
             [
-                'storageDir' => outputDir(),
+                'storageDir' => $storageDir,
             ]
         );
 
-        $target = outputDir() . 'ph-strm/te/st/-k/';
+        $target = $storageDir . 'ph-strm/te/st/-k/';
         $data   = 'Phalcon Framework';
 
         $I->assertTrue(
@@ -93,7 +129,7 @@ class GetSetCest
         $I->assertNotNull($actual);
         $I->assertEquals($expected, $actual);
 
-        $expected        = new \stdClass();
+        $expected        = new stdClass();
         $expected->one   = 'two';
         $expected->three = 'four';
 
@@ -113,20 +149,20 @@ class GetSetCest
      *
      * @author Phalcon Team <team@phalcon.io>
      */
-    public function storageAdapterStreamGetErrors(UnitTester $I)
+    public function storageAdapterStreamGetErrors(IntegrationTester $I)
     {
         $I->wantToTest('Storage\Adapter\Stream - get() - errors');
 
         $serializer = new SerializerFactory();
-
-        $adapter = new Stream(
+        $storageDir = outputDir() . 'tests/stream/';
+        $adapter    = new Stream(
             $serializer,
             [
-                'storageDir' => outputDir(),
+                'storageDir' => $storageDir,
             ]
         );
 
-        $target = outputDir() . 'ph-strm/te/st/-k/';
+        $target = $storageDir . 'ph-strm/te/st/-k/';
         if (true !== is_dir($target)) {
             mkdir($target, 0777, true);
         }

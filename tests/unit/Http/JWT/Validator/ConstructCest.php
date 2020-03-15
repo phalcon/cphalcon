@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\JWT\Validator;
 
-use Phalcon\Http\JWT\Validator;
+use Phalcon\Security\JWT\Validator;
 use Phalcon\Test\Fixtures\Traits\JWTTrait;
 use UnitTester;
 
@@ -20,7 +20,7 @@ class ConstructCest
     use JWTTrait;
 
     /**
-     * Unit Tests Phalcon\Http\JWT\Validator :: __construct()
+     * Unit Tests Phalcon\Security\JWT\Validator :: __construct()
      *
      * @since  2019-12-22
      */

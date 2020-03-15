@@ -16,6 +16,11 @@ namespace Phalcon\Test\Unit\Filter\Filter;
 use Phalcon\Filter\FilterFactory;
 use UnitTester;
 
+use function restore_error_handler;
+use function set_error_handler;
+
+use const E_USER_NOTICE;
+
 class SanitizeMultipleCest
 {
     /**
@@ -89,5 +94,46 @@ class SanitizeMultipleCest
         $expected = '-had-a-little-lamb';
         $actual   = $filter->sanitize($value, $filters);
         $I->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Tests sanitizing array with multiple filters and one not existing
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-02-22
+     */
+    public function filterFilterSanitizeWithMultipleFiltersNotExisting(UnitTester $I)
+    {
+        $locator = new FilterFactory();
+        $filter  = $locator->newInstance();
+
+        $value    = '  mary had a little lamb ';
+        $filters  = [
+            'trim',
+            'something',
+        ];
+        $expected = 'had a little lamb';
+
+        $error = [];
+        set_error_handler(
+            function ($number, $message, $file, $line, $context) use (&$error) {
+                $error = [
+                    'number'  => $number,
+                    'message' => $message,
+                    'file'    => $file,
+                    'line'    => $line,
+                    'context' => $context,
+                ];
+            }
+        );
+
+        $actual = $filter->sanitize($value, $filters);
+        restore_error_handler();
+
+        $I->assertEquals(E_USER_NOTICE, $error['number']);
+        $I->assertEquals(
+            "Sanitizer 'something' is not registered",
+            $error['message']
+        );
     }
 }

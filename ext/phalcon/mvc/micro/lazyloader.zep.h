@@ -3,6 +3,7 @@ extern zend_class_entry *phalcon_mvc_micro_lazyloader_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Micro_LazyLoader);
 
+PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, getHandler);
 PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, getDefinition);
 PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __construct);
 PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, callMethod);
@@ -26,6 +27,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_micro_lazyloader_callmethod, 0, 0, 2)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_mvc_micro_lazyloader_method_entry) {
+	PHP_ME(Phalcon_Mvc_Micro_LazyLoader, getHandler, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Micro_LazyLoader, getDefinition, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Micro_LazyLoader, __construct, arginfo_phalcon_mvc_micro_lazyloader___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Mvc_Micro_LazyLoader, callMethod, arginfo_phalcon_mvc_micro_lazyloader_callmethod, ZEND_ACC_PUBLIC)

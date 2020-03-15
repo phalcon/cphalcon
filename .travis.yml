@@ -42,7 +42,7 @@ services:
 env:
   global:
     - CC="gcc"
-    - ZEPHIR_VERSION="0.12.16"
+    - ZEPHIR_VERSION="0.12.17"
     - ZEPHIR_PARSER_VERSION="v1.3.2"
     - REPORT_COVERAGE=0
     - PATH="${HOME}/.composer/vendor/bin:${PATH}"

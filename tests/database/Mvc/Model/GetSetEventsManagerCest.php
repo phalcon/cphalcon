@@ -35,8 +35,7 @@ class GetSetEventsManagerCest
 
         /** @var PDO $connection */
         $connection = $I->getConnection();
-        $migration  = new InvoicesMigration($connection);
-        $migration->clear();
+        (new InvoicesMigration($connection));
     }
 
     /**
@@ -44,6 +43,10 @@ class GetSetEventsManagerCest
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
+     *
+     * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function mvcModelGetEventsManager(DatabaseTester $I)
     {

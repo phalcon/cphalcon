@@ -126,7 +126,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_AbstractFormatter, interpolate) {
 	if (_0) {
 		ZEPHIR_INIT_VAR(&replace);
 		array_init(&replace);
-		zephir_is_iterable(context, 0, "/home/nikos/Work/phalcon/cphalcon/phalcon/Logger/Formatter/AbstractFormatter.zep", 46);
+		zephir_is_iterable(context, 0, "phalcon/Logger/Formatter/AbstractFormatter.zep", 46);
 		if (Z_TYPE_P(context) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(context), _3$$3, _4$$3, _1$$3)
 			{
@@ -192,7 +192,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_AbstractFormatter, getFormattedDate) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_CALL_FUNCTION(&timezone, "date_default_timezone_get", NULL, 107);
+	ZEPHIR_CALL_FUNCTION(&timezone, "date_default_timezone_get", NULL, 109);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&date);
 	object_init_ex(&date, zephir_get_internal_ce(SL("datetimeimmutable")));

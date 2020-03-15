@@ -32,51 +32,54 @@ class GetSetQueryBuilderCest
 
         /** @var PDO $connection */
         $connection = $I->getConnection();
-        $migration  = new InvoicesMigration($connection);
-        $migration->clear();
+        (new InvoicesMigration($connection));
     }
 
     /**
      * Tests Phalcon\Paginator\Adapter\QueryBuilder :: getQueryBuilder() /
      * setQueryBuilder()
+     *
+     * @group mysql
+     * @group sqlite
+     * @group pgsql
      */
     public function paginatorAdapterQuerybuilderGetSetQueryBuilder(DatabaseTester $I)
     {
         $I->wantToTest('Paginator\Adapter\QueryBuilder - getQueryBuilder() / setQueryBuilder()');
 
-        if ('sqlite' !== $I->getDriver()) {
-            /** @var PDO $connection */
-            $connection = $I->getConnection();
-            $migration  = new InvoicesMigration($connection);
-            $this->insertDataInvoices($migration, 17, 2, 'ccc');
-            $this->insertDataInvoices($migration, 15, 2, 'bbb');
+        /** @var PDO $connection */
+        $connection = $I->getConnection();
+        $migration  = new InvoicesMigration($connection);
+        $invId = ('sqlite' === $I->getDriver()) ? 'null' : 'default';
 
-            $manager  = $this->getService('modelsManager');
-            $builder1 = $manager
-                ->createBuilder()
-                ->from(Invoices::class)
-            ;
+        $this->insertDataInvoices($migration, 17, $invId, 2, 'ccc');
+        $this->insertDataInvoices($migration, 15, $invId, 2, 'bbb');
 
-            $paginator = new QueryBuilder(
-                [
-                    'builder' => $builder1,
-                    'limit'   => 5,
-                    'page'    => 1,
-                ]
-            );
+        $manager  = $this->getService('modelsManager');
+        $builder1 = $manager
+            ->createBuilder()
+            ->from(Invoices::class)
+        ;
 
-            $I->assertEquals($builder1, $paginator->getQueryBuilder());
+        $paginator = new QueryBuilder(
+            [
+                'builder' => $builder1,
+                'limit'   => 5,
+                'page'    => 1,
+            ]
+        );
 
-            $builder2 = $manager
-                ->createBuilder()
-                ->from(Invoices::class)
-                ->where('inv_cst_id = :custId:', ['custId' => 2])
-            ;
+        $I->assertEquals($builder1, $paginator->getQueryBuilder());
 
-            $result = $paginator->setQueryBuilder($builder2);
+        $builder2 = $manager
+            ->createBuilder()
+            ->from(Invoices::class)
+            ->where('inv_cst_id = :custId:', ['custId' => 2])
+        ;
 
-            $I->assertEquals($builder2, $paginator->getQueryBuilder());
-            $I->assertEquals($paginator, $result);
-        }
+        $result = $paginator->setQueryBuilder($builder2);
+
+        $I->assertEquals($builder2, $paginator->getQueryBuilder());
+        $I->assertEquals($paginator, $result);
     }
 }

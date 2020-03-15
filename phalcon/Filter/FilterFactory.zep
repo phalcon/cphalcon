@@ -28,27 +28,27 @@ class FilterFactory
     protected function getAdapters() -> array
     {
         return [
-            "absint"      : "Phalcon\\Filter\\Sanitize\\AbsInt",
-            "alnum"       : "Phalcon\\Filter\\Sanitize\\Alnum",
-            "alpha"       : "Phalcon\\Filter\\Sanitize\\Alpha",
-            "bool"        : "Phalcon\\Filter\\Sanitize\\BoolVal",
-            "email"       : "Phalcon\\Filter\\Sanitize\\Email",
-            "float"       : "Phalcon\\Filter\\Sanitize\\FloatVal",
-            "int"         : "Phalcon\\Filter\\Sanitize\\IntVal",
-            "lower"       : "Phalcon\\Filter\\Sanitize\\Lower",
-            "lowerFirst"  : "Phalcon\\Filter\\Sanitize\\LowerFirst",
-            "regex"       : "Phalcon\\Filter\\Sanitize\\Regex",
-            "remove"      : "Phalcon\\Filter\\Sanitize\\Remove",
-            "replace"     : "Phalcon\\Filter\\Sanitize\\Replace",
-            "special"     : "Phalcon\\Filter\\Sanitize\\Special",
-            "specialFull" : "Phalcon\\Filter\\Sanitize\\SpecialFull",
-            "string"      : "Phalcon\\Filter\\Sanitize\\StringVal",
-            "striptags"   : "Phalcon\\Filter\\Sanitize\\Striptags",
-            "trim"        : "Phalcon\\Filter\\Sanitize\\Trim",
-            "upper"       : "Phalcon\\Filter\\Sanitize\\Upper",
-            "upperFirst"  : "Phalcon\\Filter\\Sanitize\\UpperFirst",
-            "upperWords"  : "Phalcon\\Filter\\Sanitize\\UpperWords",
-            "url"         : "Phalcon\\Filter\\Sanitize\\Url"
+            Filter::FILTER_ABSINT     : "Phalcon\\Filter\\Sanitize\\AbsInt",
+            Filter::FILTER_ALNUM      : "Phalcon\\Filter\\Sanitize\\Alnum",
+            Filter::FILTER_ALPHA      : "Phalcon\\Filter\\Sanitize\\Alpha",
+            Filter::FILTER_BOOL       : "Phalcon\\Filter\\Sanitize\\BoolVal",
+            Filter::FILTER_EMAIL      : "Phalcon\\Filter\\Sanitize\\Email",
+            Filter::FILTER_FLOAT      : "Phalcon\\Filter\\Sanitize\\FloatVal",
+            Filter::FILTER_INT        : "Phalcon\\Filter\\Sanitize\\IntVal",
+            Filter::FILTER_LOWER      : "Phalcon\\Filter\\Sanitize\\Lower",
+            Filter::FILTER_LOWERFIRST : "Phalcon\\Filter\\Sanitize\\LowerFirst",
+            Filter::FILTER_REGEX      : "Phalcon\\Filter\\Sanitize\\Regex",
+            Filter::FILTER_REMOVE     : "Phalcon\\Filter\\Sanitize\\Remove",
+            Filter::FILTER_REPLACE    : "Phalcon\\Filter\\Sanitize\\Replace",
+            Filter::FILTER_SPECIAL    : "Phalcon\\Filter\\Sanitize\\Special",
+            Filter::FILTER_SPECIALFULL: "Phalcon\\Filter\\Sanitize\\SpecialFull",
+            Filter::FILTER_STRING     : "Phalcon\\Filter\\Sanitize\\StringVal",
+            Filter::FILTER_STRIPTAGS  : "Phalcon\\Filter\\Sanitize\\Striptags",
+            Filter::FILTER_TRIM       : "Phalcon\\Filter\\Sanitize\\Trim",
+            Filter::FILTER_UPPER      : "Phalcon\\Filter\\Sanitize\\Upper",
+            Filter::FILTER_UPPERFIRST : "Phalcon\\Filter\\Sanitize\\UpperFirst",
+            Filter::FILTER_UPPERWORDS : "Phalcon\\Filter\\Sanitize\\UpperWords",
+            Filter::FILTER_URL        : "Phalcon\\Filter\\Sanitize\\Url"
         ];
     }
 }

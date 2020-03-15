@@ -15,7 +15,7 @@ namespace Phalcon\Test\Integration\Cache\Adapter\Stream;
 
 use Phalcon\Cache\Adapter\Stream;
 use Phalcon\Storage\SerializerFactory;
-use UnitTester;
+use IntegrationTester;
 
 use function outputDir;
 use function uniqid;
@@ -28,7 +28,7 @@ class ClearCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-03-31
      */
-    public function cacheAdapterStreamClear(UnitTester $I)
+    public function cacheAdapterStreamClear(IntegrationTester $I)
     {
         $I->wantToTest('Cache\Adapter\Stream - clear()');
         $serializer = new SerializerFactory();
@@ -60,7 +60,7 @@ class ClearCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-03-31
      */
-    public function cacheAdapterStreamClearTwice(UnitTester $I)
+    public function cacheAdapterStreamClearTwice(IntegrationTester $I)
     {
         $I->wantToTest('Cache\Adapter\Stream - clear() - twice');
         $serializer = new SerializerFactory();

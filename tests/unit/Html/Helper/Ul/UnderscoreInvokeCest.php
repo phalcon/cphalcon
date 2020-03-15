@@ -19,6 +19,8 @@ use Phalcon\Html\Helper\Ul;
 use Phalcon\Html\TagFactory;
 use UnitTester;
 
+use const PHP_EOL;
+
 class UnderscoreInvokeCest
 {
     /**
@@ -94,12 +96,12 @@ class UnderscoreInvokeCest
                         false,
                     ],
                 ],
-                'result'     => "<ul id=\"carsList\">
-    <li class=\"active\">&gt; Ferrari</li>
-    <li>&gt; Ford</li>
-    <li>&gt; Dodge</li>
-    <li>&gt; Toyota</li>
-</ul>",
+                'result'     => "<ul id=\"carsList\">" . PHP_EOL .
+                    "    <li class=\"active\">&gt; Ferrari</li>" . PHP_EOL .
+                    "    <li>&gt; Ford</li>" . PHP_EOL .
+                    "    <li>&gt; Dodge</li>" . PHP_EOL .
+                    "    <li>&gt; Toyota</li>" . PHP_EOL .
+                    "</ul>",
             ],
             [
                 'message'    => 'raw',
@@ -128,12 +130,12 @@ class UnderscoreInvokeCest
                         false,
                     ],
                 ],
-                'result'     => "<ul id=\"carsList\">
-    <li class=\"active\">&gt; Ferrari</li>
-    <li>&gt; Ford</li>
-    <li>&gt; Dodge</li>
-    <li>&gt; Toyota</li>
-</ul>",
+                'result'     => "<ul id=\"carsList\">" . PHP_EOL .
+                    "    <li class=\"active\">&gt; Ferrari</li>" . PHP_EOL .
+                    "    <li>&gt; Ford</li>" . PHP_EOL .
+                    "    <li>&gt; Dodge</li>" . PHP_EOL .
+                    "    <li>&gt; Toyota</li>" . PHP_EOL .
+                    "</ul>",
             ],
             [
                 'message'    => 'indent and delimiter',
@@ -192,12 +194,12 @@ class UnderscoreInvokeCest
                         true,
                     ],
                 ],
-                'result'     => "<ul id=\"carsList\">
-    <li class=\"active\">> Ferrari</li>
-    <li>> Ford</li>
-    <li>> Dodge</li>
-    <li>> Toyota</li>
-</ul>",
+                'result'     => "<ul id=\"carsList\">" . PHP_EOL .
+                    "    <li class=\"active\">> Ferrari</li>" . PHP_EOL .
+                    "    <li>> Ford</li>" . PHP_EOL .
+                    "    <li>> Dodge</li>" . PHP_EOL .
+                    "    <li>> Toyota</li>" . PHP_EOL .
+                    "</ul>",
             ],
             [
                 'message'    => 'raw',
@@ -226,12 +228,12 @@ class UnderscoreInvokeCest
                         true,
                     ],
                 ],
-                'result'     => "<ul id=\"carsList\">
-    <li class=\"active\">> Ferrari</li>
-    <li>> Ford</li>
-    <li>> Dodge</li>
-    <li>> Toyota</li>
-</ul>",
+                'result'     => "<ul id=\"carsList\">" . PHP_EOL .
+                    "    <li class=\"active\">> Ferrari</li>" . PHP_EOL .
+                    "    <li>> Ford</li>" . PHP_EOL .
+                    "    <li>> Dodge</li>" . PHP_EOL .
+                    "    <li>> Toyota</li>" . PHP_EOL .
+                    "</ul>",
             ],
             [
                 'message'    => 'indent and delimiter',

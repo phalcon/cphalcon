@@ -71,7 +71,7 @@ class Collection implements Countable, Iterator
     /**
      * @var int
      */
-    protected position { get };
+    protected position = 0 { get };
 
     /**
      * @var string

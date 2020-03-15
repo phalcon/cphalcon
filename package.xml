@@ -11,11 +11,11 @@
     <email>ruud@ruudboon.io</email>
     <active>yes</active>
   </lead>
-  <date>2020-01-25</date>
-  <time>18:00:00</time>
+  <date>2020-03-07</date>
+  <time>17:00:00</time>
   <version>
-    <release>4.0.3</release>
-    <api>4.0.3</api>
+    <release>4.0.5</release>
+    <api>4.0.5</api>
   </version>
   <stability>
     <release>stable</release>
@@ -25,16 +25,17 @@
   <notes>
     Full changelog can be found at: https://github.com/phalcon/cphalcon/blob/master/CHANGELOG-4.0.md
 
-    # [4.0.3]
+    # [4.0.5]
+    ## Added
+
+    ## Changed
+
     ## Fixed
-    - Fixed `Phalcon\Db\Adapter\Pdo\Mysql` Tinyint(1) is handled as boolean under MySql [#14708](https://github.com/phalcon/cphalcon/issues/14708)
-    - Fixed `Phalcon\Mvc\View\Engine\Volt` to produce the correct order of variables for the `join` filter [#14771](https://github.com/phalcon/cphalcon/issues/14771)
-    - Fixed `Phalcon\Storage\Adapter\Stream::getKeys()` bug in the absence of a directory with a prefix name [#14725](https://github.com/phalcon/cphalcon/issues/14725), [#14721](https://github.com/phalcon/cphalcon/pull/14721)
-    - Fixed `Phalcon\Debug::onUncaughtException` Should accept `\Throwable` instead of `\Exception` as an argument [#14738](https://github.com/phalcon/cphalcon/pull/14738)
-    - Fixed `Phalcon\Validation\ValidatorFactory` Should return Phalcon\Validation\ValidatorInterface [14749](https://github.com/phalcon/cphalcon/pull/14749)
-    - Fixed `Phalcon\Mvc\Model\Binder` to now correctly call `has` and `set` on the cache object [#14743](https://github.com/phalcon/cphalcon/pull/14743)
-    - Fixed `Phalcon\Session\Adapter\Stream` and `Phalcon\Storage\Adapter\Stream` to correctly handle simultaneous read/write [#14694](https://github.com/phalcon/cphalcon/issues/14694)
-    - Fixed `Phalcon\Config\ConfigFactory` to always add the correct extension [#14756](https://github.com/phalcon/cphalcon/issues/14756)
+    - Fixed `Phalcon\Db::fetchAll` to correctly return data when `Enum::FETCH_COLUMN` is supplied. [#13321](https://github.com/phalcon/cphalcon/issues/13321)
+    - Fixed Postgres NULL values to not be required during model update. [#14862](https://github.com/phalcon/cphalcon/issues/14862)
+    - Fixed MySQL alter column when default value contains not only CURRENT_TIMESTAMP [#14880](https://github.com/phalcon/cphalcon/issues/14880)
+    - Fixed MySQL default value with ON UPDATE expression [#14887](https://github.com/phalcon/cphalcon/pull/14887)
+    - Fixed `Str::dirFromFile()` to replace `.` with `-` to avoid issues with Windows environments [#14858](https://github.com/phalcon/cphalcon/issues/14858)
 
   </notes>
   <contents>

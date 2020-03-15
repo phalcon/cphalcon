@@ -36,8 +36,7 @@ class ConstructCest
 
         /** @var PDO $connection */
         $connection = $I->getConnection();
-        $migration  = new InvoicesMigration($connection);
-        $migration->clear();
+        (new InvoicesMigration($connection));
     }
 
     /**
@@ -45,6 +44,10 @@ class ConstructCest
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
+     *
+     * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function paginatorAdapterQuerybuilderConstruct(DatabaseTester $I)
     {
@@ -74,6 +77,10 @@ class ConstructCest
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
+     *
+     * @group mysql
+     * @group pgsql
+     * @group sqlite
      */
     public function paginatorAdapterQuerybuilderConstructException(DatabaseTester $I)
     {

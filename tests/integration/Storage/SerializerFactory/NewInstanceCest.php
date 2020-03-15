@@ -22,7 +22,7 @@ use Phalcon\Storage\Serializer\Msgpack;
 use Phalcon\Storage\Serializer\None;
 use Phalcon\Storage\Serializer\Php;
 use Phalcon\Storage\SerializerFactory;
-use UnitTester;
+use IntegrationTester;
 
 class NewInstanceCest
 {
@@ -36,7 +36,7 @@ class NewInstanceCest
      *
      * @author       Phalcon Team <team@phalcon.io>
      */
-    public function storageSerializerFactoryNewInstance(UnitTester $I, Example $example)
+    public function storageSerializerFactoryNewInstance(IntegrationTester $I, Example $example)
     {
         $I->wantToTest('Storage\SerializerFactory - newInstance() - ' . $example[0]);
 
@@ -57,7 +57,7 @@ class NewInstanceCest
      *
      * @author Phalcon Team <team@phalcon.io>
      */
-    public function storageSerializerFactoryNewInstanceException(UnitTester $I)
+    public function storageSerializerFactoryNewInstanceException(IntegrationTester $I)
     {
         $I->wantToTest('Storage\SerializerFactory - newInstance() - exception');
 

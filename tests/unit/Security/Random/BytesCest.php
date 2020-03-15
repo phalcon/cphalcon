@@ -13,7 +13,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Security\Random;
 
+use Phalcon\Security\Random;
 use UnitTester;
+
+use function strlen;
 
 class BytesCest
 {
@@ -27,6 +30,12 @@ class BytesCest
     {
         $I->wantToTest("Security\Random - bytes()");
 
-        $I->skipTest('Need implementation');
+        $random = new Random();
+
+        $bytes = $random->bytes();
+        $I->assertEquals(16, strlen($bytes));
+
+        $bytes = $random->bytes(32);
+        $I->assertEquals(32, strlen($bytes));
     }
 }

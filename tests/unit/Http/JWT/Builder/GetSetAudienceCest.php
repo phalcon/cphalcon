@@ -11,15 +11,15 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\JWT\Builder;
 
-use Phalcon\Http\JWT\Builder;
-use Phalcon\Http\JWT\Exceptions\ValidatorException;
-use Phalcon\Http\JWT\Signer\Hmac;
+use Phalcon\Security\JWT\Builder;
+use Phalcon\Security\JWT\Exceptions\ValidatorException;
+use Phalcon\Security\JWT\Signer\Hmac;
 use UnitTester;
 
 class GetSetAudienceCest
 {
     /**
-     * Unit Tests Phalcon\Http\JWT\Builder :: getAudience()/setAudience()
+     * Unit Tests Phalcon\Security\JWT\Builder :: getAudience()/setAudience()
      *
      * @since  2019-12-15
      */
@@ -44,7 +44,7 @@ class GetSetAudienceCest
     }
 
     /**
-     * Unit Tests Phalcon\Http\JWT\Builder :: setAudience() - exception
+     * Unit Tests Phalcon\Security\JWT\Builder :: setAudience() - exception
      *
      * @since  2019-12-15
      */

@@ -11,15 +11,15 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\JWT\Token\Token;
 
-use Phalcon\Http\JWT\Token\Item;
-use Phalcon\Http\JWT\Token\Signature;
-use Phalcon\Http\JWT\Token\Token;
+use Phalcon\Security\JWT\Token\Item;
+use Phalcon\Security\JWT\Token\Signature;
+use Phalcon\Security\JWT\Token\Token;
 use UnitTester;
 
 class ConstructCest
 {
     /**
-     * Unit Tests Phalcon\Http\JWT\Token\Token :: __construct()
+     * Unit Tests Phalcon\Security\JWT\Token\Token :: __construct()
      *
      * @since  2019-12-22
      */

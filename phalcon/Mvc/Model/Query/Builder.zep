@@ -687,6 +687,16 @@ class Builder implements BuilderInterface, InjectionAwareInterface
                         let attributeField = firstPrimaryKey;
                     }
 
+                    // check the type of the condition, if it's a string put single quotes around the value
+                    if is_string(conditions) {
+                        /*
+                         * Example : if the developer writes findFirstBy('135'), Phalcon will generate where uuid = 135.
+                         * But the column's type is text so Postgres needs to have single quotes such as ;
+                         * where uuid = '135'.
+                         */
+                        let conditions = "'" . conditions . "'";
+                    }
+
                     let conditions = this->autoescape(model) . "." . this->autoescape(attributeField) . " = " . conditions,
                         noPrimary = false;
                 }

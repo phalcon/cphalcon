@@ -487,8 +487,8 @@ class Postgresql extends PdoAdapter
             /**
              * Check if the column allows null values
              */
-            if field[5] == "NO" {
-                let definition["notNull"] = true;
+            if field[5] == "YES" {
+                let definition["notNull"] = false;
             }
 
             /**

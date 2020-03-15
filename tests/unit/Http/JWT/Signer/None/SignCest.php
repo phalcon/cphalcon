@@ -11,13 +11,13 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\JWT\Signer\None;
 
-use Phalcon\Http\JWT\Signer\None;
+use Phalcon\Security\JWT\Signer\None;
 use UnitTester;
 
 class SignCest
 {
     /**
-     * Unit Tests Phalcon\Http\JWT\Signer\None :: sign()
+     * Unit Tests Phalcon\Security\JWT\Signer\None :: sign()
      *
      * @since  2019-12-22
      */

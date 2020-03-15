@@ -15,6 +15,7 @@ use Phalcon\Escaper\EscaperInterface;
 use Phalcon\Html\Link\Link;
 use Phalcon\Html\Link\Serializer\Header;
 use Phalcon\Helper\Str;
+use Phalcon\Helper\Exception as HelperException;
 use Phalcon\Tag\Select;
 use Phalcon\Tag\Exception;
 use Phalcon\Url\UrlInterface;
@@ -270,29 +271,13 @@ class Tag
         var replace = null
     ) -> string
     {
-        var ex, friendly, locale;
-
-        if extension_loaded("iconv") {
-            /**
-             * Save the old locale and set the new locale to UTF-8
-             */
-            let locale = setlocale(LC_ALL, "en_US.UTF-8"),
-                text = iconv("UTF-8", "ASCII//TRANSLIT", text);
-        }
+        var ex;
 
         try {
-            let friendly = Str::friendly(text, separator, lowercase, replace);
-        } catch \Exception, ex {
+            return Str::friendly(text, separator, lowercase, replace);
+        } catch HelperException, ex {
             throw new Exception(ex->getMessage());
         }
-
-        if extension_loaded("iconv") {
-            /**
-             * Revert back to the old locale
-             */
-            setlocale(LC_ALL, locale);
-        }
-        return friendly;
     }
 
     /**

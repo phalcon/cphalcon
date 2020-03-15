@@ -11,9 +11,4 @@ modules:
         reconnect: true
         waitlock: 10
         initial_queries:
-          - 'DROP SCHEMA public CASCADE;'
-          - 'CREATE SCHEMA public;'
-          - 'REVOKE ALL ON SCHEMA public FROM PUBLIC;'
-          - 'REVOKE ALL ON SCHEMA public FROM %DATA_POSTGRES_USER%;'
-          - 'GRANT ALL ON SCHEMA public TO %DATA_POSTGRES_USER%;'
-          - 'GRANT ALL ON SCHEMA public TO public;'
+          - 'CREATE SCHEMA IF NOT EXISTS private;'

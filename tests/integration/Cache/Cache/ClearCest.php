@@ -16,7 +16,7 @@ namespace Phalcon\Test\Integration\Cache\Cache;
 use Phalcon\Cache;
 use Phalcon\Cache\AdapterFactory;
 use Phalcon\Storage\SerializerFactory;
-use UnitTester;
+use IntegrationTester;
 
 use function uniqid;
 
@@ -28,7 +28,7 @@ class ClearCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-01
      */
-    public function cacheCacheClear(UnitTester $I)
+    public function cacheCacheClear(IntegrationTester $I)
     {
         $I->wantToTest('Cache\Cache - clear()');
 

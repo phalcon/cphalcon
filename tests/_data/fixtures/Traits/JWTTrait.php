@@ -11,10 +11,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Fixtures\Traits;
 
-use Phalcon\Http\JWT\Builder;
-use Phalcon\Http\JWT\Exceptions\ValidatorException;
-use Phalcon\Http\JWT\Signer\Hmac;
-use Phalcon\Http\JWT\Token\Token;
+use Phalcon\Security\JWT\Builder;
+use Phalcon\Security\JWT\Exceptions\ValidatorException;
+use Phalcon\Security\JWT\Signer\Hmac;
+use Phalcon\Security\JWT\Token\Token;
 
 trait JWTTrait
 {

@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Filter;
 
+use Closure;
 use Phalcon\Filter;
 use Phalcon\Test\Fixtures\Service\HelloService;
 use UnitTester;
@@ -59,7 +60,7 @@ class GetSetHasCest
         $actual  = $locator->has('helloFilter');
         $I->assertTrue($actual);
 
-        $class  = \Closure::class;
+        $class  = Closure::class;
         $actual = $locator->get('helloFilter');
         $I->assertInstanceOf($class, $actual);
     }

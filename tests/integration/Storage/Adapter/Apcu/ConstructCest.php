@@ -17,7 +17,7 @@ use Phalcon\Storage\Adapter\AdapterInterface;
 use Phalcon\Storage\Adapter\Apcu;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\ApcuTrait;
-use UnitTester;
+use IntegrationTester;
 
 class ConstructCest
 {
@@ -29,7 +29,7 @@ class ConstructCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-09
      */
-    public function storageAdapterApcuConstruct(UnitTester $I)
+    public function storageAdapterApcuConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Storage\Adapter\Apcu - __construct()');
 

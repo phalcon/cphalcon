@@ -15,7 +15,7 @@ namespace Phalcon\Test\Integration\Storage\Serializer\Base64;
 
 use InvalidArgumentException;
 use Phalcon\Storage\Serializer\Base64;
-use UnitTester;
+use IntegrationTester;
 
 class SerializeCest
 {
@@ -25,7 +25,7 @@ class SerializeCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-03-30
      */
-    public function storageSerializerBase64Serialize(UnitTester $I)
+    public function storageSerializerBase64Serialize(IntegrationTester $I)
     {
         $I->wantToTest('Storage\Serializer\Base64 - serialize()');
 
@@ -44,7 +44,7 @@ class SerializeCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-03-30
      */
-    public function storageSerializerBase64SerializeException(UnitTester $I)
+    public function storageSerializerBase64SerializeException(IntegrationTester $I)
     {
         $I->wantToTest('Storage\Serializer\Base64 - serialize() - exception');
         $I->expectThrowable(
