@@ -130,7 +130,7 @@ class FriendlyCest
                 'separator' => '-',
                 'lowercase' => true,
                 'replace'   => "'",
-                'result'    => 'perch-l-erba-verde',
+                'result'    => 'perche-l-erba-e-verde',
             ],
             [
                 'message'   => 'accented characters replace array',

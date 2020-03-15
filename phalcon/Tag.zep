@@ -15,6 +15,7 @@ use Phalcon\Escaper\EscaperInterface;
 use Phalcon\Html\Link\Link;
 use Phalcon\Html\Link\Serializer\Header;
 use Phalcon\Helper\Str;
+use Phalcon\Helper\Exception as HelperException;
 use Phalcon\Tag\Select;
 use Phalcon\Tag\Exception;
 use Phalcon\Url\UrlInterface;
@@ -270,7 +271,13 @@ class Tag
         var replace = null
     ) -> string
     {
-        return Str::friendly(text, separator, lowercase, replace);
+        var ex;
+        
+        try {
+            return Str::friendly(text, separator, lowercase, replace);
+        } catch HelperException, ex {
+            throw new Exception(ex->getMessage());
+        }
     }
 
     /**
