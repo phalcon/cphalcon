@@ -148,10 +148,10 @@ class SelectUnderscoreInvokeCest
                 'placeholder' => [],
                 'optgroup'    => [],
                 'result'      => "<select id=\"carsList\">" . PHP_EOL .
-                    "<option value=\"1\" class=\"active\">&gt; Ferrari</option>" . PHP_EOL .
-                    "<option value=\"2\">&gt; Ford</option>" . PHP_EOL .
-                    "<option value=\"3\">&gt; Dodge</option>" . PHP_EOL .
-                    "<option value=\"4\">&gt; Toyota</option>" . PHP_EOL .
+                    "    <option value=\"1\" class=\"active\">&gt; Ferrari</option>" . PHP_EOL .
+                    "    <option value=\"2\">&gt; Ford</option>" . PHP_EOL .
+                    "    <option value=\"3\">&gt; Dodge</option>" . PHP_EOL .
+                    "    <option value=\"4\">&gt; Toyota</option>" . PHP_EOL .
                     "</select>",
             ],
             [
@@ -189,10 +189,10 @@ class SelectUnderscoreInvokeCest
                 'placeholder' => [],
                 'optgroup'    => [],
                 'result'      => "<select id=\"carsList\">" . PHP_EOL .
-                    "<option value=\"1\" class=\"active\">> Ferrari</option>" . PHP_EOL .
-                    "<option value=\"2\">> Ford</option>" . PHP_EOL .
-                    "<option value=\"3\">> Dodge</option>" . PHP_EOL .
-                    "<option value=\"4\">> Toyota</option>" . PHP_EOL .
+                    "    <option value=\"1\" class=\"active\">> Ferrari</option>" . PHP_EOL .
+                    "    <option value=\"2\">> Ford</option>" . PHP_EOL .
+                    "    <option value=\"3\">> Dodge</option>" . PHP_EOL .
+                    "    <option value=\"4\">> Toyota</option>" . PHP_EOL .
                     "</select>",
             ],
             [
@@ -235,11 +235,11 @@ class SelectUnderscoreInvokeCest
                 ],
                 'optgroup'    => [],
                 'result'      => "<select id=\"carsList\">" . PHP_EOL .
-                    "<option>Choose &amp; Car...</option>" . PHP_EOL .
-                    "<option class=\"active\">&gt; Ferrari</option>" . PHP_EOL .
-                    "<option>&gt; Ford</option>" . PHP_EOL .
-                    "<option>&gt; Dodge</option>" . PHP_EOL .
-                    "<option>&gt; Toyota</option>" . PHP_EOL .
+                    "    <option>Choose &amp; Car...</option>" . PHP_EOL .
+                    "    <option class=\"active\">&gt; Ferrari</option>" . PHP_EOL .
+                    "    <option>&gt; Ford</option>" . PHP_EOL .
+                    "    <option>&gt; Dodge</option>" . PHP_EOL .
+                    "    <option>&gt; Toyota</option>" . PHP_EOL .
                     "</select>",
             ],
             [
@@ -282,11 +282,11 @@ class SelectUnderscoreInvokeCest
                 ],
                 'optgroup'    => [],
                 'result'      => "<select id=\"carsList\">" . PHP_EOL .
-                    "<option>Choose & Car...</option>" . PHP_EOL .
-                    "<option class=\"active\">> Ferrari</option>" . PHP_EOL .
-                    "<option>> Ford</option>" . PHP_EOL .
-                    "<option>> Dodge</option>" . PHP_EOL .
-                    "<option>> Toyota</option>" . PHP_EOL .
+                    "    <option>Choose & Car...</option>" . PHP_EOL .
+                    "    <option class=\"active\">> Ferrari</option>" . PHP_EOL .
+                    "    <option>> Ford</option>" . PHP_EOL .
+                    "    <option>> Dodge</option>" . PHP_EOL .
+                    "    <option>> Toyota</option>" . PHP_EOL .
                     "</select>",
             ],
             [
@@ -370,12 +370,12 @@ class SelectUnderscoreInvokeCest
                 ],
                 'placeholder' => [],
                 'optgroup'    => [],
-                'result'      => "<select id=\"carsList\">
-    <option class=\"active\">> Ferrari</option>
-    <option>> Ford</option>
-    <option>> Dodge</option>
-    <option>> Toyota</option>
-</select>",
+                'result'      => "<select id=\"carsList\">" . PHP_EOL .
+                    "    <option class=\"active\">> Ferrari</option>" . PHP_EOL .
+                    "    <option>> Ford</option>" . PHP_EOL .
+                    "    <option>> Dodge</option>" . PHP_EOL .
+                    "    <option>> Toyota</option>" . PHP_EOL .
+                    "</select>",
             ],
             [
                 'message'     => 'raw',
@@ -412,10 +412,10 @@ class SelectUnderscoreInvokeCest
                 'placeholder' => [],
                 'optgroup'    => [],
                 'result'      => "<select id=\"carsList\">" . PHP_EOL .
-                    "<option class=\"active\">> Ferrari</option>" . PHP_EOL .
-                    "<option>> Ford</option>" . PHP_EOL .
-                    "<option>> Dodge</option>" . PHP_EOL .
-                    "<option>> Toyota</option>" . PHP_EOL .
+                    "    <option class=\"active\">> Ferrari</option>" . PHP_EOL .
+                    "    <option>> Ford</option>" . PHP_EOL .
+                    "    <option>> Dodge</option>" . PHP_EOL .
+                    "    <option>> Toyota</option>" . PHP_EOL .
                     "</select>",
             ],
             [
@@ -510,13 +510,13 @@ class SelectUnderscoreInvokeCest
                     ],
                 ],
                 'result'      => "<select id=\"carsList\">" . PHP_EOL .
-                    "<optgroup class=\"form-input\" label=\"oneLabel\">" . PHP_EOL .
-                    "<option value=\"0\">Choose & Car...</option>" . PHP_EOL .
-                    "<option value=\"1\" class=\"active\">> Ferrari</option>" . PHP_EOL .
-                    "<option value=\"2\">> Ford</option>" . PHP_EOL .
-                    "<option value=\"3\">> Dodge</option>" . PHP_EOL .
-                    "<option value=\"4\">> Toyota</option>" . PHP_EOL .
-                    "</optgroup>" . PHP_EOL .
+                    "    <optgroup class=\"form-input\" label=\"oneLabel\">" . PHP_EOL .
+                    "        <option value=\"0\">Choose & Car...</option>" . PHP_EOL .
+                    "        <option value=\"1\" class=\"active\">> Ferrari</option>" . PHP_EOL .
+                    "        <option value=\"2\">> Ford</option>" . PHP_EOL .
+                    "        <option value=\"3\">> Dodge</option>" . PHP_EOL .
+                    "        <option value=\"4\">> Toyota</option>" . PHP_EOL .
+                    "    </optgroup>" . PHP_EOL .
                     "</select>",
             ],
             [
@@ -559,11 +559,11 @@ class SelectUnderscoreInvokeCest
                 ],
                 'optgroup'    => [],
                 'result'      => "<select id=\"carsList\">" . PHP_EOL .
-                    "<option value=\"0\">Choose & Car...</option>" . PHP_EOL .
-                    "<option value=\"1\" class=\"active\">> Ferrari</option>" . PHP_EOL .
-                    "<option value=\"2\">> Ford</option>" . PHP_EOL .
-                    "<option value=\"3\" selected=\"selected\">> Dodge</option>" . PHP_EOL .
-                    "<option value=\"4\">> Toyota</option>" . PHP_EOL .
+                    "    <option value=\"0\">Choose & Car...</option>" . PHP_EOL .
+                    "    <option value=\"1\" class=\"active\">> Ferrari</option>" . PHP_EOL .
+                    "    <option value=\"2\">> Ford</option>" . PHP_EOL .
+                    "    <option value=\"3\" selected=\"selected\">> Dodge</option>" . PHP_EOL .
+                    "    <option value=\"4\">> Toyota</option>" . PHP_EOL .
                     "</select>",
             ],
         ];
