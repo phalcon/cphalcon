@@ -15,7 +15,7 @@ namespace Phalcon\Test\Integration\Cache\Adapter\Memory;
 
 use Phalcon\Cache\Adapter\Memory;
 use Phalcon\Storage\SerializerFactory;
-use UnitTester;
+use IntegrationTester;
 
 class IncrementCest
 {
@@ -25,7 +25,7 @@ class IncrementCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-03-31
      */
-    public function cacheAdapterMemoryIncrement(UnitTester $I)
+    public function cacheAdapterMemoryIncrement(IntegrationTester $I)
     {
         $I->wantToTest('Cache\Adapter\Memory - increment()');
 

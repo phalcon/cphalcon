@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Storage\Serializer\None;
 
 use Phalcon\Storage\Serializer\None;
-use UnitTester;
+use IntegrationTester;
 
 class GetDataCest
 {
@@ -24,7 +24,7 @@ class GetDataCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-03-30
      */
-    public function storageSerializerNoneGetData(UnitTester $I)
+    public function storageSerializerNoneGetData(IntegrationTester $I)
     {
         $I->wantToTest('Storage\Serializer\None - getData()');
         $data       = ['Phalcon Framework'];

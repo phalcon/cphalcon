@@ -11,10 +11,10 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Validation\Validator\StringLength;
+namespace Phalcon\Test\Integration\Validation\Validator\StringLength;
 
 use Phalcon\Validation\Validator\StringLength;
-use UnitTester;
+use IntegrationTester;
 
 class GetValidatorsCest
 {
@@ -24,7 +24,7 @@ class GetValidatorsCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-23
      */
-    public function validationValidatorStringLengthGetValidators(UnitTester $I)
+    public function validationValidatorStringLengthGetValidators(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\StringLength - getValidators()');
 

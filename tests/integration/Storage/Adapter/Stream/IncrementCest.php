@@ -16,7 +16,7 @@ namespace Phalcon\Test\Integration\Storage\Adapter\Stream;
 use Phalcon\Storage\Adapter\Stream;
 use Phalcon\Storage\Exception;
 use Phalcon\Storage\SerializerFactory;
-use UnitTester;
+use IntegrationTester;
 
 use function outputDir;
 
@@ -30,7 +30,7 @@ class IncrementCest
      *
      * @author Phalcon Team <team@phalcon.io>
      */
-    public function storageAdapterStreamIncrement(UnitTester $I)
+    public function storageAdapterStreamIncrement(IntegrationTester $I)
     {
         $I->wantToTest('Storage\Adapter\Stream - increment()');
 

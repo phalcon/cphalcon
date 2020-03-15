@@ -18,7 +18,7 @@ use Phalcon\Cache\Adapter\Apcu;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\ApcuTrait;
 use stdClass;
-use UnitTester;
+use IntegrationTester;
 
 class GetSetCest
 {
@@ -32,7 +32,7 @@ class GetSetCest
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2019-03-31
      */
-    public function cacheAdapterApcuGetSet(UnitTester $I, Example $example)
+    public function cacheAdapterApcuGetSet(IntegrationTester $I, Example $example)
     {
         $I->wantToTest('Cache\Adapter\Apcu - get()/set() - ' . $example[0]);
 
