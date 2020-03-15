@@ -360,10 +360,8 @@ PHP_METHOD(Phalcon_Storage_Adapter_Redis, getAdapter) {
 		ZEPHIR_CPY_WRT(&options, &_1$$3);
 		ZEPHIR_INIT_VAR(&connection);
 		object_init_ex(&connection, zephir_get_internal_ce(SL("redis")));
-		if (zephir_has_constructor(&connection)) {
-			ZEPHIR_CALL_METHOD(NULL, &connection, "__construct", NULL, 0);
-			zephir_check_call_status();
-		}
+		ZEPHIR_CALL_METHOD(NULL, &connection, "__construct", NULL, 0);
+		zephir_check_call_status();
 		ZEPHIR_OBS_VAR(&auth);
 		zephir_array_fetch_string(&auth, &options, SL("auth"), PH_NOISY, "phalcon/Storage/Adapter/Redis.zep", 131);
 		ZEPHIR_OBS_VAR(&host);
