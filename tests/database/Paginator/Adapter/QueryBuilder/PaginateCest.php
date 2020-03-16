@@ -17,6 +17,7 @@ use DatabaseTester;
 use Phalcon\Mvc\Model\Criteria;
 use Phalcon\Paginator\Adapter\QueryBuilder;
 use Phalcon\Paginator\Repository;
+use Phalcon\Storage\Exception;
 use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\RecordsTrait;
@@ -174,7 +175,8 @@ class PaginateCest
      * @issue 14639
      *
      * @group mysql
-     * @group sqlite
+     *
+     * @throws Exception
      */
     public function paginatorAdapterQuerybuilderPaginateView(DatabaseTester $I): void
     {
