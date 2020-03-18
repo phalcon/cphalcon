@@ -54,7 +54,7 @@ Function DownloadPhpSrc {
             DownloadFile $RemoteUrl $DestinationPath
         }
 
-        If (-not (Get-Item $DestinationPath).length -gt 0kb) {
+        If (-not (Get-Item $DestinationPath).length -gt 500kb) {
             Write-Output "Downloading PHP Dev pack from archive: ${RemoteArchiveUrl} ..."
             DownloadFile $RemoteArchiveUrl $DestinationPath
         }
@@ -82,7 +82,7 @@ Function InstallPhpDevPack {
             DownloadFile $RemoteUrl $DestinationPath
         }
 
-        If (-not (Get-Item $DestinationPath).length -gt 0kb) {
+        If (-not (Get-Item $DestinationPath).length -gt 500kb) {
             Write-Output "Downloading PHP Dev pack from archive: ${RemoteArchiveUrl} ..."
             DownloadFile $RemoteArchiveUrl $DestinationPath
         }
