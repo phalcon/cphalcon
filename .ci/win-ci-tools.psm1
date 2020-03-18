@@ -45,12 +45,17 @@ Function DownloadPhpSrc {
     Write-Output "Download PHP Src: ${env:PHP_VERSION}"
 
     $RemoteUrl = "http://windows.php.net/downloads/releases/php-${env:PHP_VERSION}-src.zip"
+    $RemoteArchiveUrl = "http://windows.php.net/downloads/releases/archives/php-${env:PHP_VERSION}-src.zip"
     $DestinationPath = "C:\Downloads\php-${env:PHP_VERSION}-src.zip"
 
     If (-not (Test-Path $env:PHP_SRC_PATH)) {
         If (-not [System.IO.File]::Exists($DestinationPath)) {
             Write-Output "Downloading PHP Dev pack: ${RemoteUrl} ..."
             DownloadFile $RemoteUrl $DestinationPath
+        }
+        If (-not [System.IO.File]::Exists($DestinationPath)) {
+            Write-Output "Downloading PHP Dev pack from archive: ${RemoteArchiveUrl} ..."
+            DownloadFile ${RemoteArchiveUrl} $DestinationPath
         }
 
         $DestinationUnzipPath = "${env:Temp}\php-${env:PHP_VERSION}-src"
@@ -67,12 +72,17 @@ Function InstallPhpDevPack {
     Write-Output "Install PHP Dev pack: ${env:PHP_VERSION}"
 
     $RemoteUrl = "http://windows.php.net/downloads/releases/php-devel-pack-${env:PHP_VERSION}-${env:BUILD_TYPE}-vc${env:VC_VERSION}-${env:PHP_ARCH}.zip"
+    $RemoteArchiveUrl = "http://windows.php.net/downloads/releases/archives/php-devel-pack-${env:PHP_VERSION}-${env:BUILD_TYPE}-vc${env:VC_VERSION}-${env:PHP_ARCH}.zip"
     $DestinationPath = "C:\Downloads\php-devel-pack-${env:PHP_VERSION}-${env:BUILD_TYPE}-VC${env:VC_VERSION}-${env:PHP_ARCH}.zip"
 
     If (-not (Test-Path $env:PHP_DEVPACK)) {
         If (-not [System.IO.File]::Exists($DestinationPath)) {
             Write-Output "Downloading PHP Dev pack: ${RemoteUrl} ..."
             DownloadFile $RemoteUrl $DestinationPath
+        }
+        If (-not [System.IO.File]::Exists($DestinationPath)) {
+            Write-Output "Downloading PHP Dev pack from archive: ${RemoteArchiveUrl} ..."
+            DownloadFile $RemoteArchiveUrl $DestinationPath
         }
 
         $DestinationUnzipPath = "${env:Temp}\php-${env:PHP_VERSION}-devel-VC${env:VC_VERSION}-${env:PHP_ARCH}"
