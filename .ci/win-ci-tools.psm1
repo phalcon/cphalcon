@@ -53,6 +53,7 @@ Function DownloadPhpSrc {
             Write-Output "Downloading PHP Dev pack: ${RemoteUrl} ..."
             DownloadFile $RemoteUrl $DestinationPath
         }
+
         If (-not [System.IO.File]::Exists($DestinationPath)) {
             Write-Output "Downloading PHP Dev pack from archive: ${RemoteArchiveUrl} ..."
             DownloadFile $RemoteArchiveUrl $DestinationPath
@@ -80,6 +81,7 @@ Function InstallPhpDevPack {
             Write-Output "Downloading PHP Dev pack: ${RemoteUrl} ..."
             DownloadFile $RemoteUrl $DestinationPath
         }
+        
         If (-not [System.IO.File]::Exists($DestinationPath)) {
             Write-Output "Downloading PHP Dev pack from archive: ${RemoteArchiveUrl} ..."
             DownloadFile $RemoteArchiveUrl $DestinationPath
