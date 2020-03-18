@@ -55,7 +55,7 @@ Function DownloadPhpSrc {
         }
         If (-not [System.IO.File]::Exists($DestinationPath)) {
             Write-Output "Downloading PHP Dev pack from archive: ${RemoteArchiveUrl} ..."
-            DownloadFile ${RemoteArchiveUrl} $DestinationPath
+            DownloadFile $RemoteArchiveUrl $DestinationPath
         }
 
         $DestinationUnzipPath = "${env:Temp}\php-${env:PHP_VERSION}-src"
