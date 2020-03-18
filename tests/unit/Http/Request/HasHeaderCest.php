@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Request;
 
+use Phalcon\Http\Request;
 use Phalcon\Test\Unit\Http\Helper\HttpBase;
 use UnitTester;
 
@@ -26,21 +27,19 @@ class HasHeaderCest extends HttpBase
      */
     public function testHttpRequestCustomHeaderHas(UnitTester $I)
     {
-        $_SERVER['HTTP_FOO']  = 'Bar';
-        $_SERVER['HTTP_AUTH'] = true;
+        $store   = $_SERVER ?? [];
+        $_SERVER = [
+            'HTTP_FOO'     => 'Bar',
+            'HTTP_BLA_BLA' => 'boo',
+            'HTTP_AUTH'    => true,
+        ];
 
-        $request = $this->getRequestObject();
+        $request = new Request();
 
-        $I->assertTrue(
-            $request->hasHeader('HTTP_FOO')
-        );
+        $I->assertTrue($request->hasHeader('HTTP_FOO'));
+        $I->assertTrue($request->hasHeader('AUTH'));
+        $I->assertTrue($request->hasHeader('HTTP_BLA_BLA'));
 
-        $I->assertTrue(
-            $request->hasHeader('AUTH')
-        );
-
-        $I->assertTrue(
-            $request->hasHeader('HTTP_FOO')
-        );
+        $_SERVER = $store;
     }
 }
