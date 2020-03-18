@@ -51,11 +51,12 @@ Function DownloadPhpSrc {
     If (-not (Test-Path $env:PHP_SRC_PATH)) {
         If (-not [System.IO.File]::Exists($DestinationPath)) {
             Write-Output "Downloading PHP Dev pack: ${RemoteUrl} ..."
-            Try {
-                DownloadFile $RemoteUrl $DestinationPath
-            } Catch {
-                DownloadFile $RemoteArchiveUrl $DestinationPath
-            }
+            DownloadFile $RemoteUrl $DestinationPath
+        }
+
+        If (-not [System.IO.File]::Exists($DestinationPath)) {
+            Write-Output "Downloading PHP Dev pack from archive: ${RemoteArchiveUrl} ..."
+            DownloadFile $RemoteArchiveUrl $DestinationPath
         }
 
         $DestinationUnzipPath = "${env:Temp}\php-${env:PHP_VERSION}-src"
@@ -78,11 +79,12 @@ Function InstallPhpDevPack {
     If (-not (Test-Path $env:PHP_DEVPACK)) {
         If (-not [System.IO.File]::Exists($DestinationPath)) {
             Write-Output "Downloading PHP Dev pack: ${RemoteUrl} ..."
-            Try {
-                DownloadFile $RemoteUrl $DestinationPath
-            } Catch {
-                DownloadFile $RemoteArchiveUrl $DestinationPath
-            }
+            DownloadFile $RemoteUrl $DestinationPath
+        }
+
+        If (-not [System.IO.File]::Exists($DestinationPath)) {
+            Write-Output "Downloading PHP Dev pack from archive: ${RemoteArchiveUrl} ..."
+            DownloadFile $RemoteArchiveUrl $DestinationPath
         }
 
         $DestinationUnzipPath = "${env:Temp}\php-${env:PHP_VERSION}-devel-VC${env:VC_VERSION}-${env:PHP_ARCH}"
