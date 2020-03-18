@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Http\Request;
 
 use Codeception\Example;
+use Phalcon\Http\Request;
 use Phalcon\Test\Unit\Http\Helper\HttpBase;
 use UnexpectedValueException;
 use UnitTester;
@@ -25,121 +26,23 @@ class GetHttpHostCest extends HttpBase
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-04
+     *
+     * @dataProvider getExamples
      */
-    public function testHttpRequestHttpHost(UnitTester $I)
+    public function testHttpRequestHttpHost(UnitTester $I, Example $example)
     {
-        $request = $this->getRequestObject();
+        $I->wantToTest('Http\Request - getHttpHost()');
 
-        $this->setServerVar('HTTP_HOST', '');
-        $this->setServerVar('SERVER_NAME', '');
-        $this->setServerVar('SERVER_ADDR', '');
+        $store = $_SERVER ?? [];
+        $_SERVER = $example[0];
 
+        $request = new Request();
 
-        $I->assertInternalType(
-            'string',
-            $request->getHttpHost()
-        );
+        foreach ($example[1] as $expected) {
+            $I->assertEquals($expected, $request->getHttpHost());
+        }
 
-        $I->assertEquals(
-            '',
-            $request->getHttpHost()
-        );
-
-
-        $request = $this->getRequestObject();
-
-        unset(
-            $_SERVER['HTTP_HOST'],
-            $_SERVER['SERVER_NAME'],
-            $_SERVER['SERVER_ADDR']
-        );
-
-        $I->assertEquals(
-            '',
-            $request->getHttpHost()
-        );
-
-
-        $request = $this->getRequestObject();
-
-        $this->setServerVar('SERVER_NAME', 'host@name');
-
-        $I->assertEquals(
-            'host@name',
-            $request->getHttpHost()
-        );
-
-
-        $request = $this->getRequestObject();
-
-        $this->setServerVar('HTTPS', 'off');
-        $this->setServerVar('SERVER_NAME', 'localhost');
-        $this->setServerVar('SERVER_PORT', 80);
-
-        $I->assertEquals(
-            'localhost',
-            $request->getHttpHost()
-        );
-
-
-        $request = $this->getRequestObject();
-
-        $this->setServerVar('HTTPS', 'on');
-        $this->setServerVar('SERVER_NAME', 'localhost');
-        $this->setServerVar('SERVER_PORT', 80);
-
-        $I->assertEquals(
-            'localhost',
-            $request->getHttpHost()
-        );
-
-
-        $request = $this->getRequestObject();
-
-        $this->setServerVar('HTTPS', 'on');
-        $this->setServerVar('SERVER_NAME', 'localhost');
-        $this->setServerVar('SERVER_PORT', 443);
-
-        $I->assertEquals(
-            'localhost',
-            $request->getHttpHost()
-        );
-
-
-        $request = $this->getRequestObject();
-
-        $this->setServerVar('HTTP_HOST', '');
-        $this->setServerVar('SERVER_NAME', '');
-        $this->setServerVar('SERVER_ADDR', '8.8.8.8');
-
-        $I->assertEquals(
-            '8.8.8.8',
-            $request->getHttpHost()
-        );
-
-
-        $request = $this->getRequestObject();
-
-        $this->setServerVar('HTTP_HOST', '');
-        $this->setServerVar('SERVER_NAME', 'some.domain');
-        $this->setServerVar('SERVER_ADDR', '8.8.8.8');
-
-        $I->assertEquals(
-            'some.domain',
-            $request->getHttpHost()
-        );
-
-
-        $request = $this->getRequestObject();
-
-        $this->setServerVar('HTTP_HOST', 'example.com');
-        $this->setServerVar('SERVER_NAME', 'some.domain');
-        $this->setServerVar('SERVER_ADDR', '8.8.8.8');
-
-        $I->assertEquals(
-            'example.com',
-            $request->getHttpHost()
-        );
+        $_SERVER = $store;
     }
 
     /**
@@ -168,6 +71,95 @@ class GetHttpHostCest extends HttpBase
         );
     }
 
+    private function getExamples(): array
+    {
+        return [
+            [
+                [
+                    'HTTP_HOST'   => '',
+                    'SERVER_NAME' => '',
+                    'SERVER_ADDR' => '',
+                ],
+                [
+                    '',
+                ],
+            ],
+            [
+                [
+                    'HTTP_HOST'   => '',
+                    'SERVER_NAME' => 'host@name',
+                    'SERVER_ADDR' => '',
+                ],
+                [
+                    'host@name',
+                ],
+            ],
+            [
+                [
+                    'HTTPS'       => 'off',
+                    'SERVER_NAME' => 'localhost',
+                    'SERVER_PORT' => 80,
+                ],
+                [
+                    'localhost',
+                ],
+            ],
+            [
+                [
+                    'HTTPS'       => 'on',
+                    'SERVER_NAME' => 'localhost',
+                    'SERVER_PORT' => 80,
+                ],
+                [
+                    'localhost',
+                ],
+            ],
+            [
+                [
+                    'HTTPS'       => 'on',
+                    'SERVER_NAME' => 'localhost',
+                    'SERVER_PORT' => 443,
+                ],
+                [
+                    'localhost',
+                ],
+            ],
+            [
+                [
+                    'HTTP_HOST'   => '',
+                    'SERVER_NAME' => '',
+                    'SERVER_ADDR' => '8.8.8.8',
+                ],
+                [
+                    '8.8.8.8',
+                ],
+            ],
+            [
+                [
+                    'HTTP_HOST'   => '',
+                    'SERVER_NAME' => 'some.domain',
+                    'SERVER_ADDR' => '8.8.8.8',
+                ],
+                [
+                    'some.domain',
+                ],
+            ],
+            [
+                [
+                    'HTTP_HOST'   => 'example.com',
+                    'SERVER_NAME' => 'some.domain',
+                    'SERVER_ADDR' => '8.8.8.8',
+                ],
+                [
+                    'example.com',
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @return array|\string[][]
+     */
     private function testInvalidHttpRequestHttpHostProvider(): array
     {
         return [
