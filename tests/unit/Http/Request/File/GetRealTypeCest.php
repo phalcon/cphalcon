@@ -17,6 +17,7 @@ use Phalcon\Http\Request\File;
 use UnitTester;
 
 use function dataDir;
+use function function_exists;
 
 class GetRealTypeCest
 {
@@ -32,6 +33,10 @@ class GetRealTypeCest
     {
         $I->wantToTest('Http\Request\File - getRealType()');
 
+        if (!function_exists('finfo_open')) {
+            $I->skipTest('fileinfo extension missing');
+        }
+        
         $file = new File(
             [
                 'name'     => 'test',
