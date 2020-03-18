@@ -134,4 +134,30 @@ class GetClientAddressCest
 
         $_SERVER = $store;
     }
+
+    /**
+     * Tests Phalcon\Http\Request :: getClientAddress() - ipv6
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-03-17
+     */
+    public function httpRequestGetClientAddressIpv6(UnitTester $I)
+    {
+        $I->wantToTest('Http\Request - getClientAddress() - ipv6');
+
+        $store   = $_SERVER ?? [];
+        $time    = $_SERVER['REQUEST_TIME_FLOAT'];
+        $_SERVER = [
+            'REQUEST_TIME_FLOAT' => $time,
+            'REMOTE_ADDR'        => '2a00:8640:1::224:36ff:feef:1d89',
+        ];
+
+        $request = new Request();
+
+        $expected = '2a00:8640:1::224:36ff:feef:1d89';
+        $actual   = $request->getClientAddress();
+        $I->assertEquals($expected, $actual);
+
+        $_SERVER = $store;
+    }
 }
