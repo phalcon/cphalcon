@@ -50,19 +50,21 @@ Function DownloadPhpSrc {
 
     If (-not (Test-Path $env:PHP_SRC_PATH)) {
         If (-not [System.IO.File]::Exists($DestinationPath)) {
-            Write-Output "Downloading PHP Dev pack: ${RemoteUrl} ..."
+            Write-Output "Downloading PHP pack: ${RemoteUrl} ..."
             DownloadFile $RemoteUrl $DestinationPath
-        }
-
-        If (-not (Get-Item $DestinationPath).length -gt 500kb) {
-            Write-Output "Downloading PHP Dev pack from archive: ${RemoteArchiveUrl} ..."
-            DownloadFile $RemoteArchiveUrl $DestinationPath
         }
 
         $DestinationUnzipPath = "${env:Temp}\php-${env:PHP_VERSION}-src"
 
         If (-not (Test-Path "$DestinationUnzipPath")) {
-            Expand-Item7zip $DestinationPath $env:Temp
+            Try {
+                Expand-Item7zip $DestinationPath $env:Temp
+            } Catch {
+                # if expand fails try alternative download
+                Write-Output "Downloading PHP pack from archive: ${RemoteArchiveUrl} ..."
+                DownloadFile $RemoteArchiveUrl $DestinationPath
+                Expand-Item7zip $DestinationPath $env:Temp
+            }
         }
 
         Move-Item -Path $DestinationUnzipPath -Destination $env:PHP_SRC_PATH
@@ -82,15 +84,17 @@ Function InstallPhpDevPack {
             DownloadFile $RemoteUrl $DestinationPath
         }
 
-        If (-not (Get-Item $DestinationPath).length -gt 500kb) {
-            Write-Output "Downloading PHP Dev pack from archive: ${RemoteArchiveUrl} ..."
-            DownloadFile $RemoteArchiveUrl $DestinationPath
-        }
-
         $DestinationUnzipPath = "${env:Temp}\php-${env:PHP_VERSION}-devel-VC${env:VC_VERSION}-${env:PHP_ARCH}"
 
         If (-not (Test-Path "$DestinationUnzipPath")) {
-            Expand-Item7zip $DestinationPath $env:Temp
+            Try {
+                Expand-Item7zip $DestinationPath $env:Temp
+            } Catch {
+                # if expand fails try alternative download
+                Write-Output "Downloading PHP Dev pack from archive: ${RemoteArchiveUrl} ..."
+                DownloadFile $RemoteArchiveUrl $DestinationPath
+                Expand-Item7zip $DestinationPath $env:Temp
+            }
         }
 
         Move-Item -Path $DestinationUnzipPath -Destination $env:PHP_DEVPACK
