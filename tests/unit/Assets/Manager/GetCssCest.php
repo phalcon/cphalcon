@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Manager;
 
+use Phalcon\Assets\Manager;
 use UnitTester;
 
 class GetCssCest
@@ -21,12 +22,19 @@ class GetCssCest
      * Tests Phalcon\Assets\Manager :: getCss()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-03-19
      */
     public function assetsManagerGetCss(UnitTester $I)
     {
         $I->wantToTest('Assets\Manager - getCss()');
 
-        $I->skipTest('Need implementation');
+        $assets = new Manager();
+
+        $assets->addCss('/css/style2.css');
+        $assets->addCss('/css/style1.css');
+
+        $collection = $assets->getCss();
+
+        $I->assertCount(2, $collection);
     }
 }
