@@ -26,7 +26,7 @@ class CollectionAssetsByTypeCest
      * Tests Phalcon\Assets\Manager :: collectionAssetsByType()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-03-19
      */
     public function assetsManagerCollectionAssetsByType(UnitTester $I)
     {
