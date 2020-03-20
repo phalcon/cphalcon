@@ -1,5 +1,5 @@
 --TEST--
-set - Perform test for equals
+is - Perform test for equals
 --SKIPIF--
 <?php if (!extension_loaded("phalcon")) print "skip extension not loaded"; ?>
 --FILE--

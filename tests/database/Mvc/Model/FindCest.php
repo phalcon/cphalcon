@@ -49,6 +49,7 @@ class FindCest
      * @since  2020-02-01
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function mvcModelFind(DatabaseTester $I)
@@ -76,6 +77,7 @@ class FindCest
      * @since  2020-02-01
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function mvcModelFindWithCache(DatabaseTester $I)

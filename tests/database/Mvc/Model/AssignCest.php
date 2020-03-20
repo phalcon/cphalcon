@@ -42,6 +42,7 @@ class AssignCest
      * @since  2019-04-18
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function mvcModelAssign(DatabaseTester $I)
@@ -100,6 +101,7 @@ class AssignCest
      * @since  2020-01-29
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function mvcModelAssignIncomplete(DatabaseTester $I)
@@ -142,6 +144,7 @@ class AssignCest
      * @since  2020-02-13
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function mvcModelAssignAutoPrimary(DatabaseTester $I)

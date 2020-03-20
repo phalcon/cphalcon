@@ -51,6 +51,7 @@ class FindFirstCest
      * @since  2020-02-01
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function mvcModelFindFirst(DatabaseTester $I)
@@ -95,6 +96,7 @@ class FindFirstCest
      * @since  2020-02-01
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function mvcModelFindFirstNotFound(DatabaseTester $I)
@@ -117,6 +119,7 @@ class FindFirstCest
      * @since  2020-02-01
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function mvcModelFindFirstByNotFound(DatabaseTester $I)
@@ -135,6 +138,7 @@ class FindFirstCest
      * @since  2020-02-01
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function mvcModelFindFirstExtended(DatabaseTester $I)
@@ -167,6 +171,7 @@ class FindFirstCest
      * @since  2020-02-01
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function mvcModelFindFirstException(DatabaseTester $I)
@@ -195,6 +200,7 @@ class FindFirstCest
      * @since        2020-01-27
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function mvcModelFindFirstStringPrimaryKey(DatabaseTester $I, Example $example)
@@ -245,11 +251,11 @@ class FindFirstCest
                 'found'  => false,
             ],
             [
-                'params' => 134,
+                'params' => '134',
                 'found'  => false,
             ],
             [
-                'params' => 'uuid = 134',
+                'params' => "uuid = '134'",
                 'found'  => false,
             ],
         ];

@@ -46,6 +46,7 @@ class GetSetEventsManagerCest
      * @since  2020-02-01
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function mvcModelGetEventsManager(DatabaseTester $I)

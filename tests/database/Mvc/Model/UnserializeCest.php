@@ -46,6 +46,7 @@ class UnserializeCest
      * @since  2020-01-31
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function mvcModelUnserialize(DatabaseTester $I)
@@ -56,7 +57,7 @@ class UnserializeCest
         $date  = date('Y-m-d H:i:s');
 
         $data = [
-            'inv_id'          => 4,
+            'inv_id'          => null,
             'inv_cst_id'      => 5,
             'inv_status_flag' => 2,
             'inv_title'       => $title,

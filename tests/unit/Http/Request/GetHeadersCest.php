@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Request;
 
+use Phalcon\Http\Request;
 use UnitTester;
 
 class GetHeadersCest
@@ -20,13 +21,31 @@ class GetHeadersCest
     /**
      * Tests Phalcon\Http\Request :: getHeaders()
      *
+     * @issue  2294
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2016-10-19
      */
     public function httpRequestGetHeaders(UnitTester $I)
     {
         $I->wantToTest('Http\Request - getHeaders()');
 
-        $I->skipTest('Need implementation');
+        $store   = $_SERVER ?? [];
+        $_SERVER = [
+            'HTTP_FOO'     => 'Bar',
+            'HTTP_BLA_BLA' => 'boo',
+            'HTTP_AUTH'    => true,
+        ];
+
+        $request = new Request();
+
+        $expected = [
+            'Foo'     => 'Bar',
+            'Bla-Bla' => 'boo',
+            'Auth'    => 1,
+        ];
+
+        $I->assertEquals($expected, $request->getHeaders());
+
+        $_SERVER = $store;
     }
 }

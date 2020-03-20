@@ -29,31 +29,54 @@ class ModifyColumnCest
     {
         $I->wantToTest('Db\Adapter\Pdo\Mysql - modifyColumn()');
 
-        $currentColumn = new Column(
-            'updated_at',
+        $modifications = [
             [
-                'type' => Column::TYPE_TIMESTAMP,
-                'default' => "CURRENT_TIMESTAMP",
-                'notNull' => false,
-                'after' => 'created_at'
-            ]
-        );
-
-        $column = new Column(
-            'updated_at',
+                new Column(
+                    'updated_at',
+                    [
+                        'type' => Column::TYPE_TIMESTAMP,
+                        'default' => "CURRENT_TIMESTAMP",
+                        'notNull' => false,
+                        'after' => 'created_at'
+                    ]
+                ), new Column(
+                    'updated_at',
+                    [
+                        'type' => Column::TYPE_TIMESTAMP,
+                        'default' => "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+                        'notNull' => false,
+                        'after' => 'created_at'
+                    ]
+                ),
+                'ALTER TABLE `test` MODIFY `updated_at` TIMESTAMP ' .
+                    'DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP AFTER `created_at`'
+            ],
             [
-                'type' => Column::TYPE_TIMESTAMP,
-                'default' => "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
-                'notNull' => false,
-                'after' => 'created_at'
+                new Column(
+                    'numeric_val',
+                    [
+                        'type' => Column::TYPE_FLOAT,
+                        'notNull' => true,
+                        'after' => 'updated_at'
+                    ]
+                ), new Column(
+                    'numeric_val',
+                    [
+                        'type' => Column::TYPE_FLOAT,
+                        'default' => 21.42,
+                        'notNull' => false,
+                        'after' => 'updated_at'
+                    ]
+                ),
+                'ALTER TABLE `test` MODIFY `numeric_val` FLOAT DEFAULT 21.42 AFTER `updated_at`'
             ]
-        );
+        ];
 
         $mysql = new Mysql();
-        $sql = $mysql->modifyColumn('test', '', $column, $currentColumn);
-        $expected = 'ALTER TABLE `test` MODIFY `updated_at` TIMESTAMP ' .
-            'DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NULL AFTER `created_at`';
+        foreach ($modifications as [$currentColumn, $column, $expected]) {
+            $sql = $mysql->modifyColumn('test', '', $column, $currentColumn);
 
-        $I->assertSame($expected, $sql);
+            $I->assertSame($expected, $sql);
+        }
     }
 }

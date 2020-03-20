@@ -145,7 +145,6 @@ class FriendlyTitleCest extends TagSetup
      */
     public function testFriendlyTitleWithAccentedCharactersAndReplaceString(UnitTester $I)
     {
-        $I->skipTest('This needs refactoring');
         $options = "Perché l'erba è verde?";
 
         $I->assertEquals(
@@ -168,7 +167,6 @@ class FriendlyTitleCest extends TagSetup
      */
     public function testFriendlyTitleWithAccentedCharactersAndReplaceArray(UnitTester $I)
     {
-        $I->skipTest('This needs refactoring');
         $options = "Perché l'erba è verde?";
 
         $I->assertEquals(
@@ -197,8 +195,6 @@ class FriendlyTitleCest extends TagSetup
                 Tag::resetInput();
 
                 $options  = 'This is a Test';
-                $expected = 't_s_s_a_test';
-
                 $actual = Tag::friendlyTitle($options, '_', true, true);
             }
         );

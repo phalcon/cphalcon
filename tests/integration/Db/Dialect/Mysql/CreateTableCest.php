@@ -51,6 +51,14 @@ class CreateTableCest
                         'after' => 'created_at'
                     ]
                 ),
+                new Column(
+                    'numeric_val',
+                    [
+                        'type' => Column::TYPE_FLOAT,
+                        'notNull' => false,
+                        'after' => 'updated_at'
+                    ]
+                ),
             ],
             'indexes' => [
                 new Index('PRIMARY', ['id'], 'PRIMARY'),
@@ -62,7 +70,8 @@ class CreateTableCest
         $expected = <<<SQL
 CREATE TABLE `test` (
 	`id` INT(11) NOT NULL AUTO_INCREMENT,
-	`updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NULL,
+	`updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	`numeric_val` FLOAT,
 	PRIMARY KEY (`id`)
 )
 SQL;

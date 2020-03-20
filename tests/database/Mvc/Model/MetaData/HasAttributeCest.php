@@ -38,6 +38,7 @@ class HasAttributeCest
      * @since  2018-11-13
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function mvcModelMetadataHasAttribute(DatabaseTester $I)
