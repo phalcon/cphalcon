@@ -17,9 +17,11 @@ use Phalcon\Assets\Inline;
 use Phalcon\Assets\Manager;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
+
 use function ob_end_clean;
 use function ob_get_contents;
 use function ob_start;
+
 use const PHP_EOL;
 
 class AddInlineCodeByTypeCest
