@@ -1,11 +1,11 @@
 #define PHVOLT_OPEN_DELIMITER                  1
 #define PHVOLT_COMMA                           2
-#define PHVOLT_IN                              3
-#define PHVOLT_QUESTION                        4
-#define PHVOLT_COLON                           5
-#define PHVOLT_RANGE                           6
-#define PHVOLT_AND                             7
-#define PHVOLT_OR                              8
+#define PHVOLT_QUESTION                        3
+#define PHVOLT_COLON                           4
+#define PHVOLT_RANGE                           5
+#define PHVOLT_AND                             6
+#define PHVOLT_OR                              7
+#define PHVOLT_IN                              8
 #define PHVOLT_IS                              9
 #define PHVOLT_EQUALS                         10
 #define PHVOLT_NOTEQUALS                      11
