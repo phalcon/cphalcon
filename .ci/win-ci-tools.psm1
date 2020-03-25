@@ -44,7 +44,7 @@ Function InstallPhpSdk {
 Function DownloadPhpSrc {
     Write-Output "Download PHP Src: ${env:PHP_VERSION}"
 
-    $RemoteUrl = "http://windows.php.net/downloads/releases/php-${env:PHP_VERSION}-src.zip"
+    $RemoteUrl = "https://windows.php.net/downloads/releases/php-${env:PHP_VERSION}-src.zip"
     $DestinationPath = "C:\Downloads\php-${env:PHP_VERSION}-src.zip"
 
     If (-not (Test-Path $env:PHP_SRC_PATH)) {
