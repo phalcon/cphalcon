@@ -582,7 +582,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, setLocale) {
 	zephir_check_call_status();
 	zephir_read_property(&_9, this_ptr, SL("locale"), PH_NOISY_CC | PH_READONLY);
 	ZVAL_LONG(&_10, 6);
-	ZEPHIR_CALL_FUNCTION(NULL, "setlocale", NULL, 506, &_10, &_9);
+	ZEPHIR_CALL_FUNCTION(NULL, "setlocale", NULL, 0, &_10, &_9);
 	zephir_check_call_status();
 	RETURN_MM_MEMBER(getThis(), "locale");
 

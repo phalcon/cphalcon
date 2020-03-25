@@ -377,7 +377,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, partial) {
 	} else {
 		ZEPHIR_CPY_WRT(&mergedParams, params);
 	}
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "internalrender", NULL, 482, &partialPath, &mergedParams);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "internalrender", NULL, 481, &partialPath, &mergedParams);
 	zephir_check_call_status();
 	if (Z_TYPE_P(params) == IS_ARRAY) {
 		zephir_update_property_zval(this_ptr, SL("viewParams"), &viewParams);
@@ -472,7 +472,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, render) {
 	ZEPHIR_CPY_WRT(&viewParams, &_1);
 	ZEPHIR_INIT_VAR(&mergedParams);
 	zephir_fast_array_merge(&mergedParams, &viewParams, &params);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "internalrender", NULL, 482, &path, &mergedParams);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "internalrender", NULL, 481, &path, &mergedParams);
 	zephir_check_call_status();
 	ZEPHIR_CALL_FUNCTION(NULL, "ob_end_clean", NULL, 207);
 	zephir_check_call_status();

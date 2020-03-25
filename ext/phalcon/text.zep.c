@@ -93,7 +93,7 @@ PHP_METHOD(Phalcon_Text, camelize) {
 	}
 
 
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_str_ce, "camelize", &_0, 510, &text, delimiter);
+	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_str_ce, "camelize", &_0, 508, &text, delimiter);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -238,7 +238,7 @@ PHP_METHOD(Phalcon_Text, dynamic) {
 	}
 
 
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_str_ce, "dynamic", &_0, 511, &text, &leftDelimiter, &rightDelimiter, &separator);
+	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_str_ce, "dynamic", &_0, 509, &text, &leftDelimiter, &rightDelimiter, &separator);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -324,7 +324,7 @@ PHP_METHOD(Phalcon_Text, humanize) {
 	}
 
 
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_str_ce, "humanize", &_0, 0, &text);
+	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_str_ce, "humanize", &_0, 510, &text);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -363,7 +363,7 @@ PHP_METHOD(Phalcon_Text, increment) {
 	}
 
 
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_str_ce, "increment", &_0, 0, &text, &separator);
+	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_str_ce, "increment", &_0, 511, &text, &separator);
 	zephir_check_call_status();
 	RETURN_MM();
 
