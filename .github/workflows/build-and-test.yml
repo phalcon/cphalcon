@@ -309,18 +309,18 @@ jobs:
       - name: Get Composer Cache Directory
         id: composer-cache
         run: |
-          # FIXME: This call produces the following waringn:
+          # FIXME: This call produces the following warning:
           #
           #  PHP Warning:  Version warning: Imagick was compiled
           #  against ImageMagick version 1801 but version 1802 is
           #  loaded. Imagick will run but may behave surprisingly
           #  in Unknown on line 0
           #
-          # And this seems breaks the output of the following command.
-          #
           # For more see:
           # https://github.com/phalcon/cphalcon/pull/14929/checks?check_run_id=534926444
-          echo "::set-output name=dir::$(composer config cache-files-dir --quiet 2>/dev/null)"
+          #
+          # And this seems breaks the output of the following command:
+          echo "::set-output name=dir::$(composer config cache-files-dir --quiet 2>/dev/null | grep -v Warning)"
 
       - name: Setup GitHub Token
         run: |
@@ -412,9 +412,14 @@ jobs:
           echo "::set-env name=PHP_DEVPACK::C:\tools\php-devpack"
           echo "::set-env name=PHP_SDK_PATH::C:\tools\php-sdk"
           echo "::set-env name=PHP_PECL_PATH::C:\tools\pecl"
-          # FIXME: phpversion() return 7.4.3 but php.net has only 7.4.4
-          # echo "::set-env name=PHP_VERSION::$(php -r 'echo phpversion();')"
-          echo "::set-env name=PHP_VERSION::7.4.4"
+          # FIXME: phpversion() return 7.4.3 but windows.php.net has only 7.4.4
+          # We should parse the following file to get the correct version:
+          #   https://windows.php.net/downloads/releases/sha256sum.txt
+          If ("${{ matrix.php-versions }}" -eq "7.4") {
+            echo "::set-env name=PHP_VERSION::7.4.4"
+          } Else {
+            echo "::set-env name=PHP_VERSION::$(php -r 'echo phpversion();')"
+          }
           echo "::set-env name=PHP_MINOR::${{ matrix.php-versions }}"
           echo "::set-env name=TEST_PHP_EXECUTABLE::${env:PHPROOT}\php.exe"
           echo "::set-env name=VC_VERSION::${{ matrix.vc_num }}"
