@@ -309,7 +309,7 @@ jobs:
       - name: Get Composer Cache Directory
         id: composer-cache
         run: |
-          # FIXME: This call produces the following warning:
+          # FIXME: This call produces the following warning on maOS:
           #
           #  PHP Warning:  Version warning: Imagick was compiled
           #  against ImageMagick version 1801 but version 1802 is
@@ -320,7 +320,8 @@ jobs:
           # https://github.com/phalcon/cphalcon/pull/14929/checks?check_run_id=534926444
           #
           # And this seems breaks the output of the following command:
-          echo "::set-output name=dir::$(composer config cache-files-dir --quiet 2>/dev/null | grep -v Warning)"
+          # echo "::set-output name=dir::$(composer config cache-files-dir)"
+          echo "::set-output name=dir::~/.composer/cache/files"
 
       - name: Setup GitHub Token
         run: |
