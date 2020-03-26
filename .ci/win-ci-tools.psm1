@@ -44,8 +44,8 @@ Function InstallPhpSdk {
 Function DownloadPhpSrc {
     Write-Output "Download PHP Src: ${env:PHP_VERSION}"
 
-    $RemoteUrl = "http://windows.php.net/downloads/releases/php-${env:PHP_VERSION}-src.zip"
-    $RemoteArchiveUrl = "http://windows.php.net/downloads/releases/archives/php-${env:PHP_VERSION}-src.zip"
+    $RemoteUrl = "https://windows.php.net/downloads/releases/php-${env:PHP_VERSION}-src.zip"
+    $RemoteArchiveUrl = "https://windows.php.net/downloads/releases/archives/php-${env:PHP_VERSION}-src.zip"
     $DestinationPath = "C:\Downloads\php-${env:PHP_VERSION}-src.zip"
 
     If (-not (Test-Path $env:PHP_SRC_PATH)) {
@@ -74,8 +74,8 @@ Function DownloadPhpSrc {
 Function InstallPhpDevPack {
     Write-Output "Install PHP Dev pack: ${env:PHP_VERSION}"
 
-    $RemoteUrl = "http://windows.php.net/downloads/releases/php-devel-pack-${env:PHP_VERSION}-${env:BUILD_TYPE}-vc${env:VC_VERSION}-${env:PHP_ARCH}.zip"
-    $RemoteArchiveUrl = "http://windows.php.net/downloads/releases/archives/php-devel-pack-${env:PHP_VERSION}-${env:BUILD_TYPE}-vc${env:VC_VERSION}-${env:PHP_ARCH}.zip"
+    $RemoteUrl = "https://windows.php.net/downloads/releases/php-devel-pack-${env:PHP_VERSION}-${env:BUILD_TYPE}-vc${env:VC_VERSION}-${env:PHP_ARCH}.zip"
+    $RemoteArchiveUrl = "https://windows.php.net/downloads/releases/archives/php-devel-pack-${env:PHP_VERSION}-${env:BUILD_TYPE}-vc${env:VC_VERSION}-${env:PHP_ARCH}.zip"
     $DestinationPath = "C:\Downloads\php-devel-pack-${env:PHP_VERSION}-${env:BUILD_TYPE}-VC${env:VC_VERSION}-${env:PHP_ARCH}.zip"
 
     If (-not (Test-Path $env:PHP_DEVPACK)) {
@@ -141,10 +141,14 @@ Function DownloadFile {
         Try {
             $WebClient.DownloadFile($RemoteUrl, $DestinationPath)
             $Completed = $true
-        } Catch {
+        } Catch (WebException wex) {
+            If (((HttpWebResponse) wex.Response).StatusCode == HttpStatusCode.NotFound)
+            {
+            // error 404, do what you need to do
+            }
             If ($RetryCount -ge $RetryMax) {
                 $ErrorMessage = $_.Exception.Message
-                Write-Output "Error downloadingig ${RemoteUrl}: $ErrorMessage"
+                Write-Output "Error downloading ${RemoteUrl}: $ErrorMessage"
                 $Completed = $true
             } Else {
                 $RetryCount++
