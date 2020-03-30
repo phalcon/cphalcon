@@ -45,18 +45,26 @@ Function DownloadPhpSrc {
     Write-Output "Download PHP Src: ${env:PHP_VERSION}"
 
     $RemoteUrl = "https://windows.php.net/downloads/releases/php-${env:PHP_VERSION}-src.zip"
+    $RemoteArchiveUrl = "https://windows.php.net/downloads/releases/archives/php-${env:PHP_VERSION}-src.zip"
     $DestinationPath = "C:\Downloads\php-${env:PHP_VERSION}-src.zip"
 
     If (-not (Test-Path $env:PHP_SRC_PATH)) {
         If (-not [System.IO.File]::Exists($DestinationPath)) {
-            Write-Output "Downloading PHP Dev pack: ${RemoteUrl} ..."
+            Write-Output "Downloading PHP pack: ${RemoteUrl} ..."
             DownloadFile $RemoteUrl $DestinationPath
         }
 
         $DestinationUnzipPath = "${env:Temp}\php-${env:PHP_VERSION}-src"
 
         If (-not (Test-Path "$DestinationUnzipPath")) {
-            Expand-Item7zip $DestinationPath $env:Temp
+            Try {
+                Expand-Item7zip $DestinationPath $env:Temp
+            } Catch {
+                # if expand fails try alternative download
+                Write-Output "Downloading PHP pack from archive: ${RemoteArchiveUrl} ..."
+                DownloadFile $RemoteArchiveUrl $DestinationPath
+                Expand-Item7zip $DestinationPath $env:Temp
+            }
         }
 
         Move-Item -Path $DestinationUnzipPath -Destination $env:PHP_SRC_PATH
@@ -66,7 +74,8 @@ Function DownloadPhpSrc {
 Function InstallPhpDevPack {
     Write-Output "Install PHP Dev pack: ${env:PHP_VERSION}"
 
-    $RemoteUrl = "http://windows.php.net/downloads/releases/php-devel-pack-${env:PHP_VERSION}-${env:BUILD_TYPE}-vc${env:VC_VERSION}-${env:PHP_ARCH}.zip"
+    $RemoteUrl = "https://windows.php.net/downloads/releases/php-devel-pack-${env:PHP_VERSION}-${env:BUILD_TYPE}-vc${env:VC_VERSION}-${env:PHP_ARCH}.zip"
+    $RemoteArchiveUrl = "https://windows.php.net/downloads/releases/archives/php-devel-pack-${env:PHP_VERSION}-${env:BUILD_TYPE}-vc${env:VC_VERSION}-${env:PHP_ARCH}.zip"
     $DestinationPath = "C:\Downloads\php-devel-pack-${env:PHP_VERSION}-${env:BUILD_TYPE}-VC${env:VC_VERSION}-${env:PHP_ARCH}.zip"
 
     If (-not (Test-Path $env:PHP_DEVPACK)) {
@@ -78,7 +87,14 @@ Function InstallPhpDevPack {
         $DestinationUnzipPath = "${env:Temp}\php-${env:PHP_VERSION}-devel-VC${env:VC_VERSION}-${env:PHP_ARCH}"
 
         If (-not (Test-Path "$DestinationUnzipPath")) {
-            Expand-Item7zip $DestinationPath $env:Temp
+            Try {
+                Expand-Item7zip $DestinationPath $env:Temp
+            } Catch {
+                # if expand fails try alternative download
+                Write-Output "Downloading PHP Dev pack from archive: ${RemoteArchiveUrl} ..."
+                DownloadFile $RemoteArchiveUrl $DestinationPath
+                Expand-Item7zip $DestinationPath $env:Temp
+            }
         }
 
         Move-Item -Path $DestinationUnzipPath -Destination $env:PHP_DEVPACK
@@ -125,10 +141,14 @@ Function DownloadFile {
         Try {
             $WebClient.DownloadFile($RemoteUrl, $DestinationPath)
             $Completed = $true
-        } Catch {
+        } Catch (WebException wex) {
+            If (((HttpWebResponse) wex.Response).StatusCode == HttpStatusCode.NotFound)
+            {
+            // error 404, do what you need to do
+            }
             If ($RetryCount -ge $RetryMax) {
                 $ErrorMessage = $_.Exception.Message
-                Write-Output "Error downloadingig ${RemoteUrl}: $ErrorMessage"
+                Write-Output "Error downloading ${RemoteUrl}: $ErrorMessage"
                 $Completed = $true
             } Else {
                 $RetryCount++
