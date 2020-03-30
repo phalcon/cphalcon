@@ -124,6 +124,29 @@ function Expand-Item7zip {
     }
 }
 
+function DownloadFileUsingAlternative {
+    <#
+        .SYNOPSIS
+            Downloads files from URL using alternative ULR if primary URL not found
+    #>
+
+    [CmdletBinding()]
+    param(
+        [parameter(Mandatory = $true)] [ValidateNotNullOrEmpty()] [System.String] $RemoteUrl,
+        [parameter(Mandatory = $true)] [ValidateNotNullOrEmpty()] [System.String] $RemoteArchiveUrl,
+        [parameter(Mandatory = $true)] [ValidateNotNullOrEmpty()] [System.String] $DestinationPath,
+        [parameter(Mandatory = $true)] [ValidateNotNullOrEmpty()] [System.String] $Message
+    )
+
+    try {
+        Write-Output "${Message}: ${RemoteUrl} ..."
+        DownloadFile $RemoteUrl $DestinationPath
+    } catch [System.Net.WebException] {
+        Write-Output "${Message} from archive: ${RemoteArchiveUrl} ..."
+        DownloadFile $RemoteArchiveUrl $DestinationPath
+    }
+}
+
 function DownloadFile {
     <#
         .SYNOPSIS
