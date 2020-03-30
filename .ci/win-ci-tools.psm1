@@ -5,13 +5,13 @@
 # For the full copyright and license information, please view
 # the LICENSE file that was distributed with this source code.
 
-Function SetupCommonEnvironment {
-    If (-not (Test-Path 'C:\Downloads')) {
-        New-Item -ItemType Directory -Force -Path 'C:\Downloads' | Out-Null
-    }
+function SetupCommonEnvironment {
+    $CommonPath = "C:\Downloads", "C:\Downloads\Choco"
 
-    If (-not (Test-Path 'C:\Downloads\Choco')) {
-        New-Item -ItemType Directory -Force -Path 'C:\Downloads\Choco' | Out-Null
+    foreach ($path in $CommonPath) {
+        if (-not (Test-Path $path)) {
+            New-Item -ItemType Directory -Force -Path $path | Out-Null
+        }
     }
 
     # Hide "You are in 'detached HEAD' state" message
