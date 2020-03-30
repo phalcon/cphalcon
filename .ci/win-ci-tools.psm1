@@ -50,21 +50,13 @@ function DownloadPhpSrc {
 
     if (-not (Test-Path $env:PHP_SRC_PATH)) {
         if (-not [System.IO.File]::Exists($DestinationPath)) {
-            Write-Output "Downloading PHP pack: ${RemoteUrl} ..."
-            DownloadFile $RemoteUrl $DestinationPath
+            DownloadFileUsingAlternative $RemoteUrl $RemoteArchiveUrl $DestinationPath "Downloading PHP pack"
         }
 
         $DestinationUnzipPath = "${env:Temp}\php-${env:PHP_VERSION}-src"
 
         if (-not (Test-Path "$DestinationUnzipPath")) {
-            try {
-                Expand-Item7zip $DestinationPath $env:Temp
-            } catch {
-                # if expand fails try alternative download
-                Write-Output "Downloading PHP pack from archive: ${RemoteArchiveUrl} ..."
-                DownloadFile $RemoteArchiveUrl $DestinationPath
-                Expand-Item7zip $DestinationPath $env:Temp
-            }
+            Expand-Item7zip $DestinationPath $env:Temp
         }
 
         Move-Item -Path $DestinationUnzipPath -Destination $env:PHP_SRC_PATH
@@ -80,21 +72,13 @@ function InstallPhpDevPack {
 
     if (-not (Test-Path $env:PHP_DEVPACK)) {
         if (-not [System.IO.File]::Exists($DestinationPath)) {
-            Write-Output "Downloading PHP Dev pack: ${RemoteUrl} ..."
-            DownloadFile $RemoteUrl $DestinationPath
+            DownloadFileUsingAlternative $RemoteUrl $RemoteArchiveUrl $DestinationPath "Downloading PHP Dev pack"
         }
 
         $DestinationUnzipPath = "${env:Temp}\php-${env:PHP_VERSION}-devel-VC${env:VC_VERSION}-${env:PHP_ARCH}"
 
         if (-not (Test-Path "$DestinationUnzipPath")) {
-            try {
-                Expand-Item7zip $DestinationPath $env:Temp
-            } catch {
-                # if expand fails try alternative download
-                Write-Output "Downloading PHP Dev pack from archive: ${RemoteArchiveUrl} ..."
-                DownloadFile $RemoteArchiveUrl $DestinationPath
-                Expand-Item7zip $DestinationPath $env:Temp
-            }
+            Expand-Item7zip $DestinationPath $env:Temp
         }
 
         Move-Item -Path $DestinationUnzipPath -Destination $env:PHP_DEVPACK
@@ -138,12 +122,14 @@ function DownloadFileUsingAlternative {
         [parameter(Mandatory = $true)] [ValidateNotNullOrEmpty()] [System.String] $Message
     )
 
-    try {
-        Write-Output "${Message}: ${RemoteUrl} ..."
-        DownloadFile $RemoteUrl $DestinationPath
-    } catch [System.Net.WebException] {
-        Write-Output "${Message} from archive: ${RemoteArchiveUrl} ..."
-        DownloadFile $RemoteArchiveUrl $DestinationPath
+    process {
+        try {
+            Write-Output "${Message}: ${RemoteUrl} ..."
+            DownloadFile $RemoteUrl $DestinationPath
+        } catch [System.Net.WebException] {
+            Write-Output "${Message} from archive: ${RemoteArchiveUrl} ..."
+            DownloadFile $RemoteArchiveUrl $DestinationPath
+        }
     }
 }
 
