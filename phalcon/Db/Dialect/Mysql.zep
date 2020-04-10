@@ -41,7 +41,7 @@ class Mysql extends Dialect
         if column->hasDefault() {
             let defaultValue = column->getDefault();
 
-            if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
+            if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") || is_int(defaultValue) || is_float(defaultValue) {
                 let sql .= " DEFAULT " . defaultValue;
             } else {
                 let sql .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
@@ -50,8 +50,6 @@ class Mysql extends Dialect
 
         if column->isNotNull() {
             let sql .= " NOT NULL";
-        } else {
-            let sql .= " NULL";
         }
 
         if column->isAutoIncrement() {
@@ -177,7 +175,7 @@ class Mysql extends Dialect
                 if (defaultValue === null) {
                     let columnLine .= " DEFAULT NULL";
                 } else {
-                    if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
+                    if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") || is_int(defaultValue) || is_float(defaultValue) {
                         let columnLine .= " DEFAULT " . defaultValue;
                     } else {
                         let columnLine .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
@@ -190,8 +188,6 @@ class Mysql extends Dialect
              */
             if column->isNotNull() {
                 let columnLine .= " NOT NULL";
-            } else {
-                let columnLine .= " NULL";
             }
 
             /**
@@ -452,6 +448,10 @@ class Mysql extends Dialect
                     let columnSql .= "DATETIME";
                 }
 
+                if column->getSize() > 0 {
+                    let columnSql .= this->getColumnSize(column);
+                }
+
                 break;
 
             case Column::TYPE_DECIMAL:
@@ -564,11 +564,19 @@ class Mysql extends Dialect
                     let columnSql .= "TIME";
                 }
 
+                if column->getSize() > 0 {
+                    let columnSql .= this->getColumnSize(column);
+                }
+
                 break;
 
             case Column::TYPE_TIMESTAMP:
                 if empty columnSql {
                     let columnSql .= "TIMESTAMP";
+                }
+
+                if column->getSize() > 0 {
+                    let columnSql .= this->getColumnSize(column);
                 }
 
                 break;
@@ -695,18 +703,16 @@ class Mysql extends Dialect
         if column->hasDefault() {
             let defaultValue = column->getDefault();
 
-            if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") {
+            if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") || is_int(defaultValue) || is_float(defaultValue) {
                 let sql .= " DEFAULT " . defaultValue;
-            } else {
+            }  else {
                 let sql .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
             }
         }
 
         if column->isNotNull() {
             let sql .= " NOT NULL";
-        } else {
-            let sql .= " NULL";
-        }
+        } 
 
         if column->isAutoIncrement() {
             let sql .= " AUTO_INCREMENT";

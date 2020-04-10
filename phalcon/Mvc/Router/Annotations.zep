@@ -40,6 +40,8 @@ class Annotations extends Router
 {
     protected actionSuffix = "Action";
 
+    protected actionPreformatCallback;
+
     protected controllerSuffix = "Controller";
 
     protected handlers = [];
@@ -240,7 +242,7 @@ class Annotations extends Router
     public function processActionAnnotation(string! module, string! namespaceName, string! controller, string! action,
         <Annotation> annotation)
     {
-        var name, actionName, routePrefix, paths, value, uri, route, methods,
+        var name, proxyActionName, actionName, routePrefix, paths, value, uri, route, methods,
             converts, param, convert, converterParam, routeName, beforeMatch;
         bool isRoute;
 
@@ -271,8 +273,14 @@ class Annotations extends Router
             return;
         }
 
-        let actionName = strtolower(str_replace(this->actionSuffix, "", action)),
+        let proxyActionName = str_replace(this->actionSuffix, "", action),
             routePrefix = this->routePrefix;
+
+        if this->actionPreformatCallback !== null {
+            let proxyActionName = call_user_func(this->actionPreformatCallback, proxyActionName);
+        }
+
+        let actionName = strtolower(proxyActionName);
 
         /**
          * Check for existing paths in the annotation
@@ -394,6 +402,51 @@ class Annotations extends Router
     public function setActionSuffix(string! actionSuffix)
     {
         let this->actionSuffix = actionSuffix;
+    }
+
+    /**
+     * Sets the action preformat callback
+     * $action here already without suffix 'Action'
+     *
+     * ```php
+     * // Array as callback
+     * $annotationRouter->setActionPreformatCallback([Text::class, 'uncamelize']);
+     *
+     * // Function as callback
+     * $annotationRouter->setActionPreformatCallback(function(action){
+     *     return action;
+     * });
+     *
+     * // String as callback
+     * $annotationRouter->setActionPreformatCallback('strtolower');
+     *
+     * // If empty method constructor called [null], sets uncamelize with - delimiter
+     * $annotationRouter->setActionPreformatCallback();
+     * ```
+     *
+     * @param callable|string|null $callback
+     */
+    public function setActionPreformatCallback(var callback = null)
+    {
+        if likely is_callable(callback) {
+            let this->actionPreformatCallback = callback;
+        } elseif callback === null {
+            let this->actionPreformatCallback = function (action) {
+                return uncamelize(action, "-");
+            };
+        } else {
+            throw new Exception(
+                "The 'callback' parameter must be either a callable or NULL."
+            );
+        }
+    }
+
+    /**
+     * @return callable|string|null
+     */
+    public function getActionPreformatCallback()
+    {
+        return this->actionPreformatCallback;
     }
 
     /**

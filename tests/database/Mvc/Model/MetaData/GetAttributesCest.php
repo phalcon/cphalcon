@@ -17,6 +17,7 @@ use DatabaseTester;
 use Phalcon\Mvc\Model\MetaData;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Invoices;
+use Phalcon\Test\Models\Customers;
 
 /**
  * Class GetAttributesCest
@@ -38,6 +39,7 @@ class GetAttributesCest
      * @since  2020-02-01
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function mvcModelMetadataGetAttributes(DatabaseTester $I)

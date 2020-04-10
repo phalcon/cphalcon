@@ -48,6 +48,7 @@ class QueryCest
      * @since  2018-11-13
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function mvcModelQuery(DatabaseTester $I)
@@ -72,6 +73,7 @@ class QueryCest
      * @issue  14783
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function mvcModelQueryIssue14783(DatabaseTester $I)

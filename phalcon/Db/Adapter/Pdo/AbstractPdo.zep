@@ -431,6 +431,8 @@ abstract class AbstractPdo extends AbstractAdapter
          */
         let affectedRows = 0;
 
+        this->prepareRealSql(sqlStatement, bindParams);
+
         let pdo = <\PDO> this->pdo;
 
         if typeof bindParams == "array" {
@@ -741,6 +743,8 @@ abstract class AbstractPdo extends AbstractAdapter
             throw new Exception("Cannot prepare statement");
         }
 
+        this->prepareRealSql(sqlStatement, bindParams);
+
         let statement = this->executePrepared(statement, params, types);
 
         /**
@@ -836,4 +840,41 @@ abstract class AbstractPdo extends AbstractAdapter
      * Returns PDO adapter DSN defaults as a key-value map.
      */
     abstract protected function getDsnDefaults() -> array;
+
+    /**
+     * Constructs the SQL statement (with parameters)
+     *
+     * @see https://stackoverflow.com/a/8403150
+     */
+    protected function prepareRealSql(string statement, array parameters) -> void
+    {
+        var key, result, value;
+        array keys, values;
+
+        let result = statement,
+            values = parameters;
+        if !empty parameters {
+            let keys = [];
+
+            for key, value in parameters {
+                if typeof key === "string" {
+                    let keys[] = "/:" . key . "/";
+                } else {
+                    let keys[] = "/[?]/";
+                }
+
+                if typeof value === "string" {
+                    let values[key] = "'" . value . "'";
+                } elseif typeof value === "array" {
+                    let values[key] = "'" . implode("','", value) . "'";
+                } elseif null === value {
+                    let values[key] = "NULL";
+                }
+            }
+
+            let result = preg_replace(keys, values, statement, 1);
+        }
+
+        let this->realSqlStatement = result;
+    }
 }

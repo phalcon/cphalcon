@@ -434,12 +434,6 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
 
         let container = this->container;
 
-        if unlikely typeof container != "object" {
-            throw new Exception(
-                Exception::containerServiceNotFound("the 'session' service")
-            );
-        }
-
         let definition = [];
 
         if expire != 0 {

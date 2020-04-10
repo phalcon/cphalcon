@@ -31,8 +31,7 @@ class ReadWriteAttributeCest
 
         /** @var PDO $connection */
         $connection = $I->getConnection();
-        $migration  = new InvoicesMigration($connection);
-        $migration->clear();
+        (new InvoicesMigration($connection));
     }
 
     /**
@@ -42,6 +41,7 @@ class ReadWriteAttributeCest
      * @since  2019-04-18
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function mvcModelWriteAttribute(DatabaseTester $I)
@@ -76,6 +76,7 @@ class ReadWriteAttributeCest
      * @since  2019-04-30
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function mvcModelWriteAttributeWithAssociativeArray(DatabaseTester $I)
@@ -118,6 +119,7 @@ class ReadWriteAttributeCest
      * @since  2019-04-30
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function mvcModelWriteAttributeUndefinedPropertyWithAssociativeArray(DatabaseTester $I)

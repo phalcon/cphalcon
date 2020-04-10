@@ -154,7 +154,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct) {
 		ZEPHIR_INIT_NVAR(mode);
 		ZVAL_LONG(mode, 1);
 	}
-	ZEPHIR_CALL_FUNCTION(&iniConfig, "parse_ini_file", NULL, 171, &filePath, &__$true, mode);
+	ZEPHIR_CALL_FUNCTION(&iniConfig, "parse_ini_file", NULL, 176, &filePath, &__$true, mode);
 	zephir_check_call_status();
 	if (UNEXPECTED(ZEPHIR_IS_FALSE_IDENTICAL(&iniConfig))) {
 		ZEPHIR_INIT_VAR(&_0$$4);
@@ -163,7 +163,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct) {
 		zephir_basename(&_1$$4, &filePath);
 		ZEPHIR_INIT_VAR(&_2$$4);
 		ZEPHIR_CONCAT_SVS(&_2$$4, "Configuration file ", &_1$$4, " cannot be loaded");
-		ZEPHIR_CALL_METHOD(NULL, &_0$$4, "__construct", NULL, 6, &_2$$4);
+		ZEPHIR_CALL_METHOD(NULL, &_0$$4, "__construct", NULL, 8, &_2$$4);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_0$$4, "phalcon/Config/Adapter/Ini.zep", 78);
 		ZEPHIR_MM_RESTORE();
@@ -369,7 +369,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, cast) {
 				}
 				ZEPHIR_INIT_NVAR(&value);
 				ZVAL_COPY(&value, _0$$3);
-				ZEPHIR_CALL_METHOD(&_4$$4, this_ptr, "cast", &_5, 172, &value);
+				ZEPHIR_CALL_METHOD(&_4$$4, this_ptr, "cast", &_5, 177, &value);
 				zephir_check_call_status();
 				zephir_array_update_zval(ini, &key, &_4$$4, PH_COPY | PH_SEPARATE);
 			} ZEND_HASH_FOREACH_END();
@@ -386,7 +386,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, cast) {
 				zephir_check_call_status();
 				ZEPHIR_CALL_METHOD(&value, ini, "current", NULL, 0);
 				zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(&_6$$5, this_ptr, "cast", &_5, 172, &value);
+					ZEPHIR_CALL_METHOD(&_6$$5, this_ptr, "cast", &_5, 177, &value);
 					zephir_check_call_status();
 					zephir_array_update_zval(ini, &key, &_6$$5, PH_COPY | PH_SEPARATE);
 				ZEPHIR_CALL_METHOD(NULL, ini, "next", NULL, 0);
@@ -494,7 +494,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, parseIniString) {
 	zephir_substr(&_4, &path, zephir_get_intval(&_3), 0, ZEPHIR_SUBSTR_NO_LENGTH);
 	zephir_get_strval(&path, &_4);
 	zephir_create_array(return_value, 1, 0);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "parseinistring", NULL, 173, &path, value);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "parseinistring", NULL, 178, &path, value);
 	zephir_check_call_status();
 	zephir_array_update_zval(return_value, &key, &_0, PH_COPY);
 	RETURN_MM();

@@ -31,14 +31,14 @@ class RefreshCest
 
         /** @var PDO $connection */
         $connection = $I->getConnection();
-        $migration  = new InvoicesMigration($connection);
-        $migration->clear();
+        (new InvoicesMigration($connection));
     }
 
     /**
      * Tests Phalcon\Mvc\Model :: refresh()
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function mvcModelRefresh(DatabaseTester $I)

@@ -15,7 +15,7 @@ namespace Phalcon\Test\Integration\Cache\Adapter\Memory;
 
 use Phalcon\Cache\Adapter\Memory;
 use Phalcon\Storage\SerializerFactory;
-use UnitTester;
+use IntegrationTester;
 
 class GetAdapterCest
 {
@@ -25,7 +25,7 @@ class GetAdapterCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-14
      */
-    public function cacheAdapterMemoryGetAdapter(UnitTester $I)
+    public function cacheAdapterMemoryGetAdapter(IntegrationTester $I)
     {
         $I->wantToTest('Cache\Adapter\Memory - getAdapter()');
 

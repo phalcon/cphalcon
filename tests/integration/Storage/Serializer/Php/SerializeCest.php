@@ -16,7 +16,7 @@ namespace Phalcon\Test\Integration\Storage\Serializer\Php;
 use Codeception\Example;
 use Phalcon\Storage\Serializer\Php;
 use stdClass;
-use UnitTester;
+use IntegrationTester;
 
 use function serialize;
 
@@ -30,7 +30,7 @@ class SerializeCest
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2019-03-30
      */
-    public function storageSerializerPhpSerialize(UnitTester $I, Example $example)
+    public function storageSerializerPhpSerialize(IntegrationTester $I, Example $example)
     {
         $I->wantToTest('Storage\Serializer\Php - serialize() - ' . $example[0]);
 

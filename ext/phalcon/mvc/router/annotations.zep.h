@@ -10,6 +10,8 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle);
 PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation);
 PHP_METHOD(Phalcon_Mvc_Router_Annotations, processControllerAnnotation);
 PHP_METHOD(Phalcon_Mvc_Router_Annotations, setActionSuffix);
+PHP_METHOD(Phalcon_Mvc_Router_Annotations, setActionPreformatCallback);
+PHP_METHOD(Phalcon_Mvc_Router_Annotations, getActionPreformatCallback);
 PHP_METHOD(Phalcon_Mvc_Router_Annotations, setControllerSuffix);
 zend_object *zephir_init_properties_Phalcon_Mvc_Router_Annotations(zend_class_entry *class_type TSRMLS_DC);
 
@@ -118,6 +120,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_annotations_setactionsuffix, 0
 #endif
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_annotations_setactionpreformatcallback, 0, 0, 0)
+	ZEND_ARG_INFO(0, callback)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_annotations_setcontrollersuffix, 0, 0, 1)
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, controllerSuffix, IS_STRING, 0)
@@ -134,6 +140,8 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_router_annotations_method_entry) {
 	PHP_ME(Phalcon_Mvc_Router_Annotations, processActionAnnotation, arginfo_phalcon_mvc_router_annotations_processactionannotation, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router_Annotations, processControllerAnnotation, arginfo_phalcon_mvc_router_annotations_processcontrollerannotation, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router_Annotations, setActionSuffix, arginfo_phalcon_mvc_router_annotations_setactionsuffix, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Router_Annotations, setActionPreformatCallback, arginfo_phalcon_mvc_router_annotations_setactionpreformatcallback, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Router_Annotations, getActionPreformatCallback, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router_Annotations, setControllerSuffix, arginfo_phalcon_mvc_router_annotations_setcontrollersuffix, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };

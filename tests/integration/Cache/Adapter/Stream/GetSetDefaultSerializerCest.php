@@ -15,7 +15,7 @@ namespace Phalcon\Test\Integration\Cache\Adapter\Stream;
 
 use Phalcon\Cache\Adapter\Stream;
 use Phalcon\Storage\SerializerFactory;
-use UnitTester;
+use IntegrationTester;
 
 use function outputDir;
 
@@ -28,7 +28,7 @@ class GetSetDefaultSerializerCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-13
      */
-    public function storageAdapterStreamGetKeys(UnitTester $I)
+    public function storageAdapterStreamGetKeys(IntegrationTester $I)
     {
         $I->wantToTest('Cache\Adapter\Stream - getDefaultSerializer()/setDefaultSerializer()');
 

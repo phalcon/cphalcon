@@ -23,8 +23,7 @@ class MaximumCest
 
         /** @var PDO $connection */
         $connection = $I->getConnection();
-        $migration  = new InvoicesMigration($connection);
-        $migration->clear();
+        (new InvoicesMigration($connection));
     }
 
     /**
@@ -34,17 +33,19 @@ class MaximumCest
      * @since  2020-01-30
      *
      * @group mysql
+     * @group pgsql
      */
     public function mvcModelMaximum(DatabaseTester $I)
     {
-        $driver = $I->getDriver();
-
         /** @var PDO $connection */
         $connection = $I->getConnection();
         $migration  = new InvoicesMigration($connection);
-        $this->insertDataInvoices($migration, 7, 2, 'ccc');
-        $this->insertDataInvoices($migration, 1, 3, 'aaa');
-        $this->insertDataInvoices($migration, 11, 1, 'aaa');
+        $invId = ('sqlite' === $I->getDriver()) ? 'null' : 'default';
+
+        $this->insertDataInvoices($migration, 7, $invId, 2, 'ccc');
+        $this->insertDataInvoices($migration, 1, $invId, 3, 'aaa');
+        $this->insertDataInvoices($migration, 11, $invId, 1, 'aaa');
+
 
         $total = Invoices::maximum(
             [
@@ -92,6 +93,7 @@ class MaximumCest
             [
                 'column' => 'inv_total',
                 'group'  => 'inv_cst_id',
+                'order'  => 'inv_cst_id'
             ]
         );
         $I->assertInstanceOf(Simple::class, $results);

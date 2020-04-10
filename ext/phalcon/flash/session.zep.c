@@ -393,7 +393,7 @@ PHP_METHOD(Phalcon_Flash_Session, getSessionService) {
 		ZVAL_STRING(&_5$$4, "the 'session' service");
 		ZEPHIR_CALL_CE_STATIC(&_3$$4, phalcon_flash_exception_ce, "containerservicenotfound", &_4, 0, &_5$$4);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, &_2$$4, "__construct", NULL, 6, &_3$$4);
+		ZEPHIR_CALL_METHOD(NULL, &_2$$4, "__construct", NULL, 8, &_3$$4);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_2$$4, "phalcon/Flash/Session.zep", 157);
 		ZEPHIR_MM_RESTORE();
@@ -416,7 +416,7 @@ PHP_METHOD(Phalcon_Flash_Session, getSessionService) {
 		ZVAL_STRING(&_12$$6, "the 'session' service");
 		ZEPHIR_CALL_CE_STATIC(&_11$$6, phalcon_flash_exception_ce, "containerservicenotfound", &_4, 0, &_12$$6);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, &_10$$6, "__construct", NULL, 6, &_11$$6);
+		ZEPHIR_CALL_METHOD(NULL, &_10$$6, "__construct", NULL, 8, &_11$$6);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_10$$6, "phalcon/Flash/Session.zep", 165);
 		ZEPHIR_MM_RESTORE();

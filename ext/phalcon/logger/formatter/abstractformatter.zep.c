@@ -164,7 +164,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_AbstractFormatter, interpolate) {
 		}
 		ZEPHIR_INIT_NVAR(&value);
 		ZEPHIR_INIT_NVAR(&key);
-		ZEPHIR_RETURN_CALL_FUNCTION("strtr", NULL, 3, &message, &replace);
+		ZEPHIR_RETURN_CALL_FUNCTION("strtr", NULL, 5, &message, &replace);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
@@ -192,7 +192,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_AbstractFormatter, getFormattedDate) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_CALL_FUNCTION(&timezone, "date_default_timezone_get", NULL, 106);
+	ZEPHIR_CALL_FUNCTION(&timezone, "date_default_timezone_get", NULL, 109);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&date);
 	object_init_ex(&date, zephir_get_internal_ce(SL("datetimeimmutable")));

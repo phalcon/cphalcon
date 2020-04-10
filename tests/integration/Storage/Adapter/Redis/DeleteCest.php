@@ -16,7 +16,7 @@ namespace Phalcon\Test\Integration\Storage\Adapter\Redis;
 use Phalcon\Storage\Adapter\Redis;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\RedisTrait;
-use UnitTester;
+use IntegrationTester;
 
 use function getOptionsRedis;
 
@@ -30,7 +30,7 @@ class DeleteCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-03-31
      */
-    public function storageAdapterRedisDelete(UnitTester $I)
+    public function storageAdapterRedisDelete(IntegrationTester $I)
     {
         $I->wantToTest('Storage\Adapter\Redis - delete()');
 
@@ -55,7 +55,7 @@ class DeleteCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-03-31
      */
-    public function storageAdapterRedisDeleteTwice(UnitTester $I)
+    public function storageAdapterRedisDeleteTwice(IntegrationTester $I)
     {
         $I->wantToTest('Storage\Adapter\Redis - delete() - twice');
 
@@ -80,7 +80,7 @@ class DeleteCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-03-31
      */
-    public function storageAdapterRedisDeleteUnknown(UnitTester $I)
+    public function storageAdapterRedisDeleteUnknown(IntegrationTester $I)
     {
         $I->wantToTest('Storage\Adapter\Redis - delete() - unknown');
 

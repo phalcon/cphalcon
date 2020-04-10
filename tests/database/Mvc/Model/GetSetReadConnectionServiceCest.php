@@ -38,6 +38,7 @@ class GetSetReadConnectionServiceCest
      * @since  2020-01-31
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function mvcModelGetSetReadConnectionService(DatabaseTester $I)

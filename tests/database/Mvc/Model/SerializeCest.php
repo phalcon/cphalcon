@@ -37,8 +37,7 @@ class SerializeCest
 
         /** @var PDO $connection */
         $connection = $I->getConnection();
-        $migration  = new InvoicesMigration($connection);
-        $migration->clear();
+        (new InvoicesMigration($connection));
     }
 
     /**
@@ -48,6 +47,7 @@ class SerializeCest
      * @since  2020-02-01
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function mvcModelSerialize(DatabaseTester $I)
@@ -57,7 +57,6 @@ class SerializeCest
         $title = uniqid('inv-');
         $date  = date('Y-m-d H:i:s');
         $data  = [
-            'inv_id'          => 1,
             'inv_cst_id'      => 2,
             'inv_status_flag' => 3,
             'inv_title'       => $title,
@@ -75,7 +74,6 @@ class SerializeCest
 
         $newObject = unserialize($serialized);
 
-        $I->assertEquals(1, $newObject->inv_id);
         $I->assertEquals(2, $newObject->inv_cst_id);
         $I->assertEquals(3, $newObject->inv_status_flag);
         $I->assertEquals($title, $newObject->inv_title);

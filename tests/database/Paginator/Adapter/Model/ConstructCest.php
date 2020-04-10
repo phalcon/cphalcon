@@ -35,8 +35,7 @@ class ConstructCest
 
         /** @var PDO $connection */
         $connection = $I->getConnection();
-        $migration  = new InvoicesMigration($connection);
-        $migration->clear();
+        (new InvoicesMigration($connection));
     }
 
     /**
@@ -46,6 +45,7 @@ class ConstructCest
      * @since  2019-11-01
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function paginatorAdapterModelConstruct(DatabaseTester $I)

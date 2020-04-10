@@ -38,6 +38,7 @@ class GetDataTypesCest
      * @since  2020-02-01
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function mvcModelMetadataGetDataTypes(DatabaseTester $I)
@@ -76,7 +77,14 @@ class GetDataTypesCest
                     'inv_created_at'  => 6,
                 ];
             default:
-                return [];
+                return [
+                    'inv_id'          => 0,
+                    'inv_cst_id'      => 0,
+                    'inv_status_flag' => 22,
+                    'inv_title'       => 2,
+                    'inv_total'       => 3,
+                    'inv_created_at'  => 17,
+                ];
         }
     }
 }

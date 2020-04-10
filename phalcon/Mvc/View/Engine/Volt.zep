@@ -67,17 +67,10 @@ class Volt extends AbstractEngine implements EventsAwareInterface
         }
 
         /**
-         * Fallback to iconv
-         */
-        if function_exists("iconv") {
-            return iconv(from, to, text);
-        }
-
-        /**
          * There are no enough extensions available
          */
         throw new Exception(
-            "Any of 'mbstring' or 'iconv' is required to perform the charset conversion"
+            "'mbstring' is required to perform the charset conversion"
         );
     }
 

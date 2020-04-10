@@ -104,7 +104,7 @@ PHP_METHOD(Phalcon_Session_Bag, __construct) {
 		ZVAL_STRING(&_4$$3, "the 'session' service");
 		ZEPHIR_CALL_CE_STATIC(&_2$$3, phalcon_session_exception_ce, "containerservicenotfound", &_3, 0, &_4$$3);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 6, &_2$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 8, &_2$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Session/Bag.zep", 55);
 		ZEPHIR_MM_RESTORE();

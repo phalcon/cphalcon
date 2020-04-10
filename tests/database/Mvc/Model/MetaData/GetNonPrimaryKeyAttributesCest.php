@@ -38,6 +38,7 @@ class GetNonPrimaryKeyAttributesCest
      * @since  2020-02-01
      *
      * @group mysql
+     * @group pgsql
      * @group sqlite
      */
     public function mvcModelMetadataGetNonPrimaryKeyAttributes(DatabaseTester $I)
@@ -56,6 +57,7 @@ class GetNonPrimaryKeyAttributesCest
             'inv_created_at',
         ];
         $actual   = $metadata->getNonPrimaryKeyAttributes($model);
+
         $I->assertEquals($expected, $actual);
     }
 }

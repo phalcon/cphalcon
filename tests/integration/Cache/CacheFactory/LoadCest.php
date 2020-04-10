@@ -18,13 +18,13 @@ use Phalcon\Cache\AdapterFactory;
 use Phalcon\Cache\CacheFactory;
 use Phalcon\Test\Fixtures\Traits\FactoryTrait;
 use Psr\SimpleCache\CacheInterface;
-use UnitTester;
+use IntegrationTester;
 
 class LoadCest
 {
     use FactoryTrait;
 
-    public function _before(UnitTester $I)
+    public function _before(IntegrationTester $I)
     {
         $this->init();
     }
@@ -35,7 +35,7 @@ class LoadCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-18
      */
-    public function cacheCacheFactoryLoad(UnitTester $I)
+    public function cacheCacheFactoryLoad(IntegrationTester $I)
     {
         $I->wantToTest('Cache\CacheFactory - load()');
 
@@ -49,7 +49,7 @@ class LoadCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-18
      */
-    public function cacheCacheFactoryLoadArray(UnitTester $I)
+    public function cacheCacheFactoryLoadArray(IntegrationTester $I)
     {
         $I->wantToTest('Cache\CacheFactory - load() - array');
 
@@ -57,7 +57,7 @@ class LoadCest
         $this->runTests($I, $options);
     }
 
-    private function runTests(UnitTester $I, $options)
+    private function runTests(IntegrationTester $I, $options)
     {
         $cacheFactory = new CacheFactory(
             new AdapterFactory()

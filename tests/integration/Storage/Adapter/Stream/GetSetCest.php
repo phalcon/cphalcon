@@ -17,7 +17,7 @@ use Phalcon\Storage\Adapter\Stream;
 use Phalcon\Storage\Exception;
 use Phalcon\Storage\SerializerFactory;
 use stdClass;
-use UnitTester;
+use IntegrationTester;
 
 use function file_put_contents;
 use function is_dir;
@@ -35,7 +35,7 @@ class GetSetCest
      *
      * @author Phalcon Team <team@phalcon.io>
      */
-    public function storageAdapterStreamSet(UnitTester $I)
+    public function storageAdapterStreamSet(IntegrationTester $I)
     {
         $I->wantToTest('Storage\Adapter\Stream - set()');
 
@@ -69,7 +69,7 @@ class GetSetCest
      *
      * @author Phalcon Team <team@phalcon.io>
      */
-    public function storageAdapterStreamSetWithDots(UnitTester $I)
+    public function storageAdapterStreamSetWithDots(IntegrationTester $I)
     {
         $I->wantToTest('Storage\Adapter\Stream - set()');
 
@@ -104,7 +104,7 @@ class GetSetCest
      *
      * @author Phalcon Team <team@phalcon.io>
      */
-    public function storageAdapterStreamGet(UnitTester $I)
+    public function storageAdapterStreamGet(IntegrationTester $I)
     {
         $I->wantToTest('Storage\Adapter\Stream - get()');
 
@@ -149,7 +149,7 @@ class GetSetCest
      *
      * @author Phalcon Team <team@phalcon.io>
      */
-    public function storageAdapterStreamGetErrors(UnitTester $I)
+    public function storageAdapterStreamGetErrors(IntegrationTester $I)
     {
         $I->wantToTest('Storage\Adapter\Stream - get() - errors');
 

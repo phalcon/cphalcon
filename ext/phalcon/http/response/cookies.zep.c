@@ -360,7 +360,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, send) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_CALL_FUNCTION(&_0, "headers_sent", NULL, 363);
+	ZEPHIR_CALL_FUNCTION(&_0, "headers_sent", NULL, 381);
 	zephir_check_call_status();
 	if (zephir_is_true(&_0)) {
 		RETURN_MM_BOOL(0);
@@ -593,7 +593,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set) {
 			ZVAL_STRING(&_15$$7, "the 'response' service");
 			ZEPHIR_CALL_CE_STATIC(&_13$$7, phalcon_http_cookie_exception_ce, "containerservicenotfound", &_14, 0, &_15$$7);
 			zephir_check_call_status();
-			ZEPHIR_CALL_METHOD(NULL, &_12$$7, "__construct", NULL, 6, &_13$$7);
+			ZEPHIR_CALL_METHOD(NULL, &_12$$7, "__construct", NULL, 8, &_13$$7);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(&_12$$7, "phalcon/Http/Response/Cookies.zep", 288);
 			ZEPHIR_MM_RESTORE();

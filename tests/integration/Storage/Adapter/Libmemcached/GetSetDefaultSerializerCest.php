@@ -16,7 +16,7 @@ namespace Phalcon\Test\Integration\Storage\Adapter\Libmemcached;
 use Phalcon\Storage\Adapter\Libmemcached;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\LibmemcachedTrait;
-use UnitTester;
+use IntegrationTester;
 
 use function getOptionsLibmemcached;
 
@@ -31,7 +31,7 @@ class GetSetDefaultSerializerCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-13
      */
-    public function storageAdapterLibmemcachedGetKeys(UnitTester $I)
+    public function storageAdapterLibmemcachedGetKeys(IntegrationTester $I)
     {
         $I->wantToTest('Storage\Adapter\Libmemcached - getDefaultSerializer()/setDefaultSerializer()');
 

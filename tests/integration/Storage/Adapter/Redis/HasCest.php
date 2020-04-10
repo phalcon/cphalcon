@@ -16,7 +16,7 @@ namespace Phalcon\Test\Integration\Storage\Adapter\Redis;
 use Phalcon\Storage\Adapter\Redis;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\RedisTrait;
-use UnitTester;
+use IntegrationTester;
 
 use function getOptionsRedis;
 
@@ -30,7 +30,7 @@ class HasCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-03-31
      */
-    public function storageAdapterRedisGetSetHas(UnitTester $I)
+    public function storageAdapterRedisGetSetHas(IntegrationTester $I)
     {
         $I->wantToTest('Storage\Adapter\Redis - has()');
 

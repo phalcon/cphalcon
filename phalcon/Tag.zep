@@ -12,6 +12,10 @@ namespace Phalcon;
 
 use Phalcon\Di\DiInterface;
 use Phalcon\Escaper\EscaperInterface;
+use Phalcon\Html\Link\Link;
+use Phalcon\Html\Link\Serializer\Header;
+use Phalcon\Helper\Str;
+use Phalcon\Helper\Exception as HelperException;
 use Phalcon\Tag\Select;
 use Phalcon\Tag\Exception;
 use Phalcon\Url\UrlInterface;
@@ -267,52 +271,13 @@ class Tag
         var replace = null
     ) -> string
     {
-        var friendly, locale, search;
+        var ex;
 
-        if extension_loaded("iconv") {
-            /**
-             * Save the old locale and set the new locale to UTF-8
-             */
-            let locale = setlocale(LC_ALL, "en_US.UTF-8"),
-                text = iconv("UTF-8", "ASCII//TRANSLIT", text);
+        try {
+            return Str::friendly(text, separator, lowercase, replace);
+        } catch HelperException, ex {
+            throw new Exception(ex->getMessage());
         }
-
-        if replace {
-            if unlikely (typeof replace != "array" && typeof replace != "string") {
-                throw new Exception(
-                    "Parameter replace must be an array or a string"
-                );
-            }
-
-            if typeof replace == "array" {
-                for search in replace {
-                    let text = str_replace(search, " ", text);
-                }
-            } else {
-                let text = str_replace(replace, " ", text);
-            }
-        }
-
-        let friendly = preg_replace(
-            "/[^a-zA-Z0-9\\/_|+ -]/",
-            "",
-            text
-        );
-
-        if lowercase {
-            let friendly = strtolower(friendly);
-        }
-
-        let friendly = preg_replace("/[\\/_|+ -]+/", separator, friendly),
-            friendly = trim(friendly, separator);
-
-        if extension_loaded("iconv") {
-            /**
-             * Revert back to the old locale
-             */
-            setlocale(LC_ALL, locale);
-        }
-        return friendly;
     }
 
     /**
@@ -812,6 +777,55 @@ class Tag
         } else {
             let self::documentPrependTitle[] = title ;
         }
+    }
+
+    /**
+     * Parses the preload element passed and sets the necessary link headers
+     */
+    public static function preload(var parameters) -> string
+    {
+        var attributes, container, header, href, link, params, response;
+
+        let params = [];
+
+        if typeof parameters !== "array" {
+            let params = [parameters];
+        } else {
+            let params = parameters;
+        }
+
+        /**
+         * Grab the element
+         */
+        fetch href, params[0];
+
+        let container = self::getDI();
+
+        /**
+         * Check if we have the response object in the container
+         */
+        if container && container->has("response") {
+            if isset params[1] {
+                let attributes = params[1];
+            } else {
+                let attributes = ["as" : "style"];
+            }
+
+            /**
+             * href comes wrapped with ''. Remove them
+             */
+            let response = container->get("response"),
+                link     = new Link(
+                    "preload",
+                    str_replace("'", "", href),
+                    attributes
+                ),
+                header   = "Link: " . (new Header())->serialize([link]);
+
+            response->setRawHeader(header);
+        }
+
+        return href;
     }
 
     /**
