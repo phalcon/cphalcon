@@ -15,6 +15,7 @@ namespace Phalcon\Test\Unit\Http\Message\Stream;
 
 use Phalcon\Http\Message\Stream;
 use UnitTester;
+
 use function is_resource;
 
 class CloseCest
@@ -30,14 +31,12 @@ class CloseCest
         $I->wantToTest('Http\Message\Stream - close()');
 
         $fileName = dataDir('assets/stream/mit.txt');
-
-        $handle = fopen($fileName, 'rb');
-
-        $stream = new Stream($handle);
+        $handle   = fopen($fileName, 'rb');
+        $stream   = new Stream($handle);
 
         $stream->close();
 
-        $I->assertTrue(is_resource($handle));
+        $I->assertFalse(is_resource($handle));
     }
 
     /**

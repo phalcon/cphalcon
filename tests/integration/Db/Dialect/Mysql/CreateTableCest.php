@@ -35,28 +35,28 @@ class CreateTableCest
                 new Column(
                     'id',
                     [
-                        'type' => Column::TYPE_INTEGER,
-                        'notNull' => true,
+                        'type'          => Column::TYPE_INTEGER,
+                        'notNull'       => true,
                         'autoIncrement' => true,
-                        'size' => 11,
-                        'first' => true
+                        'size'          => 11,
+                        'first'         => true,
                     ]
                 ),
                 new Column(
                     'updated_at',
                     [
-                        'type' => Column::TYPE_TIMESTAMP,
+                        'type'    => Column::TYPE_TIMESTAMP,
                         'default' => "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
                         'notNull' => false,
-                        'after' => 'created_at'
+                        'after'   => 'created_at',
                     ]
                 ),
                 new Column(
                     'numeric_val',
                     [
-                        'type' => Column::TYPE_FLOAT,
+                        'type'    => Column::TYPE_FLOAT,
                         'notNull' => false,
-                        'after' => 'updated_at'
+                        'after'   => 'updated_at',
                     ]
                 ),
             ],
@@ -65,8 +65,8 @@ class CreateTableCest
             ],
         ];
 
-        $mysql = new Mysql();
-        $sql = $mysql->createTable('test', '', $definition);
+        $mysql    = new Mysql();
+        $sql      = $mysql->createTable('test', '', $definition);
         $expected = <<<SQL
 CREATE TABLE `test` (
 	`id` INT(11) NOT NULL AUTO_INCREMENT,

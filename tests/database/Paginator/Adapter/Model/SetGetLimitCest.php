@@ -45,8 +45,8 @@ class SetGetLimitCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-11-01
      *
-     * @group mysql
-     * @group sqlite
+     * @group  mysql
+     * @group  sqlite
      */
     public function paginatorAdapterModelGetLimit(DatabaseTester $I)
     {

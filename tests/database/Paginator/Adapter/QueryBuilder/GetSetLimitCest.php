@@ -50,7 +50,7 @@ class GetSetLimitCest
         /** @var PDO $connection */
         $connection = $I->getConnection();
         $migration  = new InvoicesMigration($connection);
-        $invId = ('sqlite' === $I->getDriver()) ? 'null' : 'default';
+        $invId      = ('sqlite' === $I->getDriver()) ? 'null' : 'default';
 
         $this->insertDataInvoices($migration, 17, $invId, 2, 'ccc');
 

@@ -36,7 +36,7 @@ class GetRealTypeCest
         if (!function_exists('finfo_open')) {
             $I->skipTest('fileinfo extension missing');
         }
-        
+
         $file = new File(
             [
                 'name'     => 'test',

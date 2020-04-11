@@ -34,42 +34,42 @@ class ModifyColumnCest
                 new Column(
                     'updated_at',
                     [
-                        'type' => Column::TYPE_TIMESTAMP,
+                        'type'    => Column::TYPE_TIMESTAMP,
                         'default' => "CURRENT_TIMESTAMP",
                         'notNull' => false,
-                        'after' => 'created_at'
+                        'after'   => 'created_at',
                     ]
                 ), new Column(
                     'updated_at',
                     [
-                        'type' => Column::TYPE_TIMESTAMP,
+                        'type'    => Column::TYPE_TIMESTAMP,
                         'default' => "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
                         'notNull' => false,
-                        'after' => 'created_at'
+                        'after'   => 'created_at',
                     ]
                 ),
                 'ALTER TABLE `test` MODIFY `updated_at` TIMESTAMP ' .
-                    'DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP AFTER `created_at`'
+                'DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP AFTER `created_at`',
             ],
             [
                 new Column(
                     'numeric_val',
                     [
-                        'type' => Column::TYPE_FLOAT,
+                        'type'    => Column::TYPE_FLOAT,
                         'notNull' => true,
-                        'after' => 'updated_at'
+                        'after'   => 'updated_at',
                     ]
                 ), new Column(
                     'numeric_val',
                     [
-                        'type' => Column::TYPE_FLOAT,
+                        'type'    => Column::TYPE_FLOAT,
                         'default' => 21.42,
                         'notNull' => false,
-                        'after' => 'updated_at'
+                        'after'   => 'updated_at',
                     ]
                 ),
-                'ALTER TABLE `test` MODIFY `numeric_val` FLOAT DEFAULT 21.42 AFTER `updated_at`'
-            ]
+                'ALTER TABLE `test` MODIFY `numeric_val` FLOAT DEFAULT 21.42 AFTER `updated_at`',
+            ],
         ];
 
         $mysql = new Mysql();

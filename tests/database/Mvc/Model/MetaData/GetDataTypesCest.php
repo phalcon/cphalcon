@@ -37,9 +37,9 @@ class GetDataTypesCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
      *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
+     * @group  mysql
+     * @group  pgsql
+     * @group  sqlite
      */
     public function mvcModelMetadataGetDataTypes(DatabaseTester $I)
     {

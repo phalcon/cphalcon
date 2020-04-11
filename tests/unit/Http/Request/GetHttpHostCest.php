@@ -24,8 +24,8 @@ class GetHttpHostCest extends HttpBase
     /**
      * Tests getHttpHost
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2014-10-04
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2014-10-04
      *
      * @dataProvider getExamples
      */
@@ -33,7 +33,7 @@ class GetHttpHostCest extends HttpBase
     {
         $I->wantToTest('Http\Request - getHttpHost()');
 
-        $store = $_SERVER ?? [];
+        $store   = $_SERVER ?? [];
         $_SERVER = $example[0];
 
         $request = new Request();
@@ -158,7 +158,7 @@ class GetHttpHostCest extends HttpBase
     }
 
     /**
-     * @return array|\string[][]
+     * @return array|string[]
      */
     private function testInvalidHttpRequestHttpHostProvider(): array
     {
