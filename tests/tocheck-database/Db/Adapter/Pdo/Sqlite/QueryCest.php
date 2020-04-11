@@ -16,6 +16,7 @@ namespace Phalcon\Test\Integration\Db\Adapter\Pdo\Sqlite;
 use IntegrationTester;
 use Phalcon\Db\Enum;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
+use function is_array;
 
 class QueryCest
 {
@@ -41,7 +42,7 @@ class QueryCest
 
         $result = $connection->query('SELECT * FROM personas LIMIT 3');
 
-        $I->assertInternalType('object', $result);
+        $I->assertTrue(is_object($result));
 
         $I->assertInstanceOf(
             \Phalcon\Db\Result\Pdo::class,
@@ -60,7 +61,7 @@ class QueryCest
 
         $number = 0;
         $result = $connection->query('SELECT * FROM personas LIMIT 5');
-        $I->assertInternalType('object', $result);
+        $I->assertTrue(is_object($result));
 
         while ($row = $result->fetch()) {
             $number++;
@@ -71,7 +72,7 @@ class QueryCest
         $result = $connection->query('SELECT * FROM personas LIMIT 5');
         $result->setFetchMode(Enum::FETCH_NUM);
         $row = $result->fetch();
-        $I->assertInternalType('array', $row);
+        $I->assertTrue(is_array($row));
         $I->assertCount(11, $row);
         $I->assertTrue(isset($row[0]));
         $I->assertFalse(isset($row['cedula']));
@@ -81,7 +82,7 @@ class QueryCest
         $result = $connection->query('SELECT * FROM personas LIMIT 5');
         $result->setFetchMode(Enum::FETCH_ASSOC);
         $row = $result->fetch();
-        $I->assertInternalType('array', $row);
+        $I->assertTrue(is_array($row));
         $I->assertCount(11, $row);
         $I->assertFalse(isset($row[0]));
         $I->assertTrue(isset($row['cedula']));
@@ -91,7 +92,7 @@ class QueryCest
         $result = $connection->query('SELECT * FROM personas LIMIT 5');
         $result->setFetchMode(Enum::FETCH_OBJ);
         $row = $result->fetch();
-        $I->assertInternalType('object', $row);
+        $I->assertTrue(is_object($row));
         $I->assertTrue(isset($row->cedula));
 
 

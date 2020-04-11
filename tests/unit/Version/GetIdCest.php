@@ -16,6 +16,7 @@ namespace Phalcon\Test\Unit\Version;
 use Phalcon\Test\Fixtures\Traits\VersionTrait;
 use Phalcon\Version;
 use UnitTester;
+use function is_string;
 
 class GetIdCest
 {
@@ -31,10 +32,7 @@ class GetIdCest
     {
         $I->wantToTest('Version - getId()');
 
-        $I->assertInternalType(
-            'string',
-            Version::getId()
-        );
+        $I->assertTrue(is_string(Version::getId()));
     }
 
     /**

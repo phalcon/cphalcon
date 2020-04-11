@@ -60,7 +60,7 @@ class JsonSerializeCest
 
         $data = $messages->jsonSerialize();
 
-        $I->assertInternalType('array', $data);
+        $I->assertTrue(is_array($data));
 
         $I->assertCount(2, $data);
     }

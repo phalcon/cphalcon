@@ -17,6 +17,8 @@ use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models;
 
+use function is_int;
+
 class UnderscoreCallStaticCest
 {
     use DiTrait;
@@ -121,10 +123,7 @@ class UnderscoreCallStaticCest
             $robot->id
         );
 
-        $I->assertInternalType(
-            'int',
-            $countMagicRobots
-        );
+        $I->assertTrue(is_int($countMagicRobots));
 
         $I->assertEquals(
             1,
@@ -137,10 +136,7 @@ class UnderscoreCallStaticCest
          */
         $countEmptyMagicRobots = Models\Robots::countById(null);
 
-        $I->assertInternalType(
-            'int',
-            $countEmptyMagicRobots
-        );
+        $I->assertTrue(is_int($countEmptyMagicRobots));
 
         $I->assertEquals(
             0,
