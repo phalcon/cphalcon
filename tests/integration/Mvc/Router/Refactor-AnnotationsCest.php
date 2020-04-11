@@ -16,6 +16,7 @@ use IntegrationTester;
 use Phalcon\Mvc\Router\Annotations;
 use Phalcon\Mvc\Router\Route;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
+
 use function is_object;
 
 class AnnotationsCest

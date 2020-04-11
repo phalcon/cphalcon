@@ -24,7 +24,7 @@ class ConstantsCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-10-26
      *
-     * @group common
+     * @group  common
      */
     public function checkClassConstants(DatabaseTester $I)
     {

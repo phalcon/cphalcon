@@ -24,7 +24,7 @@ class GetValueCest
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-04-17
      *
-     * @group common
+     * @group  common
      */
     public function dbRawvalueGetValue(DatabaseTester $I)
     {

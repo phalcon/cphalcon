@@ -22,14 +22,15 @@ class GetSetOptionsCest
     /**
      * Tests Phalcon\Assets\Manager :: getOptions()/setOptions()
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2020-03-19
+     * @param UnitTester $I
+     * @param Example    $example
+     *
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2020-03-19
      *
      *
      * @dataProvider getExamples
      *
-     * @param UnitTester $I
-     * @param Example    $example
      */
     public function assetsManagerGetSetOptions(
         UnitTester $I,
@@ -40,7 +41,7 @@ class GetSetOptionsCest
         );
 
         $options = $example['options'];
-        $assets = new Manager($options);
+        $assets  = new Manager($options);
 
         if (!empty($example['set'])) {
             $assets->setOptions($example['set']);

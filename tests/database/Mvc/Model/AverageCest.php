@@ -33,9 +33,9 @@ class AverageCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-30
      *
-     * @group mysql
-     * @group pgsql
-     * @group sqlites
+     * @group  mysql
+     * @group  pgsql
+     * @group  sqlites
      */
     public function mvcModelAverage(DatabaseTester $I)
     {
@@ -97,7 +97,7 @@ class AverageCest
             [
                 'column' => 'inv_total',
                 'group'  => 'inv_cst_id',
-                'order'  => 'inv_cst_id'
+                'order'  => 'inv_cst_id',
             ]
         );
         $I->assertInstanceOf(Simple::class, $results);

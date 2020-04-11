@@ -13,7 +13,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http;
 
-use Codeception\Example;
 use Phalcon\Test\Unit\Http\Helper\HttpBase;
 use UnitTester;
 

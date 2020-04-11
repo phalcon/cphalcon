@@ -24,10 +24,11 @@ class GetEscaperCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: getEscaper()
      *
-     * @author Phalcon Team <team@phalcon.io>
+     * @param UnitTester $I
+     *
      * @since  2018-11-13
      *
-     * @param UnitTester $I
+     * @author Phalcon Team <team@phalcon.io>
      */
     public function tagGetEscaper(UnitTester $I)
     {

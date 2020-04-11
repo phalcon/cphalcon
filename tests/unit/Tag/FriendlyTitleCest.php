@@ -194,8 +194,8 @@ class FriendlyTitleCest extends TagSetup
             function () {
                 Tag::resetInput();
 
-                $options  = 'This is a Test';
-                $actual = Tag::friendlyTitle($options, '_', true, true);
+                $options = 'This is a Test';
+                $actual  = Tag::friendlyTitle($options, '_', true, true);
             }
         );
     }

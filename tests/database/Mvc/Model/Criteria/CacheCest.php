@@ -15,9 +15,7 @@ namespace Phalcon\Test\Database\Mvc\Model\Criteria;
 
 use DatabaseTester;
 use Phalcon\Mvc\Model\Criteria;
-use Phalcon\Mvc\Model\Query\Builder;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\Invoices;
 
 /**
  * Class CacheCest
@@ -37,7 +35,7 @@ class CacheCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
      *
-     * @group common
+     * @group  common
      */
     public function mvcModelCriteriaCache(DatabaseTester $I)
     {
@@ -47,7 +45,7 @@ class CacheCest
         $criteria->setDI($this->container);
 
         $options = [
-            'lifetime' => 120
+            'lifetime' => 120,
         ];
         $criteria->cache($options);
 
