@@ -33,15 +33,15 @@ class MaximumCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-30
      *
-     * @group mysql
-     * @group pgsql
+     * @group  mysql
+     * @group  pgsql
      */
     public function mvcModelMaximum(DatabaseTester $I)
     {
         /** @var PDO $connection */
         $connection = $I->getConnection();
         $migration  = new InvoicesMigration($connection);
-        $invId = ('sqlite' === $I->getDriver()) ? 'null' : 'default';
+        $invId      = ('sqlite' === $I->getDriver()) ? 'null' : 'default';
 
         $this->insertDataInvoices($migration, 7, $invId, 2, 'ccc');
         $this->insertDataInvoices($migration, 1, $invId, 3, 'aaa');
@@ -94,7 +94,7 @@ class MaximumCest
             [
                 'column' => 'inv_total',
                 'group'  => 'inv_cst_id',
-                'order'  => 'inv_cst_id'
+                'order'  => 'inv_cst_id',
             ]
         );
         $I->assertInstanceOf(Simple::class, $results);

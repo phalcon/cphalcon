@@ -45,9 +45,9 @@ class ConstructCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-11-01
      *
-     * @group mysql
-     * @group pgsql
-     * @group sqlite
+     * @group  mysql
+     * @group  pgsql
+     * @group  sqlite
      */
     public function paginatorAdapterModelConstruct(DatabaseTester $I)
     {

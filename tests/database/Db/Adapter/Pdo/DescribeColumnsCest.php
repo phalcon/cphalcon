@@ -24,6 +24,7 @@ final class DescribeColumnsCest
 
     /**
      * @param DatabaseTester $I
+     *
      * @throws Exception
      */
     public function _before(DatabaseTester $I)
@@ -38,16 +39,16 @@ final class DescribeColumnsCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-03-02
      *
-     * @group mysql
+     * @group  mysql
      */
     public function dbAdapterPdoDescribeColumnsOnUpdate(DatabaseTester $I)
     {
         $I->wantToTest('Db\Adapter\Pdo - describeColumns()');
 
         $connection = $I->getConnection();
-        $db = $this->container->get('db');
+        $db         = $this->container->get('db');
 
-        $now = date('Y-m-d H:i:s');
+        $now       = date('Y-m-d H:i:s');
         $migration = new ComplexDefaultMigration($connection);
         $migration->insert(1, $now, $now);
 
@@ -63,16 +64,16 @@ final class DescribeColumnsCest
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2020-03-09
      *
-     * @group pgsql
+     * @group  pgsql
      */
     public function dbAdapterPdoDescribeColumnsDefaultPostgres(DatabaseTester $I)
     {
         $I->wantToTest('Db\Adapter\Pdo - describeColumns() - CheckPostgres Default value');
 
         $connection = $I->getConnection();
-        $db = $this->container->get('db');
+        $db         = $this->container->get('db');
 
-        $now = date('Y-m-d H:i:s');
+        $now       = date('Y-m-d H:i:s');
         $migration = new ComplexDefaultMigration($connection);
         $migration->insert(1, $now, $now);
 

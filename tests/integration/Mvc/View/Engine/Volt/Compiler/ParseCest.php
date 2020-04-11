@@ -17,6 +17,7 @@ use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
 use Phalcon\Mvc\View\Exception;
+
 use function is_array;
 
 /**

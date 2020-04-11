@@ -31,7 +31,7 @@ class FromInputCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-03-05
      *
-     * @group mysql
+     * @group  mysql
      */
     public function mvcModelCriteriaFromInputMysql(DatabaseTester $I)
     {
@@ -53,7 +53,7 @@ class FromInputCest
             ]
         );
 
-        $builder = $criteria->createBuilder();
+        $builder  = $criteria->createBuilder();
         $expected = 'SELECT [Phalcon\Test\Models\Invoices].* '
             . 'FROM [Phalcon\Test\Models\Invoices] '
             . 'WHERE [inv_id] = :inv_id: '
@@ -83,7 +83,7 @@ class FromInputCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-03-05
      *
-     * @group sqlite
+     * @group  sqlite
      */
     public function mvcModelCriteriaFromInputSqlite(DatabaseTester $I)
     {
@@ -105,7 +105,7 @@ class FromInputCest
             ]
         );
 
-        $builder = $criteria->createBuilder();
+        $builder  = $criteria->createBuilder();
         $expected = 'SELECT [Phalcon\Test\Models\Invoices].* '
             . 'FROM [Phalcon\Test\Models\Invoices] '
             . 'WHERE [inv_id] = :inv_id: '

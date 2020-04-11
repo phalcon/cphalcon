@@ -22,6 +22,7 @@ use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\RecordsTrait;
 use Phalcon\Test\Models\Invoices;
+
 use function is_int;
 
 class PaginateCest
@@ -46,9 +47,9 @@ class PaginateCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
      *
-     * @group mysql
-     * @group sqlite
-     * @group pgsql
+     * @group  mysql
+     * @group  sqlite
+     * @group  pgsql
      */
     public function paginatorAdapterQuerybuilderPaginate(DatabaseTester $I)
     {
@@ -60,7 +61,7 @@ class PaginateCest
         /** @var PDO $connection */
         $connection = $I->getConnection();
         $migration  = new InvoicesMigration($connection);
-        $invId = ('sqlite' === $I->getDriver()) ? 'null' : 'default';
+        $invId      = ('sqlite' === $I->getDriver()) ? 'null' : 'default';
 
         $this->insertDataInvoices($migration, 17, $invId, 2, 'ccc');
 
@@ -98,8 +99,8 @@ class PaginateCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-29
      *
-     * @group mysql
-     * @group pgsql
+     * @group  mysql
+     * @group  pgsql
      */
     public function paginatorAdapterQuerybuilderPaginateGroupBy(DatabaseTester $I)
     {
@@ -112,7 +113,7 @@ class PaginateCest
         /** @var PDO $connection */
         $connection = $I->getConnection();
         $migration  = new InvoicesMigration($connection);
-        $invId = ('sqlite' === $I->getDriver()) ? 'null' : 'default';
+        $invId      = ('sqlite' === $I->getDriver()) ? 'null' : 'default';
 
         $this->insertDataInvoices($migration, 17, $invId, 2, 'ccc');
         $this->insertDataInvoices($migration, 11, $invId, 3, 'aaa');
@@ -169,15 +170,16 @@ class PaginateCest
     /**
      * Tests Phalcon\Paginator\Adapter\QueryBuilder :: paginate()
      *
+     * @param DatabaseTester $I
+     *
+     * @issue  14639
+     *
+     * @group  mysql
+     *
+     * @throws Exception
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-03-15
      *
-     * @param DatabaseTester $I
-     * @issue 14639
-     *
-     * @group mysql
-     *
-     * @throws Exception
      */
     public function paginatorAdapterQuerybuilderPaginateView(DatabaseTester $I): void
     {
@@ -188,7 +190,7 @@ class PaginateCest
         /** @var PDO $connection */
         $connection = $I->getConnection();
         $migration  = new InvoicesMigration($connection);
-        $invId = ('sqlite' === $I->getDriver()) ? 'null' : 'default';
+        $invId      = ('sqlite' === $I->getDriver()) ? 'null' : 'default';
 
         $this->insertDataInvoices($migration, 17, $invId, 2, 'ccc');
         $this->insertDataInvoices($migration, 11, $invId, 3, 'aaa');
@@ -200,7 +202,7 @@ class PaginateCest
             Invoices::class,
             []
         );
-        $builder = $criteria->createBuilder();
+        $builder  = $criteria->createBuilder();
 
         $paginator = new QueryBuilder(
             [

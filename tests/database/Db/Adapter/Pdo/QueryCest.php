@@ -38,16 +38,16 @@ class QueryCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-22
      *
-     * @group pgsql
-     * @group mysql
-     * @group sqlite
+     * @group  pgsql
+     * @group  mysql
+     * @group  sqlite
      */
     public function dbAdapterPdoQuery(DatabaseTester $I)
     {
         $I->wantToTest('Db\Adapter\Pdo - query()');
 
         $connection = $I->getConnection();
-        $db = $this->container->get('db');
+        $db         = $this->container->get('db');
 
         $migration = new InvoicesMigration($connection);
         $migration->insert(1, 1, 1, 'title 1', 101);
