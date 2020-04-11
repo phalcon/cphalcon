@@ -30,9 +30,6 @@ class GetAvailableHashAlgosCest
 
         $crypt = new Crypt();
 
-        $I->assertInternalType(
-            'array',
-            $crypt->getAvailableHashAlgos()
-        );
+        $I->assertTrue(is_array($crypt->getAvailableHashAlgos()));
     }
 }

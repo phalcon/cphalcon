@@ -16,6 +16,7 @@ use IntegrationTester;
 use Phalcon\Mvc\Router\Annotations;
 use Phalcon\Mvc\Router\Route;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
+use function is_object;
 
 class AnnotationsCest
 {
@@ -128,7 +129,7 @@ class AnnotationsCest
         );
 
         $route = $router->getRouteByName('save-robot');
-        $I->assertInternalType('object', $route);
+        $I->assertTrue(is_object($route));
 
         $I->assertInstanceOf(
             Route::class,
@@ -136,7 +137,7 @@ class AnnotationsCest
         );
 
         $route = $router->getRouteByName('save-product');
-        $I->assertInternalType('object', $route);
+        $I->assertTrue(is_object($route));
 
         $I->assertInstanceOf(
             Route::class,

@@ -38,10 +38,7 @@ class GetColumnListCest
 
         $actual = $dialect->getColumnList($columns);
 
-        $I->assertInternalType(
-            'string',
-            $actual
-        );
+        $I->assertTrue(is_string($actual));
 
         $I->assertEquals($expected, $actual);
     }
