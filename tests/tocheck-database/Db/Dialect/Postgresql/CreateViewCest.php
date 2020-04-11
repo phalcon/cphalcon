@@ -43,10 +43,7 @@ class CreateViewCest
             $schema
         );
 
-        $I->assertInternalType(
-            'string',
-            $actual
-        );
+        $I->assertTrue(is_string($actual));
 
         $I->assertEquals($expected, $actual);
     }

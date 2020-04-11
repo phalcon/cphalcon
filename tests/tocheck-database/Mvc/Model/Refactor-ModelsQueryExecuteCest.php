@@ -339,7 +339,7 @@ class ModelsQueryExecuteCest
          * @todo - check this
          */
         // $I->assertNotInternalType('object', $result[0]->id);
-        $I->assertInternalType('object', $result[0]->r);
+        $I->assertTrue(is_object($result[0]->r));
         $I->assertCount(3, $result);
         $I->assertEquals(1, $result[0]->id);
 
@@ -349,9 +349,9 @@ class ModelsQueryExecuteCest
             'ORDER BY Phalcon\Test\Models\Robots.id, Phalcon\Test\Models\RobotsParts.id'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Complex::class, $result);
-        $I->assertInternalType('object', $result[0]->robots);
+        $I->assertTrue(is_object($result[0]->robots));
         $I->assertInstanceOf(\Phalcon\Test\Models\Robots::class, $result[0]->robots);
-        $I->assertInternalType('object', $result[0]->robotsParts);
+        $I->assertTrue(is_object($result[0]->robotsParts));
         $I->assertInstanceOf(\RobotsParts::class, $result[0]->robotsParts);
         $I->assertCount(3, $result);
         $I->assertEquals(1, $result[0]->robots->id);
@@ -366,9 +366,9 @@ class ModelsQueryExecuteCest
             'ORDER BY Phalcon\Test\Models\Robots.id, Phalcon\Test\Models\RobotsParts.id'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Complex::class, $result);
-        $I->assertInternalType('object', $result[0]->robots);
+        $I->assertTrue(is_object($result[0]->robots));
         $I->assertInstanceOf(\Phalcon\Test\Models\Robots::class, $result[0]->robots);
-        $I->assertInternalType('object', $result[0]->robotsParts);
+        $I->assertTrue(is_object($result[0]->robotsParts));
         $I->assertInstanceOf('RobotsParts', $result[0]->robotsParts);
         $I->assertCount(3, $result);
         $I->assertEquals($result[0]->robots->id, 1);
@@ -382,9 +382,9 @@ class ModelsQueryExecuteCest
             'JOIN Phalcon\Test\Models\RobotsParts p ON r.id = p.robots_id ORDER BY r.id, p.id'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Complex::class, $result);
-        $I->assertInternalType('object', $result[0]->r);
+        $I->assertTrue(is_object($result[0]->r));
         $I->assertInstanceOf(\Phalcon\Test\Models\Robots::class, $result[0]->r);
-        $I->assertInternalType('object', $result[0]->p);
+        $I->assertTrue(is_object($result[0]->p));
         $I->assertInstanceOf(\Phalcon\Test\Models\RobotsParts::class, $result[0]->p);
         $I->assertCount(3, $result);
         $I->assertEquals($result[0]->r->id, 1);
@@ -427,9 +427,9 @@ class ModelsQueryExecuteCest
             'ORDER BY r.id, p.id'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Complex::class, $result);
-        $I->assertInternalType('object', $result[0]->r);
+        $I->assertTrue(is_object($result[0]->r));
         $I->assertInstanceOf(\Phalcon\Test\Models\Some\Robots::class, $result[0]->r);
-        $I->assertInternalType('object', $result[0]->p);
+        $I->assertTrue(is_object($result[0]->p));
         $I->assertInstanceOf(\Phalcon\Test\Models\Some\RobotsParts::class, $result[0]->p);
         $I->assertCount(3, $result);
         $I->assertEquals(1, $result[0]->r->id);
@@ -811,9 +811,9 @@ class ModelsQueryExecuteCest
             'ORDER BY r.code, p.code'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Complex::class, $result);
-        $I->assertInternalType('object', $result[0]->r);
+        $I->assertTrue(is_object($result[0]->r));
         $I->assertInstanceOf(\Phalcon\Test\Models\Robotters::class, $result[0]->r);
-        $I->assertInternalType('object', $result[0]->p);
+        $I->assertTrue(is_object($result[0]->p));
         $I->assertInstanceOf(\Phalcon\Test\Models\RobottersDeles::class, $result[0]->p);
         $I->assertCount(3, $result);
         $I->assertEquals($result[0]->r->code, 1);
@@ -827,7 +827,7 @@ class ModelsQueryExecuteCest
             'LEFT JOIN Phalcon\Test\Models\Robots2 r ON rp.robots_id=r.id'
         );
         $I->assertInstanceOf(\Phalcon\Mvc\Model\Resultset\Simple::class, $result);
-        $I->assertInternalType('object', $result[0]);
+        $I->assertTrue(is_object($result[0]));
         $I->assertInstanceOf(\Phalcon\Test\Models\Robots2::class, $result[0]);
         $I->assertNotNull($result[0]->getName());
 

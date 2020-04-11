@@ -16,6 +16,7 @@ namespace Phalcon\Test\Integration\Db\Dialect\Sqlite;
 use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Db\Dialect\Sqlite;
+use function is_string;
 
 class CreateViewCest
 {
@@ -43,10 +44,7 @@ class CreateViewCest
             $schema
         );
 
-        $I->assertInternalType(
-            'string',
-            $actual
-        );
+        $I->assertTrue(is_string($actual));
 
         $I->assertEquals($expected, $actual);
     }

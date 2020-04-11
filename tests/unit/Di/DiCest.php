@@ -31,6 +31,7 @@ use stdClass;
 use UnitTester;
 
 use function dataDir;
+use function is_string;
 
 /**
  * Tests the \Phalcon\Di component
@@ -518,10 +519,7 @@ class DiCest
 
         $component = $this->phDi->get('simpleConstructor');
 
-        $I->assertInternalType(
-            'string',
-            $component->getResponse()
-        );
+        $I->assertTrue(is_string($component->getResponse()));
 
         $I->assertEquals(
             'response',
@@ -531,10 +529,7 @@ class DiCest
 
         $component = $this->phDi->get('simpleSetters');
 
-        $I->assertInternalType(
-            'string',
-            $component->getResponse()
-        );
+        $I->assertTrue(is_string($component->getResponse()));
 
         $I->assertEquals(
             'response',
@@ -544,54 +539,26 @@ class DiCest
 
         $component = $this->phDi->get('simpleProperties');
 
-        $I->assertInternalType(
-            'string',
-            $component->getResponse()
-        );
-
-        $I->assertEquals(
-            'response',
-            $component->getResponse()
-        );
+        $I->assertTrue(is_string($component->getResponse()));
+        $I->assertEquals('response', $component->getResponse());
 
 
         $component = $this->phDi->get('complexConstructor');
 
-        $I->assertInternalType(
-            'object',
-            $component->getResponse()
-        );
-
-        $I->assertEquals(
-            $response,
-            $component->getResponse()
-        );
+        $I->assertTrue(is_object($component->getResponse()));
+        $I->assertEquals($response, $component->getResponse());
 
 
         $component = $this->phDi->get('complexSetters');
 
-        $I->assertInternalType(
-            'object',
-            $component->getResponse()
-        );
-
-        $I->assertEquals(
-            $response,
-            $component->getResponse()
-        );
+        $I->assertTrue(is_object($component->getResponse()));
+        $I->assertEquals($response, $component->getResponse());
 
 
         $component = $this->phDi->get('complexProperties');
 
-        $I->assertInternalType(
-            'object',
-            $component->getResponse()
-        );
-
-        $I->assertEquals(
-            $response,
-            $component->getResponse()
-        );
+        $I->assertTrue(is_object($component->getResponse()));
+        $I->assertEquals($response, $component->getResponse());
     }
 
     /**

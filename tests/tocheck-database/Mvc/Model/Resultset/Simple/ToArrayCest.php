@@ -114,19 +114,19 @@ class ToArrayCest
         /**
          * Assert
          */
-        $I->assertInternalType('array', $renamedArray1);
-        $I->assertInternalType('array', $renamedArray2);
-        $I->assertInternalType('array', $renamedArray3);
-        $I->assertInternalType('array', $renamedArray4);
-        $I->assertInternalType('array', $renamedArray5);
-        $I->assertInternalType('array', $renamedArray6);
+        $I->assertTrue(is_array($renamedArray1));
+        $I->assertTrue(is_array($renamedArray2));
+        $I->assertTrue(is_array($renamedArray3));
+        $I->assertTrue(is_array($renamedArray4));
+        $I->assertTrue(is_array($renamedArray5));
+        $I->assertTrue(is_array($renamedArray6));
 
-        $I->assertInternalType('array', $untouchedArray1);
-        $I->assertInternalType('array', $untouchedArray2);
-        $I->assertInternalType('array', $untouchedArray3);
-        $I->assertInternalType('array', $untouchedArray4);
-        $I->assertInternalType('array', $untouchedArray5);
-        $I->assertInternalType('array', $untouchedArray6);
+        $I->assertTrue(is_array($untouchedArray1));
+        $I->assertTrue(is_array($untouchedArray2));
+        $I->assertTrue(is_array($untouchedArray3));
+        $I->assertTrue(is_array($untouchedArray4));
+        $I->assertTrue(is_array($untouchedArray5));
+        $I->assertTrue(is_array($untouchedArray6));
 
         $I->assertArrayHasKey('invoice_title', $untouchedArray1[0]);
         $I->assertArrayHasKey('invoice_title', $renamedArray1[0]);

@@ -15,6 +15,7 @@ namespace Phalcon\Test\Unit\Http\Message\Stream;
 
 use Phalcon\Http\Message\Stream;
 use UnitTester;
+use function is_resource;
 
 class CloseCest
 {
@@ -36,10 +37,7 @@ class CloseCest
 
         $stream->close();
 
-        $I->assertInternalType(
-            'resource',
-            $handle
-        );
+        $I->assertTrue(is_resource($handle));
     }
 
     /**

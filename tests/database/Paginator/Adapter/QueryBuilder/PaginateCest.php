@@ -22,6 +22,7 @@ use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\RecordsTrait;
 use Phalcon\Test\Models\Invoices;
+use function is_int;
 
 class PaginateCest
 {
@@ -88,7 +89,7 @@ class PaginateCest
         $I->assertEquals(1, $page->getCurrent());
         $I->assertEquals(5, $page->limit);
         $I->assertEquals(17, $page->getTotalItems());
-        $I->assertInternalType('int', $page->getTotalItems());
+        $I->assertTrue(is_int($page->getTotalItems()));
     }
 
     /**
@@ -141,7 +142,7 @@ class PaginateCest
         $I->assertEquals(1, $page->getCurrent());
         $I->assertEquals(5, $page->limit);
         $I->assertEquals(28, $page->getTotalItems());
-        $I->assertInternalType('int', $page->getTotalItems());
+        $I->assertTrue(is_int($page->getTotalItems()));
 
         $builder = $manager
             ->createBuilder()
@@ -162,7 +163,7 @@ class PaginateCest
         $I->assertEquals(1, $page->getCurrent());
         $I->assertEquals(5, $page->limit);
         $I->assertEquals(17, $page->getTotalItems());
-        $I->assertInternalType('int', $page->getTotalItems());
+        $I->assertTrue(is_int($page->getTotalItems()));
     }
 
     /**
