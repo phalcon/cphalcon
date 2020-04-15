@@ -490,8 +490,19 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *         $this->addBehavior(
      *             new Timestampable(
      *                 [
-     *                     "onCreate" => [
+     *                     "beforeCreate" => [
      *                         "field"  => "created_at",
+     *                         "format" => "Y-m-d",
+     *                     ],
+     *                 ]
+     *             )
+     *         );
+     *
+     *         $this->addBehavior(
+     *             new Timestampable(
+     *                 [
+     *                     "beforeUpdate" => [
+     *                         "field"  => "updated_at",
      *                         "format" => "Y-m-d",
      *                     ],
      *                 ]
