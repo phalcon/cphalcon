@@ -90,9 +90,7 @@ Thanks for the support
 <a href="https://github.com/terolblade"><img src="https://avatars3.githubusercontent.com/u/3078649?s=460&v=4" title="Stanislav Sviridenko" width="60" height="60"></a>
 <a href="https://github.com/Ruzgfpegk"><img src="https://avatars1.githubusercontent.com/u/3818364?s=460&v=4" title="Ruzgfpegk" width="60" height="60"></a>
 <a href="https://github.com/zsilbi"><img src="https://avatars2.githubusercontent.com/u/3886658?s=460&v=4" title="Balázs Németh" width="60" height="60"></a>
-<a href="https://github.com/olegatro"><img src="https://avatars3.githubusercontent.com/u/4980366?s=460&v=4" title="Oleg Scherbakov" width="60" height="60"></a>
 <a href="https://github.com/ruudboon"><img src="https://avatars3.githubusercontent.com/u/7444246?s=460&v=4" title="Ruud Boon" width="60" height="60"></a>
-<a href="https://github.com/sitchi"><img src="https://avatars0.githubusercontent.com/u/11546683?s=460&v=4" title="Nikoloz Sitchinava" width="60" height="60"></a>
 <a href="https://github.com/Montana"><img src="https://avatars3.githubusercontent.com/u/20936398?s=460&v=4" title="Montana Mendy" width="60" height="60"></a>
 <a href="https://github.com/ak1113"><img src="https://avatars0.githubusercontent.com/u/38716832?s=460&v=4" title="Akira Kato" width="60" height="60"></a>
 
