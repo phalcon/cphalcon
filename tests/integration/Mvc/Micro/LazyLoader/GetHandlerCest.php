@@ -13,8 +13,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Mvc\Micro\LazyLoader;
 
+use IntegrationTester;
 use Phalcon\Assets\Manager;
-use UnitTester;
 
 /**
  * Class GetHandlerCest
