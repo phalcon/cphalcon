@@ -399,7 +399,7 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 			return 0;
 		}
 
-		EIDENTIFIER = '[' ([\\][\[]|[\\][\]]|ANYNOEOF\[\\\[\]])* ']';
+		EIDENTIFIER = '[' ([\\][\[]|[\\][\]]|ANYNOEOF\[\[\]])* ']';
 		EIDENTIFIER {
 			token->opcode = PHQL_T_IDENTIFIER;
 			token->value = estrndup(q, YYCURSOR - q - 1);
