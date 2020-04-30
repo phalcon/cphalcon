@@ -26,6 +26,16 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 	char *q = YYCURSOR;
 	int status = PHQL_SCANNER_RETCODE_IMPOSSIBLE;
 
+	/*!re2c
+	ESCQQ           = [\\]["];
+	ESCQ            = [\\]['];
+	ESCSEQ          = [\\].;
+	ANYNOEOF        = [\001-\377];
+
+	DSTRING = (["] (ESCQQ|ESCSEQ|ANYNOEOF\[\\"])* ["]);
+	SSTRING = (['] (ESCQ|ESCSEQ|ANYNOEOF\[\\'])* [']);
+	STRING  = DSTRING|SSTRING;
+	*/
 	while (PHQL_SCANNER_RETCODE_IMPOSSIBLE == status) {
 
 		/*!re2c
@@ -362,7 +372,6 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 			return 0;
 		}
 
-		STRING = (["] ([\\]["]|[\\].|[\001-\377]\[\\"])* ["])|(['] ([\\][']|[\\].|[\001-\377]\[\\'])* [']);
 		STRING {
 			token->opcode = PHQL_T_STRING;
 			token->value = estrndup(q, YYCURSOR - q - 1);
@@ -390,7 +399,7 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 			return 0;
 		}
 
-		EIDENTIFIER = '[' [a-zA-Z\\_][a-zA-Z0-9_\\:]* ']';
+		EIDENTIFIER = '[' ([\\][\[]|[\\][\]]|ANYNOEOF\[\\\[\]])* ']';
 		EIDENTIFIER {
 			token->opcode = PHQL_T_IDENTIFIER;
 			token->value = estrndup(q, YYCURSOR - q - 1);
