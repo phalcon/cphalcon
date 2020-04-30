@@ -43,7 +43,7 @@ class ReflectionCest
 
         $methodsAnnotations = $reflection->getMethodsAnnotations();
 
-        $I->assertInternalType('array', $methodsAnnotations);
+        $I->assertTrue(is_array($methodsAnnotations));
 
         $I->assertInstanceOf(
             Collection::class,
@@ -53,7 +53,7 @@ class ReflectionCest
         $total = 0;
 
         foreach ($methodsAnnotations as $method => $annotations) {
-            $I->assertInternalType('string', $method);
+            $I->assertTrue(is_string($method));
 
             $number = 0;
 
@@ -93,7 +93,7 @@ class ReflectionCest
         $I->assertFalse($annotation->hasArgument('none'));
 
         $propertiesAnnotations = $reflection->getPropertiesAnnotations();
-        $I->assertInternalType('array', $propertiesAnnotations);
+        $I->assertTrue(is_array($propertiesAnnotations));
         $I->assertInstanceOf(
             Collection::class,
             $propertiesAnnotations['testProp1']

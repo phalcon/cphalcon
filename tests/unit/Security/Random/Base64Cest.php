@@ -17,6 +17,8 @@ use Codeception\Example;
 use Phalcon\Security\Random;
 use UnitTester;
 
+use function is_string;
+
 class Base64Cest
 {
     /**
@@ -37,10 +39,7 @@ class Base64Cest
 
         $base64 = $random->base64($len);
 
-        $I->assertInternalType(
-            'string',
-            $base64
-        );
+        $I->assertTrue(is_string($base64));
 
         $expected = ($len === null) ? 16 : $len;
 

@@ -158,12 +158,12 @@ PHP_METHOD(Phalcon_Http_Message_Response, __construct) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "processheaders", NULL, 304, &headers);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, SL("headers"), &_1);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("headers"), &_1);
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "w+b");
 	ZEPHIR_CALL_METHOD(&_2, this_ptr, "processbody", NULL, 37, body, &_3);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, SL("body"), &_2);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("body"), &_2);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -453,8 +453,8 @@ PHP_METHOD(Phalcon_Http_Message_Response, processCode) {
 		ZEPHIR_OBS_NVAR(phrase);
 		zephir_array_fetch(phrase, &phrases, code, PH_NOISY, "phalcon/Http/Message/Response.zep", 247);
 	}
-	zephir_update_property_zval(this_ptr, SL("statusCode"), code);
-	zephir_update_property_zval(this_ptr, SL("reasonPhrase"), phrase);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("statusCode"), code);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("reasonPhrase"), phrase);
 	ZEPHIR_MM_RESTORE();
 
 }

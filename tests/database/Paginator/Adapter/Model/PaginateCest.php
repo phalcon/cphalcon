@@ -16,6 +16,7 @@ namespace Phalcon\Test\Database\Paginator\Adapter\Model;
 use DatabaseTester;
 use Phalcon\Paginator\Adapter\Model;
 use Phalcon\Paginator\Repository;
+use Phalcon\Storage\Exception;
 use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\RecordsTrait;
@@ -44,10 +45,12 @@ class PaginateCest
      */
     public function paginatorAdapterModelPaginate(DatabaseTester $I)
     {
+        $I->wantToTest('Paginator\Adapter\Model - paginate()');
+
         /** @var PDO $connection */
         $connection = $I->getConnection();
         $migration  = new InvoicesMigration($connection);
-        $invId = ('sqlite' === $I->getDriver()) ? 'null' : 'default';
+        $invId      = ('sqlite' === $I->getDriver()) ? 'null' : 'default';
 
         $this->insertDataInvoices($migration, 17, $invId, 2, 'ccc');
         $this->insertDataInvoices($migration, 11, $invId, 3, 'aaa');
@@ -105,6 +108,8 @@ class PaginateCest
      */
     public function paginatorAdapterModelPaginateBind(DatabaseTester $I)
     {
+        $I->wantToTest('Paginator\Adapter\Model - paginate() - bind');
+
         /** @var PDO $connection */
         $connection = $I->getConnection();
         $migration  = new InvoicesMigration($connection);
@@ -117,7 +122,7 @@ class PaginateCest
         $this->insertDataInvoices($migration, 15, $invId, 2, 'bbb');
 
         $parameters = [
-            'columns' => 'inv_cst_id',
+            'columns'    => 'inv_cst_id',
             'conditions' => 'inv_cst_id >= :d1:',
             'bind'       => [
                 'd1' => '2',
@@ -156,10 +161,12 @@ class PaginateCest
      */
     public function paginatorAdapterModelPaginateParametersString(DatabaseTester $I): void
     {
+        $I->wantToTest('Paginator\Adapter\Model - paginate() - parameters string');
+
         /** @var PDO $connection */
         $connection = $I->getConnection();
         $migration  = new InvoicesMigration($connection);
-        $invId = ('sqlite' === $I->getDriver()) ? 'null' : 'default';
+        $invId      = ('sqlite' === $I->getDriver()) ? 'null' : 'default';
 
         $this->insertDataInvoices($migration, 17, $invId, 2, 'ccc');
         $this->insertDataInvoices($migration, 11, $invId, 3, 'aaa');
@@ -196,10 +203,12 @@ class PaginateCest
      */
     public function paginatorAdapterModelPaginateParametersArrayString(DatabaseTester $I): void
     {
+        $I->wantToTest('Paginator\Adapter\Model - paginate() - parameters array string');
+
         /** @var PDO $connection */
         $connection = $I->getConnection();
         $migration  = new InvoicesMigration($connection);
-        $invId = ('sqlite' === $I->getDriver()) ? 'null' : 'default';
+        $invId      = ('sqlite' === $I->getDriver()) ? 'null' : 'default';
 
         $this->insertDataInvoices($migration, 17, $invId, 2, 'ccc');
         $this->insertDataInvoices($migration, 11, $invId, 3, 'aaa');
@@ -228,5 +237,61 @@ class PaginateCest
         $I->assertEquals(9, $page->getLast());
         $I->assertEquals(5, $page->getLimit());
         $I->assertEquals(1, $page->getCurrent());
+    }
+
+
+    /**
+     * Tests Phalcon\Paginator\Adapter\QueryBuilder :: paginate()
+     *
+     * @param DatabaseTester $I
+     *
+     * @issue  14639
+     *
+     * @group  mysql
+     *
+     * @throws Exception
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-03-15
+     *
+     */
+    public function paginatorAdapterModelPaginateView(DatabaseTester $I): void
+    {
+        $I->wantToTest('Paginator\Adapter\Model - paginate() - set in view');
+
+        $this->setDiService('view');
+
+        /** @var PDO $connection */
+        $connection = $I->getConnection();
+        $migration  = new InvoicesMigration($connection);
+        $invId      = ('sqlite' === $I->getDriver()) ? 'null' : 'default';
+
+        $this->insertDataInvoices($migration, 17, $invId, 2, 'ccc');
+        $this->insertDataInvoices($migration, 11, $invId, 3, 'aaa');
+        $this->insertDataInvoices($migration, 31, $invId, 1, 'aaa');
+        $this->insertDataInvoices($migration, 15, $invId, 2, 'bbb');
+
+        $paginator = new Model(
+            [
+                'model' => Invoices::class,
+                'limit' => 5,
+                'page'  => 1,
+            ]
+        );
+
+        $page = $paginator->paginate();
+        $I->assertCount(5, $page->getItems());
+
+        $view = $this->getService('view');
+        $view->setVar('page', $page);
+
+        $actual = $view->getVar('page');
+        $I->assertInstanceOf(Repository::class, $actual);
+
+
+        $view = $this->getService('view');
+        $view->setVar('paginate', $paginator->paginate());
+
+        $actual = $view->getVar('paginate');
+        $I->assertInstanceOf(Repository::class, $actual);
     }
 }

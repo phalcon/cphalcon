@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Http\Request;
 
 use Phalcon\Http\Request;
+use Phalcon\Storage\Exception;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
@@ -31,25 +32,26 @@ class GetPostCest //extends HttpBase
     {
         $I->wantToTest('Http\Request - getPost()');
 
-        $this->setNewFactoryDefault();
+        $store = $_POST ?? [];
+        $_POST = [
+            'one' => 'two',
+        ];
 
-        $existing = $_POST ?? [];
+        $request = new Request();
 
-        $_POST['status'] = ' Active ';
-        $request         = new Request();
+        $I->assertTrue($request->hasPost('one'));
+        $I->assertFalse($request->hasPost('unknown'));
+        $I->assertEquals('two', $request->getPost('one'));
 
-        $expected = ' Active ';
-        $actual   = $request->getPost('status');
-        $I->assertEquals($expected, $actual);
-
-        $_POST = $existing;
+        $_POST = $store;
     }
 
     /**
      * Tests Phalcon\Http\Request :: getPost() - filter
      *
-     * @author Phalcon Team <team@phalcon.io>
+     * @throws Exception
      * @since  2019-12-01
+     * @author Phalcon Team <team@phalcon.io>
      */
     public function httpRequestGetPostFilter(UnitTester $I)
     {
@@ -57,7 +59,7 @@ class GetPostCest //extends HttpBase
 
         $this->setNewFactoryDefault();
 
-        $existing = $_POST ?? [];
+        $store = $_POST ?? [];
 
         $_POST['status'] = ' Active ';
         $request         = new Request();
@@ -71,14 +73,15 @@ class GetPostCest //extends HttpBase
         $actual   = $request->getPost('status', ['trim', 'lower']);
         $I->assertEquals($expected, $actual);
 
-        $_POST = $existing;
+        $_POST = $store;
     }
 
     /**
      * Tests Phalcon\Http\Request :: getPost() - default
      *
-     * @author Phalcon Team <team@phalcon.io>
+     * @throws Exception
      * @since  2019-12-01
+     * @author Phalcon Team <team@phalcon.io>
      */
     public function httpRequestGetPostDefault(UnitTester $I)
     {
@@ -86,7 +89,7 @@ class GetPostCest //extends HttpBase
 
         $this->setNewFactoryDefault();
 
-        $existing = $_POST ?? [];
+        $store = $_POST ?? [];
 
         $request = new Request();
         $request->setDI($this->container);
@@ -95,14 +98,15 @@ class GetPostCest //extends HttpBase
         $actual   = $request->getPost('status', null, 'default');
         $I->assertEquals($expected, $actual);
 
-        $_POST = $existing;
+        $_POST = $store;
     }
 
     /**
      * Tests Phalcon\Http\Request :: getPost() - allowNoEmpty
      *
-     * @author Phalcon Team <team@phalcon.io>
+     * @throws Exception
      * @since  2019-12-01
+     * @author Phalcon Team <team@phalcon.io>
      */
     public function httpRequestGetPostAllowNoEmpty(UnitTester $I)
     {
@@ -110,7 +114,7 @@ class GetPostCest //extends HttpBase
 
         $this->setNewFactoryDefault();
 
-        $existing = $_POST ?? [];
+        $store = $_POST ?? [];
 
         $_POST['status'] = ' 0 ';
         $request         = new Request();
@@ -120,6 +124,6 @@ class GetPostCest //extends HttpBase
         $actual   = $request->getPost('status', 'trim', 'zero value', true);
         $I->assertEquals($expected, $actual);
 
-        $_POST = $existing;
+        $_POST = $store;
     }
 }

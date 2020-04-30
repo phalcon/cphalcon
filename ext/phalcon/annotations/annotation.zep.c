@@ -92,7 +92,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, __construct) {
 
 
 	zephir_array_fetch_string(&_0, &reflectionData, SL("name"), PH_NOISY | PH_READONLY, "phalcon/Annotations/Annotation.zep", 47);
-	zephir_update_property_zval(this_ptr, SL("name"), &_0);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("name"), &_0);
 	ZEPHIR_OBS_VAR(&exprArguments);
 	if (zephir_array_isset_string_fetch(&exprArguments, &reflectionData, SL("arguments"), 0)) {
 		ZEPHIR_INIT_VAR(&arguments);
@@ -137,8 +137,8 @@ PHP_METHOD(Phalcon_Annotations_Annotation, __construct) {
 			}
 		}
 		ZEPHIR_INIT_NVAR(&argument);
-		zephir_update_property_zval(this_ptr, SL("arguments"), &arguments);
-		zephir_update_property_zval(this_ptr, SL("exprArguments"), &exprArguments);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("arguments"), &arguments);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("exprArguments"), &exprArguments);
 	}
 	ZEPHIR_MM_RESTORE();
 

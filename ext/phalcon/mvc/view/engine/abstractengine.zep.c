@@ -63,8 +63,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_AbstractEngine, __construct) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, SL("view"), view);
-	zephir_update_property_zval(this_ptr, SL("container"), container);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("view"), view);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("container"), container);
 
 }
 

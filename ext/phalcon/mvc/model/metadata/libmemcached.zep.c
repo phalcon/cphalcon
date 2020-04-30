@@ -102,7 +102,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Libmemcached, __construct) {
 	ZVAL_STRING(&_2, "libmemcached");
 	ZEPHIR_CALL_METHOD(&_7, factory, "newinstance", NULL, 0, &_2, &options);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, SL("adapter"), &_7);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("adapter"), &_7);
 	ZEPHIR_MM_RESTORE();
 
 }

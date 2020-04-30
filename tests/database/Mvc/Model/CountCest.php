@@ -42,8 +42,8 @@ class CountCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-29
      *
-     * @group mysql
-     * @group pgsql
+     * @group  mysql
+     * @group  pgsql
      */
     public function mvcModelCount(DatabaseTester $I)
     {
@@ -114,8 +114,8 @@ class CountCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-29
      *
-     * @group mysql
-     * @group pgsql
+     * @group  mysql
+     * @group  pgsql
      */
     public function mvcModelCountColumnMap(DatabaseTester $I)
     {

@@ -436,8 +436,10 @@ int zephir_isset_property_zval(zval *object, const zval *property)
 	return 0;
 }
 
-static inline zend_class_entry *zephir_lookup_class_ce(zend_class_entry *ce, const char *property_name, unsigned int property_length)
-{
+static inline
+zend_class_entry *zephir_lookup_class_ce(zend_class_entry *ce,
+										 const char *property_name,
+										 unsigned int property_length) {
 	zend_class_entry *original_ce = ce;
 	zend_property_info *info;
 
@@ -455,56 +457,44 @@ static inline zend_class_entry *zephir_lookup_class_ce(zend_class_entry *ce, con
 #endif
 		ce = ce->parent;
 	}
+
 	return original_ce;
 }
 
 
 /**
- * Reads a property from an object
+ * Checks whether obj is an object and reads a property from this object
  */
-int zephir_read_property(zval *result, zval *object, const char *property_name, uint32_t property_length, int flags)
+int zephir_read_property(zval *result, zval *object, const char *property_name,
+						 uint32_t property_length, int flags)
 {
-	zval property;
-	zend_class_entry *ce, *old_scope;
-	zval tmp;
+	zval property, tmp;
 	zval *res;
 
 	ZVAL_UNDEF(&tmp);
 
 	if (Z_TYPE_P(object) != IS_OBJECT) {
-
 		if ((flags & PH_NOISY) == PH_NOISY) {
-			php_error_docref(NULL, E_NOTICE, "Trying to get property \"%s\" of non-object", property_name);
+			php_error_docref(NULL, E_NOTICE,
+							 "Trying to get property '%s' of non-object",
+							 property_name);
 		}
 
 		ZVAL_NULL(result);
 		return FAILURE;
 	}
 
-	ce = Z_OBJCE_P(object);
-
-	if (ce->parent) {
-		ce = zephir_lookup_class_ce(ce, property_name, property_length);
-	}
-
-#if PHP_VERSION_ID >= 70100
-	old_scope = EG(fake_scope);
-	EG(fake_scope) = ce;
-#else
-	old_scope = EG(scope);
-	EG(scope) = ce;
-#endif
-
 	if (!Z_OBJ_HT_P(object)->read_property) {
-		const char *class_name;
-
-		class_name = Z_OBJ_P(object) ? ZSTR_VAL(Z_OBJCE_P(object)->name) : "";
-		zend_error(E_CORE_ERROR, "Property %s of class %s cannot be read", property_name, class_name);
+		zend_error(E_CORE_ERROR,
+				   "Property %s of class %s cannot be read",
+				   property_name, ZSTR_VAL(Z_OBJCE_P(object)->name));
 	}
 
 	ZVAL_STRINGL(&property, property_name, property_length);
 
-	res = Z_OBJ_HT_P(object)->read_property(object, &property, flags ? BP_VAR_IS : BP_VAR_R, NULL, &tmp);
+	res = Z_OBJ_HT_P(object)->read_property(object, &property,
+											flags ? BP_VAR_IS : BP_VAR_R,
+											NULL, &tmp);
 	if ((flags & PH_READONLY) == PH_READONLY) {
 		ZVAL_COPY_VALUE(result, res);
 	} else {
@@ -513,11 +503,6 @@ int zephir_read_property(zval *result, zval *object, const char *property_name, 
 
 	zval_ptr_dtor(&property);
 
-#if PHP_VERSION_ID >= 70100
-	EG(fake_scope) = old_scope;
-#else
-	EG(scope) = old_scope;
-#endif
 	return SUCCESS;
 }
 
@@ -582,38 +567,22 @@ int zephir_read_property_zval(zval *result, zval *object, zval *property, int fl
 /**
  * Checks whether obj is an object and updates property with another zval
  */
-int zephir_update_property_zval(zval *object, const char *property_name, unsigned int property_length, zval *value)
+int zephir_update_property_zval(zval *object, const char *property_name,
+								unsigned int property_length, zval *value)
 {
-	zend_class_entry *ce, *old_scope;
 	zval property, sep_value;
 
-#if PHP_VERSION_ID >= 70100
-	old_scope = EG(fake_scope);
-#else
-	old_scope = EG(scope);
-#endif
-
 	if (Z_TYPE_P(object) != IS_OBJECT) {
-		php_error_docref(NULL, E_WARNING, "Attempt to assign property of non-object");
+		php_error_docref(NULL, E_WARNING,
+						 "Attempt to assign property '%s' of non-object",
+						 property_name);
 		return FAILURE;
 	}
 
-	ce = Z_OBJCE_P(object);
-	if (ce->parent) {
-		ce = zephir_lookup_class_ce(ce, property_name, property_length);
-	}
-
-#if PHP_VERSION_ID >= 70100
-	EG(fake_scope) = ce;
-#else
-	EG(scope) = ce;
-#endif
-
 	if (!Z_OBJ_HT_P(object)->write_property) {
-		const char *class_name;
-
-		class_name = Z_OBJ_P(object) ? ZSTR_VAL(Z_OBJCE_P(object)->name) : "";
-		zend_error(E_CORE_ERROR, "Property %s of class %s cannot be updated", property_name, class_name);
+		zend_error(E_CORE_ERROR,
+				   "Property %s of class %s cannot be updated",
+				   property_name, ZSTR_VAL(Z_OBJCE_P(object)->name));
 	}
 
 	ZVAL_STRINGL(&property, property_name, property_length);
@@ -627,15 +596,11 @@ int zephir_update_property_zval(zval *object, const char *property_name, unsigne
 		}
 	}
 
-	/* write_property will add 1 to refcount, so no Z_TRY_ADDREF_P(value); is necessary */
+	/* write_property will add 1 to refcount,
+	   so no Z_TRY_ADDREF_P(value) is necessary */
 	Z_OBJ_HT_P(object)->write_property(object, &property, &sep_value, 0);
 	zval_ptr_dtor(&property);
 
-#if PHP_VERSION_ID >= 70100
-	EG(fake_scope) = old_scope;
-#else
-	EG(scope) = old_scope;
-#endif
 	return SUCCESS;
 }
 
@@ -880,32 +845,27 @@ int zephir_update_property_array_multi(zval *object, const char *property, uint3
 
 int zephir_unset_property(zval* object, const char* name)
 {
-	if (Z_TYPE_P(object) == IS_OBJECT) {
-		zval member;
-		zend_class_entry *old_scope;
-
-		ZVAL_STRING(&member, name);
-
-#if PHP_VERSION_ID >= 70100
-		old_scope = EG(fake_scope);
-		EG(fake_scope) = Z_OBJCE_P(object);
-#else
-		old_scope = EG(scope);
-		EG(scope) = Z_OBJCE_P(object);
-#endif
-
-		Z_OBJ_HT_P(object)->unset_property(object, &member, 0);
-
-#if PHP_VERSION_ID >= 70100
-		EG(fake_scope) = old_scope;
-#else
-		EG(scope) = old_scope;
-#endif
-
-		return SUCCESS;
+	if (Z_TYPE_P(object) != IS_OBJECT) {
+		return FAILURE;
 	}
 
-	return FAILURE;
+	zval member;
+	zend_class_entry *scope;
+
+	ZVAL_STRING(&member, name);
+
+	/* Backup current scope */
+	scope = zephir_get_scope(0);
+
+	/* Use caller's scope */
+	zephir_set_scope(Z_OBJCE_P(object));
+
+	Z_OBJ_HT_P(object)->unset_property(object, &member, 0);
+
+	/* Restore original scope */
+	zephir_set_scope(scope);
+
+	return SUCCESS;
 }
 
 /**

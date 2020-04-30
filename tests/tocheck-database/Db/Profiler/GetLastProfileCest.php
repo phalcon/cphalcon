@@ -19,6 +19,7 @@ use Phalcon\Db\Profiler\Item;
 use Phalcon\Events\Manager;
 use Phalcon\Test\Fixtures\Db\ProfilerListener;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
+use function is_double;
 
 class GetLastProfileCest
 {
@@ -73,20 +74,9 @@ class GetLastProfileCest
             $profile->getSQLStatement()
         );
 
-        $I->assertInternalType(
-            'double',
-            $profile->getInitialTime()
-        );
-
-        $I->assertInternalType(
-            'double',
-            $profile->getFinalTime()
-        );
-
-        $I->assertInternalType(
-            'double',
-            $profile->getTotalElapsedSeconds()
-        );
+        $I->assertTrue(is_double($profile->getInitialTime()));
+        $I->assertTrue(is_double($profile->getFinalTime()));
+        $I->assertTrue(is_double($profile->getTotalElapsedSeconds()));
 
         $I->assertTrue(
             $profile->getFinalTime() > $profile->getInitialTime()

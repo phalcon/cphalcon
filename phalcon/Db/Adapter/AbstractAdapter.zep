@@ -4,8 +4,8 @@
  *
  * (c) Phalcon Team <team@phalcon.com>
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
  */
 
 namespace Phalcon\Db\Adapter;
@@ -23,7 +23,7 @@ use Phalcon\Events\EventsAwareInterface;
 use Phalcon\Events\ManagerInterface;
 
 /**
- * Base class for Phalcon\Db adapters
+ * Base class for Phalcon\Db\Adapter adapters
  */
 abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
 {
@@ -59,7 +59,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     /**
      * Event Manager
      *
-     * @var Phalcon\Events\Manager
+     * @var ManagerInterface
      */
     protected eventsManager;
 

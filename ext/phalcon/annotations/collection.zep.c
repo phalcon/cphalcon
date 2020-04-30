@@ -132,7 +132,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, __construct) {
 		}
 	}
 	ZEPHIR_INIT_NVAR(&annotationData);
-	zephir_update_property_zval(this_ptr, SL("annotations"), &annotations);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("annotations"), &annotations);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -430,7 +430,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, rewind) {
 
 	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(&_0, 0);
-	zephir_update_property_zval(this_ptr, SL("position"), &_0);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("position"), &_0);
 
 }
 

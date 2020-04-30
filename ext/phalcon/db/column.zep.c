@@ -460,38 +460,38 @@ PHP_METHOD(Phalcon_Db_Column, __construct) {
 	ZEPHIR_OBS_COPY_OR_DUP(&definition, definition_param);
 
 
-	zephir_update_property_zval(this_ptr, SL("name"), &name);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("name"), &name);
 	ZEPHIR_OBS_VAR(&type);
 	if (UNEXPECTED(!(zephir_array_isset_string_fetch(&type, &definition, SL("type"), 0)))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column type is required", "phalcon/Db/Column.zep", 322);
 		return;
 	}
-	zephir_update_property_zval(this_ptr, SL("type"), &type);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("type"), &type);
 	ZEPHIR_OBS_VAR(&typeReference);
 	if (zephir_array_isset_string_fetch(&typeReference, &definition, SL("typeReference"), 0)) {
-		zephir_update_property_zval(this_ptr, SL("typeReference"), &typeReference);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("typeReference"), &typeReference);
 	}
 	ZEPHIR_OBS_VAR(&typeValues);
 	if (zephir_array_isset_string_fetch(&typeValues, &definition, SL("typeValues"), 0)) {
-		zephir_update_property_zval(this_ptr, SL("typeValues"), &typeValues);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("typeValues"), &typeValues);
 	}
 	ZEPHIR_OBS_VAR(&notNull);
 	if (zephir_array_isset_string_fetch(&notNull, &definition, SL("notNull"), 0)) {
-		zephir_update_property_zval(this_ptr, SL("notNull"), &notNull);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("notNull"), &notNull);
 	}
 	ZEPHIR_OBS_VAR(&primary);
 	if (zephir_array_isset_string_fetch(&primary, &definition, SL("primary"), 0)) {
-		zephir_update_property_zval(this_ptr, SL("primary"), &primary);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("primary"), &primary);
 	}
 	ZEPHIR_OBS_VAR(&size);
 	if (zephir_array_isset_string_fetch(&size, &definition, SL("size"), 0)) {
-		zephir_update_property_zval(this_ptr, SL("size"), &size);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("size"), &size);
 	}
 	ZEPHIR_OBS_VAR(&scale);
 	if (zephir_array_isset_string_fetch(&scale, &definition, SL("scale"), 0)) {
 		do {
 			if (ZEPHIR_IS_LONG(&type, 14) || ZEPHIR_IS_LONG(&type, 3) || ZEPHIR_IS_LONG(&type, 9) || ZEPHIR_IS_LONG(&type, 7) || ZEPHIR_IS_LONG(&type, 0) || ZEPHIR_IS_LONG(&type, 21) || ZEPHIR_IS_LONG(&type, 22) || ZEPHIR_IS_LONG(&type, 26)) {
-				zephir_update_property_zval(this_ptr, SL("scale"), &scale);
+				zephir_update_property_zval(this_ptr, ZEND_STRL("scale"), &scale);
 				break;
 			}
 			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "Column type does not support scale parameter", "phalcon/Db/Column.zep", 372);
@@ -501,31 +501,31 @@ PHP_METHOD(Phalcon_Db_Column, __construct) {
 	}
 	ZEPHIR_OBS_VAR(&defaultValue);
 	if (zephir_array_isset_string_fetch(&defaultValue, &definition, SL("default"), 0)) {
-		zephir_update_property_zval(this_ptr, SL("_default"), &defaultValue);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("_default"), &defaultValue);
 	}
 	ZEPHIR_OBS_VAR(&dunsigned);
 	if (zephir_array_isset_string_fetch(&dunsigned, &definition, SL("unsigned"), 0)) {
-		zephir_update_property_zval(this_ptr, SL("unsigned"), &dunsigned);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("unsigned"), &dunsigned);
 	}
 	ZEPHIR_OBS_VAR(&isNumeric);
 	if (zephir_array_isset_string_fetch(&isNumeric, &definition, SL("isNumeric"), 0)) {
-		zephir_update_property_zval(this_ptr, SL("isNumeric"), &isNumeric);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("isNumeric"), &isNumeric);
 	}
 	ZEPHIR_OBS_VAR(&autoIncrement);
 	if (zephir_array_isset_string_fetch(&autoIncrement, &definition, SL("autoIncrement"), 0)) {
 		if (!(zephir_is_true(&autoIncrement))) {
 			if (0) {
-				zephir_update_property_zval(this_ptr, SL("autoIncrement"), &__$true);
+				zephir_update_property_zval(this_ptr, ZEND_STRL("autoIncrement"), &__$true);
 			} else {
-				zephir_update_property_zval(this_ptr, SL("autoIncrement"), &__$false);
+				zephir_update_property_zval(this_ptr, ZEND_STRL("autoIncrement"), &__$false);
 			}
 		} else {
 			do {
 				if (ZEPHIR_IS_LONG(&type, 14) || ZEPHIR_IS_LONG(&type, 0) || ZEPHIR_IS_LONG(&type, 21) || ZEPHIR_IS_LONG(&type, 22) || ZEPHIR_IS_LONG(&type, 26)) {
 					if (1) {
-						zephir_update_property_zval(this_ptr, SL("autoIncrement"), &__$true);
+						zephir_update_property_zval(this_ptr, ZEND_STRL("autoIncrement"), &__$true);
 					} else {
-						zephir_update_property_zval(this_ptr, SL("autoIncrement"), &__$false);
+						zephir_update_property_zval(this_ptr, ZEND_STRL("autoIncrement"), &__$false);
 					}
 					break;
 				}
@@ -536,13 +536,13 @@ PHP_METHOD(Phalcon_Db_Column, __construct) {
 		}
 	}
 	if (zephir_array_isset_string_fetch(&first, &definition, SL("first"), 1)) {
-		zephir_update_property_zval(this_ptr, SL("first"), &first);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("first"), &first);
 	}
 	if (zephir_array_isset_string_fetch(&after, &definition, SL("after"), 1)) {
-		zephir_update_property_zval(this_ptr, SL("after"), &after);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("after"), &after);
 	}
 	if (zephir_array_isset_string_fetch(&bindType, &definition, SL("bindType"), 1)) {
-		zephir_update_property_zval(this_ptr, SL("bindType"), &bindType);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("bindType"), &bindType);
 	}
 	ZEPHIR_MM_RESTORE();
 

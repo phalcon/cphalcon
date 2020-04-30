@@ -24,10 +24,11 @@ class GetEscaperServiceCest extends TagSetup
     /**
      * Tests Phalcon\Tag :: getEscaperService()
      *
-     * @author Phalcon Team <team@phalcon.io>
+     * @param UnitTester $I
+     *
      * @since  2018-11-13
      *
-     * @param UnitTester $I
+     * @author Phalcon Team <team@phalcon.io>
      */
     public function tagGetEscaperService(UnitTester $I)
     {

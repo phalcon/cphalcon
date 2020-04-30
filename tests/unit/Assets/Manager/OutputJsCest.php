@@ -189,12 +189,12 @@ class OutputJsCest
     public function assetsManagerOutputJsEnabledJoin(UnitTester $I)
     {
         $I->wantToTest('Asset/Manager - outputJs() - enabled join');
-    /**
-     * Tests output with enabled join
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2016-01-24
-     */
+        /**
+         * Tests output with enabled join
+         *
+         * @author Phalcon Team <team@phalcon.io>
+         * @since  2016-01-24
+         */
         $assets = new Manager();
 
         $assets->useImplicitOutput(false);

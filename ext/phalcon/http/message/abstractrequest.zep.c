@@ -333,7 +333,7 @@ PHP_METHOD(Phalcon_Http_Message_AbstractRequest, withUri) {
 		ZEPHIR_CALL_METHOD(&_4$$3, this_ptr, "checkheaderhost", NULL, 45, &headers);
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(&headers, &_4$$3);
-		zephir_update_property_zval(&newInstance, SL("headers"), &headers);
+		zephir_update_property_zval(&newInstance, ZEND_STRL("headers"), &headers);
 	}
 	RETURN_CCTOR(&newInstance);
 

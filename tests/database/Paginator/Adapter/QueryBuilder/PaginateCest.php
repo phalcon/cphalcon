@@ -14,12 +14,16 @@ declare(strict_types=1);
 namespace Phalcon\Test\Database\Paginator\Adapter\QueryBuilder;
 
 use DatabaseTester;
+use Phalcon\Mvc\Model\Criteria;
 use Phalcon\Paginator\Adapter\QueryBuilder;
 use Phalcon\Paginator\Repository;
+use Phalcon\Storage\Exception;
 use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\RecordsTrait;
 use Phalcon\Test\Models\Invoices;
+
+use function is_int;
 
 class PaginateCest
 {
@@ -42,9 +46,9 @@ class PaginateCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
      *
-     * @group mysql
-     * @group sqlite
-     * @group pgsql
+     * @group  mysql
+     * @group  sqlite
+     * @group  pgsql
      */
     public function paginatorAdapterQuerybuilderPaginate(DatabaseTester $I)
     {
@@ -56,7 +60,7 @@ class PaginateCest
         /** @var PDO $connection */
         $connection = $I->getConnection();
         $migration  = new InvoicesMigration($connection);
-        $invId = ('sqlite' === $I->getDriver()) ? 'null' : 'default';
+        $invId      = ('sqlite' === $I->getDriver()) ? 'null' : 'default';
 
         $this->insertDataInvoices($migration, 17, $invId, 2, 'ccc');
 
@@ -85,7 +89,7 @@ class PaginateCest
         $I->assertEquals(1, $page->getCurrent());
         $I->assertEquals(5, $page->limit);
         $I->assertEquals(17, $page->getTotalItems());
-        $I->assertInternalType('int', $page->getTotalItems());
+        $I->assertTrue(is_int($page->getTotalItems()));
     }
 
     /**
@@ -94,8 +98,8 @@ class PaginateCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-29
      *
-     * @group mysql
-     * @group pgsql
+     * @group  mysql
+     * @group  pgsql
      */
     public function paginatorAdapterQuerybuilderPaginateGroupBy(DatabaseTester $I)
     {
@@ -108,7 +112,7 @@ class PaginateCest
         /** @var PDO $connection */
         $connection = $I->getConnection();
         $migration  = new InvoicesMigration($connection);
-        $invId = ('sqlite' === $I->getDriver()) ? 'null' : 'default';
+        $invId      = ('sqlite' === $I->getDriver()) ? 'null' : 'default';
 
         $this->insertDataInvoices($migration, 17, $invId, 2, 'ccc');
         $this->insertDataInvoices($migration, 11, $invId, 3, 'aaa');
@@ -138,7 +142,7 @@ class PaginateCest
         $I->assertEquals(1, $page->getCurrent());
         $I->assertEquals(5, $page->limit);
         $I->assertEquals(28, $page->getTotalItems());
-        $I->assertInternalType('int', $page->getTotalItems());
+        $I->assertTrue(is_int($page->getTotalItems()));
 
         $builder = $manager
             ->createBuilder()
@@ -159,6 +163,68 @@ class PaginateCest
         $I->assertEquals(1, $page->getCurrent());
         $I->assertEquals(5, $page->limit);
         $I->assertEquals(17, $page->getTotalItems());
-        $I->assertInternalType('int', $page->getTotalItems());
+        $I->assertTrue(is_int($page->getTotalItems()));
+    }
+
+    /**
+     * Tests Phalcon\Paginator\Adapter\QueryBuilder :: paginate()
+     *
+     * @param DatabaseTester $I
+     *
+     * @issue  14639
+     *
+     * @group  mysql
+     *
+     * @throws Exception
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-03-15
+     *
+     */
+    public function paginatorAdapterQuerybuilderPaginateView(DatabaseTester $I): void
+    {
+        $I->wantToTest('Paginator\Adapter\QueryBuilder - paginate() - set in view');
+
+        $this->setDiService('view');
+
+        /** @var PDO $connection */
+        $connection = $I->getConnection();
+        $migration  = new InvoicesMigration($connection);
+        $invId      = ('sqlite' === $I->getDriver()) ? 'null' : 'default';
+
+        $this->insertDataInvoices($migration, 17, $invId, 2, 'ccc');
+        $this->insertDataInvoices($migration, 11, $invId, 3, 'aaa');
+        $this->insertDataInvoices($migration, 31, $invId, 1, 'aaa');
+        $this->insertDataInvoices($migration, 15, $invId, 2, 'bbb');
+
+        $criteria = Criteria::fromInput(
+            $this->container,
+            Invoices::class,
+            []
+        );
+        $builder  = $criteria->createBuilder();
+
+        $paginator = new QueryBuilder(
+            [
+                'builder' => $builder,
+                'limit'   => 5,
+                'page'    => 1,
+            ]
+        );
+
+        $page = $paginator->paginate();
+        $I->assertCount(5, $page->getItems());
+
+        $view = $this->getService('view');
+        $view->setVar('page', $page);
+
+        $actual = $view->getVar('page');
+        $I->assertInstanceOf(Repository::class, $actual);
+
+
+        $view = $this->getService('view');
+        $view->setVar('paginate', $paginator->paginate());
+
+        $actual = $view->getVar('paginate');
+        $I->assertInstanceOf(Repository::class, $actual);
     }
 }

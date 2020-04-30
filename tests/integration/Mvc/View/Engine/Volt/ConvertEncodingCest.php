@@ -32,7 +32,7 @@ class ConvertEncodingCest
     {
         $I->wantToTest('Mvc\View\Engine\Volt - convertEncoding()');
 
-        $view = new View();
+        $view   = new View();
         $engine = new Volt($view);
 
         $text     = 'Schlüssel';

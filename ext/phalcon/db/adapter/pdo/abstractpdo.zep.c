@@ -315,7 +315,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, close) {
 	ZVAL_NULL(&__$null);
 
 
-	zephir_update_property_zval(this_ptr, SL("pdo"), &__$null);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("pdo"), &__$null);
 	RETURN_BOOL(1);
 
 }
@@ -471,7 +471,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, connect) {
 	ZEPHIR_CONCAT_VSV(&_12, &_11, ":", &dsnAttributes);
 	ZEPHIR_CALL_METHOD(NULL, &_10, "__construct", NULL, 0, &_12, &username, &password, &options);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, SL("pdo"), &_10);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("pdo"), &_10);
 	RETURN_MM_BOOL(1);
 
 }
@@ -717,9 +717,9 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, execute) {
 	zephir_read_property(&_0, this_ptr, SL("eventsManager"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&eventsManager, &_0);
 	if (Z_TYPE_P(&eventsManager) == IS_OBJECT) {
-		zephir_update_property_zval(this_ptr, SL("sqlStatement"), &sqlStatement);
-		zephir_update_property_zval(this_ptr, SL("sqlVariables"), bindParams);
-		zephir_update_property_zval(this_ptr, SL("sqlBindTypes"), bindTypes);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("sqlStatement"), &sqlStatement);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("sqlVariables"), bindParams);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("sqlBindTypes"), bindTypes);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "db:beforeQuery");
 		ZEPHIR_CALL_METHOD(&_1$$3, &eventsManager, "fire", NULL, 0, &_2$$3, this_ptr);
@@ -748,7 +748,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, execute) {
 		zephir_check_call_status();
 	}
 	if (Z_TYPE_P(&affectedRows) == IS_LONG) {
-		zephir_update_property_zval(this_ptr, SL("affectedRows"), &affectedRows);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("affectedRows"), &affectedRows);
 		if (Z_TYPE_P(&eventsManager) == IS_OBJECT) {
 			ZEPHIR_INIT_VAR(&_3$$9);
 			ZVAL_STRING(&_3$$9, "db:afterQuery");
@@ -1464,9 +1464,9 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, query) {
 	zephir_read_property(&_0, this_ptr, SL("eventsManager"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&eventsManager, &_0);
 	if (Z_TYPE_P(&eventsManager) == IS_OBJECT) {
-		zephir_update_property_zval(this_ptr, SL("sqlStatement"), &sqlStatement);
-		zephir_update_property_zval(this_ptr, SL("sqlVariables"), bindParams);
-		zephir_update_property_zval(this_ptr, SL("sqlBindTypes"), bindTypes);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("sqlStatement"), &sqlStatement);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("sqlVariables"), bindParams);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("sqlBindTypes"), bindTypes);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "db:beforeQuery");
 		ZEPHIR_CALL_METHOD(&_1$$3, &eventsManager, "fire", NULL, 0, &_2$$3, this_ptr);

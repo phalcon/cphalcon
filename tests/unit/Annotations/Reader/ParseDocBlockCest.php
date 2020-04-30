@@ -39,7 +39,7 @@ class ParseDocBlockCest
  */
 EOF;
 
-        $reader  = new Reader();
+        $reader = new Reader();
         $parsed = $reader->parseDocBlock($docBlock);
 
         $I->assertIsArray($parsed);
@@ -65,72 +65,72 @@ EOF;
         );
         $I->assertEquals(
             [
-                'type' => 300,
-                'name' => 'SingleParam',
-                'file' => 'eval code',
-                'line' => 1,
+                'type'      => 300,
+                'name'      => 'SingleParam',
+                'file'      => 'eval code',
+                'line'      => 1,
                 'arguments' => [
                     [
                         'expr' => [
-                            'type' => 303,
-                            'value' => 'Param'
-                        ]
-                    ]
+                            'type'  => 303,
+                            'value' => 'Param',
+                        ],
+                    ],
                 ],
             ],
             $parsed[2]
         );
         $I->assertEquals(
             [
-                'type' => 300,
-                'name' => 'MultipleParams',
-                'file' => 'eval code',
-                'line' => 1,
+                'type'      => 300,
+                'name'      => 'MultipleParams',
+                'file'      => 'eval code',
+                'line'      => 1,
                 'arguments' => [
                     [
                         'expr' => [
-                            'type' => 303,
-                            'value' => 'First'
-                        ]
+                            'type'  => 303,
+                            'value' => 'First',
+                        ],
                     ],
                     [
                         'expr' => [
-                            'type' => 307,
-                            'value' => 'Second'
-                        ]
+                            'type'  => 307,
+                            'value' => 'Second',
+                        ],
                     ],
                     [
                         'expr' => [
-                            'type' => 301,
-                            'value' => '1'
-                        ]
+                            'type'  => 301,
+                            'value' => '1',
+                        ],
                     ],
                     [
                         'expr' => [
-                            'type' => 302,
-                            'value' => '1.1'
-                        ]
+                            'type'  => 302,
+                            'value' => '1.1',
+                        ],
                     ],
                     [
                         'expr' => [
-                            'type' => 301,
-                            'value' => '-10'
-                        ]
+                            'type'  => 301,
+                            'value' => '-10',
+                        ],
                     ],
                     [
                         'expr' => [
                             'type' => 305,
-                        ]
+                        ],
                     ],
                     [
                         'expr' => [
                             'type' => 306,
-                        ]
+                        ],
                     ],
                     [
                         'expr' => [
                             'type' => 304,
-                        ]
+                        ],
                     ],
                 ],
             ],

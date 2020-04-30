@@ -101,9 +101,9 @@ PHP_METHOD(Phalcon_Debug_Dump, setDetailed) {
 
 
 	if (detailed) {
-		zephir_update_property_zval(this_ptr, SL("detailed"), &__$true);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("detailed"), &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, SL("detailed"), &__$false);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("detailed"), &__$false);
 	}
 	RETURN_THISW();
 
@@ -144,9 +144,9 @@ PHP_METHOD(Phalcon_Debug_Dump, __construct) {
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setstyles", NULL, 0, &styles);
 	zephir_check_call_status();
 	if (detailed) {
-		zephir_update_property_zval(this_ptr, SL("detailed"), &__$true);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("detailed"), &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, SL("detailed"), &__$false);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("detailed"), &__$false);
 	}
 	ZEPHIR_MM_RESTORE();
 
@@ -253,7 +253,7 @@ PHP_METHOD(Phalcon_Debug_Dump, setStyles) {
 	add_assoc_stringl_ex(&defaultStyles, SL("str"), SL("color:teal"));
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_fast_array_merge(&_0, &defaultStyles, &styles);
-	zephir_update_property_zval(this_ptr, SL("styles"), &_0);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("styles"), &_0);
 	RETURN_MM_MEMBER(getThis(), "styles");
 
 }
@@ -1353,13 +1353,13 @@ zend_object *zephir_init_properties_Phalcon_Debug_Dump(zend_class_entry *class_t
 		if (Z_TYPE_P(&_0) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_1$$3);
 			array_init(&_1$$3);
-			zephir_update_property_zval(this_ptr, SL("styles"), &_1$$3);
+			zend_update_property(Z_OBJCE_P(this_ptr), this_ptr, ZEND_STRL("styles"), &_1$$3);
 		}
 		zephir_read_property(&_2, this_ptr, SL("methods"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_2) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_3$$4);
 			array_init(&_3$$4);
-			zephir_update_property_zval(this_ptr, SL("methods"), &_3$$4);
+			zend_update_property(Z_OBJCE_P(this_ptr), this_ptr, ZEND_STRL("methods"), &_3$$4);
 		}
 		ZEPHIR_MM_RESTORE();
 		return Z_OBJ_P(this_ptr);

@@ -4,6 +4,7 @@ php:
   - '7.3'
   - '7.2'
 
+os: linux
 dist: bionic
 
 branches:
@@ -22,11 +23,6 @@ addons:
       - libsodium-dev
   postgresql: "9.4"
 
-matrix:
-  fast_finish: true
-  allow_failures:
-    - env: ZEPHIR_VERSION="development"
-
 cache:
   timeout: 604800
   directories:
@@ -35,7 +31,7 @@ cache:
 services:
   - mysql
   - mongodb
-  - redis-server
+  - redis
   - postgresql
   - memcached
 
@@ -99,6 +95,9 @@ jobs:
     - stage: Development Zephir version
       php: '7.4'
       env: ZEPHIR_VERSION="development"
+  fast_finish: true
+  allow_failures:
+    - env: ZEPHIR_VERSION="development"
 
 after_failure:
   - echo "$($(phpenv which php) -v)"

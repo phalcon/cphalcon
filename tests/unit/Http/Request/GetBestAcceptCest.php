@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Request;
 
+use Phalcon\Http\Request;
 use UnitTester;
 
 class GetBestAcceptCest
@@ -21,12 +22,29 @@ class GetBestAcceptCest
      * Tests Phalcon\Http\Request :: getBestAccept()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-03-17
      */
     public function httpRequestGetBestAccept(UnitTester $I)
     {
         $I->wantToTest('Http\Request - getBestAccept()');
 
-        $I->skipTest('Need implementation');
+        $store   = $_SERVER ?? [];
+        $time    = $_SERVER['REQUEST_TIME_FLOAT'];
+        $_SERVER = [
+            'REQUEST_TIME_FLOAT' => $time,
+            'HTTP_ACCEPT'        => 'text/html,'
+                . 'application/xhtml+xml,application/xml;q=0.9,'
+                . 'image/webp,image/apng,'
+                . 'language'
+                . '*/*;q=0.8',
+        ];
+
+        $request = new Request();
+
+        $expected = 'text/html';
+        $actual   = $request->getBestAccept();
+        $I->assertEquals($expected, $actual);
+
+        $_SERVER = $store;
     }
 }

@@ -106,9 +106,9 @@ PHP_METHOD(Phalcon_Collection, __construct) {
 
 
 	if (insensitive) {
-		zephir_update_property_zval(this_ptr, SL("insensitive"), &__$true);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("insensitive"), &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, SL("insensitive"), &__$false);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("insensitive"), &__$false);
 	}
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "init", NULL, 0, &data);
 	zephir_check_call_status();
@@ -233,10 +233,10 @@ PHP_METHOD(Phalcon_Collection, clear) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	array_init(&_0);
-	zephir_update_property_zval(this_ptr, SL("data"), &_0);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("data"), &_0);
 	ZEPHIR_INIT_VAR(&_1);
 	array_init(&_1);
-	zephir_update_property_zval(this_ptr, SL("lowerKeys"), &_1);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("lowerKeys"), &_1);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -749,8 +749,8 @@ PHP_METHOD(Phalcon_Collection, remove) {
 		zephir_array_fetch(&key, &lowerKeys, &element, PH_NOISY | PH_READONLY, "phalcon/Collection.zep", 270);
 		zephir_array_unset(&lowerKeys, &element, PH_SEPARATE);
 		zephir_array_unset(&data, &key, PH_SEPARATE);
-		zephir_update_property_zval(this_ptr, SL("data"), &data);
-		zephir_update_property_zval(this_ptr, SL("lowerKeys"), &lowerKeys);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("data"), &data);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("lowerKeys"), &lowerKeys);
 	}
 	ZEPHIR_MM_RESTORE();
 
@@ -943,13 +943,13 @@ zend_object *zephir_init_properties_Phalcon_Collection(zend_class_entry *class_t
 		if (Z_TYPE_P(&_0) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_1$$3);
 			array_init(&_1$$3);
-			zephir_update_property_zval(this_ptr, SL("lowerKeys"), &_1$$3);
+			zend_update_property(Z_OBJCE_P(this_ptr), this_ptr, ZEND_STRL("lowerKeys"), &_1$$3);
 		}
 		zephir_read_property(&_2, this_ptr, SL("data"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_2) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_3$$4);
 			array_init(&_3$$4);
-			zephir_update_property_zval(this_ptr, SL("data"), &_3$$4);
+			zend_update_property(Z_OBJCE_P(this_ptr), this_ptr, ZEND_STRL("data"), &_3$$4);
 		}
 		ZEPHIR_MM_RESTORE();
 		return Z_OBJ_P(this_ptr);

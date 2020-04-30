@@ -24,7 +24,7 @@ class GetBestLanguageCest
      * Tests Phalcon\Http\Request :: getBestLanguage()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-03-17
      */
     public function httpRequestGetBestLanguage(UnitTester $I)
     {

@@ -152,15 +152,15 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, __construct) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, SL("escaperService"), escaper);
-	zephir_update_property_zval(this_ptr, SL("sessionService"), session);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("escaperService"), escaper);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("sessionService"), session);
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_create_array(&_0, 4, 0);
 	add_assoc_stringl_ex(&_0, SL("error"), SL("errorMessage"));
 	add_assoc_stringl_ex(&_0, SL("notice"), SL("noticeMessage"));
 	add_assoc_stringl_ex(&_0, SL("success"), SL("successMessage"));
 	add_assoc_stringl_ex(&_0, SL("warning"), SL("warningMessage"));
-	zephir_update_property_zval(this_ptr, SL("cssClasses"), &_0);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("cssClasses"), &_0);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -180,7 +180,7 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, clear) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	array_init(&_0);
-	zephir_update_property_zval(this_ptr, SL("messages"), &_0);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("messages"), &_0);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -339,9 +339,9 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, setAutoescape) {
 
 
 	if (autoescape) {
-		zephir_update_property_zval(this_ptr, SL("autoescape"), &__$true);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("autoescape"), &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, SL("autoescape"), &__$false);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("autoescape"), &__$false);
 	}
 	RETURN_THISW();
 
@@ -365,9 +365,9 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, setAutomaticHtml) {
 
 
 	if (automaticHtml) {
-		zephir_update_property_zval(this_ptr, SL("automaticHtml"), &__$true);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("automaticHtml"), &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, SL("automaticHtml"), &__$false);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("automaticHtml"), &__$false);
 	}
 	RETURN_THISW();
 
@@ -391,7 +391,7 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, setCssClasses) {
 	ZEPHIR_OBS_COPY_OR_DUP(&cssClasses, cssClasses_param);
 
 
-	zephir_update_property_zval(this_ptr, SL("cssClasses"), &cssClasses);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("cssClasses"), &cssClasses);
 	RETURN_THIS();
 
 }
@@ -423,7 +423,7 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, setCustomTemplate) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, SL("customTemplate"), &customTemplate);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("customTemplate"), &customTemplate);
 	RETURN_THIS();
 
 }
@@ -442,7 +442,7 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, setEscaperService) {
 
 
 
-	zephir_update_property_zval(this_ptr, SL("escaperService"), escaperService);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("escaperService"), escaperService);
 	RETURN_THISW();
 
 }
@@ -466,9 +466,9 @@ PHP_METHOD(Phalcon_Flash_AbstractFlash, setImplicitFlush) {
 
 
 	if (implicitFlush) {
-		zephir_update_property_zval(this_ptr, SL("implicitFlush"), &__$true);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("implicitFlush"), &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, SL("implicitFlush"), &__$false);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("implicitFlush"), &__$false);
 	}
 	RETURN_THISW();
 
@@ -812,13 +812,13 @@ zend_object *zephir_init_properties_Phalcon_Flash_AbstractFlash(zend_class_entry
 		if (Z_TYPE_P(&_0) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_1$$3);
 			array_init(&_1$$3);
-			zephir_update_property_zval(this_ptr, SL("messages"), &_1$$3);
+			zend_update_property(Z_OBJCE_P(this_ptr), this_ptr, ZEND_STRL("messages"), &_1$$3);
 		}
 		zephir_read_property(&_2, this_ptr, SL("cssClasses"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_2) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_3$$4);
 			array_init(&_3$$4);
-			zephir_update_property_zval(this_ptr, SL("cssClasses"), &_3$$4);
+			zend_update_property(Z_OBJCE_P(this_ptr), this_ptr, ZEND_STRL("cssClasses"), &_3$$4);
 		}
 		ZEPHIR_MM_RESTORE();
 		return Z_OBJ_P(this_ptr);
