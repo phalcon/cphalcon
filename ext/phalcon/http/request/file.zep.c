@@ -171,22 +171,22 @@ PHP_METHOD(Phalcon_Http_Request_File, __construct) {
 	}
 	ZEPHIR_INIT_VAR(&_6);
 	ZVAL_STRING(&_6, "tmp_name");
-	ZEPHIR_CALL_CE_STATIC(&_4, phalcon_helper_arr_ce, "get", &_5, 15, &file, &_6);
+	ZEPHIR_CALL_CE_STATIC(&_4, phalcon_helper_arr_ce, "get", &_5, 16, &file, &_6);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("tmp"), &_4);
 	ZEPHIR_INIT_NVAR(&_6);
 	ZVAL_STRING(&_6, "size");
-	ZEPHIR_CALL_CE_STATIC(&_7, phalcon_helper_arr_ce, "get", &_5, 15, &file, &_6);
+	ZEPHIR_CALL_CE_STATIC(&_7, phalcon_helper_arr_ce, "get", &_5, 16, &file, &_6);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("size"), &_7);
 	ZEPHIR_INIT_NVAR(&_6);
 	ZVAL_STRING(&_6, "type");
-	ZEPHIR_CALL_CE_STATIC(&_8, phalcon_helper_arr_ce, "get", &_5, 15, &file, &_6);
+	ZEPHIR_CALL_CE_STATIC(&_8, phalcon_helper_arr_ce, "get", &_5, 16, &file, &_6);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("type"), &_8);
 	ZEPHIR_INIT_NVAR(&_6);
 	ZVAL_STRING(&_6, "error");
-	ZEPHIR_CALL_CE_STATIC(&_9, phalcon_helper_arr_ce, "get", &_5, 15, &file, &_6);
+	ZEPHIR_CALL_CE_STATIC(&_9, phalcon_helper_arr_ce, "get", &_5, 16, &file, &_6);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("error"), &_9);
 	if (zephir_is_true(key)) {

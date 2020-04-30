@@ -89,7 +89,7 @@ PHP_METHOD(Phalcon_Security_JWT_Signer_Hmac, __construct) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_security_jwt_exceptions_unsupportedalgorithmexception_ce, "Unsupported HMAC algorithm", "phalcon/Security/JWT/Signer/Hmac.zep", 40);
 		return;
 	}
-	zephir_update_property_zval(this_ptr, SL("algorithm"), &algo);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("algorithm"), &algo);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -168,7 +168,7 @@ PHP_METHOD(Phalcon_Security_JWT_Signer_Hmac, sign) {
 	}
 
 
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "gethash", NULL, 509, &payload, &passphrase);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "gethash", NULL, 0, &payload, &passphrase);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -231,7 +231,7 @@ PHP_METHOD(Phalcon_Security_JWT_Signer_Hmac, verify) {
 	}
 
 
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "gethash", NULL, 509, &payload, &passphrase);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "gethash", NULL, 0, &payload, &passphrase);
 	zephir_check_call_status();
 	RETURN_MM_BOOL(zephir_hash_equals(&source, &_0));
 
