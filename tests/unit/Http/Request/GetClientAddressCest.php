@@ -18,8 +18,6 @@ use UnitTester;
 
 class GetClientAddressCest
 {
-    use DiTrait;
-
     /**
      * Tests Phalcon\Http\Request :: getClientAddress() - trustForwardedHeader
      *
