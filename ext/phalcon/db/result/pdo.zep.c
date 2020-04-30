@@ -111,11 +111,11 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, __construct) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, SL("connection"), connection);
-	zephir_update_property_zval(this_ptr, SL("pdoStatement"), result);
-	zephir_update_property_zval(this_ptr, SL("sqlStatement"), sqlStatement);
-	zephir_update_property_zval(this_ptr, SL("bindParams"), bindParams);
-	zephir_update_property_zval(this_ptr, SL("bindTypes"), bindTypes);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("connection"), connection);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("pdoStatement"), result);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("sqlStatement"), sqlStatement);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("bindParams"), bindParams);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("bindTypes"), bindTypes);
 
 }
 
@@ -180,7 +180,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, dataSeek) {
 		ZEPHIR_CALL_METHOD(&statement, &pdo, "query", NULL, 0, &sqlStatement);
 		zephir_check_call_status();
 	}
-	zephir_update_property_zval(this_ptr, SL("pdoStatement"), &statement);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("pdoStatement"), &statement);
 	n = -1;
 	number--;
 	while (1) {
@@ -479,7 +479,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows) {
 				ZVAL_LONG(&rowCount, 1);
 			}
 		}
-		zephir_update_property_zval(this_ptr, SL("rowCount"), &rowCount);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("rowCount"), &rowCount);
 	}
 	RETURN_CCTOR(&rowCount);
 
@@ -574,7 +574,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, setFetchMode) {
 	}
 	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(&_0, fetchMode);
-	zephir_update_property_zval(this_ptr, SL("fetchMode"), &_0);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("fetchMode"), &_0);
 	RETURN_MM_BOOL(1);
 
 }

@@ -161,16 +161,16 @@ PHP_METHOD(Phalcon_Logger_Item, __construct) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, SL("message"), &message);
-	zephir_update_property_zval(this_ptr, SL("name"), &name);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("message"), &message);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("name"), &name);
 	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(&_0, type);
-	zephir_update_property_zval(this_ptr, SL("type"), &_0);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("type"), &_0);
 	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(&_0, time);
-	zephir_update_property_zval(this_ptr, SL("time"), &_0);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("time"), &_0);
 	if (Z_TYPE_P(context) == IS_ARRAY) {
-		zephir_update_property_zval(this_ptr, SL("context"), context);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("context"), context);
 	}
 	ZEPHIR_MM_RESTORE();
 

@@ -117,7 +117,7 @@ PHP_METHOD(Phalcon_Validation_AbstractValidator, __construct) {
 		zephir_array_unset_string(&options, SL("message"), PH_SEPARATE);
 		zephir_array_unset_long(&options, 0, PH_SEPARATE);
 	}
-	zephir_update_property_zval(this_ptr, SL("options"), &options);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("options"), &options);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -232,7 +232,7 @@ PHP_METHOD(Phalcon_Validation_AbstractValidator, setTemplates) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	array_init(&_0);
-	zephir_update_property_zval(this_ptr, SL("templates"), &_0);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("templates"), &_0);
 	zephir_is_iterable(&templates, 0, "phalcon/Validation/AbstractValidator.zep", 112);
 	if (Z_TYPE_P(&templates) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&templates), _3, _4, _1)
@@ -308,7 +308,7 @@ PHP_METHOD(Phalcon_Validation_AbstractValidator, setTemplate) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, SL("template"), &template);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("template"), &template);
 	RETURN_THIS();
 
 }
@@ -618,7 +618,7 @@ zend_object *zephir_init_properties_Phalcon_Validation_AbstractValidator(zend_cl
 		if (Z_TYPE_P(&_0) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_1$$3);
 			array_init(&_1$$3);
-			zephir_update_property_zval(this_ptr, SL("templates"), &_1$$3);
+			zend_update_property(Z_OBJCE_P(this_ptr), this_ptr, ZEND_STRL("templates"), &_1$$3);
 		}
 		ZEPHIR_MM_RESTORE();
 		return Z_OBJ_P(this_ptr);

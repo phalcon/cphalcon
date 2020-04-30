@@ -382,9 +382,9 @@ PHP_METHOD(Phalcon_Escaper, setDoubleEncode) {
 
 
 	if (doubleEncode) {
-		zephir_update_property_zval(this_ptr, SL("doubleEncode"), &__$true);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("doubleEncode"), &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, SL("doubleEncode"), &__$false);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("doubleEncode"), &__$false);
 	}
 
 }
@@ -411,7 +411,7 @@ PHP_METHOD(Phalcon_Escaper, setEncoding) {
 	zephir_get_strval(&encoding, encoding_param);
 
 
-	zephir_update_property_zval(this_ptr, SL("encoding"), &encoding);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("encoding"), &encoding);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -438,7 +438,7 @@ PHP_METHOD(Phalcon_Escaper, setHtmlQuoteType) {
 
 	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(&_0, quoteType);
-	zephir_update_property_zval(this_ptr, SL("htmlQuoteType"), &_0);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("htmlQuoteType"), &_0);
 
 }
 

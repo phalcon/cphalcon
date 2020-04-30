@@ -496,9 +496,9 @@ PHP_METHOD(Phalcon_Mvc_Application, sendCookiesOnHandleRequest) {
 
 
 	if (sendCookies) {
-		zephir_update_property_zval(this_ptr, SL("sendCookies"), &__$true);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("sendCookies"), &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, SL("sendCookies"), &__$false);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("sendCookies"), &__$false);
 	}
 	RETURN_THISW();
 
@@ -522,9 +522,9 @@ PHP_METHOD(Phalcon_Mvc_Application, sendHeadersOnHandleRequest) {
 
 
 	if (sendHeaders) {
-		zephir_update_property_zval(this_ptr, SL("sendHeaders"), &__$true);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("sendHeaders"), &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, SL("sendHeaders"), &__$false);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("sendHeaders"), &__$false);
 	}
 	RETURN_THISW();
 
@@ -549,9 +549,9 @@ PHP_METHOD(Phalcon_Mvc_Application, useImplicitView) {
 
 
 	if (implicitView) {
-		zephir_update_property_zval(this_ptr, SL("implicitView"), &__$true);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("implicitView"), &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, SL("implicitView"), &__$false);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("implicitView"), &__$false);
 	}
 	RETURN_THISW();
 

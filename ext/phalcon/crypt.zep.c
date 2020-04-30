@@ -689,7 +689,7 @@ PHP_METHOD(Phalcon_Crypt, encrypt) {
 		ZEPHIR_CALL_FUNCTION(&encrypted, "openssl_encrypt", NULL, 184, &padded, &cipher, &encryptKey, &_13$$10, &iv, &authTag, &authData, &authTagLength);
 		ZEPHIR_UNREF(&authTag);
 		zephir_check_call_status();
-		zephir_update_property_zval(this_ptr, SL("authTag"), &authTag);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("authTag"), &authTag);
 	} else {
 		ZVAL_LONG(&_14$$11, 1);
 		ZEPHIR_CALL_FUNCTION(&encrypted, "openssl_encrypt", NULL, 184, &padded, &cipher, &encryptKey, &_14$$11, &iv);
@@ -992,7 +992,7 @@ PHP_METHOD(Phalcon_Crypt, setAuthTag) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, SL("authTag"), &tag);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("authTag"), &tag);
 	RETURN_THIS();
 
 }
@@ -1021,7 +1021,7 @@ PHP_METHOD(Phalcon_Crypt, setAuthData) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, SL("authData"), &data);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("authData"), &data);
 	RETURN_THIS();
 
 }
@@ -1045,7 +1045,7 @@ PHP_METHOD(Phalcon_Crypt, setAuthTagLength) {
 
 	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(&_0, length);
-	zephir_update_property_zval(this_ptr, SL("authTagLength"), &_0);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("authTagLength"), &_0);
 	RETURN_THISW();
 
 }
@@ -1089,8 +1089,8 @@ PHP_METHOD(Phalcon_Crypt, setCipher) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getivlength", NULL, 0, &cipher);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, SL("ivLength"), &_0);
-	zephir_update_property_zval(this_ptr, SL("cipher"), &cipher);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("ivLength"), &_0);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("cipher"), &cipher);
 	RETURN_THIS();
 
 }
@@ -1127,7 +1127,7 @@ PHP_METHOD(Phalcon_Crypt, setHashAlgo) {
 
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "asserthashalgorithmavailable", NULL, 0, &hashAlgo);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, SL("hashAlgo"), &hashAlgo);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("hashAlgo"), &hashAlgo);
 	RETURN_THIS();
 
 }
@@ -1171,7 +1171,7 @@ PHP_METHOD(Phalcon_Crypt, setKey) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, SL("key"), &key);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("key"), &key);
 	RETURN_THIS();
 
 }
@@ -1198,7 +1198,7 @@ PHP_METHOD(Phalcon_Crypt, setPadding) {
 
 	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(&_0, scheme);
-	zephir_update_property_zval(this_ptr, SL("padding"), &_0);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("padding"), &_0);
 	RETURN_THISW();
 
 }
@@ -1221,9 +1221,9 @@ PHP_METHOD(Phalcon_Crypt, useSigning) {
 
 
 	if (useSigning) {
-		zephir_update_property_zval(this_ptr, SL("useSigning"), &__$true);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("useSigning"), &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, SL("useSigning"), &__$false);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("useSigning"), &__$false);
 	}
 	RETURN_THISW();
 
@@ -1438,7 +1438,7 @@ PHP_METHOD(Phalcon_Crypt, initializeAvailableCiphers) {
 	}
 	ZEPHIR_INIT_NVAR(&cipher);
 	ZEPHIR_INIT_NVAR(&i);
-	zephir_update_property_zval(this_ptr, SL("availableCiphers"), &availableCiphers);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("availableCiphers"), &availableCiphers);
 	ZEPHIR_MM_RESTORE();
 
 }

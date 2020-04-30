@@ -58,7 +58,7 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, __construct) {
 
 
 
-	zephir_update_property_zval(this_ptr, SL("adapterFactory"), factory);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("adapterFactory"), factory);
 
 }
 
@@ -257,7 +257,7 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, newInstance) {
 
 
 	object_init_ex(return_value, phalcon_logger_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 388, &name, &adapters);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 418, &name, &adapters);
 	zephir_check_call_status();
 	RETURN_MM();
 

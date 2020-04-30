@@ -187,7 +187,7 @@ PHP_METHOD(Phalcon_Validation_Validator_CreditCard, verifyByLuhnAlgorithm) {
 	zephir_check_call_status();
 	zephir_get_arrval(&_1, &_0);
 	ZEPHIR_CPY_WRT(&digits, &_1);
-	ZEPHIR_CALL_FUNCTION(&_3, "array_reverse", NULL, 505, &digits);
+	ZEPHIR_CALL_FUNCTION(&_3, "array_reverse", NULL, 0, &digits);
 	zephir_check_call_status();
 	zephir_is_iterable(&_3, 0, "phalcon/Validation/Validator/CreditCard.zep", 106);
 	if (Z_TYPE_P(&_3) == IS_ARRAY) {
