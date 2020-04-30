@@ -24,7 +24,7 @@ class JsonSerializeCest
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-06-01
      *
-     * @group common
+     * @group  common
      */
     public function mvcModelRowJsonSerialize(DatabaseTester $I)
     {

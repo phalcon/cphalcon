@@ -30,9 +30,6 @@ class GetAvailableCiphersCest
 
         $crypt = new Crypt();
 
-        $I->assertInternalType(
-            'array',
-            $crypt->getAvailableCiphers()
-        );
+        $I->assertTrue(is_array($crypt->getAvailableCiphers()));
     }
 }

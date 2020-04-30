@@ -26,6 +26,7 @@ class GetScaleCest
 
     public function _before(DatabaseTester $I)
     {
+        $I->skipTest('Temporary disabled');
         $this->setNewFactoryDefault();
         $this->setDatabase($I);
     }
@@ -35,6 +36,8 @@ class GetScaleCest
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
+     *
+     * @group  common
      */
     public function dbColumnGetScale(DatabaseTester $I)
     {

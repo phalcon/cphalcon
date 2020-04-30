@@ -18,6 +18,7 @@ use IntegrationTester;
 use Phalcon\Events\Manager;
 use Phalcon\Test\Fixtures\Db\ProfilerListener;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
+use function is_double;
 
 class ResetCest
 {
@@ -69,10 +70,7 @@ class ResetCest
             $profiler->getNumberTotalStatements()
         );
 
-        $I->assertInternalType(
-            'double',
-            $profiler->getTotalElapsedSeconds()
-        );
+        $I->assertTrue(is_double($profiler->getTotalElapsedSeconds()));
 
         $I->assertEquals(
             0,

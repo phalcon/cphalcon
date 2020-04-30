@@ -357,7 +357,7 @@ PHP_METHOD(Phalcon_Session_Manager, getName) {
 	if (!ZEPHIR_IS_IDENTICAL(&_1, &_0)) {
 		ZEPHIR_CALL_FUNCTION(&_2$$3, "session_name", NULL, 0);
 		zephir_check_call_status();
-		zephir_update_property_zval(this_ptr, SL("name"), &_2$$3);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("name"), &_2$$3);
 	}
 	RETURN_MM_MEMBER(getThis(), "name");
 
@@ -531,7 +531,7 @@ PHP_METHOD(Phalcon_Session_Manager, setAdapter) {
 
 
 
-	zephir_update_property_zval(this_ptr, SL("adapter"), adapter);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("adapter"), adapter);
 	RETURN_THISW();
 
 }
@@ -625,7 +625,7 @@ PHP_METHOD(Phalcon_Session_Manager, setName) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "The name contains non alphanum characters", "phalcon/Session/Manager.zep", 283);
 		return;
 	}
-	zephir_update_property_zval(this_ptr, SL("name"), &name);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("name"), &name);
 	ZEPHIR_CALL_FUNCTION(NULL, "session_name", NULL, 0, &name);
 	zephir_check_call_status();
 	RETURN_THIS();
@@ -661,8 +661,8 @@ PHP_METHOD(Phalcon_Session_Manager, setOptions) {
 	ZVAL_STRING(&_3, "");
 	ZEPHIR_CALL_CE_STATIC(&_0, phalcon_helper_arr_ce, "get", &_1, 16, &options, &_2, &_3);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, SL("uniqueId"), &_0);
-	zephir_update_property_zval(this_ptr, SL("options"), &options);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("uniqueId"), &_0);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("options"), &options);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -788,7 +788,7 @@ zend_object *zephir_init_properties_Phalcon_Session_Manager(zend_class_entry *cl
 		if (Z_TYPE_P(&_0) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_1$$3);
 			array_init(&_1$$3);
-			zephir_update_property_zval(this_ptr, SL("options"), &_1$$3);
+			zend_update_property(Z_OBJCE_P(this_ptr), this_ptr, ZEND_STRL("options"), &_1$$3);
 		}
 		ZEPHIR_MM_RESTORE();
 		return Z_OBJ_P(this_ptr);

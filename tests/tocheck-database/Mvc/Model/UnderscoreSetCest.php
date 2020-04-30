@@ -272,15 +272,8 @@ class UnderscoreSetCest
 
         $robotsParts = $robot->robotsParts;
 
-        $I->assertInternalType(
-            'array',
-            $robotsParts
-        );
-
-        $I->assertCount(
-            2,
-            $robotsParts
-        );
+        $I->assertTrue(is_array($robotsParts));
+        $I->assertCount(2, $robotsParts);
 
         $I->assertInstanceOf(
             Models\RobotsParts::class,
@@ -311,15 +304,8 @@ class UnderscoreSetCest
 
         $robotParts = $robot->M2MParts;
 
-        $I->assertInternalType(
-            'array',
-            $robotParts
-        );
-
-        $I->assertCount(
-            2,
-            $robotParts
-        );
+        $I->assertTrue(is_array($robotParts));
+        $I->assertCount(2, $robotParts);
 
         $I->assertInstanceOf(
             Models\Relations\M2MParts::class,

@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Request;
 
+use Phalcon\Http\Request;
 use UnitTester;
 
 class GetUserAgentCest
@@ -21,12 +22,38 @@ class GetUserAgentCest
      * Tests Phalcon\Http\Request :: getUserAgent()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-03-17
      */
     public function httpRequestGetUserAgent(UnitTester $I)
     {
         $I->wantToTest('Http\Request - getUserAgent()');
 
-        $I->skipTest('Need implementation');
+        $store   = $_SERVER ?? [];
+        $time    = $_SERVER['REQUEST_TIME_FLOAT'];
+        $_SERVER = [
+            'REQUEST_TIME_FLOAT' => $time,
+        ];
+
+        $request = new Request();
+
+        $I->assertEmpty($request->getUserAgent());
+
+        $_SERVER = $store;
+
+        $store   = $_SERVER ?? [];
+        $time    = $_SERVER['REQUEST_TIME_FLOAT'];
+        $_SERVER = [
+            'REQUEST_TIME_FLOAT' => $time,
+            'HTTP_USER_AGENT'    => 'Chrome/Other 1.0.0',
+        ];
+
+        $request = new Request();
+
+
+        $expected = 'Chrome/Other 1.0.0';
+        $actual   = $request->getUserAgent();
+        $I->assertEquals($expected, $actual);
+
+        $_SERVER = $store;
     }
 }

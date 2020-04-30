@@ -41,7 +41,7 @@ class MemoryCest
             TestClass::class
         );
 
-        $I->assertInternalType('object', $classAnnotations);
+        $I->assertTrue(is_object($classAnnotations));
 
         $I->assertInstanceOf(
             Reflection::class,
@@ -57,7 +57,7 @@ class MemoryCest
             TestClass::class
         );
 
-        $I->assertInternalType('object', $classAnnotations);
+        $I->assertTrue(is_object($classAnnotations));
 
         $I->assertInstanceOf(
             Reflection::class,
@@ -73,7 +73,7 @@ class MemoryCest
             TestClassNs::class
         );
 
-        $I->assertInternalType('object', $classAnnotations);
+        $I->assertTrue(is_object($classAnnotations));
 
         $I->assertInstanceOf(
             Reflection::class,
@@ -89,7 +89,7 @@ class MemoryCest
             TestClassNs::class
         );
 
-        $I->assertInternalType('object', $classAnnotations);
+        $I->assertTrue(is_object($classAnnotations));
 
         $I->assertInstanceOf(
             Reflection::class,
@@ -106,7 +106,7 @@ class MemoryCest
             'testProp1'
         );
 
-        $I->assertInternalType('object', $property);
+        $I->assertTrue(is_object($property));
 
         $I->assertInstanceOf(
             Collection::class,

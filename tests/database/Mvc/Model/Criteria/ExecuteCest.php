@@ -45,7 +45,7 @@ class ExecuteCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
      *
-     * @group mysql
+     * @group  mysql
      */
     public function mvcModelCriteriaExecute(DatabaseTester $I)
     {

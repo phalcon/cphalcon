@@ -28,11 +28,11 @@
  *
  * (c) Phalcon Team <team@phalcon.com>
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
  */
 /**
- * Base class for Phalcon\Db adapters
+ * Base class for Phalcon\Db\Adapter adapters
  */
 ZEPHIR_INIT_CLASS(Phalcon_Db_Adapter_AbstractAdapter) {
 
@@ -70,7 +70,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Adapter_AbstractAdapter) {
 	/**
 	 * Event Manager
 	 *
-	 * @var Phalcon\Events\Manager
+	 * @var ManagerInterface
 	 */
 	zend_declare_property_null(phalcon_db_adapter_abstractadapter_ce, SL("eventsManager"), ZEND_ACC_PROTECTED);
 
@@ -201,7 +201,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, __construct) {
 
 	ZEPHIR_OBS_VAR(&connectionId);
 	zephir_read_static_property_ce(&connectionId, phalcon_db_adapter_abstractadapter_ce, SL("connectionConsecutive"), PH_NOISY_CC);
-	zephir_update_property_zval(this_ptr, SL("connectionId"), &connectionId);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("connectionId"), &connectionId);
 	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(&_0, (zephir_get_numberval(&connectionId) + 1));
 	zephir_update_static_property_ce(phalcon_db_adapter_abstractadapter_ce, ZEND_STRL("connectionConsecutive"), &_0);
@@ -215,11 +215,11 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, __construct) {
 		ZEPHIR_INIT_VAR(&_2$$4);
 		ZEPHIR_LAST_CALL_STATUS = zephir_create_instance(&_2$$4, &dialectClass);
 		zephir_check_call_status();
-		zephir_update_property_zval(this_ptr, SL("dialect"), &_2$$4);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("dialect"), &_2$$4);
 	} else if (Z_TYPE_P(&dialectClass) == IS_OBJECT) {
-		zephir_update_property_zval(this_ptr, SL("dialect"), &dialectClass);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("dialect"), &dialectClass);
 	}
-	zephir_update_property_zval(this_ptr, SL("descriptor"), &descriptor);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("descriptor"), &descriptor);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -2727,7 +2727,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, setEventsManager) {
 
 
 
-	zephir_update_property_zval(this_ptr, SL("eventsManager"), eventsManager);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("eventsManager"), eventsManager);
 
 }
 
@@ -2745,7 +2745,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, setDialect) {
 
 
 
-	zephir_update_property_zval(this_ptr, SL("dialect"), dialect);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("dialect"), dialect);
 
 }
 
@@ -2785,9 +2785,9 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, setNestedTransactionsWithSavepoin
 		return;
 	}
 	if (nestedTransactionsWithSavepoints) {
-		zephir_update_property_zval(this_ptr, SL("transactionsWithSavepoints"), &__$true);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("transactionsWithSavepoints"), &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, SL("transactionsWithSavepoints"), &__$false);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("transactionsWithSavepoints"), &__$false);
 	}
 	RETURN_THIS();
 
@@ -3435,7 +3435,7 @@ zend_object *zephir_init_properties_Phalcon_Db_Adapter_AbstractAdapter(zend_clas
 		if (Z_TYPE_P(&_0) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_1$$3);
 			array_init(&_1$$3);
-			zephir_update_property_zval(this_ptr, SL("descriptor"), &_1$$3);
+			zend_update_property(Z_OBJCE_P(this_ptr), this_ptr, ZEND_STRL("descriptor"), &_1$$3);
 		}
 		ZEPHIR_MM_RESTORE();
 		return Z_OBJ_P(this_ptr);

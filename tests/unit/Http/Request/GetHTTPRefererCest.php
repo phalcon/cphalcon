@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Request;
 
+use Phalcon\Http\Request;
 use UnitTester;
 
 class GetHTTPRefererCest
@@ -21,12 +22,39 @@ class GetHTTPRefererCest
      * Tests Phalcon\Http\Request :: getHTTPReferer()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-03-17
      */
     public function httpRequestGetHTTPReferer(UnitTester $I)
     {
         $I->wantToTest('Http\Request - getHTTPReferer()');
 
-        $I->skipTest('Need implementation');
+        // Empty
+        $store   = $_SERVER ?? [];
+        $time    = $_SERVER['REQUEST_TIME_FLOAT'];
+        $_SERVER = [
+            'REQUEST_TIME_FLOAT' => $time,
+        ];
+
+        $request = new Request();
+
+        $I->assertEmpty($request->getHTTPReferer());
+
+        $_SERVER = $store;
+
+        // Valid
+        $store   = $_SERVER ?? [];
+        $time    = $_SERVER['REQUEST_TIME_FLOAT'];
+        $_SERVER = [
+            'REQUEST_TIME_FLOAT' => $time,
+            'HTTP_REFERER'       => 'Phalcon Referrer',
+        ];
+
+        $request = new Request();
+
+        $expected = 'Phalcon Referrer';
+        $actual   = $request->getHTTPReferer();
+        $I->assertEquals($expected, $actual);
+
+        $_SERVER = $store;
     }
 }

@@ -105,7 +105,7 @@ class Config extends Collection
      * echo $config->path("unknown.path", "default", ".");
      *```
      */
-    public function path(string path, defaultValue = null, var delimiter = null)
+    public function path(string path, defaultValue = null, var delimiter = null) -> var | null
     {
         var config, key, keys;
 

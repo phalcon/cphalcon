@@ -23,7 +23,7 @@ class ConstructCest
      * Tests Phalcon\Http\Cookie :: __construct()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-03-17
      */
     public function httpRequestConstruct(UnitTester $I)
     {

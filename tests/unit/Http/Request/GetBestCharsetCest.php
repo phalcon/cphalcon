@@ -24,7 +24,7 @@ class GetBestCharsetCest
      * Tests Phalcon\Http\Request :: getBestCharset()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-03-17
      */
     public function httpRequestGetBestCharset(UnitTester $I)
     {

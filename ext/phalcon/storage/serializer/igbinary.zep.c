@@ -94,11 +94,11 @@ PHP_METHOD(Phalcon_Storage_Serializer_Igbinary, unserialize) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_FUNCTION(&_2, "igbinary_unserialize", NULL, 0, data);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, SL("data"), &_2);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("data"), &_2);
 	ZEPHIR_CALL_FUNCTION(NULL, "restore_error_handler", NULL, 88);
 	zephir_check_call_status();
 	if (UNEXPECTED(ZEPHIR_GLOBAL(warning).enable)) {
-		zephir_update_property_zval(this_ptr, SL("data"), &__$null);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("data"), &__$null);
 	}
 	ZEPHIR_MM_RESTORE();
 

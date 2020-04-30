@@ -110,7 +110,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Bind, bindInline) {
 	zephir_read_property(&_3, this_ptr, SL("inlineCount"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_ZVAL_NREF(_4);
 	ZVAL_LONG(&_4, (zephir_get_numberval(&_3) + 1));
-	zephir_update_property_zval(this_ptr, SL("inlineCount"), &_4);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("inlineCount"), &_4);
 	zephir_read_property(&_4, this_ptr, SL("inlineCount"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&key);
 	ZEPHIR_CONCAT_SVS(&key, "__", &_4, "__");
@@ -147,7 +147,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Bind, remove) {
 	zephir_read_property(&_0, this_ptr, SL("store"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&store, &_0);
 	zephir_array_unset(&store, &key, PH_SEPARATE);
-	zephir_update_property_zval(this_ptr, SL("store"), &store);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("store"), &store);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -371,7 +371,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Bind, inlineArray) {
 			zephir_read_property(&_2$$3, this_ptr, SL("inlineCount"), PH_NOISY_CC | PH_READONLY);
 			ZEPHIR_INIT_ZVAL_NREF(_3$$3);
 			ZVAL_LONG(&_3$$3, (zephir_get_numberval(&_2$$3) + 1));
-			zephir_update_property_zval(this_ptr, SL("inlineCount"), &_3$$3);
+			zephir_update_property_zval(this_ptr, ZEND_STRL("inlineCount"), &_3$$3);
 			zephir_read_property(&_3$$3, this_ptr, SL("inlineCount"), PH_NOISY_CC | PH_READONLY);
 			ZEPHIR_INIT_NVAR(&key);
 			ZEPHIR_CONCAT_SVS(&key, "__", &_3$$3, "__");
@@ -396,7 +396,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Bind, inlineArray) {
 				zephir_read_property(&_7$$4, this_ptr, SL("inlineCount"), PH_NOISY_CC | PH_READONLY);
 				ZEPHIR_INIT_ZVAL_NREF(_8$$4);
 				ZVAL_LONG(&_8$$4, (zephir_get_numberval(&_7$$4) + 1));
-				zephir_update_property_zval(this_ptr, SL("inlineCount"), &_8$$4);
+				zephir_update_property_zval(this_ptr, ZEND_STRL("inlineCount"), &_8$$4);
 				zephir_read_property(&_8$$4, this_ptr, SL("inlineCount"), PH_NOISY_CC | PH_READONLY);
 				ZEPHIR_INIT_NVAR(&key);
 				ZEPHIR_CONCAT_SVS(&key, "__", &_8$$4, "__");
@@ -434,7 +434,7 @@ zend_object *zephir_init_properties_Phalcon_DataMapper_Query_Bind(zend_class_ent
 		if (Z_TYPE_P(&_0) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_1$$3);
 			array_init(&_1$$3);
-			zephir_update_property_zval(this_ptr, SL("store"), &_1$$3);
+			zend_update_property(Z_OBJCE_P(this_ptr), this_ptr, ZEND_STRL("store"), &_1$$3);
 		}
 		ZEPHIR_MM_RESTORE();
 		return Z_OBJ_P(this_ptr);

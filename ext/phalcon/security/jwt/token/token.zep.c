@@ -111,9 +111,9 @@ PHP_METHOD(Phalcon_Security_JWT_Token_Token, __construct) {
 
 
 
-	zephir_update_property_zval(this_ptr, SL("headers"), headers);
-	zephir_update_property_zval(this_ptr, SL("claims"), claims);
-	zephir_update_property_zval(this_ptr, SL("signature"), signature);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("headers"), headers);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("claims"), claims);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("signature"), signature);
 
 }
 

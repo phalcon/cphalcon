@@ -77,10 +77,10 @@ PHP_METHOD(Phalcon_Security_JWT_Validator, __construct) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, SL("token"), token);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("token"), token);
 	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(&_0, timeShift);
-	zephir_update_property_zval(this_ptr, SL("timeShift"), &_0);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("timeShift"), &_0);
 
 }
 
@@ -100,7 +100,7 @@ PHP_METHOD(Phalcon_Security_JWT_Validator, setToken) {
 
 
 
-	zephir_update_property_zval(this_ptr, SL("token"), token);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("token"), token);
 	RETURN_THISW();
 
 }

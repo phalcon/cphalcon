@@ -211,7 +211,7 @@ PHP_METHOD(Phalcon_Http_Message_Stream, detach) {
 
 	zephir_read_property(&_0, this_ptr, SL("handle"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&handle, &_0);
-	zephir_update_property_zval(this_ptr, SL("handle"), &__$null);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("handle"), &__$null);
 	RETURN_CCTOR(&handle);
 
 }
@@ -624,8 +624,8 @@ PHP_METHOD(Phalcon_Http_Message_Stream, setStream) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_RuntimeException, "The stream provided is not valid (string/resource) or could not be opened.", "phalcon/Http/Message/Stream.zep", 312);
 		return;
 	}
-	zephir_update_property_zval(this_ptr, SL("handle"), &handle);
-	zephir_update_property_zval(this_ptr, SL("stream"), stream);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("handle"), &handle);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("stream"), stream);
 	ZEPHIR_MM_RESTORE();
 
 }

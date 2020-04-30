@@ -18,6 +18,8 @@ use IntegrationTester;
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
 use Phalcon\Mvc\View\Exception;
 
+use function is_array;
+
 /**
  * Class ParseCest
  */
@@ -41,11 +43,7 @@ class ParseCest
         $volt   = new Compiler();
         $actual = $volt->parse($param);
 
-        $I->assertInternalType(
-            'array',
-            $actual
-        );
-
+        $I->assertTrue(is_array($actual));
         $I->assertCount($count, $actual);
     }
 

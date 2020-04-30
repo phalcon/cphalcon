@@ -26,7 +26,7 @@ class IsFirstCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
      *
-     * @group common
+     * @group  common
      */
     public function dbColumnIsFirst(DatabaseTester $I)
     {
