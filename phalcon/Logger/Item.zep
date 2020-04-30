@@ -18,6 +18,10 @@ namespace Phalcon\Logger;
  */
 class Item
 {
+    /**
+     * Log Context
+     * @return mixed
+     */
     protected context { get };
 
     /**
