@@ -63,7 +63,7 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, __construct) {
 
 
 
-	zephir_update_property_zval(this_ptr, SL("escaper"), escaper);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("escaper"), escaper);
 
 }
 

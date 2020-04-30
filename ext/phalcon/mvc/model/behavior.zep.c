@@ -70,7 +70,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, __construct) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, SL("options"), &options);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("options"), &options);
 	ZEPHIR_MM_RESTORE();
 
 }

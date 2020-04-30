@@ -56,7 +56,7 @@ PHP_METHOD(Phalcon_Container, __construct) {
 
 
 
-	zephir_update_property_zval(this_ptr, SL("container"), container);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("container"), container);
 
 }
 

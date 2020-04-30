@@ -315,7 +315,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_AbstractAdapter, getReader) {
 			ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0);
 			zephir_check_call_status();
 		}
-		zephir_update_property_zval(this_ptr, SL("reader"), &_1$$3);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("reader"), &_1$$3);
 	}
 	RETURN_MM_MEMBER(getThis(), "reader");
 
@@ -335,7 +335,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_AbstractAdapter, setReader) {
 
 
 
-	zephir_update_property_zval(this_ptr, SL("reader"), reader);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("reader"), reader);
 
 }
 
@@ -355,7 +355,7 @@ zend_object *zephir_init_properties_Phalcon_Annotations_Adapter_AbstractAdapter(
 		if (Z_TYPE_P(&_0) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_1$$3);
 			array_init(&_1$$3);
-			zephir_update_property_zval(this_ptr, SL("annotations"), &_1$$3);
+			zend_update_property(Z_OBJCE_P(this_ptr), this_ptr, ZEND_STRL("annotations"), &_1$$3);
 		}
 		ZEPHIR_MM_RESTORE();
 		return Z_OBJ_P(this_ptr);

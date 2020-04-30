@@ -1057,11 +1057,11 @@ PHP_METHOD(Phalcon_Di, remove) {
 	zephir_read_property(&_0, this_ptr, SL("services"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&services, &_0);
 	zephir_array_unset(&services, &name, PH_SEPARATE);
-	zephir_update_property_zval(this_ptr, SL("services"), &services);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("services"), &services);
 	zephir_read_property(&_0, this_ptr, SL("sharedInstances"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&sharedInstances, &_0);
 	zephir_array_unset(&sharedInstances, &name, PH_SEPARATE);
-	zephir_update_property_zval(this_ptr, SL("sharedInstances"), &sharedInstances);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("sharedInstances"), &sharedInstances);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -1169,7 +1169,7 @@ PHP_METHOD(Phalcon_Di, setInternalEventsManager) {
 
 
 
-	zephir_update_property_zval(this_ptr, SL("eventsManager"), eventsManager);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("eventsManager"), eventsManager);
 
 }
 

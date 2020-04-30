@@ -77,7 +77,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, setFormat) {
 	zephir_get_strval(&format, format_param);
 
 
-	zephir_update_property_zval(this_ptr, SL("format"), &format);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("format"), &format);
 	RETURN_THIS();
 
 }
@@ -112,8 +112,8 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, __construct) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, SL("format"), &format);
-	zephir_update_property_zval(this_ptr, SL("dateFormat"), &dateFormat);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("format"), &format);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("dateFormat"), &dateFormat);
 	ZEPHIR_MM_RESTORE();
 
 }

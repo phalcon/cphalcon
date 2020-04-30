@@ -156,7 +156,7 @@ PHP_METHOD(Phalcon_Tag, checkField) {
 
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "checkbox");
-	ZEPHIR_RETURN_CALL_SELF("inputfieldchecked", &_0, 503, &_1, parameters);
+	ZEPHIR_RETURN_CALL_SELF("inputfieldchecked", &_0, 0, &_1, parameters);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -190,7 +190,7 @@ PHP_METHOD(Phalcon_Tag, colorField) {
 
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "color");
-	ZEPHIR_RETURN_CALL_SELF("inputfield", &_0, 504, &_1, parameters);
+	ZEPHIR_RETURN_CALL_SELF("inputfield", &_0, 0, &_1, parameters);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -224,7 +224,7 @@ PHP_METHOD(Phalcon_Tag, dateField) {
 
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "date");
-	ZEPHIR_RETURN_CALL_SELF("inputfield", &_0, 504, &_1, parameters);
+	ZEPHIR_RETURN_CALL_SELF("inputfield", &_0, 0, &_1, parameters);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -258,7 +258,7 @@ PHP_METHOD(Phalcon_Tag, dateTimeField) {
 
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "datetime");
-	ZEPHIR_RETURN_CALL_SELF("inputfield", &_0, 504, &_1, parameters);
+	ZEPHIR_RETURN_CALL_SELF("inputfield", &_0, 0, &_1, parameters);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -292,7 +292,7 @@ PHP_METHOD(Phalcon_Tag, dateTimeLocalField) {
 
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "datetime-local");
-	ZEPHIR_RETURN_CALL_SELF("inputfield", &_0, 504, &_1, parameters);
+	ZEPHIR_RETURN_CALL_SELF("inputfield", &_0, 0, &_1, parameters);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -361,7 +361,7 @@ PHP_METHOD(Phalcon_Tag, emailField) {
 
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "email");
-	ZEPHIR_RETURN_CALL_SELF("inputfield", &_0, 504, &_1, parameters);
+	ZEPHIR_RETURN_CALL_SELF("inputfield", &_0, 0, &_1, parameters);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -407,7 +407,7 @@ PHP_METHOD(Phalcon_Tag, fileField) {
 
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "file");
-	ZEPHIR_RETURN_CALL_SELF("inputfield", &_0, 504, &_1, parameters);
+	ZEPHIR_RETURN_CALL_SELF("inputfield", &_0, 0, &_1, parameters);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -1007,7 +1007,7 @@ PHP_METHOD(Phalcon_Tag, getTitle) {
 		zephir_read_static_property_ce(&_6$$3, phalcon_tag_ce, SL("documentPrependTitle"), PH_NOISY_CC);
 		ZEPHIR_CPY_WRT(&documentPrependTitle, &_6$$3);
 		if (!(ZEPHIR_IS_EMPTY(&documentPrependTitle))) {
-			ZEPHIR_CALL_FUNCTION(&tmp$$5, "array_reverse", NULL, 505, &documentPrependTitle);
+			ZEPHIR_CALL_FUNCTION(&tmp$$5, "array_reverse", NULL, 0, &documentPrependTitle);
 			zephir_check_call_status();
 			zephir_is_iterable(&tmp$$5, 0, "phalcon/Tag.zep", 459);
 			if (Z_TYPE_P(&tmp$$5) == IS_ARRAY) {
@@ -1264,7 +1264,7 @@ PHP_METHOD(Phalcon_Tag, hiddenField) {
 
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "hidden");
-	ZEPHIR_RETURN_CALL_SELF("inputfield", &_0, 504, &_1, parameters);
+	ZEPHIR_RETURN_CALL_SELF("inputfield", &_0, 0, &_1, parameters);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -1389,7 +1389,7 @@ PHP_METHOD(Phalcon_Tag, imageInput) {
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "image");
 	ZVAL_BOOL(&_2, 1);
-	ZEPHIR_RETURN_CALL_SELF("inputfield", &_0, 504, &_1, parameters, &_2);
+	ZEPHIR_RETURN_CALL_SELF("inputfield", &_0, 0, &_1, parameters, &_2);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -1650,7 +1650,7 @@ PHP_METHOD(Phalcon_Tag, monthField) {
 
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "month");
-	ZEPHIR_RETURN_CALL_SELF("inputfield", &_0, 504, &_1, parameters);
+	ZEPHIR_RETURN_CALL_SELF("inputfield", &_0, 0, &_1, parameters);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -1685,7 +1685,7 @@ PHP_METHOD(Phalcon_Tag, numericField) {
 
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "number");
-	ZEPHIR_RETURN_CALL_SELF("inputfield", &_0, 504, &_1, parameters);
+	ZEPHIR_RETURN_CALL_SELF("inputfield", &_0, 0, &_1, parameters);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -1720,7 +1720,7 @@ PHP_METHOD(Phalcon_Tag, passwordField) {
 
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "password");
-	ZEPHIR_RETURN_CALL_SELF("inputfield", &_0, 504, &_1, parameters);
+	ZEPHIR_RETURN_CALL_SELF("inputfield", &_0, 0, &_1, parameters);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -1788,7 +1788,7 @@ PHP_METHOD(Phalcon_Tag, radioField) {
 
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "radio");
-	ZEPHIR_RETURN_CALL_SELF("inputfieldchecked", &_0, 503, &_1, parameters);
+	ZEPHIR_RETURN_CALL_SELF("inputfieldchecked", &_0, 0, &_1, parameters);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -1823,7 +1823,7 @@ PHP_METHOD(Phalcon_Tag, rangeField) {
 
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "range");
-	ZEPHIR_RETURN_CALL_SELF("inputfield", &_0, 504, &_1, parameters);
+	ZEPHIR_RETURN_CALL_SELF("inputfield", &_0, 0, &_1, parameters);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -2208,7 +2208,7 @@ PHP_METHOD(Phalcon_Tag, searchField) {
 
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "search");
-	ZEPHIR_RETURN_CALL_SELF("inputfield", &_0, 504, &_1, parameters);
+	ZEPHIR_RETURN_CALL_SELF("inputfield", &_0, 0, &_1, parameters);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -2642,7 +2642,7 @@ PHP_METHOD(Phalcon_Tag, submitButton) {
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "submit");
 	ZVAL_BOOL(&_2, 1);
-	ZEPHIR_RETURN_CALL_SELF("inputfield", &_0, 504, &_1, parameters, &_2);
+	ZEPHIR_RETURN_CALL_SELF("inputfield", &_0, 0, &_1, parameters, &_2);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -2795,7 +2795,7 @@ PHP_METHOD(Phalcon_Tag, telField) {
 
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "tel");
-	ZEPHIR_RETURN_CALL_SELF("inputfield", &_0, 504, &_1, parameters);
+	ZEPHIR_RETURN_CALL_SELF("inputfield", &_0, 0, &_1, parameters);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -2910,7 +2910,7 @@ PHP_METHOD(Phalcon_Tag, textField) {
 
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "text");
-	ZEPHIR_RETURN_CALL_SELF("inputfield", &_0, 504, &_1, parameters);
+	ZEPHIR_RETURN_CALL_SELF("inputfield", &_0, 0, &_1, parameters);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -2944,7 +2944,7 @@ PHP_METHOD(Phalcon_Tag, timeField) {
 
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "time");
-	ZEPHIR_RETURN_CALL_SELF("inputfield", &_0, 504, &_1, parameters);
+	ZEPHIR_RETURN_CALL_SELF("inputfield", &_0, 0, &_1, parameters);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -2978,7 +2978,7 @@ PHP_METHOD(Phalcon_Tag, urlField) {
 
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "url");
-	ZEPHIR_RETURN_CALL_SELF("inputfield", &_0, 504, &_1, parameters);
+	ZEPHIR_RETURN_CALL_SELF("inputfield", &_0, 0, &_1, parameters);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -3012,7 +3012,7 @@ PHP_METHOD(Phalcon_Tag, weekField) {
 
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "week");
-	ZEPHIR_RETURN_CALL_SELF("inputfield", &_0, 504, &_1, parameters);
+	ZEPHIR_RETURN_CALL_SELF("inputfield", &_0, 0, &_1, parameters);
 	zephir_check_call_status();
 	RETURN_MM();
 
