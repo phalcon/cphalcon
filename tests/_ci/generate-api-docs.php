@@ -88,7 +88,7 @@ title: '{$document['title']}'
 
 <h1 id=\"{$href}\">{$signature}</h1>
 
-[Source on GitHub](https://github.com/phalcon/cphalcon/tree/v{{ page.version }}.0/phalcon/{$github})
+[Source on GitHub](https://github.com/phalcon/cphalcon/blob/v{{ page.version }}.0/phalcon/{$github})
 ";
 
         if (!empty($namespace)) {
