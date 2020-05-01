@@ -10,11 +10,11 @@ on:
   pull_request:
 
 jobs:
-  # To prevent build a particular commit use
-  #     git commit -m "......... [ci skip]"
-  if: "!contains(github.event.head_commit.message, 'ci skip')"
-
   generate:
+    # To prevent build a particular commit use
+    #     git commit -m "......... [ci skip]"
+    if: "!contains(github.event.head_commit.message, 'ci skip')"
+
     runs-on: ubuntu-latest
     name: Build Phalcon Pecl Package
     steps:
@@ -95,6 +95,10 @@ jobs:
           path: phalcon-pecl.tgz
 
   build-and-test-linux:
+    # To prevent build a particular commit use
+    #     git commit -m "......... [ci skip]"
+    if: "!contains(github.event.head_commit.message, 'ci skip')"
+
     needs: generate
     services:
       mysql:
@@ -235,6 +239,10 @@ jobs:
       #   run: vendor/bin/codecept run --ext DotReporter database --env sqlsrv
 
   build-and-test-macos:
+    # To prevent build a particular commit use
+    #     git commit -m "......... [ci skip]"
+    if: "!contains(github.event.head_commit.message, 'ci skip')"
+
     needs: generate
     runs-on: ${{ matrix.operating-system }}
     env:
@@ -339,6 +347,10 @@ jobs:
         run: vendor/bin/codecept run --ext DotReporter cli
 
   build-and-test-windows:
+    # To prevent build a particular commit use
+    #     git commit -m "......... [ci skip]"
+    if: "!contains(github.event.head_commit.message, 'ci skip')"
+
     name: PHP ${{ matrix.php-versions }} (${{ matrix.ts }}) Test on ${{ matrix.operating-system }}
     needs: generate
     runs-on: ${{ matrix.operating-system }}
