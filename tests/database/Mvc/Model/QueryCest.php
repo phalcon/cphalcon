@@ -101,28 +101,24 @@ class QueryCest
      *
      * @group  sqlite
      */
-    // public function mvcModelQueryIssue14535(DatabaseTester $I)
-    // {
-    //     $I->wantToTest('Mvc\Model - query()');
-    //     $this->addTestData($I);
+    public function mvcModelQueryIssue14535(DatabaseTester $I)
+    {
+        $I->wantToTest('Mvc\Model - query()');
+        $this->addTestData($I);
 
-    //     $query = Customers::query();
-    //     $query->columns(
-    //         [
-    //             'Customer ID' => 'cst_id',
-    //             'Stätûs'      => 'cst_status_flag',
-    //         ]
-    //     );
-    //     $query->limit(1, 0);
-    //     $resultsets = $query->execute();
+        $query = Customers::query();
+        $query->columns(
+            [
+                'Customer ID' => 'cst_id',
+                'Stätûs'      => 'cst_status_flag',
+            ]
+        );
+        $query->limit(1, 0);
+        $resultsets = $query->execute();
 
-    //     $I->assertEquals(1, $resultsets->count());
-
-    //     foreach ($resultsets as $resultset) {
-    //         $I->assertTrue(isset($resultset['Customer ID']));
-    //         $I->assertTrue(isset($resultset['']));
-    //     }
-    // }
+        $I->assertTrue(isset($resultsets[0]['Customer ID']));
+        $I->assertTrue(isset($resultsets[0]['Stätûs']));
+    }
 
     /**
      * Tests Phalcon\Mvc\Model :: query() - Issue 14783
