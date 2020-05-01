@@ -22,11 +22,14 @@ if command -v phpenv >/dev/null 2>&1; then
   phpconfig="$(phpenv which php-config)"
 else
   inidir="$(php -i | grep 'Scan this dir' | grep -oE '/.*')"
-  phpize="$(command -v phpize >/dev/null 2>&1)"
-  phpconfig="$(command -v php-config >/dev/null 2>&1)"
+  phpize="$(command -v phpize 2>/dev/null)"
+  phpconfig="$(command -v php-config 2>/dev/null)"
 fi
 
-$phpize
+# Executes the command in a subshell.
+# It inherits everything from the calling script but does not
+# transmit any change back.
+(eval "$phpize")
 
 ./configure \
   --silent \
@@ -47,7 +50,6 @@ fi
 
 popd 1>/dev/null || exit 1
 
-# Install zephir
 mkdir -p "$HOME/bin"
 if [[ ! $ZEPHIR_VERSION =~ ^(master|development)$ ]]; then
   wget \
@@ -61,7 +63,11 @@ fi
 git clone -b "$ZEPHIR_VERSION" --depth 1 -q https://github.com/phalcon/zephir
 pushd zephir 1>/dev/null || exit 1
 
-eval "composer install $DEFAULT_COMPOSER_FLAGS"
+# Executes the command in a subshell.
+# It inherits everything from the calling script but does not
+# transmit any change back.
+(eval "composer install $DEFAULT_COMPOSER_FLAGS")
+
 ln -s "$(pwd)/zephir" "$HOME/bin/zephir"
 
 popd 1>/dev/null || exit 1
