@@ -31,6 +31,7 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 	ESCQ            = [\\]['];
 	ESCSEQ          = [\\].;
 	ANYNOEOF        = [\001-\377];
+	PRINTABLE       = [^\x00-\x1F\x7F];
 
 	DSTRING = (["] (ESCQQ|ESCSEQ|ANYNOEOF\[\\"])* ["]);
 	SSTRING = (['] (ESCQ|ESCSEQ|ANYNOEOF\[\\'])* [']);
@@ -399,7 +400,7 @@ int phql_get_token(phql_scanner_state *s, phql_scanner_token *token) {
 			return 0;
 		}
 
-		EIDENTIFIER = '[' ([\\][\[]|[\\][\]]|ANYNOEOF\[\[\]])* ']';
+		EIDENTIFIER = '[' ([\\][\[]|[\\][\]]|PRINTABLE\[\[\]])* ']';
 		EIDENTIFIER {
 			token->opcode = PHQL_T_IDENTIFIER;
 			token->value = estrndup(q, YYCURSOR - q - 1);

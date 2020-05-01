@@ -717,7 +717,39 @@ pp69:
 			ppch = *(PPMARKER = ++PPCURSOR);
 			switch (ppch) {
 			case 0x00:
-			case '[':	goto pp5;
+			case 0x01:
+			case 0x02:
+			case 0x03:
+			case 0x04:
+			case 0x05:
+			case 0x06:
+			case 0x07:
+			case 0x08:
+			case '\t':
+			case '\n':
+			case '\v':
+			case '\f':
+			case '\r':
+			case 0x0E:
+			case 0x0F:
+			case 0x10:
+			case 0x11:
+			case 0x12:
+			case 0x13:
+			case 0x14:
+			case 0x15:
+			case 0x16:
+			case 0x17:
+			case 0x18:
+			case 0x19:
+			case 0x1A:
+			case 0x1B:
+			case 0x1C:
+			case 0x1D:
+			case 0x1E:
+			case 0x1F:
+			case '[':
+			case 0x7F:	goto pp5;
 			default:	goto pp164;
 			}
 pp70:
@@ -1895,7 +1927,39 @@ pp163:
 pp164:
 			switch (ppch) {
 			case 0x00:
-			case '[':	goto pp86;
+			case 0x01:
+			case 0x02:
+			case 0x03:
+			case 0x04:
+			case 0x05:
+			case 0x06:
+			case 0x07:
+			case 0x08:
+			case '\t':
+			case '\n':
+			case '\v':
+			case '\f':
+			case '\r':
+			case 0x0E:
+			case 0x0F:
+			case 0x10:
+			case 0x11:
+			case 0x12:
+			case 0x13:
+			case 0x14:
+			case 0x15:
+			case 0x16:
+			case 0x17:
+			case 0x18:
+			case 0x19:
+			case 0x1A:
+			case 0x1B:
+			case 0x1C:
+			case 0x1D:
+			case 0x1E:
+			case 0x1F:
+			case '[':
+			case 0x7F:	goto pp86;
 			case '\\':	goto pp165;
 			case ']':	goto pp167;
 			default:	goto pp163;
@@ -1903,7 +1967,39 @@ pp164:
 pp165:
 			ppch = *++PPCURSOR;
 			switch (ppch) {
-			case 0x00:	goto pp86;
+			case 0x00:
+			case 0x01:
+			case 0x02:
+			case 0x03:
+			case 0x04:
+			case 0x05:
+			case 0x06:
+			case 0x07:
+			case 0x08:
+			case '\t':
+			case '\n':
+			case '\v':
+			case '\f':
+			case '\r':
+			case 0x0E:
+			case 0x0F:
+			case 0x10:
+			case 0x11:
+			case 0x12:
+			case 0x13:
+			case 0x14:
+			case 0x15:
+			case 0x16:
+			case 0x17:
+			case 0x18:
+			case 0x19:
+			case 0x1A:
+			case 0x1B:
+			case 0x1C:
+			case 0x1D:
+			case 0x1E:
+			case 0x1F:
+			case 0x7F:	goto pp86;
 			case '\\':	goto pp165;
 			case ']':	goto pp225;
 			default:	goto pp163;
@@ -2792,7 +2888,39 @@ pp225:
 			ppch = *(PPMARKER = ++PPCURSOR);
 			switch (ppch) {
 			case 0x00:
-			case '[':	goto pp168;
+			case 0x01:
+			case 0x02:
+			case 0x03:
+			case 0x04:
+			case 0x05:
+			case 0x06:
+			case 0x07:
+			case 0x08:
+			case '\t':
+			case '\n':
+			case '\v':
+			case '\f':
+			case '\r':
+			case 0x0E:
+			case 0x0F:
+			case 0x10:
+			case 0x11:
+			case 0x12:
+			case 0x13:
+			case 0x14:
+			case 0x15:
+			case 0x16:
+			case 0x17:
+			case 0x18:
+			case 0x19:
+			case 0x1A:
+			case 0x1B:
+			case 0x1C:
+			case 0x1D:
+			case 0x1E:
+			case 0x1F:
+			case '[':
+			case 0x7F:	goto pp168;
 			case '\\':	goto pp165;
 			case ']':	goto pp167;
 			default:	goto pp163;
