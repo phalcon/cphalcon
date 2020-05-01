@@ -3445,7 +3445,7 @@ class Query implements QueryInterface, InjectionAwareInterface
         /**
          * We need to query the records related to the update
          */
-        let records = this->_getRelatedRecords(
+        let records = this->getRelatedRecords(
             model,
             intermediate,
             selectBindParams,
@@ -3530,7 +3530,7 @@ class Query implements QueryInterface, InjectionAwareInterface
         /**
          * Get the records to be deleted
          */
-        let records = this->_getRelatedRecords(
+        let records = this->getRelatedRecords(
             model,
             intermediate,
             bindParams,
@@ -3589,7 +3589,7 @@ class Query implements QueryInterface, InjectionAwareInterface
     /**
      * Query the records on which the UPDATE/DELETE operation will be done
      */
-    final protected function _getRelatedRecords(<ModelInterface> model, array intermediate, array bindParams, array bindTypes) -> <ResultsetInterface>
+    final protected function getRelatedRecords(<ModelInterface> model, array intermediate, array bindParams, array bindTypes) -> <ResultsetInterface>
     {
         var selectIr, whereConditions, limitConditions, query;
 

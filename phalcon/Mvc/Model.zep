@@ -213,7 +213,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         /**
          * Check if there is a default action using the magic getter
          */
-        let records = this->_getRelatedRecords(modelName, method, arguments);
+        let records = this->getRelatedRecords(modelName, method, arguments);
 
         if records !== false {
             return records;
@@ -700,7 +700,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      */
     public static function average(var parameters = null) -> float
     {
-        return self::_groupResult("AVG", "average", parameters);
+        return self::groupResult("AVG", "average", parameters);
     }
 
     /**
@@ -983,7 +983,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     {
         var result;
 
-        let result = self::_groupResult("COUNT", "rowcount", parameters);
+        let result = self::groupResult("COUNT", "rowcount", parameters);
 
         if typeof result == "string" {
             return (int) result;
@@ -1031,7 +1031,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
          * Get the current connection use write to prevent replica lag
          * If the record already exists we must throw an exception
          */
-        if this->_exists(metaData, this->getWriteConnection()) {
+        if this->exists(metaData, this->getWriteConnection()) {
             let this->errorMessages = [
                 new Message(
                     "Record cannot be created because it already exists",
@@ -2152,7 +2152,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      */
     public static function maximum(var parameters = null) -> var
     {
-        return self::_groupResult("MAX", "maximum", parameters);
+        return self::groupResult("MAX", "maximum", parameters);
     }
 
     /**
@@ -2184,7 +2184,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      */
     public static function minimum(parameters = null) -> var
     {
-        return self::_groupResult("MIN", "minimum", parameters);
+        return self::groupResult("MIN", "minimum", parameters);
     }
 
     /**
@@ -2271,7 +2271,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             /**
              * We need to check if the record exists
              */
-            if unlikely !this->_exists(metaData, readConnection) {
+            if unlikely !this->exists(metaData, readConnection) {
                 throw new Exception(
                     "The record cannot be refreshed because it does not exist or is deleted"
                 );
@@ -2387,7 +2387,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         let hasDirtyRelated = count(dirtyRelated) > 0;
 
         if hasDirtyRelated {
-            if this->_preSaveRelatedRecords(writeConnection, dirtyRelated) === false {
+            if this->preSaveRelatedRecords(writeConnection, dirtyRelated) === false {
                 return false;
             }
         }
@@ -2409,7 +2409,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         /**
          * We need to check if the record exists
          */
-        let exists = this->_exists(metaData, readConnection);
+        let exists = this->exists(metaData, readConnection);
 
         if exists {
             let this->operationMade = self::OP_UPDATE;
@@ -2428,9 +2428,9 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         let identityField = metaData->getIdentityField(this);
 
         /**
-         * _preSave() makes all the validations
+         * preSave() makes all the validations
          */
-        if this->_preSave(metaData, exists, identityField) === false {
+        if this->preSave(metaData, exists, identityField) === false {
             /**
              * Rollback the current transaction if there was validation errors
              */
@@ -2459,9 +2459,9 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
          * Depending if the record exists we do an update or an insert operation
          */
         if exists {
-            let success = this->_doLowUpdate(metaData, writeConnection, table);
+            let success = this->doLowUpdate(metaData, writeConnection, table);
         } else {
-            let success = this->_doLowInsert(
+            let success = this->doLowInsert(
                 metaData,
                 writeConnection,
                 table,
@@ -2486,7 +2486,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 /**
                  * Save the post-related records
                  */
-                let success = this->_postSaveRelatedRecords(
+                let success = this->postSaveRelatedRecords(
                     writeConnection,
                     dirtyRelated
                 );
@@ -2494,14 +2494,14 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         }
 
         /**
-         * _postSave() invokes after* events if the operation was successful
+         * postSave() invokes after* events if the operation was successful
          */
         if globals_get("orm.events") {
-            let success = this->_postSave(success, exists);
+            let success = this->postSave(success, exists);
         }
 
         if success === false {
-            this->_cancelOperation();
+            this->cancelOperation();
         } else {
             if hasDirtyRelated {
                 /**
@@ -2986,7 +2986,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      */
     public static function sum(var parameters = null) -> float
     {
-        return self::_groupResult("SUM", "sumatory", parameters);
+        return self::groupResult("SUM", "sumatory", parameters);
     }
 
     /**
@@ -3075,7 +3075,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         if this->dirtyState {
             let metaData = this->getModelsMetaData();
 
-            if !this->_exists(metaData, this->getReadConnection()) {
+            if !this->exists(metaData, this->getReadConnection()) {
                 let this->errorMessages = [
                     new Message(
                         "Record cannot be updated because it does not exist",
@@ -3262,7 +3262,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         if error {
             if globals_get("orm.events") {
                 this->fireEvent("onValidationFails");
-                this->_cancelOperation();
+                this->cancelOperation();
             }
 
             return false;
@@ -3509,7 +3509,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         if error {
             if globals_get("orm.events") {
                 this->fireEvent("onValidationFails");
-                this->_cancelOperation();
+                this->cancelOperation();
             }
 
             return false;
@@ -3524,7 +3524,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * @param string|array table
      * @param bool|string identityField
      */
-    protected function _doLowInsert(<MetaDataInterface> metaData, <AdapterInterface> connection,
+    protected function doLowInsert(<MetaDataInterface> metaData, <AdapterInterface> connection,
         table, identityField) -> bool
     {
         var attributeField, attributes, automaticAttributes, bindDataTypes,
@@ -3761,7 +3761,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *
      * @param string|array table
      */
-     protected function _doLowUpdate(<MetaDataInterface> metaData, <AdapterInterface> connection, var table) -> bool
+     protected function doLowUpdate(<MetaDataInterface> metaData, <AdapterInterface> connection, var table) -> bool
      {
         var automaticAttributes, attributeField, bindSkip, bindDataTypes,
             bindType, bindTypes, columnMap, dataType, dataTypes, field, fields,
@@ -4016,7 +4016,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     /**
      * Checks whether the current record already exists
      */
-    protected function _exists(<MetaDataInterface> metaData, <AdapterInterface> connection) -> bool
+    protected function exists(<MetaDataInterface> metaData, <AdapterInterface> connection) -> bool
     {
         int numberEmpty, numberPrimary;
         var attributeField, bindDataTypes, columnMap, field, joinWhere, num,
@@ -4178,7 +4178,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *
      * @return ResultsetInterface|ModelInterface|bool|null
      */
-    protected function _getRelatedRecords(string! modelName, string! method, array! arguments)
+    protected function getRelatedRecords(string! modelName, string! method, array! arguments)
     {
         var manager, relation, queryMethod, extraArgs, alias;
 
@@ -4244,7 +4244,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *
      * @param array parameters
      */
-    protected static function _groupResult(string! functionName, string! alias, var parameters) -> <ResultsetInterface>
+    protected static function groupResult(string! functionName, string! alias, var parameters) -> <ResultsetInterface>
     {
         var params, distinctColumn, groupColumn, columns, bindParams, bindTypes,
             resultset, cache, firstRow, groupColumns, builder, query, container,
@@ -4488,7 +4488,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     /**
      * Executes internal hooks before save a record
      */
-    protected function _preSave(<MetaDataInterface> metaData, bool exists, var identityField) -> bool
+    protected function preSave(<MetaDataInterface> metaData, bool exists, var identityField) -> bool
     {
         var notNull, columnMap, dataTypeNumeric, automaticAttributes,
             defaultValues, field, attributeField, value, emptyStringValues;
@@ -4651,7 +4651,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 if error {
                     if globals_get("orm.events") {
                         this->fireEvent("onValidationFails");
-                        this->_cancelOperation();
+                        this->cancelOperation();
                     }
 
                     return false;
@@ -4729,7 +4729,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *
      * @param \Phalcon\Mvc\ModelInterface[] related
      */
-    protected function _preSaveRelatedRecords(<AdapterInterface> connection, related) -> bool
+    protected function preSaveRelatedRecords(<AdapterInterface> connection, related) -> bool
     {
         var className, manager, type, relation, columns, referencedFields,
             referencedModel, message, nesting, name, record;
@@ -4831,7 +4831,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     /**
      * Executes internal events after save a record
      */
-    protected function _postSave(bool success, bool exists) -> bool
+    protected function postSave(bool success, bool exists) -> bool
     {
         if success {
             if exists {
@@ -4849,7 +4849,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *
      * @param  Phalcon\Mvc\ModelInterface[] related
      */
-    protected function _postSaveRelatedRecords(<AdapterInterface> connection, related) -> bool
+    protected function postSaveRelatedRecords(<AdapterInterface> connection, related) -> bool
     {
         var nesting, className, manager, relation, name, record, message,
             columns, referencedModel, referencedFields, relatedRecords, value,
@@ -5114,7 +5114,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     /**
      * Cancel the current operation
      */
-    protected function _cancelOperation()
+    protected function cancelOperation()
     {
         if this->operationMade == self::OP_DELETE {
             this->fireEvent("notDeleted");

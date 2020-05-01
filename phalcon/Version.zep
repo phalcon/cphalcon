@@ -80,7 +80,7 @@ class Version
      * D - Special release: 1 = alpha, 2 = beta, 3 = RC, 4 = stable
      * E - Special release version i.e. RC1, Beta2 etc.
      */
-    protected static function _getVersion() -> array
+    protected static function getVersion() -> array
     {
         return [4, 0, 5, 4, 0];
     }
@@ -119,7 +119,7 @@ class Version
         var version, major, medium, minor, special, specialNumber, suffix;
         string result;
 
-        let version = static::_getVersion();
+        let version = static::getVersion();
 
         let major         = version[self::VERSION_MAJOR],
             medium        = version[self::VERSION_MEDIUM],
@@ -157,7 +157,7 @@ class Version
     {
         var version, major, medium, minor, special, specialNumber;
 
-        let version = static::_getVersion();
+        let version = static::getVersion();
 
         let major         = version[self::VERSION_MAJOR],
             medium        = version[self::VERSION_MEDIUM],
@@ -182,7 +182,7 @@ class Version
     {
         var version;
 
-        let version = static::_getVersion();
+        let version = static::getVersion();
 
         switch part {
             case self::VERSION_MAJOR:

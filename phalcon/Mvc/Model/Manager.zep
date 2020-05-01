@@ -442,7 +442,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     public function getReadConnection(<ModelInterface> model) -> <AdapterInterface>
     {
-        return this->_getConnection(model, this->readConnectionServices);
+        return this->getConnection(model, this->readConnectionServices);
     }
 
     /**
@@ -450,17 +450,17 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     public function getWriteConnection(<ModelInterface> model) -> <AdapterInterface>
     {
-        return this->_getConnection(model, this->writeConnectionServices);
+        return this->getConnection(model, this->writeConnectionServices);
     }
 
     /**
      * Returns the connection to read or write data related to a model depending on the connection services.
      */
-    protected function _getConnection(<ModelInterface> model, connectionServices) -> <AdapterInterface>
+    protected function getConnection(<ModelInterface> model, connectionServices) -> <AdapterInterface>
     {
         var container, service, connection;
 
-        let service = this->_getConnectionService(model, connectionServices);
+        let service = this->getConnectionService(model, connectionServices);
 
         let container = <DiInterface> this->container;
 
@@ -489,7 +489,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     public function getReadConnectionService(<ModelInterface> model) -> string
     {
-        return this->_getConnectionService(
+        return this->getConnectionService(
             model,
             this->readConnectionServices
         );
@@ -500,7 +500,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     public function getWriteConnectionService(<ModelInterface> model) -> string
     {
-        return this->_getConnectionService(
+        return this->getConnectionService(
             model,
             this->writeConnectionServices
         );
@@ -510,7 +510,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      * Returns the connection service name used to read or write data related to
      * a model depending on the connection services
      */
-    public function _getConnectionService(<ModelInterface> model, connectionServices) -> string
+    public function getConnectionService(<ModelInterface> model, connectionServices) -> string
     {
         var connection;
 
