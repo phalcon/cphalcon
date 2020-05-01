@@ -377,7 +377,7 @@ jobs:
         env:
           PHPTS: ${{ matrix.ts }}
 
-      - name: Set Up Environment Variables
+      - name: Setup Environment Variables
         run: |
           echo "::set-env name=PHP_SDK_VERSION::2.2.0"
           echo "::set-env name=PHP_DEVPACK::C:\tools\php-devpack"
