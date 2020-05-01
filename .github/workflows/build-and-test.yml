@@ -335,7 +335,7 @@ jobs:
         run: vendor/bin/codecept run --ext DotReporter cli
 
   build-and-test-windows:
-    name: PHP ${{ matrix.php-versions }} (${{ matrix.ts }}) test on ${{ matrix.operating-system }}
+    name: PHP ${{ matrix.php-versions }} (${{ matrix.ts }}) Test on ${{ matrix.operating-system }}
     needs: generate
     runs-on: ${{ matrix.operating-system }}
     strategy:
