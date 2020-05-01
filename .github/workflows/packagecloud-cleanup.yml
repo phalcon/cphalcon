@@ -5,6 +5,10 @@ on:
     - cron: '0 2 * * *' # Daily at 02:00
 
 jobs:
+  # To prevent build a particular commit use
+  #     git commit -m "......... [ci skip]"
+  if: "!contains(github.event.head_commit.message, 'ci skip')"
+
   build:
     runs-on: ubuntu-latest
     steps:

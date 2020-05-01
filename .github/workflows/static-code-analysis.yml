@@ -10,6 +10,10 @@ on:
       - '4.0.x'
 
 jobs:
+  # To prevent build a particular commit use
+  #     git commit -m "......... [ci skip]"
+  if: "!contains(github.event.head_commit.message, 'ci skip')"
+
   phpcs:
     runs-on: ubuntu-latest
     steps:
