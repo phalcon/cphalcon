@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Manager;
 
+use Phalcon\Assets\Manager;
+use Phalcon\Di\InjectionAwareInterface;
 use UnitTester;
 
 class ConstructCest
@@ -21,12 +23,15 @@ class ConstructCest
      * Tests Phalcon\Assets\Manager :: __construct()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @since  2020-03-19
      */
     public function assetsManagerConstruct(UnitTester $I)
     {
         $I->wantToTest('Assets\Manager - __construct()');
 
-        $I->skipTest('Need implementation');
+        $assets = new Manager();
+
+        $I->assertInstanceOf(Manager::class, $assets);
+        $I->assertInstanceOf(InjectionAwareInterface::class, $assets);
     }
 }

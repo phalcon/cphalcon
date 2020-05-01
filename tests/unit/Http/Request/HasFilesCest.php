@@ -26,7 +26,7 @@ class HasFilesCest extends HttpBase
      */
     public function testRequestHasFiles(UnitTester $I)
     {
-        $existing = $_FILES ?? [];
+        $store = $_FILES ?? [];
 
         $request = $this->getRequestObject();
         $_FILES  = [];
@@ -49,6 +49,6 @@ class HasFilesCest extends HttpBase
             $request->hasFiles()
         );
 
-        $_FILES = $existing;
+        $_FILES = $store;
     }
 }

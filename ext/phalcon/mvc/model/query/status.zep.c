@@ -90,11 +90,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Status, __construct) {
 
 
 	if (success) {
-		zephir_update_property_zval(this_ptr, SL("success"), &__$true);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("success"), &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, SL("success"), &__$false);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("success"), &__$false);
 	}
-	zephir_update_property_zval(this_ptr, SL("model"), model);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("model"), model);
 
 }
 

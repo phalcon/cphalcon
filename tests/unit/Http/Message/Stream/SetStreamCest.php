@@ -33,7 +33,7 @@ class SetStreamCest
         $fileName = dataDir('assets/stream/mit-empty.txt');
         $stream   = new Stream($fileName, 'rb');
 
-        $actual   = $stream->read(10);
+        $actual = $stream->read(10);
         $I->assertEmpty($actual);
 
         $fileName = dataDir('assets/stream/mit.txt');

@@ -15,6 +15,7 @@ use Phalcon\Test\Models\Personas;
 use Phalcon\Test\Models\Personers;
 use Phalcon\Test\Models\Robots;
 use Phalcon\Test\Models\Robotters;
+use function is_object;
 
 class ModelsCest
 {
@@ -231,7 +232,7 @@ class ModelsCest
 
         $people = People::findFirst();
 
-        $I->assertInternalType('object', $people);
+        $I->assertTrue(is_object($people));
 
         $I->assertInstanceOf(
             \Phalcon\Test\Models\People::class,

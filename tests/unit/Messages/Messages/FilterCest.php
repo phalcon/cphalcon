@@ -65,7 +65,7 @@ class FilterCest
 
         $actual = $messages->filter('Password');
 
-        $I->assertInternalType('array', $actual);
+        $I->assertTrue(is_array($actual));
 
         $I->assertCount(2, $actual);
 

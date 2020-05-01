@@ -385,7 +385,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, setDefaultDomain) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, SL("defaultDomain"), &domain);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("defaultDomain"), &domain);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -431,7 +431,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, setDirectory) {
 	if (ZEPHIR_IS_EMPTY(directory)) {
 		RETURN_MM_NULL();
 	}
-	zephir_update_property_zval(this_ptr, SL("directory"), directory);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("directory"), directory);
 	if (Z_TYPE_P(directory) == IS_ARRAY) {
 		zephir_is_iterable(directory, 0, "phalcon/Translate/Adapter/Gettext.zep", 183);
 		if (Z_TYPE_P(directory) == IS_ARRAY) {
@@ -561,10 +561,10 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, setLocale) {
 	ZVAL_STRING(&_2, "setlocale");
 	ZEPHIR_CALL_USER_FUNC_ARRAY(&_0, &_2, &_1);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, SL("locale"), &_0);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("locale"), &_0);
 	ZEPHIR_INIT_ZVAL_NREF(_3);
 	ZVAL_LONG(&_3, category);
-	zephir_update_property_zval(this_ptr, SL("category"), &_3);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("category"), &_3);
 	zephir_read_property(&_3, this_ptr, SL("locale"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_4);
 	ZEPHIR_CONCAT_SV(&_4, "LC_ALL=", &_3);
@@ -582,7 +582,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, setLocale) {
 	zephir_check_call_status();
 	zephir_read_property(&_9, this_ptr, SL("locale"), PH_NOISY_CC | PH_READONLY);
 	ZVAL_LONG(&_10, 6);
-	ZEPHIR_CALL_FUNCTION(NULL, "setlocale", NULL, 506, &_10, &_9);
+	ZEPHIR_CALL_FUNCTION(NULL, "setlocale", NULL, 0, &_10, &_9);
 	zephir_check_call_status();
 	RETURN_MM_MEMBER(getThis(), "locale");
 

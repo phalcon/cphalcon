@@ -21,6 +21,7 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models;
 use Phalcon\Test\Models\Invoices;
 use Phalcon\Test\Models\InvoicesSchema;
+use function is_array;
 
 class UnderscoreGetCest
 {
@@ -183,15 +184,8 @@ class UnderscoreGetCest
          */
         $dirtyRobotsParts = $robot->robotsParts;
 
-        $I->assertInternalType(
-            'array',
-            $dirtyRobotsParts
-        );
-
-        $I->assertCount(
-            2,
-            $dirtyRobotsParts
-        );
+        $I->assertTrue(is_array($dirtyRobotsParts));
+        $I->assertCount(2, $dirtyRobotsParts);
 
         $I->assertInstanceOf(
             Models\RobotsParts::class,

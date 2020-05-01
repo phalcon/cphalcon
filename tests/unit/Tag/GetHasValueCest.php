@@ -48,7 +48,7 @@ class GetHasValueCest extends TagSetup
         $value = uniqid('val-');
 
         $_POST = [
-            $key => $value
+            $key => $value,
         ];
 
         $actual = Tag::getValue($key, []);
@@ -56,7 +56,7 @@ class GetHasValueCest extends TagSetup
 
         $_POST = [];
 
-        $key   = uniqid('key-');
+        $key = uniqid('key-');
 
         $actual = Tag::getValue($key, []);
         $I->assertNull($actual);

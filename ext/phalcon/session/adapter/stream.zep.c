@@ -109,7 +109,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, __construct) {
 	if (!(zephir_array_isset_string_fetch(&path, &options, SL("savePath"), 0))) {
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "session.save_path");
-		ZEPHIR_CALL_FUNCTION(&path, "ini_get", NULL, 489, &_2$$3);
+		ZEPHIR_CALL_FUNCTION(&path, "ini_get", NULL, 0, &_2$$3);
 		zephir_check_call_status();
 	}
 	ZEPHIR_CALL_FUNCTION(&_3, "is_writable", NULL, 328, &path);
@@ -127,7 +127,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, __construct) {
 	}
 	ZEPHIR_CALL_CE_STATIC(&_6, phalcon_helper_str_ce, "dirseparator", &_7, 123, &path);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, SL("path"), &_6);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("path"), &_6);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -158,7 +158,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, destroy) {
 	ZEPHIR_CONCAT_VV(&file, &_0, &_1);
 	_2 = (zephir_file_exists(&file) == SUCCESS);
 	if (_2) {
-		ZEPHIR_CALL_FUNCTION(&_3, "is_file", NULL, 490, &file);
+		ZEPHIR_CALL_FUNCTION(&_3, "is_file", NULL, 0, &file);
 		zephir_check_call_status();
 		_2 = zephir_is_true(&_3);
 	}
@@ -206,7 +206,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, gc) {
 	zephir_time(&_2);
 	ZEPHIR_INIT_VAR(&time);
 	zephir_sub_function(&time, &_2, maxlifetime);
-	ZEPHIR_CALL_FUNCTION(&_3, "glob", NULL, 491, &pattern);
+	ZEPHIR_CALL_FUNCTION(&_3, "glob", NULL, 0, &pattern);
 	zephir_check_call_status();
 	zephir_is_iterable(&_3, 0, "phalcon/Session/Adapter/Stream.zep", 102);
 	if (Z_TYPE_P(&_3) == IS_ARRAY) {
@@ -216,7 +216,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, gc) {
 			ZVAL_COPY(&file, _4);
 			_6$$3 = (zephir_file_exists(&file) == SUCCESS);
 			if (_6$$3) {
-				ZEPHIR_CALL_FUNCTION(&_7$$3, "is_file", &_8, 490, &file);
+				ZEPHIR_CALL_FUNCTION(&_7$$3, "is_file", &_8, 0, &file);
 				zephir_check_call_status();
 				_6$$3 = zephir_is_true(&_7$$3);
 			}
@@ -244,7 +244,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, gc) {
 			zephir_check_call_status();
 				_12$$5 = (zephir_file_exists(&file) == SUCCESS);
 				if (_12$$5) {
-					ZEPHIR_CALL_FUNCTION(&_13$$5, "is_file", &_8, 490, &file);
+					ZEPHIR_CALL_FUNCTION(&_13$$5, "is_file", &_8, 0, &file);
 					zephir_check_call_status();
 					_12$$5 = zephir_is_true(&_13$$5);
 				}

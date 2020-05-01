@@ -135,7 +135,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, __construct) {
 		ZEPHIR_CALL_CE_STATIC(container, phalcon_di_ce, "getdefault", &_0, 0);
 		zephir_check_call_status();
 	}
-	zephir_update_property_zval(this_ptr, SL("container"), container);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("container"), container);
 	if (UNEXPECTED(Z_TYPE_P(container) != IS_OBJECT)) {
 		ZEPHIR_INIT_VAR(&_1$$4);
 		object_init_ex(&_1$$4, phalcon_mvc_model_transaction_exception_ce);
@@ -201,7 +201,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, collectTransactions) {
 	ZEPHIR_INIT_NVAR(&_1);
 	ZEPHIR_INIT_VAR(&_4);
 	array_init(&_4);
-	zephir_update_property_zval(this_ptr, SL("transactions"), &_4);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("transactions"), &_4);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -312,13 +312,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, get) {
 			ZEPHIR_INIT_VAR(&_3$$4);
 			ZVAL_STRING(&_3$$4, "rollbackPendent");
 			zephir_array_fast_append(&_2$$4, &_3$$4);
-			ZEPHIR_CALL_FUNCTION(NULL, "register_shutdown_function", NULL, 460, &_2$$4);
+			ZEPHIR_CALL_FUNCTION(NULL, "register_shutdown_function", NULL, 490, &_2$$4);
 			zephir_check_call_status();
 		}
 		if (1) {
-			zephir_update_property_zval(this_ptr, SL("initialized"), &__$true);
+			zephir_update_property_zval(this_ptr, ZEND_STRL("initialized"), &__$true);
 		} else {
-			zephir_update_property_zval(this_ptr, SL("initialized"), &__$false);
+			zephir_update_property_zval(this_ptr, ZEND_STRL("initialized"), &__$false);
 		}
 	}
 	if (autoBegin) {
@@ -455,9 +455,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, getOrCreateTransaction) {
 	} else {
 		ZVAL_BOOL(&_11, 0);
 	}
-	ZEPHIR_CALL_METHOD(NULL, &transaction, "__construct", NULL, 461, &container, &_11, &_10);
+	ZEPHIR_CALL_METHOD(NULL, &transaction, "__construct", NULL, 491, &container, &_11, &_10);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, &transaction, "settransactionmanager", NULL, 462, this_ptr);
+	ZEPHIR_CALL_METHOD(NULL, &transaction, "settransactionmanager", NULL, 492, this_ptr);
 	zephir_check_call_status();
 	zephir_update_property_array_append(this_ptr, SL("transactions"), &transaction);
 	RETURN_ON_FAILURE(zephir_property_incr(this_ptr, SL("number")));
@@ -673,7 +673,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, setDbService) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, SL("service"), &service);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("service"), &service);
 	RETURN_THIS();
 
 }
@@ -692,7 +692,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, setDI) {
 
 
 
-	zephir_update_property_zval(this_ptr, SL("container"), container);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("container"), container);
 
 }
 
@@ -715,9 +715,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, setRollbackPendent) {
 
 
 	if (rollbackPendent) {
-		zephir_update_property_zval(this_ptr, SL("rollbackPendent"), &__$true);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("rollbackPendent"), &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, SL("rollbackPendent"), &__$false);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("rollbackPendent"), &__$false);
 	}
 	RETURN_THISW();
 
@@ -781,7 +781,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Manager, collectTransaction) {
 		}
 	}
 	ZEPHIR_INIT_NVAR(&managedTransaction);
-	zephir_update_property_zval(this_ptr, SL("transactions"), &newTransactions);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("transactions"), &newTransactions);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -802,7 +802,7 @@ zend_object *zephir_init_properties_Phalcon_Mvc_Model_Transaction_Manager(zend_c
 		if (Z_TYPE_P(&_0) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_1$$3);
 			array_init(&_1$$3);
-			zephir_update_property_zval(this_ptr, SL("transactions"), &_1$$3);
+			zend_update_property(Z_OBJCE_P(this_ptr), this_ptr, ZEND_STRL("transactions"), &_1$$3);
 		}
 		ZEPHIR_MM_RESTORE();
 		return Z_OBJ_P(this_ptr);

@@ -87,11 +87,11 @@ PHP_METHOD(Phalcon_Di_Service, __construct) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, SL("definition"), definition);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("definition"), definition);
 	if (shared) {
-		zephir_update_property_zval(this_ptr, SL("shared"), &__$true);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("shared"), &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, SL("shared"), &__$false);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("shared"), &__$false);
 	}
 
 }
@@ -293,12 +293,12 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
 		return;
 	}
 	if (zephir_is_true(&shared)) {
-		zephir_update_property_zval(this_ptr, SL("sharedInstance"), &instance);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("sharedInstance"), &instance);
 	}
 	if (1) {
-		zephir_update_property_zval(this_ptr, SL("resolved"), &__$true);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("resolved"), &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, SL("resolved"), &__$false);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("resolved"), &__$false);
 	}
 	RETURN_CCTOR(&instance);
 
@@ -318,7 +318,7 @@ PHP_METHOD(Phalcon_Di_Service, setDefinition) {
 
 
 
-	zephir_update_property_zval(this_ptr, SL("definition"), definition);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("definition"), definition);
 
 }
 
@@ -362,7 +362,7 @@ PHP_METHOD(Phalcon_Di_Service, setParameter) {
 		ZEPHIR_CPY_WRT(&arguments, &_1$$5);
 	}
 	zephir_array_update_string(&definition, SL("arguments"), &arguments, PH_COPY | PH_SEPARATE);
-	zephir_update_property_zval(this_ptr, SL("definition"), &definition);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("definition"), &definition);
 	RETURN_THIS();
 
 }
@@ -385,9 +385,9 @@ PHP_METHOD(Phalcon_Di_Service, setShared) {
 
 
 	if (shared) {
-		zephir_update_property_zval(this_ptr, SL("shared"), &__$true);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("shared"), &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, SL("shared"), &__$false);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("shared"), &__$false);
 	}
 
 }
@@ -406,7 +406,7 @@ PHP_METHOD(Phalcon_Di_Service, setSharedInstance) {
 
 
 
-	zephir_update_property_zval(this_ptr, SL("sharedInstance"), sharedInstance);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("sharedInstance"), sharedInstance);
 
 }
 

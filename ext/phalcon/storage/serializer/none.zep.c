@@ -58,7 +58,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_None, unserialize) {
 
 
 
-	zephir_update_property_zval(this_ptr, SL("data"), data);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("data"), data);
 
 }
 

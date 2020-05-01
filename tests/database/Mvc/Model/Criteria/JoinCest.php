@@ -16,13 +16,13 @@ namespace Phalcon\Test\Database\Mvc\Model\Criteria;
 use DatabaseTester;
 use Phalcon\Mvc\Model\Criteria;
 use Phalcon\Mvc\Model\Query\Builder;
+use Phalcon\Mvc\Model\Resultset\Simple;
 use Phalcon\Storage\Exception;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Customers;
 use Phalcon\Test\Models\Invoices;
 use Phalcon\Test\Models\Orders;
 use Phalcon\Test\Models\Products;
-use Phalcon\Mvc\Model\Resultset\Simple;
 
 /**
  * Class JoinCest
@@ -33,6 +33,7 @@ class JoinCest
 
     /**
      * @param DatabaseTester $I
+     *
      * @throws Exception
      */
     public function _before(DatabaseTester $I)
@@ -46,7 +47,7 @@ class JoinCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
      *
-     * @group common
+     * @group  common
      */
     public function mvcModelCriteriaJoin(DatabaseTester $I)
     {
@@ -79,8 +80,8 @@ class JoinCest
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2020-02-06
      *
-     * @group mysql
-     * @group pgsql
+     * @group  mysql
+     * @group  pgsql
      */
     public function mvcModelCriteriaJoinManyToManyMultipleSchema(DatabaseTester $I)
     {

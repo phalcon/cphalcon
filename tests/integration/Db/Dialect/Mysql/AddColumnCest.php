@@ -34,33 +34,33 @@ class AddColumnCest
                 new Column(
                     'updated_at',
                     [
-                        'type' => Column::TYPE_TIMESTAMP,
+                        'type'    => Column::TYPE_TIMESTAMP,
                         'default' => "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
                         'notNull' => false,
-                        'after' => 'created_at'
+                        'after'   => 'created_at',
                     ]
                 ),
                 'ALTER TABLE `test` ADD `updated_at` TIMESTAMP ' .
-                    'DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP AFTER `created_at`'
+                'DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP AFTER `created_at`',
             ],
             [
                 new Column(
                     'numeric_val',
                     [
-                        'type' => Column::TYPE_FLOAT,
+                        'type'    => Column::TYPE_FLOAT,
                         'default' => 21.42,
                         'notNull' => true,
-                        'after' => 'updated_at'
+                        'after'   => 'updated_at',
                     ]
                 ),
-                'ALTER TABLE `test` ADD `numeric_val` FLOAT DEFAULT 21.42 NOT NULL AFTER `updated_at`'
-            ]
+                'ALTER TABLE `test` ADD `numeric_val` FLOAT DEFAULT 21.42 NOT NULL AFTER `updated_at`',
+            ],
         ];
 
         $mysql = new Mysql();
         foreach ($additions as [$column, $expected]) {
             $sql = $mysql->addColumn('test', '', $column);
-            
+
             $I->assertSame($expected, $sql);
         }
     }

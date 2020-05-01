@@ -10,6 +10,8 @@
 
 namespace Phalcon\Http\Request;
 
+use Phalcon\Helper\Arr;
+
 /**
  * Phalcon\Http\Request\File
  *
@@ -65,7 +67,7 @@ class File implements FileInterface
      */
     public function __construct(array! file, key = null)
     {
-        var name, tempName, size, type, error;
+        var name;
 
         if fetch name, file["name"] {
             let this->name = name;
@@ -75,21 +77,10 @@ class File implements FileInterface
             }
         }
 
-        if fetch tempName, file["tmp_name"] {
-            let this->tmp = tempName;
-        }
-
-        if fetch size, file["size"] {
-            let this->size = size;
-        }
-
-        if fetch type, file["type"] {
-            let this->type = type;
-        }
-
-        if fetch error, file["error"] {
-            let this->error = error;
-        }
+        let this->tmp   = Arr::get(file, "tmp_name"),
+            this->size  = Arr::get(file, "size"),
+            this->type  = Arr::get(file, "type"),
+            this->error = Arr::get(file, "error");
 
         if key {
             let this->key = key;

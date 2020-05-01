@@ -118,7 +118,7 @@ PHP_METHOD(Phalcon_Html_Link_EvolvableLinkProvider, withoutLink) {
 	zephir_read_property(&_0, this_ptr, SL("links"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&links, &_0);
 	zephir_array_unset(&links, &key, PH_SEPARATE);
-	zephir_update_property_zval(&newInstance, SL("links"), &links);
+	zephir_update_property_zval(&newInstance, ZEND_STRL("links"), &links);
 	RETURN_CCTOR(&newInstance);
 
 }

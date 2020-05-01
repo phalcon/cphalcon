@@ -33,16 +33,19 @@ class GetQueryCest
 
         $this->setNewFactoryDefault();
 
-        $existing = $_GET ?? [];
+        $store = $_GET ?? [];
 
         $_GET['status'] = ' Active ';
         $request        = new Request();
+
+        $I->assertTrue($request->hasQuery('status'));
+        $I->assertFalse($request->hasQuery('unknown'));
 
         $expected = ' Active ';
         $actual   = $request->getQuery('status');
         $I->assertEquals($expected, $actual);
 
-        $_GET = $existing;
+        $_GET = $store;
     }
 
     /**
@@ -57,7 +60,7 @@ class GetQueryCest
 
         $this->setNewFactoryDefault();
 
-        $existing = $_GET ?? [];
+        $store = $_GET ?? [];
 
         $_GET['status'] = ' Active ';
         $request        = new Request();
@@ -71,7 +74,7 @@ class GetQueryCest
         $actual   = $request->getQuery('status', ['trim', 'lower']);
         $I->assertEquals($expected, $actual);
 
-        $_GET = $existing;
+        $_GET = $store;
     }
 
     /**
@@ -86,7 +89,7 @@ class GetQueryCest
 
         $this->setNewFactoryDefault();
 
-        $existing = $_GET ?? [];
+        $store = $_GET ?? [];
 
         $request = new Request();
         $request->setDI($this->container);
@@ -95,7 +98,7 @@ class GetQueryCest
         $actual   = $request->getQuery('status', null, 'default');
         $I->assertEquals($expected, $actual);
 
-        $_GET = $existing;
+        $_GET = $store;
     }
 
     /**
@@ -110,7 +113,7 @@ class GetQueryCest
 
         $this->setNewFactoryDefault();
 
-        $existing = $_GET ?? [];
+        $store = $_GET ?? [];
 
         $_GET['status'] = ' 0 ';
         $request        = new Request();
@@ -120,6 +123,6 @@ class GetQueryCest
         $actual   = $request->getQuery('status', 'trim', 'zero value', true);
         $I->assertEquals($expected, $actual);
 
-        $_GET = $existing;
+        $_GET = $store;
     }
 }

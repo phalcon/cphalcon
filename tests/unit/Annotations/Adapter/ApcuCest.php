@@ -39,7 +39,7 @@ class ApcuCest
             TestClass::class
         );
 
-        $I->assertInternalType('object', $classAnnotations);
+        $I->assertTrue(is_object($classAnnotations));
 
         $I->assertInstanceOf(
             Reflection::class,
@@ -55,7 +55,7 @@ class ApcuCest
             TestClass::class
         );
 
-        $I->assertInternalType('object', $classAnnotations);
+        $I->assertTrue(is_object($classAnnotations));
 
         $I->assertInstanceOf(
             Reflection::class,
@@ -71,7 +71,7 @@ class ApcuCest
             TestClassNs::class
         );
 
-        $I->assertInternalType('object', $classAnnotations);
+        $I->assertTrue(is_object($classAnnotations));
 
         $I->assertInstanceOf(
             Reflection::class,
@@ -87,7 +87,7 @@ class ApcuCest
             TestClassNs::class
         );
 
-        $I->assertInternalType('object', $classAnnotations);
+        $I->assertTrue(is_object($classAnnotations));
 
         $I->assertInstanceOf(
             Reflection::class,
@@ -104,7 +104,7 @@ class ApcuCest
             'testProp1'
         );
 
-        $I->assertInternalType('object', $property);
+        $I->assertTrue(is_object($property));
 
         $I->assertInstanceOf(
             Collection::class,

@@ -115,8 +115,8 @@ PHP_METHOD(Phalcon_Http_Response, __construct) {
 		ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0);
 		zephir_check_call_status();
 	}
-	zephir_update_property_zval(this_ptr, SL("headers"), &_0);
-	zephir_update_property_zval(this_ptr, SL("content"), content);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("headers"), &_0);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("content"), content);
 	if (Z_TYPE_P(code) != IS_NULL) {
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setstatuscode", NULL, 0, code, status);
 		zephir_check_call_status();
@@ -148,7 +148,7 @@ PHP_METHOD(Phalcon_Http_Response, appendContent) {
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_1);
 	ZEPHIR_CONCAT_VV(&_1, &_0, content);
-	zephir_update_property_zval(this_ptr, SL("content"), &_1);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("content"), &_1);
 	RETURN_THIS();
 
 }
@@ -214,7 +214,7 @@ PHP_METHOD(Phalcon_Http_Response, getDI) {
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
-		zephir_update_property_zval(this_ptr, SL("container"), &container);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("container"), &container);
 	}
 	RETURN_CCTOR(&container);
 
@@ -617,9 +617,9 @@ PHP_METHOD(Phalcon_Http_Response, send) {
 		}
 	}
 	if (1) {
-		zephir_update_property_zval(this_ptr, SL("sent"), &__$true);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("sent"), &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, SL("sent"), &__$false);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("sent"), &__$false);
 	}
 	RETURN_THIS();
 
@@ -779,7 +779,7 @@ PHP_METHOD(Phalcon_Http_Response, setContent) {
 	zephir_get_strval(&content, content_param);
 
 
-	zephir_update_property_zval(this_ptr, SL("content"), &content);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("content"), &content);
 	RETURN_THIS();
 
 }
@@ -875,7 +875,7 @@ PHP_METHOD(Phalcon_Http_Response, setCookies) {
 
 
 
-	zephir_update_property_zval(this_ptr, SL("cookies"), cookies);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("cookies"), cookies);
 	RETURN_THISW();
 
 }
@@ -894,7 +894,7 @@ PHP_METHOD(Phalcon_Http_Response, setDI) {
 
 
 
-	zephir_update_property_zval(this_ptr, SL("container"), container);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("container"), container);
 
 }
 
@@ -1002,7 +1002,7 @@ PHP_METHOD(Phalcon_Http_Response, setEventsManager) {
 
 
 
-	zephir_update_property_zval(this_ptr, SL("eventsManager"), eventsManager);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("eventsManager"), eventsManager);
 
 }
 
@@ -1087,7 +1087,7 @@ PHP_METHOD(Phalcon_Http_Response, setFileToSend) {
 			zephir_check_call_status();
 		} else {
 			ZEPHIR_INIT_VAR(&_6$$8);
-			ZVAL_STRING(&_6$$8, "\\15\\17\\\"");
+			ZVAL_STRING(&_6$$8, "\15\17\\\"");
 			ZEPHIR_CALL_FUNCTION(&_7$$8, "addcslashes", NULL, 197, &basePath, &_6$$8);
 			zephir_check_call_status();
 			ZEPHIR_CPY_WRT(&basePath, &_7$$8);
@@ -1097,7 +1097,7 @@ PHP_METHOD(Phalcon_Http_Response, setFileToSend) {
 			zephir_check_call_status();
 		}
 	}
-	zephir_update_property_zval(this_ptr, SL("file"), &filePath);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("file"), &filePath);
 	RETURN_THIS();
 
 }
@@ -1200,7 +1200,7 @@ PHP_METHOD(Phalcon_Http_Response, setHeaders) {
 	}
 	ZEPHIR_INIT_NVAR(&value);
 	ZEPHIR_INIT_NVAR(&name);
-	zephir_update_property_zval(this_ptr, SL("headers"), &existing);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("headers"), &existing);
 	RETURN_THIS();
 
 }

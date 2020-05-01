@@ -90,7 +90,7 @@ PHP_METHOD(Phalcon_Config, getPathDelimiter) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		ZEPHIR_INIT_NVAR(&_1$$3);
 		ZVAL_STRING(&_1$$3, ".");
-		zephir_update_property_zval(this_ptr, SL("pathDelimiter"), &_1$$3);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("pathDelimiter"), &_1$$3);
 	}
 	RETURN_MM_MEMBER(getThis(), "pathDelimiter");
 
@@ -272,7 +272,7 @@ PHP_METHOD(Phalcon_Config, setPathDelimiter) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, SL("pathDelimiter"), &delimiter);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("pathDelimiter"), &delimiter);
 	RETURN_THIS();
 
 }
