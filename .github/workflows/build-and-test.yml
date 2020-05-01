@@ -10,6 +10,10 @@ on:
   pull_request:
 
 jobs:
+  # To prevent build a particular commit use
+  #     git commit -m "......... [ci skip]"
+  if: "!contains(github.event.head_commit.message, 'ci skip')"
+
   generate:
     runs-on: ubuntu-latest
     name: Build Phalcon Pecl Package
