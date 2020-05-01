@@ -146,10 +146,10 @@ title: '{$document['title']}'
                 $methodComment = trim($methodComment, "\t\n");
                 $methodComment = preg_replace('/^\/\/$/', '', $methodComment);
 
-                $elements[] = $methodComment . PHP_EOL
-                    . '```php' . PHP_EOL
+                $elements[] = '```php' . PHP_EOL
                     . $method['signature'] . PHP_EOL
-                    . '```' . PHP_EOL;
+                    . '```' . PHP_EOL
+                    . $methodComment . PHP_EOL . PHP_EOL;
             }
             $signature = implode(PHP_EOL, $elements);
             $output    .= "
