@@ -192,7 +192,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 		ZVAL_STRING(&_4$$3, "internal services");
 		ZEPHIR_CALL_CE_STATIC(&_2$$3, phalcon_mvc_application_exception_ce, "containerservicenotfound", &_3, 0, &_4$$3);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 6, &_2$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 8, &_2$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Mvc/Application.zep", 91);
 		ZEPHIR_MM_RESTORE();
@@ -297,7 +297,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 					object_init_ex(&_18$$19, phalcon_mvc_application_exception_ce);
 					ZEPHIR_INIT_VAR(&_19$$19);
 					ZEPHIR_CONCAT_SVS(&_19$$19, "Module definition path '", &path, "' doesn't exist");
-					ZEPHIR_CALL_METHOD(NULL, &_18$$19, "__construct", NULL, 6, &_19$$19);
+					ZEPHIR_CALL_METHOD(NULL, &_18$$19, "__construct", NULL, 8, &_19$$19);
 					zephir_check_call_status();
 					zephir_throw_exception_debug(&_18$$19, "phalcon/Mvc/Application.zep", 211);
 					ZEPHIR_MM_RESTORE();

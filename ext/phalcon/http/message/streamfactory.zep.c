@@ -91,16 +91,16 @@ PHP_METHOD(Phalcon_Http_Message_StreamFactory, createStream) {
 	ZVAL_STRING(&_0, "php://temp");
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "r+b");
-	ZEPHIR_CALL_FUNCTION(&handle, "fopen", NULL, 85, &_0, &_1);
+	ZEPHIR_CALL_FUNCTION(&handle, "fopen", NULL, 87, &_0, &_1);
 	zephir_check_call_status();
 	if (UNEXPECTED(ZEPHIR_IS_FALSE_IDENTICAL(&handle))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_message_exception_invalidargumentexception_ce, "Cannot write to file.", "phalcon/Http/Message/StreamFactory.zep", 41);
 		return;
 	}
 	zephir_fwrite(NULL, &handle, &content);
-	ZEPHIR_CALL_FUNCTION(NULL, "rewind", NULL, 322, &handle);
+	ZEPHIR_CALL_FUNCTION(NULL, "rewind", NULL, 340, &handle);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "createstreamfromresource", NULL, 323, &handle);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "createstreamfromresource", NULL, 341, &handle);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -163,7 +163,7 @@ PHP_METHOD(Phalcon_Http_Message_StreamFactory, createStreamFromFile) {
 
 
 	object_init_ex(return_value, phalcon_http_message_stream_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 42, &filename, &mode);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 43, &filename, &mode);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -193,7 +193,7 @@ PHP_METHOD(Phalcon_Http_Message_StreamFactory, createStreamFromResource) {
 
 	_0 = Z_TYPE_P(phpResource) != IS_RESOURCE;
 	if (!(_0)) {
-		ZEPHIR_CALL_FUNCTION(&_1, "get_resource_type", NULL, 87, phpResource);
+		ZEPHIR_CALL_FUNCTION(&_1, "get_resource_type", NULL, 89, phpResource);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_2);
 		ZVAL_STRING(&_2, "stream");
@@ -204,7 +204,7 @@ PHP_METHOD(Phalcon_Http_Message_StreamFactory, createStreamFromResource) {
 		return;
 	}
 	object_init_ex(return_value, phalcon_http_message_stream_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 42, phpResource);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 43, phpResource);
 	zephir_check_call_status();
 	RETURN_MM();
 

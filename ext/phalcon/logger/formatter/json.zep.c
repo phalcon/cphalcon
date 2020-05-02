@@ -115,7 +115,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Json, format) {
 	ZEPHIR_CALL_METHOD(&_5, this_ptr, "getformatteddate", NULL, 0);
 	zephir_check_call_status();
 	zephir_array_update_string(&_4, SL("timestamp"), &_5, PH_COPY | PH_SEPARATE);
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_json_ce, "encode", &_3, 13, &_4);
+	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_json_ce, "encode", &_3, 14, &_4);
 	zephir_check_call_status();
 	RETURN_MM();
 

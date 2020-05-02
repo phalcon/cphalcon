@@ -179,7 +179,7 @@ PHP_METHOD(Phalcon_Events_Event, __construct) {
 		zephir_gettype(&_1$$3, source);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZEPHIR_CONCAT_SVSV(&_2$$3, "The source of ", &type, " event must be an object, got ", &_1$$3);
-		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 6, &_2$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 8, &_2$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_0$$3, "phalcon/Events/Event.zep", 75);
 		ZEPHIR_MM_RESTORE();

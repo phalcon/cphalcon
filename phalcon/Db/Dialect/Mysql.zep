@@ -456,6 +456,10 @@ class Mysql extends Dialect
                     let columnSql .= "DATETIME";
                 }
 
+                if column->getSize() > 0 {
+                    let columnSql .= this->getColumnSize(column);
+                }
+
                 break;
 
             case Column::TYPE_DECIMAL:
@@ -568,11 +572,19 @@ class Mysql extends Dialect
                     let columnSql .= "TIME";
                 }
 
+                if column->getSize() > 0 {
+                    let columnSql .= this->getColumnSize(column);
+                }
+
                 break;
 
             case Column::TYPE_TIMESTAMP:
                 if empty columnSql {
                     let columnSql .= "TIMESTAMP";
+                }
+
+                if column->getSize() > 0 {
+                    let columnSql .= this->getColumnSize(column);
                 }
 
                 break;

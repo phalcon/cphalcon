@@ -95,7 +95,7 @@ PHP_METHOD(Phalcon_Paginator_Repository, __get) {
 	zephir_get_class(&_2, this_ptr, 0);
 	ZEPHIR_INIT_VAR(&_3);
 	ZEPHIR_CONCAT_SVSV(&_3, "Access to undefined property ", &_2, "::", &property);
-	ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 5, &_3);
+	ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 7, &_3);
 	zephir_check_call_status();
 	RETURN_MM_NULL();
 
@@ -391,7 +391,7 @@ PHP_METHOD(Phalcon_Paginator_Repository, getProperty) {
 
 
 	zephir_read_property(&_1, this_ptr, SL("properties"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_arr_ce, "get", &_0, 15, &_1, &property, defaultValue);
+	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_arr_ce, "get", &_0, 16, &_1, &property, defaultValue);
 	zephir_check_call_status();
 	RETURN_MM();
 

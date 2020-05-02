@@ -16,7 +16,7 @@ namespace Phalcon\Test\Integration\Cache\Adapter\Apcu;
 use Phalcon\Cache\Adapter\Apcu;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\ApcuTrait;
-use UnitTester;
+use IntegrationTester;
 
 class GetKeysCest
 {
@@ -28,7 +28,7 @@ class GetKeysCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-13
      */
-    public function cacheAdapterApcuGetKeys(UnitTester $I)
+    public function cacheAdapterApcuGetKeys(IntegrationTester $I)
     {
         $I->wantToTest('Cache\Adapter\Apcu - getKeys()');
 

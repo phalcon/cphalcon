@@ -17,7 +17,7 @@ use Phalcon\Cache;
 use Phalcon\Cache\AdapterFactory;
 use Phalcon\Cache\Exception\InvalidArgumentException;
 use Phalcon\Storage\SerializerFactory;
-use UnitTester;
+use IntegrationTester;
 
 use function uniqid;
 
@@ -29,7 +29,7 @@ class HasCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-01
      */
-    public function cacheCacheHas(UnitTester $I)
+    public function cacheCacheHas(IntegrationTester $I)
     {
         $I->wantToTest('Cache\Cache - has()');
 
@@ -58,7 +58,7 @@ class HasCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-01
      */
-    public function cacheCacheHasException(UnitTester $I)
+    public function cacheCacheHasException(IntegrationTester $I)
     {
         $I->wantToTest('Cache\Cache - has() - exception');
 

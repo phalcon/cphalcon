@@ -14,23 +14,20 @@
 #include "kernel/main.h"
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
-#include "ext/spl/spl_exceptions.h"
-#include "kernel/exception.h"
+#include "kernel/operators.h"
 #include "kernel/object.h"
 
 
 /**
- * This file is part of the Phalcon Framework.
+ * This file is part of the Phalcon.
  *
- * (c) Phalcon Team <team@phalcon.io>
+ * (c) Phalcon Team <team@phalcon.com>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Html\Helper\Label
- *
- * Creates a label
+ * Class Label
  */
 ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Label) {
 
@@ -41,7 +38,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Label) {
 }
 
 /**
- * @param array $attributes Any additional attributes
+ * Produce a `<label>` tag.
+ *
+ * @param array $attributes
  *
  * @return string
  * @throws Exception
@@ -64,7 +63,7 @@ PHP_METHOD(Phalcon_Html_Helper_Label, __invoke) {
 		ZEPHIR_INIT_VAR(&attributes);
 		array_init(&attributes);
 	} else {
-	ZEPHIR_OBS_COPY_OR_DUP(&attributes, attributes_param);
+		zephir_get_arrval(&attributes, attributes_param);
 	}
 
 

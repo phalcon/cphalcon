@@ -142,12 +142,12 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Stream, read) {
 	ZEPHIR_INIT_NVAR(&_4);
 	zephir_create_closure_ex(&_4, NULL, phalcon_2__closure_ce, SL("__invoke"));
 	ZVAL_LONG(&_5, 2);
-	ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 84, &_4, &_5);
+	ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 86, &_4, &_5);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_6, "unserialize", NULL, 14, &contents);
+	ZEPHIR_CALL_FUNCTION(&_6, "unserialize", NULL, 15, &contents);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&contents, &_6);
-	ZEPHIR_CALL_FUNCTION(NULL, "restore_error_handler", NULL, 86);
+	ZEPHIR_CALL_FUNCTION(NULL, "restore_error_handler", NULL, 88);
 	zephir_check_call_status();
 	if (UNEXPECTED(ZEPHIR_GLOBAL(warning).enable)) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_RuntimeException, "Cannot read annotation data", "phalcon/Annotations/Adapter/Stream.zep", 92);
@@ -201,7 +201,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Stream, write) {
 	ZEPHIR_INIT_VAR(&_3);
 	ZEPHIR_CONCAT_VVS(&_3, &_0, &_1, ".php");
 	zephir_get_strval(&path, &_3);
-	ZEPHIR_CALL_FUNCTION(&code, "serialize", NULL, 12, data);
+	ZEPHIR_CALL_FUNCTION(&code, "serialize", NULL, 13, data);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_4);
 	zephir_file_put_contents(&_4, &path, &code);

@@ -17,7 +17,7 @@ use Phalcon\Cache;
 use Phalcon\Cache\Adapter\AdapterInterface;
 use Phalcon\Cache\AdapterFactory;
 use Phalcon\Storage\SerializerFactory;
-use UnitTester;
+use IntegrationTester;
 
 class GetAdapterCest
 {
@@ -27,7 +27,7 @@ class GetAdapterCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-01
      */
-    public function cacheCacheGetAdapter(UnitTester $I)
+    public function cacheCacheGetAdapter(IntegrationTester $I)
     {
         $I->wantToTest('Cache\Cache - getAdapter()');
 

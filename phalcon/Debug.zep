@@ -199,9 +199,7 @@ class Debug
      */
     public function onUncaughtException(<\Throwable> exception) -> bool
     {
-        var blacklist, className, dataVar, dataVars, escapedMessage, html,
-            keyFile, keyRequest, keyServer, keyVar, n, showBackTrace, traceItem,
-            obLevel, value;
+        var obLevel;
 
         let obLevel = ob_get_level();
 
@@ -226,160 +224,10 @@ class Debug
          */
         let self::isActive = true;
 
-        let className = get_class(exception);
-
-        /**
-         * Escape the exception's message avoiding possible XSS injections?
-         */
-        let escapedMessage = this->escapeString(
-            exception->getMessage()
-        );
-
-        /**
-         * CSS static sources to style the error presentation
-         * Use the exception info as document's title
-         */
-        let html = "<html><head>"
-                 . "<title>" . className . ": " . escapedMessage . "</title>"
-                 . this->getCssSources()
-                 . "</head><body>";
-
-        /**
-         * Get the version link
-         */
-        let html .= this->getVersion();
-
-        /**
-         * Main exception info
-         */
-        let html .= "<div align='center'>"
-                  . "<div class='error-main'>"
-                  . "<h1>" . className . ": " . escapedMessage . "</h1>"
-                  . "<span class='error-file'>" . exception->getFile() . " (" . exception->getLine() . ")</span>"
-                  . "</div>";
-
-        let showBackTrace = this->showBackTrace;
-
-        /**
-         * Check if the developer wants to show the backtrace or not
-         */
-        if showBackTrace {
-            let dataVars = this->data;
-
-            /**
-             * Create the tabs in the page
-             */
-            let html .= "<div class='error-info'><div id='tabs'><ul>"
-                      . "<li><a href='#error-tabs-1'>Backtrace</a></li>"
-                      . "<li><a href='#error-tabs-2'>Request</a></li>"
-                      . "<li><a href='#error-tabs-3'>Server</a></li>"
-                      . "<li><a href='#error-tabs-4'>Included Files</a></li>"
-                      . "<li><a href='#error-tabs-5'>Memory</a></li>";
-
-            if typeof dataVars == "array" {
-                let html .= "<li><a href='#error-tabs-6'>Variables</a></li>";
-            }
-
-            let html .= "</ul>";
-
-            /**
-             * Print backtrace
-             */
-            let html .= "<div id='error-tabs-1'><table cellspacing='0' align='center' width='100%'>";
-
-            for n, traceItem in exception->getTrace()  {
-                /**
-                 * Every line in the trace is rendered using "showTraceItem"
-                 */
-                let html .= this->showTraceItem(n, traceItem);
-            }
-
-            let html .= "</table></div>";
-
-            /**
-             * Print _REQUEST superglobal
-             */
-            let html .= "<div id='error-tabs-2'>"
-                      . "<table cellspacing='0' align='center' class='superglobal-detail'>"
-                      . "<tr><th>Key</th><th>Value</th></tr>";
-            let blacklist = Arr::get(this->blacklist, "request", []);
-
-            for keyRequest, value in _REQUEST {
-                if true !== isset(blacklist[strtolower(keyRequest)]) {
-                    if typeof value != "array" {
-                        let html .= "<tr><td class='key'>" . keyRequest . "</td><td>" . value . "</td></tr>";
-                    } else {
-                        let html .= "<tr><td class='key'>" . keyRequest . "</td><td>" . print_r(value, true) . "</td></tr>";
-                    }
-                }
-            }
-
-            let html .= "</table></div>";
-
-            /**
-             * Print _SERVER superglobal
-             */
-            let html .= "<div id='error-tabs-3'>"
-                      . "<table cellspacing='0' align='center' class='superglobal-detail'>"
-                      . "<tr><th>Key</th><th>Value</th></tr>";
-            let blacklist = Arr::get(this->blacklist, "server", []);
-
-            for keyServer, value in _SERVER {
-                if true !== isset(blacklist[strtolower(keyServer)]) {
-                    let html .= "<tr><td class='key'>" . keyServer . "</td><td>" . this->getVarDump(value) . "</td></tr>";
-                }
-            }
-
-            let html .= "</table></div>";
-
-            /**
-             * Show included files
-             */
-            let html .= "<div id='error-tabs-4'>"
-                      . "<table cellspacing='0' align='center' class='superglobal-detail'>"
-                      . "<tr><th>#</th><th>Path</th></tr>";
-
-            for keyFile, value in get_included_files() {
-                let html .= "<tr><td>" . keyFile . "</th><td>" . value . "</td></tr>";
-            }
-
-            let html .= "</table></div>";
-
-            /**
-             * Memory usage
-             */
-            let html .= "<div id='error-tabs-5'>"
-                      . "<table cellspacing='0' align='center' class='superglobal-detail'>"
-                      . "<tr><th colspan='2'>Memory</th></tr><tr><td>Usage</td><td>" . memory_get_usage(true) . "</td></tr>"
-                      . "</table></div>";
-
-            /**
-             * Print extra variables passed to the component
-             */
-            if typeof dataVars == "array" {
-                let html .= "<div id='error-tabs-6'>"
-                          . "<table cellspacing='0' align='center' class='superglobal-detail'>"
-                          . "<tr><th>Key</th><th>Value</th></tr>";
-
-                for keyVar, dataVar in dataVars {
-                    let html .= "<tr><td class='key'>" . keyVar . "</td><td>" . this->getVarDump(dataVar[0]) . "</td></tr>";
-                }
-
-                let html .= "</table></div>";
-            }
-
-            let html .= "</div>";
-        }
-
-        /**
-         * Get JavaScript sources
-         */
-        let html .= this->getJsSources() . "</div></body></html>";
-
         /**
          * Print the HTML, @TODO, add an option to store the HTML
          */
-        echo html;
+        echo this->renderHtml(exception);
 
         /**
          * Unlock the exception renderer
@@ -845,6 +693,168 @@ class Debug
         }
 
         let html .= "</td></tr>";
+
+        return html;
+    }
+
+    /*
+     * Render exception to html format.
+     */
+    public function renderHtml(<\Throwable> exception) -> string
+    {
+        var blacklist, className, dataVar, dataVars, escapedMessage, html,
+            keyFile, keyRequest, keyServer, keyVar, n, showBackTrace, traceItem,
+            value;
+
+         let className = get_class(exception);
+
+        /**
+         * Escape the exception's message avoiding possible XSS injections?
+         */
+        let escapedMessage = this->escapeString(
+            exception->getMessage()
+        );
+
+        /**
+         * CSS static sources to style the error presentation
+         * Use the exception info as document's title
+         */
+        let html = "<html><head>"
+                 . "<title>" . className . ": " . escapedMessage . "</title>"
+                 . this->getCssSources()
+                 . "</head><body>";
+
+        /**
+         * Get the version link
+         */
+        let html .= this->getVersion();
+
+        /**
+         * Main exception info
+         */
+        let html .= "<div align='center'>"
+                  . "<div class='error-main'>"
+                  . "<h1>" . className . ": " . escapedMessage . "</h1>"
+                  . "<span class='error-file'>" . exception->getFile() . " (" . exception->getLine() . ")</span>"
+                  . "</div>";
+
+         let showBackTrace = this->showBackTrace;
+
+        /**
+         * Check if the developer wants to show the backtrace or not
+         */
+        if showBackTrace {
+            let dataVars = this->data;
+
+            /**
+             * Create the tabs in the page
+             */
+            let html .= "<div class='error-info'><div id='tabs'><ul>"
+                      . "<li><a href='#error-tabs-1'>Backtrace</a></li>"
+                      . "<li><a href='#error-tabs-2'>Request</a></li>"
+                      . "<li><a href='#error-tabs-3'>Server</a></li>"
+                      . "<li><a href='#error-tabs-4'>Included Files</a></li>"
+                      . "<li><a href='#error-tabs-5'>Memory</a></li>";
+
+             if typeof dataVars == "array" {
+                let html .= "<li><a href='#error-tabs-6'>Variables</a></li>";
+            }
+
+             let html .= "</ul>";
+
+            /**
+             * Print backtrace
+             */
+            let html .= "<div id='error-tabs-1'><table cellspacing='0' align='center' width='100%'>";
+
+             for n, traceItem in exception->getTrace()  {
+                /**
+                 * Every line in the trace is rendered using "showTraceItem"
+                 */
+                let html .= this->showTraceItem(n, traceItem);
+            }
+
+             let html .= "</table></div>";
+
+            /**
+             * Print _REQUEST superglobal
+             */
+            let html .= "<div id='error-tabs-2'>"
+                      . "<table cellspacing='0' align='center' class='superglobal-detail'>"
+                      . "<tr><th>Key</th><th>Value</th></tr>";
+            let blacklist = Arr::get(this->blacklist, "request", []);
+
+             for keyRequest, value in _REQUEST {
+                if true !== isset(blacklist[strtolower(keyRequest)]) {
+                    if typeof value != "array" {
+                        let html .= "<tr><td class='key'>" . keyRequest . "</td><td>" . value . "</td></tr>";
+                    } else {
+                        let html .= "<tr><td class='key'>" . keyRequest . "</td><td>" . print_r(value, true) . "</td></tr>";
+                    }
+                }
+            }
+
+             let html .= "</table></div>";
+
+            /**
+             * Print _SERVER superglobal
+             */
+            let html .= "<div id='error-tabs-3'>"
+                      . "<table cellspacing='0' align='center' class='superglobal-detail'>"
+                      . "<tr><th>Key</th><th>Value</th></tr>";
+            let blacklist = Arr::get(this->blacklist, "server", []);
+
+             for keyServer, value in _SERVER {
+                if true !== isset(blacklist[strtolower(keyServer)]) {
+                    let html .= "<tr><td class='key'>" . keyServer . "</td><td>" . this->getVarDump(value) . "</td></tr>";
+                }
+            }
+
+             let html .= "</table></div>";
+
+            /**
+             * Show included files
+             */
+            let html .= "<div id='error-tabs-4'>"
+                      . "<table cellspacing='0' align='center' class='superglobal-detail'>"
+                      . "<tr><th>#</th><th>Path</th></tr>";
+
+             for keyFile, value in get_included_files() {
+                let html .= "<tr><td>" . keyFile . "</th><td>" . value . "</td></tr>";
+            }
+
+             let html .= "</table></div>";
+
+            /**
+             * Memory usage
+             */
+            let html .= "<div id='error-tabs-5'>"
+                      . "<table cellspacing='0' align='center' class='superglobal-detail'>"
+                      . "<tr><th colspan='2'>Memory</th></tr><tr><td>Usage</td><td>" . memory_get_usage(true) . "</td></tr>"
+                      . "</table></div>";
+
+            /**
+             * Print extra variables passed to the component
+             */
+            if typeof dataVars == "array" {
+                let html .= "<div id='error-tabs-6'>"
+                          . "<table cellspacing='0' align='center' class='superglobal-detail'>"
+                          . "<tr><th>Key</th><th>Value</th></tr>";
+
+                 for keyVar, dataVar in dataVars {
+                    let html .= "<tr><td class='key'>" . keyVar . "</td><td>" . this->getVarDump(dataVar[0]) . "</td></tr>";
+                }
+
+                 let html .= "</table></div>";
+            }
+
+             let html .= "</div>";
+        }
+
+        /**
+         * Get JavaScript sources
+         */
+        let html .= this->getJsSources() . "</div></body></html>";
 
         return html;
     }

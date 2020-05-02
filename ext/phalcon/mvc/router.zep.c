@@ -207,7 +207,7 @@ PHP_METHOD(Phalcon_Mvc_Router, __construct) {
 		add_assoc_long_ex(&_1$$3, SL("controller"), 1);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "#^/([\\w0-9\\_\\-]+)[/]{0,1}$#u");
-		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 111, &_2$$3, &_1$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 116, &_2$$3, &_1$$3);
 		zephir_check_call_status();
 		zephir_array_append(&routes, &_0$$3, PH_SEPARATE, "phalcon/Mvc/Router.zep", 95);
 		ZEPHIR_INIT_NVAR(&_2$$3);
@@ -219,7 +219,7 @@ PHP_METHOD(Phalcon_Mvc_Router, __construct) {
 		add_assoc_long_ex(&_3$$3, SL("params"), 3);
 		ZEPHIR_INIT_VAR(&_4$$3);
 		ZVAL_STRING(&_4$$3, "#^/([\\w0-9\\_\\-]+)/([\\w0-9\\.\\_]+)(/.*)*$#u");
-		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 111, &_4$$3, &_3$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 116, &_4$$3, &_3$$3);
 		zephir_check_call_status();
 		zephir_array_append(&routes, &_2$$3, PH_SEPARATE, "phalcon/Mvc/Router.zep", 104);
 	}
@@ -302,7 +302,7 @@ PHP_METHOD(Phalcon_Mvc_Router, add) {
 
 	ZEPHIR_INIT_VAR(&route);
 	object_init_ex(&route, phalcon_mvc_router_route_ce);
-	ZEPHIR_CALL_METHOD(NULL, &route, "__construct", NULL, 111, &pattern, paths, httpMethods);
+	ZEPHIR_CALL_METHOD(NULL, &route, "__construct", NULL, 116, &pattern, paths, httpMethods);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "attach", NULL, 0, &route, position);
 	zephir_check_call_status();
@@ -1395,7 +1395,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 
 
 	ZVAL_LONG(&_0, 5);
-	ZEPHIR_CALL_FUNCTION(&_1, "parse_url", NULL, 112, &uri, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "parse_url", NULL, 117, &uri, &_0);
 	zephir_check_call_status();
 	zephir_get_strval(&uri, &_1);
 	zephir_read_property(&_0, this_ptr, SL("removeExtraSlashes"), PH_NOISY_CC | PH_READONLY);
@@ -1465,7 +1465,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 						ZVAL_STRING(&_12$$10, "the 'request' service");
 						ZEPHIR_CALL_CE_STATIC(&_10$$10, phalcon_mvc_router_exception_ce, "containerservicenotfound", &_11, 0, &_12$$10);
 						zephir_check_call_status();
-						ZEPHIR_CALL_METHOD(NULL, &_9$$10, "__construct", &_13, 6, &_10$$10);
+						ZEPHIR_CALL_METHOD(NULL, &_9$$10, "__construct", &_13, 8, &_10$$10);
 						zephir_check_call_status();
 						zephir_throw_exception_debug(&_9$$10, "phalcon/Mvc/Router.zep", 538);
 						ZEPHIR_MM_RESTORE();
@@ -1497,7 +1497,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 						ZVAL_STRING(&_21$$14, "the 'request' service");
 						ZEPHIR_CALL_CE_STATIC(&_20$$14, phalcon_mvc_router_exception_ce, "containerservicenotfound", &_11, 0, &_21$$14);
 						zephir_check_call_status();
-						ZEPHIR_CALL_METHOD(NULL, &_19$$14, "__construct", &_13, 6, &_20$$14);
+						ZEPHIR_CALL_METHOD(NULL, &_19$$14, "__construct", &_13, 8, &_20$$14);
 						zephir_check_call_status();
 						zephir_throw_exception_debug(&_19$$14, "phalcon/Mvc/Router.zep", 569);
 						ZEPHIR_MM_RESTORE();
@@ -1608,7 +1608,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 								object_init_ex(&_36$$35, phalcon_mvc_router_exception_ce);
 								ZEPHIR_INIT_NVAR(&_37$$35);
 								ZEPHIR_CONCAT_SV(&_37$$35, "Wrong key in paths: ", &part);
-								ZEPHIR_CALL_METHOD(NULL, &_36$$35, "__construct", &_13, 6, &_37$$35);
+								ZEPHIR_CALL_METHOD(NULL, &_36$$35, "__construct", &_13, 8, &_37$$35);
 								zephir_check_call_status();
 								zephir_throw_exception_debug(&_36$$35, "phalcon/Mvc/Router.zep", 688);
 								ZEPHIR_MM_RESTORE();
@@ -1674,7 +1674,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 									object_init_ex(&_43$$46, phalcon_mvc_router_exception_ce);
 									ZEPHIR_INIT_NVAR(&_44$$46);
 									ZEPHIR_CONCAT_SV(&_44$$46, "Wrong key in paths: ", &part);
-									ZEPHIR_CALL_METHOD(NULL, &_43$$46, "__construct", &_13, 6, &_44$$46);
+									ZEPHIR_CALL_METHOD(NULL, &_43$$46, "__construct", &_13, 8, &_44$$46);
 									zephir_check_call_status();
 									zephir_throw_exception_debug(&_43$$46, "phalcon/Mvc/Router.zep", 688);
 									ZEPHIR_MM_RESTORE();
@@ -1761,7 +1761,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 							ZVAL_STRING(&_53$$59, "the 'request' service");
 							ZEPHIR_CALL_CE_STATIC(&_52$$59, phalcon_mvc_router_exception_ce, "containerservicenotfound", &_11, 0, &_53$$59);
 							zephir_check_call_status();
-							ZEPHIR_CALL_METHOD(NULL, &_51$$59, "__construct", &_13, 6, &_52$$59);
+							ZEPHIR_CALL_METHOD(NULL, &_51$$59, "__construct", &_13, 8, &_52$$59);
 							zephir_check_call_status();
 							zephir_throw_exception_debug(&_51$$59, "phalcon/Mvc/Router.zep", 538);
 							ZEPHIR_MM_RESTORE();
@@ -1793,7 +1793,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 							ZVAL_STRING(&_61$$63, "the 'request' service");
 							ZEPHIR_CALL_CE_STATIC(&_60$$63, phalcon_mvc_router_exception_ce, "containerservicenotfound", &_11, 0, &_61$$63);
 							zephir_check_call_status();
-							ZEPHIR_CALL_METHOD(NULL, &_59$$63, "__construct", &_13, 6, &_60$$63);
+							ZEPHIR_CALL_METHOD(NULL, &_59$$63, "__construct", &_13, 8, &_60$$63);
 							zephir_check_call_status();
 							zephir_throw_exception_debug(&_59$$63, "phalcon/Mvc/Router.zep", 569);
 							ZEPHIR_MM_RESTORE();
@@ -1904,7 +1904,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 									object_init_ex(&_76$$84, phalcon_mvc_router_exception_ce);
 									ZEPHIR_INIT_NVAR(&_77$$84);
 									ZEPHIR_CONCAT_SV(&_77$$84, "Wrong key in paths: ", &part);
-									ZEPHIR_CALL_METHOD(NULL, &_76$$84, "__construct", &_13, 6, &_77$$84);
+									ZEPHIR_CALL_METHOD(NULL, &_76$$84, "__construct", &_13, 8, &_77$$84);
 									zephir_check_call_status();
 									zephir_throw_exception_debug(&_76$$84, "phalcon/Mvc/Router.zep", 688);
 									ZEPHIR_MM_RESTORE();
@@ -1970,7 +1970,7 @@ PHP_METHOD(Phalcon_Mvc_Router, handle) {
 										object_init_ex(&_83$$95, phalcon_mvc_router_exception_ce);
 										ZEPHIR_INIT_NVAR(&_84$$95);
 										ZEPHIR_CONCAT_SV(&_84$$95, "Wrong key in paths: ", &part);
-										ZEPHIR_CALL_METHOD(NULL, &_83$$95, "__construct", &_13, 6, &_84$$95);
+										ZEPHIR_CALL_METHOD(NULL, &_83$$95, "__construct", &_13, 8, &_84$$95);
 										zephir_check_call_status();
 										zephir_throw_exception_debug(&_83$$95, "phalcon/Mvc/Router.zep", 688);
 										ZEPHIR_MM_RESTORE();
