@@ -96,9 +96,9 @@ class CreateTableCest
         $expected = <<<SQL
 CREATE TABLE `test` (
 	`id` INT(11) NOT NULL AUTO_INCREMENT,
-	`numeric_val` FLOAT NOT NULL DEFAULT 21.42 NOT NULL,
-	`null_int` INT(11) NULL AFTER `numeric_val`,
-	`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP AFTER `null_int`,
+	`numeric_val` FLOAT NOT NULL DEFAULT 21.42,
+	`null_int` INT(11) NULL,
+	`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	`updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	`deleted_at` TIMESTAMP NULL,
 	PRIMARY KEY (`id`)
