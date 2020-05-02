@@ -60,10 +60,10 @@ class AddColumnCest
                         'type'    => Column::TYPE_TIMESTAMP,
                         'default' => "CURRENT_TIMESTAMP",
                         'notNull' => true,
-                        'after'   => 'created_at',
+                        'after'   => 'null_int',
                     ]
                 ),
-                'ALTER TABLE `test` ADD `created_at` TIMESTAMP NOT NULL' .
+                'ALTER TABLE `test` ADD `created_at` TIMESTAMP NOT NULL ' .
                 'DEFAULT CURRENT_TIMESTAMP AFTER `null_int`',
             ],
             [
@@ -76,7 +76,7 @@ class AddColumnCest
                         'after'   => 'created_at',
                     ]
                 ),
-                'ALTER TABLE `test` ADD `updated_at` TIMESTAMP NOT NULL' .
+                'ALTER TABLE `test` ADD `updated_at` TIMESTAMP NOT NULL ' .
                 'DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP AFTER `created_at`',
             ],
             [
