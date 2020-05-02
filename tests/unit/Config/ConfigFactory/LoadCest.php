@@ -5,8 +5,8 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -29,13 +29,21 @@ class LoadCest
 {
     use FactoryTrait;
 
-    public function _before(UnitTester $I)
+    /**
+     * Executed before each test
+     *
+     * @param UnitTester $I
+     * @return void
+     */
+    public function _before(UnitTester $I): void
     {
         $this->init();
     }
 
     /**
      * Tests Phalcon\Config\ConfigFactory :: load() - Config
+     *
+     * @param UnitTester $I
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-03-02
@@ -44,7 +52,7 @@ class LoadCest
     {
         $I->wantToTest('Config\ConfigFactory - load() - Config');
 
-        $options = $this->config->config;
+        $options = $this->config->get('config');
 
         /** @var Ini $ini */
         $ini = (new ConfigFactory())->load($options);
@@ -63,7 +71,7 @@ class LoadCest
         );
 
         /** @var Ini $ini */
-        $ini = (new ConfigFactory())->load($ini->config->toArray());
+        $ini = (new ConfigFactory())->load($ini->get('config')->toArray());
 
         $I->assertInstanceOf(
             Ini::class,
@@ -73,6 +81,8 @@ class LoadCest
 
     /**
      * Tests Phalcon\Config\ConfigFactory :: load() - array
+     *
+     * @param UnitTester $I
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-03-02
@@ -95,6 +105,8 @@ class LoadCest
     /**
      * Tests Phalcon\Config\ConfigFactory :: load() - string
      *
+     * @param UnitTester $I
+     *
      * @author Wojciech Ślawski <jurigag@gmail.com>
      * @since  2017-11-24
      */
@@ -115,6 +127,8 @@ class LoadCest
 
     /**
      * Tests Phalcon\Config\ConfigFactory :: load() -  exception
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-06-19
@@ -169,6 +183,8 @@ class LoadCest
     /**
      * Tests Phalcon\Config\ConfigFactory :: load() -  yaml callback
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-06-19
      */
@@ -198,6 +214,8 @@ class LoadCest
     /**
      * Tests Phalcon\Config\ConfigFactory :: load() -  two calls new instances
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-12-07
      * @issue  14584
@@ -211,11 +229,11 @@ class LoadCest
         $configFile1 = dataDir('assets/config/config.php');
         $config      = $factory->load($configFile1);
 
-        $I->assertEquals("/phalcon/", $config->phalcon->baseUri);
+        $I->assertEquals("/phalcon/", $config->get('phalcon')->baseUri);
 
         $configFile2 = dataDir('assets/config/config-2.php');
         $config2     = $factory->load($configFile2);
 
-        $I->assertEquals("/phalcon4/", $config2->phalcon->baseUri);
+        $I->assertEquals("/phalcon4/", $config2->get('phalcon')->baseUri);
     }
 }
