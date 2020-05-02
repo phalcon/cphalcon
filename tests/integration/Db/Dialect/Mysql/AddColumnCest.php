@@ -39,7 +39,7 @@ class AddColumnCest
                         'notNull' => true,
                     ]
                 ),
-                'ALTER TABLE `test` ADD `numeric_val` FLOAT DEFAULT 21.42 NOT NULL',
+                'ALTER TABLE `test` ADD `numeric_val` FLOAT NOT NULL DEFAULT 21.42 NOT NULL',
             ],
             [
                 new Column(
