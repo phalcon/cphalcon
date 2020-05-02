@@ -6,7 +6,7 @@
 
 ## Fixed
 - Fixed `Phalcon\Mvc\Model\Query\Builder::getPhql` to add single quote between string value on a simple condition. [#14874](https://github.com/phalcon/cphalcon/issues/14874) [@jenovateurs](https://github.com/jenovateurs)
-- Fixed schema manipulation in `Phalcon\Db\Dialect\Mysql`, remove unnecessary `NULL` in column definition, unquote numerical defaults. [#14888](https://github.com/phalcon/cphalcon/pull/14888) [@pfz](https://github.com/pfz)
+- Fixed schema manipulation in `Phalcon\Db\Dialect\Mysql`, unquote numerical defaults. [#14888](https://github.com/phalcon/cphalcon/pull/14888) [@pfz](https://github.com/pfz)
 - Fixed recognizing language operators inside Volt's echo mode (`{{ ... }}`) [#14476](https://github.com/phalcon/cphalcon/issues/14476)
 - Fixed `Tag::friendlyTitle` to correctly convert titles under MacOS and Windows [#14866](https://github.com/phalcon/cphalcon/issues/14866)
 - Fixed the Volt compiler to no longer parse `cache` fragments and thus searching for the `viewCache` service (deprecated for v4) [#14907](https://github.com/phalcon/cphalcon/issues/14907)
