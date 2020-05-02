@@ -5,8 +5,8 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -21,6 +21,8 @@ class GetSetContentCest
     /**
      * Tests Phalcon\Http\Response :: getContent() / setContent()
      *
+     * @param  UnitTester $I
+     *
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2019-12-08
      */
@@ -31,8 +33,9 @@ class GetSetContentCest
         $sData = '<h1>Phalcon book 2020</h1>';
 
         $oResponse = new Response();
-        $oResponse->setContent($sData);
+        $I->assertEquals('', $oResponse->getContent());
 
+        $oResponse->setContent($sData);
         $I->assertSame(
             $sData,
             $oResponse->getContent()
