@@ -23,7 +23,8 @@ class ModifyColumnCest
      * Tests Phalcon\Db\Adapter\Pdo\Mysql :: modifyColumn()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2020-05-02
+     * @since  2020-02-27
+     * @since  2020-05-02 Changed default null and nullable column definition
      */
     public function dbAdapterPdoMysqlModifyColumn(IntegrationTester $I)
     {
