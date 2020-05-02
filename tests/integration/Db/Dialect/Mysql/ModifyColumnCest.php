@@ -49,7 +49,7 @@ class ModifyColumnCest
                         'after'   => 'created_at',
                     ]
                 ),
-                'ALTER TABLE `test` MODIFY `updated_at` TIMESTAMP NOT NULL' .
+                'ALTER TABLE `test` MODIFY `updated_at` TIMESTAMP NOT NULL ' .
                 'DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP AFTER `created_at`',
             ],
             [
