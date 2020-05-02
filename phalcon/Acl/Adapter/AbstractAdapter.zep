@@ -4,8 +4,8 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 
 namespace Phalcon\Acl\Adapter;
