@@ -55,7 +55,7 @@ class ConfigFactory extends AbstractFactory
      *      'callbacks' => null
      * ]
      */
-    public function load(config) -> object
+    public function load(config) -> <Config>
     {
         var adapter, extension, first, oldConfig, second;
 
@@ -117,7 +117,7 @@ class ConfigFactory extends AbstractFactory
     /**
      * Returns a new Config instance
      */
-    public function newInstance(string name, string fileName, var params = null) -> object
+    public function newInstance(string name, string fileName, var params = null) -> <Config>
     {
         var definition, options;
 
