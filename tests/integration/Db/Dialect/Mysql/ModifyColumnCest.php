@@ -91,7 +91,7 @@ class ModifyColumnCest
                         'after'   => 'updated_at',
                     ]
                 ),
-                'ALTER TABLE `test` MODIFY `numeric_val` FLOAT DEFAULT 21.42 AFTER `updated_at`',
+                'ALTER TABLE `test` MODIFY `numeric_val` FLOAT NULL DEFAULT 21.42 AFTER `updated_at`',
             ],
         ];
 

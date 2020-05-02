@@ -45,7 +45,7 @@ class AddColumnCest
                 new Column(
                     'null_int',
                     [
-                        'type'    => Column::TYPE_INT,
+                        'type'    => Column::TYPE_INTEGER,
                         'notNull' => false,
                         'after'   => 'numeric_val',
                     ]
