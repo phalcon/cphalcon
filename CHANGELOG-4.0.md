@@ -5,6 +5,7 @@
 - Changed `Volt::convertEncoding` to no longer using `iconv` for a fallback since it causes issues with macOS [#14912](https://github.com/phalcon/cphalcon/issues/14912)
 - Changed schema manipulation in `Phalcon\Db\Dialect\Mysql` - unquote numerical defaults [#14888](https://github.com/phalcon/cphalcon/pull/14888), [#14974](https://github.com/phalcon/cphalcon/pull/14974)
 - Changed the default ACL access level from boolean `FALSE` to `Enum::DENY` [#14974](https://github.com/phalcon/cphalcon/pull/14974)
+- Changed the way `Phalcon\Http\Response::__construct` checks `content` data type. Now a `TypeError` will be thrown if incompatible data type was passed [#14983](https://github.com/phalcon/cphalcon/issues/14983)
 
 ## Fixed
 - Fixed `Phalcon\Mvc\Model\Query\Builder::getPhql` to add single quote between string value on a simple condition [#14874](https://github.com/phalcon/cphalcon/issues/14874)
