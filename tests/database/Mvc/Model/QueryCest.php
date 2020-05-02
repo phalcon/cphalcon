@@ -60,6 +60,7 @@ class QueryCest
         $query->limit(20, 0);//I have 50 rows in my db
         $resultsets = $query->execute();
 
+        $I->assertCount(20, $resultsets->toArray());
         foreach ($resultsets as $resultset) {
             $I->assertInstanceOf(Customers::class, $resultset);
         }
@@ -97,6 +98,7 @@ class QueryCest
         $query->limit(20, 0);//I have 50 rows in my db
         $resultsets = $query->execute();
 
+        $I->assertCount(20, $resultsets->toArray());
         foreach ($resultsets as $resultset) {
             $model = $this->transform($resultset);
             $I->assertInstanceOf(CustomersKeepSnapshots::class, $model);
