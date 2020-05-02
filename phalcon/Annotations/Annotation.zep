@@ -4,8 +4,8 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 
 namespace Phalcon\Annotations;
@@ -20,19 +20,19 @@ class Annotation
      *
      * @var array
      */
-    protected arguments;
+    protected arguments = [];
 
     /**
      * Annotation ExprArguments
      *
-     * @var string
+     * @var array
      */
-    protected exprArguments;
+    protected exprArguments = [];
 
     /**
      * Annotation Name
      *
-     * @var string
+     * @var string|null
      */
     protected name;
 
@@ -44,7 +44,9 @@ class Annotation
         var name, exprArguments, argument, resolvedArgument;
         array arguments;
 
-        let this->name = reflectionData["name"];
+        if fetch name, reflectionData["name"] {
+            let this->name = reflectionData["name"];
+        }
 
         /**
          * Process annotation arguments
@@ -72,13 +74,15 @@ class Annotation
     /**
      * Returns an argument in a specific position
      */
-    public function getArgument(var position)
+    public function getArgument(var position) -> var | null
     {
         var argument;
 
         if fetch argument, this->arguments[position] {
             return argument;
         }
+
+        return null;
     }
 
     /**
@@ -156,7 +160,7 @@ class Annotation
     /**
      * Returns the annotation's name
      */
-    public function getName() -> string
+    public function getName() -> null | string
     {
         return this->name;
     }
@@ -164,13 +168,15 @@ class Annotation
     /**
      * Returns a named argument
      */
-    public function getNamedArgument(string! name)
+    public function getNamedArgument(string! name) -> var | null
     {
         var argument;
 
         if fetch argument, this->arguments[name] {
             return argument;
         }
+
+        return null;
     }
 
     /**
