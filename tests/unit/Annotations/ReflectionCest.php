@@ -20,7 +20,9 @@ use UnitTester;
 class ReflectionCest
 {
     /**
-     * executed before each test
+     * Executed before each test.
+     *
+     * @param  UnitTester $I
      */
     protected function _before(UnitTester $I)
     {
@@ -29,6 +31,8 @@ class ReflectionCest
 
     /**
      * Tests parsing class annotations
+     *
+     * @param  UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2016-01-26
@@ -43,7 +47,7 @@ class ReflectionCest
 
         $methodsAnnotations = $reflection->getMethodsAnnotations();
 
-        $I->assertTrue(is_array($methodsAnnotations));
+        $I->assertIsArray($methodsAnnotations);
 
         $I->assertInstanceOf(
             Collection::class,
@@ -53,7 +57,7 @@ class ReflectionCest
         $total = 0;
 
         foreach ($methodsAnnotations as $method => $annotations) {
-            $I->assertTrue(is_string($method));
+            $I->assertIsString($method);
 
             $number = 0;
 
@@ -80,7 +84,7 @@ class ReflectionCest
 
         $annotation = $annotations->get('Simple');
         $I->assertEquals('Simple', $annotation->getName());
-        $I->assertEquals(null, $annotation->getArguments());
+        $I->assertEquals([], $annotation->getArguments());
         $I->assertEquals(0, $annotation->numberArguments());
         $I->assertFalse($annotation->hasArgument('none'));
 
@@ -93,7 +97,7 @@ class ReflectionCest
         $I->assertFalse($annotation->hasArgument('none'));
 
         $propertiesAnnotations = $reflection->getPropertiesAnnotations();
-        $I->assertTrue(is_array($propertiesAnnotations));
+        $I->assertIsArray($propertiesAnnotations);
         $I->assertInstanceOf(
             Collection::class,
             $propertiesAnnotations['testProp1']
