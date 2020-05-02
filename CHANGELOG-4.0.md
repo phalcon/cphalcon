@@ -3,7 +3,8 @@
 
 ## Changed
 - Changed `Volt::convertEncoding` to no longer using `iconv` for a fallback since it causes issues with macOS [#14912](https://github.com/phalcon/cphalcon/issues/14912)
-- Changed schema manipulation in `Phalcon\Db\Dialect\Mysql` - unquote numerical defaults [#14888](https://github.com/phalcon/cphalcon/pull/14888) [#14974](https://github.com/phalcon/cphalcon/pull/14974)
+- Changed schema manipulation in `Phalcon\Db\Dialect\Mysql` - unquote numerical defaults [#14888](https://github.com/phalcon/cphalcon/pull/14888), [#14974](https://github.com/phalcon/cphalcon/pull/14974)
+- Changed the default ACL access level from boolean `FALSE` to `Enum::DENY` [#14974](https://github.com/phalcon/cphalcon/pull/14974)
 
 ## Fixed
 - Fixed `Phalcon\Mvc\Model\Query\Builder::getPhql` to add single quote between string value on a simple condition [#14874](https://github.com/phalcon/cphalcon/issues/14874)
@@ -12,6 +13,7 @@
 - Fixed the Volt compiler to no longer parse `cache` fragments and thus searching for the `viewCache` service (deprecated for v4) [#14907](https://github.com/phalcon/cphalcon/issues/14907)
 - Fixed `IN` operator precedence in Volt [#14816](https://github.com/phalcon/cphalcon/issues/14816)
 - Fixed testing suite to work with PHPUnit 9 when we upgrade [#14837](https://github.com/phalcon/cphalcon/issues/14837)
+- Fixed return type hints of the following `Phalcon\Acl\AbstractAdapter`'s methods: `getActiveAccess`, `getActiveRole`, `getActiveComponent` [#14974](https://github.com/phalcon/cphalcon/pull/14974)
 
 # [4.0.5](https://github.com/phalcon/cphalcon/releases/tag/v4.0.5) (2020-03-07)
 ## Added
@@ -21,7 +23,7 @@
 ## Fixed
 - Fixed `Phalcon\Db::fetchAll` to correctly return data when `Enum::FETCH_COLUMN` is supplied [#13321](https://github.com/phalcon/cphalcon/issues/13321)
 - Fixed Postgres NULL values to not be required during model update. [#14862](https://github.com/phalcon/cphalcon/issues/14862)
-- Fixed MySQL alter column when default value contains not only CURRENT_TIMESTAMP [#14880](https://github.com/phalcon/cphalcon/issues/14880)
+- Fixed altering columns for MySQL when default value contains not only `CURRENT_TIMESTAMP` [#14880](https://github.com/phalcon/cphalcon/issues/14880)
 - Fixed MySQL default value with ON UPDATE expression [#14887](https://github.com/phalcon/cphalcon/pull/14887)
 - Fixed `Str::dirFromFile()` to replace `.` with `-` to avoid issues with Windows environments [#14858](https://github.com/phalcon/cphalcon/issues/14858)
 
