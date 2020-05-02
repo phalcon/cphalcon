@@ -33,23 +33,29 @@ class Mysql extends Dialect
      */
     public function addColumn(string! tableName, string! schemaName, <ColumnInterface> column) -> string
     {
-        var afterPosition, defaultValue;
+        var afterPosition, defaultValue, upperDefaultValue;
         string sql;
 
         let sql = "ALTER TABLE " . this->prepareTable(tableName, schemaName) . " ADD `" . column->getName() . "` " . this->getColumnDefinition(column);
 
+        if column->isNotNull() {
+            let sql .= " NOT NULL";
+        } else {
+            // This is required for some types like TIMESTAMP
+            // Query won't be executed if NULL wasn't specified
+            // Even if DEFAULT NULL was specified
+            let sql .= " NULL";
+        }
+
         if column->hasDefault() {
             let defaultValue = column->getDefault();
+            let upperDefaultValue = strtoupper(defaultValue);
 
-            if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") || is_int(defaultValue) || is_float(defaultValue) {
+            if memstr(upperDefaultValue, "CURRENT_TIMESTAMP") || memstr(upperDefaultValue, "NULL") || is_int(defaultValue) || is_float(defaultValue) {
                 let sql .= " DEFAULT " . defaultValue;
             } else {
                 let sql .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
             }
-        }
-
-        if column->isNotNull() {
-            let sql .= " NOT NULL";
         }
 
         if column->isAutoIncrement() {
@@ -135,7 +141,7 @@ class Mysql extends Dialect
     {
         var temporary, options, table, columns, column, indexes, index,
             reference, references, indexName, columnLine, indexType, onDelete,
-            onUpdate, defaultValue;
+            onUpdate, defaultValue, upperDefaultValue;
         array createLines;
         string indexSql, referenceSql, sql;
 
@@ -167,27 +173,29 @@ class Mysql extends Dialect
             let columnLine = "`" . column->getName() . "` " . this->getColumnDefinition(column);
 
             /**
-             * Add a Default clause
-             */
-            if column->hasDefault() {
-                let defaultValue = column->getDefault();
-
-                if (defaultValue === null) {
-                    let columnLine .= " DEFAULT NULL";
-                } else {
-                    if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") || is_int(defaultValue) || is_float(defaultValue) {
-                        let columnLine .= " DEFAULT " . defaultValue;
-                    } else {
-                        let columnLine .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
-                    }
-                }
-            }
-
-            /**
              * Add a NOT NULL clause
              */
             if column->isNotNull() {
                 let columnLine .= " NOT NULL";
+            } else {
+                // This is required for some types like TIMESTAMP
+                // Query won't be executed if NULL wasn't specified
+                // Even if DEFAULT NULL was specified
+                let columnLine .= " NULL";
+            }
+
+            /**
+             * Add a Default clause
+             */
+            if column->hasDefault() {
+                let defaultValue = column->getDefault();
+                let upperDefaultValue = strtoupper(defaultValue);
+
+                if memstr(upperDefaultValue, "CURRENT_TIMESTAMP") || memstr(upperDefaultValue, "NULL") || is_int(defaultValue) || is_float(defaultValue) {
+                    let columnLine .= " DEFAULT " . defaultValue;
+                } else {
+                    let columnLine .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
+                }
             }
 
             /**
@@ -672,7 +680,7 @@ class Mysql extends Dialect
      */
     public function modifyColumn(string! tableName, string! schemaName, <ColumnInterface> column, <ColumnInterface> currentColumn = null) -> string
     {
-        var afterPosition, defaultValue, columnDefinition;
+        var afterPosition, defaultValue, upperDefaultValue, columnDefinition;
         string sql;
 
         let columnDefinition = this->getColumnDefinition(column),
@@ -688,19 +696,25 @@ class Mysql extends Dialect
             let sql .= " MODIFY `" . column->getName() . "` " . columnDefinition;
         }
 
+        if column->isNotNull() {
+            let sql .= " NOT NULL";
+        } else {
+            // This is required for some types like TIMESTAMP
+            // Query won't be executed if NULL wasn't specified
+            // Even if DEFAULT NULL was specified
+            let sql .= " NULL";
+        }
+
         if column->hasDefault() {
             let defaultValue = column->getDefault();
+            let upperDefaultValue = strtoupper(defaultValue);
 
-            if memstr(strtoupper(defaultValue), "CURRENT_TIMESTAMP") || is_int(defaultValue) || is_float(defaultValue) {
+            if memstr(upperDefaultValue, "CURRENT_TIMESTAMP") || memstr(upperDefaultValue, "NULL") || is_int(defaultValue) || is_float(defaultValue) {
                 let sql .= " DEFAULT " . defaultValue;
             }  else {
                 let sql .= " DEFAULT \"" . addcslashes(defaultValue, "\"") . "\"";
             }
         }
-
-        if column->isNotNull() {
-            let sql .= " NOT NULL";
-        } 
 
         if column->isAutoIncrement() {
             let sql .= " AUTO_INCREMENT";

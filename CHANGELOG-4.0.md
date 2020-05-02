@@ -3,10 +3,10 @@
 
 ## Changed
 - Changed `Volt::convertEncoding` to no longer using `iconv` for a fallback since it causes issues with macOS [#14912](https://github.com/phalcon/cphalcon/issues/14912)
+- Changed schema manipulation in `Phalcon\Db\Dialect\Mysql` - unquote numerical defaults [#14888](https://github.com/phalcon/cphalcon/pull/14888) [#14974](https://github.com/phalcon/cphalcon/pull/14974)
 
 ## Fixed
-- Fixed `Phalcon\Mvc\Model\Query\Builder::getPhql` to add single quote between string value on a simple condition. [#14874](https://github.com/phalcon/cphalcon/issues/14874) [@jenovateurs](https://github.com/jenovateurs)
-- Fixed schema manipulation in `Phalcon\Db\Dialect\Mysql`, remove unnecessary `NULL` in column definition, unquote numerical defaults. [#14888](https://github.com/phalcon/cphalcon/pull/14888) [@pfz](https://github.com/pfz)
+- Fixed `Phalcon\Mvc\Model\Query\Builder::getPhql` to add single quote between string value on a simple condition [#14874](https://github.com/phalcon/cphalcon/issues/14874)
 - Fixed recognizing language operators inside Volt's echo mode (`{{ ... }}`) [#14476](https://github.com/phalcon/cphalcon/issues/14476)
 - Fixed `Tag::friendlyTitle` to correctly convert titles under MacOS and Windows [#14866](https://github.com/phalcon/cphalcon/issues/14866)
 - Fixed the Volt compiler to no longer parse `cache` fragments and thus searching for the `viewCache` service (deprecated for v4) [#14907](https://github.com/phalcon/cphalcon/issues/14907)
@@ -19,7 +19,7 @@
 ## Changed
 
 ## Fixed
-- Fixed `Phalcon\Db::fetchAll` to correctly return data when `Enum::FETCH_COLUMN` is supplied. [#13321](https://github.com/phalcon/cphalcon/issues/13321)
+- Fixed `Phalcon\Db::fetchAll` to correctly return data when `Enum::FETCH_COLUMN` is supplied [#13321](https://github.com/phalcon/cphalcon/issues/13321)
 - Fixed Postgres NULL values to not be required during model update. [#14862](https://github.com/phalcon/cphalcon/issues/14862)
 - Fixed MySQL alter column when default value contains not only CURRENT_TIMESTAMP [#14880](https://github.com/phalcon/cphalcon/issues/14880)
 - Fixed MySQL default value with ON UPDATE expression [#14887](https://github.com/phalcon/cphalcon/pull/14887)
