@@ -24,7 +24,7 @@ class CreateTableCest
      * Tests Phalcon\Db\Adapter\Pdo\Mysql :: createTable()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2020-02-27
+     * @since  2020-05-02
      */
     public function dbAdapterPdoMysqlCreateTable(IntegrationTester $I)
     {
@@ -43,20 +43,46 @@ class CreateTableCest
                     ]
                 ),
                 new Column(
-                    'updated_at',
+                    'numeric_val',
+                    [
+                        'type'    => Column::TYPE_FLOAT,
+                        'default' => 21.42,
+                        'notNull' => true,
+                    ]
+                ),
+                new Column(
+                    'null_int',
+                    [
+                        'type'    => Column::TYPE_INTEGER,
+                        'size'    => 11,
+                        'notNull' => false,
+                        'after'   => 'numeric_val',
+                    ]
+                ),
+                new Column(
+                    'created_at',
                     [
                         'type'    => Column::TYPE_TIMESTAMP,
-                        'default' => "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
-                        'notNull' => false,
+                        'default' => "CURRENT_TIMESTAMP",
+                        'notNull' => true,
                         'after'   => 'created_at',
                     ]
                 ),
                 new Column(
-                    'numeric_val',
+                    'updated_at',
                     [
-                        'type'    => Column::TYPE_FLOAT,
+                        'type'    => Column::TYPE_TIMESTAMP,
+                        'default' => "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+                        'notNull' => true,
+                        'after'   => 'created_at',
+                    ]
+                ),
+                new Column(
+                    'deleted_at',
+                    [
+                        'type'    => Column::TYPE_TIMESTAMP,
                         'notNull' => false,
-                        'after'   => 'updated_at',
+                        'after'   => 'created_at',
                     ]
                 ),
             ],
@@ -70,8 +96,11 @@ class CreateTableCest
         $expected = <<<SQL
 CREATE TABLE `test` (
 	`id` INT(11) NOT NULL AUTO_INCREMENT,
-	`updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	`numeric_val` FLOAT,
+	`numeric_val` FLOAT NOT NULL DEFAULT 21.42,
+	`null_int` INT(11) NULL,
+	`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	`updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+	`deleted_at` TIMESTAMP NULL,
 	PRIMARY KEY (`id`)
 )
 SQL;
