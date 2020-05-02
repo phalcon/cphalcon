@@ -18,6 +18,7 @@
 - Fixed default value of the following `Phalcon\Annotations\Annotation`'s properties: `$arguments` and `$exprArguments` [#14977](https://github.com/phalcon/cphalcon/issues/14977)
 - Fixed return type hints of the following `Phalcon\Annotations\Annotation`'s methods: `getArgument`, `getName` and `getNamedArgument` [#14977](https://github.com/phalcon/cphalcon/issues/14977)
 - Fixed incorrect return type hint for `Phalcon\Http\Response\Cookies::setSignKey` [#14982](https://github.com/phalcon/cphalcon/issues/14982)
+- Fixed return type hints for `Phalcon\Config\ConfigFactory::load` and `Phalcon\Config\ConfigFactory::newInstance` to explicitly indicate the return type as `Phalcon\Config` instance [#14978](https://github.com/phalcon/cphalcon/issues/14978)
 
 # [4.0.5](https://github.com/phalcon/cphalcon/releases/tag/v4.0.5) (2020-03-07)
 ## Added
