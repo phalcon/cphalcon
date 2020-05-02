@@ -85,7 +85,7 @@ class AddColumnCest
                     [
                         'type'    => Column::TYPE_TIMESTAMP,
                         'notNull' => false,
-                        'after'   => 'created_at',
+                        'after'   => 'updated_at',
                     ]
                 ),
                 'ALTER TABLE `test` ADD `deleted_at` TIMESTAMP NULL AFTER `updated_at`',
