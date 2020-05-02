@@ -10,6 +10,7 @@
 
 namespace Phalcon\Acl\Adapter;
 
+use Phalcon\Acl\Enum;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Events\EventsAwareInterface;
 
@@ -21,7 +22,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     /**
      * Active access which the list is checking if some role can access it
      *
-     * @var string
+     * @var string|null
      */
     protected activeAccess { get };
 
@@ -36,28 +37,28 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      * Role which the list is checking if it's allowed to certain
      * component/access
      *
-     * @var string
+     * @var string|null
      */
     protected activeRole { get };
 
     /**
      * Component which the list is checking if some role can access it
      *
-     * @var string
+     * @var string|null
      */
     protected activeComponent { get };
 
     /**
      * Default access
      *
-     * @var bool
+     * @var int
      */
-    protected defaultAccess = false;
+    protected defaultAccess = Enum::DENY;
 
     /**
      * Events manager
      *
-     * @var mixed
+     * @var ManagerInterface|null
      */
     protected eventsManager;
 
