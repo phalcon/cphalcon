@@ -33,7 +33,7 @@ class Mysql extends Dialect
      */
     public function addColumn(string! tableName, string! schemaName, <ColumnInterface> column) -> string
     {
-        var afterPosition, defaultValue;
+        var afterPosition, defaultValue, upperDefaultValue;
         string sql;
 
         let sql = "ALTER TABLE " . this->prepareTable(tableName, schemaName) . " ADD `" . column->getName() . "` " . this->getColumnDefinition(column);
@@ -141,7 +141,7 @@ class Mysql extends Dialect
     {
         var temporary, options, table, columns, column, indexes, index,
             reference, references, indexName, columnLine, indexType, onDelete,
-            onUpdate, defaultValue;
+            onUpdate, defaultValue, upperDefaultValue;
         array createLines;
         string indexSql, referenceSql, sql;
 
@@ -692,7 +692,7 @@ class Mysql extends Dialect
      */
     public function modifyColumn(string! tableName, string! schemaName, <ColumnInterface> column, <ColumnInterface> currentColumn = null) -> string
     {
-        var afterPosition, defaultValue, columnDefinition;
+        var afterPosition, defaultValue, upperDefaultValue, columnDefinition;
         string sql;
 
         let columnDefinition = this->getColumnDefinition(column),
