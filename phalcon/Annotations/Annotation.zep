@@ -32,7 +32,7 @@ class Annotation
     /**
      * Annotation Name
      *
-     * @var string
+     * @var string|null
      */
     protected name;
 
@@ -46,8 +46,6 @@ class Annotation
 
         if fetch name, reflectionData["name"] {
             let this->name = reflectionData["name"];
-        } else {
-            let this->name = "";
         }
 
         /**
@@ -76,13 +74,15 @@ class Annotation
     /**
      * Returns an argument in a specific position
      */
-    public function getArgument(var position)
+    public function getArgument(var position) -> var | null
     {
         var argument;
 
         if fetch argument, this->arguments[position] {
             return argument;
         }
+
+        return null;
     }
 
     /**
@@ -160,7 +160,7 @@ class Annotation
     /**
      * Returns the annotation's name
      */
-    public function getName() -> string
+    public function getName() -> null | string
     {
         return this->name;
     }
@@ -168,13 +168,15 @@ class Annotation
     /**
      * Returns a named argument
      */
-    public function getNamedArgument(string! name)
+    public function getNamedArgument(string! name) -> var | null
     {
         var argument;
 
         if fetch argument, this->arguments[name] {
             return argument;
         }
+
+        return null;
     }
 
     /**

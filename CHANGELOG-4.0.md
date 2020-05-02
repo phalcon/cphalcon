@@ -15,6 +15,7 @@
 - Fixed testing suite to work with PHPUnit 9 when we upgrade [#14837](https://github.com/phalcon/cphalcon/issues/14837)
 - Fixed return type hints of the following `Phalcon\Acl\AbstractAdapter`'s methods: `getActiveAccess`, `getActiveRole` and `getActiveComponent` [#14974](https://github.com/phalcon/cphalcon/pull/14974)
 - Fixed default value of the following `Phalcon\Annotations\Annotation`'s properties: `$arguments` and `$exprArguments` [#14977](https://github.com/phalcon/cphalcon/issues/14977)
+- Fixed return type hints of the following `Phalcon\Annotations\Annotation`'s methods: `getArgument`, `getName` and `getNamedArgument` [#14977](https://github.com/phalcon/cphalcon/issues/14977)
 
 # [4.0.5](https://github.com/phalcon/cphalcon/releases/tag/v4.0.5) (2020-03-07)
 ## Added
