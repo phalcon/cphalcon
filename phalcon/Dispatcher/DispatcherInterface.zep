@@ -4,8 +4,8 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 
 namespace Phalcon\Dispatcher;
@@ -17,8 +17,10 @@ interface DispatcherInterface
 {
     /**
      * Dispatches a handle action taking into account the routing parameters
+     *
+     * @return object|false
      */
-    public function dispatch()  -> object | bool;
+    public function dispatch()  -> var | bool;
 
     /**
      * Forwards the execution flow to another controller/action

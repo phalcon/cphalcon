@@ -4,8 +4,8 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 
 namespace Phalcon\Mvc\Model;
@@ -18,7 +18,7 @@ use ReflectionFunction;
 use ReflectionMethod;
 
 /**
- * Phalcon\Mvc\Model\Binding
+ * Phalcon\Mvc\Model\Binder
  *
  * This is an class for binding models into params for handler
  */
@@ -94,8 +94,10 @@ class Binder implements BinderInterface
 
     /**
      * Find the model by param value.
+     *
+     * @return object|false
      */
-    protected function findBoundModel(var paramValue, string className) -> object | bool
+    protected function findBoundModel(var paramValue, string className) -> var | bool
     {
         return {className}::findFirst(paramValue);
     }
