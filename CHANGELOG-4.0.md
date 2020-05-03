@@ -36,6 +36,7 @@
   - `Phalcon\Mvc\Model\Binder::findBoundModel`
   - `Phalcon\Validation::getEntity`
   - `Phalcon\Validation\ValidationInterface::getEntity`
+- Fixed default value of `Phalcon\Crypt::$key` to satisfy the interface [#14989](https://github.com/phalcon/cphalcon/issues/14989)
 
 [#14987](https://github.com/phalcon/cphalcon/issues/14987)
 

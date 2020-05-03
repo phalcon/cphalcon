@@ -4,8 +4,8 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 
 namespace Phalcon;
@@ -46,18 +46,21 @@ class Crypt implements CryptInterface
      * @var string
      */
     protected authTag { get };
+
     /**
      * @var string
      */
     protected authData = "" { get };
+
     /**
      * @var int
      */
     protected authTagLength = 16 { get };
+
     /**
      * @var string
      */
-    protected key;
+    protected key = "";
 
     /**
      * @var int

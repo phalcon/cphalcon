@@ -5,8 +5,8 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -21,6 +21,8 @@ class GetSetKeyCest
     /**
      * Tests Phalcon\Crypt :: getKey()/setKey()
      *
+     * @param  UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-16
      */
@@ -30,7 +32,7 @@ class GetSetKeyCest
 
         $crypt = new Crypt();
 
-        $I->assertEmpty($crypt->getKey());
+        $I->assertEquals('', $crypt->getKey());
 
         $crypt->setKey('123456');
 
