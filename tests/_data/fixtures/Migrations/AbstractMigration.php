@@ -5,8 +5,8 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -34,25 +34,28 @@ abstract class AbstractMigration
     protected $table = '';
 
     /**
-     * AbstractMigration constructor.
+     * Migration constructor.
      *
      * @param PDO|null $connection
      */
-    public function __construct(PDO $connection = null)
+    final public function __construct(PDO $connection = null)
     {
         $this->connection = $connection;
+
         $this->clear();
     }
 
     /**
-     * Create the table by running all the SQL statements for it
+     * Create the table by running all the SQL statements for it.
+     *
+     * @return void
      */
-    public function create()
+    public function create(): void
     {
-        $driver     = $this
+        $driver = $this
             ->connection
-            ->getAttribute(PDO::ATTR_DRIVER_NAME)
-        ;
+            ->getAttribute(PDO::ATTR_DRIVER_NAME);
+
         $statements = $this->getSql($driver);
         foreach ($statements as $statement) {
             $this->connection->exec($statement);
@@ -60,35 +63,57 @@ abstract class AbstractMigration
     }
 
     /**
-     * Truncate the table
+     *  Retrieve a database connection driver name.
+     *
+     * @return string
      */
-    public function clear()
+    public function getDriverName(): string
     {
-        if ($this->connection) {
-            $driver     = $this
-                ->connection
-                ->getAttribute(PDO::ATTR_DRIVER_NAME)
-            ;
-            if ($driver === 'mysql') {
-                $this->connection->exec(
-                    'truncate table ' . $this->table . ';'
-                );
-            } elseif ($driver === 'sqlite') {
-                $this->connection->exec(
-                    'delete from ' . $this->table . ';'
-                );
-            } else {
-                $this->connection->exec(
-                    'truncate table ' . $this->table . ' cascade;'
-                );
-            }
+        if (!$this->connection) {
+            return '';
         }
+
+        return $this
+            ->connection
+            ->getAttribute(PDO::ATTR_DRIVER_NAME);
+    }
+
+    /**
+     * Truncate the table
+     *
+     * @return int The number of rows that were affected
+     */
+    public function clear(): int
+    {
+        if (!$this->connection) {
+            return 0;
+        }
+
+        $driver = $this->getDriverName();
+
+        if ($driver === 'mysql') {
+            return $this->connection->exec(
+                'truncate table ' . $this->table . ';'
+            );
+        }
+
+        if ($driver === 'sqlite') {
+            return $this->connection->exec(
+                'delete from ' . $this->table . ';'
+            );
+        }
+
+        return $this->connection->exec(
+            'truncate table ' . $this->table . ' cascade;'
+        );
     }
 
     /**
      * Drop the table
+     *
+     * @return void
      */
-    public function drop()
+    public function drop(): void
     {
         $this->connection->exec(
             'drop table if exists ' . $this->table . ';'
