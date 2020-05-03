@@ -13,7 +13,7 @@ namespace Phalcon\Flash;
 /**
  * Phalcon\Flash\FlashInterface
  *
- * Interface for Phalcon\Flash clases
+ * Interface for Phalcon\Flash classes
  */
 interface FlashInterface
 {
@@ -22,33 +22,33 @@ interface FlashInterface
      *
      * @return null|string|void
      */
-    public function error(string message) -> null | string;
+    public function error(string message) -> string | null;
 
     /**
      * Outputs a message
      *
      * @return null|string|void
      */
-    public function message(string type, string message) -> null | string;
+    public function message(string type, string message) -> string | null;
 
     /**
      * Shows a HTML notice/information message
      *
      * @return null|string|void
      */
-    public function notice(string message) -> null | string;
+    public function notice(string message) -> string | null;
 
     /**
      * Shows a HTML success message
      *
      * @return null|string|void
      */
-    public function success(string message) -> null | string;
+    public function success(string message) -> string | null;
 
     /**
      * Shows a HTML warning message
      *
      * @return null|string|void
      */
-    public function warning(string message) -> null | string;
+    public function warning(string message) -> string | null;
 }
