@@ -14,8 +14,11 @@ declare(strict_types=1);
 namespace Phalcon\Test\Database\Mvc\Model;
 
 use DatabaseTester;
+use Phalcon\Mvc\Model\Resultset\Complex;
+use Phalcon\Mvc\Model\Row;
 use Phalcon\Storage\Exception;
 use Phalcon\Test\Fixtures\Migrations\CustomersMigration;
+use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\RecordsTrait;
 use Phalcon\Test\Models\Customers;
@@ -38,6 +41,11 @@ class QueryCest
     private $customerMigration;
 
     /**
+     * @var InvoicesMigration
+     */
+    private $invoiceMigration;
+
+    /**
      * Executed before each test
      *
      * @param  DatabaseTester $I
@@ -54,6 +62,7 @@ class QueryCest
         $this->setDatabase($I);
 
         $this->customerMigration = new CustomersMigration($I->getConnection());
+        $this->invoiceMigration = new InvoicesMigration($I->getConnection());
     }
 
     /**
@@ -98,7 +107,7 @@ class QueryCest
      */
     public function mvcModelQueryIssue14783(DatabaseTester $I)
     {
-        $I->wantToTest('Mvc\Model - query()');
+        $I->wantToTest('Mvc\Model - query() - #14783');
 
         $this->addTestData($I);
 
@@ -109,6 +118,7 @@ class QueryCest
                 'join_1.*',
             ]
         );
+
         $query->leftJoin(
             InvoicesKeepSnapshots::class,
             'join_1.inv_cst_id = ' . CustomersKeepSnapshots::class . '.cst_id',
@@ -116,10 +126,13 @@ class QueryCest
         );
 
         $query->limit(20, 0);
+
+        /** @var Complex $resultsets */
         $resultsets = $query->execute();
 
         $I->assertEquals(20, $resultsets->count());
         foreach ($resultsets as $resultset) {
+            /** @var Row $resultset */
             $model = $this->transform($resultset);
             $I->assertInstanceOf(CustomersKeepSnapshots::class, $model);
             $I->assertInstanceOf(InvoicesKeepSnapshots::class, $model->invoices);
@@ -129,16 +142,16 @@ class QueryCest
     /**
      * Transforming method used for test
      *
-     * @param $resultset
+     * @param Row $row
      *
      * @issue 14783
      *
      * @return mixed
      */
-    private function transform($resultset)
+    private function transform(Row $row): CustomersKeepSnapshots
     {
-        $invoice           = $resultset->readAttribute(lcfirst(InvoicesKeepSnapshots::class));
-        $customer          = $resultset->readAttribute('join_1');
+        $invoice           = $row->readAttribute(lcfirst(CustomersKeepSnapshots::class));
+        $customer          = $row->readAttribute('join_1');
         $invoice->customer = $customer;
 
         return $invoice;
@@ -153,12 +166,20 @@ class QueryCest
     private function addTestData(DatabaseTester $I)
     {
         for ($counter = 1; $counter <= 50; $counter++) {
-            $firstName  = uniqid('inv-', true);
-            $lastName = uniqid('inv-', true);
+            $firstName = uniqid('inv-', true);
+            $lastName  = uniqid('inv-', true);
 
             if (!$this->customerMigration->insert($counter, 1, $firstName, $lastName)) {
-                $table = $this->customerMigration->getTable();
+                $table  = $this->customerMigration->getTable();
                 $driver = $this->customerMigration->getDriverName();
+                $I->fail(
+                    sprintf("Failed to insert row #%d into table '%s' using '%s' driver", $counter, $table, $driver)
+                );
+            }
+
+            if (!$this->invoiceMigration->insert($counter, $counter, 1, $firstName)) {
+                $table  = $this->invoiceMigration->getTable();
+                $driver = $this->invoiceMigration->getDriverName();
                 $I->fail(
                     sprintf("Failed to insert row #%d into table '%s' using '%s' driver", $counter, $table, $driver)
                 );
