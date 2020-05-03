@@ -309,7 +309,7 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
      *
      * @return null|string|void
      */
-    public function warning(string message) -> null | string
+    public function warning(string message) -> string | null
     {
         return this->{"message"}("warning", message);
     }

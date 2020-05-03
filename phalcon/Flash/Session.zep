@@ -14,8 +14,9 @@ use Phalcon\Di\DiInterface;
 use Phalcon\Session\ManagerInterface;
 
 /**
- * Temporarily stores the messages in session, then messages can be printed in
- * the next request
+ * This is an implementation of the Phalcon\Flash\FlashInterface that
+ * temporarily stores the messages in session, then messages can be printed in
+ * the next request.
  */
 class Session extends AbstractFlash
 {
@@ -160,7 +161,7 @@ class Session extends AbstractFlash
         }
 
         if likely container->has("session") {
-            return <RequestInterface> container->getShared("session");
+            return <ManagerInterface> container->getShared("session");
         } else {
             throw new Exception(
                 Exception::containerServiceNotFound("the 'session' service")
