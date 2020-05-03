@@ -5,8 +5,8 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -25,6 +25,8 @@ class NewInstanceCest
     /**
      * Tests Phalcon\Translate\InterpolatorFactory :: newInstance()
      *
+     * @param        UnitTester $I
+     * @param        Example $example
      * @dataProvider getExamples
      *
      * @author       Phalcon Team <team@phalcon.io>
@@ -44,6 +46,7 @@ class NewInstanceCest
     /**
      * Tests Phalcon\Translate\InterpolatorFactory :: newInstance() - exception
      *
+     * @param        UnitTester $I
      * @dataProvider getExamples
      *
      * @author       Phalcon Team <team@phalcon.io>
@@ -57,8 +60,7 @@ class NewInstanceCest
             new Exception('Service unknown is not registered'),
             function () {
                 $adapter = new InterpolatorFactory();
-
-                $service = $adapter->newInstance('unknown');
+                $adapter->newInstance('unknown');
             }
         );
     }

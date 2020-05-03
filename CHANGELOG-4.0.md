@@ -40,6 +40,7 @@
 - Fixed default value of `Phalcon\Crypt::$key` to satisfy the interface [#14989](https://github.com/phalcon/cphalcon/issues/14989)
 - Fixed return type hint for `Phalcon\Di::getInternalEventsManager` [#14992](https://github.com/phalcon/cphalcon/issues/14992)
 - Fixed return type hints of the following `Phalcon\Flash\AbstractFlash`'s methods: `error`, `notice`, `success` and `warning` [#14994](https://github.com/phalcon/cphalcon/issues/14994)
+- Fixed return type hint for `Phalcon\Translate\InterpolatorFactory::newInstance` [#14996](https://github.com/phalcon/cphalcon/issues/14996)
 
 [#14987](https://github.com/phalcon/cphalcon/issues/14987)
 
