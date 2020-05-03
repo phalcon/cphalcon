@@ -4,8 +4,8 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 
 namespace Phalcon;
@@ -63,23 +63,27 @@ class Di implements DiInterface
 {
     /**
      * List of registered services
+     *
+     * @var ServiceInterface[]
      */
-    protected services;
+    protected services = [];
 
     /**
      * List of shared instances
      */
-    protected sharedInstances;
+    protected sharedInstances = [];
 
     /**
      * Events Manager
      *
-     * @var ManagerInterface
+     * @var ManagerInterface | null
      */
     protected eventsManager;
 
     /**
      * Latest DI build
+     *
+     * @var DiInterface | null
      */
     protected static _default;
 
@@ -265,7 +269,7 @@ class Di implements DiInterface
     /**
      * Returns the internal event manager
      */
-    public function getInternalEventsManager() -> <ManagerInterface>
+    public function getInternalEventsManager() -> <ManagerInterface> | null
     {
         return this->eventsManager;
     }
