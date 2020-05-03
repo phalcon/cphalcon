@@ -118,7 +118,7 @@ class QueryCest
         $query->limit(20, 0);
         $resultsets = $query->execute();
 
-        $I->assertCount(20, $resultsets->toArray());
+        $I->assertEquals(20, $resultsets->count());
         foreach ($resultsets as $resultset) {
             $model = $this->transform($resultset);
             $I->assertInstanceOf(CustomersKeepSnapshots::class, $model);
