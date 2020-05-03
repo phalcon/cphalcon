@@ -5,8 +5,8 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -154,16 +154,13 @@ class QueryCest
     {
         for ($counter = 1; $counter <= 50; $counter++) {
             $firstName  = uniqid('inv-', true);
-            $secondName = uniqid('inv-', true);
+            $lastName = uniqid('inv-', true);
 
-            if (!$this->customerMigration->insert($counter, 1, $firstName, $secondName)) {
+            if (!$this->customerMigration->insert($counter, 1, $firstName, $lastName)) {
+                $table = $this->customerMigration->getTable();
+                $driver = $this->customerMigration->getDriverName();
                 $I->fail(
-                    sprintf(
-                        "Failed to insert row #%d into table '%s' using '%s' driver",
-                        $counter,
-                        $this->customerMigration->getTable(),
-                        $this->customerMigration->getDriverName()
-                    )
+                    sprintf("Failed to insert row #%d into table '%s' using '%s' driver", $counter, $table, $driver)
                 );
             }
         }
