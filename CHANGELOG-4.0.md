@@ -37,6 +37,7 @@
   - `Phalcon\Validation::getEntity`
   - `Phalcon\Validation\ValidationInterface::getEntity`
 - Fixed default value of `Phalcon\Crypt::$key` to satisfy the interface [#14989](https://github.com/phalcon/cphalcon/issues/14989)
+- Fixed return type hint for `Phalcon\Di::getInternalEventsManager` [#14992](https://github.com/phalcon/cphalcon/issues/14992)
 
 [#14987](https://github.com/phalcon/cphalcon/issues/14987)
 
