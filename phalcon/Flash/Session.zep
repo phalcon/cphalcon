@@ -4,8 +4,8 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 
 namespace Phalcon\Flash;
@@ -14,8 +14,9 @@ use Phalcon\Di\DiInterface;
 use Phalcon\Session\ManagerInterface;
 
 /**
- * Temporarily stores the messages in session, then messages can be printed in
- * the next request
+ * This is an implementation of the Phalcon\Flash\FlashInterface that
+ * temporarily stores the messages in session, then messages can be printed in
+ * the next request.
  */
 class Session extends AbstractFlash
 {
@@ -54,6 +55,8 @@ class Session extends AbstractFlash
 
     /**
      * Adds a message to the session flasher
+     *
+     * @return null|string|void
      */
     public function message(string type, string message) -> string | null
     {
@@ -158,7 +161,7 @@ class Session extends AbstractFlash
         }
 
         if likely container->has("session") {
-            return <RequestInterface> container->getShared("session");
+            return <ManagerInterface> container->getShared("session");
         } else {
             throw new Exception(
                 Exception::containerServiceNotFound("the 'session' service")
