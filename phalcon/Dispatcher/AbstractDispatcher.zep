@@ -4,8 +4,8 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 
 namespace Phalcon\Dispatcher;
@@ -120,7 +120,7 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
      *
      * @throws \Exception if any uncaught or unhandled exception occurs during the dispatcher process.
      */
-    public function dispatch() -> object | bool
+    public function dispatch() -> var | bool
     {
         bool hasService, hasEventsManager;
         int numberDispatches;

@@ -4,8 +4,8 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  *
  * Implementation of this file has been influenced by Zend Diactoros
  * @link    https://github.com/zendframework/zend-diactoros
@@ -161,9 +161,9 @@ abstract class AbstractMessage extends AbstractCommon
      * @param string          $name
      * @param string|string[] $value
      *
-     * @return self
+     * @return static
      */
-    public function withAddedHeader(var name, var value) -> object
+    public function withAddedHeader(var name, var value) -> var
     {
         var existing, headers;
 
@@ -190,11 +190,11 @@ abstract class AbstractMessage extends AbstractCommon
      *
      * @param StreamInterface $body
      *
-     * @return self
+     * @return static
      * @throws InvalidArgumentException When the body is not valid.
      *
      */
-    public function withBody(<StreamInterface> body) -> object
+    public function withBody(<StreamInterface> body) -> var
     {
         var newBody;
 
@@ -217,11 +217,11 @@ abstract class AbstractMessage extends AbstractCommon
      * @param string          $name
      * @param string|string[] $value
      *
-     * @return self
+     * @return static
      * @throws InvalidArgumentException for invalid header names or values.
      *
      */
-    public function withHeader(var name, var value) -> object
+    public function withHeader(var name, var value) -> var
     {
         var headers;
 
@@ -247,9 +247,9 @@ abstract class AbstractMessage extends AbstractCommon
      *
      * @param string $version
      *
-     * @return self
+     * @return static
      */
-    public function withProtocolVersion(var version) -> object
+    public function withProtocolVersion(var version) -> var
     {
         this->processProtocol(version);
 
@@ -267,9 +267,9 @@ abstract class AbstractMessage extends AbstractCommon
      *
      * @param string $name
      *
-     * @return self
+     * @return static
      */
-    public function withoutHeader(var name) -> object
+    public function withoutHeader(var name) -> var
     {
         var headers;
 

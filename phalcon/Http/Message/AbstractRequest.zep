@@ -4,8 +4,8 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  *
  * Implementation of this file has been influenced by Zend Diactoros
  * @link    https://github.com/zendframework/zend-diactoros
@@ -95,11 +95,10 @@ abstract class AbstractRequest extends AbstractMessage
      *
      * @param string $method
      *
-     * @return object
+     * @return static
      * @throws InvalidArgumentException for invalid HTTP methods.
-     *
      */
-    public function withMethod(var method) -> object
+    public function withMethod(var method) -> var
     {
         this->processMethod(method);
 
@@ -123,9 +122,9 @@ abstract class AbstractRequest extends AbstractMessage
      *
      * @param mixed $requestTarget
      *
-     * @return object
+     * @return static
      */
-    public function withRequestTarget(var requestTarget) -> object
+    public function withRequestTarget(var requestTarget) -> var
     {
         if unlikely preg_match("/\s/", requestTarget) {
             throw new InvalidArgumentException(
@@ -167,9 +166,9 @@ abstract class AbstractRequest extends AbstractMessage
      * @param UriInterface $uri
      * @param bool         $preserveHost
      *
-     * @return object
+     * @return static
      */
-    public function withUri(<UriInterface> uri, var preserveHost = false) -> object
+    public function withUri(<UriInterface> uri, var preserveHost = false) -> var
     {
         var headers, newInstance;
 

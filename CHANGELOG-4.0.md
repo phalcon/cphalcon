@@ -19,6 +19,25 @@
 - Fixed return type hints of the following `Phalcon\Annotations\Annotation`'s methods: `getArgument`, `getName` and `getNamedArgument` [#14977](https://github.com/phalcon/cphalcon/issues/14977)
 - Fixed incorrect return type hint for `Phalcon\Http\Response\Cookies::setSignKey` [#14982](https://github.com/phalcon/cphalcon/issues/14982)
 - Fixed return type hints for `Phalcon\Config\ConfigFactory::load` and `Phalcon\Config\ConfigFactory::newInstance` to explicitly indicate the return type as `Phalcon\Config` instance [#14978](https://github.com/phalcon/cphalcon/issues/14978)
+- Fixed return type hints for the following methods [#14987](https://github.com/phalcon/cphalcon/issues/14987):
+  - `Phalcon\Dispatcher\AbstractDispatcher::dispatch`
+  - `Phalcon\Dispatcher\DispatcherInterface::dispatch`
+  - `Phalcon\Filter::get`
+  - `Phalcon\Http\Message\AbstractCommon::cloneInstance`
+  - `Phalcon\Http\Message\AbstractCommon::processWith`
+  - `Phalcon\Http\Message\AbstractMessage::withAddedHeader`
+  - `Phalcon\Http\Message\AbstractMessage::withBody`
+  - `Phalcon\Http\Message\AbstractMessage::withHeader`
+  - `Phalcon\Http\Message\AbstractMessage::withProtocolVersion`
+  - `Phalcon\Http\Message\AbstractMessage::withoutHeader`
+  - `Phalcon\Http\Message\AbstractRequest::withMethod`
+  - `Phalcon\Http\Message\AbstractRequest::withRequestTarget`
+  - `Phalcon\Http\Message\AbstractRequest::withUri`
+  - `Phalcon\Mvc\Model\Binder::findBoundModel`
+  - `Phalcon\Validation::getEntity`
+  - `Phalcon\Validation\ValidationInterface::getEntity`
+
+[#14987](https://github.com/phalcon/cphalcon/issues/14987)
 
 # [4.0.5](https://github.com/phalcon/cphalcon/releases/tag/v4.0.5) (2020-03-07)
 ## Added
