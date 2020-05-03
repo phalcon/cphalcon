@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Phalcon\Test\Fixtures\Migrations;
 
 use PDO;
-use Phalcon\DataMapper\Pdo\Connection;
 
 /**
  * Class AbstractMigration
@@ -37,20 +36,11 @@ abstract class AbstractMigration
     /**
      * Migration constructor.
      *
-     * @param PDO|Connection|null $connection
+     * @param PDO|null $connection
      */
-    final public function __construct($connection = null)
+    final public function __construct(PDO $connection = null)
     {
-        if ($connection !== null && !$connection instanceof PDO && !$connection instanceof Connection) {
-            $actual = is_object($connection) ? get_class($connection) : $connection;
-            throw new \InvalidArgumentException(sprintf('Unsupported connection type: %s', $actual));
-        }
-
-        if ($connection instanceof Connection) {
-            $this->connection = $connection->getAdapter();
-        } else {
-            $this->connection = $connection;
-        }
+        $this->connection = $connection;
 
         $this->clear();
     }
