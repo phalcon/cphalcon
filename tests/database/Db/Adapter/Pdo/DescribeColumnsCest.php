@@ -5,8 +5,8 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -23,18 +23,46 @@ final class DescribeColumnsCest
     use DiTrait;
 
     /**
-     * @param DatabaseTester $I
-     *
-     * @throws Exception
+     * @var ComplexDefaultMigration
      */
-    public function _before(DatabaseTester $I)
+    private $migration;
+
+    /**
+     * Executed before each test
+     *
+     * @param  DatabaseTester $I
+     * @return void
+     */
+    public function _before(DatabaseTester $I): void
     {
-        $this->setNewFactoryDefault();
+        try {
+            $this->setNewFactoryDefault();
+        } catch (Exception $e) {
+            $I->fail($e->getMessage());
+        }
+
         $this->setDatabase($I);
+
+        $this->migration = new ComplexDefaultMigration($I->getConnection());
+    }
+
+    /**
+     * Executed after each test
+     *
+     * @param  DatabaseTester $I
+     * @return void
+     */
+    public function _after(DatabaseTester $I): void
+    {
+        if ($this->migration) {
+            $this->migration->clear();
+        }
     }
 
     /**
      * Tests Phalcon\Db\Adapter\Pdo :: describeColumns()
+     *
+     * @param  DatabaseTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-03-02
@@ -45,14 +73,12 @@ final class DescribeColumnsCest
     {
         $I->wantToTest('Db\Adapter\Pdo - describeColumns()');
 
-        $connection = $I->getConnection();
-        $db         = $this->container->get('db');
+        $db  = $this->container->get('db');
+        $now = date('Y-m-d H:i:s');
 
-        $now       = date('Y-m-d H:i:s');
-        $migration = new ComplexDefaultMigration($connection);
-        $migration->insert(1, $now, $now);
+        $this->migration->insert(1, $now, $now);
 
-        $columns = $db->describeColumns($migration->getTable());
+        $columns = $db->describeColumns($this->migration->getTable());
 
         $I->assertSame('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP', $columns[2]->getDefault());
         $I->assertSame('NULL on update CURRENT_TIMESTAMP', $columns[3]->getDefault());
@@ -60,6 +86,8 @@ final class DescribeColumnsCest
 
     /**
      * Tests Phalcon\Db\Adapter\Pdo :: describeColumns()
+     *
+     * @param  DatabaseTester $I
      *
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2020-03-09
@@ -70,16 +98,19 @@ final class DescribeColumnsCest
     {
         $I->wantToTest('Db\Adapter\Pdo - describeColumns() - CheckPostgres Default value');
 
-        $connection = $I->getConnection();
-        $db         = $this->container->get('db');
+        $db  = $this->container->get('db');
+        $now = date('Y-m-d H:i:s');
 
-        $now       = date('Y-m-d H:i:s');
-        $migration = new ComplexDefaultMigration($connection);
-        $migration->insert(1, $now, $now);
+        $this->migration->insert(1, $now, $now);
 
-        $columns = $db->describeColumns($migration->getTable());
+        $columns = $db->describeColumns($this->migration->getTable());
 
         $I->assertSame('CURRENT_TIMESTAMP', $columns[1]->getDefault());
-        $I->assertSame('CURRENT_TIMESTAMP', $columns[2]->getDefault());
+
+        if ($I->getDriver() === 'mysql') {
+            $I->assertSame('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP', $columns[2]->getDefault());
+        } else {
+            $I->assertSame('CURRENT_TIMESTAMP', $columns[2]->getDefault());
+        }
     }
 }
