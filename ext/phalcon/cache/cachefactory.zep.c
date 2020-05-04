@@ -59,7 +59,7 @@ PHP_METHOD(Phalcon_Cache_CacheFactory, __construct) {
 
 
 
-	zephir_update_property_zval(this_ptr, ZEND_STRL("adapterFactory"), factory);
+	zephir_update_property_zval(this_ptr, SL("adapterFactory"), factory);
 
 }
 

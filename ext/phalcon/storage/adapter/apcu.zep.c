@@ -85,8 +85,8 @@ PHP_METHOD(Phalcon_Storage_Adapter_Apcu, __construct) {
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "ph-apcu-");
-	zephir_update_property_zval(this_ptr, ZEND_STRL("prefix"), &_0);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("options"), &options);
+	zephir_update_property_zval(this_ptr, SL("prefix"), &_0);
+	zephir_update_property_zval(this_ptr, SL("options"), &options);
 	ZEPHIR_CALL_PARENT(NULL, phalcon_storage_adapter_apcu_ce, getThis(), "__construct", &_1, 0, factory, &options);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "initserializer", NULL, 0);
@@ -537,7 +537,7 @@ zend_object *zephir_init_properties_Phalcon_Storage_Adapter_Apcu(zend_class_entr
 		if (Z_TYPE_P(&_0) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_1$$3);
 			array_init(&_1$$3);
-			zend_update_property(Z_OBJCE_P(this_ptr), this_ptr, ZEND_STRL("options"), &_1$$3);
+			zephir_update_property_zval(this_ptr, SL("options"), &_1$$3);
 		}
 		ZEPHIR_MM_RESTORE();
 		return Z_OBJ_P(this_ptr);

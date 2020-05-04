@@ -33,13 +33,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_validation_validationint
 	ZEND_ARG_INFO(0, data)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_validation_validationinterface_getentity, 0, 0, NULL, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_validation_validationinterface_getentity, 0, 0, IS_OBJECT, "NULL", 0)
-#endif
-ZEND_END_ARG_INFO()
-
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_validationinterface_getfilters, 0, 0, 0)
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, field, IS_STRING, 1)
@@ -148,7 +141,7 @@ ZEPHIR_INIT_FUNCS(phalcon_validation_validationinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Validation_ValidationInterface, add, arginfo_phalcon_validation_validationinterface_add)
 	PHP_ABSTRACT_ME(Phalcon_Validation_ValidationInterface, appendMessage, arginfo_phalcon_validation_validationinterface_appendmessage)
 	PHP_ABSTRACT_ME(Phalcon_Validation_ValidationInterface, bind, arginfo_phalcon_validation_validationinterface_bind)
-	PHP_ABSTRACT_ME(Phalcon_Validation_ValidationInterface, getEntity, arginfo_phalcon_validation_validationinterface_getentity)
+	PHP_ABSTRACT_ME(Phalcon_Validation_ValidationInterface, getEntity, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Validation_ValidationInterface, getFilters, arginfo_phalcon_validation_validationinterface_getfilters)
 	PHP_ABSTRACT_ME(Phalcon_Validation_ValidationInterface, getLabel, arginfo_phalcon_validation_validationinterface_getlabel)
 	PHP_ABSTRACT_ME(Phalcon_Validation_ValidationInterface, getMessages, arginfo_phalcon_validation_validationinterface_getmessages)

@@ -19,11 +19,11 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 /**
- * Exceptions thrown in Phalcon\Flash will use this class
+ * Exceptions thrown in Phalcon\Flash calsses will use this class
  */
 ZEPHIR_INIT_CLASS(Phalcon_Flash_Exception) {
 

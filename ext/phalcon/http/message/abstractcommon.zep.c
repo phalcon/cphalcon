@@ -24,8 +24,8 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  *
  * Implementation of this file has been influenced by Zend Diactoros
  * @link    https://github.com/zendframework/zend-diactoros
@@ -48,7 +48,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_AbstractCommon) {
  * @param mixed  $element
  * @param string $property
  *
- * @return mixed
+ * @return static
  */
 PHP_METHOD(Phalcon_Http_Message_AbstractCommon, cloneInstance) {
 
@@ -106,7 +106,7 @@ PHP_METHOD(Phalcon_Http_Message_AbstractCommon, checkStringParameter) {
  * @param mixed  $element
  * @param string $property
  *
- * @return mixed
+ * @return static
  */
 PHP_METHOD(Phalcon_Http_Message_AbstractCommon, processWith) {
 

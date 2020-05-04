@@ -96,7 +96,7 @@ PHP_METHOD(Phalcon_Html_Breadcrumbs, setSeparator) {
 	zephir_get_strval(&separator, separator_param);
 
 
-	zephir_update_property_zval(this_ptr, ZEND_STRL("separator"), &separator);
+	zephir_update_property_zval(this_ptr, SL("separator"), &separator);
 	RETURN_THIS();
 
 }
@@ -158,7 +158,7 @@ PHP_METHOD(Phalcon_Html_Breadcrumbs, clear) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	array_init(&_0);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("elements"), &_0);
+	zephir_update_property_zval(this_ptr, SL("elements"), &_0);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -193,7 +193,7 @@ PHP_METHOD(Phalcon_Html_Breadcrumbs, remove) {
 	zephir_read_property(&_0, this_ptr, SL("elements"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&elements, &_0);
 	zephir_array_unset(&elements, &link, PH_SEPARATE);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("elements"), &elements);
+	zephir_update_property_zval(this_ptr, SL("elements"), &elements);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -379,7 +379,7 @@ zend_object *zephir_init_properties_Phalcon_Html_Breadcrumbs(zend_class_entry *c
 		if (Z_TYPE_P(&_0) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_1$$3);
 			array_init(&_1$$3);
-			zend_update_property(Z_OBJCE_P(this_ptr), this_ptr, ZEND_STRL("elements"), &_1$$3);
+			zephir_update_property_zval(this_ptr, SL("elements"), &_1$$3);
 		}
 		ZEPHIR_MM_RESTORE();
 		return Z_OBJ_P(this_ptr);

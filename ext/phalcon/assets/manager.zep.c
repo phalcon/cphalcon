@@ -80,7 +80,7 @@ PHP_METHOD(Phalcon_Assets_Manager, __construct) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, ZEND_STRL("options"), &options);
+	zephir_update_property_zval(this_ptr, SL("options"), &options);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -2084,7 +2084,7 @@ PHP_METHOD(Phalcon_Assets_Manager, setOptions) {
 	ZEPHIR_OBS_COPY_OR_DUP(&options, options_param);
 
 
-	zephir_update_property_zval(this_ptr, ZEND_STRL("options"), &options);
+	zephir_update_property_zval(this_ptr, SL("options"), &options);
 	RETURN_THIS();
 
 }
@@ -2107,9 +2107,9 @@ PHP_METHOD(Phalcon_Assets_Manager, useImplicitOutput) {
 
 
 	if (implicitOutput) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("implicitOutput"), &__$true);
+		zephir_update_property_zval(this_ptr, SL("implicitOutput"), &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("implicitOutput"), &__$false);
+		zephir_update_property_zval(this_ptr, SL("implicitOutput"), &__$false);
 	}
 	RETURN_THISW();
 

@@ -239,7 +239,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, getColumnNameReal) {
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(&_5$$3, &_3$$3, "getcolumnmap", NULL, 0, record);
 		zephir_check_call_status();
-		zephir_update_property_zval(this_ptr, ZEND_STRL("columnMap"), &_5$$3);
+		zephir_update_property_zval(this_ptr, SL("columnMap"), &_5$$3);
 	}
 	ZEPHIR_OBS_VAR(&_6);
 	zephir_read_property(&_6, this_ptr, SL("columnMap"), PH_NOISY_CC);

@@ -7,11 +7,7 @@ PHP_METHOD(Phalcon_Http_Message_AbstractCommon, cloneInstance);
 PHP_METHOD(Phalcon_Http_Message_AbstractCommon, checkStringParameter);
 PHP_METHOD(Phalcon_Http_Message_AbstractCommon, processWith);
 
-#if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_message_abstractcommon_cloneinstance, 0, 2, NULL, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_abstractcommon_cloneinstance, 0, 2, IS_OBJECT, "NULL", 0)
-#endif
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_message_abstractcommon_cloneinstance, 0, 0, 2)
 	ZEND_ARG_INFO(0, element)
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, property, IS_STRING, 0)
@@ -34,11 +30,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_message_abstractcommon_checkstringpa
 	ZEND_ARG_INFO(0, element)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_message_abstractcommon_processwith, 0, 2, NULL, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_abstractcommon_processwith, 0, 2, IS_OBJECT, "NULL", 0)
-#endif
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_message_abstractcommon_processwith, 0, 0, 2)
 	ZEND_ARG_INFO(0, element)
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, property, IS_STRING, 0)

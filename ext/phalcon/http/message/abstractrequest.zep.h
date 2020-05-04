@@ -26,27 +26,15 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_abstractreq
 #endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_message_abstractrequest_withmethod, 0, 1, NULL, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_abstractrequest_withmethod, 0, 1, IS_OBJECT, "NULL", 0)
-#endif
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_message_abstractrequest_withmethod, 0, 0, 1)
 	ZEND_ARG_INFO(0, method)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_message_abstractrequest_withrequesttarget, 0, 1, NULL, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_abstractrequest_withrequesttarget, 0, 1, IS_OBJECT, "NULL", 0)
-#endif
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_message_abstractrequest_withrequesttarget, 0, 0, 1)
 	ZEND_ARG_INFO(0, requestTarget)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_message_abstractrequest_withuri, 0, 1, NULL, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_abstractrequest_withuri, 0, 1, IS_OBJECT, "NULL", 0)
-#endif
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_message_abstractrequest_withuri, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, uri, Psr\\Http\\Message\\UriInterface, 0)
 	ZEND_ARG_INFO(0, preserveHost)
 ZEND_END_ARG_INFO()

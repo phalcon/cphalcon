@@ -86,7 +86,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Stream, __construct) {
 
 
 	if (zephir_array_isset_string_fetch(&annotationsDir, &options, SL("annotationsDir"), 1)) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("annotationsDir"), &annotationsDir);
+		zephir_update_property_zval(this_ptr, SL("annotationsDir"), &annotationsDir);
 	}
 	ZEPHIR_MM_RESTORE();
 

@@ -262,9 +262,9 @@ PHP_METHOD(Phalcon_Http_Message_UploadedFile, __construct) {
 	zephir_check_call_status();
 	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(&_0, size);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("size"), &_0);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("clientFilename"), &clientFilename);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("clientMediaType"), &clientMediaType);
+	zephir_update_property_zval(this_ptr, SL("size"), &_0);
+	zephir_update_property_zval(this_ptr, SL("clientFilename"), &clientFilename);
+	zephir_update_property_zval(this_ptr, SL("clientMediaType"), &clientMediaType);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -328,7 +328,7 @@ PHP_METHOD(Phalcon_Http_Message_UploadedFile, getStream) {
 		zephir_read_property(&_7$$5, this_ptr, SL("fileName"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(NULL, &_6$$5, "__construct", NULL, 42, &_7$$5);
 		zephir_check_call_status();
-		zephir_update_property_zval(this_ptr, ZEND_STRL("stream"), &_6$$5);
+		zephir_update_property_zval(this_ptr, SL("stream"), &_6$$5);
 	}
 	RETURN_MM_MEMBER(getThis(), "stream");
 
@@ -472,9 +472,9 @@ PHP_METHOD(Phalcon_Http_Message_UploadedFile, moveTo) {
 		}
 	}
 	if (1) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("alreadyMoved"), &__$true);
+		zephir_update_property_zval(this_ptr, SL("alreadyMoved"), &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("alreadyMoved"), &__$false);
+		zephir_update_property_zval(this_ptr, SL("alreadyMoved"), &__$false);
 	}
 	ZEPHIR_MM_RESTORE();
 
@@ -515,7 +515,7 @@ PHP_METHOD(Phalcon_Http_Message_UploadedFile, checkError) {
 	}
 	ZEPHIR_INIT_ZVAL_NREF(_2);
 	ZVAL_LONG(&_2, error);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("error"), &_2);
+	zephir_update_property_zval(this_ptr, SL("error"), &_2);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -547,7 +547,7 @@ PHP_METHOD(Phalcon_Http_Message_UploadedFile, checkStream) {
 		do {
 			_0$$3 = 1;
 			if (_0$$3 == (Z_TYPE_P(stream) == IS_STRING)) {
-				zephir_update_property_zval(this_ptr, ZEND_STRL("fileName"), stream);
+				zephir_update_property_zval(this_ptr, SL("fileName"), stream);
 				break;
 			}
 			if (_0$$3 == (Z_TYPE_P(stream) == IS_RESOURCE)) {
@@ -555,11 +555,11 @@ PHP_METHOD(Phalcon_Http_Message_UploadedFile, checkStream) {
 				object_init_ex(&_1$$5, phalcon_http_message_stream_ce);
 				ZEPHIR_CALL_METHOD(NULL, &_1$$5, "__construct", NULL, 42, stream);
 				zephir_check_call_status();
-				zephir_update_property_zval(this_ptr, ZEND_STRL("stream"), &_1$$5);
+				zephir_update_property_zval(this_ptr, SL("stream"), &_1$$5);
 				break;
 			}
 			if (_0$$3 == (zephir_is_instance_of(stream, SL("Psr\\Http\\Message\\StreamInterface")))) {
-				zephir_update_property_zval(this_ptr, ZEND_STRL("stream"), stream);
+				zephir_update_property_zval(this_ptr, SL("stream"), stream);
 				break;
 			}
 			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_message_exception_invalidargumentexception_ce, "Invalid stream or file passed", "phalcon/Http/Message/UploadedFile.zep", 289);

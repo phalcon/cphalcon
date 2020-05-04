@@ -171,9 +171,9 @@ PHP_METHOD(Phalcon_Events_Manager, collectResponses) {
 
 
 	if (collect) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("collect"), &__$true);
+		zephir_update_property_zval(this_ptr, SL("collect"), &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("collect"), &__$false);
+		zephir_update_property_zval(this_ptr, SL("collect"), &__$false);
 	}
 
 }
@@ -300,7 +300,7 @@ PHP_METHOD(Phalcon_Events_Manager, detachAll) {
 
 
 	if (ZEPHIR_IS_STRING_IDENTICAL(&type, "")) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("events"), &__$null);
+		zephir_update_property_zval(this_ptr, SL("events"), &__$null);
 	} else {
 		zephir_read_property(&_0$$4, this_ptr, SL("events"), PH_NOISY_CC | PH_READONLY);
 		if (zephir_array_isset(&_0$$4, &type)) {
@@ -330,9 +330,9 @@ PHP_METHOD(Phalcon_Events_Manager, enablePriorities) {
 
 
 	if (enablePriorities) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("enablePriorities"), &__$true);
+		zephir_update_property_zval(this_ptr, SL("enablePriorities"), &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("enablePriorities"), &__$false);
+		zephir_update_property_zval(this_ptr, SL("enablePriorities"), &__$false);
 	}
 
 }
@@ -424,7 +424,7 @@ PHP_METHOD(Phalcon_Events_Manager, fire) {
 	ZVAL_NULL(&status);
 	zephir_read_property(&_0, this_ptr, SL("collect"), PH_NOISY_CC | PH_READONLY);
 	if (zephir_is_true(&_0)) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("responses"), &__$null);
+		zephir_update_property_zval(this_ptr, SL("responses"), &__$null);
 	}
 	ZEPHIR_INIT_VAR(&event);
 	object_init_ex(&event, phalcon_events_event_ce);
