@@ -40,6 +40,35 @@ class LimitCest
     }
 
     /**
+     * Tests Phalcon\Mvc\Model\Criteria :: limit() - null
+     *
+     * @param  DatabaseTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-05-04
+     *
+     * @group  common
+     */
+    public function mvcModelCriteriaNoLimit(DatabaseTester $I)
+    {
+        $I->wantToTest('Mvc\Model\Criteria - limit() - null');
+
+        $criteria = new Criteria();
+        $criteria->setDI($this->container);
+        $criteria->setModelName(Invoices::class);
+
+        $builder = $criteria->createBuilder();
+
+        $I->assertInstanceOf(Builder::class, $builder);
+
+        $expected = 'SELECT [Phalcon\Test\Models\Invoices].* '
+            . 'FROM [Phalcon\Test\Models\Invoices]';
+
+        $I->assertEquals($expected, $builder->getPhql());
+        $I->assertEquals(null, $criteria->getLimit());
+    }
+
+    /**
      * Tests Phalcon\Mvc\Model\Criteria :: limit()
      *
      * @param  DatabaseTester $I

@@ -401,7 +401,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
      */
     public function getLimit()  -> int | array | null
     {
-        var limit, offset;
+        var limit;
 
         if !fetch limit, this->params["limit"] {
             return null;
