@@ -154,26 +154,26 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, __construct) {
 	if (Z_TYPE_P(result) != IS_OBJECT) {
 		ZEPHIR_INIT_ZVAL_NREF(_0$$3);
 		ZVAL_LONG(&_0$$3, 0);
-		zephir_update_property_zval(this_ptr, ZEND_STRL("count"), &_0$$3);
+		zephir_update_property_zval(this_ptr, SL("count"), &_0$$3);
 		ZEPHIR_INIT_VAR(&_1$$3);
 		array_init(&_1$$3);
-		zephir_update_property_zval(this_ptr, ZEND_STRL("rows"), &_1$$3);
+		zephir_update_property_zval(this_ptr, SL("rows"), &_1$$3);
 		RETURN_MM_NULL();
 	}
-	zephir_update_property_zval(this_ptr, ZEND_STRL("result"), result);
+	zephir_update_property_zval(this_ptr, SL("result"), result);
 	if (Z_TYPE_P(cache) != IS_NULL) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("cache"), cache);
+		zephir_update_property_zval(this_ptr, SL("cache"), cache);
 	}
 	ZVAL_LONG(&_2, 2);
 	ZEPHIR_CALL_METHOD(NULL, result, "setfetchmode", NULL, 0, &_2);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&rowCount, result, "numrows", NULL, 0);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, ZEND_STRL("count"), &rowCount);
+	zephir_update_property_zval(this_ptr, SL("count"), &rowCount);
 	if (ZEPHIR_IS_LONG(&rowCount, 0)) {
 		ZEPHIR_INIT_VAR(&_3$$5);
 		array_init(&_3$$5);
-		zephir_update_property_zval(this_ptr, ZEND_STRL("rows"), &_3$$5);
+		zephir_update_property_zval(this_ptr, SL("rows"), &_3$$5);
 		RETURN_MM_NULL();
 	}
 	prefetchRecords = ZEPHIR_GLOBAL(orm).resultset_prefetch_records;
@@ -185,11 +185,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, __construct) {
 		ZEPHIR_CALL_METHOD(&rows, result, "fetchall", NULL, 0);
 		zephir_check_call_status();
 		if (Z_TYPE_P(&rows) == IS_ARRAY) {
-			zephir_update_property_zval(this_ptr, ZEND_STRL("rows"), &rows);
+			zephir_update_property_zval(this_ptr, SL("rows"), &rows);
 		} else {
 			ZEPHIR_INIT_VAR(&_5$$8);
 			array_init(&_5$$8);
-			zephir_update_property_zval(this_ptr, ZEND_STRL("rows"), &_5$$8);
+			zephir_update_property_zval(this_ptr, SL("rows"), &_5$$8);
 		}
 	}
 	ZEPHIR_MM_RESTORE();
@@ -283,7 +283,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, delete) {
 		if (!(zephir_is_true(&_6$$3))) {
 			ZEPHIR_CALL_METHOD(&_7$$8, &record, "getmessages", NULL, 0);
 			zephir_check_call_status();
-			zephir_update_property_zval(this_ptr, ZEND_STRL("errorMessages"), &_7$$8);
+			zephir_update_property_zval(this_ptr, SL("errorMessages"), &_7$$8);
 			ZEPHIR_CALL_METHOD(NULL, &connection, "rollback", NULL, 0);
 			zephir_check_call_status();
 			result = 0;
@@ -766,10 +766,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, seek) {
 			ZEPHIR_OBS_VAR(&row);
 			zephir_read_property(&_4$$4, this_ptr, SL("rows"), PH_NOISY_CC | PH_READONLY);
 			if (zephir_array_isset_fetch(&row, &_4$$4, position, 0)) {
-				zephir_update_property_zval(this_ptr, ZEND_STRL("row"), &row);
+				zephir_update_property_zval(this_ptr, SL("row"), &row);
 			}
-			zephir_update_property_zval(this_ptr, ZEND_STRL("pointer"), position);
-			zephir_update_property_zval(this_ptr, ZEND_STRL("activeRow"), &__$null);
+			zephir_update_property_zval(this_ptr, SL("pointer"), position);
+			zephir_update_property_zval(this_ptr, SL("activeRow"), &__$null);
 			RETURN_MM_NULL();
 		}
 		zephir_read_property(&_5$$3, this_ptr, SL("result"), PH_NOISY_CC | PH_READONLY);
@@ -783,7 +783,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, seek) {
 		if (_6$$3) {
 			ZEPHIR_CALL_METHOD(&_8$$6, &result, "fetch", NULL, 0);
 			zephir_check_call_status();
-			zephir_update_property_zval(this_ptr, ZEND_STRL("row"), &_8$$6);
+			zephir_update_property_zval(this_ptr, SL("row"), &_8$$6);
 		}
 		zephir_read_property(&_9$$3, this_ptr, SL("pointer"), PH_NOISY_CC | PH_READONLY);
 		if (ZEPHIR_GT(&_9$$3, position)) {
@@ -791,8 +791,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, seek) {
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&_10$$7, &result, "fetch", NULL, 0);
 			zephir_check_call_status();
-			zephir_update_property_zval(this_ptr, ZEND_STRL("row"), &_10$$7);
-			zephir_update_property_zval(this_ptr, ZEND_STRL("pointer"), position);
+			zephir_update_property_zval(this_ptr, SL("row"), &_10$$7);
+			zephir_update_property_zval(this_ptr, SL("pointer"), position);
 		}
 		while (1) {
 			zephir_read_property(&_11$$3, this_ptr, SL("pointer"), PH_NOISY_CC | PH_READONLY);
@@ -801,11 +801,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, seek) {
 			}
 			ZEPHIR_CALL_METHOD(&_12$$8, &result, "fetch", &_13, 0);
 			zephir_check_call_status();
-			zephir_update_property_zval(this_ptr, ZEND_STRL("row"), &_12$$8);
+			zephir_update_property_zval(this_ptr, SL("row"), &_12$$8);
 			RETURN_ON_FAILURE(zephir_property_incr(this_ptr, SL("pointer")));
 		}
-		zephir_update_property_zval(this_ptr, ZEND_STRL("pointer"), position);
-		zephir_update_property_zval(this_ptr, ZEND_STRL("activeRow"), &__$null);
+		zephir_update_property_zval(this_ptr, SL("pointer"), position);
+		zephir_update_property_zval(this_ptr, SL("activeRow"), &__$null);
 	}
 	ZEPHIR_MM_RESTORE();
 
@@ -829,7 +829,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, setHydrateMode) {
 
 	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(&_0, hydrateMode);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("hydrateMode"), &_0);
+	zephir_update_property_zval(this_ptr, SL("hydrateMode"), &_0);
 	RETURN_THISW();
 
 }
@@ -852,9 +852,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, setIsFresh) {
 
 
 	if (isFresh) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("isFresh"), &__$true);
+		zephir_update_property_zval(this_ptr, SL("isFresh"), &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("isFresh"), &__$false);
+		zephir_update_property_zval(this_ptr, SL("isFresh"), &__$false);
 	}
 	RETURN_THISW();
 
@@ -939,7 +939,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, update) {
 		if (!(zephir_is_true(&_6$$3))) {
 			ZEPHIR_CALL_METHOD(&_7$$8, &record, "getmessages", NULL, 0);
 			zephir_check_call_status();
-			zephir_update_property_zval(this_ptr, ZEND_STRL("errorMessages"), &_7$$8);
+			zephir_update_property_zval(this_ptr, SL("errorMessages"), &_7$$8);
 			ZEPHIR_CALL_METHOD(NULL, &connection, "rollback", NULL, 0);
 			zephir_check_call_status();
 			transaction = 0;

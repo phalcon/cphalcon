@@ -77,7 +77,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, __construct) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, ZEND_STRL("record"), record);
+	zephir_update_property_zval(this_ptr, SL("record"), record);
 	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_transaction_failed_ce, getThis(), "__construct", NULL, 0, &message);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

@@ -107,14 +107,14 @@ PHP_METHOD(Phalcon_Cli_Router_Route, __construct) {
 
 	ZEPHIR_OBS_VAR(&_0);
 	zephir_read_static_property_ce(&_0, phalcon_cli_router_route_ce, SL("delimiterPath"), PH_NOISY_CC);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("delimiter"), &_0);
+	zephir_update_property_zval(this_ptr, SL("delimiter"), &_0);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "reconfigure", NULL, 0, &pattern, paths);
 	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(&_1);
 	zephir_read_static_property_ce(&_1, phalcon_cli_router_route_ce, SL("uniqueId"), PH_NOISY_CC);
 	ZEPHIR_CPY_WRT(&uniqueId, &_1);
 	ZEPHIR_CPY_WRT(&routeId, &uniqueId);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("id"), &routeId);
+	zephir_update_property_zval(this_ptr, SL("id"), &routeId);
 	ZEPHIR_INIT_ZVAL_NREF(_1);
 	ZVAL_LONG(&_1, (zephir_get_numberval(&uniqueId) + 1));
 	zephir_update_static_property_ce(phalcon_cli_router_route_ce, ZEND_STRL("uniqueId"), &_1);
@@ -140,7 +140,7 @@ PHP_METHOD(Phalcon_Cli_Router_Route, beforeMatch) {
 
 
 
-	zephir_update_property_zval(this_ptr, ZEND_STRL("beforeMatch"), callback);
+	zephir_update_property_zval(this_ptr, SL("beforeMatch"), callback);
 	RETURN_THISW();
 
 }
@@ -881,9 +881,9 @@ PHP_METHOD(Phalcon_Cli_Router_Route, reConfigure) {
 		}
 		ZEPHIR_CPY_WRT(&compiledPattern, &pattern);
 	}
-	zephir_update_property_zval(this_ptr, ZEND_STRL("pattern"), &pattern);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("compiledPattern"), &compiledPattern);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("paths"), &routePaths);
+	zephir_update_property_zval(this_ptr, SL("pattern"), &pattern);
+	zephir_update_property_zval(this_ptr, SL("compiledPattern"), &compiledPattern);
+	zephir_update_property_zval(this_ptr, SL("paths"), &routePaths);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -932,7 +932,7 @@ PHP_METHOD(Phalcon_Cli_Router_Route, setDescription) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, ZEND_STRL("description"), &description);
+	zephir_update_property_zval(this_ptr, SL("description"), &description);
 	RETURN_THIS();
 
 }
@@ -973,7 +973,7 @@ PHP_METHOD(Phalcon_Cli_Router_Route, setName) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, ZEND_STRL("name"), &name);
+	zephir_update_property_zval(this_ptr, SL("name"), &name);
 	RETURN_THIS();
 
 }

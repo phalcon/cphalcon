@@ -274,7 +274,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerName) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, ZEND_STRL("handlerName"), &controllerName);
+	zephir_update_property_zval(this_ptr, SL("handlerName"), &controllerName);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -306,7 +306,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerSuffix) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, ZEND_STRL("handlerSuffix"), &controllerSuffix);
+	zephir_update_property_zval(this_ptr, SL("handlerSuffix"), &controllerSuffix);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -338,7 +338,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setDefaultController) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, ZEND_STRL("defaultHandler"), &controllerName);
+	zephir_update_property_zval(this_ptr, SL("defaultHandler"), &controllerName);
 	ZEPHIR_MM_RESTORE();
 
 }

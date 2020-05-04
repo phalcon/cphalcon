@@ -94,7 +94,7 @@ PHP_METHOD(Phalcon_Session_Bag, __construct) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, ZEND_STRL("name"), &name);
+	zephir_update_property_zval(this_ptr, SL("name"), &name);
 	ZEPHIR_CALL_CE_STATIC(&container, phalcon_di_ce, "getdefault", &_0, 0);
 	zephir_check_call_status();
 	if (UNEXPECTED(Z_TYPE_P(&container) != IS_OBJECT)) {
@@ -114,8 +114,8 @@ PHP_METHOD(Phalcon_Session_Bag, __construct) {
 	ZVAL_STRING(&_5, "session");
 	ZEPHIR_CALL_METHOD(&session, &container, "getshared", NULL, 0, &_5);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, ZEND_STRL("container"), &container);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("session"), &session);
+	zephir_update_property_zval(this_ptr, SL("container"), &container);
+	zephir_update_property_zval(this_ptr, SL("session"), &session);
 	zephir_read_property(&_6, this_ptr, SL("name"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&data, &session, "get", NULL, 0, &_6);
 	zephir_check_call_status();
@@ -299,7 +299,7 @@ PHP_METHOD(Phalcon_Session_Bag, setDI) {
 
 
 
-	zephir_update_property_zval(this_ptr, ZEND_STRL("container"), container);
+	zephir_update_property_zval(this_ptr, SL("container"), container);
 
 }
 

@@ -28,8 +28,8 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  *
  * Implementation of this file has been influenced by Zend Diactoros
  * @link    https://github.com/zendframework/zend-diactoros
@@ -297,7 +297,7 @@ PHP_METHOD(Phalcon_Http_Message_AbstractMessage, hasHeader) {
  * @param string          $name
  * @param string|string[] $value
  *
- * @return self
+ * @return static
  */
 PHP_METHOD(Phalcon_Http_Message_AbstractMessage, withAddedHeader) {
 
@@ -361,7 +361,7 @@ PHP_METHOD(Phalcon_Http_Message_AbstractMessage, withAddedHeader) {
  *
  * @param StreamInterface $body
  *
- * @return self
+ * @return static
  * @throws InvalidArgumentException When the body is not valid.
  *
  */
@@ -407,7 +407,7 @@ PHP_METHOD(Phalcon_Http_Message_AbstractMessage, withBody) {
  * @param string          $name
  * @param string|string[] $value
  *
- * @return self
+ * @return static
  * @throws InvalidArgumentException for invalid header names or values.
  *
  */
@@ -465,7 +465,7 @@ PHP_METHOD(Phalcon_Http_Message_AbstractMessage, withHeader) {
  *
  * @param string $version
  *
- * @return self
+ * @return static
  */
 PHP_METHOD(Phalcon_Http_Message_AbstractMessage, withProtocolVersion) {
 
@@ -503,7 +503,7 @@ PHP_METHOD(Phalcon_Http_Message_AbstractMessage, withProtocolVersion) {
  *
  * @param string $name
  *
- * @return self
+ * @return static
  */
 PHP_METHOD(Phalcon_Http_Message_AbstractMessage, withoutHeader) {
 
@@ -775,10 +775,10 @@ PHP_METHOD(Phalcon_Http_Message_AbstractMessage, checkHeaderValue) {
 	if (!(_6)) {
 		ZEPHIR_INIT_VAR(&_7);
 		ZEPHIR_INIT_VAR(&_8);
-		ZVAL_STRING(&_8, "/[^\x09\x0a\x0d\x20-\x7E\x80-\xFE]/");
+		ZVAL_STRING(&_8, "/[^\\x09\\x0a\\x0d\\x20-\\x7E\\x80-\\xFE]/");
 		ZEPHIR_INIT_VAR(&_9);
 		ZEPHIR_INIT_VAR(&_10);
-		ZVAL_STRING(&_10, "/[^\x09\x0a\x0d\x20-\x7E\x80-\xFE]/");
+		ZVAL_STRING(&_10, "/[^\\x09\\x0a\\x0d\\x20-\\x7E\\x80-\\xFE]/");
 		zephir_preg_match(&_9, &_10, value, &_7, 0, 0 , 0 );
 		_6 = zephir_is_true(&_9);
 	}

@@ -70,7 +70,7 @@ PHP_METHOD(Phalcon_Html_TagFactory, __construct) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, ZEND_STRL("escaper"), escaper);
+	zephir_update_property_zval(this_ptr, SL("escaper"), escaper);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "init", NULL, 0, &services);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

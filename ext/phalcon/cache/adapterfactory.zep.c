@@ -75,7 +75,7 @@ PHP_METHOD(Phalcon_Cache_AdapterFactory, __construct) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, ZEND_STRL("serializerFactory"), factory);
+	zephir_update_property_zval(this_ptr, SL("serializerFactory"), factory);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "init", NULL, 0, &services);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

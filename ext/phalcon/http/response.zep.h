@@ -39,7 +39,11 @@ PHP_METHOD(Phalcon_Http_Response, setStatusCode);
 PHP_METHOD(Phalcon_Http_Response, setRawHeader);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response___construct, 0, 0, 0)
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, content, IS_STRING, 1)
+#else
 	ZEND_ARG_INFO(0, content)
+#endif
 	ZEND_ARG_INFO(0, code)
 	ZEND_ARG_INFO(0, status)
 ZEND_END_ARG_INFO()

@@ -679,7 +679,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getStrategy) {
 			ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0);
 			zephir_check_call_status();
 		}
-		zephir_update_property_zval(this_ptr, ZEND_STRL("strategy"), &_1$$3);
+		zephir_update_property_zval(this_ptr, SL("strategy"), &_1$$3);
 	}
 	RETURN_MM_MEMBER(getThis(), "strategy");
 
@@ -1029,10 +1029,10 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, reset) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	array_init(&_0);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("metaData"), &_0);
+	zephir_update_property_zval(this_ptr, SL("metaData"), &_0);
 	ZEPHIR_INIT_VAR(&_1);
 	array_init(&_1);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("columnMap"), &_1);
+	zephir_update_property_zval(this_ptr, SL("columnMap"), &_1);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -1162,7 +1162,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, setDI) {
 
 
 
-	zephir_update_property_zval(this_ptr, ZEND_STRL("container"), container);
+	zephir_update_property_zval(this_ptr, SL("container"), container);
 
 }
 
@@ -1180,7 +1180,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, setStrategy) {
 
 
 
-	zephir_update_property_zval(this_ptr, ZEND_STRL("strategy"), strategy);
+	zephir_update_property_zval(this_ptr, SL("strategy"), strategy);
 
 }
 
@@ -1490,7 +1490,7 @@ zend_object *zephir_init_properties_Phalcon_Mvc_Model_MetaData(zend_class_entry 
 		if (Z_TYPE_P(&_0) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_1$$3);
 			array_init(&_1$$3);
-			zend_update_property(Z_OBJCE_P(this_ptr), this_ptr, ZEND_STRL("metaData"), &_1$$3);
+			zephir_update_property_zval(this_ptr, SL("metaData"), &_1$$3);
 		}
 		ZEPHIR_MM_RESTORE();
 		return Z_OBJ_P(this_ptr);

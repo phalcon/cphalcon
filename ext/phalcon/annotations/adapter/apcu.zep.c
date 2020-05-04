@@ -89,10 +89,10 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apcu, __construct) {
 
 
 	if (zephir_array_isset_string_fetch(&prefix, &options, SL("prefix"), 1)) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("prefix"), &prefix);
+		zephir_update_property_zval(this_ptr, SL("prefix"), &prefix);
 	}
 	if (zephir_array_isset_string_fetch(&ttl, &options, SL("lifetime"), 1)) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("ttl"), &ttl);
+		zephir_update_property_zval(this_ptr, SL("ttl"), &ttl);
 	}
 	ZEPHIR_MM_RESTORE();
 

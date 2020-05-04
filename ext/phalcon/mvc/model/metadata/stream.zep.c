@@ -79,7 +79,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, __construct) {
 
 
 	if (zephir_array_isset_string_fetch(&metaDataDir, options, SL("metaDataDir"), 1)) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("metaDataDir"), &metaDataDir);
+		zephir_update_property_zval(this_ptr, SL("metaDataDir"), &metaDataDir);
 	}
 
 }
