@@ -963,7 +963,11 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     }
 
     /**
-     * Counts how many records match the specified conditions
+     * Counts how many records match the specified conditions.
+     *
+     * Returns an integer for simple queries or a ResultsetInterface
+     * instance for when the GROUP condition is used. The results will
+     * contain the count of each group.
      *
      * ```php
      * // How many robots are there?
@@ -978,9 +982,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * ```
      *
      * @param array parameters
-     * @return mixed
      */
-    public static function count(var parameters = null) -> int
+    public static function count(var parameters = null) -> int | <ResultsetInterface>
     {
         var result;
 

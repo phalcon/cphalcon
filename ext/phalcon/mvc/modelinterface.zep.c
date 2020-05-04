@@ -78,8 +78,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, cloneResultMapHydrate);
 /**
  * Allows to count how many records match the specified conditions
  *
+ * Returns an integer for simple queries or a ResultsetInterface
+ * instance for when the GROUP condition is used. The results will
+ * contain the count of each group.
+ *
  * @param array parameters
- * @return int
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, count);
 

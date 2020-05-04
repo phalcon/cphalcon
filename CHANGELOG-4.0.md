@@ -45,6 +45,7 @@
 - Fixed return type hint for `Phalcon\Translate\InterpolatorFactory::newInstance` [#14996](https://github.com/phalcon/cphalcon/issues/14996)
 - Fixed return type hint for `Phalcon\Mvc\Model::sum` [#15000](https://github.com/phalcon/cphalcon/issues/15000)
 - Fixed return type hint for `Phalcon\Mvc\Model\CriteriaInterface::getLimit` and `Phalcon\Mvc\Model\Criteria::getLimit` to follow documentation and original purpose [#15004](https://github.com/phalcon/cphalcon/issues/15004)
+- Fixed return type hint for `Phalcon\Mvc\Model::count` and `Phalcon\Mvc\ModelInterface::count` to reflect original behavior [#15006](https://github.com/phalcon/cphalcon/issues/15006)
 
 [#14987](https://github.com/phalcon/cphalcon/issues/14987)
 

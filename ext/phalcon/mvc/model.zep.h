@@ -240,11 +240,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_cloneresultmaphydrate, 0, 0, 3)
 #endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_count, 0, 0, IS_LONG, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_count, 0, 0, IS_LONG, NULL, 0)
-#endif
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_count, 0, 0, 0)
 	ZEND_ARG_INFO(0, parameters)
 ZEND_END_ARG_INFO()
 
