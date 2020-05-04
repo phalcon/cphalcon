@@ -66,6 +66,23 @@ class QueryCest
     }
 
     /**
+     * Executed after each test
+     *
+     * @param  DatabaseTester $I
+     * @return void
+     */
+    public function _after(DatabaseTester $I): void
+    {
+        if ($this->invoiceMigration) {
+            $this->invoiceMigration->clear();
+        }
+
+        if ($this->customerMigration) {
+            $this->customerMigration->clear();
+        }
+    }
+
+    /**
      * Tests Phalcon\Mvc\Model :: query()
      *
      * @param  DatabaseTester $I
