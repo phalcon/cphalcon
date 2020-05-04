@@ -393,15 +393,15 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     }
 
     /**
-     * Returns the limit parameter in the criteria, which will be an integer if
-     * limit was set without an offset, an array with 'number' and 'offset' keys
-     * if an offset was set with the limit, or null if limit has not been set.
+     * Returns the limit parameter in the criteria, which will be
      *
-     * @return string|null
+     * - An integer if 'limit' was set without an 'offset'
+     * - An array with 'number' and 'offset' keys if an offset was set with the limit
+     * - NULL if limit has not been set
      */
-    public function getLimit() -> string | null
+    public function getLimit()  -> int | array | null
     {
-        var limit;
+        var limit, offset;
 
         if !fetch limit, this->params["limit"] {
             return null;
@@ -634,10 +634,14 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
             return this;
         }
 
-        let this->params["limit"] = [
-            "number": limit,
-            "offset": offset
-        ];
+        if offset == 0 {
+            let this->params["limit"] = limit;
+        } else {
+            let this->params["limit"] = [
+                "number": limit,
+                "offset": offset
+            ];
+        }
 
         return this;
     }

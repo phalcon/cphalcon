@@ -8,6 +8,7 @@
 - Changed the way `Phalcon\Http\Response::__construct` checks `content` data type. Now a `TypeError` will be thrown if incompatible data type was passed [#14983](https://github.com/phalcon/cphalcon/issues/14983)
 - Changed return type hints of the following `Phalcon\Flash\FlashInterface`'s methods: `error`, `message`, `notice`, `success` and `warning` [#14994](https://github.com/phalcon/cphalcon/issues/14994)
 - Changed return type hint for `Phalcon\Mvc\ModelInterface::sum` [#15000](https://github.com/phalcon/cphalcon/issues/15000)
+- Changed return type for `Phalcon\Mvc\Model\Criteria::getLimit` so that integer, NULL or array will be returned [#15004](https://github.com/phalcon/cphalcon/issues/15004)
 
 ## Fixed
 - Fixed `Phalcon\Mvc\Model\Query\Builder::getPhql` to add single quote between string value on a simple condition [#14874](https://github.com/phalcon/cphalcon/issues/14874)
@@ -43,6 +44,7 @@
 - Fixed return type hints of the following `Phalcon\Flash\AbstractFlash`'s methods: `error`, `notice`, `success` and `warning` [#14994](https://github.com/phalcon/cphalcon/issues/14994)
 - Fixed return type hint for `Phalcon\Translate\InterpolatorFactory::newInstance` [#14996](https://github.com/phalcon/cphalcon/issues/14996)
 - Fixed return type hint for `Phalcon\Mvc\Model::sum` [#15000](https://github.com/phalcon/cphalcon/issues/15000)
+- Fixed return type hint for `Phalcon\Mvc\Model\CriteriaInterface::getLimit` and `Phalcon\Mvc\Model\Criteria::getLimit` to follow documentation and original purpose [#15004](https://github.com/phalcon/cphalcon/issues/15004)
 
 [#14987](https://github.com/phalcon/cphalcon/issues/14987)
 
