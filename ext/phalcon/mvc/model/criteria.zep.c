@@ -1092,7 +1092,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, inWhere) {
 	array_init(&bindParams);
 	ZEPHIR_INIT_VAR(&bindKeys);
 	array_init(&bindKeys);
-	zephir_is_iterable(&values, 0, "phalcon/Mvc/Model/Criteria.zep", 545);
+	zephir_is_iterable(&values, 0, "phalcon/Mvc/Model/Criteria.zep", 544);
 	if (Z_TYPE_P(&values) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&values), _1)
 		{
@@ -1103,7 +1103,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, inWhere) {
 			zephir_get_strval(&key, &_3$$4);
 			ZEPHIR_INIT_NVAR(&queryKey);
 			ZEPHIR_CONCAT_SVS(&queryKey, ":", &key, ":");
-			zephir_array_append(&bindKeys, &queryKey, PH_SEPARATE, "phalcon/Mvc/Model/Criteria.zep", 535);
+			zephir_array_append(&bindKeys, &queryKey, PH_SEPARATE, "phalcon/Mvc/Model/Criteria.zep", 534);
 			zephir_array_update_zval(&bindParams, &key, &value, PH_COPY | PH_SEPARATE);
 			ZEPHIR_SEPARATE(&hiddenParam);
 			zephir_increment(&hiddenParam);
@@ -1124,7 +1124,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, inWhere) {
 				zephir_get_strval(&key, &_4$$5);
 				ZEPHIR_INIT_NVAR(&queryKey);
 				ZEPHIR_CONCAT_SVS(&queryKey, ":", &key, ":");
-				zephir_array_append(&bindKeys, &queryKey, PH_SEPARATE, "phalcon/Mvc/Model/Criteria.zep", 535);
+				zephir_array_append(&bindKeys, &queryKey, PH_SEPARATE, "phalcon/Mvc/Model/Criteria.zep", 534);
 				zephir_array_update_zval(&bindParams, &key, &value, PH_COPY | PH_SEPARATE);
 				ZEPHIR_SEPARATE(&hiddenParam);
 				zephir_increment(&hiddenParam);
@@ -1501,7 +1501,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, notInWhere) {
 	array_init(&bindParams);
 	ZEPHIR_INIT_VAR(&bindKeys);
 	array_init(&bindKeys);
-	zephir_is_iterable(&values, 0, "phalcon/Mvc/Model/Criteria.zep", 728);
+	zephir_is_iterable(&values, 0, "phalcon/Mvc/Model/Criteria.zep", 727);
 	if (Z_TYPE_P(&values) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&values), _0)
 		{
@@ -1512,7 +1512,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, notInWhere) {
 			zephir_get_strval(&key, &_2$$3);
 			ZEPHIR_INIT_NVAR(&_3$$3);
 			ZEPHIR_CONCAT_SVS(&_3$$3, ":", &key, ":");
-			zephir_array_append(&bindKeys, &_3$$3, PH_SEPARATE, "phalcon/Mvc/Model/Criteria.zep", 718);
+			zephir_array_append(&bindKeys, &_3$$3, PH_SEPARATE, "phalcon/Mvc/Model/Criteria.zep", 717);
 			zephir_array_update_zval(&bindParams, &key, &value, PH_COPY | PH_SEPARATE);
 			ZEPHIR_SEPARATE(&hiddenParam);
 			zephir_increment(&hiddenParam);
@@ -1533,7 +1533,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Criteria, notInWhere) {
 				zephir_get_strval(&key, &_4$$4);
 				ZEPHIR_INIT_NVAR(&_5$$4);
 				ZEPHIR_CONCAT_SVS(&_5$$4, ":", &key, ":");
-				zephir_array_append(&bindKeys, &_5$$4, PH_SEPARATE, "phalcon/Mvc/Model/Criteria.zep", 718);
+				zephir_array_append(&bindKeys, &_5$$4, PH_SEPARATE, "phalcon/Mvc/Model/Criteria.zep", 717);
 				zephir_array_update_zval(&bindParams, &key, &value, PH_COPY | PH_SEPARATE);
 				ZEPHIR_SEPARATE(&hiddenParam);
 				zephir_increment(&hiddenParam);
