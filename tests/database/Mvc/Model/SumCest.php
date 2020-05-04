@@ -1,11 +1,21 @@
 <?php
 
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
+ */
+
 declare(strict_types=1);
 
 namespace Phalcon\Test\Database\Mvc\Model;
 
 use DatabaseTester;
 use Phalcon\Mvc\Model\Resultset\Simple;
+use Phalcon\Storage\Exception;
 use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\RecordsTrait;
@@ -16,19 +26,47 @@ class SumCest
     use DiTrait;
     use RecordsTrait;
 
-    public function _before(DatabaseTester $I)
+    /**
+     * @var InvoicesMigration
+     */
+    private $invoiceMigration;
+
+    /**
+     * Executed before each test
+     *
+     * @param  DatabaseTester $I
+     * @return void
+     */
+    public function _before(DatabaseTester $I): void
     {
-        $this->setNewFactoryDefault();
+        try {
+            $this->setNewFactoryDefault();
+        } catch (Exception $e) {
+            $I->fail($e->getMessage());
+        }
+
         $this->setDatabase($I);
 
-        /** @var PDO $connection */
-        $connection = $I->getConnection();
-        $migration  = new InvoicesMigration($connection);
-        $migration->clear();
+        $this->invoiceMigration = new InvoicesMigration($I->getConnection());
+    }
+
+    /**
+     * Executed after each test
+     *
+     * @param  DatabaseTester $I
+     * @return void
+     */
+    public function _after(DatabaseTester $I): void
+    {
+        if ($this->invoiceMigration) {
+            $this->invoiceMigration->clear();
+        }
     }
 
     /**
      * Tests Phalcon\Mvc\Model :: sum()
+     *
+     * @param  DatabaseTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-30
@@ -38,19 +76,15 @@ class SumCest
      */
     public function mvcModelSum(DatabaseTester $I)
     {
-
         /**
-         * The following tests need to skip sqlite because we will get
-         * a General Error 5 database is locked error
+         * @todo The following tests are skipped for sqlite because we will get
+         *       a General Error 5 database is locked error.
          */
-        /** @var PDO $connection */
-        $connection = $I->getConnection();
-        $migration  = new InvoicesMigration($connection);
-        $invId      = ('sqlite' === $I->getDriver()) ? 'null' : 'default';
+        $invId = ('sqlite' === $I->getDriver()) ? 'null' : 'default';
 
-        $this->insertDataInvoices($migration, 7, $invId, 2, 'ccc');
-        $this->insertDataInvoices($migration, 1, $invId, 3, 'aaa');
-        $this->insertDataInvoices($migration, 11, $invId, 1, 'aaa');
+        $this->insertDataInvoices($this->invoiceMigration, 7, $invId, 2, 'ccc');
+        $this->insertDataInvoices($this->invoiceMigration, 1, $invId, 3, 'aaa');
+        $this->insertDataInvoices($this->invoiceMigration, 11, $invId, 1, 'aaa');
 
 
         $total = Invoices::sum(

@@ -7,6 +7,7 @@
 - Changed the default ACL access level from boolean `FALSE` to `Enum::DENY` [#14974](https://github.com/phalcon/cphalcon/pull/14974)
 - Changed the way `Phalcon\Http\Response::__construct` checks `content` data type. Now a `TypeError` will be thrown if incompatible data type was passed [#14983](https://github.com/phalcon/cphalcon/issues/14983)
 - Changed return type hints of the following `Phalcon\Flash\FlashInterface`'s methods: `error`, `message`, `notice`, `success` and `warning` [#14994](https://github.com/phalcon/cphalcon/issues/14994)
+- Changed return type hints for `Phalcon\Mvc\ModelInterface::sum` [#15000](https://github.com/phalcon/cphalcon/issues/15000)
 
 ## Fixed
 - Fixed `Phalcon\Mvc\Model\Query\Builder::getPhql` to add single quote between string value on a simple condition [#14874](https://github.com/phalcon/cphalcon/issues/14874)
@@ -41,6 +42,7 @@
 - Fixed return type hint for `Phalcon\Di::getInternalEventsManager` [#14992](https://github.com/phalcon/cphalcon/issues/14992)
 - Fixed return type hints of the following `Phalcon\Flash\AbstractFlash`'s methods: `error`, `notice`, `success` and `warning` [#14994](https://github.com/phalcon/cphalcon/issues/14994)
 - Fixed return type hint for `Phalcon\Translate\InterpolatorFactory::newInstance` [#14996](https://github.com/phalcon/cphalcon/issues/14996)
+- Fixed return type hint for `Phalcon\Mvc\Model::sum` [#15000](https://github.com/phalcon/cphalcon/issues/15000)
 
 [#14987](https://github.com/phalcon/cphalcon/issues/14987)
 

@@ -1,10 +1,11 @@
+
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalcon.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 
 namespace Phalcon\Mvc;
@@ -2982,9 +2983,9 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * ```
      *
      * @param array parameters
-     * @return double
+     * @return double | ResultsetInterface
      */
-    public static function sum(var parameters = null) -> float
+    public static function sum(var parameters = null) -> float | <ResultsetInterface>
     {
         return self::_groupResult("SUM", "sumatory", parameters);
     }
