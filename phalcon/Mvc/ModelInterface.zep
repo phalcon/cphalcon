@@ -70,10 +70,13 @@ interface ModelInterface
     /**
      * Allows to count how many records match the specified conditions
      *
+     * Returns an integer for simple queries or a ResultsetInterface
+     * instance for when the GROUP condition is used. The results will
+     * contain the count of each group.
+     *
      * @param array parameters
-     * @return int
      */
-    public static function count(parameters = null) -> int;
+    public static function count(var parameters = null) -> int | <ResultsetInterface>;
 
     /**
      * Inserts a model instance. If the instance already exists in the
