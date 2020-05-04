@@ -22,9 +22,9 @@ Nanobox can also be used for developing Phalcon, and its installation
 instructions can be found [in the Nanobox documentation][nanobox-doc].
 Codeception can be installed using [Composer][composer].
 
-```sh
+```shell script
 # run this command from project root
-composer install --prefer-source
+$ composer install --prefer-source
 ```
 
 You can read more about installing and configuring Codeception from the
@@ -80,39 +80,64 @@ The PHP extensions enabled are:
 
 ## Docker Compose Way
 
+### Setup databases
+
+To generate the necessary database schemas, you need to run the relevant script:
+
+```shell script
+$ php tests/_ci/generate-db-schemas.php
+```
+
+### Run tests
+
+First you need to re-generate base classes for all suites:
+
+```shell script
+$ ./vendor/bin/codecept build
+```
+
+You will also need to provide Codeception configuration and run Docker containers:
+ 
 ```shell script
 # Create Codeception configuration
-cp tests/_ci/.env.default .env
+$ cp tests/_ci/.env.default .env
 
 # Run Docker containers
-cd tests
-docker-compose up -d
-cd ..
+$ cd tests
+$ docker-compose up -d
+$ cd ..
+```
 
-# Generate database schemas
-php tests/_ci/generate-db-schemas.php
+Then, run the tests on a terminal:
 
-# Generate Codeception classes for all suites
-./vendor/bin/codecept build
+```shell script
+./vendor/bin/codecept run
+# OR
+./vendor/bin/codecept run --debug # Detailed output
+```
 
-# Run unit tests
-./vendor/bin/codecept run unit
+Execute `unit` test with `run unit` command:
 
-# Run CLI tests
-./vendor/bin/codecept run cli
-
-# Run integration tests
-./vendor/bin/codecept run integration
+```shell script
+$ ./vendor/bin/codecept run unit
 ```
 
 To run database related tests you need to run the `database` suite specifying
 the RDBMS and group:
 
 ```shell script
-./vendor/bin/codecept run database -g common
-./vendor/bin/codecept run database -g mysql --env mysql
-./vendor/bin/codecept run database -g sqlite --env sqlite
-./vendor/bin/codecept run database -g pgsql --env pgsql
+$ ./vendor/bin/codecept run database -g common
+$ ./vendor/bin/codecept run database -g mysql --env mysql
+$ ./vendor/bin/codecept run database -g sqlite --env sqlite
+$ ./vendor/bin/codecept run database -g pgsql --env pgsql
+```
+
+Available options:
+
+```shell script
+--env mysql
+--env sqlite
+--env pgsql
 ```
 
 Note that certain tests are grouped as `common`. Those do not require a
@@ -134,15 +159,15 @@ is not there to allow for more flexibility. We have two setup files, one for
 PHP 7.2 and one for PHP 7.3. If you wish to set up an environment for Phalcon
 using PHP 7.2, you can copy the relevant file at the root of your folder:
 
-```bash
-cp -v ./tests/_ci/nanobox/boxfile.7.2.yml ./boxfile.yml
+```shell script
+$ cp -v ./tests/_ci/nanobox/boxfile.7.2.yml ./boxfile.yml
 ```
 
 You can also create a 7.3 environment by copying the relevant file.
 
 Run
-```bash
-nanobox run
+```shell script
+$ nanobox run
 ```
 
 The process will take a while (for the first time) and once it is done you will
@@ -179,19 +204,19 @@ Preparing environment :
 ```
 
 Now that zephir is in your environment, you can check it by typing:
-```bash
+```shell script
 /app $ zephir
 ```
 
 This should show you the help screen. You can now compile the extension:
-```bash
+```shell script
 /app $ zephir fullclean
 /app $ zephir build
 
 ```
 
 After the compilation is completed, you can check if the extension is loaded:
-```bash
+```shell script
 /app $ php -m | grep phalcon
 ```
 
@@ -199,9 +224,10 @@ After the compilation is completed, you can check if the extension is loaded:
 
 To generate the necessary database schemas, you need to run the relevant script:
 
-```sh
+```shell script
 /app $ php ./tests/_ci/generage-db-schemas.php
 ```
+
 The script looks for classes located under `tests/_data/fixtures/Migrations`.
 These classes contain the necessary code to create the relevant SQL statements
 for each RDBMS. You can easily inspect one of those files to understand its
@@ -221,13 +247,13 @@ tests.
 
 First you need to re-generate base classes for all suites:
 
-```sh
+```shell script
 /app $ codecept build
 ```
 
 Then, run the tests on a terminal:
 
-```sh
+```shell script
 /app $ codecept run
 # OR
 /app $ codecept run --debug # Detailed output
@@ -235,36 +261,38 @@ Then, run the tests on a terminal:
 
 Execute `unit` test with `run unit` command:
 
-```sh
+```shell script
 /app $ codecept run unit
 ```
 
 Execute all tests from a folder:
 
-```sh
+```shell script
 /app $ codecept run tests/unit/some/folder/
 ```
 
 Execute single test:
 
-```sh
+```shell script
 /app $ codecept run tests/unit/some/folder/some/test/file.php
 ```
 
 To run database related tests you need to run the `database` suite specifying
 the RDBMS and group:
 
-```sh
+```shell script
 /app $ codecept run tests/database -g common
 /app $ codecept run tests/database -g mysql --env mysql
 /app $ codecept run tests/database -g sqlite --env sqlite
+/app $ codecept run tests/database -g pgsql --env pgsql
 ```
 
 Available options:
 
-```sh
--- env mysql
--- env sqlite
+```shell script
+--env mysql
+--env sqlite
+--env pgsql
 ```
 
 ## Help
