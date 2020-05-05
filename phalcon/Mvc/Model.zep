@@ -1702,7 +1702,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     /**
      * Returns the custom events manager or null if there is no custom events manager
      */
-    public function getEventsManager() ->  <EventsManagerInterface> | null
+    public function getEventsManager() -> <EventsManagerInterface> | null
     {
         return this->modelsManager->getCustomEventsManager(this);
     }
