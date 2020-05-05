@@ -278,7 +278,17 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      */
     public function getDI() -> <DiInterface>
     {
-        return this->container;
+        var container;
+
+        let container = <DiInterface> this->container;
+
+        if typeof container != "object" {
+            throw new Exception(
+                Exception::containerServiceNotFound("internal services")
+            );
+        }
+
+        return container;
     }
 
     /**
@@ -798,7 +808,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
                         /**
                          * Get the meta-data extraction strategy
                          */
-                        let container = this->container,
+                        let container = this->getDI(),
                             strategy = this->getStrategy(),
                             modelMetadata = strategy->getMetaData(
                                 model,
@@ -849,7 +859,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
          * Get the meta-data extraction strategy
          */
         if typeof strategy != "object" {
-            let container = this->container,
+            let container = this->getDI(),
                 strategy = this->getStrategy();
         }
 
