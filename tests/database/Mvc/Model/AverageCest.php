@@ -60,10 +60,13 @@ class AverageCest
      *
      * @group  mysql
      * @group  pgsql
-     * @group  sqlite
      */
     public function mvcModelAverage(DatabaseTester $I)
     {
+        /**
+         * @todo The following tests are skipped for sqlite because we will get
+         *       a General Error 5 database is locked error.
+         */
         $invId = ('sqlite' === $I->getDriver()) ? 'null' : 'default';
 
         $this->insertDataInvoices($this->invoiceMigration, 7, $invId, 2, 'ccc');
