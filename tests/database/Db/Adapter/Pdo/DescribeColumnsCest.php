@@ -47,19 +47,6 @@ final class DescribeColumnsCest
     }
 
     /**
-     * Executed after each test
-     *
-     * @param  DatabaseTester $I
-     * @return void
-     */
-    public function _after(DatabaseTester $I): void
-    {
-        if ($this->migration) {
-            $this->migration->clear();
-        }
-    }
-
-    /**
      * Tests Phalcon\Db\Adapter\Pdo :: describeColumns()
      *
      * @param  DatabaseTester $I

@@ -44,26 +44,13 @@ class GetSetEventsManagerCest
     {
         try {
             $this->setNewFactoryDefault();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $I->fail($e->getMessage());
         }
 
         $this->setDatabase($I);
 
         $this->invoiceMigration = new InvoicesMigration($I->getConnection());
-    }
-
-    /**
-     * Executed after each test
-     *
-     * @param  DatabaseTester $I
-     * @return void
-     */
-    public function _after(DatabaseTester $I): void
-    {
-        if ($this->invoiceMigration) {
-            $this->invoiceMigration->clear();
-        }
     }
 
     /**
