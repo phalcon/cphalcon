@@ -61,7 +61,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      */
     protected adapter;
 
-    protected columnMap;
+    protected columnMap = [];
 
     protected container;
 
@@ -185,7 +185,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      * );
      *```
      */
-    public function getColumnMap(<ModelInterface> model) -> array
+    public function getColumnMap(<ModelInterface> model) -> array | null
     {
         var data;
 
@@ -417,7 +417,7 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
      * );
      *```
      */
-    public function getReverseColumnMap(<ModelInterface> model) -> array
+    public function getReverseColumnMap(<ModelInterface> model) -> array | null
     {
         var data;
 
