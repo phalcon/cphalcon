@@ -258,7 +258,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, setCustomEventsManager) {
 }
 
 /**
- * Returns a custom events manager related to a model a null otherwise
+ * Returns a custom events manager related to a model or null if there is no related events manager
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getCustomEventsManager) {
 

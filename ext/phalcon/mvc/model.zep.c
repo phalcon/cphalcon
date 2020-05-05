@@ -2716,7 +2716,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getDirtyState) {
 }
 
 /**
- * Returns the custom events manager
+ * Returns the custom events manager or null if there is no custom events manager
  */
 PHP_METHOD(Phalcon_Mvc_Model, getEventsManager) {
 
