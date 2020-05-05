@@ -43,7 +43,7 @@ interface MetaDataInterface
     /**
      * Returns the column map if any
      */
-    public function getColumnMap(<ModelInterface> model) -> array;
+    public function getColumnMap(<ModelInterface> model) -> array | null;
 
     /**
      * Returns attributes (which have default values) and their default values
@@ -88,7 +88,7 @@ interface MetaDataInterface
     /**
      * Returns the reverse column map if any
      */
-    public function getReverseColumnMap(<ModelInterface> model) -> array;
+    public function getReverseColumnMap(<ModelInterface> model) -> array | null;
 
     /**
      * Return the strategy to obtain the meta-data
