@@ -258,7 +258,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, setCustomEventsManager) {
 }
 
 /**
- * Returns a custom events manager related to a model
+ * Returns a custom events manager related to a model a null otherwise
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getCustomEventsManager) {
 
@@ -279,10 +279,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getCustomEventsManager) {
 	zephir_read_property(&_0, this_ptr, SL("customEventsManager"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_1);
 	zephir_get_class(&_1, model, 1);
-	if (!(zephir_array_isset_fetch(&eventsManager, &_0, &_1, 1))) {
-		RETURN_MM_BOOL(0);
+	if (zephir_array_isset_fetch(&eventsManager, &_0, &_1, 1)) {
+		RETURN_CTOR(&eventsManager);
 	}
-	RETURN_CTOR(&eventsManager);
+	RETURN_MM_NULL();
 
 }
 

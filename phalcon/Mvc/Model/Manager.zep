@@ -194,17 +194,17 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     }
 
     /**
-     * Returns a custom events manager related to a model
+     * Returns a custom events manager related to a model or null if there is no related events manager
      */
-    public function getCustomEventsManager(<ModelInterface> model) -> <EventsManagerInterface> | bool
+    public function getCustomEventsManager(<ModelInterface> model) -> <EventsManagerInterface> | null
     {
         var eventsManager;
 
-        if !fetch eventsManager, this->customEventsManager[get_class_lower(model)] {
-            return false;
+        if fetch eventsManager, this->customEventsManager[get_class_lower(model)] {
+            return eventsManager;
         }
 
-        return eventsManager;
+        return null;
     }
 
     /**
