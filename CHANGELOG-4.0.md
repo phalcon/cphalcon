@@ -10,6 +10,7 @@
 - Changed return type hint for `Phalcon\Mvc\ModelInterface::sum` [#15000](https://github.com/phalcon/cphalcon/issues/15000)
 - Changed return type for `Phalcon\Mvc\Model\Criteria::getLimit` so that integer, NULL or array will be returned [#15004](https://github.com/phalcon/cphalcon/issues/15004)
 - Changed return type hint for `Phalcon\Mvc\Model\Manager::getCustomEventsManager` to return NULL instead of boolean FALSE if there is no special events manager [#15008](https://github.com/phalcon/cphalcon/issues/15008)
+- Changed `Phalcon\Mvc\Model\MetaData::getDI` so that now it will throw a `Phalcon\Mvc\Model\Exception` if there is no `DiInterface` instance  [#15011](https://github.com/phalcon/cphalcon/issues/15011)
 
 ## Fixed
 - Fixed `Phalcon\Mvc\Model\Query\Builder::getPhql` to add single quote between string value on a simple condition [#14874](https://github.com/phalcon/cphalcon/issues/14874)
