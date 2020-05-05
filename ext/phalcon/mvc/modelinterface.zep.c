@@ -50,7 +50,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, assign);
  * conditions
  *
  * @param array parameters
- * @return double
+ * @return double | ResultsetInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, average);
 

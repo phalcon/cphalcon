@@ -42,9 +42,9 @@ interface ModelInterface
      * conditions
      *
      * @param array parameters
-     * @return double
+     * @return double | ResultsetInterface
      */
-    public static function average(parameters = null) -> float;
+    public static function average(parameters = null) -> float | <ResultsetInterface>;
 
     /**
      * Assigns values to a model from an array returning a new model
