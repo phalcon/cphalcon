@@ -51,19 +51,6 @@ class SumCest
     }
 
     /**
-     * Executed after each test
-     *
-     * @param  DatabaseTester $I
-     * @return void
-     */
-    public function _after(DatabaseTester $I): void
-    {
-        if ($this->invoiceMigration) {
-            $this->invoiceMigration->clear();
-        }
-    }
-
-    /**
      * Tests Phalcon\Mvc\Model :: sum()
      *
      * @param  DatabaseTester $I

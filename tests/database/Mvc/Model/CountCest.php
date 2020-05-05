@@ -52,19 +52,6 @@ class CountCest
     }
 
     /**
-     * Executed after each test
-     *
-     * @param  DatabaseTester $I
-     * @return void
-     */
-    public function _after(DatabaseTester $I): void
-    {
-        if ($this->invoiceMigration) {
-            $this->invoiceMigration->clear();
-        }
-    }
-
-    /**
      * Tests Phalcon\Mvc\Model :: count()
      *
      * @param  DatabaseTester $I
