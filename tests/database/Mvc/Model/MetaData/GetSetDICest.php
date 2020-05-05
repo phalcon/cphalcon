@@ -81,6 +81,4 @@ class GetSetDICest
             }
         );
     }
-
-
 }
