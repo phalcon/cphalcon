@@ -673,7 +673,11 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
     /**
      * Returns the average value on a column for a result-set of rows matching
-     * the specified conditions
+     * the specified conditions.
+     *
+     * Returned value will be a float for simple queries or a ResultsetInterface
+     * instance for when the GROUP condition is used. The results will
+     * contain the average of each group.
      *
      * ```php
      * // What's the average price of robots?
@@ -697,9 +701,9 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * ```
      *
      * @param array parameters
-     * @return double
+     * @return double | ResultsetInterface
      */
-    public static function average(var parameters = null) -> float
+    public static function average(var parameters = null) -> float | <ResultsetInterface>
     {
         return self::_groupResult("AVG", "average", parameters);
     }

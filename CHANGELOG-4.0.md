@@ -49,6 +49,7 @@
 - Fixed return type hint for `Phalcon\Mvc\Model\CriteriaInterface::getLimit` and `Phalcon\Mvc\Model\Criteria::getLimit` to follow documentation and original purpose [#15004](https://github.com/phalcon/cphalcon/issues/15004)
 - Fixed return type hint for `Phalcon\Mvc\Model::count` and `Phalcon\Mvc\ModelInterface::count` to reflect original behavior [#15006](https://github.com/phalcon/cphalcon/issues/15006)
 - Fixed return type hint for `Phalcon\Mvc\Model::getEventsManager` to reflect original behavior [#15008](https://github.com/phalcon/cphalcon/issues/15008)
+- Fixed return type hint for `Phalcon\Mvc\Model::average` and `Phalcon\Mvc\ModelInterface::average` to reflect original behavior [#15013](https://github.com/phalcon/cphalcon/issues/15013)
 
 [#14987](https://github.com/phalcon/cphalcon/issues/14987)
 
