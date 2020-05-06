@@ -511,7 +511,7 @@ class Request extends AbstractInjectionAware implements RequestInterface
             return false;
         }
 
-        return Json::decode(rawBody, associative);
+        return json_decode(rawBody, associative);
     }
 
     /**
