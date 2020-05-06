@@ -95,7 +95,7 @@ PHP_METHOD(Phalcon_Security_JWT_Builder, __construct) {
 
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "init", NULL, 0);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, ZEND_STRL("signer"), signer);
+	zephir_update_property_zval(this_ptr, SL("signer"), signer);
 	zephir_read_property(&_0, this_ptr, SL("jose"), PH_NOISY_CC | PH_READONLY);
 	zephir_read_property(&_1, this_ptr, SL("signer"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&_2, &_1, "getalgheader", NULL, 0);
@@ -128,12 +128,12 @@ PHP_METHOD(Phalcon_Security_JWT_Builder, init) {
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "");
-	zephir_update_property_zval(this_ptr, ZEND_STRL("passphrase"), &_0);
+	zephir_update_property_zval(this_ptr, SL("passphrase"), &_0);
 	ZEPHIR_INIT_NVAR(&_0);
 	object_init_ex(&_0, phalcon_collection_ce);
 	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 22);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, ZEND_STRL("claims"), &_0);
+	zephir_update_property_zval(this_ptr, SL("claims"), &_0);
 	ZEPHIR_INIT_VAR(&_1);
 	object_init_ex(&_1, phalcon_collection_ce);
 	ZEPHIR_INIT_VAR(&_2);
@@ -142,7 +142,7 @@ PHP_METHOD(Phalcon_Security_JWT_Builder, init) {
 	add_assoc_stringl_ex(&_2, SL("alg"), SL("none"));
 	ZEPHIR_CALL_METHOD(NULL, &_1, "__construct", NULL, 22, &_2);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, ZEND_STRL("jose"), &_1);
+	zephir_update_property_zval(this_ptr, SL("jose"), &_1);
 	RETURN_THIS();
 
 }
@@ -919,7 +919,7 @@ PHP_METHOD(Phalcon_Security_JWT_Builder, setPassphrase) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_security_jwt_exceptions_validatorexception_ce, "Invalid passphrase (too weak)", "phalcon/Security/JWT/Builder.zep", 389);
 		return;
 	}
-	zephir_update_property_zval(this_ptr, ZEND_STRL("passphrase"), &passphrase);
+	zephir_update_property_zval(this_ptr, SL("passphrase"), &passphrase);
 	RETURN_THIS();
 
 }

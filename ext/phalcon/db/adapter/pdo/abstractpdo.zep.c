@@ -1744,7 +1744,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, prepareRealSql) {
 		ZEPHIR_CALL_FUNCTION(&result, "preg_replace", NULL, 50, &keys, &values, &statement, &_16$$3);
 		zephir_check_call_status();
 	}
-	zephir_update_property_zval(this_ptr, ZEND_STRL("realSqlStatement"), &result);
+	zephir_update_property_zval(this_ptr, SL("realSqlStatement"), &result);
 	ZEPHIR_MM_RESTORE();
 
 }

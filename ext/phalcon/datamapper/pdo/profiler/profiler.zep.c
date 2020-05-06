@@ -117,11 +117,11 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_Profiler, __construct) {
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "{method} ({duration}s): {statement} {backtrace}");
-	zephir_update_property_zval(this_ptr, ZEND_STRL("logFormat"), &_0);
+	zephir_update_property_zval(this_ptr, SL("logFormat"), &_0);
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "debug");
-	zephir_update_property_zval(this_ptr, ZEND_STRL("logLevel"), &_0);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("logger"), logger);
+	zephir_update_property_zval(this_ptr, SL("logLevel"), &_0);
+	zephir_update_property_zval(this_ptr, SL("logger"), logger);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -233,7 +233,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_Profiler, finish) {
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_15$$3);
 		array_init(&_15$$3);
-		zephir_update_property_zval(this_ptr, ZEND_STRL("context"), &_15$$3);
+		zephir_update_property_zval(this_ptr, SL("context"), &_15$$3);
 	}
 	ZEPHIR_MM_RESTORE();
 
@@ -317,9 +317,9 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_Profiler, setActive) {
 
 
 	if (active) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("active"), &__$true);
+		zephir_update_property_zval(this_ptr, SL("active"), &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("active"), &__$false);
+		zephir_update_property_zval(this_ptr, SL("active"), &__$false);
 	}
 	RETURN_THISW();
 
@@ -347,7 +347,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_Profiler, setLogFormat) {
 	zephir_get_strval(&logFormat, logFormat_param);
 
 
-	zephir_update_property_zval(this_ptr, ZEND_STRL("logFormat"), &logFormat);
+	zephir_update_property_zval(this_ptr, SL("logFormat"), &logFormat);
 	RETURN_THIS();
 
 }
@@ -374,7 +374,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_Profiler, setLogLevel) {
 	zephir_get_strval(&logLevel, logLevel_param);
 
 
-	zephir_update_property_zval(this_ptr, ZEND_STRL("logLevel"), &logLevel);
+	zephir_update_property_zval(this_ptr, SL("logLevel"), &logLevel);
 	RETURN_THIS();
 
 }
@@ -421,7 +421,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_Profiler, start) {
 		zephir_create_array(&_1$$3, 2, 0);
 		zephir_array_update_string(&_1$$3, SL("method"), &method, PH_COPY | PH_SEPARATE);
 		zephir_array_update_string(&_1$$3, SL("start"), &start, PH_COPY | PH_SEPARATE);
-		zephir_update_property_zval(this_ptr, ZEND_STRL("context"), &_1$$3);
+		zephir_update_property_zval(this_ptr, SL("context"), &_1$$3);
 	}
 	ZEPHIR_MM_RESTORE();
 
@@ -443,7 +443,7 @@ zend_object *zephir_init_properties_Phalcon_DataMapper_Pdo_Profiler_Profiler(zen
 		if (Z_TYPE_P(&_0) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_1$$3);
 			array_init(&_1$$3);
-			zend_update_property(Z_OBJCE_P(this_ptr), this_ptr, ZEND_STRL("context"), &_1$$3);
+			zephir_update_property_zval(this_ptr, SL("context"), &_1$$3);
 		}
 		ZEPHIR_MM_RESTORE();
 		return Z_OBJ_P(this_ptr);

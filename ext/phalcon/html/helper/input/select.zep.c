@@ -288,13 +288,13 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select, optGroup) {
 		ZVAL_LONG(&_2$$3, 1);
 		zephir_read_property(&_5$$3, this_ptr, SL("indentLevel"), PH_NOISY_CC);
 		ZEPHIR_ADD_ASSIGN(&_5$$3, &_2$$3)
-		zephir_update_property_zval(this_ptr, ZEND_STRL("indentLevel"), &_5$$3);
+		zephir_update_property_zval(this_ptr, SL("indentLevel"), &_5$$3);
 	} else {
 		ZEPHIR_INIT_VAR(&_7$$4);
 		ZVAL_LONG(&_7$$4, 1);
 		zephir_read_property(&_6$$4, this_ptr, SL("indentLevel"), PH_NOISY_CC);
 		ZEPHIR_SUB_ASSIGN(&_6$$4, &_7$$4)
-		zephir_update_property_zval(this_ptr, ZEND_STRL("indentLevel"), &_6$$4);
+		zephir_update_property_zval(this_ptr, SL("indentLevel"), &_6$$4);
 		ZEPHIR_INIT_VAR(&_8$$4);
 		zephir_create_array(&_8$$4, 3, 0);
 		ZEPHIR_INIT_VAR(&_9$$4);
@@ -311,9 +311,9 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select, optGroup) {
 	ZEPHIR_OBS_VAR(&_11);
 	zephir_read_property(&_11, this_ptr, SL("inOptGroup"), PH_NOISY_CC);
 	if (!zephir_is_true(&_11)) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("inOptGroup"), &__$true);
+		zephir_update_property_zval(this_ptr, SL("inOptGroup"), &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("inOptGroup"), &__$false);
+		zephir_update_property_zval(this_ptr, SL("inOptGroup"), &__$false);
 	}
 	RETURN_THIS();
 
@@ -339,7 +339,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select, selected) {
 	zephir_get_strval(&selected, selected_param);
 
 
-	zephir_update_property_zval(this_ptr, ZEND_STRL("selected"), &selected);
+	zephir_update_property_zval(this_ptr, SL("selected"), &selected);
 	RETURN_THIS();
 
 }
