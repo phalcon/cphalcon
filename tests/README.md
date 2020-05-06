@@ -36,7 +36,6 @@ following resources:
 The container based environment contains all the services you need to write
 and run your tests. These services are:
 
-- Beanstalkd
 - Memcached
 - Mongodb
 - Mysql

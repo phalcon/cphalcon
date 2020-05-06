@@ -4,8 +4,8 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 
 namespace Phalcon\Mvc\Model;
@@ -331,7 +331,7 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     /**
      * Returns the columns to be queried
      */
-    public function getColumns() -> string | null
+    public function getColumns() -> string | array | null
     {
         var columns;
 

@@ -52,6 +52,7 @@
 - Fixed return type hint for `Phalcon\Mvc\Model::average` and `Phalcon\Mvc\ModelInterface::average` to reflect original behavior [#15013](https://github.com/phalcon/cphalcon/issues/15013)
 - Fixed return type hint for `Phalcon\Mvc\Model\MetaData::getColumnMap` and `Phalcon\Mvc\Model\MetaData::getReverseColumnMap` to reflect original behavior [#15015](https://github.com/phalcon/cphalcon/issues/15015)
 - Fixed return type hint for `Phalcon\Mvc\Model\MetaDataInterface::getColumnMap` and `Phalcon\Mvc\Model\MetaDataInterface::getReverseColumnMap` to reflect original behavior [#15015](https://github.com/phalcon/cphalcon/issues/15015)
+- Fixed return type hint for `Phalcon\Mvc\Model\CriteriaInterface::getColumns` and `Phalcon\Mvc\Model\Criteria::getColumns` to reflect original behavior [#15017](https://github.com/phalcon/cphalcon/issues/15017)
 
 # [4.0.5](https://github.com/phalcon/cphalcon/releases/tag/v4.0.5) (2020-03-07)
 ## Added
