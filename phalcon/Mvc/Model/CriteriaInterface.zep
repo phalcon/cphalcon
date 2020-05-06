@@ -80,7 +80,7 @@ interface CriteriaInterface
     /**
      * Returns the columns to be queried
      */
-    public function getColumns() -> string | null;
+    public function getColumns() -> string | array | null;
 
     /**
      * Returns the conditions parameter in the criteria
