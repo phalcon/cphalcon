@@ -53,6 +53,7 @@
 - Fixed return type hint for `Phalcon\Mvc\Model\MetaData::getColumnMap` and `Phalcon\Mvc\Model\MetaData::getReverseColumnMap` to reflect original behavior [#15015](https://github.com/phalcon/cphalcon/issues/15015)
 - Fixed return type hint for `Phalcon\Mvc\Model\MetaDataInterface::getColumnMap` and `Phalcon\Mvc\Model\MetaDataInterface::getReverseColumnMap` to reflect original behavior [#15015](https://github.com/phalcon/cphalcon/issues/15015)
 - Fixed return type hint for `Phalcon\Mvc\Model\CriteriaInterface::getColumns` and `Phalcon\Mvc\Model\Criteria::getColumns` to reflect original behavior [#15017](https://github.com/phalcon/cphalcon/issues/15017)
+- Fixed return type hint for `Phalcon\Db\Column::getSize` and `Phalcon\Db\ColumnInterface::getSize` to reflect original behavior [#15019](https://github.com/phalcon/cphalcon/issues/15019)
 
 # [4.0.5](https://github.com/phalcon/cphalcon/releases/tag/v4.0.5) (2020-03-07)
 ## Added
