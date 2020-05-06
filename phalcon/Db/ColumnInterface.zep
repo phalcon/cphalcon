@@ -18,7 +18,7 @@ interface ColumnInterface
     /**
      * Check whether field absolute to position in table
      */
-    public function getAfterPosition() -> string;
+    public function getAfterPosition() -> string | null;
 
     /**
      * Returns the type of bind handling

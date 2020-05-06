@@ -59,7 +59,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Column) {
 	/**
 	 * Column Position
 	 *
-	 * @var string
+	 * @var string|null
 	 */
 	zend_declare_property_null(phalcon_db_column_ce, SL("after"), ZEND_ACC_PROTECTED);
 
