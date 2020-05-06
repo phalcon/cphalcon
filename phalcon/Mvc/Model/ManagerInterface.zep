@@ -4,8 +4,8 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 
 namespace Phalcon\Mvc\Model;
@@ -13,7 +13,7 @@ namespace Phalcon\Mvc\Model;
 use Phalcon\Db\Adapter\AdapterInterface;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\Query\BuilderInterface;
-use Phalcon\Mvc\Model\QueryInterface;
+use Phalcon\Mvc\Model\Query\StatusInterface;
 
 /**
  * Phalcon\Mvc\Model\ManagerInterface
@@ -93,9 +93,11 @@ interface ManagerInterface
     /**
      * Creates a Phalcon\Mvc\Model\Query and execute it
      *
-     * @param array $placeholders
+     * @param array|null $placeholders
+     * @param array|null $types
+     * @return ResultsetInterface|StatusInterface
      */
-    public function executeQuery(string! phql, var placeholders = null) -> <QueryInterface>;
+    public function executeQuery(string! phql, var placeholders = null, var types = null) -> var;
 
     /**
      * Checks whether a model has a belongsTo relation with another model
