@@ -86,10 +86,42 @@ class QueryCest
         $query->limit(20, 0);
         $resultsets = $query->execute();
 
-        $I->assertCount(20, $resultsets->toArray());
+        $I->assertEquals(20, $resultsets->count());
         foreach ($resultsets as $resultset) {
             $I->assertInstanceOf(Customers::class, $resultset);
         }
+    }
+
+    /**
+     * Tests Phalcon\Mvc\Model :: query() - Issue 14535
+     *
+     * @param  DatabaseTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-05-01
+     * @issue  14535
+     *
+     * @group  mysql
+     * @group  pgsql
+     * @group  sqlite
+     */
+    public function mvcModelQueryIssue14535(DatabaseTester $I)
+    {
+        $I->wantToTest('Mvc\Model - query() - #14535');
+        $this->addTestData($I);
+
+        $query = Customers::query();
+        $query->columns(
+            [
+                'Customer ID' => 'cst_id',
+                'Stätûs'      => 'cst_status_flag',
+            ]
+        );
+        $query->limit(1, 0);
+        $resultsets = $query->execute();
+
+        $I->assertTrue(isset($resultsets[0]['Customer ID']));
+        $I->assertTrue(isset($resultsets[0]['Stätûs']));
     }
 
     /**
@@ -169,21 +201,8 @@ class QueryCest
             $firstName = uniqid('inv-', true);
             $lastName  = uniqid('inv-', true);
 
-            if (!$this->customerMigration->insert($counter, 1, $firstName, $lastName)) {
-                $table  = $this->customerMigration->getTable();
-                $driver = $this->customerMigration->getDriverName();
-                $I->fail(
-                    sprintf("Failed to insert row #%d into table '%s' using '%s' driver", $counter, $table, $driver)
-                );
-            }
-
-            if (!$this->invoiceMigration->insert($counter, $counter, 1, $firstName)) {
-                $table  = $this->invoiceMigration->getTable();
-                $driver = $this->invoiceMigration->getDriverName();
-                $I->fail(
-                    sprintf("Failed to insert row #%d into table '%s' using '%s' driver", $counter, $table, $driver)
-                );
-            }
+            $this->customerMigration->insert($counter, 1, $firstName, $lastName);
+            $this->invoiceMigration->insert($counter, $counter, 1, $firstName);
         }
     }
 }
