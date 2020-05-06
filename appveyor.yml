@@ -5,7 +5,7 @@
 # For the full copyright and license information, please view
 # the LICENSE.txt file that was distributed with this source code.
 
-version: 4.0.6+{build}
+version: 4.1.0+{build}
 
 environment:
   matrix:
