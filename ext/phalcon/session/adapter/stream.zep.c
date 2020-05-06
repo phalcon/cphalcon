@@ -127,7 +127,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, __construct) {
 	}
 	ZEPHIR_CALL_CE_STATIC(&_6, phalcon_helper_str_ce, "dirseparator", &_7, 128, &path);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, ZEND_STRL("path"), &_6);
+	zephir_update_property_zval(this_ptr, SL("path"), &_6);
 	ZEPHIR_MM_RESTORE();
 
 }

@@ -124,7 +124,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, __construct) {
 	}
 	ZEPHIR_OBS_VAR(&columns);
 	if (zephir_array_isset_string_fetch(&columns, &config, SL("columns"), 0)) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("columns"), &columns);
+		zephir_update_property_zval(this_ptr, SL("columns"), &columns);
 	}
 	ZEPHIR_CALL_PARENT(NULL, phalcon_paginator_adapter_querybuilder_ce, getThis(), "__construct", &_2, 0, &config);
 	zephir_check_call_status();
@@ -417,7 +417,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, setQueryBuilder) {
 
 
 
-	zephir_update_property_zval(this_ptr, ZEND_STRL("builder"), builder);
+	zephir_update_property_zval(this_ptr, SL("builder"), builder);
 	RETURN_THISW();
 
 }

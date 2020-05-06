@@ -26,12 +26,13 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 /**
- * Temporarily stores the messages in session, then messages can be printed in
- * the next request
+ * This is an implementation of the Phalcon\Flash\FlashInterface that
+ * temporarily stores the messages in session, then messages can be printed in
+ * the next request.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Flash_Session) {
 
@@ -141,6 +142,8 @@ PHP_METHOD(Phalcon_Flash_Session, has) {
 
 /**
  * Adds a message to the session flasher
+ *
+ * @return null|string|void
  */
 PHP_METHOD(Phalcon_Flash_Session, message) {
 
@@ -215,7 +218,7 @@ PHP_METHOD(Phalcon_Flash_Session, output) {
 	}
 	ZEPHIR_CALL_METHOD(&messages, this_ptr, "getsessionmessages", NULL, 0, &_0);
 	zephir_check_call_status();
-	zephir_is_iterable(&messages, 0, "phalcon/Flash/Session.zep", 88);
+	zephir_is_iterable(&messages, 0, "phalcon/Flash/Session.zep", 91);
 	if (Z_TYPE_P(&messages) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&messages), _3, _4, _1)
 		{
@@ -395,7 +398,7 @@ PHP_METHOD(Phalcon_Flash_Session, getSessionService) {
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, &_2$$4, "__construct", NULL, 8, &_3$$4);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_2$$4, "phalcon/Flash/Session.zep", 157);
+		zephir_throw_exception_debug(&_2$$4, "phalcon/Flash/Session.zep", 160);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -418,7 +421,7 @@ PHP_METHOD(Phalcon_Flash_Session, getSessionService) {
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, &_10$$6, "__construct", NULL, 8, &_11$$6);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_10$$6, "phalcon/Flash/Session.zep", 165);
+		zephir_throw_exception_debug(&_10$$6, "phalcon/Flash/Session.zep", 168);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

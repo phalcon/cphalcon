@@ -5,8 +5,8 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -15,6 +15,7 @@ namespace Phalcon\Test\Database\Mvc\Model;
 
 use DatabaseTester;
 use Phalcon\Events\Manager;
+use Phalcon\Storage\Exception;
 use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Invoices;
@@ -28,18 +29,34 @@ class GetSetEventsManagerCest
 {
     use DiTrait;
 
-    public function _before(DatabaseTester $I)
+    /**
+     * @var InvoicesMigration
+     */
+    private $invoiceMigration;
+
+    /**
+     * Executed before each test
+     *
+     * @param  DatabaseTester $I
+     * @return void
+     */
+    public function _before(DatabaseTester $I): void
     {
-        $this->setNewFactoryDefault();
+        try {
+            $this->setNewFactoryDefault();
+        } catch (\Exception $e) {
+            $I->fail($e->getMessage());
+        }
+
         $this->setDatabase($I);
 
-        /** @var PDO $connection */
-        $connection = $I->getConnection();
-        (new InvoicesMigration($connection));
+        $this->invoiceMigration = new InvoicesMigration($I->getConnection());
     }
 
     /**
      * Tests Phalcon\Mvc\Model :: getEventsManager()
+     *
+     * @param  DatabaseTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
@@ -52,19 +69,15 @@ class GetSetEventsManagerCest
     {
         $I->wantToTest('Mvc\Model - getEventsManager()');
 
-        $title = uniqid('inv-');
-        /** @var PDO $connection */
-        $connection = $I->getConnection();
-        $migration  = new InvoicesMigration($connection);
-        $migration->insert(4, null, 0, $title);
+        $this->invoiceMigration->insert(4, null, 0, uniqid('inv-', true));
 
         $invoice = Invoices::findFirst();
-        $manager = new Manager();
 
-        $I->assertFalse(
+        $I->assertNull(
             $invoice->getEventsManager()
         );
 
+        $manager = new Manager();
         $invoice->setEventsManager($manager);
 
         $I->assertEquals(

@@ -133,9 +133,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_response_cookies_se
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_response_cookies_setsignkey, 0, 0, Phalcon\\Http\\Cookie\\CookieInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_response_cookies_setsignkey, 0, 0, Phalcon\\Http\\Response\\CookiesInterface, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_response_cookies_setsignkey, 0, 0, IS_OBJECT, "Phalcon\\Http\\Cookie\\CookieInterface", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_response_cookies_setsignkey, 0, 0, IS_OBJECT, "Phalcon\\Http\\Response\\CookiesInterface", 0)
 #endif
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, signKey, IS_STRING, 1)

@@ -14,12 +14,13 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Flash\Direct\Helper;
 
 use Phalcon\Escaper;
+use Phalcon\Flash\AbstractFlash;
 use Phalcon\Flash\Direct;
 use UnitTester;
 
 class FlashBase
 {
-    private $classes     = null;
+    private $classes     = [];
     private $notHtml     = false;
     private $notImplicit = false;
 
@@ -30,12 +31,20 @@ class FlashBase
         'error'   => 'errorMessage',
     ];
 
-    public function _before(UnitTester $I)
+    /**
+     * Executed before each test
+     *
+     * @param  UnitTester $I
+     * @return void
+     */
+    public function _before(UnitTester $I): void
     {
     }
 
     /**
      * Tests warning (implicit flush)
+     *
+     * @param  UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-04
@@ -56,6 +65,9 @@ class FlashBase
 
     /**
      * Tests a string with implicit flush Html
+     *
+     * @param  UnitTester $I
+     * @param  string     $function
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-04
@@ -94,10 +106,13 @@ class FlashBase
      * Private function to get the class of the message depending on the classes
      * set
      *
+     * @param  string $key
+     * @return string
+     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-04
      */
-    private function getClass($key): string
+    private function getClass(string $key): string
     {
         $template = ' class="%s"';
 
@@ -117,10 +132,15 @@ class FlashBase
      * Private function to start the ob, call the function, get the
      * contents and clean the ob
      *
+     * @param  AbstractFlash $flash
+     * @param  string        $function
+     * @param  string        $message
+     * @return string
+     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-04
      */
-    private function getObResponse($flash, $function, $message): string
+    private function getObResponse(AbstractFlash $flash, string $function, string $message): string
     {
         ob_start();
         $flash->$function($message);
@@ -132,6 +152,8 @@ class FlashBase
 
     /**
      * Tests warning (no implicit flush)
+     *
+     * @param  UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-04
@@ -157,6 +179,8 @@ class FlashBase
     /**
      * Tests warning (implicit flush no html)
      *
+     * @param  UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-04
      */
@@ -180,6 +204,8 @@ class FlashBase
 
     /**
      * Tests error (no implicit flush no html)
+     *
+     * @param  UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-04
@@ -206,6 +232,8 @@ class FlashBase
 
     /**
      * Tests auto escaping
+     *
+     * @param  UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @issue  https://github.com/phalcon/cphalcon/issues/11448
@@ -235,10 +263,13 @@ class FlashBase
     /**
      * Sets the custom classes for the tests
      *
+     * @param  array $classes
+     * @return void
+     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-10-04
      */
-    protected function setClasses($classes)
+    protected function setClasses(array $classes): void
     {
         $this->classes = $classes;
     }

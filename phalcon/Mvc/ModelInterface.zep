@@ -1,10 +1,11 @@
+
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalcon.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 
 namespace Phalcon\Mvc;
@@ -41,9 +42,9 @@ interface ModelInterface
      * conditions
      *
      * @param array parameters
-     * @return double
+     * @return double | ResultsetInterface
      */
-    public static function average(parameters = null) -> float;
+    public static function average(parameters = null) -> float | <ResultsetInterface>;
 
     /**
      * Assigns values to a model from an array returning a new model
@@ -69,10 +70,13 @@ interface ModelInterface
     /**
      * Allows to count how many records match the specified conditions
      *
+     * Returns an integer for simple queries or a ResultsetInterface
+     * instance for when the GROUP condition is used. The results will
+     * contain the count of each group.
+     *
      * @param array parameters
-     * @return int
      */
-    public static function count(parameters = null) -> int;
+    public static function count(var parameters = null) -> int | <ResultsetInterface>;
 
     /**
      * Inserts a model instance. If the instance already exists in the
@@ -248,9 +252,9 @@ interface ModelInterface
      * Allows to calculate a sum on a column that match the specified conditions
      *
      * @param array parameters
-     * @return double
+     * @return double | ResultsetInterface
      */
-    public static function sum(parameters = null) -> float;
+    public static function sum(parameters = null) -> float | <ResultsetInterface>;
 
     /**
      * Check whether validation process has generated any messages

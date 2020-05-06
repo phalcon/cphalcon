@@ -1,10 +1,11 @@
+
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalcon.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 
 namespace Phalcon\Mvc;
@@ -672,7 +673,11 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
     /**
      * Returns the average value on a column for a result-set of rows matching
-     * the specified conditions
+     * the specified conditions.
+     *
+     * Returned value will be a float for simple queries or a ResultsetInterface
+     * instance for when the GROUP condition is used. The results will
+     * contain the average of each group.
      *
      * ```php
      * // What's the average price of robots?
@@ -696,9 +701,9 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * ```
      *
      * @param array parameters
-     * @return double
+     * @return double | ResultsetInterface
      */
-    public static function average(var parameters = null) -> float
+    public static function average(var parameters = null) -> float | <ResultsetInterface>
     {
         return self::_groupResult("AVG", "average", parameters);
     }
@@ -962,7 +967,11 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     }
 
     /**
-     * Counts how many records match the specified conditions
+     * Counts how many records match the specified conditions.
+     *
+     * Returns an integer for simple queries or a ResultsetInterface
+     * instance for when the GROUP condition is used. The results will
+     * contain the count of each group.
      *
      * ```php
      * // How many robots are there?
@@ -977,9 +986,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * ```
      *
      * @param array parameters
-     * @return mixed
      */
-    public static function count(var parameters = null) -> int
+    public static function count(var parameters = null) -> int | <ResultsetInterface>
     {
         var result;
 
@@ -1696,9 +1704,9 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     }
 
     /**
-     * Returns the custom events manager
+     * Returns the custom events manager or null if there is no custom events manager
      */
-    public function getEventsManager() -> <EventsManagerInterface>
+    public function getEventsManager() -> <EventsManagerInterface> | null
     {
         return this->modelsManager->getCustomEventsManager(this);
     }
@@ -2982,9 +2990,9 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * ```
      *
      * @param array parameters
-     * @return double
+     * @return double | ResultsetInterface
      */
-    public static function sum(var parameters = null) -> float
+    public static function sum(var parameters = null) -> float | <ResultsetInterface>
     {
         return self::_groupResult("SUM", "sumatory", parameters);
     }

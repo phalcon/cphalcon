@@ -76,7 +76,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Textarea, __toString) {
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_2);
 	array_init(&_2);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("attributes"), &_2);
+	zephir_update_property_zval(this_ptr, SL("attributes"), &_2);
 	zephir_array_unset_string(&attributes, SL("type"), PH_SEPARATE);
 	zephir_array_unset_string(&attributes, SL("value"), PH_SEPARATE);
 	zephir_read_property(&_4, this_ptr, SL("type"), PH_NOISY_CC | PH_READONLY);

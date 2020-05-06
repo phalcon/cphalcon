@@ -114,13 +114,12 @@ typedef enum _zephir_call_type {
 		new_execute_data.func = NULL; \
 		execute_data = EG(current_execute_data) = &new_execute_data; \
 	}
-// TODO(serghei): Deprecated
+
 #define ZEPHIR_RESTORE_SCOPE() \
 	EG(scope) = old_scope; \
 	execute_data = old_call; \
 	EG(current_execute_data) = old_execute_data;
 
-// TODO(serghei): Deprecated
 #define ZEPHIR_SET_SCOPE(_scope, _scope_called) \
 	EG(scope) = _scope; \
 	EG(current_execute_data)->called_scope = _scope_called;

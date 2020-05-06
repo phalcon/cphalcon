@@ -5,8 +5,8 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -20,7 +20,10 @@ use UnitTester;
 class GetRealSourcePathCest
 {
     /**
-     * Tests Phalcon\Assets\Asset :: getRealSourcePath() - css local
+     * Tests Phalcon\Assets\Asset :: getRealSourcePath() - css/js local
+     *
+     * @param UnitTester $I
+     * @param Example    $example
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2018-11-13
@@ -29,20 +32,21 @@ class GetRealSourcePathCest
      */
     public function assetsAssetGetRealSourcePathLocal(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Assets\Asset - getRealSourcePath() - css local');
+        $I->wantToTest("Assets\Asset - getRealSourcePath() - {$example['type']} local");
 
         $asset = new Asset(
             $example['type'],
             $example['path']
         );
 
-        $I->assertFalse(
-            $asset->getRealSourcePath()
-        );
+        $I->assertEquals('', $asset->getRealSourcePath());
     }
 
     /**
-     * Tests Phalcon\Assets\Asset :: getRealSourcePath() - remote
+     * Tests Phalcon\Assets\Asset :: getRealSourcePath() - css/js remote
+     *
+     * @param UnitTester $I
+     * @param Example    $example
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2018-11-13
@@ -51,7 +55,7 @@ class GetRealSourcePathCest
      */
     public function assetsAssetGetRealSourcePathRemote(UnitTester $I, Example $example)
     {
-        $I->wantToTest('Assets\Asset - getRealSourcePath() - remote');
+        $I->wantToTest("Assets\Asset - getRealSourcePath() - {$example['type']} remote");
 
         $asset = new Asset(
             $example['type'],

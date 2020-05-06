@@ -3,11 +3,13 @@ name: Static Code Analysis
 on:
   push:
     paths-ignore:
-      - '*.md'
+      - '**.md'
+      - '**.txt'
   pull_request:
     branches:
-      - 'master'
-      - '4.0.x'
+      - master
+      - 4.0.x
+      - 4.1.x
 
 jobs:
   phpcs:

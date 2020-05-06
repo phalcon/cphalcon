@@ -107,7 +107,7 @@ PHP_METHOD(Phalcon_Cli_Task, setEventsManager) {
 
 
 
-	zephir_update_property_zval(this_ptr, ZEND_STRL("eventsManager"), eventsManager);
+	zephir_update_property_zval(this_ptr, SL("eventsManager"), eventsManager);
 
 }
 

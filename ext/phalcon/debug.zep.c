@@ -92,7 +92,7 @@ PHP_METHOD(Phalcon_Debug, clearVars) {
 	ZVAL_NULL(&__$null);
 
 
-	zephir_update_property_zval(this_ptr, ZEND_STRL("data"), &__$null);
+	zephir_update_property_zval(this_ptr, SL("data"), &__$null);
 	RETURN_THISW();
 
 }
@@ -558,7 +558,7 @@ PHP_METHOD(Phalcon_Debug, setBlacklist) {
 	}
 	ZEPHIR_INIT_NVAR(&value);
 	zephir_array_update_string(&result, SL("server"), &subArray, PH_COPY | PH_SEPARATE);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("blacklist"), &result);
+	zephir_update_property_zval(this_ptr, SL("blacklist"), &result);
 	RETURN_THIS();
 
 }
@@ -581,9 +581,9 @@ PHP_METHOD(Phalcon_Debug, setShowBackTrace) {
 
 
 	if (showBackTrace) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("showBackTrace"), &__$true);
+		zephir_update_property_zval(this_ptr, SL("showBackTrace"), &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("showBackTrace"), &__$false);
+		zephir_update_property_zval(this_ptr, SL("showBackTrace"), &__$false);
 	}
 	RETURN_THISW();
 
@@ -608,9 +608,9 @@ PHP_METHOD(Phalcon_Debug, setShowFileFragment) {
 
 
 	if (showFileFragment) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("showFileFragment"), &__$true);
+		zephir_update_property_zval(this_ptr, SL("showFileFragment"), &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("showFileFragment"), &__$false);
+		zephir_update_property_zval(this_ptr, SL("showFileFragment"), &__$false);
 	}
 	RETURN_THISW();
 
@@ -634,9 +634,9 @@ PHP_METHOD(Phalcon_Debug, setShowFiles) {
 
 
 	if (showFiles) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("showFiles"), &__$true);
+		zephir_update_property_zval(this_ptr, SL("showFiles"), &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("showFiles"), &__$false);
+		zephir_update_property_zval(this_ptr, SL("showFiles"), &__$false);
 	}
 	RETURN_THISW();
 
@@ -669,7 +669,7 @@ PHP_METHOD(Phalcon_Debug, setUri) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, ZEND_STRL("uri"), &uri);
+	zephir_update_property_zval(this_ptr, SL("uri"), &uri);
 	RETURN_THIS();
 
 }
@@ -1681,7 +1681,7 @@ zend_object *zephir_init_properties_Phalcon_Debug(zend_class_entry *class_type T
 			ZEPHIR_INIT_NVAR(&_2$$3);
 			array_init(&_2$$3);
 			zephir_array_update_string(&_1$$3, SL("server"), &_2$$3, PH_COPY | PH_SEPARATE);
-			zend_update_property(Z_OBJCE_P(this_ptr), this_ptr, ZEND_STRL("blacklist"), &_1$$3);
+			zephir_update_property_zval(this_ptr, SL("blacklist"), &_1$$3);
 		}
 		ZEPHIR_MM_RESTORE();
 		return Z_OBJ_P(this_ptr);

@@ -102,7 +102,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractInput, __invoke) {
 	zephir_read_property(&_1, this_ptr, SL("type"), PH_NOISY_CC);
 	zephir_array_update_string(&_0, SL("type"), &_1, PH_COPY | PH_SEPARATE);
 	zephir_array_update_string(&_0, SL("name"), &name, PH_COPY | PH_SEPARATE);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("attributes"), &_0);
+	zephir_update_property_zval(this_ptr, SL("attributes"), &_0);
 	if (!(zephir_array_isset_string(&attributes, SL("id")))) {
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "id");
@@ -113,7 +113,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractInput, __invoke) {
 	ZEPHIR_INIT_VAR(&_3);
 	zephir_read_property(&_4, this_ptr, SL("attributes"), PH_NOISY_CC | PH_READONLY);
 	zephir_fast_array_merge(&_3, &_4, &attributes);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("attributes"), &_3);
+	zephir_update_property_zval(this_ptr, SL("attributes"), &_3);
 	RETURN_THIS();
 
 }
@@ -143,7 +143,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_AbstractInput, __toString) {
 	ZEPHIR_CPY_WRT(&attributes, &_0);
 	ZEPHIR_INIT_VAR(&_1);
 	array_init(&_1);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("attributes"), &_1);
+	zephir_update_property_zval(this_ptr, SL("attributes"), &_1);
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "input");
 	ZEPHIR_INIT_VAR(&_3);
@@ -212,7 +212,7 @@ zend_object *zephir_init_properties_Phalcon_Html_Helper_Input_AbstractInput(zend
 		if (Z_TYPE_P(&_0) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_1$$3);
 			array_init(&_1$$3);
-			zend_update_property(Z_OBJCE_P(this_ptr), this_ptr, ZEND_STRL("attributes"), &_1$$3);
+			zephir_update_property_zval(this_ptr, SL("attributes"), &_1$$3);
 		}
 		ZEPHIR_MM_RESTORE();
 		return Z_OBJ_P(this_ptr);

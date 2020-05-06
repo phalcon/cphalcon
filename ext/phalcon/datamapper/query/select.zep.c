@@ -227,7 +227,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, asAlias) {
 	zephir_get_strval(&asAlias, asAlias_param);
 
 
-	zephir_update_property_zval(this_ptr, ZEND_STRL("asAlias"), &asAlias);
+	zephir_update_property_zval(this_ptr, SL("asAlias"), &asAlias);
 	RETURN_THIS();
 
 }
@@ -490,9 +490,9 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, forUpdate) {
 
 
 	if (enable) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("forUpdate"), &__$true);
+		zephir_update_property_zval(this_ptr, SL("forUpdate"), &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("forUpdate"), &__$false);
+		zephir_update_property_zval(this_ptr, SL("forUpdate"), &__$false);
 	}
 	RETURN_THISW();
 
@@ -825,11 +825,11 @@ PHP_METHOD(Phalcon_DataMapper_Query_Select, reset) {
 	ZEPHIR_INIT_VAR(&_1);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "");
-	zephir_update_property_zval(this_ptr, ZEND_STRL("asAlias"), &_1);
+	zephir_update_property_zval(this_ptr, SL("asAlias"), &_1);
 	if (0) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("forUpdate"), &__$true);
+		zephir_update_property_zval(this_ptr, SL("forUpdate"), &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("forUpdate"), &__$false);
+		zephir_update_property_zval(this_ptr, SL("forUpdate"), &__$false);
 	}
 	RETURN_THIS();
 
