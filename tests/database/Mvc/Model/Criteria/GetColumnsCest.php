@@ -5,8 +5,8 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -16,13 +16,12 @@ namespace Phalcon\Test\Database\Mvc\Model\Criteria;
 use DatabaseTester;
 use Phalcon\Mvc\Model\Criteria;
 
-/**
- * Class GetColumnsCest
- */
 class GetColumnsCest
 {
     /**
      * Tests Phalcon\Mvc\Model\Criteria :: getColumns()
+     *
+     * @param  DatabaseTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
@@ -44,6 +43,8 @@ class GetColumnsCest
 
     /**
      * Tests Phalcon\Mvc\Model\Criteria :: getColumns() - array
+     *
+     * @param  DatabaseTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
