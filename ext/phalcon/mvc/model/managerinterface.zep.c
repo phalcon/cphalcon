@@ -17,8 +17,8 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 /**
  * Phalcon\Mvc\Model\ManagerInterface
@@ -102,7 +102,9 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, createQuery);
 /**
  * Creates a Phalcon\Mvc\Model\Query and execute it
  *
- * @param array $placeholders
+ * @param array|null $placeholders
+ * @param array|null $types
+ * @return ResultsetInterface|StatusInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, executeQuery);
 
