@@ -4,25 +4,21 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 
 namespace Phalcon\Mvc\Model;
 
-use Phalcon\Di\DiInterface;
-use Phalcon\Mvc\ModelInterface;
 use Phalcon\Db\Adapter\AdapterInterface;
-use Phalcon\Mvc\Model\ResultsetInterface;
-use Phalcon\Mvc\Model\ManagerInterface;
+use Phalcon\Di\DiInterface;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Events\EventsAwareInterface;
-use Phalcon\Mvc\Model\Query;
-use Phalcon\Mvc\Model\QueryInterface;
+use Phalcon\Events\ManagerInterface as EventsManagerInterface;
+use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\Query\Builder;
 use Phalcon\Mvc\Model\Query\BuilderInterface;
-use Phalcon\Mvc\Model\BehaviorInterface;
-use Phalcon\Events\ManagerInterface as EventsManagerInterface;
+use Phalcon\Mvc\Model\Query\StatusInterface;
 
 /**
  * Phalcon\Mvc\Model\Manager
@@ -1949,8 +1945,32 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 
     /**
      * Creates a Phalcon\Mvc\Model\Query and execute it
+     *
+     * ```php
+     * $model = new Robots();
+     * $manager = $model->getModelsManager();
+     *
+     * // \Phalcon\Mvc\Model\Resultset\Simple
+     * $manager->executeQuery('SELECT * FROM Robots');
+     *
+     * // \Phalcon\Mvc\Model\Resultset\Complex
+     * $manager->executeQuery('SELECT COUNT(type) FROM Robots GROUP BY type');
+     *
+     * // \Phalcon\Mvc\Model\Query\StatusInterface
+     * $manager->executeQuery('INSERT INTO Robots (id) VALUES (1)');
+     *
+     * // \Phalcon\Mvc\Model\Query\StatusInterface
+     * $manager->executeQuery('UPDATE Robots SET id = 0 WHERE id = :id:', ['id' => 1]);
+     *
+     * // \Phalcon\Mvc\Model\Query\StatusInterface
+     * $manager->executeQuery('DELETE FROM Robots WHERE id = :id:', ['id' => 1]);
+     * ```
+     *
+     * @param array|null $placeholders
+     * @param array|null $types
+     * @return ResultsetInterface|StatusInterface
      */
-    public function executeQuery(string! phql, var placeholders = null, var types = null) -> <QueryInterface>
+    public function executeQuery(string! phql, var placeholders = null, var types = null) -> var
     {
         var query;
 
