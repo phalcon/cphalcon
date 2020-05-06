@@ -119,7 +119,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File_AbstractFile, setMessageFileEmpty) 
 
 
 
-	zephir_update_property_zval(this_ptr, ZEND_STRL("messageFileEmpty"), messageFileEmpty);
+	zephir_update_property_zval(this_ptr, SL("messageFileEmpty"), messageFileEmpty);
 	RETURN_THISW();
 
 }
@@ -150,7 +150,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File_AbstractFile, setMessageIniSize) {
 
 
 
-	zephir_update_property_zval(this_ptr, ZEND_STRL("messageIniSize"), messageIniSize);
+	zephir_update_property_zval(this_ptr, SL("messageIniSize"), messageIniSize);
 	RETURN_THISW();
 
 }
@@ -181,7 +181,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File_AbstractFile, setMessageValid) {
 
 
 
-	zephir_update_property_zval(this_ptr, ZEND_STRL("messageValid"), messageValid);
+	zephir_update_property_zval(this_ptr, SL("messageValid"), messageValid);
 	RETURN_THISW();
 
 }

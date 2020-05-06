@@ -4,20 +4,22 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 
 namespace Phalcon\Flash;
 
 /**
- * This is a variant of the Phalcon\Flash that immediately outputs any message
- * passed to it
+ * This is an implementation of the Phalcon\Flash\FlashInterface that
+ * immediately outputs any message passed to it.
  */
 class Direct extends AbstractFlash
 {
     /**
      * Outputs a message
+     *
+     * @return null|string|void
      */
     public function message(string type, var message) -> string | null
     {

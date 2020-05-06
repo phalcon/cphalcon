@@ -27,8 +27,8 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 /**
  * Loads Config Adapter class using 'adapter' option, if no extension is
@@ -135,7 +135,7 @@ PHP_METHOD(Phalcon_Config_ConfigFactory, load) {
 		ZEPHIR_CALL_FUNCTION(&extension, "pathinfo", NULL, 107, config, &_0$$3);
 		zephir_check_call_status();
 		if (UNEXPECTED(ZEPHIR_IS_EMPTY(&extension))) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_config_exception_ce, "You need to provide the extension in the file path", "phalcon/Config/ConfigFactory.zep", 69);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_config_exception_ce, "You need to provide the extension in the file path", "phalcon/Config/ConfigFactory.zep", 63);
 			return;
 		}
 		ZEPHIR_INIT_VAR(&_1$$3);
@@ -154,22 +154,22 @@ PHP_METHOD(Phalcon_Config_ConfigFactory, load) {
 		ZEPHIR_CPY_WRT(config, &_3$$5);
 	}
 	if (UNEXPECTED(Z_TYPE_P(config) != IS_ARRAY)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_config_exception_ce, "Config must be array or Phalcon\\Config object", "phalcon/Config/ConfigFactory.zep", 85);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_config_exception_ce, "Config must be array or Phalcon\\Config object", "phalcon/Config/ConfigFactory.zep", 79);
 		return;
 	}
 	if (UNEXPECTED(!(zephir_array_isset_string(config, SL("filePath"))))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_config_exception_ce, "You must provide 'filePath' option in factory config parameter.", "phalcon/Config/ConfigFactory.zep", 91);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_config_exception_ce, "You must provide 'filePath' option in factory config parameter.", "phalcon/Config/ConfigFactory.zep", 85);
 		return;
 	}
 	if (UNEXPECTED(!(zephir_array_isset_string(config, SL("adapter"))))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_config_exception_ce, "You must provide 'adapter' option in factory config parameter.", "phalcon/Config/ConfigFactory.zep", 97);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_config_exception_ce, "You must provide 'adapter' option in factory config parameter.", "phalcon/Config/ConfigFactory.zep", 91);
 		return;
 	}
-	zephir_array_fetch_string(&_4, config, SL("adapter"), PH_NOISY | PH_READONLY, "phalcon/Config/ConfigFactory.zep", 100);
+	zephir_array_fetch_string(&_4, config, SL("adapter"), PH_NOISY | PH_READONLY, "phalcon/Config/ConfigFactory.zep", 94);
 	ZEPHIR_INIT_VAR(&adapter);
 	zephir_fast_strtolower(&adapter, &_4);
 	ZEPHIR_OBS_VAR(&first);
-	zephir_array_fetch_string(&first, config, SL("filePath"), PH_NOISY, "phalcon/Config/ConfigFactory.zep", 101);
+	zephir_array_fetch_string(&first, config, SL("filePath"), PH_NOISY, "phalcon/Config/ConfigFactory.zep", 95);
 	ZEPHIR_INIT_VAR(&second);
 	ZVAL_NULL(&second);
 	ZVAL_LONG(&_5, 4);
@@ -243,10 +243,10 @@ PHP_METHOD(Phalcon_Config_ConfigFactory, newInstance) {
 	zephir_check_call_status();
 	zephir_read_property(&_0, this_ptr, SL("mapper"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_OBS_VAR(&definition);
-	zephir_array_fetch(&definition, &_0, &name, PH_NOISY, "phalcon/Config/ConfigFactory.zep", 126);
+	zephir_array_fetch(&definition, &_0, &name, PH_NOISY, "phalcon/Config/ConfigFactory.zep", 120);
 	ZEPHIR_INIT_VAR(&options);
 	array_init(&options);
-	zephir_array_append(&options, &fileName, PH_SEPARATE, "phalcon/Config/ConfigFactory.zep", 128);
+	zephir_array_append(&options, &fileName, PH_SEPARATE, "phalcon/Config/ConfigFactory.zep", 122);
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "json");
 	_2 = !ZEPHIR_IS_IDENTICAL(&_1, &name);
@@ -256,7 +256,7 @@ PHP_METHOD(Phalcon_Config_ConfigFactory, newInstance) {
 		_2 = !ZEPHIR_IS_IDENTICAL(&_3, &name);
 	}
 	if (_2) {
-		zephir_array_append(&options, params, PH_SEPARATE, "phalcon/Config/ConfigFactory.zep", 131);
+		zephir_array_append(&options, params, PH_SEPARATE, "phalcon/Config/ConfigFactory.zep", 125);
 	}
 	ZEPHIR_LAST_CALL_STATUS = zephir_create_instance_params(return_value, &definition, &options);
 	zephir_check_call_status();

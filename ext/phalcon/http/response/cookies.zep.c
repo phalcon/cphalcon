@@ -26,8 +26,8 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 /**
  * Phalcon\Http\Response\Cookies
@@ -133,9 +133,9 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, __construct) {
 
 
 	if (useEncryption) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("useEncryption"), &__$true);
+		zephir_update_property_zval(this_ptr, SL("useEncryption"), &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("useEncryption"), &__$false);
+		zephir_update_property_zval(this_ptr, SL("useEncryption"), &__$false);
 	}
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setsignkey", NULL, 0, &signKey);
 	zephir_check_call_status();
@@ -337,7 +337,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, reset) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	array_init(&_0);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("cookies"), &_0);
+	zephir_update_property_zval(this_ptr, SL("cookies"), &_0);
 	RETURN_THIS();
 
 }
@@ -606,9 +606,9 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set) {
 		ZEPHIR_CALL_METHOD(NULL, &response, "setcookies", NULL, 0, this_ptr);
 		zephir_check_call_status();
 		if (1) {
-			zephir_update_property_zval(this_ptr, ZEND_STRL("registered"), &__$true);
+			zephir_update_property_zval(this_ptr, SL("registered"), &__$true);
 		} else {
-			zephir_update_property_zval(this_ptr, ZEND_STRL("registered"), &__$false);
+			zephir_update_property_zval(this_ptr, SL("registered"), &__$false);
 		}
 	}
 	RETURN_THIS();
@@ -645,7 +645,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, setSignKey) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, ZEND_STRL("signKey"), &signKey);
+	zephir_update_property_zval(this_ptr, SL("signKey"), &signKey);
 	RETURN_THIS();
 
 }
@@ -668,9 +668,9 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, useEncryption) {
 
 
 	if (useEncryption) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("useEncryption"), &__$true);
+		zephir_update_property_zval(this_ptr, SL("useEncryption"), &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("useEncryption"), &__$false);
+		zephir_update_property_zval(this_ptr, SL("useEncryption"), &__$false);
 	}
 	RETURN_THISW();
 
@@ -692,7 +692,7 @@ zend_object *zephir_init_properties_Phalcon_Http_Response_Cookies(zend_class_ent
 		if (Z_TYPE_P(&_0) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_1$$3);
 			array_init(&_1$$3);
-			zend_update_property(Z_OBJCE_P(this_ptr), this_ptr, ZEND_STRL("cookies"), &_1$$3);
+			zephir_update_property_zval(this_ptr, SL("cookies"), &_1$$3);
 		}
 		ZEPHIR_MM_RESTORE();
 		return Z_OBJ_P(this_ptr);

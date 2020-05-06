@@ -5,14 +5,15 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 
 namespace Phalcon\Test\Unit\Flash;
 
 use Codeception\Example;
 use Phalcon\Flash\Direct;
+use Phalcon\Storage\Exception;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
@@ -30,18 +31,32 @@ class DirectCest
         'error'   => 'errorMessage',
     ];
 
-    public function _before(UnitTester $I)
+    /**
+     * Executed before each test
+     *
+     * @param  UnitTester $I
+     * @return void
+     */
+    public function _before(UnitTester $I): void
     {
         $this->newDi();
-        $this->setDiService('escaper');
+
+        try {
+            $this->setDiService('escaper');
+        } catch (Exception $e) {
+            $I->fail($e->getMessage());
+        }
     }
 
     /**
      * Tests auto escaping
      *
-     * @author       Phalcon Team <team@phalcon.io>
+     * @param  UnitTester $I
+     * @param  Example $example
+     *
+     * @author Phalcon Team <team@phalcon.io>
      * @issue  https://github.com/phalcon/cphalcon/issues/11448
-     * @since        2016-06-15
+     * @since  2016-06-15
      *
      * @dataProvider testShouldAutoEscapeHtmlProvider
      */
@@ -114,6 +129,9 @@ class DirectCest
     /**
      * Test output formatted messages
      *
+     * @param  UnitTester $I
+     * @param  Example $example
+     *
      * @author       Iván Guillén <zeopix@gmail.com>
      * @since        2015-10-26
      *
@@ -158,6 +176,8 @@ class DirectCest
 
     /**
      * Test custom message
+     *
+     * @param  UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @issue  https://github.com/phalcon/cphalcon/issues/13445

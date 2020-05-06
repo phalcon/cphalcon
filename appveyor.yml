@@ -5,7 +5,7 @@
 # For the full copyright and license information, please view
 # the LICENSE.txt file that was distributed with this source code.
 
-version: 4.0.5+{build}
+version: 4.0.6+{build}
 
 environment:
   matrix:
@@ -68,6 +68,9 @@ branches:
   only:
     - master
     - 4.0.x
+
+skip_commits:
+  message: /.*\[ci skip\]/
 
 init:
   - ps: $DebugPreference = 'SilentlyContinue' # Continue

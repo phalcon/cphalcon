@@ -5,8 +5,8 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -15,6 +15,7 @@ namespace Phalcon\Test\Database\Mvc\Model;
 
 use DatabaseTester;
 use Phalcon\Mvc\Model\Resultset\Simple;
+use Phalcon\Storage\Exception;
 use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Fixtures\Traits\RecordsTrait;
@@ -26,18 +27,34 @@ class CountCest
     use DiTrait;
     use RecordsTrait;
 
-    public function _before(DatabaseTester $I)
+    /**
+     * @var InvoicesMigration
+     */
+    private $invoiceMigration;
+
+    /**
+     * Executed before each test
+     *
+     * @param  DatabaseTester $I
+     * @return void
+     */
+    public function _before(DatabaseTester $I): void
     {
-        $this->setNewFactoryDefault();
+        try {
+            $this->setNewFactoryDefault();
+        } catch (Exception $e) {
+            $I->fail($e->getMessage());
+        }
+
         $this->setDatabase($I);
 
-        /** @var PDO $connection */
-        $connection = $I->getConnection();
-        (new InvoicesMigration($connection));
+        $this->invoiceMigration = new InvoicesMigration($I->getConnection());
     }
 
     /**
      * Tests Phalcon\Mvc\Model :: count()
+     *
+     * @param  DatabaseTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-29
@@ -48,21 +65,11 @@ class CountCest
     public function mvcModelCount(DatabaseTester $I)
     {
         /**
-         * The following tests need to skip sqlite because we will get
-         * a General Error 5 database is locked error
+         * @todo The following tests need to skip sqlite because we will get
+         *       a General Error 5 database is locked error
          */
-
-        /** @var PDO $connection */
-        $connection = $I->getConnection();
-        $migration  = new InvoicesMigration($connection);
-
         $invId = ('sqlite' === $I->getDriver()) ? 'null' : 'default';
-
-        $this->insertDataInvoices($migration, 7, $invId, 2, 'ccc');
-        $this->insertDataInvoices($migration, 1, $invId, 3, 'aaa');
-        $this->insertDataInvoices($migration, 11, $invId, 1, 'aaa');
-        $this->insertDataInvoices($migration, 9, $invId, 1, 'bbb');
-        $this->insertDataInvoices($migration, 5, $invId, 2, 'aaa');
+        $this->seed($invId);
 
         $total = Invoices::count();
         $I->assertEquals(33, $total);
@@ -111,6 +118,8 @@ class CountCest
     /**
      * Tests Phalcon\Mvc\Model :: count() - Column Map
      *
+     * @param  DatabaseTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-29
      *
@@ -119,23 +128,12 @@ class CountCest
      */
     public function mvcModelCountColumnMap(DatabaseTester $I)
     {
-
         /**
-         * The following tests need to skip sqlite because we will get
-         * a General Error 5 database is locked error
+         * @todo The following tests need to skip sqlite because we will get
+         *       a General Error 5 database is locked error
          */
-
-        /** @var PDO $connection */
-        $connection = $I->getConnection();
-        $migration  = new InvoicesMigration($connection);
-
         $invId = ('sqlite' === $I->getDriver()) ? 'null' : 'default';
-
-        $this->insertDataInvoices($migration, 7, $invId, 2, 'ccc');
-        $this->insertDataInvoices($migration, 1, $invId, 3, 'aaa');
-        $this->insertDataInvoices($migration, 11, $invId, 1, 'aaa');
-        $this->insertDataInvoices($migration, 9, $invId, 1, 'bbb');
-        $this->insertDataInvoices($migration, 5, $invId, 2, 'aaa');
+        $this->seed($invId);
 
         $total = InvoicesMap::count();
         $I->assertEquals(33, $total);
@@ -179,5 +177,14 @@ class CountCest
         $I->assertEquals(12, (int) $results[1]->rowcount);
         $I->assertEquals(1, (int) $results[2]->cst_id);
         $I->assertEquals(20, (int) $results[2]->rowcount);
+    }
+
+    private function seed(string $invId)
+    {
+        $this->insertDataInvoices($this->invoiceMigration, 7, $invId, 2, 'ccc');
+        $this->insertDataInvoices($this->invoiceMigration, 1, $invId, 3, 'aaa');
+        $this->insertDataInvoices($this->invoiceMigration, 11, $invId, 1, 'aaa');
+        $this->insertDataInvoices($this->invoiceMigration, 9, $invId, 1, 'bbb');
+        $this->insertDataInvoices($this->invoiceMigration, 5, $invId, 2, 'aaa');
     }
 }

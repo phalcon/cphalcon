@@ -35,6 +35,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Item) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Logger, Item, phalcon, logger_item, phalcon_logger_item_method_entry, 0);
 
+	/**
+	 * Log Context
+	 * @return mixed
+	 */
 	zend_declare_property_null(phalcon_logger_item_ce, SL("context"), ZEND_ACC_PROTECTED);
 
 	/**
@@ -69,6 +73,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Item) {
 
 }
 
+/**
+ * Log Context
+ */
 PHP_METHOD(Phalcon_Logger_Item, getContext) {
 
 	zval *this_ptr = getThis();
@@ -161,16 +168,16 @@ PHP_METHOD(Phalcon_Logger_Item, __construct) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, ZEND_STRL("message"), &message);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("name"), &name);
+	zephir_update_property_zval(this_ptr, SL("message"), &message);
+	zephir_update_property_zval(this_ptr, SL("name"), &name);
 	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(&_0, type);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("type"), &_0);
+	zephir_update_property_zval(this_ptr, SL("type"), &_0);
 	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(&_0, time);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("time"), &_0);
+	zephir_update_property_zval(this_ptr, SL("time"), &_0);
 	if (Z_TYPE_P(context) == IS_ARRAY) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("context"), context);
+		zephir_update_property_zval(this_ptr, SL("context"), context);
 	}
 	ZEPHIR_MM_RESTORE();
 

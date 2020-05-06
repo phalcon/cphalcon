@@ -24,6 +24,9 @@ use Phalcon\Mvc\Model;
  * @property string $inv_title
  * @property float  $inv_total
  * @property string $inv_created_at
+ *
+ * @method static static findFirst($parameters = null)
+ * @method static Model\Resultset\Simple|static[] find($parameters = null)
  */
 class Invoices extends Model
 {

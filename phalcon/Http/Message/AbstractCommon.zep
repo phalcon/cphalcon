@@ -4,8 +4,8 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  *
  * Implementation of this file has been influenced by Zend Diactoros
  * @link    https://github.com/zendframework/zend-diactoros
@@ -27,9 +27,9 @@ abstract class AbstractCommon
      * @param mixed  $element
      * @param string $property
      *
-     * @return mixed
+     * @return static
      */
-    final protected function cloneInstance(var element, string property) -> object
+    final protected function cloneInstance(var element, string property) -> var
     {
         var newInstance;
 
@@ -60,9 +60,9 @@ abstract class AbstractCommon
      * @param mixed  $element
      * @param string $property
      *
-     * @return mixed
+     * @return static
      */
-    final protected function processWith(var element, string property) -> object
+    final protected function processWith(var element, string property) -> var
     {
         this->checkStringParameter(element);
 

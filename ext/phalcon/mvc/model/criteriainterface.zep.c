@@ -17,8 +17,8 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 /**
  * Phalcon\Mvc\Model\CriteriaInterface
@@ -112,9 +112,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getGroupBy);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getHaving);
 
 /**
- * Returns the limit parameter in the criteria, which will be an integer if
- * limit was set without an offset, an array with 'number' and 'offset' keys
- * if an offset was set with the limit, or null if limit has not been set.
+ * Returns the limit parameter in the criteria, which will be
+ *
+ * - An integer if 'limit' was set without an 'offset'
+ * - An array with 'number' and 'offset' keys if an offset was set with the limit
+ * - NULL if limit has not been set
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_CriteriaInterface, getLimit);
 

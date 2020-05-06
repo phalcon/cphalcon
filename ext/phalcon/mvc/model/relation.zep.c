@@ -119,11 +119,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, __construct) {
 
 	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(&_0, type);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("type"), &_0);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("referencedModel"), &referencedModel);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("fields"), fields);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("referencedFields"), referencedFields);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("options"), &options);
+	zephir_update_property_zval(this_ptr, SL("type"), &_0);
+	zephir_update_property_zval(this_ptr, SL("referencedModel"), &referencedModel);
+	zephir_update_property_zval(this_ptr, SL("fields"), fields);
+	zephir_update_property_zval(this_ptr, SL("referencedFields"), referencedFields);
+	zephir_update_property_zval(this_ptr, SL("options"), &options);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -427,9 +427,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, setIntermediateRelation) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, ZEND_STRL("intermediateFields"), intermediateFields);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("intermediateModel"), &intermediateModel);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("intermediateReferencedFields"), intermediateReferencedFields);
+	zephir_update_property_zval(this_ptr, SL("intermediateFields"), intermediateFields);
+	zephir_update_property_zval(this_ptr, SL("intermediateModel"), &intermediateModel);
+	zephir_update_property_zval(this_ptr, SL("intermediateReferencedFields"), intermediateReferencedFields);
 	ZEPHIR_MM_RESTORE();
 
 }

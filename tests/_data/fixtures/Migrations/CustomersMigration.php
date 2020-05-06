@@ -39,7 +39,7 @@ class CustomersMigration extends AbstractMigration
 insert into co_customers (
     cst_id, cst_status_flag, cst_name_last, cst_name_first
 ) values (
-    {$id}, {$status}, "{$first}", "{$last}"
+    {$id}, {$status}, '{$first}', '{$last}'
 )
 SQL;
 

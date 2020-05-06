@@ -5,8 +5,8 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -22,6 +22,8 @@ class CustomCest
     /**
      * Tests Phalcon\Filter :: custom has()
      *
+     * @param  UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-01-19
      */
@@ -29,19 +31,15 @@ class CustomCest
     {
         $I->wantToTest('Filter\Filter - custom has()');
 
-        $services = [
-            'ipv4' => IPv4::class,
-        ];
-
-        $locator = new Filter($services);
-
         $I->assertTrue(
-            $locator->has('ipv4')
+            (new Filter(['ipv4' => IPv4::class]))->has('ipv4')
         );
     }
 
     /**
      * Tests Phalcon\Filter :: custom sanitizer
+     *
+     * @param  UnitTester $I
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2019-01-19
@@ -50,14 +48,8 @@ class CustomCest
     {
         $I->wantToTest('Filter\Filter - custom sanitizer');
 
-        $services = [
-            'ipv4' => IPv4::class,
-        ];
-
-        $locator = new Filter($services);
-
         /** @var IPv4 $sanitizer */
-        $sanitizer = $locator->get('ipv4');
+        $sanitizer = (new Filter(['ipv4' => IPv4::class]))->get('ipv4');
 
         $I->assertInstanceOf(
             IPv4::class,

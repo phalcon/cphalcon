@@ -102,15 +102,15 @@ PHP_METHOD(Phalcon_Db_RawValue, __construct) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		ZEPHIR_INIT_NVAR(&_0$$3);
 		ZVAL_STRING(&_0$$3, "''");
-		zephir_update_property_zval(this_ptr, ZEND_STRL("value"), &_0$$3);
+		zephir_update_property_zval(this_ptr, SL("value"), &_0$$3);
 	} else if (Z_TYPE_P(value) == IS_NULL) {
 		ZEPHIR_INIT_VAR(&_1$$4);
 		ZEPHIR_INIT_NVAR(&_1$$4);
 		ZVAL_STRING(&_1$$4, "NULL");
-		zephir_update_property_zval(this_ptr, ZEND_STRL("value"), &_1$$4);
+		zephir_update_property_zval(this_ptr, SL("value"), &_1$$4);
 	} else {
 		zephir_get_strval(&_2$$5, value);
-		zephir_update_property_zval(this_ptr, ZEND_STRL("value"), &_2$$5);
+		zephir_update_property_zval(this_ptr, SL("value"), &_2$$5);
 	}
 	ZEPHIR_MM_RESTORE();
 

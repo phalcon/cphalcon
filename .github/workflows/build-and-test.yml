@@ -538,7 +538,7 @@ jobs:
           cp tests/_ci/.env.default .env
           vendor/bin/codecept build
 
-      - name: Run Unot Tests
+      - name: Run Unit Tests
         run: vendor/bin/codecept run --ext DotReporter unit
 
       - name: Run CLI Tests

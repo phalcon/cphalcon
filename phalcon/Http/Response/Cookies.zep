@@ -4,8 +4,8 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 
 namespace Phalcon\Http\Response;
@@ -312,7 +312,7 @@ class Cookies extends AbstractInjectionAware implements CookiesInterface
      *
      * @see \Phalcon\Security\Random
      */
-    public function setSignKey(string signKey = null) -> <CookieInterface>
+    public function setSignKey(string signKey = null) -> <CookiesInterface>
     {
         let this->signKey = signKey;
 

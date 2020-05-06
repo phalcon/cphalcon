@@ -78,7 +78,7 @@ PHP_METHOD(Phalcon_Messages_Messages, __construct) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, ZEND_STRL("messages"), &messages);
+	zephir_update_property_zval(this_ptr, SL("messages"), &messages);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -153,7 +153,7 @@ PHP_METHOD(Phalcon_Messages_Messages, appendMessages) {
 		} else {
 			ZEPHIR_CPY_WRT(&finalMessages, messages);
 		}
-		zephir_update_property_zval(this_ptr, ZEND_STRL("messages"), &finalMessages);
+		zephir_update_property_zval(this_ptr, SL("messages"), &finalMessages);
 	} else {
 		ZEPHIR_CALL_METHOD(NULL, messages, "rewind", NULL, 0);
 		zephir_check_call_status();
@@ -541,7 +541,7 @@ PHP_METHOD(Phalcon_Messages_Messages, rewind) {
 
 	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(&_0, 0);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("position"), &_0);
+	zephir_update_property_zval(this_ptr, SL("position"), &_0);
 
 }
 

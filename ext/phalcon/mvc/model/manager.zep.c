@@ -186,7 +186,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, setDI) {
 
 
 
-	zephir_update_property_zval(this_ptr, ZEND_STRL("container"), container);
+	zephir_update_property_zval(this_ptr, SL("container"), container);
 
 }
 
@@ -216,7 +216,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, setEventsManager) {
 
 
 
-	zephir_update_property_zval(this_ptr, ZEND_STRL("eventsManager"), eventsManager);
+	zephir_update_property_zval(this_ptr, SL("eventsManager"), eventsManager);
 
 }
 
@@ -258,7 +258,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, setCustomEventsManager) {
 }
 
 /**
- * Returns a custom events manager related to a model
+ * Returns a custom events manager related to a model or null if there is no related events manager
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getCustomEventsManager) {
 
@@ -279,10 +279,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getCustomEventsManager) {
 	zephir_read_property(&_0, this_ptr, SL("customEventsManager"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_1);
 	zephir_get_class(&_1, model, 1);
-	if (!(zephir_array_isset_fetch(&eventsManager, &_0, &_1, 1))) {
-		RETURN_MM_BOOL(0);
+	if (zephir_array_isset_fetch(&eventsManager, &_0, &_1, 1)) {
+		RETURN_CTOR(&eventsManager);
 	}
-	RETURN_CTOR(&eventsManager);
+	RETURN_MM_NULL();
 
 }
 
@@ -320,7 +320,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, initialize) {
 		ZEPHIR_CALL_METHOD(NULL, model, "initialize", NULL, 0);
 		zephir_check_call_status();
 	}
-	zephir_update_property_zval(this_ptr, ZEND_STRL("lastInitialized"), model);
+	zephir_update_property_zval(this_ptr, SL("lastInitialized"), model);
 	zephir_read_property(&_1, this_ptr, SL("eventsManager"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&eventsManager, &_1);
 	if (Z_TYPE_P(&eventsManager) == IS_OBJECT) {
@@ -487,7 +487,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, setModelPrefix) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, ZEND_STRL("prefix"), &prefix);
+	zephir_update_property_zval(this_ptr, SL("prefix"), &prefix);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -2946,7 +2946,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, clearReusableObjects) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	array_init(&_0);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("reusable"), &_0);
+	zephir_update_property_zval(this_ptr, SL("reusable"), &_0);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -3715,7 +3715,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, createQuery) {
 	ZEPHIR_CALL_METHOD(&_5, &container, "get", NULL, 0, &_7, &_6);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&query, &_5);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("lastQuery"), &query);
+	zephir_update_property_zval(this_ptr, SL("lastQuery"), &query);
 	RETURN_CCTOR(&query);
 
 }
@@ -3925,133 +3925,133 @@ zend_object *zephir_init_properties_Phalcon_Mvc_Model_Manager(zend_class_entry *
 		if (Z_TYPE_P(&_0) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_1$$3);
 			array_init(&_1$$3);
-			zend_update_property(Z_OBJCE_P(this_ptr), this_ptr, ZEND_STRL("reusable"), &_1$$3);
+			zephir_update_property_zval(this_ptr, SL("reusable"), &_1$$3);
 		}
 		zephir_read_property(&_2, this_ptr, SL("writeConnectionServices"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_2) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_3$$4);
 			array_init(&_3$$4);
-			zend_update_property(Z_OBJCE_P(this_ptr), this_ptr, ZEND_STRL("writeConnectionServices"), &_3$$4);
+			zephir_update_property_zval(this_ptr, SL("writeConnectionServices"), &_3$$4);
 		}
 		zephir_read_property(&_4, this_ptr, SL("schemas"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_4) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_5$$5);
 			array_init(&_5$$5);
-			zend_update_property(Z_OBJCE_P(this_ptr), this_ptr, ZEND_STRL("schemas"), &_5$$5);
+			zephir_update_property_zval(this_ptr, SL("schemas"), &_5$$5);
 		}
 		zephir_read_property(&_6, this_ptr, SL("sources"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_6) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_7$$6);
 			array_init(&_7$$6);
-			zend_update_property(Z_OBJCE_P(this_ptr), this_ptr, ZEND_STRL("sources"), &_7$$6);
+			zephir_update_property_zval(this_ptr, SL("sources"), &_7$$6);
 		}
 		zephir_read_property(&_8, this_ptr, SL("readConnectionServices"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_8) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_9$$7);
 			array_init(&_9$$7);
-			zend_update_property(Z_OBJCE_P(this_ptr), this_ptr, ZEND_STRL("readConnectionServices"), &_9$$7);
+			zephir_update_property_zval(this_ptr, SL("readConnectionServices"), &_9$$7);
 		}
 		zephir_read_property(&_10, this_ptr, SL("modelVisibility"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_10) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_11$$8);
 			array_init(&_11$$8);
-			zend_update_property(Z_OBJCE_P(this_ptr), this_ptr, ZEND_STRL("modelVisibility"), &_11$$8);
+			zephir_update_property_zval(this_ptr, SL("modelVisibility"), &_11$$8);
 		}
 		zephir_read_property(&_12, this_ptr, SL("keepSnapshots"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_12) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_13$$9);
 			array_init(&_13$$9);
-			zend_update_property(Z_OBJCE_P(this_ptr), this_ptr, ZEND_STRL("keepSnapshots"), &_13$$9);
+			zephir_update_property_zval(this_ptr, SL("keepSnapshots"), &_13$$9);
 		}
 		zephir_read_property(&_14, this_ptr, SL("initialized"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_14) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_15$$10);
 			array_init(&_15$$10);
-			zend_update_property(Z_OBJCE_P(this_ptr), this_ptr, ZEND_STRL("initialized"), &_15$$10);
+			zephir_update_property_zval(this_ptr, SL("initialized"), &_15$$10);
 		}
 		zephir_read_property(&_16, this_ptr, SL("hasOneThroughSingle"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_16) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_17$$11);
 			array_init(&_17$$11);
-			zend_update_property(Z_OBJCE_P(this_ptr), this_ptr, ZEND_STRL("hasOneThroughSingle"), &_17$$11);
+			zephir_update_property_zval(this_ptr, SL("hasOneThroughSingle"), &_17$$11);
 		}
 		zephir_read_property(&_18, this_ptr, SL("hasOneThrough"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_18) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_19$$12);
 			array_init(&_19$$12);
-			zend_update_property(Z_OBJCE_P(this_ptr), this_ptr, ZEND_STRL("hasOneThrough"), &_19$$12);
+			zephir_update_property_zval(this_ptr, SL("hasOneThrough"), &_19$$12);
 		}
 		zephir_read_property(&_20, this_ptr, SL("hasOneSingle"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_20) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_21$$13);
 			array_init(&_21$$13);
-			zend_update_property(Z_OBJCE_P(this_ptr), this_ptr, ZEND_STRL("hasOneSingle"), &_21$$13);
+			zephir_update_property_zval(this_ptr, SL("hasOneSingle"), &_21$$13);
 		}
 		zephir_read_property(&_22, this_ptr, SL("hasOne"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_22) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_23$$14);
 			array_init(&_23$$14);
-			zend_update_property(Z_OBJCE_P(this_ptr), this_ptr, ZEND_STRL("hasOne"), &_23$$14);
+			zephir_update_property_zval(this_ptr, SL("hasOne"), &_23$$14);
 		}
 		zephir_read_property(&_24, this_ptr, SL("hasManyToManySingle"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_24) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_25$$15);
 			array_init(&_25$$15);
-			zend_update_property(Z_OBJCE_P(this_ptr), this_ptr, ZEND_STRL("hasManyToManySingle"), &_25$$15);
+			zephir_update_property_zval(this_ptr, SL("hasManyToManySingle"), &_25$$15);
 		}
 		zephir_read_property(&_26, this_ptr, SL("hasManyToMany"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_26) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_27$$16);
 			array_init(&_27$$16);
-			zend_update_property(Z_OBJCE_P(this_ptr), this_ptr, ZEND_STRL("hasManyToMany"), &_27$$16);
+			zephir_update_property_zval(this_ptr, SL("hasManyToMany"), &_27$$16);
 		}
 		zephir_read_property(&_28, this_ptr, SL("hasManySingle"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_28) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_29$$17);
 			array_init(&_29$$17);
-			zend_update_property(Z_OBJCE_P(this_ptr), this_ptr, ZEND_STRL("hasManySingle"), &_29$$17);
+			zephir_update_property_zval(this_ptr, SL("hasManySingle"), &_29$$17);
 		}
 		zephir_read_property(&_30, this_ptr, SL("hasMany"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_30) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_31$$18);
 			array_init(&_31$$18);
-			zend_update_property(Z_OBJCE_P(this_ptr), this_ptr, ZEND_STRL("hasMany"), &_31$$18);
+			zephir_update_property_zval(this_ptr, SL("hasMany"), &_31$$18);
 		}
 		zephir_read_property(&_32, this_ptr, SL("dynamicUpdate"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_32) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_33$$19);
 			array_init(&_33$$19);
-			zend_update_property(Z_OBJCE_P(this_ptr), this_ptr, ZEND_STRL("dynamicUpdate"), &_33$$19);
+			zephir_update_property_zval(this_ptr, SL("dynamicUpdate"), &_33$$19);
 		}
 		zephir_read_property(&_34, this_ptr, SL("customEventsManager"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_34) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_35$$20);
 			array_init(&_35$$20);
-			zend_update_property(Z_OBJCE_P(this_ptr), this_ptr, ZEND_STRL("customEventsManager"), &_35$$20);
+			zephir_update_property_zval(this_ptr, SL("customEventsManager"), &_35$$20);
 		}
 		zephir_read_property(&_36, this_ptr, SL("belongsToSingle"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_36) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_37$$21);
 			array_init(&_37$$21);
-			zend_update_property(Z_OBJCE_P(this_ptr), this_ptr, ZEND_STRL("belongsToSingle"), &_37$$21);
+			zephir_update_property_zval(this_ptr, SL("belongsToSingle"), &_37$$21);
 		}
 		zephir_read_property(&_38, this_ptr, SL("belongsTo"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_38) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_39$$22);
 			array_init(&_39$$22);
-			zend_update_property(Z_OBJCE_P(this_ptr), this_ptr, ZEND_STRL("belongsTo"), &_39$$22);
+			zephir_update_property_zval(this_ptr, SL("belongsTo"), &_39$$22);
 		}
 		zephir_read_property(&_40, this_ptr, SL("behaviors"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_40) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_41$$23);
 			array_init(&_41$$23);
-			zend_update_property(Z_OBJCE_P(this_ptr), this_ptr, ZEND_STRL("behaviors"), &_41$$23);
+			zephir_update_property_zval(this_ptr, SL("behaviors"), &_41$$23);
 		}
 		zephir_read_property(&_42, this_ptr, SL("aliases"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_42) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_43$$24);
 			array_init(&_43$$24);
-			zend_update_property(Z_OBJCE_P(this_ptr), this_ptr, ZEND_STRL("aliases"), &_43$$24);
+			zephir_update_property_zval(this_ptr, SL("aliases"), &_43$$24);
 		}
 		ZEPHIR_MM_RESTORE();
 		return Z_OBJ_P(this_ptr);
