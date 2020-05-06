@@ -57,6 +57,7 @@
 - Fixed return type hint for `Phalcon\Db\Column::getSize` and `Phalcon\Db\ColumnInterface::getSize` to reflect original behavior [#15019](https://github.com/phalcon/cphalcon/issues/15019)
 - Fixed return type hint for `Phalcon\Db\Column::getAfterPosition` and `Phalcon\Db\ColumnInterface::getAfterPosition` to reflect original behavior [#15021](https://github.com/phalcon/cphalcon/issues/15021)
 - Fixed return type hint for `Phalcon\Mvc\Model\Manager::executeQuery` and `Phalcon\Mvc\Model\Manager::ManagerInterface` to reflect original behavior [#15024](https://github.com/phalcon/cphalcon/issues/15024)
+- Fixed return type hint for `Phalcon\Mvc\Model\Resultset::getFirst` and `Phalcon\Mvc\Model\ResultsetInterface::getFirst` to reflect original behavior [#15027](https://github.com/phalcon/cphalcon/issues/15027)
 
 # [4.0.5](https://github.com/phalcon/cphalcon/releases/tag/v4.0.5) (2020-03-07)
 ## Added
