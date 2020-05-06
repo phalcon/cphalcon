@@ -659,6 +659,8 @@ trait DbTrait
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
+     *
+     * @return Column[]
      */
     protected function getColumnsObjects(): array
     {
