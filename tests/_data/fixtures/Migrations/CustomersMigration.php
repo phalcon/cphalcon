@@ -5,20 +5,22 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 
 declare(strict_types=1);
 
 namespace Phalcon\Test\Fixtures\Migrations;
 
+use PHPUnit\Framework\Assert;
+
 /**
  * Class CustomersMigration
  */
 class CustomersMigration extends AbstractMigration
 {
-    protected $table = "co_customers";
+    protected $table = 'co_customers';
 
     /**
      * @param int|null    $id
@@ -43,7 +45,15 @@ insert into co_customers (
 )
 SQL;
 
-        return $this->connection->exec($sql);
+        if (!$result = $this->connection->exec($sql)) {
+            $table  = $this->getTable();
+            $driver = $this->getDriverName();
+            Assert::fail(
+                sprintf("Failed to insert row #%d into table '%s' using '%s' driver", $id, $table, $driver)
+            );
+        }
+
+        return $result;
     }
 
     protected function getSqlMysql(): array
