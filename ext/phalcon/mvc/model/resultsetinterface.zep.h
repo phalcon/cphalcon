@@ -27,13 +27,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_resultsetinter
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_resultsetinterface_getfirst, 0, 0, Phalcon\\Mvc\\ModelInterface, 1)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_resultsetinterface_getfirst, 0, 0, IS_OBJECT, "Phalcon\\Mvc\\ModelInterface", 1)
-#endif
-ZEND_END_ARG_INFO()
-
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_resultsetinterface_gethydratemode, 0, 0, IS_LONG, 0)
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_resultsetinterface_gethydratemode, 0, 0, IS_LONG, NULL, 0)
@@ -112,7 +105,7 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_resultsetinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_ResultsetInterface, delete, arginfo_phalcon_mvc_model_resultsetinterface_delete)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_ResultsetInterface, filter, arginfo_phalcon_mvc_model_resultsetinterface_filter)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_ResultsetInterface, getCache, arginfo_phalcon_mvc_model_resultsetinterface_getcache)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_ResultsetInterface, getFirst, arginfo_phalcon_mvc_model_resultsetinterface_getfirst)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_ResultsetInterface, getFirst, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_ResultsetInterface, getHydrateMode, arginfo_phalcon_mvc_model_resultsetinterface_gethydratemode)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_ResultsetInterface, getLast, arginfo_phalcon_mvc_model_resultsetinterface_getlast)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_ResultsetInterface, getMessages, arginfo_phalcon_mvc_model_resultsetinterface_getmessages)
