@@ -22,12 +22,12 @@
 
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalcon.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 /**
  * Allows to define columns to be used on create or alter table operations
@@ -123,7 +123,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Column) {
 	/**
 	 * Integer column size
 	 *
-	 * @var int
+	 * @var int | string
 	 */
 	zend_declare_property_long(phalcon_db_column_ce, SL("size"), 0, ZEND_ACC_PROTECTED);
 

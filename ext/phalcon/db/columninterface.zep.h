@@ -32,13 +32,6 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_columninterface_getsc
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_columninterface_getsize, 0, 0, IS_LONG, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_columninterface_getsize, 0, 0, IS_LONG, NULL, 0)
-#endif
-ZEND_END_ARG_INFO()
-
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_columninterface_gettype, 0, 0, IS_LONG, 0)
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_columninterface_gettype, 0, 0, IS_LONG, NULL, 0)
@@ -107,7 +100,7 @@ ZEPHIR_INIT_FUNCS(phalcon_db_columninterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Db_ColumnInterface, getDefault, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Db_ColumnInterface, getName, arginfo_phalcon_db_columninterface_getname)
 	PHP_ABSTRACT_ME(Phalcon_Db_ColumnInterface, getScale, arginfo_phalcon_db_columninterface_getscale)
-	PHP_ABSTRACT_ME(Phalcon_Db_ColumnInterface, getSize, arginfo_phalcon_db_columninterface_getsize)
+	PHP_ABSTRACT_ME(Phalcon_Db_ColumnInterface, getSize, NULL)
 	PHP_ABSTRACT_ME(Phalcon_Db_ColumnInterface, getType, arginfo_phalcon_db_columninterface_gettype)
 	PHP_ABSTRACT_ME(Phalcon_Db_ColumnInterface, getTypeReference, arginfo_phalcon_db_columninterface_gettypereference)
 	PHP_ABSTRACT_ME(Phalcon_Db_ColumnInterface, getTypeValues, NULL)
