@@ -70,7 +70,7 @@ class Transaction implements TransactionInterface
 
     protected manager;
 
-    protected messages;
+    protected messages = [];
 
     protected rollbackRecord;
 
