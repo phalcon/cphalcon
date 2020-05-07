@@ -2332,7 +2332,7 @@ class Query implements QueryInterface, InjectionAwareInterface
                      */
                     if fetch alias, sqlColumn["balias"] {
                         if isset column["column"]["domain"] {
-                            let alias = column["column"]["domain"] . "_" . alias;
+                            // let alias = column["column"]["domain"] . "_" . alias;
                         }
 
                         let sqlColumns[alias] = sqlColumn;
