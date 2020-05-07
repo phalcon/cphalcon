@@ -59,15 +59,15 @@ class UnserializeCest
         $expected = [
             'cache'       => null,
             'rows'        => [],
-            'columnTypes' => [ ['__COMPLEX__'] ],
-            'hydrateMode' => '__COMPLEX__'
+            'columnTypes' => [ ['__FAKE__'] ],
+            'hydrateMode' => '__FAKE__'
         ];
 
         $I->assertTrue($this->container->has('serializer'));
 
         $complex->unserialize(serialize($expected));
 
-        $I->assertEquals([ ['__COMPLEX__'] ], $I->getProtectedProperty($complex, 'columnTypes'));
-        $I->assertEquals('__COMPLEX__', $I->getProtectedProperty($complex, 'hydrateMode'));
+        $I->assertEquals([ ['__FAKE__'] ], $I->getProtectedProperty($complex, 'columnTypes'));
+        $I->assertEquals('__FAKE__', $I->getProtectedProperty($complex, 'hydrateMode'));
     }
 }

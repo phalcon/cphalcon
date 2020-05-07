@@ -34,6 +34,7 @@ class UnserializeCest
     {
         try {
             $this->setNewFactoryDefault();
+            $this->setDiService('phpSerializer');
         } catch (Exception $e) {
             $I->fail($e->getMessage());
         }
@@ -47,8 +48,7 @@ class UnserializeCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-05-06
      *
-     * @group  mysql
-     * @group  pgsql
+     * @group  common
      */
     public function mvcModelResultsetSimpleUnserialize(DatabaseTester $I)
     {
@@ -57,17 +57,18 @@ class UnserializeCest
         $simple = new Simple(null, null, null);
 
         $expected = [
+            'model'       => null,
             'cache'       => null,
             'rows'        => [],
-            'columnTypes' => [ ['__SIMPLE__'] ],
-            'hydrateMode' => '__SIMPLE__'
+            'columnMap' => [ ['__FAKE__'] ],
+            'hydrateMode' => '__FAKE__'
         ];
 
         $I->assertTrue($this->container->has('serializer'));
 
         $simple->unserialize(serialize($expected));
 
-        $I->assertEquals([ ['__SIMPLE__'] ], $I->getProtectedProperty($simple, 'columnTypes'));
-        $I->assertEquals('__SIMPLE__', $I->getProtectedProperty($simple, 'hydrateMode'));
+        $I->assertEquals([ ['__FAKE__'] ], $I->getProtectedProperty($simple, 'columnMap'));
+        $I->assertEquals('__FAKE__', $I->getProtectedProperty($simple, 'hydrateMode'));
     }
 }
