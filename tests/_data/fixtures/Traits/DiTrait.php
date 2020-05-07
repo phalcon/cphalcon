@@ -177,6 +177,8 @@ trait DiTrait
                 );
             case 'modelsManager':
                 return new ModelsManager();
+            case 'phpSerializer':
+                return (new SerializerFactory())->newInstance('php');
             case 'request':
                 return new Request();
             case 'response':
@@ -262,6 +264,10 @@ trait DiTrait
             case 'modelsCacheLibmemcached':
             case 'modelsCacheStream':
                 $this->container->set('modelsCache', $class);
+                break;
+
+            case 'phpSerializer':
+                $this->container->set('serializer', $class);
                 break;
 
             case 'sessionStream':
