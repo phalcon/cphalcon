@@ -76,11 +76,11 @@ abstract class Resultset
 
     protected activeRow = null;
 
-    protected cache;
+    protected cache = null;
 
-    protected count;
+    protected count = 0;
 
-    protected errorMessages;
+    protected errorMessages = [];
 
     protected hydrateMode = 0;
 
