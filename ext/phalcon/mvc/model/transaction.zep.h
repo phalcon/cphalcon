@@ -16,6 +16,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, setRollbackOnAbort);
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, setRollbackedRecord);
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, setTransactionManager);
 PHP_METHOD(Phalcon_Mvc_Model_Transaction, throwRollbackException);
+zend_object *zephir_init_properties_Phalcon_Mvc_Model_Transaction(zend_class_entry *class_type TSRMLS_DC);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_transaction___construct, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, container, Phalcon\\Di\\DiInterface, 0)
