@@ -2331,10 +2331,6 @@ class Query implements QueryInterface, InjectionAwareInterface
                      * "balias" is the best alias chosen for the column
                      */
                     if fetch alias, sqlColumn["balias"] {
-                        if isset column["column"]["domain"] {
-                            let alias = column["column"]["domain"] . "_" . alias;
-                        }
-
                         let sqlColumns[alias] = sqlColumn;
                     } else {
                         if sqlColumn["type"] == "scalar" {
