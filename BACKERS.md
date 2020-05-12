@@ -83,7 +83,6 @@ Thanks for the support
 <a href="https://github.com/ninjapanzer"><img src="https://avatars1.githubusercontent.com/u/159591?s=460&v=4" title="Paul Scarrone" width="60" height="60"></a>
 <a href="https://github.com/vlad-light"><img src="https://avatars1.githubusercontent.com/u/277235?s=460&v=4" title="Vladimir L" width="60" height="60"></a>
 <a href="https://github.com/alrieckert"><img src="https://avatars1.githubusercontent.com/u/452786?s=460&v=4" title="Anton Rieckert" width="60" height="60"></a>
-<a href="https://github.com/andrew-s"><img src="https://avatars1.githubusercontent.com/u/479306?s=460&v=4" title="Andrew Seymour" width="60" height="60"></a>
 <a href="https://github.com/sinbadxiii"><img src="https://avatars2.githubusercontent.com/u/900273?s=460&v=4" title="Sergey Mukhin" width="60" height="60"></a>
 <a href="https://github.com/niden"><img src="https://avatars2.githubusercontent.com/u/1073784?s=460&v=4" title="Nikolaos Dimopoulos" width="60" height="60"></a>
 <a href="https://github.com/qmegas"><img src="https://avatars3.githubusercontent.com/u/2444896?s=460&v=4" title="qmegas" width="60" height="60"></a>
