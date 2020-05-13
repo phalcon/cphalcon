@@ -16,16 +16,6 @@ use Phalcon\Translate\Interpolator\InterpolatorInterface;
 class InterpolatorFactory extends AbstractFactory
 {
     /**
-     * @var array
-     */
-    private mapper   = [];
-
-    /**
-     * @var array
-     */
-    private services = [];
-
-    /**
      * AdapterFactory constructor.
      */
     public function __construct(array! services = [])
