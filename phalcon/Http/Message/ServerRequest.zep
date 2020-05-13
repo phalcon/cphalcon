@@ -30,7 +30,7 @@ final class ServerRequest extends AbstractRequest implements ServerRequestInterf
     /**
      * @var Collection
      */
-    private attributes;
+    protected attributes;
 
     /**
      * Retrieve cookies.
@@ -42,7 +42,7 @@ final class ServerRequest extends AbstractRequest implements ServerRequestInterf
      *
      * @var array
      */
-    private cookieParams = [] { get };
+    protected cookieParams = [] { get };
 
     /**
      * Retrieve any parameters provided in the request body.
@@ -58,7 +58,7 @@ final class ServerRequest extends AbstractRequest implements ServerRequestInterf
      *
      * @var mixed
      */
-    private parsedBody { get };
+    protected parsedBody { get };
 
     /**
      * Retrieve query string arguments.
@@ -72,7 +72,7 @@ final class ServerRequest extends AbstractRequest implements ServerRequestInterf
      *
      * @var array
      */
-    private queryParams = [] { get };
+    protected queryParams = [] { get };
 
     /**
      * Retrieve server parameters.
@@ -83,7 +83,7 @@ final class ServerRequest extends AbstractRequest implements ServerRequestInterf
      *
      * @var array
      */
-    private serverParams = [] { get };
+    protected serverParams = [] { get };
 
     /**
      * Retrieve normalized file upload data.
@@ -96,7 +96,7 @@ final class ServerRequest extends AbstractRequest implements ServerRequestInterf
      *
      * @var array
      */
-    private uploadedFiles = [] { get };
+    protected uploadedFiles = [] { get };
 
     /**
      * ServerRequest constructor.
