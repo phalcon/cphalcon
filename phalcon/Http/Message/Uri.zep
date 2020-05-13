@@ -29,7 +29,7 @@ final class Uri extends AbstractCommon implements UriInterface
      *
      * @return string
      */
-    private fragment = "" { get };
+    protected fragment = "" { get };
 
     /**
      * Retrieve the host component of the URI.
@@ -43,19 +43,19 @@ final class Uri extends AbstractCommon implements UriInterface
      *
      * @return string
      */
-    private host = "" { get };
+    protected host = "" { get };
 
     /**
      * @var string
      */
-    private pass = "";
+    protected pass = "";
 
     /**
      * Returns the path of the URL
      *
      * @return string
      */
-    private path = "" { get };
+    protected path = "" { get };
 
     /**
      * Retrieve the port component of the URI.
@@ -72,14 +72,14 @@ final class Uri extends AbstractCommon implements UriInterface
      *
      * @return int|null
      */
-    private port = null { get };
+    protected port = null { get };
 
     /**
      * Returns the query of the URL
      *
      * @return string
      */
-    private query = "" { get };
+    protected query = "" { get };
 
     /**
      * Retrieve the scheme component of the URI.
