@@ -115,9 +115,7 @@ class ConfigFactory extends AbstractFactory
     {
         var definition, options;
 
-        this->checkService(name);
-
-        let definition = this->mapper[name],
+        let definition = this->getService(name),
             options    = [],
             options[]  = fileName;
 
