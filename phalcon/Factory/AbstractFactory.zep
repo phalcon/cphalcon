@@ -25,16 +25,6 @@ abstract class AbstractFactory
     protected services = [];
 
     /**
-     * Checks if a service exists and throws an exception
-     */
-    protected function checkService(string! name) -> void
-    {
-        if unlikely !isset this->mapper[name] {
-            throw new Exception("Service " . name . " is not registered");
-        }
-    }
-
-    /**
      * Checks the config if it is a valid object
      */
     protected function checkConfig(var config) -> array
@@ -62,6 +52,18 @@ abstract class AbstractFactory
      * Returns the adapters for the factory
      */
     abstract protected function getAdapters() -> array;
+
+    /**
+     * Checks if a service exists and throws an exception
+     */
+    protected function getService(string! name) -> var
+    {
+        if unlikely !isset this->mapper[name] {
+            throw new Exception("Service " . name . " is not registered");
+        }
+
+        return this->mapper[name];
+    }
 
     /**
      * AdapterFactory constructor.
