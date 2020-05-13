@@ -12,11 +12,11 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/array.h"
 #include "kernel/object.h"
-#include "kernel/exception.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
+#include "kernel/exception.h"
+#include "kernel/array.h"
 #include "kernel/concat.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/operators.h"
@@ -50,53 +50,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Factory_AbstractFactory) {
 }
 
 /**
- * Checks if a service exists and throws an exception
- */
-PHP_METHOD(Phalcon_Factory_AbstractFactory, checkService) {
-
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *name_param = NULL, _0, _1$$3;
-	zval name, _2$$3;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&name);
-	ZVAL_UNDEF(&_2$$3);
-	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1$$3);
-
-	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &name_param);
-
-	if (UNEXPECTED(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be of the type string"));
-		RETURN_MM_NULL();
-	}
-	if (EXPECTED(Z_TYPE_P(name_param) == IS_STRING)) {
-		zephir_get_strval(&name, name_param);
-	} else {
-		ZEPHIR_INIT_VAR(&name);
-		ZVAL_EMPTY_STRING(&name);
-	}
-
-
-	zephir_read_property(&_0, this_ptr, SL("mapper"), PH_NOISY_CC | PH_READONLY);
-	if (UNEXPECTED(!(zephir_array_isset(&_0, &name)))) {
-		ZEPHIR_INIT_VAR(&_1$$3);
-		object_init_ex(&_1$$3, phalcon_factory_exception_ce);
-		ZEPHIR_INIT_VAR(&_2$$3);
-		ZEPHIR_CONCAT_SVS(&_2$$3, "Service ", &name, " is not registered");
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 8, &_2$$3);
-		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Factory/AbstractFactory.zep", 33);
-		ZEPHIR_MM_RESTORE();
-		return;
-	}
-	ZEPHIR_MM_RESTORE();
-
-}
-
-/**
  * Checks the config if it is a valid object
  */
 PHP_METHOD(Phalcon_Factory_AbstractFactory, checkConfig) {
@@ -126,11 +79,11 @@ PHP_METHOD(Phalcon_Factory_AbstractFactory, checkConfig) {
 		ZEPHIR_CPY_WRT(config, &_1$$3);
 	}
 	if (UNEXPECTED(Z_TYPE_P(config) != IS_ARRAY)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_factory_exception_ce, "Config must be array or Phalcon\\Config object", "phalcon/Factory/AbstractFactory.zep", 49);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_factory_exception_ce, "Config must be array or Phalcon\\Config object", "phalcon/Factory/AbstractFactory.zep", 39);
 		return;
 	}
 	if (UNEXPECTED(!(zephir_array_isset_string(config, SL("adapter"))))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_factory_exception_ce, "You must provide 'adapter' option in factory config parameter.", "phalcon/Factory/AbstractFactory.zep", 55);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_factory_exception_ce, "You must provide 'adapter' option in factory config parameter.", "phalcon/Factory/AbstractFactory.zep", 45);
 		return;
 	}
 	RETVAL_ZVAL(config, 1, 0);
@@ -142,6 +95,57 @@ PHP_METHOD(Phalcon_Factory_AbstractFactory, checkConfig) {
  * Returns the adapters for the factory
  */
 PHP_METHOD(Phalcon_Factory_AbstractFactory, getAdapters) {
+
+}
+
+/**
+ * Checks if a service exists and throws an exception
+ */
+PHP_METHOD(Phalcon_Factory_AbstractFactory, getService) {
+
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zval *name_param = NULL, _0, _3, _4, _1$$3;
+	zval name, _2$$3;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&name);
+	ZVAL_UNDEF(&_2$$3);
+	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_4);
+	ZVAL_UNDEF(&_1$$3);
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &name_param);
+
+	if (UNEXPECTED(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
+		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be of the type string"));
+		RETURN_MM_NULL();
+	}
+	if (EXPECTED(Z_TYPE_P(name_param) == IS_STRING)) {
+		zephir_get_strval(&name, name_param);
+	} else {
+		ZEPHIR_INIT_VAR(&name);
+		ZVAL_EMPTY_STRING(&name);
+	}
+
+
+	zephir_read_property(&_0, this_ptr, SL("mapper"), PH_NOISY_CC | PH_READONLY);
+	if (UNEXPECTED(!(zephir_array_isset(&_0, &name)))) {
+		ZEPHIR_INIT_VAR(&_1$$3);
+		object_init_ex(&_1$$3, phalcon_factory_exception_ce);
+		ZEPHIR_INIT_VAR(&_2$$3);
+		ZEPHIR_CONCAT_SVS(&_2$$3, "Service ", &name, " is not registered");
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 6, &_2$$3);
+		zephir_check_call_status();
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Factory/AbstractFactory.zep", 62);
+		ZEPHIR_MM_RESTORE();
+		return;
+	}
+	zephir_read_property(&_3, this_ptr, SL("mapper"), PH_NOISY_CC | PH_READONLY);
+	zephir_array_fetch(&_4, &_3, &name, PH_NOISY | PH_READONLY, "phalcon/Factory/AbstractFactory.zep", 65);
+	RETURN_CTOR(&_4);
 
 }
 
@@ -183,7 +187,7 @@ PHP_METHOD(Phalcon_Factory_AbstractFactory, init) {
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_fast_array_merge(&_0, &adapters, &services);
 	ZEPHIR_CPY_WRT(&adapters, &_0);
-	zephir_is_iterable(&adapters, 0, "phalcon/Factory/AbstractFactory.zep", 80);
+	zephir_is_iterable(&adapters, 0, "phalcon/Factory/AbstractFactory.zep", 82);
 	if (Z_TYPE_P(&adapters) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&adapters), _3, _4, _1)
 		{

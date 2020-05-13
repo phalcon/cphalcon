@@ -17,8 +17,8 @@
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
 #include "kernel/object.h"
-#include "kernel/array.h"
 #include "kernel/operators.h"
+#include "kernel/array.h"
 
 
 /**
@@ -74,13 +74,12 @@ PHP_METHOD(Phalcon_Validation_ValidatorFactory, newInstance) {
 
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *name_param = NULL, definition, _0;
+	zval *name_param = NULL, definition;
 	zval name;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&definition);
-	ZVAL_UNDEF(&_0);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
@@ -97,11 +96,8 @@ PHP_METHOD(Phalcon_Validation_ValidatorFactory, newInstance) {
 	}
 
 
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkservice", NULL, 0, &name);
+	ZEPHIR_CALL_METHOD(&definition, this_ptr, "getservice", NULL, 0, &name);
 	zephir_check_call_status();
-	zephir_read_property(&_0, this_ptr, SL("mapper"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_OBS_VAR(&definition);
-	zephir_array_fetch(&definition, &_0, &name, PH_NOISY, "phalcon/Validation/ValidatorFactory.zep", 35);
 	ZEPHIR_LAST_CALL_STATUS = zephir_create_instance(return_value, &definition);
 	zephir_check_call_status();
 	RETURN_MM();
