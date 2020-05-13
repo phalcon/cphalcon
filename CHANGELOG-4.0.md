@@ -61,6 +61,9 @@
 - Rollback the regression changes for `Phalcon\Mvc\Model\Query::_prepareSelect` to properly prepare a SQL `SELECT` statement from a PHQL one [#14657](https://github.com/phalcon/cphalcon/issues/14657)
 - Fixed `SerializerInterface` usage for `Phalcon\Mvc\Model\Resultset\Complex::unserialize` as well as `Phalcon\Mvc\Model\Resultset\Complex::unserialize` [#14942](https://github.com/phalcon/cphalcon/issues/14942)
 
+## Removed
+- Removed `Phalcon\Translate\InterpolatorFactory::$mapper` as well as `Phalcon\Translate\InterpolatorFactory::$services` in favor of `Phalcon\Factory\AbstractFactory` ones [#15036](https://github.com/phalcon/cphalcon/issues/15036)
+
 # [4.0.5](https://github.com/phalcon/cphalcon/releases/tag/v4.0.5) (2020-03-07)
 ## Added
 

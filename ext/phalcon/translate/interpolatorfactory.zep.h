@@ -6,7 +6,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Translate_InterpolatorFactory);
 PHP_METHOD(Phalcon_Translate_InterpolatorFactory, __construct);
 PHP_METHOD(Phalcon_Translate_InterpolatorFactory, newInstance);
 PHP_METHOD(Phalcon_Translate_InterpolatorFactory, getAdapters);
-zend_object *zephir_init_properties_Phalcon_Translate_InterpolatorFactory(zend_class_entry *class_type TSRMLS_DC);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_translate_interpolatorfactory___construct, 0, 0, 0)
 	ZEND_ARG_ARRAY_INFO(0, services, 0)
