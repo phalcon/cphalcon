@@ -138,19 +138,18 @@ PHP_METHOD(Phalcon_Image_ImageFactory, load) {
  */
 PHP_METHOD(Phalcon_Image_ImageFactory, newInstance) {
 
-	zval _1;
+	zval _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long width, height, ZEPHIR_LAST_CALL_STATUS;
-	zval *name_param = NULL, *file_param = NULL, *width_param = NULL, *height_param = NULL, definition, _0, _2;
+	zval *name_param = NULL, *file_param = NULL, *width_param = NULL, *height_param = NULL, definition, _1;
 	zval name, file;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&file);
 	ZVAL_UNDEF(&definition);
-	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_0);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 2, &name_param, &file_param, &width_param, &height_param);
@@ -187,21 +186,18 @@ PHP_METHOD(Phalcon_Image_ImageFactory, newInstance) {
 	}
 
 
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkservice", NULL, 0, &name);
+	ZEPHIR_CALL_METHOD(&definition, this_ptr, "getservice", NULL, 0, &name);
 	zephir_check_call_status();
-	zephir_read_property(&_0, this_ptr, SL("mapper"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_OBS_VAR(&definition);
-	zephir_array_fetch(&definition, &_0, &name, PH_NOISY, "phalcon/Image/ImageFactory.zep", 78);
+	ZEPHIR_INIT_VAR(&_0);
+	zephir_create_array(&_0, 3, 0);
+	zephir_array_fast_append(&_0, &file);
 	ZEPHIR_INIT_VAR(&_1);
-	zephir_create_array(&_1, 3, 0);
-	zephir_array_fast_append(&_1, &file);
-	ZEPHIR_INIT_VAR(&_2);
-	ZVAL_LONG(&_2, width);
-	zephir_array_fast_append(&_1, &_2);
-	ZEPHIR_INIT_NVAR(&_2);
-	ZVAL_LONG(&_2, height);
-	zephir_array_fast_append(&_1, &_2);
-	ZEPHIR_LAST_CALL_STATUS = zephir_create_instance_params(return_value, &definition, &_1);
+	ZVAL_LONG(&_1, width);
+	zephir_array_fast_append(&_0, &_1);
+	ZEPHIR_INIT_NVAR(&_1);
+	ZVAL_LONG(&_1, height);
+	zephir_array_fast_append(&_0, &_1);
+	ZEPHIR_LAST_CALL_STATUS = zephir_create_instance_params(return_value, &definition, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 
