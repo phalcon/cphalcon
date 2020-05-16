@@ -41,7 +41,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_ServerRequest) {
 	/**
 	 * @var Collection
 	 */
-	zend_declare_property_null(phalcon_http_message_serverrequest_ce, SL("attributes"), ZEND_ACC_PRIVATE);
+	zend_declare_property_null(phalcon_http_message_serverrequest_ce, SL("attributes"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * Retrieve cookies.
@@ -53,7 +53,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_ServerRequest) {
 	 *
 	 * @var array
 	 */
-	zend_declare_property_null(phalcon_http_message_serverrequest_ce, SL("cookieParams"), ZEND_ACC_PRIVATE);
+	zend_declare_property_null(phalcon_http_message_serverrequest_ce, SL("cookieParams"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * Retrieve any parameters provided in the request body.
@@ -69,7 +69,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_ServerRequest) {
 	 *
 	 * @var mixed
 	 */
-	zend_declare_property_null(phalcon_http_message_serverrequest_ce, SL("parsedBody"), ZEND_ACC_PRIVATE);
+	zend_declare_property_null(phalcon_http_message_serverrequest_ce, SL("parsedBody"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * Retrieve query string arguments.
@@ -83,7 +83,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_ServerRequest) {
 	 *
 	 * @var array
 	 */
-	zend_declare_property_null(phalcon_http_message_serverrequest_ce, SL("queryParams"), ZEND_ACC_PRIVATE);
+	zend_declare_property_null(phalcon_http_message_serverrequest_ce, SL("queryParams"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * Retrieve server parameters.
@@ -94,7 +94,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_ServerRequest) {
 	 *
 	 * @var array
 	 */
-	zend_declare_property_null(phalcon_http_message_serverrequest_ce, SL("serverParams"), ZEND_ACC_PRIVATE);
+	zend_declare_property_null(phalcon_http_message_serverrequest_ce, SL("serverParams"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * Retrieve normalized file upload data.
@@ -107,7 +107,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_ServerRequest) {
 	 *
 	 * @var array
 	 */
-	zend_declare_property_null(phalcon_http_message_serverrequest_ce, SL("uploadedFiles"), ZEND_ACC_PRIVATE);
+	zend_declare_property_null(phalcon_http_message_serverrequest_ce, SL("uploadedFiles"), ZEND_ACC_PROTECTED);
 
 	phalcon_http_message_serverrequest_ce->create_object = zephir_init_properties_Phalcon_Http_Message_ServerRequest;
 

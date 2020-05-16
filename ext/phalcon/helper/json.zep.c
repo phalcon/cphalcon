@@ -132,7 +132,7 @@ PHP_METHOD(Phalcon_Helper_Json, decode) {
 		ZEPHIR_CONCAT_SV(&_6$$3, "json_decode error: ", &_5$$3);
 		ZEPHIR_CALL_METHOD(NULL, &_4$$3, "__construct", NULL, 39, &_6$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_4$$3, "phalcon/Helper/Json.zep", 60);
+		zephir_throw_exception_debug(&_4$$3, "/home/nikos/Work/niden/cphalcon/phalcon/Helper/Json.zep", 60);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -211,7 +211,7 @@ PHP_METHOD(Phalcon_Helper_Json, encode) {
 		ZEPHIR_CONCAT_SV(&_5$$3, "json_encode error: ", &_4$$3);
 		ZEPHIR_CALL_METHOD(NULL, &_3$$3, "__construct", NULL, 39, &_5$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_3$$3, "phalcon/Helper/Json.zep", 104);
+		zephir_throw_exception_debug(&_3$$3, "/home/nikos/Work/niden/cphalcon/phalcon/Helper/Json.zep", 104);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

@@ -398,7 +398,7 @@ PHP_METHOD(Phalcon_Assets_Asset, getContent) {
 			ZEPHIR_CONCAT_SVS(&_2$$5, "Asset's content for '", &completePath, "' cannot be read");
 			ZEPHIR_CALL_METHOD(NULL, &_1$$5, "__construct", NULL, 6, &_2$$5);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_1$$5, "phalcon/Assets/Asset.zep", 135);
+			zephir_throw_exception_debug(&_1$$5, "/home/nikos/Work/niden/cphalcon/phalcon/Assets/Asset.zep", 135);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -412,7 +412,7 @@ PHP_METHOD(Phalcon_Assets_Asset, getContent) {
 		ZEPHIR_CONCAT_SVS(&_4$$6, "Asset's content for '", &completePath, "' cannot be read");
 		ZEPHIR_CALL_METHOD(NULL, &_3$$6, "__construct", NULL, 6, &_4$$6);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_3$$6, "phalcon/Assets/Asset.zep", 148);
+		zephir_throw_exception_debug(&_3$$6, "/home/nikos/Work/niden/cphalcon/phalcon/Assets/Asset.zep", 148);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

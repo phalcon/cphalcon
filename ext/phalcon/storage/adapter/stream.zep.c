@@ -104,7 +104,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, __construct) {
 	ZEPHIR_CALL_CE_STATIC(&storageDir, phalcon_helper_arr_ce, "get", &_0, 15, &options, &_1, &_2);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_EMPTY(&storageDir)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_storage_exception_ce, "The 'storageDir' must be specified in the options", "phalcon/Storage/Adapter/Stream.zep", 57);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_storage_exception_ce, "The 'storageDir' must be specified in the options", "/home/nikos/Work/niden/cphalcon/phalcon/Storage/Adapter/Stream.zep", 57);
 		return;
 	}
 	ZEPHIR_CALL_CE_STATIC(&_3, phalcon_helper_str_ce, "dirseparator", &_4, 123, &storageDir);
@@ -154,7 +154,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, clear) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&iterator, this_ptr, "getiterator", NULL, 124, &directory);
 	zephir_check_call_status();
-	zephir_is_iterable(&iterator, 0, "phalcon/Storage/Adapter/Stream.zep", 90);
+	zephir_is_iterable(&iterator, 0, "/home/nikos/Work/niden/cphalcon/phalcon/Storage/Adapter/Stream.zep", 90);
 	if (Z_TYPE_P(&iterator) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&iterator), _2)
 		{
@@ -457,7 +457,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, getKeys) {
 	}
 	ZEPHIR_CALL_METHOD(&iterator, this_ptr, "getiterator", NULL, 124, &directory);
 	zephir_check_call_status();
-	zephir_is_iterable(&iterator, 0, "phalcon/Storage/Adapter/Stream.zep", 202);
+	zephir_is_iterable(&iterator, 0, "/home/nikos/Work/niden/cphalcon/phalcon/Storage/Adapter/Stream.zep", 202);
 	if (Z_TYPE_P(&iterator) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&iterator), _0)
 		{
@@ -471,7 +471,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, getKeys) {
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&_5$$5);
 				ZEPHIR_CONCAT_VV(&_5$$5, &_3$$5, &_4$$5);
-				zephir_array_append(&files, &_5$$5, PH_SEPARATE, "phalcon/Storage/Adapter/Stream.zep", 198);
+				zephir_array_append(&files, &_5$$5, PH_SEPARATE, "/home/nikos/Work/niden/cphalcon/phalcon/Storage/Adapter/Stream.zep", 198);
 			}
 		} ZEND_HASH_FOREACH_END();
 	} else {
@@ -493,7 +493,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, getKeys) {
 					zephir_check_call_status();
 					ZEPHIR_INIT_NVAR(&_9$$7);
 					ZEPHIR_CONCAT_VV(&_9$$7, &_7$$7, &_8$$7);
-					zephir_array_append(&files, &_9$$7, PH_SEPARATE, "phalcon/Storage/Adapter/Stream.zep", 198);
+					zephir_array_append(&files, &_9$$7, PH_SEPARATE, "/home/nikos/Work/niden/cphalcon/phalcon/Storage/Adapter/Stream.zep", 198);
 				}
 			ZEPHIR_CALL_METHOD(NULL, &iterator, "next", NULL, 0);
 			zephir_check_call_status();

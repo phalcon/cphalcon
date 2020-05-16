@@ -107,7 +107,7 @@ PHP_METHOD(Phalcon_Forms_Element_Select, addOption) {
 
 
 	if (Z_TYPE_P(option) == IS_ARRAY) {
-		zephir_is_iterable(option, 0, "phalcon/Forms/Element/Select.zep", 50);
+		zephir_is_iterable(option, 0, "/home/nikos/Work/niden/cphalcon/phalcon/Forms/Element/Select.zep", 50);
 		if (Z_TYPE_P(option) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(option), _2$$3, _3$$3, _0$$3)
 			{

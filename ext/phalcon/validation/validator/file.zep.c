@@ -207,7 +207,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File, __construct) {
 	ZVAL_NULL(&included);
 	ZEPHIR_INIT_VAR(&message);
 	ZVAL_NULL(&message);
-	zephir_is_iterable(&options, 1, "phalcon/Validation/Validator/File.zep", 246);
+	zephir_is_iterable(&options, 1, "/home/nikos/Work/niden/cphalcon/phalcon/Validation/Validator/File.zep", 246);
 	if (Z_TYPE_P(&options) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&options), _2, _3, _0)
 		{

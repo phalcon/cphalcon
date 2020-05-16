@@ -225,7 +225,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, process) {
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 415, &_3$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Logger/Adapter/Syslog.zep", 121);
+		zephir_throw_exception_debug(&_1$$3, "/home/nikos/Work/niden/cphalcon/phalcon/Logger/Adapter/Syslog.zep", 121);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

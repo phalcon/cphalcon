@@ -168,7 +168,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getMethodsAnnotations) {
 				ZEPHIR_INIT_VAR(&_2$$5);
 				array_init(&_2$$5);
 				zephir_update_property_zval(this_ptr, SL("methodAnnotations"), &_2$$5);
-				zephir_is_iterable(&reflectionMethods, 0, "phalcon/Annotations/Reflection.zep", 88);
+				zephir_is_iterable(&reflectionMethods, 0, "/home/nikos/Work/niden/cphalcon/phalcon/Annotations/Reflection.zep", 88);
 				if (Z_TYPE_P(&reflectionMethods) == IS_ARRAY) {
 					ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&reflectionMethods), _5$$5, _6$$5, _3$$5)
 					{
@@ -259,7 +259,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getPropertiesAnnotations) {
 				ZEPHIR_INIT_VAR(&_2$$5);
 				array_init(&_2$$5);
 				zephir_update_property_zval(this_ptr, SL("propertyAnnotations"), &_2$$5);
-				zephir_is_iterable(&reflectionProperties, 0, "phalcon/Annotations/Reflection.zep", 116);
+				zephir_is_iterable(&reflectionProperties, 0, "/home/nikos/Work/niden/cphalcon/phalcon/Annotations/Reflection.zep", 116);
 				if (Z_TYPE_P(&reflectionProperties) == IS_ARRAY) {
 					ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&reflectionProperties), _5$$5, _6$$5, _3$$5)
 					{

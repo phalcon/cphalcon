@@ -115,7 +115,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse) {
 		line = 1;
 		ZEPHIR_INIT_VAR(&annotationsProperties);
 		array_init(&annotationsProperties);
-		zephir_is_iterable(&properties, 0, "phalcon/Annotations/Reader.zep", 92);
+		zephir_is_iterable(&properties, 0, "/home/nikos/Work/niden/cphalcon/phalcon/Annotations/Reader.zep", 92);
 		if (Z_TYPE_P(&properties) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&properties), _2$$5)
 			{
@@ -177,7 +177,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse) {
 	if (zephir_fast_count_int(&methods)) {
 		ZEPHIR_INIT_VAR(&annotationsMethods);
 		array_init(&annotationsMethods);
-		zephir_is_iterable(&methods, 0, "phalcon/Annotations/Reader.zep", 127);
+		zephir_is_iterable(&methods, 0, "/home/nikos/Work/niden/cphalcon/phalcon/Annotations/Reader.zep", 127);
 		if (Z_TYPE_P(&methods) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&methods), _10$$13)
 			{
