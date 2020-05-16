@@ -89,7 +89,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render) {
 		zephir_check_call_status();
 	}
 	if (Z_TYPE_P(params) == IS_ARRAY) {
-		zephir_is_iterable(params, 0, "phalcon/Mvc/View/Engine/Php.zep", 36);
+		zephir_is_iterable(params, 0, "/home/nikos/Work/niden/cphalcon/phalcon/Mvc/View/Engine/Php.zep", 36);
 		if (Z_TYPE_P(params) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(params), _2$$4, _3$$4, _0$$4)
 			{

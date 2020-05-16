@@ -175,7 +175,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Callback, validate) {
 			zephir_check_call_status();
 			RETURN_MM();
 		}
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_validator_exception_ce, "Callback must return bool or Phalcon\\Validation\\Validator object", "phalcon/Validation/Validator/Callback.zep", 115);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_validator_exception_ce, "Callback must return bool or Phalcon\\Validation\\Validator object", "/home/nikos/Work/niden/cphalcon/phalcon/Validation/Validator/Callback.zep", 115);
 		return;
 	}
 	RETURN_MM_BOOL(1);

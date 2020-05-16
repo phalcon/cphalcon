@@ -451,7 +451,7 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, throwDispatchException) {
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&_1)) {
 		RETURN_MM_BOOL(0);
 	}
-	zephir_throw_exception_debug(&exception, "phalcon/Cli/Dispatcher.zep", 224);
+	zephir_throw_exception_debug(&exception, "/home/nikos/Work/niden/cphalcon/phalcon/Cli/Dispatcher.zep", 224);
 	ZEPHIR_MM_RESTORE();
 	return;
 
