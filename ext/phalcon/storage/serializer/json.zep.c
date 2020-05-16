@@ -75,7 +75,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_Json, serialize) {
 		ZEPHIR_CONCAT_SS(&_4$$3, "Data for the JSON serializer cannot be of type 'object' ", "without implementing 'JsonSerializable'");
 		ZEPHIR_CALL_METHOD(NULL, &_3$$3, "__construct", NULL, 40, &_4$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_3$$3, "phalcon/Storage/Serializer/Json.zep", 28);
+		zephir_throw_exception_debug(&_3$$3, "/home/nikos/Work/niden/cphalcon/phalcon/Storage/Serializer/Json.zep", 28);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

@@ -47,7 +47,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_Uri) {
 	 *
 	 * @return string
 	 */
-	zend_declare_property_string(phalcon_http_message_uri_ce, SL("fragment"), "", ZEND_ACC_PRIVATE);
+	zend_declare_property_string(phalcon_http_message_uri_ce, SL("fragment"), "", ZEND_ACC_PROTECTED);
 
 	/**
 	 * Retrieve the host component of the URI.
@@ -61,19 +61,19 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_Uri) {
 	 *
 	 * @return string
 	 */
-	zend_declare_property_string(phalcon_http_message_uri_ce, SL("host"), "", ZEND_ACC_PRIVATE);
+	zend_declare_property_string(phalcon_http_message_uri_ce, SL("host"), "", ZEND_ACC_PROTECTED);
 
 	/**
 	 * @var string
 	 */
-	zend_declare_property_string(phalcon_http_message_uri_ce, SL("pass"), "", ZEND_ACC_PRIVATE);
+	zend_declare_property_string(phalcon_http_message_uri_ce, SL("pass"), "", ZEND_ACC_PROTECTED);
 
 	/**
 	 * Returns the path of the URL
 	 *
 	 * @return string
 	 */
-	zend_declare_property_string(phalcon_http_message_uri_ce, SL("path"), "", ZEND_ACC_PRIVATE);
+	zend_declare_property_string(phalcon_http_message_uri_ce, SL("path"), "", ZEND_ACC_PROTECTED);
 
 	/**
 	 * Retrieve the port component of the URI.
@@ -90,14 +90,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_Uri) {
 	 *
 	 * @return int|null
 	 */
-	zend_declare_property_null(phalcon_http_message_uri_ce, SL("port"), ZEND_ACC_PRIVATE);
+	zend_declare_property_null(phalcon_http_message_uri_ce, SL("port"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * Returns the query of the URL
 	 *
 	 * @return string
 	 */
-	zend_declare_property_string(phalcon_http_message_uri_ce, SL("query"), "", ZEND_ACC_PRIVATE);
+	zend_declare_property_string(phalcon_http_message_uri_ce, SL("query"), "", ZEND_ACC_PROTECTED);
 
 	/**
 	 * Retrieve the scheme component of the URI.
