@@ -387,7 +387,7 @@ PHP_METHOD(Phalcon_Debug_Dump, variables) {
 	ZVAL_STRING(&output, "");
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_get_args(&_0);
-	zephir_is_iterable(&_0, 0, "phalcon/Debug/Dump.zep", 181);
+	zephir_is_iterable(&_0, 0, "/home/nikos/Work/niden/cphalcon/phalcon/Debug/Dump.zep", 181);
 	if (Z_TYPE_P(&_0) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&_0), _3, _4, _1)
 		{
@@ -679,7 +679,7 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 		ZEPHIR_CALL_FUNCTION(&_2$$4, "strtr", NULL, 5, &_3$$4, &_1$$4);
 		zephir_check_call_status();
 		zephir_concat_self(&output, &_2$$4);
-		zephir_is_iterable(variable, 0, "phalcon/Debug/Dump.zep", 231);
+		zephir_is_iterable(variable, 0, "/home/nikos/Work/niden/cphalcon/phalcon/Debug/Dump.zep", 231);
 		if (Z_TYPE_P(variable) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(variable), _6$$4, _7$$4, _4$$4)
 			{
@@ -850,7 +850,7 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 		} else if (_42$$9) {
 			ZEPHIR_CALL_FUNCTION(&_46$$12, "get_object_vars", NULL, 238, variable);
 			zephir_check_call_status();
-			zephir_is_iterable(&_46$$12, 0, "phalcon/Debug/Dump.zep", 263);
+			zephir_is_iterable(&_46$$12, 0, "/home/nikos/Work/niden/cphalcon/phalcon/Debug/Dump.zep", 263);
 			if (Z_TYPE_P(&_46$$12) == IS_ARRAY) {
 				ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&_46$$12), _49$$12, _50$$12, _47$$12)
 				{
@@ -944,7 +944,7 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 			ZVAL_LONG(&_67$$15, ((1 | 2) | 4));
 			ZEPHIR_CALL_METHOD(&props$$15, &reflect$$15, "getproperties", NULL, 159, &_67$$15);
 			zephir_check_call_status();
-			zephir_is_iterable(&props$$15, 0, "phalcon/Debug/Dump.zep", 289);
+			zephir_is_iterable(&props$$15, 0, "/home/nikos/Work/niden/cphalcon/phalcon/Debug/Dump.zep", 289);
 			if (Z_TYPE_P(&props$$15) == IS_ARRAY) {
 				ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&props$$15), _68$$15)
 				{
@@ -1084,7 +1084,7 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 			ZEPHIR_CONCAT_VS(&_110$$18, &_109$$18, "[already listed]\n");
 			zephir_concat_self(&output, &_110$$18);
 		} else {
-			zephir_is_iterable(&attr, 0, "phalcon/Debug/Dump.zep", 307);
+			zephir_is_iterable(&attr, 0, "/home/nikos/Work/niden/cphalcon/phalcon/Debug/Dump.zep", 307);
 			if (Z_TYPE_P(&attr) == IS_ARRAY) {
 				ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&attr), _111$$19)
 				{

@@ -55,7 +55,7 @@ PHP_METHOD(Phalcon_Collection_ReadOnly, remove) {
 	zephir_get_strval(&element, element_param);
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_collection_exception_ce, "The object is read only", "phalcon/Collection/ReadOnly.zep", 25);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_collection_exception_ce, "The object is read only", "/home/nikos/Work/niden/cphalcon/phalcon/Collection/ReadOnly.zep", 25);
 	return;
 
 }
@@ -79,7 +79,7 @@ PHP_METHOD(Phalcon_Collection_ReadOnly, set) {
 	zephir_get_strval(&element, element_param);
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_collection_exception_ce, "The object is read only", "phalcon/Collection/ReadOnly.zep", 33);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_collection_exception_ce, "The object is read only", "/home/nikos/Work/niden/cphalcon/phalcon/Collection/ReadOnly.zep", 33);
 	return;
 
 }

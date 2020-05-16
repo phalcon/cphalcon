@@ -94,7 +94,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_Php, unserialize) {
 		zephir_update_property_zval(this_ptr, SL("data"), data);
 	} else {
 		if (Z_TYPE_P(data) != IS_STRING) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Data for the unserializer must of type string", "phalcon/Storage/Serializer/Php.zep", 43);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Data for the unserializer must of type string", "/home/nikos/Work/niden/cphalcon/phalcon/Storage/Serializer/Php.zep", 43);
 			return;
 		}
 		ZEPHIR_GLOBAL(warning).enable = zend_is_true(&__$false);

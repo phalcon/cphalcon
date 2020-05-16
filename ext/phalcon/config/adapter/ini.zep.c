@@ -165,13 +165,13 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct) {
 		ZEPHIR_CONCAT_SVS(&_2$$4, "Configuration file ", &_1$$4, " cannot be loaded");
 		ZEPHIR_CALL_METHOD(NULL, &_0$$4, "__construct", NULL, 8, &_2$$4);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_0$$4, "phalcon/Config/Adapter/Ini.zep", 78);
+		zephir_throw_exception_debug(&_0$$4, "/home/nikos/Work/niden/cphalcon/phalcon/Config/Adapter/Ini.zep", 78);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
 	ZEPHIR_INIT_VAR(&config);
 	array_init(&config);
-	zephir_is_iterable(&iniConfig, 0, "phalcon/Config/Adapter/Ini.zep", 105);
+	zephir_is_iterable(&iniConfig, 0, "/home/nikos/Work/niden/cphalcon/phalcon/Config/Adapter/Ini.zep", 105);
 	if (Z_TYPE_P(&iniConfig) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&iniConfig), _5, _6, _3)
 		{
@@ -186,7 +186,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct) {
 			if (Z_TYPE_P(&directives) == IS_ARRAY) {
 				ZEPHIR_INIT_NVAR(&sections);
 				array_init(&sections);
-				zephir_is_iterable(&directives, 0, "phalcon/Config/Adapter/Ini.zep", 94);
+				zephir_is_iterable(&directives, 0, "/home/nikos/Work/niden/cphalcon/phalcon/Config/Adapter/Ini.zep", 94);
 				if (Z_TYPE_P(&directives) == IS_ARRAY) {
 					ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&directives), _9$$6, _10$$6, _7$$6)
 					{
@@ -201,7 +201,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct) {
 						zephir_get_strval(&_12$$7, &path);
 						ZEPHIR_CALL_METHOD(&_11$$7, this_ptr, "parseinistring", &_13, 0, &_12$$7, &lastValue);
 						zephir_check_call_status();
-						zephir_array_append(&sections, &_11$$7, PH_SEPARATE, "phalcon/Config/Adapter/Ini.zep", 91);
+						zephir_array_append(&sections, &_11$$7, PH_SEPARATE, "/home/nikos/Work/niden/cphalcon/phalcon/Config/Adapter/Ini.zep", 91);
 					} ZEND_HASH_FOREACH_END();
 				} else {
 					ZEPHIR_CALL_METHOD(NULL, &directives, "rewind", NULL, 0);
@@ -219,7 +219,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct) {
 							zephir_get_strval(&_15$$8, &path);
 							ZEPHIR_CALL_METHOD(&_14$$8, this_ptr, "parseinistring", &_13, 0, &_15$$8, &lastValue);
 							zephir_check_call_status();
-							zephir_array_append(&sections, &_14$$8, PH_SEPARATE, "phalcon/Config/Adapter/Ini.zep", 91);
+							zephir_array_append(&sections, &_14$$8, PH_SEPARATE, "/home/nikos/Work/niden/cphalcon/phalcon/Config/Adapter/Ini.zep", 91);
 						ZEPHIR_CALL_METHOD(NULL, &directives, "next", NULL, 0);
 						zephir_check_call_status();
 					}
@@ -256,7 +256,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct) {
 				if (Z_TYPE_P(&directives) == IS_ARRAY) {
 					ZEPHIR_INIT_NVAR(&sections);
 					array_init(&sections);
-					zephir_is_iterable(&directives, 0, "phalcon/Config/Adapter/Ini.zep", 94);
+					zephir_is_iterable(&directives, 0, "/home/nikos/Work/niden/cphalcon/phalcon/Config/Adapter/Ini.zep", 94);
 					if (Z_TYPE_P(&directives) == IS_ARRAY) {
 						ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&directives), _22$$12, _23$$12, _20$$12)
 						{
@@ -271,7 +271,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct) {
 							zephir_get_strval(&_25$$13, &path);
 							ZEPHIR_CALL_METHOD(&_24$$13, this_ptr, "parseinistring", &_13, 0, &_25$$13, &lastValue);
 							zephir_check_call_status();
-							zephir_array_append(&sections, &_24$$13, PH_SEPARATE, "phalcon/Config/Adapter/Ini.zep", 91);
+							zephir_array_append(&sections, &_24$$13, PH_SEPARATE, "/home/nikos/Work/niden/cphalcon/phalcon/Config/Adapter/Ini.zep", 91);
 						} ZEND_HASH_FOREACH_END();
 					} else {
 						ZEPHIR_CALL_METHOD(NULL, &directives, "rewind", NULL, 0);
@@ -289,7 +289,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, __construct) {
 								zephir_get_strval(&_27$$14, &path);
 								ZEPHIR_CALL_METHOD(&_26$$14, this_ptr, "parseinistring", &_13, 0, &_27$$14, &lastValue);
 								zephir_check_call_status();
-								zephir_array_append(&sections, &_26$$14, PH_SEPARATE, "phalcon/Config/Adapter/Ini.zep", 91);
+								zephir_array_append(&sections, &_26$$14, PH_SEPARATE, "/home/nikos/Work/niden/cphalcon/phalcon/Config/Adapter/Ini.zep", 91);
 							ZEPHIR_CALL_METHOD(NULL, &directives, "next", NULL, 0);
 							zephir_check_call_status();
 						}
@@ -357,7 +357,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Ini, cast) {
 
 
 	if (Z_TYPE_P(ini) == IS_ARRAY) {
-		zephir_is_iterable(ini, 1, "phalcon/Config/Adapter/Ini.zep", 121);
+		zephir_is_iterable(ini, 1, "/home/nikos/Work/niden/cphalcon/phalcon/Config/Adapter/Ini.zep", 121);
 		if (Z_TYPE_P(ini) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(ini), _2$$3, _3$$3, _0$$3)
 			{
