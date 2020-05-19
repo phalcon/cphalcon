@@ -28,34 +28,33 @@ class IsValidHandlerCest
     {
         $I->wantToTest('Events\Manager - isValidHandler()');
 
-        $silent = true;
         $manager = new Manager();
 
         $stringHandler = 'handler';
         $I->assertFalse(
-            $manager->isValidHandler($stringHandler, $silent)
+            $manager->isValidHandler($stringHandler)
         );
 
         $integerHandler = 666;
         $I->assertFalse(
-            $manager->isValidHandler($integerHandler, $silent)
+            $manager->isValidHandler($integerHandler)
         );
 
         $objectHandler = new Manager();
         $I->assertTrue(
-            $manager->isValidHandler($objectHandler, $silent)
+            $manager->isValidHandler($objectHandler)
         );
 
         $callableHandler = [$objectHandler, 'hasListeners'];
         $I->assertTrue(
-            $manager->isValidHandler($callableHandler, $silent)
+            $manager->isValidHandler($callableHandler)
         );
 
         $closureHandler = function () {
             return true;
         };
         $I->assertTrue(
-            $manager->isValidHandler($closureHandler, $silent)
+            $manager->isValidHandler($closureHandler)
         );
     }
 }

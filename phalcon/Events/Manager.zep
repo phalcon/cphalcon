@@ -48,7 +48,9 @@ class Manager implements ManagerInterface
     {
         var priorityQueue;
 
-        this->isValidHandler(handler);
+        if unlikely false === this->isValidHandler(handler) {
+            throw new Exception("Event handler must be an Object or Callable");
+        }
 
         if !fetch priorityQueue, this->events[eventType] {
             // Create a SplPriorityQueue to store the events with priorities
@@ -97,7 +99,9 @@ class Manager implements ManagerInterface
     {
         var priorityQueue, newPriorityQueue, data;
 
-        this->isValidHandler(handler);
+        if unlikely false === this->isValidHandler(handler) {
+            throw new Exception("Event handler must be an Object or Callable");
+        }
 
         if fetch priorityQueue, this->events[eventType] {
             /**
@@ -259,7 +263,7 @@ class Manager implements ManagerInterface
             iterator->next();
 
             // Only handler objects are valid
-            if unlikely false === this->isValidHandler(handler, true) {
+            if unlikely false === this->isValidHandler(handler) {
                 continue;
             }
 
@@ -348,13 +352,10 @@ class Manager implements ManagerInterface
         return this->collect;
     }
 
-    public function isValidHandler(handler, bool silent = false) -> bool
+    public function isValidHandler(handler) -> bool
     {
         if unlikely typeof handler != "object" && !is_callable(handler) {
-            if likely silent {
-                return false;
-            }
-            throw new Exception("Event handler must be an Object or Callable");
+            return false;
         }
 
         return true;
