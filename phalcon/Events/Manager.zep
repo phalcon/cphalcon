@@ -348,13 +348,12 @@ class Manager implements ManagerInterface
         return this->collect;
     }
 
-    protected function isValidHandler(handler, bool silent = false) -> bool
+    public function isValidHandler(handler, bool silent = false) -> bool
     {
         if unlikely typeof handler != "object" && !is_callable(handler) {
             if likely silent {
                 return false;
             }
-
             throw new Exception("Event handler must be an Object or Callable");
         }
 
