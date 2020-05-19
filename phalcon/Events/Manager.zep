@@ -48,9 +48,7 @@ class Manager implements ManagerInterface
     {
         var priorityQueue;
 
-        if unlikely typeof handler != "object" {
-            throw new Exception("Event handler must be an Object");
-        }
+        this->isValidHandler(handler);
 
         if !fetch priorityQueue, this->events[eventType] {
             // Create a SplPriorityQueue to store the events with priorities
@@ -99,9 +97,7 @@ class Manager implements ManagerInterface
     {
         var priorityQueue, newPriorityQueue, data;
 
-        if unlikely typeof handler != "object" {
-            throw new Exception("Event handler must be an Object");
-        }
+        this->isValidHandler(handler);
 
         if fetch priorityQueue, this->events[eventType] {
             /**
@@ -263,12 +259,12 @@ class Manager implements ManagerInterface
             iterator->next();
 
             // Only handler objects are valid
-            if unlikely typeof handler != "object" {
+            if unlikely false === this->isValidHandler(handler, true) {
                 continue;
             }
 
             // Check if the event is a closure
-            if handler instanceof Closure {
+            if handler instanceof Closure || is_callable(handler) {
                 // Call the function in the PHP userland
                 let status = call_user_func_array(
                     handler,
@@ -350,5 +346,18 @@ class Manager implements ManagerInterface
     public function isCollecting() -> bool
     {
         return this->collect;
+    }
+
+    protected function isValidHandler(handler, bool silent = false) -> bool
+    {
+        if unlikely typeof handler != "object" && !is_callable(handler) {
+            if likely silent {
+                return false;
+            }
+
+            throw new Exception("Event handler must be an Object or Callable");
+        }
+
+        return true;
     }
 }
