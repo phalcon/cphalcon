@@ -1,3 +1,61 @@
+# [4.0.6](https://github.com/phalcon/cphalcon/releases/tag/v4.0.5) (2020-xx-xx)
+## Added
+
+## Changed
+- Changed `Volt::convertEncoding` to no longer using `iconv` for a fallback since it causes issues with macOS [#14912](https://github.com/phalcon/cphalcon/issues/14912)
+- Changed schema manipulation in `Phalcon\Db\Dialect\Mysql` - unquote numerical defaults [#14888](https://github.com/phalcon/cphalcon/pull/14888), [#14974](https://github.com/phalcon/cphalcon/pull/14974)
+- Changed the default ACL access level from boolean `FALSE` to `Enum::DENY` [#14974](https://github.com/phalcon/cphalcon/pull/14974)
+- Changed the way `Phalcon\Http\Response::__construct` checks `content` data type. Now a `TypeError` will be thrown if incompatible data type was passed [#14983](https://github.com/phalcon/cphalcon/issues/14983)
+- Changed return type hints of the following `Phalcon\Flash\FlashInterface`'s methods: `error`, `message`, `notice`, `success` and `warning` [#14994](https://github.com/phalcon/cphalcon/issues/14994)
+- Changed return type hint for `Phalcon\Mvc\ModelInterface::sum` [#15000](https://github.com/phalcon/cphalcon/issues/15000)
+- Changed return type for `Phalcon\Mvc\Model\Criteria::getLimit` so that integer, NULL or array will be returned [#15004](https://github.com/phalcon/cphalcon/issues/15004)
+- Changed return type hint for `Phalcon\Mvc\Model\Manager::getCustomEventsManager` to return NULL instead of boolean FALSE if there is no special events manager [#15008](https://github.com/phalcon/cphalcon/issues/15008)
+- Changed `Phalcon\Mvc\Model\MetaData::getDI` so that now it will throw a `Phalcon\Mvc\Model\Exception` if there is no `DiInterface` instance  [#15011](https://github.com/phalcon/cphalcon/issues/15011)
+
+## Fixed
+- Fixed `Phalcon\Mvc\Model\Query\Builder::getPhql` to add single quote between string value on a simple condition [#14874](https://github.com/phalcon/cphalcon/issues/14874)
+- Fixed recognizing language operators inside Volt's echo mode (`{{ ... }}`) [#14476](https://github.com/phalcon/cphalcon/issues/14476)
+- Fixed `Tag::friendlyTitle` to correctly convert titles under MacOS and Windows [#14866](https://github.com/phalcon/cphalcon/issues/14866)
+- Fixed the Volt compiler to no longer parse `cache` fragments and thus searching for the `viewCache` service (deprecated for v4) [#14907](https://github.com/phalcon/cphalcon/issues/14907)
+- Fixed `IN` operator precedence in Volt [#14816](https://github.com/phalcon/cphalcon/issues/14816)
+- Fixed testing suite to work with PHPUnit 9 when we upgrade [#14837](https://github.com/phalcon/cphalcon/issues/14837)
+- Fixed return type hints of the following `Phalcon\Acl\AbstractAdapter`'s methods: `getActiveAccess`, `getActiveRole` and `getActiveComponent` [#14974](https://github.com/phalcon/cphalcon/pull/14974)
+- Fixed default value of the following `Phalcon\Annotations\Annotation`'s properties: `$arguments` and `$exprArguments` [#14977](https://github.com/phalcon/cphalcon/issues/14977)
+- Fixed return type hints of the following `Phalcon\Annotations\Annotation`'s methods: `getArgument`, `getName` and `getNamedArgument` [#14977](https://github.com/phalcon/cphalcon/issues/14977)
+- Fixed incorrect return type hint for `Phalcon\Http\Response\Cookies::setSignKey` [#14982](https://github.com/phalcon/cphalcon/issues/14982)
+- Fixed return type hints for `Phalcon\Config\ConfigFactory::load` and `Phalcon\Config\ConfigFactory::newInstance` to explicitly indicate the return type as `Phalcon\Config` instance [#14978](https://github.com/phalcon/cphalcon/issues/14978)
+- Fixed return type hints for the following methods [#14987](https://github.com/phalcon/cphalcon/issues/14987):
+  - `Phalcon\Dispatcher\AbstractDispatcher::dispatch`
+  - `Phalcon\Dispatcher\DispatcherInterface::dispatch`
+  - `Phalcon\Filter::get`
+  - `Phalcon\Http\Message\AbstractCommon::cloneInstance`
+  - `Phalcon\Http\Message\AbstractCommon::processWith`
+  - `Phalcon\Http\Message\AbstractMessage::withAddedHeader`
+  - `Phalcon\Http\Message\AbstractMessage::withBody`
+  - `Phalcon\Http\Message\AbstractMessage::withHeader`
+  - `Phalcon\Http\Message\AbstractMessage::withProtocolVersion`
+  - `Phalcon\Http\Message\AbstractMessage::withoutHeader`
+  - `Phalcon\Http\Message\AbstractRequest::withMethod`
+  - `Phalcon\Http\Message\AbstractRequest::withRequestTarget`
+  - `Phalcon\Http\Message\AbstractRequest::withUri`
+  - `Phalcon\Mvc\Model\Binder::findBoundModel`
+  - `Phalcon\Validation::getEntity`
+  - `Phalcon\Validation\ValidationInterface::getEntity`
+- Fixed default value of `Phalcon\Crypt::$key` to satisfy the interface [#14989](https://github.com/phalcon/cphalcon/issues/14989)
+- Fixed return type hint for `Phalcon\Di::getInternalEventsManager` [#14992](https://github.com/phalcon/cphalcon/issues/14992)
+- Fixed return type hints of the following `Phalcon\Flash\AbstractFlash`'s methods: `error`, `notice`, `success` and `warning` [#14994](https://github.com/phalcon/cphalcon/issues/14994)
+- Fixed return type hint for `Phalcon\Translate\InterpolatorFactory::newInstance` [#14996](https://github.com/phalcon/cphalcon/issues/14996)
+- Fixed return type hint for `Phalcon\Mvc\Model::sum` [#15000](https://github.com/phalcon/cphalcon/issues/15000)
+- Fixed return type hint for `Phalcon\Mvc\Model\CriteriaInterface::getLimit` and `Phalcon\Mvc\Model\Criteria::getLimit` to follow documentation and original purpose [#15004](https://github.com/phalcon/cphalcon/issues/15004)
+- Fixed return type hint for `Phalcon\Mvc\Model::count` and `Phalcon\Mvc\ModelInterface::count` to reflect original behavior [#15006](https://github.com/phalcon/cphalcon/issues/15006)
+- Fixed return type hint for `Phalcon\Mvc\Model::getEventsManager` to reflect original behavior [#15008](https://github.com/phalcon/cphalcon/issues/15008)
+- Fixed return type hint for `Phalcon\Mvc\Model::average` and `Phalcon\Mvc\ModelInterface::average` to reflect original behavior [#15013](https://github.com/phalcon/cphalcon/issues/15013)
+- Fixed return type hint for `Phalcon\Mvc\Model\MetaData::getColumnMap` and `Phalcon\Mvc\Model\MetaData::getReverseColumnMap` to reflect original behavior [#15015](https://github.com/phalcon/cphalcon/issues/15015)
+- Fixed return type hint for `Phalcon\Mvc\Model\MetaDataInterface::getColumnMap` and `Phalcon\Mvc\Model\MetaDataInterface::getReverseColumnMap` to reflect original behavior [#15015](https://github.com/phalcon/cphalcon/issues/15015)
+- Fixed return type hint for `Phalcon\Mvc\Model\CriteriaInterface::getColumns` and `Phalcon\Mvc\Model\Criteria::getColumns` to reflect original behavior [#15017](https://github.com/phalcon/cphalcon/issues/15017)
+- Fixed return type hint for `Phalcon\Db\Column::getSize` and `Phalcon\Db\ColumnInterface::getSize` to reflect original behavior [#15019](https://github.com/phalcon/cphalcon/issues/15019)
+- Fixed return type hint for `Phalcon\Db\Column::getAfterPosition` and `Phalcon\Db\ColumnInterface::getAfterPosition` to reflect original behavior [#15021](https://github.com/phalcon/cphalcon/issues/15021)
+
 # [4.0.5](https://github.com/phalcon/cphalcon/releases/tag/v4.0.5) (2020-03-07)
 ## Added
 
