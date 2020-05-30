@@ -643,7 +643,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
      */
     public function setJsonContent(var content, int jsonOptions = 0, int depth = 512) -> <ResponseInterface>
     {
-        this->setContentType("application/json", "UTF-8");
+        this->setContentType("application/json");
 
         this->setContent(
             Json::encode(content, jsonOptions, depth)
