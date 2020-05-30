@@ -39,6 +39,7 @@ This component can be used to create SQL statements using a fluent interface. Op
 - PHQL now supports the use of any printable characters from the extended ASCII
   table for escaped identifiers. The exception characters are `[` and `]`. To
   use `[` and `]` escape they (`\[`, `\]`) [#14535](https://github.com/phalcon/cphalcon/issues/14535)
+- Removed UTF-8 charset when using `Phalcon\Http\Response::setJsonContent` to apply with rfc7159
 
 ## Fixed
 - Fixed `Phalcon\Db\Dialect\Mysql::getColumnDefinition` to recognize `size` for `DATETIME`, `TIME` and `TIMESTAMP` columns [#13297](https://github.com/phalcon/cphalcon/issues/13297)
