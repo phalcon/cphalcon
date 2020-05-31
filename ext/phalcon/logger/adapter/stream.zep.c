@@ -137,8 +137,8 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, __construct) {
 
 	ZEPHIR_OBS_VAR(&mode);
 	if (zephir_array_isset_string_fetch(&mode, &options, SL("mode"), 0)) {
-		if (zephir_memnstr_str(&mode, SL("r"), "/home/nikos/Work/niden/cphalcon/phalcon/Logger/Adapter/Stream.zep", 79)) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "Adapter cannot be opened in read mode", "/home/nikos/Work/niden/cphalcon/phalcon/Logger/Adapter/Stream.zep", 80);
+		if (zephir_memnstr_str(&mode, SL("r"), "phalcon/Logger/Adapter/Stream.zep", 79)) {
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "Adapter cannot be opened in read mode", "phalcon/Logger/Adapter/Stream.zep", 80);
 			return;
 		}
 	}
@@ -230,7 +230,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Stream, process) {
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(NULL, &_5$$4, "__construct", NULL, 365, &_9$$4);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_5$$4, "/home/nikos/Work/niden/cphalcon/phalcon/Logger/Adapter/Stream.zep", 127);
+			zephir_throw_exception_debug(&_5$$4, "phalcon/Logger/Adapter/Stream.zep", 127);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}

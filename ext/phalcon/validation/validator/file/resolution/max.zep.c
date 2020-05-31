@@ -168,34 +168,34 @@ PHP_METHOD(Phalcon_Validation_Validator_File_Resolution_Max, validate) {
 	}
 	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, 0, field);
 	zephir_check_call_status();
-	zephir_array_fetch_string(&_1, &value, SL("tmp_name"), PH_NOISY | PH_READONLY, "/home/nikos/Work/niden/cphalcon/phalcon/Validation/Validator/File/Resolution/Max.zep", 94);
-	ZEPHIR_CALL_FUNCTION(&tmp, "getimagesize", NULL, 365, &_1);
+	zephir_array_fetch_string(&_1, &value, SL("tmp_name"), PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/File/Resolution/Max.zep", 94);
+	ZEPHIR_CALL_FUNCTION(&tmp, "getimagesize", NULL, 383, &_1);
 	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(&width);
-	zephir_array_fetch_long(&width, &tmp, 0, PH_NOISY, "/home/nikos/Work/niden/cphalcon/phalcon/Validation/Validator/File/Resolution/Max.zep", 95);
+	zephir_array_fetch_long(&width, &tmp, 0, PH_NOISY, "phalcon/Validation/Validator/File/Resolution/Max.zep", 95);
 	ZEPHIR_OBS_VAR(&height);
-	zephir_array_fetch_long(&height, &tmp, 1, PH_NOISY, "/home/nikos/Work/niden/cphalcon/phalcon/Validation/Validator/File/Resolution/Max.zep", 96);
+	zephir_array_fetch_long(&height, &tmp, 1, PH_NOISY, "phalcon/Validation/Validator/File/Resolution/Max.zep", 96);
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "resolution");
 	ZEPHIR_CALL_METHOD(&resolution, this_ptr, "getoption", NULL, 0, &_2);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&resolution) == IS_ARRAY) {
-		zephir_array_fetch(&_3$$4, &resolution, field, PH_NOISY | PH_READONLY, "/home/nikos/Work/niden/cphalcon/phalcon/Validation/Validator/File/Resolution/Max.zep", 101);
+		zephir_array_fetch(&_3$$4, &resolution, field, PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/File/Resolution/Max.zep", 101);
 		ZEPHIR_CPY_WRT(&resolution, &_3$$4);
 	}
 	ZEPHIR_INIT_VAR(&resolutionArray);
 	zephir_fast_explode_str(&resolutionArray, SL("x"), &resolution, LONG_MAX);
 	ZEPHIR_OBS_VAR(&maxWidth);
-	zephir_array_fetch_long(&maxWidth, &resolutionArray, 0, PH_NOISY, "/home/nikos/Work/niden/cphalcon/phalcon/Validation/Validator/File/Resolution/Max.zep", 105);
+	zephir_array_fetch_long(&maxWidth, &resolutionArray, 0, PH_NOISY, "phalcon/Validation/Validator/File/Resolution/Max.zep", 105);
 	ZEPHIR_OBS_VAR(&maxHeight);
-	zephir_array_fetch_long(&maxHeight, &resolutionArray, 1, PH_NOISY, "/home/nikos/Work/niden/cphalcon/phalcon/Validation/Validator/File/Resolution/Max.zep", 106);
+	zephir_array_fetch_long(&maxHeight, &resolutionArray, 1, PH_NOISY, "phalcon/Validation/Validator/File/Resolution/Max.zep", 106);
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "included");
 	ZEPHIR_CALL_METHOD(&included, this_ptr, "getoption", NULL, 0, &_2);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&included) == IS_ARRAY) {
 		ZEPHIR_OBS_VAR(&_4$$5);
-		zephir_array_fetch(&_4$$5, &included, field, PH_NOISY, "/home/nikos/Work/niden/cphalcon/phalcon/Validation/Validator/File/Resolution/Max.zep", 111);
+		zephir_array_fetch(&_4$$5, &included, field, PH_NOISY, "phalcon/Validation/Validator/File/Resolution/Max.zep", 111);
 		_5$$5 = zephir_get_boolval(&_4$$5);
 		ZEPHIR_INIT_NVAR(&included);
 		ZVAL_BOOL(&included, _5$$5);
@@ -218,7 +218,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File_Resolution_Max, validate) {
 		result = _8$$8;
 	}
 	if (Z_TYPE_P(&resolution) == IS_ARRAY) {
-		zephir_array_fetch(&_9$$9, &resolution, field, PH_NOISY | PH_READONLY, "/home/nikos/Work/niden/cphalcon/phalcon/Validation/Validator/File/Resolution/Max.zep", 123);
+		zephir_array_fetch(&_9$$9, &resolution, field, PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/File/Resolution/Max.zep", 123);
 		ZEPHIR_CPY_WRT(&resolution, &_9$$9);
 	}
 	if (result) {

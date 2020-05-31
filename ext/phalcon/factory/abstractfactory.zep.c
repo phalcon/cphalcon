@@ -137,7 +137,7 @@ PHP_METHOD(Phalcon_Factory_AbstractFactory, getService) {
 		object_init_ex(&_1$$3, phalcon_factory_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZEPHIR_CONCAT_SVS(&_2$$3, "Service ", &name, " is not registered");
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 6, &_2$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 8, &_2$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Factory/AbstractFactory.zep", 62);
 		ZEPHIR_MM_RESTORE();

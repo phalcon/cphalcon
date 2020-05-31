@@ -106,7 +106,7 @@ PHP_METHOD(Phalcon_Session_Bag, __construct) {
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 8, &_2$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "/home/nikos/Work/niden/cphalcon/phalcon/Session/Bag.zep", 55);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Session/Bag.zep", 55);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

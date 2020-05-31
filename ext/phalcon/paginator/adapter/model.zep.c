@@ -146,7 +146,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, paginate) {
 	ZEPHIR_OBS_VAR(&_2);
 	zephir_read_property(&_2, this_ptr, SL("page"), PH_NOISY_CC);
 	pageNumber = zephir_get_intval(&_2);
-	zephir_array_fetch_string(&_3, &config, SL("model"), PH_NOISY | PH_READONLY, "/home/nikos/Work/niden/cphalcon/phalcon/Paginator/Adapter/Model.zep", 100);
+	zephir_array_fetch_string(&_3, &config, SL("model"), PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter/Model.zep", 100);
 	ZEPHIR_CPY_WRT(&modelClass, &_3);
 	ZEPHIR_INIT_VAR(&_5);
 	array_init(&_5);
