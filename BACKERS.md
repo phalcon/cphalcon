@@ -83,13 +83,13 @@ Thanks for the support
 <a href="https://github.com/ninjapanzer"><img src="https://avatars1.githubusercontent.com/u/159591?s=460&v=4" title="Paul Scarrone" width="60" height="60"></a>
 <a href="https://github.com/vlad-light"><img src="https://avatars1.githubusercontent.com/u/277235?s=460&v=4" title="Vladimir L" width="60" height="60"></a>
 <a href="https://github.com/alrieckert"><img src="https://avatars1.githubusercontent.com/u/452786?s=460&v=4" title="Anton Rieckert" width="60" height="60"></a>
-<a href="https://github.com/andrew-s"><img src="https://avatars1.githubusercontent.com/u/479306?s=460&v=4" title="Andrew Seymour" width="60" height="60"></a>
 <a href="https://github.com/sinbadxiii"><img src="https://avatars2.githubusercontent.com/u/900273?s=460&v=4" title="Sergey Mukhin" width="60" height="60"></a>
 <a href="https://github.com/niden"><img src="https://avatars2.githubusercontent.com/u/1073784?s=460&v=4" title="Nikolaos Dimopoulos" width="60" height="60"></a>
 <a href="https://github.com/qmegas"><img src="https://avatars3.githubusercontent.com/u/2444896?s=460&v=4" title="qmegas" width="60" height="60"></a>
 <a href="https://github.com/terolblade"><img src="https://avatars3.githubusercontent.com/u/3078649?s=460&v=4" title="Stanislav Sviridenko" width="60" height="60"></a>
 <a href="https://github.com/Ruzgfpegk"><img src="https://avatars1.githubusercontent.com/u/3818364?s=460&v=4" title="Ruzgfpegk" width="60" height="60"></a>
 <a href="https://github.com/zsilbi"><img src="https://avatars2.githubusercontent.com/u/3886658?s=460&v=4" title="Balázs Németh" width="60" height="60"></a>
+<a href="https://github.com/RayHughes"><img src="https://avatars3.githubusercontent.com/u/4381883?s=460&u=16dbf2e3fbfae0892a858d6d4cc8869bfde6dd74&v=4" title="Ray Hughes" width="60" height="60"></a>
 <a href="https://github.com/ruudboon"><img src="https://avatars3.githubusercontent.com/u/7444246?s=460&v=4" title="Ruud Boon" width="60" height="60"></a>
 <a href="https://github.com/sitchi"><img src="https://avatars0.githubusercontent.com/u/11546683?s=460&v=4" title="Nikoloz Sitchinava" width="60" height="60"></a>
 <a href="https://github.com/Montana"><img src="https://avatars3.githubusercontent.com/u/20936398?s=460&v=4" title="Montana Mendy" width="60" height="60"></a>

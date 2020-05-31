@@ -1264,14 +1264,13 @@ PHP_METHOD(Phalcon_Http_Request, getHTTPReferer) {
 PHP_METHOD(Phalcon_Http_Request, getJsonRawBody) {
 
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_0 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *associative_param = NULL, rawBody, _1;
+	zval *associative_param = NULL, rawBody, _0;
 	zend_bool associative;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&rawBody);
-	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_0);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &associative_param);
@@ -1288,13 +1287,8 @@ PHP_METHOD(Phalcon_Http_Request, getJsonRawBody) {
 	if (Z_TYPE_P(&rawBody) != IS_STRING) {
 		RETURN_MM_BOOL(0);
 	}
-	if (associative) {
-		ZVAL_BOOL(&_1, 1);
-	} else {
-		ZVAL_BOOL(&_1, 0);
-	}
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_json_ce, "decode", &_0, 179, &rawBody, &_1);
-	zephir_check_call_status();
+	ZVAL_BOOL(&_0, (associative ? 1 : 0));
+	zephir_json_decode(return_value, &rawBody, zephir_get_intval(&_0) );
 	RETURN_MM();
 
 }

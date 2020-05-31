@@ -44,10 +44,8 @@ class TagFactory extends AbstractFactory
     {
         var definition;
 
-        this->checkService(name);
-
         if !isset this->services[name] {
-            let definition           = this->mapper[name],
+            let definition           = this->getService(name),
                 this->services[name] = create_instance_params(
                     definition,
                     [

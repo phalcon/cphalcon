@@ -1,4 +1,4 @@
-# [4.0.6](https://github.com/phalcon/cphalcon/releases/tag/v4.0.5) (2020-xx-xx)
+# [4.0.6](https://github.com/phalcon/cphalcon/releases/tag/v4.0.5) (2020-05-16)
 ## Added
 
 ## Changed
@@ -11,6 +11,9 @@
 - Changed return type for `Phalcon\Mvc\Model\Criteria::getLimit` so that integer, NULL or array will be returned [#15004](https://github.com/phalcon/cphalcon/issues/15004)
 - Changed return type hint for `Phalcon\Mvc\Model\Manager::getCustomEventsManager` to return NULL instead of boolean FALSE if there is no special events manager [#15008](https://github.com/phalcon/cphalcon/issues/15008)
 - Changed `Phalcon\Mvc\Model\MetaData::getDI` so that now it will throw a `Phalcon\Mvc\Model\Exception` if there is no `DiInterface` instance  [#15011](https://github.com/phalcon/cphalcon/issues/15011)
+- Changed `Phalcon\Http\Request::getJsonRawBody` to use `json_decode` instead of `Phalcon\Json::decode` [#14936](https://github.com/phalcon/cphalcon/issues/14936)
+- Changed `Phalcon\Factory\AbstractFactory` to expose `getService` which will throw an exception if it does not exist. Removed `checkService` and adjusted all references in `newInstance()` calls. [#15038](https://github.com/phalcon/cphalcon/issues/15038)
+- Changed the visibility of methods and properties in `Phalcon\Http\Message\Response`, `Phalcon\Http\Message\ServerRequest` and `Phalcon\Http\Message\Uri` to work with `clone`. [#15040](https://github.com/phalcon/cphalcon/issues/15040)
 
 ## Fixed
 - Fixed `Phalcon\Mvc\Model\Query\Builder::getPhql` to add single quote between string value on a simple condition [#14874](https://github.com/phalcon/cphalcon/issues/14874)
@@ -55,6 +58,13 @@
 - Fixed return type hint for `Phalcon\Mvc\Model\CriteriaInterface::getColumns` and `Phalcon\Mvc\Model\Criteria::getColumns` to reflect original behavior [#15017](https://github.com/phalcon/cphalcon/issues/15017)
 - Fixed return type hint for `Phalcon\Db\Column::getSize` and `Phalcon\Db\ColumnInterface::getSize` to reflect original behavior [#15019](https://github.com/phalcon/cphalcon/issues/15019)
 - Fixed return type hint for `Phalcon\Db\Column::getAfterPosition` and `Phalcon\Db\ColumnInterface::getAfterPosition` to reflect original behavior [#15021](https://github.com/phalcon/cphalcon/issues/15021)
+- Fixed return type hint for `Phalcon\Mvc\Model\Manager::executeQuery` and `Phalcon\Mvc\Model\Manager::ManagerInterface` to reflect original behavior [#15024](https://github.com/phalcon/cphalcon/issues/15024)
+- Fixed return type hint for `Phalcon\Mvc\Model\Resultset::getFirst` and `Phalcon\Mvc\Model\ResultsetInterface::getFirst` to reflect original behavior [#15027](https://github.com/phalcon/cphalcon/issues/15027)
+- Rollback the regression changes for `Phalcon\Mvc\Model\Query::_prepareSelect` to properly prepare a SQL `SELECT` statement from a PHQL one [#14657](https://github.com/phalcon/cphalcon/issues/14657)
+- Fixed `SerializerInterface` usage for `Phalcon\Mvc\Model\Resultset\Complex::unserialize` as well as `Phalcon\Mvc\Model\Resultset\Complex::unserialize` [#14942](https://github.com/phalcon/cphalcon/issues/14942)
+
+## Removed
+- Removed `Phalcon\Translate\InterpolatorFactory::$mapper` as well as `Phalcon\Translate\InterpolatorFactory::$services` in favor of `Phalcon\Factory\AbstractFactory` ones [#15036](https://github.com/phalcon/cphalcon/issues/15036)
 
 # [4.0.5](https://github.com/phalcon/cphalcon/releases/tag/v4.0.5) (2020-03-07)
 ## Added

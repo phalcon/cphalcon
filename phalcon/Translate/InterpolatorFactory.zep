@@ -16,16 +16,6 @@ use Phalcon\Translate\Interpolator\InterpolatorInterface;
 class InterpolatorFactory extends AbstractFactory
 {
     /**
-     * @var array
-     */
-    private mapper   = [];
-
-    /**
-     * @var array
-     */
-    private services = [];
-
-    /**
      * AdapterFactory constructor.
      */
     public function __construct(array! services = [])
@@ -40,9 +30,7 @@ class InterpolatorFactory extends AbstractFactory
     {
         var definition;
 
-        this->checkService(name);
-
-        let definition = this->mapper[name];
+        let definition = this->getService(name);
 
         return create_instance(definition);
     }

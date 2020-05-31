@@ -4,8 +4,8 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 
 namespace Phalcon\Mvc\Model;
@@ -76,11 +76,11 @@ abstract class Resultset
 
     protected activeRow = null;
 
-    protected cache;
+    protected cache = null;
 
-    protected count;
+    protected count = 0;
 
-    protected errorMessages;
+    protected errorMessages = [];
 
     protected hydrateMode = 0;
 
@@ -307,8 +307,30 @@ abstract class Resultset
 
     /**
      * Get first row in the resultset
+     *
+     * ```php
+     * $model = new Robots();
+     * $manager = $model->getModelsManager();
+     *
+     * // \Robots
+     * $manager->createQuery('SELECT * FROM Robots')
+     *         ->execute()
+     *         ->getFirst();
+     *
+     * // \Phalcon\Mvc\Model\Row
+     * $manager->createQuery('SELECT r.id FROM Robots AS r')
+     *         ->execute()
+     *         ->getFirst();
+     *
+     * // NULL
+     * $manager->createQuery('SELECT r.id FROM Robots AS r WHERE r.name = "NON-EXISTENT"')
+     *         ->execute()
+     *         ->getFirst();
+     * ```
+     *
+     * @return ModelInterface|Row|null
      */
-    public function getFirst() -> <ModelInterface> | null
+    public function getFirst() -> var | null
     {
         if this->count == 0 {
             return null;
