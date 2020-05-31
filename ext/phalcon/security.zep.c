@@ -374,7 +374,7 @@ PHP_METHOD(Phalcon_Security, computeHmac) {
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 8, &_3$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "/home/nikos/Work/niden/cphalcon/phalcon/Security.zep", 215);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Security.zep", 215);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -734,7 +734,7 @@ PHP_METHOD(Phalcon_Security, hash) {
 				zephir_check_call_status();
 			}
 			if (UNEXPECTED(Z_TYPE_P(&saltBytes) != IS_STRING)) {
-				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_security_exception_ce, "Unable to get random bytes for the salt", "/home/nikos/Work/niden/cphalcon/phalcon/Security.zep", 433);
+				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_security_exception_ce, "Unable to get random bytes for the salt", "phalcon/Security.zep", 433);
 				return;
 			}
 			ZEPHIR_RETURN_CALL_FUNCTION("crypt", NULL, 0, &password, &saltBytes);
@@ -753,7 +753,7 @@ PHP_METHOD(Phalcon_Security, hash) {
 			ZEPHIR_CALL_METHOD(&saltBytes, this_ptr, "getsaltbytes", NULL, 0, &_5$$15);
 			zephir_check_call_status();
 			if (UNEXPECTED(Z_TYPE_P(&saltBytes) != IS_STRING)) {
-				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_security_exception_ce, "Unable to get random bytes for the salt", "/home/nikos/Work/niden/cphalcon/phalcon/Security.zep", 452);
+				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_security_exception_ce, "Unable to get random bytes for the salt", "phalcon/Security.zep", 452);
 				return;
 			}
 			ZEPHIR_INIT_VAR(&_6$$15);
@@ -766,7 +766,7 @@ PHP_METHOD(Phalcon_Security, hash) {
 		ZEPHIR_CALL_METHOD(&saltBytes, this_ptr, "getsaltbytes", NULL, 0, &_7$$17);
 		zephir_check_call_status();
 		if (UNEXPECTED(Z_TYPE_P(&saltBytes) != IS_STRING)) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_security_exception_ce, "Unable to get random bytes for the salt", "/home/nikos/Work/niden/cphalcon/phalcon/Security.zep", 481);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_security_exception_ce, "Unable to get random bytes for the salt", "phalcon/Security.zep", 481);
 			return;
 		}
 		if (workFactor < 4) {
@@ -922,7 +922,7 @@ PHP_METHOD(Phalcon_Security, getLocalRequest) {
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, &_2$$4, "__construct", NULL, 8, &_3$$4);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_2$$4, "/home/nikos/Work/niden/cphalcon/phalcon/Security.zep", 550);
+		zephir_throw_exception_debug(&_2$$4, "phalcon/Security.zep", 550);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -977,7 +977,7 @@ PHP_METHOD(Phalcon_Security, getLocalSession) {
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, &_2$$4, "__construct", NULL, 8, &_3$$4);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_2$$4, "/home/nikos/Work/niden/cphalcon/phalcon/Security.zep", 572);
+		zephir_throw_exception_debug(&_2$$4, "phalcon/Security.zep", 572);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

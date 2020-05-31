@@ -236,7 +236,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, throwWriteException) {
 
 
 	if (zephir_is_true(option)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Meta-Data directory cannot be written", "/home/nikos/Work/niden/cphalcon/phalcon/Mvc/Model/MetaData/Stream.zep", 90);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Meta-Data directory cannot be written", "phalcon/Mvc/Model/MetaData/Stream.zep", 90);
 		return;
 	} else {
 		ZEPHIR_INIT_VAR(&_0$$4);
