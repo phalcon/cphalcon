@@ -13,7 +13,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Validation\Validator;
 
-use IntegrationTester;
+use IntegrationTester,
+    Phalcon\Validation\Validator\PresenceOf;
 
 /**
  * Class ConstructCest
@@ -31,4 +32,38 @@ class ConstructCest
         $I->wantToTest('Validation\Validator - __construct()');
         $I->skipTest('Need implementation');
     }
+
+    /**
+     * Tests Phalcon\Validation\Validator :: __construct() with message option
+     */
+    public function validationValidatorConstructWithMessage(IntegrationTester $I)
+    {
+        $validator_default = new PresenceOf(); // default message
+        $validator_custom = new PresenceOf(['message' => 'Custom message']); // custom message
+        
+        // expected: FALSE - empty message for default text (not set)
+        $I->assertEquals(
+            false,
+            $validator_default->getOption('message')
+        );
+
+        // expected: text message - has custom message (developer set this message)
+        $I->assertEquals(
+            'Custom message',
+            $validator_custom->getOption('message')
+        );
+
+        $validator_custom = new PresenceOf(['template' => 'Custom message']); // custom message
+        $I->assertEquals(
+            'Custom message',
+            $validator_custom->getOption('message')
+        );
+
+        $validator_custom = new PresenceOf(['Custom message']); // custom message
+        $I->assertEquals(
+            'Custom message',
+            $validator_custom->getOption('message')
+        );
+
+    }    
 }

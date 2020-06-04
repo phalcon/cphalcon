@@ -52,8 +52,10 @@ abstract class AbstractValidator implements ValidatorInterface
         }
 
         if template {
+            // save custom message in options
+            let options["message"] = template;
+
             unset options["template"];
-            unset options["message"];
             unset options[0];
         }
 
