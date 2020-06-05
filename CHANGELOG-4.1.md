@@ -40,6 +40,7 @@ This component can be used to create SQL statements using a fluent interface. Op
   table for escaped identifiers. The exception characters are `[` and `]`. To
   use `[` and `]` escape they (`\[`, `\]`) [#14535](https://github.com/phalcon/cphalcon/issues/14535)
 - Removed UTF-8 charset when using `Phalcon\Http\Response::setJsonContent` to apply with rfc7159
+- Changed the visibility of properties in `Phalcon\Http\Message\Uri` to work with `clone`. [#15040](https://github.com/phalcon/cphalcon/issues/15040)
 
 ## Fixed
 - Fixed `Phalcon\Db\Dialect\Mysql::getColumnDefinition` to recognize `size` for `DATETIME`, `TIME` and `TIMESTAMP` columns [#13297](https://github.com/phalcon/cphalcon/issues/13297)
