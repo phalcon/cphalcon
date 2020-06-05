@@ -122,7 +122,7 @@ class Model extends AbstractAdapter
                 [modelClass, "find"],
                 parameters
             );
-            let pageItems = items->toArray();
+            let pageItems = items;
         }
 
         //Fix next
