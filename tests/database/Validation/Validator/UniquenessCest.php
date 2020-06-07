@@ -14,23 +14,13 @@ declare(strict_types=1);
 namespace Phalcon\Test\Database\Validation\Validator;
 
 use DatabaseTester;
-use Phalcon\Paginator\Adapter\AdapterInterface;
-use Phalcon\Paginator\Adapter\QueryBuilder;
 use Phalcon\Paginator\Exception;
-use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
 use Phalcon\Test\Fixtures\Migrations\ObjectsMigration;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\Invoices;
 use Phalcon\Test\Models\Objects;
-use stdClass;
-
-use IntegrationTester;
-use Phalcon\Test\Models\Robots;
-use Phalcon\Test\Models\Some\Robotters;
+use Phalcon\Test\Models\ObjectsWithColumnMap;
 use Phalcon\Validation;
 use Phalcon\Validation\Validator\Uniqueness;
-
-//use function date;
 
 class UniquenessCest
 {
@@ -567,18 +557,6 @@ class UniquenessCest
             $messages->count()
         );
 
-        // All values exist but only name is on execpt
-        $existing = new Objects();
-        $existing->obj_name = "Phalcon 1";
-        $existing->obj_type = 2;
-
-        $messages = $validation->validate(null, $existing);
-
-        $I->assertEquals(
-            1,
-            $messages->count()
-        );
-
         // All values exist
         $existing = new Objects();
         $existing->obj_name = "Phalcon 3";
@@ -625,69 +603,28 @@ class UniquenessCest
         );
     }
 
-    /**
-     * Tests except other than field
-     *
-     * @author Wojciech Ślawski <jurigag@gmail.com>
-     * @since  2017-01-16
-     */
-    public function testExceptOtherThanField(DatabaseTester $I)
-    {
-        $I->skipTest('TODO: Check the verify');
-
-        $validation = new Validation();
-
-        $validation->add(
-            'text',
-            new Uniqueness(
-                [
-                    'except' => [
-                        'type' => ['mechanical', 'cyborg'],
-                    ],
-                ]
-            )
-        );
-
-
-        $messages = $validation->validate(null, $this->robot);
-
-        $I->assertEquals(
-            0,
-            $messages->count()
-        );
-
-
-        $messages = $validation->validate(null, $this->anotherRobot);
-
-        $I->assertEquals(
-            0,
-            $messages->count()
-        );
-
-        $anotherRobot = clone $this->anotherRobot;
-
-        $this->anotherRobot->create();
-
-
-        $messages = $validation->validate(null, $anotherRobot);
-
-        $I->assertEquals(
-            1,
-            $messages->count()
-        );
-
-        $this->anotherRobot->delete();
-    }
 
     /**
      * Tests issue 13398
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @author Ruud Boon <https://github.com/ruudboon>
      * @since  2018-06-13
+     *
+     * @group  mysql
+     * @group  pgsql
+     * @group  sqlite
      */
     public function testIssue13398(DatabaseTester $I)
     {
-        $I->skipTest('TODO: Check the verify');
+
+        /** @var PDO $connection */
+        $connection = $I->getConnection();
+        $migration  = new ObjectsMigration($connection);
+        $migration->insert(1, 'Phalcon 1', 1);
+        $migration->insert(2, 'Phalcon 2', 2);
+        $migration->insert(3, 'Phalcon 3', 3);
+
         $validation = new Validation();
 
         $validation->add(
@@ -695,12 +632,12 @@ class UniquenessCest
             new Uniqueness()
         );
 
-        $robot = Robotters::findFirst(1);
+        $object = ObjectsWithColumnMap::findFirst(1);
 
 
-        $robot->theName = 'Astro Boy';
+        $object->theName = 'Phalcon 2';
 
-        $messages = $validation->validate(null, $robot);
+        $messages = $validation->validate(null, $object);
 
         $I->assertEquals(
             1,
@@ -708,9 +645,9 @@ class UniquenessCest
         );
 
 
-        $robot->theName = 'Astro Boyy';
+        $object->theName = 'Not Phalcon 1';
 
-        $messages = $validation->validate(null, $robot);
+        $messages = $validation->validate(null, $object);
 
         $I->assertEquals(
             0,
