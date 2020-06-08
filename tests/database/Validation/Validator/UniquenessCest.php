@@ -37,53 +37,6 @@ class UniquenessCest
         $migration->clear();
     }
 
-//    /**
-//     * @throws Exception
-//     */
-//    public function _before(IntegrationTester $I)
-//    {
-//        $this->setNewFactoryDefault();
-//        $this->setDiMysql();
-//
-//        $this->robot = new Robots(
-//            [
-//                'name'     => 'Robotina',
-//                'type'     => 'mechanical',
-//                'year'     => 1972,
-//                'datetime' => date('Y-m-d H:i:s'),
-//                'deleted'  => null,
-//                'text'     => 'text',
-//            ]
-//        );
-//
-//        $this->anotherRobot = new Robots(
-//            [
-//                'name'     => 'Robotina',
-//                'type'     => 'hydraulic',
-//                'year'     => 1952,
-//                'datetime' => date('Y-m-d H:i:s'),
-//                'deleted'  => null,
-//                'text'     => 'text',
-//            ]
-//        );
-//
-//        $this->deletedRobot = new Robots(
-//            [
-//                'name'     => 'Robotina',
-//                'type'     => 'mechanical',
-//                'year'     => 1972,
-//                'datetime' => date('Y-m-d H:i:s'),
-//                'deleted'  => date('Y-m-d H:i:s'),
-//                'text'     => 'text',
-//            ]
-//        );
-//    }
-
-//    public function _after(IntegrationTester $I)
-//    {
-//        $this->container['db']->close();
-//    }
-
     /**
      * Tests Phalcon\Validation\Validator\Uniqueness with single fields
      *
