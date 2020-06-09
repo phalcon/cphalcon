@@ -12,10 +12,11 @@
 namespace Phalcon\Test\Models\Cacheable;
 
 use Phalcon\Mvc\Model as PhalconModel;
+use Phalcon\Mvc\ModelInterface;
 
 class Model extends PhalconModel
 {
-    public static function findFirst($parameters = null)
+    public static function findFirst($parameters = null): ?ModelInterface
     {
         $parameters = self::getCacheableParams($parameters);
 
