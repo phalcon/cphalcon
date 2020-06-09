@@ -1534,7 +1534,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *     'hydration' => null
      * ]
      */
-    public static function findFirst(var parameters = null) -> <ModelInterface> | bool
+    public static function findFirst(var parameters = null) -> <ModelInterface> | null
     {
         var params, query;
 
