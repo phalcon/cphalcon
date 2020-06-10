@@ -20,7 +20,8 @@ class Item
 {
     /**
      * Log Context
-     * @return mixed
+     *      
+     * @var mixed
      */
     protected context { get };
 
