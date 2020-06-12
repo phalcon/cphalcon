@@ -94,7 +94,6 @@ class Uniqueness extends AbstractCombinedFieldsValidator
     protected template = "Field :field must be unique";
 
     private columnMap = null;
-    private columnReverseMap = null;
 
     /**
      * Constructor
@@ -135,25 +134,6 @@ class Uniqueness extends AbstractCombinedFieldsValidator
     protected function getColumnNameReal(var record, string! field) -> string
     {
         // Caching columnMap
-        if globals_get("orm.column_renaming") && !this->columnReverseMap {
-            let this->columnReverseMap = record->getDI()
-                ->getShared("modelsMetadata")
-                ->getReverseColumnMap(record);
-        }
-
-        if typeof this->columnReverseMap == "array" && isset this->columnReverseMap[field] {
-            return this->columnReverseMap[field];
-        }
-
-        return field;
-    }
-
-    /**
-     * The column map is used in the case to get the alias column
-     */
-    protected function getColumnNameAlias(var record, string! field) -> string
-    {
-        // Caching columnMap
         if globals_get("orm.column_renaming") && !this->columnMap {
             let this->columnMap = record->getDI()
                 ->getShared("modelsMetadata")
@@ -174,6 +154,7 @@ class Uniqueness extends AbstractCombinedFieldsValidator
 // @todo: Restore when new Collection is reintroduced
 //
 //        var isDocument;
+
         if typeof field != "array" {
             let singleField = field,
                 field = [];
@@ -320,16 +301,15 @@ class Uniqueness extends AbstractCombinedFieldsValidator
      */
     protected function isUniquenessModel(var record, array field, array values)
     {
-        var index, params, attribute, realColumnName, aliasColumnName, metaData, primaryField, singleField,
+        var index, params, attribute, metaData, primaryField, singleField,
             fieldExcept, singleExcept, notInValues, exceptConditions, value,
-            except, bindTypes;
+            except;
 
         let exceptConditions = [],
             index  = 0,
             params = [
                 "conditions": [],
-                "bind":       [],
-                "bindTypes":  []
+                "bind":       []
             ],
             except = this->getOption("except");
 
@@ -339,13 +319,11 @@ class Uniqueness extends AbstractCombinedFieldsValidator
                 value = values[singleField];
 
             let attribute = this->getOption("attribute", singleField);
-            let realColumnName = this->getColumnNameReal(record, attribute);
-            let bindTypes = record->getDI()->getShared("modelsMetadata")->getBindTypes(record);
+            let attribute = this->getColumnNameReal(record, attribute);
 
             if value != null {
                 let params["conditions"][] = attribute . " = ?" . index;
                 let params["bind"][] = value;
-                let params["bindTypes"][] = bindTypes[realColumnName];
                 let index++;
             } else {
                 let params["conditions"][] = attribute . " IS NULL";
@@ -354,14 +332,16 @@ class Uniqueness extends AbstractCombinedFieldsValidator
             if except {
                 if typeof except == "array" && array_keys(except) !== range(0, count(except) - 1) {
                     for singleField, fieldExcept in except {
-                        let attribute = this->getOption("attribute", singleField);
-                        let realColumnName = this->getColumnNameReal(record, attribute);
+                        let notInValues = [];
+                        let attribute = this->getColumnNameReal(
+                            record,
+                            this->getOption("attribute", singleField)
+                        );
 
                         if typeof fieldExcept == "array" {
                             for singleExcept in fieldExcept {
                                 let notInValues[] = "?" . index;
                                 let params["bind"][] = singleExcept;
-                                let params["bindTypes"][] = bindTypes[realColumnName];
                                 let index++;
                             }
 
@@ -369,19 +349,19 @@ class Uniqueness extends AbstractCombinedFieldsValidator
                         } else {
                             let exceptConditions[] = attribute . " <> ?" . index;
                             let params["bind"][] = fieldExcept;
-                            let params["bindTypes"][] = bindTypes[realColumnName];
                             let index++;
                         }
                     }
                 } elseif count(field) == 1 {
-                    let attribute = this->getOption("attribute", field[0]);
-                    let realColumnName = this->getColumnNameReal(record, attribute);
+                    let attribute = this->getColumnNameReal(
+                        record,
+                        this->getOption("attribute", field[0])
+                    );
 
                     if typeof except == "array" {
                         for singleExcept in except {
                             let notInValues[] = "?" . index;
                             let params["bind"][] = singleExcept;
-                            let params["bindTypes"][] = bindTypes[realColumnName];
                             let index++;
                         }
 
@@ -389,19 +369,19 @@ class Uniqueness extends AbstractCombinedFieldsValidator
                     } else {
                         let params["conditions"][] = attribute . " <> ?" . index;
                         let params["bind"][] = except;
-                        let params["bindTypes"][] = bindTypes[realColumnName];
                         let index++;
                     }
                 } elseif count(field) > 1 {
                     for singleField in field {
-                        let attribute = this->getOption("attribute", singleField);
-                        let realColumnName = this->getColumnNameReal(record, attribute);
+                        let attribute = this->getColumnNameReal(
+                            record,
+                            this->getOption("attribute", singleField)
+                        );
 
                         if typeof except == "array" {
                             for singleExcept in except {
                                 let notInValues[] = "?" . index;
                                 let params["bind"][] = singleExcept;
-                                let params["bindTypes"][] = bindTypes[realColumnName];
                                 let index++;
                             }
 
@@ -409,7 +389,6 @@ class Uniqueness extends AbstractCombinedFieldsValidator
                         } else {
                             let params["conditions"][] = attribute . " <> ?" . index;
                             let params["bind"][] = except;
-                            let params["bindTypes"][] = bindTypes[realColumnName];
                             let index++;
                         }
                     }
@@ -424,14 +403,11 @@ class Uniqueness extends AbstractCombinedFieldsValidator
             let metaData = record->getDI()->getShared("modelsMetadata");
 
             for primaryField in metaData->getPrimaryKeyAttributes(record) {
-                let aliasColumnName = this->getColumnNameAlias(record, primaryField);
-                let params["conditions"][] = aliasColumnName . " <> ?" . index;
+                let params["conditions"][] = this->getColumnNameReal(record, primaryField) . " <> ?" . index;
 
                 let params["bind"][] = record->readAttribute(
-                    aliasColumnName
+                    this->getColumnNameReal(record, primaryField)
                 );
-
-                let params["bindTypes"][] = bindTypes[primaryField];
 
                 let index++;
             }
