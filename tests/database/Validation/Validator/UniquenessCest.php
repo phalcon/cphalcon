@@ -524,40 +524,6 @@ class UniquenessCest
     }
 
     /**
-     * Tests value conversion for returning an array.
-     *
-     * @author Bas Stottelaar <basstottelaar@gmail.com>
-     * @since  2016-07-25
-     */
-    public function testConvertArrayReturnsArray(DatabaseTester $I)
-    {
-        $I->skipTest('TODO: Check the verify');
-
-        $validation = new Validation();
-
-        $validation->add(
-            'type',
-            new Uniqueness(
-                [
-                    'convert' => function (array $values) {
-                        ($values);
-
-                        return null;
-                    },
-                ]
-            )
-        );
-
-        $I->expectThrowable(
-            Exception::class,
-            function () use ($validation) {
-                $validation->validate(null, $this->robot);
-            }
-        );
-    }
-
-
-    /**
      * Tests issue 13398
      *
      * @author Wojciech Ślawski <jurigag@gmail.com>
