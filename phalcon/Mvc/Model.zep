@@ -4316,7 +4316,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      */
     protected static function groupResult(string! functionName, string! alias, var parameters) -> <ResultsetInterface>
     {
-        return this->_groupResult(functionName, alias, parameters);
+        return static::_groupResult(functionName, alias, parameters);
     }
 
     /**
