@@ -22,8 +22,8 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 /**
  * Adapter for Phalcon\Acl adapters
@@ -35,7 +35,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Adapter_AbstractAdapter) {
 	/**
 	 * Active access which the list is checking if some role can access it
 	 *
-	 * @var string
+	 * @var string|null
 	 */
 	zend_declare_property_null(phalcon_acl_adapter_abstractadapter_ce, SL("activeAccess"), ZEND_ACC_PROTECTED);
 
@@ -50,28 +50,28 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Adapter_AbstractAdapter) {
 	 * Role which the list is checking if it's allowed to certain
 	 * component/access
 	 *
-	 * @var string
+	 * @var string|null
 	 */
 	zend_declare_property_null(phalcon_acl_adapter_abstractadapter_ce, SL("activeRole"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * Component which the list is checking if some role can access it
 	 *
-	 * @var string
+	 * @var string|null
 	 */
 	zend_declare_property_null(phalcon_acl_adapter_abstractadapter_ce, SL("activeComponent"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * Default access
 	 *
-	 * @var bool
+	 * @var int
 	 */
-	zend_declare_property_bool(phalcon_acl_adapter_abstractadapter_ce, SL("defaultAccess"), 0, ZEND_ACC_PROTECTED);
+	zend_declare_property_long(phalcon_acl_adapter_abstractadapter_ce, SL("defaultAccess"), 0, ZEND_ACC_PROTECTED);
 
 	/**
 	 * Events manager
 	 *
-	 * @var mixed
+	 * @var ManagerInterface|null
 	 */
 	zend_declare_property_null(phalcon_acl_adapter_abstractadapter_ce, SL("eventsManager"), ZEND_ACC_PROTECTED);
 
@@ -163,7 +163,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, setDefaultAction) {
 
 	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(&_0, defaultAccess);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("defaultAccess"), &_0);
+	zephir_update_property_zval(this_ptr, SL("defaultAccess"), &_0);
 
 }
 
@@ -181,7 +181,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, setEventsManager) {
 
 
 
-	zephir_update_property_zval(this_ptr, ZEND_STRL("eventsManager"), eventsManager);
+	zephir_update_property_zval(this_ptr, SL("eventsManager"), eventsManager);
 
 }
 

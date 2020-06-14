@@ -94,16 +94,16 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, __construct) {
 	ZEPHIR_OBS_VAR(&error);
 	if (zephir_array_isset_string_fetch(&error, &options, SL("triggerError"), 0)) {
 		if (zephir_get_boolval(&error)) {
-			zephir_update_property_zval(this_ptr, ZEND_STRL("triggerError"), &__$true);
+			zephir_update_property_zval(this_ptr, SL("triggerError"), &__$true);
 		} else {
-			zephir_update_property_zval(this_ptr, ZEND_STRL("triggerError"), &__$false);
+			zephir_update_property_zval(this_ptr, SL("triggerError"), &__$false);
 		}
 	}
 	if (UNEXPECTED(Z_TYPE_P(&data) != IS_ARRAY)) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_translate_exception_ce, "Translation data must be an array", "phalcon/Translate/Adapter/NativeArray.zep", 57);
 		return;
 	}
-	zephir_update_property_zval(this_ptr, ZEND_STRL("translate"), &data);
+	zephir_update_property_zval(this_ptr, SL("translate"), &data);
 	ZEPHIR_MM_RESTORE();
 
 }

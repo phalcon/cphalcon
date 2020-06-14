@@ -38,8 +38,8 @@ services:
 env:
   global:
     - CC="gcc"
-    - ZEPHIR_VERSION="0.12.17"
-    - ZEPHIR_PARSER_VERSION="v1.3.2"
+    - ZEPHIR_VERSION="0.12.19"
+    - ZEPHIR_PARSER_VERSION="v1.3.4"
     - REPORT_COVERAGE=0
     - PATH="${HOME}/.composer/vendor/bin:${PATH}"
     - TRAVIS_COMMIT_LOG="$(git log --format=fuller -5)"
@@ -66,8 +66,6 @@ before_install:
 
     # Hide "You are in 'detached HEAD' state" message
     git config --global advice.detachedHead false
-
-#  - source .ci/export-variables.sh
 
 install:
   - .ci/setup-dbs.sh
@@ -104,7 +102,8 @@ after_failure:
   - echo "$($(phpenv which php) -m)"
   - .ci/after-failure.sh
 
-after_success:
+# This is disabled for now
+# after_success:
 #  - '[[ "$REPORT_COVERAGE" -eq 1 ]] && bash <(curl -s https://codecov.io/bash)'
 
 after_script:

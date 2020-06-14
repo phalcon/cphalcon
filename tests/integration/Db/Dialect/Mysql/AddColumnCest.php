@@ -24,6 +24,7 @@ class AddColumnCest
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-27
+     * @since  2020-05-02 Changed default null and nullable column definition
      */
     public function dbAdapterPdoMysqlAddColumn(IntegrationTester $I)
     {
@@ -32,28 +33,63 @@ class AddColumnCest
         $additions = [
             [
                 new Column(
-                    'updated_at',
-                    [
-                        'type'    => Column::TYPE_TIMESTAMP,
-                        'default' => "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
-                        'notNull' => false,
-                        'after'   => 'created_at',
-                    ]
-                ),
-                'ALTER TABLE `test` ADD `updated_at` TIMESTAMP ' .
-                'DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP AFTER `created_at`',
-            ],
-            [
-                new Column(
                     'numeric_val',
                     [
                         'type'    => Column::TYPE_FLOAT,
                         'default' => 21.42,
                         'notNull' => true,
+                    ]
+                ),
+                'ALTER TABLE `test` ADD `numeric_val` FLOAT NOT NULL DEFAULT 21.42',
+            ],
+            [
+                new Column(
+                    'null_int',
+                    [
+                        'type'    => Column::TYPE_INTEGER,
+                        'size'    => 11,
+                        'notNull' => false,
+                        'after'   => 'numeric_val',
+                    ]
+                ),
+                'ALTER TABLE `test` ADD `null_int` INT(11) NULL AFTER `numeric_val`',
+            ],
+            [
+                new Column(
+                    'created_at',
+                    [
+                        'type'    => Column::TYPE_TIMESTAMP,
+                        'default' => "CURRENT_TIMESTAMP",
+                        'notNull' => true,
+                        'after'   => 'null_int',
+                    ]
+                ),
+                'ALTER TABLE `test` ADD `created_at` TIMESTAMP NOT NULL ' .
+                'DEFAULT CURRENT_TIMESTAMP AFTER `null_int`',
+            ],
+            [
+                new Column(
+                    'updated_at',
+                    [
+                        'type'    => Column::TYPE_TIMESTAMP,
+                        'default' => "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+                        'notNull' => true,
+                        'after'   => 'created_at',
+                    ]
+                ),
+                'ALTER TABLE `test` ADD `updated_at` TIMESTAMP NOT NULL ' .
+                'DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP AFTER `created_at`',
+            ],
+            [
+                new Column(
+                    'deleted_at',
+                    [
+                        'type'    => Column::TYPE_TIMESTAMP,
+                        'notNull' => false,
                         'after'   => 'updated_at',
                     ]
                 ),
-                'ALTER TABLE `test` ADD `numeric_val` FLOAT DEFAULT 21.42 NOT NULL AFTER `updated_at`',
+                'ALTER TABLE `test` ADD `deleted_at` TIMESTAMP NULL AFTER `updated_at`',
             ],
         ];
 

@@ -92,7 +92,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __construct) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, ZEND_STRL("definition"), &definition);
+	zephir_update_property_zval(this_ptr, SL("definition"), &definition);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -164,7 +164,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, callMethod) {
 		ZEPHIR_INIT_NVAR(&handler);
 		ZEPHIR_LAST_CALL_STATUS = zephir_create_instance(&handler, &definition);
 		zephir_check_call_status();
-		zephir_update_property_zval(this_ptr, ZEND_STRL("handler"), &handler);
+		zephir_update_property_zval(this_ptr, SL("handler"), &handler);
 	}
 	if (Z_TYPE_P(modelBinder) != IS_NULL) {
 		ZEPHIR_INIT_VAR(&bindCacheKey);

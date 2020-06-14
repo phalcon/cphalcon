@@ -11,23 +11,27 @@ on:
 
 jobs:
   generate:
+    # To prevent build a particular commit use
+    #     git commit -m "......... [ci skip]"
+    if: "!contains(github.event.head_commit.message, 'ci skip')"
+
     runs-on: ubuntu-latest
     name: Build Phalcon Pecl Package
     steps:
 
-      - name: Set environment variables
+      - name: Setup Environment Variables
         run: |
-          echo "::set-env name=ZEPHIR_PARSER_VERSION::v1.3.3"
-          echo "::set-env name=ZEPHIR_VERSION::0.12.17"
+          echo "::set-env name=ZEPHIR_PARSER_VERSION::v1.3.4"
+          echo "::set-env name=ZEPHIR_VERSION::0.12.19"
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@v1
+        uses: shivammathur/setup-php@v2
         with:
           php-version: '7.4'
           extensions: mbstring, intl, json, psr
           tools: pecl, prestissimo
 
-      - name: Common settings
+      - name: Common Settings
         run: |
           # Core dump settings
           ulimit -c unlimited -S || true
@@ -35,15 +39,12 @@ jobs:
           # Hide "You are in 'detached HEAD' state" message
           git config --global advice.detachedHead false
 
-          # Will be used before as a cache key
-          export CPUHASH="$(cat /proc/cpuinfo | grep 'model name' | head -n 1 | cut -d':' -f2 | md5sum)"
-
-      - name: Git checkout
-        uses: actions/checkout@v2-beta
+      - name: Checkout Code
+        uses: actions/checkout@v2
         with:
           fetch-depth: 1
 
-      - name: Setup APT repositories
+      - name: Setup APT Repositories
         run: |
           # We don't need this at all, and our
           # builds often fails because Microsoft
@@ -51,38 +52,10 @@ jobs:
           sudo rm -f /etc/apt/sources.list.d/dotnetdev.list
           sudo rm -f /etc/apt/sources.list.d/azure*.list
 
-      - name: Install system dependencies
+      - name: Install System Dependencies
         run: |
           sudo apt-get update --quiet --yes 1>/dev/null
           sudo apt-get install --no-install-recommends -q -y re2c
-
-      - name: Get Zephir Parser Cache Key
-        id: zephir-parser-cache-key
-        run: echo "::set-output name=key::$(echo -n ${ZEPHIR_PARSER_VERSION}_${CPUHASH})"
-
-      - name: Cache Zephir Parser
-        uses: actions/cache@v1
-        with:
-          path: ~/php-zephir-parser
-          key: ${{ runner.os }}-${{ matrix.php }}-zephir-parser-${{ steps.zephir-parser-cache.outputs.key }}
-          restore-keys: ${{ runner.os }}-${{ matrix.php }}-zephir-parser-
-
-      - name: Install Zephir Parser
-        run: |
-          if [ ! -f ~/php-zephir-parser/LICENSE ]; then
-            rm -rf ~/php-zephir-parser
-            git clone -b "$ZEPHIR_PARSER_VERSION" \
-              --depth 1 \
-              -q https://github.com/phalcon/php-zephir-parser \
-              ~/php-zephir-parser
-          fi
-
-          cd ~/php-zephir-parser
-          phpize
-          ./configure --with-php-config=/usr/bin/php-config --enable-zephir_parser
-          make -j"$(getconf _NPROCESSORS_ONLN)"
-          sudo make install
-          echo 'extension="zephir_parser.so"' | sudo tee "/etc/php/7.4/cli/conf.d/zephir_parser.ini"
 
       - name: Setup Composer Token
         run: |
@@ -92,19 +65,15 @@ jobs:
           fi
 
       - name: Install Zephir
-        run: |
-          wget --no-clobber -O "$HOME/zephir" "https://github.com/phalcon/zephir/releases/download/${ZEPHIR_VERSION}/zephir.phar"
-          chmod +x "$HOME/zephir"
+        run: .ci/install-zephir.sh
 
-      - name: Generate C code
+      - name: Generate C Code
         run: |
-          $HOME/zephir fullclean
-          $HOME/zephir generate
-          cd build
-          php gen-build.php
-          cd ..
+          $HOME/bin/zephir fullclean
+          $HOME/bin/zephir generate
+          (cd build && php gen-build.php)
 
-      - name: Create pecl package
+      - name: Create Pecl Package
         id: pecl_create
         run: |
           cp build/php7/safe/config.w32 config.w32
@@ -116,14 +85,20 @@ jobs:
           phalcon_package="`ls | grep phalcon-*tgz`"
           mv $phalcon_package phalcon-pecl.tgz
 
-      - name: Validate pecl package
+      - name: Validate Pecl Package
         run: pecl package-validate phalcon-pecl.tgz
-      - uses: actions/upload-artifact@v1
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v1
         with:
           name: 'phalcon-pecl'
           path: phalcon-pecl.tgz
 
   build-and-test-linux:
+    # To prevent build a particular commit use
+    #     git commit -m "......... [ci skip]"
+    if: "!contains(github.event.head_commit.message, 'ci skip')"
+
     needs: generate
     services:
       mysql:
@@ -150,6 +125,7 @@ jobs:
         image: memcached:1.5-alpine
         ports:
           - 11211
+
     runs-on: ${{ matrix.operating-system }}
     strategy:
       fail-fast: false
@@ -160,8 +136,8 @@ jobs:
     name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
     steps:
 
-      - name: Git checkout
-        uses: actions/checkout@v2-beta
+      - name: Checkout Code
+        uses: actions/checkout@v2
         with:
           fetch-depth: 1
 
@@ -170,7 +146,7 @@ jobs:
         run: |
           echo "::set-output name=dir::$(composer config cache-files-dir)"
 
-      - name: Setup Cache
+      - name: Setup Composer Cache
         uses: actions/cache@v1
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
@@ -186,14 +162,14 @@ jobs:
           fi
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@v1
+        uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
           ini-values: apc.enable_cli=on, session.save_path=/tmp
           tools: pecl, prestissimo
           extensions: mbstring, intl, json, imagick
 
-      - name: Download phalcon pecl package
+      - name: Download Phalcon Pecl Package
         uses: actions/download-artifact@v1
         with:
           name: phalcon-pecl
@@ -203,38 +179,38 @@ jobs:
           export MAKEFLAGS="-j$(getconf _NPROCESSORS_ONLN)"
           sudo pecl -v install phalcon-pecl/phalcon-pecl.tgz
 
-      - name: Verify install
+      - name: Verify Install
         run: php --ri phalcon
 
-      - name: Install packages
+      - name: Install Packages
         run: composer install --prefer-dist
 
-      - name: Setup tests
+      - name: Setup Tests
         run: |
           cp tests/_ci/.env.default .env
           php tests/_ci/generate-db-schemas.php
           vendor/bin/codecept build
 
-      - name: Run unit tests
+      - name: Run Unit Tests
         run: vendor/bin/codecept run --ext DotReporter unit
 
-      - name: Run cli tests
+      - name: Run CLI Tests
         run: vendor/bin/codecept run --ext DotReporter cli
 
-      - name: Run integration tests
+      - name: Run Integration Tests
         env:
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
         run: vendor/bin/codecept run --ext DotReporter integration
 
-      - name: Run database tests Common
+      - name: Run Database Tests (Common)
         env:
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
           DATA_MYSQL_USER: root
         run: vendor/bin/codecept run --ext DotReporter database -g common
 
-      - name: Run database tests MySQL
+      - name: Run Database Tests (MySQL)
         env:
           DATA_MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
@@ -242,26 +218,31 @@ jobs:
           DATA_MYSQL_USER: root
         run: vendor/bin/codecept run --ext DotReporter database --env mysql -g mysql
 
-      - name: Run database tests Sqlite
+      - name: Run Database Tests (Sqlite)
         env:
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
         run: vendor/bin/codecept run --ext DotReporter database --env sqlite -g sqlite
 
-      - name: Run database tests Postgres
+      - name: Run Database Tests (Postgres)
         env:
           DATA_POSTGRES_USER: postgres
           DATA_POSTGRES_PORT: ${{ job.services.postgres.ports['5432'] }}
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
         run: vendor/bin/codecept run --ext DotReporter database --env pgsql -g pgsql
-#      - name: Run integrations tests SQL Server
-#        env:
-#          DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
-#          DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
-#        run: vendor/bin/codecept run --ext DotReporter database --env sqlsrv
+
+      # - name: Run Database Tests (SQL Server)
+      #   env:
+      #     DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
+      #     DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
+      #   run: vendor/bin/codecept run --ext DotReporter database --env sqlsrv
 
   build-and-test-macos:
+    # To prevent build a particular commit use
+    #     git commit -m "......... [ci skip]"
+    if: "!contains(github.event.head_commit.message, 'ci skip')"
+
     needs: generate
     runs-on: ${{ matrix.operating-system }}
     env:
@@ -275,32 +256,32 @@ jobs:
     name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
     steps:
 
-      - name: Git checkout
-        uses: actions/checkout@v2-beta
+      - name: Checkout Code
+        uses: actions/checkout@v2
         with:
           fetch-depth: 1
 
-      - name: Get extension directory
+      - name: Get Extension Directory
         id: extension-step
         run: |
-          suffix=$(curl -sSL --retry 3 https://raw.githubusercontent.com/php/php-src/PHP-${{ matrix.php-versions }}/main/php.h | grep "PHP_API_VERSION" | cut -d' ' -f 3)
+          suffix=$(curl -sSL --retry 3 https://raw.githubusercontent.com/php/php-src/PHP-${{ matrix.php-versions }}/main/php.h | grep PHP_API_VERSION | cut -d' ' -f 3)
           ext_dir="/usr/local/lib/php/pecl/$suffix"
           ext_hash=$(echo -n "${{ env.PHP_EXTENSIONS }}" | shasum -a 256 | cut -d' ' -f 1)
           echo "::set-output name=ext_dir::$ext_dir"
           echo "::set-output name=ext_hash::$ext_hash"
 
-      - name: Cache extensions
+      - name: Cache Extensions
         uses: actions/cache@v1
         with:
           path: ${{ steps.extension-step.outputs.ext_dir }}
           key: ${{ runner.os }}-extensions-${{ matrix.php-versions }}-${{ steps.extension-step.outputs.ext_hash }}
           restore-keys: ${{ runner.os }}-extensions-${{ matrix.php-versions }}-${{ steps.extension-step.outputs.ext_hash }}
 
-      - name: Install requirements for imagick
+      - name: Install Requirements for Imagick
         run: brew install pkg-config imagemagick
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@v1
+        uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
           ini-values: apc.enable_cli=on, session.save_path=/tmp
@@ -330,7 +311,7 @@ jobs:
             composer config github-oauth.github.com "${{ secrets.COMPOSER_TOKEN }}"
           fi
 
-      - name: Setup cache
+      - name: Setup Cache
         uses: actions/cache@v1
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
@@ -338,35 +319,39 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-composer-
 
-      - name: Download phalcon pecl package
+      - name: Download Phalcon Pecl Package
         uses: actions/download-artifact@v1
         with:
           name: phalcon-pecl
 
-      - name: Install package
+      - name: Install Package
         run: |
           export MAKEFLAGS="-j$(getconf _NPROCESSORS_ONLN)"
           sudo pecl -v install phalcon-pecl/phalcon-pecl.tgz
 
-      - name: Verify install
+      - name: Verify Install
         run: php --ri phalcon
 
-      - name: Install packages
+      - name: Install Packages
         run: composer install --prefer-dist
 
-      - name: Setup tests
+      - name: Setup Tests
         run: |
           cp tests/_ci/.env.default .env
           vendor/bin/codecept build
 
-      - name: Run unit tests
+      - name: Run Unit Tests
         run: vendor/bin/codecept run --ext DotReporter unit
 
-      - name: Run cli tests
+      - name: Run CLI Tests
         run: vendor/bin/codecept run --ext DotReporter cli
 
   build-and-test-windows:
-    name: PHP ${{ matrix.php-versions }} (${{ matrix.ts }}) test on ${{ matrix.operating-system }}
+    # To prevent build a particular commit use
+    #     git commit -m "......... [ci skip]"
+    if: "!contains(github.event.head_commit.message, 'ci skip')"
+
+    name: PHP ${{ matrix.php-versions }} (${{ matrix.ts }}) Test on ${{ matrix.operating-system }}
     needs: generate
     runs-on: ${{ matrix.operating-system }}
     strategy:
@@ -389,16 +374,17 @@ jobs:
             arch: x64
             build_type: Win32
     steps:
-      - name: Disable git autocrlf
+
+      - name: Disable Git autocrlf
         run: git config --global core.autocrlf false
 
-      - name: Git checkout
-        uses: actions/checkout@v2-beta
+      - name: Checkout Code
+        uses: actions/checkout@v2
         with:
           fetch-depth: 1
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@v1
+        uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
           ini-values: apc.enable_cli=on, session.save_path=C:\temp
@@ -407,7 +393,7 @@ jobs:
         env:
           PHPTS: ${{ matrix.ts }}
 
-      - name: Set Up Environment Variables
+      - name: Setup Environment Variables
         run: |
           echo "::set-env name=PHP_SDK_VERSION::2.2.0"
           echo "::set-env name=PHP_DEVPACK::C:\tools\php-devpack"
@@ -428,7 +414,7 @@ jobs:
           echo "::set-env name=PACKAGE_PREFIX::phalcon"
           echo "::set-env name=EXTENSION_NAME::phalcon"
           echo "::set-env name=EXTENSION_FILE::php_phalcon.dll"
-          echo "::set-env name=PHALCON_VERSION::4.0.5"
+          echo "::set-env name=PHALCON_VERSION::4.0.6"
           echo "::set-env name=PHPTS::${{ matrix.ts }}"
           If ("${{ matrix.ts }}" -eq "nts") {
             echo "::set-env name=BUILD_TYPE::nts-${{ matrix.build_type }}"
@@ -460,7 +446,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-composer-
 
-      - name: Download phalcon pecl package
+      - name: Download Phalcon Pecl Package
         uses: actions/download-artifact@v1
         with:
           name: phalcon-pecl
@@ -500,27 +486,27 @@ jobs:
           $v = "${env:WindowsSDKLibVersion}" -replace '\\$', ''
           Write-Output "::set-env name=WindowsSDKLibVersion::$v"
 
-      - name: Unpack package
+      - name: Unpack Package
         run: |
           Import-Module .\.ci\win-ci-tools.psm1
           Expand-Item7zip "phalcon-pecl\phalcon-pecl.tgz" "${env:Temp}"
           Expand-Item7zip "${env:Temp}\phalcon-pecl.tar" "${env:PHP_PECL_PATH}\phalcon"
 
-      - name: Phpize
+      - name: Run phpize
         shell: cmd
         run: |
           set PATH=%PATH%;%PHP_DEVPACK%
           cd /d %PHP_PECL_PATH%\phalcon\phalcon-%PHALCON_VERSION%
           phpize
 
-      - name: Configure
+      - name: Configure Project
         shell: cmd
         run: |
           set PATH=%PATH%;%PHP_DEVPACK%
           cd /d %PHP_PECL_PATH%\phalcon\phalcon-%PHALCON_VERSION%
           configure --enable-phalcon
 
-      - name: Nmake
+      - name: Build Project
         shell: cmd
         run: |
           set PATH=%PATH%;%PHP_DEVPACK%
@@ -530,7 +516,8 @@ jobs:
       - name: Inspecting Phalcon Extension DLL File
         run: Get-PhpExtension "${env:RELEASE_DLL_PATH}"
 
-      - uses: actions/upload-artifact@v1
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v1
         with:
           name: ${{ env.RELEASE_ZIPBALL }}
           path: ${{ env.RELEASE_DLL_PATH }}
@@ -540,19 +527,19 @@ jobs:
           Import-Module .\.ci\win-ci-tools.psm1
           EnablePhalconExtension
 
-      - name: Verify install
+      - name: Verify Install
         run: php --ri phalcon
 
-      - name: Install packages
+      - name: Install Packages
         run: composer install --prefer-dist
 
-      - name: Setup tests
+      - name: Setup Tests
         run: |
           cp tests/_ci/.env.default .env
           vendor/bin/codecept build
 
-      - name: Run unit tests
+      - name: Run Unit Tests
         run: vendor/bin/codecept run --ext DotReporter unit
 
-      - name: Run cli tests
+      - name: Run CLI Tests
         run: vendor/bin/codecept run --ext DotReporter cli

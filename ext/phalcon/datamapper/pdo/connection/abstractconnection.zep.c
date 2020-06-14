@@ -1565,7 +1565,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_AbstractConnection, setProfiler) {
 
 
 
-	zephir_update_property_zval(this_ptr, ZEND_STRL("profiler"), profiler);
+	zephir_update_property_zval(this_ptr, SL("profiler"), profiler);
 
 }
 

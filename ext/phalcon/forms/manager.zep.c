@@ -184,7 +184,7 @@ zend_object *zephir_init_properties_Phalcon_Forms_Manager(zend_class_entry *clas
 		if (Z_TYPE_P(&_0) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_1$$3);
 			array_init(&_1$$3);
-			zend_update_property(Z_OBJCE_P(this_ptr), this_ptr, ZEND_STRL("forms"), &_1$$3);
+			zephir_update_property_zval(this_ptr, SL("forms"), &_1$$3);
 		}
 		ZEPHIR_MM_RESTORE();
 		return Z_OBJ_P(this_ptr);

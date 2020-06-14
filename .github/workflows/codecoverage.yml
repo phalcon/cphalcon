@@ -9,6 +9,10 @@ on:
 
 jobs:
   build-and-run:
+    # To prevent build a particular commit use
+    #     git commit -m "......... [ci skip]"
+    if: "!contains(github.event.head_commit.message, 'ci skip')"
+
     services:
       mysql:
         image: mysql:5.7
@@ -35,24 +39,25 @@ jobs:
         image: memcached:1.5-alpine
         ports:
           - 11211
+
     runs-on: ubuntu-latest
     name: Build & Run
     steps:
 
-      - name: Set environment variables
+      - name: Setup Environment Variables
         run: |
-          echo "::set-env name=ZEPHIR_PARSER_VERSION::v1.3.3"
-          echo "::set-env name=ZEPHIR_VERSION::0.12.17"
+          echo "::set-env name=ZEPHIR_PARSER_VERSION::v1.3.4"
+          echo "::set-env name=ZEPHIR_VERSION::0.12.19"
 
       - name: Setup PHP
-        uses: shivammathur/setup-php@v1
+        uses: shivammathur/setup-php@v2
         with:
           php-version: '7.4'
           extensions: mbstring, intl, json, psr, imagick, apcu
           ini-values: apc.enable_cli=on, session.save_path=/tmp
           tools: prestissimo
 
-      - name: Common settings
+      - name: Common Settings
         run: |
           # Core dump settings
           ulimit -c unlimited -S || true
@@ -60,10 +65,7 @@ jobs:
           # Hide "You are in 'detached HEAD' state" message
           git config --global advice.detachedHead false
 
-          # Will be used before as a cache key
-          export CPUHASH="$(cat /proc/cpuinfo | grep "model name" | head -n 1 | cut -d':' -f2 | md5sum)"
-
-          #enable codecoverage
+          # Enable codecoverage
           export LDFLAGS="${LDFLAGS} --coverage"
           export CFLAGS="${CFLAGS} -O0 -ggdb -fprofile-arcs -ftest-coverage"
           export CXXFLAGS="${CXXFLAGS} -O0 -ggdb -fprofile-arcs -ftest-coverage"
@@ -71,12 +73,12 @@ jobs:
           #set number of cores for build
           export MAKEFLAGS="-j$(getconf _NPROCESSORS_ONLN)"
 
-      - name: Git checkout
-        uses: actions/checkout@v2-beta
+      - name: Checkout Code
+        uses: actions/checkout@v2
         with:
           fetch-depth: 1
 
-      - name: Setup APT repositories
+      - name: Setup APT Repositories
         run: |
           # We don't need this at all, and our
           # builds often fails because Microsoft
@@ -84,38 +86,10 @@ jobs:
           sudo rm -f /etc/apt/sources.list.d/dotnetdev.list
           sudo rm -f /etc/apt/sources.list.d/azure*.list
 
-      - name: Install system dependencies
+      - name: Install System Dependencies
         run: |
           sudo apt-get update --quiet --yes 1>/dev/null
           sudo apt-get install --no-install-recommends -q -y re2c
-
-      - name: Get Zephir Parser Cache Key
-        id: zephir-parser-cache-key
-        run: echo "::set-output name=key::$(echo -n ${ZEPHIR_PARSER_VERSION}_${CPUHASH})"
-
-      - name: Cache Zephir Parser
-        uses: actions/cache@v1
-        with:
-          path: ~/php-zephir-parser
-          key: ${{ runner.os }}-${{ matrix.php }}-zephir-parser-${{ steps.zephir-parser-cache.outputs.key }}
-          restore-keys: ${{ runner.os }}-${{ matrix.php }}-zephir-parser-
-
-      - name: Install Zephir Parser
-        run: |
-          if [ ! -f ~/php-zephir-parser/LICENSE ]; then
-            rm -rf ~/php-zephir-parser
-            git clone -b "$ZEPHIR_PARSER_VERSION" \
-              --depth 1 \
-              -q https://github.com/phalcon/php-zephir-parser \
-              ~/php-zephir-parser
-          fi
-
-          cd ~/php-zephir-parser
-          phpize
-          ./configure --with-php-config=/usr/bin/php-config --enable-zephir_parser
-          make -j"$(getconf _NPROCESSORS_ONLN)"
-          sudo make install
-          echo 'extension="zephir_parser.so"' | sudo tee "/etc/php/7.4/cli/conf.d/zephir_parser.ini"
 
       - name: Get Composer Cache Directory
         id: composer-cache
@@ -138,29 +112,27 @@ jobs:
           fi
 
       - name: Install Zephir
-        run: |
-          wget --no-clobber -O "$HOME/zephir" "https://github.com/phalcon/zephir/releases/download/${ZEPHIR_VERSION}/zephir.phar"
-          chmod +x "$HOME/zephir"
+        run: .ci/install-zephir.sh
 
       - name: Generate C code
         run: |
-          $HOME/zephir fullclean
-          $HOME/zephir build
+          $HOME/bin/zephir fullclean
+          $HOME/bin//zephir build
           echo "extension=phalcon.so" >> /etc/php/7.4/cli/php.ini
 
-      - name: Verify install
+      - name: Verify Install
         run: php --ri phalcon
 
-      - name: Install packages
+      - name: Install Packages
         run: composer install --prefer-dist
 
-      - name: Setup tests
+      - name: Setup Tests
         run: |
           cp tests/_ci/.env.default .env
           php tests/_ci/generate-db-schemas.php
           vendor/bin/codecept build
 
-      - name: Run all tests
+      - name: Run All Tests
         env:
           DATA_MYSQL_PORT: ${{ job.services.mysql.ports['3306'] }}
           DATA_POSTGRES_PORT: ${{ job.services.postgres.ports['5432'] }}
@@ -175,7 +147,7 @@ jobs:
           vendor/bin/codecept run --ext DotReporter database -g mysql --env mysql
           vendor/bin/codecept run --ext DotReporter database -g sqlite --env sqlite
 
-      - name: Upload codecoverage on 7.4
+      - name: Upload Code Coverage on 7.4
         uses: codecov/codecov-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}

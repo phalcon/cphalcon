@@ -5,8 +5,8 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -15,6 +15,7 @@ namespace Phalcon\Test\Database\Mvc\Model\MetaData;
 
 use DatabaseTester;
 use Phalcon\Mvc\Model\MetaData;
+use Phalcon\Storage\Exception;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Invoices;
 use Phalcon\Test\Models\InvoicesMap;
@@ -26,14 +27,27 @@ class GetColumnMapCest
 {
     use DiTrait;
 
-    public function _before(DatabaseTester $I)
+    /**
+     * Executed before each test
+     *
+     * @param  DatabaseTester $I
+     * @return void
+     */
+    public function _before(DatabaseTester $I): void
     {
-        $this->setNewFactoryDefault();
+        try {
+            $this->setNewFactoryDefault();
+        } catch (Exception $e) {
+            $I->fail($e->getMessage());
+        }
+
         $this->setDatabase($I);
     }
 
     /**
      * Tests Phalcon\Mvc\Model\MetaData :: getColumnMap()
+     *
+     * @param  DatabaseTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-01
@@ -48,11 +62,9 @@ class GetColumnMapCest
 
         /** @var MetaData $metadata */
         $metadata = $this->container->get('modelsMetadata');
-
         $model    = new Invoices();
-        $expected = null;
-        $actual   = $metadata->getColumnMap($model);
-        $I->assertEquals($expected, $actual);
+
+        $I->assertNull($metadata->getColumnMap($model));
 
         $model    = new InvoicesMap();
         $expected = [
@@ -63,7 +75,7 @@ class GetColumnMapCest
             'inv_total'       => 'total',
             'inv_created_at'  => 'created_at',
         ];
-        $actual   = $metadata->getColumnMap($model);
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals($expected, $metadata->getColumnMap($model));
     }
 }

@@ -118,9 +118,9 @@ PHP_METHOD(Phalcon_Http_Request, setHttpMethodParameterOverride) {
 
 
 	if (httpMethodParameterOverride) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("httpMethodParameterOverride"), &__$true);
+		zephir_update_property_zval(this_ptr, SL("httpMethodParameterOverride"), &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("httpMethodParameterOverride"), &__$false);
+		zephir_update_property_zval(this_ptr, SL("httpMethodParameterOverride"), &__$false);
 	}
 	RETURN_THISW();
 
@@ -1264,14 +1264,13 @@ PHP_METHOD(Phalcon_Http_Request, getHTTPReferer) {
 PHP_METHOD(Phalcon_Http_Request, getJsonRawBody) {
 
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_0 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *associative_param = NULL, rawBody, _1;
+	zval *associative_param = NULL, rawBody, _0;
 	zend_bool associative;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&rawBody);
-	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_0);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &associative_param);
@@ -1288,13 +1287,8 @@ PHP_METHOD(Phalcon_Http_Request, getJsonRawBody) {
 	if (Z_TYPE_P(&rawBody) != IS_STRING) {
 		RETURN_MM_BOOL(0);
 	}
-	if (associative) {
-		ZVAL_BOOL(&_1, 1);
-	} else {
-		ZVAL_BOOL(&_1, 0);
-	}
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_json_ce, "decode", &_0, 179, &rawBody, &_1);
-	zephir_check_call_status();
+	ZVAL_BOOL(&_0, (associative ? 1 : 0));
+	zephir_json_decode(return_value, &rawBody, zephir_get_intval(&_0) );
 	RETURN_MM();
 
 }
@@ -1643,7 +1637,7 @@ PHP_METHOD(Phalcon_Http_Request, getPut) {
 			ZEPHIR_UNREF(&put);
 			zephir_check_call_status();
 		}
-		zephir_update_property_zval(this_ptr, ZEND_STRL("putCache"), &put);
+		zephir_update_property_zval(this_ptr, SL("putCache"), &put);
 	}
 	if (notAllowEmpty) {
 		ZVAL_BOOL(&_5, 1);
@@ -1771,7 +1765,7 @@ PHP_METHOD(Phalcon_Http_Request, getRawBody) {
 		ZVAL_STRING(&_1$$3, "php://input");
 		ZEPHIR_INIT_VAR(&contents);
 		zephir_file_get_contents(&contents, &_1$$3);
-		zephir_update_property_zval(this_ptr, ZEND_STRL("rawBody"), &contents);
+		zephir_update_property_zval(this_ptr, SL("rawBody"), &contents);
 		RETURN_CCTOR(&contents);
 	}
 	RETURN_CCTOR(&rawBody);
@@ -3395,9 +3389,9 @@ PHP_METHOD(Phalcon_Http_Request, setStrictHostCheck) {
 
 
 	if (flag) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("strictHostCheck"), &__$true);
+		zephir_update_property_zval(this_ptr, SL("strictHostCheck"), &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("strictHostCheck"), &__$false);
+		zephir_update_property_zval(this_ptr, SL("strictHostCheck"), &__$false);
 	}
 	RETURN_THISW();
 
@@ -4478,7 +4472,7 @@ PHP_METHOD(Phalcon_Http_Request, getFilterService) {
 		ZEPHIR_CALL_METHOD(&_6$$3, &container, "getshared", NULL, 0, &_7$$3);
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(&filterService, &_6$$3);
-		zephir_update_property_zval(this_ptr, ZEND_STRL("filterService"), &filterService);
+		zephir_update_property_zval(this_ptr, SL("filterService"), &filterService);
 	}
 	RETURN_MM_MEMBER(getThis(), "filterService");
 
@@ -4519,7 +4513,7 @@ zend_object *zephir_init_properties_Phalcon_Http_Request(zend_class_entry *class
 		if (Z_TYPE_P(&_0) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_1$$3);
 			array_init(&_1$$3);
-			zend_update_property(Z_OBJCE_P(this_ptr), this_ptr, ZEND_STRL("queryFilters"), &_1$$3);
+			zephir_update_property_zval(this_ptr, SL("queryFilters"), &_1$$3);
 		}
 		ZEPHIR_MM_RESTORE();
 		return Z_OBJ_P(this_ptr);

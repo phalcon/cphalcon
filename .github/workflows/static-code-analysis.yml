@@ -3,19 +3,26 @@ name: Static Code Analysis
 on:
   push:
     paths-ignore:
-      - '*.md'
-
+      - '**.md'
+      - '**.txt'
   pull_request:
     branches:
-      - 'master'
-      - '4.0.x'
+      - master
+      - 4.0.x
+      - 4.1.x
 
 jobs:
   phpcs:
+    # To prevent build a particular commit use
+    #     git commit -m "......... [ci skip]"
+    if: "!contains(github.event.head_commit.message, 'ci skip')"
+
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2-beta
+      - name: Checkout Code
+        uses: actions/checkout@v2
         with:
           fetch-depth: 1
+
       - name: Run PHP_CodeSniffer
         run: docker run --rm -v $(pwd):/data cytopia/phpcs --standard=./phpcs.xml

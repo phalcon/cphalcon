@@ -80,7 +80,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Exception, __construct) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, ZEND_STRL("statement"), &statement);
+	zephir_update_property_zval(this_ptr, SL("statement"), &statement);
 	ZVAL_LONG(&_0, code);
 	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_view_engine_volt_exception_ce, getThis(), "__construct", NULL, 0, &message, &_0, previous);
 	zephir_check_call_status();

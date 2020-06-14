@@ -22,7 +22,7 @@ extern zend_string* i_parent;
 extern zend_string* i_static;
 extern zend_string* i_self;
 
-/* Main macros */
+/** Main macros */
 #define PH_DEBUG 0
 
 #define PH_NOISY 256

@@ -4,42 +4,38 @@ Welcome to the Phalcon Testing Suite.
 
 This folder contains all the tests for the Phalcon Framework. 
 
-## Codeception 4 + docker method
-```
-cp tests/_ci/.env.default .env
-cd tests 
-docker-compose up -d
-cd ..
-php tests/_ci/generate-db-schemas.php
-codecept build
-codecept run unit
-codecept run cli
-codecept run integration
-codecept run database -g common
-codecept run database -g mysql --env mysql
-codecept run database -g sqlite --env sqlite
-```
-
-Note that certain tests are grouped as `common`. Those do not require a specific database connection. Any other type of test requires the group parameter for Codeception `-g` in order to run. There are certain tests that can only run in specific RDBMs, and for that our tests use the `@group` annotation from Codeception.
-
 ## Getting Started
 
-This testing suite uses [Travis CI][0] for each run. Every commit pushed to this repository will queue a build into the continuous integration service and will run all tests to ensure that everything is going well and the project is stable.
+This testing suite uses [Travis CI][travis], [GitHub Actions][actions] and
+[AppVeyor][appveyor] for each run. Every commit pushed to this repository
+will queue a build into the continuous integration service and will run all
+tests to ensure that everything is going well and the project is stable.
 
-The testing suite can be run on your own machine. The only dependencies for running the testing suite are [nanobox][9] and [Codeception][1]. Nanobox can also be used for developing Phalcon, and its installation instructions can be found [in the Nanobox documentation][10]. Codeception can be installed using [Composer][6]:
+The testing suite can be run on your own machine. The dependencies for
+running the testing suite are:
 
-```sh
+- [Docker][docker]
+- [Nanobox][nanobox] (or [Docker Compose][compose])
+- [Codeception][codeception]
+
+Nanobox can also be used for developing Phalcon, and its installation
+instructions can be found [in the Nanobox documentation][nanobox-doc].
+Codeception can be installed using [Composer][composer].
+
+```shell script
 # run this command from project root
-composer install --prefer-source
+$ composer install --prefer-source
 ```
 
-You can read more about installing and configuring Codeception from the following resources:
+You can read more about installing and configuring Codeception from the
+following resources:
 
-- [Codeception Introduction][2]
-- [Codeception Console Commands][3]
+- [Codeception Introduction][codeception-intro]
+- [Codeception Console Commands][codeception-cmds]
 
-The container based environment contains all the services you need to write and run your tests. These services are:
-- Beanstalkd
+The container based environment contains all the services you need to write
+and run your tests. These services are:
+
 - Memcached
 - Mongodb
 - Mysql
@@ -47,6 +43,7 @@ The container based environment contains all the services you need to write and 
 - Redis
 
 The PHP extensions enabled are:
+
 - apcu
 - ctype
 - curl
@@ -80,25 +77,102 @@ The PHP extensions enabled are:
 - zip
 - zlib
 
-## Start the environment
-We will need a terminal window, so open one if you don't have one already and navigate to the folder where you have cloned the repository (or a fork of it)
+## Docker Compose Way
 
-Nanobox reads its configuration, so as to start the environment, from a file called `boxfile.yml` located at the root of your folder. By default the file is not there to allow for more flexibility. We have two setup files, one for PHP 7.2 and one for PHP 7.3. If you wish to set up an environment for Phalcon using PHP 7.2, you can copy the relevant file at the root of your folder:
+### Setup databases
 
-```bash
-cp -v ./tests/_ci/nanobox/boxfile.7.2.yml ./boxfile.yml
+To generate the necessary database schemas, you need to run the relevant script:
+
+```shell script
+$ php tests/_ci/generate-db-schemas.php
+```
+
+### Run tests
+
+First you need to re-generate base classes for all suites:
+
+```shell script
+$ ./vendor/bin/codecept build
+```
+
+You will also need to provide Codeception configuration and run Docker containers:
+ 
+```shell script
+# Create Codeception configuration
+$ cp tests/_ci/.env.default .env
+
+# Run Docker containers
+$ cd tests
+$ docker-compose up -d
+$ cd ..
+```
+
+Then, run the tests on a terminal:
+
+```shell script
+./vendor/bin/codecept run
+# OR
+./vendor/bin/codecept run --debug # Detailed output
+```
+
+Execute `unit` test with `run unit` command:
+
+```shell script
+$ ./vendor/bin/codecept run unit
+```
+
+To run database related tests you need to run the `database` suite specifying
+the RDBMS and group:
+
+```shell script
+$ ./vendor/bin/codecept run database -g common
+$ ./vendor/bin/codecept run database -g mysql --env mysql
+$ ./vendor/bin/codecept run database -g sqlite --env sqlite
+$ ./vendor/bin/codecept run database -g pgsql --env pgsql
+```
+
+Available options:
+
+```shell script
+--env mysql
+--env sqlite
+--env pgsql
+```
+
+Note that certain tests are grouped as `common`. Those do not require a
+specific database connection. Any other type of test requires the group
+parameter for Codeception `-g` in order to run. There are certain tests that
+can only run in specific RDBMs, and for that our tests use the `@group`
+annotation from Codeception.
+
+## Nanobox Way
+
+### Start the environment
+
+We will need a terminal window, so open one if you don't have one already and
+navigate to the folder where you have cloned the repository (or a fork of it).
+
+Nanobox reads its configuration, so as to start the environment, from a file
+called `boxfile.yml` located at the root of your folder. By default, the file
+is not there to allow for more flexibility. We have two setup files, one for
+PHP 7.2 and one for PHP 7.3. If you wish to set up an environment for Phalcon
+using PHP 7.2, you can copy the relevant file at the root of your folder:
+
+```shell script
+$ cp -v ./tests/_ci/nanobox/boxfile.7.2.yml ./boxfile.yml
 ```
 
 You can also create a 7.3 environment by copying the relevant file.
 
 Run
-```bash
-nanobox run
+```shell script
+$ nanobox run
 ```
 
-The process will take a while (for the first time) and once it is done you will be inside the environment. The prompt of your terminal will be:
+The process will take a while (for the first time) and once it is done you will
+be inside the environment. The prompt of your terminal will be:
 
-```bash
+```shell script
 Preparing environment :
 
 ....
@@ -129,43 +203,56 @@ Preparing environment :
 ```
 
 Now that zephir is in your environment, you can check it by typing:
-```bash
+```shell script
 /app $ zephir
 ```
 
 This should show you the help screen. You can now compile the extension:
-```bash
+```shell script
 /app $ zephir fullclean
 /app $ zephir build
 
 ```
 
 After the compilation is completed, you can check if the extension is loaded:
-```bash
+```shell script
 /app $ php -m | grep phalcon
 ```
 
-## Setup databases
+### Setup databases
+
 To generate the necessary database schemas, you need to run the relevant script:
 
-```sh
+```shell script
 /app $ php ./tests/_ci/generage-db-schemas.php
 ```
-The script looks for classes located under `tests/_data/fixtures/Migrations`. These classes contain the necessary code to create the relevant SQL statements for each RDBMS. You can easily inspect one of those files to understand its structure. Additionally, these migration classes can be instantiated in your tests to clear the target table, insert new records etc. This methodology allows us to create the database schema per RDBMS, which will be loaded automatically from Codeception, but also allows us to clear tables and insert data we need to them so that our tests are more controlled and isolated.
 
-If there is a need to add an additional table, all you have to do is create the Phalcon model of course but also create the migration class with the relevant SQL statements. Running the generate script (as seen above) will update the schema file so that Codeception can load it in your RDBMS prior to running the tests.
+The script looks for classes located under `tests/_data/fixtures/Migrations`.
+These classes contain the necessary code to create the relevant SQL statements
+for each RDBMS. You can easily inspect one of those files to understand its
+structure. Additionally, these migration classes can be instantiated in your
+tests to clear the target table, insert new records etc. This methodology
+allows us to create the database schema per RDBMS, which will be loaded
+automatically from Codeception, but also allows us to clear tables and insert
+data we need to them so that our tests are more controlled and isolated.
 
-## Run tests
+If there is a need to add an additional table, all you have to do is create the
+Phalcon model of course but also create the migration class with the relevant
+SQL statements. Running the generate script (as seen above) will update the
+schema file so that Codeception can load it in your RDBMS prior to running the
+tests.
+
+### Run tests
 
 First you need to re-generate base classes for all suites:
 
-```sh
+```shell script
 /app $ codecept build
 ```
 
 Then, run the tests on a terminal:
 
-```sh
+```shell script
 /app $ codecept run
 # OR
 /app $ codecept run --debug # Detailed output
@@ -173,65 +260,60 @@ Then, run the tests on a terminal:
 
 Execute `unit` test with `run unit` command:
 
-```sh
+```shell script
 /app $ codecept run unit
 ```
 
 Execute all tests from a folder:
 
-```sh
+```shell script
 /app $ codecept run tests/unit/some/folder/
 ```
 
 Execute single test:
 
-```sh
+```shell script
 /app $ codecept run tests/unit/some/folder/some/test/file.php
 ```
 
-To run database related tests you need to run the `database` suite specifying the RDBMS and group
+To run database related tests you need to run the `database` suite specifying
+the RDBMS and group:
 
-```sh
+```shell script
 /app $ codecept run tests/database -g common
 /app $ codecept run tests/database -g mysql --env mysql
 /app $ codecept run tests/database -g sqlite --env sqlite
+/app $ codecept run tests/database -g pgsql --env pgsql
 ```
 
 Available options:
 
-```sh
--- env mysql
--- env sqlite
+```shell script
+--env mysql
+--env sqlite
+--env pgsql
 ```
-
-## Todo
-- [ ] Add more information in this readme
-- [ ] Write tests for the skipped ones in the suite
-- [ ] Tests for foreign keys cascade in the ORM
-- [ ] Tests for many-to-many relations
-- [ ] Tests for `+=`, `-=`, `*=`, `/=`, `++`, `--` in Volt
-- [ ] Tests for `Alc::allow('*', '*', 'index')`
-- [ ] Tests for `Alc::allow('*', '*', '*')`
-- [ ] Tests for `Alc::deny('user', '*', '*')` - should deny all resources
 
 ## Help
 
-**Note:** Cache-related tests are slower than others tests because they use wait states (sleep command) to expire generated caches.
+**Note:** Cache-related tests are slower than others tests because they use
+wait states (sleep command) to expire generated caches.
 
 <hr>
 Please report any issue if you find out bugs or memory leaks.
-
 
 Thanks!
 
 <3 Phalcon Framework Team
 
-[0]: https://travis-ci.org/
-[1]: http://codeception.com/
-[2]: http://codeception.com/docs/01-Introduction
-[3]: http://codeception.com/docs/reference/Commands
-[6]: http://getcomposer.org
-[7]: https://github.com/phalcon/cphalcon/tree/master/tests/_proxies
-[8]: https://wiki.archlinux.org/index.php/Environment_variables
-[9]: https://nanobox.io/
-[10]: https://docs.nanobox.io/install/
+[travis]: https://travis-ci.org/github/phalcon/cphalcon
+[actions]: https://github.com/phalcon/cphalcon/actions
+[appveyor]: https://ci.appveyor.com/project/sergeyklay/cphalcon
+[nanobox]: https://nanobox.io
+[nanobox-doc]: https://docs.nanobox.io/install
+[docker]: https://www.docker.com
+[codeception]: http://codeception.com
+[compose]: https://docs.docker.com/compose
+[composer]: http://getcomposer.org
+[codeception-intro]: http://codeception.com/docs/01-Introduction
+[codeception-cmds]: http://codeception.com/docs/reference/Commands

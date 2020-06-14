@@ -167,7 +167,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection, __construct) {
 	zephir_array_fast_append(&_5, &password);
 	zephir_array_fast_append(&_5, &options);
 	zephir_array_fast_append(&_5, &queries);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("arguments"), &_5);
+	zephir_update_property_zval(this_ptr, SL("arguments"), &_5);
 	if (Z_TYPE_P(profiler) == IS_NULL) {
 		ZEPHIR_INIT_NVAR(profiler);
 		object_init_ex(profiler, phalcon_datamapper_pdo_profiler_profiler_ce);
@@ -283,7 +283,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection, connect) {
 		object_init_ex(&_2$$3, php_pdo_get_dbh_ce());
 		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 0, &dsn, &username, &password, &options);
 		zephir_check_call_status();
-		zephir_update_property_zval(this_ptr, ZEND_STRL("pdo"), &_2$$3);
+		zephir_update_property_zval(this_ptr, SL("pdo"), &_2$$3);
 		zephir_read_property(&_8$$3, this_ptr, SL("profiler"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(NULL, &_8$$3, "finish", NULL, 0);
 		zephir_check_call_status();
@@ -341,7 +341,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection, disconnect) {
 	ZVAL_STRING(&_1, "disconnect");
 	ZEPHIR_CALL_METHOD(NULL, &_0, "start", NULL, 0, &_1);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, ZEND_STRL("pdo"), &__$null);
+	zephir_update_property_zval(this_ptr, SL("pdo"), &__$null);
 	zephir_read_property(&_2, this_ptr, SL("profiler"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(NULL, &_2, "finish", NULL, 0);
 	zephir_check_call_status();
@@ -365,7 +365,7 @@ zend_object *zephir_init_properties_Phalcon_DataMapper_Pdo_Connection(zend_class
 		if (Z_TYPE_P(&_0) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_1$$3);
 			array_init(&_1$$3);
-			zend_update_property(Z_OBJCE_P(this_ptr), this_ptr, ZEND_STRL("arguments"), &_1$$3);
+			zephir_update_property_zval(this_ptr, SL("arguments"), &_1$$3);
 		}
 		ZEPHIR_MM_RESTORE();
 		return Z_OBJ_P(this_ptr);

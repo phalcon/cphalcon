@@ -5,11 +5,12 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 
 declare(strict_types=1);
+
 namespace Phalcon\Test\Fixtures\Traits;
 
 use DatabaseTester;
@@ -176,6 +177,8 @@ trait DiTrait
                 );
             case 'modelsManager':
                 return new ModelsManager();
+            case 'phpSerializer':
+                return (new SerializerFactory())->newInstance('php');
             case 'request':
                 return new Request();
             case 'response':
@@ -261,6 +264,10 @@ trait DiTrait
             case 'modelsCacheLibmemcached':
             case 'modelsCacheStream':
                 $this->container->set('modelsCache', $class);
+                break;
+
+            case 'phpSerializer':
+                $this->container->set('serializer', $class);
                 break;
 
             case 'sessionStream':

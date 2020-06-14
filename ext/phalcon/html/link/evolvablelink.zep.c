@@ -118,10 +118,10 @@ PHP_METHOD(Phalcon_Html_Link_EvolvableLink, withHref) {
 	if (zephir_clone(&newInstance, this_ptr) == FAILURE) {
 		RETURN_MM();
 	}
-	zephir_update_property_zval(&newInstance, ZEND_STRL("href"), href);
+	zephir_update_property_zval(&newInstance, SL("href"), href);
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "hrefistemplated", NULL, 0, href);
 	zephir_check_call_status();
-	zephir_update_property_zval(&newInstance, ZEND_STRL("templated"), &_0);
+	zephir_update_property_zval(&newInstance, SL("templated"), &_0);
 	RETURN_CCTOR(&newInstance);
 
 }

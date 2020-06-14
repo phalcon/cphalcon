@@ -86,8 +86,8 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, __construct) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_GET_CONSTANT(&_0, "PHP_EOL");
-	zephir_update_property_zval(this_ptr, ZEND_STRL("delimiter"), &_0);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("escaper"), escaper);
+	zephir_update_property_zval(this_ptr, SL("delimiter"), &_0);
+	zephir_update_property_zval(this_ptr, SL("escaper"), escaper);
 	ZEPHIR_MM_RESTORE();
 
 }

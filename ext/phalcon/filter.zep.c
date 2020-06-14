@@ -27,8 +27,8 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 /**
  * Lazy loads, stores and exposes sanitizer objects
@@ -129,6 +129,8 @@ PHP_METHOD(Phalcon_Filter, __construct) {
 /**
  * Get a service. If it is not in the mapper array, create a new object,
  * set it and then return it.
+ *
+ * @return object
  */
 PHP_METHOD(Phalcon_Filter, get) {
 
@@ -172,7 +174,7 @@ PHP_METHOD(Phalcon_Filter, get) {
 		ZEPHIR_CONCAT_SVS(&_2$$3, "The service ", &name, " has not been found in the locator");
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 8, &_2$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Filter.zep", 74);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Filter.zep", 76);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -180,7 +182,7 @@ PHP_METHOD(Phalcon_Filter, get) {
 	if (!(zephir_array_isset(&_3, &name))) {
 		zephir_read_property(&_4$$4, this_ptr, SL("mapper"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_OBS_VAR(&definition);
-		zephir_array_fetch(&definition, &_4$$4, &name, PH_NOISY, "phalcon/Filter.zep", 78);
+		zephir_array_fetch(&definition, &_4$$4, &name, PH_NOISY, "phalcon/Filter.zep", 80);
 		if (Z_TYPE_P(&definition) == IS_STRING) {
 			ZEPHIR_INIT_VAR(&_5$$5);
 			ZEPHIR_LAST_CALL_STATUS = zephir_create_instance(&_5$$5, &definition);
@@ -191,7 +193,7 @@ PHP_METHOD(Phalcon_Filter, get) {
 		}
 	}
 	zephir_read_property(&_6, this_ptr, SL("services"), PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch(&_7, &_6, &name, PH_NOISY | PH_READONLY, "phalcon/Filter.zep", 86);
+	zephir_array_fetch(&_7, &_6, &name, PH_NOISY | PH_READONLY, "phalcon/Filter.zep", 88);
 	RETURN_CTOR(&_7);
 
 }
@@ -271,7 +273,7 @@ PHP_METHOD(Phalcon_Filter, sanitize) {
 			RETVAL_ZVAL(value, 1, 0);
 			RETURN_MM();
 		}
-		zephir_is_iterable(sanitizers, 0, "phalcon/Filter.zep", 180);
+		zephir_is_iterable(sanitizers, 0, "phalcon/Filter.zep", 182);
 		if (Z_TYPE_P(sanitizers) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(sanitizers), _2$$3, _3$$3, _0$$3)
 			{
@@ -424,7 +426,7 @@ PHP_METHOD(Phalcon_Filter, init) {
 	ZEPHIR_OBS_COPY_OR_DUP(&mapper, mapper_param);
 
 
-	zephir_is_iterable(&mapper, 0, "phalcon/Filter.zep", 217);
+	zephir_is_iterable(&mapper, 0, "phalcon/Filter.zep", 219);
 	if (Z_TYPE_P(&mapper) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&mapper), _2, _3, _0)
 		{
@@ -504,7 +506,7 @@ PHP_METHOD(Phalcon_Filter, processArrayValues) {
 
 	ZEPHIR_INIT_VAR(&arrayValue);
 	array_init(&arrayValue);
-	zephir_is_iterable(&values, 0, "phalcon/Filter.zep", 241);
+	zephir_is_iterable(&values, 0, "phalcon/Filter.zep", 243);
 	if (Z_TYPE_P(&values) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&values), _2, _3, _0)
 		{
@@ -633,13 +635,13 @@ zend_object *zephir_init_properties_Phalcon_Filter(zend_class_entry *class_type 
 		if (Z_TYPE_P(&_0) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_1$$3);
 			array_init(&_1$$3);
-			zend_update_property(Z_OBJCE_P(this_ptr), this_ptr, ZEND_STRL("services"), &_1$$3);
+			zephir_update_property_zval(this_ptr, SL("services"), &_1$$3);
 		}
 		zephir_read_property(&_2, this_ptr, SL("mapper"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_2) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_3$$4);
 			array_init(&_3$$4);
-			zend_update_property(Z_OBJCE_P(this_ptr), this_ptr, ZEND_STRL("mapper"), &_3$$4);
+			zephir_update_property_zval(this_ptr, SL("mapper"), &_3$$4);
 		}
 		ZEPHIR_MM_RESTORE();
 		return Z_OBJ_P(this_ptr);

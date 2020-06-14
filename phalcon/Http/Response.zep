@@ -64,14 +64,17 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     /**
      * Phalcon\Http\Response constructor
      */
-    public function __construct(content = null, code = null, status = null)
+    public function __construct(string! content = null, code = null, status = null)
     {
-        /**
-         * A Phalcon\Http\Response\Headers bag is temporary used to manage the headers before sent them to the client
-         */
+        // Note: Don't remove exclamation mark above otherwise NULL will be coerced.
+
+        // A Phalcon\Http\Response\Headers bag is temporary used to manage
+        // the headers before sent them to the client
         let this->headers = new Headers();
 
-        let this->content = content;
+        if content !== null {
+            this->setContent(content);
+        }
 
         if code !== null {
             this->setStatusCode(code, status);
@@ -93,7 +96,8 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
      */
     public function getContent() -> string
     {
-        return this->content;
+        // Type cast is required here to satisfy the interface
+        return (string) this->content;
     }
 
     /**
@@ -639,7 +643,7 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
      */
     public function setJsonContent(var content, int jsonOptions = 0, int depth = 512) -> <ResponseInterface>
     {
-        this->setContentType("application/json", "UTF-8");
+        this->setContentType("application/json");
 
         this->setContent(
             Json::encode(content, jsonOptions, depth)

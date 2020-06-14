@@ -17,8 +17,8 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 /**
  * Interface for the Phalcon\Validation component
@@ -52,6 +52,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Validation_ValidationInterface, bind);
 
 /**
  * Returns the bound entity
+ *
+ * @return object
  */
 ZEPHIR_DOC_METHOD(Phalcon_Validation_ValidationInterface, getEntity);
 

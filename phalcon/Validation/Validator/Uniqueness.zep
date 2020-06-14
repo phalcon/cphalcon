@@ -332,6 +332,7 @@ class Uniqueness extends AbstractCombinedFieldsValidator
             if except {
                 if typeof except == "array" && array_keys(except) !== range(0, count(except) - 1) {
                     for singleField, fieldExcept in except {
+                        let notInValues = [];
                         let attribute = this->getColumnNameReal(
                             record,
                             this->getOption("attribute", singleField)

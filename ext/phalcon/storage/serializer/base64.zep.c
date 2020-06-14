@@ -87,7 +87,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_Base64, unserialize) {
 	}
 	ZEPHIR_CALL_FUNCTION(&_0, "base64_decode", NULL, 187, data);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, ZEND_STRL("data"), &_0);
+	zephir_update_property_zval(this_ptr, SL("data"), &_0);
 	ZEPHIR_MM_RESTORE();
 
 }

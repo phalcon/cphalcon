@@ -64,6 +64,7 @@
     "ext-intl": "*",
     "ext-iconv": "*",
     "ext-sqlite3": "*",
+    "ext-pdo": "*",
     "codeception/codeception": "^4.0",
     "phpunit/phpunit": "^8.5",
     "friendsofphp/php-cs-fixer": "~2.0",

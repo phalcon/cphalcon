@@ -4,8 +4,8 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 
 namespace Phalcon;
@@ -63,8 +63,10 @@ class Filter implements FilterInterface
     /**
      * Get a service. If it is not in the mapper array, create a new object,
      * set it and then return it.
+     *
+     * @return object
      */
-    public function get(string! name) -> object
+    public function get(string! name) -> var
     {
         var definition;
 

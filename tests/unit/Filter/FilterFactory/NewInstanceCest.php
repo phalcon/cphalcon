@@ -5,8 +5,8 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -45,6 +45,8 @@ class NewInstanceCest
     /**
      * Tests Phalcon\Filter\FilterFactory :: newInstance()
      *
+     * @param  UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
@@ -52,15 +54,15 @@ class NewInstanceCest
     {
         $I->wantToTest('Filter\FilterFactory - newInstance()');
         $factory  = new FilterFactory();
-        $instance = $factory->newInstance();
 
-        $class = FilterInterface::class;
-        $I->assertInstanceOf($class, $instance);
+        $I->assertInstanceOf(FilterInterface::class, $factory->newInstance());
     }
 
     /**
      * Tests Phalcon\Filter\FilterFactory :: newInstance() - services
      *
+     * @param        UnitTester $I
+     * @param        Example $example
      * @dataProvider getData
      *
      * @author       Phalcon Team <team@phalcon.io>

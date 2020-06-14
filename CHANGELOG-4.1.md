@@ -8,7 +8,7 @@
   - Signers (None, HMAC)
   - Base64 encode/decodeUrl helper class
 [#13856](https://github.com/phalcon/cphalcon/issues/13856)
-- Added additional HTML helpers under `Phalcon\Html\Helper`: `Anchor`, `Base`, `Body`, `Button`, `Close`, `Element`, `Form`, `Img`, `Input\Color`, `Input\Date`, `Input\DateTime`, `Input\DateTimeLocal`, `Input\Email`, `Input\File`, `Input\Hidden`, `Input\Image`, `Input\Input`, `Input\Month`, `Input\Numeric`, `Input\Password`, `Input\Range`, `Input\Select`, `Input\Search`, `Input\Submit`, `Input\Tel`, `Input\Text`, `Input\Textarea`, `Input\Time`, `Input\Url`, `Input\Week`, `Label`, `Link`, `Meta`, `Ol`, `Script`, `Style`, `Title`, `Ul` 
+- Added additional HTML helpers under `Phalcon\Html\Helper`: `Anchor`, `Base`, `Body`, `Button`, `Close`, `Element`, `Form`, `Img`, `Input\Color`, `Input\Date`, `Input\DateTime`, `Input\DateTimeLocal`, `Input\Email`, `Input\File`, `Input\Hidden`, `Input\Image`, `Input\Input`, `Input\Month`, `Input\Numeric`, `Input\Password`, `Input\Range`, `Input\Select`, `Input\Search`, `Input\Submit`, `Input\Tel`, `Input\Text`, `Input\Textarea`, `Input\Time`, `Input\Url`, `Input\Week`, `Label`, `Link`, `Meta`, `Ol`, `Script`, `Style`, `Title`, `Ul`
 [#14696](https://github.com/phalcon/cphalcon/issues/14696)
 - Added `Phalcon\Http\Request::getPreferredIsoLocaleVariant()` to return the base language if this is a specific one (`en` vs `en-US`) [#3135](https://github.com/phalcon/cphalcon/issues/3135)
 - Added `preload` for Volt, which will send a HTTP/2 preload header [#13128](https://github.com/phalcon/cphalcon/issues/13128)
@@ -36,10 +36,18 @@ This component can be used to create SQL statements using a fluent interface. Op
 - Added service checks for the session. Now cookies will be saved in the session only when the `session` service is defined [#11770](https://github.com/phalcon/cphalcon/issues/11770), [#14649](https://github.com/phalcon/cphalcon/pull/14649)
 - Changed `Phalcon\Db\Adapter\*::getRawSQLStatement()` to return the full SQL query with parameters [#12196](https://github.com/phalcon/cphalcon/issues/12196)
 - Changed `Phalcon\Filter::sanitize` to throw a `E_USER_NOTICE` when a filter does not exist. [#14679](https://github.com/phalcon/cphalcon/issues/14679)
+- PHQL now supports the use of any printable characters from the extended ASCII
+  table for escaped identifiers. The exception characters are `[` and `]`. To
+  use `[` and `]` escape they (`\[`, `\]`) [#14535](https://github.com/phalcon/cphalcon/issues/14535)
+- Removed UTF-8 charset when using `Phalcon\Http\Response::setJsonContent` to apply with rfc7159
+- Changed the visibility of properties in `Phalcon\Http\Message\Uri` to work with `clone`. [#15040](https://github.com/phalcon/cphalcon/issues/15040)
+- Change `Phalcon\Validation\AbstractValidator::__construct`. Save custom validator message in options. [#15053](https://github.com/phalcon/cphalcon/issues/15053) [@ivan-zolotavin](https://github.com/ivan-zolotavin)
 - Removed `_` prefix in methods names: `getRelatedRecords()`, `groupResult()`, `exists()`, `preSaveRelatedRecords()`, `preSave()`, `doLowUpdate()`, `postSaveRelatedRecords()`, `postSave()`, `cancelOperation()`, `doLowInsert()`, `getConnection()`, `getConnectionService()`, `getVersion()` [#14971](https://github.com/phalcon/cphalcon/pull/14971)
 
 ## Fixed
 - Fixed `Phalcon\Db\Dialect\Mysql::getColumnDefinition` to recognize `size` for `DATETIME`, `TIME` and `TIMESTAMP` columns [#13297](https://github.com/phalcon/cphalcon/issues/13297)
+- Fixed `Phalcon\Events\Manager` to provide callable support [#13322](https://github.com/phalcon/cphalcon/issues/13322), [#15045](https://github.com/phalcon/cphalcon/pull/15045)
+- Fixed `Phalcon\Validation\Validator\Uniqueness` fixed except query [#15084](https://github.com/phalcon/cphalcon/issues/15084)
 
 ## Removed
 - Removed `Phalcon\Http\Cookie` binding to session [#11770](https://github.com/phalcon/cphalcon/issues/11770)

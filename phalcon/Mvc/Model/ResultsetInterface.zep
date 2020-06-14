@@ -4,8 +4,8 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 
 namespace Phalcon\Mvc\Model;
@@ -49,8 +49,10 @@ interface ResultsetInterface
 
     /**
      * Get first row in the resultset
+     *
+     * @return ModelInterface|Row|null
      */
-    public function getFirst() -> <ModelInterface> | null;
+    public function getFirst() -> var | null;
 
     /**
      * Returns the current hydration mode

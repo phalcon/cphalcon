@@ -20,7 +20,7 @@ use Phalcon\Mvc\ModelInterface;
  */
 class ValidationFailed extends Exception
 {
-    protected messages;
+    protected messages = [];
 
     protected model;
 

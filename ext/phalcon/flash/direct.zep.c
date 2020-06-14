@@ -23,12 +23,12 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 /**
- * This is a variant of the Phalcon\Flash that immediately outputs any message
- * passed to it
+ * This is an implementation of the Phalcon\Flash\FlashInterface that
+ * immediately outputs any message passed to it.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Flash_Direct) {
 
@@ -40,6 +40,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Flash_Direct) {
 
 /**
  * Outputs a message
+ *
+ * @return null|string|void
  */
 PHP_METHOD(Phalcon_Flash_Direct, message) {
 
@@ -91,7 +93,7 @@ PHP_METHOD(Phalcon_Flash_Direct, output) {
 
 
 	zephir_read_property(&_0, this_ptr, SL("messages"), PH_NOISY_CC | PH_READONLY);
-	zephir_is_iterable(&_0, 0, "phalcon/Flash/Direct.zep", 38);
+	zephir_is_iterable(&_0, 0, "phalcon/Flash/Direct.zep", 40);
 	if (Z_TYPE_P(&_0) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_0), _1)
 		{
