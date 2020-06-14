@@ -451,8 +451,23 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 
     /**
      * Returns the connection to read or write data related to a model depending on the connection services.
+     *
+     * @return AdapterInterface
      */
     protected function getConnection(<ModelInterface> model, connectionServices) -> <AdapterInterface>
+    {
+        return this->_getConnection(model, connectionServices);
+    }
+
+    /**
+     * Returns the connection to read or write data related to a model depending on the connection services.
+     *
+     * @todo Remove in v5.0
+     * @deprecated Use getConnection()
+     *
+     * @return AdapterInterface
+     */
+    protected function _getConnection(<ModelInterface> model, connectionServices) -> <AdapterInterface>
     {
         var container, service, connection;
 
@@ -505,8 +520,24 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     /**
      * Returns the connection service name used to read or write data related to
      * a model depending on the connection services
+     *
+     * @return string
      */
     public function getConnectionService(<ModelInterface> model, connectionServices) -> string
+    {
+        return this->_getConnectionService(model, connectionServices);
+    }
+
+    /**
+     * Returns the connection service name used to read or write data related to
+     * a model depending on the connection services
+     *
+     * @todo Remove in v5.0
+     * @deprecated Use getConnectionService()
+     *
+     * @return string
+     */
+    public function _getConnectionService(<ModelInterface> model, connectionServices) -> string
     {
         var connection;
 

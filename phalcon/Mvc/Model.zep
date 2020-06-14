@@ -3535,6 +3535,21 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     protected function doLowInsert(<MetaDataInterface> metaData, <AdapterInterface> connection,
         table, identityField) -> bool
     {
+        return this->_doLowInsert(metaData, connection, table, identityField);
+    }
+
+    /**
+     * Sends a pre-build INSERT SQL statement to the relational database system
+     *
+     * @todo Remove in v5.0
+     * @deprecated Use doLowInsert()
+     *
+     * @param string|array table
+     * @param bool|string identityField
+     */
+    protected function _doLowInsert(<MetaDataInterface> metaData, <AdapterInterface> connection,
+        table, identityField) -> bool
+    {
         var attributeField, attributes, automaticAttributes, bindDataTypes,
             bindSkip, bindType, bindTypes, columnMap, defaultValue, defaultValues,
             field, fields, lastInsertedId, manager, sequenceName, schema,
@@ -3770,6 +3785,19 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * @param string|array table
      */
      protected function doLowUpdate(<MetaDataInterface> metaData, <AdapterInterface> connection, var table) -> bool
+     {
+         return this->_doLowUpdate(metaData, connection, table);
+     }
+
+    /**
+     * Sends a pre-build UPDATE SQL statement to the relational database system
+     *
+     * @todo Remove in v5.0
+     * @deprecated Use doLowUpdate()
+     *
+     * @param string|array table
+     */
+     protected function _doLowUpdate(<MetaDataInterface> metaData, <AdapterInterface> connection, var table) -> bool
      {
         var automaticAttributes, attributeField, bindSkip, bindDataTypes,
             bindType, bindTypes, columnMap, dataType, dataTypes, field, fields,
@@ -4023,8 +4051,23 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
     /**
      * Checks whether the current record already exists
+     *
+     * @return bool
      */
     protected function exists(<MetaDataInterface> metaData, <AdapterInterface> connection) -> bool
+    {
+        return this->exists(metaData, connection);
+    }
+
+    /**
+     * Checks whether the current record already exists
+     *
+     * @todo Remove in v5.0
+     * @deprecated Use exists()
+     *
+     * @return bool
+     */
+    protected function _exists(<MetaDataInterface> metaData, <AdapterInterface> connection) -> bool
     {
         int numberEmpty, numberPrimary;
         var attributeField, bindDataTypes, columnMap, field, joinWhere, num,
@@ -4188,6 +4231,24 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      */
     protected function getRelatedRecords(string! modelName, string! method, array! arguments)
     {
+        return this->_getRelatedRecords(modelName, method, arguments);
+    }
+
+    /**
+     * Returns related records defined relations depending on the method name.
+     * Returns false if the relation is non-existent.
+     *
+     * @todo Remove in v5.0
+     * @deprecated Use getRelatedRecords()
+     *
+     * @param string modelName
+     * @param string method
+     * @param array  arguments
+     *
+     * @return ResultsetInterface|ModelInterface|bool|null
+     */
+    protected function _getRelatedRecords(string! modelName, string! method, array! arguments)
+    {
         var manager, relation, queryMethod, extraArgs, alias;
 
         let manager = <ManagerInterface> this->modelsManager;
@@ -4251,8 +4312,23 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * Generate a PHQL SELECT statement for an aggregate
      *
      * @param array parameters
+     * @return ResultsetInterface
      */
     protected static function groupResult(string! functionName, string! alias, var parameters) -> <ResultsetInterface>
+    {
+        return this->_groupResult(functionName, alias, parameters);
+    }
+
+    /**
+     * Generate a PHQL SELECT statement for an aggregate
+     *
+     * @todo Remove in v5.0
+     * @deprecated Use groupResult()
+     *
+     * @param array parameters
+     * @return ResultsetInterface
+     */
+    protected static function _groupResult(string! functionName, string! alias, var parameters) -> <ResultsetInterface>
     {
         var params, distinctColumn, groupColumn, columns, bindParams, bindTypes,
             resultset, cache, firstRow, groupColumns, builder, query, container,
@@ -4495,8 +4571,23 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
     /**
      * Executes internal hooks before save a record
+     *
+     * @return bool
      */
     protected function preSave(<MetaDataInterface> metaData, bool exists, var identityField) -> bool
+    {
+        return this->_preSave(metaData, exists, identityField);
+    }
+
+    /**
+     * Executes internal hooks before save a record
+     *
+     * @todo Remove in v5.0
+     * @deprecated Use preSave()
+     *
+     * @return bool
+     */
+    protected function _preSave(<MetaDataInterface> metaData, bool exists, var identityField) -> bool
     {
         var notNull, columnMap, dataTypeNumeric, automaticAttributes,
             defaultValues, field, attributeField, value, emptyStringValues;
@@ -4739,6 +4830,20 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      */
     protected function preSaveRelatedRecords(<AdapterInterface> connection, related) -> bool
     {
+        return this->_preSaveRelatedRecords(connection, related);
+    }
+
+    /**
+     * Saves related records that must be stored prior to save the master record
+     *
+     * @todo Remove in v5.0
+     * @deprecated Use preSaveRelatedRecords()
+     *
+     * @param \Phalcon\Mvc\ModelInterface[] related
+     * @return bool
+     */
+    protected function _preSaveRelatedRecords(<AdapterInterface> connection, related) -> bool
+    {
         var className, manager, type, relation, columns, referencedFields,
             referencedModel, message, nesting, name, record;
 
@@ -4838,8 +4943,23 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
     /**
      * Executes internal events after save a record
+     *
+     * @return bool
      */
     protected function postSave(bool success, bool exists) -> bool
+    {
+        return this->_postSave(success, exists);
+    }
+
+    /**
+     * Executes internal events after save a record
+     *
+     * @todo Remove in v5.0
+     * @deprecated Use postSave()
+     *
+     * @return bool
+     */
+    protected function _postSave(bool success, bool exists) -> bool
     {
         if success {
             if exists {
@@ -4855,9 +4975,24 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     /**
      * Save the related records assigned in the has-one/has-many relations
      *
-     * @param  Phalcon\Mvc\ModelInterface[] related
+     * @param Phalcon\Mvc\ModelInterface[] related
+     * @return bool
      */
     protected function postSaveRelatedRecords(<AdapterInterface> connection, related) -> bool
+    {
+        return this->_postSaveRelatedRecords(connection, related);
+    }
+
+    /**
+     * Save the related records assigned in the has-one/has-many relations
+     *
+     * @todo Remove in v5.0
+     * @deprecated Use postSaveRelatedRecords()
+     *
+     * @param Phalcon\Mvc\ModelInterface[] related
+     * @return bool
+     */
+    protected function _postSaveRelatedRecords(<AdapterInterface> connection, related) -> bool
     {
         var nesting, className, manager, relation, name, record, message,
             columns, referencedModel, referencedFields, relatedRecords, value,
@@ -4871,7 +5006,6 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             manager = <ManagerInterface> this->getModelsManager();
 
         for name, record in related {
-
             /**
              * Try to get a relation with the same name
              */
@@ -5123,6 +5257,17 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * Cancel the current operation
      */
     protected function cancelOperation()
+    {
+        return this->_cancelOperation();
+    }
+
+    /**
+     * Cancel the current operation
+     *
+     * @todo Remove in v5.0
+     * @deprecated Use cancelOperation()
+     */
+    protected function _cancelOperation()
     {
         if this->operationMade == self::OP_DELETE {
             this->fireEvent("notDeleted");
