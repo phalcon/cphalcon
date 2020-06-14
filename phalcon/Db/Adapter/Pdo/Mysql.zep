@@ -401,39 +401,44 @@ class Mysql extends PdoAdapter
             /**
              * Check if the field is primary key
              */
-            if field[3] == "PRI" {
+            if field[4] == "PRI" {
                 let definition["primary"] = true;
             }
 
             /**
              * Check if the column allows null values
              */
-            if field[2] == "YES" {
+            if field[3] == "YES" {
                 let definition["notNull"] = false;
             }
 
             /**
              * Check if the column is auto increment
              */
-            if field[5] == "auto_increment" {
+            if field[6] == "auto_increment" {
                 let definition["autoIncrement"] = true;
             }
 
             /**
              * Check if the column has default value
              */
-            if field[4] !== null {
-                if memstr(field[5], "on update") {
-                    let definition["default"] = field[4] . " " . field[5];
+            if field[5] !== null {
+                if memstr(field[6], "on update") {
+                    let definition["default"] = field[5] . " " . field[6];
                 } else {
-                    let definition["default"] = field[4];
+                    let definition["default"] = field[5];
                 }
             } else {
-                if memstr(field[5], "on update") {
-                    let definition["default"] = "NULL " . field[5];
+                if memstr(field[6], "on update") {
+                    let definition["default"] = "NULL " . field[6];
                 }
             }
-
+            /**
+             * Check if the column has comment
+             */
+             if field[8] !== null {
+                let definition["comment"] = "" . field[8];
+             }
             /**
              * Every route is stored as a Phalcon\Db\Column
              */

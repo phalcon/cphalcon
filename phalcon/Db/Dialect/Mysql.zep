@@ -298,7 +298,7 @@ class Mysql extends Dialect
      */
     public function describeColumns(string! table, string schema = null) -> string
     {
-        return "DESCRIBE " . this->prepareTable(table, schema);
+        return "SHOW FULL COLUMNS FROM " . this->prepareTable(table, schema);
     }
 
     /**

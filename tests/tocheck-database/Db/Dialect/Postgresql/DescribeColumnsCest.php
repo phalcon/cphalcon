@@ -58,14 +58,17 @@ class DescribeColumnsCest
                 "CASE WHEN pkc.column_name NOTNULL THEN 'PRI' ELSE '' END AS Key, " .
                 "CASE WHEN c.data_type LIKE '%int%' AND c.column_default LIKE '%nextval%' " .
                 "THEN 'auto_increment' ELSE '' END AS Extra, c.ordinal_position AS Position, " .
-                'c.column_default FROM information_schema.columns c ' .
+                'c.column_default, des.description FROM information_schema.columns c ' .
                 'LEFT JOIN ( SELECT kcu.column_name, kcu.table_name, kcu.table_schema ' .
                 'FROM information_schema.table_constraints tc ' .
                 'INNER JOIN information_schema.key_column_usage kcu on ' .
                 '(kcu.constraint_name = tc.constraint_name and kcu.table_name=tc.table_name ' .
                 "and kcu.table_schema=tc.table_schema) WHERE tc.constraint_type='PRIMARY KEY') pkc " .
                 'ON (c.column_name=pkc.column_name AND c.table_schema = pkc.table_schema AND ' .
-                "c.table_name=pkc.table_name) WHERE c.table_schema='schema.name.with.dots' AND " .
+                "c.table_name=pkc.table_name) LEFT JOIN ( SELECT objsubid, description, relname, nspname " .
+                "FROM pg_description JOIN pg_class ON pg_description.objoid = pg_class.oid JOIN pg_namespace ON " .
+                "pg_class.relnamespace = pg_namespace.oid ) des ON ( des.objsubid = C.ordinal_position AND C.table_schema = " .
+                "des.nspname AND C.TABLE_NAME = des.relname ) WHERE c.table_schema='schema.name.with.dots' AND " .
                 "c.table_name='table' ORDER BY c.ordinal_position",
             ],
             [
@@ -76,14 +79,17 @@ class DescribeColumnsCest
                 "CASE WHEN pkc.column_name NOTNULL THEN 'PRI' ELSE '' END AS Key, " .
                 "CASE WHEN c.data_type LIKE '%int%' AND c.column_default LIKE '%nextval%' " .
                 "THEN 'auto_increment' ELSE '' END AS Extra, c.ordinal_position AS Position, " .
-                'c.column_default FROM information_schema.columns c ' .
+                'c.column_default, des.description FROM information_schema.columns c ' .
                 'LEFT JOIN ( SELECT kcu.column_name, kcu.table_name, kcu.table_schema ' .
                 'FROM information_schema.table_constraints tc ' .
                 'INNER JOIN information_schema.key_column_usage kcu on ' .
                 '(kcu.constraint_name = tc.constraint_name and kcu.table_name=tc.table_name and ' .
                 "kcu.table_schema=tc.table_schema) WHERE tc.constraint_type='PRIMARY KEY') pkc " .
                 'ON (c.column_name=pkc.column_name AND c.table_schema = pkc.table_schema AND ' .
-                "c.table_name=pkc.table_name) WHERE c.table_schema='public' AND c.table_name='table' " .
+                "c.table_name=pkc.table_name) LEFT JOIN ( SELECT objsubid, description, relname, " .
+                "nspname FROM pg_description JOIN pg_class ON pg_description.objoid = pg_class.oid JOIN " .
+                "pg_namespace ON pg_class.relnamespace = pg_namespace.oid ) des ON ( des.objsubid = C.ordinal_position " .
+                "AND C.table_schema = des.nspname AND C.TABLE_NAME = des.relname ) WHERE c.table_schema='public' AND c.table_name='table' " .
                 'ORDER BY c.ordinal_position',
             ],
             [
@@ -94,14 +100,17 @@ class DescribeColumnsCest
                 "CASE WHEN pkc.column_name NOTNULL THEN 'PRI' ELSE '' END AS Key, " .
                 "CASE WHEN c.data_type LIKE '%int%' AND c.column_default LIKE '%nextval%' " .
                 "THEN 'auto_increment' ELSE '' END AS Extra, c.ordinal_position AS Position, " .
-                'c.column_default FROM information_schema.columns c ' .
+                'c.column_default, des.description FROM information_schema.columns c ' .
                 'LEFT JOIN ( SELECT kcu.column_name, kcu.table_name, kcu.table_schema ' .
                 'FROM information_schema.table_constraints tc ' .
                 'INNER JOIN information_schema.key_column_usage kcu on ' .
                 '(kcu.constraint_name = tc.constraint_name and kcu.table_name=tc.table_name and ' .
                 "kcu.table_schema=tc.table_schema) WHERE tc.constraint_type='PRIMARY KEY') pkc " .
                 'ON (c.column_name=pkc.column_name AND c.table_schema = pkc.table_schema AND ' .
-                "c.table_name=pkc.table_name) WHERE c.table_schema='schema' AND c.table_name='table' " .
+                "c.table_name=pkc.table_name) LEFT JOIN ( SELECT objsubid, description, relname, " .
+                "nspname FROM pg_description JOIN pg_class ON pg_description.objoid = pg_class.oid JOIN " .
+                "pg_namespace ON pg_class.relnamespace = pg_namespace.oid ) des ON ( des.objsubid = C.ordinal_position " .
+                "AND C.table_schema = des.nspname AND C.TABLE_NAME = des.relname ) WHERE c.table_schema='schema' AND c.table_name='table' " .
                 'ORDER BY c.ordinal_position',
             ],
         ];
