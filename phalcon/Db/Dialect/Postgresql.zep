@@ -150,6 +150,11 @@ class Postgresql extends Dialect
             let sql = "CREATE TABLE " . table . " (\n\t";
         }
 
+        /**
+         * Create related indexes
+         */
+        let indexSqlAfterCreate = "";
+
         let createLines = [];
         let primaryColumns = [];
 
@@ -181,16 +186,20 @@ class Postgresql extends Dialect
             }
 
             let createLines[] = columnLine;
+
+            /**
+            * Add a COMMENT clause
+            */
+            if column->getComment() {
+                let indexSqlAfterCreate .= " COMMENT ON COLUMN " . table . ".\"" . column->getName()."\" is '".column->getComment()."';";
+            }
         }
 
         if !empty primaryColumns {
             let createLines[] = "PRIMARY KEY (" . this->getColumnList(primaryColumns) . ")";
         }
 
-        /**
-         * Create related indexes
-         */
-        let indexSqlAfterCreate = "";
+        
 
         if fetch indexes, definition["indexes"] {
             for index in indexes {
@@ -581,6 +590,13 @@ class Postgresql extends Dialect
             } else {
                 let sql .= sqlAlterTable . " ALTER COLUMN \"" . column->getName() . "\" DROP NOT NULL;";
             }
+        }
+
+        /**
+         * Add a COMMENT clause
+         */
+         if column->getComment() {
+            let sql .= "COMMENT ON COLUMN " . this->prepareTable(tableName, schemaName) . ".\"" .column->getName()."\" is '".column->getComment()."';";
         }
 
         // DEFAULT

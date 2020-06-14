@@ -211,6 +211,12 @@ class Mysql extends Dialect
             if column->isPrimary() {
                 let columnLine .= " PRIMARY KEY";
             }
+            /**
+             * Add a COMMENT clause
+             */
+             if column->getComment() {
+                let columnLine .= " COMMENT '".column->getComment()."'";
+            }
 
             let createLines[] = columnLine;
         }
@@ -718,6 +724,13 @@ class Mysql extends Dialect
 
         if column->isAutoIncrement() {
             let sql .= " AUTO_INCREMENT";
+        }
+
+        /**
+        * Add a COMMENT clause
+        */
+        if column->getComment() {
+            let sql .= " COMMENT '".column->getComment()."'";
         }
 
         if column->isFirst() {

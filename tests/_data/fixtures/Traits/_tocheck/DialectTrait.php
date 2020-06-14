@@ -217,6 +217,15 @@ trait DialectTrait
                     'notNull' => true,
                 ]
             ),
+            'column25' => new Column(
+                'column25',
+                [
+                    'type'    => Column::TYPE_TIMESTAMP,
+                    'notNull' => true,
+                    'default' => 'CURRENT_TIMESTAMP',
+                    'comment' => 'test',
+                ]
+            ),
         ];
     }
 
