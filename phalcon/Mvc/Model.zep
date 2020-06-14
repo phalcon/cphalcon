@@ -4056,7 +4056,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      */
     protected function exists(<MetaDataInterface> metaData, <AdapterInterface> connection) -> bool
     {
-        return this->exists(metaData, connection);
+        return this->_exists(metaData, connection);
     }
 
     /**
