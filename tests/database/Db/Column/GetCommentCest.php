@@ -37,7 +37,7 @@ class GetCommentCest
 
         foreach ($expectedColumns as $index => $column) {
             $I->assertEquals(
-                isset($columns[$index]['comment'])?$columns[$index]['comment']:null,
+                isset($columns[$index]['comment']) ? $columns[$index]['comment'] : null,
                 $column->getComment()
             );
         }
