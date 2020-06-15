@@ -187,10 +187,10 @@ SQL;
         $sql      = $mysql->createTable('test', '', $definition);
         $expected = <<<SQL
 CREATE TABLE `test` (
-	`id` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'numeric_val',
+	`id` INT(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
 	`numeric_val` FLOAT NOT NULL DEFAULT 21.42 COMMENT 'numeric_val',
 	`null_int` INT(11) NULL COMMENT 'null_int',
-	`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP  COMMENT 'created_at',
+	`created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'created_at',
 	`updated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 	`deleted_at` TIMESTAMP NULL,
 	PRIMARY KEY (`id`)
