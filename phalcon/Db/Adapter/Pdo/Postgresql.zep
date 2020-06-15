@@ -512,7 +512,12 @@ class Postgresql extends PdoAdapter
                     let definition["default"] = null;
                 }
             }
-
+            /**
+             * Check if the column has comment
+             */
+             if field[10] !== null {
+                let definition["comment"] = "" . field[10];
+             }
             /**
              * Every route is stored as a Phalcon\Db\Column
              */

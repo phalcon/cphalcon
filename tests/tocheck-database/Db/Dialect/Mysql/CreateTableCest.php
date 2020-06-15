@@ -266,6 +266,24 @@ class CreateTableCest
                 ],
                 rtrim(file_get_contents(dataDir('fixtures/Db/mysql/example7.sql'))),
             ],
+            'example8' => [
+                '',
+                [
+                    'columns'    => [
+                        new Column(
+                            'default_timestamp_update',
+                            [
+                                'type'          => 'TIMESTAMP',
+                                'typeReference' => Column::TYPE_TIMESTAMP,
+                                'default'       => 'CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP',
+                                'notNull'       => true,
+                                'comment'       => 'test'
+                            ]
+                        ),
+                    ]
+                ],
+                rtrim(file_get_contents(dataDir('fixtures/Db/mysql/example8.sql'))),
+            ],
         ];
     }
 }
