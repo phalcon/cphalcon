@@ -152,7 +152,15 @@ class Manager implements ManagerInterface
     }
 
     /**
-     * Set if priorities are enabled in the EventsManager
+     * Set if priorities are enabled in the EventsManager.
+     *
+     * A priority queue of events is a data structure similar
+     * to a regular queue of events: we can also put and extract
+     * elements from it. The difference is that each element in a
+     * priority queue is associated with a value called priority.
+     * This value is used to order elements of a queue: elements
+     * with higher priority are retrieved before the elements with
+     * lower priority.
      */
     public function enablePriorities(bool enablePriorities) -> void
     {
