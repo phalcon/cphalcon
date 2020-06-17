@@ -3585,22 +3585,22 @@ class Query implements QueryInterface, InjectionAwareInterface
     /**
      * Query the records on which the UPDATE/DELETE operation will be done
      *
-     * @return ResultsetInterface
-     */
-    final protected function getRelatedRecords(<ModelInterface> model, array intermediate, array bindParams, array bindTypes) -> <ResultsetInterface>
-    {
-        return this->_getRelatedRecords(model, intermediate, bindParams, bindTypes);
-    }
-
-    /**
-     * Query the records on which the UPDATE/DELETE operation will be done
-     *
      * @todo Remove in v5.0
      * @deprecated Use getRelatedRecords()
      *
      * @return ResultsetInterface
      */
     final protected function _getRelatedRecords(<ModelInterface> model, array intermediate, array bindParams, array bindTypes) -> <ResultsetInterface>
+    {
+        return this->getRelatedRecords(model, intermediate, bindParams, bindTypes);
+    }
+
+    /**
+     * Query the records on which the UPDATE/DELETE operation will be done
+     *
+     * @return ResultsetInterface
+     */
+    final protected function getRelatedRecords(<ModelInterface> model, array intermediate, array bindParams, array bindTypes) -> <ResultsetInterface>
     {
         var selectIr, whereConditions, limitConditions, query;
 
