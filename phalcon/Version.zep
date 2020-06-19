@@ -79,16 +79,44 @@ class Version
      * C - Min version (two digits)
      * D - Special release: 1 = alpha, 2 = beta, 3 = RC, 4 = stable
      * E - Special release version i.e. RC1, Beta2 etc.
+     *
+     * @todo Remove in v5
+     * @deprecated Use getVersion()
      */
     protected static function _getVersion() -> array
+    {
+        return static::getVersion();
+    }
+
+    /**
+     * Area where the version number is set. The format is as follows:
+     * ABBCCDE
+     *
+     * A - Major version
+     * B - Med version (two digits)
+     * C - Min version (two digits)
+     * D - Special release: 1 = alpha, 2 = beta, 3 = RC, 4 = stable
+     * E - Special release version i.e. RC1, Beta2 etc.
+     */
+    protected static function getVersion() -> array
     {
         return [4, 1, 0, 4, 0];
     }
 
     /**
      * Translates a number to a special release.
+     * @todo Remove in v5.0
+     * @deprecated Use getSpecial()
      */
     protected final static function _getSpecial(int special) -> string
+    {
+        return static::getSpecial(special);
+    }
+
+    /**
+     * Translates a number to a special release.
+     */
+    protected final static function getSpecial(int special) -> string
     {
         string suffix = "";
 
@@ -119,7 +147,7 @@ class Version
         var version, major, medium, minor, special, specialNumber, suffix;
         string result;
 
-        let version = static::_getVersion();
+        let version = static::getVersion();
 
         let major         = version[self::VERSION_MAJOR],
             medium        = version[self::VERSION_MEDIUM],
@@ -157,7 +185,7 @@ class Version
     {
         var version, major, medium, minor, special, specialNumber;
 
-        let version = static::_getVersion();
+        let version = static::getVersion();
 
         let major         = version[self::VERSION_MAJOR],
             medium        = version[self::VERSION_MEDIUM],
@@ -182,7 +210,7 @@ class Version
     {
         var version;
 
-        let version = static::_getVersion();
+        let version = static::getVersion();
 
         switch part {
             case self::VERSION_MAJOR:
