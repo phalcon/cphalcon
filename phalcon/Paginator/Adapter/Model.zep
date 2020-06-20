@@ -122,7 +122,6 @@ class Model extends AbstractAdapter
                 [modelClass, "find"],
                 parameters
             );
-            let pageItems = items->toArray();
         }
 
         //Fix next
@@ -140,7 +139,7 @@ class Model extends AbstractAdapter
 
         return this->getRepository(
             [
-                RepositoryInterface::PROPERTY_ITEMS         : pageItems,
+                RepositoryInterface::PROPERTY_ITEMS         : items,
                 RepositoryInterface::PROPERTY_TOTAL_ITEMS   : rowcount,
                 RepositoryInterface::PROPERTY_LIMIT         : this->limitRows,
                 RepositoryInterface::PROPERTY_FIRST_PAGE    : 1,
