@@ -13,6 +13,8 @@ namespace Phalcon;
 use Phalcon\Di\Service;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\Exception;
+use Phalcon\Di\AdapterInterface
+use Phalcon\Di\Adapter\Memory;
 use Phalcon\Di\Exception\ServiceResolutionException;
 use Phalcon\Config\Adapter\Php;
 use Phalcon\Config\Adapter\Yaml;
@@ -90,12 +92,36 @@ class Di implements DiInterface
     /**
      * Phalcon\Di constructor
      */
-    public function __construct()
+    public function __construct(<AdapterInterface> adapter = null)
     {
-        if !self::_default {
-            let self::_default = this;
+        var adapter;
+        if !self::_default && adapter {
+            self::setAdapter(adapter);
+        }
+        let adapter = self::getAdapter(adapter);
+        if !adapter->has(){
+            adapter->set(this)
         }
     }
+
+    /**
+     * get adapter
+     */
+     public static function getAdapter() -> <AdapterInterface>
+     {
+        if !self::_default {
+            let self::_default = new Memory();
+        }
+        return self::_default;
+     }
+
+     /**
+     * get adapter
+     */
+     public static function setAdapter(<AdapterInterface> adapter) -> void
+     {
+        let self::_default = adapter;
+     }
 
     /**
      * Magic method to get or set services using setters/getters
@@ -263,7 +289,7 @@ class Di implements DiInterface
      */
     public static function getDefault() -> <DiInterface> | null
     {
-        return self::_default;
+        return this->getAdapter()->get();
     }
 
     /**
@@ -531,7 +557,7 @@ class Di implements DiInterface
      */
     public static function reset() -> void
     {
-        let self::_default = null;
+        let this->getAdapter->set(null);
     }
 
     /**
@@ -550,7 +576,7 @@ class Di implements DiInterface
      */
     public static function setDefault(<DiInterface> container) -> void
     {
-        let self::_default = container;
+        let this->getAdapter()->set(container);
     }
 
     /**
