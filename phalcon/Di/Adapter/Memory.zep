@@ -11,6 +11,7 @@
 namespace Phalcon\Di\Adapter;
 
 use Phalcon\Di\DiInterface;
+use Phalcon\Di\AdapterInterface;
 
 /**
  * This interface must be implemented in those classes that uses internally the
@@ -27,7 +28,7 @@ class Memory implements AdapterInterface
     /**
      * get the dependency injector
      */
-    public function has(<DiInterface> container) -> bool
+    public function has() -> bool
     {
         if !this->_default {
             return false;
@@ -47,7 +48,7 @@ class Memory implements AdapterInterface
      * Set a default dependency injection container to be obtained into static
      * methods
      */
-     public function setDefault(<DiInterface> container) -> void
+     public function set(<DiInterface> container = null) -> void
      {
          let this->_default = container;
      }

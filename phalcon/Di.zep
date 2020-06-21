@@ -92,15 +92,12 @@ class Di implements DiInterface
     /**
      * Phalcon\Di constructor
      */
-    public function __construct(<AdapterInterface> adapter = null)
+    public function __construct()
     {
         var adapter;
-        if !self::_default && adapter {
-            self::setAdapter(adapter);
-        }
-        let adapter = self::getAdapter(adapter);
-        if !adapter->has(){
-            adapter->set(this)
+        let adapter = self::getAdapter();
+        if !adapter->has() {
+            adapter->set(this);
         }
     }
 
@@ -289,7 +286,7 @@ class Di implements DiInterface
      */
     public static function getDefault() -> <DiInterface> | null
     {
-        return this->getAdapter()->get();
+        return self::getAdapter()->get();
     }
 
     /**
@@ -557,7 +554,7 @@ class Di implements DiInterface
      */
     public static function reset() -> void
     {
-        let this->getAdapter->set(null);
+        self::getAdapter()->set(null);
     }
 
     /**
@@ -576,7 +573,7 @@ class Di implements DiInterface
      */
     public static function setDefault(<DiInterface> container) -> void
     {
-        let this->getAdapter()->set(container);
+        self::getAdapter()->set(container);
     }
 
     /**

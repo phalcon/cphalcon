@@ -18,7 +18,7 @@ interface AdapterInterface
     /**
      * get the dependency injector
      */
-    public static function has(<DiInterface> container) -> bool;
+    public static function has() -> bool;
 
     /**
      * Returns the internal dependency injector
@@ -28,5 +28,5 @@ interface AdapterInterface
     /**
      * set the dependency injector
      */
-     public static function set(<DiInterface> container) -> void;
+     public static function set(<DiInterface> container = null ) -> void;
 }
