@@ -18,15 +18,15 @@ interface AdapterInterface
     /**
      * get the dependency injector
      */
-    public static function has() -> bool;
+    public  function has() -> bool;
 
     /**
      * Returns the internal dependency injector
      */
-    public static function get() -> <DiInterface> | null;
+    public  function get() -> <DiInterface> | null;
 
     /**
      * set the dependency injector
      */
-     public static function set(<DiInterface> container = null ) -> void;
+     public function set(<DiInterface> container = null ) -> void;
 }
