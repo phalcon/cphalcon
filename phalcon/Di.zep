@@ -13,7 +13,7 @@ namespace Phalcon;
 use Phalcon\Di\Service;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\Exception;
-use Phalcon\Di\AdapterInterface
+use Phalcon\Di\AdapterInterface;
 use Phalcon\Di\Adapter\Memory;
 use Phalcon\Di\Exception\ServiceResolutionException;
 use Phalcon\Config\Adapter\Php;
