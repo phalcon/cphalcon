@@ -31,6 +31,7 @@ This component will be used in the Data Mapper implementation but can be used as
   - `Phalcon\DataMapper\Query\QueryFactory`
 This component can be used to create SQL statements using a fluent interface. Optionally the statements can be executed from the builder itself using the `DataMapper\Pdo` connection. [#14734](https://github.com/phalcon/cphalcon/issues/14734)
 - Added `Phalcon\Mvc\Micro\LazyLoader::getHandler()` to return real handler when using lazy loaded controllers for `Phalcon\Mvc\Micro` [#14871](https://github.com/phalcon/cphalcon/issues/14871) [@Jurigag](https://github.com/Jurigag)
+- Added `Phalcon\Di` support custom adapter
 
 ## Changed
 - Added service checks for the session. Now cookies will be saved in the session only when the `session` service is defined [#11770](https://github.com/phalcon/cphalcon/issues/11770), [#14649](https://github.com/phalcon/cphalcon/pull/14649)
