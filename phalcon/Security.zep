@@ -350,7 +350,7 @@ class Security extends AbstractInjectionAware
      */
     public function getTokenKey() -> string
     {
-        var session;
+        var session, tokenKey;
 
         if null === this->tokenKey {
             let session = this->getLocalSession();
