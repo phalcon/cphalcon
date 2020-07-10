@@ -62,6 +62,7 @@
 - Fixed return type hint for `Phalcon\Mvc\Model\Resultset::getFirst` and `Phalcon\Mvc\Model\ResultsetInterface::getFirst` to reflect original behavior [#15027](https://github.com/phalcon/cphalcon/issues/15027)
 - Rollback the regression changes for `Phalcon\Mvc\Model\Query::_prepareSelect` to properly prepare a SQL `SELECT` statement from a PHQL one [#14657](https://github.com/phalcon/cphalcon/issues/14657)
 - Fixed `SerializerInterface` usage for `Phalcon\Mvc\Model\Resultset\Complex::unserialize` as well as `Phalcon\Mvc\Model\Resultset\Complex::unserialize` [#14942](https://github.com/phalcon/cphalcon/issues/14942)
+- Fixed tokens generation for `Phalcon\Security::getToken` and `Phalcon\Security::getTokenKey` [#15104](https://github.com/phalcon/cphalcon/issues/15104)
 
 ## Removed
 - Removed `Phalcon\Translate\InterpolatorFactory::$mapper` as well as `Phalcon\Translate\InterpolatorFactory::$services` in favor of `Phalcon\Factory\AbstractFactory` ones [#15036](https://github.com/phalcon/cphalcon/issues/15036)
