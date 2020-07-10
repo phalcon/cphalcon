@@ -324,17 +324,20 @@ class Security extends AbstractInjectionAware
         var session;
 
         if null === this->token {
-            let this->requestToken = this->getSessionToken(),
-                this->token        = this->random->base64Safe(this->numberBytes);
+            let this->requestToken = this->getSessionToken();
 
+            if !empty this->requestToken {
+              let this->token = this->requestToken;
+            } else {
+              let session     = this->getLocalSession(),
+                  this->token = this->random->base64Safe(this->numberBytes);
 
-            let session = this->getLocalSession();
-
-            if likely session {
-                session->set(
-                    this->tokenValueSessionId,
-                    this->token
-                );
+              if likely session {
+                  session->set(
+                      this->tokenValueSessionId,
+                      this->token
+                  );
+              }
             }
         }
 
@@ -353,11 +356,17 @@ class Security extends AbstractInjectionAware
             let session = this->getLocalSession();
 
             if likely session {
-                let this->tokenKey = this->random->base64Safe(this->numberBytes);
-                session->set(
-                    this->tokenKeySessionId,
-                    this->tokenKey
-                );
+                let tokenKey = session->get(tokenKeySessionId);
+
+                if !empty tokenKey {
+                  let this->tokenKey = tokenKey;
+                } else {
+                  let this->tokenKey = this->random->base64Safe(this->numberBytes);
+                  session->set(
+                      this->tokenKeySessionId,
+                      this->tokenKey
+                  );
+                }
             }
         }
 
