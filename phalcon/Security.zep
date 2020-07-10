@@ -356,7 +356,7 @@ class Security extends AbstractInjectionAware
             let session = this->getLocalSession();
 
             if likely session {
-                let tokenKey = session->get(tokenKeySessionId);
+                let tokenKey = session->get(this->tokenKeySessionId);
 
                 if !empty tokenKey {
                   let this->tokenKey = tokenKey;
