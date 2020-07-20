@@ -15,6 +15,7 @@ use ArrayIterator;
 use Countable;
 use IteratorAggregate;
 use JsonSerializable;
+use Phalcon\Collection\CollectionInterface;
 use Phalcon\Helper\Json;
 use Serializable;
 use Traversable;
@@ -33,6 +34,7 @@ use Traversable;
  */
 class Collection implements
     ArrayAccess,
+    CollectionInterface,
     Countable,
     IteratorAggregate,
     JsonSerializable,
