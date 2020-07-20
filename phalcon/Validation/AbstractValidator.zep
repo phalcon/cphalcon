@@ -10,7 +10,6 @@
 
 namespace Phalcon\Validation;
 
-use Phalcon\Collection;
 use Phalcon\Helper\Arr;
 use Phalcon\Messages\Message;
 use Phalcon\Validation;
@@ -54,7 +53,7 @@ abstract class AbstractValidator implements ValidatorInterface
         if template {
             // save custom message in options
             let options["message"] = template;
-                        
+
             unset options["template"];
             unset options[0];
         }

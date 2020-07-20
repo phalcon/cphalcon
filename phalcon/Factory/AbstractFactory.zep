@@ -11,6 +11,7 @@
 namespace Phalcon\Factory;
 
 use Phalcon\Config;
+use Phalcon\Config\ConfigInterface;
 
 abstract class AbstractFactory
 {
@@ -29,7 +30,7 @@ abstract class AbstractFactory
      */
     protected function checkConfig(var config) -> array
     {
-        if typeof config == "object" && config instanceof Config {
+        if typeof config == "object" && config instanceof ConfigInterface {
             let config = config->toArray();
         }
 

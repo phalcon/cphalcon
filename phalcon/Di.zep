@@ -16,6 +16,7 @@ use Phalcon\Di\Exception;
 use Phalcon\Di\Exception\ServiceResolutionException;
 use Phalcon\Config\Adapter\Php;
 use Phalcon\Config\Adapter\Yaml;
+use Phalcon\Config\ConfigInterface;
 use Phalcon\Di\ServiceInterface;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Di\InjectionAwareInterface;
@@ -337,7 +338,7 @@ class Di implements DiInterface
     /**
      * Loads services from a Config object.
      */
-    protected function loadFromConfig(<Config> config) -> void
+    protected function loadFromConfig(<ConfigInterface> config) -> void
     {
         var services, name, service;
 

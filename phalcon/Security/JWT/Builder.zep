@@ -11,6 +11,7 @@
 namespace Phalcon\Security\JWT;
 
 use Phalcon\Collection;
+use Phalcon\Collection\CollectionInterface;
 use Phalcon\Helper\Base64;
 use Phalcon\Helper\Json;
 use Phalcon\Security\JWT\Exceptions\ValidatorException;
@@ -23,22 +24,22 @@ use Phalcon\Security\JWT\Token\Token;
 /**
  * Class Builder
  *
- * @property Collection      $claims
- * @property Collection      $jose
- * @property string          $passphrase
- * @property SignerInterface $signer
+ * @property CollectionInterface  $claims
+ * @property CollectionInterface  $jose
+ * @property string               $passphrase
+ * @property SignerInterface      $signer
  *
  * @link https://tools.ietf.org/html/rfc7519
  */
 class Builder
 {
     /**
-     * @var Collection
+     * @var CollectionInterface
      */
     private claims;
 
     /**
-     * @var Collection
+     * @var CollectionInterface
      */
     private jose;
 
