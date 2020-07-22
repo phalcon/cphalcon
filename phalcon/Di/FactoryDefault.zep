@@ -23,11 +23,11 @@ class FactoryDefault extends \Phalcon\Di
     /**
      * Phalcon\Di\FactoryDefault constructor
      */
-    public function __construct()
+    public function __construct(<AutowireInterface> autowire = null)
     {
         var filter;
 
-        parent::__construct();
+        parent::__construct(autowire);
 
         let filter = new FilterFactory();
 

@@ -20,6 +20,10 @@ use Phalcon\Di\ServiceInterface;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Di\ServiceProviderInterface;
+use Phalcon\Di\BindDefinitionInterface;
+use Phalcon\Di\BindDefinition;
+use Phalcon\Di\Exception\BindException;
+use Phalcon\Di\AutowireInterface;
 
 /**
  * Phalcon\Di is a component that implements Dependency Injection/Service
@@ -88,13 +92,27 @@ class Di implements DiInterface
     protected static _default;
 
     /**
+     * List of registered services
+     *
+     * @var BindDefinitionInterface[]
+     */
+    protected binds = [];
+
+    /**
+     * @var AutowireInterface|null
+     */
+    protected autowire;
+
+    /**
      * Phalcon\Di constructor
      */
-    public function __construct()
+    public function __construct(<AutowireInterface> autowire = null)
     {
         if !self::_default {
             let self::_default = this;
         }
+
+        let this->autowire = autowire;
     }
 
     /**
@@ -154,17 +172,17 @@ class Di implements DiInterface
             return false;
         }
 
-        let this->services[name] = new Service(definition, shared);
-
-        return this->services[name];
+        return this->set(name, definition, shared);
     }
 
     /**
      * Resolves the service based on its configuration
      */
-    public function get(string! name, parameters = null) -> var
+    public function get(string! name, parameters = null, array autowireTypes = []) -> var
     {
-        var service, eventsManager, isShared, instance = null;
+        var service, eventsManager, isShared, instance = null, autowire = null;
+
+        let autowire = this->autowire;
 
         /**
          * If the service is shared and it already has a cached instance then
@@ -221,10 +239,17 @@ class Di implements DiInterface
                     );
                 }
 
-                if typeof parameters == "array" && count(parameters) {
-                    let instance = create_instance_params(name, parameters);
+                if likely typeof autowire === "object" {
+                    /**
+                     * Resolve using autowire component
+                     */
+                    let instance = autowire->resolve(this, name, parameters, autowireTypes);
                 } else {
-                    let instance = create_instance(name);
+                    if typeof parameters == "array" && count(parameters) {
+                        let instance = create_instance_params(name, parameters);
+                    } else {
+                        let instance = create_instance(name);
+                    }
                 }
             }
         }
@@ -541,6 +566,13 @@ class Di implements DiInterface
     {
         let this->services[name] = new Service(definition, shared);
 
+        /**
+         * If definition is string and it's class add it also to autowire binding
+         */
+        if typeof definition === "string" && class_exists(definition) {
+            this->bind(definition, name, shared);
+        }
+
         return this->services[name];
     }
 
@@ -577,5 +609,46 @@ class Di implements DiInterface
     public function setShared(string! name, var definition) -> <ServiceInterface>
     {
         return this->set(name, definition, true);
+    }
+
+    public function bind(string !className, string! definition, bool isShared = false) -> <DiInterface>
+    {
+        if !class_exists(className) && !interface_exists(className) {
+            throw new BindException("Bind class or interface '" . className . "' does not exist");
+        }
+
+        let this->binds[className][definition] = new BindDefinition(
+            className,
+            definition,
+            isShared
+        );
+
+        return this;
+    }
+
+    public function hasBind(string! className, string definition = null) -> bool
+    {
+        if definition != null {
+            return isset this->binds[className][definition];
+        }
+
+        return isset this->binds[className];
+    }
+
+    public function getBind(string! className, string definition = null) -> <BindDefinitionInterface> | null
+    {
+        if definition != null && isset this->binds[className][definition] {
+           return this->binds[className][definition];
+        }
+
+        if isset this->binds[className] {
+            if count(this->binds[className]) > 1 {
+                throw new BindException("More than one possible definitions for class'" . className . "', please provide which implementation should be used for this class using setAutowireTypes on service");
+            }
+
+            return array_values(this->binds[className])[0];
+        }
+
+        return null;
     }
 }

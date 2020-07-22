@@ -43,6 +43,11 @@ class Service implements ServiceInterface
     protected sharedInstance;
 
     /**
+     * @var array
+     */
+    protected autowireTypes = [];
+
+    /**
      * Phalcon\Di\Service
      */
     final public function __construct(var definition, bool shared = false)
@@ -112,7 +117,7 @@ class Service implements ServiceInterface
     public function resolve(parameters = null, <DiInterface> container = null) -> var
     {
         bool found;
-        var shared, definition, sharedInstance, instance, builder;
+        var shared, definition, sharedInstance, instance, builder, autowireTypes;
 
         let shared = this->shared;
 
@@ -130,12 +135,14 @@ class Service implements ServiceInterface
             instance = null;
 
         let definition = this->definition;
+        let autowireTypes = this->autowireTypes;
+
         if typeof definition == "string" {
             /**
              * String definitions can be class names without implicit parameters
              */
             if container !== null {
-                let instance = container->get(definition, parameters);
+                let instance = container->get(definition, parameters, autowireTypes);
             } elseif class_exists(definition) {
                 if typeof parameters == "array" && count(parameters) {
                     let instance = create_instance_params(
@@ -270,5 +277,12 @@ class Service implements ServiceInterface
     public function setSharedInstance(var sharedInstance) -> void
     {
         let this->sharedInstance = sharedInstance;
+    }
+
+    public function setAutowireTypes(array autowireTypes) -> <ServiceInterface>
+    {
+        let this->autowireTypes = autowireTypes;
+
+        return this;
     }
 }

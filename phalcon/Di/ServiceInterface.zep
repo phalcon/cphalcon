@@ -58,4 +58,9 @@ interface ServiceInterface
      * Sets if the service is shared or not
      */
     public function setShared(bool shared);
+
+    /**
+     * Sets which implementations should be used by autowrie compoment
+     */
+    public function setAutowireTypes(array autowireTypes) -> <ServiceInterface>;
 }

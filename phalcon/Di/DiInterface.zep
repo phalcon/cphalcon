@@ -91,4 +91,19 @@ interface DiInterface extends ArrayAccess
      * Registers an "always shared" service in the services container
      */
     public function setShared(string! name, definition) -> <ServiceInterface>;
+
+    /**
+     * Binds definition to class name to being resolved when autowiring
+     */
+    public function bind(string !className, string! defintion, bool isShared = false) -> <DiInterface>;
+
+    /**
+     * Checks if bind exists for provided class name
+     */
+    public function hasBind(string! className, string! definition = null) -> bool;
+
+    /**
+     * Returns bind definition for provided class name
+     */
+    public function getBind(string! className, string! definition = null) -> <BindDefinitionInterface> | null;
 }
