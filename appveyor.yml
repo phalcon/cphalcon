@@ -105,6 +105,15 @@ install:
         -Platform   $Env:PLATFORM
 
   - ps: >-
+      InstallPeclExtension `
+        -Name       msgpack `
+        -Version    2.1.0 `
+        -PhpVersion $Env:PHP_VERSION `
+        -BuildType  $Env:BUILD_TYPE `
+        -VC         $Env:VC_VERSION `
+        -Platform   $Env:PLATFORM
+
+  - ps: >-
       InstallZephirParser `
         -Version    $Env:ZEPHIR_PARSER_VERSION `
         -BuildId    $Env:ZEPHIR_PARSER_RELEASE `
@@ -116,6 +125,7 @@ install:
 before_build:
   - ps: EnablePhpExtension -Name psr
   - ps: EnablePhpExtension -Name redis
+  - ps: EnablePhpExtension -Name msgpack
   - ps: EnablePhpExtension -Name zephir_parser -PrintableName "Zephir Parser"
 
 build_script:
