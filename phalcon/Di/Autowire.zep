@@ -116,19 +116,24 @@ class Autowire implements AutowireInterface
             return this->localCache[className];
         }
 
-        if cache != null && cache->has("PHAW!" . className) {
-            let parameters = cache->get("PHAW!" . className);
+        if cache != null && cache->has(className) {
+            let parameters = cache->get(className);
             let this->localCache[className] = parameters;
 
             return parameters;
         }
 
         let reflection = new \ReflectionClass(className);
+
+        if unlikely !reflection->isInstantiable() {
+            throw new AutowireException("Class '" . className . "' is not instantiable ");
+        }
+
         let constructor = reflection->getConstructor();
 
         if constructor === null {
             if cache != null {
-                cache->set("PHAW!" . className, []);
+                cache->set(className, []);
             }
 
             let this->localCache[className] = [];
@@ -152,7 +157,7 @@ class Autowire implements AutowireInterface
         let this->localCache[className] = parameters;
 
         if cache != null {
-            cache->set("PHAW!" . className, parameters);
+            cache->set(className, parameters);
         }
 
         return parameters;

@@ -239,7 +239,7 @@ class Di implements DiInterface
                     );
                 }
 
-                if likely typeof autowire === "object" {
+                if typeof autowire === "object" {
                     /**
                      * Resolve using autowire component
                      */
@@ -569,7 +569,7 @@ class Di implements DiInterface
         /**
          * If definition is string and it's class add it also to autowire binding
          */
-        if typeof definition === "string" && class_exists(definition) {
+        if typeof this->autowire === "object" && typeof definition === "string" && class_exists(definition) {
             this->bind(definition, name, shared);
         }
 
@@ -642,7 +642,7 @@ class Di implements DiInterface
         }
 
         if isset this->binds[className] {
-            if count(this->binds[className]) > 1 {
+            if unlikely count(this->binds[className]) > 1 {
                 throw new BindException("More than one possible definitions for class'" . className . "', please provide which implementation should be used for this class using setAutowireTypes on service");
             }
 
