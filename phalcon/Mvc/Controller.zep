@@ -64,7 +64,7 @@ abstract class Controller extends Injectable implements ControllerInterface
 
         if method_exists(this, "onConstruct") {
 
-            let container = this->getDi();
+            let container = this->getDI();
 
             if method_exists(container, "getAutowire") {
                 let autowire = container->getAutowire();

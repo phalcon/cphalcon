@@ -46,8 +46,18 @@ class Task extends Injectable implements TaskInterface, EventsAwareInterface
      */
     final public function __construct()
     {
+        var autowire, container;
+
         if method_exists(this, "onConstruct") {
-            this->{"onConstruct"}();
+            let container = this->getDI();
+            if method_exists(container, "getAutowire") {
+                let autowire = container->getAutowire();
+            }
+            if autowire && autowire instanceof AutowireInterface {
+                autowire->resolveMethod(container, this, "onConstruct");
+            } else {
+                this->{"onConstruct"}();
+            }
         }
     }
 
