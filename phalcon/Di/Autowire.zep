@@ -92,7 +92,7 @@ class Autowire implements AutowireInterface
 
         let parameters = this->fetchParamsFromCache(keyCache, cache);
 
-        if !empty parameters {
+        if parameters !== null {
             return parameters;
         }
 
@@ -105,7 +105,7 @@ class Autowire implements AutowireInterface
         return this->resolveReflectionParamters(reflection->getParameters(), keyCache, cache);
     }
 
-    protected function fetchParamsFromCache(string key, <AdapterInterface> cache = null) -> array
+    protected function fetchParamsFromCache(string key, <AdapterInterface> cache = null) -> array | null
     {
         if isset this->localCache[key] {
             return this->localCache[key];
@@ -118,7 +118,7 @@ class Autowire implements AutowireInterface
             return parameters;
         }
 
-        return [];
+        return null;
     }
 
     protected function resolveConstructorParameters(string! className) -> array
@@ -137,7 +137,7 @@ class Autowire implements AutowireInterface
 
         let parameters = this->fetchParamsFromCache(keyCache);
 
-        if !empty parameters {
+        if parameters !== null {
             return parameters;
         }
 
