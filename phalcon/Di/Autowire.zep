@@ -10,13 +10,14 @@
 
 namespace Phalcon\Di;
 
-use Phalcon\Cache\Adapter\AdapterInterface;
+use Psr\SimpleCache\CacheInterface;
 use Phalcon\Di\Exception\AutowireException;
+use Phalcon\Di\AutowireTypesProviderInterface;
 
 class Autowire implements AutowireInterface
 {
     /**
-     * @var AdapterInterface|null
+     * @var CacheInterface|null
      */
     protected cache;
 
@@ -35,7 +36,7 @@ class Autowire implements AutowireInterface
      */
     protected maxKeyLength = 250;
 
-    public function __construct(<AdapterInterface> cache = null, bool useShared = false)
+    public function __construct(<CacheInterface> cache = null, bool useShared = false)
     {
         let this->cache = cache;
         let this->useShared = useShared;
@@ -43,7 +44,7 @@ class Autowire implements AutowireInterface
 
     public function resolveMethod(<DiInterface> container, object obj, string method, array parameters = []) -> var
     {
-        var methodParameters, useShared, callParameters, bind, autowireTypes = [];
+        var methodParameters, callParameters, autowireTypes = [];
 
         let methodParameters = this->resolveMethodParamters(obj, method);
 
@@ -84,7 +85,7 @@ class Autowire implements AutowireInterface
 
     protected function resolveMethodParamters(object obj, string method) -> array
     {
-        var cache, reflection, parameters = [], key, parameter, keyCache, objClass;
+        var cache, reflection, parameters = [], keyCache, objClass;
 
         let objClass = get_class(obj);
         let keyCache = get_class(obj) . "::" . method;
@@ -105,8 +106,10 @@ class Autowire implements AutowireInterface
         return this->resolveReflectionParamters(reflection->getParameters(), keyCache, cache);
     }
 
-    protected function fetchParamsFromCache(string key, <AdapterInterface> cache = null) -> array | null
+    protected function fetchParamsFromCache(string key, <CacheInterface> cache = null) -> array | null
     {
+        var parameters;
+
         if isset this->localCache[key] {
             return this->localCache[key];
         }
@@ -162,7 +165,7 @@ class Autowire implements AutowireInterface
         return this->resolveReflectionParamters(constructor->getParameters(), keyCache, cache);
     }
 
-    protected function resolveReflectionParamters(array reflectionParameters, string keyCache, <AdapterInterface> cache = null) -> array
+    protected function resolveReflectionParamters(array reflectionParameters, string keyCache, <CacheInterface> cache = null) -> array
     {
         var parameters = [], parameter;
 
@@ -192,7 +195,7 @@ class Autowire implements AutowireInterface
 
         let useShared = this->useShared;
 
-        for parameter in constructorParamters {
+        for parameter in methodParameters {
             let parameterClass = parameter["class"],
                 parameterName = parameter["name"],
                 parameterOptional = parameter["optional"],

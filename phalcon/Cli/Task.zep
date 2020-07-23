@@ -13,6 +13,8 @@ namespace Phalcon\Cli;
 use Phalcon\Di\Injectable;
 use Phalcon\Events\EventsAwareInterface;
 use Phalcon\Events\ManagerInterface;
+use Phalcon\Di\AutowireInterface;
+
 /**
  * Every command-line task should extend this class that encapsulates all the
  * task functionality

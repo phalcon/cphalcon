@@ -205,9 +205,9 @@ class Cache implements CacheInterface
     {
         let key = (string) key;
 
-        if preg_match("/[^A-Za-z0-9-_.]/", key) {
+        if preg_match("/[^A-Za-z0-9-_:\\\.]/", key) {
             throw new InvalidArgumentException(
-                "The key contains invalid characters"
+                "The key '" . key . "' contains invalid characters"
             );
         }
     }

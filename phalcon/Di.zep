@@ -629,7 +629,11 @@ class Di implements DiInterface
     public function hasBind(string! className, string definition = null) -> bool
     {
         if definition != null {
-            return isset this->binds[className][definition];
+            if likely isset this->binds[className][definition] {
+                return true;
+            }
+
+            throw new BindException("Implementation '" . definition . "' does not exists for class '" . className . "'");
         }
 
         return isset this->binds[className];
@@ -637,8 +641,12 @@ class Di implements DiInterface
 
     public function getBind(string! className, string definition = null) -> <BindDefinitionInterface> | null
     {
-        if definition != null && isset this->binds[className][definition] {
-           return this->binds[className][definition];
+        if definition != null {
+            if likely isset this->binds[className][definition] {
+                return this->binds[className][definition];
+            }
+
+            throw new BindException("Implementation '" . definition . "' does not exists for class '" . className . "'");
         }
 
         if isset this->binds[className] {
