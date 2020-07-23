@@ -10,17 +10,11 @@
 
 namespace Phalcon\Di;
 
-use Psr\SimpleCache\CacheInterface;
 use Phalcon\Di\Exception\AutowireException;
 use Phalcon\Di\AutowireTypesProviderInterface;
 
 class Autowire implements AutowireInterface
 {
-    /**
-     * @var CacheInterface|null
-     */
-    protected cache;
-
     /**
      * @var bool
      */
@@ -36,9 +30,8 @@ class Autowire implements AutowireInterface
      */
     protected maxKeyLength = 250;
 
-    public function __construct(<CacheInterface> cache = null, bool useShared = false)
+    public function __construct(bool useShared = false)
     {
-        let this->cache = cache;
         let this->useShared = useShared;
     }
 
@@ -85,7 +78,7 @@ class Autowire implements AutowireInterface
 
     protected function resolveMethodParamters(object obj, string method) -> array
     {
-        var cache, reflection, parameters = [], keyCache, objClass;
+        var reflection, parameters = [], keyCache, objClass;
 
         let objClass = get_class(obj);
         let keyCache = str_replace(objClass, "\\", "-") . "_" . method;
@@ -97,9 +90,7 @@ class Autowire implements AutowireInterface
             let keyCache = keyCache->sha1();
         }
 
-        let cache = this->cache;
-
-        let parameters = this->fetchParamsFromCache(keyCache, cache);
+        let parameters = this->fetchParamsFromCache(keyCache);
 
         if parameters !== null {
             return parameters;
@@ -111,22 +102,13 @@ class Autowire implements AutowireInterface
             throw new AutowireException("Class '" . objClass . "' does not have method '" . method . "'");
         }
 
-        return this->resolveReflectionParamters(reflection->getParameters(), keyCache, cache);
+        return this->resolveReflectionParamters(reflection->getParameters(), keyCache);
     }
 
-    protected function fetchParamsFromCache(string key, <CacheInterface> cache = null) -> array | null
+    protected function fetchParamsFromCache(string key) -> array | null
     {
-        var parameters;
-
         if isset this->localCache[key] {
             return this->localCache[key];
-        }
-
-        if cache != null && cache->has(key) {
-            let parameters = cache->get(key);
-            let this->localCache[key] = parameters;
-
-            return parameters;
         }
 
         return null;
@@ -134,9 +116,8 @@ class Autowire implements AutowireInterface
 
     protected function resolveConstructorParameters(string! className) -> array
     {
-        var cache, reflection, constructor, parameters, keyCache;
+        var reflection, constructor, parameters, keyCache;
 
-        let cache = this->cache;
         let keyCache = str_replace(className, "\\", "-");
 
         /**
@@ -161,19 +142,15 @@ class Autowire implements AutowireInterface
         let constructor = reflection->getConstructor();
 
         if constructor === null {
-            if cache != null {
-                cache->set(className, []);
-            }
-
             let this->localCache[className] = [];
 
             return [];
         }
 
-        return this->resolveReflectionParamters(constructor->getParameters(), keyCache, cache);
+        return this->resolveReflectionParamters(constructor->getParameters(), keyCache);
     }
 
-    protected function resolveReflectionParamters(array reflectionParameters, string keyCache, <CacheInterface> cache = null) -> array
+    protected function resolveReflectionParamters(array reflectionParameters, string keyCache) -> array
     {
         var parameters = [], parameter;
 
@@ -188,10 +165,6 @@ class Autowire implements AutowireInterface
         }
 
         let this->localCache[keyCache] = parameters;
-
-        if cache != null {
-            cache->set(keyCache, parameters);
-        }
 
         return parameters;
     }
