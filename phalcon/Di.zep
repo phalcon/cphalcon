@@ -613,51 +613,43 @@ class Di implements DiInterface
 
     public function bind(string !className, string! definition, bool isShared = false) -> <DiInterface>
     {
-        if !class_exists(className) && !interface_exists(className) {
-            throw new BindException("Bind class or interface '" . className . "' does not exist");
+        var autowire;
+
+        let autowire = this->autowire;
+
+        if unlikely typeof autowire !== "object" {
+            throw new Exception("Di::bind method requires autowire component added to Di");
         }
 
-        let this->binds[className][definition] = new BindDefinition(
-            className,
-            definition,
-            isShared
-        );
+        autowire->bind(className, definition, isShared);
 
         return this;
     }
 
     public function hasBind(string! className, string definition = null) -> bool
     {
-        if definition != null {
-            if likely isset this->binds[className][definition] {
-                return true;
-            }
+        var autowire;
 
-            throw new BindException("Implementation '" . definition . "' does not exists for class '" . className . "'");
+        let autowire = this->autowire;
+
+        if unlikely typeof autowire !== "object" {
+            throw new Exception("Di::hasBind method requires autowire component added to Di");
         }
 
-        return isset this->binds[className];
+        return autowire->hasBind(className, definition);
     }
 
     public function getBind(string! className, string definition = null) -> <BindDefinitionInterface> | null
     {
-        if definition != null {
-            if likely isset this->binds[className][definition] {
-                return this->binds[className][definition];
-            }
+        var autowire;
 
-            throw new BindException("Implementation '" . definition . "' does not exists for class '" . className . "'");
+        let autowire = this->autowire;
+
+        if unlikely typeof autowire !== "object" {
+            throw new Exception("Di::getBind method requires autowire component added to Di");
         }
 
-        if isset this->binds[className] {
-            if unlikely count(this->binds[className]) > 1 {
-                throw new BindException("More than one possible definitions for class'" . className . "', please provide which implementation should be used for this class using setAutowireTypes on service");
-            }
-
-            return array_values(this->binds[className])[0];
-        }
-
-        return null;
+        return autowire->getBind(className, definition);
     }
 
     public function getAutowire() -> <AutowireInterface>

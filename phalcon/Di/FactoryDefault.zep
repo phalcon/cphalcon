@@ -23,7 +23,7 @@ class FactoryDefault extends \Phalcon\Di
     /**
      * Phalcon\Di\FactoryDefault constructor
      */
-    public function __construct(<AutowireInterface> autowire = null, bool addBinds = true)
+    public function __construct(<AutowireInterface> autowire = null, bool addBinds = false)
     {
         var filter;
 
@@ -54,7 +54,7 @@ class FactoryDefault extends \Phalcon\Di
         ];
 
         if autowire != null && addBinds {
-            let this->binds = [
+            autowire->addBinds([
                 "Phalcon\\Annotations\\Adapter\\Memory": [
                     "annotations" : new BindDefinition("Phalcon\\Annotations\\Adapter\\Memory", "annotations")
                 ],
@@ -112,7 +112,7 @@ class FactoryDefault extends \Phalcon\Di
                 "Phalcon\\Filter": [
                     "filter" : new BindDefinition("Phalcon\\Filter", "filter")
                 ]
-            ];
+            ]);
         }
     }
 }

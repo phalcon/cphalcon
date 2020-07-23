@@ -30,6 +30,11 @@ class Autowire implements AutowireInterface
      */
     protected maxKeyLength = 250;
 
+    /**
+     * @var array
+     */
+    protected binds = [];
+
     public function __construct(bool useShared = false)
     {
         let this->useShared = useShared;
@@ -192,8 +197,8 @@ class Autowire implements AutowireInterface
                     let autowireType = autowireTypes[parameterClass];
                 }
 
-                if container->hasBind(parameterClass, autowireType) {
-                    let bind = container->getBind(parameterClass, autowireType);
+                if this->hasBind(parameterClass, autowireType) {
+                    let bind = this->getBind(parameterClass, autowireType);
                     let instanceParameters[] = bind->resolve(container);
                 } else {
                     if useShared {
@@ -212,5 +217,63 @@ class Autowire implements AutowireInterface
         }
 
         return instanceParameters;
+    }
+
+    public function bind(string !className, string! definition, bool isShared = false) -> <AutowireInterface>
+    {
+        if unlikely !class_exists(className) && !interface_exists(className) {
+            throw new BindException("Bind class or interface '" . className . "' does not exist");
+        }
+
+        let this->binds[className][definition] = new BindDefinition(
+            className,
+            definition,
+            isShared
+        );
+
+        return this;
+    }
+
+    public function hasBind(string! className, string definition = null) -> bool
+    {
+        if definition != null {
+            if likely isset this->binds[className][definition] {
+                return true;
+            }
+
+            throw new BindException("Implementation '" . definition . "' does not exists for class '" . className . "'");
+        }
+
+        return isset this->binds[className];
+    }
+
+    public function getBind(string! className, string definition = null) -> <BindDefinitionInterface> | null
+    {
+        if definition != null {
+            if likely isset this->binds[className][definition] {
+                return this->binds[className][definition];
+            }
+
+            throw new BindException("Implementation '" . definition . "' does not exists for class '" . className . "'");
+        }
+
+        if isset this->binds[className] {
+            if unlikely count(this->binds[className]) > 1 {
+                throw new BindException("More than one possible definitions for class'" . className . "', please provide which implementation should
+            }
+
+            return array_values(this->binds[className])[0];
+        }
+
+        return null;
+    }
+
+    public function addBinds(array binds, bool replace = true) -> void
+    {
+        if replace {
+            let this->binds = array_replace(this->binds, binds);
+        } else {
+            let this->binds = array_merge(this->binds, binds);
+        }
     }
 }
