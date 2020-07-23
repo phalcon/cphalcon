@@ -651,4 +651,9 @@ class Di implements DiInterface
 
         return null;
     }
+
+    public function getAutowire() -> <AutowireInterface>
+    {
+        return this->autowire;
+    }
 }

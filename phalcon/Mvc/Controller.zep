@@ -11,6 +11,7 @@
 namespace Phalcon\Mvc;
 
 use Phalcon\Di\Injectable;
+use Phalcon\Di\AutowireInterface;
 
 /**
  * Phalcon\Mvc\Controller
@@ -59,8 +60,21 @@ abstract class Controller extends Injectable implements ControllerInterface
      */
     final public function __construct()
     {
+        var autowire, container;
+
         if method_exists(this, "onConstruct") {
-            this->{"onConstruct"}();
+
+            let container = this->getDi();
+
+            if method_exists(container, "getAutowire") {
+                let autowire = container->getAutowire();
+            }
+
+            if autowire && autowire instanceof AutowireInterface {
+                autowire->resolveMethod(container, this, "onConstruct");
+            } else {
+                this->{"onConstruct"}();
+            }
         }
     }
 }

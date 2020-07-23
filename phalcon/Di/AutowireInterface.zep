@@ -13,4 +13,6 @@ namespace Phalcon\Di;
 interface AutowireInterface
 {
     public function resolve(<DiInterface> container, string! className, array parameters = [], array autowireTypes = []) -> object;
+
+    public function resolveMethod(<DiInterface> container, object obj, string method, array parameters = []) -> var;
 }
