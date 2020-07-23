@@ -259,7 +259,10 @@ class Autowire implements AutowireInterface
 
         if isset this->binds[className] {
             if unlikely count(this->binds[className]) > 1 {
-                throw new BindException("More than one possible definitions for class'" . className . "', please provide which implementation should
+                throw new BindException(
+                    "More than one possible definitions for class'" . className . "', please provide
+                     which implementation should be used for this class using setAutowireTypes on service"
+                );
             }
 
             return array_values(this->binds[className])[0];
