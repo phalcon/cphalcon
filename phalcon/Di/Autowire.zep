@@ -107,13 +107,13 @@ class Autowire implements AutowireInterface
 
     protected function fetchParamsFromCache(string key, <AdapterInterface> cache = null) -> array
     {
-        if isset this->localCache[keyCache] {
-            return this->localCache[keyCache];
+        if isset this->localCache[key] {
+            return this->localCache[key];
         }
 
-        if cache != null && cache->has(keyCache) {
-            let parameters = cache->get(keyCache);
-            let this->localCache[keyCache] = parameters;
+        if cache != null && cache->has(key) {
+            let parameters = cache->get(key);
+            let this->localCache[key] = parameters;
 
             return parameters;
         }
