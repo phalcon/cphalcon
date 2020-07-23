@@ -88,7 +88,7 @@ class Autowire implements AutowireInterface
         var cache, reflection, parameters = [], keyCache, objClass;
 
         let objClass = get_class(obj);
-        let keyCache = get_class(obj) . "::" . method;
+        let keyCache = str_replace(objClass, "\\", "-") . "_" . method;
         let cache = this->cache;
 
         let parameters = this->fetchParamsFromCache(keyCache, cache);
@@ -129,7 +129,7 @@ class Autowire implements AutowireInterface
         var cache, reflection, constructor, parameters, keyCache;
 
         let cache = this->cache;
-        let keyCache = className;
+        let keyCache = str_replace(className, "\\", "-");
 
         /**
          * If className is pretty long let's create sha1 of it to avoid storing long keys while caching
