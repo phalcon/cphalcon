@@ -91,12 +91,14 @@ class GetBindCest
      */
     public function autowireGetBindTwoDefinitionsException(UnitTester $I)
     {
-        $I->wantToTest('Autowire - getBind() with two definitions');
+        $I->wantToTest('Autowire - getBind() with two definitions throwing exception');
 
         $autowire = new Autowire([AutowiredInterface::class => [AutowiredFirst::class, AutowiredSecond::class]]);
         $exception = new BindException(
             "More than one possible definitions for class '" . AutowiredInterface::class . "', please provide
-                     which implementation should be used for this class using setAutowireTypes on service"
+                     which implementation should be used for this class using setAutowireTypes on service or implement
+                     one of the inerfaces - Phalcon\Di\AutowireTypesProviderInterface or Phalcon\Di\AutowireTypesStaticProviderInterface
+                     depending if this is __construct or method autowiring"
         );
         $I->expectThrowable($exception, function() use ($autowire) {
             $autowire->getBind(AutowiredInterface::class);
