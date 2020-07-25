@@ -12,6 +12,7 @@ namespace Phalcon\Di;
 
 use Phalcon\Di\Exception\AutowireException;
 use Phalcon\Di\AutowireTypesProviderInterface;
+use Phalcon\Di\Exception\BindException;
 
 class Autowire implements AutowireInterface
 {
@@ -58,7 +59,7 @@ class Autowire implements AutowireInterface
             return;
         }
 
-        if obj instanceof AutowireTypesProviderInterface {
+        if obj instanceof AutowireTypesProviderInterface || obj instanceof AutowireTypesStaticProviderInterface {
             let autowireTypes = obj->getAutowireTypes();
         }
 
@@ -83,6 +84,10 @@ class Autowire implements AutowireInterface
             return create_instance(className);
         }
 
+        if is_subclass_of(className, "Phalcon\Di\AutowireTypesStaticProviderInterface") {
+            let autowireTypes = array_merge(autowireTypes, {className}::getAutowireTypes());
+        }
+
         let instanceParameters = this->prepareCallParameters(container, constructorParamters, parameters, autowireTypes);
 
         return create_instance_params(className, instanceParameters);
@@ -90,10 +95,11 @@ class Autowire implements AutowireInterface
 
     protected function resolveMethodParamters(object obj, string method) -> array
     {
-        var reflection, parameters = [], keyCache, objClass;
+        string keyCache;
+        var reflection, parameters = [], objClass;
 
         let objClass = get_class(obj);
-        let keyCache = str_replace(objClass, "\\", "-") . "_" . method;
+        let keyCache = str_replace("\\", "-", objClass) . "_" . method;
 
         /**
          * If keyCache is pretty long let's create sha1 of it to avoid storing long keys while caching
@@ -128,9 +134,10 @@ class Autowire implements AutowireInterface
 
     protected function resolveConstructorParameters(string! className) -> array
     {
-        var reflection, constructor, parameters, keyCache;
+        string keyCache;
+        var reflection, constructor, parameters;
 
-        let keyCache = str_replace(className, "\\", "-");
+        let keyCache = str_replace("\\", "-", className);
 
         /**
          * If keyCache is pretty long let's create sha1 of it to avoid storing long keys while caching
@@ -219,7 +226,7 @@ class Autowire implements AutowireInterface
             } elseif parameterHasDefault {
                 let instanceParameters[] = parameterDefault;
             } else {
-                throw new AutowireException("Missing parameter value for '" . parameterName . "'");
+                throw new AutowireException("Missing value for parameter '" . parameterName . "'");
             }
         }
 
@@ -283,8 +290,10 @@ class Autowire implements AutowireInterface
         if isset this->binds[className] {
             if unlikely count(this->binds[className]) > 1 {
                 throw new BindException(
-                    "More than one possible definitions for class'" . className . "', please provide
-                     which implementation should be used for this class using setAutowireTypes on service"
+                    "More than one possible definitions for class '" . className . "', please provide
+                     which implementation should be used for this class using setAutowireTypes on service or implement
+                     one of the inerfaces - Phalcon\Di\AutowireTypesProviderInterface or Phalcon\Di\AutowireTypesStaticProviderInterface
+                     depending if this is __construct or method autowiring"
                 );
             }
 
