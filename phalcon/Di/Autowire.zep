@@ -33,7 +33,7 @@ class Autowire implements AutowireInterface
     /**
      * @var array
      */
-    protected binds = [];
+    protected binds = [] {set, get};
 
     public function __construct(array binds = [], bool useShared = false)
     {
