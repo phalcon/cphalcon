@@ -286,6 +286,19 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
             let params = this->params;
 
             /**
+             * In order to ensure that the `initialize()` gets called we'll
+             * destroy the current handlerClass from the DI container in the
+             * event that an error occurs and we continue out of this block.
+             * This is necessary because there is a disjoin between retrieval of
+             * the instance and the execution of the `initialize()` event. From
+             * a coding perspective, it would have made more sense to probably
+             * put the `initialize()` prior to the beforeExecuteRoute which
+             * would have solved this. However, for posterity, and to remain
+             * consistency, we'll ensure the default and documented behavior
+             * works correctly.
+             */
+
+            /**
              * Check if the params is an array
              */
             if unlikely typeof params != "array" {
@@ -297,7 +310,8 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
                     PhalconException::EXCEPTION_INVALID_PARAMS
                 );
 
-                if status === false && this->finished === false {
+                if status === false || this->finished === false {
+                    container->remove(handlerClass);
                     continue;
                 }
 
@@ -310,10 +324,12 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
             if unlikely !is_callable([handler, actionMethod]) {
                 if hasEventsManager {
                     if eventsManager->fire("dispatch:beforeNotFoundAction", this) === false {
+                        container->remove(handlerClass);
                         continue;
                     }
 
                     if this->finished === false {
+                        container->remove(handlerClass);
                         continue;
                     }
                 }
@@ -327,25 +343,14 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
                     PhalconException::EXCEPTION_ACTION_NOT_FOUND
                 );
 
-                if status === false && this->finished === false {
+                if status === false || this->finished === false {
+                    container->remove(handlerClass);
                     continue;
                 }
 
                 break;
             }
 
-            /**
-             * In order to ensure that the `initialize()` gets called we'll
-             * destroy the current handlerClass from the DI container in the
-             * event that an error occurs and we continue out of this block.
-             * This is necessary because there is a disjoin between retrieval of
-             * the instance and the execution of the `initialize()` event. From
-             * a coding perspective, it would have made more sense to probably
-             * put the `initialize()` prior to the beforeExecuteRoute which
-             * would have solved this. However, for posterity, and to remain
-             * consistency, we'll ensure the default and documented behavior
-             * works correctly.
-             */
             if hasEventsManager {
                 try {
                     // Calling "dispatch:beforeExecuteRoute" event
