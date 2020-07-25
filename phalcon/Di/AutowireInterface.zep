@@ -16,11 +16,11 @@ interface AutowireInterface
 
     public function resolveMethod(<DiInterface> container, object obj, string method, array parameters = []) -> var;
 
-    public function bind(string !className, string! definition, bool isShared = false) -> <AutowireInterface>;
+    public function bind(string !className, var definition, bool isShared = false) -> <AutowireInterface>;
 
     public function hasBind(string! className, string definition = null) -> bool;
 
     public function getBind(string! className, string definition = null) -> <BindDefinitionInterface> | null;
 
-    public function addBinds(array binds, bool replace = true) -> void;
+    public function addBinds(array binds, bool replace = false) -> void;
 }

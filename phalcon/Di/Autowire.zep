@@ -35,9 +35,10 @@ class Autowire implements AutowireInterface
      */
     protected binds = [];
 
-    public function __construct(bool useShared = false)
+    public function __construct(array binds = [], bool useShared = false)
     {
         let this->useShared = useShared;
+        this->addBinds(binds);
     }
 
     public function resolveMethod(<DiInterface> container, object obj, string method, array parameters = []) -> var
@@ -219,17 +220,23 @@ class Autowire implements AutowireInterface
         return instanceParameters;
     }
 
-    public function bind(string !className, string! definition, bool isShared = false) -> <AutowireInterface>
+    public function bind(string !className, var definition, bool isShared = false) -> <AutowireInterface>
     {
         if unlikely !class_exists(className) && !interface_exists(className) {
             throw new BindException("Bind class or interface '" . className . "' does not exist");
         }
 
-        let this->binds[className][definition] = new BindDefinition(
-            className,
-            definition,
-            isShared
-        );
+        if typeof definition === "object" && definition instanceof BindDefinitionInterface {
+            let this->binds[className][definition->getDefinition()] = definition;
+        } elseif typeof definition === "string" {
+            let this->binds[className][definition] = new BindDefinition(
+                className,
+                definition,
+                isShared
+            );
+        } else {
+            throw new BindException("Definition should be a string or object implementing BindDefinitionInterface");
+        }
 
         return this;
     }
@@ -271,12 +278,22 @@ class Autowire implements AutowireInterface
         return null;
     }
 
-    public function addBinds(array binds, bool replace = true) -> void
+    public function addBinds(array binds, bool replace = false) -> void
     {
-        if replace {
-            let this->binds = array_replace(this->binds, binds);
-        } else {
-            let this->binds = array_merge(this->binds, binds);
+        var className, definition, subdefinition;
+
+        for className, definition in binds {
+            if isset this->binds[className] && replace {
+                let this->binds[className] = [];
+            }
+
+            if typeof definition === "array" {
+                for subdefinition in definition {
+                    this->bind(className, subdefinition);
+                }
+            } else {
+                this->bind(className, definition);
+            }
         }
     }
 }
