@@ -31,13 +31,19 @@ class Autowire implements AutowireInterface
     protected maxKeyLength = 250;
 
     /**
+     * @var bool
+     */
+    protected bindClassInterfaces;
+
+    /**
      * @var array
      */
     protected binds = [] {set, get};
 
-    public function __construct(array binds = [], bool useShared = false)
+    public function __construct(array binds = [], bool bindClassInterfaces = false, bool useShared = false)
     {
         let this->useShared = useShared;
+        let this->bindClassInterfaces = bindClassInterfaces;
         this->addBinds(binds);
     }
 
@@ -222,6 +228,8 @@ class Autowire implements AutowireInterface
 
     public function bind(string !className, var definition, bool isShared = false) -> <AutowireInterface>
     {
+        var interfaces, singleInterface;
+
         if unlikely !class_exists(className) && !interface_exists(className) {
             throw new BindException("Bind class or interface '" . className . "' does not exist");
         }
@@ -236,6 +244,14 @@ class Autowire implements AutowireInterface
             );
         } else {
             throw new BindException("Definition should be a string or object implementing BindDefinitionInterface");
+        }
+
+        if this->bindClassInterfaces && class_exists(className) {
+            let interfaces = class_implements(className);
+
+            for singleInterface in interfaces {
+                this->bind(singleInterface, definition, isShared);
+            }
         }
 
         return this;
