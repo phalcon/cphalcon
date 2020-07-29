@@ -1,11 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Phalcon\Test\Fixtures\Autowire;
+namespace Phalcon\Test\Fixtures\Di\Autowire;
 
-use Phalcon\Di\AutowireTypesStaticProviderInterface;
-
-class ResolvedFourthClass implements AutowireTypesStaticProviderInterface
+class ResolvedThirdClass
 {
     /**
      * @var AutowiredInterface
@@ -24,12 +22,5 @@ class ResolvedFourthClass implements AutowireTypesStaticProviderInterface
     {
         $this->autowired = $autowired;
         $this->test = $test;
-    }
-
-    public static function getAutowireTypes(): array
-    {
-        return [
-            AutowiredInterface::class => AutowiredSecond::class,
-        ];
     }
 }

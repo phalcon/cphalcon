@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Di\Autowire;
@@ -8,9 +9,9 @@ use Phalcon\Di\AutowireInterface;
 use Phalcon\Di\BindDefinition;
 use Phalcon\Di\BindDefinitionInterface;
 use Phalcon\Di\Exception\BindException;
-use Phalcon\Test\Fixtures\Autowire\AutowiredFirst;
-use Phalcon\Test\Fixtures\Autowire\AutowiredInterface;
-use Phalcon\Test\Fixtures\Autowire\AutowiredSecond;
+use Phalcon\Test\Fixtures\Di\Autowire\AutowiredFirst;
+use Phalcon\Test\Fixtures\Di\Autowire\AutowiredInterface;
+use Phalcon\Test\Fixtures\Di\Autowire\AutowiredSecond;
 use UnitTester;
 
 class GetBindCest

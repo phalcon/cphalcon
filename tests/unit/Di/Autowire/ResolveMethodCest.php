@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Di\Autowire;
@@ -6,14 +7,14 @@ namespace Phalcon\Test\Unit\Di\Autowire;
 use Codeception\Util\Stub;
 use Phalcon\Di\Autowire;
 use Phalcon\Di\DiInterface;
-use Phalcon\Test\Fixtures\Autowire\AutowiredFirst;
-use Phalcon\Test\Fixtures\Autowire\AutowiredInterface;
-use Phalcon\Test\Fixtures\Autowire\AutowiredSecond;
-use Phalcon\Test\Fixtures\Autowire\ResolvedFirstClass;
-use Phalcon\Test\Fixtures\Autowire\ResolvedFourthClass;
-use Phalcon\Test\Fixtures\Autowire\ResolvedSeventhClass;
-use Phalcon\Test\Fixtures\Autowire\ResolvedSixthClass;
-use Phalcon\Test\Fixtures\Autowire\ResolveFifthClass;
+use Phalcon\Test\Fixtures\Di\Autowire\AutowiredFirst;
+use Phalcon\Test\Fixtures\Di\Autowire\AutowiredInterface;
+use Phalcon\Test\Fixtures\Di\Autowire\AutowiredSecond;
+use Phalcon\Test\Fixtures\Di\Autowire\ResolvedFirstClass;
+use Phalcon\Test\Fixtures\Di\Autowire\ResolvedFourthClass;
+use Phalcon\Test\Fixtures\Di\Autowire\ResolvedSeventhClass;
+use Phalcon\Test\Fixtures\Di\Autowire\ResolvedSixthClass;
+use Phalcon\Test\Fixtures\Di\Autowire\ResolveFifthClass;
 use UnitTester;
 
 class ResolveMethodCest

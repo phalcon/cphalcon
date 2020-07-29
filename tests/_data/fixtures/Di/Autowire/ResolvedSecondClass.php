@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace Phalcon\Test\Fixtures\Autowire;
+namespace Phalcon\Test\Fixtures\Di\Autowire;
 
-class ResolvedThirdClass
+class ResolvedSecondClass
 {
     /**
      * @var AutowiredInterface
@@ -18,7 +18,7 @@ class ResolvedThirdClass
     /**
      * ResolvedFirstClass constructor.
      */
-    public function __construct(AutowiredInterface $autowired, $test)
+    public function __construct(AutowiredInterface $autowired, $test = 'testParameter')
     {
         $this->autowired = $autowired;
         $this->test = $test;

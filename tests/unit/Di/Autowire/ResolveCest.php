@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Di\Autowire;
@@ -8,13 +9,13 @@ use Phalcon\Di\Autowire;
 use Phalcon\Di\DiInterface;
 use Phalcon\Di\Exception\AutowireException;
 use Phalcon\Di\Exception\BindException;
-use Phalcon\Test\Fixtures\Autowire\AutowiredFirst;
-use Phalcon\Test\Fixtures\Autowire\AutowiredInterface;
-use Phalcon\Test\Fixtures\Autowire\AutowiredSecond;
-use Phalcon\Test\Fixtures\Autowire\ResolvedFirstClass;
-use Phalcon\Test\Fixtures\Autowire\ResolvedFourthClass;
-use Phalcon\Test\Fixtures\Autowire\ResolvedSecondClass;
-use Phalcon\Test\Fixtures\Autowire\ResolvedThirdClass;
+use Phalcon\Test\Fixtures\Di\Autowire\AutowiredFirst;
+use Phalcon\Test\Fixtures\Di\Autowire\AutowiredInterface;
+use Phalcon\Test\Fixtures\Di\Autowire\AutowiredSecond;
+use Phalcon\Test\Fixtures\Di\Autowire\ResolvedFirstClass;
+use Phalcon\Test\Fixtures\Di\Autowire\ResolvedFourthClass;
+use Phalcon\Test\Fixtures\Di\Autowire\ResolvedSecondClass;
+use Phalcon\Test\Fixtures\Di\Autowire\ResolvedThirdClass;
 use UnitTester;
 
 class ResolveCest
