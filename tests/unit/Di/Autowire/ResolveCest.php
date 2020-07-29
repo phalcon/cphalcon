@@ -223,10 +223,10 @@ class ResolveCest
         }]);
 
         $autowire = new Autowire([AutowiredInterface::class => [AutowiredFirst::class, AutowiredSecond::class]]);
-        $exception = new BindException("More than one possible definitions for class '" . AutowiredInterface::class . "', please provide
-                     which implementation should be used for this class using setAutowireTypes on service or implement
-                     one of the inerfaces - Phalcon\Di\AutowireTypesProviderInterface or Phalcon\Di\AutowireTypesStaticProviderInterface
-                     depending if this is __construct or method autowiring");
+        $exception = new BindException("More than one possible definitions for class '" .
+            AutowiredInterface::class . "', please provide which implementation should be used for this class using
+             setAutowireTypes on service or implement one of the inerfaces - Phalcon\Di\AutowireTypesProviderInterface
+             or Phalcon\Di\AutowireTypesStaticProviderInterface depending if this is __construct or method autowiring");
         $I->expectThrowable($exception, function () use ($diStub, $autowire) {
             $autowire->resolve($diStub, ResolvedThirdClass::class);
         });

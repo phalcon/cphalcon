@@ -127,10 +127,10 @@ class GetAutowireCest
             AutowiredInterface::class => [AutowiredThird::class, AutowiredFirst::class],
         ]));
 
-        $exception = new BindException("More than one possible definitions for class '" . AutowiredInterface::class . "', please provide
-                     which implementation should be used for this class using setAutowireTypes on service or implement
-                     one of the inerfaces - Phalcon\Di\AutowireTypesProviderInterface or Phalcon\Di\AutowireTypesStaticProviderInterface
-                     depending if this is __construct or method autowiring");
+        $exception = new BindException("More than one possible definitions for class '" .
+            AutowiredInterface::class . "', please provide which implementation should be used for this class using
+             setAutowireTypes on service or implement one of the inerfaces - Phalcon\Di\AutowireTypesProviderInterface
+             or Phalcon\Di\AutowireTypesStaticProviderInterface depending if this is __construct or method autowiring");
         $I->expectThrowable($exception, function () use ($di) {
             $di->get(ResolvedFirstClass::class);
         });
@@ -163,10 +163,10 @@ class GetAutowireCest
         $di->set('autowiredOne', $authowiredOne);
         $di->set('autowiredTwo', $authowiredTwo);
 
-        $exception = new BindException("More than one possible definitions for class '" . AutowiredThird::class . "', please provide
-                     which implementation should be used for this class using setAutowireTypes on service or implement
-                     one of the inerfaces - Phalcon\Di\AutowireTypesProviderInterface or Phalcon\Di\AutowireTypesStaticProviderInterface
-                     depending if this is __construct or method autowiring");
+        $exception = new BindException("More than one possible definitions for class '" .
+            AutowiredThird::class . "', please provide which implementation should be used for this class using
+             setAutowireTypes on service or implement one of the inerfaces - Phalcon\Di\AutowireTypesProviderInterface
+             or Phalcon\Di\AutowireTypesStaticProviderInterface depending if this is __construct or method autowiring");
         $I->expectThrowable($exception, function () use ($di) {
             $di->get(ResolvedEighthClass::class);
         });
