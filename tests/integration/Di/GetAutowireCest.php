@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+
 declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Di;
@@ -15,6 +24,12 @@ use Phalcon\Test\Fixtures\Di\Autowire\ResolvedFirstClass;
 
 class GetAutowireCest
 {
+    /**
+     * Tests Phalcon\Di :: get() with autowire component
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2020-07-29
+     */
     public function testGetNoService(\UnitTester $I)
     {
         $I->wantToTest('Tests Di::get() with autowire without services');
@@ -29,6 +44,12 @@ class GetAutowireCest
         $I->assertInstanceOf(AutowiredFirst::class, $object->autowired);
     }
 
+    /**
+     * Tests Phalcon\Di :: get() with autowire component
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2020-07-29
+     */
     public function testGetWithServices(\UnitTester $I)
     {
         $I->wantToTest('Tests Di::get() with autowire with services');
@@ -49,6 +70,29 @@ class GetAutowireCest
         $I->assertNotSame($test, $test2);
     }
 
+    /**
+     * Tests Phalcon\Di :: get() with autowire component
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2020-07-29
+     */
+    public function testWithEmptyBindAndNoService(\UnitTester $I)
+    {
+        $I->wantToTest('Tests Di::get() with autowire without services and binds');
+
+        $di = new Di(new Autowire());
+
+        $object = $di->get(ResolvedEighthClass::class);
+        $I->assertInstanceOf(ResolvedEighthClass::class, $object);
+        $I->assertInstanceOf(AutowiredThird::class, $object->autowired);
+    }
+
+    /**
+     * Tests Phalcon\Di :: get() with autowire component
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2020-07-29
+     */
     public function testGetWithSharedService(\UnitTester $I)
     {
         $I->wantToTest('Tests Di::get() with autowire with shared service');
@@ -69,6 +113,12 @@ class GetAutowireCest
         $I->assertSame($test, $test2);
     }
 
+    /**
+     * Tests Phalcon\Di :: get() with autowire component
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2020-07-29
+     */
     public function testGetWithAutowireTypesInterfaces(\UnitTester $I)
     {
         $I->wantToTest('Tests Di::get() with autowire types as interfaces');
@@ -94,6 +144,12 @@ class GetAutowireCest
         $I->assertInstanceOf(AutowiredFirst::class, $object->autowired);
     }
 
+    /**
+     * Tests Phalcon\Di :: get() with autowire component
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2020-07-29
+     */
     public function testGetWithAutowireTypesServices(\UnitTester $I)
     {
         $I->wantToTest('Tests Di::get() with autowire types as service');
@@ -126,6 +182,12 @@ class GetAutowireCest
         $I->assertSame($authowiredTwo, $object->autowired);
     }
 
+    /**
+     * Tests Phalcon\Di :: get() with autowire component
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @since  2020-07-29
+     */
     public function testGetAutowireTypesDefinedOnService(\UnitTester $I)
     {
         $I->wantToTest('Tests Di::get() with autowire types defined on service');
