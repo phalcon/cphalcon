@@ -30,7 +30,7 @@ class ResolveCest
     {
         $I->wantToTest('Autowire - resolve()');
 
-        $diStub = Stub::makeEmpty(DiInterface::class, ['get' => function($name) use ($I) {
+        $diStub = Stub::makeEmpty(DiInterface::class, ['get' => function ($name) use ($I) {
             $I->assertEquals(AutowiredFirst::class, $name);
 
             return new AutowiredFirst();
@@ -59,7 +59,7 @@ class ResolveCest
 
         $autowire = new Autowire();
         $exception = new AutowireException("Class 'xyz' wasn't found by autowire compomenent");
-        $I->expectThrowable($exception, function() use ($diStub, $autowire) {
+        $I->expectThrowable($exception, function () use ($diStub, $autowire) {
             $autowire->resolve($diStub, 'xyz');
         });
     }
@@ -76,7 +76,7 @@ class ResolveCest
 
         $I->wantToTest('Autowire - resolve()');
 
-        $diStub = Stub::makeEmpty(DiInterface::class, ['get' => function($name) use ($I) {
+        $diStub = Stub::makeEmpty(DiInterface::class, ['get' => function ($name) use ($I) {
             $I->assertEquals(AutowiredFirst::class, $name);
 
             return new AutowiredFirst();
@@ -102,7 +102,7 @@ class ResolveCest
     {
         $I->wantToTest('Autowire - resolve() with value of optional parameter');
 
-        $diStub = Stub::makeEmpty(DiInterface::class, ['get' => function($name) use ($I) {
+        $diStub = Stub::makeEmpty(DiInterface::class, ['get' => function ($name) use ($I) {
             $I->assertEquals(AutowiredFirst::class, $name);
 
             return new AutowiredFirst();
@@ -129,7 +129,7 @@ class ResolveCest
     {
         $I->wantToTest('Autowire - resolve() with missing parameter throws exception');
 
-        $diStub = Stub::makeEmpty(DiInterface::class, ['get' => function($name) use ($I) {
+        $diStub = Stub::makeEmpty(DiInterface::class, ['get' => function ($name) use ($I) {
             $I->assertEquals(AutowiredFirst::class, $name);
 
             return new AutowiredFirst();
@@ -138,7 +138,7 @@ class ResolveCest
         $autowire = new Autowire([AutowiredInterface::class => AutowiredFirst::class]);
         /** @var ResolvedSecondClass $object */
         $exception = new AutowireException("Missing value for parameter 'test'");
-        $I->expectThrowable($exception, function() use ($diStub, $autowire) {
+        $I->expectThrowable($exception, function () use ($diStub, $autowire) {
             $autowire->resolve($diStub, ResolvedThirdClass::class);
         });
     }
@@ -153,7 +153,7 @@ class ResolveCest
     {
         $I->wantToTest('Autowire - resolve() with required parameter');
 
-        $diStub = Stub::makeEmpty(DiInterface::class, ['get' => function($name) use ($I) {
+        $diStub = Stub::makeEmpty(DiInterface::class, ['get' => function ($name) use ($I) {
             $I->assertEquals(AutowiredFirst::class, $name);
 
             return new AutowiredFirst();
@@ -180,7 +180,7 @@ class ResolveCest
     {
         $I->wantToTest('Autowire - resolve() with multiple definitions');
 
-        $diStub = Stub::makeEmpty(DiInterface::class, ['get' => function($name) use ($I) {
+        $diStub = Stub::makeEmpty(DiInterface::class, ['get' => function ($name) use ($I) {
             $I->assertEquals(AutowiredSecond::class, $name);
 
             return new AutowiredSecond();
@@ -207,7 +207,7 @@ class ResolveCest
     {
         $I->wantToTest('Autowire - resolve() with multiple definitions throws exceptiong');
 
-        $diStub = Stub::makeEmpty(DiInterface::class, ['get' => function($name) use ($I) {
+        $diStub = Stub::makeEmpty(DiInterface::class, ['get' => function ($name) use ($I) {
             $I->assertEquals(AutowiredSecond::class, $name);
 
             return new AutowiredSecond();
@@ -218,7 +218,7 @@ class ResolveCest
                      which implementation should be used for this class using setAutowireTypes on service or implement
                      one of the inerfaces - Phalcon\Di\AutowireTypesProviderInterface or Phalcon\Di\AutowireTypesStaticProviderInterface
                      depending if this is __construct or method autowiring");
-        $I->expectThrowable($exception, function() use ($diStub, $autowire) {
+        $I->expectThrowable($exception, function () use ($diStub, $autowire) {
             $autowire->resolve($diStub, ResolvedThirdClass::class);
         });
     }

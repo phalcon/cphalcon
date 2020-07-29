@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Di;
@@ -14,7 +15,7 @@ use Phalcon\Test\Fixtures\Di\Autowire\ResolvedFirstClass;
 
 class GetAutowireCest
 {
-    public function testGetNoService(\UnitTester  $I)
+    public function testGetNoService(\UnitTester $I)
     {
         $I->wantToTest('Tests Di::get() with autowire without services');
 
@@ -80,7 +81,7 @@ class GetAutowireCest
                      which implementation should be used for this class using setAutowireTypes on service or implement
                      one of the inerfaces - Phalcon\Di\AutowireTypesProviderInterface or Phalcon\Di\AutowireTypesStaticProviderInterface
                      depending if this is __construct or method autowiring");
-        $I->expectThrowable($exception, function() use ($di) {
+        $I->expectThrowable($exception, function () use ($di) {
             $di->get(ResolvedFirstClass::class);
         });
 
@@ -110,7 +111,7 @@ class GetAutowireCest
                      which implementation should be used for this class using setAutowireTypes on service or implement
                      one of the inerfaces - Phalcon\Di\AutowireTypesProviderInterface or Phalcon\Di\AutowireTypesStaticProviderInterface
                      depending if this is __construct or method autowiring");
-        $I->expectThrowable($exception, function() use ($di) {
+        $I->expectThrowable($exception, function () use ($di) {
             $di->get(ResolvedEighthClass::class);
         });
 

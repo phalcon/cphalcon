@@ -31,7 +31,7 @@ class GetBindCest
         $I->assertInstanceOf(BindDefinitionInterface::class, $bind);
 
         $I->assertEquals(
-             new BindDefinition(AutowiredInterface::class, AutowiredFirst::class, false),
+            new BindDefinition(AutowiredInterface::class, AutowiredFirst::class, false),
             $bind
         );
     }
@@ -101,7 +101,7 @@ class GetBindCest
                      one of the inerfaces - Phalcon\Di\AutowireTypesProviderInterface or Phalcon\Di\AutowireTypesStaticProviderInterface
                      depending if this is __construct or method autowiring"
         );
-        $I->expectThrowable($exception, function() use ($autowire) {
+        $I->expectThrowable($exception, function () use ($autowire) {
             $autowire->getBind(AutowiredInterface::class);
         });
     }
@@ -118,7 +118,7 @@ class GetBindCest
 
         $autowire = new Autowire([AutowiredInterface::class => [AutowiredFirst::class, AutowiredSecond::class]]);
         $exception = new BindException("Implementation 'xyz' does not exists for class '" . AutowiredInterface::class . "'");
-        $I->expectThrowable($exception, function() use ($autowire) {
+        $I->expectThrowable($exception, function () use ($autowire) {
             $autowire->getBind(AutowiredInterface::class, 'xyz');
         });
     }

@@ -29,7 +29,7 @@ class ResolveMethodCest
     {
         $I->wantToTest('Autowire - resolveMethod()');
 
-        $diStub = Stub::makeEmpty(DiInterface::class, ['get' => function($name) use ($I) {
+        $diStub = Stub::makeEmpty(DiInterface::class, ['get' => function ($name) use ($I) {
             $I->assertEquals(AutowiredFirst::class, $name);
 
             return new AutowiredFirst();
@@ -58,7 +58,7 @@ class ResolveMethodCest
     {
         $I->wantToTest('Autowire - resolveMethod() with multiple definitions');
 
-        $diStub = Stub::makeEmpty(DiInterface::class, ['get' => function($name) use ($I) {
+        $diStub = Stub::makeEmpty(DiInterface::class, ['get' => function ($name) use ($I) {
             $I->assertEquals(AutowiredSecond::class, $name);
 
             return new AutowiredSecond();
@@ -87,7 +87,7 @@ class ResolveMethodCest
     {
         $I->wantToTest('Autowire - resolveMethod() with multiple definitions static');
 
-        $diStub = Stub::makeEmpty(DiInterface::class, ['get' => function($name) use ($I) {
+        $diStub = Stub::makeEmpty(DiInterface::class, ['get' => function ($name) use ($I) {
             $I->assertEquals(AutowiredSecond::class, $name);
 
             return new AutowiredSecond();

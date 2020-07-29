@@ -68,7 +68,7 @@ class HasBindCest
 
         $autowire = new Autowire([AutowiredInterface::class => AutowiredFirst::class]);
         $exception = new BindException("Implementation 'xyz' does not exists for class '" . AutowiredInterface::class . "'");
-        $I->expectThrowable($exception, function() use ($autowire) {
+        $I->expectThrowable($exception, function () use ($autowire) {
             $autowire->hasBind(AutowiredInterface::class, 'xyz');
         });
     }

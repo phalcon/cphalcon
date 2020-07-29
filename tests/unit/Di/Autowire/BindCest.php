@@ -101,7 +101,7 @@ class BindCest
         $autowire = new Autowire();
         $I->assertEmpty($autowire->getBinds());
         $exception = new BindException("Definition should be a string or object implementing BindDefinitionInterface");
-        $I->expectThrowable($exception, function() use ($autowire) {
+        $I->expectThrowable($exception, function () use ($autowire) {
             $autowire->bind(AutowiredInterface::class, []);
         });
     }
@@ -119,7 +119,7 @@ class BindCest
         $autowire = new Autowire();
         $I->assertEmpty($autowire->getBinds());
         $exception = new BindException("Bind class or interface 'xyz' does not exist");
-        $I->expectThrowable($exception, function() use ($autowire) {
+        $I->expectThrowable($exception, function () use ($autowire) {
             $autowire->bind('xyz', AutowiredFirst::class);
         });
     }
