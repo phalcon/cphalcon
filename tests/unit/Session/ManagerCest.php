@@ -70,6 +70,7 @@ class ManagerCest
             unset($_SESSION);
         }
 
+        $I->assertInstanceOf(Noop::class, $session->getAdapter());
         $I->assertTrue($session->start());
     }
 }
