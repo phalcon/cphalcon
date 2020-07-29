@@ -97,18 +97,16 @@ class GetAutowireCest
     {
         $I->wantToTest('Tests Di::get() with autowire types as service');
 
-        $di = new Di(new Autowire());
+        $di = new Di(new Autowire([
+            AutowiredThird::class => ['autowiredOne', 'autowiredTwo']
+        ]));
 
         $authowiredOne = new AutowiredThird(123);
         $authowiredTwo = new AutowiredThird('asd');
         $di->set('autowiredOne', $authowiredOne);
         $di->set('autowiredTwo', $authowiredTwo);
 
-        $di = new Di(new Autowire([
-            AutowiredThird::class => ['autowiredOne', 'autowiredTwo'],
-        ]));
-
-        $exception = new BindException("More than one possible definitions for class '" . AutowiredInterface::class . "', please provide
+        $exception = new BindException("More than one possible definitions for class '" . AutowiredThird::class . "', please provide
                      which implementation should be used for this class using setAutowireTypes on service or implement
                      one of the inerfaces - Phalcon\Di\AutowireTypesProviderInterface or Phalcon\Di\AutowireTypesStaticProviderInterface
                      depending if this is __construct or method autowiring");
@@ -116,13 +114,13 @@ class GetAutowireCest
             $di->get(ResolvedEighthClass::class);
         });
 
-        $object = $di->get(ResolvedFirstClass::class, [], [AutowiredThird::class => 'autowiredOne']);
+        $object = $di->get(ResolvedEighthClass::class, [], [AutowiredThird::class => 'autowiredOne']);
         $I->assertInstanceOf(ResolvedEighthClass::class, $object);
         $I->assertInstanceOf(AutowiredThird::class, $object->autowired);
         $I->assertSame($authowiredOne, $object->autowired);
 
-        $object = $di->get(ResolvedFirstClass::class, [], [AutowiredThird::class => 'autowiredTwo']);
-        $I->assertInstanceOf(ResolvedFirstClass::class, $object);
+        $object = $di->get(ResolvedEighthClass::class, [], [AutowiredThird::class => 'autowiredTwo']);
+        $I->assertInstanceOf(ResolvedEighthClass::class, $object);
         $I->assertInstanceOf(AutowiredThird::class, $object->autowired);
         $I->assertSame($authowiredTwo, $object->autowired);
     }
@@ -131,7 +129,9 @@ class GetAutowireCest
     {
         $I->wantToTest('Tests Di::get() with autowire types defined on service');
 
-        $di = new Di(new Autowire());
+        $di = new Di(new Autowire([
+            AutowiredThird::class => ['autowiredOne', 'autowiredTwo']
+        ]));
 
         $authowiredOne = new AutowiredThird(123);
         $authowiredTwo = new AutowiredThird('asd');
@@ -150,7 +150,7 @@ class GetAutowireCest
         $I->assertSame($authowiredOne, $object->autowired);
 
         $object = $di->get('resolvedTwo');
-        $I->assertInstanceOf(ResolvedFirstClass::class, $object);
+        $I->assertInstanceOf(ResolvedEighthClass::class, $object);
         $I->assertInstanceOf(AutowiredThird::class, $object->autowired);
         $I->assertSame($authowiredTwo, $object->autowired);
     }
