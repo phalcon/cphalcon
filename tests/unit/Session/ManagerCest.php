@@ -15,6 +15,7 @@ namespace Phalcon\Test\Unit\Session\Adapter;
 
 use Phalcon\Session\Adapter\Noop;
 use Phalcon\Session\Manager;
+use Phalcon\Test\Fixtures\Session\NoopManager;
 use UnitTester;
 
 use function session_destroy;
@@ -48,5 +49,27 @@ class ManagerCest
         $I->assertTrue(
             $session->start()
         );
+    }
+
+    /**
+     * Tests Phalcon\Session\Manager :: start()
+     *
+     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @issue  https://github.com/phalcon/cphalcon/issues/14933
+     * @since  2020-07-29
+     */
+    public function extendedManagerStart(UnitTester $I)
+    {
+        $I->wantToTest('Manager - start() on CLI mode w/o session_start with extending manager');
+
+        $session = new NoopManager();
+
+        if (PHP_SESSION_ACTIVE === session_status()) {
+            // Please note: further tests may need $_SESSION variable
+            @session_destroy();
+            unset($_SESSION);
+        }
+
+        $I->assertTrue($session->start());
     }
 }
