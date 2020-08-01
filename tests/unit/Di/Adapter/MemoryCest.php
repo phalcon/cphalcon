@@ -45,6 +45,5 @@ class MemoryCest
         $I->assertEquals($di, $memory->get());
         // check has di
         $I->assertTrue($memory->has());
-        
     }
 }
