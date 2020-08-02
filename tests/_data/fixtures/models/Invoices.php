@@ -30,6 +30,9 @@ use Phalcon\Mvc\Model;
  */
 class Invoices extends Model
 {
+    const STATUS_UNPAID = 0;
+    const STATUS_PAID   = 1;
+
     public $inv_id;
     public $inv_cst_id;
     public $inv_status_flag;

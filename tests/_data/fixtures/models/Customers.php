@@ -18,10 +18,10 @@ use Phalcon\Mvc\Model;
 /**
  * Class Customers
  *
- * @property int    $cst_id;
- * @property int    $cst_status_flag;
- * @property string $cst_name_last;
- * @property string $cst_name_first;
+ * @property int    $cst_id
+ * @property int    $cst_status_flag
+ * @property string $cst_name_last
+ * @property string $cst_name_first
  */
 class Customers extends Model
 {
@@ -39,8 +39,30 @@ class Customers extends Model
             Invoices::class,
             'inv_cst_id',
             [
-                'alias'    => 'invoices',
-                'reusable' => true,
+                'alias'      => 'invoices',
+                'reusable'   => true,
+                'foreignKey' => [
+                    'action' => Model\Relation::NO_ACTION
+                ]
+            ]
+        );
+
+        $this->hasMany(
+            'cst_id',
+            Invoices::class,
+            'inv_cst_id',
+            [
+                'alias'      => 'paidInvoices',
+                'reusable'   => true,
+                'foreignKey' => [
+                    'action' => Model\Relation::ACTION_CASCADE
+                ],
+                'params'     => [
+                    'cst_status_flag = :paid:',
+                    'bind' => [
+                        'paid' => Invoices::STATUS_PAID
+                    ]
+                ]
             ]
         );
     }
