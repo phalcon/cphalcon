@@ -3285,9 +3285,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      */
     final protected function _checkForeignKeysReverseCascade() -> bool
     {
-        var manager, relations, relation, foreignKey, resultset, conditions,
-            bindParams, referencedModel, referencedFields, fields, field,
-            position, value, extraConditions;
+        var manager, relations, relation, foreignKey, related;
         int action;
 
         /**
@@ -3329,60 +3327,16 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 continue;
             }
 
-            /**
-             * Load a plain instance from the models manager
-             */
-            let referencedModel = manager->load(
-                relation->getReferencedModel()
-            );
-
-            let fields = relation->getFields(),
-                referencedFields = relation->getReferencedFields();
-
-            /**
-             * Create the checking conditions. A relation can has many fields or
-             * a single one
-             */
-            let conditions = [], bindParams = [];
-
-            if typeof fields == "array" {
-                for position, field in fields {
-                    fetch value, this->{field};
-
-                    let conditions[] = "[". referencedFields[position] . "] = ?" . position,
-                        bindParams[] = value;
-                }
-            } else {
-                fetch value, this->{fields};
-
-                let conditions[] = "[" . referencedFields . "] = ?0",
-                    bindParams[] = value;
-            }
-
-            /**
-             * Check if the virtual foreign key has extra conditions
-             */
-            if fetch extraConditions, foreignKey["conditions"] {
-                let conditions[] = extraConditions;
-            }
-
-            /**
-             * We don't trust the actual values in the object and then we're
-             * passing the values using bound parameters
-             * Let's make the checking
-             */
-            let resultset = referencedModel->find(
-                [
-                    join(" AND ", conditions),
-                    "bind": bindParams
-                ]
+            let related = manager->getRelationRecords(
+                relation,
+                this
             );
 
             /**
-             * Delete the resultset
+             * Delete the related
              * Stop the operation if needed
              */
-            if resultset->delete() === false {
+            if related->delete() === false {
                 return false;
             }
         }
