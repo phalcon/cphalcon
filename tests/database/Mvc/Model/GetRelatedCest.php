@@ -115,12 +115,12 @@ class GetRelatedCest
 
         $I->assertEquals(
             $unpaidInvoiceId,
-            $invoices[0]->id
+            $invoices[0]->inv_id
         );
 
         $I->assertEquals(
             $paidInvoiceId,
-            $invoices[1]->id
+            $invoices[1]->inv_id
         );
 
         $paidInvoices = $customer->getRelated(
@@ -139,7 +139,7 @@ class GetRelatedCest
 
         $I->assertEquals(
             $paidInvoiceId,
-            $paidInvoices[0]->id
+            $paidInvoices[0]->inv_id
         );
     }
 }
