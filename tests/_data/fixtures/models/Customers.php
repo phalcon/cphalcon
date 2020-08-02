@@ -58,7 +58,7 @@ class Customers extends Model
                     'action' => Model\Relation::ACTION_CASCADE
                 ],
                 'params'     => [
-                    'cst_status_flag = :paid:',
+                    'inv_status_flag = :paid:',
                     'bind' => [
                         'paid' => Invoices::STATUS_PAID
                     ]
