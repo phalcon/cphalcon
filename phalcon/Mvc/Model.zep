@@ -3332,12 +3332,14 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 this
             );
 
-            /**
-             * Delete the related
-             * Stop the operation if needed
-             */
-            if related->delete() === false {
-                return false;
+            if related {
+                /**
+                 * Delete related if there is any
+                 * Stop the operation if needed
+                 */
+                if related->delete() === false {
+                    return false;
+                }
             }
         }
 
