@@ -25,9 +25,9 @@ class InvoicesExtended extends Invoices
     /**
      * @param array|string|null $parameters
      *
-     * @return ModelInterface|false
+     * @return ModelInterface|null
      */
-    public static function findFirst($parameters = null)
+    public static function findFirst($parameters = null): ?ModelInterface
     {
         if (is_string($parameters)) {
             return parent::findFirstByInvId($parameters);

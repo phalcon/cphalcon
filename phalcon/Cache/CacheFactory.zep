@@ -15,6 +15,7 @@ use Phalcon\Cache;
 use Psr\SimpleCache\CacheInterface;
 use Phalcon\Cache\Exception\Exception;
 use Phalcon\Config;
+use Phalcon\Config\ConfigInterface;
 use Phalcon\Helper\Arr;
 
 /**
@@ -67,7 +68,7 @@ class CacheFactory
     {
         var name, options;
 
-        if typeof config == "object" && config instanceof Config {
+        if typeof config == "object" && config instanceof ConfigInterface {
             let config = config->toArray();
         }
 

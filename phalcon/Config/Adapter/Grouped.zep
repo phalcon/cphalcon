@@ -11,9 +11,10 @@
 namespace Phalcon\Config\Adapter;
 
 use Phalcon\Config;
+use Phalcon\Config\ConfigFactory;
+use Phalcon\Config\ConfigInterface;
 use Phalcon\Config\Exception;
 use Phalcon\Factory\Exception as FactoryException;
-use Phalcon\Config\ConfigFactory;
 
 /**
  * Reads multiple files (or arrays) and merges them all together.
@@ -81,7 +82,7 @@ class Grouped extends Config
             let configInstance = configName;
 
             // Set to default adapter if passed as string
-            if configName instanceof "Phalcon\\Config" {
+            if typeof configName === "object" && configName instanceof ConfigInterface {
                 this->merge(configInstance);
                 continue;
             } elseif typeof configName === "string" {

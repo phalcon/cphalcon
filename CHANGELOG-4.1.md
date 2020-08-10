@@ -32,6 +32,8 @@ This component will be used in the Data Mapper implementation but can be used as
 This component can be used to create SQL statements using a fluent interface. Optionally the statements can be executed from the builder itself using the `DataMapper\Pdo` connection. [#14734](https://github.com/phalcon/cphalcon/issues/14734)
 - Added `Phalcon\Mvc\Micro\LazyLoader::getHandler()` to return real handler when using lazy loaded controllers for `Phalcon\Mvc\Micro` [#14871](https://github.com/phalcon/cphalcon/issues/14871) [@Jurigag](https://github.com/Jurigag)
 - Added `Phalcon\Di` support custom adapter
+- Added `Phalcon\Collection\CollectionInterface` and `Phalcon\Config\ConfigInterface` to use as typehints when extending or implementing custom classes [#15106](https://github.com/phalcon/cphalcon/issues/15106) [@BeMySlaveDarlin](https://github.com/BeMySlaveDarlin)
+
 
 ## Changed
 - Added service checks for the session. Now cookies will be saved in the session only when the `session` service is defined [#11770](https://github.com/phalcon/cphalcon/issues/11770), [#14649](https://github.com/phalcon/cphalcon/pull/14649)
@@ -43,6 +45,7 @@ This component can be used to create SQL statements using a fluent interface. Op
 - Removed UTF-8 charset when using `Phalcon\Http\Response::setJsonContent` to apply with rfc7159
 - Changed the visibility of properties in `Phalcon\Http\Message\Uri` to work with `clone`. [#15040](https://github.com/phalcon/cphalcon/issues/15040)
 - Change `Phalcon\Validation\AbstractValidator::__construct`. Save custom validator message in options. [#15053](https://github.com/phalcon/cphalcon/issues/15053) [@ivan-zolotavin](https://github.com/ivan-zolotavin)
+- Add proxy methods without `_` prefix in methods names: `getRelatedRecords()`, `groupResult()`, `exists()`, `preSaveRelatedRecords()`, `preSave()`, `doLowUpdate()`, `postSaveRelatedRecords()`, `postSave()`, `cancelOperation()`, `doLowInsert()`, `getConnection()`, `getConnectionService()`, `getVersion()`, `getSpecial()` [#14971](https://github.com/phalcon/cphalcon/pull/14971)
 
 ## Fixed
 - Fixed `Phalcon\Db\Dialect\Mysql::getColumnDefinition` to recognize `size` for `DATETIME`, `TIME` and `TIMESTAMP` columns [#13297](https://github.com/phalcon/cphalcon/issues/13297)

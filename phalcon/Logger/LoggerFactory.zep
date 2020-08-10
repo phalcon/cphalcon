@@ -11,6 +11,7 @@
 namespace Phalcon\Logger;
 
 use Phalcon\Config;
+use Phalcon\Config\ConfigInterface;
 use Phalcon\Helper\Arr;
 use Phalcon\Logger;
 
@@ -53,7 +54,7 @@ class LoggerFactory
             adapters, name, options;
         array data;
 
-        if typeof config == "object" && config instanceof Config {
+        if typeof config == "object" && config instanceof ConfigInterface {
             let config = config->toArray();
         }
 
