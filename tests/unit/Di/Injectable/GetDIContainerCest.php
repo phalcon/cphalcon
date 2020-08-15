@@ -84,7 +84,7 @@ class GetDIDefaultCest
         try {
             $className = get_class($ic);
             $reflection = new \ReflectionClass($className);
-        } catch (\ReflectionException $e) 
+        } catch (\ReflectionException $e)
         {
         }
         
