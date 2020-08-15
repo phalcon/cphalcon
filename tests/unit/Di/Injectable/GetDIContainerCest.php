@@ -51,7 +51,7 @@ class GetDIDefaultCest
         $prop = $reflection->getProperty('container');
         $prop->setAccessible(true);
         
-        $I->assertEquals($di, $prop->getValue());
+        $I->assertEquals($di, $prop->getValue($ic));
     }
     
     /**
@@ -87,7 +87,7 @@ class GetDIDefaultCest
         $prop = $reflection->getProperty('container');
         $prop->setAccessible(true);
         
-        $I->assertEquals($other, $prop->getValue());
-        $I->assertNotEquals($di, $prop->getValue());
+        $I->assertEquals($other, $prop->getValue($ic));
+        $I->assertNotEquals($di, $prop->getValue($ic));
     }
 }
