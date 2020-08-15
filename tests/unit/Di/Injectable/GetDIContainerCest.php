@@ -15,7 +15,7 @@ namespace Phalcon\Test\Unit\Di\Injectable;
 
 use Phalcon\Di;
 use InjectableComponent;
-use \stdClass;
+use stdClass;
 use UnitTester;
 
 class GetDIDefaultCest
