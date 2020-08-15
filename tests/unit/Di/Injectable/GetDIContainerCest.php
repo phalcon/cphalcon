@@ -36,8 +36,8 @@ class GetDIDefaultCest
         require_once dataDir('fixtures/Di/InjectableComponent.php');
         Di::reset();
         $di = new Di();
-        $di->set('std', function() {
-            return new \stdClass();
+        $di->set('std', function () {
+            return new stdClass();
         });
         
         $ic = new InjectableComponent(); //no DI is set in this Injectable object
@@ -46,7 +46,9 @@ class GetDIDefaultCest
         try {
             $className = get_class($ic);
             $reflection = new \ReflectionClass($className);
-        } catch(\ReflectionException $e) {}
+        } catch (\ReflectionException $e) 
+        {
+        }
         
         $prop = $reflection->getProperty('container');
         $prop->setAccessible(true);
@@ -71,8 +73,8 @@ class GetDIDefaultCest
         Di::reset();
         $di = new Di();
         $other = new Di();
-        $other->set('std', function() {
-            return new \stdClass();
+        $other->set('std', function () {
+            return new stdClass();
         });
         
         $ic = new InjectableComponent(); //no DI is set in this Injectable object
@@ -82,7 +84,9 @@ class GetDIDefaultCest
         try {
             $className = get_class($ic);
             $reflection = new \ReflectionClass($className);
-        } catch(\ReflectionException $e) {}
+        } catch (\ReflectionException $e) 
+        {
+        }
         
         $prop = $reflection->getProperty('container');
         $prop->setAccessible(true);
