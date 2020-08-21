@@ -370,7 +370,7 @@ PHP_METHOD(Phalcon_Cache_Backend_Redis, save) {
 		return;
 	}
 	if (ZEPHIR_GE_LONG(tt1, 1)) {
-		ZEPHIR_CALL_METHOD(NULL, redis, "settimeout", NULL, 0, lastKey, tt1);
+		ZEPHIR_CALL_METHOD(NULL, redis, "expire", NULL, 0, lastKey, tt1);
 		zephir_check_call_status();
 	}
 	ZEPHIR_OBS_VAR(options);
