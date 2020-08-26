@@ -97,6 +97,7 @@ Thanks for the support
 <a href="https://github.com/felipe-mulhbaier"><img src="https://avatars1.githubusercontent.com/u/13686737?s=460&u=9c6f1529bb09388a815412b3c9b359787b42e075&v=4" title="Felipe Mulhbaier" width="60" height="60"></a>
 <a href="https://github.com/Montana"><img src="https://avatars3.githubusercontent.com/u/20936398?s=460&v=4" title="Montana Mendy" width="60" height="60"></a>
 <a href="https://github.com/ak1113"><img src="https://avatars0.githubusercontent.com/u/38716832?s=460&v=4" title="Akira Kato" width="60" height="60"></a>
+<a href="https://github.com/dredasss"><img src="https://avatars1.githubusercontent.com/u/38747389?s=460&u=ee99a8bb28ee6bedbbea6325d49d4eb99080d421&v=4" title="Nerijus Alex" width="60" height="60"></a>
 
 [//]: github-sponsors
 
