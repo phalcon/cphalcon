@@ -93,6 +93,7 @@ Thanks for the support
 <a href="https://github.com/zsilbi"><img src="https://avatars2.githubusercontent.com/u/3886658?s=460&v=4" title="Balázs Németh" width="60" height="60"></a>
 <a href="https://github.com/RayHughes"><img src="https://avatars3.githubusercontent.com/u/4381883?s=460&u=16dbf2e3fbfae0892a858d6d4cc8869bfde6dd74&v=4" title="Ray Hughes" width="60" height="60"></a>
 <a href="https://github.com/uchoamaster"><img src="https://avatars2.githubusercontent.com/u/5197047?s=460&v=4" title="Carlos Jr Uchôa Oliveira" width="60" height="60"></a>
+<a href="https://github.com/educury"><img src="https://avatars2.githubusercontent.com/u/5339278?s=460&v=4" title="educury" width="60" height="60"></a>
 <a href="https://github.com/emagus"><img src="https://avatars3.githubusercontent.com/u/5857789?s=460&v=4" title="emagus" width="60" height="60"></a>
 <a href="https://github.com/ruudboon"><img src="https://avatars3.githubusercontent.com/u/7444246?s=460&v=4" title="Ruud Boon" width="60" height="60"></a>
 <a href="https://github.com/sitchi"><img src="https://avatars0.githubusercontent.com/u/11546683?s=460&v=4" title="Nikoloz Sitchinava" width="60" height="60"></a>
