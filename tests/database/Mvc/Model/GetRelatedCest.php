@@ -13,20 +13,22 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Database\Mvc\Model;
 
+use Codeception\Example;
 use DatabaseTester;
+use Phalcon\Mvc\Model;
+use Phalcon\Mvc\Model\Exception;
 use Phalcon\Test\Fixtures\Migrations\CustomersMigration;
 use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Customers;
 use Phalcon\Test\Models\Invoices;
 
-use function date;
 use function uniqid;
 
 /**
- * Class DeleteCest
+ * Class GetRelatedCest
  */
-class DeleteCest
+class GetRelatedCest
 {
     use DiTrait;
 
@@ -46,41 +48,7 @@ class DeleteCest
     }
 
     /**
-     * Tests Phalcon\Mvc\Model :: delete()
-     *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2020-02-01
-     *
-     * @group  mysql
-     * @group  pgsql
-     * @group  sqlite
-     */
-    public function mvcModelDelete(DatabaseTester $I)
-    {
-        $I->wantToTest('Mvc\Model - delete()');
-
-        /**
-         * The following tests need to skip sqlite because we will get
-         * a General Error 5 database is locked error
-         */
-        $title                    = uniqid('inv-');
-        $date                     = date('Y-m-d H:i:s');
-        $invoice                  = new Invoices();
-        $invoice->inv_cst_id      = 2;
-        $invoice->inv_status_flag = 3;
-        $invoice->inv_title       = $title;
-        $invoice->inv_total       = 100.12;
-        $invoice->inv_created_at  = $date;
-
-        $result = $invoice->create();
-        $I->assertNotFalse($result);
-
-        $result = $invoice->delete();
-        $I->assertTrue($result);
-    }
-
-    /**
-     * Tests Phalcon\Mvc\Model :: delete() with related items
+     * Tests Phalcon\Mvc\Model :: getRelated()
      *
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2020-08-02
@@ -89,9 +57,9 @@ class DeleteCest
      * @group  pgsql
      * @group  sqlite
      */
-    public function mvcModelDeleteCascadeRelated(DatabaseTester $I)
+    public function mvcModelGetRelated(DatabaseTester $I)
     {
-        $I->wantToTest('Mvc\Model - delete() with related items');
+        $I->wantToTest('Mvc\Model - getRelated()');
 
         /** @var PDO $connection */
         $connection = $I->getConnection();
@@ -128,30 +96,50 @@ class DeleteCest
          */
         $customer = Customers::findFirst($custId);
 
+        $invoices = $customer->getRelated(
+            'invoices',
+            [
+                'order' => 'inv_id DESC'
+            ]
+        );
+
         $I->assertEquals(
             2,
-            $customer->invoices->count()
-        );
-
-        $I->assertEquals(
-            1,
-            $customer->paidInvoices->count()
-        );
-
-        $I->assertTrue(
-            $customer->delete()
-        );
-
-        $invoices = Invoices::find();
-
-        $I->assertEquals(
-            1,
             $invoices->count()
+        );
+
+        $I->assertInstanceOf(
+            Invoices::class,
+            $invoices[0]
         );
 
         $I->assertEquals(
             $unpaidInvoiceId,
             $invoices[0]->inv_id
+        );
+
+        $I->assertEquals(
+            $paidInvoiceId,
+            $invoices[1]->inv_id
+        );
+
+        $paidInvoices = $customer->getRelated(
+            'paidInvoices'
+        );
+
+        $I->assertEquals(
+            1,
+            $paidInvoices->count()
+        );
+
+        $I->assertInstanceOf(
+            Invoices::class,
+            $paidInvoices[0]
+        );
+
+        $I->assertEquals(
+            $paidInvoiceId,
+            $paidInvoices[0]->inv_id
         );
     }
 }
