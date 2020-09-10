@@ -774,7 +774,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      */
     public static function cloneResultMap(var base, array! data, var columnMap, int dirtyState = 0, bool keepSnapshots = null) -> <ModelInterface>
     {
-        var instance, attribute, key, value, castValue, attributeName, reverseMap;
+        var instance, attribute, key, value, castValue, attributeName, metaData, reverseMap;
 
         let instance = clone base;
 
@@ -799,7 +799,9 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             // Every field must be part of the column map
             if !fetch attribute, columnMap[key] {
                 if typeof columnMap === "array" && !empty columnMap {
-                    let reverseMap = array_flip(columnMap);
+                    let metaData = instance->getModelsMetaData();
+
+                    let reverseMap = metaData->getReverseColumnMap(instance);
                     if !fetch attribute, reverseMap[key] {
                         if unlikely !globals_get("orm.ignore_unknown_columns") {
                             throw new Exception(
