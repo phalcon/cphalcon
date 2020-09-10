@@ -54,5 +54,6 @@ This component can be used to create SQL statements using a fluent interface. Op
 ## Removed
 - Removed `Phalcon\Http\Cookie` binding to session [#11770](https://github.com/phalcon/cphalcon/issues/11770)
   - `Phalcon\Http\Cookie` no longer depends on the session service and data will not be duplicated in the session. This made it difficult to use cookies in stateless applications (SPA).
+- Removed unused property `Phalcon\Mvc\Router::uriSource`. [#15123](https://github.com/phalcon/cphalcon/issues/15123)
 
 `
