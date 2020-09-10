@@ -51,6 +51,7 @@ This component can be used to create SQL statements using a fluent interface. Op
 - Fixed `Phalcon\Validation\Validator\Uniqueness` fixed except query [#15084](https://github.com/phalcon/cphalcon/issues/15084)
 - Fixed `Phalcon\Mvc\Model` to also check the params option in cascade relations when deleting. [#15098](https://github.com/phalcon/cphalcon/issues/15098) 
 - Fixed `Phalcon\Mvc\Model\CriteriaInterface::where()` parameters. [#15144](https://github.com/phalcon/cphalcon/issues/15144) 
+- Fixed `Phalcon\Http\Response\Cookies::set()` to utilize the options parameter correctly. [#15129](https://github.com/phalcon/cphalcon/issues/15129) 
 
 ## Removed
 - Removed `Phalcon\Http\Cookie` binding to session [#11770](https://github.com/phalcon/cphalcon/issues/11770)
