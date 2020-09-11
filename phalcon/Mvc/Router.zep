@@ -71,7 +71,6 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
     protected params = [];
     protected removeExtraSlashes;
     protected routes;
-    protected uriSource;
     protected wasMatched = false;
 
     /**
