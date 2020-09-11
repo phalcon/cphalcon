@@ -96,6 +96,7 @@ Thanks for the support
 <a href="https://github.com/educury"><img src="https://avatars2.githubusercontent.com/u/5339278?s=460&v=4" title="educury" width="60" height="60"></a>
 <a href="https://github.com/emagus"><img src="https://avatars3.githubusercontent.com/u/5857789?s=460&v=4" title="emagus" width="60" height="60"></a>
 <a href="https://github.com/ruudboon"><img src="https://avatars3.githubusercontent.com/u/7444246?s=460&v=4" title="Ruud Boon" width="60" height="60"></a>
+<a href="https://github.com/kirill-voronov"><img src="https://avatars2.githubusercontent.com/u/10974617?s=460&u=3e2de3fc425f00606dc1679fb1de99d84183a050&v=4" title="Kirill Voronov" width="60" height="60"></a>
 <a href="https://github.com/sitchi"><img src="https://avatars0.githubusercontent.com/u/11546683?s=460&v=4" title="Nikoloz Sitchinava" width="60" height="60"></a>
 <a href="https://github.com/tacxticx88"><img src="https://avatars3.githubusercontent.com/u/12997062?s=460&u=5af0fbe438391ac46fb19befe0c20a4b1374e187&v=4" title="Clément" width="60" height="60"></a>
 <a href="https://github.com/felipe-mulhbaier"><img src="https://avatars1.githubusercontent.com/u/13686737?s=460&u=9c6f1529bb09388a815412b3c9b359787b42e075&v=4" title="Felipe Mulhbaier" width="60" height="60"></a>
