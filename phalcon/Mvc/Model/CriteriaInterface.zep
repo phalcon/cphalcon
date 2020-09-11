@@ -245,5 +245,5 @@ interface CriteriaInterface
     /**
      * Sets the conditions parameter in the criteria
      */
-    public function where(string! conditions) -> <CriteriaInterface>;
+    public function where(string! conditions, var bindParams = null, var bindTypes = null) -> <CriteriaInterface>;
 }
