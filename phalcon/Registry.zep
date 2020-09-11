@@ -142,7 +142,7 @@ final class Registry extends Collection
     }
 
     /**
-     * Get the element from the collection
+     * Determines whether an element is present in the collection.
      */
     final public function has(string! element) -> bool
     {

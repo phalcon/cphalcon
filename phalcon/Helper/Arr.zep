@@ -202,7 +202,7 @@ class Arr
     }
 
     /**
-     * Helper method to get an array element or a default
+     * Determines whether an element is present in the array.
      *
      * @param array $collection
      * @param mixed $index

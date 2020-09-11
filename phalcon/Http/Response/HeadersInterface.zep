@@ -23,7 +23,7 @@ interface HeadersInterface
     public function get(string name) -> string | bool;
 
     /**
-     * Returns true if the header is set, false otherwise
+     * Checks if a header exists
      */
     public function has(string name) -> bool;
 
