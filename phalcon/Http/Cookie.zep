@@ -456,7 +456,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
             let definition["httpOnly"] = httpOnly;
         }
 
-        if !empty httpOnly {
+        if !empty options {
             let definition["options"] = options;
         }
 

@@ -48,10 +48,11 @@ This component can be used to create SQL statements using a fluent interface. Op
 ## Fixed
 - Fixed `Phalcon\Db\Dialect\Mysql::getColumnDefinition` to recognize `size` for `DATETIME`, `TIME` and `TIMESTAMP` columns [#13297](https://github.com/phalcon/cphalcon/issues/13297)
 - Fixed `Phalcon\Events\Manager` to provide callable support [#13322](https://github.com/phalcon/cphalcon/issues/13322), [#15045](https://github.com/phalcon/cphalcon/pull/15045)
-- Fixed `Phalcon\Validation\Validator\Uniqueness` fixed except query [#15084](https://github.com/phalcon/cphalcon/issues/15084)
-- Fixed `Phalcon\Mvc\Model` to also check the params option in cascade relations when deleting. [#15098](https://github.com/phalcon/cphalcon/issues/15098) 
-- Fixed `Phalcon\Mvc\Model\CriteriaInterface::where()` parameters. [#15144](https://github.com/phalcon/cphalcon/issues/15144) 
-- Fixed `Phalcon\Http\Response\Cookies::set()` to utilize the options parameter correctly. [#15129](https://github.com/phalcon/cphalcon/issues/15129) 
+- Fixed `Phalcon\Validation\Validator\Uniqueness` fixed except query [#15084](https://github.com/phalcon/cphalcon/issues/15084) 
+- Fixed `Phalcon\Mvc\Model` to also check the params option in cascade relations when deleting [#15098](https://github.com/phalcon/cphalcon/issues/15098) 
+- Fixed `Phalcon\Mvc\Model\CriteriaInterface::where()` parameters [#15144](https://github.com/phalcon/cphalcon/issues/15144)
+- Fixed `Phalcon\Http\Response\Cookies::set()` to utilize the options parameter correctly [#15129](https://github.com/phalcon/cphalcon/issues/15129)
+- Fixed `Phalcon\Http\Cookie::send()` to define `options` parameter [#15142](https://github.com/phalcon/cphalcon/issues/15142)
 
 ## Removed
 - Removed `Phalcon\Http\Cookie` binding to session [#11770](https://github.com/phalcon/cphalcon/issues/11770)
