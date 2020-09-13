@@ -14,6 +14,7 @@ run.config:
       - imagick
       - iconv
       - igbinary
+      - intl
       - json
       - mbstring
       - memcached
@@ -24,6 +25,7 @@ run.config:
       - pdo_sqlite
       - session
       - simplexml
+      - sqlite3
       - tokenizer
       - yaml
       - xml
