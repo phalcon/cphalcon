@@ -77,7 +77,7 @@ run.config:
         CURRENT_FOLDER=$(pwd)
         rm -fR $CURRENT_FOLDER/build/msgpack-php
         cd $CURRENT_FOLDER/build
-        git clone --depth=1 --branch msgpack-2.1.1 https://github.com/msgpack/msgpack-php.git
+        git clone --depth=1 https://github.com/msgpack/msgpack-php.git
         cd msgpack-php
         set -e
         phpize
