@@ -55,6 +55,7 @@ The PHP extensions enabled are:
 - imagick
 - iconv
 - igbinary
+- intl
 - json
 - memcached
 - mbstring
@@ -68,6 +69,7 @@ The PHP extensions enabled are:
 - redis
 - session
 - simplexml
+- sqlite3
 - tokenizer
 - yaml
 - zephir_parser
@@ -92,7 +94,7 @@ $ php tests/_ci/generate-db-schemas.php
 First you need to re-generate base classes for all suites:
 
 ```shell script
-$ ./vendor/bin/codecept build
+$ php vendor/bin/codecept build
 ```
 
 You will also need to provide Codeception configuration and run Docker containers:
@@ -110,25 +112,25 @@ $ cd ..
 Then, run the tests on a terminal:
 
 ```shell script
-./vendor/bin/codecept run
+php vendor/bin/codecept run
 # OR
-./vendor/bin/codecept run --debug # Detailed output
+php vendor/bin/codecept run --debug # Detailed output
 ```
 
 Execute `unit` test with `run unit` command:
 
 ```shell script
-$ ./vendor/bin/codecept run unit
+$ php vendor/bin/codecept run unit
 ```
 
 To run database related tests you need to run the `database` suite specifying
 the RDBMS and group:
 
 ```shell script
-$ ./vendor/bin/codecept run database -g common
-$ ./vendor/bin/codecept run database -g mysql --env mysql
-$ ./vendor/bin/codecept run database -g sqlite --env sqlite
-$ ./vendor/bin/codecept run database -g pgsql --env pgsql
+$ php vendor/bin/codecept run database -g common
+$ php vendor/bin/codecept run database -g mysql --env mysql
+$ php vendor/bin/codecept run database -g sqlite --env sqlite
+$ php vendor/bin/codecept run database -g pgsql --env pgsql
 ```
 
 Available options:
@@ -154,15 +156,15 @@ navigate to the folder where you have cloned the repository (or a fork of it).
 
 Nanobox reads its configuration, so as to start the environment, from a file
 called `boxfile.yml` located at the root of your folder. By default, the file
-is not there to allow for more flexibility. We have two setup files, one for
-PHP 7.2 and one for PHP 7.3. If you wish to set up an environment for Phalcon
+is not there to allow for more flexibility. We have three setup files for
+PHP 7.2, PHP 7.3 and PHP 7.4. If you wish to set up an environment for Phalcon
 using PHP 7.2, you can copy the relevant file at the root of your folder:
 
 ```shell script
 $ cp -v ./tests/_ci/nanobox/boxfile.7.2.yml ./boxfile.yml
 ```
 
-You can also create a 7.3 environment by copying the relevant file.
+You can also create a 7.3 or 7.4 environment by copying the relevant file.
 
 Run
 ```shell script
@@ -219,12 +221,20 @@ After the compilation is completed, you can check if the extension is loaded:
 /app $ php -m | grep phalcon
 ```
 
+Note that Phalcon v4+ requires the [PSR][psr] extension to be loaded before Phalcon. In this environment we have compiled it for you. Once you see `phalcon` in the list, you have the extension compiled and ready to use.
+
 ### Setup databases
+
+First, we need to have a `.env` file in the project root.
+
+```shell script
+/app $ cp tests/_ci/nanobox/.env.example .env
+```
 
 To generate the necessary database schemas, you need to run the relevant script:
 
 ```shell script
-/app $ php ./tests/_ci/generage-db-schemas.php
+/app $ php tests/_ci/generate-db-schemas.php
 ```
 
 The script looks for classes located under `tests/_data/fixtures/Migrations`.
@@ -242,48 +252,67 @@ SQL statements. Running the generate script (as seen above) will update the
 schema file so that Codeception can load it in your RDBMS prior to running the
 tests.
 
+To populate the databases you will need to run the following script:
+
+```shell script
+/app $ tests/_ci/nanobox/setup-dbs-nanobox.sh
+```  
+
 ### Run tests
 
 First you need to re-generate base classes for all suites:
 
 ```shell script
-/app $ codecept build
+/app $ php vendor/bin/codecept build
+```
+
+The output should show:
+```bash
+Building Actor classes for suites: cli, database, integration, unit
+ -> CliTesterActions.php generated successfully. 152 methods added
+\CliTester includes modules: Asserts, Cli, \Helper\Cli, \Helper\Unit
+ -> DatabaseTesterActions.php generated successfully. 252 methods added
+\DatabaseTester includes modules: Phalcon4, Redis, Asserts, Filesystem, Helper\Database, Helper\Unit
+ -> IntegrationTesterActions.php generated successfully. 251 methods added
+\IntegrationTester includes modules: Phalcon4, Redis, Asserts, Filesystem, Helper\Integration, Helper\PhalconLibmemcached, Helper\Unit
+ -> UnitTesterActions.php generated successfully. 166 methods added
+\UnitTester includes modules: Apc, Asserts, Filesystem, Helper\Unit
 ```
 
 Then, run the tests on a terminal:
 
 ```shell script
-/app $ codecept run
+/app $ php vendor/bin/codecept run
 # OR
-/app $ codecept run --debug # Detailed output
+/app $ php vendor/bin/codecept run --debug # Detailed output
 ```
 
 Execute `unit` test with `run unit` command:
 
 ```shell script
-/app $ codecept run unit
+/app $ php vendor/bin/codecept run unit
 ```
 
 Execute all tests from a folder:
 
 ```shell script
-/app $ codecept run tests/unit/some/folder/
+/app $ php vendor/bin/codecept run tests/unit/some/folder/
 ```
 
 Execute single test:
 
 ```shell script
-/app $ codecept run tests/unit/some/folder/some/test/file.php
+/app $ php vendor/bin/codecept run tests/unit/some/folder/some/test/file.php
 ```
 
 To run database related tests you need to run the `database` suite specifying
 the RDBMS and group:
 
 ```shell script
-/app $ codecept run tests/database -g common
-/app $ codecept run tests/database -g mysql --env mysql
-/app $ codecept run tests/database -g sqlite --env sqlite
-/app $ codecept run tests/database -g pgsql --env pgsql
+/app $ php vendor/bin/codecept run tests/database -g common
+/app $ php vendor/bin/codecept run tests/database -g mysql --env mysql
+/app $ php vendor/bin/codecept run tests/database -g sqlite --env sqlite
+/app $ php vendor/bin/codecept run tests/database -g pgsql --env pgsql
 ```
 
 Available options:
@@ -317,3 +346,4 @@ Thanks!
 [composer]: http://getcomposer.org
 [codeception-intro]: http://codeception.com/docs/01-Introduction
 [codeception-cmds]: http://codeception.com/docs/reference/Commands
+[psr]: https://github.com/jbboehr/php-psr
