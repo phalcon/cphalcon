@@ -27,11 +27,9 @@ class GetImageCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function imageAdapterGdGetImageFromJpg(UnitTester $I)
+    public function imageAdapterGdGetImage(UnitTester $I)
     {
-        $I->wantToTest('Image\Adapter\Gd - getImage() - from jpg image');
-
-        $this->checkJpegSupport($I);
+        $I->wantToTest('Image\Adapter\Gd - getImage()');
 
         foreach ($this->getImages() as $image) {
             $gd = new Gd($image);
