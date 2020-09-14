@@ -31,6 +31,8 @@ class BlurCest
     {
         $I->wantToTest('Image\Adapter\Gd - blur()');
 
+        $this->checkJpegSupport($I);
+
         $params = [
             'jpg' => [
                 [1, 'fbf9f3e3c3c18183'],

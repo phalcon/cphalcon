@@ -31,6 +31,8 @@ class GetTypeCest
     {
         $I->wantToTest('Image\Adapter\Gd - getType() - from jpg image');
 
+        $this->checkJpegSupport($I);
+
         $gd = new Gd(dataDir('assets/images/phalconphp.jpg'));
 
         $I->assertSame(

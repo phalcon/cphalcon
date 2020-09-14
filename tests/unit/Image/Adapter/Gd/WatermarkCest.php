@@ -32,6 +32,8 @@ class WatermarkCest
     {
         $I->wantToTest('Image\Adapter\Gd - watermark() - jpg inside jpg');
 
+        $this->checkJpegSupport($I);
+
         $image = new Gd(
             dataDir('assets/images/phalconphp.jpg')
         );
@@ -76,6 +78,8 @@ class WatermarkCest
     {
         $I->wantToTest('Image\Adapter\Gd - watermark() - png inside jpg');
 
+        $this->checkJpegSupport($I);
+
         $image = new Gd(
             dataDir('assets/images/phalconphp.jpg')
         );
@@ -116,6 +120,8 @@ class WatermarkCest
     public function imageAdapterGdWatermarkJpgInsidePng(UnitTester $I)
     {
         $I->wantToTest('Image\Adapter\Gd - watermark() - jpg inside png');
+
+        $this->checkJpegSupport($I);
 
         $image = new Gd(
             dataDir('assets/images/logo.png')

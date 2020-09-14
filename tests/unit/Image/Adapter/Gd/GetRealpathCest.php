@@ -31,6 +31,8 @@ class GetRealpathCest
     {
         $I->wantToTest('Image\Adapter\Gd - getRealpath()');
 
+        $this->checkJpegSupport($I);
+
         foreach ($this->getImages() as $image) {
             $image = str_replace("/", DIRECTORY_SEPARATOR, $image);
             $gd    = new Gd($image);
