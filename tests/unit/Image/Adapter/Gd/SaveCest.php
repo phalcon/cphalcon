@@ -31,6 +31,8 @@ class SaveCest
     {
         $I->wantToTest('Image\Adapter\Gd - save()');
 
+        $this->checkJpegSupport($I);
+
         $outputDir   = 'tests/image/gd';
         $resultImage = 'save.';
 

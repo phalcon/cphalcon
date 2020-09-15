@@ -13,7 +13,7 @@ run.config:
       - gettext
       - imagick
       - iconv
-      - igbinary
+      - intl
       - json
       - mbstring
       - memcached
@@ -24,6 +24,7 @@ run.config:
       - pdo_sqlite
       - session
       - simplexml
+      - sqlite3
       - tokenizer
       - yaml
       - xml
@@ -88,6 +89,25 @@ run.config:
         unset CURRENT_FOLDER
       )
     - echo -e 'extension=msgpack.so' >> "/data/etc/php/dev_php.ini"
+    #===========================================================================
+    # Igbinary extension compilation
+    - |
+      (
+        CURRENT_FOLDER=$(pwd)
+        rm -fR $CURRENT_FOLDER/build/igbinary
+        cd $CURRENT_FOLDER/build
+        git clone --depth=1 https://github.com/igbinary/igbinary.git
+        cd igbinary
+        set -e
+        phpize
+        ./configure --with-php-config=$(which php-config)
+        make -j"$(getconf _NPROCESSORS_ONLN)"
+        make install
+        cd $CURRENT_FOLDER
+        rm -fR $CURRENT_FOLDER/build/igbinary
+        unset CURRENT_FOLDER
+      )
+    - echo -e 'extension=igbinary.so' >> "/data/etc/php/dev_php.ini"
     #===========================================================================
     # Zephir Parser
     - |

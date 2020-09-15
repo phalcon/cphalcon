@@ -114,7 +114,7 @@ class Database extends \Codeception\Module
                 return sprintf(
                     "pgsql:host=%s;dbname=%s;user=%s;password=%s",
                     env('DATA_POSTGRES_HOST', '127.0.0.1'),
-                    getenv('DATA_POSTGRES_NAME', 'phalcon'),
+                    env('DATA_POSTGRES_NAME', 'phalcon'),
                     $this->username,
                     $this->password
                 );

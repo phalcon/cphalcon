@@ -31,6 +31,8 @@ class GetVersionCest
     {
         $I->wantToTest('Image\Adapter\Gd - getVersion()');
 
+        $this->checkJpegSupport($I);
+
         $gd = new Gd(dataDir('assets/images/phalconphp.jpg'));
 
         $I->assertRegExp(

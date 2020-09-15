@@ -31,6 +31,8 @@ class GetHeightCest
     {
         $I->wantToTest('Image\Adapter\Gd - getHeight() - from jpg image');
 
+        $this->checkJpegSupport($I);
+
         $gd = new Gd(dataDir('assets/images/phalconphp.jpg'));
 
         $I->assertSame(

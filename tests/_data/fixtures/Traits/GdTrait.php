@@ -29,14 +29,41 @@ trait GdTrait
     }
 
     /**
+     * @param UnitTester $I
+     */
+    private function checkJpegSupport(UnitTester $I): void
+    {
+        if (!$this->hasJpegSupport()) {
+            $I->skipTest(
+                "Extension 'gd' is compiled without JPEG support."
+            );
+        }
+    }
+
+    /**
+     * @return bool
+     */
+    private function hasJpegSupport(): bool
+    {
+        $gdInfo = gd_info();
+
+        return !empty($gdInfo['JPEG Support']);
+    }
+
+    /**
      * Images to process
      */
     private function getImages(): array
     {
-        return [
-            'jpg' => dataDir('assets/images/phalconphp.jpg'),
+        $images = [
             'png' => dataDir('assets/images/logo.png'),
         ];
+
+        if ($this->hasJpegSupport()) {
+            $images['jpg'] = dataDir('assets/images/phalconphp.jpg');
+        }
+
+        return $images;
     }
 
     /**

@@ -1,7 +1,7 @@
 run.config:
   engine: php
   engine.config:
-    runtime: php-7.2
+    runtime: php-7.4
     extensions:
       - apcu
       - ctype
@@ -13,7 +13,6 @@ run.config:
       - gettext
       - imagick
       - iconv
-      - igbinary
       - intl
       - json
       - mbstring
@@ -37,8 +36,9 @@ run.config:
     zend_extensions:
       - opcache
     dev_zend_extensions:
-      add:
-        - xdebug
+      # Removed xdebug (will be back when Xdebug 2.7.0 is stable)
+      #      add:
+      #        - xdebug
       rm:
         - opcache
   extra_packages:
@@ -89,6 +89,25 @@ run.config:
         unset CURRENT_FOLDER
       )
     - echo -e 'extension=msgpack.so' >> "/data/etc/php/dev_php.ini"
+    #===========================================================================
+    # Igbinary extension compilation
+    - |
+      (
+        CURRENT_FOLDER=$(pwd)
+        rm -fR $CURRENT_FOLDER/build/igbinary
+        cd $CURRENT_FOLDER/build
+        git clone --depth=1 https://github.com/igbinary/igbinary.git
+        cd igbinary
+        set -e
+        phpize
+        ./configure --with-php-config=$(which php-config)
+        make -j"$(getconf _NPROCESSORS_ONLN)"
+        make install
+        cd $CURRENT_FOLDER
+        rm -fR $CURRENT_FOLDER/build/igbinary
+        unset CURRENT_FOLDER
+      )
+    - echo -e 'extension=igbinary.so' >> "/data/etc/php/dev_php.ini"
     #===========================================================================
     # Zephir Parser
     - |

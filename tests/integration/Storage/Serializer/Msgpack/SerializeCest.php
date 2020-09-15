@@ -25,23 +25,25 @@ class SerializeCest
     /**
      * Tests Phalcon\Storage\Serializer\Msgpack :: serialize()
      *
-     * @dataProvider getExamples
+     * @note         dataProvider is not used here, it messes up console output
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2019-03-30
      */
-    public function storageSerializerMsgpackSerialize(IntegrationTester $I, Example $example)
+    public function storageSerializerMsgpackSerialize(IntegrationTester $I)
     {
-        $I->wantToTest('Storage\Serializer\Msgpack - serialize() - ' . $example[0]);
+        $I->wantToTest('Storage\Serializer\Msgpack - serialize()');
 
-        $serializer = new Msgpack($example[1]);
+        foreach ($this->getExamples() as $example) {
+            $serializer = new Msgpack($example[1]);
 
-        $expected = $example[2];
+            $expected = $example[2];
 
-        $I->assertEquals(
-            $expected,
-            $serializer->serialize()
-        );
+            $I->assertEquals(
+                $expected,
+                $serializer->serialize()
+            );
+        }
     }
 
     private function getExamples(): array

@@ -31,6 +31,8 @@ class TextCest
     {
         $I->wantToTest('Image\Adapter\Gd - text()');
 
+        $this->checkJpegSupport($I);
+
         $outputDir = 'tests/image/gd';
 
         $params = [

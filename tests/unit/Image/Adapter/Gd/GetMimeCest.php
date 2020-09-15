@@ -31,6 +31,8 @@ class GetMimeCest
     {
         $I->wantToTest('Image\Adapter\Gd - getMime() - image/jpg');
 
+        $this->checkJpegSupport($I);
+
         $gd = new Gd(dataDir('assets/images/phalconphp.jpg'));
 
         $I->assertSame(

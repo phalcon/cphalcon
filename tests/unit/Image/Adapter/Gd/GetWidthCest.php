@@ -31,6 +31,8 @@ class GetWidthCest
     {
         $I->wantToTest('Image\Adapter\Gd - getWidth() - from jpg image');
 
+        $this->checkJpegSupport($I);
+
         $gd = new Gd(dataDir('assets/images/phalconphp.jpg'));
 
         $I->assertSame(

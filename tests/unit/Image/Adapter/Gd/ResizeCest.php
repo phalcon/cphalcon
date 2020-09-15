@@ -31,6 +31,8 @@ class ResizeCest
     {
         $I->wantToTest('Image\Adapter\Gd - resize() - jpg image');
 
+        $this->checkJpegSupport($I);
+
         $image = new Gd(
             dataDir('assets/images/phalconphp.jpg')
         );
