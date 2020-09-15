@@ -35,7 +35,7 @@ trait GdTrait
     {
         if (!$this->hasJpegSupport()) {
             $I->skipTest(
-                sprintf("Extension 'gd' is compiled without JPEG support.")
+                "Extension 'gd' is compiled without JPEG support."
             );
         }
     }
@@ -47,7 +47,7 @@ trait GdTrait
     {
         $gdInfo = gd_info();
 
-        return isset($gdInfo['JPEG Support']) && $gdInfo['JPEG Support'];
+        return !empty($gdInfo['JPEG Support']);
     }
 
     /**
@@ -56,7 +56,7 @@ trait GdTrait
     private function getImages(): array
     {
         $images = [
-            'png' => dataDir('assets/images/logo.png')
+            'png' => dataDir('assets/images/logo.png'),
         ];
 
         if ($this->hasJpegSupport()) {
