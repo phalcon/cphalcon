@@ -44,6 +44,7 @@ This component can be used to create SQL statements using a fluent interface. Op
 - Changed the visibility of properties in `Phalcon\Http\Message\Uri` to work with `clone`. [#15040](https://github.com/phalcon/cphalcon/issues/15040)
 - Change `Phalcon\Validation\AbstractValidator::__construct`. Save custom validator message in options. [#15053](https://github.com/phalcon/cphalcon/issues/15053) [@ivan-zolotavin](https://github.com/ivan-zolotavin)
 - Add proxy methods without `_` prefix in methods names: `getRelatedRecords()`, `groupResult()`, `exists()`, `preSaveRelatedRecords()`, `preSave()`, `doLowUpdate()`, `postSaveRelatedRecords()`, `postSave()`, `cancelOperation()`, `doLowInsert()`, `getConnection()`, `getConnectionService()`, `getVersion()`, `getSpecial()` [#14971](https://github.com/phalcon/cphalcon/pull/14971)
+- Modified `Phalcon\Mvc\Model\Relation` to accept callable params for model relations. [#15158](https://github.com/phalcon/cphalcon/issues/15158)
 
 ## Fixed
 - Fixed `Phalcon\Db\Dialect\Mysql::getColumnDefinition` to recognize `size` for `DATETIME`, `TIME` and `TIMESTAMP` columns [#13297](https://github.com/phalcon/cphalcon/issues/13297)
