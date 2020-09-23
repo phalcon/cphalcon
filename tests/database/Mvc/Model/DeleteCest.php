@@ -138,6 +138,11 @@ class DeleteCest
             $customer->paidInvoices->count()
         );
 
+        $I->assertEquals(
+            1,
+            $customer->unpaidInvoices->count()
+        );
+
         $I->assertTrue(
             $customer->delete()
         );
