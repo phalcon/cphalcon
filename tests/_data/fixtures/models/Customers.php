@@ -65,5 +65,26 @@ class Customers extends Model
                 ]
             ]
         );
+
+        $this->hasMany(
+            'cst_id',
+            Invoices::class,
+            'inv_cst_id',
+            [
+                'alias'      => 'unpaidInvoices',
+                'reusable'   => true,
+                'foreignKey' => [
+                    'action' => Model\Relation::NO_ACTION
+                ],
+                'params'     => function () {
+                    return [
+                        'inv_status_flag = :unpaid:',
+                        'bind' => [
+                            'unpaid' => Invoices::STATUS_UNPAID
+                        ]
+                    ];
+                }
+            ]
+        );
     }
 }
