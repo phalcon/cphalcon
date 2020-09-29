@@ -371,8 +371,7 @@ class Crypt implements CryptInterface
      */
     public function getAvailableCiphers() -> array
     {
-        var availableCiphers, cipher;
-        array allowedCiphers;
+        var availableCiphers;
 
         let availableCiphers = this->availableCiphers;
 
@@ -382,18 +381,7 @@ class Crypt implements CryptInterface
             let availableCiphers = this->availableCiphers;
         }
 
-        let allowedCiphers = [];
-        for cipher in availableCiphers {
-            if !(starts_with(strtolower(cipher), "des") ||
-                 starts_with(strtolower(cipher), "rc2") ||
-                 starts_with(strtolower(cipher), "rc4") ||
-                 starts_with(strtolower(cipher), "des") ||
-                 ends_with(strtolower(cipher), "ecb")) {
-                let allowedCiphers[] = cipher;
-            }
-        }
-
-        return allowedCiphers;
+        return availableCiphers;
     }
 
     /**
@@ -583,19 +571,27 @@ class Crypt implements CryptInterface
      */
     protected function initializeAvailableCiphers() -> void
     {
-        var availableCiphers, i, cipher;
+        var availableCiphers, cipher;
+        array allowedCiphers;
 
         if unlikely !function_exists("openssl_get_cipher_methods") {
             throw new Exception("openssl extension is required");
         }
 
-        let availableCiphers = openssl_get_cipher_methods(true);
+        let availableCiphers = openssl_get_cipher_methods(true),
+            allowedCiphers = [];
 
-        for i, cipher in availableCiphers {
-            let availableCiphers[i] = strtoupper(cipher);
+        for cipher in availableCiphers {
+            if !(starts_with(strtolower(cipher), "des") ||
+                 starts_with(strtolower(cipher), "rc2") ||
+                 starts_with(strtolower(cipher), "rc4") ||
+                 starts_with(strtolower(cipher), "des") ||
+                 ends_with(strtolower(cipher), "ecb")) {
+                let allowedCiphers[] = strtoupper(cipher);
+            }
         }
 
-        let this->availableCiphers = availableCiphers;
+        let this->availableCiphers = allowedCiphers;
     }
 
     /**
