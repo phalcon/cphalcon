@@ -131,7 +131,7 @@ class Route implements RouteInterface
          * add the regex delimiters
          */
         if memstr(pattern, "(") || memstr(pattern, "[") {
-            return "#^" . pattern . "$#u";
+            return "#^" . pattern . "$#";
         }
 
         return pattern;
