@@ -56,6 +56,7 @@ This component can be used to create SQL statements using a fluent interface. Op
 - Fixed `Phalcon\Http\Response\Cookies::set()` to utilize the options parameter correctly [#15129](https://github.com/phalcon/cphalcon/issues/15129)
 - Fixed `Phalcon\Http\Cookie::send()` to define `options` parameter [#15142](https://github.com/phalcon/cphalcon/issues/15142)
 - Fixed `Phalcon\Crypt` performance issues. [#15118](https://github.com/phalcon/cphalcon/issues/15118)
+- Fixed `Phalcon\Mvc\Router\Route` unicode support in patterns. [#15102](https://github.com/phalcon/cphalcon/issues/15102)
 
 ## Removed
 - Removed `Phalcon\Http\Cookie` binding to session [#11770](https://github.com/phalcon/cphalcon/issues/11770)
