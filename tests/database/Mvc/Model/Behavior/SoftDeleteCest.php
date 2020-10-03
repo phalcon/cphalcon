@@ -19,6 +19,7 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Invoices;
 use Phalcon\Test\Models\InvoicesBehavior;
 use Phalcon\Events\Event;
+use Phalcon\Events\Manager as EventManager;
 
 use function uniqid;
 
@@ -84,7 +85,7 @@ class SoftDeleteCest
         $I->wantToTest('Mvc\Model\Behavior - SoftDelete() - with before delete event');
 
         /** ADD BeforeDelete event */
-        $eventsManager = $this->getDI()->getShared('eventsManager');
+        $eventsManager = new EventManager();
         $eventsManager->attach('model:beforeDelete', function (Event $event, $model) {
             return false;
         });
@@ -105,6 +106,7 @@ class SoftDeleteCest
         $invoice->assign($data);
 
         /** delete invoice */
+        $invoice->setEventsManager($eventsManager);
         $invoice->delete();
 
         /** Check that SoftDelete wasn't working because beforeDelete event return false */

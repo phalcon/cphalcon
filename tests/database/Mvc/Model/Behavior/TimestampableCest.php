@@ -19,6 +19,7 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Invoices;
 use Phalcon\Test\Models\InvoicesBehavior;
 use Phalcon\Events\Event;
+use Phalcon\Events\Manager as EventManager;
 use DateTime;
 
 use function uniqid;
@@ -87,7 +88,7 @@ class TimestampableCest
         $I->wantToTest('Mvc\Model\Behavior - Timestampable() - with before create event');
 
         /** ADD BeforeDelete event */
-        $eventsManager = $this->getDI()->getShared('eventsManager');
+        $eventsManager = new EventManager();
         $eventsManager->attach('model:beforeCreate', function (Event $event, $model) {
             return false;
         });
@@ -96,6 +97,7 @@ class TimestampableCest
         $title = uniqid('inv-');
 
         $invoice = new InvoicesBehavior();
+        $invoice->setEventsManager($eventsManager);
         $invoice->inv_id = 1;
         $invoice->inv_cst_id = 2;
         $invoice->inv_status_flag = Invoices::STATUS_PAID;
