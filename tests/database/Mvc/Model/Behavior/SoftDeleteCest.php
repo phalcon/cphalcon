@@ -86,7 +86,8 @@ class SoftDeleteCest
         /** ADD BeforeDelete event */
         $eventsManager = $this->getDI()->getShared('eventsManager');
         $eventsManager->attach('model:beforeDelete', function (Event $event, $model) {
-            echo 'test';die;
+            echo 'test';
+            die;
             return false;
         });
 
@@ -111,5 +112,4 @@ class SoftDeleteCest
         /** Check that SoftDelete wasn't working because beforeDelete event return false */
         $I->assertEquals(Invoices::STATUS_PAID, $invoice->inv_status_flag);
     }
-
 }
