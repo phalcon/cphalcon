@@ -45,6 +45,7 @@ class SoftDeleteCest
      *
      * @group  mysql
      * @group  pgsql
+     * @group  sqlite
      */
     public function mvcModelBehaviorSoftDelete(DatabaseTester $I)
     {
@@ -54,7 +55,6 @@ class SoftDeleteCest
         $title = uniqid('inv-');
         $date  = date('Y-m-d H:i:s');
         $data  = [
-            'inv_id'          => 1,
             'inv_cst_id'      => 2,
             'inv_status_flag' => Invoices::STATUS_PAID,
             'inv_title'       => $title,
@@ -79,6 +79,7 @@ class SoftDeleteCest
      *
      * @group  mysql
      * @group  pgsql
+     * @group  sqlite
      */
     public function mvcModelBehaviorSoftDeleteWithBeforeDeleteEvent(DatabaseTester $I)
     {
@@ -94,7 +95,6 @@ class SoftDeleteCest
         $title = uniqid('inv-');
         $date  = date('Y-m-d H:i:s');
         $data  = [
-            'inv_id'          => 1,
             'inv_cst_id'      => 2,
             'inv_status_flag' => Invoices::STATUS_PAID,
             'inv_title'       => $title,

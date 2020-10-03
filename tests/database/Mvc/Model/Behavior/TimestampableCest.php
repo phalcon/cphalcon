@@ -46,6 +46,7 @@ class TimestampableCest
      *
      * @group  mysql
      * @group  pgsql
+     * @group  sqlite
      */
     public function mvcModelBehaviorTimestampable(DatabaseTester $I)
     {
@@ -55,7 +56,6 @@ class TimestampableCest
         $title = uniqid('inv-');
 
         $invoice = new InvoicesBehavior();
-        $invoice->inv_id = 1;
         $invoice->inv_cst_id = 2;
         $invoice->inv_status_flag = Invoices::STATUS_PAID;
         $invoice->inv_title = $title;
@@ -82,6 +82,7 @@ class TimestampableCest
      *
      * @group  mysql
      * @group  pgsql
+     * @group  sqlite
      */
     public function mvcModelBehaviorTimestampableWithBeforeCreateEvent(DatabaseTester $I)
     {
@@ -98,7 +99,6 @@ class TimestampableCest
 
         $invoice = new InvoicesBehavior();
         $invoice->setEventsManager($eventsManager);
-        $invoice->inv_id = 1;
         $invoice->inv_cst_id = 2;
         $invoice->inv_status_flag = Invoices::STATUS_PAID;
         $invoice->inv_title = $title;
