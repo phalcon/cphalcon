@@ -102,23 +102,23 @@ PHP_METHOD(Phalcon_Http_Message_Request, __construct) {
 	if (UNEXPECTED(ZEPHIR_IS_IDENTICAL(&_0, body))) {
 		ZEPHIR_INIT_NVAR(body);
 		object_init_ex(body, phalcon_http_message_stream_input_ce);
-		ZEPHIR_CALL_METHOD(NULL, body, "__construct", NULL, 302);
+		ZEPHIR_CALL_METHOD(NULL, body, "__construct", NULL, 301);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "processuri", NULL, 303, uri);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "processuri", NULL, 302, uri);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, SL("uri"), &_1);
-	ZEPHIR_CALL_METHOD(&_2, this_ptr, "processheaders", NULL, 304, headers);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("uri"), &_1);
+	ZEPHIR_CALL_METHOD(&_2, this_ptr, "processheaders", NULL, 303, headers);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, SL("headers"), &_2);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("headers"), &_2);
 	ZEPHIR_CALL_METHOD(&_3, this_ptr, "processmethod", NULL, 104, &method);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, SL("method"), &_3);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("method"), &_3);
 	ZEPHIR_INIT_VAR(&_5);
 	ZVAL_STRING(&_5, "w+b");
 	ZEPHIR_CALL_METHOD(&_4, this_ptr, "processbody", NULL, 37, body, &_5);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, SL("body"), &_4);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("body"), &_4);
 	ZEPHIR_MM_RESTORE();
 
 }

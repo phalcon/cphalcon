@@ -27,11 +27,13 @@
 zend_class_entry *phalcon_di_injectionawareinterface_ce;
 zend_class_entry *phalcon_validation_validatorinterface_ce;
 zend_class_entry *phalcon_events_eventsawareinterface_ce;
+zend_class_entry *phalcon_collection_collectioninterface_ce;
 zend_class_entry *phalcon_storage_adapter_adapterinterface_ce;
 zend_class_entry *phalcon_forms_element_elementinterface_ce;
 zend_class_entry *phalcon_dispatcher_dispatcherinterface_ce;
 zend_class_entry *phalcon_storage_serializer_serializerinterface_ce;
 zend_class_entry *phalcon_assets_assetinterface_ce;
+zend_class_entry *phalcon_config_configinterface_ce;
 zend_class_entry *phalcon_mvc_model_metadatainterface_ce;
 zend_class_entry *phalcon_cache_adapter_adapterinterface_ce;
 zend_class_entry *phalcon_db_adapter_adapterinterface_ce;
@@ -602,11 +604,13 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(Phalcon_Di_InjectionAwareInterface);
 	ZEPHIR_INIT(Phalcon_Validation_ValidatorInterface);
 	ZEPHIR_INIT(Phalcon_Events_EventsAwareInterface);
+	ZEPHIR_INIT(Phalcon_Collection_CollectionInterface);
 	ZEPHIR_INIT(Phalcon_Storage_Adapter_AdapterInterface);
 	ZEPHIR_INIT(Phalcon_Forms_Element_ElementInterface);
 	ZEPHIR_INIT(Phalcon_Dispatcher_DispatcherInterface);
 	ZEPHIR_INIT(Phalcon_Storage_Serializer_SerializerInterface);
 	ZEPHIR_INIT(Phalcon_Assets_AssetInterface);
+	ZEPHIR_INIT(Phalcon_Config_ConfigInterface);
 	ZEPHIR_INIT(Phalcon_Mvc_Model_MetaDataInterface);
 	ZEPHIR_INIT(Phalcon_Cache_Adapter_AdapterInterface);
 	ZEPHIR_INIT(Phalcon_Db_Adapter_AdapterInterface);
@@ -1209,9 +1213,6 @@ static void php_zephir_init_module_globals(zend_phalcon_globals *phalcon_globals
 static PHP_RINIT_FUNCTION(phalcon)
 {
 	zend_phalcon_globals *phalcon_globals_ptr;
-#ifdef ZTS
-	tsrm_ls = ts_resource(0);
-#endif
 	phalcon_globals_ptr = ZEPHIR_VGLOBAL;
 
 	php_zephir_init_globals(phalcon_globals_ptr);
@@ -1249,6 +1250,10 @@ static PHP_MINFO_FUNCTION(phalcon)
 
 static PHP_GINIT_FUNCTION(phalcon)
 {
+#if defined(COMPILE_DL_PHALCON) && defined(ZTS)
+	ZEND_TSRMLS_CACHE_UPDATE();
+#endif
+
 	php_zephir_init_globals(phalcon_globals);
 	php_zephir_init_module_globals(phalcon_globals);
 }
@@ -1301,6 +1306,10 @@ zend_module_entry phalcon_module_entry = {
 	STANDARD_MODULE_PROPERTIES_EX
 };
 
+/* implement standard "stub" routine to introduce ourselves to Zend */
 #ifdef COMPILE_DL_PHALCON
+# ifdef ZTS
+ZEND_TSRMLS_CACHE_DEFINE()
+# endif
 ZEND_GET_MODULE(phalcon)
 #endif

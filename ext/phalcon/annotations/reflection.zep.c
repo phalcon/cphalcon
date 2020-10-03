@@ -87,7 +87,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, __construct) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, SL("reflectionData"), &reflectionData);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("reflectionData"), &reflectionData);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -111,20 +111,20 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getClassAnnotations) {
 
 	ZEPHIR_MM_GROW();
 
-	zephir_read_property(&_0, this_ptr, SL("classAnnotations"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("classAnnotations"), PH_NOISY_CC | PH_READONLY);
 	if (Z_TYPE_P(&_0) == IS_NULL) {
-		zephir_read_property(&_1$$3, this_ptr, SL("reflectionData"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_1$$3, this_ptr, ZEND_STRL("reflectionData"), PH_NOISY_CC | PH_READONLY);
 		if (zephir_array_isset_string_fetch(&reflectionClass, &_1$$3, SL("class"), 1)) {
 			ZEPHIR_INIT_VAR(&_2$$4);
 			object_init_ex(&_2$$4, phalcon_annotations_collection_ce);
 			ZEPHIR_CALL_METHOD(NULL, &_2$$4, "__construct", NULL, 48, &reflectionClass);
 			zephir_check_call_status();
-			zephir_update_property_zval(this_ptr, SL("classAnnotations"), &_2$$4);
+			zephir_update_property_zval(this_ptr, ZEND_STRL("classAnnotations"), &_2$$4);
 		} else {
 			if (0) {
-				zephir_update_property_zval(this_ptr, SL("classAnnotations"), &__$true);
+				zephir_update_property_zval(this_ptr, ZEND_STRL("classAnnotations"), &__$true);
 			} else {
-				zephir_update_property_zval(this_ptr, SL("classAnnotations"), &__$false);
+				zephir_update_property_zval(this_ptr, ZEND_STRL("classAnnotations"), &__$false);
 			}
 		}
 	}
@@ -159,15 +159,15 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getMethodsAnnotations) {
 
 	ZEPHIR_MM_GROW();
 
-	zephir_read_property(&_0, this_ptr, SL("methodAnnotations"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("methodAnnotations"), PH_NOISY_CC | PH_READONLY);
 	if (Z_TYPE_P(&_0) == IS_NULL) {
 		ZEPHIR_OBS_VAR(&reflectionMethods);
-		zephir_read_property(&_1$$3, this_ptr, SL("reflectionData"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_1$$3, this_ptr, ZEND_STRL("reflectionData"), PH_NOISY_CC | PH_READONLY);
 		if (zephir_array_isset_string_fetch(&reflectionMethods, &_1$$3, SL("methods"), 0)) {
 			if (zephir_fast_count_int(&reflectionMethods)) {
 				ZEPHIR_INIT_VAR(&_2$$5);
 				array_init(&_2$$5);
-				zephir_update_property_zval(this_ptr, SL("methodAnnotations"), &_2$$5);
+				zephir_update_property_zval(this_ptr, ZEND_STRL("methodAnnotations"), &_2$$5);
 				zephir_is_iterable(&reflectionMethods, 0, "phalcon/Annotations/Reflection.zep", 88);
 				if (Z_TYPE_P(&reflectionMethods) == IS_ARRAY) {
 					ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&reflectionMethods), _5$$5, _6$$5, _3$$5)
@@ -214,9 +214,9 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getMethodsAnnotations) {
 			}
 		}
 		if (0) {
-			zephir_update_property_zval(this_ptr, SL("methodAnnotations"), &__$true);
+			zephir_update_property_zval(this_ptr, ZEND_STRL("methodAnnotations"), &__$true);
 		} else {
-			zephir_update_property_zval(this_ptr, SL("methodAnnotations"), &__$false);
+			zephir_update_property_zval(this_ptr, ZEND_STRL("methodAnnotations"), &__$false);
 		}
 	}
 	RETURN_MM_MEMBER(getThis(), "methodAnnotations");
@@ -250,15 +250,15 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getPropertiesAnnotations) {
 
 	ZEPHIR_MM_GROW();
 
-	zephir_read_property(&_0, this_ptr, SL("propertyAnnotations"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("propertyAnnotations"), PH_NOISY_CC | PH_READONLY);
 	if (Z_TYPE_P(&_0) == IS_NULL) {
 		ZEPHIR_OBS_VAR(&reflectionProperties);
-		zephir_read_property(&_1$$3, this_ptr, SL("reflectionData"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_1$$3, this_ptr, ZEND_STRL("reflectionData"), PH_NOISY_CC | PH_READONLY);
 		if (zephir_array_isset_string_fetch(&reflectionProperties, &_1$$3, SL("properties"), 0)) {
 			if (zephir_fast_count_int(&reflectionProperties)) {
 				ZEPHIR_INIT_VAR(&_2$$5);
 				array_init(&_2$$5);
-				zephir_update_property_zval(this_ptr, SL("propertyAnnotations"), &_2$$5);
+				zephir_update_property_zval(this_ptr, ZEND_STRL("propertyAnnotations"), &_2$$5);
 				zephir_is_iterable(&reflectionProperties, 0, "phalcon/Annotations/Reflection.zep", 116);
 				if (Z_TYPE_P(&reflectionProperties) == IS_ARRAY) {
 					ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&reflectionProperties), _5$$5, _6$$5, _3$$5)
@@ -305,9 +305,9 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getPropertiesAnnotations) {
 			}
 		}
 		if (0) {
-			zephir_update_property_zval(this_ptr, SL("propertyAnnotations"), &__$true);
+			zephir_update_property_zval(this_ptr, ZEND_STRL("propertyAnnotations"), &__$true);
 		} else {
-			zephir_update_property_zval(this_ptr, SL("propertyAnnotations"), &__$false);
+			zephir_update_property_zval(this_ptr, ZEND_STRL("propertyAnnotations"), &__$false);
 		}
 	}
 	RETURN_MM_MEMBER(getThis(), "propertyAnnotations");

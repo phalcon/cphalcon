@@ -77,11 +77,11 @@ PHP_METHOD(Phalcon_Filter_Sanitize_Lower, __invoke) {
 		ZVAL_LONG(&_0$$3, 1);
 		ZEPHIR_INIT_VAR(&_1$$3);
 		ZVAL_STRING(&_1$$3, "UTF-8");
-		ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_case", NULL, 259, &input, &_0$$3, &_1$$3);
+		ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_case", NULL, 258, &input, &_0$$3, &_1$$3);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
-	ZEPHIR_CALL_FUNCTION(&_2, "utf8_decode", NULL, 260, &input);
+	ZEPHIR_CALL_FUNCTION(&_2, "utf8_decode", NULL, 259, &input);
 	zephir_check_call_status();
 	zephir_fast_strtolower(return_value, &_2);
 	RETURN_MM();

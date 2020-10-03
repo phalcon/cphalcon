@@ -35,10 +35,10 @@
 /**
  * Class Builder
  *
- * @property Collection      $claims
- * @property Collection      $jose
- * @property string          $passphrase
- * @property SignerInterface $signer
+ * @property CollectionInterface  $claims
+ * @property CollectionInterface  $jose
+ * @property string               $passphrase
+ * @property SignerInterface      $signer
  *
  * @link https://tools.ietf.org/html/rfc7519
  */
@@ -47,12 +47,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Security_JWT_Builder) {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Security\\JWT, Builder, phalcon, security_jwt_builder, phalcon_security_jwt_builder_method_entry, 0);
 
 	/**
-	 * @var Collection
+	 * @var CollectionInterface
 	 */
 	zend_declare_property_null(phalcon_security_jwt_builder_ce, SL("claims"), ZEND_ACC_PRIVATE);
 
 	/**
-	 * @var Collection
+	 * @var CollectionInterface
 	 */
 	zend_declare_property_null(phalcon_security_jwt_builder_ce, SL("jose"), ZEND_ACC_PRIVATE);
 
@@ -95,9 +95,9 @@ PHP_METHOD(Phalcon_Security_JWT_Builder, __construct) {
 
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "init", NULL, 0);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, SL("signer"), signer);
-	zephir_read_property(&_0, this_ptr, SL("jose"), PH_NOISY_CC | PH_READONLY);
-	zephir_read_property(&_1, this_ptr, SL("signer"), PH_NOISY_CC | PH_READONLY);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("signer"), signer);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("jose"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_1, this_ptr, ZEND_STRL("signer"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&_2, &_1, "getalgheader", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_3);
@@ -128,12 +128,12 @@ PHP_METHOD(Phalcon_Security_JWT_Builder, init) {
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "");
-	zephir_update_property_zval(this_ptr, SL("passphrase"), &_0);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("passphrase"), &_0);
 	ZEPHIR_INIT_NVAR(&_0);
 	object_init_ex(&_0, phalcon_collection_ce);
 	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 22);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, SL("claims"), &_0);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("claims"), &_0);
 	ZEPHIR_INIT_VAR(&_1);
 	object_init_ex(&_1, phalcon_collection_ce);
 	ZEPHIR_INIT_VAR(&_2);
@@ -142,7 +142,7 @@ PHP_METHOD(Phalcon_Security_JWT_Builder, init) {
 	add_assoc_stringl_ex(&_2, SL("alg"), SL("none"));
 	ZEPHIR_CALL_METHOD(NULL, &_1, "__construct", NULL, 22, &_2);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, SL("jose"), &_1);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("jose"), &_1);
 	RETURN_THIS();
 
 }
@@ -162,7 +162,7 @@ PHP_METHOD(Phalcon_Security_JWT_Builder, getAudience) {
 
 	ZEPHIR_MM_GROW();
 
-	zephir_read_property(&_0, this_ptr, SL("claims"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("claims"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "aud");
 	ZEPHIR_RETURN_CALL_METHOD(&_0, "get", NULL, 0, &_1);
@@ -185,7 +185,7 @@ PHP_METHOD(Phalcon_Security_JWT_Builder, getClaims) {
 
 	ZEPHIR_MM_GROW();
 
-	zephir_read_property(&_0, this_ptr, SL("claims"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("claims"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_METHOD(&_0, "toarray", NULL, 0);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -209,7 +209,7 @@ PHP_METHOD(Phalcon_Security_JWT_Builder, getContentType) {
 
 	ZEPHIR_MM_GROW();
 
-	zephir_read_property(&_0, this_ptr, SL("jose"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("jose"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "cty");
 	ZVAL_NULL(&_2);
@@ -238,7 +238,7 @@ PHP_METHOD(Phalcon_Security_JWT_Builder, getExpirationTime) {
 
 	ZEPHIR_MM_GROW();
 
-	zephir_read_property(&_0, this_ptr, SL("claims"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("claims"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "exp");
 	ZVAL_NULL(&_2);
@@ -264,7 +264,7 @@ PHP_METHOD(Phalcon_Security_JWT_Builder, getHeaders) {
 
 	ZEPHIR_MM_GROW();
 
-	zephir_read_property(&_0, this_ptr, SL("jose"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("jose"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_METHOD(&_0, "toarray", NULL, 0);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -288,7 +288,7 @@ PHP_METHOD(Phalcon_Security_JWT_Builder, getId) {
 
 	ZEPHIR_MM_GROW();
 
-	zephir_read_property(&_0, this_ptr, SL("claims"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("claims"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "jti");
 	ZVAL_NULL(&_2);
@@ -317,7 +317,7 @@ PHP_METHOD(Phalcon_Security_JWT_Builder, getIssuedAt) {
 
 	ZEPHIR_MM_GROW();
 
-	zephir_read_property(&_0, this_ptr, SL("claims"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("claims"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "iat");
 	ZVAL_NULL(&_2);
@@ -346,7 +346,7 @@ PHP_METHOD(Phalcon_Security_JWT_Builder, getIssuer) {
 
 	ZEPHIR_MM_GROW();
 
-	zephir_read_property(&_0, this_ptr, SL("claims"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("claims"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "iss");
 	ZVAL_NULL(&_2);
@@ -375,7 +375,7 @@ PHP_METHOD(Phalcon_Security_JWT_Builder, getNotBefore) {
 
 	ZEPHIR_MM_GROW();
 
-	zephir_read_property(&_0, this_ptr, SL("claims"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("claims"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "nbf");
 	ZVAL_NULL(&_2);
@@ -404,7 +404,7 @@ PHP_METHOD(Phalcon_Security_JWT_Builder, getSubject) {
 
 	ZEPHIR_MM_GROW();
 
-	zephir_read_property(&_0, this_ptr, SL("claims"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("claims"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "sub");
 	ZVAL_NULL(&_2);
@@ -448,9 +448,9 @@ PHP_METHOD(Phalcon_Security_JWT_Builder, getToken) {
 
 	ZEPHIR_MM_GROW();
 
-	zephir_read_property(&_0, this_ptr, SL("passphrase"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("passphrase"), PH_NOISY_CC | PH_READONLY);
 	if (ZEPHIR_IS_EMPTY(&_0)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_security_jwt_exceptions_validatorexception_ce, "Invalid passphrase (empty)", "phalcon/Security/JWT/Builder.zep", 182);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_security_jwt_exceptions_validatorexception_ce, "Invalid passphrase (empty)", "phalcon/Security/JWT/Builder.zep", 183);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(&_4, this_ptr, "getclaims", NULL, 0);
@@ -477,10 +477,10 @@ PHP_METHOD(Phalcon_Security_JWT_Builder, getToken) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, &headers, "__construct", NULL, 0, &_8, &encodedHeaders);
 	zephir_check_call_status();
-	zephir_read_property(&_9, this_ptr, SL("signer"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_9, this_ptr, ZEND_STRL("signer"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_10);
 	ZEPHIR_CONCAT_VSV(&_10, &encodedHeaders, ".", &encodedClaims);
-	zephir_read_property(&_11, this_ptr, SL("passphrase"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_11, this_ptr, ZEND_STRL("passphrase"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&signatureHash, &_9, "sign", NULL, 0, &_10, &_11);
 	zephir_check_call_status();
 	ZEPHIR_CALL_CE_STATIC(&encodedSignature, phalcon_helper_base64_ce, "encodeurl", &_1, 0, &signatureHash);
@@ -548,7 +548,7 @@ PHP_METHOD(Phalcon_Security_JWT_Builder, setAudience) {
 		_0 = Z_TYPE_P(audience) != IS_ARRAY;
 	}
 	if (_0) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_security_jwt_exceptions_validatorexception_ce, "Invalid Audience", "phalcon/Security/JWT/Builder.zep", 232);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_security_jwt_exceptions_validatorexception_ce, "Invalid Audience", "phalcon/Security/JWT/Builder.zep", 233);
 		return;
 	}
 	if (Z_TYPE_P(audience) == IS_STRING) {
@@ -591,7 +591,7 @@ PHP_METHOD(Phalcon_Security_JWT_Builder, setContentType) {
 	zephir_get_strval(&contentType, contentType_param);
 
 
-	zephir_read_property(&_0, this_ptr, SL("jose"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("jose"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "cty");
 	ZEPHIR_CALL_METHOD(NULL, &_0, "set", NULL, 0, &_1, &contentType);
@@ -634,7 +634,7 @@ PHP_METHOD(Phalcon_Security_JWT_Builder, setExpirationTime) {
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_time(&_0);
 	if (ZEPHIR_GT_LONG(&_0, timestamp)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_security_jwt_exceptions_validatorexception_ce, "Invalid Expiration Time", "phalcon/Security/JWT/Builder.zep", 277);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_security_jwt_exceptions_validatorexception_ce, "Invalid Expiration Time", "phalcon/Security/JWT/Builder.zep", 278);
 		return;
 	}
 	ZEPHIR_INIT_VAR(&_1);
@@ -815,7 +815,7 @@ PHP_METHOD(Phalcon_Security_JWT_Builder, setNotBefore) {
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_time(&_0);
 	if (ZEPHIR_LT_LONG(&_0, timestamp)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_security_jwt_exceptions_validatorexception_ce, "Invalid Not Before", "phalcon/Security/JWT/Builder.zep", 351);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_security_jwt_exceptions_validatorexception_ce, "Invalid Not Before", "phalcon/Security/JWT/Builder.zep", 352);
 		return;
 	}
 	ZEPHIR_INIT_VAR(&_1);
@@ -916,10 +916,10 @@ PHP_METHOD(Phalcon_Security_JWT_Builder, setPassphrase) {
 	ZVAL_STRING(&_3, "/(?=^.{16,}$)((?=.*\\d)|(?=.*\\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/");
 	zephir_preg_match(&_2, &_3, &passphrase, &_0, 0, 0 , 0 );
 	if (!(zephir_is_true(&_2))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_security_jwt_exceptions_validatorexception_ce, "Invalid passphrase (too weak)", "phalcon/Security/JWT/Builder.zep", 389);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_security_jwt_exceptions_validatorexception_ce, "Invalid passphrase (too weak)", "phalcon/Security/JWT/Builder.zep", 390);
 		return;
 	}
-	zephir_update_property_zval(this_ptr, SL("passphrase"), &passphrase);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("passphrase"), &passphrase);
 	RETURN_THIS();
 
 }
@@ -959,7 +959,7 @@ PHP_METHOD(Phalcon_Security_JWT_Builder, setClaim) {
 	}
 
 
-	zephir_read_property(&_0, this_ptr, SL("claims"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("claims"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(NULL, &_0, "set", NULL, 0, &name, value);
 	zephir_check_call_status();
 	RETURN_THIS();

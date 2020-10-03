@@ -90,7 +90,7 @@ PHP_METHOD(Phalcon_Html_Helper_Ol, add) {
 	ZEPHIR_INIT_VAR(&_2);
 	zephir_create_array(&_2, 4, 0);
 	ZEPHIR_OBS_VAR(&_3);
-	zephir_read_property(&_3, this_ptr, SL("elementTag"), PH_NOISY_CC);
+	zephir_read_property(&_3, this_ptr, ZEND_STRL("elementTag"), PH_NOISY_CC);
 	zephir_array_fast_append(&_2, &_3);
 	zephir_array_fast_append(&_2, &text);
 	zephir_array_fast_append(&_2, &attributes);

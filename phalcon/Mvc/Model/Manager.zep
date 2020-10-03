@@ -590,21 +590,21 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
             }
         }
 
-        /**
-         * Dispatch events to the global events manager
-         */
-        if fetch modelsBehaviors, this->behaviors[get_class_lower(model)] {
-            /**
-             * Notify all the events on the behavior
-             */
-            for behavior in modelsBehaviors {
-                let status = behavior->notify(eventName, model);
+                /**
+                 * Dispatch events to the global events manager
+                 */
+                if fetch modelsBehaviors, this->behaviors[get_class_lower(model)] {
+                    /**
+                     * Notify all the events on the behavior
+                     */
+                    for behavior in modelsBehaviors {
+                        let status = behavior->notify(eventName, model);
 
-                if status === false {
-                    return false;
+                        if status === false {
+                            return false;
+                        }
+                    }
                 }
-            }
-        }
 
         return status;
     }
@@ -618,21 +618,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     {
         var modelsBehaviors, result, eventsManager, behavior;
 
-        /**
-         * Dispatch events to the global events manager
-         */
-        if fetch modelsBehaviors, this->behaviors[get_class_lower(model)] {
-            /**
-             * Notify all the events on the behavior
-             */
-            for behavior in modelsBehaviors {
-                let result = behavior->missingMethod(model, eventName, data);
 
-                if result !== null {
-                    return result;
-                }
-            }
-        }
 
         /**
          * Dispatch events to the global events manager
@@ -646,6 +632,22 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
                 data
             );
         }
+
+                /**
+                 * Dispatch events to the global events manager
+                 */
+                if fetch modelsBehaviors, this->behaviors[get_class_lower(model)] {
+                    /**
+                     * Notify all the events on the behavior
+                     */
+                    for behavior in modelsBehaviors {
+                        let result = behavior->missingMethod(model, eventName, data);
+
+                        if result !== null {
+                            return result;
+                        }
+                    }
+                }
 
         return null;
     }

@@ -70,7 +70,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, __construct) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, SL("options"), &options);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("options"), &options);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -112,7 +112,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, getOptions) {
 	}
 
 
-	zephir_read_property(&_0, this_ptr, SL("options"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("options"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&options, &_0);
 	if (!ZEPHIR_IS_STRING_IDENTICAL(&eventName, "")) {
 		if (!(zephir_array_isset_fetch(&eventOptions, &options, &eventName, 1))) {
@@ -183,7 +183,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior, mustTakeAction) {
 	}
 
 
-	zephir_read_property(&_0, this_ptr, SL("options"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("options"), PH_NOISY_CC | PH_READONLY);
 	RETURN_MM_BOOL(zephir_array_isset(&_0, &eventName));
 
 }

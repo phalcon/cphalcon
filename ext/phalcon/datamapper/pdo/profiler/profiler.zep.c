@@ -117,11 +117,11 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_Profiler, __construct) {
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "{method} ({duration}s): {statement} {backtrace}");
-	zephir_update_property_zval(this_ptr, SL("logFormat"), &_0);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("logFormat"), &_0);
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "debug");
-	zephir_update_property_zval(this_ptr, SL("logLevel"), &_0);
-	zephir_update_property_zval(this_ptr, SL("logger"), logger);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("logLevel"), &_0);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("logger"), logger);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -135,10 +135,10 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_Profiler, __construct) {
 PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_Profiler, finish) {
 
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zephir_fcall_cache_entry *_9 = NULL;
+	zephir_fcall_cache_entry *_10 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval values;
-	zval *statement_param = NULL, *values_param = NULL, __$true, ex, finish, version, _0, _1$$3, _2$$3, _3$$3, _4$$3, _5$$3, _6$$3, _7$$3, _8$$3, _10$$3, _11$$3, _12$$3, _13$$3, _14$$3, _15$$3;
+	zval *statement_param = NULL, *values_param = NULL, __$true, ex, finish, version, _0, _1$$5, _2$$3, _3$$3, _4$$3, _5$$3, _6$$3, _7$$3, _8$$3, _9$$3, _11$$3, _12$$3, _13$$3, _14$$3, _15$$3, _16$$3;
 	zval statement;
 	zval *this_ptr = getThis();
 
@@ -148,7 +148,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_Profiler, finish) {
 	ZVAL_UNDEF(&finish);
 	ZVAL_UNDEF(&version);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&_1$$5);
 	ZVAL_UNDEF(&_2$$3);
 	ZVAL_UNDEF(&_3$$3);
 	ZVAL_UNDEF(&_4$$3);
@@ -156,12 +156,13 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_Profiler, finish) {
 	ZVAL_UNDEF(&_6$$3);
 	ZVAL_UNDEF(&_7$$3);
 	ZVAL_UNDEF(&_8$$3);
-	ZVAL_UNDEF(&_10$$3);
+	ZVAL_UNDEF(&_9$$3);
 	ZVAL_UNDEF(&_11$$3);
 	ZVAL_UNDEF(&_12$$3);
 	ZVAL_UNDEF(&_13$$3);
 	ZVAL_UNDEF(&_14$$3);
 	ZVAL_UNDEF(&_15$$3);
+	ZVAL_UNDEF(&_16$$3);
 	ZVAL_UNDEF(&values);
 
 	ZEPHIR_MM_GROW();
@@ -181,7 +182,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_Profiler, finish) {
 	}
 
 
-	zephir_read_property(&_0, this_ptr, SL("active"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("active"), PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(zephir_is_true(&_0))) {
 		ZEPHIR_CALL_FUNCTION(&version, "phpversion", NULL, 201);
 		zephir_check_call_status();
@@ -193,47 +194,48 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_Profiler, finish) {
 			ZEPHIR_INIT_VAR(&finish);
 			zephir_microtime(&finish, &__$true);
 		} else {
-			ZEPHIR_CALL_FUNCTION(&finish, "hrtime", NULL, 202, &__$true);
+			ZVAL_BOOL(&_1$$5, 1);
+			ZEPHIR_CALL_FUNCTION(&finish, "hrtime", NULL, 0, &_1$$5);
 			zephir_check_call_status();
 		}
-		ZEPHIR_CALL_METHOD(&_1$$3, &ex, "gettraceasstring", NULL, 203);
+		ZEPHIR_CALL_METHOD(&_2$$3, &ex, "gettraceasstring", NULL, 202);
 		zephir_check_call_status();
-		ZEPHIR_INIT_VAR(&_2$$3);
-		ZVAL_STRING(&_2$$3, "backtrace");
-		zephir_update_property_array(this_ptr, SL("context"), &_2$$3, &_1$$3);
-		zephir_read_property(&_3$$3, this_ptr, SL("context"), PH_NOISY_CC | PH_READONLY);
-		zephir_array_fetch_string(&_4$$3, &_3$$3, SL("start"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Pdo/Profiler/Profiler.zep", 100);
-		ZEPHIR_INIT_VAR(&_5$$3);
-		zephir_sub_function(&_5$$3, &finish, &_4$$3);
+		ZEPHIR_INIT_VAR(&_3$$3);
+		ZVAL_STRING(&_3$$3, "backtrace");
+		zephir_update_property_array(this_ptr, SL("context"), &_3$$3, &_2$$3);
+		zephir_read_property(&_4$$3, this_ptr, ZEND_STRL("context"), PH_NOISY_CC | PH_READONLY);
+		zephir_array_fetch_string(&_5$$3, &_4$$3, SL("start"), PH_NOISY | PH_READONLY, "phalcon/DataMapper/Pdo/Profiler/Profiler.zep", 100);
 		ZEPHIR_INIT_VAR(&_6$$3);
-		ZVAL_STRING(&_6$$3, "duration");
-		zephir_update_property_array(this_ptr, SL("context"), &_6$$3, &_5$$3);
+		zephir_sub_function(&_6$$3, &finish, &_5$$3);
 		ZEPHIR_INIT_VAR(&_7$$3);
-		ZVAL_STRING(&_7$$3, "finish");
-		zephir_update_property_array(this_ptr, SL("context"), &_7$$3, &finish);
+		ZVAL_STRING(&_7$$3, "duration");
+		zephir_update_property_array(this_ptr, SL("context"), &_7$$3, &_6$$3);
 		ZEPHIR_INIT_VAR(&_8$$3);
-		ZVAL_STRING(&_8$$3, "statement");
-		zephir_update_property_array(this_ptr, SL("context"), &_8$$3, &statement);
-		ZEPHIR_INIT_NVAR(&_5$$3);
+		ZVAL_STRING(&_8$$3, "finish");
+		zephir_update_property_array(this_ptr, SL("context"), &_8$$3, &finish);
+		ZEPHIR_INIT_VAR(&_9$$3);
+		ZVAL_STRING(&_9$$3, "statement");
+		zephir_update_property_array(this_ptr, SL("context"), &_9$$3, &statement);
+		ZEPHIR_INIT_NVAR(&_6$$3);
 		if (ZEPHIR_IS_EMPTY(&values)) {
-			ZEPHIR_INIT_NVAR(&_5$$3);
-			ZVAL_STRING(&_5$$3, "");
+			ZEPHIR_INIT_NVAR(&_6$$3);
+			ZVAL_STRING(&_6$$3, "");
 		} else {
-			ZEPHIR_CALL_CE_STATIC(&_5$$3, phalcon_helper_json_ce, "encode", &_9, 14, &values);
+			ZEPHIR_CALL_CE_STATIC(&_6$$3, phalcon_helper_json_ce, "encode", &_10, 14, &values);
 			zephir_check_call_status();
 		}
-		ZEPHIR_INIT_VAR(&_10$$3);
-		ZVAL_STRING(&_10$$3, "values");
-		zephir_update_property_array(this_ptr, SL("context"), &_10$$3, &_5$$3);
-		zephir_read_property(&_11$$3, this_ptr, SL("logger"), PH_NOISY_CC | PH_READONLY);
-		zephir_read_property(&_12$$3, this_ptr, SL("logLevel"), PH_NOISY_CC | PH_READONLY);
-		zephir_read_property(&_13$$3, this_ptr, SL("logFormat"), PH_NOISY_CC | PH_READONLY);
-		zephir_read_property(&_14$$3, this_ptr, SL("context"), PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_CALL_METHOD(NULL, &_11$$3, "log", NULL, 0, &_12$$3, &_13$$3, &_14$$3);
+		ZEPHIR_INIT_VAR(&_11$$3);
+		ZVAL_STRING(&_11$$3, "values");
+		zephir_update_property_array(this_ptr, SL("context"), &_11$$3, &_6$$3);
+		zephir_read_property(&_12$$3, this_ptr, ZEND_STRL("logger"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_13$$3, this_ptr, ZEND_STRL("logLevel"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_14$$3, this_ptr, ZEND_STRL("logFormat"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_15$$3, this_ptr, ZEND_STRL("context"), PH_NOISY_CC | PH_READONLY);
+		ZEPHIR_CALL_METHOD(NULL, &_12$$3, "log", NULL, 0, &_13$$3, &_14$$3, &_15$$3);
 		zephir_check_call_status();
-		ZEPHIR_INIT_VAR(&_15$$3);
-		array_init(&_15$$3);
-		zephir_update_property_zval(this_ptr, SL("context"), &_15$$3);
+		ZEPHIR_INIT_VAR(&_16$$3);
+		array_init(&_16$$3);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("context"), &_16$$3);
 	}
 	ZEPHIR_MM_RESTORE();
 
@@ -317,9 +319,9 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_Profiler, setActive) {
 
 
 	if (active) {
-		zephir_update_property_zval(this_ptr, SL("active"), &__$true);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("active"), &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, SL("active"), &__$false);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("active"), &__$false);
 	}
 	RETURN_THISW();
 
@@ -347,7 +349,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_Profiler, setLogFormat) {
 	zephir_get_strval(&logFormat, logFormat_param);
 
 
-	zephir_update_property_zval(this_ptr, SL("logFormat"), &logFormat);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("logFormat"), &logFormat);
 	RETURN_THIS();
 
 }
@@ -374,7 +376,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_Profiler, setLogLevel) {
 	zephir_get_strval(&logLevel, logLevel_param);
 
 
-	zephir_update_property_zval(this_ptr, SL("logLevel"), &logLevel);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("logLevel"), &logLevel);
 	RETURN_THIS();
 
 }
@@ -386,10 +388,10 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_Profiler, setLogLevel) {
  */
 PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_Profiler, start) {
 
-	zval _1$$3;
+	zval _2$$3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *method_param = NULL, __$true, start, version, _0;
+	zval *method_param = NULL, __$true, start, version, _0, _1$$5;
 	zval method;
 	zval *this_ptr = getThis();
 
@@ -398,7 +400,8 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_Profiler, start) {
 	ZVAL_UNDEF(&start);
 	ZVAL_UNDEF(&version);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&_1$$5);
+	ZVAL_UNDEF(&_2$$3);
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &method_param);
@@ -406,7 +409,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_Profiler, start) {
 	zephir_get_strval(&method, method_param);
 
 
-	zephir_read_property(&_0, this_ptr, SL("active"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("active"), PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(zephir_is_true(&_0))) {
 		ZEPHIR_CALL_FUNCTION(&version, "phpversion", NULL, 201);
 		zephir_check_call_status();
@@ -414,14 +417,15 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_Profiler, start) {
 			ZEPHIR_INIT_VAR(&start);
 			zephir_microtime(&start, &__$true);
 		} else {
-			ZEPHIR_CALL_FUNCTION(&start, "hrtime", NULL, 202, &__$true);
+			ZVAL_BOOL(&_1$$5, 1);
+			ZEPHIR_CALL_FUNCTION(&start, "hrtime", NULL, 0, &_1$$5);
 			zephir_check_call_status();
 		}
-		ZEPHIR_INIT_VAR(&_1$$3);
-		zephir_create_array(&_1$$3, 2, 0);
-		zephir_array_update_string(&_1$$3, SL("method"), &method, PH_COPY | PH_SEPARATE);
-		zephir_array_update_string(&_1$$3, SL("start"), &start, PH_COPY | PH_SEPARATE);
-		zephir_update_property_zval(this_ptr, SL("context"), &_1$$3);
+		ZEPHIR_INIT_VAR(&_2$$3);
+		zephir_create_array(&_2$$3, 2, 0);
+		zephir_array_update_string(&_2$$3, SL("method"), &method, PH_COPY | PH_SEPARATE);
+		zephir_array_update_string(&_2$$3, SL("start"), &start, PH_COPY | PH_SEPARATE);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("context"), &_2$$3);
 	}
 	ZEPHIR_MM_RESTORE();
 
@@ -439,11 +443,11 @@ zend_object *zephir_init_properties_Phalcon_DataMapper_Pdo_Profiler_Profiler(zen
 	{
 		zval local_this_ptr, *this_ptr = &local_this_ptr;
 		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property(&_0, this_ptr, SL("context"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_ex(&_0, this_ptr, ZEND_STRL("context"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_0) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_1$$3);
 			array_init(&_1$$3);
-			zephir_update_property_zval(this_ptr, SL("context"), &_1$$3);
+			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("context"), &_1$$3);
 		}
 		ZEPHIR_MM_RESTORE();
 		return Z_OBJ_P(this_ptr);
