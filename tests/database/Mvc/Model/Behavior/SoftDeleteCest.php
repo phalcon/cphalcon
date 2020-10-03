@@ -86,8 +86,6 @@ class SoftDeleteCest
         /** ADD BeforeDelete event */
         $eventsManager = $this->getDI()->getShared('eventsManager');
         $eventsManager->attach('model:beforeDelete', function (Event $event, $model) {
-            echo 'test';
-            die;
             return false;
         });
 
