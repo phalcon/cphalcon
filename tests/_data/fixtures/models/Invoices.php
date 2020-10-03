@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace Phalcon\Test\Models;
 
@@ -30,8 +30,9 @@ use Phalcon\Mvc\Model;
  */
 class Invoices extends Model
 {
-    const STATUS_UNPAID = 0;
-    const STATUS_PAID   = 1;
+    const STATUS_UNPAID   = 0;
+    const STATUS_PAID     = 1;
+    const STATUS_INACTIVE = 2;
 
     public $inv_id;
     public $inv_cst_id;
