@@ -115,7 +115,6 @@ class CloneResultMapCest
      *
      * @group        mysql
      * @group        pgsql
-     * @group        sqlite
      */
     public function cloneResultMapWithCasting(DatabaseTester $I, Example $example)
     {
