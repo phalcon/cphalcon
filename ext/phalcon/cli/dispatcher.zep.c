@@ -118,7 +118,7 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, callActionMethod) {
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&params, &_0);
 	ZEPHIR_INIT_VAR(&_1);
-	zephir_read_property(&_2, this_ptr, ZEND_STRL("options"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_2, this_ptr, SL("options"), PH_NOISY_CC | PH_READONLY);
 	zephir_fast_array_merge(&_1, &params, &_2);
 	ZEPHIR_CPY_WRT(&params, &_1);
 	ZEPHIR_INIT_VAR(&_3);
@@ -198,7 +198,7 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, getOption) {
 	}
 
 
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("options"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, SL("options"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&options, &_0);
 	ZEPHIR_OBS_VAR(&optionValue);
 	if (!(zephir_array_isset_fetch(&optionValue, &options, option, 0))) {
@@ -208,7 +208,7 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, getOption) {
 	if (Z_TYPE_P(filters) == IS_NULL) {
 		RETURN_CCTOR(&optionValue);
 	}
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("container"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, SL("container"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&container, &_0);
 	if (Z_TYPE_P(&container) != IS_OBJECT) {
 		ZEPHIR_INIT_VAR(&_3$$5);
@@ -281,7 +281,7 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, hasOption) {
 
 
 
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("options"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, SL("options"), PH_NOISY_CC | PH_READONLY);
 	RETURN_BOOL(zephir_array_isset(&_0, option));
 
 }
@@ -304,7 +304,7 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, setDefaultTask) {
 	zephir_get_strval(&taskName, taskName_param);
 
 
-	zephir_update_property_zval(this_ptr, ZEND_STRL("defaultHandler"), &taskName);
+	zephir_update_property_zval(this_ptr, SL("defaultHandler"), &taskName);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -327,7 +327,7 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, setOptions) {
 	zephir_get_arrval(&options, options_param);
 
 
-	zephir_update_property_zval(this_ptr, ZEND_STRL("options"), &options);
+	zephir_update_property_zval(this_ptr, SL("options"), &options);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -350,7 +350,7 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, setTaskName) {
 	zephir_get_strval(&taskName, taskName_param);
 
 
-	zephir_update_property_zval(this_ptr, ZEND_STRL("handlerName"), &taskName);
+	zephir_update_property_zval(this_ptr, SL("handlerName"), &taskName);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -373,7 +373,7 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, setTaskSuffix) {
 	zephir_get_strval(&taskSuffix, taskSuffix_param);
 
 
-	zephir_update_property_zval(this_ptr, ZEND_STRL("handlerSuffix"), &taskSuffix);
+	zephir_update_property_zval(this_ptr, SL("handlerSuffix"), &taskSuffix);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -399,7 +399,7 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, handleException) {
 
 
 
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("eventsManager"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, SL("eventsManager"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&eventsManager, &_0);
 	if (Z_TYPE_P(&eventsManager) == IS_OBJECT) {
 		ZEPHIR_INIT_VAR(&_2$$3);
@@ -477,35 +477,35 @@ zend_object *zephir_init_properties_Phalcon_Cli_Dispatcher(zend_class_entry *cla
 	{
 		zval local_this_ptr, *this_ptr = &local_this_ptr;
 		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property_ex(&_0, this_ptr, ZEND_STRL("params"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_0, this_ptr, SL("params"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_0) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_1$$3);
 			array_init(&_1$$3);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("params"), &_1$$3);
+			zephir_update_property_zval(this_ptr, SL("params"), &_1$$3);
 		}
-		zephir_read_property_ex(&_2, this_ptr, ZEND_STRL("handlerHashes"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_2, this_ptr, SL("handlerHashes"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_2) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_3$$4);
 			array_init(&_3$$4);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("handlerHashes"), &_3$$4);
+			zephir_update_property_zval(this_ptr, SL("handlerHashes"), &_3$$4);
 		}
-		zephir_read_property_ex(&_4, this_ptr, ZEND_STRL("camelCaseMap"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_4, this_ptr, SL("camelCaseMap"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_4) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_5$$5);
 			array_init(&_5$$5);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("camelCaseMap"), &_5$$5);
+			zephir_update_property_zval(this_ptr, SL("camelCaseMap"), &_5$$5);
 		}
-		zephir_read_property_ex(&_6, this_ptr, ZEND_STRL("activeMethodMap"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_6, this_ptr, SL("activeMethodMap"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_6) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_7$$6);
 			array_init(&_7$$6);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("activeMethodMap"), &_7$$6);
+			zephir_update_property_zval(this_ptr, SL("activeMethodMap"), &_7$$6);
 		}
-		zephir_read_property_ex(&_8, this_ptr, ZEND_STRL("options"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_8, this_ptr, SL("options"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_8) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_9$$7);
 			array_init(&_9$$7);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("options"), &_9$$7);
+			zephir_update_property_zval(this_ptr, SL("options"), &_9$$7);
 		}
 		ZEPHIR_MM_RESTORE();
 		return Z_OBJ_P(this_ptr);

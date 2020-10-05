@@ -223,7 +223,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct) {
 	ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 95, &_3, &_4);
 	zephir_check_call_status();
 	zephir_array_update_string(&_1, SL("url"), &_2, PH_COPY | PH_SEPARATE);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("services"), &_1);
+	zephir_update_property_zval(this_ptr, SL("services"), &_1);
 	ZEPHIR_MM_RESTORE();
 
 }

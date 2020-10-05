@@ -79,8 +79,8 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, __construct) {
 	ZVAL_STRING(&_3, "associativeArray");
 	ZEPHIR_CALL_CE_STATIC(&_0, phalcon_helper_arr_ce, "get", &_1, 16, &options, &_2, &_3);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, ZEND_STRL("defaultInterpolator"), &_0);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("interpolatorFactory"), interpolator);
+	zephir_update_property_zval(this_ptr, SL("defaultInterpolator"), &_0);
+	zephir_update_property_zval(this_ptr, SL("interpolatorFactory"), interpolator);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -301,8 +301,8 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, replacePlaceholders) {
 	}
 
 
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("interpolatorFactory"), PH_NOISY_CC | PH_READONLY);
-	zephir_read_property(&_1, this_ptr, ZEND_STRL("defaultInterpolator"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, SL("interpolatorFactory"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_1, this_ptr, SL("defaultInterpolator"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&interpolator, &_0, "newinstance", NULL, 0, &_1);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(&interpolator, "replaceplaceholders", NULL, 0, &translation, &placeholders);

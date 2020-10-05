@@ -103,7 +103,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, __construct) {
 
 	ZEPHIR_CALL_PARENT(NULL, phalcon_session_adapter_stream_ce, getThis(), "__construct", &_0, 0, &options);
 	zephir_check_call_status();
-	zephir_read_property(&_1, this_ptr, ZEND_STRL("options"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_1, this_ptr, SL("options"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&options, &_1);
 	ZEPHIR_OBS_VAR(&path);
 	if (!(zephir_array_isset_string_fetch(&path, &options, SL("savePath"), 0))) {
@@ -112,7 +112,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, __construct) {
 		ZEPHIR_CALL_FUNCTION(&path, "ini_get", NULL, 0, &_2$$3);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_FUNCTION(&_3, "is_writable", NULL, 345, &path);
+	ZEPHIR_CALL_FUNCTION(&_3, "is_writable", NULL, 346, &path);
 	zephir_check_call_status();
 	if (UNEXPECTED(!zephir_is_true(&_3))) {
 		ZEPHIR_INIT_VAR(&_4$$4);
@@ -127,7 +127,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, __construct) {
 	}
 	ZEPHIR_CALL_CE_STATIC(&_6, phalcon_helper_str_ce, "dirseparator", &_7, 128, &path);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, ZEND_STRL("path"), &_6);
+	zephir_update_property_zval(this_ptr, SL("path"), &_6);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -151,7 +151,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, destroy) {
 
 
 
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("path"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, SL("path"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getprefixedname", NULL, 0, id);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&file);
@@ -198,8 +198,8 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, gc) {
 
 
 
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("path"), PH_NOISY_CC | PH_READONLY);
-	zephir_read_property(&_1, this_ptr, ZEND_STRL("prefix"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, SL("path"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_1, this_ptr, SL("prefix"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&pattern);
 	ZEPHIR_CONCAT_VVS(&pattern, &_0, &_1, "*");
 	ZEPHIR_INIT_VAR(&_2);
@@ -310,7 +310,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, read) {
 
 
 
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("path"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, SL("path"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getprefixedname", NULL, 0, id);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&name);
@@ -358,7 +358,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, write) {
 
 
 
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("path"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, SL("path"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getprefixedname", NULL, 0, id);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&name);

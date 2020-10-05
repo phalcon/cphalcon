@@ -40,7 +40,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Link_Link) {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Html\\Link, Link, phalcon, html_link_link, phalcon_html_link_link_method_entry, 0);
 
 	/**
-	 * @var Collection|CollectionInterface
+	 * @var Collection
 	 */
 	zend_declare_property_null(phalcon_html_link_link_ce, SL("attributes"), ZEND_ACC_PROTECTED);
 
@@ -50,7 +50,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Link_Link) {
 	zend_declare_property_string(phalcon_html_link_link_ce, SL("href"), "", ZEND_ACC_PROTECTED);
 
 	/**
-	 * @var Collection|CollectionInterface
+	 * @var Collection
 	 */
 	zend_declare_property_null(phalcon_html_link_link_ce, SL("rels"), ZEND_ACC_PROTECTED);
 
@@ -115,18 +115,18 @@ PHP_METHOD(Phalcon_Html_Link_Link, __construct) {
 	object_init_ex(&_0, phalcon_collection_ce);
 	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 22);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, ZEND_STRL("rels"), &_0);
+	zephir_update_property_zval(this_ptr, SL("rels"), &_0);
 	ZEPHIR_INIT_VAR(&_1);
 	object_init_ex(&_1, phalcon_collection_ce);
 	ZEPHIR_CALL_METHOD(NULL, &_1, "__construct", NULL, 22, &attributes);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, ZEND_STRL("attributes"), &_1);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("href"), &href);
+	zephir_update_property_zval(this_ptr, SL("attributes"), &_1);
+	zephir_update_property_zval(this_ptr, SL("href"), &href);
 	ZEPHIR_CALL_METHOD(&_2, this_ptr, "hrefistemplated", NULL, 0, &href);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, ZEND_STRL("templated"), &_2);
+	zephir_update_property_zval(this_ptr, SL("templated"), &_2);
 	if (!(ZEPHIR_IS_EMPTY(&rel))) {
-		zephir_read_property(&_3$$3, this_ptr, ZEND_STRL("rels"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_3$$3, this_ptr, SL("rels"), PH_NOISY_CC | PH_READONLY);
 		ZVAL_BOOL(&_4$$3, 1);
 		ZEPHIR_CALL_METHOD(NULL, &_3$$3, "set", NULL, 0, &rel, &_4$$3);
 		zephir_check_call_status();
@@ -154,7 +154,7 @@ PHP_METHOD(Phalcon_Html_Link_Link, getAttributes) {
 
 	ZEPHIR_MM_GROW();
 
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("attributes"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, SL("attributes"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_METHOD(&_0, "toarray", NULL, 0);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -203,7 +203,7 @@ PHP_METHOD(Phalcon_Html_Link_Link, getRels) {
 
 	ZEPHIR_MM_GROW();
 
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("rels"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, SL("rels"), PH_NOISY_CC | PH_READONLY);
 	ZVAL_BOOL(&_1, 0);
 	ZEPHIR_RETURN_CALL_METHOD(&_0, "getkeys", NULL, 0, &_1);
 	zephir_check_call_status();

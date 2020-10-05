@@ -310,44 +310,44 @@ PHP_METHOD(Phalcon_Image_Adapter_AbstractAdapter, crop) {
 
 	ZVAL_LONG(&_0, offsetX);
 	if (Z_TYPE_P(&_0) == IS_NULL) {
-		zephir_read_property(&_1$$3, this_ptr, ZEND_STRL("width"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_1$$3, this_ptr, SL("width"), PH_NOISY_CC | PH_READONLY);
 		offsetX = (long) ((zephir_safe_div_long_long(((zephir_get_numberval(&_1$$3) - width)), 2)));
 	} else {
 		if (offsetX < 0) {
-			zephir_read_property(&_2$$5, this_ptr, ZEND_STRL("width"), PH_NOISY_CC | PH_READONLY);
+			zephir_read_property(&_2$$5, this_ptr, SL("width"), PH_NOISY_CC | PH_READONLY);
 			offsetX = ((zephir_get_numberval(&_2$$5) - width) + offsetX);
 		}
-		zephir_read_property(&_3$$4, this_ptr, ZEND_STRL("width"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_3$$4, this_ptr, SL("width"), PH_NOISY_CC | PH_READONLY);
 		if (ZEPHIR_LT_LONG(&_3$$4, offsetX)) {
 			ZEPHIR_OBS_VAR(&_4$$6);
-			zephir_read_property(&_4$$6, this_ptr, ZEND_STRL("width"), PH_NOISY_CC);
+			zephir_read_property(&_4$$6, this_ptr, SL("width"), PH_NOISY_CC);
 			offsetX = zephir_get_intval(&_4$$6);
 		}
 	}
 	ZVAL_LONG(&_5, offsetY);
 	if (Z_TYPE_P(&_5) == IS_NULL) {
-		zephir_read_property(&_6$$7, this_ptr, ZEND_STRL("height"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_6$$7, this_ptr, SL("height"), PH_NOISY_CC | PH_READONLY);
 		offsetY = (long) ((zephir_safe_div_long_long(((zephir_get_numberval(&_6$$7) - height)), 2)));
 	} else {
 		if (offsetY < 0) {
-			zephir_read_property(&_7$$9, this_ptr, ZEND_STRL("height"), PH_NOISY_CC | PH_READONLY);
+			zephir_read_property(&_7$$9, this_ptr, SL("height"), PH_NOISY_CC | PH_READONLY);
 			offsetY = ((zephir_get_numberval(&_7$$9) - height) + offsetY);
 		}
-		zephir_read_property(&_8$$8, this_ptr, ZEND_STRL("height"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_8$$8, this_ptr, SL("height"), PH_NOISY_CC | PH_READONLY);
 		if (ZEPHIR_LT_LONG(&_8$$8, offsetY)) {
 			ZEPHIR_OBS_VAR(&_9$$10);
-			zephir_read_property(&_9$$10, this_ptr, ZEND_STRL("height"), PH_NOISY_CC);
+			zephir_read_property(&_9$$10, this_ptr, SL("height"), PH_NOISY_CC);
 			offsetY = zephir_get_intval(&_9$$10);
 		}
 	}
-	zephir_read_property(&_10, this_ptr, ZEND_STRL("width"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_10, this_ptr, SL("width"), PH_NOISY_CC | PH_READONLY);
 	if (width > ((zephir_get_numberval(&_10) - offsetX))) {
-		zephir_read_property(&_11$$11, this_ptr, ZEND_STRL("width"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_11$$11, this_ptr, SL("width"), PH_NOISY_CC | PH_READONLY);
 		width = (zephir_get_numberval(&_11$$11) - offsetX);
 	}
-	zephir_read_property(&_12, this_ptr, ZEND_STRL("height"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_12, this_ptr, SL("height"), PH_NOISY_CC | PH_READONLY);
 	if (height > ((zephir_get_numberval(&_12) - offsetY))) {
-		zephir_read_property(&_13$$12, this_ptr, ZEND_STRL("height"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_13$$12, this_ptr, SL("height"), PH_NOISY_CC | PH_READONLY);
 		height = (zephir_get_numberval(&_13$$12) - offsetY);
 	}
 	ZVAL_LONG(&_14, width);
@@ -527,12 +527,12 @@ PHP_METHOD(Phalcon_Image_Adapter_AbstractAdapter, reflection) {
 
 	_0 = height <= 0;
 	if (!(_0)) {
-		zephir_read_property(&_1, this_ptr, ZEND_STRL("height"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_1, this_ptr, SL("height"), PH_NOISY_CC | PH_READONLY);
 		_0 = ZEPHIR_LT_LONG(&_1, height);
 	}
 	if (_0) {
 		ZEPHIR_OBS_VAR(&_2$$3);
-		zephir_read_property(&_2$$3, this_ptr, ZEND_STRL("height"), PH_NOISY_CC);
+		zephir_read_property(&_2$$3, this_ptr, SL("height"), PH_NOISY_CC);
 		height = zephir_get_intval(&_2$$3);
 	}
 	if (opacity < 0) {
@@ -588,7 +588,7 @@ PHP_METHOD(Phalcon_Image_Adapter_AbstractAdapter, render) {
 
 
 	if (!(!(Z_TYPE_P(&ext) == IS_UNDEF) && Z_STRLEN_P(&ext))) {
-		zephir_read_property(&_0$$3, this_ptr, ZEND_STRL("file"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_0$$3, this_ptr, SL("file"), PH_NOISY_CC | PH_READONLY);
 		ZVAL_LONG(&_1$$3, 4);
 		ZEPHIR_CALL_FUNCTION(&_2$$3, "pathinfo", NULL, 107, &_0$$3, &_1$$3);
 		zephir_check_call_status();
@@ -691,8 +691,8 @@ PHP_METHOD(Phalcon_Image_Adapter_AbstractAdapter, resize) {
 				return;
 			}
 			ZEPHIR_INIT_VAR(&_2$$6);
-			zephir_read_property(&_3$$6, this_ptr, ZEND_STRL("width"), PH_NOISY_CC | PH_READONLY);
-			zephir_read_property(&_4$$6, this_ptr, ZEND_STRL("height"), PH_NOISY_CC | PH_READONLY);
+			zephir_read_property(&_3$$6, this_ptr, SL("width"), PH_NOISY_CC | PH_READONLY);
+			zephir_read_property(&_4$$6, this_ptr, SL("height"), PH_NOISY_CC | PH_READONLY);
 			if ((zephir_safe_div_zval_long(&_3$$6, width)) > (int) (zephir_safe_div_zval_long(&_4$$6, height))) {
 				ZEPHIR_INIT_NVAR(&_2$$6);
 				ZVAL_LONG(&_2$$6, 2);
@@ -712,8 +712,8 @@ PHP_METHOD(Phalcon_Image_Adapter_AbstractAdapter, resize) {
 				return;
 			}
 			ZEPHIR_INIT_VAR(&_6$$8);
-			zephir_read_property(&_7$$8, this_ptr, ZEND_STRL("width"), PH_NOISY_CC | PH_READONLY);
-			zephir_read_property(&_8$$8, this_ptr, ZEND_STRL("height"), PH_NOISY_CC | PH_READONLY);
+			zephir_read_property(&_7$$8, this_ptr, SL("width"), PH_NOISY_CC | PH_READONLY);
+			zephir_read_property(&_8$$8, this_ptr, SL("height"), PH_NOISY_CC | PH_READONLY);
 			if ((zephir_safe_div_zval_long(&_7$$8, width)) > (int) (zephir_safe_div_zval_long(&_8$$8, height))) {
 				ZEPHIR_INIT_NVAR(&_6$$8);
 				ZVAL_LONG(&_6$$8, 3);
@@ -729,8 +729,8 @@ PHP_METHOD(Phalcon_Image_Adapter_AbstractAdapter, resize) {
 					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_image_exception_ce, "width must be specified", "phalcon/Image/Adapter/AbstractAdapter.zep", 290);
 					return;
 				}
-				zephir_read_property(&_9$$10, this_ptr, ZEND_STRL("height"), PH_NOISY_CC | PH_READONLY);
-				zephir_read_property(&_10$$10, this_ptr, ZEND_STRL("width"), PH_NOISY_CC | PH_READONLY);
+				zephir_read_property(&_9$$10, this_ptr, SL("height"), PH_NOISY_CC | PH_READONLY);
+				zephir_read_property(&_10$$10, this_ptr, SL("width"), PH_NOISY_CC | PH_READONLY);
 				height = (long) (zephir_safe_div_long_zval((zephir_get_numberval(&_9$$10) * width), &_10$$10));
 				break;
 			}
@@ -739,8 +739,8 @@ PHP_METHOD(Phalcon_Image_Adapter_AbstractAdapter, resize) {
 					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_image_exception_ce, "height must be specified", "phalcon/Image/Adapter/AbstractAdapter.zep", 299);
 					return;
 				}
-				zephir_read_property(&_11$$12, this_ptr, ZEND_STRL("width"), PH_NOISY_CC | PH_READONLY);
-				zephir_read_property(&_12$$12, this_ptr, ZEND_STRL("height"), PH_NOISY_CC | PH_READONLY);
+				zephir_read_property(&_11$$12, this_ptr, SL("width"), PH_NOISY_CC | PH_READONLY);
+				zephir_read_property(&_12$$12, this_ptr, SL("height"), PH_NOISY_CC | PH_READONLY);
 				width = (long) (zephir_safe_div_long_zval((zephir_get_numberval(&_11$$12) * height), &_12$$12));
 				break;
 			}
@@ -753,18 +753,18 @@ PHP_METHOD(Phalcon_Image_Adapter_AbstractAdapter, resize) {
 					ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_image_exception_ce, "width and height must be specified", "phalcon/Image/Adapter/AbstractAdapter.zep", 310);
 					return;
 				}
-				zephir_read_property(&_14$$14, this_ptr, ZEND_STRL("width"), PH_NOISY_CC | PH_READONLY);
-				zephir_read_property(&_15$$14, this_ptr, ZEND_STRL("height"), PH_NOISY_CC | PH_READONLY);
+				zephir_read_property(&_14$$14, this_ptr, SL("width"), PH_NOISY_CC | PH_READONLY);
+				zephir_read_property(&_15$$14, this_ptr, SL("height"), PH_NOISY_CC | PH_READONLY);
 				ZEPHIR_INIT_VAR(&_16$$14);
 				div_function(&_16$$14, &_14$$14, &_15$$14);
 				ratio = zephir_get_numberval(&_16$$14);
 				if ((zephir_safe_div_long_long(width, height)) > ratio) {
-					zephir_read_property(&_17$$16, this_ptr, ZEND_STRL("height"), PH_NOISY_CC | PH_READONLY);
-					zephir_read_property(&_18$$16, this_ptr, ZEND_STRL("width"), PH_NOISY_CC | PH_READONLY);
+					zephir_read_property(&_17$$16, this_ptr, SL("height"), PH_NOISY_CC | PH_READONLY);
+					zephir_read_property(&_18$$16, this_ptr, SL("width"), PH_NOISY_CC | PH_READONLY);
 					height = (long) (zephir_safe_div_long_zval((zephir_get_numberval(&_17$$16) * width), &_18$$16));
 				} else {
-					zephir_read_property(&_19$$17, this_ptr, ZEND_STRL("width"), PH_NOISY_CC | PH_READONLY);
-					zephir_read_property(&_20$$17, this_ptr, ZEND_STRL("height"), PH_NOISY_CC | PH_READONLY);
+					zephir_read_property(&_19$$17, this_ptr, SL("width"), PH_NOISY_CC | PH_READONLY);
+					zephir_read_property(&_20$$17, this_ptr, SL("height"), PH_NOISY_CC | PH_READONLY);
 					width = (long) (zephir_safe_div_long_zval((zephir_get_numberval(&_19$$17) * height), &_20$$17));
 				}
 				break;
@@ -772,12 +772,12 @@ PHP_METHOD(Phalcon_Image_Adapter_AbstractAdapter, resize) {
 			if (master == 1) {
 				if (!(width)) {
 					ZEPHIR_OBS_VAR(&_21$$19);
-					zephir_read_property(&_21$$19, this_ptr, ZEND_STRL("width"), PH_NOISY_CC);
+					zephir_read_property(&_21$$19, this_ptr, SL("width"), PH_NOISY_CC);
 					width = zephir_get_intval(&_21$$19);
 				}
 				if (!(height)) {
 					ZEPHIR_OBS_VAR(&_22$$20);
-					zephir_read_property(&_22$$20, this_ptr, ZEND_STRL("height"), PH_NOISY_CC);
+					zephir_read_property(&_22$$20, this_ptr, SL("height"), PH_NOISY_CC);
 					width = zephir_get_intval(&_22$$20);
 				}
 				break;
@@ -879,7 +879,7 @@ PHP_METHOD(Phalcon_Image_Adapter_AbstractAdapter, save) {
 
 	if (!(!(Z_TYPE_P(&file) == IS_UNDEF) && Z_STRLEN_P(&file))) {
 		ZEPHIR_OBS_VAR(&_0$$3);
-		zephir_read_property(&_0$$3, this_ptr, ZEND_STRL("realpath"), PH_NOISY_CC);
+		zephir_read_property(&_0$$3, this_ptr, SL("realpath"), PH_NOISY_CC);
 		zephir_get_strval(&_1$$3, &_0$$3);
 		ZEPHIR_CPY_WRT(&file, &_1$$3);
 	}
@@ -1077,7 +1077,7 @@ PHP_METHOD(Phalcon_Image_Adapter_AbstractAdapter, watermark) {
 	}
 
 
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("width"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, SL("width"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&_1, watermark, "getwidth", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_2);
@@ -1088,7 +1088,7 @@ PHP_METHOD(Phalcon_Image_Adapter_AbstractAdapter, watermark) {
 	} else if (offsetX > tmp) {
 		offsetX = tmp;
 	}
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("height"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, SL("height"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&_1, watermark, "getheight", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_3);

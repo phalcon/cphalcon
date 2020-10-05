@@ -67,7 +67,7 @@ PHP_METHOD(Phalcon_Translate_TranslateFactory, __construct) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, ZEND_STRL("interpolator"), interpolator);
+	zephir_update_property_zval(this_ptr, SL("interpolator"), interpolator);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "init", NULL, 0, &services);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
@@ -173,7 +173,7 @@ PHP_METHOD(Phalcon_Translate_TranslateFactory, newInstance) {
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_create_array(&_0, 2, 0);
 	ZEPHIR_OBS_VAR(&_1);
-	zephir_read_property(&_1, this_ptr, ZEND_STRL("interpolator"), PH_NOISY_CC);
+	zephir_read_property(&_1, this_ptr, SL("interpolator"), PH_NOISY_CC);
 	zephir_array_fast_append(&_0, &_1);
 	zephir_array_fast_append(&_0, &options);
 	ZEPHIR_LAST_CALL_STATUS = zephir_create_instance_params(return_value, &definition, &_0);

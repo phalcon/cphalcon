@@ -83,14 +83,14 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractSeries, __invoke) {
 
 
 	if (UNEXPECTED(!(ZEPHIR_IS_EMPTY(&delimiter)))) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("delimiter"), &delimiter);
+		zephir_update_property_zval(this_ptr, SL("delimiter"), &delimiter);
 	}
 	if (UNEXPECTED(!(ZEPHIR_IS_EMPTY(&indent)))) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("indent"), &indent);
+		zephir_update_property_zval(this_ptr, SL("indent"), &indent);
 	}
 	ZEPHIR_INIT_VAR(&_0);
 	array_init(&_0);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("store"), &_0);
+	zephir_update_property_zval(this_ptr, SL("store"), &_0);
 	RETURN_THIS();
 
 }
@@ -112,8 +112,8 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractSeries, __toString) {
 
 	ZEPHIR_MM_GROW();
 
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("store"), PH_NOISY_CC | PH_READONLY);
-	zephir_read_property(&_1, this_ptr, ZEND_STRL("delimiter"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, SL("store"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_1, this_ptr, SL("delimiter"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "renderarrayelements", NULL, 0, &_0, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -143,17 +143,17 @@ zend_object *zephir_init_properties_Phalcon_Html_Helper_AbstractSeries(zend_clas
 	{
 		zval local_this_ptr, *this_ptr = &local_this_ptr;
 		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property_ex(&_0, this_ptr, ZEND_STRL("store"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_0, this_ptr, SL("store"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_0) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_1$$3);
 			array_init(&_1$$3);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("store"), &_1$$3);
+			zephir_update_property_zval(this_ptr, SL("store"), &_1$$3);
 		}
-		zephir_read_property_ex(&_2, this_ptr, ZEND_STRL("attributes"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_2, this_ptr, SL("attributes"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_2) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_3$$4);
 			array_init(&_3$$4);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("attributes"), &_3$$4);
+			zephir_update_property_zval(this_ptr, SL("attributes"), &_3$$4);
 		}
 		ZEPHIR_MM_RESTORE();
 		return Z_OBJ_P(this_ptr);

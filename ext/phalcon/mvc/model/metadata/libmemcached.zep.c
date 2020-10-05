@@ -102,7 +102,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Libmemcached, __construct) {
 	ZVAL_STRING(&_2, "libmemcached");
 	ZEPHIR_CALL_METHOD(&_7, factory, "newinstance", NULL, 0, &_2, &options);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, ZEND_STRL("adapter"), &_7);
+	zephir_update_property_zval(this_ptr, SL("adapter"), &_7);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -122,7 +122,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Libmemcached, reset) {
 
 	ZEPHIR_MM_GROW();
 
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("adapter"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, SL("adapter"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(NULL, &_0, "clear", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_metadata_libmemcached_ce, getThis(), "reset", &_1, 0);

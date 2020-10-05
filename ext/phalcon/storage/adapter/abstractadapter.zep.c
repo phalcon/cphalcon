@@ -109,7 +109,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, setDefaultSerializer) {
 	zephir_get_strval(&defaultSerializer, defaultSerializer_param);
 
 
-	zephir_update_property_zval(this_ptr, ZEND_STRL("defaultSerializer"), &defaultSerializer);
+	zephir_update_property_zval(this_ptr, SL("defaultSerializer"), &defaultSerializer);
 	RETURN_THIS();
 
 }
@@ -164,23 +164,23 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, __construct) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, ZEND_STRL("serializerFactory"), factory);
+	zephir_update_property_zval(this_ptr, SL("serializerFactory"), factory);
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "defaultSerializer");
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "Php");
 	ZEPHIR_CALL_CE_STATIC(&_0, phalcon_helper_arr_ce, "get", &_1, 16, &options, &_2, &_3);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, ZEND_STRL("defaultSerializer"), &_0);
+	zephir_update_property_zval(this_ptr, SL("defaultSerializer"), &_0);
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "lifetime");
 	ZVAL_LONG(&_5, 3600);
 	ZEPHIR_CALL_CE_STATIC(&_4, phalcon_helper_arr_ce, "get", &_1, 16, &options, &_2, &_5);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, ZEND_STRL("lifetime"), &_4);
+	zephir_update_property_zval(this_ptr, SL("lifetime"), &_4);
 	if (zephir_array_isset_string(&options, SL("prefix"))) {
 		zephir_array_fetch_string(&_6$$3, &options, SL("prefix"), PH_NOISY | PH_READONLY, "phalcon/Storage/Adapter/AbstractAdapter.zep", 81);
-		zephir_update_property_zval(this_ptr, ZEND_STRL("prefix"), &_6$$3);
+		zephir_update_property_zval(this_ptr, SL("prefix"), &_6$$3);
 	}
 	ZEPHIR_MM_RESTORE();
 
@@ -296,7 +296,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, getFilteredKeys) {
 
 	ZEPHIR_INIT_VAR(&results);
 	array_init(&results);
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("prefix"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, SL("prefix"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&pattern);
 	ZEPHIR_CONCAT_VV(&pattern, &_0, &prefix);
 	ZEPHIR_INIT_VAR(&_1);
@@ -366,7 +366,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, getPrefixedKey) {
 
 	zephir_get_strval(&_0, key);
 	ZEPHIR_CPY_WRT(key, &_0);
-	zephir_read_property(&_1, this_ptr, ZEND_STRL("prefix"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_1, this_ptr, SL("prefix"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CONCAT_VV(return_value, &_1, key);
 	RETURN_MM();
 
@@ -393,12 +393,12 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, getSerializedData) {
 	ZEPHIR_SEPARATE_PARAM(content);
 
 
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("defaultSerializer"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, SL("defaultSerializer"), PH_NOISY_CC | PH_READONLY);
 	if (!ZEPHIR_IS_STRING_IDENTICAL(&_0, "")) {
-		zephir_read_property(&_1$$3, this_ptr, ZEND_STRL("serializer"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_1$$3, this_ptr, SL("serializer"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "setdata", NULL, 0, content);
 		zephir_check_call_status();
-		zephir_read_property(&_2$$3, this_ptr, ZEND_STRL("serializer"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_2$$3, this_ptr, SL("serializer"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(content, &_2$$3, "serialize", NULL, 0);
 		zephir_check_call_status();
 	}
@@ -488,12 +488,12 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, getUnserializedData) {
 		RETVAL_ZVAL(defaultValue, 1, 0);
 		RETURN_MM();
 	}
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("defaultSerializer"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, SL("defaultSerializer"), PH_NOISY_CC | PH_READONLY);
 	if (!ZEPHIR_IS_STRING_IDENTICAL(&_0, "")) {
-		zephir_read_property(&_1$$4, this_ptr, ZEND_STRL("serializer"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_1$$4, this_ptr, SL("serializer"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(NULL, &_1$$4, "unserialize", NULL, 0, content);
 		zephir_check_call_status();
-		zephir_read_property(&_2$$4, this_ptr, ZEND_STRL("serializer"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_2$$4, this_ptr, SL("serializer"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(content, &_2$$4, "getdata", NULL, 0);
 		zephir_check_call_status();
 	}
@@ -524,21 +524,21 @@ PHP_METHOD(Phalcon_Storage_Adapter_AbstractAdapter, initSerializer) {
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_OBS_VAR(&_0);
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("serializer"), PH_NOISY_CC);
+	zephir_read_property(&_0, this_ptr, SL("serializer"), PH_NOISY_CC);
 	_1 = Z_TYPE_P(&_0) == IS_OBJECT;
 	if (_1) {
 		ZEPHIR_OBS_VAR(&_2);
-		zephir_read_property(&_2, this_ptr, ZEND_STRL("serializer"), PH_NOISY_CC);
+		zephir_read_property(&_2, this_ptr, SL("serializer"), PH_NOISY_CC);
 		_1 = zephir_instance_of_ev(&_2, phalcon_storage_serializer_serializerinterface_ce);
 	}
 	if (!(_1)) {
-		zephir_read_property(&_3$$3, this_ptr, ZEND_STRL("defaultSerializer"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_3$$3, this_ptr, SL("defaultSerializer"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_INIT_VAR(&className);
 		zephir_fast_strtolower(&className, &_3$$3);
-		zephir_read_property(&_4$$3, this_ptr, ZEND_STRL("serializerFactory"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_4$$3, this_ptr, SL("serializerFactory"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(&_5$$3, &_4$$3, "newinstance", NULL, 0, &className);
 		zephir_check_call_status();
-		zephir_update_property_zval(this_ptr, ZEND_STRL("serializer"), &_5$$3);
+		zephir_update_property_zval(this_ptr, SL("serializer"), &_5$$3);
 	}
 	ZEPHIR_MM_RESTORE();
 

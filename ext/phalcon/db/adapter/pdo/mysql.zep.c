@@ -112,7 +112,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, addForeignKey) {
 	}
 
 
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("dialect"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, SL("dialect"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&_1, &_0, "getforeignkeychecks", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&foreignKeyCheck, this_ptr, "prepare", NULL, 0, &_1);
@@ -123,7 +123,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, addForeignKey) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_db_exception_ce, "DATABASE PARAMETER 'FOREIGN_KEY_CHECKS' HAS TO BE 1", "phalcon/Db/Adapter/Pdo/Mysql.zep", 66);
 		return;
 	}
-	zephir_read_property(&_3, this_ptr, ZEND_STRL("dialect"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_3, this_ptr, SL("dialect"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&_4, &_3, "addforeignkey", NULL, 0, &tableName, &schemaName, reference);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "execute", NULL, 0, &_4);
@@ -299,7 +299,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns) {
 	ZVAL_STRING(&sizePattern, "#\\(([0-9]+)(?:,\\s*([0-9]+))*\\)#");
 	ZEPHIR_INIT_VAR(&columns);
 	array_init(&columns);
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("dialect"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, SL("dialect"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&_1, &_0, "describecolumns", NULL, 0, &table, &schema);
 	zephir_check_call_status();
 	ZVAL_LONG(&_2, 3);
@@ -578,7 +578,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns) {
 			zephir_array_fetch_long(&columnName, &field, 0, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Mysql.zep", 440);
 			ZEPHIR_INIT_NVAR(&_59$$3);
 			object_init_ex(&_59$$3, phalcon_db_column_ce);
-			ZEPHIR_CALL_METHOD(NULL, &_59$$3, "__construct", &_60, 211, &columnName, &definition);
+			ZEPHIR_CALL_METHOD(NULL, &_59$$3, "__construct", &_60, 212, &columnName, &definition);
 			zephir_check_call_status();
 			zephir_array_append(&columns, &_59$$3, PH_SEPARATE, "phalcon/Db/Adapter/Pdo/Mysql.zep", 441);
 			ZEPHIR_CPY_WRT(&oldColumn, &columnName);
@@ -863,7 +863,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns) {
 				zephir_array_fetch_long(&columnName, &field, 0, PH_NOISY, "phalcon/Db/Adapter/Pdo/Mysql.zep", 440);
 				ZEPHIR_INIT_NVAR(&_116$$46);
 				object_init_ex(&_116$$46, phalcon_db_column_ce);
-				ZEPHIR_CALL_METHOD(NULL, &_116$$46, "__construct", &_60, 211, &columnName, &definition);
+				ZEPHIR_CALL_METHOD(NULL, &_116$$46, "__construct", &_60, 212, &columnName, &definition);
 				zephir_check_call_status();
 				zephir_array_append(&columns, &_116$$46, PH_SEPARATE, "phalcon/Db/Adapter/Pdo/Mysql.zep", 441);
 				ZEPHIR_CPY_WRT(&oldColumn, &columnName);
@@ -967,7 +967,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeIndexes) {
 
 	ZEPHIR_INIT_VAR(&indexes);
 	array_init(&indexes);
-	zephir_read_property(&_1, this_ptr, ZEND_STRL("dialect"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_1, this_ptr, SL("dialect"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&_2, &_1, "describeindexes", NULL, 0, &table, &schema);
 	zephir_check_call_status();
 	ZVAL_LONG(&_3, 2);
@@ -1218,7 +1218,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeReferences) {
 
 	ZEPHIR_INIT_VAR(&references);
 	array_init(&references);
-	zephir_read_property(&_1, this_ptr, ZEND_STRL("dialect"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_1, this_ptr, SL("dialect"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&_2, &_1, "describereferences", NULL, 0, &table, &schema);
 	zephir_check_call_status();
 	ZVAL_LONG(&_3, 3);

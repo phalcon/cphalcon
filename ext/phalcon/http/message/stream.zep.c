@@ -180,7 +180,7 @@ PHP_METHOD(Phalcon_Http_Message_Stream, close) {
 
 	ZEPHIR_MM_GROW();
 
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("handle"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, SL("handle"), PH_NOISY_CC | PH_READONLY);
 	if (EXPECTED(Z_TYPE_P(&_0) != IS_NULL)) {
 		ZEPHIR_CALL_METHOD(&handle, this_ptr, "detach", NULL, 0);
 		zephir_check_call_status();
@@ -209,9 +209,9 @@ PHP_METHOD(Phalcon_Http_Message_Stream, detach) {
 
 	ZEPHIR_MM_GROW();
 
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("handle"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, SL("handle"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&handle, &_0);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("handle"), &__$null);
+	zephir_update_property_zval(this_ptr, SL("handle"), &__$null);
 	RETURN_CCTOR(&handle);
 
 }
@@ -228,9 +228,9 @@ PHP_METHOD(Phalcon_Http_Message_Stream, eof) {
 	ZVAL_UNDEF(&_1$$3);
 
 
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("handle"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, SL("handle"), PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(zephir_is_true(&_0))) {
-		zephir_read_property(&_1$$3, this_ptr, ZEND_STRL("handle"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_1$$3, this_ptr, SL("handle"), PH_NOISY_CC | PH_READONLY);
 		RETURN_BOOL(zephir_feof(&_1$$3));
 	}
 	RETURN_BOOL(1);
@@ -256,7 +256,7 @@ PHP_METHOD(Phalcon_Http_Message_Stream, getContents) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkreadable", NULL, 78);
 	zephir_check_call_status();
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("handle"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, SL("handle"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_FUNCTION(&data, "stream_get_contents", NULL, 79, &_0);
 	zephir_check_call_status();
 	if (UNEXPECTED(ZEPHIR_IS_FALSE_IDENTICAL(&data))) {
@@ -301,11 +301,11 @@ PHP_METHOD(Phalcon_Http_Message_Stream, getMetadata) {
 	}
 
 
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("handle"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, SL("handle"), PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(Z_TYPE_P(&_0) == IS_NULL)) {
 		RETURN_MM_NULL();
 	}
-	zephir_read_property(&_1, this_ptr, ZEND_STRL("handle"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_1, this_ptr, SL("handle"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_FUNCTION(&metadata, "stream_get_meta_data", NULL, 80, &_1);
 	zephir_check_call_status();
 	if (UNEXPECTED(Z_TYPE_P(key) == IS_NULL)) {
@@ -338,9 +338,9 @@ PHP_METHOD(Phalcon_Http_Message_Stream, getSize) {
 
 	ZEPHIR_MM_GROW();
 
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("handle"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, SL("handle"), PH_NOISY_CC | PH_READONLY);
 	if (EXPECTED(Z_TYPE_P(&_0) != IS_NULL)) {
-		zephir_read_property(&_1$$3, this_ptr, ZEND_STRL("handle"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_1$$3, this_ptr, SL("handle"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_FUNCTION(&stats, "fstat", NULL, 81, &_1$$3);
 		zephir_check_call_status();
 		if (EXPECTED(!ZEPHIR_IS_FALSE_IDENTICAL(&stats))) {
@@ -472,7 +472,7 @@ PHP_METHOD(Phalcon_Http_Message_Stream, read) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkreadable", NULL, 78);
 	zephir_check_call_status();
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("handle"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, SL("handle"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_FUNCTION(&data, "fread", NULL, 83, &_0, length);
 	zephir_check_call_status();
 	if (UNEXPECTED(ZEPHIR_IS_FALSE_IDENTICAL(&data))) {
@@ -539,7 +539,7 @@ PHP_METHOD(Phalcon_Http_Message_Stream, seek) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkseekable", NULL, 84);
 	zephir_check_call_status();
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("handle"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, SL("handle"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_FUNCTION(&seeker, "fseek", NULL, 85, &_0, offset, whence);
 	zephir_check_call_status();
 	if (UNEXPECTED(!ZEPHIR_IS_LONG_IDENTICAL(&seeker, 0))) {
@@ -624,8 +624,8 @@ PHP_METHOD(Phalcon_Http_Message_Stream, setStream) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_RuntimeException, "The stream provided is not valid (string/resource) or could not be opened.", "phalcon/Http/Message/Stream.zep", 312);
 		return;
 	}
-	zephir_update_property_zval(this_ptr, ZEND_STRL("handle"), &handle);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("stream"), stream);
+	zephir_update_property_zval(this_ptr, SL("handle"), &handle);
+	zephir_update_property_zval(this_ptr, SL("stream"), stream);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -649,7 +649,7 @@ PHP_METHOD(Phalcon_Http_Message_Stream, tell) {
 
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkhandle", NULL, 77);
 	zephir_check_call_status();
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("handle"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, SL("handle"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_FUNCTION(&position, "ftell", NULL, 90, &_0);
 	zephir_check_call_status();
 	if (UNEXPECTED(Z_TYPE_P(&position) != IS_LONG)) {
@@ -687,7 +687,7 @@ PHP_METHOD(Phalcon_Http_Message_Stream, write) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkwritable", NULL, 91);
 	zephir_check_call_status();
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("handle"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, SL("handle"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&bytes);
 	zephir_fwrite(&bytes, &_0, data);
 	if (UNEXPECTED(ZEPHIR_IS_FALSE_IDENTICAL(&bytes))) {
@@ -709,7 +709,7 @@ PHP_METHOD(Phalcon_Http_Message_Stream, checkHandle) {
 	ZVAL_UNDEF(&_0);
 
 
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("handle"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, SL("handle"), PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(Z_TYPE_P(&_0) == IS_NULL)) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(spl_ce_RuntimeException, "A valid resource is required.", "phalcon/Http/Message/Stream.zep", 368);
 		return;

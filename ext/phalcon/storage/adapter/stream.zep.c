@@ -109,11 +109,11 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, __construct) {
 	}
 	ZEPHIR_CALL_CE_STATIC(&_3, phalcon_helper_str_ce, "dirseparator", &_4, 128, &storageDir);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, ZEND_STRL("storageDir"), &_3);
+	zephir_update_property_zval(this_ptr, SL("storageDir"), &_3);
 	ZEPHIR_INIT_NVAR(&_1);
 	ZVAL_STRING(&_1, "ph-strm");
-	zephir_update_property_zval(this_ptr, ZEND_STRL("prefix"), &_1);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("options"), &options);
+	zephir_update_property_zval(this_ptr, SL("prefix"), &_1);
+	zephir_update_property_zval(this_ptr, SL("options"), &options);
 	ZEPHIR_CALL_PARENT(NULL, phalcon_storage_adapter_stream_ce, getThis(), "__construct", &_5, 0, factory, &options);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "initserializer", NULL, 0);
@@ -149,7 +149,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, clear) {
 	ZEPHIR_MM_GROW();
 
 	result = 1;
-	zephir_read_property(&_1, this_ptr, ZEND_STRL("storageDir"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_1, this_ptr, SL("storageDir"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_CE_STATIC(&directory, phalcon_helper_str_ce, "dirseparator", &_0, 128, &_1);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&iterator, this_ptr, "getiterator", NULL, 129, &directory);
@@ -466,7 +466,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, getKeys) {
 			ZEPHIR_CALL_METHOD(&_2$$4, &file, "isfile", NULL, 0);
 			zephir_check_call_status();
 			if (zephir_is_true(&_2$$4)) {
-				zephir_read_property(&_3$$5, this_ptr, ZEND_STRL("prefix"), PH_NOISY_CC | PH_READONLY);
+				zephir_read_property(&_3$$5, this_ptr, SL("prefix"), PH_NOISY_CC | PH_READONLY);
 				ZEPHIR_CALL_METHOD(&_4$$5, &file, "getfilename", NULL, 0);
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&_5$$5);
@@ -488,7 +488,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, getKeys) {
 				ZEPHIR_CALL_METHOD(&_6$$6, &file, "isfile", NULL, 0);
 				zephir_check_call_status();
 				if (zephir_is_true(&_6$$6)) {
-					zephir_read_property(&_7$$7, this_ptr, ZEND_STRL("prefix"), PH_NOISY_CC | PH_READONLY);
+					zephir_read_property(&_7$$7, this_ptr, SL("prefix"), PH_NOISY_CC | PH_READONLY);
 					ZEPHIR_CALL_METHOD(&_8$$7, &file, "getfilename", NULL, 0);
 					zephir_check_call_status();
 					ZEPHIR_INIT_NVAR(&_9$$7);
@@ -746,14 +746,14 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, getDir) {
 	}
 
 
-	zephir_read_property(&_1, this_ptr, ZEND_STRL("storageDir"), PH_NOISY_CC | PH_READONLY);
-	zephir_read_property(&_2, this_ptr, ZEND_STRL("prefix"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_1, this_ptr, SL("storageDir"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_2, this_ptr, SL("prefix"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_3);
 	ZEPHIR_CONCAT_VV(&_3, &_1, &_2);
 	ZEPHIR_CALL_CE_STATIC(&dirPrefix, phalcon_helper_str_ce, "dirseparator", &_0, 128, &_3);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_5);
-	zephir_read_property(&_6, this_ptr, ZEND_STRL("prefix"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_6, this_ptr, SL("prefix"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_7);
 	ZVAL_STRING(&_7, "");
 	zephir_fast_str_replace(&_5, &_6, &_7, &key);
@@ -802,7 +802,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Stream, getFilepath) {
 
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getdir", NULL, 134, &key);
 	zephir_check_call_status();
-	zephir_read_property(&_1, this_ptr, ZEND_STRL("prefix"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_1, this_ptr, SL("prefix"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "");
 	ZVAL_LONG(&_3, 1);
@@ -987,11 +987,11 @@ zend_object *zephir_init_properties_Phalcon_Storage_Adapter_Stream(zend_class_en
 	{
 		zval local_this_ptr, *this_ptr = &local_this_ptr;
 		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property_ex(&_0, this_ptr, ZEND_STRL("options"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_0, this_ptr, SL("options"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_0) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_1$$3);
 			array_init(&_1$$3);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("options"), &_1$$3);
+			zephir_update_property_zval(this_ptr, SL("options"), &_1$$3);
 		}
 		ZEPHIR_MM_RESTORE();
 		return Z_OBJ_P(this_ptr);

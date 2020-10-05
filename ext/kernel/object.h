@@ -18,15 +18,6 @@
 #include "kernel/globals.h"
 #include "kernel/main.h"
 
-/* Working with scopes */
-#if PHP_VERSION_ID >= 70100
-# define zephir_get_scope(e) ((e) ? zend_get_executed_scope() : EG(fake_scope))
-# define zephir_set_scope(s) EG(fake_scope) = (s)
-#else
-# define zephir_get_scope(e) EG(scope)
-# define zephir_set_scope(s) EG(scope) = (s)
-#endif
-
 /** Class Retrieving/Checking */
 int zephir_class_exists(zval *class_name, int autoload);
 int zephir_interface_exists(zval *interface_name, int autoload);
@@ -51,7 +42,6 @@ int zephir_isset_property(zval *object, const char *property_name, unsigned int 
 int zephir_isset_property_zval(zval *object, const zval *property);
 
 /** Reading properties */
-int zephir_read_property_ex(zval *result, zval *object, const char *property_name, uint32_t property_length, int silent);
 int zephir_read_property(zval *result, zval *object, const char *property_name, uint32_t property_length, int silent);
 int zephir_read_property_zval(zval *result, zval *object, zval *property, int silent);
 int zephir_return_property(zval *return_value, zval *object, char *property_name, unsigned int property_length);
@@ -59,7 +49,6 @@ int zephir_fetch_property(zval *result, zval *object, const char *property_name,
 int zephir_fetch_property_zval(zval *result, zval *object, zval *property, int silent);
 
 /** Updating properties */
-int zephir_update_property_zval_ex(zval *obj, const char *property_name, unsigned int property_length, zval *value);
 int zephir_update_property_zval(zval *obj, const char *property_name, unsigned int property_length, zval *value);
 int zephir_update_property_zval_zval(zval *obj, zval *property, zval *value);
 

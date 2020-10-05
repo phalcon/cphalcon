@@ -86,8 +86,8 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, __construct) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_GET_CONSTANT(&_0, "PHP_EOL");
-	zephir_update_property_zval(this_ptr, ZEND_STRL("delimiter"), &_0);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("escaper"), escaper);
+	zephir_update_property_zval(this_ptr, SL("delimiter"), &_0);
+	zephir_update_property_zval(this_ptr, SL("escaper"), escaper);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -128,7 +128,7 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, close) {
 	if (raw) {
 		ZEPHIR_CPY_WRT(&_0, &tag);
 	} else {
-		zephir_read_property(&_1, this_ptr, ZEND_STRL("escaper"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_1, this_ptr, SL("escaper"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(&_0, &_1, "html", NULL, 0, &tag);
 		zephir_check_call_status();
 	}
@@ -155,8 +155,8 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, indent) {
 
 	ZEPHIR_MM_GROW();
 
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("indent"), PH_NOISY_CC | PH_READONLY);
-	zephir_read_property(&_1, this_ptr, ZEND_STRL("indentLevel"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, SL("indent"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_1, this_ptr, SL("indentLevel"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_FUNCTION("str_repeat", NULL, 1, &_0, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -373,7 +373,7 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, renderAttributes) {
 				_4$$3 = Z_TYPE_P(&value) != IS_NULL;
 			}
 			if (_4$$3) {
-				zephir_read_property(&_5$$4, this_ptr, ZEND_STRL("escaper"), PH_NOISY_CC | PH_READONLY);
+				zephir_read_property(&_5$$4, this_ptr, SL("escaper"), PH_NOISY_CC | PH_READONLY);
 				ZEPHIR_CALL_METHOD(&_6$$4, &_5$$4, "attributes", NULL, 0, &value);
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&_7$$4);
@@ -399,7 +399,7 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, renderAttributes) {
 					_8$$5 = Z_TYPE_P(&value) != IS_NULL;
 				}
 				if (_8$$5) {
-					zephir_read_property(&_9$$6, this_ptr, ZEND_STRL("escaper"), PH_NOISY_CC | PH_READONLY);
+					zephir_read_property(&_9$$6, this_ptr, SL("escaper"), PH_NOISY_CC | PH_READONLY);
 					ZEPHIR_CALL_METHOD(&_10$$6, &_9$$6, "attributes", NULL, 0, &value);
 					zephir_check_call_status();
 					ZEPHIR_INIT_NVAR(&_11$$6);
@@ -506,7 +506,7 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, renderFullElement) {
 	if (raw) {
 		ZEPHIR_CPY_WRT(&content, &text);
 	} else {
-		zephir_read_property(&_0, this_ptr, ZEND_STRL("escaper"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_0, this_ptr, SL("escaper"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(&content, &_0, "html", NULL, 0, &text);
 		zephir_check_call_status();
 	}

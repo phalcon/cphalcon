@@ -52,13 +52,13 @@ PHP_METHOD(Phalcon_Storage_Serializer_Php, serialize) {
 
 	ZEPHIR_MM_GROW();
 
-	zephir_read_property(&_1, this_ptr, ZEND_STRL("data"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_1, this_ptr, SL("data"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "isserializable", NULL, 0, &_1);
 	zephir_check_call_status();
 	if (!(zephir_is_true(&_0))) {
 		RETURN_MM_MEMBER(getThis(), "data");
 	}
-	zephir_read_property(&_2, this_ptr, ZEND_STRL("data"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_2, this_ptr, SL("data"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_FUNCTION("serialize", NULL, 13, &_2);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -91,7 +91,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_Php, unserialize) {
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "isserializable", NULL, 0, data);
 	zephir_check_call_status();
 	if (!(zephir_is_true(&_0))) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("data"), data);
+		zephir_update_property_zval(this_ptr, SL("data"), data);
 	} else {
 		if (Z_TYPE_P(data) != IS_STRING) {
 			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Data for the unserializer must of type string", "phalcon/Storage/Serializer/Php.zep", 43);
@@ -106,11 +106,11 @@ PHP_METHOD(Phalcon_Storage_Serializer_Php, unserialize) {
 		zephir_check_call_status();
 		ZEPHIR_CALL_FUNCTION(&_3$$4, "unserialize", NULL, 15, data);
 		zephir_check_call_status();
-		zephir_update_property_zval(this_ptr, ZEND_STRL("data"), &_3$$4);
+		zephir_update_property_zval(this_ptr, SL("data"), &_3$$4);
 		ZEPHIR_CALL_FUNCTION(NULL, "restore_error_handler", NULL, 88);
 		zephir_check_call_status();
 		if (UNEXPECTED(ZEPHIR_GLOBAL(warning).enable)) {
-			zephir_update_property_zval(this_ptr, ZEND_STRL("data"), &__$null);
+			zephir_update_property_zval(this_ptr, SL("data"), &__$null);
 		}
 	}
 	ZEPHIR_MM_RESTORE();

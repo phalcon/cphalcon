@@ -84,7 +84,7 @@ PHP_METHOD(Phalcon_Application_AbstractApplication, __construct) {
 
 
 	if (Z_TYPE_P(container) == IS_OBJECT) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("container"), container);
+		zephir_update_property_zval(this_ptr, SL("container"), container);
 	}
 
 }
@@ -146,7 +146,7 @@ PHP_METHOD(Phalcon_Application_AbstractApplication, getModule) {
 
 
 	ZEPHIR_OBS_VAR(&module);
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("modules"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, SL("modules"), PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(!(zephir_array_isset_fetch(&module, &_0, &name, 0)))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_application_exception_ce);
@@ -217,11 +217,11 @@ PHP_METHOD(Phalcon_Application_AbstractApplication, registerModules) {
 
 	if (merge) {
 		ZEPHIR_INIT_VAR(&_0$$3);
-		zephir_read_property(&_1$$3, this_ptr, ZEND_STRL("modules"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_1$$3, this_ptr, SL("modules"), PH_NOISY_CC | PH_READONLY);
 		zephir_fast_array_merge(&_0$$3, &_1$$3, &modules);
-		zephir_update_property_zval(this_ptr, ZEND_STRL("modules"), &_0$$3);
+		zephir_update_property_zval(this_ptr, SL("modules"), &_0$$3);
 	} else {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("modules"), &modules);
+		zephir_update_property_zval(this_ptr, SL("modules"), &modules);
 	}
 	RETURN_THIS();
 
@@ -254,7 +254,7 @@ PHP_METHOD(Phalcon_Application_AbstractApplication, setDefaultModule) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, ZEND_STRL("defaultModule"), &defaultModule);
+	zephir_update_property_zval(this_ptr, SL("defaultModule"), &defaultModule);
 	RETURN_THIS();
 
 }
@@ -273,7 +273,7 @@ PHP_METHOD(Phalcon_Application_AbstractApplication, setEventsManager) {
 
 
 
-	zephir_update_property_zval(this_ptr, ZEND_STRL("eventsManager"), eventsManager);
+	zephir_update_property_zval(this_ptr, SL("eventsManager"), eventsManager);
 
 }
 
@@ -289,11 +289,11 @@ zend_object *zephir_init_properties_Phalcon_Application_AbstractApplication(zend
 	{
 		zval local_this_ptr, *this_ptr = &local_this_ptr;
 		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property_ex(&_0, this_ptr, ZEND_STRL("modules"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_0, this_ptr, SL("modules"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_0) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_1$$3);
 			array_init(&_1$$3);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("modules"), &_1$$3);
+			zephir_update_property_zval(this_ptr, SL("modules"), &_1$$3);
 		}
 		ZEPHIR_MM_RESTORE();
 		return Z_OBJ_P(this_ptr);

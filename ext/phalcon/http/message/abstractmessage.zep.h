@@ -86,11 +86,11 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_message_abstractmessage_withoutheade
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_message_abstractmessage_checkheaderhost, 0, 1, Phalcon\\Collection\\CollectionInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_message_abstractmessage_checkheaderhost, 0, 1, Phalcon\\Collection, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_abstractmessage_checkheaderhost, 0, 1, IS_OBJECT, "Phalcon\\Collection\\CollectionInterface", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_abstractmessage_checkheaderhost, 0, 1, IS_OBJECT, "Phalcon\\Collection", 0)
 #endif
-	ZEND_ARG_OBJ_INFO(0, collection, Phalcon\\Collection\\CollectionInterface, 0)
+	ZEND_ARG_OBJ_INFO(0, collection, Phalcon\\Collection, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70100
@@ -138,9 +138,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_abstractmes
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_message_abstractmessage_populateheadercollection, 0, 1, Phalcon\\Collection\\CollectionInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_message_abstractmessage_populateheadercollection, 0, 1, Phalcon\\Collection, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_abstractmessage_populateheadercollection, 0, 1, IS_OBJECT, "Phalcon\\Collection\\CollectionInterface", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_abstractmessage_populateheadercollection, 0, 1, IS_OBJECT, "Phalcon\\Collection", 0)
 #endif
 	ZEND_ARG_ARRAY_INFO(0, headers, 0)
 ZEND_END_ARG_INFO()
@@ -159,9 +159,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_abstractmes
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_message_abstractmessage_processheaders, 0, 1, Phalcon\\Collection\\CollectionInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_message_abstractmessage_processheaders, 0, 1, Phalcon\\Collection, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_abstractmessage_processheaders, 0, 1, IS_OBJECT, "Phalcon\\Collection\\CollectionInterface", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_abstractmessage_processheaders, 0, 1, IS_OBJECT, "Phalcon\\Collection", 0)
 #endif
 	ZEND_ARG_INFO(0, headers)
 ZEND_END_ARG_INFO()

@@ -90,11 +90,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Status, __construct) {
 
 
 	if (success) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("success"), &__$true);
+		zephir_update_property_zval(this_ptr, SL("success"), &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("success"), &__$false);
+		zephir_update_property_zval(this_ptr, SL("success"), &__$false);
 	}
-	zephir_update_property_zval(this_ptr, ZEND_STRL("model"), model);
+	zephir_update_property_zval(this_ptr, SL("model"), model);
 
 }
 
@@ -113,7 +113,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Status, getMessages) {
 
 	ZEPHIR_MM_GROW();
 
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("model"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, SL("model"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&model, &_0);
 	if (Z_TYPE_P(&model) != IS_OBJECT) {
 		array_init(return_value);

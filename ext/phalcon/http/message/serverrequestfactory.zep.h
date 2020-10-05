@@ -52,8 +52,8 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverreque
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequestfactory_calculateurihost, 0, 2, IS_ARRAY, NULL, 0)
 #endif
-	ZEND_ARG_OBJ_INFO(0, server, Phalcon\\Collection\\CollectionInterface, 0)
-	ZEND_ARG_OBJ_INFO(0, headers, Phalcon\\Collection\\CollectionInterface, 0)
+	ZEND_ARG_OBJ_INFO(0, server, Phalcon\\Collection, 0)
+	ZEND_ARG_OBJ_INFO(0, headers, Phalcon\\Collection, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
@@ -73,7 +73,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverreque
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequestfactory_calculateuripath, 0, 1, IS_STRING, NULL, 0)
 #endif
-	ZEND_ARG_OBJ_INFO(0, server, Phalcon\\Collection\\CollectionInterface, 0)
+	ZEND_ARG_OBJ_INFO(0, server, Phalcon\\Collection, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
@@ -81,7 +81,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverreque
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequestfactory_calculateuriquery, 0, 1, IS_STRING, NULL, 0)
 #endif
-	ZEND_ARG_OBJ_INFO(0, server, Phalcon\\Collection\\CollectionInterface, 0)
+	ZEND_ARG_OBJ_INFO(0, server, Phalcon\\Collection, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
@@ -89,8 +89,8 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverreque
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequestfactory_calculateurischeme, 0, 2, IS_STRING, NULL, 0)
 #endif
-	ZEND_ARG_OBJ_INFO(0, server, Phalcon\\Collection\\CollectionInterface, 0)
-	ZEND_ARG_OBJ_INFO(0, headers, Phalcon\\Collection\\CollectionInterface, 0)
+	ZEND_ARG_OBJ_INFO(0, server, Phalcon\\Collection, 0)
+	ZEND_ARG_OBJ_INFO(0, headers, Phalcon\\Collection, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
@@ -111,7 +111,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverreque
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_message_serverrequestfactory_getheader, 0, 0, 2)
-	ZEND_ARG_OBJ_INFO(0, headers, Phalcon\\Collection\\CollectionInterface, 0)
+	ZEND_ARG_OBJ_INFO(0, headers, Phalcon\\Collection, 0)
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 #else
@@ -133,11 +133,11 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverreque
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_message_serverrequestfactory_parseheaders, 0, 1, Phalcon\\Collection\\CollectionInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_message_serverrequestfactory_parseheaders, 0, 1, Phalcon\\Collection, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequestfactory_parseheaders, 0, 1, IS_OBJECT, "Phalcon\\Collection\\CollectionInterface", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequestfactory_parseheaders, 0, 1, IS_OBJECT, "Phalcon\\Collection", 0)
 #endif
-	ZEND_ARG_OBJ_INFO(0, server, Phalcon\\Collection\\CollectionInterface, 0)
+	ZEND_ARG_OBJ_INFO(0, server, Phalcon\\Collection, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
@@ -145,21 +145,21 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverreque
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequestfactory_parseprotocol, 0, 1, IS_STRING, NULL, 0)
 #endif
-	ZEND_ARG_OBJ_INFO(0, server, Phalcon\\Collection\\CollectionInterface, 0)
+	ZEND_ARG_OBJ_INFO(0, server, Phalcon\\Collection, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_message_serverrequestfactory_parseserver, 0, 1, Phalcon\\Collection\\CollectionInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_message_serverrequestfactory_parseserver, 0, 1, Phalcon\\Collection, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequestfactory_parseserver, 0, 1, IS_OBJECT, "Phalcon\\Collection\\CollectionInterface", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequestfactory_parseserver, 0, 1, IS_OBJECT, "Phalcon\\Collection", 0)
 #endif
 	ZEND_ARG_ARRAY_INFO(0, server, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_message_serverrequestfactory_parseuploadedfiles, 0, 1, Phalcon\\Collection\\CollectionInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_message_serverrequestfactory_parseuploadedfiles, 0, 1, Phalcon\\Collection, 0)
 #else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequestfactory_parseuploadedfiles, 0, 1, IS_OBJECT, "Phalcon\\Collection\\CollectionInterface", 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequestfactory_parseuploadedfiles, 0, 1, IS_OBJECT, "Phalcon\\Collection", 0)
 #endif
 	ZEND_ARG_ARRAY_INFO(0, files, 0)
 ZEND_END_ARG_INFO()
@@ -169,8 +169,8 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_message_serverreques
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequestfactory_parseuri, 0, 2, IS_OBJECT, "Phalcon\\Http\\Message\\Uri", 0)
 #endif
-	ZEND_ARG_OBJ_INFO(0, server, Phalcon\\Collection\\CollectionInterface, 0)
-	ZEND_ARG_OBJ_INFO(0, headers, Phalcon\\Collection\\CollectionInterface, 0)
+	ZEND_ARG_OBJ_INFO(0, server, Phalcon\\Collection, 0)
+	ZEND_ARG_OBJ_INFO(0, headers, Phalcon\\Collection, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_http_message_serverrequestfactory_method_entry) {

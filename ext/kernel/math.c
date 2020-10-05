@@ -195,7 +195,7 @@ zephir_mt_rand(zend_long min, zend_long max)
 	zend_long number;
 
 	if (max < min) {
-		php_error_docref(NULL, E_WARNING, "max(%ld) is smaller than min(%ld)", max, min);
+		php_error_docref(NULL, E_WARNING, "max(%lld) is smaller than min(%lld)", max, min);
 		return 0;
 	}
 

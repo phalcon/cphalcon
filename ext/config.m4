@@ -16,7 +16,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/validation/abstractvalidator.zep.c
 	phalcon/events/eventsawareinterface.zep.c
 	phalcon/html/helper/input/abstractinput.zep.c
-	phalcon/collection/collectioninterface.zep.c
 	phalcon/di/abstractinjectionaware.zep.c
 	phalcon/storage/adapter/adapterinterface.zep.c
 	phalcon/di/injectable.zep.c
@@ -29,7 +28,6 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/storage/serializer/serializerinterface.zep.c
 	phalcon/validation/validator/file/abstractfile.zep.c
 	phalcon/assets/assetinterface.zep.c
-	phalcon/config/configinterface.zep.c
 	phalcon/http/message/abstractcommon.zep.c
 	phalcon/mvc/model/metadatainterface.zep.c
 	phalcon/storage/serializer/abstractserializer.zep.c

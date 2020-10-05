@@ -86,7 +86,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Stream, __construct) {
 
 
 	if (zephir_array_isset_string_fetch(&annotationsDir, &options, SL("annotationsDir"), 1)) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("annotationsDir"), &annotationsDir);
+		zephir_update_property_zval(this_ptr, SL("annotationsDir"), &annotationsDir);
 	}
 	ZEPHIR_MM_RESTORE();
 
@@ -121,7 +121,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Stream, read) {
 	zephir_get_strval(&key, key_param);
 
 
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("annotationsDir"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, SL("annotationsDir"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_1);
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "_");
@@ -193,7 +193,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Stream, write) {
 	}
 
 
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("annotationsDir"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, SL("annotationsDir"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_1);
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "_");

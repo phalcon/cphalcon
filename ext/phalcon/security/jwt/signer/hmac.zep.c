@@ -89,7 +89,7 @@ PHP_METHOD(Phalcon_Security_JWT_Signer_Hmac, __construct) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_security_jwt_exceptions_unsupportedalgorithmexception_ce, "Unsupported HMAC algorithm", "phalcon/Security/JWT/Signer/Hmac.zep", 40);
 		return;
 	}
-	zephir_update_property_zval(this_ptr, ZEND_STRL("algorithm"), &algo);
+	zephir_update_property_zval(this_ptr, SL("algorithm"), &algo);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -113,7 +113,7 @@ PHP_METHOD(Phalcon_Security_JWT_Signer_Hmac, getAlgHeader) {
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_INIT_VAR(&_0);
-	zephir_read_property(&_1, this_ptr, ZEND_STRL("algorithm"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_1, this_ptr, SL("algorithm"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "sha");
 	ZEPHIR_INIT_VAR(&_3);

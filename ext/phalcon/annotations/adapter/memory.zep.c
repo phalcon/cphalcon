@@ -76,7 +76,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Memory, read) {
 	}
 
 
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("data"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, SL("data"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_1);
 	zephir_fast_strtolower(&_1, &key);
 	if (!(zephir_array_isset_fetch(&data, &_0, &_1, 1))) {

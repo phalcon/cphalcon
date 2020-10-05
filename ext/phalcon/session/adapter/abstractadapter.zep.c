@@ -75,13 +75,13 @@ PHP_METHOD(Phalcon_Session_Adapter_AbstractAdapter, destroy) {
 
 	_0 = !(ZEPHIR_IS_EMPTY(id));
 	if (_0) {
-		zephir_read_property(&_1, this_ptr, ZEND_STRL("adapter"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_1, this_ptr, SL("adapter"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(&_2, &_1, "has", NULL, 0, id);
 		zephir_check_call_status();
 		_0 = zephir_is_true(&_2);
 	}
 	if (_0) {
-		zephir_read_property(&_3$$3, this_ptr, ZEND_STRL("adapter"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_3$$3, this_ptr, SL("adapter"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_RETURN_CALL_METHOD(&_3$$3, "delete", NULL, 0, id);
 		zephir_check_call_status();
 		RETURN_MM();
@@ -128,7 +128,7 @@ PHP_METHOD(Phalcon_Session_Adapter_AbstractAdapter, read) {
 
 
 
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("adapter"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, SL("adapter"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&data, &_0, "get", NULL, 0, id);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_1);
@@ -179,7 +179,7 @@ PHP_METHOD(Phalcon_Session_Adapter_AbstractAdapter, write) {
 
 
 
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("adapter"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, SL("adapter"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_METHOD(&_0, "set", NULL, 0, id, data);
 	zephir_check_call_status();
 	RETURN_MM();

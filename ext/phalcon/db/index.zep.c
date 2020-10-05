@@ -159,9 +159,9 @@ PHP_METHOD(Phalcon_Db_Index, __construct) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, ZEND_STRL("name"), &name);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("columns"), &columns);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("type"), &type);
+	zephir_update_property_zval(this_ptr, SL("name"), &name);
+	zephir_update_property_zval(this_ptr, SL("columns"), &columns);
+	zephir_update_property_zval(this_ptr, SL("type"), &type);
 	ZEPHIR_MM_RESTORE();
 
 }

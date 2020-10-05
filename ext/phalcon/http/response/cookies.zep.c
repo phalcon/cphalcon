@@ -133,9 +133,9 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, __construct) {
 
 
 	if (useEncryption) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("useEncryption"), &__$true);
+		zephir_update_property_zval(this_ptr, SL("useEncryption"), &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("useEncryption"), &__$false);
+		zephir_update_property_zval(this_ptr, SL("useEncryption"), &__$false);
 	}
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setsignkey", NULL, 0, &signKey);
 	zephir_check_call_status();
@@ -175,7 +175,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, delete) {
 
 
 	ZEPHIR_OBS_VAR(&cookie);
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("cookies"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, SL("cookies"), PH_NOISY_CC | PH_READONLY);
 	if (!(zephir_array_isset_fetch(&cookie, &_0, &name, 0))) {
 		RETURN_MM_BOOL(0);
 	}
@@ -225,11 +225,11 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, get) {
 
 
 	ZEPHIR_OBS_VAR(&cookie);
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("cookies"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, SL("cookies"), PH_NOISY_CC | PH_READONLY);
 	if (zephir_array_isset_fetch(&cookie, &_0, &name, 0)) {
 		RETURN_CCTOR(&cookie);
 	}
-	zephir_read_property(&_1, this_ptr, ZEND_STRL("container"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_1, this_ptr, SL("container"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_3);
 	zephir_create_array(&_3, 1, 0);
 	zephir_array_fast_append(&_3, &name);
@@ -238,17 +238,17 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, get) {
 	ZEPHIR_CALL_METHOD(&_2, &_1, "get", NULL, 0, &_4, &_3);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&cookie, &_2);
-	zephir_read_property(&_5, this_ptr, ZEND_STRL("container"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_5, this_ptr, SL("container"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&container, &_5);
 	if (Z_TYPE_P(&container) == IS_OBJECT) {
 		ZEPHIR_CALL_METHOD(NULL, &cookie, "setdi", NULL, 0, &container);
 		zephir_check_call_status();
 		ZEPHIR_OBS_VAR(&encryption);
-		zephir_read_property(&encryption, this_ptr, ZEND_STRL("useEncryption"), PH_NOISY_CC);
+		zephir_read_property(&encryption, this_ptr, SL("useEncryption"), PH_NOISY_CC);
 		if (zephir_is_true(&encryption)) {
 			ZEPHIR_CALL_METHOD(NULL, &cookie, "useencryption", NULL, 0, &encryption);
 			zephir_check_call_status();
-			zephir_read_property(&_6$$5, this_ptr, ZEND_STRL("signKey"), PH_NOISY_CC | PH_READONLY);
+			zephir_read_property(&_6$$5, this_ptr, SL("signKey"), PH_NOISY_CC | PH_READONLY);
 			ZEPHIR_CALL_METHOD(NULL, &cookie, "setsignkey", NULL, 0, &_6$$5);
 			zephir_check_call_status();
 		}
@@ -301,7 +301,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, has) {
 	}
 
 
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("cookies"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, SL("cookies"), PH_NOISY_CC | PH_READONLY);
 	_1 = zephir_array_isset(&_0, &name);
 	if (!(_1)) {
 		_1 = zephir_array_isset(&_COOKIE, &name);
@@ -337,7 +337,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, reset) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	array_init(&_0);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("cookies"), &_0);
+	zephir_update_property_zval(this_ptr, SL("cookies"), &_0);
 	RETURN_THIS();
 
 }
@@ -360,12 +360,12 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, send) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_CALL_FUNCTION(&_0, "headers_sent", NULL, 380);
+	ZEPHIR_CALL_FUNCTION(&_0, "headers_sent", NULL, 381);
 	zephir_check_call_status();
 	if (zephir_is_true(&_0)) {
 		RETURN_MM_BOOL(0);
 	}
-	zephir_read_property(&_1, this_ptr, ZEND_STRL("cookies"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_1, this_ptr, SL("cookies"), PH_NOISY_CC | PH_READONLY);
 	zephir_is_iterable(&_1, 0, "phalcon/Http/Response/Cookies.zep", 203);
 	if (Z_TYPE_P(&_1) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_1), _2)
@@ -518,13 +518,13 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set) {
 
 
 	ZEPHIR_OBS_VAR(&encryption);
-	zephir_read_property(&encryption, this_ptr, ZEND_STRL("useEncryption"), PH_NOISY_CC);
+	zephir_read_property(&encryption, this_ptr, SL("useEncryption"), PH_NOISY_CC);
 	ZEPHIR_OBS_VAR(&cookie);
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("cookies"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, SL("cookies"), PH_NOISY_CC | PH_READONLY);
 	if (!(zephir_array_isset_fetch(&cookie, &_0, &name, 0))) {
-		zephir_read_property(&_1$$3, this_ptr, ZEND_STRL("container"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_1$$3, this_ptr, SL("container"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_INIT_VAR(&_3$$3);
-		zephir_create_array(&_3$$3, 8, 0);
+		zephir_create_array(&_3$$3, 7, 0);
 		zephir_array_fast_append(&_3$$3, &name);
 		zephir_array_fast_append(&_3$$3, value);
 		ZEPHIR_INIT_VAR(&_4$$3);
@@ -538,19 +538,18 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set) {
 		ZEPHIR_INIT_NVAR(&_4$$3);
 		ZVAL_BOOL(&_4$$3, httpOnly);
 		zephir_array_fast_append(&_3$$3, &_4$$3);
-		zephir_array_fast_append(&_3$$3, &options);
 		ZEPHIR_INIT_NVAR(&_4$$3);
 		ZVAL_STRING(&_4$$3, "Phalcon\\Http\\Cookie");
 		ZEPHIR_CALL_METHOD(&_2$$3, &_1$$3, "get", NULL, 0, &_4$$3, &_3$$3);
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(&cookie, &_2$$3);
-		zephir_read_property(&_5$$3, this_ptr, ZEND_STRL("container"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_5$$3, this_ptr, SL("container"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(NULL, &cookie, "setdi", NULL, 0, &_5$$3);
 		zephir_check_call_status();
 		if (zephir_is_true(&encryption)) {
 			ZEPHIR_CALL_METHOD(NULL, &cookie, "useencryption", NULL, 0, &encryption);
 			zephir_check_call_status();
-			zephir_read_property(&_6$$4, this_ptr, ZEND_STRL("signKey"), PH_NOISY_CC | PH_READONLY);
+			zephir_read_property(&_6$$4, this_ptr, SL("signKey"), PH_NOISY_CC | PH_READONLY);
 			ZEPHIR_CALL_METHOD(NULL, &cookie, "setsignkey", NULL, 0, &_6$$4);
 			zephir_check_call_status();
 		}
@@ -579,15 +578,13 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set) {
 		}
 		ZEPHIR_CALL_METHOD(NULL, &cookie, "sethttponly", NULL, 0, &_8$$5);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, &cookie, "setoptions", NULL, 0, &options);
-		zephir_check_call_status();
-		zephir_read_property(&_9$$5, this_ptr, ZEND_STRL("signKey"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_9$$5, this_ptr, SL("signKey"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(NULL, &cookie, "setsignkey", NULL, 0, &_9$$5);
 		zephir_check_call_status();
 	}
-	zephir_read_property(&_10, this_ptr, ZEND_STRL("registered"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_10, this_ptr, SL("registered"), PH_NOISY_CC | PH_READONLY);
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&_10)) {
-		zephir_read_property(&_11$$6, this_ptr, ZEND_STRL("container"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_11$$6, this_ptr, SL("container"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CPY_WRT(&container, &_11$$6);
 		if (UNEXPECTED(Z_TYPE_P(&container) != IS_OBJECT)) {
 			ZEPHIR_INIT_VAR(&_12$$7);
@@ -598,7 +595,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set) {
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(NULL, &_12$$7, "__construct", NULL, 8, &_13$$7);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_12$$7, "phalcon/Http/Response/Cookies.zep", 289);
+			zephir_throw_exception_debug(&_12$$7, "phalcon/Http/Response/Cookies.zep", 288);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -609,9 +606,9 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, set) {
 		ZEPHIR_CALL_METHOD(NULL, &response, "setcookies", NULL, 0, this_ptr);
 		zephir_check_call_status();
 		if (1) {
-			zephir_update_property_zval(this_ptr, ZEND_STRL("registered"), &__$true);
+			zephir_update_property_zval(this_ptr, SL("registered"), &__$true);
 		} else {
-			zephir_update_property_zval(this_ptr, ZEND_STRL("registered"), &__$false);
+			zephir_update_property_zval(this_ptr, SL("registered"), &__$false);
 		}
 	}
 	RETURN_THIS();
@@ -648,7 +645,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, setSignKey) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, ZEND_STRL("signKey"), &signKey);
+	zephir_update_property_zval(this_ptr, SL("signKey"), &signKey);
 	RETURN_THIS();
 
 }
@@ -671,9 +668,9 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, useEncryption) {
 
 
 	if (useEncryption) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("useEncryption"), &__$true);
+		zephir_update_property_zval(this_ptr, SL("useEncryption"), &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("useEncryption"), &__$false);
+		zephir_update_property_zval(this_ptr, SL("useEncryption"), &__$false);
 	}
 	RETURN_THISW();
 
@@ -691,11 +688,11 @@ zend_object *zephir_init_properties_Phalcon_Http_Response_Cookies(zend_class_ent
 	{
 		zval local_this_ptr, *this_ptr = &local_this_ptr;
 		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property_ex(&_0, this_ptr, ZEND_STRL("cookies"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_0, this_ptr, SL("cookies"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_0) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_1$$3);
 			array_init(&_1$$3);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("cookies"), &_1$$3);
+			zephir_update_property_zval(this_ptr, SL("cookies"), &_1$$3);
 		}
 		ZEPHIR_MM_RESTORE();
 		return Z_OBJ_P(this_ptr);

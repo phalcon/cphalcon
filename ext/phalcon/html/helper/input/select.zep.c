@@ -110,7 +110,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select, add) {
 	}
 
 
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "processvalue", NULL, 297, &attributes, &value);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "processvalue", NULL, 298, &attributes, &value);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&attributes, &_0);
 	ZEPHIR_INIT_VAR(&_1);
@@ -121,7 +121,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select, add) {
 	ZEPHIR_INIT_VAR(&_3);
 	zephir_create_array(&_3, 4, 0);
 	ZEPHIR_OBS_VAR(&_4);
-	zephir_read_property(&_4, this_ptr, ZEND_STRL("elementTag"), PH_NOISY_CC);
+	zephir_read_property(&_4, this_ptr, SL("elementTag"), PH_NOISY_CC);
 	zephir_array_fast_append(&_3, &_4);
 	zephir_array_fast_append(&_3, &text);
 	zephir_array_fast_append(&_3, &attributes);
@@ -201,7 +201,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select, addPlaceholder) {
 	ZEPHIR_INIT_VAR(&_3);
 	zephir_create_array(&_3, 4, 0);
 	ZEPHIR_OBS_VAR(&_4);
-	zephir_read_property(&_4, this_ptr, ZEND_STRL("elementTag"), PH_NOISY_CC);
+	zephir_read_property(&_4, this_ptr, SL("elementTag"), PH_NOISY_CC);
 	zephir_array_fast_append(&_3, &_4);
 	zephir_array_fast_append(&_3, &text);
 	zephir_array_fast_append(&_3, &attributes);
@@ -268,7 +268,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select, optGroup) {
 	}
 
 
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("inOptGroup"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, SL("inOptGroup"), PH_NOISY_CC | PH_READONLY);
 	if (!(zephir_is_true(&_0))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		zephir_create_array(&_1$$3, 3, 0);
@@ -286,15 +286,15 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select, optGroup) {
 		zephir_update_property_array_append(this_ptr, SL("store"), &_1$$3);
 		ZEPHIR_INIT_NVAR(&_2$$3);
 		ZVAL_LONG(&_2$$3, 1);
-		zephir_read_property(&_5$$3, this_ptr, ZEND_STRL("indentLevel"), PH_NOISY_CC);
+		zephir_read_property(&_5$$3, this_ptr, SL("indentLevel"), PH_NOISY_CC);
 		ZEPHIR_ADD_ASSIGN(&_5$$3, &_2$$3)
-		zephir_update_property_zval(this_ptr, ZEND_STRL("indentLevel"), &_5$$3);
+		zephir_update_property_zval(this_ptr, SL("indentLevel"), &_5$$3);
 	} else {
 		ZEPHIR_INIT_VAR(&_7$$4);
 		ZVAL_LONG(&_7$$4, 1);
-		zephir_read_property(&_6$$4, this_ptr, ZEND_STRL("indentLevel"), PH_NOISY_CC);
+		zephir_read_property(&_6$$4, this_ptr, SL("indentLevel"), PH_NOISY_CC);
 		ZEPHIR_SUB_ASSIGN(&_6$$4, &_7$$4)
-		zephir_update_property_zval(this_ptr, ZEND_STRL("indentLevel"), &_6$$4);
+		zephir_update_property_zval(this_ptr, SL("indentLevel"), &_6$$4);
 		ZEPHIR_INIT_VAR(&_8$$4);
 		zephir_create_array(&_8$$4, 3, 0);
 		ZEPHIR_INIT_VAR(&_9$$4);
@@ -309,11 +309,11 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select, optGroup) {
 		zephir_update_property_array_append(this_ptr, SL("store"), &_8$$4);
 	}
 	ZEPHIR_OBS_VAR(&_11);
-	zephir_read_property(&_11, this_ptr, ZEND_STRL("inOptGroup"), PH_NOISY_CC);
+	zephir_read_property(&_11, this_ptr, SL("inOptGroup"), PH_NOISY_CC);
 	if (!zephir_is_true(&_11)) {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("inOptGroup"), &__$true);
+		zephir_update_property_zval(this_ptr, SL("inOptGroup"), &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, ZEND_STRL("inOptGroup"), &__$false);
+		zephir_update_property_zval(this_ptr, SL("inOptGroup"), &__$false);
 	}
 	RETURN_THIS();
 
@@ -339,7 +339,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select, selected) {
 	zephir_get_strval(&selected, selected_param);
 
 
-	zephir_update_property_zval(this_ptr, ZEND_STRL("selected"), &selected);
+	zephir_update_property_zval(this_ptr, SL("selected"), &selected);
 	RETURN_THIS();
 
 }
@@ -443,10 +443,10 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select, processValue) {
 	}
 	if (_0) {
 		zephir_array_update_string(&attributes, SL("value"), value, PH_COPY | PH_SEPARATE);
-		zephir_read_property(&_1$$3, this_ptr, ZEND_STRL("selected"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_1$$3, this_ptr, SL("selected"), PH_NOISY_CC | PH_READONLY);
 		_2$$3 = !(ZEPHIR_IS_EMPTY(&_1$$3));
 		if (_2$$3) {
-			zephir_read_property(&_3$$3, this_ptr, ZEND_STRL("selected"), PH_NOISY_CC | PH_READONLY);
+			zephir_read_property(&_3$$3, this_ptr, SL("selected"), PH_NOISY_CC | PH_READONLY);
 			_2$$3 = ZEPHIR_IS_IDENTICAL(value, &_3$$3);
 		}
 		if (_2$$3) {

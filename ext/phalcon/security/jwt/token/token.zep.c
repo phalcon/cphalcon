@@ -111,9 +111,9 @@ PHP_METHOD(Phalcon_Security_JWT_Token_Token, __construct) {
 
 
 
-	zephir_update_property_zval(this_ptr, ZEND_STRL("headers"), headers);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("claims"), claims);
-	zephir_update_property_zval(this_ptr, ZEND_STRL("signature"), signature);
+	zephir_update_property_zval(this_ptr, SL("headers"), headers);
+	zephir_update_property_zval(this_ptr, SL("claims"), claims);
+	zephir_update_property_zval(this_ptr, SL("signature"), signature);
 
 }
 
@@ -134,10 +134,10 @@ PHP_METHOD(Phalcon_Security_JWT_Token_Token, getPayload) {
 
 	ZEPHIR_MM_GROW();
 
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("headers"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, SL("headers"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&_1, &_0, "getencoded", NULL, 0);
 	zephir_check_call_status();
-	zephir_read_property(&_2, this_ptr, ZEND_STRL("claims"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_2, this_ptr, SL("claims"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&_3, &_2, "getencoded", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_CONCAT_VSV(return_value, &_1, ".", &_3);

@@ -140,7 +140,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, exists) {
 	}
 
 
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("translate"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, SL("translate"), PH_NOISY_CC | PH_READONLY);
 	RETURN_MM_BOOL(zephir_array_isset(&_0, &index));
 
 }
@@ -184,7 +184,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Csv, query) {
 
 
 	ZEPHIR_OBS_VAR(&translation);
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("translate"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, SL("translate"), PH_NOISY_CC | PH_READONLY);
 	if (!(zephir_array_isset_fetch(&translation, &_0, &index, 0))) {
 		ZEPHIR_CPY_WRT(&translation, &index);
 	}
@@ -287,11 +287,11 @@ zend_object *zephir_init_properties_Phalcon_Translate_Adapter_Csv(zend_class_ent
 	{
 		zval local_this_ptr, *this_ptr = &local_this_ptr;
 		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property_ex(&_0, this_ptr, ZEND_STRL("translate"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_0, this_ptr, SL("translate"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_0) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_1$$3);
 			array_init(&_1$$3);
-			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("translate"), &_1$$3);
+			zephir_update_property_zval(this_ptr, SL("translate"), &_1$$3);
 		}
 		ZEPHIR_MM_RESTORE();
 		return Z_OBJ_P(this_ptr);
