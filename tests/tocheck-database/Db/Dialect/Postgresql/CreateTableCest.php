@@ -213,6 +213,48 @@ class CreateTableCest
                 ],
                 rtrim(file_get_contents(dataDir('fixtures/Db/postgresql/example6.sql'))),
             ],
+            'example10' => [
+                '',
+                [
+                    'columns' => [
+                        new Column('column14', [
+                            'type'          => Column::TYPE_INTEGER,
+                            'notNull'       => true,
+                            'autoIncrement' => true,
+                            'first'         => true,
+                            'comment'       => 'test',
+                        ]),
+                        new Column('column15', [
+                            'type'    => Column::TYPE_INTEGER,
+                            'default' => 5,
+                            'notNull' => true,
+                            'after'   => 'user_id',
+                            'comment' => 'test',
+                        ]),
+                        new Column('column16', [
+                            'type'    => Column::TYPE_VARCHAR,
+                            'size'    => 10,
+                            'default' => 'column16',
+                            'comment' => 'test',
+                        ]),
+                        new Column('column17', [
+                            'type'    => Column::TYPE_BOOLEAN,
+                            'default' => 'false',
+                            'notNull' => true,
+                            'after'   => 'track_id',
+                            'comment' => 'test',
+                        ]),
+                        new Column('column18', [
+                            'type'    => Column::TYPE_BOOLEAN,
+                            'default' => 'true',
+                            'notNull' => true,
+                            'after'   => 'like',
+                            'comment' => 'test',
+                        ]),
+                    ],
+                ],
+                rtrim(file_get_contents(dataDir('fixtures/Db/postgresql/example10.sql'))),
+            ],
         ];
     }
 }

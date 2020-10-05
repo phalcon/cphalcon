@@ -298,6 +298,16 @@ class ModifyColumnCest
                 'ALTER TABLE "schema"."table" ALTER COLUMN "column13" SET NOT NULL;' .
                 'ALTER TABLE "schema"."table" ALTER COLUMN "column13" SET DEFAULT CURRENT_TIMESTAMP',
             ],
+            [
+                'schema',
+                'column25',
+                'column2',
+                'ALTER TABLE "schema"."table" RENAME COLUMN "column2" TO "column13";' .
+                'ALTER TABLE "schema"."table" ALTER COLUMN "column13" TYPE TIMESTAMP;' .
+                'ALTER TABLE "schema"."table" ALTER COLUMN "column13" SET NOT NULL;' .
+                'COMMENT ON COLUMN "schema"."table"."column13" is \'test\';' .
+                'ALTER TABLE "schema"."table" ALTER COLUMN "column13" SET DEFAULT CURRENT_TIMESTAMP',
+            ],
         ];
     }
 }

@@ -212,6 +212,13 @@ class Mysql extends Dialect
                 let columnLine .= " PRIMARY KEY";
             }
 
+            /**
+             * Add a COMMENT clause
+             */
+             if column->getComment() {
+                let columnLine .= " COMMENT '" . column->getComment() . "'";
+            }
+
             let createLines[] = columnLine;
         }
 
@@ -298,7 +305,7 @@ class Mysql extends Dialect
      */
     public function describeColumns(string! table, string schema = null) -> string
     {
-        return "DESCRIBE " . this->prepareTable(table, schema);
+        return "SHOW FULL COLUMNS FROM " . this->prepareTable(table, schema);
     }
 
     /**
@@ -730,6 +737,13 @@ class Mysql extends Dialect
 
         if column->isAutoIncrement() {
             let sql .= " AUTO_INCREMENT";
+        }
+
+        /**
+        * Add a COMMENT clause
+        */
+        if column->getComment() {
+            let sql .= " COMMENT '" . column->getComment() . "'";
         }
 
         if column->isFirst() {

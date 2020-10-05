@@ -52,17 +52,17 @@ class DescribeColumnsCest
         return [
             [
                 'schema.name.with.dots',
-                'DESCRIBE `schema.name.with.dots`.`table`',
+                'SHOW FULL COLUMNS FROM `schema.name.with.dots`.`table`',
             ],
 
             [
                 null,
-                'DESCRIBE `table`',
+                'SHOW FULL COLUMNS FROM `table`',
             ],
 
             [
                 'schema',
-                'DESCRIBE `schema`.`table`',
+                'SHOW FULL COLUMNS FROM `schema`.`table`',
             ],
         ];
     }

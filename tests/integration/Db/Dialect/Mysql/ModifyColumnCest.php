@@ -94,6 +94,27 @@ class ModifyColumnCest
                 ),
                 'ALTER TABLE `test` MODIFY `numeric_val` FLOAT NULL DEFAULT 21.42 AFTER `updated_at`',
             ],
+            [
+                new Column(
+                    'numeric_val',
+                    [
+                        'type'    => Column::TYPE_FLOAT,
+                        'notNull' => true,
+                        'after'   => 'updated_at',
+                    ]
+                ),
+                new Column(
+                    'numeric_val',
+                    [
+                        'type'    => Column::TYPE_FLOAT,
+                        'default' => 21.42,
+                        'notNull' => false,
+                        'after'   => 'updated_at',
+                        'comment' => 'test'
+                    ]
+                ),
+                'ALTER TABLE `test` MODIFY `numeric_val` FLOAT NULL DEFAULT 21.42 COMMENT \'test\' AFTER `updated_at`',
+            ],
         ];
 
         $mysql = new Mysql();
