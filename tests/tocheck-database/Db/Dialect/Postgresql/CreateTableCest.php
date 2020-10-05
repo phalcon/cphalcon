@@ -229,7 +229,7 @@ class CreateTableCest
                             'default' => 5,
                             'notNull' => true,
                             'after'   => 'user_id',
-                            'comment'       => 'test',
+                            'comment' => 'test',
                         ]),
                         new Column('column16', [
                             'type'    => Column::TYPE_VARCHAR,

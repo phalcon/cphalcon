@@ -191,7 +191,7 @@ class Postgresql extends Dialect
             * Add a COMMENT clause
             */
             if column->getComment() {
-                let indexSqlAfterCreate .= " COMMENT ON COLUMN " . table . ".\"" . column->getName()."\" is '".column->getComment()."';";
+                let indexSqlAfterCreate .= " COMMENT ON COLUMN " . table . ".\"" . column->getName()."\" IS '".column->getComment()."';";
             }
         }
 
@@ -596,7 +596,7 @@ class Postgresql extends Dialect
          * Add a COMMENT clause
          */
          if column->getComment() {
-            let sql .= "COMMENT ON COLUMN " . this->prepareTable(tableName, schemaName) . ".\"" .column->getName()."\" is '".column->getComment()."';";
+            let sql .= "COMMENT ON COLUMN " . this->prepareTable(tableName, schemaName) . ".\"" .column->getName()."\" IS '" . column->getComment() . "';";
         }
 
         // DEFAULT

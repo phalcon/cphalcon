@@ -254,7 +254,7 @@ class Column implements ColumnInterface
      *
      * @var string
      */
-     protected comment = null  { get };
+     protected comment = null { get };
 
     /**
      * Column not nullable?

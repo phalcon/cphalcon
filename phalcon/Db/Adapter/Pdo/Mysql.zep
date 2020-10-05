@@ -433,12 +433,14 @@ class Mysql extends PdoAdapter
                     let definition["default"] = "NULL " . field[6];
                 }
             }
+            
             /**
              * Check if the column has comment
              */
              if field[8] !== null {
-                let definition["comment"] = "" . field[8];
+                let definition["comment"] = field[8];
              }
+
             /**
              * Every route is stored as a Phalcon\Db\Column
              */
