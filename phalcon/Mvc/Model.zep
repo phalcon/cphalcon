@@ -4290,7 +4290,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     {
         var params, distinctColumn, groupColumn, columns, bindParams, bindTypes,
             resultset, cache, firstRow, groupColumns, builder, query, container,
-            manager;
+            manager, transaction;
 
         let container = Di::getDefault();
         let manager = <ManagerInterface> container->getShared("modelsManager");
@@ -4334,6 +4334,12 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         );
 
         let query = <QueryInterface> builder->getQuery();
+
+        if fetch transaction, params[self::TRANSACTION_INDEX] {
+            if transaction instanceof TransactionInterface {
+                query->setTransaction(transaction);
+            }
+        }
 
         /**
          * Check for bind parameters
