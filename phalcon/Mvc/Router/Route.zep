@@ -129,9 +129,11 @@ class Route implements RouteInterface
         /**
          * Check if the pattern has parentheses or square brackets in order to
          * add the regex delimiters
+         *
+         * `u` flag is required to support unicode
          */
         if memstr(pattern, "(") || memstr(pattern, "[") {
-            return "#^" . pattern . "$#";
+            return "#^" . pattern . "$#u";
         }
 
         return pattern;
