@@ -49,6 +49,7 @@ This component can be used to create SQL statements using a fluent interface. Op
 ## Fixed
 - Fixed `Phalcon\Db\Dialect\Mysql::getColumnDefinition` to recognize `size` for `DATETIME`, `TIME` and `TIMESTAMP` columns [#13297](https://github.com/phalcon/cphalcon/issues/13297)
 - Fixed `Phalcon\Events\Manager` to provide callable support [#13322](https://github.com/phalcon/cphalcon/issues/13322), [#15045](https://github.com/phalcon/cphalcon/pull/15045)
+- Fixed `Phalcon\Events\Manager:notifyEvent()` change in the order of notification event: first default event manager, then custom events and finally behaviors, [#14904](https://github.com/phalcon/cphalcon/issues/14904)
 - Fixed `Phalcon\Validation\Validator\Uniqueness` fixed except query [#15084](https://github.com/phalcon/cphalcon/issues/15084) 
 - Fixed `Phalcon\Mvc\Model` to also check the params option in cascade relations when deleting [#15098](https://github.com/phalcon/cphalcon/issues/15098)
 - Fixed `Phalcon\Mvc\Model::findFirst()` to return correct value [#15077](https://github.com/phalcon/cphalcon/issues/15077)
@@ -57,6 +58,7 @@ This component can be used to create SQL statements using a fluent interface. Op
 - Fixed `Phalcon\Http\Cookie::send()` to define `options` parameter [#15142](https://github.com/phalcon/cphalcon/issues/15142)
 - Fixed `Phalcon\Crypt` performance issues. [#15118](https://github.com/phalcon/cphalcon/issues/15118)
 - Fixed `Phalcon\Mvc\Router\Route` unicode support in patterns [#15102](https://github.com/phalcon/cphalcon/issues/15102)
+- Fixed fatal error in `Phalcon\Mvc\Model::cloneResultMap()` when column map is used with `orm.cast_on_hydrate` turned on. [#14617](https://github.com/phalcon/cphalcon/issues/14617)
 
 ## Removed
 - Removed `Phalcon\Http\Cookie` binding to session [#11770](https://github.com/phalcon/cphalcon/issues/11770)
