@@ -18,21 +18,21 @@ use Phalcon\Mvc\Model;
 /**
  * Class InvoicesMap
  *
- * @property int    $inv_id
- * @property int    $inv_cst_id
- * @property int    $inv_status_flag
- * @property string $inv_title
- * @property float  $inv_total
- * @property string $inv_created_at
+ * @property int    $id
+ * @property int    $cst_id
+ * @property int    $status_flag
+ * @property string $title
+ * @property float  $total
+ * @property string $created_at
  */
 class InvoicesMap extends Model
 {
-    public $inv_id;
-    public $inv_cst_id;
-    public $inv_status_flag;
-    public $inv_title;
-    public $inv_total;
-    public $inv_created_at;
+    public $id;
+    public $cst_id;
+    public $status_flag;
+    public $title;
+    public $total;
+    public $created_at;
 
     public function initialize()
     {
