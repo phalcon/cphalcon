@@ -22,6 +22,7 @@ use Phalcon\Mvc\Model;
  * @property int    $cst_status_flag
  * @property string $cst_name_last
  * @property string $cst_name_first
+ * @property array  $cst_data;
  */
 class Customers extends Model
 {
@@ -29,6 +30,9 @@ class Customers extends Model
     public $cst_status_flag;
     public $cst_name_last;
     public $cst_name_first;
+
+    /** Not in schema */
+    public $cst_data;
 
     public function initialize()
     {
@@ -86,5 +90,53 @@ class Customers extends Model
                 }
             ]
         );
+    }
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->cst_id;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId(int $id)
+    {
+        $this->cst_id = $id;
+    }
+
+    /**
+     * @return array
+     */
+    public function getData(): array
+    {
+        return $this->cst_data;
+    }
+
+    /**
+     * @param array $data
+     */
+    public function setData(array $data)
+    {
+        $this->cst_data = $data;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFirstName(): string
+    {
+        return $this->cst_name_first;
+    }
+
+    /**
+     * @param string $firstName
+     */
+    public function setFirstName(string $firstName)
+    {
+        $this->cst_name_first = $firstName;
     }
 }

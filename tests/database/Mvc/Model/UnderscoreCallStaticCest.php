@@ -11,27 +11,22 @@
 
 namespace Phalcon\Test\Integration\Mvc\Model;
 
-use IntegrationTester;
+use DatabaseTester;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\Resultset;
+use Phalcon\Test\Fixtures\Migrations\CustomersMigration;
+use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models;
-
-use function is_int;
 
 class UnderscoreCallStaticCest
 {
     use DiTrait;
 
-    public function _before(IntegrationTester $I)
+    public function _before(DatabaseTester $I)
     {
         $this->setNewFactoryDefault();
-        $this->setDiMysql();
-    }
-
-    public function _after(IntegrationTester $I)
-    {
-        $this->container['db']->close();
+        $this->setDatabase($I);
     }
 
     /**
@@ -39,108 +34,120 @@ class UnderscoreCallStaticCest
      *
      * @author Balázs Németh <https://github.com/zsilbi>
      * @since  2019-10-14
+     *
+     * @group  mysql
+     * @group  pgsql
+     * @group  sqlite
      */
-    public function mvcModelUnderscoreCallStatic(IntegrationTester $I)
+    public function mvcModelUnderscoreCallStatic(DatabaseTester $I)
     {
         $I->wantToTest("Mvc\Model - __callStatic()");
 
-        $robot = Models\Robots::findFirst();
+        /** @var \PDO $connection */
+        $connection = $I->getConnection();
+
+        $invoicesMigration = new InvoicesMigration($connection);
+        $invoicesMigration->insert(77, 1, 0, uniqid('inv-'));
+        $invoicesMigration->insert(88, 1, 1, uniqid('inv-'));
+
+        $customersMigration = new CustomersMigration($connection);
+        $customersMigration->insert(1, 1, 'test_firstName_1', 'test_lastName_1');
+        $customersMigration->insert(2, 0, 'test_firstName_2', 'test_lastName_2');
 
         /**
          * Testing Model::findByField()
          */
-        $magicRobots = Models\Robots::findById(
-            $robot->id
+        $magicInvoices = Models\Invoices::findByInvId(
+            77
         );
 
         $I->assertInstanceOf(
             Resultset\Simple::class,
-            $magicRobots
+            $magicInvoices
         );
 
         $I->assertCount(
             1,
-            $magicRobots
+            $magicInvoices
         );
 
         $I->assertInstanceOf(
-            Models\Robots::class,
-            $magicRobots->getFirst()
-        );
-
-        $I->assertEquals(
-            $robot,
-            $magicRobots->getFirst()
+            Models\Invoices::class,
+            $magicInvoices->getFirst()
         );
 
         /**
          * Testing Model::findByField()
          * with impossible conditions
          */
-        $nonExistentRobots = Models\Robots::findById(0);
+        $nonExistentInvoices = Models\Invoices::findByInvId(0);
 
         $I->assertInstanceOf(
             Resultset\Simple::class,
-            $nonExistentRobots
+            $nonExistentInvoices
         );
 
         $I->assertCount(
             0,
-            $nonExistentRobots
+            $nonExistentInvoices
         );
 
         /**
          * Testing Model::findFirstByField()
          */
-        $firstMagicRobot = Models\Robots::findFirstById(
-            $robot->id
+        $firstMagicInvoice = Models\Invoices::findFirstByInvCstId(
+            1
         );
 
         $I->assertInstanceOf(
-            Models\Robots::class,
-            $firstMagicRobot
+            Models\Invoices::class,
+            $firstMagicInvoice
         );
 
         $I->assertEquals(
-            $robot,
-            $firstMagicRobot
+            0,
+            $firstMagicInvoice->inv_status_flag
         );
 
         /**
          * Testing Model::findFirstByField()
          * with impossible conditions
          */
-        $nonExistentRobot = Models\Robots::findFirstById(0);
+        $nonExistentFirstInvoice = Models\Invoices::findFirstByInvCstId(0);
 
         $I->assertNull(
-            $nonExistentRobot
+            $nonExistentFirstInvoice
         );
 
         /**
          * Testing Model::countByField()
          */
-        $countMagicRobots = Models\Robots::countById(
-            $robot->id
+        $countMagicInvoices = Models\Invoices::countByInvCstId(
+            1
         );
 
-        $I->assertTrue(is_int($countMagicRobots));
+        $I->assertIsInt(
+            $countMagicInvoices
+        );
 
         $I->assertEquals(
-            1,
-            $countMagicRobots
+            2,
+            $countMagicInvoices
         );
 
         /**
          * Testing Model::countByField()
          * with impossible conditions
          */
-        $countEmptyMagicRobots = Models\Robots::countById(null);
+        $countEmptyMagicInvoices = Models\Invoices::countByInvCstId(null);
 
-        $I->assertTrue(is_int($countEmptyMagicRobots));
+        $I->assertIsInt(
+            $countEmptyMagicInvoices
+        );
 
         $I->assertEquals(
             0,
-            $countEmptyMagicRobots
+            $countEmptyMagicInvoices
         );
 
         /**
@@ -148,10 +155,10 @@ class UnderscoreCallStaticCest
          */
         $I->expectThrowable(
             new Exception(
-                "The method 'nonExistentStaticMethod' doesn't exist on model '" . Models\Robots::class . "'"
+                "The method 'nonExistentStaticMethod' doesn't exist on model '" . Models\Invoices::class . "'"
             ),
             function () {
-                Models\Robots::nonExistentStaticMethod(1);
+                Models\Invoices::nonExistentStaticMethod(1);
             }
         );
 
@@ -163,7 +170,7 @@ class UnderscoreCallStaticCest
                 "Cannot resolve attribute 'UnknownField' in the model"
             ),
             function () {
-                Models\Robots::findFirstByUnknownField(1);
+                Models\Invoices::findFirstByUnknownField(1);
             }
         );
 
@@ -175,7 +182,7 @@ class UnderscoreCallStaticCest
                 "Cannot resolve attribute 'UnknownField' in the model"
             ),
             function () {
-                Models\Robots::countByUnknownField(1);
+                Models\Invoices::countByUnknownField(1);
             }
         );
     }
