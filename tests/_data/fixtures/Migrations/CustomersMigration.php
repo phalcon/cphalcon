@@ -39,7 +39,7 @@ class CustomersMigration extends AbstractMigration
         $id  = $id ?: 'null';
         $sql = <<<SQL
 insert into co_customers (
-    cst_id, cst_status_flag, cst_name_last, cst_name_first
+    cst_id, cst_status_flag, cst_name_first, cst_name_last
 ) values (
     {$id}, {$status}, '{$first}', '{$last}'
 )

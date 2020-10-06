@@ -11,7 +11,8 @@
 
 namespace Phalcon\Test\Integration\Mvc\Model;
 
-use IntegrationTester;
+use DatabaseTester;
+use Phalcon\Test\Fixtures\Migrations\CustomersMigration;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models;
 
@@ -19,15 +20,10 @@ class UnderscoreIssetCest
 {
     use DiTrait;
 
-    public function _before(IntegrationTester $I)
+    public function _before(DatabaseTester $I)
     {
         $this->setNewFactoryDefault();
-        $this->setDiMysql();
-    }
-
-    public function _after(IntegrationTester $I)
-    {
-        $this->container['db']->close();
+        $this->setDatabase($I);
     }
 
     /**
@@ -35,27 +31,31 @@ class UnderscoreIssetCest
      *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-22
+     *
+     * @group  mysql
+     * @group  pgsql
+     * @group  sqlite
      */
-    public function mvcModelUnderscoreIsset(IntegrationTester $I)
+    public function mvcModelUnderscoreIsset(DatabaseTester $I)
     {
         $I->wantToTest("Mvc\Model - __isset()");
+        /** @var \PDO $connection */
+        $connection = $I->getConnection();
+
+        $customersMigration = new CustomersMigration($connection);
+        $customersMigration->insert(1, 1, 'test_firstName_1', 'test_lastName_1');
 
         /**
          * Belongs-to relationship
          */
-        $robotPart = Models\RobotsParts::findFirst();
+        $customerSnap = Models\CustomersKeepSnapshots::findFirst();
 
         $I->assertTrue(
-            isset($robotPart->part)
-        );
-
-        $I->assertInstanceOf(
-            Models\Parts::class,
-            $robotPart->part
+            isset($customerSnap->invoices)
         );
 
         $I->assertFalse(
-            isset($robotPart->notRelation)
+            isset($customerSnap->nonExistentRelation)
         );
     }
 }

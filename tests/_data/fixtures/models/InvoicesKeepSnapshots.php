@@ -29,5 +29,15 @@ class InvoicesKeepSnapshots extends Invoices
     {
         $this->setSource('co_invoices');
         $this->keepSnapshots(true);
+
+        $this->belongsTo(
+            'inv_cst_id',
+            Customers::class,
+            'cst_id',
+            [
+                'alias'    => 'customer',
+                'reusable' => true,
+            ]
+        );
     }
 }

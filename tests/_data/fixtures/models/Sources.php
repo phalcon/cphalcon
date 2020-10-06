@@ -15,6 +15,10 @@ use Phalcon\Mvc\Model;
 
 class Sources extends Model
 {
+    public $id;
+    public $source;
+    public $username;
+
     public function initialize()
     {
         $this->setSource('co_sources');
