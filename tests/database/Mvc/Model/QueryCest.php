@@ -15,6 +15,7 @@ namespace Phalcon\Test\Database\Mvc\Model;
 
 use DatabaseTester;
 use Phalcon\Mvc\Model\Resultset\Complex;
+use Phalcon\Mvc\Model\Resultset\Simple;
 use Phalcon\Mvc\Model\Row;
 use Phalcon\Storage\Exception;
 use Phalcon\Test\Fixtures\Migrations\CustomersMigration;
@@ -167,7 +168,7 @@ class QueryCest
             /** @var Row $resultset */
             $model = $this->transform($resultset);
             $I->assertInstanceOf(CustomersKeepSnapshots::class, $model);
-            $I->assertInstanceOf(InvoicesKeepSnapshots::class, $model->invoices);
+            $I->assertInstanceOf(Simple::class, $model->invoices);
         }
     }
 
