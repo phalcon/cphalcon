@@ -177,9 +177,9 @@ class SumCest
     {
         $I->wantToTest('Phalcon\Mvc\Model :: sum() - with transaction');
 
-        $this->insertDataInvoices($this->invoiceMigration, 7, null, 2, 'ccc');
-        $this->insertDataInvoices($this->invoiceMigration, 1, null, 3, 'aaa');
-        $this->insertDataInvoices($this->invoiceMigration, 11, null, 1, 'aaa');
+        $this->insertDataInvoices($this->invoiceMigration, 7, 'default', 2, 'ccc');
+        $this->insertDataInvoices($this->invoiceMigration, 1, 'default', 3, 'aaa');
+        $this->insertDataInvoices($this->invoiceMigration, 11, 'default', 1, 'aaa');
 
         $originalTotal = Invoices::sum(
             [
