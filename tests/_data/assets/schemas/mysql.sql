@@ -22,16 +22,6 @@ create table co_customers
     `cst_name_first`  varchar(50)  null
 );
 
-drop table if exists `co_customers_defaults`;
-
-create table co_customers_defaults
-(
-    `cst_id`          int(10) auto_increment primary key,
-    `cst_status_flag` tinyint(1)   null DEFAULT 1,
-    `cst_name_last`   varchar(100) null DEFAULT 'cst_default_lastName',
-    `cst_name_first`  varchar(50)  null DEFAULT 'cst_default_firstName'
-);
-
 create index co_customers_cst_status_flag_index
     on `co_customers` (`cst_status_flag`);
 
