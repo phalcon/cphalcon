@@ -517,8 +517,8 @@ class SaveCest
             $customer->save()
         );
 
-        $I->assertNull(
-            $invoice->inv_cst_id
+        $I->assertFalse(
+            $invoice->save()
         );
     }
 
