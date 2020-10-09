@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Models;
 
+use Phalcon\Validation\ValidationInterface;
+
 /**
  * Class InvoicesValidationFails
  *
