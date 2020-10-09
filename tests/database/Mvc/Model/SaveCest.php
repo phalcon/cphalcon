@@ -25,6 +25,7 @@ use Phalcon\Test\Models\CustomersKeepSnapshots;
 use Phalcon\Test\Models\Invoices;
 use Phalcon\Test\Models\InvoicesKeepSnapshots;
 use Phalcon\Test\Models\InvoicesSchema;
+use Phalcon\Test\Models\InvoicesValidationFails;
 use Phalcon\Test\Models\Sources;
 use Phalcon\Test\Models\Customers;
 
@@ -498,16 +499,13 @@ class SaveCest
         /** @var \PDO $connection */
         $connection = $I->getConnection();
 
-        $invoicesMigration = new InvoicesMigration($connection);
-        $invoicesMigration->clear();
-        $invoicesMigration->insert(77, null, 0, uniqid('inv-'));
-
         $customersMigration = new CustomersMigration($connection);
         $customersMigration->clear();
         $customersMigration->insert(1, 1, 'test_firstName_1', 'test_lastName_1');
 
         $customer = Customers::findFirst();
-        $invoice  = Invoices::findFirst();
+
+        $invoice = new InvoicesValidationFails();
 
         $customer->invoices = [
             $invoice
