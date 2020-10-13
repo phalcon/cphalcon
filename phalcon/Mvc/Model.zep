@@ -449,8 +449,6 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                         }
 
                         return value;
-
-                        break;
                 }
             }
         }
