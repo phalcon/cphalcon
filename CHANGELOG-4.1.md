@@ -60,6 +60,7 @@ This component can be used to create SQL statements using a fluent interface. Op
 - Fixed `Phalcon\Mvc\Router\Route` unicode support in patterns [#15102](https://github.com/phalcon/cphalcon/issues/15102)
 - Fixed fatal error in `Phalcon\Mvc\Model::cloneResultMap()` when column map is used with `orm.cast_on_hydrate` turned on. [#14617](https://github.com/phalcon/cphalcon/issues/14617)
 - Fixed `Phalcon\Mvc\Model::sum()`, `average()`, `minimum()`, `maxmium()`, `count()` to utilize the transaction parameter. [#15113](https://github.com/phalcon/cphalcon/issues/15113)
+- Fixed `Phalcon\Mvc\Model::__set()` to clear `dirtyRelated` when empty array is set. [#14822](https://github.com/phalcon/cphalcon/issues/14822)
 
 ## Removed
 - Removed `Phalcon\Http\Cookie` binding to session [#11770](https://github.com/phalcon/cphalcon/issues/11770)
