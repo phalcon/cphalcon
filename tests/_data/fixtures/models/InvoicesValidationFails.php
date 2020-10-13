@@ -13,8 +13,6 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Models;
 
-use Phalcon\Validation\ValidationInterface;
-
 /**
  * Class InvoicesValidationFails
  *
@@ -25,11 +23,9 @@ class InvoicesValidationFails extends Invoices
     /**
      * Should always return false
      *
-     * @param ValidationInterface $validator
-     *
      * @return bool
      */
-    protected function validate(ValidationInterface $validator): bool
+    protected function validation(): bool
     {
         return false;
     }
