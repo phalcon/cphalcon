@@ -378,6 +378,7 @@ class SaveCest
 
         // Assign relationship in both directions on unsaved models
         $invoice->customer  = $customer;
+
         $customer->invoices = [
             $invoice
         ];
