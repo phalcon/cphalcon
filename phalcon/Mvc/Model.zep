@@ -439,14 +439,16 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                             }
                         }
 
-                        if count(related) > 0 {
-                            unset this->related[lowerProperty];
+                        unset this->related[lowerProperty];
 
+                        if count(related) > 0 {
                             let this->dirtyRelated[lowerProperty] = related,
                                 this->dirtyState = self::DIRTY_STATE_TRANSIENT;
-
-                            return value;
+                        } else {
+                            unset this->dirtyRelated[lowerProperty];
                         }
+
+                        return value;
 
                         break;
                 }
