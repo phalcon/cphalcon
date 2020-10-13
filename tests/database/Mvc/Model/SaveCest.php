@@ -490,8 +490,6 @@ class SaveCest
      * @since  2019-11-16
      *
      * @group  mysql
-     * @group  pgsql
-     * @group  sqlite
      */
     public function mvcModelSaveWithSchema(DatabaseTester $I)
     {
