@@ -57,11 +57,16 @@ class SaveCest
     {
         $I->wantToTest('Mvc\Model - save()');
 
+        /** @var \PDO $connection */
+        $connection = $I->getConnection();
+
+        $customersMigration = new CustomersMigration($connection);
+        $customersMigration->clear();
+
         /**
          * New model
          */
         $customer                 = new Customers();
-        $customer->cst_id         = 54321;
         $customer->cst_name_first = 'cst_test_firstName';
 
         $I->assertTrue(
@@ -77,11 +82,11 @@ class SaveCest
         /**
          * Saved model
          */
-        $customer = Customers::findFirst(54321);
+        $customer = Customers::findFirst();
 
         $I->assertEquals(
             [
-                'cst_id'          => 54321,
+                'cst_id'          => $customer->cst_id,
                 'cst_status_flag' => null,
                 'cst_name_first'  => 'cst_test_firstName',
                 'cst_name_last'   => 'cst_test_lastName',
@@ -98,7 +103,7 @@ class SaveCest
         /**
          * Modified saved model
          */
-        $customer = Customers::findFirst(54321);
+        $customer = Customers::findFirst();
 
         $I->assertEquals(
             1,
@@ -116,11 +121,7 @@ class SaveCest
          */
         $I->assertEquals(
             1,
-            Customers::count(
-                [
-                    'cst_id = 54321',
-                ]
-            )
+            Customers::count()
         );
     }
 
@@ -143,7 +144,6 @@ class SaveCest
         $invoice->customer = new CustomersKeepSnapshots();
         $invoice->customer->assign(
             [
-                'cst_id'          => 999,
                 'cst_status_flag' => 0,
                 'cst_name_first'  => 'cst_test_firstName'
             ]
@@ -159,7 +159,7 @@ class SaveCest
         );
 
         $I->assertEquals(
-            999,
+            $invoice->inv_cst_id,
             $invoice->customer->cst_id
         );
 
@@ -314,7 +314,7 @@ class SaveCest
          * Default values are present in schema
          */
         $customerData = [
-            'cst_id' => 999
+            'cst_status_flag' => 1
         ];
 
         $customer->assign($customerData);
@@ -525,7 +525,6 @@ class SaveCest
      * @since  2019-11-16
      *
      * @group  mysql
-     * @group  pgsql
      * @group  sqlite
      */
     public function mvcModelSaveWithPropertySource(DatabaseTester $I)
