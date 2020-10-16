@@ -57,7 +57,7 @@ class Customers extends Model
             'inv_cst_id',
             [
                 'alias'      => 'camelCaseInvoices',
-                'reusable'   => true,
+                'reusable'   => false,
                 'foreignKey' => [
                     'action' => Model\Relation::NO_ACTION
                 ]
