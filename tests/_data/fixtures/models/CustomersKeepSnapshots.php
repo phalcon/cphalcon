@@ -18,17 +18,17 @@ use Phalcon\Mvc\Model;
 /**
  * Class CustomersKeepSnapshots
  *
- * @property int    $cst_id;
+ * @property int    $cst_id         ;
  * @property int    $cst_status_flag;
- * @property string $cst_name_last;
- * @property string $cst_name_first;
+ * @property string $cst_name_last  ;
+ * @property string $cst_name_first ;
  */
 class CustomersKeepSnapshots extends Model
 {
     public $cst_id;
-    public $cst_status_flag;
     public $cst_name_last;
     public $cst_name_first;
+    protected $cst_status_flag;
 
     public function initialize()
     {
@@ -44,5 +44,21 @@ class CustomersKeepSnapshots extends Model
                 'reusable' => true,
             ]
         );
+    }
+
+    /**
+     * @param int $status
+     */
+    public function setCstStatusFlag(int $status): void
+    {
+        $this->cst_status_flag = $status + 1;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCstStatusFlag(): int
+    {
+        return (int)$this->cst_status_flag;
     }
 }
