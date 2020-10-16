@@ -103,6 +103,27 @@ class Customers extends Model
                 }
             ]
         );
+
+        $this->hasMany(
+            'cst_id',
+            Invoices::class,
+            'inv_cst_id',
+            [
+                'alias'      => 'inactiveInvoices',
+                'reusable'   => true,
+                'foreignKey' => [
+                    'action' => Model\Relation::ACTION_RESTRICT
+                ],
+                'params'     => function () {
+                    return [
+                        'inv_status_flag = :inactive:',
+                        'bind' => [
+                            'inactive' => Invoices::STATUS_INACTIVE
+                        ]
+                    ];
+                }
+            ]
+        );
     }
 
     /**
