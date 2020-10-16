@@ -161,4 +161,66 @@ class DeleteCest
             $invoices[0]->inv_id
         );
     }
+
+    /**
+     * Tests Phalcon\Mvc\Model :: delete() with restricted related items
+     *
+     * @author Balázs Németh <https://github.com/zsilbi>
+     * @since  2020-10-17
+     *
+     * @group  mysql
+     * @group  pgsql
+     * @group  sqlite
+     */
+    public function mvcModelDeleteRestrictRelated(DatabaseTester $I)
+    {
+        $I->wantToTest('Mvc\Model - delete() with restricted related items');
+
+        /** @var PDO $connection */
+        $connection = $I->getConnection();
+
+        $custId = 2;
+
+        $firstName = uniqid('cust-', true);
+        $lastName  = uniqid('cust-', true);
+
+        $customersMigration = new CustomersMigration($connection);
+        $customersMigration->clear();
+        $customersMigration->insert($custId, 0, $firstName, $lastName);
+
+        $title = uniqid('inv-');
+
+        $invoicesMigration = new InvoicesMigration($connection);
+        $invoicesMigration->clear();
+        $invoicesMigration->insert(
+            1,
+            $custId,
+            Invoices::STATUS_INACTIVE,
+            $title . '-inactive'
+        );
+
+        /**
+         * @var Customers $customer
+         */
+        $customer = Customers::findFirst($custId);
+
+        $I->assertEquals(
+            1,
+            $customer->inactiveInvoices->count()
+        );
+
+        $I->assertFalse(
+            $customer->delete()
+        );
+
+        $I->assertCount(
+            1,
+            $customer->getMessages()
+        );
+
+        $I->assertEquals(
+            'Record is referenced by model ' . Invoices::class,
+            current($customer->getMessages())->getMessage()
+        );
+    }
 }
