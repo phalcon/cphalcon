@@ -56,6 +56,19 @@ class Customers extends Model
             Invoices::class,
             'inv_cst_id',
             [
+                'alias'      => 'camelCaseInvoices',
+                'reusable'   => true,
+                'foreignKey' => [
+                    'action' => Model\Relation::NO_ACTION
+                ]
+            ]
+        );
+
+        $this->hasMany(
+            'cst_id',
+            Invoices::class,
+            'inv_cst_id',
+            [
                 'alias'      => 'paidInvoices',
                 'reusable'   => true,
                 'foreignKey' => [

@@ -13,6 +13,8 @@ namespace Phalcon\Test\Integration\Mvc\Model;
 
 use DatabaseTester;
 use Phalcon\Mvc\Model;
+use Phalcon\Test\Fixtures\Migrations\CustomersMigration;
+use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models;
 
@@ -331,7 +333,16 @@ class UnderscoreSetCest
     {
         $I->wantToTest('Mvc\Model - __set() with has-many related records');
 
-        $customer           = new Models\Orders();
+        /** @var \PDO $connection */
+        $connection = $I->getConnection();
+
+        $invoicesMigration = new InvoicesMigration($connection);
+        $invoicesMigration->clear();
+
+        $customersMigration = new CustomersMigration($connection);
+        $customersMigration->clear();
+
+        $customer           = new Models\Customers();
         $customer->invoices = [
             new Models\Invoices(),
             new Models\Invoices()
@@ -361,6 +372,51 @@ class UnderscoreSetCest
         $I->assertEquals(
             Model::DIRTY_STATE_TRANSIENT,
             $customer->getDirtyState()
+        );
+
+        $I->assertTrue(
+            $customer->save()
+        );
+
+        $customer = Models\Customers::findFirst();
+
+        $I->assertTrue(
+            $customer->save()
+        );
+
+        /*
+         * @see https://github.com/phalcon/cphalcon/issues/13938
+         */
+        $customer = Models\Customers::findFirst();
+
+        $customer->invoices->delete();
+        $customer->invoices = [
+            new Models\Invoices(),
+            new Models\Invoices()
+        ];
+
+        $I->assertTrue(
+            $customer->save()
+        );
+
+        $I->assertCount(
+            2,
+            $customer->camelCaseInvoices
+        );
+
+        $customer->camelCaseInvoices->delete();
+        $customer->camelCaseInvoices = [
+            new Models\Invoices(),
+            new Models\Invoices()
+        ];
+
+        $I->assertTrue(
+            $customer->save()
+        );
+
+        $I->assertCount(
+            2,
+            $customer->invoices
         );
     }
 
