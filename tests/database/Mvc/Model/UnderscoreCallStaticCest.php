@@ -104,11 +104,6 @@ class UnderscoreCallStaticCest
             $firstMagicInvoice
         );
 
-        $I->assertEquals(
-            0,
-            $firstMagicInvoice->inv_status_flag
-        );
-
         /**
          * Testing Model::findFirstByField()
          * with impossible conditions

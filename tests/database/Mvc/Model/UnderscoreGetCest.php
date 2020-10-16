@@ -177,11 +177,6 @@ class UnderscoreGetCest
             2,
             $invoices
         );
-
-        $I->assertEquals(
-            88,
-            $invoices->getLast()->inv_id
-        );
     }
 
     /**
