@@ -3356,8 +3356,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     {
         bool error;
         var manager, relations, foreignKey, relation, relationClass,
-            referencedModel, fields, referencedFields, conditions, bindParams,
-            position, field, value, extraConditions, message;
+            fields, message;
         int action;
 
         /**
@@ -3401,50 +3400,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 continue;
             }
 
-            let relationClass = relation->getReferencedModel();
+            let relationClass = relation->getReferencedModel(),
+                fields = relation->getFields();
 
-            /**
-             * Load a plain instance from the models manager
-             */
-            let referencedModel = manager->load(relationClass);
-
-            let fields = relation->getFields(),
-                referencedFields = relation->getReferencedFields();
-
-            /**
-             * Create the checking conditions. A relation can has many fields or
-             * a single one
-             */
-            let conditions = [],
-                bindParams = [];
-
-            if typeof fields == "array" {
-                for position, field in fields {
-                    fetch value, this->{field};
-
-                    let conditions[] = "[" . referencedFields[position] . "] = ?" . position,
-                        bindParams[] = value;
-                }
-            } else {
-                fetch value, this->{fields};
-
-                let conditions[] = "[" . referencedFields . "] = ?0",
-                    bindParams[] = value;
-            }
-
-            /**
-             * Check if the virtual foreign key has extra conditions
-             */
-            if fetch extraConditions, foreignKey["conditions"] {
-                let conditions[] = extraConditions;
-            }
-
-            /**
-             * We don't trust the actual values in the object and then we're
-             * passing the values using bound parameters
-             * Let's make the checking
-             */
-            if referencedModel->count([join(" AND ", conditions), "bind": bindParams]) {
+            if manager->getRelationRecords(relation, this, null, "count") {
                 /**
                  * Create a new message
                  */
