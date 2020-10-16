@@ -390,6 +390,12 @@ class UnderscoreSetCest
         $customer = Models\Customers::findFirst();
 
         $customer->invoices->delete();
+
+        $I->assertCount(
+            0,
+            $customer->getRelated('camelCaseInvoices')
+        );
+
         $customer->invoices = [
             new Models\Invoices(),
             new Models\Invoices()
@@ -405,6 +411,12 @@ class UnderscoreSetCest
         );
 
         $customer->camelCaseInvoices->delete();
+
+        $I->assertCount(
+            0,
+            $customer->getRelated('camelCaseInvoices')
+        );
+
         $customer->camelCaseInvoices = [
             new Models\Invoices(),
             new Models\Invoices()
@@ -416,7 +428,7 @@ class UnderscoreSetCest
 
         $I->assertCount(
             2,
-            $customer->invoices
+            $customer->getRelated('camelCaseInvoices')
         );
     }
 
