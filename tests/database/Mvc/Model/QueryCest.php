@@ -66,6 +66,11 @@ class QueryCest
         $this->invoiceMigration = new InvoicesMigration($I->getConnection());
     }
 
+    public function _after(DatabaseTester $I)
+    {
+        $this->container['db']->close();
+    }
+
     /**
      * Tests Phalcon\Mvc\Model :: query()
      *
