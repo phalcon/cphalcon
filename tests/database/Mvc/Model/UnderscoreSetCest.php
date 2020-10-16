@@ -26,6 +26,11 @@ class UnderscoreSetCest
         $this->setDatabase($I);
     }
 
+    public function _after(DatabaseTester $I)
+    {
+        $this->container['db']->close();
+    }
+
     /**
      * Tests Phalcon\Mvc\Model :: __set()
      *
