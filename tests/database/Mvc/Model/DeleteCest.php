@@ -102,6 +102,7 @@ class DeleteCest
         $lastName  = uniqid('cust-', true);
 
         $customersMigration = new CustomersMigration($connection);
+        $customersMigration->clear();
         $customersMigration->insert($custId, 0, $firstName, $lastName);
 
         $paidInvoiceId   = 4;
@@ -110,6 +111,7 @@ class DeleteCest
         $title = uniqid('inv-');
 
         $invoicesMigration = new InvoicesMigration($connection);
+        $invoicesMigration->clear();
         $invoicesMigration->insert(
             $paidInvoiceId,
             $custId,

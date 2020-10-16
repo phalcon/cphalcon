@@ -52,6 +52,7 @@ This component can be used to create SQL statements using a fluent interface. Op
 - Fixed `Phalcon\Events\Manager:notifyEvent()` change in the order of notification event: first default event manager, then custom events and finally behaviors, [#14904](https://github.com/phalcon/cphalcon/issues/14904)
 - Fixed `Phalcon\Validation\Validator\Uniqueness` fixed except query [#15084](https://github.com/phalcon/cphalcon/issues/15084) 
 - Fixed `Phalcon\Mvc\Model` to also check the params option in cascade relations when deleting [#15098](https://github.com/phalcon/cphalcon/issues/15098)
+- Fixed `Phalcon\Mvc\Model` to also check the params option in restricted relations when deleting [#15172](https://github.com/phalcon/cphalcon/issues/15172)
 - Fixed `Phalcon\Mvc\Model::findFirst()` to return correct value [#15077](https://github.com/phalcon/cphalcon/issues/15077)
 - Fixed `Phalcon\Mvc\Model\CriteriaInterface::where()` parameters [#15144](https://github.com/phalcon/cphalcon/issues/15144)
 - Fixed `Phalcon\Http\Response\Cookies::set()` to utilize the options parameter correctly [#15129](https://github.com/phalcon/cphalcon/issues/15129)
