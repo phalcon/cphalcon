@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Database\Mvc\Model;
 
 use DatabaseTester;
+use Phalcon\Mvc\Model\Transaction\Manager;
 use Phalcon\Test\Fixtures\Migrations\CustomersMigration;
 use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
@@ -179,14 +180,14 @@ class DeleteCest
         /** @var PDO $connection */
         $connection = $I->getConnection();
 
-        $custId = 2;
+        $customerId = 2;
 
         $firstName = uniqid('cust-', true);
         $lastName  = uniqid('cust-', true);
 
         $customersMigration = new CustomersMigration($connection);
         $customersMigration->clear();
-        $customersMigration->insert($custId, 0, $firstName, $lastName);
+        $customersMigration->insert($customerId, 0, $firstName, $lastName);
 
         $title = uniqid('inv-');
 
@@ -194,7 +195,7 @@ class DeleteCest
         $invoicesMigration->clear();
         $invoicesMigration->insert(
             1,
-            $custId,
+            $customerId,
             Invoices::STATUS_INACTIVE,
             $title . '-inactive'
         );
@@ -202,7 +203,7 @@ class DeleteCest
         /**
          * @var Customers $customer
          */
-        $customer = Customers::findFirst($custId);
+        $customer = Customers::findFirst($customerId);
 
         $I->assertEquals(
             1,
@@ -221,6 +222,106 @@ class DeleteCest
         $I->assertEquals(
             'Record is referenced by model ' . Invoices::class,
             current($customer->getMessages())->getMessage()
+        );
+    }
+
+    /**
+     * Tests Phalcon\Mvc\Model :: delete() with restricted related items
+     * in transaction
+     *
+     * @see    https://github.com/phalcon/cphalcon/issues/14114
+     *
+     * @author Balázs Németh <https://github.com/zsilbi>
+     * @since  2020-10-17
+     *
+     * @group  mysql
+     * @group  pgsql
+     * @group  sqlite
+     */
+    public function mvcModelDeleteRestrictRelatedInTransaction(DatabaseTester $I)
+    {
+        $I->wantToTest(
+            'Mvc\Model - delete() with restricted related items in transaction'
+        );
+
+        /** @var PDO $connection */
+        $connection = $I->getConnection();
+
+        $invoiceId  = 1;
+        $customerId = 2;
+
+        $firstName = uniqid('cust-', true);
+        $lastName  = uniqid('cust-', true);
+
+        $customersMigration = new CustomersMigration($connection);
+        $customersMigration->clear();
+        $customersMigration->insert($customerId, 0, $firstName, $lastName);
+
+        $title = uniqid('inv-');
+
+        $invoicesMigration = new InvoicesMigration($connection);
+        $invoicesMigration->clear();
+        $invoicesMigration->insert(
+            $invoiceId,
+            $customerId,
+            Invoices::STATUS_INACTIVE,
+            $title . '-inactive'
+        );
+
+        /**
+         * Step 1:
+         * Create two models Model A and Model B and setup relations
+         * so that Model A cannot be deleted if it is used in Model B
+         *
+         * @var Customers $customer
+         * @var Invoices  $invoice
+         */
+        $customer = Customers::findFirst($customerId); // Model A
+        $invoice  = Invoices::findFirst($invoiceId); // Model B
+
+        /**
+         * Step 2:
+         * Start a transaction and set both models to use that same transaction
+         *
+         * @var Manager $transactionManager
+         */
+        $transactionManager = $this->getDi()->getShared('transactionManager');
+
+        $transaction = $transactionManager->get();
+
+        $customer->setTransaction($transaction);
+        $invoice->setTransaction($transaction);
+
+        /**
+         * Make sure foreign key restrict works
+         */
+        $I->assertFalse(
+            $customer->delete()
+        );
+
+        /**
+         * Step 3:
+         * Delete Model B first so that Model A passes FK constraint check successfully
+         */
+        $I->assertTrue(
+            $invoice->delete()
+        );
+
+        /**
+         * Step 4:
+         * Then try to delete Model A
+         */
+        $I->assertTrue(
+            $customer->delete()
+        );
+
+        $transaction->rollback();
+
+        /**
+         * Test again foreign key restrict
+         */
+        $I->assertFalse(
+            $customer->delete()
         );
     }
 }
