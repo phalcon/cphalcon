@@ -27,8 +27,5 @@ class InitController extends Controller
 
     public function indexAction()
     {
-        throw new \Exception(
-            'indexAction'
-        );
     }
 }
