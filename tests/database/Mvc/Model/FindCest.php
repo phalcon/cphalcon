@@ -171,8 +171,8 @@ class FindCest
 
         $customersMigration = new CustomersMigration($connection);
         $customersMigration->clear();
-        $customersMigration->insert(0, 1, uniqid('cust-', true), uniqid('cust-', true));
-        $customersMigration->insert(0, 0, uniqid('cust-', true), uniqid('cust-', true));
+        $customersMigration->insert(1, 1, uniqid('cust-', true), uniqid('cust-', true));
+        $customersMigration->insert(2, 0, uniqid('cust-', true), uniqid('cust-', true));
 
         $customers = Customers::find();
 
