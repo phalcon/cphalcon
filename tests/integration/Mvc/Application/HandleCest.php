@@ -212,7 +212,7 @@ class HandleCest
          * Test for issue: https://github.com/phalcon/cphalcon/issues/14926
          */
         $I->expectThrowable(
-            new \Exception('Initialize called'),
+            new \Exception('indexAction'),
             function () use ($application) {
                 $application->handle('/12345');
             }
