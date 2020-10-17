@@ -129,7 +129,7 @@ class Customers extends Model
     /**
      * @return int
      */
-    public function getId(): int
+    public function getId()
     {
         return $this->cst_id;
     }
