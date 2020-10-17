@@ -207,15 +207,5 @@ class HandleCest
                 $application->handle('/not-found');
             }
         );
-
-        /**
-         * Test for issue: https://github.com/phalcon/cphalcon/issues/14926
-         */
-        $I->expectThrowable(
-            new \Exception('indexAction'),
-            function () use ($application) {
-                $application->handle('/12345');
-            }
-        );
     }
 }
