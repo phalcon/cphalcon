@@ -780,9 +780,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
              * Check for a namespace
              */
             if fetch vnamespace, parts["namespace"] {
-                if !is_numeric(vnamespace) {
-                    let this->namespaceName = vnamespace;
-                }
+                let this->namespaceName = vnamespace;
 
                 unset parts["namespace"];
             }
@@ -791,9 +789,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
              * Check for a module
              */
             if fetch module, parts["module"] {
-                if !is_numeric(module) {
-                    let this->module = module;
-                }
+                let this->module = module;
 
                 unset parts["module"];
             }
@@ -802,9 +798,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
              * Check for a controller
              */
             if fetch controller, parts["controller"] {
-                if !is_numeric(controller) {
-                    let this->controller = controller;
-                }
+                let this->controller = controller;
 
                 unset parts["controller"];
             }
@@ -813,9 +807,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
              * Check for an action
              */
             if fetch action, parts["action"] {
-                if !is_numeric(action) {
-                    let this->action = action;
-                }
+                let this->action = action;
 
                 unset parts["action"];
             }
