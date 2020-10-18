@@ -16,6 +16,7 @@ namespace Phalcon\Test\Integration\Mvc\Model;
 use DatabaseTester;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\MetaData;
+use Phalcon\Test\Fixtures\Migrations\CustomersDefaultsMigration;
 use Phalcon\Test\Fixtures\Migrations\CustomersMigration;
 use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
 use Phalcon\Test\Fixtures\Migrations\SourcesMigration;
@@ -310,7 +311,7 @@ class SaveCest
         /** @var \PDO $connection */
         $connection = $I->getConnection();
 
-        $customersMigration = new CustomersMigration($connection);
+        $customersMigration = new CustomersDefaultsMigration($connection);
         $customersMigration->clear();
 
         $customer = new CustomersDefaults();
