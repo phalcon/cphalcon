@@ -66,9 +66,9 @@ drop table if exists `co_customers_defaults`;
 create table co_customers_defaults
 (
     `cst_id`          int(10) auto_increment primary key,
-    `cst_status_flag` tinyint(1)   null DEFAULT 1,
-    `cst_name_last`   varchar(100) null DEFAULT 'cst_default_lastName',
-    `cst_name_first`  varchar(50)  null DEFAULT 'cst_default_firstName'
+    `cst_status_flag` tinyint(1)   not null DEFAULT 1,
+    `cst_name_last`   varchar(100) not null DEFAULT 'cst_default_lastName',
+    `cst_name_first`  varchar(50)  not null DEFAULT 'cst_default_firstName'
 );
             ",
             "
@@ -96,9 +96,9 @@ drop table if exists co_customers_defaults;
 create table co_customers_defaults
 (
     cst_id          integer constraint co_customers_defaults_pk primary key autoincrement,
-    cst_status_flag integer      null DEFAULT 1,
-    cst_name_last   text         null DEFAULT 'cst_default_lastName',
-    cst_name_first  text         null DEFAULT 'cst_default_firstName'
+    cst_status_flag integer      not null DEFAULT 1,
+    cst_name_last   text         not null DEFAULT 'cst_default_lastName',
+    cst_name_first  text         not null DEFAULT 'cst_default_firstName'
 );
             ",
             "
@@ -126,9 +126,9 @@ drop table if exists co_customers_defaults;
 create table co_customers_defaults
 (
     cst_id          serial not null constraint co_customers_defaults_pk primary key,
-    cst_status_flag smallint   null DEFAULT 1,
-    cst_name_last   varchar(100) null DEFAULT 'cst_default_lastName',
-    cst_name_first  varchar(50)  null DEFAULT 'cst_default_firstName'
+    cst_status_flag smallint   not null DEFAULT 1,
+    cst_name_last   varchar(100) not null DEFAULT 'cst_default_lastName',
+    cst_name_first  varchar(50)  not null DEFAULT 'cst_default_firstName'
 );
             ",
             "
