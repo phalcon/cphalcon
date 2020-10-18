@@ -30,9 +30,9 @@ drop table if exists co_customers_defaults;
 create table co_customers_defaults
 (
     cst_id          serial not null constraint co_customers_defaults_pk primary key,
-    cst_status_flag smallint   null DEFAULT 1,
-    cst_name_last   varchar(100) null DEFAULT 'cst_default_lastName',
-    cst_name_first  varchar(50)  null DEFAULT 'cst_default_firstName'
+    cst_status_flag smallint   not null DEFAULT 1,
+    cst_name_last   varchar(100) not null DEFAULT 'cst_default_lastName',
+    cst_name_first  varchar(50)  not null DEFAULT 'cst_default_firstName'
 );
             
 create index co_customers_defaults_cst_status_flag_index
