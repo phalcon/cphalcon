@@ -3519,10 +3519,14 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                      */
                     if fetch value, this->{attributeField} {
                         if value === null && isset defaultValues[field] {
-                            let value = connection->getDefaultValue();
-
                             let snapshot[attributeField]           = defaultValues[field],
                                 unsetDefaultValues[attributeField] = defaultValues[field];
+
+                            if unlikely false === connection->supportsDefaultValue() {
+                                continue;
+                            }
+
+                            let value = connection->getDefaultValue();
                         } else {
                             let snapshot[attributeField] = value;
                         }
@@ -3541,10 +3545,14 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                             bindTypes[] = bindType;
                     } else {
                         if isset defaultValues[field] {
-                            let values[] = connection->getDefaultValue();
-
                             let snapshot[attributeField]           = defaultValues[field],
                                 unsetDefaultValues[attributeField] = defaultValues[field];
+
+                            if unlikely false === connection->supportsDefaultValue() {
+                                continue;
+                            }
+
+                            let values[] = connection->getDefaultValue();
                         } else {
                             let values[]                 = value,
                                 snapshot[attributeField] = value;
