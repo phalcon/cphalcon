@@ -468,6 +468,15 @@ class Sqlite extends PdoAdapter
     }
 
     /**
+     * SQLite does not support the DEFAULT keyword
+     *
+     * @deprecated Will re removed in the next version
+     */
+    public function supportsDefaultValue() -> bool {
+        return false;
+    }
+
+    /**
      * Returns PDO adapter DSN defaults as a key-value map.
      */
     protected function getDsnDefaults() -> array
