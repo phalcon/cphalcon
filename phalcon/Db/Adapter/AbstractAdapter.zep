@@ -691,6 +691,8 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      *     ]
      * );
      *```
+     *
+     * @todo Return NULL if this is not supported by the adapter
      */
     public function getDefaultValue() -> <RawValue>
     {
@@ -1304,6 +1306,16 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     public function useExplicitIdValue() -> bool
     {
         return false;
+    }
+
+    /**
+     * Check whether the database system support the DEFAULT
+     * keyword (SQLite does not support it)
+     *
+     * @deprecated Will re removed in the next version
+     */
+    public function supportsDefaultValue() -> bool {
+        return true;
     }
 
     /**
