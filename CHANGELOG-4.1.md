@@ -32,6 +32,8 @@ This component will be used in the Data Mapper implementation but can be used as
 This component can be used to create SQL statements using a fluent interface. Optionally the statements can be executed from the builder itself using the `DataMapper\Pdo` connection. [#14734](https://github.com/phalcon/cphalcon/issues/14734)
 - Added `Phalcon\Mvc\Micro\LazyLoader::getHandler()` to return real handler when using lazy loaded controllers for `Phalcon\Mvc\Micro` [#14871](https://github.com/phalcon/cphalcon/issues/14871) [@Jurigag](https://github.com/Jurigag)
 - Added `Phalcon\Collection\CollectionInterface` and `Phalcon\Config\ConfigInterface` to use as typehints when extending or implementing custom classes [#15106](https://github.com/phalcon/cphalcon/issues/15106) [@BeMySlaveDarlin](https://github.com/BeMySlaveDarlin)
+- Added `Phalcon\Db\Adapter\AdapterInterface::getDefaultValue()` and `supportsDefaultValue()` methods to properly support the `DEFAULT` keyword [#15180](https://github.com/phalcon/cphalcon/issues/15180)
+- Added `Phalcon\Db\Adapter\AbstractAdapter::supportsDefaultValue()` method to properly support the `DEFAULT` keyword [#15180](https://github.com/phalcon/cphalcon/issues/15180)
 
 ## Changed
 - Added service checks for the session. Now cookies will be saved in the session only when the `session` service is defined [#11770](https://github.com/phalcon/cphalcon/issues/11770), [#14649](https://github.com/phalcon/cphalcon/pull/14649)
@@ -62,6 +64,7 @@ This component can be used to create SQL statements using a fluent interface. Op
 - Fixed fatal error in `Phalcon\Mvc\Model::cloneResultMap()` when column map is used with `orm.cast_on_hydrate` turned on. [#14617](https://github.com/phalcon/cphalcon/issues/14617)
 - Fixed `Phalcon\Mvc\Model::sum()`, `average()`, `minimum()`, `maxmium()`, `count()` to utilize the transaction parameter. [#15113](https://github.com/phalcon/cphalcon/issues/15113)
 - Fixed `Phalcon\Mvc\Model::__set()` to clear `dirtyRelated` when empty array is set. [#14822](https://github.com/phalcon/cphalcon/issues/14822)
+- Fixed `Phalcon\Mvc\Model` to skip columns with default values when the `DEFAULT` keyword is not supported by the database adapter (SQLite) [#15180](https://github.com/phalcon/cphalcon/issues/15180)
 
 ## Removed
 - Removed `Phalcon\Http\Cookie` binding to session [#11770](https://github.com/phalcon/cphalcon/issues/11770)
