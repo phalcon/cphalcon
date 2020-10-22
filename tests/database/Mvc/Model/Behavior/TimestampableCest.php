@@ -87,6 +87,7 @@ class TimestampableCest
     public function mvcModelBehaviorTimestampableWithBeforeCreateEvent(DatabaseTester $I)
     {
         $I->wantToTest('Mvc\Model\Behavior - Timestampable() - with before create event');
+        $I->skipTest('See: https://github.com/phalcon/cphalcon/issues/14904');
 
         /** ADD BeforeDelete event */
         $eventsManager = new EventManager();
