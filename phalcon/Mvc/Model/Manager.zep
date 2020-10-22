@@ -563,6 +563,22 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
         /**
          * Dispatch events to the global events manager
          */
+        if fetch modelsBehaviors, this->behaviors[get_class_lower(model)] {
+            /**
+             * Notify all the events on the behavior
+             */
+            for behavior in modelsBehaviors {
+                let status = behavior->notify(eventName, model);
+
+                if status === false {
+                    return false;
+                }
+            }
+        }
+
+        /**
+         * Dispatch events to the global events manager
+         */
         let eventsManager = this->eventsManager;
 
         if typeof eventsManager == "object" {
@@ -587,22 +603,6 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 
             if status === false {
                 return false;
-            }
-        }
-
-        /**
-         * Dispatch events to the global events manager
-         */
-        if fetch modelsBehaviors, this->behaviors[get_class_lower(model)] {
-            /**
-             * Notify all the events on the behavior
-             */
-            for behavior in modelsBehaviors {
-                let status = behavior->notify(eventName, model);
-
-                if status === false {
-                    return false;
-                }
             }
         }
 
