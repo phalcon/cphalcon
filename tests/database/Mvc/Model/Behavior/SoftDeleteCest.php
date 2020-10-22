@@ -84,6 +84,7 @@ class SoftDeleteCest
     public function mvcModelBehaviorSoftDeleteWithBeforeDeleteEvent(DatabaseTester $I)
     {
         $I->wantToTest('Mvc\Model\Behavior - SoftDelete() - with before delete event');
+        $I->skipTest('See: https://github.com/phalcon/cphalcon/issues/14904');
 
         /** ADD BeforeDelete event */
         $eventsManager = new EventManager();
