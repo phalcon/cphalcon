@@ -65,6 +65,7 @@ This component can be used to create SQL statements using a fluent interface. Op
 - Fixed `Phalcon\Mvc\Model::__set()` to clear `dirtyRelated` when empty array is set. [#14822](https://github.com/phalcon/cphalcon/issues/14822)
 - Fixed `Phalcon\Mvc\Model` to skip columns with default values when the `DEFAULT` keyword is not supported by the database adapter (SQLite) [#15180](https://github.com/phalcon/cphalcon/issues/15180)
 - Fixed `Phalcon\Mvc\Router` to handle numeric routes properly [#14926](https://github.com/phalcon/cphalcon/issues/14926)
+- Fixed `Phalcon\Session\Adapter\Redis` and `Phalcon\Session\Adapter\Libmemcached` to utilize the prefix option [#15184](https://github.com/phalcon/cphalcon/issues/15184)
 
 ## Removed
 - Removed `Phalcon\Http\Cookie` binding to session [#11770](https://github.com/phalcon/cphalcon/issues/11770)
