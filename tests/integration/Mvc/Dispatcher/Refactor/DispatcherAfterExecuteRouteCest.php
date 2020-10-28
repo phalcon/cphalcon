@@ -15,7 +15,7 @@ namespace Phalcon\Test\Integration\Mvc\Dispatcher\Refactor;
 
 use Exception;
 use IntegrationTester;
-use Phalcon\Test\Integration\Mvc\Dispatcher\Helper\BaseDispatcher;;
+use Phalcon\Test\Integration\Mvc\Dispatcher\Helper\BaseDispatcher;
 
 /**
  * Class DispatcherAfterExecuteRouteCest
