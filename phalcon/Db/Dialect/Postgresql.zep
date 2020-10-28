@@ -199,8 +199,6 @@ class Postgresql extends Dialect
             let createLines[] = "PRIMARY KEY (" . this->getColumnList(primaryColumns) . ")";
         }
 
-        
-
         if fetch indexes, definition["indexes"] {
             for index in indexes {
                 let indexName = index->getName();
@@ -458,6 +456,13 @@ class Postgresql extends Dialect
                     } else {
                         let columnSql .= "INT";
                     }
+                }
+
+                break;
+
+            case Column::TYPE_SMALLINTEGER:
+                if empty columnSql {
+                    let columnSql .= "SMALLINT";
                 }
 
                 break;
