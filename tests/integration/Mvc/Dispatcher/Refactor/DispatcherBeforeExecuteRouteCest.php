@@ -1,45 +1,56 @@
 <?php
 
-namespace Phalcon\Test\Integration\Mvc\Dispatcher;
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
+namespace Phalcon\Test\Integration\Mvc\Dispatcher\Refactor;
 
 use Exception;
 use IntegrationTester;
-use Phalcon\Test\Integration\Mvc\Dispatcher\Helper\BaseDispatcher;
+use Phalcon\Test\Integration\Mvc\Dispatcher\Helper\BaseDispatcher;;
 
 /**
- * \Phalcon\Test\Integration\Mvc\Dispatcher\DispatcherBeforeExecuteRouteMethodTest
- * Tests the \Phalcon\Dispatcher and Phalcon\Mvc\Dispatcher
- * "beforeExecuteRoute" controller method.
+ * Class DispatcherBeforeExecuteRouteCest
  *
- * @link          https://docs.phalcon.io/en/latest/reference/dispatching.html
- *
- * @copyright (c) 2011-2017 Phalcon Team
- * @link          http://www.phalcon.io
- * @author        Andres Gutierrez <andres@phalcon.io>
- * @author        Nikolaos Dimopoulos <nikos@phalcon.io>
- *
- * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file docs/LICENSE.txt
- *
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world-wide-web, please send an email to license@phalcon.io
- * so that we can send you a copy immediately.
+ * @package Phalcon\Test\Integration\Mvc\Dispatcher
+ * @todo: refactor
  */
-class DispatcherBeforeExecuteRouteMethodCest extends BaseDispatcher
+class DispatcherBeforeExecuteRouteCest extends BaseDispatcher
 {
     /**
-     * Tests the forwarding in the beforeExecuteRoute method
+     * Tests the forwarding in the beforeExecuteRoute event
      *
      * @author Mark Johnson <https://github.com/virgofx>
      * @since  2017-10-07
      */
     public function testBeforeExecuteRouteForwardOnce(IntegrationTester $I)
     {
+        $forwarded  = false;
         $dispatcher = $this->getDispatcher();
 
-        $dispatcher->setControllerName(
-            'dispatcher-test-before-execute-route-forward'
-        );
+        $dispatcher->getEventsManager()->attach(
+            'dispatch:beforeExecuteRoute',
+            function ($event, $dispatcher) use (&$forwarded) {
+                if ($forwarded === false) {
+                    $dispatcher->forward(
+                        [
+                            'action' => 'index2',
+                        ]
+                    );
+
+                    $forwarded = true;
+                }
+            }
+        )
+        ;
 
         $dispatcher->dispatch();
 
@@ -47,13 +58,12 @@ class DispatcherBeforeExecuteRouteMethodCest extends BaseDispatcher
             'beforeDispatchLoop',
             'beforeDispatch',
             'beforeExecuteRoute',
-            'beforeExecuteRoute-method',
             'beforeDispatch',
             'beforeExecuteRoute',
             'beforeExecuteRoute-method',
             'initialize-method',
             'afterInitialize',
-            'indexAction',
+            'index2Action',
             'afterExecuteRoute',
             'afterExecuteRoute-method',
             'afterDispatch',
@@ -66,18 +76,27 @@ class DispatcherBeforeExecuteRouteMethodCest extends BaseDispatcher
     }
 
     /**
-     * Tests returning <tt>false</tt> inside a beforeExecuteRoute method.
+     * Tests returning <tt>false</tt> inside a beforeExecuteRoute event.
      *
      * @author Mark Johnson <https://github.com/virgofx>
      * @since  2017-10-07
      */
     public function testBeforeExecuteRouteReturnFalse(IntegrationTester $I)
     {
-        $dispatcher = $this->getDispatcher();
+        $dispatcher         = $this->getDispatcher();
+        $dispatcherListener = $this->getDispatcherListener();
 
-        $dispatcher->setControllerName(
-            'dispatcher-test-before-execute-route-return-false'
-        );
+        $dispatcher->getEventsManager()->attach(
+            'dispatch:beforeExecuteRoute',
+            function () use ($dispatcherListener) {
+                $dispatcherListener->trace(
+                    'beforeExecuteRoute: custom return false'
+                );
+
+                return false;
+            }
+        )
+        ;
 
         $dispatcher->dispatch();
 
@@ -85,7 +104,7 @@ class DispatcherBeforeExecuteRouteMethodCest extends BaseDispatcher
             'beforeDispatchLoop',
             'beforeDispatch',
             'beforeExecuteRoute',
-            'beforeExecuteRoute-method',
+            'beforeExecuteRoute: custom return false',
             'afterDispatchLoop',
         ];
 
@@ -96,7 +115,7 @@ class DispatcherBeforeExecuteRouteMethodCest extends BaseDispatcher
 
     /**
      * Tests exception handling to ensure exceptions can be properly handled
-     * when thrown from inside a beforeExecuteRoute method and then ensure the
+     * when thrown from inside a beforeExecuteRoute event and then ensure the
      * exception is not bubbled when returning with <tt>false</tt>.
      *
      * @author Mark Johnson <https://github.com/virgofx>
@@ -106,9 +125,13 @@ class DispatcherBeforeExecuteRouteMethodCest extends BaseDispatcher
     {
         $dispatcher = $this->getDispatcher();
 
-        $dispatcher->setControllerName(
-            'dispatcher-test-before-execute-route-exception'
-        );
+        $dispatcher->getEventsManager()->attach(
+            'dispatch:beforeExecuteRoute',
+            function () {
+                throw new Exception('beforeExecuteRoute exception occurred');
+            }
+        )
+        ;
 
         $dispatcher->getEventsManager()->attach(
             'dispatch:beforeException',
@@ -124,7 +147,6 @@ class DispatcherBeforeExecuteRouteMethodCest extends BaseDispatcher
             'beforeDispatchLoop',
             'beforeDispatch',
             'beforeExecuteRoute',
-            'beforeExecuteRoute-method',
             'beforeException: beforeExecuteRoute exception occurred',
             'afterDispatchLoop',
         ];
@@ -147,9 +169,13 @@ class DispatcherBeforeExecuteRouteMethodCest extends BaseDispatcher
         $dispatcher         = $this->getDispatcher();
         $dispatcherListener = $this->getDispatcherListener();
 
-        $dispatcher->setControllerName(
-            'dispatcher-test-before-execute-route-exception'
-        );
+        $dispatcher->getEventsManager()->attach(
+            'dispatch:beforeExecuteRoute',
+            function () {
+                throw new Exception('beforeExecuteRoute exception occurred');
+            }
+        )
+        ;
 
         $dispatcher->getEventsManager()->attach(
             'dispatch:beforeException',
@@ -174,7 +200,6 @@ class DispatcherBeforeExecuteRouteMethodCest extends BaseDispatcher
             'beforeDispatchLoop',
             'beforeDispatch',
             'beforeExecuteRoute',
-            'beforeExecuteRoute-method',
             'beforeException: beforeExecuteRoute exception occurred',
             'beforeException: custom before exception bubble',
         ];
@@ -186,19 +211,28 @@ class DispatcherBeforeExecuteRouteMethodCest extends BaseDispatcher
 
     /**
      * Tests dispatch forward handling inside the beforeException when a
-     * beforeExecuteRoute method exception occurs.
+     * beforeExecuteRoute exception occurs.
      *
      * @author Mark Johnson <https://github.com/virgofx>
      * @since  2017-10-07
      */
-    public function testBeforeExecuteRouteWithBeforeExceptionForward(IntegrationTester $I)
+    public function testBeforeExecuteRouteWithBeforeExceptionForwardOnce(IntegrationTester $I)
     {
+        $forwarded          = false;
         $dispatcher         = $this->getDispatcher();
         $dispatcherListener = $this->getDispatcherListener();
 
-        $dispatcher->setControllerName(
-            'dispatcher-test-before-execute-route-exception'
-        );
+        $dispatcher->getEventsManager()->attach(
+            'dispatch:beforeExecuteRoute',
+            function () use (&$forwarded) {
+                if ($forwarded === false) {
+                    $forwarded = true;
+
+                    throw new Exception('beforeExecuteRoute exception occurred');
+                }
+            }
+        )
+        ;
 
         $dispatcher->getEventsManager()->attach(
             'dispatch:beforeException',
@@ -209,8 +243,7 @@ class DispatcherBeforeExecuteRouteMethodCest extends BaseDispatcher
 
                 $dispatcher->forward(
                     [
-                        'controller' => 'dispatcher-test-default',
-                        'action'     => 'index',
+                        'action' => 'index2',
                     ]
                 );
             }
@@ -223,7 +256,6 @@ class DispatcherBeforeExecuteRouteMethodCest extends BaseDispatcher
             'beforeDispatchLoop',
             'beforeDispatch',
             'beforeExecuteRoute',
-            'beforeExecuteRoute-method',
             'beforeException: beforeExecuteRoute exception occurred',
             'beforeException: custom before exception forward',
             'beforeDispatch',
@@ -231,7 +263,7 @@ class DispatcherBeforeExecuteRouteMethodCest extends BaseDispatcher
             'beforeExecuteRoute-method',
             'initialize-method',
             'afterInitialize',
-            'indexAction',
+            'index2Action',
             'afterExecuteRoute',
             'afterExecuteRoute-method',
             'afterDispatch',

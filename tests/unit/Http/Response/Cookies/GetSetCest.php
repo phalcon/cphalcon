@@ -18,7 +18,7 @@ use Phalcon\Test\Fixtures\Traits\CookieTrait;
 use Phalcon\Test\Unit\Http\Helper\HttpBase;
 use UnitTester;
 
-class SetCest extends HttpBase
+class GetSetCest extends HttpBase
 {
     use CookieTrait;
 

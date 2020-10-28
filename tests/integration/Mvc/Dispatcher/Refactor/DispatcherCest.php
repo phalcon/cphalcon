@@ -1,33 +1,31 @@
 <?php
 
-namespace Phalcon\Test\Integration\Mvc\Dispatcher;
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
 
-use DispatcherTestDefaultNoNamespaceController;
-use IntegrationTester;
-use Phalcon\Dispatcher\Exception;
+declare(strict_types=1);
+
+namespace Phalcon\Test\Integration\Mvc\Dispatcher\Refactor;
+
+use Phalcon\Mvc\Dispatcher\Exception;
 use Phalcon\Test\Integration\Mvc\Dispatcher\Helper\BaseDispatcher;
 use Phalcon\Test\Integration\Mvc\Dispatcher\Helper\DispatcherTestDefaultController;
 use Phalcon\Test\Integration\Mvc\Dispatcher\Helper\DispatcherTestDefaultSimpleController;
 use Phalcon\Test\Integration\Mvc\Dispatcher\Helper\DispatcherTestDefaultTwoController;
+use DispatcherTestDefaultNoNamespaceController;
+use IntegrationTester;
 
 /**
- * \Phalcon\Test\Integration\Mvc\Dispatcher\DispatcherEventsTest
- * Tests the core functionality of the \Phalcon\Dispatcher and
- * Phalcon\Mvc\Dispatcher classes.
+ * Class DispatcherCest
  *
- * @link          https://docs.phalcon.io/en/latest/reference/dispatching.html
- *
- * @copyright (c) 2011-2017 Phalcon Team
- * @link          http://www.phalcon.io
- * @author        Andres Gutierrez <andres@phalcon.io>
- * @author        Nikolaos Dimopoulos <nikos@phalcon.io>
- *
- * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file docs/LICENSE.txt
- *
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world-wide-web, please send an email to license@phalcon.io
- * so that we can send you a copy immediately.
+ * @package Phalcon\Test\Integration\Mvc\Dispatcher
+ * @todo: refactor
  */
 class DispatcherCest extends BaseDispatcher
 {
@@ -558,7 +556,7 @@ class DispatcherCest extends BaseDispatcher
     public function testNoNamespaces(IntegrationTester $I)
     {
         // Temporarily load non-namespaced class
-        require_once __DIR__ . '/Helper/DispatcherTestDefaultNoNamespaceController.php';
+        require_once __DIR__ . '/../Helper/DispatcherTestDefaultNoNamespaceController.php';
 
         $dispatcher = $this->getDispatcher();
 
@@ -626,7 +624,7 @@ class DispatcherCest extends BaseDispatcher
     public function testMixingNamespaceForward(IntegrationTester $I)
     {
         // Temporarily load non-namespaced class
-        require_once __DIR__ . '/Helper/DispatcherTestDefaultNoNamespaceController.php';
+        require_once __DIR__ . '/../Helper/DispatcherTestDefaultNoNamespaceController.php';
 
         $dispatcher = $this->getDispatcher();
 
@@ -769,8 +767,7 @@ class DispatcherCest extends BaseDispatcher
 
                 return false;
             }
-        )
-        ;
+        );
 
         $handler = $dispatcher->dispatch();
 

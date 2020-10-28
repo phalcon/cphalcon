@@ -1,7 +1,19 @@
 <?php
 
-namespace Phalcon\Test\Integration\Mvc\Dispatcher;
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
 
+declare(strict_types=1);
+
+namespace Phalcon\Test\Integration\Mvc\Dispatcher\Refactor;
+
+use Exception;
 use IntegrationTester;
 use Phalcon\Di\FactoryDefault;
 use Phalcon\Events\Manager;
@@ -9,24 +21,13 @@ use Phalcon\Mvc\Application;
 use Phalcon\Mvc\Dispatcher;
 use Phalcon\Mvc\View;
 
-use function dataDir;
-
 /**
- * \Phalcon\Test\Integration\Mvc\Dispatcher\ForwardCest
- * Tests the Phalcon\Mvc\Dispatcher
+ * Class RefactorForwardCest
  *
- * @copyright (c) 2011-2017 Phalcon Team
- * @link          http://www.phalcon.io
- * @author        Phalcon Team <team@phalcon.io>
- *
- * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file LICENSE.txt
- *
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world-wide-web, please send an email to license@phalcon.io
- * so that we can send you a copy immediately.
+ * @package Phalcon\Test\Integration\Mvc\Dispatcher
+ * @todo: refactor
  */
-class RefactorForwardCest
+class ForwardCest
 {
     /**
      * @issue https://github.com/phalcon/cphalcon/issues/11819

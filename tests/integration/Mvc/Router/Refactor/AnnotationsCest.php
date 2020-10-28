@@ -9,7 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Mvc\Router;
+declare(strict_types=1);
+
+namespace Phalcon\Test\Integration\Mvc\Router\Refactor;
 
 use Codeception\Example;
 use IntegrationTester;
@@ -19,6 +21,12 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 
 use function is_object;
 
+/**
+ * Class AnnotationsCest
+ *
+ * @package Phalcon\Test\Integration\Mvc\Router\Refactor
+ * @todo: refactor
+ */
 class AnnotationsCest
 {
     use DiTrait;

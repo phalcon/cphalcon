@@ -3,6 +3,7 @@
 namespace Phalcon\Test\Modules\Backend;
 
 use Phalcon\Di\DiInterface;
+use Phalcon\Loader;
 use Phalcon\Mvc\ModuleDefinitionInterface;
 use Phalcon\Mvc\View;
 use function dataDir;
@@ -43,5 +44,18 @@ class Module implements ModuleDefinitionInterface
                 return $view;
             }
         );
+
+        /**
+         * @var Loader $loader
+         */
+        $loader = new Loader();
+        $loader->registerNamespaces([
+                'Phalcon\Test\Modules\Backend\Tasks' =>
+                    dataDir('fixtures/modules/backend/tasks/')
+            ]
+        );
+        $loader->register();
+
+        $di->set('loader', $loader);
     }
 }

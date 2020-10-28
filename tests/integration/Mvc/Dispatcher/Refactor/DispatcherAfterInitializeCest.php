@@ -1,48 +1,51 @@
 <?php
 
-namespace Phalcon\Test\Integration\Mvc\Dispatcher;
+/**
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view the LICENSE.txt
+ * file that was distributed with this source code.
+ */
+
+declare(strict_types=1);
+
+namespace Phalcon\Test\Integration\Mvc\Dispatcher\Refactor;
 
 use Exception;
 use IntegrationTester;
-use Phalcon\Test\Integration\Mvc\Dispatcher\Helper\BaseDispatcher;
+use Phalcon\Test\Integration\Mvc\Dispatcher\Helper\BaseDispatcher;;
 
 /**
- * \Phalcon\Test\Integration\Mvc\Dispatcher\DispatcherAfterDispatchTest
- * Tests the \Phalcon\Dispatcher and Phalcon\Mvc\Dispatcher "afterDispatch"
- * event.
+ * Class DispatcherAfterInitializeCest
  *
- * @link          https://docs.phalcon.io/en/latest/reference/dispatching.html
- *
- * @copyright (c) 2011-2017 Phalcon Team
- * @link          http://www.phalcon.io
- * @author        Andres Gutierrez <andres@phalcon.io>
- * @author        Nikolaos Dimopoulos <nikos@phalcon.io>
- *
- * The contents of this file are subject to the New BSD License that is
- * bundled with this package in the file docs/LICENSE.txt
- *
- * If you did not receive a copy of the license and are unable to obtain it
- * through the world-wide-web, please send an email to license@phalcon.io
- * so that we can send you a copy immediately.
+ * @package Phalcon\Test\Integration\Mvc\Dispatcher
+ * @todo: refactor
  */
-class DispatcherAfterDispatchCest extends BaseDispatcher
+class DispatcherAfterInitializeCest extends BaseDispatcher
 {
     /**
-     * Tests the forwarding in the afterDispatch event
+     * Tests the forwarding in the afterInitialize event
      *
      * @author Mark Johnson <https://github.com/virgofx>
      * @since  2017-10-07
      */
-    public function testAfterDispatchForwardOnce(IntegrationTester $I)
+    public function testAfterInitializeForwardOnce(IntegrationTester $I)
     {
         $forwarded  = false;
         $dispatcher = $this->getDispatcher();
 
         $dispatcher->getEventsManager()->attach(
-            'dispatch:afterDispatch',
+            'dispatch:afterInitialize',
             function ($event, $dispatcher) use (&$forwarded) {
                 if ($forwarded === false) {
-                    $dispatcher->forward(['action' => 'index2']);
+                    $dispatcher->forward(
+                        [
+                            'action' => 'index2',
+                        ]
+                    );
+
                     $forwarded = true;
                 }
             }
@@ -58,10 +61,6 @@ class DispatcherAfterDispatchCest extends BaseDispatcher
             'beforeExecuteRoute-method',
             'initialize-method',
             'afterInitialize',
-            'indexAction',
-            'afterExecuteRoute',
-            'afterExecuteRoute-method',
-            'afterDispatch',
             'beforeDispatch',
             'beforeExecuteRoute',
             'beforeExecuteRoute-method',
@@ -71,30 +70,34 @@ class DispatcherAfterDispatchCest extends BaseDispatcher
             'afterDispatch',
             'afterDispatchLoop',
         ];
-        $actual   = $this->getDispatcherListener()->getTrace();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $this->getDispatcherListener()->getTrace()
+        );
     }
 
     /**
-     * Tests returning <tt>false</tt> inside a afterDispatch event.
+     * Tests returning <tt>false</tt> inside a afterInitialize event.
      *
      * @author Mark Johnson <https://github.com/virgofx>
      * @since  2017-10-07
      */
-    public function testAfterDispatchReturnFalse(IntegrationTester $I)
+    public function testAfterInitializeReturnFalse(IntegrationTester $I)
     {
         $dispatcher         = $this->getDispatcher();
         $dispatcherListener = $this->getDispatcherListener();
 
         $dispatcher->getEventsManager()->attach(
-            'dispatch:afterDispatch',
+            'dispatch:afterInitialize',
             function () use ($dispatcherListener) {
-                $dispatcherListener->trace('afterDispatch: custom return false');
+                $dispatcherListener->trace('afterInitialize: custom return false');
 
                 return false;
             }
         )
         ;
+
         $dispatcher->dispatch();
 
         $expected = [
@@ -104,33 +107,32 @@ class DispatcherAfterDispatchCest extends BaseDispatcher
             'beforeExecuteRoute-method',
             'initialize-method',
             'afterInitialize',
-            'indexAction',
-            'afterExecuteRoute',
-            'afterExecuteRoute-method',
-            'afterDispatch',
-            'afterDispatch: custom return false',
+            'afterInitialize: custom return false',
             'afterDispatchLoop',
         ];
-        $actual   = $this->getDispatcherListener()->getTrace();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $this->getDispatcherListener()->getTrace()
+        );
     }
 
     /**
      * Tests exception handling to ensure exceptions can be properly handled
-     * when thrown from inside an "afterDispatch" event and then ensure the
+     * when thrown from inside a afterInitialize event and then ensure the
      * exception is not bubbled when returning with <tt>false</tt>.
      *
      * @author Mark Johnson <https://github.com/virgofx>
      * @since  2017-10-07
      */
-    public function testAfterDispatchWithBeforeExceptionReturningFalse(IntegrationTester $I)
+    public function testAfterInitializeWithBeforeExceptionReturningFalse(IntegrationTester $I)
     {
         $dispatcher = $this->getDispatcher();
 
         $dispatcher->getEventsManager()->attach(
-            'dispatch:afterDispatch',
+            'dispatch:afterInitialize',
             function () {
-                throw new Exception('afterDispatch exception occurred');
+                throw new Exception('afterInitialize exception occurred');
             }
         )
         ;
@@ -152,15 +154,14 @@ class DispatcherAfterDispatchCest extends BaseDispatcher
             'beforeExecuteRoute-method',
             'initialize-method',
             'afterInitialize',
-            'indexAction',
-            'afterExecuteRoute',
-            'afterExecuteRoute-method',
-            'afterDispatch',
-            'beforeException: afterDispatch exception occurred',
+            'beforeException: afterInitialize exception occurred',
             'afterDispatchLoop',
         ];
-        $actual   = $this->getDispatcherListener()->getTrace();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $this->getDispatcherListener()->getTrace()
+        );
     }
 
     /**
@@ -171,22 +172,25 @@ class DispatcherAfterDispatchCest extends BaseDispatcher
      * @author Mark Johnson <https://github.com/virgofx>
      * @since  2017-10-07
      */
-    public function testAfterDispatchWithBeforeExceptionBubble(IntegrationTester $I)
+    public function testAfterInitializeWithBeforeExceptionBubble(IntegrationTester $I)
     {
         $dispatcher         = $this->getDispatcher();
         $dispatcherListener = $this->getDispatcherListener();
 
         $dispatcher->getEventsManager()->attach(
-            'dispatch:afterDispatch',
+            'dispatch:afterInitialize',
             function () {
-                throw new Exception('afterDispatch exception occurred');
+                throw new Exception('afterInitialize exception occurred');
             }
         )
         ;
+
         $dispatcher->getEventsManager()->attach(
             'dispatch:beforeException',
             function () use ($dispatcherListener) {
-                $dispatcherListener->trace('beforeException: custom before exception bubble');
+                $dispatcherListener->trace(
+                    'beforeException: custom before exception bubble'
+                );
 
                 return null;
             }
@@ -207,37 +211,36 @@ class DispatcherAfterDispatchCest extends BaseDispatcher
             'beforeExecuteRoute-method',
             'initialize-method',
             'afterInitialize',
-            'indexAction',
-            'afterExecuteRoute',
-            'afterExecuteRoute-method',
-            'afterDispatch',
-            'beforeException: afterDispatch exception occurred',
+            'beforeException: afterInitialize exception occurred',
             'beforeException: custom before exception bubble',
         ];
-        $actual   = $this->getDispatcherListener()->getTrace();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $this->getDispatcherListener()->getTrace()
+        );
     }
 
     /**
      * Tests dispatch forward handling inside the beforeException when a
-     * afterDispatch exception occurs.
+     * afterInitialize exception occurs.
      *
      * @author Mark Johnson <https://github.com/virgofx>
      * @since  2017-10-07
      */
-    public function testAfterDispatchWithBeforeExceptionForwardOnce(IntegrationTester $I)
+    public function testAfterInitializeWithBeforeExceptionForwardOnce(IntegrationTester $I)
     {
         $forwarded          = false;
         $dispatcher         = $this->getDispatcher();
         $dispatcherListener = $this->getDispatcherListener();
 
         $dispatcher->getEventsManager()->attach(
-            'dispatch:afterDispatch',
+            'dispatch:afterInitialize',
             function () use (&$forwarded) {
                 if ($forwarded === false) {
                     $forwarded = true;
 
-                    throw new Exception('afterDispatch exception occurred');
+                    throw new Exception('afterInitialize exception occurred');
                 }
             }
         )
@@ -246,8 +249,15 @@ class DispatcherAfterDispatchCest extends BaseDispatcher
         $dispatcher->getEventsManager()->attach(
             'dispatch:beforeException',
             function ($event, $dispatcher) use ($dispatcherListener) {
-                $dispatcherListener->trace('beforeException: custom before exception forward');
-                $dispatcher->forward(['action' => 'index2']);
+                $dispatcherListener->trace(
+                    'beforeException: custom before exception forward'
+                );
+
+                $dispatcher->forward(
+                    [
+                        'action' => 'index2',
+                    ]
+                );
             }
         )
         ;
@@ -261,11 +271,7 @@ class DispatcherAfterDispatchCest extends BaseDispatcher
             'beforeExecuteRoute-method',
             'initialize-method',
             'afterInitialize',
-            'indexAction',
-            'afterExecuteRoute',
-            'afterExecuteRoute-method',
-            'afterDispatch',
-            'beforeException: afterDispatch exception occurred',
+            'beforeException: afterInitialize exception occurred',
             'beforeException: custom before exception forward',
             'beforeDispatch',
             'beforeExecuteRoute',
@@ -276,7 +282,10 @@ class DispatcherAfterDispatchCest extends BaseDispatcher
             'afterDispatch',
             'afterDispatchLoop',
         ];
-        $actual   = $this->getDispatcherListener()->getTrace();
-        $I->assertEquals($expected, $actual);
+
+        $I->assertEquals(
+            $expected,
+            $this->getDispatcherListener()->getTrace()
+        );
     }
 }
