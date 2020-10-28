@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Mvc\Micro;
+namespace Phalcon\Test\Integration\Mvc\Micro\Refactor;
 
 use IntegrationTester;
 use Phalcon\Mvc\Micro;

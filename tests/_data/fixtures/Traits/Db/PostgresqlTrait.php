@@ -17,6 +17,11 @@ use Phalcon\Db\Index;
 use Phalcon\Db\Reference;
 use function array_shift;
 
+/**
+ * Trait PostgresqlTrait
+ *
+ * @package Phalcon\Test\Fixtures\Traits\Db
+ */
 trait PostgresqlTrait
 {
     protected $connection = null;

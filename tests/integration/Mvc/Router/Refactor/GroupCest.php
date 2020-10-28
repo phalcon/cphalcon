@@ -9,7 +9,9 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Integration\Mvc\Router;
+declare(strict_types=1);
+
+namespace Phalcon\Test\Integration\Mvc\Router\Refactor;
 
 use Codeception\Example;
 use IntegrationTester;
@@ -18,6 +20,12 @@ use Phalcon\Mvc\Router\Group;
 use Phalcon\Mvc\Router\Route;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
+/**
+ * Class GroupCest
+ *
+ * @package Phalcon\Test\Integration\Mvc\Router
+ * @todo: refactor
+ */
 class GroupCest
 {
     use DiTrait;

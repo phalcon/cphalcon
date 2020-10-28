@@ -181,7 +181,7 @@ class HandleCest
         );
 
         $dispatcher = $console->dispatcher;
-        $dispatcher->setNamespaceName('Phalcon\Test\Fixtures\Modules\Backend\Tasks');
+        $dispatcher->setNamespaceName('Phalcon\Test\Modules\Backend\Tasks');
 
         $I->expectThrowable(
             new Exception('Task Run'),
@@ -276,7 +276,7 @@ class HandleCest
             ]
         );
 
-        $console->dispatcher->setNamespaceName('Phalcon\Test\Fixtures\Modules\Backend\Tasks');
+        $console->dispatcher->setNamespaceName('Phalcon\Test\Modules\Backend\Tasks');
 
         $I->expectThrowable(
             new Exception('Console Before Start BackendModule Event Fired'),
@@ -317,7 +317,7 @@ class HandleCest
             ]
         );
 
-        $console->dispatcher->setNamespaceName('Phalcon\Test\Fixtures\Modules\Backend\Tasks');
+        $console->dispatcher->setNamespaceName('Phalcon\Test\Modules\Backend\Tasks');
 
         $eventsManager->attach(
             'console:afterStartModule',
@@ -401,7 +401,7 @@ class HandleCest
                 ],
             ]
         );
-        $console->dispatcher->setNamespaceName('Phalcon\Test\Fixtures\Modules\Backend\Tasks');
+        $console->dispatcher->setNamespaceName('Phalcon\Test\Modules\Backend\Tasks');
 
         $I->expectThrowable(
             new Exception(
@@ -432,7 +432,7 @@ class HandleCest
         $console = new CliConsole(new DiFactoryDefault());
 
         $dispatcher = $console->dispatcher;
-        $dispatcher->setNamespaceName('Phalcon\Test\Fixtures\Modules\Backend\Tasks');
+        $dispatcher->setNamespaceName('Phalcon\Test\Modules\Backend\Tasks');
 
         $console->registerModules(
             [
@@ -454,7 +454,7 @@ class HandleCest
         $console = new CliConsole(new DiFactoryDefault());
 
         $dispatcher = $console->dispatcher;
-        $dispatcher->setNamespaceName('Phalcon\Test\Fixtures\Modules\Backend\Tasks');
+        $dispatcher->setNamespaceName('Phalcon\Test\Modules\Backend\Tasks');
 
         $console->registerModules(
             [
