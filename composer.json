@@ -88,7 +88,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Zephir\\Optimizers\\": "optimizers/",
+      "Zephir\\Optimizers\\FunctionCall\\": "optimizers/",
       "Phalcon\\Test\\Unit\\": "tests/unit/",
       "Phalcon\\Test\\Integration\\": "tests/integration/",
       "Phalcon\\Test\\Controllers\\": "tests/_data/fixtures/controllers/",
