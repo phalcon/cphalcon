@@ -25,7 +25,7 @@ trait JWTTrait
      * @return Token
      * @throws ValidatorException
      */
-    public function newToken($signerClass = Hmac::class, int $issDrift = 0): Token
+    protected function newToken($signerClass = Hmac::class, int $issDrift = 0): Token
     {
         $signer  = new $signerClass();
         $builder = new Builder($signer);
