@@ -78,7 +78,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_QueryFactory, __construct) {
 		ZEPHIR_INIT_NVAR(&selectClass);
 		ZVAL_STRING(&selectClass, "Phalcon\\DataMapper\\Query\\Select");
 	}
-	zephir_update_property_zval(this_ptr, SL("selectClass"), &selectClass);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("selectClass"), &selectClass);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -195,7 +195,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_QueryFactory, newSelect) {
 
 
 
-	zephir_read_property(&_0, this_ptr, SL("selectClass"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("selectClass"), PH_NOISY_CC | PH_READONLY);
 	zephir_get_strval(&selectClass, &_0);
 	zephir_fetch_safe_class(&_1, &selectClass);
 	_2 = zephir_fetch_class_str_ex(Z_STRVAL_P(&_1), Z_STRLEN_P(&_1), ZEND_FETCH_CLASS_AUTO);

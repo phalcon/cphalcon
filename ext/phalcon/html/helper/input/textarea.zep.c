@@ -66,7 +66,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Textarea, __toString) {
 
 	ZEPHIR_MM_GROW();
 
-	zephir_read_property(&_0, this_ptr, SL("attributes"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("attributes"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&attributes, &_0);
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "value");
@@ -76,10 +76,10 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Textarea, __toString) {
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_2);
 	array_init(&_2);
-	zephir_update_property_zval(this_ptr, SL("attributes"), &_2);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("attributes"), &_2);
 	zephir_array_unset_string(&attributes, SL("type"), PH_SEPARATE);
 	zephir_array_unset_string(&attributes, SL("value"), PH_SEPARATE);
-	zephir_read_property(&_4, this_ptr, SL("type"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_4, this_ptr, ZEND_STRL("type"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "renderfullelement", NULL, 0, &_4, &value, &attributes);
 	zephir_check_call_status();
 	RETURN_MM();

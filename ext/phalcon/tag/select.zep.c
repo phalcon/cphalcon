@@ -457,9 +457,9 @@ PHP_METHOD(Phalcon_Tag_Select, optionsFromResultset) {
 					zephir_check_call_status();
 				} else {
 					ZEPHIR_OBS_NVAR(&optionValue);
-					zephir_read_property(&optionValue, &option, SL("usingZero"), PH_NOISY_CC);
+					zephir_read_property(&optionValue, &option, ZEND_STRL("usingZero"), PH_NOISY_CC);
 					ZEPHIR_OBS_NVAR(&optionText);
-					zephir_read_property(&optionText, &option, SL("usingOne"), PH_NOISY_CC);
+					zephir_read_property(&optionText, &option, ZEND_STRL("usingOne"), PH_NOISY_CC);
 				}
 			} else {
 				if (UNEXPECTED(Z_TYPE_P(&option) != IS_ARRAY)) {

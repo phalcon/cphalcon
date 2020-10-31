@@ -502,6 +502,13 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_adapterinterf
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_db_adapter_adapterinterface_getdefaultvalue, 0, 0, Phalcon\\Db\\RawValue, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_adapterinterface_getdefaultvalue, 0, 0, IS_OBJECT, "Phalcon\\Db\\RawValue", 0)
+#endif
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_db_adapter_adapterinterface_getinternalhandler, 0, 0, PDO, 0)
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_adapterinterface_getinternalhandler, 0, 0, IS_OBJECT, "PDO", 0)
@@ -807,6 +814,13 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_adapterinterf
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_adapterinterface_supportsdefaultvalue, 0, 0, _IS_BOOL, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_adapterinterface_supportsdefaultvalue, 0, 0, _IS_BOOL, NULL, 0)
+#endif
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_adapterinterface_viewexists, 0, 1, _IS_BOOL, 0)
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_adapterinterface_viewexists, 0, 1, _IS_BOOL, NULL, 0)
@@ -860,6 +874,7 @@ ZEPHIR_INIT_FUNCS(phalcon_db_adapter_adapterinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Db_Adapter_AdapterInterface, getDialect, arginfo_phalcon_db_adapter_adapterinterface_getdialect)
 	PHP_ABSTRACT_ME(Phalcon_Db_Adapter_AdapterInterface, getDialectType, arginfo_phalcon_db_adapter_adapterinterface_getdialecttype)
 	PHP_ABSTRACT_ME(Phalcon_Db_Adapter_AdapterInterface, getDefaultIdValue, arginfo_phalcon_db_adapter_adapterinterface_getdefaultidvalue)
+	PHP_ABSTRACT_ME(Phalcon_Db_Adapter_AdapterInterface, getDefaultValue, arginfo_phalcon_db_adapter_adapterinterface_getdefaultvalue)
 	PHP_ABSTRACT_ME(Phalcon_Db_Adapter_AdapterInterface, getInternalHandler, arginfo_phalcon_db_adapter_adapterinterface_getinternalhandler)
 	PHP_ABSTRACT_ME(Phalcon_Db_Adapter_AdapterInterface, getNestedTransactionSavepointName, arginfo_phalcon_db_adapter_adapterinterface_getnestedtransactionsavepointname)
 	PHP_ABSTRACT_ME(Phalcon_Db_Adapter_AdapterInterface, getRealSQLStatement, arginfo_phalcon_db_adapter_adapterinterface_getrealsqlstatement)
@@ -888,6 +903,7 @@ ZEPHIR_INIT_FUNCS(phalcon_db_adapter_adapterinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Db_Adapter_AdapterInterface, update, arginfo_phalcon_db_adapter_adapterinterface_update)
 	PHP_ABSTRACT_ME(Phalcon_Db_Adapter_AdapterInterface, updateAsDict, arginfo_phalcon_db_adapter_adapterinterface_updateasdict)
 	PHP_ABSTRACT_ME(Phalcon_Db_Adapter_AdapterInterface, useExplicitIdValue, arginfo_phalcon_db_adapter_adapterinterface_useexplicitidvalue)
+	PHP_ABSTRACT_ME(Phalcon_Db_Adapter_AdapterInterface, supportsDefaultValue, arginfo_phalcon_db_adapter_adapterinterface_supportsdefaultvalue)
 	PHP_ABSTRACT_ME(Phalcon_Db_Adapter_AdapterInterface, viewExists, arginfo_phalcon_db_adapter_adapterinterface_viewexists)
 	PHP_FE_END
 };

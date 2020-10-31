@@ -58,7 +58,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Input, setType) {
 	zephir_get_strval(&type, type_param);
 
 
-	zephir_update_property_zval(this_ptr, SL("type"), &type);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("type"), &type);
 	RETURN_THIS();
 
 }

@@ -81,7 +81,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, __destruct) {
 
 	ZEPHIR_MM_GROW();
 
-	zephir_read_property(&_0, this_ptr, SL("inTransaction"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("inTransaction"), PH_NOISY_CC | PH_READONLY);
 	if (zephir_is_true(&_0)) {
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "commit", NULL, 0);
 		zephir_check_call_status();
@@ -124,9 +124,9 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, begin) {
 
 
 	if (1) {
-		zephir_update_property_zval(this_ptr, SL("inTransaction"), &__$true);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("inTransaction"), &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, SL("inTransaction"), &__$false);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("inTransaction"), &__$false);
 	}
 	RETURN_THISW();
 
@@ -152,9 +152,9 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, commit) {
 
 	ZEPHIR_MM_GROW();
 
-	zephir_read_property(&_0, this_ptr, SL("inTransaction"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("inTransaction"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&inTransaction, &_0);
-	zephir_read_property(&_0, this_ptr, SL("queue"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("queue"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&queue, &_0);
 	if (!(zephir_is_true(&inTransaction))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "There is no active transaction", "phalcon/Logger/Adapter/AbstractAdapter.zep", 91);
@@ -191,8 +191,8 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, commit) {
 	ZVAL_BOOL(&inTransaction, 0);
 	ZEPHIR_INIT_VAR(&_4);
 	array_init(&_4);
-	zephir_update_property_zval(this_ptr, SL("queue"), &_4);
-	zephir_update_property_zval(this_ptr, SL("inTransaction"), &inTransaction);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("queue"), &_4);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("inTransaction"), &inTransaction);
 	RETURN_THIS();
 
 }
@@ -214,16 +214,16 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, getFormatter) {
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_OBS_VAR(&_0);
-	zephir_read_property(&_0, this_ptr, SL("formatter"), PH_NOISY_CC);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("formatter"), PH_NOISY_CC);
 	if (Z_TYPE_P(&_0) != IS_OBJECT) {
-		zephir_read_property(&_1$$3, this_ptr, SL("defaultFormatter"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_1$$3, this_ptr, ZEND_STRL("defaultFormatter"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZEPHIR_CONCAT_SV(&_2$$3, "Phalcon\\Logger\\Formatter\\", &_1$$3);
 		zephir_get_strval(&className, &_2$$3);
 		ZEPHIR_INIT_VAR(&_3$$3);
 		ZEPHIR_LAST_CALL_STATUS = zephir_create_instance(&_3$$3, &className);
 		zephir_check_call_status();
-		zephir_update_property_zval(this_ptr, SL("formatter"), &_3$$3);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("formatter"), &_3$$3);
 	}
 	RETURN_MM_MEMBER(getThis(), "formatter");
 
@@ -263,7 +263,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, rollback) {
 
 	ZEPHIR_MM_GROW();
 
-	zephir_read_property(&_0, this_ptr, SL("inTransaction"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("inTransaction"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&inTransaction, &_0);
 	if (!(zephir_is_true(&inTransaction))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "There is no active transaction", "phalcon/Logger/Adapter/AbstractAdapter.zep", 145);
@@ -271,10 +271,10 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, rollback) {
 	}
 	ZEPHIR_INIT_VAR(&_1);
 	array_init(&_1);
-	zephir_update_property_zval(this_ptr, SL("queue"), &_1);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("queue"), &_1);
 	ZEPHIR_INIT_NVAR(&inTransaction);
 	ZVAL_BOOL(&inTransaction, 0);
-	zephir_update_property_zval(this_ptr, SL("inTransaction"), &inTransaction);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("inTransaction"), &inTransaction);
 	RETURN_THIS();
 
 }
@@ -293,7 +293,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, setFormatter) {
 
 
 
-	zephir_update_property_zval(this_ptr, SL("formatter"), formatter);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("formatter"), formatter);
 	RETURN_THISW();
 
 }
@@ -310,11 +310,11 @@ zend_object *zephir_init_properties_Phalcon_Logger_Adapter_AbstractAdapter(zend_
 	{
 		zval local_this_ptr, *this_ptr = &local_this_ptr;
 		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property(&_0, this_ptr, SL("queue"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_ex(&_0, this_ptr, ZEND_STRL("queue"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_0) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_1$$3);
 			array_init(&_1$$3);
-			zephir_update_property_zval(this_ptr, SL("queue"), &_1$$3);
+			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("queue"), &_1$$3);
 		}
 		ZEPHIR_MM_RESTORE();
 		return Z_OBJ_P(this_ptr);

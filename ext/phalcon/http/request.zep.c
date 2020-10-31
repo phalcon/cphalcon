@@ -118,9 +118,9 @@ PHP_METHOD(Phalcon_Http_Request, setHttpMethodParameterOverride) {
 
 
 	if (httpMethodParameterOverride) {
-		zephir_update_property_zval(this_ptr, SL("httpMethodParameterOverride"), &__$true);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("httpMethodParameterOverride"), &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, SL("httpMethodParameterOverride"), &__$false);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("httpMethodParameterOverride"), &__$false);
 	}
 	RETURN_THISW();
 
@@ -656,7 +656,7 @@ PHP_METHOD(Phalcon_Http_Request, getFilteredQuery) {
 
 
 	ZEPHIR_OBS_VAR(&filters);
-	zephir_read_property(&_0, this_ptr, SL("queryFilters"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("queryFilters"), PH_NOISY_CC | PH_READONLY);
 	zephir_array_fetch_string(&_1, &_0, SL("get"), PH_READONLY, "phalcon/Http/Request.zep", 274);
 	if (!(zephir_array_isset_fetch(&filters, &_1, &name, 0))) {
 		ZEPHIR_INIT_NVAR(&filters);
@@ -734,7 +734,7 @@ PHP_METHOD(Phalcon_Http_Request, getFilteredPost) {
 
 
 	ZEPHIR_OBS_VAR(&filters);
-	zephir_read_property(&_0, this_ptr, SL("queryFilters"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("queryFilters"), PH_NOISY_CC | PH_READONLY);
 	zephir_array_fetch_string(&_1, &_0, SL("post"), PH_READONLY, "phalcon/Http/Request.zep", 294);
 	if (!(zephir_array_isset_fetch(&filters, &_1, &name, 0))) {
 		ZEPHIR_INIT_NVAR(&filters);
@@ -812,7 +812,7 @@ PHP_METHOD(Phalcon_Http_Request, getFilteredPut) {
 
 
 	ZEPHIR_OBS_VAR(&filters);
-	zephir_read_property(&_0, this_ptr, SL("queryFilters"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("queryFilters"), PH_NOISY_CC | PH_READONLY);
 	zephir_array_fetch_string(&_1, &_0, SL("put"), PH_READONLY, "phalcon/Http/Request.zep", 314);
 	if (!(zephir_array_isset_fetch(&filters, &_1, &name, 0))) {
 		ZEPHIR_INIT_NVAR(&filters);
@@ -1172,7 +1172,7 @@ PHP_METHOD(Phalcon_Http_Request, getHttpHost) {
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_OBS_VAR(&strict);
-	zephir_read_property(&strict, this_ptr, SL("strictHostCheck"), PH_NOISY_CC);
+	zephir_read_property(&strict, this_ptr, ZEND_STRL("strictHostCheck"), PH_NOISY_CC);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "HTTP_HOST");
 	ZEPHIR_CALL_METHOD(&host, this_ptr, "getserver", NULL, 0, &_0);
@@ -1370,7 +1370,7 @@ PHP_METHOD(Phalcon_Http_Request, getMethod) {
 		ZVAL_STRING(&_1$$5, "X-HTTP-METHOD-OVERRIDE");
 		ZEPHIR_CALL_METHOD(&overridedMethod, this_ptr, "getheader", NULL, 366, &_1$$5);
 		zephir_check_call_status();
-		zephir_read_property(&_2$$5, this_ptr, SL("httpMethodParameterOverride"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_2$$5, this_ptr, ZEND_STRL("httpMethodParameterOverride"), PH_NOISY_CC | PH_READONLY);
 		if (!(ZEPHIR_IS_EMPTY(&overridedMethod))) {
 			ZEPHIR_INIT_NVAR(&returnMethod);
 			zephir_fast_strtoupper(&returnMethod, &overridedMethod);
@@ -1607,7 +1607,7 @@ PHP_METHOD(Phalcon_Http_Request, getPut) {
 
 
 	ZEPHIR_OBS_VAR(&put);
-	zephir_read_property(&put, this_ptr, SL("putCache"), PH_NOISY_CC);
+	zephir_read_property(&put, this_ptr, ZEND_STRL("putCache"), PH_NOISY_CC);
 	if (Z_TYPE_P(&put) != IS_ARRAY) {
 		ZEPHIR_CALL_METHOD(&contentType, this_ptr, "getcontenttype", NULL, 0);
 		zephir_check_call_status();
@@ -1637,7 +1637,7 @@ PHP_METHOD(Phalcon_Http_Request, getPut) {
 			ZEPHIR_UNREF(&put);
 			zephir_check_call_status();
 		}
-		zephir_update_property_zval(this_ptr, SL("putCache"), &put);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("putCache"), &put);
 	}
 	if (notAllowEmpty) {
 		ZVAL_BOOL(&_5, 1);
@@ -1758,14 +1758,14 @@ PHP_METHOD(Phalcon_Http_Request, getRawBody) {
 
 	ZEPHIR_MM_GROW();
 
-	zephir_read_property(&_0, this_ptr, SL("rawBody"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("rawBody"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&rawBody, &_0);
 	if (ZEPHIR_IS_EMPTY(&rawBody)) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		ZVAL_STRING(&_1$$3, "php://input");
 		ZEPHIR_INIT_VAR(&contents);
 		zephir_file_get_contents(&contents, &_1$$3);
-		zephir_update_property_zval(this_ptr, SL("rawBody"), &contents);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("rawBody"), &contents);
 		RETURN_CCTOR(&contents);
 	}
 	RETURN_CCTOR(&rawBody);
@@ -3389,9 +3389,9 @@ PHP_METHOD(Phalcon_Http_Request, setStrictHostCheck) {
 
 
 	if (flag) {
-		zephir_update_property_zval(this_ptr, SL("strictHostCheck"), &__$true);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("strictHostCheck"), &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, SL("strictHostCheck"), &__$false);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("strictHostCheck"), &__$false);
 	}
 	RETURN_THISW();
 
@@ -4449,10 +4449,10 @@ PHP_METHOD(Phalcon_Http_Request, getFilterService) {
 
 	ZEPHIR_MM_GROW();
 
-	zephir_read_property(&_0, this_ptr, SL("filterService"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("filterService"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&filterService, &_0);
 	if (Z_TYPE_P(&filterService) != IS_OBJECT) {
-		zephir_read_property(&_1$$3, this_ptr, SL("container"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_1$$3, this_ptr, ZEND_STRL("container"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CPY_WRT(&container, &_1$$3);
 		if (UNEXPECTED(Z_TYPE_P(&container) != IS_OBJECT)) {
 			ZEPHIR_INIT_VAR(&_2$$4);
@@ -4472,7 +4472,7 @@ PHP_METHOD(Phalcon_Http_Request, getFilterService) {
 		ZEPHIR_CALL_METHOD(&_6$$3, &container, "getshared", NULL, 0, &_7$$3);
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(&filterService, &_6$$3);
-		zephir_update_property_zval(this_ptr, SL("filterService"), &filterService);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("filterService"), &filterService);
 	}
 	RETURN_MM_MEMBER(getThis(), "filterService");
 
@@ -4509,11 +4509,11 @@ zend_object *zephir_init_properties_Phalcon_Http_Request(zend_class_entry *class
 	{
 		zval local_this_ptr, *this_ptr = &local_this_ptr;
 		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property(&_0, this_ptr, SL("queryFilters"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_ex(&_0, this_ptr, ZEND_STRL("queryFilters"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_0) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_1$$3);
 			array_init(&_1$$3);
-			zephir_update_property_zval(this_ptr, SL("queryFilters"), &_1$$3);
+			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("queryFilters"), &_1$$3);
 		}
 		ZEPHIR_MM_RESTORE();
 		return Z_OBJ_P(this_ptr);

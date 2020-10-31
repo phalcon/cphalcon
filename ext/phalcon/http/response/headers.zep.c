@@ -68,7 +68,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, get) {
 	zephir_get_strval(&name, name_param);
 
 
-	zephir_read_property(&_0, this_ptr, SL("headers"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("headers"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&headers, &_0);
 	if (!(zephir_array_isset_fetch(&headerValue, &headers, &name, 1))) {
 		RETURN_MM_BOOL(0);
@@ -78,7 +78,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, get) {
 }
 
 /**
- * Sets a header to be sent at the end of the request
+ * Checks if a header exists
  */
 PHP_METHOD(Phalcon_Http_Response_Headers, has) {
 
@@ -96,7 +96,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, has) {
 	zephir_get_strval(&name, name_param);
 
 
-	zephir_read_property(&_0, this_ptr, SL("headers"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("headers"), PH_NOISY_CC | PH_READONLY);
 	RETURN_MM_BOOL(zephir_array_isset(&_0, &name));
 
 }
@@ -121,10 +121,10 @@ PHP_METHOD(Phalcon_Http_Response_Headers, remove) {
 	zephir_get_strval(&header, header_param);
 
 
-	zephir_read_property(&_0, this_ptr, SL("headers"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("headers"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&headers, &_0);
 	zephir_array_unset(&headers, &header, PH_SEPARATE);
-	zephir_update_property_zval(this_ptr, SL("headers"), &headers);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("headers"), &headers);
 	RETURN_THIS();
 
 }
@@ -144,7 +144,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, reset) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	array_init(&_0);
-	zephir_update_property_zval(this_ptr, SL("headers"), &_0);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("headers"), &_0);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -187,7 +187,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, send) {
 	if (zephir_is_true(&_0)) {
 		RETURN_MM_BOOL(0);
 	}
-	zephir_read_property(&_1, this_ptr, SL("headers"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_1, this_ptr, ZEND_STRL("headers"), PH_NOISY_CC | PH_READONLY);
 	zephir_is_iterable(&_1, 0, "phalcon/Http/Response/Headers.zep", 100);
 	if (Z_TYPE_P(&_1) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&_1), _4, _5, _2)
@@ -345,11 +345,11 @@ zend_object *zephir_init_properties_Phalcon_Http_Response_Headers(zend_class_ent
 	{
 		zval local_this_ptr, *this_ptr = &local_this_ptr;
 		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property(&_0, this_ptr, SL("headers"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_ex(&_0, this_ptr, ZEND_STRL("headers"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_0) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_1$$3);
 			array_init(&_1$$3);
-			zephir_update_property_zval(this_ptr, SL("headers"), &_1$$3);
+			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("headers"), &_1$$3);
 		}
 		ZEPHIR_MM_RESTORE();
 		return Z_OBJ_P(this_ptr);

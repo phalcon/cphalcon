@@ -101,9 +101,9 @@ PHP_METHOD(Phalcon_Debug_Dump, setDetailed) {
 
 
 	if (detailed) {
-		zephir_update_property_zval(this_ptr, SL("detailed"), &__$true);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("detailed"), &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, SL("detailed"), &__$false);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("detailed"), &__$false);
 	}
 	RETURN_THISW();
 
@@ -144,9 +144,9 @@ PHP_METHOD(Phalcon_Debug_Dump, __construct) {
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setstyles", NULL, 0, &styles);
 	zephir_check_call_status();
 	if (detailed) {
-		zephir_update_property_zval(this_ptr, SL("detailed"), &__$true);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("detailed"), &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, SL("detailed"), &__$false);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("detailed"), &__$false);
 	}
 	ZEPHIR_MM_RESTORE();
 
@@ -253,7 +253,7 @@ PHP_METHOD(Phalcon_Debug_Dump, setStyles) {
 	add_assoc_stringl_ex(&defaultStyles, SL("str"), SL("color:teal"));
 	ZEPHIR_INIT_VAR(&_0);
 	zephir_fast_array_merge(&_0, &defaultStyles, &styles);
-	zephir_update_property_zval(this_ptr, SL("styles"), &_0);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("styles"), &_0);
 	RETURN_MM_MEMBER(getThis(), "styles");
 
 }
@@ -462,7 +462,7 @@ PHP_METHOD(Phalcon_Debug_Dump, getStyle) {
 	}
 
 
-	zephir_read_property(&_0, this_ptr, SL("styles"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("styles"), PH_NOISY_CC | PH_READONLY);
 	if (!(zephir_array_isset_fetch(&style, &_0, &type, 1))) {
 		RETURN_MM_STRING("color:gray");
 	}
@@ -835,7 +835,7 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 			zephir_concat_self(&output, &_39$$10);
 		}
 		zephir_concat_self_str(&output, SL(" (\n"));
-		zephir_read_property(&_41$$9, this_ptr, SL("detailed"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_41$$9, this_ptr, ZEND_STRL("detailed"), PH_NOISY_CC | PH_READONLY);
 		_42$$9 = !zephir_is_true(&_41$$9);
 		if (!(_42$$9)) {
 			_42$$9 = zephir_instance_of_ev(variable, zend_standard_class_def);
@@ -941,7 +941,7 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 			object_init_ex(&reflect$$15, zephir_get_internal_ce(SL("reflectionclass")));
 			ZEPHIR_CALL_METHOD(NULL, &reflect$$15, "__construct", NULL, 155, variable);
 			zephir_check_call_status();
-			ZVAL_LONG(&_67$$15, ((1 | 2) | 4));
+			ZVAL_LONG(&_67$$15, ((256 | 512) | 1024));
 			ZEPHIR_CALL_METHOD(&props$$15, &reflect$$15, "getproperties", NULL, 159, &_67$$15);
 			zephir_check_call_status();
 			zephir_is_iterable(&props$$15, 0, "phalcon/Debug/Dump.zep", 289);
@@ -1075,7 +1075,7 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 		zephir_concat_self(&output, &_107$$9);
 		ZEPHIR_INIT_NVAR(&_36$$9);
 		zephir_get_class(&_36$$9, variable, 0);
-		zephir_read_property(&_103$$9, this_ptr, SL("methods"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_103$$9, this_ptr, ZEND_STRL("methods"), PH_NOISY_CC | PH_READONLY);
 		if (zephir_fast_in_array(&_36$$9, &_103$$9)) {
 			ZVAL_LONG(&_108$$18, tab);
 			ZEPHIR_CALL_FUNCTION(&_109$$18, "str_repeat", &_10, 1, &space, &_108$$18);
@@ -1349,17 +1349,17 @@ zend_object *zephir_init_properties_Phalcon_Debug_Dump(zend_class_entry *class_t
 	{
 		zval local_this_ptr, *this_ptr = &local_this_ptr;
 		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property(&_0, this_ptr, SL("styles"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_ex(&_0, this_ptr, ZEND_STRL("styles"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_0) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_1$$3);
 			array_init(&_1$$3);
-			zephir_update_property_zval(this_ptr, SL("styles"), &_1$$3);
+			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("styles"), &_1$$3);
 		}
-		zephir_read_property(&_2, this_ptr, SL("methods"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_ex(&_2, this_ptr, ZEND_STRL("methods"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_2) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_3$$4);
 			array_init(&_3$$4);
-			zephir_update_property_zval(this_ptr, SL("methods"), &_3$$4);
+			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("methods"), &_3$$4);
 		}
 		ZEPHIR_MM_RESTORE();
 		return Z_OBJ_P(this_ptr);

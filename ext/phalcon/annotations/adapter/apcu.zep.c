@@ -89,10 +89,10 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apcu, __construct) {
 
 
 	if (zephir_array_isset_string_fetch(&prefix, &options, SL("prefix"), 1)) {
-		zephir_update_property_zval(this_ptr, SL("prefix"), &prefix);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("prefix"), &prefix);
 	}
 	if (zephir_array_isset_string_fetch(&ttl, &options, SL("lifetime"), 1)) {
-		zephir_update_property_zval(this_ptr, SL("ttl"), &ttl);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("ttl"), &ttl);
 	}
 	ZEPHIR_MM_RESTORE();
 
@@ -130,7 +130,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apcu, read) {
 
 
 	ZEPHIR_INIT_VAR(&_0);
-	zephir_read_property(&_1, this_ptr, SL("prefix"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_1, this_ptr, ZEND_STRL("prefix"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_2);
 	ZEPHIR_CONCAT_SVV(&_2, "_PHAN", &_1, &key);
 	zephir_fast_strtolower(&_0, &_2);
@@ -174,11 +174,11 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apcu, write) {
 
 
 	ZEPHIR_INIT_VAR(&_0);
-	zephir_read_property(&_1, this_ptr, SL("prefix"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_1, this_ptr, ZEND_STRL("prefix"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_2);
 	ZEPHIR_CONCAT_SVV(&_2, "_PHAN", &_1, &key);
 	zephir_fast_strtolower(&_0, &_2);
-	zephir_read_property(&_3, this_ptr, SL("ttl"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_3, this_ptr, ZEND_STRL("ttl"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_FUNCTION("apcu_store", NULL, 123, &_0, data, &_3);
 	zephir_check_call_status();
 	RETURN_MM();

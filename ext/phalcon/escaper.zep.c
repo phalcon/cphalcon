@@ -97,8 +97,8 @@ PHP_METHOD(Phalcon_Escaper, attributes) {
 	}
 
 
-	zephir_read_property(&_0, this_ptr, SL("encoding"), PH_NOISY_CC | PH_READONLY);
-	zephir_read_property(&_1, this_ptr, SL("doubleEncode"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("encoding"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_1, this_ptr, ZEND_STRL("doubleEncode"), PH_NOISY_CC | PH_READONLY);
 	ZVAL_LONG(&_2, 3);
 	ZEPHIR_RETURN_CALL_FUNCTION("htmlspecialchars", NULL, 244, &attribute, &_2, &_0, &_1);
 	zephir_check_call_status();
@@ -413,9 +413,9 @@ PHP_METHOD(Phalcon_Escaper, html) {
 	}
 
 
-	zephir_read_property(&_0, this_ptr, SL("flags"), PH_NOISY_CC | PH_READONLY);
-	zephir_read_property(&_1, this_ptr, SL("encoding"), PH_NOISY_CC | PH_READONLY);
-	zephir_read_property(&_2, this_ptr, SL("doubleEncode"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("flags"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_1, this_ptr, ZEND_STRL("encoding"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_2, this_ptr, ZEND_STRL("doubleEncode"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_FUNCTION("htmlspecialchars", NULL, 244, &input, &_0, &_1, &_2);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -507,9 +507,9 @@ PHP_METHOD(Phalcon_Escaper, setDoubleEncode) {
 
 
 	if (doubleEncode) {
-		zephir_update_property_zval(this_ptr, SL("doubleEncode"), &__$true);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("doubleEncode"), &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, SL("doubleEncode"), &__$false);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("doubleEncode"), &__$false);
 	}
 
 }
@@ -536,7 +536,7 @@ PHP_METHOD(Phalcon_Escaper, setEncoding) {
 	zephir_get_strval(&encoding, encoding_param);
 
 
-	zephir_update_property_zval(this_ptr, SL("encoding"), &encoding);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("encoding"), &encoding);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -563,7 +563,7 @@ PHP_METHOD(Phalcon_Escaper, setFlags) {
 
 	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(&_0, flags);
-	zephir_update_property_zval(this_ptr, SL("flags"), &_0);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("flags"), &_0);
 	RETURN_THISW();
 
 }
@@ -590,7 +590,7 @@ PHP_METHOD(Phalcon_Escaper, setHtmlQuoteType) {
 
 	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(&_0, flags);
-	zephir_update_property_zval(this_ptr, SL("flags"), &_0);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("flags"), &_0);
 
 }
 

@@ -92,7 +92,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __construct) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, SL("definition"), &definition);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("definition"), &definition);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -145,9 +145,9 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, callMethod) {
 	}
 
 
-	zephir_read_property(&_0, this_ptr, SL("handler"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("handler"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&handler, &_0);
-	zephir_read_property(&_0, this_ptr, SL("definition"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("definition"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&definition, &_0);
 	if (Z_TYPE_P(&handler) != IS_OBJECT) {
 		if (!(zephir_class_exists(&definition, 1))) {
@@ -164,7 +164,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, callMethod) {
 		ZEPHIR_INIT_NVAR(&handler);
 		ZEPHIR_LAST_CALL_STATUS = zephir_create_instance(&handler, &definition);
 		zephir_check_call_status();
-		zephir_update_property_zval(this_ptr, SL("handler"), &handler);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("handler"), &handler);
 	}
 	if (Z_TYPE_P(modelBinder) != IS_NULL) {
 		ZEPHIR_INIT_VAR(&bindCacheKey);

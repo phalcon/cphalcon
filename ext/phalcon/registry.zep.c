@@ -375,7 +375,7 @@ PHP_METHOD(Phalcon_Registry, getIterator) {
 }
 
 /**
- * Get the element from the collection
+ * Determines whether an element is present in the collection.
  */
 PHP_METHOD(Phalcon_Registry, has) {
 

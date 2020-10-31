@@ -131,7 +131,7 @@ PHP_METHOD(Phalcon_Db_Profiler, getNumberTotalStatements) {
 	ZVAL_UNDEF(&_0);
 
 
-	zephir_read_property(&_0, this_ptr, SL("allProfiles"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("allProfiles"), PH_NOISY_CC | PH_READONLY);
 	RETURN_LONG(zephir_fast_count_int(&_0));
 
 }
@@ -175,7 +175,7 @@ PHP_METHOD(Phalcon_Db_Profiler, reset) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	array_init(&_0);
-	zephir_update_property_zval(this_ptr, SL("allProfiles"), &_0);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("allProfiles"), &_0);
 	RETURN_THIS();
 
 }
@@ -248,7 +248,7 @@ PHP_METHOD(Phalcon_Db_Profiler, startProfile) {
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "beforestartprofile", NULL, 0, &activeProfile);
 		zephir_check_call_status();
 	}
-	zephir_update_property_zval(this_ptr, SL("activeProfile"), &activeProfile);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("activeProfile"), &activeProfile);
 	RETURN_THIS();
 
 }
@@ -283,18 +283,18 @@ PHP_METHOD(Phalcon_Db_Profiler, stopProfile) {
 		ZEPHIR_CALL_FUNCTION(&finalTime, "hrtime", NULL, 202, &__$true);
 		zephir_check_call_status();
 	}
-	zephir_read_property(&_0, this_ptr, SL("activeProfile"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("activeProfile"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&activeProfile, &_0);
 	ZEPHIR_CALL_METHOD(NULL, &activeProfile, "setfinaltime", NULL, 0, &finalTime);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&initialTime, &activeProfile, "getinitialtime", NULL, 0);
 	zephir_check_call_status();
-	zephir_read_property(&_0, this_ptr, SL("totalSeconds"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("totalSeconds"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_1);
 	zephir_sub_function(&_1, &finalTime, &initialTime);
 	ZEPHIR_INIT_VAR(&_2);
 	zephir_add_function(&_2, &_0, &_1);
-	zephir_update_property_zval(this_ptr, SL("totalSeconds"), &_2);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("totalSeconds"), &_2);
 	zephir_update_property_array_append(this_ptr, SL("allProfiles"), &activeProfile);
 	if ((zephir_method_exists_ex(this_ptr, ZEND_STRL("afterendprofile")) == SUCCESS)) {
 		ZEPHIR_CALL_METHOD(NULL, this_ptr, "afterendprofile", NULL, 0, &activeProfile);

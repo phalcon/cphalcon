@@ -50,13 +50,13 @@ PHP_METHOD(Phalcon_Storage_Serializer_Msgpack, serialize) {
 
 	ZEPHIR_MM_GROW();
 
-	zephir_read_property(&_1, this_ptr, SL("data"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_1, this_ptr, ZEND_STRL("data"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "isserializable", NULL, 0, &_1);
 	zephir_check_call_status();
 	if (!(zephir_is_true(&_0))) {
 		RETURN_MM_MEMBER(getThis(), "data");
 	}
-	zephir_read_property(&_2, this_ptr, SL("data"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_2, this_ptr, ZEND_STRL("data"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_FUNCTION("msgpack_pack", NULL, 0, &_2);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -94,11 +94,11 @@ PHP_METHOD(Phalcon_Storage_Serializer_Msgpack, unserialize) {
 	zephir_check_call_status();
 	ZEPHIR_CALL_FUNCTION(&_2, "msgpack_unpack", NULL, 0, data);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, SL("data"), &_2);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("data"), &_2);
 	ZEPHIR_CALL_FUNCTION(NULL, "restore_error_handler", NULL, 88);
 	zephir_check_call_status();
 	if (UNEXPECTED(ZEPHIR_GLOBAL(warning).enable)) {
-		zephir_update_property_zval(this_ptr, SL("data"), &__$null);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("data"), &__$null);
 	}
 	ZEPHIR_MM_RESTORE();
 

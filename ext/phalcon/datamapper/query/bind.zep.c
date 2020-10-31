@@ -107,11 +107,11 @@ PHP_METHOD(Phalcon_DataMapper_Query_Bind, bindInline) {
 		zephir_check_call_status();
 		RETURN_MM();
 	}
-	zephir_read_property(&_3, this_ptr, SL("inlineCount"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_3, this_ptr, ZEND_STRL("inlineCount"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_ZVAL_NREF(_4);
 	ZVAL_LONG(&_4, (zephir_get_numberval(&_3) + 1));
-	zephir_update_property_zval(this_ptr, SL("inlineCount"), &_4);
-	zephir_read_property(&_4, this_ptr, SL("inlineCount"), PH_NOISY_CC | PH_READONLY);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("inlineCount"), &_4);
+	zephir_read_property(&_4, this_ptr, ZEND_STRL("inlineCount"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&key);
 	ZEPHIR_CONCAT_SVS(&key, "__", &_4, "__");
 	ZVAL_LONG(&_5, type);
@@ -144,10 +144,10 @@ PHP_METHOD(Phalcon_DataMapper_Query_Bind, remove) {
 	zephir_get_strval(&key, key_param);
 
 
-	zephir_read_property(&_0, this_ptr, SL("store"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("store"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&store, &_0);
 	zephir_array_unset(&store, &key, PH_SEPARATE);
-	zephir_update_property_zval(this_ptr, SL("store"), &store);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("store"), &store);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -368,11 +368,11 @@ PHP_METHOD(Phalcon_DataMapper_Query_Bind, inlineArray) {
 		{
 			ZEPHIR_INIT_NVAR(&value);
 			ZVAL_COPY(&value, _0);
-			zephir_read_property(&_2$$3, this_ptr, SL("inlineCount"), PH_NOISY_CC | PH_READONLY);
+			zephir_read_property(&_2$$3, this_ptr, ZEND_STRL("inlineCount"), PH_NOISY_CC | PH_READONLY);
 			ZEPHIR_INIT_ZVAL_NREF(_3$$3);
 			ZVAL_LONG(&_3$$3, (zephir_get_numberval(&_2$$3) + 1));
-			zephir_update_property_zval(this_ptr, SL("inlineCount"), &_3$$3);
-			zephir_read_property(&_3$$3, this_ptr, SL("inlineCount"), PH_NOISY_CC | PH_READONLY);
+			zephir_update_property_zval(this_ptr, ZEND_STRL("inlineCount"), &_3$$3);
+			zephir_read_property(&_3$$3, this_ptr, ZEND_STRL("inlineCount"), PH_NOISY_CC | PH_READONLY);
 			ZEPHIR_INIT_NVAR(&key);
 			ZEPHIR_CONCAT_SVS(&key, "__", &_3$$3, "__");
 			ZVAL_LONG(&_4$$3, type);
@@ -393,11 +393,11 @@ PHP_METHOD(Phalcon_DataMapper_Query_Bind, inlineArray) {
 			}
 			ZEPHIR_CALL_METHOD(&value, &data, "current", NULL, 0);
 			zephir_check_call_status();
-				zephir_read_property(&_7$$4, this_ptr, SL("inlineCount"), PH_NOISY_CC | PH_READONLY);
+				zephir_read_property(&_7$$4, this_ptr, ZEND_STRL("inlineCount"), PH_NOISY_CC | PH_READONLY);
 				ZEPHIR_INIT_ZVAL_NREF(_8$$4);
 				ZVAL_LONG(&_8$$4, (zephir_get_numberval(&_7$$4) + 1));
-				zephir_update_property_zval(this_ptr, SL("inlineCount"), &_8$$4);
-				zephir_read_property(&_8$$4, this_ptr, SL("inlineCount"), PH_NOISY_CC | PH_READONLY);
+				zephir_update_property_zval(this_ptr, ZEND_STRL("inlineCount"), &_8$$4);
+				zephir_read_property(&_8$$4, this_ptr, ZEND_STRL("inlineCount"), PH_NOISY_CC | PH_READONLY);
 				ZEPHIR_INIT_NVAR(&key);
 				ZEPHIR_CONCAT_SVS(&key, "__", &_8$$4, "__");
 				ZVAL_LONG(&_9$$4, type);
@@ -430,11 +430,11 @@ zend_object *zephir_init_properties_Phalcon_DataMapper_Query_Bind(zend_class_ent
 	{
 		zval local_this_ptr, *this_ptr = &local_this_ptr;
 		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property(&_0, this_ptr, SL("store"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_ex(&_0, this_ptr, ZEND_STRL("store"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_0) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_1$$3);
 			array_init(&_1$$3);
-			zephir_update_property_zval(this_ptr, SL("store"), &_1$$3);
+			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("store"), &_1$$3);
 		}
 		ZEPHIR_MM_RESTORE();
 		return Z_OBJ_P(this_ptr);

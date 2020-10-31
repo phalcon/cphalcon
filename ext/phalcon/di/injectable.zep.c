@@ -116,7 +116,7 @@ PHP_METHOD(Phalcon_Di_Injectable, __get) {
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&container, &_0);
 	if (ZEPHIR_IS_STRING(&propertyName, "di")) {
-		zephir_update_property_zval(this_ptr, SL("di"), &container);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("di"), &container);
 		RETURN_CCTOR(&container);
 	}
 	if (ZEPHIR_IS_STRING(&propertyName, "persistent")) {
@@ -129,9 +129,9 @@ PHP_METHOD(Phalcon_Di_Injectable, __get) {
 		ZVAL_STRING(&_3$$4, "sessionBag");
 		ZEPHIR_CALL_METHOD(&_1$$4, &container, "get", NULL, 0, &_3$$4, &_2$$4);
 		zephir_check_call_status();
-		zephir_update_property_zval(this_ptr, SL("persistent"), &_1$$4);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("persistent"), &_1$$4);
 		ZEPHIR_OBS_VAR(&_4$$4);
-		zephir_read_property(&_4$$4, this_ptr, SL("persistent"), PH_NOISY_CC);
+		zephir_read_property(&_4$$4, this_ptr, ZEND_STRL("persistent"), PH_NOISY_CC);
 		RETURN_CCTOR(&_4$$4);
 	}
 	ZEPHIR_CALL_METHOD(&_0, &container, "has", NULL, 0, &propertyName);
@@ -206,7 +206,7 @@ PHP_METHOD(Phalcon_Di_Injectable, getDI) {
 
 	ZEPHIR_MM_GROW();
 
-	zephir_read_property(&_0, this_ptr, SL("container"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("container"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&container, &_0);
 	if (Z_TYPE_P(&container) != IS_OBJECT) {
 		ZEPHIR_CALL_CE_STATIC(&container, phalcon_di_ce, "getdefault", &_1, 0);
@@ -243,7 +243,7 @@ PHP_METHOD(Phalcon_Di_Injectable, setDI) {
 
 
 
-	zephir_update_property_zval(this_ptr, SL("container"), container);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("container"), container);
 
 }
 
