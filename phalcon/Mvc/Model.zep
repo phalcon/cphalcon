@@ -976,8 +976,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      */
     protected function collectRelatedToSave() -> array
     {
-        var name, record, relatedToSave;
-        array related;
+        var name, record;
+        array related, dirtyRelated;
 
         /**
          * Load previously queried related records
@@ -987,10 +987,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         /**
          * Load unsaved related records
          */
-        let relatedToSave = this->dirtyRelated;
+        let dirtyRelated = this->dirtyRelated;
 
         for name, record in related {
-            if isset relatedToSave[name] {
+            if isset dirtyRelated[name] {
                 continue;
             }
 
@@ -998,10 +998,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 continue;
             }
 
-            let relatedToSave[name] = record;
+            let dirtyRelated[name] = record;
         }
 
-        return relatedToSave;
+        return dirtyRelated;
     }
 
     /**
