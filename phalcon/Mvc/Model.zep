@@ -974,9 +974,9 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *
      * @return array Related records that should be saved
      */
-    protected function collectRelatedForSave() -> array
+    protected function collectRelatedToSave() -> array
     {
-        var name, record, relatedForSave;
+        var name, record, relatedToSave;
         array related;
 
         /**
@@ -987,10 +987,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         /**
          * Load unsaved related records
          */
-        let relatedForSave = this->dirtyRelated;
+        let relatedToSave = this->dirtyRelated;
 
         for name, record in related {
-            if isset relatedForSave[name] {
+            if isset relatedToSave[name] {
                 continue;
             }
 
@@ -998,10 +998,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 continue;
             }
 
-            let relatedForSave[name] = record;
+            let relatedToSave[name] = record;
         }
 
-        return relatedForSave;
+        return relatedToSave;
     }
 
     /**
@@ -2407,8 +2407,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     public function save() -> bool
     {
         var metaData, schema, writeConnection, readConnection, source, table,
-            identityField, exists, success, relatedForSave;
-        bool hasRelatedForSave;
+            identityField, exists, success, relatedToSave;
+        bool hasRelatedToSave;
 
         let metaData = this->getModelsMetaData();
 
@@ -2427,15 +2427,15 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
          * previously queried related records that
          * may have been modified
          */
-        let relatedForSave = this->collectRelatedForSave();
+        let relatedToSave = this->collectRelatedToSave();
 
         /**
          * Does it have unsaved related records
          */
-        let hasRelatedForSave = count(relatedForSave) > 0;
+        let hasRelatedToSave = count(relatedToSave) > 0;
 
-        if hasRelatedForSave {
-            if this->preSaveRelatedRecords(writeConnection, relatedForSave) === false {
+        if hasRelatedToSave {
+            if this->preSaveRelatedRecords(writeConnection, relatedToSave) === false {
                 return false;
             }
         }
@@ -2482,7 +2482,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             /**
              * Rollback the current transaction if there was validation errors
              */
-            if hasRelatedForSave {
+            if hasRelatedToSave {
                 writeConnection->rollback(false);
             }
 
@@ -2524,7 +2524,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             let this->dirtyState = self::DIRTY_STATE_PERSISTENT;
         }
 
-        if hasRelatedForSave {
+        if hasRelatedToSave {
             /**
              * Rollbacks the implicit transaction if the master save has failed
              */
@@ -2536,7 +2536,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                  */
                 let success = this->postSaveRelatedRecords(
                     writeConnection,
-                    relatedForSave
+                    relatedToSave
                 );
             }
         }
@@ -2551,7 +2551,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         if success === false {
             this->cancelOperation();
         } else {
-            if hasRelatedForSave {
+            if hasRelatedToSave {
                 /**
                  * Clear unsaved related records storage
                  */
