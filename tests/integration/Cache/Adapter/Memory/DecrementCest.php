@@ -15,7 +15,7 @@ namespace Phalcon\Test\Integration\Cache\Adapter\Memory;
 
 use Phalcon\Cache\Adapter\Memory;
 use Phalcon\Storage\SerializerFactory;
-use UnitTester;
+use IntegrationTester;
 
 class DecrementCest
 {
@@ -25,7 +25,7 @@ class DecrementCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-03-31
      */
-    public function cacheAdapterMemoryDecrement(UnitTester $I)
+    public function cacheAdapterMemoryDecrement(IntegrationTester $I)
     {
         $I->wantToTest('Cache\Adapter\Memory - decrement()');
 

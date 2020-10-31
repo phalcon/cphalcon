@@ -5,6 +5,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Column);
 
 PHP_METHOD(Phalcon_Db_Column, getDefault);
 PHP_METHOD(Phalcon_Db_Column, getName);
+PHP_METHOD(Phalcon_Db_Column, getComment);
 PHP_METHOD(Phalcon_Db_Column, getScale);
 PHP_METHOD(Phalcon_Db_Column, getSize);
 PHP_METHOD(Phalcon_Db_Column, getType);
@@ -25,6 +26,13 @@ PHP_METHOD(Phalcon_Db_Column, isUnsigned);
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_column_getname, 0, 0, IS_STRING, 0)
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_column_getname, 0, 0, IS_STRING, NULL, 0)
+#endif
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_column_getcomment, 0, 0, IS_STRING, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_column_getcomment, 0, 0, IS_STRING, NULL, 0)
 #endif
 ZEND_END_ARG_INFO()
 
@@ -124,6 +132,7 @@ ZEND_END_ARG_INFO()
 ZEPHIR_INIT_FUNCS(phalcon_db_column_method_entry) {
 	PHP_ME(Phalcon_Db_Column, getDefault, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Column, getName, arginfo_phalcon_db_column_getname, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Column, getComment, arginfo_phalcon_db_column_getcomment, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Column, getScale, arginfo_phalcon_db_column_getscale, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Column, getSize, NULL, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Column, getType, arginfo_phalcon_db_column_gettype, ZEND_ACC_PUBLIC)

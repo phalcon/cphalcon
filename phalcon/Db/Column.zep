@@ -26,6 +26,7 @@ namespace Phalcon\Db;
  *         "notNull"       => true,
  *         "autoIncrement" => true,
  *         "first"         => true,
+ *         "comment"       => "",
  *     ]
  * );
  *
@@ -249,6 +250,13 @@ class Column implements ColumnInterface
     protected name { get };
 
     /**
+     * Column's comment
+     *
+     * @var string
+     */
+     protected comment = null { get };
+
+    /**
      * Column not nullable?
      *
      * Default SQL definition is NOT NULL.
@@ -311,7 +319,7 @@ class Column implements ColumnInterface
     {
         var type, notNull, primary, size, scale, dunsigned, first, after,
             bindType, isNumeric, autoIncrement, defaultValue, typeReference,
-            typeValues;
+            typeValues, comment;
 
         let this->name = name;
 
@@ -437,6 +445,13 @@ class Column implements ColumnInterface
          */
         if fetch bindType, definition["bindType"] {
             let this->bindType = bindType;
+        }
+
+        /**
+         * Get the column comment
+         */
+         if fetch comment, definition["comment"] {
+            let this->comment = comment;
         }
     }
 

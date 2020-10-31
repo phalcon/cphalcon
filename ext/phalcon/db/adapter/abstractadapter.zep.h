@@ -59,6 +59,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, tableOptions);
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, update);
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, updateAsDict);
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, useExplicitIdValue);
+PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, supportsDefaultValue);
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, viewExists);
 zend_object *zephir_init_properties_Phalcon_Db_Adapter_AbstractAdapter(zend_class_entry *class_type TSRMLS_DC);
 
@@ -767,6 +768,13 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapt
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_supportsdefaultvalue, 0, 0, _IS_BOOL, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_supportsdefaultvalue, 0, 0, _IS_BOOL, NULL, 0)
+#endif
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_viewexists, 0, 1, _IS_BOOL, 0)
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_viewexists, 0, 1, _IS_BOOL, NULL, 0)
@@ -840,6 +848,7 @@ ZEPHIR_INIT_FUNCS(phalcon_db_adapter_abstractadapter_method_entry) {
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, update, arginfo_phalcon_db_adapter_abstractadapter_update, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, updateAsDict, arginfo_phalcon_db_adapter_abstractadapter_updateasdict, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, useExplicitIdValue, arginfo_phalcon_db_adapter_abstractadapter_useexplicitidvalue, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, supportsDefaultValue, arginfo_phalcon_db_adapter_abstractadapter_supportsdefaultvalue, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Adapter_AbstractAdapter, viewExists, arginfo_phalcon_db_adapter_abstractadapter_viewexists, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };

@@ -11,6 +11,7 @@
 namespace Phalcon\Config;
 
 use Phalcon\Config;
+use Phalcon\Config\ConfigInterface;
 use Phalcon\Factory\AbstractFactory;
 use Phalcon\Helper\Arr;
 
@@ -49,7 +50,7 @@ class ConfigFactory extends AbstractFactory
      *      'callbacks' => null
      * ]
      */
-    public function load(config) -> <Config>
+    public function load(config) -> <ConfigInterface>
     {
         var adapter, extension, first, oldConfig, second;
 
@@ -69,7 +70,7 @@ class ConfigFactory extends AbstractFactory
             ];
         }
 
-        if typeof config === "object" && config instanceof Config {
+        if typeof config === "object" && config instanceof ConfigInterface {
             let config = config->toArray();
         }
 
@@ -111,7 +112,7 @@ class ConfigFactory extends AbstractFactory
     /**
      * Returns a new Config instance
      */
-    public function newInstance(string name, string fileName, var params = null) -> <Config>
+    public function newInstance(string name, string fileName, var params = null) -> <ConfigInterface>
     {
         var definition, options;
 

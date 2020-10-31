@@ -8,8 +8,10 @@ namespace Helper;
 use Codeception\Exception\ModuleException;
 use Codeception\TestInterface;
 use PDO;
+use Phalcon\DataMapper\Pdo\Connection;
 
 use function date;
+use function env;
 use function getenv;
 use function getOptionsMysql;
 use function getOptionsPostgresql;
@@ -95,26 +97,33 @@ class Database extends \Codeception\Module
     {
         switch ($this->driver) {
             case 'mysql':
-                $this->password = getenv('TEST_MYSQL_PASS');
-                $this->username = getenv('TEST_MYSQL_USER');
+                $this->password = env('DATA_MYSQL_PASS', '');
+                $this->username = env('DATA_MYSQL_USER', 'root');
 
                 return sprintf(
-                    "mysql:host=%s;dbname=%s;charset=utf8mb4",
-                    getenv('TEST_MYSQL_HOST'),
-                    getenv('TEST_MYSQL_NAME')
+                    "mysql:host=%s;dbname=%s;charset=utf8mb4;port=%s",
+                    env('DATA_MYSQL_HOST', '127.0.0.1'),
+                    env('DATA_MYSQL_NAME', 'phalcon'),
+                    env('DATA_MYSQL_PORT', 3306)
                 );
             case 'pgsql':
             case 'postgres':
-                $this->password = getenv('TEST_POSTGRES_PASS');
-                $this->username = getenv('TEST_POSTGRES_USER');
+                $this->password = env('DATA_POSTGRES_PASS', '');
+                $this->username = env('DATA_POSTGRES_USER', 'postgres');
 
                 return sprintf(
                     "pgsql:host=%s;dbname=%s;user=%s;password=%s",
-                    getenv('TEST_POSTGRES_HOST'),
-                    getenv('TEST_POSTGRES_NAME'),
+                    env('DATA_POSTGRES_HOST', '127.0.0.1'),
+                    env('DATA_POSTGRES_NAME', 'phalcon'),
                     $this->username,
                     $this->password
                 );
+            case 'sqlite':
+                return sprintf(
+                    'sqlite:%s',
+                    env('DATA_SQLITE_NAME', 'memory')
+                );
+
             case 'sqlsrv':
                 return "";
                 break;
@@ -152,5 +161,17 @@ class Database extends \Codeception\Module
     public function getDatabaseUsername(): string
     {
         return $this->username;
+    }
+
+    /**
+     * @return Connection
+     */
+    public function getDataMapperConnection(): Connection
+    {
+        return new Connection(
+            $this->getDatabaseDsn(),
+            $this->getDatabaseUsername(),
+            $this->getDatabasePassword()
+        );
     }
 }

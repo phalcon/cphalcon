@@ -82,27 +82,27 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Libmemcached, __construct) {
 	ZVAL_STRING(&_2, "persistentId");
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "ph-mm-mcid-");
-	ZEPHIR_CALL_CE_STATIC(&_0, phalcon_helper_arr_ce, "get", &_1, 15, &options, &_2, &_3);
+	ZEPHIR_CALL_CE_STATIC(&_0, phalcon_helper_arr_ce, "get", &_1, 16, &options, &_2, &_3);
 	zephir_check_call_status();
 	zephir_array_update_string(&options, SL("persistentId"), &_0, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "prefix");
 	ZEPHIR_INIT_NVAR(&_3);
 	ZVAL_STRING(&_3, "ph-mm-memc-");
-	ZEPHIR_CALL_CE_STATIC(&_4, phalcon_helper_arr_ce, "get", &_1, 15, &options, &_2, &_3);
+	ZEPHIR_CALL_CE_STATIC(&_4, phalcon_helper_arr_ce, "get", &_1, 16, &options, &_2, &_3);
 	zephir_check_call_status();
 	zephir_array_update_string(&options, SL("prefix"), &_4, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "lifetime");
 	ZVAL_LONG(&_6, 172800);
-	ZEPHIR_CALL_CE_STATIC(&_5, phalcon_helper_arr_ce, "get", &_1, 15, &options, &_2, &_6);
+	ZEPHIR_CALL_CE_STATIC(&_5, phalcon_helper_arr_ce, "get", &_1, 16, &options, &_2, &_6);
 	zephir_check_call_status();
 	zephir_array_update_string(&options, SL("lifetime"), &_5, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "libmemcached");
 	ZEPHIR_CALL_METHOD(&_7, factory, "newinstance", NULL, 0, &_2, &options);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, SL("adapter"), &_7);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("adapter"), &_7);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -122,7 +122,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Libmemcached, reset) {
 
 	ZEPHIR_MM_GROW();
 
-	zephir_read_property(&_0, this_ptr, SL("adapter"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("adapter"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(NULL, &_0, "clear", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_metadata_libmemcached_ce, getThis(), "reset", &_1, 0);

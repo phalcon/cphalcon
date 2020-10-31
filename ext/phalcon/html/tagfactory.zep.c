@@ -70,7 +70,7 @@ PHP_METHOD(Phalcon_Html_TagFactory, __construct) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, SL("escaper"), escaper);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("escaper"), escaper);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "init", NULL, 0, &services);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
@@ -107,7 +107,7 @@ PHP_METHOD(Phalcon_Html_TagFactory, newInstance) {
 	zephir_get_strval(&name, name_param);
 
 
-	zephir_read_property(&_0, this_ptr, SL("services"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("services"), PH_NOISY_CC | PH_READONLY);
 	if (!(zephir_array_isset(&_0, &name))) {
 		ZEPHIR_CALL_METHOD(&definition, this_ptr, "getservice", NULL, 0, &name);
 		zephir_check_call_status();
@@ -115,13 +115,13 @@ PHP_METHOD(Phalcon_Html_TagFactory, newInstance) {
 		ZEPHIR_INIT_VAR(&_2$$3);
 		zephir_create_array(&_2$$3, 1, 0);
 		ZEPHIR_OBS_VAR(&_3$$3);
-		zephir_read_property(&_3$$3, this_ptr, SL("escaper"), PH_NOISY_CC);
+		zephir_read_property(&_3$$3, this_ptr, ZEND_STRL("escaper"), PH_NOISY_CC);
 		zephir_array_fast_append(&_2$$3, &_3$$3);
 		ZEPHIR_LAST_CALL_STATUS = zephir_create_instance_params(&_1$$3, &definition, &_2$$3);
 		zephir_check_call_status();
 		zephir_update_property_array(this_ptr, SL("services"), &name, &_1$$3);
 	}
-	zephir_read_property(&_4, this_ptr, SL("services"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_4, this_ptr, ZEND_STRL("services"), PH_NOISY_CC | PH_READONLY);
 	zephir_array_fetch(&_5, &_4, &name, PH_NOISY | PH_READONLY, "phalcon/Html/TagFactory.zep", 57);
 	RETURN_CTOR(&_5);
 
@@ -132,18 +132,45 @@ PHP_METHOD(Phalcon_Html_TagFactory, getAdapters) {
 	zval *this_ptr = getThis();
 
 
-	zephir_create_array(return_value, 11, 0);
+	zephir_create_array(return_value, 41, 0);
 	add_assoc_stringl_ex(return_value, SL("a"), SL("Phalcon\\Html\\Helper\\Anchor"));
-	add_assoc_stringl_ex(return_value, SL("aRaw"), SL("Phalcon\\Html\\Helper\\AnchorRaw"));
+	add_assoc_stringl_ex(return_value, SL("base"), SL("Phalcon\\Html\\Helper\\Base"));
 	add_assoc_stringl_ex(return_value, SL("body"), SL("Phalcon\\Html\\Helper\\Body"));
 	add_assoc_stringl_ex(return_value, SL("button"), SL("Phalcon\\Html\\Helper\\Button"));
 	add_assoc_stringl_ex(return_value, SL("close"), SL("Phalcon\\Html\\Helper\\Close"));
 	add_assoc_stringl_ex(return_value, SL("element"), SL("Phalcon\\Html\\Helper\\Element"));
-	add_assoc_stringl_ex(return_value, SL("elementRaw"), SL("Phalcon\\Html\\Helper\\ElementRaw"));
 	add_assoc_stringl_ex(return_value, SL("form"), SL("Phalcon\\Html\\Helper\\Form"));
 	add_assoc_stringl_ex(return_value, SL("img"), SL("Phalcon\\Html\\Helper\\Img"));
+	add_assoc_stringl_ex(return_value, SL("inputColor"), SL("Phalcon\\Html\\Helper\\Input\\Color"));
+	add_assoc_stringl_ex(return_value, SL("inputDate"), SL("Phalcon\\Html\\Helper\\Input\\Date"));
+	add_assoc_stringl_ex(return_value, SL("inputDateTime"), SL("Phalcon\\Html\\Helper\\Input\\DateTime"));
+	add_assoc_stringl_ex(return_value, SL("inputDateTimeLocal"), SL("Phalcon\\Html\\Helper\\Input\\DateTimeLocal"));
+	add_assoc_stringl_ex(return_value, SL("inputEmail"), SL("Phalcon\\Html\\Helper\\Input\\Email"));
+	add_assoc_stringl_ex(return_value, SL("inputFile"), SL("Phalcon\\Html\\Helper\\Input\\File"));
+	add_assoc_stringl_ex(return_value, SL("inputHidden"), SL("Phalcon\\Html\\Helper\\Input\\Hidden"));
+	add_assoc_stringl_ex(return_value, SL("inputImage"), SL("Phalcon\\Html\\Helper\\Input\\Image"));
+	add_assoc_stringl_ex(return_value, SL("inputInput"), SL("Phalcon\\Html\\Helper\\Input\\Input"));
+	add_assoc_stringl_ex(return_value, SL("inputMonth"), SL("Phalcon\\Html\\Helper\\Input\\Month"));
+	add_assoc_stringl_ex(return_value, SL("inputNumeric"), SL("Phalcon\\Html\\Helper\\Input\\Numeric"));
+	add_assoc_stringl_ex(return_value, SL("inputPassword"), SL("Phalcon\\Html\\Helper\\Input\\Password"));
+	add_assoc_stringl_ex(return_value, SL("inputRange"), SL("Phalcon\\Html\\Helper\\Input\\Range"));
+	add_assoc_stringl_ex(return_value, SL("inputSelect"), SL("Phalcon\\Html\\Helper\\Input\\Select"));
+	add_assoc_stringl_ex(return_value, SL("inputSearch"), SL("Phalcon\\Html\\Helper\\Input\\Search"));
+	add_assoc_stringl_ex(return_value, SL("inputSubmit"), SL("Phalcon\\Html\\Helper\\Input\\Submit"));
+	add_assoc_stringl_ex(return_value, SL("inputTel"), SL("Phalcon\\Html\\Helper\\Input\\Tel"));
+	add_assoc_stringl_ex(return_value, SL("inputText"), SL("Phalcon\\Html\\Helper\\Input\\Text"));
+	add_assoc_stringl_ex(return_value, SL("inputTextarea"), SL("Phalcon\\Html\\Helper\\Input\\Textarea"));
+	add_assoc_stringl_ex(return_value, SL("inputTime"), SL("Phalcon\\Html\\Helper\\Input\\Time"));
+	add_assoc_stringl_ex(return_value, SL("inputUrl"), SL("Phalcon\\Html\\Helper\\Input\\Url"));
+	add_assoc_stringl_ex(return_value, SL("inputWeek"), SL("Phalcon\\Html\\Helper\\Input\\Week"));
 	add_assoc_stringl_ex(return_value, SL("label"), SL("Phalcon\\Html\\Helper\\Label"));
-	add_assoc_stringl_ex(return_value, SL("textarea"), SL("Phalcon\\Html\\Helper\\TextArea"));
+	add_assoc_stringl_ex(return_value, SL("link"), SL("Phalcon\\Html\\Helper\\Link"));
+	add_assoc_stringl_ex(return_value, SL("meta"), SL("Phalcon\\Html\\Helper\\Meta"));
+	add_assoc_stringl_ex(return_value, SL("ol"), SL("Phalcon\\Html\\Helper\\Ol"));
+	add_assoc_stringl_ex(return_value, SL("script"), SL("Phalcon\\Html\\Helper\\Script"));
+	add_assoc_stringl_ex(return_value, SL("style"), SL("Phalcon\\Html\\Helper\\Style"));
+	add_assoc_stringl_ex(return_value, SL("title"), SL("Phalcon\\Html\\Helper\\Title"));
+	add_assoc_stringl_ex(return_value, SL("ul"), SL("Phalcon\\Html\\Helper\\Ul"));
 	return;
 
 }

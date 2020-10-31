@@ -16,7 +16,7 @@ namespace Phalcon\Test\Integration\Storage\Adapter\Apcu;
 use Phalcon\Storage\Adapter\Apcu;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\ApcuTrait;
-use UnitTester;
+use IntegrationTester;
 
 class GetSetDefaultSerializerCest
 {
@@ -29,7 +29,7 @@ class GetSetDefaultSerializerCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-13
      */
-    public function storageAdapterApcuGetKeys(UnitTester $I)
+    public function storageAdapterApcuGetKeys(IntegrationTester $I)
     {
         $I->wantToTest('Storage\Adapter\Apcu - getDefaultSerializer()/setDefaultSerializer()');
 

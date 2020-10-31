@@ -77,7 +77,7 @@ PHP_METHOD(Phalcon_Cache, __construct) {
 
 
 
-	zephir_update_property_zval(this_ptr, SL("adapter"), adapter);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("adapter"), adapter);
 
 }
 
@@ -97,7 +97,7 @@ PHP_METHOD(Phalcon_Cache, clear) {
 
 	ZEPHIR_MM_GROW();
 
-	zephir_read_property(&_0, this_ptr, SL("adapter"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("adapter"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_METHOD(&_0, "clear", NULL, 0);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -130,7 +130,7 @@ PHP_METHOD(Phalcon_Cache, delete) {
 
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkkey", NULL, 0, key);
 	zephir_check_call_status();
-	zephir_read_property(&_0, this_ptr, SL("adapter"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("adapter"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_METHOD(&_0, "delete", NULL, 0, key);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -170,13 +170,13 @@ PHP_METHOD(Phalcon_Cache, deleteMultiple) {
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkkeys", NULL, 0, keys);
 	zephir_check_call_status();
 	result = 1;
-	zephir_is_iterable(keys, 0, "/home/nikos/Work/niden/cphalcon/phalcon/Cache.zep", 91);
+	zephir_is_iterable(keys, 0, "phalcon/Cache.zep", 91);
 	if (Z_TYPE_P(keys) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(keys), _0)
 		{
 			ZEPHIR_INIT_NVAR(&key);
 			ZVAL_COPY(&key, _0);
-			zephir_read_property(&_2$$3, this_ptr, SL("adapter"), PH_NOISY_CC | PH_READONLY);
+			zephir_read_property(&_2$$3, this_ptr, ZEND_STRL("adapter"), PH_NOISY_CC | PH_READONLY);
 			ZEPHIR_CALL_METHOD(&_3$$3, &_2$$3, "delete", NULL, 0, &key);
 			zephir_check_call_status();
 			if (!(zephir_is_true(&_3$$3))) {
@@ -194,7 +194,7 @@ PHP_METHOD(Phalcon_Cache, deleteMultiple) {
 			}
 			ZEPHIR_CALL_METHOD(&key, keys, "current", NULL, 0);
 			zephir_check_call_status();
-				zephir_read_property(&_4$$5, this_ptr, SL("adapter"), PH_NOISY_CC | PH_READONLY);
+				zephir_read_property(&_4$$5, this_ptr, ZEND_STRL("adapter"), PH_NOISY_CC | PH_READONLY);
 				ZEPHIR_CALL_METHOD(&_5$$5, &_4$$5, "delete", NULL, 0, &key);
 				zephir_check_call_status();
 				if (!(zephir_is_true(&_5$$5))) {
@@ -242,7 +242,7 @@ PHP_METHOD(Phalcon_Cache, get) {
 
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkkey", NULL, 0, key);
 	zephir_check_call_status();
-	zephir_read_property(&_0, this_ptr, SL("adapter"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("adapter"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_METHOD(&_0, "get", NULL, 0, key, defaultValue);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -290,7 +290,7 @@ PHP_METHOD(Phalcon_Cache, getMultiple) {
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&results);
 	array_init(&results);
-	zephir_is_iterable(keys, 0, "/home/nikos/Work/niden/cphalcon/phalcon/Cache.zep", 133);
+	zephir_is_iterable(keys, 0, "phalcon/Cache.zep", 133);
 	if (Z_TYPE_P(keys) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(keys), _0)
 		{
@@ -349,7 +349,7 @@ PHP_METHOD(Phalcon_Cache, has) {
 
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkkey", NULL, 0, key);
 	zephir_check_call_status();
-	zephir_read_property(&_0, this_ptr, SL("adapter"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("adapter"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_METHOD(&_0, "has", NULL, 0, key);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -393,7 +393,7 @@ PHP_METHOD(Phalcon_Cache, set) {
 
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkkey", NULL, 0, key);
 	zephir_check_call_status();
-	zephir_read_property(&_0, this_ptr, SL("adapter"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("adapter"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_METHOD(&_0, "set", NULL, 0, key, value, ttl);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -444,7 +444,7 @@ PHP_METHOD(Phalcon_Cache, setMultiple) {
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkkeys", NULL, 0, values);
 	zephir_check_call_status();
 	result = 1;
-	zephir_is_iterable(values, 0, "/home/nikos/Work/niden/cphalcon/phalcon/Cache.zep", 198);
+	zephir_is_iterable(values, 0, "phalcon/Cache.zep", 198);
 	if (Z_TYPE_P(values) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(values), _2, _3, _0)
 		{
@@ -523,7 +523,7 @@ PHP_METHOD(Phalcon_Cache, checkKey) {
 	ZVAL_STRING(&_4, "/[^A-Za-z0-9-_.]/");
 	zephir_preg_match(&_3, &_4, key, &_1, 0, 0 , 0 );
 	if (zephir_is_true(&_3)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_invalidargumentexception_ce, "The key contains invalid characters", "/home/nikos/Work/niden/cphalcon/phalcon/Cache.zep", 211);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_invalidargumentexception_ce, "The key contains invalid characters", "phalcon/Cache.zep", 211);
 		return;
 	}
 	ZEPHIR_MM_RESTORE();
@@ -550,7 +550,7 @@ PHP_METHOD(Phalcon_Cache, checkKeys) {
 		_0 = zephir_zval_is_traversable(keys);
 	}
 	if (!(_0)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_cache_exception_invalidargumentexception_ce, "The keys need to be an array or instance of Traversable", "/home/nikos/Work/niden/cphalcon/phalcon/Cache.zep", 223);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_cache_exception_invalidargumentexception_ce, "The keys need to be an array or instance of Traversable", "phalcon/Cache.zep", 223);
 		return;
 	}
 

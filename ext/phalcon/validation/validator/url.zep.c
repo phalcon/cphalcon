@@ -139,14 +139,14 @@ PHP_METHOD(Phalcon_Validation_Validator_Url, validate) {
 	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, 0, field);
 	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(&options);
-	zephir_read_property(&_0, this_ptr, SL("options"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("options"), PH_NOISY_CC | PH_READONLY);
 	if (zephir_array_isset_string_fetch(&options, &_0, SL("options"), 0)) {
 		ZVAL_LONG(&_1$$3, 273);
-		ZEPHIR_CALL_FUNCTION(&result, "filter_var", NULL, 240, &value, &_1$$3, &options);
+		ZEPHIR_CALL_FUNCTION(&result, "filter_var", NULL, 257, &value, &_1$$3, &options);
 		zephir_check_call_status();
 	} else {
 		ZVAL_LONG(&_2$$4, 273);
-		ZEPHIR_CALL_FUNCTION(&result, "filter_var", NULL, 240, &value, &_2$$4);
+		ZEPHIR_CALL_FUNCTION(&result, "filter_var", NULL, 257, &value, &_2$$4);
 		zephir_check_call_status();
 	}
 	if (!(zephir_is_true(&result))) {

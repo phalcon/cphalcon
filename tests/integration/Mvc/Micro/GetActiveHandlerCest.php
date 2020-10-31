@@ -14,6 +14,12 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Mvc\Micro;
 
 use IntegrationTester;
+use Phalcon\Mvc\Micro;
+use Phalcon\Mvc\Micro\Collection;
+use Phalcon\Mvc\Micro\LazyLoader;
+use Phalcon\Test\Fixtures\Micro\RestHandler;
+
+use function is_array;
 
 /**
  * Class GetActiveHandlerCest
@@ -30,5 +36,34 @@ class GetActiveHandlerCest
     {
         $I->wantToTest('Mvc\Micro - getActiveHandler()');
         $I->skipTest('Need implementation');
+    }
+
+    /**
+     * Tests Phalcon\Mvc\Micro :: getActiveHandler() with lazy loader
+     *
+     * @author Jurigag <https://github.com/Jurigag>
+     * @since  2020-01-21
+     */
+    public function mvcMicroGetActiveHandlerLazyLoader(IntegrationTester $I)
+    {
+        $I->wantToTest('Mvc\Micro - getActiveHandler() with lazy loader');
+
+        $app        = new Micro();
+        $collection = new Collection();
+
+        $collection->setHandler(RestHandler::class, true);
+
+        $collection->map('/', 'find');
+        $app->mount($collection);
+
+
+        $app->handle('/');
+
+        $result = $app->getActiveHandler();
+        $I->assertTrue(is_array($result));
+
+        $handler = $result[0];
+        $I->assertInstanceOf(LazyLoader::class, $handler);
+        $I->assertInstanceOf(RestHandler::class, $handler->getHandler());
     }
 }

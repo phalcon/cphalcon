@@ -155,7 +155,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Callback, validate) {
 			ZEPHIR_CALL_METHOD(&data, validation, "getdata", NULL, 0);
 			zephir_check_call_status();
 		}
-		ZEPHIR_CALL_FUNCTION(&returnedValue, "call_user_func", NULL, 257, &callback, &data);
+		ZEPHIR_CALL_FUNCTION(&returnedValue, "call_user_func", NULL, 275, &callback, &data);
 		zephir_check_call_status();
 		_1$$3 = Z_TYPE_P(&returnedValue) == IS_OBJECT;
 		if (_1$$3) {
@@ -175,7 +175,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Callback, validate) {
 			zephir_check_call_status();
 			RETURN_MM();
 		}
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_validator_exception_ce, "Callback must return bool or Phalcon\\Validation\\Validator object", "/home/nikos/Work/niden/cphalcon/phalcon/Validation/Validator/Callback.zep", 115);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_validation_validator_exception_ce, "Callback must return bool or Phalcon\\Validation\\Validator object", "phalcon/Validation/Validator/Callback.zep", 115);
 		return;
 	}
 	RETURN_MM_BOOL(1);

@@ -7,8 +7,16 @@
     "framework",
     "high load",
     "mvc",
+    "psr-3",
+    "psr-4",
     "psr-7",
-    "psr-17"
+    "psr-11",
+    "psr-13",
+    "psr-14",
+    "psr-15",
+    "psr-16",
+    "psr-17",
+    "psr-18"
   ],
   "license": "BSD-3-Clause",
   "authors": [
@@ -46,7 +54,7 @@
     "ext-json": "*",
     "ext-libxml": "*",
     "ext-mbstring": "*",
-    "ext-psr": "^0.7|1.0",
+    "ext-psr": "^0.7|^1.0",
     "ext-xml": "*",
     "ext-redis": "*",
     "ext-igbinary": "*",
@@ -80,7 +88,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Zephir\\Optimizers\\": "optimizers/",
+      "Zephir\\Optimizers\\FunctionCall\\": "optimizers/",
       "Phalcon\\Test\\Unit\\": "tests/unit/",
       "Phalcon\\Test\\Integration\\": "tests/integration/",
       "Phalcon\\Test\\Controllers\\": "tests/_data/fixtures/controllers/",

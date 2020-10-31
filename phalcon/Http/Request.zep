@@ -147,6 +147,29 @@ class Request extends AbstractInjectionAware implements RequestInterface
     }
 
     /**
+     * Gets the preferred ISO locale variant.
+     *
+     * Gets the preferred locale accepted by the client from the
+     * "Accept-Language" request HTTP header and returns the
+     * base part of it i.e. `en` instead of `en-US`.
+     *
+     * Note: This method relies on the `$_SERVER["HTTP_ACCEPT_LANGUAGE"]` header.
+     *
+     * @link https://www.iso.org/standard/50707.html
+     */
+    public function getPreferredIsoLocaleVariant() -> string
+    {
+        var language;
+
+        let language = this->getBestLanguage(),
+            language = explode("-", language),
+            language = language[0],
+            language = "*" === language ? "" : language;
+
+        return language;
+    }
+
+    /**
      * Gets most possible client IPv4 Address. This method searches in
      * `$_SERVER["REMOTE_ADDR"]` and optionally in
      * `$_SERVER["HTTP_X_FORWARDED_FOR"]`

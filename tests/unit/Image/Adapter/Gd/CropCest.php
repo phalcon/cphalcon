@@ -31,6 +31,8 @@ class CropCest
     {
         $I->wantToTest('Image\Adapter\Gd - crop()');
 
+        $this->checkJpegSupport($I);
+
         $image = new Gd(
             dataDir('assets/images/phalconphp.jpg')
         );
@@ -77,6 +79,8 @@ class CropCest
     public function imageAdapterGdCropJpgWithOffset(UnitTester $I)
     {
         $I->wantToTest('Image\Adapter\Gd - crop()');
+
+        $this->checkJpegSupport($I);
 
         $image = new Gd(
             dataDir('assets/images/phalconphp.jpg')

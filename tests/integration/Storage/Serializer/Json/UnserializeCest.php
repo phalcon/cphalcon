@@ -16,7 +16,7 @@ namespace Phalcon\Test\Integration\Storage\Serializer\Json;
 use Codeception\Example;
 use Phalcon\Storage\Serializer\Json;
 use stdClass;
-use UnitTester;
+use IntegrationTester;
 
 class UnserializeCest
 {
@@ -28,7 +28,7 @@ class UnserializeCest
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2019-03-30
      */
-    public function storageSerializerJsonUnserialize(UnitTester $I, Example $example)
+    public function storageSerializerJsonUnserialize(IntegrationTester $I, Example $example)
     {
         $I->wantToTest('Storage\Serializer\Json - unserialize() - ' . $example[0]);
         $serializer = new Json();

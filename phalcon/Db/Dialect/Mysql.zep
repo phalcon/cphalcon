@@ -212,6 +212,13 @@ class Mysql extends Dialect
                 let columnLine .= " PRIMARY KEY";
             }
 
+            /**
+             * Add a COMMENT clause
+             */
+             if column->getComment() {
+                let columnLine .= " COMMENT '" . column->getComment() . "'";
+            }
+
             let createLines[] = columnLine;
         }
 
@@ -298,7 +305,7 @@ class Mysql extends Dialect
      */
     public function describeColumns(string! table, string schema = null) -> string
     {
-        return "DESCRIBE " . this->prepareTable(table, schema);
+        return "SHOW FULL COLUMNS FROM " . this->prepareTable(table, schema);
     }
 
     /**
@@ -456,6 +463,10 @@ class Mysql extends Dialect
                     let columnSql .= "DATETIME";
                 }
 
+                if column->getSize() > 0 {
+                    let columnSql .= this->getColumnSize(column);
+                }
+
                 break;
 
             case Column::TYPE_DECIMAL:
@@ -568,11 +579,19 @@ class Mysql extends Dialect
                     let columnSql .= "TIME";
                 }
 
+                if column->getSize() > 0 {
+                    let columnSql .= this->getColumnSize(column);
+                }
+
                 break;
 
             case Column::TYPE_TIMESTAMP:
                 if empty columnSql {
                     let columnSql .= "TIMESTAMP";
+                }
+
+                if column->getSize() > 0 {
+                    let columnSql .= this->getColumnSize(column);
                 }
 
                 break;
@@ -718,6 +737,13 @@ class Mysql extends Dialect
 
         if column->isAutoIncrement() {
             let sql .= " AUTO_INCREMENT";
+        }
+
+        /**
+        * Add a COMMENT clause
+        */
+        if column->getComment() {
+            let sql .= " COMMENT '" . column->getComment() . "'";
         }
 
         if column->isFirst() {

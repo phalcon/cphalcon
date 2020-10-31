@@ -17,6 +17,7 @@ PHP_METHOD(Phalcon_Mvc_Model, average);
 PHP_METHOD(Phalcon_Mvc_Model, cloneResult);
 PHP_METHOD(Phalcon_Mvc_Model, cloneResultMap);
 PHP_METHOD(Phalcon_Mvc_Model, cloneResultMapHydrate);
+PHP_METHOD(Phalcon_Mvc_Model, collectRelatedToSave);
 PHP_METHOD(Phalcon_Mvc_Model, count);
 PHP_METHOD(Phalcon_Mvc_Model, create);
 PHP_METHOD(Phalcon_Mvc_Model, delete);
@@ -73,18 +74,28 @@ PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysRestrict);
 PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseCascade);
 PHP_METHOD(Phalcon_Mvc_Model, _checkForeignKeysReverseRestrict);
 PHP_METHOD(Phalcon_Mvc_Model, _doLowInsert);
+PHP_METHOD(Phalcon_Mvc_Model, doLowInsert);
 PHP_METHOD(Phalcon_Mvc_Model, _doLowUpdate);
+PHP_METHOD(Phalcon_Mvc_Model, doLowUpdate);
 PHP_METHOD(Phalcon_Mvc_Model, _exists);
+PHP_METHOD(Phalcon_Mvc_Model, exists);
 PHP_METHOD(Phalcon_Mvc_Model, _getRelatedRecords);
+PHP_METHOD(Phalcon_Mvc_Model, getRelatedRecords);
 PHP_METHOD(Phalcon_Mvc_Model, _groupResult);
+PHP_METHOD(Phalcon_Mvc_Model, groupResult);
 PHP_METHOD(Phalcon_Mvc_Model, _invokeFinder);
 PHP_METHOD(Phalcon_Mvc_Model, _possibleSetter);
 PHP_METHOD(Phalcon_Mvc_Model, _preSave);
+PHP_METHOD(Phalcon_Mvc_Model, preSave);
 PHP_METHOD(Phalcon_Mvc_Model, _preSaveRelatedRecords);
+PHP_METHOD(Phalcon_Mvc_Model, preSaveRelatedRecords);
 PHP_METHOD(Phalcon_Mvc_Model, _postSave);
+PHP_METHOD(Phalcon_Mvc_Model, postSave);
 PHP_METHOD(Phalcon_Mvc_Model, _postSaveRelatedRecords);
+PHP_METHOD(Phalcon_Mvc_Model, postSaveRelatedRecords);
 PHP_METHOD(Phalcon_Mvc_Model, allowEmptyStringValues);
 PHP_METHOD(Phalcon_Mvc_Model, _cancelOperation);
+PHP_METHOD(Phalcon_Mvc_Model, cancelOperation);
 PHP_METHOD(Phalcon_Mvc_Model, belongsTo);
 PHP_METHOD(Phalcon_Mvc_Model, getPreparedQuery);
 PHP_METHOD(Phalcon_Mvc_Model, hasMany);
@@ -236,6 +247,13 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_cloneresultmaphydrate, 0, 0, 3)
 #endif
 ZEND_END_ARG_INFO()
 
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_collectrelatedtosave, 0, 0, IS_ARRAY, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_collectrelatedtosave, 0, 0, IS_ARRAY, NULL, 0)
+#endif
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_count, 0, 0, 0)
 	ZEND_ARG_INFO(0, parameters)
 ZEND_END_ARG_INFO()
@@ -269,7 +287,11 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_find, 0, 0, IS
 	ZEND_ARG_INFO(0, parameters)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_findfirst, 0, 0, 0)
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_findfirst, 0, 0, Phalcon\\Mvc\\ModelInterface, 1)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_findfirst, 0, 0, IS_OBJECT, "Phalcon\\Mvc\\ModelInterface", 1)
+#endif
 	ZEND_ARG_INFO(0, parameters)
 ZEND_END_ARG_INFO()
 
@@ -717,6 +739,17 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model__dolowinsert, 
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_dolowinsert, 0, 4, _IS_BOOL, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_dolowinsert, 0, 4, _IS_BOOL, NULL, 0)
+#endif
+	ZEND_ARG_OBJ_INFO(0, metaData, Phalcon\\Mvc\\Model\\MetaDataInterface, 0)
+	ZEND_ARG_OBJ_INFO(0, connection, Phalcon\\Db\\Adapter\\AdapterInterface, 0)
+	ZEND_ARG_INFO(0, table)
+	ZEND_ARG_INFO(0, identityField)
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model__dolowupdate, 0, 3, _IS_BOOL, 0)
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model__dolowupdate, 0, 3, _IS_BOOL, NULL, 0)
@@ -727,9 +760,28 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model__dolowupdate, 
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_dolowupdate, 0, 3, _IS_BOOL, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_dolowupdate, 0, 3, _IS_BOOL, NULL, 0)
+#endif
+	ZEND_ARG_OBJ_INFO(0, metaData, Phalcon\\Mvc\\Model\\MetaDataInterface, 0)
+	ZEND_ARG_OBJ_INFO(0, connection, Phalcon\\Db\\Adapter\\AdapterInterface, 0)
+	ZEND_ARG_INFO(0, table)
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model__exists, 0, 2, _IS_BOOL, 0)
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model__exists, 0, 2, _IS_BOOL, NULL, 0)
+#endif
+	ZEND_ARG_OBJ_INFO(0, metaData, Phalcon\\Mvc\\Model\\MetaDataInterface, 0)
+	ZEND_ARG_OBJ_INFO(0, connection, Phalcon\\Db\\Adapter\\AdapterInterface, 0)
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_exists, 0, 2, _IS_BOOL, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_exists, 0, 2, _IS_BOOL, NULL, 0)
 #endif
 	ZEND_ARG_OBJ_INFO(0, metaData, Phalcon\\Mvc\\Model\\MetaDataInterface, 0)
 	ZEND_ARG_OBJ_INFO(0, connection, Phalcon\\Db\\Adapter\\AdapterInterface, 0)
@@ -749,10 +801,42 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model__getrelatedrecords, 0, 0, 3)
 	ZEND_ARG_ARRAY_INFO(0, arguments, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_getrelatedrecords, 0, 0, 3)
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, modelName, IS_STRING, 0)
+#else
+	ZEND_ARG_INFO(0, modelName)
+#endif
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, method, IS_STRING, 0)
+#else
+	ZEND_ARG_INFO(0, method)
+#endif
+	ZEND_ARG_ARRAY_INFO(0, arguments, 0)
+ZEND_END_ARG_INFO()
+
 #if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model__groupresult, 0, 3, Phalcon\\Mvc\\Model\\ResultsetInterface, 0)
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model__groupresult, 0, 3, IS_OBJECT, "Phalcon\\Mvc\\Model\\ResultsetInterface", 0)
+#endif
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, functionName, IS_STRING, 0)
+#else
+	ZEND_ARG_INFO(0, functionName)
+#endif
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, alias, IS_STRING, 0)
+#else
+	ZEND_ARG_INFO(0, alias)
+#endif
+	ZEND_ARG_INFO(0, parameters)
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_groupresult, 0, 3, Phalcon\\Mvc\\Model\\ResultsetInterface, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_groupresult, 0, 3, IS_OBJECT, "Phalcon\\Mvc\\Model\\ResultsetInterface", 0)
 #endif
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, functionName, IS_STRING, 0)
@@ -804,9 +888,32 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model__presave, 0, 3
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_presave, 0, 3, _IS_BOOL, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_presave, 0, 3, _IS_BOOL, NULL, 0)
+#endif
+	ZEND_ARG_OBJ_INFO(0, metaData, Phalcon\\Mvc\\Model\\MetaDataInterface, 0)
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, exists, _IS_BOOL, 0)
+#else
+	ZEND_ARG_INFO(0, exists)
+#endif
+	ZEND_ARG_INFO(0, identityField)
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model__presaverelatedrecords, 0, 2, _IS_BOOL, 0)
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model__presaverelatedrecords, 0, 2, _IS_BOOL, NULL, 0)
+#endif
+	ZEND_ARG_OBJ_INFO(0, connection, Phalcon\\Db\\Adapter\\AdapterInterface, 0)
+	ZEND_ARG_INFO(0, related)
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_presaverelatedrecords, 0, 2, _IS_BOOL, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_presaverelatedrecords, 0, 2, _IS_BOOL, NULL, 0)
 #endif
 	ZEND_ARG_OBJ_INFO(0, connection, Phalcon\\Db\\Adapter\\AdapterInterface, 0)
 	ZEND_ARG_INFO(0, related)
@@ -830,9 +937,35 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model__postsave, 0, 
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_postsave, 0, 2, _IS_BOOL, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_postsave, 0, 2, _IS_BOOL, NULL, 0)
+#endif
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, success, _IS_BOOL, 0)
+#else
+	ZEND_ARG_INFO(0, success)
+#endif
+#if PHP_VERSION_ID >= 70200
+	ZEND_ARG_TYPE_INFO(0, exists, _IS_BOOL, 0)
+#else
+	ZEND_ARG_INFO(0, exists)
+#endif
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model__postsaverelatedrecords, 0, 2, _IS_BOOL, 0)
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model__postsaverelatedrecords, 0, 2, _IS_BOOL, NULL, 0)
+#endif
+	ZEND_ARG_OBJ_INFO(0, connection, Phalcon\\Db\\Adapter\\AdapterInterface, 0)
+	ZEND_ARG_INFO(0, related)
+ZEND_END_ARG_INFO()
+
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_postsaverelatedrecords, 0, 2, _IS_BOOL, 0)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_postsaverelatedrecords, 0, 2, _IS_BOOL, NULL, 0)
 #endif
 	ZEND_ARG_OBJ_INFO(0, connection, Phalcon\\Db\\Adapter\\AdapterInterface, 0)
 	ZEND_ARG_INFO(0, related)
@@ -1081,6 +1214,7 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model, cloneResult, arginfo_phalcon_mvc_model_cloneresult, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Model, cloneResultMap, arginfo_phalcon_mvc_model_cloneresultmap, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Model, cloneResultMapHydrate, arginfo_phalcon_mvc_model_cloneresultmaphydrate, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Mvc_Model, collectRelatedToSave, arginfo_phalcon_mvc_model_collectrelatedtosave, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, count, arginfo_phalcon_mvc_model_count, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Model, create, arginfo_phalcon_mvc_model_create, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model, delete, arginfo_phalcon_mvc_model_delete, ZEND_ACC_PUBLIC)
@@ -1137,18 +1271,28 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model, _checkForeignKeysReverseCascade, arginfo_phalcon_mvc_model__checkforeignkeysreversecascade, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, _checkForeignKeysReverseRestrict, arginfo_phalcon_mvc_model__checkforeignkeysreverserestrict, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, _doLowInsert, arginfo_phalcon_mvc_model__dolowinsert, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model, doLowInsert, arginfo_phalcon_mvc_model_dolowinsert, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, _doLowUpdate, arginfo_phalcon_mvc_model__dolowupdate, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model, doLowUpdate, arginfo_phalcon_mvc_model_dolowupdate, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, _exists, arginfo_phalcon_mvc_model__exists, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model, exists, arginfo_phalcon_mvc_model_exists, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, _getRelatedRecords, arginfo_phalcon_mvc_model__getrelatedrecords, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model, getRelatedRecords, arginfo_phalcon_mvc_model_getrelatedrecords, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, _groupResult, arginfo_phalcon_mvc_model__groupresult, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
+	PHP_ME(Phalcon_Mvc_Model, groupResult, arginfo_phalcon_mvc_model_groupresult, ZEND_ACC_PROTECTED|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Model, _invokeFinder, arginfo_phalcon_mvc_model__invokefinder, ZEND_ACC_PROTECTED|ZEND_ACC_FINAL|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Model, _possibleSetter, arginfo_phalcon_mvc_model__possiblesetter, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, _preSave, arginfo_phalcon_mvc_model__presave, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model, preSave, arginfo_phalcon_mvc_model_presave, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, _preSaveRelatedRecords, arginfo_phalcon_mvc_model__presaverelatedrecords, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model, preSaveRelatedRecords, arginfo_phalcon_mvc_model_presaverelatedrecords, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, _postSave, arginfo_phalcon_mvc_model__postsave, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model, postSave, arginfo_phalcon_mvc_model_postsave, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, _postSaveRelatedRecords, arginfo_phalcon_mvc_model__postsaverelatedrecords, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model, postSaveRelatedRecords, arginfo_phalcon_mvc_model_postsaverelatedrecords, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, allowEmptyStringValues, arginfo_phalcon_mvc_model_allowemptystringvalues, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, _cancelOperation, NULL, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Mvc_Model, cancelOperation, NULL, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, belongsTo, arginfo_phalcon_mvc_model_belongsto, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Mvc_Model, getPreparedQuery, arginfo_phalcon_mvc_model_getpreparedquery, ZEND_ACC_PRIVATE|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Mvc_Model, hasMany, arginfo_phalcon_mvc_model_hasmany, ZEND_ACC_PROTECTED)

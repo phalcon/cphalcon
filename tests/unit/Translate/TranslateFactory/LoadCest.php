@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Translate\Factory;
+namespace Phalcon\Test\Unit\Translate\TranslateFactory;
 
 use Phalcon\Test\Fixtures\Traits\FactoryTrait;
 use Phalcon\Translate\Adapter\Gettext;

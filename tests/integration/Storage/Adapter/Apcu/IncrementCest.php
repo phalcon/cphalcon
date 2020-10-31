@@ -16,7 +16,7 @@ namespace Phalcon\Test\Integration\Storage\Adapter\Apcu;
 use Phalcon\Storage\Adapter\Apcu;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Traits\ApcuTrait;
-use UnitTester;
+use IntegrationTester;
 
 class IncrementCest
 {
@@ -28,7 +28,7 @@ class IncrementCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-03-31
      */
-    public function storageAdapterApcuIncrement(UnitTester $I)
+    public function storageAdapterApcuIncrement(IntegrationTester $I)
     {
         $I->wantToTest('Storage\Adapter\Apcu - increment()');
 

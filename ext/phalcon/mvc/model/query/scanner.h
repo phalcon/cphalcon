@@ -8,6 +8,9 @@
  * LICENSE.txt file that was distributed with this source code.
  */
 
+#ifndef PHALCON_MVC_MODEL_QUERY_SCANNER_H
+#define PHALCON_MVC_MODEL_QUERY_SCANNER_H
+
 #define PHQL_SCANNER_RETCODE_EOF -1
 #define PHQL_SCANNER_RETCODE_ERR -2
 #define PHQL_SCANNER_RETCODE_IMPOSSIBLE -3
@@ -162,3 +165,5 @@ typedef struct _phql_scanner_token {
 int phql_get_token(phql_scanner_state *s, phql_scanner_token *token);
 
 extern const phql_token_names phql_tokens[];
+
+#endif  /* PHALCON_MVC_MODEL_QUERY_SCANNER_H */

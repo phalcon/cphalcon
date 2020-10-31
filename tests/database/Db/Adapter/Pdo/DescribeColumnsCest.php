@@ -30,7 +30,8 @@ final class DescribeColumnsCest
     /**
      * Executed before each test
      *
-     * @param  DatabaseTester $I
+     * @param DatabaseTester $I
+     *
      * @return void
      */
     public function _before(DatabaseTester $I): void
@@ -49,7 +50,7 @@ final class DescribeColumnsCest
     /**
      * Tests Phalcon\Db\Adapter\Pdo :: describeColumns()
      *
-     * @param  DatabaseTester $I
+     * @param DatabaseTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-03-02
@@ -74,7 +75,7 @@ final class DescribeColumnsCest
     /**
      * Tests Phalcon\Db\Adapter\Pdo :: describeColumns()
      *
-     * @param  DatabaseTester $I
+     * @param DatabaseTester $I
      *
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2020-03-09
@@ -92,12 +93,7 @@ final class DescribeColumnsCest
 
         $columns = $db->describeColumns($this->migration->getTable());
 
-        $I->assertSame('CURRENT_TIMESTAMP', $columns[1]->getDefault());
-
-        if ($I->getDriver() === 'mysql') {
-            $I->assertSame('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP', $columns[2]->getDefault());
-        } else {
-            $I->assertSame('CURRENT_TIMESTAMP', $columns[2]->getDefault());
-        }
+        $I->assertRegexp('/CURRENT_TIMESTAMP|now\(\)/i', $columns[1]->getDefault());
+        $I->assertRegexp('/CURRENT_TIMESTAMP|now\(\)/i', $columns[2]->getDefault());
     }
 }

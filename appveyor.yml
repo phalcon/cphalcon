@@ -5,7 +5,7 @@
 # For the full copyright and license information, please view
 # the LICENSE.txt file that was distributed with this source code.
 
-version: 4.0.6+{build}
+version: 4.1.0+{build}
 
 environment:
   matrix:
@@ -42,9 +42,9 @@ environment:
   PHP_AVM: https://raw.githubusercontent.com/sergeyklay/php-appveyor/master/php-appveyor.psm1
 
   PHP_SDK_VERSION: 2.1.9
-  ZEPHIR_PARSER_VERSION: 1.3.3
-  ZEPHIR_PARSER_RELEASE: 514
-  ZEPHIR_VERSION: 0.12.17
+  ZEPHIR_PARSER_VERSION: 1.3.4
+  ZEPHIR_PARSER_RELEASE: 526
+  ZEPHIR_VERSION: 0.12.19
 
   TEST_PHP_EXECUTABLE: C:\php\php.exe
   NO_INTERACTION: 1
@@ -105,6 +105,15 @@ install:
         -Platform   $Env:PLATFORM
 
   - ps: >-
+      InstallPeclExtension `
+        -Name       msgpack `
+        -Version    2.1.0 `
+        -PhpVersion $Env:PHP_VERSION `
+        -BuildType  $Env:BUILD_TYPE `
+        -VC         $Env:VC_VERSION `
+        -Platform   $Env:PLATFORM
+
+  - ps: >-
       InstallZephirParser `
         -Version    $Env:ZEPHIR_PARSER_VERSION `
         -BuildId    $Env:ZEPHIR_PARSER_RELEASE `
@@ -116,6 +125,7 @@ install:
 before_build:
   - ps: EnablePhpExtension -Name psr
   - ps: EnablePhpExtension -Name redis
+  - ps: EnablePhpExtension -Name msgpack
   - ps: EnablePhpExtension -Name zephir_parser -PrintableName "Zephir Parser"
 
 build_script:

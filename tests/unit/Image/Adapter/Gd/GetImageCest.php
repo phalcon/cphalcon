@@ -29,7 +29,7 @@ class GetImageCest
      */
     public function imageAdapterGdGetImage(UnitTester $I)
     {
-        $I->wantToTest('Image\Adapter\Gd - getImage() - from jpg image');
+        $I->wantToTest('Image\Adapter\Gd - getImage()');
 
         foreach ($this->getImages() as $image) {
             $gd = new Gd($image);

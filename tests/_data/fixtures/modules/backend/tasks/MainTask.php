@@ -1,6 +1,6 @@
 <?php
 
-namespace Phalcon\Test\Fixtures\Modules\Backend\Tasks;
+namespace Phalcon\Test\Modules\Backend\Tasks;
 
 class MainTask extends \Phalcon\CLI\Task
 {

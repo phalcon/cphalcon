@@ -15,7 +15,7 @@ namespace Phalcon\Test\Integration\Storage\Adapter\Memory;
 
 use Phalcon\Storage\Adapter\Memory;
 use Phalcon\Storage\SerializerFactory;
-use UnitTester;
+use IntegrationTester;
 
 class GetSetDefaultSerializerCest
 {
@@ -26,7 +26,7 @@ class GetSetDefaultSerializerCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-13
      */
-    public function storageAdapterMemoryGetKeys(UnitTester $I)
+    public function storageAdapterMemoryGetKeys(IntegrationTester $I)
     {
         $I->wantToTest('Storage\Adapter\Memory - getDefaultSerializer()/setDefaultSerializer()');
 

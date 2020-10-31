@@ -19,7 +19,7 @@ use Phalcon\Storage\Adapter\AdapterInterface;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Storage\Adapter\Libmemcached;
 use Phalcon\Test\Fixtures\Traits\LibmemcachedTrait;
-use UnitTester;
+use IntegrationTester;
 
 use function getOptionsLibmemcached;
 
@@ -33,7 +33,7 @@ class ConstructCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-09
      */
-    public function storageAdapterLibmemcachedConstruct(UnitTester $I)
+    public function storageAdapterLibmemcachedConstruct(IntegrationTester $I)
     {
         $I->wantToTest('Storage\Adapter\Libmemcached - __construct()');
 
@@ -62,7 +62,7 @@ class ConstructCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-09
      */
-    public function storageAdapterLibmemcachedConstructEmptyOptions(UnitTester $I)
+    public function storageAdapterLibmemcachedConstructEmptyOptions(IntegrationTester $I)
     {
         $I->wantToTest('Storage\Adapter\Libmemcached - __construct() - empty options');
 
@@ -94,7 +94,7 @@ class ConstructCest
      *
      * @author Phalcon Team <team@phalcon.io>
      */
-    public function storageAdapterLibmemcachedConstructGetTtl(UnitTester $I)
+    public function storageAdapterLibmemcachedConstructGetTtl(IntegrationTester $I)
     {
         $I->wantToTest('Storage\Adapter\Libmemcached - __construct() - getTtl');
 

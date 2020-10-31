@@ -35,7 +35,7 @@ class CustomersKeepSnapshots extends Model
         $this->keepSnapshots(true);
         $this->setSource('co_customers');
 
-        $this->belongsTo(
+        $this->hasMany(
             'cst_id',
             InvoicesKeepSnapshots::class,
             'inv_cst_id',

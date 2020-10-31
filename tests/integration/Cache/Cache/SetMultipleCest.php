@@ -17,7 +17,7 @@ use Phalcon\Cache;
 use Phalcon\Cache\AdapterFactory;
 use Phalcon\Cache\Exception\InvalidArgumentException;
 use Phalcon\Storage\SerializerFactory;
-use UnitTester;
+use IntegrationTester;
 
 use function uniqid;
 
@@ -29,7 +29,7 @@ class SetMultipleCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-01
      */
-    public function cacheCacheSetMultiple(UnitTester $I)
+    public function cacheCacheSetMultiple(IntegrationTester $I)
     {
         $I->wantToTest('Cache\Cache - setMultiple()');
 
@@ -71,7 +71,7 @@ class SetMultipleCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-01
      */
-    public function cacheCacheSetMultipleException(UnitTester $I)
+    public function cacheCacheSetMultipleException(IntegrationTester $I)
     {
         $I->wantToTest('Cache\Cache - setMultiple() - exception');
 

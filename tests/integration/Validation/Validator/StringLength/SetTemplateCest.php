@@ -11,10 +11,10 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Validation\Validator\StringLength;
+namespace Phalcon\Test\Integration\Validation\Validator\StringLength;
 
 use Phalcon\Validation\Validator\StringLength;
-use UnitTester;
+use IntegrationTester;
 
 class SetTemplateCest
 {
@@ -24,7 +24,7 @@ class SetTemplateCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-23
      */
-    public function validationValidatorStringLengthSetTemplate(UnitTester $I)
+    public function validationValidatorStringLengthSetTemplate(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\StringLength - setTemplate()');
 

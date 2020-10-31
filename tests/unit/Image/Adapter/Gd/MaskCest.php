@@ -31,6 +31,8 @@ class MaskCest
     {
         $I->wantToTest('Image\Adapter\Gd - mask()');
 
+        $this->checkJpegSupport($I);
+
         $image = new Gd(
             dataDir('assets/images/logo.png')
         );

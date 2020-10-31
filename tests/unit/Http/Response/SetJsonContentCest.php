@@ -45,7 +45,7 @@ class SetJsonContentCest
         //Check Header
         $I->assertSame(
             $oResponse->getHeaders()->get('Content-Type'),
-            "application/json; charset=UTF-8"
+            "application/json"
         );
 
         //With option

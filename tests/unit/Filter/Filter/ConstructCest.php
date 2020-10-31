@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Filter\Locator;
+namespace Phalcon\Test\Unit\Filter\Filter;
 
 use Phalcon\Filter;
 use Phalcon\Filter\Exception;

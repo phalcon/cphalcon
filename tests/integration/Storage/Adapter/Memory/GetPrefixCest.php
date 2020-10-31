@@ -15,7 +15,7 @@ namespace Phalcon\Test\Integration\Storage\Adapter\Memory;
 
 use Phalcon\Storage\Adapter\Memory;
 use Phalcon\Storage\SerializerFactory;
-use UnitTester;
+use IntegrationTester;
 
 class GetPrefixCest
 {
@@ -25,7 +25,7 @@ class GetPrefixCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-03-31
      */
-    public function storageAdapterMemoryGetSetPrefix(UnitTester $I)
+    public function storageAdapterMemoryGetSetPrefix(IntegrationTester $I)
     {
         $I->wantToTest('Storage\Adapter\Memory - getPrefix()');
 
@@ -50,7 +50,7 @@ class GetPrefixCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-03-31
      */
-    public function storageAdapterMemoryGetSetPrefixDefault(UnitTester $I)
+    public function storageAdapterMemoryGetSetPrefixDefault(IntegrationTester $I)
     {
         $I->wantToTest('Storage\Adapter\Memory - getPrefix() - default');
 

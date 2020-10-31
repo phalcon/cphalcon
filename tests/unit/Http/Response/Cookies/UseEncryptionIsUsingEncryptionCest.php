@@ -18,7 +18,7 @@ use Phalcon\Test\Fixtures\Traits\CookieTrait;
 use Phalcon\Test\Unit\Http\Helper\HttpBase;
 use UnitTester;
 
-class IsUsingEncryptionCest extends HttpBase
+class UseEncryptionIsUsingEncryptionCest extends HttpBase
 {
     use CookieTrait;
 

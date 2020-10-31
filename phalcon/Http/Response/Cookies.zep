@@ -243,7 +243,7 @@ class Cookies extends AbstractInjectionAware implements CookiesInterface
             let cookie =
                 <CookieInterface> this->container->get(
                     "Phalcon\\Http\\Cookie",
-                    [name, value, expire, path, secure, domain, httpOnly]
+                    [name, value, expire, path, secure, domain, httpOnly, options]
                 );
 
             /**
@@ -271,6 +271,7 @@ class Cookies extends AbstractInjectionAware implements CookiesInterface
             cookie->setSecure(secure);
             cookie->setDomain(domain);
             cookie->setHttpOnly(httpOnly);
+            cookie->setOptions(options);
             cookie->setSignKey(this->signKey);
         }
 

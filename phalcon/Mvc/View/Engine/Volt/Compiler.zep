@@ -415,14 +415,14 @@ class Compiler implements InjectionAwareInterface
 
     /**
      * Compiles a "cache" statement returning PHP code
+     *
+     * @deprecated Will be removed in 5.0
+     * @todo Remove this in the next major version
      */
     public function compileCache(array! statement, bool extendsMode = false) -> string
     {
         var expr, exprCode, lifetime;
         string compilation;
-        /**
-         * @todo Remove this in the next major version
-         */
         /**
          * A valid expression is required
          */
@@ -1575,9 +1575,8 @@ class Compiler implements InjectionAwareInterface
             extensions, functions, definition, extendedBlocks, block,
             currentBlock, exprLevel, escapedCode, method, arrayHelpers;
 
-        let code = null;
-
-        let funcArguments = null;
+        let code          = null,
+            funcArguments = null;
 
         if fetch funcArguments, expr["arguments"] {
             let arguments = this->expression(funcArguments);
@@ -1823,6 +1822,10 @@ class Compiler implements InjectionAwareInterface
 
             if name == "version_id" {
                 return "Phalcon\\Version::getId()";
+            }
+
+            if name == "preload" {
+                return "$this->tag->preload(" . arguments . ")";
             }
 
             /**

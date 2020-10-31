@@ -230,6 +230,29 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_Adapter_AdapterInterface, getDialectType);
 ZEPHIR_DOC_METHOD(Phalcon_Db_Adapter_AdapterInterface, getDefaultIdValue);
 
 /**
+ * Returns the default value to make the RBDM use the default value declared
+ * in the table definition
+ *
+ *```php
+ * // Inserting a new robot with a valid default value for the column 'year'
+ * $success = $connection->insert(
+ *     "robots",
+ *     [
+ *         "Astro Boy",
+ *         $connection->getDefaultValue()
+ *     ],
+ *     [
+ *         "name",
+ *         "year",
+ *     ]
+ * );
+ *```
+ *
+ * @todo Return NULL if this is not supported by the adapter
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Db_Adapter_AdapterInterface, getDefaultValue);
+
+/**
  * Return internal PDO handler
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_Adapter_AdapterInterface, getInternalHandler);
@@ -402,6 +425,13 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_Adapter_AdapterInterface, updateAsDict);
  * columns
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_Adapter_AdapterInterface, useExplicitIdValue);
+
+/**
+ * SQLite does not support the DEFAULT keyword
+ *
+ * @deprecated Will re removed in the next version
+ */
+ZEPHIR_DOC_METHOD(Phalcon_Db_Adapter_AdapterInterface, supportsDefaultValue);
 
 /**
  * Generates SQL checking for the existence of a schema.view

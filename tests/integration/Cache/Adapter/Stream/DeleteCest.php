@@ -15,7 +15,7 @@ namespace Phalcon\Test\Integration\Cache\Adapter\Stream;
 
 use Phalcon\Cache\Adapter\Stream;
 use Phalcon\Storage\SerializerFactory;
-use UnitTester;
+use IntegrationTester;
 
 use function outputDir;
 
@@ -27,7 +27,7 @@ class DeleteCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-24
      */
-    public function cacheAdapterStreamDelete(UnitTester $I)
+    public function cacheAdapterStreamDelete(IntegrationTester $I)
     {
         $I->wantToTest('Cache\Adapter\Stream - delete()');
         $serializer = new SerializerFactory();
@@ -51,7 +51,7 @@ class DeleteCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-24
      */
-    public function cacheAdapterStreamDeleteTwice(UnitTester $I)
+    public function cacheAdapterStreamDeleteTwice(IntegrationTester $I)
     {
         $I->wantToTest('Cache\Adapter\Stream - delete() - twice');
         $serializer = new SerializerFactory();
@@ -75,7 +75,7 @@ class DeleteCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-04-24
      */
-    public function cacheAdapterStreamDeleteUnknown(UnitTester $I)
+    public function cacheAdapterStreamDeleteUnknown(IntegrationTester $I)
     {
         $I->wantToTest('Cache\Adapter\Stream - delete() - unknown');
 

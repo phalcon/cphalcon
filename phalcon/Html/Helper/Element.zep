@@ -1,29 +1,39 @@
 
 /**
- * This file is part of the Phalcon Framework.
+ * This file is part of the Phalcon.
  *
- * (c) Phalcon Team <team@phalcon.io>
+ * (c) Phalcon Team <team@phalcon.com>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
 namespace Phalcon\Html\Helper;
 
+use Phalcon\Html\Exception;
+
 /**
- * Phalcon\Html\Helper\Address
- *
- * Creates an element
+ * Class Element
  */
 class Element extends AbstractHelper
 {
     /**
-     * @var string tag        The tag name
-     * @var string text       The text for the anchor
-     * @var array  attributes Any additional attributes
+     * Produce a tag.
+     *
+     * @param string $tag
+     * @param string $text
+     * @param array  $attributes
+     * @param bool   $raw
+     *
+     * @return string
+     * @throws Exception
      */
-    public function __invoke(string! tag, string! text, array attributes = []) -> string
-    {
-        return this->renderFullElement(tag, text, attributes);
+    public function __invoke(
+        string tag,
+        string text,
+        array attributes = [],
+        bool raw = false
+    ) -> string {
+        return this->renderFullElement(tag, text, attributes, raw);
     }
 }

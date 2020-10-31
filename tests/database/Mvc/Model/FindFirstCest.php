@@ -22,6 +22,7 @@ use Phalcon\Test\Fixtures\Migrations\StringPrimaryMigration;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Invoices;
 use Phalcon\Test\Models\InvoicesExtended;
+use Phalcon\Test\Models\InvoicesMap;
 use Phalcon\Test\Models\ModelWithStringPrimary;
 
 use function uniqid;
@@ -40,8 +41,7 @@ class FindFirstCest
 
         /** @var PDO $connection */
         $connection = $I->getConnection();
-        $migration  = new InvoicesMigration($connection);
-        $migration->clear();
+        (new InvoicesMigration($connection));
     }
 
     /**
@@ -86,6 +86,61 @@ class FindFirstCest
         $I->assertEquals(
             4,
             $invoice->inv_id
+        );
+    }
+
+    /**
+     * Tests Phalcon\Mvc\Model :: findFirst()
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-02-01
+     *
+     * @group  mysql
+     * @group  pgsql
+     * @group  sqlite
+     */
+    public function mvcModelFindFirstColumnMap(DatabaseTester $I)
+    {
+        $I->wantToTest('Mvc\Model - findFirst() - with column map');
+
+        $title = uniqid('inv-');
+        /** @var PDO $connection */
+        $connection = $I->getConnection();
+        $migration  = new InvoicesMigration($connection);
+        $migration->insert(4, null, 0, $title);
+
+        $invoice = InvoicesMap::findFirst();
+
+        $I->assertInstanceOf(
+            InvoicesMap::class,
+            $invoice
+        );
+
+        $I->assertEquals(
+            4,
+            $invoice->id
+        );
+
+        $I->assertEquals(
+            $title,
+            $invoice->title
+        );
+
+        $invoice = InvoicesMap::findFirst(null);
+
+        $I->assertInstanceOf(
+            InvoicesMap::class,
+            $invoice
+        );
+
+        $I->assertEquals(
+            4,
+            $invoice->id
+        );
+
+        $I->assertEquals(
+            $title,
+            $invoice->title
         );
     }
 

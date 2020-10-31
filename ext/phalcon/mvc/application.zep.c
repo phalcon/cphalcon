@@ -183,7 +183,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 	}
 
 
-	zephir_read_property(&_0, this_ptr, SL("container"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("container"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&container, &_0);
 	if (UNEXPECTED(Z_TYPE_P(&container) != IS_OBJECT)) {
 		ZEPHIR_INIT_VAR(&_1$$3);
@@ -192,13 +192,13 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 		ZVAL_STRING(&_4$$3, "internal services");
 		ZEPHIR_CALL_CE_STATIC(&_2$$3, phalcon_mvc_application_exception_ce, "containerservicenotfound", &_3, 0, &_4$$3);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 6, &_2$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 8, &_2$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "/home/nikos/Work/niden/cphalcon/phalcon/Mvc/Application.zep", 91);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Mvc/Application.zep", 91);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_read_property(&_0, this_ptr, SL("eventsManager"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("eventsManager"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&eventsManager, &_0);
 	if (Z_TYPE_P(&eventsManager) == IS_OBJECT) {
 		ZEPHIR_INIT_VAR(&_6$$4);
@@ -260,7 +260,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 	zephir_check_call_status();
 	if (!(zephir_is_true(&moduleName))) {
 		ZEPHIR_OBS_NVAR(&moduleName);
-		zephir_read_property(&moduleName, this_ptr, SL("defaultModule"), PH_NOISY_CC);
+		zephir_read_property(&moduleName, this_ptr, ZEND_STRL("defaultModule"), PH_NOISY_CC);
 	}
 	ZEPHIR_INIT_VAR(&moduleObject);
 	ZVAL_NULL(&moduleObject);
@@ -281,7 +281,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 			_17$$12 = Z_TYPE_P(&module) != IS_OBJECT;
 		}
 		if (UNEXPECTED(_17$$12)) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_application_exception_ce, "Invalid module definition", "/home/nikos/Work/niden/cphalcon/phalcon/Mvc/Application.zep", 189);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_application_exception_ce, "Invalid module definition", "phalcon/Mvc/Application.zep", 189);
 			return;
 		}
 		if (Z_TYPE_P(&module) == IS_ARRAY) {
@@ -297,9 +297,9 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 					object_init_ex(&_18$$19, phalcon_mvc_application_exception_ce);
 					ZEPHIR_INIT_VAR(&_19$$19);
 					ZEPHIR_CONCAT_SVS(&_19$$19, "Module definition path '", &path, "' doesn't exist");
-					ZEPHIR_CALL_METHOD(NULL, &_18$$19, "__construct", NULL, 6, &_19$$19);
+					ZEPHIR_CALL_METHOD(NULL, &_18$$19, "__construct", NULL, 8, &_19$$19);
 					zephir_check_call_status();
-					zephir_throw_exception_debug(&_18$$19, "/home/nikos/Work/niden/cphalcon/phalcon/Mvc/Application.zep", 211);
+					zephir_throw_exception_debug(&_18$$19, "phalcon/Mvc/Application.zep", 211);
 					ZEPHIR_MM_RESTORE();
 					return;
 				}
@@ -318,7 +318,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 			zephir_check_call_status();
 		} else {
 			if (UNEXPECTED(!((zephir_instance_of_ev(&module, zend_ce_closure))))) {
-				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_application_exception_ce, "Invalid module definition", "/home/nikos/Work/niden/cphalcon/phalcon/Mvc/Application.zep", 232);
+				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_application_exception_ce, "Invalid module definition", "phalcon/Mvc/Application.zep", 232);
 				return;
 			}
 			ZEPHIR_INIT_VAR(&_21$$21);
@@ -335,7 +335,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 			zephir_check_call_status();
 		}
 	}
-	zephir_read_property(&_0, this_ptr, SL("implicitView"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("implicitView"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&implicitView, &_0);
 	if (ZEPHIR_IS_TRUE_IDENTICAL(&implicitView)) {
 		ZEPHIR_INIT_VAR(&_24$$24);
@@ -464,12 +464,12 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 		ZEPHIR_CALL_METHOD(NULL, &eventsManager, "fire", NULL, 0, &_44$$41, this_ptr, &response);
 		zephir_check_call_status();
 	}
-	zephir_read_property(&_0, this_ptr, SL("sendHeaders"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("sendHeaders"), PH_NOISY_CC | PH_READONLY);
 	if (zephir_is_true(&_0)) {
 		ZEPHIR_CALL_METHOD(NULL, &response, "sendheaders", NULL, 0);
 		zephir_check_call_status();
 	}
-	zephir_read_property(&_45, this_ptr, SL("sendCookies"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_45, this_ptr, ZEND_STRL("sendCookies"), PH_NOISY_CC | PH_READONLY);
 	if (zephir_is_true(&_45)) {
 		ZEPHIR_CALL_METHOD(NULL, &response, "sendcookies", NULL, 0);
 		zephir_check_call_status();
@@ -496,9 +496,9 @@ PHP_METHOD(Phalcon_Mvc_Application, sendCookiesOnHandleRequest) {
 
 
 	if (sendCookies) {
-		zephir_update_property_zval(this_ptr, SL("sendCookies"), &__$true);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("sendCookies"), &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, SL("sendCookies"), &__$false);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("sendCookies"), &__$false);
 	}
 	RETURN_THISW();
 
@@ -522,9 +522,9 @@ PHP_METHOD(Phalcon_Mvc_Application, sendHeadersOnHandleRequest) {
 
 
 	if (sendHeaders) {
-		zephir_update_property_zval(this_ptr, SL("sendHeaders"), &__$true);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("sendHeaders"), &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, SL("sendHeaders"), &__$false);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("sendHeaders"), &__$false);
 	}
 	RETURN_THISW();
 
@@ -549,9 +549,9 @@ PHP_METHOD(Phalcon_Mvc_Application, useImplicitView) {
 
 
 	if (implicitView) {
-		zephir_update_property_zval(this_ptr, SL("implicitView"), &__$true);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("implicitView"), &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, SL("implicitView"), &__$false);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("implicitView"), &__$false);
 	}
 	RETURN_THISW();
 

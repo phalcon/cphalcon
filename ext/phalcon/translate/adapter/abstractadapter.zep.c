@@ -77,10 +77,10 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, __construct) {
 	ZVAL_STRING(&_2, "defaultInterpolator");
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "associativeArray");
-	ZEPHIR_CALL_CE_STATIC(&_0, phalcon_helper_arr_ce, "get", &_1, 15, &options, &_2, &_3);
+	ZEPHIR_CALL_CE_STATIC(&_0, phalcon_helper_arr_ce, "get", &_1, 16, &options, &_2, &_3);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, SL("defaultInterpolator"), &_0);
-	zephir_update_property_zval(this_ptr, SL("interpolatorFactory"), interpolator);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("defaultInterpolator"), &_0);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("interpolatorFactory"), interpolator);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -194,7 +194,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, offsetSet) {
 
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_translate_exception_ce, "Translate is an immutable ArrayAccess object", "/home/nikos/Work/niden/cphalcon/phalcon/Translate/Adapter/AbstractAdapter.zep", 73);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_translate_exception_ce, "Translate is an immutable ArrayAccess object", "phalcon/Translate/Adapter/AbstractAdapter.zep", 73);
 	return;
 
 }
@@ -213,7 +213,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, offsetUnset) {
 
 
 
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_translate_exception_ce, "Translate is an immutable ArrayAccess object", "/home/nikos/Work/niden/cphalcon/phalcon/Translate/Adapter/AbstractAdapter.zep", 81);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_translate_exception_ce, "Translate is an immutable ArrayAccess object", "phalcon/Translate/Adapter/AbstractAdapter.zep", 81);
 	return;
 
 }
@@ -301,8 +301,8 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, replacePlaceholders) {
 	}
 
 
-	zephir_read_property(&_0, this_ptr, SL("interpolatorFactory"), PH_NOISY_CC | PH_READONLY);
-	zephir_read_property(&_1, this_ptr, SL("defaultInterpolator"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("interpolatorFactory"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_1, this_ptr, ZEND_STRL("defaultInterpolator"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&interpolator, &_0, "newinstance", NULL, 0, &_1);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(&interpolator, "replaceplaceholders", NULL, 0, &translation, &placeholders);

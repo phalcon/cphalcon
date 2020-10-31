@@ -21,8 +21,8 @@ jobs:
 
       - name: Setup Environment Variables
         run: |
-          echo "::set-env name=ZEPHIR_PARSER_VERSION::v1.3.3"
-          echo "::set-env name=ZEPHIR_VERSION::0.12.17"
+          echo "::set-env name=ZEPHIR_PARSER_VERSION::v1.3.4"
+          echo "::set-env name=ZEPHIR_VERSION::0.12.19"
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -216,7 +216,7 @@ jobs:
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
           DATA_MYSQL_USER: root
-        run: vendor/bin/codecept run --ext DotReporter database --env mysql -g mysql
+        run: vendor/bin/codecept run database --env mysql -g mysql
 
       - name: Run Database Tests (Sqlite)
         env:
@@ -326,6 +326,8 @@ jobs:
 
       - name: Install Package
         run: |
+          sudo xcode-select -s /Applications/Xcode_12.app
+          xcodebuild -version
           export MAKEFLAGS="-j$(getconf _NPROCESSORS_ONLN)"
           sudo pecl -v install phalcon-pecl/phalcon-pecl.tgz
 
@@ -389,7 +391,7 @@ jobs:
           php-version: ${{ matrix.php-versions }}
           ini-values: apc.enable_cli=on, session.save_path=C:\temp
           tools: pecl, prestissimo
-          extensions: mbstring, intl, json, yaml, apcu, psr, imagick, gd, redis, igbinary, msgpack-beta, sqlite3
+          extensions: mbstring, intl, json, yaml, apcu, psr, imagick, gd, redis, igbinary, sqlite3, msgpack
         env:
           PHPTS: ${{ matrix.ts }}
 

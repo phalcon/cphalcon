@@ -8,4 +8,5 @@ modules:
         populate: true
         cleanup: false
         dump:
+          - 'tests/_data/assets/config/sqlite-init.sql'
           - 'tests/_data/assets/schemas/sqlite.sql'

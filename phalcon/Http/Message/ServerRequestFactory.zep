@@ -15,6 +15,7 @@
 namespace Phalcon\Http\Message;
 
 use Phalcon\Collection;
+use Phalcon\Collection\CollectionInterface;
 use Phalcon\Helper\Arr;
 use Phalcon\Http\Message\Exception\InvalidArgumentException;
 use Psr\Http\Message\ServerRequestFactoryInterface;
@@ -154,12 +155,12 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
     /**
      * Calculates the host and port from the headers or the server superglobal
      *
-     * @param Collection $server
-     * @param Collection $headers
+     * @param CollectionInterface $server
+     * @param CollectionInterface $headers
      *
      * @return array
      */
-    private function calculateUriHost(<Collection> server, <Collection> headers) -> array
+    private function calculateUriHost(<CollectionInterface> server, <CollectionInterface> headers) -> array
     {
         var host, port;
         array defaults;
@@ -207,11 +208,11 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
      * Get the path from the request from IIS7/Rewrite, REQUEST_URL or
      * ORIG_PATH_INFO
      *
-     * @param Collection $server
+     * @param CollectionInterface $server
      *
      * @return string
      */
-    private function calculateUriPath(<Collection> server) -> string
+    private function calculateUriPath(<CollectionInterface> server) -> string
     {
         var iisRewrite, origPathInfo, requestUri, unencodedUrl;
         /**
@@ -247,11 +248,11 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
     /**
      * Get the query string from the server array
      *
-     * @param Collection $server
+     * @param CollectionInterface $server
      *
      * @return string
      */
-    private function calculateUriQuery(<Collection> server) -> string
+    private function calculateUriQuery(<CollectionInterface> server) -> string
     {
         return ltrim(server->get("QUERY_STRING", ""), "?");
     }
@@ -259,12 +260,12 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
     /**
      * Calculates the scheme from the server variables
      *
-     * @param Collection $server
-     * @param Collection $headers
+     * @param CollectionInterface $server
+     * @param CollectionInterface $headers
      *
      * @return string
      */
-    private function calculateUriScheme(<Collection> server, <Collection> headers) -> string
+    private function calculateUriScheme(<CollectionInterface> server, <CollectionInterface> headers) -> string
     {
         var header, isHttps;
         string scheme;
@@ -333,13 +334,13 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
     /**
      * Returns a header
      *
-     * @param Collection $headers
+     * @param CollectionInterface $headers
      * @param string     $name
      * @param mixed|null $defaultValue
      *
      * @return mixed|string
      */
-    private function getHeader(<Collection> headers, string name, var defaultValue = null) -> var
+    private function getHeader(<CollectionInterface> headers, string name, var defaultValue = null) -> var
     {
         var value;
 
@@ -383,11 +384,11 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
     /**
      * Processes headers from SAPI
      *
-     * @param Collection $server
+     * @param CollectionInterface $server
      *
-     * @return Collection
+     * @return CollectionInterface
      */
-    private function parseHeaders(<Collection> server) -> <Collection>
+    private function parseHeaders(<CollectionInterface> server) -> <CollectionInterface>
     {
         var headers, key, name, serverArray, value;
 
@@ -440,11 +441,11 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
     /**
      * Parse the $_SERVER array amd check the server protocol. Raise an
      *
-     * @param Collection $server The server variables
+     * @param CollectionInterface $server The server variables
      *
      * @return string
      */
-    private function parseProtocol(<Collection> server) -> string
+    private function parseProtocol(<CollectionInterface> server) -> string
     {
         var localProtocol, protocol, protocols;
 
@@ -485,9 +486,9 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
      * @param array $server Either verbatim, or with an added
      *                      HTTP_AUTHORIZATION header.
      *
-     * @return Collection
+     * @return CollectionInterface
      */
-    private function parseServer(array server) -> <Collection>
+    private function parseServer(array server) -> <CollectionInterface>
     {
         var collection, headers, headersCollection;
 
@@ -514,9 +515,9 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
      *
      * @param array $files
      *
-     * @return Collection
+     * @return CollectionInterface
      */
-    private function parseUploadedFiles(array files) -> <Collection>
+    private function parseUploadedFiles(array files) -> <CollectionInterface>
     {
         var collection, data, key, file;
 
@@ -561,12 +562,12 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
     /**
      * Calculates the Uri from the server superglobal or the headers
      *
-     * @param Collection $server
-     * @param Collection $headers
+     * @param CollectionInterface $server
+     * @param CollectionInterface $headers
      *
      * @return Uri
      */
-    private function parseUri(<Collection> server, <Collection> headers) -> <Uri>
+    private function parseUri(<CollectionInterface> server, <CollectionInterface> headers) -> <Uri>
     {
         var path, query, scheme, split, uri;
 

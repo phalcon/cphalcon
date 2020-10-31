@@ -36,7 +36,22 @@ class Orders extends Model
             'oxp_ord_id',
             'oxp_prd_id',
             Products::class,
-            'prd_id'
+            'prd_id',
+            [
+                'alias' => 'products'
+            ]
+        );
+
+        $this->hasOneThrough(
+            'ord_id',
+            OrdersProducts::class,
+            'oxp_ord_id',
+            'oxp_prd_id',
+            Products::class,
+            'prd_id',
+            [
+                'alias' => 'singleProduct'
+            ]
         );
     }
 }

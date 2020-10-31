@@ -74,7 +74,7 @@ PHP_METHOD(Phalcon_Html_Link_EvolvableLink, withAttribute) {
 	if (zephir_clone(&newInstance, this_ptr) == FAILURE) {
 		RETURN_MM();
 	}
-	zephir_read_property(&_0, &newInstance, SL("attributes"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, &newInstance, ZEND_STRL("attributes"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(NULL, &_0, "set", NULL, 0, attribute, value);
 	zephir_check_call_status();
 	RETURN_CCTOR(&newInstance);
@@ -118,10 +118,10 @@ PHP_METHOD(Phalcon_Html_Link_EvolvableLink, withHref) {
 	if (zephir_clone(&newInstance, this_ptr) == FAILURE) {
 		RETURN_MM();
 	}
-	zephir_update_property_zval(&newInstance, SL("href"), href);
+	zephir_update_property_zval(&newInstance, ZEND_STRL("href"), href);
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "hrefistemplated", NULL, 0, href);
 	zephir_check_call_status();
-	zephir_update_property_zval(&newInstance, SL("templated"), &_0);
+	zephir_update_property_zval(&newInstance, ZEND_STRL("templated"), &_0);
 	RETURN_CCTOR(&newInstance);
 
 }
@@ -158,7 +158,7 @@ PHP_METHOD(Phalcon_Html_Link_EvolvableLink, withRel) {
 	if (zephir_clone(&newInstance, this_ptr) == FAILURE) {
 		RETURN_MM();
 	}
-	zephir_read_property(&_0, &newInstance, SL("rels"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, &newInstance, ZEND_STRL("rels"), PH_NOISY_CC | PH_READONLY);
 	ZVAL_BOOL(&_1, 1);
 	ZEPHIR_CALL_METHOD(NULL, &_0, "set", NULL, 0, rel, &_1);
 	zephir_check_call_status();
@@ -197,7 +197,7 @@ PHP_METHOD(Phalcon_Html_Link_EvolvableLink, withoutAttribute) {
 	if (zephir_clone(&newInstance, this_ptr) == FAILURE) {
 		RETURN_MM();
 	}
-	zephir_read_property(&_0, &newInstance, SL("attributes"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, &newInstance, ZEND_STRL("attributes"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(NULL, &_0, "remove", NULL, 0, attribute);
 	zephir_check_call_status();
 	RETURN_CCTOR(&newInstance);
@@ -235,7 +235,7 @@ PHP_METHOD(Phalcon_Html_Link_EvolvableLink, withoutRel) {
 	if (zephir_clone(&newInstance, this_ptr) == FAILURE) {
 		RETURN_MM();
 	}
-	zephir_read_property(&_0, &newInstance, SL("rels"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, &newInstance, ZEND_STRL("rels"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(NULL, &_0, "remove", NULL, 0, rel);
 	zephir_check_call_status();
 	RETURN_CCTOR(&newInstance);

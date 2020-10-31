@@ -31,6 +31,8 @@ class SharpenCest
     {
         $I->wantToTest('Image\Adapter\Gd - sharpen()');
 
+        $this->checkJpegSupport($I);
+
         $outputDir = 'tests/image/gd';
         $params    = [
             [10, 'fbf9f3e3c3c18183'],

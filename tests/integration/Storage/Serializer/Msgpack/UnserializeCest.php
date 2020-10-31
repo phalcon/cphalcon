@@ -16,28 +16,32 @@ namespace Phalcon\Test\Integration\Storage\Serializer\Msgpack;
 use Codeception\Example;
 use Phalcon\Storage\Serializer\Msgpack;
 use stdClass;
-use UnitTester;
+use IntegrationTester;
 
 class UnserializeCest
 {
     /**
      * Tests Phalcon\Storage\Serializer\Msgpack :: unserialize()
      *
-     * @dataProvider getExamples
+     * @note         dataProvider is not used here, it messes up console output
      *
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2019-03-30
      */
-    public function storageSerializerMsgpackUnserialize(UnitTester $I, Example $example)
+    public function storageSerializerMsgpackUnserialize(IntegrationTester $I)
     {
-        $I->wantToTest('Storage\Serializer\Msgpack - unserialize() - ' . $example[0]);
-        $serializer = new Msgpack();
-        $serialized = msgpack_pack($example[1]);
-        $serializer->unserialize($serialized);
+        $I->wantToTest('Storage\Serializer\Msgpack - unserialize()');
 
-        $expected = $example[1];
-        $actual   = $serializer->getData();
-        $I->assertEquals($expected, $actual);
+        foreach ($this->getExamples() as $example) {
+            $serializer = new Msgpack();
+            $serialized = msgpack_pack($example[1]);
+            $serializer->unserialize($serialized);
+
+            $expected = $example[1];
+            $actual   = $serializer->getData();
+
+            $I->assertEquals($expected, $actual);
+        }
     }
 
     /**
@@ -46,7 +50,7 @@ class UnserializeCest
      * @author       Phalcon Team <team@phalcon.io>
      * @since        2019-09-28
      */
-    public function storageSerializerMsgpackUnserializeError(UnitTester $I)
+    public function storageSerializerMsgpackUnserializeError(IntegrationTester $I)
     {
         $I->wantToTest('Storage\Serializer\Msgpack - unserialize() - error');
         $serializer = new Msgpack();

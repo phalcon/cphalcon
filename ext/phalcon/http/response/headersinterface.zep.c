@@ -39,7 +39,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Response_HeadersInterface) {
 ZEPHIR_DOC_METHOD(Phalcon_Http_Response_HeadersInterface, get);
 
 /**
- * Returns true if the header is set, false otherwise
+ * Checks if a header exists
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_Response_HeadersInterface, has);
 

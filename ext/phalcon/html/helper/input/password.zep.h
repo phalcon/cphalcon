@@ -1,0 +1,5 @@
+
+extern zend_class_entry *phalcon_html_helper_input_password_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Input_Password);
+

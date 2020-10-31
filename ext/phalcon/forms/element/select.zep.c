@@ -75,7 +75,7 @@ PHP_METHOD(Phalcon_Forms_Element_Select, __construct) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, SL("optionsValues"), options);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("optionsValues"), options);
 	ZEPHIR_CALL_PARENT(NULL, phalcon_forms_element_select_ce, getThis(), "__construct", &_0, 0, &name, attributes);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
@@ -107,7 +107,7 @@ PHP_METHOD(Phalcon_Forms_Element_Select, addOption) {
 
 
 	if (Z_TYPE_P(option) == IS_ARRAY) {
-		zephir_is_iterable(option, 0, "/home/nikos/Work/niden/cphalcon/phalcon/Forms/Element/Select.zep", 50);
+		zephir_is_iterable(option, 0, "phalcon/Forms/Element/Select.zep", 50);
 		if (Z_TYPE_P(option) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(option), _2$$3, _3$$3, _0$$3)
 			{
@@ -191,7 +191,7 @@ PHP_METHOD(Phalcon_Forms_Element_Select, render) {
 
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "prepareattributes", NULL, 0, &attributes);
 	zephir_check_call_status();
-	zephir_read_property(&_2, this_ptr, SL("optionsValues"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_2, this_ptr, ZEND_STRL("optionsValues"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_tag_select_ce, "selectfield", &_0, 0, &_1, &_2);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -214,7 +214,7 @@ PHP_METHOD(Phalcon_Forms_Element_Select, setOptions) {
 
 
 
-	zephir_update_property_zval(this_ptr, SL("optionsValues"), options);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("optionsValues"), options);
 	RETURN_THISW();
 
 }

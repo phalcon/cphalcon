@@ -36,5 +36,4 @@ php ./ext/run-tests.php \
   --show-diff \
   --set-timeout 120 \
   -n \
-  -g "FAIL,XFAIL,SKIP,BORK,WARN,LEAK" \
   ./tests/syntax

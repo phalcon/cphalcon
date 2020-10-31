@@ -96,12 +96,12 @@ final class Uri extends AbstractCommon implements UriInterface
      *
      * @return string
      */
-    private scheme = "https" { get };
+    protected scheme = "https" { get };
 
     /**
      * @var string
      */
-    private user = "";
+    protected user = "";
 
     /**
      * Uri constructor.

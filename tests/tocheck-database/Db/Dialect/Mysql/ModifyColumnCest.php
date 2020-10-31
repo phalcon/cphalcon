@@ -279,6 +279,14 @@ class ModifyColumnCest
                 'ALTER TABLE `schema`.`table` MODIFY `column13` ' .
                 'TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL',
             ],
+
+            [
+                'schema',
+                'column25',
+                null,
+                'ALTER TABLE `schema`.`table` MODIFY `column25` ' .
+                'TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL COMMENT \'test\'',
+            ],
         ];
     }
 }

@@ -75,7 +75,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_AbstractFormatter, setDateFormat) {
 	zephir_get_strval(&dateFormat, dateFormat_param);
 
 
-	zephir_update_property_zval(this_ptr, SL("dateFormat"), &dateFormat);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("dateFormat"), &dateFormat);
 	RETURN_THIS();
 
 }
@@ -126,7 +126,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_AbstractFormatter, interpolate) {
 	if (_0) {
 		ZEPHIR_INIT_VAR(&replace);
 		array_init(&replace);
-		zephir_is_iterable(context, 0, "/home/nikos/Work/niden/cphalcon/phalcon/Logger/Formatter/AbstractFormatter.zep", 46);
+		zephir_is_iterable(context, 0, "phalcon/Logger/Formatter/AbstractFormatter.zep", 46);
 		if (Z_TYPE_P(context) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(context), _3$$3, _4$$3, _1$$3)
 			{
@@ -164,7 +164,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_AbstractFormatter, interpolate) {
 		}
 		ZEPHIR_INIT_NVAR(&value);
 		ZEPHIR_INIT_NVAR(&key);
-		ZEPHIR_RETURN_CALL_FUNCTION("strtr", NULL, 3, &message, &replace);
+		ZEPHIR_RETURN_CALL_FUNCTION("strtr", NULL, 5, &message, &replace);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
@@ -192,7 +192,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_AbstractFormatter, getFormattedDate) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_CALL_FUNCTION(&timezone, "date_default_timezone_get", NULL, 106);
+	ZEPHIR_CALL_FUNCTION(&timezone, "date_default_timezone_get", NULL, 109);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&date);
 	object_init_ex(&date, zephir_get_internal_ce(SL("datetimeimmutable")));
@@ -204,7 +204,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_AbstractFormatter, getFormattedDate) {
 	ZVAL_STRING(&_1, "now");
 	ZEPHIR_CALL_METHOD(NULL, &date, "__construct", NULL, 0, &_1, &_0);
 	zephir_check_call_status();
-	zephir_read_property(&_2, this_ptr, SL("dateFormat"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_2, this_ptr, ZEND_STRL("dateFormat"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_METHOD(&date, "format", NULL, 0, &_2);
 	zephir_check_call_status();
 	RETURN_MM();

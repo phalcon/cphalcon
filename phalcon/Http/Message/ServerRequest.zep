@@ -15,6 +15,7 @@
 namespace Phalcon\Http\Message;
 
 use Phalcon\Collection;
+use Phalcon\Collection\CollectionInterface;
 use Phalcon\Http\Message\Exception\InvalidArgumentException;
 use Phalcon\Http\Message\Stream\Input;
 use Psr\Http\Message\ServerRequestInterface;
@@ -28,7 +29,7 @@ use Psr\Http\Message\UriInterface;
 final class ServerRequest extends AbstractRequest implements ServerRequestInterface
 {
     /**
-     * @var Collection
+     * @var Collection|CollectionInterface
      */
     protected attributes;
 

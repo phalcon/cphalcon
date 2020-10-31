@@ -135,7 +135,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAttributes) {
 
 
 	ZVAL_LONG(&_0, 0);
-	ZEPHIR_CALL_METHOD(&data, this_ptr, "readmetadataindex", NULL, 25, model, &_0);
+	ZEPHIR_CALL_METHOD(&data, this_ptr, "readmetadataindex", NULL, 26, model, &_0);
 	zephir_check_call_status();
 	if (UNEXPECTED(Z_TYPE_P(&data) != IS_ARRAY)) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The meta-data is invalid or is corrupt", "phalcon/Mvc/Model/MetaData.zep", 90);
@@ -173,7 +173,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAutomaticCreateAttributes) {
 
 
 	ZVAL_LONG(&_0, 10);
-	ZEPHIR_CALL_METHOD(&data, this_ptr, "readmetadataindex", NULL, 25, model, &_0);
+	ZEPHIR_CALL_METHOD(&data, this_ptr, "readmetadataindex", NULL, 26, model, &_0);
 	zephir_check_call_status();
 	if (UNEXPECTED(Z_TYPE_P(&data) != IS_ARRAY)) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The meta-data is invalid or is corrupt", "phalcon/Mvc/Model/MetaData.zep", 117);
@@ -211,7 +211,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAutomaticUpdateAttributes) {
 
 
 	ZVAL_LONG(&_0, 11);
-	ZEPHIR_CALL_METHOD(&data, this_ptr, "readmetadataindex", NULL, 25, model, &_0);
+	ZEPHIR_CALL_METHOD(&data, this_ptr, "readmetadataindex", NULL, 26, model, &_0);
 	zephir_check_call_status();
 	if (UNEXPECTED(Z_TYPE_P(&data) != IS_ARRAY)) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The meta-data is invalid or is corrupt", "phalcon/Mvc/Model/MetaData.zep", 144);
@@ -249,7 +249,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getBindTypes) {
 
 
 	ZVAL_LONG(&_0, 9);
-	ZEPHIR_CALL_METHOD(&data, this_ptr, "readmetadataindex", NULL, 25, model, &_0);
+	ZEPHIR_CALL_METHOD(&data, this_ptr, "readmetadataindex", NULL, 26, model, &_0);
 	zephir_check_call_status();
 	if (UNEXPECTED(Z_TYPE_P(&data) != IS_ARRAY)) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The meta-data is invalid or is corrupt", "phalcon/Mvc/Model/MetaData.zep", 171);
@@ -288,7 +288,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getColumnMap) {
 
 
 	ZVAL_LONG(&_0, 0);
-	ZEPHIR_CALL_METHOD(&data, this_ptr, "readcolumnmapindex", NULL, 26, model, &_0);
+	ZEPHIR_CALL_METHOD(&data, this_ptr, "readcolumnmapindex", NULL, 27, model, &_0);
 	zephir_check_call_status();
 	_1 = Z_TYPE_P(&data) != IS_NULL;
 	if (_1) {
@@ -330,7 +330,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDefaultValues) {
 
 
 	ZVAL_LONG(&_0, 12);
-	ZEPHIR_CALL_METHOD(&data, this_ptr, "readmetadataindex", NULL, 25, model, &_0);
+	ZEPHIR_CALL_METHOD(&data, this_ptr, "readmetadataindex", NULL, 26, model, &_0);
 	zephir_check_call_status();
 	if (UNEXPECTED(Z_TYPE_P(&data) != IS_ARRAY)) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The meta-data is invalid or is corrupt", "phalcon/Mvc/Model/MetaData.zep", 219);
@@ -368,7 +368,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataTypes) {
 
 
 	ZVAL_LONG(&_0, 4);
-	ZEPHIR_CALL_METHOD(&data, this_ptr, "readmetadataindex", NULL, 25, model, &_0);
+	ZEPHIR_CALL_METHOD(&data, this_ptr, "readmetadataindex", NULL, 26, model, &_0);
 	zephir_check_call_status();
 	if (UNEXPECTED(Z_TYPE_P(&data) != IS_ARRAY)) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The meta-data is invalid or is corrupt", "phalcon/Mvc/Model/MetaData.zep", 243);
@@ -406,7 +406,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataTypesNumeric) {
 
 
 	ZVAL_LONG(&_0, 5);
-	ZEPHIR_CALL_METHOD(&data, this_ptr, "readmetadataindex", NULL, 25, model, &_0);
+	ZEPHIR_CALL_METHOD(&data, this_ptr, "readmetadataindex", NULL, 26, model, &_0);
 	zephir_check_call_status();
 	if (UNEXPECTED(Z_TYPE_P(&data) != IS_ARRAY)) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The meta-data is invalid or is corrupt", "phalcon/Mvc/Model/MetaData.zep", 270);
@@ -435,7 +435,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDI) {
 
 	ZEPHIR_MM_GROW();
 
-	zephir_read_property(&_0, this_ptr, SL("container"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("container"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&container, &_0);
 	if (Z_TYPE_P(&container) != IS_OBJECT) {
 		ZEPHIR_INIT_VAR(&_1$$3);
@@ -444,7 +444,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDI) {
 		ZVAL_STRING(&_4$$3, "internal services");
 		ZEPHIR_CALL_CE_STATIC(&_2$$3, phalcon_mvc_model_exception_ce, "containerservicenotfound", &_3, 0, &_4$$3);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 6, &_2$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 8, &_2$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Mvc/Model/MetaData.zep", 288);
 		ZEPHIR_MM_RESTORE();
@@ -482,7 +482,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getEmptyStringAttributes) {
 
 
 	ZVAL_LONG(&_0, 13);
-	ZEPHIR_CALL_METHOD(&data, this_ptr, "readmetadataindex", NULL, 25, model, &_0);
+	ZEPHIR_CALL_METHOD(&data, this_ptr, "readmetadataindex", NULL, 26, model, &_0);
 	zephir_check_call_status();
 	if (UNEXPECTED(Z_TYPE_P(&data) != IS_ARRAY)) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The meta-data is invalid or is corrupt", "phalcon/Mvc/Model/MetaData.zep", 315);
@@ -519,7 +519,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getIdentityField) {
 
 
 	ZVAL_LONG(&_0, 8);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "readmetadataindex", NULL, 25, model, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "readmetadataindex", NULL, 26, model, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -553,7 +553,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getNonPrimaryKeyAttributes) {
 
 
 	ZVAL_LONG(&_0, 2);
-	ZEPHIR_CALL_METHOD(&data, this_ptr, "readmetadataindex", NULL, 25, model, &_0);
+	ZEPHIR_CALL_METHOD(&data, this_ptr, "readmetadataindex", NULL, 26, model, &_0);
 	zephir_check_call_status();
 	if (UNEXPECTED(Z_TYPE_P(&data) != IS_ARRAY)) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The meta-data is invalid or is corrupt", "phalcon/Mvc/Model/MetaData.zep", 355);
@@ -591,7 +591,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getNotNullAttributes) {
 
 
 	ZVAL_LONG(&_0, 3);
-	ZEPHIR_CALL_METHOD(&data, this_ptr, "readmetadataindex", NULL, 25, model, &_0);
+	ZEPHIR_CALL_METHOD(&data, this_ptr, "readmetadataindex", NULL, 26, model, &_0);
 	zephir_check_call_status();
 	if (UNEXPECTED(Z_TYPE_P(&data) != IS_ARRAY)) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The meta-data is invalid or is corrupt", "phalcon/Mvc/Model/MetaData.zep", 379);
@@ -629,7 +629,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getPrimaryKeyAttributes) {
 
 
 	ZVAL_LONG(&_0, 1);
-	ZEPHIR_CALL_METHOD(&data, this_ptr, "readmetadataindex", NULL, 25, model, &_0);
+	ZEPHIR_CALL_METHOD(&data, this_ptr, "readmetadataindex", NULL, 26, model, &_0);
 	zephir_check_call_status();
 	if (UNEXPECTED(Z_TYPE_P(&data) != IS_ARRAY)) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "The meta-data is invalid or is corrupt", "phalcon/Mvc/Model/MetaData.zep", 403);
@@ -668,7 +668,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getReverseColumnMap) {
 
 
 	ZVAL_LONG(&_0, 1);
-	ZEPHIR_CALL_METHOD(&data, this_ptr, "readcolumnmapindex", NULL, 26, model, &_0);
+	ZEPHIR_CALL_METHOD(&data, this_ptr, "readcolumnmapindex", NULL, 27, model, &_0);
 	zephir_check_call_status();
 	_1 = Z_TYPE_P(&data) != IS_NULL;
 	if (_1) {
@@ -697,7 +697,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getStrategy) {
 
 	ZEPHIR_MM_GROW();
 
-	zephir_read_property(&_0, this_ptr, SL("strategy"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("strategy"), PH_NOISY_CC | PH_READONLY);
 	if (Z_TYPE_P(&_0) == IS_NULL) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_mvc_model_metadata_strategy_introspection_ce);
@@ -705,7 +705,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getStrategy) {
 			ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0);
 			zephir_check_call_status();
 		}
-		zephir_update_property_zval(this_ptr, SL("strategy"), &_1$$3);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("strategy"), &_1$$3);
 	}
 	RETURN_MM_MEMBER(getThis(), "strategy");
 
@@ -748,7 +748,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, hasAttribute) {
 	if (Z_TYPE_P(&columnMap) == IS_ARRAY) {
 		RETURN_MM_BOOL(zephir_array_isset(&columnMap, &attribute));
 	}
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "readmetadata", NULL, 27, model);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "readmetadata", NULL, 28, model);
 	zephir_check_call_status();
 	zephir_array_fetch_long(&_1, &_0, 4, PH_READONLY, "phalcon/Mvc/Model/MetaData.zep", 470);
 	RETURN_MM_BOOL(zephir_array_isset(&_1, &attribute));
@@ -772,7 +772,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, isEmpty) {
 	ZVAL_UNDEF(&_0);
 
 
-	zephir_read_property(&_0, this_ptr, SL("metaData"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("metaData"), PH_NOISY_CC | PH_READONLY);
 	RETURN_BOOL(zephir_fast_count_int(&_0) == 0);
 
 }
@@ -806,7 +806,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, read) {
 	}
 
 
-	zephir_read_property(&_0, this_ptr, SL("adapter"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("adapter"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_METHOD(&_0, "get", NULL, 0, &key);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -850,14 +850,14 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMap) {
 	ZEPHIR_INIT_VAR(&keyName);
 	zephir_get_class(&keyName, model, 1);
 	ZEPHIR_OBS_VAR(&data);
-	zephir_read_property(&_0, this_ptr, SL("columnMap"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("columnMap"), PH_NOISY_CC | PH_READONLY);
 	if (!(zephir_array_isset_fetch(&data, &_0, &keyName, 0))) {
 		ZVAL_NULL(&_1$$4);
 		ZVAL_NULL(&_2$$4);
 		ZVAL_NULL(&_3$$4);
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "initialize", NULL, 28, model, &_1$$4, &_2$$4, &_3$$4);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "initialize", NULL, 29, model, &_1$$4, &_2$$4, &_3$$4);
 		zephir_check_call_status();
-		zephir_read_property(&_1$$4, this_ptr, SL("columnMap"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_1$$4, this_ptr, ZEND_STRL("columnMap"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_OBS_NVAR(&data);
 		zephir_array_fetch(&data, &_1$$4, &keyName, PH_NOISY, "phalcon/Mvc/Model/MetaData.zep", 519);
 	}
@@ -905,14 +905,14 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMapIndex) {
 	ZEPHIR_INIT_VAR(&keyName);
 	zephir_get_class(&keyName, model, 1);
 	ZEPHIR_OBS_VAR(&columnMapModel);
-	zephir_read_property(&_0, this_ptr, SL("columnMap"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("columnMap"), PH_NOISY_CC | PH_READONLY);
 	if (!(zephir_array_isset_fetch(&columnMapModel, &_0, &keyName, 0))) {
 		ZVAL_NULL(&_1$$4);
 		ZVAL_NULL(&_2$$4);
 		ZVAL_NULL(&_3$$4);
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "initialize", NULL, 28, model, &_1$$4, &_2$$4, &_3$$4);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "initialize", NULL, 29, model, &_1$$4, &_2$$4, &_3$$4);
 		zephir_check_call_status();
-		zephir_read_property(&_1$$4, this_ptr, SL("columnMap"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_1$$4, this_ptr, ZEND_STRL("columnMap"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_OBS_NVAR(&columnMapModel);
 		zephir_array_fetch(&columnMapModel, &_1$$4, &keyName, PH_NOISY, "phalcon/Mvc/Model/MetaData.zep", 550);
 	}
@@ -964,12 +964,12 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaData) {
 	ZEPHIR_INIT_VAR(&_1);
 	ZEPHIR_CONCAT_VSVV(&_1, &_0, "-", &schema, &source);
 	zephir_get_strval(&key, &_1);
-	zephir_read_property(&_2, this_ptr, SL("metaData"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_2, this_ptr, ZEND_STRL("metaData"), PH_NOISY_CC | PH_READONLY);
 	if (!(zephir_array_isset(&_2, &key))) {
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "initialize", NULL, 28, model, &key, &source, &schema);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "initialize", NULL, 29, model, &key, &source, &schema);
 		zephir_check_call_status();
 	}
-	zephir_read_property(&_3, this_ptr, SL("metaData"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_3, this_ptr, ZEND_STRL("metaData"), PH_NOISY_CC | PH_READONLY);
 	zephir_array_fetch(&_4, &_3, &key, PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/MetaData.zep", 586);
 	RETURN_CTOR(&_4);
 
@@ -1022,13 +1022,13 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaDataIndex) {
 	ZEPHIR_INIT_VAR(&_1);
 	ZEPHIR_CONCAT_VSVV(&_1, &_0, "-", &schema, &source);
 	zephir_get_strval(&key, &_1);
-	zephir_read_property(&_2, this_ptr, SL("metaData"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_2, this_ptr, ZEND_STRL("metaData"), PH_NOISY_CC | PH_READONLY);
 	zephir_array_fetch(&_3, &_2, &key, PH_READONLY, "phalcon/Mvc/Model/MetaData.zep", 614);
 	if (!(zephir_array_isset_long(&_3, index))) {
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "initialize", NULL, 28, model, &key, &source, &schema);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "initialize", NULL, 29, model, &key, &source, &schema);
 		zephir_check_call_status();
 	}
-	zephir_read_property(&_4, this_ptr, SL("metaData"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_4, this_ptr, ZEND_STRL("metaData"), PH_NOISY_CC | PH_READONLY);
 	zephir_array_fetch(&_5, &_4, &key, PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/MetaData.zep", 618);
 	zephir_array_fetch_long(&_6, &_5, index, PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/MetaData.zep", 618);
 	RETURN_CTOR(&_6);
@@ -1055,10 +1055,10 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, reset) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	array_init(&_0);
-	zephir_update_property_zval(this_ptr, SL("metaData"), &_0);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("metaData"), &_0);
 	ZEPHIR_INIT_VAR(&_1);
 	array_init(&_1);
-	zephir_update_property_zval(this_ptr, SL("columnMap"), &_1);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("columnMap"), &_1);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -1094,7 +1094,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, setAutomaticCreateAttributes) {
 
 
 	ZVAL_LONG(&_0, 10);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "writemetadataindex", NULL, 29, model, &_0, &attributes);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "writemetadataindex", NULL, 30, model, &_0, &attributes);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -1131,7 +1131,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, setAutomaticUpdateAttributes) {
 
 
 	ZVAL_LONG(&_0, 11);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "writemetadataindex", NULL, 29, model, &_0, &attributes);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "writemetadataindex", NULL, 30, model, &_0, &attributes);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -1168,7 +1168,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, setEmptyStringAttributes) {
 
 
 	ZVAL_LONG(&_0, 13);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "writemetadataindex", NULL, 29, model, &_0, &attributes);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "writemetadataindex", NULL, 30, model, &_0, &attributes);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 
@@ -1188,7 +1188,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, setDI) {
 
 
 
-	zephir_update_property_zval(this_ptr, SL("container"), container);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("container"), container);
 
 }
 
@@ -1206,7 +1206,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, setStrategy) {
 
 
 
-	zephir_update_property_zval(this_ptr, SL("strategy"), strategy);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("strategy"), strategy);
 
 }
 
@@ -1251,11 +1251,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, write) {
 
 		ZEPHIR_INIT_VAR(&option);
 		ZVAL_BOOL(&option, ZEPHIR_GLOBAL(orm).exception_on_failed_metadata_save);
-		zephir_read_property(&_0$$3, this_ptr, SL("adapter"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_0$$3, this_ptr, ZEND_STRL("adapter"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(&result, &_0$$3, "set", NULL, 0, &key, &data);
 		zephir_check_call_status_or_jump(try_end_1);
 		if (ZEPHIR_IS_FALSE_IDENTICAL(&result)) {
-			ZEPHIR_CALL_METHOD(NULL, this_ptr, "throwwriteexception", NULL, 30, &option);
+			ZEPHIR_CALL_METHOD(NULL, this_ptr, "throwwriteexception", NULL, 31, &option);
 			zephir_check_call_status_or_jump(try_end_1);
 		}
 
@@ -1269,7 +1269,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, write) {
 		if (zephir_instance_of_ev(&_1, zend_exception_get_default(TSRMLS_C))) {
 			zend_clear_exception(TSRMLS_C);
 			ZEPHIR_CPY_WRT(&_2, &_1);
-			ZEPHIR_CALL_METHOD(NULL, this_ptr, "throwwriteexception", NULL, 30, &option);
+			ZEPHIR_CALL_METHOD(NULL, this_ptr, "throwwriteexception", NULL, 31, &option);
 			zephir_check_call_status();
 		}
 	}
@@ -1337,9 +1337,9 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, writeMetaDataIndex) {
 	ZEPHIR_INIT_VAR(&_3);
 	ZEPHIR_CONCAT_VSVV(&_3, &_2, "-", &schema, &source);
 	zephir_get_strval(&key, &_3);
-	zephir_read_property(&_4, this_ptr, SL("metaData"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_4, this_ptr, ZEND_STRL("metaData"), PH_NOISY_CC | PH_READONLY);
 	if (!(zephir_array_isset(&_4, &key))) {
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "initialize", NULL, 28, model, &key, &source, &schema);
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "initialize", NULL, 29, model, &key, &source, &schema);
 		zephir_check_call_status();
 	}
 	zephir_update_property_array_multi(this_ptr, SL("metaData"), data, SL("zl"), 2, &key, index);
@@ -1388,7 +1388,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, initialize) {
 	ZEPHIR_INIT_VAR(&className);
 	zephir_get_class(&className, model, 0);
 	if (Z_TYPE_P(key) != IS_NULL) {
-		zephir_read_property(&_0$$3, this_ptr, SL("metaData"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_0$$3, this_ptr, ZEND_STRL("metaData"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CPY_WRT(&metaData, &_0$$3);
 		if (!(zephir_array_isset(&metaData, key))) {
 			ZEPHIR_INIT_VAR(&_1$$4);
@@ -1407,7 +1407,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, initialize) {
 						object_init_ex(&_2$$8, phalcon_mvc_model_exception_ce);
 						ZEPHIR_INIT_VAR(&_3$$8);
 						ZEPHIR_CONCAT_SV(&_3$$8, "Invalid meta-data for model ", &className);
-						ZEPHIR_CALL_METHOD(NULL, &_2$$8, "__construct", NULL, 6, &_3$$8);
+						ZEPHIR_CALL_METHOD(NULL, &_2$$8, "__construct", NULL, 8, &_3$$8);
 						zephir_check_call_status();
 						zephir_throw_exception_debug(&_2$$8, "phalcon/Mvc/Model/MetaData.zep", 805);
 						ZEPHIR_MM_RESTORE();
@@ -1432,7 +1432,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, initialize) {
 	}
 	ZEPHIR_INIT_VAR(&keyName);
 	zephir_fast_strtolower(&keyName, &className);
-	zephir_read_property(&_4, this_ptr, SL("columnMap"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_4, this_ptr, ZEND_STRL("columnMap"), PH_NOISY_CC | PH_READONLY);
 	if (zephir_array_isset(&_4, &keyName)) {
 		RETURN_MM_NULL();
 	}
@@ -1485,13 +1485,13 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, throwWriteException) {
 	if (zephir_is_true(option)) {
 		ZEPHIR_INIT_VAR(&_0$$3);
 		object_init_ex(&_0$$3, phalcon_mvc_model_exception_ce);
-		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 6, &message);
+		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 8, &message);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_0$$3, "phalcon/Mvc/Model/MetaData.zep", 889);
 		ZEPHIR_MM_RESTORE();
 		return;
 	} else {
-		ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 5, &message);
+		ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 7, &message);
 		zephir_check_call_status();
 	}
 	ZEPHIR_MM_RESTORE();
@@ -1512,17 +1512,17 @@ zend_object *zephir_init_properties_Phalcon_Mvc_Model_MetaData(zend_class_entry 
 	{
 		zval local_this_ptr, *this_ptr = &local_this_ptr;
 		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property(&_0, this_ptr, SL("metaData"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_ex(&_0, this_ptr, ZEND_STRL("metaData"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_0) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_1$$3);
 			array_init(&_1$$3);
-			zephir_update_property_zval(this_ptr, SL("metaData"), &_1$$3);
+			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("metaData"), &_1$$3);
 		}
-		zephir_read_property(&_2, this_ptr, SL("columnMap"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_ex(&_2, this_ptr, ZEND_STRL("columnMap"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_2) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_3$$4);
 			array_init(&_3$$4);
-			zephir_update_property_zval(this_ptr, SL("columnMap"), &_3$$4);
+			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("columnMap"), &_3$$4);
 		}
 		ZEPHIR_MM_RESTORE();
 		return Z_OBJ_P(this_ptr);

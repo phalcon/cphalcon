@@ -95,7 +95,11 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_modelinterface_find,
 	ZEND_ARG_INFO(0, parameters)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_modelinterface_findfirst, 0, 0, 0)
+#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_modelinterface_findfirst, 0, 0, Phalcon\\Mvc\\ModelInterface, 1)
+#else
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_modelinterface_findfirst, 0, 0, IS_OBJECT, "Phalcon\\Mvc\\ModelInterface", 1)
+#endif
 	ZEND_ARG_INFO(0, parameters)
 ZEND_END_ARG_INFO()
 

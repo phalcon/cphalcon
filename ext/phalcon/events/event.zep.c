@@ -179,19 +179,19 @@ PHP_METHOD(Phalcon_Events_Event, __construct) {
 		zephir_gettype(&_1$$3, source);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZEPHIR_CONCAT_SVSV(&_2$$3, "The source of ", &type, " event must be an object, got ", &_1$$3);
-		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 6, &_2$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 8, &_2$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_0$$3, "/home/nikos/Work/niden/cphalcon/phalcon/Events/Event.zep", 75);
+		zephir_throw_exception_debug(&_0$$3, "phalcon/Events/Event.zep", 75);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_update_property_zval(this_ptr, SL("type"), &type);
-	zephir_update_property_zval(this_ptr, SL("source"), source);
-	zephir_update_property_zval(this_ptr, SL("data"), data);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("type"), &type);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("source"), source);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("data"), data);
 	if (cancelable) {
-		zephir_update_property_zval(this_ptr, SL("cancelable"), &__$true);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("cancelable"), &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, SL("cancelable"), &__$false);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("cancelable"), &__$false);
 	}
 	ZEPHIR_MM_RESTORE();
 
@@ -246,7 +246,7 @@ PHP_METHOD(Phalcon_Events_Event, setData) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, SL("data"), data);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("data"), data);
 	RETURN_THISW();
 
 }
@@ -278,7 +278,7 @@ PHP_METHOD(Phalcon_Events_Event, setType) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, SL("type"), &type);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("type"), &type);
 	RETURN_THIS();
 
 }
@@ -302,15 +302,15 @@ PHP_METHOD(Phalcon_Events_Event, stop) {
 	ZVAL_UNDEF(&_0);
 
 
-	zephir_read_property(&_0, this_ptr, SL("cancelable"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("cancelable"), PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(!zephir_is_true(&_0))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_events_exception_ce, "Trying to cancel a non-cancelable event", "/home/nikos/Work/niden/cphalcon/phalcon/Events/Event.zep", 137);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_events_exception_ce, "Trying to cancel a non-cancelable event", "phalcon/Events/Event.zep", 137);
 		return;
 	}
 	if (1) {
-		zephir_update_property_zval(this_ptr, SL("stopped"), &__$true);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("stopped"), &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, SL("stopped"), &__$false);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("stopped"), &__$false);
 	}
 	RETURN_THISW();
 

@@ -11,10 +11,10 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Forms\Element\Textarea;
+namespace Phalcon\Test\Integration\Forms\Element\TextArea;
 
 use IntegrationTester;
-use Phalcon\Forms\Element\Textarea;
+use Phalcon\Forms\Element\TextArea;
 use Phalcon\Tag;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
@@ -41,14 +41,14 @@ class RenderCest
     }
 
     /**
-     * Tests Phalcon\Forms\Element\Textarea :: render()
+     * Tests Phalcon\Forms\Element\TextArea :: render()
      *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-23
      */
     public function formsElementTextareaRenderSimple(IntegrationTester $I)
     {
-        $I->wantToTest('Forms\Element\Textarea - render()');
+        $I->wantToTest('Forms\Element\TextArea - render()');
 
         $element = new Textarea('simple');
 
@@ -59,14 +59,14 @@ class RenderCest
     }
 
     /**
-     * Tests Phalcon\Forms\Element\Textarea :: render() with parameters
+     * Tests Phalcon\Forms\Element\TextArea :: render() with parameters
      *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-23
      */
     public function formsElementTextareaRenderWithParameters(IntegrationTester $I)
     {
-        $I->wantToTest('Forms\Element\Textarea - render() with parameters');
+        $I->wantToTest('Forms\Element\TextArea - render() with parameters');
 
         $element = new Textarea(
             'fantastic',

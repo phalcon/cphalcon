@@ -15,6 +15,7 @@ namespace Phalcon\Test\Database\Mvc\Model;
 
 use DatabaseTester;
 use Phalcon\Mvc\Model\Resultset\Simple;
+use Phalcon\Mvc\Model\Transaction\Manager;
 use Phalcon\Storage\Exception;
 use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
@@ -34,7 +35,8 @@ class SumCest
     /**
      * Executed before each test
      *
-     * @param  DatabaseTester $I
+     * @param DatabaseTester $I
+     *
      * @return void
      */
     public function _before(DatabaseTester $I): void
@@ -50,10 +52,23 @@ class SumCest
         $this->invoiceMigration = new InvoicesMigration($I->getConnection());
     }
 
+
+    public function _after(DatabaseTester $I): void
+    {
+        /**
+         * @var Manager $transactionManager
+         */
+        $transactionManager = $this->getDi()->getShared('transactionManager');
+
+        if ($transactionManager->has()) {
+            $transactionManager->rollback();
+        }
+    }
+
     /**
      * Tests Phalcon\Mvc\Model :: sum()
      *
-     * @param  DatabaseTester $I
+     * @param DatabaseTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-30
@@ -124,12 +139,12 @@ class SumCest
             ]
         );
         $I->assertInstanceOf(Simple::class, $results);
-        $I->assertEquals(1, (int) $results[0]->inv_cst_id);
-        $I->assertEquals(232, (int) $results[0]->sumatory);
-        $I->assertEquals(2, (int) $results[1]->inv_cst_id);
-        $I->assertEquals(33, (int) $results[1]->sumatory);
-        $I->assertEquals(3, (int) $results[2]->inv_cst_id);
-        $I->assertEquals(1, (int) $results[2]->sumatory);
+        $I->assertEquals(1, (int)$results[0]->inv_cst_id);
+        $I->assertEquals(232, (int)$results[0]->sumatory);
+        $I->assertEquals(2, (int)$results[1]->inv_cst_id);
+        $I->assertEquals(33, (int)$results[1]->sumatory);
+        $I->assertEquals(3, (int)$results[2]->inv_cst_id);
+        $I->assertEquals(1, (int)$results[2]->sumatory);
 
         $results = Invoices::sum(
             [
@@ -139,11 +154,64 @@ class SumCest
             ]
         );
         $I->assertInstanceOf(Simple::class, $results);
-        $I->assertEquals(3, (int) $results[0]->inv_cst_id);
-        $I->assertEquals(1, (int) $results[0]->sumatory);
-        $I->assertEquals(2, (int) $results[1]->inv_cst_id);
-        $I->assertEquals(33, (int) $results[1]->sumatory);
-        $I->assertEquals(1, (int) $results[2]->inv_cst_id);
-        $I->assertEquals(232, (int) $results[2]->sumatory);
+        $I->assertEquals(3, (int)$results[0]->inv_cst_id);
+        $I->assertEquals(1, (int)$results[0]->sumatory);
+        $I->assertEquals(2, (int)$results[1]->inv_cst_id);
+        $I->assertEquals(33, (int)$results[1]->sumatory);
+        $I->assertEquals(1, (int)$results[2]->inv_cst_id);
+        $I->assertEquals(232, (int)$results[2]->sumatory);
+    }
+
+    /**
+     * Tests Phalcon\Mvc\Model :: sum()
+     *
+     * @param DatabaseTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-01-30
+     *
+     * @group  mysql
+     * @group  pgsql
+     */
+    public function mvcModelSumTransaction(DatabaseTester $I)
+    {
+        $I->wantToTest('Phalcon\Mvc\Model :: sum() - with transaction');
+
+        $this->insertDataInvoices($this->invoiceMigration, 7, 'default', 2, 'ccc');
+        $this->insertDataInvoices($this->invoiceMigration, 1, 'default', 3, 'aaa');
+        $this->insertDataInvoices($this->invoiceMigration, 11, 'default', 1, 'aaa');
+
+        $originalTotal = Invoices::sum(
+            [
+                'column' => 'inv_total'
+            ]
+        );
+
+        /**
+         * @var Manager $transactionManager
+         */
+        $transactionManager = $this->getDi()->getShared('transactionManager');
+        $transaction        = $transactionManager->get();
+
+        /**
+         * @var Invoices $deletedInvoice
+         */
+        $deletedInvoice = Invoices::findFirst();
+        $deletedInvoice->setTransaction($transaction);
+        $deletedInvoice->delete();
+
+        $total = Invoices::sum(
+            [
+                'column'      => 'inv_total',
+                'transaction' => $transaction
+            ]
+        );
+
+        $I->assertEquals(
+            $originalTotal - $deletedInvoice->inv_total,
+            $total
+        );
+
+        $transaction->rollback();
     }
 }

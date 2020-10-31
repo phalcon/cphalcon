@@ -95,7 +95,7 @@ PHP_METHOD(Phalcon_Paginator_Repository, __get) {
 	zephir_get_class(&_2, this_ptr, 0);
 	ZEPHIR_INIT_VAR(&_3);
 	ZEPHIR_CONCAT_SVSV(&_3, "Access to undefined property ", &_2, "::", &property);
-	ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 5, &_3);
+	ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 7, &_3);
 	zephir_check_call_status();
 	RETURN_MM_NULL();
 
@@ -335,7 +335,7 @@ PHP_METHOD(Phalcon_Paginator_Repository, setAliases) {
 	zephir_get_arrval(&aliases, aliases_param);
 
 
-	zephir_update_property_zval(this_ptr, SL("aliases"), &aliases);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("aliases"), &aliases);
 	RETURN_THIS();
 
 }
@@ -358,7 +358,7 @@ PHP_METHOD(Phalcon_Paginator_Repository, setProperties) {
 	zephir_get_arrval(&properties, properties_param);
 
 
-	zephir_update_property_zval(this_ptr, SL("properties"), &properties);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("properties"), &properties);
 	RETURN_THIS();
 
 }
@@ -390,8 +390,8 @@ PHP_METHOD(Phalcon_Paginator_Repository, getProperty) {
 	}
 
 
-	zephir_read_property(&_1, this_ptr, SL("properties"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_arr_ce, "get", &_0, 15, &_1, &property, defaultValue);
+	zephir_read_property(&_1, this_ptr, ZEND_STRL("properties"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_arr_ce, "get", &_0, 16, &_1, &property, defaultValue);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -421,7 +421,7 @@ PHP_METHOD(Phalcon_Paginator_Repository, getRealNameProperty) {
 	ZEPHIR_CALL_METHOD(&aliases, this_ptr, "getaliases", NULL, 0);
 	zephir_check_call_status();
 	if (zephir_array_isset(&aliases, &property)) {
-		zephir_array_fetch(&_0$$3, &aliases, &property, PH_NOISY | PH_READONLY, "/home/nikos/Work/niden/cphalcon/phalcon/Paginator/Repository.zep", 180);
+		zephir_array_fetch(&_0$$3, &aliases, &property, PH_NOISY | PH_READONLY, "phalcon/Paginator/Repository.zep", 180);
 		RETURN_CTOR(&_0$$3);
 	}
 	RETURN_CTOR(&property);
@@ -442,17 +442,17 @@ zend_object *zephir_init_properties_Phalcon_Paginator_Repository(zend_class_entr
 	{
 		zval local_this_ptr, *this_ptr = &local_this_ptr;
 		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property(&_0, this_ptr, SL("properties"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_ex(&_0, this_ptr, ZEND_STRL("properties"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_0) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_1$$3);
 			array_init(&_1$$3);
-			zephir_update_property_zval(this_ptr, SL("properties"), &_1$$3);
+			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("properties"), &_1$$3);
 		}
-		zephir_read_property(&_2, this_ptr, SL("aliases"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_ex(&_2, this_ptr, ZEND_STRL("aliases"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_2) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_3$$4);
 			array_init(&_3$$4);
-			zephir_update_property_zval(this_ptr, SL("aliases"), &_3$$4);
+			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("aliases"), &_3$$4);
 		}
 		ZEPHIR_MM_RESTORE();
 		return Z_OBJ_P(this_ptr);

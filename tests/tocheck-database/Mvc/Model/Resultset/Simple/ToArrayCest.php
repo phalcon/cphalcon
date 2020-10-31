@@ -49,7 +49,10 @@ class ToArrayCest
          * Re-create DB table with data
          */
         $db = $this->getService('db');
-        (new InvoicesMigration())($db);
+
+        $migration = new InvoicesMigration($db);
+        $migration->create();
+
         $data = [
             [1, 0, 'Title 1', 10.51, date('Y-m-d H:i:s')],
             [123, 1, 'Title 2', 5.2, date('Y-m-d H:i:s')],

@@ -14,8 +14,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Database\Mvc\Model;
 
 use DatabaseTester;
+use Phalcon\Test\Fixtures\Migrations\CustomersDefaultsMigration;
 use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
+use Phalcon\Test\Models\CustomersDefaults;
 use Phalcon\Test\Models\Invoices;
 
 use function uniqid;
@@ -34,8 +36,7 @@ class UpdateCest
 
         /** @var PDO $connection */
         $connection = $I->getConnection();
-        $migration  = new InvoicesMigration($connection);
-        $migration->clear();
+        (new InvoicesMigration($connection));
     }
 
     /**
@@ -91,6 +92,77 @@ class UpdateCest
                 'inv_created_at'  => null,
             ],
             $record->toArray()
+        );
+    }
+
+    /**
+     * Tests Phalcon\Mvc\Model :: update() - with default values
+     *
+     * @see    https://github.com/phalcon/cphalcon/issues/14924
+     *
+     * @author Balázs Németh <https://github.com/zsilbi>
+     * @since  2020-10-18
+     *
+     * @group  mysql
+     * @group  pgsql
+     * @group  sqlite
+     */
+    public function mvcModelSaveAfterWithoutDefaultValues(DatabaseTester $I)
+    {
+        $I->wantToTest('Mvc\Model - update() - with default values');
+
+        /** @var \PDO $connection */
+        $connection = $I->getConnection();
+
+        $customersMigration = new CustomersDefaultsMigration($connection);
+        $customersMigration->clear();
+
+        /**
+         * Customer is created manually with empty first and last name
+         */
+        $customersMigration->insert(1, 1, null, null);
+
+        $manualCustomer = CustomersDefaults::findFirst(1);
+
+        $I->assertEquals(
+            '',
+            $manualCustomer->cst_name_first
+        );
+
+        $I->assertEquals(
+            '',
+            $manualCustomer->cst_name_last
+        );
+
+        /**
+         * Validation should fail because we don't allow
+         * empty strings for `not null` columns
+         */
+        $I->assertFalse(
+            $manualCustomer->update()
+        );
+
+        /**
+         * Customer is created by ORM with proper default values
+         */
+        $ormCustomer = new CustomersDefaults();
+
+        $I->assertTrue(
+            $ormCustomer->create()
+        );
+
+        $I->assertEquals(
+            'cst_default_firstName',
+            $ormCustomer->cst_name_first
+        );
+
+        $I->assertEquals(
+            'cst_default_lastName',
+            $ormCustomer->cst_name_last
+        );
+
+        $I->assertTrue(
+            $ormCustomer->update()
         );
     }
 }
