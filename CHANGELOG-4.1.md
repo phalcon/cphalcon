@@ -39,9 +39,7 @@ This component can be used to create SQL statements using a fluent interface. Op
 - Added service checks for the session. Now cookies will be saved in the session only when the `session` service is defined [#11770](https://github.com/phalcon/cphalcon/issues/11770), [#14649](https://github.com/phalcon/cphalcon/pull/14649)
 - Changed `Phalcon\Db\Adapter\*::getRawSQLStatement()` to return the full SQL query with parameters [#12196](https://github.com/phalcon/cphalcon/issues/12196)
 - Changed `Phalcon\Filter::sanitize` to throw a `E_USER_NOTICE` when a filter does not exist. [#14679](https://github.com/phalcon/cphalcon/issues/14679)
-- PHQL now supports the use of any printable characters from the extended ASCII
-  table for escaped identifiers. The exception characters are `[` and `]`. To
-  use `[` and `]` escape they (`\[`, `\]`) [#14535](https://github.com/phalcon/cphalcon/issues/14535)
+- PHQL now supports the use of any printable characters from the extended ASCII table for escaped identifiers. The exception characters are `[` and `]`. To use `[` and `]` escape they (`\[`, `\]`) [#14535](https://github.com/phalcon/cphalcon/issues/14535)
 - Removed UTF-8 charset when using `Phalcon\Http\Response::setJsonContent` to apply with rfc7159
 - Changed the visibility of properties in `Phalcon\Http\Message\Uri` to work with `clone`. [#15040](https://github.com/phalcon/cphalcon/issues/15040)
 - Change `Phalcon\Validation\AbstractValidator::__construct`. Save custom validator message in options. [#15053](https://github.com/phalcon/cphalcon/issues/15053) [@ivan-zolotavin](https://github.com/ivan-zolotavin)
