@@ -969,16 +969,15 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     }
 
     /**
-     * Checks previously queried related records for changes
-     * and copies them to the dirtyRelated storage
-     * (only for single relations)
+     * Collects previously queried (belongs-to, has-one and has-one-through)
+     * related records along with freshly added one
      *
-     * @return array Dirty related records
+     * @return array Related records that should be saved
      */
-    protected function collectDirtyRelated() -> array
+    protected function collectRelatedForSave() -> array
     {
-        var name, record;
-        array related, dirtyRelated;
+        var name, record, relatedForSave;
+        array related;
 
         /**
          * Load previously queried related records
@@ -988,10 +987,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         /**
          * Load unsaved related records
          */
-        let dirtyRelated = this->dirtyRelated;
+        let relatedForSave = this->dirtyRelated;
 
         for name, record in related {
-            if isset dirtyRelated[name] {
+            if isset relatedForSave[name] {
                 continue;
             }
 
@@ -999,16 +998,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 continue;
             }
 
-            if record->getDirtyState() == Model::DIRTY_STATE_PERSISTENT {
-                continue;
-            }
-
-            let dirtyRelated[name] = record;
+            let relatedForSave[name] = record;
         }
 
-        let this->dirtyRelated = dirtyRelated;
-
-        return this->dirtyRelated;
+        return relatedForSave;
     }
 
     /**
@@ -2414,8 +2407,8 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     public function save() -> bool
     {
         var metaData, schema, writeConnection, readConnection, source, table,
-            identityField, exists, success, dirtyRelated;
-        bool hasDirtyRelated;
+            identityField, exists, success, relatedForSave;
+        bool hasRelatedForSave;
 
         let metaData = this->getModelsMetaData();
 
@@ -2434,15 +2427,15 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
          * previously queried related records that
          * may have been modified
          */
-        let dirtyRelated = this->collectDirtyRelated();
+        let relatedForSave = this->collectRelatedForSave();
 
         /**
          * Does it have unsaved related records
          */
-        let hasDirtyRelated = count(dirtyRelated) > 0;
+        let hasRelatedForSave = count(relatedForSave) > 0;
 
-        if hasDirtyRelated {
-            if this->preSaveRelatedRecords(writeConnection, dirtyRelated) === false {
+        if hasRelatedForSave {
+            if this->preSaveRelatedRecords(writeConnection, relatedForSave) === false {
                 return false;
             }
         }
@@ -2489,7 +2482,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             /**
              * Rollback the current transaction if there was validation errors
              */
-            if hasDirtyRelated {
+            if hasRelatedForSave {
                 writeConnection->rollback(false);
             }
 
@@ -2531,7 +2524,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             let this->dirtyState = self::DIRTY_STATE_PERSISTENT;
         }
 
-        if hasDirtyRelated {
+        if hasRelatedForSave {
             /**
              * Rollbacks the implicit transaction if the master save has failed
              */
@@ -2543,7 +2536,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                  */
                 let success = this->postSaveRelatedRecords(
                     writeConnection,
-                    dirtyRelated
+                    relatedForSave
                 );
             }
         }
@@ -2558,7 +2551,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         if success === false {
             this->cancelOperation();
         } else {
-            if hasDirtyRelated {
+            if hasRelatedForSave {
                 /**
                  * Clear unsaved related records storage
                  */
