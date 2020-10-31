@@ -1,3 +1,4 @@
+- [CHANGELOG 4.1](resources/CHANGELOG-4.1.md)
 - [CHANGELOG 4.0](resources/CHANGELOG-4.0.md)
 - [CHANGELOG 3.4](resources/CHANGELOG-3.4.md)
 - [CHANGELOG 3.3](resources/CHANGELOG-3.3.md)
