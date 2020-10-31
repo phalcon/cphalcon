@@ -187,6 +187,61 @@ class SaveCest
     }
 
     /**
+     * Tests Phalcon\Mvc\Model :: save() with related records property
+     *
+     * @author Balázs Németh <https://github.com/zsilbi>
+     * @since  2020-10-31
+     *
+     * @see https://github.com/phalcon/cphalcon/issues/15148
+     *
+     * @group  mysql
+     * @group  pgsql
+     * @group  sqlite
+     */
+    public function mvcModelSaveWithRelatedRecordsProperty(DatabaseTester $I)
+    {
+        $I->wantToTest('Mvc\Model - save() with related records property');
+
+        /** @var \PDO $connection */
+        $connection = $I->getConnection();
+
+        $invoicesMigration = new InvoicesMigration($connection);
+        $invoicesMigration->clear();
+        $invoicesMigration->insert(77, 1, 0, uniqid('inv-', true));
+
+        $customersMigration = new CustomersMigration($connection);
+        $customersMigration->clear();
+        $customersMigration->insert(1, 1, 'test_firstName_1', 'test_lastName_1');
+
+        /**
+         * @var Invoices $invoice
+         */
+        $invoice = Invoices::findFirst(77);
+
+        $invoice->customer->cst_name_first  = 'new_firstName';
+        $invoice->customer->cst_status_flag = 0;
+
+        $I->assertTrue(
+          $invoice->save()
+        );
+
+        /**
+         * @var Customers $customer
+         */
+        $customer = Customers::findFirst(1);
+
+        $I->assertEquals(
+            'new_firstName',
+            $customer->cst_name_first
+        );
+
+        $I->assertEquals(
+            0,
+            $customer->cst_status_flag
+        );
+    }
+
+    /**
      * Tests Phalcon\Mvc\Model :: save() after fetching related records
      *
      * @see    https://github.com/phalcon/cphalcon/issues/13964
@@ -383,7 +438,7 @@ class SaveCest
         );
 
         // Assign relationship in both directions on unsaved models
-        $invoice->customer  = $customer;
+        $invoice->customer = $customer;
 
         $customer->invoices = [
             $invoice
