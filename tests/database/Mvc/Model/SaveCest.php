@@ -218,11 +218,16 @@ class SaveCest
          */
         $invoice = Invoices::findFirst(77);
 
+        $I->assertEquals(
+            1,
+            $invoice->customer->id
+        );
+
         $invoice->customer->cst_name_first  = 'new_firstName';
         $invoice->customer->cst_status_flag = 0;
 
         $I->assertTrue(
-          $invoice->save()
+            $invoice->save()
         );
 
         /**
