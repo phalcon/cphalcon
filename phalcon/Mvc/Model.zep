@@ -969,6 +969,49 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     }
 
     /**
+     * Checks previously queried related records for changes
+     * and copies them to the dirtyRelated storage
+     * (only for single relations)
+     *
+     * @return array Dirty related records
+     */
+    protected function collectDirtyRelated() -> array
+    {
+        var name, record;
+        array related, dirtyRelated;
+
+        /**
+         * Load previously queried related records
+         */
+        let related = this->related;
+
+        /**
+         * Load unsaved related records
+         */
+        let dirtyRelated = this->dirtyRelated;
+
+        for name, record in related {
+            if isset dirtyRelated[name] {
+                continue;
+            }
+
+            if typeof record != "object" || !(record instanceof ModelInterface) {
+                continue;
+            }
+
+            if record->getDirtyState() == Model::DIRTY_STATE_PERSISTENT {
+                continue;
+            }
+
+            let dirtyRelated[name] = record;
+        }
+
+        let this->dirtyRelated = dirtyRelated;
+
+        return this->dirtyRelated;
+    }
+
+    /**
      * Counts how many records match the specified conditions.
      *
      * Returns an integer for simple queries or a ResultsetInterface
@@ -2387,9 +2430,11 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         this->fireEvent("prepareSave");
 
         /**
-         * Load unsaved related records
+         * Load unsaved related records and collect
+         * previously queried related records that
+         * may have been modified
          */
-        let dirtyRelated = this->dirtyRelated;
+        let dirtyRelated = this->collectDirtyRelated();
 
         /**
          * Does it have unsaved related records
