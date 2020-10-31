@@ -109,7 +109,7 @@
       <file name="php_phalcon.h" role="src" />
       <file name="phalcon.zep.h" role="src" />
       <file name="LICENSE.txt" role="doc" />
-      <file name="CHANGELOG-4.0.md" role="doc" />
+      <file name="CHANGELOG-4.1.md" role="doc" />
       <file name="CODE_OF_CONDUCT.md" role="doc" />
       <file name="CODE_OWNERS.TXT" role="doc" />
     </dir>
