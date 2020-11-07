@@ -37,7 +37,7 @@
 
 ## Changed
 - Added service checks for the session. Now cookies will be saved in the session only when the `session` service is defined [#11770](https://github.com/phalcon/cphalcon/issues/11770), [#14649](https://github.com/phalcon/cphalcon/pull/14649)
-- Changed `Phalcon\Db\Adapter\*::getRawSQLStatement()` to return the full SQL query with parameters [#12196](https://github.com/phalcon/cphalcon/issues/12196)
+- Changed `Phalcon\Db\Adapter\*::getRealSQLStatement()` to return the full SQL query with parameters [#12196](https://github.com/phalcon/cphalcon/issues/12196)
 - Changed `Phalcon\Filter::sanitize` to throw a `E_USER_NOTICE` when a filter does not exist. [#14679](https://github.com/phalcon/cphalcon/issues/14679)
 - PHQL now supports the use of any printable characters from the extended ASCII
   table for escaped identifiers. The exception characters are `[` and `]`. To
