@@ -21,8 +21,10 @@ interface ValidationInterface
 {
     /**
      * Adds a validator to a field
+     *
+     * @param string|array field
      */
-    public function add(string field, <ValidatorInterface> validator) -> <ValidationInterface>;
+    public function add(var field, <ValidatorInterface> validator) -> <ValidationInterface>;
 
     /**
      * Appends a message to the messages list
