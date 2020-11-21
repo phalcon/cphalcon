@@ -21,8 +21,8 @@ jobs:
 
       - name: Setup Environment Variables
         run: |
-          echo "::set-env name=ZEPHIR_PARSER_VERSION::v1.3.4"
-          echo "::set-env name=ZEPHIR_VERSION::0.12.19"
+          echo "ZEPHIR_PARSER_VERSION=v1.3.4" >> $GITHUB_ENV
+          echo "ZEPHIR_VERSION=0.12.19" >> $GITHUB_ENV
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -397,31 +397,31 @@ jobs:
 
       - name: Setup Environment Variables
         run: |
-          echo "::set-env name=PHP_SDK_VERSION::2.2.0"
-          echo "::set-env name=PHP_DEVPACK::C:\tools\php-devpack"
-          echo "::set-env name=PHP_SDK_PATH::C:\tools\php-sdk"
-          echo "::set-env name=PHP_PECL_PATH::C:\tools\pecl"
+          echo "PHP_SDK_VERSION=2.2.0" >> $GITHUB_ENV
+          echo "PHP_DEVPACK=C:\tools\php-devpack" >> $GITHUB_ENV
+          echo "PHP_SDK_PATH=C:\tools\php-sdk" >> $GITHUB_ENV
+          echo "PHP_PECL_PATH=C:\tools\pecl" >> $GITHUB_ENV
           # FIXME: phpversion() return 7.4.3 but windows.php.net has only 7.4.4
           # We should parse the following file to get the correct version:
           #   https://windows.php.net/downloads/releases/sha256sum.txt
           If ("${{ matrix.php-versions }}" -eq "7.4") {
-            echo "::set-env name=PHP_VERSION::7.4.4"
+            echo "PHP_VERSION=7.4.4" >> $GITHUB_ENV
           } Else {
-            echo "::set-env name=PHP_VERSION::$(php -r 'echo phpversion();')"
+            echo "PHP_VERSION=$(php -r 'echo phpversion();')" >> $GITHUB_ENV
           }
-          echo "::set-env name=PHP_MINOR::${{ matrix.php-versions }}"
-          echo "::set-env name=TEST_PHP_EXECUTABLE::${env:PHPROOT}\php.exe"
-          echo "::set-env name=VC_VERSION::${{ matrix.vc_num }}"
-          echo "::set-env name=PHP_ARCH::${{ matrix.arch }}"
-          echo "::set-env name=PACKAGE_PREFIX::phalcon"
-          echo "::set-env name=EXTENSION_NAME::phalcon"
-          echo "::set-env name=EXTENSION_FILE::php_phalcon.dll"
-          echo "::set-env name=PHALCON_VERSION::4.1.0"
-          echo "::set-env name=PHPTS::${{ matrix.ts }}"
+          echo "PHP_MINOR=${{ matrix.php-versions }}" >> $GITHUB_ENV
+          echo "TEST_PHP_EXECUTABLE=${env:PHPROOT}\php.exe" >> $GITHUB_ENV
+          echo "VC_VERSION=${{ matrix.vc_num }}" >> $GITHUB_ENV
+          echo "PHP_ARCH=${{ matrix.arch }}" >> $GITHUB_ENV
+          echo "PACKAGE_PREFIX=phalcon" >> $GITHUB_ENV
+          echo "EXTENSION_NAME=phalcon" >> $GITHUB_ENV
+          echo "EXTENSION_FILE=php_phalcon.dll" >> $GITHUB_ENV
+          echo "PHALCON_VERSION=4.1.0" >> $GITHUB_ENV
+          echo "PHPTS=${{ matrix.ts }}" >> $GITHUB_ENV
           If ("${{ matrix.ts }}" -eq "nts") {
-            echo "::set-env name=BUILD_TYPE::nts-${{ matrix.build_type }}"
+            echo "BUILD_TYPE=nts-${{ matrix.build_type }}" >> $GITHUB_ENV
           } Else {
-            echo "::set-env name=BUILD_TYPE::${{ matrix.build_type }}"
+            echo "BUILD_TYPE=${{ matrix.build_type }}" >> $GITHUB_ENV
           }
       - name: Setup Composer Token
         run: |
@@ -483,10 +483,10 @@ jobs:
         shell: powershell
         run: |
           $v = "${env:WindowsSDKVersion}" -replace '\\$', ''
-          Write-Output "::set-env name=WindowsSDKVersion::$v"
+          Write-Output "WindowsSDKVersion=$v" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
           $v = "${env:WindowsSDKLibVersion}" -replace '\\$', ''
-          Write-Output "::set-env name=WindowsSDKLibVersion::$v"
+          Write-Output "WindowsSDKLibVersion=$v" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
       - name: Unpack Package
         run: |
