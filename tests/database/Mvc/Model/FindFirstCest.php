@@ -278,6 +278,35 @@ class FindFirstCest
         $I->assertSame($example['found'], $model instanceof Model);
     }
 
+    public function mvcModelFindFirstColumn(DatabaseTester $I): void
+    {
+        $I->wantToTest('Mvc\Model - findFirst() - column option');
+
+        /** @var PDO $connection */
+        $connection = $I->getConnection();
+        $migration  = new InvoicesMigration($connection);
+        $migration->insert(4);
+
+        $invoice = Invoices::findFirst([
+            'columns' => 'inv_id',
+        ]);
+
+        $I->assertInstanceOf(
+            Invoices::class,
+            $invoice
+        );
+
+        $I->assertEquals(
+            4,
+            $invoice->inv_id
+        );
+
+        $I->assertEquals(
+            ['inv_id' => 4],
+            $invoice->toArray()
+        );
+    }
+
     /**
      * @return array
      */
