@@ -17,6 +17,7 @@ use Codeception\Example;
 use DatabaseTester;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Exception;
+use Phalcon\Mvc\Model\Row;
 use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
 use Phalcon\Test\Fixtures\Migrations\StringPrimaryMigration;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
@@ -269,7 +270,7 @@ class FindFirstCest
         ]);
 
         $I->assertInstanceOf(
-            Invoices::class,
+            Row::class,
             $invoice
         );
 
