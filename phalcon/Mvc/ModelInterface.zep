@@ -99,8 +99,12 @@ interface ModelInterface
      * Allows to query the first record that match the specified conditions
      *
      * @param array parameters
+     * @return \Phalcon\Mvc\ModelInterface|\Phalcon\Mvc\Model\Row|null
+     *
+     * TODO: Current method signature must be reviewed in v5. As it must return only ?ModelInterface.
+     * @see https://github.com/phalcon/cphalcon/issues/15212
      */
-    public static function findFirst(parameters = null) -> <ModelInterface> | null;
+    public static function findFirst(parameters = null) -> var | null;
 
     /**
      * Fires an event, implicitly calls behaviors and listeners in the events
