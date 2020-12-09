@@ -253,7 +253,7 @@ class Logger implements LoggerInterface
 
         let intLevel = this->getLevelNumber(level);
 
-        this->addMessage(level, (string) message, context);
+        this->addMessage(intLevel, (string) message, context);
     }
 
     /**
