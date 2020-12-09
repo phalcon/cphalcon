@@ -16,10 +16,12 @@ namespace Phalcon\Test\Unit\Logger\Logger;
 use Phalcon\Logger;
 use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Logger\Adapter\Syslog;
+use Psr\Log\LogLevel;
 use UnitTester;
 
 use function logsDir;
 use function sprintf;
+use function uniqid;
 
 class LogCest
 {
@@ -179,5 +181,41 @@ class LogCest
         );
 
         $logger->log(Logger::ERROR, 'Message Error');
+    }
+
+    /**
+     * Tests Phalcon\Logger :: log() - logLevel
+     *
+     * @issue #15214
+     */
+    public function loggerLogLogLevelPsr(UnitTester $I)
+    {
+        $I->wantToTest('Logger - log() - logLevel');
+
+        $unique    = uniqid();
+        $logPath   = logsDir();
+        $fileName  = $I->getNewFileName('log', 'log');
+        $adapter   = new Stream($logPath . $fileName);
+
+        $logger = new Logger(
+            'my-logger',
+            [
+                'one' => $adapter,
+            ]
+        );
+
+        $logger->log(Logger::INFO, 'info message ' . $unique);
+        $logger->log(LogLevel::INFO, 'info message psr ' . $unique);
+
+        $I->amInPath($logPath);
+        $I->openFile($fileName);
+
+        $expected = '[info] info message ' . $unique;
+        $I->seeInThisFile($expected);
+        $expected = '[info] info message psr ' . $unique;
+        $I->seeInThisFile($expected);
+
+        $adapter->close();
+        $I->safeDeleteFile($fileName);
     }
 }
