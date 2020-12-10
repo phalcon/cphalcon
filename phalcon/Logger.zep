@@ -407,20 +407,26 @@ class Logger implements LoggerInterface
      */
     private function getLevelNumber(level) -> int
     {
-        var levelName, numberLevel, levels;
+        var levelName, levels;
 
+        /**
+         * If someone uses "critical" as the level (string)
+         */
         if typeof level === "string" {
             let levelName = strtolower(level),
                 levels    = array_flip(this->getLevels());
 
-            if fetch numberLevel, levels[levelName] {
-                return numberLevel;
+            if isset levels[levelName] {
+                return levels[levelName];
             }
+        /**
+         * If someone uses 1 as the level ("critical")
+         */
         } elseif is_numeric(level) {
             let levels = this->getLevels();
 
-            if fetch numberLevel, levels[level] {
-                return numberLevel;
+            if isset levels[level] {
+                return (int) level;
             }
         }
 
