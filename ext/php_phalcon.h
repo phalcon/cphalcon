@@ -8,6 +8,13 @@
 #define ZEPHIR_RELEASE 1
 #endif
 
+#if PHP_VERSION_ID >= 80000
+#define TSRMLS_DC
+#define TSRMLS_C
+#define TSRMLS_D void
+#endif
+
+
 #include "kernel/globals.h"
 
 #define PHP_PHALCON_NAME        "phalcon"
