@@ -467,7 +467,11 @@ void zephir_fast_join(zval *result, zval *glue, zval *pieces)
 		return;
 	}
 
+#if PHP_VERSION_ID < 80000
 	php_implode(Z_STR_P(glue), pieces, result);
+#else
+    php_implode(Z_STR_P(glue), Z_ARR_P(pieces), result);
+#endif
 }
 
 /**
