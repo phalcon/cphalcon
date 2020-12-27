@@ -336,7 +336,9 @@ int zephir_call_user_function(zval *object_pp, zend_class_entry *obj_ce, zephir_
 	fci.retval         = retval_ptr ? retval_ptr : &local_retval_ptr;
 	fci.param_count    = param_count;
 	fci.params         = NULL;
-	fci.no_separation  = 1;
+#if PHP_VERSION_ID < 80000
+    fci.no_separation    = 1;
+#endif
 
 #if PHP_VERSION_ID < 70300
 	fcic.initialized = 0;
