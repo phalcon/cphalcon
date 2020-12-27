@@ -14,6 +14,7 @@
 
 #include "php.h"
 #include "php_phalcon.h"
+#include "phalcon.h"
 
 #if PHP_VERSION_ID < 70000
 #include <ext/standard/php_smart_str.h>
