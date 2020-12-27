@@ -550,7 +550,7 @@ int zephir_read_property(zval *result, zval *object, const char *property_name,
 											flags ? BP_VAR_IS : BP_VAR_R,
 											NULL, &tmp);
 #else
-    res = Z_OBJ_HT_P(object)->read_property(Z_OBJ_P(object), &property,
+    res = Z_OBJ_HT_P(object)->read_property(Z_OBJ_P(object), Z_STR(property),
 											flags ? BP_VAR_IS : BP_VAR_R,
 											NULL, &tmp);
 #endif
@@ -694,7 +694,11 @@ int zephir_update_property_zval(zval *object, const char *property_name,
 
 	/* write_property will add 1 to refcount,
 	   so no Z_TRY_ADDREF_P(value) is necessary */
+#if PHP_VERSION_ID < 80000
 	Z_OBJ_HT_P(object)->write_property(object, &property, &sep_value, 0);
+#else
+    Z_OBJ_HT_P(object)->write_property(Z_OBJ_P(object),Z_STR(property), &sep_value, 0);
+#endif
 	zval_ptr_dtor(&property);
 
 	if (UNEXPECTED(EG(exception))) {

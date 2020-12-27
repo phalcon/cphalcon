@@ -299,7 +299,7 @@ int zephir_call_user_function(zval *object_pp, zend_class_entry *obj_ce, zephir_
 	int key_ok = FAILURE;
 	zephir_fcall_cache_entry *temp_cache_entry = NULL;
 	zval callable;
-	zend_class_entry* called_scope = zend_get_called_scope(EG(current_execute_data));
+    zend_class_entry* called_scope = zend_get_called_scope(EG(current_execute_data));
 
 	assert(obj_ce || !object_pp);
 	ZVAL_UNDEF(&callable);
@@ -342,6 +342,8 @@ int zephir_call_user_function(zval *object_pp, zend_class_entry *obj_ce, zephir_
 	fci.params         = NULL;
 #if PHP_VERSION_ID < 80000
     fci.no_separation    = 1;
+#else
+    fci.named_params = NULL;
 #endif
 
 #if PHP_VERSION_ID < 70300
