@@ -607,7 +607,11 @@ void zephir_eval_php(zval *str, zval *retval_ptr, char *context)
 
 	original_compiler_options = CG(compiler_options);
 	CG(compiler_options) = ZEND_COMPILE_DEFAULT_FOR_EVAL;
+#if PHP_VERSION_ID < 80000
 	new_op_array = zend_compile_string(str, context);
+#else
+    new_op_array = zend_compile_string(Z_STR_P(str), context);
+#endif
 	CG(compiler_options) = original_compiler_options;
 
 	if (new_op_array)
