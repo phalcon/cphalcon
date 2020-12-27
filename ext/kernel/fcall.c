@@ -258,7 +258,11 @@ static void populate_fcic(zend_fcall_info_cache* fcic, zephir_call_type type, ze
 		case zephir_fcall_function:
 		case zephir_fcall_method:
 			if (Z_TYPE_P(func) == IS_OBJECT) {
+#if PHP_VERSION_ID < 80000
 				if (Z_OBJ_HANDLER_P(func, get_closure) && Z_OBJ_HANDLER_P(func, get_closure)(func, &fcic->calling_scope, &fcic->function_handler, &fcic->object) == SUCCESS) {
+#else
+               if (Z_OBJ_HANDLER_P(func, get_closure) && Z_OBJ_HANDLER_P(func, get_closure)(func, &fcic->calling_scope, &fcic->function_handler, &fcic->object,1) == SUCCESS) {
+#endif
 					fcic->called_scope = fcic->calling_scope;
 					break;
 				}
