@@ -545,9 +545,15 @@ int zephir_read_property(zval *result, zval *object, const char *property_name,
 
 	ZVAL_STRINGL(&property, property_name, property_length);
 
+#if PHP_VERSION_ID < 80000
 	res = Z_OBJ_HT_P(object)->read_property(object, &property,
 											flags ? BP_VAR_IS : BP_VAR_R,
 											NULL, &tmp);
+#else
+    res = Z_OBJ_HT_P(object)->read_property(Z_OBJ_P(object), &property,
+											flags ? BP_VAR_IS : BP_VAR_R,
+											NULL, &tmp);
+#endif
 	if ((flags & PH_READONLY) == PH_READONLY) {
 		ZVAL_COPY_VALUE(result, res);
 	} else {
