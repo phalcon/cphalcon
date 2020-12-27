@@ -148,7 +148,11 @@ void zephir_fast_count(zval *result, zval *value)
 		}
 
 		if (instanceof_function(Z_OBJCE_P(value), spl_ce_Countable)) {
-			zend_call_method_with_0_params(value, NULL, NULL, "count", &retval);
+#if PHP_VERSION_ID < 80000
+            zend_call_method_with_0_params(value, NULL, NULL, "count", &retval);
+#else
+            zend_call_method_with_0_params(Z_OBJ_P(value), NULL, NULL, "count", &retval);
+#endif
 			if (Z_TYPE(retval) != IS_UNDEF) {
 				convert_to_long_ex(&retval);
 				ZVAL_LONG(result, Z_LVAL(retval));
@@ -190,7 +194,11 @@ int zephir_fast_count_ev(zval *value)
 		}
 
 		if (instanceof_function(Z_OBJCE_P(value), spl_ce_Countable)) {
-			zend_call_method_with_0_params(value, NULL, NULL, "count", &retval);
+#if PHP_VERSION_ID < 80000
+            zend_call_method_with_0_params(value, NULL, NULL, "count", &retval);
+#else
+            zend_call_method_with_0_params(Z_OBJ_P(value), NULL, NULL, "count", &retval);
+#endif
 			if (Z_TYPE(retval) != IS_UNDEF) {
 				convert_to_long_ex(&retval);
 				count = Z_LVAL(retval);
@@ -231,7 +239,11 @@ int zephir_fast_count_int(zval *value)
 		}
 
 		if (instanceof_function(Z_OBJCE_P(value), spl_ce_Countable)) {
-			zend_call_method_with_0_params(value, NULL, NULL, "count", &retval);
+#if PHP_VERSION_ID < 80000
+            zend_call_method_with_0_params(value, NULL, NULL, "count", &retval);
+#else
+            zend_call_method_with_0_params(Z_OBJ_P(value), NULL, NULL, "count", &retval);
+#endif
 			if (Z_TYPE(retval) != IS_UNDEF) {
 				convert_to_long_ex(&retval);
 				count = Z_LVAL(retval);
