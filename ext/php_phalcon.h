@@ -12,6 +12,7 @@
 #define TSRMLS_DC
 #define TSRMLS_C
 #define TSRMLS_D void
+#define TSRMLS_CC
 #endif
 
 
