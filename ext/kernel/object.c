@@ -352,7 +352,11 @@ int zephir_clone(zval *destination, zval *obj)
 			status = FAILURE;
 		} else {
 			if (!EG(exception)) {
+#if PHP_VERSION_ID < 80000
 				ZVAL_OBJ(destination, clone_call(obj));
+#else
+				ZVAL_OBJ(destination, clone_call(Z_OBJ_P(obj)));
+#endif
 				if (EG(exception)) {
 					zval_ptr_dtor(destination);
 				}
@@ -1329,6 +1333,8 @@ int zephir_create_instance(zval *return_value, const zval *class_name)
 			fci.params           = 0;
 #if PHP_VERSION_ID < 80000
             fci.no_separation    = 1;
+#else
+            fci.named_params = NULL;
 #endif
 			ZVAL_NULL(&fci.function_name);
 
