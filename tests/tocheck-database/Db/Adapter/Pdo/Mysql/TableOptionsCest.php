@@ -37,6 +37,7 @@ class TableOptionsCest
             'engine'          => 'InnoDB',
             'table_collation' => 'utf8_general_ci',
             'table_type'      => 'BASE TABLE',
+            'table_comment'   => 'test table options',
         ];
 
         $actual = $this->connection->tableOptions(

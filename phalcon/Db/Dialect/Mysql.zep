@@ -798,7 +798,7 @@ class Mysql extends Dialect
     {
         string sql;
 
-        let sql = "SELECT TABLES.TABLE_TYPE AS table_type,TABLES.AUTO_INCREMENT AS auto_increment,TABLES.ENGINE AS engine,TABLES.TABLE_COLLATION AS table_collation FROM INFORMATION_SCHEMA.TABLES WHERE ";
+        let sql = "SELECT TABLES.TABLE_TYPE AS table_type,TABLES.AUTO_INCREMENT AS auto_increment,TABLES.ENGINE AS engine,TABLES.TABLE_COLLATION AS table_collation, TABLES.TABLE_COMMENT AS table_comment FROM INFORMATION_SCHEMA.TABLES WHERE ";
 
         if schema {
             return sql . "TABLES.TABLE_SCHEMA = '" . schema . "' AND TABLES.TABLE_NAME = '" . table . "'";
@@ -877,6 +877,16 @@ class Mysql extends Dialect
                     tableOptions[] = "COLLATE=" . tableCollation;
             }
         }
+
+        /**
+         * Check if there is an comment option
+         */
+         if fetch comment, options["TABLE_COMMENT"] {
+            if comment {
+                let tableOptions[] = "COMMENT=" . comment;
+            }
+        }
+        
 
         return join(" ", tableOptions);
     }

@@ -66,7 +66,7 @@ final class DescribeColumnsCest
 
         $this->migration->insert(1, $now, $now);
 
-        $columns = $db->describeColumns($this->migration->getTable());
+        $columns = $db->($this->migration->getTable());
 
         $I->assertSame('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP', $columns[2]->getDefault());
         $I->assertSame('NULL on update CURRENT_TIMESTAMP', $columns[3]->getDefault());

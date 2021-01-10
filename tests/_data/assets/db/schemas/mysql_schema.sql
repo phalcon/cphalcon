@@ -118,7 +118,7 @@ CREATE TABLE `personas`
     KEY                 `estado` (`estado`),
     KEY                 `ciudad_id` (`ciudad_id`),
     KEY                 `estado_2` (`estado`,`nombres`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE =utf8_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE =utf8_unicode_ci COMMENT='test table options';
 INSERT INTO `personas`
 VALUES ('1', 3, 'HUANG ZHENGQUIN', '191821112', 'CRA 25 CALLE 100', '@yahoo.es',
         '2011-02-03', 127591, '2011-05-18', '6930.00', 'I'),
@@ -12764,7 +12764,7 @@ create table dialect_table
   unique key dialect_table_unique (field_integer),
   key dialect_table_index (field_bigint),
   key dialect_table_two_fields (field_char, field_char_default)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='test table options';
 
 drop table if exists `dialect_table_remote`;
 create table dialect_table_remote

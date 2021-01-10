@@ -97,6 +97,7 @@ class DbDescribeMysqlCest
             'auto_increment'  => null,
             'engine'          => 'InnoDB',
             'table_collation' => 'utf8_unicode_ci',
+            'table_comment'   => 'test table options',
         ];
 
         $I->assertEquals(
