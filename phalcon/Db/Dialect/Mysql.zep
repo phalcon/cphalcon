@@ -840,7 +840,7 @@ class Mysql extends Dialect
      */
     protected function getTableOptions(array! definition) -> string
     {
-        var options, engine, autoIncrement, tableCollation, collationParts;
+        var options, engine, autoIncrement, tableCollation, collationParts, comment;
         array tableOptions;
 
         if !fetch options, definition["options"] {
