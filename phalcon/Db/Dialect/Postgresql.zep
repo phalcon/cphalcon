@@ -666,7 +666,10 @@ class Postgresql extends Dialect
      */
     public function tableOptions(string! table, string schema = null) -> string
     {
-        return "";
+        string sql;
+
+        let sql = "select  cast(obj_description(relfilenode,'pg_class') as varchar) as table_comment from pg_class where   relname ='" . table . "'" ;
+        return sql;
     }
 
     /**
