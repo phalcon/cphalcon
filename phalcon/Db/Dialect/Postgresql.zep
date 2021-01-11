@@ -263,7 +263,7 @@ class Postgresql extends Dialect
                 */
                 if fetch tableComment, options["TABLE_COMMENT"] {
                     if tableComment {
-                        let sql .= "; COMMENT ON TABLE " . table . " IS '".table_comment."'";
+                        let sql .= "; COMMENT ON TABLE " . table . " IS '".tableComment."'";
                     }
                 }
             }
