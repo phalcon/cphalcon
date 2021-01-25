@@ -1,6 +1,6 @@
 # Phalcon Framework
 
-[![Discord](https://img.shields.io/discord/310910488152375297?label=Discord&logo=discord&style=flat-square)](http://phalcon.link/discord)
+[![Discord](https://img.shields.io/discord/310910488152375297?label=Discord&logo=discord&style=flat-square)](http://phalcon.io/discord)
 [![Build Status](https://img.shields.io/travis/phalcon/cphalcon?logo=travis&style=flat-square)](https://travis-ci.org/phalcon/cphalcon)
 [![Windows Build](https://github.com/phalcon/cphalcon/workflows/Phalcon%20CI/badge.svg?branch=4.1.x)](https://github.com/phalcon/cphalcon/actions)
 [![Code Coverage](https://github.com/phalcon/cphalcon/workflows/Codecoverage/badge.svg?branch=4.1.x)](https://github.com/phalcon/cphalcon/actions)
@@ -46,20 +46,20 @@ Steps:
 * [Contributing to Phalcon](CONTRIBUTING.md) 
 * [Official Documentation](https://docs.phalcon.io/)
 * [Zephir](https://zephir-lang.com/) - The language Phalcon is written on
-* [Incubator](https://phalcon.link/incubator) - Community driven plugins and classes extending the framework (written in PHP)
+* [Incubator](https://phalcon.io/incubator) - Community driven plugins and classes extending the framework (written in PHP)
 
 ### Support
-* [Forum](https://phalcon.link/forum)
-* [Discord](https://phalcon.link/discord)
-* [Stack Overflow](https://phalcon.link/so)
+* [Forum](https://phalcon.io/forum)
+* [Discord](https://phalcon.io/discord)
+* [Stack Overflow](https://phalcon.io/so)
 
 ### Social Media
-* [Telegram](https://phalcon.link/telegram)
-* [Gab](https://phalcon.link/gab)
-* [Parler](https://phalcon.link/parler)
-* [MeWe](https://phalcon.link/mewe)
-* [Facebook](https://phalcon.link/fb)
-* [Twitter](https://phalcon.link/t)
+* [Telegram](https://phalcon.io/telegram)
+* [Gab](https://phalcon.io/gab)
+* [Parler](https://phalcon.io/parler)
+* [MeWe](https://phalcon.io/mewe)
+* [Facebook](https://phalcon.io/fb)
+* [Twitter](https://phalcon.io/t)
 
 
 ## Sponsors

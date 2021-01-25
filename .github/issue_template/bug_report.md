@@ -7,7 +7,7 @@ assignees: ''
 
 ---
 
-Questions? Forum: https://phalcon.link/forum or Discord: https://phalcon.link/discord
+Questions? Forum: https://phalcon.io/forum or Discord: https://phalcon.io/discord
 
 **Describe the bug**
 A clear and concise description of what the bug is.
