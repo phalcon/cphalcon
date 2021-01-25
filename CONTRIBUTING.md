@@ -13,19 +13,19 @@ follow this format, even those from core contributors.
 
 We use the GitHub issues for tracking bugs and feature requests and have limited bandwidth to address all of them. Thus we only accept bug reports, new feature requests and pull requests in GitHub. Our great community and contributors are happy to help you though! Please use these community resources for obtaining help.
 
-_Please use the [Documentation](https://phalcon.link/docs) before anything else. You can also use the search feature in our documents to find what you are looking for. If your question is still not answered, there are more options below._
+_Please use the [Documentation](https://phalcon.io/docs) before anything else. You can also use the search feature in our documents to find what you are looking for. If your question is still not answered, there are more options below._
 
-* Questions should go to [Official Forums](https://phalcon.link/forum)
+* Questions should go to [Official Forums](https://phalcon.io/forum)
 * Another way is to ask a question on [Stack Overflow](https://stackoverflow.com/) and tag it with
   [`phalcon`](https://stackoverflow.com/questions/tagged/phalcon)
-* Come join the Phalcon [Discord](https://phalcon.link/discord)
+* Come join the Phalcon [Discord](https://phalcon.io/discord)
 * Our social network accounts are:
-  * [Telegram](https://phalcon.link/telegram)
-  * [Parler](https://phalcon.link/parler)
-  * [Gab](https://phalcon.link/gab)
-  * [MeWe](https://phalcon.link/mewe)
-  * [Twitter](https://phalcon.link/t)
-  * [Facebook](https://phalcon.link/fb)
+  * [Telegram](https://phalcon.io/telegram)
+  * [Parler](https://phalcon.io/parler)
+  * [Gab](https://phalcon.io/gab)
+  * [MeWe](https://phalcon.io/mewe)
+  * [Twitter](https://phalcon.io/t)
+  * [Facebook](https://phalcon.io/fb)
 * If you still believe that what you found is a bug, please
   [open an issue](https://github.com/phalcon/cphalcon/issues/new)
 
