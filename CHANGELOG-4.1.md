@@ -2,7 +2,7 @@
 
 ## Fixed
 - Fixed `Logger\Log::log()` `log` to recognize all log levels [#15214](https://github.com/phalcon/cphalcon/issues/15214)
-
+- Fixed `Crypt::encrypt()` to throw an exception when `ccm` or `gcm` modes are selected and no `authData` is present [#15270](https://github.com/phalcon/cphalcon/issues/15270)
 
 # [4.1.0](https://github.com/phalcon/cphalcon/releases/tag/v4.1.0) (2020-10-31)
 ## Added
