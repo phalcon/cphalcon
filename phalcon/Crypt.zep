@@ -304,7 +304,11 @@ class Crypt implements CryptInterface
          * If the mode is "gcm" or "ccm" and auth data has been passed call it
          * with that data
          */
-        if ("-gcm" === mode || "-ccm" === mode) && !empty this->authData {
+        if ("-gcm" === mode || "-ccm" === mode) {
+            if empty this->authData {
+                throw new Exception("A tag must be provided when using AEAD mode");
+            }
+
             let authData      = this->authData,
                 authTag       = this->authTag,
                 authTagLength = this->authTagLength;

@@ -113,11 +113,50 @@ class EncryptCest
      */
     public function cryptEncryptGcm(UnitTester $I)
     {
-        $I->wantToTest('Crypt - encrypt()');
+        $I->wantToTest('Crypt - encrypt() gcm/ccm');
 
         $ciphers = [
             'aes-128-gcm',
             'aes-128-ccm',
+            'aes-256-gcm',
+            'aes-256-ccm',
+        ];
+
+        foreach ($ciphers as $cipher) {
+            $I->expectThrowable(
+                new Exception(
+                    'A tag must be provided when using AEAD mode'
+                ),
+                function () use ($cipher) {
+                    $crypt = new Crypt();
+
+                    $crypt
+                        ->setCipher($cipher)
+                        ->setKey('123456')
+                        ->useSigning(false)
+                    ;
+
+                    $encryption = $crypt->encrypt('phalcon');
+                }
+            );
+        }
+    }
+
+    /**
+     * Tests Phalcon\Crypt :: encrypt() - gcm
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-05-15
+     */
+    public function cryptEncryptGcmWithData(UnitTester $I)
+    {
+        $I->wantToTest('Crypt - encrypt() gcm with data');
+
+        $ciphers = [
+            'aes-128-gcm',
+            'aes-128-ccm',
+            'aes-256-gcm',
+            'aes-256-ccm',
         ];
 
         $crypt = new Crypt();
