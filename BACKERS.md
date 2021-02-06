@@ -1,6 +1,6 @@
 ## Our Backers and supporters
 
-You can join them in supporting Phalcon and Zephir development by visiting our page on [Open Collective](https://opencollective.com/phalcon) or [Github sponsor](https://phalcon.link/fund) and becoming a sponsor or a backer!
+You can join them in supporting Phalcon and Zephir development by visiting our page on [Open Collective](https://opencollective.com/phalcon) or [Github sponsor](https://phalcon.io/fund) and becoming a sponsor or a backer!
 
 ### Supporters
 
@@ -52,7 +52,7 @@ You can join them in supporting Phalcon and Zephir development by visiting our p
     </tr>
     <tr>
     <td align="center" valign="bottom">   
-      <a href="https://phalcon.link/fund">
+      <a href="https://phalcon.io/fund">
        Support Us
       </a>
     </td>

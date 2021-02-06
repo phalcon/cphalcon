@@ -47,7 +47,7 @@ After running `gen-build.php` you are ready to build Phalcon extension.
 
 ## Building extension for Linux
 
-Please, refer to [Phalcon documentation](https://phalcon.link/docs)
+Please, refer to [Phalcon documentation](https://phalcon.io/docs)
 
 
 ## Building extension for Windows
