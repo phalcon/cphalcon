@@ -67,6 +67,12 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_element_elementint
 #endif
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_elementinterface_getdefault, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_elementinterface_getfilters, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
 #if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_forms_element_elementinterface_getform, 0, 0, Phalcon\\Forms\\Form, 0)
 #else
@@ -116,6 +122,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_element_elementint
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_element_elementinterface_getvalidators, 0, 0, IS_ARRAY, NULL, 0)
 #endif
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_element_elementinterface_getvalue, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
@@ -259,8 +268,8 @@ ZEPHIR_INIT_FUNCS(phalcon_forms_element_elementinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Forms_Element_ElementInterface, clear, arginfo_phalcon_forms_element_elementinterface_clear)
 	PHP_ABSTRACT_ME(Phalcon_Forms_Element_ElementInterface, getAttribute, arginfo_phalcon_forms_element_elementinterface_getattribute)
 	PHP_ABSTRACT_ME(Phalcon_Forms_Element_ElementInterface, getAttributes, arginfo_phalcon_forms_element_elementinterface_getattributes)
-	PHP_ABSTRACT_ME(Phalcon_Forms_Element_ElementInterface, getDefault, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Forms_Element_ElementInterface, getFilters, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Forms_Element_ElementInterface, getDefault, arginfo_phalcon_forms_element_elementinterface_getdefault)
+	PHP_ABSTRACT_ME(Phalcon_Forms_Element_ElementInterface, getFilters, arginfo_phalcon_forms_element_elementinterface_getfilters)
 	PHP_ABSTRACT_ME(Phalcon_Forms_Element_ElementInterface, getForm, arginfo_phalcon_forms_element_elementinterface_getform)
 	PHP_ABSTRACT_ME(Phalcon_Forms_Element_ElementInterface, getLabel, arginfo_phalcon_forms_element_elementinterface_getlabel)
 	PHP_ABSTRACT_ME(Phalcon_Forms_Element_ElementInterface, getMessages, arginfo_phalcon_forms_element_elementinterface_getmessages)
@@ -268,7 +277,7 @@ ZEPHIR_INIT_FUNCS(phalcon_forms_element_elementinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Forms_Element_ElementInterface, getUserOption, arginfo_phalcon_forms_element_elementinterface_getuseroption)
 	PHP_ABSTRACT_ME(Phalcon_Forms_Element_ElementInterface, getUserOptions, arginfo_phalcon_forms_element_elementinterface_getuseroptions)
 	PHP_ABSTRACT_ME(Phalcon_Forms_Element_ElementInterface, getValidators, arginfo_phalcon_forms_element_elementinterface_getvalidators)
-	PHP_ABSTRACT_ME(Phalcon_Forms_Element_ElementInterface, getValue, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Forms_Element_ElementInterface, getValue, arginfo_phalcon_forms_element_elementinterface_getvalue)
 	PHP_ABSTRACT_ME(Phalcon_Forms_Element_ElementInterface, hasMessages, arginfo_phalcon_forms_element_elementinterface_hasmessages)
 	PHP_ABSTRACT_ME(Phalcon_Forms_Element_ElementInterface, label, arginfo_phalcon_forms_element_elementinterface_label)
 	PHP_ABSTRACT_ME(Phalcon_Forms_Element_ElementInterface, prepareAttributes, arginfo_phalcon_forms_element_elementinterface_prepareattributes)

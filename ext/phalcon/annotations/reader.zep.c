@@ -103,7 +103,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse) {
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(&_1$$3, &reflection, "getstartline", NULL, 158);
 		zephir_check_call_status();
-		ZEPHIR_LAST_CALL_STATUS = phannot_parse_annotations(&classAnnotations, &comment, &_0$$3, &_1$$3 TSRMLS_CC);
+		ZEPHIR_LAST_CALL_STATUS = phannot_parse_annotations(&classAnnotations, &comment, &_0$$3, &_1$$3);
 		zephir_check_call_status();
 		if (Z_TYPE_P(&classAnnotations) == IS_ARRAY) {
 			zephir_array_update_string(&annotations, SL("class"), &classAnnotations, PH_COPY | PH_SEPARATE);
@@ -128,7 +128,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse) {
 					ZEPHIR_CALL_METHOD(&_4$$7, &reflection, "getfilename", NULL, 157);
 					zephir_check_call_status();
 					ZVAL_LONG(&_5$$7, line);
-					ZEPHIR_LAST_CALL_STATUS = phannot_parse_annotations(&propertyAnnotations, &comment, &_4$$7, &_5$$7 TSRMLS_CC);
+					ZEPHIR_LAST_CALL_STATUS = phannot_parse_annotations(&propertyAnnotations, &comment, &_4$$7, &_5$$7);
 					zephir_check_call_status();
 					if (Z_TYPE_P(&propertyAnnotations) == IS_ARRAY) {
 						ZEPHIR_OBS_NVAR(&_6$$8);
@@ -155,7 +155,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse) {
 						ZEPHIR_CALL_METHOD(&_7$$10, &reflection, "getfilename", NULL, 157);
 						zephir_check_call_status();
 						ZVAL_LONG(&_8$$10, line);
-						ZEPHIR_LAST_CALL_STATUS = phannot_parse_annotations(&propertyAnnotations, &comment, &_7$$10, &_8$$10 TSRMLS_CC);
+						ZEPHIR_LAST_CALL_STATUS = phannot_parse_annotations(&propertyAnnotations, &comment, &_7$$10, &_8$$10);
 						zephir_check_call_status();
 						if (Z_TYPE_P(&propertyAnnotations) == IS_ARRAY) {
 							ZEPHIR_OBS_NVAR(&_9$$11);
@@ -191,7 +191,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse) {
 					zephir_check_call_status();
 					ZEPHIR_CALL_METHOD(&_13$$15, &method, "getstartline", NULL, 0);
 					zephir_check_call_status();
-					ZEPHIR_LAST_CALL_STATUS = phannot_parse_annotations(&methodAnnotations, &comment, &_12$$15, &_13$$15 TSRMLS_CC);
+					ZEPHIR_LAST_CALL_STATUS = phannot_parse_annotations(&methodAnnotations, &comment, &_12$$15, &_13$$15);
 					zephir_check_call_status();
 					if (Z_TYPE_P(&methodAnnotations) == IS_ARRAY) {
 						ZEPHIR_OBS_NVAR(&_14$$16);
@@ -219,7 +219,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parse) {
 						zephir_check_call_status();
 						ZEPHIR_CALL_METHOD(&_16$$18, &method, "getstartline", NULL, 0);
 						zephir_check_call_status();
-						ZEPHIR_LAST_CALL_STATUS = phannot_parse_annotations(&methodAnnotations, &comment, &_15$$18, &_16$$18 TSRMLS_CC);
+						ZEPHIR_LAST_CALL_STATUS = phannot_parse_annotations(&methodAnnotations, &comment, &_15$$18, &_16$$18);
 						zephir_check_call_status();
 						if (Z_TYPE_P(&methodAnnotations) == IS_ARRAY) {
 							ZEPHIR_OBS_NVAR(&_17$$19);
@@ -276,7 +276,7 @@ PHP_METHOD(Phalcon_Annotations_Reader, parseDocBlock) {
 		ZEPHIR_INIT_NVAR(file);
 		ZVAL_STRING(file, "eval code");
 	}
-	ZEPHIR_LAST_CALL_STATUS = phannot_parse_annotations(return_value, &docBlock, file, line TSRMLS_CC);
+	ZEPHIR_LAST_CALL_STATUS = phannot_parse_annotations(return_value, &docBlock, file, line);
 	zephir_check_call_status();
 	RETURN_MM();
 

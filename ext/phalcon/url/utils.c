@@ -137,7 +137,7 @@ zval *phalcon_replace_marker(int named, zval *paths, zval *replacements, unsigne
 /**
  * Replaces placeholders and named variables with their corresponding values in an array
  */
-void phalcon_replace_paths(zval *return_value, zval *pattern, zval *paths, zval *replacements TSRMLS_DC)
+void phalcon_replace_paths(zval *return_value, zval *pattern, zval *paths, zval *replacements)
 {
 
 	char *cursor, *marker = NULL;
@@ -151,7 +151,7 @@ void phalcon_replace_paths(zval *return_value, zval *pattern, zval *paths, zval 
 
 	if (Z_TYPE_P(pattern) != IS_STRING || Z_TYPE_P(replacements) != IS_ARRAY || Z_TYPE_P(paths) != IS_ARRAY) {
 		ZVAL_NULL(return_value);
-		php_error_docref(NULL TSRMLS_CC, E_WARNING, "Invalid arguments supplied for phalcon_replace_paths()");
+		php_error_docref(NULL, E_WARNING, "Invalid arguments supplied for phalcon_replace_paths()");
 		return;
 	}
 

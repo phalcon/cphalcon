@@ -15,7 +15,7 @@ PHP_METHOD(Phalcon_Validation_AbstractValidator, validate);
 PHP_METHOD(Phalcon_Validation_AbstractValidator, prepareCode);
 PHP_METHOD(Phalcon_Validation_AbstractValidator, prepareLabel);
 PHP_METHOD(Phalcon_Validation_AbstractValidator, messageFactory);
-zend_object *zephir_init_properties_Phalcon_Validation_AbstractValidator(zend_class_entry *class_type TSRMLS_DC);
+zend_object *zephir_init_properties_Phalcon_Validation_AbstractValidator(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_abstractvalidator___construct, 0, 0, 0)
 	ZEND_ARG_ARRAY_INFO(0, options, 0)
@@ -138,6 +138,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_validation_abstractvalid
 	ZEND_ARG_OBJ_INFO(0, validation, Phalcon\\Validation, 0)
 	ZEND_ARG_INFO(0, field)
 	ZEND_ARG_ARRAY_INFO(0, replacements, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_abstractvalidator_zephir_init_properties_phalcon_validation_abstractvalidator, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_validation_abstractvalidator_method_entry) {

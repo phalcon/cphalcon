@@ -3,6 +3,9 @@ extern zend_class_entry *phalcon_di_serviceinterface_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Di_ServiceInterface);
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_serviceinterface_getdefinition, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_serviceinterface_getparameter, 0, 0, 1)
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, position, IS_LONG, 0)
@@ -56,7 +59,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_serviceinterface_setshared, 0, 0, 1)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_di_serviceinterface_method_entry) {
-	PHP_ABSTRACT_ME(Phalcon_Di_ServiceInterface, getDefinition, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Di_ServiceInterface, getDefinition, arginfo_phalcon_di_serviceinterface_getdefinition)
 	PHP_ABSTRACT_ME(Phalcon_Di_ServiceInterface, getParameter, arginfo_phalcon_di_serviceinterface_getparameter)
 	PHP_ABSTRACT_ME(Phalcon_Di_ServiceInterface, isResolved, arginfo_phalcon_di_serviceinterface_isresolved)
 	PHP_ABSTRACT_ME(Phalcon_Di_ServiceInterface, isShared, arginfo_phalcon_di_serviceinterface_isshared)

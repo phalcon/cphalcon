@@ -19,6 +19,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_abstractreq
 #endif
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_message_abstractrequest_geturi, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
 #if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_abstractrequest_getrequesttarget, 0, 0, IS_STRING, 0)
 #else
@@ -57,7 +60,7 @@ ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_http_message_abstractrequest_method_entry) {
 	PHP_ME(Phalcon_Http_Message_AbstractRequest, getMethod, arginfo_phalcon_http_message_abstractrequest_getmethod, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Http_Message_AbstractRequest, getUri, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Message_AbstractRequest, getUri, arginfo_phalcon_http_message_abstractrequest_geturi, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Message_AbstractRequest, getRequestTarget, arginfo_phalcon_http_message_abstractrequest_getrequesttarget, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Message_AbstractRequest, withMethod, arginfo_phalcon_http_message_abstractrequest_withmethod, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Message_AbstractRequest, withRequestTarget, arginfo_phalcon_http_message_abstractrequest_withrequesttarget, ZEND_ACC_PUBLIC)

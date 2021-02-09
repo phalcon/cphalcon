@@ -10,7 +10,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Bind, setValues);
 PHP_METHOD(Phalcon_DataMapper_Query_Bind, toArray);
 PHP_METHOD(Phalcon_DataMapper_Query_Bind, getType);
 PHP_METHOD(Phalcon_DataMapper_Query_Bind, inlineArray);
-zend_object *zephir_init_properties_Phalcon_DataMapper_Query_Bind(zend_class_entry *class_type TSRMLS_DC);
+zend_object *zephir_init_properties_Phalcon_DataMapper_Query_Bind(zend_class_entry *class_type);
 
 #if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_bind_bindinline, 0, 1, IS_STRING, 0)
@@ -112,6 +112,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_bind_in
 #else
 	ZEND_ARG_INFO(0, type)
 #endif
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_datamapper_query_bind_zephir_init_properties_phalcon_datamapper_query_bind, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_datamapper_query_bind_method_entry) {

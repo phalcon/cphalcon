@@ -332,8 +332,8 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, dispatch) {
 			ZEPHIR_INIT_VAR(&_9$$4);
 			ZVAL_OBJ(&_9$$4, EG(exception));
 			Z_ADDREF_P(&_9$$4);
-			if (zephir_instance_of_ev(&_9$$4, zend_exception_get_default(TSRMLS_C))) {
-				zend_clear_exception(TSRMLS_C);
+			if (zephir_instance_of_ev(&_9$$4, zend_exception_get_default())) {
+				zend_clear_exception();
 				ZEPHIR_CPY_WRT(&e, &_9$$4);
 				ZEPHIR_CALL_METHOD(&status, this_ptr, "handleexception", NULL, 0, &e);
 				zephir_check_call_status();
@@ -403,8 +403,8 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, dispatch) {
 				ZEPHIR_INIT_NVAR(&_20$$12);
 				ZVAL_OBJ(&_20$$12, EG(exception));
 				Z_ADDREF_P(&_20$$12);
-				if (zephir_instance_of_ev(&_20$$12, zend_exception_get_default(TSRMLS_C))) {
-					zend_clear_exception(TSRMLS_C);
+				if (zephir_instance_of_ev(&_20$$12, zend_exception_get_default())) {
+					zend_clear_exception();
 					ZEPHIR_CPY_WRT(&e, &_20$$12);
 					ZEPHIR_CALL_METHOD(&_21$$15, this_ptr, "handleexception", &_22, 0, &e);
 					zephir_check_call_status();
@@ -556,8 +556,8 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, dispatch) {
 				ZEPHIR_INIT_NVAR(&_60$$30);
 				ZVAL_OBJ(&_60$$30, EG(exception));
 				Z_ADDREF_P(&_60$$30);
-				if (zephir_instance_of_ev(&_60$$30, zend_exception_get_default(TSRMLS_C))) {
-					zend_clear_exception(TSRMLS_C);
+				if (zephir_instance_of_ev(&_60$$30, zend_exception_get_default())) {
+					zend_clear_exception();
 					ZEPHIR_CPY_WRT(&e, &_60$$30);
 					ZEPHIR_CALL_METHOD(&_61$$33, this_ptr, "handleexception", &_62, 0, &e);
 					zephir_check_call_status();
@@ -600,8 +600,8 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, dispatch) {
 				ZEPHIR_INIT_NVAR(&_70$$35);
 				ZVAL_OBJ(&_70$$35, EG(exception));
 				Z_ADDREF_P(&_70$$35);
-				if (zephir_instance_of_ev(&_70$$35, zend_exception_get_default(TSRMLS_C))) {
-					zend_clear_exception(TSRMLS_C);
+				if (zephir_instance_of_ev(&_70$$35, zend_exception_get_default())) {
+					zend_clear_exception();
 					ZEPHIR_CPY_WRT(&e, &_70$$35);
 					ZEPHIR_CALL_METHOD(&_71$$38, this_ptr, "handleexception", &_72, 0, &e);
 					zephir_check_call_status();
@@ -640,8 +640,8 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, dispatch) {
 					ZEPHIR_INIT_NVAR(&_76$$41);
 					ZVAL_OBJ(&_76$$41, EG(exception));
 					Z_ADDREF_P(&_76$$41);
-					if (zephir_instance_of_ev(&_76$$41, zend_exception_get_default(TSRMLS_C))) {
-						zend_clear_exception(TSRMLS_C);
+					if (zephir_instance_of_ev(&_76$$41, zend_exception_get_default())) {
+						zend_clear_exception();
 						ZEPHIR_CPY_WRT(&e, &_76$$41);
 						if (0) {
 							zephir_update_property_zval(this_ptr, ZEND_STRL("isControllerInitialize"), &__$true);
@@ -692,8 +692,8 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, dispatch) {
 					ZEPHIR_INIT_NVAR(&_86$$45);
 					ZVAL_OBJ(&_86$$45, EG(exception));
 					Z_ADDREF_P(&_86$$45);
-					if (zephir_instance_of_ev(&_86$$45, zend_exception_get_default(TSRMLS_C))) {
-						zend_clear_exception(TSRMLS_C);
+					if (zephir_instance_of_ev(&_86$$45, zend_exception_get_default())) {
+						zend_clear_exception();
 						ZEPHIR_CPY_WRT(&e, &_86$$45);
 						ZEPHIR_CALL_METHOD(&_87$$48, this_ptr, "handleexception", &_88, 0, &e);
 						zephir_check_call_status();
@@ -764,8 +764,8 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, dispatch) {
 			ZEPHIR_INIT_NVAR(&_102$$10);
 			ZVAL_OBJ(&_102$$10, EG(exception));
 			Z_ADDREF_P(&_102$$10);
-			if (zephir_instance_of_ev(&_102$$10, zend_exception_get_default(TSRMLS_C))) {
-				zend_clear_exception(TSRMLS_C);
+			if (zephir_instance_of_ev(&_102$$10, zend_exception_get_default())) {
+				zend_clear_exception();
 				ZEPHIR_CPY_WRT(&e, &_102$$10);
 				ZEPHIR_CALL_METHOD(&_103$$59, this_ptr, "handleexception", &_104, 0, &e);
 				zephir_check_call_status();
@@ -805,8 +805,8 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, dispatch) {
 				ZEPHIR_INIT_NVAR(&_112$$61);
 				ZVAL_OBJ(&_112$$61, EG(exception));
 				Z_ADDREF_P(&_112$$61);
-				if (zephir_instance_of_ev(&_112$$61, zend_exception_get_default(TSRMLS_C))) {
-					zend_clear_exception(TSRMLS_C);
+				if (zephir_instance_of_ev(&_112$$61, zend_exception_get_default())) {
+					zend_clear_exception();
 					ZEPHIR_CPY_WRT(&e, &_112$$61);
 					ZEPHIR_CALL_METHOD(&_113$$64, this_ptr, "handleexception", &_114, 0, &e);
 					zephir_check_call_status();
@@ -845,8 +845,8 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, dispatch) {
 				ZEPHIR_INIT_NVAR(&_120$$66);
 				ZVAL_OBJ(&_120$$66, EG(exception));
 				Z_ADDREF_P(&_120$$66);
-				if (zephir_instance_of_ev(&_120$$66, zend_exception_get_default(TSRMLS_C))) {
-					zend_clear_exception(TSRMLS_C);
+				if (zephir_instance_of_ev(&_120$$66, zend_exception_get_default())) {
+					zend_clear_exception();
 					ZEPHIR_CPY_WRT(&e, &_120$$66);
 					ZEPHIR_CALL_METHOD(&_121$$69, this_ptr, "handleexception", &_122, 0, &e);
 					zephir_check_call_status();
@@ -879,8 +879,8 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, dispatch) {
 				ZEPHIR_INIT_NVAR(&_127$$71);
 				ZVAL_OBJ(&_127$$71, EG(exception));
 				Z_ADDREF_P(&_127$$71);
-				if (zephir_instance_of_ev(&_127$$71, zend_exception_get_default(TSRMLS_C))) {
-					zend_clear_exception(TSRMLS_C);
+				if (zephir_instance_of_ev(&_127$$71, zend_exception_get_default())) {
+					zend_clear_exception();
 					ZEPHIR_CPY_WRT(&e, &_127$$71);
 					ZEPHIR_CALL_METHOD(&_128$$73, this_ptr, "handleexception", &_129, 0, &e);
 					zephir_check_call_status();
@@ -914,8 +914,8 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, dispatch) {
 			ZEPHIR_INIT_VAR(&_133$$75);
 			ZVAL_OBJ(&_133$$75, EG(exception));
 			Z_ADDREF_P(&_133$$75);
-			if (zephir_instance_of_ev(&_133$$75, zend_exception_get_default(TSRMLS_C))) {
-				zend_clear_exception(TSRMLS_C);
+			if (zephir_instance_of_ev(&_133$$75, zend_exception_get_default())) {
+				zend_clear_exception();
 				ZEPHIR_CPY_WRT(&e, &_133$$75);
 				ZEPHIR_CALL_METHOD(&_134$$77, this_ptr, "handleexception", NULL, 0, &e);
 				zephir_check_call_status();
@@ -1756,7 +1756,7 @@ PHP_METHOD(Phalcon_Dispatcher_AbstractDispatcher, toCamelCase) {
 
 }
 
-zend_object *zephir_init_properties_Phalcon_Dispatcher_AbstractDispatcher(zend_class_entry *class_type TSRMLS_DC) {
+zend_object *zephir_init_properties_Phalcon_Dispatcher_AbstractDispatcher(zend_class_entry *class_type) {
 
 		zval _0, _2, _4, _6, _1$$3, _3$$4, _5$$5, _7$$6;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;

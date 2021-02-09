@@ -24,7 +24,7 @@ PHP_METHOD(Phalcon_Debug, getArrayDump);
 PHP_METHOD(Phalcon_Debug, getVarDump);
 PHP_METHOD(Phalcon_Debug, showTraceItem);
 PHP_METHOD(Phalcon_Debug, renderHtml);
-zend_object *zephir_init_properties_Phalcon_Debug(zend_class_entry *class_type TSRMLS_DC);
+zend_object *zephir_init_properties_Phalcon_Debug(zend_class_entry *class_type);
 
 #if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_debug_clearvars, 0, 0, Phalcon\\Debug, 0)
@@ -235,6 +235,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_debug_renderhtml, 0, 1, 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_debug_renderhtml, 0, 1, IS_STRING, NULL, 0)
 #endif
 	ZEND_ARG_OBJ_INFO(0, exception, Throwable, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_debug_zephir_init_properties_phalcon_debug, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_debug_method_entry) {

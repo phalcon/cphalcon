@@ -294,7 +294,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, createTable) {
 			ZVAL_OBJ(&_6$$5, EG(exception));
 			Z_ADDREF_P(&_6$$5);
 			if (zephir_is_instance_of(&_6$$5, SL("Throwable"))) {
-				zend_clear_exception(TSRMLS_C);
+				zend_clear_exception();
 				ZEPHIR_CPY_WRT(&exception, &_6$$5);
 				ZEPHIR_CALL_METHOD(NULL, this_ptr, "rollback", NULL, 0);
 				zephir_check_call_status();
@@ -1552,7 +1552,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, modifyColumn) {
 			ZVAL_OBJ(&_6$$3, EG(exception));
 			Z_ADDREF_P(&_6$$3);
 			if (zephir_is_instance_of(&_6$$3, SL("Throwable"))) {
-				zend_clear_exception(TSRMLS_C);
+				zend_clear_exception();
 				ZEPHIR_CPY_WRT(&exception, &_6$$3);
 				ZEPHIR_CALL_METHOD(NULL, this_ptr, "rollback", NULL, 0);
 				zephir_check_call_status();

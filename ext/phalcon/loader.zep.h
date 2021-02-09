@@ -23,7 +23,7 @@ PHP_METHOD(Phalcon_Loader, setExtensions);
 PHP_METHOD(Phalcon_Loader, setFileCheckingCallback);
 PHP_METHOD(Phalcon_Loader, unregister);
 PHP_METHOD(Phalcon_Loader, prepareNamespace);
-zend_object *zephir_init_properties_Phalcon_Loader(zend_class_entry *class_type TSRMLS_DC);
+zend_object *zephir_init_properties_Phalcon_Loader(zend_class_entry *class_type);
 
 #if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_loader_autoload, 0, 1, _IS_BOOL, 0)
@@ -211,6 +211,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_loader_preparenamespace,
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_loader_preparenamespace, 0, 1, IS_ARRAY, NULL, 0)
 #endif
 	ZEND_ARG_ARRAY_INFO(0, namespaceName, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_loader_zephir_init_properties_phalcon_loader, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_loader_method_entry) {

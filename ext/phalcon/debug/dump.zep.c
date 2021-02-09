@@ -941,7 +941,7 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 			object_init_ex(&reflect$$15, zephir_get_internal_ce(SL("reflectionclass")));
 			ZEPHIR_CALL_METHOD(NULL, &reflect$$15, "__construct", NULL, 155, variable);
 			zephir_check_call_status();
-			ZVAL_LONG(&_67$$15, ((256 | 512) | 1024));
+			ZVAL_LONG(&_67$$15, ((1 | 2) | 4));
 			ZEPHIR_CALL_METHOD(&props$$15, &reflect$$15, "getproperties", NULL, 159, &_67$$15);
 			zephir_check_call_status();
 			zephir_is_iterable(&props$$15, 0, "phalcon/Debug/Dump.zep", 289);
@@ -1335,7 +1335,7 @@ PHP_METHOD(Phalcon_Debug_Dump, output) {
 
 }
 
-zend_object *zephir_init_properties_Phalcon_Debug_Dump(zend_class_entry *class_type TSRMLS_DC) {
+zend_object *zephir_init_properties_Phalcon_Debug_Dump(zend_class_entry *class_type) {
 
 		zval _0, _2, _1$$3, _3$$4;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;

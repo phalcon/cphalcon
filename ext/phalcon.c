@@ -1153,7 +1153,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 static PHP_MSHUTDOWN_FUNCTION(phalcon)
 {
 	
-	zephir_deinitialize_memory(TSRMLS_C);
+	zephir_deinitialize_memory();
 	UNREGISTER_INI_ENTRIES();
 	return SUCCESS;
 }
@@ -1162,7 +1162,7 @@ static PHP_MSHUTDOWN_FUNCTION(phalcon)
 /**
  * Initialize globals on each request or each thread started
  */
-static void php_zephir_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC)
+static void php_zephir_init_globals(zend_phalcon_globals *phalcon_globals)
 {
 	phalcon_globals->initialized = 0;
 
@@ -1205,7 +1205,7 @@ static void php_zephir_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS
 /**
  * Initialize globals only on each thread started
  */
-static void php_zephir_init_module_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC)
+static void php_zephir_init_module_globals(zend_phalcon_globals *phalcon_globals)
 {
 	
 }
@@ -1224,8 +1224,8 @@ static PHP_RINIT_FUNCTION(phalcon)
 
 static PHP_RSHUTDOWN_FUNCTION(phalcon)
 {
-	phalcon_orm_destroy_cache(TSRMLS_C);
-	zephir_deinitialize_memory(TSRMLS_C);
+	phalcon_orm_destroy_cache();
+	zephir_deinitialize_memory();
 	return SUCCESS;
 }
 

@@ -205,6 +205,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_responseinterface_s
 #endif
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_responseinterface_sendheaders, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
 ZEPHIR_INIT_FUNCS(phalcon_http_responseinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Http_ResponseInterface, appendContent, arginfo_phalcon_http_responseinterface_appendcontent)
 	PHP_ABSTRACT_ME(Phalcon_Http_ResponseInterface, getContent, arginfo_phalcon_http_responseinterface_getcontent)
@@ -226,6 +229,6 @@ ZEPHIR_INIT_FUNCS(phalcon_http_responseinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Http_ResponseInterface, setStatusCode, arginfo_phalcon_http_responseinterface_setstatuscode)
 	PHP_ABSTRACT_ME(Phalcon_Http_ResponseInterface, send, arginfo_phalcon_http_responseinterface_send)
 	PHP_ABSTRACT_ME(Phalcon_Http_ResponseInterface, sendCookies, arginfo_phalcon_http_responseinterface_sendcookies)
-	PHP_ABSTRACT_ME(Phalcon_Http_ResponseInterface, sendHeaders, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Http_ResponseInterface, sendHeaders, arginfo_phalcon_http_responseinterface_sendheaders)
 	PHP_FE_END
 };

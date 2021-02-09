@@ -13,7 +13,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getNamedArgument);
 PHP_METHOD(Phalcon_Annotations_Annotation, getNamedParameter);
 PHP_METHOD(Phalcon_Annotations_Annotation, hasArgument);
 PHP_METHOD(Phalcon_Annotations_Annotation, numberArguments);
-zend_object *zephir_init_properties_Phalcon_Annotations_Annotation(zend_class_entry *class_type TSRMLS_DC);
+zend_object *zephir_init_properties_Phalcon_Annotations_Annotation(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_annotation___construct, 0, 0, 1)
 	ZEND_ARG_ARRAY_INFO(0, reflectionData, 0)
@@ -77,6 +77,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_annotations_annotation_n
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_annotations_annotation_numberarguments, 0, 0, IS_LONG, NULL, 0)
 #endif
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_annotation_zephir_init_properties_phalcon_annotations_annotation, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_annotations_annotation_method_entry) {

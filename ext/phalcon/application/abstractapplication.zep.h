@@ -11,7 +11,7 @@ PHP_METHOD(Phalcon_Application_AbstractApplication, getModules);
 PHP_METHOD(Phalcon_Application_AbstractApplication, registerModules);
 PHP_METHOD(Phalcon_Application_AbstractApplication, setDefaultModule);
 PHP_METHOD(Phalcon_Application_AbstractApplication, setEventsManager);
-zend_object *zephir_init_properties_Phalcon_Application_AbstractApplication(zend_class_entry *class_type TSRMLS_DC);
+zend_object *zephir_init_properties_Phalcon_Application_AbstractApplication(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_application_abstractapplication___construct, 0, 0, 0)
 	ZEND_ARG_OBJ_INFO(0, container, Phalcon\\Di\\DiInterface, 1)
@@ -83,6 +83,9 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_application_abstractapplication_setevents
 #endif
 
 	ZEND_ARG_OBJ_INFO(0, eventsManager, Phalcon\\Events\\ManagerInterface, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_application_abstractapplication_zephir_init_properties_phalcon_application_abstractapplication, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_application_abstractapplication_method_entry) {

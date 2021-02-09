@@ -3,6 +3,9 @@ extern zend_class_entry *phalcon_http_cookie_cookieinterface_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Http_Cookie_CookieInterface);
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_cookie_cookieinterface_delete, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
 #if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_cookie_cookieinterface_getdomain, 0, 0, IS_STRING, 0)
 #else
@@ -160,7 +163,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_cookie_cookieinterf
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_http_cookie_cookieinterface_method_entry) {
-	PHP_ABSTRACT_ME(Phalcon_Http_Cookie_CookieInterface, delete, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Http_Cookie_CookieInterface, delete, arginfo_phalcon_http_cookie_cookieinterface_delete)
 	PHP_ABSTRACT_ME(Phalcon_Http_Cookie_CookieInterface, getDomain, arginfo_phalcon_http_cookie_cookieinterface_getdomain)
 	PHP_ABSTRACT_ME(Phalcon_Http_Cookie_CookieInterface, getExpiration, arginfo_phalcon_http_cookie_cookieinterface_getexpiration)
 	PHP_ABSTRACT_ME(Phalcon_Http_Cookie_CookieInterface, getHttpOnly, arginfo_phalcon_http_cookie_cookieinterface_gethttponly)

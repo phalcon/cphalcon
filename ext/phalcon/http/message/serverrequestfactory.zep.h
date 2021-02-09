@@ -47,6 +47,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverreque
 	ZEND_ARG_ARRAY_INFO(0, files, 1)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_message_serverrequestfactory_getheaders, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
 #if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequestfactory_calculateurihost, 0, 2, IS_ARRAY, 0)
 #else
@@ -176,7 +179,7 @@ ZEND_END_ARG_INFO()
 ZEPHIR_INIT_FUNCS(phalcon_http_message_serverrequestfactory_method_entry) {
 	PHP_ME(Phalcon_Http_Message_ServerRequestFactory, createServerRequest, arginfo_phalcon_http_message_serverrequestfactory_createserverrequest, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Message_ServerRequestFactory, load, arginfo_phalcon_http_message_serverrequestfactory_load, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Http_Message_ServerRequestFactory, getHeaders, NULL, ZEND_ACC_PROTECTED)
+	PHP_ME(Phalcon_Http_Message_ServerRequestFactory, getHeaders, arginfo_phalcon_http_message_serverrequestfactory_getheaders, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Http_Message_ServerRequestFactory, calculateUriHost, arginfo_phalcon_http_message_serverrequestfactory_calculateurihost, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Http_Message_ServerRequestFactory, calculateUriHostFromHeader, arginfo_phalcon_http_message_serverrequestfactory_calculateurihostfromheader, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Http_Message_ServerRequestFactory, calculateUriPath, arginfo_phalcon_http_message_serverrequestfactory_calculateuripath, ZEND_ACC_PRIVATE)

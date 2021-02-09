@@ -307,7 +307,7 @@ PHP_METHOD(Phalcon_Url, get) {
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(&_22$$9, &route, "getreversedpaths", NULL, 0);
 		zephir_check_call_status();
-		phalcon_replace_paths(&_21$$9, &_18$$9, &_22$$9, uri TSRMLS_CC);
+		phalcon_replace_paths(&_21$$9, &_18$$9, &_22$$9, uri);
 		ZEPHIR_CPY_WRT(uri, &_21$$9);
 	}
 	if (local) {

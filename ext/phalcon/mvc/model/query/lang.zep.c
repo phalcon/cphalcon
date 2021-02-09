@@ -79,7 +79,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Lang, parsePHQL) {
 	}
 
 
-	ZEPHIR_LAST_CALL_STATUS = phql_parse_phql(return_value, &phql TSRMLS_CC);
+	ZEPHIR_LAST_CALL_STATUS = phql_parse_phql(return_value, &phql);
 	zephir_check_call_status();
 	RETURN_MM();
 

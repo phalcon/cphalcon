@@ -14,7 +14,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, send);
 PHP_METHOD(Phalcon_Http_Response_Cookies, set);
 PHP_METHOD(Phalcon_Http_Response_Cookies, setSignKey);
 PHP_METHOD(Phalcon_Http_Response_Cookies, useEncryption);
-zend_object *zephir_init_properties_Phalcon_Http_Response_Cookies(zend_class_entry *class_type TSRMLS_DC);
+zend_object *zephir_init_properties_Phalcon_Http_Response_Cookies(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_cookies___construct, 0, 0, 0)
 #if PHP_VERSION_ID >= 70200
@@ -154,6 +154,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_response_cookies_us
 #else
 	ZEND_ARG_INFO(0, useEncryption)
 #endif
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_response_cookies_zephir_init_properties_phalcon_http_response_cookies, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_http_response_cookies_method_entry) {

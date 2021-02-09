@@ -7,7 +7,7 @@ PHP_METHOD(Phalcon_Factory_AbstractFactory, checkConfig);
 PHP_METHOD(Phalcon_Factory_AbstractFactory, getAdapters);
 PHP_METHOD(Phalcon_Factory_AbstractFactory, getService);
 PHP_METHOD(Phalcon_Factory_AbstractFactory, init);
-zend_object *zephir_init_properties_Phalcon_Factory_AbstractFactory(zend_class_entry *class_type TSRMLS_DC);
+zend_object *zephir_init_properties_Phalcon_Factory_AbstractFactory(zend_class_entry *class_type);
 
 #if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_factory_abstractfactory_checkconfig, 0, 1, IS_ARRAY, 0)
@@ -44,6 +44,9 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_factory_abstractfactory_init, 0, 0, 0)
 #endif
 
 	ZEND_ARG_ARRAY_INFO(0, services, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_factory_abstractfactory_zephir_init_properties_phalcon_factory_abstractfactory, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_factory_abstractfactory_method_entry) {
