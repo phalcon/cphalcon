@@ -17,6 +17,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_viewbaseinterface_ge
 #endif
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_viewbaseinterface_getviewsdir, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_viewbaseinterface_partial, 0, 0, 1)
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, partialPath, IS_STRING, 0)
@@ -63,7 +66,7 @@ ZEND_END_ARG_INFO()
 ZEPHIR_INIT_FUNCS(phalcon_mvc_viewbaseinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ViewBaseInterface, getContent, arginfo_phalcon_mvc_viewbaseinterface_getcontent)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ViewBaseInterface, getParamsToView, arginfo_phalcon_mvc_viewbaseinterface_getparamstoview)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_ViewBaseInterface, getViewsDir, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_ViewBaseInterface, getViewsDir, arginfo_phalcon_mvc_viewbaseinterface_getviewsdir)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ViewBaseInterface, partial, arginfo_phalcon_mvc_viewbaseinterface_partial)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ViewBaseInterface, setContent, arginfo_phalcon_mvc_viewbaseinterface_setcontent)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_ViewBaseInterface, setParamToView, arginfo_phalcon_mvc_viewbaseinterface_setparamtoview)

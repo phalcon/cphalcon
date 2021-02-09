@@ -7,7 +7,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection, __construct);
 PHP_METHOD(Phalcon_DataMapper_Pdo_Connection, __debugInfo);
 PHP_METHOD(Phalcon_DataMapper_Pdo_Connection, connect);
 PHP_METHOD(Phalcon_DataMapper_Pdo_Connection, disconnect);
-zend_object *zephir_init_properties_Phalcon_DataMapper_Pdo_Connection(zend_class_entry *class_type TSRMLS_DC);
+zend_object *zephir_init_properties_Phalcon_DataMapper_Pdo_Connection(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_datamapper_pdo_connection___construct, 0, 0, 1)
 #if PHP_VERSION_ID >= 70200
@@ -58,6 +58,9 @@ ZEND_END_ARG_INFO()
 #else
 #define arginfo_phalcon_datamapper_pdo_connection_disconnect NULL
 #endif
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_datamapper_pdo_connection_zephir_init_properties_phalcon_datamapper_pdo_connection, 0, 0, 0)
+ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_datamapper_pdo_connection_method_entry) {
 	PHP_ME(Phalcon_DataMapper_Pdo_Connection, __construct, arginfo_phalcon_datamapper_pdo_connection___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)

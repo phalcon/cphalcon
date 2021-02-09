@@ -56,7 +56,7 @@
     "request": [
       {
         "include": "phalcon/mvc/model/orm.h",
-        "code": "phalcon_orm_destroy_cache(TSRMLS_C)"
+        "code": "phalcon_orm_destroy_cache()"
       }
     ]
   },

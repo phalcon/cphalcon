@@ -12,13 +12,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, getCache);
 PHP_METHOD(Phalcon_Mvc_Model_Binder, getParamsFromCache);
 PHP_METHOD(Phalcon_Mvc_Model_Binder, getParamsFromReflection);
 PHP_METHOD(Phalcon_Mvc_Model_Binder, setCache);
-zend_object *zephir_init_properties_Phalcon_Mvc_Model_Binder(zend_class_entry *class_type TSRMLS_DC);
+zend_object *zephir_init_properties_Phalcon_Mvc_Model_Binder(zend_class_entry *class_type);
 
 #if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_binder_getboundmodels, 0, 0, IS_ARRAY, 0)
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_binder_getboundmodels, 0, 0, IS_ARRAY, NULL, 0)
 #endif
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_binder_getoriginalvalues, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_binder___construct, 0, 0, 0)
@@ -99,9 +102,12 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_binder_setcach
 	ZEND_ARG_OBJ_INFO(0, cache, Phalcon\\Cache\\Adapter\\AdapterInterface, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_binder_zephir_init_properties_phalcon_mvc_model_binder, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
 ZEPHIR_INIT_FUNCS(phalcon_mvc_model_binder_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model_Binder, getBoundModels, arginfo_phalcon_mvc_model_binder_getboundmodels, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_Model_Binder, getOriginalValues, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Mvc_Model_Binder, getOriginalValues, arginfo_phalcon_mvc_model_binder_getoriginalvalues, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Binder, __construct, arginfo_phalcon_mvc_model_binder___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Mvc_Model_Binder, bindToHandler, arginfo_phalcon_mvc_model_binder_bindtohandler, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Binder, findBoundModel, arginfo_phalcon_mvc_model_binder_findboundmodel, ZEND_ACC_PROTECTED)

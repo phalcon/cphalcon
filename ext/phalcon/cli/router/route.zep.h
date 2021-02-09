@@ -92,6 +92,9 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_router_route_extractnamedparams, 0, 0
 #endif
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_router_route_getbeforematch, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
 #if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_route_getcompiledpattern, 0, 0, IS_STRING, 0)
 #else
@@ -216,7 +219,7 @@ ZEPHIR_INIT_FUNCS(phalcon_cli_router_route_method_entry) {
 	PHP_ME(Phalcon_Cli_Router_Route, convert, arginfo_phalcon_cli_router_route_convert, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Cli_Router_Route, delimiter, arginfo_phalcon_cli_router_route_delimiter, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Cli_Router_Route, extractNamedParams, arginfo_phalcon_cli_router_route_extractnamedparams, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Cli_Router_Route, getBeforeMatch, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Cli_Router_Route, getBeforeMatch, arginfo_phalcon_cli_router_route_getbeforematch, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Cli_Router_Route, getCompiledPattern, arginfo_phalcon_cli_router_route_getcompiledpattern, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Cli_Router_Route, getConverters, arginfo_phalcon_cli_router_route_getconverters, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Cli_Router_Route, getDelimiter, arginfo_phalcon_cli_router_route_getdelimiter, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)

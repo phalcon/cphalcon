@@ -39,6 +39,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_security_jwt_builder_ini
 #endif
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_security_jwt_builder_getaudience, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
 #if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_security_jwt_builder_getclaims, 0, 0, IS_ARRAY, 0)
 #else
@@ -236,7 +239,7 @@ ZEND_END_ARG_INFO()
 ZEPHIR_INIT_FUNCS(phalcon_security_jwt_builder_method_entry) {
 	PHP_ME(Phalcon_Security_JWT_Builder, __construct, arginfo_phalcon_security_jwt_builder___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Security_JWT_Builder, init, arginfo_phalcon_security_jwt_builder_init, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Security_JWT_Builder, getAudience, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Security_JWT_Builder, getAudience, arginfo_phalcon_security_jwt_builder_getaudience, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Security_JWT_Builder, getClaims, arginfo_phalcon_security_jwt_builder_getclaims, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Security_JWT_Builder, getContentType, arginfo_phalcon_security_jwt_builder_getcontenttype, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Security_JWT_Builder, getExpirationTime, arginfo_phalcon_security_jwt_builder_getexpirationtime, ZEND_ACC_PUBLIC)

@@ -11,7 +11,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_ConnectionLocator, setMaster);
 PHP_METHOD(Phalcon_DataMapper_Pdo_ConnectionLocator, setRead);
 PHP_METHOD(Phalcon_DataMapper_Pdo_ConnectionLocator, setWrite);
 PHP_METHOD(Phalcon_DataMapper_Pdo_ConnectionLocator, getConnection);
-zend_object *zephir_init_properties_Phalcon_DataMapper_Pdo_ConnectionLocator(zend_class_entry *class_type TSRMLS_DC);
+zend_object *zephir_init_properties_Phalcon_DataMapper_Pdo_ConnectionLocator(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_datamapper_pdo_connectionlocator___construct, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, master, Phalcon\\DataMapper\\Pdo\\Connection\\ConnectionInterface, 0)
@@ -99,6 +99,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_pdo_connectio
 #else
 	ZEND_ARG_INFO(0, name)
 #endif
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_datamapper_pdo_connectionlocator_zephir_init_properties_phalcon_datamapper_pdo_connectionlocator, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_datamapper_pdo_connectionlocator_method_entry) {

@@ -61,7 +61,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, updateAsDict);
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, useExplicitIdValue);
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, supportsDefaultValue);
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, viewExists);
-zend_object *zephir_init_properties_Phalcon_Db_Adapter_AbstractAdapter(zend_class_entry *class_type TSRMLS_DC);
+zend_object *zephir_init_properties_Phalcon_Db_Adapter_AbstractAdapter(zend_class_entry *class_type);
 
 #if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_getdialecttype, 0, 0, IS_STRING, 0)
@@ -789,6 +789,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_adapter_abstractadapt
 #else
 	ZEND_ARG_INFO(0, schemaName)
 #endif
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_adapter_abstractadapter_zephir_init_properties_phalcon_db_adapter_abstractadapter, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_db_adapter_abstractadapter_method_entry) {

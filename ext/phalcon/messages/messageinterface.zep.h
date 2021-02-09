@@ -10,6 +10,12 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_messages_messageinterfac
 #endif
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_messages_messageinterface_getcode, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_messages_messageinterface_getfield, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
 #if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_messages_messageinterface_getmessage, 0, 0, IS_STRING, 0)
 #else
@@ -89,8 +95,8 @@ ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_messages_messageinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Messages_MessageInterface, __toString, arginfo_phalcon_messages_messageinterface___tostring)
-	PHP_ABSTRACT_ME(Phalcon_Messages_MessageInterface, getCode, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Messages_MessageInterface, getField, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Messages_MessageInterface, getCode, arginfo_phalcon_messages_messageinterface_getcode)
+	PHP_ABSTRACT_ME(Phalcon_Messages_MessageInterface, getField, arginfo_phalcon_messages_messageinterface_getfield)
 	PHP_ABSTRACT_ME(Phalcon_Messages_MessageInterface, getMessage, arginfo_phalcon_messages_messageinterface_getmessage)
 	PHP_ABSTRACT_ME(Phalcon_Messages_MessageInterface, getMetaData, arginfo_phalcon_messages_messageinterface_getmetadata)
 	PHP_ABSTRACT_ME(Phalcon_Messages_MessageInterface, getType, arginfo_phalcon_messages_messageinterface_gettype)

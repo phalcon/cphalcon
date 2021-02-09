@@ -466,8 +466,11 @@ void zephir_fast_join(zval *result, zval *glue, zval *pieces)
 		zend_error(E_WARNING, "Invalid arguments supplied for join()");
 		return;
 	}
-
+#if PHP_VERSION_ID < 80000
 	php_implode(Z_STR_P(glue), pieces, result);
+#else
+	php_implode(Z_STR_P(glue), Z_ARRVAL_P(pieces), result);
+#endif
 }
 
 /**

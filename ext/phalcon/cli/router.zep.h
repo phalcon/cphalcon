@@ -20,7 +20,7 @@ PHP_METHOD(Phalcon_Cli_Router, setDefaultModule);
 PHP_METHOD(Phalcon_Cli_Router, setDefaults);
 PHP_METHOD(Phalcon_Cli_Router, setDefaultTask);
 PHP_METHOD(Phalcon_Cli_Router, wasMatched);
-zend_object *zephir_init_properties_Phalcon_Cli_Router(zend_class_entry *class_type TSRMLS_DC);
+zend_object *zephir_init_properties_Phalcon_Cli_Router(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_router___construct, 0, 0, 0)
 #if PHP_VERSION_ID >= 70200
@@ -155,6 +155,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_wasmatched, 0
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cli_router_wasmatched, 0, 0, _IS_BOOL, NULL, 0)
 #endif
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cli_router_zephir_init_properties_phalcon_cli_router, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_cli_router_method_entry) {

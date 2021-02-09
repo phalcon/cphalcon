@@ -24,6 +24,9 @@ PHP_METHOD(Phalcon_Acl_Adapter_Memory, setNoArgumentsDefaultAction);
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, allowOrDeny);
 PHP_METHOD(Phalcon_Acl_Adapter_Memory, canAccess);
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_acl_adapter_memory_getactivefunction, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
 #if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_acl_adapter_memory_getactivefunctioncustomargumentscount, 0, 0, IS_LONG, 0)
 #else
@@ -36,6 +39,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_acl_adapter_memory_getac
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_acl_adapter_memory_getactivekey, 0, 0, IS_STRING, NULL, 1)
 #endif
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_acl_adapter_memory___construct, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
@@ -274,10 +280,10 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_acl_adapter_memory_canaccess, 0, 0, 3)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_acl_adapter_memory_method_entry) {
-	PHP_ME(Phalcon_Acl_Adapter_Memory, getActiveFunction, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Acl_Adapter_Memory, getActiveFunction, arginfo_phalcon_acl_adapter_memory_getactivefunction, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Acl_Adapter_Memory, getActiveFunctionCustomArgumentsCount, arginfo_phalcon_acl_adapter_memory_getactivefunctioncustomargumentscount, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Acl_Adapter_Memory, getActiveKey, arginfo_phalcon_acl_adapter_memory_getactivekey, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Acl_Adapter_Memory, __construct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+	PHP_ME(Phalcon_Acl_Adapter_Memory, __construct, arginfo_phalcon_acl_adapter_memory___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Acl_Adapter_Memory, addComponent, arginfo_phalcon_acl_adapter_memory_addcomponent, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Acl_Adapter_Memory, addComponentAccess, arginfo_phalcon_acl_adapter_memory_addcomponentaccess, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Acl_Adapter_Memory, addInherit, arginfo_phalcon_acl_adapter_memory_addinherit, ZEND_ACC_PUBLIC)

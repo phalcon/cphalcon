@@ -151,7 +151,7 @@ static void phvolt_create_error_msg(phvolt_parser_status *parser_status, char *m
 
 /* {{{ phvolt_scanner_error_msg
    Creates an error message when it's triggered by the scanner. */
-static void phvolt_scanner_error_msg(phvolt_parser_status *parser_status, zval **error_msg TSRMLS_DC)
+static void phvolt_scanner_error_msg(phvolt_parser_status *parser_status, zval **error_msg)
 {
 	char *error, *error_part;
 	int length;
@@ -188,7 +188,7 @@ static void phvolt_scanner_error_msg(phvolt_parser_status *parser_status, zval *
 
 /* {{{ phvolt_parse_view
    Receives the volt code tokenizes and parses it. */
-int phvolt_parse_view(zval *result, zval *view_code, zval *template_path TSRMLS_DC)
+int phvolt_parse_view(zval *result, zval *view_code, zval *template_path)
 {
 	zval em, *error_msg = &em;
 	ZVAL_NULL(result);
@@ -199,7 +199,7 @@ int phvolt_parse_view(zval *result, zval *view_code, zval *template_path TSRMLS_
 		return FAILURE;
 	}
 
-	if (phvolt_internal_parse_view(&result, view_code, template_path, &error_msg TSRMLS_CC) == FAILURE) {
+	if (phvolt_internal_parse_view(&result, view_code, template_path, &error_msg) == FAILURE) {
 		ZEPHIR_THROW_EXCEPTION_STRW(phalcon_mvc_view_exception_ce, Z_STRVAL_P(error_msg));
 		zval_dtor(error_msg);
 		return FAILURE;
@@ -230,7 +230,7 @@ int phvolt_is_blank_string(phvolt_scanner_token *token)
 
 /* {{{ Parses a volt template returning an intermediate array representation
    Checks whether the token has only blank characters. */
-int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_path, zval **error_msg TSRMLS_DC)
+int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_path, zval **error_msg)
 {
 	char *error;
 	phvolt_scanner_state *state;
@@ -798,10 +798,10 @@ int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_pa
 			case PHVOLT_SCANNER_RETCODE_ERR:
 			case PHVOLT_SCANNER_RETCODE_IMPOSSIBLE:
 				if (!*error_msg) {
-					phvolt_scanner_error_msg(parser_status, error_msg TSRMLS_CC);
+					phvolt_scanner_error_msg(parser_status, error_msg);
 				} else {
 					if (Z_TYPE_P(*error_msg) == IS_NULL) {
-						phvolt_scanner_error_msg(parser_status, error_msg TSRMLS_CC);
+						phvolt_scanner_error_msg(parser_status, error_msg);
 					}
 				}
 				status = FAILURE;

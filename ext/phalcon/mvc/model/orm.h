@@ -9,4 +9,4 @@
  */
 
 void phalcon_orm_destroy_cache(TSRMLS_D);
-void phalcon_orm_singlequotes(zval *return_value, zval *str TSRMLS_DC);
+void phalcon_orm_singlequotes(zval *return_value, zval *str);

@@ -44,6 +44,9 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_storage_adapter_adapterinterface_get, 0, 
 	ZEND_ARG_INFO(0, defaultValue)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_storage_adapter_adapterinterface_getadapter, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
 #if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_adapter_adapterinterface_getkeys, 0, 0, IS_ARRAY, 0)
 #else
@@ -107,7 +110,7 @@ ZEPHIR_INIT_FUNCS(phalcon_storage_adapter_adapterinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Storage_Adapter_AdapterInterface, decrement, arginfo_phalcon_storage_adapter_adapterinterface_decrement)
 	PHP_ABSTRACT_ME(Phalcon_Storage_Adapter_AdapterInterface, delete, arginfo_phalcon_storage_adapter_adapterinterface_delete)
 	PHP_ABSTRACT_ME(Phalcon_Storage_Adapter_AdapterInterface, get, arginfo_phalcon_storage_adapter_adapterinterface_get)
-	PHP_ABSTRACT_ME(Phalcon_Storage_Adapter_AdapterInterface, getAdapter, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Storage_Adapter_AdapterInterface, getAdapter, arginfo_phalcon_storage_adapter_adapterinterface_getadapter)
 	PHP_ABSTRACT_ME(Phalcon_Storage_Adapter_AdapterInterface, getKeys, arginfo_phalcon_storage_adapter_adapterinterface_getkeys)
 	PHP_ABSTRACT_ME(Phalcon_Storage_Adapter_AdapterInterface, getPrefix, arginfo_phalcon_storage_adapter_adapterinterface_getprefix)
 	PHP_ABSTRACT_ME(Phalcon_Storage_Adapter_AdapterInterface, has, arginfo_phalcon_storage_adapter_adapterinterface_has)

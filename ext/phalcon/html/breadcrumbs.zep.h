@@ -10,7 +10,7 @@ PHP_METHOD(Phalcon_Html_Breadcrumbs, clear);
 PHP_METHOD(Phalcon_Html_Breadcrumbs, remove);
 PHP_METHOD(Phalcon_Html_Breadcrumbs, render);
 PHP_METHOD(Phalcon_Html_Breadcrumbs, toArray);
-zend_object *zephir_init_properties_Phalcon_Html_Breadcrumbs(zend_class_entry *class_type TSRMLS_DC);
+zend_object *zephir_init_properties_Phalcon_Html_Breadcrumbs(zend_class_entry *class_type);
 
 #if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_breadcrumbs_getseparator, 0, 0, IS_STRING, 0)
@@ -85,6 +85,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_breadcrumbs_toarray
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_breadcrumbs_toarray, 0, 0, IS_ARRAY, NULL, 0)
 #endif
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_html_breadcrumbs_zephir_init_properties_phalcon_html_breadcrumbs, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_html_breadcrumbs_method_entry) {

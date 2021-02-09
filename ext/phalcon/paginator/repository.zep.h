@@ -18,7 +18,7 @@ PHP_METHOD(Phalcon_Paginator_Repository, setAliases);
 PHP_METHOD(Phalcon_Paginator_Repository, setProperties);
 PHP_METHOD(Phalcon_Paginator_Repository, getProperty);
 PHP_METHOD(Phalcon_Paginator_Repository, getRealNameProperty);
-zend_object *zephir_init_properties_Phalcon_Paginator_Repository(zend_class_entry *class_type TSRMLS_DC);
+zend_object *zephir_init_properties_Phalcon_Paginator_Repository(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_paginator_repository___get, 0, 0, 1)
 #if PHP_VERSION_ID >= 70200
@@ -47,6 +47,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_paginator_repository_get
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_paginator_repository_getfirst, 0, 0, IS_LONG, NULL, 0)
 #endif
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_paginator_repository_getitems, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
@@ -128,12 +131,15 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_paginator_repository_get
 #endif
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_paginator_repository_zephir_init_properties_phalcon_paginator_repository, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
 ZEPHIR_INIT_FUNCS(phalcon_paginator_repository_method_entry) {
 	PHP_ME(Phalcon_Paginator_Repository, __get, arginfo_phalcon_paginator_repository___get, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Paginator_Repository, getAliases, arginfo_phalcon_paginator_repository_getaliases, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Paginator_Repository, getCurrent, arginfo_phalcon_paginator_repository_getcurrent, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Paginator_Repository, getFirst, arginfo_phalcon_paginator_repository_getfirst, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Paginator_Repository, getItems, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Paginator_Repository, getItems, arginfo_phalcon_paginator_repository_getitems, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Paginator_Repository, getLast, arginfo_phalcon_paginator_repository_getlast, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Paginator_Repository, getLimit, arginfo_phalcon_paginator_repository_getlimit, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Paginator_Repository, getNext, arginfo_phalcon_paginator_repository_getnext, ZEND_ACC_PUBLIC)

@@ -364,7 +364,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, partial) {
 	}
 
 
-	ZEPHIR_CALL_FUNCTION(NULL, "ob_start", NULL, 409);
+	ZEPHIR_CALL_FUNCTION(NULL, "ob_start", NULL, 408);
 	zephir_check_call_status();
 	if (Z_TYPE_P(params) == IS_ARRAY) {
 		zephir_read_property(&_0$$3, this_ptr, ZEND_STRL("viewParams"), PH_NOISY_CC | PH_READONLY);
@@ -466,7 +466,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, render) {
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_CREATE_SYMBOL_TABLE();
 	
-	ZEPHIR_CALL_FUNCTION(NULL, "ob_start", NULL, 409);
+	ZEPHIR_CALL_FUNCTION(NULL, "ob_start", NULL, 408);
 	zephir_check_call_status();
 	zephir_read_property(&_1, this_ptr, ZEND_STRL("viewParams"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&viewParams, &_1);
@@ -1086,7 +1086,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, internalRender) {
 
 }
 
-zend_object *zephir_init_properties_Phalcon_Mvc_View_Simple(zend_class_entry *class_type TSRMLS_DC) {
+zend_object *zephir_init_properties_Phalcon_Mvc_View_Simple(zend_class_entry *class_type) {
 
 		zval _0, _1$$3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;

@@ -26,7 +26,7 @@ PHP_METHOD(Phalcon_Session_Manager, setOptions);
 PHP_METHOD(Phalcon_Session_Manager, start);
 PHP_METHOD(Phalcon_Session_Manager, status);
 PHP_METHOD(Phalcon_Session_Manager, getUniqueKey);
-zend_object *zephir_init_properties_Phalcon_Session_Manager(zend_class_entry *class_type TSRMLS_DC);
+zend_object *zephir_init_properties_Phalcon_Session_Manager(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_manager___construct, 0, 0, 0)
 	ZEND_ARG_ARRAY_INFO(0, options, 0)
@@ -276,6 +276,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_session_manager_getuniqu
 #else
 	ZEND_ARG_INFO(0, key)
 #endif
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_session_manager_zephir_init_properties_phalcon_session_manager, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_session_manager_method_entry) {

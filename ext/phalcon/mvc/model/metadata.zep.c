@@ -1266,8 +1266,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, write) {
 		ZVAL_OBJ(&_1, EG(exception));
 		Z_ADDREF_P(&_1);
 		ZEPHIR_INIT_VAR(&_2);
-		if (zephir_instance_of_ev(&_1, zend_exception_get_default(TSRMLS_C))) {
-			zend_clear_exception(TSRMLS_C);
+		if (zephir_instance_of_ev(&_1, zend_exception_get_default())) {
+			zend_clear_exception();
 			ZEPHIR_CPY_WRT(&_2, &_1);
 			ZEPHIR_CALL_METHOD(NULL, this_ptr, "throwwriteexception", NULL, 31, &option);
 			zephir_check_call_status();
@@ -1498,7 +1498,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, throwWriteException) {
 
 }
 
-zend_object *zephir_init_properties_Phalcon_Mvc_Model_MetaData(zend_class_entry *class_type TSRMLS_DC) {
+zend_object *zephir_init_properties_Phalcon_Mvc_Model_MetaData(zend_class_entry *class_type) {
 
 		zval _0, _2, _1$$3, _3$$4;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;

@@ -24,7 +24,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Security_JWT_Exceptions_UnsupportedAlgorithmException) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Security\\JWT\\Exceptions, UnsupportedAlgorithmException, phalcon, security_jwt_exceptions_unsupportedalgorithmexception, zend_exception_get_default(TSRMLS_C), NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Security\\JWT\\Exceptions, UnsupportedAlgorithmException, phalcon, security_jwt_exceptions_unsupportedalgorithmexception, zend_exception_get_default(), NULL, 0);
 
 	zend_class_implements(phalcon_security_jwt_exceptions_unsupportedalgorithmexception_ce, 1, zephir_get_internal_ce(SL("throwable")));
 	return SUCCESS;

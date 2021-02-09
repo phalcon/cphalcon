@@ -561,6 +561,8 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/mvc/view/engine/volt/scanner.c
 	phalcon/url/utils.c"
 	PHP_NEW_EXTENSION(phalcon, $phalcon_sources, $ext_shared,, )
+	PHP_ADD_BUILD_DIR([$ext_builddir/kernel/])
+	PHP_ADD_BUILD_DIR([$ext_builddir/phalcon/])
 	PHP_SUBST(PHALCON_SHARED_LIBADD)
 
 	old_CPPFLAGS=$CPPFLAGS

@@ -1732,7 +1732,7 @@ PHP_METHOD(Phalcon_Forms_Form, valid) {
 
 }
 
-zend_object *zephir_init_properties_Phalcon_Forms_Form(zend_class_entry *class_type TSRMLS_DC) {
+zend_object *zephir_init_properties_Phalcon_Forms_Form(zend_class_entry *class_type) {
 
 		zval _0, _1$$3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;

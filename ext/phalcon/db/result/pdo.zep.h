@@ -62,6 +62,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_result_pdo_fetchall, 
 	ZEND_ARG_INFO(0, ctorArgs)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_result_pdo_fetcharray, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
 #if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_db_result_pdo_getinternalresult, 0, 0, PDOStatement, 0)
 #else
@@ -96,7 +99,7 @@ ZEPHIR_INIT_FUNCS(phalcon_db_result_pdo_method_entry) {
 	PHP_ME(Phalcon_Db_Result_Pdo, execute, arginfo_phalcon_db_result_pdo_execute, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Result_Pdo, fetch, arginfo_phalcon_db_result_pdo_fetch, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Result_Pdo, fetchAll, arginfo_phalcon_db_result_pdo_fetchall, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Db_Result_Pdo, fetchArray, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Result_Pdo, fetchArray, arginfo_phalcon_db_result_pdo_fetcharray, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Result_Pdo, getInternalResult, arginfo_phalcon_db_result_pdo_getinternalresult, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Result_Pdo, numRows, arginfo_phalcon_db_result_pdo_numrows, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Result_Pdo, setFetchMode, arginfo_phalcon_db_result_pdo_setfetchmode, ZEND_ACC_PUBLIC)

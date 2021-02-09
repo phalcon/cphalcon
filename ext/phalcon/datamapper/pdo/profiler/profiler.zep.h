@@ -13,7 +13,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_Profiler, setActive);
 PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_Profiler, setLogFormat);
 PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_Profiler, setLogLevel);
 PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_Profiler, start);
-zend_object *zephir_init_properties_Phalcon_DataMapper_Pdo_Profiler_Profiler(zend_class_entry *class_type TSRMLS_DC);
+zend_object *zephir_init_properties_Phalcon_DataMapper_Pdo_Profiler_Profiler(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_datamapper_pdo_profiler_profiler___construct, 0, 0, 0)
 	ZEND_ARG_OBJ_INFO(0, logger, Psr\\Log\\LoggerInterface, 1)
@@ -118,6 +118,9 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_datamapper_pdo_profiler_profiler_start, 0
 #else
 	ZEND_ARG_INFO(0, method)
 #endif
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_datamapper_pdo_profiler_profiler_zephir_init_properties_phalcon_datamapper_pdo_profiler_profiler, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_datamapper_pdo_profiler_profiler_method_entry) {

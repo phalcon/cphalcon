@@ -457,7 +457,7 @@ PHP_METHOD(Phalcon_Cli_Dispatcher, throwDispatchException) {
 
 }
 
-zend_object *zephir_init_properties_Phalcon_Cli_Dispatcher(zend_class_entry *class_type TSRMLS_DC) {
+zend_object *zephir_init_properties_Phalcon_Cli_Dispatcher(zend_class_entry *class_type) {
 
 		zval _0, _2, _4, _6, _8, _1$$3, _3$$4, _5$$5, _7$$6, _9$$7;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;

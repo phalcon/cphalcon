@@ -331,7 +331,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle) {
 				object_init_ex(&route, phalcon_mvc_router_route_ce);
 				ZEPHIR_CALL_METHOD(NULL, &route, "__construct", &_8, 116, &prefix);
 				zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_9$$6, &route, "getcompiledpattern", &_10, 0);
+				ZEPHIR_CALL_METHOD(&_9$$6, &route, "getcompiledpattern", &_10, 509);
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&_11$$6);
 				ZVAL_STRING(&_11$$6, "$#");
@@ -537,7 +537,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle) {
 					object_init_ex(&route, phalcon_mvc_router_route_ce);
 					ZEPHIR_CALL_METHOD(NULL, &route, "__construct", &_8, 116, &prefix);
 					zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(&_32$$29, &route, "getcompiledpattern", &_10, 0);
+					ZEPHIR_CALL_METHOD(&_32$$29, &route, "getcompiledpattern", &_10, 509);
 					zephir_check_call_status();
 					ZEPHIR_INIT_NVAR(&_33$$29);
 					ZVAL_STRING(&_33$$29, "$#");
@@ -1194,7 +1194,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, setControllerSuffix) {
 
 }
 
-zend_object *zephir_init_properties_Phalcon_Mvc_Router_Annotations(zend_class_entry *class_type TSRMLS_DC) {
+zend_object *zephir_init_properties_Phalcon_Mvc_Router_Annotations(zend_class_entry *class_type) {
 
 		zval _0, _2, _4, _6, _8, _1$$3, _3$$4, _5$$5, _7$$6, _9$$7;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;

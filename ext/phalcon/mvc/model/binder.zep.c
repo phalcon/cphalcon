@@ -398,7 +398,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, getParamsFromReflection) {
 	ZEPHIR_INIT_VAR(&reflection);
 	if (!ZEPHIR_IS_STRING(&methodName, "")) {
 		object_init_ex(&reflection, zephir_get_internal_ce(SL("reflectionmethod")));
-		ZEPHIR_CALL_METHOD(NULL, &reflection, "__construct", NULL, 466, handler, &methodName);
+		ZEPHIR_CALL_METHOD(NULL, &reflection, "__construct", NULL, 462, handler, &methodName);
 		zephir_check_call_status();
 	} else {
 		object_init_ex(&reflection, zephir_get_internal_ce(SL("reflectionfunction")));
@@ -440,7 +440,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, getParamsFromReflection) {
 			zephir_array_fetch(&paramValue, &params, &paramKey, PH_NOISY, "phalcon/Mvc/Model/Binder.zep", 173);
 			ZEPHIR_INIT_NVAR(&_6$$5);
 			ZVAL_STRING(&_6$$5, "Phalcon\\Mvc\\Model");
-			ZEPHIR_CALL_FUNCTION(&_7$$5, "is_subclass_of", &_8, 467, &className, &_6$$5);
+			ZEPHIR_CALL_FUNCTION(&_7$$5, "is_subclass_of", &_8, 463, &className, &_6$$5);
 			zephir_check_call_status();
 			if (ZEPHIR_IS_STRING(&className, "Phalcon\\Mvc\\Model")) {
 				if (Z_TYPE_P(&realClasses) == IS_NULL) {
@@ -522,7 +522,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, getParamsFromReflection) {
 				zephir_array_fetch(&paramValue, &params, &paramKey, PH_NOISY, "phalcon/Mvc/Model/Binder.zep", 173);
 				ZEPHIR_INIT_NVAR(&_15$$19);
 				ZVAL_STRING(&_15$$19, "Phalcon\\Mvc\\Model");
-				ZEPHIR_CALL_FUNCTION(&_16$$19, "is_subclass_of", &_8, 467, &className, &_15$$19);
+				ZEPHIR_CALL_FUNCTION(&_16$$19, "is_subclass_of", &_8, 463, &className, &_15$$19);
 				zephir_check_call_status();
 				if (ZEPHIR_IS_STRING(&className, "Phalcon\\Mvc\\Model")) {
 					if (Z_TYPE_P(&realClasses) == IS_NULL) {
@@ -607,7 +607,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, setCache) {
 
 }
 
-zend_object *zephir_init_properties_Phalcon_Mvc_Model_Binder(zend_class_entry *class_type TSRMLS_DC) {
+zend_object *zephir_init_properties_Phalcon_Mvc_Model_Binder(zend_class_entry *class_type) {
 
 		zval _0, _2, _4, _1$$3, _3$$4, _5$$5;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;

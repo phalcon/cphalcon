@@ -515,7 +515,7 @@ PHP_METHOD(Phalcon_Validation, getValue) {
 			if (Z_TYPE_P(&entity) == IS_OBJECT) {
 				ZEPHIR_INIT_NVAR(&method);
 				ZEPHIR_CONCAT_SV(&method, "set", &camelizedField);
-				ZEPHIR_CALL_FUNCTION(&_10$$21, "property_exists", NULL, 449, &entity, &field);
+				ZEPHIR_CALL_FUNCTION(&_10$$21, "property_exists", NULL, 445, &entity, &field);
 				zephir_check_call_status();
 				if ((zephir_method_exists(&entity, &method)  == SUCCESS)) {
 					ZEPHIR_CALL_METHOD_ZVAL(NULL, &entity, &method, NULL, 0, &value);
@@ -1194,7 +1194,7 @@ PHP_METHOD(Phalcon_Validation, preChecking) {
 
 }
 
-zend_object *zephir_init_properties_Phalcon_Validation(zend_class_entry *class_type TSRMLS_DC) {
+zend_object *zephir_init_properties_Phalcon_Validation(zend_class_entry *class_type) {
 
 		zval _0, _2, _1$$3, _3$$4;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;

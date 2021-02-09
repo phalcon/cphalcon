@@ -372,7 +372,7 @@ PHP_METHOD(Phalcon_Di, get) {
 				Z_ADDREF_P(&_8$$7);
 				ZEPHIR_INIT_VAR(&_9$$7);
 				if (zephir_instance_of_ev(&_8$$7, phalcon_di_exception_serviceresolutionexception_ce)) {
-					zend_clear_exception(TSRMLS_C);
+					zend_clear_exception();
 					ZEPHIR_CPY_WRT(&_9$$7, &_8$$7);
 					ZEPHIR_INIT_VAR(&_10$$9);
 					object_init_ex(&_10$$9, phalcon_di_exception_ce);
@@ -1250,7 +1250,7 @@ PHP_METHOD(Phalcon_Di, setShared) {
 
 }
 
-zend_object *zephir_init_properties_Phalcon_Di(zend_class_entry *class_type TSRMLS_DC) {
+zend_object *zephir_init_properties_Phalcon_Di(zend_class_entry *class_type) {
 
 		zval _0, _2, _1$$3, _3$$4;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;

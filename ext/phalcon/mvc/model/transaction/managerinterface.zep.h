@@ -14,6 +14,9 @@ ZEND_END_ARG_INFO()
 #define arginfo_phalcon_mvc_model_transaction_managerinterface_collecttransactions NULL
 #endif
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_transaction_managerinterface_commit, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
 #if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_transaction_managerinterface_get, 0, 0, Phalcon\\Mvc\\Model\\TransactionInterface, 0)
 #else
@@ -130,7 +133,7 @@ ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_mvc_model_transaction_managerinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Transaction_ManagerInterface, collectTransactions, arginfo_phalcon_mvc_model_transaction_managerinterface_collecttransactions)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Transaction_ManagerInterface, commit, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Transaction_ManagerInterface, commit, arginfo_phalcon_mvc_model_transaction_managerinterface_commit)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Transaction_ManagerInterface, get, arginfo_phalcon_mvc_model_transaction_managerinterface_get)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Transaction_ManagerInterface, getDbService, arginfo_phalcon_mvc_model_transaction_managerinterface_getdbservice)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_Transaction_ManagerInterface, getRollbackPendent, arginfo_phalcon_mvc_model_transaction_managerinterface_getrollbackpendent)

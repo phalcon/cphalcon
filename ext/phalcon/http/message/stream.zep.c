@@ -160,7 +160,7 @@ PHP_METHOD(Phalcon_Http_Message_Stream, __toString) {
 
 	try_end_1:
 
-	zend_clear_exception(TSRMLS_C);
+	zend_clear_exception();
 	RETURN_MM_STRING("");
 
 }
@@ -653,7 +653,7 @@ PHP_METHOD(Phalcon_Http_Message_Stream, tell) {
 	ZEPHIR_CALL_FUNCTION(&position, "ftell", NULL, 90, &_0);
 	zephir_check_call_status();
 	if (UNEXPECTED(Z_TYPE_P(&position) != IS_LONG)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(zend_exception_get_default(TSRMLS_C), "Could not retrieve the pointer position", "phalcon/Http/Message/Stream.zep", 333);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(zend_exception_get_default(), "Could not retrieve the pointer position", "phalcon/Http/Message/Stream.zep", 333);
 		return;
 	}
 	RETURN_CCTOR(&position);

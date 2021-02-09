@@ -554,7 +554,7 @@ PHP_METHOD(Phalcon_Tag, friendlyTitle) {
 		ZVAL_OBJ(&_2, EG(exception));
 		Z_ADDREF_P(&_2);
 		if (zephir_instance_of_ev(&_2, phalcon_helper_exception_ce)) {
-			zend_clear_exception(TSRMLS_C);
+			zend_clear_exception();
 			ZEPHIR_CPY_WRT(&ex, &_2);
 			ZEPHIR_INIT_VAR(&_3$$4);
 			object_init_ex(&_3$$4, phalcon_tag_exception_ce);

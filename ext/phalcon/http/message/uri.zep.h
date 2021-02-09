@@ -28,6 +28,24 @@ PHP_METHOD(Phalcon_Http_Message_Uri, filterQuery);
 PHP_METHOD(Phalcon_Http_Message_Uri, filterScheme);
 PHP_METHOD(Phalcon_Http_Message_Uri, splitQueryValue);
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_message_uri_getfragment, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_message_uri_gethost, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_message_uri_getpath, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_message_uri_getport, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_message_uri_getquery, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_message_uri_getscheme, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_message_uri___construct, 0, 0, 0)
 #if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, uri, IS_STRING, 0)
@@ -205,12 +223,12 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_uri_splitqu
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_http_message_uri_method_entry) {
-	PHP_ME(Phalcon_Http_Message_Uri, getFragment, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Http_Message_Uri, getHost, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Http_Message_Uri, getPath, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Http_Message_Uri, getPort, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Http_Message_Uri, getQuery, NULL, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Http_Message_Uri, getScheme, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Message_Uri, getFragment, arginfo_phalcon_http_message_uri_getfragment, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Message_Uri, getHost, arginfo_phalcon_http_message_uri_gethost, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Message_Uri, getPath, arginfo_phalcon_http_message_uri_getpath, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Message_Uri, getPort, arginfo_phalcon_http_message_uri_getport, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Message_Uri, getQuery, arginfo_phalcon_http_message_uri_getquery, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Message_Uri, getScheme, arginfo_phalcon_http_message_uri_getscheme, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Message_Uri, __construct, arginfo_phalcon_http_message_uri___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Http_Message_Uri, __toString, arginfo_phalcon_http_message_uri___tostring, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Message_Uri, getAuthority, arginfo_phalcon_http_message_uri_getauthority, ZEND_ACC_PUBLIC)

@@ -42,6 +42,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_routeinterfac
 #endif
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_routeinterface_gethttpmethods, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
 #if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_routeinterface_getname, 0, 0, IS_STRING, 0)
 #else
@@ -152,7 +155,7 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_router_routeinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Router_RouteInterface, convert, arginfo_phalcon_mvc_router_routeinterface_convert)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Router_RouteInterface, getCompiledPattern, arginfo_phalcon_mvc_router_routeinterface_getcompiledpattern)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Router_RouteInterface, getHostname, arginfo_phalcon_mvc_router_routeinterface_gethostname)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Router_RouteInterface, getHttpMethods, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Router_RouteInterface, getHttpMethods, arginfo_phalcon_mvc_router_routeinterface_gethttpmethods)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Router_RouteInterface, getName, arginfo_phalcon_mvc_router_routeinterface_getname)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Router_RouteInterface, getPaths, arginfo_phalcon_mvc_router_routeinterface_getpaths)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Router_RouteInterface, getPattern, arginfo_phalcon_mvc_router_routeinterface_getpattern)

@@ -3109,7 +3109,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, parse) {
 
 	ZEPHIR_INIT_VAR(&currentPath);
 	ZVAL_STRING(&currentPath, "eval code");
-	ZEPHIR_LAST_CALL_STATUS = phvolt_parse_view(return_value, &viewCode, &currentPath TSRMLS_CC);
+	ZEPHIR_LAST_CALL_STATUS = phvolt_parse_view(return_value, &viewCode, &currentPath);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -3388,7 +3388,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileSource) {
 		}
 	}
 	ZEPHIR_INIT_VAR(&intermediate);
-	ZEPHIR_LAST_CALL_STATUS = phvolt_parse_view(&intermediate, &viewCode, &currentPath TSRMLS_CC);
+	ZEPHIR_LAST_CALL_STATUS = phvolt_parse_view(&intermediate, &viewCode, &currentPath);
 	zephir_check_call_status();
 	if (UNEXPECTED(Z_TYPE_P(&intermediate) != IS_ARRAY)) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_view_engine_volt_exception_ce, "Invalid intermediate representation", "phalcon/Mvc/View/Engine/Volt/Compiler.zep", 2137);

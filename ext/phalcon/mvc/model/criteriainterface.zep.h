@@ -94,11 +94,23 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_criteriainterf
 #endif
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_criteriainterface_getcolumns, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
 #if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_criteriainterface_getconditions, 0, 0, IS_STRING, 1)
 #else
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_criteriainterface_getconditions, 0, 0, IS_STRING, NULL, 1)
 #endif
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_criteriainterface_getgroupby, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_criteriainterface_gethaving, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_criteriainterface_getlimit, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
@@ -318,11 +330,11 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_model_criteriainterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, distinct, arginfo_phalcon_mvc_model_criteriainterface_distinct)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, execute, arginfo_phalcon_mvc_model_criteriainterface_execute)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, forUpdate, arginfo_phalcon_mvc_model_criteriainterface_forupdate)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, getColumns, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, getColumns, arginfo_phalcon_mvc_model_criteriainterface_getcolumns)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, getConditions, arginfo_phalcon_mvc_model_criteriainterface_getconditions)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, getGroupBy, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, getHaving, NULL)
-	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, getLimit, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, getGroupBy, arginfo_phalcon_mvc_model_criteriainterface_getgroupby)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, getHaving, arginfo_phalcon_mvc_model_criteriainterface_gethaving)
+	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, getLimit, arginfo_phalcon_mvc_model_criteriainterface_getlimit)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, getModelName, arginfo_phalcon_mvc_model_criteriainterface_getmodelname)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, getOrderBy, arginfo_phalcon_mvc_model_criteriainterface_getorderby)
 	PHP_ABSTRACT_ME(Phalcon_Mvc_Model_CriteriaInterface, getParams, arginfo_phalcon_mvc_model_criteriainterface_getparams)

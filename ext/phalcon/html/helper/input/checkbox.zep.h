@@ -8,10 +8,13 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Checkbox, __toString);
 PHP_METHOD(Phalcon_Html_Helper_Input_Checkbox, label);
 PHP_METHOD(Phalcon_Html_Helper_Input_Checkbox, processChecked);
 PHP_METHOD(Phalcon_Html_Helper_Input_Checkbox, processUnchecked);
-zend_object *zephir_init_properties_Phalcon_Html_Helper_Input_Checkbox(zend_class_entry *class_type TSRMLS_DC);
+zend_object *zephir_init_properties_Phalcon_Html_Helper_Input_Checkbox(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_html_helper_input_checkbox___construct, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, escaper, Phalcon\\Escaper\\EscaperInterface, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_html_helper_input_checkbox___tostring, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 70200
@@ -40,9 +43,12 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_input_checkb
 #endif
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_html_helper_input_checkbox_zephir_init_properties_phalcon_html_helper_input_checkbox, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
 ZEPHIR_INIT_FUNCS(phalcon_html_helper_input_checkbox_method_entry) {
 	PHP_ME(Phalcon_Html_Helper_Input_Checkbox, __construct, arginfo_phalcon_html_helper_input_checkbox___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
-	PHP_ME(Phalcon_Html_Helper_Input_Checkbox, __toString, NULL, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Html_Helper_Input_Checkbox, __toString, arginfo_phalcon_html_helper_input_checkbox___tostring, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Html_Helper_Input_Checkbox, label, arginfo_phalcon_html_helper_input_checkbox_label, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Html_Helper_Input_Checkbox, processChecked, arginfo_phalcon_html_helper_input_checkbox_processchecked, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Html_Helper_Input_Checkbox, processUnchecked, arginfo_phalcon_html_helper_input_checkbox_processunchecked, ZEND_ACC_PRIVATE)

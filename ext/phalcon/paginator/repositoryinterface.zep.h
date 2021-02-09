@@ -24,6 +24,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_paginator_repositoryinte
 #endif
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_paginator_repositoryinterface_getitems, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
 #if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_paginator_repositoryinterface_getlast, 0, 0, IS_LONG, 0)
 #else
@@ -79,7 +82,7 @@ ZEPHIR_INIT_FUNCS(phalcon_paginator_repositoryinterface_method_entry) {
 	PHP_ABSTRACT_ME(Phalcon_Paginator_RepositoryInterface, getAliases, arginfo_phalcon_paginator_repositoryinterface_getaliases)
 	PHP_ABSTRACT_ME(Phalcon_Paginator_RepositoryInterface, getCurrent, arginfo_phalcon_paginator_repositoryinterface_getcurrent)
 	PHP_ABSTRACT_ME(Phalcon_Paginator_RepositoryInterface, getFirst, arginfo_phalcon_paginator_repositoryinterface_getfirst)
-	PHP_ABSTRACT_ME(Phalcon_Paginator_RepositoryInterface, getItems, NULL)
+	PHP_ABSTRACT_ME(Phalcon_Paginator_RepositoryInterface, getItems, arginfo_phalcon_paginator_repositoryinterface_getitems)
 	PHP_ABSTRACT_ME(Phalcon_Paginator_RepositoryInterface, getLast, arginfo_phalcon_paginator_repositoryinterface_getlast)
 	PHP_ABSTRACT_ME(Phalcon_Paginator_RepositoryInterface, getLimit, arginfo_phalcon_paginator_repositoryinterface_getlimit)
 	PHP_ABSTRACT_ME(Phalcon_Paginator_RepositoryInterface, getNext, arginfo_phalcon_paginator_repositoryinterface_getnext)

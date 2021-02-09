@@ -11,7 +11,7 @@ PHP_METHOD(Phalcon_Filter, set);
 PHP_METHOD(Phalcon_Filter, init);
 PHP_METHOD(Phalcon_Filter, processArrayValues);
 PHP_METHOD(Phalcon_Filter, sanitizer);
-zend_object *zephir_init_properties_Phalcon_Filter(zend_class_entry *class_type TSRMLS_DC);
+zend_object *zephir_init_properties_Phalcon_Filter(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter___construct, 0, 0, 0)
 	ZEND_ARG_ARRAY_INFO(0, mapper, 0)
@@ -102,6 +102,9 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_sanitizer, 0, 0, 2)
 	ZEND_ARG_INFO(0, sanitizerName)
 #endif
 	ZEND_ARG_ARRAY_INFO(0, sanitizerParams, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_zephir_init_properties_phalcon_filter, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_filter_method_entry) {
