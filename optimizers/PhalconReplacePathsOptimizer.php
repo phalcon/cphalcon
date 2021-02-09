@@ -72,9 +72,8 @@ class PhalconReplacePathsOptimizer extends OptimizerAbstract
         );
 
         $symbol = $context->backend->getVariableCode($symbolVariable);
-
         $context->codePrinter->output(
-            'phalcon_replace_paths(' . $symbol . ', ' . $resolvedParams[0] . ', ' . $resolvedParams[1] . ', ' . $resolvedParams[2] . ' TSRMLS_CC);'
+            'phalcon_replace_paths(' . $symbol . ', ' . $resolvedParams[0] . ', ' . $resolvedParams[1] . ', ' . $resolvedParams[2] . ');'
         );
 
         return new CompiledExpression(

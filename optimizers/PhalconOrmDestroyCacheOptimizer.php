@@ -32,7 +32,7 @@ class PhalconOrmDestroyCacheOptimizer extends OptimizerAbstract
     {
         $context->headersManager->add('phalcon/mvc/model/orm');
 
-        $context->codePrinter->output('phalcon_orm_destroy_cache(TSRMLS_C);');
+        $context->codePrinter->output('phalcon_orm_destroy_cache();');
 
         return new CompiledExpression(
             'null',

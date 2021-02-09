@@ -70,9 +70,8 @@ class PhalconOrmSinglequotesOptimizer extends OptimizerAbstract
         );
 
         $symbol = $context->backend->getVariableCode($symbolVariable);
-
         $context->codePrinter->output(
-            'phalcon_orm_singlequotes(' . $symbol . ', ' . $resolvedParams[0] . ' TSRMLS_CC);'
+            'phalcon_orm_singlequotes(' . $symbol . ', ' . $resolvedParams[0] . ');'
         );
 
         return new CompiledExpression(

@@ -70,7 +70,7 @@ class PhalconCssminOptimizer extends OptimizerAbstract
         );
 
         $context->codePrinter->output(
-            'phalcon_cssmin(' . $symbolVariable->getName() . ', ' . $resolvedParams[0] . ' TSRMLS_CC);'
+            'phalcon_cssmin(' . $symbolVariable->getName() . ', ' . $resolvedParams[0] . ');'
         );
 
         return new CompiledExpression(
