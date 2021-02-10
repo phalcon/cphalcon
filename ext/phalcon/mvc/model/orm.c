@@ -25,7 +25,7 @@
 /**
  * Destroyes the prepared ASTs
  */
-void phalcon_orm_destroy_cache(TSRMLS_D) {
+void phalcon_orm_destroy_cache() {
 
 	zend_phalcon_globals *phalcon_globals_ptr = ZEPHIR_VGLOBAL;
 
