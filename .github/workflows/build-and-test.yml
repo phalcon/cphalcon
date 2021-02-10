@@ -183,7 +183,8 @@ jobs:
         run: php --ri phalcon
 
       - name: Install Packages
-        run: composer install --prefer-dist
+        # TODO: package 'codeception/module-phalcon4' isn't PHP8 compatible (--ignore-platform-reqs)
+        run: composer install --prefer-dist --ignore-platform-reqs
 
       - name: Setup Tests
         run: |
