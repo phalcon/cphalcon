@@ -14,8 +14,8 @@
   <date>2020-10-31</date>
   <time>17:00:00</time>
   <version>
-    <release>4.1.0</release>
-    <api>4.1.0</api>
+    <release>4.2.0</release>
+    <api>4.2.0</api>
   </version>
   <stability>
     <release>stable</release>
@@ -118,7 +118,7 @@
     <required>
       <php>
         <min>7.2.0</min>
-        <max>7.4.99</max>
+        <max>8.0.0</max>
       </php>
       <pearinstaller>
         <min>1.4.0</min>
