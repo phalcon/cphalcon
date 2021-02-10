@@ -73,14 +73,14 @@ jobs:
           $HOME/bin/zephir generate
           (cd build && php gen-build.php)
 
-      - name: Create Pecl Package
+      - name: Create Pecl Package (PHP 8)
         id: pecl_create
         run: |
-          cp build/php7/safe/config.w32 config.w32
-          cp build/php7/safe/phalcon.zep.c phalcon.zep.c
-          cp build/php7/safe/config.m4 config.m4
-          cp build/php7/safe/php_phalcon.h php_phalcon.h
-          cp build/php7/safe/phalcon.zep.h phalcon.zep.h
+          cp build/php8/safe/config.w32 config.w32
+          cp build/php8/safe/phalcon.zep.c phalcon.zep.c
+          cp build/php8/safe/config.m4 config.m4
+          cp build/php8/safe/php_phalcon.h php_phalcon.h
+          cp build/php8/safe/phalcon.zep.h phalcon.zep.h
           pecl package
           phalcon_package="`ls | grep phalcon-*tgz`"
           mv $phalcon_package phalcon-pecl.tgz
