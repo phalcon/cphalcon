@@ -1,8 +1,7 @@
 <?php
 // These are the files that must not be added to phalcon.c
-//
 
-$skipFiles = array(
+return [
     // Included by phalcon.c header - see phalcon_c_header.php
     'config.h',
     'ext_config.h',
@@ -41,6 +40,4 @@ $skipFiles = array(
     'phalcon/mvc/model/query/parser.php5.c',
     'phalcon/mvc/model/query/parser.php7.c',
     'phalcon/mvc/model/query/parser.php8.c',
-);
-
-return $skipFiles;
+];
