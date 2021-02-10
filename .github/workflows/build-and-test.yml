@@ -193,15 +193,18 @@ jobs:
           vendor/bin/codecept build
 
       - name: Run Unit Tests
+        if: always()
         run: vendor/bin/codecept run --ext DotReporter unit
 
       - name: Run CLI Tests
+        if: always()
         run: vendor/bin/codecept run --ext DotReporter cli
 
       - name: Run Integration Tests
         env:
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
+        if: always()
         run: vendor/bin/codecept run --ext DotReporter integration
 
       - name: Run Database Tests (Common)
@@ -209,6 +212,7 @@ jobs:
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
           DATA_MYSQL_USER: root
+        if: always()
         run: vendor/bin/codecept run --ext DotReporter database -g common
 
       - name: Run Database Tests (MySQL)
@@ -217,12 +221,14 @@ jobs:
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
           DATA_MYSQL_USER: root
+        if: always()
         run: vendor/bin/codecept run database --env mysql -g mysql
 
       - name: Run Database Tests (Sqlite)
         env:
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
+        if: always()
         run: vendor/bin/codecept run --ext DotReporter database --env sqlite -g sqlite
 
       - name: Run Database Tests (Postgres)
@@ -231,6 +237,7 @@ jobs:
           DATA_POSTGRES_PORT: ${{ job.services.postgres.ports['5432'] }}
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
+        if: always()
         run: vendor/bin/codecept run --ext DotReporter database --env pgsql -g pgsql
 
       # - name: Run Database Tests (SQL Server)
