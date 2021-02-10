@@ -22,7 +22,7 @@ jobs:
       - name: Setup Environment Variables
         run: |
           echo "ZEPHIR_PARSER_VERSION=v1.3.6" >> $GITHUB_ENV
-          echo "ZEPHIR_VERSION=0.12.19" >> $GITHUB_ENV
+          echo "ZEPHIR_VERSION=0.13.0-alpha-1" >> $GITHUB_ENV
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -131,7 +131,7 @@ jobs:
       fail-fast: false
       matrix:
         operating-system: [ubuntu-latest]
-        php-versions: ['7.2', '7.3', '7.4']
+        php-versions: ['7.2', '7.3', '7.4', '8.0']
 
     name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
     steps:
@@ -251,7 +251,7 @@ jobs:
       fail-fast: false
       matrix:
         operating-system: [macos-latest]
-        php-versions: ['7.2', '7.3', '7.4']
+        php-versions: ['7.2', '7.3', '7.4', '8.0']
 
     name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
     steps:
@@ -361,7 +361,7 @@ jobs:
       fail-fast: false
       matrix:
         operating-system: [windows-2016]
-        php-versions: ['7.2', '7.3', '7.4']
+        php-versions: ['7.2', '7.3', '7.4', '8.0']
         ts: [ts, nts]
         include:
           - php-versions: '7.2'
@@ -369,6 +369,10 @@ jobs:
             arch: x64
             build_type: Win32
           - php-versions: '7.3'
+            vc_num: '15'
+            arch: x64
+            build_type: Win32
+          - php-versions: '7.4'
             vc_num: '15'
             arch: x64
             build_type: Win32
