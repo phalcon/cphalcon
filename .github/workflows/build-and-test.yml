@@ -166,7 +166,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-versions }}
           ini-values: apc.enable_cli=on, session.save_path=/tmp
-          tools: pecl, prestissimo
+          tools: pecl
           extensions: mbstring, intl, json, imagick
 
       - name: Download Phalcon Pecl Package
