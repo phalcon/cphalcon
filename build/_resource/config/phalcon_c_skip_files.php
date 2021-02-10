@@ -26,18 +26,21 @@ $skipFiles = array(
     'phalcon/annotations/lemon.c',
     'phalcon/annotations/parser.php5.c',
     'phalcon/annotations/parser.php7.c',
+    'phalcon/annotations/parser.php8.c',
 
     'phalcon/mvc/view/engine/volt/base.c',
     'phalcon/mvc/view/engine/volt/lempar.c',
     'phalcon/mvc/view/engine/volt/lemon.c',
     'phalcon/mvc/view/engine/volt/parser.php5.c',
     'phalcon/mvc/view/engine/volt/parser.php7.c',
+    'phalcon/mvc/view/engine/volt/parser.php8.c',
 
     'phalcon/mvc/model/query/base.c',
     'phalcon/mvc/model/query/lempar.c',
     'phalcon/mvc/model/query/lemon.c',
     'phalcon/mvc/model/query/parser.php5.c',
     'phalcon/mvc/model/query/parser.php7.c',
+    'phalcon/mvc/model/query/parser.php8.c',
 );
 
 return $skipFiles;
