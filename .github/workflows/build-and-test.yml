@@ -29,7 +29,7 @@ jobs:
         with:
           php-version: '8.0'
           extensions: mbstring, intl, json, psr
-          tools: pecl, prestissimo
+          tools: pecl
 
       - name: Common Settings
         run: |
@@ -183,8 +183,7 @@ jobs:
         run: php --ri phalcon
 
       - name: Install Packages
-        # TODO: package 'codeception/module-phalcon4' isn't PHP8 compatible (--ignore-platform-reqs)
-        run: composer install --prefer-dist --ignore-platform-reqs
+        run: composer install --prefer-dist
 
       - name: Setup Tests
         run: |
@@ -399,7 +398,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-versions }}
           ini-values: apc.enable_cli=on, session.save_path=C:\temp
-          tools: pecl, prestissimo
+          tools: pecl
           extensions: mbstring, intl, json, yaml, apcu, psr, imagick, gd, redis, igbinary, sqlite3, msgpack
         env:
           PHPTS: ${{ matrix.ts }}
