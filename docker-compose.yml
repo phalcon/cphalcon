@@ -3,6 +3,23 @@
 version: '3'
 
 services:
+  cphalcon-7.3:
+    container_name: cphalcon-7.3
+    hostname: cphalcon-73
+    build: docker/7.3
+    working_dir: /srv
+    volumes:
+      - ./docker/extra.ini:/usr/local/etc/php/conf.d/
+      - .:/srv
+
+  cphalcon-7.4:
+    container_name: cphalcon-7.4
+    hostname: cphalcon-74
+    build: docker/7.4
+    working_dir: /srv
+    volumes:
+      - .:/srv
+
   cphalcon-8.0:
     container_name: cphalcon-8.0
     hostname: cphalcon-80
@@ -13,7 +30,6 @@ services:
 
   mysql:
     container_name: cphalcon-mysql
-    restart: always
     image: mysql:5.7
     ports:
       - 3306:3306
@@ -25,7 +41,6 @@ services:
 
   postgres:
     container_name: cphalcon-postgres
-    restart: always
     image: postgres:12-alpine
     ports:
       - 5432:5432
@@ -36,14 +51,12 @@ services:
 
   redis:
     container_name: cphalcon-redis
-    restart: always
     image: redis:5-alpine
     ports:
       - 6379:6379
 
   memcached:
     container_name: cphalcon-memcached
-    restart: always
     image: memcached:1.5-alpine
     ports:
       - 11211:11211
