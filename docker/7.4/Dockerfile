@@ -27,7 +27,8 @@ RUN apt update -y && apt install -y \
     pecl install msgpack && \
     pecl install apcu && \
     pecl install yaml && \
-    pecl install imagick
+    pecl install imagick && \
+    pecl install memcached
 
 RUN curl -s https://raw.githubusercontent.com/phalcon/zephir/development/.ci/install-zephir-parser.sh | bash
 
