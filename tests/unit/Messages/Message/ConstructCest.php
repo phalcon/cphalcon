@@ -122,9 +122,16 @@ class ConstructCest
             $actual = $ex->getMessage();
         }
 
-        $I->assertEquals(
-            'Argument 1 passed to Phalcon\Messages\Message::__construct() must be of the type string, bool',
-            substr($actual, 0, 93)
-        );
+        if (version_compare(PHP_VERSION, '8.0.0', '>=')) {
+            $I->assertEquals(
+                "Parameter 'message' must be of the type string",
+                $actual
+            );
+        } else {
+            $I->assertEquals(
+                'Argument 1 passed to Phalcon\Messages\Message::__construct() must be of the type string, bool',
+                substr($actual, 0, 93)
+            );
+        }
     }
 }
