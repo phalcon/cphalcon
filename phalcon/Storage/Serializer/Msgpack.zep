@@ -31,7 +31,7 @@ class Msgpack extends AbstractSerializer
 	{
 	    globals_set("warning.enable", false);
         set_error_handler(
-            function (number, message, file, line, context) {
+            function (number, message, file, line) {
         	    globals_set("warning.enable", true);
             },
             E_WARNING
