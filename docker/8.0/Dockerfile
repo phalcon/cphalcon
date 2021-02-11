@@ -26,7 +26,8 @@ RUN apt update -y && apt install -y \
     pecl install igbinary && \
     pecl install msgpack && \
     pecl install apcu && \
-    pecl install yaml
+    pecl install yaml && \
+    pecl install memcached
 
 # Remove this RUN when imagick will be available via pecl
 RUN cd /opt && \
