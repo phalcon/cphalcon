@@ -131,7 +131,7 @@ jobs:
       fail-fast: false
       matrix:
         operating-system: [ubuntu-latest]
-        php-versions: ['7.3', '7.4', '8.0']
+        php-versions: ['7.4', '8.0']
 
     name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
     steps:
@@ -258,7 +258,7 @@ jobs:
       fail-fast: false
       matrix:
         operating-system: [macos-latest]
-        php-versions: ['7.3', '7.4', '8.0']
+        php-versions: ['7.4', '8.0']
 
     name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
     steps:
@@ -368,13 +368,9 @@ jobs:
       fail-fast: false
       matrix:
         operating-system: [windows-2016]
-        php-versions: ['7.3', '7.4', '8.0']
+        php-versions: ['7.4', '8.0']
         ts: [ts, nts]
         include:
-          - php-versions: '7.3'
-            vc_num: '15'
-            arch: x64
-            build_type: Win32
           - php-versions: '7.4'
             vc_num: '15'
             arch: x64
