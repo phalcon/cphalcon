@@ -126,7 +126,6 @@ class Database extends \Codeception\Module
 
             case 'sqlsrv':
                 return "";
-                break;
             default:
                 return "sqlite:memory";
         }
