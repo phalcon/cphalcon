@@ -71,13 +71,6 @@ class Gd extends AbstractAdapter
                     );
             }
 
-            /**
-             * Alphablending has to be disabled (imagealphablending($im, false))
-             * to retain the alpha-channel in the first place.
-             *
-             * @see https://www.php.net/manual/en/function.imagesavealpha.php
-             */
-            imagealphablending(this->image, false);
             imagesavealpha(this->image, true);
 
         } else {
