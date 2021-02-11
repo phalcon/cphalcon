@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Messages\Message;
 
+use InvalidArgumentException;
 use Phalcon\Messages\Message;
 use TypeError;
 use UnitTester;
@@ -116,7 +117,8 @@ class ConstructCest
 
         try {
             (new Message(true));
-        } catch (TypeError $ex) {
+            // 7.4 - TypeError, 8.0 - InvalidArgumentException
+        } catch (TypeError | InvalidArgumentException $ex) {
             $actual = $ex->getMessage();
         }
 
