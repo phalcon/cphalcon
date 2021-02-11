@@ -1084,7 +1084,7 @@ PHP_METHOD(Phalcon_Mvc_Model, assign) {
  * ```
  *
  * @param array parameters
- * @return double | ResultsetInterface
+ * @return float | ResultsetInterface
  */
 PHP_METHOD(Phalcon_Mvc_Model, average) {
 
