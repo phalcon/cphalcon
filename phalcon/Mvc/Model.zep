@@ -701,11 +701,19 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * ```
      *
      * @param array parameters
-     * @return double | ResultsetInterface
+     * @return float | ResultsetInterface
      */
     public static function average(var parameters = null) -> float | <ResultsetInterface>
     {
-        return self::groupResult("AVG", "average", parameters);
+        var result;
+
+        let result = self::groupResult("AVG", "average", parameters);
+
+        if typeof result == "string" {
+            return (float) result;
+        }
+
+        return result;
     }
 
     /**
