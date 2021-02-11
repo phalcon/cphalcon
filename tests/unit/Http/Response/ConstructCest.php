@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Response;
 
+use InvalidArgumentException;
 use Phalcon\Http\Response;
 use UnitTester;
 use TypeError;
@@ -55,7 +56,7 @@ class ConstructCest
             /** @noinspection PhpUndefinedClassInspection */
             $throwable = new InvalidArgumentException(
                 sprintf(
-                    'Argument 1 passed to %s::__construct() must be of the type string or null, array given',
+                    "Parameter 'content' must be of the type string",
                     Response::class
                 )
             );
