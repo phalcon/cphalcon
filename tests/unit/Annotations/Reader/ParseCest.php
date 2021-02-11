@@ -33,8 +33,14 @@ class ParseCest
      */
     public function testParseWithNonExistentClass(UnitTester $I)
     {
+        if (version_compare(PHP_VERSION, '8.0.0', '>=')) {
+            $message = 'Class "TestClass1" does not exist';
+        } else {
+            $message = 'Class TestClass1 does not exist';
+        }
+
         $I->expectThrowable(
-            new ReflectionException('Class TestClass1 does not exist', -1),
+            new ReflectionException($message, -1),
             function () {
                 $reader = new Reader();
 

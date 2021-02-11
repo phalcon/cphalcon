@@ -51,13 +51,23 @@ class ConstructCest
     {
         $I->wantToTest('Http\Response - __construct(content = [array])');
 
-        /** @noinspection PhpUndefinedClassInspection */
-        $throwable = new TypeError(
-            sprintf(
-                'Argument 1 passed to %s::__construct() must be of the type string or null, array given',
-                Response::class
-            )
-        );
+        if (version_compare(PHP_VERSION, '8.0.0', '>=')) {
+            /** @noinspection PhpUndefinedClassInspection */
+            $throwable = new InvalidArgumentException(
+                sprintf(
+                    'Argument 1 passed to %s::__construct() must be of the type string or null, array given',
+                    Response::class
+                )
+            );
+        } else {
+            /** @noinspection PhpUndefinedClassInspection */
+            $throwable = new TypeError(
+                sprintf(
+                    'Argument 1 passed to %s::__construct() must be of the type string or null, array given',
+                    Response::class
+                )
+            );
+        }
 
         $I->expectThrowable($throwable, function () {
             new Response(['Put a Sock In It']);
