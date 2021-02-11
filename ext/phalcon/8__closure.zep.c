@@ -26,17 +26,16 @@ ZEPHIR_INIT_CLASS(phalcon_8__closure) {
 
 PHP_METHOD(phalcon_8__closure, __invoke) {
 
-	zval *number, number_sub, *message, message_sub, *file, file_sub, *line, line_sub, *context, context_sub, __$true;
+	zval *number, number_sub, *message, message_sub, *file, file_sub, *line, line_sub, __$true;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&number_sub);
 	ZVAL_UNDEF(&message_sub);
 	ZVAL_UNDEF(&file_sub);
 	ZVAL_UNDEF(&line_sub);
-	ZVAL_UNDEF(&context_sub);
 	ZVAL_BOOL(&__$true, 1);
 
-	zephir_fetch_params_without_memory_grow(5, 0, &number, &message, &file, &line, &context);
+	zephir_fetch_params_without_memory_grow(4, 0, &number, &message, &file, &line);
 
 
 
