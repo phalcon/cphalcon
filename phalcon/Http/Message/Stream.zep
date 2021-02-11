@@ -291,7 +291,7 @@ class Stream implements StreamInterface
         if likely typeof stream === "string" {
 
             set_error_handler(
-                function (number, message, file, line, context) {
+                function (number, message, file, line) {
                     globals_set("warning.enable", true);
                 },
                 E_WARNING
