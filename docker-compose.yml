@@ -3,15 +3,6 @@
 version: '3'
 
 services:
-  cphalcon-7.3:
-    container_name: cphalcon-7.3
-    hostname: cphalcon-73
-    build: docker/7.3
-    working_dir: /srv
-    volumes:
-      - ./docker/extra.ini:/usr/local/etc/php/conf.d/
-      - .:/srv
-
   cphalcon-7.4:
     container_name: cphalcon-7.4
     hostname: cphalcon-74

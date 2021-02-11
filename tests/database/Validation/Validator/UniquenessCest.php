@@ -536,7 +536,6 @@ class UniquenessCest
      */
     public function testIssue13398(DatabaseTester $I)
     {
-
         /** @var PDO $connection */
         $connection = $I->getConnection();
         $migration  = new ObjectsMigration($connection);
