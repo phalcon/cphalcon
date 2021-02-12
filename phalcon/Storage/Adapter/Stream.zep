@@ -328,7 +328,7 @@ class Stream extends AbstractAdapter
      */
     private function getPayload(string filepath) -> array
     {
-        var payload, pointer;
+        var payload, pointer, version;
 
         let pointer = fopen(filepath, 'r');
 
@@ -342,13 +342,24 @@ class Stream extends AbstractAdapter
             return [];
         }
 
+        let version = phpversion();
         globals_set("warning.enable", false);
-        set_error_handler(
-            function (number, message, file, line) {
-                globals_set("warning.enable", true);
-            },
-            E_NOTICE
-        );
+
+        if version_compare(version, "8.0", ">=") {
+            set_error_handler(
+                function (number, message, file, line) {
+                    globals_set("warning.enable", true);
+                },
+                E_NOTICE
+            );
+        } else {
+            set_error_handler(
+                function (number, message, file, line, context) {
+                    globals_set("warning.enable", true);
+                },
+                E_NOTICE
+            );
+        }
 
         let payload = unserialize(payload);
 
