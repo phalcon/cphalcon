@@ -182,7 +182,7 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
     }
 
     /**
-     * Set an array with CSS classes to format the icon messages
+     * Set an array with CSS classes to format the messages
      */
     public function setIconCssClasses(array! iconCssClasses) -> <FlashInterface>
     {
@@ -389,6 +389,7 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
         if !automaticHtml {
             return message;
         }
+
 
         let classes = this->cssClasses;
         let iconClasses = this->iconCssClasses;
