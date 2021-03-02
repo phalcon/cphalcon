@@ -403,7 +403,7 @@ class Builder
      *
      * @return Builder
      */
-    private function setClaim(string! name, var value) -> <Builder>
+    protected function setClaim(string! name, var value) -> <Builder>
     {
         this->claims->set(name, value);
 
