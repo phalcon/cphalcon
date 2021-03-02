@@ -15,6 +15,7 @@ use Phalcon\Security\JWT\Builder;
 use Phalcon\Security\JWT\Exceptions\ValidatorException;
 use Phalcon\Security\JWT\Signer\Hmac;
 use Phalcon\Security\JWT\Token\Token;
+use Phalcon\Test\Fixtures\Security\ExtendedBuilder;
 
 trait JWTTrait
 {
@@ -27,8 +28,36 @@ trait JWTTrait
      */
     protected function newToken($signerClass = Hmac::class, int $issDrift = 0): Token
     {
+        return $this->generateToken(Builder::class, $signerClass, $issDrift);
+    }
+
+    /**
+     * @param string $signerClass
+     * @param int    $issDrift
+     *
+     * @return Token
+     * @throws ValidatorException
+     */
+    protected function newExtendedToken($signerClass = Hmac::class, int $issDrift = 0): Token
+    {
+        return $this->generateToken(ExtendedBuilder::class, $signerClass, $issDrift);
+    }
+
+    /**
+     * @param string $builderClass
+     * @param string $signerClass
+     * @param int    $issDrift
+     *
+     * @return Token
+     * @throws ValidatorException
+     */
+    protected function generateToken(
+        string $builderClass = Builder::class,
+        string $signerClass = Hmac::class,
+        int $issDrift = 0
+    ): Token {
         $signer  = new $signerClass();
-        $builder = new Builder($signer);
+        $builder = new $builderClass($signer);
         $expiry     = strtotime('+1 day');
         $issued     = strtotime('now') + $issDrift;
         $notBefore  = strtotime('-1 day');

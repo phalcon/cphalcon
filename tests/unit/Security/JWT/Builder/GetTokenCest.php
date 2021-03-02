@@ -40,6 +40,24 @@ class GetTokenCest
     }
 
     /**
+     * Unit Tests Phalcon\Security\JWT\Builder :: extended - getToken()
+     *
+     * @issue  15322
+     * @since  2021-03-02
+     */
+    public function securityJWTBuilderExtendedGetToken(UnitTester $I)
+    {
+        $I->wantToTest('Security\JWT\Builder - extended - getToken()');
+
+        $token = $this->newExtendedToken();
+
+        $I->assertInstanceOf(Token::class, $token);
+
+        $parts = explode('.', $token->getToken());
+        $I->assertCount(3, $parts);
+    }
+
+    /**
      * Unit Tests Phalcon\Security\JWT\Builder :: getToken() - exception
      *
      * @since  2019-12-19
