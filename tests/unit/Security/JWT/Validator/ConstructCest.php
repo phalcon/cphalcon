@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Http\JWT\Validator;
+namespace Phalcon\Test\Unit\Security\JWT\Validator;
 
 use Phalcon\Security\JWT\Validator;
 use Phalcon\Test\Fixtures\Traits\JWTTrait;
@@ -24,9 +24,9 @@ class ConstructCest
      *
      * @since  2019-12-22
      */
-    public function httpJWTValidatorConstruct(UnitTester $I)
+    public function securityJWTValidatorConstruct(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Validator - __construct()');
+        $I->wantToTest('Security\JWT\Validator - __construct()');
 
         $token     = $this->newToken();
         $now       = strtotime("now");

@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Http\JWT\Builder;
+namespace Phalcon\Test\Unit\Security\JWT\Builder;
 
 use Phalcon\Security\JWT\Builder;
 use Phalcon\Security\JWT\Signer\Hmac;
@@ -22,9 +22,9 @@ class GetSetIdCest
      *
      * @since  2019-12-15
      */
-    public function httpJWTBuilderGetSetId(UnitTester $I)
+    public function securityJWTBuilderGetSetId(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Builder - getId()/setId()');
+        $I->wantToTest('Security\JWT\Builder - getId()/setId()');
 
         $signer  = new Hmac();
         $builder = new Builder($signer);

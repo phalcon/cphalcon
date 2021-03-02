@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Http\JWT\Validator;
+namespace Phalcon\Test\Unit\Security\JWT\Validator;
 
 use Phalcon\Security\JWT\Exceptions\ValidatorException;
 use Phalcon\Security\JWT\Validator;
@@ -25,9 +25,9 @@ class ValidateAudienceCest
      *
      * @since  2019-12-22
      */
-    public function httpJWTValidatorValidateAudience(UnitTester $I)
+    public function securityJWTValidatorValidateAudience(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Validator - validateAudience()');
+        $I->wantToTest('Security\JWT\Validator - validateAudience()');
 
         $token = $this->newToken();
         $I->expectThrowable(

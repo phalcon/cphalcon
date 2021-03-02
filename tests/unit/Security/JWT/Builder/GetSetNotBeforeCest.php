@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Http\JWT\Builder;
+namespace Phalcon\Test\Unit\Security\JWT\Builder;
 
 use Phalcon\Security\JWT\Builder;
 use Phalcon\Security\JWT\Exceptions\ValidatorException;
@@ -23,9 +23,9 @@ class GetSetNotBeforeCest
      *
      * @since  2019-12-15
      */
-    public function httpJWTBuilderGetSetNotBefore(UnitTester $I)
+    public function securityJWTBuilderGetSetNotBefore(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Builder - getNotBefore()/setNotBefore()');
+        $I->wantToTest('Security\JWT\Builder - getNotBefore()/setNotBefore()');
 
         $signer  = new Hmac();
         $builder = new Builder($signer);
@@ -43,9 +43,9 @@ class GetSetNotBeforeCest
      *
      * @since  2019-12-15
      */
-    public function httpJWTBuilderSetNotBefore(UnitTester $I)
+    public function securityJWTBuilderSetNotBefore(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Builder - setNotBefore() - exception');
+        $I->wantToTest('Security\JWT\Builder - setNotBefore() - exception');
 
         $I->expectThrowable(
             new ValidatorException(

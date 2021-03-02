@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Http\JWT\Builder;
+namespace Phalcon\Test\Unit\Security\JWT\Builder;
 
 use Phalcon\Security\JWT\Builder;
 use Phalcon\Security\JWT\Signer\Hmac;
@@ -22,9 +22,9 @@ class GetSetSubjectCest
      *
      * @since  2019-12-15
      */
-    public function httpJWTBuilderGetSetSubject(UnitTester $I)
+    public function securityJWTBuilderGetSetSubject(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Builder - getSubject()/setSubject()');
+        $I->wantToTest('Security\JWT\Builder - getSubject()/setSubject()');
 
         $signer  = new Hmac();
         $builder = new Builder($signer);

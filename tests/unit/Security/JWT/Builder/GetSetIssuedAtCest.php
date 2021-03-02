@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Http\JWT\Builder;
+namespace Phalcon\Test\Unit\Security\JWT\Builder;
 
 use Phalcon\Security\JWT\Builder;
 use Phalcon\Security\JWT\Signer\Hmac;
@@ -22,9 +22,9 @@ class GetSetIssuedAtCest
      *
      * @since  2019-12-15
      */
-    public function httpJWTBuilderGetSetIssuedAt(UnitTester $I)
+    public function securityJWTBuilderGetSetIssuedAt(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Builder - getIssuedAt()/setIssuedAt()');
+        $I->wantToTest('Security\JWT\Builder - getIssuedAt()/setIssuedAt()');
 
         $signer  = new Hmac();
         $builder = new Builder($signer);

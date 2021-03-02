@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Http\JWT\Signer\None;
+namespace Phalcon\Test\Unit\Security\JWT\Signer\None;
 
 use Phalcon\Security\JWT\Signer\None;
 use UnitTester;
@@ -21,9 +21,9 @@ class GetAlgorithmCest
      *
      * @since  2019-12-22
      */
-    public function httpJWTSignerNoneGetAlgorithm(UnitTester $I)
+    public function securityJWTSignerNoneGetAlgorithm(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Signer\None - getAlgorithm()');
+        $I->wantToTest('Security\JWT\Signer\None - getAlgorithm()');
 
         $signer = new None();
         $I->assertEquals('None', $signer->getAlgorithm());

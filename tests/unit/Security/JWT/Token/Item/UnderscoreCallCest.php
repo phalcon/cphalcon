@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Http\JWT\Token\Item;
+namespace Phalcon\Test\Unit\Security\JWT\Token\Item;
 
 use Phalcon\Security\JWT\Token\Item;
 use UnitTester;
@@ -21,9 +21,9 @@ class UnderscoreCallCest
      *
      * @since  2019-12-22
      */
-    public function httpJWTTokenItemUnderscoreCall(UnitTester $I)
+    public function securityJWTTokenItemUnderscoreCall(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Token\Item - __call()');
+        $I->wantToTest('Security\JWT\Token\Item - __call()');
 
         $item = new Item(['sub' => 'subject'], 'encoded-string-here');
 

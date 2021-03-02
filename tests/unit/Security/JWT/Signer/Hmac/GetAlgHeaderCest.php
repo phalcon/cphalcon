@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Http\JWT\Signer\Hmac;
+namespace Phalcon\Test\Unit\Security\JWT\Signer\Hmac;
 
 use Phalcon\Security\JWT\Signer\Hmac;
 use UnitTester;
@@ -21,9 +21,9 @@ class GetAlgHeaderCest
      *
      * @since  2019-12-19
      */
-    public function httpJWTSignerHmacGetAlgHeader(UnitTester $I)
+    public function securityJWTSignerHmacGetAlgHeader(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Signer\Hmac - getAlgHeader()');
+        $I->wantToTest('Security\JWT\Signer\Hmac - getAlgHeader()');
 
         $signer = new Hmac();
         $I->assertEquals('HS512', $signer->getAlgHeader());

@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Http\JWT\Builder;
+namespace Phalcon\Test\Unit\Security\JWT\Builder;
 
 use Phalcon\Security\JWT\Builder;
 use Phalcon\Security\JWT\Exceptions\ValidatorException;
@@ -24,9 +24,9 @@ class GetSetExpirationTimeCest
      *
      * @since  2019-12-15
      */
-    public function httpJWTBuilderGetSetExpirationTime(UnitTester $I)
+    public function securityJWTBuilderGetSetExpirationTime(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Builder - getExpirationTime()/setExpirationTime()');
+        $I->wantToTest('Security\JWT\Builder - getExpirationTime()/setExpirationTime()');
 
         $signer  = new Hmac();
         $builder = new Builder($signer);
@@ -46,9 +46,9 @@ class GetSetExpirationTimeCest
      *
      * @since  2019-12-15
      */
-    public function httpJWTBuilderGetSetExpirationTimeException(UnitTester $I)
+    public function securityJWTBuilderGetSetExpirationTimeException(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Builder - getExpirationTime()/setExpirationTime() - exception');
+        $I->wantToTest('Security\JWT\Builder - getExpirationTime()/setExpirationTime() - exception');
 
         $I->expectThrowable(
             new ValidatorException(

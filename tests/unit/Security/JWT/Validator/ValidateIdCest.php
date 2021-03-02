@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Http\JWT\Validator;
+namespace Phalcon\Test\Unit\Security\JWT\Validator;
 
 use Phalcon\Security\JWT\Exceptions\ValidatorException;
 use Phalcon\Security\JWT\Validator;
@@ -25,9 +25,9 @@ class ValidateIdCest
      *
      * @since  2019-12-22
      */
-    public function httpJWTValidatorValidateId(UnitTester $I)
+    public function securityJWTValidatorValidateId(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Validator - validateId()');
+        $I->wantToTest('Security\JWT\Validator - validateId()');
 
         $token = $this->newToken();
         $I->expectThrowable(

@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Http\JWT\Builder;
+namespace Phalcon\Test\Unit\Security\JWT\Builder;
 
 use Phalcon\Security\JWT\Builder;
 use Phalcon\Security\JWT\Exceptions\UnsupportedAlgorithmException;
@@ -26,9 +26,9 @@ class GetSetPassphraseCest
      * @throws UnsupportedAlgorithmException
      * @since  2019-12-19
      */
-    public function httpJWTBuilderGetSetPassphrase(UnitTester $I)
+    public function securityJWTBuilderGetSetPassphrase(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Builder - getPassphrase()/setPassphrase()');
+        $I->wantToTest('Security\JWT\Builder - getPassphrase()/setPassphrase()');
 
         $signer  = new Hmac();
         $builder = new Builder($signer);
@@ -44,9 +44,9 @@ class GetSetPassphraseCest
      *
      * @since  2019-12-15
      */
-    public function httpJWTBuilderSetPassphraseException(UnitTester $I)
+    public function securityJWTBuilderSetPassphraseException(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Builder - setPassphrase() - exception');
+        $I->wantToTest('Security\JWT\Builder - setPassphrase() - exception');
 
         $I->expectThrowable(
             new ValidatorException(

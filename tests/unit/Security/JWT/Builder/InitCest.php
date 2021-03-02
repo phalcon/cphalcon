@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Http\JWT\Builder;
+namespace Phalcon\Test\Unit\Security\JWT\Builder;
 
 use Phalcon\Security\JWT\Builder;
 use Phalcon\Security\JWT\Signer\Hmac;
@@ -22,9 +22,9 @@ class InitCest
      *
      * @since  2019-12-19
      */
-    public function httpJWTBuilderInit(UnitTester $I)
+    public function securityJWTBuilderInit(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Builder - init()');
+        $I->wantToTest('Security\JWT\Builder - init()');
 
         $signer  = new Hmac();
         $builder = new Builder($signer);

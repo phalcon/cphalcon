@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Http\JWT\Signer\None;
+namespace Phalcon\Test\Unit\Security\JWT\Signer\None;
 
 use Phalcon\Security\JWT\Signer\None;
 use UnitTester;
@@ -21,9 +21,9 @@ class SignCest
      *
      * @since  2019-12-22
      */
-    public function httpJWTSignerNoneSign(UnitTester $I)
+    public function securityJWTSignerNoneSign(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Signer\None - sign()');
+        $I->wantToTest('Security\JWT\Signer\None - sign()');
 
         $signer = new None();
 

@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Http\JWT\Token\Signature;
+namespace Phalcon\Test\Unit\Security\JWT\Token\Signature;
 
 use Phalcon\Security\JWT\Token\Signature;
 use UnitTester;
@@ -21,9 +21,9 @@ class ConstructCest
      *
      * @since  2019-12-22
      */
-    public function httpJWTTokenSignatureConstruct(UnitTester $I)
+    public function securityJWTTokenSignatureConstruct(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Token\Signature - __construct()');
+        $I->wantToTest('Security\JWT\Token\Signature - __construct()');
 
         $signature = new Signature('sig-hash', 'encoded-string-here');
 

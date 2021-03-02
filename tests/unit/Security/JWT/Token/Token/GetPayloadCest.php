@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Http\JWT\Token\Token;
+namespace Phalcon\Test\Unit\Security\JWT\Token\Token;
 
 use Phalcon\Security\JWT\Token\Item;
 use Phalcon\Security\JWT\Token\Signature;
@@ -23,9 +23,9 @@ class GetPayloadCest
      *
      * @since  2019-12-22
      */
-    public function httpJWTTokenTokenGetPayload(UnitTester $I)
+    public function securityJWTTokenTokenGetPayload(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Token\Token - getPayload()');
+        $I->wantToTest('Security\JWT\Token\Token - getPayload()');
 
         $headers   = new Item(["typ" => "JWT"], "header-encoded");
         $claims    = new Item(["aud" => ["valid-audience"]], "claim-encoded");

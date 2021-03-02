@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Http\JWT\Builder;
+namespace Phalcon\Test\Unit\Security\JWT\Builder;
 
 use Phalcon\Security\JWT\Builder;
 use Phalcon\Security\JWT\Signer\Hmac;
@@ -22,9 +22,9 @@ class ConstructCest
      *
      * @since  2019-12-19
      */
-    public function httpJWTBuilderConstruct(UnitTester $I)
+    public function securityJWTBuilderConstruct(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Builder - __construct()');
+        $I->wantToTest('Security\JWT\Builder - __construct()');
 
         $signer  = new Hmac();
         $builder = new Builder($signer);

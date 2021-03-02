@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Http\JWT\Token\Parser;
+namespace Phalcon\Test\Unit\Security\JWT\Token\Parser;
 
 use InvalidArgumentException;
 use Phalcon\Security\JWT\Signer\None;
@@ -28,9 +28,9 @@ class ParseCest
      *
      * @since  2019-12-22
      */
-    public function httpJWTTokenParserParse(UnitTester $I)
+    public function securityJWTTokenParserParse(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Token\Parser - parse()');
+        $I->wantToTest('Security\JWT\Token\Parser - parse()');
 
         $source    = $this->newToken();
         $parser    = new Parser();
@@ -71,9 +71,9 @@ class ParseCest
      *
      * @since  2019-12-22
      */
-    public function httpJWTTokenParserParseNoSignature(UnitTester $I)
+    public function securityJWTTokenParserParseNoSignature(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Token\Parser - parse() - no signature');
+        $I->wantToTest('Security\JWT\Token\Parser - parse() - no signature');
 
         $source    = $this->newToken(None::class);
         $parser    = new Parser();
@@ -116,9 +116,9 @@ class ParseCest
      *
      * @since  2019-12-22
      */
-    public function httpJWTTokenParserParseAudNotAnArray(UnitTester $I)
+    public function securityJWTTokenParserParseAudNotAnArray(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Token\Parser - parse() - aud not an array');
+        $I->wantToTest('Security\JWT\Token\Parser - parse() - aud not an array');
 
         $tokenString = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9."
             . "eyJhdWQiOiJteS1hdWRpZW5jZSIsImV4cCI6MTU3NzE1NDg5"
@@ -167,9 +167,9 @@ class ParseCest
      *
      * @since  2019-12-22
      */
-    public function httpJWTTokenParserParseExceptionClaimsNotArray(UnitTester $I)
+    public function securityJWTTokenParserParseExceptionClaimsNotArray(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Token\Parser - parse() - exception claims not array');
+        $I->wantToTest('Security\JWT\Token\Parser - parse() - exception claims not array');
 
         $I->expectThrowable(
             new InvalidArgumentException(
@@ -193,9 +193,9 @@ class ParseCest
      *
      * @since  2019-12-22
      */
-    public function httpJWTTokenParserParseExceptionHeadersNotArray(UnitTester $I)
+    public function securityJWTTokenParserParseExceptionHeadersNotArray(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Token\Parser - parse() - exception headers not array');
+        $I->wantToTest('Security\JWT\Token\Parser - parse() - exception headers not array');
 
         $I->expectThrowable(
             new InvalidArgumentException(
@@ -221,9 +221,9 @@ class ParseCest
      *
      * @since  2019-12-22
      */
-    public function httpJWTTokenParserParseExceptionNoTyp(UnitTester $I)
+    public function securityJWTTokenParserParseExceptionNoTyp(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Token\Parser - parse() - exception no typ');
+        $I->wantToTest('Security\JWT\Token\Parser - parse() - exception no typ');
 
         $I->expectThrowable(
             new InvalidArgumentException(
@@ -250,9 +250,9 @@ class ParseCest
      *
      * @since  2019-12-22
      */
-    public function httpJWTTokenParserParseExceptionWrongJwt(UnitTester $I)
+    public function securityJWTTokenParserParseExceptionWrongJwt(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Token\Parser - parse() - exception wrong JWT');
+        $I->wantToTest('Security\JWT\Token\Parser - parse() - exception wrong JWT');
 
         $I->expectThrowable(
             new InvalidArgumentException(

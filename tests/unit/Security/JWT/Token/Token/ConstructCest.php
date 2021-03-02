@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Http\JWT\Token\Token;
+namespace Phalcon\Test\Unit\Security\JWT\Token\Token;
 
 use Phalcon\Security\JWT\Token\Item;
 use Phalcon\Security\JWT\Token\Signature;
@@ -23,9 +23,9 @@ class ConstructCest
      *
      * @since  2019-12-22
      */
-    public function httpJWTTokenTokenConstruct(UnitTester $I)
+    public function securityJWTTokenTokenConstruct(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Token\Token - __construct()');
+        $I->wantToTest('Security\JWT\Token\Token - __construct()');
 
         $headers   = new Item(["typ" => "JWT"], "header-encoded");
         $claims    = new Item(["sub" => "subject"], "claim-encoded");

@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Http\JWT\Token\Item;
+namespace Phalcon\Test\Unit\Security\JWT\Token\Item;
 
 use Phalcon\Security\JWT\Token\Item;
 use UnitTester;
@@ -21,9 +21,9 @@ class ConstructCest
      *
      * @since  2019-12-22
      */
-    public function httpJWTTokenItemConstruct(UnitTester $I)
+    public function securityJWTTokenItemConstruct(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Token\Item - __construct()');
+        $I->wantToTest('Security\JWT\Token\Item - __construct()');
 
         $item = new Item(['sub' => 'subject'], 'encoded-string-here');
 

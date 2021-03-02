@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Http\JWT\Signer\Hmac;
+namespace Phalcon\Test\Unit\Security\JWT\Signer\Hmac;
 
 use Phalcon\Security\JWT\Signer\Hmac;
 use UnitTester;
@@ -21,9 +21,9 @@ class GetAlgorithmCest
      *
      * @since  2019-12-15
      */
-    public function httpJWTSignerHmacGetAlgorithm(UnitTester $I)
+    public function securityJWTSignerHmacGetAlgorithm(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Signer\Hmac - getAlgorithm()');
+        $I->wantToTest('Security\JWT\Signer\Hmac - getAlgorithm()');
 
         $signer = new Hmac();
         $I->assertEquals('sha512', $signer->getAlgorithm());

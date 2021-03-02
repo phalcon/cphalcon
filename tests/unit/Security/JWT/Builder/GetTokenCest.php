@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Http\JWT\Builder;
+namespace Phalcon\Test\Unit\Security\JWT\Builder;
 
 use Phalcon\Security\JWT\Builder;
 use Phalcon\Security\JWT\Exceptions\ValidatorException;
@@ -27,9 +27,9 @@ class GetTokenCest
      *
      * @since  2019-12-19
      */
-    public function httpJWTBuilderGetToken(UnitTester $I)
+    public function securityJWTBuilderGetToken(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Builder - getToken()');
+        $I->wantToTest('Security\JWT\Builder - getToken()');
 
         $token = $this->newToken();
 
@@ -44,9 +44,9 @@ class GetTokenCest
      *
      * @since  2019-12-19
      */
-    public function httpJWTBuilderGetTokenException(UnitTester $I)
+    public function securityJWTBuilderGetTokenException(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Builder - getToken() - exception');
+        $I->wantToTest('Security\JWT\Builder - getToken() - exception');
 
         $I->expectThrowable(
             new ValidatorException(

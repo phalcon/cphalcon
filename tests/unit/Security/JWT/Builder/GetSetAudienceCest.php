@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Http\JWT\Builder;
+namespace Phalcon\Test\Unit\Security\JWT\Builder;
 
 use Phalcon\Security\JWT\Builder;
 use Phalcon\Security\JWT\Exceptions\ValidatorException;
@@ -23,9 +23,9 @@ class GetSetAudienceCest
      *
      * @since  2019-12-15
      */
-    public function httpJWTBuilderGetSetAudience(UnitTester $I)
+    public function securityJWTBuilderGetSetAudience(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Builder - getAudience()/setAudience()');
+        $I->wantToTest('Security\JWT\Builder - getAudience()/setAudience()');
 
         $signer  = new Hmac();
         $builder = new Builder($signer);
@@ -48,9 +48,9 @@ class GetSetAudienceCest
      *
      * @since  2019-12-15
      */
-    public function httpJWTBuilderSetAudienceException(UnitTester $I)
+    public function securityJWTBuilderSetAudienceException(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Builder - setAudience() - exception');
+        $I->wantToTest('Security\JWT\Builder - setAudience() - exception');
 
         $I->expectThrowable(
             new ValidatorException(

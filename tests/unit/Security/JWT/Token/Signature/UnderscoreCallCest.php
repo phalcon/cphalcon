@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Http\JWT\Token\Signature;
+namespace Phalcon\Test\Unit\Security\JWT\Token\Signature;
 
 use Phalcon\Security\JWT\Token\Signature;
 use UnitTester;
@@ -21,9 +21,9 @@ class UnderscoreCallCest
      *
      * @since  2019-12-22
      */
-    public function httpJWTTokenSignatureUnderscoreCall(UnitTester $I)
+    public function securityJWTTokenSignatureUnderscoreCall(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Token\Signature - __call()');
+        $I->wantToTest('Security\JWT\Token\Signature - __call()');
 
         $signature = new Signature('sig-hash', 'encoded-string-here');
 

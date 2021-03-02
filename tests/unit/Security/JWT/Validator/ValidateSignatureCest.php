@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Http\JWT\Validator;
+namespace Phalcon\Test\Unit\Security\JWT\Validator;
 
 use Phalcon\Security\JWT\Builder;
 use Phalcon\Security\JWT\Exceptions\ValidatorException;
@@ -27,9 +27,9 @@ class ValidateSignatureCest
      *
      * @since  2019-12-22
      */
-    public function httpJWTValidatorValidateNotBefore(UnitTester $I)
+    public function securityJWTValidatorValidateNotBefore(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Validator - validateSignature()');
+        $I->wantToTest('Security\JWT\Validator - validateSignature()');
 
         $signer     = new Hmac();
         $builder    = new Builder($signer);
@@ -64,9 +64,9 @@ class ValidateSignatureCest
      *
      * @since  2019-12-22
      */
-    public function httpJWTValidatorValidateNotBeforeException(UnitTester $I)
+    public function securityJWTValidatorValidateNotBeforeException(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Validator - validateSignature()');
+        $I->wantToTest('Security\JWT\Validator - validateSignature()');
 
         $token = $this->newToken();
         $I->expectThrowable(

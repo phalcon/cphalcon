@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Http\JWT\Validator;
+namespace Phalcon\Test\Unit\Security\JWT\Validator;
 
 use Phalcon\Security\JWT\Exceptions\ValidatorException;
 use Phalcon\Security\JWT\Signer\Hmac;
@@ -26,9 +26,9 @@ class SetTokenCest
      *
      * @since  2019-12-22
      */
-    public function httpJWTValidatorSetToken(UnitTester $I)
+    public function securityJWTValidatorSetToken(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Validator - setToken()');
+        $I->wantToTest('Security\JWT\Validator - setToken()');
 
         $token1    = $this->newToken();
         $token2    = $this->newToken(Hmac::class, 5);

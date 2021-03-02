@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Http\JWT\Signer\Hmac;
+namespace Phalcon\Test\Unit\Security\JWT\Signer\Hmac;
 
 use Phalcon\Security\JWT\Signer\Hmac;
 use UnitTester;
@@ -23,9 +23,9 @@ class SignCest
      *
      * @since  2019-12-15
      */
-    public function httpJWTSignerHmacSign(UnitTester $I)
+    public function securityJWTSignerHmacSign(UnitTester $I)
     {
-        $I->wantToTest('Http\JWT\Signer\Hmac - sign()');
+        $I->wantToTest('Security\JWT\Signer\Hmac - sign()');
 
         $signer = new Hmac();
 
