@@ -332,7 +332,7 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
          * unset the cookie to allow it to be created by session_start().
          */
         if fetch value, _COOKIE[name] {
-            if !ctype_alnum(value) {
+            if !preg_match("/^[a-z0-9]+$/iD", value) {
                 unset _COOKIE[name];
             }
         }
