@@ -57,6 +57,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, __construct) {
 	ZVAL_UNDEF(&message);
 	ZVAL_UNDEF(&record_sub);
 	ZVAL_NULL(&__$null);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_STR(message)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(record, phalcon_mvc_modelinterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &message_param, &record);
@@ -92,6 +102,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, getRecord) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "record");
 
 }
@@ -108,6 +119,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction_Failed, getRecordMessages) {
 
 	ZVAL_UNDEF(&record);
 	ZVAL_UNDEF(&_0);
+
 
 	ZEPHIR_MM_GROW();
 

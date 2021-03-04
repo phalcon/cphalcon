@@ -53,6 +53,15 @@ PHP_METHOD(Phalcon_Flash_Direct, message) {
 
 	ZVAL_UNDEF(&type);
 	ZVAL_UNDEF(&message_sub);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_STR(type)
+		Z_PARAM_ZVAL(message)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &type_param, &message);
@@ -81,6 +90,15 @@ PHP_METHOD(Phalcon_Flash_Direct, output) {
 	ZVAL_UNDEF(&message);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_BOOL(remove)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &remove_param);

@@ -32,238 +32,98 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_group___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, paths)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_group_add, 0, 1, Phalcon\\Mvc\\Router\\RouteInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_group_add, 0, 1, IS_OBJECT, "Phalcon\\Mvc\\Router\\RouteInterface", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, pattern, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, pattern)
-#endif
 	ZEND_ARG_INFO(0, paths)
 	ZEND_ARG_INFO(0, httpMethods)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_group_addconnect, 0, 1, Phalcon\\Mvc\\Router\\RouteInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_group_addconnect, 0, 1, IS_OBJECT, "Phalcon\\Mvc\\Router\\RouteInterface", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, pattern, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, pattern)
-#endif
 	ZEND_ARG_INFO(0, paths)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_group_adddelete, 0, 1, Phalcon\\Mvc\\Router\\RouteInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_group_adddelete, 0, 1, IS_OBJECT, "Phalcon\\Mvc\\Router\\RouteInterface", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, pattern, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, pattern)
-#endif
 	ZEND_ARG_INFO(0, paths)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_group_addget, 0, 1, Phalcon\\Mvc\\Router\\RouteInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_group_addget, 0, 1, IS_OBJECT, "Phalcon\\Mvc\\Router\\RouteInterface", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, pattern, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, pattern)
-#endif
 	ZEND_ARG_INFO(0, paths)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_group_addhead, 0, 1, Phalcon\\Mvc\\Router\\RouteInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_group_addhead, 0, 1, IS_OBJECT, "Phalcon\\Mvc\\Router\\RouteInterface", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, pattern, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, pattern)
-#endif
 	ZEND_ARG_INFO(0, paths)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_group_addoptions, 0, 1, Phalcon\\Mvc\\Router\\RouteInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_group_addoptions, 0, 1, IS_OBJECT, "Phalcon\\Mvc\\Router\\RouteInterface", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, pattern, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, pattern)
-#endif
 	ZEND_ARG_INFO(0, paths)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_group_addpatch, 0, 1, Phalcon\\Mvc\\Router\\RouteInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_group_addpatch, 0, 1, IS_OBJECT, "Phalcon\\Mvc\\Router\\RouteInterface", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, pattern, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, pattern)
-#endif
 	ZEND_ARG_INFO(0, paths)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_group_addpost, 0, 1, Phalcon\\Mvc\\Router\\RouteInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_group_addpost, 0, 1, IS_OBJECT, "Phalcon\\Mvc\\Router\\RouteInterface", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, pattern, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, pattern)
-#endif
 	ZEND_ARG_INFO(0, paths)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_group_addpurge, 0, 1, Phalcon\\Mvc\\Router\\RouteInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_group_addpurge, 0, 1, IS_OBJECT, "Phalcon\\Mvc\\Router\\RouteInterface", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, pattern, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, pattern)
-#endif
 	ZEND_ARG_INFO(0, paths)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_group_addput, 0, 1, Phalcon\\Mvc\\Router\\RouteInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_group_addput, 0, 1, IS_OBJECT, "Phalcon\\Mvc\\Router\\RouteInterface", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, pattern, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, pattern)
-#endif
 	ZEND_ARG_INFO(0, paths)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_group_addtrace, 0, 1, Phalcon\\Mvc\\Router\\RouteInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_group_addtrace, 0, 1, IS_OBJECT, "Phalcon\\Mvc\\Router\\RouteInterface", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, pattern, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, pattern)
-#endif
 	ZEND_ARG_INFO(0, paths)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_group_beforematch, 0, 1, Phalcon\\Mvc\\Router\\GroupInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_group_beforematch, 0, 1, IS_OBJECT, "Phalcon\\Mvc\\Router\\GroupInterface", 0)
-#endif
 	ZEND_ARG_INFO(0, beforeMatch)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70100
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_group_clear, 0, 0, IS_VOID, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_group_clear, 0, 0, IS_VOID, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
-#else
-#define arginfo_phalcon_mvc_router_group_clear NULL
-#endif
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_group_getbeforematch, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_group_gethostname, 0, 0, IS_STRING, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_group_gethostname, 0, 0, IS_STRING, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_group_getpaths, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_group_getprefix, 0, 0, IS_STRING, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_group_getprefix, 0, 0, IS_STRING, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_group_getroutes, 0, 0, IS_ARRAY, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_group_getroutes, 0, 0, IS_ARRAY, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_group_sethostname, 0, 1, Phalcon\\Mvc\\Router\\GroupInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_group_sethostname, 0, 1, IS_OBJECT, "Phalcon\\Mvc\\Router\\GroupInterface", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, hostname, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, hostname)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_group_setpaths, 0, 1, Phalcon\\Mvc\\Router\\GroupInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_group_setpaths, 0, 1, IS_OBJECT, "Phalcon\\Mvc\\Router\\GroupInterface", 0)
-#endif
 	ZEND_ARG_INFO(0, paths)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_group_setprefix, 0, 1, Phalcon\\Mvc\\Router\\GroupInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_group_setprefix, 0, 1, IS_OBJECT, "Phalcon\\Mvc\\Router\\GroupInterface", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, prefix, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, prefix)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_group_addroute, 0, 1, Phalcon\\Mvc\\Router\\RouteInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_group_addroute, 0, 1, IS_OBJECT, "Phalcon\\Mvc\\Router\\RouteInterface", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, pattern, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, pattern)
-#endif
 	ZEND_ARG_INFO(0, paths)
 	ZEND_ARG_INFO(0, httpMethods)
 ZEND_END_ARG_INFO()

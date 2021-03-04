@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Acl\Component;
 
+use ArgumentCountError;
 use BadMethodCallException;
 use Phalcon\Acl\Component;
 use Phalcon\Acl\Exception;
@@ -66,11 +67,20 @@ class ConstructCest
     {
         $I->wantToTest('Acl\Component - __construct() - exception parameters');
 
-        $I->expectThrowable(
-            new BadMethodCallException('Wrong number of parameters'),
-            function () {
-                $component = new Component();
-            }
-        );
+        if (version_compare(PHP_VERSION, '8.0.0', '>=')) {
+            $I->expectThrowable(
+                new ArgumentCountError('Phalcon\Acl\Component::__construct() expects at least 1 argument, 0 given'),
+                function () {
+                    $component = new Component();
+                }
+            );
+        } else {
+            $I->expectThrowable(
+                new BadMethodCallException('Wrong number of parameters'),
+                function () {
+                    $component = new Component();
+                }
+            );
+        }
     }
 }

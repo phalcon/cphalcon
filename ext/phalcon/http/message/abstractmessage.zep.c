@@ -18,6 +18,7 @@
 #include "kernel/memory.h"
 #include "kernel/string.h"
 #include "kernel/array.h"
+#include "ext/psr/psr_http_message.h"
 #include "kernel/exception.h"
 #include "kernel/concat.h"
 #include "ext/spl/spl_exceptions.h"
@@ -89,6 +90,7 @@ PHP_METHOD(Phalcon_Http_Message_AbstractMessage, getBody) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "body");
 
 }
@@ -106,6 +108,7 @@ PHP_METHOD(Phalcon_Http_Message_AbstractMessage, getProtocolVersion) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "protocolVersion");
 
 }
@@ -120,6 +123,7 @@ PHP_METHOD(Phalcon_Http_Message_AbstractMessage, getProtocolVersion) {
 PHP_METHOD(Phalcon_Http_Message_AbstractMessage, getUri) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "uri");
@@ -151,6 +155,14 @@ PHP_METHOD(Phalcon_Http_Message_AbstractMessage, getHeader) {
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(name)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name);
@@ -197,6 +209,14 @@ PHP_METHOD(Phalcon_Http_Message_AbstractMessage, getHeaderLine) {
 	ZVAL_UNDEF(&name_sub);
 	ZVAL_UNDEF(&header);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(name)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name);
@@ -244,6 +264,7 @@ PHP_METHOD(Phalcon_Http_Message_AbstractMessage, getHeaders) {
 
 	ZVAL_UNDEF(&_0);
 
+
 	ZEPHIR_MM_GROW();
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("headers"), PH_NOISY_CC | PH_READONLY);
@@ -269,6 +290,14 @@ PHP_METHOD(Phalcon_Http_Message_AbstractMessage, hasHeader) {
 
 	ZVAL_UNDEF(&name_sub);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(name)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name);
@@ -315,6 +344,15 @@ PHP_METHOD(Phalcon_Http_Message_AbstractMessage, withAddedHeader) {
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_4);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_ZVAL(name)
+		Z_PARAM_ZVAL(value)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &name, &value);
@@ -375,6 +413,14 @@ PHP_METHOD(Phalcon_Http_Message_AbstractMessage, withBody) {
 	ZVAL_UNDEF(&body_sub);
 	ZVAL_UNDEF(&newBody);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(body, PsrHttpMessageStreamInterface_ce_ptr)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &body);
@@ -425,6 +471,15 @@ PHP_METHOD(Phalcon_Http_Message_AbstractMessage, withHeader) {
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_ZVAL(name)
+		Z_PARAM_ZVAL(value)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &name, &value);
@@ -476,6 +531,14 @@ PHP_METHOD(Phalcon_Http_Message_AbstractMessage, withProtocolVersion) {
 
 	ZVAL_UNDEF(&version_sub);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(version)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &version);
@@ -517,6 +580,14 @@ PHP_METHOD(Phalcon_Http_Message_AbstractMessage, withoutHeader) {
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(name)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name);
@@ -573,6 +644,14 @@ PHP_METHOD(Phalcon_Http_Message_AbstractMessage, checkHeaderHost) {
 	ZVAL_UNDEF(&_9$$4);
 	ZVAL_UNDEF(&header);
 	ZVAL_UNDEF(&_11$$3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(collection, phalcon_collection_collectioninterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &collection);
@@ -652,6 +731,14 @@ PHP_METHOD(Phalcon_Http_Message_AbstractMessage, checkHeaderName) {
 	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_5$$3);
 	ZVAL_UNDEF(&_6$$3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(name)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name);
@@ -747,6 +834,14 @@ PHP_METHOD(Phalcon_Http_Message_AbstractMessage, checkHeaderValue) {
 	ZVAL_UNDEF(&_9);
 	ZVAL_UNDEF(&_10);
 	ZVAL_UNDEF(&_1);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(value)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &value);
@@ -812,6 +907,14 @@ PHP_METHOD(Phalcon_Http_Message_AbstractMessage, getHeaderValue) {
 	ZVAL_UNDEF(&_2$$4);
 	ZVAL_UNDEF(&_6$$5);
 	ZVAL_UNDEF(&_7$$6);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(values)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &values);
@@ -892,6 +995,14 @@ PHP_METHOD(Phalcon_Http_Message_AbstractMessage, getUriHost) {
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(uri, PsrHttpMessageUriInterface_ce_ptr)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &uri);
@@ -941,6 +1052,14 @@ PHP_METHOD(Phalcon_Http_Message_AbstractMessage, populateHeaderCollection) {
 	ZVAL_UNDEF(&_10$$4);
 	ZVAL_UNDEF(&_5$$3);
 	ZVAL_UNDEF(&_9$$4);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ARRAY(headers)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &headers_param);
@@ -1025,6 +1144,16 @@ PHP_METHOD(Phalcon_Http_Message_AbstractMessage, processBody) {
 
 	ZVAL_UNDEF(&body_sub);
 	ZVAL_UNDEF(&mode);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 2)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL(body)
+		Z_PARAM_STR(mode)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &body, &mode_param);
@@ -1088,6 +1217,14 @@ PHP_METHOD(Phalcon_Http_Message_AbstractMessage, processHeaders) {
 	ZVAL_UNDEF(&headers_sub);
 	ZVAL_UNDEF(&collection);
 	ZVAL_UNDEF(&_0$$3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(headers)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &headers);
@@ -1134,6 +1271,15 @@ PHP_METHOD(Phalcon_Http_Message_AbstractMessage, processProtocol) {
 	ZVAL_UNDEF(&protocols);
 	ZVAL_UNDEF(&_1$$4);
 	ZVAL_UNDEF(&_2$$4);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL(protocol)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &protocol);

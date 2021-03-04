@@ -38,4 +38,3 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Binder_BindableInterface) {
  * this class
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Binder_BindableInterface, getModelName);
-

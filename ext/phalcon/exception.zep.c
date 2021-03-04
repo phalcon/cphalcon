@@ -35,9 +35,9 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Exception) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon, Exception, phalcon, exception, zend_exception_get_default(), phalcon_exception_method_entry, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon, Exception, phalcon, exception, zend_ce_exception, phalcon_exception_method_entry, 0);
 
-	zend_class_implements(phalcon_exception_ce, 1, zephir_get_internal_ce(SL("throwable")));
+	zend_class_implements(phalcon_exception_ce, 1, zend_ce_throwable);
 	return SUCCESS;
 
 }
@@ -50,6 +50,14 @@ PHP_METHOD(Phalcon_Exception, containerServiceNotFound) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&service);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(service)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &service_param);

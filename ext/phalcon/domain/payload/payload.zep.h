@@ -31,58 +31,30 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_domain_payload_payload_getoutput, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_domain_payload_payload_getexception, 0, 0, Throwable, 1)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_domain_payload_payload_getexception, 0, 0, IS_OBJECT, "Throwable", 1)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_domain_payload_payload_setexception, 0, 1, Phalcon\\Domain\\Payload\\PayloadInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_domain_payload_payload_setexception, 0, 1, IS_OBJECT, "Phalcon\\Domain\\Payload\\PayloadInterface", 0)
-#endif
 	ZEND_ARG_OBJ_INFO(0, exception, Throwable, 0)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_domain_payload_payload_setextras, 0, 1, Phalcon\\Domain\\Payload\\PayloadInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_domain_payload_payload_setextras, 0, 1, IS_OBJECT, "Phalcon\\Domain\\Payload\\PayloadInterface", 0)
-#endif
 	ZEND_ARG_INFO(0, extras)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_domain_payload_payload_setinput, 0, 1, Phalcon\\Domain\\Payload\\PayloadInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_domain_payload_payload_setinput, 0, 1, IS_OBJECT, "Phalcon\\Domain\\Payload\\PayloadInterface", 0)
-#endif
 	ZEND_ARG_INFO(0, input)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_domain_payload_payload_setmessages, 0, 1, Phalcon\\Domain\\Payload\\PayloadInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_domain_payload_payload_setmessages, 0, 1, IS_OBJECT, "Phalcon\\Domain\\Payload\\PayloadInterface", 0)
-#endif
 	ZEND_ARG_INFO(0, messages)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_domain_payload_payload_setoutput, 0, 1, Phalcon\\Domain\\Payload\\PayloadInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_domain_payload_payload_setoutput, 0, 1, IS_OBJECT, "Phalcon\\Domain\\Payload\\PayloadInterface", 0)
-#endif
 	ZEND_ARG_INFO(0, output)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_domain_payload_payload_setstatus, 0, 1, Phalcon\\Domain\\Payload\\PayloadInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_domain_payload_payload_setstatus, 0, 1, IS_OBJECT, "Phalcon\\Domain\\Payload\\PayloadInterface", 0)
-#endif
 	ZEND_ARG_INFO(0, status)
 ZEND_END_ARG_INFO()
 

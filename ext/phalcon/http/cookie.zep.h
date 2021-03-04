@@ -30,97 +30,41 @@ PHP_METHOD(Phalcon_Http_Cookie, assertSignKeyIsLongEnough);
 zend_object *zephir_init_properties_Phalcon_Http_Cookie(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_cookie___construct, 0, 0, 1)
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, name)
-#endif
 	ZEND_ARG_INFO(0, value)
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, expire, IS_LONG, 0)
-#else
-	ZEND_ARG_INFO(0, expire)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, path, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, path)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, secure, _IS_BOOL, 1)
-#else
-	ZEND_ARG_INFO(0, secure)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, domain, IS_STRING, 1)
-#else
-	ZEND_ARG_INFO(0, domain)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, httpOnly, _IS_BOOL, 0)
-#else
-	ZEND_ARG_INFO(0, httpOnly)
-#endif
 	ZEND_ARG_ARRAY_INFO(0, options, 0)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_cookie___tostring, 0, 0, IS_STRING, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_cookie___tostring, 0, 0, IS_STRING, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_cookie_delete, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_cookie_getdomain, 0, 0, IS_STRING, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_cookie_getdomain, 0, 0, IS_STRING, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_cookie_getexpiration, 0, 0, IS_STRING, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_cookie_getexpiration, 0, 0, IS_STRING, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_cookie_gethttponly, 0, 0, _IS_BOOL, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_cookie_gethttponly, 0, 0, _IS_BOOL, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_cookie_getname, 0, 0, IS_STRING, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_cookie_getname, 0, 0, IS_STRING, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_cookie_getoptions, 0, 0, IS_ARRAY, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_cookie_getoptions, 0, 0, IS_ARRAY, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_cookie_getpath, 0, 0, IS_STRING, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_cookie_getpath, 0, 0, IS_STRING, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_cookie_getsecure, 0, 0, _IS_BOOL, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_cookie_getsecure, 0, 0, _IS_BOOL, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_cookie_getvalue, 0, 0, 0)
@@ -128,143 +72,54 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_cookie_getvalue, 0, 0, 0)
 	ZEND_ARG_INFO(0, defaultValue)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_cookie_isusingencryption, 0, 0, _IS_BOOL, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_cookie_isusingencryption, 0, 0, _IS_BOOL, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_cookie_restore, 0, 0, Phalcon\\Http\\Cookie\\CookieInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_cookie_restore, 0, 0, IS_OBJECT, "Phalcon\\Http\\Cookie\\CookieInterface", 0)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_cookie_send, 0, 0, Phalcon\\Http\\Cookie\\CookieInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_cookie_send, 0, 0, IS_OBJECT, "Phalcon\\Http\\Cookie\\CookieInterface", 0)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_cookie_setdomain, 0, 1, Phalcon\\Http\\Cookie\\CookieInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_cookie_setdomain, 0, 1, IS_OBJECT, "Phalcon\\Http\\Cookie\\CookieInterface", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, domain, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, domain)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_cookie_setexpiration, 0, 1, Phalcon\\Http\\Cookie\\CookieInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_cookie_setexpiration, 0, 1, IS_OBJECT, "Phalcon\\Http\\Cookie\\CookieInterface", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, expire, IS_LONG, 0)
-#else
-	ZEND_ARG_INFO(0, expire)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_cookie_sethttponly, 0, 1, Phalcon\\Http\\Cookie\\CookieInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_cookie_sethttponly, 0, 1, IS_OBJECT, "Phalcon\\Http\\Cookie\\CookieInterface", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, httpOnly, _IS_BOOL, 0)
-#else
-	ZEND_ARG_INFO(0, httpOnly)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_cookie_setoptions, 0, 1, Phalcon\\Http\\Cookie\\CookieInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_cookie_setoptions, 0, 1, IS_OBJECT, "Phalcon\\Http\\Cookie\\CookieInterface", 0)
-#endif
 	ZEND_ARG_ARRAY_INFO(0, options, 0)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_cookie_setpath, 0, 1, Phalcon\\Http\\Cookie\\CookieInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_cookie_setpath, 0, 1, IS_OBJECT, "Phalcon\\Http\\Cookie\\CookieInterface", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, path, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, path)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_cookie_setsecure, 0, 1, Phalcon\\Http\\Cookie\\CookieInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_cookie_setsecure, 0, 1, IS_OBJECT, "Phalcon\\Http\\Cookie\\CookieInterface", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, secure, _IS_BOOL, 0)
-#else
-	ZEND_ARG_INFO(0, secure)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_cookie_setsignkey, 0, 0, Phalcon\\Http\\Cookie\\CookieInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_cookie_setsignkey, 0, 0, IS_OBJECT, "Phalcon\\Http\\Cookie\\CookieInterface", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, signKey, IS_STRING, 1)
-#else
-	ZEND_ARG_INFO(0, signKey)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_cookie_setvalue, 0, 1, Phalcon\\Http\\Cookie\\CookieInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_cookie_setvalue, 0, 1, IS_OBJECT, "Phalcon\\Http\\Cookie\\CookieInterface", 0)
-#endif
 	ZEND_ARG_INFO(0, value)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_cookie_useencryption, 0, 1, Phalcon\\Http\\Cookie\\CookieInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_cookie_useencryption, 0, 1, IS_OBJECT, "Phalcon\\Http\\Cookie\\CookieInterface", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, useEncryption, _IS_BOOL, 0)
-#else
-	ZEND_ARG_INFO(0, useEncryption)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70100
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_cookie_assertsignkeyislongenough, 0, 1, IS_VOID, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_cookie_assertsignkeyislongenough, 0, 1, IS_VOID, NULL, 0)
-#endif
-#else
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_cookie_assertsignkeyislongenough, 0, 0, 1)
-#define arginfo_phalcon_http_cookie_assertsignkeyislongenough NULL
-#endif
 
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, signKey, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, signKey)
-#endif
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_cookie_zephir_init_properties_phalcon_http_cookie, 0, 0, 0)

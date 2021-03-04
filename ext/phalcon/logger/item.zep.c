@@ -82,6 +82,7 @@ PHP_METHOD(Phalcon_Logger_Item, getContext) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "context");
 
 }
@@ -92,6 +93,7 @@ PHP_METHOD(Phalcon_Logger_Item, getContext) {
 PHP_METHOD(Phalcon_Logger_Item, getMessage) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "message");
@@ -106,6 +108,7 @@ PHP_METHOD(Phalcon_Logger_Item, getName) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "name");
 
 }
@@ -118,6 +121,7 @@ PHP_METHOD(Phalcon_Logger_Item, getTime) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "time");
 
 }
@@ -128,6 +132,7 @@ PHP_METHOD(Phalcon_Logger_Item, getTime) {
 PHP_METHOD(Phalcon_Logger_Item, getType) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "type");
@@ -150,6 +155,19 @@ PHP_METHOD(Phalcon_Logger_Item, __construct) {
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&context_sub);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(3, 5)
+		Z_PARAM_STR(message)
+		Z_PARAM_STR(name)
+		Z_PARAM_LONG(type)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_LONG(time)
+		Z_PARAM_ZVAL(context)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 2, &message_param, &name_param, &type_param, &time_param, &context);

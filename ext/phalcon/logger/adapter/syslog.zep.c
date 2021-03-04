@@ -110,6 +110,16 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, __construct) {
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&options);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_STR(name)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ARRAY(options)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &name_param, &options_param);
@@ -161,6 +171,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, close) {
 
 	ZVAL_UNDEF(&_0);
 
+
 	ZEPHIR_MM_GROW();
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("opened"), PH_NOISY_CC | PH_READONLY);
@@ -198,6 +209,14 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, process) {
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$3);
 	ZVAL_UNDEF(&_3$$3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(item, phalcon_logger_item_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &item);
@@ -221,7 +240,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, process) {
 		object_init_ex(&_1$$3, spl_ce_LogicException);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "Cannot open syslog for name [%s] and facility [%s]");
-		ZEPHIR_CALL_FUNCTION(&_3$$3, "sprintf", NULL, 193, &_2$$3, &name, &facility);
+		ZEPHIR_CALL_FUNCTION(&_3$$3, "sprintf", NULL, 195, &_2$$3, &name, &facility);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 431, &_3$$3);
 		zephir_check_call_status();
@@ -257,6 +276,14 @@ PHP_METHOD(Phalcon_Logger_Adapter_Syslog, logLevelToSyslog) {
 
 	ZVAL_UNDEF(&result);
 	ZVAL_UNDEF(&levels);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_LONG(level)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &level_param);

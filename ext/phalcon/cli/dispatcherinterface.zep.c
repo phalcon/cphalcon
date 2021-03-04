@@ -36,44 +36,35 @@ ZEPHIR_INIT_CLASS(Phalcon_Cli_DispatcherInterface) {
  * Returns the active task in the dispatcher
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cli_DispatcherInterface, getActiveTask);
-
 /**
  * Returns the latest dispatched controller
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cli_DispatcherInterface, getLastTask);
-
 /**
  * Get dispatched options
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cli_DispatcherInterface, getOptions);
-
 /**
  * Gets last dispatched task name
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cli_DispatcherInterface, getTaskName);
-
 /**
  * Gets default task suffix
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cli_DispatcherInterface, getTaskSuffix);
-
 /**
  * Sets the default task name
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cli_DispatcherInterface, setDefaultTask);
-
 /**
  * Set the options to be dispatched
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cli_DispatcherInterface, setOptions);
-
 /**
  * Sets the task name to be dispatched
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cli_DispatcherInterface, setTaskName);
-
 /**
  * Sets the default task suffix
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cli_DispatcherInterface, setTaskSuffix);
-

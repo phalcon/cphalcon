@@ -12,7 +12,6 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "ext/spl/spl_iterators.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/array.h"
@@ -62,7 +61,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Collection) {
 	zend_declare_property_long(phalcon_annotations_collection_ce, SL("position"), 0, ZEND_ACC_PROTECTED);
 
 	zend_class_implements(phalcon_annotations_collection_ce, 1, zend_ce_iterator);
-	zend_class_implements(phalcon_annotations_collection_ce, 1, spl_ce_Countable);
+	zend_class_implements(phalcon_annotations_collection_ce, 1, zend_ce_countable);
 	return SUCCESS;
 
 }
@@ -85,6 +84,15 @@ PHP_METHOD(Phalcon_Annotations_Collection, __construct) {
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2$$3);
 	ZVAL_UNDEF(&_4$$4);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ARRAY(reflectionData)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &reflectionData_param);
@@ -107,7 +115,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, __construct) {
 			ZVAL_COPY(&annotationData, _0);
 			ZEPHIR_INIT_NVAR(&_2$$3);
 			object_init_ex(&_2$$3, phalcon_annotations_annotation_ce);
-			ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", &_3, 154, &annotationData);
+			ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", &_3, 156, &annotationData);
 			zephir_check_call_status();
 			zephir_array_append(&annotations, &_2$$3, PH_SEPARATE, "phalcon/Annotations/Collection.zep", 55);
 		} ZEND_HASH_FOREACH_END();
@@ -124,7 +132,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, __construct) {
 			zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&_4$$4);
 				object_init_ex(&_4$$4, phalcon_annotations_annotation_ce);
-				ZEPHIR_CALL_METHOD(NULL, &_4$$4, "__construct", &_3, 154, &annotationData);
+				ZEPHIR_CALL_METHOD(NULL, &_4$$4, "__construct", &_3, 156, &annotationData);
 				zephir_check_call_status();
 				zephir_array_append(&annotations, &_4$$4, PH_SEPARATE, "phalcon/Annotations/Collection.zep", 55);
 			ZEPHIR_CALL_METHOD(NULL, &reflectionData, "next", NULL, 0);
@@ -148,6 +156,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, count) {
 	ZVAL_UNDEF(&_0);
 
 
+
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("annotations"), PH_NOISY_CC | PH_READONLY);
 	RETURN_LONG(zephir_fast_count_int(&_0));
 
@@ -164,6 +173,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, current) {
 	ZVAL_UNDEF(&annotation);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+
 
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("annotations"), PH_NOISY_CC | PH_READONLY);
@@ -195,6 +205,14 @@ PHP_METHOD(Phalcon_Annotations_Collection, get) {
 	ZVAL_UNDEF(&_5);
 	ZVAL_UNDEF(&_3$$3);
 	ZVAL_UNDEF(&_4$$5);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(name)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
@@ -269,6 +287,14 @@ PHP_METHOD(Phalcon_Annotations_Collection, getAll) {
 	ZVAL_UNDEF(&_3$$3);
 	ZVAL_UNDEF(&_4$$5);
 	ZVAL_UNDEF(&found);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(name)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
@@ -325,6 +351,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, getAnnotations) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "annotations");
 
 }
@@ -347,6 +374,14 @@ PHP_METHOD(Phalcon_Annotations_Collection, has) {
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3$$3);
 	ZVAL_UNDEF(&_4$$5);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(name)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
@@ -401,6 +436,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, key) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "position");
 
 }
@@ -411,6 +447,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, key) {
 PHP_METHOD(Phalcon_Annotations_Collection, next) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_ON_FAILURE(zephir_property_incr(this_ptr, SL("position")));
@@ -426,6 +463,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, rewind) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
+
 
 
 	ZEPHIR_INIT_ZVAL_NREF(_0);
@@ -444,6 +482,7 @@ PHP_METHOD(Phalcon_Annotations_Collection, valid) {
 
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+
 
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("annotations"), PH_NOISY_CC | PH_READONLY);

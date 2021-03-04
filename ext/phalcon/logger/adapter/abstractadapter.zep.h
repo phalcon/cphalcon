@@ -17,68 +17,31 @@ zend_object *zephir_init_properties_Phalcon_Logger_Adapter_AbstractAdapter(zend_
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_adapter_abstractadapter___destruct, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_logger_adapter_abstractadapter_add, 0, 1, Phalcon\\Logger\\Adapter\\AdapterInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_adapter_abstractadapter_add, 0, 1, IS_OBJECT, "Phalcon\\Logger\\Adapter\\AdapterInterface", 0)
-#endif
 	ZEND_ARG_OBJ_INFO(0, item, Phalcon\\Logger\\Item, 0)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_logger_adapter_abstractadapter_begin, 0, 0, Phalcon\\Logger\\Adapter\\AdapterInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_adapter_abstractadapter_begin, 0, 0, IS_OBJECT, "Phalcon\\Logger\\Adapter\\AdapterInterface", 0)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_logger_adapter_abstractadapter_commit, 0, 0, Phalcon\\Logger\\Adapter\\AdapterInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_adapter_abstractadapter_commit, 0, 0, IS_OBJECT, "Phalcon\\Logger\\Adapter\\AdapterInterface", 0)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_logger_adapter_abstractadapter_getformatter, 0, 0, Phalcon\\Logger\\Formatter\\FormatterInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_adapter_abstractadapter_getformatter, 0, 0, IS_OBJECT, "Phalcon\\Logger\\Formatter\\FormatterInterface", 0)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_adapter_abstractadapter_intransaction, 0, 0, _IS_BOOL, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_adapter_abstractadapter_intransaction, 0, 0, _IS_BOOL, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70100
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_adapter_abstractadapter_process, 0, 1, IS_VOID, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_adapter_abstractadapter_process, 0, 1, IS_VOID, NULL, 0)
-#endif
-#else
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_adapter_abstractadapter_process, 0, 0, 1)
-#define arginfo_phalcon_logger_adapter_abstractadapter_process NULL
-#endif
 
 	ZEND_ARG_OBJ_INFO(0, item, Phalcon\\Logger\\Item, 0)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_logger_adapter_abstractadapter_rollback, 0, 0, Phalcon\\Logger\\Adapter\\AdapterInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_adapter_abstractadapter_rollback, 0, 0, IS_OBJECT, "Phalcon\\Logger\\Adapter\\AdapterInterface", 0)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_logger_adapter_abstractadapter_setformatter, 0, 1, Phalcon\\Logger\\Adapter\\AdapterInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_adapter_abstractadapter_setformatter, 0, 1, IS_OBJECT, "Phalcon\\Logger\\Adapter\\AdapterInterface", 0)
-#endif
 	ZEND_ARG_OBJ_INFO(0, formatter, Phalcon\\Logger\\Formatter\\FormatterInterface, 0)
 ZEND_END_ARG_INFO()
 

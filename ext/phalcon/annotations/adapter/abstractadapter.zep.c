@@ -70,6 +70,14 @@ PHP_METHOD(Phalcon_Annotations_Adapter_AbstractAdapter, get) {
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$5);
 	ZVAL_UNDEF(&_2$$5);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(className)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &className);
@@ -134,6 +142,15 @@ PHP_METHOD(Phalcon_Annotations_Adapter_AbstractAdapter, getMethod) {
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_4$$4);
 	ZVAL_UNDEF(&_6$$6);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_STR(className)
+		Z_PARAM_STR(methodName)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &className_param, &methodName_param);
@@ -210,6 +227,14 @@ PHP_METHOD(Phalcon_Annotations_Adapter_AbstractAdapter, getMethods) {
 
 	ZVAL_UNDEF(&className);
 	ZVAL_UNDEF(&classAnnotations);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(className)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &className_param);
@@ -241,6 +266,15 @@ PHP_METHOD(Phalcon_Annotations_Adapter_AbstractAdapter, getProperty) {
 	ZVAL_UNDEF(&classAnnotations);
 	ZVAL_UNDEF(&properties);
 	ZVAL_UNDEF(&property);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_STR(className)
+		Z_PARAM_STR(propertyName)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &className_param, &propertyName_param);
@@ -276,6 +310,14 @@ PHP_METHOD(Phalcon_Annotations_Adapter_AbstractAdapter, getProperties) {
 
 	ZVAL_UNDEF(&className);
 	ZVAL_UNDEF(&classAnnotations);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(className)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &className_param);
@@ -304,6 +346,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_AbstractAdapter, getReader) {
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
 
+
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_OBS_VAR(&_0);
@@ -330,6 +373,14 @@ PHP_METHOD(Phalcon_Annotations_Adapter_AbstractAdapter, setReader) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&reader_sub);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(reader, phalcon_annotations_readerinterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(1, 0, &reader);
 
@@ -345,6 +396,7 @@ zend_object *zephir_init_properties_Phalcon_Annotations_Adapter_AbstractAdapter(
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
+	
 
 		ZEPHIR_MM_GROW();
 	

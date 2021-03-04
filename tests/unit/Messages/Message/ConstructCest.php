@@ -124,7 +124,7 @@ class ConstructCest
 
         if (version_compare(PHP_VERSION, '8.0.0', '>=')) {
             $I->assertEquals(
-                "Parameter 'message' must be of the type string",
+                'Phalcon\Messages\Message::__construct(): Argument #1 ($message) must be of type string, bool given',
                 $actual
             );
         } else {

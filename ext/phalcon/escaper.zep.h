@@ -22,228 +22,77 @@ PHP_METHOD(Phalcon_Escaper, setFlags);
 PHP_METHOD(Phalcon_Escaper, setHtmlQuoteType);
 PHP_METHOD(Phalcon_Escaper, url);
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_escaper_attributes, 0, 0, IS_STRING, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_escaper_attributes, 0, 0, IS_STRING, NULL, 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, attribute, IS_STRING, 1)
-#else
-	ZEND_ARG_INFO(0, attribute)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_escaper_css, 0, 1, IS_STRING, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_escaper_css, 0, 1, IS_STRING, NULL, 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, input, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, input)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_escaper_detectencoding, 0, 1, IS_STRING, 1)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_escaper_detectencoding, 0, 1, IS_STRING, NULL, 1)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, str, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, str)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_escaper_escapecss, 0, 1, IS_STRING, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_escaper_escapecss, 0, 1, IS_STRING, NULL, 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, css, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, css)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_escaper_escapejs, 0, 1, IS_STRING, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_escaper_escapejs, 0, 1, IS_STRING, NULL, 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, js, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, js)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_escaper_escapehtml, 0, 0, IS_STRING, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_escaper_escapehtml, 0, 0, IS_STRING, NULL, 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, text, IS_STRING, 1)
-#else
-	ZEND_ARG_INFO(0, text)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_escaper_escapehtmlattr, 0, 0, IS_STRING, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_escaper_escapehtmlattr, 0, 0, IS_STRING, NULL, 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, attribute, IS_STRING, 1)
-#else
-	ZEND_ARG_INFO(0, attribute)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_escaper_escapeurl, 0, 1, IS_STRING, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_escaper_escapeurl, 0, 1, IS_STRING, NULL, 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, url, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, url)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_escaper_getencoding, 0, 0, IS_STRING, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_escaper_getencoding, 0, 0, IS_STRING, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_escaper_getflags, 0, 0, IS_LONG, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_escaper_getflags, 0, 0, IS_LONG, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_escaper_html, 0, 0, IS_STRING, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_escaper_html, 0, 0, IS_STRING, NULL, 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, input, IS_STRING, 1)
-#else
-	ZEND_ARG_INFO(0, input)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_escaper_js, 0, 1, IS_STRING, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_escaper_js, 0, 1, IS_STRING, NULL, 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, input, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, input)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_escaper_normalizeencoding, 0, 1, IS_STRING, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_escaper_normalizeencoding, 0, 1, IS_STRING, NULL, 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, str, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, str)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70100
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_escaper_setdoubleencode, 0, 1, IS_VOID, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_escaper_setdoubleencode, 0, 1, IS_VOID, NULL, 0)
-#endif
-#else
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_escaper_setdoubleencode, 0, 0, 1)
-#define arginfo_phalcon_escaper_setdoubleencode NULL
-#endif
 
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, doubleEncode, _IS_BOOL, 0)
-#else
-	ZEND_ARG_INFO(0, doubleEncode)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70100
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_escaper_setencoding, 0, 1, IS_VOID, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_escaper_setencoding, 0, 1, IS_VOID, NULL, 0)
-#endif
-#else
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_escaper_setencoding, 0, 0, 1)
-#define arginfo_phalcon_escaper_setencoding NULL
-#endif
 
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, encoding, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, encoding)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_escaper_setflags, 0, 1, Phalcon\\Escaper, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_escaper_setflags, 0, 1, IS_OBJECT, "Phalcon\\Escaper", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, flags, IS_LONG, 0)
-#else
-	ZEND_ARG_INFO(0, flags)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70100
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_escaper_sethtmlquotetype, 0, 1, IS_VOID, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_escaper_sethtmlquotetype, 0, 1, IS_VOID, NULL, 0)
-#endif
-#else
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_escaper_sethtmlquotetype, 0, 0, 1)
-#define arginfo_phalcon_escaper_sethtmlquotetype NULL
-#endif
 
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, flags, IS_LONG, 0)
-#else
-	ZEND_ARG_INFO(0, flags)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_escaper_url, 0, 1, IS_STRING, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_escaper_url, 0, 1, IS_STRING, NULL, 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, url, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, url)
-#endif
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_escaper_method_entry) {

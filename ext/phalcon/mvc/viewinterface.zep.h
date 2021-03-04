@@ -18,71 +18,35 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_viewinterface_finish, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_viewinterface_getactionname, 0, 0, IS_STRING, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_viewinterface_getactionname, 0, 0, IS_STRING, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_viewinterface_getactiverenderpath, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_viewinterface_getbasepath, 0, 0, IS_STRING, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_viewinterface_getbasepath, 0, 0, IS_STRING, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_viewinterface_getcontrollername, 0, 0, IS_STRING, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_viewinterface_getcontrollername, 0, 0, IS_STRING, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_viewinterface_getlayout, 0, 0, IS_STRING, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_viewinterface_getlayout, 0, 0, IS_STRING, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_viewinterface_getlayoutsdir, 0, 0, IS_STRING, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_viewinterface_getlayoutsdir, 0, 0, IS_STRING, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_viewinterface_getmainview, 0, 0, IS_STRING, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_viewinterface_getmainview, 0, 0, IS_STRING, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_viewinterface_getpartialsdir, 0, 0, IS_STRING, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_viewinterface_getpartialsdir, 0, 0, IS_STRING, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_viewinterface_isdisabled, 0, 0, _IS_BOOL, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_viewinterface_isdisabled, 0, 0, _IS_BOOL, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_viewinterface_pick, 0, 0, 1)
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, renderView, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, renderView)
-#endif
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_viewinterface_registerengines, 0, 0, 1)
@@ -90,16 +54,8 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_viewinterface_registerengines, 0, 0, 
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_viewinterface_render, 0, 0, 2)
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, controllerName, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, controllerName)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, actionName, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, actionName)
-#endif
 	ZEND_ARG_ARRAY_INFO(0, params, 0)
 ZEND_END_ARG_INFO()
 
@@ -107,55 +63,27 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_viewinterface_reset, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_viewinterface_setbasepath, 0, 0, 1)
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, basePath, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, basePath)
-#endif
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_viewinterface_setlayout, 0, 0, 1)
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, layout, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, layout)
-#endif
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_viewinterface_setlayoutsdir, 0, 0, 1)
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, layoutsDir, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, layoutsDir)
-#endif
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_viewinterface_setmainview, 0, 0, 1)
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, viewPath, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, viewPath)
-#endif
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_viewinterface_setpartialsdir, 0, 0, 1)
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, partialsDir, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, partialsDir)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_viewinterface_setrenderlevel, 0, 1, Phalcon\\Mvc\\ViewInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_viewinterface_setrenderlevel, 0, 1, IS_OBJECT, "Phalcon\\Mvc\\ViewInterface", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, level, IS_LONG, 0)
-#else
-	ZEND_ARG_INFO(0, level)
-#endif
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_viewinterface_settemplateafter, 0, 0, 1)

@@ -96,6 +96,7 @@ PHP_METHOD(Phalcon_Events_Event, getData) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "data");
 
 }
@@ -108,6 +109,7 @@ PHP_METHOD(Phalcon_Events_Event, getSource) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "source");
 
 }
@@ -118,6 +120,7 @@ PHP_METHOD(Phalcon_Events_Event, getSource) {
 PHP_METHOD(Phalcon_Events_Event, getType) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "type");
@@ -147,6 +150,18 @@ PHP_METHOD(Phalcon_Events_Event, __construct) {
 	ZVAL_UNDEF(&_0$$3);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 4)
+		Z_PARAM_STR(type)
+		Z_PARAM_OBJECT(source)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL(data)
+		Z_PARAM_BOOL(cancelable)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 2, &type_param, &source, &data, &cancelable_param);
@@ -211,6 +226,7 @@ PHP_METHOD(Phalcon_Events_Event, isCancelable) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "cancelable");
 
 }
@@ -221,6 +237,7 @@ PHP_METHOD(Phalcon_Events_Event, isCancelable) {
 PHP_METHOD(Phalcon_Events_Event, isStopped) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "stopped");
@@ -237,6 +254,15 @@ PHP_METHOD(Phalcon_Events_Event, setData) {
 
 	ZVAL_UNDEF(&data_sub);
 	ZVAL_NULL(&__$null);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL(data)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(0, 1, &data);
 
@@ -262,6 +288,14 @@ PHP_METHOD(Phalcon_Events_Event, setType) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&type);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(type)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &type_param);
@@ -300,6 +334,7 @@ PHP_METHOD(Phalcon_Events_Event, stop) {
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
 	ZVAL_UNDEF(&_0);
+
 
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("cancelable"), PH_NOISY_CC | PH_READONLY);

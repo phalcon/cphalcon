@@ -28,194 +28,80 @@ PHP_METHOD(Phalcon_Http_Message_Stream, checkWritable);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_message_stream___construct, 0, 0, 1)
 	ZEND_ARG_INFO(0, stream)
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, mode, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, mode)
-#endif
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_message_stream___destruct, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_stream___tostring, 0, 0, IS_STRING, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_stream___tostring, 0, 0, IS_STRING, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70100
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_stream_close, 0, 0, IS_VOID, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_stream_close, 0, 0, IS_VOID, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
-#else
-#define arginfo_phalcon_http_message_stream_close NULL
-#endif
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_message_stream_detach, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_stream_eof, 0, 0, _IS_BOOL, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_stream_eof, 0, 0, _IS_BOOL, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_stream_getcontents, 0, 0, IS_STRING, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_stream_getcontents, 0, 0, IS_STRING, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_message_stream_getmetadata, 0, 0, 0)
 	ZEND_ARG_INFO(0, key)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_stream_getsize, 0, 0, IS_LONG, 1)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_stream_getsize, 0, 0, IS_LONG, NULL, 1)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_stream_isreadable, 0, 0, _IS_BOOL, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_stream_isreadable, 0, 0, _IS_BOOL, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_stream_isseekable, 0, 0, _IS_BOOL, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_stream_isseekable, 0, 0, _IS_BOOL, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_stream_iswritable, 0, 0, _IS_BOOL, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_stream_iswritable, 0, 0, _IS_BOOL, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_stream_read, 0, 1, IS_STRING, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_stream_read, 0, 1, IS_STRING, NULL, 0)
-#endif
 	ZEND_ARG_INFO(0, length)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70100
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_stream_rewind, 0, 0, IS_VOID, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_stream_rewind, 0, 0, IS_VOID, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
-#else
-#define arginfo_phalcon_http_message_stream_rewind NULL
-#endif
 
-#if PHP_VERSION_ID >= 70100
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_stream_seek, 0, 1, IS_VOID, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_stream_seek, 0, 1, IS_VOID, NULL, 0)
-#endif
-#else
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_message_stream_seek, 0, 0, 1)
-#define arginfo_phalcon_http_message_stream_seek NULL
-#endif
 
 	ZEND_ARG_INFO(0, offset)
 	ZEND_ARG_INFO(0, whence)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70100
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_stream_setstream, 0, 1, IS_VOID, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_stream_setstream, 0, 1, IS_VOID, NULL, 0)
-#endif
-#else
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_message_stream_setstream, 0, 0, 1)
-#define arginfo_phalcon_http_message_stream_setstream NULL
-#endif
 
 	ZEND_ARG_INFO(0, stream)
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, mode, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, mode)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_stream_tell, 0, 0, IS_LONG, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_stream_tell, 0, 0, IS_LONG, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_stream_write, 0, 1, IS_LONG, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_stream_write, 0, 1, IS_LONG, NULL, 0)
-#endif
 	ZEND_ARG_INFO(0, data)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70100
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_stream_checkhandle, 0, 0, IS_VOID, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_stream_checkhandle, 0, 0, IS_VOID, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
-#else
-#define arginfo_phalcon_http_message_stream_checkhandle NULL
-#endif
 
-#if PHP_VERSION_ID >= 70100
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_stream_checkreadable, 0, 0, IS_VOID, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_stream_checkreadable, 0, 0, IS_VOID, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
-#else
-#define arginfo_phalcon_http_message_stream_checkreadable NULL
-#endif
 
-#if PHP_VERSION_ID >= 70100
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_stream_checkseekable, 0, 0, IS_VOID, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_stream_checkseekable, 0, 0, IS_VOID, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
-#else
-#define arginfo_phalcon_http_message_stream_checkseekable NULL
-#endif
 
-#if PHP_VERSION_ID >= 70100
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_stream_checkwritable, 0, 0, IS_VOID, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_stream_checkwritable, 0, 0, IS_VOID, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
-#else
-#define arginfo_phalcon_http_message_stream_checkwritable NULL
-#endif
 
 ZEPHIR_INIT_FUNCS(phalcon_http_message_stream_method_entry) {
 	PHP_ME(Phalcon_Http_Message_Stream, __construct, arginfo_phalcon_http_message_stream___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)

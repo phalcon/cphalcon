@@ -11,49 +11,25 @@ PHP_METHOD(Phalcon_DataMapper_Query_QueryFactory, newSelect);
 PHP_METHOD(Phalcon_DataMapper_Query_QueryFactory, newUpdate);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_datamapper_query_queryfactory___construct, 0, 0, 0)
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, selectClass, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, selectClass)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_queryfactory_newbind, 0, 0, Phalcon\\DataMapper\\Query\\Bind, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_queryfactory_newbind, 0, 0, IS_OBJECT, "Phalcon\\DataMapper\\Query\\Bind", 0)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_queryfactory_newdelete, 0, 1, Phalcon\\DataMapper\\Query\\Delete, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_queryfactory_newdelete, 0, 1, IS_OBJECT, "Phalcon\\DataMapper\\Query\\Delete", 0)
-#endif
 	ZEND_ARG_OBJ_INFO(0, connection, Phalcon\\DataMapper\\Pdo\\Connection, 0)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_queryfactory_newinsert, 0, 1, Phalcon\\DataMapper\\Query\\Insert, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_queryfactory_newinsert, 0, 1, IS_OBJECT, "Phalcon\\DataMapper\\Query\\Insert", 0)
-#endif
 	ZEND_ARG_OBJ_INFO(0, connection, Phalcon\\DataMapper\\Pdo\\Connection, 0)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_queryfactory_newselect, 0, 1, Phalcon\\DataMapper\\Query\\Select, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_queryfactory_newselect, 0, 1, IS_OBJECT, "Phalcon\\DataMapper\\Query\\Select", 0)
-#endif
 	ZEND_ARG_OBJ_INFO(0, connection, Phalcon\\DataMapper\\Pdo\\Connection, 0)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_queryfactory_newupdate, 0, 1, Phalcon\\DataMapper\\Query\\Update, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_queryfactory_newupdate, 0, 1, IS_OBJECT, "Phalcon\\DataMapper\\Query\\Update", 0)
-#endif
 	ZEND_ARG_OBJ_INFO(0, connection, Phalcon\\DataMapper\\Pdo\\Connection, 0)
 ZEND_END_ARG_INFO()
 

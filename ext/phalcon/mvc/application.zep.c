@@ -167,6 +167,14 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 	ZVAL_UNDEF(&_43$$40);
 	ZVAL_UNDEF(&_44$$41);
 	ZVAL_UNDEF(&_21$$21);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(uri)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &uri_param);
@@ -489,6 +497,14 @@ PHP_METHOD(Phalcon_Mvc_Application, sendCookiesOnHandleRequest) {
 
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_BOOL(sendCookies)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(1, 0, &sendCookies_param);
 
@@ -515,6 +531,14 @@ PHP_METHOD(Phalcon_Mvc_Application, sendHeadersOnHandleRequest) {
 
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_BOOL(sendHeaders)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(1, 0, &sendHeaders_param);
 
@@ -542,6 +566,14 @@ PHP_METHOD(Phalcon_Mvc_Application, useImplicitView) {
 
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_BOOL(implicitView)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(1, 0, &implicitView_param);
 

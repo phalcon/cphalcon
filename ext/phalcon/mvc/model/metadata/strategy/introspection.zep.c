@@ -63,6 +63,15 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getColumnMaps) {
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&userName);
 	ZVAL_UNDEF(&_1$$3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(container, phalcon_di_diinterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &model, &container);
@@ -185,6 +194,15 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData) {
 	ZVAL_UNDEF(&_27$$17);
 	ZVAL_UNDEF(&_28$$23);
 	ZVAL_UNDEF(&completeTable);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(container, phalcon_di_diinterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &model, &container);

@@ -14,11 +14,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, getParamsFromReflection);
 PHP_METHOD(Phalcon_Mvc_Model_Binder, setCache);
 zend_object *zephir_init_properties_Phalcon_Mvc_Model_Binder(zend_class_entry *class_type);
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_binder_getboundmodels, 0, 0, IS_ARRAY, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_binder_getboundmodels, 0, 0, IS_ARRAY, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_binder_getoriginalvalues, 0, 0, 0)
@@ -28,77 +24,33 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_binder___construct, 0, 0, 0)
 	ZEND_ARG_OBJ_INFO(0, cache, Phalcon\\Cache\\Adapter\\AdapterInterface, 1)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_binder_bindtohandler, 0, 3, IS_ARRAY, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_binder_bindtohandler, 0, 3, IS_ARRAY, NULL, 0)
-#endif
 	ZEND_ARG_INFO(0, handler)
 	ZEND_ARG_ARRAY_INFO(0, params, 0)
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, cacheKey, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, cacheKey)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, methodName, IS_STRING, 1)
-#else
-	ZEND_ARG_INFO(0, methodName)
-#endif
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_binder_findboundmodel, 0, 0, 2)
 	ZEND_ARG_INFO(0, paramValue)
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, className, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, className)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_binder_getcache, 0, 0, Phalcon\\Cache\\Adapter\\AdapterInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_binder_getcache, 0, 0, IS_OBJECT, "Phalcon\\Cache\\Adapter\\AdapterInterface", 0)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_binder_getparamsfromcache, 0, 1, IS_ARRAY, 1)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_binder_getparamsfromcache, 0, 1, IS_ARRAY, NULL, 1)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, cacheKey, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, cacheKey)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_binder_getparamsfromreflection, 0, 4, IS_ARRAY, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_binder_getparamsfromreflection, 0, 4, IS_ARRAY, NULL, 0)
-#endif
 	ZEND_ARG_INFO(0, handler)
 	ZEND_ARG_ARRAY_INFO(0, params, 0)
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, cacheKey, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, cacheKey)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, methodName, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, methodName)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_binder_setcache, 0, 1, Phalcon\\Mvc\\Model\\BinderInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_binder_setcache, 0, 1, IS_OBJECT, "Phalcon\\Mvc\\Model\\BinderInterface", 0)
-#endif
 	ZEND_ARG_OBJ_INFO(0, cache, Phalcon\\Cache\\Adapter\\AdapterInterface, 0)
 ZEND_END_ARG_INFO()
 

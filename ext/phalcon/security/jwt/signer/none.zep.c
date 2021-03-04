@@ -49,6 +49,7 @@ PHP_METHOD(Phalcon_Security_JWT_Signer_None, getAlgHeader) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_STRING("none");
 
 }
@@ -61,6 +62,7 @@ PHP_METHOD(Phalcon_Security_JWT_Signer_None, getAlgHeader) {
 PHP_METHOD(Phalcon_Security_JWT_Signer_None, getAlgorithm) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_STRING("None");
@@ -84,6 +86,15 @@ PHP_METHOD(Phalcon_Security_JWT_Signer_None, sign) {
 
 	ZVAL_UNDEF(&payload);
 	ZVAL_UNDEF(&passphrase);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_STR(payload)
+		Z_PARAM_STR(passphrase)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &payload_param, &passphrase_param);
@@ -125,6 +136,16 @@ PHP_METHOD(Phalcon_Security_JWT_Signer_None, verify) {
 	ZVAL_UNDEF(&payload);
 	ZVAL_UNDEF(&passphrase);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(3, 3)
+		Z_PARAM_STR(source)
+		Z_PARAM_STR(payload)
+		Z_PARAM_STR(passphrase)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &source_param, &payload_param, &passphrase_param);

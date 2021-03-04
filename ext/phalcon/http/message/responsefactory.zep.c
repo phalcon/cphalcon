@@ -64,6 +64,16 @@ PHP_METHOD(Phalcon_Http_Message_ResponseFactory, createResponse) {
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&reasonPhrase);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 2)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_LONG(code)
+		Z_PARAM_STR(reasonPhrase)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &code_param, &reasonPhrase_param);
@@ -83,10 +93,10 @@ PHP_METHOD(Phalcon_Http_Message_ResponseFactory, createResponse) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, phalcon_http_message_response_ce);
-	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 311);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 312);
 	zephir_check_call_status();
 	ZVAL_LONG(&_1, code);
-	ZEPHIR_RETURN_CALL_METHOD(&_0, "withstatus", NULL, 312, &_1, &reasonPhrase);
+	ZEPHIR_RETURN_CALL_METHOD(&_0, "withstatus", NULL, 313, &_1, &reasonPhrase);
 	zephir_check_call_status();
 	RETURN_MM();
 

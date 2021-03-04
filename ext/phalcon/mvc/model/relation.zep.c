@@ -95,6 +95,19 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, __construct) {
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&referencedModel);
 	ZVAL_UNDEF(&options);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(4, 5)
+		Z_PARAM_LONG(type)
+		Z_PARAM_STR(referencedModel)
+		Z_PARAM_ZVAL(fields)
+		Z_PARAM_ZVAL(referencedFields)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ARRAY(options)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 4, 1, &type_param, &referencedModel_param, &fields, &referencedFields, &options_param);
@@ -139,6 +152,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getFields) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "fields");
 
 }
@@ -157,6 +171,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getForeignKey) {
 	ZVAL_UNDEF(&options);
 	ZVAL_UNDEF(&foreignKey);
 	ZVAL_UNDEF(&_0);
+
 
 	ZEPHIR_MM_GROW();
 
@@ -181,6 +196,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getIntermediateFields) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "intermediateFields");
 
 }
@@ -191,6 +207,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getIntermediateFields) {
 PHP_METHOD(Phalcon_Mvc_Model_Relation, getIntermediateModel) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "intermediateModel");
@@ -205,6 +222,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getIntermediateModel) {
 PHP_METHOD(Phalcon_Mvc_Model_Relation, getIntermediateReferencedFields) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "intermediateReferencedFields");
@@ -225,6 +243,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getOption) {
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&option);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(name)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
@@ -257,6 +283,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getOptions) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "options");
 
 }
@@ -276,6 +303,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getParams) {
 	ZVAL_UNDEF(&options);
 	ZVAL_UNDEF(&params);
 	ZVAL_UNDEF(&_0);
+
 
 	ZEPHIR_MM_GROW();
 
@@ -304,6 +332,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getType) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "type");
 
 }
@@ -318,6 +347,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getReferencedFields) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "referencedFields");
 
 }
@@ -328,6 +358,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, getReferencedFields) {
 PHP_METHOD(Phalcon_Mvc_Model_Relation, getReferencedModel) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "referencedModel");
@@ -344,6 +375,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, isForeignKey) {
 
 	ZVAL_UNDEF(&foreignKey);
 	ZVAL_UNDEF(&_0);
+
 
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("options"), PH_NOISY_CC | PH_READONLY);
@@ -366,6 +398,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, isThrough) {
 
 	ZVAL_UNDEF(&type);
 	ZVAL_UNDEF(&_0);
+
 
 	ZEPHIR_MM_GROW();
 
@@ -391,6 +424,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, isReusable) {
 	ZVAL_UNDEF(&options);
 	ZVAL_UNDEF(&reusable);
 	ZVAL_UNDEF(&_0);
+
 
 	ZEPHIR_MM_GROW();
 
@@ -419,6 +453,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, setIntermediateRelation) {
 	ZVAL_UNDEF(&intermediateFields_sub);
 	ZVAL_UNDEF(&intermediateReferencedFields_sub);
 	ZVAL_UNDEF(&intermediateModel);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(3, 3)
+		Z_PARAM_ZVAL(intermediateFields)
+		Z_PARAM_STR(intermediateModel)
+		Z_PARAM_ZVAL(intermediateReferencedFields)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &intermediateFields, &intermediateModel_param, &intermediateReferencedFields);

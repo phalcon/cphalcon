@@ -365,12 +365,18 @@ ZEPHIR_ATTR_WARN_UNUSED_RESULT static inline int zephir_return_call_zval_functio
 	return SUCCESS;
 }
 
-ZEPHIR_ATTR_WARN_UNUSED_RESULT static inline int zephir_return_call_class_method(zval *return_value,
-	zend_class_entry *ce, zephir_call_type type, zval *object,
-	const char *method_name, uint32_t method_len,
-	zephir_fcall_cache_entry **cache_entry, int cache_slot,
-	uint32_t param_count, zval **params)
-{
+ZEPHIR_ATTR_WARN_UNUSED_RESULT static inline int zephir_return_call_class_method(
+	zval *return_value,
+	zend_class_entry *ce,
+	zephir_call_type type,
+	zval *object,
+	const char *method_name,
+	uint32_t method_len,
+	zephir_fcall_cache_entry **cache_entry,
+	int cache_slot,
+	uint32_t param_count,
+	zval **params
+) {
 	zval rv, *rvp = return_value ? return_value : &rv;
 	int status;
 

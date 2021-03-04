@@ -61,190 +61,82 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_builder___construct, 0, 0
 	ZEND_ARG_OBJ_INFO(0, container, Phalcon\\Di\\DiInterface, 1)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builder_addfrom, 0, 1, Phalcon\\Mvc\\Model\\Query\\BuilderInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builder_addfrom, 0, 1, IS_OBJECT, "Phalcon\\Mvc\\Model\\Query\\BuilderInterface", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, model, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, model)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, alias, IS_STRING, 1)
-#else
-	ZEND_ARG_INFO(0, alias)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builder_andhaving, 0, 1, Phalcon\\Mvc\\Model\\Query\\BuilderInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builder_andhaving, 0, 1, IS_OBJECT, "Phalcon\\Mvc\\Model\\Query\\BuilderInterface", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, conditions, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, conditions)
-#endif
 	ZEND_ARG_ARRAY_INFO(0, bindParams, 0)
 	ZEND_ARG_ARRAY_INFO(0, bindTypes, 0)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builder_andwhere, 0, 1, Phalcon\\Mvc\\Model\\Query\\BuilderInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builder_andwhere, 0, 1, IS_OBJECT, "Phalcon\\Mvc\\Model\\Query\\BuilderInterface", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, conditions, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, conditions)
-#endif
 	ZEND_ARG_ARRAY_INFO(0, bindParams, 0)
 	ZEND_ARG_ARRAY_INFO(0, bindTypes, 0)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builder_autoescape, 0, 1, IS_STRING, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builder_autoescape, 0, 1, IS_STRING, NULL, 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, identifier, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, identifier)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builder_betweenhaving, 0, 3, Phalcon\\Mvc\\Model\\Query\\BuilderInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builder_betweenhaving, 0, 3, IS_OBJECT, "Phalcon\\Mvc\\Model\\Query\\BuilderInterface", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, expr, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, expr)
-#endif
 	ZEND_ARG_INFO(0, minimum)
 	ZEND_ARG_INFO(0, maximum)
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, operator, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, operator)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builder_betweenwhere, 0, 3, Phalcon\\Mvc\\Model\\Query\\BuilderInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builder_betweenwhere, 0, 3, IS_OBJECT, "Phalcon\\Mvc\\Model\\Query\\BuilderInterface", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, expr, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, expr)
-#endif
 	ZEND_ARG_INFO(0, minimum)
 	ZEND_ARG_INFO(0, maximum)
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, operator, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, operator)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builder_columns, 0, 1, Phalcon\\Mvc\\Model\\Query\\BuilderInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builder_columns, 0, 1, IS_OBJECT, "Phalcon\\Mvc\\Model\\Query\\BuilderInterface", 0)
-#endif
 	ZEND_ARG_INFO(0, columns)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builder_distinct, 0, 1, Phalcon\\Mvc\\Model\\Query\\BuilderInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builder_distinct, 0, 1, IS_OBJECT, "Phalcon\\Mvc\\Model\\Query\\BuilderInterface", 0)
-#endif
 	ZEND_ARG_INFO(0, distinct)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builder_forupdate, 0, 1, Phalcon\\Mvc\\Model\\Query\\BuilderInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builder_forupdate, 0, 1, IS_OBJECT, "Phalcon\\Mvc\\Model\\Query\\BuilderInterface", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, forUpdate, _IS_BOOL, 0)
-#else
-	ZEND_ARG_INFO(0, forUpdate)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builder_from, 0, 1, Phalcon\\Mvc\\Model\\Query\\BuilderInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builder_from, 0, 1, IS_OBJECT, "Phalcon\\Mvc\\Model\\Query\\BuilderInterface", 0)
-#endif
 	ZEND_ARG_INFO(0, models)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builder_getbindparams, 0, 0, IS_ARRAY, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builder_getbindparams, 0, 0, IS_ARRAY, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builder_getbindtypes, 0, 0, IS_ARRAY, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builder_getbindtypes, 0, 0, IS_ARRAY, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_builder_getcolumns, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builder_getdi, 0, 0, Phalcon\\Di\\DiInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builder_getdi, 0, 0, IS_OBJECT, "Phalcon\\Di\\DiInterface", 0)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builder_getdistinct, 0, 0, _IS_BOOL, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builder_getdistinct, 0, 0, _IS_BOOL, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_builder_getfrom, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builder_getgroupby, 0, 0, IS_ARRAY, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builder_getgroupby, 0, 0, IS_ARRAY, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builder_gethaving, 0, 0, IS_STRING, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builder_gethaving, 0, 0, IS_STRING, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builder_getjoins, 0, 0, IS_ARRAY, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builder_getjoins, 0, 0, IS_ARRAY, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_builder_getlimit, 0, 0, 0)
@@ -253,460 +145,167 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_builder_getmodels, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builder_getoffset, 0, 0, IS_LONG, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builder_getoffset, 0, 0, IS_LONG, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_builder_getorderby, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builder_getphql, 0, 0, IS_STRING, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builder_getphql, 0, 0, IS_STRING, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builder_getquery, 0, 0, Phalcon\\Mvc\\Model\\QueryInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builder_getquery, 0, 0, IS_OBJECT, "Phalcon\\Mvc\\Model\\QueryInterface", 0)
-#endif
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_builder_getwhere, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builder_groupby, 0, 1, Phalcon\\Mvc\\Model\\Query\\BuilderInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builder_groupby, 0, 1, IS_OBJECT, "Phalcon\\Mvc\\Model\\Query\\BuilderInterface", 0)
-#endif
 	ZEND_ARG_INFO(0, group)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builder_having, 0, 1, Phalcon\\Mvc\\Model\\Query\\BuilderInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builder_having, 0, 1, IS_OBJECT, "Phalcon\\Mvc\\Model\\Query\\BuilderInterface", 0)
-#endif
 	ZEND_ARG_INFO(0, conditions)
 	ZEND_ARG_ARRAY_INFO(0, bindParams, 0)
 	ZEND_ARG_ARRAY_INFO(0, bindTypes, 0)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builder_inhaving, 0, 2, Phalcon\\Mvc\\Model\\Query\\BuilderInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builder_inhaving, 0, 2, IS_OBJECT, "Phalcon\\Mvc\\Model\\Query\\BuilderInterface", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, expr, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, expr)
-#endif
 	ZEND_ARG_ARRAY_INFO(0, values, 0)
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, operator, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, operator)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builder_innerjoin, 0, 1, Phalcon\\Mvc\\Model\\Query\\BuilderInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builder_innerjoin, 0, 1, IS_OBJECT, "Phalcon\\Mvc\\Model\\Query\\BuilderInterface", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, model, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, model)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, conditions, IS_STRING, 1)
-#else
-	ZEND_ARG_INFO(0, conditions)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, alias, IS_STRING, 1)
-#else
-	ZEND_ARG_INFO(0, alias)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builder_inwhere, 0, 2, Phalcon\\Mvc\\Model\\Query\\BuilderInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builder_inwhere, 0, 2, IS_OBJECT, "Phalcon\\Mvc\\Model\\Query\\BuilderInterface", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, expr, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, expr)
-#endif
 	ZEND_ARG_ARRAY_INFO(0, values, 0)
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, operator, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, operator)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builder_join, 0, 1, Phalcon\\Mvc\\Model\\Query\\BuilderInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builder_join, 0, 1, IS_OBJECT, "Phalcon\\Mvc\\Model\\Query\\BuilderInterface", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, model, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, model)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, conditions, IS_STRING, 1)
-#else
-	ZEND_ARG_INFO(0, conditions)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, alias, IS_STRING, 1)
-#else
-	ZEND_ARG_INFO(0, alias)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, type, IS_STRING, 1)
-#else
-	ZEND_ARG_INFO(0, type)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builder_leftjoin, 0, 1, Phalcon\\Mvc\\Model\\Query\\BuilderInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builder_leftjoin, 0, 1, IS_OBJECT, "Phalcon\\Mvc\\Model\\Query\\BuilderInterface", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, model, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, model)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, conditions, IS_STRING, 1)
-#else
-	ZEND_ARG_INFO(0, conditions)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, alias, IS_STRING, 1)
-#else
-	ZEND_ARG_INFO(0, alias)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builder_limit, 0, 1, Phalcon\\Mvc\\Model\\Query\\BuilderInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builder_limit, 0, 1, IS_OBJECT, "Phalcon\\Mvc\\Model\\Query\\BuilderInterface", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, limit, IS_LONG, 0)
-#else
-	ZEND_ARG_INFO(0, limit)
-#endif
 	ZEND_ARG_INFO(0, offset)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builder_notbetweenhaving, 0, 3, Phalcon\\Mvc\\Model\\Query\\BuilderInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builder_notbetweenhaving, 0, 3, IS_OBJECT, "Phalcon\\Mvc\\Model\\Query\\BuilderInterface", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, expr, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, expr)
-#endif
 	ZEND_ARG_INFO(0, minimum)
 	ZEND_ARG_INFO(0, maximum)
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, operator, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, operator)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builder_notbetweenwhere, 0, 3, Phalcon\\Mvc\\Model\\Query\\BuilderInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builder_notbetweenwhere, 0, 3, IS_OBJECT, "Phalcon\\Mvc\\Model\\Query\\BuilderInterface", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, expr, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, expr)
-#endif
 	ZEND_ARG_INFO(0, minimum)
 	ZEND_ARG_INFO(0, maximum)
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, operator, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, operator)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builder_notinhaving, 0, 2, Phalcon\\Mvc\\Model\\Query\\BuilderInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builder_notinhaving, 0, 2, IS_OBJECT, "Phalcon\\Mvc\\Model\\Query\\BuilderInterface", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, expr, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, expr)
-#endif
 	ZEND_ARG_ARRAY_INFO(0, values, 0)
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, operator, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, operator)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builder_notinwhere, 0, 2, Phalcon\\Mvc\\Model\\Query\\BuilderInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builder_notinwhere, 0, 2, IS_OBJECT, "Phalcon\\Mvc\\Model\\Query\\BuilderInterface", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, expr, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, expr)
-#endif
 	ZEND_ARG_ARRAY_INFO(0, values, 0)
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, operator, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, operator)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builder_offset, 0, 1, Phalcon\\Mvc\\Model\\Query\\BuilderInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builder_offset, 0, 1, IS_OBJECT, "Phalcon\\Mvc\\Model\\Query\\BuilderInterface", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, offset, IS_LONG, 0)
-#else
-	ZEND_ARG_INFO(0, offset)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builder_orderby, 0, 1, Phalcon\\Mvc\\Model\\Query\\BuilderInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builder_orderby, 0, 1, IS_OBJECT, "Phalcon\\Mvc\\Model\\Query\\BuilderInterface", 0)
-#endif
 	ZEND_ARG_INFO(0, orderBy)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builder_orhaving, 0, 1, Phalcon\\Mvc\\Model\\Query\\BuilderInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builder_orhaving, 0, 1, IS_OBJECT, "Phalcon\\Mvc\\Model\\Query\\BuilderInterface", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, conditions, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, conditions)
-#endif
 	ZEND_ARG_ARRAY_INFO(0, bindParams, 0)
 	ZEND_ARG_ARRAY_INFO(0, bindTypes, 0)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builder_orwhere, 0, 1, Phalcon\\Mvc\\Model\\Query\\BuilderInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builder_orwhere, 0, 1, IS_OBJECT, "Phalcon\\Mvc\\Model\\Query\\BuilderInterface", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, conditions, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, conditions)
-#endif
 	ZEND_ARG_ARRAY_INFO(0, bindParams, 0)
 	ZEND_ARG_ARRAY_INFO(0, bindTypes, 0)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builder_rightjoin, 0, 1, Phalcon\\Mvc\\Model\\Query\\BuilderInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builder_rightjoin, 0, 1, IS_OBJECT, "Phalcon\\Mvc\\Model\\Query\\BuilderInterface", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, model, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, model)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, conditions, IS_STRING, 1)
-#else
-	ZEND_ARG_INFO(0, conditions)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, alias, IS_STRING, 1)
-#else
-	ZEND_ARG_INFO(0, alias)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builder_setbindparams, 0, 1, Phalcon\\Mvc\\Model\\Query\\BuilderInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builder_setbindparams, 0, 1, IS_OBJECT, "Phalcon\\Mvc\\Model\\Query\\BuilderInterface", 0)
-#endif
 	ZEND_ARG_ARRAY_INFO(0, bindParams, 0)
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, merge, _IS_BOOL, 0)
-#else
-	ZEND_ARG_INFO(0, merge)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builder_setbindtypes, 0, 1, Phalcon\\Mvc\\Model\\Query\\BuilderInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builder_setbindtypes, 0, 1, IS_OBJECT, "Phalcon\\Mvc\\Model\\Query\\BuilderInterface", 0)
-#endif
 	ZEND_ARG_ARRAY_INFO(0, bindTypes, 0)
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, merge, _IS_BOOL, 0)
-#else
-	ZEND_ARG_INFO(0, merge)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70100
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builder_setdi, 0, 1, IS_VOID, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builder_setdi, 0, 1, IS_VOID, NULL, 0)
-#endif
-#else
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_builder_setdi, 0, 0, 1)
-#define arginfo_phalcon_mvc_model_query_builder_setdi NULL
-#endif
 
 	ZEND_ARG_OBJ_INFO(0, container, Phalcon\\Di\\DiInterface, 0)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builder_where, 0, 1, Phalcon\\Mvc\\Model\\Query\\BuilderInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builder_where, 0, 1, IS_OBJECT, "Phalcon\\Mvc\\Model\\Query\\BuilderInterface", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, conditions, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, conditions)
-#endif
 	ZEND_ARG_ARRAY_INFO(0, bindParams, 0)
 	ZEND_ARG_ARRAY_INFO(0, bindTypes, 0)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builder_conditionbetween, 0, 5, Phalcon\\Mvc\\Model\\Query\\BuilderInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builder_conditionbetween, 0, 5, IS_OBJECT, "Phalcon\\Mvc\\Model\\Query\\BuilderInterface", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, clause, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, clause)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, operator, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, operator)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, expr, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, expr)
-#endif
 	ZEND_ARG_INFO(0, minimum)
 	ZEND_ARG_INFO(0, maximum)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builder_conditionin, 0, 4, Phalcon\\Mvc\\Model\\Query\\BuilderInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builder_conditionin, 0, 4, IS_OBJECT, "Phalcon\\Mvc\\Model\\Query\\BuilderInterface", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, clause, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, clause)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, operator, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, operator)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, expr, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, expr)
-#endif
 	ZEND_ARG_ARRAY_INFO(0, values, 0)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builder_conditionnotbetween, 0, 5, Phalcon\\Mvc\\Model\\Query\\BuilderInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builder_conditionnotbetween, 0, 5, IS_OBJECT, "Phalcon\\Mvc\\Model\\Query\\BuilderInterface", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, clause, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, clause)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, operator, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, operator)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, expr, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, expr)
-#endif
 	ZEND_ARG_INFO(0, minimum)
 	ZEND_ARG_INFO(0, maximum)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_query_builder_conditionnotin, 0, 4, Phalcon\\Mvc\\Model\\Query\\BuilderInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_model_query_builder_conditionnotin, 0, 4, IS_OBJECT, "Phalcon\\Mvc\\Model\\Query\\BuilderInterface", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, clause, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, clause)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, operator, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, operator)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, expr, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, expr)
-#endif
 	ZEND_ARG_ARRAY_INFO(0, values, 0)
 ZEND_END_ARG_INFO()
 

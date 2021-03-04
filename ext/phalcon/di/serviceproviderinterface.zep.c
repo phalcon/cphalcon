@@ -56,4 +56,3 @@ ZEPHIR_INIT_CLASS(Phalcon_Di_ServiceProviderInterface) {
  * Registers a service provider.
  */
 ZEPHIR_DOC_METHOD(Phalcon_Di_ServiceProviderInterface, register);
-

@@ -37,4 +37,3 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Controller_BindModelInterface) {
  * Return the model name associated with this controller
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Controller_BindModelInterface, getModelName);
-

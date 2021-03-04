@@ -77,6 +77,7 @@ PHP_METHOD(Phalcon_Messages_Message, getCode) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "code");
 
 }
@@ -86,6 +87,7 @@ PHP_METHOD(Phalcon_Messages_Message, getCode) {
 PHP_METHOD(Phalcon_Messages_Message, getField) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "field");
@@ -99,6 +101,7 @@ PHP_METHOD(Phalcon_Messages_Message, getMessage) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "message");
 
 }
@@ -110,6 +113,7 @@ PHP_METHOD(Phalcon_Messages_Message, getType) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "type");
 
 }
@@ -119,6 +123,7 @@ PHP_METHOD(Phalcon_Messages_Message, getType) {
 PHP_METHOD(Phalcon_Messages_Message, getMetaData) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "metaData");
@@ -142,6 +147,19 @@ PHP_METHOD(Phalcon_Messages_Message, __construct) {
 	ZVAL_UNDEF(&field_sub);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&metaData);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 5)
+		Z_PARAM_STR(message)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL(field)
+		Z_PARAM_STR(type)
+		Z_PARAM_LONG(code)
+		Z_PARAM_ARRAY(metaData)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 4, &message_param, &field, &type_param, &code_param, &metaData_param);
@@ -199,6 +217,7 @@ PHP_METHOD(Phalcon_Messages_Message, __toString) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "message");
 
 }
@@ -213,6 +232,7 @@ PHP_METHOD(Phalcon_Messages_Message, jsonSerialize) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
+
 
 	ZEPHIR_MM_GROW();
 
@@ -246,6 +266,14 @@ PHP_METHOD(Phalcon_Messages_Message, setCode) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_LONG(code)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(1, 0, &code_param);
 
@@ -268,6 +296,14 @@ PHP_METHOD(Phalcon_Messages_Message, setField) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&field_sub);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(field)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(1, 0, &field);
 
@@ -289,6 +325,14 @@ PHP_METHOD(Phalcon_Messages_Message, setMessage) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&message);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(message)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &message_param);
@@ -321,6 +365,14 @@ PHP_METHOD(Phalcon_Messages_Message, setMetaData) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&metaData);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ARRAY(metaData)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &metaData_param);
@@ -344,6 +396,14 @@ PHP_METHOD(Phalcon_Messages_Message, setType) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&type);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(type)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &type_param);
@@ -371,6 +431,7 @@ zend_object *zephir_init_properties_Phalcon_Messages_Message(zend_class_entry *c
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
+	
 
 		ZEPHIR_MM_GROW();
 	

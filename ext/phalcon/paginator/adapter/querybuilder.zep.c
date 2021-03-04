@@ -95,6 +95,14 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, __construct) {
 	ZVAL_UNDEF(&columns);
 	ZVAL_UNDEF(&_0$$5);
 	ZVAL_UNDEF(&_1$$5);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ARRAY(config)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &config_param);
@@ -142,6 +150,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getCurrentPage) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "page");
 
 }
@@ -152,6 +161,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getCurrentPage) {
 PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, getQueryBuilder) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "builder");
@@ -216,6 +226,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, paginate) {
 	ZVAL_UNDEF(&_23);
 	ZVAL_UNDEF(&_7$$14);
 	ZVAL_UNDEF(&_9$$15);
+
 
 	ZEPHIR_MM_GROW();
 
@@ -412,6 +423,14 @@ PHP_METHOD(Phalcon_Paginator_Adapter_QueryBuilder, setQueryBuilder) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&builder_sub);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(builder, phalcon_mvc_model_query_builder_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(1, 0, &builder);
 

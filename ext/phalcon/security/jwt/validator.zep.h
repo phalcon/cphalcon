@@ -16,116 +16,44 @@ PHP_METHOD(Phalcon_Security_JWT_Validator, getTimestamp);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_security_jwt_validator___construct, 0, 0, 1)
 	ZEND_ARG_OBJ_INFO(0, token, Phalcon\\Security\\JWT\\Token\\Token, 0)
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, timeShift, IS_LONG, 0)
-#else
-	ZEND_ARG_INFO(0, timeShift)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_security_jwt_validator_settoken, 0, 1, Phalcon\\Security\\JWT\\Validator, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_security_jwt_validator_settoken, 0, 1, IS_OBJECT, "Phalcon\\Security\\JWT\\Validator", 0)
-#endif
 	ZEND_ARG_OBJ_INFO(0, token, Phalcon\\Security\\JWT\\Token\\Token, 0)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_security_jwt_validator_validateaudience, 0, 1, Phalcon\\Security\\JWT\\Validator, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_security_jwt_validator_validateaudience, 0, 1, IS_OBJECT, "Phalcon\\Security\\JWT\\Validator", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, audience, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, audience)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_security_jwt_validator_validateexpiration, 0, 1, Phalcon\\Security\\JWT\\Validator, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_security_jwt_validator_validateexpiration, 0, 1, IS_OBJECT, "Phalcon\\Security\\JWT\\Validator", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, timestamp, IS_LONG, 0)
-#else
-	ZEND_ARG_INFO(0, timestamp)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_security_jwt_validator_validateid, 0, 1, Phalcon\\Security\\JWT\\Validator, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_security_jwt_validator_validateid, 0, 1, IS_OBJECT, "Phalcon\\Security\\JWT\\Validator", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, id, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, id)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_security_jwt_validator_validateissuedat, 0, 1, Phalcon\\Security\\JWT\\Validator, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_security_jwt_validator_validateissuedat, 0, 1, IS_OBJECT, "Phalcon\\Security\\JWT\\Validator", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, timestamp, IS_LONG, 0)
-#else
-	ZEND_ARG_INFO(0, timestamp)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_security_jwt_validator_validateissuer, 0, 1, Phalcon\\Security\\JWT\\Validator, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_security_jwt_validator_validateissuer, 0, 1, IS_OBJECT, "Phalcon\\Security\\JWT\\Validator", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, issuer, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, issuer)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_security_jwt_validator_validatenotbefore, 0, 1, Phalcon\\Security\\JWT\\Validator, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_security_jwt_validator_validatenotbefore, 0, 1, IS_OBJECT, "Phalcon\\Security\\JWT\\Validator", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, timestamp, IS_LONG, 0)
-#else
-	ZEND_ARG_INFO(0, timestamp)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_security_jwt_validator_validatesignature, 0, 2, Phalcon\\Security\\JWT\\Validator, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_security_jwt_validator_validatesignature, 0, 2, IS_OBJECT, "Phalcon\\Security\\JWT\\Validator", 0)
-#endif
 	ZEND_ARG_OBJ_INFO(0, signer, Phalcon\\Security\\JWT\\Signer\\SignerInterface, 0)
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, passphrase, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, passphrase)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_security_jwt_validator_gettimestamp, 0, 1, IS_LONG, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_security_jwt_validator_gettimestamp, 0, 1, IS_LONG, NULL, 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, timestamp, IS_LONG, 0)
-#else
-	ZEND_ARG_INFO(0, timestamp)
-#endif
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_security_jwt_validator_method_entry) {

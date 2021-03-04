@@ -36,69 +36,55 @@ ZEPHIR_INIT_CLASS(Phalcon_Cli_Router_RouteInterface) {
  * expression
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cli_Router_RouteInterface, compilePattern);
-
 /**
  * Set the routing delimiter
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cli_Router_RouteInterface, delimiter);
-
 /**
  * Returns the route's pattern
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cli_Router_RouteInterface, getCompiledPattern);
-
 /**
  * Get routing delimiter
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cli_Router_RouteInterface, getDelimiter);
-
 /**
  * Returns the route's description
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cli_Router_RouteInterface, getDescription);
-
 /**
  * Returns the route's name
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cli_Router_RouteInterface, getName);
-
 /**
  * Returns the paths
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cli_Router_RouteInterface, getPaths);
-
 /**
  * Returns the route's pattern
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cli_Router_RouteInterface, getPattern);
-
 /**
  * Returns the paths using positions as keys and names as values
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cli_Router_RouteInterface, getReversedPaths);
-
 /**
  * Returns the route's id
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cli_Router_RouteInterface, getRouteId);
-
 /**
  * Reconfigure the route adding a new pattern and a set of paths
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cli_Router_RouteInterface, reConfigure);
-
 /**
  * Resets the internal route id generator
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cli_Router_RouteInterface, reset);
-
 /**
  * Sets the route's description
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cli_Router_RouteInterface, setDescription);
-
 /**
  * Sets the route's name
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cli_Router_RouteInterface, setName);
-

@@ -7,18 +7,10 @@ PHP_METHOD(Phalcon_Logger_Formatter_Json, __construct);
 PHP_METHOD(Phalcon_Logger_Formatter_Json, format);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_formatter_json___construct, 0, 0, 0)
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, dateFormat, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, dateFormat)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_formatter_json_format, 0, 1, IS_STRING, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_formatter_json_format, 0, 1, IS_STRING, NULL, 0)
-#endif
 	ZEND_ARG_OBJ_INFO(0, item, Phalcon\\Logger\\Item, 0)
 ZEND_END_ARG_INFO()
 

@@ -7,11 +7,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, notify);
 PHP_METHOD(Phalcon_Mvc_Model_Behavior_Timestampable, getTimestamp);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_behavior_timestampable_notify, 0, 0, 2)
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, type, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, type)
-#endif
 	ZEND_ARG_OBJ_INFO(0, model, Phalcon\\Mvc\\ModelInterface, 0)
 ZEND_END_ARG_INFO()
 

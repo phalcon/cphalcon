@@ -38,39 +38,31 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Response_CookiesInterface) {
  * This method does not removes cookies from the _COOKIE superglobal
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_Response_CookiesInterface, delete);
-
 /**
  * Gets a cookie from the bag
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_Response_CookiesInterface, get);
-
 /**
  * Check if a cookie is defined in the bag or exists in the _COOKIE superglobal
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_Response_CookiesInterface, has);
-
 /**
  * Returns if the bag is automatically encrypting/decrypting cookies
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_Response_CookiesInterface, isUsingEncryption);
-
 /**
  * Reset set cookies
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_Response_CookiesInterface, reset);
-
 /**
  * Sends the cookies to the client
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_Response_CookiesInterface, send);
-
 /**
  * Sets a cookie to be sent at the end of the request
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_Response_CookiesInterface, set);
-
 /**
  * Set if cookies in the bag must be automatically encrypted/decrypted
  */
 ZEPHIR_DOC_METHOD(Phalcon_Http_Response_CookiesInterface, useEncryption);
-

@@ -61,6 +61,7 @@ PHP_METHOD(Phalcon_Acl_Role, getName) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "name");
 
 }
@@ -73,6 +74,7 @@ PHP_METHOD(Phalcon_Acl_Role, __toString) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "name");
 
 }
@@ -83,6 +85,7 @@ PHP_METHOD(Phalcon_Acl_Role, __toString) {
 PHP_METHOD(Phalcon_Acl_Role, getDescription) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "description");
@@ -101,6 +104,16 @@ PHP_METHOD(Phalcon_Acl_Role, __construct) {
 
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&description);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_STR(name)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR_OR_NULL(description)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &name_param, &description_param);

@@ -107,6 +107,15 @@ PHP_METHOD(Phalcon_Cli_Router, __construct) {
 	ZVAL_UNDEF(&routes);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_3$$3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_BOOL(defaultRoutes)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &defaultRoutes_param);
@@ -128,7 +137,7 @@ PHP_METHOD(Phalcon_Cli_Router, __construct) {
 		add_assoc_long_ex(&_1$$3, SL("task"), 1);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "#^(?::delimiter)?([a-zA-Z0-9\\_\\-]+)[:delimiter]{0,1}$#");
-		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 172, &_2$$3, &_1$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 174, &_2$$3, &_1$$3);
 		zephir_check_call_status();
 		zephir_array_append(&routes, &_0$$3, PH_SEPARATE, "phalcon/Cli/Router.zep", 89);
 		ZEPHIR_INIT_NVAR(&_2$$3);
@@ -140,7 +149,7 @@ PHP_METHOD(Phalcon_Cli_Router, __construct) {
 		add_assoc_long_ex(&_3$$3, SL("params"), 3);
 		ZEPHIR_INIT_VAR(&_4$$3);
 		ZVAL_STRING(&_4$$3, "#^(?::delimiter)?([a-zA-Z0-9\\_\\-]+):delimiter([a-zA-Z0-9\\.\\_]+)(:delimiter.*)*$#");
-		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 172, &_4$$3, &_3$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 174, &_4$$3, &_3$$3);
 		zephir_check_call_status();
 		zephir_array_append(&routes, &_2$$3, PH_SEPARATE, "phalcon/Cli/Router.zep", 98);
 	}
@@ -170,6 +179,16 @@ PHP_METHOD(Phalcon_Cli_Router, add) {
 	ZVAL_UNDEF(&paths_sub);
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&route);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_STR(pattern)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL(paths)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &pattern_param, &paths);
@@ -192,7 +211,7 @@ PHP_METHOD(Phalcon_Cli_Router, add) {
 
 	ZEPHIR_INIT_VAR(&route);
 	object_init_ex(&route, phalcon_cli_router_route_ce);
-	ZEPHIR_CALL_METHOD(NULL, &route, "__construct", NULL, 172, &pattern, paths);
+	ZEPHIR_CALL_METHOD(NULL, &route, "__construct", NULL, 174, &pattern, paths);
 	zephir_check_call_status();
 	zephir_update_property_array_append(this_ptr, SL("routes"), &route);
 	RETURN_CCTOR(&route);
@@ -207,6 +226,7 @@ PHP_METHOD(Phalcon_Cli_Router, getActionName) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "action");
 
 }
@@ -217,6 +237,7 @@ PHP_METHOD(Phalcon_Cli_Router, getActionName) {
 PHP_METHOD(Phalcon_Cli_Router, getMatchedRoute) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "matchedRoute");
@@ -231,6 +252,7 @@ PHP_METHOD(Phalcon_Cli_Router, getMatches) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "matches");
 
 }
@@ -243,6 +265,7 @@ PHP_METHOD(Phalcon_Cli_Router, getModuleName) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "module");
 
 }
@@ -253,6 +276,7 @@ PHP_METHOD(Phalcon_Cli_Router, getModuleName) {
 PHP_METHOD(Phalcon_Cli_Router, getParams) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "params");
@@ -277,6 +301,14 @@ PHP_METHOD(Phalcon_Cli_Router, getRouteById) {
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3$$3);
 	ZVAL_UNDEF(&_4$$5);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(id)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &id);
@@ -338,6 +370,14 @@ PHP_METHOD(Phalcon_Cli_Router, getRouteByName) {
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3$$3);
 	ZVAL_UNDEF(&_4$$5);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(name)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
@@ -400,6 +440,7 @@ PHP_METHOD(Phalcon_Cli_Router, getRoutes) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "routes");
 
 }
@@ -410,6 +451,7 @@ PHP_METHOD(Phalcon_Cli_Router, getRoutes) {
 PHP_METHOD(Phalcon_Cli_Router, getTaskName) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "task");
@@ -485,6 +527,15 @@ PHP_METHOD(Phalcon_Cli_Router, handle) {
 	ZVAL_UNDEF(&_27$$41);
 	ZVAL_UNDEF(&_29$$44);
 	ZVAL_UNDEF(&_34$$55);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL(arguments)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &arguments);
@@ -885,6 +936,14 @@ PHP_METHOD(Phalcon_Cli_Router, setDefaultAction) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&actionName);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(actionName)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &actionName_param);
@@ -908,6 +967,14 @@ PHP_METHOD(Phalcon_Cli_Router, setDefaultModule) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&moduleName);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(moduleName)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &moduleName_param);
@@ -946,6 +1013,14 @@ PHP_METHOD(Phalcon_Cli_Router, setDefaults) {
 	ZVAL_UNDEF(&task);
 	ZVAL_UNDEF(&action);
 	ZVAL_UNDEF(&params);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ARRAY(defaults)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &defaults_param);
@@ -980,6 +1055,14 @@ PHP_METHOD(Phalcon_Cli_Router, setDefaultTask) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&taskName);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(taskName)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &taskName_param);
@@ -1000,6 +1083,7 @@ PHP_METHOD(Phalcon_Cli_Router, wasMatched) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "wasMatched");
 
 }
@@ -1012,6 +1096,7 @@ zend_object *zephir_init_properties_Phalcon_Cli_Router(zend_class_entry *class_t
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_3$$4);
+	
 
 		ZEPHIR_MM_GROW();
 	

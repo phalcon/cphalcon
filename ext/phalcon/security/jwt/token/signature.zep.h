@@ -7,23 +7,11 @@ PHP_METHOD(Phalcon_Security_JWT_Token_Signature, __construct);
 PHP_METHOD(Phalcon_Security_JWT_Token_Signature, getHash);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_security_jwt_token_signature___construct, 0, 0, 0)
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, hash, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, hash)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, encoded, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, encoded)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_security_jwt_token_signature_gethash, 0, 0, IS_STRING, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_security_jwt_token_signature_gethash, 0, 0, IS_STRING, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_security_jwt_token_signature_method_entry) {

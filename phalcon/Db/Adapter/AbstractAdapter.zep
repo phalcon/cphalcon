@@ -599,7 +599,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      * print_r($robot);
      *```
      */
-    public function fetchOne(string! sqlQuery, var fetchMode = Enum::FETCH_ASSOC, var bindParams = null, var bindTypes = null) -> array
+    public function fetchOne(string! sqlQuery, var fetchMode = Enum::FETCH_ASSOC, array bindParams = [], array bindTypes = []) -> array
     {
         var result;
 

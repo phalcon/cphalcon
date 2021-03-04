@@ -12,7 +12,6 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "ext/spl/spl_iterators.h"
 #include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/operators.h"
@@ -63,7 +62,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Forms_Form) {
 
 	phalcon_forms_form_ce->create_object = zephir_init_properties_Phalcon_Forms_Form;
 
-	zend_class_implements(phalcon_forms_form_ce, 1, spl_ce_Countable);
+	zend_class_implements(phalcon_forms_form_ce, 1, zend_ce_countable);
 	zend_class_implements(phalcon_forms_form_ce, 1, zend_ce_iterator);
 	zend_class_implements(phalcon_forms_form_ce, 1, phalcon_html_attributes_attributesinterface_ce);
 	return SUCCESS;
@@ -76,6 +75,14 @@ PHP_METHOD(Phalcon_Forms_Form, setValidation) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&validation_sub);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(validation)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(1, 0, &validation);
 
@@ -89,6 +96,7 @@ PHP_METHOD(Phalcon_Forms_Form, setValidation) {
 PHP_METHOD(Phalcon_Forms_Form, getValidation) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "validation");
@@ -111,6 +119,16 @@ PHP_METHOD(Phalcon_Forms_Form, __construct) {
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&userOptions);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 2)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL(entity)
+		Z_PARAM_ARRAY(userOptions)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &entity, &userOptions_param);
@@ -174,6 +192,17 @@ PHP_METHOD(Phalcon_Forms_Form, add) {
 	ZVAL_UNDEF(&_4$$4);
 	ZVAL_UNDEF(&position);
 	ZVAL_UNDEF(&elements);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 3)
+		Z_PARAM_OBJECT_OF_CLASS(element, phalcon_forms_element_elementinterface_ce)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR_OR_NULL(position)
+		Z_PARAM_BOOL_OR_NULL(type, is_null_true)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 2, &element, &position_param, &type_param);
@@ -309,6 +338,17 @@ PHP_METHOD(Phalcon_Forms_Form, bind) {
 	ZVAL_UNDEF(&_14$$15);
 	ZVAL_UNDEF(&_15$$15);
 	ZVAL_UNDEF(&method);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 3)
+		Z_PARAM_ARRAY(data)
+		Z_PARAM_ZVAL(entity)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL(whitelist)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &data_param, &entity, &whitelist);
@@ -476,6 +516,15 @@ PHP_METHOD(Phalcon_Forms_Form, clear) {
 	ZVAL_UNDEF(&_12$$10);
 	ZVAL_UNDEF(&_13$$13);
 	ZVAL_UNDEF(&_14$$13);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL(fields)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &fields);
@@ -601,6 +650,7 @@ PHP_METHOD(Phalcon_Forms_Form, count) {
 	ZVAL_UNDEF(&_0);
 
 
+
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("elements"), PH_NOISY_CC | PH_READONLY);
 	RETURN_LONG(zephir_fast_count_int(&_0));
 
@@ -617,6 +667,7 @@ PHP_METHOD(Phalcon_Forms_Form, current) {
 	ZVAL_UNDEF(&element);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+
 
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("elementsIndexed"), PH_NOISY_CC | PH_READONLY);
@@ -644,6 +695,14 @@ PHP_METHOD(Phalcon_Forms_Form, get) {
 	ZVAL_UNDEF(&element);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(name)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
@@ -693,6 +752,7 @@ PHP_METHOD(Phalcon_Forms_Form, getAction) {
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
 
+
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getattributes", NULL, 0);
@@ -719,6 +779,7 @@ PHP_METHOD(Phalcon_Forms_Form, getAttributes) {
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
 
+
 	ZEPHIR_MM_GROW();
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("attributes"), PH_NOISY_CC | PH_READONLY);
@@ -741,6 +802,7 @@ PHP_METHOD(Phalcon_Forms_Form, getElements) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "elements");
 
 }
@@ -753,6 +815,7 @@ PHP_METHOD(Phalcon_Forms_Form, getElements) {
 PHP_METHOD(Phalcon_Forms_Form, getEntity) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "entity");
@@ -776,6 +839,14 @@ PHP_METHOD(Phalcon_Forms_Form, getLabel) {
 	ZVAL_UNDEF(&label);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(name)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
@@ -838,6 +909,7 @@ PHP_METHOD(Phalcon_Forms_Form, getMessages) {
 	ZVAL_UNDEF(&messages);
 	ZVAL_UNDEF(&_0);
 
+
 	ZEPHIR_MM_GROW();
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("messages"), PH_NOISY_CC | PH_READONLY);
@@ -870,6 +942,14 @@ PHP_METHOD(Phalcon_Forms_Form, getMessagesFor) {
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(name)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
@@ -917,6 +997,16 @@ PHP_METHOD(Phalcon_Forms_Form, getUserOption) {
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&value);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_STR(option)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL(defaultValue)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &option_param, &defaultValue);
@@ -943,6 +1033,7 @@ PHP_METHOD(Phalcon_Forms_Form, getUserOption) {
 PHP_METHOD(Phalcon_Forms_Form, getUserOptions) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "options");
@@ -977,6 +1068,14 @@ PHP_METHOD(Phalcon_Forms_Form, getValue) {
 	ZVAL_UNDEF(&_1$$4);
 	ZVAL_UNDEF(&_2$$4);
 	ZVAL_UNDEF(&forbidden);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(name)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
@@ -1084,6 +1183,14 @@ PHP_METHOD(Phalcon_Forms_Form, has) {
 
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(name)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
@@ -1119,6 +1226,14 @@ PHP_METHOD(Phalcon_Forms_Form, hasMessagesFor) {
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(name)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
@@ -1182,6 +1297,16 @@ PHP_METHOD(Phalcon_Forms_Form, isValid) {
 	ZVAL_UNDEF(&_14$$16);
 	ZVAL_UNDEF(&_17$$22);
 	ZVAL_UNDEF(&_18$$22);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 2)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL(data)
+		Z_PARAM_ZVAL(entity)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &data, &entity);
@@ -1235,7 +1360,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid) {
 	if (_5) {
 		ZEPHIR_INIT_NVAR(&validation);
 		object_init_ex(&validation, phalcon_validation_ce);
-		ZEPHIR_CALL_METHOD(NULL, &validation, "__construct", NULL, 263);
+		ZEPHIR_CALL_METHOD(NULL, &validation, "__construct", NULL, 264);
 		zephir_check_call_status();
 	}
 	zephir_read_property(&_6, this_ptr, ZEND_STRL("elements"), PH_NOISY_CC | PH_READONLY);
@@ -1258,7 +1383,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid) {
 				{
 					ZEPHIR_INIT_NVAR(&validator);
 					ZVAL_COPY(&validator, _9$$11);
-					ZEPHIR_CALL_METHOD(NULL, &validation, "add", &_11, 264, &name, &validator);
+					ZEPHIR_CALL_METHOD(NULL, &validation, "add", &_11, 265, &name, &validator);
 					zephir_check_call_status();
 				} ZEND_HASH_FOREACH_END();
 			} else {
@@ -1272,7 +1397,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid) {
 					}
 					ZEPHIR_CALL_METHOD(&validator, &validators, "current", NULL, 0);
 					zephir_check_call_status();
-						ZEPHIR_CALL_METHOD(NULL, &validation, "add", &_11, 264, &name, &validator);
+						ZEPHIR_CALL_METHOD(NULL, &validation, "add", &_11, 265, &name, &validator);
 						zephir_check_call_status();
 					ZEPHIR_CALL_METHOD(NULL, &validators, "next", NULL, 0);
 					zephir_check_call_status();
@@ -1282,7 +1407,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid) {
 			ZEPHIR_CALL_METHOD(&filters, &element, "getfilters", NULL, 0);
 			zephir_check_call_status();
 			if (Z_TYPE_P(&filters) == IS_ARRAY) {
-				ZEPHIR_CALL_METHOD(NULL, &validation, "setfilters", &_12, 265, &name, &filters);
+				ZEPHIR_CALL_METHOD(NULL, &validation, "setfilters", &_12, 266, &name, &filters);
 				zephir_check_call_status();
 			}
 		} ZEND_HASH_FOREACH_END();
@@ -1310,7 +1435,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid) {
 					{
 						ZEPHIR_INIT_NVAR(&validator);
 						ZVAL_COPY(&validator, _13$$16);
-						ZEPHIR_CALL_METHOD(NULL, &validation, "add", &_11, 264, &name, &validator);
+						ZEPHIR_CALL_METHOD(NULL, &validation, "add", &_11, 265, &name, &validator);
 						zephir_check_call_status();
 					} ZEND_HASH_FOREACH_END();
 				} else {
@@ -1324,7 +1449,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid) {
 						}
 						ZEPHIR_CALL_METHOD(&validator, &validators, "current", NULL, 0);
 						zephir_check_call_status();
-							ZEPHIR_CALL_METHOD(NULL, &validation, "add", &_11, 264, &name, &validator);
+							ZEPHIR_CALL_METHOD(NULL, &validation, "add", &_11, 265, &name, &validator);
 							zephir_check_call_status();
 						ZEPHIR_CALL_METHOD(NULL, &validators, "next", NULL, 0);
 						zephir_check_call_status();
@@ -1334,7 +1459,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid) {
 				ZEPHIR_CALL_METHOD(&filters, &element, "getfilters", NULL, 0);
 				zephir_check_call_status();
 				if (Z_TYPE_P(&filters) == IS_ARRAY) {
-					ZEPHIR_CALL_METHOD(NULL, &validation, "setfilters", &_12, 265, &name, &filters);
+					ZEPHIR_CALL_METHOD(NULL, &validation, "setfilters", &_12, 266, &name, &filters);
 					zephir_check_call_status();
 				}
 			ZEPHIR_CALL_METHOD(NULL, &_6, "next", NULL, 0);
@@ -1342,7 +1467,7 @@ PHP_METHOD(Phalcon_Forms_Form, isValid) {
 		}
 	}
 	ZEPHIR_INIT_NVAR(&element);
-	ZEPHIR_CALL_METHOD(&messages, &validation, "validate", NULL, 266, data, entity);
+	ZEPHIR_CALL_METHOD(&messages, &validation, "validate", NULL, 267, data, entity);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_15, &messages, "count", NULL, 0);
 	zephir_check_call_status();
@@ -1384,6 +1509,7 @@ PHP_METHOD(Phalcon_Forms_Form, key) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "position");
 
 }
@@ -1406,6 +1532,16 @@ PHP_METHOD(Phalcon_Forms_Form, label) {
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&attributes);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_STR(name)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ARRAY_OR_NULL(attributes)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &name_param, &attributes_param);
@@ -1455,6 +1591,7 @@ PHP_METHOD(Phalcon_Forms_Form, next) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_ON_FAILURE(zephir_property_incr(this_ptr, SL("position")));
 
 }
@@ -1477,6 +1614,16 @@ PHP_METHOD(Phalcon_Forms_Form, render) {
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&attributes);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_STR(name)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ARRAY(attributes)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &name_param, &attributes_param);
@@ -1532,6 +1679,14 @@ PHP_METHOD(Phalcon_Forms_Form, remove) {
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(name)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
@@ -1572,6 +1727,7 @@ PHP_METHOD(Phalcon_Forms_Form, rewind) {
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 
+
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_INIT_ZVAL_NREF(_0);
@@ -1601,6 +1757,14 @@ PHP_METHOD(Phalcon_Forms_Form, setAction) {
 	ZVAL_UNDEF(&action);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(action)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &action_param);
@@ -1638,6 +1802,14 @@ PHP_METHOD(Phalcon_Forms_Form, setEntity) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&entity_sub);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(entity)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(1, 0, &entity);
 
@@ -1657,6 +1829,14 @@ PHP_METHOD(Phalcon_Forms_Form, setAttributes) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&attributes_sub);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(attributes, phalcon_html_attributes_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(1, 0, &attributes);
 
@@ -1679,6 +1859,15 @@ PHP_METHOD(Phalcon_Forms_Form, setUserOption) {
 
 	ZVAL_UNDEF(&option);
 	ZVAL_UNDEF(&value_sub);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_STR(option)
+		Z_PARAM_ZVAL(value)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &option_param, &value);
@@ -1702,6 +1891,14 @@ PHP_METHOD(Phalcon_Forms_Form, setUserOptions) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&options);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ARRAY(options)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &options_param);
@@ -1726,6 +1923,7 @@ PHP_METHOD(Phalcon_Forms_Form, valid) {
 	ZVAL_UNDEF(&_1);
 
 
+
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("elementsIndexed"), PH_NOISY_CC | PH_READONLY);
 	zephir_read_property(&_1, this_ptr, ZEND_STRL("position"), PH_NOISY_CC | PH_READONLY);
 	RETURN_BOOL(zephir_array_isset(&_0, &_1));
@@ -1738,6 +1936,7 @@ zend_object *zephir_init_properties_Phalcon_Forms_Form(zend_class_entry *class_t
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
+	
 
 		ZEPHIR_MM_GROW();
 	

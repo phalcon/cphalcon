@@ -346,6 +346,7 @@ PHP_METHOD(Phalcon_Db_Column, getDefault) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "_default");
 
 }
@@ -356,6 +357,7 @@ PHP_METHOD(Phalcon_Db_Column, getDefault) {
 PHP_METHOD(Phalcon_Db_Column, getName) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "name");
@@ -370,6 +372,7 @@ PHP_METHOD(Phalcon_Db_Column, getComment) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "comment");
 
 }
@@ -380,6 +383,7 @@ PHP_METHOD(Phalcon_Db_Column, getComment) {
 PHP_METHOD(Phalcon_Db_Column, getScale) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "scale");
@@ -394,6 +398,7 @@ PHP_METHOD(Phalcon_Db_Column, getSize) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "size");
 
 }
@@ -404,6 +409,7 @@ PHP_METHOD(Phalcon_Db_Column, getSize) {
 PHP_METHOD(Phalcon_Db_Column, getType) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "type");
@@ -418,6 +424,7 @@ PHP_METHOD(Phalcon_Db_Column, getTypeReference) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "typeReference");
 
 }
@@ -428,6 +435,7 @@ PHP_METHOD(Phalcon_Db_Column, getTypeReference) {
 PHP_METHOD(Phalcon_Db_Column, getTypeValues) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "typeValues");
@@ -464,6 +472,15 @@ PHP_METHOD(Phalcon_Db_Column, __construct) {
 	ZVAL_UNDEF(&typeValues);
 	ZVAL_UNDEF(&comment);
 	ZVAL_UNDEF(&definition);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_STR(name)
+		Z_PARAM_ARRAY(definition)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &name_param, &definition_param);
@@ -580,6 +597,7 @@ PHP_METHOD(Phalcon_Db_Column, getAfterPosition) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "after");
 
 }
@@ -590,6 +608,7 @@ PHP_METHOD(Phalcon_Db_Column, getAfterPosition) {
 PHP_METHOD(Phalcon_Db_Column, getBindType) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "bindType");
@@ -608,6 +627,7 @@ PHP_METHOD(Phalcon_Db_Column, hasDefault) {
 
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+
 
 	ZEPHIR_MM_GROW();
 
@@ -629,6 +649,7 @@ PHP_METHOD(Phalcon_Db_Column, isAutoIncrement) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "autoIncrement");
 
 }
@@ -639,6 +660,7 @@ PHP_METHOD(Phalcon_Db_Column, isAutoIncrement) {
 PHP_METHOD(Phalcon_Db_Column, isFirst) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "first");
@@ -653,6 +675,7 @@ PHP_METHOD(Phalcon_Db_Column, isNotNull) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "notNull");
 
 }
@@ -663,6 +686,7 @@ PHP_METHOD(Phalcon_Db_Column, isNotNull) {
 PHP_METHOD(Phalcon_Db_Column, isNumeric) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "isNumeric");
@@ -677,6 +701,7 @@ PHP_METHOD(Phalcon_Db_Column, isPrimary) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "primary");
 
 }
@@ -687,6 +712,7 @@ PHP_METHOD(Phalcon_Db_Column, isPrimary) {
 PHP_METHOD(Phalcon_Db_Column, isUnsigned) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "unsigned");

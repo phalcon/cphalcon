@@ -62,6 +62,14 @@ PHP_METHOD(Phalcon_Factory_AbstractFactory, checkConfig) {
 
 	ZVAL_UNDEF(&config_sub);
 	ZVAL_UNDEF(&_1$$3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(config)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &config);
@@ -115,6 +123,14 @@ PHP_METHOD(Phalcon_Factory_AbstractFactory, getService) {
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_1$$3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(name)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
@@ -170,6 +186,15 @@ PHP_METHOD(Phalcon_Factory_AbstractFactory, init) {
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_5$$3);
 	ZVAL_UNDEF(&_6$$4);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ARRAY(services)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &services_param);
@@ -237,6 +262,7 @@ zend_object *zephir_init_properties_Phalcon_Factory_AbstractFactory(zend_class_e
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_3$$4);
+	
 
 		ZEPHIR_MM_GROW();
 	

@@ -64,6 +64,16 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractSeries, __invoke) {
 	ZVAL_UNDEF(&indent);
 	ZVAL_UNDEF(&delimiter);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 2)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR_OR_NULL(indent)
+		Z_PARAM_STR_OR_NULL(delimiter)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &indent_param, &delimiter_param);
@@ -110,6 +120,7 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractSeries, __toString) {
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 
+
 	ZEPHIR_MM_GROW();
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("store"), PH_NOISY_CC | PH_READONLY);
@@ -137,6 +148,7 @@ zend_object *zephir_init_properties_Phalcon_Html_Helper_AbstractSeries(zend_clas
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_3$$4);
+	
 
 		ZEPHIR_MM_GROW();
 	

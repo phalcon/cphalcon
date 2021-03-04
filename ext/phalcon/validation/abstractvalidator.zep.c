@@ -78,6 +78,15 @@ PHP_METHOD(Phalcon_Validation_AbstractValidator, __construct) {
 	ZVAL_UNDEF(&template);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ARRAY(options)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &options_param);
@@ -142,6 +151,15 @@ PHP_METHOD(Phalcon_Validation_AbstractValidator, getTemplate) {
 	ZVAL_UNDEF(&_5);
 	ZVAL_UNDEF(&_2$$3);
 	ZVAL_UNDEF(&_3$$3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR_OR_NULL(field)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &field_param);
@@ -194,6 +212,7 @@ PHP_METHOD(Phalcon_Validation_AbstractValidator, getTemplates) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "templates");
 
 }
@@ -223,6 +242,14 @@ PHP_METHOD(Phalcon_Validation_AbstractValidator, setTemplates) {
 	ZVAL_UNDEF(&_6$$3);
 	ZVAL_UNDEF(&_7$$4);
 	ZVAL_UNDEF(&_8$$4);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ARRAY(templates)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &templates_param);
@@ -292,6 +319,14 @@ PHP_METHOD(Phalcon_Validation_AbstractValidator, setTemplate) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&template);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(template)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &template_param);
@@ -331,6 +366,16 @@ PHP_METHOD(Phalcon_Validation_AbstractValidator, getOption) {
 	ZVAL_UNDEF(&value);
 	ZVAL_UNDEF(&fieldValue);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_STR(key)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL(defaultValue)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &key_param, &defaultValue);
@@ -381,6 +426,14 @@ PHP_METHOD(Phalcon_Validation_AbstractValidator, hasOption) {
 
 	ZVAL_UNDEF(&key);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(key)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &key_param);
@@ -414,6 +467,15 @@ PHP_METHOD(Phalcon_Validation_AbstractValidator, setOption) {
 
 	ZVAL_UNDEF(&key);
 	ZVAL_UNDEF(&value_sub);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_STR(key)
+		Z_PARAM_ZVAL(value)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &key_param, &value);
@@ -457,6 +519,14 @@ PHP_METHOD(Phalcon_Validation_AbstractValidator, prepareCode) {
 	ZVAL_UNDEF(&code);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(field)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &field_param);
@@ -501,6 +571,15 @@ PHP_METHOD(Phalcon_Validation_AbstractValidator, prepareLabel) {
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&field);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_OBJECT_OF_CLASS(validation, phalcon_validation_ce)
+		Z_PARAM_STR(field)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &validation, &field_param);
@@ -558,6 +637,17 @@ PHP_METHOD(Phalcon_Validation_AbstractValidator, messageFactory) {
 	ZVAL_UNDEF(&_5);
 	ZVAL_UNDEF(&replacements);
 	ZVAL_UNDEF(&_1);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 3)
+		Z_PARAM_OBJECT_OF_CLASS(validation, phalcon_validation_ce)
+		Z_PARAM_ZVAL(field)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ARRAY(replacements)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &validation, &field, &replacements_param);
@@ -608,6 +698,7 @@ zend_object *zephir_init_properties_Phalcon_Validation_AbstractValidator(zend_cl
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
+	
 
 		ZEPHIR_MM_GROW();
 	

@@ -86,6 +86,16 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, addForeignKey) {
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_4);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(3, 3)
+		Z_PARAM_STR(tableName)
+		Z_PARAM_STR(schemaName)
+		Z_PARAM_OBJECT_OF_CLASS(reference, phalcon_db_referenceinterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &tableName_param, &schemaName_param, &reference);
@@ -284,6 +294,16 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns) {
 	ZVAL_UNDEF(&_117$$89);
 	ZVAL_UNDEF(&_119$$90);
 	ZVAL_UNDEF(&definition);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_STR(table)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR_OR_NULL(schema)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &table_param, &schema_param);
@@ -587,7 +607,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns) {
 			zephir_array_fetch_long(&columnName, &field, 0, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Mysql.zep", 447);
 			ZEPHIR_INIT_NVAR(&_61$$3);
 			object_init_ex(&_61$$3, phalcon_db_column_ce);
-			ZEPHIR_CALL_METHOD(NULL, &_61$$3, "__construct", &_62, 212, &columnName, &definition);
+			ZEPHIR_CALL_METHOD(NULL, &_61$$3, "__construct", &_62, 213, &columnName, &definition);
 			zephir_check_call_status();
 			zephir_array_append(&columns, &_61$$3, PH_SEPARATE, "phalcon/Db/Adapter/Pdo/Mysql.zep", 448);
 			ZEPHIR_CPY_WRT(&oldColumn, &columnName);
@@ -877,7 +897,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeColumns) {
 				zephir_array_fetch_long(&columnName, &field, 0, PH_NOISY, "phalcon/Db/Adapter/Pdo/Mysql.zep", 447);
 				ZEPHIR_INIT_NVAR(&_120$$47);
 				object_init_ex(&_120$$47, phalcon_db_column_ce);
-				ZEPHIR_CALL_METHOD(NULL, &_120$$47, "__construct", &_62, 212, &columnName, &definition);
+				ZEPHIR_CALL_METHOD(NULL, &_120$$47, "__construct", &_62, 213, &columnName, &definition);
 				zephir_check_call_status();
 				zephir_array_append(&columns, &_120$$47, PH_SEPARATE, "phalcon/Db/Adapter/Pdo/Mysql.zep", 448);
 				ZEPHIR_CPY_WRT(&oldColumn, &columnName);
@@ -948,6 +968,16 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeIndexes) {
 	ZVAL_UNDEF(&_30$$20);
 	ZVAL_UNDEF(&_31$$20);
 	ZVAL_UNDEF(&_32$$20);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_STR(table)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR_OR_NULL(schema)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &table_param, &schema_param);
@@ -1199,6 +1229,16 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeReferences) {
 	ZVAL_UNDEF(&_23$$6);
 	ZVAL_UNDEF(&_29$$9);
 	ZVAL_UNDEF(&_33$$10);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_STR(table)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR_OR_NULL(schema)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &table_param, &schema_param);
@@ -1450,6 +1490,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, describeReferences) {
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_Mysql, getDsnDefaults) {
 
 	zval *this_ptr = getThis();
+
 
 
 	zephir_create_array(return_value, 1, 0);

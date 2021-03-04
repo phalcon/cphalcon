@@ -19,100 +19,40 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_datamapper_query_insert___construct, 0, 0
 	ZEND_ARG_OBJ_INFO(0, bind, Phalcon\\DataMapper\\Query\\Bind, 0)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_insert_column, 0, 1, Phalcon\\DataMapper\\Query\\Insert, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_insert_column, 0, 1, IS_OBJECT, "Phalcon\\DataMapper\\Query\\Insert", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, column, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, column)
-#endif
 	ZEND_ARG_INFO(0, value)
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, type, IS_LONG, 0)
-#else
-	ZEND_ARG_INFO(0, type)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_insert_columns, 0, 1, Phalcon\\DataMapper\\Query\\Insert, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_insert_columns, 0, 1, IS_OBJECT, "Phalcon\\DataMapper\\Query\\Insert", 0)
-#endif
 	ZEND_ARG_ARRAY_INFO(0, columns, 0)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_insert_into, 0, 1, Phalcon\\DataMapper\\Query\\Insert, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_insert_into, 0, 1, IS_OBJECT, "Phalcon\\DataMapper\\Query\\Insert", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, table, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, table)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_insert_getlastinsertid, 0, 0, IS_STRING, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_insert_getlastinsertid, 0, 0, IS_STRING, NULL, 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 1)
-#else
-	ZEND_ARG_INFO(0, name)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_insert_getstatement, 0, 0, IS_STRING, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_insert_getstatement, 0, 0, IS_STRING, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_insert_returning, 0, 1, Phalcon\\DataMapper\\Query\\Insert, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_insert_returning, 0, 1, IS_OBJECT, "Phalcon\\DataMapper\\Query\\Insert", 0)
-#endif
 	ZEND_ARG_ARRAY_INFO(0, columns, 0)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70100
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_insert_reset, 0, 0, IS_VOID, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_insert_reset, 0, 0, IS_VOID, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
-#else
-#define arginfo_phalcon_datamapper_query_insert_reset NULL
-#endif
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_datamapper_query_insert_set, 0, 1, Phalcon\\DataMapper\\Query\\Insert, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_insert_set, 0, 1, IS_OBJECT, "Phalcon\\DataMapper\\Query\\Insert", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, column, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, column)
-#endif
 	ZEND_ARG_INFO(0, value)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_insert_buildcolumns, 0, 0, IS_STRING, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_datamapper_query_insert_buildcolumns, 0, 0, IS_STRING, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_datamapper_query_insert_method_entry) {

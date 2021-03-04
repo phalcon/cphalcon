@@ -55,6 +55,16 @@ PHP_METHOD(Phalcon_Storage_AdapterFactory, __construct) {
 
 	ZVAL_UNDEF(&factory_sub);
 	ZVAL_UNDEF(&services);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_OBJECT_OF_CLASS(factory, phalcon_storage_serializerfactory_ce)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ARRAY(services)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &factory, &services_param);
@@ -112,6 +122,16 @@ PHP_METHOD(Phalcon_Storage_AdapterFactory, newInstance) {
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&options);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_STR(name)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ARRAY(options)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &name_param, &options_param);
@@ -151,6 +171,7 @@ PHP_METHOD(Phalcon_Storage_AdapterFactory, newInstance) {
 PHP_METHOD(Phalcon_Storage_AdapterFactory, getAdapters) {
 
 	zval *this_ptr = getThis();
+
 
 
 	zephir_create_array(return_value, 5, 0);

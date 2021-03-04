@@ -35,14 +35,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_IndexInterface) {
  * Gets the columns that corresponds the index
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_IndexInterface, getColumns);
-
 /**
  * Gets the index name
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_IndexInterface, getName);
-
 /**
  * Gets the index type
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_IndexInterface, getType);
-

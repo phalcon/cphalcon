@@ -53,15 +53,13 @@ class ConstructCest
         $I->wantToTest('Http\Response - __construct(content = [array])');
 
         if (version_compare(PHP_VERSION, '8.0.0', '>=')) {
-            /** @noinspection PhpUndefinedClassInspection */
-            $throwable = new InvalidArgumentException(
+            $throwable = new TypeError(
                 sprintf(
-                    "Parameter 'content' must be of the type string",
+                    'Phalcon\Http\Response::__construct(): Argument #1 ($content) must be of type ?string, array given',
                     Response::class
                 )
             );
         } else {
-            /** @noinspection PhpUndefinedClassInspection */
             $throwable = new TypeError(
                 sprintf(
                     'Argument 1 passed to %s::__construct() must be of the type string or null, array given',

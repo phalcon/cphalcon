@@ -75,6 +75,16 @@ PHP_METHOD(Phalcon_Helper_Fs, basename) {
 	ZVAL_UNDEF(&_7$$3);
 	ZVAL_UNDEF(&_8$$3);
 	ZVAL_UNDEF(&_9$$3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_STR(uri)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL(suffix)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &uri_param, &suffix);
@@ -104,7 +114,7 @@ PHP_METHOD(Phalcon_Helper_Fs, basename) {
 	ZVAL_STRING(&_2, "/");
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "@");
-	ZEPHIR_CALL_FUNCTION(&_4, "preg_quote", NULL, 281, &_2, &_3);
+	ZEPHIR_CALL_FUNCTION(&_4, "preg_quote", NULL, 282, &_2, &_3);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_5);
 	ZEPHIR_CONCAT_SVS(&_5, "@[^", &_4, "]+$@");
@@ -120,7 +130,7 @@ PHP_METHOD(Phalcon_Helper_Fs, basename) {
 	if (zephir_is_true(suffix)) {
 		ZEPHIR_INIT_VAR(&_6$$3);
 		ZVAL_STRING(&_6$$3, "@");
-		ZEPHIR_CALL_FUNCTION(&_7$$3, "preg_quote", NULL, 281, suffix, &_6$$3);
+		ZEPHIR_CALL_FUNCTION(&_7$$3, "preg_quote", NULL, 282, suffix, &_6$$3);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_8$$3);
 		ZEPHIR_CONCAT_SVS(&_8$$3, "@", &_7$$3, "$@");

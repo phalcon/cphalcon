@@ -35,9 +35,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_ValidatorCompositeInterface) {
  * Executes the validation
  */
 ZEPHIR_DOC_METHOD(Phalcon_Validation_ValidatorCompositeInterface, getValidators);
-
 /**
  * Executes the validation
  */
 ZEPHIR_DOC_METHOD(Phalcon_Validation_ValidatorCompositeInterface, validate);
-

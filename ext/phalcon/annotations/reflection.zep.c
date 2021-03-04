@@ -75,6 +75,15 @@ PHP_METHOD(Phalcon_Annotations_Reflection, __construct) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&reflectionData);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ARRAY(reflectionData)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &reflectionData_param);
@@ -108,6 +117,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getClassAnnotations) {
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$4);
+
 
 	ZEPHIR_MM_GROW();
 
@@ -156,6 +166,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getMethodsAnnotations) {
 	ZVAL_UNDEF(&_4$$5);
 	ZVAL_UNDEF(&_7$$6);
 	ZVAL_UNDEF(&_9$$7);
+
 
 	ZEPHIR_MM_GROW();
 
@@ -248,6 +259,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getPropertiesAnnotations) {
 	ZVAL_UNDEF(&_7$$6);
 	ZVAL_UNDEF(&_9$$7);
 
+
 	ZEPHIR_MM_GROW();
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("propertyAnnotations"), PH_NOISY_CC | PH_READONLY);
@@ -321,6 +333,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getPropertiesAnnotations) {
 PHP_METHOD(Phalcon_Annotations_Reflection, getReflectionData) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "reflectionData");

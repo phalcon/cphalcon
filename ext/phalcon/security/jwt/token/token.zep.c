@@ -65,6 +65,7 @@ PHP_METHOD(Phalcon_Security_JWT_Token_Token, getClaims) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "claims");
 
 }
@@ -76,6 +77,7 @@ PHP_METHOD(Phalcon_Security_JWT_Token_Token, getHeaders) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "headers");
 
 }
@@ -85,6 +87,7 @@ PHP_METHOD(Phalcon_Security_JWT_Token_Token, getHeaders) {
 PHP_METHOD(Phalcon_Security_JWT_Token_Token, getSignature) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "signature");
@@ -106,6 +109,16 @@ PHP_METHOD(Phalcon_Security_JWT_Token_Token, __construct) {
 	ZVAL_UNDEF(&headers_sub);
 	ZVAL_UNDEF(&claims_sub);
 	ZVAL_UNDEF(&signature_sub);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(3, 3)
+		Z_PARAM_OBJECT_OF_CLASS(headers, phalcon_security_jwt_token_item_ce)
+		Z_PARAM_OBJECT_OF_CLASS(claims, phalcon_security_jwt_token_item_ce)
+		Z_PARAM_OBJECT_OF_CLASS(signature, phalcon_security_jwt_token_signature_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(3, 0, &headers, &claims, &signature);
 
@@ -131,6 +144,7 @@ PHP_METHOD(Phalcon_Security_JWT_Token_Token, getPayload) {
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
+
 
 	ZEPHIR_MM_GROW();
 
@@ -158,6 +172,7 @@ PHP_METHOD(Phalcon_Security_JWT_Token_Token, getToken) {
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
+
 
 	ZEPHIR_MM_GROW();
 

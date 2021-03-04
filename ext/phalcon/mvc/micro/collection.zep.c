@@ -84,6 +84,17 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, delete) {
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&handler_sub);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 3)
+		Z_PARAM_STR(routePattern)
+		Z_PARAM_ZVAL(handler)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR_OR_NULL(name)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &routePattern_param, &handler, &name_param);
@@ -131,6 +142,17 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, get) {
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&handler_sub);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 3)
+		Z_PARAM_STR(routePattern)
+		Z_PARAM_ZVAL(handler)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR_OR_NULL(name)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &routePattern_param, &handler, &name_param);
@@ -169,6 +191,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, getHandler) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "handler");
 
 }
@@ -181,6 +204,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, getHandlers) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "handlers");
 
 }
@@ -191,6 +215,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, getHandlers) {
 PHP_METHOD(Phalcon_Mvc_Micro_Collection, getPrefix) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "prefix");
@@ -214,6 +239,17 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, head) {
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&handler_sub);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 3)
+		Z_PARAM_STR(routePattern)
+		Z_PARAM_ZVAL(handler)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR_OR_NULL(name)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &routePattern_param, &handler, &name_param);
@@ -252,6 +288,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, isLazy) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "lazy");
 
 }
@@ -273,6 +310,17 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, map) {
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&handler_sub);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 3)
+		Z_PARAM_STR(routePattern)
+		Z_PARAM_ZVAL(handler)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR_OR_NULL(name)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &routePattern_param, &handler, &name_param);
@@ -329,6 +377,18 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, mapVia) {
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&handler_sub);
 	ZVAL_UNDEF(&method_sub);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(3, 4)
+		Z_PARAM_STR(routePattern)
+		Z_PARAM_ZVAL(handler)
+		Z_PARAM_ZVAL(method)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR_OR_NULL(name)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 1, &routePattern_param, &handler, &method, &name_param);
@@ -375,6 +435,17 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, options) {
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&handler_sub);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 3)
+		Z_PARAM_STR(routePattern)
+		Z_PARAM_ZVAL(handler)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR_OR_NULL(name)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &routePattern_param, &handler, &name_param);
@@ -422,6 +493,17 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, patch) {
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&handler_sub);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 3)
+		Z_PARAM_STR(routePattern)
+		Z_PARAM_ZVAL(handler)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR_OR_NULL(name)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &routePattern_param, &handler, &name_param);
@@ -469,6 +551,17 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, post) {
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&handler_sub);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 3)
+		Z_PARAM_STR(routePattern)
+		Z_PARAM_ZVAL(handler)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR_OR_NULL(name)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &routePattern_param, &handler, &name_param);
@@ -516,6 +609,17 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, put) {
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&handler_sub);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 3)
+		Z_PARAM_STR(routePattern)
+		Z_PARAM_ZVAL(handler)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR_OR_NULL(name)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &routePattern_param, &handler, &name_param);
@@ -560,6 +664,16 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, setHandler) {
 	ZVAL_UNDEF(&handler_sub);
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_ZVAL(handler)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_BOOL(lazy)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(1, 1, &handler, &lazy_param);
 
@@ -591,6 +705,14 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, setLazy) {
 
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_BOOL(lazy)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(1, 0, &lazy_param);
 
@@ -621,6 +743,14 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, setPrefix) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&prefix);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(prefix)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &prefix_param);
@@ -661,6 +791,17 @@ PHP_METHOD(Phalcon_Mvc_Micro_Collection, addMap) {
 	ZVAL_UNDEF(&routePattern);
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(4, 4)
+		Z_PARAM_ZVAL(method)
+		Z_PARAM_STR(routePattern)
+		Z_PARAM_ZVAL(handler)
+		Z_PARAM_STR(name)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 4, 0, &method, &routePattern_param, &handler, &name_param);
@@ -695,6 +836,7 @@ zend_object *zephir_init_properties_Phalcon_Mvc_Micro_Collection(zend_class_entr
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
+	
 
 		ZEPHIR_MM_GROW();
 	

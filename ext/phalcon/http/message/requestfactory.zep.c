@@ -62,6 +62,15 @@ PHP_METHOD(Phalcon_Http_Message_RequestFactory, createRequest) {
 
 	ZVAL_UNDEF(&method);
 	ZVAL_UNDEF(&uri_sub);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_STR(method)
+		Z_PARAM_ZVAL(uri)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &method_param, &uri);
@@ -79,7 +88,7 @@ PHP_METHOD(Phalcon_Http_Message_RequestFactory, createRequest) {
 
 
 	object_init_ex(return_value, phalcon_http_message_request_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 305, &method, uri);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 306, &method, uri);
 	zephir_check_call_status();
 	RETURN_MM();
 

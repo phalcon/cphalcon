@@ -4,167 +4,65 @@ extern zend_class_entry *phalcon_di_diinterface_ce;
 ZEPHIR_INIT_CLASS(Phalcon_Di_DiInterface);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_diinterface_attempt, 0, 0, 2)
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, name)
-#endif
 	ZEND_ARG_INFO(0, definition)
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, shared, _IS_BOOL, 0)
-#else
-	ZEND_ARG_INFO(0, shared)
-#endif
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_diinterface_get, 0, 0, 1)
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, name)
-#endif
 	ZEND_ARG_INFO(0, parameters)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_di_diinterface_getdefault, 0, 0, Phalcon\\Di\\DiInterface, 1)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_diinterface_getdefault, 0, 0, IS_OBJECT, "Phalcon\\Di\\DiInterface", 1)
-#endif
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_diinterface_getraw, 0, 0, 1)
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, name)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_di_diinterface_getservice, 0, 1, Phalcon\\Di\\ServiceInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_diinterface_getservice, 0, 1, IS_OBJECT, "Phalcon\\Di\\ServiceInterface", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, name)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_diinterface_getservices, 0, 0, IS_ARRAY, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_diinterface_getservices, 0, 0, IS_ARRAY, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_diinterface_getshared, 0, 0, 1)
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, name)
-#endif
 	ZEND_ARG_INFO(0, parameters)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_diinterface_has, 0, 1, _IS_BOOL, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_diinterface_has, 0, 1, _IS_BOOL, NULL, 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, name)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70100
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_diinterface_remove, 0, 1, IS_VOID, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_diinterface_remove, 0, 1, IS_VOID, NULL, 0)
-#endif
-#else
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_diinterface_remove, 0, 0, 1)
-#define arginfo_phalcon_di_diinterface_remove NULL
-#endif
 
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, name)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70100
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_diinterface_reset, 0, 0, IS_VOID, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_diinterface_reset, 0, 0, IS_VOID, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
-#else
-#define arginfo_phalcon_di_diinterface_reset NULL
-#endif
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_di_diinterface_set, 0, 2, Phalcon\\Di\\ServiceInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_diinterface_set, 0, 2, IS_OBJECT, "Phalcon\\Di\\ServiceInterface", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, name)
-#endif
 	ZEND_ARG_INFO(0, definition)
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, shared, _IS_BOOL, 0)
-#else
-	ZEND_ARG_INFO(0, shared)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70100
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_diinterface_setdefault, 0, 1, IS_VOID, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_diinterface_setdefault, 0, 1, IS_VOID, NULL, 0)
-#endif
-#else
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_di_diinterface_setdefault, 0, 0, 1)
-#define arginfo_phalcon_di_diinterface_setdefault NULL
-#endif
 
 	ZEND_ARG_OBJ_INFO(0, container, Phalcon\\Di\\DiInterface, 0)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_di_diinterface_setservice, 0, 2, Phalcon\\Di\\ServiceInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_diinterface_setservice, 0, 2, IS_OBJECT, "Phalcon\\Di\\ServiceInterface", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, name)
-#endif
 	ZEND_ARG_OBJ_INFO(0, rawDefinition, Phalcon\\Di\\ServiceInterface, 0)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_di_diinterface_setshared, 0, 2, Phalcon\\Di\\ServiceInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_di_diinterface_setshared, 0, 2, IS_OBJECT, "Phalcon\\Di\\ServiceInterface", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, name)
-#endif
 	ZEND_ARG_INFO(0, definition)
 ZEND_END_ARG_INFO()
 

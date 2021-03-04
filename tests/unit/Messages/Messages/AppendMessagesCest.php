@@ -92,10 +92,17 @@ class AppendMessagesCest
             $actual = $ex->getMessage();
         }
 
-        $I->assertEquals(
-            'Argument 1 passed to Phalcon\Messages\Messages::appendMessage()' .
-            ' must implement interface Phalcon\Messages\MessageInterface, bool',
-            substr($actual, 0, 128)
-        );
+        if (version_compare(PHP_VERSION, '8.0.0', '>=')) {
+            $I->assertEquals(
+                'Phalcon\Messages\Messages::appendMessage(): Argument #1 ($message) must be of type Phalcon\Messages\MessageInterface, bool given',
+                $actual
+            );
+        } else {
+            $I->assertEquals(
+                'Argument 1 passed to Phalcon\Messages\Messages::appendMessage()' .
+                ' must implement interface Phalcon\Messages\MessageInterface, bool',
+                substr($actual, 0, 128)
+            );
+        }
     }
 }

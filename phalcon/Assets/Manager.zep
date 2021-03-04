@@ -107,7 +107,7 @@ class Manager extends AbstractInjectionAware
         string! path,
         var local = true,
         bool filter = true,
-        var attributes = null,
+        array attributes = [],
         string version = null,
         bool autoVersion = false
     ) -> <Manager>
@@ -191,7 +191,7 @@ class Manager extends AbstractInjectionAware
         string! path,
         var local = true,
         bool filter = true,
-        var attributes = null,
+        array attributes = [],
         string version = null,
         bool autoVersion = false
     ) -> <Manager>

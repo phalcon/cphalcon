@@ -88,7 +88,6 @@ int zephir_file_exists(zval *filename)
  */
 int zephir_compare_mtime(zval *filename1, zval *filename2)
 {
-
 	php_stream_statbuf statbuffer1, statbuffer2;
 
 	if (Z_TYPE_P(filename1) != IS_STRING || Z_TYPE_P(filename2) != IS_STRING) {
@@ -111,7 +110,6 @@ int zephir_compare_mtime(zval *filename1, zval *filename2)
 
 void zephir_fwrite(zval *return_value, zval *stream_zval, zval *data)
 {
-
 	int num_bytes;
 	php_stream *stream;
 
@@ -152,7 +150,6 @@ void zephir_fwrite(zval *return_value, zval *stream_zval, zval *data)
 
 int zephir_feof(zval *stream_zval)
 {
-
 	php_stream *stream;
 
 	if (Z_TYPE_P(stream_zval) != IS_RESOURCE) {
@@ -256,11 +253,7 @@ void zephir_file_put_contents(zval *return_value, zval *filename, zval *data)
 		case IS_DOUBLE:
 		case IS_TRUE:
 		case IS_FALSE:
-#if PHP_VERSION_ID < 70300
-		case IS_CONSTANT:
-#else
 		case IS_CONSTANT_AST:
-#endif
 			use_copy = zend_make_printable_zval(data, &copy);
 			if (use_copy) {
 				data = &copy;
@@ -315,7 +308,6 @@ void zephir_filemtime(zval *return_value, zval *path)
  */
 void zephir_prepare_virtual_path(zval *return_value, zval *path, zval *virtual_separator)
 {
-
 	unsigned int i;
 	unsigned char ch;
 	smart_str virtual_str = {0};
