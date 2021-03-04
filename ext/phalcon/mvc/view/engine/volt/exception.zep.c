@@ -53,6 +53,18 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Exception, __construct) {
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&statement);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 4)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR(message)
+		Z_PARAM_ARRAY(statement)
+		Z_PARAM_LONG(code)
+		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(previous, zend_ce_exception)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 4, &message_param, &statement_param, &code_param, &previous);
@@ -99,6 +111,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Exception, getStatement) {
 
 	ZVAL_UNDEF(&statement);
 	ZVAL_UNDEF(&_0);
+
 
 	ZEPHIR_MM_GROW();
 

@@ -122,6 +122,7 @@ PHP_METHOD(Phalcon_Db_Reference, getColumns) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "columns");
 
 }
@@ -132,6 +133,7 @@ PHP_METHOD(Phalcon_Db_Reference, getColumns) {
 PHP_METHOD(Phalcon_Db_Reference, getName) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "name");
@@ -146,6 +148,7 @@ PHP_METHOD(Phalcon_Db_Reference, getReferencedColumns) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "referencedColumns");
 
 }
@@ -156,6 +159,7 @@ PHP_METHOD(Phalcon_Db_Reference, getReferencedColumns) {
 PHP_METHOD(Phalcon_Db_Reference, getReferencedSchema) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "referencedSchema");
@@ -170,6 +174,7 @@ PHP_METHOD(Phalcon_Db_Reference, getReferencedTable) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "referencedTable");
 
 }
@@ -180,6 +185,7 @@ PHP_METHOD(Phalcon_Db_Reference, getReferencedTable) {
 PHP_METHOD(Phalcon_Db_Reference, getSchemaName) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "schemaName");
@@ -194,6 +200,7 @@ PHP_METHOD(Phalcon_Db_Reference, getOnDelete) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "onDelete");
 
 }
@@ -204,6 +211,7 @@ PHP_METHOD(Phalcon_Db_Reference, getOnDelete) {
 PHP_METHOD(Phalcon_Db_Reference, getOnUpdate) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "onUpdate");
@@ -230,6 +238,15 @@ PHP_METHOD(Phalcon_Db_Reference, __construct) {
 	ZVAL_UNDEF(&onDelete);
 	ZVAL_UNDEF(&onUpdate);
 	ZVAL_UNDEF(&definition);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_STR(name)
+		Z_PARAM_ARRAY(definition)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &name_param, &definition_param);

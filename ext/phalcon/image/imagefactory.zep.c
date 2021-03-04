@@ -52,6 +52,15 @@ PHP_METHOD(Phalcon_Image_ImageFactory, __construct) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&services);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ARRAY(services)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &services_param);
@@ -96,6 +105,14 @@ PHP_METHOD(Phalcon_Image_ImageFactory, load) {
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(config)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &config);
@@ -150,6 +167,18 @@ PHP_METHOD(Phalcon_Image_ImageFactory, newInstance) {
 	ZVAL_UNDEF(&definition);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 4)
+		Z_PARAM_STR(name)
+		Z_PARAM_STR(file)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_LONG_OR_NULL(width, is_null_true)
+		Z_PARAM_LONG_OR_NULL(height, is_null_true)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 2, &name_param, &file_param, &width_param, &height_param);
@@ -206,6 +235,7 @@ PHP_METHOD(Phalcon_Image_ImageFactory, newInstance) {
 PHP_METHOD(Phalcon_Image_ImageFactory, getAdapters) {
 
 	zval *this_ptr = getThis();
+
 
 
 	zephir_create_array(return_value, 2, 0);

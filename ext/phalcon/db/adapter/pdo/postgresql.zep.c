@@ -80,6 +80,14 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, __construct) {
 
 	ZVAL_UNDEF(&descriptor);
 	ZVAL_UNDEF(&_0$$3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ARRAY(descriptor)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &descriptor_param);
@@ -122,6 +130,15 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, connect) {
 	ZVAL_UNDEF(&_0$$3);
 	ZVAL_UNDEF(&_2$$6);
 	ZVAL_UNDEF(&_4$$6);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ARRAY_OR_NULL(descriptor)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &descriptor_param);
@@ -199,6 +216,16 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, createTable) {
 	ZVAL_UNDEF(&_7$$12);
 	ZVAL_UNDEF(&_8$$12);
 	ZVAL_UNDEF(&definition);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(3, 3)
+		Z_PARAM_STR(tableName)
+		Z_PARAM_STR(schemaName)
+		Z_PARAM_ARRAY(definition)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &tableName_param, &schemaName_param, &definition_param);
@@ -462,6 +489,16 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns) {
 	ZVAL_UNDEF(&_114$$76);
 	ZVAL_UNDEF(&_115$$76);
 	ZVAL_UNDEF(&_117$$78);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_STR(table)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR_OR_NULL(schema)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &table_param, &schema_param);
@@ -772,7 +809,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns) {
 			zephir_array_fetch_long(&columnName, &field, 0, PH_NOISY | PH_READONLY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 526);
 			ZEPHIR_INIT_NVAR(&_61$$3);
 			object_init_ex(&_61$$3, phalcon_db_column_ce);
-			ZEPHIR_CALL_METHOD(NULL, &_61$$3, "__construct", &_62, 212, &columnName, &definition);
+			ZEPHIR_CALL_METHOD(NULL, &_61$$3, "__construct", &_62, 213, &columnName, &definition);
 			zephir_check_call_status();
 			zephir_array_append(&columns, &_61$$3, PH_SEPARATE, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 527);
 			ZEPHIR_CPY_WRT(&oldColumn, &columnName);
@@ -1071,7 +1108,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeColumns) {
 				zephir_array_fetch_long(&columnName, &field, 0, PH_NOISY, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 526);
 				ZEPHIR_INIT_NVAR(&_118$$41);
 				object_init_ex(&_118$$41, phalcon_db_column_ce);
-				ZEPHIR_CALL_METHOD(NULL, &_118$$41, "__construct", &_62, 212, &columnName, &definition);
+				ZEPHIR_CALL_METHOD(NULL, &_118$$41, "__construct", &_62, 213, &columnName, &definition);
 				zephir_check_call_status();
 				zephir_array_append(&columns, &_118$$41, PH_SEPARATE, "phalcon/Db/Adapter/Pdo/Postgresql.zep", 527);
 				ZEPHIR_CPY_WRT(&oldColumn, &columnName);
@@ -1149,6 +1186,16 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, describeReferences) {
 	ZVAL_UNDEF(&_23$$6);
 	ZVAL_UNDEF(&_29$$9);
 	ZVAL_UNDEF(&_33$$10);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_STR(table)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR_OR_NULL(schema)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &table_param, &schema_param);
@@ -1423,6 +1470,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, getDefaultIdValue) {
 
 	ZVAL_UNDEF(&_0);
 
+
 	ZEPHIR_MM_GROW();
 
 	object_init_ex(return_value, phalcon_db_rawvalue_ce);
@@ -1463,6 +1511,18 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, modifyColumn) {
 	ZVAL_UNDEF(&_7$$10);
 	ZVAL_UNDEF(&_8$$10);
 	ZVAL_UNDEF(&_9$$10);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(3, 4)
+		Z_PARAM_STR(tableName)
+		Z_PARAM_STR(schemaName)
+		Z_PARAM_OBJECT_OF_CLASS(column, phalcon_db_columninterface_ce)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(currentColumn, phalcon_db_columninterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 1, &tableName_param, &schemaName_param, &column, &currentColumn);
@@ -1587,6 +1647,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, supportSequences) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_BOOL(1);
 
 }
@@ -1600,6 +1661,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, useExplicitIdValue) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_BOOL(1);
 
 }
@@ -1610,6 +1672,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, useExplicitIdValue) {
 PHP_METHOD(Phalcon_Db_Adapter_Pdo_Postgresql, getDsnDefaults) {
 
 	zval *this_ptr = getThis();
+
 
 
 	array_init(return_value);

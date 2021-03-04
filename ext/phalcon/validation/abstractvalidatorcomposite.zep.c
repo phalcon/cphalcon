@@ -54,6 +54,7 @@ PHP_METHOD(Phalcon_Validation_AbstractValidatorComposite, getValidators) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "validators");
 
 }
@@ -79,6 +80,15 @@ PHP_METHOD(Phalcon_Validation_AbstractValidatorComposite, validate) {
 	ZVAL_UNDEF(&_3$$3);
 	ZVAL_UNDEF(&_7$$4);
 	ZVAL_UNDEF(&_8$$6);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_OBJECT_OF_CLASS(validation, phalcon_validation_ce)
+		Z_PARAM_ZVAL(field)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &validation, &field);
@@ -147,6 +157,7 @@ zend_object *zephir_init_properties_Phalcon_Validation_AbstractValidatorComposit
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_3$$4);
+
 
 		ZEPHIR_MM_GROW();
 	

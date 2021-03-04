@@ -87,6 +87,14 @@ PHP_METHOD(Phalcon_Security_JWT_Builder, __construct) {
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(signer, phalcon_security_jwt_signer_signerinterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &signer);
@@ -122,6 +130,7 @@ PHP_METHOD(Phalcon_Security_JWT_Builder, init) {
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
+
 
 	ZEPHIR_MM_GROW();
 
@@ -160,6 +169,7 @@ PHP_METHOD(Phalcon_Security_JWT_Builder, getAudience) {
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 
+
 	ZEPHIR_MM_GROW();
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("claims"), PH_NOISY_CC | PH_READONLY);
@@ -182,6 +192,7 @@ PHP_METHOD(Phalcon_Security_JWT_Builder, getClaims) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
+
 
 	ZEPHIR_MM_GROW();
 
@@ -206,6 +217,7 @@ PHP_METHOD(Phalcon_Security_JWT_Builder, getContentType) {
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
+
 
 	ZEPHIR_MM_GROW();
 
@@ -236,6 +248,7 @@ PHP_METHOD(Phalcon_Security_JWT_Builder, getExpirationTime) {
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
 
+
 	ZEPHIR_MM_GROW();
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("claims"), PH_NOISY_CC | PH_READONLY);
@@ -262,6 +275,7 @@ PHP_METHOD(Phalcon_Security_JWT_Builder, getHeaders) {
 
 	ZVAL_UNDEF(&_0);
 
+
 	ZEPHIR_MM_GROW();
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("jose"), PH_NOISY_CC | PH_READONLY);
@@ -285,6 +299,7 @@ PHP_METHOD(Phalcon_Security_JWT_Builder, getId) {
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
+
 
 	ZEPHIR_MM_GROW();
 
@@ -315,6 +330,7 @@ PHP_METHOD(Phalcon_Security_JWT_Builder, getIssuedAt) {
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
 
+
 	ZEPHIR_MM_GROW();
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("claims"), PH_NOISY_CC | PH_READONLY);
@@ -343,6 +359,7 @@ PHP_METHOD(Phalcon_Security_JWT_Builder, getIssuer) {
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
+
 
 	ZEPHIR_MM_GROW();
 
@@ -373,6 +390,7 @@ PHP_METHOD(Phalcon_Security_JWT_Builder, getNotBefore) {
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
 
+
 	ZEPHIR_MM_GROW();
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("claims"), PH_NOISY_CC | PH_READONLY);
@@ -401,6 +419,7 @@ PHP_METHOD(Phalcon_Security_JWT_Builder, getSubject) {
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
+
 
 	ZEPHIR_MM_GROW();
 
@@ -445,6 +464,7 @@ PHP_METHOD(Phalcon_Security_JWT_Builder, getToken) {
 	ZVAL_UNDEF(&_9);
 	ZVAL_UNDEF(&_10);
 	ZVAL_UNDEF(&_11);
+
 
 	ZEPHIR_MM_GROW();
 
@@ -504,6 +524,7 @@ PHP_METHOD(Phalcon_Security_JWT_Builder, getPassphrase) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "passphrase");
 
 }
@@ -537,6 +558,14 @@ PHP_METHOD(Phalcon_Security_JWT_Builder, setAudience) {
 	ZVAL_UNDEF(&audience_sub);
 	ZVAL_UNDEF(&aud);
 	ZVAL_UNDEF(&_1);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(audience)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &audience);
@@ -584,6 +613,14 @@ PHP_METHOD(Phalcon_Security_JWT_Builder, setContentType) {
 	ZVAL_UNDEF(&contentType);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(contentType)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &contentType_param);
@@ -624,6 +661,14 @@ PHP_METHOD(Phalcon_Security_JWT_Builder, setExpirationTime) {
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_LONG(timestamp)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &timestamp_param);
@@ -670,6 +715,14 @@ PHP_METHOD(Phalcon_Security_JWT_Builder, setId) {
 
 	ZVAL_UNDEF(&id);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(id)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &id_param);
@@ -713,6 +766,14 @@ PHP_METHOD(Phalcon_Security_JWT_Builder, setIssuedAt) {
 
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_LONG(timestamp)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &timestamp_param);
@@ -753,6 +814,14 @@ PHP_METHOD(Phalcon_Security_JWT_Builder, setIssuer) {
 
 	ZVAL_UNDEF(&issuer);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(issuer)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &issuer_param);
@@ -801,6 +870,14 @@ PHP_METHOD(Phalcon_Security_JWT_Builder, setNotBefore) {
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_LONG(timestamp)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &timestamp_param);
@@ -850,6 +927,14 @@ PHP_METHOD(Phalcon_Security_JWT_Builder, setSubject) {
 
 	ZVAL_UNDEF(&subject);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(subject)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &subject_param);
@@ -892,6 +977,14 @@ PHP_METHOD(Phalcon_Security_JWT_Builder, setPassphrase) {
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(passphrase)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &passphrase_param);
@@ -943,6 +1036,15 @@ PHP_METHOD(Phalcon_Security_JWT_Builder, setClaim) {
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&value_sub);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_STR(name)
+		Z_PARAM_ZVAL(value)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &name_param, &value);

@@ -85,6 +85,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, getCategory) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "category");
 
 }
@@ -94,6 +95,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, getCategory) {
 PHP_METHOD(Phalcon_Translate_Adapter_Gettext, getDefaultDomain) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "defaultDomain");
@@ -107,6 +109,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, getDirectory) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "directory");
 
 }
@@ -116,6 +119,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, getDirectory) {
 PHP_METHOD(Phalcon_Translate_Adapter_Gettext, getLocale) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "locale");
@@ -143,6 +147,15 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, __construct) {
 
 	ZVAL_UNDEF(&interpolator_sub);
 	ZVAL_UNDEF(&options);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_OBJECT_OF_CLASS(interpolator, phalcon_translate_interpolatorfactory_ce)
+		Z_PARAM_ARRAY(options)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &interpolator, &options_param);
@@ -175,6 +188,14 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, exists) {
 
 	ZVAL_UNDEF(&index);
 	ZVAL_UNDEF(&result);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(index)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &index_param);
@@ -218,6 +239,19 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, nquery) {
 	ZVAL_UNDEF(&_0$$3);
 	ZVAL_UNDEF(&_1$$4);
 	ZVAL_UNDEF(&placeholders);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(3, 5)
+		Z_PARAM_STR(msgid1)
+		Z_PARAM_STR(msgid2)
+		Z_PARAM_LONG(count)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ARRAY(placeholders)
+		Z_PARAM_STR_OR_NULL(domain)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 2, &msgid1_param, &msgid2_param, &count_param, &placeholders_param, &domain_param);
@@ -306,6 +340,16 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, query) {
 	ZVAL_UNDEF(&index);
 	ZVAL_UNDEF(&translation);
 	ZVAL_UNDEF(&placeholders);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_STR(index)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ARRAY(placeholders)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &index_param, &placeholders_param);
@@ -348,6 +392,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, resetDomain) {
 
 	ZVAL_UNDEF(&_0);
 
+
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getdefaultdomain", NULL, 0);
@@ -369,6 +414,14 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, setDefaultDomain) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&domain);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(domain)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &domain_param);
@@ -422,6 +475,14 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, setDirectory) {
 	ZVAL_UNDEF(&value);
 	ZVAL_UNDEF(&_1$$4);
 	ZVAL_UNDEF(&_4$$7);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(directory)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &directory);
@@ -490,6 +551,14 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, setDomain) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&domain_sub);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(domain)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &domain);
@@ -533,6 +602,15 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, setLocale) {
 	ZVAL_UNDEF(&_9);
 	ZVAL_UNDEF(&_10);
 	ZVAL_UNDEF(&locale);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_LONG(category)
+		Z_PARAM_STR(locale)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &category_param, &locale_param);
@@ -596,6 +674,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, getOptionsDefault) {
 	zval *this_ptr = getThis();
 
 
+
 	zephir_create_array(return_value, 2, 0);
 	add_assoc_long_ex(return_value, SL("category"), 6);
 	add_assoc_stringl_ex(return_value, SL("defaultDomain"), SL("messages"));
@@ -622,6 +701,14 @@ PHP_METHOD(Phalcon_Translate_Adapter_Gettext, prepareOptions) {
 	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_5);
 	ZVAL_UNDEF(&_6);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ARRAY(options)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &options_param);

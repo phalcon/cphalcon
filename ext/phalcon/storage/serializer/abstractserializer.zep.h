@@ -12,27 +12,14 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_storage_serializer_abstractserializer___c
 	ZEND_ARG_INFO(0, data)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_serializer_abstractserializer_isserializable, 0, 1, _IS_BOOL, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_serializer_abstractserializer_isserializable, 0, 1, _IS_BOOL, NULL, 0)
-#endif
 	ZEND_ARG_INFO(0, data)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_storage_serializer_abstractserializer_getdata, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70100
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_serializer_abstractserializer_setdata, 0, 1, IS_VOID, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_storage_serializer_abstractserializer_setdata, 0, 1, IS_VOID, NULL, 0)
-#endif
-#else
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_storage_serializer_abstractserializer_setdata, 0, 0, 1)
-#define arginfo_phalcon_storage_serializer_abstractserializer_setdata NULL
-#endif
 
 	ZEND_ARG_INFO(0, data)
 ZEND_END_ARG_INFO()

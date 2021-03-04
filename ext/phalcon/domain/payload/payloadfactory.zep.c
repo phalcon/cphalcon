@@ -54,6 +54,7 @@ PHP_METHOD(Phalcon_Domain_Payload_PayloadFactory, newInstance) {
 	zval *this_ptr = getThis();
 
 
+
 	ZEPHIR_MM_GROW();
 
 	object_init_ex(return_value, phalcon_domain_payload_payload_ce);

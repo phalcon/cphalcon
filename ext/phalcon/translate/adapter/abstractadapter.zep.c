@@ -66,6 +66,15 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, __construct) {
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&options);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_OBJECT_OF_CLASS(interpolator, phalcon_translate_interpolatorfactory_ce)
+		Z_PARAM_ARRAY(options)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &interpolator, &options_param);
@@ -101,6 +110,16 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, _) {
 
 	ZVAL_UNDEF(&translateKey);
 	ZVAL_UNDEF(&placeholders);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_STR(translateKey)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ARRAY(placeholders)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &translateKey_param, &placeholders_param);
@@ -140,6 +159,14 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, offsetExists) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&translateKey_sub);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(translateKey)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &translateKey);
@@ -159,19 +186,25 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, offsetGet) {
 
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *translateKey, translateKey_sub, _0;
+	zval *translateKey, translateKey_sub;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&translateKey_sub);
-	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(translateKey)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &translateKey);
 
 
 
-	ZVAL_NULL(&_0);
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "query", NULL, 0, translateKey, &_0);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "query", NULL, 0, translateKey);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -189,6 +222,15 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, offsetSet) {
 
 	ZVAL_UNDEF(&offset_sub);
 	ZVAL_UNDEF(&value_sub);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_ZVAL(offset)
+		Z_PARAM_ZVAL(value)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(2, 0, &offset, &value);
 
@@ -208,6 +250,14 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, offsetUnset) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&offset_sub);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(offset)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(1, 0, &offset);
 
@@ -234,6 +284,16 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, t) {
 
 	ZVAL_UNDEF(&translateKey);
 	ZVAL_UNDEF(&placeholders);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_STR(translateKey)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ARRAY(placeholders)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &translateKey_param, &placeholders_param);
@@ -279,6 +339,16 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, replacePlaceholders) {
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&placeholders);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_STR(translation)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ARRAY(placeholders)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &translation_param, &placeholders_param);

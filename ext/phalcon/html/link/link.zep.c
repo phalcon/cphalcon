@@ -87,6 +87,17 @@ PHP_METHOD(Phalcon_Html_Link_Link, __construct) {
 	ZVAL_UNDEF(&_3$$3);
 	ZVAL_UNDEF(&_4$$3);
 	ZVAL_UNDEF(&attributes);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 3)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR(rel)
+		Z_PARAM_STR(href)
+		Z_PARAM_ARRAY(attributes)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 3, &rel_param, &href_param, &attributes_param);
@@ -152,6 +163,7 @@ PHP_METHOD(Phalcon_Html_Link_Link, getAttributes) {
 
 	ZVAL_UNDEF(&_0);
 
+
 	ZEPHIR_MM_GROW();
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("attributes"), PH_NOISY_CC | PH_READONLY);
@@ -179,6 +191,7 @@ PHP_METHOD(Phalcon_Html_Link_Link, getHref) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "href");
 
 }
@@ -201,6 +214,7 @@ PHP_METHOD(Phalcon_Html_Link_Link, getRels) {
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 
+
 	ZEPHIR_MM_GROW();
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("rels"), PH_NOISY_CC | PH_READONLY);
@@ -219,6 +233,7 @@ PHP_METHOD(Phalcon_Html_Link_Link, getRels) {
 PHP_METHOD(Phalcon_Html_Link_Link, isTemplated) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "templated");
@@ -248,6 +263,14 @@ PHP_METHOD(Phalcon_Html_Link_Link, hrefIsTemplated) {
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_4);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(href)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &href_param);
@@ -263,7 +286,7 @@ PHP_METHOD(Phalcon_Html_Link_Link, hrefIsTemplated) {
 	if (_2) {
 		ZEPHIR_INIT_VAR(&_3);
 		ZVAL_STRING(&_3, "}");
-		ZEPHIR_CALL_FUNCTION(&_4, "strrpos", NULL, 115, &href, &_3);
+		ZEPHIR_CALL_FUNCTION(&_4, "strrpos", NULL, 117, &href, &_3);
 		zephir_check_call_status();
 		_2 = !ZEPHIR_IS_FALSE_IDENTICAL(&_4);
 	}

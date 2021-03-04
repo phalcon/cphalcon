@@ -84,6 +84,7 @@ PHP_METHOD(Phalcon_Mvc_Controller, __construct) {
 	zval *this_ptr = getThis();
 
 
+
 	ZEPHIR_MM_GROW();
 
 	if ((zephir_method_exists_ex(this_ptr, ZEND_STRL("onconstruct")) == SUCCESS)) {

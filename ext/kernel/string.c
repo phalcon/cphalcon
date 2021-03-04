@@ -151,7 +151,6 @@ void zephir_fast_strtoupper(zval *return_value, zval *str)
  */
 int zephir_start_with(const zval *str, const zval *compared, zval *case_sensitive)
 {
-
 	int i;
 	int sensitive = 0;
 	char *op1_cursor, *op2_cursor;
@@ -175,7 +174,6 @@ int zephir_start_with(const zval *str, const zval *compared, zval *case_sensitiv
 	op1_cursor = Z_STRVAL_P(str);
 	op2_cursor = Z_STRVAL_P(compared);
 	for (i = 0; i < Z_STRLEN_P(compared); i++) {
-
 		if (tolower(*op1_cursor) != tolower(*op2_cursor)) {
 			return 0;
 		}
@@ -217,7 +215,6 @@ int zephir_start_with_str_str(char *str, unsigned int str_length, char *compared
  */
 int zephir_end_with(const zval *str, const zval *compared, zval *case_sensitive)
 {
-
 	int sensitive = 0;
 	int i;
 	char *op1_cursor, *op2_cursor;
@@ -259,7 +256,6 @@ int zephir_end_with(const zval *str, const zval *compared, zval *case_sensitive)
  */
 int zephir_end_with_str(const zval *str, char *compared, unsigned int compared_length)
 {
-
 	if (Z_TYPE_P(str) != IS_STRING) {
 		return 0;
 	}
@@ -433,7 +429,6 @@ void zephir_append_printable_array(smart_str *implstr, const zval *value)
  */
 void zephir_unique_key(zval *return_value, const zval *prefix, zval *value)
 {
-
 	smart_str implstr = {0};
 
 	if (Z_TYPE_P(prefix) == IS_STRING) {
@@ -568,7 +563,6 @@ void zephir_fast_join_str(zval *return_value, char *glue, unsigned int glue_leng
  */
 void zephir_camelize(zval *return_value, const zval *str, const zval *delimiter)
 {
-
 	int i, len, delim_len, pre_del = 1;
 	smart_str camelize_str = {0};
 	char *marker, ch, *delim;
@@ -669,7 +663,6 @@ void zephir_uncamelize(zval *return_value, const zval *str, const zval *delimite
  */
 int zephir_memnstr(const zval *haystack, const zval *needle ZEPHIR_DEBUG_PARAMS)
 {
-
 	if (Z_TYPE_P(haystack) != IS_STRING || Z_TYPE_P(needle) != IS_STRING) {
 		#ifndef ZEPHIR_RELEASE
 		zend_error(E_WARNING, "Invalid arguments supplied for memnstr in %s on line %d", file, line);
@@ -889,6 +882,7 @@ static zend_string* php_char_to_str_ex(zend_string *str, char from, char *to, si
 			}
 		}
 	}
+
 	*target = 0;
 	return result;
 }
@@ -1071,19 +1065,11 @@ void zephir_preg_match(zval *return_value, zval *regex, zval *subject, zval *mat
 
 	ZVAL_UNDEF(&tmp_matches);
 
-#if PHP_VERSION_ID < 70400
-	if (flags != 0 || offset != 0) {
-		php_pcre_match_impl(pce, Z_STRVAL_P(subject), Z_STRLEN_P(subject), return_value, &tmp_matches, global, 1, flags, offset);
-	} else {
-		php_pcre_match_impl(pce, Z_STRVAL_P(subject), Z_STRLEN_P(subject), return_value, &tmp_matches, global, 0, 0, 0);
-	}
-#else
 	if (flags != 0 || offset != 0) {
 		php_pcre_match_impl(pce, Z_STR_P(subject), return_value, &tmp_matches, global, 1, flags, offset);
 	} else {
 		php_pcre_match_impl(pce, Z_STR_P(subject), return_value, &tmp_matches, global, 0, 0, 0);
 	}
-#endif
 
 	if (matches) {
 		zval *php_matches = &tmp_matches;

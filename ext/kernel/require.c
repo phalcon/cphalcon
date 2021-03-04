@@ -72,11 +72,7 @@ int zephir_require_ret(zval *return_value_ptr, const char *require_path)
 			zend_destroy_file_handle(&file_handle);
 		}
 
-#if PHP_VERSION_ID >= 70100
 		new_op_array->scope = EG(fake_scope) ? EG(fake_scope) : zend_get_executed_scope();
-#else
-		new_op_array->scope = EG(scope);
-#endif
 		zend_execute(new_op_array, &local_retval);
 
 		if (return_value_ptr) {

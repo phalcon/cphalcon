@@ -17,6 +17,7 @@
 #include "kernel/object.h"
 #include "kernel/operators.h"
 #include "kernel/array.h"
+#include "ext/psr/psr_link.h"
 
 
 /**
@@ -67,6 +68,15 @@ PHP_METHOD(Phalcon_Html_Link_LinkProvider, __construct) {
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2$$4);
 	ZVAL_UNDEF(&_4$$6);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ARRAY(links)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &links_param);
@@ -129,6 +139,7 @@ PHP_METHOD(Phalcon_Html_Link_LinkProvider, getLinks) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "links");
 
 }
@@ -156,6 +167,14 @@ PHP_METHOD(Phalcon_Html_Link_LinkProvider, getLinksByRel) {
 	ZVAL_UNDEF(&rels);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(rel)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &rel);
@@ -217,13 +236,21 @@ PHP_METHOD(Phalcon_Html_Link_LinkProvider, getKey) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&link_sub);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(link, PsrLinkLinkInterface_ce_ptr)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &link);
 
 
 
-	ZEPHIR_RETURN_CALL_FUNCTION("spl_object_hash", NULL, 98, link);
+	ZEPHIR_RETURN_CALL_FUNCTION("spl_object_hash", NULL, 100, link);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -235,6 +262,7 @@ zend_object *zephir_init_properties_Phalcon_Html_Link_LinkProvider(zend_class_en
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
+
 
 		ZEPHIR_MM_GROW();
 	

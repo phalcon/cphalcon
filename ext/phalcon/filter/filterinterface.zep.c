@@ -35,4 +35,3 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_FilterInterface) {
  * Sanitizes a value with a specified single or set of sanitizers
  */
 ZEPHIR_DOC_METHOD(Phalcon_Filter_FilterInterface, sanitize);
-

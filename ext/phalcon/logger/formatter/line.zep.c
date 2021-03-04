@@ -55,6 +55,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, getFormat) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "format");
 
 }
@@ -70,6 +71,14 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, setFormat) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&format);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(format)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &format_param);
@@ -94,6 +103,16 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, __construct) {
 
 	ZVAL_UNDEF(&format);
 	ZVAL_UNDEF(&dateFormat);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 2)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR(format)
+		Z_PARAM_STR(dateFormat)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &format_param, &dateFormat_param);
@@ -142,6 +161,14 @@ PHP_METHOD(Phalcon_Logger_Formatter_Line, format) {
 	ZVAL_UNDEF(&_5$$4);
 	ZVAL_UNDEF(&_6$$4);
 	ZVAL_UNDEF(&_11$$5);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(item, phalcon_logger_item_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &item);

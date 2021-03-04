@@ -4357,7 +4357,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         /**
          * Check for bind parameters
          */
-        let bindParams = null, bindTypes = null;
+        let bindParams = [], bindTypes = [];
         if fetch bindParams, params["bind"] {
             fetch bindTypes, params["bindTypes"];
         }

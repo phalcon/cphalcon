@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Acl\Role;
 
+use ArgumentCountError;
 use BadMethodCallException;
 use Phalcon\Acl\Exception;
 use Phalcon\Acl\Role;
@@ -66,11 +67,20 @@ class ConstructCest
     {
         $I->wantToTest('Acl\Role - __construct() - exception params');
 
-        $I->expectThrowable(
-            new BadMethodCallException('Wrong number of parameters'),
-            function () {
-                $role = new Role();
-            }
-        );
+        if (version_compare(PHP_VERSION, '8.0.0', '>=')) {
+            $I->expectThrowable(
+                new ArgumentCountError('Phalcon\Acl\Role::__construct() expects at least 1 argument, 0 given'),
+                function () {
+                    $role = new Role();
+                }
+            );
+        } else {
+            $I->expectThrowable(
+                new BadMethodCallException('Wrong number of parameters'),
+                function () {
+                    $role = new Role();
+                }
+            );
+        }
     }
 }

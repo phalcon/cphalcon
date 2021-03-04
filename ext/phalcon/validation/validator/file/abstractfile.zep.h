@@ -37,65 +37,33 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_validator_file_abstractfile_se
 	ZEND_ARG_INFO(0, messageValid)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_validation_validator_file_abstractfile_isallowempty, 0, 2, _IS_BOOL, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_validation_validator_file_abstractfile_isallowempty, 0, 2, _IS_BOOL, NULL, 0)
-#endif
 	ZEND_ARG_OBJ_INFO(0, validation, Phalcon\\Validation, 0)
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, field, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, field)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_validation_validator_file_abstractfile_checkupload, 0, 2, _IS_BOOL, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_validation_validator_file_abstractfile_checkupload, 0, 2, _IS_BOOL, NULL, 0)
-#endif
 	ZEND_ARG_OBJ_INFO(0, validation, Phalcon\\Validation, 0)
 	ZEND_ARG_INFO(0, field)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_validation_validator_file_abstractfile_checkuploadmaxsize, 0, 2, _IS_BOOL, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_validation_validator_file_abstractfile_checkuploadmaxsize, 0, 2, _IS_BOOL, NULL, 0)
-#endif
 	ZEND_ARG_OBJ_INFO(0, validation, Phalcon\\Validation, 0)
 	ZEND_ARG_INFO(0, field)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_validation_validator_file_abstractfile_checkuploadisempty, 0, 2, _IS_BOOL, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_validation_validator_file_abstractfile_checkuploadisempty, 0, 2, _IS_BOOL, NULL, 0)
-#endif
 	ZEND_ARG_OBJ_INFO(0, validation, Phalcon\\Validation, 0)
 	ZEND_ARG_INFO(0, field)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_validation_validator_file_abstractfile_checkuploadisvalid, 0, 2, _IS_BOOL, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_validation_validator_file_abstractfile_checkuploadisvalid, 0, 2, _IS_BOOL, NULL, 0)
-#endif
 	ZEND_ARG_OBJ_INFO(0, validation, Phalcon\\Validation, 0)
 	ZEND_ARG_INFO(0, field)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_validation_validator_file_abstractfile_getfilesizeinbytes, 0, 1, IS_DOUBLE, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_validation_validator_file_abstractfile_getfilesizeinbytes, 0, 1, IS_DOUBLE, NULL, 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, size, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, size)
-#endif
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_validation_validator_file_abstractfile_method_entry) {

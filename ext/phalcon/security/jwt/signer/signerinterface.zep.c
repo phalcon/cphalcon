@@ -34,14 +34,12 @@ ZEPHIR_INIT_CLASS(Phalcon_Security_JWT_Signer_SignerInterface) {
  * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Security_JWT_Signer_SignerInterface, getAlgHeader);
-
 /**
  * Return the algorithm used
  *
  * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Security_JWT_Signer_SignerInterface, getAlgorithm);
-
 /**
  * Sign a payload using the passphrase
  *
@@ -51,7 +49,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Security_JWT_Signer_SignerInterface, getAlgorithm);
  * @return string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Security_JWT_Signer_SignerInterface, sign);
-
 /**
  * Verify a passed source with a payload and passphrase
  *
@@ -62,4 +59,3 @@ ZEPHIR_DOC_METHOD(Phalcon_Security_JWT_Signer_SignerInterface, sign);
  * @return bool
  */
 ZEPHIR_DOC_METHOD(Phalcon_Security_JWT_Signer_SignerInterface, verify);
-

@@ -105,6 +105,17 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_ConnectionLocator, __construct) {
 	ZVAL_UNDEF(&_6);
 	ZVAL_UNDEF(&read);
 	ZVAL_UNDEF(&write);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 3)
+		Z_PARAM_OBJECT_OF_CLASS(master, phalcon_datamapper_pdo_connection_connectioninterface_ce)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ARRAY(read)
+		Z_PARAM_ARRAY(write)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 2, &master, &read_param, &write_param);
@@ -211,6 +222,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_ConnectionLocator, getMaster) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "master");
 
 }
@@ -235,6 +247,15 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_ConnectionLocator, getRead) {
 
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR(name)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &name_param);
@@ -275,6 +296,15 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_ConnectionLocator, getWrite) {
 
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR(name)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &name_param);
@@ -308,6 +338,14 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_ConnectionLocator, setMaster) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&callableObject_sub);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(callableObject, phalcon_datamapper_pdo_connection_connectioninterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(1, 0, &callableObject);
 
@@ -335,6 +373,15 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_ConnectionLocator, setRead) {
 
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&callableObject_sub);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_STR(name)
+		Z_PARAM_ZVAL(callableObject)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &name_param, &callableObject);
@@ -364,6 +411,15 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_ConnectionLocator, setWrite) {
 
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&callableObject_sub);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_STR(name)
+		Z_PARAM_ZVAL(callableObject)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &name_param, &callableObject);
@@ -406,6 +462,16 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_ConnectionLocator, getConnection) {
 	ZVAL_UNDEF(&_3$$5);
 	ZVAL_UNDEF(&_4$$6);
 	ZVAL_UNDEF(&_5$$6);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_STR(type)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR(name)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &type_param, &name_param);
@@ -432,7 +498,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_ConnectionLocator, getConnection) {
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "");
 	if (ZEPHIR_IS_IDENTICAL(&_1, &requested)) {
-		ZEPHIR_CALL_FUNCTION(&requested, "array_rand", NULL, 200, &collection);
+		ZEPHIR_CALL_FUNCTION(&requested, "array_rand", NULL, 202, &collection);
 		zephir_check_call_status();
 	}
 	if (!(zephir_array_isset(&collection, &requested))) {
@@ -471,6 +537,7 @@ zend_object *zephir_init_properties_Phalcon_DataMapper_Pdo_ConnectionLocator(zen
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_3$$4);
 	ZVAL_UNDEF(&_5$$5);
+
 
 		ZEPHIR_MM_GROW();
 	

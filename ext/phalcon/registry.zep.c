@@ -99,6 +99,15 @@ PHP_METHOD(Phalcon_Registry, __construct) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&data);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ARRAY_OR_NULL(data)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &data_param);
@@ -130,6 +139,14 @@ PHP_METHOD(Phalcon_Registry, __get) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&element);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(element)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &element_param);
@@ -165,6 +182,14 @@ PHP_METHOD(Phalcon_Registry, __isset) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&element);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(element)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &element_param);
@@ -201,6 +226,15 @@ PHP_METHOD(Phalcon_Registry, __set) {
 
 	ZVAL_UNDEF(&element);
 	ZVAL_UNDEF(&value_sub);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_STR(element)
+		Z_PARAM_ZVAL(value)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &element_param, &value);
@@ -236,6 +270,14 @@ PHP_METHOD(Phalcon_Registry, __unset) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&element);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(element)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &element_param);
@@ -269,6 +311,7 @@ PHP_METHOD(Phalcon_Registry, clear) {
 	zval *this_ptr = getThis();
 
 
+
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_CALL_PARENT(NULL, phalcon_registry_ce, getThis(), "clear", &_0, 0);
@@ -288,6 +331,7 @@ PHP_METHOD(Phalcon_Registry, count) {
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval *this_ptr = getThis();
+
 
 
 	ZEPHIR_MM_GROW();
@@ -314,6 +358,17 @@ PHP_METHOD(Phalcon_Registry, get) {
 	ZVAL_UNDEF(&cast);
 	ZVAL_UNDEF(&defaultValue_sub);
 	ZVAL_NULL(&__$null);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 3)
+		Z_PARAM_STR(element)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL(defaultValue)
+		Z_PARAM_STR_OR_NULL(cast)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 2, &element_param, &defaultValue, &cast_param);
@@ -366,6 +421,7 @@ PHP_METHOD(Phalcon_Registry, getIterator) {
 	zval *this_ptr = getThis();
 
 
+
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_RETURN_CALL_PARENT(phalcon_registry_ce, getThis(), "getiterator", &_0, 0);
@@ -387,6 +443,14 @@ PHP_METHOD(Phalcon_Registry, has) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&element);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(element)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &element_param);
@@ -422,6 +486,15 @@ PHP_METHOD(Phalcon_Registry, init) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&data);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ARRAY(data)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &data_param);
@@ -453,6 +526,7 @@ PHP_METHOD(Phalcon_Registry, jsonSerialize) {
 	zval *this_ptr = getThis();
 
 
+
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_RETURN_CALL_PARENT(phalcon_registry_ce, getThis(), "jsonserialize", &_0, 0);
@@ -475,6 +549,14 @@ PHP_METHOD(Phalcon_Registry, offsetExists) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&element_sub);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(element)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &element);
@@ -501,6 +583,14 @@ PHP_METHOD(Phalcon_Registry, offsetGet) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&element_sub);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(element)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &element);
@@ -528,6 +618,15 @@ PHP_METHOD(Phalcon_Registry, offsetSet) {
 
 	ZVAL_UNDEF(&element_sub);
 	ZVAL_UNDEF(&value_sub);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_ZVAL(element)
+		Z_PARAM_ZVAL(value)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &element, &value);
@@ -554,6 +653,14 @@ PHP_METHOD(Phalcon_Registry, offsetUnset) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&element_sub);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(element)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &element);
@@ -579,6 +686,14 @@ PHP_METHOD(Phalcon_Registry, remove) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&element);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(element)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &element_param);
@@ -614,6 +729,7 @@ PHP_METHOD(Phalcon_Registry, serialize) {
 	zval *this_ptr = getThis();
 
 
+
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_RETURN_CALL_PARENT(phalcon_registry_ce, getThis(), "serialize", &_0, 0);
@@ -636,6 +752,15 @@ PHP_METHOD(Phalcon_Registry, set) {
 
 	ZVAL_UNDEF(&element);
 	ZVAL_UNDEF(&value_sub);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_STR(element)
+		Z_PARAM_ZVAL(value)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &element_param, &value);
@@ -669,6 +794,7 @@ PHP_METHOD(Phalcon_Registry, toArray) {
 	zval *this_ptr = getThis();
 
 
+
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_RETURN_CALL_PARENT(phalcon_registry_ce, getThis(), "toarray", &_0, 0);
@@ -695,6 +821,15 @@ PHP_METHOD(Phalcon_Registry, toJson) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_1);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_LONG(options)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &options_param);
@@ -727,6 +862,14 @@ PHP_METHOD(Phalcon_Registry, unserialize) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&serialized_sub);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(serialized)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &serialized);

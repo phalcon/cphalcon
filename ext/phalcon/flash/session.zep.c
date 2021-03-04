@@ -55,6 +55,7 @@ PHP_METHOD(Phalcon_Flash_Session, clear) {
 
 	ZVAL_UNDEF(&_0);
 
+
 	ZEPHIR_MM_GROW();
 
 	ZVAL_BOOL(&_0, 1);
@@ -80,6 +81,16 @@ PHP_METHOD(Phalcon_Flash_Session, getMessages) {
 	ZVAL_UNDEF(&type_sub);
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 2)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL(type)
+		Z_PARAM_BOOL(remove)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &type, &remove_param);
@@ -120,6 +131,15 @@ PHP_METHOD(Phalcon_Flash_Session, has) {
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&messages);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL(type)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &type);
@@ -158,6 +178,15 @@ PHP_METHOD(Phalcon_Flash_Session, message) {
 	ZVAL_UNDEF(&messages);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_STR(type)
+		Z_PARAM_STR(message)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &type_param, &message_param);
@@ -200,6 +229,15 @@ PHP_METHOD(Phalcon_Flash_Session, output) {
 	ZVAL_UNDEF(&messages);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_BOOL(remove)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &remove_param);
@@ -279,6 +317,16 @@ PHP_METHOD(Phalcon_Flash_Session, getSessionMessages) {
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$6);
 	ZVAL_UNDEF(&_2$$7);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_BOOL(remove)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL(type)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &remove_param, &type);
@@ -339,6 +387,14 @@ PHP_METHOD(Phalcon_Flash_Session, setSessionMessages) {
 	ZVAL_UNDEF(&messages);
 	ZVAL_UNDEF(&session);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ARRAY(messages)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &messages_param);
@@ -380,6 +436,7 @@ PHP_METHOD(Phalcon_Flash_Session, getSessionService) {
 	ZVAL_UNDEF(&_10$$6);
 	ZVAL_UNDEF(&_11$$6);
 	ZVAL_UNDEF(&_12$$6);
+
 
 	ZEPHIR_MM_GROW();
 

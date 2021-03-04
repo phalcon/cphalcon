@@ -29,30 +29,16 @@ ZEPHIR_INIT_CLASS(Phalcon_Image_Adapter_AdapterInterface) {
 }
 
 ZEPHIR_DOC_METHOD(Phalcon_Image_Adapter_AdapterInterface, background);
-
 ZEPHIR_DOC_METHOD(Phalcon_Image_Adapter_AdapterInterface, blur);
-
 ZEPHIR_DOC_METHOD(Phalcon_Image_Adapter_AdapterInterface, crop);
-
 ZEPHIR_DOC_METHOD(Phalcon_Image_Adapter_AdapterInterface, flip);
-
 ZEPHIR_DOC_METHOD(Phalcon_Image_Adapter_AdapterInterface, mask);
-
 ZEPHIR_DOC_METHOD(Phalcon_Image_Adapter_AdapterInterface, pixelate);
-
 ZEPHIR_DOC_METHOD(Phalcon_Image_Adapter_AdapterInterface, reflection);
-
 ZEPHIR_DOC_METHOD(Phalcon_Image_Adapter_AdapterInterface, render);
-
 ZEPHIR_DOC_METHOD(Phalcon_Image_Adapter_AdapterInterface, resize);
-
 ZEPHIR_DOC_METHOD(Phalcon_Image_Adapter_AdapterInterface, rotate);
-
 ZEPHIR_DOC_METHOD(Phalcon_Image_Adapter_AdapterInterface, save);
-
 ZEPHIR_DOC_METHOD(Phalcon_Image_Adapter_AdapterInterface, sharpen);
-
 ZEPHIR_DOC_METHOD(Phalcon_Image_Adapter_AdapterInterface, text);
-
 ZEPHIR_DOC_METHOD(Phalcon_Image_Adapter_AdapterInterface, watermark);
-

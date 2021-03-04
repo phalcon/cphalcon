@@ -6,40 +6,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Collection_ReadOnly);
 PHP_METHOD(Phalcon_Collection_ReadOnly, remove);
 PHP_METHOD(Phalcon_Collection_ReadOnly, set);
 
-#if PHP_VERSION_ID >= 70100
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_collection_readonly_remove, 0, 1, IS_VOID, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_collection_readonly_remove, 0, 1, IS_VOID, NULL, 0)
-#endif
-#else
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_collection_readonly_remove, 0, 0, 1)
-#define arginfo_phalcon_collection_readonly_remove NULL
-#endif
 
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, element, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, element)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70100
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_collection_readonly_set, 0, 2, IS_VOID, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_collection_readonly_set, 0, 2, IS_VOID, NULL, 0)
-#endif
-#else
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_collection_readonly_set, 0, 0, 2)
-#define arginfo_phalcon_collection_readonly_set NULL
-#endif
 
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, element, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, element)
-#endif
 	ZEND_ARG_INFO(0, value)
 ZEND_END_ARG_INFO()
 

@@ -1052,8 +1052,6 @@ void zephir_fast_array_merge(zval *return_value, zval *array1, zval *array2)
 	}
 
 	array_init_size(return_value, init_size);
-
 	php_array_merge(Z_ARRVAL_P(return_value), Z_ARRVAL_P(array1));
-
 	php_array_merge(Z_ARRVAL_P(return_value), Z_ARRVAL_P(array2));
 }

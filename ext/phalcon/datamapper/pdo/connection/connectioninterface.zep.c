@@ -47,12 +47,10 @@ ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Pdo_Connection_ConnectionInterface) {
  * Connects to the database.
  */
 ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_ConnectionInterface, connect);
-
 /**
  * Disconnects from the database.
  */
 ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_ConnectionInterface, disconnect);
-
 /**
  * Performs a statement and returns the number of affected rows.
  *
@@ -62,7 +60,6 @@ ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_ConnectionInterface, disconn
  * @return int
  */
 ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_ConnectionInterface, fetchAffected);
-
 /**
  * Fetches a sequential array of rows from the database; the rows are
  * returned as associative arrays.
@@ -73,7 +70,6 @@ ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_ConnectionInterface, fetchAf
  * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_ConnectionInterface, fetchAll);
-
 /**
  * Fetches an associative array of rows from the database; the rows are
  * returned as associative arrays, and the array of rows is keyed on the
@@ -89,7 +85,6 @@ ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_ConnectionInterface, fetchAl
  * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_ConnectionInterface, fetchAssoc);
-
 /**
  * Fetches a column of rows as a sequential array (default first one).
  *
@@ -100,7 +95,6 @@ ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_ConnectionInterface, fetchAs
  * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_ConnectionInterface, fetchColumn);
-
 /**
  * Fetches multiple from the database as an associative array. The first
  * column will be the index key. The default flags are
@@ -113,7 +107,6 @@ ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_ConnectionInterface, fetchCo
  * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_ConnectionInterface, fetchGroup);
-
 /**
  * Fetches one row from the database as an object where the column values
  * are mapped to object properties.
@@ -131,7 +124,6 @@ ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_ConnectionInterface, fetchGr
  * @return object
  */
 ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_ConnectionInterface, fetchObject);
-
 /**
  * Fetches a sequential array of rows from the database; the rows are
  * returned as objects where the column values are mapped to object
@@ -150,7 +142,6 @@ ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_ConnectionInterface, fetchOb
  * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_ConnectionInterface, fetchObjects);
-
 /**
  * Fetches one row from the database as an associative array.
  *
@@ -160,7 +151,6 @@ ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_ConnectionInterface, fetchOb
  * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_ConnectionInterface, fetchOne);
-
 /**
  * Fetches an associative array of rows as key-value pairs (first column is
  * the key, second column is the value).
@@ -171,7 +161,6 @@ ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_ConnectionInterface, fetchOn
  * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_ConnectionInterface, fetchPairs);
-
 /**
  * Fetches the very first value (i.e., first column of the first row).
  *
@@ -181,28 +170,24 @@ ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_ConnectionInterface, fetchPa
  * @return mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_ConnectionInterface, fetchValue);
-
 /**
  * Return the inner PDO (if any)
  *
  * @return PDO
  */
 ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_ConnectionInterface, getAdapter);
-
 /**
  * Returns the Profiler instance.
  *
  * @return ProfilerInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_ConnectionInterface, getProfiler);
-
 /**
  * Is the PDO connection active?
  *
  * @return bool
  */
 ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_ConnectionInterface, isConnected);
-
 /**
  * Performs a query with bound values and returns the resulting
  * PDOStatement; array values will be passed through `quote()` and their
@@ -215,11 +200,9 @@ ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_ConnectionInterface, isConne
  * @return PDOStatement
  */
 ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_ConnectionInterface, perform);
-
 /**
  * Sets the Profiler instance.
  *
  * @param ProfilerInterface $profiler The Profiler instance.
  */
 ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_ConnectionInterface, setProfiler);
-

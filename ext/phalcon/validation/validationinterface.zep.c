@@ -35,12 +35,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_ValidationInterface) {
  * Adds a validator to a field
  */
 ZEPHIR_DOC_METHOD(Phalcon_Validation_ValidationInterface, add);
-
 /**
  * Appends a message to the messages list
  */
 ZEPHIR_DOC_METHOD(Phalcon_Validation_ValidationInterface, appendMessage);
-
 /**
  * Assigns the data to an entity
  * The entity is used to obtain the validation values
@@ -49,61 +47,50 @@ ZEPHIR_DOC_METHOD(Phalcon_Validation_ValidationInterface, appendMessage);
  * @param array|object data
  */
 ZEPHIR_DOC_METHOD(Phalcon_Validation_ValidationInterface, bind);
-
 /**
  * Returns the bound entity
  *
  * @return object
  */
 ZEPHIR_DOC_METHOD(Phalcon_Validation_ValidationInterface, getEntity);
-
 /**
  * Returns all the filters or a specific one
  */
 ZEPHIR_DOC_METHOD(Phalcon_Validation_ValidationInterface, getFilters);
-
 /**
  * Get label for field
  */
 ZEPHIR_DOC_METHOD(Phalcon_Validation_ValidationInterface, getLabel);
-
 /**
  * Returns the registered validators
  */
 ZEPHIR_DOC_METHOD(Phalcon_Validation_ValidationInterface, getMessages);
-
 /**
  * Returns the validators added to the validation
  */
 ZEPHIR_DOC_METHOD(Phalcon_Validation_ValidationInterface, getValidators);
-
 /**
  * Gets the a value to validate in the array/object data source
  */
 ZEPHIR_DOC_METHOD(Phalcon_Validation_ValidationInterface, getValue);
-
 /**
  * Alias of `add` method
  */
 ZEPHIR_DOC_METHOD(Phalcon_Validation_ValidationInterface, rule);
-
 /**
  * Adds the validators to a field
  */
 ZEPHIR_DOC_METHOD(Phalcon_Validation_ValidationInterface, rules);
-
 /**
  * Adds filters to the field
  *
  * @param array|string filters
  */
 ZEPHIR_DOC_METHOD(Phalcon_Validation_ValidationInterface, setFilters);
-
 /**
  * Adds labels for fields
  */
 ZEPHIR_DOC_METHOD(Phalcon_Validation_ValidationInterface, setLabels);
-
 /**
  * Validate a set of data according to a set of rules
  *
@@ -111,4 +98,3 @@ ZEPHIR_DOC_METHOD(Phalcon_Validation_ValidationInterface, setLabels);
  * @param object entity
  */
 ZEPHIR_DOC_METHOD(Phalcon_Validation_ValidationInterface, validate);
-

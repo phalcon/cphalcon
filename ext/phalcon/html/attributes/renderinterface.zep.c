@@ -37,4 +37,3 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Attributes_RenderInterface) {
  * Generate a string represetation
  */
 ZEPHIR_DOC_METHOD(Phalcon_Html_Attributes_RenderInterface, render);
-

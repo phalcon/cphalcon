@@ -38,21 +38,18 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_ValidatorInterface) {
  * @return mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_Validation_ValidatorInterface, getOption);
-
 /**
  * Checks if an option is defined
  *
  * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Validation_ValidatorInterface, hasOption);
-
 /**
  * Executes the validation
  *
  * @return boolean
  */
 ZEPHIR_DOC_METHOD(Phalcon_Validation_ValidatorInterface, validate);
-
 /**
  * Get the template message
  *
@@ -60,25 +57,21 @@ ZEPHIR_DOC_METHOD(Phalcon_Validation_ValidatorInterface, validate);
  * @throw InvalidArgumentException When the field does not exists
  */
 ZEPHIR_DOC_METHOD(Phalcon_Validation_ValidatorInterface, getTemplate);
-
 /**
  * Get message templates
  *
  * @return array
  */
 ZEPHIR_DOC_METHOD(Phalcon_Validation_ValidatorInterface, getTemplates);
-
 /**
  * Clear current template and set new from an array,
  *
  * @return ValidatorInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Validation_ValidatorInterface, setTemplates);
-
 /**
  * Set a new template message
  *
  * @return ValidatorInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Validation_ValidatorInterface, setTemplate);
-

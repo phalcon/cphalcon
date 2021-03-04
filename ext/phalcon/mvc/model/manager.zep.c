@@ -181,6 +181,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, setDI) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&container_sub);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(container, phalcon_di_diinterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(1, 0, &container);
 
@@ -198,6 +206,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getDI) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "container");
 
 }
@@ -211,6 +220,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, setEventsManager) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&eventsManager_sub);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(eventsManager, phalcon_events_managerinterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(1, 0, &eventsManager);
 
@@ -226,6 +243,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, setEventsManager) {
 PHP_METHOD(Phalcon_Mvc_Model_Manager, getEventsManager) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "eventsManager");
@@ -244,6 +262,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, setCustomEventsManager) {
 	ZVAL_UNDEF(&model_sub);
 	ZVAL_UNDEF(&eventsManager_sub);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(eventsManager, phalcon_events_managerinterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &model, &eventsManager);
@@ -270,6 +297,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getCustomEventsManager) {
 	ZVAL_UNDEF(&eventsManager);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &model);
@@ -303,6 +338,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, initialize) {
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2$$5);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &model);
@@ -346,6 +389,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, isInitialized) {
 	ZVAL_UNDEF(&className);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(className)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &className_param);
@@ -377,6 +428,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getLastInitialized) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "lastInitialized");
 
 }
@@ -400,6 +452,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, load) {
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_0$$3);
 	ZVAL_UNDEF(&_2);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(modelName)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &modelName_param);
@@ -471,6 +531,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, setModelPrefix) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&prefix);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(prefix)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &prefix_param);
@@ -500,6 +568,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getModelPrefix) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "prefix");
 
 }
@@ -517,6 +586,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, setModelSource) {
 	ZVAL_UNDEF(&model_sub);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&source);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
+		Z_PARAM_STR(source)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &model, &source_param);
@@ -565,6 +643,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, isVisibleModelProperty) {
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&property);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
+		Z_PARAM_STR(property)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &model, &property_param);
@@ -576,7 +663,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, isVisibleModelProperty) {
 	zephir_get_class(&className, model, 0);
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("modelVisibility"), PH_NOISY_CC | PH_READONLY);
 	if (!(zephir_array_isset(&_0, &className))) {
-		ZEPHIR_CALL_FUNCTION(&_1$$3, "get_object_vars", NULL, 238, model);
+		ZEPHIR_CALL_FUNCTION(&_1$$3, "get_object_vars", NULL, 239, model);
 		zephir_check_call_status();
 		zephir_update_property_array(this_ptr, SL("modelVisibility"), &className, &_1$$3);
 	}
@@ -605,6 +692,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getModelSource) {
 	ZVAL_UNDEF(&_5);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &model);
@@ -643,6 +738,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, setModelSchema) {
 	ZVAL_UNDEF(&model_sub);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&schema);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
+		Z_PARAM_STR(schema)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &model, &schema_param);
@@ -679,6 +783,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getModelSchema) {
 	ZVAL_UNDEF(&schema);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &model);
@@ -708,6 +820,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, setConnectionService) {
 
 	ZVAL_UNDEF(&model_sub);
 	ZVAL_UNDEF(&connectionService);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
+		Z_PARAM_STR(connectionService)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &model, &connectionService_param);
@@ -745,6 +866,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, setWriteConnectionService) {
 	ZVAL_UNDEF(&model_sub);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&connectionService);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
+		Z_PARAM_STR(connectionService)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &model, &connectionService_param);
@@ -781,6 +911,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, setReadConnectionService) {
 	ZVAL_UNDEF(&model_sub);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&connectionService);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
+		Z_PARAM_STR(connectionService)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &model, &connectionService_param);
@@ -816,6 +955,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getReadConnection) {
 
 	ZVAL_UNDEF(&model_sub);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &model);
@@ -841,6 +988,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getWriteConnection) {
 
 	ZVAL_UNDEF(&model_sub);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &model);
@@ -871,6 +1026,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, _getConnection) {
 
 	ZVAL_UNDEF(&model_sub);
 	ZVAL_UNDEF(&connectionServices_sub);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
+		Z_PARAM_ZVAL(connectionServices)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &model, &connectionServices);
@@ -906,6 +1070,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getConnection) {
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$3);
 	ZVAL_UNDEF(&_4$$3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
+		Z_PARAM_ZVAL(connectionServices)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &model, &connectionServices);
@@ -952,6 +1125,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getReadConnectionService) {
 
 	ZVAL_UNDEF(&model_sub);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &model);
@@ -977,6 +1158,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getWriteConnectionService) {
 
 	ZVAL_UNDEF(&model_sub);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &model);
@@ -1008,6 +1197,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, _getConnectionService) {
 
 	ZVAL_UNDEF(&model_sub);
 	ZVAL_UNDEF(&connectionServices_sub);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
+		Z_PARAM_ZVAL(connectionServices)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &model, &connectionServices);
@@ -1036,6 +1234,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getConnectionService) {
 	ZVAL_UNDEF(&connectionServices_sub);
 	ZVAL_UNDEF(&connection);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
+		Z_PARAM_ZVAL(connectionServices)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &model, &connectionServices);
@@ -1078,6 +1285,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, notifyEvent) {
 	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_6);
 	ZVAL_UNDEF(&_3$$3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_STR(eventName)
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &eventName_param, &model);
@@ -1188,6 +1404,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, missingMethod) {
 	ZVAL_UNDEF(&_3$$3);
 	ZVAL_UNDEF(&eventName);
 	ZVAL_UNDEF(&_5$$8);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(3, 3)
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
+		Z_PARAM_STR(eventName)
+		Z_PARAM_ZVAL(data)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &model, &eventName_param, &data);
@@ -1270,6 +1496,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addBehavior) {
 	ZVAL_UNDEF(&entityName);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(behavior, phalcon_mvc_model_behaviorinterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &model, &behavior);
@@ -1302,6 +1537,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, keepSnapshots) {
 	ZVAL_UNDEF(&model_sub);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
+		Z_PARAM_BOOL(keepSnapshots)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &model, &keepSnapshots_param);
@@ -1331,6 +1575,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, isKeepingSnapshots) {
 	ZVAL_UNDEF(&isKeeping);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &model);
@@ -1361,6 +1613,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, useDynamicUpdate) {
 	ZVAL_UNDEF(&entityName);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
+		Z_PARAM_BOOL(dynamicUpdate)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &model, &dynamicUpdate_param);
@@ -1393,6 +1654,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, isUsingDynamicUpdate) {
 	ZVAL_UNDEF(&isUsing);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &model);
@@ -1440,6 +1709,19 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasOne) {
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&referencedModel);
 	ZVAL_UNDEF(&keyRelation);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(4, 5)
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
+		Z_PARAM_ZVAL(fields)
+		Z_PARAM_STR(referencedModel)
+		Z_PARAM_ZVAL(referencedFields)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL(options)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 4, 1, &model, &fields, &referencedModel_param, &referencedFields, &options);
@@ -1551,6 +1833,22 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasOneThrough) {
 	ZVAL_UNDEF(&intermediateModel);
 	ZVAL_UNDEF(&referencedModel);
 	ZVAL_UNDEF(&keyRelation);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(7, 8)
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
+		Z_PARAM_ZVAL(fields)
+		Z_PARAM_STR(intermediateModel)
+		Z_PARAM_ZVAL(intermediateFields)
+		Z_PARAM_ZVAL(intermediateReferencedFields)
+		Z_PARAM_STR(referencedModel)
+		Z_PARAM_ZVAL(referencedFields)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL(options)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 7, 1, &model, &fields, &intermediateModel_param, &intermediateFields, &intermediateReferencedFields, &referencedModel_param, &referencedFields, &options);
@@ -1675,6 +1973,19 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addBelongsTo) {
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&referencedModel);
 	ZVAL_UNDEF(&keyRelation);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(4, 5)
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
+		Z_PARAM_ZVAL(fields)
+		Z_PARAM_STR(referencedModel)
+		Z_PARAM_ZVAL(referencedFields)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL(options)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 4, 1, &model, &fields, &referencedModel_param, &referencedFields, &options);
@@ -1779,6 +2090,19 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasMany) {
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&referencedModel);
 	ZVAL_UNDEF(&keyRelation);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(4, 5)
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
+		Z_PARAM_ZVAL(fields)
+		Z_PARAM_STR(referencedModel)
+		Z_PARAM_ZVAL(referencedFields)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL(options)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 4, 1, &model, &fields, &referencedModel_param, &referencedFields, &options);
@@ -1891,6 +2215,22 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, addHasManyToMany) {
 	ZVAL_UNDEF(&intermediateModel);
 	ZVAL_UNDEF(&referencedModel);
 	ZVAL_UNDEF(&keyRelation);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(7, 8)
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
+		Z_PARAM_ZVAL(fields)
+		Z_PARAM_STR(intermediateModel)
+		Z_PARAM_ZVAL(intermediateFields)
+		Z_PARAM_ZVAL(intermediateReferencedFields)
+		Z_PARAM_STR(referencedModel)
+		Z_PARAM_ZVAL(referencedFields)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL(options)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 7, 1, &model, &fields, &intermediateModel_param, &intermediateFields, &intermediateReferencedFields, &referencedModel_param, &referencedFields, &options);
@@ -2003,6 +2343,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, existsBelongsTo) {
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_STR(modelName)
+		Z_PARAM_STR(modelRelation)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &modelName_param, &modelRelation_param);
@@ -2065,6 +2414,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, existsHasMany) {
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_STR(modelName)
+		Z_PARAM_STR(modelRelation)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &modelName_param, &modelRelation_param);
@@ -2127,6 +2485,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, existsHasOne) {
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_STR(modelName)
+		Z_PARAM_STR(modelRelation)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &modelName_param, &modelRelation_param);
@@ -2189,6 +2556,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, existsHasOneThrough) {
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_STR(modelName)
+		Z_PARAM_STR(modelRelation)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &modelName_param, &modelRelation_param);
@@ -2251,6 +2627,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, existsHasManyToMany) {
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_STR(modelName)
+		Z_PARAM_STR(modelRelation)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &modelName_param, &modelRelation_param);
@@ -2310,6 +2695,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationByAlias) {
 	ZVAL_UNDEF(&relation);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_STR(modelName)
+		Z_PARAM_STR(alias)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &modelName_param, &alias_param);
@@ -2383,6 +2777,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, _mergeFindParameters) {
 	ZVAL_UNDEF(&_26$$33);
 	ZVAL_UNDEF(&_27$$33);
 	ZVAL_UNDEF(&findParams);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_ZVAL(findParamsOne)
+		Z_PARAM_ZVAL(findParamsTwo)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &findParamsOne, &findParamsTwo);
@@ -2646,6 +3049,18 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationRecords) {
 	ZVAL_UNDEF(&joinConditions);
 	ZVAL_UNDEF(&_36);
 	ZVAL_UNDEF(&_34$$21);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 4)
+		Z_PARAM_OBJECT_OF_CLASS(relation, phalcon_mvc_model_relationinterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(record, phalcon_mvc_modelinterface_ce)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL(parameters)
+		Z_PARAM_STR_OR_NULL(method)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 2, &relation, &record, &parameters, &method_param);
@@ -2916,6 +3331,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getReusableRecords) {
 	ZVAL_UNDEF(&key);
 	ZVAL_UNDEF(&records);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_STR(modelName)
+		Z_PARAM_STR(key)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &modelName_param, &key_param);
@@ -2963,6 +3387,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, setReusableRecords) {
 	ZVAL_UNDEF(&modelName);
 	ZVAL_UNDEF(&key);
 	ZVAL_UNDEF(&records_sub);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(3, 3)
+		Z_PARAM_STR(modelName)
+		Z_PARAM_STR(key)
+		Z_PARAM_ZVAL(records)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &modelName_param, &key_param, &records);
@@ -3005,6 +3439,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, clearReusableObjects) {
 
 	ZVAL_UNDEF(&_0);
 
+
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_INIT_VAR(&_0);
@@ -3038,6 +3473,19 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getBelongsToRecords) {
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_4);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(3, 5)
+		Z_PARAM_STR(modelName)
+		Z_PARAM_STR(modelRelation)
+		Z_PARAM_OBJECT_OF_CLASS(record, phalcon_mvc_modelinterface_ce)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL(parameters)
+		Z_PARAM_STR_OR_NULL(method)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 2, &modelName_param, &modelRelation_param, &record, &parameters, &method_param);
@@ -3117,6 +3565,19 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasManyRecords) {
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_4);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(3, 5)
+		Z_PARAM_STR(modelName)
+		Z_PARAM_STR(modelRelation)
+		Z_PARAM_OBJECT_OF_CLASS(record, phalcon_mvc_modelinterface_ce)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL(parameters)
+		Z_PARAM_STR_OR_NULL(method)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 2, &modelName_param, &modelRelation_param, &record, &parameters, &method_param);
@@ -3196,6 +3657,19 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOneRecords) {
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_4);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(3, 5)
+		Z_PARAM_STR(modelName)
+		Z_PARAM_STR(modelRelation)
+		Z_PARAM_OBJECT_OF_CLASS(record, phalcon_mvc_modelinterface_ce)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL(parameters)
+		Z_PARAM_STR_OR_NULL(method)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 2, &modelName_param, &modelRelation_param, &record, &parameters, &method_param);
@@ -3270,6 +3744,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getBelongsTo) {
 	ZVAL_UNDEF(&relations);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &model);
@@ -3300,6 +3782,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasMany) {
 	ZVAL_UNDEF(&relations);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &model);
@@ -3330,6 +3820,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOne) {
 	ZVAL_UNDEF(&relations);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &model);
@@ -3360,6 +3858,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOneThrough) {
 	ZVAL_UNDEF(&relations);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &model);
@@ -3390,6 +3896,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasManyToMany) {
 	ZVAL_UNDEF(&relations);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &model);
@@ -3420,6 +3934,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getHasOneAndHasMany) {
 	ZVAL_UNDEF(&model_sub);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &model);
@@ -3462,6 +3984,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelations) {
 	ZVAL_UNDEF(&_11$$12);
 	ZVAL_UNDEF(&_14$$15);
 	ZVAL_UNDEF(&allRelations);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(modelName)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &modelName_param);
@@ -3653,6 +4183,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getRelationsBetween) {
 	ZVAL_UNDEF(&_5);
 	ZVAL_UNDEF(&_6);
 	ZVAL_UNDEF(&_7);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_STR(first)
+		Z_PARAM_STR(second)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &first_param, &second_param);
@@ -3738,6 +4277,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, createQuery) {
 	ZVAL_UNDEF(&_2$$3);
 	ZVAL_UNDEF(&_4$$3);
 	ZVAL_UNDEF(&_6);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(phql)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &phql_param);
@@ -3823,6 +4370,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, executeQuery) {
 	ZVAL_UNDEF(&types_sub);
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&query);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 3)
+		Z_PARAM_STR(phql)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL(placeholders)
+		Z_PARAM_ZVAL(types)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 2, &phql_param, &placeholders, &types);
@@ -3885,6 +4443,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, createBuilder) {
 	ZVAL_UNDEF(&_2$$3);
 	ZVAL_UNDEF(&_4$$3);
 	ZVAL_UNDEF(&_6);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL(params)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &params);
@@ -3930,6 +4497,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, getLastQuery) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "lastQuery");
 
 }
@@ -3943,6 +4511,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, __destruct) {
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
 	zval *this_ptr = getThis();
+
 
 
 	ZEPHIR_MM_GROW();
@@ -4002,6 +4571,7 @@ zend_object *zephir_init_properties_Phalcon_Mvc_Model_Manager(zend_class_entry *
 	ZVAL_UNDEF(&_39$$22);
 	ZVAL_UNDEF(&_41$$23);
 	ZVAL_UNDEF(&_43$$24);
+
 
 		ZEPHIR_MM_GROW();
 	

@@ -64,6 +64,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Textarea, __toString) {
 	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&attributes);
 
+
 	ZEPHIR_MM_GROW();
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("attributes"), PH_NOISY_CC | PH_READONLY);

@@ -69,6 +69,7 @@ PHP_METHOD(Phalcon_Http_Message_Stream_Input, __construct) {
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 
+
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_INIT_VAR(&_1);
@@ -102,6 +103,7 @@ PHP_METHOD(Phalcon_Http_Message_Stream_Input, __toString) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
+
 
 	ZEPHIR_MM_GROW();
 
@@ -140,6 +142,15 @@ PHP_METHOD(Phalcon_Http_Message_Stream_Input, getContents) {
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_4);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_LONG(length)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &length_param);
@@ -185,6 +196,7 @@ PHP_METHOD(Phalcon_Http_Message_Stream_Input, isWritable) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_BOOL(0);
 
 }
@@ -210,6 +222,14 @@ PHP_METHOD(Phalcon_Http_Message_Stream_Input, read) {
 	ZVAL_UNDEF(&data);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(length)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &length);

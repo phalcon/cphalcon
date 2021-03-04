@@ -78,6 +78,14 @@ PHP_METHOD(Phalcon_Paginator_Adapter_AbstractAdapter, __construct) {
 	ZVAL_UNDEF(&_0$$3);
 	ZVAL_UNDEF(&_1$$4);
 	ZVAL_UNDEF(&_2$$5);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ARRAY(config)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &config_param);
@@ -113,6 +121,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_AbstractAdapter, getLimit) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "limitRows");
 
 }
@@ -127,6 +136,14 @@ PHP_METHOD(Phalcon_Paginator_Adapter_AbstractAdapter, setCurrentPage) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_LONG(page)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(1, 0, &page_param);
 
@@ -150,6 +167,14 @@ PHP_METHOD(Phalcon_Paginator_Adapter_AbstractAdapter, setLimit) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_LONG(limitRows)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(1, 0, &limitRows_param);
 
@@ -176,6 +201,14 @@ PHP_METHOD(Phalcon_Paginator_Adapter_AbstractAdapter, setRepository) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&repository_sub);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(repository, phalcon_paginator_repositoryinterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(1, 0, &repository);
 
@@ -201,6 +234,15 @@ PHP_METHOD(Phalcon_Paginator_Adapter_AbstractAdapter, getRepository) {
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$4);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ARRAY_OR_NULL(properties)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &properties_param);

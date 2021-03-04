@@ -108,6 +108,15 @@ PHP_METHOD(Phalcon_Filter, __construct) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&mapper);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ARRAY(mapper)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &mapper_param);
@@ -150,6 +159,14 @@ PHP_METHOD(Phalcon_Filter, get) {
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_4$$4);
 	ZVAL_UNDEF(&_5$$5);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(name)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
@@ -210,6 +227,14 @@ PHP_METHOD(Phalcon_Filter, has) {
 
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(name)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
@@ -256,6 +281,17 @@ PHP_METHOD(Phalcon_Filter, sanitize) {
 	ZVAL_UNDEF(&_7$$9);
 	ZVAL_UNDEF(&_10$$13);
 	ZVAL_UNDEF(&_11$$14);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 3)
+		Z_PARAM_ZVAL(value)
+		Z_PARAM_ZVAL(sanitizers)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_BOOL(noRecursive)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &value, &sanitizers, &noRecursive_param);
@@ -298,11 +334,11 @@ PHP_METHOD(Phalcon_Filter, sanitize) {
 					_4$$5 = !noRecursive;
 				}
 				if (_4$$5) {
-					ZEPHIR_CALL_METHOD(&_5$$8, this_ptr, "processarrayvalues", &_6, 254, value, &sanitizerName, &sanitizerParams);
+					ZEPHIR_CALL_METHOD(&_5$$8, this_ptr, "processarrayvalues", &_6, 255, value, &sanitizerName, &sanitizerParams);
 					zephir_check_call_status();
 					ZEPHIR_CPY_WRT(value, &_5$$8);
 				} else {
-					ZEPHIR_CALL_METHOD(&_7$$9, this_ptr, "sanitizer", &_8, 255, value, &sanitizerName, &sanitizerParams);
+					ZEPHIR_CALL_METHOD(&_7$$9, this_ptr, "sanitizer", &_8, 256, value, &sanitizerName, &sanitizerParams);
 					zephir_check_call_status();
 					ZEPHIR_CPY_WRT(value, &_7$$9);
 				}
@@ -333,11 +369,11 @@ PHP_METHOD(Phalcon_Filter, sanitize) {
 						_9$$10 = !noRecursive;
 					}
 					if (_9$$10) {
-						ZEPHIR_CALL_METHOD(&_10$$13, this_ptr, "processarrayvalues", &_6, 254, value, &sanitizerName, &sanitizerParams);
+						ZEPHIR_CALL_METHOD(&_10$$13, this_ptr, "processarrayvalues", &_6, 255, value, &sanitizerName, &sanitizerParams);
 						zephir_check_call_status();
 						ZEPHIR_CPY_WRT(value, &_10$$13);
 					} else {
-						ZEPHIR_CALL_METHOD(&_11$$14, this_ptr, "sanitizer", &_8, 255, value, &sanitizerName, &sanitizerParams);
+						ZEPHIR_CALL_METHOD(&_11$$14, this_ptr, "sanitizer", &_8, 256, value, &sanitizerName, &sanitizerParams);
 						zephir_check_call_status();
 						ZEPHIR_CPY_WRT(value, &_11$$14);
 					}
@@ -355,11 +391,11 @@ PHP_METHOD(Phalcon_Filter, sanitize) {
 		_12 = !noRecursive;
 	}
 	if (_12) {
-		ZEPHIR_RETURN_CALL_METHOD(this_ptr, "processarrayvalues", &_6, 254, value, sanitizers);
+		ZEPHIR_RETURN_CALL_METHOD(this_ptr, "processarrayvalues", &_6, 255, value, sanitizers);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "sanitizer", &_8, 255, value, sanitizers);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "sanitizer", &_8, 256, value, sanitizers);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -378,6 +414,15 @@ PHP_METHOD(Phalcon_Filter, set) {
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&service_sub);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_STR(name)
+		Z_PARAM_ZVAL(service)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &name_param, &service);
@@ -419,6 +464,14 @@ PHP_METHOD(Phalcon_Filter, init) {
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&service);
 	ZVAL_UNDEF(&_1);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ARRAY(mapper)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &mapper_param);
@@ -490,6 +543,17 @@ PHP_METHOD(Phalcon_Filter, processArrayValues) {
 	ZVAL_UNDEF(&_4$$3);
 	ZVAL_UNDEF(&_6$$4);
 	ZVAL_UNDEF(&sanitizerName);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 3)
+		Z_PARAM_ARRAY(values)
+		Z_PARAM_STR(sanitizerName)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ARRAY(sanitizerParams)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &values_param, &sanitizerName_param, &sanitizerParams_param);
@@ -518,7 +582,7 @@ PHP_METHOD(Phalcon_Filter, processArrayValues) {
 			}
 			ZEPHIR_INIT_NVAR(&itemValue);
 			ZVAL_COPY(&itemValue, _0);
-			ZEPHIR_CALL_METHOD(&_4$$3, this_ptr, "sanitizer", &_5, 255, &itemValue, &sanitizerName, &sanitizerParams);
+			ZEPHIR_CALL_METHOD(&_4$$3, this_ptr, "sanitizer", &_5, 256, &itemValue, &sanitizerName, &sanitizerParams);
 			zephir_check_call_status();
 			zephir_array_update_zval(&arrayValue, &itemKey, &_4$$3, PH_COPY | PH_SEPARATE);
 		} ZEND_HASH_FOREACH_END();
@@ -535,7 +599,7 @@ PHP_METHOD(Phalcon_Filter, processArrayValues) {
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&itemValue, &values, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_6$$4, this_ptr, "sanitizer", &_5, 255, &itemValue, &sanitizerName, &sanitizerParams);
+				ZEPHIR_CALL_METHOD(&_6$$4, this_ptr, "sanitizer", &_5, 256, &itemValue, &sanitizerName, &sanitizerParams);
 				zephir_check_call_status();
 				zephir_array_update_zval(&arrayValue, &itemKey, &_6$$4, PH_COPY | PH_SEPARATE);
 			ZEPHIR_CALL_METHOD(NULL, &values, "next", NULL, 0);
@@ -569,6 +633,17 @@ PHP_METHOD(Phalcon_Filter, sanitizer) {
 	ZVAL_UNDEF(&_1$$4);
 	ZVAL_UNDEF(&sanitizerParams);
 	ZVAL_UNDEF(&_3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 3)
+		Z_PARAM_ZVAL(value)
+		Z_PARAM_STR(sanitizerName)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ARRAY(sanitizerParams)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &value, &sanitizerName_param, &sanitizerParams_param);
@@ -625,6 +700,7 @@ zend_object *zephir_init_properties_Phalcon_Filter(zend_class_entry *class_type)
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_3$$4);
+
 
 		ZEPHIR_MM_GROW();
 	

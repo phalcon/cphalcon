@@ -66,6 +66,7 @@ PHP_METHOD(Phalcon_Validation, getData) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "data");
 
 }
@@ -76,6 +77,14 @@ PHP_METHOD(Phalcon_Validation, setValidators) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&validators_sub);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(validators)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(1, 0, &validators);
 
@@ -102,6 +111,15 @@ PHP_METHOD(Phalcon_Validation, __construct) {
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ARRAY(validators)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &validators_param);
@@ -116,14 +134,14 @@ PHP_METHOD(Phalcon_Validation, __construct) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZEPHIR_INIT_NVAR(&_0);
-	zephir_create_closure_ex(&_0, NULL, phalcon_10__closure_ce, SL("__invoke"));
-	ZEPHIR_CALL_FUNCTION(&_1, "array_filter", NULL, 268, &validators, &_0);
+	zephir_create_closure_ex(&_0, NULL, phalcon_16__closure_ce, SL("__invoke"));
+	ZEPHIR_CALL_FUNCTION(&_1, "array_filter", NULL, 269, &validators, &_0);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("validators"), &_1);
 	ZEPHIR_INIT_VAR(&_2);
 	ZEPHIR_INIT_NVAR(&_2);
-	zephir_create_closure_ex(&_2, NULL, phalcon_11__closure_ce, SL("__invoke"));
-	ZEPHIR_CALL_FUNCTION(&_3, "array_filter", NULL, 268, &validators, &_2);
+	zephir_create_closure_ex(&_2, NULL, phalcon_17__closure_ce, SL("__invoke"));
+	ZEPHIR_CALL_FUNCTION(&_3, "array_filter", NULL, 269, &validators, &_2);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("combinedFieldsValidators"), &_3);
 	if ((zephir_method_exists_ex(this_ptr, ZEND_STRL("initialize")) == SUCCESS)) {
@@ -150,6 +168,15 @@ PHP_METHOD(Phalcon_Validation, add) {
 	ZVAL_UNDEF(&singleField);
 	ZVAL_UNDEF(&_2$$5);
 	ZVAL_UNDEF(&_0$$4);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_ZVAL(field)
+		Z_PARAM_OBJECT_OF_CLASS(validator, phalcon_validation_validatorinterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &field, &validator);
@@ -213,6 +240,14 @@ PHP_METHOD(Phalcon_Validation, appendMessage) {
 	ZVAL_UNDEF(&message_sub);
 	ZVAL_UNDEF(&messages);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(message, phalcon_messages_messageinterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &message);
@@ -251,6 +286,15 @@ PHP_METHOD(Phalcon_Validation, bind) {
 
 	ZVAL_UNDEF(&entity_sub);
 	ZVAL_UNDEF(&data_sub);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_ZVAL(entity)
+		Z_PARAM_ZVAL(data)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &entity, &data);
@@ -282,6 +326,7 @@ PHP_METHOD(Phalcon_Validation, getEntity) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "entity");
 
 }
@@ -300,6 +345,15 @@ PHP_METHOD(Phalcon_Validation, getFilters) {
 	ZVAL_UNDEF(&filters);
 	ZVAL_UNDEF(&fieldFilters);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR_OR_NULL(field)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &field_param);
@@ -339,6 +393,14 @@ PHP_METHOD(Phalcon_Validation, getLabel) {
 	ZVAL_UNDEF(&labels);
 	ZVAL_UNDEF(&value);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(field)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &field);
@@ -367,6 +429,7 @@ PHP_METHOD(Phalcon_Validation, getMessages) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "messages");
 
 }
@@ -377,6 +440,7 @@ PHP_METHOD(Phalcon_Validation, getMessages) {
 PHP_METHOD(Phalcon_Validation, getValidators) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "validators");
@@ -415,6 +479,14 @@ PHP_METHOD(Phalcon_Validation, getValue) {
 	ZVAL_UNDEF(&_8$$17);
 	ZVAL_UNDEF(&_9$$17);
 	ZVAL_UNDEF(&_10$$21);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(field)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &field_param);
@@ -549,6 +621,15 @@ PHP_METHOD(Phalcon_Validation, rule) {
 
 	ZVAL_UNDEF(&field_sub);
 	ZVAL_UNDEF(&validator_sub);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_ZVAL(field)
+		Z_PARAM_OBJECT_OF_CLASS(validator, phalcon_validation_validatorinterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &field, &validator);
@@ -577,6 +658,15 @@ PHP_METHOD(Phalcon_Validation, rules) {
 	ZVAL_UNDEF(&validator);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&validators);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_ZVAL(field)
+		Z_PARAM_ARRAY(validators)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &field, &validators_param);
@@ -607,7 +697,7 @@ PHP_METHOD(Phalcon_Validation, rules) {
 			ZEPHIR_CALL_METHOD(&validator, &validators, "current", NULL, 0);
 			zephir_check_call_status();
 				if (zephir_instance_of_ev(&validator, phalcon_validation_validatorinterface_ce)) {
-					ZEPHIR_CALL_METHOD(NULL, this_ptr, "add", &_2, 264, field, &validator);
+					ZEPHIR_CALL_METHOD(NULL, this_ptr, "add", &_2, 265, field, &validator);
 					zephir_check_call_status();
 				}
 			ZEPHIR_CALL_METHOD(NULL, &validators, "next", NULL, 0);
@@ -630,6 +720,14 @@ PHP_METHOD(Phalcon_Validation, setEntity) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&entity_sub);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(entity)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(1, 0, &entity);
 
@@ -660,6 +758,15 @@ PHP_METHOD(Phalcon_Validation, setFilters) {
 	ZVAL_UNDEF(&filters_sub);
 	ZVAL_UNDEF(&singleField);
 	ZVAL_UNDEF(&_1$$3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_ZVAL(field)
+		Z_PARAM_ZVAL(filters)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &field, &filters);
@@ -713,6 +820,14 @@ PHP_METHOD(Phalcon_Validation, setLabels) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&labels);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ARRAY(labels)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &labels_param);
@@ -783,6 +898,16 @@ PHP_METHOD(Phalcon_Validation, validate) {
 	ZVAL_UNDEF(&_35$$41);
 	ZVAL_UNDEF(&_36$$41);
 	ZVAL_UNDEF(&_37$$43);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 2)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL(data)
+		Z_PARAM_ZVAL(entity)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &data, &entity);
@@ -1101,6 +1226,15 @@ PHP_METHOD(Phalcon_Validation, preChecking) {
 	ZVAL_UNDEF(&_3$$8);
 	ZVAL_UNDEF(&_4$$8);
 	ZVAL_UNDEF(&_6$$11);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_ZVAL(field)
+		Z_PARAM_OBJECT_OF_CLASS(validator, phalcon_validation_validatorinterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &field, &validator);
@@ -1202,6 +1336,7 @@ zend_object *zephir_init_properties_Phalcon_Validation(zend_class_entry *class_t
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_3$$4);
+
 
 		ZEPHIR_MM_GROW();
 	

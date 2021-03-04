@@ -65,6 +65,15 @@ PHP_METHOD(Phalcon_Config_ConfigFactory, __construct) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&services);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ARRAY(services)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &services_param);
@@ -122,6 +131,14 @@ PHP_METHOD(Phalcon_Config_ConfigFactory, load) {
 	ZVAL_UNDEF(&_13$$10);
 	ZVAL_UNDEF(&_14$$11);
 	ZVAL_UNDEF(&_15$$11);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(config)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &config);
@@ -132,7 +149,7 @@ PHP_METHOD(Phalcon_Config_ConfigFactory, load) {
 	if (Z_TYPE_P(config) == IS_STRING) {
 		ZEPHIR_CPY_WRT(&oldConfig, config);
 		ZVAL_LONG(&_0$$3, 4);
-		ZEPHIR_CALL_FUNCTION(&extension, "pathinfo", NULL, 107, config, &_0$$3);
+		ZEPHIR_CALL_FUNCTION(&extension, "pathinfo", NULL, 109, config, &_0$$3);
 		zephir_check_call_status();
 		if (UNEXPECTED(ZEPHIR_IS_EMPTY(&extension))) {
 			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_config_exception_ce, "You need to provide the extension in the file path", "phalcon/Config/ConfigFactory.zep", 64);
@@ -173,10 +190,10 @@ PHP_METHOD(Phalcon_Config_ConfigFactory, load) {
 	ZEPHIR_INIT_VAR(&second);
 	ZVAL_NULL(&second);
 	ZVAL_LONG(&_5, 4);
-	ZEPHIR_CALL_FUNCTION(&_6, "pathinfo", NULL, 107, &first, &_5);
+	ZEPHIR_CALL_FUNCTION(&_6, "pathinfo", NULL, 109, &first, &_5);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_EMPTY(&_6)) {
-		ZEPHIR_CALL_FUNCTION(&_7$$9, "lcfirst", NULL, 94, &adapter);
+		ZEPHIR_CALL_FUNCTION(&_7$$9, "lcfirst", NULL, 96, &adapter);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_8$$9);
 		ZEPHIR_CONCAT_VSV(&_8$$9, &first, ".", &_7$$9);
@@ -226,6 +243,17 @@ PHP_METHOD(Phalcon_Config_ConfigFactory, newInstance) {
 	ZVAL_UNDEF(&options);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 3)
+		Z_PARAM_STR(name)
+		Z_PARAM_STR(fileName)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL(params)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &name_param, &fileName_param, &params);
@@ -266,6 +294,7 @@ PHP_METHOD(Phalcon_Config_ConfigFactory, newInstance) {
 PHP_METHOD(Phalcon_Config_ConfigFactory, getAdapters) {
 
 	zval *this_ptr = getThis();
+
 
 
 	zephir_create_array(return_value, 5, 0);

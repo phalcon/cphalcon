@@ -51,6 +51,7 @@ PHP_METHOD(Phalcon_Html_Attributes, render) {
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 
+
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "toarray", NULL, 0);
@@ -71,6 +72,7 @@ PHP_METHOD(Phalcon_Html_Attributes, __toString) {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
+
 
 
 	ZEPHIR_MM_GROW();

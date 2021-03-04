@@ -64,6 +64,14 @@ PHP_METHOD(Phalcon_Security_JWT_Token_Parser, parse) {
 	ZVAL_UNDEF(&headers);
 	ZVAL_UNDEF(&results);
 	ZVAL_UNDEF(&signature);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(token)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &token_param);
@@ -126,6 +134,14 @@ PHP_METHOD(Phalcon_Security_JWT_Token_Parser, decodeClaims) {
 	ZVAL_UNDEF(&_5);
 	ZVAL_UNDEF(&_7$$4);
 	ZVAL_UNDEF(&_6$$4);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(claims)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &claims_param);
@@ -136,7 +152,7 @@ PHP_METHOD(Phalcon_Security_JWT_Token_Parser, decodeClaims) {
 	ZEPHIR_CALL_CE_STATIC(&_1, phalcon_helper_base64_ce, "decodeurl", &_2, 0, &claims);
 	zephir_check_call_status();
 	ZVAL_BOOL(&_3, 1);
-	ZEPHIR_CALL_CE_STATIC(&decoded, phalcon_helper_json_ce, "decode", &_0, 179, &_1, &_3);
+	ZEPHIR_CALL_CE_STATIC(&decoded, phalcon_helper_json_ce, "decode", &_0, 181, &_1, &_3);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&decoded) != IS_ARRAY) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Invalid Claims (not an array)", "phalcon/Security/JWT/Token/Parser.zep", 62);
@@ -183,6 +199,14 @@ PHP_METHOD(Phalcon_Security_JWT_Token_Parser, decodeHeaders) {
 	ZVAL_UNDEF(&decoded);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(headers)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &headers_param);
@@ -193,7 +217,7 @@ PHP_METHOD(Phalcon_Security_JWT_Token_Parser, decodeHeaders) {
 	ZEPHIR_CALL_CE_STATIC(&_1, phalcon_helper_base64_ce, "decodeurl", &_2, 0, &headers);
 	zephir_check_call_status();
 	ZVAL_BOOL(&_3, 1);
-	ZEPHIR_CALL_CE_STATIC(&decoded, phalcon_helper_json_ce, "decode", &_0, 179, &_1, &_3);
+	ZEPHIR_CALL_CE_STATIC(&decoded, phalcon_helper_json_ce, "decode", &_0, 181, &_1, &_3);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&decoded) != IS_ARRAY) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(spl_ce_InvalidArgumentException, "Invalid Header (not an array)", "phalcon/Security/JWT/Token/Parser.zep", 91);
@@ -234,6 +258,15 @@ PHP_METHOD(Phalcon_Security_JWT_Token_Parser, decodeSignature) {
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&signature);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_OBJECT_OF_CLASS(headers, phalcon_security_jwt_token_item_ce)
+		Z_PARAM_STR(signature)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &headers, &signature_param);
@@ -281,6 +314,14 @@ PHP_METHOD(Phalcon_Security_JWT_Token_Parser, parseToken) {
 
 	ZVAL_UNDEF(&token);
 	ZVAL_UNDEF(&parts);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(token)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &token_param);

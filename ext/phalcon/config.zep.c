@@ -84,6 +84,7 @@ PHP_METHOD(Phalcon_Config, getPathDelimiter) {
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
 
+
 	ZEPHIR_MM_GROW();
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("pathDelimiter"), PH_NOISY_CC | PH_READONLY);
@@ -125,6 +126,14 @@ PHP_METHOD(Phalcon_Config, merge) {
 	ZVAL_UNDEF(&result);
 	ZVAL_UNDEF(&source);
 	ZVAL_UNDEF(&target);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(toMerge)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &toMerge);
@@ -186,6 +195,17 @@ PHP_METHOD(Phalcon_Config, path) {
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2$$5);
 	ZVAL_UNDEF(&_3$$5);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 3)
+		Z_PARAM_STR(path)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL(defaultValue)
+		Z_PARAM_ZVAL(delimiter)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 2, &path_param, &defaultValue, &delimiter);
@@ -261,6 +281,15 @@ PHP_METHOD(Phalcon_Config, setPathDelimiter) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&delimiter);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR_OR_NULL(delimiter)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &delimiter_param);
@@ -306,6 +335,7 @@ PHP_METHOD(Phalcon_Config, toArray) {
 	ZVAL_UNDEF(&_6$$4);
 	ZVAL_UNDEF(&_8$$6);
 	ZVAL_UNDEF(&results);
+
 
 	ZEPHIR_MM_GROW();
 
@@ -395,6 +425,15 @@ PHP_METHOD(Phalcon_Config, internalMerge) {
 	ZVAL_UNDEF(&_12$$7);
 	ZVAL_UNDEF(&_13$$8);
 	ZVAL_UNDEF(&_14$$8);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_ARRAY(source)
+		Z_PARAM_ARRAY(target)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &source_param, &target_param);
@@ -496,6 +535,15 @@ PHP_METHOD(Phalcon_Config, setData) {
 	ZVAL_UNDEF(&key);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_ZVAL(element)
+		Z_PARAM_ZVAL(value)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &element, &value);

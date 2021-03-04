@@ -63,6 +63,14 @@ PHP_METHOD(Phalcon_Helper_Base64, encodeUrl) {
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_4);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(input)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &input_param);
@@ -79,7 +87,7 @@ PHP_METHOD(Phalcon_Helper_Base64, encodeUrl) {
 	}
 
 
-	ZEPHIR_CALL_FUNCTION(&_0, "base64_encode", NULL, 190, &input);
+	ZEPHIR_CALL_FUNCTION(&_0, "base64_encode", NULL, 192, &input);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "+/");
@@ -120,6 +128,14 @@ PHP_METHOD(Phalcon_Helper_Base64, decodeUrl) {
 	ZVAL_UNDEF(&_0$$3);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(input)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &input_param);
@@ -151,7 +167,7 @@ PHP_METHOD(Phalcon_Helper_Base64, decodeUrl) {
 	ZVAL_STRING(&_4, "+/");
 	ZEPHIR_CALL_FUNCTION(&_5, "strtr", NULL, 5, &input, &_3, &_4);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&data, "base64_decode", NULL, 187, &_5);
+	ZEPHIR_CALL_FUNCTION(&data, "base64_decode", NULL, 189, &_5);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_FALSE_IDENTICAL(&data)) {
 		ZEPHIR_INIT_NVAR(&data);

@@ -12,105 +12,41 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select, optGroupEnd);
 PHP_METHOD(Phalcon_Html_Helper_Input_Select, optGroupStart);
 PHP_METHOD(Phalcon_Html_Helper_Input_Select, processValue);
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_html_helper_input_select_add, 0, 1, Phalcon\\Html\\Helper\\Input\\Select, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_input_select_add, 0, 1, IS_OBJECT, "Phalcon\\Html\\Helper\\Input\\Select", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, text, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, text)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, value, IS_STRING, 1)
-#else
-	ZEND_ARG_INFO(0, value)
-#endif
 	ZEND_ARG_ARRAY_INFO(0, attributes, 0)
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, raw, _IS_BOOL, 0)
-#else
-	ZEND_ARG_INFO(0, raw)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_html_helper_input_select_addplaceholder, 0, 1, Phalcon\\Html\\Helper\\Input\\Select, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_input_select_addplaceholder, 0, 1, IS_OBJECT, "Phalcon\\Html\\Helper\\Input\\Select", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, text, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, text)
-#endif
 	ZEND_ARG_INFO(0, value)
 	ZEND_ARG_ARRAY_INFO(0, attributes, 0)
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, raw, _IS_BOOL, 0)
-#else
-	ZEND_ARG_INFO(0, raw)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_html_helper_input_select_optgroup, 0, 0, Phalcon\\Html\\Helper\\Input\\Select, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_input_select_optgroup, 0, 0, IS_OBJECT, "Phalcon\\Html\\Helper\\Input\\Select", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, label, IS_STRING, 1)
-#else
-	ZEND_ARG_INFO(0, label)
-#endif
 	ZEND_ARG_ARRAY_INFO(0, attributes, 0)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_html_helper_input_select_selected, 0, 1, Phalcon\\Html\\Helper\\Input\\Select, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_input_select_selected, 0, 1, IS_OBJECT, "Phalcon\\Html\\Helper\\Input\\Select", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, selected, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, selected)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_input_select_gettag, 0, 0, IS_STRING, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_input_select_gettag, 0, 0, IS_STRING, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_input_select_optgroupend, 0, 0, IS_STRING, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_input_select_optgroupend, 0, 0, IS_STRING, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_input_select_optgroupstart, 0, 2, IS_STRING, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_input_select_optgroupstart, 0, 2, IS_STRING, NULL, 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, label, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, label)
-#endif
 	ZEND_ARG_ARRAY_INFO(0, attributes, 0)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_input_select_processvalue, 0, 1, IS_ARRAY, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_input_select_processvalue, 0, 1, IS_ARRAY, NULL, 0)
-#endif
 	ZEND_ARG_ARRAY_INFO(0, attributes, 0)
 	ZEND_ARG_INFO(0, value)
 ZEND_END_ARG_INFO()

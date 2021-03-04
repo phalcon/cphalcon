@@ -16,6 +16,7 @@
 #include "kernel/operators.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
+#include "ext/pdo/php_pdo_driver.h"
 #include "kernel/exception.h"
 
 
@@ -64,6 +65,16 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_Decorated, __construct) {
 	ZVAL_UNDEF(&pdo_sub);
 	ZVAL_UNDEF(&profiler_sub);
 	ZVAL_NULL(&__$null);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_OBJECT_OF_CLASS(pdo, php_pdo_get_dbh_ce())
+		Z_PARAM_OPTIONAL
+		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(profiler, phalcon_datamapper_pdo_profiler_profilerinterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &pdo, &profiler);
@@ -80,7 +91,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_Decorated, __construct) {
 	if (Z_TYPE_P(profiler) == IS_NULL) {
 		ZEPHIR_INIT_NVAR(profiler);
 		object_init_ex(profiler, phalcon_datamapper_pdo_profiler_profiler_ce);
-		ZEPHIR_CALL_METHOD(NULL, profiler, "__construct", NULL, 199);
+		ZEPHIR_CALL_METHOD(NULL, profiler, "__construct", NULL, 201);
 		zephir_check_call_status();
 	}
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setprofiler", NULL, 0, profiler);
@@ -98,6 +109,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_Decorated, connect) {
 
 
 
+
 }
 
 /**
@@ -108,6 +120,7 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_Decorated, connect) {
 PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_Decorated, disconnect) {
 
 	zval *this_ptr = getThis();
+
 
 
 	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_datamapper_pdo_exception_cannotdisconnect_ce, "Cannot disconnect a Decorated connection instance", "phalcon/DataMapper/Pdo/Connection/Decorated.zep", 66);

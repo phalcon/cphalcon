@@ -68,6 +68,14 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Checkbox, __construct) {
 
 	ZVAL_UNDEF(&escaper_sub);
 	ZVAL_UNDEF(&_1);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(escaper, phalcon_escaper_escaperinterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &escaper);
@@ -109,11 +117,12 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Checkbox, __toString) {
 	ZVAL_UNDEF(&_5);
 	ZVAL_UNDEF(&_2);
 
+
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "processchecked", NULL, 113);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "processchecked", NULL, 115);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&unchecked, this_ptr, "processunchecked", NULL, 114);
+	ZEPHIR_CALL_METHOD(&unchecked, this_ptr, "processunchecked", NULL, 116);
 	zephir_check_call_status();
 	ZEPHIR_CALL_PARENT(&element, phalcon_html_helper_input_checkbox_ce, getThis(), "__tostring", &_0, 0);
 	zephir_check_call_status();
@@ -158,6 +167,15 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Checkbox, label) {
 	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_5);
 	ZVAL_UNDEF(&_7);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ARRAY(attributes)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &attributes_param);
@@ -224,6 +242,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Checkbox, processChecked) {
 	ZVAL_UNDEF(&_6$$4);
 	ZVAL_UNDEF(&attributes);
 
+
 	ZEPHIR_MM_GROW();
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("attributes"), PH_NOISY_CC | PH_READONLY);
@@ -277,6 +296,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Checkbox, processUnchecked) {
 	ZVAL_UNDEF(&attributes);
 	ZVAL_UNDEF(&_4$$3);
 
+
 	ZEPHIR_MM_GROW();
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("attributes"), PH_NOISY_CC | PH_READONLY);
@@ -314,6 +334,7 @@ zend_object *zephir_init_properties_Phalcon_Html_Helper_Input_Checkbox(zend_clas
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_3$$4);
+
 
 		ZEPHIR_MM_GROW();
 	

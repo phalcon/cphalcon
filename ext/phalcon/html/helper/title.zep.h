@@ -11,87 +11,35 @@ PHP_METHOD(Phalcon_Html_Helper_Title, set);
 PHP_METHOD(Phalcon_Html_Helper_Title, prepend);
 zend_object *zephir_init_properties_Phalcon_Html_Helper_Title(zend_class_entry *class_type);
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_html_helper_title___invoke, 0, 0, Phalcon\\Html\\Helper\\Title, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_title___invoke, 0, 0, IS_OBJECT, "Phalcon\\Html\\Helper\\Title", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, separator, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, separator)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, indent, IS_STRING, 1)
-#else
-	ZEND_ARG_INFO(0, indent)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, delimiter, IS_STRING, 1)
-#else
-	ZEND_ARG_INFO(0, delimiter)
-#endif
 ZEND_END_ARG_INFO()
 
+#if PHP_VERSION_ID >= 80000
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_title___tostring, 0, 0, IS_STRING, 0)
+#else
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_html_helper_title___tostring, 0, 0, 0)
+#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_html_helper_title_append, 0, 1, Phalcon\\Html\\Helper\\Title, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_title_append, 0, 1, IS_OBJECT, "Phalcon\\Html\\Helper\\Title", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, text, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, text)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, raw, _IS_BOOL, 0)
-#else
-	ZEND_ARG_INFO(0, raw)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_title_get, 0, 0, IS_STRING, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_title_get, 0, 0, IS_STRING, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_html_helper_title_set, 0, 1, Phalcon\\Html\\Helper\\Title, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_title_set, 0, 1, IS_OBJECT, "Phalcon\\Html\\Helper\\Title", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, text, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, text)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, raw, _IS_BOOL, 0)
-#else
-	ZEND_ARG_INFO(0, raw)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_html_helper_title_prepend, 0, 1, Phalcon\\Html\\Helper\\Title, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_html_helper_title_prepend, 0, 1, IS_OBJECT, "Phalcon\\Html\\Helper\\Title", 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, text, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, text)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, raw, _IS_BOOL, 0)
-#else
-	ZEND_ARG_INFO(0, raw)
-#endif
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_html_helper_title_zephir_init_properties_phalcon_html_helper_title, 0, 0, 0)

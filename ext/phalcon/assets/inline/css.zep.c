@@ -57,6 +57,17 @@ PHP_METHOD(Phalcon_Assets_Inline_Css, __construct) {
 	ZVAL_UNDEF(&_0$$3);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 3)
+		Z_PARAM_STR(content)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_BOOL(filter)
+		Z_PARAM_ZVAL(attributes)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 2, &content_param, &filter_param, &attributes);

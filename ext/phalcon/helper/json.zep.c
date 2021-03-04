@@ -85,6 +85,18 @@ PHP_METHOD(Phalcon_Helper_Json, decode) {
 	ZVAL_UNDEF(&_4$$3);
 	ZVAL_UNDEF(&_5$$3);
 	ZVAL_UNDEF(&_6$$3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 4)
+		Z_PARAM_STR(data)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_BOOL(associative)
+		Z_PARAM_LONG(depth)
+		Z_PARAM_LONG(options)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 3, &data_param, &associative_param, &depth_param, &options_param);
@@ -121,12 +133,12 @@ PHP_METHOD(Phalcon_Helper_Json, decode) {
 	ZVAL_LONG(&_2, options);
 	ZEPHIR_INIT_VAR(&decoded);
 	zephir_json_decode(&decoded, &data, zephir_get_intval(&_0) );
-	ZEPHIR_CALL_FUNCTION(&_3, "json_last_error", NULL, 282);
+	ZEPHIR_CALL_FUNCTION(&_3, "json_last_error", NULL, 283);
 	zephir_check_call_status();
 	if (UNEXPECTED(!ZEPHIR_IS_LONG_IDENTICAL(&_3, 0))) {
 		ZEPHIR_INIT_VAR(&_4$$3);
 		object_init_ex(&_4$$3, spl_ce_InvalidArgumentException);
-		ZEPHIR_CALL_FUNCTION(&_5$$3, "json_last_error_msg", NULL, 283);
+		ZEPHIR_CALL_FUNCTION(&_5$$3, "json_last_error_msg", NULL, 284);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_6$$3);
 		ZEPHIR_CONCAT_SV(&_6$$3, "json_decode error: ", &_5$$3);
@@ -180,6 +192,17 @@ PHP_METHOD(Phalcon_Helper_Json, encode) {
 	ZVAL_UNDEF(&_3$$3);
 	ZVAL_UNDEF(&_4$$3);
 	ZVAL_UNDEF(&_5$$3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 3)
+		Z_PARAM_ZVAL(data)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_LONG(options)
+		Z_PARAM_LONG(depth)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 2, &data, &options_param, &depth_param);
@@ -200,12 +223,12 @@ PHP_METHOD(Phalcon_Helper_Json, encode) {
 	ZVAL_LONG(&_1, depth);
 	ZEPHIR_INIT_VAR(&encoded);
 	zephir_json_encode(&encoded, data, zephir_get_intval(&_0) );
-	ZEPHIR_CALL_FUNCTION(&_2, "json_last_error", NULL, 282);
+	ZEPHIR_CALL_FUNCTION(&_2, "json_last_error", NULL, 283);
 	zephir_check_call_status();
 	if (UNEXPECTED(!ZEPHIR_IS_LONG_IDENTICAL(&_2, 0))) {
 		ZEPHIR_INIT_VAR(&_3$$3);
 		object_init_ex(&_3$$3, spl_ce_InvalidArgumentException);
-		ZEPHIR_CALL_FUNCTION(&_4$$3, "json_last_error_msg", NULL, 283);
+		ZEPHIR_CALL_FUNCTION(&_4$$3, "json_last_error_msg", NULL, 284);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_5$$3);
 		ZEPHIR_CONCAT_SV(&_5$$3, "json_encode error: ", &_4$$3);

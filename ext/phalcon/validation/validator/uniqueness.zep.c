@@ -135,6 +135,15 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, __construct) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&options);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ARRAY(options)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &options_param);
@@ -167,6 +176,15 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, validate) {
 	ZVAL_UNDEF(&field_sub);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_OBJECT_OF_CLASS(validation, phalcon_validation_ce)
+		Z_PARAM_ZVAL(field)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &validation, &field);
@@ -209,6 +227,15 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, getColumnNameReal) {
 	ZVAL_UNDEF(&_9$$4);
 	ZVAL_UNDEF(&_10$$4);
 	ZVAL_UNDEF(&field);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_ZVAL(record)
+		Z_PARAM_STR(field)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &record, &field_param);
@@ -281,6 +308,15 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, isUniqueness) {
 	ZVAL_UNDEF(&_3$$4);
 	ZVAL_UNDEF(&_5$$5);
 	ZVAL_UNDEF(&_6$$6);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_OBJECT_OF_CLASS(validation, phalcon_validation_ce)
+		Z_PARAM_ZVAL(field)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &validation, &field);
@@ -555,6 +591,16 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, isUniquenessModel) {
 	ZVAL_UNDEF(&_142$$58);
 	ZVAL_UNDEF(&_152$$62);
 	ZVAL_UNDEF(&_154$$63);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(3, 3)
+		Z_PARAM_ZVAL(record)
+		Z_PARAM_ARRAY(field)
+		Z_PARAM_ARRAY(values)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &record, &field_param, &values_param);
@@ -617,7 +663,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, isUniquenessModel) {
 					zephir_array_keys(&_10$$6, &except);
 					ZVAL_LONG(&_11$$6, 0);
 					ZVAL_LONG(&_12$$6, (zephir_fast_count_int(&except) - 1));
-					ZEPHIR_CALL_FUNCTION(&_13$$6, "range", &_14, 296, &_11$$6, &_12$$6);
+					ZEPHIR_CALL_FUNCTION(&_13$$6, "range", &_14, 297, &_11$$6, &_12$$6);
 					zephir_check_call_status();
 					_9$$6 = !ZEPHIR_IS_IDENTICAL(&_10$$6, &_13$$6);
 				}
@@ -1021,7 +1067,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Uniqueness, isUniquenessModel) {
 						zephir_array_keys(&_88$$37, &except);
 						ZVAL_LONG(&_89$$37, 0);
 						ZVAL_LONG(&_90$$37, (zephir_fast_count_int(&except) - 1));
-						ZEPHIR_CALL_FUNCTION(&_91$$37, "range", &_14, 296, &_89$$37, &_90$$37);
+						ZEPHIR_CALL_FUNCTION(&_91$$37, "range", &_14, 297, &_89$$37, &_90$$37);
 						zephir_check_call_status();
 						_87$$37 = !ZEPHIR_IS_IDENTICAL(&_88$$37, &_91$$37);
 					}

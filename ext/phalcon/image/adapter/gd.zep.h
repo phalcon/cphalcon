@@ -24,113 +24,45 @@ PHP_METHOD(Phalcon_Image_Adapter_Gd, processText);
 PHP_METHOD(Phalcon_Image_Adapter_Gd, processWatermark);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_gd___construct, 0, 0, 1)
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, file, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, file)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, width, IS_LONG, 1)
-#else
-	ZEND_ARG_INFO(0, width)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, height, IS_LONG, 1)
-#else
-	ZEND_ARG_INFO(0, height)
-#endif
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_gd___destruct, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_image_adapter_gd_check, 0, 0, _IS_BOOL, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_image_adapter_gd_check, 0, 0, _IS_BOOL, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_image_adapter_gd_getversion, 0, 0, IS_STRING, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_image_adapter_gd_getversion, 0, 0, IS_STRING, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_gd_processbackground, 0, 0, 4)
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, r, IS_LONG, 0)
-#else
-	ZEND_ARG_INFO(0, r)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, g, IS_LONG, 0)
-#else
-	ZEND_ARG_INFO(0, g)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, b, IS_LONG, 0)
-#else
-	ZEND_ARG_INFO(0, b)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, opacity, IS_LONG, 0)
-#else
-	ZEND_ARG_INFO(0, opacity)
-#endif
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_gd_processblur, 0, 0, 1)
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, radius, IS_LONG, 0)
-#else
-	ZEND_ARG_INFO(0, radius)
-#endif
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_gd_processcreate, 0, 0, 2)
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, width, IS_LONG, 0)
-#else
-	ZEND_ARG_INFO(0, width)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, height, IS_LONG, 0)
-#else
-	ZEND_ARG_INFO(0, height)
-#endif
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_gd_processcrop, 0, 0, 4)
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, width, IS_LONG, 0)
-#else
-	ZEND_ARG_INFO(0, width)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, height, IS_LONG, 0)
-#else
-	ZEND_ARG_INFO(0, height)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, offsetX, IS_LONG, 0)
-#else
-	ZEND_ARG_INFO(0, offsetX)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, offsetY, IS_LONG, 0)
-#else
-	ZEND_ARG_INFO(0, offsetY)
-#endif
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_gd_processflip, 0, 0, 1)
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, direction, IS_LONG, 0)
-#else
-	ZEND_ARG_INFO(0, direction)
-#endif
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_gd_processmask, 0, 0, 1)
@@ -138,151 +70,55 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_gd_processmask, 0, 0, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_gd_processpixelate, 0, 0, 1)
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, amount, IS_LONG, 0)
-#else
-	ZEND_ARG_INFO(0, amount)
-#endif
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_gd_processreflection, 0, 0, 3)
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, height, IS_LONG, 0)
-#else
-	ZEND_ARG_INFO(0, height)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, opacity, IS_LONG, 0)
-#else
-	ZEND_ARG_INFO(0, opacity)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, fadeIn, _IS_BOOL, 0)
-#else
-	ZEND_ARG_INFO(0, fadeIn)
-#endif
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_gd_processrender, 0, 0, 2)
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, ext, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, ext)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, quality, IS_LONG, 0)
-#else
-	ZEND_ARG_INFO(0, quality)
-#endif
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_gd_processresize, 0, 0, 2)
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, width, IS_LONG, 0)
-#else
-	ZEND_ARG_INFO(0, width)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, height, IS_LONG, 0)
-#else
-	ZEND_ARG_INFO(0, height)
-#endif
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_gd_processrotate, 0, 0, 1)
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, degrees, IS_LONG, 0)
-#else
-	ZEND_ARG_INFO(0, degrees)
-#endif
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_gd_processsave, 0, 0, 2)
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, file, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, file)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, quality, IS_LONG, 0)
-#else
-	ZEND_ARG_INFO(0, quality)
-#endif
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_gd_processsharpen, 0, 0, 1)
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, amount, IS_LONG, 0)
-#else
-	ZEND_ARG_INFO(0, amount)
-#endif
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_gd_processtext, 0, 0, 9)
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, text, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, text)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, offsetX, IS_LONG, 0)
-#else
-	ZEND_ARG_INFO(0, offsetX)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, offsetY, IS_LONG, 0)
-#else
-	ZEND_ARG_INFO(0, offsetY)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, opacity, IS_LONG, 0)
-#else
-	ZEND_ARG_INFO(0, opacity)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, r, IS_LONG, 0)
-#else
-	ZEND_ARG_INFO(0, r)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, g, IS_LONG, 0)
-#else
-	ZEND_ARG_INFO(0, g)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, b, IS_LONG, 0)
-#else
-	ZEND_ARG_INFO(0, b)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, size, IS_LONG, 0)
-#else
-	ZEND_ARG_INFO(0, size)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, fontfile, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, fontfile)
-#endif
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_image_adapter_gd_processwatermark, 0, 0, 4)
 	ZEND_ARG_OBJ_INFO(0, watermark, Phalcon\\Image\\Adapter\\AdapterInterface, 0)
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, offsetX, IS_LONG, 0)
-#else
-	ZEND_ARG_INFO(0, offsetX)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, offsetY, IS_LONG, 0)
-#else
-	ZEND_ARG_INFO(0, offsetY)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, opacity, IS_LONG, 0)
-#else
-	ZEND_ARG_INFO(0, opacity)
-#endif
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_image_adapter_gd_method_entry) {
