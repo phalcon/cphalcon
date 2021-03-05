@@ -94,7 +94,8 @@ class AppendMessagesCest
 
         if (version_compare(PHP_VERSION, '8.0.0', '>=')) {
             $I->assertEquals(
-                'Phalcon\Messages\Messages::appendMessage(): Argument #1 ($message) must be of type Phalcon\Messages\MessageInterface, bool given',
+                'Phalcon\Messages\Messages::appendMessage(): Argument #1 ($message) must be of type' .
+                ' Phalcon\Messages\MessageInterface, bool given',
                 $actual
             );
         } else {
