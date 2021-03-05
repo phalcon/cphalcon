@@ -28,10 +28,10 @@ return <<<HEADER
 #include <main/php_output.h>
 #include <main/php_ini.h>
 #include <main/SAPI.h>
+
 #include <ext/standard/php_string.h>
 #include <ext/standard/php_smart_string.h>
 #include <ext/standard/info.h>
-#include <ext/pdo/php_pdo_driver.h>
 #include <ext/standard/file.h>
 #include <ext/standard/php_filestat.h>
 #include <ext/standard/php_rand.h>
@@ -41,20 +41,31 @@ return <<<HEADER
 #include <ext/standard/php_var.h>
 #include <ext/standard/php_http.h>
 #include <ext/standard/php_versioning.h>
-#include <ext/standard/php_session.h>
 #include <ext/standard/html.h>
 #include <ext/standard/base64.h>
 #include <ext/standard/md5.h>
 #include <ext/standard/head.h>
 #include <ext/standard/url.h>
 #include <ext/standard/crc32.h>
-#include <ext/hash/php_hash.h>
+
 #include <ext/spl/spl_heap.h>
 #include <ext/spl/spl_exceptions.h>
 #include <ext/spl/spl_directory.h>
 #include <ext/spl/spl_iterators.h>
+
+#include <ext/pdo/php_pdo_driver.h>
+#include <ext/hash/php_hash.h>
 #include <ext/date/php_date.h>
 #include <ext/json/php_json.h>
+#include <ext/session/php_session.h>
+
+#include <ext/psr/psr_http_message.h>
+#include <ext/psr/psr_simple_cache.h>
+#include <ext/psr/psr_container.h>
+#include <ext/psr/psr_log.h>
+#include <ext/psr/psr_link.h>
+#include <ext/psr/psr_http_server_middleware.h>
+#include <ext/psr/psr_http_server_handler.h>
 
 #include <Zend/zend_API.h>
 #include <Zend/zend_operators.h>
