@@ -41,6 +41,7 @@ return <<<HEADER
 #include <ext/standard/php_var.h>
 #include <ext/standard/php_http.h>
 #include <ext/standard/php_versioning.h>
+#include <ext/standard/php_session.h>
 #include <ext/standard/html.h>
 #include <ext/standard/base64.h>
 #include <ext/standard/md5.h>
