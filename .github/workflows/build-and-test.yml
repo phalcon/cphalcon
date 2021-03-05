@@ -178,6 +178,7 @@ jobs:
         run: |
           export MAKEFLAGS="-j$(getconf _NPROCESSORS_ONLN)"
           sudo pecl -v install phalcon-pecl/phalcon-pecl.tgz
+          php -m
 
       - name: Verify Install
         run: php --ri phalcon
