@@ -55,7 +55,6 @@ jobs:
           php-version: '7.4'
           extensions: mbstring, intl, json, psr, imagick, apcu
           ini-values: apc.enable_cli=on, session.save_path=/tmp
-          tools: prestissimo
 
       - name: Common Settings
         run: |
