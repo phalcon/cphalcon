@@ -29,7 +29,6 @@ class AssignCest
         $this->setNewFactoryDefault();
         $this->setDatabase($I);
 
-        /** @var PDO $connection */
         $connection = $I->getConnection();
         (new InvoicesMigration($connection));
     }

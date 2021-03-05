@@ -15,18 +15,11 @@ namespace Phalcon\Test\Database\Mvc\Model;
 
 use Codeception\Example;
 use DatabaseTester;
-use Phalcon\Db\Column;
+use PDO;
 use Phalcon\Mvc\Model;
-use Phalcon\Mvc\Model\Exception;
 use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
-use Phalcon\Test\Fixtures\Migrations\StringPrimaryMigration;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\Invoices;
-use Phalcon\Test\Models\InvoicesExtended;
 use Phalcon\Test\Models\InvoicesMap;
-use Phalcon\Test\Models\ModelWithStringPrimary;
-
-use function uniqid;
 
 /**
  * Class CloneResultMapCest

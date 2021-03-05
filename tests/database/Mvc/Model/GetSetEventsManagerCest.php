@@ -15,7 +15,6 @@ namespace Phalcon\Test\Database\Mvc\Model;
 
 use DatabaseTester;
 use Phalcon\Events\Manager;
-use Phalcon\Storage\Exception;
 use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Invoices;
@@ -32,7 +31,7 @@ class GetSetEventsManagerCest
     /**
      * @var InvoicesMigration
      */
-    private $invoiceMigration;
+    private InvoicesMigration $invoiceMigration;
 
     /**
      * Executed before each test

@@ -39,12 +39,12 @@ class QueryCest
     /**
      * @var CustomersMigration
      */
-    private $customerMigration;
+    private CustomersMigration $customerMigration;
 
     /**
      * @var InvoicesMigration
      */
-    private $invoiceMigration;
+    private InvoicesMigration $invoiceMigration;
 
     /**
      * Executed before each test

@@ -29,7 +29,7 @@ class AverageCest
     /**
      * @var InvoicesMigration
      */
-    private $invoiceMigration;
+    private InvoicesMigration $invoiceMigration;
 
     /**
      * Executed before each test
