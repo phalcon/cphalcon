@@ -135,6 +135,9 @@ class Query implements QueryInterface, InjectionAwareInterface
                 "orm.enable_implicit_joins"
             );
         }
+
+        let this->bindParams = [];
+        let this->bindTypes = [];
     }
 
     /**
@@ -3721,12 +3724,7 @@ class Query implements QueryInterface, InjectionAwareInterface
          * Check for default bind parameters and merge them with the passed ones
          */
         let defaultBindParams = this->bindParams;
-
-        if typeof defaultBindParams == "array" {
-            let mergedParams = defaultBindParams + bindParams;
-        } else {
-            let mergedParams = bindParams;
-        }
+        let mergedParams = defaultBindParams + bindParams;
 
         /**
          * Check for default bind types and merge them with the passed ones
@@ -3852,12 +3850,7 @@ class Query implements QueryInterface, InjectionAwareInterface
 
         if merge {
             let currentBindParams = this->bindParams;
-
-            if typeof currentBindParams == "array" {
-                let this->bindParams = currentBindParams + bindParams;
-            } else {
-                let this->bindParams = bindParams;
-            }
+            let this->bindParams = currentBindParams + bindParams;
         } else {
             let this->bindParams = bindParams;
         }
