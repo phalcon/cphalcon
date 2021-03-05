@@ -117,7 +117,7 @@ jobs:
         run: |
           $HOME/bin/zephir fullclean
           $HOME/bin/zephir build
-          echo "extension=phalcon.so" >> /etc/php/7.4/cli/php.ini
+          sudo echo "extension=phalcon.so" >> /etc/php/7.4/cli/php.ini
 
       - name: Verify Install
         run: php --ri phalcon
