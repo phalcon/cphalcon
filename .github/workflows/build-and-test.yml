@@ -251,32 +251,6 @@ jobs:
     if: "!contains(github.event.head_commit.message, 'ci skip')"
 
     needs: generate
-    services:
-      mysql:
-        image: mysql:5.7
-        ports:
-          - 3306
-        env:
-          MYSQL_ROOT_PASSWORD: secret
-          MYSQL_USER: phalcon
-          MYSQL_DATABASE: phalcon
-          MYSQL_PASSWORD: secret
-      postgres:
-        image: postgres:12-alpine
-        ports:
-          - 5432
-        env:
-          POSTGRES_PASSWORD: secret
-          POSTGRES_DB: phalcon
-      redis:
-        image: redis:5-alpine
-        ports:
-          - 6379
-      memcached:
-        image: memcached:1.5-alpine
-        ports:
-          - 11211
-
     runs-on: ${{ matrix.operating-system }}
     env:
       PHP_EXTENSIONS: mbstring, intl, json, yaml, apcu, imagick, igbinary, msgpack-beta, redis
@@ -381,13 +355,6 @@ jobs:
 
       - name: Run CLI Tests
         run: vendor/bin/codecept run --ext DotReporter cli
-
-      - name: Run Integration Tests
-        env:
-          DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
-          DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
-        if: always()
-        run: vendor/bin/codecept run --ext DotReporter integration
 
   build-and-test-windows:
     # To prevent build a particular commit use
