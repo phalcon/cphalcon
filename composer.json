@@ -77,6 +77,7 @@
       "Zephir\\Optimizers\\FunctionCall\\": "optimizers/",
       "Phalcon\\Test\\Unit\\": "tests/unit/",
       "Phalcon\\Test\\Integration\\": "tests/integration/",
+      "Phalcon\\Test\\Database\\": "tests/database/",
       "Phalcon\\Test\\Controllers\\": "tests/_data/fixtures/controllers/",
       "Phalcon\\Test\\Fixtures\\": "tests/_data/fixtures/",
       "Phalcon\\Test\\Models\\": "tests/_data/fixtures/models/",
