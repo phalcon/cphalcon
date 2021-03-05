@@ -13,10 +13,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Database\Mvc\Model;
 
-use Codeception\Example;
 use DatabaseTester;
-use Phalcon\Mvc\Model;
-use Phalcon\Mvc\Model\Exception;
+use PDO;
 use Phalcon\Test\Fixtures\Migrations\CustomersMigration;
 use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
 use Phalcon\Test\Fixtures\Traits\DiTrait;

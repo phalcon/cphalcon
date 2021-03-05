@@ -23,7 +23,7 @@ use Phalcon\Events\Manager as EventManager;
 
 use function uniqid;
 
-class SoftDeleteCest
+final class SoftDeleteCest
 {
     use DiTrait;
 
@@ -32,7 +32,6 @@ class SoftDeleteCest
         $this->setNewFactoryDefault();
         $this->setDatabase($I);
 
-        /** @var PDO $connection */
         $connection = $I->getConnection();
         (new InvoicesMigration($connection));
     }

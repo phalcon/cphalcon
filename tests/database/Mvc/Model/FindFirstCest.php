@@ -15,6 +15,7 @@ namespace Phalcon\Test\Database\Mvc\Model;
 
 use Codeception\Example;
 use DatabaseTester;
+use PDO;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Exception;
 use Phalcon\Mvc\Model\Row;

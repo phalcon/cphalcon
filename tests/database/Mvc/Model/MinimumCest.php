@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Database\Mvc\Model;
 
 use DatabaseTester;
+use PDO;
 use Phalcon\Mvc\Model\Resultset\Simple;
 use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
 use Phalcon\Test\Fixtures\Traits\DiTrait;

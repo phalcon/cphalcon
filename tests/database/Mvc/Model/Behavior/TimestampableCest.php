@@ -24,7 +24,7 @@ use DateTime;
 
 use function uniqid;
 
-class TimestampableCest
+final class TimestampableCest
 {
     use DiTrait;
 
@@ -33,7 +33,6 @@ class TimestampableCest
         $this->setNewFactoryDefault();
         $this->setDatabase($I);
 
-        /** @var PDO $connection */
         $connection = $I->getConnection();
         (new InvoicesMigration($connection));
     }
