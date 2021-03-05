@@ -165,7 +165,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
-          ini-values: apc.enable_cli=on, session.save_path=/tmp
+          ini-values: apc.enable_cli=on, session.save_path=/tmp, extension=psr.so, extension=phalcon.so
           tools: pecl
           extensions: mbstring, intl, json, imagick
 
@@ -178,7 +178,6 @@ jobs:
         run: |
           export MAKEFLAGS="-j$(getconf _NPROCESSORS_ONLN)"
           sudo pecl -v install phalcon-pecl/phalcon-pecl.tgz
-          php -m
 
       - name: Verify Install
         run: php --ri phalcon
