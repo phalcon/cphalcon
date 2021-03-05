@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -15,7 +16,7 @@ namespace Zephir\Optimizers\FunctionCall;
 use Zephir\Call;
 use Zephir\CompilationContext;
 use Zephir\CompiledExpression;
-use Zephir\CompilerException;
+use Zephir\Exception\CompilerException;
 use Zephir\Optimizers\OptimizerAbstract;
 
 class PhalconOrmDestroyCacheOptimizer extends OptimizerAbstract
@@ -31,7 +32,6 @@ class PhalconOrmDestroyCacheOptimizer extends OptimizerAbstract
     public function optimize(array $expression, Call $call, CompilationContext $context)
     {
         $context->headersManager->add('phalcon/mvc/model/orm');
-
         $context->codePrinter->output('phalcon_orm_destroy_cache();');
 
         return new CompiledExpression(

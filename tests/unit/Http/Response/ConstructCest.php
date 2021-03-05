@@ -13,10 +13,9 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Response;
 
-use InvalidArgumentException;
 use Phalcon\Http\Response;
-use UnitTester;
 use TypeError;
+use UnitTester;
 
 class ConstructCest
 {
