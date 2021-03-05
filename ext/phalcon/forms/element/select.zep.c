@@ -52,42 +52,45 @@ PHP_METHOD(Phalcon_Forms_Element_Select, __construct) {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
-	zval *name_param = NULL, *options = NULL, options_sub, *attributes = NULL, attributes_sub, __$null;
+	zval attributes;
+	zval *name_param = NULL, *options = NULL, options_sub, *attributes_param = NULL, __$null;
 	zval name;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&options_sub);
-	ZVAL_UNDEF(&attributes_sub);
 	ZVAL_NULL(&__$null);
+	ZVAL_UNDEF(&attributes);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_STR(name)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ZVAL(options)
-		Z_PARAM_ZVAL(attributes)
+		Z_PARAM_ARRAY(attributes)
 	ZEND_PARSE_PARAMETERS_END();
 
 #endif
 
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 2, &name_param, &options, &attributes);
+	zephir_fetch_params(1, 1, 2, &name_param, &options, &attributes_param);
 
 	zephir_get_strval(&name, name_param);
 	if (!options) {
 		options = &options_sub;
 		options = &__$null;
 	}
-	if (!attributes) {
-		attributes = &attributes_sub;
-		attributes = &__$null;
+	if (!attributes_param) {
+		ZEPHIR_INIT_VAR(&attributes);
+		array_init(&attributes);
+	} else {
+		zephir_get_arrval(&attributes, attributes_param);
 	}
 
 
 	zephir_update_property_zval(this_ptr, ZEND_STRL("optionsValues"), options);
-	ZEPHIR_CALL_PARENT(NULL, phalcon_forms_element_select_ce, getThis(), "__construct", &_0, 0, &name, attributes);
+	ZEPHIR_CALL_PARENT(NULL, phalcon_forms_element_select_ce, getThis(), "__construct", &_0, 0, &name, &attributes);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
 

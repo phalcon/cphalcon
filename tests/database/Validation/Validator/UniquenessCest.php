@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Database\Validation\Validator;
 
 use DatabaseTester;
-use Phalcon\Paginator\Exception;
+use PDO;
 use Phalcon\Test\Fixtures\Migrations\ObjectsMigration;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models\Objects;
@@ -33,7 +33,7 @@ class UniquenessCest
 
         /** @var PDO $connection */
         $connection = $I->getConnection();
-        $migration  = new ObjectsMigration($connection);
+        $migration = new ObjectsMigration($connection);
         $migration->clear();
     }
 
@@ -55,7 +55,7 @@ class UniquenessCest
 
         /** @var PDO $connection */
         $connection = $I->getConnection();
-        $migration  = new ObjectsMigration($connection);
+        $migration = new ObjectsMigration($connection);
         $migration->insert(1, 'Phalcon', 1);
 
         $validation = new Validation();
@@ -104,7 +104,7 @@ class UniquenessCest
 
         /** @var PDO $connection */
         $connection = $I->getConnection();
-        $migration  = new ObjectsMigration($connection);
+        $migration = new ObjectsMigration($connection);
         $migration->insert(1, 'Phalcon', 1);
 
         $validation = new Validation();
@@ -150,7 +150,7 @@ class UniquenessCest
 
         /** @var PDO $connection */
         $connection = $I->getConnection();
-        $migration  = new ObjectsMigration($connection);
+        $migration = new ObjectsMigration($connection);
         $migration->insert(1, 'Phalcon', 1);
 
         $validation = new Validation();
@@ -226,7 +226,7 @@ class UniquenessCest
 
         /** @var PDO $connection */
         $connection = $I->getConnection();
-        $migration  = new ObjectsMigration($connection);
+        $migration = new ObjectsMigration($connection);
         $migration->insert(1, 'Phalcon', 1);
 
         $validation = new Validation();
@@ -275,7 +275,7 @@ class UniquenessCest
 
         /** @var PDO $connection */
         $connection = $I->getConnection();
-        $migration  = new ObjectsMigration($connection);
+        $migration = new ObjectsMigration($connection);
         $migration->insert(1, 'Phalcon 1', 1);
         $migration->insert(2, 'Phalcon 2', 2);
         $migration->insert(3, 'Phalcon 3', 3);
@@ -335,7 +335,7 @@ class UniquenessCest
 
         /** @var PDO $connection */
         $connection = $I->getConnection();
-        $migration  = new ObjectsMigration($connection);
+        $migration = new ObjectsMigration($connection);
         $migration->insert(1, 'Phalcon 1', 1);
         $migration->insert(2, 'Phalcon 2', 2);
         $migration->insert(3, 'Phalcon 3', 3);
@@ -405,7 +405,7 @@ class UniquenessCest
 
         /** @var PDO $connection */
         $connection = $I->getConnection();
-        $migration  = new ObjectsMigration($connection);
+        $migration = new ObjectsMigration($connection);
         $migration->insert(1, 'Phalcon 1', 1);
         $migration->insert(2, 'Phalcon 2', 2);
         $migration->insert(3, 'Phalcon 3', 3);
@@ -479,7 +479,7 @@ class UniquenessCest
 
         /** @var PDO $connection */
         $connection = $I->getConnection();
-        $migration  = new ObjectsMigration($connection);
+        $migration = new ObjectsMigration($connection);
         $migration->insert(1, 'Phalcon 1', 1);
         $migration->insert(2, 'Phalcon 2', 2);
         $migration->insert(3, 'Phalcon 3', 3);
@@ -538,7 +538,7 @@ class UniquenessCest
     {
         /** @var PDO $connection */
         $connection = $I->getConnection();
-        $migration  = new ObjectsMigration($connection);
+        $migration = new ObjectsMigration($connection);
         $migration->insert(1, 'Phalcon 1', 1);
         $migration->insert(2, 'Phalcon 2', 2);
         $migration->insert(3, 'Phalcon 3', 3);

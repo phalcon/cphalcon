@@ -7,8 +7,8 @@ PHP_METHOD(Phalcon_Cache_AdapterFactory, __construct);
 PHP_METHOD(Phalcon_Cache_AdapterFactory, newInstance);
 PHP_METHOD(Phalcon_Cache_AdapterFactory, getAdapters);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_adapterfactory___construct, 0, 0, 0)
-	ZEND_ARG_OBJ_INFO(0, factory, Phalcon\\Storage\\SerializerFactory, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_cache_adapterfactory___construct, 0, 0, 1)
+	ZEND_ARG_OBJ_INFO(0, factory, Phalcon\\Storage\\SerializerFactory, 0)
 	ZEND_ARG_ARRAY_INFO(0, services, 0)
 ZEND_END_ARG_INFO()
 

@@ -44,7 +44,7 @@ interface ModelInterface
      * @param array parameters
      * @return double | ResultsetInterface
      */
-    public static function average(parameters = null) -> float | <ResultsetInterface>;
+    public static function average(array parameters = []) -> float | <ResultsetInterface>;
 
     /**
      * Assigns values to a model from an array returning a new model
