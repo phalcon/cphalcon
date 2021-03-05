@@ -47,13 +47,13 @@ jobs:
       - name: Setup Environment Variables
         run: |
           echo "ZEPHIR_PARSER_VERSION=v1.3.6" >> $GITHUB_ENV
-          echo "ZEPHIR_VERSION=0.12.19" >> $GITHUB_ENV
+          echo "ZEPHIR_VERSION=0.13.0-alpha-3" >> $GITHUB_ENV
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '7.4'
-          extensions: mbstring, intl, json, psr, imagick, apcu
+          php-version: '8.0'
+          extensions: mbstring, intl, json, psr, imagick, apcu, yaml, redis, igbinary, msgpack
           ini-values: apc.enable_cli=on, session.save_path=/tmp
 
       - name: Common Settings
@@ -116,7 +116,7 @@ jobs:
       - name: Generate C code
         run: |
           $HOME/bin/zephir fullclean
-          $HOME/bin//zephir build
+          $HOME/bin/zephir build
           echo "extension=phalcon.so" >> /etc/php/7.4/cli/php.ini
 
       - name: Verify Install
