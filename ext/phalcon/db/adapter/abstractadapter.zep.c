@@ -1700,33 +1700,33 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, escapeIdentifier) {
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, fetchAll) {
 
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zval bindParams, bindTypes;
 	zend_long fetchMode, ZEPHIR_LAST_CALL_STATUS;
-	zval *sqlQuery_param = NULL, *fetchMode_param = NULL, *bindParams = NULL, bindParams_sub, *bindTypes = NULL, bindTypes_sub, __$null, result, _1, _0$$4;
+	zval *sqlQuery_param = NULL, *fetchMode_param = NULL, *bindParams_param = NULL, *bindTypes_param = NULL, result, _1, _0$$4;
 	zval sqlQuery;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&sqlQuery);
-	ZVAL_UNDEF(&bindParams_sub);
-	ZVAL_UNDEF(&bindTypes_sub);
-	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&result);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_0$$4);
+	ZVAL_UNDEF(&bindParams);
+	ZVAL_UNDEF(&bindTypes);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 4)
 		Z_PARAM_STR(sqlQuery)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_LONG(fetchMode)
-		Z_PARAM_ZVAL(bindParams)
-		Z_PARAM_ZVAL(bindTypes)
+		Z_PARAM_ARRAY(bindParams)
+		Z_PARAM_ARRAY(bindTypes)
 	ZEND_PARSE_PARAMETERS_END();
 
 #endif
 
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 3, &sqlQuery_param, &fetchMode_param, &bindParams, &bindTypes);
+	zephir_fetch_params(1, 1, 3, &sqlQuery_param, &fetchMode_param, &bindParams_param, &bindTypes_param);
 
 	zephir_get_strval(&sqlQuery, sqlQuery_param);
 	if (!fetchMode_param) {
@@ -1734,17 +1734,21 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, fetchAll) {
 	} else {
 		fetchMode = zephir_get_intval(fetchMode_param);
 	}
-	if (!bindParams) {
-		bindParams = &bindParams_sub;
-		bindParams = &__$null;
+	if (!bindParams_param) {
+		ZEPHIR_INIT_VAR(&bindParams);
+		array_init(&bindParams);
+	} else {
+		zephir_get_arrval(&bindParams, bindParams_param);
 	}
-	if (!bindTypes) {
-		bindTypes = &bindTypes_sub;
-		bindTypes = &__$null;
+	if (!bindTypes_param) {
+		ZEPHIR_INIT_VAR(&bindTypes);
+		array_init(&bindTypes);
+	} else {
+		zephir_get_arrval(&bindTypes, bindTypes_param);
 	}
 
 
-	ZEPHIR_CALL_METHOD(&result, this_ptr, "query", NULL, 0, &sqlQuery, bindParams, bindTypes);
+	ZEPHIR_CALL_METHOD(&result, this_ptr, "query", NULL, 0, &sqlQuery, &bindParams, &bindTypes);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&result) != IS_OBJECT) {
 		array_init(return_value);

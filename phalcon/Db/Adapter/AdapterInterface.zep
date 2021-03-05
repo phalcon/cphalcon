@@ -155,7 +155,7 @@ interface AdapterInterface
     /**
      * Dumps the complete result of a query into an array
      */
-    public function fetchAll(string! sqlQuery, int fetchMode = 2, placeholders = null) -> array;
+    public function fetchAll(string! sqlQuery, int fetchMode = 2, array bindParams = [], array bindTypes = []) -> array;
 
     /**
      * Returns the n'th field of first row in a SQL query result

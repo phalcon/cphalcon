@@ -703,7 +703,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * @param array parameters
      * @return float | ResultsetInterface
      */
-    public static function average(var parameters = null) -> float | <ResultsetInterface>
+    public static function average(array parameters = []) -> float | <ResultsetInterface>
     {
         var result;
 
@@ -4301,9 +4301,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      */
     protected static function groupResult(string! functionName, string! alias, var parameters) -> <ResultsetInterface>
     {
-        var params, distinctColumn, groupColumn, columns, bindParams, bindTypes,
+        var params, distinctColumn, groupColumn, columns,
             resultset, cache, firstRow, groupColumns, builder, query, container,
             manager, transaction;
+        var bindParams = [], bindTypes = [];
 
         let container = Di::getDefault();
         let manager = <ManagerInterface> container->getShared("modelsManager");
@@ -4357,9 +4358,12 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         /**
          * Check for bind parameters
          */
-        let bindParams = [], bindTypes = [];
-        if fetch bindParams, params["bind"] {
-            fetch bindTypes, params["bindTypes"];
+        if isset params["bind"] {
+            let bindParams = params["bind"];
+
+            if isset params["bindTypes"] {
+                let bindTypes = params["bindTypes"];
+            }
         }
 
         /**

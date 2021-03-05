@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Paginator\Adapter\NativeArray;
 
+use ArgumentCountError;
 use BadMethodCallException;
 use IntegrationTester;
 use Phalcon\Paginator\Adapter\NativeArray;
@@ -32,11 +33,21 @@ class ConstructCest
     {
         $I->wantToTest('Paginator\Adapter\NativeArray - __construct()');
 
-        $I->expectThrowable(
-            new BadMethodCallException('Wrong number of parameters'),
-            function () {
-                $paginator = new NativeArray();
-            }
-        );
+        if (version_compare(PHP_VERSION, '8.0.0', '>=')) {
+            $message = 'Phalcon\Paginator\Adapter\AbstractAdapter::__construct() expects exactly 1 argument, 0 given';
+            $I->expectThrowable(
+                new ArgumentCountError($message),
+                function () {
+                    $paginator = new NativeArray();
+                }
+            );
+        } else {
+            $I->expectThrowable(
+                new BadMethodCallException('Wrong number of parameters'),
+                function () {
+                    $paginator = new NativeArray();
+                }
+            );
+        }
     }
 }

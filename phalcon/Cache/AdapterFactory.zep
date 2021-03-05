@@ -28,7 +28,7 @@ class AdapterFactory extends AbstractFactory
     /**
      * AdapterFactory constructor.
      */
-    public function __construct(<SerializerFactory> factory = null, array! services = [])
+    public function __construct(<SerializerFactory> factory, array! services = [])
     {
         let this->serializerFactory = factory;
 
