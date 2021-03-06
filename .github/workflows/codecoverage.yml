@@ -54,7 +54,7 @@ jobs:
         with:
           php-version: '8.0'
           extensions: mbstring, intl, json, psr, imagick, apcu, yaml, redis, igbinary, msgpack
-          ini-values: apc.enable_cli=on, session.save_path=/tmp
+          ini-values: apc.enable_cli=on, session.save_path=/tmp, extension=psr.so, extension=phalcon.so
 
       - name: Common Settings
         run: |
