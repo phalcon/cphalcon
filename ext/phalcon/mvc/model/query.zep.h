@@ -289,7 +289,11 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_query_zephir_init_properties_ph
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_mvc_model_query_method_entry) {
+#if PHP_VERSION_ID >= 80000
 	PHP_ME(Phalcon_Mvc_Model_Query, getTransaction, arginfo_phalcon_mvc_model_query_gettransaction, ZEND_ACC_PUBLIC)
+#else
+	PHP_ME(Phalcon_Mvc_Model_Query, getTransaction, NULL, ZEND_ACC_PUBLIC)
+#endif
 	PHP_ME(Phalcon_Mvc_Model_Query, __construct, arginfo_phalcon_mvc_model_query___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Mvc_Model_Query, setDI, arginfo_phalcon_mvc_model_query_setdi, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Query, getDI, arginfo_phalcon_mvc_model_query_getdi, ZEND_ACC_PUBLIC)

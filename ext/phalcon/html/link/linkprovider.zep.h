@@ -29,7 +29,11 @@ ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_html_link_linkprovider_method_entry) {
 	PHP_ME(Phalcon_Html_Link_LinkProvider, __construct, arginfo_phalcon_html_link_linkprovider___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+#if PHP_VERSION_ID >= 80000
 	PHP_ME(Phalcon_Html_Link_LinkProvider, getLinks, arginfo_phalcon_html_link_linkprovider_getlinks, ZEND_ACC_PUBLIC)
+#else
+	PHP_ME(Phalcon_Html_Link_LinkProvider, getLinks, NULL, ZEND_ACC_PUBLIC)
+#endif
 	PHP_ME(Phalcon_Html_Link_LinkProvider, getLinksByRel, arginfo_phalcon_html_link_linkprovider_getlinksbyrel, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Html_Link_LinkProvider, getKey, arginfo_phalcon_html_link_linkprovider_getkey, ZEND_ACC_PROTECTED)
 	PHP_FE_END

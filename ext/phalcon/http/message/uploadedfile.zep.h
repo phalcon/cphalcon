@@ -69,7 +69,11 @@ ZEPHIR_INIT_FUNCS(phalcon_http_message_uploadedfile_method_entry) {
 	PHP_ME(Phalcon_Http_Message_UploadedFile, getError, arginfo_phalcon_http_message_uploadedfile_geterror, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Message_UploadedFile, getSize, arginfo_phalcon_http_message_uploadedfile_getsize, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Message_UploadedFile, __construct, arginfo_phalcon_http_message_uploadedfile___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+#if PHP_VERSION_ID >= 80000
 	PHP_ME(Phalcon_Http_Message_UploadedFile, getStream, arginfo_phalcon_http_message_uploadedfile_getstream, ZEND_ACC_PUBLIC)
+#else
+	PHP_ME(Phalcon_Http_Message_UploadedFile, getStream, NULL, ZEND_ACC_PUBLIC)
+#endif
 	PHP_ME(Phalcon_Http_Message_UploadedFile, moveTo, arginfo_phalcon_http_message_uploadedfile_moveto, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Message_UploadedFile, checkError, arginfo_phalcon_http_message_uploadedfile_checkerror, ZEND_ACC_PRIVATE)
 	PHP_ME(Phalcon_Http_Message_UploadedFile, checkStream, arginfo_phalcon_http_message_uploadedfile_checkstream, ZEND_ACC_PRIVATE)

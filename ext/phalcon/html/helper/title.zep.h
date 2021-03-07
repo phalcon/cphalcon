@@ -47,7 +47,11 @@ ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_html_helper_title_method_entry) {
 	PHP_ME(Phalcon_Html_Helper_Title, __invoke, arginfo_phalcon_html_helper_title___invoke, ZEND_ACC_PUBLIC)
+#if PHP_VERSION_ID >= 80000
 	PHP_ME(Phalcon_Html_Helper_Title, __toString, arginfo_phalcon_html_helper_title___tostring, ZEND_ACC_PUBLIC)
+#else
+	PHP_ME(Phalcon_Html_Helper_Title, __toString, NULL, ZEND_ACC_PUBLIC)
+#endif
 	PHP_ME(Phalcon_Html_Helper_Title, append, arginfo_phalcon_html_helper_title_append, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Html_Helper_Title, get, arginfo_phalcon_html_helper_title_get, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Html_Helper_Title, set, arginfo_phalcon_html_helper_title_set, ZEND_ACC_PUBLIC)

@@ -128,7 +128,11 @@ ZEND_END_ARG_INFO()
 ZEPHIR_INIT_FUNCS(phalcon_http_cookie_method_entry) {
 	PHP_ME(Phalcon_Http_Cookie, __construct, arginfo_phalcon_http_cookie___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Http_Cookie, __toString, arginfo_phalcon_http_cookie___tostring, ZEND_ACC_PUBLIC)
+#if PHP_VERSION_ID >= 80000
 	PHP_ME(Phalcon_Http_Cookie, delete, arginfo_phalcon_http_cookie_delete, ZEND_ACC_PUBLIC)
+#else
+	PHP_ME(Phalcon_Http_Cookie, delete, NULL, ZEND_ACC_PUBLIC)
+#endif
 	PHP_ME(Phalcon_Http_Cookie, getDomain, arginfo_phalcon_http_cookie_getdomain, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Cookie, getExpiration, arginfo_phalcon_http_cookie_getexpiration, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Cookie, getHttpOnly, arginfo_phalcon_http_cookie_gethttponly, ZEND_ACC_PUBLIC)

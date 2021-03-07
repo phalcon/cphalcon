@@ -27,7 +27,11 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_stream_inpu
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_http_message_stream_input_method_entry) {
+#if PHP_VERSION_ID >= 80000
 	PHP_ME(Phalcon_Http_Message_Stream_Input, __construct, arginfo_phalcon_http_message_stream_input___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+#else
+	PHP_ME(Phalcon_Http_Message_Stream_Input, __construct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+#endif
 	PHP_ME(Phalcon_Http_Message_Stream_Input, __toString, arginfo_phalcon_http_message_stream_input___tostring, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Message_Stream_Input, getContents, arginfo_phalcon_http_message_stream_input_getcontents, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Message_Stream_Input, isWritable, arginfo_phalcon_http_message_stream_input_iswritable, ZEND_ACC_PUBLIC)

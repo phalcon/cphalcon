@@ -59,7 +59,11 @@ ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_di_service_method_entry) {
 	PHP_ME(Phalcon_Di_Service, __construct, arginfo_phalcon_di_service___construct, ZEND_ACC_FINAL|ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+#if PHP_VERSION_ID >= 80000
 	PHP_ME(Phalcon_Di_Service, getDefinition, arginfo_phalcon_di_service_getdefinition, ZEND_ACC_PUBLIC)
+#else
+	PHP_ME(Phalcon_Di_Service, getDefinition, NULL, ZEND_ACC_PUBLIC)
+#endif
 	PHP_ME(Phalcon_Di_Service, getParameter, arginfo_phalcon_di_service_getparameter, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Di_Service, isResolved, arginfo_phalcon_di_service_isresolved, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Di_Service, isShared, arginfo_phalcon_di_service_isshared, ZEND_ACC_PUBLIC)

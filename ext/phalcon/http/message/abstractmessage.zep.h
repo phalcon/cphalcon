@@ -111,9 +111,17 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_abstractmes
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_http_message_abstractmessage_method_entry) {
+#if PHP_VERSION_ID >= 80000
 	PHP_ME(Phalcon_Http_Message_AbstractMessage, getBody, arginfo_phalcon_http_message_abstractmessage_getbody, ZEND_ACC_PUBLIC)
+#else
+	PHP_ME(Phalcon_Http_Message_AbstractMessage, getBody, NULL, ZEND_ACC_PUBLIC)
+#endif
 	PHP_ME(Phalcon_Http_Message_AbstractMessage, getProtocolVersion, arginfo_phalcon_http_message_abstractmessage_getprotocolversion, ZEND_ACC_PUBLIC)
+#if PHP_VERSION_ID >= 80000
 	PHP_ME(Phalcon_Http_Message_AbstractMessage, getUri, arginfo_phalcon_http_message_abstractmessage_geturi, ZEND_ACC_PUBLIC)
+#else
+	PHP_ME(Phalcon_Http_Message_AbstractMessage, getUri, NULL, ZEND_ACC_PUBLIC)
+#endif
 	PHP_ME(Phalcon_Http_Message_AbstractMessage, getHeader, arginfo_phalcon_http_message_abstractmessage_getheader, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Message_AbstractMessage, getHeaderLine, arginfo_phalcon_http_message_abstractmessage_getheaderline, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Message_AbstractMessage, getHeaders, arginfo_phalcon_http_message_abstractmessage_getheaders, ZEND_ACC_PUBLIC)

@@ -50,7 +50,11 @@ ZEPHIR_INIT_FUNCS(phalcon_http_response_headers_method_entry) {
 	PHP_ME(Phalcon_Http_Response_Headers, get, arginfo_phalcon_http_response_headers_get, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Response_Headers, has, arginfo_phalcon_http_response_headers_has, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Response_Headers, remove, arginfo_phalcon_http_response_headers_remove, ZEND_ACC_PUBLIC)
+#if PHP_VERSION_ID >= 80000
 	PHP_ME(Phalcon_Http_Response_Headers, reset, arginfo_phalcon_http_response_headers_reset, ZEND_ACC_PUBLIC)
+#else
+	PHP_ME(Phalcon_Http_Response_Headers, reset, NULL, ZEND_ACC_PUBLIC)
+#endif
 	PHP_ME(Phalcon_Http_Response_Headers, send, arginfo_phalcon_http_response_headers_send, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Response_Headers, set, arginfo_phalcon_http_response_headers_set, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Response_Headers, setRaw, arginfo_phalcon_http_response_headers_setraw, ZEND_ACC_PUBLIC)

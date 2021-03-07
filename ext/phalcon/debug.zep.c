@@ -1197,7 +1197,7 @@ PHP_METHOD(Phalcon_Debug, showTraceItem) {
 	if (zephir_array_isset_string(&trace, SL("class"))) {
 		ZEPHIR_CPY_WRT(&functionNameWithLink, &functionName);
 	} else {
-		if ((zephir_function_exists(&functionName)  == SUCCESS)) {
+		if ((zephir_function_exists(&functionName) == SUCCESS)) {
 			ZEPHIR_INIT_VAR(&functionReflection);
 			object_init_ex(&functionReflection, zephir_get_internal_ce(SL("reflectionfunction")));
 			ZEPHIR_CALL_METHOD(NULL, &functionReflection, "__construct", NULL, 152, &functionName);

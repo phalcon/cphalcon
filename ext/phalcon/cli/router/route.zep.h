@@ -105,7 +105,11 @@ ZEPHIR_INIT_FUNCS(phalcon_cli_router_route_method_entry) {
 	PHP_ME(Phalcon_Cli_Router_Route, convert, arginfo_phalcon_cli_router_route_convert, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Cli_Router_Route, delimiter, arginfo_phalcon_cli_router_route_delimiter, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)
 	PHP_ME(Phalcon_Cli_Router_Route, extractNamedParams, arginfo_phalcon_cli_router_route_extractnamedparams, ZEND_ACC_PUBLIC)
+#if PHP_VERSION_ID >= 80000
 	PHP_ME(Phalcon_Cli_Router_Route, getBeforeMatch, arginfo_phalcon_cli_router_route_getbeforematch, ZEND_ACC_PUBLIC)
+#else
+	PHP_ME(Phalcon_Cli_Router_Route, getBeforeMatch, NULL, ZEND_ACC_PUBLIC)
+#endif
 	PHP_ME(Phalcon_Cli_Router_Route, getCompiledPattern, arginfo_phalcon_cli_router_route_getcompiledpattern, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Cli_Router_Route, getConverters, arginfo_phalcon_cli_router_route_getconverters, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Cli_Router_Route, getDelimiter, arginfo_phalcon_cli_router_route_getdelimiter, ZEND_ACC_PUBLIC|ZEND_ACC_STATIC)

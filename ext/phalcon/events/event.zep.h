@@ -47,8 +47,16 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_events_event_stop, 0, 0, 
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_events_event_method_entry) {
+#if PHP_VERSION_ID >= 80000
 	PHP_ME(Phalcon_Events_Event, getData, arginfo_phalcon_events_event_getdata, ZEND_ACC_PUBLIC)
+#else
+	PHP_ME(Phalcon_Events_Event, getData, NULL, ZEND_ACC_PUBLIC)
+#endif
+#if PHP_VERSION_ID >= 80000
 	PHP_ME(Phalcon_Events_Event, getSource, arginfo_phalcon_events_event_getsource, ZEND_ACC_PUBLIC)
+#else
+	PHP_ME(Phalcon_Events_Event, getSource, NULL, ZEND_ACC_PUBLIC)
+#endif
 	PHP_ME(Phalcon_Events_Event, getType, arginfo_phalcon_events_event_gettype, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Events_Event, __construct, arginfo_phalcon_events_event___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Events_Event, isCancelable, arginfo_phalcon_events_event_iscancelable, ZEND_ACC_PUBLIC)

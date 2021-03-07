@@ -68,7 +68,11 @@ ZEPHIR_INIT_FUNCS(phalcon_storage_adapter_apcu_method_entry) {
 	PHP_ME(Phalcon_Storage_Adapter_Apcu, decrement, arginfo_phalcon_storage_adapter_apcu_decrement, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Storage_Adapter_Apcu, delete, arginfo_phalcon_storage_adapter_apcu_delete, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Storage_Adapter_Apcu, get, arginfo_phalcon_storage_adapter_apcu_get, ZEND_ACC_PUBLIC)
+#if PHP_VERSION_ID >= 80000
 	PHP_ME(Phalcon_Storage_Adapter_Apcu, getAdapter, arginfo_phalcon_storage_adapter_apcu_getadapter, ZEND_ACC_PUBLIC)
+#else
+	PHP_ME(Phalcon_Storage_Adapter_Apcu, getAdapter, NULL, ZEND_ACC_PUBLIC)
+#endif
 	PHP_ME(Phalcon_Storage_Adapter_Apcu, getKeys, arginfo_phalcon_storage_adapter_apcu_getkeys, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Storage_Adapter_Apcu, has, arginfo_phalcon_storage_adapter_apcu_has, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Storage_Adapter_Apcu, increment, arginfo_phalcon_storage_adapter_apcu_increment, ZEND_ACC_PUBLIC)

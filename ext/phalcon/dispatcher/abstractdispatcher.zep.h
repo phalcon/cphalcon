@@ -181,7 +181,11 @@ ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_dispatcher_abstractdispatcher_method_entry) {
 	PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, callActionMethod, arginfo_phalcon_dispatcher_abstractdispatcher_callactionmethod, ZEND_ACC_PUBLIC)
+#if PHP_VERSION_ID >= 80000
 	PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, dispatch, arginfo_phalcon_dispatcher_abstractdispatcher_dispatch, ZEND_ACC_PUBLIC)
+#else
+	PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, dispatch, NULL, ZEND_ACC_PUBLIC)
+#endif
 	PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, forward, arginfo_phalcon_dispatcher_abstractdispatcher_forward, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, getActionName, arginfo_phalcon_dispatcher_abstractdispatcher_getactionname, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, getActionSuffix, arginfo_phalcon_dispatcher_abstractdispatcher_getactionsuffix, ZEND_ACC_PUBLIC)
@@ -210,7 +214,11 @@ ZEPHIR_INIT_FUNCS(phalcon_dispatcher_abstractdispatcher_method_entry) {
 	PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, setModelBinder, arginfo_phalcon_dispatcher_abstractdispatcher_setmodelbinder, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, setModuleName, arginfo_phalcon_dispatcher_abstractdispatcher_setmodulename, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, setNamespaceName, arginfo_phalcon_dispatcher_abstractdispatcher_setnamespacename, ZEND_ACC_PUBLIC)
+#if PHP_VERSION_ID >= 80000
 	PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, getReturnedValue, arginfo_phalcon_dispatcher_abstractdispatcher_getreturnedvalue, ZEND_ACC_PUBLIC)
+#else
+	PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, getReturnedValue, NULL, ZEND_ACC_PUBLIC)
+#endif
 	PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, wasForwarded, arginfo_phalcon_dispatcher_abstractdispatcher_wasforwarded, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, resolveEmptyProperties, arginfo_phalcon_dispatcher_abstractdispatcher_resolveemptyproperties, ZEND_ACC_PROTECTED)
 	PHP_ME(Phalcon_Dispatcher_AbstractDispatcher, toCamelCase, arginfo_phalcon_dispatcher_abstractdispatcher_tocamelcase, ZEND_ACC_PROTECTED)

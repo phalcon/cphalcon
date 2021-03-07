@@ -20,7 +20,11 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_datamapper_pdo_profiler_memorylogger_zeph
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_datamapper_pdo_profiler_memorylogger_method_entry) {
+#if PHP_VERSION_ID >= 80000
 	PHP_ME(Phalcon_DataMapper_Pdo_Profiler_MemoryLogger, getMessages, arginfo_phalcon_datamapper_pdo_profiler_memorylogger_getmessages, ZEND_ACC_PUBLIC)
+#else
+	PHP_ME(Phalcon_DataMapper_Pdo_Profiler_MemoryLogger, getMessages, NULL, ZEND_ACC_PUBLIC)
+#endif
 	PHP_ME(Phalcon_DataMapper_Pdo_Profiler_MemoryLogger, log, arginfo_phalcon_datamapper_pdo_profiler_memorylogger_log, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };

@@ -91,7 +91,11 @@ ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_http_message_serverrequest_method_entry) {
 	PHP_ME(Phalcon_Http_Message_ServerRequest, getCookieParams, arginfo_phalcon_http_message_serverrequest_getcookieparams, ZEND_ACC_PUBLIC)
+#if PHP_VERSION_ID >= 80000
 	PHP_ME(Phalcon_Http_Message_ServerRequest, getParsedBody, arginfo_phalcon_http_message_serverrequest_getparsedbody, ZEND_ACC_PUBLIC)
+#else
+	PHP_ME(Phalcon_Http_Message_ServerRequest, getParsedBody, NULL, ZEND_ACC_PUBLIC)
+#endif
 	PHP_ME(Phalcon_Http_Message_ServerRequest, getQueryParams, arginfo_phalcon_http_message_serverrequest_getqueryparams, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Message_ServerRequest, getServerParams, arginfo_phalcon_http_message_serverrequest_getserverparams, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Message_ServerRequest, getUploadedFiles, arginfo_phalcon_http_message_serverrequest_getuploadedfiles, ZEND_ACC_PUBLIC)

@@ -34,10 +34,26 @@ ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_html_link_link_method_entry) {
 	PHP_ME(Phalcon_Html_Link_Link, __construct, arginfo_phalcon_html_link_link___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
+#if PHP_VERSION_ID >= 80000
 	PHP_ME(Phalcon_Html_Link_Link, getAttributes, arginfo_phalcon_html_link_link_getattributes, ZEND_ACC_PUBLIC)
+#else
+	PHP_ME(Phalcon_Html_Link_Link, getAttributes, NULL, ZEND_ACC_PUBLIC)
+#endif
+#if PHP_VERSION_ID >= 80000
 	PHP_ME(Phalcon_Html_Link_Link, getHref, arginfo_phalcon_html_link_link_gethref, ZEND_ACC_PUBLIC)
+#else
+	PHP_ME(Phalcon_Html_Link_Link, getHref, NULL, ZEND_ACC_PUBLIC)
+#endif
+#if PHP_VERSION_ID >= 80000
 	PHP_ME(Phalcon_Html_Link_Link, getRels, arginfo_phalcon_html_link_link_getrels, ZEND_ACC_PUBLIC)
+#else
+	PHP_ME(Phalcon_Html_Link_Link, getRels, NULL, ZEND_ACC_PUBLIC)
+#endif
+#if PHP_VERSION_ID >= 80000
 	PHP_ME(Phalcon_Html_Link_Link, isTemplated, arginfo_phalcon_html_link_link_istemplated, ZEND_ACC_PUBLIC)
+#else
+	PHP_ME(Phalcon_Html_Link_Link, isTemplated, NULL, ZEND_ACC_PUBLIC)
+#endif
 	PHP_ME(Phalcon_Html_Link_Link, hrefIsTemplated, arginfo_phalcon_html_link_link_hrefistemplated, ZEND_ACC_PROTECTED)
 	PHP_FE_END
 };

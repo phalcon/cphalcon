@@ -73,7 +73,11 @@ ZEPHIR_INIT_FUNCS(phalcon_storage_adapter_libmemcached_method_entry) {
 	PHP_ME(Phalcon_Storage_Adapter_Libmemcached, decrement, arginfo_phalcon_storage_adapter_libmemcached_decrement, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Storage_Adapter_Libmemcached, delete, arginfo_phalcon_storage_adapter_libmemcached_delete, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Storage_Adapter_Libmemcached, get, arginfo_phalcon_storage_adapter_libmemcached_get, ZEND_ACC_PUBLIC)
+#if PHP_VERSION_ID >= 80000
 	PHP_ME(Phalcon_Storage_Adapter_Libmemcached, getAdapter, arginfo_phalcon_storage_adapter_libmemcached_getadapter, ZEND_ACC_PUBLIC)
+#else
+	PHP_ME(Phalcon_Storage_Adapter_Libmemcached, getAdapter, NULL, ZEND_ACC_PUBLIC)
+#endif
 	PHP_ME(Phalcon_Storage_Adapter_Libmemcached, getKeys, arginfo_phalcon_storage_adapter_libmemcached_getkeys, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Storage_Adapter_Libmemcached, has, arginfo_phalcon_storage_adapter_libmemcached_has, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Storage_Adapter_Libmemcached, increment, arginfo_phalcon_storage_adapter_libmemcached_increment, ZEND_ACC_PUBLIC)

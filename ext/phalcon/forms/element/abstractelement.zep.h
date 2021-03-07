@@ -172,8 +172,16 @@ ZEPHIR_INIT_FUNCS(phalcon_forms_element_abstractelement_method_entry) {
 	PHP_ME(Phalcon_Forms_Element_AbstractElement, clear, arginfo_phalcon_forms_element_abstractelement_clear, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Element_AbstractElement, getAttribute, arginfo_phalcon_forms_element_abstractelement_getattribute, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Element_AbstractElement, getAttributes, arginfo_phalcon_forms_element_abstractelement_getattributes, ZEND_ACC_PUBLIC)
+#if PHP_VERSION_ID >= 80000
 	PHP_ME(Phalcon_Forms_Element_AbstractElement, getDefault, arginfo_phalcon_forms_element_abstractelement_getdefault, ZEND_ACC_PUBLIC)
+#else
+	PHP_ME(Phalcon_Forms_Element_AbstractElement, getDefault, NULL, ZEND_ACC_PUBLIC)
+#endif
+#if PHP_VERSION_ID >= 80000
 	PHP_ME(Phalcon_Forms_Element_AbstractElement, getFilters, arginfo_phalcon_forms_element_abstractelement_getfilters, ZEND_ACC_PUBLIC)
+#else
+	PHP_ME(Phalcon_Forms_Element_AbstractElement, getFilters, NULL, ZEND_ACC_PUBLIC)
+#endif
 	PHP_ME(Phalcon_Forms_Element_AbstractElement, getForm, arginfo_phalcon_forms_element_abstractelement_getform, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Element_AbstractElement, getLabel, arginfo_phalcon_forms_element_abstractelement_getlabel, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Element_AbstractElement, getMessages, arginfo_phalcon_forms_element_abstractelement_getmessages, ZEND_ACC_PUBLIC)
@@ -181,7 +189,11 @@ ZEPHIR_INIT_FUNCS(phalcon_forms_element_abstractelement_method_entry) {
 	PHP_ME(Phalcon_Forms_Element_AbstractElement, getUserOption, arginfo_phalcon_forms_element_abstractelement_getuseroption, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Element_AbstractElement, getUserOptions, arginfo_phalcon_forms_element_abstractelement_getuseroptions, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Element_AbstractElement, getValidators, arginfo_phalcon_forms_element_abstractelement_getvalidators, ZEND_ACC_PUBLIC)
+#if PHP_VERSION_ID >= 80000
 	PHP_ME(Phalcon_Forms_Element_AbstractElement, getValue, arginfo_phalcon_forms_element_abstractelement_getvalue, ZEND_ACC_PUBLIC)
+#else
+	PHP_ME(Phalcon_Forms_Element_AbstractElement, getValue, NULL, ZEND_ACC_PUBLIC)
+#endif
 	PHP_ME(Phalcon_Forms_Element_AbstractElement, hasMessages, arginfo_phalcon_forms_element_abstractelement_hasmessages, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Element_AbstractElement, label, arginfo_phalcon_forms_element_abstractelement_label, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Forms_Element_AbstractElement, prepareAttributes, arginfo_phalcon_forms_element_abstractelement_prepareattributes, ZEND_ACC_PUBLIC)

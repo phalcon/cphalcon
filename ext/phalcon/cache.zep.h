@@ -70,7 +70,11 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cache_checkkeys, 0, 1, I
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_cache_method_entry) {
+#if PHP_VERSION_ID >= 80000
 	PHP_ME(Phalcon_Cache, getAdapter, arginfo_phalcon_cache_getadapter, ZEND_ACC_PUBLIC)
+#else
+	PHP_ME(Phalcon_Cache, getAdapter, NULL, ZEND_ACC_PUBLIC)
+#endif
 	PHP_ME(Phalcon_Cache, __construct, arginfo_phalcon_cache___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Cache, clear, arginfo_phalcon_cache_clear, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Cache, delete, arginfo_phalcon_cache_delete, ZEND_ACC_PUBLIC)

@@ -29,7 +29,11 @@ ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_html_helper_abstractlist_method_entry) {
 	PHP_ME(Phalcon_Html_Helper_AbstractList, __invoke, arginfo_phalcon_html_helper_abstractlist___invoke, ZEND_ACC_PUBLIC)
+#if PHP_VERSION_ID >= 80000
 	PHP_ME(Phalcon_Html_Helper_AbstractList, __toString, arginfo_phalcon_html_helper_abstractlist___tostring, ZEND_ACC_PUBLIC)
+#else
+	PHP_ME(Phalcon_Html_Helper_AbstractList, __toString, NULL, ZEND_ACC_PUBLIC)
+#endif
 	PHP_ME(Phalcon_Html_Helper_AbstractList, getTag, arginfo_phalcon_html_helper_abstractlist_gettag, ZEND_ACC_ABSTRACT|ZEND_ACC_PROTECTED)
 	PHP_FE_END
 };
