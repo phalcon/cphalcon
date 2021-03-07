@@ -115,7 +115,7 @@ jobs:
 
       - name: Generate C code
         run: |
-          pecl install psr
+          sudo pecl install psr
           $HOME/bin/zephir fullclean
           $HOME/bin/zephir build
           sudo echo "extension=phalcon.so" >> /etc/php/8.0/cli/php.ini
