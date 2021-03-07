@@ -552,7 +552,7 @@ PHP_METHOD(Phalcon_Helper_Arr, group) {
 			}
 			_3$$3 = _2$$3;
 			if (!(_3$$3)) {
-				_3$$3 = (zephir_function_exists(method)  == SUCCESS);
+				_3$$3 = (zephir_function_exists(method) == SUCCESS);
 			}
 			if (_3$$3) {
 				ZEPHIR_CALL_FUNCTION(&key, "call_user_func", &_4, 276, method, &element);
@@ -585,7 +585,7 @@ PHP_METHOD(Phalcon_Helper_Arr, group) {
 				}
 				_6$$7 = _5$$7;
 				if (!(_6$$7)) {
-					_6$$7 = (zephir_function_exists(method)  == SUCCESS);
+					_6$$7 = (zephir_function_exists(method) == SUCCESS);
 				}
 				if (_6$$7) {
 					ZEPHIR_CALL_FUNCTION(&key, "call_user_func", &_4, 276, method, &element);

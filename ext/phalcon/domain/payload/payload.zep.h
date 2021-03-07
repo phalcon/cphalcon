@@ -59,11 +59,31 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_domain_payload_payload_se
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_domain_payload_payload_method_entry) {
+#if PHP_VERSION_ID >= 80000
 	PHP_ME(Phalcon_Domain_Payload_Payload, getExtras, arginfo_phalcon_domain_payload_payload_getextras, ZEND_ACC_PUBLIC)
+#else
+	PHP_ME(Phalcon_Domain_Payload_Payload, getExtras, NULL, ZEND_ACC_PUBLIC)
+#endif
+#if PHP_VERSION_ID >= 80000
 	PHP_ME(Phalcon_Domain_Payload_Payload, getInput, arginfo_phalcon_domain_payload_payload_getinput, ZEND_ACC_PUBLIC)
+#else
+	PHP_ME(Phalcon_Domain_Payload_Payload, getInput, NULL, ZEND_ACC_PUBLIC)
+#endif
+#if PHP_VERSION_ID >= 80000
 	PHP_ME(Phalcon_Domain_Payload_Payload, getMessages, arginfo_phalcon_domain_payload_payload_getmessages, ZEND_ACC_PUBLIC)
+#else
+	PHP_ME(Phalcon_Domain_Payload_Payload, getMessages, NULL, ZEND_ACC_PUBLIC)
+#endif
+#if PHP_VERSION_ID >= 80000
 	PHP_ME(Phalcon_Domain_Payload_Payload, getStatus, arginfo_phalcon_domain_payload_payload_getstatus, ZEND_ACC_PUBLIC)
+#else
+	PHP_ME(Phalcon_Domain_Payload_Payload, getStatus, NULL, ZEND_ACC_PUBLIC)
+#endif
+#if PHP_VERSION_ID >= 80000
 	PHP_ME(Phalcon_Domain_Payload_Payload, getOutput, arginfo_phalcon_domain_payload_payload_getoutput, ZEND_ACC_PUBLIC)
+#else
+	PHP_ME(Phalcon_Domain_Payload_Payload, getOutput, NULL, ZEND_ACC_PUBLIC)
+#endif
 	PHP_ME(Phalcon_Domain_Payload_Payload, getException, arginfo_phalcon_domain_payload_payload_getexception, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Domain_Payload_Payload, setException, arginfo_phalcon_domain_payload_payload_setexception, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Domain_Payload_Payload, setExtras, arginfo_phalcon_domain_payload_payload_setextras, ZEND_ACC_PUBLIC)

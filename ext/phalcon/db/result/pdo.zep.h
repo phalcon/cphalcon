@@ -62,7 +62,11 @@ ZEPHIR_INIT_FUNCS(phalcon_db_result_pdo_method_entry) {
 	PHP_ME(Phalcon_Db_Result_Pdo, execute, arginfo_phalcon_db_result_pdo_execute, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Result_Pdo, fetch, arginfo_phalcon_db_result_pdo_fetch, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Result_Pdo, fetchAll, arginfo_phalcon_db_result_pdo_fetchall, ZEND_ACC_PUBLIC)
+#if PHP_VERSION_ID >= 80000
 	PHP_ME(Phalcon_Db_Result_Pdo, fetchArray, arginfo_phalcon_db_result_pdo_fetcharray, ZEND_ACC_PUBLIC)
+#else
+	PHP_ME(Phalcon_Db_Result_Pdo, fetchArray, NULL, ZEND_ACC_PUBLIC)
+#endif
 	PHP_ME(Phalcon_Db_Result_Pdo, getInternalResult, arginfo_phalcon_db_result_pdo_getinternalresult, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Result_Pdo, numRows, arginfo_phalcon_db_result_pdo_numrows, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Result_Pdo, setFetchMode, arginfo_phalcon_db_result_pdo_setfetchmode, ZEND_ACC_PUBLIC)

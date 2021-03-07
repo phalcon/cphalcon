@@ -1,4 +1,4 @@
-/*
+/**
  * This file is part of the Zephir.
  *
  * (c) Phalcon Team <team@zephir-lang.com>
@@ -19,13 +19,8 @@
 #include "kernel/main.h"
 
 /* Working with scopes */
-#if PHP_VERSION_ID >= 70100
 # define zephir_get_scope(e) ((e) ? zend_get_executed_scope() : EG(fake_scope))
 # define zephir_set_scope(s) EG(fake_scope) = (s)
-#else
-# define zephir_get_scope(e) EG(scope)
-# define zephir_set_scope(s) EG(scope) = (s)
-#endif
 
 /** Class Retrieving/Checking */
 int zephir_class_exists(zval *class_name, int autoload);

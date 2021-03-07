@@ -1,4 +1,4 @@
-/*
+/**
  * This file is part of the Zephir.
  *
  * (c) Phalcon Team <team@zephir-lang.com>
@@ -69,9 +69,6 @@ typedef enum _zephir_call_type {
 	} \
 	else { ZEPHIR_SET_THIS_EXPLICIT_NULL(); } \
 
-
-#if PHP_VERSION_ID >= 70100
-
 #define ZEPHIR_BACKUP_SCOPE() \
 	zend_class_entry *old_scope = EG(fake_scope); \
 	zend_execute_data *old_call = execute_data; \
@@ -96,36 +93,6 @@ typedef enum _zephir_call_type {
 #define ZEPHIR_SET_SCOPE(_scope, _scope_called) \
 	EG(fake_scope) = _scope; \
 	zephir_set_called_scope(EG(current_execute_data), _scope_called); \
-
-#else
-
-#define ZEPHIR_BACKUP_SCOPE() \
-	zend_class_entry *old_scope = EG(scope); \
-	zend_execute_data *old_call = execute_data; \
-	zend_execute_data *old_execute_data = EG(current_execute_data), new_execute_data; \
-	if (!EG(current_execute_data)) { \
-		memset(&new_execute_data, 0, sizeof(zend_execute_data)); \
-		execute_data = EG(current_execute_data) = &new_execute_data; \
-	} else { \
-		new_execute_data = *EG(current_execute_data); \
-		new_execute_data.prev_execute_data = EG(current_execute_data); \
-		new_execute_data.call = NULL; \
-		new_execute_data.opline = NULL; \
-		new_execute_data.func = NULL; \
-		execute_data = EG(current_execute_data) = &new_execute_data; \
-	}
-// TODO(serghei): Deprecated
-#define ZEPHIR_RESTORE_SCOPE() \
-	EG(scope) = old_scope; \
-	execute_data = old_call; \
-	EG(current_execute_data) = old_execute_data;
-
-// TODO(serghei): Deprecated
-#define ZEPHIR_SET_SCOPE(_scope, _scope_called) \
-	EG(scope) = _scope; \
-	EG(current_execute_data)->called_scope = _scope_called;
-
-#endif
 
 /* End internal calls */
 

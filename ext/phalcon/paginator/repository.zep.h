@@ -79,7 +79,11 @@ ZEPHIR_INIT_FUNCS(phalcon_paginator_repository_method_entry) {
 	PHP_ME(Phalcon_Paginator_Repository, getAliases, arginfo_phalcon_paginator_repository_getaliases, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Paginator_Repository, getCurrent, arginfo_phalcon_paginator_repository_getcurrent, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Paginator_Repository, getFirst, arginfo_phalcon_paginator_repository_getfirst, ZEND_ACC_PUBLIC)
+#if PHP_VERSION_ID >= 80000
 	PHP_ME(Phalcon_Paginator_Repository, getItems, arginfo_phalcon_paginator_repository_getitems, ZEND_ACC_PUBLIC)
+#else
+	PHP_ME(Phalcon_Paginator_Repository, getItems, NULL, ZEND_ACC_PUBLIC)
+#endif
 	PHP_ME(Phalcon_Paginator_Repository, getLast, arginfo_phalcon_paginator_repository_getlast, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Paginator_Repository, getLimit, arginfo_phalcon_paginator_repository_getlimit, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Paginator_Repository, getNext, arginfo_phalcon_paginator_repository_getnext, ZEND_ACC_PUBLIC)

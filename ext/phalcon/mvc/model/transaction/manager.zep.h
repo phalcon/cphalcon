@@ -94,7 +94,11 @@ ZEND_END_ARG_INFO()
 ZEPHIR_INIT_FUNCS(phalcon_mvc_model_transaction_manager_method_entry) {
 	PHP_ME(Phalcon_Mvc_Model_Transaction_Manager, __construct, arginfo_phalcon_mvc_model_transaction_manager___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Mvc_Model_Transaction_Manager, collectTransactions, arginfo_phalcon_mvc_model_transaction_manager_collecttransactions, ZEND_ACC_PUBLIC)
+#if PHP_VERSION_ID >= 80000
 	PHP_ME(Phalcon_Mvc_Model_Transaction_Manager, commit, arginfo_phalcon_mvc_model_transaction_manager_commit, ZEND_ACC_PUBLIC)
+#else
+	PHP_ME(Phalcon_Mvc_Model_Transaction_Manager, commit, NULL, ZEND_ACC_PUBLIC)
+#endif
 	PHP_ME(Phalcon_Mvc_Model_Transaction_Manager, get, arginfo_phalcon_mvc_model_transaction_manager_get, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Transaction_Manager, getDbService, arginfo_phalcon_mvc_model_transaction_manager_getdbservice, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Model_Transaction_Manager, getDI, arginfo_phalcon_mvc_model_transaction_manager_getdi, ZEND_ACC_PUBLIC)
