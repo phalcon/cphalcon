@@ -509,7 +509,7 @@ jobs:
           git clone https://github.com/jbboehr/php-psr.git c:\tools\php-psr
           cd c:\tools\php-psr
           phpize
-          ./configure --with-php-config=${env:PHPROOT}\php-config
+          ./configure --with-prefix=c:\tools\php-devpack
           nmake install-headers
 
       - name: Run phpize
