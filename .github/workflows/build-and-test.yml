@@ -359,7 +359,7 @@ jobs:
   build-and-test-windows:
     # To prevent build a particular commit use
     #     git commit -m "......... [ci skip]"
-    if: "!contains(github.event.head_commit.message, 'ci skip')"
+    # if: "!contains(github.event.head_commit.message, 'ci skip')"
 
     name: PHP ${{ matrix.php-versions }} (${{ matrix.ts }}) Test on ${{ matrix.operating-system }}
     needs: generate
@@ -387,13 +387,6 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v2
         with:
-          fetch-depth: 1
-
-      - name: Get PHP-PSR extension sources
-        uses: actions/checkout@v2
-        with:
-          repository: jbboehr/php-psr
-          path: C:\tools\php-psr
           fetch-depth: 1
 
       - name: Setup PHP
@@ -479,7 +472,8 @@ jobs:
 
       - name: Install PSR extension headers
         run: |
-          cd /d C:\tools\php-psr
+          git clone https://github.com/jbboehr/php-psr.git c:\tools\php-psr
+          cd /d c:\tools\php-psr
           phpize
           ./configure --with-php-config=${env:PHPROOT}\php-config
           nmake install-headers
