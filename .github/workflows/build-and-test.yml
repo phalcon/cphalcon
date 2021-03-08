@@ -389,6 +389,13 @@ jobs:
         with:
           fetch-depth: 1
 
+      - name: Get PHP-PSR extension sources
+        uses: actions/checkout@v2
+        with:
+          repository: jbboehr/php-psr
+          path: C:\tools\php-psr
+          fetch-depth: 1
+
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
@@ -469,6 +476,13 @@ jobs:
         run: |
           Import-Module .\.ci\win-ci-tools.psm1
           InstallPhpDevPack
+
+      - name: Install PSR extension headers
+        run: |
+          cd /d C:\tools\php-psr
+          phpize
+          ./configure --with-php-config=${env:PHPROOT}\php-config
+          nmake install-headers
 
       - name: Getting Details About Installed PHP
         run: |
