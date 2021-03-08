@@ -372,13 +372,14 @@ jobs:
         ts: [ts, nts]
         include:
           - php-versions: '7.4'
-            vc_num: '15'
+            vc_num: 'vc15'
             arch: x64
             build_type: Win32
-          - php-versions: '7.4'
-            vc_num: '15'
+          - php-versions: '8.0'
+            vc_num: 'vs16'
             arch: x64
             build_type: Win32
+
     steps:
 
       - name: Disable Git autocrlf
