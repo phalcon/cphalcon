@@ -473,7 +473,7 @@ jobs:
       - name: Install PSR extension headers
         run: |
           git clone https://github.com/jbboehr/php-psr.git c:\tools\php-psr
-          cd /d c:\tools\php-psr
+          cd c:\tools\php-psr
           phpize
           ./configure --with-php-config=${env:PHPROOT}\php-config
           nmake install-headers
