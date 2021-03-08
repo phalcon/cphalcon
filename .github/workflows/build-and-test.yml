@@ -13,7 +13,7 @@ jobs:
   generate:
     # To prevent build a particular commit use
     #     git commit -m "......... [ci skip]"
-    #if: "!contains(github.event.head_commit.message, 'ci skip')"
+    # if: "!contains(github.event.head_commit.message, 'ci skip')"
 
     runs-on: ubuntu-20.04
     name: Build Phalcon Pecl Package
