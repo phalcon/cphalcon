@@ -502,6 +502,7 @@ jobs:
           Expand-Item7zip "${env:Temp}\phalcon-pecl.tar" "${env:PHP_PECL_PATH}\phalcon"
 
       - name: Install PSR extension headers
+        shell: cmd
         run: |
           set PATH=%PATH%;%PHP_DEVPACK%
           git clone https://github.com/jbboehr/php-psr.git c:\tools\php-psr
