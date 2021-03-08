@@ -470,14 +470,6 @@ jobs:
           Import-Module .\.ci\win-ci-tools.psm1
           InstallPhpDevPack
 
-      - name: Install PSR extension headers
-        run: |
-          git clone https://github.com/jbboehr/php-psr.git c:\tools\php-psr
-          cd c:\tools\php-psr
-          phpize
-          ./configure --with-php-config=${env:PHPROOT}\php-config
-          nmake install-headers
-
       - name: Getting Details About Installed PHP
         run: |
           Import-Module .\.ci\win-ci-tools.psm1
@@ -508,6 +500,15 @@ jobs:
           Import-Module .\.ci\win-ci-tools.psm1
           Expand-Item7zip "phalcon-pecl\phalcon-pecl.tgz" "${env:Temp}"
           Expand-Item7zip "${env:Temp}\phalcon-pecl.tar" "${env:PHP_PECL_PATH}\phalcon"
+
+      - name: Install PSR extension headers
+        run: |
+          set PATH=%PATH%;%PHP_DEVPACK%
+          git clone https://github.com/jbboehr/php-psr.git c:\tools\php-psr
+          cd c:\tools\php-psr
+          phpize
+          ./configure --with-php-config=${env:PHPROOT}\php-config
+          nmake install-headers
 
       - name: Run phpize
         shell: cmd
