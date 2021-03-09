@@ -507,10 +507,8 @@ jobs:
         run: |
           set PATH=%PATH%;%PHP_DEVPACK%
           git clone https://github.com/jbboehr/php-psr.git c:\tools\php-psr
-          cd c:\tools\php-psr
-          phpize
-          ./configure --with-prefix=c:\tools\php-devpack
-          nmake install-headers
+          if not exist "%PHP_DEVPACK%\include\ext\psr" MkDir "%PHP_DEVPACK%\include\ext\psr"
+          copy "c:\tools\php-psr\*.h" "%PHP_DEVPACK%\include\ext\psr\"
 
       - name: Run phpize
         shell: cmd
