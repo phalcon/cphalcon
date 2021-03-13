@@ -33,7 +33,7 @@ RUN apt update -y && apt install -y \
 RUN curl -s https://raw.githubusercontent.com/phalcon/zephir/development/.ci/install-zephir-parser.sh | bash
 
 RUN docker-php-ext-install zip gmp gd intl pdo_mysql pdo_pgsql && \
-    docker-php-ext-enable psr redis igbinary msgpack apcu imagick yaml
+    docker-php-ext-enable psr redis igbinary msgpack apcu imagick yaml memcached
 
 COPY --from=composer /usr/bin/composer /usr/local/bin/composer
 
