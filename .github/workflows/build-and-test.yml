@@ -396,7 +396,7 @@ jobs:
           php-version: ${{ matrix.php-versions }}
           ini-values: apc.enable_cli=on, session.save_path=C:\temp
           tools: pecl
-          extensions: mbstring, intl, json, yaml, apcu, psr, imagick, gd, redis, igbinary, sqlite3, msgpack
+          extensions: mbstring, intl, json, yaml, apcu, imagick, gd, redis, igbinary, sqlite3, msgpack
         env:
           PHPTS: ${{ matrix.ts }}
 
@@ -502,13 +502,18 @@ jobs:
           Expand-Item7zip "phalcon-pecl\phalcon-pecl.tgz" "${env:Temp}"
           Expand-Item7zip "${env:Temp}\phalcon-pecl.tar" "${env:PHP_PECL_PATH}\phalcon"
 
-      - name: Install PSR extension headers
+      - name: Build and Install PSR extension
         shell: cmd
         run: |
           set PATH=%PATH%;%PHP_DEVPACK%
           git clone https://github.com/jbboehr/php-psr.git c:\tools\php-psr
           if not exist "%PHP_DEVPACK%\include\ext\psr" MkDir "%PHP_DEVPACK%\include\ext\psr"
           copy "c:\tools\php-psr\*.h" "%PHP_DEVPACK%\include\ext\psr\"
+          cd c:\tools\php-psr
+          phpize
+          configure
+          nmake
+          nmake install
 
       - name: Run phpize
         shell: cmd
