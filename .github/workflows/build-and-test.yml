@@ -367,7 +367,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        operating-system: [windows-2019]
+        operating-system: [windows-2016]
         php-versions: ['7.4', '8.0']
         ts: [ts, nts]
         include:
@@ -523,7 +523,6 @@ jobs:
         run: |
           set PATH=%PATH%;%PHP_DEVPACK%
           cd /d %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
-          nmake
           nmake install
 
       - name: Run phpize
