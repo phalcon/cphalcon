@@ -367,7 +367,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        operating-system: [windows-2016]
+        operating-system: [windows-2019]
         php-versions: ['7.4', '8.0']
         ts: [ts, nts]
         include:
@@ -506,12 +506,12 @@ jobs:
         shell: cmd
         run: |
           set PATH=%PATH%;%PHP_DEVPACK%
-          git clone https://github.com/jbboehr/php-psr.git c:\tools\php-psr
+          git clone https://github.com/jbboehr/php-psr.git %PHP_PECL_PSR_PATH%
           if not exist "%PHP_DEVPACK%\include\ext\psr" MkDir "%PHP_DEVPACK%\include\ext\psr"
-          copy "c:\tools\php-psr\*.h" "%PHP_DEVPACK%\include\ext\psr\"
-          cd c:\tools\php-psr
+          copy "%PHP_PECL_PSR_PATH%\*.h" "%PHP_DEVPACK%\include\ext\psr\"
+          cd /d %PHP_PECL_PSR_PATH%\
           phpize
-          configure
+          configure --enable-psr
           nmake
           nmake install
 
