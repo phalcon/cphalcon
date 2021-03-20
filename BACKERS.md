@@ -94,6 +94,7 @@ Thanks for the support
 <a href="https://github.com/Ruzgfpegk"><img src="https://avatars1.githubusercontent.com/u/3818364?s=460&v=4" title="Ruzgfpegk" width="60" height="60"></a>
 <a href="https://github.com/zsilbi"><img src="https://avatars2.githubusercontent.com/u/3886658?s=460&v=4" title="Balázs Németh" width="60" height="60"></a>
 <a href="https://github.com/RayHughes"><img src="https://avatars3.githubusercontent.com/u/4381883?s=460&u=16dbf2e3fbfae0892a858d6d4cc8869bfde6dd74&v=4" title="Ray Hughes" width="60" height="60"></a>
+<a href="https://github.com/borisdelev"><img src="https://avatars.githubusercontent.com/u/4441663?s=460&u=be604c39153e26326f2123c6e1bfe880d5ec0947&v=4" title="Boris Delev" width="60" height="60"></a>
 <a href="https://github.com/educury"><img src="https://avatars2.githubusercontent.com/u/5339278?s=460&v=4" title="educury" width="60" height="60"></a>
 <a href="https://github.com/emagus"><img src="https://avatars3.githubusercontent.com/u/5857789?s=460&v=4" title="emagus" width="60" height="60"></a>
 <a href="https://github.com/ruudboon"><img src="https://avatars3.githubusercontent.com/u/7444246?s=460&v=4" title="Ruud Boon" width="60" height="60"></a>
