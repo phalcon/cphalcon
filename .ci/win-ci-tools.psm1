@@ -66,16 +66,16 @@ function DownloadPhpSrc {
 function InstallPhpDevPack {
     Write-Output "Install PHP Dev pack: ${env:PHP_VERSION}"
 
-    $RemoteUrl = "https://windows.php.net/downloads/releases/php-devel-pack-${env:PHP_VERSION}-${env:BUILD_TYPE}-vc${env:VC_VERSION}-${env:PHP_ARCH}.zip"
-    $RemoteArchiveUrl = "https://windows.php.net/downloads/releases/archives/php-devel-pack-${env:PHP_VERSION}-${env:BUILD_TYPE}-vc${env:VC_VERSION}-${env:PHP_ARCH}.zip"
-    $DestinationPath = "C:\Downloads\php-devel-pack-${env:PHP_VERSION}-${env:BUILD_TYPE}-VC${env:VC_VERSION}-${env:PHP_ARCH}.zip"
+    $RemoteUrl = "https://windows.php.net/downloads/releases/php-devel-pack-${env:PHP_VERSION}-${env:BUILD_TYPE}-${env:VC_VERSION}-${env:PHP_ARCH}.zip"
+    $RemoteArchiveUrl = "https://windows.php.net/downloads/releases/archives/php-devel-pack-${env:PHP_VERSION}-${env:BUILD_TYPE}-${env:VC_VERSION}-${env:PHP_ARCH}.zip"
+    $DestinationPath = "C:\Downloads\php-devel-pack-${env:PHP_VERSION}-${env:BUILD_TYPE}-${env:VC_VERSION}-${env:PHP_ARCH}.zip"
 
     if (-not (Test-Path $env:PHP_DEVPACK)) {
         if (-not [System.IO.File]::Exists($DestinationPath)) {
             DownloadFileUsingAlternative $RemoteUrl $RemoteArchiveUrl $DestinationPath "Downloading PHP Dev pack"
         }
 
-        $DestinationUnzipPath = "${env:Temp}\php-${env:PHP_VERSION}-devel-VC${env:VC_VERSION}-${env:PHP_ARCH}"
+        $DestinationUnzipPath = "${env:Temp}\php-${env:PHP_VERSION}-devel-${env:VC_VERSION}-${env:PHP_ARCH}"
 
         if (-not (Test-Path "$DestinationUnzipPath")) {
             Expand-Item7zip $DestinationPath $env:Temp

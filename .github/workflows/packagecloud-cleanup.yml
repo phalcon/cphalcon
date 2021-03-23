@@ -10,7 +10,7 @@ jobs:
     #     git commit -m "......... [ci skip]"
     if: "!contains(github.event.head_commit.message, 'ci skip')"
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2

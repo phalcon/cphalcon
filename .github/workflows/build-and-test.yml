@@ -15,7 +15,7 @@ jobs:
     #     git commit -m "......... [ci skip]"
     if: "!contains(github.event.head_commit.message, 'ci skip')"
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     name: Build Phalcon Pecl Package
     steps:
 
@@ -130,7 +130,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        operating-system: [ubuntu-latest]
+        operating-system: [ubuntu-20.04]
         php-versions: ['7.4', '8.0']
 
     name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
@@ -372,13 +372,14 @@ jobs:
         ts: [ts, nts]
         include:
           - php-versions: '7.4'
-            vc_num: '15'
+            vc_num: 'vc15'
             arch: x64
             build_type: Win32
-          - php-versions: '7.4'
-            vc_num: '15'
+          - php-versions: '8.0'
+            vc_num: 'vs16'
             arch: x64
             build_type: Win32
+
     steps:
 
       - name: Disable Git autocrlf
@@ -395,7 +396,7 @@ jobs:
           php-version: ${{ matrix.php-versions }}
           ini-values: apc.enable_cli=on, session.save_path=C:\temp
           tools: pecl
-          extensions: mbstring, intl, json, yaml, apcu, psr, imagick, gd, redis, igbinary, sqlite3, msgpack
+          extensions: mbstring, intl, json, yaml, apcu, imagick, gd, redis, igbinary, sqlite3, msgpack
         env:
           PHPTS: ${{ matrix.ts }}
 
@@ -405,7 +406,7 @@ jobs:
           Write-Output "PHP_DEVPACK=C:\tools\php-devpack" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           Write-Output "PHP_SDK_PATH=C:\tools\php-sdk" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           Write-Output "PHP_PECL_PATH=C:\tools\pecl" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          Write-Output "PHP_PECL_PSR_PATH=C:\tools\pecl\psr" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          Write-Output "PSR_VERSION=1.0.1" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
           # FIXME: phpversion() return 7.4.3 but windows.php.net has only 7.4.4
           # We should parse the following file to get the correct version:
@@ -501,6 +502,30 @@ jobs:
           Expand-Item7zip "phalcon-pecl\phalcon-pecl.tgz" "${env:Temp}"
           Expand-Item7zip "${env:Temp}\phalcon-pecl.tar" "${env:PHP_PECL_PATH}\phalcon"
 
+      - name: PSR extension | init, phpize
+        shell: cmd
+        run: |
+          set PATH=%PATH%;%PHP_DEVPACK%
+          git clone https://github.com/jbboehr/php-psr.git %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
+          if not exist "%PHP_DEVPACK%\include\ext\psr" MkDir "%PHP_DEVPACK%\include\ext\psr"
+          cd /d %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
+          phpize
+
+      - name: PSR extension | configure
+        shell: cmd
+        run: |
+          set PATH=%PATH%;%PHP_DEVPACK%
+          cd /d %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
+          configure --enable-psr
+
+      - name: PSR extension | build
+        shell: cmd
+        run: |
+          set PATH=%PATH%;%PHP_DEVPACK%
+          cd /d %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
+          nmake
+          nmake install
+
       - name: Run phpize
         shell: cmd
         run: |
@@ -518,7 +543,7 @@ jobs:
       - name: Build Project
         shell: cmd
         run: |
-          set PATH=%PATH%;%PHP_DEVPACK%;%PHP_PECL_PSR_PATH%
+          set PATH=%PATH%;%PHP_DEVPACK%;%PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
           cd /d %PHP_PECL_PATH%\phalcon\phalcon-%PHALCON_VERSION%
           nmake
 
