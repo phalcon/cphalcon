@@ -17,7 +17,8 @@ class Igbinary extends AbstractSerializer
 	 */
 	public function serialize() -> string
 	{
-        if !this->isSerializable(this->data) {
+        //if !this->isSerializable(this->data) {
+        if empty this->data || typeof this->data === "bool" {
             return this->data;
         }
 
