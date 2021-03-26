@@ -52,17 +52,17 @@ class SerializeCest
             [
                 'label'    => 'null',
                 'value'    => null,
-                'expected' => null,
+                'expected' => igbinary_serialize(null),
             ],
             [
                 'label'    => 'true',
                 'value'    => true,
-                'expected' => true,
+                'expected' => igbinary_serialize(true),
             ],
             [
                 'label'    => 'false',
                 'value'    => false,
-                'expected' => false,
+                'expected' => igbinary_serialize(false),
             ],
             [
                 'label'    => 'integer',
