@@ -17,10 +17,6 @@ class Igbinary extends AbstractSerializer
 	 */
 	public function serialize() -> string
 	{
-        if !this->isSerializable(this->data) {
-            return this->data;
-        }
-
 		return igbinary_serialize(this->data);
 	}
 

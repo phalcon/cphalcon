@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Database\Mvc\Model;
+namespace Phalcon\Test\Database\Mvc\Model\Behavior;
 
 use DatabaseTester;
 use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
