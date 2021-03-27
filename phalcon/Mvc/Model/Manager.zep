@@ -176,7 +176,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     /**
      * Returns the internal event manager
      */
-    public function getEventsManager() -> <EventsManagerInterface>
+    public function getEventsManager() -> <EventsManagerInterface> | null
     {
         return this->eventsManager;
     }

@@ -724,7 +724,7 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
     /**
      * Returns the internal event manager
      */
-    public function getEventsManager() -> <ManagerInterface>
+    public function getEventsManager() -> <ManagerInterface> | null
     {
         return this->eventsManager;
     }

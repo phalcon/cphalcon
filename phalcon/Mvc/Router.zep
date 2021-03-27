@@ -346,7 +346,7 @@ class Router extends AbstractInjectionAware implements RouterInterface, EventsAw
     /**
      * Returns the internal event manager
      */
-    public function getEventsManager() -> <ManagerInterface>
+    public function getEventsManager() -> <ManagerInterface> | null
     {
         return this->eventsManager;
     }
