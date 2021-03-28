@@ -152,8 +152,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
             options["domain"]   = Arr::get(options, "domain", domain),
             options["path"]     = Arr::get(options, "path", path),
             options["secure"]   = Arr::get(options, "secure", secure),
-            options["httponly"] = Arr::get(options, "httponly", httpOnly),
-            options["sameSite"] = Arr::get(options, "samesite", "None");
+            options["httponly"] = Arr::get(options, "httponly", httpOnly);
 
         setcookie(name, null, options);
     }
@@ -501,8 +500,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
             options["domain"]   = Arr::get(options, "domain", domain),
             options["path"]     = Arr::get(options, "path", path),
             options["secure"]   = Arr::get(options, "secure", secure),
-            options["httponly"] = Arr::get(options, "httponly", httpOnly),
-            options["sameSite"] = Arr::get(options, "samesite", "None");
+            options["httponly"] = Arr::get(options, "httponly", httpOnly);
 
         setcookie(name, encryptValue, options);
 
