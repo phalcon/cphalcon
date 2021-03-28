@@ -80,20 +80,11 @@ class Profiler implements ProfilerInterface
      */
     public function finish(string statement = null, array values = []) -> void
     {
-        var ex, finish, version;
+        var ex, finish;
 
         if unlikely this->active {
-            let version = phpversion(),
-                ex      = new Exception();
-
-            /**
-             * @todo Remove this check when we target min PHP 7.3
-             */
-            if starts_with(version, "7.2") {
-                let finish = microtime(true);
-            } else {
-                let finish = hrtime(true);
-            }
+            let ex     = new Exception(),
+                finish = hrtime(true);
 
 
             let this->context["backtrace"] = ex->getTraceAsString(),
@@ -197,23 +188,10 @@ class Profiler implements ProfilerInterface
      */
     public function start(string method) -> void
     {
-        var start, version;
-
         if unlikely this->active {
-            let version = phpversion();
-
-            /**
-             * @todo Remove this check when we target min PHP 7.3
-             */
-            if starts_with(version, "7.2") {
-                let start = microtime(true);
-            } else {
-                let start = hrtime(true);
-            }
-
             let this->context = [
                 "method" : method,
-                "start"  : start
+                "start"  : hrtime(true)
             ];
         }
     }
