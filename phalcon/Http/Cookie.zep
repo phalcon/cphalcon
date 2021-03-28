@@ -69,11 +69,6 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
     protected restored = false;
 
     /**
-     * @var string
-     */
-    protected sameSite = "None";
-
-    /**
      * @var bool
      */
     protected secure = true;
@@ -105,7 +100,6 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
         bool secure = null,
         string domain = null,
         bool httpOnly = false,
-        string sameSite = "None",
         array options = []
     ) {
         let this->name     = name,
@@ -114,7 +108,6 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
             this->secure   = secure,
             this->domain   = domain,
             this->httpOnly = httpOnly,
-            this->sameSite = sameSite,
             this->options  = options;
 
         if value !== null {
@@ -135,15 +128,13 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
      */
     public function delete()
     {
-        var container, domain, httpOnly, name, options, path, sameSite, secure,
-            session;
+        var container, domain, httpOnly, name, options, path, secure, session;
 
         let name     = this->name,
             domain   = this->domain,
             path     = this->path,
             secure   = this->secure,
-            httpOnly = this->httpOnly,
-            sameSite = this->sameSite;
+            httpOnly = this->httpOnly;
 
         let container = <DiInterface> this->container;
 
@@ -162,7 +153,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
             options["path"]     = Arr::get(options, "path", path),
             options["secure"]   = Arr::get(options, "secure", secure),
             options["httponly"] = Arr::get(options, "httponly", httpOnly),
-            options["sameSite"] = Arr::get(options, "sameSite", sameSite);
+            options["sameSite"] = Arr::get(options, "sameSite", "Lax");
 
         setcookie(name, null, options);
     }
@@ -360,7 +351,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
     public function restore() -> <CookieInterface>
     {
         var container, definition, domain, expire, httpOnly, options, path,
-            sameSite, secure, session;
+            secure, session;
 
         if !this->restored {
             let container = this->container;
@@ -393,10 +384,6 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
                         let this->httpOnly = httpOnly;
                     }
 
-                    if fetch sameSite, definition["sameSite"] {
-                        let this->sameSite = sameSite;
-                    }
-
                     if fetch options, definition["options"] {
                         let this->options = options;
                     }
@@ -417,14 +404,13 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
     public function send() -> <CookieInterface>
     {
         var container, crypt, definition, encryptValue, expire, domain, httpOnly,
-            name, options, path, sameSite, secure, session, signKey, value;
+            name, options, path, secure, session, signKey, value;
 
         let name     = this->name,
             value    = this->value,
             expire   = this->expire,
             domain   = this->domain,
             path     = this->path,
-            sameSite = this->sameSite,
             secure   = this->secure,
             httpOnly = this->httpOnly,
             options  = this->options;
@@ -451,10 +437,6 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
 
         if !empty httpOnly {
             let definition["httpOnly"] = httpOnly;
-        }
-
-        if !empty sameSite {
-            let definition["sameSite"] = sameSite;
         }
 
         if !empty options {
@@ -520,7 +502,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
             options["path"]     = Arr::get(options, "path", path),
             options["secure"]   = Arr::get(options, "secure", secure),
             options["httponly"] = Arr::get(options, "httponly", httpOnly),
-            options["sameSite"] = Arr::get(options, "sameSite", sameSite);
+            options["sameSite"] = Arr::get(options, "sameSite", "Lax");
 
         setcookie(name, encryptValue, options);
 
