@@ -55,4 +55,26 @@ class GetKeysCest
         sort($actual);
         $I->assertEquals($expected, $actual);
     }
+
+    /**
+     * Tests Phalcon\Cache\Adapter\Stream :: getKeys()
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-04-24
+     */
+    public function cacheAdapterStreamGetNoNExistingKeys(IntegrationTester $I)
+    {
+        $I->wantToTest('Cache\Adapter\Stream - GetNoNExistingKeys()');
+
+        $serializer = new SerializerFactory();
+        $adapter    = new Stream($serializer, ['storageDir' => outputDir()]);
+
+        $adapter->clear();
+
+        $key = 'random-non-existing-key';
+
+        $I->assertNull($adapter->get($key));
+        $I->assertEquals(123, $adapter->get($key, 123));
+        $I->assertFalse($adapter->get($key, false));
+    }
 }

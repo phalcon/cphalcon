@@ -203,11 +203,8 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
      * Returns unserialized data
      */
-    protected function getUnserializedData(var content, var defaultValue = null) -> var
+    protected function getUnserializedData(var content) -> var
     {
-        if !content {
-            return defaultValue;
-        }
 
         if this->defaultSerializer !== "" {
             this->serializer->unserialize(content);

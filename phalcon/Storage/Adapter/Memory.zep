@@ -123,10 +123,14 @@ class Memory extends AbstractAdapter
     {
         var content, prefixedKey;
 
+        if this->has(key) == false {
+            return defaultValue;
+        }
+
         let prefixedKey = this->getPrefixedKey(key),
             content     = this->data->get(prefixedKey);
 
-        return this->getUnserializedData(content, defaultValue);
+        return this->getUnserializedData(content);
     }
 
     /**

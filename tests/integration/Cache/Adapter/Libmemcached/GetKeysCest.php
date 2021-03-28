@@ -79,4 +79,28 @@ class GetKeysCest
             $actual
         );
     }
+
+    /**
+     * Tests Phalcon\Cache\Adapter\Libmemcached :: GetNoNExistingKeys()
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2021-03-28
+     */
+    public function cacheAdapterLibmemcachedGetNoNExistingKeys(IntegrationTester $I)
+    {
+        $I->wantToTest('Cache\Adapter\Libmemcached - GetNoNExistingKeys()');
+
+        $serializer = new SerializerFactory();
+
+        $adapter = new Libmemcached(
+            $serializer,
+            getOptionsLibmemcached()
+        );
+
+        $key = 'random-non-existing-key';
+
+        $I->assertNull($adapter->get($key));
+        $I->assertEquals(123, $adapter->get($key, 123));
+        $I->assertFalse($adapter->get($key, false));
+    }
 }

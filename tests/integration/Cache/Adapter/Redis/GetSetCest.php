@@ -17,8 +17,8 @@ use Codeception\Example;
 use Phalcon\Cache\Adapter\Redis;
 use Phalcon\Storage\Exception;
 use Phalcon\Storage\SerializerFactory;
+use Phalcon\Test\Fixtures\Cache\CacheFixtureData;
 use Phalcon\Test\Fixtures\Traits\RedisTrait;
-use stdClass;
 use IntegrationTester;
 
 use function array_merge;
@@ -191,27 +191,6 @@ class GetSetCest
 
     private function getExamples(): array
     {
-        return [
-            [
-                'string',
-                'random string',
-            ],
-            [
-                'integer',
-                123456,
-            ],
-            [
-                'float',
-                123.456,
-            ],
-            [
-                'boolean',
-                true,
-            ],
-            [
-                'object',
-                new stdClass(),
-            ],
-        ];
+        return CacheFixtureData::getExamples();
     }
 }

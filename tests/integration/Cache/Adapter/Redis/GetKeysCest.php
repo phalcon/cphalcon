@@ -58,4 +58,27 @@ class GetKeysCest
         sort($actual);
         $I->assertEquals($expected, $actual);
     }
+
+    /**
+     * Tests Phalcon\Cache\Adapter\Redis :: GetNoNExistingKeys()
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2021-03-28
+     */
+    public function cacheAdapterRedisGetNoNExistingKeys(IntegrationTester $I)
+    {
+        $I->wantToTest('Cache\Adapter\Redis - GetNoNExistingKeys()');
+
+        $serializer = new SerializerFactory();
+        $adapter    = new Redis($serializer, getOptionsRedis());
+
+        $actual = $adapter->clear();
+        $I->assertTrue($actual);
+
+        $key = 'random-non-existing-key';
+
+        $I->assertNull($adapter->get($key));
+        $I->assertEquals(123, $adapter->get($key, 123));
+        $I->assertFalse($adapter->get($key, false));
+    }
 }
