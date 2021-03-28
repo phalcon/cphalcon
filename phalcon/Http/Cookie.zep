@@ -105,6 +105,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
         bool secure = null,
         string domain = null,
         bool httpOnly = false,
+        string sameSite = "None",
         array options = []
     ) {
         let this->name     = name,
@@ -113,6 +114,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
             this->secure   = secure,
             this->domain   = domain,
             this->httpOnly = httpOnly,
+            this->sameSite = sameSite,
             this->options  = options;
 
         if value !== null {
