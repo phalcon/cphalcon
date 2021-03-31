@@ -49,6 +49,7 @@ PHP_METHOD(Phalcon_Security_JWT_Signer_AbstractSigner, getAlgorithm) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "algorithm");
 
 }

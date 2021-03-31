@@ -68,6 +68,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Router_Annotations) {
 	zend_declare_property_null(phalcon_mvc_router_annotations_ce, SL("routePrefix"), ZEND_ACC_PROTECTED);
 
 	phalcon_mvc_router_annotations_ce->create_object = zephir_init_properties_Phalcon_Mvc_Router_Annotations;
+
 	return SUCCESS;
 
 }
@@ -89,6 +90,17 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, addModuleResource) {
 	ZVAL_UNDEF(&handler);
 	ZVAL_UNDEF(&prefix);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 3)
+		Z_PARAM_STR(module)
+		Z_PARAM_STR(handler)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR_OR_NULL(prefix)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &module_param, &handler_param, &prefix_param);
@@ -155,6 +167,16 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, addResource) {
 	ZVAL_UNDEF(&handler);
 	ZVAL_UNDEF(&prefix);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_STR(handler)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR_OR_NULL(prefix)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &handler_param, &prefix_param);
@@ -201,6 +223,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, addResource) {
 PHP_METHOD(Phalcon_Mvc_Router_Annotations, getResources) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "handlers");
@@ -276,6 +299,14 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle) {
 	ZVAL_UNDEF(&_48$$42);
 	ZVAL_UNDEF(&_49$$46);
 	ZVAL_UNDEF(&_51$$46);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(uri)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &uri_param);
@@ -329,9 +360,9 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle) {
 			if (!(ZEPHIR_IS_EMPTY(&prefix))) {
 				ZEPHIR_INIT_NVAR(&route);
 				object_init_ex(&route, phalcon_mvc_router_route_ce);
-				ZEPHIR_CALL_METHOD(NULL, &route, "__construct", &_8, 116, &prefix);
+				ZEPHIR_CALL_METHOD(NULL, &route, "__construct", &_8, 118, &prefix);
 				zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_9$$6, &route, "getcompiledpattern", &_10, 0);
+				ZEPHIR_CALL_METHOD(&_9$$6, &route, "getcompiledpattern", &_10, 509);
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&_11$$6);
 				ZVAL_STRING(&_11$$6, "$#");
@@ -535,9 +566,9 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, handle) {
 				if (!(ZEPHIR_IS_EMPTY(&prefix))) {
 					ZEPHIR_INIT_NVAR(&route);
 					object_init_ex(&route, phalcon_mvc_router_route_ce);
-					ZEPHIR_CALL_METHOD(NULL, &route, "__construct", &_8, 116, &prefix);
+					ZEPHIR_CALL_METHOD(NULL, &route, "__construct", &_8, 118, &prefix);
 					zephir_check_call_status();
-					ZEPHIR_CALL_METHOD(&_32$$29, &route, "getcompiledpattern", &_10, 0);
+					ZEPHIR_CALL_METHOD(&_32$$29, &route, "getcompiledpattern", &_10, 509);
 					zephir_check_call_status();
 					ZEPHIR_INIT_NVAR(&_33$$29);
 					ZVAL_STRING(&_33$$29, "$#");
@@ -777,6 +808,18 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation) {
 	ZVAL_UNDEF(&_7$$16);
 	ZVAL_UNDEF(&_10$$18);
 	ZVAL_UNDEF(&_16$$21);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(5, 5)
+		Z_PARAM_STR(module)
+		Z_PARAM_STR(namespaceName)
+		Z_PARAM_STR(controller)
+		Z_PARAM_STR(action)
+		Z_PARAM_OBJECT_OF_CLASS(annotation, phalcon_annotations_annotation_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 5, 0, &module_param, &namespaceName_param, &controller_param, &action_param, &annotation);
@@ -854,7 +897,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processActionAnnotation) {
 	zephir_read_property(&_2, this_ptr, ZEND_STRL("actionPreformatCallback"), PH_NOISY_CC | PH_READONLY);
 	if (Z_TYPE_P(&_2) != IS_NULL) {
 		zephir_read_property(&_3$$6, this_ptr, ZEND_STRL("actionPreformatCallback"), PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_CALL_FUNCTION(&_4$$6, "call_user_func", NULL, 275, &_3$$6, &proxyActionName);
+		ZEPHIR_CALL_FUNCTION(&_4$$6, "call_user_func", NULL, 276, &_3$$6, &proxyActionName);
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(&proxyActionName, &_4$$6);
 	}
@@ -1034,6 +1077,15 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, processControllerAnnotation) {
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_STR(handler)
+		Z_PARAM_OBJECT_OF_CLASS(annotation, phalcon_annotations_annotation_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &handler_param, &annotation);
@@ -1073,6 +1125,14 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, setActionSuffix) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&actionSuffix);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(actionSuffix)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &actionSuffix_param);
@@ -1125,6 +1185,15 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, setActionPreformatCallback) {
 	ZVAL_UNDEF(&callback_sub);
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&_0$$4);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL(callback)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &callback);
@@ -1140,7 +1209,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, setActionPreformatCallback) {
 	} else if (Z_TYPE_P(callback) == IS_NULL) {
 		ZEPHIR_INIT_VAR(&_0$$4);
 		ZEPHIR_INIT_NVAR(&_0$$4);
-		zephir_create_closure_ex(&_0$$4, NULL, phalcon_6__closure_ce, SL("__invoke"));
+		zephir_create_closure_ex(&_0$$4, NULL, phalcon_9__closure_ce, SL("__invoke"));
 		zephir_update_property_zval(this_ptr, ZEND_STRL("actionPreformatCallback"), &_0$$4);
 	} else {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_router_exception_ce, "The 'callback' parameter must be either a callable or NULL.", "phalcon/Mvc/Router/Annotations.zep", 440);
@@ -1158,6 +1227,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, getActionPreformatCallback) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "actionPreformatCallback");
 
 }
@@ -1173,6 +1243,14 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, setControllerSuffix) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&controllerSuffix);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(controllerSuffix)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &controllerSuffix_param);
@@ -1194,7 +1272,7 @@ PHP_METHOD(Phalcon_Mvc_Router_Annotations, setControllerSuffix) {
 
 }
 
-zend_object *zephir_init_properties_Phalcon_Mvc_Router_Annotations(zend_class_entry *class_type TSRMLS_DC) {
+zend_object *zephir_init_properties_Phalcon_Mvc_Router_Annotations(zend_class_entry *class_type) {
 
 		zval _0, _2, _4, _6, _8, _1$$3, _3$$4, _5$$5, _7$$6, _9$$7;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -1208,6 +1286,7 @@ zend_object *zephir_init_properties_Phalcon_Mvc_Router_Annotations(zend_class_en
 	ZVAL_UNDEF(&_5$$5);
 	ZVAL_UNDEF(&_7$$6);
 	ZVAL_UNDEF(&_9$$7);
+	
 
 		ZEPHIR_MM_GROW();
 	

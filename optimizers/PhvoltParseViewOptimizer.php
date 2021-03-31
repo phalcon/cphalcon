@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -15,7 +16,7 @@ namespace Zephir\Optimizers\FunctionCall;
 use Zephir\Call;
 use Zephir\CompilationContext;
 use Zephir\CompiledExpression;
-use Zephir\CompilerException;
+use Zephir\Exception\CompilerException;
 use Zephir\HeadersManager;
 use Zephir\Optimizers\OptimizerAbstract;
 
@@ -80,7 +81,7 @@ class PhvoltParseViewOptimizer extends OptimizerAbstract
         $symbol = $context->backend->getVariableCode($symbolVariable);
 
         $context->codePrinter->output(
-            'ZEPHIR_LAST_CALL_STATUS = phvolt_parse_view(' . $symbol . ', ' . $resolvedParams[0] . ', ' . $resolvedParams[1] . ' TSRMLS_CC);'
+            'ZEPHIR_LAST_CALL_STATUS = phvolt_parse_view(' . $symbol . ', ' . $resolvedParams[0] . ', ' . $resolvedParams[1] . ');'
         );
 
         $call->checkTempParameters($context);

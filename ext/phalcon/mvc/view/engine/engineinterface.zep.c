@@ -35,14 +35,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_View_Engine_EngineInterface) {
  * Returns cached output on another view stage
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_View_Engine_EngineInterface, getContent);
-
 /**
  * Renders a partial inside another view
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_View_Engine_EngineInterface, partial);
-
 /**
  * Renders a view using the template engine
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_View_Engine_EngineInterface, render);
-

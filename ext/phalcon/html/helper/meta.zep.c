@@ -58,6 +58,15 @@ PHP_METHOD(Phalcon_Html_Helper_Meta, add) {
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ARRAY(attributes)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &attributes_param);
@@ -108,6 +117,15 @@ PHP_METHOD(Phalcon_Html_Helper_Meta, addHttp) {
 	ZVAL_UNDEF(&httpEquiv);
 	ZVAL_UNDEF(&content);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_STR(httpEquiv)
+		Z_PARAM_STR(content)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &httpEquiv_param, &content_param);
@@ -118,7 +136,7 @@ PHP_METHOD(Phalcon_Html_Helper_Meta, addHttp) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "http-equiv");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "addelement", NULL, 299, &_0, &httpEquiv, &content);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "addelement", NULL, 300, &_0, &httpEquiv, &content);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -142,6 +160,15 @@ PHP_METHOD(Phalcon_Html_Helper_Meta, addName) {
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&content);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_STR(name)
+		Z_PARAM_STR(content)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &name_param, &content_param);
@@ -152,7 +179,7 @@ PHP_METHOD(Phalcon_Html_Helper_Meta, addName) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "name");
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addelement", NULL, 299, &_0, &name, &content);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addelement", NULL, 300, &_0, &name, &content);
 	zephir_check_call_status();
 	RETURN_THIS();
 
@@ -176,6 +203,15 @@ PHP_METHOD(Phalcon_Html_Helper_Meta, addProperty) {
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&content);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_STR(name)
+		Z_PARAM_STR(content)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &name_param, &content_param);
@@ -186,7 +222,7 @@ PHP_METHOD(Phalcon_Html_Helper_Meta, addProperty) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "property");
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addelement", NULL, 299, &_0, &name, &content);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addelement", NULL, 300, &_0, &name, &content);
 	zephir_check_call_status();
 	RETURN_THIS();
 
@@ -198,6 +234,7 @@ PHP_METHOD(Phalcon_Html_Helper_Meta, addProperty) {
 PHP_METHOD(Phalcon_Html_Helper_Meta, getTag) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_STRING("meta");
@@ -225,6 +262,16 @@ PHP_METHOD(Phalcon_Html_Helper_Meta, addElement) {
 	ZVAL_UNDEF(&value);
 	ZVAL_UNDEF(&content);
 	ZVAL_UNDEF(&attributes);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(3, 3)
+		Z_PARAM_STR(element)
+		Z_PARAM_STR(value)
+		Z_PARAM_STR(content)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &element_param, &value_param, &content_param);

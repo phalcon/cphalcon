@@ -58,6 +58,16 @@ PHP_METHOD(Phalcon_Html_TagFactory, __construct) {
 
 	ZVAL_UNDEF(&escaper_sub);
 	ZVAL_UNDEF(&services);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_OBJECT_OF_CLASS(escaper, phalcon_escaper_escaperinterface_ce)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ARRAY(services)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &escaper, &services_param);
@@ -100,6 +110,14 @@ PHP_METHOD(Phalcon_Html_TagFactory, newInstance) {
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_3$$3);
 	ZVAL_UNDEF(&_2$$3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(name)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
@@ -130,6 +148,7 @@ PHP_METHOD(Phalcon_Html_TagFactory, newInstance) {
 PHP_METHOD(Phalcon_Html_TagFactory, getAdapters) {
 
 	zval *this_ptr = getThis();
+
 
 
 	zephir_create_array(return_value, 41, 0);

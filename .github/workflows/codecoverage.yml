@@ -40,22 +40,21 @@ jobs:
         ports:
           - 11211
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     name: Build & Run
     steps:
 
       - name: Setup Environment Variables
         run: |
-          echo "::set-env name=ZEPHIR_PARSER_VERSION::v1.3.4"
-          echo "::set-env name=ZEPHIR_VERSION::0.12.19"
+          echo "ZEPHIR_PARSER_VERSION=v1.3.6" >> $GITHUB_ENV
+          echo "ZEPHIR_VERSION=0.13.0-beta-1" >> $GITHUB_ENV
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '7.4'
-          extensions: mbstring, intl, json, psr, imagick, apcu
-          ini-values: apc.enable_cli=on, session.save_path=/tmp
-          tools: prestissimo
+          php-version: '8.0'
+          extensions: mbstring, intl, json, imagick, apcu, yaml, redis, igbinary, msgpack
+          ini-values: apc.enable_cli=on, session.save_path=/tmp, extension=psr.so, extension=phalcon.so
 
       - name: Common Settings
         run: |
@@ -116,9 +115,10 @@ jobs:
 
       - name: Generate C code
         run: |
+          sudo pecl install psr
           $HOME/bin/zephir fullclean
-          $HOME/bin//zephir build
-          echo "extension=phalcon.so" >> /etc/php/7.4/cli/php.ini
+          $HOME/bin/zephir build
+          sudo echo "extension=phalcon.so" >> /etc/php/8.0/cli/php.ini
 
       - name: Verify Install
         run: php --ri phalcon

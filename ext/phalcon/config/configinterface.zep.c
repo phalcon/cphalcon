@@ -35,10 +35,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Config_ConfigInterface) {
 }
 
 ZEPHIR_DOC_METHOD(Phalcon_Config_ConfigInterface, getPathDelimiter);
-
 ZEPHIR_DOC_METHOD(Phalcon_Config_ConfigInterface, merge);
-
 ZEPHIR_DOC_METHOD(Phalcon_Config_ConfigInterface, path);
-
 ZEPHIR_DOC_METHOD(Phalcon_Config_ConfigInterface, setPathDelimiter);
-

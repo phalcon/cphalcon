@@ -32,7 +32,7 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Pdo_Exception_Exception) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\DataMapper\\Pdo\\Exception, Exception, phalcon, datamapper_pdo_exception_exception, zend_exception_get_default(TSRMLS_C), NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\DataMapper\\Pdo\\Exception, Exception, phalcon, datamapper_pdo_exception_exception, zend_ce_exception, NULL, 0);
 
 	return SUCCESS;
 

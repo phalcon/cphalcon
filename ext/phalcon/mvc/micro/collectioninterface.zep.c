@@ -37,74 +37,59 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Micro_CollectionInterface) {
  * Maps a route to a handler that only matches if the HTTP method is DELETE
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, delete);
-
 /**
  * Maps a route to a handler that only matches if the HTTP method is GET
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, get);
-
 /**
  * Returns the main handler
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, getHandler);
-
 /**
  * Returns the registered handlers
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, getHandlers);
-
 /**
  * Returns the collection prefix if any
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, getPrefix);
-
 /**
  * Maps a route to a handler that only matches if the HTTP method is HEAD
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, head);
-
 /**
  * Returns if the main handler must be lazy loaded
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, isLazy);
-
 /**
  * Maps a route to a handler
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, map);
-
 /**
  * Maps a route to a handler that only matches if the HTTP method is OPTIONS
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, options);
-
 /**
  * Maps a route to a handler that only matches if the HTTP method is PATCH
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, patch);
-
 /**
  * Maps a route to a handler that only matches if the HTTP method is POST
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, post);
-
 /**
  * Maps a route to a handler that only matches if the HTTP method is PUT
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, put);
-
 /**
  * Sets the main handler
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, setHandler);
-
 /**
  * Sets if the main handler must be lazy loaded
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, setLazy);
-
 /**
  * Sets a prefix for all routes added to the collection
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, setPrefix);
-

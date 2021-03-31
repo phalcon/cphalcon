@@ -66,16 +66,16 @@ function DownloadPhpSrc {
 function InstallPhpDevPack {
     Write-Output "Install PHP Dev pack: ${env:PHP_VERSION}"
 
-    $RemoteUrl = "https://windows.php.net/downloads/releases/php-devel-pack-${env:PHP_VERSION}-${env:BUILD_TYPE}-vc${env:VC_VERSION}-${env:PHP_ARCH}.zip"
-    $RemoteArchiveUrl = "https://windows.php.net/downloads/releases/archives/php-devel-pack-${env:PHP_VERSION}-${env:BUILD_TYPE}-vc${env:VC_VERSION}-${env:PHP_ARCH}.zip"
-    $DestinationPath = "C:\Downloads\php-devel-pack-${env:PHP_VERSION}-${env:BUILD_TYPE}-VC${env:VC_VERSION}-${env:PHP_ARCH}.zip"
+    $RemoteUrl = "https://windows.php.net/downloads/releases/php-devel-pack-${env:PHP_VERSION}-${env:BUILD_TYPE}-${env:VC_VERSION}-${env:PHP_ARCH}.zip"
+    $RemoteArchiveUrl = "https://windows.php.net/downloads/releases/archives/php-devel-pack-${env:PHP_VERSION}-${env:BUILD_TYPE}-${env:VC_VERSION}-${env:PHP_ARCH}.zip"
+    $DestinationPath = "C:\Downloads\php-devel-pack-${env:PHP_VERSION}-${env:BUILD_TYPE}-${env:VC_VERSION}-${env:PHP_ARCH}.zip"
 
     if (-not (Test-Path $env:PHP_DEVPACK)) {
         if (-not [System.IO.File]::Exists($DestinationPath)) {
             DownloadFileUsingAlternative $RemoteUrl $RemoteArchiveUrl $DestinationPath "Downloading PHP Dev pack"
         }
 
-        $DestinationUnzipPath = "${env:Temp}\php-${env:PHP_VERSION}-devel-VC${env:VC_VERSION}-${env:PHP_ARCH}"
+        $DestinationUnzipPath = "${env:Temp}\php-${env:PHP_VERSION}-devel-${env:VC_VERSION}-${env:PHP_ARCH}"
 
         if (-not (Test-Path "$DestinationUnzipPath")) {
             Expand-Item7zip $DestinationPath $env:Temp
@@ -274,8 +274,8 @@ function InitializeReleaseVars {
 
     $env:RELEASE_DLL_PATH = "${env:PHP_PECL_PATH}\phalcon\phalcon-${env:PHALCON_VERSION}\${env:RELEASE_FOLDER}\${env:EXTENSION_FILE}"
 
-    Write-Output "::set-env name=RELEASE_ZIPBALL::${env:RELEASE_ZIPBALL}"
-    Write-Output "::set-env name=RELEASE_DLL_PATH::${env:RELEASE_DLL_PATH}"
+    Write-Output "RELEASE_ZIPBALL=${env:RELEASE_ZIPBALL}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+    Write-Output "RELEASE_DLL_PATH=${env:RELEASE_DLL_PATH}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 }
 
 function EnablePhalconExtension {

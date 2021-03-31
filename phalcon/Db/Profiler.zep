@@ -133,7 +133,7 @@ class Profiler
      */
     public function startProfile(string sqlStatement, var sqlVariables = null, var sqlBindTypes = null) -> <Profiler>
     {
-        var activeProfile, version;
+        var activeProfile;
 
         let activeProfile = new Item();
 
@@ -147,16 +147,7 @@ class Profiler
             activeProfile->setSqlBindTypes(sqlBindTypes);
         }
 
-        let version = phpversion();
-
-        /**
-         * @todo Remove this check when we target min PHP 7.3
-         */
-        if starts_with(version, "7.2") {
-            activeProfile->setInitialTime(microtime(true));
-        } else {
-            activeProfile->setInitialTime(hrtime(true));
-        }
+        activeProfile->setInitialTime(hrtime(true));
 
         if method_exists(this, "beforeStartProfile") {
             this->{"beforeStartProfile"}(activeProfile);
@@ -172,20 +163,10 @@ class Profiler
      */
     public function stopProfile() -> <Profiler>
     {
-        var activeProfile, finalTime, initialTime, version;
+        var activeProfile, finalTime, initialTime;
 
-        let version = phpversion();
-
-        /**
-         * @todo Remove this check when we target min PHP 7.3
-         */
-        if starts_with(version, "7.2") {
-            let finalTime = microtime(true);
-        } else {
-            let finalTime = hrtime(true);
-        }
-
-        let activeProfile = <Item> this->activeProfile;
+        let finalTime     = hrtime(true),
+            activeProfile = <Item> this->activeProfile;
 
         activeProfile->setFinalTime(finalTime);
 

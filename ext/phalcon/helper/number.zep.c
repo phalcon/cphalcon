@@ -48,6 +48,16 @@ PHP_METHOD(Phalcon_Helper_Number, between) {
 	zend_long value, from, to;
 	zval *this_ptr = getThis();
 
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(3, 3)
+		Z_PARAM_LONG(value)
+		Z_PARAM_LONG(from)
+		Z_PARAM_LONG(to)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(3, 0, &value_param, &from_param, &to_param);
 

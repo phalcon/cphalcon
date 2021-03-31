@@ -15,7 +15,6 @@ namespace Phalcon\Test\Database\Mvc\Model;
 
 use DatabaseTester;
 use PDO;
-use Phalcon\Cache;
 use Phalcon\Cache\AdapterFactory;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Migrations\CustomersMigration;
@@ -106,7 +105,7 @@ class FindCest
         $adapterFactory    = new AdapterFactory($serializerFactory);
         $adapter           = $adapterFactory->newInstance('stream', $options);
 
-        $this->container->setShared('modelsCache', new Cache($adapter));
+        $this->container->setShared('modelsCache', $adapter);
 
         /**
          * Get the records (should cache the resultset)

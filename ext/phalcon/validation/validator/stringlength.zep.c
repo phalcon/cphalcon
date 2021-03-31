@@ -141,6 +141,15 @@ PHP_METHOD(Phalcon_Validation_Validator_StringLength, __construct) {
 	ZVAL_UNDEF(&_12$$15);
 	ZVAL_UNDEF(&_13$$15);
 	ZVAL_UNDEF(&_14$$15);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ARRAY(options)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &options_param);

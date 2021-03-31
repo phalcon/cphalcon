@@ -76,6 +76,15 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apcu, __construct) {
 	ZVAL_UNDEF(&options);
 	ZVAL_UNDEF(&prefix);
 	ZVAL_UNDEF(&ttl);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ARRAY(options)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &options_param);
@@ -113,6 +122,14 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apcu, read) {
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(key)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &key_param);
@@ -134,7 +151,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apcu, read) {
 	ZEPHIR_INIT_VAR(&_2);
 	ZEPHIR_CONCAT_SVV(&_2, "_PHAN", &_1, &key);
 	zephir_fast_strtolower(&_0, &_2);
-	ZEPHIR_RETURN_CALL_FUNCTION("apcu_fetch", NULL, 120, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("apcu_fetch", NULL, 122, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -157,6 +174,15 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apcu, write) {
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_STR(key)
+		Z_PARAM_ZVAL(data)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &key_param, &data);
@@ -179,7 +205,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apcu, write) {
 	ZEPHIR_CONCAT_SVV(&_2, "_PHAN", &_1, &key);
 	zephir_fast_strtolower(&_0, &_2);
 	zephir_read_property(&_3, this_ptr, ZEND_STRL("ttl"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_FUNCTION("apcu_store", NULL, 123, &_0, data, &_3);
+	ZEPHIR_RETURN_CALL_FUNCTION("apcu_store", NULL, 125, &_0, data, &_3);
 	zephir_check_call_status();
 	RETURN_MM();
 

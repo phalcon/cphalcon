@@ -39,7 +39,7 @@ env:
   global:
     - CC="gcc"
     - ZEPHIR_VERSION="0.12.19"
-    - ZEPHIR_PARSER_VERSION="v1.3.4"
+    - ZEPHIR_PARSER_VERSION="v1.3.6"
     - REPORT_COVERAGE=0
     - PATH="${HOME}/.composer/vendor/bin:${PATH}"
     - TRAVIS_COMMIT_LOG="$(git log --format=fuller -5)"

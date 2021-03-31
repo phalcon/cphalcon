@@ -36,40 +36,32 @@ ZEPHIR_INIT_CLASS(Phalcon_Escaper_EscaperInterface) {
  * hexadecimal representation
  */
 ZEPHIR_DOC_METHOD(Phalcon_Escaper_EscaperInterface, escapeCss);
-
 /**
  * Escapes a HTML string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Escaper_EscaperInterface, escapeHtml);
-
 /**
  * Escapes a HTML attribute string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Escaper_EscaperInterface, escapeHtmlAttr);
-
 /**
  * Escape Javascript strings by replacing non-alphanumeric chars by their
  * hexadecimal representation
  */
 ZEPHIR_DOC_METHOD(Phalcon_Escaper_EscaperInterface, escapeJs);
-
 /**
  * Escapes a URL. Internally uses rawurlencode
  */
 ZEPHIR_DOC_METHOD(Phalcon_Escaper_EscaperInterface, escapeUrl);
-
 /**
  * Returns the internal encoding used by the escaper
  */
 ZEPHIR_DOC_METHOD(Phalcon_Escaper_EscaperInterface, getEncoding);
-
 /**
  * Sets the encoding to be used by the escaper
  */
 ZEPHIR_DOC_METHOD(Phalcon_Escaper_EscaperInterface, setEncoding);
-
 /**
  * Sets the HTML quoting type for htmlspecialchars
  */
 ZEPHIR_DOC_METHOD(Phalcon_Escaper_EscaperInterface, setHtmlQuoteType);
-

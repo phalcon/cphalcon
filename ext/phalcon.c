@@ -191,6 +191,12 @@ zend_class_entry *phalcon_validation_abstractcombinedfieldsvalidator_ce;
 zend_class_entry *phalcon_0__closure_ce;
 zend_class_entry *phalcon_10__closure_ce;
 zend_class_entry *phalcon_11__closure_ce;
+zend_class_entry *phalcon_12__closure_ce;
+zend_class_entry *phalcon_13__closure_ce;
+zend_class_entry *phalcon_14__closure_ce;
+zend_class_entry *phalcon_15__closure_ce;
+zend_class_entry *phalcon_16__closure_ce;
+zend_class_entry *phalcon_17__closure_ce;
 zend_class_entry *phalcon_1__closure_ce;
 zend_class_entry *phalcon_2__closure_ce;
 zend_class_entry *phalcon_3__closure_ce;
@@ -1136,6 +1142,12 @@ static PHP_MINIT_FUNCTION(phalcon)
 	ZEPHIR_INIT(phalcon_0__closure);
 	ZEPHIR_INIT(phalcon_10__closure);
 	ZEPHIR_INIT(phalcon_11__closure);
+	ZEPHIR_INIT(phalcon_12__closure);
+	ZEPHIR_INIT(phalcon_13__closure);
+	ZEPHIR_INIT(phalcon_14__closure);
+	ZEPHIR_INIT(phalcon_15__closure);
+	ZEPHIR_INIT(phalcon_16__closure);
+	ZEPHIR_INIT(phalcon_17__closure);
 	ZEPHIR_INIT(phalcon_1__closure);
 	ZEPHIR_INIT(phalcon_2__closure);
 	ZEPHIR_INIT(phalcon_3__closure);
@@ -1153,7 +1165,7 @@ static PHP_MINIT_FUNCTION(phalcon)
 static PHP_MSHUTDOWN_FUNCTION(phalcon)
 {
 	
-	zephir_deinitialize_memory(TSRMLS_C);
+	zephir_deinitialize_memory();
 	UNREGISTER_INI_ENTRIES();
 	return SUCCESS;
 }
@@ -1162,7 +1174,7 @@ static PHP_MSHUTDOWN_FUNCTION(phalcon)
 /**
  * Initialize globals on each request or each thread started
  */
-static void php_zephir_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC)
+static void php_zephir_init_globals(zend_phalcon_globals *phalcon_globals)
 {
 	phalcon_globals->initialized = 0;
 
@@ -1205,7 +1217,7 @@ static void php_zephir_init_globals(zend_phalcon_globals *phalcon_globals TSRMLS
 /**
  * Initialize globals only on each thread started
  */
-static void php_zephir_init_module_globals(zend_phalcon_globals *phalcon_globals TSRMLS_DC)
+static void php_zephir_init_module_globals(zend_phalcon_globals *phalcon_globals)
 {
 	
 }
@@ -1224,8 +1236,8 @@ static PHP_RINIT_FUNCTION(phalcon)
 
 static PHP_RSHUTDOWN_FUNCTION(phalcon)
 {
-	phalcon_orm_destroy_cache(TSRMLS_C);
-	zephir_deinitialize_memory(TSRMLS_C);
+	phalcon_orm_destroy_cache();
+	zephir_deinitialize_memory();
 	return SUCCESS;
 }
 

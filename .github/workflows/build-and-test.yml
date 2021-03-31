@@ -15,21 +15,21 @@ jobs:
     #     git commit -m "......... [ci skip]"
     if: "!contains(github.event.head_commit.message, 'ci skip')"
 
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     name: Build Phalcon Pecl Package
     steps:
 
       - name: Setup Environment Variables
         run: |
-          echo "::set-env name=ZEPHIR_PARSER_VERSION::v1.3.4"
-          echo "::set-env name=ZEPHIR_VERSION::0.12.19"
+          echo "ZEPHIR_PARSER_VERSION=v1.3.6" >> $GITHUB_ENV
+          echo "ZEPHIR_VERSION=0.13.0" >> $GITHUB_ENV
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '7.4'
+          php-version: '8.0'
           extensions: mbstring, intl, json, psr
-          tools: pecl, prestissimo
+          tools: pecl
 
       - name: Common Settings
         run: |
@@ -73,14 +73,14 @@ jobs:
           $HOME/bin/zephir generate
           (cd build && php gen-build.php)
 
-      - name: Create Pecl Package
+      - name: Create Pecl Package (PHP 8)
         id: pecl_create
         run: |
-          cp build/php7/safe/config.w32 config.w32
-          cp build/php7/safe/phalcon.zep.c phalcon.zep.c
-          cp build/php7/safe/config.m4 config.m4
-          cp build/php7/safe/php_phalcon.h php_phalcon.h
-          cp build/php7/safe/phalcon.zep.h phalcon.zep.h
+          cp build/php8/safe/config.w32 config.w32
+          cp build/php8/safe/phalcon.zep.c phalcon.zep.c
+          cp build/php8/safe/config.m4 config.m4
+          cp build/php8/safe/php_phalcon.h php_phalcon.h
+          cp build/php8/safe/phalcon.zep.h phalcon.zep.h
           pecl package
           phalcon_package="`ls | grep phalcon-*tgz`"
           mv $phalcon_package phalcon-pecl.tgz
@@ -130,8 +130,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        operating-system: [ubuntu-latest]
-        php-versions: ['7.2', '7.3', '7.4']
+        operating-system: [ubuntu-20.04]
+        php-versions: ['7.4', '8.0']
 
     name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
     steps:
@@ -165,9 +165,9 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
-          ini-values: apc.enable_cli=on, session.save_path=/tmp
-          tools: pecl, prestissimo
-          extensions: mbstring, intl, json, imagick
+          ini-values: apc.enable_cli=on, session.save_path=/tmp, extension=psr.so, extension=phalcon.so
+          tools: pecl
+          extensions: mbstring, intl, json, imagick, redis, igbinary, apcu, msgpack, memcached, yaml
 
       - name: Download Phalcon Pecl Package
         uses: actions/download-artifact@v1
@@ -192,15 +192,18 @@ jobs:
           vendor/bin/codecept build
 
       - name: Run Unit Tests
+        if: always()
         run: vendor/bin/codecept run --ext DotReporter unit
 
       - name: Run CLI Tests
+        if: always()
         run: vendor/bin/codecept run --ext DotReporter cli
 
       - name: Run Integration Tests
         env:
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
+        if: always()
         run: vendor/bin/codecept run --ext DotReporter integration
 
       - name: Run Database Tests (Common)
@@ -208,6 +211,7 @@ jobs:
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
           DATA_MYSQL_USER: root
+        if: always()
         run: vendor/bin/codecept run --ext DotReporter database -g common
 
       - name: Run Database Tests (MySQL)
@@ -216,12 +220,14 @@ jobs:
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
           DATA_MYSQL_USER: root
-        run: vendor/bin/codecept run database --env mysql -g mysql
+        if: always()
+        run: vendor/bin/codecept run --ext DotReporter database --env mysql -g mysql
 
       - name: Run Database Tests (Sqlite)
         env:
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
+        if: always()
         run: vendor/bin/codecept run --ext DotReporter database --env sqlite -g sqlite
 
       - name: Run Database Tests (Postgres)
@@ -230,6 +236,7 @@ jobs:
           DATA_POSTGRES_PORT: ${{ job.services.postgres.ports['5432'] }}
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
+        if: always()
         run: vendor/bin/codecept run --ext DotReporter database --env pgsql -g pgsql
 
       # - name: Run Database Tests (SQL Server)
@@ -251,7 +258,7 @@ jobs:
       fail-fast: false
       matrix:
         operating-system: [macos-latest]
-        php-versions: ['7.2', '7.3', '7.4']
+        php-versions: ['7.4', '8.0']
 
     name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
     steps:
@@ -330,6 +337,7 @@ jobs:
           xcodebuild -version
           export MAKEFLAGS="-j$(getconf _NPROCESSORS_ONLN)"
           sudo pecl -v install phalcon-pecl/phalcon-pecl.tgz
+          sudo pecl -v install msgpack
 
       - name: Verify Install
         run: php --ri phalcon
@@ -360,21 +368,18 @@ jobs:
       fail-fast: false
       matrix:
         operating-system: [windows-2016]
-        php-versions: ['7.2', '7.3', '7.4']
+        php-versions: ['7.4', '8.0']
         ts: [ts, nts]
         include:
-          - php-versions: '7.2'
-            vc_num: '15'
-            arch: x64
-            build_type: Win32
-          - php-versions: '7.3'
-            vc_num: '15'
-            arch: x64
-            build_type: Win32
           - php-versions: '7.4'
-            vc_num: '15'
+            vc_num: 'vc15'
             arch: x64
             build_type: Win32
+          - php-versions: '8.0'
+            vc_num: 'vs16'
+            arch: x64
+            build_type: Win32
+
     steps:
 
       - name: Disable Git autocrlf
@@ -390,38 +395,41 @@ jobs:
         with:
           php-version: ${{ matrix.php-versions }}
           ini-values: apc.enable_cli=on, session.save_path=C:\temp
-          tools: pecl, prestissimo
-          extensions: mbstring, intl, json, yaml, apcu, psr, imagick, gd, redis, igbinary, sqlite3, msgpack
+          tools: pecl
+          extensions: mbstring, intl, json, yaml, apcu, imagick, gd, redis, igbinary, sqlite3, msgpack
         env:
           PHPTS: ${{ matrix.ts }}
 
       - name: Setup Environment Variables
         run: |
-          echo "::set-env name=PHP_SDK_VERSION::2.2.0"
-          echo "::set-env name=PHP_DEVPACK::C:\tools\php-devpack"
-          echo "::set-env name=PHP_SDK_PATH::C:\tools\php-sdk"
-          echo "::set-env name=PHP_PECL_PATH::C:\tools\pecl"
+          Write-Output "PHP_SDK_VERSION=2.2.0" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          Write-Output "PHP_DEVPACK=C:\tools\php-devpack" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          Write-Output "PHP_SDK_PATH=C:\tools\php-sdk" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          Write-Output "PHP_PECL_PATH=C:\tools\pecl" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          Write-Output "PSR_VERSION=1.0.1" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
           # FIXME: phpversion() return 7.4.3 but windows.php.net has only 7.4.4
           # We should parse the following file to get the correct version:
           #   https://windows.php.net/downloads/releases/sha256sum.txt
           If ("${{ matrix.php-versions }}" -eq "7.4") {
-            echo "::set-env name=PHP_VERSION::7.4.4"
+            Write-Output "PHP_VERSION=7.4.4" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           } Else {
-            echo "::set-env name=PHP_VERSION::$(php -r 'echo phpversion();')"
+            Write-Output "PHP_VERSION=$(php -r 'echo phpversion();')" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           }
-          echo "::set-env name=PHP_MINOR::${{ matrix.php-versions }}"
-          echo "::set-env name=TEST_PHP_EXECUTABLE::${env:PHPROOT}\php.exe"
-          echo "::set-env name=VC_VERSION::${{ matrix.vc_num }}"
-          echo "::set-env name=PHP_ARCH::${{ matrix.arch }}"
-          echo "::set-env name=PACKAGE_PREFIX::phalcon"
-          echo "::set-env name=EXTENSION_NAME::phalcon"
-          echo "::set-env name=EXTENSION_FILE::php_phalcon.dll"
-          echo "::set-env name=PHALCON_VERSION::4.1.0"
-          echo "::set-env name=PHPTS::${{ matrix.ts }}"
+
+          Write-Output "PHP_MINOR=${{ matrix.php-versions }}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          Write-Output "TEST_PHP_EXECUTABLE=${env:PHPROOT}\php.exe" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          Write-Output "VC_VERSION=${{ matrix.vc_num }}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          Write-Output "PHP_ARCH=${{ matrix.arch }}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          Write-Output "PACKAGE_PREFIX=phalcon" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          Write-Output "EXTENSION_NAME=phalcon" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          Write-Output "EXTENSION_FILE=php_phalcon.dll" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          Write-Output "PHALCON_VERSION=5.0.0alpha1" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          Write-Output "PHPTS=${{ matrix.ts }}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           If ("${{ matrix.ts }}" -eq "nts") {
-            echo "::set-env name=BUILD_TYPE::nts-${{ matrix.build_type }}"
+            Write-Output "BUILD_TYPE=nts-${{ matrix.build_type }}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           } Else {
-            echo "::set-env name=BUILD_TYPE::${{ matrix.build_type }}"
+            Write-Output "BUILD_TYPE=${{ matrix.build_type }}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           }
       - name: Setup Composer Token
         run: |
@@ -483,16 +491,40 @@ jobs:
         shell: powershell
         run: |
           $v = "${env:WindowsSDKVersion}" -replace '\\$', ''
-          Write-Output "::set-env name=WindowsSDKVersion::$v"
+          Write-Output "WindowsSDKVersion=$v" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
           $v = "${env:WindowsSDKLibVersion}" -replace '\\$', ''
-          Write-Output "::set-env name=WindowsSDKLibVersion::$v"
+          Write-Output "WindowsSDKLibVersion=$v" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
       - name: Unpack Package
         run: |
           Import-Module .\.ci\win-ci-tools.psm1
           Expand-Item7zip "phalcon-pecl\phalcon-pecl.tgz" "${env:Temp}"
           Expand-Item7zip "${env:Temp}\phalcon-pecl.tar" "${env:PHP_PECL_PATH}\phalcon"
+
+      - name: PSR extension | init, phpize
+        shell: cmd
+        run: |
+          set PATH=%PATH%;%PHP_DEVPACK%
+          git clone https://github.com/jbboehr/php-psr.git %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
+          if not exist "%PHP_DEVPACK%\include\ext\psr" MkDir "%PHP_DEVPACK%\include\ext\psr"
+          cd /d %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
+          phpize
+
+      - name: PSR extension | configure
+        shell: cmd
+        run: |
+          set PATH=%PATH%;%PHP_DEVPACK%
+          cd /d %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
+          configure --enable-psr
+
+      - name: PSR extension | build
+        shell: cmd
+        run: |
+          set PATH=%PATH%;%PHP_DEVPACK%
+          cd /d %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
+          nmake
+          nmake install
 
       - name: Run phpize
         shell: cmd
@@ -511,7 +543,7 @@ jobs:
       - name: Build Project
         shell: cmd
         run: |
-          set PATH=%PATH%;%PHP_DEVPACK%
+          set PATH=%PATH%;%PHP_DEVPACK%;%PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
           cd /d %PHP_PECL_PATH%\phalcon\phalcon-%PHALCON_VERSION%
           nmake
 

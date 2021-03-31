@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Database\Mvc\Model;
+namespace Phalcon\Test\Database\Mvc\Model\Behavior;
 
 use DatabaseTester;
 use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
@@ -23,7 +23,7 @@ use Phalcon\Events\Manager as EventManager;
 
 use function uniqid;
 
-class SoftDeleteCest
+final class SoftDeleteCest
 {
     use DiTrait;
 
@@ -32,7 +32,6 @@ class SoftDeleteCest
         $this->setNewFactoryDefault();
         $this->setDatabase($I);
 
-        /** @var PDO $connection */
         $connection = $I->getConnection();
         (new InvoicesMigration($connection));
     }

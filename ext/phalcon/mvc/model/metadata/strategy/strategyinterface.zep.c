@@ -34,9 +34,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Strategy_StrategyInterface) {
  * @todo Not implemented
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_StrategyInterface, getColumnMaps);
-
 /**
  * The meta-data is obtained by reading the column descriptions from the database information schema
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_StrategyInterface, getMetaData);
-

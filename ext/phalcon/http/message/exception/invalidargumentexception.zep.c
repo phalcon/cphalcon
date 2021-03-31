@@ -27,7 +27,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_Exception_InvalidArgumentException) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Http\\Message\\Exception, InvalidArgumentException, phalcon, http_message_exception_invalidargumentexception, spl_ce_InvalidArgumentException, NULL, 0);
 
-	zend_class_implements(phalcon_http_message_exception_invalidargumentexception_ce, 1, zephir_get_internal_ce(SL("throwable")));
+	zend_class_implements(phalcon_http_message_exception_invalidargumentexception_ce, 1, zend_ce_throwable);
 	return SUCCESS;
 
 }

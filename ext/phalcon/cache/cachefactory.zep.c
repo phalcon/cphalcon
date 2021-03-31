@@ -54,6 +54,14 @@ PHP_METHOD(Phalcon_Cache_CacheFactory, __construct) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&factory_sub);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(factory, phalcon_cache_adapterfactory_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(1, 0, &factory);
 
@@ -106,6 +114,14 @@ PHP_METHOD(Phalcon_Cache_CacheFactory, load) {
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_1$$3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(config)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &config);
@@ -182,6 +198,16 @@ PHP_METHOD(Phalcon_Cache_CacheFactory, newInstance) {
 	ZVAL_UNDEF(&adapter);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&options);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_STR(name)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ARRAY(options)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &name_param, &options_param);
@@ -208,7 +234,7 @@ PHP_METHOD(Phalcon_Cache_CacheFactory, newInstance) {
 	ZEPHIR_CALL_METHOD(&adapter, &_0, "newinstance", NULL, 0, &name, &options);
 	zephir_check_call_status();
 	object_init_ex(return_value, phalcon_cache_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 170, &adapter);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 172, &adapter);
 	zephir_check_call_status();
 	RETURN_MM();
 

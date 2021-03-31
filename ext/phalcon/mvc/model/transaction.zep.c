@@ -114,6 +114,17 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, __construct) {
 	ZVAL_UNDEF(&connection);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&service);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 3)
+		Z_PARAM_OBJECT_OF_CLASS(container, phalcon_di_diinterface_ce)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_BOOL(autoBegin)
+		Z_PARAM_STR(service)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 2, &container, &autoBegin_param, &service_param);
@@ -157,6 +168,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, begin) {
 
 	ZVAL_UNDEF(&_0);
 
+
 	ZEPHIR_MM_GROW();
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("connection"), PH_NOISY_CC | PH_READONLY);
@@ -178,6 +190,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, commit) {
 
 	ZVAL_UNDEF(&manager);
 	ZVAL_UNDEF(&_0);
+
 
 	ZEPHIR_MM_GROW();
 
@@ -208,11 +221,12 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, getConnection) {
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$4);
 
+
 	ZEPHIR_MM_GROW();
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("rollbackOnAbort"), PH_NOISY_CC | PH_READONLY);
 	if (zephir_is_true(&_0)) {
-		ZEPHIR_CALL_FUNCTION(&_1$$3, "connection_aborted", NULL, 508);
+		ZEPHIR_CALL_FUNCTION(&_1$$3, "connection_aborted", NULL, 504);
 		zephir_check_call_status();
 		if (zephir_is_true(&_1$$3)) {
 			ZEPHIR_INIT_VAR(&_2$$4);
@@ -233,6 +247,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, getMessages) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "messages");
 
 }
@@ -247,6 +262,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, isManaged) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
+
 
 	ZEPHIR_MM_GROW();
 
@@ -267,6 +283,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, isValid) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
+
 
 	ZEPHIR_MM_GROW();
 
@@ -298,6 +315,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback) {
 	ZVAL_UNDEF(&_2$$4);
 	ZVAL_UNDEF(&_3$$7);
 	ZVAL_UNDEF(&_4$$7);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 2)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR_OR_NULL(rollbackMessage)
+		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(rollbackRecord, phalcon_mvc_modelinterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &rollbackMessage_param, &rollbackRecord);
@@ -337,7 +364,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, rollback) {
 			ZEPHIR_INIT_VAR(&_3$$7);
 			object_init_ex(&_3$$7, phalcon_mvc_model_transaction_failed_ce);
 			zephir_read_property(&_4$$7, this_ptr, ZEND_STRL("rollbackRecord"), PH_NOISY_CC | PH_READONLY);
-			ZEPHIR_CALL_METHOD(NULL, &_3$$7, "__construct", NULL, 509, &rollbackMessage, &_4$$7);
+			ZEPHIR_CALL_METHOD(NULL, &_3$$7, "__construct", NULL, 505, &rollbackMessage, &_4$$7);
 			zephir_check_call_status();
 			zephir_throw_exception_debug(&_3$$7, "phalcon/Mvc/Model/Transaction.zep", 186);
 			ZEPHIR_MM_RESTORE();
@@ -359,6 +386,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, setIsNewTransaction) {
 
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_BOOL(isNew)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(1, 0, &isNew_param);
 
@@ -384,6 +419,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, setRollbackOnAbort) {
 
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_BOOL(rollbackOnAbort)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(1, 0, &rollbackOnAbort_param);
 
@@ -407,6 +450,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, setRollbackedRecord) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&record_sub);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(record, phalcon_mvc_modelinterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(1, 0, &record);
 
@@ -425,6 +476,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, setTransactionManager) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&manager_sub);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(manager, phalcon_mvc_model_transaction_managerinterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(1, 0, &manager);
 
@@ -445,6 +504,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, throwRollbackException) {
 
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_BOOL(status)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(1, 0, &status_param);
 
@@ -460,12 +527,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Transaction, throwRollbackException) {
 
 }
 
-zend_object *zephir_init_properties_Phalcon_Mvc_Model_Transaction(zend_class_entry *class_type TSRMLS_DC) {
+zend_object *zephir_init_properties_Phalcon_Mvc_Model_Transaction(zend_class_entry *class_type) {
 
 		zval _0, _1$$3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
+	
 
 		ZEPHIR_MM_GROW();
 	

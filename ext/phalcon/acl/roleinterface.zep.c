@@ -35,14 +35,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_RoleInterface) {
  * Returns the role name
  */
 ZEPHIR_DOC_METHOD(Phalcon_Acl_RoleInterface, getName);
-
 /**
  * Returns role description
  */
 ZEPHIR_DOC_METHOD(Phalcon_Acl_RoleInterface, getDescription);
-
 /**
  * Magic method __toString
  */
 ZEPHIR_DOC_METHOD(Phalcon_Acl_RoleInterface, __toString);
-

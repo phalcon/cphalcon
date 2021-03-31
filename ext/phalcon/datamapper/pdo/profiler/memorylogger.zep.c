@@ -48,6 +48,7 @@ ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Pdo_Profiler_MemoryLogger) {
 	zend_declare_property_null(phalcon_datamapper_pdo_profiler_memorylogger_ce, SL("messages"), ZEND_ACC_PROTECTED);
 
 	phalcon_datamapper_pdo_profiler_memorylogger_ce->create_object = zephir_init_properties_Phalcon_DataMapper_Pdo_Profiler_MemoryLogger;
+
 	return SUCCESS;
 
 }
@@ -60,6 +61,7 @@ ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Pdo_Profiler_MemoryLogger) {
 PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_MemoryLogger, getMessages) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "messages");
@@ -93,6 +95,17 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_MemoryLogger, log) {
 	ZVAL_UNDEF(&_5$$4);
 	ZVAL_UNDEF(&context);
 	ZVAL_UNDEF(&replace);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 3)
+		Z_PARAM_ZVAL(level)
+		Z_PARAM_ZVAL(message)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ARRAY(context)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &level, &message, &context_param);
@@ -152,12 +165,13 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Profiler_MemoryLogger, log) {
 
 }
 
-zend_object *zephir_init_properties_Phalcon_DataMapper_Pdo_Profiler_MemoryLogger(zend_class_entry *class_type TSRMLS_DC) {
+zend_object *zephir_init_properties_Phalcon_DataMapper_Pdo_Profiler_MemoryLogger(zend_class_entry *class_type) {
 
 		zval _0, _1$$3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
+	
 
 		ZEPHIR_MM_GROW();
 	

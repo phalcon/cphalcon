@@ -1,4 +1,4 @@
-/*
+/**
  * This file is part of the Zephir.
  *
  * (c) Phalcon Team <team@zephir-lang.com>
@@ -178,11 +178,4 @@ int zephir_set_symbol_str(char *key_name, unsigned int key_length, zval *value);
 		/*zephir_memory_observe(orig_ptr);*/ \
 	} while (0)
 
-#endif
-
-/* Backwards compatibility for GC API change in PHP 7.3 */
-#if PHP_VERSION_ID < 70300
-#  define GC_ADDREF(p)            ++GC_REFCOUNT(p)
-#  define GC_DELREF(p)            --GC_REFCOUNT(p)
-#  define GC_SET_REFCOUNT(p, rc)  GC_REFCOUNT(p) = rc
 #endif

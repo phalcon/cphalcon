@@ -32,8 +32,8 @@ typedef struct _phvolt_parser_status { /* {{{ */
 #define PHVOLT_PARSING_OK 1
 #define PHVOLT_PARSING_FAILED 0
 
-extern int phvolt_parse_view(zval *result, zval *view_code, zval *template_path TSRMLS_DC);
-int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_path, zval **error_msg TSRMLS_DC);
+extern int phvolt_parse_view(zval *result, zval *view_code, zval *template_path);
+int phvolt_internal_parse_view(zval **result, zval *view_code, zval *template_path, zval **error_msg);
 
 #endif // PHALCON_MVC_VIEW_ENGINE_VOLT_VOLT_H
 

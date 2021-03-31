@@ -134,6 +134,7 @@ PHP_METHOD(Phalcon_Crypt, getAuthTag) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "authTag");
 
 }
@@ -145,6 +146,7 @@ PHP_METHOD(Phalcon_Crypt, getAuthData) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "authData");
 
 }
@@ -154,6 +156,7 @@ PHP_METHOD(Phalcon_Crypt, getAuthData) {
 PHP_METHOD(Phalcon_Crypt, getAuthTagLength) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "authTagLength");
@@ -174,6 +177,16 @@ PHP_METHOD(Phalcon_Crypt, __construct) {
 
 	ZVAL_UNDEF(&cipher);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 2)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR(cipher)
+		Z_PARAM_BOOL(useSigning)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &cipher_param, &useSigning_param);
@@ -277,6 +290,16 @@ PHP_METHOD(Phalcon_Crypt, decrypt) {
 	ZVAL_UNDEF(&_28$$14);
 	ZVAL_UNDEF(&_30$$15);
 	ZVAL_UNDEF(&_31$$15);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_STR(text)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR_OR_NULL(key)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &text_param, &key_param);
@@ -322,7 +345,7 @@ PHP_METHOD(Phalcon_Crypt, decrypt) {
 	ZEPHIR_CPY_WRT(&cipher, &_0);
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "-");
-	ZEPHIR_CALL_FUNCTION(&_2, "strrpos", NULL, 115, &cipher, &_1);
+	ZEPHIR_CALL_FUNCTION(&_2, "strrpos", NULL, 117, &cipher, &_1);
 	zephir_check_call_status();
 	ZVAL_LONG(&_0, (zephir_get_numberval(&_2) - zephir_fast_strlen_ev(&cipher)));
 	ZEPHIR_INIT_NVAR(&_1);
@@ -344,7 +367,7 @@ PHP_METHOD(Phalcon_Crypt, decrypt) {
 		ZEPHIR_CONCAT_SV(&_4$$7, "-", &mode);
 		ZEPHIR_INIT_VAR(&_5$$7);
 		ZVAL_STRING(&_5$$7, "");
-		ZEPHIR_CALL_FUNCTION(&_6$$7, "str_ireplace", NULL, 182, &_4$$7, &_5$$7, &cipher);
+		ZEPHIR_CALL_FUNCTION(&_6$$7, "str_ireplace", NULL, 184, &_4$$7, &_5$$7, &cipher);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(&blockSize, this_ptr, "getivlength", NULL, 0, &_6$$7);
 		zephir_check_call_status();
@@ -352,7 +375,7 @@ PHP_METHOD(Phalcon_Crypt, decrypt) {
 	ZVAL_LONG(&_3, 0);
 	ZEPHIR_INIT_VAR(&_7);
 	ZVAL_STRING(&_7, "8bit");
-	ZEPHIR_CALL_FUNCTION(&iv, "mb_substr", NULL, 183, &text, &_3, &ivLength, &_7);
+	ZEPHIR_CALL_FUNCTION(&iv, "mb_substr", NULL, 185, &text, &_3, &ivLength, &_7);
 	zephir_check_call_status();
 	zephir_read_property(&_3, this_ptr, ZEND_STRL("useSigning"), PH_NOISY_CC | PH_READONLY);
 	if (zephir_is_true(&_3)) {
@@ -360,19 +383,19 @@ PHP_METHOD(Phalcon_Crypt, decrypt) {
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_8$$8);
 		ZVAL_STRING(&_8$$8, "");
-		ZEPHIR_CALL_FUNCTION(&_9$$8, "hash", NULL, 184, &hashAlgo, &_8$$8, &__$true);
+		ZEPHIR_CALL_FUNCTION(&_9$$8, "hash", NULL, 186, &hashAlgo, &_8$$8, &__$true);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&hashLength);
 		ZVAL_LONG(&hashLength, zephir_fast_strlen_ev(&_9$$8));
 		ZEPHIR_INIT_NVAR(&_8$$8);
 		ZVAL_STRING(&_8$$8, "8bit");
-		ZEPHIR_CALL_FUNCTION(&hash, "mb_substr", NULL, 183, &text, &ivLength, &hashLength, &_8$$8);
+		ZEPHIR_CALL_FUNCTION(&hash, "mb_substr", NULL, 185, &text, &ivLength, &hashLength, &_8$$8);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_10$$8);
 		zephir_add_function(&_10$$8, &ivLength, &hashLength);
 		ZEPHIR_INIT_NVAR(&_8$$8);
 		ZVAL_STRING(&_8$$8, "8bit");
-		ZEPHIR_CALL_FUNCTION(&ciphertext, "mb_substr", NULL, 183, &text, &_10$$8, &__$null, &_8$$8);
+		ZEPHIR_CALL_FUNCTION(&ciphertext, "mb_substr", NULL, 185, &text, &_10$$8, &__$null, &_8$$8);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_11$$8);
 		ZVAL_STRING(&_11$$8, "-gcm");
@@ -389,11 +412,11 @@ PHP_METHOD(Phalcon_Crypt, decrypt) {
 		}
 		if (_14$$8) {
 			ZVAL_LONG(&_16$$9, 1);
-			ZEPHIR_CALL_FUNCTION(&decrypted, "openssl_decrypt", NULL, 185, &ciphertext, &cipher, &decryptKey, &_16$$9, &iv, &authTag, &authData);
+			ZEPHIR_CALL_FUNCTION(&decrypted, "openssl_decrypt", NULL, 187, &ciphertext, &cipher, &decryptKey, &_16$$9, &iv, &authTag, &authData);
 			zephir_check_call_status();
 		} else {
 			ZVAL_LONG(&_17$$10, 1);
-			ZEPHIR_CALL_FUNCTION(&decrypted, "openssl_decrypt", NULL, 185, &ciphertext, &cipher, &decryptKey, &_17$$10, &iv);
+			ZEPHIR_CALL_FUNCTION(&decrypted, "openssl_decrypt", NULL, 187, &ciphertext, &cipher, &decryptKey, &_17$$10, &iv);
 			zephir_check_call_status();
 		}
 		_18$$8 = ZEPHIR_IS_STRING(&mode, "-cbc");
@@ -406,7 +429,7 @@ PHP_METHOD(Phalcon_Crypt, decrypt) {
 			zephir_check_call_status();
 			ZEPHIR_CPY_WRT(&decrypted, &_19$$11);
 		}
-		ZEPHIR_CALL_FUNCTION(&_21$$8, "hash_hmac", NULL, 186, &hashAlgo, &decrypted, &decryptKey, &__$true);
+		ZEPHIR_CALL_FUNCTION(&_21$$8, "hash_hmac", NULL, 188, &hashAlgo, &decrypted, &decryptKey, &__$true);
 		zephir_check_call_status();
 		if (UNEXPECTED(!ZEPHIR_IS_IDENTICAL(&_21$$8, &hash))) {
 			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_mismatch_ce, "Hash does not match.", "phalcon/Crypt.zep", 187);
@@ -416,7 +439,7 @@ PHP_METHOD(Phalcon_Crypt, decrypt) {
 	}
 	ZEPHIR_INIT_NVAR(&_7);
 	ZVAL_STRING(&_7, "8bit");
-	ZEPHIR_CALL_FUNCTION(&ciphertext, "mb_substr", NULL, 183, &text, &ivLength, &__$null, &_7);
+	ZEPHIR_CALL_FUNCTION(&ciphertext, "mb_substr", NULL, 185, &text, &ivLength, &__$null, &_7);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_22);
 	ZVAL_STRING(&_22, "-gcm");
@@ -433,11 +456,11 @@ PHP_METHOD(Phalcon_Crypt, decrypt) {
 	}
 	if (_25) {
 		ZVAL_LONG(&_27$$13, 1);
-		ZEPHIR_CALL_FUNCTION(&decrypted, "openssl_decrypt", NULL, 185, &ciphertext, &cipher, &decryptKey, &_27$$13, &iv, &authTag, &authData);
+		ZEPHIR_CALL_FUNCTION(&decrypted, "openssl_decrypt", NULL, 187, &ciphertext, &cipher, &decryptKey, &_27$$13, &iv, &authTag, &authData);
 		zephir_check_call_status();
 	} else {
 		ZVAL_LONG(&_28$$14, 1);
-		ZEPHIR_CALL_FUNCTION(&decrypted, "openssl_decrypt", NULL, 185, &ciphertext, &cipher, &decryptKey, &_28$$14, &iv);
+		ZEPHIR_CALL_FUNCTION(&decrypted, "openssl_decrypt", NULL, 187, &ciphertext, &cipher, &decryptKey, &_28$$14, &iv);
 		zephir_check_call_status();
 	}
 	_29 = ZEPHIR_IS_STRING(&mode, "-cbc");
@@ -477,6 +500,17 @@ PHP_METHOD(Phalcon_Crypt, decryptBase64) {
 	ZVAL_UNDEF(&_3$$3);
 	ZVAL_UNDEF(&_4$$3);
 	ZVAL_UNDEF(&_5);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 3)
+		Z_PARAM_STR(text)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL(key)
+		Z_PARAM_BOOL(safe)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 2, &text_param, &key, &safe_param);
@@ -522,7 +556,7 @@ PHP_METHOD(Phalcon_Crypt, decryptBase64) {
 		ZEPHIR_CONCAT_VV(&_4$$3, &_2$$3, &_1$$3);
 		zephir_get_strval(&text, &_4$$3);
 	}
-	ZEPHIR_CALL_FUNCTION(&_5, "base64_decode", NULL, 187, &text);
+	ZEPHIR_CALL_FUNCTION(&_5, "base64_decode", NULL, 189, &text);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "decrypt", NULL, 0, &_5, key);
 	zephir_check_call_status();
@@ -578,6 +612,16 @@ PHP_METHOD(Phalcon_Crypt, encrypt) {
 	ZVAL_UNDEF(&_14$$11);
 	ZVAL_UNDEF(&digest$$12);
 	ZVAL_UNDEF(&hashAlgo$$12);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_STR(text)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR_OR_NULL(key)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &text_param, &key_param);
@@ -623,7 +667,7 @@ PHP_METHOD(Phalcon_Crypt, encrypt) {
 	ZEPHIR_CPY_WRT(&cipher, &_0);
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "-");
-	ZEPHIR_CALL_FUNCTION(&_2, "strrpos", NULL, 115, &cipher, &_1);
+	ZEPHIR_CALL_FUNCTION(&_2, "strrpos", NULL, 117, &cipher, &_1);
 	zephir_check_call_status();
 	ZVAL_LONG(&_0, (zephir_get_numberval(&_2) - zephir_fast_strlen_ev(&cipher)));
 	ZEPHIR_INIT_NVAR(&_1);
@@ -641,12 +685,12 @@ PHP_METHOD(Phalcon_Crypt, encrypt) {
 		ZEPHIR_CONCAT_SV(&_4$$7, "-", &mode);
 		ZEPHIR_INIT_VAR(&_5$$7);
 		ZVAL_STRING(&_5$$7, "");
-		ZEPHIR_CALL_FUNCTION(&_6$$7, "str_ireplace", NULL, 182, &_4$$7, &_5$$7, &cipher);
+		ZEPHIR_CALL_FUNCTION(&_6$$7, "str_ireplace", NULL, 184, &_4$$7, &_5$$7, &cipher);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(&blockSize, this_ptr, "getivlength", NULL, 0, &_6$$7);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_FUNCTION(&iv, "openssl_random_pseudo_bytes", NULL, 188, &ivLength);
+	ZEPHIR_CALL_FUNCTION(&iv, "openssl_random_pseudo_bytes", NULL, 190, &ivLength);
 	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(&paddingType);
 	zephir_read_property(&paddingType, this_ptr, ZEND_STRL("padding"), PH_NOISY_CC);
@@ -686,20 +730,20 @@ PHP_METHOD(Phalcon_Crypt, encrypt) {
 		ZEPHIR_CPY_WRT(&authTagLength, &_13$$10);
 		ZVAL_LONG(&_13$$10, 1);
 		ZEPHIR_MAKE_REF(&authTag);
-		ZEPHIR_CALL_FUNCTION(&encrypted, "openssl_encrypt", NULL, 189, &padded, &cipher, &encryptKey, &_13$$10, &iv, &authTag, &authData, &authTagLength);
+		ZEPHIR_CALL_FUNCTION(&encrypted, "openssl_encrypt", NULL, 191, &padded, &cipher, &encryptKey, &_13$$10, &iv, &authTag, &authData, &authTagLength);
 		ZEPHIR_UNREF(&authTag);
 		zephir_check_call_status();
 		zephir_update_property_zval(this_ptr, ZEND_STRL("authTag"), &authTag);
 	} else {
 		ZVAL_LONG(&_14$$11, 1);
-		ZEPHIR_CALL_FUNCTION(&encrypted, "openssl_encrypt", NULL, 189, &padded, &cipher, &encryptKey, &_14$$11, &iv);
+		ZEPHIR_CALL_FUNCTION(&encrypted, "openssl_encrypt", NULL, 191, &padded, &cipher, &encryptKey, &_14$$11, &iv);
 		zephir_check_call_status();
 	}
 	zephir_read_property(&_15, this_ptr, ZEND_STRL("useSigning"), PH_NOISY_CC | PH_READONLY);
 	if (zephir_is_true(&_15)) {
 		ZEPHIR_CALL_METHOD(&hashAlgo$$12, this_ptr, "gethashalgo", NULL, 0);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(&digest$$12, "hash_hmac", NULL, 186, &hashAlgo$$12, &padded, &encryptKey, &__$true);
+		ZEPHIR_CALL_FUNCTION(&digest$$12, "hash_hmac", NULL, 188, &hashAlgo$$12, &padded, &encryptKey, &__$true);
 		zephir_check_call_status();
 		ZEPHIR_CONCAT_VVV(return_value, &iv, &digest$$12, &encrypted);
 		RETURN_MM();
@@ -730,6 +774,17 @@ PHP_METHOD(Phalcon_Crypt, encryptBase64) {
 	ZVAL_UNDEF(&_3$$3);
 	ZVAL_UNDEF(&_4$$3);
 	ZVAL_UNDEF(&_5);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 3)
+		Z_PARAM_STR(text)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL(key)
+		Z_PARAM_BOOL(safe)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 2, &text_param, &key, &safe_param);
@@ -762,7 +817,7 @@ PHP_METHOD(Phalcon_Crypt, encryptBase64) {
 	if (safe == 1) {
 		ZEPHIR_CALL_METHOD(&_0$$3, this_ptr, "encrypt", NULL, 0, &text, key);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(&_1$$3, "base64_encode", NULL, 190, &_0$$3);
+		ZEPHIR_CALL_FUNCTION(&_1$$3, "base64_encode", NULL, 192, &_0$$3);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "+/");
@@ -777,7 +832,7 @@ PHP_METHOD(Phalcon_Crypt, encryptBase64) {
 	}
 	ZEPHIR_CALL_METHOD(&_5, this_ptr, "encrypt", NULL, 0, &text, key);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_FUNCTION("base64_encode", NULL, 190, &_5);
+	ZEPHIR_RETURN_CALL_FUNCTION("base64_encode", NULL, 192, &_5);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -796,6 +851,7 @@ PHP_METHOD(Phalcon_Crypt, getAvailableCiphers) {
 	ZVAL_UNDEF(&availableCiphers);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
+
 
 	ZEPHIR_MM_GROW();
 
@@ -821,14 +877,15 @@ PHP_METHOD(Phalcon_Crypt, getAvailableHashAlgos) {
 	zval *this_ptr = getThis();
 
 
+
 	ZEPHIR_MM_GROW();
 
 	if (EXPECTED((zephir_function_exists_ex(ZEND_STRL("hash_hmac_algos")) == SUCCESS))) {
-		ZEPHIR_RETURN_CALL_FUNCTION("hash_hmac_algos", NULL, 191);
+		ZEPHIR_RETURN_CALL_FUNCTION("hash_hmac_algos", NULL, 193);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
-	ZEPHIR_RETURN_CALL_FUNCTION("hash_algos", NULL, 192);
+	ZEPHIR_RETURN_CALL_FUNCTION("hash_algos", NULL, 194);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -840,6 +897,7 @@ PHP_METHOD(Phalcon_Crypt, getAvailableHashAlgos) {
 PHP_METHOD(Phalcon_Crypt, getCipher) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "cipher");
@@ -854,6 +912,7 @@ PHP_METHOD(Phalcon_Crypt, getHashAlgo) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "hashAlgo");
 
 }
@@ -864,6 +923,7 @@ PHP_METHOD(Phalcon_Crypt, getHashAlgo) {
 PHP_METHOD(Phalcon_Crypt, getKey) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "key");
@@ -878,6 +938,14 @@ PHP_METHOD(Phalcon_Crypt, setAuthTag) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&tag);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(tag)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &tag_param);
@@ -907,6 +975,14 @@ PHP_METHOD(Phalcon_Crypt, setAuthData) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&data);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(data)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &data_param);
@@ -935,6 +1011,14 @@ PHP_METHOD(Phalcon_Crypt, setAuthTagLength) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_LONG(length)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(1, 0, &length_param);
 
@@ -971,6 +1055,14 @@ PHP_METHOD(Phalcon_Crypt, setCipher) {
 
 	ZVAL_UNDEF(&cipher);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(cipher)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &cipher_param);
@@ -1011,6 +1103,14 @@ PHP_METHOD(Phalcon_Crypt, setHashAlgo) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&hashAlgo);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(hashAlgo)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &hashAlgo_param);
@@ -1057,6 +1157,14 @@ PHP_METHOD(Phalcon_Crypt, setKey) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&key);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(key)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &key_param);
@@ -1088,6 +1196,14 @@ PHP_METHOD(Phalcon_Crypt, setPadding) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_LONG(scheme)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(1, 0, &scheme_param);
 
@@ -1116,6 +1232,14 @@ PHP_METHOD(Phalcon_Crypt, useSigning) {
 
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_BOOL(useSigning)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(1, 0, &useSigning_param);
 
@@ -1148,6 +1272,14 @@ PHP_METHOD(Phalcon_Crypt, assertCipherIsAvailable) {
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$3);
 	ZVAL_UNDEF(&_3$$3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(cipher)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &cipher_param);
@@ -1173,7 +1305,7 @@ PHP_METHOD(Phalcon_Crypt, assertCipherIsAvailable) {
 		object_init_ex(&_1$$3, phalcon_crypt_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "The cipher algorithm \"%s\" is not supported on this system.");
-		ZEPHIR_CALL_FUNCTION(&_3$$3, "sprintf", NULL, 193, &_2$$3, &cipher);
+		ZEPHIR_CALL_FUNCTION(&_3$$3, "sprintf", NULL, 195, &_2$$3, &cipher);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 8, &_3$$3);
 		zephir_check_call_status();
@@ -1201,6 +1333,14 @@ PHP_METHOD(Phalcon_Crypt, assertHashAlgorithmAvailable) {
 	ZVAL_UNDEF(&_0$$3);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(hashAlgo)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &hashAlgo_param);
@@ -1224,7 +1364,7 @@ PHP_METHOD(Phalcon_Crypt, assertHashAlgorithmAvailable) {
 		object_init_ex(&_0$$3, phalcon_crypt_exception_ce);
 		ZEPHIR_INIT_VAR(&_1$$3);
 		ZVAL_STRING(&_1$$3, "The hash algorithm \"%s\" is not supported on this system.");
-		ZEPHIR_CALL_FUNCTION(&_2$$3, "sprintf", NULL, 193, &_1$$3, &hashAlgo);
+		ZEPHIR_CALL_FUNCTION(&_2$$3, "sprintf", NULL, 195, &_1$$3, &hashAlgo);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, &_0$$3, "__construct", NULL, 8, &_2$$3);
 		zephir_check_call_status();
@@ -1248,6 +1388,14 @@ PHP_METHOD(Phalcon_Crypt, getIvLength) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&cipher);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(cipher)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &cipher_param);
@@ -1268,7 +1416,7 @@ PHP_METHOD(Phalcon_Crypt, getIvLength) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "openssl extension is required", "phalcon/Crypt.zep", 563);
 		return;
 	}
-	ZEPHIR_RETURN_CALL_FUNCTION("openssl_cipher_iv_length", NULL, 194, &cipher);
+	ZEPHIR_RETURN_CALL_FUNCTION("openssl_cipher_iv_length", NULL, 196, &cipher);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -1304,13 +1452,14 @@ PHP_METHOD(Phalcon_Crypt, initializeAvailableCiphers) {
 	ZVAL_UNDEF(&_21$$7);
 	ZVAL_UNDEF(&allowedCiphers);
 
+
 	ZEPHIR_MM_GROW();
 
 	if (UNEXPECTED(!((zephir_function_exists_ex(ZEND_STRL("openssl_get_cipher_methods")) == SUCCESS)))) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_crypt_exception_ce, "openssl extension is required", "phalcon/Crypt.zep", 578);
 		return;
 	}
-	ZEPHIR_CALL_FUNCTION(&availableCiphers, "openssl_get_cipher_methods", NULL, 195, &__$true);
+	ZEPHIR_CALL_FUNCTION(&availableCiphers, "openssl_get_cipher_methods", NULL, 197, &__$true);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&allowedCiphers);
 	array_init(&allowedCiphers);
@@ -1441,6 +1590,17 @@ PHP_METHOD(Phalcon_Crypt, cryptPadText) {
 	ZVAL_UNDEF(&_20$$10);
 	ZVAL_UNDEF(&_21$$11);
 	ZVAL_UNDEF(&_22$$11);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(4, 4)
+		Z_PARAM_STR(text)
+		Z_PARAM_STR(mode)
+		Z_PARAM_LONG(blockSize)
+		Z_PARAM_LONG(paddingType)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 4, 0, &text_param, &mode_param, &blockSize_param, &paddingType_param);
@@ -1484,13 +1644,13 @@ PHP_METHOD(Phalcon_Crypt, cryptPadText) {
 		do {
 			if (paddingType == 1) {
 				ZVAL_LONG(&_1$$5, 0);
-				ZEPHIR_CALL_FUNCTION(&_2$$5, "chr", NULL, 196, &_1$$5);
+				ZEPHIR_CALL_FUNCTION(&_2$$5, "chr", NULL, 198, &_1$$5);
 				zephir_check_call_status();
 				ZVAL_LONG(&_1$$5, (paddingSize - 1));
 				ZEPHIR_CALL_FUNCTION(&_3$$5, "str_repeat", NULL, 1, &_2$$5, &_1$$5);
 				zephir_check_call_status();
 				ZVAL_LONG(&_1$$5, paddingSize);
-				ZEPHIR_CALL_FUNCTION(&_4$$5, "chr", NULL, 196, &_1$$5);
+				ZEPHIR_CALL_FUNCTION(&_4$$5, "chr", NULL, 198, &_1$$5);
 				zephir_check_call_status();
 				ZEPHIR_INIT_NVAR(&padding);
 				ZEPHIR_CONCAT_VV(&padding, &_3$$5, &_4$$5);
@@ -1498,7 +1658,7 @@ PHP_METHOD(Phalcon_Crypt, cryptPadText) {
 			}
 			if (paddingType == 2) {
 				ZVAL_LONG(&_5$$6, paddingSize);
-				ZEPHIR_CALL_FUNCTION(&_6$$6, "chr", NULL, 196, &_5$$6);
+				ZEPHIR_CALL_FUNCTION(&_6$$6, "chr", NULL, 198, &_5$$6);
 				zephir_check_call_status();
 				ZVAL_LONG(&_5$$6, paddingSize);
 				ZEPHIR_CALL_FUNCTION(&padding, "str_repeat", NULL, 1, &_6$$6, &_5$$6);
@@ -1522,25 +1682,25 @@ PHP_METHOD(Phalcon_Crypt, cryptPadText) {
 							_7$$7 = 1;
 						}
 						i = _8$$7;
-						ZEPHIR_CALL_FUNCTION(&_10$$8, "rand", &_11, 197);
+						ZEPHIR_CALL_FUNCTION(&_10$$8, "rand", &_11, 199);
 						zephir_check_call_status();
-						ZEPHIR_CALL_FUNCTION(&_12$$8, "chr", NULL, 196, &_10$$8);
+						ZEPHIR_CALL_FUNCTION(&_12$$8, "chr", NULL, 198, &_10$$8);
 						zephir_check_call_status();
 						zephir_concat_self(&padding, &_12$$8);
 					}
 				}
 				ZVAL_LONG(&_13$$7, paddingSize);
-				ZEPHIR_CALL_FUNCTION(&_14$$7, "chr", NULL, 196, &_13$$7);
+				ZEPHIR_CALL_FUNCTION(&_14$$7, "chr", NULL, 198, &_13$$7);
 				zephir_check_call_status();
 				zephir_concat_self(&padding, &_14$$7);
 				break;
 			}
 			if (paddingType == 4) {
 				ZVAL_LONG(&_15$$9, 0x80);
-				ZEPHIR_CALL_FUNCTION(&_16$$9, "chr", NULL, 196, &_15$$9);
+				ZEPHIR_CALL_FUNCTION(&_16$$9, "chr", NULL, 198, &_15$$9);
 				zephir_check_call_status();
 				ZVAL_LONG(&_15$$9, 0);
-				ZEPHIR_CALL_FUNCTION(&_17$$9, "chr", NULL, 196, &_15$$9);
+				ZEPHIR_CALL_FUNCTION(&_17$$9, "chr", NULL, 198, &_15$$9);
 				zephir_check_call_status();
 				ZVAL_LONG(&_15$$9, (paddingSize - 1));
 				ZEPHIR_CALL_FUNCTION(&_18$$9, "str_repeat", NULL, 1, &_17$$9, &_15$$9);
@@ -1551,7 +1711,7 @@ PHP_METHOD(Phalcon_Crypt, cryptPadText) {
 			}
 			if (paddingType == 5) {
 				ZVAL_LONG(&_19$$10, 0);
-				ZEPHIR_CALL_FUNCTION(&_20$$10, "chr", NULL, 196, &_19$$10);
+				ZEPHIR_CALL_FUNCTION(&_20$$10, "chr", NULL, 198, &_19$$10);
 				zephir_check_call_status();
 				ZVAL_LONG(&_19$$10, paddingSize);
 				ZEPHIR_CALL_FUNCTION(&padding, "str_repeat", NULL, 1, &_20$$10, &_19$$10);
@@ -1626,6 +1786,17 @@ PHP_METHOD(Phalcon_Crypt, cryptUnpadText) {
 	ZVAL_UNDEF(&_18$$10);
 	ZVAL_UNDEF(&_30$$21);
 	ZVAL_UNDEF(&_31$$21);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(4, 4)
+		Z_PARAM_STR(text)
+		Z_PARAM_STR(mode)
+		Z_PARAM_LONG(blockSize)
+		Z_PARAM_LONG(paddingType)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 4, 0, &text_param, &mode_param, &blockSize_param, &paddingType_param);
@@ -1674,13 +1845,13 @@ PHP_METHOD(Phalcon_Crypt, cryptUnpadText) {
 				ZVAL_LONG(&_4$$4, 1);
 				ZEPHIR_INIT_VAR(&last);
 				zephir_substr(&last, &text, zephir_get_intval(&_3$$4), 1 , 0);
-				ZEPHIR_CALL_FUNCTION(&_5$$4, "ord", NULL, 198, &last);
+				ZEPHIR_CALL_FUNCTION(&_5$$4, "ord", NULL, 200, &last);
 				zephir_check_call_status();
 				ord = zephir_get_intval(&_5$$4);
 				if (ord <= blockSize) {
 					paddingSize = ord;
 					ZVAL_LONG(&_6$$5, 0);
-					ZEPHIR_CALL_FUNCTION(&_7$$5, "chr", NULL, 196, &_6$$5);
+					ZEPHIR_CALL_FUNCTION(&_7$$5, "chr", NULL, 198, &_6$$5);
 					zephir_check_call_status();
 					ZVAL_LONG(&_6$$5, (paddingSize - 1));
 					ZEPHIR_CALL_FUNCTION(&_8$$5, "str_repeat", NULL, 1, &_7$$5, &_6$$5);
@@ -1701,13 +1872,13 @@ PHP_METHOD(Phalcon_Crypt, cryptUnpadText) {
 				ZVAL_LONG(&_11$$7, 1);
 				ZEPHIR_INIT_NVAR(&last);
 				zephir_substr(&last, &text, zephir_get_intval(&_10$$7), 1 , 0);
-				ZEPHIR_CALL_FUNCTION(&_12$$7, "ord", NULL, 198, &last);
+				ZEPHIR_CALL_FUNCTION(&_12$$7, "ord", NULL, 200, &last);
 				zephir_check_call_status();
 				ord = zephir_get_intval(&_12$$7);
 				if (ord <= blockSize) {
 					paddingSize = ord;
 					ZVAL_LONG(&_13$$8, paddingSize);
-					ZEPHIR_CALL_FUNCTION(&_14$$8, "chr", NULL, 196, &_13$$8);
+					ZEPHIR_CALL_FUNCTION(&_14$$8, "chr", NULL, 198, &_13$$8);
 					zephir_check_call_status();
 					ZVAL_LONG(&_13$$8, paddingSize);
 					ZEPHIR_CALL_FUNCTION(&padding, "str_repeat", NULL, 1, &_14$$8, &_13$$8);
@@ -1726,7 +1897,7 @@ PHP_METHOD(Phalcon_Crypt, cryptUnpadText) {
 				ZVAL_LONG(&_17$$10, 1);
 				ZEPHIR_INIT_NVAR(&last);
 				zephir_substr(&last, &text, zephir_get_intval(&_16$$10), 1 , 0);
-				ZEPHIR_CALL_FUNCTION(&_18$$10, "ord", NULL, 198, &last);
+				ZEPHIR_CALL_FUNCTION(&_18$$10, "ord", NULL, 200, &last);
 				zephir_check_call_status();
 				paddingSize = zephir_get_intval(&_18$$10);
 				break;

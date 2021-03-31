@@ -63,6 +63,17 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render) {
 	ZVAL_UNDEF(&_5$$6);
 	ZVAL_UNDEF(&_6$$7);
 	ZVAL_UNDEF(&_7$$7);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 3)
+		Z_PARAM_STR(path)
+		Z_PARAM_ZVAL(params)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_BOOL(mustClean)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &path_param, &params, &mustClean_param);

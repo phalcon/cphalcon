@@ -41,6 +41,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Security_JWT_Token_AbstractItem) {
 	zend_declare_property_null(phalcon_security_jwt_token_abstractitem_ce, SL("data"), ZEND_ACC_PROTECTED);
 
 	phalcon_security_jwt_token_abstractitem_ce->create_object = zephir_init_properties_Phalcon_Security_JWT_Token_AbstractItem;
+
 	return SUCCESS;
 
 }
@@ -57,18 +58,20 @@ PHP_METHOD(Phalcon_Security_JWT_Token_AbstractItem, getEncoded) {
 	ZVAL_UNDEF(&_1);
 
 
+
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("data"), PH_NOISY_CC | PH_READONLY);
 	zephir_array_fetch_string(&_1, &_0, SL("encoded"), PH_NOISY | PH_READONLY, "phalcon/Security/JWT/Token/AbstractItem.zep", 30);
 	RETURN_CTORW(&_1);
 
 }
 
-zend_object *zephir_init_properties_Phalcon_Security_JWT_Token_AbstractItem(zend_class_entry *class_type TSRMLS_DC) {
+zend_object *zephir_init_properties_Phalcon_Security_JWT_Token_AbstractItem(zend_class_entry *class_type) {
 
 		zval _0, _1$$3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
+	
 
 		ZEPHIR_MM_GROW();
 	

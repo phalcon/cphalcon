@@ -289,7 +289,7 @@ class Loader implements EventsAwareInterface
     /**
      * Returns the internal event manager
      */
-    public function getEventsManager() -> <ManagerInterface>
+    public function getEventsManager() -> <ManagerInterface> | null
     {
         return this->eventsManager;
     }

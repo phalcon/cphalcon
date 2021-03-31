@@ -47,12 +47,13 @@ PHP_METHOD(Phalcon_Filter_FilterFactory, newInstance) {
 
 	ZVAL_UNDEF(&_0);
 
+
 	ZEPHIR_MM_GROW();
 
 	object_init_ex(return_value, phalcon_filter_ce);
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getadapters", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 256, &_0);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 257, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -61,6 +62,7 @@ PHP_METHOD(Phalcon_Filter_FilterFactory, newInstance) {
 PHP_METHOD(Phalcon_Filter_FilterFactory, getAdapters) {
 
 	zval *this_ptr = getThis();
+
 
 
 	zephir_create_array(return_value, 21, 0);

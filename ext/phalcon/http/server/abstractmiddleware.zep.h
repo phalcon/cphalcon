@@ -5,11 +5,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Server_AbstractMiddleware);
 
 PHP_METHOD(Phalcon_Http_Server_AbstractMiddleware, process);
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_server_abstractmiddleware_process, 0, 2, Psr\\Http\\Message\\ResponseInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_server_abstractmiddleware_process, 0, 2, IS_OBJECT, "Psr\\Http\\Message\\ResponseInterface", 0)
-#endif
 	ZEND_ARG_OBJ_INFO(0, request, Psr\\Http\\Message\\ServerRequestInterface, 0)
 	ZEND_ARG_OBJ_INFO(0, handler, Psr\\Http\\Server\\RequestHandlerInterface, 0)
 ZEND_END_ARG_INFO()

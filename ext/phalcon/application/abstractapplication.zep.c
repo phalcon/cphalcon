@@ -74,6 +74,15 @@ PHP_METHOD(Phalcon_Application_AbstractApplication, __construct) {
 
 	ZVAL_UNDEF(&container_sub);
 	ZVAL_NULL(&__$null);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(container, phalcon_di_diinterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(0, 1, &container);
 
@@ -97,6 +106,7 @@ PHP_METHOD(Phalcon_Application_AbstractApplication, getDefaultModule) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "defaultModule");
 
 }
@@ -107,6 +117,7 @@ PHP_METHOD(Phalcon_Application_AbstractApplication, getDefaultModule) {
 PHP_METHOD(Phalcon_Application_AbstractApplication, getEventsManager) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "eventsManager");
@@ -129,6 +140,14 @@ PHP_METHOD(Phalcon_Application_AbstractApplication, getModule) {
 	ZVAL_UNDEF(&module);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(name)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
@@ -170,6 +189,7 @@ PHP_METHOD(Phalcon_Application_AbstractApplication, getModules) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "modules");
 
 }
@@ -203,6 +223,16 @@ PHP_METHOD(Phalcon_Application_AbstractApplication, registerModules) {
 	ZVAL_UNDEF(&modules);
 	ZVAL_UNDEF(&_0$$3);
 	ZVAL_UNDEF(&_1$$3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_ARRAY(modules)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_BOOL(merge)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &modules_param, &merge_param);
@@ -238,6 +268,14 @@ PHP_METHOD(Phalcon_Application_AbstractApplication, setDefaultModule) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&defaultModule);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(defaultModule)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &defaultModule_param);
@@ -268,6 +306,14 @@ PHP_METHOD(Phalcon_Application_AbstractApplication, setEventsManager) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&eventsManager_sub);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(eventsManager, phalcon_events_managerinterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(1, 0, &eventsManager);
 
@@ -277,12 +323,13 @@ PHP_METHOD(Phalcon_Application_AbstractApplication, setEventsManager) {
 
 }
 
-zend_object *zephir_init_properties_Phalcon_Application_AbstractApplication(zend_class_entry *class_type TSRMLS_DC) {
+zend_object *zephir_init_properties_Phalcon_Application_AbstractApplication(zend_class_entry *class_type) {
 
 		zval _0, _1$$3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
+	
 
 		ZEPHIR_MM_GROW();
 	

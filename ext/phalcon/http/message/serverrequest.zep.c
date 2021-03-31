@@ -131,6 +131,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, getCookieParams) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "cookieParams");
 
 }
@@ -154,6 +155,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, getParsedBody) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "parsedBody");
 
 }
@@ -175,6 +177,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, getQueryParams) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "queryParams");
 
 }
@@ -191,6 +194,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, getQueryParams) {
 PHP_METHOD(Phalcon_Http_Message_ServerRequest, getServerParams) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "serverParams");
@@ -211,6 +215,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, getServerParams) {
 PHP_METHOD(Phalcon_Http_Message_ServerRequest, getUploadedFiles) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "uploadedFiles");
@@ -258,6 +263,24 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, __construct) {
 	ZVAL_UNDEF(&cookies);
 	ZVAL_UNDEF(&queryParams);
 	ZVAL_UNDEF(&uploadFiles);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 10)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR(method)
+		Z_PARAM_ZVAL(uri)
+		Z_PARAM_ARRAY(serverParams)
+		Z_PARAM_ZVAL(body)
+		Z_PARAM_ZVAL(headers)
+		Z_PARAM_ARRAY(cookies)
+		Z_PARAM_ARRAY(queryParams)
+		Z_PARAM_ARRAY(uploadFiles)
+		Z_PARAM_ZVAL(parsedBody)
+		Z_PARAM_STR(protocol)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 10, &method_param, &uri, &serverParams_param, &body, &headers, &cookies_param, &queryParams_param, &uploadFiles_param, &parsedBody, &protocol_param);
@@ -325,21 +348,21 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, __construct) {
 	if (UNEXPECTED(ZEPHIR_IS_IDENTICAL(&_0, body))) {
 		ZEPHIR_INIT_NVAR(body);
 		object_init_ex(body, phalcon_http_message_stream_input_ce);
-		ZEPHIR_CALL_METHOD(NULL, body, "__construct", NULL, 302);
+		ZEPHIR_CALL_METHOD(NULL, body, "__construct", NULL, 303);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkuploadedfiles", NULL, 313, &uploadFiles);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkuploadedfiles", NULL, 314, &uploadFiles);
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_1, this_ptr, "processprotocol", NULL, 38, &protocol);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("protocolVersion"), &_1);
-	ZEPHIR_CALL_METHOD(&_2, this_ptr, "processmethod", NULL, 104, &method);
+	ZEPHIR_CALL_METHOD(&_2, this_ptr, "processmethod", NULL, 106, &method);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("method"), &_2);
-	ZEPHIR_CALL_METHOD(&_3, this_ptr, "processheaders", NULL, 304, headers);
+	ZEPHIR_CALL_METHOD(&_3, this_ptr, "processheaders", NULL, 305, headers);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("headers"), &_3);
-	ZEPHIR_CALL_METHOD(&_4, this_ptr, "processuri", NULL, 303, uri);
+	ZEPHIR_CALL_METHOD(&_4, this_ptr, "processuri", NULL, 304, uri);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("uri"), &_4);
 	ZEPHIR_INIT_VAR(&_6);
@@ -387,6 +410,16 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, getAttribute) {
 	ZVAL_UNDEF(&defaultValue_sub);
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_ZVAL(name)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL(defaultValue)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &name, &defaultValue);
@@ -423,6 +456,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, getAttributes) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
+
 
 	ZEPHIR_MM_GROW();
 
@@ -461,6 +495,15 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, withAttribute) {
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_ZVAL(name)
+		Z_PARAM_ZVAL(value)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &name, &value);
@@ -511,6 +554,14 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, withCookieParams) {
 
 	ZVAL_UNDEF(&cookies);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ARRAY(cookies)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &cookies_param);
@@ -563,6 +614,14 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, withParsedBody) {
 
 	ZVAL_UNDEF(&data_sub);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(data)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &data);
@@ -609,6 +668,14 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, withQueryParams) {
 
 	ZVAL_UNDEF(&query);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ARRAY(query)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &query_param);
@@ -647,6 +714,14 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, withUploadedFiles) {
 
 	ZVAL_UNDEF(&uploadedFiles);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ARRAY(uploadedFiles)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &uploadedFiles_param);
@@ -654,7 +729,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, withUploadedFiles) {
 	zephir_get_arrval(&uploadedFiles, uploadedFiles_param);
 
 
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkuploadedfiles", NULL, 313, &uploadedFiles);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkuploadedfiles", NULL, 314, &uploadedFiles);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "uploadedFiles");
@@ -690,6 +765,14 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, withoutAttribute) {
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(name)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name);
@@ -730,6 +813,14 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, checkUploadedFiles) {
 	ZVAL_UNDEF(&files);
 	ZVAL_UNDEF(&file);
 	ZVAL_UNDEF(&_1);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ARRAY(files)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &files_param);
@@ -744,7 +835,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, checkUploadedFiles) {
 			ZEPHIR_INIT_NVAR(&file);
 			ZVAL_COPY(&file, _0);
 			if (UNEXPECTED(Z_TYPE_P(&file) == IS_ARRAY)) {
-				ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkuploadedfiles", &_2, 313, &file);
+				ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkuploadedfiles", &_2, 314, &file);
 				zephir_check_call_status();
 			} else {
 				_3$$5 = Z_TYPE_P(&file) == IS_OBJECT;
@@ -769,7 +860,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, checkUploadedFiles) {
 			ZEPHIR_CALL_METHOD(&file, &files, "current", NULL, 0);
 			zephir_check_call_status();
 				if (UNEXPECTED(Z_TYPE_P(&file) == IS_ARRAY)) {
-					ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkuploadedfiles", &_2, 313, &file);
+					ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkuploadedfiles", &_2, 314, &file);
 					zephir_check_call_status();
 				} else {
 					_4$$9 = Z_TYPE_P(&file) == IS_OBJECT;
@@ -790,7 +881,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, checkUploadedFiles) {
 
 }
 
-zend_object *zephir_init_properties_Phalcon_Http_Message_ServerRequest(zend_class_entry *class_type TSRMLS_DC) {
+zend_object *zephir_init_properties_Phalcon_Http_Message_ServerRequest(zend_class_entry *class_type) {
 
 		zval _0, _2, _4, _6, _1$$3, _3$$4, _5$$5, _7$$6;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -802,6 +893,7 @@ zend_object *zephir_init_properties_Phalcon_Http_Message_ServerRequest(zend_clas
 	ZVAL_UNDEF(&_3$$4);
 	ZVAL_UNDEF(&_5$$5);
 	ZVAL_UNDEF(&_7$$6);
+	
 
 		ZEPHIR_MM_GROW();
 	

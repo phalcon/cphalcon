@@ -24,9 +24,9 @@
  */
 ZEPHIR_INIT_CLASS(Phalcon_Security_JWT_Exceptions_ValidatorException) {
 
-	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Security\\JWT\\Exceptions, ValidatorException, phalcon, security_jwt_exceptions_validatorexception, zend_exception_get_default(TSRMLS_C), NULL, 0);
+	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Security\\JWT\\Exceptions, ValidatorException, phalcon, security_jwt_exceptions_validatorexception, zend_ce_exception, NULL, 0);
 
-	zend_class_implements(phalcon_security_jwt_exceptions_validatorexception_ce, 1, zephir_get_internal_ce(SL("throwable")));
+	zend_class_implements(phalcon_security_jwt_exceptions_validatorexception_ce, 1, zend_ce_throwable);
 	return SUCCESS;
 
 }

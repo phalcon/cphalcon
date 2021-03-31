@@ -22,8 +22,6 @@ use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Test\Models;
 use Phalcon\Test\Models\Invoices;
 
-use function is_array;
-
 class UnderscoreGetCest
 {
     use DiTrait;

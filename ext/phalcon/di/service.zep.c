@@ -77,6 +77,16 @@ PHP_METHOD(Phalcon_Di_Service, __construct) {
 	ZVAL_UNDEF(&definition_sub);
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_ZVAL(definition)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_BOOL(shared)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(1, 1, &definition, &shared_param);
 
@@ -104,6 +114,7 @@ PHP_METHOD(Phalcon_Di_Service, getDefinition) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "definition");
 
 }
@@ -124,6 +135,14 @@ PHP_METHOD(Phalcon_Di_Service, getParameter) {
 	ZVAL_UNDEF(&arguments);
 	ZVAL_UNDEF(&parameter);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_LONG(position)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &position_param);
@@ -154,6 +173,7 @@ PHP_METHOD(Phalcon_Di_Service, isResolved) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "resolved");
 
 }
@@ -164,6 +184,7 @@ PHP_METHOD(Phalcon_Di_Service, isResolved) {
 PHP_METHOD(Phalcon_Di_Service, isShared) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "shared");
@@ -198,6 +219,16 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_3$$14);
 	ZVAL_UNDEF(&_5$$21);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 2)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL(parameters)
+		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(container, phalcon_di_diinterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &parameters, &container);
@@ -276,7 +307,7 @@ PHP_METHOD(Phalcon_Di_Service, resolve) {
 					ZEPHIR_CALL_METHOD(NULL, &builder, "__construct", NULL, 0);
 					zephir_check_call_status();
 				}
-				ZEPHIR_CALL_METHOD(&instance, &builder, "build", NULL, 241, container, &definition, parameters);
+				ZEPHIR_CALL_METHOD(&instance, &builder, "build", NULL, 242, container, &definition, parameters);
 				zephir_check_call_status();
 			} else {
 				found = 0;
@@ -313,6 +344,14 @@ PHP_METHOD(Phalcon_Di_Service, setDefinition) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&definition_sub);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(definition)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(1, 0, &definition);
 
@@ -338,6 +377,15 @@ PHP_METHOD(Phalcon_Di_Service, setParameter) {
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$5);
 	ZVAL_UNDEF(&parameter);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_LONG(position)
+		Z_PARAM_ARRAY(parameter)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &position_param, &parameter_param);
@@ -378,6 +426,14 @@ PHP_METHOD(Phalcon_Di_Service, setShared) {
 
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_BOOL(shared)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(1, 0, &shared_param);
 
@@ -401,6 +457,14 @@ PHP_METHOD(Phalcon_Di_Service, setSharedInstance) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&sharedInstance_sub);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(sharedInstance)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(1, 0, &sharedInstance);
 

@@ -89,6 +89,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, getActiveAccess) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "activeAccess");
 
 }
@@ -105,6 +106,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, getActiveRole) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "activeRole");
 
 }
@@ -115,6 +117,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, getActiveRole) {
 PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, getActiveComponent) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "activeComponent");
@@ -129,6 +132,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, getDefaultAction) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "defaultAccess");
 
 }
@@ -139,6 +143,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, getDefaultAction) {
 PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, getEventsManager) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "eventsManager");
@@ -155,6 +160,14 @@ PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, setDefaultAction) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_LONG(defaultAccess)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(1, 0, &defaultAccess_param);
 
@@ -176,6 +189,14 @@ PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, setEventsManager) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&eventsManager_sub);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(eventsManager, phalcon_events_managerinterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(1, 0, &eventsManager);
 

@@ -53,20 +53,25 @@ PHP_METHOD(Phalcon_Cache_AdapterFactory, __construct) {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval services;
-	zval *factory = NULL, factory_sub, *services_param = NULL, __$null;
+	zval *factory, factory_sub, *services_param = NULL;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&factory_sub);
-	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&services);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_OBJECT_OF_CLASS(factory, phalcon_storage_serializerfactory_ce)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ARRAY(services)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 2, &factory, &services_param);
+	zephir_fetch_params(1, 1, 1, &factory, &services_param);
 
-	if (!factory) {
-		factory = &factory_sub;
-		factory = &__$null;
-	}
 	if (!services_param) {
 		ZEPHIR_INIT_VAR(&services);
 		array_init(&services);
@@ -120,6 +125,16 @@ PHP_METHOD(Phalcon_Cache_AdapterFactory, newInstance) {
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&options);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_STR(name)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ARRAY(options)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &name_param, &options_param);
@@ -162,6 +177,7 @@ PHP_METHOD(Phalcon_Cache_AdapterFactory, newInstance) {
 PHP_METHOD(Phalcon_Cache_AdapterFactory, getAdapters) {
 
 	zval *this_ptr = getThis();
+
 
 
 	zephir_create_array(return_value, 5, 0);

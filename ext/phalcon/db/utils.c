@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-int phalcon_db_checktype(zval *return_value, zval *placeholder TSRMLS_DC) {
+int phalcon_db_checktype(zval *return_value, zval *placeholder) {
 
     if (Z_TYPE_P(placeholder) != IS_STRING) {
 

@@ -24,12 +24,15 @@ use Phalcon\Validation\Validator\Confirmation;
  */
 class ValidateCest
 {
+
     /**
      * Tests Phalcon\Validation\Validator\Confirmation :: validate() - single
      * field
      *
-     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @param IntegrationTester $I
+     *
      * @since  2016-06-05
+     * @author Wojciech Ślawski <jurigag@gmail.com>
      */
     public function validationValidatorConfirmationValidateSingleField(IntegrationTester $I)
     {
@@ -73,14 +76,44 @@ class ValidateCest
             1,
             $messages->count()
         );
+
+
+        // https://github.com/phalcon/cphalcon/issues/15252
+        $messages = $validation->validate(
+            [
+                'name'     => '000012345',
+                'nameWith' => '12345',
+            ]
+        );
+
+        $I->assertEquals(
+            1,
+            $messages->count(),
+            "Phalcon\Validation\Validator\Confirmation failed to compare 000012345=12345"
+        );
+
+        $messages = $validation->validate(
+            [
+                'name'     => 'asd',
+                'nameWith' => 'asdß',
+            ]
+        );
+
+        $I->assertEquals(
+            1,
+            $messages->count(),
+            "Phalcon\Validation\Validator\Confirmation failed to compare asd=asdß"
+        );
     }
 
     /**
      * Tests Phalcon\Validation\Validator\Confirmation :: validate() - multiple
      * field
      *
-     * @author Wojciech Ślawski <jurigag@gmail.com>
+     * @param IntegrationTester $I
+     *
      * @since  2016-06-05
+     * @author Wojciech Ślawski <jurigag@gmail.com>
      */
     public function validationValidatorConfirmationValidateMultipleField(IntegrationTester $I)
     {
@@ -173,8 +206,10 @@ class ValidateCest
      * Tests Phalcon\Validation\Validator\Confirmation :: validate() - empty
      * value
      *
-     * @author Stanislav Kiryukhin <korsar.zn@gmail.com>
+     * @param IntegrationTester $I
+     *
      * @since  2015-09-06
+     * @author Stanislav Kiryukhin <korsar.zn@gmail.com>
      */
     public function validationValidatorConfirmationValidateEmptyValues(IntegrationTester $I)
     {

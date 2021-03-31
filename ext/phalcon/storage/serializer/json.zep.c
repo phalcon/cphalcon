@@ -58,6 +58,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_Json, serialize) {
 	ZVAL_UNDEF(&_3$$3);
 	ZVAL_UNDEF(&_4$$3);
 
+
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_OBS_VAR(&_0);
@@ -105,13 +106,21 @@ PHP_METHOD(Phalcon_Storage_Serializer_Json, unserialize) {
 
 	ZVAL_UNDEF(&data_sub);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(data)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &data);
 
 
 
-	ZEPHIR_CALL_CE_STATIC(&_0, phalcon_helper_json_ce, "decode", &_1, 179, data);
+	ZEPHIR_CALL_CE_STATIC(&_0, phalcon_helper_json_ce, "decode", &_1, 181, data);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("data"), &_0);
 	ZEPHIR_MM_RESTORE();

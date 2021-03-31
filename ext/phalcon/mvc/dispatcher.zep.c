@@ -135,6 +135,14 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, forward) {
 	ZVAL_UNDEF(&eventsManager);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ARRAY(forward)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &forward_param);
@@ -164,6 +172,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, getActiveController) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "activeHandler");
 
 }
@@ -177,6 +186,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, getControllerClass) {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
+
 
 
 	ZEPHIR_MM_GROW();
@@ -195,6 +205,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, getControllerName) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "handlerName");
 
 }
@@ -205,6 +216,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, getControllerName) {
 PHP_METHOD(Phalcon_Mvc_Dispatcher, getLastController) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "lastHandler");
@@ -219,6 +231,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, getPreviousActionName) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "previousActionName");
 
 }
@@ -231,6 +244,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, getPreviousControllerName) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "previousHandlerName");
 
 }
@@ -241,6 +255,7 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, getPreviousControllerName) {
 PHP_METHOD(Phalcon_Mvc_Dispatcher, getPreviousNamespaceName) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "previousNamespaceName");
@@ -258,6 +273,14 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerName) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&controllerName);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(controllerName)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &controllerName_param);
@@ -290,6 +313,14 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setControllerSuffix) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&controllerSuffix);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(controllerSuffix)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &controllerSuffix_param);
@@ -322,6 +353,14 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, setDefaultController) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&controllerName);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(controllerName)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &controllerName_param);
@@ -358,6 +397,14 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, handleException) {
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(exception, zend_ce_exception)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &exception);
@@ -402,6 +449,16 @@ PHP_METHOD(Phalcon_Mvc_Dispatcher, throwDispatchException) {
 	ZVAL_UNDEF(&_2$$3);
 	ZVAL_UNDEF(&_4$$3);
 	ZVAL_UNDEF(&_5$$3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_STR(message)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_LONG(exceptionCode)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &message_param, &exceptionCode_param);

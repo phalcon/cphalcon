@@ -6,11 +6,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Filter_FilterInterface);
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_filter_filterinterface_sanitize, 0, 0, 2)
 	ZEND_ARG_INFO(0, value)
 	ZEND_ARG_INFO(0, sanitizers)
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, noRecursive, _IS_BOOL, 0)
-#else
-	ZEND_ARG_INFO(0, noRecursive)
-#endif
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_filter_filterinterface_method_entry) {

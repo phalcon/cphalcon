@@ -282,20 +282,29 @@ class Stream implements StreamInterface
      */
     public function setStream(var stream, string! mode = "rb") -> void
     {
-        var handle;
+        var handle, version;
 
         let handle = stream;
+        let version = phpversion();
 
         globals_set("warning.enable", false);
 
         if likely typeof stream === "string" {
-
-            set_error_handler(
-                function (number, message, file, line, context) {
-                    globals_set("warning.enable", true);
-                },
-                E_WARNING
-            );
+            if version_compare(version, "8.0", ">=") {
+                set_error_handler(
+                    function (number, message, file, line) {
+                        globals_set("warning.enable", true);
+                    },
+                    E_WARNING
+                );
+            } else {
+                set_error_handler(
+                    function (number, message, file, line, context) {
+                        globals_set("warning.enable", true);
+                    },
+                    E_WARNING
+                );
+            }
 
             let handle = fopen(stream, mode);
 

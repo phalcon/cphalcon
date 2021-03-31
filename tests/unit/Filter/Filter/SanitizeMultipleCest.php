@@ -116,13 +116,12 @@ class SanitizeMultipleCest
 
         $error = [];
         set_error_handler(
-            function ($number, $message, $file, $line, $context) use (&$error) {
+            function ($number, $message, $file, $line) use (&$error) {
                 $error = [
                     'number'  => $number,
                     'message' => $message,
                     'file'    => $file,
                     'line'    => $line,
-                    'context' => $context,
                 ];
             }
         );

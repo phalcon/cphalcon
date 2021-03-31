@@ -110,6 +110,10 @@ trait DiTrait
 
         $options['options'][PDO::ATTR_TIMEOUT] = 0;
 
+        if ($driver !== 'sqlite') {
+            $options['options'][PDO::ATTR_PERSISTENT] = 1;
+        }
+
         return (new PdoFactory())->newInstance($driver, $options);
     }
 

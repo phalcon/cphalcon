@@ -86,6 +86,18 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select, add) {
 	ZVAL_UNDEF(&attributes);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 4)
+		Z_PARAM_STR(text)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR_OR_NULL(value)
+		Z_PARAM_ARRAY(attributes)
+		Z_PARAM_BOOL(raw)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 3, &text_param, &value_param, &attributes_param, &raw_param);
@@ -110,7 +122,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select, add) {
 	}
 
 
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "processvalue", NULL, 298, &attributes, &value);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "processvalue", NULL, 299, &attributes, &value);
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(&attributes, &_0);
 	ZEPHIR_INIT_VAR(&_1);
@@ -167,6 +179,18 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select, addPlaceholder) {
 	ZVAL_UNDEF(&attributes);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 4)
+		Z_PARAM_STR(text)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL(value)
+		Z_PARAM_ARRAY(attributes)
+		Z_PARAM_BOOL(raw)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 3, &text_param, &value, &attributes_param, &raw_param);
@@ -250,6 +274,16 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select, optGroup) {
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_3$$3);
 	ZVAL_UNDEF(&_8$$4);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 2)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR_OR_NULL(label)
+		Z_PARAM_ARRAY(attributes)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &label_param, &attributes_param);
@@ -332,6 +366,14 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select, selected) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&selected);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(selected)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &selected_param);
@@ -352,6 +394,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select, getTag) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_STRING("select");
 
 }
@@ -362,6 +405,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select, getTag) {
 PHP_METHOD(Phalcon_Html_Helper_Input_Select, optGroupEnd) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_STRING("</optgroup>");
@@ -386,6 +430,15 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select, optGroupStart) {
 	ZVAL_UNDEF(&label);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&attributes);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_STR(label)
+		Z_PARAM_ARRAY(attributes)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &label_param, &attributes_param);
@@ -426,6 +479,16 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select, processValue) {
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_3$$3);
 	ZVAL_UNDEF(&_4$$4);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_ARRAY(attributes)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL(value)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &attributes_param, &value);

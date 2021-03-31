@@ -107,10 +107,12 @@ class Redis extends AbstractAdapter
      */
     public function get(string! key, var defaultValue = null) -> var
     {
-        return this->getUnserializedData(
-            this->getAdapter()->get(key),
-            defaultValue
-        );
+
+        if this->has(key) == false {
+            return defaultValue;
+        }
+
+        return this->getUnserializedData(this->getAdapter()->get(key));
     }
 
     /**

@@ -203,7 +203,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     {
         var modelName, status, records;
 
-        let records = self::_invokeFinder(method, arguments);
+        let records = self::invokeFinder(method, arguments);
 
         if records !== false {
             return records;
@@ -248,7 +248,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     {
         var modelName, records;
 
-        let records = self::_invokeFinder(method, arguments);
+        let records = self::invokeFinder(method, arguments);
 
         if records !== false {
             return records;
@@ -454,7 +454,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         }
 
         // Use possible setter.
-        if this->_possibleSetter(property, value) {
+        if this->possibleSetter(property, value) {
             return value;
         }
 
@@ -662,7 +662,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
                 }
 
                 // Try to find a possible getter
-                if disableAssignSetters || !this->_possibleSetter(attributeField, value) {
+                if disableAssignSetters || !this->possibleSetter(attributeField, value) {
                     let this->{attributeField} = value;
                 }
             }
@@ -701,11 +701,19 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * ```
      *
      * @param array parameters
-     * @return double | ResultsetInterface
+     * @return float | ResultsetInterface
      */
-    public static function average(var parameters = null) -> float | <ResultsetInterface>
+    public static function average(array parameters = []) -> float | <ResultsetInterface>
     {
-        return self::groupResult("AVG", "average", parameters);
+        var result;
+
+        let result = self::groupResult("AVG", "average", parameters);
+
+        if typeof result == "string" {
+            return (float) result;
+        }
+
+        return result;
     }
 
     /**
@@ -1130,7 +1138,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
          * Check if deleting the record violates a virtual foreign key
          */
         if globals_get("orm.virtual_foreign_keys") {
-            if this->_checkForeignKeysReverseRestrict() === false {
+            if this->checkForeignKeysReverseRestrict() === false {
                 return false;
             }
         }
@@ -1244,7 +1252,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
          * Check if there is virtual foreign keys with cascade action
          */
         if globals_get("orm.virtual_foreign_keys") {
-            if this->_checkForeignKeysReverseCascade() === false {
+            if this->checkForeignKeysReverseCascade() === false {
                 return false;
             }
         }
@@ -3159,7 +3167,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * inserting or updating records to verify that inserted/updated values are
      * present in the related entity
      */
-    final protected function _checkForeignKeysRestrict() -> bool
+    final protected function checkForeignKeysRestrict() -> bool
     {
         var manager, belongsTo, foreignKey, relation, position, bindParams,
             extraConditions, message, fields, referencedFields, field,
@@ -3323,7 +3331,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * Reads both "hasMany" and "hasOne" relations and checks the virtual
      * foreign keys (cascade) when deleting records
      */
-    final protected function _checkForeignKeysReverseCascade() -> bool
+    final protected function checkForeignKeysReverseCascade() -> bool
     {
         var manager, relations, relation, foreignKey, related;
         int action;
@@ -3390,7 +3398,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * Reads both "hasMany" and "hasOne" relations and checks the virtual
      * foreign keys (restrict) when deleting records
      */
-    final protected function _checkForeignKeysReverseRestrict() -> bool
+    final protected function checkForeignKeysReverseRestrict() -> bool
     {
         bool error;
         var manager, relations, foreignKey, relation, relationClass,
@@ -3479,21 +3487,6 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         }
 
         return true;
-    }
-
-    /**
-     * Sends a pre-build INSERT SQL statement to the relational database system
-     *
-     * @todo Remove in v5.0
-     * @deprecated Use doLowInsert()
-     *
-     * @param string|array table
-     * @param bool|string identityField
-     */
-    protected function _doLowInsert(<MetaDataInterface> metaData, <AdapterInterface> connection,
-        table, identityField) -> bool
-    {
-        return this->doLowInsert(metaData, connection, table, identityField);
     }
 
     /**
@@ -3741,19 +3734,6 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
 
         return success;
     }
-
-    /**
-     * Sends a pre-build UPDATE SQL statement to the relational database system
-     *
-     * @todo Remove in v5.0
-     * @deprecated Use doLowUpdate()
-     *
-     * @param string|array table
-     */
-     protected function _doLowUpdate(<MetaDataInterface> metaData, <AdapterInterface> connection, var table) -> bool
-     {
-         return this->doLowUpdate(metaData, connection, table);
-     }
 
     /**
      * Sends a pre-build UPDATE SQL statement to the relational database system
@@ -4015,19 +3995,6 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     /**
      * Checks whether the current record already exists
      *
-     * @todo Remove in v5.0
-     * @deprecated Use exists()
-     *
-     * @return bool
-     */
-    protected function _exists(<MetaDataInterface> metaData, <AdapterInterface> connection) -> bool
-    {
-        return this->exists(metaData, connection);
-    }
-
-    /**
-     * Checks whether the current record already exists
-     *
      * @return bool
      */
     protected function exists(<MetaDataInterface> metaData, <AdapterInterface> connection) -> bool
@@ -4186,24 +4153,6 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * Returns related records defined relations depending on the method name.
      * Returns false if the relation is non-existent.
      *
-     * @todo Remove in v5.0
-     * @deprecated Use getRelatedRecords()
-     *
-     * @param string modelName
-     * @param string method
-     * @param array  arguments
-     *
-     * @return ResultsetInterface|ModelInterface|bool|null
-     */
-    protected function _getRelatedRecords(string! modelName, string! method, array! arguments)
-    {
-        return this->getRelatedRecords(modelName, method, arguments);
-    }
-
-    /**
-     * Returns related records defined relations depending on the method name.
-     * Returns false if the relation is non-existent.
-     *
      * @param string modelName
      * @param string method
      * @param array  arguments
@@ -4274,28 +4223,15 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     /**
      * Generate a PHQL SELECT statement for an aggregate
      *
-     * @todo Remove in v5.0
-     * @deprecated Use groupResult()
-     *
-     * @param array parameters
-     * @return ResultsetInterface
-     */
-    protected static function _groupResult(string! functionName, string! alias, var parameters) -> <ResultsetInterface>
-    {
-        return static::groupResult(functionName, alias, parameters);
-    }
-
-    /**
-     * Generate a PHQL SELECT statement for an aggregate
-     *
      * @param array parameters
      * @return ResultsetInterface
      */
     protected static function groupResult(string! functionName, string! alias, var parameters) -> <ResultsetInterface>
     {
-        var params, distinctColumn, groupColumn, columns, bindParams, bindTypes,
+        var params, distinctColumn, groupColumn, columns,
             resultset, cache, firstRow, groupColumns, builder, query, container,
             manager, transaction;
+        var bindParams = [], bindTypes = [];
 
         let container = Di::getDefault();
         let manager = <ManagerInterface> container->getShared("modelsManager");
@@ -4349,9 +4285,12 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         /**
          * Check for bind parameters
          */
-        let bindParams = null, bindTypes = null;
-        if fetch bindParams, params["bind"] {
-            fetch bindTypes, params["bindTypes"];
+        if isset params["bind"] {
+            let bindParams = params["bind"];
+
+            if isset params["bindTypes"] {
+                let bindTypes = params["bindTypes"];
+            }
         }
 
         /**
@@ -4386,7 +4325,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *
      * @return \Phalcon\Mvc\ModelInterface[]|\Phalcon\Mvc\ModelInterface|bool
      */
-    protected final static function _invokeFinder(string method, array arguments)
+    protected final static function invokeFinder(string method, array arguments)
     {
         var extraMethod, type, modelName, value, model, attributes, field,
             extraMethodFirst, metaData, params;
@@ -4506,7 +4445,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     /**
      * Check for, and attempt to use, possible setter.
      */
-    final protected function _possibleSetter(string property, var value) -> bool
+    final protected function possibleSetter(string property, var value) -> bool
     {
         var possibleSetter;
         array localMethods;
@@ -4536,19 +4475,6 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         }
 
         return true;
-    }
-
-    /**
-     * Executes internal hooks before save a record
-     *
-     * @todo Remove in v5.0
-     * @deprecated Use preSave()
-     *
-     * @return bool
-     */
-    protected function _preSave(<MetaDataInterface> metaData, bool exists, var identityField) -> bool
-    {
-        return this->preSave(metaData, exists, identityField);
     }
 
     /**
@@ -4592,7 +4518,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
          * Check for Virtual foreign keys
          */
         if globals_get("orm.virtual_foreign_keys") {
-            if this->_checkForeignKeysRestrict() === false {
+            if this->checkForeignKeysRestrict() === false {
                 return false;
             }
         }
@@ -4795,19 +4721,6 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     /**
      * Saves related records that must be stored prior to save the master record
      *
-     * @todo Remove in v5.0
-     * @deprecated Use preSaveRelatedRecords()
-     *
-     * @param \Phalcon\Mvc\ModelInterface[] related
-     */
-    protected function _preSaveRelatedRecords(<AdapterInterface> connection, related) -> bool
-    {
-        return this->preSaveRelatedRecords(connection, related);
-    }
-
-    /**
-     * Saves related records that must be stored prior to save the master record
-     *
      * @param \Phalcon\Mvc\ModelInterface[] related
      * @return bool
      */
@@ -4913,19 +4826,6 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     /**
      * Executes internal events after save a record
      *
-     * @todo Remove in v5.0
-     * @deprecated Use postSave()
-     *
-     * @return bool
-     */
-    protected function _postSave(bool success, bool exists) -> bool
-    {
-        return this->postSave(success, exists);
-    }
-
-    /**
-     * Executes internal events after save a record
-     *
      * @return bool
      */
     protected function postSave(bool success, bool exists) -> bool
@@ -4939,20 +4839,6 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         }
 
         return success;
-    }
-
-    /**
-     * Save the related records assigned in the has-one/has-many relations
-     *
-     * @todo Remove in v5.0
-     * @deprecated Use postSaveRelatedRecords()
-     *
-     * @param Phalcon\Mvc\ModelInterface[] related
-     * @return bool
-     */
-    protected function _postSaveRelatedRecords(<AdapterInterface> connection, related) -> bool
-    {
-        return this->postSaveRelatedRecords(connection, related);
     }
 
     /**
@@ -5220,17 +5106,6 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
             this,
             keysAttributes
         );
-    }
-
-    /**
-     * Cancel the current operation
-     *
-     * @todo Remove in v5.0
-     * @deprecated Use cancelOperation()
-     */
-    protected function _cancelOperation()
-    {
-        return this->cancelOperation();
     }
 
     /**

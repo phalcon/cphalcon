@@ -14,8 +14,8 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Http\Response;
 
 use Phalcon\Http\Response;
-use UnitTester;
 use TypeError;
+use UnitTester;
 
 class ConstructCest
 {
@@ -51,13 +51,21 @@ class ConstructCest
     {
         $I->wantToTest('Http\Response - __construct(content = [array])');
 
-        /** @noinspection PhpUndefinedClassInspection */
-        $throwable = new TypeError(
-            sprintf(
-                'Argument 1 passed to %s::__construct() must be of the type string or null, array given',
-                Response::class
-            )
-        );
+        if (version_compare(PHP_VERSION, '8.0.0', '>=')) {
+            $throwable = new TypeError(
+                sprintf(
+                    'Phalcon\Http\Response::__construct(): Argument #1 ($content) must be of type ?string, array given',
+                    Response::class
+                )
+            );
+        } else {
+            $throwable = new TypeError(
+                sprintf(
+                    'Argument 1 passed to %s::__construct() must be of the type string or null, array given',
+                    Response::class
+                )
+            );
+        }
 
         $I->expectThrowable($throwable, function () {
             new Response(['Put a Sock In It']);

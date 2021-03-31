@@ -53,6 +53,14 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, __construct) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&factory_sub);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(factory, phalcon_logger_adapterfactory_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(1, 0, &factory);
 
@@ -110,6 +118,14 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, load) {
 	ZVAL_UNDEF(&_14$$7);
 	ZVAL_UNDEF(&_15$$7);
 	ZVAL_UNDEF(&data);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(config)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &config);
@@ -234,6 +250,16 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, newInstance) {
 
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&adapters);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_STR(name)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ARRAY(adapters)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &name_param, &adapters_param);
@@ -257,7 +283,7 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, newInstance) {
 
 
 	object_init_ex(return_value, phalcon_logger_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 438, &name, &adapters);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 434, &name, &adapters);
 	zephir_check_call_status();
 	RETURN_MM();
 

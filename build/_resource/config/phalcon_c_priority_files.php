@@ -1,7 +1,7 @@
 <?php
 // These are priority files, their contents must be put into phalcon.c before any other source files
 
-$files = [
+return [
     'phalcon/annotations/scanner.h',
     'phalcon/annotations/annot.h',
     'phalcon/mvc/model/orm.h',
@@ -61,5 +61,3 @@ $files = [
     'kernel/time.c',
     'kernel/exit.c',
 ];
-
-return $files;

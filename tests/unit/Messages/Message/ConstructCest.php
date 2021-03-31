@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Messages\Message;
 
+use InvalidArgumentException;
 use Phalcon\Messages\Message;
 use TypeError;
 use UnitTester;
@@ -116,13 +117,21 @@ class ConstructCest
 
         try {
             (new Message(true));
-        } catch (TypeError $ex) {
+            // 7.4 - TypeError, 8.0 - InvalidArgumentException
+        } catch (TypeError | InvalidArgumentException $ex) {
             $actual = $ex->getMessage();
         }
 
-        $I->assertEquals(
-            'Argument 1 passed to Phalcon\Messages\Message::__construct() must be of the type string, bool',
-            substr($actual, 0, 93)
-        );
+        if (version_compare(PHP_VERSION, '8.0.0', '>=')) {
+            $I->assertEquals(
+                'Phalcon\Messages\Message::__construct(): Argument #1 ($message) must be of type string, bool given',
+                $actual
+            );
+        } else {
+            $I->assertEquals(
+                'Argument 1 passed to Phalcon\Messages\Message::__construct() must be of the type string, bool',
+                substr($actual, 0, 93)
+            );
+        }
     }
 }

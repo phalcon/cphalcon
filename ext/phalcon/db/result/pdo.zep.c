@@ -14,6 +14,7 @@
 #include "kernel/main.h"
 #include "kernel/object.h"
 #include "kernel/memory.h"
+#include "kernel/main.h"
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/string.h"
@@ -94,6 +95,19 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, __construct) {
 	ZVAL_UNDEF(&bindParams_sub);
 	ZVAL_UNDEF(&bindTypes_sub);
 	ZVAL_NULL(&__$null);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 5)
+		Z_PARAM_OBJECT_OF_CLASS(connection, phalcon_db_adapter_adapterinterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(result, zephir_get_internal_ce(SL("pdostatement")))
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL(sqlStatement)
+		Z_PARAM_ZVAL(bindParams)
+		Z_PARAM_ZVAL(bindTypes)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(2, 3, &connection, &result, &sqlStatement, &bindParams, &bindTypes);
 
@@ -152,6 +166,14 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, dataSeek) {
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$4);
 	ZVAL_UNDEF(&_2$$4);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(number)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &number_param);
@@ -209,6 +231,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, execute) {
 
 	ZVAL_UNDEF(&_0);
 
+
 	ZEPHIR_MM_GROW();
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("pdoStatement"), PH_NOISY_CC | PH_READONLY);
@@ -247,6 +270,17 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, fetch) {
 	ZVAL_UNDEF(&cursorOffset_sub);
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 3)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL(fetchStyle)
+		Z_PARAM_ZVAL(cursorOrientation)
+		Z_PARAM_ZVAL(cursorOffset)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 3, &fetchStyle, &cursorOrientation, &cursorOffset);
@@ -299,6 +333,17 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, fetchAll) {
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&pdoStatement);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 3)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL(fetchStyle)
+		Z_PARAM_ZVAL(fetchArgument)
+		Z_PARAM_ZVAL(ctorArgs)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 3, &fetchStyle, &fetchArgument, &ctorArgs);
@@ -370,6 +415,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, fetchArray) {
 
 	ZVAL_UNDEF(&_0);
 
+
 	ZEPHIR_MM_GROW();
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("pdoStatement"), PH_NOISY_CC | PH_READONLY);
@@ -385,6 +431,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, fetchArray) {
 PHP_METHOD(Phalcon_Db_Result_Pdo, getInternalResult) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "pdoStatement");
@@ -429,6 +476,7 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, numRows) {
 	ZVAL_UNDEF(&_9$$7);
 	ZVAL_UNDEF(&_10$$7);
 	ZVAL_UNDEF(&_11$$7);
+
 
 	ZEPHIR_MM_GROW();
 
@@ -529,6 +577,17 @@ PHP_METHOD(Phalcon_Db_Result_Pdo, setFetchMode) {
 	ZVAL_UNDEF(&_5$$5);
 	ZVAL_UNDEF(&_6$$7);
 	ZVAL_UNDEF(&_7$$7);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 3)
+		Z_PARAM_LONG(fetchMode)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL(colNoOrClassNameOrObject)
+		Z_PARAM_ZVAL(ctorargs)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 2, &fetchMode_param, &colNoOrClassNameOrObject, &ctorargs);

@@ -32,11 +32,13 @@ class SerializeCest
      */
     public function storageSerializerIgbinarySerialize(IntegrationTester $I, Example $example)
     {
-        $I->wantToTest('Storage\Serializer\Igbinary - serialize() - ' . $example[0]);
+        $I->wantToTest(
+            'Storage\Serializer\Igbinary - serialize() - ' . $example['label']
+        );
 
-        $serializer = new Igbinary($example[1]);
+        $serializer = new Igbinary($example['value']);
 
-        $expected = $example[2];
+        $expected = $example['expected'];
 
         $I->assertEquals(
             $expected,
@@ -48,44 +50,44 @@ class SerializeCest
     {
         return [
             [
-                'null',
-                null,
-                null,
+                'label'    => 'null',
+                'value'    => null,
+                'expected' => igbinary_serialize(null),
             ],
             [
-                'true',
-                true,
-                true,
+                'label'    => 'true',
+                'value'    => true,
+                'expected' => igbinary_serialize(true),
             ],
             [
-                'false',
-                false,
-                false,
+                'label'    => 'false',
+                'value'    => false,
+                'expected' => igbinary_serialize(false),
             ],
             [
-                'integer',
-                1234,
-                1234,
+                'label'    => 'integer',
+                'value'    => 1234,
+                'expected' => igbinary_serialize(1234),
             ],
             [
-                'float',
-                1.234,
-                1.234,
+                'label'    => 'float',
+                'value'    => 1.234,
+                'expected' => igbinary_serialize(1.234),
             ],
             [
-                'string',
-                'Phalcon Framework',
-                igbinary_serialize('Phalcon Framework'),
+                'label'    => 'string',
+                'value'    => 'Phalcon Framework',
+                'expected' => igbinary_serialize('Phalcon Framework'),
             ],
             [
-                'array',
-                ['Phalcon Framework'],
-                igbinary_serialize(['Phalcon Framework']),
+                'label'    => 'array',
+                'value'    => ['Phalcon Framework'],
+                'expected' => igbinary_serialize(['Phalcon Framework']),
             ],
             [
-                'object',
-                new stdClass(),
-                igbinary_serialize(new stdClass()),
+                'label'    => 'object',
+                'value'    => new stdClass(),
+                'expected' => igbinary_serialize(new stdClass()),
             ],
         ];
     }

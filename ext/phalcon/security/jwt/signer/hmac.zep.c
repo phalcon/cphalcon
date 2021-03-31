@@ -59,6 +59,15 @@ PHP_METHOD(Phalcon_Security_JWT_Signer_Hmac, __construct) {
 
 	ZVAL_UNDEF(&algo);
 	ZVAL_UNDEF(&supported);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR(algo)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &algo_param);
@@ -110,6 +119,7 @@ PHP_METHOD(Phalcon_Security_JWT_Signer_Hmac, getAlgHeader) {
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
 
+
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_INIT_VAR(&_0);
@@ -142,6 +152,15 @@ PHP_METHOD(Phalcon_Security_JWT_Signer_Hmac, sign) {
 
 	ZVAL_UNDEF(&payload);
 	ZVAL_UNDEF(&passphrase);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_STR(payload)
+		Z_PARAM_STR(passphrase)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &payload_param, &passphrase_param);
@@ -195,6 +214,16 @@ PHP_METHOD(Phalcon_Security_JWT_Signer_Hmac, verify) {
 	ZVAL_UNDEF(&payload);
 	ZVAL_UNDEF(&passphrase);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(3, 3)
+		Z_PARAM_STR(source)
+		Z_PARAM_STR(payload)
+		Z_PARAM_STR(passphrase)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &source_param, &payload_param, &passphrase_param);
@@ -257,6 +286,15 @@ PHP_METHOD(Phalcon_Security_JWT_Signer_Hmac, getHash) {
 	ZVAL_UNDEF(&passphrase);
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_STR(payload)
+		Z_PARAM_STR(passphrase)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &payload_param, &passphrase_param);
@@ -285,7 +323,7 @@ PHP_METHOD(Phalcon_Security_JWT_Signer_Hmac, getHash) {
 
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getalgorithm", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_FUNCTION("hash_hmac", NULL, 186, &_0, &payload, &passphrase, &__$true);
+	ZEPHIR_RETURN_CALL_FUNCTION("hash_hmac", NULL, 188, &_0, &payload, &passphrase, &__$true);
 	zephir_check_call_status();
 	RETURN_MM();
 

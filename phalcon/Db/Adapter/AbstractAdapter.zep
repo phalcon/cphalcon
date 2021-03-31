@@ -535,7 +535,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      * }
      *```
      */
-    public function fetchAll(string sqlQuery, int fetchMode = Enum::FETCH_ASSOC, var bindParams = null, var bindTypes = null) -> array
+    public function fetchAll(string sqlQuery, int fetchMode = Enum::FETCH_ASSOC, array bindParams = [], array bindTypes = []) -> array
     {
         var result;
 
@@ -599,7 +599,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      * print_r($robot);
      *```
      */
-    public function fetchOne(string! sqlQuery, var fetchMode = Enum::FETCH_ASSOC, var bindParams = null, var bindTypes = null) -> array
+    public function fetchOne(string! sqlQuery, var fetchMode = Enum::FETCH_ASSOC, array bindParams = [], array bindTypes = []) -> array
     {
         var result;
 
@@ -718,7 +718,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     /**
      * Returns the internal event manager
      */
-    public function getEventsManager() -> <ManagerInterface>
+    public function getEventsManager() -> <ManagerInterface> | null
     {
         return this->eventsManager;
     }

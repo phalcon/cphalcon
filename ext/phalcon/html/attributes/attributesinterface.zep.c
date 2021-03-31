@@ -37,9 +37,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Attributes_AttributesInterface) {
  * Get Attributes
  */
 ZEPHIR_DOC_METHOD(Phalcon_Html_Attributes_AttributesInterface, getAttributes);
-
 /**
  * Set Attributes
  */
 ZEPHIR_DOC_METHOD(Phalcon_Html_Attributes_AttributesInterface, setAttributes);
-

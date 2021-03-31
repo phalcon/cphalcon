@@ -78,6 +78,14 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, __construct) {
 
 	ZVAL_UNDEF(&escaper_sub);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(escaper, phalcon_escaper_escaperinterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &escaper);
@@ -112,6 +120,16 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, close) {
 	ZVAL_UNDEF(&tag);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_STR(tag)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_BOOL(raw)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &tag_param, &raw_param);
@@ -153,6 +171,7 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, indent) {
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 
+
 	ZEPHIR_MM_GROW();
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("indent"), PH_NOISY_CC | PH_READONLY);
@@ -186,6 +205,15 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, orderAttributes) {
 	ZVAL_UNDEF(&intersect);
 	ZVAL_UNDEF(&results);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_ARRAY(overrides)
+		Z_PARAM_ARRAY(attributes)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &overrides_param, &attributes_param);
@@ -253,6 +281,15 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, renderArrayElements) {
 	ZVAL_UNDEF(&_12$$4);
 	ZVAL_UNDEF(&_13$$4);
 	ZVAL_UNDEF(&delimiter);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_ARRAY(elements)
+		Z_PARAM_STR(delimiter)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &elements_param, &delimiter_param);
@@ -347,6 +384,14 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, renderAttributes) {
 	ZVAL_UNDEF(&_9$$6);
 	ZVAL_UNDEF(&_10$$6);
 	ZVAL_UNDEF(&_11$$6);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ARRAY(attributes)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &attributes_param);
@@ -436,6 +481,16 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, renderElement) {
 
 	ZVAL_UNDEF(&tag);
 	ZVAL_UNDEF(&attributes);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_STR(tag)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ARRAY(attributes)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &tag_param, &attributes_param);
@@ -484,6 +539,18 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, renderFullElement) {
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&attributes);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 4)
+		Z_PARAM_STR(tag)
+		Z_PARAM_STR(text)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ARRAY(attributes)
+		Z_PARAM_BOOL(raw)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 2, &tag_param, &text_param, &attributes_param, &raw_param);
@@ -553,6 +620,17 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, renderTag) {
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$3);
 	ZVAL_UNDEF(&attributes);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 3)
+		Z_PARAM_STR(tag)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ARRAY(attributes)
+		Z_PARAM_STR(close)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 2, &tag_param, &attributes_param, &close_param);
@@ -624,6 +702,16 @@ PHP_METHOD(Phalcon_Html_Helper_AbstractHelper, selfClose) {
 	ZVAL_UNDEF(&tag);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&attributes);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_STR(tag)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ARRAY(attributes)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &tag_param, &attributes_param);

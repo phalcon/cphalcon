@@ -73,6 +73,16 @@ PHP_METHOD(Phalcon_Text, camelize) {
 	ZVAL_UNDEF(&text);
 	ZVAL_UNDEF(&delimiter_sub);
 	ZVAL_NULL(&__$null);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_STR(text)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL(delimiter)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &text_param, &delimiter);
@@ -131,6 +141,7 @@ PHP_METHOD(Phalcon_Text, concat) {
 	ZVAL_UNDEF(&args);
 	ZVAL_UNDEF(&_0);
 
+
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_INIT_VAR(&args);
@@ -177,6 +188,18 @@ PHP_METHOD(Phalcon_Text, dynamic) {
 	ZVAL_UNDEF(&leftDelimiter);
 	ZVAL_UNDEF(&rightDelimiter);
 	ZVAL_UNDEF(&separator);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 4)
+		Z_PARAM_STR(text)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR(leftDelimiter)
+		Z_PARAM_STR(rightDelimiter)
+		Z_PARAM_STR(separator)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 3, &text_param, &leftDelimiter_param, &rightDelimiter_param, &separator_param);
@@ -266,6 +289,17 @@ PHP_METHOD(Phalcon_Text, endsWith) {
 	ZVAL_UNDEF(&text);
 	ZVAL_UNDEF(&end);
 	ZVAL_UNDEF(&_1);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 3)
+		Z_PARAM_STR(text)
+		Z_PARAM_STR(end)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_BOOL(ignoreCase)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &text_param, &end_param, &ignoreCase_param);
@@ -284,7 +318,7 @@ PHP_METHOD(Phalcon_Text, endsWith) {
 	} else {
 		ZVAL_BOOL(&_1, 0);
 	}
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_str_ce, "endswith", &_0, 287, &text, &end, &_1);
+	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_str_ce, "endswith", &_0, 288, &text, &end, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -308,6 +342,14 @@ PHP_METHOD(Phalcon_Text, humanize) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&text);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(text)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &text_param);
@@ -350,6 +392,16 @@ PHP_METHOD(Phalcon_Text, increment) {
 
 	ZVAL_UNDEF(&text);
 	ZVAL_UNDEF(&separator);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_STR(text)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR(separator)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &text_param, &separator_param);
@@ -388,6 +440,16 @@ PHP_METHOD(Phalcon_Text, lower) {
 
 	ZVAL_UNDEF(&text);
 	ZVAL_UNDEF(&encoding);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_STR(text)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR(encoding)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &text_param, &encoding_param);
@@ -447,6 +509,17 @@ PHP_METHOD(Phalcon_Text, startsWith) {
 	ZVAL_UNDEF(&text);
 	ZVAL_UNDEF(&start);
 	ZVAL_UNDEF(&_1);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 3)
+		Z_PARAM_STR(text)
+		Z_PARAM_STR(start)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_BOOL(ignoreCase)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &text_param, &start_param, &ignoreCase_param);
@@ -493,6 +566,16 @@ PHP_METHOD(Phalcon_Text, random) {
 
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 2)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_LONG(type)
+		Z_PARAM_ZVAL(length)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &type_param, &length_param);
@@ -538,6 +621,14 @@ PHP_METHOD(Phalcon_Text, reduceSlashes) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&text);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(text)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &text_param);
@@ -580,6 +671,16 @@ PHP_METHOD(Phalcon_Text, uncamelize) {
 	ZVAL_UNDEF(&text);
 	ZVAL_UNDEF(&delimiter_sub);
 	ZVAL_NULL(&__$null);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_STR(text)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL(delimiter)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &text_param, &delimiter);
@@ -624,6 +725,14 @@ PHP_METHOD(Phalcon_Text, underscore) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&text);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(text)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &text_param);
@@ -665,6 +774,16 @@ PHP_METHOD(Phalcon_Text, upper) {
 
 	ZVAL_UNDEF(&text);
 	ZVAL_UNDEF(&encoding);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_STR(text)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR(encoding)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &text_param, &encoding_param);

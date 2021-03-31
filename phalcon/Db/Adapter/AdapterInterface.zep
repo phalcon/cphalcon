@@ -150,12 +150,12 @@ interface AdapterInterface
      * Use this method only when the SQL statement sent to the server doesn't
      * return any rows
      */
-    public function execute(string! sqlStatement, var placeholders = null, var dataTypes = null) -> bool;
+    public function execute(string! sqlStatement, array! bindParams = [], array! bindTypes = []) -> bool;
 
     /**
      * Dumps the complete result of a query into an array
      */
-    public function fetchAll(string! sqlQuery, int fetchMode = 2, placeholders = null) -> array;
+    public function fetchAll(string! sqlQuery, int fetchMode = 2, array bindParams = [], array bindTypes = []) -> array;
 
     /**
      * Returns the n'th field of first row in a SQL query result
@@ -178,7 +178,7 @@ interface AdapterInterface
     /**
      * Returns the first row in a SQL query result
      */
-    public function fetchOne(string! sqlQuery, int fetchMode = 2, placeholders = null) -> array;
+    public function fetchOne(string! sqlQuery, int fetchMode = 2, array bindParams = [], array bindTypes = []) -> array;
 
     /**
      * Returns a SQL modified with a FOR UPDATE clause
@@ -343,7 +343,7 @@ interface AdapterInterface
      * Use this method only when the SQL statement sent to the server returns
      * rows
      */
-    public function query(string! sqlStatement, var placeholders = null, var dataTypes = null) -> <ResultInterface> | bool;
+    public function query(string! sqlStatement, array! bindParams = [], array! bindTypes = []) -> <ResultInterface> | bool;
 
     /**
      * Releases given savepoint

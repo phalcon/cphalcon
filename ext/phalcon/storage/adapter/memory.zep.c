@@ -46,6 +46,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Storage_Adapter_Memory) {
 	zend_declare_property_null(phalcon_storage_adapter_memory_ce, SL("options"), ZEND_ACC_PROTECTED);
 
 	phalcon_storage_adapter_memory_ce->create_object = zephir_init_properties_Phalcon_Storage_Adapter_Memory;
+
 	return SUCCESS;
 
 }
@@ -72,6 +73,16 @@ PHP_METHOD(Phalcon_Storage_Adapter_Memory, __construct) {
 	ZVAL_UNDEF(&factory_sub);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&options);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_OBJECT_OF_CLASS(factory, phalcon_storage_serializerfactory_ce)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ARRAY(options)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &factory, &options_param);
@@ -114,6 +125,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Memory, clear) {
 
 	ZVAL_UNDEF(&_0);
 
+
 	ZEPHIR_MM_GROW();
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("data"), PH_NOISY_CC | PH_READONLY);
@@ -147,6 +159,16 @@ PHP_METHOD(Phalcon_Storage_Adapter_Memory, decrement) {
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_STR(key)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_LONG(value)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &key_param, &value_param);
@@ -208,6 +230,14 @@ PHP_METHOD(Phalcon_Storage_Adapter_Memory, delete) {
 	ZVAL_UNDEF(&prefixedKey);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(key)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &key_param);
@@ -248,7 +278,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Memory, get) {
 
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *key_param = NULL, *defaultValue = NULL, defaultValue_sub, __$null, content, prefixedKey, _0;
+	zval *key_param = NULL, *defaultValue = NULL, defaultValue_sub, __$null, content, prefixedKey, _0, _1;
 	zval key;
 	zval *this_ptr = getThis();
 
@@ -258,6 +288,17 @@ PHP_METHOD(Phalcon_Storage_Adapter_Memory, get) {
 	ZVAL_UNDEF(&content);
 	ZVAL_UNDEF(&prefixedKey);
 	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_STR(key)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL(defaultValue)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &key_param, &defaultValue);
@@ -278,12 +319,18 @@ PHP_METHOD(Phalcon_Storage_Adapter_Memory, get) {
 	}
 
 
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "has", NULL, 0, &key);
+	zephir_check_call_status();
+	if (ZEPHIR_IS_FALSE(&_0)) {
+		RETVAL_ZVAL(defaultValue, 1, 0);
+		RETURN_MM();
+	}
 	ZEPHIR_CALL_METHOD(&prefixedKey, this_ptr, "getprefixedkey", NULL, 0, &key);
 	zephir_check_call_status();
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("data"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&content, &_0, "get", NULL, 0, &prefixedKey);
+	zephir_read_property(&_1, this_ptr, ZEND_STRL("data"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_CALL_METHOD(&content, &_1, "get", NULL, 0, &prefixedKey);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getunserializeddata", NULL, 0, &content, defaultValue);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getunserializeddata", NULL, 0, &content);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -297,6 +344,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Memory, get) {
 PHP_METHOD(Phalcon_Storage_Adapter_Memory, getAdapter) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "adapter");
@@ -319,6 +367,15 @@ PHP_METHOD(Phalcon_Storage_Adapter_Memory, getKeys) {
 	ZVAL_UNDEF(&prefix);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR(prefix)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &prefix_param);
@@ -367,6 +424,14 @@ PHP_METHOD(Phalcon_Storage_Adapter_Memory, has) {
 	ZVAL_UNDEF(&key);
 	ZVAL_UNDEF(&prefixedKey);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(key)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &key_param);
@@ -416,6 +481,16 @@ PHP_METHOD(Phalcon_Storage_Adapter_Memory, increment) {
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_STR(key)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_LONG(value)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &key_param, &value_param);
@@ -482,6 +557,17 @@ PHP_METHOD(Phalcon_Storage_Adapter_Memory, set) {
 	ZVAL_UNDEF(&lifetime);
 	ZVAL_UNDEF(&prefixedKey);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 3)
+		Z_PARAM_STR(key)
+		Z_PARAM_ZVAL(value)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL(ttl)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &key_param, &value, &ttl);
@@ -515,12 +601,13 @@ PHP_METHOD(Phalcon_Storage_Adapter_Memory, set) {
 
 }
 
-zend_object *zephir_init_properties_Phalcon_Storage_Adapter_Memory(zend_class_entry *class_type TSRMLS_DC) {
+zend_object *zephir_init_properties_Phalcon_Storage_Adapter_Memory(zend_class_entry *class_type) {
 
 		zval _0, _1$$3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
+	
 
 		ZEPHIR_MM_GROW();
 	

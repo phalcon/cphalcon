@@ -37,9 +37,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_EntityInterface) {
  * Reads an attribute value by its name
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_EntityInterface, readAttribute);
-
 /**
  * Writes an attribute value by its name
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_EntityInterface, writeAttribute);
-

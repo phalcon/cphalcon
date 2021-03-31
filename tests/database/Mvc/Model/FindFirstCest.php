@@ -15,8 +15,10 @@ namespace Phalcon\Test\Database\Mvc\Model;
 
 use Codeception\Example;
 use DatabaseTester;
+use PDO;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\Model\Exception;
+use Phalcon\Mvc\Model\Row;
 use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
 use Phalcon\Test\Fixtures\Migrations\StringPrimaryMigration;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
@@ -240,6 +242,47 @@ class FindFirstCest
             function () {
                 Invoices::findFirst(false);
             }
+        );
+    }
+
+    /**
+     * Tests Phalcon\Mvc\Model :: findFirst() - option 'column'
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-11-22
+     *
+     * @group  mysql
+     * @group  pgsql
+     * @group  sqlite
+     *
+     * @param DatabaseTester $I
+     */
+    public function mvcModelFindFirstColumn(DatabaseTester $I): void
+    {
+        $I->wantToTest('Mvc\Model - findFirst() - column option');
+
+        /** @var PDO $connection */
+        $connection = $I->getConnection();
+        $migration  = new InvoicesMigration($connection);
+        $migration->insert(4);
+
+        $invoice = Invoices::findFirst([
+            'columns' => 'inv_id',
+        ]);
+
+        $I->assertInstanceOf(
+            Row::class,
+            $invoice
+        );
+
+        $I->assertEquals(
+            4,
+            $invoice->inv_id
+        );
+
+        $I->assertEquals(
+            ['inv_id' => 4],
+            $invoice->toArray()
         );
     }
 

@@ -135,6 +135,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, getDialectType) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "dialectType");
 
 }
@@ -147,6 +148,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, getSqlVariables) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "sqlVariables");
 
 }
@@ -157,6 +159,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, getSqlVariables) {
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, getType) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "type");
@@ -192,6 +195,14 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, __construct) {
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$4);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ARRAY(descriptor)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &descriptor_param);
@@ -240,6 +251,16 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, addColumn) {
 	ZVAL_UNDEF(&column_sub);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(3, 3)
+		Z_PARAM_STR(tableName)
+		Z_PARAM_STR(schemaName)
+		Z_PARAM_OBJECT_OF_CLASS(column, phalcon_db_columninterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &tableName_param, &schemaName_param, &column);
@@ -291,6 +312,16 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, addForeignKey) {
 	ZVAL_UNDEF(&reference_sub);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(3, 3)
+		Z_PARAM_STR(tableName)
+		Z_PARAM_STR(schemaName)
+		Z_PARAM_OBJECT_OF_CLASS(reference, phalcon_db_referenceinterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &tableName_param, &schemaName_param, &reference);
@@ -342,6 +373,16 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, addIndex) {
 	ZVAL_UNDEF(&index_sub);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(3, 3)
+		Z_PARAM_STR(tableName)
+		Z_PARAM_STR(schemaName)
+		Z_PARAM_OBJECT_OF_CLASS(index, phalcon_db_indexinterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &tableName_param, &schemaName_param, &index);
@@ -393,6 +434,16 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, addPrimaryKey) {
 	ZVAL_UNDEF(&index_sub);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(3, 3)
+		Z_PARAM_STR(tableName)
+		Z_PARAM_STR(schemaName)
+		Z_PARAM_OBJECT_OF_CLASS(index, phalcon_db_indexinterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &tableName_param, &schemaName_param, &index);
@@ -444,6 +495,14 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, createSavepoint) {
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(name)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
@@ -494,6 +553,16 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, createTable) {
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&definition);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(3, 3)
+		Z_PARAM_STR(tableName)
+		Z_PARAM_STR(schemaName)
+		Z_PARAM_ARRAY(definition)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &tableName_param, &schemaName_param, &definition_param);
@@ -556,6 +625,17 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, createView) {
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&definition);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 3)
+		Z_PARAM_STR(viewName)
+		Z_PARAM_ARRAY(definition)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR_OR_NULL(schemaName)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &viewName_param, &definition_param, &schemaName_param);
@@ -621,6 +701,18 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, delete) {
 	ZVAL_UNDEF(&sql);
 	ZVAL_UNDEF(&escapedTable);
 	ZVAL_UNDEF(&_0$$3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 4)
+		Z_PARAM_ZVAL(table)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL(whereCondition)
+		Z_PARAM_ZVAL(placeholders)
+		Z_PARAM_ZVAL(dataTypes)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 3, &table, &whereCondition, &placeholders, &dataTypes);
@@ -693,6 +785,16 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, describeIndexes) {
 	ZVAL_UNDEF(&_7$$6);
 	ZVAL_UNDEF(&_12$$9);
 	ZVAL_UNDEF(&_14$$10);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_STR(table)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR_OR_NULL(schema)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &table_param, &schema_param);
@@ -876,6 +978,16 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, describeReferences) {
 	ZVAL_UNDEF(&_19$$6);
 	ZVAL_UNDEF(&_25$$9);
 	ZVAL_UNDEF(&_29$$10);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_STR(table)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR_OR_NULL(schema)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &table_param, &schema_param);
@@ -1101,6 +1213,16 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, dropColumn) {
 	ZVAL_UNDEF(&columnName);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(3, 3)
+		Z_PARAM_STR(tableName)
+		Z_PARAM_STR(schemaName)
+		Z_PARAM_STR(columnName)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &tableName_param, &schemaName_param, &columnName_param);
@@ -1153,6 +1275,16 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, dropForeignKey) {
 	ZVAL_UNDEF(&referenceName);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(3, 3)
+		Z_PARAM_STR(tableName)
+		Z_PARAM_STR(schemaName)
+		Z_PARAM_STR(referenceName)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &tableName_param, &schemaName_param, &referenceName_param);
@@ -1214,6 +1346,16 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, dropIndex) {
 	ZVAL_UNDEF(&indexName_sub);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(3, 3)
+		Z_PARAM_STR(tableName)
+		Z_PARAM_STR(schemaName)
+		Z_PARAM_ZVAL(indexName)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &tableName_param, &schemaName_param, &indexName);
@@ -1264,6 +1406,15 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, dropPrimaryKey) {
 	ZVAL_UNDEF(&schemaName);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_STR(tableName)
+		Z_PARAM_STR(schemaName)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &tableName_param, &schemaName_param);
@@ -1316,6 +1467,17 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, dropTable) {
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 3)
+		Z_PARAM_STR(tableName)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR_OR_NULL(schemaName)
+		Z_PARAM_BOOL(ifExists)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 2, &tableName_param, &schemaName_param, &ifExists_param);
@@ -1383,6 +1545,17 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, dropView) {
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 3)
+		Z_PARAM_STR(viewName)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR_OR_NULL(schemaName)
+		Z_PARAM_BOOL(ifExists)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 2, &viewName_param, &schemaName_param, &ifExists_param);
@@ -1464,6 +1637,14 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, escapeIdentifier) {
 	ZVAL_UNDEF(&_4$$3);
 	ZVAL_UNDEF(&_5$$3);
 	ZVAL_UNDEF(&_6);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(identifier)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &identifier);
@@ -1519,21 +1700,33 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, escapeIdentifier) {
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, fetchAll) {
 
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zval bindParams, bindTypes;
 	zend_long fetchMode, ZEPHIR_LAST_CALL_STATUS;
-	zval *sqlQuery_param = NULL, *fetchMode_param = NULL, *bindParams = NULL, bindParams_sub, *bindTypes = NULL, bindTypes_sub, __$null, result, _1, _0$$4;
+	zval *sqlQuery_param = NULL, *fetchMode_param = NULL, *bindParams_param = NULL, *bindTypes_param = NULL, result, _1, _0$$4;
 	zval sqlQuery;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&sqlQuery);
-	ZVAL_UNDEF(&bindParams_sub);
-	ZVAL_UNDEF(&bindTypes_sub);
-	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&result);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_0$$4);
+	ZVAL_UNDEF(&bindParams);
+	ZVAL_UNDEF(&bindTypes);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 4)
+		Z_PARAM_STR(sqlQuery)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_LONG(fetchMode)
+		Z_PARAM_ARRAY(bindParams)
+		Z_PARAM_ARRAY(bindTypes)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 3, &sqlQuery_param, &fetchMode_param, &bindParams, &bindTypes);
+	zephir_fetch_params(1, 1, 3, &sqlQuery_param, &fetchMode_param, &bindParams_param, &bindTypes_param);
 
 	zephir_get_strval(&sqlQuery, sqlQuery_param);
 	if (!fetchMode_param) {
@@ -1541,17 +1734,21 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, fetchAll) {
 	} else {
 		fetchMode = zephir_get_intval(fetchMode_param);
 	}
-	if (!bindParams) {
-		bindParams = &bindParams_sub;
-		bindParams = &__$null;
+	if (!bindParams_param) {
+		ZEPHIR_INIT_VAR(&bindParams);
+		array_init(&bindParams);
+	} else {
+		zephir_get_arrval(&bindParams, bindParams_param);
 	}
-	if (!bindTypes) {
-		bindTypes = &bindTypes_sub;
-		bindTypes = &__$null;
+	if (!bindTypes_param) {
+		ZEPHIR_INIT_VAR(&bindTypes);
+		array_init(&bindTypes);
+	} else {
+		zephir_get_arrval(&bindTypes, bindTypes_param);
 	}
 
 
-	ZEPHIR_CALL_METHOD(&result, this_ptr, "query", NULL, 0, &sqlQuery, bindParams, bindTypes);
+	ZEPHIR_CALL_METHOD(&result, this_ptr, "query", NULL, 0, &sqlQuery, &bindParams, &bindTypes);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&result) != IS_OBJECT) {
 		array_init(return_value);
@@ -1603,6 +1800,17 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, fetchColumn) {
 	ZVAL_UNDEF(&columnValue);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&placeholders);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 3)
+		Z_PARAM_STR(sqlQuery)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ARRAY(placeholders)
+		Z_PARAM_ZVAL(column)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 2, &sqlQuery_param, &placeholders_param, &column);
@@ -1651,19 +1859,31 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, fetchOne) {
 
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *sqlQuery_param = NULL, *fetchMode = NULL, fetchMode_sub, *bindParams = NULL, bindParams_sub, *bindTypes = NULL, bindTypes_sub, __$null, result;
+	zval bindParams, bindTypes;
+	zval *sqlQuery_param = NULL, *fetchMode = NULL, fetchMode_sub, *bindParams_param = NULL, *bindTypes_param = NULL, result;
 	zval sqlQuery;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&sqlQuery);
 	ZVAL_UNDEF(&fetchMode_sub);
-	ZVAL_UNDEF(&bindParams_sub);
-	ZVAL_UNDEF(&bindTypes_sub);
-	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&result);
+	ZVAL_UNDEF(&bindParams);
+	ZVAL_UNDEF(&bindTypes);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 4)
+		Z_PARAM_STR(sqlQuery)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL(fetchMode)
+		Z_PARAM_ARRAY(bindParams)
+		Z_PARAM_ARRAY(bindTypes)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 3, &sqlQuery_param, &fetchMode, &bindParams, &bindTypes);
+	zephir_fetch_params(1, 1, 3, &sqlQuery_param, &fetchMode, &bindParams_param, &bindTypes_param);
 
 	if (UNEXPECTED(Z_TYPE_P(sqlQuery_param) != IS_STRING && Z_TYPE_P(sqlQuery_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'sqlQuery' must be of the type string"));
@@ -1680,17 +1900,21 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, fetchOne) {
 		ZEPHIR_INIT_VAR(fetchMode);
 		ZVAL_LONG(fetchMode, 2);
 	}
-	if (!bindParams) {
-		bindParams = &bindParams_sub;
-		bindParams = &__$null;
+	if (!bindParams_param) {
+		ZEPHIR_INIT_VAR(&bindParams);
+		array_init(&bindParams);
+	} else {
+		zephir_get_arrval(&bindParams, bindParams_param);
 	}
-	if (!bindTypes) {
-		bindTypes = &bindTypes_sub;
-		bindTypes = &__$null;
+	if (!bindTypes_param) {
+		ZEPHIR_INIT_VAR(&bindTypes);
+		array_init(&bindTypes);
+	} else {
+		zephir_get_arrval(&bindTypes, bindTypes_param);
 	}
 
 
-	ZEPHIR_CALL_METHOD(&result, this_ptr, "query", NULL, 0, &sqlQuery, bindParams, bindTypes);
+	ZEPHIR_CALL_METHOD(&result, this_ptr, "query", NULL, 0, &sqlQuery, &bindParams, &bindTypes);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&result) != IS_OBJECT) {
 		array_init(return_value);
@@ -1719,6 +1943,14 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, forUpdate) {
 
 	ZVAL_UNDEF(&sqlQuery);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(sqlQuery)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &sqlQuery_param);
@@ -1754,6 +1986,14 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, getColumnDefinition) {
 
 	ZVAL_UNDEF(&column_sub);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(column, phalcon_db_columninterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &column);
@@ -1779,6 +2019,14 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, getColumnList) {
 
 	ZVAL_UNDEF(&columnList_sub);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(columnList)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &columnList);
@@ -1798,6 +2046,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, getColumnList) {
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, getConnectionId) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "connectionId");
@@ -1832,6 +2081,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, getDefaultIdValue) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
+
 
 	ZEPHIR_MM_GROW();
 
@@ -1874,6 +2124,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, getDefaultValue) {
 
 	ZVAL_UNDEF(&_0);
 
+
 	ZEPHIR_MM_GROW();
 
 	object_init_ex(return_value, phalcon_db_rawvalue_ce);
@@ -1893,6 +2144,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, getDescriptor) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "descriptor");
 
 }
@@ -1905,6 +2157,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, getDialect) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "dialect");
 
 }
@@ -1915,6 +2168,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, getDialect) {
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, getEventsManager) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "eventsManager");
@@ -1932,6 +2186,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, getNestedTransactionSavepointName
 	ZVAL_UNDEF(&_0);
 
 
+
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("transactionLevel"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CONCAT_SV(return_value, "PHALCON_SAVEPOINT_", &_0);
 	return;
@@ -1946,6 +2201,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, getRealSQLStatement) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "realSqlStatement");
 
 }
@@ -1958,6 +2214,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, getSQLBindTypes) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "sqlBindTypes");
 
 }
@@ -1968,6 +2225,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, getSQLBindTypes) {
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, getSQLStatement) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "sqlStatement");
@@ -2035,6 +2293,18 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, insert) {
 	ZVAL_UNDEF(&_20$$23);
 	ZVAL_UNDEF(&_21$$24);
 	ZVAL_UNDEF(&values);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 4)
+		Z_PARAM_STR(table)
+		Z_PARAM_ARRAY(values)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL(fields)
+		Z_PARAM_ZVAL(dataTypes)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 2, &table_param, &values_param, &fields, &dataTypes);
@@ -2263,6 +2533,17 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, insertAsDict) {
 	ZVAL_UNDEF(&field);
 	ZVAL_UNDEF(&value);
 	ZVAL_UNDEF(&_2);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 3)
+		Z_PARAM_STR(table)
+		Z_PARAM_ZVAL(data)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL(dataTypes)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &table_param, &data, &dataTypes);
@@ -2335,6 +2616,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, isNestedTransactionsWithSavepoint
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "transactionsWithSavepoints");
 
 }
@@ -2357,6 +2639,15 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, limit) {
 	ZVAL_UNDEF(&sqlQuery);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_STR(sqlQuery)
+		Z_PARAM_LONG(number)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &sqlQuery_param, &number_param);
@@ -2409,6 +2700,15 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, listTables) {
 	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_5$$3);
 	ZVAL_UNDEF(&_6$$4);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR_OR_NULL(schemaName)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &schemaName_param);
@@ -2496,6 +2796,15 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, listViews) {
 	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_5$$3);
 	ZVAL_UNDEF(&_6$$4);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR_OR_NULL(schemaName)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &schemaName_param);
@@ -2574,6 +2883,18 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, modifyColumn) {
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(3, 4)
+		Z_PARAM_STR(tableName)
+		Z_PARAM_STR(schemaName)
+		Z_PARAM_OBJECT_OF_CLASS(column, phalcon_db_columninterface_ce)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(currentColumn, phalcon_db_columninterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 1, &tableName_param, &schemaName_param, &column, &currentColumn);
@@ -2630,6 +2951,14 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, releaseSavepoint) {
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(name)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
@@ -2683,6 +3012,14 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, rollbackSavepoint) {
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(name)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
@@ -2724,6 +3061,14 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, setEventsManager) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&eventsManager_sub);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(eventsManager, phalcon_events_managerinterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(1, 0, &eventsManager);
 
@@ -2742,6 +3087,14 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, setDialect) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&dialect_sub);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(dialect, phalcon_db_dialectinterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(1, 0, &dialect);
 
@@ -2767,6 +3120,14 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, setNestedTransactionsWithSavepoin
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_BOOL(nestedTransactionsWithSavepoints)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &nestedTransactionsWithSavepoints_param);
@@ -2808,6 +3169,14 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, sharedLock) {
 
 	ZVAL_UNDEF(&sqlQuery);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(sqlQuery)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &sqlQuery_param);
@@ -2840,6 +3209,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, supportSequences) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_BOOL(0);
 
 }
@@ -2868,6 +3238,16 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, tableExists) {
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_4);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_STR(tableName)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR_OR_NULL(schemaName)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &tableName_param, &schemaName_param);
@@ -2934,6 +3314,16 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, tableOptions) {
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_STR(tableName)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR_OR_NULL(schemaName)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &tableName_param, &schemaName_param);
@@ -3051,6 +3441,19 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, update) {
 	ZVAL_UNDEF(&_13$$14);
 	ZVAL_UNDEF(&_15$$17);
 	ZVAL_UNDEF(&_16$$18);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(3, 5)
+		Z_PARAM_STR(table)
+		Z_PARAM_ZVAL(fields)
+		Z_PARAM_ZVAL(values)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL(whereCondition)
+		Z_PARAM_ZVAL(dataTypes)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 2, &table_param, &fields, &values, &whereCondition, &dataTypes);
@@ -3274,6 +3677,18 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, updateAsDict) {
 	ZVAL_UNDEF(&field);
 	ZVAL_UNDEF(&value);
 	ZVAL_UNDEF(&_2);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 4)
+		Z_PARAM_STR(table)
+		Z_PARAM_ZVAL(data)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL(whereCondition)
+		Z_PARAM_ZVAL(dataTypes)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 2, &table_param, &data, &whereCondition, &dataTypes);
@@ -3351,6 +3766,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, useExplicitIdValue) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_BOOL(0);
 
 }
@@ -3364,6 +3780,7 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, useExplicitIdValue) {
 PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, supportsDefaultValue) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_BOOL(1);
@@ -3394,6 +3811,16 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, viewExists) {
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_4);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_STR(viewName)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR_OR_NULL(schemaName)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &viewName_param, &schemaName_param);
@@ -3436,12 +3863,13 @@ PHP_METHOD(Phalcon_Db_Adapter_AbstractAdapter, viewExists) {
 
 }
 
-zend_object *zephir_init_properties_Phalcon_Db_Adapter_AbstractAdapter(zend_class_entry *class_type TSRMLS_DC) {
+zend_object *zephir_init_properties_Phalcon_Db_Adapter_AbstractAdapter(zend_class_entry *class_type) {
 
 		zval _0, _1$$3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
+	
 
 		ZEPHIR_MM_GROW();
 	

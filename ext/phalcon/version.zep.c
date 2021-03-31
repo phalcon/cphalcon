@@ -114,6 +114,7 @@ PHP_METHOD(Phalcon_Version, _getVersion) {
 	zval *this_ptr = getThis();
 
 
+
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_RETURN_CALL_STATIC("getversion", NULL, 0);
@@ -140,20 +141,21 @@ PHP_METHOD(Phalcon_Version, getVersion) {
 
 	ZVAL_UNDEF(&_0);
 
+
 	ZEPHIR_MM_GROW();
 
 	zephir_create_array(return_value, 5, 0);
 	ZEPHIR_INIT_VAR(&_0);
-	ZVAL_LONG(&_0, 4);
-	zephir_array_fast_append(return_value, &_0);
-	ZEPHIR_INIT_NVAR(&_0);
-	ZVAL_LONG(&_0, 1);
+	ZVAL_LONG(&_0, 5);
 	zephir_array_fast_append(return_value, &_0);
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_LONG(&_0, 0);
 	zephir_array_fast_append(return_value, &_0);
 	ZEPHIR_INIT_NVAR(&_0);
-	ZVAL_LONG(&_0, 4);
+	ZVAL_LONG(&_0, 0);
+	zephir_array_fast_append(return_value, &_0);
+	ZEPHIR_INIT_NVAR(&_0);
+	ZVAL_LONG(&_0, 1);
 	zephir_array_fast_append(return_value, &_0);
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_LONG(&_0, 0);
@@ -176,6 +178,14 @@ PHP_METHOD(Phalcon_Version, _getSpecial) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_1);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_LONG(special)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &special_param);
@@ -202,6 +212,14 @@ PHP_METHOD(Phalcon_Version, getSpecial) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&suffix);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_LONG(special)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &special_param);
@@ -261,6 +279,7 @@ PHP_METHOD(Phalcon_Version, get) {
 	ZVAL_UNDEF(&_3$$4);
 	ZVAL_UNDEF(&result);
 
+
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_CALL_STATIC(&version, "getversion", NULL, 0);
@@ -318,6 +337,7 @@ PHP_METHOD(Phalcon_Version, getId) {
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 
+
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_CALL_STATIC(&version, "getversion", NULL, 0);
@@ -334,11 +354,11 @@ PHP_METHOD(Phalcon_Version, getId) {
 	zephir_array_fetch_long(&specialNumber, &version, 4, PH_NOISY, "phalcon/Version.zep", 194);
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "%02s");
-	ZEPHIR_CALL_FUNCTION(&_1, "sprintf", NULL, 193, &_0, &medium);
+	ZEPHIR_CALL_FUNCTION(&_1, "sprintf", NULL, 195, &_0, &medium);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_0);
 	ZVAL_STRING(&_0, "%02s");
-	ZEPHIR_CALL_FUNCTION(&_2, "sprintf", NULL, 193, &_0, &minor);
+	ZEPHIR_CALL_FUNCTION(&_2, "sprintf", NULL, 195, &_0, &minor);
 	zephir_check_call_status();
 	ZEPHIR_CONCAT_VVVVV(return_value, &major, &_1, &_2, &special, &specialNumber);
 	RETURN_MM();
@@ -366,6 +386,14 @@ PHP_METHOD(Phalcon_Version, getPart) {
 	ZVAL_UNDEF(&version);
 	ZVAL_UNDEF(&_0$$3);
 	ZVAL_UNDEF(&_2$$4);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_LONG(part)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &part_param);

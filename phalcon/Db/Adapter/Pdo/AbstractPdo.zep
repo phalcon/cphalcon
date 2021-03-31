@@ -408,7 +408,7 @@ abstract class AbstractPdo extends AbstractAdapter
      * );
      *```
      */
-    public function execute(string! sqlStatement, var bindParams = null, var bindTypes = null) -> bool
+    public function execute(string! sqlStatement, array! bindParams = [], array! bindTypes = []) -> bool
     {
         var eventsManager, affectedRows, pdo, newStatement, statement;
 
@@ -435,7 +435,7 @@ abstract class AbstractPdo extends AbstractAdapter
 
         let pdo = <\PDO> this->pdo;
 
-        if typeof bindParams == "array" {
+        if !empty bindParams {
             let statement = pdo->prepare(sqlStatement);
 
             if typeof statement == "object" {
@@ -710,7 +710,7 @@ abstract class AbstractPdo extends AbstractAdapter
      * );
      *```
      */
-    public function query(string! sqlStatement, var bindParams = null, var bindTypes = null) -> <ResultInterface> | bool
+    public function query(string! sqlStatement, array! bindParams = [], array! bindTypes = []) -> <ResultInterface> | bool
     {
         var eventsManager, pdo, statement, params, types;
 
@@ -730,7 +730,7 @@ abstract class AbstractPdo extends AbstractAdapter
         }
 
         let pdo = <\PDO> this->pdo;
-        if typeof bindParams == "array" {
+        if !empty bindParams {
             let params = bindParams;
             let types = bindTypes;
         } else {

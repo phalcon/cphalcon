@@ -74,6 +74,19 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct) {
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
 	ZVAL_NULL(&__$null);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(3, 5)
+		Z_PARAM_ZVAL(columnMap)
+		Z_PARAM_ZVAL(model)
+		Z_PARAM_ZVAL(result)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(cache, phalcon_cache_adapter_adapterinterface_ce)
+		Z_PARAM_BOOL_OR_NULL(keepSnapshots, is_null_true)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 2, &columnMap, &model, &result, &cache, &keepSnapshots_param);
@@ -130,6 +143,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, current) {
 	ZVAL_UNDEF(&_8$$9);
 	ZVAL_UNDEF(&_9$$9);
 	ZVAL_UNDEF(&_10$$9);
+
 
 	ZEPHIR_MM_GROW();
 
@@ -240,6 +254,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, toArray) {
 	ZVAL_UNDEF(&_30$$25);
 	ZVAL_UNDEF(&renamedRecords);
 	ZVAL_UNDEF(&renamed);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_BOOL(renameColumns)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &renameColumns_param);
@@ -511,6 +534,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, serialize) {
 	ZVAL_UNDEF(&_6$$4);
 	ZVAL_UNDEF(&data);
 
+
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_CALL_CE_STATIC(&container, phalcon_di_ce, "getdefault", &_0, 0);
@@ -590,6 +614,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, unserialize) {
 	ZVAL_UNDEF(&_11);
 	ZVAL_UNDEF(&_3$$4);
 	ZVAL_UNDEF(&_4$$4);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(data)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &data);

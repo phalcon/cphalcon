@@ -29,7 +29,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Collection_Exception) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Collection, Exception, phalcon, collection_exception, phalcon_exception_ce, NULL, 0);
 
-	zend_class_implements(phalcon_collection_exception_ce, 1, zephir_get_internal_ce(SL("throwable")));
+	zend_class_implements(phalcon_collection_exception_ce, 1, zend_ce_throwable);
 	return SUCCESS;
 
 }

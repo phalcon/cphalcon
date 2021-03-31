@@ -56,6 +56,15 @@ PHP_METHOD(Phalcon_Html_Helper_Script, getAttributes) {
 	ZVAL_UNDEF(&src);
 	ZVAL_UNDEF(&attributes);
 	ZVAL_UNDEF(&required);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_STR(src)
+		Z_PARAM_ARRAY(attributes)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &src_param, &attributes_param);
@@ -80,6 +89,7 @@ PHP_METHOD(Phalcon_Html_Helper_Script, getAttributes) {
 PHP_METHOD(Phalcon_Html_Helper_Script, getTag) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_STRING("script");

@@ -64,4 +64,25 @@ class GetKeysCest
         sort($actual);
         $I->assertEquals($expected, $actual);
     }
+
+    /**
+     * Tests Phalcon\Cache\Adapter\Apcu :: GetNoNExistingKeys()
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2021-03-28
+     */
+    public function cacheAdapterApcuGetNoNExistingKeys(IntegrationTester $I)
+    {
+        $I->wantToTest('Cache\Adapter\Apcu - GetNoNExistingKeys()');
+
+        $serializer = new SerializerFactory();
+        $adapter    = new Apcu($serializer);
+
+        $adapter->clear();
+        $key = 'random-non-existing-key';
+
+        $I->assertNull($adapter->get($key));
+        $I->assertEquals(123, $adapter->get($key, 123));
+        $I->assertFalse($adapter->get($key, false));
+    }
 }

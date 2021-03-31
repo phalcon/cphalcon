@@ -79,6 +79,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, __destruct) {
 
 	ZVAL_UNDEF(&_0);
 
+
 	ZEPHIR_MM_GROW();
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("inTransaction"), PH_NOISY_CC | PH_READONLY);
@@ -101,6 +102,14 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, add) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&item_sub);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(item, phalcon_logger_item_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(1, 0, &item);
 
@@ -121,6 +130,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, begin) {
 
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
+
 
 
 	if (1) {
@@ -149,6 +159,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, commit) {
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_4);
+
 
 	ZEPHIR_MM_GROW();
 
@@ -211,6 +222,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, getFormatter) {
 	ZVAL_UNDEF(&_2$$3);
 	ZVAL_UNDEF(&_3$$3);
 
+
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_OBS_VAR(&_0);
@@ -237,6 +249,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, inTransaction) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "inTransaction");
 
 }
@@ -260,6 +273,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, rollback) {
 	ZVAL_UNDEF(&inTransaction);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+
 
 	ZEPHIR_MM_GROW();
 
@@ -288,6 +302,14 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, setFormatter) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&formatter_sub);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(formatter, phalcon_logger_formatter_formatterinterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(1, 0, &formatter);
 
@@ -298,12 +320,13 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, setFormatter) {
 
 }
 
-zend_object *zephir_init_properties_Phalcon_Logger_Adapter_AbstractAdapter(zend_class_entry *class_type TSRMLS_DC) {
+zend_object *zephir_init_properties_Phalcon_Logger_Adapter_AbstractAdapter(zend_class_entry *class_type) {
 
 		zval _0, _1$$3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
+	
 
 		ZEPHIR_MM_GROW();
 	

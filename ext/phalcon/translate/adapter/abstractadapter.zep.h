@@ -17,24 +17,12 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_translate_adapter_abstractadapter___const
 	ZEND_ARG_ARRAY_INFO(0, options, 0)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_translate_adapter_abstractadapter__, 0, 1, IS_STRING, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_translate_adapter_abstractadapter__, 0, 1, IS_STRING, NULL, 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, translateKey, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, translateKey)
-#endif
 	ZEND_ARG_ARRAY_INFO(0, placeholders, 0)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_translate_adapter_abstractadapter_offsetexists, 0, 1, _IS_BOOL, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_translate_adapter_abstractadapter_offsetexists, 0, 1, _IS_BOOL, NULL, 0)
-#endif
 	ZEND_ARG_INFO(0, translateKey)
 ZEND_END_ARG_INFO()
 
@@ -42,58 +30,24 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_translate_adapter_abstractadapter_offsetg
 	ZEND_ARG_INFO(0, translateKey)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70100
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_translate_adapter_abstractadapter_offsetset, 0, 2, IS_VOID, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_translate_adapter_abstractadapter_offsetset, 0, 2, IS_VOID, NULL, 0)
-#endif
-#else
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_translate_adapter_abstractadapter_offsetset, 0, 0, 2)
-#define arginfo_phalcon_translate_adapter_abstractadapter_offsetset NULL
-#endif
 
 	ZEND_ARG_INFO(0, offset)
 	ZEND_ARG_INFO(0, value)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70100
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_translate_adapter_abstractadapter_offsetunset, 0, 1, IS_VOID, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_translate_adapter_abstractadapter_offsetunset, 0, 1, IS_VOID, NULL, 0)
-#endif
-#else
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_translate_adapter_abstractadapter_offsetunset, 0, 0, 1)
-#define arginfo_phalcon_translate_adapter_abstractadapter_offsetunset NULL
-#endif
 
 	ZEND_ARG_INFO(0, offset)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_translate_adapter_abstractadapter_t, 0, 1, IS_STRING, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_translate_adapter_abstractadapter_t, 0, 1, IS_STRING, NULL, 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, translateKey, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, translateKey)
-#endif
 	ZEND_ARG_ARRAY_INFO(0, placeholders, 0)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_translate_adapter_abstractadapter_replaceplaceholders, 0, 1, IS_STRING, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_translate_adapter_abstractadapter_replaceplaceholders, 0, 1, IS_STRING, NULL, 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, translation, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, translation)
-#endif
 	ZEND_ARG_ARRAY_INFO(0, placeholders, 0)
 ZEND_END_ARG_INFO()
 
