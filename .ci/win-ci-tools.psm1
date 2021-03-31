@@ -255,7 +255,7 @@ function PrintBuildDetails {
 
 function InitializeReleaseVars {
     if ($env:BUILD_TYPE -Match "nts-Win32") {
-        $env:RELEASE_ZIPBALL = "${env:PACKAGE_PREFIX}_${env:PHP_ARCH}_vc${env:VC_VERSION}_php${env:PHP_MINOR}_nts"
+        $env:RELEASE_ZIPBALL = "${env:PACKAGE_PREFIX}_${env:PHP_ARCH}_${env:VC_VERSION}_php${env:PHP_MINOR}_nts"
 
         if ($env:PHP_ARCH -eq 'x86') {
             $env:RELEASE_FOLDER = "Release"
@@ -263,7 +263,7 @@ function InitializeReleaseVars {
             $env:RELEASE_FOLDER = "x64\Release"
         }
     } else {
-        $env:RELEASE_ZIPBALL = "${env:PACKAGE_PREFIX}_${env:PHP_ARCH}_vc${env:VC_VERSION}_php${env:PHP_MINOR}"
+        $env:RELEASE_ZIPBALL = "${env:PACKAGE_PREFIX}_${env:PHP_ARCH}_${env:VC_VERSION}_php${env:PHP_MINOR}"
 
         if ($env:PHP_ARCH -eq 'x86') {
             $env:RELEASE_FOLDER = "Release_TS"
