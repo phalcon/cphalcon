@@ -1,4 +1,4 @@
-# [5.0.0](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0-alpha1) (2020-03-31)
+# [5.0.0](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0.alpha.1) (2020-03-31)
 
 ## Fixed
 - Support for PHP 7.4 and PHP 8.0

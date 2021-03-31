@@ -14,8 +14,8 @@
   <date>2021-03-31</date>
   <time>17:00:00</time>
   <version>
-    <release>5.0.0-alpha1</release>
-    <api>5.0.0-alpha1</api>
+    <release>5.0.0.alpha.1</release>
+    <api>5.0.0.alpha.1</api>
   </version>
   <stability>
     <release>stable</release>
