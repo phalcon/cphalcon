@@ -22,7 +22,7 @@ jobs:
       - name: Setup Environment Variables
         run: |
           echo "ZEPHIR_PARSER_VERSION=v1.3.6" >> $GITHUB_ENV
-          echo "ZEPHIR_VERSION=0.13.0-beta-1" >> $GITHUB_ENV
+          echo "ZEPHIR_VERSION=0.13.0" >> $GITHUB_ENV
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -97,7 +97,9 @@ jobs:
   build-and-test-linux:
     # To prevent build a particular commit use
     #     git commit -m "......... [ci skip]"
-    if: "!contains(github.event.head_commit.message, 'ci skip')"
+    # if: "!contains(github.event.head_commit.message, 'ci skip')"
+    if: "!contains(github.ref, 'windows-builds')"
+
 
     needs: generate
     services:
@@ -248,7 +250,8 @@ jobs:
   build-and-test-macos:
     # To prevent build a particular commit use
     #     git commit -m "......... [ci skip]"
-    if: "!contains(github.event.head_commit.message, 'ci skip')"
+    # if: "!contains(github.event.head_commit.message, 'ci skip')"
+    if: "!contains(github.ref, 'windows-builds')"
 
     needs: generate
     runs-on: ${{ matrix.operating-system }}
