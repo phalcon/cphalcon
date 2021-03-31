@@ -1654,7 +1654,7 @@ zend_object *zephir_init_properties_Phalcon_Loader(zend_class_entry *class_type)
 	ZVAL_UNDEF(&_8$$6);
 	ZVAL_UNDEF(&_10$$7);
 	ZVAL_UNDEF(&_5$$5);
-
+	
 
 		ZEPHIR_MM_GROW();
 	

@@ -69,6 +69,11 @@ PHP_METHOD(Phalcon_Flash_Session, clear) {
 
 /**
  * Returns the messages in the session flasher
+ *
+ * @param string|null $type
+ * @param bool $remove
+ *
+ * @return array
  */
 PHP_METHOD(Phalcon_Flash_Session, getMessages) {
 
@@ -119,6 +124,10 @@ PHP_METHOD(Phalcon_Flash_Session, getMessages) {
 
 /**
  * Checks whether there are messages
+ *
+ * @param string|null $type
+ *
+ * @return bool
  */
 PHP_METHOD(Phalcon_Flash_Session, has) {
 
@@ -153,10 +162,10 @@ PHP_METHOD(Phalcon_Flash_Session, has) {
 	ZVAL_BOOL(&_0, 0);
 	ZEPHIR_CALL_METHOD(&messages, this_ptr, "getsessionmessages", NULL, 0, &_0);
 	zephir_check_call_status();
-	if (Z_TYPE_P(type) != IS_STRING) {
-		RETURN_MM_BOOL(1);
+	if (Z_TYPE_P(type) == IS_STRING) {
+		RETURN_MM_BOOL(zephir_array_isset(&messages, type));
 	}
-	RETURN_MM_BOOL(zephir_array_isset(&messages, type));
+	RETURN_MM_BOOL(zephir_fast_count_int(&messages) > 0);
 
 }
 
@@ -169,19 +178,19 @@ PHP_METHOD(Phalcon_Flash_Session, message) {
 
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *type_param = NULL, *message_param = NULL, messages, _0, _1$$3;
-	zval type, message;
+	zval message;
+	zval *type, type_sub, *message_param = NULL, messages, _0, _1$$3;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&type);
-	ZVAL_UNDEF(&message);
+	ZVAL_UNDEF(&type_sub);
 	ZVAL_UNDEF(&messages);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
+	ZVAL_UNDEF(&message);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
-		Z_PARAM_STR(type)
+		Z_PARAM_ZVAL(type)
 		Z_PARAM_STR(message)
 	ZEND_PARSE_PARAMETERS_END();
 
@@ -189,21 +198,20 @@ PHP_METHOD(Phalcon_Flash_Session, message) {
 
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 0, &type_param, &message_param);
+	zephir_fetch_params(1, 2, 0, &type, &message_param);
 
-	zephir_get_strval(&type, type_param);
 	zephir_get_strval(&message, message_param);
 
 
 	ZVAL_BOOL(&_0, 0);
 	ZEPHIR_CALL_METHOD(&messages, this_ptr, "getsessionmessages", NULL, 0, &_0);
 	zephir_check_call_status();
-	if (!(zephir_array_isset(&messages, &type))) {
+	if (!(zephir_array_isset(&messages, type))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		array_init(&_1$$3);
-		zephir_array_update_zval(&messages, &type, &_1$$3, PH_COPY | PH_SEPARATE);
+		zephir_array_update_zval(&messages, type, &_1$$3, PH_COPY | PH_SEPARATE);
 	}
-	zephir_array_update_multi(&messages, &message, SL("za"), 2, &type);
+	zephir_array_update_multi(&messages, &message, SL("za"), 2, type);
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setsessionmessages", NULL, 0, &messages);
 	zephir_check_call_status();
 	RETURN_MM_NULL();
@@ -256,7 +264,7 @@ PHP_METHOD(Phalcon_Flash_Session, output) {
 	}
 	ZEPHIR_CALL_METHOD(&messages, this_ptr, "getsessionmessages", NULL, 0, &_0);
 	zephir_check_call_status();
-	zephir_is_iterable(&messages, 0, "phalcon/Flash/Session.zep", 91);
+	zephir_is_iterable(&messages, 0, "phalcon/Flash/Session.zep", 100);
 	if (Z_TYPE_P(&messages) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&messages), _3, _4, _1)
 		{
@@ -300,6 +308,11 @@ PHP_METHOD(Phalcon_Flash_Session, output) {
 
 /**
  * Returns the messages stored in session
+ *
+ * @param bool        $remove
+ * @param string|null $type
+ *
+ * @return array
  */
 PHP_METHOD(Phalcon_Flash_Session, getSessionMessages) {
 
@@ -455,7 +468,7 @@ PHP_METHOD(Phalcon_Flash_Session, getSessionService) {
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, &_2$$4, "__construct", NULL, 8, &_3$$4);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_2$$4, "phalcon/Flash/Session.zep", 160);
+		zephir_throw_exception_debug(&_2$$4, "phalcon/Flash/Session.zep", 174);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -478,7 +491,7 @@ PHP_METHOD(Phalcon_Flash_Session, getSessionService) {
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, &_10$$6, "__construct", NULL, 8, &_11$$6);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_10$$6, "phalcon/Flash/Session.zep", 168);
+		zephir_throw_exception_debug(&_10$$6, "phalcon/Flash/Session.zep", 182);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

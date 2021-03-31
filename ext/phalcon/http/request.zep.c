@@ -4840,7 +4840,7 @@ zend_object *zephir_init_properties_Phalcon_Http_Request(zend_class_entry *class
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
-
+	
 
 		ZEPHIR_MM_GROW();
 	

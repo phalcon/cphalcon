@@ -12,9 +12,9 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
-#include "kernel/memory.h"
-#include "kernel/fcall.h"
 #include "kernel/object.h"
+#include "kernel/fcall.h"
+#include "kernel/memory.h"
 #include "kernel/operators.h"
 
 
@@ -39,26 +39,18 @@ ZEPHIR_INIT_CLASS(Phalcon_Storage_Serializer_Igbinary) {
  */
 PHP_METHOD(Phalcon_Storage_Serializer_Igbinary, serialize) {
 
-	zval _0, _1, _2;
+	zval _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1);
-	ZVAL_UNDEF(&_2);
 
 
 	ZEPHIR_MM_GROW();
 
-	zephir_read_property(&_1, this_ptr, ZEND_STRL("data"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "isserializable", NULL, 0, &_1);
-	zephir_check_call_status();
-	if (!(zephir_is_true(&_0))) {
-		RETURN_MM_MEMBER(getThis(), "data");
-	}
-	zephir_read_property(&_2, this_ptr, ZEND_STRL("data"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_FUNCTION("igbinary_serialize", NULL, 0, &_2);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("data"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_RETURN_CALL_FUNCTION("igbinary_serialize", NULL, 0, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 

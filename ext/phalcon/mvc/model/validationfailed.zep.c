@@ -44,6 +44,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_ValidationFailed) {
 	zend_declare_property_null(phalcon_mvc_model_validationfailed_ce, SL("model"), ZEND_ACC_PROTECTED);
 
 	phalcon_mvc_model_validationfailed_ce->create_object = zephir_init_properties_Phalcon_Mvc_Model_ValidationFailed;
+
 	return SUCCESS;
 
 }
@@ -130,7 +131,7 @@ zend_object *zephir_init_properties_Phalcon_Mvc_Model_ValidationFailed(zend_clas
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
-
+	
 
 		ZEPHIR_MM_GROW();
 	

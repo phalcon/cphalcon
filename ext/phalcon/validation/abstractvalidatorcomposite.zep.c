@@ -157,7 +157,7 @@ zend_object *zephir_init_properties_Phalcon_Validation_AbstractValidatorComposit
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_3$$4);
-
+	
 
 		ZEPHIR_MM_GROW();
 	

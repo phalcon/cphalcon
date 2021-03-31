@@ -69,6 +69,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Debug_Dump) {
 	zend_declare_property_null(phalcon_debug_dump_ce, SL("styles"), ZEND_ACC_PROTECTED);
 
 	phalcon_debug_dump_ce->create_object = zephir_init_properties_Phalcon_Debug_Dump;
+
 	return SUCCESS;
 
 }
@@ -1420,7 +1421,7 @@ zend_object *zephir_init_properties_Phalcon_Debug_Dump(zend_class_entry *class_t
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_3$$4);
-
+	
 
 		ZEPHIR_MM_GROW();
 	

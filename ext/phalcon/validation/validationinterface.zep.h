@@ -4,7 +4,7 @@ extern zend_class_entry *phalcon_validation_validationinterface_ce;
 ZEPHIR_INIT_CLASS(Phalcon_Validation_ValidationInterface);
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_validation_validationinterface_add, 0, 2, Phalcon\\Validation\\ValidationInterface, 0)
-	ZEND_ARG_TYPE_INFO(0, field, IS_STRING, 0)
+	ZEND_ARG_INFO(0, field)
 	ZEND_ARG_OBJ_INFO(0, validator, Phalcon\\Validation\\ValidatorInterface, 0)
 ZEND_END_ARG_INFO()
 
@@ -39,7 +39,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_validation_validationinterface_getvalue, 
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_validation_validationinterface_rule, 0, 2, Phalcon\\Validation\\ValidationInterface, 0)
-	ZEND_ARG_TYPE_INFO(0, field, IS_STRING, 0)
+	ZEND_ARG_INFO(0, field)
 	ZEND_ARG_OBJ_INFO(0, validator, Phalcon\\Validation\\ValidatorInterface, 0)
 ZEND_END_ARG_INFO()
 
