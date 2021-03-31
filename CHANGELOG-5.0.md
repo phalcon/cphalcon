@@ -1,6 +1,7 @@
-# [5.0.0](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0) (xxxx-xx-xx)
+# [5.0.0](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0-alpha.1) (2020-03-31)
 
 ## Fixed
+- Support for PHP 7.4 and PHP 8.0
 - Fixed `Phalcon\Mvc\Model::average()` to return `float` value when is `string` [#15287](https://github.com/phalcon/cphalcon/pull/15287)
 - Fixed `Phalcon\Storage\Serializer\Igbinary` to store `is_numeric` and `bool` values properly [#15240](https://github.com/phalcon/cphalcon/pull/15240)
 - Fixed `Phalcon\Validation\Validator\Confirmation` was failing to compare cases such as 000123 = 123 [#15347](https://github.com/phalcon/cphalcon/pull/15347)
