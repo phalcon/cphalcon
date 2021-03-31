@@ -14,8 +14,8 @@
   <date>2021-03-31</date>
   <time>17:00:00</time>
   <version>
-    <release>5.0.0-alpha.1</release>
-    <api>5.0.0-alpha.1</api>
+    <release>5.0.0-alpha1</release>
+    <api>5.0.0-alpha1</api>
   </version>
   <stability>
     <release>stable</release>
@@ -25,7 +25,7 @@
   <notes>
     Full changelog can be found at: https://github.com/phalcon/cphalcon/blob/master/CHANGELOG-5.0.md
 
-    # [5.0.0](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0-alpha.1) (2020-03-31)
+    # [5.0.0](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0-alpha1) (2020-03-31)
 
     ## Fixed
     - Support for PHP 7.4 and PHP 8.0
