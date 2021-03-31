@@ -31,26 +31,35 @@ class Session extends AbstractFlash
 
     /**
      * Returns the messages in the session flasher
+     *
+     * @param string|null $type
+     * @param bool $remove
+     *
+     * @return array
      */
-    public function getMessages(type = null, bool remove = true) -> array
+    public function getMessages(var type = null, bool remove = true) -> array
     {
         return this->getSessionMessages(remove, type);
     }
 
     /**
      * Checks whether there are messages
+     *
+     * @param string|null $type
+     *
+     * @return bool
      */
-    public function has(type = null) -> bool
+    public function has(var type = null) -> bool
     {
         var messages;
 
         let messages = this->getSessionMessages(false);
 
-        if typeof type != "string" {
-            return true;
+        if typeof type == "string" {
+            return isset messages[type];
         }
 
-        return isset messages[type];
+        return count(messages) > 0;
     }
 
     /**
@@ -58,7 +67,7 @@ class Session extends AbstractFlash
      *
      * @return null|string|void
      */
-    public function message(string type, string message) -> string | null
+    public function message(var type, string message) -> string | null
     {
         var messages;
 
@@ -93,8 +102,13 @@ class Session extends AbstractFlash
 
     /**
      * Returns the messages stored in session
+     *
+     * @param bool        $remove
+     * @param string|null $type
+     *
+     * @return array
      */
-    protected function getSessionMessages(bool remove, type = null) -> array
+    protected function getSessionMessages(bool remove, var type = null) -> array
     {
         var session, messages, returnMessages;
 
