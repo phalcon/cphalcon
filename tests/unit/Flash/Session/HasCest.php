@@ -20,7 +20,6 @@ use UnitTester;
 
 class HasCest
 {
-
     use DiTrait;
 
     public function _before(UnitTester $I): void
