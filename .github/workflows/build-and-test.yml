@@ -372,7 +372,7 @@ jobs:
       matrix:
         operating-system: [windows-2016]
         php-versions: ['7.4', '8.0']
-        ts: [ts, nts]
+        ts: nts # [ts, nts]
         include:
           - php-versions: '7.4'
             vc_num: 'vc15'
@@ -505,7 +505,7 @@ jobs:
           Import-Module .\.ci\win-ci-tools.psm1
           Expand-Item7zip "phalcon-pecl\phalcon-pecl.tgz" "${env:Temp}"
           Expand-Item7zip "${env:Temp}\phalcon-pecl.tar" "${env:PHP_PECL_PATH}\phalcon"
-          cd /d %PHP_PECL_PATH%\phalcon
+          cd c:\tools\pecl\phalcon
           dir
 
       - name: PSR extension | init, phpize
