@@ -532,6 +532,7 @@ jobs:
           cd /d %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
           nmake
           nmake install
+          dir
 
       - name: Phalcon | phpize
         shell: cmd
@@ -556,7 +557,9 @@ jobs:
           nmake
 
       - name: Inspecting Phalcon Extension DLL File
-        run: Get-PhpExtension "${env:RELEASE_DLL_PATH}"
+        run: |
+          Get-PhpExtension "${env:RELEASE_DLL_PATH}"
+          Get-PhpExtension "${env:PHP_PECL_PATH}\psr\psr-${env:PSR_VERSION}\${env:RELEASE_FOLDER}\php_psr.dll"
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v1
