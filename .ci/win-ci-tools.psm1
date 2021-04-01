@@ -274,6 +274,7 @@ function InitializeReleaseVars {
 
     $env:RELEASE_DLL_PATH = "${env:PHP_PECL_PATH}\phalcon\phalcon-${env:PHALCON_VERSION}\${env:RELEASE_FOLDER}\${env:EXTENSION_FILE}"
 
+    Write-Output "RELEASE_FOLDER=${env:RELEASE_FOLDER}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
     Write-Output "RELEASE_ZIPBALL=${env:RELEASE_ZIPBALL}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
     Write-Output "RELEASE_DLL_PATH=${env:RELEASE_DLL_PATH}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 }
@@ -290,4 +291,22 @@ function EnablePhalconExtension {
     Copy-Item "${env:RELEASE_DLL_PATH}" "${env:PHPROOT}\ext\${env:EXTENSION_FILE}"
 
     Enable-PhpExtension -Extension "${env:EXTENSION_NAME}" -Path "${env:PHPROOT}"
+}
+
+function EnablePsrExtension {
+    if (-not (Test-Path env:RELEASE_FOLDER)) {
+        InitializeReleaseVars
+    }
+
+    # C:\tools\pecl\psr\psr-1.0.1\x64\Release\php_psr.dll
+    $ExtensionName = "php_psr.dll"
+    $PsrExtension = "${env:PHP_PECL_PATH}\psr\psr-${env:PSR_VERSION}\${env:RELEASE_FOLDER}\$ExtensionName"
+
+    if (-not (Test-Path "$PsrExtension")) {
+        throw "Unable to locate extension path: $PsrExtension"
+    }
+
+    Copy-Item $PsrExtension "${env:PHPROOT}\ext\$ExtensionName"
+
+    Enable-PhpExtension -Extension $ExtensionName -Path "${env:PHPROOT}"
 }

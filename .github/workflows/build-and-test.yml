@@ -564,9 +564,10 @@ jobs:
           name: ${{ env.RELEASE_ZIPBALL }}
           path: ${{ env.RELEASE_DLL_PATH }}
 
-      - name: Enable Phalcon
+      - name: Enable Extensions
         run: |
           Import-Module .\.ci\win-ci-tools.psm1
+          EnablePsrExtension
           EnablePhalconExtension
 
       - name: Verify Install
