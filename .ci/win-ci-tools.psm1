@@ -299,14 +299,14 @@ function EnablePsrExtension {
     }
 
     # C:\tools\pecl\psr\psr-1.0.1\x64\Release\php_psr.dll
-    $ExtensionName = 'php_psr.dll'
-    $PsrExtension = "${env:PHP_PECL_PATH}\psr\psr-${env:PSR_VERSION}\${env:RELEASE_FOLDER}\${ExtensionName}"
+    $env:PSR_EXT_NAME = 'php_psr.dll'
+    $env:PSR_DLL_PATH = "${env:PHP_PECL_PATH}\psr\psr-${env:PSR_VERSION}\${env:RELEASE_FOLDER}\${env:PSR_EXT_NAME}"
 
-    if (-not (Test-Path ${PsrExtension})) {
-        throw "Unable to locate extension path: ${PsrExtension}"
+    if (-not (Test-Path ${env:PSR_DLL_PATH})) {
+        throw "Unable to locate extension path: ${env:PSR_DLL_PATH}"
     }
 
-    Copy-Item $PsrExtension "${env:PHPROOT}\ext\${ExtensionName}"
+    Copy-Item "${env:PSR_DLL_PATH}" "${env:PHPROOT}\ext\${env:PSR_EXT_NAME}"
 
-    Enable-PhpExtension -Extension $ExtensionName -Path "${env:PHPROOT}"
+    Enable-PhpExtension -Extension 'psr' -Path "${env:PHPROOT}"
 }

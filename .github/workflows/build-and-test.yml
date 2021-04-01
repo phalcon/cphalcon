@@ -569,9 +569,9 @@ jobs:
 
       - name: Enable Extensions
         run: |
-          dir "${env:PHPROOT}\ext"
           Import-Module .\.ci\win-ci-tools.psm1
           EnablePsrExtension
+          dir "${env:PHPROOT}\ext"
           EnablePhalconExtension
 
       - name: Verify Install
