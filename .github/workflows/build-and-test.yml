@@ -516,7 +516,7 @@ jobs:
           git clone https://github.com/jbboehr/php-psr.git %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
           if not exist "%PHP_DEVPACK%\include\ext\psr" MkDir "%PHP_DEVPACK%\include\ext\psr"
           cd /d %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
-          phpize
+          buildconf
       #    xcopy %PHP_PECL_PATH%\psr\psr-%PSR_VERSION% %PHP_DEVPACK%\include\ext\psr /E /Y
 
       - name: PSR extension | configure
@@ -545,7 +545,7 @@ jobs:
           set PATH=%PATH%;%PHP_DEVPACK%
           cd /d %PHP_PECL_PATH%\phalcon\phalcon-%PHALCON_VERSION%
           dir
-          phpize
+          buildconf
 
       - name: Phalcon | Configure Project
         shell: cmd
