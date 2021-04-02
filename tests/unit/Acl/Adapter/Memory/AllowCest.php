@@ -278,7 +278,7 @@ class AllowCest
     {
         $errorMessage = "You did not provide any parameters when 'Guests' can " .
                         "'update' 'Post'. We will use default action when no arguments. " .
-                        "at tests/unit/Acl/Adapter/Memory/AllowCest.php:329";
+                        "at tests/unit/Acl/Adapter/Memory/AllowCest.php:332";
 
         if (PHP_OS_FAMILY === 'Windows') {
             $errorMessage = str_replace('/', '\\', $errorMessage);
