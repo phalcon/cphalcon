@@ -36,6 +36,13 @@ jobs:
         with:
           fetch-depth: 1
 
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          tools: pecl
+          extensions: mbstring, intl, json, imagick, redis, igbinary, apcu, msgpack, memcached, yaml, psr
+
       - name: Install System Dependencies
         run: |
           sudo apt-get update --quiet --yes 1>/dev/null
