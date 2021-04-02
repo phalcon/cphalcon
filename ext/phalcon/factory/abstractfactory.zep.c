@@ -45,6 +45,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Factory_AbstractFactory) {
 	zend_declare_property_null(phalcon_factory_abstractfactory_ce, SL("services"), ZEND_ACC_PROTECTED);
 
 	phalcon_factory_abstractfactory_ce->create_object = zephir_init_properties_Phalcon_Factory_AbstractFactory;
+
 	return SUCCESS;
 
 }
@@ -262,7 +263,7 @@ zend_object *zephir_init_properties_Phalcon_Factory_AbstractFactory(zend_class_e
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_3$$4);
-
+	
 
 		ZEPHIR_MM_GROW();
 	

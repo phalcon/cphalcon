@@ -33,6 +33,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_ValidationInterface) {
 
 /**
  * Adds a validator to a field
+ *
+ * @param string|array       $field
+ * @param ValidatorInterface $validator
+ *
+ * @return ValidatorInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Validation_ValidationInterface, add);
 /**
@@ -75,6 +80,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Validation_ValidationInterface, getValidators);
 ZEPHIR_DOC_METHOD(Phalcon_Validation_ValidationInterface, getValue);
 /**
  * Alias of `add` method
+ *
+ * @param string|array       $field
+ * @param ValidatorInterface $validator
+ *
+ * @return ValidatorInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Validation_ValidationInterface, rule);
 /**

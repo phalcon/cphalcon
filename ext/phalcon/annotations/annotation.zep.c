@@ -59,6 +59,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Annotation) {
 	zend_declare_property_null(phalcon_annotations_annotation_ce, SL("name"), ZEND_ACC_PROTECTED);
 
 	phalcon_annotations_annotation_ce->create_object = zephir_init_properties_Phalcon_Annotations_Annotation;
+
 	return SUCCESS;
 
 }
@@ -499,7 +500,7 @@ zend_object *zephir_init_properties_Phalcon_Annotations_Annotation(zend_class_en
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_3$$4);
-
+	
 
 		ZEPHIR_MM_GROW();
 	

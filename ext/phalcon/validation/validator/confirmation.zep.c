@@ -212,7 +212,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Confirmation, compare) {
 
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *a_param = NULL, *b_param = NULL, _0, _1, _2, _3$$3, _4$$3, _5$$3;
+	zval *a_param = NULL, *b_param = NULL, _0, _1, _2, _6, _3$$3, _4$$3, _5$$3;
 	zval a, b;
 	zval *this_ptr = getThis();
 
@@ -221,6 +221,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Confirmation, compare) {
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_6);
 	ZVAL_UNDEF(&_3$$3);
 	ZVAL_UNDEF(&_4$$3);
 	ZVAL_UNDEF(&_5$$3);
@@ -262,7 +263,9 @@ PHP_METHOD(Phalcon_Validation_Validator_Confirmation, compare) {
 		zephir_check_call_status();
 		zephir_get_strval(&b, &_5$$3);
 	}
-	RETURN_MM_BOOL(ZEPHIR_IS_EQUAL(&a, &b));
+	ZEPHIR_CALL_FUNCTION(&_6, "strcmp", NULL, 409, &a, &b);
+	zephir_check_call_status();
+	RETURN_MM_BOOL(ZEPHIR_IS_LONG_IDENTICAL(&_6, 0));
 
 }
 

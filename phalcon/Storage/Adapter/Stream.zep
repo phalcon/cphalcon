@@ -145,6 +145,10 @@ class Stream extends AbstractAdapter
     {
         var content, filepath, payload;
 
+        if this->has(key) == false {
+            return defaultValue;
+        }
+
         let filepath = this->getFilepath(key);
 
         if !file_exists(filepath) {
@@ -163,7 +167,7 @@ class Stream extends AbstractAdapter
 
         let content = Arr::get(payload, "content", null);
 
-        return this->getUnserializedData(content, defaultValue);
+        return this->getUnserializedData(content);
     }
 
     /**

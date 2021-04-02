@@ -1,9 +1,3 @@
-# [4.1.1](https://github.com/phalcon/cphalcon/releases/tag/v4.1.0) (xxxx-xx-xx)
-
-## Fixed
-- Fixed `Logger\Log::log()` `log` to recognize all log levels [#15214](https://github.com/phalcon/cphalcon/issues/15214)
-- Changed `setClaims` to be protected so that the `Phalcon\Security\JWT\Builder` class can be properly extended. [#15322](https://github.com/phalcon/cphalcon/issues/15322)
-
 # [4.1.0](https://github.com/phalcon/cphalcon/releases/tag/v4.1.0) (2020-10-31)
 ## Added
 - Added JWT (JSON Web Tokens) support under `Phalcon\Security\JWT`. Offers support for:

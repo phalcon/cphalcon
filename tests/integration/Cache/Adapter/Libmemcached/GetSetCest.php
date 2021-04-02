@@ -17,8 +17,8 @@ use Codeception\Example;
 use Phalcon\Cache\Adapter\Libmemcached;
 use Phalcon\Storage\Exception;
 use Phalcon\Storage\SerializerFactory;
+use Phalcon\Test\Fixtures\Cache\CacheFixtureData;
 use Phalcon\Test\Fixtures\Traits\LibmemcachedTrait;
-use stdClass;
 use IntegrationTester;
 
 use function getOptionsLibmemcached;
@@ -96,35 +96,6 @@ class GetSetCest
 
     private function getExamples(): array
     {
-        return [
-            [
-                'string',
-                'random string',
-            ],
-            [
-                'integer',
-                123456,
-            ],
-            [
-                'float',
-                123.456,
-            ],
-            [
-                'boolean true',
-                true,
-            ],
-            [
-                'boolean false',
-                false,
-            ],
-            [
-                'null',
-                null,
-            ],
-            [
-                'object',
-                new stdClass(),
-            ],
-        ];
+        return CacheFixtureData::getExamples();
     }
 }

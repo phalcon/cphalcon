@@ -48,6 +48,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Input_Checkbox) {
 	zend_declare_property_string(phalcon_html_helper_input_checkbox_ce, SL("type"), "checkbox", ZEND_ACC_PROTECTED);
 
 	phalcon_html_helper_input_checkbox_ce->create_object = zephir_init_properties_Phalcon_Html_Helper_Input_Checkbox;
+
 	return SUCCESS;
 
 }
@@ -334,7 +335,7 @@ zend_object *zephir_init_properties_Phalcon_Html_Helper_Input_Checkbox(zend_clas
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_3$$4);
-
+	
 
 		ZEPHIR_MM_GROW();
 	

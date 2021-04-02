@@ -49,6 +49,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Input_AbstractInput) {
 	zend_declare_property_null(phalcon_html_helper_input_abstractinput_ce, SL("attributes"), ZEND_ACC_PROTECTED);
 
 	phalcon_html_helper_input_abstractinput_ce->create_object = zephir_init_properties_Phalcon_Html_Helper_Input_AbstractInput;
+
 	return SUCCESS;
 
 }
@@ -223,7 +224,7 @@ zend_object *zephir_init_properties_Phalcon_Html_Helper_Input_AbstractInput(zend
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
-
+	
 
 		ZEPHIR_MM_GROW();
 	

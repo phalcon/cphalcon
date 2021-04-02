@@ -51,6 +51,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Cli_Console) {
 	zend_declare_property_null(phalcon_cli_console_ce, SL("options"), ZEND_ACC_PROTECTED);
 
 	phalcon_cli_console_ce->create_object = zephir_init_properties_Phalcon_Cli_Console;
+
 	return SUCCESS;
 
 }
@@ -578,7 +579,7 @@ zend_object *zephir_init_properties_Phalcon_Cli_Console(zend_class_entry *class_
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_3$$4);
 	ZVAL_UNDEF(&_5$$5);
-
+	
 
 		ZEPHIR_MM_GROW();
 	

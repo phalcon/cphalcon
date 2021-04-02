@@ -50,6 +50,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_AbstractList) {
 	zend_declare_property_null(phalcon_html_helper_abstractlist_ce, SL("store"), ZEND_ACC_PROTECTED);
 
 	phalcon_html_helper_abstractlist_ce->create_object = zephir_init_properties_Phalcon_Html_Helper_AbstractList;
+
 	return SUCCESS;
 
 }
@@ -188,7 +189,7 @@ zend_object *zephir_init_properties_Phalcon_Html_Helper_AbstractList(zend_class_
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_3$$4);
-
+	
 
 		ZEPHIR_MM_GROW();
 	

@@ -80,9 +80,9 @@ class GetSetCest extends HttpBase
         $cookieTwo   = $this->getCookie('cookie-2');
         $cookieThree = $this->getCookie('cookie-3');
 
-        $I->assertRegexp('/HttpOnly$/', $cookieOne);
-        $I->assertNotRegexp('/HttpOnly$/', $cookieTwo);
-        $I->assertNotRegexp('/HttpOnly$/', $cookieThree);
+        $I->assertStringContainsString('HttpOnly', $cookieOne);
+        $I->assertStringNotContainsString('HttpOnly', $cookieTwo);
+        $I->assertStringNotContainsString('HttpOnly', $cookieThree);
     }
 
     /**
@@ -95,10 +95,6 @@ class GetSetCest extends HttpBase
     public function httpCookieSetOptions(UnitTester $I)
     {
         $I->wantToTest('Http\Response\Cookies - set() options parameter');
-
-        if (!version_compare(phpversion(), '7.3', '>=')) {
-            $I->skipTest('Cookie options are only available starting from PHP 7.3');
-        }
 
         $I->checkExtensionIsLoaded('xdebug');
 
@@ -165,9 +161,9 @@ class GetSetCest extends HttpBase
         $cookieThree = $this->getCookie('samesite-cookie-3');
         $cookieFour  = $this->getCookie('samesite-cookie-4');
 
-        $I->assertRegexp('/SameSite=None$/', $cookieOne);
-        $I->assertRegexp('/SameSite=Lax$/', $cookieTwo);
-        $I->assertRegexp('/SameSite=Strict$/', $cookieThree);
-        $I->assertNotRegexp('/SameSite/', $cookieFour);
+        $I->assertStringContainsString('SameSite=None', $cookieOne);
+        $I->assertStringContainsString('SameSite=Lax', $cookieTwo);
+        $I->assertStringContainsString('SameSite=Strict', $cookieThree);
+        $I->assertStringNotContainsString('SameSite', $cookieFour);
     }
 }

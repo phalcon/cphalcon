@@ -10,7 +10,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, addFunction);
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, attributeReader);
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compile);
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileAutoEscape);
-PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileCache);
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileCall);
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileCase);
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, compileDo);
@@ -78,11 +77,6 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_compile, 0,
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_compileautoescape, 0, 2, IS_STRING, 0)
-	ZEND_ARG_ARRAY_INFO(0, statement, 0)
-	ZEND_ARG_TYPE_INFO(0, extendsMode, _IS_BOOL, 0)
-ZEND_END_ARG_INFO()
-
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_compilecache, 0, 1, IS_STRING, 0)
 	ZEND_ARG_ARRAY_INFO(0, statement, 0)
 	ZEND_ARG_TYPE_INFO(0, extendsMode, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
@@ -254,7 +248,6 @@ ZEPHIR_INIT_FUNCS(phalcon_mvc_view_engine_volt_compiler_method_entry) {
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, attributeReader, arginfo_phalcon_mvc_view_engine_volt_compiler_attributereader, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, compile, arginfo_phalcon_mvc_view_engine_volt_compiler_compile, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, compileAutoEscape, arginfo_phalcon_mvc_view_engine_volt_compiler_compileautoescape, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, compileCache, arginfo_phalcon_mvc_view_engine_volt_compiler_compilecache, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, compileCall, arginfo_phalcon_mvc_view_engine_volt_compiler_compilecall, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, compileCase, arginfo_phalcon_mvc_view_engine_volt_compiler_compilecase, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_View_Engine_Volt_Compiler, compileDo, arginfo_phalcon_mvc_view_engine_volt_compiler_compiledo, ZEND_ACC_PUBLIC)

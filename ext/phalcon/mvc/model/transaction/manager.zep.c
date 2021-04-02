@@ -883,7 +883,7 @@ zend_object *zephir_init_properties_Phalcon_Mvc_Model_Transaction_Manager(zend_c
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
-
+	
 
 		ZEPHIR_MM_GROW();
 	

@@ -64,6 +64,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Title) {
 	zend_declare_property_string(phalcon_html_helper_title_ce, SL("separator"), "", ZEND_ACC_PROTECTED);
 
 	phalcon_html_helper_title_ce->create_object = zephir_init_properties_Phalcon_Html_Helper_Title;
+
 	return SUCCESS;
 
 }
@@ -410,7 +411,7 @@ zend_object *zephir_init_properties_Phalcon_Html_Helper_Title(zend_class_entry *
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_3$$4);
-
+	
 
 		ZEPHIR_MM_GROW();
 	

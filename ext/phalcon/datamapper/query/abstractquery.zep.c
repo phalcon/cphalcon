@@ -61,6 +61,7 @@ ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Query_AbstractQuery) {
 	zend_declare_property_null(phalcon_datamapper_query_abstractquery_ce, SL("store"), ZEND_ACC_PROTECTED);
 
 	phalcon_datamapper_query_abstractquery_ce->create_object = zephir_init_properties_Phalcon_DataMapper_Query_AbstractQuery;
+
 	return SUCCESS;
 
 }
@@ -632,7 +633,7 @@ zend_object *zephir_init_properties_Phalcon_DataMapper_Query_AbstractQuery(zend_
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
-
+	
 
 		ZEPHIR_MM_GROW();
 	

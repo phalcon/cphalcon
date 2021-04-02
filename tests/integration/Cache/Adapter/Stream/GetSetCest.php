@@ -13,10 +13,12 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Cache\Adapter\Stream;
 
+use Codeception\Example;
 use Phalcon\Cache\Adapter\Stream;
 use Phalcon\Storage\Exception;
 use Phalcon\Storage\SerializerFactory;
 use IntegrationTester;
+use Phalcon\Test\Fixtures\Cache\CacheFixtureData;
 
 use function file_put_contents;
 use function outputDir;
@@ -122,5 +124,37 @@ class GetSetCest
         $I->assertEquals($expected, $actual);
 
         $I->safeDeleteFile($target . 'test-key');
+    }
+
+    /**
+     * Tests Phalcon\Cache\Adapter\Stream :: get()
+     *
+     * @dataProvider getExamples
+     *
+     * @throws Exception
+     * @since        2021-03-28
+     *
+     * @author       Phalcon Team <team@phalcon.io>
+     */
+    public function cacheAdapterStreamGetSet(IntegrationTester $I, Example $example)
+    {
+        $I->wantToTest('Cache\Adapter\Stream - get()/set() - ' . $example[0]);
+
+        $serializer = new SerializerFactory();
+        $adapter    = new Stream($serializer, ['storageDir' => outputDir()]);
+
+        $key = 'cache-data';
+
+        $result = $adapter->set($key, $example[1]);
+        $I->assertTrue($result);
+
+        $expected = $example[1];
+        $actual   = $adapter->get($key);
+        $I->assertEquals($expected, $actual);
+    }
+
+    private function getExamples(): array
+    {
+        return CacheFixtureData::getExamples();
     }
 }

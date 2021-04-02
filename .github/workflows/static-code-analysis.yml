@@ -5,11 +5,6 @@ on:
     paths-ignore:
       - '**.md'
       - '**.txt'
-  pull_request:
-    branches:
-      - master
-      - 4.0.x
-      - 4.1.x
 
 jobs:
   phpcs:

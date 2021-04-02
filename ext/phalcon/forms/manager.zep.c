@@ -39,6 +39,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Forms_Manager) {
 	zend_declare_property_null(phalcon_forms_manager_ce, SL("forms"), ZEND_ACC_PROTECTED);
 
 	phalcon_forms_manager_ce->create_object = zephir_init_properties_Phalcon_Forms_Manager;
+
 	return SUCCESS;
 
 }
@@ -209,7 +210,7 @@ zend_object *zephir_init_properties_Phalcon_Forms_Manager(zend_class_entry *clas
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
-
+	
 
 		ZEPHIR_MM_GROW();
 	

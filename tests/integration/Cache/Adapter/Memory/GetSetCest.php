@@ -16,7 +16,7 @@ namespace Phalcon\Test\Integration\Cache\Adapter\Memory;
 use Codeception\Example;
 use Phalcon\Cache\Adapter\Memory;
 use Phalcon\Storage\SerializerFactory;
-use stdClass;
+use Phalcon\Test\Fixtures\Cache\CacheFixtureData;
 use IntegrationTester;
 
 class GetSetCest
@@ -50,27 +50,6 @@ class GetSetCest
 
     private function getExamples(): array
     {
-        return [
-            [
-                'string',
-                'random string',
-            ],
-            [
-                'integer',
-                123456,
-            ],
-            [
-                'float',
-                123.456,
-            ],
-            [
-                'boolean',
-                true,
-            ],
-            [
-                'object',
-                new stdClass(),
-            ],
-        ];
+        return CacheFixtureData::getExamples();
     }
 }
