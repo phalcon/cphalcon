@@ -21,7 +21,7 @@ use Phalcon\Storage\Serializer\SerializerInterface;
 abstract class AbstractAdapter implements AdapterInterface
 {
     /**
-     * @var mixed
+     * @var mixed|null
      */
     protected adapter;
 
@@ -99,6 +99,11 @@ abstract class AbstractAdapter implements AdapterInterface
 
     /**
      * Reads data from the adapter
+     *
+     * @param string key
+     * @param mixed|null defaultValue
+     *
+     * @return mixed
      */
     abstract public function get(string! key, var defaultValue = null) -> var;
 
@@ -124,6 +129,10 @@ abstract class AbstractAdapter implements AdapterInterface
 
     /**
      * Stores data in the adapter
+     *
+     * @param string key
+     * @param mixed value
+     * @param DateInterval|int|null ttl
      */
     abstract public function set(string! key, var value, var ttl = null) -> bool;
 

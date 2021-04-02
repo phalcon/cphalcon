@@ -39,27 +39,45 @@ class Tag
     const XHTML20 = 10;
     const XHTML5 = 11;
 
+    /**
+     * @var bool
+     */
     protected static autoEscape = true;
 
     /**
      * DI Container
+     *
+     * @var DiInterface|null
      */
-    protected static container;
+    protected static container = null;
 
     /**
      * Pre-assigned values for components
+     *
+     * @var array
      */
-    protected static displayValues;
+    protected static displayValues = [];
 
-    protected static documentAppendTitle = null;
+    /**
+     * @var array
+     */
+    protected static documentAppendTitle = [];
 
-    protected static documentPrependTitle = null;
+    /**
+     * @var array
+     */
+    protected static documentPrependTitle = [];
 
     /**
      * HTML document title
+     *
+     * @var string|null
      */
     protected static documentTitle = null;
 
+    /**
+     * @var string|null
+     */
     protected static documentTitleSeparator = null;
 
     /**
@@ -79,17 +97,15 @@ class Tag
 
     /**
      * Appends a text to current document title
+     *
+     * @param array|string title
      */
     public static function appendTitle(var title) -> void
     {
-        if self::documentAppendTitle === null {
-            let self::documentAppendTitle = [];
-        }
-
         if typeof title == "array" {
-            let self::documentAppendTitle = title ;
+            let self::documentAppendTitle = title;
         } else {
-            let self::documentAppendTitle[] = title ;
+            let self::documentAppendTitle[] = title;
         }
     }
 
@@ -408,10 +424,6 @@ class Tag
         );
 
         if prepend {
-            if self::documentPrependTitle === null {
-                let self::documentPrependTitle = [];
-            }
-
             let documentPrependTitle = self::documentPrependTitle;
 
             if !empty documentPrependTitle {
@@ -428,10 +440,6 @@ class Tag
         }
 
         if append {
-            if self::documentAppendTitle === null {
-                let self::documentAppendTitle = [];
-            }
-
             let documentAppendTitle = self::documentAppendTitle;
 
             if !empty documentAppendTitle {
@@ -774,17 +782,15 @@ class Tag
 
     /**
      * Prepends a text to current document title
+     *
+     * @param array|string title
      */
     public static function prependTitle(var title) -> void
     {
-        if self::documentPrependTitle === null {
-            let self::documentPrependTitle = [];
-        }
-
         if typeof title == "array" {
-            let self::documentPrependTitle = title ;
+            let self::documentPrependTitle = title;
         } else {
-            let self::documentPrependTitle[] = title ;
+            let self::documentPrependTitle[] = title;
         }
     }
 
@@ -1045,7 +1051,7 @@ class Tag
      */
     public static function setDefaults(array! values, bool merge = false) -> void
     {
-        if merge && typeof self::displayValues == "array" {
+        if merge {
             let self::displayValues = array_merge(self::displayValues, values);
         } else {
             let self::displayValues = values;

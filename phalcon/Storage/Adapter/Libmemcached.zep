@@ -96,7 +96,7 @@ class Libmemcached extends AbstractAdapter
      * Reads data from the adapter
      *
      * @param string $key
-     * @param null   $defaultValue
+     * @param mixed|null $defaultValue
      *
      * @return mixed
      * @throws Exception
@@ -217,7 +217,7 @@ class Libmemcached extends AbstractAdapter
      *
      * @param string $key
      * @param mixed  $value
-     * @param null   $ttl
+     * @param \DateInterval|int|null ttl
      *
      * @return bool
      * @throws Exception
