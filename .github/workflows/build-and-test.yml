@@ -385,9 +385,9 @@ jobs:
             build_type: Win32
         exclude:
           - operating-system: windows-2016
-            php-version: '8.0'
+            php-versions: '8.0'
           - operating-system: windows-2019
-            php-version: '7.4'
+            php-versions: '7.4'
 
     steps:
 
