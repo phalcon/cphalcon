@@ -49,7 +49,7 @@ jobs:
           sudo apt-get install --no-install-recommends -q -y re2c
 
       - name: Install Packages
-        run: composer install --prefer-dist
+        run: composer install --prefer-dist --ignore-platform-reqs
 
       - name: Install Zephir
         run: .ci/install-zephir.sh
