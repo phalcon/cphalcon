@@ -371,7 +371,8 @@ jobs:
       fail-fast: false
       matrix:
         operating-system: [windows-2016]
-        php-versions: ['7.4', '8.0']
+        # php-versions: ['7.4', '8.0']
+        php-versions: ['8.0']
         # [ts, nts]
         ts: [nts]
         include:
@@ -552,7 +553,7 @@ jobs:
         run: |
           set PATH=%PATH%;%PHP_DEVPACK%
           cd /d %PHP_PECL_PATH%\phalcon\phalcon-%PHALCON_VERSION%
-          configure --enable-phalcon --with-extra-libs=%PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
+          configure --enable-phalcon --with-extra-libs=%PHP_PECL_PATH%\psr\psr-%PSR_VERSION%\%RELEASE_FOLDER%
 
       - name: Phalcon | Build Project
         shell: cmd
