@@ -169,6 +169,9 @@ jobs:
           tools: pecl
           extensions: mbstring, intl, json, imagick, redis, igbinary, apcu, msgpack, memcached, yaml
 
+      - name: Install Zephir
+        run: .ci/install-zephir.sh
+
       - name: Download Phalcon Pecl Package
         uses: actions/download-artifact@v1
         with:
