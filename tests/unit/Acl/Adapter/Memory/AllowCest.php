@@ -281,7 +281,7 @@ class AllowCest
                         "at tests/unit/Acl/Adapter/Memory/AllowCest.php:329";
 
         if (PHP_OS_FAMILY === 'Windows') {
-            $errorMessage = str_replace('/', '\\', $errorMessage)
+            $errorMessage = str_replace('/', '\\', $errorMessage);
         }
 
         $I->expectThrowable(
