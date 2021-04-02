@@ -123,7 +123,7 @@ if (PHP_PHALCON != "no") {
 	ADD_SOURCES(configure_module_dirname + "/phalcon/validation/validator/file/resolution", "equal.zep.c max.zep.c min.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/validation/validator/file/size", "equal.zep.c max.zep.c min.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/validation/validator/stringlength", "max.zep.c min.zep.c", "phalcon");
-  ADD_FLAG("CFLAGS_PHALCON", "/D ZEPHIR_RELEASE /D PSR_EXPORTS=0 /Oi /Ot /Oy /Ob2 /Gs /GF /Gy /GL");
-  ADD_FLAG("CFLAGS", "/D ZEPHIR_RELEASE /D PSR_EXPORTS=0 /Oi /Ot /Oy /Ob2 /Gs /GF /Gy /GL");
+  ADD_FLAG("CFLAGS_PHALCON", "/D ZEPHIR_RELEASE /Oi /Ot /Oy /Ob2 /Gs /GF /Gy /GL");
+  ADD_FLAG("CFLAGS", "/D ZEPHIR_RELEASE /Oi /Ot /Oy /Ob2 /Gs /GF /Gy /GL");
   ADD_FLAG("LDFLAGS", "/LTCG");
 }

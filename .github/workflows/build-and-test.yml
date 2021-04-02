@@ -555,7 +555,7 @@ jobs:
         run: |
           set PATH=%PATH%;%PHP_DEVPACK%;%PHP_PECL_PATH%\psr\psr-%PSR_VERSION%\%RELEASE_FOLDER%
           cd /d %PHP_PECL_PATH%\phalcon\phalcon-%PHALCON_VERSION%
-          nmake
+          nmake CFLAGS='/D PSR_EXPORTS=0'
 
       - name: Inspecting Phalcon Extension DLL File
         run: |
