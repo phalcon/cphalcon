@@ -141,11 +141,6 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Install System Dependencies
-        run: |
-          sudo apt-get update --quiet --yes 1>/dev/null
-          sudo apt-get install --no-install-recommends -q -y re2c
-
       - name: Get Composer Cache Directory
         id: composer-cache
         run: |
@@ -174,9 +169,6 @@ jobs:
           tools: pecl
           extensions: mbstring, intl, json, imagick, redis, igbinary, apcu, msgpack, memcached, yaml
 
-      - name: Install Zephir
-        run: .ci/install-zephir.sh
-
       - name: Download Phalcon Pecl Package
         uses: actions/download-artifact@v1
         with:
@@ -198,12 +190,6 @@ jobs:
           cp tests/_ci/.env.default .env
           php tests/_ci/generate-db-schemas.php
           vendor/bin/codecept build
-
-      - name: Validate stubs
-        if: always()
-        run: |
-          $HOME/bin/zephir stubs
-          vendor/bin/psalm ide/
 
       - name: Run Unit Tests
         if: always()

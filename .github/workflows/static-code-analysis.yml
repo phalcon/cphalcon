@@ -8,8 +8,6 @@ on:
 
 jobs:
   phpcs:
-    # To prevent build a particular commit use
-    #     git commit -m "......... [ci skip]"
     if: "!contains(github.event.head_commit.message, 'ci skip')"
 
     runs-on: ubuntu-20.04
@@ -21,3 +19,33 @@ jobs:
 
       - name: Run PHP_CodeSniffer
         run: docker run --rm -v $(pwd):/data cytopia/phpcs --standard=./phpcs.xml
+
+  stubs:
+    if: "!contains(github.event.head_commit.message, 'ci skip')"
+
+    runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
+      matrix:
+        php-versions: [ '7.4', '8.0' ]
+
+    name: PHP ${{ matrix.php-versions }}
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+
+      - name: Install System Dependencies
+        run: |
+          sudo apt-get update --quiet --yes 1>/dev/null
+          sudo apt-get install --no-install-recommends -q -y re2c
+
+      - name: Install Zephir
+        run: .ci/install-zephir.sh
+
+      - name: Validate stubs
+        if: always()
+        run: |
+          $HOME/bin/zephir stubs
+          vendor/bin/psalm ide/
