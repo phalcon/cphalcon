@@ -370,7 +370,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        operating-system: [windows-2016]
+        operating-system: [windows-2019]
         php-versions: ['7.4', '8.0']
         # [ts, nts]
         ts: [nts]
@@ -492,7 +492,7 @@ jobs:
       - name: "Setup Visual Studio Command Line for PHP SDK ${{ matrix.arch }}"
         run: |
           .ci\vsenv.bat -arch=${{ matrix.arch }} -host_arch=${{ matrix.arch }}
-          "%PHP_SDK_PATH%\phpsdk-%VC_VERSION%-%PHP_ARCH%.bat"
+          %PHP_SDK_PATH%\phpsdk-%VC_VERSION%-%PHP_ARCH%.bat
 
       - name: Fix Environment Variables
         shell: powershell
