@@ -191,6 +191,12 @@ jobs:
           php tests/_ci/generate-db-schemas.php
           vendor/bin/codecept build
 
+      - name: Validate stubs
+        if: always()
+        run: |
+          $HOME/bin/zephir stubs
+          vendor/bin/psalm ide/
+
       - name: Run Unit Tests
         if: always()
         run: vendor/bin/codecept run --ext DotReporter unit
