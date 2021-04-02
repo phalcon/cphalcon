@@ -62,10 +62,19 @@ class Tag
 
     protected static documentTitleSeparator = null;
 
+    /**
+     * @var int
+     */
     protected static documentType = 11;
 
+    /**
+     * @var EscaperInterface|null
+     */
     protected static escaperService = null;
 
+    /**
+     * @var UrlInterface|null
+     */
     protected static urlService = null;
 
     /**

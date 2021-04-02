@@ -25,14 +25,49 @@ use Phalcon\Validation\AbstractCombinedFieldsValidator;
  */
 class Validation extends Injectable implements ValidationInterface
 {
-    protected combinedFieldsValidators;
+    /**
+     * @var array
+     */
+    protected combinedFieldsValidators = [];
+
+    /**
+     * @var mixed
+     */
     protected data { get };
-    protected entity;
+
+    /**
+     * @var object|null
+     */
+    protected entity = null;
+
+    /**
+     * @var array
+     */
     protected filters = [];
+
+    /**
+     * @var array
+     */
     protected labels = [];
-    protected messages;
-    protected validators { set };
-    protected values;
+
+    /**
+     * @var Messages|null
+     */
+    protected messages = null;
+
+    /**
+     * List of validators
+     *
+     * @var array
+     */
+    protected validators = [] { set };
+
+    /**
+     * Calculated values
+     *
+     * @var array
+     */
+    protected values = [];
 
     /**
      * Phalcon\Validation constructor
@@ -67,7 +102,7 @@ class Validation extends Injectable implements ValidationInterface
      * @param string|array       $field
      * @param ValidatorInterface $validator
      *
-     * @return ValidatorInterface
+     * @return ValidationInterface
      */
     public function add(var field, <ValidatorInterface> validator) -> <ValidationInterface>
     {
@@ -95,6 +130,8 @@ class Validation extends Injectable implements ValidationInterface
 
     /**
      * Appends a message to the messages list
+     *
+     * @param MessageInterface $message
      */
     public function appendMessage(<MessageInterface> message) -> <ValidationInterface>
     {
@@ -203,6 +240,8 @@ class Validation extends Injectable implements ValidationInterface
 
     /**
      * Gets the a value to validate in the array/object data source
+     *
+     * @param string $field
      */
     public function getValue(string field) -> var | null
     {
@@ -315,7 +354,7 @@ class Validation extends Injectable implements ValidationInterface
      * @param string|array       $field
      * @param ValidatorInterface $validator
      *
-     * @return ValidatorInterface
+     * @return ValidationInterface
      */
     public function rule(var field, <ValidatorInterface> validator) -> <ValidationInterface>
     {
@@ -406,7 +445,7 @@ class Validation extends Injectable implements ValidationInterface
         /**
          * Clear pre-calculated values
          */
-        let this->values = null;
+        let this->values = [];
 
         /**
          * Implicitly creates a Phalcon\Messages\Messages object
@@ -505,6 +544,9 @@ class Validation extends Injectable implements ValidationInterface
 
     /**
      * Internal validations, if it returns true, then skip the current validator
+     *
+     * @param array|string $field
+     * @param ValidatorInterface $validator
      */
     protected function preChecking(var field, <ValidatorInterface> validator) -> bool
     {

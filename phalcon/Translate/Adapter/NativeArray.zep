@@ -24,7 +24,7 @@ class NativeArray extends AbstractAdapter implements ArrayAccess
     /**
      * @var array
      */
-    private translate;
+    private translate = [];
 
     /**
      * @var bool
@@ -83,12 +83,12 @@ class NativeArray extends AbstractAdapter implements ArrayAccess
     /**
      * Returns the translation related to the given key
      */
-    public function query(string! index, array placeholders = []) -> string
+    public function query(string! translateKey, array placeholders = []) -> string
     {
         var translation;
 
-        if !fetch translation, this->translate[index] {
-            return this->notFound(index);
+        if !fetch translation, this->translate[translateKey] {
+            return this->notFound(translateKey);
         }
 
         return this->replacePlaceholders(translation, placeholders);

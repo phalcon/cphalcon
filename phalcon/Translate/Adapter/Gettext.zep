@@ -119,15 +119,12 @@ class Gettext extends AbstractAdapter implements ArrayAccess
      * $translator->query("你好 %name%！", ["name" => "Phalcon"]);
      * ```
      *
-     * @param array   placeholders
+     * @param string translateKey
+     * @param array  placeholders
      */
-    public function query(string! index, array placeholders = []) -> string
+    public function query(string! translateKey, array placeholders = []) -> string
     {
-        var translation;
-
-        let translation = gettext(index);
-
-        return this->replacePlaceholders(translation, placeholders);
+        return this->replacePlaceholders(gettext(translateKey), placeholders);
     }
 
     /**

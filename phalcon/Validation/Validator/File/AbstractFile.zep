@@ -56,18 +56,24 @@ use Phalcon\Validation\AbstractValidator;
 abstract class AbstractFile extends AbstractValidator
 {
     /**
-    * Empty is empty
-    */
+     * Empty is empty
+     *
+     * @var string
+     */
     protected messageFileEmpty = "Field :field must not be empty" { get, set };
 
     /**
-    * File exceeds the file size set in PHP configuration
-    */
+     * File exceeds the file size set in PHP configuration
+     *
+     * @var string
+     */
     protected messageIniSize = "File :field exceeds the maximum file size" { get, set };
 
     /**
-    * File is not valid
-    */
+     * File is not valid
+     *
+     * @var string
+     */
     protected messageValid = "Field :field is not valid" { get, set };
 
     /**
