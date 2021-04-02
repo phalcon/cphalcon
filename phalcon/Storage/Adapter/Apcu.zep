@@ -111,9 +111,13 @@ class Apcu extends AbstractAdapter
     {
     	var content;
 
+    	if this->has(key) == false {
+            return defaultValue;
+        }
+
         let content = apcu_fetch(this->getPrefixedKey(key));
 
-        return this->getUnserializedData(content, defaultValue);
+        return this->getUnserializedData(content);
     }
 
     /**

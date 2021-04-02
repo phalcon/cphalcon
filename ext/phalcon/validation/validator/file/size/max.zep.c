@@ -45,7 +45,7 @@
  *         [
  *             "size"     => "2M",
  *             "included" => true,
- *             "message"  => ":field exceeds the max filesize (:size)",
+ *             "message"  => ":field exceeds the max file size (:size)",
  *         ]
  *     )
  * );
@@ -66,8 +66,8 @@
  *                 "anotherFile" => true,
  *             ],
  *             "message" => [
- *                 "file"        => "file exceeds the max filesize 2M",
- *                 "anotherFile" => "anotherFile exceeds the max filesize 4M",
+ *                 "file"        => "file exceeds the max file size 2M",
+ *                 "anotherFile" => "anotherFile exceeds the max file size 4M",
  *             ],
  *         ]
  *     )
@@ -104,6 +104,15 @@ PHP_METHOD(Phalcon_Validation_Validator_File_Size_Max, __construct) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&options);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ARRAY(options)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &options_param);
@@ -152,6 +161,15 @@ PHP_METHOD(Phalcon_Validation_Validator_File_Size_Max, validate) {
 	ZVAL_UNDEF(&_2$$4);
 	ZVAL_UNDEF(&_8$$5);
 	ZVAL_UNDEF(&_11$$9);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_OBJECT_OF_CLASS(validation, phalcon_validation_ce)
+		Z_PARAM_ZVAL(field)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &validation, &field);
@@ -181,7 +199,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File_Size_Max, validate) {
 	ZEPHIR_INIT_VAR(&bytes);
 	zephir_round(&bytes, &_3, &_4, NULL);
 	zephir_array_fetch_string(&_5, &value, SL("size"), PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/File/Size/Max.zep", 100);
-	ZEPHIR_CALL_FUNCTION(&_6, "floatval", NULL, 18, &_5);
+	ZEPHIR_CALL_FUNCTION(&_6, "floatval", NULL, 19, &_5);
 	zephir_check_call_status();
 	ZVAL_LONG(&_7, 6);
 	ZEPHIR_INIT_VAR(&fileSize);

@@ -11,6 +11,7 @@
 namespace Phalcon\Storage\Adapter;
 
 use Phalcon\Collection;
+use Phalcon\Collection\CollectionInterface;
 use Phalcon\Helper\Arr;
 use Phalcon\Storage\Exception;
 use Phalcon\Storage\SerializerFactory;
@@ -22,7 +23,7 @@ use Phalcon\Storage\Serializer\SerializerInterface;
 class Memory extends AbstractAdapter
 {
     /**
-     * @var Collection
+     * @var Collection|CollectionInterface
      */
     protected data;
 
@@ -122,10 +123,14 @@ class Memory extends AbstractAdapter
     {
         var content, prefixedKey;
 
+        if this->has(key) == false {
+            return defaultValue;
+        }
+
         let prefixedKey = this->getPrefixedKey(key),
             content     = this->data->get(prefixedKey);
 
-        return this->getUnserializedData(content, defaultValue);
+        return this->getUnserializedData(content);
     }
 
     /**

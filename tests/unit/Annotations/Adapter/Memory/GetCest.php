@@ -34,12 +34,12 @@ class GetCest
         require_once dataDir('fixtures/Annotations/TestClass.php');
 
         $oAdapter = new Memory();
-    
+
         $oClassAnnotations = $oAdapter->get(
             TestClass::class
         );
 
-        $I->assertInternalType('object', $oClassAnnotations);
+        $I->assertTrue(is_object($oClassAnnotations));
 
         $I->assertInstanceOf(
             Reflection::class,

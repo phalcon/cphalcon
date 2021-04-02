@@ -11,6 +11,7 @@
 namespace Phalcon\Session\Adapter;
 
 use Phalcon\Storage\AdapterFactory;
+use Phalcon\Helper\Arr;
 
 /**
  * Phalcon\Session\Adapter\Libmemcached
@@ -37,7 +38,7 @@ class Libmemcached extends AbstractAdapter
      */
     public function __construct(<AdapterFactory> factory, array! options = [])
     {
-        let options["prefix"] = "sess-memc-",
+        let options["prefix"] = Arr::get(options, "prefix", "sess-memc-"),
             this->adapter     = factory->newInstance("libmemcached", options);
     }
 }

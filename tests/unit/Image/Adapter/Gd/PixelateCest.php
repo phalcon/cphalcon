@@ -31,6 +31,8 @@ class PixelateCest
     {
         $I->wantToTest('Image\Adapter\Gd - pixelate()');
 
+        $this->checkJpegSupport($I);
+
         $params = [
             [7, 'fbf9f7e3c3c18183'],
             [21, 'fbf9f7e3c1c3c183'],

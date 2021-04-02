@@ -25,7 +25,7 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- Name: customers; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
+-- Name: customers; Type: TABLE; Schema: public; Owner: phalcon; Tablespace:
 --
 
 DROP TABLE IF EXISTS customers;
@@ -51,10 +51,10 @@ CREATE INDEX customers_customer_id_idx ON customers (customer_id);
 CREATE INDEX customers_credit_line_idx ON customers (credit_line);
 CREATE INDEX customers_status_idx ON customers (status);
 
-ALTER TABLE public.customers OWNER TO postgres;
+-- ALTER TABLE public.customers OWNER TO phalcon;
 
 --
--- Name: parts; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
+-- Name: parts; Type: TABLE; Schema: public; Owner: phalcon; Tablespace:
 --
 
 DROP TABLE IF EXISTS parts CASCADE;
@@ -63,10 +63,10 @@ CREATE TABLE parts (
     name character varying(70) NOT NULL
 );
 
-ALTER TABLE public.parts OWNER TO postgres;
+-- ALTER TABLE public.parts OWNER TO phalcon;
 
 --
--- Name: images; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
+-- Name: images; Type: TABLE; Schema: public; Owner: phalcon; Tablespace:
 --
 
 DROP TABLE IF EXISTS images;
@@ -75,10 +75,10 @@ CREATE TABLE images (
   base64 TEXT
 );
 
-ALTER TABLE public.images OWNER TO postgres;
+-- ALTER TABLE public.images OWNER TO phalcon;
 
 --
--- Name: personas; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
+-- Name: personas; Type: TABLE; Schema: public; Owner: phalcon; Tablespace:
 --
 
 DROP TABLE IF EXISTS personas;
@@ -96,10 +96,10 @@ CREATE TABLE personas (
     estado character(1) NOT NULL
 );
 
-ALTER TABLE public.personas OWNER TO postgres;
+-- ALTER TABLE public.personas OWNER TO phalcon;
 
 --
--- Name: personnes; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
+-- Name: personnes; Type: TABLE; Schema: public; Owner: phalcon; Tablespace:
 --
 
 DROP TABLE IF EXISTS personnes;
@@ -117,10 +117,10 @@ CREATE TABLE personnes (
     estado character(1) NOT NULL
 );
 
-ALTER TABLE public.personnes OWNER TO postgres;
+-- ALTER TABLE public.personnes OWNER TO phalcon;
 
 --
--- Name: prueba; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
+-- Name: prueba; Type: TABLE; Schema: public; Owner: phalcon; Tablespace:
 --
 
 DROP TABLE IF EXISTS prueba;
@@ -130,10 +130,10 @@ CREATE TABLE prueba (
     estado character(1) NOT NULL
 );
 
-ALTER TABLE public.prueba OWNER TO postgres;
+-- ALTER TABLE public.prueba OWNER TO phalcon;
 
 --
--- Name: prueba_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: prueba_id_seq; Type: SEQUENCE; Schema: public; Owner: phalcon
 --
 
 DROP SEQUENCE IF EXISTS prueba_id_seq;
@@ -144,22 +144,22 @@ CREATE SEQUENCE prueba_id_seq
     NO MAXVALUE
     CACHE 1;
 
-ALTER TABLE public.prueba_id_seq OWNER TO postgres;
+-- ALTER TABLE public.prueba_id_seq OWNER TO phalcon;
 
 --
--- Name: prueba_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: prueba_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: phalcon
 --
 
 ALTER SEQUENCE prueba_id_seq OWNED BY prueba.id;
 
 --
--- Name: prueba_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: prueba_id_seq; Type: SEQUENCE SET; Schema: public; Owner: phalcon
 --
 
 SELECT pg_catalog.setval('prueba_id_seq', 636, true);
 
 --
--- Name: robots; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
+-- Name: robots; Type: TABLE; Schema: public; Owner: phalcon; Tablespace:
 --
 
 DROP TABLE IF EXISTS robots CASCADE;
@@ -173,10 +173,10 @@ CREATE TABLE robots (
     text text NOT NULL
 );
 
-ALTER TABLE public.robots OWNER TO postgres;
+-- ALTER TABLE public.robots OWNER TO phalcon;
 
 --
--- Name: robots_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: robots_id_seq; Type: SEQUENCE; Schema: public; Owner: phalcon
 --
 
 DROP SEQUENCE IF EXISTS robots_id_seq;
@@ -187,22 +187,22 @@ CREATE SEQUENCE robots_id_seq
     NO MAXVALUE
     CACHE 1;
 
-ALTER TABLE public.robots_id_seq OWNER TO postgres;
+-- ALTER TABLE public.robots_id_seq OWNER TO phalcon;
 
 --
--- Name: robots_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: robots_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: phalcon
 --
 
 ALTER SEQUENCE robots_id_seq OWNED BY robots.id;
 
 --
--- Name: robots_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: robots_id_seq; Type: SEQUENCE SET; Schema: public; Owner: phalcon
 --
 
 SELECT pg_catalog.setval('robots_id_seq', 1, false);
 
 --
--- Name: robots_parts; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
+-- Name: robots_parts; Type: TABLE; Schema: public; Owner: phalcon; Tablespace:
 --
 
 DROP TABLE IF EXISTS robots_parts;
@@ -212,10 +212,10 @@ CREATE TABLE robots_parts (
     parts_id integer NOT NULL
 );
 
-ALTER TABLE public.robots_parts OWNER TO postgres;
+-- ALTER TABLE public.robots_parts OWNER TO phalcon;
 
 --
--- Name: robots_parts_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: robots_parts_id_seq; Type: SEQUENCE; Schema: public; Owner: phalcon
 --
 
 DROP SEQUENCE IF EXISTS robots_parts_id_seq;
@@ -226,22 +226,22 @@ CREATE SEQUENCE robots_parts_id_seq
     NO MAXVALUE
     CACHE 1;
 
-ALTER TABLE public.robots_parts_id_seq OWNER TO postgres;
+-- ALTER TABLE public.robots_parts_id_seq OWNER TO phalcon;
 
 --
--- Name: robots_parts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: robots_parts_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: phalcon
 --
 
 ALTER SEQUENCE robots_parts_id_seq OWNED BY robots_parts.id;
 
 --
--- Name: robots_parts_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: robots_parts_id_seq; Type: SEQUENCE SET; Schema: public; Owner: phalcon
 --
 
 SELECT pg_catalog.setval('robots_parts_id_seq', 1, false);
 
 --
--- Name: subscriptores; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
+-- Name: subscriptores; Type: TABLE; Schema: public; Owner: phalcon; Tablespace:
 --
 
 DROP TABLE IF EXISTS subscriptores;
@@ -252,10 +252,10 @@ CREATE TABLE subscriptores (
     status character(1) NOT NULL
 );
 
-ALTER TABLE public.subscriptores OWNER TO postgres;
+-- ALTER TABLE public.subscriptores OWNER TO phalcon;
 
 --
--- Name: subscriptores_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: subscriptores_id_seq; Type: SEQUENCE; Schema: public; Owner: phalcon
 --
 
 DROP SEQUENCE IF EXISTS subscriptores_id_seq;
@@ -266,22 +266,22 @@ CREATE SEQUENCE subscriptores_id_seq
     NO MAXVALUE
     CACHE 1;
 
-ALTER TABLE public.subscriptores_id_seq OWNER TO postgres;
+-- ALTER TABLE public.subscriptores_id_seq OWNER TO phalcon;
 
 --
--- Name: subscriptores_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: subscriptores_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: phalcon
 --
 
 ALTER SEQUENCE subscriptores_id_seq OWNED BY subscriptores.id;
 
 --
--- Name: subscriptores_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: subscriptores_id_seq; Type: SEQUENCE SET; Schema: public; Owner: phalcon
 --
 
 SELECT pg_catalog.setval('subscriptores_id_seq', 1, false);
 
 --
--- Name: tipo_documento; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
+-- Name: tipo_documento; Type: TABLE; Schema: public; Owner: phalcon; Tablespace:
 --
 
 DROP TABLE IF EXISTS tipo_documento;
@@ -290,10 +290,10 @@ CREATE TABLE tipo_documento (
     detalle character varying(32) NOT NULL
 );
 
-ALTER TABLE public.tipo_documento OWNER TO postgres;
+-- ALTER TABLE public.tipo_documento OWNER TO phalcon;
 
 --
--- Name: tipo_documento_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: tipo_documento_id_seq; Type: SEQUENCE; Schema: public; Owner: phalcon
 --
 
 DROP SEQUENCE IF EXISTS tipo_documento_id_seq;
@@ -305,7 +305,7 @@ CREATE SEQUENCE tipo_documento_id_seq
     CACHE 1;
 
 --
--- Name: foreign_key_parent; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
+-- Name: foreign_key_parent; Type: TABLE; Schema: public; Owner: phalcon; Tablespace:
 --
 
 DROP TABLE IF EXISTS foreign_key_parent;
@@ -317,10 +317,10 @@ CREATE TABLE foreign_key_parent (
     UNIQUE (refer_int)
 );
 
-ALTER TABLE public.foreign_key_parent OWNER TO postgres;
+-- ALTER TABLE public.foreign_key_parent OWNER TO phalcon;
 
 --
--- Name: ph_select; Type: TABLE TABLE; Schema: public; Owner: postgres; Tablespace:
+-- Name: ph_select; Type: TABLE TABLE; Schema: public; Owner: phalcon; Tablespace:
 --
 
 DROP TABLE IF EXISTS ph_select;
@@ -341,10 +341,10 @@ INSERT INTO ph_select (sel_id, sel_name, sel_text) VALUES
     (7, 'Saturn', 'A car'),
     (8, 'Uranus', 'Loads of jokes for this one');
 
-ALTER TABLE public.ph_select OWNER TO postgres;
+-- ALTER TABLE public.ph_select OWNER TO phalcon;
 
 --
--- Name: foreign_key_child; Type: TABLE; Schema: public; Owner: postgres; Tablespace:
+-- Name: foreign_key_child; Type: TABLE; Schema: public; Owner: phalcon; Tablespace:
 --
 
 DROP TABLE IF EXISTS foreign_key_child;
@@ -356,55 +356,55 @@ CREATE TABLE foreign_key_child (
     UNIQUE (child_int)
 );
 
-ALTER TABLE public.foreign_key_child OWNER TO postgres;
-ALTER TABLE public.tipo_documento_id_seq OWNER TO postgres;
+-- ALTER TABLE public.foreign_key_child OWNER TO phalcon;
+-- ALTER TABLE public.tipo_documento_id_seq OWNER TO phalcon;
 
 ALTER TABLE foreign_key_child ADD CONSTRAINT test_describeReferences FOREIGN KEY (child_int) REFERENCES foreign_key_parent (refer_int) ON UPDATE CASCADE ON DELETE RESTRICT;
 
 --
--- Name: tipo_documento_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: tipo_documento_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: phalcon
 --
 
 ALTER SEQUENCE tipo_documento_id_seq OWNED BY tipo_documento.id;
 
 --
--- Name: tipo_documento_id_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
+-- Name: tipo_documento_id_seq; Type: SEQUENCE SET; Schema: public; Owner: phalcon
 --
 
 SELECT pg_catalog.setval('tipo_documento_id_seq', 1, false);
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: id; Type: DEFAULT; Schema: public; Owner: phalcon
 --
 
 ALTER TABLE ONLY prueba ALTER COLUMN id SET DEFAULT nextval('prueba_id_seq'::regclass);
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: id; Type: DEFAULT; Schema: public; Owner: phalcon
 --
 
 ALTER TABLE ONLY robots ALTER COLUMN id SET DEFAULT nextval('robots_id_seq'::regclass);
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: id; Type: DEFAULT; Schema: public; Owner: phalcon
 --
 
 ALTER TABLE ONLY robots_parts ALTER COLUMN id SET DEFAULT nextval('robots_parts_id_seq'::regclass);
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: id; Type: DEFAULT; Schema: public; Owner: phalcon
 --
 
 ALTER TABLE ONLY subscriptores ALTER COLUMN id SET DEFAULT nextval('subscriptores_id_seq'::regclass);
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: postgres
+-- Name: id; Type: DEFAULT; Schema: public; Owner: phalcon
 --
 
 ALTER TABLE ONLY tipo_documento ALTER COLUMN id SET DEFAULT nextval('tipo_documento_id_seq'::regclass);
 
 --
--- Data for Name: parts; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: parts; Type: TABLE DATA; Schema: public; Owner: phalcon
 --
 
 INSERT INTO parts (id, name) VALUES
@@ -415,7 +415,7 @@ INSERT INTO parts (id, name) VALUES
     (5, 'CPU');
 
 --
--- Data for Name: personas; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: personas; Type: TABLE DATA; Schema: public; Owner: phalcon
 --
 
 INSERT INTO personas (cedula, tipo_documento_id, nombres, telefono, direccion, email, fecha_nacimiento, ciudad_id, creado_at, cupo, estado) VALUES
@@ -2617,7 +2617,7 @@ INSERT INTO personas (cedula, tipo_documento_id, nombres, telefono, direccion, e
     ('CELL9701', 1, 'LOST', '1', NULL, NULL, NULL, NULL, NULL, 20000.00, 'A');
 
 --
--- Data for Name: personnes; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: personnes; Type: TABLE DATA; Schema: public; Owner: phalcon
 --
 
 INSERT INTO personnes (cedula, tipo_documento_id, nombres, telefono, direccion, email, fecha_nacimiento, ciudad_id, creado_at, cupo, estado) VALUES
@@ -4819,7 +4819,7 @@ INSERT INTO personnes (cedula, tipo_documento_id, nombres, telefono, direccion, 
     ('CELL9701', 1, 'LOST', '1', NULL, NULL, NULL, NULL, NULL, 20000.00, 'A');
 
 --
--- Data for Name: robots; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: robots; Type: TABLE DATA; Schema: public; Owner: phalcon
 --
 
 INSERT INTO robots (id, name, type, year, datetime, text) VALUES
@@ -4828,7 +4828,7 @@ INSERT INTO robots (id, name, type, year, datetime, text) VALUES
     (3, 'Terminator', 'cyborg', 2029, '2029-01-01 00:00:00', 'text');
 
 --
--- Data for Name: robots_parts; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: robots_parts; Type: TABLE DATA; Schema: public; Owner: phalcon
 --
 
 INSERT INTO robots_parts (id, robots_id, parts_id) VALUES
@@ -4837,14 +4837,14 @@ INSERT INTO robots_parts (id, robots_id, parts_id) VALUES
     (3, 1, 3);
 
 --
--- Data for Name: subscriptores; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: subscriptores; Type: TABLE DATA; Schema: public; Owner: phalcon
 --
 
 INSERT INTO subscriptores (id, email, created_at, status) VALUES
     (43, 'fuego@hotmail.com', '2012-04-14 23:30:33', 'P');
 
 --
--- Data for Name: tipo_documento; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Data for Name: tipo_documento; Type: TABLE DATA; Schema: public; Owner: phalcon
 --
 
 INSERT INTO tipo_documento (id, detalle) VALUES
@@ -6850,85 +6850,85 @@ INSERT INTO tipo_documento (id, detalle) VALUES
     (2000, 'TIPO');
 
 --
--- Name: parts_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace:
+-- Name: parts_pkey; Type: CONSTRAINT; Schema: public; Owner: phalcon; Tablespace:
 --
 
 ALTER TABLE ONLY parts ADD CONSTRAINT parts_pkey PRIMARY KEY (id);
 
 --
--- Name: personas_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace:
+-- Name: personas_pkey; Type: CONSTRAINT; Schema: public; Owner: phalcon; Tablespace:
 --
 
 ALTER TABLE ONLY personas ADD CONSTRAINT personas_pkey PRIMARY KEY (cedula);
 
 --
--- Name: personnes_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace:
+-- Name: personnes_pkey; Type: CONSTRAINT; Schema: public; Owner: phalcon; Tablespace:
 --
 
 ALTER TABLE ONLY personnes ADD CONSTRAINT personnes_pkey PRIMARY KEY (cedula);
 
 --
--- Name: prueba_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace:
+-- Name: prueba_pkey; Type: CONSTRAINT; Schema: public; Owner: phalcon; Tablespace:
 --
 
 ALTER TABLE ONLY prueba ADD CONSTRAINT prueba_pkey PRIMARY KEY (id);
 
 --
--- Name: robots_parts_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace:
+-- Name: robots_parts_pkey; Type: CONSTRAINT; Schema: public; Owner: phalcon; Tablespace:
 --
 
 ALTER TABLE ONLY robots_parts ADD CONSTRAINT robots_parts_pkey PRIMARY KEY (id);
 
 --
--- Name: robots_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace:
+-- Name: robots_pkey; Type: CONSTRAINT; Schema: public; Owner: phalcon; Tablespace:
 --
 
 ALTER TABLE ONLY robots ADD CONSTRAINT robots_pkey PRIMARY KEY (id);
 
 --
--- Name: subscriptores_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace:
+-- Name: subscriptores_pkey; Type: CONSTRAINT; Schema: public; Owner: phalcon; Tablespace:
 --
 
 ALTER TABLE ONLY subscriptores ADD CONSTRAINT subscriptores_pkey PRIMARY KEY (id);
 
 --
--- Name: tipo_documento_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres; Tablespace:
+-- Name: tipo_documento_pkey; Type: CONSTRAINT; Schema: public; Owner: phalcon; Tablespace:
 --
 
 ALTER TABLE ONLY tipo_documento ADD CONSTRAINT tipo_documento_pkey PRIMARY KEY (id);
 
 --
--- Name: personas_estado_idx; Type: INDEX; Schema: public; Owner: postgres; Tablespace:
+-- Name: personas_estado_idx; Type: INDEX; Schema: public; Owner: phalcon; Tablespace:
 --
 
 CREATE INDEX personas_estado_idx ON personas USING btree (estado);
 
 --
--- Name: robots_parts_parts_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace:
+-- Name: robots_parts_parts_id; Type: INDEX; Schema: public; Owner: phalcon; Tablespace:
 --
 
 CREATE INDEX robots_parts_parts_id ON robots_parts USING btree (parts_id);
 
 --
--- Name: robots_parts_robots_id; Type: INDEX; Schema: public; Owner: postgres; Tablespace:
+-- Name: robots_parts_robots_id; Type: INDEX; Schema: public; Owner: phalcon; Tablespace:
 --
 
 CREATE INDEX robots_parts_robots_id ON robots_parts USING btree (robots_id);
 
 --
--- Name: robots_parts_ibfk_1; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: robots_parts_ibfk_1; Type: FK CONSTRAINT; Schema: public; Owner: phalcon
 --
 
 ALTER TABLE ONLY robots_parts ADD CONSTRAINT robots_parts_ibfk_1 FOREIGN KEY (robots_id) REFERENCES robots(id);
 
 --
--- Name: robots_parts_ibfk_2; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: robots_parts_ibfk_2; Type: FK CONSTRAINT; Schema: public; Owner: phalcon
 --
 
 ALTER TABLE ONLY robots_parts ADD CONSTRAINT robots_parts_ibfk_2 FOREIGN KEY (parts_id) REFERENCES parts(id);
 
 --
--- Name: table_with_string_field; Type: TABLE DATA; Schema: public; Owner: postgres
+-- Name: table_with_string_field; Type: TABLE DATA; Schema: public; Owner: phalcon
 --
 
 DROP TABLE IF EXISTS table_with_string_field;
@@ -6993,7 +6993,7 @@ create table dialect_table
   field_varchar_default   varchar(10)   default 'D':: character varying
 );
 
-alter table public.dialect_table OWNER TO postgres;
+-- alter table public.dialect_table OWNER TO phalcon;
 
 create index dialect_table_index
 on dialect_table (field_bigint);
@@ -7012,7 +7012,7 @@ create table dialect_table_remote
       primary key,
   field_text    varchar(20)
 );
-alter table public.dialect_table_remote OWNER TO postgres;
+-- alter table public.dialect_table_remote OWNER TO phalcon;
 
 drop table if exists dialect_table_intermediate;
 create table dialect_table_intermediate
@@ -7020,7 +7020,7 @@ create table dialect_table_intermediate
   field_primary_id integer,
   field_remote_id  integer
 );
-alter table public.dialect_table_intermediate OWNER TO postgres;
+-- alter table public.dialect_table_intermediate OWNER TO phalcon;
 
 alter table only dialect_table_intermediate
   add constraint dialect_table_intermediate_primary__fk
@@ -7032,16 +7032,3 @@ alter table only dialect_table_intermediate
   add constraint dialect_table_intermediate_remote__fk
     foreign key (field_remote_id)
       references dialect_table_remote (field_primary);
-
---
--- Name: public; Type: ACL; Schema: -; Owner: postgres
---
-
-REVOKE ALL ON SCHEMA public FROM PUBLIC;
-REVOKE ALL ON SCHEMA public FROM postgres;
-GRANT ALL ON SCHEMA public TO postgres;
-GRANT ALL ON SCHEMA public TO PUBLIC;
-
---
--- PostgreSQL database dump complete
---

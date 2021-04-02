@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Fixtures\Helpers;
 
 use Phalcon\Tag;
@@ -24,9 +26,10 @@ class TagSetup
     public function _before(UnitTester $I)
     {
         $this->newDi();
-        $this->setDiEscaper();
-        $this->setDiUrl();
+        $this->setDiService('escaper');
+        $this->setDiService('url');
 
+        Tag::setDI($this->container);
         Tag::resetInput();
 
         $this->doctype = $this->docTypeStringToConstant(
@@ -37,10 +40,10 @@ class TagSetup
     /**
      * Converts a doctype code to a string output
      *
-     * @author Phalcon Team <team@phalcon.io>
+     * @return string
      * @since  2014-09-04
      *
-     * @return string
+     * @author Phalcon Team <team@phalcon.io>
      */
     protected function docTypeStringToConstant(string $doctype)
     {
@@ -144,10 +147,10 @@ class TagSetup
     /**
      * Converts a doctype code to a string output
      *
-     * @author Phalcon Team <team@phalcon.io>
+     * @return string
      * @since  2014-09-04
      *
-     * @return string
+     * @author Phalcon Team <team@phalcon.io>
      */
     protected function docTypeToString(int $doctype)
     {

@@ -23,12 +23,12 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 /**
- * This is a variant of the Phalcon\Flash that immediately outputs any message
- * passed to it
+ * This is an implementation of the Phalcon\Flash\FlashInterface that
+ * immediately outputs any message passed to it.
  */
 ZEPHIR_INIT_CLASS(Phalcon_Flash_Direct) {
 
@@ -40,6 +40,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Flash_Direct) {
 
 /**
  * Outputs a message
+ *
+ * @return null|string|void
  */
 PHP_METHOD(Phalcon_Flash_Direct, message) {
 
@@ -51,6 +53,15 @@ PHP_METHOD(Phalcon_Flash_Direct, message) {
 
 	ZVAL_UNDEF(&type);
 	ZVAL_UNDEF(&message_sub);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_STR(type)
+		Z_PARAM_ZVAL(message)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &type_param, &message);
@@ -79,6 +90,15 @@ PHP_METHOD(Phalcon_Flash_Direct, output) {
 	ZVAL_UNDEF(&message);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_BOOL(remove)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &remove_param);
@@ -90,8 +110,8 @@ PHP_METHOD(Phalcon_Flash_Direct, output) {
 	}
 
 
-	zephir_read_property(&_0, this_ptr, SL("messages"), PH_NOISY_CC | PH_READONLY);
-	zephir_is_iterable(&_0, 0, "phalcon/Flash/Direct.zep", 38);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("messages"), PH_NOISY_CC | PH_READONLY);
+	zephir_is_iterable(&_0, 0, "phalcon/Flash/Direct.zep", 40);
 	if (Z_TYPE_P(&_0) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_0), _1)
 		{

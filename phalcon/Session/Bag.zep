@@ -87,7 +87,7 @@ class Bag extends Collection implements InjectionAwareInterface
     }
 
     /**
-     * Removes a property from the internal bag
+     * Initialize internal array
      */
     public function init(array! data = []) -> void
     {

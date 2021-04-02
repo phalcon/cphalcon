@@ -4,8 +4,8 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 
 namespace Phalcon;
@@ -63,6 +63,11 @@ class Validation extends Injectable implements ValidationInterface
 
     /**
      * Adds a validator to a field
+     *
+     * @param string|array       $field
+     * @param ValidatorInterface $validator
+     *
+     * @return ValidatorInterface
      */
     public function add(var field, <ValidatorInterface> validator) -> <ValidationInterface>
     {
@@ -130,8 +135,10 @@ class Validation extends Injectable implements ValidationInterface
 
     /**
      * Returns the bound entity
+     *
+     * @return object
      */
-    public function getEntity() -> object
+    public function getEntity() -> var
     {
         return this->entity;
     }
@@ -304,6 +311,11 @@ class Validation extends Injectable implements ValidationInterface
 
     /**
      * Alias of `add` method
+     *
+     * @param string|array       $field
+     * @param ValidatorInterface $validator
+     *
+     * @return ValidatorInterface
      */
     public function rule(var field, <ValidatorInterface> validator) -> <ValidationInterface>
     {

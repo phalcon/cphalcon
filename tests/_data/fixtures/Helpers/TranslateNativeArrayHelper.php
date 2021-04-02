@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Fixtures\Helpers;
 
 use Codeception\Example;
@@ -28,8 +30,8 @@ class TranslateNativeArrayHelper
      *
      * @dataProvider getQueryProvider
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2018-11-13
      */
     public function translateAdapterNativearrayQuery(UnitTester $I, Example $data)
     {
@@ -64,8 +66,8 @@ class TranslateNativeArrayHelper
      *
      * @dataProvider getQueryProvider
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2014-09-12
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2014-09-12
      */
     public function translateAdapterNativearrayVariableSubstitutionNoVariables(UnitTester $I, Example $data)
     {
@@ -104,8 +106,8 @@ class TranslateNativeArrayHelper
      *
      * @dataProvider getQueryOneVariable
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2014-09-12
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2014-09-12
      */
     public function translateAdapterNativearrayVariableSubstitutionOneVariable(UnitTester $I, Example $data)
     {
@@ -126,7 +128,7 @@ class TranslateNativeArrayHelper
         );
 
         foreach ($data['tests'] as $key => $expected) {
-            $actual   = $translator->{$this->function}($key, ['name' => 'my friend']);
+            $actual = $translator->{$this->function}($key, ['name' => 'my friend']);
             $I->assertEquals($expected, $actual);
         }
     }
@@ -137,8 +139,8 @@ class TranslateNativeArrayHelper
      *
      * @dataProvider getQueryTwoVariables
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2014-09-12
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2014-09-12
      */
     public function translateAdapterNativearrayVariableSubstitutionTwoVariable(UnitTester $I, Example $data)
     {
@@ -172,7 +174,8 @@ class TranslateNativeArrayHelper
     }
 
     /**
-     * Tests Phalcon\Translate\Adapter\NativeArray :: query() - array access and UTF8 strings
+     * Tests Phalcon\Translate\Adapter\NativeArray :: query() - array access
+     * and UTF8 strings
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-12

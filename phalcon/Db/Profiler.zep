@@ -147,7 +147,7 @@ class Profiler
             activeProfile->setSqlBindTypes(sqlBindTypes);
         }
 
-        activeProfile->setInitialTime(microtime(true));
+        activeProfile->setInitialTime(hrtime(true));
 
         if method_exists(this, "beforeStartProfile") {
             this->{"beforeStartProfile"}(activeProfile);
@@ -163,9 +163,9 @@ class Profiler
      */
     public function stopProfile() -> <Profiler>
     {
-        var finalTime, initialTime, activeProfile;
+        var activeProfile, finalTime, initialTime;
 
-        let finalTime = microtime(true),
+        let finalTime     = hrtime(true),
             activeProfile = <Item> this->activeProfile;
 
         activeProfile->setFinalTime(finalTime);

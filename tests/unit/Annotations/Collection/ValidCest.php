@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Annotations\Collection;
 
+use Phalcon\Annotations\Annotation;
+use Phalcon\Annotations\Collection;
 use UnitTester;
 
 class ValidCest
@@ -20,13 +22,38 @@ class ValidCest
     /**
      * Tests Phalcon\Annotations\Collection :: valid()
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
+     * @since  2020-01-31
      */
     public function annotationsCollectionValid(UnitTester $I)
     {
         $I->wantToTest('Annotations\Collection - valid()');
 
-        $I->skipTest('Need implementation');
+        $dataAnnotation = [
+            'name' => 'NovAnnotation',
+        ];
+
+        $dataAnnotation1 = [
+            'name' => 'Phalconatation',
+        ];
+
+        $reflectionData = [
+            $dataAnnotation,
+            $dataAnnotation1,
+        ];
+
+        $collection  = new Collection($reflectionData);
+        $annotation  = new Annotation($dataAnnotation);
+        $annotation1 = new Annotation($dataAnnotation1);
+
+        $I->assertTrue($collection->valid());
+
+        $collection->next();
+
+        $I->assertTrue($collection->valid());
+
+        $collection->next();
+
+        $I->assertFalse($collection->valid());
     }
 }

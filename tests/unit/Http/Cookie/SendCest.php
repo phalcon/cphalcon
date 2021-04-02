@@ -39,7 +39,7 @@ class SendCest
         $_REQUEST = [];
 
         $this->setNewFactoryDefault();
-        $this->setDiSessionFiles();
+        $this->setDiService('sessionStream');
 
         $name     = 'test';
         $value    = "phalcon";

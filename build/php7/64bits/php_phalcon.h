@@ -8,25 +8,16 @@
 #define ZEPHIR_RELEASE 1
 #endif
 
-
-/*
-  +------------------------------------------------------------------------+
-  | Zephir Language                                                        |
-  +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2017 Phalcon Team (http://www.zephir-lang.com)       |
-  +------------------------------------------------------------------------+
-  | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file docs/LICENSE.txt.                        |
-  |                                                                        |
-  | If you did not receive a copy of the license and are unable to         |
-  | obtain it through the world-wide-web, please send an email             |
-  | to license@zephir-lang.com so we can send you a copy immediately.      |
-  +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@zephir-lang.com>                     |
-  |          Eduar Carvajal <eduar@zephir-lang.com>                        |
-  |          Vladimir Kolesnikov <vladimir@extrememember.com>              |
-  +------------------------------------------------------------------------+
-*/
+/**
+ * This file is part of the Zephir.
+ *
+ * (c) Phalcon Team <team@zephir-lang.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code. If you did not receive
+ * a copy of the license it is available through the world-wide-web at the
+ * following url: https://docs.zephir-lang.com/en/latest/license
+ */
 
 #ifndef ZEPHIR_KERNEL_GLOBALS_H
 #define ZEPHIR_KERNEL_GLOBALS_H
@@ -104,14 +95,18 @@ typedef zend_function zephir_fcall_cache_entry;
 #define likely(x)   EXPECTED(x)
 #define unlikely(x) UNEXPECTED(x)
 
+#ifndef ZEND_ACC_DTOR
+ #define ZEND_ACC_DTOR 0
+#endif
+
 #endif
 
 
 #define PHP_PHALCON_NAME        "phalcon"
-#define PHP_PHALCON_VERSION     "4.0.3"
+#define PHP_PHALCON_VERSION     "4.1.0"
 #define PHP_PHALCON_EXTNAME     "phalcon"
 #define PHP_PHALCON_AUTHOR      "Phalcon Team and contributors"
-#define PHP_PHALCON_ZEPVERSION  "0.12.16-12256a1"
+#define PHP_PHALCON_ZEPVERSION  "0.13.0-d89a471"
 #define PHP_PHALCON_DESCRIPTION "Phalcon is a full stack PHP framework, delivered as a PHP extension, offering lower resource consumption and high performance."
 
 typedef struct _zephir_struct_db { 
@@ -186,7 +181,7 @@ ZEND_EXTERN_MODULE_GLOBALS(phalcon)
 #endif
 
 #ifdef ZTS
-	void ***tsrm_ls;
+	ZEND_TSRMLS_CACHE_EXTERN()
 	#define ZEPHIR_VGLOBAL ((zend_phalcon_globals *) (*((void ***) tsrm_get_ls_cache()))[TSRM_UNSHUFFLE_RSRC_ID(phalcon_globals_id)])
 #else
 	#define ZEPHIR_VGLOBAL &(phalcon_globals)

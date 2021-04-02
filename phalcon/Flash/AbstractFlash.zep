@@ -4,8 +4,8 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 
 namespace Phalcon\Flash;
@@ -97,8 +97,10 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
      *```php
      * $flash->error("This is an error");
      *```
+     *
+     * @return null|string|void
      */
-    public function error(string message) -> string
+    public function error(string message) -> string | null
     {
         return this->{"message"}("error", message);
     }
@@ -136,14 +138,16 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
      *```php
      * $flash->notice("This is an information");
      *```
+     *
+     * @return null|string|void
      */
-    public function notice(string message) -> string
+    public function notice(string message) -> string | null
     {
         return this->{"message"}("notice", message);
     }
 
     /**
-     * Set the autoescape mode in generated html
+     * Set the autoescape mode in generated HTML
      */
     public function setAutoescape(bool autoescape) -> <FlashInterface>
     {
@@ -209,8 +213,10 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
      *```php
      * $flash->success("The process was finished successfully");
      *```
+     *
+     * @return null|string|void
      */
-    public function success(string message) -> string
+    public function success(string message) -> string | null
     {
         return this->{"message"}("success", message);
     }
@@ -223,7 +229,7 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
      *```
      *
      * @param string|array message
-     * @return string|void
+     * @return null|string|void
      */
     public function outputMessage(string type, var message)
     {
@@ -300,8 +306,10 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
      *```php
      * $flash->warning("Hey, this is important");
      *```
+     *
+     * @return null|string|void
      */
-    public function warning(string message) -> string
+    public function warning(string message) -> string | null
     {
         return this->{"message"}("warning", message);
     }

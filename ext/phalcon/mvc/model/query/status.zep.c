@@ -79,6 +79,16 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Status, __construct) {
 	ZVAL_BOOL(&__$true, 1);
 	ZVAL_BOOL(&__$false, 0);
 	ZVAL_NULL(&__$null);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_BOOL(success)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(model, phalcon_mvc_modelinterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(1, 1, &success_param, &model);
 
@@ -90,11 +100,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Status, __construct) {
 
 
 	if (success) {
-		zephir_update_property_zval(this_ptr, SL("success"), &__$true);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("success"), &__$true);
 	} else {
-		zephir_update_property_zval(this_ptr, SL("success"), &__$false);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("success"), &__$false);
 	}
-	zephir_update_property_zval(this_ptr, SL("model"), model);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("model"), model);
 
 }
 
@@ -111,9 +121,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Status, getMessages) {
 	ZVAL_UNDEF(&model);
 	ZVAL_UNDEF(&_0);
 
+
 	ZEPHIR_MM_GROW();
 
-	zephir_read_property(&_0, this_ptr, SL("model"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("model"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&model, &_0);
 	if (Z_TYPE_P(&model) != IS_OBJECT) {
 		array_init(return_value);
@@ -133,6 +144,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Status, getModel) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "model");
 
 }
@@ -143,6 +155,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Status, getModel) {
 PHP_METHOD(Phalcon_Mvc_Model_Query_Status, success) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "success");

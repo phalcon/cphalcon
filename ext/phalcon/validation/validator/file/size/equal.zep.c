@@ -45,7 +45,7 @@
  *         [
  *             "size"     => "2M",
  *             "included" => true,
- *             "message"  => ":field exceeds the equal filesize (:size)",
+ *             "message"  => ":field exceeds the equal file size (:size)",
  *         ]
  *     )
  * );
@@ -66,8 +66,8 @@
  *                 "anotherFile" => true,
  *             ],
  *             "message" => [
- *                 "file"        => "file does not have the right filesize",
- *                 "anotherFile" => "anotherFile wrong filesize (4MB)",
+ *                 "file"        => "file does not have the right file size",
+ *                 "anotherFile" => "anotherFile wrong file size (4MB)",
  *             ],
  *         ]
  *     )
@@ -78,7 +78,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_File_Size_Equal) {
 
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator\\File\\Size, Equal, phalcon, validation_validator_file_size_equal, phalcon_validation_validator_file_abstractfile_ce, phalcon_validation_validator_file_size_equal_method_entry, 0);
 
-	zend_declare_property_string(phalcon_validation_validator_file_size_equal_ce, SL("template"), "File :field does not have the exact :size filesize", ZEND_ACC_PROTECTED);
+	zend_declare_property_string(phalcon_validation_validator_file_size_equal_ce, SL("template"), "File :field does not have the exact :size file size", ZEND_ACC_PROTECTED);
 
 	return SUCCESS;
 
@@ -103,6 +103,15 @@ PHP_METHOD(Phalcon_Validation_Validator_File_Size_Equal, __construct) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&options);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ARRAY(options)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &options_param);
@@ -147,6 +156,15 @@ PHP_METHOD(Phalcon_Validation_Validator_File_Size_Equal, validate) {
 	ZVAL_UNDEF(&_7);
 	ZVAL_UNDEF(&_2$$4);
 	ZVAL_UNDEF(&_8$$5);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_OBJECT_OF_CLASS(validation, phalcon_validation_ce)
+		Z_PARAM_ZVAL(field)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &validation, &field);
@@ -174,7 +192,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File_Size_Equal, validate) {
 	ZEPHIR_INIT_VAR(&bytes);
 	zephir_round(&bytes, &_3, &_4, NULL);
 	zephir_array_fetch_string(&_5, &value, SL("size"), PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/File/Size/Equal.zep", 99);
-	ZEPHIR_CALL_FUNCTION(&_6, "floatval", NULL, 18, &_5);
+	ZEPHIR_CALL_FUNCTION(&_6, "floatval", NULL, 19, &_5);
 	zephir_check_call_status();
 	ZVAL_LONG(&_7, 6);
 	ZEPHIR_INIT_VAR(&fileSize);

@@ -18,42 +18,25 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, withQueryParams);
 PHP_METHOD(Phalcon_Http_Message_ServerRequest, withUploadedFiles);
 PHP_METHOD(Phalcon_Http_Message_ServerRequest, withoutAttribute);
 PHP_METHOD(Phalcon_Http_Message_ServerRequest, checkUploadedFiles);
-zend_object *zephir_init_properties_Phalcon_Http_Message_ServerRequest(zend_class_entry *class_type TSRMLS_DC);
+zend_object *zephir_init_properties_Phalcon_Http_Message_ServerRequest(zend_class_entry *class_type);
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequest_getcookieparams, 0, 0, IS_ARRAY, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequest_getcookieparams, 0, 0, IS_ARRAY, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_message_serverrequest_getparsedbody, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequest_getqueryparams, 0, 0, IS_ARRAY, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequest_getqueryparams, 0, 0, IS_ARRAY, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequest_getserverparams, 0, 0, IS_ARRAY, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequest_getserverparams, 0, 0, IS_ARRAY, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequest_getuploadedfiles, 0, 0, IS_ARRAY, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequest_getuploadedfiles, 0, 0, IS_ARRAY, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_message_serverrequest___construct, 0, 0, 0)
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, method, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, method)
-#endif
 	ZEND_ARG_INFO(0, uri)
 	ZEND_ARG_ARRAY_INFO(0, serverParams, 0)
 	ZEND_ARG_INFO(0, body)
@@ -62,11 +45,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_message_serverrequest___construct, 0
 	ZEND_ARG_ARRAY_INFO(0, queryParams, 0)
 	ZEND_ARG_ARRAY_INFO(0, uploadFiles, 0)
 	ZEND_ARG_INFO(0, parsedBody)
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, protocol, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, protocol)
-#endif
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_message_serverrequest_getattribute, 0, 0, 1)
@@ -74,79 +53,49 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_message_serverrequest_getattribute, 
 	ZEND_ARG_INFO(0, defaultValue)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequest_getattributes, 0, 0, IS_ARRAY, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequest_getattributes, 0, 0, IS_ARRAY, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_message_serverrequest_withattribute, 0, 2, Phalcon\\Http\\Message\\ServerRequest, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequest_withattribute, 0, 2, IS_OBJECT, "Phalcon\\Http\\Message\\ServerRequest", 0)
-#endif
 	ZEND_ARG_INFO(0, name)
 	ZEND_ARG_INFO(0, value)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_message_serverrequest_withcookieparams, 0, 1, Phalcon\\Http\\Message\\ServerRequest, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequest_withcookieparams, 0, 1, IS_OBJECT, "Phalcon\\Http\\Message\\ServerRequest", 0)
-#endif
 	ZEND_ARG_ARRAY_INFO(0, cookies, 0)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_message_serverrequest_withparsedbody, 0, 1, Phalcon\\Http\\Message\\ServerRequest, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequest_withparsedbody, 0, 1, IS_OBJECT, "Phalcon\\Http\\Message\\ServerRequest", 0)
-#endif
 	ZEND_ARG_INFO(0, data)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_message_serverrequest_withqueryparams, 0, 1, Phalcon\\Http\\Message\\ServerRequest, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequest_withqueryparams, 0, 1, IS_OBJECT, "Phalcon\\Http\\Message\\ServerRequest", 0)
-#endif
 	ZEND_ARG_ARRAY_INFO(0, query, 0)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_message_serverrequest_withuploadedfiles, 0, 1, Phalcon\\Http\\Message\\ServerRequest, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequest_withuploadedfiles, 0, 1, IS_OBJECT, "Phalcon\\Http\\Message\\ServerRequest", 0)
-#endif
 	ZEND_ARG_ARRAY_INFO(0, uploadedFiles, 0)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_message_serverrequest_withoutattribute, 0, 1, Phalcon\\Http\\Message\\ServerRequest, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequest_withoutattribute, 0, 1, IS_OBJECT, "Phalcon\\Http\\Message\\ServerRequest", 0)
-#endif
 	ZEND_ARG_INFO(0, name)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70100
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequest_checkuploadedfiles, 0, 1, IS_VOID, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_message_serverrequest_checkuploadedfiles, 0, 1, IS_VOID, NULL, 0)
-#endif
-#else
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_message_serverrequest_checkuploadedfiles, 0, 0, 1)
-#define arginfo_phalcon_http_message_serverrequest_checkuploadedfiles NULL
-#endif
 
 	ZEND_ARG_ARRAY_INFO(0, files, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_message_serverrequest_zephir_init_properties_phalcon_http_message_serverrequest, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
 ZEPHIR_INIT_FUNCS(phalcon_http_message_serverrequest_method_entry) {
 	PHP_ME(Phalcon_Http_Message_ServerRequest, getCookieParams, arginfo_phalcon_http_message_serverrequest_getcookieparams, ZEND_ACC_PUBLIC)
+#if PHP_VERSION_ID >= 80000
+	PHP_ME(Phalcon_Http_Message_ServerRequest, getParsedBody, arginfo_phalcon_http_message_serverrequest_getparsedbody, ZEND_ACC_PUBLIC)
+#else
 	PHP_ME(Phalcon_Http_Message_ServerRequest, getParsedBody, NULL, ZEND_ACC_PUBLIC)
+#endif
 	PHP_ME(Phalcon_Http_Message_ServerRequest, getQueryParams, arginfo_phalcon_http_message_serverrequest_getqueryparams, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Message_ServerRequest, getServerParams, arginfo_phalcon_http_message_serverrequest_getserverparams, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Message_ServerRequest, getUploadedFiles, arginfo_phalcon_http_message_serverrequest_getuploadedfiles, ZEND_ACC_PUBLIC)

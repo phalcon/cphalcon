@@ -35,4 +35,3 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Link_Serializer_SerializerInterface) {
  * Serializer method
  */
 ZEPHIR_DOC_METHOD(Phalcon_Html_Link_Serializer_SerializerInterface, serialize);
-

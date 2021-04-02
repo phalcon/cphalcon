@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Annotations\Collection;
 
+use Phalcon\Annotations\Collection;
 use UnitTester;
 
 class HasCest
@@ -20,13 +21,30 @@ class HasCest
     /**
      * Tests Phalcon\Annotations\Collection :: has()
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
+     * @since  2020-01-31
      */
     public function annotationsCollectionHas(UnitTester $I)
     {
         $I->wantToTest('Annotations\Collection - has()');
 
-        $I->skipTest('Need implementation');
+        $dataAnnotation = [
+            'name' => 'NovAnnotation',
+        ];
+
+        $dataAnnotation1 = [
+            'name' => 'Phalconatation',
+        ];
+
+        $reflectionData = [
+            $dataAnnotation,
+            $dataAnnotation1,
+        ];
+
+        $collection = new Collection($reflectionData);
+
+        $I->assertTrue($collection->has('Phalconatation'));
+
+        $I->assertFalse($collection->has('Phalcony'));
     }
 }

@@ -115,19 +115,19 @@ class Generator_Optimized
 
         // Pre-compute hash key for method checking
         $result[] = array(
-            'regexp' => '/zephir_method_exists_ex\(([a-zA-Z0-9\_]+), SS\("([a-zA-Z\_\-]+)"\) TSRMLS_CC\)/',
+            'regexp' => '/zephir_method_exists_ex\(([a-zA-Z0-9\_]+), SS\("([a-zA-Z\_\-]+)"\)\)/',
             'func' => function ($line, $matches, $hashFunc) {
                 $hash = $hashFunc($matches[2]);
-                return str_replace($matches[0], 'zephir_method_quick_exists_ex('.$matches[1].', SS("'.$matches[2].'"), '.$hash.' TSRMLS_CC)', $line);
+                return str_replace($matches[0], 'zephir_method_quick_exists_ex('.$matches[1].', SS("'.$matches[2].'"), '.$hash.')', $line);
             }
         );
 
         // Pre-compute hash key for function checking
         $result[] = array(
-            'regexp' => '/zephir_function_exists_ex\(SS\("([a-zA-Z\_\-]+)"\) TSRMLS_CC\)/',
+            'regexp' => '/zephir_function_exists_ex\(SS\("([a-zA-Z\_\-]+)"\)\)/',
             'func' => function ($line, $matches, $hashFunc) {
                 $hash = $hashFunc($matches[1]);
-                return str_replace($matches[0], 'zephir_function_quick_exists_ex(SS("'.$matches[1].'"), '.$hash.' TSRMLS_CC)', $line);
+                return str_replace($matches[0], 'zephir_function_quick_exists_ex(SS("'.$matches[1].'"), '.$hash.')', $line);
             }
         );
 
@@ -140,10 +140,10 @@ class Generator_Optimized
         );
 
         $result[] = array(
-            'regexp' => '/zephir_update_property_this\(this_ptr, SL\("([a-zA-Z0-9\_]+)"\), ([a-zA-Z0-9\_]+) TSRMLS_CC\)/',
+            'regexp' => '/zephir_update_property_this\(this_ptr, SL\("([a-zA-Z0-9\_]+)"\), ([a-zA-Z0-9\_]+)\)/',
             'func' => function ($line, $matches, $hashFunc) {
                 $key = $hashFunc($matches[1]);
-                return str_replace($matches[0], 'zephir_update_property_this_quick(this_ptr, SL("'.$matches[1].'"), '.$matches[2].', '.$key.' TSRMLS_CC)', $line);
+                return str_replace($matches[0], 'zephir_update_property_this_quick(this_ptr, SL("'.$matches[1].'"), '.$matches[2].', '.$key.')', $line);
             }
         );
 

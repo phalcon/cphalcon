@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Collection;
 
+use Phalcon\Assets\Collection;
+use Phalcon\Assets\Inline\Js;
 use UnitTester;
 
 class AddInlineJsCest
@@ -20,13 +22,28 @@ class AddInlineJsCest
     /**
      * Tests Phalcon\Assets\Collection :: addInlineJs()
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
+     * @since  2020-02-06
      */
     public function assetsCollectionAddInlineJs(UnitTester $I)
     {
         $I->wantToTest('Assets\Collection - addInlineJs()');
 
-        $I->skipTest('Need implementation');
+        $collection = new Collection();
+
+        $inline = new Js("alert('an amazing test');");
+
+        $collection->addInline(
+            $inline
+        );
+
+        $codes = $collection->getCodes();
+
+        $I->assertCount(1, $collection->getCodes());
+
+        $I->assertEquals(
+            end($codes),
+            $inline
+        );
     }
 }

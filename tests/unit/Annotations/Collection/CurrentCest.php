@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Annotations\Collection;
 
+use Phalcon\Annotations\Annotation;
+use Phalcon\Annotations\Collection;
 use UnitTester;
 
 class CurrentCest
@@ -20,13 +22,44 @@ class CurrentCest
     /**
      * Tests Phalcon\Annotations\Collection :: current()
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
+     * @since  2020-01-27
      */
     public function annotationsCollectionCurrent(UnitTester $I)
     {
         $I->wantToTest('Annotations\Collection - current()');
 
-        $I->skipTest('Need implementation');
+        $collection = new Collection();
+
+        $I->assertFalse($collection->current());
+    }
+
+    /**
+     * Tests Phalcon\Annotations\Collection :: current() with annotations
+     *
+     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
+     * @since  2020-01-27
+     */
+    public function annotationsCollectionCurrentWithAnnotations(UnitTester $I)
+    {
+        $I->wantToTest('Annotations\Collection - current() with annotations');
+
+        $dataAnnotation = [
+            'name' => 'NovAnnotation',
+        ];
+
+        $dataAnnotation1 = [
+            'name' => 'NovAnnotation1',
+        ];
+
+        $reflectionData = [
+            $dataAnnotation,
+            $dataAnnotation1,
+        ];
+
+        $collection = new Collection($reflectionData);
+        $annotation = new Annotation($dataAnnotation);
+
+        $I->assertEquals($annotation, $collection->current());
     }
 }

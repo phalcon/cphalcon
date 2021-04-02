@@ -51,6 +51,14 @@ PHP_METHOD(Phalcon_Filter_Sanitize_Email, __invoke) {
 	ZVAL_UNDEF(&input_sub);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(input)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &input);
@@ -59,7 +67,7 @@ PHP_METHOD(Phalcon_Filter_Sanitize_Email, __invoke) {
 
 	ZVAL_LONG(&_0, 517);
 	ZVAL_LONG(&_1, 1048576);
-	ZEPHIR_RETURN_CALL_FUNCTION("filter_var", NULL, 240, input, &_0, &_1);
+	ZEPHIR_RETURN_CALL_FUNCTION("filter_var", NULL, 258, input, &_0, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
 

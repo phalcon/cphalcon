@@ -206,7 +206,8 @@ class IsAllowedCest
             new Exception(
                 'Number of parameters in array is higher than the ' .
                 'number of parameters in defined function when checking if ' .
-                "'Members' can 'update' 'Post'. Extra parameters will be ignored.",
+                "'Members' can 'update' 'Post'. Extra parameters will be ignored. " .
+                "at tests/unit/Acl/Adapter/Memory/IsAllowedCest.php:239",
                 512
             ),
             function () use ($I) {

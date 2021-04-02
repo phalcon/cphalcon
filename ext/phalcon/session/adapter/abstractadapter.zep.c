@@ -12,6 +12,7 @@
 #include <Zend/zend_interfaces.h>
 
 #include "kernel/main.h"
+#include "ext/session/php_session.h"
 #include "kernel/object.h"
 #include "kernel/operators.h"
 #include "kernel/memory.h"
@@ -35,7 +36,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Session_Adapter_AbstractAdapter) {
 	 */
 	zend_declare_property_null(phalcon_session_adapter_abstractadapter_ce, SL("adapter"), ZEND_ACC_PROTECTED);
 
-	zend_class_implements(phalcon_session_adapter_abstractadapter_ce, 1, zephir_get_internal_ce(SL("sessionhandlerinterface")));
+	zend_class_implements(phalcon_session_adapter_abstractadapter_ce, 1, php_session_iface_entry);
 	return SUCCESS;
 
 }
@@ -46,6 +47,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Session_Adapter_AbstractAdapter) {
 PHP_METHOD(Phalcon_Session_Adapter_AbstractAdapter, close) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_BOOL(1);
@@ -67,6 +69,14 @@ PHP_METHOD(Phalcon_Session_Adapter_AbstractAdapter, destroy) {
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3$$3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(id)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &id);
@@ -75,13 +85,13 @@ PHP_METHOD(Phalcon_Session_Adapter_AbstractAdapter, destroy) {
 
 	_0 = !(ZEPHIR_IS_EMPTY(id));
 	if (_0) {
-		zephir_read_property(&_1, this_ptr, SL("adapter"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_1, this_ptr, ZEND_STRL("adapter"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(&_2, &_1, "has", NULL, 0, id);
 		zephir_check_call_status();
 		_0 = zephir_is_true(&_2);
 	}
 	if (_0) {
-		zephir_read_property(&_3$$3, this_ptr, SL("adapter"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_3$$3, this_ptr, ZEND_STRL("adapter"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_RETURN_CALL_METHOD(&_3$$3, "delete", NULL, 0, id);
 		zephir_check_call_status();
 		RETURN_MM();
@@ -99,6 +109,14 @@ PHP_METHOD(Phalcon_Session_Adapter_AbstractAdapter, gc) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&maxlifetime_sub);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(maxlifetime)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(1, 0, &maxlifetime);
 
@@ -122,13 +140,21 @@ PHP_METHOD(Phalcon_Session_Adapter_AbstractAdapter, read) {
 	ZVAL_UNDEF(&data);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(id)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &id);
 
 
 
-	zephir_read_property(&_0, this_ptr, SL("adapter"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("adapter"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&data, &_0, "get", NULL, 0, id);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_1);
@@ -151,6 +177,15 @@ PHP_METHOD(Phalcon_Session_Adapter_AbstractAdapter, open) {
 
 	ZVAL_UNDEF(&savePath_sub);
 	ZVAL_UNDEF(&sessionName_sub);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_ZVAL(savePath)
+		Z_PARAM_ZVAL(sessionName)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(2, 0, &savePath, &sessionName);
 
@@ -173,13 +208,22 @@ PHP_METHOD(Phalcon_Session_Adapter_AbstractAdapter, write) {
 	ZVAL_UNDEF(&id_sub);
 	ZVAL_UNDEF(&data_sub);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_ZVAL(id)
+		Z_PARAM_ZVAL(data)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &id, &data);
 
 
 
-	zephir_read_property(&_0, this_ptr, SL("adapter"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("adapter"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_METHOD(&_0, "set", NULL, 0, id, data);
 	zephir_check_call_status();
 	RETURN_MM();

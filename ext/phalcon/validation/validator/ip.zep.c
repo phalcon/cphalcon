@@ -115,6 +115,15 @@ PHP_METHOD(Phalcon_Validation_Validator_Ip, __construct) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&options);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ARRAY(options)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &options_param);
@@ -167,6 +176,15 @@ PHP_METHOD(Phalcon_Validation_Validator_Ip, validate) {
 	ZVAL_UNDEF(&_7$$6);
 	ZVAL_UNDEF(&_13$$8);
 	ZVAL_UNDEF(&_9);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_OBJECT_OF_CLASS(validation, phalcon_validation_ce)
+		Z_PARAM_ZVAL(field)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &validation, &field);
@@ -249,7 +267,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Ip, validate) {
 	zephir_bitwise_or_function(&_11, &_10, &allowReserved);
 	zephir_array_update_string(&options, SL("flags"), &_11, PH_COPY | PH_SEPARATE);
 	ZVAL_LONG(&_1, 275);
-	ZEPHIR_CALL_FUNCTION(&_12, "filter_var", NULL, 240, &value, &_1, &options);
+	ZEPHIR_CALL_FUNCTION(&_12, "filter_var", NULL, 258, &value, &_1, &options);
 	zephir_check_call_status();
 	if (!(zephir_is_true(&_12))) {
 		ZEPHIR_CALL_METHOD(&_13$$8, this_ptr, "messagefactory", NULL, 0, validation, field);

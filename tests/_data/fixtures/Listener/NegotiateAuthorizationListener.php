@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -9,6 +8,8 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Phalcon\Test\Fixtures\Listener;
 
@@ -23,7 +24,7 @@ class NegotiateAuthorizationListener
             return false;
         }
 
-        list($type,) = explode(' ', $data['server']['CUSTOM_KERBEROS_AUTH'], 2);
+        [$type,] = explode(' ', $data['server']['CUSTOM_KERBEROS_AUTH'], 2);
 
         if (!$type || stripos($type, 'negotiate') !== 0) {
             return false;

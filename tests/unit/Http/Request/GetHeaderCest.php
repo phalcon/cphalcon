@@ -13,10 +13,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Request;
 
-use Phalcon\Test\Unit\Http\Helper\HttpBase;
+use Phalcon\Http\Request;
 use UnitTester;
 
-class GetHeaderCest extends HttpBase
+class GetHeaderCest
 {
     /**
      * Tests getHeader empty
@@ -26,11 +26,10 @@ class GetHeaderCest extends HttpBase
      */
     public function testHttpRequestHeaderGetEmpty(UnitTester $I)
     {
-        $request = $this->getRequestObject();
+        $I->wantToTest('Http\Request - getHeader() - empty');
 
-        $I->assertEmpty(
-            $request->getHeader('LOL')
-        );
+        $request = new Request();
+        $I->assertEmpty($request->getHeader('LOL'));
     }
 
     /**
@@ -41,41 +40,19 @@ class GetHeaderCest extends HttpBase
      */
     public function testHttpRequestHeaderGet(UnitTester $I)
     {
-        $request = $this->getRequestObject();
-        $this->setServerVar('HTTP_LOL', 'zup');
-        $actual = $request->getHeader('LOL');
-        $this->unsetServerVar('HTTP_LOL');
+        $I->wantToTest('Http\Request - getHeader() - empty');
 
-        $I->assertEquals(
-            'zup',
-            $actual
-        );
-    }
-
-    /**
-     * Tests getHeader
-     *
-     * @issue  https://github.com/phalcon/cphalcon/issues/2294
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2016-10-19
-     */
-    public function testHttpRequestCustomHeaderGet(UnitTester $I)
-    {
-        $_SERVER['HTTP_FOO']     = 'Bar';
-        $_SERVER['HTTP_BLA_BLA'] = 'boo';
-        $_SERVER['HTTP_AUTH']    = true;
-
-        $request = $this->getRequestObject();
-
-        $expected = [
-            'Foo'     => 'Bar',
-            'Bla-Bla' => 'boo',
-            'Auth'    => 1,
+        $store   = $_SERVER ?? [];
+        $_SERVER = [
+            'HTTP_LOL' => 'zup',
         ];
 
-        $I->assertEquals(
-            $expected,
-            $request->getHeaders()
-        );
+        $request = new Request();
+
+        $expected = 'zup';
+        $actual   = $request->getHeader('LOL');
+        $I->assertEquals($expected, $actual);
+
+        $_SERVER = $store;
     }
 }

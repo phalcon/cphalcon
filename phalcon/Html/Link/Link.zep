@@ -11,6 +11,7 @@
 namespace Phalcon\Html\Link;
 
 use Phalcon\Collection;
+use Phalcon\Collection\CollectionInterface;
 use Psr\Link\LinkInterface;
 
 /**
@@ -24,7 +25,7 @@ use Psr\Link\LinkInterface;
 class Link implements LinkInterface
 {
     /**
-     * @var Collection
+     * @var Collection|CollectionInterface
      */
     protected attributes;
 
@@ -34,7 +35,7 @@ class Link implements LinkInterface
     protected href = "";
 
     /**
-     * @var Collection
+     * @var Collection|CollectionInterface
      */
     protected rels;
 

@@ -37,18 +37,15 @@ ZEPHIR_INIT_CLASS(Phalcon_Translate_Adapter_AdapterInterface) {
  * Check whether is defined a translation key in the internal array
  */
 ZEPHIR_DOC_METHOD(Phalcon_Translate_Adapter_AdapterInterface, exists);
-
 /**
  * Returns the translation related to the given key
  *
  * @param array placeholders
  */
 ZEPHIR_DOC_METHOD(Phalcon_Translate_Adapter_AdapterInterface, query);
-
 /**
  * Returns the translation string of the given key
  *
  * @param array placeholders
  */
 ZEPHIR_DOC_METHOD(Phalcon_Translate_Adapter_AdapterInterface, t);
-

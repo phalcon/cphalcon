@@ -45,39 +45,33 @@ ZEPHIR_INIT_CLASS(Phalcon_Domain_Payload_ReadableInterface) {
  * @return Throwable|null
  */
 ZEPHIR_DOC_METHOD(Phalcon_Domain_Payload_ReadableInterface, getException);
-
 /**
  * Gets arbitrary extra values produced by the domain layer.
  *
  * @return mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_Domain_Payload_ReadableInterface, getExtras);
-
 /**
  * Gets the input received by the domain layer.
  *
  * @return mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_Domain_Payload_ReadableInterface, getInput);
-
 /**
  * Gets the messages produced by the domain layer.
  *
  * @return mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_Domain_Payload_ReadableInterface, getMessages);
-
 /**
  * Gets the output produced from the domain layer.
  *
  * @return mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_Domain_Payload_ReadableInterface, getOutput);
-
 /**
  * Gets the status of this payload.
  *
  * @return mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_Domain_Payload_ReadableInterface, getStatus);
-

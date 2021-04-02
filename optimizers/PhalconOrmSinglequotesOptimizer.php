@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -15,7 +16,7 @@ namespace Zephir\Optimizers\FunctionCall;
 use Zephir\Call;
 use Zephir\CompilationContext;
 use Zephir\CompiledExpression;
-use Zephir\CompilerException;
+use Zephir\Exception\CompilerException;
 use Zephir\Optimizers\OptimizerAbstract;
 
 class PhalconOrmSinglequotesOptimizer extends OptimizerAbstract
@@ -70,9 +71,8 @@ class PhalconOrmSinglequotesOptimizer extends OptimizerAbstract
         );
 
         $symbol = $context->backend->getVariableCode($symbolVariable);
-
         $context->codePrinter->output(
-            'phalcon_orm_singlequotes(' . $symbol . ', ' . $resolvedParams[0] . ' TSRMLS_CC);'
+            'phalcon_orm_singlequotes(' . $symbol . ', ' . $resolvedParams[0] . ');'
         );
 
         return new CompiledExpression(

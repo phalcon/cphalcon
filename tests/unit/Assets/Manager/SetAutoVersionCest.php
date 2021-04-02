@@ -30,8 +30,8 @@ class SetAutoVersionCest
     public function _before(UnitTester $I)
     {
         $this->newDi();
-        $this->setDiEscaper();
-        $this->setDiUrl();
+        $this->setDiService('escaper');
+        $this->setDiService('url');
     }
 
     /**
@@ -79,7 +79,7 @@ class SetAutoVersionCest
         );
 
         $expected = sprintf(
-            "%s\n%s\n%s\n",
+            "%s" . PHP_EOL . "%s" . PHP_EOL . "%s" . PHP_EOL,
             "<script src=\"{$pathData}assets/assets-version-1.js?ver=1.0.0\"></script>",
             "<script src=\"{$pathData}assets/assets-version-2.js?ver=$modificationTime\"></script>",
             "<script src=\"{$pathData}assets/assets-version-3.js\"></script>"

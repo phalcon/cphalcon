@@ -13,25 +13,21 @@
 
 #include "kernel/main.h"
 #include "kernel/fcall.h"
-#include "ext/spl/spl_exceptions.h"
-#include "kernel/exception.h"
 #include "kernel/operators.h"
 #include "kernel/memory.h"
 #include "kernel/object.h"
 
 
 /**
- * This file is part of the Phalcon Framework.
+ * This file is part of the Phalcon.
  *
- * (c) Phalcon Team <team@phalcon.io>
+ * (c) Phalcon Team <team@phalcon.com>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 /**
- * Phalcon\Html\Helper\Address
- *
- * Creates an element
+ * Class Element
  */
 ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Element) {
 
@@ -42,55 +38,67 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Element) {
 }
 
 /**
- * @var string tag        The tag name
- * @var string text       The text for the anchor
- * @var array  attributes Any additional attributes
+ * Produce a tag.
+ *
+ * @param string $tag
+ * @param string $text
+ * @param array  $attributes
+ * @param bool   $raw
+ *
+ * @return string
+ * @throws Exception
  */
 PHP_METHOD(Phalcon_Html_Helper_Element, __invoke) {
 
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
+	zend_bool raw;
 	zval attributes;
-	zval *tag_param = NULL, *text_param = NULL, *attributes_param = NULL;
+	zval *tag_param = NULL, *text_param = NULL, *attributes_param = NULL, *raw_param = NULL, _0;
 	zval tag, text;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&tag);
 	ZVAL_UNDEF(&text);
+	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&attributes);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 4)
+		Z_PARAM_STR(tag)
+		Z_PARAM_STR(text)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ARRAY(attributes)
+		Z_PARAM_BOOL(raw)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 2, 1, &tag_param, &text_param, &attributes_param);
+	zephir_fetch_params(1, 2, 2, &tag_param, &text_param, &attributes_param, &raw_param);
 
-	if (UNEXPECTED(Z_TYPE_P(tag_param) != IS_STRING && Z_TYPE_P(tag_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'tag' must be of the type string"));
-		RETURN_MM_NULL();
-	}
-	if (EXPECTED(Z_TYPE_P(tag_param) == IS_STRING)) {
-		zephir_get_strval(&tag, tag_param);
-	} else {
-		ZEPHIR_INIT_VAR(&tag);
-		ZVAL_EMPTY_STRING(&tag);
-	}
-	if (UNEXPECTED(Z_TYPE_P(text_param) != IS_STRING && Z_TYPE_P(text_param) != IS_NULL)) {
-		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'text' must be of the type string"));
-		RETURN_MM_NULL();
-	}
-	if (EXPECTED(Z_TYPE_P(text_param) == IS_STRING)) {
-		zephir_get_strval(&text, text_param);
-	} else {
-		ZEPHIR_INIT_VAR(&text);
-		ZVAL_EMPTY_STRING(&text);
-	}
+	zephir_get_strval(&tag, tag_param);
+	zephir_get_strval(&text, text_param);
 	if (!attributes_param) {
 		ZEPHIR_INIT_VAR(&attributes);
 		array_init(&attributes);
 	} else {
 		zephir_get_arrval(&attributes, attributes_param);
 	}
+	if (!raw_param) {
+		raw = 0;
+	} else {
+		raw = zephir_get_boolval(raw_param);
+	}
 
 
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "renderfullelement", NULL, 0, &tag, &text, &attributes);
+	if (raw) {
+		ZVAL_BOOL(&_0, 1);
+	} else {
+		ZVAL_BOOL(&_0, 0);
+	}
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "renderfullelement", NULL, 0, &tag, &text, &attributes, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 

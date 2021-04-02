@@ -63,6 +63,15 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getColumnMaps) {
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&userName);
 	ZVAL_UNDEF(&_1$$3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(container, phalcon_di_diinterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &model, &container);
@@ -185,6 +194,15 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData) {
 	ZVAL_UNDEF(&_27$$17);
 	ZVAL_UNDEF(&_28$$23);
 	ZVAL_UNDEF(&completeTable);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS(container, phalcon_di_diinterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &model, &container);
@@ -213,7 +231,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData) {
 		zephir_get_class(&_3$$3, model, 0);
 		ZEPHIR_INIT_VAR(&_4$$3);
 		ZEPHIR_CONCAT_SVSV(&_4$$3, "Table '", &completeTable, "' doesn't exist in database when dumping meta-data for ", &_3$$3);
-		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 6, &_4$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 8, &_4$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_2$$3, "phalcon/Mvc/Model/MetaData/Strategy/Introspection.zep", 92);
 		ZEPHIR_MM_RESTORE();
@@ -235,7 +253,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Strategy_Introspection, getMetaData) {
 		zephir_get_class(&_7$$6, model, 0);
 		ZEPHIR_INIT_VAR(&_8$$6);
 		ZEPHIR_CONCAT_SVSV(&_8$$6, "Cannot obtain table columns for the mapped source '", &completeTable, "' used in model ", &_7$$6);
-		ZEPHIR_CALL_METHOD(NULL, &_6$$6, "__construct", NULL, 6, &_8$$6);
+		ZEPHIR_CALL_METHOD(NULL, &_6$$6, "__construct", NULL, 8, &_8$$6);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_6$$6, "phalcon/Mvc/Model/MetaData/Strategy/Introspection.zep", 112);
 		ZEPHIR_MM_RESTORE();

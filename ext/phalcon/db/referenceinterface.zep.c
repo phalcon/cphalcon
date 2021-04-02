@@ -35,39 +35,31 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_ReferenceInterface) {
  * Gets local columns which reference is based
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_ReferenceInterface, getColumns);
-
 /**
  * Gets the index name
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_ReferenceInterface, getName);
-
 /**
  * Gets the referenced on delete
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_ReferenceInterface, getOnDelete);
-
 /**
  * Gets the referenced on update
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_ReferenceInterface, getOnUpdate);
-
 /**
  * Gets referenced columns
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_ReferenceInterface, getReferencedColumns);
-
 /**
  * Gets the schema where referenced table is
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_ReferenceInterface, getReferencedSchema);
-
 /**
  * Gets the referenced table
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_ReferenceInterface, getReferencedTable);
-
 /**
  * Gets the schema where referenced table is
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_ReferenceInterface, getSchemaName);
-

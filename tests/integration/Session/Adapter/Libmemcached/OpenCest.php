@@ -20,12 +20,6 @@ use Phalcon\Test\Fixtures\Traits\SessionTrait;
 class OpenCest
 {
     use DiTrait;
-    use SessionTrait;
-
-    public function _before(IntegrationTester $I)
-    {
-        $this->newFactoryDefault();
-    }
 
     /**
      * Tests Phalcon\Session\Adapter\Libmemcached :: open()
@@ -37,7 +31,7 @@ class OpenCest
     {
         $I->wantToTest('Session\Adapter\Libmemcached - open()');
 
-        $adapter = $this->getSessionLibmemcached();
+        $adapter = $this->newService('sessionLibmemcached');
 
         $I->assertTrue(
             $adapter->open('test', 'test1')

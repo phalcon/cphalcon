@@ -122,11 +122,8 @@ class Generator_File_PhalconC
      */
     protected function addStandardHeader($fileHandler)
     {
-        if (PHP_MAJOR_VERSION == 5) {
-            $header = require $this->configDir . '/php5/phalcon_c_header.php';
-        } else {
-            $header = require $this->configDir . '/php7/phalcon_c_header.php';
-        }
+        $header = require $this->configDir . '/php' . PHP_MAJOR_VERSION . '/phalcon_c_header.php';
+
         fwrite($fileHandler, PHP_EOL . $header . PHP_EOL);
     }
 

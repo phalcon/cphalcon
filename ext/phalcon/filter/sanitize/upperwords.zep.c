@@ -56,6 +56,14 @@ PHP_METHOD(Phalcon_Filter_Sanitize_UpperWords, __invoke) {
 	ZVAL_UNDEF(&_0$$3);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(input)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &input_param);
@@ -76,13 +84,13 @@ PHP_METHOD(Phalcon_Filter_Sanitize_UpperWords, __invoke) {
 		ZVAL_LONG(&_0$$3, 2);
 		ZEPHIR_INIT_VAR(&_1$$3);
 		ZVAL_STRING(&_1$$3, "UTF-8");
-		ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_case", NULL, 242, &input, &_0$$3, &_1$$3);
+		ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_case", NULL, 260, &input, &_0$$3, &_1$$3);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
-	ZEPHIR_CALL_FUNCTION(&_2, "utf8_decode", NULL, 243, &input);
+	ZEPHIR_CALL_FUNCTION(&_2, "utf8_decode", NULL, 261, &input);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_FUNCTION("ucwords", NULL, 245, &_2);
+	ZEPHIR_RETURN_CALL_FUNCTION("ucwords", NULL, 263, &_2);
 	zephir_check_call_status();
 	RETURN_MM();
 

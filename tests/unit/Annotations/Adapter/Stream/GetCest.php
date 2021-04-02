@@ -47,7 +47,7 @@ class GetCest
             TestClass::class
         );
 
-        $I->assertInternalType('object', $classAnnotations);
+        $I->assertTrue(is_object($classAnnotations));
 
         $I->assertInstanceOf(
             Reflection::class,

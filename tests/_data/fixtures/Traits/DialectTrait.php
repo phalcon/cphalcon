@@ -1,6 +1,4 @@
 <?php
-declare(strict_types=1);
-
 /**
  * This file is part of the Phalcon Framework.
  *
@@ -9,6 +7,8 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Phalcon\Test\Fixtures\Traits;
 
@@ -29,6 +29,7 @@ trait DialectTrait
                 [
                     'type' => Column::TYPE_VARCHAR,
                     'size' => 10,
+                    'notNull' => true,
                 ]
             ),
             'column2'  => new Column(
@@ -95,6 +96,7 @@ trait DialectTrait
                     'type'    => Column::TYPE_VARCHAR,
                     'size'    => 10,
                     'default' => 'column9',
+                    'notNull' => true,
                 ]
             ),
             'column10' => new Column(
@@ -167,12 +169,14 @@ trait DialectTrait
                 'column18',
                 [
                     'type' => Column::TYPE_BOOLEAN,
+                    'notNull' => true,
                 ]
             ),
             'column19' => new Column(
                 'column19',
                 [
                     'type' => Column::TYPE_DOUBLE,
+                    'notNull' => true,
                 ]
             ),
             'column20' => new Column(
@@ -187,6 +191,7 @@ trait DialectTrait
                 [
                     'type'          => Column::TYPE_BIGINTEGER,
                     'autoIncrement' => true,
+                    'notNull' => true,
                 ]
             ),
             'column22' => new Column(
@@ -194,6 +199,7 @@ trait DialectTrait
                 [
                     'type'          => Column::TYPE_BIGINTEGER,
                     'autoIncrement' => false,
+                    'notNull' => true,
                 ]
             ),
             'column23' => new Column(
@@ -201,12 +207,23 @@ trait DialectTrait
                 [
                     'type'          => Column::TYPE_INTEGER,
                     'autoIncrement' => true,
+                    'notNull' => true,
                 ]
             ),
-            'column24'  => new Column(
+            'column24' => new Column(
                 'column24',
                 [
-                    'type'     => Column::TYPE_FLOAT,
+                    'type'    => Column::TYPE_FLOAT,
+                    'notNull' => true,
+                ]
+            ),
+            'column25' => new Column(
+                'column25',
+                [
+                    'type'    => Column::TYPE_TIMESTAMP,
+                    'notNull' => true,
+                    'default' => 'CURRENT_TIMESTAMP',
+                    'comment' => 'test',
                 ]
             ),
         ];

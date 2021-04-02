@@ -1,4 +1,4 @@
-/*
+/**
  * This file is part of the Zephir.
  *
  * (c) Phalcon Team <team@zephir-lang.com>
@@ -69,9 +69,6 @@ typedef enum _zephir_call_type {
 	} \
 	else { ZEPHIR_SET_THIS_EXPLICIT_NULL(); } \
 
-
-#if PHP_VERSION_ID >= 70100
-
 #define ZEPHIR_BACKUP_SCOPE() \
 	zend_class_entry *old_scope = EG(fake_scope); \
 	zend_execute_data *old_call = execute_data; \
@@ -96,35 +93,6 @@ typedef enum _zephir_call_type {
 #define ZEPHIR_SET_SCOPE(_scope, _scope_called) \
 	EG(fake_scope) = _scope; \
 	zephir_set_called_scope(EG(current_execute_data), _scope_called); \
-
-#else
-
-#define ZEPHIR_BACKUP_SCOPE() \
-	zend_class_entry *old_scope = EG(scope); \
-	zend_execute_data *old_call = execute_data; \
-	zend_execute_data *old_execute_data = EG(current_execute_data), new_execute_data; \
-	if (!EG(current_execute_data)) { \
-		memset(&new_execute_data, 0, sizeof(zend_execute_data)); \
-		execute_data = EG(current_execute_data) = &new_execute_data; \
-	} else { \
-		new_execute_data = *EG(current_execute_data); \
-		new_execute_data.prev_execute_data = EG(current_execute_data); \
-		new_execute_data.call = NULL; \
-		new_execute_data.opline = NULL; \
-		new_execute_data.func = NULL; \
-		execute_data = EG(current_execute_data) = &new_execute_data; \
-	}
-
-#define ZEPHIR_RESTORE_SCOPE() \
-	EG(scope) = old_scope; \
-	execute_data = old_call; \
-	EG(current_execute_data) = old_execute_data;
-
-#define ZEPHIR_SET_SCOPE(_scope, _scope_called) \
-	EG(scope) = _scope; \
-	EG(current_execute_data)->called_scope = _scope_called;
-
-#endif
 
 /* End internal calls */
 
@@ -199,11 +167,19 @@ typedef enum _zephir_call_type {
 		ZEPHIR_LAST_CALL_STATUS = zephir_return_call_class_method(return_value, Z_TYPE_P(object) == IS_OBJECT ? Z_OBJCE_P(object) : NULL, zephir_fcall_method, object, method, strlen(method), cache, cache_slot, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_)); \
 	} while (0)
 
+#if PHP_VERSION_ID >= 80000
+#define ZEPHIR_RETURN_CALL_STATIC(method, cache, cache_slot, ...) \
+	do { \
+		zval *params_[] = {ZEPHIR_FETCH_VA_ARGS __VA_ARGS__}; \
+		ZEPHIR_LAST_CALL_STATUS = zephir_return_call_class_method(return_value, (getThis() ? Z_OBJCE_P(getThis()) : NULL), zephir_fcall_static, getThis(), method, strlen(method), cache, cache_slot, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_)); \
+	} while (0)
+#else
 #define ZEPHIR_RETURN_CALL_STATIC(method, cache, cache_slot, ...) \
 	do { \
 		zval *params_[] = {ZEPHIR_FETCH_VA_ARGS __VA_ARGS__}; \
 		ZEPHIR_LAST_CALL_STATUS = zephir_return_call_class_method(return_value, NULL, zephir_fcall_static, NULL, method, strlen(method), cache, cache_slot, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_)); \
 	} while (0)
+#endif
 
 #define ZEPHIR_RETURN_CALL_PARENT(class_entry, this_ptr, method, cache, cache_slot, ...) \
 	do { \
@@ -211,25 +187,51 @@ typedef enum _zephir_call_type {
 		ZEPHIR_LAST_CALL_STATUS = zephir_return_call_class_method(return_value, class_entry, zephir_fcall_parent, this_ptr, method, strlen(method), cache, cache_slot, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_)); \
 	} while (0)
 
+#if PHP_VERSION_ID >= 80000
+#define ZEPHIR_CALL_SELF(return_value_ptr, method, cache, cache_slot, ...) \
+	do { \
+		zval *params_[] = {ZEPHIR_FETCH_VA_ARGS __VA_ARGS__}; \
+		ZEPHIR_OBSERVE_OR_NULLIFY_PPZV(return_value_ptr); \
+		ZEPHIR_LAST_CALL_STATUS = zephir_call_class_method_aparams(return_value_ptr, (getThis() ? Z_OBJCE_P(getThis()) : NULL), zephir_fcall_self, getThis(), method, strlen(method), cache, cache_slot, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_)); \
+	} while (0)
+#else
 #define ZEPHIR_CALL_SELF(return_value_ptr, method, cache, cache_slot, ...) \
 	do { \
 		zval *params_[] = {ZEPHIR_FETCH_VA_ARGS __VA_ARGS__}; \
 		ZEPHIR_OBSERVE_OR_NULLIFY_PPZV(return_value_ptr); \
 		ZEPHIR_LAST_CALL_STATUS = zephir_call_class_method_aparams(return_value_ptr, NULL, zephir_fcall_self, NULL, method, strlen(method), cache, cache_slot, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_)); \
 	} while (0)
+#endif
 
+#if PHP_VERSION_ID >= 80000
+#define ZEPHIR_RETURN_CALL_SELF(method, cache, cache_slot, ...) \
+	do { \
+		zval *params_[] = {ZEPHIR_FETCH_VA_ARGS __VA_ARGS__}; \
+		ZEPHIR_LAST_CALL_STATUS = zephir_return_call_class_method(return_value, (getThis() ? Z_OBJCE_P(getThis()) : NULL), zephir_fcall_self, getThis(), method, strlen(method), cache, cache_slot, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_)); \
+	} while (0)
+#else
 #define ZEPHIR_RETURN_CALL_SELF(method, cache, cache_slot, ...) \
 	do { \
 		zval *params_[] = {ZEPHIR_FETCH_VA_ARGS __VA_ARGS__}; \
 		ZEPHIR_LAST_CALL_STATUS = zephir_return_call_class_method(return_value, NULL, zephir_fcall_self, NULL, method, strlen(method), cache, cache_slot, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_)); \
 	} while (0)
+#endif
 
+#if PHP_VERSION_ID >= 80000
+#define ZEPHIR_CALL_STATIC(return_value_ptr, method, cache, cache_slot, ...) \
+	do { \
+		zval *params_[] = {ZEPHIR_FETCH_VA_ARGS __VA_ARGS__}; \
+		ZEPHIR_OBSERVE_OR_NULLIFY_PPZV(return_value_ptr); \
+		ZEPHIR_LAST_CALL_STATUS = zephir_call_class_method_aparams(return_value_ptr, (getThis() ? Z_OBJCE_P(getThis()) : NULL), zephir_fcall_static, getThis(), method, strlen(method), cache, cache_slot, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_)); \
+	} while (0)
+#else
 #define ZEPHIR_CALL_STATIC(return_value_ptr, method, cache, cache_slot, ...) \
 	do { \
 		zval *params_[] = {ZEPHIR_FETCH_VA_ARGS __VA_ARGS__}; \
 		ZEPHIR_OBSERVE_OR_NULLIFY_PPZV(return_value_ptr); \
 		ZEPHIR_LAST_CALL_STATUS = zephir_call_class_method_aparams(return_value_ptr, NULL, zephir_fcall_static, NULL, method, strlen(method), cache, cache_slot, ZEPHIR_CALL_NUM_PARAMS(params_), ZEPHIR_PASS_CALL_PARAMS(params_)); \
 	} while (0)
+#endif
 
 #define ZEPHIR_CALL_CE_STATIC(return_value_ptr, class_entry, method, cache, cache_slot, ...) \
 	do { \
@@ -297,7 +299,8 @@ int zephir_call_zval_func_aparams(zval *return_value_ptr, zval *func_name,
 	zephir_fcall_cache_entry **cache_entry, int cache_slot,
 	uint32_t param_count, zval **params) ZEPHIR_ATTR_WARN_UNUSED_RESULT;
 
-int zephir_call_class_method_aparams(zval *return_value_ptr,
+int zephir_call_class_method_aparams(
+    zval *return_value_ptr,
 	zend_class_entry *ce,
 	zephir_call_type type,
 	zval *object,
@@ -364,12 +367,18 @@ ZEPHIR_ATTR_WARN_UNUSED_RESULT static inline int zephir_return_call_zval_functio
 	return SUCCESS;
 }
 
-ZEPHIR_ATTR_WARN_UNUSED_RESULT static inline int zephir_return_call_class_method(zval *return_value,
-	zend_class_entry *ce, zephir_call_type type, zval *object,
-	const char *method_name, uint32_t method_len,
-	zephir_fcall_cache_entry **cache_entry, int cache_slot,
-	uint32_t param_count, zval **params)
-{
+ZEPHIR_ATTR_WARN_UNUSED_RESULT static inline int zephir_return_call_class_method(
+	zval *return_value,
+	zend_class_entry *ce,
+	zephir_call_type type,
+	zval *object,
+	const char *method_name,
+	uint32_t method_len,
+	zephir_fcall_cache_entry **cache_entry,
+	int cache_slot,
+	uint32_t param_count,
+	zval **params
+) {
 	zval rv, *rvp = return_value ? return_value : &rv;
 	int status;
 

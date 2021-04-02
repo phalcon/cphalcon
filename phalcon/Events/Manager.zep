@@ -48,8 +48,8 @@ class Manager implements ManagerInterface
     {
         var priorityQueue;
 
-        if unlikely typeof handler != "object" {
-            throw new Exception("Event handler must be an Object");
+        if unlikely false === this->isValidHandler(handler) {
+            throw new Exception("Event handler must be an Object or Callable");
         }
 
         if !fetch priorityQueue, this->events[eventType] {
@@ -99,8 +99,8 @@ class Manager implements ManagerInterface
     {
         var priorityQueue, newPriorityQueue, data;
 
-        if unlikely typeof handler != "object" {
-            throw new Exception("Event handler must be an Object");
+        if unlikely false === this->isValidHandler(handler) {
+            throw new Exception("Event handler must be an Object or Callable");
         }
 
         if fetch priorityQueue, this->events[eventType] {
@@ -152,7 +152,15 @@ class Manager implements ManagerInterface
     }
 
     /**
-     * Set if priorities are enabled in the EventsManager
+     * Set if priorities are enabled in the EventsManager.
+     *
+     * A priority queue of events is a data structure similar
+     * to a regular queue of events: we can also put and extract
+     * elements from it. The difference is that each element in a
+     * priority queue is associated with a value called priority.
+     * This value is used to order elements of a queue: elements
+     * with higher priority are retrieved before the elements with
+     * lower priority.
      */
     public function enablePriorities(bool enablePriorities) -> void
     {
@@ -263,12 +271,12 @@ class Manager implements ManagerInterface
             iterator->next();
 
             // Only handler objects are valid
-            if unlikely typeof handler != "object" {
+            if unlikely false === this->isValidHandler(handler) {
                 continue;
             }
 
             // Check if the event is a closure
-            if handler instanceof Closure {
+            if handler instanceof Closure || is_callable(handler) {
                 // Call the function in the PHP userland
                 let status = call_user_func_array(
                     handler,
@@ -350,5 +358,14 @@ class Manager implements ManagerInterface
     public function isCollecting() -> bool
     {
         return this->collect;
+    }
+
+    public function isValidHandler(handler) -> bool
+    {
+        if unlikely typeof handler != "object" && !is_callable(handler) {
+            return false;
+        }
+
+        return true;
     }
 }

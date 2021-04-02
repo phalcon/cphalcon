@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Fixtures\Mvc\View\Engine;
 
 use Mustache_Engine;
@@ -21,12 +23,14 @@ class Mustache extends AbstractEngine implements EngineInterface
 {
     /**
      * The internal Mustache Engine
+     *
      * @var Mustache_Engine
      */
     protected $mustache;
 
     /**
      * The view params
+     *
      * @var array
      */
     protected $params = [];

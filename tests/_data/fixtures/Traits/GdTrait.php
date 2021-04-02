@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
@@ -9,6 +8,8 @@ declare(strict_types=1);
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Phalcon\Test\Fixtures\Traits;
 
@@ -28,23 +29,51 @@ trait GdTrait
     }
 
     /**
+     * @param UnitTester $I
+     */
+    private function checkJpegSupport(UnitTester $I): void
+    {
+        if (!$this->hasJpegSupport()) {
+            $I->skipTest(
+                "Extension 'gd' is compiled without JPEG support."
+            );
+        }
+    }
+
+    /**
+     * @return bool
+     */
+    private function hasJpegSupport(): bool
+    {
+        $gdInfo = gd_info();
+
+        return !empty($gdInfo['JPEG Support']);
+    }
+
+    /**
      * Images to process
      */
     private function getImages(): array
     {
-        return [
-            'jpg' => dataDir('assets/images/phalconphp.jpg'),
+        $images = [
             'png' => dataDir('assets/images/logo.png'),
         ];
+
+        if ($this->hasJpegSupport()) {
+            $images['jpg'] = dataDir('assets/images/phalconphp.jpg');
+        }
+
+        return $images;
     }
 
     /**
-     * @param string $image path to image
-     * @param string $hash expected hash
-     * @param float $simility percent of similarity
+     * @param string $image    path to image
+     * @param string $hash     expected hash
+     * @param float  $simility percent of similarity
+     *
      * @return bool
      */
-    private function checkImageHash(string $image, string $hash, float $simility = 95.0): bool
+    private function checkImageHash(string $image, string $hash, float $simility = 70.0): bool
     {
         $imageHash = $this->hashAsString($this->getHash($image));
 
@@ -53,14 +82,15 @@ trait GdTrait
 
 
     /**
-     * Compare hash strings (no rotation) this assumes the strings will be the same length, which they will be
-     * as hashes.
+     * Compare hash strings (no rotation) this assumes the strings will be the
+     * same length, which they will be as hashes.
      *
      * @author https://github.com/xwiz/phash
      *
      * @param array|string $hash1
      * @param array|string $hash2
-     * @param int $precision
+     * @param int          $precision
+     *
      * @return float
      */
     private function getSimilarityHamming($hash1, $hash2, int $precision = 1): float
@@ -98,6 +128,7 @@ trait GdTrait
      * @author https://github.com/xwiz/phash
      *
      * @param string $filepath
+     *
      * @return array|string
      */
     private function getHash(string $filepath)
@@ -135,7 +166,7 @@ trait GdTrait
         }
 
         $averageValue = 0;
-        $grayscale = [];
+        $grayscale    = [];
 
         for ($y = 0; $y < $scale; $y++) {
             for ($x = 0; $x < $scale; $x++) {
@@ -173,7 +204,8 @@ trait GdTrait
      * @author https://github.com/xwiz/phash
      *
      * @param array $hash
-     * @param bool $hex
+     * @param bool  $hex
+     *
      * @return string|null
      */
     private function hashAsString(array $hash, $hex = true): ?string
@@ -206,6 +238,7 @@ trait GdTrait
      * @param $thumbheight
      * @param $width
      * @param $height
+     *
      * @return false|resource
      */
     private function makeThumbnail($img, int $thumbwidth, int $thumbheight, int $width, int $height)
@@ -225,17 +258,18 @@ trait GdTrait
     /**
      * @author https://github.com/xwiz/phash
      *
-     * @param $dst_image
-     * @param $src_image
-     * @param $dst_x
-     * @param $dst_y
-     * @param $src_x
-     * @param $src_y
-     * @param $dst_w
-     * @param $dst_h
-     * @param $src_w
-     * @param $src_h
+     * @param     $dst_image
+     * @param     $src_image
+     * @param     $dst_x
+     * @param     $dst_y
+     * @param     $src_x
+     * @param     $src_y
+     * @param     $dst_w
+     * @param     $dst_h
+     * @param     $src_w
+     * @param     $src_h
      * @param int $quality
+     *
      * @return bool
      */
     private function fastimagecopyresampled(

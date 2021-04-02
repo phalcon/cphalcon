@@ -78,6 +78,14 @@ PHP_METHOD(Phalcon_Session_Bag, __construct) {
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$3);
 	ZVAL_UNDEF(&_4$$3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(name)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
@@ -94,7 +102,7 @@ PHP_METHOD(Phalcon_Session_Bag, __construct) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, SL("name"), &name);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("name"), &name);
 	ZEPHIR_CALL_CE_STATIC(&container, phalcon_di_ce, "getdefault", &_0, 0);
 	zephir_check_call_status();
 	if (UNEXPECTED(Z_TYPE_P(&container) != IS_OBJECT)) {
@@ -104,7 +112,7 @@ PHP_METHOD(Phalcon_Session_Bag, __construct) {
 		ZVAL_STRING(&_4$$3, "the 'session' service");
 		ZEPHIR_CALL_CE_STATIC(&_2$$3, phalcon_session_exception_ce, "containerservicenotfound", &_3, 0, &_4$$3);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 6, &_2$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 8, &_2$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Session/Bag.zep", 55);
 		ZEPHIR_MM_RESTORE();
@@ -114,9 +122,9 @@ PHP_METHOD(Phalcon_Session_Bag, __construct) {
 	ZVAL_STRING(&_5, "session");
 	ZEPHIR_CALL_METHOD(&session, &container, "getshared", NULL, 0, &_5);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, SL("container"), &container);
-	zephir_update_property_zval(this_ptr, SL("session"), &session);
-	zephir_read_property(&_6, this_ptr, SL("name"), PH_NOISY_CC | PH_READONLY);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("container"), &container);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("session"), &session);
+	zephir_read_property(&_6, this_ptr, ZEND_STRL("name"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&data, &session, "get", NULL, 0, &_6);
 	zephir_check_call_status();
 	if (Z_TYPE_P(&data) != IS_ARRAY) {
@@ -143,12 +151,13 @@ PHP_METHOD(Phalcon_Session_Bag, clear) {
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 
+
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_CALL_PARENT(NULL, phalcon_session_bag_ce, getThis(), "clear", &_0, 0);
 	zephir_check_call_status();
-	zephir_read_property(&_1, this_ptr, SL("session"), PH_NOISY_CC | PH_READONLY);
-	zephir_read_property(&_2, this_ptr, SL("name"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_1, this_ptr, ZEND_STRL("session"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_2, this_ptr, ZEND_STRL("name"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(NULL, &_1, "remove", NULL, 0, &_2);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
@@ -163,12 +172,13 @@ PHP_METHOD(Phalcon_Session_Bag, getDI) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "container");
 
 }
 
 /**
- * Removes a property from the internal bag
+ * Initialize internal array
  */
 PHP_METHOD(Phalcon_Session_Bag, init) {
 
@@ -180,6 +190,15 @@ PHP_METHOD(Phalcon_Session_Bag, init) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&data);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ARRAY(data)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &data_param);
@@ -214,6 +233,14 @@ PHP_METHOD(Phalcon_Session_Bag, remove) {
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(element)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &element_param);
@@ -232,9 +259,9 @@ PHP_METHOD(Phalcon_Session_Bag, remove) {
 
 	ZEPHIR_CALL_PARENT(NULL, phalcon_session_bag_ce, getThis(), "remove", &_0, 0, &element);
 	zephir_check_call_status();
-	zephir_read_property(&_1, this_ptr, SL("session"), PH_NOISY_CC | PH_READONLY);
-	zephir_read_property(&_2, this_ptr, SL("name"), PH_NOISY_CC | PH_READONLY);
-	zephir_read_property(&_3, this_ptr, SL("data"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_1, this_ptr, ZEND_STRL("session"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_2, this_ptr, ZEND_STRL("name"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_3, this_ptr, ZEND_STRL("data"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(NULL, &_1, "set", NULL, 0, &_2, &_3);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
@@ -258,6 +285,15 @@ PHP_METHOD(Phalcon_Session_Bag, set) {
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_STR(element)
+		Z_PARAM_ZVAL(value)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &element_param, &value);
@@ -276,9 +312,9 @@ PHP_METHOD(Phalcon_Session_Bag, set) {
 
 	ZEPHIR_CALL_PARENT(NULL, phalcon_session_bag_ce, getThis(), "set", &_0, 0, &element, value);
 	zephir_check_call_status();
-	zephir_read_property(&_1, this_ptr, SL("session"), PH_NOISY_CC | PH_READONLY);
-	zephir_read_property(&_2, this_ptr, SL("name"), PH_NOISY_CC | PH_READONLY);
-	zephir_read_property(&_3, this_ptr, SL("data"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_1, this_ptr, ZEND_STRL("session"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_2, this_ptr, ZEND_STRL("name"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_3, this_ptr, ZEND_STRL("data"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(NULL, &_1, "set", NULL, 0, &_2, &_3);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
@@ -294,12 +330,20 @@ PHP_METHOD(Phalcon_Session_Bag, setDI) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&container_sub);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(container, phalcon_di_diinterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(1, 0, &container);
 
 
 
-	zephir_update_property_zval(this_ptr, SL("container"), container);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("container"), container);
 
 }
 

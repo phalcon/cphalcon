@@ -21,7 +21,6 @@ use Phalcon\Test\Fixtures\Traits\SessionTrait;
 class UnderscoreGetSetCest
 {
     use DiTrait;
-    use SessionTrait;
 
     /**
      * Tests Phalcon\Session\Manager :: __get()/__set()
@@ -35,7 +34,7 @@ class UnderscoreGetSetCest
 
         $manager = new Manager();
 
-        $files = $this->getSessionStream();
+        $files = $this->newService('sessionStream');
 
         $manager->setAdapter($files);
 

@@ -91,6 +91,15 @@ PHP_METHOD(Phalcon_Validation_Validator_CreditCard, __construct) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&options);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ARRAY(options)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &options_param);
@@ -124,6 +133,15 @@ PHP_METHOD(Phalcon_Validation_Validator_CreditCard, validate) {
 	ZVAL_UNDEF(&value);
 	ZVAL_UNDEF(&valid);
 	ZVAL_UNDEF(&_0$$3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_OBJECT_OF_CLASS(validation, phalcon_validation_ce)
+		Z_PARAM_ZVAL(field)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &validation, &field);
@@ -174,6 +192,14 @@ PHP_METHOD(Phalcon_Validation_Validator_CreditCard, verifyByLuhnAlgorithm) {
 	ZVAL_UNDEF(&_9$$4);
 	ZVAL_UNDEF(&digits);
 	ZVAL_UNDEF(&_1);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(number)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &number_param);
@@ -183,7 +209,7 @@ PHP_METHOD(Phalcon_Validation_Validator_CreditCard, verifyByLuhnAlgorithm) {
 
 	ZEPHIR_INIT_VAR(&hash);
 	ZVAL_STRING(&hash, "");
-	ZEPHIR_CALL_FUNCTION(&_0, "str_split", NULL, 103, &number);
+	ZEPHIR_CALL_FUNCTION(&_0, "str_split", NULL, 108, &number);
 	zephir_check_call_status();
 	zephir_get_arrval(&_1, &_0);
 	ZEPHIR_CPY_WRT(&digits, &_1);
@@ -237,7 +263,7 @@ PHP_METHOD(Phalcon_Validation_Validator_CreditCard, verifyByLuhnAlgorithm) {
 	}
 	ZEPHIR_INIT_NVAR(&digit);
 	ZEPHIR_INIT_NVAR(&position);
-	ZEPHIR_CALL_FUNCTION(&_10, "str_split", NULL, 103, &hash);
+	ZEPHIR_CALL_FUNCTION(&_10, "str_split", NULL, 108, &hash);
 	zephir_check_call_status();
 	ZEPHIR_CALL_FUNCTION(&result, "array_sum", NULL, 0, &_10);
 	zephir_check_call_status();

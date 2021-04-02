@@ -4,8 +4,8 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 
 namespace Phalcon\Flash;
@@ -14,8 +14,9 @@ use Phalcon\Di\DiInterface;
 use Phalcon\Session\ManagerInterface;
 
 /**
- * Temporarily stores the messages in session, then messages can be printed in
- * the next request
+ * This is an implementation of the Phalcon\Flash\FlashInterface that
+ * temporarily stores the messages in session, then messages can be printed in
+ * the next request.
  */
 class Session extends AbstractFlash
 {
@@ -30,32 +31,43 @@ class Session extends AbstractFlash
 
     /**
      * Returns the messages in the session flasher
+     *
+     * @param string|null $type
+     * @param bool $remove
+     *
+     * @return array
      */
-    public function getMessages(type = null, bool remove = true) -> array
+    public function getMessages(var type = null, bool remove = true) -> array
     {
         return this->getSessionMessages(remove, type);
     }
 
     /**
      * Checks whether there are messages
+     *
+     * @param string|null $type
+     *
+     * @return bool
      */
-    public function has(type = null) -> bool
+    public function has(var type = null) -> bool
     {
         var messages;
 
         let messages = this->getSessionMessages(false);
 
-        if typeof type != "string" {
-            return true;
+        if typeof type == "string" {
+            return isset messages[type];
         }
 
-        return isset messages[type];
+        return count(messages) > 0;
     }
 
     /**
      * Adds a message to the session flasher
+     *
+     * @return null|string|void
      */
-    public function message(string type, string message) -> string | null
+    public function message(var type, string message) -> string | null
     {
         var messages;
 
@@ -90,8 +102,13 @@ class Session extends AbstractFlash
 
     /**
      * Returns the messages stored in session
+     *
+     * @param bool        $remove
+     * @param string|null $type
+     *
+     * @return array
      */
-    protected function getSessionMessages(bool remove, type = null) -> array
+    protected function getSessionMessages(bool remove, var type = null) -> array
     {
         var session, messages, returnMessages;
 
@@ -158,7 +175,7 @@ class Session extends AbstractFlash
         }
 
         if likely container->has("session") {
-            return <RequestInterface> container->getShared("session");
+            return <ManagerInterface> container->getShared("session");
         } else {
             throw new Exception(
                 Exception::containerServiceNotFound("the 'session' service")

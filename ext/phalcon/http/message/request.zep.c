@@ -69,6 +69,18 @@ PHP_METHOD(Phalcon_Http_Message_Request, __construct) {
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_5);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 4)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR(method)
+		Z_PARAM_ZVAL(uri)
+		Z_PARAM_ZVAL(body)
+		Z_PARAM_ZVAL(headers)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 4, &method_param, &uri, &body, &headers);
@@ -102,23 +114,23 @@ PHP_METHOD(Phalcon_Http_Message_Request, __construct) {
 	if (UNEXPECTED(ZEPHIR_IS_IDENTICAL(&_0, body))) {
 		ZEPHIR_INIT_NVAR(body);
 		object_init_ex(body, phalcon_http_message_stream_input_ce);
-		ZEPHIR_CALL_METHOD(NULL, body, "__construct", NULL, 284);
+		ZEPHIR_CALL_METHOD(NULL, body, "__construct", NULL, 303);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "processuri", NULL, 285, uri);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "processuri", NULL, 304, uri);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, SL("uri"), &_1);
-	ZEPHIR_CALL_METHOD(&_2, this_ptr, "processheaders", NULL, 286, headers);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("uri"), &_1);
+	ZEPHIR_CALL_METHOD(&_2, this_ptr, "processheaders", NULL, 305, headers);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, SL("headers"), &_2);
-	ZEPHIR_CALL_METHOD(&_3, this_ptr, "processmethod", NULL, 101, &method);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("headers"), &_2);
+	ZEPHIR_CALL_METHOD(&_3, this_ptr, "processmethod", NULL, 106, &method);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, SL("method"), &_3);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("method"), &_3);
 	ZEPHIR_INIT_VAR(&_5);
 	ZVAL_STRING(&_5, "w+b");
-	ZEPHIR_CALL_METHOD(&_4, this_ptr, "processbody", NULL, 36, body, &_5);
+	ZEPHIR_CALL_METHOD(&_4, this_ptr, "processbody", NULL, 37, body, &_5);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, SL("body"), &_4);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("body"), &_4);
 	ZEPHIR_MM_RESTORE();
 
 }

@@ -36,7 +36,7 @@ use Phalcon\Validation\Validator\File\Size\Min as MinFileSize;
  *     new FileValidator(
  *         [
  *             "maxSize"              => "2M",
- *             "messageSize"          => ":field exceeds the max filesize (:size)",
+ *             "messageSize"          => ":field exceeds the max file size (:size)",
  *             "allowedTypes"         => [
  *                 "image/jpeg",
  *                 "image/png",
@@ -60,8 +60,8 @@ use Phalcon\Validation\Validator\File\Size\Min as MinFileSize;
  *                 "anotherFile" => "4M",
  *             ],
  *             "messageSize" => [
- *                 "file"        => "file exceeds the max filesize 2M",
- *                 "anotherFile" => "anotherFile exceeds the max filesize 4M",
+ *                 "file"        => "file exceeds the max file size 2M",
+ *                 "anotherFile" => "anotherFile exceeds the max file size 4M",
  *             "allowedTypes" => [
  *                 "file"        => [
  *                     "image/jpeg",
@@ -122,7 +122,7 @@ class File extends AbstractValidatorComposite
 
         // create individual validators
         for key, value in options {
-            // min filesize
+            // min file size
             if strcasecmp(key, "minSize") === 0 {
                 let message  = Arr::get(options, "messageMinSize"),
                     included = Arr::get(options, "includedMinSize");
@@ -139,7 +139,7 @@ class File extends AbstractValidatorComposite
                 unset options["includedMinSize"];
             }
 
-            // max filesize
+            // max file size
             elseif strcasecmp(key, "maxSize") === 0 {
                 let message  = Arr::get(options, "messageSize"),
                     included = Arr::get(options, "includedSize");
@@ -157,7 +157,7 @@ class File extends AbstractValidatorComposite
                 unset options["includedSize"];
             }
 
-            // equal filesize
+            // equal file size
             elseif strcasecmp(key, "equalSize") === 0 {
                 let message = Arr::get(options, "messageEqualSize");
 

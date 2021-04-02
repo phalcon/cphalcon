@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Http;
+namespace Phalcon\Test\Unit\Http\Response;
 
 use Phalcon\Http\Response;
 use Phalcon\Test\Unit\Http\Helper\HttpBase;

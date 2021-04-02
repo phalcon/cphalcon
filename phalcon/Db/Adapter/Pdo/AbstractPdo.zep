@@ -408,7 +408,7 @@ abstract class AbstractPdo extends AbstractAdapter
      * );
      *```
      */
-    public function execute(string! sqlStatement, var bindParams = null, var bindTypes = null) -> bool
+    public function execute(string! sqlStatement, array! bindParams = [], array! bindTypes = []) -> bool
     {
         var eventsManager, affectedRows, pdo, newStatement, statement;
 
@@ -431,9 +431,11 @@ abstract class AbstractPdo extends AbstractAdapter
          */
         let affectedRows = 0;
 
+        this->prepareRealSql(sqlStatement, bindParams);
+
         let pdo = <\PDO> this->pdo;
 
-        if typeof bindParams == "array" {
+        if !empty bindParams {
             let statement = pdo->prepare(sqlStatement);
 
             if typeof statement == "object" {
@@ -708,7 +710,7 @@ abstract class AbstractPdo extends AbstractAdapter
      * );
      *```
      */
-    public function query(string! sqlStatement, var bindParams = null, var bindTypes = null) -> <ResultInterface> | bool
+    public function query(string! sqlStatement, array! bindParams = [], array! bindTypes = []) -> <ResultInterface> | bool
     {
         var eventsManager, pdo, statement, params, types;
 
@@ -728,7 +730,7 @@ abstract class AbstractPdo extends AbstractAdapter
         }
 
         let pdo = <\PDO> this->pdo;
-        if typeof bindParams == "array" {
+        if !empty bindParams {
             let params = bindParams;
             let types = bindTypes;
         } else {
@@ -740,6 +742,8 @@ abstract class AbstractPdo extends AbstractAdapter
         if unlikely typeof statement != "object" {
             throw new Exception("Cannot prepare statement");
         }
+
+        this->prepareRealSql(sqlStatement, bindParams);
 
         let statement = this->executePrepared(statement, params, types);
 
@@ -836,4 +840,41 @@ abstract class AbstractPdo extends AbstractAdapter
      * Returns PDO adapter DSN defaults as a key-value map.
      */
     abstract protected function getDsnDefaults() -> array;
+
+    /**
+     * Constructs the SQL statement (with parameters)
+     *
+     * @see https://stackoverflow.com/a/8403150
+     */
+    protected function prepareRealSql(string statement, array parameters) -> void
+    {
+        var key, result, value;
+        array keys, values;
+
+        let result = statement,
+            values = parameters;
+        if !empty parameters {
+            let keys = [];
+
+            for key, value in parameters {
+                if typeof key === "string" {
+                    let keys[] = "/:" . key . "/";
+                } else {
+                    let keys[] = "/[?]/";
+                }
+
+                if typeof value === "string" {
+                    let values[key] = "'" . value . "'";
+                } elseif typeof value === "array" {
+                    let values[key] = "'" . implode("','", value) . "'";
+                } elseif null === value {
+                    let values[key] = "NULL";
+                }
+            }
+
+            let result = preg_replace(keys, values, statement, 1);
+        }
+
+        let this->realSqlStatement = result;
+    }
 }

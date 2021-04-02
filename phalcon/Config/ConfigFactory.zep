@@ -4,20 +4,15 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 
 namespace Phalcon\Config;
 
 use Phalcon\Config;
-use Phalcon\Config\Adapter\Grouped;
-use Phalcon\Config\Adapter\Ini;
-use Phalcon\Config\Adapter\Json;
-use Phalcon\Config\Adapter\Php;
-use Phalcon\Config\Adapter\Yaml;
+use Phalcon\Config\ConfigInterface;
 use Phalcon\Factory\AbstractFactory;
-use Phalcon\Factory\Exception as FactoryException;
 use Phalcon\Helper\Arr;
 
 /**
@@ -55,7 +50,7 @@ class ConfigFactory extends AbstractFactory
      *      'callbacks' => null
      * ]
      */
-    public function load(config) -> object
+    public function load(config) -> <ConfigInterface>
     {
         var adapter, extension, first, oldConfig, second;
 
@@ -75,7 +70,7 @@ class ConfigFactory extends AbstractFactory
             ];
         }
 
-        if typeof config === "object" && config instanceof Config {
+        if typeof config === "object" && config instanceof ConfigInterface {
             let config = config->toArray();
         }
 
@@ -117,13 +112,11 @@ class ConfigFactory extends AbstractFactory
     /**
      * Returns a new Config instance
      */
-    public function newInstance(string name, string fileName, var params = null) -> object
+    public function newInstance(string name, string fileName, var params = null) -> <ConfigInterface>
     {
         var definition, options;
 
-        this->checkService(name);
-
-        let definition = this->mapper[name],
+        let definition = this->getService(name),
             options    = [],
             options[]  = fileName;
 

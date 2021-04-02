@@ -38,29 +38,23 @@ ZEPHIR_INIT_CLASS(Phalcon_Url_UrlInterface) {
  * @param array|object args Optional arguments to be appended to the query string
  */
 ZEPHIR_DOC_METHOD(Phalcon_Url_UrlInterface, get);
-
 /**
  * Returns a base path
  */
 ZEPHIR_DOC_METHOD(Phalcon_Url_UrlInterface, getBasePath);
-
 /**
  * Returns the prefix for all the generated urls. By default /
  */
 ZEPHIR_DOC_METHOD(Phalcon_Url_UrlInterface, getBaseUri);
-
 /**
  * Sets a base paths for all the generated paths
  */
 ZEPHIR_DOC_METHOD(Phalcon_Url_UrlInterface, setBasePath);
-
 /**
  * Sets a prefix to all the urls generated
  */
 ZEPHIR_DOC_METHOD(Phalcon_Url_UrlInterface, setBaseUri);
-
 /**
  * Generates a local path
  */
 ZEPHIR_DOC_METHOD(Phalcon_Url_UrlInterface, path);
-

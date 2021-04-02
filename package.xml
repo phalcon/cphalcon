@@ -11,11 +11,11 @@
     <email>ruud@ruudboon.io</email>
     <active>yes</active>
   </lead>
-  <date>2020-01-25</date>
-  <time>18:00:00</time>
+  <date>2021-03-31</date>
+  <time>17:00:00</time>
   <version>
-    <release>4.0.3</release>
-    <api>4.0.3</api>
+    <release>5.0.0</release>
+    <api>5.0.0</api>
   </version>
   <stability>
     <release>stable</release>
@@ -23,18 +23,19 @@
   </stability>
   <license uri="https://license.phalcon.io">BSD 3-Clause License</license>
   <notes>
-    Full changelog can be found at: https://github.com/phalcon/cphalcon/blob/master/CHANGELOG-4.0.md
+    Full changelog can be found at: https://github.com/phalcon/cphalcon/blob/master/CHANGELOG-5.0.md
 
-    # [4.0.3]
+    # [5.0.0](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0-alpha.1) (2020-03-31)
+
     ## Fixed
-    - Fixed `Phalcon\Db\Adapter\Pdo\Mysql` Tinyint(1) is handled as boolean under MySql [#14708](https://github.com/phalcon/cphalcon/issues/14708)
-    - Fixed `Phalcon\Mvc\View\Engine\Volt` to produce the correct order of variables for the `join` filter [#14771](https://github.com/phalcon/cphalcon/issues/14771)
-    - Fixed `Phalcon\Storage\Adapter\Stream::getKeys()` bug in the absence of a directory with a prefix name [#14725](https://github.com/phalcon/cphalcon/issues/14725), [#14721](https://github.com/phalcon/cphalcon/pull/14721)
-    - Fixed `Phalcon\Debug::onUncaughtException` Should accept `\Throwable` instead of `\Exception` as an argument [#14738](https://github.com/phalcon/cphalcon/pull/14738)
-    - Fixed `Phalcon\Validation\ValidatorFactory` Should return Phalcon\Validation\ValidatorInterface [14749](https://github.com/phalcon/cphalcon/pull/14749)
-    - Fixed `Phalcon\Mvc\Model\Binder` to now correctly call `has` and `set` on the cache object [#14743](https://github.com/phalcon/cphalcon/pull/14743)
-    - Fixed `Phalcon\Session\Adapter\Stream` and `Phalcon\Storage\Adapter\Stream` to correctly handle simultaneous read/write [#14694](https://github.com/phalcon/cphalcon/issues/14694)
-    - Fixed `Phalcon\Config\ConfigFactory` to always add the correct extension [#14756](https://github.com/phalcon/cphalcon/issues/14756)
+    - Support for PHP 7.4 and PHP 8.0
+    - Fixed `Phalcon\Mvc\Model::average()` to return `float` value when is `string` [#15287](https://github.com/phalcon/cphalcon/pull/15287)
+    - Fixed `Phalcon\Storage\Serializer\Igbinary` to store `is_numeric` and `bool` values properly [#15240](https://github.com/phalcon/cphalcon/pull/15240)
+    - Fixed `Phalcon\Validation\Validator\Confirmation` was failing to compare cases such as 000123 = 123 [#15347](https://github.com/phalcon/cphalcon/pull/15347)
+    - Fixed `Phalcon\Storage\Adapter` failing to retrieve empty like stored data (such as [], 0, false) [15125](https://github.com/phalcon/cphalcon/issues/15125)
+    - Fixed declarations for `function getEventsManager()` to allow null return [15010](https://github.com/phalcon/cphalcon/issues/15010)
+    - Removed underscore from method names (starting) to abide with PSR-12 [15345](https://github.com/phalcon/cphalcon/issues/15345)
+    - Fixed `Phalcon\Flash\Session::has()` to properly check if any messages are existing [15204](https://github.com/phalcon/cphalcon/issues/15204)
 
   </notes>
   <contents>
@@ -45,7 +46,7 @@
       <file name="php_phalcon.h" role="src" />
       <file name="phalcon.zep.h" role="src" />
       <file name="LICENSE.txt" role="doc" />
-      <file name="CHANGELOG-4.0.md" role="doc" />
+      <file name="CHANGELOG-5.0.md" role="doc" />
       <file name="CODE_OF_CONDUCT.md" role="doc" />
       <file name="CODE_OWNERS.TXT" role="doc" />
     </dir>
@@ -53,8 +54,8 @@
   <dependencies>
     <required>
       <php>
-        <min>7.2.0</min>
-        <max>8.0.0</max>
+        <min>7.4.1</min>
+        <max>8.0.3</max>
       </php>
       <pearinstaller>
         <min>1.4.0</min>
@@ -62,7 +63,7 @@
       <package>
         <name>psr</name>
         <channel>pecl.php.net</channel>
-        <min>0.7.0</min>
+        <min>1.0.1</min>
       </package>
     </required>
   </dependencies>

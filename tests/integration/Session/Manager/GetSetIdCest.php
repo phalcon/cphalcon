@@ -23,7 +23,6 @@ use function uniqid;
 class GetSetIdCest
 {
     use DiTrait;
-    use SessionTrait;
 
     /**
      * Tests Phalcon\Session\Manager :: getId()/setId()
@@ -37,7 +36,7 @@ class GetSetIdCest
 
         $manager = new Manager();
 
-        $files = $this->getSessionStream();
+        $files = $this->newService('sessionStream');
 
         $manager->setAdapter($files);
 

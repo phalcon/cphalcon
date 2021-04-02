@@ -1,22 +1,30 @@
 <?php
-declare(strict_types=1);
 
 /**
  * This file is part of the Phalcon Framework.
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Phalcon\Test\Fixtures\Traits;
 
+use Phalcon\Config;
+use Phalcon\Config\Adapter\Ini;
+
 use function dataDir;
 use function outputDir;
-use Phalcon\Config\Adapter\Ini;
-use Phalcon\Config;
 
+/**
+ * Trait FactoryTrait
+ *
+ * @property Ini   $config
+ * @property array $arrayConfig
+ */
 trait FactoryTrait
 {
     protected $config;
@@ -28,8 +36,10 @@ trait FactoryTrait
 
     /**
      * Initializes the main config
+     *
+     * @return void
      */
-    protected function init()
+    protected function init(): void
     {
         $configFile = dataDir('assets/config/factory.ini');
 
@@ -40,8 +50,10 @@ trait FactoryTrait
 
     /**
      * Initializes the logger config - this is special because it is nested
+     *
+     * @return void
      */
-    protected function initLogger()
+    protected function initLogger(): void
     {
         $options = [
             'logger' => [

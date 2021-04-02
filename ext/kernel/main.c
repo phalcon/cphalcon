@@ -1,4 +1,4 @@
-/*
+/**
  * This file is part of the Zephir.
  *
  * (c) Phalcon Team <team@zephir-lang.com>
@@ -142,13 +142,21 @@ void zephir_fast_count(zval *result, zval *value)
 
 		if (Z_OBJ_HT_P(value)->count_elements) {
 			ZVAL_LONG(result, 1);
+#if PHP_VERSION_ID >= 80000
+			if (SUCCESS == Z_OBJ_HT(*value)->count_elements(Z_OBJ_P(value), &Z_LVAL_P(result))) {
+#else
 			if (SUCCESS == Z_OBJ_HT(*value)->count_elements(value, &Z_LVAL_P(result))) {
+#endif
 				return;
 			}
 		}
 
 		if (instanceof_function(Z_OBJCE_P(value), spl_ce_Countable)) {
+#if PHP_VERSION_ID >= 80000
+			zend_call_method_with_0_params(Z_OBJ_P(value), NULL, NULL, "count", &retval);
+#else
 			zend_call_method_with_0_params(value, NULL, NULL, "count", &retval);
+#endif
 			if (Z_TYPE(retval) != IS_UNDEF) {
 				convert_to_long_ex(&retval);
 				ZVAL_LONG(result, Z_LVAL(retval));
@@ -185,12 +193,20 @@ int zephir_fast_count_ev(zval *value)
 		zval retval;
 
 		if (Z_OBJ_HT_P(value)->count_elements) {
+#if PHP_VERSION_ID >= 80000
+			Z_OBJ_HT(*value)->count_elements(Z_OBJ_P(value), &count);
+#else
 			Z_OBJ_HT(*value)->count_elements(value, &count);
+#endif
 			return (int) count > 0;
 		}
 
 		if (instanceof_function(Z_OBJCE_P(value), spl_ce_Countable)) {
+#if PHP_VERSION_ID >= 80000
+			zend_call_method_with_0_params(Z_OBJ_P(value), NULL, NULL, "count", &retval);
+#else
 			zend_call_method_with_0_params(value, NULL, NULL, "count", &retval);
+#endif
 			if (Z_TYPE(retval) != IS_UNDEF) {
 				convert_to_long_ex(&retval);
 				count = Z_LVAL(retval);
@@ -222,16 +238,23 @@ int zephir_fast_count_int(zval *value)
 	}
 
 	if (Z_TYPE_P(value) == IS_OBJECT) {
-
 		zval retval;
 
 		if (Z_OBJ_HT_P(value)->count_elements) {
+#if PHP_VERSION_ID >= 80000
+			Z_OBJ_HT(*value)->count_elements(Z_OBJ_P(value), &count);
+#else
 			Z_OBJ_HT(*value)->count_elements(value, &count);
+#endif
 			return (int) count;
 		}
 
 		if (instanceof_function(Z_OBJCE_P(value), spl_ce_Countable)) {
+#if PHP_VERSION_ID >= 80000
+			zend_call_method_with_0_params(Z_OBJ_P(value), NULL, NULL, "count", &retval);
+#else
 			zend_call_method_with_0_params(value, NULL, NULL, "count", &retval);
+#endif
 			if (Z_TYPE(retval) != IS_UNDEF) {
 				convert_to_long_ex(&retval);
 				count = Z_LVAL(retval);
@@ -252,20 +275,6 @@ int zephir_fast_count_int(zval *value)
 }
 
 /**
- * Check if a function exists using explicit function length
- *
- * TODO: Deprecated. Will be removed in future
- */
-int zephir_function_quick_exists_ex(const char *function_name, size_t function_len)
-{
-	if (zend_hash_str_exists(CG(function_table), function_name, function_len)) {
-		return SUCCESS;
-	}
-
-	return FAILURE;
-}
-
-/**
  * Check if a function exists
  *
  * @param function_name
@@ -273,7 +282,7 @@ int zephir_function_quick_exists_ex(const char *function_name, size_t function_l
  */
 int zephir_function_exists(const zval *function_name)
 {
-	if (zend_hash_str_exists(CG(function_table), Z_STRVAL_P(function_name), Z_STRLEN_P(function_name))) {
+	if (zend_hash_str_exists(CG(function_table), Z_STRVAL_P(function_name), Z_STRLEN_P(function_name)) != NULL) {
 		return SUCCESS;
 	}
 
@@ -283,13 +292,17 @@ int zephir_function_exists(const zval *function_name)
 /**
  * Check if a function exists using explicit function length
  *
- * TODO: Deprecated. Will be removed in future
+ * TODO: Check if make sense to merge all logic of IS_STRING inside zephir_function_exists() function.
  * @param function_name
  * @param function_len strlen(function_name) + 1
  */
 int zephir_function_exists_ex(const char *function_name, unsigned int function_len)
 {
-	return zephir_function_quick_exists_ex(function_name, function_len);
+	if (zend_hash_str_exists(CG(function_table), function_name, function_len) != NULL) {
+        return SUCCESS;
+    }
+
+    return FAILURE;
 }
 
 /**
@@ -393,7 +406,23 @@ zend_class_entry* zephir_get_internal_ce(const char *class_name, unsigned int cl
 /* Declare constants */
 int zephir_declare_class_constant(zend_class_entry *ce, const char *name, size_t name_length, zval *value)
 {
-#if PHP_VERSION_ID >= 70200
+#if PHP_VERSION_ID >= 80000
+	zend_string *key;
+
+	if (ce->type == ZEND_INTERNAL_CLASS) {
+		key = zend_string_init_interned(name, name_length, 1);
+	} else {
+		key = zend_string_init(name, name_length, 0);
+	}
+
+	zend_declare_class_constant_ex(ce, key, value, ZEND_ACC_PUBLIC, NULL);
+
+	if (ce->type != ZEND_INTERNAL_CLASS) {
+		zend_string_release(key);
+	}
+
+	return SUCCESS;
+#else
 	int ret;
 	zend_string *key;
 
@@ -410,20 +439,6 @@ int zephir_declare_class_constant(zend_class_entry *ce, const char *name, size_t
 	}
 
 	return ret;
-#elif PHP_VERSION_ID >= 70100
-	int ret;
-
-	zend_string *key = zend_string_init(name, name_length, ce->type & ZEND_INTERNAL_CLASS);
-	ret = zend_declare_class_constant_ex(ce, key, value, ZEND_ACC_PUBLIC, NULL);
-	zend_string_release(key);
-	return ret;
-#else
-	if (Z_CONSTANT_P(value)) {
-		ce->ce_flags &= ~ZEND_ACC_CONSTANTS_UPDATED;
-	}
-	ZVAL_NEW_PERSISTENT_REF(value, value);
-	return zend_hash_str_update(&ce->constants_table, name, name_length, value) ?
-		SUCCESS : FAILURE;
 #endif
 }
 
@@ -498,8 +513,7 @@ int zephir_is_php_version(unsigned int id)
 	return ((php_major + php_minor + php_release) == id ? 1 : 0);
 }
 
-void
-zephir_get_args(zval *return_value)
+void zephir_get_args(zval *return_value)
 {
 	zend_execute_data *ex = EG(current_execute_data);
 	uint32_t arg_count    = ZEND_CALL_NUM_ARGS(ex);
@@ -542,8 +556,7 @@ zephir_get_args(zval *return_value)
 	}
 }
 
-void
-zephir_get_arg(zval *return_value, zend_long idx)
+void zephir_get_arg(zval *return_value, zend_long idx)
 {
 	zend_execute_data *ex = EG(current_execute_data);
 	uint32_t arg_count;
@@ -555,11 +568,9 @@ zephir_get_arg(zval *return_value, zend_long idx)
 	}
 
 	arg_count = ZEND_CALL_NUM_ARGS(ex);
-#if PHP_VERSION_ID >= 70100
-	if (zend_forbid_dynamic_call("func_get_arg()") == FAILURE) {
-		RETURN_FALSE;
-	}
-#endif
+    if (zend_forbid_dynamic_call("func_get_arg()") == FAILURE) {
+        RETURN_FALSE;
+    }
 
 	if (UNEXPECTED((zend_ulong)idx >= arg_count)) {
 		zend_error(E_WARNING, "func_get_arg():  Argument " ZEND_LONG_FMT " not passed to function", idx);

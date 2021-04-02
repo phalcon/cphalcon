@@ -40,7 +40,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Forms_Element_Hidden) {
 }
 
 /**
- * Renders the element widget returning html
+ * Renders the element widget returning HTML
  */
 PHP_METHOD(Phalcon_Forms_Element_Hidden, render) {
 
@@ -53,6 +53,15 @@ PHP_METHOD(Phalcon_Forms_Element_Hidden, render) {
 
 	ZVAL_UNDEF(&attributes);
 	ZVAL_UNDEF(&_1);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ARRAY(attributes)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &attributes_param);

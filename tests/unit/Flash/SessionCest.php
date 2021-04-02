@@ -5,14 +5,15 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 
 namespace Phalcon\Test\Unit\Flash;
 
 use Codeception\Example;
 use Phalcon\Flash\Session;
+use Phalcon\Storage\Exception;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use UnitTester;
 
@@ -30,11 +31,22 @@ class SessionCest
         'error'   => 'errorMessage',
     ];
 
-    public function _before(UnitTester $I)
+    /**
+     * Executed before each test
+     *
+     * @param  UnitTester $I
+     * @return void
+     */
+    public function _before(UnitTester $I): void
     {
         $this->newDi();
-        $this->setDiEscaper();
-        $this->setDiSessionFiles();
+
+        try {
+            $this->setDiService('escaper');
+            $this->setDiService('sessionStream');
+        } catch (Exception $e) {
+            $I->fail($e->getMessage());
+        }
 
         if (PHP_SESSION_ACTIVE !== session_status()) {
             session_start();
@@ -45,7 +57,13 @@ class SessionCest
         }
     }
 
-    public function _after(UnitTester $I)
+    /**
+     * Executed after each test
+     *
+     * @param  UnitTester $I
+     * @return void
+     */
+    public function _after(UnitTester $I): void
     {
         session_destroy();
     }
@@ -54,9 +72,12 @@ class SessionCest
     /**
      * Tests auto escaping
      *
-     * @author       Phalcon Team <team@phalcon.io>
+     * @param  UnitTester $I
+     * @param  Example $example
+     *
+     * @author Phalcon Team <team@phalcon.io>
      * @issue  https://github.com/phalcon/cphalcon/issues/11448
-     * @since        2016-06-15
+     * @since  2016-06-15
      *
      * @dataProvider testShouldAutoEscapeHtmlProvider
      */
@@ -154,6 +175,8 @@ class SessionCest
      * Test getMessages with specified type and removal
      * activated, only removes the received messages.
      *
+     * @param  UnitTester $I
+     *
      * @author Iván Guillén <zeopix@gmail.com>
      * @since  2015-10-26
      */
@@ -186,6 +209,8 @@ class SessionCest
     /**
      * Tests getMessages in case of non existent type request
      *
+     * @param  UnitTester $I
+     *
      * @issue  https://github.com/phalcon/cphalcon/issues/11941
      * @author Phalcon Team <team@phalcon.io>
      * @since  2016-07-03
@@ -210,6 +235,8 @@ class SessionCest
     /**
      * Tests clear method
      *
+     * @param  UnitTester $I
+     *
      * @author Iván Guillén <zeopix@gmail.com>
      * @since  2015-10-26
      */
@@ -232,6 +259,9 @@ class SessionCest
 
     /**
      * Test output formatted messages
+     *
+     * @param  UnitTester $I
+     * @param  Example $example
      *
      * @author       Iván Guillén <zeopix@gmail.com>
      * @since        2015-10-26
@@ -277,6 +307,8 @@ class SessionCest
 
     /**
      * Test custom message
+     *
+     * @param  UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @issue  https://github.com/phalcon/cphalcon/issues/13445

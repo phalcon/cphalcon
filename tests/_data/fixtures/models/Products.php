@@ -9,10 +9,25 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Models;
 
 use Phalcon\Mvc\Model;
 
+/**
+ * Class Products
+ *
+ * @property int    $prd_id;
+ * @property string $prd_name;
+ */
 class Products extends Model
 {
+    public $prd_id;
+    public $prd_name;
+
+    public function initialize()
+    {
+        $this->setSource('co_products');
+    }
 }

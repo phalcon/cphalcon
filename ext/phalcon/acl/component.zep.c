@@ -61,6 +61,7 @@ PHP_METHOD(Phalcon_Acl_Component, getDescription) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "description");
 
 }
@@ -73,6 +74,7 @@ PHP_METHOD(Phalcon_Acl_Component, getName) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "name");
 
 }
@@ -83,6 +85,7 @@ PHP_METHOD(Phalcon_Acl_Component, getName) {
 PHP_METHOD(Phalcon_Acl_Component, __toString) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "name");
@@ -101,6 +104,16 @@ PHP_METHOD(Phalcon_Acl_Component, __construct) {
 
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&description);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_STR(name)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR_OR_NULL(description)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &name_param, &description_param);
@@ -127,8 +140,8 @@ PHP_METHOD(Phalcon_Acl_Component, __construct) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_acl_exception_ce, "Component name cannot be '*'", "phalcon/Acl/Component.zep", 38);
 		return;
 	}
-	zephir_update_property_zval(this_ptr, SL("name"), &name);
-	zephir_update_property_zval(this_ptr, SL("description"), &description);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("name"), &name);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("description"), &description);
 	ZEPHIR_MM_RESTORE();
 
 }

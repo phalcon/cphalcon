@@ -136,15 +136,16 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, paginate) {
 	ZVAL_UNDEF(&_15);
 	ZVAL_UNDEF(&_12$$6);
 
+
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_OBS_VAR(&_0);
-	zephir_read_property(&_0, this_ptr, SL("limitRows"), PH_NOISY_CC);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("limitRows"), PH_NOISY_CC);
 	limit = zephir_get_intval(&_0);
-	zephir_read_property(&_1, this_ptr, SL("config"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_1, this_ptr, ZEND_STRL("config"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&config, &_1);
 	ZEPHIR_OBS_VAR(&_2);
-	zephir_read_property(&_2, this_ptr, SL("page"), PH_NOISY_CC);
+	zephir_read_property(&_2, this_ptr, ZEND_STRL("page"), PH_NOISY_CC);
 	pageNumber = zephir_get_intval(&_2);
 	zephir_array_fetch_string(&_3, &config, SL("model"), PH_NOISY | PH_READONLY, "phalcon/Paginator/Adapter/Model.zep", 100);
 	ZEPHIR_CPY_WRT(&modelClass, &_3);
@@ -154,7 +155,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, paginate) {
 	ZVAL_STRING(&_6, "parameters");
 	ZEPHIR_INIT_VAR(&_7);
 	ZVAL_STRING(&_7, "array");
-	ZEPHIR_CALL_CE_STATIC(&parameters, phalcon_helper_arr_ce, "get", &_4, 15, &config, &_6, &_5, &_7);
+	ZEPHIR_CALL_CE_STATIC(&parameters, phalcon_helper_arr_ce, "get", &_4, 16, &config, &_6, &_5, &_7);
 	zephir_check_call_status();
 	if (pageNumber <= 0) {
 		pageNumber = 1;
@@ -165,7 +166,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, paginate) {
 	ZEPHIR_INIT_NVAR(&_6);
 	ZVAL_STRING(&_6, "count");
 	zephir_array_fast_append(&_8, &_6);
-	ZEPHIR_CALL_FUNCTION(&_9, "call_user_func", NULL, 257, &_8, &parameters);
+	ZEPHIR_CALL_FUNCTION(&_9, "call_user_func", NULL, 276, &_8, &parameters);
 	zephir_check_call_status();
 	rowcount = zephir_get_intval(&_9);
 	ZEPHIR_INIT_VAR(&pageItems);
@@ -188,7 +189,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, paginate) {
 		ZEPHIR_INIT_VAR(&_13$$6);
 		ZVAL_STRING(&_13$$6, "find");
 		zephir_array_fast_append(&_12$$6, &_13$$6);
-		ZEPHIR_CALL_FUNCTION(&_14$$6, "call_user_func", NULL, 257, &_12$$6, &parameters);
+		ZEPHIR_CALL_FUNCTION(&_14$$6, "call_user_func", NULL, 276, &_12$$6, &parameters);
 		zephir_check_call_status();
 		ZEPHIR_CPY_WRT(&items, &_14$$6);
 		ZEPHIR_CALL_METHOD(&pageItems, &items, "toarray", NULL, 0);
@@ -210,7 +211,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_Model, paginate) {
 	ZVAL_LONG(&_6, rowcount);
 	zephir_array_update_string(&_15, SL("total_items"), &_6, PH_COPY | PH_SEPARATE);
 	ZEPHIR_OBS_VAR(&_16);
-	zephir_read_property(&_16, this_ptr, SL("limitRows"), PH_NOISY_CC);
+	zephir_read_property(&_16, this_ptr, ZEND_STRL("limitRows"), PH_NOISY_CC);
 	zephir_array_update_string(&_15, SL("limit"), &_16, PH_COPY | PH_SEPARATE);
 	add_assoc_long_ex(&_15, SL("first"), 1);
 	ZEPHIR_INIT_NVAR(&_6);

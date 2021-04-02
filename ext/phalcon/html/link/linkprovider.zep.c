@@ -17,6 +17,7 @@
 #include "kernel/object.h"
 #include "kernel/operators.h"
 #include "kernel/array.h"
+#include "ext/psr/psr_link.h"
 
 
 /**
@@ -67,6 +68,15 @@ PHP_METHOD(Phalcon_Html_Link_LinkProvider, __construct) {
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2$$4);
 	ZVAL_UNDEF(&_4$$6);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ARRAY(links)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &links_param);
@@ -129,6 +139,7 @@ PHP_METHOD(Phalcon_Html_Link_LinkProvider, getLinks) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "links");
 
 }
@@ -156,6 +167,14 @@ PHP_METHOD(Phalcon_Html_Link_LinkProvider, getLinksByRel) {
 	ZVAL_UNDEF(&rels);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(rel)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &rel);
@@ -164,7 +183,7 @@ PHP_METHOD(Phalcon_Html_Link_LinkProvider, getLinksByRel) {
 
 	ZEPHIR_INIT_VAR(&links);
 	array_init(&links);
-	zephir_read_property(&_0, this_ptr, SL("links"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("links"), PH_NOISY_CC | PH_READONLY);
 	zephir_is_iterable(&_0, 0, "phalcon/Html/Link/LinkProvider.zep", 79);
 	if (Z_TYPE_P(&_0) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_0), _1)
@@ -217,35 +236,44 @@ PHP_METHOD(Phalcon_Html_Link_LinkProvider, getKey) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&link_sub);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(link, PsrLinkLinkInterface_ce_ptr)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &link);
 
 
 
-	ZEPHIR_RETURN_CALL_FUNCTION("spl_object_hash", NULL, 95, link);
+	ZEPHIR_RETURN_CALL_FUNCTION("spl_object_hash", NULL, 100, link);
 	zephir_check_call_status();
 	RETURN_MM();
 
 }
 
-zend_object *zephir_init_properties_Phalcon_Html_Link_LinkProvider(zend_class_entry *class_type TSRMLS_DC) {
+zend_object *zephir_init_properties_Phalcon_Html_Link_LinkProvider(zend_class_entry *class_type) {
 
 		zval _0, _1$$3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
+	
 
 		ZEPHIR_MM_GROW();
 	
 	{
 		zval local_this_ptr, *this_ptr = &local_this_ptr;
 		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property(&_0, this_ptr, SL("links"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_ex(&_0, this_ptr, ZEND_STRL("links"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_0) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_1$$3);
 			array_init(&_1$$3);
-			zephir_update_property_zval(this_ptr, SL("links"), &_1$$3);
+			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("links"), &_1$$3);
 		}
 		ZEPHIR_MM_RESTORE();
 		return Z_OBJ_P(this_ptr);

@@ -4,27 +4,17 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 
 namespace Phalcon\Translate;
 
 use Phalcon\Factory\AbstractFactory;
-use Phalcon\Translate\Adapter\AdapterInterface;
+use Phalcon\Translate\Interpolator\InterpolatorInterface;
 
 class InterpolatorFactory extends AbstractFactory
 {
-    /**
-     * @var array
-     */
-    private mapper   = [];
-
-    /**
-     * @var array
-     */
-    private services = [];
-
     /**
      * AdapterFactory constructor.
      */
@@ -36,13 +26,11 @@ class InterpolatorFactory extends AbstractFactory
     /**
      * Create a new instance of the adapter
      */
-    public function newInstance(string! name) -> <AdapterInterface>
+    public function newInstance(string! name) -> <InterpolatorInterface>
     {
         var definition;
 
-        this->checkService(name);
-
-        let definition = this->mapper[name];
+        let definition = this->getService(name);
 
         return create_instance(definition);
     }

@@ -28,7 +28,7 @@ class HasCest extends HttpBase
     public function _before(UnitTester $I)
     {
         parent::_before($I);
-        $this->setDiSessionFiles();
+        $this->setDiService('sessionStream');
     }
 
     /**
@@ -41,10 +41,10 @@ class HasCest extends HttpBase
     {
         $I->wantToTest('Http\Response\Cookies - has()');
 
-        $sName = 'framework';
+        $sName  = 'framework';
         $sValue = 'phalcon';
 
-        $this->setDiCrypt();
+        $this->setDiService('crypt');
         $container = $this->getDi();
 
         $oCookie = new Cookies();

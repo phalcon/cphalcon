@@ -51,6 +51,16 @@ PHP_METHOD(Phalcon_Filter_Sanitize_Replace, __invoke) {
 	ZVAL_UNDEF(&from_sub);
 	ZVAL_UNDEF(&to_sub);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(3, 3)
+		Z_PARAM_ZVAL(input)
+		Z_PARAM_ZVAL(from)
+		Z_PARAM_ZVAL(to)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &input, &from, &to);

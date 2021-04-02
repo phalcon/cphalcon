@@ -73,6 +73,14 @@ PHP_METHOD(Phalcon_Config_Adapter_Json, __construct) {
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_4);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(filePath)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &filePath_param);
@@ -92,7 +100,7 @@ PHP_METHOD(Phalcon_Config_Adapter_Json, __construct) {
 	ZEPHIR_INIT_VAR(&_3);
 	zephir_file_get_contents(&_3, &filePath);
 	ZVAL_BOOL(&_4, 1);
-	ZEPHIR_CALL_CE_STATIC(&_1, phalcon_helper_json_ce, "decode", &_2, 174, &_3, &_4);
+	ZEPHIR_CALL_CE_STATIC(&_1, phalcon_helper_json_ce, "decode", &_2, 181, &_3, &_4);
 	zephir_check_call_status();
 	ZEPHIR_CALL_PARENT(NULL, phalcon_config_adapter_json_ce, getThis(), "__construct", &_0, 0, &_1);
 	zephir_check_call_status();

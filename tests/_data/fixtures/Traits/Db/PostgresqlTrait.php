@@ -1,6 +1,4 @@
 <?php
-declare(strict_types=1);
-
 /**
  * This file is part of the Phalcon Framework.
  *
@@ -10,6 +8,8 @@ declare(strict_types=1);
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Fixtures\Traits\Db;
 
 use Phalcon\Db\Column;
@@ -17,6 +17,11 @@ use Phalcon\Db\Index;
 use Phalcon\Db\Reference;
 use function array_shift;
 
+/**
+ * Trait PostgresqlTrait
+ *
+ * @package Phalcon\Test\Fixtures\Traits\Db
+ */
 trait PostgresqlTrait
 {
     protected $connection = null;
@@ -67,12 +72,12 @@ trait PostgresqlTrait
      */
     protected function getExpectedColumns(): array
     {
-        $result  = [];
+        $result = [];
 
         $columns = $this->getColumns();
 
         foreach ($columns as $index => $array) {
-            $name = array_shift($array);
+            $name           = array_shift($array);
             $result[$index] = new Column($name, $array);
         }
 

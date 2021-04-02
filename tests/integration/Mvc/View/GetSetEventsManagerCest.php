@@ -34,7 +34,7 @@ class GetSetEventsManagerCest
     {
         $I->wantToTest('Mvc\View - getEventsManager()/setEventsManager()');
 
-        $manager = $this->newEventsManager();
+        $manager = $this->newService('eventsManager');
         $view    = new View();
 
         $view->setEventsManager($manager);

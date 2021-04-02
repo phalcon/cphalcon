@@ -51,13 +51,23 @@ PHP_METHOD(Phalcon_Filter_Sanitize_Regex, __invoke) {
 	ZVAL_UNDEF(&input_sub);
 	ZVAL_UNDEF(&pattern_sub);
 	ZVAL_UNDEF(&replace_sub);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(3, 3)
+		Z_PARAM_ZVAL(input)
+		Z_PARAM_ZVAL(pattern)
+		Z_PARAM_ZVAL(replace)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &input, &pattern, &replace);
 
 
 
-	ZEPHIR_RETURN_CALL_FUNCTION("preg_replace", NULL, 48, pattern, replace, input);
+	ZEPHIR_RETURN_CALL_FUNCTION("preg_replace", NULL, 50, pattern, replace, input);
 	zephir_check_call_status();
 	RETURN_MM();
 

@@ -60,7 +60,7 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     public function offsetGet(var translateKey) -> var
     {
-        return this->{"query"}(translateKey, null);
+        return this->{"query"}(translateKey);
     }
 
     /**

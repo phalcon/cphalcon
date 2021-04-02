@@ -54,12 +54,20 @@ PHP_METHOD(Phalcon_Cache_CacheFactory, __construct) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&factory_sub);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(factory, phalcon_cache_adapterfactory_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(1, 0, &factory);
 
 
 
-	zephir_update_property_zval(this_ptr, SL("adapterFactory"), factory);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("adapterFactory"), factory);
 
 }
 
@@ -106,6 +114,14 @@ PHP_METHOD(Phalcon_Cache_CacheFactory, load) {
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&_1$$3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(config)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &config);
@@ -115,7 +131,7 @@ PHP_METHOD(Phalcon_Cache_CacheFactory, load) {
 
 	_0 = Z_TYPE_P(config) == IS_OBJECT;
 	if (_0) {
-		_0 = zephir_instance_of_ev(config, phalcon_config_ce);
+		_0 = zephir_instance_of_ev(config, phalcon_config_configinterface_ce);
 	}
 	if (_0) {
 		ZEPHIR_CALL_METHOD(&_1$$3, config, "toarray", NULL, 0);
@@ -123,20 +139,20 @@ PHP_METHOD(Phalcon_Cache_CacheFactory, load) {
 		ZEPHIR_CPY_WRT(config, &_1$$3);
 	}
 	if (UNEXPECTED(Z_TYPE_P(config) != IS_ARRAY)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_exception_ce, "Config must be array or Phalcon\\Config object", "phalcon/Cache/CacheFactory.zep", 77);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_exception_ce, "Config must be array or Phalcon\\Config object", "phalcon/Cache/CacheFactory.zep", 78);
 		return;
 	}
 	if (UNEXPECTED(!(zephir_array_isset_string(config, SL("adapter"))))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_exception_ce, "You must provide 'adapter' option in factory config parameter.", "phalcon/Cache/CacheFactory.zep", 83);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_cache_exception_exception_ce, "You must provide 'adapter' option in factory config parameter.", "phalcon/Cache/CacheFactory.zep", 84);
 		return;
 	}
 	ZEPHIR_OBS_VAR(&name);
-	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Cache/CacheFactory.zep", 86);
+	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Cache/CacheFactory.zep", 87);
 	ZEPHIR_INIT_VAR(&_3);
 	array_init(&_3);
 	ZEPHIR_INIT_VAR(&_4);
 	ZVAL_STRING(&_4, "options");
-	ZEPHIR_CALL_CE_STATIC(&options, phalcon_helper_arr_ce, "get", &_2, 15, config, &_4, &_3);
+	ZEPHIR_CALL_CE_STATIC(&options, phalcon_helper_arr_ce, "get", &_2, 16, config, &_4, &_3);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "newinstance", NULL, 0, &name, &options);
 	zephir_check_call_status();
@@ -182,6 +198,16 @@ PHP_METHOD(Phalcon_Cache_CacheFactory, newInstance) {
 	ZVAL_UNDEF(&adapter);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&options);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_STR(name)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ARRAY(options)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &name_param, &options_param);
@@ -204,11 +230,11 @@ PHP_METHOD(Phalcon_Cache_CacheFactory, newInstance) {
 	}
 
 
-	zephir_read_property(&_0, this_ptr, SL("adapterFactory"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("adapterFactory"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&adapter, &_0, "newinstance", NULL, 0, &name, &options);
 	zephir_check_call_status();
 	object_init_ex(return_value, phalcon_cache_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 165, &adapter);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 172, &adapter);
 	zephir_check_call_status();
 	RETURN_MM();
 

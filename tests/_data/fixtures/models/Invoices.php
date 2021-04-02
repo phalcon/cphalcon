@@ -9,12 +9,31 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Models;
 
 use Phalcon\Mvc\Model;
 
+/**
+ * Class Invoices
+ *
+ * @property int    $inv_id
+ * @property int    $inv_cst_id
+ * @property int    $inv_status_flag
+ * @property string $inv_title
+ * @property float  $inv_total
+ * @property string $inv_created_at
+ *
+ * @method static static findFirst($parameters = null)
+ * @method static Model\Resultset\Simple|static[] find($parameters = null)
+ */
 class Invoices extends Model
 {
+    const STATUS_UNPAID   = 0;
+    const STATUS_PAID     = 1;
+    const STATUS_INACTIVE = 2;
+
     public $inv_id;
     public $inv_cst_id;
     public $inv_status_flag;
@@ -28,6 +47,16 @@ class Invoices extends Model
     public function initialize()
     {
         $this->setSource('co_invoices');
+
+        $this->hasOne(
+            'inv_cst_id',
+            Customers::class,
+            'cst_id',
+            [
+                'alias'    => 'customer',
+                'reusable' => true,
+            ]
+        );
     }
 
     public function setSecretValue($value)

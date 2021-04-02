@@ -1,24 +1,29 @@
 
 /**
- * This file is part of the Phalcon Framework.
+ * This file is part of the Phalcon.
  *
- * (c) Phalcon Team <team@phalcon.io>
+ * (c) Phalcon Team <team@phalcon.com>
  *
- * For the full copyright and license information, please view the LICENSE.txt
+ * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
 namespace Phalcon\Html\Helper;
 
+use Phalcon\Html\Exception;
+
 /**
- * Phalcon\Html\Helper\Form
- *
- * Creates a form opening tag
+ * Class Form
  */
 class Form extends AbstractHelper
 {
     /**
-     * @var array  attributes Any additional attributes
+     * Produce a <form> tag.
+     *
+     * @param array $attributes
+     *
+     * @return string
+     * @throws Exception
      */
     public function __invoke(array attributes = []) -> string
     {

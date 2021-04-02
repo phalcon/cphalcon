@@ -1,0 +1,14 @@
+# `postgres` environment config goes here
+modules:
+  enabled:
+    - Db:
+        dsn: 'pgsql:host=%DATA_POSTGRES_HOST%;dbname=%DATA_POSTGRES_NAME%;port=%DATA_POSTGRES_PORT%'
+        user: '%DATA_POSTGRES_USER%'
+        password: '%DATA_POSTGRES_PASS%'
+        dump: 'tests/_data/assets/schemas/pgsql.sql'
+        populate: true
+        cleanup: false
+        reconnect: true
+        waitlock: 10
+        initial_queries:
+          - 'CREATE SCHEMA IF NOT EXISTS private;'

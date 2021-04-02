@@ -73,9 +73,7 @@ class ImageFactory extends AbstractFactory
     {
         var definition;
 
-        this->checkService(name);
-
-        let definition = this->mapper[name];
+        let definition = this->getService(name);
 
         return create_instance_params(
             definition,

@@ -35,6 +35,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Item) {
 
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Logger, Item, phalcon, logger_item, phalcon_logger_item_method_entry, 0);
 
+	/**
+	 * Log Context
+	 *      
+	 * @var mixed
+	 */
 	zend_declare_property_null(phalcon_logger_item_ce, SL("context"), ZEND_ACC_PROTECTED);
 
 	/**
@@ -69,9 +74,13 @@ ZEPHIR_INIT_CLASS(Phalcon_Logger_Item) {
 
 }
 
+/**
+ * Log Context
+ */
 PHP_METHOD(Phalcon_Logger_Item, getContext) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "context");
@@ -86,6 +95,7 @@ PHP_METHOD(Phalcon_Logger_Item, getMessage) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "message");
 
 }
@@ -96,6 +106,7 @@ PHP_METHOD(Phalcon_Logger_Item, getMessage) {
 PHP_METHOD(Phalcon_Logger_Item, getName) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "name");
@@ -110,6 +121,7 @@ PHP_METHOD(Phalcon_Logger_Item, getTime) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "time");
 
 }
@@ -120,6 +132,7 @@ PHP_METHOD(Phalcon_Logger_Item, getTime) {
 PHP_METHOD(Phalcon_Logger_Item, getType) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "type");
@@ -142,6 +155,19 @@ PHP_METHOD(Phalcon_Logger_Item, __construct) {
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&context_sub);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(3, 5)
+		Z_PARAM_STR(message)
+		Z_PARAM_STR(name)
+		Z_PARAM_LONG(type)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_LONG(time)
+		Z_PARAM_ZVAL(context)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 2, &message_param, &name_param, &type_param, &time_param, &context);
@@ -161,16 +187,16 @@ PHP_METHOD(Phalcon_Logger_Item, __construct) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, SL("message"), &message);
-	zephir_update_property_zval(this_ptr, SL("name"), &name);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("message"), &message);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("name"), &name);
 	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(&_0, type);
-	zephir_update_property_zval(this_ptr, SL("type"), &_0);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("type"), &_0);
 	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(&_0, time);
-	zephir_update_property_zval(this_ptr, SL("time"), &_0);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("time"), &_0);
 	if (Z_TYPE_P(context) == IS_ARRAY) {
-		zephir_update_property_zval(this_ptr, SL("context"), context);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("context"), context);
 	}
 	ZEPHIR_MM_RESTORE();
 

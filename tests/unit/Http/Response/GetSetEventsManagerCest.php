@@ -13,14 +13,15 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Http\Response;
 
-use Phalcon\Http\Response;
 use Phalcon\Events\Manager;
+use Phalcon\Http\Response;
 use UnitTester;
 
 class GetSetEventsManagerCest
 {
     /**
-     * Unit Tests Phalcon\Http\Response :: getEventsManager() / setEventsManager()
+     * Unit Tests Phalcon\Http\Response :: getEventsManager() /
+     * setEventsManager()
      *
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2020-01-17
@@ -30,7 +31,7 @@ class GetSetEventsManagerCest
         $I->wantToTest('Http\Response - getEventsManager() / setEventsManager()');
 
         $oResponse = new Response();
-        $oManager = new Manager();
+        $oManager  = new Manager();
 
         $oResponse->setEventsManager($oManager);
 

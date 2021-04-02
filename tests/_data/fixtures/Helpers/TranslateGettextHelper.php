@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Fixtures\Helpers;
 
 use Codeception\Example;
@@ -28,8 +30,8 @@ class TranslateGettextHelper
      *
      * @dataProvider getQueryProvider
      *
-     * @author Ivan Zubok <chi_no@ukr.net>
-     * @since  2014-11-04
+     * @author       Ivan Zubok <chi_no@ukr.net>
+     * @since        2014-11-04
      */
     public function translateAdapterGettextQuery(UnitTester $I, Example $data)
     {
@@ -62,8 +64,8 @@ class TranslateGettextHelper
      *
      * @dataProvider getQueryProvider
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2014-09-12
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2014-09-12
      */
     public function translateAdapterGettextVariableSubstitutionNoVariables(UnitTester $I, Example $data)
     {
@@ -100,8 +102,8 @@ class TranslateGettextHelper
      *
      * @dataProvider getQueryOneVariable
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2014-09-12
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2014-09-12
      */
     public function translateAdapterGettextVariableSubstitutionOneVariable(UnitTester $I, Example $data)
     {
@@ -120,7 +122,7 @@ class TranslateGettextHelper
         );
 
         foreach ($data['tests'] as $key => $expected) {
-            $actual   = $translator->{$this->function}($key, ['name' => 'my friend']);
+            $actual = $translator->{$this->function}($key, ['name' => 'my friend']);
             $I->assertEquals($expected, $actual);
         }
     }
@@ -131,8 +133,8 @@ class TranslateGettextHelper
      *
      * @dataProvider getQueryTwoVariables
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2014-09-12
+     * @author       Phalcon Team <team@phalcon.io>
+     * @since        2014-09-12
      */
     public function translateAdapterGettextVariableSubstitutionTwoVariable(UnitTester $I, Example $data)
     {
@@ -164,7 +166,8 @@ class TranslateGettextHelper
     }
 
     /**
-     * Tests Phalcon\Translate\Adapter\Gettext :: query() - array access and UTF8 strings
+     * Tests Phalcon\Translate\Adapter\Gettext :: query() - array access and
+     * UTF8 strings
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2014-09-12

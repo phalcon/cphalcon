@@ -27,8 +27,8 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 /**
  * Lazy loads, stores and exposes sanitizer objects
@@ -108,6 +108,15 @@ PHP_METHOD(Phalcon_Filter, __construct) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&mapper);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ARRAY(mapper)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &mapper_param);
@@ -129,6 +138,8 @@ PHP_METHOD(Phalcon_Filter, __construct) {
 /**
  * Get a service. If it is not in the mapper array, create a new object,
  * set it and then return it.
+ *
+ * @return object
  */
 PHP_METHOD(Phalcon_Filter, get) {
 
@@ -148,6 +159,14 @@ PHP_METHOD(Phalcon_Filter, get) {
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_4$$4);
 	ZVAL_UNDEF(&_5$$5);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(name)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
@@ -164,23 +183,23 @@ PHP_METHOD(Phalcon_Filter, get) {
 	}
 
 
-	zephir_read_property(&_0, this_ptr, SL("mapper"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("mapper"), PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(!(zephir_array_isset(&_0, &name)))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_filter_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZEPHIR_CONCAT_SVS(&_2$$3, "The service ", &name, " has not been found in the locator");
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 6, &_2$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 8, &_2$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Filter.zep", 74);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Filter.zep", 76);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
-	zephir_read_property(&_3, this_ptr, SL("services"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_3, this_ptr, ZEND_STRL("services"), PH_NOISY_CC | PH_READONLY);
 	if (!(zephir_array_isset(&_3, &name))) {
-		zephir_read_property(&_4$$4, this_ptr, SL("mapper"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_4$$4, this_ptr, ZEND_STRL("mapper"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_OBS_VAR(&definition);
-		zephir_array_fetch(&definition, &_4$$4, &name, PH_NOISY, "phalcon/Filter.zep", 78);
+		zephir_array_fetch(&definition, &_4$$4, &name, PH_NOISY, "phalcon/Filter.zep", 80);
 		if (Z_TYPE_P(&definition) == IS_STRING) {
 			ZEPHIR_INIT_VAR(&_5$$5);
 			ZEPHIR_LAST_CALL_STATUS = zephir_create_instance(&_5$$5, &definition);
@@ -190,8 +209,8 @@ PHP_METHOD(Phalcon_Filter, get) {
 			zephir_update_property_array(this_ptr, SL("services"), &name, &definition);
 		}
 	}
-	zephir_read_property(&_6, this_ptr, SL("services"), PH_NOISY_CC | PH_READONLY);
-	zephir_array_fetch(&_7, &_6, &name, PH_NOISY | PH_READONLY, "phalcon/Filter.zep", 86);
+	zephir_read_property(&_6, this_ptr, ZEND_STRL("services"), PH_NOISY_CC | PH_READONLY);
+	zephir_array_fetch(&_7, &_6, &name, PH_NOISY | PH_READONLY, "phalcon/Filter.zep", 88);
 	RETURN_CTOR(&_7);
 
 }
@@ -208,6 +227,14 @@ PHP_METHOD(Phalcon_Filter, has) {
 
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(name)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
@@ -224,7 +251,7 @@ PHP_METHOD(Phalcon_Filter, has) {
 	}
 
 
-	zephir_read_property(&_0, this_ptr, SL("mapper"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("mapper"), PH_NOISY_CC | PH_READONLY);
 	RETURN_MM_BOOL(zephir_array_isset(&_0, &name));
 
 }
@@ -254,6 +281,17 @@ PHP_METHOD(Phalcon_Filter, sanitize) {
 	ZVAL_UNDEF(&_7$$9);
 	ZVAL_UNDEF(&_10$$13);
 	ZVAL_UNDEF(&_11$$14);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 3)
+		Z_PARAM_ZVAL(value)
+		Z_PARAM_ZVAL(sanitizers)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_BOOL(noRecursive)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &value, &sanitizers, &noRecursive_param);
@@ -271,7 +309,7 @@ PHP_METHOD(Phalcon_Filter, sanitize) {
 			RETVAL_ZVAL(value, 1, 0);
 			RETURN_MM();
 		}
-		zephir_is_iterable(sanitizers, 0, "phalcon/Filter.zep", 180);
+		zephir_is_iterable(sanitizers, 0, "phalcon/Filter.zep", 182);
 		if (Z_TYPE_P(sanitizers) == IS_ARRAY) {
 			ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(sanitizers), _2$$3, _3$$3, _0$$3)
 			{
@@ -296,11 +334,11 @@ PHP_METHOD(Phalcon_Filter, sanitize) {
 					_4$$5 = !noRecursive;
 				}
 				if (_4$$5) {
-					ZEPHIR_CALL_METHOD(&_5$$8, this_ptr, "processarrayvalues", &_6, 237, value, &sanitizerName, &sanitizerParams);
+					ZEPHIR_CALL_METHOD(&_5$$8, this_ptr, "processarrayvalues", &_6, 255, value, &sanitizerName, &sanitizerParams);
 					zephir_check_call_status();
 					ZEPHIR_CPY_WRT(value, &_5$$8);
 				} else {
-					ZEPHIR_CALL_METHOD(&_7$$9, this_ptr, "sanitizer", &_8, 238, value, &sanitizerName, &sanitizerParams);
+					ZEPHIR_CALL_METHOD(&_7$$9, this_ptr, "sanitizer", &_8, 256, value, &sanitizerName, &sanitizerParams);
 					zephir_check_call_status();
 					ZEPHIR_CPY_WRT(value, &_7$$9);
 				}
@@ -331,11 +369,11 @@ PHP_METHOD(Phalcon_Filter, sanitize) {
 						_9$$10 = !noRecursive;
 					}
 					if (_9$$10) {
-						ZEPHIR_CALL_METHOD(&_10$$13, this_ptr, "processarrayvalues", &_6, 237, value, &sanitizerName, &sanitizerParams);
+						ZEPHIR_CALL_METHOD(&_10$$13, this_ptr, "processarrayvalues", &_6, 255, value, &sanitizerName, &sanitizerParams);
 						zephir_check_call_status();
 						ZEPHIR_CPY_WRT(value, &_10$$13);
 					} else {
-						ZEPHIR_CALL_METHOD(&_11$$14, this_ptr, "sanitizer", &_8, 238, value, &sanitizerName, &sanitizerParams);
+						ZEPHIR_CALL_METHOD(&_11$$14, this_ptr, "sanitizer", &_8, 256, value, &sanitizerName, &sanitizerParams);
 						zephir_check_call_status();
 						ZEPHIR_CPY_WRT(value, &_11$$14);
 					}
@@ -353,11 +391,11 @@ PHP_METHOD(Phalcon_Filter, sanitize) {
 		_12 = !noRecursive;
 	}
 	if (_12) {
-		ZEPHIR_RETURN_CALL_METHOD(this_ptr, "processarrayvalues", &_6, 237, value, sanitizers);
+		ZEPHIR_RETURN_CALL_METHOD(this_ptr, "processarrayvalues", &_6, 255, value, sanitizers);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "sanitizer", &_8, 238, value, sanitizers);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "sanitizer", &_8, 256, value, sanitizers);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -376,6 +414,15 @@ PHP_METHOD(Phalcon_Filter, set) {
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&service_sub);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_STR(name)
+		Z_PARAM_ZVAL(service)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &name_param, &service);
@@ -393,7 +440,7 @@ PHP_METHOD(Phalcon_Filter, set) {
 
 
 	zephir_update_property_array(this_ptr, SL("mapper"), &name, service);
-	zephir_read_property(&_0, this_ptr, SL("services"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("services"), PH_NOISY_CC | PH_READONLY);
 	zephir_array_unset(&_0, &name, PH_SEPARATE);
 	ZEPHIR_MM_RESTORE();
 
@@ -417,6 +464,14 @@ PHP_METHOD(Phalcon_Filter, init) {
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&service);
 	ZVAL_UNDEF(&_1);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ARRAY(mapper)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &mapper_param);
@@ -424,7 +479,7 @@ PHP_METHOD(Phalcon_Filter, init) {
 	ZEPHIR_OBS_COPY_OR_DUP(&mapper, mapper_param);
 
 
-	zephir_is_iterable(&mapper, 0, "phalcon/Filter.zep", 217);
+	zephir_is_iterable(&mapper, 0, "phalcon/Filter.zep", 219);
 	if (Z_TYPE_P(&mapper) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&mapper), _2, _3, _0)
 		{
@@ -488,6 +543,17 @@ PHP_METHOD(Phalcon_Filter, processArrayValues) {
 	ZVAL_UNDEF(&_4$$3);
 	ZVAL_UNDEF(&_6$$4);
 	ZVAL_UNDEF(&sanitizerName);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 3)
+		Z_PARAM_ARRAY(values)
+		Z_PARAM_STR(sanitizerName)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ARRAY(sanitizerParams)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &values_param, &sanitizerName_param, &sanitizerParams_param);
@@ -504,7 +570,7 @@ PHP_METHOD(Phalcon_Filter, processArrayValues) {
 
 	ZEPHIR_INIT_VAR(&arrayValue);
 	array_init(&arrayValue);
-	zephir_is_iterable(&values, 0, "phalcon/Filter.zep", 241);
+	zephir_is_iterable(&values, 0, "phalcon/Filter.zep", 243);
 	if (Z_TYPE_P(&values) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&values), _2, _3, _0)
 		{
@@ -516,7 +582,7 @@ PHP_METHOD(Phalcon_Filter, processArrayValues) {
 			}
 			ZEPHIR_INIT_NVAR(&itemValue);
 			ZVAL_COPY(&itemValue, _0);
-			ZEPHIR_CALL_METHOD(&_4$$3, this_ptr, "sanitizer", &_5, 238, &itemValue, &sanitizerName, &sanitizerParams);
+			ZEPHIR_CALL_METHOD(&_4$$3, this_ptr, "sanitizer", &_5, 256, &itemValue, &sanitizerName, &sanitizerParams);
 			zephir_check_call_status();
 			zephir_array_update_zval(&arrayValue, &itemKey, &_4$$3, PH_COPY | PH_SEPARATE);
 		} ZEND_HASH_FOREACH_END();
@@ -533,7 +599,7 @@ PHP_METHOD(Phalcon_Filter, processArrayValues) {
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(&itemValue, &values, "current", NULL, 0);
 			zephir_check_call_status();
-				ZEPHIR_CALL_METHOD(&_6$$4, this_ptr, "sanitizer", &_5, 238, &itemValue, &sanitizerName, &sanitizerParams);
+				ZEPHIR_CALL_METHOD(&_6$$4, this_ptr, "sanitizer", &_5, 256, &itemValue, &sanitizerName, &sanitizerParams);
 				zephir_check_call_status();
 				zephir_array_update_zval(&arrayValue, &itemKey, &_6$$4, PH_COPY | PH_SEPARATE);
 			ZEPHIR_CALL_METHOD(NULL, &values, "next", NULL, 0);
@@ -553,18 +619,31 @@ PHP_METHOD(Phalcon_Filter, sanitizer) {
 
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval sanitizerParams, _1;
-	zval sanitizerName;
-	zval *value, value_sub, *sanitizerName_param = NULL, *sanitizerParams_param = NULL, sanitizerObject, params, _0;
+	zval sanitizerParams, _3;
+	zval sanitizerName, _1$$4;
+	zval *value, value_sub, *sanitizerName_param = NULL, *sanitizerParams_param = NULL, sanitizerObject, params, _0, _2$$4;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&value_sub);
 	ZVAL_UNDEF(&sanitizerObject);
 	ZVAL_UNDEF(&params);
 	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_2$$4);
 	ZVAL_UNDEF(&sanitizerName);
+	ZVAL_UNDEF(&_1$$4);
 	ZVAL_UNDEF(&sanitizerParams);
-	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 3)
+		Z_PARAM_ZVAL(value)
+		Z_PARAM_STR(sanitizerName)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ARRAY(sanitizerParams)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &value, &sanitizerName_param, &sanitizerParams_param);
@@ -590,23 +669,30 @@ PHP_METHOD(Phalcon_Filter, sanitizer) {
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "has", NULL, 0, &sanitizerName);
 	zephir_check_call_status();
 	if (!(zephir_is_true(&_0))) {
+		if (UNEXPECTED(!(ZEPHIR_IS_EMPTY(&sanitizerName)))) {
+			ZEPHIR_INIT_VAR(&_1$$4);
+			ZEPHIR_CONCAT_SVS(&_1$$4, "Sanitizer '", &sanitizerName, "' is not registered");
+			ZVAL_LONG(&_2$$4, 1024);
+			ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 7, &_1$$4, &_2$$4);
+			zephir_check_call_status();
+		}
 		RETVAL_ZVAL(value, 1, 0);
 		RETURN_MM();
 	}
 	ZEPHIR_CALL_METHOD(&sanitizerObject, this_ptr, "get", NULL, 0, &sanitizerName);
 	zephir_check_call_status();
-	ZEPHIR_INIT_VAR(&_1);
-	zephir_create_array(&_1, 1, 0);
-	zephir_array_fast_append(&_1, value);
+	ZEPHIR_INIT_VAR(&_3);
+	zephir_create_array(&_3, 1, 0);
+	zephir_array_fast_append(&_3, value);
 	ZEPHIR_INIT_VAR(&params);
-	zephir_fast_array_merge(&params, &_1, &sanitizerParams);
+	zephir_fast_array_merge(&params, &_3, &sanitizerParams);
 	ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, &sanitizerObject, &params);
 	zephir_check_call_status();
 	RETURN_MM();
 
 }
 
-zend_object *zephir_init_properties_Phalcon_Filter(zend_class_entry *class_type TSRMLS_DC) {
+zend_object *zephir_init_properties_Phalcon_Filter(zend_class_entry *class_type) {
 
 		zval _0, _2, _1$$3, _3$$4;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -614,23 +700,24 @@ zend_object *zephir_init_properties_Phalcon_Filter(zend_class_entry *class_type 
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_3$$4);
+	
 
 		ZEPHIR_MM_GROW();
 	
 	{
 		zval local_this_ptr, *this_ptr = &local_this_ptr;
 		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
-		zephir_read_property(&_0, this_ptr, SL("services"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_ex(&_0, this_ptr, ZEND_STRL("services"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_0) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_1$$3);
 			array_init(&_1$$3);
-			zephir_update_property_zval(this_ptr, SL("services"), &_1$$3);
+			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("services"), &_1$$3);
 		}
-		zephir_read_property(&_2, this_ptr, SL("mapper"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property_ex(&_2, this_ptr, ZEND_STRL("mapper"), PH_NOISY_CC | PH_READONLY);
 		if (Z_TYPE_P(&_2) == IS_NULL) {
 			ZEPHIR_INIT_VAR(&_3$$4);
 			array_init(&_3$$4);
-			zephir_update_property_zval(this_ptr, SL("mapper"), &_3$$4);
+			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("mapper"), &_3$$4);
 		}
 		ZEPHIR_MM_RESTORE();
 		return Z_OBJ_P(this_ptr);

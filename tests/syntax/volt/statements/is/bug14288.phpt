@@ -1,5 +1,5 @@
 --TEST--
-set - Tests for false-positive matching
+is - Tests for false-positive matching
 --SKIPIF--
 <?php if (!extension_loaded("phalcon")) print "skip extension not loaded"; ?>
 --FILE--

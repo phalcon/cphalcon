@@ -151,7 +151,7 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
      */
     public function getName() -> string
     {
-        if "" !== this->name {
+        if "" === this->name {
             let this->name = session_name();
         }
 
@@ -305,6 +305,10 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
      */
     public function start() -> bool
     {
+        var name, value;
+
+        let name = this->getName();
+
         /**
          * Check if the session exists
          */
@@ -321,6 +325,16 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
 
         if unlikely !(this->adapter instanceof SessionHandlerInterface) {
             throw new Exception("The session adapter is not valid");
+        }
+
+        /**
+         * Verify that the session value is alphanumeric, otherwise we
+         * unset the cookie to allow it to be created by session_start().
+         */
+        if fetch value, _COOKIE[name] {
+            if !preg_match("/^[a-z0-9]+$/iD", value) {
+                unset _COOKIE[name];
+            }
         }
 
         /**
@@ -363,10 +377,10 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
 
         let uniqueId = this->uniqueId;
 
-		if !empty uniqueId {
-			return this->uniqueId . "#" . key;
-		} else {
-			return key;
-		}
+        if !empty uniqueId {
+            return this->uniqueId . "#" . key;
+        } else {
+            return key;
+        }
     }
 }

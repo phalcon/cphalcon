@@ -24,8 +24,8 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  *
  * Implementation of this file has been influenced by Zend Diactoros
  * @link    https://github.com/zendframework/zend-diactoros
@@ -48,7 +48,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_AbstractCommon) {
  * @param mixed  $element
  * @param string $property
  *
- * @return mixed
+ * @return static
  */
 PHP_METHOD(Phalcon_Http_Message_AbstractCommon, cloneInstance) {
 
@@ -60,6 +60,15 @@ PHP_METHOD(Phalcon_Http_Message_AbstractCommon, cloneInstance) {
 	ZVAL_UNDEF(&element_sub);
 	ZVAL_UNDEF(&newInstance);
 	ZVAL_UNDEF(&property);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_ZVAL(element)
+		Z_PARAM_STR(property)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &element, &property_param);
@@ -87,6 +96,14 @@ PHP_METHOD(Phalcon_Http_Message_AbstractCommon, checkStringParameter) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&element_sub);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(element)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(1, 0, &element);
 
@@ -106,7 +123,7 @@ PHP_METHOD(Phalcon_Http_Message_AbstractCommon, checkStringParameter) {
  * @param mixed  $element
  * @param string $property
  *
- * @return mixed
+ * @return static
  */
 PHP_METHOD(Phalcon_Http_Message_AbstractCommon, processWith) {
 
@@ -118,6 +135,15 @@ PHP_METHOD(Phalcon_Http_Message_AbstractCommon, processWith) {
 
 	ZVAL_UNDEF(&element_sub);
 	ZVAL_UNDEF(&property);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_ZVAL(element)
+		Z_PARAM_STR(property)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &element, &property_param);
@@ -125,9 +151,9 @@ PHP_METHOD(Phalcon_Http_Message_AbstractCommon, processWith) {
 	zephir_get_strval(&property, property_param);
 
 
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkstringparameter", NULL, 19, element);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkstringparameter", NULL, 20, element);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 20, element, &property);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 21, element, &property);
 	zephir_check_call_status();
 	RETURN_MM();
 

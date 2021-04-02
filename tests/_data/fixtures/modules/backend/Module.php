@@ -2,19 +2,20 @@
 
 namespace Phalcon\Test\Modules\Backend;
 
-use function dataDir;
 use Phalcon\Di\DiInterface;
+use Phalcon\Loader;
 use Phalcon\Mvc\ModuleDefinitionInterface;
 use Phalcon\Mvc\View;
+use function dataDir;
 
 /**
  * \Phalcon\Test\Modules\Backend\Module
  * Backend Module
  *
  * @copyright (c) 2011-2017 Phalcon Team
- * @link      http://www.phalcon.io
- * @author    Andres Gutierrez <andres@phalcon.io>
- * @author    Nikolaos Dimopoulos <nikos@phalcon.io>
+ * @link          http://www.phalcon.io
+ * @author        Andres Gutierrez <andres@phalcon.io>
+ * @author        Nikolaos Dimopoulos <nikos@phalcon.io>
  *
  * The contents of this file are subject to the New BSD License that is
  * bundled with this package in the file LICENSE.txt
@@ -43,5 +44,18 @@ class Module implements ModuleDefinitionInterface
                 return $view;
             }
         );
+
+        /**
+         * @var Loader $loader
+         */
+        $loader = new Loader();
+        $loader->registerNamespaces([
+                'Phalcon\Test\Modules\Backend\Tasks' =>
+                    dataDir('fixtures/modules/backend/tasks/')
+            ]
+        );
+        $loader->register();
+
+        $di->set('loader', $loader);
     }
 }

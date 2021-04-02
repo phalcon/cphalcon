@@ -11,9 +11,9 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Validation\Validator\StringLength;
+namespace Phalcon\Test\Integration\Validation\Validator\StringLength;
 
-use UnitTester;
+use IntegrationTester;
 
 class MessageFactoryCest
 {
@@ -23,7 +23,7 @@ class MessageFactoryCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-05-23
      */
-    public function validationValidatorStringLengthMessageFactory(UnitTester $I)
+    public function validationValidatorStringLengthMessageFactory(IntegrationTester $I)
     {
         $I->wantToTest('Validation\Validator\StringLength - messageFactory()');
 

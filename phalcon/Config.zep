@@ -11,6 +11,7 @@
 namespace Phalcon;
 
 use Phalcon\Collection;
+use Phalcon\Config\ConfigInterface;
 use Phalcon\Config\Exception;
 
 /**
@@ -38,7 +39,7 @@ use Phalcon\Config\Exception;
  * );
  *```
  */
-class Config extends Collection
+class Config extends Collection implements ConfigInterface
 {
     const DEFAULT_PATH_DELIMITER = ".";
 
@@ -76,13 +77,13 @@ class Config extends Collection
      * $globalConfig->merge($appConfig);
      *```
      */
-    public function merge(var toMerge) -> <Config>
+    public function merge(var toMerge) -> <ConfigInterface>
     {
         var config, result, source, target;
 
         if typeof toMerge === "array" {
             let config = new Config(toMerge);
-        } elseif typeof toMerge === "object" && toMerge instanceof Config {
+        } elseif typeof toMerge === "object" && toMerge instanceof ConfigInterface {
             let config = toMerge;
         } else {
             throw new Exception("Invalid data type for merge.");
@@ -105,7 +106,7 @@ class Config extends Collection
      * echo $config->path("unknown.path", "default", ".");
      *```
      */
-    public function path(string path, defaultValue = null, var delimiter = null)
+    public function path(string path, defaultValue = null, var delimiter = null) -> var | null
     {
         var config, key, keys;
 
@@ -143,7 +144,7 @@ class Config extends Collection
     /**
      * Sets the default path delimiter
      */
-    public function setPathDelimiter(string delimiter = null) -> <Config>
+    public function setPathDelimiter(string delimiter = null) -> <ConfigInterface>
     {
         let this->pathDelimiter = delimiter;
 

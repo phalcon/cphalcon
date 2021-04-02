@@ -22,8 +22,8 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 /**
  * Adapter for Phalcon\Acl adapters
@@ -35,7 +35,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Adapter_AbstractAdapter) {
 	/**
 	 * Active access which the list is checking if some role can access it
 	 *
-	 * @var string
+	 * @var string|null
 	 */
 	zend_declare_property_null(phalcon_acl_adapter_abstractadapter_ce, SL("activeAccess"), ZEND_ACC_PROTECTED);
 
@@ -50,28 +50,28 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Adapter_AbstractAdapter) {
 	 * Role which the list is checking if it's allowed to certain
 	 * component/access
 	 *
-	 * @var string
+	 * @var string|null
 	 */
 	zend_declare_property_null(phalcon_acl_adapter_abstractadapter_ce, SL("activeRole"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * Component which the list is checking if some role can access it
 	 *
-	 * @var string
+	 * @var string|null
 	 */
 	zend_declare_property_null(phalcon_acl_adapter_abstractadapter_ce, SL("activeComponent"), ZEND_ACC_PROTECTED);
 
 	/**
 	 * Default access
 	 *
-	 * @var bool
+	 * @var int
 	 */
-	zend_declare_property_bool(phalcon_acl_adapter_abstractadapter_ce, SL("defaultAccess"), 0, ZEND_ACC_PROTECTED);
+	zend_declare_property_long(phalcon_acl_adapter_abstractadapter_ce, SL("defaultAccess"), 0, ZEND_ACC_PROTECTED);
 
 	/**
 	 * Events manager
 	 *
-	 * @var mixed
+	 * @var ManagerInterface|null
 	 */
 	zend_declare_property_null(phalcon_acl_adapter_abstractadapter_ce, SL("eventsManager"), ZEND_ACC_PROTECTED);
 
@@ -87,6 +87,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Adapter_AbstractAdapter) {
 PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, getActiveAccess) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "activeAccess");
@@ -105,6 +106,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, getActiveRole) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "activeRole");
 
 }
@@ -115,6 +117,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, getActiveRole) {
 PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, getActiveComponent) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "activeComponent");
@@ -129,6 +132,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, getDefaultAction) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "defaultAccess");
 
 }
@@ -139,6 +143,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, getDefaultAction) {
 PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, getEventsManager) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "eventsManager");
@@ -155,6 +160,14 @@ PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, setDefaultAction) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_LONG(defaultAccess)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(1, 0, &defaultAccess_param);
 
@@ -163,7 +176,7 @@ PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, setDefaultAction) {
 
 	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(&_0, defaultAccess);
-	zephir_update_property_zval(this_ptr, SL("defaultAccess"), &_0);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("defaultAccess"), &_0);
 
 }
 
@@ -176,12 +189,20 @@ PHP_METHOD(Phalcon_Acl_Adapter_AbstractAdapter, setEventsManager) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&eventsManager_sub);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(eventsManager, phalcon_events_managerinterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(1, 0, &eventsManager);
 
 
 
-	zephir_update_property_zval(this_ptr, SL("eventsManager"), eventsManager);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("eventsManager"), eventsManager);
 
 }
 

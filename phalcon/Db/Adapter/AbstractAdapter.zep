@@ -4,8 +4,8 @@
  *
  * (c) Phalcon Team <team@phalcon.com>
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view
+ * the LICENSE file that was distributed with this source code.
  */
 
 namespace Phalcon\Db\Adapter;
@@ -23,7 +23,7 @@ use Phalcon\Events\EventsAwareInterface;
 use Phalcon\Events\ManagerInterface;
 
 /**
- * Base class for Phalcon\Db adapters
+ * Base class for Phalcon\Db\Adapter adapters
  */
 abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
 {
@@ -59,9 +59,16 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     /**
      * Event Manager
      *
-     * @var Phalcon\Events\Manager
+     * @var ManagerInterface
      */
     protected eventsManager;
+
+    /**
+     * The real SQL statement - what was executed
+     *
+     * @var string
+     */
+    protected realSqlStatement;
 
     /**
      * Active SQL Bind Types
@@ -528,7 +535,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      * }
      *```
      */
-    public function fetchAll(string sqlQuery, int fetchMode = Enum::FETCH_ASSOC, var bindParams = null, var bindTypes = null) -> array
+    public function fetchAll(string sqlQuery, int fetchMode = Enum::FETCH_ASSOC, array bindParams = [], array bindTypes = []) -> array
     {
         var result;
 
@@ -536,6 +543,10 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
 
         if typeof result != "object" {
             return [];
+        }
+
+        if unlikely fetchMode === Enum::FETCH_COLUMN {
+            return result->fetchAll(Enum::FETCH_COLUMN);
         }
 
         result->setFetchMode(fetchMode);
@@ -553,7 +564,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      *
      * // Getting name of last edited robot
      * $robot = $connection->fetchColumn(
-     *     "SELECT id, name FROM robots order by modified desc",
+     *     "SELECT id, name FROM robots ORDER BY modified DESC",
      *     1
      * );
      * print_r($robot);
@@ -588,7 +599,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      * print_r($robot);
      *```
      */
-    public function fetchOne(string! sqlQuery, var fetchMode = Enum::FETCH_ASSOC, var bindParams = null, var bindTypes = null) -> array
+    public function fetchOne(string! sqlQuery, var fetchMode = Enum::FETCH_ASSOC, array bindParams = [], array bindTypes = []) -> array
     {
         var result;
 
@@ -680,6 +691,8 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      *     ]
      * );
      *```
+     *
+     * @todo Return NULL if this is not supported by the adapter
      */
     public function getDefaultValue() -> <RawValue>
     {
@@ -705,7 +718,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     /**
      * Returns the internal event manager
      */
-    public function getEventsManager() -> <ManagerInterface>
+    public function getEventsManager() -> <ManagerInterface> | null
     {
         return this->eventsManager;
     }
@@ -723,7 +736,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      */
     public function getRealSQLStatement() -> string
     {
-        return this->sqlStatement;
+        return this->realSqlStatement;
     }
 
     /**
@@ -1215,7 +1228,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
 
                 /**
                  * If an index 'conditions' is present it contains string where
-                 * conditions that are appended to the UPDATE sql
+                 * conditions that are appended to the UPDATE SQL
                  */
                 if fetch conditions, whereCondition["conditions"] {
                     let updateSql .= conditions;
@@ -1293,6 +1306,16 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     public function useExplicitIdValue() -> bool
     {
         return false;
+    }
+
+    /**
+     * Check whether the database system support the DEFAULT
+     * keyword (SQLite does not support it)
+     *
+     * @deprecated Will re removed in the next version
+     */
+    public function supportsDefaultValue() -> bool {
+        return true;
     }
 
     /**

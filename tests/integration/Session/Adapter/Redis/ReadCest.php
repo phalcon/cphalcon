@@ -22,12 +22,6 @@ use function uniqid;
 class ReadCest
 {
     use DiTrait;
-    use SessionTrait;
-
-    public function _before(IntegrationTester $I)
-    {
-        $this->newFactoryDefault();
-    }
 
     /**
      * Tests Phalcon\Session\Adapter\Redis :: read()
@@ -38,7 +32,8 @@ class ReadCest
     public function sessionAdapterRedisRead(IntegrationTester $I)
     {
         $I->wantToTest('Session\Adapter\Redis - read()');
-        $adapter = $this->getSessionRedis();
+
+        $adapter = $this->newService('sessionRedis');
         $value   = uniqid();
 
         $I->haveInRedis('string', 'sess-reds-test1', $value);

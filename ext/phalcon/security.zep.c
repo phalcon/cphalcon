@@ -137,6 +137,7 @@ PHP_METHOD(Phalcon_Security, getWorkFactor) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "workFactor");
 
 }
@@ -155,6 +156,16 @@ PHP_METHOD(Phalcon_Security, __construct) {
 	ZVAL_UNDEF(&request_sub);
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 2)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(session, phalcon_session_managerinterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(request, phalcon_http_requestinterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &session, &request);
@@ -175,9 +186,9 @@ PHP_METHOD(Phalcon_Security, __construct) {
 		ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 0);
 		zephir_check_call_status();
 	}
-	zephir_update_property_zval(this_ptr, SL("random"), &_0);
-	zephir_update_property_zval(this_ptr, SL("localRequest"), request);
-	zephir_update_property_zval(this_ptr, SL("localSession"), session);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("random"), &_0);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("localRequest"), request);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("localSession"), session);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -203,6 +214,17 @@ PHP_METHOD(Phalcon_Security, checkHash) {
 	ZVAL_UNDEF(&cryptedHash);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_1);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 3)
+		Z_PARAM_STR(password)
+		Z_PARAM_STR(passwordHash)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_LONG(maxPassLength)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &password_param, &passwordHash_param, &maxPassLength_param);
@@ -263,6 +285,17 @@ PHP_METHOD(Phalcon_Security, checkToken) {
 	ZVAL_UNDEF(&knownToken);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$5);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 3)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL(tokenKey)
+		Z_PARAM_ZVAL(tokenValue)
+		Z_PARAM_BOOL(destroyIfValid)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 3, &tokenKey, &tokenValue, &destroyIfValid_param);
@@ -291,7 +324,7 @@ PHP_METHOD(Phalcon_Security, checkToken) {
 		_0 = !zephir_is_true(tokenKey);
 	}
 	if (EXPECTED(_0)) {
-		zephir_read_property(&_1$$3, this_ptr, SL("tokenKeySessionId"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_1$$3, this_ptr, ZEND_STRL("tokenKeySessionId"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(tokenKey, &session, "get", NULL, 0, &_1$$3);
 		zephir_check_call_status();
 	}
@@ -348,6 +381,18 @@ PHP_METHOD(Phalcon_Security, computeHmac) {
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$3);
 	ZVAL_UNDEF(&_3$$3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(3, 4)
+		Z_PARAM_STR(data)
+		Z_PARAM_STR(key)
+		Z_PARAM_STR(algo)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_BOOL(raw)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 1, &data_param, &key_param, &algo_param, &raw_param);
@@ -363,16 +408,16 @@ PHP_METHOD(Phalcon_Security, computeHmac) {
 
 
 	ZVAL_BOOL(&_0, (raw ? 1 : 0));
-	ZEPHIR_CALL_FUNCTION(&hmac, "hash_hmac", NULL, 181, &algo, &data, &key, &_0);
+	ZEPHIR_CALL_FUNCTION(&hmac, "hash_hmac", NULL, 188, &algo, &data, &key, &_0);
 	zephir_check_call_status();
 	if (UNEXPECTED(!zephir_is_true(&hmac))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_security_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "Unknown hashing algorithm: %s");
-		ZEPHIR_CALL_FUNCTION(&_3$$3, "sprintf", NULL, 188, &_2$$3, &algo);
+		ZEPHIR_CALL_FUNCTION(&_3$$3, "sprintf", NULL, 195, &_2$$3, &algo);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 6, &_3$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 8, &_3$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Security.zep", 215);
 		ZEPHIR_MM_RESTORE();
@@ -397,21 +442,22 @@ PHP_METHOD(Phalcon_Security, destroyToken) {
 	ZVAL_UNDEF(&_0$$3);
 	ZVAL_UNDEF(&_1$$3);
 
+
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_CALL_METHOD(&session, this_ptr, "getlocalsession", NULL, 0);
 	zephir_check_call_status();
 	if (UNEXPECTED(zephir_is_true(&session))) {
-		zephir_read_property(&_0$$3, this_ptr, SL("tokenKeySessionId"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_0$$3, this_ptr, ZEND_STRL("tokenKeySessionId"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(NULL, &session, "remove", NULL, 0, &_0$$3);
 		zephir_check_call_status();
-		zephir_read_property(&_1$$3, this_ptr, SL("tokenValueSessionId"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_1$$3, this_ptr, ZEND_STRL("tokenValueSessionId"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(NULL, &session, "remove", NULL, 0, &_1$$3);
 		zephir_check_call_status();
 	}
-	zephir_update_property_zval(this_ptr, SL("token"), &__$null);
-	zephir_update_property_zval(this_ptr, SL("tokenKey"), &__$null);
-	zephir_update_property_zval(this_ptr, SL("requestToken"), &__$null);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("token"), &__$null);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("tokenKey"), &__$null);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("requestToken"), &__$null);
 	RETURN_THIS();
 
 }
@@ -422,6 +468,7 @@ PHP_METHOD(Phalcon_Security, destroyToken) {
 PHP_METHOD(Phalcon_Security, getDefaultHash) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "defaultHash");
@@ -436,6 +483,7 @@ PHP_METHOD(Phalcon_Security, getRandom) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "random");
 
 }
@@ -447,6 +495,7 @@ PHP_METHOD(Phalcon_Security, getRandom) {
 PHP_METHOD(Phalcon_Security, getRandomBytes) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "numberBytes");
@@ -465,9 +514,10 @@ PHP_METHOD(Phalcon_Security, getRequestToken) {
 
 	ZVAL_UNDEF(&_0);
 
+
 	ZEPHIR_MM_GROW();
 
-	zephir_read_property(&_0, this_ptr, SL("requestToken"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("requestToken"), PH_NOISY_CC | PH_READONLY);
 	if (ZEPHIR_IS_EMPTY(&_0)) {
 		ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getsessiontoken", NULL, 0);
 		zephir_check_call_status();
@@ -490,12 +540,13 @@ PHP_METHOD(Phalcon_Security, getSessionToken) {
 	ZVAL_UNDEF(&session);
 	ZVAL_UNDEF(&_0$$3);
 
+
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_CALL_METHOD(&session, this_ptr, "getlocalsession", NULL, 0);
 	zephir_check_call_status();
 	if (UNEXPECTED(zephir_is_true(&session))) {
-		zephir_read_property(&_0$$3, this_ptr, SL("tokenValueSessionId"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_0$$3, this_ptr, ZEND_STRL("tokenValueSessionId"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_RETURN_CALL_METHOD(&session, "get", NULL, 0, &_0$$3);
 		zephir_check_call_status();
 		RETURN_MM();
@@ -520,6 +571,15 @@ PHP_METHOD(Phalcon_Security, getSaltBytes) {
 	ZVAL_UNDEF(&_0$$3);
 	ZVAL_UNDEF(&_1$$4);
 	ZVAL_UNDEF(&_2$$4);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_LONG(numberBytes)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &numberBytes_param);
@@ -533,11 +593,11 @@ PHP_METHOD(Phalcon_Security, getSaltBytes) {
 
 	if (!(numberBytes)) {
 		ZEPHIR_OBS_VAR(&_0$$3);
-		zephir_read_property(&_0$$3, this_ptr, SL("numberBytes"), PH_NOISY_CC);
+		zephir_read_property(&_0$$3, this_ptr, ZEND_STRL("numberBytes"), PH_NOISY_CC);
 		numberBytes = zephir_get_intval(&_0$$3);
 	}
 	while (1) {
-		zephir_read_property(&_1$$4, this_ptr, SL("random"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_1$$4, this_ptr, ZEND_STRL("random"), PH_NOISY_CC | PH_READONLY);
 		ZVAL_LONG(&_2$$4, numberBytes);
 		ZEPHIR_CALL_METHOD(&safeBytes, &_1$$4, "base64safe", NULL, 0, &_2$$4);
 		zephir_check_call_status();
@@ -573,23 +633,24 @@ PHP_METHOD(Phalcon_Security, getToken) {
 	ZVAL_UNDEF(&_5$$4);
 	ZVAL_UNDEF(&_6$$4);
 
+
 	ZEPHIR_MM_GROW();
 
-	zephir_read_property(&_0, this_ptr, SL("token"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("token"), PH_NOISY_CC | PH_READONLY);
 	if (Z_TYPE_P(&_0) == IS_NULL) {
 		ZEPHIR_CALL_METHOD(&_1$$3, this_ptr, "getsessiontoken", NULL, 0);
 		zephir_check_call_status();
-		zephir_update_property_zval(this_ptr, SL("requestToken"), &_1$$3);
-		zephir_read_property(&_2$$3, this_ptr, SL("random"), PH_NOISY_CC | PH_READONLY);
-		zephir_read_property(&_4$$3, this_ptr, SL("numberBytes"), PH_NOISY_CC | PH_READONLY);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("requestToken"), &_1$$3);
+		zephir_read_property(&_2$$3, this_ptr, ZEND_STRL("random"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_4$$3, this_ptr, ZEND_STRL("numberBytes"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_CALL_METHOD(&_3$$3, &_2$$3, "base64safe", NULL, 0, &_4$$3);
 		zephir_check_call_status();
-		zephir_update_property_zval(this_ptr, SL("token"), &_3$$3);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("token"), &_3$$3);
 		ZEPHIR_CALL_METHOD(&session, this_ptr, "getlocalsession", NULL, 0);
 		zephir_check_call_status();
 		if (UNEXPECTED(zephir_is_true(&session))) {
-			zephir_read_property(&_5$$4, this_ptr, SL("tokenValueSessionId"), PH_NOISY_CC | PH_READONLY);
-			zephir_read_property(&_6$$4, this_ptr, SL("token"), PH_NOISY_CC | PH_READONLY);
+			zephir_read_property(&_5$$4, this_ptr, ZEND_STRL("tokenValueSessionId"), PH_NOISY_CC | PH_READONLY);
+			zephir_read_property(&_6$$4, this_ptr, ZEND_STRL("token"), PH_NOISY_CC | PH_READONLY);
 			ZEPHIR_CALL_METHOD(NULL, &session, "set", NULL, 0, &_5$$4, &_6$$4);
 			zephir_check_call_status();
 		}
@@ -617,20 +678,21 @@ PHP_METHOD(Phalcon_Security, getTokenKey) {
 	ZVAL_UNDEF(&_4$$4);
 	ZVAL_UNDEF(&_5$$4);
 
+
 	ZEPHIR_MM_GROW();
 
-	zephir_read_property(&_0, this_ptr, SL("tokenKey"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("tokenKey"), PH_NOISY_CC | PH_READONLY);
 	if (Z_TYPE_P(&_0) == IS_NULL) {
 		ZEPHIR_CALL_METHOD(&session, this_ptr, "getlocalsession", NULL, 0);
 		zephir_check_call_status();
 		if (UNEXPECTED(zephir_is_true(&session))) {
-			zephir_read_property(&_1$$4, this_ptr, SL("random"), PH_NOISY_CC | PH_READONLY);
-			zephir_read_property(&_3$$4, this_ptr, SL("numberBytes"), PH_NOISY_CC | PH_READONLY);
+			zephir_read_property(&_1$$4, this_ptr, ZEND_STRL("random"), PH_NOISY_CC | PH_READONLY);
+			zephir_read_property(&_3$$4, this_ptr, ZEND_STRL("numberBytes"), PH_NOISY_CC | PH_READONLY);
 			ZEPHIR_CALL_METHOD(&_2$$4, &_1$$4, "base64safe", NULL, 0, &_3$$4);
 			zephir_check_call_status();
-			zephir_update_property_zval(this_ptr, SL("tokenKey"), &_2$$4);
-			zephir_read_property(&_4$$4, this_ptr, SL("tokenKeySessionId"), PH_NOISY_CC | PH_READONLY);
-			zephir_read_property(&_5$$4, this_ptr, SL("tokenKey"), PH_NOISY_CC | PH_READONLY);
+			zephir_update_property_zval(this_ptr, ZEND_STRL("tokenKey"), &_2$$4);
+			zephir_read_property(&_4$$4, this_ptr, ZEND_STRL("tokenKeySessionId"), PH_NOISY_CC | PH_READONLY);
+			zephir_read_property(&_5$$4, this_ptr, ZEND_STRL("tokenKey"), PH_NOISY_CC | PH_READONLY);
 			ZEPHIR_CALL_METHOD(NULL, &session, "set", NULL, 0, &_4$$4, &_5$$4);
 			zephir_check_call_status();
 		}
@@ -664,6 +726,16 @@ PHP_METHOD(Phalcon_Security, hash) {
 	ZVAL_UNDEF(&_8$$17);
 	ZVAL_UNDEF(&_9$$17);
 	ZVAL_UNDEF(&_10$$17);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_STR(password)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_LONG(workFactor)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &password_param, &workFactor_param);
@@ -678,11 +750,11 @@ PHP_METHOD(Phalcon_Security, hash) {
 
 	if (!(workFactor)) {
 		ZEPHIR_OBS_VAR(&_0$$3);
-		zephir_read_property(&_0$$3, this_ptr, SL("workFactor"), PH_NOISY_CC);
+		zephir_read_property(&_0$$3, this_ptr, ZEND_STRL("workFactor"), PH_NOISY_CC);
 		workFactor = zephir_get_intval(&_0$$3);
 	}
 	ZEPHIR_OBS_VAR(&_1);
-	zephir_read_property(&_1, this_ptr, SL("defaultHash"), PH_NOISY_CC);
+	zephir_read_property(&_1, this_ptr, ZEND_STRL("defaultHash"), PH_NOISY_CC);
 	hash = zephir_get_intval(&_1);
 	do {
 		if (hash == 5) {
@@ -777,7 +849,7 @@ PHP_METHOD(Phalcon_Security, hash) {
 		ZEPHIR_INIT_VAR(&_8$$17);
 		ZVAL_STRING(&_8$$17, "%02s");
 		ZVAL_LONG(&_7$$17, workFactor);
-		ZEPHIR_CALL_FUNCTION(&_9$$17, "sprintf", NULL, 188, &_8$$17, &_7$$17);
+		ZEPHIR_CALL_FUNCTION(&_9$$17, "sprintf", NULL, 195, &_8$$17, &_7$$17);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_10$$17);
 		ZEPHIR_CONCAT_SVSVSVS(&_10$$17, "$2", &variant, "$", &_9$$17, "$", &saltBytes, "$");
@@ -801,6 +873,14 @@ PHP_METHOD(Phalcon_Security, isLegacyHash) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&passwordHash);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(passwordHash)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &passwordHash_param);
@@ -822,6 +902,14 @@ PHP_METHOD(Phalcon_Security, setDefaultHash) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_LONG(defaultHash)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(1, 0, &defaultHash_param);
 
@@ -830,7 +918,7 @@ PHP_METHOD(Phalcon_Security, setDefaultHash) {
 
 	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(&_0, defaultHash);
-	zephir_update_property_zval(this_ptr, SL("defaultHash"), &_0);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("defaultHash"), &_0);
 	RETURN_THISW();
 
 }
@@ -846,6 +934,14 @@ PHP_METHOD(Phalcon_Security, setRandomBytes) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_LONG(randomBytes)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(1, 0, &randomBytes_param);
 
@@ -858,7 +954,7 @@ PHP_METHOD(Phalcon_Security, setRandomBytes) {
 
 	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(&_0, randomBytes);
-	zephir_update_property_zval(this_ptr, SL("numberBytes"), &_0);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("numberBytes"), &_0);
 	RETURN_THISW();
 
 }
@@ -873,6 +969,14 @@ PHP_METHOD(Phalcon_Security, setWorkFactor) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_LONG(workFactor)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(1, 0, &workFactor_param);
 
@@ -881,7 +985,7 @@ PHP_METHOD(Phalcon_Security, setWorkFactor) {
 
 	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(&_0, workFactor);
-	zephir_update_property_zval(this_ptr, SL("workFactor"), &_0);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("workFactor"), &_0);
 	RETURN_THISW();
 
 }
@@ -905,13 +1009,14 @@ PHP_METHOD(Phalcon_Security, getLocalRequest) {
 	ZVAL_UNDEF(&_8$$5);
 	ZVAL_UNDEF(&_9$$5);
 
+
 	ZEPHIR_MM_GROW();
 
-	zephir_read_property(&_0, this_ptr, SL("localRequest"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("localRequest"), PH_NOISY_CC | PH_READONLY);
 	if (zephir_is_true(&_0)) {
 		RETURN_MM_MEMBER(getThis(), "localRequest");
 	}
-	zephir_read_property(&_1, this_ptr, SL("container"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_1, this_ptr, ZEND_STRL("container"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&container, &_1);
 	if (UNEXPECTED(Z_TYPE_P(&container) != IS_OBJECT)) {
 		ZEPHIR_INIT_VAR(&_2$$4);
@@ -920,7 +1025,7 @@ PHP_METHOD(Phalcon_Security, getLocalRequest) {
 		ZVAL_STRING(&_5$$4, "the 'request' service");
 		ZEPHIR_CALL_CE_STATIC(&_3$$4, phalcon_security_exception_ce, "containerservicenotfound", &_4, 0, &_5$$4);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, &_2$$4, "__construct", NULL, 6, &_3$$4);
+		ZEPHIR_CALL_METHOD(NULL, &_2$$4, "__construct", NULL, 8, &_3$$4);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_2$$4, "phalcon/Security.zep", 550);
 		ZEPHIR_MM_RESTORE();
@@ -960,13 +1065,14 @@ PHP_METHOD(Phalcon_Security, getLocalSession) {
 	ZVAL_UNDEF(&_8$$5);
 	ZVAL_UNDEF(&_9$$5);
 
+
 	ZEPHIR_MM_GROW();
 
-	zephir_read_property(&_0, this_ptr, SL("localSession"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("localSession"), PH_NOISY_CC | PH_READONLY);
 	if (zephir_is_true(&_0)) {
 		RETURN_MM_MEMBER(getThis(), "localSession");
 	}
-	zephir_read_property(&_1, this_ptr, SL("container"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_1, this_ptr, ZEND_STRL("container"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&container, &_1);
 	if (UNEXPECTED(Z_TYPE_P(&container) != IS_OBJECT)) {
 		ZEPHIR_INIT_VAR(&_2$$4);
@@ -975,7 +1081,7 @@ PHP_METHOD(Phalcon_Security, getLocalSession) {
 		ZVAL_STRING(&_5$$4, "the 'session' service");
 		ZEPHIR_CALL_CE_STATIC(&_3$$4, phalcon_security_exception_ce, "containerservicenotfound", &_4, 0, &_5$$4);
 		zephir_check_call_status();
-		ZEPHIR_CALL_METHOD(NULL, &_2$$4, "__construct", NULL, 6, &_3$$4);
+		ZEPHIR_CALL_METHOD(NULL, &_2$$4, "__construct", NULL, 8, &_3$$4);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_2$$4, "phalcon/Security.zep", 572);
 		ZEPHIR_MM_RESTORE();

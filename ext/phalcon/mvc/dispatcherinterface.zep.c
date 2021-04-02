@@ -38,29 +38,23 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_DispatcherInterface) {
  * Returns the active controller in the dispatcher
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_DispatcherInterface, getActiveController);
-
 /**
  * Gets last dispatched controller name
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_DispatcherInterface, getControllerName);
-
 /**
  * Returns the latest dispatched controller
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_DispatcherInterface, getLastController);
-
 /**
  * Sets the default controller suffix
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_DispatcherInterface, setControllerSuffix);
-
 /**
  * Sets the controller name to be dispatched
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_DispatcherInterface, setControllerName);
-
 /**
  * Sets the default controller name
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_DispatcherInterface, setDefaultController);
-

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -15,7 +16,7 @@ namespace Zephir\Optimizers\FunctionCall;
 use Zephir\Call;
 use Zephir\CompilationContext;
 use Zephir\CompiledExpression;
-use Zephir\CompilerException;
+use Zephir\Exception\CompilerException;
 use Zephir\Optimizers\OptimizerAbstract;
 
 class PhalconCssminOptimizer extends OptimizerAbstract
@@ -70,7 +71,7 @@ class PhalconCssminOptimizer extends OptimizerAbstract
         );
 
         $context->codePrinter->output(
-            'phalcon_cssmin(' . $symbolVariable->getName() . ', ' . $resolvedParams[0] . ' TSRMLS_CC);'
+            'phalcon_cssmin(' . $symbolVariable->getName() . ', ' . $resolvedParams[0] . ');'
         );
 
         return new CompiledExpression(

@@ -11,10 +11,10 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Forms\Element\Textarea;
+namespace Phalcon\Test\Integration\Forms\Element\TextArea;
 
 use IntegrationTester;
-use Phalcon\Forms\Element\Textarea;
+use Phalcon\Forms\Element\TextArea;
 use Phalcon\Tag;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 
@@ -25,8 +25,8 @@ class ToStringCest
     public function _before(IntegrationTester $I)
     {
         $this->newDi();
-        $this->setDiEscaper();
-        $this->setDiUrl();
+        $this->setDiService('escaper');
+        $this->setDiService('url');
     }
 
     /**
@@ -41,14 +41,14 @@ class ToStringCest
     }
 
     /**
-     * Tests Phalcon\Forms\Element\Textarea :: __toString()
+     * Tests Phalcon\Forms\Element\TextArea :: __toString()
      *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-23
      */
     public function formsElementTextareaToStringSimple(IntegrationTester $I)
     {
-        $I->wantToTest('Forms\Element\Textarea - __toString()');
+        $I->wantToTest('Forms\Element\TextArea - __toString()');
 
         $element = new Textarea('simple');
 
@@ -59,14 +59,14 @@ class ToStringCest
     }
 
     /**
-     * Tests Phalcon\Forms\Element\Textarea :: __toString() with parameters
+     * Tests Phalcon\Forms\Element\TextArea :: __toString() with parameters
      *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-23
      */
     public function formsElementTextareaToStringWithParameters(IntegrationTester $I)
     {
-        $I->wantToTest('Forms\Element\Textarea - __toString() with parameters');
+        $I->wantToTest('Forms\Element\TextArea - __toString() with parameters');
 
         $element = new Textarea(
             'fantastic',

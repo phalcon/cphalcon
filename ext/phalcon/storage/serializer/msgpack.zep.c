@@ -48,15 +48,16 @@ PHP_METHOD(Phalcon_Storage_Serializer_Msgpack, serialize) {
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 
+
 	ZEPHIR_MM_GROW();
 
-	zephir_read_property(&_1, this_ptr, SL("data"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_1, this_ptr, ZEND_STRL("data"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "isserializable", NULL, 0, &_1);
 	zephir_check_call_status();
 	if (!(zephir_is_true(&_0))) {
 		RETURN_MM_MEMBER(getThis(), "data");
 	}
-	zephir_read_property(&_2, this_ptr, SL("data"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_2, this_ptr, ZEND_STRL("data"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_FUNCTION("msgpack_pack", NULL, 0, &_2);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -70,35 +71,66 @@ PHP_METHOD(Phalcon_Storage_Serializer_Msgpack, unserialize) {
 
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *data, data_sub, __$false, __$null, _0, _1, _2;
+	zval *data, data_sub, __$false, __$null, version, _0, _1, _2, _7, _3$$3, _4$$3, _5$$4, _6$$4;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&data_sub);
 	ZVAL_BOOL(&__$false, 0);
 	ZVAL_NULL(&__$null);
+	ZVAL_UNDEF(&version);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
+	ZVAL_UNDEF(&_7);
+	ZVAL_UNDEF(&_3$$3);
+	ZVAL_UNDEF(&_4$$3);
+	ZVAL_UNDEF(&_5$$4);
+	ZVAL_UNDEF(&_6$$4);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(data)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &data);
 
 
 
+	ZEPHIR_CALL_FUNCTION(&version, "phpversion", NULL, 86);
+	zephir_check_call_status();
 	ZEPHIR_GLOBAL(warning).enable = zend_is_true(&__$false);
 	ZEPHIR_INIT_VAR(&_0);
-	ZEPHIR_INIT_NVAR(&_0);
-	zephir_create_closure_ex(&_0, NULL, phalcon_6__closure_ce, SL("__invoke"));
-	ZVAL_LONG(&_1, 2);
-	ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 84, &_0, &_1);
+	ZVAL_STRING(&_0, "8.0");
+	ZEPHIR_INIT_VAR(&_1);
+	ZVAL_STRING(&_1, ">=");
+	ZEPHIR_CALL_FUNCTION(&_2, "version_compare", NULL, 87, &version, &_0, &_1);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_2, "msgpack_unpack", NULL, 0, data);
+	if (zephir_is_true(&_2)) {
+		ZEPHIR_INIT_VAR(&_3$$3);
+		ZEPHIR_INIT_NVAR(&_3$$3);
+		zephir_create_closure_ex(&_3$$3, NULL, phalcon_12__closure_ce, SL("__invoke"));
+		ZVAL_LONG(&_4$$3, 2);
+		ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 88, &_3$$3, &_4$$3);
+		zephir_check_call_status();
+	} else {
+		ZEPHIR_INIT_VAR(&_5$$4);
+		ZEPHIR_INIT_NVAR(&_5$$4);
+		zephir_create_closure_ex(&_5$$4, NULL, phalcon_13__closure_ce, SL("__invoke"));
+		ZVAL_LONG(&_6$$4, 2);
+		ZEPHIR_CALL_FUNCTION(NULL, "set_error_handler", NULL, 88, &_5$$4, &_6$$4);
+		zephir_check_call_status();
+	}
+	ZEPHIR_CALL_FUNCTION(&_7, "msgpack_unpack", NULL, 0, data);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, SL("data"), &_2);
-	ZEPHIR_CALL_FUNCTION(NULL, "restore_error_handler", NULL, 86);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("data"), &_7);
+	ZEPHIR_CALL_FUNCTION(NULL, "restore_error_handler", NULL, 90);
 	zephir_check_call_status();
 	if (UNEXPECTED(ZEPHIR_GLOBAL(warning).enable)) {
-		zephir_update_property_zval(this_ptr, SL("data"), &__$null);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("data"), &__$null);
 	}
 	ZEPHIR_MM_RESTORE();
 

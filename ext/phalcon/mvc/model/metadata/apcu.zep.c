@@ -76,6 +76,16 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apcu, __construct) {
 	ZVAL_UNDEF(&_5);
 	ZVAL_UNDEF(&_6);
 	ZVAL_UNDEF(&options);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_OBJECT_OF_CLASS(factory, phalcon_cache_adapterfactory_ce)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ARRAY_OR_NULL(options)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &factory, &options_param);
@@ -92,20 +102,20 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apcu, __construct) {
 	ZVAL_STRING(&_2, "prefix");
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "ph-mm-apcu-");
-	ZEPHIR_CALL_CE_STATIC(&_0, phalcon_helper_arr_ce, "get", &_1, 15, &options, &_2, &_3);
+	ZEPHIR_CALL_CE_STATIC(&_0, phalcon_helper_arr_ce, "get", &_1, 16, &options, &_2, &_3);
 	zephir_check_call_status();
 	zephir_array_update_string(&options, SL("prefix"), &_0, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "lifetime");
 	ZVAL_LONG(&_5, 172800);
-	ZEPHIR_CALL_CE_STATIC(&_4, phalcon_helper_arr_ce, "get", &_1, 15, &options, &_2, &_5);
+	ZEPHIR_CALL_CE_STATIC(&_4, phalcon_helper_arr_ce, "get", &_1, 16, &options, &_2, &_5);
 	zephir_check_call_status();
 	zephir_array_update_string(&options, SL("lifetime"), &_4, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "apcu");
 	ZEPHIR_CALL_METHOD(&_6, factory, "newinstance", NULL, 0, &_2, &options);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, SL("adapter"), &_6);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("adapter"), &_6);
 	ZEPHIR_MM_RESTORE();
 
 }

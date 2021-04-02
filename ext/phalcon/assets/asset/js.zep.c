@@ -29,7 +29,7 @@
  * file that was distributed with this source code.
  */
 /**
- * Represents Javascript assets
+ * Represents JavaScript assets
  */
 ZEPHIR_INIT_CLASS(Phalcon_Assets_Asset_Js) {
 
@@ -60,6 +60,20 @@ PHP_METHOD(Phalcon_Assets_Asset_Js, __construct) {
 	ZVAL_UNDEF(&_3);
 	ZVAL_UNDEF(&_4);
 	ZVAL_UNDEF(&attributes);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 6)
+		Z_PARAM_STR(path)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_BOOL(local)
+		Z_PARAM_BOOL(filter)
+		Z_PARAM_ARRAY(attributes)
+		Z_PARAM_STR_OR_NULL(version)
+		Z_PARAM_BOOL(autoVersion)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 5, &path_param, &local_param, &filter_param, &attributes_param, &version_param, &autoVersion_param);

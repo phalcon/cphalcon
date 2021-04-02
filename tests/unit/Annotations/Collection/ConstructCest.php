@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Annotations\Collection;
 
+use Phalcon\Annotations\Collection;
 use UnitTester;
 
 class ConstructCest
@@ -20,13 +21,43 @@ class ConstructCest
     /**
      * Tests Phalcon\Annotations\Collection :: __construct()
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
+     * @since  2020-01-27
      */
     public function annotationsCollectionConstruct(UnitTester $I)
     {
         $I->wantToTest('Annotations\Collection - __construct()');
 
-        $I->skipTest('Need implementation');
+        $collection = new Collection();
+
+        $I->assertInstanceOf(
+            Collection::class,
+            $collection
+        );
+    }
+
+    /**
+     * Tests Phalcon\Annotations\Collection :: __construct() with array
+     * parameter
+     *
+     * @author Jeremy PASTOURET <https://github.com/jenovateurs>
+     * @since  2020-01-27
+     */
+    public function annotationsCollectionConstructWithArrayParam(UnitTester $I)
+    {
+        $I->wantToTest('Annotations\Collection - __construct() with array parameter');
+
+        $collection = new Collection(
+            [
+                [
+                    'name' => 'NovAnnotation',
+                ],
+            ]
+        );
+
+        $I->assertInstanceOf(
+            Collection::class,
+            $collection
+        );
     }
 }

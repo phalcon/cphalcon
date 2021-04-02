@@ -31,6 +31,8 @@ class RotateCest
     {
         $I->wantToTest('Image\Adapter\Gd - rotate()');
 
+        $this->checkJpegSupport($I);
+
         $params = [
             'jpg' => [
                 [0, 'fbf9f3e3c3c18183'],

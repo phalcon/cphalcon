@@ -9,10 +9,15 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Models;
 
 use Phalcon\Mvc\Model;
 
+/**
+ * Class Stuff
+ */
 class Stuff extends Model
 {
     public $stf_id;

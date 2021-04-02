@@ -33,7 +33,7 @@ class RenderCest
     public function _before(IntegrationTester $I)
     {
         $this->newDi();
-        $this->setDiViewSimple();
+        $this->setDiService('viewSimple');
 
         ob_start();
     }

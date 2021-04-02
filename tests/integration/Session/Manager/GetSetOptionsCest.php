@@ -21,7 +21,6 @@ use Phalcon\Test\Fixtures\Traits\SessionTrait;
 class GetSetOptionsCest
 {
     use DiTrait;
-    use SessionTrait;
 
     /**
      * Tests Phalcon\Session\Manager :: getOptions()/setOptions() - constructor

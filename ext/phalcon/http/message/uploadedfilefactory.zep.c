@@ -16,6 +16,7 @@
 #include "kernel/operators.h"
 #include "kernel/memory.h"
 #include "kernel/object.h"
+#include "ext/psr/psr_http_message.h"
 
 
 /**
@@ -73,6 +74,19 @@ PHP_METHOD(Phalcon_Http_Message_UploadedFileFactory, createUploadedFile) {
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&clientFilename);
 	ZVAL_UNDEF(&clientMediaType);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 5)
+		Z_PARAM_OBJECT_OF_CLASS(stream, PsrHttpMessageStreamInterface_ce_ptr)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_LONG_OR_NULL(size, is_null_true)
+		Z_PARAM_LONG(error)
+		Z_PARAM_STR_OR_NULL(clientFilename)
+		Z_PARAM_STR_OR_NULL(clientMediaType)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 4, &stream, &size_param, &error_param, &clientFilename_param, &clientMediaType_param);
@@ -104,7 +118,7 @@ PHP_METHOD(Phalcon_Http_Message_UploadedFileFactory, createUploadedFile) {
 	object_init_ex(return_value, phalcon_http_message_uploadedfile_ce);
 	ZVAL_LONG(&_0, size);
 	ZVAL_LONG(&_1, error);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 307, stream, &_0, &_1, &clientFilename, &clientMediaType);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 326, stream, &_0, &_1, &clientFilename, &clientMediaType);
 	zephir_check_call_status();
 	RETURN_MM();
 

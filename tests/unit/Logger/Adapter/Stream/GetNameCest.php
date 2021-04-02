@@ -32,6 +32,7 @@ class GetNameCest
         $actual   = $adapter->getName();
         $I->assertEquals($expected, $actual);
 
+        $adapter->close();
         $I->safeDeleteFile($outputPath . $fileName);
     }
 }

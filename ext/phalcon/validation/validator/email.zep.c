@@ -91,6 +91,15 @@ PHP_METHOD(Phalcon_Validation_Validator_Email, __construct) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&options);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ARRAY(options)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &options_param);
@@ -125,6 +134,15 @@ PHP_METHOD(Phalcon_Validation_Validator_Email, validate) {
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2$$3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_OBJECT_OF_CLASS(validation, phalcon_validation_ce)
+		Z_PARAM_ZVAL(field)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &validation, &field);
@@ -134,7 +152,7 @@ PHP_METHOD(Phalcon_Validation_Validator_Email, validate) {
 	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, 0, field);
 	zephir_check_call_status();
 	ZVAL_LONG(&_0, 274);
-	ZEPHIR_CALL_FUNCTION(&_1, "filter_var", NULL, 240, &value, &_0);
+	ZEPHIR_CALL_FUNCTION(&_1, "filter_var", NULL, 258, &value, &_0);
 	zephir_check_call_status();
 	if (!(zephir_is_true(&_1))) {
 		ZEPHIR_CALL_METHOD(&_2$$3, this_ptr, "messagefactory", NULL, 0, validation, field);

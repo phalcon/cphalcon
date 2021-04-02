@@ -5,8 +5,8 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -14,12 +14,15 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Http\Response;
 
 use Phalcon\Http\Response;
+use TypeError;
 use UnitTester;
 
 class ConstructCest
 {
     /**
      * Tests Phalcon\Http\Response :: __construct()
+     *
+     * @param  UnitTester $I
      *
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2019-12-08
@@ -37,7 +40,42 @@ class ConstructCest
     }
 
     /**
+     * Tests Phalcon\Http\Response :: __construct(content = [array])
+     *
+     * @param  UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-05-02
+     */
+    public function httpResponseConstructWithIncorrectDataType(UnitTester $I)
+    {
+        $I->wantToTest('Http\Response - __construct(content = [array])');
+
+        if (version_compare(PHP_VERSION, '8.0.0', '>=')) {
+            $throwable = new TypeError(
+                sprintf(
+                    'Phalcon\Http\Response::__construct(): Argument #1 ($content) must be of type ?string, array given',
+                    Response::class
+                )
+            );
+        } else {
+            $throwable = new TypeError(
+                sprintf(
+                    'Argument 1 passed to %s::__construct() must be of the type string or null, array given',
+                    Response::class
+                )
+            );
+        }
+
+        $I->expectThrowable($throwable, function () {
+            new Response(['Put a Sock In It']);
+        });
+    }
+
+    /**
      * Tests Phalcon\Http\Response :: __construct(content = null)
+     *
+     * @param  UnitTester $I
      *
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2019-12-08
@@ -46,20 +84,20 @@ class ConstructCest
     {
         $I->wantToTest('Http\Response - __construct(content = null)');
 
-        $aData = [
-            'user' => 'jeremy',
-        ];
+        $content = '<h1>Money Doesn\'t Grow On Trees</h1>';
 
-        $oResponse = new Response($aData);
+        $oResponse = new Response($content);
 
         $I->assertSame(
-            $aData,
+            $content,
             $oResponse->getContent()
         );
     }
 
     /**
      * Tests Phalcon\Http\Response :: __construct(content = null, code = null)
+     *
+     * @param  UnitTester $I
      *
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2019-12-08
@@ -68,16 +106,14 @@ class ConstructCest
     {
         $I->wantToTest('Http\Response - __construct(content = null, code = null)');
 
-        $aData = [
-            'user' => 'jeremy',
-        ];
+        $content = '<h1>Elephant in the Room</h1>';
 
         $nCodeSuccess = 200;
 
-        $oResponse = new Response($aData, $nCodeSuccess);
+        $oResponse = new Response($content, $nCodeSuccess);
 
         $I->assertSame(
-            $aData,
+            $content,
             $oResponse->getContent()
         );
 
@@ -97,6 +133,8 @@ class ConstructCest
      * Tests Phalcon\Http\Response :: __construct(content = null, code = null,
      * status = null)
      *
+     * @param  UnitTester $I
+     *
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2019-12-08
      */
@@ -104,16 +142,14 @@ class ConstructCest
     {
         $I->wantToTest('Http\Response - __construct(content = null, code = null, status = null)');
 
-        $aData = [
-            'user' => 'jeremy',
-        ];
+        $content = '<h1>Fight Fire With Fire</h1>';
 
         $nCodeSuccess = 200;
 
-        $oResponse = new Response($aData, $nCodeSuccess, 'Success');
+        $oResponse = new Response($content, $nCodeSuccess, 'Success');
 
         $I->assertSame(
-            $aData,
+            $content,
             $oResponse->getContent()
         );
 

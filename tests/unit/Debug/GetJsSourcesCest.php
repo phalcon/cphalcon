@@ -34,11 +34,11 @@ class GetJsSourcesCest
 
         $expected = sprintf(
             '<script type=\'text/javascript\' ' .
-                'src=\'%1$sbower_components/jquery/dist/jquery.min.js\'></script>' .
+            'src=\'%1$sbower_components/jquery/dist/jquery.min.js\'></script>' .
             '<script type=\'text/javascript\' ' .
-                'src=\'%1$sbower_components/jquery-ui/jquery-ui.min.js\'></script>' .
+            'src=\'%1$sbower_components/jquery-ui/jquery-ui.min.js\'></script>' .
             '<script type=\'text/javascript\' ' .
-                'src=\'%1$sbower_components/jquery.scrollTo/jquery.scrollTo.min.js\'></script>' .
+            'src=\'%1$sbower_components/jquery.scrollTo/jquery.scrollTo.min.js\'></script>' .
             '<script type=\'text/javascript\' src=\'%1$sprettify/prettify.js\'></script>' .
             '<script type=\'text/javascript\' src=\'%1$spretty.js\'></script>',
             $uri

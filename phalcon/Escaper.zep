@@ -43,9 +43,38 @@ class Escaper implements EscaperInterface
      */
     protected encoding = "utf-8";
 
-    protected htmlEscapeMap = null;
+    /**
+     * @var int
+     */
+    protected flags = 3;
 
-    protected htmlQuoteType = 3;
+    /**
+     * Escapes a HTML attribute string
+     */
+    public function attributes(string attribute = null) -> string
+    {
+        return htmlspecialchars(
+            attribute,
+            ENT_QUOTES,
+            this->encoding,
+            this->doubleEncode
+        );
+    }
+
+    /**
+     * Escape CSS strings by replacing non-alphanumeric chars by their
+     * hexadecimal escaped representation
+     */
+    public function css(string input) -> string
+    {
+        /**
+         * Normalize encoding to UTF-32
+         * Escape the string
+         */
+        return phalcon_escape_css(
+            this->normalizeEncoding(input)
+        );
+    }
 
     /**
      * Detect the character encoding of a string to be handled by an encoder.
@@ -94,28 +123,16 @@ class Escaper implements EscaperInterface
      */
     public function escapeCss(string css) -> string
     {
-        /**
-         * Normalize encoding to UTF-32
-         * Escape the string
-         */
-        return phalcon_escape_css(
-            this->normalizeEncoding(css)
-        );
+        return this->css(css);
     }
 
     /**
-     * Escape javascript strings by replacing non-alphanumeric chars by their
+     * Escape JavaScript strings by replacing non-alphanumeric chars by their
      * hexadecimal escaped representation
      */
     public function escapeJs(string js) -> string
     {
-        /**
-         * Normalize encoding to UTF-32
-         * Escape the string
-         */
-        return phalcon_escape_js(
-            this->normalizeEncoding(js)
-        );
+        return this->js(js);
     }
 
     /**
@@ -123,12 +140,7 @@ class Escaper implements EscaperInterface
      */
     public function escapeHtml(string text = null) -> string
     {
-        return htmlspecialchars(
-            text,
-            this->htmlQuoteType,
-            this->encoding,
-            this->doubleEncode
-        );
+        return this->html(text);
     }
 
     /**
@@ -136,12 +148,7 @@ class Escaper implements EscaperInterface
      */
     public function escapeHtmlAttr(string attribute = null) -> string
     {
-        return htmlspecialchars(
-            attribute,
-            ENT_QUOTES,
-            this->encoding,
-            this->doubleEncode
-        );
+        return this->attributes(attribute);
     }
 
     /**
@@ -149,7 +156,7 @@ class Escaper implements EscaperInterface
      */
     public function escapeUrl(string url) -> string
     {
-        return rawurlencode(url);
+        return this->url(url);
     }
 
     /**
@@ -158,6 +165,42 @@ class Escaper implements EscaperInterface
     public function getEncoding() -> string
     {
         return this->encoding;
+    }
+
+    /**
+     * Returns the current flags for htmlspecialchars
+     */
+    public function getFlags() -> int
+    {
+        return this->flags;
+    }
+
+    /**
+     * Escapes a HTML string. Internally uses htmlspecialchars
+     */
+    public function html(string input = null) -> string
+    {
+        return htmlspecialchars(
+            input,
+            this->flags,
+            this->encoding,
+            this->doubleEncode
+        );
+    }
+
+    /**
+     * Escape javascript strings by replacing non-alphanumeric chars by their
+     * hexadecimal escaped representation
+     */
+    public function js(string input) -> string
+    {
+        /**
+         * Normalize encoding to UTF-32
+         * Escape the string
+         */
+        return phalcon_escape_js(
+            this->normalizeEncoding(input)
+        );
     }
 
     /**
@@ -211,11 +254,33 @@ class Escaper implements EscaperInterface
      * Sets the HTML quoting type for htmlspecialchars
      *
      *```php
+     * $escaper->setFlags(ENT_XHTML);
+     *```
+     */
+    public function setFlags(int flags) -> <Escaper>
+    {
+        let this->flags = flags;
+
+        return this;
+    }
+
+    /**
+     * Sets the HTML quoting type for htmlspecialchars
+     *
+     *```php
      * $escaper->setHtmlQuoteType(ENT_XHTML);
      *```
      */
-    public function setHtmlQuoteType(int quoteType) -> void
+    public function setHtmlQuoteType(int flags) -> void
     {
-        let this->htmlQuoteType = quoteType;
+        let this->flags = flags;
+    }
+
+    /**
+     * Escapes a URL. Internally uses rawurlencode
+     */
+    public function url(string url) -> string
+    {
+        return rawurlencode(url);
     }
 }

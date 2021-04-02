@@ -21,7 +21,6 @@ use Phalcon\Test\Fixtures\Traits\SessionTrait;
 class ExistsDestroyCest
 {
     use DiTrait;
-    use SessionTrait;
 
     /**
      * Tests Phalcon\Session\Manager :: exists()/destroy()
@@ -32,11 +31,11 @@ class ExistsDestroyCest
     public function sessionManagerExistsDestroy(IntegrationTester $I)
     {
         $I->wantToTest('Session\Manager - exists()/destroy()');
-        $store = $_SESSION ?? [];
+        $store    = $_SESSION ?? [];
         $_SESSION = [];
 
         $manager = new Manager();
-        $files   = $this->getSessionStream();
+        $files   = $this->newService('sessionStream');
         $manager->setAdapter($files);
 
         $actual = $manager->start();
@@ -65,11 +64,11 @@ class ExistsDestroyCest
     public function sessionManagerDestroySuperGlobal(IntegrationTester $I)
     {
         $I->wantToTest('Session\Manager - destroy() - clean $_SESSION');
-        $store = $_SESSION ?? [];
+        $store    = $_SESSION ?? [];
         $_SESSION = [];
 
         $manager = new Manager();
-        $files   = $this->getSessionStream();
+        $files   = $this->newService('sessionStream');
         $manager->setAdapter($files);
 
         $actual = $manager->start();
@@ -101,15 +100,15 @@ class ExistsDestroyCest
     {
         $I->wantToTest('Session\Manager - destroy() - clean $_SESSION with uniquid');
 
-        $store = $_SESSION ?? [];
+        $store    = $_SESSION ?? [];
         $_SESSION = [];
 
         $manager = new Manager();
-        $files   = $this->getSessionStream();
+        $files   = $this->newService('sessionStream');
         $manager->setAdapter($files);
         $manager->setOptions(
             [
-                'uniqueId' => 'aaa'
+                'uniqueId' => 'aaa',
             ]
         );
 

@@ -33,6 +33,7 @@ class NewInstanceCest
 
         $factory = new ImageFactory();
         $file    = dataDir('assets/images/phalconphp.jpg');
+        $file    = str_replace("/", DIRECTORY_SEPARATOR, $file);
         $name    = 'imagick';
 
         $image = $factory->newInstance($name, $file);

@@ -63,6 +63,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Lang, parsePHQL) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&phql);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(phql)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &phql_param);
@@ -79,7 +87,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Lang, parsePHQL) {
 	}
 
 
-	ZEPHIR_LAST_CALL_STATUS = phql_parse_phql(return_value, &phql TSRMLS_CC);
+	ZEPHIR_LAST_CALL_STATUS = phql_parse_phql(return_value, &phql);
 	zephir_check_call_status();
 	RETURN_MM();
 

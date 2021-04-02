@@ -13,272 +13,115 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Db\Dialect\Mysql;
 
-use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Db\Column;
 use Phalcon\Db\Dialect\Mysql;
-use Phalcon\Test\Fixtures\Traits\DialectTrait;
 
 class ModifyColumnCest
 {
-    use DialectTrait;
-
     /**
-     * Tests Phalcon\Db\Dialect\Mysql :: modifyColumn()
-     *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2017-02-26
-     *
-     * @dataProvider getModifyColumnFixtures
-     */
-    public function dbDialectMysqlModifyColumn(IntegrationTester $I, Example $example)
-    {
-        $I->wantToTest('Db\Dialect\Mysql - modifyColumn()');
-
-        $columns  = $this->getColumns();
-        $schema   = $example[0];
-        $to       = $columns[$example[1]];
-        $from     = $columns[$example[2]] ?? null;
-        $expected = $example[3];
-
-        $dialect = new Mysql();
-
-        $actual = $dialect->modifyColumn(
-            'table',
-            $schema,
-            $to,
-            $from
-        );
-
-        $I->assertEquals($expected, $actual);
-    }
-
-    /**
-     * Tests Phalcon\Db\Dialect\Mysql :: modifyColumn() - bug 13012
+     * Tests Phalcon\Db\Adapter\Pdo\Mysql :: modifyColumn()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-01-20
-     * @issue  https://github.com/phalcon/cphalcon/issues/13012
+     * @since  2020-02-27
+     * @since  2020-05-02 Changed default null and nullable column definition
      */
-    public function testModifyColumn13012(IntegrationTester $I)
+    public function dbAdapterPdoMysqlModifyColumn(IntegrationTester $I)
     {
-        $oldColumn = new Column(
-            'old',
+        $I->wantToTest('Db\Adapter\Pdo\Mysql - modifyColumn()');
+
+        $modifications = [
             [
-                'type' => Column::TYPE_VARCHAR,
-            ]
-        );
-
-        $newColumn = new Column(
-            'new',
-            [
-                'type' => Column::TYPE_VARCHAR,
-            ]
-        );
-
-        $dialect = new Mysql();
-
-        $actual = $dialect->modifyColumn(
-            'table',
-            'database',
-            $newColumn,
-            $oldColumn
-        );
-
-        $I->assertEquals(
-            'ALTER TABLE `database`.`table` CHANGE COLUMN `old` `new` VARCHAR(0)',
-            $actual
-        );
-    }
-
-    protected function getModifyColumnFixtures(): array
-    {
-        return [
-            [
-                '',
-                'column1',
-                null,
-                'ALTER TABLE `table` MODIFY `column1` VARCHAR(10)',
+                new Column(
+                    'updated_at',
+                    [
+                        'type'    => Column::TYPE_TIMESTAMP,
+                        'default' => "CURRENT_TIMESTAMP",
+                        'notNull' => true,
+                        'after'   => 'created_at',
+                    ]
+                ),
+                new Column(
+                    'updated_at',
+                    [
+                        'type'    => Column::TYPE_TIMESTAMP,
+                        'default' => "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+                        'notNull' => true,
+                        'after'   => 'created_at',
+                    ]
+                ),
+                'ALTER TABLE `test` MODIFY `updated_at` TIMESTAMP NOT NULL ' .
+                'DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP AFTER `created_at`',
             ],
-
             [
-                'schema',
-                'column1',
-                null,
-                'ALTER TABLE `schema`.`table` MODIFY `column1` VARCHAR(10)',
+                new Column(
+                    'deleted_at',
+                    [
+                        'type'    => Column::TYPE_TIMESTAMP,
+                        'default' => "CURRENT_TIMESTAMP",
+                        'notNull' => false,
+                        'after'   => 'updated_at',
+                    ]
+                ),
+                new Column(
+                    'deleted_at',
+                    [
+                        'type'    => Column::TYPE_TIMESTAMP,
+                        'default' => "NULL",
+                        'notNull' => false,
+                        'after'   => 'updated_at',
+                    ]
+                ),
+                'ALTER TABLE `test` MODIFY `deleted_at` TIMESTAMP NULL DEFAULT NULL AFTER `updated_at`',
             ],
-
             [
-                '',
-                'column2',
-                null,
-                'ALTER TABLE `table` MODIFY `column2` INT(18) UNSIGNED',
+                new Column(
+                    'numeric_val',
+                    [
+                        'type'    => Column::TYPE_FLOAT,
+                        'notNull' => true,
+                        'after'   => 'updated_at',
+                    ]
+                ),
+                new Column(
+                    'numeric_val',
+                    [
+                        'type'    => Column::TYPE_FLOAT,
+                        'default' => 21.42,
+                        'notNull' => false,
+                        'after'   => 'updated_at',
+                    ]
+                ),
+                'ALTER TABLE `test` MODIFY `numeric_val` FLOAT NULL DEFAULT 21.42 AFTER `updated_at`',
             ],
-
             [
-                'schema',
-                'column2',
-                null,
-                'ALTER TABLE `schema`.`table` MODIFY `column2` INT(18) UNSIGNED',
-            ],
-
-            [
-                '',
-                'column3',
-                null,
-                'ALTER TABLE `table` MODIFY `column3` DECIMAL(10,2) NOT NULL',
-            ],
-
-            [
-                'schema',
-                'column3',
-                null,
-                'ALTER TABLE `schema`.`table` MODIFY `column3` DECIMAL(10,2) NOT NULL',
-            ],
-
-            [
-                '',
-                'column4',
-                null,
-                'ALTER TABLE `table` MODIFY `column4` CHAR(100) NOT NULL',
-            ],
-
-            [
-                'schema',
-                'column4',
-                null,
-                'ALTER TABLE `schema`.`table` MODIFY `column4` CHAR(100) NOT NULL',
-            ],
-
-            [
-                '',
-                'column5',
-                null,
-                'ALTER TABLE `table` MODIFY `column5` DATE NOT NULL',
-            ],
-
-            [
-                'schema',
-                'column5',
-                null,
-                'ALTER TABLE `schema`.`table` MODIFY `column5` DATE NOT NULL',
-            ],
-
-            [
-                '',
-                'column6',
-                null,
-                'ALTER TABLE `table` MODIFY `column6` DATETIME NOT NULL',
-            ],
-
-            [
-                'schema',
-                'column6',
-                null,
-                'ALTER TABLE `schema`.`table` MODIFY `column6` DATETIME NOT NULL',
-            ],
-
-            [
-                '',
-                'column7',
-                null,
-                'ALTER TABLE `table` MODIFY `column7` TEXT NOT NULL',
-            ],
-
-            [
-                'schema',
-                'column7',
-                null,
-                'ALTER TABLE `schema`.`table` MODIFY `column7` TEXT NOT NULL',
-            ],
-
-            [
-                '',
-                'column8',
-                null,
-                'ALTER TABLE `table` MODIFY `column8` FLOAT(10,2) NOT NULL',
-            ],
-
-            [
-                'schema',
-                'column8',
-                null,
-                'ALTER TABLE `schema`.`table` MODIFY `column8` FLOAT(10,2) NOT NULL',
-            ],
-
-            [
-                '',
-                'column9',
-                null,
-                'ALTER TABLE `table` MODIFY `column9` VARCHAR(10) DEFAULT "column9"',
-            ],
-
-            [
-                'schema',
-                'column9',
-                null,
-                'ALTER TABLE `schema`.`table` MODIFY `column9` VARCHAR(10) DEFAULT "column9"',
-            ],
-
-            [
-                '',
-                'column10',
-                null,
-                'ALTER TABLE `table` MODIFY `column10` INT(18) UNSIGNED DEFAULT "10"',
-            ],
-
-            [
-                'schema',
-                'column10',
-                null,
-                'ALTER TABLE `schema`.`table` MODIFY `column10` INT(18) UNSIGNED DEFAULT "10"',
-            ],
-
-            [
-                '',
-                'column11',
-                null,
-                'ALTER TABLE `table` MODIFY `column11` BIGINT(20) UNSIGNED',
-            ],
-
-            [
-                'schema',
-                'column11',
-                null,
-                'ALTER TABLE `schema`.`table` MODIFY `column11` BIGINT(20) UNSIGNED',
-            ],
-
-            [
-                '',
-                'column12',
-                null,
-                'ALTER TABLE `table` MODIFY `column12` ENUM("A", "B", "C") ' .
-                'DEFAULT "A" NOT NULL AFTER `column11`',
-            ],
-
-            [
-                'schema',
-                'column12',
-                null,
-                'ALTER TABLE `schema`.`table` MODIFY `column12` ENUM("A", "B", "C") ' .
-                'DEFAULT "A" NOT NULL AFTER `column11`',
-            ],
-
-            [
-                '',
-                'column13',
-                null,
-                'ALTER TABLE `table` MODIFY `column13` ' .
-                'TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL',
-            ],
-
-            [
-                'schema',
-                'column13',
-                null,
-                'ALTER TABLE `schema`.`table` MODIFY `column13` ' .
-                'TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL',
+                new Column(
+                    'numeric_val',
+                    [
+                        'type'    => Column::TYPE_FLOAT,
+                        'notNull' => true,
+                        'after'   => 'updated_at',
+                    ]
+                ),
+                new Column(
+                    'numeric_val',
+                    [
+                        'type'    => Column::TYPE_FLOAT,
+                        'default' => 21.42,
+                        'notNull' => false,
+                        'after'   => 'updated_at',
+                        'comment' => 'test'
+                    ]
+                ),
+                'ALTER TABLE `test` MODIFY `numeric_val` FLOAT NULL DEFAULT 21.42 COMMENT \'test\' AFTER `updated_at`',
             ],
         ];
+
+        $mysql = new Mysql();
+        foreach ($modifications as [$currentColumn, $column, $expected]) {
+            $sql = $mysql->modifyColumn('test', '', $column, $currentColumn);
+
+            $I->assertSame($expected, $sql);
+        }
     }
 }

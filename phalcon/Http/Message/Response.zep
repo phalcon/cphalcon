@@ -39,7 +39,7 @@ final class Response extends AbstractMessage implements ResponseInterface
      *
      * @var string
      */
-    private reasonPhrase = "" { get };
+    protected reasonPhrase = "" { get };
 
     /**
      * Gets the response status code.
@@ -49,7 +49,7 @@ final class Response extends AbstractMessage implements ResponseInterface
      *
      * @var int
      */
-    private statusCode = 200 { get };
+    protected statusCode = 200 { get };
 
     /**
      * Response constructor.
@@ -98,37 +98,9 @@ final class Response extends AbstractMessage implements ResponseInterface
     }
 
     /**
-     * Checks if a code is integer or string
-     *
-     * @param mixed $code
-     */
-    private function checkCodeType(var code) -> void
-    {
-        if unlikely (typeof code !== "int" && typeof code !== "string") {
-            throw new InvalidArgumentException(
-                "Invalid status code; it must be an integer or string"
-            );
-        }
-    }
-
-    /**
-     * Checks if a code is integer or string
-     *
-     * @param int $code
-     */
-    private function checkCodeValue(int code) -> void
-    {
-        if (true !== Number::between(code, 100, 599)) {
-            throw new InvalidArgumentException(
-                "Invalid status code '" . code . "', (allowed values 100-599)"
-            );
-        }
-    }
-
-    /**
      * Returns the list of status codes available
      */
-    private function getPhrases() -> array
+    protected function getPhrases() -> array
     {
         return [
             100 : "Continue",                                         // Information - RFC 7231, 6.2.1
@@ -228,7 +200,7 @@ final class Response extends AbstractMessage implements ResponseInterface
      * @param mixed $code
      * @param mixed $phrase
      */
-    private function processCode(var code, var phrase = "") -> void
+    protected function processCode(var code, var phrase = "") -> void
     {
         var phrases;
 
@@ -249,5 +221,33 @@ final class Response extends AbstractMessage implements ResponseInterface
 
         let this->statusCode   = code,
             this->reasonPhrase = phrase;
+    }
+
+    /**
+     * Checks if a code is integer or string
+     *
+     * @param mixed $code
+     */
+    private function checkCodeType(var code) -> void
+    {
+        if unlikely (typeof code !== "int" && typeof code !== "string") {
+            throw new InvalidArgumentException(
+                "Invalid status code; it must be an integer or string"
+            );
+        }
+    }
+
+    /**
+     * Checks if a code is integer or string
+     *
+     * @param int $code
+     */
+    private function checkCodeValue(int code) -> void
+    {
+        if (true !== Number::between(code, 100, 599)) {
+            throw new InvalidArgumentException(
+                "Invalid status code '" . code . "', (allowed values 100-599)"
+            );
+        }
     }
 }

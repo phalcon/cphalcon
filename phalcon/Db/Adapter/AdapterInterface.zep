@@ -150,24 +150,24 @@ interface AdapterInterface
      * Use this method only when the SQL statement sent to the server doesn't
      * return any rows
      */
-    public function execute(string! sqlStatement, var placeholders = null, var dataTypes = null) -> bool;
+    public function execute(string! sqlStatement, array! bindParams = [], array! bindTypes = []) -> bool;
 
     /**
      * Dumps the complete result of a query into an array
      */
-    public function fetchAll(string! sqlQuery, int fetchMode = 2, placeholders = null) -> array;
+    public function fetchAll(string! sqlQuery, int fetchMode = 2, array bindParams = [], array bindTypes = []) -> array;
 
     /**
      * Returns the n'th field of first row in a SQL query result
      *
      *```php
      * // Getting count of robots
-     * $robotsCount = $connection->fetchColumn("SELECT count(*) FROM robots");
+     * $robotsCount = $connection->fetchColumn("SELECT COUNT(*) FROM robots");
      * print_r($robotsCount);
      *
      * // Getting name of last edited robot
      * $robot = $connection->fetchColumn(
-     *     "SELECT id, name FROM robots order by modified desc",
+     *     "SELECT id, name FROM robots ORDER BY modified DESC",
      *     1
      * );
      * print_r($robot);
@@ -178,7 +178,7 @@ interface AdapterInterface
     /**
      * Returns the first row in a SQL query result
      */
-    public function fetchOne(string! sqlQuery, int fetchMode = 2, placeholders = null) -> array;
+    public function fetchOne(string! sqlQuery, int fetchMode = 2, array bindParams = [], array bindTypes = []) -> array;
 
     /**
      * Returns a SQL modified with a FOR UPDATE clause
@@ -219,6 +219,29 @@ interface AdapterInterface
      * Return the default identity value to insert in an identity column
      */
     public function getDefaultIdValue() -> <RawValue>;
+
+    /**
+     * Returns the default value to make the RBDM use the default value declared
+     * in the table definition
+     *
+     *```php
+     * // Inserting a new robot with a valid default value for the column 'year'
+     * $success = $connection->insert(
+     *     "robots",
+     *     [
+     *         "Astro Boy",
+     *         $connection->getDefaultValue()
+     *     ],
+     *     [
+     *         "name",
+     *         "year",
+     *     ]
+     * );
+     *```
+     *
+     * @todo Return NULL if this is not supported by the adapter
+     */
+    public function getDefaultValue() -> <RawValue>;
 
     /**
      * Return internal PDO handler
@@ -320,7 +343,7 @@ interface AdapterInterface
      * Use this method only when the SQL statement sent to the server returns
      * rows
      */
-    public function query(string! sqlStatement, var placeholders = null, var dataTypes = null) -> <ResultInterface> | bool;
+    public function query(string! sqlStatement, array! bindParams = [], array! bindTypes = []) -> <ResultInterface> | bool;
 
     /**
      * Releases given savepoint
@@ -393,6 +416,13 @@ interface AdapterInterface
      * columns
      */
     public function useExplicitIdValue() -> bool;
+
+    /**
+     * SQLite does not support the DEFAULT keyword
+     *
+     * @deprecated Will re removed in the next version
+     */
+    public function supportsDefaultValue() -> bool;
 
     /**
      * Generates SQL checking for the existence of a schema.view

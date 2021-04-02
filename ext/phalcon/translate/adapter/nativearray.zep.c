@@ -77,6 +77,15 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, __construct) {
 	ZVAL_UNDEF(&data);
 	ZVAL_UNDEF(&error);
 	ZVAL_UNDEF(&options);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_OBJECT_OF_CLASS(interpolator, phalcon_translate_interpolatorfactory_ce)
+		Z_PARAM_ARRAY(options)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &interpolator, &options_param);
@@ -94,16 +103,16 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, __construct) {
 	ZEPHIR_OBS_VAR(&error);
 	if (zephir_array_isset_string_fetch(&error, &options, SL("triggerError"), 0)) {
 		if (zephir_get_boolval(&error)) {
-			zephir_update_property_zval(this_ptr, SL("triggerError"), &__$true);
+			zephir_update_property_zval(this_ptr, ZEND_STRL("triggerError"), &__$true);
 		} else {
-			zephir_update_property_zval(this_ptr, SL("triggerError"), &__$false);
+			zephir_update_property_zval(this_ptr, ZEND_STRL("triggerError"), &__$false);
 		}
 	}
 	if (UNEXPECTED(Z_TYPE_P(&data) != IS_ARRAY)) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_translate_exception_ce, "Translation data must be an array", "phalcon/Translate/Adapter/NativeArray.zep", 57);
 		return;
 	}
-	zephir_update_property_zval(this_ptr, SL("translate"), &data);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("translate"), &data);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -120,6 +129,14 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, exists) {
 
 	ZVAL_UNDEF(&index);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(index)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &index_param);
@@ -136,7 +153,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, exists) {
 	}
 
 
-	zephir_read_property(&_0, this_ptr, SL("translate"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("translate"), PH_NOISY_CC | PH_READONLY);
 	RETURN_MM_BOOL(zephir_array_isset(&_0, &index));
 
 }
@@ -156,6 +173,14 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, notFound) {
 	ZVAL_UNDEF(&_2$$3);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(index)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &index_param);
@@ -172,13 +197,13 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, notFound) {
 	}
 
 
-	zephir_read_property(&_0, this_ptr, SL("triggerError"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("triggerError"), PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(ZEPHIR_IS_TRUE_IDENTICAL(&_0))) {
 		ZEPHIR_INIT_VAR(&_1$$3);
 		object_init_ex(&_1$$3, phalcon_translate_exception_ce);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZEPHIR_CONCAT_SV(&_2$$3, "Cannot find translation key: ", &index);
-		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 6, &_2$$3);
+		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 8, &_2$$3);
 		zephir_check_call_status();
 		zephir_throw_exception_debug(&_1$$3, "phalcon/Translate/Adapter/NativeArray.zep", 77);
 		ZEPHIR_MM_RESTORE();
@@ -204,6 +229,16 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query) {
 	ZVAL_UNDEF(&translation);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&placeholders);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_STR(index)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ARRAY(placeholders)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &index_param, &placeholders_param);
@@ -227,7 +262,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query) {
 
 
 	ZEPHIR_OBS_VAR(&translation);
-	zephir_read_property(&_0, this_ptr, SL("translate"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("translate"), PH_NOISY_CC | PH_READONLY);
 	if (!(zephir_array_isset_fetch(&translation, &_0, &index, 0))) {
 		ZEPHIR_RETURN_CALL_METHOD(this_ptr, "notfound", NULL, 0, &index);
 		zephir_check_call_status();

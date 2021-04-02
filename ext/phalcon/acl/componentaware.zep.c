@@ -35,4 +35,3 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_ComponentAware) {
  * Returns component name
  */
 ZEPHIR_DOC_METHOD(Phalcon_Acl_ComponentAware, getComponentName);
-

@@ -279,7 +279,8 @@ class AllowCest
         $I->expectThrowable(
             new Exception(
                 "You did not provide any parameters when 'Guests' can " .
-                "'update' 'Post'. We will use default action when no arguments.",
+                "'update' 'Post'. We will use default action when no arguments. " .
+                "at tests/unit/Acl/Adapter/Memory/AllowCest.php:329",
                 1024
             ),
             function () use ($I) {

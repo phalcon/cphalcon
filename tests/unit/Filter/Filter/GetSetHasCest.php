@@ -5,14 +5,15 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Filter;
+namespace Phalcon\Test\Unit\Filter\Filter;
 
+use Closure;
 use Phalcon\Filter;
 use Phalcon\Test\Fixtures\Service\HelloService;
 use UnitTester;
@@ -21,6 +22,8 @@ class GetSetHasCest
 {
     /**
      * Tests Phalcon\Filter :: get()/set()/has() - has()
+     *
+     * @param  UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-01-19
@@ -43,6 +46,8 @@ class GetSetHasCest
     /**
      * Tests Phalcon\Filter :: get()/set()/has() - get()
      *
+     * @param  UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
@@ -59,7 +64,7 @@ class GetSetHasCest
         $actual  = $locator->has('helloFilter');
         $I->assertTrue($actual);
 
-        $class  = \Closure::class;
+        $class  = Closure::class;
         $actual = $locator->get('helloFilter');
         $I->assertInstanceOf($class, $actual);
     }
@@ -67,17 +72,16 @@ class GetSetHasCest
     /**
      * Tests Phalcon\Filter :: get()/set()/has() - get() same
      *
+     * @param  UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function filterFilterGetSetHasGetSame(UnitTester $I)
     {
         $I->wantToTest('Filter\Filter - get()/set()/has() - get() - same');
-        $services = [
-            'helloFilter' => HelloService::class,
-        ];
 
-        $locator = new Filter($services);
+        $locator = new Filter(['helloFilter' => HelloService::class]);
         $actual  = $locator->has('helloFilter');
         $I->assertTrue($actual);
 
@@ -93,6 +97,8 @@ class GetSetHasCest
 
     /**
      * Tests Phalcon\Filter :: get()/set()/has() - set()
+     *
+     * @param  UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
@@ -117,6 +123,8 @@ class GetSetHasCest
 
     /**
      * Tests Phalcon\Filter :: get()/set()/has() - set() closure
+     *
+     * @param  UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-09-25

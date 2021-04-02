@@ -1,22 +1,13 @@
-
-/*
-  +------------------------------------------------------------------------+
-  | Zephir Language                                                        |
-  +------------------------------------------------------------------------+
-  | Copyright (c) 2011-2017 Phalcon Team (http://www.zephir-lang.com)       |
-  +------------------------------------------------------------------------+
-  | This source file is subject to the New BSD License that is bundled     |
-  | with this package in the file docs/LICENSE.txt.                        |
-  |                                                                        |
-  | If you did not receive a copy of the license and are unable to         |
-  | obtain it through the world-wide-web, please send an email             |
-  | to license@zephir-lang.com so we can send you a copy immediately.      |
-  +------------------------------------------------------------------------+
-  | Authors: Andres Gutierrez <andres@zephir-lang.com>                     |
-  |          Eduar Carvajal <eduar@zephir-lang.com>                        |
-  |          Vladimir Kolesnikov <vladimir@extrememember.com>              |
-  +------------------------------------------------------------------------+
-*/
+/**
+ * This file is part of the Zephir.
+ *
+ * (c) Phalcon Team <team@zephir-lang.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code. If you did not receive
+ * a copy of the license it is available through the world-wide-web at the
+ * following url: https://docs.zephir-lang.com/en/latest/license
+ */
 
 #ifdef HAVE_CONFIG_H
 #include "config.h"
@@ -63,8 +54,14 @@ void zephir_throw_exception_debug(zval *object, const char *file, uint32_t line)
 		zephir_check_call_status();
 		if (ZEPHIR_IS_LONG(&curline, 0)) {
 			default_exception_ce = zend_exception_get_default();
+
+#if PHP_VERSION_ID >= 80000
+			zend_update_property_string(default_exception_ce, Z_OBJ_P(object), SL("file"), file);
+			zend_update_property_long(default_exception_ce, Z_OBJ_P(object), SL("line"), line);
+#else
 			zend_update_property_string(default_exception_ce, object, SL("file"), file);
 			zend_update_property_long(default_exception_ce, object, SL("line"), line);
+#endif
 		}
 	}
 
@@ -91,8 +88,13 @@ void zephir_throw_exception_string_debug(zend_class_entry *ce, const char *messa
 
 	if (line > 0) {
 		default_exception_ce = zend_exception_get_default();
+#if PHP_VERSION_ID >= 80000
+		zend_update_property_string(default_exception_ce, Z_OBJ(object), "file", sizeof("file")-1, file);
+		zend_update_property_long(default_exception_ce, Z_OBJ(object), "line", sizeof("line")-1, line);
+#else
 		zend_update_property_string(default_exception_ce, &object, "file", sizeof("file")-1, file);
 		zend_update_property_long(default_exception_ce, &object, "line", sizeof("line")-1, line);
+#endif
 	}
 
 	if (ZEPHIR_LAST_CALL_STATUS != FAILURE) {

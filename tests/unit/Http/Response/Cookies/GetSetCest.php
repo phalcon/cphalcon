@@ -18,7 +18,7 @@ use Phalcon\Test\Fixtures\Traits\CookieTrait;
 use Phalcon\Test\Unit\Http\Helper\HttpBase;
 use UnitTester;
 
-class SetCest extends HttpBase
+class GetSetCest extends HttpBase
 {
     use CookieTrait;
 
@@ -28,7 +28,7 @@ class SetCest extends HttpBase
     public function _before(UnitTester $I)
     {
         parent::_before($I);
-        $this->setDiSessionFiles();
+        $this->setDiService('sessionStream');
     }
 
     /**
@@ -40,10 +40,10 @@ class SetCest extends HttpBase
     public function httpResponseCookiesGetSet(UnitTester $I)
     {
         $I->wantToTest('Http\Response\Cookies - get / set()');
-        $sName = 'framework';
+        $sName  = 'framework';
         $sValue = 'phalcon';
 
-        $this->setDiCrypt();
+        $this->setDiService('crypt');
         $container = $this->getDi();
 
         $oCookie = new Cookies();
@@ -65,7 +65,7 @@ class SetCest extends HttpBase
         $I->wantToTest('Issue #13464');
         $I->checkExtensionIsLoaded('xdebug');
 
-        $this->setDiCrypt();
+        $this->setDiService('crypt');
         $container = $this->getDi();
 
         $cookie = new Cookies();
@@ -80,8 +80,90 @@ class SetCest extends HttpBase
         $cookieTwo   = $this->getCookie('cookie-2');
         $cookieThree = $this->getCookie('cookie-3');
 
-        $I->assertRegexp('/HttpOnly$/', $cookieOne);
-        $I->assertNotRegexp('/HttpOnly$/', $cookieTwo);
-        $I->assertNotRegexp('/HttpOnly$/', $cookieThree);
+        $I->assertStringContainsString('HttpOnly', $cookieOne);
+        $I->assertStringNotContainsString('HttpOnly', $cookieTwo);
+        $I->assertStringNotContainsString('HttpOnly', $cookieThree);
+    }
+
+    /**
+     * Test Http\Response\Cookies - set() options parameter
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-09-10
+     * @issue https://github.com/phalcon/cphalcon/issues/15129
+     */
+    public function httpCookieSetOptions(UnitTester $I)
+    {
+        $I->wantToTest('Http\Response\Cookies - set() options parameter');
+
+        $I->checkExtensionIsLoaded('xdebug');
+
+        $this->setDiService('crypt');
+        $container = $this->getDi();
+
+        $cookie = new Cookies();
+        $cookie->setDI($container);
+        $cookie->useEncryption(false);
+
+        $cookie->set(
+            'samesite-cookie-1',
+            'potato',
+            time() + 86400,
+            '/',
+            false,
+            'localhost',
+            false,
+            [
+                'samesite' => 'None'
+            ]
+        );
+
+        $cookie->set(
+            'samesite-cookie-2',
+            'potato',
+            time() + 86400,
+            '/',
+            false,
+            'localhost',
+            false,
+            [
+                'samesite' => 'Lax'
+            ]
+        );
+
+        $cookie->set(
+            'samesite-cookie-3',
+            'potato',
+            time() + 86400,
+            '/',
+            false,
+            'localhost',
+            false,
+            [
+                'samesite' => 'Strict'
+            ]
+        );
+
+        $cookie->set(
+            'samesite-cookie-4',
+            'potato',
+            time() + 86400,
+            '/',
+            false,
+            'localhost',
+            false
+        );
+
+        $cookie->send();
+
+        $cookieOne   = $this->getCookie('samesite-cookie-1');
+        $cookieTwo   = $this->getCookie('samesite-cookie-2');
+        $cookieThree = $this->getCookie('samesite-cookie-3');
+        $cookieFour  = $this->getCookie('samesite-cookie-4');
+
+        $I->assertStringContainsString('SameSite=None', $cookieOne);
+        $I->assertStringContainsString('SameSite=Lax', $cookieTwo);
+        $I->assertStringContainsString('SameSite=Strict', $cookieThree);
+        $I->assertStringNotContainsString('SameSite', $cookieFour);
     }
 }

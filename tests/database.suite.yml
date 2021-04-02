@@ -1,0 +1,17 @@
+actor: DatabaseTester
+modules:
+  enabled:
+    - Phalcon4:
+        bootstrap: 'tests/_config/bootstrap.php'
+    #    - Helper\PhalconLibmemcached:
+    #        host: '%DATA_MEMCACHED_HOST%'
+    #        port: '%DATA_MEMCACHED_PORT%'
+    #        weight: '%DATA_MEMCACHED_WEIGHT%'
+    - Redis:
+        database: '%DATA_REDIS_NAME%'
+        host: '%DATA_REDIS_HOST%'
+        port: '%DATA_REDIS_PORT%'
+    - Asserts
+    - Filesystem
+    - Helper\Database
+    - Helper\Unit

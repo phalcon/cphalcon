@@ -5,16 +5,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Translate_Interpolator_IndexedArray);
 
 PHP_METHOD(Phalcon_Translate_Interpolator_IndexedArray, replacePlaceholders);
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_translate_interpolator_indexedarray_replaceplaceholders, 0, 1, IS_STRING, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_translate_interpolator_indexedarray_replaceplaceholders, 0, 1, IS_STRING, NULL, 0)
-#endif
-#if PHP_VERSION_ID >= 70200
 	ZEND_ARG_TYPE_INFO(0, translation, IS_STRING, 0)
-#else
-	ZEND_ARG_INFO(0, translation)
-#endif
 	ZEND_ARG_ARRAY_INFO(0, placeholders, 0)
 ZEND_END_ARG_INFO()
 

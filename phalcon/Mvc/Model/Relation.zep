@@ -144,6 +144,10 @@ class Relation implements RelationInterface
 
         if fetch params, options["params"] {
             if params {
+                if is_callable(params) {
+                    return call_user_func(params);
+                }
+
                 return params;
             }
         }

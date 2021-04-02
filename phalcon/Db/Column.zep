@@ -1,11 +1,11 @@
 
 /**
- * This file is part of the Phalcon.
+ * This file is part of the Phalcon Framework.
  *
- * (c) Phalcon Team <team@phalcon.com>
+ * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 
 namespace Phalcon\Db;
@@ -26,6 +26,7 @@ namespace Phalcon\Db;
  *         "notNull"       => true,
  *         "autoIncrement" => true,
  *         "first"         => true,
+ *         "comment"       => "",
  *     ]
  * );
  *
@@ -208,7 +209,7 @@ class Column implements ColumnInterface
     /**
      * Column Position
      *
-     * @var string
+     * @var string|null
      */
     protected after;
 
@@ -249,11 +250,20 @@ class Column implements ColumnInterface
     protected name { get };
 
     /**
+     * Column's comment
+     *
+     * @var string
+     */
+     protected comment = null { get };
+
+    /**
      * Column not nullable?
+     *
+     * Default SQL definition is NOT NULL.
      *
      * @var bool
      */
-    protected notNull = false;
+    protected notNull = true;
 
     /**
      * Column is part of the primary key?
@@ -270,7 +280,7 @@ class Column implements ColumnInterface
     /**
      * Integer column size
      *
-     * @var int
+     * @var int | string
      */
     protected size = 0 { get };
 
@@ -309,7 +319,7 @@ class Column implements ColumnInterface
     {
         var type, notNull, primary, size, scale, dunsigned, first, after,
             bindType, isNumeric, autoIncrement, defaultValue, typeReference,
-            typeValues;
+            typeValues, comment;
 
         let this->name = name;
 
@@ -436,12 +446,19 @@ class Column implements ColumnInterface
         if fetch bindType, definition["bindType"] {
             let this->bindType = bindType;
         }
+
+        /**
+         * Get the column comment
+         */
+         if fetch comment, definition["comment"] {
+            let this->comment = comment;
+        }
     }
 
     /**
      * Check whether field absolute to position in table
      */
-    public function getAfterPosition() -> string
+    public function getAfterPosition() -> string | null
     {
         return this->after;
     }

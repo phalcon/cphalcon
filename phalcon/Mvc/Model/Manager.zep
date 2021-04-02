@@ -4,25 +4,21 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 
 namespace Phalcon\Mvc\Model;
 
-use Phalcon\Di\DiInterface;
-use Phalcon\Mvc\ModelInterface;
 use Phalcon\Db\Adapter\AdapterInterface;
-use Phalcon\Mvc\Model\ResultsetInterface;
-use Phalcon\Mvc\Model\ManagerInterface;
+use Phalcon\Di\DiInterface;
 use Phalcon\Di\InjectionAwareInterface;
 use Phalcon\Events\EventsAwareInterface;
-use Phalcon\Mvc\Model\Query;
-use Phalcon\Mvc\Model\QueryInterface;
+use Phalcon\Events\ManagerInterface as EventsManagerInterface;
+use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\Query\Builder;
 use Phalcon\Mvc\Model\Query\BuilderInterface;
-use Phalcon\Mvc\Model\BehaviorInterface;
-use Phalcon\Events\ManagerInterface as EventsManagerInterface;
+use Phalcon\Mvc\Model\Query\StatusInterface;
 
 /**
  * Phalcon\Mvc\Model\Manager
@@ -180,7 +176,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     /**
      * Returns the internal event manager
      */
-    public function getEventsManager() -> <EventsManagerInterface>
+    public function getEventsManager() -> <EventsManagerInterface> | null
     {
         return this->eventsManager;
     }
@@ -194,17 +190,17 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     }
 
     /**
-     * Returns a custom events manager related to a model
+     * Returns a custom events manager related to a model or null if there is no related events manager
      */
-    public function getCustomEventsManager(<ModelInterface> model) -> <EventsManagerInterface> | bool
+    public function getCustomEventsManager(<ModelInterface> model) -> <EventsManagerInterface> | null
     {
         var eventsManager;
 
-        if !fetch eventsManager, this->customEventsManager[get_class_lower(model)] {
-            return false;
+        if fetch eventsManager, this->customEventsManager[get_class_lower(model)] {
+            return eventsManager;
         }
 
-        return eventsManager;
+        return null;
     }
 
     /**
@@ -442,7 +438,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     public function getReadConnection(<ModelInterface> model) -> <AdapterInterface>
     {
-        return this->_getConnection(model, this->readConnectionServices);
+        return this->getConnection(model, this->readConnectionServices);
     }
 
     /**
@@ -450,17 +446,19 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     public function getWriteConnection(<ModelInterface> model) -> <AdapterInterface>
     {
-        return this->_getConnection(model, this->writeConnectionServices);
+        return this->getConnection(model, this->writeConnectionServices);
     }
 
     /**
      * Returns the connection to read or write data related to a model depending on the connection services.
+     *
+     * @return AdapterInterface
      */
-    protected function _getConnection(<ModelInterface> model, connectionServices) -> <AdapterInterface>
+    protected function getConnection(<ModelInterface> model, connectionServices) -> <AdapterInterface>
     {
         var container, service, connection;
 
-        let service = this->_getConnectionService(model, connectionServices);
+        let service = this->getConnectionService(model, connectionServices);
 
         let container = <DiInterface> this->container;
 
@@ -489,7 +487,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     public function getReadConnectionService(<ModelInterface> model) -> string
     {
-        return this->_getConnectionService(
+        return this->getConnectionService(
             model,
             this->readConnectionServices
         );
@@ -500,7 +498,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     public function getWriteConnectionService(<ModelInterface> model) -> string
     {
-        return this->_getConnectionService(
+        return this->getConnectionService(
             model,
             this->writeConnectionServices
         );
@@ -509,8 +507,10 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     /**
      * Returns the connection service name used to read or write data related to
      * a model depending on the connection services
+     *
+     * @return string
      */
-    public function _getConnectionService(<ModelInterface> model, connectionServices) -> string
+    public function getConnectionService(<ModelInterface> model, connectionServices) -> string
     {
         var connection;
 
@@ -1949,8 +1949,32 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 
     /**
      * Creates a Phalcon\Mvc\Model\Query and execute it
+     *
+     * ```php
+     * $model = new Robots();
+     * $manager = $model->getModelsManager();
+     *
+     * // \Phalcon\Mvc\Model\Resultset\Simple
+     * $manager->executeQuery('SELECT * FROM Robots');
+     *
+     * // \Phalcon\Mvc\Model\Resultset\Complex
+     * $manager->executeQuery('SELECT COUNT(type) FROM Robots GROUP BY type');
+     *
+     * // \Phalcon\Mvc\Model\Query\StatusInterface
+     * $manager->executeQuery('INSERT INTO Robots (id) VALUES (1)');
+     *
+     * // \Phalcon\Mvc\Model\Query\StatusInterface
+     * $manager->executeQuery('UPDATE Robots SET id = 0 WHERE id = :id:', ['id' => 1]);
+     *
+     * // \Phalcon\Mvc\Model\Query\StatusInterface
+     * $manager->executeQuery('DELETE FROM Robots WHERE id = :id:', ['id' => 1]);
+     * ```
+     *
+     * @param array|null $placeholders
+     * @param array|null $types
+     * @return ResultsetInterface|StatusInterface
      */
-    public function executeQuery(string! phql, var placeholders = null, var types = null) -> <QueryInterface>
+    public function executeQuery(string! phql, var placeholders = null, var types = null) -> var
     {
         var query;
 

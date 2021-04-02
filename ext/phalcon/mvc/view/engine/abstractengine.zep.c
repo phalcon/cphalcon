@@ -54,6 +54,16 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_AbstractEngine, __construct) {
 	ZVAL_UNDEF(&view_sub);
 	ZVAL_UNDEF(&container_sub);
 	ZVAL_NULL(&__$null);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_OBJECT_OF_CLASS(view, phalcon_mvc_viewbaseinterface_ce)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(container, phalcon_di_diinterface_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(1, 1, &view, &container);
 
@@ -63,8 +73,8 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_AbstractEngine, __construct) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, SL("view"), view);
-	zephir_update_property_zval(this_ptr, SL("container"), container);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("view"), view);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("container"), container);
 
 }
 
@@ -80,9 +90,10 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_AbstractEngine, getContent) {
 
 	ZVAL_UNDEF(&_0);
 
+
 	ZEPHIR_MM_GROW();
 
-	zephir_read_property(&_0, this_ptr, SL("view"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("view"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_RETURN_CALL_METHOD(&_0, "getcontent", NULL, 0);
 	zephir_check_call_status();
 	RETURN_MM();
@@ -95,6 +106,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_AbstractEngine, getContent) {
 PHP_METHOD(Phalcon_Mvc_View_Engine_AbstractEngine, getView) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_MEMBER(getThis(), "view");
@@ -118,6 +130,16 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_AbstractEngine, partial) {
 	ZVAL_UNDEF(&params_sub);
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 2)
+		Z_PARAM_STR(partialPath)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL(params)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &partialPath_param, &params);
@@ -138,7 +160,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_AbstractEngine, partial) {
 	}
 
 
-	zephir_read_property(&_0, this_ptr, SL("view"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("view"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CALL_METHOD(NULL, &_0, "partial", NULL, 0, &partialPath, params);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();

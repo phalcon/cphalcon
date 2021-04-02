@@ -13,170 +13,91 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Db\Dialect\Mysql;
 
-use Codeception\Example;
 use IntegrationTester;
+use Phalcon\Db\Column;
 use Phalcon\Db\Dialect\Mysql;
-use Phalcon\Test\Fixtures\Traits\DialectTrait;
 
 class AddColumnCest
 {
-    use DialectTrait;
-
     /**
-     * Tests Dialect::addColumn
+     * Tests Phalcon\Db\Adapter\Pdo\Mysql :: addColumn()
      *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2017-02-26
-     *
-     * @dataProvider getAddColumnFixtures
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-02-27
+     * @since  2020-05-02 Changed default null and nullable column definition
      */
-    public function testAddColumn(IntegrationTester $I, Example $example)
+    public function dbAdapterPdoMysqlAddColumn(IntegrationTester $I)
     {
-        $schema   = $example[0];
-        $column   = $example[1];
-        $expected = $example[2];
+        $I->wantToTest('Db\Adapter\Pdo\Mysql - addColumn()');
 
-        $columns = $this->getColumns();
-        $dialect = new Mysql();
-
-        $actual = $dialect->addColumn('table', $schema, $columns[$column]);
-
-        $I->assertEquals($expected, $actual);
-    }
-
-    protected function getAddColumnFixtures(): array
-    {
-        return [
+        $additions = [
             [
-                '',
-                'column1',
-                'ALTER TABLE `table` ADD `column1` VARCHAR(10)',
+                new Column(
+                    'numeric_val',
+                    [
+                        'type'    => Column::TYPE_FLOAT,
+                        'default' => 21.42,
+                        'notNull' => true,
+                    ]
+                ),
+                'ALTER TABLE `test` ADD `numeric_val` FLOAT NOT NULL DEFAULT 21.42',
             ],
             [
-                'schema',
-                'column1',
-                'ALTER TABLE `schema`.`table` ADD `column1` VARCHAR(10)',
+                new Column(
+                    'null_int',
+                    [
+                        'type'    => Column::TYPE_INTEGER,
+                        'size'    => 11,
+                        'notNull' => false,
+                        'after'   => 'numeric_val',
+                    ]
+                ),
+                'ALTER TABLE `test` ADD `null_int` INT(11) NULL AFTER `numeric_val`',
             ],
             [
-                '',
-                'column2',
-                'ALTER TABLE `table` ADD `column2` INT(18) UNSIGNED',
+                new Column(
+                    'created_at',
+                    [
+                        'type'    => Column::TYPE_TIMESTAMP,
+                        'default' => "CURRENT_TIMESTAMP",
+                        'notNull' => true,
+                        'after'   => 'null_int',
+                    ]
+                ),
+                'ALTER TABLE `test` ADD `created_at` TIMESTAMP NOT NULL ' .
+                'DEFAULT CURRENT_TIMESTAMP AFTER `null_int`',
             ],
             [
-                'schema',
-                'column2',
-                'ALTER TABLE `schema`.`table` ADD `column2` INT(18) UNSIGNED',
+                new Column(
+                    'updated_at',
+                    [
+                        'type'    => Column::TYPE_TIMESTAMP,
+                        'default' => "CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+                        'notNull' => true,
+                        'after'   => 'created_at',
+                    ]
+                ),
+                'ALTER TABLE `test` ADD `updated_at` TIMESTAMP NOT NULL ' .
+                'DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP AFTER `created_at`',
             ],
             [
-                '',
-                'column3',
-                'ALTER TABLE `table` ADD `column3` DECIMAL(10,2) NOT NULL',
-            ],
-            [
-                'schema',
-                'column3',
-                'ALTER TABLE `schema`.`table` ADD `column3` DECIMAL(10,2) NOT NULL',
-            ],
-            [
-                '',
-                'column4',
-                'ALTER TABLE `table` ADD `column4` CHAR(100) NOT NULL',
-            ],
-            [
-                'schema',
-                'column4',
-                'ALTER TABLE `schema`.`table` ADD `column4` CHAR(100) NOT NULL',
-            ],
-            [
-                '',
-                'column5',
-                'ALTER TABLE `table` ADD `column5` DATE NOT NULL',
-            ],
-            [
-                'schema',
-                'column5',
-                'ALTER TABLE `schema`.`table` ADD `column5` DATE NOT NULL',
-            ],
-            [
-                '',
-                'column6',
-                'ALTER TABLE `table` ADD `column6` DATETIME NOT NULL',
-            ],
-            [
-                'schema',
-                'column6',
-                'ALTER TABLE `schema`.`table` ADD `column6` DATETIME NOT NULL',
-            ],
-            [
-                '',
-                'column7',
-                'ALTER TABLE `table` ADD `column7` TEXT NOT NULL',
-            ],
-            [
-                'schema',
-                'column7',
-                'ALTER TABLE `schema`.`table` ADD `column7` TEXT NOT NULL',
-            ],
-            [
-                '',
-                'column8',
-                'ALTER TABLE `table` ADD `column8` FLOAT(10,2) NOT NULL',
-            ],
-            [
-                'schema',
-                'column8',
-                'ALTER TABLE `schema`.`table` ADD `column8` FLOAT(10,2) NOT NULL',
-            ],
-            [
-                '',
-                'column9',
-                'ALTER TABLE `table` ADD `column9` VARCHAR(10) DEFAULT "column9"',
-            ],
-            [
-                'schema',
-                'column9',
-                'ALTER TABLE `schema`.`table` ADD `column9` VARCHAR(10) DEFAULT "column9"',
-            ],
-            [
-                '',
-                'column10',
-                'ALTER TABLE `table` ADD `column10` INT(18) UNSIGNED DEFAULT "10"',
-            ],
-            [
-                'schema',
-                'column10',
-                'ALTER TABLE `schema`.`table` ADD `column10` INT(18) UNSIGNED DEFAULT "10"',
-            ],
-            [
-                '',
-                'column11',
-                'ALTER TABLE `table` ADD `column11` BIGINT(20) UNSIGNED',
-            ],
-            [
-                'schema',
-                'column11',
-                'ALTER TABLE `schema`.`table` ADD `column11` BIGINT(20) UNSIGNED',
-            ],
-            [
-                '',
-                'column12',
-                'ALTER TABLE `table` ADD `column12` ENUM("A", "B", "C") DEFAULT "A" NOT NULL AFTER `column11`',
-            ],
-            [
-                'schema',
-                'column12',
-                'ALTER TABLE `schema`.`table` ADD `column12` ENUM("A", "B", "C") DEFAULT "A" NOT NULL AFTER `column11`',
-            ],
-            [
-                '',
-                'column13',
-                'ALTER TABLE `table` ADD `column13` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL',
-            ],
-            [
-                'schema',
-                'column13',
-                'ALTER TABLE `schema`.`table` ADD `column13` TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL',
+                new Column(
+                    'deleted_at',
+                    [
+                        'type'    => Column::TYPE_TIMESTAMP,
+                        'notNull' => false,
+                        'after'   => 'updated_at',
+                    ]
+                ),
+                'ALTER TABLE `test` ADD `deleted_at` TIMESTAMP NULL AFTER `updated_at`',
             ],
         ];
+
+        $mysql = new Mysql();
+        foreach ($additions as [$column, $expected]) {
+            $sql = $mysql->addColumn('test', '', $column);
+
+            $I->assertSame($expected, $sql);
+        }
     }
 }

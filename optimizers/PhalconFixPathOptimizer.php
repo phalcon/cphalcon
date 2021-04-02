@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -15,7 +16,7 @@ namespace Zephir\Optimizers\FunctionCall;
 use Zephir\Call;
 use Zephir\CompilationContext;
 use Zephir\CompiledExpression;
-use Zephir\CompilerException;
+use Zephir\Exception\CompilerException;
 use Zephir\Optimizers\OptimizerAbstract;
 
 class PhalconFixPathOptimizer extends OptimizerAbstract
@@ -57,16 +58,7 @@ class PhalconFixPathOptimizer extends OptimizerAbstract
         }
 
         $context->headersManager->add('kernel/array');
-
         $symbolVariable->setDynamicTypes('array');
-
-        $resolvedParams = $call->getReadOnlyResolvedParams(
-            $expression['parameters'],
-            $context,
-            $expression
-        );
-
-        //$context->codePrinter->output('zephir_fast_array_merge(' . $symbolVariable->getName() . ', &(' . $resolvedParams[0] . '), &(' . $resolvedParams[1] . ') TSRMLS_CC);');
 
         return new CompiledExpression(
             'variable',

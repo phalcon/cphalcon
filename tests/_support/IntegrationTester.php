@@ -29,12 +29,14 @@ class IntegrationTester extends Actor
     /**
      * Get file name from path
      *
-     * @param string $path
-     * @param string $separator
+     * @param mixed $path
+     * @param mixed $separator
+     *
+     * @return string
      */
     public function preparePathToFileWithDelimiter($path, $separator): string
     {
-        $virtual_str = '';
+        $virtual = '';
 
         if (!is_string($path) || !is_string($separator)) {
             if (is_string($path)) {
@@ -52,12 +54,12 @@ class IntegrationTester extends Actor
             }
 
             if ($ch == '/' || $ch == '\\' || $ch == ':') {
-                $virtual_str .= $separator;
+                $virtual .= $separator;
             } else {
-                $virtual_str .= strtolower($ch);
+                $virtual .= strtolower($ch);
             }
         }
 
-        return $virtual_str;
+        return $virtual;
     }
 }

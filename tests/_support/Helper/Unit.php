@@ -4,9 +4,9 @@ namespace Helper;
 
 use Codeception\Module;
 use PHPUnit\Framework\SkippedTestError;
-
 use ReflectionClass;
 use ReflectionException;
+
 use function array_slice;
 use function array_unshift;
 use function call_user_func_array;
@@ -95,6 +95,7 @@ class Unit extends Module
     public function safeDeleteFile(string $filename)
     {
         if (file_exists($filename) && is_file($filename)) {
+            gc_collect_cycles();
             unlink($filename);
         }
     }

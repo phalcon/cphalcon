@@ -15,6 +15,7 @@
 #include "kernel/fcall.h"
 #include "kernel/object.h"
 #include "kernel/memory.h"
+#include "ext/psr/psr_link.h"
 #include "kernel/array.h"
 
 
@@ -62,6 +63,14 @@ PHP_METHOD(Phalcon_Html_Link_EvolvableLinkProvider, withLink) {
 	ZVAL_UNDEF(&link_sub);
 	ZVAL_UNDEF(&key);
 	ZVAL_UNDEF(&newInstance);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(link, PsrLinkLinkInterface_ce_ptr)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &link);
@@ -103,6 +112,14 @@ PHP_METHOD(Phalcon_Html_Link_EvolvableLinkProvider, withoutLink) {
 	ZVAL_UNDEF(&links);
 	ZVAL_UNDEF(&newInstance);
 	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(link, PsrLinkLinkInterface_ce_ptr)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &link);
@@ -115,10 +132,10 @@ PHP_METHOD(Phalcon_Html_Link_EvolvableLinkProvider, withoutLink) {
 	if (zephir_clone(&newInstance, this_ptr) == FAILURE) {
 		RETURN_MM();
 	}
-	zephir_read_property(&_0, this_ptr, SL("links"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("links"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&links, &_0);
 	zephir_array_unset(&links, &key, PH_SEPARATE);
-	zephir_update_property_zval(&newInstance, SL("links"), &links);
+	zephir_update_property_zval(&newInstance, ZEND_STRL("links"), &links);
 	RETURN_CCTOR(&newInstance);
 
 }

@@ -19,6 +19,9 @@ use ReflectionException;
 use UnitTester;
 
 use function dataDir;
+use function str_replace;
+
+use const DIRECTORY_SEPARATOR;
 
 class ParseCest
 {
@@ -30,8 +33,14 @@ class ParseCest
      */
     public function testParseWithNonExistentClass(UnitTester $I)
     {
+        if (version_compare(PHP_VERSION, '8.0.0', '>=')) {
+            $message = 'Class "TestClass1" does not exist';
+        } else {
+            $message = 'Class TestClass1 does not exist';
+        }
+
         $I->expectThrowable(
-            new ReflectionException('Class TestClass1 does not exist', -1),
+            new ReflectionException($message, -1),
             function () {
                 $reader = new Reader();
 
@@ -49,13 +58,18 @@ class ParseCest
      */
     public function testParseWithInvalidAnnotation(UnitTester $I)
     {
-        $includeFile = dataDir('fixtures/Annotations/TestInvalid.php');
+        $filename    = 'fixtures' . DIRECTORY_SEPARATOR . 'Annotations'
+            . DIRECTORY_SEPARATOR . 'TestInvalid.php';
+        $includeFile = str_replace("/", DIRECTORY_SEPARATOR, dataDir($filename));
 
         $I->seeFileFound($includeFile);
 
         require_once $includeFile;
 
-        $file = dataDir('fixtures/Annotations/TestInvalid.php');
+        $file = dataDir($filename);
+
+        //directory based on DIRECTORY_SEPARATOR
+        $file = str_replace("/", DIRECTORY_SEPARATOR, $file);
 
         $I->expectThrowable(
             new Exception('Syntax error, unexpected EOF in ' . $file),

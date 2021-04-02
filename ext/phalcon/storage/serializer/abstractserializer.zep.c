@@ -49,6 +49,15 @@ PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, __construct) {
 
 	ZVAL_UNDEF(&data_sub);
 	ZVAL_NULL(&__$null);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL(data)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(0, 1, &data);
 
@@ -58,7 +67,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, __construct) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, SL("data"), data);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("data"), data);
 
 }
 
@@ -72,6 +81,14 @@ PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, isSerializable) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&data_sub);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(data)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(1, 0, &data);
 
@@ -97,6 +114,7 @@ PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, getData) {
 	zval *this_ptr = getThis();
 
 
+
 	RETURN_MEMBER(getThis(), "data");
 
 }
@@ -110,12 +128,20 @@ PHP_METHOD(Phalcon_Storage_Serializer_AbstractSerializer, setData) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&data_sub);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(data)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(1, 0, &data);
 
 
 
-	zephir_update_property_zval(this_ptr, SL("data"), data);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("data"), data);
 
 }
 

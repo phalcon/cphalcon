@@ -55,7 +55,7 @@ class Stream extends AbstractAdapter
      */
     public function read(string key) -> <Reflection> | bool | int
     {
-        var contents;
+        var contents, version;
         string path;
 
         /**
@@ -75,12 +75,22 @@ class Stream extends AbstractAdapter
 
         globals_set("warning.enable", false);
 
-        set_error_handler(
-            function (number, message, file, line, context) {
-                globals_set("warning.enable", true);
-            },
-            E_WARNING
-        );
+        let version = phpversion();
+        if version_compare(version, "8.0", ">=") {
+            set_error_handler(
+                function (number, message, file, line) {
+                    globals_set("warning.enable", true);
+                },
+                E_WARNING
+            );
+        } else {
+            set_error_handler(
+                function (number, message, file, line, context) {
+                    globals_set("warning.enable", true);
+                },
+                E_WARNING
+            );
+        }
 
         let contents = unserialize(contents);
 

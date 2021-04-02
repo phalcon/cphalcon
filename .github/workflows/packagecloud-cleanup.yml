@@ -1,16 +1,27 @@
 name: Cleanup Packagecloud packages
+
 on:
   schedule:
     - cron: '0 2 * * *' # Daily at 02:00
+
 jobs:
   build:
-    runs-on: ubuntu-latest
+    # To prevent build a particular commit use
+    #     git commit -m "......... [ci skip]"
+    if: "!contains(github.event.head_commit.message, 'ci skip')"
+
+    runs-on: ubuntu-20.04
     steps:
-      - uses: actions/checkout@master
+      - name: Checkout Code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+
       - name: Setup PHP
-        uses: shivammathur/setup-php@v1
+        uses: shivammathur/setup-php@v2
         with:
           php-version: '7.4'
+
       - name: Cleanup Packagecloud
         run: php .ci/cleanup-packages.php
         env:

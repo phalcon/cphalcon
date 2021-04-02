@@ -414,68 +414,6 @@ class Compiler implements InjectionAwareInterface
     }
 
     /**
-     * Compiles a "cache" statement returning PHP code
-     */
-    public function compileCache(array! statement, bool extendsMode = false) -> string
-    {
-        var expr, exprCode, lifetime;
-        string compilation;
-
-        /**
-         * A valid expression is required
-         */
-        if unlikely !fetch expr, statement["expr"] {
-            throw new Exception("Corrupt statement", statement);
-        }
-
-        /**
-         * Cache statement
-         */
-        let exprCode = this->expression(expr);
-
-        let compilation = "<?php $_cache[" . this->expression(expr) . "] = $this->di->get('viewCache'); ";
-
-        if fetch lifetime, statement["lifetime"] {
-            let compilation .= "$_cacheKey[" . exprCode . "]";
-
-            if lifetime["type"] == PHVOLT_T_IDENTIFIER {
-                let compilation .= " = $_cache[" . exprCode . "]->start(" . exprCode . ", $" . lifetime["value"] . "); ";
-            } else {
-                let compilation .= " = $_cache[" . exprCode . "]->start(" . exprCode . ", " . lifetime["value"] . "); ";
-            }
-        } else {
-            let compilation .= "$_cacheKey[" . exprCode . "] = $_cache[" . exprCode."]->start(" . exprCode . "); ";
-        }
-
-        let compilation .= "if ($_cacheKey[" . exprCode . "] === null) { ?>";
-
-        /**
-         * Get the code in the block
-         */
-        let compilation .= this->statementList(
-            statement["block_statements"],
-            extendsMode
-        );
-
-        /**
-         * Check if the cache has a lifetime
-         */
-        if fetch lifetime, statement["lifetime"] {
-            if lifetime["type"] == PHVOLT_T_IDENTIFIER {
-                let compilation .= "<?php $_cache[" . exprCode . "]->save(" . exprCode . ", null, $" . lifetime["value"] . "); ";
-            } else {
-                let compilation .= "<?php $_cache[" . exprCode . "]->save(" . exprCode . ", null, " . lifetime["value"] . "); ";
-            }
-
-            let compilation .= "} else { echo $_cacheKey[" . exprCode . "]; } ?>";
-        } else {
-            let compilation .= "<?php $_cache[" . exprCode . "]->save(" . exprCode . "); } else { echo $_cacheKey[" . exprCode . "]; } ?>";
-        }
-
-        return compilation;
-    }
-
-    /**
      * Compiles calls to macros
      */
     public function compileCall(array! statement, bool extendsMode)
@@ -1149,7 +1087,7 @@ class Compiler implements InjectionAwareInterface
              * Any output (including whitespace) between a switch statement and
              * the first case will result in a syntax error. This is the
              * responsibility of the user. However, we can clear empty lines and
-             * whitespaces here to reduce the number of errors.
+             * whitespace here to reduce the number of errors.
              *
              * http://php.net/control-structures.alternative-syntax
              */
@@ -1573,9 +1511,8 @@ class Compiler implements InjectionAwareInterface
             extensions, functions, definition, extendedBlocks, block,
             currentBlock, exprLevel, escapedCode, method, arrayHelpers;
 
-        let code = null;
-
-        let funcArguments = null;
+        let code          = null,
+            funcArguments = null;
 
         if fetch funcArguments, expr["arguments"] {
             let arguments = this->expression(funcArguments);
@@ -1821,6 +1758,10 @@ class Compiler implements InjectionAwareInterface
 
             if name == "version_id" {
                 return "Phalcon\\Version::getId()";
+            }
+
+            if name == "preload" {
+                return "$this->tag->preload(" . arguments . ")";
             }
 
             /**
@@ -2756,14 +2697,6 @@ class Compiler implements InjectionAwareInterface
 
                 case PHVOLT_T_INCLUDE:
                     let compilation .= this->compileInclude(statement);
-
-                    break;
-
-                case PHVOLT_T_CACHE:
-                    let compilation .= this->compileCache(
-                        statement,
-                        extendsMode
-                    );
 
                     break;
 

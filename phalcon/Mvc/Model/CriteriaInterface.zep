@@ -4,8 +4,8 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 
 namespace Phalcon\Mvc\Model;
@@ -80,7 +80,7 @@ interface CriteriaInterface
     /**
      * Returns the columns to be queried
      */
-    public function getColumns() -> string | null;
+    public function getColumns() -> string | array | null;
 
     /**
      * Returns the conditions parameter in the criteria
@@ -98,11 +98,13 @@ interface CriteriaInterface
     public function getHaving();
 
     /**
-     * Returns the limit parameter in the criteria, which will be an integer if
-     * limit was set without an offset, an array with 'number' and 'offset' keys
-     * if an offset was set with the limit, or null if limit has not been set.
+     * Returns the limit parameter in the criteria, which will be
+     *
+     * - An integer if 'limit' was set without an 'offset'
+     * - An array with 'number' and 'offset' keys if an offset was set with the limit
+     * - NULL if limit has not been set
      */
-    public function getLimit() -> string | null;
+    public function getLimit() -> int | array | null;
 
     /**
      * Returns an internal model name on which the criteria will be applied
@@ -243,5 +245,5 @@ interface CriteriaInterface
     /**
      * Sets the conditions parameter in the criteria
      */
-    public function where(string! conditions) -> <CriteriaInterface>;
+    public function where(string! conditions, var bindParams = null, var bindTypes = null) -> <CriteriaInterface>;
 }

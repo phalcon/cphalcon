@@ -21,7 +21,6 @@ use Phalcon\Test\Fixtures\Traits\SessionTrait;
 class GetSetCest
 {
     use DiTrait;
-    use SessionTrait;
 
     /**
      * Tests Phalcon\Session\Manager :: get()/set()
@@ -35,7 +34,7 @@ class GetSetCest
 
         $manager = new Manager();
 
-        $files = $this->getSessionStream();
+        $files = $this->newService('sessionStream');
 
         $manager->setAdapter($files);
 

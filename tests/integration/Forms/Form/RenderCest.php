@@ -18,6 +18,7 @@ use Phalcon\Forms\Element\Text;
 use Phalcon\Forms\Form;
 use Phalcon\Tag;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
+use stdClass;
 
 class RenderCest
 {
@@ -26,8 +27,8 @@ class RenderCest
     public function _before(IntegrationTester $I)
     {
         $this->newDi();
-        $this->setDiEscaper();
-        $this->setDiUrl();
+        $this->setDiService('escaper');
+        $this->setDiService('url');
 
         Tag::setDocType(
             Tag::XHTML5
@@ -131,7 +132,7 @@ class RenderCest
      */
     public function testIssue1190(IntegrationTester $I)
     {
-        $object = new \stdClass();
+        $object = new stdClass();
 
         $object->title = 'Hello "world!"';
 

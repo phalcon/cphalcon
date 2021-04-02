@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Fixtures\Micro;
 
 class RestHandler
@@ -22,7 +24,6 @@ class RestHandler
      * @var array
      */
     protected $trace = [];
-
 
 
     public function find()
@@ -45,7 +46,6 @@ class RestHandler
 
         $this->trace[] = 'delete';
     }
-
 
 
     public function getNumberAccess(): int

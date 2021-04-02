@@ -33,11 +33,11 @@ class GetSetEventsManagerCest
         $I->wantToTest('Mvc\View\Engine\Volt - getEventsManager()/setEventsManager()');
 
         $this->setNewFactoryDefault();
-        $this->setDiView();
+        $this->setDiService('view');
 
         $view = $this->getService('view');
 
-        $eventsManager = $this->newEventsManager();
+        $eventsManager = $this->newService('eventsManager');
         $engine        = new Volt($view, $this->container);
 
         $I->assertNull(

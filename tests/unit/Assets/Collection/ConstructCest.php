@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Assets\Collection;
 
+use Phalcon\Assets\Collection;
 use UnitTester;
 
 class ConstructCest
@@ -20,13 +21,18 @@ class ConstructCest
     /**
      * Tests Phalcon\Assets\Collection :: __construct()
      *
-     * @author Phalcon Team <team@phalcon.io>
-     * @since  2018-11-13
+     * @author Naut de Jong <https://github.com/andejong>
+     * @since  2020-02-14
      */
     public function assetsCollectionConstruct(UnitTester $I)
     {
         $I->wantToTest('Assets\Collection - __construct()');
 
-        $I->skipTest('Need implementation');
+        $collection = new Collection();
+
+        $I->assertInstanceOf(
+            Collection::class,
+            $collection
+        );
     }
 }

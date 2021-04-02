@@ -73,7 +73,12 @@ class Builder implements BuilderInterface, InjectionAwareInterface
     protected hiddenParamNumber = 0;
     protected joins;
     protected limit;
+
+    /**
+     * @var array|string
+     */
     protected models;
+
     protected offset;
     protected order;
     protected sharedLock;
@@ -663,7 +668,6 @@ class Builder implements BuilderInterface, InjectionAwareInterface
 
             if count(primaryKeys) {
                 if fetch firstPrimaryKey, primaryKeys[0] {
-
                     /**
                      * The PHQL contains the renamed columns if available
                      */
@@ -681,6 +685,16 @@ class Builder implements BuilderInterface, InjectionAwareInterface
                         }
                     } else {
                         let attributeField = firstPrimaryKey;
+                    }
+
+                    // check the type of the condition, if it's a string put single quotes around the value
+                    if is_string(conditions) {
+                        /*
+                         * Example : if the developer writes findFirstBy('135'), Phalcon will generate where uuid = 135.
+                         * But the column's type is text so Postgres needs to have single quotes such as ;
+                         * where uuid = '135'.
+                         */
+                        let conditions = "'" . conditions . "'";
                     }
 
                     let conditions = this->autoescape(model) . "." . this->autoescape(attributeField) . " = " . conditions,

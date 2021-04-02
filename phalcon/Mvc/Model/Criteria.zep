@@ -4,8 +4,8 @@
  *
  * (c) Phalcon Team <team@phalcon.io>
  *
- * For the full copyright and license information, please view the LICENSE.txt
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
  */
 
 namespace Phalcon\Mvc\Model;
@@ -46,247 +46,6 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     protected params = [];
 
     /**
-     * Sets the DependencyInjector container
-     */
-    public function setDI(<DiInterface> container) -> void
-    {
-        let this->params["di"] = container;
-    }
-
-    /**
-     * Returns the DependencyInjector container
-     */
-    public function getDI() -> <DiInterface>
-    {
-        return this->params["di"];
-    }
-
-    /**
-     * Set a model on which the query will be executed
-     */
-    public function setModelName(string! modelName) -> <CriteriaInterface>
-    {
-        let this->model = modelName;
-
-        return this;
-    }
-
-    /**
-     * Returns an internal model name on which the criteria will be applied
-     */
-    public function getModelName() -> string
-    {
-        return this->model;
-    }
-
-    /**
-     * Sets the bound parameters in the criteria
-     * This method replaces all previously set bound parameters
-     */
-    public function bind(array! bindParams, bool merge = false) -> <CriteriaInterface>
-    {
-        if !isset this->params["bind"] {
-            let this->params["bind"] = [];
-        }
-
-        if typeof this->params["bind"] == "array" && merge {
-            let this->params["bind"] = this->params["bind"] + bindParams;
-        } else {
-            let this->params["bind"] = bindParams;
-        }
-
-        return this;
-    }
-
-    /**
-     * Sets the bind types in the criteria
-     * This method replaces all previously set bound parameters
-     */
-    public function bindTypes(array! bindTypes) -> <CriteriaInterface>
-    {
-        let this->params["bindTypes"] = bindTypes;
-
-        return this;
-    }
-
-    /**
-     * Sets SELECT DISTINCT / SELECT ALL flag
-     */
-     public function distinct(var distinct) -> <CriteriaInterface>
-     {
-         let this->params["distinct"] = distinct;
-
-         return this;
-     }
-
-    /**
-     * Sets the columns to be queried
-     *
-     *```php
-     * $criteria->columns(
-     *     [
-     *         "id",
-     *         "name",
-     *     ]
-     * );
-     *```
-     *
-     * @param string|array columns
-     */
-    public function columns(var columns) -> <CriteriaInterface>
-    {
-        let this->params["columns"] = columns;
-
-        return this;
-    }
-
-    /**
-     * Adds an INNER join to the query
-     *
-     *```php
-     * $criteria->join(
-     *     Robots::class
-     * );
-     *
-     * $criteria->join(
-     *     Robots::class,
-     *     "r.id = RobotsParts.robots_id"
-     * );
-     *
-     * $criteria->join(
-     *     Robots::class,
-     *     "r.id = RobotsParts.robots_id",
-     *     "r"
-     * );
-     *
-     * $criteria->join(
-     *     Robots::class,
-     *     "r.id = RobotsParts.robots_id",
-     *     "r",
-     *     "LEFT"
-     * );
-     *```
-     */
-    public function join(string! model, var conditions = null, var alias = null, var type = null) -> <CriteriaInterface>
-    {
-        var mergedJoins, currentJoins;
-        array join;
-
-        let join = [model, conditions, alias, type];
-
-        if fetch currentJoins, this->params["joins"] {
-            if typeof currentJoins == "array" {
-                let mergedJoins = array_merge(currentJoins, [join]);
-            } else {
-                let mergedJoins = [join];
-            }
-        } else {
-            let mergedJoins = [join];
-        }
-
-        let this->params["joins"] = mergedJoins;
-
-        return this;
-    }
-
-    /**
-     * Adds an INNER join to the query
-     *
-     *```php
-     * $criteria->innerJoin(
-     *     Robots::class
-     * );
-     *
-     * $criteria->innerJoin(
-     *     Robots::class,
-     *     "r.id = RobotsParts.robots_id"
-     * );
-     *
-     * $criteria->innerJoin(
-     *     Robots::class,
-     *     "r.id = RobotsParts.robots_id",
-     *     "r"
-     * );
-     *```
-     */
-    public function innerJoin(string! model, var conditions = null, var alias = null) -> <CriteriaInterface>
-    {
-        return this->join(model, conditions, alias, "INNER");
-    }
-
-    /**
-     * Adds a LEFT join to the query
-     *
-     *```php
-     * $criteria->leftJoin(
-     *     Robots::class,
-     *     "r.id = RobotsParts.robots_id",
-     *     "r"
-     * );
-     *```
-     */
-    public function leftJoin(string! model, var conditions = null, var alias = null) -> <CriteriaInterface>
-    {
-        return this->join(model, conditions, alias, "LEFT");
-    }
-
-    /**
-     * Adds a RIGHT join to the query
-     *
-     *```php
-     * $criteria->rightJoin(
-     *     Robots::class,
-     *     "r.id = RobotsParts.robots_id",
-     *     "r"
-     * );
-     *```
-     */
-    public function rightJoin(string! model, conditions = null, alias = null) -> <CriteriaInterface>
-    {
-        return this->join(model, conditions, alias, "RIGHT");
-    }
-
-    /**
-     * Sets the conditions parameter in the criteria
-     */
-    public function where(string! conditions, var bindParams = null, var bindTypes = null) -> <CriteriaInterface>
-    {
-        var currentBindParams, currentBindTypes;
-
-        let this->params["conditions"] = conditions;
-
-        /**
-         * Update or merge existing bound parameters
-         */
-        if typeof bindParams == "array" {
-            if fetch currentBindParams, this->params["bind"] {
-                let this->params["bind"] = array_merge(
-                    currentBindParams,
-                    bindParams
-                );
-            } else {
-                let this->params["bind"] = bindParams;
-            }
-        }
-
-        /**
-         * Update or merge existing bind types parameters
-         */
-        if typeof bindTypes == "array" {
-            if fetch currentBindTypes, this->params["bindTypes"] {
-                let this->params["bindTypes"] = array_merge(
-                    currentBindTypes,
-                    bindTypes
-                );
-            } else {
-                let this->params["bindTypes"] = bindTypes;
-            }
-        }
-
-        return this;
-    }
-
-    /**
      * Appends a condition to the current conditions using an AND operator
      */
     public function andWhere(string! conditions, var bindParams = null, var bindTypes = null) -> <CriteriaInterface>
@@ -295,20 +54,6 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
 
         if fetch currentConditions, this->params["conditions"] {
             let conditions = "(" . currentConditions . ") AND (" . conditions . ")";
-        }
-
-        return this->where(conditions, bindParams, bindTypes);
-    }
-
-    /**
-     * Appends a condition to the current conditions using an OR operator
-     */
-    public function orWhere(string! conditions, var bindParams = null, var bindTypes = null) -> <CriteriaInterface>
-    {
-        var currentConditions;
-
-        if fetch currentConditions, this->params["conditions"] {
-            let conditions = "(" . currentConditions . ") OR (" . conditions . ")";
         }
 
         return this->where(conditions, bindParams, bindTypes);
@@ -357,227 +102,31 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     }
 
     /**
-     * Appends a NOT BETWEEN condition to the current conditions
-     *
-     *```php
-     * $criteria->notBetweenWhere("price", 100.25, 200.50);
-     *```
+     * Sets the bound parameters in the criteria
+     * This method replaces all previously set bound parameters
      */
-    public function notBetweenWhere(string! expr, var minimum, var maximum) -> <CriteriaInterface>
+    public function bind(array! bindParams, bool merge = false) -> <CriteriaInterface>
     {
-        var hiddenParam, nextHiddenParam;
-        string minimumKey, maximumKey;
-
-        let hiddenParam = this->hiddenParamNumber;
-
-        let nextHiddenParam = hiddenParam + 1;
-
-        /**
-         * Minimum key with auto bind-params
-         */
-        let minimumKey = "ACP" . hiddenParam;
-
-        /**
-         * Maximum key with auto bind-params
-         */
-        let maximumKey = "ACP" . nextHiddenParam;
-
-        /**
-         * Create a standard BETWEEN condition with bind params
-         * Append the BETWEEN to the current conditions using and "and"
-         */
-        this->andWhere(
-            expr . " NOT BETWEEN :" . minimumKey . ": AND :"  . maximumKey . ":",
-            [
-                minimumKey: minimum,
-                maximumKey: maximum
-            ]
-        );
-
-        let nextHiddenParam++;
-
-        let this->hiddenParamNumber = nextHiddenParam;
-
-        return this;
-    }
-
-    /**
-     * Appends an IN condition to the current conditions
-     *
-     * ```php
-     * $criteria->inWhere("id", [1, 2, 3]);
-     * ```
-     */
-    public function inWhere(string! expr, array! values) -> <CriteriaInterface>
-    {
-        var hiddenParam, value;
-        array bindParams, bindKeys;
-        string key, queryKey;
-
-        if !count(values) {
-            this->andWhere(expr . " != " . expr);
-
-            return this;
+        if !isset this->params["bind"] {
+            let this->params["bind"] = [];
         }
 
-        let hiddenParam = this->hiddenParamNumber;
-
-        let bindParams = [],
-            bindKeys = [];
-
-        for value in values {
-            /**
-             * Key with auto bind-params
-             */
-            let key = "ACP" . hiddenParam;
-
-            let queryKey = ":" . key . ":";
-
-            let bindKeys[] = queryKey,
-                bindParams[key] = value;
-
-            let hiddenParam++;
+        if typeof this->params["bind"] == "array" && merge {
+            let this->params["bind"] = this->params["bind"] + bindParams;
+        } else {
+            let this->params["bind"] = bindParams;
         }
 
-        /**
-         * Create a standard IN condition with bind params
-         * Append the IN to the current conditions using and "and"
-         */
-        this->andWhere(
-            expr . " IN (" . join(", ", bindKeys) . ")",
-            bindParams
-        );
-
-        let this->hiddenParamNumber = hiddenParam;
-
         return this;
     }
 
     /**
-     * Appends a NOT IN condition to the current conditions
-     *
-     *```php
-     * $criteria->notInWhere("id", [1, 2, 3]);
-     *```
+     * Sets the bind types in the criteria
+     * This method replaces all previously set bound parameters
      */
-    public function notInWhere(string! expr, array! values) -> <CriteriaInterface>
+    public function bindTypes(array! bindTypes) -> <CriteriaInterface>
     {
-        var hiddenParam, value;
-        array bindParams, bindKeys;
-        string key;
-
-        let hiddenParam = this->hiddenParamNumber;
-
-        let bindParams = [],
-            bindKeys = [];
-
-        for value in values {
-            /**
-             * Key with auto bind-params
-             */
-            let key = "ACP" . hiddenParam,
-                bindKeys[] = ":" . key . ":",
-                bindParams[key] = value;
-
-            let hiddenParam++;
-        }
-
-        /**
-         * Create a standard IN condition with bind params
-         * Append the IN to the current conditions using and "and"
-         */
-        this->andWhere(
-            expr . " NOT IN (" . join(", ", bindKeys) . ")",
-            bindParams
-        );
-
-        let this->hiddenParamNumber = hiddenParam;
-
-        return this;
-    }
-
-    /**
-     * Adds the conditions parameter to the criteria
-     */
-    public function conditions(string! conditions) -> <CriteriaInterface>
-    {
-        let this->params["conditions"] = conditions;
-
-        return this;
-    }
-
-    /**
-     * Adds the order-by clause to the criteria
-     */
-    public function orderBy(string! orderColumns) -> <CriteriaInterface>
-    {
-        let this->params["order"] = orderColumns;
-
-        return this;
-    }
-
-    /**
-     * Adds the group-by clause to the criteria
-     */
-    public function groupBy(var group) -> <CriteriaInterface>
-    {
-        let this->params["group"] = group;
-
-        return this;
-    }
-
-    /**
-     * Adds the having clause to the criteria
-     */
-    public function having(var having) -> <CriteriaInterface>
-    {
-        let this->params["having"] = having;
-
-        return this;
-    }
-
-    /**
-     * Adds the limit parameter to the criteria.
-     *
-     * ```php
-     * $criteria->limit(100);
-     * $criteria->limit(100, 200);
-     * $criteria->limit("100", "200");
-     * ```
-     */
-    public function limit(int limit, int offset = 0) -> <CriteriaInterface>
-    {
-        let limit  = abs(limit);
-        let offset = abs(offset);
-
-        if unlikely limit == 0 {
-            return this;
-        }
-
-        let this->params["limit"] = [
-            "number": limit,
-            "offset": offset
-        ];
-
-        return this;
-    }
-
-    /**
-     * Adds the "for_update" parameter to the criteria
-     */
-    public function forUpdate(bool forUpdate = true) -> <CriteriaInterface>
-    {
-        let this->params["for_update"] = forUpdate;
-
-        return this;
-    }
-
-    /**
-     * Adds the "shared_lock" parameter to the criteria
-     */
-    public function sharedLock(bool sharedLock = true) -> <CriteriaInterface>
-    {
-        let this->params["shared_lock"] = sharedLock;
+        let this->params["bindTypes"] = bindTypes;
 
         return this;
     }
@@ -594,120 +143,117 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     }
 
     /**
-     * Returns the conditions parameter in the criteria
-     */
-    public function getWhere() -> string | null
-    {
-        var conditions;
-
-        if !fetch conditions, this->params["conditions"] {
-            return null;
-        }
-
-        return conditions;
-    }
-
-    /**
-     * Returns the columns to be queried
-     */
-    public function getColumns() -> string | null
-    {
-        var columns;
-
-        if !fetch columns, this->params["columns"] {
-            return null;
-        }
-
-        return columns;
-    }
-
-    /**
-     * Returns the conditions parameter in the criteria
-     */
-    public function getConditions() -> string | null
-    {
-        var conditions;
-
-        if !fetch conditions, this->params["conditions"] {
-            return null;
-        }
-
-        return conditions;
-    }
-
-    /**
-     * Returns the limit parameter in the criteria, which will be an integer if
-     * limit was set without an offset, an array with 'number' and 'offset' keys
-     * if an offset was set with the limit, or null if limit has not been set.
+     * Sets the columns to be queried
      *
-     * @return string|null
+     *```php
+     * $criteria->columns(
+     *     [
+     *         "id",
+     *         "name",
+     *     ]
+     * );
+     *```
+     *
+     * @param string|array columns
      */
-    public function getLimit() -> string | null
+    public function columns(var columns) -> <CriteriaInterface>
     {
-        var limit;
+        let this->params["columns"] = columns;
 
-        if !fetch limit, this->params["limit"] {
-            return null;
-        }
-
-        return limit;
+        return this;
     }
 
     /**
-     * Returns the order clause in the criteria
+     * Adds the conditions parameter to the criteria
      */
-    public function getOrderBy() -> string | null
+    public function conditions(string! conditions) -> <CriteriaInterface>
     {
-        var order;
+        let this->params["conditions"] = conditions;
 
-        if !fetch order, this->params["order"] {
-            return null;
-        }
-
-        return order;
+        return this;
     }
 
     /**
-     * Returns the group clause in the criteria
+     * Creates a query builder from criteria.
+     *
+     * ```php
+     * $builder = Robots::query()
+     *     ->where("type = :type:")
+     *     ->bind(["type" => "mechanical"])
+     *     ->createBuilder();
+     * ```
      */
-    public function getGroupBy()
+    public function createBuilder() -> <BuilderInterface>
     {
-        var group;
+        var container, manager, builder;
 
-        if !fetch group, this->params["group"] {
-            return null;
+        let container = this->getDI();
+
+        if typeof container != "object" {
+            let container = Di::getDefault();
+
+            this->setDI(container);
         }
 
-        return group;
+        let manager = <ManagerInterface> container->getShared("modelsManager");
+
+        /**
+         * Builds a query with the passed parameters
+         */
+        let builder = manager->createBuilder(this->params);
+
+        builder->from(this->model);
+
+        return builder;
     }
 
     /**
-     * Returns the having clause in the criteria
+     * Sets SELECT DISTINCT / SELECT ALL flag
      */
-    public function getHaving()
-    {
-        var having;
+     public function distinct(var distinct) -> <CriteriaInterface>
+     {
+         let this->params["distinct"] = distinct;
 
-        if !fetch having, this->params["having"] {
-            return null;
+         return this;
+     }
+
+    /**
+     * Executes a find using the parameters built with the criteria
+     */
+    public function execute() -> <ResultsetInterface>
+    {
+        var model;
+
+        let model = this->getModelName();
+
+        if unlikely typeof model != "string" {
+            throw new Exception("Model name must be string");
         }
 
-        return having;
+        return {model}::find(
+            this->getParams()
+        );
     }
 
     /**
-     * Returns all the parameters defined in the criteria
+     * Adds the "for_update" parameter to the criteria
      */
-    public function getParams() -> array
+    public function forUpdate(bool forUpdate = true) -> <CriteriaInterface>
     {
-        return this->params;
+        let this->params["for_update"] = forUpdate;
+
+        return this;
     }
 
     /**
      * Builds a Phalcon\Mvc\Model\Criteria based on an input array like $_POST
      */
-    public static function fromInput(<DiInterface> container, string! modelName, array! data, string! operator = "AND") -> <CriteriaInterface>
-    {
+    public static function fromInput(
+        <DiInterface> container,
+        string! modelName,
+        array! data,
+        string! operator = "AND"
+    ) -> <CriteriaInterface> {
         var attribute, field, value, type, metaData, model, dataTypes,
             criteria, columnMap;
         array conditions, bind;
@@ -783,54 +329,517 @@ class Criteria implements CriteriaInterface, InjectionAwareInterface
     }
 
     /**
-     * Creates a query builder from criteria.
-     *
-     * ```php
-     * $builder = Robots::query()
-     *     ->where("type = :type:")
-     *     ->bind(["type" => "mechanical"])
-     *     ->createBuilder();
-     * ```
+     * Returns the columns to be queried
      */
-    public function createBuilder() -> <BuilderInterface>
+    public function getColumns() -> string | array | null
     {
-        var container, manager, builder;
+        var columns;
 
-        let container = this->getDI();
-
-        if typeof container != "object" {
-            let container = Di::getDefault();
-
-            this->setDI(container);
+        if !fetch columns, this->params["columns"] {
+            return null;
         }
 
-        let manager = <ManagerInterface> container->getShared("modelsManager");
-
-        /**
-         * Builds a query with the passed parameters
-         */
-        let builder = manager->createBuilder(this->params);
-
-        builder->from(this->model);
-
-        return builder;
+        return columns;
     }
 
     /**
-     * Executes a find using the parameters built with the criteria
+     * Returns the conditions parameter in the criteria
      */
-    public function execute() -> <ResultsetInterface>
+    public function getConditions() -> string | null
     {
-        var model;
+        var conditions;
 
-        let model = this->getModelName();
-
-        if unlikely typeof model != "string" {
-            throw new Exception("Model name must be string");
+        if !fetch conditions, this->params["conditions"] {
+            return null;
         }
 
-        return {model}::find(
-            this->getParams()
-        );
+        return conditions;
     }
+
+    /**
+     * Returns the DependencyInjector container
+     */
+    public function getDI() -> <DiInterface>
+    {
+        return this->params["di"];
+    }
+
+    /**
+     * Returns the group clause in the criteria
+     */
+    public function getGroupBy()
+    {
+        var group;
+
+        if !fetch group, this->params["group"] {
+            return null;
+        }
+
+        return group;
+    }
+
+    /**
+     * Returns the having clause in the criteria
+     */
+    public function getHaving()
+    {
+        var having;
+
+        if !fetch having, this->params["having"] {
+            return null;
+        }
+
+        return having;
+    }
+
+    /**
+     * Returns the limit parameter in the criteria, which will be
+     *
+     * - An integer if 'limit' was set without an 'offset'
+     * - An array with 'number' and 'offset' keys if an offset was set with the limit
+     * - NULL if limit has not been set
+     */
+    public function getLimit()  -> int | array | null
+    {
+        var limit;
+
+        if !fetch limit, this->params["limit"] {
+            return null;
+        }
+
+        return limit;
+    }
+
+    /**
+     * Returns an internal model name on which the criteria will be applied
+     */
+    public function getModelName() -> string
+    {
+        return this->model;
+    }
+
+    /**
+     * Returns the order clause in the criteria
+     */
+    public function getOrderBy() -> string | null
+    {
+        var order;
+
+        if !fetch order, this->params["order"] {
+            return null;
+        }
+
+        return order;
+    }
+
+    /**
+     * Returns all the parameters defined in the criteria
+     */
+    public function getParams() -> array
+    {
+        return this->params;
+    }
+
+    /**
+     * Returns the conditions parameter in the criteria
+     */
+    public function getWhere() -> string | null
+    {
+        var conditions;
+
+        if !fetch conditions, this->params["conditions"] {
+            return null;
+        }
+
+        return conditions;
+    }
+
+    /**
+     * Adds the group-by clause to the criteria
+     */
+    public function groupBy(var group) -> <CriteriaInterface>
+    {
+        let this->params["group"] = group;
+
+        return this;
+    }
+
+    /**
+     * Adds the having clause to the criteria
+     */
+    public function having(var having) -> <CriteriaInterface>
+    {
+        let this->params["having"] = having;
+
+        return this;
+    }
+
+    /**
+     * Adds an INNER join to the query
+     *
+     *```php
+     * $criteria->innerJoin(
+     *     Robots::class
+     * );
+     *
+     * $criteria->innerJoin(
+     *     Robots::class,
+     *     "r.id = RobotsParts.robots_id"
+     * );
+     *
+     * $criteria->innerJoin(
+     *     Robots::class,
+     *     "r.id = RobotsParts.robots_id",
+     *     "r"
+     * );
+     *```
+     */
+    public function innerJoin(string! model, var conditions = null, var alias = null) -> <CriteriaInterface>
+    {
+        return this->join(model, conditions, alias, "INNER");
+    }
+
+    /**
+     * Appends an IN condition to the current conditions
+     *
+     * ```php
+     * $criteria->inWhere("id", [1, 2, 3]);
+     * ```
+     */
+    public function inWhere(string! expr, array! values) -> <CriteriaInterface>
+    {
+        var hiddenParam, value;
+        array bindParams, bindKeys;
+        string key, queryKey;
+
+        if !count(values) {
+            this->andWhere(expr . " != " . expr);
+
+            return this;
+        }
+
+        let hiddenParam = this->hiddenParamNumber;
+
+        let bindParams = [],
+            bindKeys = [];
+
+        for value in values {
+            /**
+             * Key with auto bind-params
+             */
+            let key = "ACP" . hiddenParam;
+
+            let queryKey = ":" . key . ":";
+
+            let bindKeys[] = queryKey,
+                bindParams[key] = value;
+
+            let hiddenParam++;
+        }
+
+        /**
+         * Create a standard IN condition with bind params
+         * Append the IN to the current conditions using and "and"
+         */
+        this->andWhere(
+            expr . " IN (" . join(", ", bindKeys) . ")",
+            bindParams
+        );
+
+        let this->hiddenParamNumber = hiddenParam;
+
+        return this;
+    }
+
+    /**
+     * Adds an INNER join to the query
+     *
+     *```php
+     * $criteria->join(
+     *     Robots::class
+     * );
+     *
+     * $criteria->join(
+     *     Robots::class,
+     *     "r.id = RobotsParts.robots_id"
+     * );
+     *
+     * $criteria->join(
+     *     Robots::class,
+     *     "r.id = RobotsParts.robots_id",
+     *     "r"
+     * );
+     *
+     * $criteria->join(
+     *     Robots::class,
+     *     "r.id = RobotsParts.robots_id",
+     *     "r",
+     *     "LEFT"
+     * );
+     *```
+     */
+    public function join(string! model, var conditions = null, var alias = null, var type = null) -> <CriteriaInterface>
+    {
+        var mergedJoins, currentJoins;
+        array join;
+
+        let join = [model, conditions, alias, type];
+
+        if fetch currentJoins, this->params["joins"] {
+            if typeof currentJoins == "array" {
+                let mergedJoins = array_merge(currentJoins, [join]);
+            } else {
+                let mergedJoins = [join];
+            }
+        } else {
+            let mergedJoins = [join];
+        }
+
+        let this->params["joins"] = mergedJoins;
+
+        return this;
+    }
+
+    /**
+     * Adds a LEFT join to the query
+     *
+     *```php
+     * $criteria->leftJoin(
+     *     Robots::class,
+     *     "r.id = RobotsParts.robots_id",
+     *     "r"
+     * );
+     *```
+     */
+    public function leftJoin(string! model, var conditions = null, var alias = null) -> <CriteriaInterface>
+    {
+        return this->join(model, conditions, alias, "LEFT");
+    }
+
+    /**
+     * Adds the limit parameter to the criteria.
+     *
+     * ```php
+     * $criteria->limit(100);
+     * $criteria->limit(100, 200);
+     * $criteria->limit("100", "200");
+     * ```
+     */
+    public function limit(int limit, int offset = 0) -> <CriteriaInterface>
+    {
+        let limit  = abs(limit);
+        let offset = abs(offset);
+
+        if unlikely limit == 0 {
+            return this;
+        }
+
+        if offset == 0 {
+            let this->params["limit"] = limit;
+        } else {
+            let this->params["limit"] = [
+                "number": limit,
+                "offset": offset
+            ];
+        }
+
+        return this;
+    }
+
+    /**
+     * Appends a NOT BETWEEN condition to the current conditions
+     *
+     *```php
+     * $criteria->notBetweenWhere("price", 100.25, 200.50);
+     *```
+     */
+    public function notBetweenWhere(string! expr, var minimum, var maximum) -> <CriteriaInterface>
+    {
+        var hiddenParam, nextHiddenParam;
+        string minimumKey, maximumKey;
+
+        let hiddenParam = this->hiddenParamNumber;
+
+        let nextHiddenParam = hiddenParam + 1;
+
+        /**
+         * Minimum key with auto bind-params
+         */
+        let minimumKey = "ACP" . hiddenParam;
+
+        /**
+         * Maximum key with auto bind-params
+         */
+        let maximumKey = "ACP" . nextHiddenParam;
+
+        /**
+         * Create a standard BETWEEN condition with bind params
+         * Append the BETWEEN to the current conditions using and "and"
+         */
+        this->andWhere(
+            expr . " NOT BETWEEN :" . minimumKey . ": AND :"  . maximumKey . ":",
+            [
+                minimumKey: minimum,
+                maximumKey: maximum
+            ]
+        );
+
+        let nextHiddenParam++;
+
+        let this->hiddenParamNumber = nextHiddenParam;
+
+        return this;
+    }
+
+    /**
+     * Appends a NOT IN condition to the current conditions
+     *
+     *```php
+     * $criteria->notInWhere("id", [1, 2, 3]);
+     *```
+     */
+    public function notInWhere(string! expr, array! values) -> <CriteriaInterface>
+    {
+        var hiddenParam, value;
+        array bindParams, bindKeys;
+        string key;
+
+        let hiddenParam = this->hiddenParamNumber;
+
+        let bindParams = [],
+            bindKeys = [];
+
+        for value in values {
+            /**
+             * Key with auto bind-params
+             */
+            let key = "ACP" . hiddenParam,
+                bindKeys[] = ":" . key . ":",
+                bindParams[key] = value;
+
+            let hiddenParam++;
+        }
+
+        /**
+         * Create a standard IN condition with bind params
+         * Append the IN to the current conditions using and "and"
+         */
+        this->andWhere(
+            expr . " NOT IN (" . join(", ", bindKeys) . ")",
+            bindParams
+        );
+
+        let this->hiddenParamNumber = hiddenParam;
+
+        return this;
+    }
+
+    /**
+     * Adds the order-by clause to the criteria
+     */
+    public function orderBy(string! orderColumns) -> <CriteriaInterface>
+    {
+        let this->params["order"] = orderColumns;
+
+        return this;
+    }
+
+    /**
+     * Appends a condition to the current conditions using an OR operator
+     */
+    public function orWhere(string! conditions, var bindParams = null, var bindTypes = null) -> <CriteriaInterface>
+    {
+        var currentConditions;
+
+        if fetch currentConditions, this->params["conditions"] {
+            let conditions = "(" . currentConditions . ") OR (" . conditions . ")";
+        }
+
+        return this->where(conditions, bindParams, bindTypes);
+    }
+
+    /**
+     * Adds a RIGHT join to the query
+     *
+     *```php
+     * $criteria->rightJoin(
+     *     Robots::class,
+     *     "r.id = RobotsParts.robots_id",
+     *     "r"
+     * );
+     *```
+     */
+    public function rightJoin(string! model, conditions = null, alias = null) -> <CriteriaInterface>
+    {
+        return this->join(model, conditions, alias, "RIGHT");
+    }
+
+    /**
+     * Sets the DependencyInjector container
+     */
+    public function setDI(<DiInterface> container) -> void
+    {
+        let this->params["di"] = container;
+    }
+
+    /**
+     * Set a model on which the query will be executed
+     */
+    public function setModelName(string! modelName) -> <CriteriaInterface>
+    {
+        let this->model = modelName;
+
+        return this;
+    }
+
+    /**
+     * Adds the "shared_lock" parameter to the criteria
+     */
+    public function sharedLock(bool sharedLock = true) -> <CriteriaInterface>
+    {
+        let this->params["shared_lock"] = sharedLock;
+
+        return this;
+    }
+
+    /**
+     * Sets the conditions parameter in the criteria
+     */
+    public function where(string! conditions, var bindParams = null, var bindTypes = null) -> <CriteriaInterface>
+    {
+        var currentBindParams, currentBindTypes;
+
+        let this->params["conditions"] = conditions;
+
+        /**
+         * Update or merge existing bound parameters
+         */
+        if typeof bindParams == "array" {
+            if fetch currentBindParams, this->params["bind"] {
+                let this->params["bind"] = array_merge(
+                    currentBindParams,
+                    bindParams
+                );
+            } else {
+                let this->params["bind"] = bindParams;
+            }
+        }
+
+        /**
+         * Update or merge existing bind types parameters
+         */
+        if typeof bindTypes == "array" {
+            if fetch currentBindTypes, this->params["bindTypes"] {
+                let this->params["bindTypes"] = array_merge(
+                    currentBindTypes,
+                    bindTypes
+                );
+            } else {
+                let this->params["bindTypes"] = bindTypes;
+            }
+        }
+
+        return this;
+    }
+
 }

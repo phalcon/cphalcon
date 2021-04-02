@@ -51,6 +51,15 @@ PHP_METHOD(Phalcon_Logger_Formatter_Json, __construct) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&dateFormat);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_STR(dateFormat)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &dateFormat_param);
@@ -63,7 +72,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Json, __construct) {
 	}
 
 
-	zephir_update_property_zval(this_ptr, SL("dateFormat"), &dateFormat);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("dateFormat"), &dateFormat);
 	ZEPHIR_MM_RESTORE();
 
 }
@@ -87,6 +96,14 @@ PHP_METHOD(Phalcon_Logger_Formatter_Json, format) {
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_2$$3);
 	ZVAL_UNDEF(&_4);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_OBJECT_OF_CLASS(item, phalcon_logger_item_ce)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &item);
@@ -115,7 +132,7 @@ PHP_METHOD(Phalcon_Logger_Formatter_Json, format) {
 	ZEPHIR_CALL_METHOD(&_5, this_ptr, "getformatteddate", NULL, 0);
 	zephir_check_call_status();
 	zephir_array_update_string(&_4, SL("timestamp"), &_5, PH_COPY | PH_SEPARATE);
-	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_json_ce, "encode", &_3, 13, &_4);
+	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_json_ce, "encode", &_3, 14, &_4);
 	zephir_check_call_status();
 	RETURN_MM();
 

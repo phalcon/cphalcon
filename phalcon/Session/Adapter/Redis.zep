@@ -11,6 +11,7 @@
 namespace Phalcon\Session\Adapter;
 
 use Phalcon\Storage\AdapterFactory;
+use Phalcon\Helper\Arr;
 
 /**
  * Phalcon\Session\Adapter\Redis
@@ -32,7 +33,7 @@ use Phalcon\Storage\AdapterFactory;
      */
     public function __construct(<AdapterFactory> factory, array! options = [])
     {
-        let options["prefix"] = "sess-reds-",
+        let options["prefix"] = Arr::get(options, "prefix", "sess-reds-"),
             this->adapter     = factory->newInstance("redis", options);
     }
 }

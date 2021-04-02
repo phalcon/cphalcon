@@ -52,6 +52,15 @@ PHP_METHOD(Phalcon_Image_ImageFactory, __construct) {
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&services);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ARRAY(services)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &services_param);
@@ -96,6 +105,14 @@ PHP_METHOD(Phalcon_Image_ImageFactory, load) {
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(config)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &config);
@@ -115,17 +132,17 @@ PHP_METHOD(Phalcon_Image_ImageFactory, load) {
 	zephir_array_unset_string(config, SL("adapter"), PH_SEPARATE);
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "file");
-	ZEPHIR_CALL_CE_STATIC(&file, phalcon_helper_arr_ce, "get", &_1, 15, config, &_2);
+	ZEPHIR_CALL_CE_STATIC(&file, phalcon_helper_arr_ce, "get", &_1, 16, config, &_2);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "height");
 	ZVAL_NULL(&_3);
-	ZEPHIR_CALL_CE_STATIC(&height, phalcon_helper_arr_ce, "get", &_1, 15, config, &_2, &_3);
+	ZEPHIR_CALL_CE_STATIC(&height, phalcon_helper_arr_ce, "get", &_1, 16, config, &_2, &_3);
 	zephir_check_call_status();
 	ZEPHIR_INIT_NVAR(&_2);
 	ZVAL_STRING(&_2, "width");
 	ZVAL_NULL(&_3);
-	ZEPHIR_CALL_CE_STATIC(&width, phalcon_helper_arr_ce, "get", &_1, 15, config, &_2, &_3);
+	ZEPHIR_CALL_CE_STATIC(&width, phalcon_helper_arr_ce, "get", &_1, 16, config, &_2, &_3);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "newinstance", NULL, 0, &name, &file, &width, &height);
 	zephir_check_call_status();
@@ -138,19 +155,30 @@ PHP_METHOD(Phalcon_Image_ImageFactory, load) {
  */
 PHP_METHOD(Phalcon_Image_ImageFactory, newInstance) {
 
-	zval _1;
+	zval _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long width, height, ZEPHIR_LAST_CALL_STATUS;
-	zval *name_param = NULL, *file_param = NULL, *width_param = NULL, *height_param = NULL, definition, _0, _2;
+	zval *name_param = NULL, *file_param = NULL, *width_param = NULL, *height_param = NULL, definition, _1;
 	zval name, file;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&file);
 	ZVAL_UNDEF(&definition);
-	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_1);
+	ZVAL_UNDEF(&_0);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 4)
+		Z_PARAM_STR(name)
+		Z_PARAM_STR(file)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_LONG_OR_NULL(width, is_null_true)
+		Z_PARAM_LONG_OR_NULL(height, is_null_true)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 2, &name_param, &file_param, &width_param, &height_param);
@@ -187,21 +215,18 @@ PHP_METHOD(Phalcon_Image_ImageFactory, newInstance) {
 	}
 
 
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkservice", NULL, 0, &name);
+	ZEPHIR_CALL_METHOD(&definition, this_ptr, "getservice", NULL, 0, &name);
 	zephir_check_call_status();
-	zephir_read_property(&_0, this_ptr, SL("mapper"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_OBS_VAR(&definition);
-	zephir_array_fetch(&definition, &_0, &name, PH_NOISY, "phalcon/Image/ImageFactory.zep", 78);
+	ZEPHIR_INIT_VAR(&_0);
+	zephir_create_array(&_0, 3, 0);
+	zephir_array_fast_append(&_0, &file);
 	ZEPHIR_INIT_VAR(&_1);
-	zephir_create_array(&_1, 3, 0);
-	zephir_array_fast_append(&_1, &file);
-	ZEPHIR_INIT_VAR(&_2);
-	ZVAL_LONG(&_2, width);
-	zephir_array_fast_append(&_1, &_2);
-	ZEPHIR_INIT_NVAR(&_2);
-	ZVAL_LONG(&_2, height);
-	zephir_array_fast_append(&_1, &_2);
-	ZEPHIR_LAST_CALL_STATUS = zephir_create_instance_params(return_value, &definition, &_1);
+	ZVAL_LONG(&_1, width);
+	zephir_array_fast_append(&_0, &_1);
+	ZEPHIR_INIT_NVAR(&_1);
+	ZVAL_LONG(&_1, height);
+	zephir_array_fast_append(&_0, &_1);
+	ZEPHIR_LAST_CALL_STATUS = zephir_create_instance_params(return_value, &definition, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -210,6 +235,7 @@ PHP_METHOD(Phalcon_Image_ImageFactory, newInstance) {
 PHP_METHOD(Phalcon_Image_ImageFactory, getAdapters) {
 
 	zval *this_ptr = getThis();
+
 
 
 	zephir_create_array(return_value, 2, 0);

@@ -21,7 +21,7 @@ use Phalcon\Db\ReferenceInterface;
 use Throwable;
 
 /**
- * Specific functions for the Postgresql database system
+ * Specific functions for the PostgreSQL database system
  *
  * ```php
  * use Phalcon\Db\Adapter\Pdo\Postgresql;
@@ -207,7 +207,6 @@ class Postgresql extends PdoAdapter
                      * tinyint(1) is boolean
                      */
                     let definition["type"] = Column::TYPE_BOOLEAN,
-                        definition["isNumeric"] = true,
                         definition["bindType"] = Column::BIND_PARAM_BOOL;
 
                     break;
@@ -488,8 +487,8 @@ class Postgresql extends PdoAdapter
             /**
              * Check if the column allows null values
              */
-            if field[5] == "NO" {
-                let definition["notNull"] = true;
+            if field[5] == "YES" {
+                let definition["notNull"] = false;
             }
 
             /**
@@ -512,6 +511,13 @@ class Postgresql extends PdoAdapter
                 if strcasecmp(definition["default"], "null") == 0 {
                     let definition["default"] = null;
                 }
+            }
+
+            /**
+             * Check if the column has comment
+             */
+            if field[10] !== null {
+                let definition["comment"] = field[10];
             }
 
             /**

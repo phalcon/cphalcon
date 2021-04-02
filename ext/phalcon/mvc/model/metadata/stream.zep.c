@@ -69,6 +69,15 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, __construct) {
 	ZVAL_UNDEF(&options_sub);
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&metaDataDir);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_ZVAL(options)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	zephir_fetch_params_without_memory_grow(0, 1, &options);
 
@@ -79,7 +88,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, __construct) {
 
 
 	if (zephir_array_isset_string_fetch(&metaDataDir, options, SL("metaDataDir"), 1)) {
-		zephir_update_property_zval(this_ptr, SL("metaDataDir"), &metaDataDir);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("metaDataDir"), &metaDataDir);
 	}
 
 }
@@ -100,6 +109,14 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, read) {
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_3);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_STR(key)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &key_param);
@@ -116,7 +133,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, read) {
 	}
 
 
-	zephir_read_property(&_0, this_ptr, SL("metaDataDir"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("metaDataDir"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_1);
 	ZEPHIR_INIT_VAR(&_2);
 	ZVAL_STRING(&_2, "_");
@@ -158,6 +175,15 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, write) {
 	ZVAL_UNDEF(&_4$$3);
 	ZVAL_UNDEF(&_5$$3);
 	ZVAL_UNDEF(&data);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(2, 2)
+		Z_PARAM_STR(key)
+		Z_PARAM_ARRAY(data)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &key_param, &data_param);
@@ -178,7 +204,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, write) {
 
 	/* try_start_1: */
 
-		zephir_read_property(&_0$$3, this_ptr, SL("metaDataDir"), PH_NOISY_CC | PH_READONLY);
+		zephir_read_property(&_0$$3, this_ptr, ZEND_STRL("metaDataDir"), PH_NOISY_CC | PH_READONLY);
 		ZEPHIR_INIT_VAR(&_1$$3);
 		ZEPHIR_INIT_VAR(&_2$$3);
 		ZVAL_STRING(&_2$$3, "_");
@@ -195,7 +221,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, write) {
 		ZEPHIR_CONCAT_SVS(&_5$$3, "<?php return ", &_4$$3, "; ");
 		zephir_file_put_contents(&_3$$3, &path, &_5$$3);
 		if (ZEPHIR_IS_FALSE_IDENTICAL(&_3$$3)) {
-			ZEPHIR_CALL_METHOD(NULL, this_ptr, "throwwriteexception", NULL, 455, &option);
+			ZEPHIR_CALL_METHOD(NULL, this_ptr, "throwwriteexception", NULL, 469, &option);
 			zephir_check_call_status_or_jump(try_end_1);
 		}
 
@@ -206,10 +232,10 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, write) {
 		ZVAL_OBJ(&_6, EG(exception));
 		Z_ADDREF_P(&_6);
 		ZEPHIR_INIT_VAR(&_7);
-		if (zephir_instance_of_ev(&_6, zend_exception_get_default(TSRMLS_C))) {
-			zend_clear_exception(TSRMLS_C);
+		if (zephir_instance_of_ev(&_6, zend_ce_exception)) {
+			zend_clear_exception();
 			ZEPHIR_CPY_WRT(&_7, &_6);
-			ZEPHIR_CALL_METHOD(NULL, this_ptr, "throwwriteexception", NULL, 455, &option);
+			ZEPHIR_CALL_METHOD(NULL, this_ptr, "throwwriteexception", NULL, 469, &option);
 			zephir_check_call_status();
 		}
 	}
@@ -229,6 +255,14 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, throwWriteException) {
 
 	ZVAL_UNDEF(&option_sub);
 	ZVAL_UNDEF(&_0$$4);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(option)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &option);
@@ -241,7 +275,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, throwWriteException) {
 	} else {
 		ZEPHIR_INIT_VAR(&_0$$4);
 		ZVAL_STRING(&_0$$4, "Meta-Data directory cannot be written");
-		ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 5, &_0$$4);
+		ZEPHIR_CALL_FUNCTION(NULL, "trigger_error", NULL, 7, &_0$$4);
 		zephir_check_call_status();
 	}
 	ZEPHIR_MM_RESTORE();

@@ -1,85 +1,97 @@
 {
-  "name": "phalcon/cphalcon",
-  "description": "Phalcon is an open source web framework delivered as a C extension for the PHP language providing high performance and lower resource consumption.",
-  "keywords": [
-    "extension",
-    "phalcon",
-    "framework",
-    "high load",
-    "mvc",
-    "psr-7",
-    "psr-17"
-  ],
-  "license": "BSD-3-Clause",
-  "authors": [
-    {
-      "name": "Phalcon Team",
-      "email": "team@phalcon.io",
-      "homepage": "https://phalcon.io/en/team"
+    "name": "phalcon/cphalcon",
+    "description": "Phalcon is an open source web framework delivered as a C extension for the PHP language providing high performance and lower resource consumption.",
+    "keywords": [
+        "extension",
+        "phalcon",
+        "framework",
+        "high load",
+        "mvc",
+        "psr-3",
+        "psr-4",
+        "psr-7",
+        "psr-11",
+        "psr-13",
+        "psr-14",
+        "psr-15",
+        "psr-16",
+        "psr-17",
+        "psr-18"
+    ],
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Phalcon Team",
+            "email": "team@phalcon.io",
+            "homepage": "https://phalcon.io/en/team"
+        },
+        {
+            "name": "Contributors",
+            "homepage": "https://github.com/phalcon/cphalcon/graphs/contributors"
+        }
+    ],
+    "require": {
+        "php": ">=7.4"
     },
-    {
-      "name": "Contributors",
-      "homepage": "https://github.com/phalcon/cphalcon/graphs/contributors"
+    "require-dev": {
+        "ext-apcu": "*",
+        "ext-dom": "*",
+        "ext-gd": "*",
+        "ext-iconv": "*",
+        "ext-igbinary": "*",
+        "ext-imagick": "*",
+        "ext-intl": "*",
+        "ext-json": "*",
+        "ext-libxml": "*",
+        "ext-mbstring": "*",
+        "ext-msgpack": "*",
+        "ext-pdo": "*",
+        "ext-psr": "^0.7|^1.0",
+        "ext-redis": "*",
+        "ext-sqlite3": "*",
+        "ext-xml": "*",
+        "codeception/codeception": "^4.0",
+        "codeception/module-apc": "^1.0.0",
+        "codeception/module-asserts": "^1.0.0",
+        "codeception/module-cli": "^1.0.0",
+        "codeception/module-db": "^1.0.0",
+        "codeception/module-filesystem": "^1.0.0",
+        "codeception/module-phalcon4": "^1.0.3",
+        "codeception/module-redis": "^1.0.0",
+        "friendsofphp/php-cs-fixer": "~2.0",
+        "mustache/mustache": "^2.12",
+        "phalcon/ide-stubs": "^4.1",
+        "phpunit/phpunit": "^8.5",
+        "predis/predis": "^1.1",
+        "squizlabs/php_codesniffer": "^3.4",
+        "twig/twig": "~1.36",
+        "vlucas/phpdotenv": "^2.5"
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Zephir\\Optimizers\\FunctionCall\\": "optimizers/",
+            "Phalcon\\Test\\Unit\\": "tests/unit/",
+            "Phalcon\\Test\\Integration\\": "tests/integration/",
+            "Phalcon\\Test\\Database\\": "tests/database/",
+            "Phalcon\\Test\\Controllers\\": "tests/_data/fixtures/controllers/",
+            "Phalcon\\Test\\Fixtures\\": "tests/_data/fixtures/",
+            "Phalcon\\Test\\Models\\": "tests/_data/fixtures/models/",
+            "Phalcon\\Test\\Module\\": "tests/_support/Module/",
+            "Phalcon\\Test\\Listener\\": "tests/_data/listener/",
+            "Phalcon\\Test\\Db\\": "tests/_data/db/"
+        }
+    },
+    "support": {
+        "email": "support@phalcon.io",
+        "issues": "https://github.com/phalcon/cphalcon/issues",
+        "forum": "https://phalcon.io/forum/",
+        "source": "https://github.com/phalcon/cphalcon",
+        "docs": "https://phalcon.io/docs/",
+        "rss": "https://blog.phalcon.io/rss"
     }
-  ],
-  "require": {
-    "php": ">=7.2 <8.0"
-  },
-  "provide": {
-    "psr/cache": "^1.0",
-    "psr/container": "^1.0",
-    "psr/event-dispatcher": "^0.7.0",
-    "psr/event-dispatcher-message": "^0.6.0",
-    "psr/event-dispatcher-task": "^0.6.0",
-    "psr/http-client": "^1.0",
-    "psr/http-factory": "^1.0",
-    "psr/http-message": "^1.0",
-    "psr/http-server-handler": "^1.0",
-    "psr/http-server-middleware": "^1.0",
-    "psr/link": "^1.0",
-    "psr/log": "^1.1",
-    "psr/simple-cache": "^1.0"
-  },
-  "require-dev": {
-    "ext-dom": "*",
-    "ext-gd": "*",
-    "ext-json": "*",
-    "ext-libxml": "*",
-    "ext-mbstring": "*",
-    "ext-psr": "^0.7",
-    "ext-xml": "*",
-    "codeception/codeception": "^2.5",
-    "friendsofphp/php-cs-fixer": "~2.0",
-    "mustache/mustache": "^2.12",
-    "predis/predis": "^1.1",
-    "squizlabs/php_codesniffer": "^3.4",
-    "twig/twig": "~1.36",
-    "vlucas/phpdotenv": "^2.5"
-  },
-  "config": {
-    "optimize-autoloader": true,
-    "preferred-install": "dist",
-    "sort-packages": true
-  },
-  "autoload-dev": {
-    "psr-4": {
-      "Zephir\\Optimizers\\": "optimizers/",
-      "Phalcon\\Test\\Unit\\": "tests/unit/",
-      "Phalcon\\Test\\Integration\\": "tests/integration/",
-      "Phalcon\\Test\\Controllers\\": "tests/_data/fixtures/controllers/",
-      "Phalcon\\Test\\Fixtures\\": "tests/_data/fixtures/",
-      "Phalcon\\Test\\Models\\": "tests/_data/fixtures/models/",
-      "Phalcon\\Test\\Module\\": "tests/_support/Module/",
-      "Phalcon\\Test\\Listener\\": "tests/_data/listener/",
-      "Phalcon\\Test\\Db\\": "tests/_data/db/"
-    }
-  },
-  "support": {
-    "email": "support@phalcon.io",
-    "issues": "https://github.com/phalcon/cphalcon/issues",
-    "forum": "https://phalcon.link/forum/",
-    "source": "https://github.com/phalcon/cphalcon",
-    "docs": "https://phalcon.link/docs/",
-    "rss": "https://blog.phalcon.io/rss"
-  }
 }

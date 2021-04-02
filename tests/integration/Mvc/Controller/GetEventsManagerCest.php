@@ -33,7 +33,7 @@ class GetEventsManagerCest
      */
     public function mvcControllerGetEventsManager(IntegrationTester $I)
     {
-        $di = $this->newFactoryDefault();
+        $di = $this->newService('factoryDefault');
 
         $controller = new ViewRequestController();
 

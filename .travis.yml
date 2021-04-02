@@ -4,6 +4,7 @@ php:
   - '7.3'
   - '7.2'
 
+os: linux
 dist: bionic
 
 branches:
@@ -22,11 +23,6 @@ addons:
       - libsodium-dev
   postgresql: "9.4"
 
-matrix:
-  fast_finish: true
-  allow_failures:
-    - env: ZEPHIR_VERSION="development"
-
 cache:
   timeout: 604800
   directories:
@@ -35,16 +31,16 @@ cache:
 services:
   - mysql
   - mongodb
-  - redis-server
+  - redis
   - postgresql
   - memcached
 
 env:
   global:
     - CC="gcc"
-    - ZEPHIR_VERSION="0.12.16"
-    - ZEPHIR_PARSER_VERSION="v1.3.2"
-    - REPORT_COVERAGE=1
+    - ZEPHIR_VERSION="0.12.19"
+    - ZEPHIR_PARSER_VERSION="v1.3.6"
+    - REPORT_COVERAGE=0
     - PATH="${HOME}/.composer/vendor/bin:${PATH}"
     - TRAVIS_COMMIT_LOG="$(git log --format=fuller -5)"
     - DEFAULT_COMPOSER_FLAGS="--no-interaction --no-ansi --no-progress --no-suggest"
@@ -71,13 +67,11 @@ before_install:
     # Hide "You are in 'detached HEAD' state" message
     git config --global advice.detachedHead false
 
-  - source .ci/export-variables.sh
-
 install:
   - .ci/setup-dbs.sh
   - .ci/install-zephir.sh
   - .ci/install-php-extensions.sh
-  - eval "composer install $DEFAULT_COMPOSER_FLAGS"
+  - eval "composer install --ignore-platform-reqs"
 
 before_script:
   - cat .ci/travis.ini >> "$(phpenv prefix)/etc/conf.d/travis.ini"
@@ -86,6 +80,7 @@ before_script:
   - zephir --version
 
 script:
+  - cp tests/_ci/.env.travis .env
   - vendor/bin/codecept build --quiet
   - vendor/bin/codecept run --ext DotReporter tests/cli/
   - vendor/bin/codecept run --ext DotReporter tests/integration/
@@ -98,14 +93,18 @@ jobs:
     - stage: Development Zephir version
       php: '7.4'
       env: ZEPHIR_VERSION="development"
+  fast_finish: true
+  allow_failures:
+    - env: ZEPHIR_VERSION="development"
 
 after_failure:
   - echo "$($(phpenv which php) -v)"
   - echo "$($(phpenv which php) -m)"
   - .ci/after-failure.sh
 
-after_success:
-  - '[[ "$REPORT_COVERAGE" -eq 1 ]] && bash <(curl -s https://codecov.io/bash)'
+# This is disabled for now
+# after_success:
+#  - '[[ "$REPORT_COVERAGE" -eq 1 ]] && bash <(curl -s https://codecov.io/bash)'
 
 after_script:
   - printf "$TRAVIS_COMMIT_RANGE\n"

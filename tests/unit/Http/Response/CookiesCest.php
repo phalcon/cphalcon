@@ -82,10 +82,7 @@ class CookiesCest extends HttpBase
         $cookies->set('x-token', '1bf0bc92ed7dcc80d337a5755f879878');
         $cookies->set('x-user-id', 1);
 
-        $I->assertInternalType(
-            'array',
-            $cookies->getCookies()
-        );
+        $I->assertTrue(is_array($cookies->getCookies()));
 
         $cookieArray = $cookies->getCookies();
 

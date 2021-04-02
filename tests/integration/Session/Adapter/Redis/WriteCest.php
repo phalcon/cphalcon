@@ -22,12 +22,6 @@ use function uniqid;
 class WriteCest
 {
     use DiTrait;
-    use SessionTrait;
-
-    public function _before(IntegrationTester $I)
-    {
-        $this->newFactoryDefault();
-    }
 
     /**
      * Tests Phalcon\Session\Adapter\Redis :: write()
@@ -38,7 +32,8 @@ class WriteCest
     public function sessionAdapterRedisWrite(IntegrationTester $I)
     {
         $I->wantToTest('Session\Adapter\Redis - write()');
-        $adapter = $this->getSessionRedis();
+
+        $adapter = $this->newService('sessionRedis');
         $value   = uniqid();
         $adapter->write('test1', $value);
 

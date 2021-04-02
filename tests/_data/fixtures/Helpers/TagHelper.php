@@ -9,6 +9,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Phalcon\Test\Fixtures\Helpers;
 
 use UnitTester;
@@ -18,7 +20,7 @@ class TagHelper extends TagSetup
     /**
      * @var string
      */
-    protected $function  = '';
+    protected $function = '';
 
     /**
      * @var string

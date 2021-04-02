@@ -38,9 +38,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Events_EventsAwareInterface) {
  * Returns the internal event manager
  */
 ZEPHIR_DOC_METHOD(Phalcon_Events_EventsAwareInterface, getEventsManager);
-
 /**
  * Sets the events manager
  */
 ZEPHIR_DOC_METHOD(Phalcon_Events_EventsAwareInterface, setEventsManager);
-

@@ -147,6 +147,29 @@ class Request extends AbstractInjectionAware implements RequestInterface
     }
 
     /**
+     * Gets the preferred ISO locale variant.
+     *
+     * Gets the preferred locale accepted by the client from the
+     * "Accept-Language" request HTTP header and returns the
+     * base part of it i.e. `en` instead of `en-US`.
+     *
+     * Note: This method relies on the `$_SERVER["HTTP_ACCEPT_LANGUAGE"]` header.
+     *
+     * @link https://www.iso.org/standard/50707.html
+     */
+    public function getPreferredIsoLocaleVariant() -> string
+    {
+        var language;
+
+        let language = this->getBestLanguage(),
+            language = explode("-", language),
+            language = language[0],
+            language = "*" === language ? "" : language;
+
+        return language;
+    }
+
+    /**
      * Gets most possible client IPv4 Address. This method searches in
      * `$_SERVER["REMOTE_ADDR"]` and optionally in
      * `$_SERVER["HTTP_X_FORWARDED_FOR"]`
@@ -433,7 +456,7 @@ class Request extends AbstractInjectionAware implements RequestInterface
      */
     public function getHttpHost() -> string
     {
-        var host, strict;
+        var host, strict, cleanHost;
 
         let strict = this->strictHostCheck;
 
@@ -459,12 +482,12 @@ class Request extends AbstractInjectionAware implements RequestInterface
             /**
              * Cleanup. Force lowercase as per RFC 952/2181
              */
-            let host = strtolower(
+            let cleanHost = strtolower(
                 trim(host)
             );
 
-            if memstr(host, ":") {
-                let host = preg_replace("/:[[:digit:]]+$/", "", host);
+            if memstr(cleanHost, ":") {
+                let cleanHost = preg_replace("/:[[:digit:]]+$/", "", cleanHost);
             }
 
             /**
@@ -472,12 +495,14 @@ class Request extends AbstractInjectionAware implements RequestInterface
              * (in a case-insensitive manner), the digits '0' through '9', and
              * the hyphen ('-') as per RFC 952/2181
              */
-            if unlikely ("" !== preg_replace("/[a-z0-9-]+\.?/", "", host)) {
+            if unlikely ("" !== preg_replace("/[a-z0-9-]+\.?/", "", cleanHost)) {
                 throw new UnexpectedValueException("Invalid host " . host);
             }
+        } else {
+            let cleanHost = host;
         }
 
-        return (string) host;
+        return (string) cleanHost;
     }
 
     /**
@@ -509,7 +534,7 @@ class Request extends AbstractInjectionAware implements RequestInterface
             return false;
         }
 
-        return Json::decode(rawBody, associative);
+        return json_decode(rawBody, associative);
     }
 
     /**

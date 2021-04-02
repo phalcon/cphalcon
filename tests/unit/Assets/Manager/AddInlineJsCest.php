@@ -29,8 +29,8 @@ class AddInlineJsCest
     public function _before(UnitTester $I)
     {
         $this->newDi();
-        $this->setDiEscaper();
-        $this->setDiUrl();
+        $this->setDiService('escaper');
+        $this->setDiService('url');
     }
 
     /**
@@ -57,7 +57,7 @@ class AddInlineJsCest
 
         $manager->addInlineJs($js);
 
-        $expected = "<script type=\"text/javascript\">{$js}</script>\n";
+        $expected = "<script type=\"text/javascript\">{$js}</script>" . PHP_EOL;
 
         ob_start();
         $manager->outputInlineJs();

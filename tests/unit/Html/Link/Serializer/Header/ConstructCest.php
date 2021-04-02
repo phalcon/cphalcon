@@ -11,7 +11,7 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Html\Link\Serializer;
+namespace Phalcon\Test\Unit\Html\Link\Serializer\Header;
 
 use Phalcon\Html\Link\Serializer\Header;
 use Phalcon\Html\Link\Serializer\SerializerInterface;

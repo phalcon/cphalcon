@@ -16,6 +16,6 @@
 /* Extract named parameters */
 void phalcon_get_uri(zval *return_value, zval *path);
 void phalcon_extract_named_params(zval *return_value, zval *str, zval *matches);
-void phalcon_replace_paths(zval *return_value, zval *pattern, zval *paths, zval *uri TSRMLS_DC);
+void phalcon_replace_paths(zval *return_value, zval *pattern, zval *paths, zval *uri);
 
 #endif /* PHALCON_URL_UTILS_H */

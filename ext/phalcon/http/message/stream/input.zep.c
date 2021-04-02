@@ -69,6 +69,7 @@ PHP_METHOD(Phalcon_Http_Message_Stream_Input, __construct) {
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 
+
 	ZEPHIR_MM_GROW();
 
 	ZEPHIR_INIT_VAR(&_1);
@@ -103,9 +104,10 @@ PHP_METHOD(Phalcon_Http_Message_Stream_Input, __toString) {
 
 	ZVAL_UNDEF(&_0);
 
+
 	ZEPHIR_MM_GROW();
 
-	zephir_read_property(&_0, this_ptr, SL("eof"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("eof"), PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(zephir_is_true(&_0))) {
 		RETURN_MM_MEMBER(getThis(), "data");
 	}
@@ -140,6 +142,15 @@ PHP_METHOD(Phalcon_Http_Message_Stream_Input, getContents) {
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_4);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(0, 1)
+		Z_PARAM_OPTIONAL
+		Z_PARAM_LONG(length)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &length_param);
@@ -151,15 +162,15 @@ PHP_METHOD(Phalcon_Http_Message_Stream_Input, getContents) {
 	}
 
 
-	zephir_read_property(&_0, this_ptr, SL("eof"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_0, this_ptr, ZEND_STRL("eof"), PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(zephir_is_true(&_0))) {
 		RETURN_MM_MEMBER(getThis(), "data");
 	}
-	zephir_read_property(&_1, this_ptr, SL("handle"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_1, this_ptr, ZEND_STRL("handle"), PH_NOISY_CC | PH_READONLY);
 	ZVAL_LONG(&_2, length);
-	ZEPHIR_CALL_FUNCTION(&data, "stream_get_contents", NULL, 77, &_1, &_2);
+	ZEPHIR_CALL_FUNCTION(&data, "stream_get_contents", NULL, 79, &_1, &_2);
 	zephir_check_call_status();
-	zephir_update_property_zval(this_ptr, SL("data"), &data);
+	zephir_update_property_zval(this_ptr, ZEND_STRL("data"), &data);
 	_3 = -1 == length;
 	if (!(_3)) {
 		ZEPHIR_CALL_METHOD(&_4, this_ptr, "eof", NULL, 0);
@@ -168,9 +179,9 @@ PHP_METHOD(Phalcon_Http_Message_Stream_Input, getContents) {
 	}
 	if (UNEXPECTED(_3)) {
 		if (1) {
-			zephir_update_property_zval(this_ptr, SL("eof"), &__$true);
+			zephir_update_property_zval(this_ptr, ZEND_STRL("eof"), &__$true);
 		} else {
-			zephir_update_property_zval(this_ptr, SL("eof"), &__$false);
+			zephir_update_property_zval(this_ptr, ZEND_STRL("eof"), &__$false);
 		}
 	}
 	RETURN_MM_MEMBER(getThis(), "data");
@@ -183,6 +194,7 @@ PHP_METHOD(Phalcon_Http_Message_Stream_Input, getContents) {
 PHP_METHOD(Phalcon_Http_Message_Stream_Input, isWritable) {
 
 	zval *this_ptr = getThis();
+
 
 
 	RETURN_BOOL(0);
@@ -210,6 +222,14 @@ PHP_METHOD(Phalcon_Http_Message_Stream_Input, read) {
 	ZVAL_UNDEF(&data);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ZVAL(length)
+	ZEND_PARSE_PARAMETERS_END();
+
+#endif
+
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &length);
@@ -218,17 +238,17 @@ PHP_METHOD(Phalcon_Http_Message_Stream_Input, read) {
 
 	ZEPHIR_CALL_PARENT(&data, phalcon_http_message_stream_input_ce, getThis(), "read", &_0, 0, length);
 	zephir_check_call_status();
-	zephir_read_property(&_1, this_ptr, SL("eof"), PH_NOISY_CC | PH_READONLY);
+	zephir_read_property(&_1, this_ptr, ZEND_STRL("eof"), PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(!ZEPHIR_IS_TRUE_IDENTICAL(&_1))) {
-		zephir_update_property_zval(this_ptr, SL("data"), &data);
+		zephir_update_property_zval(this_ptr, ZEND_STRL("data"), &data);
 	}
 	ZEPHIR_CALL_METHOD(&_2, this_ptr, "eof", NULL, 0);
 	zephir_check_call_status();
 	if (UNEXPECTED(zephir_is_true(&_2))) {
 		if (1) {
-			zephir_update_property_zval(this_ptr, SL("eof"), &__$true);
+			zephir_update_property_zval(this_ptr, ZEND_STRL("eof"), &__$true);
 		} else {
-			zephir_update_property_zval(this_ptr, SL("eof"), &__$false);
+			zephir_update_property_zval(this_ptr, ZEND_STRL("eof"), &__$false);
 		}
 	}
 	RETURN_CCTOR(&data);

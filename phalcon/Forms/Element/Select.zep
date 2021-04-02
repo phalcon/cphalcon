@@ -27,7 +27,7 @@ class Select extends AbstractElement
      * @param object|array options
      * @param array        attributes
      */
-    public function __construct(string name, options = null, attributes = null)
+    public function __construct(string name, options = null, array attributes = [])
     {
         let this->optionsValues = options;
 
@@ -65,7 +65,7 @@ class Select extends AbstractElement
     }
 
     /**
-     * Renders the element widget returning html
+     * Renders the element widget returning HTML
      */
     public function render(array attributes = []) -> string
     {

@@ -13,32 +13,16 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_paginator_adapter_querybuilder___construc
 	ZEND_ARG_ARRAY_INFO(0, config, 0)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_paginator_adapter_querybuilder_getcurrentpage, 0, 0, IS_LONG, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_paginator_adapter_querybuilder_getcurrentpage, 0, 0, IS_LONG, NULL, 0)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_paginator_adapter_querybuilder_getquerybuilder, 0, 0, Phalcon\\Mvc\\Model\\Query\\Builder, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_paginator_adapter_querybuilder_getquerybuilder, 0, 0, IS_OBJECT, "Phalcon\\Mvc\\Model\\Query\\Builder", 0)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_paginator_adapter_querybuilder_paginate, 0, 0, Phalcon\\Paginator\\RepositoryInterface, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_paginator_adapter_querybuilder_paginate, 0, 0, IS_OBJECT, "Phalcon\\Paginator\\RepositoryInterface", 0)
-#endif
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_paginator_adapter_querybuilder_setquerybuilder, 0, 1, Phalcon\\Paginator\\Adapter\\QueryBuilder, 0)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_paginator_adapter_querybuilder_setquerybuilder, 0, 1, IS_OBJECT, "Phalcon\\Paginator\\Adapter\\QueryBuilder", 0)
-#endif
 	ZEND_ARG_OBJ_INFO(0, builder, Phalcon\\Mvc\\Model\\Query\\Builder, 0)
 ZEND_END_ARG_INFO()
 

@@ -29,12 +29,16 @@ class GetImageCest
      */
     public function imageAdapterGdGetImage(UnitTester $I)
     {
-        $I->wantToTest('Image\Adapter\Gd - getImage() - from jpg image');
+        $I->wantToTest('Image\Adapter\Gd - getImage()');
 
         foreach ($this->getImages() as $image) {
             $gd = new Gd($image);
 
-            $expected = is_resource($gd->getImage());
+            if (version_compare(PHP_VERSION, '8.0.0', '>=')) {
+                $expected = is_object($gd->getImage());
+            } else {
+                $expected = is_resource($gd->getImage());
+            }
 
             $I->assertTrue(
                 $expected
