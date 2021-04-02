@@ -202,14 +202,17 @@ class IsAllowedCest
     {
         $I->wantToTest('Acl\Adapter\Memory - isAllowed() - more parameters');
 
+        $errorMessage = 'Number of parameters in array is higher than the ' .
+                        'number of parameters in defined function when checking if ' .
+                        "'Members' can 'update' 'Post'. Extra parameters will be ignored. " .
+                        "at tests/unit/Acl/Adapter/Memory/IsAllowedCest.php:239";
+
+        if (PHP_OS_FAMILY === 'Windows') {
+            $errorMessage = str_replace('/', '\\', $errorMessage)
+        }
+
         $I->expectThrowable(
-            new Exception(
-                'Number of parameters in array is higher than the ' .
-                'number of parameters in defined function when checking if ' .
-                "'Members' can 'update' 'Post'. Extra parameters will be ignored. " .
-                "at tests/unit/Acl/Adapter/Memory/IsAllowedCest.php:239",
-                512
-            ),
+            new Exception($errorMessage, 512),
             function () use ($I) {
                 $acl = new Memory();
 
