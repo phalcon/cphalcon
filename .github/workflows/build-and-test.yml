@@ -535,8 +535,7 @@ jobs:
       #     dir
       #     xcopy %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%\%RELEASE_FOLDER% %PHP_DEVPACK%\include\ext\psr /E /Y
       - name: Install PSR extension
-        shell: cmd
-        run: pecl install psr
+        run: Install-PhpExtension psr 1.0.1
 
       - name: Phalcon | phpize
         shell: cmd
