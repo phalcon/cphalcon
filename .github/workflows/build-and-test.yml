@@ -371,8 +371,7 @@ jobs:
       fail-fast: false
       matrix:
         operating-system: [windows-2016]
-        # php-versions: ['7.4', '8.0']
-        php-versions: ['8.0']
+        php-versions: ['7.4', '8.0']
         # [ts, nts]
         ts: [nts]
         include:
