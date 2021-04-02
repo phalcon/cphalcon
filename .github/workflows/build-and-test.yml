@@ -509,14 +509,15 @@ jobs:
           cd c:\tools\pecl\phalcon
           dir
 
-      # - name: PSR extension | init, phpize
-      #   shell: cmd
-      #   run: |
-      #     set PATH=%PATH%;%PHP_DEVPACK%
-      #     git clone https://github.com/jbboehr/php-psr.git %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
-      #     if not exist "%PHP_DEVPACK%\include\ext\psr" MkDir "%PHP_DEVPACK%\include\ext\psr"
-      #     cd /d %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
-      #     phpize
+      - name: PSR extension | init, phpize
+        shell: cmd
+        run: |
+          set PATH=%PATH%;%PHP_DEVPACK%
+          git clone https://github.com/jbboehr/php-psr.git %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
+          if not exist "%PHP_DEVPACK%\include\ext\psr" MkDir "%PHP_DEVPACK%\include\ext\psr"
+          xcopy %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%\ %PHP_DEVPACK%\include\ext\psr /E /Y
+          # cd /d %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
+          # phpize
 
       # - name: PSR extension | configure
       #   shell: cmd
