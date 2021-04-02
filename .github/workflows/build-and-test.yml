@@ -89,7 +89,7 @@ jobs:
         run: pecl package-validate phalcon-pecl.tgz
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v2
         with:
           name: 'phalcon-pecl'
           path: phalcon-pecl.tgz
@@ -562,7 +562,7 @@ jobs:
           Get-PhpExtension "${env:PHP_PECL_PATH}\psr\psr-${env:PSR_VERSION}\${env:RELEASE_FOLDER}\php_psr.dll"
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v2
         with:
           name: ${{ env.RELEASE_ZIPBALL }}
           path: ${{ env.RELEASE_DLL_PATH }}
@@ -590,3 +590,10 @@ jobs:
 
       - name: Run CLI Tests
         run: vendor/bin/codecept run --ext DotReporter cli
+
+      - name: Upload build artifacts after Failure
+        if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: tools
+          path: C:\tools\
