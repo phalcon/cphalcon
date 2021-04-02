@@ -515,29 +515,29 @@ jobs:
           set PATH=%PATH%;%PHP_DEVPACK%
           git clone https://github.com/jbboehr/php-psr.git %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
           if not exist "%PHP_DEVPACK%\include\ext\psr" MkDir "%PHP_DEVPACK%\include\ext\psr"
-          xcopy %PHP_PECL_PATH%\psr\psr-%PSR_VERSION% %PHP_DEVPACK%\include\ext\psr /E /Y
+          cd /d %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
+          phpize
+      #    xcopy %PHP_PECL_PATH%\psr\psr-%PSR_VERSION% %PHP_DEVPACK%\include\ext\psr /E /Y
 
-      #    cd /d %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
-      #    phpize
+      - name: PSR extension | configure
+        shell: cmd
+        run: |
+          set PATH=%PATH%;%PHP_DEVPACK%
+          cd /d %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
+          configure --enable-psr
 
-      # - name: PSR extension | configure
-      #   shell: cmd
-      #   run: |
-      #     set PATH=%PATH%;%PHP_DEVPACK%
-      #     cd /d %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
-      #     configure --enable-psr
+      - name: PSR extension | build
+        shell: cmd
+        run: |
+          set PATH=%PATH%;%PHP_DEVPACK%
+          cd /d %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
+          nmake
+          nmake install
+          dir
+      #    xcopy %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%\%RELEASE_FOLDER% %PHP_DEVPACK%\include\ext\psr /E /Y
 
-      # - name: PSR extension | build
-      #   shell: cmd
-      #   run: |
-      #     set PATH=%PATH%;%PHP_DEVPACK%
-      #     cd /d %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
-      #     nmake
-      #     nmake install
-      #     dir
-      #     xcopy %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%\%RELEASE_FOLDER% %PHP_DEVPACK%\include\ext\psr /E /Y
-      - name: Install PSR extension
-        run: Install-PhpExtension psr 1.0.1
+      # - name: Install PSR extension
+      #   run: Install-PhpExtension psr 1.0.1
 
       - name: Phalcon | phpize
         shell: cmd
@@ -552,13 +552,12 @@ jobs:
         run: |
           set PATH=%PATH%;%PHP_DEVPACK%
           cd /d %PHP_PECL_PATH%\phalcon\phalcon-%PHALCON_VERSION%
-          configure --help
-          configure --enable-phalcon
+          configure --enable-phalcon --with-extra-libs=%PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
 
       - name: Phalcon | Build Project
         shell: cmd
         run: |
-          set PATH=%PATH%;%PHP_DEVPACK%;%PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
+          set PATH=%PATH%;%PHP_DEVPACK%;%PHP_PECL_PATH%\psr\psr-%PSR_VERSION%\%RELEASE_FOLDER%
           cd /d %PHP_PECL_PATH%\phalcon\phalcon-%PHALCON_VERSION%
           nmake
 
