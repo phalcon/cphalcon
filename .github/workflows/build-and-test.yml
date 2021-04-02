@@ -533,6 +533,7 @@ jobs:
           nmake
           nmake install
           dir
+          xcopy %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%\%RELEASE_FOLDER% %PHP_DEVPACK%\include\ext\psr /E /Y
 
       - name: Phalcon | phpize
         shell: cmd
@@ -596,4 +597,8 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: tools
-          path: C:\tools\
+          path: |
+            C:\tools\pecl\
+            C:\tools\php\
+            C:\tools\php-*\
+          retention-days: 1
