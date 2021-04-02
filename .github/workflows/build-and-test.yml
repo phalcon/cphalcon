@@ -509,31 +509,34 @@ jobs:
           cd c:\tools\pecl\phalcon
           dir
 
-      - name: PSR extension | init, phpize
-        shell: cmd
-        run: |
-          set PATH=%PATH%;%PHP_DEVPACK%
-          git clone https://github.com/jbboehr/php-psr.git %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
-          if not exist "%PHP_DEVPACK%\include\ext\psr" MkDir "%PHP_DEVPACK%\include\ext\psr"
-          cd /d %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
-          phpize
+      # - name: PSR extension | init, phpize
+      #   shell: cmd
+      #   run: |
+      #     set PATH=%PATH%;%PHP_DEVPACK%
+      #     git clone https://github.com/jbboehr/php-psr.git %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
+      #     if not exist "%PHP_DEVPACK%\include\ext\psr" MkDir "%PHP_DEVPACK%\include\ext\psr"
+      #     cd /d %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
+      #     phpize
 
-      - name: PSR extension | configure
-        shell: cmd
-        run: |
-          set PATH=%PATH%;%PHP_DEVPACK%
-          cd /d %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
-          configure --enable-psr
+      # - name: PSR extension | configure
+      #   shell: cmd
+      #   run: |
+      #     set PATH=%PATH%;%PHP_DEVPACK%
+      #     cd /d %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
+      #     configure --enable-psr
 
-      - name: PSR extension | build
+      # - name: PSR extension | build
+      #   shell: cmd
+      #   run: |
+      #     set PATH=%PATH%;%PHP_DEVPACK%
+      #     cd /d %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
+      #     nmake
+      #     nmake install
+      #     dir
+      #     xcopy %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%\%RELEASE_FOLDER% %PHP_DEVPACK%\include\ext\psr /E /Y
+      - name: Install PSR extension
         shell: cmd
-        run: |
-          set PATH=%PATH%;%PHP_DEVPACK%
-          cd /d %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
-          nmake
-          nmake install
-          dir
-          xcopy %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%\%RELEASE_FOLDER% %PHP_DEVPACK%\include\ext\psr /E /Y
+        run: pecl install psr
 
       - name: Phalcon | phpize
         shell: cmd
