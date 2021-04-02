@@ -48,6 +48,9 @@ jobs:
           sudo apt-get update --quiet --yes 1>/dev/null
           sudo apt-get install --no-install-recommends -q -y re2c
 
+      - name: Install Packages
+        run: composer install --prefer-dist
+
       - name: Install Zephir
         run: .ci/install-zephir.sh
 
