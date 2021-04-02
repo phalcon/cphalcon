@@ -293,6 +293,14 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
         if !empty whereCondition {
             let sql .= " WHERE " . whereCondition;
         }
+        
+        if !count(placeholders) {
+            return this->{"execute"}(sql);
+        }
+        
+        if !count(dataTypes) {
+            return this->{"execute"}(sql, placeholders);
+        }
 
         /**
          * Perform the update via PDO::execute
