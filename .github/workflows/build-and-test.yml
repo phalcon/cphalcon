@@ -552,6 +552,7 @@ jobs:
         run: |
           set PATH=%PATH%;%PHP_DEVPACK%
           cd /d %PHP_PECL_PATH%\phalcon\phalcon-%PHALCON_VERSION%
+          configure --help
           configure --enable-phalcon
 
       - name: Phalcon | Build Project
@@ -564,7 +565,7 @@ jobs:
       - name: Inspecting Phalcon Extension DLL File
         run: |
           Get-PhpExtension "${env:RELEASE_DLL_PATH}"
-          Get-PhpExtension "${env:PHP_PECL_PATH}\psr\psr-${env:PSR_VERSION}\${env:RELEASE_FOLDER}\php_psr.dll"
+      #    Get-PhpExtension "${env:PHP_PECL_PATH}\psr\psr-${env:PSR_VERSION}\${env:RELEASE_FOLDER}\php_psr.dll"
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
