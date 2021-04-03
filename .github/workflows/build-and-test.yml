@@ -537,7 +537,6 @@ jobs:
           nmake install
 
       - name: PSR extension | Inspecting Extension DLL File
-        shell: cmd
         run: |
           Get-PhpExtension "${env:PHP_PECL_PATH}\psr\psr-${env:PSR_VERSION}\${env:RELEASE_FOLDER}\php_psr.dll"
 
@@ -557,9 +556,8 @@ jobs:
 
       - name: Phalcon | Build Project
         shell: cmd
-         set PATH=%PATH%;%PHP_DEVPACK%;%PHP_PECL_PATH%\psr\psr-%PSR_VERSION%\%RELEASE_FOLDER%
         run: |
-          set PATH=%PATH%;%PHP_DEVPACK%
+          set PATH=%PATH%;%PHP_DEVPACK%;%PHP_PECL_PATH%\psr\psr-%PSR_VERSION%\%RELEASE_FOLDER%
           cd /d %PHP_PECL_PATH%\phalcon\phalcon-%PHALCON_VERSION%
           nmake
 
