@@ -571,9 +571,9 @@ jobs:
           path: ${{ env.RELEASE_DLL_PATH }}
 
       - name: Enable Extensions
+#         EnablePsrExtension
         run: |
           Import-Module .\.ci\win-ci-tools.psm1
-#         EnablePsrExtension
           EnablePhalconExtension
 
       - name: Verify Install
