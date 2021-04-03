@@ -573,7 +573,7 @@ jobs:
       - name: Enable Extensions
         run: |
           Import-Module .\.ci\win-ci-tools.psm1
-      #    EnablePsrExtension
+#         EnablePsrExtension
           EnablePhalconExtension
 
       - name: Verify Install
