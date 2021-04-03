@@ -512,29 +512,34 @@ jobs:
           Expand-Item7zip "phalcon-pecl\phalcon-pecl.tgz" "${env:Temp}"
           Expand-Item7zip "${env:Temp}\phalcon-pecl.tar" "${env:PHP_PECL_PATH}\phalcon"
 
-      #- name: PSR extension | init, phpize
-      #  shell: cmd
-      #  run: |
-      #    set PATH=%PATH%;%PHP_DEVPACK%
-      #    git clone https://github.com/jbboehr/php-psr.git %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
-      #    if not exist "%PHP_DEVPACK%\include\ext\psr" MkDir "%PHP_DEVPACK%\include\ext\psr"
-      #    cd /d %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
-      #    phpize
+      - name: PSR extension | init, phpize
+        shell: cmd
+        run: |
+          set PATH=%PATH%;%PHP_DEVPACK%
+          git clone https://github.com/jbboehr/php-psr.git %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
+          if not exist "%PHP_DEVPACK%\include\ext\psr" MkDir "%PHP_DEVPACK%\include\ext\psr"
+          cd /d %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
+          phpize
 
-      #- name: PSR extension | configure
-      #  shell: cmd
-      #  run: |
-      #    set PATH=%PATH%;%PHP_DEVPACK%
-      #    cd /d %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
-      #    configure --enable-psr
+      - name: PSR extension | configure
+        shell: cmd
+        run: |
+          set PATH=%PATH%;%PHP_DEVPACK%
+          cd /d %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
+          configure --enable-psr
 
-      #- name: PSR extension | build
-      #  shell: cmd
-      #  run: |
-      #    set PATH=%PATH%;%PHP_DEVPACK%
-      #    cd /d %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
-      #    nmake
-      #    nmake install
+      - name: PSR extension | build
+        shell: cmd
+        run: |
+          set PATH=%PATH%;%PHP_DEVPACK%
+          cd /d %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
+          nmake
+          nmake install
+
+      - name: PSR extension | Inspecting Extension DLL File
+        shell: cmd
+        run: |
+          Get-PhpExtension "${env:PHP_PECL_PATH}\psr\psr-${env:PSR_VERSION}\${env:RELEASE_FOLDER}\php_psr.dll"
 
       - name: Phalcon | phpize
         shell: cmd
@@ -548,12 +553,11 @@ jobs:
         run: |
           set PATH=%PATH%;%PHP_DEVPACK%
           cd /d %PHP_PECL_PATH%\phalcon\phalcon-%PHALCON_VERSION%
-          configure --enable-phalcon
-      #    configure --enable-phalcon --with-extra-libs=%PHP_PECL_PATH%\psr\psr-%PSR_VERSION%\%RELEASE_FOLDER%
+          configure --enable-phalcon --with-extra-libs=%PHP_PECL_PATH%\psr\psr-%PSR_VERSION%\%RELEASE_FOLDER%
 
       - name: Phalcon | Build Project
         shell: cmd
-#         set PATH=%PATH%;%PHP_DEVPACK%;%PHP_PECL_PATH%\psr\psr-%PSR_VERSION%\%RELEASE_FOLDER%
+         set PATH=%PATH%;%PHP_DEVPACK%;%PHP_PECL_PATH%\psr\psr-%PSR_VERSION%\%RELEASE_FOLDER%
         run: |
           set PATH=%PATH%;%PHP_DEVPACK%
           cd /d %PHP_PECL_PATH%\phalcon\phalcon-%PHALCON_VERSION%
@@ -562,7 +566,7 @@ jobs:
       - name: Inspecting Phalcon Extension DLL File
         run: |
           Get-PhpExtension "${env:RELEASE_DLL_PATH}"
-      #    Get-PhpExtension "${env:PHP_PECL_PATH}\psr\psr-${env:PSR_VERSION}\${env:RELEASE_FOLDER}\php_psr.dll"
+          Get-PhpExtension "${env:PHP_PECL_PATH}\psr\psr-${env:PSR_VERSION}\${env:RELEASE_FOLDER}\php_psr.dll"
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
@@ -571,9 +575,9 @@ jobs:
           path: ${{ env.RELEASE_DLL_PATH }}
 
       - name: Enable Extensions
-#         EnablePsrExtension
         run: |
           Import-Module .\.ci\win-ci-tools.psm1
+          EnablePsrExtension
           EnablePhalconExtension
 
       - name: Verify Install
