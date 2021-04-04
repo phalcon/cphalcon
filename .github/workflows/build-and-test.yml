@@ -512,12 +512,13 @@ jobs:
           Expand-Item7zip "phalcon-pecl\phalcon-pecl.tgz" "${env:Temp}"
           Expand-Item7zip "${env:Temp}\phalcon-pecl.tar" "${env:PHP_PECL_PATH}\phalcon"
 
-#      - name: PSR extension | init, phpize
-#        shell: cmd
-#        run: |
-#          set PATH=%PATH%;%PHP_DEVPACK%
-#          git clone https://github.com/jbboehr/php-psr.git %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
-#          if not exist "%PHP_DEVPACK%\include\ext\psr" MkDir "%PHP_DEVPACK%\include\ext\psr"
+     - name: PSR extension | init, phpize
+       shell: cmd
+       run: |
+         set PATH=%PATH%;%PHP_DEVPACK%
+         git clone https://github.com/jbboehr/php-psr.git %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
+         if not exist "%PHP_DEVPACK%\include\ext\psr" MkDir "%PHP_DEVPACK%\include\ext\psr"
+         xcopy %PHP_PECL_PATH%\psr\psr-%PSR_VERSION% %PHP_DEVPACK%\include\ext\psr /E /Y
 #          cd /d %PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
 #          phpize
 
