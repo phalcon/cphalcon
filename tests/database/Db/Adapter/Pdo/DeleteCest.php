@@ -29,7 +29,7 @@ class DeleteCest
      * Tests Phalcon\Db\Adapter\Pdo :: query()
      *
      * @author Phalcon Team <team@phalcon.io>
-     * @since 2020-02-22
+     * @since 2022-04-04
      *       
      * @group  pgsql
      * @group  mysql
