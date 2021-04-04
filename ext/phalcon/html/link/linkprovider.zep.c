@@ -17,7 +17,6 @@
 #include "kernel/object.h"
 #include "kernel/operators.h"
 #include "kernel/array.h"
-#include "ext/psr/psr_link.h"
 
 
 /**

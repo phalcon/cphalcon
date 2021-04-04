@@ -19,7 +19,6 @@
 #include "kernel/concat.h"
 #include "kernel/string.h"
 #include "kernel/exception.h"
-#include "ext/psr/psr_http_message.h"
 #include "kernel/array.h"
 
 
