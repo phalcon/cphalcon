@@ -231,7 +231,7 @@ abstract class AbstractAdapter implements AdapterInterface
       */
     public function render(string ext = null, int quality = 100) -> string
     {
-        if !ext {
+        if ext == null {
             let ext = (string) pathinfo(this->file, PATHINFO_EXTENSION);
         }
 
