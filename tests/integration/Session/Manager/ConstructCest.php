@@ -20,7 +20,6 @@ use Phalcon\Session\ManagerInterface;
 use Phalcon\Test\Fixtures\Session\ExtendedManager;
 use SessionHandlerInterface;
 
-
 class ConstructCest
 {
     /**
