@@ -172,7 +172,7 @@ class Manager extends AbstractInjectionAware implements ManagerInterface
 
         let uniqueKey = this->getUniqueKey(key);
 
-        return isset(_SESSION[uniqueKey]);
+        return isset _SESSION[uniqueKey];
     }
 
     /**
