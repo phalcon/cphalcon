@@ -21,8 +21,68 @@ use Phalcon\Test\Fixtures\Http\Message\ServerRequestFactoryFixture;
 use Psr\Http\Message\ServerRequestInterface;
 use UnitTester;
 
+/**
+ * Class LoadCest
+ *
+ * @package Phalcon\Test\Unit\Http\Message\ServerRequestFactory
+ *
+ * @property array $storeCookie
+ * @property array $storeFiles
+ * @property array $storeGet
+ * @property array $storePost
+ * @property array $storeServer
+ */
 class LoadCest
 {
+    /**
+     * @var array
+     */
+    private array $storeCookie = [];
+
+    /**
+     * @var array
+     */
+    private array $storeFiles = [];
+
+    /**
+     * @var array
+     */
+    private array $storeGet = [];
+
+    /**
+     * @var array
+     */
+    private array $storePost = [];
+
+    /**
+     * @var array
+     */
+    private array $storeServer = [];
+
+    public function _before()
+    {
+        $this->storeCookie = $_COOKIE ?? [];
+        $this->storeFiles  = $_FILES ?? [];
+        $this->storeGet    = $_GET ?? [];
+        $this->storePost   = $_POST ?? [];
+        $this->storeServer = $_SERVER ?? [];
+
+        $_SERVER = [];
+        $_GET    = [];
+        $_POST   = [];
+        $_COOKIE = [];
+        $_FILES  = [];
+    }
+
+    public function _after()
+    {
+        $_COOKIE = $this->storeCookie;
+        $_FILES  = $this->storeFiles;
+        $_GET    = $this->storeGet;
+        $_POST   = $this->storePost;
+        $_SERVER = $this->storeServer;
+    }
+
     /**
      * Tests Phalcon\Http\Message\ServerRequestFactory :: load()
      *
@@ -433,19 +493,6 @@ class LoadCest
         $I->wantToTest('Http\Message\ServerRequestFactory - load() - constructor ' . $example[0]);
 
         $factory = new ServerRequestFactory();
-
-        $server = $_SERVER;
-        $get    = $_GET;
-        $post   = $_POST;
-        $cookie = $_COOKIE;
-        $files  = $_FILES;
-
-        unset($_SERVER);
-        unset($_GET);
-        unset($_POST);
-        unset($_COOKIE);
-        unset($_FILES);
-
         $request = $factory->load(
             $example[1],
             $example[2],
@@ -453,12 +500,6 @@ class LoadCest
             $example[4],
             $example[5]
         );
-
-        $_SERVER = $server;
-        $_GET    = $get;
-        $_POST   = $post;
-        $_COOKIE = $cookie;
-        $_FILES  = $files;
 
         $I->assertInstanceOf(ServerRequestInterface::class, $request);
     }
@@ -479,24 +520,13 @@ class LoadCest
         );
 
         // Backup
-        $server = $_SERVER;
-        $get    = $_GET;
-        $post   = $_POST;
-        $cookie = $_COOKIE;
-        $files  = $_FILES;
-
-        $time    = $_SERVER['REQUEST_TIME_FLOAT'];
         $params  = [
-            'REQUEST_TIME_FLOAT' => $time,
+            'REQUEST_TIME_FLOAT' => $this->storeServer['REQUEST_TIME_FLOAT'],
             'REQUEST_METHOD'     => 'PUT',
             'one'                => 'two',
         ];
 
         $_SERVER = $params;
-        $_GET    = [];
-        $_POST   = [];
-        $_COOKIE = [];
-        $_FILES  = [];
 
         $factory = new ServerRequestFactory();
         $request = $factory->load();
@@ -508,13 +538,6 @@ class LoadCest
         $expected = $params;
         $actual = $request->getServerParams();
         $I->assertEquals($expected, $actual);
-
-        // Restore
-        $_SERVER = $server;
-        $_GET    = $get;
-        $_POST   = $post;
-        $_COOKIE = $cookie;
-        $_FILES  = $files;
 
         $I->assertInstanceOf(ServerRequestInterface::class, $request);
     }
@@ -536,7 +559,6 @@ class LoadCest
         $I->wantToTest('Http\Message\ServerRequestFactory - load() - constructor - empty superglobals ' . $example[0]);
 
         $factory = new ServerRequestFactory();
-
         $request = $factory->load(
             $example[1],
             $example[2],
@@ -562,11 +584,8 @@ class LoadCest
 
         $factory = new ServerRequestFactory();
 
-        $server = $_SERVER;
-        unset($_SERVER);
-
         $request = $factory->load();
-        $_SERVER = $server;
+        $_SERVER = $this->storeServer;
 
         $expected = '1.1';
         $actual   = $request->getProtocolVersion();
@@ -587,8 +606,7 @@ class LoadCest
         $I->wantToTest('Http\Message\ServerRequestFactory - load() - protocol defined');
 
         $factory = new ServerRequestFactory();
-
-        $server = [
+        $server  = [
             'SERVER_PROTOCOL' => 'HTTP/2.0',
         ];
 
