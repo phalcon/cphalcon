@@ -292,7 +292,7 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
      */
     private function checkNullArray(var source, array super) -> array
     {
-        if unlikely null === source {
+        if unlikely empty source {
             return super;
         }
 

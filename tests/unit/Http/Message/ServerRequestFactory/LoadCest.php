@@ -26,6 +26,8 @@ class LoadCest
     /**
      * Tests Phalcon\Http\Message\ServerRequestFactory :: load()
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-02-09
      */
@@ -34,18 +36,16 @@ class LoadCest
         $I->wantToTest('Http\Message\ServerRequestFactory - load()');
 
         $factory = new ServerRequestFactory();
-
         $request = $factory->load();
 
-        $I->assertInstanceOf(
-            ServerRequestInterface::class,
-            $request
-        );
+        $I->assertInstanceOf(ServerRequestInterface::class, $request);
     }
 
     /**
      * Tests Phalcon\Http\Message\ServerRequestFactory :: load() - header host
      * prefixed
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-02-09
@@ -64,7 +64,6 @@ class LoadCest
         ];
 
         $factory = new ServerRequestFactory();
-
         $request = $factory->load($server);
 
         $expected = [
@@ -77,15 +76,15 @@ class LoadCest
             'httponly' => '',
         ];
 
-        $I->assertEquals(
-            $expected,
-            $request->getCookieParams()
-        );
+        $actual  = $request->getCookieParams();
+        $I->assertEquals($expected, $actual);
     }
 
     /**
      * Tests Phalcon\Http\Message\ServerRequestFactory :: load() - header host
      * prefixed
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-02-09
@@ -102,35 +101,18 @@ class LoadCest
         $request = $factory->load($server);
         $uri     = $request->getUri();
 
-        $I->assertEquals(
-            'dev.phalcon.ld',
-            $uri->getHost()
-        );
-
-        $I->assertEquals(
-            8080,
-            $uri->getPort()
-        );
-
-        $I->assertEquals(
-            '/',
-            $uri->getPath()
-        );
-
-        $I->assertEquals(
-            '',
-            $uri->getQuery()
-        );
-
-        $I->assertEquals(
-            '',
-            $uri->getFragment()
-        );
+        $I->assertEquals('dev.phalcon.ld', $uri->getHost());
+        $I->assertEquals(8080, $uri->getPort());
+        $I->assertEquals('/', $uri->getPath());
+        $I->assertEquals('', $uri->getQuery());
+        $I->assertEquals('', $uri->getFragment());
     }
 
     /**
      * Tests Phalcon\Http\Message\ServerRequestFactory :: load() - header host
      * array prefixed
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-02-09
@@ -150,18 +132,19 @@ class LoadCest
         $request = $factory->load($server);
         $uri     = $request->getUri();
 
-        $I->assertEquals(
-            'dev.phalcon.ld,test.phalcon.ld',
-            $uri->getHost()
-        );
+        $expected = 'dev.phalcon.ld,test.phalcon.ld';
+        $actual   = $uri->getHost();
+        $I->assertEquals($expected, $actual);
     }
 
     /**
      * Tests Phalcon\Http\Message\ServerRequestFactory :: load() - IIS path
      * name/port prefixed
      *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2019-02-09
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-02-09
      */
     public function httpMessageServerRequestFactoryLoadIisPath(UnitTester $I)
     {
@@ -176,18 +159,19 @@ class LoadCest
         $request = $factory->load($server);
         $uri     = $request->getUri();
 
-        $I->assertEquals(
-            '/action/reaction',
-            $uri->getPath()
-        );
+        $expected = '/action/reaction';
+        $actual   = $uri->getPath();
+        $I->assertEquals($expected, $actual);
     }
 
     /**
      * Tests Phalcon\Http\Message\ServerRequestFactory :: load() - original
      * path info name/port prefixed
      *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2019-02-09
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-02-09
      */
     public function httpMessageServerRequestFactoryLoadOriginalPathInfo(UnitTester $I)
     {
@@ -201,17 +185,18 @@ class LoadCest
         $request = $factory->load($server);
         $uri     = $request->getUri();
 
-        $I->assertEquals(
-            '/action/reaction',
-            $uri->getPath()
-        );
+        $expected = '/action/reaction';
+        $actual   = $uri->getPath();
+        $I->assertEquals($expected, $actual);
     }
 
     /**
      * Tests Phalcon\Http\Message\ServerRequestFactory :: load() - server header
      *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2019-02-09
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-02-09
      */
     public function httpMessageServerRequestFactoryLoadServerHeader(UnitTester $I)
     {
@@ -229,10 +214,8 @@ class LoadCest
             'authorization' => ['Bearer'],
         ];
 
-        $I->assertEquals(
-            $expected,
-            $request->getHeaders()
-        );
+        $actual = $request->getHeaders();
+        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -241,8 +224,11 @@ class LoadCest
      *
      * @dataProvider getServerNameExamples
      *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2019-02-09
+     * @param UnitTester $I
+     * @param Example    $example
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-02-09
      */
     public function httpMessageServerRequestFactoryLoadServerNamePort(UnitTester $I, Example $example)
     {
@@ -259,35 +245,18 @@ class LoadCest
         $request = $factory->load($server);
         $uri     = $request->getUri();
 
-        $I->assertEquals(
-            $example[5],
-            $uri->getHost()
-        );
-
-        $I->assertEquals(
-            $example[6],
-            $uri->getPort()
-        );
-
-        $I->assertEquals(
-            $example[7],
-            $uri->getPath()
-        );
-
-        $I->assertEquals(
-            $example[8],
-            $uri->getQuery()
-        );
-
-        $I->assertEquals(
-            $example[9],
-            $uri->getFragment()
-        );
+        $I->assertEquals($example[5], $uri->getHost());
+        $I->assertEquals($example[6], $uri->getPort());
+        $I->assertEquals($example[7], $uri->getPath());
+        $I->assertEquals($example[8], $uri->getQuery());
+        $I->assertEquals($example[9], $uri->getFragment());
     }
 
     /**
      * Tests Phalcon\Http\Message\ServerRequestFactory :: load() - server
      * prefixed
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-02-09
@@ -313,15 +282,15 @@ class LoadCest
         $factory = new ServerRequestFactory();
         $request = $factory->load($server);
 
-        $I->assertEquals(
-            $expected,
-            $request->getHeaders()
-        );
+        $actual = $request->getHeaders();
+        $I->assertEquals($expected, $actual);
     }
 
     /**
      * Tests Phalcon\Http\Message\ServerRequestFactory :: load() - files
      * prefixed
+     *
+     * @param UnitTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-02-09
@@ -385,6 +354,8 @@ class LoadCest
      * Tests Phalcon\Http\Message\ServerRequestFactory :: load() - files
      * exception prefixed
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-02-09
      */
@@ -417,6 +388,8 @@ class LoadCest
      * Tests Phalcon\Http\Message\ServerRequestFactory :: load() - scheme https
      * prefixed
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2019-02-09
      */
@@ -437,9 +410,11 @@ class LoadCest
             'HTTPS' => 'off',
         ];
 
-        $request = $factory->load($server);
-        $uri     = $request->getUri();
-        $I->assertEquals('http', $uri->getScheme());
+        $request  = $factory->load($server);
+        $uri      = $request->getUri();
+        $expected = 'http';
+        $actual   = $uri->getScheme();
+        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -447,8 +422,11 @@ class LoadCest
      *
      * @dataProvider getConstructorExamples
      *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2019-09-29
+     * @param UnitTester $I
+     * @param Example    $example
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-02-09
      */
     public function httpMessageServerRequestFactoryLoadConstructor(UnitTester $I, Example $example)
     {
@@ -468,7 +446,13 @@ class LoadCest
         unset($_COOKIE);
         unset($_FILES);
 
-        $request = $factory->load($example[1], $example[2], $example[3], $example[4], $example[5]);
+        $request = $factory->load(
+            $example[1],
+            $example[2],
+            $example[3],
+            $example[4],
+            $example[5]
+        );
 
         $_SERVER = $server;
         $_GET    = $get;
@@ -476,11 +460,63 @@ class LoadCest
         $_COOKIE = $cookie;
         $_FILES  = $files;
 
+        $I->assertInstanceOf(ServerRequestInterface::class, $request);
+    }
 
-        $I->assertInstanceOf(
-            ServerRequestInterface::class,
-            $request
+    /**
+     * Tests Phalcon\Http\Message\ServerRequestFactory :: load() - constructor
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2021-04-05
+     * @issue  15286
+     */
+    public function httpMessageServerRequestFactoryLoadConstructorFromSuperglobals(UnitTester $I)
+    {
+        $I->wantToTest(
+            'Http\Message\ServerRequestFactory - load() - constructor from superglobals'
         );
+
+        // Backup
+        $server = $_SERVER;
+        $get    = $_GET;
+        $post   = $_POST;
+        $cookie = $_COOKIE;
+        $files  = $_FILES;
+
+        $time    = $_SERVER['REQUEST_TIME_FLOAT'];
+        $params  = [
+            'REQUEST_TIME_FLOAT' => $time,
+            'REQUEST_METHOD'     => 'PUT',
+            'one'                => 'two',
+        ];
+
+        $_SERVER = $params;
+        $_GET    = [];
+        $_POST   = [];
+        $_COOKIE = [];
+        $_FILES  = [];
+
+        $factory = new ServerRequestFactory();
+        $request = $factory->load();
+
+        $expected = 'PUT';
+        $actual = $request->getMethod();
+        $I->assertEquals($expected, $actual);
+
+        $expected = $params;
+        $actual = $request->getServerParams();
+        $I->assertEquals($expected, $actual);
+
+        // Restore
+        $_SERVER = $server;
+        $_GET    = $get;
+        $_POST   = $post;
+        $_COOKIE = $cookie;
+        $_FILES  = $files;
+
+        $I->assertInstanceOf(ServerRequestInterface::class, $request);
     }
 
     /**
@@ -489,8 +525,11 @@ class LoadCest
      *
      * @dataProvider getConstructorExamples
      *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2019-09-29
+     * @param UnitTester $I
+     * @param Example    $example
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-02-09
      */
     public function httpMessageServerRequestFactoryLoadConstructorEmptySuperglobals(UnitTester $I, Example $example)
     {
@@ -498,19 +537,24 @@ class LoadCest
 
         $factory = new ServerRequestFactory();
 
-        $request = $factory->load($example[1], $example[2], $example[3], $example[4], $example[5]);
-        $I->assertInstanceOf(
-            ServerRequestInterface::class,
-            $request
+        $request = $factory->load(
+            $example[1],
+            $example[2],
+            $example[3],
+            $example[4],
+            $example[5]
         );
+        $I->assertInstanceOf(ServerRequestInterface::class, $request);
     }
 
     /**
      * Tests Phalcon\Http\Message\ServerRequestFactory :: load() - protocol
      * default
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-09-29
+     * @since  2019-02-09
      */
     public function httpMessageServerRequestFactoryLoadProtocolDefault(UnitTester $I)
     {
@@ -533,8 +577,10 @@ class LoadCest
      * Tests Phalcon\Http\Message\ServerRequestFactory :: load() - protocol
      * defined
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-09-29
+     * @since  2019-02-09
      */
     public function httpMessageServerRequestFactoryLoadProtocolDefined(UnitTester $I)
     {
@@ -557,8 +603,10 @@ class LoadCest
      * Tests Phalcon\Http\Message\ServerRequestFactory :: load() - protocol
      * error
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-09-29
+     * @since  2019-02-09
      */
     public function httpMessageServerRequestFactoryLoadProtocolError(UnitTester $I)
     {
@@ -584,8 +632,10 @@ class LoadCest
      * Tests Phalcon\Http\Message\ServerRequestFactory :: load() - protocol
      * error unsupported
      *
+     * @param UnitTester $I
+     *
      * @author Phalcon Team <team@phalcon.io>
-     * @since  2019-09-29
+     * @since  2019-02-09
      */
     public function httpMessageServerRequestFactoryLoadProtocolErrorUnsupported(UnitTester $I)
     {
