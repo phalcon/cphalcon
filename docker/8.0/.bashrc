@@ -84,4 +84,3 @@ alias cpl='zf && zg && cd ext/ && ./install && ..'
 alias codecept='php -d extension=ext/modules/phalcon.so ./vendor/bin/codecept '
 alias phpcs='php -d extension=ext/modules/phalcon.so ./vendor/bin/phpcs '
 alias phpcbf='php -d extension=ext/modules/phalcon.so ./vendor/bin/phpcbf '
-
