@@ -37,5 +37,6 @@ RUN docker-php-ext-install zip gmp gd intl pdo_mysql pdo_pgsql && \
     docker-php-ext-enable psr redis igbinary msgpack apcu imagick yaml memcached xdebug
 
 COPY --from=composer /usr/bin/composer /usr/local/bin/composer
+COPY ./.bashrc /root/.bashrc
 
 CMD ["php-fpm"]
