@@ -51,7 +51,5 @@ class GetTotalElapsedNanoMicroSecondsCest
         $expected = ($end - $start) / 1000000000;
         $actual = $item->getTotalElapsedSeconds();
         $I->assertEquals($expected, $actual);
-
-
     }
 }
