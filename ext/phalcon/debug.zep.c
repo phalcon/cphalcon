@@ -77,6 +77,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Debug) {
 	zend_declare_property_string(phalcon_debug_ce, SL("uri"), "https://assets.phalcon.io/debug/4.0.x/", ZEND_ACC_PROTECTED);
 
 	phalcon_debug_ce->create_object = zephir_init_properties_Phalcon_Debug;
+
 	return SUCCESS;
 
 }
@@ -1795,7 +1796,7 @@ zend_object *zephir_init_properties_Phalcon_Debug(zend_class_entry *class_type) 
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_2$$3);
 	ZVAL_UNDEF(&_1$$3);
-
+	
 
 		ZEPHIR_MM_GROW();
 	

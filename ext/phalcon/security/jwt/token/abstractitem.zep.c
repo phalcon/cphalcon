@@ -41,6 +41,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Security_JWT_Token_AbstractItem) {
 	zend_declare_property_null(phalcon_security_jwt_token_abstractitem_ce, SL("data"), ZEND_ACC_PROTECTED);
 
 	phalcon_security_jwt_token_abstractitem_ce->create_object = zephir_init_properties_Phalcon_Security_JWT_Token_AbstractItem;
+
 	return SUCCESS;
 
 }
@@ -70,7 +71,7 @@ zend_object *zephir_init_properties_Phalcon_Security_JWT_Token_AbstractItem(zend
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
-
+	
 
 		ZEPHIR_MM_GROW();
 	

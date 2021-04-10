@@ -46,6 +46,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Storage_Adapter_Memory) {
 	zend_declare_property_null(phalcon_storage_adapter_memory_ce, SL("options"), ZEND_ACC_PROTECTED);
 
 	phalcon_storage_adapter_memory_ce->create_object = zephir_init_properties_Phalcon_Storage_Adapter_Memory;
+
 	return SUCCESS;
 
 }
@@ -277,7 +278,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Memory, get) {
 
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *key_param = NULL, *defaultValue = NULL, defaultValue_sub, __$null, content, prefixedKey, _0;
+	zval *key_param = NULL, *defaultValue = NULL, defaultValue_sub, __$null, content, prefixedKey, _0, _1;
 	zval key;
 	zval *this_ptr = getThis();
 
@@ -287,6 +288,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Memory, get) {
 	ZVAL_UNDEF(&content);
 	ZVAL_UNDEF(&prefixedKey);
 	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
@@ -317,12 +319,18 @@ PHP_METHOD(Phalcon_Storage_Adapter_Memory, get) {
 	}
 
 
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "has", NULL, 0, &key);
+	zephir_check_call_status();
+	if (ZEPHIR_IS_FALSE(&_0)) {
+		RETVAL_ZVAL(defaultValue, 1, 0);
+		RETURN_MM();
+	}
 	ZEPHIR_CALL_METHOD(&prefixedKey, this_ptr, "getprefixedkey", NULL, 0, &key);
 	zephir_check_call_status();
-	zephir_read_property(&_0, this_ptr, ZEND_STRL("data"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_METHOD(&content, &_0, "get", NULL, 0, &prefixedKey);
+	zephir_read_property(&_1, this_ptr, ZEND_STRL("data"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_CALL_METHOD(&content, &_1, "get", NULL, 0, &prefixedKey);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getunserializeddata", NULL, 0, &content, defaultValue);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getunserializeddata", NULL, 0, &content);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -599,7 +607,7 @@ zend_object *zephir_init_properties_Phalcon_Storage_Adapter_Memory(zend_class_en
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
-
+	
 
 		ZEPHIR_MM_GROW();
 	

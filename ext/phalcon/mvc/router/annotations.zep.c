@@ -68,6 +68,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Router_Annotations) {
 	zend_declare_property_null(phalcon_mvc_router_annotations_ce, SL("routePrefix"), ZEND_ACC_PROTECTED);
 
 	phalcon_mvc_router_annotations_ce->create_object = zephir_init_properties_Phalcon_Mvc_Router_Annotations;
+
 	return SUCCESS;
 
 }
@@ -1285,7 +1286,7 @@ zend_object *zephir_init_properties_Phalcon_Mvc_Router_Annotations(zend_class_en
 	ZVAL_UNDEF(&_5$$5);
 	ZVAL_UNDEF(&_7$$6);
 	ZVAL_UNDEF(&_9$$7);
-
+	
 
 		ZEPHIR_MM_GROW();
 	

@@ -262,7 +262,7 @@ zend_object *zephir_init_properties_Phalcon_Html_Link_LinkProvider(zend_class_en
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
-
+	
 
 		ZEPHIR_MM_GROW();
 	

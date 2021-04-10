@@ -23,7 +23,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_acl_adapter_abstractadapter_getdefaultaction, 0, 0, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_acl_adapter_abstractadapter_geteventsmanager, 0, 0, Phalcon\\Events\\ManagerInterface, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_acl_adapter_abstractadapter_geteventsmanager, 0, 0, Phalcon\\Events\\ManagerInterface, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_acl_adapter_abstractadapter_setdefaultaction, 0, 1, IS_VOID, 0)

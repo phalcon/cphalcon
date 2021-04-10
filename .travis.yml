@@ -1,8 +1,6 @@
 language: php
 php:
   - '7.4'
-  - '7.3'
-  - '7.2'
 
 os: linux
 dist: bionic
@@ -38,7 +36,7 @@ services:
 env:
   global:
     - CC="gcc"
-    - ZEPHIR_VERSION="0.12.19"
+    - ZEPHIR_VERSION="0.13.1"
     - ZEPHIR_PARSER_VERSION="v1.3.6"
     - REPORT_COVERAGE=0
     - PATH="${HOME}/.composer/vendor/bin:${PATH}"

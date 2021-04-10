@@ -44,6 +44,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Storage_Adapter_Apcu) {
 	zend_declare_property_null(phalcon_storage_adapter_apcu_ce, SL("options"), ZEND_ACC_PROTECTED);
 
 	phalcon_storage_adapter_apcu_ce->create_object = zephir_init_properties_Phalcon_Storage_Adapter_Apcu;
+
 	return SUCCESS;
 
 }
@@ -279,7 +280,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Apcu, get) {
 
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *key_param = NULL, *defaultValue = NULL, defaultValue_sub, __$null, content, _0;
+	zval *key_param = NULL, *defaultValue = NULL, defaultValue_sub, __$null, content, _0, _1;
 	zval key;
 	zval *this_ptr = getThis();
 
@@ -288,6 +289,7 @@ PHP_METHOD(Phalcon_Storage_Adapter_Apcu, get) {
 	ZVAL_NULL(&__$null);
 	ZVAL_UNDEF(&content);
 	ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
@@ -318,11 +320,17 @@ PHP_METHOD(Phalcon_Storage_Adapter_Apcu, get) {
 	}
 
 
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getprefixedkey", NULL, 0, &key);
+	ZEPHIR_CALL_METHOD(&_0, this_ptr, "has", NULL, 0, &key);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&content, "apcu_fetch", NULL, 122, &_0);
+	if (ZEPHIR_IS_FALSE(&_0)) {
+		RETVAL_ZVAL(defaultValue, 1, 0);
+		RETURN_MM();
+	}
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "getprefixedkey", NULL, 0, &key);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getunserializeddata", NULL, 0, &content, defaultValue);
+	ZEPHIR_CALL_FUNCTION(&content, "apcu_fetch", NULL, 122, &_1);
+	zephir_check_call_status();
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getunserializeddata", NULL, 0, &content);
 	zephir_check_call_status();
 	RETURN_MM();
 
@@ -415,8 +423,8 @@ PHP_METHOD(Phalcon_Storage_Adapter_Apcu, getKeys) {
 		{
 			ZEPHIR_ITERATOR_COPY(&item, _1);
 		}
-		zephir_array_fetch_string(&_2$$4, &item, SL("key"), PH_NOISY | PH_READONLY, "phalcon/Storage/Adapter/Apcu.zep", 148);
-		zephir_array_append(&results, &_2$$4, PH_SEPARATE, "phalcon/Storage/Adapter/Apcu.zep", 148);
+		zephir_array_fetch_string(&_2$$4, &item, SL("key"), PH_NOISY | PH_READONLY, "phalcon/Storage/Adapter/Apcu.zep", 152);
+		zephir_array_append(&results, &_2$$4, PH_SEPARATE, "phalcon/Storage/Adapter/Apcu.zep", 152);
 	}
 	zend_iterator_dtor(_1);
 	RETURN_CTOR(&results);
@@ -605,7 +613,7 @@ zend_object *zephir_init_properties_Phalcon_Storage_Adapter_Apcu(zend_class_entr
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
-
+	
 
 		ZEPHIR_MM_GROW();
 	

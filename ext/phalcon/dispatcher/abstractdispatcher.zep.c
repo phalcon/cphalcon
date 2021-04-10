@@ -1930,7 +1930,7 @@ zend_object *zephir_init_properties_Phalcon_Dispatcher_AbstractDispatcher(zend_c
 	ZVAL_UNDEF(&_3$$4);
 	ZVAL_UNDEF(&_5$$5);
 	ZVAL_UNDEF(&_7$$6);
-
+	
 
 		ZEPHIR_MM_GROW();
 	

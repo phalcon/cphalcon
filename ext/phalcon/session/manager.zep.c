@@ -413,7 +413,7 @@ PHP_METHOD(Phalcon_Session_Manager, getName) {
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("name"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_INIT_VAR(&_1);
 	ZVAL_STRING(&_1, "");
-	if (!ZEPHIR_IS_IDENTICAL(&_1, &_0)) {
+	if (ZEPHIR_IS_IDENTICAL(&_1, &_0)) {
 		ZEPHIR_CALL_FUNCTION(&_2$$3, "session_name", NULL, 0);
 		zephir_check_call_status();
 		zephir_update_property_zval(this_ptr, ZEND_STRL("name"), &_2$$3);
@@ -799,19 +799,29 @@ PHP_METHOD(Phalcon_Session_Manager, setOptions) {
  */
 PHP_METHOD(Phalcon_Session_Manager, start) {
 
-	zval _0, _1, _2, _3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zval _COOKIE, name, value, _0, _1, _2, _7, _3$$6, _4$$6, _5$$6, _6$$6;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
 
+	ZVAL_UNDEF(&_COOKIE);
+	ZVAL_UNDEF(&name);
+	ZVAL_UNDEF(&value);
 	ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1);
 	ZVAL_UNDEF(&_2);
-	ZVAL_UNDEF(&_3);
+	ZVAL_UNDEF(&_7);
+	ZVAL_UNDEF(&_3$$6);
+	ZVAL_UNDEF(&_4$$6);
+	ZVAL_UNDEF(&_5$$6);
+	ZVAL_UNDEF(&_6$$6);
 
 
 	ZEPHIR_MM_GROW();
+	zephir_get_global(&_COOKIE, SL("_COOKIE"));
 
+	ZEPHIR_CALL_METHOD(&name, this_ptr, "getname", NULL, 0);
+	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "exists", NULL, 0);
 	zephir_check_call_status();
 	if (ZEPHIR_IS_TRUE_IDENTICAL(&_0)) {
@@ -825,11 +835,24 @@ PHP_METHOD(Phalcon_Session_Manager, start) {
 	ZEPHIR_OBS_VAR(&_2);
 	zephir_read_property(&_2, this_ptr, ZEND_STRL("adapter"), PH_NOISY_CC);
 	if (UNEXPECTED(!(zephir_is_instance_of(&_2, SL("SessionHandlerInterface"))))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_session_exception_ce, "The session adapter is not valid", "phalcon/Session/Manager.zep", 323);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_session_exception_ce, "The session adapter is not valid", "phalcon/Session/Manager.zep", 327);
 		return;
 	}
-	zephir_read_property(&_3, this_ptr, ZEND_STRL("adapter"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_CALL_FUNCTION(NULL, "session_set_save_handler", NULL, 0, &_3);
+	ZEPHIR_OBS_VAR(&value);
+	if (zephir_array_isset_fetch(&value, &_COOKIE, &name, 0)) {
+		ZEPHIR_INIT_VAR(&_3$$6);
+		ZEPHIR_INIT_VAR(&_4$$6);
+		ZVAL_STRING(&_4$$6, "/^[a-z0-9]+$/iD");
+		ZEPHIR_INIT_VAR(&_5$$6);
+		ZEPHIR_INIT_VAR(&_6$$6);
+		ZVAL_STRING(&_6$$6, "/^[a-z0-9]+$/iD");
+		zephir_preg_match(&_5$$6, &_6$$6, &value, &_3$$6, 0, 0 , 0 );
+		if (!(zephir_is_true(&_5$$6))) {
+			zephir_array_unset(&_COOKIE, &name, PH_SEPARATE);
+		}
+	}
+	zephir_read_property(&_7, this_ptr, ZEND_STRL("adapter"), PH_NOISY_CC | PH_READONLY);
+	ZEPHIR_CALL_FUNCTION(NULL, "session_set_save_handler", NULL, 0, &_7);
 	zephir_check_call_status();
 	ZEPHIR_RETURN_CALL_FUNCTION("session_start", NULL, 0);
 	zephir_check_call_status();
@@ -914,7 +937,7 @@ zend_object *zephir_init_properties_Phalcon_Session_Manager(zend_class_entry *cl
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
 	ZVAL_UNDEF(&_1$$3);
-
+	
 
 		ZEPHIR_MM_GROW();
 	

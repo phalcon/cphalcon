@@ -85,6 +85,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Cli_Router) {
 	zend_declare_property_bool(phalcon_cli_router_ce, SL("wasMatched"), 0, ZEND_ACC_PROTECTED);
 
 	phalcon_cli_router_ce->create_object = zephir_init_properties_Phalcon_Cli_Router;
+
 	return SUCCESS;
 
 }
@@ -1096,7 +1097,7 @@ zend_object *zephir_init_properties_Phalcon_Cli_Router(zend_class_entry *class_t
 	ZVAL_UNDEF(&_2);
 	ZVAL_UNDEF(&_1$$3);
 	ZVAL_UNDEF(&_3$$4);
-
+	
 
 		ZEPHIR_MM_GROW();
 	
