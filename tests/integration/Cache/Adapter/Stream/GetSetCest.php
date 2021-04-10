@@ -18,8 +18,8 @@ use Phalcon\Cache\Adapter\Stream;
 use Phalcon\Storage\Exception;
 use Phalcon\Storage\SerializerFactory;
 use IntegrationTester;
-
 use Phalcon\Test\Fixtures\Cache\CacheFixtureData;
+
 use function file_put_contents;
 use function outputDir;
 use function sleep;
