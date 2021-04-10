@@ -25,7 +25,7 @@ if exist "%InstallDir%\Common7\Tools\vsdevcmd.bat" (
 ) else "VC not found"
 
 echo "------------- phpsdk-starter ---------------------------"
-call "%PHP_SDK_PATH%\phpsdk-vs16-%PHP_ARCH%.bat"
+call "%PHP_SDK_PATH%\phpsdk-%VC_VERSION%-%PHP_ARCH%.bat"
 
 echo "------------- phpsdk_setvars ---------------------------"
 call "%PHP_SDK_PATH%\bin\phpsdk_setvars.bat"

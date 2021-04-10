@@ -80,11 +80,11 @@ class Profiler
     protected allProfiles;
 
     /**
-     * Total time spent by all profiles to complete
+     * Total time spent by all profiles to complete in nanoseconds
      *
      * @var float
      */
-    protected totalSeconds = 0;
+    protected totalNanoseconds = 0;
 
     /**
      * Returns the last profile executed in the profiler
@@ -103,11 +103,27 @@ class Profiler
     }
 
     /**
+     * Returns the total time in nanoseconds spent by the profiles
+     */
+    public function getTotalElapsedNanoseconds() -> double
+    {
+        return this->totalNanoseconds;
+    }
+
+    /**
+     * Returns the total time in milliseconds spent by the profiles
+     */
+    public function getTotalElapsedMilliseconds() -> double
+    {
+        return this->getTotalElapsedNanoseconds() / 1000000;
+    }
+
+    /**
      * Returns the total time in seconds spent by the profiles
      */
     public function getTotalElapsedSeconds() -> double
     {
-        return this->totalSeconds;
+        return this->getTotalElapsedMilliseconds() / 1000;
     }
 
     /**
@@ -131,22 +147,18 @@ class Profiler
     /**
      * Starts the profile of a SQL sentence
      */
-    public function startProfile(string sqlStatement, var sqlVariables = null, var sqlBindTypes = null) -> <Profiler>
-    {
+    public function startProfile(
+        string sqlStatement,
+        array sqlVariables = [],
+        array sqlBindTypes = []
+    ) -> <Profiler> {
         var activeProfile;
 
         let activeProfile = new Item();
 
         activeProfile->setSqlStatement(sqlStatement);
-
-        if typeof sqlVariables == "array" {
-            activeProfile->setSqlVariables(sqlVariables);
-        }
-
-        if typeof sqlBindTypes == "array" {
-            activeProfile->setSqlBindTypes(sqlBindTypes);
-        }
-
+        activeProfile->setSqlVariables(sqlVariables);
+        activeProfile->setSqlBindTypes(sqlBindTypes);
         activeProfile->setInitialTime(hrtime(true));
 
         if method_exists(this, "beforeStartProfile") {
@@ -163,16 +175,14 @@ class Profiler
      */
     public function stopProfile() -> <Profiler>
     {
-        var activeProfile, finalTime, initialTime;
+        var activeProfile;
 
-        let finalTime     = hrtime(true),
-            activeProfile = <Item> this->activeProfile;
+        let activeProfile = <Item> this->activeProfile;
 
-        activeProfile->setFinalTime(finalTime);
+        activeProfile->setFinalTime(hrtime(true));
 
-        let initialTime = activeProfile->getInitialTime(),
-            this->totalSeconds = this->totalSeconds + (finalTime - initialTime),
-            this->allProfiles[] = activeProfile;
+        let this->totalNanoseconds = this->totalNanoseconds + activeProfile->getTotalElapsedNanoseconds(),
+            this->allProfiles[]    = activeProfile;
 
         if method_exists(this, "afterEndProfile") {
             this->{"afterEndProfile"}(activeProfile);
