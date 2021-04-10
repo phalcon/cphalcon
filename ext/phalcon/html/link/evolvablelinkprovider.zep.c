@@ -15,6 +15,7 @@
 #include "kernel/fcall.h"
 #include "kernel/object.h"
 #include "kernel/memory.h"
+#include "ext/psr/psr_link.h"
 #include "kernel/array.h"
 
 

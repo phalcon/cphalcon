@@ -18,6 +18,7 @@
 #include "kernel/memory.h"
 #include "kernel/string.h"
 #include "kernel/array.h"
+#include "ext/psr/psr_http_message.h"
 #include "kernel/exception.h"
 #include "kernel/concat.h"
 #include "ext/spl/spl_exceptions.h"

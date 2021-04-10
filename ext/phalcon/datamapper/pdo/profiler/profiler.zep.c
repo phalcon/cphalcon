@@ -16,6 +16,7 @@
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/object.h"
+#include "ext/psr/psr_log.h"
 #include "kernel/string.h"
 #include "kernel/time.h"
 #include "kernel/array.h"
