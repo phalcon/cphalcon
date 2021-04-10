@@ -16,6 +16,7 @@
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
 #include "kernel/object.h"
+#include "ext/psr/psr_log.h"
 #include "kernel/string.h"
 #include "kernel/time.h"
 #include "kernel/array.h"
@@ -491,7 +492,7 @@ zend_object *zephir_init_properties_Phalcon_DataMapper_Pdo_Profiler_Profiler(zen
 
 
 		ZEPHIR_MM_GROW();
-	
+
 	{
 		zval local_this_ptr, *this_ptr = &local_this_ptr;
 		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);

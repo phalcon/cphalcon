@@ -16,6 +16,7 @@
 #include "kernel/operators.h"
 #include "kernel/memory.h"
 #include "kernel/object.h"
+#include "ext/psr/psr_http_message.h"
 
 
 /**

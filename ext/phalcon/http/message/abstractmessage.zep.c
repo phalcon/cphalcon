@@ -18,6 +18,7 @@
 #include "kernel/memory.h"
 #include "kernel/string.h"
 #include "kernel/array.h"
+#include "ext/psr/psr_http_message.h"
 #include "kernel/exception.h"
 #include "kernel/concat.h"
 #include "ext/spl/spl_exceptions.h"
@@ -997,11 +998,7 @@ PHP_METHOD(Phalcon_Http_Message_AbstractMessage, getUriHost) {
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-#if defined(PHP_WIN32)
-		Z_PARAM_OBJECT_OF_CLASS(uri, __imp_PsrHttpMessageUriInterface_ce_ptr)
-#else
-        Z_PARAM_OBJECT_OF_CLASS(uri, PsrHttpMessageUriInterface_ce_ptr)
-#endif
+		Z_PARAM_OBJECT_OF_CLASS(uri, PsrHttpMessageUriInterface_ce_ptr)
 	ZEND_PARSE_PARAMETERS_END();
 
 #endif
@@ -1079,7 +1076,7 @@ PHP_METHOD(Phalcon_Http_Message_AbstractMessage, populateHeaderCollection) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&headers), _2, _3, _0)
 		{
 			ZEPHIR_INIT_NVAR(&name);
-			if (_3 != NULL) { 
+			if (_3 != NULL) {
 				ZVAL_STR_COPY(&name, _3);
 			} else {
 				ZVAL_LONG(&name, _2);
