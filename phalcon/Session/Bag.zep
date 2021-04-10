@@ -30,10 +30,21 @@ use Phalcon\Di\InjectionAwareInterface;
  */
 class Bag extends Collection implements InjectionAwareInterface
 {
+    /**
+     * @var DiInterface|null
+     */
     private container;
 
-    private name = null;
+    /**
+     * Session Bag name
+     *
+     * @var string
+     */
+    private name;
 
+    /**
+     * @var \Phalcon\Session\ManagerInterface
+     */
     private session;
 
     /**
