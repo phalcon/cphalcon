@@ -43,7 +43,7 @@ function InitializeBuildVars {
 
 function InitializeReleaseVars {
 	if ($Env:BUILD_TYPE -Match "nts-Win32") {
-		$Env:RELEASE_ZIPBALL = "phalcon_${Env:PLATFORM}_vc${Env:VC_VERSION}_php${Env:PHP_VERSION}_${Env:APPVEYOR_BUILD_VERSION}_nts"
+		$Env:RELEASE_ZIPBALL = "phalcon_${Env:PLATFORM}_${Env:VC_VERSION}_php${Env:PHP_VERSION}_${Env:APPVEYOR_BUILD_VERSION}_nts"
 
 		if ($Env:PLATFORM -eq 'x86') {
 			$Env:RELEASE_FOLDER = "Release"
@@ -51,7 +51,7 @@ function InitializeReleaseVars {
 			$Env:RELEASE_FOLDER = "x64\Release"
 		}
 	} else {
-		$Env:RELEASE_ZIPBALL = "phalcon_${Env:PLATFORM}_vc${Env:VC_VERSION}_php${Env:PHP_VERSION}_${Env:APPVEYOR_BUILD_VERSION}"
+		$Env:RELEASE_ZIPBALL = "phalcon_${Env:PLATFORM}_${Env:VC_VERSION}_php${Env:PHP_VERSION}_${Env:APPVEYOR_BUILD_VERSION}"
 
 		if ($Env:PLATFORM -eq 'x86') {
 			$Env:RELEASE_FOLDER = "Release_TS"

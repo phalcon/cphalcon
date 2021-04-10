@@ -9,6 +9,7 @@ if (PHP_PHALCON != "no") {
     ADD_EXTENSION_DEP("phalcon", "json");
     AC_DEFINE("ZEPHIR_USE_PHP_JSON", 1, "Whether PHP json extension is present at compile time");
   }
+  ADD_EXTENSION_DEP("phalcon", "psr");
   ADD_SOURCES(configure_module_dirname + "/phalcon/annotations", "scanner.c parser.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/mvc/model", "orm.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/mvc/model/query", "scanner.c parser.c", "phalcon");
@@ -123,7 +124,7 @@ if (PHP_PHALCON != "no") {
 	ADD_SOURCES(configure_module_dirname + "/phalcon/validation/validator/file/resolution", "equal.zep.c max.zep.c min.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/validation/validator/file/size", "equal.zep.c max.zep.c min.zep.c", "phalcon");
 	ADD_SOURCES(configure_module_dirname + "/phalcon/validation/validator/stringlength", "max.zep.c min.zep.c", "phalcon");
-  ADD_FLAG("CFLAGS_PHALCON", "/D ZEPHIR_RELEASE /Oi /Ot /Oy /Ob2 /Gs /GF /Gy /GL");
-  ADD_FLAG("CFLAGS", "/D ZEPHIR_RELEASE /Oi /Ot /Oy /Ob2 /Gs /GF /Gy /GL");
+  ADD_FLAG("CFLAGS_PHALCON", "/D ZEPHIR_RELEASE /D /Oi /Ot /Oy /Ob2 /Gs /GF /Gy /GL");
+  ADD_FLAG("CFLAGS", "/D ZEPHIR_RELEASE /D /Oi /Ot /Oy /Ob2 /Gs /GF /Gy /GL");
   ADD_FLAG("LDFLAGS", "/LTCG");
 }
