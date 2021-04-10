@@ -326,7 +326,7 @@ PHP_METHOD(Phalcon_Http_Message_AbstractRequest, withUri) {
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 2)
-		Z_PARAM_OBJECT_OF_CLASS(uri, PsrHttpMessageUriInterface_ce_ptr)
+        Z_PARAM_OBJECT_OF_CLASS(uri, PsrHttpMessageUriInterface_ce_ptr)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ZVAL(preserveHost)
 	ZEND_PARSE_PARAMETERS_END();

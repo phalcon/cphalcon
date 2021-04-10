@@ -1076,7 +1076,7 @@ PHP_METHOD(Phalcon_Http_Message_AbstractMessage, populateHeaderCollection) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&headers), _2, _3, _0)
 		{
 			ZEPHIR_INIT_NVAR(&name);
-			if (_3 != NULL) { 
+			if (_3 != NULL) {
 				ZVAL_STR_COPY(&name, _3);
 			} else {
 				ZVAL_LONG(&name, _2);

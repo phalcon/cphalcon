@@ -29,6 +29,7 @@ class NewInstanceCest
      */
     public function imageImageFactoryNewInstance(UnitTester $I)
     {
+        $I->checkExtensionIsLoaded('imagick');
         $I->wantToTest('Image\ImageFactory - newInstance()');
 
         $factory = new ImageFactory();

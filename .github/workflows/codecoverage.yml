@@ -53,7 +53,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.0'
-          extensions: mbstring, intl, json, imagick, apcu, yaml, redis, igbinary, msgpack
+          extensions: mbstring, intl, json, imagick, apcu, yaml, redis, igbinary, msgpack, psr
           ini-values: apc.enable_cli=on, session.save_path=/tmp, extension=psr.so, extension=phalcon.so
 
       - name: Common Settings
@@ -100,8 +100,7 @@ jobs:
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
-          restore-keys: |
-            ${{ runner.os }}-composer-
+          restore-keys: ${{ runner.os }}-composer-
 
       - name: Setup Composer Token
         run: |
@@ -115,9 +114,11 @@ jobs:
 
       - name: Generate C code
         run: |
-          sudo pecl install psr
+          # sudo pecl install psr
           $HOME/bin/zephir fullclean
-          $HOME/bin/zephir build
+          $HOME/bin/zephir generate
+          $HOME/bin/zephir compile
+          $HOME/bin/zephir install
           sudo echo "extension=phalcon.so" >> /etc/php/8.0/cli/php.ini
 
       - name: Verify Install
