@@ -581,7 +581,8 @@ jobs:
         run: php --ri phalcon
 
       - name: Install Packages
-        run: composer install --prefer-dist
+        # TODO: Imagick isn't available for PHP8.0
+        run: composer install --prefer-dist --ignore-platform-reqs
 
       - name: Setup Tests
         run: |
