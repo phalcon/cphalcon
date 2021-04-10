@@ -97,9 +97,7 @@ jobs:
   build-and-test-linux:
     # To prevent build a particular commit use
     #     git commit -m "......... [ci skip]"
-    # if: "!contains(github.event.head_commit.message, 'ci skip')"
-    if: "!contains(github.ref, 'windows-builds')"
-
+    if: "!contains(github.event.head_commit.message, 'ci skip')"
 
     needs: generate
     services:
@@ -153,8 +151,7 @@ jobs:
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
-          restore-keys: |
-            ${{ runner.os }}-composer-
+          restore-keys: ${{ runner.os }}-composer-
 
       - name: Setup Composer Token
         run: |
@@ -250,8 +247,7 @@ jobs:
   build-and-test-macos:
     # To prevent build a particular commit use
     #     git commit -m "......... [ci skip]"
-    # if: "!contains(github.event.head_commit.message, 'ci skip')"
-    if: "!contains(github.ref, 'windows-builds')"
+    if: "!contains(github.event.head_commit.message, 'ci skip')"
 
     needs: generate
     runs-on: ${{ matrix.operating-system }}
@@ -326,8 +322,7 @@ jobs:
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
-          restore-keys: |
-            ${{ runner.os }}-composer-
+          restore-keys: ${{ runner.os }}-composer-
 
       - name: Download Phalcon Pecl Package
         uses: actions/download-artifact@v1
@@ -372,8 +367,7 @@ jobs:
       matrix:
         operating-system: [windows-2016, windows-2019]
         php-versions: ['7.4', '8.0']
-        # [ts, nts]
-        ts: [nts]
+        ts: [ts, nts]
         include:
           - php-versions: '7.4'
             vc_num: 'vc15'
@@ -390,7 +384,6 @@ jobs:
             php-versions: '7.4'
 
     steps:
-
       - name: Disable Git autocrlf
         run: git config --global core.autocrlf false
 
@@ -463,8 +456,7 @@ jobs:
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
-          restore-keys: |
-            ${{ runner.os }}-composer-
+          restore-keys: ${{ runner.os }}-composer-
 
       - name: Download Phalcon Pecl Package
         uses: actions/download-artifact@v1

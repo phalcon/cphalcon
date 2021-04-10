@@ -11,8 +11,7 @@ jobs:
   build-and-run:
     # To prevent build a particular commit use
     #     git commit -m "......... [ci skip]"
-    # if: "!contains(github.event.head_commit.message, 'ci skip')"
-    if: "!contains(github.ref, 'windows-builds')"
+    if: "!contains(github.event.head_commit.message, 'ci skip')"
 
     services:
       mysql:
@@ -101,8 +100,7 @@ jobs:
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
-          restore-keys: |
-            ${{ runner.os }}-composer-
+          restore-keys: ${{ runner.os }}-composer-
 
       - name: Setup Composer Token
         run: |
