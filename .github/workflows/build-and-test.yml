@@ -439,6 +439,7 @@ jobs:
           } Else {
             Write-Output "BUILD_TYPE=${{ matrix.build_type }}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           }
+
       - name: Setup Composer Token
         run: |
           # To increase the Composer rate limit we're use GitHub authentication
@@ -565,7 +566,7 @@ jobs:
       - name: Upload Artifact
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ env.RELEASE_ZIPBALL }}
+          name: ${{ env.RELEASE_ZIPBALL }}.zip
           path: ${{ env.RELEASE_DLL_PATH }}
 
       - name: Enable Extensions
@@ -602,3 +603,39 @@ jobs:
             C:\tools\php\
             C:\tools\php-*\
           retention-days: 1
+
+  release:
+    # if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
+
+    needs: [generate, build-and-test-linux, buid-and-test-macos, build-and-test-windows]
+    name: Create release
+    runs: ubuntu-20.04
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+
+      - name: Get the release version
+        id: get-version
+        run: |
+          echo ::set-output name=version::${GITHUB_REF#refs/tags/}
+
+      - name: Download Phalcon build artifacts
+        id: download
+        uses: actions/download-artifact@v2
+
+      - name: 'Echo download path'
+        run: echo ${{steps.download.outputs.download-path}}
+
+      # - name: Create Release
+      #   uses: ncipollo/release-action@v1
+      #   with:
+      #     token: ${{ secrets.GITHUB_TOKEN }}
+      #     name: ${{ steps.get-version.outputs.version }}
+      #     tag: ${{ steps.get-version.outputs.version }}
+      #     body: 'All notable changes to this version has been documented in the CHANGELOG.md file.'
+      #     allowUpdates: true
+      #     artifacts: ${{steps.download.outputs.download-path}}/*
+      #     artifactContentType: application/octet-stream
