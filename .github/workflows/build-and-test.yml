@@ -609,7 +609,7 @@ jobs:
 
     needs: [generate, build-and-test-linux, buid-and-test-macos, build-and-test-windows]
     name: Create release
-    runs: ubuntu-20.04
+    runs-on: ubuntu-20.04
 
     steps:
       - name: Checkout Code
