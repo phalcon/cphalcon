@@ -605,7 +605,7 @@ jobs:
           retention-days: 1
 
   release:
-    # if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
 
     needs: [generate, build-and-test-linux, build-and-test-macos, build-and-test-windows]
     name: Create release
@@ -626,19 +626,13 @@ jobs:
         id: download
         uses: actions/download-artifact@v2
 
-      - name: 'Echo download path'
-        run: |
-          echo ${{steps.download.outputs.download-path}}
-          ls -lah ${{steps.download.outputs.download-path}}/phalcon-pecl/
-          ls -lah ${{steps.download.outputs.download-path}}
-
-      # - name: Create Release
-      #   uses: ncipollo/release-action@v1
-      #   with:
-      #     token: ${{ secrets.GITHUB_TOKEN }}
-      #     name: ${{ steps.get-version.outputs.version }}
-      #     tag: ${{ steps.get-version.outputs.version }}
-      #     body: 'All notable changes to this version has been documented in the CHANGELOG.md file.'
-      #     allowUpdates: true
-      #     artifacts: ${{steps.download.outputs.download-path}}/phalcon_*.zip, ${{steps.download.outputs.download-path}}/phalcon-pecl/*
-      #     artifactContentType: application/octet-stream
+      - name: Create Release
+        uses: ncipollo/release-action@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          name: ${{ steps.get-version.outputs.version }}
+          tag: ${{ steps.get-version.outputs.version }}
+          body: 'All notable changes to this version has been documented in the CHANGELOG.md file.'
+          allowUpdates: true
+          artifacts: ${{steps.download.outputs.download-path}}/phalcon_*.zip, ${{steps.download.outputs.download-path}}/phalcon-pecl/*
+          artifactContentType: application/octet-stream
