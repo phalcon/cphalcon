@@ -1,7 +1,6 @@
 # Phalcon Framework
 
 [![Discord](https://img.shields.io/discord/310910488152375297?label=Discord&logo=discord&style=flat-square)](http://phalcon.io/discord)
-[![Build Status](https://img.shields.io/travis/phalcon/cphalcon?logo=travis&style=flat-square)](https://travis-ci.org/phalcon/cphalcon)
 [![Windows Build](https://github.com/phalcon/cphalcon/workflows/Phalcon%20CI/badge.svg?branch=4.1.x)](https://github.com/phalcon/cphalcon/actions)
 [![Code Coverage](https://github.com/phalcon/cphalcon/workflows/Codecoverage/badge.svg?branch=4.1.x)](https://github.com/phalcon/cphalcon/actions)
 [![Codecov](https://codecov.io/gh/phalcon/cphalcon/branch/master/graph/badge.svg)](https://codecov.io/gh/phalcon/cphalcon)

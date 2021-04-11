@@ -6,10 +6,9 @@ This folder contains all the tests for the Phalcon Framework.
 
 ## Getting Started
 
-This testing suite uses [Travis CI][travis], [GitHub Actions][actions] and
-[AppVeyor][appveyor] for each run. Every commit pushed to this repository
-will queue a build into the continuous integration service and will run all
-tests to ensure that everything is going well and the project is stable.
+This testing suite uses [GitHub Actions][actions] for each run.
+Every commit pushed to this repository will queue a build into the continuous integration service and will run alltests to ensure that everything
+is going well and the project is stable.
 
 The testing suite can be run on your own machine. The dependencies for
 running the testing suite are:
@@ -335,9 +334,7 @@ Thanks!
 
 <3 Phalcon Framework Team
 
-[travis]: https://travis-ci.org/github/phalcon/cphalcon
 [actions]: https://github.com/phalcon/cphalcon/actions
-[appveyor]: https://ci.appveyor.com/project/sergeyklay/cphalcon
 [nanobox]: https://nanobox.io
 [nanobox-doc]: https://docs.nanobox.io/install
 [docker]: https://www.docker.com
