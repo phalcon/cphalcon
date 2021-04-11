@@ -373,22 +373,13 @@ jobs:
         operating-system: [windows-2016, windows-2019]
         php-versions: ['7.4', '8.0']
         ts: [ts, nts]
+        arch: [x86, x64]
         include:
           - php-versions: '7.4'
             vc_num: 'vc15'
-            arch: x64
-            build_type: Win32
-          - php-versions: '7.4'
-            vc_num: 'vc15'
-            arch: x86
             build_type: Win32
           - php-versions: '8.0'
             vc_num: 'vs16'
-            arch: x64
-            build_type: Win32
-          - php-versions: '8.0'
-            vc_num: 'vs16'
-            arch: x86
             build_type: Win32
         exclude:
           - operating-system: windows-2016
