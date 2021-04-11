@@ -364,7 +364,7 @@ jobs:
     #     git commit -m "......... [ci skip]"
     if: "!contains(github.event.head_commit.message, 'ci skip')"
 
-    name: PHP ${{ matrix.php-versions }} (${{ matrix.ts }}) Test on ${{ matrix.operating-system }}
+    name: PHP ${{ matrix.php-versions }} (${{ matrix.arch }}-${{ matrix.ts }}) Test on ${{ matrix.operating-system }}
     needs: generate
     runs-on: ${{ matrix.operating-system }}
     strategy:
@@ -373,7 +373,7 @@ jobs:
         operating-system: [windows-2016, windows-2019]
         php-versions: ['7.4', '8.0']
         ts: [ts, nts]
-        arch: [x86, x64]
+        arch: [x64]
         include:
           - php-versions: '7.4'
             vc_num: 'vc15'
