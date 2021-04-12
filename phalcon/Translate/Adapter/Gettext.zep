@@ -207,7 +207,7 @@ class Gettext extends AbstractAdapter implements ArrayAccess
     public function setLocale(int! category, array localeArray = []) -> string | bool
     {
         let this->locale   = setlocale(category, localeArray),
-            this->category = category;git
+            this->category = category;
 
         putenv("LC_ALL=" . this->locale);
         putenv("LANG=" . this->locale);
