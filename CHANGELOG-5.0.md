@@ -23,6 +23,7 @@
 - Added `Phalcon\Support\HelperFactory` for an easier creation/access of helpers [#15411](https://github.com/phalcon/cphalcon/issues/15411)
 
 ## Changed
+- Changed `Phalcon\Translate\Adapter\Gettext::setLocale` signature to allow the category and an array of locales [#14764](https://github.com/phalcon/cphalcon/issues/14764)
 - `Phalcon\Version` is now moved to `Phalcon\Support\Version`
     - `_getSpecialVersion` and `_getVersion` have been removed (marked deprecated in v4)
     - The class is no longer static; it has to be instantiated first
