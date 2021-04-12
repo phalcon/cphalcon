@@ -6,6 +6,7 @@
 - Added `Phalcon\Http\Response\Cookies::isSent()` and `Phalcon\Http\Response\Headers::isSent()`; Added logic to not send the headers or cookies twice. [#15334](https://github.com/phalcon/cphalcon/issues/15334)
 
 ## Changed
+- Changed `Phalcon\Translate\Adapter\Gettext::setLocale` signature to allow the category and an array of locales [#14764](https://github.com/phalcon/cphalcon/issues/14764)
 - `Phalcon\Version` is now moved to `Phalcon\Support\Version`
     - `_getSpecialVersion` and `_getVersion` have been removed (marked deprecated in v4)
     - The class is no longer static; it has to be instantiated first
