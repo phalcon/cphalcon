@@ -53,7 +53,7 @@ class LoadCest
             $interpolator = new InterpolatorFactory();
             $factory      = new TranslateFactory($interpolator);
             $adapter      = $factory->load($options);
-            $locale       = $options->options->locale;
+        $locale       = $options->options->locale[0];
 
             $I->assertInstanceOf(Gettext::class, $adapter);
             $I->assertEquals($options->options->category, $adapter->getCategory());
@@ -82,7 +82,7 @@ class LoadCest
             $interpolator = new InterpolatorFactory();
             $factory      = new TranslateFactory($interpolator);
             $adapter      = $factory->load($options);
-            $locale       = $options['options']['locale'];
+        $locale       = $options['options']['locale'][0];
 
             $I->assertInstanceOf(Gettext::class, $adapter);
             $I->assertEquals($options['options']['category'], $adapter->getCategory());
