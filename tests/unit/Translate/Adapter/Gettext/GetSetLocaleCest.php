@@ -35,16 +35,20 @@ class GetSetLocaleCest
         $params     = $this->getGettextConfig();
         $translator = new Gettext(new InterpolatorFactory(), $params);
 
-        $I->assertEquals(
-            'en_US.utf8',
-            $translator->getLocale()
-        );
+        $expected = 'en_US.utf8';
+        $actual   = $translator->getLocale();
+        $I->assertEquals($expected, $actual);
 
-        $translator->setLocale(1, 'ru');
+        $translator->setLocale(1, ['ru']);
 
-        $I->assertEquals(
-            '',
-            $translator->getLocale()
-        );
+        $expected = '';
+        $actual   = $translator->getLocale();
+        $I->assertEquals($expected, $actual);
+
+        $translator->setLocale(1, ['ru_RU.utf8']);
+
+        $expected = 'ru_RU.utf8';
+        $actual   = $translator->getLocale();
+        $I->assertEquals($expected, $actual);
     }
 }
