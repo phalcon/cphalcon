@@ -191,13 +191,13 @@ jobs:
 
       - name: Setup locales
         run: |
-          sed -i -e 's/# de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/' /etc/locale.gen
-          sed -i -e 's/# el_GR.UTF-8 UTF-8/el_GR.UTF-8 UTF-8/' /etc/locale.gen
-          sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
-          sed -i -e 's/# es_ES.UTF-8 UTF-8/es_ES.UTF-8 UTF-8/' /etc/locale.gen
-          sed -i -e 's/# ru_RU.UTF-8 UTF-8/ru_RU.UTF-8 UTF-8/' /etc/locale.gen
-          dpkg-reconfigure --frontend=noninteractive locales
-          update-locale LANG=en_US.UTF-8
+          sudo sudo apt-get install tzdata locales -y
+          sudo locale-gen de_DE.UTF-8
+          sudo locale-gen el_GR.UTF-8
+          sudo locale-gen en_US.UTF-8
+          sudo locale-gen es_ES.UTF-8
+          sudo locale-gen ru_RU.UTF-8
+          sudo localectl set-locale LANG="en_US.UTF-8"
 
       - name: Install Packages
         run: composer install --prefer-dist
