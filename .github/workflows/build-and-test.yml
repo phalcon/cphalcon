@@ -566,7 +566,13 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: ${{ env.RELEASE_ZIPBALL }}.zip
-          path: ${{ env.RELEASE_DLL_PATH }}
+          path: |
+            ${{ env.RELEASE_DLL_PATH }}
+            ${{ github.workspace }}\3rdparty\licenses\LICENSE-ATLAS.txt
+            ${{ github.workspace }}\3rdparty\licenses\LICENSE-AURA.txt
+            ${{ github.workspace }}\3rdparty\licenses\LICENSE-DIACTOROS.txt
+            ${{ github.workspace }}\3rdparty\licenses\LICENSE-PHP.txt
+            ${{ github.workspace }}\3rdparty\licenses\LICENSE-ZEND.txt
 
       - name: Enable Extensions
         run: |
