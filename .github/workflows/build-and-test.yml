@@ -152,7 +152,7 @@ jobs:
           echo "::set-output name=dir::$(composer config cache-files-dir)"
 
       - name: Setup Composer Cache
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
@@ -174,7 +174,7 @@ jobs:
           tools: pecl
 
       - name: Download Phalcon Pecl Package
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v2
         with:
           name: phalcon-pecl
 
@@ -282,7 +282,7 @@ jobs:
           echo "::set-output name=ext_hash::$ext_hash"
 
       - name: Cache Extensions
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: ${{ steps.extension-step.outputs.ext_dir }}
           key: ${{ runner.os }}-extensions-${{ matrix.php-versions }}-${{ steps.extension-step.outputs.ext_hash }}
@@ -323,14 +323,14 @@ jobs:
           fi
 
       - name: Setup Cache
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
           restore-keys: ${{ runner.os }}-composer-
 
       - name: Download Phalcon Pecl Package
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v2
         with:
           name: phalcon-pecl
 
@@ -457,14 +457,14 @@ jobs:
           echo "::set-output name=dir::$(composer config cache-files-dir)"
 
       - name: Setup Cache
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
           restore-keys: ${{ runner.os }}-composer-
 
       - name: Download Phalcon Pecl Package
-        uses: actions/download-artifact@v1
+        uses: actions/download-artifact@v2
         with:
           name: phalcon-pecl
 
