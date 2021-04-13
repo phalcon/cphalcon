@@ -89,7 +89,7 @@ jobs:
         run: pecl package-validate phalcon-pecl.tgz
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v1
         with:
           name: 'phalcon-pecl'
           path: phalcon-pecl.tgz
@@ -174,7 +174,7 @@ jobs:
           tools: pecl
 
       - name: Download Phalcon Pecl Package
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v1
         with:
           name: phalcon-pecl
 
@@ -333,7 +333,7 @@ jobs:
           restore-keys: ${{ runner.os }}-composer-
 
       - name: Download Phalcon Pecl Package
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v1
         with:
           name: phalcon-pecl
 
@@ -467,7 +467,7 @@ jobs:
           restore-keys: ${{ runner.os }}-composer-
 
       - name: Download Phalcon Pecl Package
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v1
         with:
           name: phalcon-pecl
 
@@ -566,13 +566,13 @@ jobs:
           Get-PhpExtension "${env:RELEASE_DLL_PATH}"
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v1
         with:
           name: ${{ env.RELEASE_ZIPBALL }}.zip
           path: ${{ env.RELEASE_DLL_PATH }}
 
       - name: Upload Licenses
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v1
         with:
           name: ${{ env.RELEASE_ZIPBALL }}.zip
           path: |
@@ -608,7 +608,7 @@ jobs:
 
       - name: Upload build artifacts after Failure
         if: failure()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v1
         with:
           name: tools
           path: |
@@ -637,7 +637,7 @@ jobs:
 
       - name: Download Phalcon build artifacts
         id: download
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v1
 
       - name: Create Release
         uses: ncipollo/release-action@v1
