@@ -16,6 +16,7 @@ namespace Phalcon\Test\Unit\Logger\Logger;
 use Phalcon\Logger;
 use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Logger\Adapter\Syslog;
+use Phalcon\Logger\Formatter\Line;
 use Psr\Log\LogLevel;
 use UnitTester;
 
@@ -27,6 +28,9 @@ class LogCest
 {
     /**
      * Tests Phalcon\Logger :: log()
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-10-21
      */
     public function loggerLog(UnitTester $I)
     {
@@ -88,6 +92,9 @@ class LogCest
 
     /**
      * Tests Phalcon\Logger :: log() - logLevel
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-10-21
      */
     public function loggerLogLogLevel(UnitTester $I)
     {
@@ -166,6 +173,9 @@ class LogCest
 
     /**
      * Tests Phalcon\Logger :: log()
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-10-21
      */
     public function loggerLogSyslog(UnitTester $I)
     {
@@ -186,7 +196,9 @@ class LogCest
     /**
      * Tests Phalcon\Logger :: log() - logLevel
      *
-     * @issue #15214
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2020-12-09
+     * @issue  #15214
      */
     public function loggerLogLogLevelPsr(UnitTester $I)
     {
@@ -218,4 +230,43 @@ class LogCest
         $adapter->close();
         $I->safeDeleteFile($fileName);
     }
+
+    /**
+     * Tests Phalcon\Logger :: log() - different line format
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2121-04-14
+     * @issue  #15375
+     */
+    public function loggerLogLogLevelDifferentLineFormat(UnitTester $I)
+    {
+        $I->wantToTest('Logger - log() - different line format');
+
+        $unique    = uniqid();
+        $logPath   = logsDir();
+        $fileName  = $I->getNewFileName('log', 'log');
+        $format    = '[%date%] [%type%] %message%';
+        $formatter = new Line($format);
+        $adapter   = new Stream($logPath . $fileName);
+        $adapter->setFormatter($formatter);
+
+        $logger = new Logger(
+            'my-logger',
+            [
+                'one' => $adapter,
+            ]
+        );
+
+        $logger->log(Logger::INFO, 'info message ' . $unique);
+
+        $I->amInPath($logPath);
+        $I->openFile($fileName);
+
+        $expected = '[info] info message ' . $unique;
+        $I->seeInThisFile($expected);
+
+        $adapter->close();
+        $I->safeDeleteFile($fileName);
+    }
+
 }
