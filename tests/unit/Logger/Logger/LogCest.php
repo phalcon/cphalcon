@@ -268,5 +268,4 @@ class LogCest
         $adapter->close();
         $I->safeDeleteFile($fileName);
     }
-
 }
