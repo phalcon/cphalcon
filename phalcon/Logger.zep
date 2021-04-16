@@ -388,15 +388,15 @@ class Logger implements LoggerInterface
     protected function getLevels() -> array
     {
         return [
-            self::ALERT     : "alert",
-            self::CRITICAL  : "critical",
-            self::DEBUG     : "debug",
-            self::EMERGENCY : "emergency",
-            self::ERROR     : "error",
-            self::INFO      : "info",
-            self::NOTICE    : "notice",
-            self::WARNING   : "warning",
-            self::CUSTOM    : "custom"
+            self::ALERT     : "ALERT",
+            self::CRITICAL  : "CRITICAL",
+            self::DEBUG     : "DEBUG",
+            self::EMERGENCY : "EMERGENCY",
+            self::ERROR     : "ERROR",
+            self::INFO      : "INFO",
+            self::NOTICE    : "NOTICE",
+            self::WARNING   : "WARNING",
+            self::CUSTOM    : "CUSTOM"
         ];
     }
 
