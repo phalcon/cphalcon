@@ -82,6 +82,11 @@ class Column implements ColumnInterface
     const TYPE_BIT = 19;
 
     /**
+     * Binary abstract data type
+     */
+    const TYPE_BINARY = 26;
+
+    /**
      * Blob abstract data type
      */
     const TYPE_BLOB = 11;
@@ -200,6 +205,11 @@ class Column implements ColumnInterface
      * Tinytext abstract data type
      */
     const TYPE_TINYTEXT = 25;
+
+    /**
+     * Varbinary abstract data type
+     */
+    const TYPE_VARBINARY = 27;
 
     /**
      * Varchar abstract data type
