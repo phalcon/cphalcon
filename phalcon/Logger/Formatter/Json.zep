@@ -33,22 +33,22 @@ class Json extends AbstractFormatter
      */
     public function format(<Item> item) -> string
     {
-        var message;
+        var context, message, time;
 
-        if typeof item->getContext() === "array" {
-            let message = this->interpolate(
-                item->getMessage(),
-                item->getContext()
-            );
+        let context = item->getContext(),
+            time    = item->getTime();
+
+        if !empty context {
+            let message = this->interpolate(item->getMessage(), context);
         } else {
             let message = item->getMessage();
         }
 
         return JsonHelper::encode(
             [
-                "type"      : item->getName(),
+                "level"     : item->getLevelName(),
                 "message"   : message,
-                "timestamp" : this->getFormattedDate()
+                "timestamp" : time->format(this->dateFormat)
             ]
         );
     }

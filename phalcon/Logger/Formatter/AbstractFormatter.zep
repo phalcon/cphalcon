@@ -31,12 +31,12 @@ abstract class AbstractFormatter implements FormatterInterface
      * @param string $message
      * @param array $context
      */
-    public function interpolate(string message, var context = null)
+    public function interpolate(string message, var context = null) -> string
     {
         var key, value;
         array replace;
 
-        if typeof context == "array" && count(context) > 0 {
+        if !empty context {
             let replace = [];
 
             for key, value in context {
@@ -47,20 +47,5 @@ abstract class AbstractFormatter implements FormatterInterface
         }
 
         return message;
-    }
-
-    /**
-     * Returns the date formatted for the logger.
-     * @todo Not using the set time from the Item since we have interface
-     * misalignment which will break semver This will change in the future
-     */
-    protected function getFormattedDate() -> string
-    {
-        var date, timezone;
-
-        let timezone = date_default_timezone_get(),
-            date     = new DateTimeImmutable("now", new DateTimeZone(timezone));
-
-        return date->format(this->dateFormat);
     }
 }

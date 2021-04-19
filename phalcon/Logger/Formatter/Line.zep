@@ -30,8 +30,10 @@ class Line extends AbstractFormatter
     /**
      * Phalcon\Logger\Formatter\Line construct
      */
-    public function __construct(string format = "[%date%][%type%] %message%", string dateFormat = "c")
-    {
+    public function __construct(
+        string format = "[%date%][%level%] %message%",
+        string dateFormat = "c"
+    ) {
         let this->format     = format,
             this->dateFormat = dateFormat;
     }
@@ -41,9 +43,11 @@ class Line extends AbstractFormatter
      */
     public function format(<Item> item) -> string
     {
-        var format;
+        var context, format, time;
 
-        let format = this->format;
+        let context = item->getContext(),
+            format  = this->format,
+            time    = item->getTime();
 
         /**
          * Check if the format has the %date% placeholder
@@ -51,25 +55,22 @@ class Line extends AbstractFormatter
         if memstr(format, "%date%") {
             let format = str_replace(
                 "%date%",
-                this->getFormattedDate(),
+                time->format(this->dateFormat),
                 format
             );
         }
 
         /**
-         * Check if the format has the %type% placeholder
+         * Check if the format has the %level% placeholder
          */
-        if memstr(format, "%type%") {
-            let format = str_replace("%type%", item->getName(), format);
+        if memstr(format, "%level%") {
+            let format = str_replace("%level%", item->getLevelName(), format);
         }
 
         let format = str_replace("%message%", item->getMessage(), format);
 
-        if typeof item->getContext() === "array" {
-            return this->interpolate(
-                format,
-                item->getContext()
-            );
+        if !empty context {
+            return this->interpolate(format, context);
         }
 
         return format;

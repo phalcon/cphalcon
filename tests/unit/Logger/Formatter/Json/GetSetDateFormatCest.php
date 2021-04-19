@@ -11,27 +11,27 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Logger\Formatter\Line;
+namespace Phalcon\Test\Unit\Logger\Formatter\Json;
 
-use Phalcon\Logger\Formatter\Line;
+use Phalcon\Logger\Formatter\Json;
 use UnitTester;
 
-class GetFormatCest
+class GetDateFormatCest
 {
     /**
-     * Tests Phalcon\Logger\Formatter\Line :: getFormat()
+     * Tests Phalcon\Logger\Formatter\Json :: getDateFormat()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function loggerFormatterLineGetFormat(UnitTester $I)
+    public function loggerFormatterJsonGetDateFormat(UnitTester $I)
     {
-        $I->wantToTest('Logger\Formatter\Line - getFormat()');
+        $I->wantToTest('Logger\Formatter\Json - getDateFormat()');
 
-        $formatter = new Line();
-        $expected  = '[%date%][%type%] %message%';
-        $actual    = $formatter->getFormat();
+        $formatter = new Json();
 
+        $expected = 'c';
+        $actual   = $formatter->getDateFormat();
         $I->assertEquals($expected, $actual);
     }
 }

@@ -10,6 +10,8 @@
 
 namespace Phalcon\Logger;
 
+use DateTimeImmutable;
+
 /**
  * Phalcon\Logger\Item
  *
@@ -20,7 +22,7 @@ class Item
 {
     /**
      * Log Context
-     *      
+     *
      * @var mixed
      */
     protected context { get };
@@ -33,39 +35,40 @@ class Item
     protected message { get };
 
     /**
-     * Log message
-     *
-     * @var string
-     */
-    protected name { get };
-
-    /**
-     * Log timestamp
-     *
-     * @var integer
-     */
-    protected time { get };
-
-    /**
      * Log type
      *
      * @var integer
      */
-    protected type { get };
+    protected level { get };
+
+    /**
+     * Log message
+     *
+     * @var string
+     */
+    protected levelName { get };
+
+    /**
+     * Log timestamp
+     *
+     * @var DateTimeImmutable
+     */
+    protected time { get };
 
     /**
      * Phalcon\Logger\Item constructor
-     * @todo Remove the time or change the signature to an array
      */
-    public function __construct(string message, string name, int type, int time = 0, var context = [])
-    {
-        let this->message = message,
-            this->name    = name,
-            this->type    = type,
-            this->time    = time;
-
-        if typeof context == "array" {
-            let this->context = context;
-        }
+    public function __construct(
+        string message,
+        string levelName,
+        int level,
+        <DateTimeImmutable> time,
+        array context = []
+    ) {
+        let this->message   = message,
+            this->levelName = levelName,
+            this->level     = level,
+            this->time      = time,
+            this->context   = context;
     }
 }

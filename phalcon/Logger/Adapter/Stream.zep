@@ -110,7 +110,7 @@ class Stream extends AbstractAdapter
      */
     public function process(<Item> item) -> void
     {
-        var formatter, formattedMessage;
+        var message;
 
         if !is_resource(this->handler) {
             let this->handler = fopen(this->name, this->mode);
@@ -128,9 +128,8 @@ class Stream extends AbstractAdapter
             }
         }
 
-        let formatter        = this->getFormatter(),
-            formattedMessage = formatter->format(item) . PHP_EOL;
+        let message = this->getFormattedItem(item);
 
-        fwrite(this->handler, formattedMessage);
+        fwrite(this->handler, message);
     }
 }
