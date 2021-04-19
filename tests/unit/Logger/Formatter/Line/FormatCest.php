@@ -31,25 +31,17 @@ class FormatCest
         $I->wantToTest('Logger\Formatter\Line - format()');
 
         $formatter = new Line();
-
-        $time = time();
-
-        $item = new Item(
-            'log message',
-            'debug',
-            Logger::DEBUG,
-            $time
-        );
+        $time      = time();
+        $item      = new Item('log message', 'debug', Logger::DEBUG, $time);
 
         $expected = sprintf(
             '[%s][debug] log message',
             date('c', $time)
         );
 
-        $I->assertEquals(
-            $expected,
-            $formatter->format($item)
-        );
+        $actual = $formatter->format($item);
+
+        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -63,25 +55,17 @@ class FormatCest
         $I->wantToTest('Logger\Formatter\Line - format() - custom');
 
         $formatter = new Line('%message%-[%type%]-%date%');
-
-        $time = time();
-
-        $item = new Item(
-            'log message',
-            'debug',
-            Logger::DEBUG,
-            $time
-        );
+        $time      = time();
+        $item      = new Item('log message', 'debug', Logger::DEBUG, $time);
 
         $expected = sprintf(
             'log message-[debug]-%s',
             date('c', $time)
         );
 
-        $I->assertEquals(
-            $expected,
-            $formatter->format($item)
-        );
+        $actual = $formatter->format($item);
+
+        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -94,21 +78,13 @@ class FormatCest
     {
         $I->wantToTest('Logger\Formatter\Line - format() - custom - with milliseconds');
 
-        $formatter = new Line(
-            '%message%-[%type%]-%date%',
-            'U.u'
-        );
-
-        $item = new Item(
-            'log message',
-            'debug',
-            Logger::DEBUG,
-            time()
-        );
+        $formatter = new Line('%message%-[%type%]-%date%', 'U.u');
+        $item = new Item('log message', 'debug', Logger::DEBUG, time());
 
         $result = $formatter->format($item);
         $parts  = explode('-', $result);
         $parts  = explode('.', $parts[2]);
+
         $I->assertCount(2, $parts);
         $I->assertGreaterThan(0, (int) $parts[0]);
         $I->assertGreaterThan(0, (int) $parts[1]);

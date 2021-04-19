@@ -29,14 +29,11 @@ class SetDateFormatCest
         $I->wantToTest('Logger\Formatter\Json - setDateFormat()');
 
         $formatter = new Json();
-
-        $format = 'YmdHis';
-
+        $format    = 'YmdHis';
         $formatter->setDateFormat($format);
 
-        $I->assertEquals(
-            $format,
-            $formatter->getDateFormat()
-        );
+        $actual = $formatter->getDateFormat();
+
+        $I->assertEquals($format, $actual);
     }
 }

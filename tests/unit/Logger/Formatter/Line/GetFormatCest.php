@@ -29,10 +29,9 @@ class GetFormatCest
         $I->wantToTest('Logger\Formatter\Line - getFormat()');
 
         $formatter = new Line();
+        $expected  = '[%date%][%type%] %message%';
+        $actual    = $formatter->getFormat();
 
-        $I->assertEquals(
-            '[%date%][%type%] %message%',
-            $formatter->getFormat()
-        );
+        $I->assertEquals($expected, $actual);
     }
 }

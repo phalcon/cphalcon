@@ -54,15 +54,12 @@ class InterpolateCest
         $I->wantToTest('Logger\Formatter\Json - interpolate() - format()');
 
         $formatter = new Json();
-
-        $message = 'The sky is {color}';
-        $context = [
+        $message   = 'The sky is {color}';
+        $context   = [
             'color' => 'blue',
         ];
-
-        $time = time();
-
-        $item = new Item(
+        $time      = time();
+        $item      = new Item(
             $message,
             'debug',
             Logger::DEBUG,
@@ -75,9 +72,8 @@ class InterpolateCest
             date('c', $time)
         );
 
-        $I->assertEquals(
-            $expected,
-            $formatter->format($item)
-        );
+        $actual = $formatter->format($item);
+
+        $I->assertEquals($expected, $actual);
     }
 }

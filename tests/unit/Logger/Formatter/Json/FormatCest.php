@@ -31,25 +31,16 @@ class FormatCest
         $I->wantToTest('Logger\Formatter\Json - format()');
 
         $formatter = new Json();
-
-        $time = time();
-
-        $item = new Item(
-            'log message',
-            'debug',
-            Logger::DEBUG,
-            $time
-        );
+        $time      = time();
+        $item      = new Item('log message', 'debug', Logger::DEBUG, $time);
 
         $expected = sprintf(
             '{"type":"debug","message":"log message","timestamp":"%s"}',
             date('c', $time)
         );
 
-        $I->assertEquals(
-            $expected,
-            $formatter->format($item)
-        );
+        $actual = $formatter->format($item);
+        $I->assertEquals($expected, $actual);
     }
 
     /**
@@ -63,24 +54,16 @@ class FormatCest
         $I->wantToTest('Logger\Formatter\Json - format() - custom');
 
         $formatter = new Json('YmdHis');
-
-        $time = time();
-
-        $item = new Item(
-            'log message',
-            'debug',
-            Logger::DEBUG,
-            $time
-        );
+        $time      = time();
+        $item      = new Item('log message', 'debug', Logger::DEBUG, $time);
 
         $expected = sprintf(
             '{"type":"debug","message":"log message","timestamp":"%s"}',
             date('YmdHis', $time)
         );
 
-        $I->assertEquals(
-            $expected,
-            $formatter->format($item)
-        );
+        $actual = $formatter->format($item);
+
+        $I->assertEquals($expected, $actual);
     }
 }
