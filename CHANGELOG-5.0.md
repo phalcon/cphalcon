@@ -2,6 +2,11 @@
 
 ## Changed
 - Changed the logging names types to uppercase [#15375](https://github.com/phalcon/cphalcon/issues/15375)
+- Changes to the `Phalcon\Logger`:
+    - Renamed `Phalcon\Logger\Item::getName` to `Phalcon\Logger\Item::getLevelName`
+    - Renamed `Phalcon\Logger\Item::getType` to `Phalcon\Logger\Item::getLevel`
+    - Changed the logger timestamp to be `DateTimeImmutable` on a per item basis - more accurate timing
+    - Changed `Phalcon\Logger` to accept a `DateTimeZone` in the constructor [#15411](https://github.com/phalcon/cphalcon/issues/15411)
 
 ## Added
 - Added BINARY and VARBINARY support for Phalcon\Db\Adapter\Mysql [#14927](https://github.com/phalcon/cphalcon/issues/14927)
