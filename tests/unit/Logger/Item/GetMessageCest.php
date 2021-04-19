@@ -26,7 +26,8 @@ class GetMessageCest
     public function loggerItemGetMessage(UnitTester $I)
     {
         $I->wantToTest('Logger\Item - getMessage()');
-        $time = new DateTimeImmutable("now");;
+        $time = new DateTimeImmutable("now");
+        ;
         $item = new Item('log message', 'debug', Logger::DEBUG, $time);
 
         $expected = 'log message';

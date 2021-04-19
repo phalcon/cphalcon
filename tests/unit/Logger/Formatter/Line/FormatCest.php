@@ -18,6 +18,7 @@ use Phalcon\Logger;
 use Phalcon\Logger\Formatter\Line;
 use Phalcon\Logger\Item;
 use UnitTester;
+
 use function sprintf;
 
 class FormatCest
