@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Logger\Formatter\Line;
 
+use DateTimeImmutable;
 use Phalcon\Logger;
 use Phalcon\Logger\Formatter\Line;
 use Phalcon\Logger\Item;
@@ -58,7 +59,7 @@ class InterpolateCest
         $context   = [
             'color' => 'blue',
         ];
-        $time      = time();
+        $time      = new DateTimeImmutable("now");
         $item      = new Item(
             $message,
             'debug',
@@ -69,7 +70,7 @@ class InterpolateCest
 
         $expected = sprintf(
             '[%s][debug] The sky is blue',
-            date('c', $time)
+            $time->format('c')
         );
 
         $actual = $formatter->format($item);

@@ -13,10 +13,12 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Logger\Formatter\Json;
 
+use DateTimeImmutable;
 use Phalcon\Logger;
 use Phalcon\Logger\Formatter\Json;
 use Phalcon\Logger\Item;
 use UnitTester;
+use function sprintf;
 
 class FormatCest
 {
@@ -31,12 +33,12 @@ class FormatCest
         $I->wantToTest('Logger\Formatter\Json - format()');
 
         $formatter = new Json();
-        $time      = time();
+        $time      = new DateTimeImmutable("now");
         $item      = new Item('log message', 'debug', Logger::DEBUG, $time);
 
         $expected = sprintf(
-            '{"type":"debug","message":"log message","timestamp":"%s"}',
-            date('c', $time)
+            '{"level":"debug","message":"log message","timestamp":"%s"}',
+            $time->format('c')
         );
 
         $actual = $formatter->format($item);
@@ -54,12 +56,12 @@ class FormatCest
         $I->wantToTest('Logger\Formatter\Json - format() - custom');
 
         $formatter = new Json('YmdHis');
-        $time      = time();
+        $time      = new DateTimeImmutable("now");
         $item      = new Item('log message', 'debug', Logger::DEBUG, $time);
 
         $expected = sprintf(
-            '{"type":"debug","message":"log message","timestamp":"%s"}',
-            date('YmdHis', $time)
+            '{"level":"debug","message":"log message","timestamp":"%s"}',
+            $time->format('YmdHis')
         );
 
         $actual = $formatter->format($item);

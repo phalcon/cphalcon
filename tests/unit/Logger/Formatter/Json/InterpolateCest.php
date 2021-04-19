@@ -13,10 +13,12 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Logger\Formatter\Json;
 
+use DateTimeImmutable;
 use Phalcon\Logger;
 use Phalcon\Logger\Formatter\Json;
 use Phalcon\Logger\Item;
 use UnitTester;
+use function sprintf;
 
 class InterpolateCest
 {
@@ -58,7 +60,7 @@ class InterpolateCest
         $context   = [
             'color' => 'blue',
         ];
-        $time      = time();
+        $time      = new DateTimeImmutable("now");
         $item      = new Item(
             $message,
             'debug',
@@ -68,8 +70,8 @@ class InterpolateCest
         );
 
         $expected = sprintf(
-            '{"type":"debug","message":"The sky is blue","timestamp":"%s"}',
-            date('c', $time)
+            '{"level":"debug","message":"The sky is blue","timestamp":"%s"}',
+            $time->format('c')
         );
 
         $actual = $formatter->format($item);

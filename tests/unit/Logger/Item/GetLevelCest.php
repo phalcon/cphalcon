@@ -21,7 +21,7 @@ use UnitTester;
 class GetLevelCest
 {
     /**
-     * Tests Phalcon\Logger\Item :: getType()
+     * Tests Phalcon\Logger\Item :: getLevel()
      */
     public function loggerItemGetLevel(UnitTester $I)
     {

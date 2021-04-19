@@ -21,7 +21,7 @@ use UnitTester;
 class GetLevelNameCest
 {
     /**
-     * Tests Phalcon\Logger\Item :: getName()
+     * Tests Phalcon\Logger\Item :: getLevelName()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13

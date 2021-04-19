@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Logger\Adapter\Stream;
 
+use DateTimeImmutable;
 use Phalcon\Logger;
 use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Logger\Exception;
@@ -31,9 +32,10 @@ class ProcessCest
         $I->wantToTest('Logger\Adapter\Stream - process()');
         $fileName   = $I->getNewFileName('log', 'log');
         $outputPath = logsDir();
+        $time       = new DateTimeImmutable('now');
         $adapter    = new Stream($outputPath . $fileName);
 
-        $item = new Item('Message 1', 'debug', Logger::DEBUG);
+        $item = new Item('Message 1', 'debug', Logger::DEBUG, $time);
         $adapter->process($item);
 
         $I->amInPath($outputPath);

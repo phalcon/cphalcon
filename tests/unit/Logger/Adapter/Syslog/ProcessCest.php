@@ -13,10 +13,12 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Logger\Adapter\Syslog;
 
+use DateTimeImmutable;
 use Phalcon\Logger;
 use Phalcon\Logger\Adapter\Syslog;
 use Phalcon\Logger\Item;
 use UnitTester;
+use function sprintf;
 
 class ProcessCest
 {
@@ -37,7 +39,8 @@ class ProcessCest
         $item = new Item(
             'Message 1',
             'debug',
-            Logger::DEBUG
+            Logger::DEBUG,
+            new DateTimeImmutable('now')
         );
 
         $adapter->process($item);

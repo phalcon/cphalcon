@@ -18,29 +18,23 @@ use Phalcon\Logger\Formatter\FormatterInterface;
 use Phalcon\Logger\Formatter\Line;
 use UnitTester;
 
-class SetFormatterCest
+class GetSetFormatterCest
 {
     /**
-     * Tests Phalcon\Logger\Adapter\Syslog :: setFormatter()
+     * Tests Phalcon\Logger\Adapter\Syslog :: getFormatter()/setFormatter()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function loggerAdapterSyslogSetFormatter(UnitTester $I)
+    public function loggerAdapterSyslogGetSetFormatter(UnitTester $I)
     {
-        $I->wantToTest('Logger\Adapter\Syslog - setFormatter()');
+        $I->wantToTest('Logger\Adapter\Syslog - getFormatter()/setFormatter()');
 
         $streamName = $I->getNewFileName('log', 'log');
 
         $adapter = new Syslog($streamName);
+        $adapter->setFormatter(new Line());
 
-        $adapter->setFormatter(
-            new Line()
-        );
-
-        $I->assertInstanceOf(
-            FormatterInterface::class,
-            $adapter->getFormatter()
-        );
+        $I->assertInstanceOf(FormatterInterface::class, $adapter->getFormatter());
     }
 }
