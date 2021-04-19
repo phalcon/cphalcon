@@ -413,7 +413,7 @@ class Logger implements LoggerInterface
          * If someone uses "critical" as the level (string)
          */
         if typeof level === "string" {
-            let levelName = strtolower(level),
+            let levelName = strtoupper(level),
                 levels    = array_flip(this->getLevels());
 
             if isset levels[levelName] {

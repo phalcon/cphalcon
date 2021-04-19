@@ -22,6 +22,7 @@ use UnitTester;
 
 use function logsDir;
 use function sprintf;
+use function strtoupper;
 use function uniqid;
 
 class LogCest
@@ -37,15 +38,6 @@ class LogCest
         $I->wantToTest('Logger - log()');
 
         $logPath  = logsDir();
-        $fileName = $I->getNewFileName('log', 'log');
-        $adapter  = new Stream($logPath . $fileName);
-
-        $logger = new Logger(
-            'my-logger',
-            [
-                'one' => $adapter,
-            ]
-        );
 
         $levels = [
             Logger::ALERT     => 'alert',
@@ -70,24 +62,33 @@ class LogCest
         ];
 
         foreach ($levels as $level => $levelName) {
+
+            $fileName = $I->getNewFileName('log', 'log');
+            $adapter  = new Stream($logPath . $fileName);
+
+            $logger = new Logger(
+                'my-logger',
+                [
+                    'one' => $adapter,
+                ]
+            );
+
             $logger->log($level, 'Message ' . $levelName);
-        }
 
-        $I->amInPath($logPath);
-        $I->openFile($fileName);
+            $I->amInPath($logPath);
+            $I->openFile($fileName);
 
-        foreach ($levels as $levelName) {
             $expected = sprintf(
                 '[%s] Message %s',
-                $levelName,
+                strtoupper($levelName),
                 $levelName
             );
 
             $I->seeInThisFile($expected);
-        }
 
-        $adapter->close();
-        $I->safeDeleteFile($fileName);
+            $adapter->close();
+            $I->safeDeleteFile($fileName);
+        }
     }
 
     /**
@@ -100,19 +101,7 @@ class LogCest
     {
         $I->wantToTest('Logger - log() - logLevel');
 
-        $logPath  = logsDir();
-        $fileName = $I->getNewFileName('log', 'log');
-        $adapter  = new Stream($logPath . $fileName);
-
-        $logger = new Logger(
-            'my-logger',
-            [
-                'one' => $adapter,
-            ]
-        );
-
-        $logger->setLogLevel(Logger::ALERT);
-
+        $logPath   = logsDir();
         $levelsYes = [
             Logger::ALERT     => 'alert',
             Logger::CRITICAL  => 'critical',
@@ -139,36 +128,67 @@ class LogCest
         ];
 
         foreach ($levelsYes as $level => $levelName) {
+            $fileName = $I->getNewFileName('log', 'log');
+            $adapter  = new Stream($logPath . $fileName);
+
+            $logger = new Logger(
+                'my-logger',
+                [
+                    'one' => $adapter,
+                ]
+            );
+
+            $logger->setLogLevel(Logger::ALERT);
+
             $logger->log($level, 'Message ' . $levelName);
+
+            $I->amInPath($logPath);
+            $I->openFile($fileName);
+
+            $expected = sprintf(
+                '[%s] Message %s',
+                strtoupper($levelName),
+                $levelName,
+            );
+            $I->seeInThisFile($expected);
+
+            $adapter->close();
+            $I->safeDeleteFile($fileName);
         }
 
         foreach ($levelsNo as $level => $levelName) {
-            $logger->log($level, 'Message ' . $levelName);
-        }
+            $fileName = $I->getNewFileName('log', 'log');
+            $adapter  = new Stream($logPath . $fileName);
 
-        $I->amInPath($logPath);
-        $I->openFile($fileName);
-
-        foreach ($levelsYes as $levelName) {
-            $expected = sprintf(
-                '[%s] Message %s',
-                $levelName,
-                $levelName
+            $logger = new Logger(
+                'my-logger',
+                [
+                    'one' => $adapter,
+                ]
             );
-            $I->seeInThisFile($expected);
-        }
 
-        foreach ($levelsNo as $levelName) {
+            $logger->setLogLevel(Logger::ALERT);
+
+            /**
+             * Adding an ALERT here because otherwise the log will not
+             * be created since these are non logging events
+             */
+            $logger->alert('Message ALERT');
+            $logger->log($level, 'Message ' . $levelName);
+
+            $I->amInPath($logPath);
+            $I->openFile($fileName);
+
             $expected = sprintf(
                 '[%s] Message %s',
+                strtoupper($levelName),
                 $levelName,
-                $levelName
             );
             $I->dontSeeInThisFile($expected);
-        }
 
-        $adapter->close();
-        $I->safeDeleteFile($fileName);
+            $adapter->close();
+            $I->safeDeleteFile($fileName);
+        }
     }
 
     /**
@@ -222,9 +242,9 @@ class LogCest
         $I->amInPath($logPath);
         $I->openFile($fileName);
 
-        $expected = '[info] info message ' . $unique;
+        $expected = '[INFO] info message ' . $unique;
         $I->seeInThisFile($expected);
-        $expected = '[info] info message psr ' . $unique;
+        $expected = '[INFO] info message psr ' . $unique;
         $I->seeInThisFile($expected);
 
         $adapter->close();
@@ -262,7 +282,7 @@ class LogCest
         $I->amInPath($logPath);
         $I->openFile($fileName);
 
-        $expected = '[info] info message ' . $unique;
+        $expected = '[INFO] info message ' . $unique;
         $I->seeInThisFile($expected);
 
         $adapter->close();
