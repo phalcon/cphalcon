@@ -13,9 +13,11 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Image\Adapter\Gd;
 
+use Codeception\Example;
 use Phalcon\Image\Adapter\Gd;
 use Phalcon\Test\Fixtures\Traits\GdTrait;
 use UnitTester;
+
 use function dataDir;
 use function outputDir;
 
@@ -26,101 +28,44 @@ class TextCest
     /**
      * Tests Phalcon\Image\Adapter\Gd :: text()
      *
+     * @dataProvider getExamples
+     *
+     * @param UnitTester $I
+     * @param Example    $example
+     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function imageAdapterGdText(UnitTester $I)
+    public function imageAdapterGdText(UnitTester $I, Example $example)
     {
         $I->wantToTest('Image\Adapter\Gd - text()');
 
         $this->checkJpegSupport($I);
 
-        $outputDir = 'tests/image/gd';
+        $outputDir   = 'tests/image/gd';
+        $image       = new Gd(dataDir('assets/images/phalconphp.jpg'));
+        $index       = $example['index'];
+        $outputImage = $index . 'text.jpg';
+        $output      = outputDir($outputDir . '/' . $outputImage);
 
-        $params = [
-            [
-                'Hello Phalcon!',
-                false,
-                false,
-                100,
-                '000000',
-                12,
-                null,
-                'fbf9f3e3c3c18183',
-            ],
-            [
-                'Hello Phalcon!',
-                50,
-                false,
-                100,
-                '000000',
-                12,
-                null,
-                'fbf9f3e3c3c18183',
-            ],
-            [
-                'Hello Phalcon!',
-                50,
-                75,
-                100,
-                '000000',
-                12,
-                null,
-                'fbf9f3e3c3c18183',
-            ],
-            [
-                'Hello Phalcon!',
-                50,
-                75,
-                60,
-                '000000',
-                12,
-                null,
-                'fbf9f3e3c3c18183',
-            ],
-            [
-                'Hello Phalcon!',
-                50,
-                75,
-                60,
-                '00FF00',
-                12,
-                null,
-                'fbf9f3e3c3c18183',
-            ],
-            [
-                'Hello Phalcon!',
-                50,
-                75,
-                60,
-                '0000FF',
-                24,
-                null,
-                'fbf9f3e3c3c18183',
-            ],
-        ];
+        $image
+            ->text(
+                $example['text'],
+                $example['offsetX'],
+                $example['offsetY'],
+                $example['opacity'],
+                $example['color'],
+                $example['size'],
+                $example['font']
+            )
+              ->save($output)
+        ;
 
-        $i = 0;
+        $I->amInPath(outputDir($outputDir));
+        $I->seeFileFound($outputImage);
 
-        foreach ($params as [$text, $offsetX, $offsetY, $opacity, $color, $size, $font, $hash]) {
-            $image = new Gd(
-                dataDir('assets/images/phalconphp.jpg')
-            );
-
-            $outputImage = $i++ . 'text.jpg';
-            $output      = outputDir($outputDir . '/' . $outputImage);
-
-            //imagettfbbox ( float $size , float $angle , string $fontfile , string $text ) : array
-            $image->text($text, $offsetX, $offsetY, $opacity, $color, $size, $font)
-                  ->save($output)
-            ;
-
-            $I->amInPath(outputDir($outputDir));
-            $I->seeFileFound($outputImage);
-
-            $I->assertTrue($this->checkImageHash($output, $hash));
-            $I->safeDeleteFile($outputImage);
-        }
+        $I->assertTrue($this->checkImageHash($output, $example['hash']));
+        $I->safeDeleteFile($outputImage);
     }
 
     /**
@@ -164,5 +109,80 @@ class TextCest
 
         $I->assertTrue($this->checkImageHash($output, $hash));
         $I->safeDeleteFile($outputImage);
+    }
+
+    /**
+     * @return array[]
+     */
+    private function getExamples(): array
+    {
+        return [
+            [
+                'index'   => 1,
+                'text'    => 'Hello Phalcon!',
+                'offsetX' => false,
+                'offsetY' => false,
+                'opacity' => 100,
+                'color'   => '000000',
+                'size'    => 12,
+                'font'    => null,
+                'hash'    => 'fbf9f3e3c3c18183',
+            ],
+            [
+                'index'   => 2,
+                'text'    => 'Hello Phalcon!',
+                'offsetX' => 50,
+                'offsetY' => false,
+                'opacity' => 100,
+                'color'   => '000000',
+                'size'    => 12,
+                'font'    => null,
+                'hash'    => 'fbf9f3e3c3c18183',
+            ],
+            [
+                'index'   => 3,
+                'text'    => 'Hello Phalcon!',
+                'offsetX' => 50,
+                'offsetY' => 75,
+                'opacity' => 100,
+                'color'   => '000000',
+                'size'    => 12,
+                'font'    => null,
+                'hash'    => 'fbf9f3e3c3c18183',
+            ],
+            [
+                'index'   => 4,
+                'text'    => 'Hello Phalcon!',
+                'offsetX' => 50,
+                'offsetY' => 75,
+                'opacity' => 60,
+                'color'   => '000000',
+                'size'    => 12,
+                'font'    => null,
+                'hash'    => 'fbf9f3e3c3c18183',
+            ],
+            [
+                'index'   => 5,
+                'text'    => 'Hello Phalcon!',
+                'offsetX' => 50,
+                'offsetY' => 75,
+                'opacity' => 60,
+                'color'   => '00FF00',
+                'size'    => 12,
+                'font'    => null,
+                'hash'    => 'fbf9f3e3c3c18183',
+            ],
+            [
+                'index'   => 6,
+                'text'    => 'Hello Phalcon!',
+                'offsetX' => 50,
+                'offsetY' => 75,
+                'opacity' => 60,
+                'color'   => '0000FF',
+                'size'    => 24,
+                'font'    => null,
+                'hash'    => 'fbf9f3e3c3c18183',
+            ],
+        ];
     }
 }
