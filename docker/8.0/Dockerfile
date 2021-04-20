@@ -40,6 +40,8 @@ RUN cd /opt && \
 RUN cd /opt && \
     curl -s https://raw.githubusercontent.com/phalcon/zephir/development/.ci/install-zephir-parser.sh | bash
 
+RUN docker-php-ext-configure gd --with-freetype --with-jpeg=/usr/include/ --enable-gd
+
 RUN docker-php-ext-install zip gmp gd intl pdo_mysql pdo_pgsql && \
     docker-php-ext-enable psr redis igbinary msgpack apcu imagick yaml memcached xdebug
 
