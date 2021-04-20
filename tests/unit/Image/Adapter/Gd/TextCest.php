@@ -87,16 +87,14 @@ class TextCest
         $image       = dataDir('assets/images/phalconphp.jpg');
         $outputImage = '15188-text.jpg';
         $output      = outputDir($outputDir . '/' . $outputImage);
-        $fontPath    = dataDir('assets/fonts/Roboto-Light.ttf');
-
-        $text = 'Hello Phalcon!';
-        $offsetX = 50;
-        $offsetY = 75;
-        $opacity = 60;
-        $color   = '0000FF';
-        $size    = 24;
-        $font    = dataDir('assets/fonts/Roboto-Light.ttf');
-        $hash    = 'fbf9f3e3c3c18183';
+        $text        = 'Hello Phalcon!';
+        $offsetX     = 50;
+        $offsetY     = 75;
+        $opacity     = 60;
+        $color       = '0000FF';
+        $size        = 24;
+        $font        = dataDir('assets/fonts/Roboto-Light.ttf');
+        $hash        = 'fbf9f3e3c3c18183';
 
         $object = new Gd($image);
         $object
