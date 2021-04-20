@@ -9,7 +9,7 @@
 
 # Export tests environment variables
 # shellcheck disable=SC1091
-source ./tests/_ci/environment
+source ./tests/_config/environment
 
 # shellcheck disable=SC2046
-export $(cut -d= -f1 tests/_ci/environment)
+export $(cut -d= -f1 tests/_config/environment)
