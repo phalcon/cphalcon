@@ -15,13 +15,9 @@ namespace Phalcon\Test\Database\Db\Adapter\Pdo;
 
 use DatabaseTester;
 use Phalcon\Db\Column;
-use Phalcon\Storage\Exception;
-use Phalcon\Test\Fixtures\Migrations\AbstractMigration;
 use Phalcon\Test\Fixtures\Migrations\ComplexDefaultMigration;
 use Phalcon\Test\Fixtures\Migrations\DialectMigration;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
-
-use function var_dump;
 
 class DescribeColumnsCest
 {
