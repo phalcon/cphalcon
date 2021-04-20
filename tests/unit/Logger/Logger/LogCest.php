@@ -62,7 +62,6 @@ class LogCest
         ];
 
         foreach ($levels as $level => $levelName) {
-
             $fileName = $I->getNewFileName('log', 'log');
             $adapter  = new Stream($logPath . $fileName);
 
