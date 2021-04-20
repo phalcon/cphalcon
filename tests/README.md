@@ -85,7 +85,7 @@ The PHP extensions enabled are:
 To generate the necessary database schemas, you need to run the relevant script:
 
 ```shell script
-$ php tests/_ci/generate-db-schemas.php
+$ php tests/_config/generate-db-schemas.php
 ```
 
 ### Run tests
@@ -100,7 +100,7 @@ You will also need to provide Codeception configuration and run Docker container
  
 ```shell script
 # Create Codeception configuration
-$ cp tests/_ci/.env.default .env
+$ cp tests/_config/.env.default .env
 
 # Run Docker containers
 $ cd tests

@@ -129,8 +129,8 @@ jobs:
 
       - name: Setup Tests
         run: |
-          cp tests/_ci/.env.default .env
-          php tests/_ci/generate-db-schemas.php
+          cp tests/_config/.env.default .env
+          php tests/_config/generate-db-schemas.php
           vendor/bin/codecept build
 
       - name: Run All Tests
