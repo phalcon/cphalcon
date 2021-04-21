@@ -19095,11 +19095,7 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_modelinterface_find,
 	ZEND_ARG_INFO(0, parameters)
 ZEND_END_ARG_INFO()
 
-#if PHP_VERSION_ID >= 70200
-ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_modelinterface_findfirst, 0, 0, Phalcon\\Mvc\\ModelInterface, 1)
-#else
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_modelinterface_findfirst, 0, 0, IS_OBJECT, "Phalcon\\Mvc\\ModelInterface", 1)
-#endif
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_modelinterface_findfirst, 0, 0, 0)
 	ZEND_ARG_INFO(0, parameters)
 ZEND_END_ARG_INFO()
 
@@ -49131,7 +49127,7 @@ ZEPHIR_INIT_FUNCS(phalcon_security_jwt_builder_method_entry) {
 	PHP_ME(Phalcon_Security_JWT_Builder, setNotBefore, arginfo_phalcon_security_jwt_builder_setnotbefore, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Security_JWT_Builder, setSubject, arginfo_phalcon_security_jwt_builder_setsubject, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Security_JWT_Builder, setPassphrase, arginfo_phalcon_security_jwt_builder_setpassphrase, ZEND_ACC_PUBLIC)
-	PHP_ME(Phalcon_Security_JWT_Builder, setClaim, arginfo_phalcon_security_jwt_builder_setclaim, ZEND_ACC_PRIVATE)
+	PHP_ME(Phalcon_Security_JWT_Builder, setClaim, arginfo_phalcon_security_jwt_builder_setclaim, ZEND_ACC_PROTECTED)
 	PHP_FE_END
 };
 
