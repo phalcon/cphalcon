@@ -73,6 +73,12 @@ jobs:
           $HOME/bin/zephir generate
           (cd build && php gen-build.php)
 
+      - name: Upload compile-errors.log
+        uses: actions/upload-artifact@v2
+        with:
+          name: compile-errors
+          path: compile-errors.log
+
       - name: Create Pecl Package (PHP 8)
         id: pecl_create
         run: |
