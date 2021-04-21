@@ -591,29 +591,39 @@ class Gd extends AbstractAdapter
         }
     }
 
-    protected function processText(string text, int offsetX, int offsetY, int opacity, int r, int g, int b, int size, string fontfile)
-    {
+    protected function processText(
+        string text,
+        int offsetX,
+        int offsetY,
+        int opacity,
+        int r,
+        int g,
+        int b,
+        int size,
+        string fontfile
+    ) {
         var space, color, angle;
-        int s0 = 0, s1 = 0, s4 = 0, s5 = 0, width, height;
+        int bottomLeftX = 0, bottomLeftY = 0, topRightX = 0, topRightY = 0,
+        width, height;
 
         let opacity = (int) round(abs((opacity * 127 / 100) - 127));
 
         if fontfile {
             let space = imagettfbbox(size, 0, fontfile, text);
 
-            if isset space[0] {
-                let s0 = (int) space[0];
-                let s1 = (int) space[1];
-                let s4 = (int) space[4];
-                let s5 = (int) space[5];
-            }
-
-            if unlikely (!s0 || !s1 || !s4 || !s5) {
+            if false === space {
                 throw new Exception("Call to imagettfbbox() failed");
             }
 
-            let width  = abs(s4 - s0) + 10;
-            let height = abs(s5 - s1) + 10;
+            if isset space[0] {
+                let bottomLeftX = (int) space[0],
+                    bottomLeftY = (int) space[1],
+                    topRightX   = (int) space[4],
+                    topRightY   = (int) space[5];
+            }
+
+            let width  = abs(topRightX - bottomLeftX) + 10;
+            let height = abs(topRightY - bottomLeftY) + 10;
 
             if offsetX < 0 {
                 let offsetX = this->width - width + offsetX;
