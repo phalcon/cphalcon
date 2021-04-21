@@ -207,7 +207,7 @@ class IsAllowedCest
         $errorMessage = 'Number of parameters in array is higher than the ' .
             'number of parameters in defined function when checking if ' .
             "'Members' can 'update' 'Post'. Extra parameters will be ignored. " .
-            "at tests/unit/Acl/Adapter/Memory/IsAllowedCest.php:242";
+            "at tests/unit/Acl/Adapter/Memory/IsAllowedCest.php:244";
 
         if (PHP_OS_FAMILY === 'Windows') {
             $errorMessage = str_replace('/', '\\', $errorMessage);
