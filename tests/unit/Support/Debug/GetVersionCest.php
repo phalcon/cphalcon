@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Debug;
 
-use Phalcon\Debug;
+use Phalcon\Support\Debug\;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
 use Phalcon\Support\Version;
 use UnitTester;

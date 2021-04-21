@@ -11,9 +11,9 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Debug\Dump;
+namespace Phalcon\Test\Unit\Support\Debug\Dump;
 
-use Phalcon\Debug\Dump;
+use Phalcon\Support\Debug\Dump;
 use UnitTester;
 
 class VariableCest
