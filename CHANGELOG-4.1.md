@@ -1,4 +1,7 @@
-# [4.1.1](https://github.com/phalcon/cphalcon/releases/tag/v4.1.0) (xxxx-xx-xx)
+# [4.1.1](https://github.com/phalcon/cphalcon/releases/tag/v4.1.1) (2021-04-21)
+
+## Changed
+- Corrected max PHP version for PECL
 
 ## Fixed
 - Fixed `Logger\Log::log()` `log` to recognize all log levels [#15214](https://github.com/phalcon/cphalcon/issues/15214)
