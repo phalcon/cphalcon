@@ -4,6 +4,12 @@
 - Added BINARY and VARBINARY support for Phalcon\Db\Adapter\Mysql [#14927](https://github.com/phalcon/cphalcon/issues/14927)
 - Added `Phalcon\Db\Profiler\Item::getTotalElapsedNanoseconds()` and `Phalcon\Db\Profiler\Item::getTotalElapsedMilliseconds()` for more precision [#15249](https://github.com/phalcon/cphalcon/issues/15249)
 
+## Changed
+- `Phalcon\Version` is not moved to `Phalcon\Support\Version`
+    - `_getSpecialVersion` and `_getVersion` have been removed (marked deprecated in v4)
+    - The class is no longer static; it has to be instantiated first
+    - References to `Phalcon\Debug` and the Volt compiler have been adjusted [#15422](https://github.com/phalcon/cphalcon/issues/15422)
+
 ## Fixed
 - Corrected the `Phalcon\Db\Profiler\Item` calculation for seconds [#15249](https://github.com/phalcon/cphalcon/issues/15249) 
 - Corrected `Phalcon\Http\Message\ServerRequestFactory` to populate with superglobals [#15286](https://github.com/phalcon/cphalcon/issues/15286)
