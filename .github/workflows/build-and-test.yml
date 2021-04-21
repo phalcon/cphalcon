@@ -169,7 +169,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
-          extensions: mbstring, intl, json, imagick, redis, igbinary, apcu, msgpack, memcached, yaml
+          extensions: mbstring, intl, json, gd, imagick, redis, igbinary, apcu, msgpack, memcached, yaml
           ini-values: apc.enable_cli=on, session.save_path=/tmp, extension=psr.so, extension=phalcon.so
           tools: pecl
 
@@ -257,7 +257,7 @@ jobs:
     needs: generate
     runs-on: ${{ matrix.operating-system }}
     env:
-      PHP_EXTENSIONS: mbstring, intl, json, yaml, apcu, imagick, igbinary, msgpack-beta, redis
+      PHP_EXTENSIONS: mbstring, intl, json, yaml, apcu, gd, imagick, igbinary, msgpack-beta, redis
       HOMEBREW_NO_INSTALL_CLEANUP: 1
     strategy:
       fail-fast: false
@@ -405,7 +405,7 @@ jobs:
           php-version: ${{ matrix.php-versions }}
           ini-values: apc.enable_cli=on, session.save_path=C:\temp
           tools: pecl
-          extensions: mbstring, intl, json, yaml, apcu, imagick, gd, redis, igbinary, sqlite3, msgpack, psr
+          extensions: mbstring, intl, json, yaml, apcu, gd, imagick, redis, igbinary, sqlite3, msgpack, psr
         env:
           PHPTS: ${{ matrix.ts }}
 
