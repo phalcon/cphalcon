@@ -12,7 +12,7 @@ namespace Phalcon;
 
 use ErrorException;
 use Phalcon\Helper\Arr;
-use Phalcon\Version;
+use Phalcon\Support\Version;
 use Phalcon\Tag;
 use ReflectionClass;
 use ReflectionFunction;
@@ -130,11 +130,12 @@ class Debug
      */
     public function getVersion() -> string
     {
-        var link;
+        var link, version;
 
-        let link = [
-            "action": "https://docs.phalcon.io/" . Version::getPart(Version::VERSION_MAJOR) . "." . Version::getPart(Version::VERSION_MEDIUM) . "/en/",
-            "text"  : Version::get(),
+        let version = new Version(),
+            link    = [
+            "action": "https://docs.phalcon.io/" . version->getPart(Version::VERSION_MAJOR) . "." . version->getPart(Version::VERSION_MEDIUM) . "/en/",
+            "text"  : version->get(),
             "local" : false,
             "target": "_new"
         ];
