@@ -56,7 +56,7 @@ class Debug
     /**
      * @var string
     */
-    protected uri = "https://assets.phalcon.io/debug/4.0.x/";
+    protected uri = "https://assets.phalcon.io/debug/5.0.x/";
 
     /**
      * Clears are variables added previously
@@ -92,7 +92,7 @@ class Debug
         let uri = this->uri;
 
         let sources  = "<link rel='stylesheet' type='text/css' href='"
-                     . uri . "bower_components/jquery-ui/themes/ui-lightness/jquery-ui.min.css' />"
+                     . uri . "assets/jquery-ui/themes/ui-lightness/jquery-ui.min.css' />"
                      . "<link rel='stylesheet' type='text/css' href='"
                      . uri . "bower_components/jquery-ui/themes/ui-lightness/theme.css' />"
                      . "<link rel='stylesheet' type='text/css' href='"
@@ -111,11 +111,11 @@ class Debug
         let uri = this->uri;
 
         let sources  = "<script type='text/javascript' src='"
-                     . uri . "bower_components/jquery/dist/jquery.min.js'></script>"
+                     . uri . "assets/jquery/dist/jquery.min.js'></script>"
                      . "<script type='text/javascript' src='"
-                     . uri . "bower_components/jquery-ui/jquery-ui.min.js'></script>"
+                     . uri . "assets/jquery-ui/jquery-ui.min.js'></script>"
                      . "<script type='text/javascript' src='"
-                     . uri . "bower_components/jquery.scrollTo/jquery.scrollTo.min.js'></script>"
+                     . uri . "assets/jquery.scrollTo/jquery.scrollTo.min.js'></script>"
                      . "<script type='text/javascript' src='"
                      . uri . "prettify/prettify.js'></script>"
                      . "<script type='text/javascript' src='"
