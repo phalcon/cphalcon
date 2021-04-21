@@ -5,10 +5,11 @@
 - Added `Phalcon\Db\Profiler\Item::getTotalElapsedNanoseconds()` and `Phalcon\Db\Profiler\Item::getTotalElapsedMilliseconds()` for more precision [#15249](https://github.com/phalcon/cphalcon/issues/15249)
 
 ## Changed
-- `Phalcon\Version` is not moved to `Phalcon\Support\Version`
+- `Phalcon\Version` is now moved to `Phalcon\Support\Version`
     - `_getSpecialVersion` and `_getVersion` have been removed (marked deprecated in v4)
     - The class is no longer static; it has to be instantiated first
     - References to `Phalcon\Debug` and the Volt compiler have been adjusted [#15422](https://github.com/phalcon/cphalcon/issues/15422)
+- `Phalcon\Debug` is now moved to `Phalcon\Support\Debug`; CSS/JS references updated [#14817](https://github.com/phalcon/cphalcon/issues/14817)
 
 ## Fixed
 - Corrected the `Phalcon\Db\Profiler\Item` calculation for seconds [#15249](https://github.com/phalcon/cphalcon/issues/15249) 
