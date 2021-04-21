@@ -14,15 +14,10 @@ declare(strict_types=1);
 namespace Phalcon\Test\Database\Db\Adapter\Pdo;
 
 use DatabaseTester;
-use PDO;
 use Phalcon\Db\Adapter\PdoFactory;
-use Phalcon\Db\Column;
-use Phalcon\Test\Fixtures\Migrations\ComplexDefaultMigration;
-use Phalcon\Test\Fixtures\Migrations\DialectMigration;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
+
 use function getOptionsMysql;
-use function getOptionsPostgresql;
-use function getOptionsSqlite;
 
 class ConnectCest
 {
