@@ -22,6 +22,7 @@ use Phalcon\Acl\Role;
 use Phalcon\Test\Fixtures\Acl\TestComponentAware;
 use Phalcon\Test\Fixtures\Acl\TestRoleAware;
 use UnitTester;
+
 use function str_replace;
 
 class AllowCest
