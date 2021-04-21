@@ -11,10 +11,10 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Version;
+namespace Phalcon\Test\Unit\Support\Version;
 
 use Phalcon\Test\Fixtures\Traits\VersionTrait;
-use Phalcon\Version;
+use Phalcon\Support\Version;
 use UnitTester;
 
 use function is_string;
@@ -24,7 +24,7 @@ class GetCest
     use VersionTrait;
 
     /**
-     * Tests Phalcon\Version :: get()
+     * Tests Phalcon\Support\Version :: get()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
@@ -33,7 +33,9 @@ class GetCest
     {
         $I->wantToTest('Version - get()');
 
-        $I->assertTrue(is_string(Version::get()));
+        $version = (new Version())->get();
+
+        $I->assertTrue(is_string($version));
     }
 
     /**
@@ -46,7 +48,8 @@ class GetCest
     {
         $I->wantToTest('Version - getId() to get()');
 
-        $id = Version::getId();
+        $version = new Version();
+        $id      = $version->getId();
 
         $major     = intval($id[0]);
         $med       = intval($id[1] . $id[2]);
@@ -61,9 +64,6 @@ class GetCest
             }
         }
 
-        $I->assertEquals(
-            trim($expected),
-            Version::get()
-        );
+        $I->assertEquals(trim($expected), $version->get());
     }
 }

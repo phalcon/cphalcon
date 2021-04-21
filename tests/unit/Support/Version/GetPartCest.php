@@ -11,10 +11,10 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Version;
+namespace Phalcon\Test\Unit\Support\Version;
 
 use Phalcon\Test\Fixtures\Traits\VersionTrait;
-use Phalcon\Version;
+use Phalcon\Support\Version;
 use UnitTester;
 
 class GetPartCest
@@ -22,7 +22,7 @@ class GetPartCest
     use VersionTrait;
 
     /**
-     * Tests Phalcon\Version :: getPart()
+     * Tests Phalcon\Support\Version :: getPart()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
@@ -35,44 +35,42 @@ class GetPartCest
          * Note: getId() returns a version string in the format ABBCCDE
          * where A is the major version, BB is the medium version (2 digits)
          * CC is the minor version (2 digits), D is the release type (see
-         * Phalcon\Version) and E is the release number (for example 2 for RC2)
+         * Phalcon\Support\Version) and E is the release number (for example 2 for RC2)
          */
 
-        $id = Version::getId();
+        $version = new Version();
+        $id = $version->getId();
 
         // The major version is the first digit
         $I->assertEquals(
             intval($id[0]),
-            Version::getPart(Version::VERSION_MAJOR)
+            $version->getPart(Version::VERSION_MAJOR)
         );
 
         // The medium version is the second and third digits
         $I->assertEquals(
             intval($id[1] . $id[2]),
-            Version::getPart(Version::VERSION_MEDIUM)
+            $version->getPart(Version::VERSION_MEDIUM)
         );
 
         // The minor version is the fourth and fifth digits
         $I->assertEquals(
             intval($id[3] . $id[4]),
-            Version::getPart(Version::VERSION_MINOR)
+            $version->getPart(Version::VERSION_MINOR)
         );
 
         $I->assertEquals(
             $this->numberToSpecial($id[5]),
-            Version::getPart(Version::VERSION_SPECIAL)
+            $version->getPart(Version::VERSION_SPECIAL)
         );
 
         $special  = $this->numberToSpecial($id[5]);
         $expected = ($special) ? $id[6] : 0;
         $I->assertEquals(
             $expected,
-            Version::getPart(Version::VERSION_SPECIAL_NUMBER)
+            $version->getPart(Version::VERSION_SPECIAL_NUMBER)
         );
 
-        $I->assertEquals(
-            Version::get(),
-            Version::getPart(7)
-        );
+        $I->assertEquals($version->get(), $version->getPart(7));
     }
 }

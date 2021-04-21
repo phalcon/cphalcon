@@ -11,15 +11,15 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Version;
+namespace Phalcon\Test\Unit\Support\Version;
 
-use Phalcon\Version;
+use Phalcon\Support\Version;
 use UnitTester;
 
 class ConstantsCest
 {
     /**
-     * Tests Phalcon\Version :: Constants
+     * Tests Phalcon\Support\Version :: Constants
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13

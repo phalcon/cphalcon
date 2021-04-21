@@ -11,10 +11,10 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Version;
+namespace Phalcon\Test\Unit\Support\Version;
 
 use Phalcon\Test\Fixtures\Traits\VersionTrait;
-use Phalcon\Version;
+use Phalcon\Support\Version;
 use UnitTester;
 
 use function is_string;
@@ -24,7 +24,7 @@ class GetIdCest
     use VersionTrait;
 
     /**
-     * Tests Phalcon\Version :: getId()
+     * Tests Phalcon\Support\Version :: getId()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
@@ -33,7 +33,8 @@ class GetIdCest
     {
         $I->wantToTest('Version - getId()');
 
-        $I->assertTrue(is_string(Version::getId()));
+        $version = new Version();
+        $I->assertTrue(is_string($version->getId()));
     }
 
     /**
@@ -46,7 +47,8 @@ class GetIdCest
     {
         $I->wantToTest('Version - get() to getId()');
 
-        $version = Version::get();
+        $object  = new Version();
+        $version = $object->get();
         $chunks  = explode('-', $version);
 
         $special   = '4';
@@ -85,7 +87,7 @@ class GetIdCest
 
         $I->assertEquals(
             "{$major}{$med}{$min}{$special}{$specialNo}",
-            Version::getId()
+            $object->getId()
         );
     }
 }
