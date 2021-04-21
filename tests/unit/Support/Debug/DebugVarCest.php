@@ -15,17 +15,17 @@ namespace Phalcon\Test\Unit\Debug;
 
 use UnitTester;
 
-class GetRenderedHtmlCest
+class DebugVarCest
 {
     /**
-     * Tests Phalcon\Debug :: renderHtml()
+     * Tests Phalcon\Debug :: debugVar()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-04
      */
     public function debugDebugVar(UnitTester $I)
     {
-        $I->wantToTest('Debug - renderHtml()');
+        $I->wantToTest('Debug - debugVar()');
 
         $I->skipTest('Need implementation');
     }
