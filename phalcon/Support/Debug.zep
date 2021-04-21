@@ -8,11 +8,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon;
+namespace Phalcon\Support;
 
 use ErrorException;
 use Phalcon\Helper\Arr;
-use Phalcon\Support\Version;
 use Phalcon\Tag;
 use ReflectionClass;
 use ReflectionFunction;
