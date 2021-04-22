@@ -67,6 +67,9 @@ use Phalcon\Mvc\ModuleDefinitionInterface;
  */
 class Application extends AbstractApplication
 {
+    /**
+     * @var bool
+     */
     protected implicitView = true;
 
     /**
@@ -78,16 +81,6 @@ class Application extends AbstractApplication
      * @var bool
      */
     protected sendHeaders = true;
-
-    /**
-     * @var bool
-     */
-    protected isHeadersSent = false;
-
-    /**
-     * @var bool
-     */
-    protected isCookiesSent = false;
 
     /**
      * Handles a MVC request
@@ -409,19 +402,15 @@ class Application extends AbstractApplication
         /**
          * Check whether send headers or not (by default yes)
          */
-        if true === this->sendHeaders  && false === this->isHeadersSent {
+        if this->sendHeaders  {
             response->sendHeaders();
-
-            let this->isHeadersSent = true;
         }
 
         /**
          * Check whether send cookies or not (by default yes)
          */
-        if true === this->sendCookies && false === this->isCookiesSent {
+        if this->sendCookies {
             response->sendCookies();
-
-            let this->isCookiesSent = true;
         }
 
         /**
