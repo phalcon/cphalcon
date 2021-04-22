@@ -29,16 +29,6 @@ environment:
       BUILD_TYPE: nts-Win32
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
 
-    - PHP_VERSION: '7.2'
-      VC_VERSION: '15'
-      BUILD_TYPE: Win32
-      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-
-    - PHP_VERSION: '7.2'
-      VC_VERSION: '15'
-      BUILD_TYPE: nts-Win32
-      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
-
   PHP_AVM: https://raw.githubusercontent.com/sergeyklay/php-appveyor/master/php-appveyor.psm1
 
   PHP_SDK_VERSION: 2.1.9
