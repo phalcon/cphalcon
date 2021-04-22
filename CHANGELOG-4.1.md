@@ -1,3 +1,8 @@
+# [4.1.2](https://github.com/phalcon/cphalcon/releases/tag/v4.1.2) (2021-04-22)
+
+## Changed
+- Corrected version in package.xml
+
 # [4.1.1](https://github.com/phalcon/cphalcon/releases/tag/v4.1.1) (2021-04-21)
 
 ## Changed
