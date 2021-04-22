@@ -65,8 +65,19 @@ use Phalcon\Http\Cookie\CookieInterface;
  */
 class Cookies extends AbstractInjectionAware implements CookiesInterface
 {
+    /**
+     * @var array
+     */
     protected cookies = [];
 
+    /**
+     * @var bool
+     */
+    protected isSent = false;
+
+    /**
+     * @var bool
+     */
     protected registered = false;
 
     /**
@@ -75,6 +86,9 @@ class Cookies extends AbstractInjectionAware implements CookiesInterface
      */
     protected signKey = null;
 
+    /**
+     * @var bool
+     */
     protected useEncryption = true;
 
     /**
@@ -167,6 +181,14 @@ class Cookies extends AbstractInjectionAware implements CookiesInterface
     }
 
     /**
+     * Returns if the headers have already been sent
+     */
+    public function isSent() -> bool
+    {
+        return this->isSent;
+    }
+
+    /**
      * Returns if the bag is automatically encrypting/decrypting cookies
      */
     public function isUsingEncryption() -> bool
@@ -192,13 +214,15 @@ class Cookies extends AbstractInjectionAware implements CookiesInterface
     {
         var cookie;
 
-        if headers_sent() {
+        if true === headers_sent() || true === this->isSent() {
             return false;
         }
 
         for cookie in this->cookies {
             cookie->send();
         }
+
+        let this->isSent = true;
 
         return true;
     }

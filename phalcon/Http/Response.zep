@@ -57,16 +57,6 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     /**
      * @var bool
      */
-    protected isCookiesSent = false;
-
-    /**
-     * @var bool
-     */
-    protected isHeadersSent = false;
-
-    /**
-     * @var bool
-     */
     protected sent = false;
 
     protected statusCodes;
@@ -211,22 +201,6 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
         let headers = this->getHeaders();
 
         return headers->has(name);
-    }
-
-    /**
-     * Check if the response has sent the cookies already
-     */
-    public function isCookiesSent() -> bool
-    {
-        return this->isCookiesSent;
-    }
-
-    /**
-     * Check if the response has sent the headers already
-     */
-    public function isHeadersSent() -> bool
-    {
-        return this->isHeadersSent;
     }
 
     /**
@@ -388,14 +362,10 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     {
         var cookies;
 
-        if true !== this->isCookiesSent {
-            let cookies = this->cookies;
+        let cookies = this->cookies;
 
-            if typeof cookies == "object" {
-                cookies->send();
-            }
-
-            let this->isCookiesSent = true;
+        if typeof cookies == "object" {
+            cookies->send();
         }
 
         return this;
@@ -408,24 +378,20 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
     {
         var headers, eventsManager;
 
-        if true !== this->isHeadersSent {
-            let headers = <HeadersInterface> this->getHeaders();
-            let eventsManager = <ManagerInterface> this->getEventsManager();
+        let headers = <HeadersInterface> this->getHeaders();
+        let eventsManager = <ManagerInterface> this->getEventsManager();
 
-            if typeof eventsManager == "object" {
-                if eventsManager->fire("response:beforeSendHeaders", this) === false {
-                    return false;
-                }
+        if typeof eventsManager == "object" {
+            if eventsManager->fire("response:beforeSendHeaders", this) === false {
+                return false;
             }
+        }
 
-            /**
-             * Send headers
-             */
-            if headers->send() && typeof eventsManager == "object" {
-                eventsManager->fire("response:afterSendHeaders", this);
-            }
-
-            let this->isHeadersSent = true;
+        /**
+         * Send headers
+         */
+        if headers->send() && typeof eventsManager == "object" {
+            eventsManager->fire("response:afterSendHeaders", this);
         }
 
         return this;
