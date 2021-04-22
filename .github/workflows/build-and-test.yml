@@ -364,12 +364,11 @@ jobs:
 
       - name: Setup locales
         run: |
-          localedef -i en_US -f UTF-8 en_US.UTF-8
-          localedef -i de_DE -f UTF-8 de_DE.UTF-8
-          localedef -i el_GR -f UTF-8 el_GR.UTF-8
-          localedef -i en_US -f UTF-8 en_US.UTF-8
-          localedef -i es_ES -f UTF-8 es_ES.UTF-8
-          localedef -i ru_RU -f UTF-8 ru_RU.UTF-8
+          localedef -i de_DE de_DE.UTF-8
+          localedef -i el_GR el_GR.UTF-8
+          localedef -i en_US en_US.UTF-8
+          localedef -i es_ES es_ES.UTF-8
+          localedef -i ru_RU ru_RU.UTF-8
           export LANG="en_US.UTF-8"
           export LANGUAGE="en_US.UTF-8"
           export LC_ALL="en_US.UTF-8"
