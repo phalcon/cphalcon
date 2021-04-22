@@ -13,7 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Debug;
 
-use Phalcon\Debug;
+use Phalcon\Support\Debug;
 use UnitTester;
 
 class SetUriCest
@@ -34,9 +34,9 @@ class SetUriCest
 
         $expected = sprintf(
             "<link rel='stylesheet' type='text/css' " .
-            'href=\'%1$sbower_components/jquery-ui/themes/ui-lightness/jquery-ui.min.css\' />' .
+            'href=\'%1$sassets/jquery-ui/themes/ui-lightness/jquery-ui.min.css\' />' .
             "<link rel='stylesheet' type='text/css' " .
-            'href=\'%1$sbower_components/jquery-ui/themes/ui-lightness/theme.css\' />' .
+            'href=\'%1$sassets/jquery-ui/themes/ui-lightness/theme.css\' />' .
             "<link rel='stylesheet' type='text/css' " .
             'href=\'%1$sthemes/default/style.css\' />',
             $uri
