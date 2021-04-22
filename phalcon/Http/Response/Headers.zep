@@ -17,7 +17,15 @@ namespace Phalcon\Http\Response;
  */
 class Headers implements HeadersInterface
 {
+    /**
+     * @var array
+     */
     protected headers = [];
+
+    /**
+     * @var bool
+     */
+    protected isSent = false;
 
     /**
      * Gets a header value from the internal bag
@@ -41,6 +49,14 @@ class Headers implements HeadersInterface
     public function has(string name) -> bool
     {
         return isset this->headers[name];
+    }
+
+    /**
+     * Returns if the headers have already been sent
+     */
+    public function isSent() -> bool
+    {
+        return this->isSent;
     }
 
     /**
@@ -72,7 +88,7 @@ class Headers implements HeadersInterface
     {
         var header, value;
 
-        if headers_sent() {
+        if true === headers_sent() || true === this->isSent() {
             return false;
         }
 
@@ -96,6 +112,8 @@ class Headers implements HeadersInterface
                 }
             }
         }
+
+        let this->isSent = true;
 
         return true;
     }
