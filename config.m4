@@ -8,7 +8,6 @@ if test "$PHP_PHALCON" = "yes"; then
     AC_MSG_CHECKING(PHP version)
     if test $PHP_VERSION -lt 70401; then
       AC_MSG_ERROR(PHP version $PHP_STRING is not supported)
-      subdir=build/php7/safe
     elif test $PHP_VERSION -lt 80000; then
       AC_MSG_RESULT($PHP_STRING)
       subdir=build/php7/safe
