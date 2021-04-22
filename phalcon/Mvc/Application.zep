@@ -69,9 +69,25 @@ class Application extends AbstractApplication
 {
     protected implicitView = true;
 
+    /**
+     * @var bool
+     */
     protected sendCookies = true;
 
+    /**
+     * @var bool
+     */
     protected sendHeaders = true;
+
+    /**
+     * @var bool
+     */
+    protected isHeadersSent = false;
+
+    /**
+     * @var bool
+     */
+    protected isCookiesSent = false;
 
     /**
      * Handles a MVC request
@@ -393,15 +409,19 @@ class Application extends AbstractApplication
         /**
          * Check whether send headers or not (by default yes)
          */
-        if this->sendHeaders  {
+        if true === this->sendHeaders  && false === this->isHeadersSent {
             response->sendHeaders();
+
+            let this->isHeadersSent = true;
         }
 
         /**
          * Check whether send cookies or not (by default yes)
          */
-        if this->sendCookies {
+        if true === this->sendCookies && false === this->isCookiesSent {
             response->sendCookies();
+
+            let this->isCookiesSent = true;
         }
 
         /**
