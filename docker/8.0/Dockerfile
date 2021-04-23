@@ -63,6 +63,13 @@ ENV LANG=en_US.UTF-8 \
     LANGUAGE=en_US.UTF-8 \
     LC_ALL=en_US.UTF-8
 
+# Remove this RUN when imagick will be available via pecl
+RUN cd /opt && \
+    git clone https://github.com/Imagick/imagick && \
+    cd imagick && \
+    phpize && ./configure && \
+    make && make install
+
 # Zephir Parser
 RUN curl -s https://raw.githubusercontent.com/phalcon/zephir/development/.ci/install-zephir-parser.sh | bash
 
