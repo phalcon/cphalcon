@@ -46,7 +46,6 @@ RUN pecl install psr && \
     pecl install msgpack && \
     pecl install apcu && \
     pecl install yaml && \
-    pecl install imagick && \
     pecl install memcached && \
     pecl install xdebug
 
