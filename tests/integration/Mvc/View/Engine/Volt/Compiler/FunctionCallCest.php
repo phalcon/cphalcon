@@ -176,12 +176,12 @@ class FunctionCallCest
             [
                 'version',
                 '{{ version() }}',
-                '<?= Phalcon\Version::get() ?>',
+                '<?= (new Phalcon\Support\Version)->get() ?>',
             ],
             [
                 'version_id',
                 '{{ version_id() }}',
-                '<?= Phalcon\Version::getId() ?>',
+                '<?= (new Phalcon\Support\Version)->getId() ?>',
             ],
             [
                 'constant',

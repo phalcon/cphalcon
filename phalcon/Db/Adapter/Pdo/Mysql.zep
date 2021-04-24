@@ -354,6 +354,22 @@ class Mysql extends PdoAdapter
                     break;
 
                 /**
+                 * VARBINARY
+                 */
+                case starts_with(columnType, "varbinary", true):
+                    let definition["type"] = Column::TYPE_BINARY;
+
+                    break;
+
+                /**
+                 * BINARY
+                 */
+                case starts_with(columnType, "binary", true):
+                    let definition["type"] = Column::TYPE_BINARY;
+
+                    break;
+
+                /**
                  * Default
                  */
                 default:
@@ -433,7 +449,7 @@ class Mysql extends PdoAdapter
                     let definition["default"] = "NULL " . field[6];
                 }
             }
-            
+
             /**
              * Check if the column has comment
              */
