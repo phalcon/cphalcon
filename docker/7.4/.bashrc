@@ -1,5 +1,7 @@
 #!/bin/bash
 
+ZEPHIR_VERSION="0.13.3"
+
 # Easier navigation: .., ..., ...., ....., ~ and -
 alias ..="cd .."
 alias ...="cd ../.."
@@ -73,7 +75,7 @@ alias untar='tar xvf'
 alias untar='tar xvf'
 
 if [ ! -f ./zephir ]; then
-    wget --no-clobber -O ./zephir https://github.com/phalcon/zephir/releases/download/0.13.1/zephir.phar
+    wget --no-clobber -O ./zephir https://github.com/phalcon/zephir/releases/download/$ZEPHIR_VERSION/zephir.phar
     chmod +x ./zephir
 fi
 
