@@ -62,7 +62,7 @@ class Request extends AbstractInjectionAware implements RequestInterface
     private queryFilters = [];
 
     /**
-     * @var array
+     * @var array|null
      */
     private putCache = null;
 

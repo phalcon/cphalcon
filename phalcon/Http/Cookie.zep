@@ -120,15 +120,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
      */
     public function __toString() -> string
     {
-        var value;
-
-        let value = this->getValue();
-
-        if empty value {
-            let value = "";
-        }
-
-        return (string) value;
+        return (string) this->getValue();
     }
 
     /**
