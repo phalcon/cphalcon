@@ -47,7 +47,7 @@ jobs:
       - name: Setup Environment Variables
         run: |
           echo "ZEPHIR_PARSER_VERSION=v1.3.6" >> $GITHUB_ENV
-          echo "ZEPHIR_VERSION=0.13.3" >> $GITHUB_ENV
+          echo "ZEPHIR_VERSION=0.13.4" >> $GITHUB_ENV
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
