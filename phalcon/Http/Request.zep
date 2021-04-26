@@ -61,9 +61,15 @@ class Request extends AbstractInjectionAware implements RequestInterface
      */
     private queryFilters = [];
 
-    private putCache;
+    /**
+     * @var array
+     */
+    private putCache = null;
 
-    private rawBody;
+    /**
+     * @var string
+     */
+    private rawBody = "";
 
     /**
      * @var bool
@@ -657,7 +663,7 @@ class Request extends AbstractInjectionAware implements RequestInterface
 
         let put = this->putCache;
 
-        if typeof put != "array" {
+        if null === put {
             let contentType = this->getContentType();
 
             if typeof contentType == "string" && stripos(contentType, "json") != false {
