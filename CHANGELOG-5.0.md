@@ -8,6 +8,7 @@
     - Changed the logger timestamp to be `DateTimeImmutable` on a per item basis - more accurate timing
     - Changed `Phalcon\Logger` to accept a `DateTimeZone` in the constructor
     - Changed placeholder `%type%` to `%level%` to align with the variables [#15411](https://github.com/phalcon/cphalcon/issues/15411)
+- Changed `Phalcon\Mvc\Model::getSchema()`, `Phalcon\Mvc\ModelInterface::getSchema()`, `Phalcon\Mvc\Model\Manager::getModelSchema()` `Phalcon\Mvc\Model\ManagerInterface::getModelSchema()` to return `string | null` so as to abide with the latest Zephir [#15411](https://github.com/phalcon/cphalcon/issues/15411)
 
 ## Added
 - Added BINARY and VARBINARY support for Phalcon\Db\Adapter\Mysql [#14927](https://github.com/phalcon/cphalcon/issues/14927)
