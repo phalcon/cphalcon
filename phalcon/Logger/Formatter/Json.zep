@@ -12,6 +12,7 @@ namespace Phalcon\Logger\Formatter;
 
 use Phalcon\Helper\Json as JsonHelper;
 use Phalcon\Logger\Item;
+use Phalcon\Support\Helper\Str\Interpolate;
 
 /**
  * Phalcon\Logger\Formatter\Json
@@ -33,16 +34,11 @@ class Json extends AbstractFormatter
      */
     public function format(<Item> item) -> string
     {
-        var context, message, time;
+        var interpolate, message, time;
 
-        let context = item->getContext(),
-            time    = item->getTime();
-
-        if !empty context {
-            let message = this->interpolate(item->getMessage(), context);
-        } else {
-            let message = item->getMessage();
-        }
+        let time        = item->getTime(),
+            interpolate = new Interpolate(),
+            message     = interpolate(item->getMessage(), item->getContext());
 
         return JsonHelper::encode(
             [

@@ -89,16 +89,16 @@ class Logger implements LoggerInterface
     protected name = "";
 
     /**
-     * @var DateTimeZone
+     * @var DateTimeZone|null
      */
     protected timezone = null;
 
     /**
      * Constructor.
      *
-     * @param string       name     The name of the logger
-     * @param array        adapters The collection of adapters to be used for logging (default [])
-     * @param DateTimeZone timezone The timezone
+     * @param string            name     The name of the logger
+     * @param array             adapters The collection of adapters to be used for logging (default [])
+     * @param DateTimeZone|null timezone The timezone
      */
     public function __construct(
         string! name,

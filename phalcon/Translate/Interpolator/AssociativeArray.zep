@@ -10,6 +10,8 @@
 
 namespace Phalcon\Translate\Interpolator;
 
+use Phalcon\Support\Helper\Str\Interpolate;
+
 class AssociativeArray implements InterpolatorInterface
 {
     /**
@@ -19,16 +21,15 @@ class AssociativeArray implements InterpolatorInterface
         string! translation,
         array placeholders = []
     ) -> string {
-        var key, value;
+        var interpolate, key, value;
+        array replace = [];
+
+        let interpolate = new Interpolate();
 
         for key, value in placeholders {
-            let translation = str_replace(
-                "%" . key . "%",
-                value,
-                translation
-            );
+            let replace["%" . key . "%"] = value;
         }
 
-        return translation;
+        return interpolate(translation, replace);
     }
 }

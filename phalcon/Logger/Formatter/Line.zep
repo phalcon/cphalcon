@@ -12,6 +12,7 @@ namespace Phalcon\Logger\Formatter;
 
 use DateTime;
 use Phalcon\Logger\Item;
+use Phalcon\Support\Helper\Str\Interpolate;
 
 /**
  * Phalcon\Logger\Formatter\Line
@@ -43,36 +44,17 @@ class Line extends AbstractFormatter
      */
     public function format(<Item> item) -> string
     {
-        var context, format, time;
+        var context, format, interpolate, time;
 
-        let context = item->getContext(),
-            format  = this->format,
-            time    = item->getTime();
+        let context     = item->getContext(),
+            format      = this->format,
+            interpolate = new Interpolate(),
+            time        = item->getTime();
 
-        /**
-         * Check if the format has the %date% placeholder
-         */
-        if memstr(format, "%date%") {
-            let format = str_replace(
-                "%date%",
-                time->format(this->dateFormat),
-                format
-            );
-        }
+        let context["%date%"]    = time->format(this->dateFormat),
+            context["%level%"]   = item->getLevelName(),
+            context["%message%"] = item->getMessage();
 
-        /**
-         * Check if the format has the %level% placeholder
-         */
-        if memstr(format, "%level%") {
-            let format = str_replace("%level%", item->getLevelName(), format);
-        }
-
-        let format = str_replace("%message%", item->getMessage(), format);
-
-        if !empty context {
-            return this->interpolate(format, context);
-        }
-
-        return format;
+        return interpolate(format, context);
     }
 }
