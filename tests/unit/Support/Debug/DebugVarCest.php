@@ -23,7 +23,7 @@ class DebugVarCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-02-04
      */
-    public function debugDebugVar(UnitTester $I)
+    public function supportDebugDebugVar(UnitTester $I)
     {
         $I->wantToTest('Debug - debugVar()');
 

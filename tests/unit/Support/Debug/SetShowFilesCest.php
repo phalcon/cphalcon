@@ -23,7 +23,7 @@ class SetShowFilesCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function debugSetShowFiles(UnitTester $I)
+    public function supportDebugSetShowFiles(UnitTester $I)
     {
         $I->wantToTest('Debug - setShowFiles()');
 

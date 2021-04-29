@@ -23,7 +23,7 @@ class ListenExceptionsCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function debugListenExceptions(UnitTester $I)
+    public function supportDebugListenExceptions(UnitTester $I)
     {
         $I->wantToTest('Debug - listenExceptions()');
 

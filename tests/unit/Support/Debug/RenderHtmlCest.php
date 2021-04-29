@@ -25,7 +25,7 @@ class RenderHtmlCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2021-04-21
      */
-    public function debugRenderHtml(UnitTester $I)
+    public function supportDebugRenderHtml(UnitTester $I)
     {
         $I->wantToTest('Debug - renderHtml()');
 

@@ -27,7 +27,7 @@ class GetPartCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function versionGetPart(UnitTester $I)
+    public function supportVersionGetPart(UnitTester $I)
     {
         $I->wantToTest('Version - getPart()');
 
