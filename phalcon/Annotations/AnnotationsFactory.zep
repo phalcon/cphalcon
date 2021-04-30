@@ -19,6 +19,8 @@ use Phalcon\Helper\Arr;
  */
 class AnnotationsFactory extends AbstractFactory
 {
+    protected exception = "Phalcon\\Annotations\\Exception";
+
     /**
      * AdapterFactory constructor.
      */

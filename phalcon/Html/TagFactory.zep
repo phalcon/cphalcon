@@ -19,6 +19,8 @@ use Phalcon\Factory\AbstractFactory;
  */
 class TagFactory extends AbstractFactory
 {
+    protected exception = "Phalcon\\Html\\Exception";
+
     /**
      * @var EscaperInterface
      */
