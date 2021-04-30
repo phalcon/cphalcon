@@ -23,6 +23,9 @@ jobs:
         run: |
           echo "ZEPHIR_PARSER_VERSION=v1.3.6" >> $GITHUB_ENV
           echo "ZEPHIR_VERSION=0.13.4" >> $GITHUB_ENV
+          echo "LANG=en_US.UTF-8" >> $GITHUB_ENV
+          echo "LANGUAGE=en_US.UTF-8" >> $GITHUB_ENV
+          echo "LC_ALL=en_US.UTF-8" >> $GITHUB_ENV
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -175,7 +178,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
-          extensions: mbstring, intl, json, gd, imagick, redis, igbinary, apcu, msgpack, memcached, yaml
+          extensions: mbstring, intl, json, imagick, gd, gettext, igbinary, apcu, msgpack, memcached, yaml, redis
           ini-values: apc.enable_cli=on, session.save_path=/tmp, extension=psr.so, extension=phalcon.so
           tools: pecl
 
@@ -191,6 +194,17 @@ jobs:
 
       - name: Verify Install
         run: php --ri phalcon
+
+      - name: Setup locales
+        run: |
+          sudo sudo apt-get install tzdata locales -y
+          sudo sed -i -e 's/# de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/' /etc/locale.gen
+          sudo sed -i -e 's/# el_GR.UTF-8 UTF-8/el_GR.UTF-8 UTF-8/' /etc/locale.gen
+          sudo sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
+          sudo sed -i -e 's/# es_ES.UTF-8 UTF-8/es_ES.UTF-8 UTF-8/' /etc/locale.gen
+          sudo sed -i -e 's/# ru_RU.UTF-8 UTF-8/ru_RU.UTF-8 UTF-8/' /etc/locale.gen
+          sudo dpkg-reconfigure --frontend=noninteractive locales
+          sudo update-locale LANG=en_US.UTF-8
 
       - name: Install Packages
         run: composer install --prefer-dist
@@ -263,7 +277,7 @@ jobs:
     needs: generate
     runs-on: ${{ matrix.operating-system }}
     env:
-      PHP_EXTENSIONS: mbstring, intl, json, yaml, apcu, gd, imagick, igbinary, msgpack-beta, redis
+      PHP_EXTENSIONS: mbstring, intl, json, yaml, apcu, imagick, gd, gettext, igbinary, msgpack-beta, redis
       HOMEBREW_NO_INSTALL_CLEANUP: 1
     strategy:
       fail-fast: false
@@ -411,7 +425,7 @@ jobs:
           php-version: ${{ matrix.php-versions }}
           ini-values: apc.enable_cli=on, session.save_path=C:\temp
           tools: pecl
-          extensions: mbstring, intl, json, yaml, apcu, gd, imagick, redis, igbinary, sqlite3, msgpack, psr
+          extensions: mbstring, intl, json, yaml, apcu, imagick, gd, gettext, igbinary, sqlite3, msgpack, psr, redis
         env:
           PHPTS: ${{ matrix.ts }}
 
