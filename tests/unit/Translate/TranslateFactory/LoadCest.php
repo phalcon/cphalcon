@@ -55,30 +55,11 @@ class LoadCest
             $locale = "en_US";
         }
 
-        $I->assertInstanceOf(
-            Gettext::class,
-            $adapter
-        );
-
-        $I->assertEquals(
-            $options->options->category,
-            $adapter->getCategory()
-        );
-
-        $I->assertEquals(
-            $locale,
-            $adapter->getLocale()
-        );
-
-        $I->assertEquals(
-            $options->options->defaultDomain,
-            $adapter->getDefaultDomain()
-        );
-
-        $I->assertEquals(
-            $options->options->directory,
-            $adapter->getDirectory()
-        );
+        $I->assertInstanceOf(Gettext::class, $adapter);
+        $I->assertEquals($options->options->category, $adapter->getCategory());
+        $I->assertEquals($locale, $adapter->getLocale());
+        $I->assertEquals($options->options->defaultDomain, $adapter->getDefaultDomain());
+        $I->assertEquals($options->options->directory, $adapter->getDirectory());
     }
 
     /**
@@ -106,29 +87,10 @@ class LoadCest
             $locale = "en_US";
         }
 
-        $I->assertInstanceOf(
-            Gettext::class,
-            $adapter
-        );
-
-        $I->assertEquals(
-            $options['options']['category'],
-            $adapter->getCategory()
-        );
-
-        $I->assertEquals(
-            $locale,
-            $adapter->getLocale()
-        );
-
-        $I->assertEquals(
-            $options['options']['defaultDomain'],
-            $adapter->getDefaultDomain()
-        );
-
-        $I->assertEquals(
-            $options['options']['directory'],
-            $adapter->getDirectory()
-        );
+        $I->assertInstanceOf(Gettext::class, $adapter);
+        $I->assertEquals($options['options']['category'], $adapter->getCategory());
+        $I->assertEquals($locale, $adapter->getLocale());
+        $I->assertEquals($options['options']['defaultDomain'], $adapter->getDefaultDomain());
+        $I->assertEquals($options['options']['directory'], $adapter->getDirectory());
     }
 }
