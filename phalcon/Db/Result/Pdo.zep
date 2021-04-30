@@ -87,8 +87,12 @@ class Pdo implements ResultInterface
      * // Fetch third row
      * $row = $result->fetch();
      *```
+     *
+     * @param int number
+     *
+     * @return void
      */
-    public function dataSeek(long number) -> void
+    public function dataSeek(int number) -> void
     {
         var connection, pdo, sqlStatement, bindParams, statement;
         long n;

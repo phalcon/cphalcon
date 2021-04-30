@@ -32,8 +32,10 @@ class Noop implements SessionHandlerInterface
 {
     /**
      * The connection of some adapters
+     *
+     * @var null
      */
-    protected connection;
+    protected connection = null;
 
     /**
      * Session options

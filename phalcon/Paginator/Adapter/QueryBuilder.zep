@@ -41,11 +41,15 @@ class QueryBuilder extends AbstractAdapter
 {
     /**
      * Paginator's data
+     *
+     * @var Builder
      */
     protected builder;
 
     /**
      * Columns for count query if builder has having
+     *
+     * @var array|string
      */
     protected columns;
 

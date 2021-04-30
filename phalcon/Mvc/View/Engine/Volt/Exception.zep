@@ -17,8 +17,17 @@ use Phalcon\Mvc\View\Exception as BaseException;
  */
 class Exception extends BaseException
 {
-    protected statement;
+    /**
+     * @var array
+     */
+    protected statement = [];
 
+    /**
+     * @param string message
+     * @param array statement
+     * @param int code
+     * @param \Exception|null previous
+     */
     public function __construct(string message = "", array statement = [], int code = 0, <\Exception> previous = null)
     {
         let this->statement = statement;
@@ -28,6 +37,8 @@ class Exception extends BaseException
 
     /**
      * Gets currently parsed statement (if any).
+     *
+     * @return array
      */
     public function getStatement() -> array
     {
