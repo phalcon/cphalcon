@@ -38,7 +38,7 @@ class Json extends AbstractFormatter
 
         let time        = item->getTime(),
             interpolate = new Interpolate(),
-            message     = interpolate(item->getMessage(), item->getContext());
+            message     = interpolate->__invoke(item->getMessage(), item->getContext());
 
         return JsonHelper::encode(
             [

@@ -21,15 +21,10 @@ class AssociativeArray implements InterpolatorInterface
         string! translation,
         array placeholders = []
     ) -> string {
-        var interpolate, key, value;
-        array replace = [];
+        var interpolate;
 
         let interpolate = new Interpolate();
 
-        for key, value in placeholders {
-            let replace["%" . key . "%"] = value;
-        }
-
-        return interpolate(translation, replace);
+        return interpolate->__invoke(translation, placeholders);
     }
 }

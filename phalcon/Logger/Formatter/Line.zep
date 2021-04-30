@@ -48,13 +48,13 @@ class Line extends AbstractFormatter
 
         let context     = item->getContext(),
             format      = this->format,
-            interpolate = new Interpolate(),
-            time        = item->getTime();
+            time        = item->getTime(),
+            interpolate = new Interpolate();
 
-        let context["%date%"]    = time->format(this->dateFormat),
-            context["%level%"]   = item->getLevelName(),
-            context["%message%"] = item->getMessage();
+        let context["date"]    = time->format(this->dateFormat),
+            context["level"]   = item->getLevelName(),
+            context["message"] = item->getMessage();
 
-        return interpolate(format, context);
+        return interpolate->__invoke(format, context);
     }
 }
