@@ -223,7 +223,7 @@ interface BuilderInterface
     /**
      * Sets an ORDER BY condition clause
      */
-    public function orderBy(string orderBy) -> <BuilderInterface>;
+    public function orderBy(var orderBy) -> <BuilderInterface>;
 
     /**
      * Appends a condition to the current conditions using an OR operator

@@ -17,6 +17,7 @@ use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Logger\Exception;
 use UnitTester;
 use function logsDir;
+use function strtoupper;
 
 trait LoggerTrait
 {
@@ -46,14 +47,14 @@ trait LoggerTrait
         $I->seeInThisFile($logString);
 
         // Check if the level is in the log file
-        $I->seeInThisFile('[' . $level . ']');
+        $I->seeInThisFile('[' . strtoupper($level) . ']');
 
         // Check time content
         $sContent = file_get_contents($fileName);
 
         // Get time part
         $aDate = [];
-        preg_match('/\[(.*)\]\[' . $level . '\]/', $sContent, $aDate);
+        preg_match('/\[(.*)\]\[' . strtoupper($level) . '\]/', $sContent, $aDate);
         $I->assertEquals(count($aDate), 2);
 
         // Get Extract time

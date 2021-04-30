@@ -1948,11 +1948,11 @@ class Compiler implements InjectionAwareInterface
             }
 
             if name == "version" {
-                return "Phalcon\\Version::get()";
+                return "(new Phalcon\\Support\\Version)->get()";
             }
 
             if name == "version_id" {
-                return "Phalcon\\Version::getId()";
+                return "(new Phalcon\\Support\\Version)->getId()";
             }
 
             if name == "preload" {

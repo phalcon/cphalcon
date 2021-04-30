@@ -33,8 +33,36 @@ class SendCest
         $headers->set('Content-Type', 'text/html; charset=UTF-8');
         $headers->set('Content-Encoding', 'gzip');
 
-        $I->assertTrue(
-            $headers->send()
-        );
+        $actual = $headers->send();
+        $I->assertTrue($actual);
+    }
+
+    /**
+     * Tests Phalcon\Http\Response\Headers :: send() - twice
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2021-04-22
+     * @issue  15334
+     */
+    public function httpResponseHeadersSendTwice(UnitTester $I)
+    {
+        $I->wantToTest('Http\Response\Headers - send() - twice');
+
+        $headers = new Headers();
+
+        $headers->set('Content-Type', 'text/html; charset=UTF-8');
+        $headers->set('Content-Encoding', 'gzip');
+
+        $actual = $headers->isSent();
+        $I->assertFalse($actual);
+
+        $actual = $headers->send();
+        $I->assertTrue($actual);
+
+        $actual = $headers->isSent();
+        $I->assertTrue($actual);
+
+        $actual = $headers->send();
+        $I->assertFalse($actual);
     }
 }

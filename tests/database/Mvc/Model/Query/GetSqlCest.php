@@ -34,7 +34,8 @@ class GetSqlCest
     /**
      * Executed before each test
      *
-     * @param  DatabaseTester $I
+     * @param DatabaseTester $I
+     *
      * @return void
      */
     public function _before(DatabaseTester $I): void
@@ -53,7 +54,7 @@ class GetSqlCest
     /**
      * Tests Phalcon\Mvc\Model\Query :: getSql() - Issue 14657
      *
-     * @param  DatabaseTester $I
+     * @param DatabaseTester $I
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-05-06
@@ -85,8 +86,8 @@ class GetSqlCest
 
         $I->assertEquals(
             [
-                'sql' => $sql,
-                'bind' => [],
+                'sql'       => $sql,
+                'bind'      => [],
                 'bindTypes' => [],
             ],
             $query->getSql()
