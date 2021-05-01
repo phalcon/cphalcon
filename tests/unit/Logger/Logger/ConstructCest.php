@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Logger\Logger;
 
+use DateTimeImmutable;
 use Phalcon\Logger;
 use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Logger\Exception;
@@ -68,6 +69,7 @@ class ConstructCest
         $fileName   = $I->getNewFileName('log', 'log');
         $outputPath = logsDir();
         $adapter    = new Stream($outputPath . $fileName);
+        $time       = new DateTimeImmutable("now");
 
         $adapter->setFormatter(new Json());
 
@@ -78,7 +80,6 @@ class ConstructCest
             ]
         );
 
-        $time = time();
 
         $logger->debug('This is a message');
         $logger->log(Logger::ERROR, 'This is an error');
@@ -88,12 +89,12 @@ class ConstructCest
         $I->openFile($fileName);
 
         $expected = sprintf(
-            '{"type":"DEBUG","message":"This is a message","timestamp":"%s"}' . PHP_EOL .
-            '{"type":"ERROR","message":"This is an error","timestamp":"%s"}' . PHP_EOL .
-            '{"type":"ERROR","message":"This is another error","timestamp":"%s"}',
-            date('c', $time),
-            date('c', $time),
-            date('c', $time)
+            '{"level":"DEBUG","message":"This is a message","timestamp":"%s"}' . PHP_EOL .
+            '{"level":"ERROR","message":"This is an error","timestamp":"%s"}' . PHP_EOL .
+            '{"level":"ERROR","message":"This is another error","timestamp":"%s"}',
+            $time->format('c'),
+            $time->format('c'),
+            $time->format('c')
         );
 
         $I->seeInThisFile($expected);

@@ -15,6 +15,8 @@ use Phalcon\Helper\Arr;
 
 class ValidatorFactory extends AbstractFactory
 {
+    protected exception = "Phalcon\\Validation\\Exception";
+
     /**
      * TagFactory constructor.
      */

@@ -200,7 +200,7 @@ interface ManagerInterface
     /**
      * Returns the mapped schema for a model
      */
-    public function getModelSchema(<ModelInterface> model) -> string;
+    public function getModelSchema(<ModelInterface> model) -> string | null;
 
     /**
      * Returns the mapped source for a model

@@ -24,7 +24,7 @@ class OneCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function debugDumpOne(UnitTester $I)
+    public function supportDebugDumpOne(UnitTester $I)
     {
         $I->wantToTest('Debug\Dump - one()');
 
@@ -50,7 +50,7 @@ class OneCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function debugDumpOneName(UnitTester $I)
+    public function supportDebugDumpOneName(UnitTester $I)
     {
         $I->wantToTest('Debug\Dump - one() - name');
 

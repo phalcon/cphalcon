@@ -67,7 +67,7 @@ final class Registry extends Collection
     /**
      * Constructor
      */
-    final public function __construct(array! data = null)
+    final public function __construct(array! data = [])
     {
         parent::__construct(data);
     }

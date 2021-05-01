@@ -47,13 +47,16 @@ jobs:
       - name: Setup Environment Variables
         run: |
           echo "ZEPHIR_PARSER_VERSION=v1.3.6" >> $GITHUB_ENV
-          echo "ZEPHIR_VERSION=0.13.1" >> $GITHUB_ENV
+          echo "ZEPHIR_VERSION=0.13.4" >> $GITHUB_ENV
+          echo "LANG=en_US.UTF-8" >> $GITHUB_ENV
+          echo "LANGUAGE=en_US.UTF-8" >> $GITHUB_ENV
+          echo "LC_ALL=en_US.UTF-8" >> $GITHUB_ENV
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.0'
-          extensions: mbstring, intl, json, gd, imagick, apcu, yaml, redis, igbinary, msgpack, psr
+          extensions: mbstring, intl, json, imagick, gd, gettext, apcu, yaml, igbinary, msgpack, psr, redis
           ini-values: apc.enable_cli=on, session.save_path=/tmp, extension=psr.so, extension=phalcon.so
 
       - name: Common Settings
@@ -123,6 +126,17 @@ jobs:
 
       - name: Verify Install
         run: php --ri phalcon
+
+      - name: Setup locales
+        run: |
+          sudo sudo apt-get install tzdata locales -y
+          sudo sed -i -e 's/# de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/' /etc/locale.gen
+          sudo sed -i -e 's/# el_GR.UTF-8 UTF-8/el_GR.UTF-8 UTF-8/' /etc/locale.gen
+          sudo sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
+          sudo sed -i -e 's/# es_ES.UTF-8 UTF-8/es_ES.UTF-8 UTF-8/' /etc/locale.gen
+          sudo sed -i -e 's/# ru_RU.UTF-8 UTF-8/ru_RU.UTF-8 UTF-8/' /etc/locale.gen
+          sudo dpkg-reconfigure --frontend=noninteractive locales
+          sudo update-locale LANG=en_US.UTF-8
 
       - name: Install Packages
         run: composer install --prefer-dist

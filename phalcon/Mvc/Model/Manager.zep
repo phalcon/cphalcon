@@ -51,75 +51,113 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 
     /**
      * Models' behaviors
+     *
+     * @var array
      */
     protected behaviors = [];
 
     /**
      * Belongs to relations
+     *
+     * @var array
      */
     protected belongsTo = [];
 
     /**
      * All the relationships by model
+     *
+     * @var array
      */
     protected belongsToSingle = [];
 
+    /**
+     * @var DiInterface|null
+     */
     protected container;
 
+    /**
+     * @var array
+     */
     protected customEventsManager = [];
 
     /**
      * Does the model use dynamic update, instead of updating all rows?
+     *
+     * @var array
      */
     protected dynamicUpdate = [];
 
+    /**
+     * @var EventsManagerInterface
+     */
     protected eventsManager;
 
     /**
      * Has many relations
+     *
+     * @var array
      */
     protected hasMany = [];
 
     /**
      * Has many relations by model
+     *
+     * @var array
      */
     protected hasManySingle = [];
 
     /**
      * Has many-Through relations
+     *
+     * @var array
      */
     protected hasManyToMany = [];
 
     /**
      * Has many-Through relations by model
+     *
+     * @var array
      */
     protected hasManyToManySingle = [];
 
     /**
      * Has one relations
+     *
+     * @var array
      */
     protected hasOne = [];
 
     /**
      * Has one relations by model
+     *
+     * @var array
      */
     protected hasOneSingle = [];
 
     /**
      * Has one through relations
+     *
+     * @var array
      */
     protected hasOneThrough = [];
 
     /**
      * Has one through relations by model
+     *
+     * @var array
      */
     protected hasOneThroughSingle = [];
 
     /**
      * Mark initialized models
+     *
+     * @var array
      */
     protected initialized = [];
 
+    /**
+     * @var array
+     */
     protected keepSnapshots = [];
 
     /**
@@ -132,20 +170,40 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
      */
     protected lastQuery;
 
+    /**
+     * @var array
+     */
     protected modelVisibility = [];
 
+    /**
+     * @var string
+     */
     protected prefix = "";
 
+    /**
+     * @var array
+     */
     protected readConnectionServices = [];
 
+    /**
+     * @var array
+     */
     protected sources = [];
 
+    /**
+     * @var array
+     */
     protected schemas = [];
 
+    /**
+     * @var array
+     */
     protected writeConnectionServices = [];
 
     /**
      * Stores a list of reusable instances
+     *
+     * @var array
      */
     protected reusable = [];
 
@@ -397,12 +455,12 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     /**
      * Returns the mapped schema for a model
      */
-    public function getModelSchema(<ModelInterface> model) -> string
+    public function getModelSchema(<ModelInterface> model) -> string | null
     {
         var schema;
 
         if !fetch schema, this->schemas[get_class_lower(model)] {
-            return "";
+            return null;
         }
 
         return schema;

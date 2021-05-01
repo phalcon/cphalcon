@@ -15,6 +15,8 @@ use Phalcon\Logger\Adapter\AdapterInterface;
 
 class AdapterFactory extends AbstractFactory
 {
+    protected exception = "Phalcon\\Logger\\Exception";
+
     /**
      * AdapterFactory constructor.
      */

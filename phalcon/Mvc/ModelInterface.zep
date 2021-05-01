@@ -162,7 +162,7 @@ interface ModelInterface
     /**
      * Returns schema name where table mapped is located
      */
-    public function getSchema() -> string;
+    public function getSchema() -> string | null;
 
     /**
      * Returns table name mapped in the model

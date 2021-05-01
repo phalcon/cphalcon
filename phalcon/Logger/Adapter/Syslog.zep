@@ -101,10 +101,9 @@ class Syslog extends AbstractAdapter
      */
     public function process(<Item> item) -> void
     {
-        var name, facility, formatter, level, message, option, result;
+        var name, facility, level, message, option, result;
 
-        let formatter = this->getFormatter(),
-            message   = formatter->format(item),
+        let message   = this->getFormattedItem(item),
             name      = this->name,
             facility  = this->facility,
             option    = this->option;
@@ -122,7 +121,7 @@ class Syslog extends AbstractAdapter
         }
 
         let this->opened = true,
-            level        = this->logLevelToSyslog(item->getType());
+            level        = this->logLevelToSyslog(item->getLevel());
 
         syslog(level, message);
     }

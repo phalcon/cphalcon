@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Logger\Adapter\Stream;
 
+use DateTimeImmutable;
 use Phalcon\Logger;
 use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Logger\Item;
@@ -28,9 +29,10 @@ class CloseCest
         $I->wantToTest('Logger\Adapter\Stream - close()');
         $fileName   = $I->getNewFileName('log', 'log');
         $outputPath = logsDir();
+        $time       = new DateTimeImmutable('now');
         $adapter    = new Stream($outputPath . $fileName);
 
-        $item = new Item('Message 1', 'debug', Logger::DEBUG);
+        $item = new Item('Message 1', 'debug', Logger::DEBUG, $time);
         $adapter->process($item);
 
         $actual = $adapter->close();

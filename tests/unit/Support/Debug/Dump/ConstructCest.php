@@ -30,7 +30,7 @@ class ConstructCest
      *
      * @author Phalcon Team <team@phalcon.io>
      */
-    public function debugDumpConstructDump(UnitTester $I)
+    public function supportDebugDumpConstructDump(UnitTester $I)
     {
         $I->skipTest("Needs a review");
         $I->wantToTest('Debug\Dump - __construct() - dump properties');
