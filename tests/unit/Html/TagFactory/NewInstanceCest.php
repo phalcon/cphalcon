@@ -15,7 +15,7 @@ namespace Phalcon\Test\Unit\Html\TagFactory;
 
 use Codeception\Example;
 use Phalcon\Escaper;
-use Phalcon\Factory\Exception;
+use Phalcon\Html\Exception;
 use Phalcon\Html\Helper\Anchor;
 use Phalcon\Html\Helper\Base;
 use Phalcon\Html\Helper\Body;

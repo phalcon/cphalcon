@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Logger\Item;
 
+use DateTimeImmutable;
 use Phalcon\Logger;
 use Phalcon\Logger\Item;
 use UnitTester;
@@ -25,7 +26,7 @@ class GetTimeCest
     public function loggerItemGetTime(UnitTester $I)
     {
         $I->wantToTest('Logger\Item - getTime()');
-        $time = time();
+        $time = new DateTimeImmutable("now");
         $item = new Item('log message', 'debug', Logger::DEBUG, $time);
 
         $expected = $time;

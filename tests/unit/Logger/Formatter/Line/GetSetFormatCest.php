@@ -16,17 +16,25 @@ namespace Phalcon\Test\Unit\Logger\Formatter\Line;
 use Phalcon\Logger\Formatter\Line;
 use UnitTester;
 
-class SetFormatCest
+class GetSetFormatCest
 {
     /**
-     * Tests Phalcon\Logger\Formatter\Line :: setFormat()
+     * Tests Phalcon\Logger\Formatter\Line :: getFormat()/setFormat()
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2018-11-13
      */
-    public function loggerFormatterLineSetFormat(UnitTester $I)
+    public function loggerFormatterLineGetSetFormat(UnitTester $I)
     {
-        $I->wantToTest('Logger\Formatter\Line - setFormat()');
-        $formatter = new Line();
+        $I->wantToTest('Logger\Formatter\Line - getFormat()/setFormat()');
 
-        $format = '%message%-[%date%]-[%type%]';
+        $formatter = new Line();
+        $expected  = '[%date%][%level%] %message%';
+        $actual    = $formatter->getFormat();
+
+        $I->assertEquals($expected, $actual);
+
+        $format = '%message%-[%date%]-[%level%]';
         $formatter->setFormat($format);
 
         $expected = $format;

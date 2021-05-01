@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Storage\SerializerFactory;
 
 use Codeception\Example;
-use Phalcon\Factory\Exception;
+use Phalcon\Storage\Exception;
 use Phalcon\Storage\Serializer\Base64;
 use Phalcon\Storage\Serializer\Igbinary;
 use Phalcon\Storage\Serializer\Json;

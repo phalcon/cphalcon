@@ -1970,7 +1970,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     /**
      * Returns schema name where the mapped table is located
      */
-    final public function getSchema() -> string
+    final public function getSchema() -> string | null
     {
         return (<ManagerInterface> this->modelsManager)->getModelSchema(this);
     }

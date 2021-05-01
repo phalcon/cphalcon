@@ -29,7 +29,7 @@ class GetCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function versionGet(UnitTester $I)
+    public function supportVersionGet(UnitTester $I)
     {
         $I->wantToTest('Version - get()');
 
@@ -44,7 +44,7 @@ class GetCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function versionGetIdToGet(UnitTester $I)
+    public function supportVersionGetIdToGet(UnitTester $I)
     {
         $I->wantToTest('Version - getId() to get()');
 

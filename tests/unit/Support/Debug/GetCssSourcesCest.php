@@ -26,7 +26,7 @@ class GetCssSourcesCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function debugGetCssSources(UnitTester $I)
+    public function supportDebugGetCssSources(UnitTester $I)
     {
         $I->wantToTest('Debug - getCssSources()');
         $debug = new Debug();

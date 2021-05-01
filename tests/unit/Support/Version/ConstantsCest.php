@@ -24,7 +24,7 @@ class ConstantsCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function versionConstants(UnitTester $I)
+    public function supportVersionConstants(UnitTester $I)
     {
         $I->wantToTest('Version - constants');
 

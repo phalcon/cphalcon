@@ -99,8 +99,8 @@ abstract class AbstractAdapter implements AdapterInterface
         }
 
         // Clear logger queue at commit
-        let inTransaction = false,
-            this->queue = [],
+        let inTransaction       = false,
+            this->queue         = [],
             this->inTransaction = inTransaction;
 
         return this;
@@ -160,5 +160,17 @@ abstract class AbstractAdapter implements AdapterInterface
         let this->formatter = formatter;
 
         return this;
+    }
+
+    /**
+     * Returns the formatted item
+     */
+    protected function getFormattedItem(<Item> item) -> string
+    {
+        var formatter;
+
+        let formatter = this->getFormatter();
+
+        return formatter->format(item) . PHP_EOL;
     }
 }

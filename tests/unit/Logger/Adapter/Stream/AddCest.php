@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Logger\Adapter\Stream;
 
+use DateTimeImmutable;
 use Phalcon\Logger;
 use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Logger\Item;
@@ -29,11 +30,12 @@ class AddCest
         $fileName   = $I->getNewFileName('log', 'log');
         $outputPath = logsDir();
         $adapter    = new Stream($outputPath . $fileName);
+        $time       = new DateTimeImmutable('now');
 
         $adapter->begin();
-        $item1 = new Item('Message 1', 'debug', Logger::DEBUG);
-        $item2 = new Item('Message 2', 'debug', Logger::DEBUG);
-        $item3 = new Item('Message 3', 'debug', Logger::DEBUG);
+        $item1 = new Item('Message 1', 'debug', Logger::DEBUG, $time);
+        $item2 = new Item('Message 2', 'debug', Logger::DEBUG, $time);
+        $item3 = new Item('Message 3', 'debug', Logger::DEBUG, $time);
 
         $adapter
             ->add($item1)

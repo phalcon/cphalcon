@@ -12,6 +12,7 @@ namespace Phalcon\Logger\Formatter;
 
 use Phalcon\Helper\Json as JsonHelper;
 use Phalcon\Logger\Item;
+use Phalcon\Support\Helper\Str\Interpolate;
 
 /**
  * Phalcon\Logger\Formatter\Json
@@ -33,22 +34,17 @@ class Json extends AbstractFormatter
      */
     public function format(<Item> item) -> string
     {
-        var message;
+        var interpolate, message, time;
 
-        if typeof item->getContext() === "array" {
-            let message = this->interpolate(
-                item->getMessage(),
-                item->getContext()
-            );
-        } else {
-            let message = item->getMessage();
-        }
+        let time        = item->getTime(),
+            interpolate = new Interpolate(),
+            message     = interpolate->__invoke(item->getMessage(), item->getContext());
 
         return JsonHelper::encode(
             [
-                "type"      : item->getName(),
+                "level"     : item->getLevelName(),
                 "message"   : message,
-                "timestamp" : this->getFormattedDate()
+                "timestamp" : time->format(this->dateFormat)
             ]
         );
     }

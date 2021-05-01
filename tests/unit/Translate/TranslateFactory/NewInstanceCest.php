@@ -39,14 +39,7 @@ class NewInstanceCest
         $language     = $this->getCsvConfig()['ru'];
         $adapter      = $factory->newInstance('csv', $language);
 
-        $I->assertInstanceOf(
-            Csv::class,
-            $adapter
-        );
-
-        $I->assertInstanceOf(
-            AdapterInterface::class,
-            $adapter
-        );
+        $I->assertInstanceOf(Csv::class, $adapter);
+        $I->assertInstanceOf(AdapterInterface::class, $adapter);
     }
 }

@@ -33,7 +33,7 @@ class GetVersionCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function debugGetVersion(UnitTester $I)
+    public function supportDebugGetVersion(UnitTester $I)
     {
         $I->wantToTest('Debug - getVersion()');
 

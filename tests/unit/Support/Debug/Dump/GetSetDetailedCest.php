@@ -24,7 +24,7 @@ class GetSetDetailedCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function debugDumpGetSetDetailed(UnitTester $I)
+    public function supportDebugDumpGetSetDetailed(UnitTester $I)
     {
         $I->wantToTest('Debug\Dump - getDetailed()/setDetailed()');
         $dump = new Dump([], false);

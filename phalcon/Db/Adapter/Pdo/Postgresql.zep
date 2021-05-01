@@ -78,7 +78,7 @@ class Postgresql extends PdoAdapter
         if fetch schema, descriptor["schema"] {
             unset descriptor["schema"];
         } else {
-            let schema = "";
+            let schema = null;
         }
 
         if isset descriptor["password"] {

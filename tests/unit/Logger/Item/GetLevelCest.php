@@ -13,23 +13,24 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Logger\Item;
 
+use DateTimeImmutable;
 use Phalcon\Logger;
 use Phalcon\Logger\Item;
 use UnitTester;
 
-class GetTypeCest
+class GetLevelCest
 {
     /**
-     * Tests Phalcon\Logger\Item :: getType()
+     * Tests Phalcon\Logger\Item :: getLevel()
      */
-    public function loggerItemGetType(UnitTester $I)
+    public function loggerItemGetLevel(UnitTester $I)
     {
-        $I->wantToTest('Logger\Item - getType()');
-        $time = time();
+        $I->wantToTest('Logger\Item - getLevel()');
+        $time = new DateTimeImmutable("now");
         $item = new Item('log message', 'debug', Logger::DEBUG, $time);
 
         $expected = Logger::DEBUG;
-        $actual   = $item->getType();
+        $actual   = $item->getLevel();
         $I->assertEquals($expected, $actual);
     }
 }

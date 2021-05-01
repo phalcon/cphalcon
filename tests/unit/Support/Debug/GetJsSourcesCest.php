@@ -26,7 +26,7 @@ class GetJsSourcesCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function debugGetJsSources(UnitTester $I)
+    public function supportDebugGetJsSources(UnitTester $I)
     {
         $I->wantToTest('Debug - getJsSources()');
         $debug = new Debug();

@@ -16,6 +16,10 @@ use Phalcon\Config\ConfigInterface;
 abstract class AbstractFactory
 {
     /**
+     * @var string
+     */
+    protected exception = "Phalcon\\Exception";
+    /**
      * @var array
      */
     protected mapper = [];
@@ -35,13 +39,13 @@ abstract class AbstractFactory
         }
 
         if unlikely typeof config !== "array" {
-            throw new Exception(
+            throw this->getException(
                 "Config must be array or Phalcon\\Config object"
             );
         }
 
         if unlikely !isset config["adapter"] {
-            throw new Exception(
+            throw this->getException(
                 "You must provide 'adapter' option in factory config parameter."
             );
         }
@@ -60,7 +64,7 @@ abstract class AbstractFactory
     protected function getService(string! name) -> var
     {
         if unlikely !isset this->mapper[name] {
-            throw new Exception("Service " . name . " is not registered");
+            throw this->getException("Service " . name . " is not registered");
         }
 
         return this->mapper[name];
@@ -80,5 +84,17 @@ abstract class AbstractFactory
             let this->mapper[name] = service;
             unset(this->services[name]);
         }
+    }
+
+    /**
+     * Returns the exception object for the child class
+     */
+    protected function getException(string message) -> <\Exception>
+    {
+        var exception;
+
+        let exception = this->exception;
+
+        return new {exception}(message);
     }
 }
