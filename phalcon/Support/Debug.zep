@@ -23,10 +23,13 @@ class Debug
 {
     /**
      * @var array
-    */
+     */
     protected blacklist = ["request" : [], "server" : []];
 
-    protected data;
+    /**
+     * @var array
+     */
+    protected data = [];
 
     /**
      * @var bool
@@ -36,7 +39,7 @@ class Debug
     /**
      * @var bool
      */
-    protected static isActive;
+    protected static isActive = false;
 
     /**
      * @var bool
@@ -63,7 +66,7 @@ class Debug
      */
     public function clearVars() -> <Debug>
     {
-        let this->data = null;
+        let this->data = [];
 
         return this;
     }
@@ -306,7 +309,7 @@ class Debug
                       . "<li><a href='#error-tabs-4'>Included Files</a></li>"
                       . "<li><a href='#error-tabs-5'>Memory</a></li>";
 
-             if typeof dataVars == "array" {
+             if !empty dataVars {
                 let html .= "<li><a href='#error-tabs-6'>Variables</a></li>";
             }
 
@@ -386,7 +389,7 @@ class Debug
             /**
              * Print extra variables passed to the component
              */
-            if typeof dataVars == "array" {
+            if !empty dataVars {
                 let html .= "<div id='error-tabs-6'>"
                           . "<table cellspacing='0' align='center' class='superglobal-detail'>"
                           . "<tr><th>Key</th><th>Value</th></tr>";
