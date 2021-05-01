@@ -23,7 +23,7 @@ class OnUncaughtExceptionCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function debugOnUncaughtException(UnitTester $I)
+    public function supportDebugOnUncaughtException(UnitTester $I)
     {
         $I->wantToTest('Debug - onUncaughtException()');
 

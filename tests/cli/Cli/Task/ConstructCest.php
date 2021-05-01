@@ -36,9 +36,7 @@ class ConstructCest
         $I->assertInstanceOf(Task::class, $task);
 
         $task = new OnConstructTask();
-        $I->assertTrue(
-            $task->onConstructExecuted
-        );
+        $I->assertTrue($task->onConstructExecuted);
     }
 
     public function extendTask(CliTester $I)
@@ -53,23 +51,11 @@ class ConstructCest
         };
 
         $task = new MainTask();
-
         $task->setDI($di);
 
-        $I->assertEquals(
-            'data',
-            $task->requestRegistryAction()
-        );
-
-        $I->assertEquals(
-            'Hello !',
-            $task->helloAction()
-        );
-
-        $I->assertEquals(
-            'Hello World!',
-            $task->helloAction('World')
-        );
+        $I->assertEquals('data', $task->requestRegistryAction());
+        $I->assertEquals('Hello !', $task->helloAction());
+        $I->assertEquals('Hello World!', $task->helloAction('World'));
     }
 
     public function echoTask(CliTester $I)
@@ -77,13 +63,8 @@ class ConstructCest
         $task = new EchoTask();
         $di   = new DiFactoryDefault();
 
-        $task->setDI(
-            $di
-        );
+        $task->setDI($di);
 
-        $I->assertEquals(
-            'echoMainAction',
-            $task->mainAction()
-        );
+        $I->assertEquals('echoMainAction', $task->mainAction());
     }
 }

@@ -264,7 +264,7 @@ class LogCest
         $unique    = uniqid();
         $logPath   = logsDir();
         $fileName  = $I->getNewFileName('log', 'log');
-        $format    = '[%date%] [%type%] %message%';
+        $format    = '[%date%] [%level%] %message%';
         $formatter = new Line($format);
         $adapter   = new Stream($logPath . $fileName);
         $adapter->setFormatter($formatter);

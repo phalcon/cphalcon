@@ -12,6 +12,7 @@ namespace Phalcon\Logger\Formatter;
 
 use DateTime;
 use Phalcon\Logger\Item;
+use Phalcon\Support\Helper\Str\Interpolate;
 
 /**
  * Phalcon\Logger\Formatter\Line
@@ -30,8 +31,10 @@ class Line extends AbstractFormatter
     /**
      * Phalcon\Logger\Formatter\Line construct
      */
-    public function __construct(string format = "[%date%][%type%] %message%", string dateFormat = "c")
-    {
+    public function __construct(
+        string format = "[%date%][%level%] %message%",
+        string dateFormat = "c"
+    ) {
         let this->format     = format,
             this->dateFormat = dateFormat;
     }
@@ -41,37 +44,17 @@ class Line extends AbstractFormatter
      */
     public function format(<Item> item) -> string
     {
-        var format;
+        var context, format, interpolate, time;
 
-        let format = this->format;
+        let context     = item->getContext(),
+            format      = this->format,
+            time        = item->getTime(),
+            interpolate = new Interpolate();
 
-        /**
-         * Check if the format has the %date% placeholder
-         */
-        if memstr(format, "%date%") {
-            let format = str_replace(
-                "%date%",
-                this->getFormattedDate(),
-                format
-            );
-        }
+        let context["date"]    = time->format(this->dateFormat),
+            context["level"]   = item->getLevelName(),
+            context["message"] = item->getMessage();
 
-        /**
-         * Check if the format has the %type% placeholder
-         */
-        if memstr(format, "%type%") {
-            let format = str_replace("%type%", item->getName(), format);
-        }
-
-        let format = str_replace("%message%", item->getMessage(), format);
-
-        if typeof item->getContext() === "array" {
-            return this->interpolate(
-                format,
-                item->getContext()
-            );
-        }
-
-        return format;
+        return interpolate->__invoke(format, context);
     }
 }

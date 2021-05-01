@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Logger\Adapter\Noop;
 
+use DateTimeImmutable;
 use Phalcon\Logger;
 use Phalcon\Logger\Adapter\Noop;
 use Phalcon\Logger\Item;
@@ -31,8 +32,8 @@ class ProcessCest
         $I->wantToTest('Logger\Adapter\Noop - process()');
 
         $adapter = new Noop();
-
-        $item = new Item('Message 1', 'debug', Logger::DEBUG);
+        $time    = new DateTimeImmutable('now');
+        $item    = new Item('Message 1', 'debug', Logger::DEBUG, $time);
 
         $adapter->process($item);
     }

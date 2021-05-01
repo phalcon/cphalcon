@@ -19,6 +19,10 @@ use Phalcon\Translate\InterpolatorFactory;
 use Phalcon\Translate\TranslateFactory;
 use UnitTester;
 
+use function strtolower;
+
+use const PHP_OS;
+
 class LoadCest
 {
     use FactoryTrait;
@@ -40,45 +44,23 @@ class LoadCest
     {
         $I->wantToTest('Translate\Factory - load() - Config');
 
-        $options      = $this->config->translate;
-        $interpolator = new InterpolatorFactory();
-        $factory      = new TranslateFactory($interpolator);
-        $adapter      = $factory->load($options);
-
-        /* https://github.com/phalcon/cphalcon/issues/14764
-        /*
-         * @todo:ruudboon Remove workaround after bug fix
+        /**
+         * This test will run only on Linux - unless we figure out how to
+         * properly set locales on windows/macos
          */
-        $locale = $options->options->locale;
-        if (!$adapter->getLocale()) {
-            $adapter->setLocale($options->options->category, "en_US");
-            $locale = "en_US";
+        if ('linux' === strtolower(PHP_OS)) {
+            $options      = $this->config->translate;
+            $interpolator = new InterpolatorFactory();
+            $factory      = new TranslateFactory($interpolator);
+            $adapter      = $factory->load($options);
+            $locale       = $options->options->locale;
+
+            $I->assertInstanceOf(Gettext::class, $adapter);
+            $I->assertEquals($options->options->category, $adapter->getCategory());
+            $I->assertEquals($locale, $adapter->getLocale());
+            $I->assertEquals($options->options->defaultDomain, $adapter->getDefaultDomain());
+            $I->assertEquals($options->options->directory, $adapter->getDirectory());
         }
-
-        $I->assertInstanceOf(
-            Gettext::class,
-            $adapter
-        );
-
-        $I->assertEquals(
-            $options->options->category,
-            $adapter->getCategory()
-        );
-
-        $I->assertEquals(
-            $locale,
-            $adapter->getLocale()
-        );
-
-        $I->assertEquals(
-            $options->options->defaultDomain,
-            $adapter->getDefaultDomain()
-        );
-
-        $I->assertEquals(
-            $options->options->directory,
-            $adapter->getDirectory()
-        );
     }
 
     /**
@@ -91,44 +73,22 @@ class LoadCest
     {
         $I->wantToTest('Translate\Factory - load() - array');
 
-        $options      = $this->arrayConfig['translate'];
-        $interpolator = new InterpolatorFactory();
-        $factory      = new TranslateFactory($interpolator);
-        $adapter      = $factory->load($options);
-
-        /* https://github.com/phalcon/cphalcon/issues/14764
-        /*
-         * @todo:ruudboon Remove workaround after bug fix
+        /**
+         * This test will run only on Linux - unless we figure out how to
+         * properly set locales on windows/macos
          */
-        $locale = $options['options']['locale'];
-        if (!$adapter->getLocale()) {
-            $adapter->setLocale($options['options']['category'], "en_US");
-            $locale = "en_US";
+        if ('linux' === strtolower(PHP_OS)) {
+            $options      = $this->arrayConfig['translate'];
+            $interpolator = new InterpolatorFactory();
+            $factory      = new TranslateFactory($interpolator);
+            $adapter      = $factory->load($options);
+            $locale       = $options['options']['locale'];
+
+            $I->assertInstanceOf(Gettext::class, $adapter);
+            $I->assertEquals($options['options']['category'], $adapter->getCategory());
+            $I->assertEquals($locale, $adapter->getLocale());
+            $I->assertEquals($options['options']['defaultDomain'], $adapter->getDefaultDomain());
+            $I->assertEquals($options['options']['directory'], $adapter->getDirectory());
         }
-
-        $I->assertInstanceOf(
-            Gettext::class,
-            $adapter
-        );
-
-        $I->assertEquals(
-            $options['options']['category'],
-            $adapter->getCategory()
-        );
-
-        $I->assertEquals(
-            $locale,
-            $adapter->getLocale()
-        );
-
-        $I->assertEquals(
-            $options['options']['defaultDomain'],
-            $adapter->getDefaultDomain()
-        );
-
-        $I->assertEquals(
-            $options['options']['directory'],
-            $adapter->getDirectory()
-        );
     }
 }

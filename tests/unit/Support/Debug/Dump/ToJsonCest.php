@@ -24,7 +24,7 @@ class ToJsonCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function debugDumpToJson(UnitTester $I)
+    public function supportDebugDumpToJson(UnitTester $I)
     {
         $I->wantToTest('Debug\Dump - toJson()');
         $test = [

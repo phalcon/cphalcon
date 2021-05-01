@@ -13,34 +13,28 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Logger\Item;
 
+use DateTimeImmutable;
 use Phalcon\Logger;
 use Phalcon\Logger\Item;
 use UnitTester;
 
-class GetNameCest
+class GetLevelNameCest
 {
     /**
-     * Tests Phalcon\Logger\Item :: getName()
+     * Tests Phalcon\Logger\Item :: getLevelName()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function loggerItemGetName(UnitTester $I)
+    public function loggerItemGetLevelName(UnitTester $I)
     {
-        $I->wantToTest('Logger\Item - getName()');
+        $I->wantToTest('Logger\Item - getLevelName()');
 
-        $time = time();
+        $time = new DateTimeImmutable("now");
+        $item = new Item('log message', 'debug', Logger::DEBUG, $time);
 
-        $item = new Item(
-            'log message',
-            'debug',
-            Logger::DEBUG,
-            $time
-        );
-
-        $I->assertEquals(
-            'debug',
-            $item->getName()
-        );
+        $expected = 'debug';
+        $actual   = $item->getLevelName();
+        $I->assertEquals($expected, $actual);
     }
 }

@@ -15,6 +15,8 @@ use Phalcon\Helper\Arr;
 
 class PdoFactory extends AbstractFactory
 {
+    protected exception = "Phalcon\\Db\\Exception";
+
     /**
      * Constructor
      */

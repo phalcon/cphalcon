@@ -20,7 +20,7 @@ use Phalcon\Cache\Adapter\Memory;
 use Phalcon\Cache\Adapter\Redis;
 use Phalcon\Cache\Adapter\Stream;
 use Phalcon\Cache\AdapterFactory;
-use Phalcon\Factory\Exception;
+use Phalcon\Cache\Exception\Exception;
 use Phalcon\Storage\Serializer\Json;
 use Phalcon\Storage\SerializerFactory;
 use IntegrationTester;
@@ -36,10 +36,9 @@ class NewInstanceCest
      *
      * @dataProvider getExamples
      *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-05-04
      * @throws Exception
-     * @since        2019-05-04
-     *
-     * @author       Phalcon Team <team@phalcon.io>
      */
     public function cacheAdapterFactoryNewInstance(IntegrationTester $I, Example $example)
     {
@@ -68,10 +67,9 @@ class NewInstanceCest
     /**
      * Tests Phalcon\Storage\SerializerFactory :: newInstance() - exception
      *
-     * @throws Exception
-     * @since  2019-05-04
-     *
      * @author Phalcon Team <team@phalcon.io>
+     * @since  2019-05-04
+     * @throws Exception
      */
     public function storageSerializerFactoryNewInstanceException(IntegrationTester $I)
     {

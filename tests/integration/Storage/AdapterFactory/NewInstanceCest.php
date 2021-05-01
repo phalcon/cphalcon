@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Integration\Storage\AdapterFactory;
 
 use Codeception\Example;
-use Phalcon\Factory\Exception;
+use Phalcon\Storage\Exception;
 use Phalcon\Storage\Adapter\Apcu;
 use Phalcon\Storage\Adapter\Libmemcached;
 use Phalcon\Storage\Adapter\Memory;

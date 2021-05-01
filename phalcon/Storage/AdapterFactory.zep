@@ -15,6 +15,8 @@ use Phalcon\Storage\Adapter\AdapterInterface;
 
 class AdapterFactory extends AbstractFactory
 {
+    protected exception = "Phalcon\\Storage\\Exception";
+
     /**
      * @var SerializerFactory
      */

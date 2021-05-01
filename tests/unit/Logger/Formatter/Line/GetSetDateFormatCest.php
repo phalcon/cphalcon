@@ -16,7 +16,7 @@ namespace Phalcon\Test\Unit\Logger\Formatter\Line;
 use Phalcon\Logger\Formatter\Line;
 use UnitTester;
 
-class GetDateFormatCest
+class GetSetDateFormatCest
 {
     /**
      * Tests Phalcon\Logger\Formatter\Line :: getDateFormat()
@@ -27,6 +27,13 @@ class GetDateFormatCest
         $formatter = new Line();
 
         $expected = 'c';
+        $actual   = $formatter->getDateFormat();
+        $I->assertEquals($expected, $actual);
+
+        $format = 'YmdHis';
+        $formatter->setDateFormat($format);
+
+        $expected = $format;
         $actual   = $formatter->getDateFormat();
         $I->assertEquals($expected, $actual);
     }

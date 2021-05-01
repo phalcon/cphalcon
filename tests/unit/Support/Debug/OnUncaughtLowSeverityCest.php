@@ -23,7 +23,7 @@ class OnUncaughtLowSeverityCest
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function debugOnUncaughtLowSeverity(UnitTester $I)
+    public function supportDebugOnUncaughtLowSeverity(UnitTester $I)
     {
         $I->wantToTest('Debug - onUncaughtLowSeverity()');
 
