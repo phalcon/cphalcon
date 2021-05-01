@@ -31,11 +31,16 @@ use stdClass;
  */
 class Complex extends Resultset implements ResultsetInterface
 {
+    /**
+     * @var array
+     */
     protected columnTypes;
 
     /**
      * Unserialised result-set hydrated all rows already. unserialise() sets
      * disableHydration to true
+     *
+     * @var bool
      */
     protected disableHydration = false;
 
@@ -43,6 +48,8 @@ class Complex extends Resultset implements ResultsetInterface
      * Phalcon\Mvc\Model\Resultset\Complex constructor
      *
      * @param array columnTypes
+     * @param ResultInterface|null result
+     * @param AdapterInterface|null cache
      */
     public function __construct(
         var columnTypes,

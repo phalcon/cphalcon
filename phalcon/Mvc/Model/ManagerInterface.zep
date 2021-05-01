@@ -225,7 +225,7 @@ interface ManagerInterface
     /**
      * Helper method to query records based on a relation definition
      *
-     * @return \Phalcon\Mvc\Model\Resultset\Simple|Phalcon\Mvc\Model\Resultset\Simple|int|false
+     * @return \Phalcon\Mvc\Model\Resultset\Simple|int|false
      */
     public function getRelationRecords(<RelationInterface> relation, <ModelInterface> record, var parameters = null, string method = null);
 

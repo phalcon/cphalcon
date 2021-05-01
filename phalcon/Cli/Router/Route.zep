@@ -66,7 +66,7 @@ class Route implements RouteInterface
      * The developer can implement any arbitrary conditions here
      * If the callback returns false the route is treated as not matched
      *
-     * @param callback callback
+     * @param mixed callback
      */
     public function beforeMatch(var callback) -> <RouteInterface>
     {

@@ -46,7 +46,7 @@ abstract class AbstractHelper
     /**
      * AbstractHelper constructor.
      *
-     * @param Escaper $escaper
+     * @param EscaperInterface $escaper
      */
     public function __construct(<EscaperInterface> escaper)
     {

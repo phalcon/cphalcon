@@ -122,7 +122,7 @@ abstract class AbstractQuery
     /**
      * Performs a statement in the connection
      *
-     * @return PDOStatement
+     * @return \PDOStatement
      */
     public function perform()
     {

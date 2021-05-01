@@ -70,11 +70,9 @@ class Input extends Stream
     /**
      * Returns the remaining contents in a string
      *
-     * @throws RuntimeException if unable to read.
-     * @throws RuntimeException if error occurs while reading.
-     *
      * @param int $length
      *
+     * @throws \RuntimeException If unable to read or if error occurs while reading.
      * @return string
      */
     public function getContents(int length = -1) -> string

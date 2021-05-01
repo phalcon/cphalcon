@@ -74,33 +74,63 @@ abstract class Resultset
     const TYPE_RESULT_FULL    = 0;
     const TYPE_RESULT_PARTIAL = 1;
 
+    /**
+     * @var mixed|null
+     */
     protected activeRow = null;
 
+    /**
+     * @var AdapterInterface|null
+     */
     protected cache = null;
 
+    /**
+     * @var int
+     */
     protected count = 0;
 
+    /**
+     * @var array
+     */
     protected errorMessages = [];
 
+    /**
+     * @var int
+     */
     protected hydrateMode = 0;
 
+    /**
+     * @var bool
+     */
     protected isFresh = true;
 
+    /**
+     * @var int
+     */
     protected pointer = 0;
 
+    /**
+     * @var mixed|null
+     */
     protected row = null;
 
-    protected rows = null;
+    /**
+     * @var array
+     */
+    protected rows = [];
 
     /**
      * Phalcon\Db\ResultInterface or false for empty resultset
+     *
+     * @var ResultInterface|bool
      */
     protected result;
 
     /**
      * Phalcon\Mvc\Model\Resultset constructor
      *
-     * @param \Phalcon\Db\ResultInterface|false result
+     * @param ResultInterface|false result
+     * @param AdapterInterface|null cache
      */
     public function __construct(result, <AdapterInterface> cache = null)
     {

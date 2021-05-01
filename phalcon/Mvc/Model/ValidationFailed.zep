@@ -10,6 +10,7 @@
 
 namespace Phalcon\Mvc\Model;
 
+use Phalcon\Messages\Message;
 use Phalcon\Mvc\ModelInterface;
 
 /**
@@ -20,13 +21,20 @@ use Phalcon\Mvc\ModelInterface;
  */
 class ValidationFailed extends Exception
 {
+    /**
+     * @var array
+     */
     protected messages = [];
 
+    /**
+     * @var ModelInterface
+     */
     protected model;
 
     /**
      * Phalcon\Mvc\Model\ValidationFailed constructor
      *
+     * @param ModelInterface model
      * @param Message[] validationMessages
      */
     public function __construct(<ModelInterface> model, array! validationMessages)

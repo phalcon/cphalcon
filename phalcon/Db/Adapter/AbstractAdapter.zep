@@ -35,7 +35,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     /**
      * Active connection ID
      *
-     * @var long
+     * @var int
      */
     protected connectionId;
 

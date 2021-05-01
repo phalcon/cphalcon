@@ -42,8 +42,14 @@ use Phalcon\Mvc\ModelInterface;
  */
 class Status implements StatusInterface
 {
+    /**
+     * @var ModelInterface|null
+     */
     protected model;
 
+    /**
+     * @var bool
+     */
     protected success;
 
     /**

@@ -26,20 +26,54 @@ class Relation implements RelationInterface
     const HAS_ONE_THROUGH  = 3;
     const NO_ACTION        = 0;
 
+    /**
+     * @var array|string
+     */
     protected fields;
+
+    /**
+     * @var array|string
+     */
     protected intermediateFields;
-    protected intermediateModel;
+
+    /**
+     * @var string|null
+     */
+    protected intermediateModel = null;
+
+    /**
+     * @var array|string
+     */
     protected intermediateReferencedFields;
-    protected options;
+
+    /**
+     * @var array
+     */
+    protected options = [];
+
+    /**
+     * @var array|string
+     */
     protected referencedFields;
+
+    /**
+     * @var string
+     */
     protected referencedModel;
+
+    /**
+     * @var int
+     */
     protected type;
 
     /**
      * Phalcon\Mvc\Model\Relation constructor
      *
-     * @param string|array fields
-     * @param string|array referencedFields
+     * @param int type
+     * @param string referencedModel
+     * @param array|string fields
+     * @param array|string referencedFields
+     * @param array options
      */
     public function __construct(int type, string! referencedModel, var fields, var referencedFields, array options = [])
     {
@@ -53,7 +87,7 @@ class Relation implements RelationInterface
     /**
      * Returns the fields
      *
-     * @return string|array
+     * @return array|string
      */
     public function getFields()
     {
@@ -63,7 +97,7 @@ class Relation implements RelationInterface
     /**
      * Returns the foreign key configuration
      *
-     * @return string|array
+     * @return array|string
      */
     public function getForeignKey()
     {
@@ -83,7 +117,7 @@ class Relation implements RelationInterface
     /**
      * Gets the intermediate fields for has-*-through relations
      *
-     * @return string|array
+     * @return array|string
      */
     public function getIntermediateFields()
     {
@@ -101,7 +135,7 @@ class Relation implements RelationInterface
     /**
      * Gets the intermediate referenced fields for has-*-through relations
      *
-     * @return string|array
+     * @return array|string
      */
     public function getIntermediateReferencedFields()
     {
@@ -166,7 +200,7 @@ class Relation implements RelationInterface
     /**
      * Returns the referenced fields
      *
-     * @return string|array
+     * @return array|string
      */
     public function getReferencedFields()
     {
@@ -226,8 +260,9 @@ class Relation implements RelationInterface
     /**
      * Sets the intermediate model data for has-*-through relations
      *
-     * @param string|array intermediateFields
-     * @param string       intermediateReferencedFields
+     * @param array|string intermediateFields
+     * @param string       intermediateModel
+     * @param array|string intermediateReferencedFields
      */
     public function setIntermediateRelation(var intermediateFields, string! intermediateModel, var intermediateReferencedFields)
     {

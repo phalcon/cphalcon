@@ -154,10 +154,11 @@ interface ModelInterface
     /**
      * Returns related records based on defined relations
      *
+     * @param string alias
      * @param array arguments
-     * @return \Phalcon\Mvc\Model\Resultset\Simple|Phalcon\Mvc\Model\Resultset\Simple|false
+     * @return \Phalcon\Mvc\Model\Resultset\Simple|false
      */
-    public function getRelated(string alias, arguments = null);
+    public function getRelated(string alias, arguments = null); // TODO: make arguments array type
 
     /**
      * Returns schema name where table mapped is located

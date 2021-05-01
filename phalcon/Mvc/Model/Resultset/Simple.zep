@@ -28,8 +28,16 @@ use Phalcon\Storage\Serializer\SerializerInterface;
  */
 class Simple extends Resultset
 {
+    /**
+     * @var array|string
+     */
     protected columnMap;
+
+    /**
+     * @var ModelInterface|Row
+     */
     protected model;
+
     /**
      * @var bool
      */
@@ -38,15 +46,18 @@ class Simple extends Resultset
     /**
      * Phalcon\Mvc\Model\Resultset\Simple constructor
      *
-     * @param array                                             columnMap
-     * @param \Phalcon\Mvc\ModelInterface|Phalcon\Mvc\Model\Row model
+     * @param array columnMap
+     * @param ModelInterface|Row model
+     * @param \Phalcon\Db\ResultInterface|false result
+     * @param AdapterInterface|null cache
+     * @param bool keepSnapshots false
      */
     public function __construct(
         var columnMap,
         var model,
         result,
         <AdapterInterface> cache = null,
-        bool keepSnapshots = null
+        bool keepSnapshots = false
     )
     {
         let this->model     = model,

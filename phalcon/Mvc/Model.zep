@@ -777,7 +777,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * );
      *```
      *
-     * @param \Phalcon\Mvc\ModelInterface|\Phalcon\Mvc\Model\Row base
+     * @param ModelInterface|\Phalcon\Mvc\Model\Row base
      * @param array columnMap
      */
     public static function cloneResultMap(var base, array! data, var columnMap, int dirtyState = 0, bool keepSnapshots = null) -> <ModelInterface>
@@ -1886,7 +1886,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * Returns related records based on defined relations
      *
      * @param array arguments
-     * @return \Phalcon\Mvc\Model\Resultset\Simple|Phalcon\Mvc\Model\Resultset\Simple|false
+     * @return \Phalcon\Mvc\Model\Resultset\Simple|false
      */
     public function getRelated(string alias, arguments = null)
     {
@@ -4323,7 +4323,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     /**
      * Try to check if the query must invoke a finder
      *
-     * @return \Phalcon\Mvc\ModelInterface[]|\Phalcon\Mvc\ModelInterface|bool
+     * @return ModelInterface[]|ModelInterface|bool
      */
     protected final static function invokeFinder(string method, array arguments)
     {
@@ -4721,7 +4721,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     /**
      * Saves related records that must be stored prior to save the master record
      *
-     * @param \Phalcon\Mvc\ModelInterface[] related
+     * @param ModelInterface[] related
      * @return bool
      */
     protected function preSaveRelatedRecords(<AdapterInterface> connection, related) -> bool
@@ -4844,7 +4844,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     /**
      * Save the related records assigned in the has-one/has-many relations
      *
-     * @param Phalcon\Mvc\ModelInterface[] related
+     * @param ModelInterface[] related
      * @return bool
      */
     protected function postSaveRelatedRecords(<AdapterInterface> connection, related) -> bool
