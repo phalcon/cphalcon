@@ -115,9 +115,9 @@ abstract class Resultset
     protected row = null;
 
     /**
-     * @var array
+     * @var array|null
      */
-    protected rows = [];
+    protected rows = null;
 
     /**
      * Phalcon\Db\ResultInterface or false for empty resultset

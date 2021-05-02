@@ -33,7 +33,11 @@ interface ModelInterface
     /**
      * Assigns values to a model from an array
      *
-     * @param array columnMap
+     * @param array data
+     * @param mixed whiteList
+     * @param mixed dataColumnMap Array to transform keys of data to another
+     *
+     * @return ModelInterface
      */
     public function assign(array! data, var whiteList = null, var dataColumnMap = null) -> <ModelInterface>;
 

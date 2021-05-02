@@ -591,9 +591,9 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * );
      * ```
      *
-     * @param array dataColumnMap Array to transform keys of data to another
+     * @param array data
      * @param mixed whiteList
-     * @param mixed dataColumnMap
+     * @param mixed dataColumnMap Array to transform keys of data to another
      *
      * @return ModelInterface
      */
@@ -4233,7 +4233,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     /**
      * Generate a PHQL SELECT statement for an aggregate
      *
+     * @param string functionName
+     * @oaram string alias
      * @param array parameters
+     *
      * @return ResultsetInterface
      */
     protected static function groupResult(string! functionName, string! alias, var parameters) -> <ResultsetInterface>
@@ -5319,13 +5322,13 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * }
      *```
      *
-     * @param    string|array fields
-     * @param    string|array intermediateFields
-     * @param    string|array intermediateReferencedFields
-     * @param    string|array referencedFields
-     * @param    array options
-     *
-     * @param array|null options = [
+     * @param string|array fields
+     * @param string intermediateModel
+     * @param string|array intermediateFields
+     * @param string|array intermediateReferencedFields
+     * @param string referenceModel
+     * @param string|array referencedFields
+     * @param array options = [
      *     'reusable' => false,
      *     'alias' => 'someAlias',
      *     'foreignKey' => [
@@ -5352,8 +5355,15 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *     ]
      * ]
      */
-    protected function hasManyToMany(var fields, string! intermediateModel, var intermediateFields, var intermediateReferencedFields,
-        string! referenceModel, var referencedFields, options = null) -> <Relation>
+    protected function hasManyToMany(
+        var fields,
+        string! intermediateModel,
+        var intermediateFields,
+        var intermediateReferencedFields,
+        string! referenceModel,
+        var referencedFields,
+        options = []
+    ) -> <Relation>
     {
         return (<ManagerInterface> this->modelsManager)->addHasManyToMany(
             this,

@@ -905,7 +905,7 @@ class Builder implements BuilderInterface, InjectionAwareInterface
          * Process group parameters
          */
         let group = this->group;
-        if group !== null {
+        if !empty group {
             let groupItems = [];
 
             for groupItem in group {

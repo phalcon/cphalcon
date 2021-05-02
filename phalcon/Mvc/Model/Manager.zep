@@ -1370,6 +1370,11 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 
     /**
      * Returns a relation by its alias
+     *
+     * @param string modelName
+     * @param string alias
+     *
+     * @return RelationInterface|bool
      */
     public function getRelationByAlias(string! modelName, string! alias) -> <RelationInterface> | bool
     {

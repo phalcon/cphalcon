@@ -533,7 +533,7 @@ final class Uri extends AbstractCommon implements UriInterface
      *
      * @return int|null
      */
-    private function filterPort(var port) -> int
+    private function filterPort(var port) -> int | null
     {
         array ports;
 

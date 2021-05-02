@@ -52,7 +52,7 @@ abstract class AbstractPdo extends AbstractAdapter
     /**
      * Constructor for Phalcon\Db\Adapter\Pdo
      *
-     * @param array|\Phalcon\Config descriptor = [
+     * @param array descriptor = [
      *     'host' => 'localhost',
      *     'port' => '3306',
      *     'dbname' => 'blog',

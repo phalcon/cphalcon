@@ -223,9 +223,9 @@ interface ManagerInterface
      * @param string modelName
      * @param string alias
      *
-     * @param Relation|bool
+     * @return RelationInterface|bool
      */
-    public function getRelationByAlias(string! modelName, string! alias) -> <Relation> | bool;
+    public function getRelationByAlias(string! modelName, string! alias) -> <RelationInterface> | bool;
 
     /**
      * Helper method to query records based on a relation definition
