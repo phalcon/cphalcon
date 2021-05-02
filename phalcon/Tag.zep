@@ -56,17 +56,17 @@ class Tag
      *
      * @var array
      */
-    protected static displayValues = [];
+    protected static displayValues;
 
     /**
      * @var array
      */
-    protected static documentAppendTitle = [];
+    protected static documentAppendTitle;
 
     /**
      * @var array
      */
-    protected static documentPrependTitle = [];
+    protected static documentPrependTitle;
 
     /**
      * HTML document title
@@ -102,6 +102,10 @@ class Tag
      */
     public static function appendTitle(var title) -> void
     {
+        if self::documentAppendTitle === null {
+            let self::documentAppendTitle = [];
+        }
+
         if typeof title == "array" {
             let self::documentAppendTitle = title;
         } else {
@@ -424,6 +428,10 @@ class Tag
         );
 
         if prepend {
+            if self::documentPrependTitle === null {
+                let self::documentPrependTitle = [];
+            }
+
             let documentPrependTitle = self::documentPrependTitle;
 
             if !empty documentPrependTitle {
@@ -440,6 +448,10 @@ class Tag
         }
 
         if append {
+            if self::documentAppendTitle === null {
+                let self::documentAppendTitle = [];
+            }
+
             let documentAppendTitle = self::documentAppendTitle;
 
             if !empty documentAppendTitle {
@@ -787,6 +799,10 @@ class Tag
      */
     public static function prependTitle(var title) -> void
     {
+        if self::documentPrependTitle === null {
+            let self::documentPrependTitle = [];
+        }
+
         if typeof title == "array" {
             let self::documentPrependTitle = title;
         } else {
@@ -1051,7 +1067,7 @@ class Tag
      */
     public static function setDefaults(array! values, bool merge = false) -> void
     {
-        if merge {
+        if merge && typeof self::displayValues == "array" {
             let self::displayValues = array_merge(self::displayValues, values);
         } else {
             let self::displayValues = values;
