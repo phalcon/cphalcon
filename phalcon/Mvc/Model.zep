@@ -4234,7 +4234,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * Generate a PHQL SELECT statement for an aggregate
      *
      * @param string functionName
-     * @oaram string alias
+     * @param string alias
      * @param array parameters
      *
      * @return ResultsetInterface
