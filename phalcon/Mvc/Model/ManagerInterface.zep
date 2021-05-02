@@ -219,6 +219,11 @@ interface ManagerInterface
 
     /**
      * Returns a relation by its alias
+     *
+     * @param string modelName
+     * @param string alias
+     *
+     * @param Relation|bool
      */
     public function getRelationByAlias(string! modelName, string! alias) -> <Relation> | bool;
 

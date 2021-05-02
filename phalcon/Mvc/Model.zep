@@ -591,8 +591,11 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * );
      * ```
      *
-     * @param array dataColumnMap array to transform keys of data to another
-     * @param array whiteList
+     * @param array dataColumnMap Array to transform keys of data to another
+     * @param mixed whiteList
+     * @param mixed dataColumnMap
+     *
+     * @return ModelInterface
      */
     public function assign(array! data, var whiteList = null, var dataColumnMap = null) -> <ModelInterface>
     {
@@ -778,7 +781,11 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *```
      *
      * @param ModelInterface|\Phalcon\Mvc\Model\Row base
-     * @param array columnMap
+     * @param mixed columnMap
+     * @param int dirtyState
+     * @param bool keepSnapshots
+     *
+     * @return ModelInterface
      */
     public static function cloneResultMap(var base, array! data, var columnMap, int dirtyState = 0, bool keepSnapshots = null) -> <ModelInterface>
     {
@@ -907,7 +914,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     /**
      * Returns an hydrated result based on the data and the column map
      *
-     * @param array columnMap
+     * @param array data
+     * @param mixed columnMap
+     * @param int hydrationMode
+     *
      * @return mixed
      */
     public static function cloneResultMapHydrate(array! data, var columnMap, int hydrationMode)
