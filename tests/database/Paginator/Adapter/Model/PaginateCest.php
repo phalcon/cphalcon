@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Database\Paginator\Adapter\Model;
 
 use DatabaseTester;
+use PDO;
 use Phalcon\Paginator\Adapter\Model;
 use Phalcon\Paginator\Repository;
 use Phalcon\Storage\Exception;
@@ -42,6 +43,7 @@ class PaginateCest
      *
      * @group mysql
      * @group sqlite
+     * @group pgsql
      */
     public function paginatorAdapterModelPaginate(DatabaseTester $I)
     {
@@ -158,6 +160,7 @@ class PaginateCest
      *
      * @group mysql
      * @group sqlite
+     * @group pgsql
      */
     public function paginatorAdapterModelPaginateParametersString(DatabaseTester $I): void
     {
@@ -200,6 +203,7 @@ class PaginateCest
      *
      * @group mysql
      * @group sqlite
+     * @group pgsql
      */
     public function paginatorAdapterModelPaginateParametersArrayString(DatabaseTester $I): void
     {
@@ -239,6 +243,41 @@ class PaginateCest
         $I->assertEquals(1, $page->getCurrent());
     }
 
+    /**
+     * @param DatabaseTester $I
+     *
+     * @group mysql
+     * @group sqlite
+     * @group pgsql
+     */
+    public function paginatorAdapterModelPaginateEmpty(DatabaseTester $I)
+    {
+        $I->wantToTest('Paginator\Adapter\Model - paginate() - empty');
+
+        $paginator = new Model(
+            [
+                'model'      => Invoices::class,
+                'parameters' => [
+                    'inv_cst_id < -1',
+                ],
+                'limit'      => 5,
+                'page'       => 1,
+            ]
+        );
+
+        // First Page
+        $page = $paginator->paginate();
+
+        $I->assertInstanceOf(Repository::class, $page);
+
+        $I->assertCount(0, $page->getItems());
+        $I->assertIsArray($page->getItems());
+        $I->assertEquals(1, $page->getPrevious());
+        $I->assertEquals(0, $page->getNext());
+        $I->assertEquals(0, $page->getLast());
+        $I->assertEquals(5, $page->getLimit());
+        $I->assertEquals(1, $page->getCurrent());
+    }
 
     /**
      * Tests Phalcon\Paginator\Adapter\QueryBuilder :: paginate()
