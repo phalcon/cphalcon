@@ -561,7 +561,7 @@ jobs:
         shell: cmd
         run: |
           set PATH=%PATH%;%PHP_DEVPACK%
-          cd /d %PHP_PECL_PATH%\phalcon\phalcon-%PHALCON_VERSION%
+          cd /d %PHP_PECL_PATH%\phalcon\phalcon-%PHALCON_VERSION%\build\phalcon\safe
           configure --enable-phalcon --with-extra-libs=%PHP_PECL_PATH%\psr\psr-%PSR_VERSION%\%RELEASE_FOLDER%
 
       - name: Phalcon | Build Project
