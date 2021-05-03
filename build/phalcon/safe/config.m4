@@ -11,12 +11,12 @@ if test "$PHP_PHALCON" = "yes"; then
       AC_MSG_ERROR(PHP version $PHP_STRING is not supported)
     fi
 
-    subdir=build/phalcon
-    AC_MSG_RESULT($PHP_STRING)
+	if ! test "x" = "x"; then
+		PHP_EVAL_LIBLINE(, PHALCON_SHARED_LIBADD)
+	fi
+
 	AC_DEFINE(HAVE_PHALCON, 1, [Whether you have Phalcon])
-	PHP_NEW_EXTENSION(phalcon, $subdir/phalcon.zep.c, $ext_shared)
-    PHP_ADD_BUILD_DIR($abs_builddir/$subdir, 1)
-    PHP_ADD_INCLUDE([$ext_srcdir/$subdir])
+	PHP_NEW_EXTENSION(phalcon, phalcon.zep.c, $ext_shared)
 	PHP_SUBST(PHALCON_SHARED_LIBADD)
 
 	old_CPPFLAGS=$CPPFLAGS
@@ -58,5 +58,5 @@ if test "$PHP_PHALCON" = "yes"; then
 
 	CPPFLAGS=$old_CPPFLAGS
 
-	PHP_INSTALL_HEADERS([ext/phalcon], [$subdir/php_phalcon.h])
+	PHP_INSTALL_HEADERS([ext/phalcon], [php_phalcon.h])
 fi
