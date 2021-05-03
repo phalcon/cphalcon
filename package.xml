@@ -40,11 +40,17 @@
   </notes>
   <contents>
     <dir name="/">
-      <file name="config.w32" role="src" />
-      <file name="phalcon.zep.c" role="src"  />
-      <file name="config.m4" role="src"  />
-      <file name="php_phalcon.h" role="src" />
-      <file name="phalcon.zep.h" role="src" />
+      <dir name="build">
+        <dir name="phalcon">
+          <dir name="safe">
+            <file name="config.m4" role="src" />
+            <file name="config.w32" role="src" />
+            <file name="phalcon.zep.c" role="src" />
+            <file name="phalcon.zep.h" role="src" />
+            <file name="php_phalcon.h" role="src" />
+          </dir>
+        </dir>
+      </dir>
       <file name="LICENSE.txt" role="doc" />
       <file name="CHANGELOG-5.0.md" role="doc" />
       <file name="CODE_OF_CONDUCT.md" role="doc" />
