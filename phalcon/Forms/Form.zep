@@ -144,7 +144,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
      */
     public function bind(array! data, var entity, var whitelist = null) -> <Form>
     {
-        var filter, key, value, element, filters, container, filteredValue;
+        var filter, key, value, element, filters, container, filteredValue, assignData;
         string method;
 
         if unlikely empty this->elements {
@@ -152,6 +152,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
         }
 
         let filter = null;
+        let assignData = [];
 
         for key, value in data {
             /**
@@ -164,6 +165,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
             /**
              * Check if the item is in the whitelist
              */
+
             if typeof whitelist === "array" && !in_array(key, whitelist) {
                 continue;
             }
@@ -187,6 +189,8 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
                 let filteredValue = value;
             }
 
+            let assignData[key] = value;
+
             /**
              * Use the setter if any available
              */
@@ -203,7 +207,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
             let entity->{key} = filteredValue;
         }
 
-        let this->data = data;
+        let this->data = assignData;
 
         return this;
     }
