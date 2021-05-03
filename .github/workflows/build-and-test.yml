@@ -550,25 +550,13 @@ jobs:
         run: |
           Get-PhpExtension "${env:PHP_PECL_PATH}\psr\psr-${env:PSR_VERSION}\${env:RELEASE_FOLDER}\php_psr.dll"
 
-      - name: Phalcon | phpize
-        shell: cmd
-        run: |
-          set PATH=%PATH%;%PHP_DEVPACK%
-          cd /d %PHP_PECL_PATH%\phalcon\phalcon-%PHALCON_VERSION%
-          phpize
-
-      - name: Phalcon | Configure Project
+      - name: Phalcon | Build project
         shell: cmd
         run: |
           set PATH=%PATH%;%PHP_DEVPACK%
           cd /d %PHP_PECL_PATH%\phalcon\phalcon-%PHALCON_VERSION%\build\phalcon\safe
+          phpize
           configure --enable-phalcon --with-extra-libs=%PHP_PECL_PATH%\psr\psr-%PSR_VERSION%\%RELEASE_FOLDER%
-
-      - name: Phalcon | Build Project
-        shell: cmd
-        run: |
-          set PATH=%PATH%;%PHP_DEVPACK%;%PHP_PECL_PATH%\psr\psr-%PSR_VERSION%\%RELEASE_FOLDER%
-          cd /d %PHP_PECL_PATH%\phalcon\phalcon-%PHALCON_VERSION%
           nmake
 
       - name: Inspecting Phalcon Extension DLL File
