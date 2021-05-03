@@ -1,6 +1,12 @@
 # [5.0.0-alpha.2](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0-alpha.2) (xxxx-xx-xx)
 
 ## Changed
+- Changed `Phalcon\Translate\Adapter\Gettext::setLocale` signature to allow the category and an array of locales [#14764](https://github.com/phalcon/cphalcon/issues/14764)
+- `Phalcon\Version` is now moved to `Phalcon\Support\Version`
+    - `_getSpecialVersion` and `_getVersion` have been removed (marked deprecated in v4)
+    - The class is no longer static; it has to be instantiated first
+    - References to `Phalcon\Debug` and the Volt compiler have been adjusted [#15422](https://github.com/phalcon/cphalcon/issues/15422)
+- `Phalcon\Debug` is now moved to `Phalcon\Support\Debug`; CSS/JS references updated [#14817](https://github.com/phalcon/cphalcon/issues/14817)
 - Changed the logging names types to uppercase [#15375](https://github.com/phalcon/cphalcon/issues/15375)
 - Changes to the `Phalcon\Logger`:
     - Renamed `Phalcon\Logger\Item::getName` to `Phalcon\Logger\Item::getLevelName`
@@ -21,14 +27,6 @@
 - Added `Phalcon\Validation\Validator\File\AbstractFile::checkIsUploadedFile()` method to allow overriding when adding files to the `$_FILES` array directly (not uploading). [#15051](https://github.com/phalcon/cphalcon/issues/15051)
 - Added `Phalcon\Support\Helper\Str\Interpolate` to be used throughout the code for interpolation (Logger/Translator) `%type%` to `%level%` to align with the variables [#15411](https://github.com/phalcon/cphalcon/issues/15411)
 - Added `Phalcon\Support\HelperFactory` for an easier creation/access of helpers [#15411](https://github.com/phalcon/cphalcon/issues/15411)
-
-## Changed
-- Changed `Phalcon\Translate\Adapter\Gettext::setLocale` signature to allow the category and an array of locales [#14764](https://github.com/phalcon/cphalcon/issues/14764)
-- `Phalcon\Version` is now moved to `Phalcon\Support\Version`
-    - `_getSpecialVersion` and `_getVersion` have been removed (marked deprecated in v4)
-    - The class is no longer static; it has to be instantiated first
-    - References to `Phalcon\Debug` and the Volt compiler have been adjusted [#15422](https://github.com/phalcon/cphalcon/issues/15422)
-- `Phalcon\Debug` is now moved to `Phalcon\Support\Debug`; CSS/JS references updated [#14817](https://github.com/phalcon/cphalcon/issues/14817)
 
 ## Fixed
 - Corrected the `Phalcon\Db\Profiler\Item` calculation for seconds [#15249](https://github.com/phalcon/cphalcon/issues/15249) 
