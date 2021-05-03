@@ -34,19 +34,18 @@
  *
  * Sanitizes a value to uppercase
  */
-ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_Upper) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_Upper)
+{
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Filter\\Sanitize, Upper, phalcon, filter_sanitize_upper, phalcon_filter_sanitize_upper_method_entry, 0);
 
 	return SUCCESS;
-
 }
 
 /**
  * @var string input The text to sanitize
  */
-PHP_METHOD(Phalcon_Filter_Sanitize_Upper, __invoke) {
-
+PHP_METHOD(Phalcon_Filter_Sanitize_Upper, __invoke)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *input_param = NULL, _0$$3, _1$$3, _2;
@@ -62,13 +61,11 @@ PHP_METHOD(Phalcon_Filter_Sanitize_Upper, __invoke) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(input)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &input_param);
-
 	if (UNEXPECTED(Z_TYPE_P(input_param) != IS_STRING && Z_TYPE_P(input_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'input' must be of the type string"));
 		RETURN_MM_NULL();
@@ -77,7 +74,6 @@ PHP_METHOD(Phalcon_Filter_Sanitize_Upper, __invoke) {
 		zephir_get_strval(&input, input_param);
 	} else {
 		ZEPHIR_INIT_VAR(&input);
-		ZVAL_EMPTY_STRING(&input);
 	}
 
 
@@ -85,14 +81,13 @@ PHP_METHOD(Phalcon_Filter_Sanitize_Upper, __invoke) {
 		ZVAL_LONG(&_0$$3, 0);
 		ZEPHIR_INIT_VAR(&_1$$3);
 		ZVAL_STRING(&_1$$3, "UTF-8");
-		ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_case", NULL, 260, &input, &_0$$3, &_1$$3);
+		ZEPHIR_RETURN_CALL_FUNCTION("mb_convert_case", NULL, 239, &input, &_0$$3, &_1$$3);
 		zephir_check_call_status();
 		RETURN_MM();
 	}
-	ZEPHIR_CALL_FUNCTION(&_2, "utf8_decode", NULL, 261, &input);
+	ZEPHIR_CALL_FUNCTION(&_2, "utf8_decode", NULL, 240, &input);
 	zephir_check_call_status();
 	zephir_fast_strtoupper(return_value, &_2);
 	RETURN_MM();
-
 }
 

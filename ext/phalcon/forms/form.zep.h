@@ -48,7 +48,11 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_forms_form___construct, 0, 0, 0)
 	ZEND_ARG_INFO(0, entity)
+#if PHP_VERSION_ID >= 80000
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, userOptions, IS_ARRAY, 0, "[]")
+#else
 	ZEND_ARG_ARRAY_INFO(0, userOptions, 0)
+#endif
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_forms_form_add, 0, 1, Phalcon\\Forms\\Form, 0)
@@ -130,7 +134,11 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_form_label, 0, 1, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+#if PHP_VERSION_ID >= 80000
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, attributes, IS_ARRAY, 1, "[]")
+#else
 	ZEND_ARG_ARRAY_INFO(0, attributes, 1)
+#endif
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_form_next, 0, 0, IS_VOID, 0)
@@ -138,7 +146,11 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_form_render, 0, 1, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+#if PHP_VERSION_ID >= 80000
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, attributes, IS_ARRAY, 0, "[]")
+#else
 	ZEND_ARG_ARRAY_INFO(0, attributes, 0)
+#endif
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_forms_form_remove, 0, 1, _IS_BOOL, 0)

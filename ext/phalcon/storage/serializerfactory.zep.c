@@ -29,12 +29,12 @@
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
-ZEPHIR_INIT_CLASS(Phalcon_Storage_SerializerFactory) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Storage_SerializerFactory)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Storage, SerializerFactory, phalcon, storage_serializerfactory, phalcon_factory_abstractfactory_ce, phalcon_storage_serializerfactory_method_entry, 0);
 
+	zend_declare_property_string(phalcon_storage_serializerfactory_ce, SL("exception"), "Phalcon\\Storage\\Exception", ZEND_ACC_PROTECTED);
 	return SUCCESS;
-
 }
 
 /**
@@ -42,8 +42,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Storage_SerializerFactory) {
  *
  * @param array services
  */
-PHP_METHOD(Phalcon_Storage_SerializerFactory, __construct) {
-
+PHP_METHOD(Phalcon_Storage_SerializerFactory, __construct)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *services_param = NULL;
@@ -57,13 +57,11 @@ PHP_METHOD(Phalcon_Storage_SerializerFactory, __construct) {
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ARRAY(services)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &services_param);
-
 	if (!services_param) {
 		ZEPHIR_INIT_VAR(&services);
 		array_init(&services);
@@ -75,7 +73,6 @@ PHP_METHOD(Phalcon_Storage_SerializerFactory, __construct) {
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "init", NULL, 0, &services);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
-
 }
 
 /**
@@ -84,8 +81,8 @@ PHP_METHOD(Phalcon_Storage_SerializerFactory, __construct) {
  * @return SerializerInterface
  * @throws Exception
  */
-PHP_METHOD(Phalcon_Storage_SerializerFactory, newInstance) {
-
+PHP_METHOD(Phalcon_Storage_SerializerFactory, newInstance)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *name_param = NULL, definition;
@@ -99,13 +96,11 @@ PHP_METHOD(Phalcon_Storage_SerializerFactory, newInstance) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(name)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
-
 	if (UNEXPECTED(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be of the type string"));
 		RETURN_MM_NULL();
@@ -114,7 +109,6 @@ PHP_METHOD(Phalcon_Storage_SerializerFactory, newInstance) {
 		zephir_get_strval(&name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(&name);
-		ZVAL_EMPTY_STRING(&name);
 	}
 
 
@@ -123,11 +117,10 @@ PHP_METHOD(Phalcon_Storage_SerializerFactory, newInstance) {
 	ZEPHIR_LAST_CALL_STATUS = zephir_create_instance(return_value, &definition);
 	zephir_check_call_status();
 	RETURN_MM();
-
 }
 
-PHP_METHOD(Phalcon_Storage_SerializerFactory, getAdapters) {
-
+PHP_METHOD(Phalcon_Storage_SerializerFactory, getAdapters)
+{
 	zval *this_ptr = getThis();
 
 
@@ -140,6 +133,5 @@ PHP_METHOD(Phalcon_Storage_SerializerFactory, getAdapters) {
 	add_assoc_stringl_ex(return_value, SL("none"), SL("Phalcon\\Storage\\Serializer\\None"));
 	add_assoc_stringl_ex(return_value, SL("php"), SL("Phalcon\\Storage\\Serializer\\Php"));
 	return;
-
 }
 

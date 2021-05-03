@@ -23,12 +23,11 @@
 /**
  * Interface for Phalcon\Mvc\View engine adapters
  */
-ZEPHIR_INIT_CLASS(Phalcon_Mvc_View_Engine_EngineInterface) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Mvc_View_Engine_EngineInterface)
+{
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Mvc\\View\\Engine, EngineInterface, phalcon, mvc_view_engine_engineinterface, phalcon_mvc_view_engine_engineinterface_method_entry);
 
 	return SUCCESS;
-
 }
 
 /**
@@ -41,5 +40,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_View_Engine_EngineInterface, getContent);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_View_Engine_EngineInterface, partial);
 /**
  * Renders a view using the template engine
+ *
+ * TODO: Change params to array type
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_View_Engine_EngineInterface, render);

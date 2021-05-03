@@ -25,13 +25,11 @@
 /**
  * Class Search
  */
-ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Input_Search) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Input_Search)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Html\\Helper\\Input, Search, phalcon, html_helper_input_search, phalcon_html_helper_input_abstractinput_ce, NULL, 0);
 
 	zend_declare_property_string(phalcon_html_helper_input_search_ce, SL("type"), "search", ZEND_ACC_PROTECTED);
-
 	return SUCCESS;
-
 }
 

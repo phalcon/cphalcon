@@ -36,12 +36,11 @@
 /**
  * Decorates an existing PDO instance with the extended methods.
  */
-ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Pdo_Connection_Decorated) {
-
+ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Pdo_Connection_Decorated)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\DataMapper\\Pdo\\Connection, Decorated, phalcon, datamapper_pdo_connection_decorated, phalcon_datamapper_pdo_connection_abstractconnection_ce, phalcon_datamapper_pdo_connection_decorated_method_entry, 0);
 
 	return SUCCESS;
-
 }
 
 /**
@@ -51,12 +50,12 @@ ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Pdo_Connection_Decorated) {
  * This overrides the parent so that it can take an existing PDO instance
  * and decorate it with the extended methods.
  *
- * @param PDO                    $pdo
+ * @param \PDO                   $pdo
  * @param ProfilerInterface|null $profiler
  *
  */
-PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_Decorated, __construct) {
-
+PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_Decorated, __construct)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *pdo, pdo_sub, *profiler = NULL, profiler_sub, __$null;
@@ -72,13 +71,11 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_Decorated, __construct) {
 		Z_PARAM_OPTIONAL
 		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(profiler, phalcon_datamapper_pdo_profiler_profilerinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &pdo, &profiler);
-
 	if (!profiler) {
 		profiler = &profiler_sub;
 		ZEPHIR_CPY_WRT(profiler, &__$null);
@@ -91,22 +88,20 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_Decorated, __construct) {
 	if (Z_TYPE_P(profiler) == IS_NULL) {
 		ZEPHIR_INIT_NVAR(profiler);
 		object_init_ex(profiler, phalcon_datamapper_pdo_profiler_profiler_ce);
-		ZEPHIR_CALL_METHOD(NULL, profiler, "__construct", NULL, 201);
+		ZEPHIR_CALL_METHOD(NULL, profiler, "__construct", NULL, 200);
 		zephir_check_call_status();
 	}
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setprofiler", NULL, 0, profiler);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
-
 }
 
 /**
  * Connects to the database.
  */
-PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_Decorated, connect) {
-
+PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_Decorated, connect)
+{
 	zval *this_ptr = getThis();
-
 
 
 
@@ -117,14 +112,13 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_Decorated, connect) {
  *
  * @throws CannotDisconnect
  */
-PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_Decorated, disconnect) {
-
+PHP_METHOD(Phalcon_DataMapper_Pdo_Connection_Decorated, disconnect)
+{
 	zval *this_ptr = getThis();
 
 
 
 	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_datamapper_pdo_exception_cannotdisconnect_ce, "Cannot disconnect a Decorated connection instance", "phalcon/DataMapper/Pdo/Connection/Decorated.zep", 66);
 	return;
-
 }
 

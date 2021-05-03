@@ -64,19 +64,18 @@
  * echo $config->database->username;
  *```
  */
-ZEPHIR_INIT_CLASS(Phalcon_Config_Adapter_Php) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Config_Adapter_Php)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Config\\Adapter, Php, phalcon, config_adapter_php, phalcon_config_ce, phalcon_config_adapter_php_method_entry, 0);
 
 	return SUCCESS;
-
 }
 
 /**
  * Phalcon\Config\Adapter\Php constructor
  */
-PHP_METHOD(Phalcon_Config_Adapter_Php, __construct) {
-
+PHP_METHOD(Phalcon_Config_Adapter_Php, __construct)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
@@ -91,13 +90,11 @@ PHP_METHOD(Phalcon_Config_Adapter_Php, __construct) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(filePath)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &filePath_param);
-
 	if (UNEXPECTED(Z_TYPE_P(filePath_param) != IS_STRING && Z_TYPE_P(filePath_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'filePath' must be of the type string"));
 		RETURN_MM_NULL();
@@ -106,7 +103,6 @@ PHP_METHOD(Phalcon_Config_Adapter_Php, __construct) {
 		zephir_get_strval(&filePath, filePath_param);
 	} else {
 		ZEPHIR_INIT_VAR(&filePath);
-		ZVAL_EMPTY_STRING(&filePath);
 	}
 
 
@@ -117,6 +113,5 @@ PHP_METHOD(Phalcon_Config_Adapter_Php, __construct) {
 	ZEPHIR_CALL_PARENT(NULL, phalcon_config_adapter_php_ce, getThis(), "__construct", &_0, 0, &_1);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
-
 }
 

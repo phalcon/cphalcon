@@ -23,12 +23,11 @@
 /**
  * Interface for Phalcon\Cli\Router
  */
-ZEPHIR_INIT_CLASS(Phalcon_Cli_RouterInterface) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Cli_RouterInterface)
+{
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Cli, RouterInterface, phalcon, cli_routerinterface, phalcon_cli_routerinterface_method_entry);
 
 	return SUCCESS;
-
 }
 
 /**

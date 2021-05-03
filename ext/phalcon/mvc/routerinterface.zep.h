@@ -11,7 +11,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_routerinterface_attach, 0, 1, Phalcon\\Mvc\\RouterInterface, 0)
 	ZEND_ARG_OBJ_INFO(0, route, Phalcon\\Mvc\\Router\\RouteInterface, 0)
-	ZEND_ARG_INFO(0, position)
+	ZEND_ARG_TYPE_INFO(0, position, IS_LONG, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_routerinterface_addconnect, 0, 1, Phalcon\\Mvc\\Router\\RouteInterface, 0)

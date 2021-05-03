@@ -28,12 +28,11 @@
 /**
  * Interface to send query profiles to a logger.
  */
-ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Pdo_Profiler_ProfilerInterface) {
-
+ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Pdo_Profiler_ProfilerInterface)
+{
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\DataMapper\\Pdo\\Profiler, ProfilerInterface, phalcon, datamapper_pdo_profiler_profilerinterface, phalcon_datamapper_pdo_profiler_profilerinterface_method_entry);
 
 	return SUCCESS;
-
 }
 
 /**

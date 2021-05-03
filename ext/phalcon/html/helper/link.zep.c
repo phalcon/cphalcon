@@ -30,12 +30,11 @@
 /**
  * Class Link
  */
-ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Link) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Link)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Html\\Helper, Link, phalcon, html_helper_link, phalcon_html_helper_abstractseries_ce, phalcon_html_helper_link_method_entry, 0);
 
 	return SUCCESS;
-
 }
 
 /**
@@ -46,8 +45,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Link) {
  *
  * @return Link
  */
-PHP_METHOD(Phalcon_Html_Helper_Link, add) {
-
+PHP_METHOD(Phalcon_Html_Helper_Link, add)
+{
 	zval _0, _2;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -68,13 +67,11 @@ PHP_METHOD(Phalcon_Html_Helper_Link, add) {
 		Z_PARAM_STR(rel)
 		Z_PARAM_STR(href)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &rel_param, &href_param);
-
 	zephir_get_strval(&rel, rel_param);
 	zephir_get_strval(&href, href_param);
 
@@ -103,19 +100,17 @@ PHP_METHOD(Phalcon_Html_Helper_Link, add) {
 	zephir_array_fast_append(&_0, &_3);
 	zephir_update_property_array_append(this_ptr, SL("store"), &_0);
 	RETURN_THIS();
-
 }
 
 /**
  * @return string
  */
-PHP_METHOD(Phalcon_Html_Helper_Link, getTag) {
-
+PHP_METHOD(Phalcon_Html_Helper_Link, getTag)
+{
 	zval *this_ptr = getThis();
 
 
 
 	RETURN_STRING("link");
-
 }
 

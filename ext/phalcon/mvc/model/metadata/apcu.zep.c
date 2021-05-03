@@ -46,12 +46,11 @@
  * );
  *```
  */
-ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Apcu) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Apcu)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\MetaData, Apcu, phalcon, mvc_model_metadata_apcu, phalcon_mvc_model_metadata_ce, phalcon_mvc_model_metadata_apcu_method_entry, 0);
 
 	return SUCCESS;
-
 }
 
 /**
@@ -59,8 +58,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Apcu) {
  *
  * @param array options
  */
-PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apcu, __construct) {
-
+PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apcu, __construct)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_1 = NULL;
@@ -83,16 +82,13 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apcu, __construct) {
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ARRAY_OR_NULL(options)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &factory, &options_param);
-
 	if (!options_param) {
 		ZEPHIR_INIT_VAR(&options);
-		array_init(&options);
 	} else {
 	ZEPHIR_OBS_COPY_OR_DUP(&options, options_param);
 	}
@@ -117,6 +113,5 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Apcu, __construct) {
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("adapter"), &_6);
 	ZEPHIR_MM_RESTORE();
-
 }
 

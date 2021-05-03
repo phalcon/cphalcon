@@ -27,11 +27,10 @@
  *
  * Exceptions thrown in Phalcon\Messages\* classes will use this class
  */
-ZEPHIR_INIT_CLASS(Phalcon_Messages_Exception) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Messages_Exception)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Messages, Exception, phalcon, messages_exception, phalcon_exception_ce, NULL, 0);
 
 	return SUCCESS;
-
 }
 

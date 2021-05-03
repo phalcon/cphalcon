@@ -25,12 +25,11 @@
  *
  * Interface for Phalcon\Mvc\Model
  */
-ZEPHIR_INIT_CLASS(Phalcon_Mvc_ModelInterface) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Mvc_ModelInterface)
+{
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Mvc, ModelInterface, phalcon, mvc_modelinterface, phalcon_mvc_modelinterface_method_entry);
 
 	return SUCCESS;
-
 }
 
 /**
@@ -40,7 +39,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, appendMessage);
 /**
  * Assigns values to a model from an array
  *
- * @param array columnMap
+ * @param array data
+ * @param mixed whiteList
+ * @param mixed dataColumnMap Array to transform keys of data to another
+ *
+ * @return ModelInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, assign);
 /**
@@ -48,7 +51,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, assign);
  * conditions
  *
  * @param array parameters
- * @return double | ResultsetInterface
+ * @return ResultsetInterface|float
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, average);
 /**
@@ -58,9 +61,12 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, cloneResult);
 /**
  * Assigns values to a model from an array returning a new model
  *
- * @param \Phalcon\Mvc\Model base
- * @param array columnMap
- * @return \Phalcon\Mvc\Model result
+ * @param ModelInterface|\Phalcon\Mvc\Model\Row base
+ * @param mixed columnMap
+ * @param int dirtyState
+ * @param bool keepSnapshots
+ *
+ * @return ModelInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, cloneResultMap);
 /**
@@ -91,6 +97,10 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, create);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, delete);
 /**
  * Allows to query a set of records that match the specified conditions
+ *
+ * @param array|string|int|null parameters
+ *
+ * @return ResultsetInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, find);
 /**
@@ -143,8 +153,9 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, getReadConnectionService);
 /**
  * Returns related records based on defined relations
  *
+ * @param string alias
  * @param array arguments
- * @return \Phalcon\Mvc\Model\Resultset\Simple|Phalcon\Mvc\Model\Resultset\Simple|false
+ * @return \Phalcon\Mvc\Model\Resultset\Simple|false
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, getRelated);
 /**
@@ -228,7 +239,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, skipOperation);
  * Allows to calculate a sum on a column that match the specified conditions
  *
  * @param array parameters
- * @return double | ResultsetInterface
+ * @return float|ResultsetInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, sum);
 /**

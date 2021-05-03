@@ -4,18 +4,18 @@
 /* First off, code is include which follows the "include" declaration
 ** in the input file. */
 #include <stdio.h>
-#line 18 "parser.php7.lemon"
+#line 18 "parser.php.lemon"
 
-#include "parser.php7.inc.h"
+#include "parser.php.inc.h"
 
-#line 12 "parser.php7.c"
+#line 12 "parser.php.c"
 /* Next is all token values, in a form suitable for use by makeheaders.
 ** This section will be null unless lemon is run with the -m switch.
 */
-/* 
+/*
 ** These constants (all generated automatically by the parser generator)
 ** specify the various kinds of tokens (terminals) that the parser
-** understands. 
+** understands.
 **
 ** Each symbol here is a terminal symbol in the grammar.
 */
@@ -32,7 +32,7 @@
 **                       and nonterminals.  "int" is used otherwise.
 **    YYNOCODE           is a number of type YYCODETYPE which corresponds
 **                       to no legal terminal or nonterminal number.  This
-**                       number is used to fill in empty slots of the hash 
+**                       number is used to fill in empty slots of the hash
 **                       table.
 **    YYFALLBACK         If defined, this indicates that one or more tokens
 **                       have fall-back values which should be used if the
@@ -41,7 +41,7 @@
 **                       and nonterminal numbers.  "unsigned char" is
 **                       used if there are fewer than 250 rules and
 **                       states combined.  "int" is used otherwise.
-**    phannot_TOKENTYPE     is the data type used for minor tokens given 
+**    phannot_TOKENTYPE     is the data type used for minor tokens given
 **                       directly to the parser from the tokenizer.
 **    YYMINORTYPE        is the data type used for all minor tokens.
 **                       This is typically a union of many types, one of
@@ -82,7 +82,7 @@ typedef union {
 /* Next are that tables used to determine what action to take based on the
 ** current state and lookahead token.  These tables are used to implement
 ** functions that take a state number and lookahead value and return an
-** action integer.  
+** action integer.
 **
 ** Suppose the action integer is N.  Then the action is determined as
 ** follows
@@ -107,7 +107,7 @@ typedef union {
 ** If the index value yy_shift_ofst[S]+X is out of range or if the value
 ** yy_lookahead[yy_shift_ofst[S]+X] is not equal to X or if yy_shift_ofst[S]
 ** is equal to YY_SHIFT_USE_DFLT, it means that the action is not in the table
-** and that yy_default[S] should be used instead.  
+** and that yy_default[S] should be used instead.
 **
 ** The formula above is for computing the action when the lookahead is
 ** a terminal symbol.  If the lookahead is a non-terminal (as occurs after
@@ -174,7 +174,7 @@ static YYACTIONTYPE yy_default[] = {
 
 /* The next table maps tokens into fallback tokens.  If a construct
 ** like the following:
-** 
+**
 **      %fallback ID X Y Z.
 **
 ** appears in the grammer, then ID becomes a fallback token for X, Y,
@@ -225,10 +225,10 @@ static char *yyTracePrompt = 0;
 #endif /* NDEBUG */
 
 #ifndef NDEBUG
-/* 
+/*
 ** Turn parser tracing on by giving a stream to which to write the trace
 ** and a prompt to preface each trace message.  Tracing is turned off
-** by making either argument NULL 
+** by making either argument NULL
 **
 ** Inputs:
 ** <ul>
@@ -253,14 +253,14 @@ void phannot_Trace(FILE *TraceFILE, char *zTracePrompt){
 #ifndef NDEBUG
 /* For tracing shifts, the names of all terminals and nonterminals
 ** are required.  The following table supplies these names */
-static const char *yyTokenName[] = { 
-  "$",             "COMMA",         "AT",            "IDENTIFIER",  
-  "PARENTHESES_OPEN",  "PARENTHESES_CLOSE",  "STRING",        "EQUALS",      
-  "COLON",         "INTEGER",       "DOUBLE",        "NULL",        
+static const char *yyTokenName[] = {
+  "$",             "COMMA",         "AT",            "IDENTIFIER",
+  "PARENTHESES_OPEN",  "PARENTHESES_CLOSE",  "STRING",        "EQUALS",
+  "COLON",         "INTEGER",       "DOUBLE",        "NULL",
   "FALSE",         "TRUE",          "BRACKET_OPEN",  "BRACKET_CLOSE",
-  "SBRACKET_OPEN",  "SBRACKET_CLOSE",  "error",         "program",     
+  "SBRACKET_OPEN",  "SBRACKET_CLOSE",  "error",         "program",
   "annotation_language",  "annotation_list",  "annotation",    "argument_list",
-  "argument_item",  "expr",          "array",       
+  "argument_item",  "expr",          "array",
 };
 #endif /* NDEBUG */
 
@@ -312,7 +312,7 @@ const char *phannot_TokenName(int tokenType){
 #endif
 }
 
-/* 
+/*
 ** This function allocates a new parser.
 ** The only argument is a pointer to a function which works like
 ** malloc.
@@ -343,7 +343,7 @@ static void yy_destructor(YYCODETYPE yymajor, YYMINORTYPE *yypminor){
     /* Here is inserted the actions which take place when a
     ** terminal or non-terminal is destroyed.  This can happen
     ** when the symbol is popped from the stack during a
-    ** reduce or during error processing or when a parser is 
+    ** reduce or during error processing or when a parser is
     ** being destroyed before it is finished parsing.
     **
     ** Note: during a reduce, the only symbols destroyed are those
@@ -367,7 +367,7 @@ static void yy_destructor(YYCODETYPE yymajor, YYMINORTYPE *yypminor){
     case 15:
     case 16:
     case 17:
-#line 67 "parser.php7.lemon"
+#line 67 "parser.php.lemon"
 {
 	if ((yypminor->yy0)) {
 		if ((yypminor->yy0)->free_flag) {
@@ -376,7 +376,7 @@ static void yy_destructor(YYCODETYPE yymajor, YYMINORTYPE *yypminor){
 		efree((yypminor->yy0));
 	}
 }
-#line 380 "parser.php7.c"
+#line 380 "parser.php.c"
       break;
     case 20:
     case 21:
@@ -384,11 +384,11 @@ static void yy_destructor(YYCODETYPE yymajor, YYMINORTYPE *yypminor){
     case 23:
     case 24:
     case 25:
-#line 80 "parser.php7.lemon"
+#line 80 "parser.php.lemon"
 {
     zval_ptr_dtor(&(yypminor->yy8));
 }
-#line 392 "parser.php7.c"
+#line 392 "parser.php.c"
       break;
     default:  break;   /* If no destructor action specified: do nothing */
   }
@@ -420,7 +420,7 @@ static int yy_pop_parser_stack(yyParser *pParser){
   return yymajor;
 }
 
-/* 
+/*
 ** Deallocate and destroy a parser.  Destructors are all called for
 ** all stack elements before shutting the parser down.
 **
@@ -456,7 +456,7 @@ static int yy_find_shift_action(
 ){
   int i;
   int stateno = pParser->yystack[pParser->yyidx].stateno;
- 
+
   /* if( pParser->yyidx<0 ) return YY_NO_ACTION;  */
   i = yy_shift_ofst[stateno];
   if( i==YY_SHIFT_USE_DFLT ){
@@ -500,7 +500,7 @@ static int yy_find_reduce_action(
 ){
   int i;
   int stateno = pParser->yystack[pParser->yyidx].stateno;
- 
+
   i = yy_reduce_ofst[stateno];
   if( i==YY_REDUCE_USE_DFLT ){
     return yy_default[stateno];
@@ -609,7 +609,7 @@ static void yy_reduce(
   phannot_ARG_FETCH;
   yymsp = &yypParser->yystack[yypParser->yyidx];
 #ifndef NDEBUG
-  if( yyTraceFILE && yyruleno>=0 
+  if( yyTraceFILE && yyruleno>=0
         && yyruleno<sizeof(yyRuleName)/sizeof(yyRuleName[0]) ){
     fprintf(yyTraceFILE, "%sReduce [%s].\n", yyTracePrompt,
       yyRuleName[yyruleno]);
@@ -626,166 +626,166 @@ static void yy_reduce(
   **     break;
   */
       case 0:
-#line 76 "parser.php7.lemon"
+#line 76 "parser.php.lemon"
 {
 	ZVAL_ZVAL(&status->ret, &yymsp[0].minor.yy8, 1, 1);
 }
-#line 634 "parser.php7.c"
+#line 634 "parser.php.c"
         break;
       case 1:
       case 14:
       case 15:
-#line 84 "parser.php7.lemon"
+#line 84 "parser.php.lemon"
 {
 	yygotominor.yy8 = yymsp[0].minor.yy8;
 }
-#line 643 "parser.php7.c"
+#line 643 "parser.php.c"
         break;
       case 2:
-#line 92 "parser.php7.lemon"
+#line 92 "parser.php.lemon"
 {
 	phannot_ret_zval_list(&yygotominor.yy8, &yymsp[-1].minor.yy8, &yymsp[0].minor.yy8);
 }
-#line 650 "parser.php7.c"
+#line 650 "parser.php.c"
         break;
       case 3:
       case 8:
-#line 96 "parser.php7.lemon"
+#line 96 "parser.php.lemon"
 {
 	phannot_ret_zval_list(&yygotominor.yy8, NULL, &yymsp[0].minor.yy8);
 }
-#line 658 "parser.php7.c"
+#line 658 "parser.php.c"
         break;
       case 4:
-#line 104 "parser.php7.lemon"
+#line 104 "parser.php.lemon"
 {
 	phannot_ret_annotation(&yygotominor.yy8, yymsp[-3].minor.yy0, &yymsp[-1].minor.yy8, status->scanner_state);
   yy_destructor(2,&yymsp[-4].minor);
   yy_destructor(4,&yymsp[-2].minor);
   yy_destructor(5,&yymsp[0].minor);
 }
-#line 668 "parser.php7.c"
+#line 668 "parser.php.c"
         break;
       case 5:
-#line 108 "parser.php7.lemon"
+#line 108 "parser.php.lemon"
 {
 	phannot_ret_annotation(&yygotominor.yy8, yymsp[-2].minor.yy0, NULL, status->scanner_state);
   yy_destructor(2,&yymsp[-3].minor);
   yy_destructor(4,&yymsp[-1].minor);
   yy_destructor(5,&yymsp[0].minor);
 }
-#line 678 "parser.php7.c"
+#line 678 "parser.php.c"
         break;
       case 6:
-#line 112 "parser.php7.lemon"
+#line 112 "parser.php.lemon"
 {
 	phannot_ret_annotation(&yygotominor.yy8, yymsp[0].minor.yy0, NULL, status->scanner_state);
   yy_destructor(2,&yymsp[-1].minor);
 }
-#line 686 "parser.php7.c"
+#line 686 "parser.php.c"
         break;
       case 7:
-#line 120 "parser.php7.lemon"
+#line 120 "parser.php.lemon"
 {
 	phannot_ret_zval_list(&yygotominor.yy8, &yymsp[-2].minor.yy8, &yymsp[0].minor.yy8);
   yy_destructor(1,&yymsp[-1].minor);
 }
-#line 694 "parser.php7.c"
+#line 694 "parser.php.c"
         break;
       case 9:
-#line 132 "parser.php7.lemon"
+#line 132 "parser.php.lemon"
 {
 	phannot_ret_named_item(&yygotominor.yy8, NULL, &yymsp[0].minor.yy8);
 }
-#line 701 "parser.php7.c"
+#line 701 "parser.php.c"
         break;
       case 10:
       case 12:
-#line 136 "parser.php7.lemon"
+#line 136 "parser.php.lemon"
 {
 	phannot_ret_named_item(&yygotominor.yy8, yymsp[-2].minor.yy0, &yymsp[0].minor.yy8);
   yy_destructor(7,&yymsp[-1].minor);
 }
-#line 710 "parser.php7.c"
+#line 710 "parser.php.c"
         break;
       case 11:
       case 13:
-#line 140 "parser.php7.lemon"
+#line 140 "parser.php.lemon"
 {
 	phannot_ret_named_item(&yygotominor.yy8, yymsp[-2].minor.yy0, &yymsp[0].minor.yy8);
   yy_destructor(8,&yymsp[-1].minor);
 }
-#line 719 "parser.php7.c"
+#line 719 "parser.php.c"
         break;
       case 16:
-#line 164 "parser.php7.lemon"
+#line 164 "parser.php.lemon"
 {
 	phannot_ret_literal_zval(&yygotominor.yy8, PHANNOT_T_IDENTIFIER, yymsp[0].minor.yy0);
 }
-#line 726 "parser.php7.c"
+#line 726 "parser.php.c"
         break;
       case 17:
-#line 168 "parser.php7.lemon"
+#line 168 "parser.php.lemon"
 {
 	phannot_ret_literal_zval(&yygotominor.yy8, PHANNOT_T_INTEGER, yymsp[0].minor.yy0);
 }
-#line 733 "parser.php7.c"
+#line 733 "parser.php.c"
         break;
       case 18:
-#line 172 "parser.php7.lemon"
+#line 172 "parser.php.lemon"
 {
 	phannot_ret_literal_zval(&yygotominor.yy8, PHANNOT_T_STRING, yymsp[0].minor.yy0);
 }
-#line 740 "parser.php7.c"
+#line 740 "parser.php.c"
         break;
       case 19:
-#line 176 "parser.php7.lemon"
+#line 176 "parser.php.lemon"
 {
 	phannot_ret_literal_zval(&yygotominor.yy8, PHANNOT_T_DOUBLE, yymsp[0].minor.yy0);
 }
-#line 747 "parser.php7.c"
+#line 747 "parser.php.c"
         break;
       case 20:
-#line 180 "parser.php7.lemon"
+#line 180 "parser.php.lemon"
 {
 	phannot_ret_literal_zval(&yygotominor.yy8, PHANNOT_T_NULL, NULL);
   yy_destructor(11,&yymsp[0].minor);
 }
-#line 755 "parser.php7.c"
+#line 755 "parser.php.c"
         break;
       case 21:
-#line 184 "parser.php7.lemon"
+#line 184 "parser.php.lemon"
 {
 	phannot_ret_literal_zval(&yygotominor.yy8, PHANNOT_T_FALSE, NULL);
   yy_destructor(12,&yymsp[0].minor);
 }
-#line 763 "parser.php7.c"
+#line 763 "parser.php.c"
         break;
       case 22:
-#line 188 "parser.php7.lemon"
+#line 188 "parser.php.lemon"
 {
 	phannot_ret_literal_zval(&yygotominor.yy8, PHANNOT_T_TRUE, NULL);
   yy_destructor(13,&yymsp[0].minor);
 }
-#line 771 "parser.php7.c"
+#line 771 "parser.php.c"
         break;
       case 23:
-#line 192 "parser.php7.lemon"
+#line 192 "parser.php.lemon"
 {
 	phannot_ret_array(&yygotominor.yy8, &yymsp[-1].minor.yy8);
   yy_destructor(14,&yymsp[-2].minor);
   yy_destructor(15,&yymsp[0].minor);
 }
-#line 780 "parser.php7.c"
+#line 780 "parser.php.c"
         break;
       case 24:
-#line 196 "parser.php7.lemon"
+#line 196 "parser.php.lemon"
 {
 	phannot_ret_array(&yygotominor.yy8, &yymsp[-1].minor.yy8);
   yy_destructor(16,&yymsp[-2].minor);
   yy_destructor(17,&yymsp[0].minor);
 }
-#line 789 "parser.php7.c"
+#line 789 "parser.php.c"
         break;
   };
   yygoto = yyRuleInfo[yyruleno].lhs;
@@ -827,7 +827,7 @@ static void yy_syntax_error(
 ){
   phannot_ARG_FETCH;
 #define TOKEN (yyminor.yy0)
-#line 22 "parser.php7.lemon"
+#line 22 "parser.php.lemon"
 
 	if (status->scanner_state->start_length) {
 		char *token_name = NULL;
@@ -872,7 +872,7 @@ static void yy_syntax_error(
 
 	status->status = PHANNOT_PARSING_FAILED;
 
-#line 876 "parser.php7.c"
+#line 876 "parser.php.c"
   phannot_ARG_STORE; /* Suppress warning about unused %extra_argument variable */
 }
 
@@ -966,7 +966,7 @@ void phannot_(
 #ifdef YYERRORSYMBOL
       /* A syntax error has occurred.
       ** The response to an error depends upon whether or not the
-      ** grammar defines an error token "ERROR".  
+      ** grammar defines an error token "ERROR".
       **
       ** This is what we do if the grammar does define ERROR:
       **

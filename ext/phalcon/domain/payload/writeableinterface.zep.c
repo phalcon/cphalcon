@@ -31,12 +31,11 @@
 /**
  * This interface is used for consumers (write)
  */
-ZEPHIR_INIT_CLASS(Phalcon_Domain_Payload_WriteableInterface) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Domain_Payload_WriteableInterface)
+{
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Domain\\Payload, WriteableInterface, phalcon, domain_payload_writeableinterface, phalcon_domain_payload_writeableinterface_method_entry);
 
 	return SUCCESS;
-
 }
 
 /**

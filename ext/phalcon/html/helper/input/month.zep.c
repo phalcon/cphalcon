@@ -25,13 +25,11 @@
 /**
  * Class Month
  */
-ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Input_Month) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Input_Month)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Html\\Helper\\Input, Month, phalcon, html_helper_input_month, phalcon_html_helper_input_abstractinput_ce, NULL, 0);
 
 	zend_declare_property_string(phalcon_html_helper_input_month_ce, SL("type"), "month", ZEND_ACC_PROTECTED);
-
 	return SUCCESS;
-
 }
 

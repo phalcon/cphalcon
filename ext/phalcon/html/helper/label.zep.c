@@ -29,12 +29,11 @@
 /**
  * Class Label
  */
-ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Label) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Label)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Html\\Helper, Label, phalcon, html_helper_label, phalcon_html_helper_abstracthelper_ce, phalcon_html_helper_label_method_entry, 0);
 
 	return SUCCESS;
-
 }
 
 /**
@@ -45,8 +44,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Label) {
  * @return string
  * @throws Exception
  */
-PHP_METHOD(Phalcon_Html_Helper_Label, __invoke) {
-
+PHP_METHOD(Phalcon_Html_Helper_Label, __invoke)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *attributes_param = NULL, _0;
@@ -61,13 +60,11 @@ PHP_METHOD(Phalcon_Html_Helper_Label, __invoke) {
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ARRAY(attributes)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &attributes_param);
-
 	if (!attributes_param) {
 		ZEPHIR_INIT_VAR(&attributes);
 		array_init(&attributes);
@@ -81,6 +78,5 @@ PHP_METHOD(Phalcon_Html_Helper_Label, __invoke) {
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "renderelement", NULL, 0, &_0, &attributes);
 	zephir_check_call_status();
 	RETURN_MM();
-
 }
 

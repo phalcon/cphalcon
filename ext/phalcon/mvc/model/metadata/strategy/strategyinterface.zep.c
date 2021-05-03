@@ -20,12 +20,11 @@
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
-ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Strategy_StrategyInterface) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Strategy_StrategyInterface)
+{
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Mvc\\Model\\MetaData\\Strategy, StrategyInterface, phalcon, mvc_model_metadata_strategy_strategyinterface, phalcon_mvc_model_metadata_strategy_strategyinterface_method_entry);
 
 	return SUCCESS;
-
 }
 
 /**

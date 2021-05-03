@@ -1,4 +1,4 @@
-/* parser.php7.inc.h
+/* parser.php.inc.h
  *
  * This file is part of the Phalcon Framework.
  *
@@ -19,7 +19,7 @@
 #include <ext/standard/php_smart_string.h>
 #include <zend_smart_str.h>
 
-#include "parser.php7.h"
+#include "parser.php.h"
 #include "scanner.h"
 #include "volt.h"
 

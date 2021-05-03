@@ -33,8 +33,8 @@
 /**
  * Represents a single annotation in an annotations collection
  */
-ZEPHIR_INIT_CLASS(Phalcon_Annotations_Annotation) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Annotations_Annotation)
+{
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Annotations, Annotation, phalcon, annotations_annotation, phalcon_annotations_annotation_method_entry, 0);
 
 	/**
@@ -43,32 +43,28 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Annotation) {
 	 * @var array
 	 */
 	zend_declare_property_null(phalcon_annotations_annotation_ce, SL("arguments"), ZEND_ACC_PROTECTED);
-
 	/**
 	 * Annotation ExprArguments
 	 *
 	 * @var array
 	 */
 	zend_declare_property_null(phalcon_annotations_annotation_ce, SL("exprArguments"), ZEND_ACC_PROTECTED);
-
 	/**
 	 * Annotation Name
 	 *
 	 * @var string|null
 	 */
 	zend_declare_property_null(phalcon_annotations_annotation_ce, SL("name"), ZEND_ACC_PROTECTED);
-
 	phalcon_annotations_annotation_ce->create_object = zephir_init_properties_Phalcon_Annotations_Annotation;
 
 	return SUCCESS;
-
 }
 
 /**
  * Phalcon\Annotations\Annotation constructor
  */
-PHP_METHOD(Phalcon_Annotations_Annotation, __construct) {
-
+PHP_METHOD(Phalcon_Annotations_Annotation, __construct)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_4 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -91,13 +87,11 @@ PHP_METHOD(Phalcon_Annotations_Annotation, __construct) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ARRAY(reflectionData)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &reflectionData_param);
-
 	ZEPHIR_OBS_COPY_OR_DUP(&reflectionData, reflectionData_param);
 
 
@@ -155,14 +149,13 @@ PHP_METHOD(Phalcon_Annotations_Annotation, __construct) {
 		zephir_update_property_zval(this_ptr, ZEND_STRL("exprArguments"), &exprArguments);
 	}
 	ZEPHIR_MM_RESTORE();
-
 }
 
 /**
  * Returns an argument in a specific position
  */
-PHP_METHOD(Phalcon_Annotations_Annotation, getArgument) {
-
+PHP_METHOD(Phalcon_Annotations_Annotation, getArgument)
+{
 	zval *position, position_sub, argument, _0;
 	zval *this_ptr = getThis();
 
@@ -174,12 +167,10 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getArgument) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(position)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	zephir_fetch_params_without_memory_grow(1, 0, &position);
-
 
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("arguments"), PH_NOISY_CC | PH_READONLY);
@@ -187,40 +178,37 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getArgument) {
 		RETURN_CTORW(&argument);
 	}
 	RETURN_NULL();
-
 }
 
 /**
  * Returns the expression arguments
  */
-PHP_METHOD(Phalcon_Annotations_Annotation, getArguments) {
-
+PHP_METHOD(Phalcon_Annotations_Annotation, getArguments)
+{
 	zval *this_ptr = getThis();
 
 
 
 	RETURN_MEMBER(getThis(), "arguments");
-
 }
 
 /**
  * Returns the expression arguments without resolving
  */
-PHP_METHOD(Phalcon_Annotations_Annotation, getExprArguments) {
-
+PHP_METHOD(Phalcon_Annotations_Annotation, getExprArguments)
+{
 	zval *this_ptr = getThis();
 
 
 
 	RETURN_MEMBER(getThis(), "exprArguments");
-
 }
 
 /**
  * Resolves an annotation expression
  */
-PHP_METHOD(Phalcon_Annotations_Annotation, getExpression) {
-
+PHP_METHOD(Phalcon_Annotations_Annotation, getExpression)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_4 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -246,13 +234,11 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ARRAY(expr)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &expr_param);
-
 	ZEPHIR_OBS_COPY_OR_DUP(&expr, expr_param);
 
 
@@ -290,7 +276,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression) {
 					ZEPHIR_INIT_NVAR(&item);
 					ZVAL_COPY(&item, _1$$7);
 					zephir_array_fetch_string(&_3$$8, &item, SL("expr"), PH_NOISY | PH_READONLY, "phalcon/Annotations/Annotation.zep", 139);
-					ZEPHIR_CALL_METHOD(&resolvedItem, this_ptr, "getexpression", &_4, 155, &_3$$8);
+					ZEPHIR_CALL_METHOD(&resolvedItem, this_ptr, "getexpression", &_4, 154, &_3$$8);
 					zephir_check_call_status();
 					ZEPHIR_OBS_NVAR(&name);
 					if (zephir_array_isset_string_fetch(&name, &item, SL("name"), 0)) {
@@ -311,7 +297,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression) {
 					ZEPHIR_CALL_METHOD(&item, &_0$$7, "current", NULL, 0);
 					zephir_check_call_status();
 						zephir_array_fetch_string(&_5$$11, &item, SL("expr"), PH_NOISY | PH_READONLY, "phalcon/Annotations/Annotation.zep", 139);
-						ZEPHIR_CALL_METHOD(&resolvedItem, this_ptr, "getexpression", &_4, 155, &_5$$11);
+						ZEPHIR_CALL_METHOD(&resolvedItem, this_ptr, "getexpression", &_4, 154, &_5$$11);
 						zephir_check_call_status();
 						ZEPHIR_OBS_NVAR(&name);
 						if (zephir_array_isset_string_fetch(&name, &item, SL("name"), 0)) {
@@ -328,7 +314,7 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression) {
 		}
 		if (ZEPHIR_IS_LONG(&type, 300)) {
 			object_init_ex(return_value, phalcon_annotations_annotation_ce);
-			ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 156, &expr);
+			ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 155, &expr);
 			zephir_check_call_status();
 			RETURN_MM();
 		}
@@ -344,27 +330,25 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getExpression) {
 	} while(0);
 
 	RETURN_CCTOR(&value);
-
 }
 
 /**
  * Returns the annotation's name
  */
-PHP_METHOD(Phalcon_Annotations_Annotation, getName) {
-
+PHP_METHOD(Phalcon_Annotations_Annotation, getName)
+{
 	zval *this_ptr = getThis();
 
 
 
 	RETURN_MEMBER(getThis(), "name");
-
 }
 
 /**
  * Returns a named argument
  */
-PHP_METHOD(Phalcon_Annotations_Annotation, getNamedArgument) {
-
+PHP_METHOD(Phalcon_Annotations_Annotation, getNamedArgument)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *name_param = NULL, argument, _0;
 	zval name;
@@ -378,13 +362,11 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getNamedArgument) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(name)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
-
 	if (UNEXPECTED(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be of the type string"));
 		RETURN_MM_NULL();
@@ -393,7 +375,6 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getNamedArgument) {
 		zephir_get_strval(&name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(&name);
-		ZVAL_EMPTY_STRING(&name);
 	}
 
 
@@ -402,14 +383,13 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getNamedArgument) {
 		RETURN_CTOR(&argument);
 	}
 	RETURN_MM_NULL();
-
 }
 
 /**
  * Returns a named parameter
  */
-PHP_METHOD(Phalcon_Annotations_Annotation, getNamedParameter) {
-
+PHP_METHOD(Phalcon_Annotations_Annotation, getNamedParameter)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *name_param = NULL;
@@ -422,13 +402,11 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getNamedParameter) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(name)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &name_param);
-
 	if (UNEXPECTED(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be of the type string"));
 		RETURN_MM_NULL();
@@ -437,21 +415,19 @@ PHP_METHOD(Phalcon_Annotations_Annotation, getNamedParameter) {
 		zephir_get_strval(&name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(&name);
-		ZVAL_EMPTY_STRING(&name);
 	}
 
 
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getnamedargument", NULL, 0, &name);
 	zephir_check_call_status();
 	RETURN_MM();
-
 }
 
 /**
  * Returns an argument in a specific position
  */
-PHP_METHOD(Phalcon_Annotations_Annotation, hasArgument) {
-
+PHP_METHOD(Phalcon_Annotations_Annotation, hasArgument)
+{
 	zval *position, position_sub, _0;
 	zval *this_ptr = getThis();
 
@@ -462,24 +438,21 @@ PHP_METHOD(Phalcon_Annotations_Annotation, hasArgument) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(position)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	zephir_fetch_params_without_memory_grow(1, 0, &position);
 
 
-
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("arguments"), PH_NOISY_CC | PH_READONLY);
 	RETURN_BOOL(zephir_array_isset(&_0, position));
-
 }
 
 /**
  * Returns the number of arguments that the annotation has
  */
-PHP_METHOD(Phalcon_Annotations_Annotation, numberArguments) {
-
+PHP_METHOD(Phalcon_Annotations_Annotation, numberArguments)
+{
 	zval _0;
 	zval *this_ptr = getThis();
 
@@ -489,11 +462,10 @@ PHP_METHOD(Phalcon_Annotations_Annotation, numberArguments) {
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("arguments"), PH_NOISY_CC | PH_READONLY);
 	RETURN_LONG(zephir_fast_count_int(&_0));
-
 }
 
-zend_object *zephir_init_properties_Phalcon_Annotations_Annotation(zend_class_entry *class_type) {
-
+zend_object *zephir_init_properties_Phalcon_Annotations_Annotation(zend_class_entry *class_type)
+{
 		zval _0, _2, _1$$3, _3$$4;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
@@ -522,6 +494,5 @@ zend_object *zephir_init_properties_Phalcon_Annotations_Annotation(zend_class_en
 		ZEPHIR_MM_RESTORE();
 		return Z_OBJ_P(this_ptr);
 	}
-
 }
 

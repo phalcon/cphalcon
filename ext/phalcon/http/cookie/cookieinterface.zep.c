@@ -23,12 +23,11 @@
 /**
  * Interface for Phalcon\Http\Cookie
  */
-ZEPHIR_INIT_CLASS(Phalcon_Http_Cookie_CookieInterface) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Http_Cookie_CookieInterface)
+{
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Http\\Cookie, CookieInterface, phalcon, http_cookie_cookieinterface, phalcon_http_cookie_cookieinterface_method_entry);
 
 	return SUCCESS;
-
 }
 
 /**

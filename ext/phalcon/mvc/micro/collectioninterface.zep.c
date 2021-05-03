@@ -25,12 +25,11 @@
  *
  * Interface for Phalcon\Mvc\Micro\Collection
  */
-ZEPHIR_INIT_CLASS(Phalcon_Mvc_Micro_CollectionInterface) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Mvc_Micro_CollectionInterface)
+{
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Mvc\\Micro, CollectionInterface, phalcon, mvc_micro_collectioninterface, phalcon_mvc_micro_collectioninterface_method_entry);
 
 	return SUCCESS;
-
 }
 
 /**
@@ -83,6 +82,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, post);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, put);
 /**
  * Sets the main handler
+ *
+ * @param mixed handler
+ * @param bool lazy
+ *
+ * @return CollectionInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Micro_CollectionInterface, setHandler);
 /**

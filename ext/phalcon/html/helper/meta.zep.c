@@ -30,12 +30,11 @@
 /**
  * Class Meta
  */
-ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Meta) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Meta)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Html\\Helper, Meta, phalcon, html_helper_meta, phalcon_html_helper_abstractseries_ce, phalcon_html_helper_meta_method_entry, 0);
 
 	return SUCCESS;
-
 }
 
 /**
@@ -45,8 +44,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Meta) {
  *
  * @return Meta
  */
-PHP_METHOD(Phalcon_Html_Helper_Meta, add) {
-
+PHP_METHOD(Phalcon_Html_Helper_Meta, add)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *attributes_param = NULL, _1, _3;
@@ -64,13 +63,11 @@ PHP_METHOD(Phalcon_Html_Helper_Meta, add) {
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ARRAY(attributes)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &attributes_param);
-
 	if (!attributes_param) {
 		ZEPHIR_INIT_VAR(&attributes);
 		array_init(&attributes);
@@ -96,7 +93,6 @@ PHP_METHOD(Phalcon_Html_Helper_Meta, add) {
 	zephir_array_fast_append(&_0, &_3);
 	zephir_update_property_array_append(this_ptr, SL("store"), &_0);
 	RETURN_THIS();
-
 }
 
 /**
@@ -106,8 +102,8 @@ PHP_METHOD(Phalcon_Html_Helper_Meta, add) {
  * @return Meta
  * @throws Exception
  */
-PHP_METHOD(Phalcon_Html_Helper_Meta, addHttp) {
-
+PHP_METHOD(Phalcon_Html_Helper_Meta, addHttp)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *httpEquiv_param = NULL, *content_param = NULL, _0;
@@ -123,23 +119,20 @@ PHP_METHOD(Phalcon_Html_Helper_Meta, addHttp) {
 		Z_PARAM_STR(httpEquiv)
 		Z_PARAM_STR(content)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &httpEquiv_param, &content_param);
-
 	zephir_get_strval(&httpEquiv, httpEquiv_param);
 	zephir_get_strval(&content, content_param);
 
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "http-equiv");
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "addelement", NULL, 300, &_0, &httpEquiv, &content);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "addelement", NULL, 279, &_0, &httpEquiv, &content);
 	zephir_check_call_status();
 	RETURN_MM();
-
 }
 
 /**
@@ -149,8 +142,8 @@ PHP_METHOD(Phalcon_Html_Helper_Meta, addHttp) {
  * @return Meta
  * @throws Exception
  */
-PHP_METHOD(Phalcon_Html_Helper_Meta, addName) {
-
+PHP_METHOD(Phalcon_Html_Helper_Meta, addName)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *name_param = NULL, *content_param = NULL, _0;
@@ -166,23 +159,20 @@ PHP_METHOD(Phalcon_Html_Helper_Meta, addName) {
 		Z_PARAM_STR(name)
 		Z_PARAM_STR(content)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &name_param, &content_param);
-
 	zephir_get_strval(&name, name_param);
 	zephir_get_strval(&content, content_param);
 
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "name");
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addelement", NULL, 300, &_0, &name, &content);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addelement", NULL, 279, &_0, &name, &content);
 	zephir_check_call_status();
 	RETURN_THIS();
-
 }
 
 /**
@@ -192,8 +182,8 @@ PHP_METHOD(Phalcon_Html_Helper_Meta, addName) {
  * @return Meta
  * @throws Exception
  */
-PHP_METHOD(Phalcon_Html_Helper_Meta, addProperty) {
-
+PHP_METHOD(Phalcon_Html_Helper_Meta, addProperty)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *name_param = NULL, *content_param = NULL, _0;
@@ -209,36 +199,32 @@ PHP_METHOD(Phalcon_Html_Helper_Meta, addProperty) {
 		Z_PARAM_STR(name)
 		Z_PARAM_STR(content)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &name_param, &content_param);
-
 	zephir_get_strval(&name, name_param);
 	zephir_get_strval(&content, content_param);
 
 
 	ZEPHIR_INIT_VAR(&_0);
 	ZVAL_STRING(&_0, "property");
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addelement", NULL, 300, &_0, &name, &content);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "addelement", NULL, 279, &_0, &name, &content);
 	zephir_check_call_status();
 	RETURN_THIS();
-
 }
 
 /**
  * @return string
  */
-PHP_METHOD(Phalcon_Html_Helper_Meta, getTag) {
-
+PHP_METHOD(Phalcon_Html_Helper_Meta, getTag)
+{
 	zval *this_ptr = getThis();
 
 
 
 	RETURN_STRING("meta");
-
 }
 
 /**
@@ -249,8 +235,8 @@ PHP_METHOD(Phalcon_Html_Helper_Meta, getTag) {
  * @return Meta
  * @throws Exception
  */
-PHP_METHOD(Phalcon_Html_Helper_Meta, addElement) {
-
+PHP_METHOD(Phalcon_Html_Helper_Meta, addElement)
+{
 	zval attributes;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -269,13 +255,11 @@ PHP_METHOD(Phalcon_Html_Helper_Meta, addElement) {
 		Z_PARAM_STR(value)
 		Z_PARAM_STR(content)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &element_param, &value_param, &content_param);
-
 	zephir_get_strval(&element, element_param);
 	zephir_get_strval(&value, value_param);
 	zephir_get_strval(&content, content_param);
@@ -288,6 +272,5 @@ PHP_METHOD(Phalcon_Html_Helper_Meta, addElement) {
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "add", NULL, 0, &attributes);
 	zephir_check_call_status();
 	RETURN_MM();
-
 }
 

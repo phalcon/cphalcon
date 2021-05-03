@@ -28,11 +28,10 @@
  * Exceptions thrown in Phalcon\Storage will use this class
  *
  */
-ZEPHIR_INIT_CLASS(Phalcon_Storage_Exception) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Storage_Exception)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Storage, Exception, phalcon, storage_exception, phalcon_exception_ce, NULL, 0);
 
 	return SUCCESS;
-
 }
 

@@ -31,19 +31,18 @@
  *
  * Component INPUT[type=check] for forms
  */
-ZEPHIR_INIT_CLASS(Phalcon_Forms_Element_Check) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Forms_Element_Check)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Forms\\Element, Check, phalcon, forms_element_check, phalcon_forms_element_abstractelement_ce, phalcon_forms_element_check_method_entry, 0);
 
 	return SUCCESS;
-
 }
 
 /**
  * Renders the element widget returning HTML
  */
-PHP_METHOD(Phalcon_Forms_Element_Check, render) {
-
+PHP_METHOD(Phalcon_Forms_Element_Check, render)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
@@ -60,13 +59,11 @@ PHP_METHOD(Phalcon_Forms_Element_Check, render) {
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ARRAY(attributes)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &attributes_param);
-
 	if (!attributes_param) {
 		ZEPHIR_INIT_VAR(&attributes);
 		array_init(&attributes);
@@ -81,6 +78,5 @@ PHP_METHOD(Phalcon_Forms_Element_Check, render) {
 	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_tag_ce, "checkfield", &_0, 0, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
-
 }
 

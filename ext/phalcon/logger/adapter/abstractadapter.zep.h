@@ -12,6 +12,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, inTransaction);
 PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, process);
 PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, rollback);
 PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, setFormatter);
+PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, getFormattedItem);
 zend_object *zephir_init_properties_Phalcon_Logger_Adapter_AbstractAdapter(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_adapter_abstractadapter___destruct, 0, 0, 0)
@@ -45,6 +46,10 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_logger_adapter_abstractad
 	ZEND_ARG_OBJ_INFO(0, formatter, Phalcon\\Logger\\Formatter\\FormatterInterface, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_adapter_abstractadapter_getformatteditem, 0, 1, IS_STRING, 0)
+	ZEND_ARG_OBJ_INFO(0, item, Phalcon\\Logger\\Item, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_adapter_abstractadapter_zephir_init_properties_phalcon_logger_adapter_abstractadapter, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
@@ -62,5 +67,6 @@ ZEPHIR_INIT_FUNCS(phalcon_logger_adapter_abstractadapter_method_entry) {
 	PHP_ME(Phalcon_Logger_Adapter_AbstractAdapter, process, arginfo_phalcon_logger_adapter_abstractadapter_process, ZEND_ACC_ABSTRACT|ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_Adapter_AbstractAdapter, rollback, arginfo_phalcon_logger_adapter_abstractadapter_rollback, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_Adapter_AbstractAdapter, setFormatter, arginfo_phalcon_logger_adapter_abstractadapter_setformatter, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Adapter_AbstractAdapter, getFormattedItem, arginfo_phalcon_logger_adapter_abstractadapter_getformatteditem, ZEND_ACC_PROTECTED)
 	PHP_FE_END
 };

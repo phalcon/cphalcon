@@ -25,11 +25,10 @@
 /**
  * Exceptions thrown in Phalcon\Assets will use this class
  */
-ZEPHIR_INIT_CLASS(Phalcon_Assets_Exception) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Assets_Exception)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Assets, Exception, phalcon, assets_exception, phalcon_exception_ce, NULL, 0);
 
 	return SUCCESS;
-
 }
 

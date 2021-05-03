@@ -56,8 +56,8 @@
  * $connection->addIndex("robots", null, $index_primary);
  *```
  */
-ZEPHIR_INIT_CLASS(Phalcon_Db_Index) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Db_Index)
+{
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Db, Index, phalcon, db_index, phalcon_db_index_method_entry, 0);
 
 	/**
@@ -66,70 +66,63 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Index) {
 	 * @var array
 	 */
 	zend_declare_property_null(phalcon_db_index_ce, SL("columns"), ZEND_ACC_PROTECTED);
-
 	/**
 	 * Index name
 	 *
 	 * @var string
 	 */
 	zend_declare_property_null(phalcon_db_index_ce, SL("name"), ZEND_ACC_PROTECTED);
-
 	/**
 	 * Index type
 	 *
 	 * @var string
 	 */
 	zend_declare_property_null(phalcon_db_index_ce, SL("type"), ZEND_ACC_PROTECTED);
-
 	zend_class_implements(phalcon_db_index_ce, 1, phalcon_db_indexinterface_ce);
 	return SUCCESS;
-
 }
 
 /**
  * Index columns
  */
-PHP_METHOD(Phalcon_Db_Index, getColumns) {
-
+PHP_METHOD(Phalcon_Db_Index, getColumns)
+{
 	zval *this_ptr = getThis();
 
 
 
 	RETURN_MEMBER(getThis(), "columns");
-
 }
 
 /**
  * Index name
  */
-PHP_METHOD(Phalcon_Db_Index, getName) {
-
+PHP_METHOD(Phalcon_Db_Index, getName)
+{
 	zval *this_ptr = getThis();
 
 
 
 	RETURN_MEMBER(getThis(), "name");
-
 }
 
 /**
  * Index type
  */
-PHP_METHOD(Phalcon_Db_Index, getType) {
-
+PHP_METHOD(Phalcon_Db_Index, getType)
+{
 	zval *this_ptr = getThis();
 
 
 
 	RETURN_MEMBER(getThis(), "type");
-
 }
 
 /**
  * Phalcon\Db\Index constructor
  */
-PHP_METHOD(Phalcon_Db_Index, __construct) {
-
+PHP_METHOD(Phalcon_Db_Index, __construct)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval columns;
 	zval *name_param = NULL, *columns_param = NULL, *type_param = NULL;
@@ -147,13 +140,11 @@ PHP_METHOD(Phalcon_Db_Index, __construct) {
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR(type)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &name_param, &columns_param, &type_param);
-
 	if (UNEXPECTED(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be of the type string"));
 		RETURN_MM_NULL();
@@ -162,7 +153,6 @@ PHP_METHOD(Phalcon_Db_Index, __construct) {
 		zephir_get_strval(&name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(&name);
-		ZVAL_EMPTY_STRING(&name);
 	}
 	ZEPHIR_OBS_COPY_OR_DUP(&columns, columns_param);
 	if (!type_param) {
@@ -177,6 +167,5 @@ PHP_METHOD(Phalcon_Db_Index, __construct) {
 	zephir_update_property_zval(this_ptr, ZEND_STRL("columns"), &columns);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("type"), &type);
 	ZEPHIR_MM_RESTORE();
-
 }
 

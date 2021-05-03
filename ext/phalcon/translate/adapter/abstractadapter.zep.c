@@ -33,27 +33,24 @@
  *
  * Base class for Phalcon\Translate adapters
  */
-ZEPHIR_INIT_CLASS(Phalcon_Translate_Adapter_AbstractAdapter) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Translate_Adapter_AbstractAdapter)
+{
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Translate\\Adapter, AbstractAdapter, phalcon, translate_adapter_abstractadapter, phalcon_translate_adapter_abstractadapter_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
 	/**
 	 * @var string
 	 */
 	zend_declare_property_string(phalcon_translate_adapter_abstractadapter_ce, SL("defaultInterpolator"), "", ZEND_ACC_PROTECTED);
-
 	/**
 	 * @var InterpolatorFactory
 	 */
 	zend_declare_property_null(phalcon_translate_adapter_abstractadapter_ce, SL("interpolatorFactory"), ZEND_ACC_PROTECTED);
-
 	zend_class_implements(phalcon_translate_adapter_abstractadapter_ce, 1, phalcon_translate_adapter_adapterinterface_ce);
 	return SUCCESS;
-
 }
 
-PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, __construct) {
-
+PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, __construct)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_1 = NULL;
@@ -72,13 +69,11 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, __construct) {
 		Z_PARAM_OBJECT_OF_CLASS(interpolator, phalcon_translate_interpolatorfactory_ce)
 		Z_PARAM_ARRAY(options)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &interpolator, &options_param);
-
 	ZEPHIR_OBS_COPY_OR_DUP(&options, options_param);
 
 
@@ -91,7 +86,6 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, __construct) {
 	zephir_update_property_zval(this_ptr, ZEND_STRL("defaultInterpolator"), &_0);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("interpolatorFactory"), interpolator);
 	ZEPHIR_MM_RESTORE();
-
 }
 
 /**
@@ -99,8 +93,8 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, __construct) {
  *
  * @param array   placeholders
  */
-PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, _) {
-
+PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, _)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval placeholders;
@@ -117,13 +111,11 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, _) {
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ARRAY(placeholders)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &translateKey_param, &placeholders_param);
-
 	if (UNEXPECTED(Z_TYPE_P(translateKey_param) != IS_STRING && Z_TYPE_P(translateKey_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'translateKey' must be of the type string"));
 		RETURN_MM_NULL();
@@ -132,7 +124,6 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, _) {
 		zephir_get_strval(&translateKey, translateKey_param);
 	} else {
 		ZEPHIR_INIT_VAR(&translateKey);
-		ZVAL_EMPTY_STRING(&translateKey);
 	}
 	if (!placeholders_param) {
 		ZEPHIR_INIT_VAR(&placeholders);
@@ -145,14 +136,13 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, _) {
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "query", NULL, 0, &translateKey, &placeholders);
 	zephir_check_call_status();
 	RETURN_MM();
-
 }
 
 /**
  * Check whether a translation key exists
  */
-PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, offsetExists) {
-
+PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, offsetExists)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *translateKey, translateKey_sub;
@@ -164,26 +154,23 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, offsetExists) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(translateKey)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &translateKey);
-
 
 
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "exists", NULL, 0, translateKey);
 	zephir_check_call_status();
 	RETURN_MM();
-
 }
 
 /**
  * Returns the translation related to the given key
  */
-PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, offsetGet) {
-
+PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, offsetGet)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *translateKey, translateKey_sub;
@@ -195,7 +182,6 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, offsetGet) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(translateKey)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
@@ -203,11 +189,9 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, offsetGet) {
 	zephir_fetch_params(1, 1, 0, &translateKey);
 
 
-
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "query", NULL, 0, translateKey);
 	zephir_check_call_status();
 	RETURN_MM();
-
 }
 
 /**
@@ -215,8 +199,8 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, offsetGet) {
  *
  * @param string value
  */
-PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, offsetSet) {
-
+PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, offsetSet)
+{
 	zval *offset, offset_sub, *value, value_sub;
 	zval *this_ptr = getThis();
 
@@ -228,24 +212,21 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, offsetSet) {
 		Z_PARAM_ZVAL(offset)
 		Z_PARAM_ZVAL(value)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	zephir_fetch_params_without_memory_grow(2, 0, &offset, &value);
 
 
-
 	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_translate_exception_ce, "Translate is an immutable ArrayAccess object", "phalcon/Translate/Adapter/AbstractAdapter.zep", 73);
 	return;
-
 }
 
 /**
  * Unsets a translation from the dictionary
  */
-PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, offsetUnset) {
-
+PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, offsetUnset)
+{
 	zval *offset, offset_sub;
 	zval *this_ptr = getThis();
 
@@ -255,17 +236,14 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, offsetUnset) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(offset)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	zephir_fetch_params_without_memory_grow(1, 0, &offset);
 
 
-
 	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_translate_exception_ce, "Translate is an immutable ArrayAccess object", "phalcon/Translate/Adapter/AbstractAdapter.zep", 81);
 	return;
-
 }
 
 /**
@@ -273,8 +251,8 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, offsetUnset) {
  *
  * @param array   placeholders
  */
-PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, t) {
-
+PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, t)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval placeholders;
@@ -291,13 +269,11 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, t) {
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ARRAY(placeholders)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &translateKey_param, &placeholders_param);
-
 	if (UNEXPECTED(Z_TYPE_P(translateKey_param) != IS_STRING && Z_TYPE_P(translateKey_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'translateKey' must be of the type string"));
 		RETURN_MM_NULL();
@@ -306,7 +282,6 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, t) {
 		zephir_get_strval(&translateKey, translateKey_param);
 	} else {
 		ZEPHIR_INIT_VAR(&translateKey);
-		ZVAL_EMPTY_STRING(&translateKey);
 	}
 	if (!placeholders_param) {
 		ZEPHIR_INIT_VAR(&placeholders);
@@ -319,14 +294,13 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, t) {
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "query", NULL, 0, &translateKey, &placeholders);
 	zephir_check_call_status();
 	RETURN_MM();
-
 }
 
 /**
  * Replaces placeholders by the values passed
  */
-PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, replacePlaceholders) {
-
+PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, replacePlaceholders)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval placeholders;
@@ -346,13 +320,11 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, replacePlaceholders) {
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ARRAY(placeholders)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &translation_param, &placeholders_param);
-
 	if (UNEXPECTED(Z_TYPE_P(translation_param) != IS_STRING && Z_TYPE_P(translation_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'translation' must be of the type string"));
 		RETURN_MM_NULL();
@@ -361,7 +333,6 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, replacePlaceholders) {
 		zephir_get_strval(&translation, translation_param);
 	} else {
 		ZEPHIR_INIT_VAR(&translation);
-		ZVAL_EMPTY_STRING(&translation);
 	}
 	if (!placeholders_param) {
 		ZEPHIR_INIT_VAR(&placeholders);
@@ -378,6 +349,5 @@ PHP_METHOD(Phalcon_Translate_Adapter_AbstractAdapter, replacePlaceholders) {
 	ZEPHIR_RETURN_CALL_METHOD(&interpolator, "replaceplaceholders", NULL, 0, &translation, &placeholders);
 	zephir_check_call_status();
 	RETURN_MM();
-
 }
 

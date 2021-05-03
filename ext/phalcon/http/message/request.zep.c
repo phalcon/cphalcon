@@ -33,13 +33,12 @@
 /**
  * PSR-7 Request
  */
-ZEPHIR_INIT_CLASS(Phalcon_Http_Message_Request) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Http_Message_Request)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Http\\Message, Request, phalcon, http_message_request, phalcon_http_message_abstractrequest_ce, phalcon_http_message_request_method_entry, ZEND_ACC_FINAL_CLASS);
 
 	zend_class_implements(phalcon_http_message_request_ce, 1, zephir_get_internal_ce(SL("psr\\http\\message\\requestinterface")));
 	return SUCCESS;
-
 }
 
 /**
@@ -50,8 +49,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_Request) {
  * @param StreamInterface|resource|string $body
  * @param array                           $headers
  */
-PHP_METHOD(Phalcon_Http_Message_Request, __construct) {
-
+PHP_METHOD(Phalcon_Http_Message_Request, __construct)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *method_param = NULL, *uri = NULL, uri_sub, *body = NULL, body_sub, *headers = NULL, headers_sub, __$null, _0, _1, _2, _3, _4, _5;
@@ -78,13 +77,11 @@ PHP_METHOD(Phalcon_Http_Message_Request, __construct) {
 		Z_PARAM_ZVAL(body)
 		Z_PARAM_ZVAL(headers)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 4, &method_param, &uri, &body, &headers);
-
 	if (!method_param) {
 		ZEPHIR_INIT_VAR(&method);
 		ZVAL_STRING(&method, "GET");
@@ -114,13 +111,13 @@ PHP_METHOD(Phalcon_Http_Message_Request, __construct) {
 	if (UNEXPECTED(ZEPHIR_IS_IDENTICAL(&_0, body))) {
 		ZEPHIR_INIT_NVAR(body);
 		object_init_ex(body, phalcon_http_message_stream_input_ce);
-		ZEPHIR_CALL_METHOD(NULL, body, "__construct", NULL, 303);
+		ZEPHIR_CALL_METHOD(NULL, body, "__construct", NULL, 282);
 		zephir_check_call_status();
 	}
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "processuri", NULL, 304, uri);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "processuri", NULL, 283, uri);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("uri"), &_1);
-	ZEPHIR_CALL_METHOD(&_2, this_ptr, "processheaders", NULL, 305, headers);
+	ZEPHIR_CALL_METHOD(&_2, this_ptr, "processheaders", NULL, 284, headers);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("headers"), &_2);
 	ZEPHIR_CALL_METHOD(&_3, this_ptr, "processmethod", NULL, 106, &method);
@@ -132,6 +129,5 @@ PHP_METHOD(Phalcon_Http_Message_Request, __construct) {
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("body"), &_4);
 	ZEPHIR_MM_RESTORE();
-
 }
 

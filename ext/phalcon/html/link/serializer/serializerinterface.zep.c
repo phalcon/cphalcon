@@ -23,12 +23,11 @@
 /**
  * Class Phalcon\Http\Link\Serializer\SerializerInterface
  */
-ZEPHIR_INIT_CLASS(Phalcon_Html_Link_Serializer_SerializerInterface) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Html_Link_Serializer_SerializerInterface)
+{
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Html\\Link\\Serializer, SerializerInterface, phalcon, html_link_serializer_serializerinterface, phalcon_html_link_serializer_serializerinterface_method_entry);
 
 	return SUCCESS;
-
 }
 
 /**

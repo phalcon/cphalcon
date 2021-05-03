@@ -23,11 +23,10 @@
 /**
  * Interface for task handlers
  */
-ZEPHIR_INIT_CLASS(Phalcon_Cli_TaskInterface) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Cli_TaskInterface)
+{
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Cli, TaskInterface, phalcon, cli_taskinterface, NULL);
 
 	return SUCCESS;
-
 }
 

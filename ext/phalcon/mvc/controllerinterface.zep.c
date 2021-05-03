@@ -25,11 +25,10 @@
  *
  * Interface for controller handlers
  */
-ZEPHIR_INIT_CLASS(Phalcon_Mvc_ControllerInterface) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Mvc_ControllerInterface)
+{
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Mvc, ControllerInterface, phalcon, mvc_controllerinterface, NULL);
 
 	return SUCCESS;
-
 }
 

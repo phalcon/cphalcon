@@ -25,12 +25,11 @@
  *
  * Interface for Phalcon\Messages\MessageInterface
  */
-ZEPHIR_INIT_CLASS(Phalcon_Messages_MessageInterface) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Messages_MessageInterface)
+{
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Messages, MessageInterface, phalcon, messages_messageinterface, phalcon_messages_messageinterface_method_entry);
 
 	return SUCCESS;
-
 }
 
 /**

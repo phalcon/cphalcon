@@ -30,12 +30,11 @@
 /**
  * Class Anchor
  */
-ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Anchor) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Anchor)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Html\\Helper, Anchor, phalcon, html_helper_anchor, phalcon_html_helper_abstracthelper_ce, phalcon_html_helper_anchor_method_entry, 0);
 
 	return SUCCESS;
-
 }
 
 /**
@@ -49,8 +48,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Anchor) {
  * @return string
  * @throws Exception
  */
-PHP_METHOD(Phalcon_Html_Helper_Anchor, __invoke) {
-
+PHP_METHOD(Phalcon_Html_Helper_Anchor, __invoke)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool raw;
@@ -74,13 +73,11 @@ PHP_METHOD(Phalcon_Html_Helper_Anchor, __invoke) {
 		Z_PARAM_ARRAY(attributes)
 		Z_PARAM_BOOL(raw)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 2, &href_param, &text_param, &attributes_param, &raw_param);
-
 	zephir_get_strval(&href, href_param);
 	zephir_get_strval(&text, text_param);
 	if (!attributes_param) {
@@ -108,7 +105,6 @@ PHP_METHOD(Phalcon_Html_Helper_Anchor, __invoke) {
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "renderfullelement", NULL, 0, &_0, &text, &overrides, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
-
 }
 
 /**
@@ -117,8 +113,8 @@ PHP_METHOD(Phalcon_Html_Helper_Anchor, __invoke) {
  *
  * @return array
  */
-PHP_METHOD(Phalcon_Html_Helper_Anchor, processAttributes) {
-
+PHP_METHOD(Phalcon_Html_Helper_Anchor, processAttributes)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval attributes;
 	zval *href_param = NULL, *attributes_param = NULL, overrides;
@@ -134,13 +130,11 @@ PHP_METHOD(Phalcon_Html_Helper_Anchor, processAttributes) {
 		Z_PARAM_STR(href)
 		Z_PARAM_ARRAY(attributes)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &href_param, &attributes_param);
-
 	zephir_get_strval(&href, href_param);
 	zephir_get_arrval(&attributes, attributes_param);
 
@@ -151,6 +145,5 @@ PHP_METHOD(Phalcon_Html_Helper_Anchor, processAttributes) {
 	zephir_array_unset_string(&attributes, SL("href"), PH_SEPARATE);
 	zephir_fast_array_merge(return_value, &overrides, &attributes);
 	RETURN_MM();
-
 }
 

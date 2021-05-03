@@ -25,13 +25,12 @@
  *
  * Interface for Phalcon\Mvc\View
  */
-ZEPHIR_INIT_CLASS(Phalcon_Mvc_ViewInterface) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Mvc_ViewInterface)
+{
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Mvc, ViewInterface, phalcon, mvc_viewinterface, phalcon_mvc_viewinterface_method_entry);
 
 	zend_class_implements(phalcon_mvc_viewinterface_ce, 1, phalcon_mvc_viewbaseinterface_ce);
 	return SUCCESS;
-
 }
 
 /**

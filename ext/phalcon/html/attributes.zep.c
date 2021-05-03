@@ -28,20 +28,19 @@
 /**
  * This class helps to work with HTML Attributes
  */
-ZEPHIR_INIT_CLASS(Phalcon_Html_Attributes) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Html_Attributes)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Html, Attributes, phalcon, html_attributes, phalcon_collection_ce, phalcon_html_attributes_method_entry, 0);
 
 	zend_class_implements(phalcon_html_attributes_ce, 1, phalcon_html_attributes_renderinterface_ce);
 	return SUCCESS;
-
 }
 
 /**
  * Render attributes as HTML attributes
  */
-PHP_METHOD(Phalcon_Html_Attributes, render) {
-
+PHP_METHOD(Phalcon_Html_Attributes, render)
+{
 	zval _1, _2;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -61,14 +60,13 @@ PHP_METHOD(Phalcon_Html_Attributes, render) {
 	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_tag_ce, "renderattributes", &_0, 0, &_2, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
-
 }
 
 /**
  * Alias of the render method
  */
-PHP_METHOD(Phalcon_Html_Attributes, __toString) {
-
+PHP_METHOD(Phalcon_Html_Attributes, __toString)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
@@ -80,6 +78,5 @@ PHP_METHOD(Phalcon_Html_Attributes, __toString) {
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "render", NULL, 0);
 	zephir_check_call_status();
 	RETURN_MM();
-
 }
 

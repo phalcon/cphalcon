@@ -25,12 +25,11 @@
 /**
  * Stream adapter
  */
-ZEPHIR_INIT_CLASS(Phalcon_Cache_Adapter_Stream) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Cache_Adapter_Stream)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Cache\\Adapter, Stream, phalcon, cache_adapter_stream, phalcon_storage_adapter_stream_ce, NULL, 0);
 
 	zend_class_implements(phalcon_cache_adapter_stream_ce, 1, phalcon_cache_adapter_adapterinterface_ce);
 	return SUCCESS;
-
 }
 

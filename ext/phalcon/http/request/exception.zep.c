@@ -27,11 +27,10 @@
  *
  * Exceptions thrown in Phalcon\Http\Request will use this class
  */
-ZEPHIR_INIT_CLASS(Phalcon_Http_Request_Exception) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Http_Request_Exception)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Http\\Request, Exception, phalcon, http_request_exception, phalcon_exception_ce, NULL, 0);
 
 	return SUCCESS;
-
 }
 

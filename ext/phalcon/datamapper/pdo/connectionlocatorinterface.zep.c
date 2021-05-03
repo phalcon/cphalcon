@@ -28,12 +28,11 @@
 /**
  * Locates PDO connections for default, read, and write databases.
  */
-ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Pdo_ConnectionLocatorInterface) {
-
+ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Pdo_ConnectionLocatorInterface)
+{
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\DataMapper\\Pdo, ConnectionLocatorInterface, phalcon, datamapper_pdo_connectionlocatorinterface, phalcon_datamapper_pdo_connectionlocatorinterface_method_entry);
 
 	return SUCCESS;
-
 }
 
 /**

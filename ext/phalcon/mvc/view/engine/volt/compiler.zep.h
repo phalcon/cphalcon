@@ -48,6 +48,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, getFinalPath);
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, resolveFilter);
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, statementList);
 PHP_METHOD(Phalcon_Mvc_View_Engine_Volt_Compiler, statementListOrExtends);
+zend_object *zephir_init_properties_Phalcon_Mvc_View_Engine_Volt_Compiler(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler___construct, 0, 0, 0)
 	ZEND_ARG_OBJ_INFO(0, view, Phalcon\\Mvc\\ViewBaseInterface, 1)
@@ -177,7 +178,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_getfunctions, 0, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_getoption, 0, 0, 1)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_getoption, 0, 1, IS_STRING, 1)
 	ZEND_ARG_TYPE_INFO(0, option, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
@@ -190,7 +191,7 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_getuniqueprefix, 0, 0, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_parse, 0, 0, 1)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_parse, 0, 1, IS_ARRAY, 0)
 	ZEND_ARG_TYPE_INFO(0, viewCode, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
@@ -238,6 +239,9 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_statementlistorextends, 0, 0, 1)
 	ZEND_ARG_INFO(0, statements)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_view_engine_volt_compiler_zephir_init_properties_phalcon_mvc_view_engine_volt_compiler, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_mvc_view_engine_volt_compiler_method_entry) {

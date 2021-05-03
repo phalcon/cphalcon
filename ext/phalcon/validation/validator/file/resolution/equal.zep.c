@@ -69,14 +69,12 @@
  * );
  * ```
  */
-ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_File_Resolution_Equal) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_File_Resolution_Equal)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator\\File\\Resolution, Equal, phalcon, validation_validator_file_resolution_equal, phalcon_validation_validator_file_abstractfile_ce, phalcon_validation_validator_file_resolution_equal_method_entry, 0);
 
 	zend_declare_property_string(phalcon_validation_validator_file_resolution_equal_ce, SL("template"), "The resolution of the field :field has to be equal :resolution", ZEND_ACC_PROTECTED);
-
 	return SUCCESS;
-
 }
 
 /**
@@ -88,8 +86,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_File_Resolution_Equal) {
  *     'resolution' => '1000x1000'
  * ]
  */
-PHP_METHOD(Phalcon_Validation_Validator_File_Resolution_Equal, __construct) {
-
+PHP_METHOD(Phalcon_Validation_Validator_File_Resolution_Equal, __construct)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
@@ -104,13 +102,11 @@ PHP_METHOD(Phalcon_Validation_Validator_File_Resolution_Equal, __construct) {
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ARRAY(options)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &options_param);
-
 	if (!options_param) {
 		ZEPHIR_INIT_VAR(&options);
 		array_init(&options);
@@ -122,14 +118,13 @@ PHP_METHOD(Phalcon_Validation_Validator_File_Resolution_Equal, __construct) {
 	ZEPHIR_CALL_PARENT(NULL, phalcon_validation_validator_file_resolution_equal_ce, getThis(), "__construct", &_0, 0, &options);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
-
 }
 
 /**
  * Executes the validation
  */
-PHP_METHOD(Phalcon_Validation_Validator_File_Resolution_Equal, validate) {
-
+PHP_METHOD(Phalcon_Validation_Validator_File_Resolution_Equal, validate)
+{
 	zend_bool _5;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -159,13 +154,11 @@ PHP_METHOD(Phalcon_Validation_Validator_File_Resolution_Equal, validate) {
 		Z_PARAM_OBJECT_OF_CLASS(validation, phalcon_validation_ce)
 		Z_PARAM_ZVAL(field)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &validation, &field);
-
 
 
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "checkupload", NULL, 0, validation, field);
@@ -176,7 +169,7 @@ PHP_METHOD(Phalcon_Validation_Validator_File_Resolution_Equal, validate) {
 	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, 0, field);
 	zephir_check_call_status();
 	zephir_array_fetch_string(&_1, &value, SL("tmp_name"), PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/File/Resolution/Equal.zep", 88);
-	ZEPHIR_CALL_FUNCTION(&tmp, "getimagesize", NULL, 384, &_1);
+	ZEPHIR_CALL_FUNCTION(&tmp, "getimagesize", NULL, 363, &_1);
 	zephir_check_call_status();
 	ZEPHIR_OBS_VAR(&width);
 	zephir_array_fetch_long(&width, &tmp, 0, PH_NOISY, "phalcon/Validation/Validator/File/Resolution/Equal.zep", 89);
@@ -215,6 +208,5 @@ PHP_METHOD(Phalcon_Validation_Validator_File_Resolution_Equal, validate) {
 		RETURN_MM_BOOL(0);
 	}
 	RETURN_MM_BOOL(1);
-
 }
 

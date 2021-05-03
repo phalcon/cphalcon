@@ -25,12 +25,11 @@
  *
  * Interface for Phalcon\Http\Response
  */
-ZEPHIR_INIT_CLASS(Phalcon_Http_ResponseInterface) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Http_ResponseInterface)
+{
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Http, ResponseInterface, phalcon, http_responseinterface, phalcon_http_responseinterface_method_entry);
 
 	return SUCCESS;
-
 }
 
 /**

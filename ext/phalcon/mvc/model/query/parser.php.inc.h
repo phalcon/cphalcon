@@ -7,7 +7,7 @@
 #include "php_phalcon.h"
 #include "phalcon.h"
 
-#include "parser.php7.h"
+#include "parser.php.h"
 #include "scanner.h"
 #include "phql.h"
 

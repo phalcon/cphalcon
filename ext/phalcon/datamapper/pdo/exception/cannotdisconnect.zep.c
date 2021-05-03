@@ -31,11 +31,10 @@
  * ExtendedPdo could not disconnect; e.g., because its PDO connection was
  * created externally and then injected.
  */
-ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Pdo_Exception_CannotDisconnect) {
-
+ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Pdo_Exception_CannotDisconnect)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\DataMapper\\Pdo\\Exception, CannotDisconnect, phalcon, datamapper_pdo_exception_cannotdisconnect, phalcon_datamapper_pdo_exception_exception_ce, NULL, 0);
 
 	return SUCCESS;
-
 }
 

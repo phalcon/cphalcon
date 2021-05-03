@@ -35,63 +35,56 @@
  *
  * @link https://tools.ietf.org/html/rfc7519
  */
-ZEPHIR_INIT_CLASS(Phalcon_Security_JWT_Token_Token) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Security_JWT_Token_Token)
+{
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Security\\JWT\\Token, Token, phalcon, security_jwt_token_token, phalcon_security_jwt_token_token_method_entry, 0);
 
 	/**
 	 * @var Item
 	 */
 	zend_declare_property_null(phalcon_security_jwt_token_token_ce, SL("claims"), ZEND_ACC_PRIVATE);
-
 	/**
 	 * @var Item
 	 */
 	zend_declare_property_null(phalcon_security_jwt_token_token_ce, SL("headers"), ZEND_ACC_PRIVATE);
-
 	/**
 	 * @var Signature
 	 */
 	zend_declare_property_null(phalcon_security_jwt_token_token_ce, SL("signature"), ZEND_ACC_PRIVATE);
-
 	return SUCCESS;
-
 }
 
 /**
  */
-PHP_METHOD(Phalcon_Security_JWT_Token_Token, getClaims) {
-
+PHP_METHOD(Phalcon_Security_JWT_Token_Token, getClaims)
+{
 	zval *this_ptr = getThis();
 
 
 
 	RETURN_MEMBER(getThis(), "claims");
-
 }
 
 /**
  */
-PHP_METHOD(Phalcon_Security_JWT_Token_Token, getHeaders) {
-
+PHP_METHOD(Phalcon_Security_JWT_Token_Token, getHeaders)
+{
 	zval *this_ptr = getThis();
 
 
 
 	RETURN_MEMBER(getThis(), "headers");
-
 }
 
 /**
  */
-PHP_METHOD(Phalcon_Security_JWT_Token_Token, getSignature) {
-
+PHP_METHOD(Phalcon_Security_JWT_Token_Token, getSignature)
+{
 	zval *this_ptr = getThis();
 
 
 
 	RETURN_MEMBER(getThis(), "signature");
-
 }
 
 /**
@@ -101,8 +94,8 @@ PHP_METHOD(Phalcon_Security_JWT_Token_Token, getSignature) {
  * @param Item      $claims
  * @param Signature $signature
  */
-PHP_METHOD(Phalcon_Security_JWT_Token_Token, __construct) {
-
+PHP_METHOD(Phalcon_Security_JWT_Token_Token, __construct)
+{
 	zval *headers, headers_sub, *claims, claims_sub, *signature, signature_sub;
 	zval *this_ptr = getThis();
 
@@ -116,25 +109,22 @@ PHP_METHOD(Phalcon_Security_JWT_Token_Token, __construct) {
 		Z_PARAM_OBJECT_OF_CLASS(claims, phalcon_security_jwt_token_item_ce)
 		Z_PARAM_OBJECT_OF_CLASS(signature, phalcon_security_jwt_token_signature_ce)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	zephir_fetch_params_without_memory_grow(3, 0, &headers, &claims, &signature);
 
 
-
 	zephir_update_property_zval(this_ptr, ZEND_STRL("headers"), headers);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("claims"), claims);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("signature"), signature);
-
 }
 
 /**
  * @return string
  */
-PHP_METHOD(Phalcon_Security_JWT_Token_Token, getPayload) {
-
+PHP_METHOD(Phalcon_Security_JWT_Token_Token, getPayload)
+{
 	zval _0, _1, _2, _3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -156,14 +146,13 @@ PHP_METHOD(Phalcon_Security_JWT_Token_Token, getPayload) {
 	zephir_check_call_status();
 	ZEPHIR_CONCAT_VSV(return_value, &_1, ".", &_3);
 	RETURN_MM();
-
 }
 
 /**
  * @return string
  */
-PHP_METHOD(Phalcon_Security_JWT_Token_Token, getToken) {
-
+PHP_METHOD(Phalcon_Security_JWT_Token_Token, getToken)
+{
 	zval _0, _1, _2;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -184,6 +173,5 @@ PHP_METHOD(Phalcon_Security_JWT_Token_Token, getToken) {
 	zephir_check_call_status();
 	ZEPHIR_CONCAT_VSV(return_value, &_0, ".", &_2);
 	RETURN_MM();
-
 }
 

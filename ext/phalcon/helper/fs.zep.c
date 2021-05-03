@@ -34,12 +34,11 @@
 /**
  * This class offers file operation helper
  */
-ZEPHIR_INIT_CLASS(Phalcon_Helper_Fs) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Helper_Fs)
+{
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Helper, Fs, phalcon, helper_fs, phalcon_helper_fs_method_entry, 0);
 
 	return SUCCESS;
-
 }
 
 /**
@@ -52,8 +51,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Helper_Fs) {
  *
  * @return string
  */
-PHP_METHOD(Phalcon_Helper_Fs, basename) {
-
+PHP_METHOD(Phalcon_Helper_Fs, basename)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *uri_param = NULL, *suffix = NULL, suffix_sub, __$null, filename, matches, _0, _1, _2, _3, _4, _5, _6$$3, _7$$3, _8$$3, _9$$3;
@@ -82,13 +81,11 @@ PHP_METHOD(Phalcon_Helper_Fs, basename) {
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ZVAL(suffix)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &uri_param, &suffix);
-
 	if (UNEXPECTED(Z_TYPE_P(uri_param) != IS_STRING && Z_TYPE_P(uri_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'uri' must be of the type string"));
 		RETURN_MM_NULL();
@@ -97,7 +94,6 @@ PHP_METHOD(Phalcon_Helper_Fs, basename) {
 		zephir_get_strval(&uri, uri_param);
 	} else {
 		ZEPHIR_INIT_VAR(&uri);
-		ZVAL_EMPTY_STRING(&uri);
 	}
 	if (!suffix) {
 		suffix = &suffix_sub;
@@ -114,7 +110,7 @@ PHP_METHOD(Phalcon_Helper_Fs, basename) {
 	ZVAL_STRING(&_2, "/");
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "@");
-	ZEPHIR_CALL_FUNCTION(&_4, "preg_quote", NULL, 282, &_2, &_3);
+	ZEPHIR_CALL_FUNCTION(&_4, "preg_quote", NULL, 261, &_2, &_3);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_5);
 	ZEPHIR_CONCAT_SVS(&_5, "@[^", &_4, "]+$@");
@@ -130,7 +126,7 @@ PHP_METHOD(Phalcon_Helper_Fs, basename) {
 	if (zephir_is_true(suffix)) {
 		ZEPHIR_INIT_VAR(&_6$$3);
 		ZVAL_STRING(&_6$$3, "@");
-		ZEPHIR_CALL_FUNCTION(&_7$$3, "preg_quote", NULL, 282, suffix, &_6$$3);
+		ZEPHIR_CALL_FUNCTION(&_7$$3, "preg_quote", NULL, 261, suffix, &_6$$3);
 		zephir_check_call_status();
 		ZEPHIR_INIT_VAR(&_8$$3);
 		ZEPHIR_CONCAT_SVS(&_8$$3, "@", &_7$$3, "$@");
@@ -141,6 +137,5 @@ PHP_METHOD(Phalcon_Helper_Fs, basename) {
 		ZEPHIR_CPY_WRT(&filename, &_9$$3);
 	}
 	RETURN_CCTOR(&filename);
-
 }
 

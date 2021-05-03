@@ -23,12 +23,11 @@
 /**
  * Interface for the Phalcon\Validation component
  */
-ZEPHIR_INIT_CLASS(Phalcon_Validation_ValidationInterface) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Validation_ValidationInterface)
+{
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Validation, ValidationInterface, phalcon, validation_validationinterface, phalcon_validation_validationinterface_method_entry);
 
 	return SUCCESS;
-
 }
 
 /**
@@ -36,8 +35,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_ValidationInterface) {
  *
  * @param string|array       $field
  * @param ValidatorInterface $validator
- *
- * @return ValidatorInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Validation_ValidationInterface, add);
 /**
@@ -83,8 +80,6 @@ ZEPHIR_DOC_METHOD(Phalcon_Validation_ValidationInterface, getValue);
  *
  * @param string|array       $field
  * @param ValidatorInterface $validator
- *
- * @return ValidatorInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Validation_ValidationInterface, rule);
 /**

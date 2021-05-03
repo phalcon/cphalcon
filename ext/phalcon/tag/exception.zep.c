@@ -27,11 +27,10 @@
  *
  * Exceptions thrown in Phalcon\Tag will use this class
  */
-ZEPHIR_INIT_CLASS(Phalcon_Tag_Exception) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Tag_Exception)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Tag, Exception, phalcon, tag_exception, phalcon_exception_ce, NULL, 0);
 
 	return SUCCESS;
-
 }
 

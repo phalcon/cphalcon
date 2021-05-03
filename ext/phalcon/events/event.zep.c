@@ -44,8 +44,8 @@
  * }
  * ```
  */
-ZEPHIR_INIT_CLASS(Phalcon_Events_Event) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Events_Event)
+{
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Events, Event, phalcon, events_event, phalcon_events_event_method_entry, 0);
 
 	/**
@@ -54,77 +54,68 @@ ZEPHIR_INIT_CLASS(Phalcon_Events_Event) {
 	 * @var bool
 	 */
 	zend_declare_property_null(phalcon_events_event_ce, SL("cancelable"), ZEND_ACC_PROTECTED);
-
 	/**
 	 * Event data
 	 *
 	 * @var mixed
 	 */
 	zend_declare_property_null(phalcon_events_event_ce, SL("data"), ZEND_ACC_PROTECTED);
-
 	/**
 	 * Event source
 	 *
 	 * @var object
 	 */
 	zend_declare_property_null(phalcon_events_event_ce, SL("source"), ZEND_ACC_PROTECTED);
-
 	/**
 	 * Is event propagation stopped?
 	 *
 	 * @var bool
 	 */
 	zend_declare_property_bool(phalcon_events_event_ce, SL("stopped"), 0, ZEND_ACC_PROTECTED);
-
 	/**
 	 * Event type
 	 *
 	 * @var string
 	 */
 	zend_declare_property_null(phalcon_events_event_ce, SL("type"), ZEND_ACC_PROTECTED);
-
 	zend_class_implements(phalcon_events_event_ce, 1, phalcon_events_eventinterface_ce);
 	return SUCCESS;
-
 }
 
 /**
  * Event data
  */
-PHP_METHOD(Phalcon_Events_Event, getData) {
-
+PHP_METHOD(Phalcon_Events_Event, getData)
+{
 	zval *this_ptr = getThis();
 
 
 
 	RETURN_MEMBER(getThis(), "data");
-
 }
 
 /**
  * Event source
  */
-PHP_METHOD(Phalcon_Events_Event, getSource) {
-
+PHP_METHOD(Phalcon_Events_Event, getSource)
+{
 	zval *this_ptr = getThis();
 
 
 
 	RETURN_MEMBER(getThis(), "source");
-
 }
 
 /**
  * Event type
  */
-PHP_METHOD(Phalcon_Events_Event, getType) {
-
+PHP_METHOD(Phalcon_Events_Event, getType)
+{
 	zval *this_ptr = getThis();
 
 
 
 	RETURN_MEMBER(getThis(), "type");
-
 }
 
 /**
@@ -132,8 +123,8 @@ PHP_METHOD(Phalcon_Events_Event, getType) {
  *
  * @param object source
  */
-PHP_METHOD(Phalcon_Events_Event, __construct) {
-
+PHP_METHOD(Phalcon_Events_Event, __construct)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool cancelable;
@@ -159,13 +150,11 @@ PHP_METHOD(Phalcon_Events_Event, __construct) {
 		Z_PARAM_ZVAL(data)
 		Z_PARAM_BOOL(cancelable)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 2, &type_param, &source, &data, &cancelable_param);
-
 	if (UNEXPECTED(Z_TYPE_P(type_param) != IS_STRING && Z_TYPE_P(type_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'type' must be of the type string"));
 		RETURN_MM_NULL();
@@ -174,7 +163,6 @@ PHP_METHOD(Phalcon_Events_Event, __construct) {
 		zephir_get_strval(&type, type_param);
 	} else {
 		ZEPHIR_INIT_VAR(&type);
-		ZVAL_EMPTY_STRING(&type);
 	}
 	if (!data) {
 		data = &data_sub;
@@ -209,7 +197,6 @@ PHP_METHOD(Phalcon_Events_Event, __construct) {
 		zephir_update_property_zval(this_ptr, ZEND_STRL("cancelable"), &__$false);
 	}
 	ZEPHIR_MM_RESTORE();
-
 }
 
 /**
@@ -221,34 +208,32 @@ PHP_METHOD(Phalcon_Events_Event, __construct) {
  * }
  * ```
  */
-PHP_METHOD(Phalcon_Events_Event, isCancelable) {
-
+PHP_METHOD(Phalcon_Events_Event, isCancelable)
+{
 	zval *this_ptr = getThis();
 
 
 
 	RETURN_MEMBER(getThis(), "cancelable");
-
 }
 
 /**
  * Check whether the event is currently stopped.
  */
-PHP_METHOD(Phalcon_Events_Event, isStopped) {
-
+PHP_METHOD(Phalcon_Events_Event, isStopped)
+{
 	zval *this_ptr = getThis();
 
 
 
 	RETURN_MEMBER(getThis(), "stopped");
-
 }
 
 /**
  * Sets event data.
  */
-PHP_METHOD(Phalcon_Events_Event, setData) {
-
+PHP_METHOD(Phalcon_Events_Event, setData)
+{
 	zval *data = NULL, data_sub, __$null;
 	zval *this_ptr = getThis();
 
@@ -260,12 +245,10 @@ PHP_METHOD(Phalcon_Events_Event, setData) {
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ZVAL(data)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	zephir_fetch_params_without_memory_grow(0, 1, &data);
-
 	if (!data) {
 		data = &data_sub;
 		data = &__$null;
@@ -274,14 +257,13 @@ PHP_METHOD(Phalcon_Events_Event, setData) {
 
 	zephir_update_property_zval(this_ptr, ZEND_STRL("data"), data);
 	RETURN_THISW();
-
 }
 
 /**
  * Sets event type.
  */
-PHP_METHOD(Phalcon_Events_Event, setType) {
-
+PHP_METHOD(Phalcon_Events_Event, setType)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *type_param = NULL;
 	zval type;
@@ -293,13 +275,11 @@ PHP_METHOD(Phalcon_Events_Event, setType) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(type)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &type_param);
-
 	if (UNEXPECTED(Z_TYPE_P(type_param) != IS_STRING && Z_TYPE_P(type_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'type' must be of the type string"));
 		RETURN_MM_NULL();
@@ -308,13 +288,11 @@ PHP_METHOD(Phalcon_Events_Event, setType) {
 		zephir_get_strval(&type, type_param);
 	} else {
 		ZEPHIR_INIT_VAR(&type);
-		ZVAL_EMPTY_STRING(&type);
 	}
 
 
 	zephir_update_property_zval(this_ptr, ZEND_STRL("type"), &type);
 	RETURN_THIS();
-
 }
 
 /**
@@ -326,8 +304,8 @@ PHP_METHOD(Phalcon_Events_Event, setType) {
  * }
  * ```
  */
-PHP_METHOD(Phalcon_Events_Event, stop) {
-
+PHP_METHOD(Phalcon_Events_Event, stop)
+{
 	zval __$true, __$false, _0;
 	zval *this_ptr = getThis();
 
@@ -348,6 +326,5 @@ PHP_METHOD(Phalcon_Events_Event, stop) {
 		zephir_update_property_zval(this_ptr, ZEND_STRL("stopped"), &__$false);
 	}
 	RETURN_THISW();
-
 }
 

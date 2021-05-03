@@ -1,4 +1,4 @@
-/* parser.php7.lemon
+/* parser.php.lemon
  *
  * This file is part of the Phalcon Framework.
  *
@@ -36,7 +36,7 @@
 %left DOT .
 
 %include {
-#include "parser.php7.inc.h"
+#include "parser.php.inc.h"
 
 /* Change next line to "#if 1"
  * to enable parser tracing. */

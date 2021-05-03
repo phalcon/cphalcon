@@ -25,8 +25,8 @@
  *
  * Interface for Phalcon\Mvc\Model\Query\Builder
  */
-ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Query_BuilderInterface) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Query_BuilderInterface)
+{
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Mvc\\Model\\Query, BuilderInterface, phalcon, mvc_model_query_builderinterface, phalcon_mvc_model_query_builderinterface_method_entry);
 
 	zephir_declare_class_constant_string(phalcon_mvc_model_query_builderinterface_ce, SL("OPERATOR_AND"), "and");
@@ -34,7 +34,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Query_BuilderInterface) {
 	zephir_declare_class_constant_string(phalcon_mvc_model_query_builderinterface_ce, SL("OPERATOR_OR"), "or");
 
 	return SUCCESS;
-
 }
 
 /**
@@ -205,6 +204,8 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, notInWhere);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, offset);
 /**
  * Sets an ORDER BY condition clause
+ *
+ * @param array|string orderBy
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_Query_BuilderInterface, orderBy);
 /**

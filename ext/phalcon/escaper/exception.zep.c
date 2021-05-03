@@ -25,11 +25,10 @@
 /**
  * Exceptions thrown in Phalcon\Escaper will use this class
  */
-ZEPHIR_INIT_CLASS(Phalcon_Escaper_Exception) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Escaper_Exception)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Escaper, Exception, phalcon, escaper_exception, phalcon_exception_ce, NULL, 0);
 
 	return SUCCESS;
-
 }
 

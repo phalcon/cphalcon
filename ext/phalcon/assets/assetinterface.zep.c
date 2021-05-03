@@ -23,12 +23,11 @@
 /**
  * Interface for custom Phalcon\Assets resources
  */
-ZEPHIR_INIT_CLASS(Phalcon_Assets_AssetInterface) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Assets_AssetInterface)
+{
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Assets, AssetInterface, phalcon, assets_assetinterface, phalcon_assets_assetinterface_method_entry);
 
 	return SUCCESS;
-
 }
 
 /**

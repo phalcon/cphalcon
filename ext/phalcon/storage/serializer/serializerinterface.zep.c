@@ -20,13 +20,12 @@
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
-ZEPHIR_INIT_CLASS(Phalcon_Storage_Serializer_SerializerInterface) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Storage_Serializer_SerializerInterface)
+{
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Storage\\Serializer, SerializerInterface, phalcon, storage_serializer_serializerinterface, phalcon_storage_serializer_serializerinterface_method_entry);
 
 	zend_class_implements(phalcon_storage_serializer_serializerinterface_ce, 1, zend_ce_serializable);
 	return SUCCESS;
-
 }
 
 /**

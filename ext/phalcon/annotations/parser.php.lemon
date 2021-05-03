@@ -1,4 +1,4 @@
-/* parser.php7.lemon
+/* parser.php.lemon
  * This file is part of the Phalcon Framework.
  *
  * (c) Phalcon Team <team@phalcon.io>
@@ -16,7 +16,7 @@
 %left COMMA .
 
 %include {
-#include "parser.php7.inc.h"
+#include "parser.php.inc.h"
 }
 
 %syntax_error {

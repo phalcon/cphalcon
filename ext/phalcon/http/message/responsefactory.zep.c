@@ -33,13 +33,12 @@
 /**
  * PSR-17 ResponseFactory
  */
-ZEPHIR_INIT_CLASS(Phalcon_Http_Message_ResponseFactory) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Http_Message_ResponseFactory)
+{
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Http\\Message, ResponseFactory, phalcon, http_message_responsefactory, phalcon_http_message_responsefactory_method_entry, ZEND_ACC_FINAL_CLASS);
 
 	zend_class_implements(phalcon_http_message_responsefactory_ce, 1, zephir_get_internal_ce(SL("psr\\http\\message\\responsefactoryinterface")));
 	return SUCCESS;
-
 }
 
 /**
@@ -53,8 +52,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_ResponseFactory) {
  *
  * @return ResponseInterface
  */
-PHP_METHOD(Phalcon_Http_Message_ResponseFactory, createResponse) {
-
+PHP_METHOD(Phalcon_Http_Message_ResponseFactory, createResponse)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval reasonPhrase;
 	zval *code_param = NULL, *reasonPhrase_param = NULL, _0, _1;
@@ -71,13 +70,11 @@ PHP_METHOD(Phalcon_Http_Message_ResponseFactory, createResponse) {
 		Z_PARAM_LONG(code)
 		Z_PARAM_STR(reasonPhrase)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &code_param, &reasonPhrase_param);
-
 	if (!code_param) {
 		code = 200;
 	} else {
@@ -93,12 +90,11 @@ PHP_METHOD(Phalcon_Http_Message_ResponseFactory, createResponse) {
 
 	ZEPHIR_INIT_VAR(&_0);
 	object_init_ex(&_0, phalcon_http_message_response_ce);
-	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 312);
+	ZEPHIR_CALL_METHOD(NULL, &_0, "__construct", NULL, 291);
 	zephir_check_call_status();
 	ZVAL_LONG(&_1, code);
-	ZEPHIR_RETURN_CALL_METHOD(&_0, "withstatus", NULL, 313, &_1, &reasonPhrase);
+	ZEPHIR_RETURN_CALL_METHOD(&_0, "withstatus", NULL, 292, &_1, &reasonPhrase);
 	zephir_check_call_status();
 	RETURN_MM();
-
 }
 

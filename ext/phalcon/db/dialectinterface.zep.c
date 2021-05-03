@@ -23,12 +23,11 @@
 /**
  * Interface for Phalcon\Db dialects
  */
-ZEPHIR_INIT_CLASS(Phalcon_Db_DialectInterface) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Db_DialectInterface)
+{
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Db, DialectInterface, phalcon, db_dialectinterface, phalcon_db_dialectinterface_method_entry);
 
 	return SUCCESS;
-
 }
 
 /**

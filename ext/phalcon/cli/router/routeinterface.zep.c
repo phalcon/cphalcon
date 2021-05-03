@@ -23,12 +23,11 @@
 /**
  * Interface for Phalcon\Cli\Router\Route
  */
-ZEPHIR_INIT_CLASS(Phalcon_Cli_Router_RouteInterface) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Cli_Router_RouteInterface)
+{
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Cli\\Router, RouteInterface, phalcon, cli_router_routeinterface, phalcon_cli_router_routeinterface_method_entry);
 
 	return SUCCESS;
-
 }
 
 /**
@@ -74,6 +73,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Cli_Router_RouteInterface, getReversedPaths);
 ZEPHIR_DOC_METHOD(Phalcon_Cli_Router_RouteInterface, getRouteId);
 /**
  * Reconfigure the route adding a new pattern and a set of paths
+ *
+ * @param string pattern
+ * @param array|string|null paths
+ *
+ * @return void
  */
 ZEPHIR_DOC_METHOD(Phalcon_Cli_Router_RouteInterface, reConfigure);
 /**

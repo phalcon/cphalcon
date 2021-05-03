@@ -30,11 +30,10 @@
 /**
  * Locator could not find a named connection.
  */
-ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Pdo_Exception_ConnectionNotFound) {
-
+ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Pdo_Exception_ConnectionNotFound)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\DataMapper\\Pdo\\Exception, ConnectionNotFound, phalcon, datamapper_pdo_exception_connectionnotfound, phalcon_datamapper_pdo_exception_exception_ce, NULL, 0);
 
 	return SUCCESS;
-
 }
 

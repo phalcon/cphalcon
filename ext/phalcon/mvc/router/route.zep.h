@@ -30,8 +30,9 @@ PHP_METHOD(Phalcon_Mvc_Router_Route, setHttpMethods);
 PHP_METHOD(Phalcon_Mvc_Router_Route, setHostname);
 PHP_METHOD(Phalcon_Mvc_Router_Route, setName);
 PHP_METHOD(Phalcon_Mvc_Router_Route, via);
+zend_object *zephir_init_properties_Phalcon_Mvc_Router_Route(zend_class_entry *class_type);
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_route_getid, 0, 0, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_route_getid, 0, 0, IS_STRING, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_route___construct, 0, 0, 1)
@@ -130,12 +131,11 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_router_route_via, 0, 
 	ZEND_ARG_INFO(0, httpMethods)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_route_zephir_init_properties_phalcon_mvc_router_route, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
 ZEPHIR_INIT_FUNCS(phalcon_mvc_router_route_method_entry) {
-#if PHP_VERSION_ID >= 80000
 	PHP_ME(Phalcon_Mvc_Router_Route, getId, arginfo_phalcon_mvc_router_route_getid, ZEND_ACC_PUBLIC)
-#else
-	PHP_ME(Phalcon_Mvc_Router_Route, getId, NULL, ZEND_ACC_PUBLIC)
-#endif
 	PHP_ME(Phalcon_Mvc_Router_Route, __construct, arginfo_phalcon_mvc_router_route___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Mvc_Router_Route, beforeMatch, arginfo_phalcon_mvc_router_route_beforematch, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Mvc_Router_Route, compilePattern, arginfo_phalcon_mvc_router_route_compilepattern, ZEND_ACC_PUBLIC)

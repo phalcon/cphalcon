@@ -23,12 +23,11 @@
 /**
  * This interface must be implemented by adapters in Phalcon\Annotations
  */
-ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_AdapterInterface) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_AdapterInterface)
+{
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Annotations\\Adapter, AdapterInterface, phalcon, annotations_adapter_adapterinterface, phalcon_annotations_adapter_adapterinterface_method_entry);
 
 	return SUCCESS;
-
 }
 
 /**

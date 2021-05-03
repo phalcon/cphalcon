@@ -25,11 +25,10 @@
 /**
  * Exceptions thrown in Phalcon\Cli\Dispatcher will use this class
  */
-ZEPHIR_INIT_CLASS(Phalcon_Cli_Dispatcher_Exception) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Cli_Dispatcher_Exception)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Cli\\Dispatcher, Exception, phalcon, cli_dispatcher_exception, phalcon_dispatcher_exception_ce, NULL, 0);
 
 	return SUCCESS;
-
 }
 

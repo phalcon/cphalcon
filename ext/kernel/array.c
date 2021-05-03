@@ -338,7 +338,7 @@ int ZEPHIR_FASTCALL zephir_array_unset(zval *arr, zval *index, int flags)
 	}
 
 	if ((flags & PH_SEPARATE) == PH_SEPARATE) {
-		SEPARATE_ZVAL_IF_NOT_REF(arr);
+		SEPARATE_ARRAY(arr);
 	}
 
 	ht = Z_ARRVAL_P(arr);
@@ -364,7 +364,7 @@ int ZEPHIR_FASTCALL zephir_array_unset(zval *arr, zval *index, int flags)
 			return (zend_symtable_del(ht, Z_STR_P(index)) == SUCCESS);
 
 		default:
-			zend_error(E_WARNING, "Illegal offset type");
+			zend_error(E_WARNING, "Passed index has illegal offset type (check zephir_array_unset())");
 			return 0;
 	}
 }
@@ -387,7 +387,7 @@ int ZEPHIR_FASTCALL zephir_array_unset_string(zval *arr, const char *index, uint
 	}
 
 	if ((flags & PH_SEPARATE) == PH_SEPARATE) {
-		SEPARATE_ZVAL_IF_NOT_REF(arr);
+		SEPARATE_ZVAL(arr);
 	}
 
 	return zend_hash_str_del(Z_ARRVAL_P(arr), index, index_length);
@@ -411,7 +411,7 @@ int ZEPHIR_FASTCALL zephir_array_unset_long(zval *arr, unsigned long index, int 
 	}
 
 	if ((flags & PH_SEPARATE) == PH_SEPARATE) {
-		SEPARATE_ZVAL_IF_NOT_REF(arr);
+		SEPARATE_ARRAY(arr);
 	}
 
 	return zend_hash_index_del(Z_ARRVAL_P(arr), index);
@@ -425,7 +425,7 @@ int zephir_array_append(zval *arr, zval *value, int flags ZEPHIR_DEBUG_PARAMS)
 	}
 
 	if ((flags & PH_SEPARATE) == PH_SEPARATE) {
-		SEPARATE_ZVAL_IF_NOT_REF(arr);
+		SEPARATE_ARRAY(arr);
 	}
 
 	Z_TRY_ADDREF_P(value);
@@ -658,7 +658,7 @@ int zephir_array_update_zval(zval *arr, zval *index, zval *value, int flags)
 	}
 
 	if ((flags & PH_SEPARATE) == PH_SEPARATE) {
-		SEPARATE_ZVAL_IF_NOT_REF(arr);
+		SEPARATE_ARRAY(arr);
 	}
 
 	if ((flags & PH_COPY) == PH_COPY) {
@@ -700,7 +700,6 @@ int zephir_array_update_zval(zval *arr, zval *index, zval *value, int flags)
 
 int zephir_array_update_string(zval *arr, const char *index, uint32_t index_length, zval *value, int flags)
 {
-
 	if (UNEXPECTED(Z_TYPE_P(arr) == IS_OBJECT && zephir_instance_of_ev(arr, (const zend_class_entry *)zend_ce_arrayaccess))) {
 		zend_long ZEPHIR_LAST_CALL_STATUS;
 		zval offset;
@@ -727,7 +726,7 @@ int zephir_array_update_string(zval *arr, const char *index, uint32_t index_leng
 	}
 
 	if ((flags & PH_SEPARATE) == PH_SEPARATE) {
-		SEPARATE_ZVAL_IF_NOT_REF(arr);
+		SEPARATE_ARRAY(arr);
 	}
 
 	return zend_hash_str_update(Z_ARRVAL_P(arr), index, index_length, value) ? SUCCESS : FAILURE;
@@ -760,7 +759,7 @@ int zephir_array_update_long(zval *arr, unsigned long index, zval *value, int fl
 	}
 
 	if ((flags & PH_SEPARATE) == PH_SEPARATE) {
-		SEPARATE_ZVAL_IF_NOT_REF(arr);
+		SEPARATE_ARRAY(arr);
 	}
 
 	return zend_hash_index_update(Z_ARRVAL_P(arr), index, value) ? SUCCESS : FAILURE;
@@ -990,7 +989,7 @@ int zephir_array_update_multi(zval *arr, zval *value, const char *types, int typ
 {
 	va_list ap;
 	va_start(ap, types_count);
-	SEPARATE_ZVAL_IF_NOT_REF(arr);
+	SEPARATE_ZVAL(arr);
 
 	zephir_array_update_multi_ex(arr, value, types, types_length, types_count, ap);
 	va_end(ap);

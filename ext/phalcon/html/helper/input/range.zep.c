@@ -25,13 +25,11 @@
 /**
  * Class Range
  */
-ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Input_Range) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Input_Range)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Html\\Helper\\Input, Range, phalcon, html_helper_input_range, phalcon_html_helper_input_abstractinput_ce, NULL, 0);
 
 	zend_declare_property_string(phalcon_html_helper_input_range_ce, SL("type"), "range", ZEND_ACC_PROTECTED);
-
 	return SUCCESS;
-
 }
 

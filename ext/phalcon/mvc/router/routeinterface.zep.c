@@ -25,12 +25,11 @@
  *
  * Interface for Phalcon\Mvc\Router\Route
  */
-ZEPHIR_INIT_CLASS(Phalcon_Mvc_Router_RouteInterface) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Mvc_Router_RouteInterface)
+{
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Mvc\\Router, RouteInterface, phalcon, mvc_router_routeinterface, phalcon_mvc_router_routeinterface_method_entry);
 
 	return SUCCESS;
-
 }
 
 /**

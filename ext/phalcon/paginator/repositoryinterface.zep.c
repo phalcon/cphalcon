@@ -26,8 +26,8 @@
  * Interface for the repository of current state
  * Phalcon\Paginator\AdapterInterface::paginate()
  */
-ZEPHIR_INIT_CLASS(Phalcon_Paginator_RepositoryInterface) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Paginator_RepositoryInterface)
+{
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Paginator, RepositoryInterface, phalcon, paginator_repositoryinterface, phalcon_paginator_repositoryinterface_method_entry);
 
 	zephir_declare_class_constant_string(phalcon_paginator_repositoryinterface_ce, SL("PROPERTY_CURRENT_PAGE"), "current");
@@ -47,7 +47,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Paginator_RepositoryInterface) {
 	zephir_declare_class_constant_string(phalcon_paginator_repositoryinterface_ce, SL("PROPERTY_TOTAL_ITEMS"), "total_items");
 
 	return SUCCESS;
-
 }
 
 /**

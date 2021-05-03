@@ -32,20 +32,19 @@
 /**
  * Class Phalcon\Http\Link\Serializer\Header
  */
-ZEPHIR_INIT_CLASS(Phalcon_Html_Link_Serializer_Header) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Html_Link_Serializer_Header)
+{
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Html\\Link\\Serializer, Header, phalcon, html_link_serializer_header, phalcon_html_link_serializer_header_method_entry, 0);
 
 	zend_class_implements(phalcon_html_link_serializer_header_ce, 1, phalcon_html_link_serializer_serializerinterface_ce);
 	return SUCCESS;
-
 }
 
 /**
  * Serializes all the passed links to a HTTP link header
  */
-PHP_METHOD(Phalcon_Html_Link_Serializer_Header, serialize) {
-
+PHP_METHOD(Phalcon_Html_Link_Serializer_Header, serialize)
+{
 	zend_string *_8$$3, *_28$$17;
 	zend_ulong _7$$3, _27$$17;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -99,13 +98,11 @@ PHP_METHOD(Phalcon_Html_Link_Serializer_Header, serialize) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ARRAY(links)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &links_param);
-
 	zephir_get_arrval(&links, links_param);
 
 
@@ -426,6 +423,5 @@ PHP_METHOD(Phalcon_Html_Link_Serializer_Header, serialize) {
 		zephir_fast_join_str(&result, SL(","), &elements);
 	}
 	RETURN_CCTOR(&result);
-
 }
 

@@ -25,12 +25,11 @@
  *
  * Interface for Phalcon\Mvc\Model\Query
  */
-ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_QueryInterface) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_QueryInterface)
+{
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Mvc\\Model, QueryInterface, phalcon, mvc_model_queryinterface, phalcon_mvc_model_queryinterface_method_entry);
 
 	return SUCCESS;
-
 }
 
 /**

@@ -31,12 +31,11 @@
 /**
  * This interface is used for consumers (read only)
  */
-ZEPHIR_INIT_CLASS(Phalcon_Domain_Payload_ReadableInterface) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Domain_Payload_ReadableInterface)
+{
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Domain\\Payload, ReadableInterface, phalcon, domain_payload_readableinterface, phalcon_domain_payload_readableinterface_method_entry);
 
 	return SUCCESS;
-
 }
 
 /**

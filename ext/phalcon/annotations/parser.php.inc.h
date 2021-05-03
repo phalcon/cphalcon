@@ -7,7 +7,7 @@
 
 #include <main/spprintf.h>
 
-#include "parser.php7.h"
+#include "parser.php.h"
 #include "scanner.h"
 #include "annot.h"
 

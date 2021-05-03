@@ -36,13 +36,12 @@
 /**
  * PSR-17 StreamFactory
  */
-ZEPHIR_INIT_CLASS(Phalcon_Http_Message_StreamFactory) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Http_Message_StreamFactory)
+{
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Http\\Message, StreamFactory, phalcon, http_message_streamfactory, phalcon_http_message_streamfactory_method_entry, ZEND_ACC_FINAL_CLASS);
 
 	zend_class_implements(phalcon_http_message_streamfactory_ce, 1, zephir_get_internal_ce(SL("psr\\http\\message\\streamfactoryinterface")));
 	return SUCCESS;
-
 }
 
 /**
@@ -54,8 +53,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_StreamFactory) {
  *
  * @return StreamInterface
  */
-PHP_METHOD(Phalcon_Http_Message_StreamFactory, createStream) {
-
+PHP_METHOD(Phalcon_Http_Message_StreamFactory, createStream)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *content_param = NULL, handle, _0, _1;
@@ -72,13 +71,11 @@ PHP_METHOD(Phalcon_Http_Message_StreamFactory, createStream) {
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR(content)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &content_param);
-
 	if (!content_param) {
 		ZEPHIR_INIT_VAR(&content);
 		ZVAL_STRING(&content, "");
@@ -91,7 +88,6 @@ PHP_METHOD(Phalcon_Http_Message_StreamFactory, createStream) {
 		zephir_get_strval(&content, content_param);
 	} else {
 		ZEPHIR_INIT_VAR(&content);
-		ZVAL_EMPTY_STRING(&content);
 	}
 	}
 
@@ -107,12 +103,11 @@ PHP_METHOD(Phalcon_Http_Message_StreamFactory, createStream) {
 		return;
 	}
 	zephir_fwrite(NULL, &handle, &content);
-	ZEPHIR_CALL_FUNCTION(NULL, "rewind", NULL, 341, &handle);
+	ZEPHIR_CALL_FUNCTION(NULL, "rewind", NULL, 320, &handle);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "createstreamfromresource", NULL, 342, &handle);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "createstreamfromresource", NULL, 321, &handle);
 	zephir_check_call_status();
 	RETURN_MM();
-
 }
 
 /**
@@ -130,8 +125,8 @@ PHP_METHOD(Phalcon_Http_Message_StreamFactory, createStream) {
  *
  * @return StreamInterface
  */
-PHP_METHOD(Phalcon_Http_Message_StreamFactory, createStreamFromFile) {
-
+PHP_METHOD(Phalcon_Http_Message_StreamFactory, createStreamFromFile)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *filename_param = NULL, *mode_param = NULL;
@@ -147,13 +142,11 @@ PHP_METHOD(Phalcon_Http_Message_StreamFactory, createStreamFromFile) {
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR(mode)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &filename_param, &mode_param);
-
 	if (UNEXPECTED(Z_TYPE_P(filename_param) != IS_STRING && Z_TYPE_P(filename_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'filename' must be of the type string"));
 		RETURN_MM_NULL();
@@ -162,7 +155,6 @@ PHP_METHOD(Phalcon_Http_Message_StreamFactory, createStreamFromFile) {
 		zephir_get_strval(&filename, filename_param);
 	} else {
 		ZEPHIR_INIT_VAR(&filename);
-		ZVAL_EMPTY_STRING(&filename);
 	}
 	if (!mode_param) {
 		ZEPHIR_INIT_VAR(&mode);
@@ -176,7 +168,6 @@ PHP_METHOD(Phalcon_Http_Message_StreamFactory, createStreamFromFile) {
 		zephir_get_strval(&mode, mode_param);
 	} else {
 		ZEPHIR_INIT_VAR(&mode);
-		ZVAL_EMPTY_STRING(&mode);
 	}
 	}
 
@@ -185,7 +176,6 @@ PHP_METHOD(Phalcon_Http_Message_StreamFactory, createStreamFromFile) {
 	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 43, &filename, &mode);
 	zephir_check_call_status();
 	RETURN_MM();
-
 }
 
 /**
@@ -193,8 +183,8 @@ PHP_METHOD(Phalcon_Http_Message_StreamFactory, createStreamFromFile) {
  *
  * The stream MUST be readable and may be writable.
  */
-PHP_METHOD(Phalcon_Http_Message_StreamFactory, createStreamFromResource) {
-
+PHP_METHOD(Phalcon_Http_Message_StreamFactory, createStreamFromResource)
+{
 	zend_bool _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -209,13 +199,11 @@ PHP_METHOD(Phalcon_Http_Message_StreamFactory, createStreamFromResource) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(phpResource)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &phpResource);
-
 
 
 	_0 = Z_TYPE_P(phpResource) != IS_RESOURCE;
@@ -234,6 +222,5 @@ PHP_METHOD(Phalcon_Http_Message_StreamFactory, createStreamFromResource) {
 	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 43, phpResource);
 	zephir_check_call_status();
 	RETURN_MM();
-
 }
 

@@ -25,11 +25,10 @@
 /**
  * Exceptions thrown in Phalcon\Crypt will use this class.
  */
-ZEPHIR_INIT_CLASS(Phalcon_Crypt_Mismatch) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Crypt_Mismatch)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Crypt, Mismatch, phalcon, crypt_mismatch, phalcon_crypt_exception_ce, NULL, 0);
 
 	return SUCCESS;
-
 }
 

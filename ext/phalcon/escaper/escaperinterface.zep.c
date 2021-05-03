@@ -23,12 +23,11 @@
 /**
  * Interface for Phalcon\Escaper
  */
-ZEPHIR_INIT_CLASS(Phalcon_Escaper_EscaperInterface) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Escaper_EscaperInterface)
+{
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Escaper, EscaperInterface, phalcon, escaper_escaperinterface, phalcon_escaper_escaperinterface_method_entry);
 
 	return SUCCESS;
-
 }
 
 /**

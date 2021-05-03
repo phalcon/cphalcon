@@ -36,19 +36,18 @@
  * a wrapper around the most common operations, including serialization of
  * the entire stream to a string.
  */
-ZEPHIR_INIT_CLASS(Phalcon_Http_Message_Stream_Temp) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Http_Message_Stream_Temp)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Http\\Message\\Stream, Temp, phalcon, http_message_stream_temp, phalcon_http_message_stream_ce, phalcon_http_message_stream_temp_method_entry, 0);
 
 	return SUCCESS;
-
 }
 
 /**
  * Constructor
  */
-PHP_METHOD(Phalcon_Http_Message_Stream_Temp, __construct) {
-
+PHP_METHOD(Phalcon_Http_Message_Stream_Temp, __construct)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
@@ -63,13 +62,11 @@ PHP_METHOD(Phalcon_Http_Message_Stream_Temp, __construct) {
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ZVAL(mode)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &mode);
-
 	if (!mode) {
 		mode = &mode_sub;
 		ZEPHIR_INIT_VAR(mode);
@@ -82,6 +79,5 @@ PHP_METHOD(Phalcon_Http_Message_Stream_Temp, __construct) {
 	ZEPHIR_CALL_PARENT(NULL, phalcon_http_message_stream_temp_ce, getThis(), "__construct", &_0, 0, &_1, mode);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
-
 }
 

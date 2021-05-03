@@ -31,7 +31,11 @@ PHP_METHOD(Phalcon_Collection, setData);
 zend_object *zephir_init_properties_Phalcon_Collection(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_collection___construct, 0, 0, 0)
+#if PHP_VERSION_ID >= 80000
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, data, IS_ARRAY, 0, "[]")
+#else
 	ZEND_ARG_ARRAY_INFO(0, data, 0)
+#endif
 	ZEND_ARG_TYPE_INFO(0, insensitive, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
@@ -82,7 +86,11 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_collection_init, 0, 0, IS_VOID, 0)
 
+#if PHP_VERSION_ID >= 80000
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, data, IS_ARRAY, 0, "[]")
+#else
 	ZEND_ARG_ARRAY_INFO(0, data, 0)
+#endif
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_collection_jsonserialize, 0, 0, IS_ARRAY, 0)

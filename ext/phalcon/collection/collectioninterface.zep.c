@@ -25,12 +25,11 @@
  *
  * Interface for Phalcon\Collection class
  */
-ZEPHIR_INIT_CLASS(Phalcon_Collection_CollectionInterface) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Collection_CollectionInterface)
+{
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Collection, CollectionInterface, phalcon, collection_collectioninterface, phalcon_collection_collectioninterface_method_entry);
 
 	return SUCCESS;
-
 }
 
 ZEPHIR_DOC_METHOD(Phalcon_Collection_CollectionInterface, __get);

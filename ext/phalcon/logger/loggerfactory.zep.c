@@ -34,21 +34,19 @@
  *
  * Logger factory
  */
-ZEPHIR_INIT_CLASS(Phalcon_Logger_LoggerFactory) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Logger_LoggerFactory)
+{
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Logger, LoggerFactory, phalcon, logger_loggerfactory, phalcon_logger_loggerfactory_method_entry, 0);
 
 	/**
 	 * @var AdapterFactory
 	 */
 	zend_declare_property_null(phalcon_logger_loggerfactory_ce, SL("adapterFactory"), ZEND_ACC_PRIVATE);
-
 	return SUCCESS;
-
 }
 
-PHP_METHOD(Phalcon_Logger_LoggerFactory, __construct) {
-
+PHP_METHOD(Phalcon_Logger_LoggerFactory, __construct)
+{
 	zval *factory, factory_sub;
 	zval *this_ptr = getThis();
 
@@ -58,16 +56,13 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, __construct) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(factory, phalcon_logger_adapterfactory_ce)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	zephir_fetch_params_without_memory_grow(1, 0, &factory);
 
 
-
 	zephir_update_property_zval(this_ptr, ZEND_STRL("adapterFactory"), factory);
-
 }
 
 /**
@@ -86,8 +81,8 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, __construct) {
  *     ]
  * ]
  */
-PHP_METHOD(Phalcon_Logger_LoggerFactory, load) {
-
+PHP_METHOD(Phalcon_Logger_LoggerFactory, load)
+{
 	zend_bool _0;
 	zval data;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -123,13 +118,11 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, load) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(config)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &config);
-
 	ZEPHIR_SEPARATE_PARAM(config);
 
 
@@ -228,7 +221,6 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, load) {
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "newinstance", NULL, 0, &name, &data);
 	zephir_check_call_status();
 	RETURN_MM();
-
 }
 
 /**
@@ -239,8 +231,8 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, load) {
  *
  * @return Logger
  */
-PHP_METHOD(Phalcon_Logger_LoggerFactory, newInstance) {
-
+PHP_METHOD(Phalcon_Logger_LoggerFactory, newInstance)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval adapters;
@@ -257,13 +249,11 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, newInstance) {
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ARRAY(adapters)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &name_param, &adapters_param);
-
 	if (UNEXPECTED(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be of the type string"));
 		RETURN_MM_NULL();
@@ -272,7 +262,6 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, newInstance) {
 		zephir_get_strval(&name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(&name);
-		ZVAL_EMPTY_STRING(&name);
 	}
 	if (!adapters_param) {
 		ZEPHIR_INIT_VAR(&adapters);
@@ -283,9 +272,8 @@ PHP_METHOD(Phalcon_Logger_LoggerFactory, newInstance) {
 
 
 	object_init_ex(return_value, phalcon_logger_ce);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 434, &name, &adapters);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 415, &name, &adapters);
 	zephir_check_call_status();
 	RETURN_MM();
-
 }
 

@@ -25,12 +25,11 @@
  *
  * Interface for Phalcon\Mvc\Model\Binder
  */
-ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_BinderInterface) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_BinderInterface)
+{
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Mvc\\Model, BinderInterface, phalcon, mvc_model_binderinterface, phalcon_mvc_model_binderinterface_method_entry);
 
 	return SUCCESS;
-
 }
 
 /**
