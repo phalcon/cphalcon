@@ -66,16 +66,16 @@ use Phalcon\Db\Profiler\Item;
 class Profiler
 {
     /**
-     * Active Phalcon\Db\Profiler\Item
+     * Active Item
      *
-     * @var Phalcon\Db\Profiler\Item
+     * @var Item
      */
     protected activeProfile;
 
     /**
-     * All the Phalcon\Db\Profiler\Item in the active profile
+     * All the Items in the active profile
      *
-     * @var \Phalcon\Db\Profiler\Item[]
+     * @var Item[]
      */
     protected allProfiles;
 

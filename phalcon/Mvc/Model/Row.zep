@@ -36,7 +36,7 @@ class Row implements EntityInterface, ResultInterface, ArrayAccess, JsonSerializ
      *
      * @param string|int index
      *
-     * @return string|Phalcon\Mvc\ModelInterface
+     * @return string|ModelInterface
      */
     public function offsetGet(var index) -> var
     {
@@ -63,7 +63,7 @@ class Row implements EntityInterface, ResultInterface, ArrayAccess, JsonSerializ
      * Rows cannot be changed. It has only been implemented to meet the definition of the ArrayAccess interface
      *
      * @param string|int index
-     * @param \Phalcon\Mvc\ModelInterface value
+     * @param ModelInterface value
      */
     public function offsetSet(var index, var value) -> void
     {

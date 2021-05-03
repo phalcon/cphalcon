@@ -23,7 +23,7 @@ class Ol extends AbstractList
      * @param array  $attributes
      * @param bool   $raw
      *
-     * @return $this
+     * @return AbstractList
      */
     public function add(
         string text,

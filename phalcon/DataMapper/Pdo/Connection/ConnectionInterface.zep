@@ -172,7 +172,7 @@ interface ConnectionInterface extends PdoInterface
     /**
      * Return the inner PDO (if any)
      *
-     * @return PDO
+     * @return \PDO
      */
     public function getAdapter() -> <\PDO>;
 
@@ -199,7 +199,7 @@ interface ConnectionInterface extends PdoInterface
      * @param string $statement
      * @param array  $values
      *
-     * @return PDOStatement
+     * @return \PDOStatement
      */
     public function perform(string statement, array values = []) -> <\PDOStatement>;
 

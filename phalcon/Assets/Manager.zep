@@ -324,7 +324,7 @@ class Manager extends AbstractInjectionAware
     /**
      * Traverses a collection calling the callback to generate its HTML
      *
-     * @param callback callback
+     * @param Collection callback
      * @param string type
      */
     public function output(<Collection> collection, callback, type) -> string | null

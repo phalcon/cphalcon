@@ -18,7 +18,7 @@ interface DispatcherInterface
     /**
      * Dispatches a handle action taking into account the routing parameters
      *
-     * @return object|false
+     * @return mixed
      */
     public function dispatch()  -> var | bool;
 

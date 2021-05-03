@@ -24,7 +24,7 @@ abstract class AbstractValidator implements ValidatorInterface
     *
     * @var string|null
     */
-    protected template;
+    protected template = null;
 
     /**
     * Message templates
@@ -33,7 +33,10 @@ abstract class AbstractValidator implements ValidatorInterface
     */
     protected templates = [];
 
-    protected options;
+    /**
+     * @var array
+     */
+    protected options = [];
 
     /**
      * Phalcon\Validation\Validator constructor
@@ -62,11 +65,11 @@ abstract class AbstractValidator implements ValidatorInterface
     }
 
     /**
-    * Get the template message
-    *
-    * @return string
-    * @throw InvalidArgumentException When the field does not exists
-    */
+     * Get the template message
+     *
+     * @return string
+     * @throw InvalidArgumentException When the field does not exists
+     */
     public function getTemplate(string! field = null) -> string
     {
         // there is a template in field
@@ -84,10 +87,10 @@ abstract class AbstractValidator implements ValidatorInterface
     }
 
     /**
-    * Get templates collection object
-    *
-    * @return array
-    */
+     * Get templates collection object
+     *
+     * @return array
+     */
     public function getTemplates() -> array
     {
         return this->templates;
@@ -208,12 +211,12 @@ abstract class AbstractValidator implements ValidatorInterface
     }
 
     /**
-    * Create a default message by factory
-    *
-    * @return Message
-    *
-    * @throw Exception
-    */
+     * Create a default message by factory
+     *
+     * @return Message
+     *
+     * @throw Exception
+     */
     public function messageFactory(<Validation> validation, var field, array! replacements = []) -> <Message>
     {
         var singleField;

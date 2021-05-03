@@ -34,9 +34,81 @@ class MemoryLogger extends AbstractLogger
      *
      * @return array
      */
-    public function getMessages()
+    public function getMessages() -> array
     {
         return this->messages;
+    }
+
+    /**
+     * @param string message
+     * @param mixed[] context
+     */
+    public function emergency(var message, array context = [])
+    {
+        parent::emergency(message, context);
+    }
+
+    /**
+     * @param string message
+     * @param mixed[] context
+     */
+    public function alert(var message, array context = [])
+    {
+        parent::alert(message, context);
+    }
+
+    /**
+     * @param string message
+     * @param mixed[] context
+     */
+    public function critical(var message, array context = [])
+    {
+        parent::critical(message, context);
+    }
+
+    /**
+     * @param string message
+     * @param mixed[] context
+     */
+    public function error(var message, array context = [])
+    {
+        parent::error(message, context);
+    }
+
+    /**
+     * @param string message
+     * @param mixed[] context
+     */
+    public function warning(var message, array context = [])
+    {
+        parent::warning(message, context);
+    }
+
+    /**
+     * @param string message
+     * @param mixed[] context
+     */
+    public function notice(var message, array context = [])
+    {
+        parent::notice(message, context);
+    }
+
+    /**
+     * @param string message
+     * @param mixed[] context
+     */
+    public function info(var message, array context = [])
+    {
+        parent::info(message, context);
+    }
+
+    /**
+     * @param string message
+     * @param mixed[] context
+     */
+    public function debug(var message, array context = [])
+    {
+        parent::debug(message, context);
     }
 
     /**

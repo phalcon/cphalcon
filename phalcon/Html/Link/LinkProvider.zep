@@ -14,8 +14,6 @@ use Psr\Link\LinkInterface;
 use Psr\Link\LinkProviderInterface;
 
 /**
- * Class Phalcon\Http\Link\LinkProvider
- *
  * @property LinkInterface[] links
  */
 class LinkProvider implements LinkProviderInterface
@@ -62,7 +60,7 @@ class LinkProvider implements LinkProviderInterface
      * with that relationship are available, an empty array or \Traversable
      * MUST be returned.
      *
-     * @return LinkInterface[]|Traversable
+     * @return LinkInterface[]|\Traversable
      */
     public function getLinksByRel(var rel)
     {

@@ -24,8 +24,6 @@ interface ValidationInterface
      *
      * @param string|array       $field
      * @param ValidatorInterface $validator
-     *
-     * @return ValidatorInterface
      */
     public function add(var field, <ValidatorInterface> validator) -> <ValidationInterface>;
 
@@ -80,8 +78,6 @@ interface ValidationInterface
      *
      * @param string|array       $field
      * @param ValidatorInterface $validator
-     *
-     * @return ValidatorInterface
      */
     public function rule(var field, <ValidatorInterface> validator) -> <ValidationInterface>;
 

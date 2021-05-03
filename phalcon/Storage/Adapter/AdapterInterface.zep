@@ -34,6 +34,11 @@ interface AdapterInterface
 
     /**
      * Reads data from the adapter
+     *
+     * @param string key
+     * @param mixed|null defaultValue
+     *
+     * @return mixed
      */
     public function get(string! key, var defaultValue = null) -> var;
 
@@ -65,6 +70,10 @@ interface AdapterInterface
 
     /**
      * Stores data in the adapter
+     *
+     * @param string key
+     * @param mixed value
+     * @param \DateInterval|int|null ttl
      */
     public function set(string! key, var value, var ttl = null) -> bool;
 }

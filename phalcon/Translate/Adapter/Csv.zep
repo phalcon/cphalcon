@@ -71,12 +71,12 @@ class Csv extends AbstractAdapter implements ArrayAccess
     /**
      * Returns the translation related to the given key
      */
-    public function query(string! index, array placeholders = []) -> string
+    public function query(string! translateKey, array placeholders = []) -> string
     {
         var translation;
 
-        if !fetch translation, this->translate[index] {
-            let translation = index;
+        if !fetch translation, this->translate[translateKey] {
+            let translation = translateKey;
         }
 
         return this->replacePlaceholders(translation, placeholders);

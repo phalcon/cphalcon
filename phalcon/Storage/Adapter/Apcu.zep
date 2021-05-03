@@ -103,7 +103,7 @@ class Apcu extends AbstractAdapter
      * Reads data from the adapter
      *
      * @param string $key
-     * @param null   $defaultValue
+     * @param mixed|null   $defaultValue
      *
      * @return mixed
      */
@@ -183,9 +183,9 @@ class Apcu extends AbstractAdapter
     /**
      * Stores data in the adapter
      *
-     * @param string $key
-     * @param mixed  $value
-     * @param null   $ttl
+     * @param string                    $key
+     * @param mixed                    $value
+     * @param \DateInterval|int|null   $ttl
      *
      * @return bool
      * @throws \Exception

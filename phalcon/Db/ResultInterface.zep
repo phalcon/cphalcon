@@ -19,7 +19,7 @@ interface ResultInterface
      * Moves internal resultset cursor to another position letting us to fetch a
      * certain row
      */
-    public function dataSeek(long number);
+    public function dataSeek(int number);
 
     /**
      * Allows to execute the statement again. Some database systems don't

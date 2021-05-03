@@ -21,7 +21,7 @@ interface AdapterInterface
     /**
      * Do a role inherit from another existing role
      */
-    public function addInherit(string roleName, roleToInherit) -> bool;
+    public function addInherit(string roleName, roleToInherits) -> bool;
 
     /**
      * Adds a role to the ACL list. Second parameter lets to inherit access data
@@ -35,7 +35,7 @@ interface AdapterInterface
      * Access names can be a particular action, by example
      * search, update, delete, etc or a list of them
      */
-    public function addComponent(componentObject, accessList) -> bool;
+    public function addComponent(componentValue, accessList) -> bool;
 
     /**
      * Adds access to components

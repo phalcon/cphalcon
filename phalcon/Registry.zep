@@ -162,7 +162,7 @@ final class Registry extends Collection
      *
      * @link https://php.net/manual/en/jsonserializable.jsonserialize.php
      */
-    final public function jsonSerialize () -> array
+    final public function jsonSerialize() -> array
     {
         return parent::jsonSerialize();
     }

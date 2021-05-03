@@ -17,23 +17,70 @@ namespace Phalcon\Mvc\Router;
  */
 class Route implements RouteInterface
 {
-    protected beforeMatch;
-    protected compiledPattern;
-    protected converters;
-    protected group;
-    protected hostname;
-    protected id { get };
-    protected methods;
-    protected match;
-    protected name;
-    protected paths;
+    /**
+     * @var callable|null
+     */
+    protected beforeMatch = null;
+
+    /**
+     * @var string|null
+     */
+    protected compiledPattern = null;
+
+    /**
+     * @var array
+     */
+    protected converters = [];
+
+    /**
+     * @var GroupInterface|null
+     */
+    protected group = null;
+
+    /**
+     * @var string|null
+     */
+    protected hostname = null;
+
+    /**
+     * @var string|null
+     */
+    protected id = null { get };
+
+    /**
+     * @var array|string
+     */
+    protected methods = [];
+
+    /**
+     * @var callable|null
+     */
+    protected match = null;
+
+    /**
+     * @var string|null
+     */
+    protected name = null;
+
+    /**
+     * @var array
+     */
+    protected paths = [];
+
+    /**
+     * @var string
+     */
     protected pattern;
+
+    /**
+     * @var int
+     */
     protected static uniqueId = 0;
 
     /**
      * Phalcon\Mvc\Router\Route constructor
      */
-    public function __construct(string! pattern, var paths = null, var httpMethods = null)
+    public function __construct(string! pattern, var paths = null, var httpMethods = null) // TODO: Make paths array
     {
         var routeId, uniqueId;
 
@@ -76,7 +123,7 @@ class Route implements RouteInterface
      * );
      *```
      */
-    public function beforeMatch(var callback) -> <RouteInterface>
+    public function beforeMatch(callable callback) -> <RouteInterface>
     {
         let this->beforeMatch = callback;
 

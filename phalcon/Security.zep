@@ -50,7 +50,7 @@ class Security extends AbstractInjectionAware
     /**
      * @var int|null
      */
-    protected defaultHash;
+    protected defaultHash = null;
 
     /**
      * @var int
@@ -63,19 +63,19 @@ class Security extends AbstractInjectionAware
     protected random;
 
     /**
-     * @var string}null
+     * @var string|null
      */
-    protected requestToken;
+    protected requestToken = null;
 
     /**
      * @var string|null
      */
-    protected token;
+    protected token = null;
 
     /**
      * @var string|null
      */
-    protected tokenKey;
+    protected tokenKey = null;
 
     /**
      * @var string
@@ -416,7 +416,7 @@ class Security extends AbstractInjectionAware
             case self::CRYPT_STD_DES:
             case self::CRYPT_EXT_DES:
 
-                /*
+                /**
                  * Standard DES-based hash with a two character salt from the
                  * alphabet "./0-9A-Za-z".
                  */
@@ -439,7 +439,7 @@ class Security extends AbstractInjectionAware
             case self::CRYPT_SHA256:
             case self::CRYPT_SHA512:
 
-                /*
+                /**
                  * MD5 hashing with a twelve character salt
                  * SHA-256/SHA-512 hash with a sixteen character salt.
                  */
@@ -462,7 +462,7 @@ class Security extends AbstractInjectionAware
             case self::CRYPT_BLOWFISH_Y:
             default:
 
-                /*
+                /**
                  * Blowfish hashing with a salt as follows: "$2a$", "$2x$" or
                  * "$2y$", a two digit cost parameter, "$", and 22 characters
                  * from the alphabet "./0-9A-Za-z". Using characters outside of
@@ -505,8 +505,8 @@ class Security extends AbstractInjectionAware
     }
 
     /**
-      * Sets the default hash
-      */
+     * Sets the default hash
+     */
     public function setDefaultHash(int defaultHash) -> <Security>
     {
         let this->defaultHash = defaultHash;

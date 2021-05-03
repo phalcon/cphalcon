@@ -18,17 +18,17 @@ class Script extends Style
     /**
      * Returns the necessary attributes
      *
-     * @param string $src
+     * @param string $href
      * @param array  $attributes
      *
      * @return array
      */
-    protected function getAttributes(string src, array attributes) -> array
+    protected function getAttributes(string href, array attributes) -> array
     {
         array required;
 
         let required = [
-            "src"  : src,
+            "src"  : href,
             "type" : "text/javascript"
         ];
 

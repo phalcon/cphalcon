@@ -65,6 +65,7 @@
         "predis/predis": "^1.1",
         "squizlabs/php_codesniffer": "^3.4",
         "twig/twig": "~1.36",
+        "vimeo/psalm": "^4.7",
         "vlucas/phpdotenv": "^2.5"
     },
     "config": {

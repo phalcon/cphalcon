@@ -150,11 +150,6 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Install System Dependencies
-        run: |
-          sudo apt-get update --quiet --yes 1>/dev/null
-          sudo apt-get install --no-install-recommends -q -y re2c
-
       - name: Get Composer Cache Directory
         id: composer-cache
         run: |

@@ -203,7 +203,7 @@ class Memory extends AbstractAdapter
      *
      * @param string $key
      * @param mixed  $value
-     * @param null   $ttl
+     * @param \DateInterval|int|null ttl
      *
      * @return bool
      */

@@ -219,13 +219,18 @@ interface ManagerInterface
 
     /**
      * Returns a relation by its alias
+     *
+     * @param string modelName
+     * @param string alias
+     *
+     * @return RelationInterface|bool
      */
-    public function getRelationByAlias(string! modelName, string! alias) -> <Relation> | bool;
+    public function getRelationByAlias(string! modelName, string! alias) -> <RelationInterface> | bool;
 
     /**
      * Helper method to query records based on a relation definition
      *
-     * @return \Phalcon\Mvc\Model\Resultset\Simple|Phalcon\Mvc\Model\Resultset\Simple|int|false
+     * @return \Phalcon\Mvc\Model\Resultset\Simple|int|false
      */
     public function getRelationRecords(<RelationInterface> relation, <ModelInterface> record, var parameters = null, string method = null);
 

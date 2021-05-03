@@ -41,7 +41,7 @@ class Update extends AbstractConditions
      *
      * @param string $column
      *
-     * @return this
+     * @return Update
      */
     public function column(string column, var value = null, int type = -1) -> <Update>
     {
@@ -59,7 +59,7 @@ class Update extends AbstractConditions
      *
      * @param array $columns
      *
-     * @return this
+     * @return Update
      */
     public function columns(array columns) -> <Update>
     {

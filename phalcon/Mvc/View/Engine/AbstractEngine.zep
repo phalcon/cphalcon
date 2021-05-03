@@ -20,10 +20,16 @@ use Phalcon\Mvc\ViewBaseInterface;
  */
 abstract class AbstractEngine extends Injectable implements EngineInterface
 {
+    /**
+     * @var ViewBaseInterface
+     */
     protected view;
 
     /**
      * Phalcon\Mvc\View\Engine constructor
+     *
+     * @param ViewBaseInterface view
+     * @param DiInterface|null container
      */
     public function __construct(<ViewBaseInterface> view, <DiInterface> container = null)
     {
@@ -33,6 +39,8 @@ abstract class AbstractEngine extends Injectable implements EngineInterface
 
     /**
      * Returns cached output on another view stage
+     *
+     * @return string
      */
     public function getContent() -> string
     {
@@ -41,6 +49,8 @@ abstract class AbstractEngine extends Injectable implements EngineInterface
 
     /**
      * Returns the view component related to the adapter
+     *
+     * @return ViewBaseInterface
      */
     public function getView() -> <ViewBaseInterface>
     {
@@ -50,9 +60,12 @@ abstract class AbstractEngine extends Injectable implements EngineInterface
     /**
      * Renders a partial inside another view
      *
-     * @param array params
+     * @param string partialPath
+     * @param mixed|null params
+     *
+     * @return void
      */
-    public function partial(string! partialPath, var params = null) -> void
+    public function partial(string! partialPath, var params = null) -> void // TODO: Make params array
     {
         this->view->partial(partialPath, params);
     }
