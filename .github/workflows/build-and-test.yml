@@ -636,9 +636,10 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v2
         with:
-          name: build-${{ matrix.php-versions }}-${{ matrix.arch }}-${{ matrix.ts }}
+          name: ext-${{ matrix.php-versions }}-${{ matrix.arch }}-${{ matrix.ts }}
           path: |
-            ${{ github.workspace }}\build\
+            ${{ github.workspace }}\ext\
+            !${{ github.workspace }}\ext\x64\
           retention-days: 1
 
   release:
