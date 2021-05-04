@@ -85,6 +85,7 @@ jobs:
       - name: Create Pecl Package (PHP 8)
         id: pecl_create
         run: |
+          cp build/phalcon/safe/* build/
           pecl package
           phalcon_package="`ls | grep phalcon-*tgz`"
           mv $phalcon_package phalcon-pecl.tgz
@@ -521,7 +522,6 @@ jobs:
           Import-Module .\.ci\win-ci-tools.psm1
           Expand-Item7zip "phalcon-pecl\phalcon-pecl.tgz" "${env:Temp}"
           Expand-Item7zip "${env:Temp}\phalcon-pecl.tar" "${env:PHP_PECL_PATH}\phalcon"
-          Copy-Item "${env:PHP_PECL_PATH}\phalcon\safe\*" "${env:PHP_PECL_PATH}\phalcon"
 
       - name: PSR extension | init, phpize
         shell: cmd
