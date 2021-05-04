@@ -521,6 +521,7 @@ jobs:
           Import-Module .\.ci\win-ci-tools.psm1
           Expand-Item7zip "phalcon-pecl\phalcon-pecl.tgz" "${env:Temp}"
           Expand-Item7zip "${env:Temp}\phalcon-pecl.tar" "${env:PHP_PECL_PATH}\phalcon"
+          Copy-Item "${env:PHP_PECL_PATH}\phalcon\safe\*" "${env:PHP_PECL_PATH}\phalcon"
 
       - name: PSR extension | init, phpize
         shell: cmd
