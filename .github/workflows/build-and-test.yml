@@ -85,7 +85,7 @@ jobs:
       - name: Create Pecl Package (PHP 8)
         id: pecl_create
         run: |
-          cp build/phalcon/safe/* build/
+          cp build/phalcon/safe/* ./
           pecl package
           phalcon_package="`ls | grep phalcon-*tgz`"
           mv $phalcon_package phalcon-pecl.tgz
