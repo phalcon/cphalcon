@@ -621,15 +621,23 @@ jobs:
       - name: Run CLI Tests
         run: vendor/bin/codecept run --ext DotReporter cli
 
-      - name: Upload build artifacts after Failure
+      - name: Upload tools artifacts after Failure
         if: failure()
         uses: actions/upload-artifact@v2
         with:
-          name: tools
+          name: tools-${{ matrix.php-versions }}
           path: |
             C:\tools\pecl\
             C:\tools\php\
             C:\tools\php-*\
+          retention-days: 1
+
+      - name: Upload build artifacts after Failure
+        if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: build-${{ matrix.php-versions }}-${{ matrix.arch }}-${{ matrix.ts }}
+          path: |
             ${{ github.workspace }}\build\
           retention-days: 1
 
