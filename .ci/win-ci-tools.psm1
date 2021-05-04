@@ -272,7 +272,7 @@ function InitializeReleaseVars {
         }
     }
 
-    $env:RELEASE_DLL_PATH = "${env:PHP_PECL_PATH}\phalcon\phalcon-${env:PHALCON_VERSION}\build\phalcon\safe\${env:RELEASE_FOLDER}\${env:EXTENSION_FILE}"
+    $env:RELEASE_DLL_PATH = "${env:PHP_PECL_PATH}\phalcon\phalcon-${env:PHALCON_VERSION}${env:RELEASE_FOLDER}\${env:EXTENSION_FILE}"
 
     Write-Output "RELEASE_FOLDER=${env:RELEASE_FOLDER}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
     Write-Output "RELEASE_ZIPBALL=${env:RELEASE_ZIPBALL}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append

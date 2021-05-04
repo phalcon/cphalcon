@@ -554,21 +554,21 @@ jobs:
         shell: cmd
         run: |
           set PATH=%PATH%;%PHP_DEVPACK%
-          cd /d %PHP_PECL_PATH%\phalcon\phalcon-%PHALCON_VERSION%\build\phalcon\safe
+          cd /d %PHP_PECL_PATH%\phalcon\phalcon-%PHALCON_VERSION%
           phpize
 
       - name: Phalcon | Configure Project
         shell: cmd
         run: |
           set PATH=%PATH%;%PHP_DEVPACK%
-          cd /d %PHP_PECL_PATH%\phalcon\phalcon-%PHALCON_VERSION%\build\phalcon\safe
+          cd /d %PHP_PECL_PATH%\phalcon\phalcon-%PHALCON_VERSION%
           configure --enable-phalcon --with-extra-libs=%PHP_PECL_PATH%\psr\psr-%PSR_VERSION%\%RELEASE_FOLDER%
 
       - name: Phalcon | Build Project
         shell: cmd
         run: |
           set PATH=%PATH%;%PHP_DEVPACK%;%PHP_PECL_PATH%\psr\psr-%PSR_VERSION%\%RELEASE_FOLDER%
-          cd /d %PHP_PECL_PATH%\phalcon\phalcon-%PHALCON_VERSION%\build\phalcon\safe
+          cd /d %PHP_PECL_PATH%\phalcon\phalcon-%PHALCON_VERSION%
           nmake
 
       - name: Inspecting Phalcon Extension DLL File
