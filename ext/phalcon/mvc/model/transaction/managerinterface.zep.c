@@ -25,12 +25,11 @@
  *
  * Interface for Phalcon\Mvc\Model\Transaction\Manager
  */
-ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Transaction_ManagerInterface) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Transaction_ManagerInterface)
+{
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Mvc\\Model\\Transaction, ManagerInterface, phalcon, mvc_model_transaction_managerinterface, phalcon_mvc_model_transaction_managerinterface_method_entry);
 
 	return SUCCESS;
-
 }
 
 /**

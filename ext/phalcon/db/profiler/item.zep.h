@@ -13,6 +13,8 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, setSqlStatement);
 PHP_METHOD(Phalcon_Db_Profiler_Item, getSqlStatement);
 PHP_METHOD(Phalcon_Db_Profiler_Item, setSqlVariables);
 PHP_METHOD(Phalcon_Db_Profiler_Item, getSqlVariables);
+PHP_METHOD(Phalcon_Db_Profiler_Item, getTotalElapsedNanoseconds);
+PHP_METHOD(Phalcon_Db_Profiler_Item, getTotalElapsedMilliseconds);
 PHP_METHOD(Phalcon_Db_Profiler_Item, getTotalElapsedSeconds);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_db_profiler_item_setfinaltime, 0, 0, 1)
@@ -50,6 +52,12 @@ ZEND_END_ARG_INFO()
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_profiler_item_getsqlvariables, 0, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_profiler_item_gettotalelapsednanoseconds, 0, 0, IS_DOUBLE, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_profiler_item_gettotalelapsedmilliseconds, 0, 0, IS_DOUBLE, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_db_profiler_item_gettotalelapsedseconds, 0, 0, IS_DOUBLE, 0)
 ZEND_END_ARG_INFO()
 
@@ -64,6 +72,8 @@ ZEPHIR_INIT_FUNCS(phalcon_db_profiler_item_method_entry) {
 	PHP_ME(Phalcon_Db_Profiler_Item, getSqlStatement, arginfo_phalcon_db_profiler_item_getsqlstatement, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Profiler_Item, setSqlVariables, arginfo_phalcon_db_profiler_item_setsqlvariables, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Profiler_Item, getSqlVariables, arginfo_phalcon_db_profiler_item_getsqlvariables, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Profiler_Item, getTotalElapsedNanoseconds, arginfo_phalcon_db_profiler_item_gettotalelapsednanoseconds, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Db_Profiler_Item, getTotalElapsedMilliseconds, arginfo_phalcon_db_profiler_item_gettotalelapsedmilliseconds, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Db_Profiler_Item, getTotalElapsedSeconds, arginfo_phalcon_db_profiler_item_gettotalelapsedseconds, ZEND_ACC_PUBLIC)
 	PHP_FE_END
 };

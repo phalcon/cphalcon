@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Http\Response\Cookies;
 
 use Phalcon\Http\Response\Cookies;
-use Phalcon\Storage\Exception;
 use Phalcon\Test\Fixtures\Traits\CookieTrait;
 use Phalcon\Test\Unit\Http\Helper\HttpBase;
 use UnitTester;
@@ -33,11 +32,7 @@ class DeleteCest extends HttpBase
     {
         parent::_before($I);
 
-        try {
-            $this->setDiService('sessionStream');
-        } catch (Exception $e) {
-            $I->fail($e->getMessage());
-        }
+        $this->setDiService('sessionStream');
     }
 
     /**
@@ -55,11 +50,7 @@ class DeleteCest extends HttpBase
         $sName  = 'framework';
         $sValue = 'phalcon';
 
-        try {
-            $this->setDiService('crypt');
-        } catch (Exception $e) {
-            $I->fail($e->getMessage());
-        }
+        $this->setDiService('crypt');
 
         $container = $this->getDi();
 

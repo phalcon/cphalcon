@@ -66,12 +66,11 @@
  * $router->mount($blog);
  *```
  */
-ZEPHIR_INIT_CLASS(Phalcon_Mvc_Router_GroupInterface) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Mvc_Router_GroupInterface)
+{
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Mvc\\Router, GroupInterface, phalcon, mvc_router_groupinterface, phalcon_mvc_router_groupinterface_method_entry);
 
 	return SUCCESS;
-
 }
 
 /**
@@ -80,46 +79,102 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Router_GroupInterface) {
  *```php
  * router->add("/about", "About::index");
  *```
+ *
+ * @param string pattern
+ * @param array|string|null paths
+ * @param array|string|null httpMethods
+ *
+ * @return RouteInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_GroupInterface, add);
 /**
  * Adds a route to the router that only match if the HTTP method is CONNECT
+ *
+ * @param string pattern
+ * @param array|string|null paths
+ *
+ * @return RouteInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_GroupInterface, addConnect);
 /**
  * Adds a route to the router that only match if the HTTP method is DELETE
+ *
+ * @param string pattern
+ * @param array|string|null paths
+ *
+ * @return RouteInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_GroupInterface, addDelete);
 /**
  * Adds a route to the router that only match if the HTTP method is GET
+ *
+ * @param string pattern
+ * @param array|string|null paths
+ *
+ * @return RouteInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_GroupInterface, addGet);
 /**
  * Adds a route to the router that only match if the HTTP method is HEAD
+ *
+ * @param string pattern
+ * @param array|string|null paths
+ *
+ * @return RouteInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_GroupInterface, addHead);
 /**
  * Add a route to the router that only match if the HTTP method is OPTIONS
+ *
+ * @param string pattern
+ * @param array|string|null paths
+ *
+ * @return RouteInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_GroupInterface, addOptions);
 /**
  * Adds a route to the router that only match if the HTTP method is PATCH
+ *
+ * @param string pattern
+ * @param array|string|null paths
+ *
+ * @return RouteInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_GroupInterface, addPatch);
 /**
  * Adds a route to the router that only match if the HTTP method is POST
+ *
+ * @param string pattern
+ * @param array|string|null paths
+ *
+ * @return RouteInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_GroupInterface, addPost);
 /**
  * Adds a route to the router that only match if the HTTP method is PURGE
+ *
+ * @param string pattern
+ * @param array|string|null paths
+ *
+ * @return RouteInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_GroupInterface, addPurge);
 /**
  * Adds a route to the router that only match if the HTTP method is PUT
+ *
+ * @param string pattern
+ * @param array|string|null paths
+ *
+ * @return RouteInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_GroupInterface, addPut);
 /**
  * Adds a route to the router that only match if the HTTP method is TRACE
+ *
+ * @param string pattern
+ * @param array|string|null paths
+ *
+ * @return RouteInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Router_GroupInterface, addTrace);
 /**

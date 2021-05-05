@@ -29,12 +29,11 @@
 /**
  * Class Button
  */
-ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Button) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Button)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Html\\Helper, Button, phalcon, html_helper_button, phalcon_html_helper_abstracthelper_ce, phalcon_html_helper_button_method_entry, 0);
 
 	return SUCCESS;
-
 }
 
 /**
@@ -47,8 +46,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Button) {
  * @return string
  * @throws Exception
  */
-PHP_METHOD(Phalcon_Html_Helper_Button, __invoke) {
-
+PHP_METHOD(Phalcon_Html_Helper_Button, __invoke)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool raw;
@@ -69,13 +68,11 @@ PHP_METHOD(Phalcon_Html_Helper_Button, __invoke) {
 		Z_PARAM_ARRAY(attributes)
 		Z_PARAM_BOOL(raw)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 2, &text_param, &attributes_param, &raw_param);
-
 	zephir_get_strval(&text, text_param);
 	if (!attributes_param) {
 		ZEPHIR_INIT_VAR(&attributes);
@@ -100,6 +97,5 @@ PHP_METHOD(Phalcon_Html_Helper_Button, __invoke) {
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "renderfullelement", NULL, 0, &_0, &text, &attributes, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
-
 }
 

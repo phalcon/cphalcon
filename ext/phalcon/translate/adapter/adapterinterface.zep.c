@@ -25,12 +25,11 @@
  *
  * Interface for Phalcon\Translate adapters
  */
-ZEPHIR_INIT_CLASS(Phalcon_Translate_Adapter_AdapterInterface) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Translate_Adapter_AdapterInterface)
+{
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Translate\\Adapter, AdapterInterface, phalcon, translate_adapter_adapterinterface, phalcon_translate_adapter_adapterinterface_method_entry);
 
 	return SUCCESS;
-
 }
 
 /**

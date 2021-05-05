@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Logger\Logger;
 
+use DateTimeImmutable;
 use Phalcon\Logger;
 use Phalcon\Logger\Adapter\Stream;
 use Phalcon\Logger\Exception;
@@ -34,10 +35,7 @@ class ConstructCest
 
         $logger = new Logger('my-logger');
 
-        $I->assertInstanceOf(
-            LoggerInterface::class,
-            $logger
-        );
+        $I->assertInstanceOf(LoggerInterface::class, $logger);
     }
 
     /**
@@ -68,17 +66,12 @@ class ConstructCest
     {
         $I->wantToTest('Logger - __construct() - file with json formatter');
 
-        $fileName = $I->getNewFileName('log', 'log');
-
+        $fileName   = $I->getNewFileName('log', 'log');
         $outputPath = logsDir();
+        $adapter    = new Stream($outputPath . $fileName);
+        $time       = new DateTimeImmutable("now");
 
-        $adapter = new Stream(
-            $outputPath . $fileName
-        );
-
-        $adapter->setFormatter(
-            new Json()
-        );
+        $adapter->setFormatter(new Json());
 
         $logger = new Logger(
             'my-logger',
@@ -87,36 +80,27 @@ class ConstructCest
             ]
         );
 
-        $time = time();
 
         $logger->debug('This is a message');
-
-        $logger->log(
-            Logger::ERROR,
-            'This is an error'
-        );
-
+        $logger->log(Logger::ERROR, 'This is an error');
         $logger->error('This is another error');
 
         $I->amInPath($outputPath);
         $I->openFile($fileName);
 
         $expected = sprintf(
-            '{"type":"debug","message":"This is a message","timestamp":"%s"}' . PHP_EOL .
-            '{"type":"error","message":"This is an error","timestamp":"%s"}' . PHP_EOL .
-            '{"type":"error","message":"This is another error","timestamp":"%s"}',
-            date('c', $time),
-            date('c', $time),
-            date('c', $time)
+            '{"level":"DEBUG","message":"This is a message","timestamp":"%s"}' . PHP_EOL .
+            '{"level":"ERROR","message":"This is an error","timestamp":"%s"}' . PHP_EOL .
+            '{"level":"ERROR","message":"This is another error","timestamp":"%s"}',
+            $time->format('c'),
+            $time->format('c'),
+            $time->format('c')
         );
 
         $I->seeInThisFile($expected);
 
         $adapter->close();
-
-        $I->safeDeleteFile(
-            $outputPath . $fileName
-        );
+        $I->safeDeleteFile($outputPath . $fileName);
     }
 
     /**
@@ -126,11 +110,9 @@ class ConstructCest
     {
         $I->wantToTest('Logger - __construct() - read only mode exception');
 
-        $fileName = $I->getNewFileName('log', 'log');
-
+        $fileName   = $I->getNewFileName('log', 'log');
         $outputPath = logsDir();
-
-        $file = $outputPath . $fileName;
+        $file       = $outputPath . $fileName;
 
         $I->expectThrowable(
             new Exception('Adapter cannot be opened in read mode'),

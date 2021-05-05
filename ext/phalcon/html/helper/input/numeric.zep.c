@@ -25,13 +25,11 @@
 /**
  * Class Numeric
  */
-ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Input_Numeric) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Input_Numeric)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Html\\Helper\\Input, Numeric, phalcon, html_helper_input_numeric, phalcon_html_helper_input_abstractinput_ce, NULL, 0);
 
 	zend_declare_property_string(phalcon_html_helper_input_numeric_ce, SL("type"), "numeric", ZEND_ACC_PROTECTED);
-
 	return SUCCESS;
-
 }
 

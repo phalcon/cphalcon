@@ -95,7 +95,7 @@ class Binder implements BinderInterface
     /**
      * Find the model by param value.
      *
-     * @return object|false
+     * @return mixed
      */
     protected function findBoundModel(var paramValue, string className) -> var | bool
     {

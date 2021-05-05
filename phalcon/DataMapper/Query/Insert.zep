@@ -41,7 +41,7 @@ class Insert extends AbstractQuery
      *
      * @param string $column
      *
-     * @return this
+     * @return Insert
      */
     public function column(string column, var value = null, int type = -1) -> <Insert>
     {
@@ -59,7 +59,7 @@ class Insert extends AbstractQuery
      *
      * @param array $columns
      *
-     * @return this
+     * @return Insert
      */
     public function columns(array columns) -> <Insert>
     {

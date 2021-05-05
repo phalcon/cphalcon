@@ -23,12 +23,11 @@
 /**
  * Allows to implement Phalcon\Mvc\Micro middleware in classes
  */
-ZEPHIR_INIT_CLASS(Phalcon_Mvc_Micro_MiddlewareInterface) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Mvc_Micro_MiddlewareInterface)
+{
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Mvc\\Micro, MiddlewareInterface, phalcon, mvc_micro_middlewareinterface, phalcon_mvc_micro_middlewareinterface_method_entry);
 
 	return SUCCESS;
-
 }
 
 /**

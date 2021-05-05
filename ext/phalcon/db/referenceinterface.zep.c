@@ -23,12 +23,11 @@
 /**
  * Interface for Phalcon\Db\Reference
  */
-ZEPHIR_INIT_CLASS(Phalcon_Db_ReferenceInterface) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Db_ReferenceInterface)
+{
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Db, ReferenceInterface, phalcon, db_referenceinterface, phalcon_db_referenceinterface_method_entry);
 
 	return SUCCESS;
-
 }
 
 /**

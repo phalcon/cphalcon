@@ -1,7 +1,6 @@
 # Phalcon Framework
 
 [![Discord](https://img.shields.io/discord/310910488152375297?label=Discord&logo=discord&style=flat-square)](http://phalcon.io/discord)
-[![Build Status](https://img.shields.io/travis/phalcon/cphalcon?logo=travis&style=flat-square)](https://travis-ci.org/phalcon/cphalcon)
 [![Windows Build](https://github.com/phalcon/cphalcon/workflows/Phalcon%20CI/badge.svg?branch=4.1.x)](https://github.com/phalcon/cphalcon/actions)
 [![Code Coverage](https://github.com/phalcon/cphalcon/workflows/Codecoverage/badge.svg?branch=4.1.x)](https://github.com/phalcon/cphalcon/actions)
 [![Codecov](https://codecov.io/gh/phalcon/cphalcon/branch/master/graph/badge.svg)](https://codecov.io/gh/phalcon/cphalcon)
@@ -34,11 +33,11 @@ For detailed installation instructions you can check our [installation](https://
 
 ## Generating API Documentation
 
-Generating new documentation files for docs repository can be done using the script in tests/_ci/generate-api-docs.php.
+Generating new documentation files for docs repository can be done using the script in tests/__config/generate-api-docs.php.
 Steps:
 - Clone the phalcon repo
 - Checkout the tag you would like to generate docs for.
-- Run `php tests/_ci/generate-api-docs.php`
+- Run `php tests/__config/generate-api-docs.php`
 - The files *.md files in nikos/api/ will contain the documentation
 - For publishing to the Phalcon website this [repo](https://github.com/phalcon/docs/tree/4.0/en/api) is used.
 

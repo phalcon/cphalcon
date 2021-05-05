@@ -94,12 +94,11 @@
  *
  * @link http://ruby-doc.org/stdlib-2.2.2/libdoc/securerandom/rdoc/SecureRandom.html
  */
-ZEPHIR_INIT_CLASS(Phalcon_Security_Random) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Security_Random)
+{
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Security, Random, phalcon, security_random, phalcon_security_random_method_entry, 0);
 
 	return SUCCESS;
-
 }
 
 /**
@@ -122,8 +121,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Security_Random) {
  * @link   https://en.wikipedia.org/wiki/Base58
  * @throws Exception If secure random number generator is not available or unexpected partial read
  */
-PHP_METHOD(Phalcon_Security_Random, base58) {
-
+PHP_METHOD(Phalcon_Security_Random, base58)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *len_param = NULL, _0, _1, _2;
 	zend_long len, ZEPHIR_LAST_CALL_STATUS;
@@ -138,13 +137,11 @@ PHP_METHOD(Phalcon_Security_Random, base58) {
 		Z_PARAM_OPTIONAL
 		Z_PARAM_LONG_OR_NULL(len, is_null_true)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &len_param);
-
 	if (!len_param) {
 		len = 0;
 	} else {
@@ -159,7 +156,6 @@ PHP_METHOD(Phalcon_Security_Random, base58) {
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "base", NULL, 0, &_0, &_1, &_2);
 	zephir_check_call_status();
 	RETURN_MM();
-
 }
 
 /**
@@ -181,8 +177,8 @@ PHP_METHOD(Phalcon_Security_Random, base58) {
  * @see    \Phalcon\Security\Random:base58
  * @throws Exception If secure random number generator is not available or unexpected partial read
  */
-PHP_METHOD(Phalcon_Security_Random, base62) {
-
+PHP_METHOD(Phalcon_Security_Random, base62)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *len_param = NULL, _0, _1, _2;
 	zend_long len, ZEPHIR_LAST_CALL_STATUS;
@@ -197,13 +193,11 @@ PHP_METHOD(Phalcon_Security_Random, base62) {
 		Z_PARAM_OPTIONAL
 		Z_PARAM_LONG_OR_NULL(len, is_null_true)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &len_param);
-
 	if (!len_param) {
 		len = 0;
 	} else {
@@ -218,7 +212,6 @@ PHP_METHOD(Phalcon_Security_Random, base62) {
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "base", NULL, 0, &_0, &_1, &_2);
 	zephir_check_call_status();
 	RETURN_MM();
-
 }
 
 /**
@@ -236,8 +229,8 @@ PHP_METHOD(Phalcon_Security_Random, base62) {
  *
  * @throws Exception If secure random number generator is not available or unexpected partial read
  */
-PHP_METHOD(Phalcon_Security_Random, base64) {
-
+PHP_METHOD(Phalcon_Security_Random, base64)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *len_param = NULL, _0, _1;
 	zend_long len, ZEPHIR_LAST_CALL_STATUS;
@@ -251,13 +244,11 @@ PHP_METHOD(Phalcon_Security_Random, base64) {
 		Z_PARAM_OPTIONAL
 		Z_PARAM_LONG_OR_NULL(len, is_null_true)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &len_param);
-
 	if (!len_param) {
 		len = 0;
 	} else {
@@ -268,10 +259,9 @@ PHP_METHOD(Phalcon_Security_Random, base64) {
 	ZVAL_LONG(&_1, len);
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "bytes", NULL, 0, &_1);
 	zephir_check_call_status();
-	ZEPHIR_RETURN_CALL_FUNCTION("base64_encode", NULL, 192, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("base64_encode", NULL, 191, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
-
 }
 
 /**
@@ -294,8 +284,8 @@ PHP_METHOD(Phalcon_Security_Random, base64) {
  * @link https://www.ietf.org/rfc/rfc3548.txt
  * @throws Exception If secure random number generator is not available or unexpected partial read
  */
-PHP_METHOD(Phalcon_Security_Random, base64Safe) {
-
+PHP_METHOD(Phalcon_Security_Random, base64Safe)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_bool padding;
 	zval *len_param = NULL, *padding_param = NULL, s, _0, _1, _2, _3, _4, _5, _6$$3;
@@ -317,13 +307,11 @@ PHP_METHOD(Phalcon_Security_Random, base64Safe) {
 		Z_PARAM_LONG_OR_NULL(len, is_null_true)
 		Z_PARAM_BOOL(padding)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 2, &len_param, &padding_param);
-
 	if (!len_param) {
 		len = 0;
 	} else {
@@ -339,7 +327,7 @@ PHP_METHOD(Phalcon_Security_Random, base64Safe) {
 	ZVAL_LONG(&_1, len);
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "base64", NULL, 0, &_1);
 	zephir_check_call_status();
-	ZEPHIR_CALL_FUNCTION(&_2, "base64_encode", NULL, 192, &_0);
+	ZEPHIR_CALL_FUNCTION(&_2, "base64_encode", NULL, 191, &_0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_3);
 	ZVAL_STRING(&_3, "+/");
@@ -361,7 +349,6 @@ PHP_METHOD(Phalcon_Security_Random, base64Safe) {
 		RETURN_MM();
 	}
 	RETURN_CCTOR(&s);
-
 }
 
 /**
@@ -383,8 +370,8 @@ PHP_METHOD(Phalcon_Security_Random, base64Safe) {
  *
  * @throws Exception If secure random number generator is not available or unexpected partial read
  */
-PHP_METHOD(Phalcon_Security_Random, bytes) {
-
+PHP_METHOD(Phalcon_Security_Random, bytes)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *len_param = NULL, _0;
 	zend_long len, ZEPHIR_LAST_CALL_STATUS;
@@ -397,13 +384,11 @@ PHP_METHOD(Phalcon_Security_Random, bytes) {
 		Z_PARAM_OPTIONAL
 		Z_PARAM_LONG(len)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &len_param);
-
 	if (!len_param) {
 		len = 16;
 	} else {
@@ -418,7 +403,6 @@ PHP_METHOD(Phalcon_Security_Random, bytes) {
 	ZEPHIR_RETURN_CALL_FUNCTION("random_bytes", NULL, 0, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
-
 }
 
 /**
@@ -435,8 +419,8 @@ PHP_METHOD(Phalcon_Security_Random, bytes) {
  *
  * @throws Exception If secure random number generator is not available or unexpected partial read
  */
-PHP_METHOD(Phalcon_Security_Random, hex) {
-
+PHP_METHOD(Phalcon_Security_Random, hex)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *len_param = NULL, _0, _1, _2, _3;
 	zend_long len, ZEPHIR_LAST_CALL_STATUS;
@@ -452,13 +436,11 @@ PHP_METHOD(Phalcon_Security_Random, hex) {
 		Z_PARAM_OPTIONAL
 		Z_PARAM_LONG_OR_NULL(len, is_null_true)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &len_param);
-
 	if (!len_param) {
 		len = 0;
 	} else {
@@ -478,7 +460,6 @@ PHP_METHOD(Phalcon_Security_Random, hex) {
 	ZEPHIR_UNREF(&_3);
 	zephir_check_call_status();
 	RETURN_MM();
-
 }
 
 /**
@@ -493,8 +474,8 @@ PHP_METHOD(Phalcon_Security_Random, hex) {
  *```
  * @throws Exception If secure random number generator is not available, unexpected partial read or $len <= 0
  */
-PHP_METHOD(Phalcon_Security_Random, number) {
-
+PHP_METHOD(Phalcon_Security_Random, number)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *len_param = NULL, _0, _1;
 	zend_long len, ZEPHIR_LAST_CALL_STATUS;
@@ -507,13 +488,11 @@ PHP_METHOD(Phalcon_Security_Random, number) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_LONG(len)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &len_param);
-
 	len = zephir_get_intval(len_param);
 
 
@@ -526,7 +505,6 @@ PHP_METHOD(Phalcon_Security_Random, number) {
 	ZEPHIR_RETURN_CALL_FUNCTION("random_int", NULL, 0, &_0, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
-
 }
 
 /**
@@ -551,8 +529,8 @@ PHP_METHOD(Phalcon_Security_Random, number) {
  * @link https://www.ietf.org/rfc/rfc4122.txt
  * @throws Exception If secure random number generator is not available or unexpected partial read
  */
-PHP_METHOD(Phalcon_Security_Random, uuid) {
-
+PHP_METHOD(Phalcon_Security_Random, uuid)
+{
 	zval ary, _0, _1, _2, _3, _4, _5, _6, _7;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -599,7 +577,6 @@ PHP_METHOD(Phalcon_Security_Random, uuid) {
 	ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, &_7, &ary);
 	zephir_check_call_status();
 	RETURN_MM();
-
 }
 
 /**
@@ -610,8 +587,8 @@ PHP_METHOD(Phalcon_Security_Random, uuid) {
  *
  * @throws Exception If secure random number generator is not available or unexpected partial read
  */
-PHP_METHOD(Phalcon_Security_Random, base) {
-
+PHP_METHOD(Phalcon_Security_Random, base)
+{
 	unsigned char _7$$3, _10$$5;
 	double _4$$3, _8$$5;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -640,13 +617,11 @@ PHP_METHOD(Phalcon_Security_Random, base) {
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ZVAL(n)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &alphabet_param, &base_param, &n);
-
 	zephir_get_strval(&alphabet, alphabet_param);
 	base = zephir_get_intval(base_param);
 	if (!n) {
@@ -656,7 +631,6 @@ PHP_METHOD(Phalcon_Security_Random, base) {
 
 
 	ZEPHIR_INIT_VAR(&byteString);
-	ZVAL_STRING(&byteString, "");
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "bytes", NULL, 0, n);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_1);
@@ -707,6 +681,5 @@ PHP_METHOD(Phalcon_Security_Random, base) {
 	}
 	ZEPHIR_INIT_NVAR(&idx);
 	RETURN_CTOR(&byteString);
-
 }
 

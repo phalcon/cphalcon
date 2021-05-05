@@ -21,13 +21,33 @@ use Phalcon\Mvc\View\Exception;
  */
 class Volt extends AbstractEngine implements EventsAwareInterface
 {
+    /**
+     * @var Compiler
+     */
     protected compiler;
+
+    /**
+     * @var ManagerInterface|null
+     */
     protected eventsManager;
-    protected macros;
-    protected options;
+
+    /**
+     * @var array
+     */
+    protected macros = [];
+
+    /**
+     * @var array
+     */
+    protected options = [];
 
     /**
      * Checks if a macro is defined and calls it
+     *
+     * @params string name
+     * @params array arguments
+     *
+     * @return mixed
      */
     public function callMacro(string! name, array arguments = []) -> var
     {
@@ -42,20 +62,22 @@ class Volt extends AbstractEngine implements EventsAwareInterface
 
     /**
      * Performs a string conversion
+     *
+     * @return string
      */
     public function convertEncoding(string text, string! from, string! to) -> string
     {
         /**
          * Try to use utf8_encode if conversion is 'latin1' to 'utf8'
          */
-        if from == "latin1" || to == "utf8" {
+        if from === "latin1" || to === "utf8" {
             return utf8_encode(text);
         }
 
         /**
          * Try to use utf8_decode if conversion is 'utf8' to 'latin1'
          */
-        if to == "latin1" || from == "utf8" {
+        if to === "latin1" || from === "utf8" {
             return utf8_decode(text);
         }
 
@@ -76,6 +98,8 @@ class Volt extends AbstractEngine implements EventsAwareInterface
 
     /**
      * Returns the Volt's compiler
+     *
+     * @return Compiler
      */
     public function getCompiler() -> <Compiler>
     {
@@ -83,7 +107,7 @@ class Volt extends AbstractEngine implements EventsAwareInterface
 
         let compiler = this->compiler;
 
-        if typeof compiler != "object" {
+        if typeof compiler !== "object" {
             let compiler = new Compiler(this->view);
 
             /**
@@ -112,6 +136,8 @@ class Volt extends AbstractEngine implements EventsAwareInterface
 
     /**
      * Returns the internal event manager
+     *
+     * @return ManagerInterface|null
      */
     public function getEventsManager() -> <ManagerInterface> | null
     {
@@ -120,6 +146,8 @@ class Volt extends AbstractEngine implements EventsAwareInterface
 
     /**
      * Return Volt's options
+     *
+     * @return array
      */
     public function getOptions() -> array
     {
@@ -128,6 +156,11 @@ class Volt extends AbstractEngine implements EventsAwareInterface
 
     /**
      * Checks if the needle is included in the haystack
+     *
+     * @param mixed needle
+     * @param array|string haystack
+     *
+     * @return bool
      */
     public function isIncluded(var needle, var haystack) -> bool
     {
@@ -148,6 +181,10 @@ class Volt extends AbstractEngine implements EventsAwareInterface
 
     /**
      * Length filter. If an array/object is passed a count is performed otherwise a strlen/mb_strlen
+     *
+     * @param mixed item
+     *
+     * @return int
      */
     public function length(var item) -> int
     {
@@ -164,8 +201,14 @@ class Volt extends AbstractEngine implements EventsAwareInterface
 
     /**
      * Renders a view using the template engine
+     *
+     * @param string path
+     * @param mixed params
+     * @params bool mustClean
+     *
+     * @return void
      */
-    public function render(string! templatePath, var params, bool mustClean = false)
+    public function render(string! path, var params, bool mustClean = false) // TODO: Make params array
     {
         var compiler, compiledTemplatePath, eventsManager, key, value;
 
@@ -185,7 +228,7 @@ class Volt extends AbstractEngine implements EventsAwareInterface
             }
         }
 
-        compiler->compile(templatePath);
+        compiler->compile(path);
 
         if typeof eventsManager == "object" {
             if eventsManager->fire("view:afterCompile", this) === false {
@@ -198,7 +241,7 @@ class Volt extends AbstractEngine implements EventsAwareInterface
         /**
          * Export the variables the current symbol table
          */
-        if typeof params == "array"    {
+        if typeof params == "array" {
             for key, value in params {
                 let {key} = value;
             }
@@ -213,6 +256,10 @@ class Volt extends AbstractEngine implements EventsAwareInterface
 
     /**
      * Sets the events manager
+     *
+     * @param ManagerInterface eventsManager
+     *
+     * @return void
      */
     public function setEventsManager(<ManagerInterface> eventsManager) -> void
     {
@@ -221,6 +268,10 @@ class Volt extends AbstractEngine implements EventsAwareInterface
 
     /**
      * Set Volt's options
+     *
+     * @param array options
+     *
+     * @return void
      */
     public function setOptions(array! options)
     {

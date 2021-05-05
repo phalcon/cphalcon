@@ -27,6 +27,8 @@ interface EngineInterface
 
     /**
      * Renders a view using the template engine
+     *
+     * TODO: Change params to array type
      */
     public function render(string path, var params, bool mustClean = false);
 }

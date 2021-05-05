@@ -25,13 +25,11 @@
 /**
  * Class Date
  */
-ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Input_Date) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Input_Date)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Html\\Helper\\Input, Date, phalcon, html_helper_input_date, phalcon_html_helper_input_abstractinput_ce, NULL, 0);
 
 	zend_declare_property_string(phalcon_html_helper_input_date_ce, SL("type"), "date", ZEND_ACC_PROTECTED);
-
 	return SUCCESS;
-
 }
 

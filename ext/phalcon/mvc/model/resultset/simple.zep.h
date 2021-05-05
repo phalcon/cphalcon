@@ -14,7 +14,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_resultset_simple___construct, 0
 	ZEND_ARG_INFO(0, model)
 	ZEND_ARG_INFO(0, result)
 	ZEND_ARG_OBJ_INFO(0, cache, Phalcon\\Cache\\Adapter\\AdapterInterface, 1)
-	ZEND_ARG_TYPE_INFO(0, keepSnapshots, _IS_BOOL, 1)
+	ZEND_ARG_TYPE_INFO(0, keepSnapshots, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_model_resultset_simple_current, 0, 0, Phalcon\\Mvc\\ModelInterface, 1)

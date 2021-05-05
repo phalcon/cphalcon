@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Unit\Logger\Adapter\Noop;
 
+use DateTimeImmutable;
 use Phalcon\Logger;
 use Phalcon\Logger\Adapter\Noop;
 use Phalcon\Logger\Item;
@@ -37,19 +38,22 @@ class AddCest
         $item1 = new Item(
             'Message 1',
             'debug',
-            Logger::DEBUG
+            Logger::DEBUG,
+            new DateTimeImmutable('now')
         );
 
         $item2 = new Item(
             'Message 2',
             'debug',
-            Logger::DEBUG
+            Logger::DEBUG,
+            new DateTimeImmutable('now')
         );
 
         $item3 = new Item(
             'Message 3',
             'debug',
-            Logger::DEBUG
+            Logger::DEBUG,
+            new DateTimeImmutable('now')
         );
 
         $adapter

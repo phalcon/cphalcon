@@ -20,12 +20,11 @@
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
-ZEPHIR_INIT_CLASS(Phalcon_Security_JWT_Signer_SignerInterface) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Security_JWT_Signer_SignerInterface)
+{
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Security\\JWT\\Signer, SignerInterface, phalcon, security_jwt_signer_signerinterface, phalcon_security_jwt_signer_signerinterface_method_entry);
 
 	return SUCCESS;
-
 }
 
 /**

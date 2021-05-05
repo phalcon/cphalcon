@@ -23,12 +23,11 @@
 /**
  * Interface for Phalcon\Forms\Element classes
  */
-ZEPHIR_INIT_CLASS(Phalcon_Forms_Element_ElementInterface) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Forms_Element_ElementInterface)
+{
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Forms\\Element, ElementInterface, phalcon, forms_element_elementinterface, phalcon_forms_element_elementinterface_method_entry);
 
 	return SUCCESS;
-
 }
 
 /**
@@ -42,7 +41,10 @@ ZEPHIR_DOC_METHOD(Phalcon_Forms_Element_ElementInterface, addValidator);
 /**
  * Adds a group of validators
  *
- * @param \Phalcon\Validation\ValidatorInterface[]
+ * @param \Phalcon\Validation\ValidatorInterface[] validators
+ * @param bool merge
+ *
+ * @return ElementInterface
  */
 ZEPHIR_DOC_METHOD(Phalcon_Forms_Element_ElementInterface, addValidators);
 /**

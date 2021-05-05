@@ -49,19 +49,18 @@
  * echo $config->models->metadata;
  *```
  */
-ZEPHIR_INIT_CLASS(Phalcon_Config_Adapter_Json) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Config_Adapter_Json)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Config\\Adapter, Json, phalcon, config_adapter_json, phalcon_config_ce, phalcon_config_adapter_json_method_entry, 0);
 
 	return SUCCESS;
-
 }
 
 /**
  * Phalcon\Config\Adapter\Json constructor
  */
-PHP_METHOD(Phalcon_Config_Adapter_Json, __construct) {
-
+PHP_METHOD(Phalcon_Config_Adapter_Json, __construct)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL, *_2 = NULL;
@@ -78,13 +77,11 @@ PHP_METHOD(Phalcon_Config_Adapter_Json, __construct) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(filePath)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &filePath_param);
-
 	if (UNEXPECTED(Z_TYPE_P(filePath_param) != IS_STRING && Z_TYPE_P(filePath_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'filePath' must be of the type string"));
 		RETURN_MM_NULL();
@@ -93,18 +90,16 @@ PHP_METHOD(Phalcon_Config_Adapter_Json, __construct) {
 		zephir_get_strval(&filePath, filePath_param);
 	} else {
 		ZEPHIR_INIT_VAR(&filePath);
-		ZVAL_EMPTY_STRING(&filePath);
 	}
 
 
 	ZEPHIR_INIT_VAR(&_3);
 	zephir_file_get_contents(&_3, &filePath);
 	ZVAL_BOOL(&_4, 1);
-	ZEPHIR_CALL_CE_STATIC(&_1, phalcon_helper_json_ce, "decode", &_2, 181, &_3, &_4);
+	ZEPHIR_CALL_CE_STATIC(&_1, phalcon_helper_json_ce, "decode", &_2, 180, &_3, &_4);
 	zephir_check_call_status();
 	ZEPHIR_CALL_PARENT(NULL, phalcon_config_adapter_json_ce, getThis(), "__construct", &_0, 0, &_1);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
-
 }
 

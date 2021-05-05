@@ -36,31 +36,28 @@
 /**
  * This component allows to create CLI applications using Phalcon
  */
-ZEPHIR_INIT_CLASS(Phalcon_Cli_Console) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Cli_Console)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Cli, Console, phalcon, cli_console, phalcon_application_abstractapplication_ce, phalcon_cli_console_method_entry, 0);
 
 	/**
 	 * @var array
 	 */
 	zend_declare_property_null(phalcon_cli_console_ce, SL("arguments"), ZEND_ACC_PROTECTED);
-
 	/**
 	 * @var array
 	 */
 	zend_declare_property_null(phalcon_cli_console_ce, SL("options"), ZEND_ACC_PROTECTED);
-
 	phalcon_cli_console_ce->create_object = zephir_init_properties_Phalcon_Cli_Console;
 
 	return SUCCESS;
-
 }
 
 /**
  * Handle the whole command-line tasks
  */
-PHP_METHOD(Phalcon_Cli_Console, handle) {
-
+PHP_METHOD(Phalcon_Cli_Console, handle)
+{
 	zend_bool _9;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -113,16 +110,13 @@ PHP_METHOD(Phalcon_Cli_Console, handle) {
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ARRAY_OR_NULL(arguments)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &arguments_param);
-
 	if (!arguments_param) {
 		ZEPHIR_INIT_VAR(&arguments);
-		array_init(&arguments);
 	} else {
 		zephir_get_arrval(&arguments, arguments_param);
 	}
@@ -289,14 +283,13 @@ PHP_METHOD(Phalcon_Cli_Console, handle) {
 		zephir_check_call_status();
 	}
 	RETURN_CCTOR(&task);
-
 }
 
 /**
  * Set an specific argument
  */
-PHP_METHOD(Phalcon_Cli_Console, setArgument) {
-
+PHP_METHOD(Phalcon_Cli_Console, setArgument)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_6 = NULL, *_44 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -364,16 +357,13 @@ PHP_METHOD(Phalcon_Cli_Console, setArgument) {
 		Z_PARAM_BOOL(str)
 		Z_PARAM_BOOL(shift)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 3, &arguments_param, &str_param, &shift_param);
-
 	if (!arguments_param) {
 		ZEPHIR_INIT_VAR(&arguments);
-		array_init(&arguments);
 	} else {
 	ZEPHIR_OBS_COPY_OR_DUP(&arguments, arguments_param);
 	}
@@ -423,7 +413,7 @@ PHP_METHOD(Phalcon_Cli_Console, setArgument) {
 				ZEPHIR_INIT_NVAR(&_3$$5);
 				ZVAL_STRING(&_3$$5, "--");
 				ZVAL_LONG(&_4$$5, 2);
-				ZEPHIR_CALL_FUNCTION(&_5$$5, "strncmp", &_6, 173, &arg, &_3$$5, &_4$$5);
+				ZEPHIR_CALL_FUNCTION(&_5$$5, "strncmp", &_6, 172, &arg, &_3$$5, &_4$$5);
 				zephir_check_call_status();
 				if (ZEPHIR_IS_LONG(&_5$$5, 0)) {
 					ZEPHIR_INIT_NVAR(&_7$$6);
@@ -455,7 +445,7 @@ PHP_METHOD(Phalcon_Cli_Console, setArgument) {
 					ZEPHIR_INIT_NVAR(&_18$$9);
 					ZVAL_STRING(&_18$$9, "-");
 					ZVAL_LONG(&_19$$9, 1);
-					ZEPHIR_CALL_FUNCTION(&_20$$9, "strncmp", &_6, 173, &arg, &_18$$9, &_19$$9);
+					ZEPHIR_CALL_FUNCTION(&_20$$9, "strncmp", &_6, 172, &arg, &_18$$9, &_19$$9);
 					zephir_check_call_status();
 					if (ZEPHIR_IS_LONG(&_20$$9, 0)) {
 						ZVAL_LONG(&_21$$10, 1);
@@ -485,7 +475,7 @@ PHP_METHOD(Phalcon_Cli_Console, setArgument) {
 					ZEPHIR_INIT_NVAR(&_23$$14);
 					ZVAL_STRING(&_23$$14, "--");
 					ZVAL_LONG(&_24$$14, 2);
-					ZEPHIR_CALL_FUNCTION(&_25$$14, "strncmp", &_6, 173, &arg, &_23$$14, &_24$$14);
+					ZEPHIR_CALL_FUNCTION(&_25$$14, "strncmp", &_6, 172, &arg, &_23$$14, &_24$$14);
 					zephir_check_call_status();
 					if (ZEPHIR_IS_LONG(&_25$$14, 0)) {
 						ZEPHIR_INIT_NVAR(&_26$$15);
@@ -517,7 +507,7 @@ PHP_METHOD(Phalcon_Cli_Console, setArgument) {
 						ZEPHIR_INIT_NVAR(&_37$$18);
 						ZVAL_STRING(&_37$$18, "-");
 						ZVAL_LONG(&_38$$18, 1);
-						ZEPHIR_CALL_FUNCTION(&_39$$18, "strncmp", &_6, 173, &arg, &_37$$18, &_38$$18);
+						ZEPHIR_CALL_FUNCTION(&_39$$18, "strncmp", &_6, 172, &arg, &_37$$18, &_38$$18);
 						zephir_check_call_status();
 						if (ZEPHIR_IS_LONG(&_39$$18, 0)) {
 							ZVAL_LONG(&_40$$19, 1);
@@ -566,11 +556,10 @@ PHP_METHOD(Phalcon_Cli_Console, setArgument) {
 	}
 	zephir_update_property_zval(this_ptr, ZEND_STRL("options"), &opts);
 	RETURN_THIS();
-
 }
 
-zend_object *zephir_init_properties_Phalcon_Cli_Console(zend_class_entry *class_type) {
-
+zend_object *zephir_init_properties_Phalcon_Cli_Console(zend_class_entry *class_type)
+{
 		zval _0, _2, _4, _1$$3, _3$$4, _5$$5;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
@@ -607,6 +596,5 @@ zend_object *zephir_init_properties_Phalcon_Cli_Console(zend_class_entry *class_
 		ZEPHIR_MM_RESTORE();
 		return Z_OBJ_P(this_ptr);
 	}
-
 }
 

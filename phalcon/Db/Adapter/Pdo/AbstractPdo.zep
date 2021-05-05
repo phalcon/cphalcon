@@ -52,7 +52,7 @@ abstract class AbstractPdo extends AbstractAdapter
     /**
      * Constructor for Phalcon\Db\Adapter\Pdo
      *
-     * @param array|\Phalcon\Config descriptor = [
+     * @param array descriptor = [
      *     'host' => 'localhost',
      *     'port' => '3306',
      *     'dbname' => 'blog',
@@ -249,7 +249,7 @@ abstract class AbstractPdo extends AbstractAdapter
     public function connect(array descriptor = null) -> bool
     {
         var username, password, dsnParts, dsnAttributes, dsnAttributesCustomRaw,
-            dsnAttributesMap, options, key, value;
+            dsnAttributesMap, key, options, persistent, value;
 
         if empty descriptor {
             let descriptor = (array) this->descriptor;
@@ -278,6 +278,10 @@ abstract class AbstractPdo extends AbstractAdapter
             unset descriptor["options"];
         } else {
             let options = [];
+        }
+
+        if fetch persistent, descriptor["persistent"] {
+            let options[\PDO::ATTR_PERSISTENT] = (bool) persistent;
         }
 
         // Set PDO to throw exceptions when an error is encountered.

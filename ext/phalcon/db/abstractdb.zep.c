@@ -70,19 +70,18 @@
  * }
  * ```
  */
-ZEPHIR_INIT_CLASS(Phalcon_Db_AbstractDb) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Db_AbstractDb)
+{
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Db, AbstractDb, phalcon, db_abstractdb, phalcon_db_abstractdb_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
 	return SUCCESS;
-
 }
 
 /**
  * Enables/disables options in the Database component
  */
-PHP_METHOD(Phalcon_Db_AbstractDb, setup) {
-
+PHP_METHOD(Phalcon_Db_AbstractDb, setup)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *options_param = NULL, escapeIdentifiers, forceCasting;
 	zval options;
@@ -96,13 +95,11 @@ PHP_METHOD(Phalcon_Db_AbstractDb, setup) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ARRAY(options)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &options_param);
-
 	ZEPHIR_OBS_COPY_OR_DUP(&options, options_param);
 
 
@@ -115,6 +112,5 @@ PHP_METHOD(Phalcon_Db_AbstractDb, setup) {
 		ZEPHIR_GLOBAL(db).force_casting = zend_is_true(&forceCasting);
 	}
 	ZEPHIR_MM_RESTORE();
-
 }
 

@@ -136,10 +136,10 @@ class Stream extends AbstractAdapter
     /**
      * Reads data from the adapter
      *
-     * @param string $key
-     * @param null   $defaultValue
+     * @param string key
+     * @param mixed|null defaultValue
      *
-     * @return mixed|null
+     * @return mixed
      */
     public function get(string! key, var defaultValue = null) -> var
     {
@@ -260,7 +260,7 @@ class Stream extends AbstractAdapter
      *
      * @param string                $key
      * @param mixed                 $value
-     * @param DateInterval|int|null $ttl
+     * @param \DateInterval|int|null $ttl
      *
      * @return bool
      * @throws \Exception

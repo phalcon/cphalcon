@@ -22,7 +22,10 @@ jobs:
       - name: Setup Environment Variables
         run: |
           echo "ZEPHIR_PARSER_VERSION=v1.3.6" >> $GITHUB_ENV
-          echo "ZEPHIR_VERSION=0.13.0" >> $GITHUB_ENV
+          echo "ZEPHIR_VERSION=0.13.4" >> $GITHUB_ENV
+          echo "LANG=en_US.UTF-8" >> $GITHUB_ENV
+          echo "LANGUAGE=en_US.UTF-8" >> $GITHUB_ENV
+          echo "LC_ALL=en_US.UTF-8" >> $GITHUB_ENV
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -73,14 +76,20 @@ jobs:
           $HOME/bin/zephir generate
           (cd build && php gen-build.php)
 
+      - name: Upload compile-errors.log
+        uses: actions/upload-artifact@v2
+        with:
+          name: compile-errors
+          path: compile-errors.log
+
       - name: Create Pecl Package (PHP 8)
         id: pecl_create
         run: |
-          cp build/php8/safe/config.w32 config.w32
-          cp build/php8/safe/phalcon.zep.c phalcon.zep.c
-          cp build/php8/safe/config.m4 config.m4
-          cp build/php8/safe/php_phalcon.h php_phalcon.h
-          cp build/php8/safe/phalcon.zep.h phalcon.zep.h
+          cp build/phalcon/safe/config.w32 config.w32
+          cp build/phalcon/safe/phalcon.zep.c phalcon.zep.c
+          cp build/phalcon/safe/config.m4 config.m4
+          cp build/phalcon/safe/php_phalcon.h php_phalcon.h
+          cp build/phalcon/safe/phalcon.zep.h phalcon.zep.h
           pecl package
           phalcon_package="`ls | grep phalcon-*tgz`"
           mv $phalcon_package phalcon-pecl.tgz
@@ -147,12 +156,11 @@ jobs:
           echo "::set-output name=dir::$(composer config cache-files-dir)"
 
       - name: Setup Composer Cache
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
-          restore-keys: |
-            ${{ runner.os }}-composer-
+          restore-keys: ${{ runner.os }}-composer-
 
       - name: Setup Composer Token
         run: |
@@ -165,9 +173,9 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
+          extensions: mbstring, intl, json, imagick, gd, gettext, igbinary, apcu, msgpack, memcached, yaml, redis
           ini-values: apc.enable_cli=on, session.save_path=/tmp, extension=psr.so, extension=phalcon.so
           tools: pecl
-          extensions: mbstring, intl, json, imagick, redis, igbinary, apcu, msgpack, memcached, yaml
 
       - name: Download Phalcon Pecl Package
         uses: actions/download-artifact@v1
@@ -182,13 +190,24 @@ jobs:
       - name: Verify Install
         run: php --ri phalcon
 
+      - name: Setup locales
+        run: |
+          sudo sudo apt-get install tzdata locales -y
+          sudo sed -i -e 's/# de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/' /etc/locale.gen
+          sudo sed -i -e 's/# el_GR.UTF-8 UTF-8/el_GR.UTF-8 UTF-8/' /etc/locale.gen
+          sudo sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen
+          sudo sed -i -e 's/# es_ES.UTF-8 UTF-8/es_ES.UTF-8 UTF-8/' /etc/locale.gen
+          sudo sed -i -e 's/# ru_RU.UTF-8 UTF-8/ru_RU.UTF-8 UTF-8/' /etc/locale.gen
+          sudo dpkg-reconfigure --frontend=noninteractive locales
+          sudo update-locale LANG=en_US.UTF-8
+
       - name: Install Packages
         run: composer install --prefer-dist
 
       - name: Setup Tests
         run: |
-          cp tests/_ci/.env.default .env
-          php tests/_ci/generate-db-schemas.php
+          cp tests/_config/.env.default .env
+          php tests/_config/generate-db-schemas.php
           vendor/bin/codecept build
 
       - name: Run Unit Tests
@@ -253,7 +272,8 @@ jobs:
     needs: generate
     runs-on: ${{ matrix.operating-system }}
     env:
-      PHP_EXTENSIONS: mbstring, intl, json, yaml, apcu, imagick, igbinary, msgpack-beta, redis
+      PHP_EXTENSIONS: mbstring, intl, json, yaml, apcu, imagick, gd, gettext, igbinary, msgpack-beta, redis
+      HOMEBREW_NO_INSTALL_CLEANUP: 1
     strategy:
       fail-fast: false
       matrix:
@@ -278,14 +298,16 @@ jobs:
           echo "::set-output name=ext_hash::$ext_hash"
 
       - name: Cache Extensions
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: ${{ steps.extension-step.outputs.ext_dir }}
           key: ${{ runner.os }}-extensions-${{ matrix.php-versions }}-${{ steps.extension-step.outputs.ext_hash }}
           restore-keys: ${{ runner.os }}-extensions-${{ matrix.php-versions }}-${{ steps.extension-step.outputs.ext_hash }}
 
       - name: Install Requirements for Imagick
-        run: brew install pkg-config imagemagick
+        run: |
+          export HOMEBREW_MAKE_JOBS="-j$(getconf _NPROCESSORS_ONLN)"
+          brew install pkg-config imagemagick@7
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -319,12 +341,11 @@ jobs:
           fi
 
       - name: Setup Cache
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
-          restore-keys: |
-            ${{ runner.os }}-composer-
+          restore-keys: ${{ runner.os }}-composer-
 
       - name: Download Phalcon Pecl Package
         uses: actions/download-artifact@v1
@@ -347,7 +368,7 @@ jobs:
 
       - name: Setup Tests
         run: |
-          cp tests/_ci/.env.default .env
+          cp tests/_config/.env.default .env
           vendor/bin/codecept build
 
       - name: Run Unit Tests
@@ -361,27 +382,30 @@ jobs:
     #     git commit -m "......... [ci skip]"
     if: "!contains(github.event.head_commit.message, 'ci skip')"
 
-    name: PHP ${{ matrix.php-versions }} (${{ matrix.ts }}) Test on ${{ matrix.operating-system }}
+    name: PHP ${{ matrix.php-versions }} (${{ matrix.arch }}-${{ matrix.ts }}) Test on ${{ matrix.operating-system }}
     needs: generate
     runs-on: ${{ matrix.operating-system }}
     strategy:
       fail-fast: false
       matrix:
-        operating-system: [windows-2016]
+        operating-system: [windows-2016, windows-2019]
         php-versions: ['7.4', '8.0']
         ts: [ts, nts]
+        arch: [x64]
         include:
           - php-versions: '7.4'
             vc_num: 'vc15'
-            arch: x64
             build_type: Win32
           - php-versions: '8.0'
             vc_num: 'vs16'
-            arch: x64
             build_type: Win32
+        exclude:
+          - operating-system: windows-2016
+            php-versions: '8.0'
+          - operating-system: windows-2019
+            php-versions: '7.4'
 
     steps:
-
       - name: Disable Git autocrlf
         run: git config --global core.autocrlf false
 
@@ -396,17 +420,18 @@ jobs:
           php-version: ${{ matrix.php-versions }}
           ini-values: apc.enable_cli=on, session.save_path=C:\temp
           tools: pecl
-          extensions: mbstring, intl, json, yaml, apcu, imagick, gd, redis, igbinary, sqlite3, msgpack
+          extensions: mbstring, intl, json, yaml, apcu, imagick, gd, gettext, igbinary, sqlite3, msgpack, psr, redis
         env:
           PHPTS: ${{ matrix.ts }}
 
       - name: Setup Environment Variables
         run: |
           Write-Output "PHP_SDK_VERSION=2.2.0" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          Write-Output "PSR_VERSION=1.0.1" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
           Write-Output "PHP_DEVPACK=C:\tools\php-devpack" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           Write-Output "PHP_SDK_PATH=C:\tools\php-sdk" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           Write-Output "PHP_PECL_PATH=C:\tools\pecl" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          Write-Output "PSR_VERSION=1.0.1" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
           # FIXME: phpversion() return 7.4.3 but windows.php.net has only 7.4.4
           # We should parse the following file to get the correct version:
@@ -424,13 +449,14 @@ jobs:
           Write-Output "PACKAGE_PREFIX=phalcon" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           Write-Output "EXTENSION_NAME=phalcon" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           Write-Output "EXTENSION_FILE=php_phalcon.dll" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          Write-Output "PHALCON_VERSION=5.0.0alpha1" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          Write-Output "PHALCON_VERSION=5.0.0alpha2" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           Write-Output "PHPTS=${{ matrix.ts }}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           If ("${{ matrix.ts }}" -eq "nts") {
             Write-Output "BUILD_TYPE=nts-${{ matrix.build_type }}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           } Else {
             Write-Output "BUILD_TYPE=${{ matrix.build_type }}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           }
+
       - name: Setup Composer Token
         run: |
           # To increase the Composer rate limit we're use GitHub authentication
@@ -449,12 +475,11 @@ jobs:
           echo "::set-output name=dir::$(composer config cache-files-dir)"
 
       - name: Setup Cache
-        uses: actions/cache@v1
+        uses: actions/cache@v2
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
-          restore-keys: |
-            ${{ runner.os }}-composer-
+          restore-keys: ${{ runner.os }}-composer-
 
       - name: Download Phalcon Pecl Package
         uses: actions/download-artifact@v1
@@ -526,50 +551,68 @@ jobs:
           nmake
           nmake install
 
-      - name: Run phpize
+      - name: PSR extension | Inspecting Extension DLL File
+        run: |
+          Get-PhpExtension "${env:PHP_PECL_PATH}\psr\psr-${env:PSR_VERSION}\${env:RELEASE_FOLDER}\php_psr.dll"
+
+      - name: Phalcon | phpize
         shell: cmd
         run: |
           set PATH=%PATH%;%PHP_DEVPACK%
           cd /d %PHP_PECL_PATH%\phalcon\phalcon-%PHALCON_VERSION%
           phpize
 
-      - name: Configure Project
+      - name: Phalcon | Configure Project
         shell: cmd
         run: |
           set PATH=%PATH%;%PHP_DEVPACK%
           cd /d %PHP_PECL_PATH%\phalcon\phalcon-%PHALCON_VERSION%
-          configure --enable-phalcon
+          configure --enable-phalcon --with-extra-libs=%PHP_PECL_PATH%\psr\psr-%PSR_VERSION%\%RELEASE_FOLDER%
 
-      - name: Build Project
+      - name: Phalcon | Build Project
         shell: cmd
         run: |
-          set PATH=%PATH%;%PHP_DEVPACK%;%PHP_PECL_PATH%\psr\psr-%PSR_VERSION%
+          set PATH=%PATH%;%PHP_DEVPACK%;%PHP_PECL_PATH%\psr\psr-%PSR_VERSION%\%RELEASE_FOLDER%
           cd /d %PHP_PECL_PATH%\phalcon\phalcon-%PHALCON_VERSION%
           nmake
 
       - name: Inspecting Phalcon Extension DLL File
-        run: Get-PhpExtension "${env:RELEASE_DLL_PATH}"
+        run: |
+          Get-PhpExtension "${env:RELEASE_DLL_PATH}"
 
       - name: Upload Artifact
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v2
         with:
-          name: ${{ env.RELEASE_ZIPBALL }}
+          name: ${{ env.RELEASE_ZIPBALL }}.zip
           path: ${{ env.RELEASE_DLL_PATH }}
 
-      - name: Enable Phalcon
+      - name: Upload Licenses
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ env.RELEASE_ZIPBALL }}.zip
+          path: |
+            ${{ github.workspace }}\3rdparty\licenses\LICENSE-ATLAS.txt
+            ${{ github.workspace }}\3rdparty\licenses\LICENSE-AURA.txt
+            ${{ github.workspace }}\3rdparty\licenses\LICENSE-DIACTOROS.txt
+            ${{ github.workspace }}\3rdparty\licenses\LICENSE-PHP.txt
+            ${{ github.workspace }}\3rdparty\licenses\LICENSE-ZEND.txt
+
+      - name: Enable Extensions
         run: |
           Import-Module .\.ci\win-ci-tools.psm1
+          EnablePsrExtension
           EnablePhalconExtension
 
       - name: Verify Install
         run: php --ri phalcon
 
       - name: Install Packages
-        run: composer install --prefer-dist
+        # TODO: Imagick isn't available for PHP8.0
+        run: composer install --prefer-dist --ignore-platform-reqs
 
       - name: Setup Tests
         run: |
-          cp tests/_ci/.env.default .env
+          cp tests/_config/.env.default .env
           vendor/bin/codecept build
 
       - name: Run Unit Tests
@@ -577,3 +620,57 @@ jobs:
 
       - name: Run CLI Tests
         run: vendor/bin/codecept run --ext DotReporter cli
+
+      - name: Upload tools artifacts after Failure
+        if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: tools-${{ matrix.php-versions }}
+          path: |
+            C:\tools\pecl\
+            C:\tools\php\
+            C:\tools\php-*\
+          retention-days: 1
+
+      - name: Upload build artifacts after Failure
+        if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: ext-${{ matrix.php-versions }}-${{ matrix.arch }}-${{ matrix.ts }}
+          path: |
+            ${{ github.workspace }}\ext\
+            !${{ github.workspace }}\ext\x64\
+          retention-days: 1
+
+  release:
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
+
+    needs: [generate, build-and-test-linux, build-and-test-macos, build-and-test-windows]
+    name: Create release
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+
+      - name: Get the release version
+        id: get-version
+        run: |
+          echo ::set-output name=version::${GITHUB_REF#refs/tags/}
+
+      - name: Download Phalcon build artifacts
+        id: download
+        uses: actions/download-artifact@v2
+
+      - name: Create Release
+        uses: ncipollo/release-action@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          name: ${{ steps.get-version.outputs.version }}
+          tag: ${{ steps.get-version.outputs.version }}
+          body: 'All notable changes to this version has been documented in the CHANGELOG.md file.'
+          allowUpdates: true
+          artifacts: ${{steps.download.outputs.download-path}}/phalcon_*.zip, ${{steps.download.outputs.download-path}}/phalcon-pecl/*
+          artifactContentType: application/octet-stream

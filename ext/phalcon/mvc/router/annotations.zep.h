@@ -34,7 +34,8 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_annotations_h
 	ZEND_ARG_TYPE_INFO(0, uri, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_router_annotations_processactionannotation, 0, 0, 5)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_router_annotations_processactionannotation, 0, 5, IS_VOID, 0)
+
 	ZEND_ARG_TYPE_INFO(0, module, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, namespaceName, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, controller, IS_STRING, 0)

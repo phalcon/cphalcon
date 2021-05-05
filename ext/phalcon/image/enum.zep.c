@@ -22,8 +22,8 @@
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
-ZEPHIR_INIT_CLASS(Phalcon_Image_Enum) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Image_Enum)
+{
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Image, Enum, phalcon, image_enum, NULL, 0);
 
 	zephir_declare_class_constant_long(phalcon_image_enum_ce, SL("AUTO"), 4);
@@ -45,6 +45,5 @@ ZEPHIR_INIT_CLASS(Phalcon_Image_Enum) {
 	zephir_declare_class_constant_long(phalcon_image_enum_ce, SL("VERTICAL"), 12);
 
 	return SUCCESS;
-
 }
 

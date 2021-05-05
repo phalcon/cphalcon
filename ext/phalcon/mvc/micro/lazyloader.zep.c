@@ -35,43 +35,38 @@
  *
  * Lazy-Load of handlers for Mvc\Micro using auto-loading
  */
-ZEPHIR_INIT_CLASS(Phalcon_Mvc_Micro_LazyLoader) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Mvc_Micro_LazyLoader)
+{
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Micro, LazyLoader, phalcon, mvc_micro_lazyloader, phalcon_mvc_micro_lazyloader_method_entry, 0);
 
 	zend_declare_property_null(phalcon_mvc_micro_lazyloader_ce, SL("handler"), ZEND_ACC_PROTECTED);
-
 	zend_declare_property_null(phalcon_mvc_micro_lazyloader_ce, SL("definition"), ZEND_ACC_PROTECTED);
-
 	return SUCCESS;
-
 }
 
-PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, getHandler) {
-
+PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, getHandler)
+{
 	zval *this_ptr = getThis();
 
 
 
 	RETURN_MEMBER(getThis(), "handler");
-
 }
 
-PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, getDefinition) {
-
+PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, getDefinition)
+{
 	zval *this_ptr = getThis();
 
 
 
 	RETURN_MEMBER(getThis(), "definition");
-
 }
 
 /**
  * Phalcon\Mvc\Micro\LazyLoader constructor
  */
-PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __construct) {
-
+PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __construct)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *definition_param = NULL;
 	zval definition;
@@ -83,13 +78,11 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __construct) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(definition)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &definition_param);
-
 	if (UNEXPECTED(Z_TYPE_P(definition_param) != IS_STRING && Z_TYPE_P(definition_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'definition' must be of the type string"));
 		RETURN_MM_NULL();
@@ -98,13 +91,11 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __construct) {
 		zephir_get_strval(&definition, definition_param);
 	} else {
 		ZEPHIR_INIT_VAR(&definition);
-		ZVAL_EMPTY_STRING(&definition);
 	}
 
 
 	zephir_update_property_zval(this_ptr, ZEND_STRL("definition"), &definition);
 	ZEPHIR_MM_RESTORE();
-
 }
 
 /**
@@ -113,8 +104,8 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, __construct) {
  * @param  array arguments
  * @return mixed
  */
-PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, callMethod) {
-
+PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, callMethod)
+{
 	zval _4;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -142,13 +133,11 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, callMethod) {
 		Z_PARAM_OPTIONAL
 		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(modelBinder, phalcon_mvc_model_binderinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &method_param, &arguments, &modelBinder);
-
 	if (UNEXPECTED(Z_TYPE_P(method_param) != IS_STRING && Z_TYPE_P(method_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'method' must be of the type string"));
 		RETURN_MM_NULL();
@@ -157,7 +146,6 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, callMethod) {
 		zephir_get_strval(&method, method_param);
 	} else {
 		ZEPHIR_INIT_VAR(&method);
-		ZVAL_EMPTY_STRING(&method);
 	}
 	ZEPHIR_SEPARATE_PARAM(arguments);
 	if (!modelBinder) {
@@ -201,6 +189,5 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, callMethod) {
 	ZEPHIR_CALL_USER_FUNC_ARRAY(return_value, &_4, arguments);
 	zephir_check_call_status();
 	RETURN_MM();
-
 }
 

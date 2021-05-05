@@ -20,7 +20,11 @@ PHP_METHOD(Phalcon_Messages_Messages, rewind);
 PHP_METHOD(Phalcon_Messages_Messages, valid);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_messages_messages___construct, 0, 0, 0)
+#if PHP_VERSION_ID >= 80000
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, messages, IS_ARRAY, 0, "[]")
+#else
 	ZEND_ARG_ARRAY_INFO(0, messages, 0)
+#endif
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_messages_messages_appendmessage, 0, 0, 1)

@@ -7,6 +7,7 @@ PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, __construct);
 PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, exists);
 PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, notFound);
 PHP_METHOD(Phalcon_Translate_Adapter_NativeArray, query);
+zend_object *zephir_init_properties_Phalcon_Translate_Adapter_NativeArray(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_translate_adapter_nativearray___construct, 0, 0, 2)
 	ZEND_ARG_OBJ_INFO(0, interpolator, Phalcon\\Translate\\InterpolatorFactory, 0)
@@ -22,8 +23,15 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_translate_adapter_native
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_translate_adapter_nativearray_query, 0, 1, IS_STRING, 0)
-	ZEND_ARG_TYPE_INFO(0, index, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, translateKey, IS_STRING, 0)
+#if PHP_VERSION_ID >= 80000
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, placeholders, IS_ARRAY, 0, "[]")
+#else
 	ZEND_ARG_ARRAY_INFO(0, placeholders, 0)
+#endif
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_translate_adapter_nativearray_zephir_init_properties_phalcon_translate_adapter_nativearray, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_translate_adapter_nativearray_method_entry) {

@@ -45,19 +45,17 @@
  * @property PDO               $pdo
  * @property ProfilerInterface $profiler
  */
-ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Pdo_Connection) {
-
+ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Pdo_Connection)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\DataMapper\\Pdo, Connection, phalcon, datamapper_pdo_connection, phalcon_datamapper_pdo_connection_abstractconnection_ce, phalcon_datamapper_pdo_connection_method_entry, 0);
 
 	/**
 	 * @var array
 	 */
 	zend_declare_property_null(phalcon_datamapper_pdo_connection_ce, SL("arguments"), ZEND_ACC_PROTECTED);
-
 	phalcon_datamapper_pdo_connection_ce->create_object = zephir_init_properties_Phalcon_DataMapper_Pdo_Connection;
 
 	return SUCCESS;
-
 }
 
 /**
@@ -73,8 +71,8 @@ ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Pdo_Connection) {
  * @param array             $queries
  * @param ProfilerInterface $profiler
  */
-PHP_METHOD(Phalcon_DataMapper_Pdo_Connection, __construct) {
-
+PHP_METHOD(Phalcon_DataMapper_Pdo_Connection, __construct)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval options, queries, available, _5;
@@ -109,23 +107,19 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection, __construct) {
 		Z_PARAM_ARRAY(queries)
 		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(profiler, phalcon_datamapper_pdo_profiler_profilerinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 5, &dsn_param, &username_param, &password_param, &options_param, &queries_param, &profiler);
-
 	zephir_get_strval(&dsn, dsn_param);
 	if (!username_param) {
 		ZEPHIR_INIT_VAR(&username);
-		ZVAL_STRING(&username, "");
 	} else {
 		zephir_get_strval(&username, username_param);
 	}
 	if (!password_param) {
 		ZEPHIR_INIT_VAR(&password);
-		ZVAL_STRING(&password, "");
 	} else {
 		zephir_get_strval(&password, password_param);
 	}
@@ -186,13 +180,12 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection, __construct) {
 	if (Z_TYPE_P(profiler) == IS_NULL) {
 		ZEPHIR_INIT_NVAR(profiler);
 		object_init_ex(profiler, phalcon_datamapper_pdo_profiler_profiler_ce);
-		ZEPHIR_CALL_METHOD(NULL, profiler, "__construct", NULL, 201);
+		ZEPHIR_CALL_METHOD(NULL, profiler, "__construct", NULL, 200);
 		zephir_check_call_status();
 	}
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "setprofiler", NULL, 0, profiler);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
-
 }
 
 /**
@@ -200,8 +193,8 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection, __construct) {
  *
  * @return array
  */
-PHP_METHOD(Phalcon_DataMapper_Pdo_Connection, __debugInfo) {
-
+PHP_METHOD(Phalcon_DataMapper_Pdo_Connection, __debugInfo)
+{
 	zval _1, _2, _3, _4, _5;
 	zval _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -240,14 +233,13 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection, __debugInfo) {
 	zephir_array_fast_append(&_0, &_2);
 	zephir_array_update_string(return_value, SL("arguments"), &_0, PH_COPY | PH_SEPARATE);
 	RETURN_MM();
-
 }
 
 /**
  * Connects to the database.
  */
-PHP_METHOD(Phalcon_DataMapper_Pdo_Connection, connect) {
-
+PHP_METHOD(Phalcon_DataMapper_Pdo_Connection, connect)
+{
 	zval dsn, options, password, query, queries, username, _0, _1$$3, _2$$3, _3$$3, _4$$3, _5$$3, _6$$3, _7$$3, _8$$3, *_9$$3, _10$$3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_11 = NULL;
@@ -333,14 +325,13 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection, connect) {
 		ZEPHIR_INIT_NVAR(&query);
 	}
 	ZEPHIR_MM_RESTORE();
-
 }
 
 /**
  * Disconnects from the database.
  */
-PHP_METHOD(Phalcon_DataMapper_Pdo_Connection, disconnect) {
-
+PHP_METHOD(Phalcon_DataMapper_Pdo_Connection, disconnect)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval __$null, _0, _1, _2;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -364,11 +355,10 @@ PHP_METHOD(Phalcon_DataMapper_Pdo_Connection, disconnect) {
 	ZEPHIR_CALL_METHOD(NULL, &_2, "finish", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
-
 }
 
-zend_object *zephir_init_properties_Phalcon_DataMapper_Pdo_Connection(zend_class_entry *class_type) {
-
+zend_object *zephir_init_properties_Phalcon_DataMapper_Pdo_Connection(zend_class_entry *class_type)
+{
 		zval _0, _1$$3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
@@ -389,6 +379,5 @@ zend_object *zephir_init_properties_Phalcon_DataMapper_Pdo_Connection(zend_class
 		ZEPHIR_MM_RESTORE();
 		return Z_OBJ_P(this_ptr);
 	}
-
 }
 

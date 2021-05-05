@@ -26,12 +26,11 @@
  * This interface must for those classes that accept an EventsManager and
  * dispatch events
  */
-ZEPHIR_INIT_CLASS(Phalcon_Events_EventsAwareInterface) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Events_EventsAwareInterface)
+{
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Events, EventsAwareInterface, phalcon, events_eventsawareinterface, phalcon_events_eventsawareinterface_method_entry);
 
 	return SUCCESS;
-
 }
 
 /**

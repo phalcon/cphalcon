@@ -25,8 +25,8 @@
 /**
  * Constants for Phalcon\Acl\Adapter adapters
  */
-ZEPHIR_INIT_CLASS(Phalcon_Acl_Enum) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Acl_Enum)
+{
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Acl, Enum, phalcon, acl_enum, NULL, 0);
 
 	zephir_declare_class_constant_long(phalcon_acl_enum_ce, SL("ALLOW"), 1);
@@ -34,6 +34,5 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Enum) {
 	zephir_declare_class_constant_long(phalcon_acl_enum_ce, SL("DENY"), 0);
 
 	return SUCCESS;
-
 }
 

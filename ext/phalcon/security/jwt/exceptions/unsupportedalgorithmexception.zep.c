@@ -22,12 +22,11 @@
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
-ZEPHIR_INIT_CLASS(Phalcon_Security_JWT_Exceptions_UnsupportedAlgorithmException) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Security_JWT_Exceptions_UnsupportedAlgorithmException)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Security\\JWT\\Exceptions, UnsupportedAlgorithmException, phalcon, security_jwt_exceptions_unsupportedalgorithmexception, zend_ce_exception, NULL, 0);
 
 	zend_class_implements(phalcon_security_jwt_exceptions_unsupportedalgorithmexception_ce, 1, zend_ce_throwable);
 	return SUCCESS;
-
 }
 

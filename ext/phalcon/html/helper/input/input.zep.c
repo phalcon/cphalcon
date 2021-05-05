@@ -28,12 +28,11 @@
 /**
  * Class Input
  */
-ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Input_Input) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Input_Input)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Html\\Helper\\Input, Input, phalcon, html_helper_input_input, phalcon_html_helper_input_abstractinput_ce, phalcon_html_helper_input_input_method_entry, 0);
 
 	return SUCCESS;
-
 }
 
 /**
@@ -43,8 +42,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Input_Input) {
  *
  * @return AbstractInput
  */
-PHP_METHOD(Phalcon_Html_Helper_Input_Input, setType) {
-
+PHP_METHOD(Phalcon_Html_Helper_Input_Input, setType)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *type_param = NULL;
 	zval type;
@@ -56,18 +55,15 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Input, setType) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(type)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &type_param);
-
 	zephir_get_strval(&type, type_param);
 
 
 	zephir_update_property_zval(this_ptr, ZEND_STRL("type"), &type);
 	RETURN_THIS();
-
 }
 

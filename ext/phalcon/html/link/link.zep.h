@@ -13,7 +13,11 @@ PHP_METHOD(Phalcon_Html_Link_Link, hrefIsTemplated);
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_html_link_link___construct, 0, 0, 0)
 	ZEND_ARG_TYPE_INFO(0, rel, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, href, IS_STRING, 0)
+#if PHP_VERSION_ID >= 80000
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, attributes, IS_ARRAY, 0, "[]")
+#else
 	ZEND_ARG_ARRAY_INFO(0, attributes, 0)
+#endif
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_html_link_link_getattributes, 0, 0, 0)

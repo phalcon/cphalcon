@@ -93,6 +93,9 @@ class Uniqueness extends AbstractCombinedFieldsValidator
 {
     protected template = "Field :field must be unique";
 
+    /**
+     * @var array|null
+     */
     private columnMap = null;
 
     /**

@@ -25,11 +25,10 @@
 /**
  * Exceptions thrown in Phalcon\Application class will use this class
  */
-ZEPHIR_INIT_CLASS(Phalcon_Application_Exception) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Application_Exception)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Application, Exception, phalcon, application_exception, phalcon_exception_ce, NULL, 0);
 
 	return SUCCESS;
-
 }
 

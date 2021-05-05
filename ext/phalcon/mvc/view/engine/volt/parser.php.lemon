@@ -1,0 +1,812 @@
+/* parser.php.lemon
+ *
+ * This file is part of the Phalcon Framework.
+ *
+ * (c) Phalcon Team <team@phalcon.io>
+ *
+ * For the full copyright and license information, please view the
+ * LICENSE.txt file that was distributed with this source code.
+ */
+
+%token_prefix PHVOLT_
+%token_type {phvolt_parser_token*}
+%default_type {zval}
+%default_destructor {
+	if (&$$) {
+		zval_ptr_dtor(&$$);
+	}
+}
+%extra_argument {phvolt_parser_status *status}
+%name phvolt_
+
+%right OPEN_DELIMITER .
+%left COMMA .
+%left QUESTION COLON .
+%left RANGE .
+%left AND OR .
+%left IN .
+%left IS EQUALS NOTEQUALS LESS GREATER GREATEREQUAL LESSEQUAL IDENTICAL NOTIDENTICAL .
+%left DIVIDE TIMES MOD .
+%left PLUS MINUS CONCAT .
+%right SBRACKET_OPEN .
+%left PIPE .
+%right NOT .
+%left INCR DECR .
+%right PARENTHESES_OPEN .
+%left DOT .
+
+%include {
+#include "parser.php.inc.h"
+
+/* Change next line to "#if 1"
+ * to enable parser tracing. */
+#if 0
+# ifdef NDEBUG
+#  undef NDEBUG
+# endif
+#else
+# ifndef NDEBUG
+#  define NDEBUG 1
+# endif
+#endif
+}
+
+%syntax_error {
+	{
+		smart_str error_str = {0};
+
+		char *token_name = NULL;
+		const phvolt_token_names *tokens = phvolt_tokens;
+		int token_len = 0;
+		int active_token = status->scanner_state->active_token;
+
+		if (status->scanner_state->start_length) {
+
+			if (active_token) {
+
+				do {
+					if (tokens->code == active_token) {
+						token_name = tokens->name;
+						token_len = tokens->len;
+						break;
+					}
+					++tokens;
+				} while (tokens[0].code != 0);
+
+			}
+
+			smart_str_appendl(&error_str, "Syntax error, unexpected token ", sizeof("Syntax error, unexpected token ") - 1);
+			if (!token_name) {
+				smart_str_appendl(&error_str, "UNKNOWN", sizeof("UNKNOWN") - 1);
+			} else {
+				smart_str_appendl(&error_str, token_name, token_len);
+			}
+
+			if (status->token->value) {
+				smart_str_appendc(&error_str, '(');
+				smart_str_appendl(&error_str, status->token->value, status->token->len);
+				smart_str_appendc(&error_str, ')');
+			}
+
+			smart_str_appendl(&error_str, " in ", sizeof(" in ") - 1);
+			smart_str_appendl(&error_str, Z_STRVAL_P(status->scanner_state->active_file), Z_STRLEN_P(status->scanner_state->active_file));
+			smart_str_appendl(&error_str, " on line ", sizeof(" on line ") - 1);
+
+			{
+				char stmp[MAX_LENGTH_OF_LONG + 1];
+				int str_len;
+				str_len = slprintf(stmp, sizeof(stmp), "%u", status->scanner_state->active_line);
+				smart_str_appendl(&error_str, stmp, str_len);
+			}
+
+		} else {
+
+			smart_str_appendl(&error_str, "Syntax error, unexpected EOF in ", sizeof("Syntax error, unexpected EOF in ") - 1);
+			smart_str_appendl(&error_str, Z_STRVAL_P(status->scanner_state->active_file), Z_STRLEN_P(status->scanner_state->active_file));
+
+			/* Report unclosed 'if' blocks */
+			if ((status->scanner_state->if_level + status->scanner_state->old_if_level) > 0) {
+				if ((status->scanner_state->if_level + status->scanner_state->old_if_level) == 1) {
+					smart_str_appendl(&error_str, ", there is one 'if' block without close", sizeof(", there is one 'if' block without close") - 1);
+				} else {
+					smart_str_appendl(&error_str, ", there are ", sizeof(", there are ") - 1);
+					{
+						char stmp[MAX_LENGTH_OF_LONG + 1];
+						int str_len;
+						str_len = slprintf(stmp, sizeof(stmp), "%u", status->scanner_state->if_level + status->scanner_state->old_if_level);
+						smart_str_appendl(&error_str, stmp, str_len);
+					}
+					smart_str_appendl(&error_str, " 'if' blocks without close", sizeof(" 'if' blocks without close") - 1);
+				}
+			}
+
+			/* Report unclosed 'for' blocks */
+			if (status->scanner_state->for_level > 0) {
+				if (status->scanner_state->for_level == 1) {
+					smart_str_appendl(&error_str, ", there is one 'for' block without close", sizeof(", there is one 'for' block without close") - 1);
+				} else {
+					smart_str_appendl(&error_str, ", there are ", sizeof(", there are ") - 1);
+					{
+						char stmp[MAX_LENGTH_OF_LONG + 1];
+						int str_len;
+						str_len = slprintf(stmp, sizeof(stmp), "%u", status->scanner_state->if_level);
+						smart_str_appendl(&error_str, stmp, str_len);
+					}
+					smart_str_appendl(&error_str, " 'for' blocks without close", sizeof(" 'for' blocks without close") - 1);
+				}
+			}
+
+			/* Report unclosed 'switch' blocks */
+			if (status->scanner_state->switch_level > 0) {
+				smart_str_appendl(&error_str, ", there is a 'switch' block without 'endswitch'", sizeof(", there is a 'switch' block without 'endswitch'") - 1);
+			}
+		}
+
+		smart_str_0(&error_str);
+
+		if (error_str.s) {
+			status->syntax_error = estrndup(ZSTR_VAL(error_str.s), ZSTR_LEN(error_str.s));
+			status->syntax_error_len = ZSTR_LEN(error_str.s);
+		} else {
+			status->syntax_error = NULL;
+		}
+	}
+
+	status->status = PHVOLT_PARSING_FAILED;
+}
+
+%token_destructor {
+	if ($$) {
+		if ($$->free_flag) {
+			efree($$->token);
+		}
+		efree($$);
+	}
+}
+
+program ::= volt_language(Q) . {
+	ZVAL_ZVAL(&status->ret, &Q, 1, 1);
+}
+
+%destructor volt_language {
+	if (&$$) {
+		zval_ptr_dtor(&$$);
+	}
+}
+
+volt_language(R) ::= statement_list(L) . {
+	R = L;
+}
+
+statement_list(R) ::= statement_list(L) statement(S) . {
+	phvolt_ret_zval_list(&R, &L, &S);
+}
+
+statement_list(R) ::= statement(S) . {
+	phvolt_ret_zval_list(&R, NULL, &S);
+}
+
+statement(R) ::= raw_fragment(F) . {
+	R = F;
+}
+
+statement(R) ::= if_statement(I) . {
+	R = I;
+}
+
+statement(R) ::= elseif_statement(E) . {
+	R = E;
+}
+
+statement(R) ::= elsefor_statement(E) . {
+	R = E;
+}
+
+statement(R) ::= for_statement(E) . {
+	R = E;
+}
+
+statement(R) ::= switch_statement(E) . {
+	R = E;
+}
+
+statement(R) ::= case_clause(E) . {
+	R = E;
+}
+
+statement(R) ::= set_statement(S) . {
+	R = S;
+}
+
+statement(R) ::= echo_statement(E) . {
+	R = E;
+}
+
+statement(R) ::= block_statement(E) . {
+	R = E;
+}
+
+statement(R) ::= cache_statement(E) . {
+	R = E;
+}
+
+statement(R) ::= extends_statement(E) . {
+	R = E;
+}
+
+statement(R) ::= include_statement(E) . {
+	R = E;
+}
+
+statement(R) ::= do_statement(E) . {
+	R = E;
+}
+
+statement(R) ::= return_statement(E) . {
+	R = E;
+}
+
+statement(R) ::= autoescape_statement(E) . {
+	R = E;
+}
+
+statement(R) ::= raw_statement(E) . {
+	R = E;
+}
+
+statement(R) ::= break_statement(E) . {
+	R = E;
+}
+
+statement(R) ::= continue_statement(E) . {
+	R = E;
+}
+
+statement(R) ::= macro_statement(E) . {
+	R = E;
+}
+
+statement(R) ::= empty_statement(E) . {
+	R = E;
+}
+
+statement(R) ::= macro_call_statement(E) . {
+	R = E;
+}
+
+/* {% if EXPR %} STMT {% endif %} */
+if_statement(R) ::= OPEN_DELIMITER IF expr(E) CLOSE_DELIMITER statement_list(T) OPEN_DELIMITER ENDIF CLOSE_DELIMITER . {
+	phvolt_ret_if_statement(&R, &E, &T, NULL, status->scanner_state);
+}
+
+/* {% if EXPR %} {% endif %} */
+if_statement(R) ::= OPEN_DELIMITER IF expr(E) CLOSE_DELIMITER OPEN_DELIMITER ENDIF CLOSE_DELIMITER . {
+	phvolt_ret_if_statement(&R, &E, NULL, NULL, status->scanner_state);
+}
+
+/* {% if EXPR %} STMT {% esle %} STMT {% endif %} */
+if_statement(R) ::= OPEN_DELIMITER IF expr(E) CLOSE_DELIMITER statement_list(T) OPEN_DELIMITER ELSE CLOSE_DELIMITER statement_list(F) OPEN_DELIMITER ENDIF CLOSE_DELIMITER . {
+	phvolt_ret_if_statement(&R, &E, &T, &F, status->scanner_state);
+}
+
+/* {% if EXPR %} STMT {% esle %} {% endif %} */
+if_statement(R) ::= OPEN_DELIMITER IF expr(E) CLOSE_DELIMITER statement_list(T) OPEN_DELIMITER ELSE CLOSE_DELIMITER OPEN_DELIMITER ENDIF CLOSE_DELIMITER . {
+	phvolt_ret_if_statement(&R, &E, &T, NULL, status->scanner_state);
+}
+
+/* {% if EXPR %} {% esle %} {% endif %} */
+if_statement(R) ::= OPEN_DELIMITER IF expr(E) CLOSE_DELIMITER OPEN_DELIMITER ELSE CLOSE_DELIMITER OPEN_DELIMITER ENDIF CLOSE_DELIMITER . {
+	phvolt_ret_if_statement(&R, &E, NULL, NULL, status->scanner_state);
+}
+
+elseif_statement(R) ::= OPEN_DELIMITER ELSEIF expr(E) CLOSE_DELIMITER . {
+	phvolt_ret_elseif_statement(&R, &E, status->scanner_state);
+}
+
+elsefor_statement(R) ::= OPEN_DELIMITER ELSEFOR CLOSE_DELIMITER . {
+	phvolt_ret_elsefor_statement(&R, status->scanner_state);
+}
+
+for_statement(R) ::= OPEN_DELIMITER FOR IDENTIFIER(I) IN expr(E) CLOSE_DELIMITER statement_list(T) OPEN_DELIMITER ENDFOR CLOSE_DELIMITER . {
+	phvolt_ret_for_statement(&R, I, NULL, &E, NULL, &T, status->scanner_state);
+}
+
+for_statement(R) ::= OPEN_DELIMITER FOR IDENTIFIER(I) IN expr(E) IF expr(IE) CLOSE_DELIMITER statement_list(T) OPEN_DELIMITER ENDFOR CLOSE_DELIMITER . {
+	phvolt_ret_for_statement(&R, I, NULL, &E, &IE, &T, status->scanner_state);
+}
+
+for_statement(R) ::= OPEN_DELIMITER FOR IDENTIFIER(K) COMMA IDENTIFIER(V) IN expr(E) CLOSE_DELIMITER statement_list(T) OPEN_DELIMITER ENDFOR CLOSE_DELIMITER . {
+	phvolt_ret_for_statement(&R, V, K, &E, NULL, &T, status->scanner_state);
+}
+
+for_statement(R) ::= OPEN_DELIMITER FOR IDENTIFIER(K) COMMA IDENTIFIER(V) IN expr(E) IF expr(IE) CLOSE_DELIMITER statement_list(T) OPEN_DELIMITER ENDFOR CLOSE_DELIMITER . {
+	phvolt_ret_for_statement(&R, V, K, &E, &IE, &T, status->scanner_state);
+}
+
+/* {% switch EXPR %} STMT {% endswitch %} */
+switch_statement(R) ::= OPEN_DELIMITER SWITCH expr(E) CLOSE_DELIMITER statement_list(T) OPEN_DELIMITER ENDSWITCH CLOSE_DELIMITER . {
+	phvolt_ret_switch_statement(&R, &E, &T, status->scanner_state);
+}
+
+/* {% switch EXPR %} {% endswitch %} */
+switch_statement(R) ::= OPEN_DELIMITER SWITCH expr(E) CLOSE_DELIMITER OPEN_DELIMITER ENDSWITCH CLOSE_DELIMITER . {
+	phvolt_ret_switch_statement(&R, &E, NULL, status->scanner_state);
+}
+
+/* {% case EXPR %} {% endcase %} */
+case_clause(R) ::= OPEN_DELIMITER CASE expr(E) CLOSE_DELIMITER . {
+	phvolt_ret_case_clause(&R, &E, status->scanner_state);
+}
+
+/* {% default %} */
+case_clause(R) ::= OPEN_DELIMITER DEFAULT CLOSE_DELIMITER . {
+	phvolt_ret_case_clause(&R, NULL, status->scanner_state);
+}
+
+set_statement(R) ::= OPEN_DELIMITER SET set_assignments(L) CLOSE_DELIMITER . {
+	phvolt_ret_set_statement(&R, &L);
+}
+
+set_assignments(R) ::= set_assignments(L) COMMA set_assignment(S) . {
+	phvolt_ret_zval_list(&R, &L, &S);
+}
+
+set_assignments(R) ::= set_assignment(S) . {
+	phvolt_ret_zval_list(&R, NULL, &S);
+}
+
+set_assignment(R) ::= assignable_expr(I) ASSIGN expr(E) . {
+	phvolt_ret_set_assignment(&R, &I, PHVOLT_T_ASSIGN, &E, status->scanner_state);
+}
+
+set_assignment(R) ::= assignable_expr(I) ADD_ASSIGN expr(E) . {
+	phvolt_ret_set_assignment(&R, &I, PHVOLT_T_ADD_ASSIGN, &E, status->scanner_state);
+}
+
+set_assignment(R) ::= assignable_expr(I) SUB_ASSIGN expr(E) . {
+	phvolt_ret_set_assignment(&R, &I, PHVOLT_T_SUB_ASSIGN, &E, status->scanner_state);
+}
+
+set_assignment(R) ::= assignable_expr(I) MUL_ASSIGN expr(E) . {
+	phvolt_ret_set_assignment(&R, &I, PHVOLT_T_MUL_ASSIGN, &E, status->scanner_state);
+}
+
+set_assignment(R) ::= assignable_expr(I) DIV_ASSIGN expr(E) . {
+	phvolt_ret_set_assignment(&R, &I, PHVOLT_T_DIV_ASSIGN, &E, status->scanner_state);
+}
+
+assignable_expr(R) ::= IDENTIFIER(I) . {
+	phvolt_ret_literal_zval(&R, PHVOLT_T_IDENTIFIER, I, status->scanner_state);
+}
+
+assignable_expr(R) ::= assignable_expr(E) SBRACKET_OPEN expr(D) SBRACKET_CLOSE . {
+	phvolt_ret_expr(&R, PHVOLT_T_ARRAYACCESS, &E, &D, NULL, status->scanner_state);
+}
+
+assignable_expr(R) ::= assignable_expr(E) DOT assignable_expr(D)  . {
+	phvolt_ret_expr(&R, PHVOLT_T_DOT, &E, &D, NULL, status->scanner_state);
+}
+
+macro_statement(R) ::= OPEN_DELIMITER MACRO IDENTIFIER(I) PARENTHESES_OPEN PARENTHESES_CLOSE CLOSE_DELIMITER statement_list(T) OPEN_DELIMITER ENDMACRO CLOSE_DELIMITER . {
+	phvolt_ret_macro_statement(&R, I, NULL, &T, status->scanner_state);
+}
+
+macro_statement(R) ::= OPEN_DELIMITER MACRO IDENTIFIER(I) PARENTHESES_OPEN macro_parameters(P) PARENTHESES_CLOSE CLOSE_DELIMITER statement_list(T) OPEN_DELIMITER ENDMACRO CLOSE_DELIMITER . {
+	phvolt_ret_macro_statement(&R, I, &P, &T, status->scanner_state);
+}
+
+macro_parameters(R) ::= macro_parameters(L) COMMA macro_parameter(I) . {
+	phvolt_ret_zval_list(&R, &L, &I);
+}
+
+macro_parameters(R) ::= macro_parameter(I) . {
+	phvolt_ret_zval_list(&R, NULL, &I);
+}
+
+macro_parameter(R) ::= IDENTIFIER(I) . {
+	phvolt_ret_macro_parameter(&R, I, NULL, status->scanner_state);
+}
+
+macro_parameter(R) ::= IDENTIFIER(I) ASSIGN macro_parameter_default(D) . {
+	phvolt_ret_macro_parameter(&R, I, &D, status->scanner_state);
+}
+
+macro_parameter_default(R) ::= INTEGER(I) . {
+	phvolt_ret_literal_zval(&R, PHVOLT_T_INTEGER, I, status->scanner_state);
+}
+
+macro_parameter_default(R) ::= STRING(S) . {
+	phvolt_ret_literal_zval(&R, PHVOLT_T_STRING, S, status->scanner_state);
+}
+
+macro_parameter_default(R) ::= DOUBLE(D) . {
+	phvolt_ret_literal_zval(&R, PHVOLT_T_DOUBLE, D, status->scanner_state);
+}
+
+macro_parameter_default(R) ::= NULL . {
+	phvolt_ret_literal_zval(&R, PHVOLT_T_NULL, NULL, status->scanner_state);
+}
+
+macro_parameter_default(R) ::= FALSE . {
+	phvolt_ret_literal_zval(&R, PHVOLT_T_FALSE, NULL, status->scanner_state);
+}
+
+macro_parameter_default(R) ::= TRUE . {
+	phvolt_ret_literal_zval(&R, PHVOLT_T_TRUE, NULL, status->scanner_state);
+}
+
+macro_call_statement(R) ::= OPEN_DELIMITER CALL expr(E) PARENTHESES_OPEN argument_list(L) PARENTHESES_CLOSE CLOSE_DELIMITER statement_list(C) OPEN_DELIMITER ENDCALL CLOSE_DELIMITER . {
+	phvolt_ret_macro_call_statement(&R, &E, &L, &C, status->scanner_state);
+}
+
+macro_call_statement(R) ::= OPEN_DELIMITER CALL expr(E) PARENTHESES_OPEN PARENTHESES_CLOSE CLOSE_DELIMITER OPEN_DELIMITER ENDCALL CLOSE_DELIMITER . {
+	phvolt_ret_macro_call_statement(&R, &E, NULL, NULL, status->scanner_state);
+}
+
+empty_statement(R) ::= OPEN_DELIMITER CLOSE_DELIMITER . {
+	phvolt_ret_empty_statement(&R, status->scanner_state);
+}
+
+echo_statement(R) ::= OPEN_EDELIMITER expr(E) CLOSE_EDELIMITER . {
+	phvolt_ret_echo_statement(&R, &E, status->scanner_state);
+}
+
+block_statement(R) ::= OPEN_DELIMITER BLOCK IDENTIFIER(I) CLOSE_DELIMITER statement_list(T) OPEN_DELIMITER ENDBLOCK CLOSE_DELIMITER . {
+	phvolt_ret_block_statement(&R, I, &T, status->scanner_state);
+}
+
+block_statement(R) ::= OPEN_DELIMITER BLOCK IDENTIFIER(I) CLOSE_DELIMITER OPEN_DELIMITER ENDBLOCK CLOSE_DELIMITER . {
+	phvolt_ret_block_statement(&R, I, NULL, status->scanner_state);
+}
+
+cache_statement(R) ::= OPEN_DELIMITER CACHE expr(E) CLOSE_DELIMITER statement_list(T) OPEN_DELIMITER ENDCACHE CLOSE_DELIMITER . {
+	phvolt_ret_cache_statement(&R, &E, NULL, &T, status->scanner_state);
+}
+
+cache_statement(R) ::= OPEN_DELIMITER CACHE expr(E) cache_lifetime(N) CLOSE_DELIMITER statement_list(T) OPEN_DELIMITER ENDCACHE CLOSE_DELIMITER . {
+	phvolt_ret_cache_statement(&R, &E, &N, &T, status->scanner_state);
+}
+
+cache_lifetime(R) ::= INTEGER(I) . {
+	phvolt_ret_literal_zval(&R, PHVOLT_T_INTEGER, I, status->scanner_state);
+}
+
+cache_lifetime(R) ::= IDENTIFIER(I) . {
+	phvolt_ret_literal_zval(&R, PHVOLT_T_IDENTIFIER, I, status->scanner_state);
+}
+
+raw_statement(R) ::= OPEN_DELIMITER RAW CLOSE_DELIMITER statement(T) OPEN_DELIMITER ENDRAW CLOSE_DELIMITER . {
+	phvolt_ret_raw_statement(&R, &T, status->scanner_state);
+}
+
+extends_statement(R) ::= OPEN_DELIMITER EXTENDS expr(S) CLOSE_DELIMITER . {
+	phvolt_ret_extends_statement(&R, &S, status->scanner_state);
+}
+
+include_statement(R) ::= OPEN_DELIMITER INCLUDE expr(E) CLOSE_DELIMITER . {
+	phvolt_ret_include_statement(&R, &E, NULL, status->scanner_state);
+}
+
+include_statement(R) ::= OPEN_DELIMITER INCLUDE expr(E) WITH expr(P) CLOSE_DELIMITER . {
+	phvolt_ret_include_statement(&R, &E, &P, status->scanner_state);
+}
+
+do_statement(R) ::= OPEN_DELIMITER DO expr(E) CLOSE_DELIMITER . {
+	phvolt_ret_do_statement(&R, &E, status->scanner_state);
+}
+
+return_statement(R) ::= OPEN_DELIMITER RETURN expr(E) CLOSE_DELIMITER . {
+	phvolt_ret_return_statement(&R, &E, status->scanner_state);
+}
+
+autoescape_statement(R) ::= OPEN_DELIMITER AUTOESCAPE FALSE CLOSE_DELIMITER statement_list(T) OPEN_DELIMITER ENDAUTOESCAPE CLOSE_DELIMITER . {
+	phvolt_ret_autoescape_statement(&R, 0, &T, status->scanner_state);
+}
+
+autoescape_statement(R) ::= OPEN_DELIMITER AUTOESCAPE TRUE CLOSE_DELIMITER statement_list(T) OPEN_DELIMITER ENDAUTOESCAPE CLOSE_DELIMITER . {
+	phvolt_ret_autoescape_statement(&R, 1, &T, status->scanner_state);
+}
+
+break_statement(R) ::= OPEN_DELIMITER BREAK CLOSE_DELIMITER . {
+	phvolt_ret_break_statement(&R, status->scanner_state);
+}
+
+continue_statement(R) ::= OPEN_DELIMITER CONTINUE CLOSE_DELIMITER . {
+	phvolt_ret_continue_statement(&R, status->scanner_state);
+}
+
+raw_fragment(R) ::= RAW_FRAGMENT(F) . {
+	phvolt_ret_literal_zval(&R, PHVOLT_T_RAW_FRAGMENT, F, status->scanner_state);
+}
+
+expr(R) ::= MINUS expr(E) . {
+	phvolt_ret_expr(&R, PHVOLT_T_MINUS, NULL, &E, NULL, status->scanner_state);
+}
+
+expr(R) ::= PLUS expr(E) . {
+	phvolt_ret_expr(&R, PHVOLT_T_PLUS, NULL, &E, NULL, status->scanner_state);
+}
+
+expr(R) ::= expr(O1) MINUS expr(O2) . {
+	phvolt_ret_expr(&R, PHVOLT_T_SUB, &O1, &O2, NULL, status->scanner_state);
+}
+
+expr(R) ::= expr(O1) PLUS expr(O2) . {
+	phvolt_ret_expr(&R, PHVOLT_T_ADD, &O1, &O2, NULL, status->scanner_state);
+}
+
+expr(R) ::= expr(O1) TIMES expr(O2) . {
+	phvolt_ret_expr(&R, PHVOLT_T_MUL, &O1, &O2, NULL, status->scanner_state);
+}
+
+expr(R) ::= expr(O1) TIMES TIMES expr(O2) . {
+	phvolt_ret_expr(&R, PHVOLT_T_POW, &O1, &O2, NULL, status->scanner_state);
+}
+
+expr(R) ::= expr(O1) DIVIDE expr(O2) . {
+	phvolt_ret_expr(&R, PHVOLT_T_DIV, &O1, &O2, NULL, status->scanner_state);
+}
+
+expr(R) ::= expr(O1) DIVIDE DIVIDE expr(O2) . {
+	phvolt_ret_expr(&R, PHVOLT_T_MOD, &O1, &O2, NULL, status->scanner_state);
+}
+
+expr(R) ::= expr(O1) MOD expr(O2) . {
+	phvolt_ret_expr(&R, PHVOLT_T_MOD, &O1, &O2, NULL, status->scanner_state);
+}
+
+expr(R) ::= expr(O1) AND expr(O2) . {
+	phvolt_ret_expr(&R, PHVOLT_T_AND, &O1, &O2, NULL, status->scanner_state);
+}
+
+expr(R) ::= expr(O1) OR expr(O2) . {
+	phvolt_ret_expr(&R, PHVOLT_T_OR, &O1, &O2, NULL, status->scanner_state);
+}
+
+expr(R) ::= expr(O1) CONCAT expr(O2) . {
+	phvolt_ret_expr(&R, PHVOLT_T_CONCAT, &O1, &O2, NULL, status->scanner_state);
+}
+
+expr(R) ::= expr(O1) PIPE expr(O2) . {
+	phvolt_ret_expr(&R, PHVOLT_T_PIPE, &O1, &O2, NULL, status->scanner_state);
+}
+
+expr(R) ::= expr(O1) RANGE expr(O2) . {
+	phvolt_ret_expr(&R, PHVOLT_T_RANGE, &O1, &O2, NULL, status->scanner_state);
+}
+
+expr(R) ::= expr(O1) EQUALS expr(O2) . {
+	phvolt_ret_expr(&R, PHVOLT_T_EQUALS, &O1, &O2, NULL, status->scanner_state);
+}
+
+expr(R) ::= expr(O1) NOTEQUALS DEFINED . {
+	phvolt_ret_expr(&R, PHVOLT_T_NOT_ISSET, &O1, NULL, NULL, status->scanner_state);
+}
+
+expr(R) ::= expr(O1) IS DEFINED . {
+	phvolt_ret_expr(&R, PHVOLT_T_ISSET, &O1, NULL, NULL, status->scanner_state);
+}
+
+expr(R) ::= expr(O1) NOTEQUALS EMPTY . {
+	phvolt_ret_expr(&R, PHVOLT_T_NOT_ISEMPTY, &O1, NULL, NULL, status->scanner_state);
+}
+
+expr(R) ::= expr(O1) IS EMPTY . {
+	phvolt_ret_expr(&R, PHVOLT_T_ISEMPTY, &O1, NULL, NULL, status->scanner_state);
+}
+
+expr(R) ::= expr(O1) NOTEQUALS EVEN . {
+	phvolt_ret_expr(&R, PHVOLT_T_NOT_ISEVEN, &O1, NULL, NULL, status->scanner_state);
+}
+
+expr(R) ::= expr(O1) IS EVEN . {
+	phvolt_ret_expr(&R, PHVOLT_T_ISEVEN, &O1, NULL, NULL, status->scanner_state);
+}
+
+expr(R) ::= expr(O1) NOTEQUALS ODD . {
+	phvolt_ret_expr(&R, PHVOLT_T_NOT_ISODD, &O1, NULL, NULL, status->scanner_state);
+}
+
+expr(R) ::= expr(O1) IS ODD . {
+	phvolt_ret_expr(&R, PHVOLT_T_ISODD, &O1, NULL, NULL, status->scanner_state);
+}
+
+expr(R) ::= expr(O1) NOTEQUALS NUMERIC . {
+	phvolt_ret_expr(&R, PHVOLT_T_NOT_ISNUMERIC, &O1, NULL, NULL, status->scanner_state);
+}
+
+expr(R) ::= expr(O1) IS NUMERIC . {
+	phvolt_ret_expr(&R, PHVOLT_T_ISNUMERIC, &O1, NULL, NULL, status->scanner_state);
+}
+
+expr(R) ::= expr(O1) NOTEQUALS SCALAR . {
+	phvolt_ret_expr(&R, PHVOLT_T_NOT_ISSCALAR, &O1, NULL, NULL, status->scanner_state);
+}
+
+expr(R) ::= expr(O1) IS SCALAR . {
+	phvolt_ret_expr(&R, PHVOLT_T_ISSCALAR, &O1, NULL, NULL, status->scanner_state);
+}
+
+expr(R) ::= expr(O1) NOTEQUALS ITERABLE . {
+	phvolt_ret_expr(&R, PHVOLT_T_NOT_ISITERABLE, &O1, NULL, NULL, status->scanner_state);
+}
+
+expr(R) ::= expr(O1) IS ITERABLE . {
+	phvolt_ret_expr(&R, PHVOLT_T_ISITERABLE, &O1, NULL, NULL, status->scanner_state);
+}
+
+expr(R) ::= expr(O1) IS expr(O2) . {
+	phvolt_ret_expr(&R, PHVOLT_T_IS, &O1, &O2, NULL, status->scanner_state);
+}
+
+expr(R) ::= expr(O1) NOTEQUALS expr(O2) . {
+	phvolt_ret_expr(&R, PHVOLT_T_NOTEQUALS, &O1, &O2, NULL, status->scanner_state);
+}
+
+expr(R) ::= expr(O1) IDENTICAL expr(O2) . {
+	phvolt_ret_expr(&R, PHVOLT_T_IDENTICAL, &O1, &O2, NULL, status->scanner_state);
+}
+
+expr(R) ::= expr(O1) NOTIDENTICAL expr(O2) . {
+	phvolt_ret_expr(&R, PHVOLT_T_NOTIDENTICAL, &O1, &O2, NULL, status->scanner_state);
+}
+
+expr(R) ::= expr(O1) LESS expr(O2) . {
+	phvolt_ret_expr(&R, PHVOLT_T_LESS, &O1, &O2, NULL, status->scanner_state);
+}
+
+expr(R) ::= expr(O1) GREATER expr(O2) . {
+	phvolt_ret_expr(&R, PHVOLT_T_GREATER, &O1, &O2, NULL, status->scanner_state);
+}
+
+expr(R) ::= expr(O1) GREATEREQUAL expr(O2) . {
+	phvolt_ret_expr(&R, PHVOLT_T_GREATEREQUAL, &O1, &O2, NULL, status->scanner_state);
+}
+
+expr(R) ::= expr(O1) LESSEQUAL expr(O2) . {
+	phvolt_ret_expr(&R, PHVOLT_T_LESSEQUAL, &O1, &O2, NULL, status->scanner_state);
+}
+
+expr(R) ::= expr(O1) DOT expr(O2) . {
+	phvolt_ret_expr(&R, PHVOLT_T_DOT, &O1, &O2, NULL, status->scanner_state);
+}
+
+expr(R) ::= expr(O1) IN expr(O2) . {
+	phvolt_ret_expr(&R, PHVOLT_T_IN, &O1, &O2, NULL, status->scanner_state);
+}
+
+expr(R) ::= expr(O1) NOT IN expr(O2) . {
+	phvolt_ret_expr(&R, PHVOLT_T_NOT_IN, &O1, &O2, NULL, status->scanner_state);
+}
+
+expr(R) ::= NOT expr(E) . {
+	phvolt_ret_expr(&R, PHVOLT_T_NOT, NULL, &E, NULL, status->scanner_state);
+}
+
+expr(R) ::= expr(E) INCR . {
+	phvolt_ret_expr(&R, PHVOLT_T_INCR, &E, NULL, NULL, status->scanner_state);
+}
+
+expr(R) ::= expr(E) DECR . {
+	phvolt_ret_expr(&R, PHVOLT_T_DECR, &E, NULL, NULL, status->scanner_state);
+}
+
+expr(R) ::= PARENTHESES_OPEN expr(E) PARENTHESES_CLOSE . {
+	phvolt_ret_expr(&R, PHVOLT_T_ENCLOSED, &E, NULL, NULL, status->scanner_state);
+}
+
+expr(R) ::= SBRACKET_OPEN SBRACKET_CLOSE . {
+	phvolt_ret_expr(&R, PHVOLT_T_ARRAY, NULL, NULL, NULL, status->scanner_state);
+}
+
+expr(R) ::= SBRACKET_OPEN array_list(A) SBRACKET_CLOSE . {
+	phvolt_ret_expr(&R, PHVOLT_T_ARRAY, &A, NULL, NULL, status->scanner_state);
+}
+
+expr(R) ::= CBRACKET_OPEN CBRACKET_CLOSE . {
+	phvolt_ret_expr(&R, PHVOLT_T_ARRAY, NULL, NULL, NULL, status->scanner_state);
+}
+
+expr(R) ::= CBRACKET_OPEN array_list(A) CBRACKET_CLOSE . {
+	phvolt_ret_expr(&R, PHVOLT_T_ARRAY, &A, NULL, NULL, status->scanner_state);
+}
+
+expr(R) ::= expr(E) SBRACKET_OPEN expr(D) SBRACKET_CLOSE . {
+	phvolt_ret_expr(&R, PHVOLT_T_ARRAYACCESS, &E, &D, NULL, status->scanner_state);
+}
+
+expr(R) ::= expr(E) QUESTION expr(O1) COLON expr(O2) . {
+	phvolt_ret_expr(&R, PHVOLT_T_TERNARY, &O1, &O2, &E, status->scanner_state);
+}
+
+expr(R) ::= expr(E) SBRACKET_OPEN COLON slice_offset(N) SBRACKET_CLOSE . {
+	phvolt_ret_slice(&R, &E, NULL, &N, status->scanner_state);
+}
+
+expr(R) ::= expr(E) SBRACKET_OPEN slice_offset(S) COLON SBRACKET_CLOSE . {
+	phvolt_ret_slice(&R, &E, &S, NULL, status->scanner_state);
+}
+
+expr(R) ::= expr(E) SBRACKET_OPEN slice_offset(S) COLON slice_offset(N) SBRACKET_CLOSE . {
+	phvolt_ret_slice(&R, &E, &S, &N, status->scanner_state);
+}
+
+slice_offset(R) ::= INTEGER(I) . {
+	phvolt_ret_literal_zval(&R, PHVOLT_T_INTEGER, I, status->scanner_state);
+}
+
+slice_offset(R) ::= IDENTIFIER(I) . {
+	phvolt_ret_literal_zval(&R, PHVOLT_T_IDENTIFIER, I, status->scanner_state);
+}
+
+array_list(R) ::= array_list(L) COMMA array_item(I) . {
+	phvolt_ret_zval_list(&R, &L, &I);
+}
+
+array_list(R) ::= array_item(I) . {
+	phvolt_ret_zval_list(&R, NULL, &I);
+}
+
+array_item(R) ::= STRING(S) COLON expr(E) . {
+	phvolt_ret_named_item(&R, S, &E, status->scanner_state);
+}
+
+array_item(R) ::= expr(E) . {
+	phvolt_ret_named_item(&R, NULL, &E, status->scanner_state);
+}
+
+expr(R) ::= function_call(F) . {
+	R = F;
+}
+
+function_call(R) ::= expr(E) PARENTHESES_OPEN argument_list(L) PARENTHESES_CLOSE . {
+	phvolt_ret_func_call(&R, &E, &L, status->scanner_state);
+}
+
+function_call(R) ::= expr(E) PARENTHESES_OPEN PARENTHESES_CLOSE . {
+	phvolt_ret_func_call(&R, &E, NULL, status->scanner_state);
+}
+
+argument_list(R) ::= argument_list(L) COMMA argument_item(I) . {
+	phvolt_ret_zval_list(&R, &L, &I);
+}
+
+argument_list(R) ::= argument_item(I) . {
+	phvolt_ret_zval_list(&R, NULL, &I);
+}
+
+argument_item(R) ::= expr(E) . {
+	phvolt_ret_named_item(&R, NULL, &E, status->scanner_state);
+}
+
+argument_item(R) ::= STRING(S) COLON expr(E) . {
+	phvolt_ret_named_item(&R, S, &E, status->scanner_state);
+}
+
+expr(R) ::= IDENTIFIER(I) . {
+	phvolt_ret_literal_zval(&R, PHVOLT_T_IDENTIFIER, I, status->scanner_state);
+}
+
+expr(R) ::= INTEGER(I) . {
+	phvolt_ret_literal_zval(&R, PHVOLT_T_INTEGER, I, status->scanner_state);
+}
+
+expr(R) ::= STRING(S) . {
+	phvolt_ret_literal_zval(&R, PHVOLT_T_STRING, S, status->scanner_state);
+}
+
+expr(R) ::= DOUBLE(D) . {
+	phvolt_ret_literal_zval(&R, PHVOLT_T_DOUBLE, D, status->scanner_state);
+}
+
+expr(R) ::= NULL . {
+	phvolt_ret_literal_zval(&R, PHVOLT_T_NULL, NULL, status->scanner_state);
+}
+
+expr(R) ::= FALSE . {
+	phvolt_ret_literal_zval(&R, PHVOLT_T_FALSE, NULL, status->scanner_state);
+}
+
+expr(R) ::= TRUE . {
+	phvolt_ret_literal_zval(&R, PHVOLT_T_TRUE, NULL, status->scanner_state);
+}

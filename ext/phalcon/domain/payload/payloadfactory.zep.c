@@ -36,19 +36,18 @@
 /**
  * Factory to create payload objects
  */
-ZEPHIR_INIT_CLASS(Phalcon_Domain_Payload_PayloadFactory) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Domain_Payload_PayloadFactory)
+{
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Domain\\Payload, PayloadFactory, phalcon, domain_payload_payloadfactory, phalcon_domain_payload_payloadfactory_method_entry, 0);
 
 	return SUCCESS;
-
 }
 
 /**
  * Instantiate a new object
  */
-PHP_METHOD(Phalcon_Domain_Payload_PayloadFactory, newInstance) {
-
+PHP_METHOD(Phalcon_Domain_Payload_PayloadFactory, newInstance)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
@@ -62,7 +61,7 @@ PHP_METHOD(Phalcon_Domain_Payload_PayloadFactory, newInstance) {
 		ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 0);
 		zephir_check_call_status();
 	}
-	RETURN_MM();
 
+	RETURN_MM();
 }
 

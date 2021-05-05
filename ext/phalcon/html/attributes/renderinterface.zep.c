@@ -25,12 +25,11 @@
 *
 * Interface Phalcon\Html\Attributes\RenderInterface
 */
-ZEPHIR_INIT_CLASS(Phalcon_Html_Attributes_RenderInterface) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Html_Attributes_RenderInterface)
+{
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Html\\Attributes, RenderInterface, phalcon, html_attributes_renderinterface, phalcon_html_attributes_renderinterface_method_entry);
 
 	return SUCCESS;
-
 }
 
 /**

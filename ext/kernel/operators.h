@@ -28,6 +28,8 @@
 #define ZEPHIR_IS_STRING_IDENTICAL(op1, op2) (Z_TYPE_P(op1) == IS_STRING && zephir_compare_strict_string(op1, op2, strlen(op2)))
 #define ZEPHIR_IS_BOOL_IDENTICAL(op1, op2) ((Z_TYPE_P(op1) == IS_FALSE || Z_TYPE_P(op1) == IS_TRUE) && zephir_compare_strict_bool(op1, op2))
 
+#define ZEPHIR_IS_NULL(var) (Z_TYPE_P(var) == IS_NULL)
+
 /** strict boolean comparison */
 #define ZEPHIR_IS_FALSE(var)       ((Z_TYPE_P(var) == IS_FALSE) || zephir_compare_strict_bool(var, 0))
 #define ZEPHIR_IS_TRUE(var)        ((Z_TYPE_P(var) == IS_TRUE) || zephir_compare_strict_bool(var, 1))
@@ -192,13 +194,38 @@ long zephir_safe_mod_double_zval(double op1, zval *op2);
 		}  \
 	}
 
+/**
+ * This is previous version of zephir_get_strval()
+ *
+ * TODO: Find more native solution to cast a string
+ */
+#define zephir_cast_to_string(left, right) \
+    { \
+        int use_copy_right; \
+        zval right_tmp; \
+        if (Z_TYPE_P(right) == IS_STRING) { \
+            ZEPHIR_CPY_WRT(left, right); \
+        } else { \
+            use_copy_right = zephir_make_printable_zval(right, &right_tmp); \
+            if (use_copy_right) { \
+                ZEPHIR_INIT_NVAR(left); \
+                ZVAL_STRINGL(left, Z_STRVAL(right_tmp), Z_STRLEN(right_tmp)); \
+                zval_ptr_dtor(&right_tmp); \
+            } \
+        } \
+    }
 
+/**
+ * TODO: Re-visit IS_NULL check, when ZEND_PARSE_PARAMETERS_* will be in better condition in Zephir
+ */
 #define zephir_get_strval(left, right) \
 	{ \
 		int use_copy_right; \
 		zval right_tmp; \
 		if (Z_TYPE_P(right) == IS_STRING) { \
 			ZEPHIR_CPY_WRT(left, right); \
+		} else if (Z_TYPE_P(right) == IS_NULL) { \
+		    ZEPHIR_INIT_VAR(left); \
 		} else { \
 			use_copy_right = zephir_make_printable_zval(right, &right_tmp); \
 			if (use_copy_right) { \

@@ -28,30 +28,119 @@ use Phalcon\Di\InjectionAwareInterface;
  */
 class Compiler implements InjectionAwareInterface
 {
+    /**
+     * @var bool
+     */
     protected autoescape = false;
+
+    /**
+     * @var int
+     */
     protected blockLevel = 0;
+
+    /**
+     * @var array|null
+     *
+     * TODO: Make array only?
+     */
     protected blocks;
-    protected container;
+
+    /**
+     * @var DiInterface|null
+     */
+    protected container = null;
+
+    /**
+     * @var string|null
+     */
     protected compiledTemplatePath;
-    protected currentBlock;
-    protected currentPath;
+
+    /**
+     * @var string|null
+     */
+    protected currentBlock = null;
+
+    /**
+     * @var string|null
+     */
+    protected currentPath = null;
+
+    /**
+     * @var int
+     */
     protected exprLevel = 0;
+
+    /**
+     * @var bool
+     */
     protected extended = false;
-    protected extensions;
+
+    /**
+     * @var array
+     */
+    protected extensions = [];
+
+    /**
+     * @var array|bool
+     *
+     * TODO: Make it always array
+     */
     protected extendedBlocks;
-    protected filters;
+
+    /**
+     * @var array
+     */
+    protected filters = [];
+
+    /**
+     * @var int
+     */
     protected foreachLevel = 0;
-    protected forElsePointers;
-    protected functions;
+
+    /**
+     * @var array
+     */
+    protected forElsePointers = [];
+
+    /**
+     * @var array
+     */
+    protected functions = [];
+
+    /**
+     * @var int
+     */
     protected level = 0;
-    protected loopPointers;
-    protected macros;
-    protected options;
-    protected prefix;
+
+    /**
+     * @var array
+     */
+    protected loopPointers = [];
+
+    /**
+     * @var array
+     */
+    protected macros = [];
+
+    /**
+     * @var array
+     */
+    protected options = [];
+
+    /**
+     * @var string
+     */
+    protected prefix = "";
+
+    /**
+     * @var ViewBaseInterface|null
+     */
     protected view;
 
     /**
      * Phalcon\Mvc\View\Engine\Volt\Compiler
+     *
+     * @param ViewBaseInterface|null view
      */
     public function __construct(<ViewBaseInterface> view = null)
     {
@@ -60,6 +149,10 @@ class Compiler implements InjectionAwareInterface
 
     /**
      * Registers a Volt's extension
+     *
+     * @var mixed extension
+     *
+     * @return Compiler
      */
     public function addExtension(extension) -> <Compiler>
     {
@@ -81,6 +174,11 @@ class Compiler implements InjectionAwareInterface
 
     /**
      * Register a new filter in the compiler
+     *
+     * @param string name
+     * @param mixed definition
+     *
+     * @return Compiler
      */
     public function addFilter(string! name, var definition) -> <Compiler>
     {
@@ -91,6 +189,11 @@ class Compiler implements InjectionAwareInterface
 
     /**
      * Register a new function in the compiler
+     *
+     * @param string name
+     * @param mixed definition
+     *
+     * @return Compiler
      */
     public function addFunction(string! name, var definition) -> <Compiler>
     {
@@ -101,6 +204,10 @@ class Compiler implements InjectionAwareInterface
 
     /**
      * Resolves attribute reading
+     *
+     * @param array expr
+     *
+     * @return string
      */
     public function attributeReader(array! expr) -> string
     {
@@ -164,6 +271,12 @@ class Compiler implements InjectionAwareInterface
      *
      * require $compiler->getCompiledTemplatePath();
      *```
+     *
+     * @param string templatePath
+     * @param bool extendsMode
+     *
+     * @throws \Phalcon\Mvc\View\Engine\Volt\Exception
+     * @return mixed
      */
     public function compile(string! templatePath, bool extendsMode = false)
     {
@@ -306,7 +419,6 @@ class Compiler implements InjectionAwareInterface
             /**
              * A closure can dynamically compile the path
              */
-
             let compiledTemplatePath = call_user_func_array(
                 compiledPath,
                 [templatePath, options, extendsMode]
@@ -385,6 +497,11 @@ class Compiler implements InjectionAwareInterface
 
     /**
      * Compiles a "autoescape" statement returning PHP code
+     *
+     * @param array statement
+     * @param bool extendsMode
+     *
+     * @return string
      */
     public function compileAutoEscape(array! statement, bool extendsMode) -> string
     {
@@ -415,14 +532,22 @@ class Compiler implements InjectionAwareInterface
 
     /**
      * Compiles calls to macros
+     *
+     * @param array statement
+     * @param bool extendsMode
      */
     public function compileCall(array! statement, bool extendsMode)
     {
-
+        // Not implemented?
     }
 
     /**
      * Compiles a "case"/"default" clause returning PHP code
+     *
+     * @param array statement
+     * @param bool caseClause
+     *
+     * @return string
      */
     public function compileCase(array! statement, bool caseClause = true) -> string
     {
@@ -450,6 +575,10 @@ class Compiler implements InjectionAwareInterface
 
     /**
      * Compiles a "do" statement returning PHP code
+     *
+     * @param array statement
+     *
+     * @return string
      */
     public function compileDo(array! statement) -> string
     {
@@ -470,6 +599,10 @@ class Compiler implements InjectionAwareInterface
 
     /**
      * Compiles a {% raw %}`{{` `}}`{% endraw %} statement returning PHP code
+     *
+     * @param array statement
+     *
+     * @return string
      */
     public function compileEcho(array! statement) -> string
     {
@@ -513,6 +646,10 @@ class Compiler implements InjectionAwareInterface
 
     /**
      * Compiles a "elseif" statement returning PHP code
+     *
+     * @param array statement
+     *
+     * @return string
      */
     public function compileElseIf(array! statement) -> string
     {
@@ -541,6 +678,11 @@ class Compiler implements InjectionAwareInterface
      * );
      *```
      *
+     * @param string path
+     * @param string compiledPath
+     * @param bool extendsMode
+     *
+     * @throws \Phalcon\Mvc\View\Engine\Volt\Exception
      * @return string|array
      */
     public function compileFile(string! path, string! compiledPath, bool extendsMode = false)
@@ -598,6 +740,11 @@ class Compiler implements InjectionAwareInterface
 
     /**
      * Compiles a "foreach" intermediate code representation into plain PHP code
+     *
+     * @param array statement
+     * @param bool extendsMode
+     *
+     * @return string
      */
     public function compileForeach(array! statement, bool extendsMode = false) -> string
     {
@@ -754,6 +901,8 @@ class Compiler implements InjectionAwareInterface
 
     /**
      * Generates a 'forelse' PHP code
+     *
+     * @return string
      */
     public function compileForElse() -> string
     {
@@ -774,6 +923,12 @@ class Compiler implements InjectionAwareInterface
 
     /**
      * Compiles a 'if' statement returning PHP code
+     *
+     * @param array statement
+     * @param bool extendsMode
+     *
+     * @throws \Phalcon\Mvc\View\Engine\Volt\Exception
+     * @return string
      */
     public function compileIf(array! statement, bool extendsMode = false) -> string
     {
@@ -809,6 +964,11 @@ class Compiler implements InjectionAwareInterface
 
     /**
      * Compiles a 'include' statement returning PHP code
+     *
+     * @param array statement
+     *
+     * @throws \Phalcon\Mvc\View\Engine\Volt\Exception
+     * @return string
      */
     public function compileInclude(array! statement) -> string
     {
@@ -878,6 +1038,11 @@ class Compiler implements InjectionAwareInterface
 
     /**
      * Compiles macros
+     *
+     * @param array statement
+     * @param bool extendsMode
+     *
+     * @return string
      */
     public function compileMacro(array! statement, bool extendsMode) -> string
     {
@@ -960,6 +1125,9 @@ class Compiler implements InjectionAwareInterface
 
     /**
      * Compiles a "return" statement returning PHP code
+     *
+     * @throws \Phalcon\Mvc\View\Engine\Volt\Exception
+     * @return string
      */
     public function compileReturn(array! statement) -> string
     {
@@ -980,6 +1148,11 @@ class Compiler implements InjectionAwareInterface
 
     /**
      * Compiles a "set" statement returning PHP code
+     *
+     * @param array statement
+     *
+     * @throws \Phalcon\Mvc\View\Engine\Volt\Exception
+     * @return string
      */
     public function compileSet(array! statement) -> string
     {
@@ -1050,6 +1223,11 @@ class Compiler implements InjectionAwareInterface
      *```php
      * echo $compiler->compileString({% raw %}'{{ "hello world" }}'{% endraw %});
      *```
+     *
+     * @param string viewCode
+     * @param bool extendsMode
+     *
+     * @return string
      */
     public function compileString(string! viewCode, bool extendsMode = false) -> string
     {
@@ -1060,6 +1238,12 @@ class Compiler implements InjectionAwareInterface
 
     /**
      * Compiles a 'switch' statement returning PHP code
+     *
+     * @param array statement
+     * @param bool extendsMode
+     *
+     * @throws \Phalcon\Mvc\View\Engine\Volt\Exception
+     * @return string
      */
     public function compileSwitch(array! statement, bool extendsMode = false) -> string
     {
@@ -1118,6 +1302,10 @@ class Compiler implements InjectionAwareInterface
 
     /**
      * Resolves an expression node in an AST volt tree
+     *
+     * @param array expr
+     *
+     * @return string
      */
     final public function expression(array! expr) -> string
     {
@@ -1466,10 +1654,12 @@ class Compiler implements InjectionAwareInterface
     /**
      * Fires an event to registered extensions
      *
+     * @param string name
      * @param array arguments
+     *
      * @return mixed
      */
-    final public function fireExtensionEvent(string! name, arguments = null)
+    final public function fireExtensionEvent(string! name, arguments = null) // TODO: Make arguments array
     {
         var extensions, extension, status;
 
@@ -1504,6 +1694,11 @@ class Compiler implements InjectionAwareInterface
 
     /**
      * Resolves function intermediate code into PHP function calls
+     *
+     * @param array expr
+     *
+     * @throws \Phalcon\Mvc\View\Engine\Volt\Exception
+     * @return string
      */
     public function functionCall(array! expr) -> string
     {
@@ -1753,11 +1948,11 @@ class Compiler implements InjectionAwareInterface
             }
 
             if name == "version" {
-                return "Phalcon\\Version::get()";
+                return "(new Phalcon\\Support\\Version)->get()";
             }
 
             if name == "version_id" {
-                return "Phalcon\\Version::getId()";
+                return "(new Phalcon\\Support\\Version)->getId()";
             }
 
             if name == "preload" {
@@ -1782,6 +1977,8 @@ class Compiler implements InjectionAwareInterface
 
     /**
      * Returns the path to the last compiled template
+     *
+     * @return string
      */
     public function getCompiledTemplatePath() -> string
     {
@@ -1790,6 +1987,8 @@ class Compiler implements InjectionAwareInterface
 
     /**
      * Returns the internal dependency injector
+     *
+     * @return DiInterface
      */
     public function getDI() -> <DiInterface>
     {
@@ -1798,6 +1997,8 @@ class Compiler implements InjectionAwareInterface
 
     /**
      * Returns the list of extensions registered in Volt
+     *
+     * @return array
      */
     public function getExtensions() -> array
     {
@@ -1806,6 +2007,8 @@ class Compiler implements InjectionAwareInterface
 
     /**
      * Register the user registered filters
+     *
+     * @return array
      */
     public function getFilters() -> array
     {
@@ -1814,6 +2017,8 @@ class Compiler implements InjectionAwareInterface
 
     /**
      * Register the user registered functions
+     *
+     * @return array
      */
     public function getFunctions() -> array
     {
@@ -1823,9 +2028,11 @@ class Compiler implements InjectionAwareInterface
     /**
      * Returns a compiler's option
      *
-     * @return string
+     * @param string option
+     *
+     * @return string|null
      */
-    public function getOption(string! option)
+    public function getOption(string! option) -> string | null
     {
         var value;
 
@@ -1838,6 +2045,8 @@ class Compiler implements InjectionAwareInterface
 
     /**
      * Returns the compiler options
+     *
+     * @return array
      */
     public function getOptions() -> array
     {
@@ -1846,6 +2055,8 @@ class Compiler implements InjectionAwareInterface
 
     /**
      * Returns the path that is currently being compiled
+     *
+     * @return string
      */
     public function getTemplatePath() -> string
     {
@@ -1855,6 +2066,8 @@ class Compiler implements InjectionAwareInterface
     /**
      * Return a unique prefix to be used as prefix for compiled variables and
      * contexts
+     *
+     * @return string
      */
     public function getUniquePrefix() -> string
     {
@@ -1897,9 +2110,11 @@ class Compiler implements InjectionAwareInterface
      * );
      *```
      *
+     * @param string viewCode
+     *
      * @return array
      */
-    public function parse(string! viewCode)
+    public function parse(string! viewCode) -> array
     {
         var currentPath = "eval code";
 

@@ -10,6 +10,7 @@
 
 namespace Phalcon\Mvc\Model;
 
+use Phalcon\Db\Adapter\AdapterInterface;
 use Phalcon\Di\DiInterface;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\Mvc\Model\Transaction\Failed as TxFailed;
@@ -62,24 +63,52 @@ use Phalcon\Mvc\Model\TransactionInterface;
  */
 class Transaction implements TransactionInterface
 {
+    /**
+     * @var bool
+     */
     protected activeTransaction = false;
 
+    /**
+     * @var AdapterInterface
+     */
     protected connection;
 
+    /**
+     * @var bool
+     */
     protected isNewTransaction = true;
 
-    protected manager;
+    /**
+     * @var ManagerInterface|null
+     */
+    protected manager = null;
 
+    /**
+     * @var array
+     */
     protected messages = [];
 
-    protected rollbackRecord;
+    /**
+     * @var ModelInterface|null
+     */
+    protected rollbackRecord = null;
 
+    /**
+     * @var bool
+     */
     protected rollbackOnAbort = false;
 
+    /**
+     * @var bool
+     */
     protected rollbackThrowException = false;
 
     /**
      * Phalcon\Mvc\Model\Transaction constructor
+     *
+     * @param DiInterface container
+     * @param bool autoBegin
+     * @param string service
      */
     public function __construct(<DiInterface> container, bool autoBegin = false, string service = "db")
     {
@@ -123,7 +152,7 @@ class Transaction implements TransactionInterface
     /**
      * Returns the connection related to transaction
      */
-    public function getConnection() -> <\Phalcon\Db\Adapter\AdapterInterface>
+    public function getConnection() -> <AdapterInterface>
     {
         if this->rollbackOnAbort {
             if connection_aborted() {
@@ -147,7 +176,7 @@ class Transaction implements TransactionInterface
      */
     public function isManaged() -> bool
     {
-        return typeof this->manager == "object";
+        return typeof this->manager === "object";
     }
 
     /**
@@ -167,7 +196,7 @@ class Transaction implements TransactionInterface
 
         let manager = this->manager;
 
-        if typeof manager == "object" {
+        if typeof manager === "object" {
             manager->notifyRollback(this);
         }
 
@@ -178,7 +207,7 @@ class Transaction implements TransactionInterface
                 let rollbackMessage = "Transaction aborted";
             }
 
-            if typeof rollbackRecord == "object" {
+            if typeof rollbackRecord === "object" {
                 let this->rollbackRecord = rollbackRecord;
             }
 

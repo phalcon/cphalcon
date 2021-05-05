@@ -25,12 +25,11 @@
  *
  * Interface for Phalcon\Mvc\Collection and Phalcon\Mvc\Model
  */
-ZEPHIR_INIT_CLASS(Phalcon_Mvc_EntityInterface) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Mvc_EntityInterface)
+{
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Mvc, EntityInterface, phalcon, mvc_entityinterface, phalcon_mvc_entityinterface_method_entry);
 
 	return SUCCESS;
-
 }
 
 /**

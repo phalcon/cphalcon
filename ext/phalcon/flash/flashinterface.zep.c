@@ -25,12 +25,11 @@
  *
  * Interface for Phalcon\Flash classes
  */
-ZEPHIR_INIT_CLASS(Phalcon_Flash_FlashInterface) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Flash_FlashInterface)
+{
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Flash, FlashInterface, phalcon, flash_flashinterface, phalcon_flash_flashinterface_method_entry);
 
 	return SUCCESS;
-
 }
 
 /**

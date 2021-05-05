@@ -163,7 +163,7 @@ interface BuilderInterface
     /**
      * Sets a HAVING condition clause
      */
-    public function having(string having) -> <BuilderInterface>;
+    public function having(string conditions) -> <BuilderInterface>;
 
     /**
      * Adds an INNER join to the query
@@ -222,8 +222,10 @@ interface BuilderInterface
 
     /**
      * Sets an ORDER BY condition clause
+     *
+     * @param array|string orderBy
      */
-    public function orderBy(string orderBy) -> <BuilderInterface>;
+    public function orderBy(var orderBy) -> <BuilderInterface>;
 
     /**
      * Appends a condition to the current conditions using an OR operator

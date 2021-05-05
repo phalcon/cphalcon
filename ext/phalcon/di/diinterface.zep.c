@@ -23,13 +23,12 @@
 /**
  * Interface for Phalcon\Di
  */
-ZEPHIR_INIT_CLASS(Phalcon_Di_DiInterface) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Di_DiInterface)
+{
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Di, DiInterface, phalcon, di_diinterface, phalcon_di_diinterface_method_entry);
 
 	zend_class_implements(phalcon_di_diinterface_ce, 1, zend_ce_arrayaccess);
 	return SUCCESS;
-
 }
 
 /**

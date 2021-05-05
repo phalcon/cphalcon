@@ -90,7 +90,7 @@ class Model extends AbstractAdapter
      */
     public function paginate() -> <RepositoryInterface>
     {
-        var config, items, pageItems, modelClass, parameters;
+        var config, modelClass, parameters, pageItems = [];
         int pageNumber, limit, rowcount, next, totalPages,
             previous;
 
@@ -100,13 +100,12 @@ class Model extends AbstractAdapter
             modelClass = <ModelInterface> config["model"],
             parameters = Arr::get(config, "parameters", [], "array");
 
-        //Prevents 0 or negative page numbers
+        // Prevents 0 or negative page numbers
         if pageNumber <= 0 {
             let pageNumber = 1;
         }
 
-        let rowcount  = (int) call_user_func([modelClass, "count"], parameters),
-            pageItems = [];
+        let rowcount = (int) call_user_func([modelClass, "count"], parameters);
 
         if rowcount % limit != 0 {
             let totalPages = (int) (rowcount / limit + 1);
@@ -118,14 +117,13 @@ class Model extends AbstractAdapter
             let parameters["limit"]  = limit,
                 parameters["offset"] = limit * (pageNumber - 1);
 
-            let items = <ResultsetInterface> call_user_func(
+            let pageItems = <ResultsetInterface> call_user_func(
                 [modelClass, "find"],
                 parameters
             );
-            let pageItems = items->toArray();
         }
 
-        //Fix next
+        // Fix next
         let next = pageNumber + 1;
 
         if next > totalPages {

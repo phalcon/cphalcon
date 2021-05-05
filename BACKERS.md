@@ -82,7 +82,9 @@ Thanks for the support
 
 <a href="https://github.com/evansims"><img src="https://avatars2.githubusercontent.com/u/3093?s=460&u=cfba72529ae60e76c15dca111246baea93e333a7&v=4" title="Evan Sims" width="60" height="60"></a>
 <a href="https://github.com/ninjapanzer"><img src="https://avatars1.githubusercontent.com/u/159591?s=460&v=4" title="Paul Scarrone" width="60" height="60"></a>
+<a href="https://github.com/andresgutierrez"><img src="https://avatars.githubusercontent.com/u/213590?v=4" title="Andres Gutierrez" width="60" height="60"></a>
 <a href="https://github.com/vlad-light"><img src="https://avatars1.githubusercontent.com/u/277235?s=460&v=4" title="Vladimir L" width="60" height="60"></a>
+<a href="https://github.com/pyatin"><img src="https://avatars.githubusercontent.com/u/296939?v=4" title="Glib Pyatin" width="60" height="60"></a>
 <a href="https://github.com/alrieckert"><img src="https://avatars1.githubusercontent.com/u/452786?s=460&v=4" title="Anton Rieckert" width="60" height="60"></a>
 <a href="https://github.com/yannux"><img src="https://avatars.githubusercontent.com/u/533125?s=460&u=4f1e888783d1faafaa76282e5c388501c2b2df83&v=4" title="Yann" width="60" height="60"></a>
 <a href="https://github.com/sinbadxiii"><img src="https://avatars2.githubusercontent.com/u/900273?s=460&v=4" title="Sergey Mukhin" width="60" height="60"></a>
@@ -98,7 +100,7 @@ Thanks for the support
 <a href="https://github.com/educury"><img src="https://avatars2.githubusercontent.com/u/5339278?s=460&v=4" title="educury" width="60" height="60"></a>
 <a href="https://github.com/emagus"><img src="https://avatars3.githubusercontent.com/u/5857789?s=460&v=4" title="emagus" width="60" height="60"></a>
 <a href="https://github.com/ruudboon"><img src="https://avatars3.githubusercontent.com/u/7444246?s=460&v=4" title="Ruud Boon" width="60" height="60"></a>
-<a href="https://github.com/sitchi"><img src="https://avatars0.githubusercontent.com/u/11546683?s=460&v=4" title="Nikoloz Sitchinava" width="60" height="60"></a>
+<a href="https://github.com/sitchi"><img src="https://avatars.githubusercontent.com/u/11546683?v=4" title="Nikoloz Sitchinava" width="60" height="60"></a>
 <a href="https://github.com/tacxticx88"><img src="https://avatars3.githubusercontent.com/u/12997062?s=460&u=5af0fbe438391ac46fb19befe0c20a4b1374e187&v=4" title="Clément" width="60" height="60"></a>
 <a href="https://github.com/upabove"><img src="https://avatars.githubusercontent.com/u/17483386?v=4" title="Mateusz" width="60" height="60"></a>
 <a href="https://github.com/Montana"><img src="https://avatars3.githubusercontent.com/u/20936398?s=460&v=4" title="Montana Mendy" width="60" height="60"></a>

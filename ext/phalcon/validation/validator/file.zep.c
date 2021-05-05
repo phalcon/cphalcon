@@ -96,12 +96,11 @@
  * );
  * ```
  */
-ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_File) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_File)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator, File, phalcon, validation_validator_file, phalcon_validation_abstractvalidatorcomposite_ce, phalcon_validation_validator_file_method_entry, 0);
 
 	return SUCCESS;
-
 }
 
 /**
@@ -129,8 +128,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_File) {
  *     'allowEmpty' => false
  * ]
  */
-PHP_METHOD(Phalcon_Validation_Validator_File, __construct) {
-
+PHP_METHOD(Phalcon_Validation_Validator_File, __construct)
+{
 	zend_string *_3;
 	zend_ulong _2;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -197,13 +196,11 @@ PHP_METHOD(Phalcon_Validation_Validator_File, __construct) {
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ARRAY(options)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &options_param);
-
 	if (!options_param) {
 		ZEPHIR_INIT_VAR(&options);
 		array_init(&options);
@@ -571,6 +568,5 @@ PHP_METHOD(Phalcon_Validation_Validator_File, __construct) {
 	ZEPHIR_CALL_PARENT(NULL, phalcon_validation_validator_file_ce, getThis(), "__construct", &_57, 0, &options);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
-
 }
 

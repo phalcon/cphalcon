@@ -38,32 +38,30 @@
  * $logger->close();
  *```
  */
-ZEPHIR_INIT_CLASS(Phalcon_Logger_Adapter_Noop) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Logger_Adapter_Noop)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Logger\\Adapter, Noop, phalcon, logger_adapter_noop, phalcon_logger_adapter_abstractadapter_ce, phalcon_logger_adapter_noop_method_entry, 0);
 
 	return SUCCESS;
-
 }
 
 /**
  * Closes the stream
  */
-PHP_METHOD(Phalcon_Logger_Adapter_Noop, close) {
-
+PHP_METHOD(Phalcon_Logger_Adapter_Noop, close)
+{
 	zval *this_ptr = getThis();
 
 
 
 	RETURN_BOOL(1);
-
 }
 
 /**
  * Processes the message i.e. writes it to the file
  */
-PHP_METHOD(Phalcon_Logger_Adapter_Noop, process) {
-
+PHP_METHOD(Phalcon_Logger_Adapter_Noop, process)
+{
 	zval *item, item_sub;
 	zval *this_ptr = getThis();
 
@@ -73,13 +71,10 @@ PHP_METHOD(Phalcon_Logger_Adapter_Noop, process) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(item, phalcon_logger_item_ce)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	zephir_fetch_params_without_memory_grow(1, 0, &item);
-
-
 
 
 }

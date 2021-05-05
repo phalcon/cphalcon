@@ -25,13 +25,11 @@
 /**
  * Class DateTimeLocal
  */
-ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Input_DateTimeLocal) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Input_DateTimeLocal)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Html\\Helper\\Input, DateTimeLocal, phalcon, html_helper_input_datetimelocal, phalcon_html_helper_input_abstractinput_ce, NULL, 0);
 
 	zend_declare_property_string(phalcon_html_helper_input_datetimelocal_ce, SL("type"), "datetime-local", ZEND_ACC_PROTECTED);
-
 	return SUCCESS;
-
 }
 

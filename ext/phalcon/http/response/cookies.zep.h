@@ -8,6 +8,7 @@ PHP_METHOD(Phalcon_Http_Response_Cookies, delete);
 PHP_METHOD(Phalcon_Http_Response_Cookies, get);
 PHP_METHOD(Phalcon_Http_Response_Cookies, getCookies);
 PHP_METHOD(Phalcon_Http_Response_Cookies, has);
+PHP_METHOD(Phalcon_Http_Response_Cookies, isSent);
 PHP_METHOD(Phalcon_Http_Response_Cookies, isUsingEncryption);
 PHP_METHOD(Phalcon_Http_Response_Cookies, reset);
 PHP_METHOD(Phalcon_Http_Response_Cookies, send);
@@ -36,6 +37,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_response_cookies_ha
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_response_cookies_issent, 0, 0, _IS_BOOL, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_response_cookies_isusingencryption, 0, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
@@ -53,7 +57,11 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_response_cookies_set
 	ZEND_ARG_TYPE_INFO(0, secure, _IS_BOOL, 1)
 	ZEND_ARG_TYPE_INFO(0, domain, IS_STRING, 1)
 	ZEND_ARG_TYPE_INFO(0, httpOnly, _IS_BOOL, 1)
+#if PHP_VERSION_ID >= 80000
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, options, IS_ARRAY, 0, "[]")
+#else
 	ZEND_ARG_ARRAY_INFO(0, options, 0)
+#endif
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_response_cookies_setsignkey, 0, 0, Phalcon\\Http\\Response\\CookiesInterface, 0)
@@ -73,6 +81,7 @@ ZEPHIR_INIT_FUNCS(phalcon_http_response_cookies_method_entry) {
 	PHP_ME(Phalcon_Http_Response_Cookies, get, arginfo_phalcon_http_response_cookies_get, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Response_Cookies, getCookies, arginfo_phalcon_http_response_cookies_getcookies, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Response_Cookies, has, arginfo_phalcon_http_response_cookies_has, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response_Cookies, isSent, arginfo_phalcon_http_response_cookies_issent, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Response_Cookies, isUsingEncryption, arginfo_phalcon_http_response_cookies_isusingencryption, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Response_Cookies, reset, arginfo_phalcon_http_response_cookies_reset, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Response_Cookies, send, arginfo_phalcon_http_response_cookies_send, ZEND_ACC_PUBLIC)

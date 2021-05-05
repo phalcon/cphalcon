@@ -49,8 +49,8 @@
  * );
  *```
  */
-ZEPHIR_INIT_CLASS(Phalcon_Db_Reference) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Db_Reference)
+{
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Db, Reference, phalcon, db_reference, phalcon_db_reference_method_entry, 0);
 
 	/**
@@ -59,170 +59,153 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_Reference) {
 	 * @var array
 	 */
 	zend_declare_property_null(phalcon_db_reference_ce, SL("columns"), ZEND_ACC_PROTECTED);
-
 	/**
 	 * Constraint name
 	 *
 	 * @var string
 	 */
 	zend_declare_property_null(phalcon_db_reference_ce, SL("name"), ZEND_ACC_PROTECTED);
-
 	/**
 	 * Referenced Columns
 	 *
 	 * @var array
 	 */
 	zend_declare_property_null(phalcon_db_reference_ce, SL("referencedColumns"), ZEND_ACC_PROTECTED);
-
 	/**
 	 * Referenced Schema
 	 *
 	 * @var string
 	 */
 	zend_declare_property_null(phalcon_db_reference_ce, SL("referencedSchema"), ZEND_ACC_PROTECTED);
-
 	/**
 	 * Referenced Table
 	 *
 	 * @var string
 	 */
 	zend_declare_property_null(phalcon_db_reference_ce, SL("referencedTable"), ZEND_ACC_PROTECTED);
-
 	/**
 	 * Schema name
 	 *
 	 * @var string
 	 */
 	zend_declare_property_null(phalcon_db_reference_ce, SL("schemaName"), ZEND_ACC_PROTECTED);
-
 	/**
 	 * ON DELETE
 	 *
 	 * @var string
 	 */
 	zend_declare_property_null(phalcon_db_reference_ce, SL("onDelete"), ZEND_ACC_PROTECTED);
-
 	/**
 	 * ON UPDATE
 	 *
 	 * @var string
 	 */
 	zend_declare_property_null(phalcon_db_reference_ce, SL("onUpdate"), ZEND_ACC_PROTECTED);
-
 	zend_class_implements(phalcon_db_reference_ce, 1, phalcon_db_referenceinterface_ce);
 	return SUCCESS;
-
 }
 
 /**
  * Local reference columns
  */
-PHP_METHOD(Phalcon_Db_Reference, getColumns) {
-
+PHP_METHOD(Phalcon_Db_Reference, getColumns)
+{
 	zval *this_ptr = getThis();
 
 
 
 	RETURN_MEMBER(getThis(), "columns");
-
 }
 
 /**
  * Constraint name
  */
-PHP_METHOD(Phalcon_Db_Reference, getName) {
-
+PHP_METHOD(Phalcon_Db_Reference, getName)
+{
 	zval *this_ptr = getThis();
 
 
 
 	RETURN_MEMBER(getThis(), "name");
-
 }
 
 /**
  * Referenced Columns
  */
-PHP_METHOD(Phalcon_Db_Reference, getReferencedColumns) {
-
+PHP_METHOD(Phalcon_Db_Reference, getReferencedColumns)
+{
 	zval *this_ptr = getThis();
 
 
 
 	RETURN_MEMBER(getThis(), "referencedColumns");
-
 }
 
 /**
  * Referenced Schema
  */
-PHP_METHOD(Phalcon_Db_Reference, getReferencedSchema) {
-
+PHP_METHOD(Phalcon_Db_Reference, getReferencedSchema)
+{
 	zval *this_ptr = getThis();
 
 
 
 	RETURN_MEMBER(getThis(), "referencedSchema");
-
 }
 
 /**
  * Referenced Table
  */
-PHP_METHOD(Phalcon_Db_Reference, getReferencedTable) {
-
+PHP_METHOD(Phalcon_Db_Reference, getReferencedTable)
+{
 	zval *this_ptr = getThis();
 
 
 
 	RETURN_MEMBER(getThis(), "referencedTable");
-
 }
 
 /**
  * Schema name
  */
-PHP_METHOD(Phalcon_Db_Reference, getSchemaName) {
-
+PHP_METHOD(Phalcon_Db_Reference, getSchemaName)
+{
 	zval *this_ptr = getThis();
 
 
 
 	RETURN_MEMBER(getThis(), "schemaName");
-
 }
 
 /**
  * ON DELETE
  */
-PHP_METHOD(Phalcon_Db_Reference, getOnDelete) {
-
+PHP_METHOD(Phalcon_Db_Reference, getOnDelete)
+{
 	zval *this_ptr = getThis();
 
 
 
 	RETURN_MEMBER(getThis(), "onDelete");
-
 }
 
 /**
  * ON UPDATE
  */
-PHP_METHOD(Phalcon_Db_Reference, getOnUpdate) {
-
+PHP_METHOD(Phalcon_Db_Reference, getOnUpdate)
+{
 	zval *this_ptr = getThis();
 
 
 
 	RETURN_MEMBER(getThis(), "onUpdate");
-
 }
 
 /**
  * Phalcon\Db\Reference constructor
  */
-PHP_METHOD(Phalcon_Db_Reference, __construct) {
-
+PHP_METHOD(Phalcon_Db_Reference, __construct)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval definition;
 	zval *name_param = NULL, *definition_param = NULL, columns, schema, referencedTable, referencedSchema, referencedColumns, onDelete, onUpdate;
@@ -244,13 +227,11 @@ PHP_METHOD(Phalcon_Db_Reference, __construct) {
 		Z_PARAM_STR(name)
 		Z_PARAM_ARRAY(definition)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &name_param, &definition_param);
-
 	if (UNEXPECTED(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be of the type string"));
 		RETURN_MM_NULL();
@@ -259,7 +240,6 @@ PHP_METHOD(Phalcon_Db_Reference, __construct) {
 		zephir_get_strval(&name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(&name);
-		ZVAL_EMPTY_STRING(&name);
 	}
 	ZEPHIR_OBS_COPY_OR_DUP(&definition, definition_param);
 
@@ -304,6 +284,5 @@ PHP_METHOD(Phalcon_Db_Reference, __construct) {
 		return;
 	}
 	ZEPHIR_MM_RESTORE();
-
 }
 

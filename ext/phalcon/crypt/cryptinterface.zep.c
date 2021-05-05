@@ -23,12 +23,11 @@
 /**
  * Interface for Phalcon\Crypt
  */
-ZEPHIR_INIT_CLASS(Phalcon_Crypt_CryptInterface) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Crypt_CryptInterface)
+{
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Crypt, CryptInterface, phalcon, crypt_cryptinterface, phalcon_crypt_cryptinterface_method_entry);
 
 	return SUCCESS;
-
 }
 
 /**

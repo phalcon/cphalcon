@@ -23,12 +23,11 @@
 /**
  * Interface for classes which could be used in allow method as RESOURCE
  */
-ZEPHIR_INIT_CLASS(Phalcon_Acl_ComponentAware) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Acl_ComponentAware)
+{
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Acl, ComponentAware, phalcon, acl_componentaware, phalcon_acl_componentaware_method_entry);
 
 	return SUCCESS;
-
 }
 
 /**

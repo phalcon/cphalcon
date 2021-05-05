@@ -25,13 +25,11 @@
 /**
  * Class Password
  */
-ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Input_Password) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Input_Password)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Html\\Helper\\Input, Password, phalcon, html_helper_input_password, phalcon_html_helper_input_abstractinput_ce, NULL, 0);
 
 	zend_declare_property_string(phalcon_html_helper_input_password_ce, SL("type"), "password", ZEND_ACC_PROTECTED);
-
 	return SUCCESS;
-
 }
 

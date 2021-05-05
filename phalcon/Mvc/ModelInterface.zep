@@ -33,7 +33,11 @@ interface ModelInterface
     /**
      * Assigns values to a model from an array
      *
-     * @param array columnMap
+     * @param array data
+     * @param mixed whiteList
+     * @param mixed dataColumnMap Array to transform keys of data to another
+     *
+     * @return ModelInterface
      */
     public function assign(array! data, var whiteList = null, var dataColumnMap = null) -> <ModelInterface>;
 
@@ -42,7 +46,7 @@ interface ModelInterface
      * conditions
      *
      * @param array parameters
-     * @return double | ResultsetInterface
+     * @return ResultsetInterface|float
      */
     public static function average(array parameters = []) -> float | <ResultsetInterface>;
 
@@ -54,11 +58,14 @@ interface ModelInterface
     /**
      * Assigns values to a model from an array returning a new model
      *
-     * @param \Phalcon\Mvc\Model base
-     * @param array columnMap
-     * @return \Phalcon\Mvc\Model result
+     * @param ModelInterface|\Phalcon\Mvc\Model\Row base
+     * @param mixed columnMap
+     * @param int dirtyState
+     * @param bool keepSnapshots
+     *
+     * @return ModelInterface
      */
-    public static function cloneResultMap(base, array! data, var columnMap, int dirtyState = 0, bool keepSnapshots = null) -> <ModelInterface>;
+    public static function cloneResultMap(base, array! data, var columnMap, int dirtyState = 0, bool keepSnapshots = false) -> <ModelInterface>;
 
     /**
      * Returns an hydrated result based on the data and the column map
@@ -92,6 +99,10 @@ interface ModelInterface
 
     /**
      * Allows to query a set of records that match the specified conditions
+     *
+     * @param array|string|int|null parameters
+     *
+     * @return ResultsetInterface
      */
     public static function find(var parameters = null) -> <ResultsetInterface>;
 
@@ -154,15 +165,16 @@ interface ModelInterface
     /**
      * Returns related records based on defined relations
      *
+     * @param string alias
      * @param array arguments
-     * @return \Phalcon\Mvc\Model\Resultset\Simple|Phalcon\Mvc\Model\Resultset\Simple|false
+     * @return \Phalcon\Mvc\Model\Resultset\Simple|false
      */
-    public function getRelated(string alias, arguments = null);
+    public function getRelated(string alias, arguments = null); // TODO: make arguments array type
 
     /**
      * Returns schema name where table mapped is located
      */
-    public function getSchema() -> string;
+    public function getSchema() -> string | null;
 
     /**
      * Returns table name mapped in the model
@@ -256,7 +268,7 @@ interface ModelInterface
      * Allows to calculate a sum on a column that match the specified conditions
      *
      * @param array parameters
-     * @return double | ResultsetInterface
+     * @return float|ResultsetInterface
      */
     public static function sum(parameters = null) -> float | <ResultsetInterface>;
 

@@ -25,11 +25,10 @@
 /**
  * Exceptions thrown in Phalcon\Cli\Console will use this class
  */
-ZEPHIR_INIT_CLASS(Phalcon_Cli_Console_Exception) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Cli_Console_Exception)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Cli\\Console, Exception, phalcon, cli_console_exception, phalcon_application_exception_ce, NULL, 0);
 
 	return SUCCESS;
-
 }
 

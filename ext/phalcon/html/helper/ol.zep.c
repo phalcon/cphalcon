@@ -30,12 +30,11 @@
 /**
  * Class Ol
  */
-ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Ol) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Ol)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Html\\Helper, Ol, phalcon, html_helper_ol, phalcon_html_helper_abstractlist_ce, phalcon_html_helper_ol_method_entry, 0);
 
 	return SUCCESS;
-
 }
 
 /**
@@ -45,10 +44,10 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Ol) {
  * @param array  $attributes
  * @param bool   $raw
  *
- * @return $this
+ * @return AbstractList
  */
-PHP_METHOD(Phalcon_Html_Helper_Ol, add) {
-
+PHP_METHOD(Phalcon_Html_Helper_Ol, add)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool raw;
@@ -72,13 +71,11 @@ PHP_METHOD(Phalcon_Html_Helper_Ol, add) {
 		Z_PARAM_ARRAY(attributes)
 		Z_PARAM_BOOL(raw)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 2, &text_param, &attributes_param, &raw_param);
-
 	zephir_get_strval(&text, text_param);
 	if (!attributes_param) {
 		ZEPHIR_INIT_VAR(&attributes);
@@ -114,19 +111,17 @@ PHP_METHOD(Phalcon_Html_Helper_Ol, add) {
 	zephir_array_fast_append(&_0, &_4);
 	zephir_update_property_array_append(this_ptr, SL("store"), &_0);
 	RETURN_THIS();
-
 }
 
 /**
  * @return string
  */
-PHP_METHOD(Phalcon_Html_Helper_Ol, getTag) {
-
+PHP_METHOD(Phalcon_Html_Helper_Ol, getTag)
+{
 	zval *this_ptr = getThis();
 
 
 
 	RETURN_STRING("ol");
-
 }
 

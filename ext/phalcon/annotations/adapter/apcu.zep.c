@@ -40,22 +40,19 @@
  * $annotations = new Apcu();
  *```
  */
-ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Apcu) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Apcu)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Annotations\\Adapter, Apcu, phalcon, annotations_adapter_apcu, phalcon_annotations_adapter_abstractadapter_ce, phalcon_annotations_adapter_apcu_method_entry, 0);
 
 	/**
 	 * @var string
 	 */
 	zend_declare_property_string(phalcon_annotations_adapter_apcu_ce, SL("prefix"), "", ZEND_ACC_PROTECTED);
-
 	/**
 	 * @var int
 	 */
 	zend_declare_property_long(phalcon_annotations_adapter_apcu_ce, SL("ttl"), 172800, ZEND_ACC_PROTECTED);
-
 	return SUCCESS;
-
 }
 
 /**
@@ -66,8 +63,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Adapter_Apcu) {
  *
  * Phalcon\Annotations\Adapter\Apcu constructor
  */
-PHP_METHOD(Phalcon_Annotations_Adapter_Apcu, __construct) {
-
+PHP_METHOD(Phalcon_Annotations_Adapter_Apcu, __construct)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *options_param = NULL, prefix, ttl;
 	zval options;
@@ -82,13 +79,11 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apcu, __construct) {
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ARRAY(options)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &options_param);
-
 	if (!options_param) {
 		ZEPHIR_INIT_VAR(&options);
 		array_init(&options);
@@ -104,14 +99,13 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apcu, __construct) {
 		zephir_update_property_zval(this_ptr, ZEND_STRL("ttl"), &ttl);
 	}
 	ZEPHIR_MM_RESTORE();
-
 }
 
 /**
  * Reads parsed annotations from APCu
  */
-PHP_METHOD(Phalcon_Annotations_Adapter_Apcu, read) {
-
+PHP_METHOD(Phalcon_Annotations_Adapter_Apcu, read)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *key_param = NULL, _0, _1, _2;
@@ -127,13 +121,11 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apcu, read) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(key)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &key_param);
-
 	if (UNEXPECTED(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string"));
 		RETURN_MM_NULL();
@@ -142,7 +134,6 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apcu, read) {
 		zephir_get_strval(&key, key_param);
 	} else {
 		ZEPHIR_INIT_VAR(&key);
-		ZVAL_EMPTY_STRING(&key);
 	}
 
 
@@ -151,17 +142,16 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apcu, read) {
 	ZEPHIR_INIT_VAR(&_2);
 	ZEPHIR_CONCAT_SVV(&_2, "_PHAN", &_1, &key);
 	zephir_fast_strtolower(&_0, &_2);
-	ZEPHIR_RETURN_CALL_FUNCTION("apcu_fetch", NULL, 122, &_0);
+	ZEPHIR_RETURN_CALL_FUNCTION("apcu_fetch", NULL, 121, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
-
 }
 
 /**
  * Writes parsed annotations to APCu
  */
-PHP_METHOD(Phalcon_Annotations_Adapter_Apcu, write) {
-
+PHP_METHOD(Phalcon_Annotations_Adapter_Apcu, write)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *key_param = NULL, *data, data_sub, _0, _1, _2, _3;
@@ -180,13 +170,11 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apcu, write) {
 		Z_PARAM_STR(key)
 		Z_PARAM_ZVAL(data)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &key_param, &data);
-
 	if (UNEXPECTED(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string"));
 		RETURN_MM_NULL();
@@ -195,7 +183,6 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apcu, write) {
 		zephir_get_strval(&key, key_param);
 	} else {
 		ZEPHIR_INIT_VAR(&key);
-		ZVAL_EMPTY_STRING(&key);
 	}
 
 
@@ -205,9 +192,8 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Apcu, write) {
 	ZEPHIR_CONCAT_SVV(&_2, "_PHAN", &_1, &key);
 	zephir_fast_strtolower(&_0, &_2);
 	zephir_read_property(&_3, this_ptr, ZEND_STRL("ttl"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_FUNCTION("apcu_store", NULL, 125, &_0, data, &_3);
+	ZEPHIR_RETURN_CALL_FUNCTION("apcu_store", NULL, 124, &_0, data, &_3);
 	zephir_check_call_status();
 	RETURN_MM();
-
 }
 

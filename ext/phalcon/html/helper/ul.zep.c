@@ -26,24 +26,22 @@
 /**
  * Class Ul
  */
-ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Ul) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Ul)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Html\\Helper, Ul, phalcon, html_helper_ul, phalcon_html_helper_ol_ce, phalcon_html_helper_ul_method_entry, 0);
 
 	return SUCCESS;
-
 }
 
 /**
  * @return string
  */
-PHP_METHOD(Phalcon_Html_Helper_Ul, getTag) {
-
+PHP_METHOD(Phalcon_Html_Helper_Ul, getTag)
+{
 	zval *this_ptr = getThis();
 
 
 
 	RETURN_STRING("ul");
-
 }
 

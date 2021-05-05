@@ -25,12 +25,11 @@
  *
  * Interface for Phalcon\Mvc\Model\Manager
  */
-ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_ManagerInterface) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_ManagerInterface)
+{
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Mvc\\Model, ManagerInterface, phalcon, mvc_model_managerinterface, phalcon_mvc_model_managerinterface_method_entry);
 
 	return SUCCESS;
-
 }
 
 /**
@@ -199,12 +198,17 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getReadConnection);
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getReadConnectionService);
 /**
  * Returns a relation by its alias
+ *
+ * @param string modelName
+ * @param string alias
+ *
+ * @return RelationInterface|bool
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getRelationByAlias);
 /**
  * Helper method to query records based on a relation definition
  *
- * @return \Phalcon\Mvc\Model\Resultset\Simple|Phalcon\Mvc\Model\Resultset\Simple|int|false
+ * @return \Phalcon\Mvc\Model\Resultset\Simple|int|false
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, getRelationRecords);
 /**

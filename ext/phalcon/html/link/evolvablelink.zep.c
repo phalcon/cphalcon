@@ -33,13 +33,12 @@
  * @property array  rels
  * @property bool   templated
  */
-ZEPHIR_INIT_CLASS(Phalcon_Html_Link_EvolvableLink) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Html_Link_EvolvableLink)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Html\\Link, EvolvableLink, phalcon, html_link_evolvablelink, phalcon_html_link_link_ce, phalcon_html_link_evolvablelink_method_entry, 0);
 
 	zend_class_implements(phalcon_html_link_evolvablelink_ce, 1, zephir_get_internal_ce(SL("psr\\link\\evolvablelinkinterface")));
 	return SUCCESS;
-
 }
 
 /**
@@ -53,8 +52,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Link_EvolvableLink) {
  *
  * @return static
  */
-PHP_METHOD(Phalcon_Html_Link_EvolvableLink, withAttribute) {
-
+PHP_METHOD(Phalcon_Html_Link_EvolvableLink, withAttribute)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *attribute, attribute_sub, *value, value_sub, newInstance, _0;
@@ -70,13 +69,11 @@ PHP_METHOD(Phalcon_Html_Link_EvolvableLink, withAttribute) {
 		Z_PARAM_ZVAL(attribute)
 		Z_PARAM_ZVAL(value)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &attribute, &value);
-
 
 
 	ZEPHIR_INIT_VAR(&newInstance);
@@ -87,7 +84,6 @@ PHP_METHOD(Phalcon_Html_Link_EvolvableLink, withAttribute) {
 	ZEPHIR_CALL_METHOD(NULL, &_0, "set", NULL, 0, attribute, value);
 	zephir_check_call_status();
 	RETURN_CCTOR(&newInstance);
-
 }
 
 /**
@@ -107,8 +103,8 @@ PHP_METHOD(Phalcon_Html_Link_EvolvableLink, withAttribute) {
  *
  * @return static
  */
-PHP_METHOD(Phalcon_Html_Link_EvolvableLink, withHref) {
-
+PHP_METHOD(Phalcon_Html_Link_EvolvableLink, withHref)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *href, href_sub, newInstance, _0;
@@ -122,13 +118,11 @@ PHP_METHOD(Phalcon_Html_Link_EvolvableLink, withHref) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(href)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &href);
-
 
 
 	ZEPHIR_INIT_VAR(&newInstance);
@@ -140,7 +134,6 @@ PHP_METHOD(Phalcon_Html_Link_EvolvableLink, withHref) {
 	zephir_check_call_status();
 	zephir_update_property_zval(&newInstance, ZEND_STRL("templated"), &_0);
 	RETURN_CCTOR(&newInstance);
-
 }
 
 /**
@@ -154,8 +147,8 @@ PHP_METHOD(Phalcon_Html_Link_EvolvableLink, withHref) {
  *
  * @return static
  */
-PHP_METHOD(Phalcon_Html_Link_EvolvableLink, withRel) {
-
+PHP_METHOD(Phalcon_Html_Link_EvolvableLink, withRel)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *rel, rel_sub, newInstance, _0, _1;
@@ -170,13 +163,11 @@ PHP_METHOD(Phalcon_Html_Link_EvolvableLink, withRel) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(rel)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &rel);
-
 
 
 	ZEPHIR_INIT_VAR(&newInstance);
@@ -188,7 +179,6 @@ PHP_METHOD(Phalcon_Html_Link_EvolvableLink, withRel) {
 	ZEPHIR_CALL_METHOD(NULL, &_0, "set", NULL, 0, rel, &_1);
 	zephir_check_call_status();
 	RETURN_CCTOR(&newInstance);
-
 }
 
 /**
@@ -202,8 +192,8 @@ PHP_METHOD(Phalcon_Html_Link_EvolvableLink, withRel) {
  *
  * @return static
  */
-PHP_METHOD(Phalcon_Html_Link_EvolvableLink, withoutAttribute) {
-
+PHP_METHOD(Phalcon_Html_Link_EvolvableLink, withoutAttribute)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *attribute, attribute_sub, newInstance, _0;
@@ -217,13 +207,11 @@ PHP_METHOD(Phalcon_Html_Link_EvolvableLink, withoutAttribute) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(attribute)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &attribute);
-
 
 
 	ZEPHIR_INIT_VAR(&newInstance);
@@ -234,7 +222,6 @@ PHP_METHOD(Phalcon_Html_Link_EvolvableLink, withoutAttribute) {
 	ZEPHIR_CALL_METHOD(NULL, &_0, "remove", NULL, 0, attribute);
 	zephir_check_call_status();
 	RETURN_CCTOR(&newInstance);
-
 }
 
 /**
@@ -248,8 +235,8 @@ PHP_METHOD(Phalcon_Html_Link_EvolvableLink, withoutAttribute) {
  *
  * @return static
  */
-PHP_METHOD(Phalcon_Html_Link_EvolvableLink, withoutRel) {
-
+PHP_METHOD(Phalcon_Html_Link_EvolvableLink, withoutRel)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *rel, rel_sub, newInstance, _0;
@@ -263,13 +250,11 @@ PHP_METHOD(Phalcon_Html_Link_EvolvableLink, withoutRel) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(rel)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &rel);
-
 
 
 	ZEPHIR_INIT_VAR(&newInstance);
@@ -280,6 +265,5 @@ PHP_METHOD(Phalcon_Html_Link_EvolvableLink, withoutRel) {
 	ZEPHIR_CALL_METHOD(NULL, &_0, "remove", NULL, 0, rel);
 	zephir_check_call_status();
 	RETURN_CCTOR(&newInstance);
-
 }
 

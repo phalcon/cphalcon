@@ -25,13 +25,11 @@
 /**
  * Class Color
  */
-ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Input_Color) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Input_Color)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Html\\Helper\\Input, Color, phalcon, html_helper_input_color, phalcon_html_helper_input_abstractinput_ce, NULL, 0);
 
 	zend_declare_property_string(phalcon_html_helper_input_color_ce, SL("type"), "color", ZEND_ACC_PROTECTED);
-
 	return SUCCESS;
-
 }
 

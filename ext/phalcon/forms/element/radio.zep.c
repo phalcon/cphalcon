@@ -31,19 +31,18 @@
  *
  * Component INPUT[type=radio] for forms
  */
-ZEPHIR_INIT_CLASS(Phalcon_Forms_Element_Radio) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Forms_Element_Radio)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Forms\\Element, Radio, phalcon, forms_element_radio, phalcon_forms_element_abstractelement_ce, phalcon_forms_element_radio_method_entry, 0);
 
 	return SUCCESS;
-
 }
 
 /**
  * Renders the element widget returning HTML
  */
-PHP_METHOD(Phalcon_Forms_Element_Radio, render) {
-
+PHP_METHOD(Phalcon_Forms_Element_Radio, render)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
@@ -60,13 +59,11 @@ PHP_METHOD(Phalcon_Forms_Element_Radio, render) {
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ARRAY(attributes)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &attributes_param);
-
 	if (!attributes_param) {
 		ZEPHIR_INIT_VAR(&attributes);
 		array_init(&attributes);
@@ -81,6 +78,5 @@ PHP_METHOD(Phalcon_Forms_Element_Radio, render) {
 	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_tag_ce, "radiofield", &_0, 0, &_1);
 	zephir_check_call_status();
 	RETURN_MM();
-
 }
 

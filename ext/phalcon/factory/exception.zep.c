@@ -22,11 +22,10 @@
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
-ZEPHIR_INIT_CLASS(Phalcon_Factory_Exception) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Factory_Exception)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Factory, Exception, phalcon, factory_exception, phalcon_exception_ce, NULL, 0);
 
 	return SUCCESS;
-
 }
 

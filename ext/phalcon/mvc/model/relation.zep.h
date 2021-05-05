@@ -19,13 +19,18 @@ PHP_METHOD(Phalcon_Mvc_Model_Relation, isForeignKey);
 PHP_METHOD(Phalcon_Mvc_Model_Relation, isThrough);
 PHP_METHOD(Phalcon_Mvc_Model_Relation, isReusable);
 PHP_METHOD(Phalcon_Mvc_Model_Relation, setIntermediateRelation);
+zend_object *zephir_init_properties_Phalcon_Mvc_Model_Relation(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_relation___construct, 0, 0, 4)
 	ZEND_ARG_TYPE_INFO(0, type, IS_LONG, 0)
 	ZEND_ARG_TYPE_INFO(0, referencedModel, IS_STRING, 0)
 	ZEND_ARG_INFO(0, fields)
 	ZEND_ARG_INFO(0, referencedFields)
+#if PHP_VERSION_ID >= 80000
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, options, IS_ARRAY, 0, "[]")
+#else
 	ZEND_ARG_ARRAY_INFO(0, options, 0)
+#endif
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_relation_getfields, 0, 0, 0)
@@ -75,6 +80,9 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_relation_setintermediaterelatio
 	ZEND_ARG_INFO(0, intermediateFields)
 	ZEND_ARG_TYPE_INFO(0, intermediateModel, IS_STRING, 0)
 	ZEND_ARG_INFO(0, intermediateReferencedFields)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_model_relation_zephir_init_properties_phalcon_mvc_model_relation, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_mvc_model_relation_method_entry) {

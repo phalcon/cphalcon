@@ -34,13 +34,12 @@
 /**
  * PSR-17 UploadedFileFactory
  */
-ZEPHIR_INIT_CLASS(Phalcon_Http_Message_UploadedFileFactory) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Http_Message_UploadedFileFactory)
+{
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Http\\Message, UploadedFileFactory, phalcon, http_message_uploadedfilefactory, phalcon_http_message_uploadedfilefactory_method_entry, ZEND_ACC_FINAL_CLASS);
 
 	zend_class_implements(phalcon_http_message_uploadedfilefactory_ce, 1, zephir_get_internal_ce(SL("psr\\http\\message\\uploadedfilefactoryinterface")));
 	return SUCCESS;
-
 }
 
 /**
@@ -61,8 +60,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_UploadedFileFactory) {
  *
  * @throws \InvalidArgumentException If the file resource is not readable.
  */
-PHP_METHOD(Phalcon_Http_Message_UploadedFileFactory, createUploadedFile) {
-
+PHP_METHOD(Phalcon_Http_Message_UploadedFileFactory, createUploadedFile)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval clientFilename, clientMediaType;
 	zend_long size, error, ZEPHIR_LAST_CALL_STATUS;
@@ -84,13 +83,11 @@ PHP_METHOD(Phalcon_Http_Message_UploadedFileFactory, createUploadedFile) {
 		Z_PARAM_STR_OR_NULL(clientFilename)
 		Z_PARAM_STR_OR_NULL(clientMediaType)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 4, &stream, &size_param, &error_param, &clientFilename_param, &clientMediaType_param);
-
 	if (!size_param) {
 		size = 0;
 	} else {
@@ -103,13 +100,11 @@ PHP_METHOD(Phalcon_Http_Message_UploadedFileFactory, createUploadedFile) {
 	}
 	if (!clientFilename_param) {
 		ZEPHIR_INIT_VAR(&clientFilename);
-		ZVAL_STRING(&clientFilename, "");
 	} else {
 		zephir_get_strval(&clientFilename, clientFilename_param);
 	}
 	if (!clientMediaType_param) {
 		ZEPHIR_INIT_VAR(&clientMediaType);
-		ZVAL_STRING(&clientMediaType, "");
 	} else {
 		zephir_get_strval(&clientMediaType, clientMediaType_param);
 	}
@@ -118,9 +113,8 @@ PHP_METHOD(Phalcon_Http_Message_UploadedFileFactory, createUploadedFile) {
 	object_init_ex(return_value, phalcon_http_message_uploadedfile_ce);
 	ZVAL_LONG(&_0, size);
 	ZVAL_LONG(&_1, error);
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 326, stream, &_0, &_1, &clientFilename, &clientMediaType);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 305, stream, &_0, &_1, &clientFilename, &clientMediaType);
 	zephir_check_call_status();
 	RETURN_MM();
-
 }
 

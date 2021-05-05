@@ -39,8 +39,8 @@
  * $subscriber->save();
  *```
  */
-ZEPHIR_INIT_CLASS(Phalcon_Db_RawValue) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Db_RawValue)
+{
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Db, RawValue, phalcon, db_rawvalue, phalcon_db_rawvalue_method_entry, 0);
 
 	/**
@@ -49,42 +49,38 @@ ZEPHIR_INIT_CLASS(Phalcon_Db_RawValue) {
 	 * @var string
 	 */
 	zend_declare_property_null(phalcon_db_rawvalue_ce, SL("value"), ZEND_ACC_PROTECTED);
-
 	return SUCCESS;
-
 }
 
 /**
  * Raw value without quoting or formatting
  */
-PHP_METHOD(Phalcon_Db_RawValue, getValue) {
-
+PHP_METHOD(Phalcon_Db_RawValue, getValue)
+{
 	zval *this_ptr = getThis();
 
 
 
 	RETURN_MEMBER(getThis(), "value");
-
 }
 
 /**
  * Raw value without quoting or formatting
  */
-PHP_METHOD(Phalcon_Db_RawValue, __toString) {
-
+PHP_METHOD(Phalcon_Db_RawValue, __toString)
+{
 	zval *this_ptr = getThis();
 
 
 
 	RETURN_MEMBER(getThis(), "value");
-
 }
 
 /**
  * Phalcon\Db\RawValue constructor
  */
-PHP_METHOD(Phalcon_Db_RawValue, __construct) {
-
+PHP_METHOD(Phalcon_Db_RawValue, __construct)
+{
 	zval _2$$5;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *value, value_sub, _0$$3, _1$$4;
@@ -99,13 +95,11 @@ PHP_METHOD(Phalcon_Db_RawValue, __construct) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(value)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &value);
-
 
 
 	if (ZEPHIR_IS_STRING_IDENTICAL(value, "")) {
@@ -119,10 +113,9 @@ PHP_METHOD(Phalcon_Db_RawValue, __construct) {
 		ZVAL_STRING(&_1$$4, "NULL");
 		zephir_update_property_zval(this_ptr, ZEND_STRL("value"), &_1$$4);
 	} else {
-		zephir_get_strval(&_2$$5, value);
+		zephir_cast_to_string(&_2$$5, value);
 		zephir_update_property_zval(this_ptr, ZEND_STRL("value"), &_2$$5);
 	}
 	ZEPHIR_MM_RESTORE();
-
 }
 

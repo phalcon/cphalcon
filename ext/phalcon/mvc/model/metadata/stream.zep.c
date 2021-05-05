@@ -46,14 +46,12 @@
  * );
  *```
  */
-ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Stream) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Stream)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\MetaData, Stream, phalcon, mvc_model_metadata_stream, phalcon_mvc_model_metadata_ce, phalcon_mvc_model_metadata_stream_method_entry, 0);
 
 	zend_declare_property_string(phalcon_mvc_model_metadata_stream_ce, SL("metaDataDir"), "./", ZEND_ACC_PROTECTED);
-
 	return SUCCESS;
-
 }
 
 /**
@@ -61,8 +59,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Stream) {
  *
  * @param array options
  */
-PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, __construct) {
-
+PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, __construct)
+{
 	zval *options = NULL, options_sub, __$null, metaDataDir;
 	zval *this_ptr = getThis();
 
@@ -75,12 +73,10 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, __construct) {
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ZVAL(options)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	zephir_fetch_params_without_memory_grow(0, 1, &options);
-
 	if (!options) {
 		options = &options_sub;
 		options = &__$null;
@@ -90,14 +86,13 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, __construct) {
 	if (zephir_array_isset_string_fetch(&metaDataDir, options, SL("metaDataDir"), 1)) {
 		zephir_update_property_zval(this_ptr, ZEND_STRL("metaDataDir"), &metaDataDir);
 	}
-
 }
 
 /**
  * Reads meta-data from files
  */
-PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, read) {
-
+PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, read)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *key_param = NULL, path, _0, _1, _2, _3;
 	zval key;
@@ -114,13 +109,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, read) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(key)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &key_param);
-
 	if (UNEXPECTED(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string"));
 		RETURN_MM_NULL();
@@ -129,7 +122,6 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, read) {
 		zephir_get_strval(&key, key_param);
 	} else {
 		ZEPHIR_INIT_VAR(&key);
-		ZVAL_EMPTY_STRING(&key);
 	}
 
 
@@ -148,14 +140,13 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, read) {
 		RETURN_MM_NULL();
 	}
 	RETURN_CCTOR(&_3);
-
 }
 
 /**
  * Writes the meta-data to files
  */
-PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, write) {
-
+PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, write)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval data;
@@ -181,13 +172,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, write) {
 		Z_PARAM_STR(key)
 		Z_PARAM_ARRAY(data)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &key_param, &data_param);
-
 	if (UNEXPECTED(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string"));
 		RETURN_MM_NULL();
@@ -196,7 +185,6 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, write) {
 		zephir_get_strval(&key, key_param);
 	} else {
 		ZEPHIR_INIT_VAR(&key);
-		ZVAL_EMPTY_STRING(&key);
 	}
 	zephir_get_arrval(&data, data_param);
 
@@ -221,7 +209,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, write) {
 		ZEPHIR_CONCAT_SVS(&_5$$3, "<?php return ", &_4$$3, "; ");
 		zephir_file_put_contents(&_3$$3, &path, &_5$$3);
 		if (ZEPHIR_IS_FALSE_IDENTICAL(&_3$$3)) {
-			ZEPHIR_CALL_METHOD(NULL, this_ptr, "throwwriteexception", NULL, 469, &option);
+			ZEPHIR_CALL_METHOD(NULL, this_ptr, "throwwriteexception", NULL, 455, &option);
 			zephir_check_call_status_or_jump(try_end_1);
 		}
 
@@ -235,19 +223,18 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, write) {
 		if (zephir_instance_of_ev(&_6, zend_ce_exception)) {
 			zend_clear_exception();
 			ZEPHIR_CPY_WRT(&_7, &_6);
-			ZEPHIR_CALL_METHOD(NULL, this_ptr, "throwwriteexception", NULL, 469, &option);
+			ZEPHIR_CALL_METHOD(NULL, this_ptr, "throwwriteexception", NULL, 455, &option);
 			zephir_check_call_status();
 		}
 	}
 	ZEPHIR_MM_RESTORE();
-
 }
 
 /**
  * Throws an exception when the metadata cannot be written
  */
-PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, throwWriteException) {
-
+PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, throwWriteException)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *option, option_sub, _0$$4;
@@ -260,13 +247,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, throwWriteException) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(option)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &option);
-
 
 
 	if (zephir_is_true(option)) {
@@ -279,6 +264,5 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, throwWriteException) {
 		zephir_check_call_status();
 	}
 	ZEPHIR_MM_RESTORE();
-
 }
 

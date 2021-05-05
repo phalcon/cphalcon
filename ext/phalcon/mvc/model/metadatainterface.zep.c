@@ -25,12 +25,11 @@
  *
  * Interface for Phalcon\Mvc\Model\MetaData
  */
-ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaDataInterface) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaDataInterface)
+{
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Mvc\\Model, MetaDataInterface, phalcon, mvc_model_metadatainterface, phalcon_mvc_model_metadatainterface_method_entry);
 
 	return SUCCESS;
-
 }
 
 /**

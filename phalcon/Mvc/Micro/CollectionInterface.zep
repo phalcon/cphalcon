@@ -79,6 +79,11 @@ interface CollectionInterface
 
     /**
      * Sets the main handler
+     *
+     * @param mixed handler
+     * @param bool lazy
+     *
+     * @return CollectionInterface
      */
     public function setHandler(var handler, bool lazy = false) -> <CollectionInterface>;
 

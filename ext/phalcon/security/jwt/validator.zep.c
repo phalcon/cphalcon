@@ -35,22 +35,19 @@
  * @property int   $timeShift
  * @property Token $token
  */
-ZEPHIR_INIT_CLASS(Phalcon_Security_JWT_Validator) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Security_JWT_Validator)
+{
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Security\\JWT, Validator, phalcon, security_jwt_validator, phalcon_security_jwt_validator_method_entry, 0);
 
 	/**
 	 * @var int
 	 */
 	zend_declare_property_long(phalcon_security_jwt_validator_ce, SL("timeShift"), 0, ZEND_ACC_PRIVATE);
-
 	/**
 	 * @var Token
 	 */
 	zend_declare_property_null(phalcon_security_jwt_validator_ce, SL("token"), ZEND_ACC_PRIVATE);
-
 	return SUCCESS;
-
 }
 
 /**
@@ -59,8 +56,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Security_JWT_Validator) {
  * @param Token $token
  * @param int   $timeShift
  */
-PHP_METHOD(Phalcon_Security_JWT_Validator, __construct) {
-
+PHP_METHOD(Phalcon_Security_JWT_Validator, __construct)
+{
 	zend_long timeShift;
 	zval *token, token_sub, *timeShift_param = NULL, _0;
 	zval *this_ptr = getThis();
@@ -74,12 +71,10 @@ PHP_METHOD(Phalcon_Security_JWT_Validator, __construct) {
 		Z_PARAM_OPTIONAL
 		Z_PARAM_LONG(timeShift)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	zephir_fetch_params_without_memory_grow(1, 1, &token, &timeShift_param);
-
 	if (!timeShift_param) {
 		timeShift = 0;
 	} else {
@@ -91,7 +86,6 @@ PHP_METHOD(Phalcon_Security_JWT_Validator, __construct) {
 	ZEPHIR_INIT_ZVAL_NREF(_0);
 	ZVAL_LONG(&_0, timeShift);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("timeShift"), &_0);
-
 }
 
 /**
@@ -99,8 +93,8 @@ PHP_METHOD(Phalcon_Security_JWT_Validator, __construct) {
  *
  * @return Validator
  */
-PHP_METHOD(Phalcon_Security_JWT_Validator, setToken) {
-
+PHP_METHOD(Phalcon_Security_JWT_Validator, setToken)
+{
 	zval *token, token_sub;
 	zval *this_ptr = getThis();
 
@@ -110,17 +104,14 @@ PHP_METHOD(Phalcon_Security_JWT_Validator, setToken) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(token, phalcon_security_jwt_token_token_ce)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	zephir_fetch_params_without_memory_grow(1, 0, &token);
 
 
-
 	zephir_update_property_zval(this_ptr, ZEND_STRL("token"), token);
 	RETURN_THISW();
-
 }
 
 /**
@@ -129,8 +120,8 @@ PHP_METHOD(Phalcon_Security_JWT_Validator, setToken) {
  * @return Validator
  * @throws ValidatorException
  */
-PHP_METHOD(Phalcon_Security_JWT_Validator, validateAudience) {
-
+PHP_METHOD(Phalcon_Security_JWT_Validator, validateAudience)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *audience_param = NULL, _0, _1, _2, _3, _4;
@@ -148,13 +139,11 @@ PHP_METHOD(Phalcon_Security_JWT_Validator, validateAudience) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(audience)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &audience_param);
-
 	if (UNEXPECTED(Z_TYPE_P(audience_param) != IS_STRING && Z_TYPE_P(audience_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'audience' must be of the type string"));
 		RETURN_MM_NULL();
@@ -163,7 +152,6 @@ PHP_METHOD(Phalcon_Security_JWT_Validator, validateAudience) {
 		zephir_get_strval(&audience, audience_param);
 	} else {
 		ZEPHIR_INIT_VAR(&audience);
-		ZVAL_EMPTY_STRING(&audience);
 	}
 
 
@@ -181,7 +169,6 @@ PHP_METHOD(Phalcon_Security_JWT_Validator, validateAudience) {
 		return;
 	}
 	RETURN_THIS();
-
 }
 
 /**
@@ -190,8 +177,8 @@ PHP_METHOD(Phalcon_Security_JWT_Validator, validateAudience) {
  * @return Validator
  * @throws ValidatorException
  */
-PHP_METHOD(Phalcon_Security_JWT_Validator, validateExpiration) {
-
+PHP_METHOD(Phalcon_Security_JWT_Validator, validateExpiration)
+{
 	zend_bool _4;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *timestamp_param = NULL, _0, _1, _2, _3, _5, _6, _7, _8;
@@ -211,13 +198,11 @@ PHP_METHOD(Phalcon_Security_JWT_Validator, validateExpiration) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_LONG(timestamp)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &timestamp_param);
-
 	timestamp = zephir_get_intval(timestamp_param);
 
 
@@ -247,7 +232,6 @@ PHP_METHOD(Phalcon_Security_JWT_Validator, validateExpiration) {
 		return;
 	}
 	RETURN_THIS();
-
 }
 
 /**
@@ -256,8 +240,8 @@ PHP_METHOD(Phalcon_Security_JWT_Validator, validateExpiration) {
  * @return Validator
  * @throws ValidatorException
  */
-PHP_METHOD(Phalcon_Security_JWT_Validator, validateId) {
-
+PHP_METHOD(Phalcon_Security_JWT_Validator, validateId)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *id_param = NULL, _0, _1, _2, _3;
@@ -275,13 +259,11 @@ PHP_METHOD(Phalcon_Security_JWT_Validator, validateId) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(id)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &id_param);
-
 	if (UNEXPECTED(Z_TYPE_P(id_param) != IS_STRING && Z_TYPE_P(id_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'id' must be of the type string"));
 		RETURN_MM_NULL();
@@ -290,7 +272,6 @@ PHP_METHOD(Phalcon_Security_JWT_Validator, validateId) {
 		zephir_get_strval(&id, id_param);
 	} else {
 		ZEPHIR_INIT_VAR(&id);
-		ZVAL_EMPTY_STRING(&id);
 	}
 
 
@@ -301,13 +282,12 @@ PHP_METHOD(Phalcon_Security_JWT_Validator, validateId) {
 	ZVAL_STRING(&_3, "jti");
 	ZEPHIR_CALL_METHOD(&_2, &_1, "get", NULL, 0, &_3);
 	zephir_check_call_status();
-	zephir_get_strval(&_4, &_2);
+	zephir_cast_to_string(&_4, &_2);
 	if (!ZEPHIR_IS_IDENTICAL(&id, &_4)) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_security_jwt_exceptions_validatorexception_ce, "Validation: incorrect Id", "phalcon/Security/JWT/Validator.zep", 108);
 		return;
 	}
 	RETURN_THIS();
-
 }
 
 /**
@@ -316,8 +296,8 @@ PHP_METHOD(Phalcon_Security_JWT_Validator, validateId) {
  * @return Validator
  * @throws ValidatorException
  */
-PHP_METHOD(Phalcon_Security_JWT_Validator, validateIssuedAt) {
-
+PHP_METHOD(Phalcon_Security_JWT_Validator, validateIssuedAt)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *timestamp_param = NULL, _0, _1, _2, _3, _4;
 	zend_long timestamp, ZEPHIR_LAST_CALL_STATUS;
@@ -333,13 +313,11 @@ PHP_METHOD(Phalcon_Security_JWT_Validator, validateIssuedAt) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_LONG(timestamp)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &timestamp_param);
-
 	timestamp = zephir_get_intval(timestamp_param);
 
 
@@ -358,7 +336,6 @@ PHP_METHOD(Phalcon_Security_JWT_Validator, validateIssuedAt) {
 		return;
 	}
 	RETURN_THIS();
-
 }
 
 /**
@@ -367,8 +344,8 @@ PHP_METHOD(Phalcon_Security_JWT_Validator, validateIssuedAt) {
  * @return Validator
  * @throws ValidatorException
  */
-PHP_METHOD(Phalcon_Security_JWT_Validator, validateIssuer) {
-
+PHP_METHOD(Phalcon_Security_JWT_Validator, validateIssuer)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *issuer_param = NULL, _0, _1, _2, _3;
@@ -386,13 +363,11 @@ PHP_METHOD(Phalcon_Security_JWT_Validator, validateIssuer) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(issuer)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &issuer_param);
-
 	if (UNEXPECTED(Z_TYPE_P(issuer_param) != IS_STRING && Z_TYPE_P(issuer_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'issuer' must be of the type string"));
 		RETURN_MM_NULL();
@@ -401,7 +376,6 @@ PHP_METHOD(Phalcon_Security_JWT_Validator, validateIssuer) {
 		zephir_get_strval(&issuer, issuer_param);
 	} else {
 		ZEPHIR_INIT_VAR(&issuer);
-		ZVAL_EMPTY_STRING(&issuer);
 	}
 
 
@@ -412,13 +386,12 @@ PHP_METHOD(Phalcon_Security_JWT_Validator, validateIssuer) {
 	ZVAL_STRING(&_3, "iss");
 	ZEPHIR_CALL_METHOD(&_2, &_1, "get", NULL, 0, &_3);
 	zephir_check_call_status();
-	zephir_get_strval(&_4, &_2);
+	zephir_cast_to_string(&_4, &_2);
 	if (!ZEPHIR_IS_IDENTICAL(&issuer, &_4)) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_security_jwt_exceptions_validatorexception_ce, "Validation: incorrect issuer", "phalcon/Security/JWT/Validator.zep", 142);
 		return;
 	}
 	RETURN_THIS();
-
 }
 
 /**
@@ -427,8 +400,8 @@ PHP_METHOD(Phalcon_Security_JWT_Validator, validateIssuer) {
  * @return Validator
  * @throws ValidatorException
  */
-PHP_METHOD(Phalcon_Security_JWT_Validator, validateNotBefore) {
-
+PHP_METHOD(Phalcon_Security_JWT_Validator, validateNotBefore)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *timestamp_param = NULL, _0, _1, _2, _3, _4;
 	zend_long timestamp, ZEPHIR_LAST_CALL_STATUS;
@@ -444,13 +417,11 @@ PHP_METHOD(Phalcon_Security_JWT_Validator, validateNotBefore) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_LONG(timestamp)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &timestamp_param);
-
 	timestamp = zephir_get_intval(timestamp_param);
 
 
@@ -469,7 +440,6 @@ PHP_METHOD(Phalcon_Security_JWT_Validator, validateNotBefore) {
 		return;
 	}
 	RETURN_THIS();
-
 }
 
 /**
@@ -479,8 +449,8 @@ PHP_METHOD(Phalcon_Security_JWT_Validator, validateNotBefore) {
  * @return Validator
  * @throws ValidatorException
  */
-PHP_METHOD(Phalcon_Security_JWT_Validator, validateSignature) {
-
+PHP_METHOD(Phalcon_Security_JWT_Validator, validateSignature)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval passphrase;
@@ -501,13 +471,11 @@ PHP_METHOD(Phalcon_Security_JWT_Validator, validateSignature) {
 		Z_PARAM_OBJECT_OF_CLASS(signer, phalcon_security_jwt_signer_signerinterface_ce)
 		Z_PARAM_STR(passphrase)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &signer, &passphrase_param);
-
 	zephir_get_strval(&passphrase, passphrase_param);
 
 
@@ -526,7 +494,6 @@ PHP_METHOD(Phalcon_Security_JWT_Validator, validateSignature) {
 		return;
 	}
 	RETURN_THIS();
-
 }
 
 /**
@@ -534,8 +501,8 @@ PHP_METHOD(Phalcon_Security_JWT_Validator, validateSignature) {
  *
  * @return int
  */
-PHP_METHOD(Phalcon_Security_JWT_Validator, getTimestamp) {
-
+PHP_METHOD(Phalcon_Security_JWT_Validator, getTimestamp)
+{
 	zval *timestamp_param = NULL, _0;
 	zend_long timestamp;
 	zval *this_ptr = getThis();
@@ -546,17 +513,14 @@ PHP_METHOD(Phalcon_Security_JWT_Validator, getTimestamp) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_LONG(timestamp)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	zephir_fetch_params_without_memory_grow(1, 0, &timestamp_param);
-
 	timestamp = zephir_get_intval(timestamp_param);
 
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("timeShift"), PH_NOISY_CC | PH_READONLY);
 	RETURN_LONG((timestamp + zephir_get_numberval(&_0)));
-
 }
 

@@ -35,8 +35,8 @@
  * This component allows Phalcon\Mvc\Model to return rows without an associated entity.
  * This objects implements the ArrayAccess interface to allow access the object as object->x or array[x].
  */
-ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Row) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Row)
+{
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model, Row, phalcon, mvc_model_row, phalcon_mvc_model_row_method_entry, 0);
 
 	zend_class_implements(phalcon_mvc_model_row_ce, 1, phalcon_mvc_entityinterface_ce);
@@ -44,14 +44,13 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Row) {
 	zend_class_implements(phalcon_mvc_model_row_ce, 1, zend_ce_arrayaccess);
 	zend_class_implements(phalcon_mvc_model_row_ce, 1, zephir_get_internal_ce(SL("jsonserializable")));
 	return SUCCESS;
-
 }
 
 /**
  * Serializes the object for json_encode
  */
-PHP_METHOD(Phalcon_Mvc_Model_Row, jsonSerialize) {
-
+PHP_METHOD(Phalcon_Mvc_Model_Row, jsonSerialize)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
@@ -63,7 +62,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, jsonSerialize) {
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "toarray", NULL, 0);
 	zephir_check_call_status();
 	RETURN_MM();
-
 }
 
 /**
@@ -71,10 +69,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, jsonSerialize) {
  *
  * @param string|int index
  *
- * @return string|Phalcon\Mvc\ModelInterface
+ * @return string|ModelInterface
  */
-PHP_METHOD(Phalcon_Mvc_Model_Row, offsetGet) {
-
+PHP_METHOD(Phalcon_Mvc_Model_Row, offsetGet)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *index, index_sub, value;
 	zval *this_ptr = getThis();
@@ -86,13 +84,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetGet) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(index)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &index);
-
 
 
 	ZEPHIR_OBS_VAR(&value);
@@ -101,7 +97,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetGet) {
 		return;
 	}
 	RETURN_CCTOR(&value);
-
 }
 
 /**
@@ -109,8 +104,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetGet) {
  *
  * @param string|int $index
  */
-PHP_METHOD(Phalcon_Mvc_Model_Row, offsetExists) {
-
+PHP_METHOD(Phalcon_Mvc_Model_Row, offsetExists)
+{
 	zval *index, index_sub;
 	zval *this_ptr = getThis();
 
@@ -120,26 +115,23 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetExists) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(index)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	zephir_fetch_params_without_memory_grow(1, 0, &index);
 
 
-
 	RETURN_BOOL(zephir_isset_property_zval(this_ptr, index));
-
 }
 
 /**
  * Rows cannot be changed. It has only been implemented to meet the definition of the ArrayAccess interface
  *
  * @param string|int index
- * @param \Phalcon\Mvc\ModelInterface value
+ * @param ModelInterface value
  */
-PHP_METHOD(Phalcon_Mvc_Model_Row, offsetSet) {
-
+PHP_METHOD(Phalcon_Mvc_Model_Row, offsetSet)
+{
 	zval *index, index_sub, *value, value_sub;
 	zval *this_ptr = getThis();
 
@@ -151,17 +143,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetSet) {
 		Z_PARAM_ZVAL(index)
 		Z_PARAM_ZVAL(value)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	zephir_fetch_params_without_memory_grow(2, 0, &index, &value);
 
 
-
 	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_mvc_model_exception_ce, "Row is an immutable ArrayAccess object", "phalcon/Mvc/Model/Row.zep", 70);
 	return;
-
 }
 
 /**
@@ -169,8 +158,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetSet) {
  *
  * @param string|int offset
  */
-PHP_METHOD(Phalcon_Mvc_Model_Row, offsetUnset) {
-
+PHP_METHOD(Phalcon_Mvc_Model_Row, offsetUnset)
+{
 	zval *offset, offset_sub;
 	zval *this_ptr = getThis();
 
@@ -180,17 +169,14 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetUnset) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(offset)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	zephir_fetch_params_without_memory_grow(1, 0, &offset);
 
 
-
 	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_mvc_model_exception_ce, "Row is an immutable ArrayAccess object", "phalcon/Mvc/Model/Row.zep", 80);
 	return;
-
 }
 
 /**
@@ -202,8 +188,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, offsetUnset) {
  *
  * @return mixed
  */
-PHP_METHOD(Phalcon_Mvc_Model_Row, readAttribute) {
-
+PHP_METHOD(Phalcon_Mvc_Model_Row, readAttribute)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *attribute_param = NULL, value;
 	zval attribute;
@@ -216,13 +202,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, readAttribute) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(attribute)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &attribute_param);
-
 	if (UNEXPECTED(Z_TYPE_P(attribute_param) != IS_STRING && Z_TYPE_P(attribute_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'attribute' must be of the type string"));
 		RETURN_MM_NULL();
@@ -231,7 +215,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, readAttribute) {
 		zephir_get_strval(&attribute, attribute_param);
 	} else {
 		ZEPHIR_INIT_VAR(&attribute);
-		ZVAL_EMPTY_STRING(&attribute);
 	}
 
 
@@ -240,14 +223,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, readAttribute) {
 		RETURN_MM_NULL();
 	}
 	RETURN_CTOR(&value);
-
 }
 
 /**
  * Set the current object's state
  */
-PHP_METHOD(Phalcon_Mvc_Model_Row, setDirtyState) {
-
+PHP_METHOD(Phalcon_Mvc_Model_Row, setDirtyState)
+{
 	zval *dirtyState_param = NULL;
 	zend_long dirtyState;
 	zval *this_ptr = getThis();
@@ -257,24 +239,21 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, setDirtyState) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_LONG(dirtyState)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	zephir_fetch_params_without_memory_grow(1, 0, &dirtyState_param);
-
 	dirtyState = zephir_get_intval(dirtyState_param);
 
 
 	RETURN_BOOL(0);
-
 }
 
 /**
  * Returns the instance as an array representation
  */
-PHP_METHOD(Phalcon_Mvc_Model_Row, toArray) {
-
+PHP_METHOD(Phalcon_Mvc_Model_Row, toArray)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
@@ -283,10 +262,9 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, toArray) {
 
 	ZEPHIR_MM_GROW();
 
-	ZEPHIR_RETURN_CALL_FUNCTION("get_object_vars", NULL, 239, this_ptr);
+	ZEPHIR_RETURN_CALL_FUNCTION("get_object_vars", NULL, 438, this_ptr);
 	zephir_check_call_status();
 	RETURN_MM();
-
 }
 
 /**
@@ -298,8 +276,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, toArray) {
  *
  * @param mixed value
  */
-PHP_METHOD(Phalcon_Mvc_Model_Row, writeAttribute) {
-
+PHP_METHOD(Phalcon_Mvc_Model_Row, writeAttribute)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *attribute_param = NULL, *value, value_sub;
 	zval attribute;
@@ -313,13 +291,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, writeAttribute) {
 		Z_PARAM_STR(attribute)
 		Z_PARAM_ZVAL(value)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &attribute_param, &value);
-
 	if (UNEXPECTED(Z_TYPE_P(attribute_param) != IS_STRING && Z_TYPE_P(attribute_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'attribute' must be of the type string"));
 		RETURN_MM_NULL();
@@ -328,12 +304,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Row, writeAttribute) {
 		zephir_get_strval(&attribute, attribute_param);
 	} else {
 		ZEPHIR_INIT_VAR(&attribute);
-		ZVAL_EMPTY_STRING(&attribute);
 	}
 
 
 	zephir_update_property_zval_zval(this_ptr, &attribute, value);
 	ZEPHIR_MM_RESTORE();
-
 }
 

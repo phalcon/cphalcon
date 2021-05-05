@@ -27,11 +27,10 @@
  *
  * Exceptions thrown in Phalcon\Mvc\Router will use this class
  */
-ZEPHIR_INIT_CLASS(Phalcon_Mvc_Router_Exception) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Mvc_Router_Exception)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Router, Exception, phalcon, mvc_router_exception, phalcon_exception_ce, NULL, 0);
 
 	return SUCCESS;
-
 }
 

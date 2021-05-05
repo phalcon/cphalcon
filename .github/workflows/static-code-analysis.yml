@@ -5,19 +5,13 @@ on:
     paths-ignore:
       - '**.md'
       - '**.txt'
-  pull_request:
-    branches:
-      - master
-      - 4.0.x
-      - 4.1.x
 
 jobs:
   phpcs:
-    # To prevent build a particular commit use
-    #     git commit -m "......... [ci skip]"
     if: "!contains(github.event.head_commit.message, 'ci skip')"
 
     runs-on: ubuntu-20.04
+    name: Tests code style validation
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
@@ -26,3 +20,43 @@ jobs:
 
       - name: Run PHP_CodeSniffer
         run: docker run --rm -v $(pwd):/data cytopia/phpcs --standard=./phpcs.xml
+
+  stubs:
+    if: "!contains(github.event.head_commit.message, 'ci skip')"
+
+    runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
+      matrix:
+        php-versions: [ '7.4', '8.0' ]
+
+    name: Stubs code validation in PHP ${{ matrix.php-versions }}
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-versions }}
+          tools: pecl
+          extensions: mbstring, intl, json, imagick, redis, igbinary, apcu, msgpack, memcached, yaml, psr
+
+      - name: Install System Dependencies
+        run: |
+          sudo apt-get update --quiet --yes 1>/dev/null
+          sudo apt-get install --no-install-recommends -q -y re2c
+
+      - name: Install Packages
+        run: composer install --prefer-dist --ignore-platform-reqs
+
+      - name: Install Zephir
+        run: .ci/install-zephir.sh
+
+      - name: Validate stubs
+        if: always()
+        run: |
+          $HOME/bin/zephir stubs
+          vendor/bin/psalm ide/

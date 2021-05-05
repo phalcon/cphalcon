@@ -10,6 +10,8 @@
 
 namespace Phalcon;
 
+use DateTimeImmutable;
+use DateTimeZone;
 use Psr\Log\LoggerInterface;
 use Phalcon\Logger\Adapter\AdapterInterface;
 use Phalcon\Logger\Item;
@@ -68,6 +70,13 @@ class Logger implements LoggerInterface
     protected adapters = [];
 
     /**
+     * The excluded adapters for this log process
+     *
+     * @var AdapterInterface[]
+     */
+    protected excluded = [];
+
+    /**
      * Minimum log level for the logger
      *
      * @var int
@@ -80,21 +89,35 @@ class Logger implements LoggerInterface
     protected name = "";
 
     /**
-     * The excluded adapters for this log process
-     *
-     * @var AdapterInterface[]
+     * @var DateTimeZone|null
      */
-    protected excluded = [];
+    protected timezone = null;
 
     /**
      * Constructor.
      *
-     * @param string name     The name of the logger
-     * @param array  adapters The collection of adapters to be used for logging (default [])
+     * @param string            name     The name of the logger
+     * @param array             adapters The collection of adapters to be used for logging (default [])
+     * @param DateTimeZone|null timezone The timezone
      */
-    public function __construct(string! name, array! adapters = [])
-    {
-        let this->name = name;
+    public function __construct(
+        string! name,
+        array! adapters = [],
+        <DateTimeZone> timezone = null
+    ) {
+        var localTimeZone;
+
+        let localTimeZone = timezone;
+
+        if empty timezone {
+            let localTimeZone = date_default_timezone_get();
+            if empty localTimeZone {
+                let localTimeZone = "UTC";
+            }
+        }
+
+        let this->name     = name,
+            this->timezone = new DateTimeZone(localTimeZone);
 
         this->setAdapters(adapters);
     }
@@ -346,19 +369,24 @@ class Logger implements LoggerInterface
 
         if this->logLevel >= level {
             let registered = this->adapters,
-                excluded   = this->excluded;
+                excluded   = this->excluded,
+                levels     = this->getLevels();
 
             if count(registered) === 0 {
                 throw new Exception("No adapters specified");
             }
 
-            let levels = this->getLevels();
-
             if !fetch levelName, levels[level] {
                 let levelName = levels[self::CUSTOM];
             }
 
-            let item = new Item(message, levelName, level, time(), context);
+            let item = new Item(
+                message,
+                levelName,
+                level,
+                new DateTimeImmutable("now", this->timezone),
+                context
+            );
 
             /**
              * Log only if the key does not exist in the excluded ones
@@ -388,15 +416,15 @@ class Logger implements LoggerInterface
     protected function getLevels() -> array
     {
         return [
-            self::ALERT     : "alert",
-            self::CRITICAL  : "critical",
-            self::DEBUG     : "debug",
-            self::EMERGENCY : "emergency",
-            self::ERROR     : "error",
-            self::INFO      : "info",
-            self::NOTICE    : "notice",
-            self::WARNING   : "warning",
-            self::CUSTOM    : "custom"
+            self::ALERT     : "ALERT",
+            self::CRITICAL  : "CRITICAL",
+            self::DEBUG     : "DEBUG",
+            self::EMERGENCY : "EMERGENCY",
+            self::ERROR     : "ERROR",
+            self::INFO      : "INFO",
+            self::NOTICE    : "NOTICE",
+            self::WARNING   : "WARNING",
+            self::CUSTOM    : "CUSTOM"
         ];
     }
 
@@ -413,7 +441,7 @@ class Logger implements LoggerInterface
          * If someone uses "critical" as the level (string)
          */
         if typeof level === "string" {
-            let levelName = strtolower(level),
+            let levelName = strtoupper(level),
                 levels    = array_flip(this->getLevels());
 
             if isset levels[levelName] {

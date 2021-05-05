@@ -38,15 +38,30 @@ use Phalcon\Annotations\Annotation;
  */
 class Annotations extends Router
 {
+    /**
+     * @var string
+     */
     protected actionSuffix = "Action";
 
-    protected actionPreformatCallback;
+    /**
+     * @var callable|string|null
+     */
+    protected actionPreformatCallback = null;
 
+    /**
+     * @var string
+     */
     protected controllerSuffix = "Controller";
 
+    /**
+     * @var array
+     */
     protected handlers = [];
 
-    protected routePrefix;
+    /**
+     * @var string
+     */
+    protected routePrefix = "";
 
     /**
      * Adds a resource to the annotations handler
@@ -99,11 +114,9 @@ class Annotations extends Router
             );
         }
 
-        let annotationsService = container->getShared("annotations");
-
         let handlers = this->handlers;
-
         let controllerSuffix = this->controllerSuffix;
+        let annotationsService = container->getShared("annotations");
 
         for scope in handlers {
             if typeof scope != "array" {
@@ -239,9 +252,13 @@ class Annotations extends Router
     /**
      * Checks for annotations in the public methods of the controller
      */
-    public function processActionAnnotation(string! module, string! namespaceName, string! controller, string! action,
-        <Annotation> annotation)
-    {
+    public function processActionAnnotation(
+        string! module,
+        string! namespaceName,
+        string! controller,
+        string! action,
+        <Annotation> annotation
+    ) -> void {
         var name, proxyActionName, actionName, routePrefix, paths, value, uri, route, methods,
             converts, param, convert, converterParam, routeName, beforeMatch;
         bool isRoute;
@@ -379,8 +396,6 @@ class Annotations extends Router
         if typeof routeName == "string" {
             route->setName(routeName);
         }
-
-        return true;
     }
 
     /**

@@ -27,11 +27,10 @@
  *
  * Exceptions thrown in Phalcon\Mvc\Dispatcher will use this class
  */
-ZEPHIR_INIT_CLASS(Phalcon_Mvc_Dispatcher_Exception) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Mvc_Dispatcher_Exception)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Dispatcher, Exception, phalcon, mvc_dispatcher_exception, phalcon_dispatcher_exception_ce, NULL, 0);
 
 	return SUCCESS;
-
 }
 

@@ -25,12 +25,11 @@
 /**
  * Apcu adapter
  */
-ZEPHIR_INIT_CLASS(Phalcon_Cache_Adapter_Apcu) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Cache_Adapter_Apcu)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Cache\\Adapter, Apcu, phalcon, cache_adapter_apcu, phalcon_storage_adapter_apcu_ce, NULL, 0);
 
 	zend_class_implements(phalcon_cache_adapter_apcu_ce, 1, phalcon_cache_adapter_adapterinterface_ce);
 	return SUCCESS;
-
 }
 

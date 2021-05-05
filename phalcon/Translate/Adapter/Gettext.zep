@@ -119,15 +119,12 @@ class Gettext extends AbstractAdapter implements ArrayAccess
      * $translator->query("你好 %name%！", ["name" => "Phalcon"]);
      * ```
      *
-     * @param array   placeholders
+     * @param string translateKey
+     * @param array  placeholders
      */
-    public function query(string! index, array placeholders = []) -> string
+    public function query(string! translateKey, array placeholders = []) -> string
     {
-        var translation;
-
-        let translation = gettext(index);
-
-        return this->replacePlaceholders(translation, placeholders);
+        return this->replacePlaceholders(gettext(translateKey), placeholders);
     }
 
     /**
@@ -207,14 +204,10 @@ class Gettext extends AbstractAdapter implements ArrayAccess
      * $gettext->setLocale(LC_ALL, "de_DE@euro", "de_DE", "de", "ge");
      * ```
      */
-    public function setLocale(int! category, string! locale) -> string | bool
+    public function setLocale(int! category, array localeArray = []) -> string | bool
     {
-        let this->locale = call_user_func_array(
-            "setlocale",
-            func_get_args()
-        );
-
-        let this->category = category;
+        let this->locale   = setlocale(category, localeArray),
+            this->category = category;
 
         putenv("LC_ALL=" . this->locale);
         putenv("LANG=" . this->locale);

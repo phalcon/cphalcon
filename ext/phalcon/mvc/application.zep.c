@@ -79,25 +79,30 @@
  * $application->main();
  *```
  */
-ZEPHIR_INIT_CLASS(Phalcon_Mvc_Application) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Mvc_Application)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc, Application, phalcon, mvc_application, phalcon_application_abstractapplication_ce, phalcon_mvc_application_method_entry, 0);
 
+	/**
+	 * @var bool
+	 */
 	zend_declare_property_bool(phalcon_mvc_application_ce, SL("implicitView"), 1, ZEND_ACC_PROTECTED);
-
+	/**
+	 * @var bool
+	 */
 	zend_declare_property_bool(phalcon_mvc_application_ce, SL("sendCookies"), 1, ZEND_ACC_PROTECTED);
-
+	/**
+	 * @var bool
+	 */
 	zend_declare_property_bool(phalcon_mvc_application_ce, SL("sendHeaders"), 1, ZEND_ACC_PROTECTED);
-
 	return SUCCESS;
-
 }
 
 /**
  * Handles a MVC request
  */
-PHP_METHOD(Phalcon_Mvc_Application, handle) {
-
+PHP_METHOD(Phalcon_Mvc_Application, handle)
+{
 	zval _21$$21;
 	zend_class_entry *_10$$8;
 	zend_bool returnedResponse = 0, _14$$7, _17$$12, _35$$31, _37$$31;
@@ -172,13 +177,11 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(uri)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &uri_param);
-
 	if (UNEXPECTED(Z_TYPE_P(uri_param) != IS_STRING && Z_TYPE_P(uri_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'uri' must be of the type string"));
 		RETURN_MM_NULL();
@@ -187,7 +190,6 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 		zephir_get_strval(&uri, uri_param);
 	} else {
 		ZEPHIR_INIT_VAR(&uri);
-		ZVAL_EMPTY_STRING(&uri);
 	}
 
 
@@ -202,7 +204,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 8, &_2$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Mvc/Application.zep", 91);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Mvc/Application.zep", 100);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -289,7 +291,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 			_17$$12 = Z_TYPE_P(&module) != IS_OBJECT;
 		}
 		if (UNEXPECTED(_17$$12)) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_application_exception_ce, "Invalid module definition", "phalcon/Mvc/Application.zep", 189);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_application_exception_ce, "Invalid module definition", "phalcon/Mvc/Application.zep", 198);
 			return;
 		}
 		if (Z_TYPE_P(&module) == IS_ARRAY) {
@@ -307,7 +309,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 					ZEPHIR_CONCAT_SVS(&_19$$19, "Module definition path '", &path, "' doesn't exist");
 					ZEPHIR_CALL_METHOD(NULL, &_18$$19, "__construct", NULL, 8, &_19$$19);
 					zephir_check_call_status();
-					zephir_throw_exception_debug(&_18$$19, "phalcon/Mvc/Application.zep", 211);
+					zephir_throw_exception_debug(&_18$$19, "phalcon/Mvc/Application.zep", 220);
 					ZEPHIR_MM_RESTORE();
 					return;
 				}
@@ -326,7 +328,7 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 			zephir_check_call_status();
 		} else {
 			if (UNEXPECTED(!((zephir_instance_of_ev(&module, zend_ce_closure))))) {
-				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_application_exception_ce, "Invalid module definition", "phalcon/Mvc/Application.zep", 232);
+				ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_application_exception_ce, "Invalid module definition", "phalcon/Mvc/Application.zep", 241);
 				return;
 			}
 			ZEPHIR_INIT_VAR(&_21$$21);
@@ -483,14 +485,13 @@ PHP_METHOD(Phalcon_Mvc_Application, handle) {
 		zephir_check_call_status();
 	}
 	RETURN_CCTOR(&response);
-
 }
 
 /**
  * Enables or disables sending cookies by each request handling
  */
-PHP_METHOD(Phalcon_Mvc_Application, sendCookiesOnHandleRequest) {
-
+PHP_METHOD(Phalcon_Mvc_Application, sendCookiesOnHandleRequest)
+{
 	zval *sendCookies_param = NULL, __$true, __$false;
 	zend_bool sendCookies;
 	zval *this_ptr = getThis();
@@ -502,12 +503,10 @@ PHP_METHOD(Phalcon_Mvc_Application, sendCookiesOnHandleRequest) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_BOOL(sendCookies)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	zephir_fetch_params_without_memory_grow(1, 0, &sendCookies_param);
-
 	sendCookies = zephir_get_boolval(sendCookies_param);
 
 
@@ -517,14 +516,13 @@ PHP_METHOD(Phalcon_Mvc_Application, sendCookiesOnHandleRequest) {
 		zephir_update_property_zval(this_ptr, ZEND_STRL("sendCookies"), &__$false);
 	}
 	RETURN_THISW();
-
 }
 
 /**
  * Enables or disables sending headers by each request handling
  */
-PHP_METHOD(Phalcon_Mvc_Application, sendHeadersOnHandleRequest) {
-
+PHP_METHOD(Phalcon_Mvc_Application, sendHeadersOnHandleRequest)
+{
 	zval *sendHeaders_param = NULL, __$true, __$false;
 	zend_bool sendHeaders;
 	zval *this_ptr = getThis();
@@ -536,12 +534,10 @@ PHP_METHOD(Phalcon_Mvc_Application, sendHeadersOnHandleRequest) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_BOOL(sendHeaders)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	zephir_fetch_params_without_memory_grow(1, 0, &sendHeaders_param);
-
 	sendHeaders = zephir_get_boolval(sendHeaders_param);
 
 
@@ -551,15 +547,14 @@ PHP_METHOD(Phalcon_Mvc_Application, sendHeadersOnHandleRequest) {
 		zephir_update_property_zval(this_ptr, ZEND_STRL("sendHeaders"), &__$false);
 	}
 	RETURN_THISW();
-
 }
 
 /**
  * By default. The view is implicitly buffering all the output
  * You can full disable the view component using this method
  */
-PHP_METHOD(Phalcon_Mvc_Application, useImplicitView) {
-
+PHP_METHOD(Phalcon_Mvc_Application, useImplicitView)
+{
 	zval *implicitView_param = NULL, __$true, __$false;
 	zend_bool implicitView;
 	zval *this_ptr = getThis();
@@ -571,12 +566,10 @@ PHP_METHOD(Phalcon_Mvc_Application, useImplicitView) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_BOOL(implicitView)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	zephir_fetch_params_without_memory_grow(1, 0, &implicitView_param);
-
 	implicitView = zephir_get_boolval(implicitView_param);
 
 
@@ -586,6 +579,5 @@ PHP_METHOD(Phalcon_Mvc_Application, useImplicitView) {
 		zephir_update_property_zval(this_ptr, ZEND_STRL("implicitView"), &__$false);
 	}
 	RETURN_THISW();
-
 }
 

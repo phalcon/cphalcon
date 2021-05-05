@@ -66,7 +66,7 @@ class Route implements RouteInterface
      * The developer can implement any arbitrary conditions here
      * If the callback returns false the route is treated as not matched
      *
-     * @param callback callback
+     * @param mixed callback
      */
     public function beforeMatch(var callback) -> <RouteInterface>
     {
@@ -392,7 +392,10 @@ class Route implements RouteInterface
     /**
      * Reconfigure the route adding a new pattern and a set of paths
      *
-     * @param array|string paths
+     * @param string pattern
+     * @param array|string|null paths
+     *
+     * @return void
      */
     public function reConfigure(string! pattern, paths = null) -> void
     {

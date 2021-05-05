@@ -15,6 +15,8 @@ use Phalcon\Translate\Interpolator\InterpolatorInterface;
 
 class InterpolatorFactory extends AbstractFactory
 {
+    protected exception = "Phalcon\\Translate\\Exception";
+
     /**
      * AdapterFactory constructor.
      */

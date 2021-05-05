@@ -23,12 +23,11 @@
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
-ZEPHIR_INIT_CLASS(Phalcon_Http_Message_Exception_InvalidArgumentException) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Http_Message_Exception_InvalidArgumentException)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Http\\Message\\Exception, InvalidArgumentException, phalcon, http_message_exception_invalidargumentexception, spl_ce_InvalidArgumentException, NULL, 0);
 
 	zend_class_implements(phalcon_http_message_exception_invalidargumentexception_ce, 1, zend_ce_throwable);
 	return SUCCESS;
-
 }
 

@@ -25,8 +25,8 @@
  *
  * Interface for the Phalcon\Session\Manager
  */
-ZEPHIR_INIT_CLASS(Phalcon_Session_ManagerInterface) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Session_ManagerInterface)
+{
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Session, ManagerInterface, phalcon, session_managerinterface, phalcon_session_managerinterface_method_entry);
 
 	zephir_declare_class_constant_long(phalcon_session_managerinterface_ce, SL("SESSION_ACTIVE"), 2);
@@ -36,7 +36,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Session_ManagerInterface) {
 	zephir_declare_class_constant_long(phalcon_session_managerinterface_ce, SL("SESSION_NONE"), 1);
 
 	return SUCCESS;
-
 }
 
 /**

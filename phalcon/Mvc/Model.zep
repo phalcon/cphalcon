@@ -591,8 +591,11 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * );
      * ```
      *
-     * @param array dataColumnMap array to transform keys of data to another
-     * @param array whiteList
+     * @param array data
+     * @param mixed whiteList
+     * @param mixed dataColumnMap Array to transform keys of data to another
+     *
+     * @return ModelInterface
      */
     public function assign(array! data, var whiteList = null, var dataColumnMap = null) -> <ModelInterface>
     {
@@ -777,8 +780,12 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * );
      *```
      *
-     * @param \Phalcon\Mvc\ModelInterface|\Phalcon\Mvc\Model\Row base
-     * @param array columnMap
+     * @param ModelInterface|\Phalcon\Mvc\Model\Row base
+     * @param mixed columnMap
+     * @param int dirtyState
+     * @param bool keepSnapshots
+     *
+     * @return ModelInterface
      */
     public static function cloneResultMap(var base, array! data, var columnMap, int dirtyState = 0, bool keepSnapshots = null) -> <ModelInterface>
     {
@@ -907,7 +914,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     /**
      * Returns an hydrated result based on the data and the column map
      *
-     * @param array columnMap
+     * @param array data
+     * @param mixed columnMap
+     * @param int hydrationMode
+     *
      * @return mixed
      */
     public static function cloneResultMapHydrate(array! data, var columnMap, int hydrationMode)
@@ -1886,7 +1896,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * Returns related records based on defined relations
      *
      * @param array arguments
-     * @return \Phalcon\Mvc\Model\Resultset\Simple|Phalcon\Mvc\Model\Resultset\Simple|false
+     * @return \Phalcon\Mvc\Model\Resultset\Simple|false
      */
     public function getRelated(string alias, arguments = null)
     {
@@ -1970,7 +1980,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     /**
      * Returns schema name where the mapped table is located
      */
-    final public function getSchema() -> string
+    final public function getSchema() -> string | null
     {
         return (<ManagerInterface> this->modelsManager)->getModelSchema(this);
     }
@@ -4223,7 +4233,10 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     /**
      * Generate a PHQL SELECT statement for an aggregate
      *
+     * @param string functionName
+     * @param string alias
      * @param array parameters
+     *
      * @return ResultsetInterface
      */
     protected static function groupResult(string! functionName, string! alias, var parameters) -> <ResultsetInterface>
@@ -4323,7 +4336,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     /**
      * Try to check if the query must invoke a finder
      *
-     * @return \Phalcon\Mvc\ModelInterface[]|\Phalcon\Mvc\ModelInterface|bool
+     * @return ModelInterface[]|ModelInterface|bool
      */
     protected final static function invokeFinder(string method, array arguments)
     {
@@ -4721,7 +4734,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     /**
      * Saves related records that must be stored prior to save the master record
      *
-     * @param \Phalcon\Mvc\ModelInterface[] related
+     * @param ModelInterface[] related
      * @return bool
      */
     protected function preSaveRelatedRecords(<AdapterInterface> connection, related) -> bool
@@ -4844,7 +4857,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     /**
      * Save the related records assigned in the has-one/has-many relations
      *
-     * @param Phalcon\Mvc\ModelInterface[] related
+     * @param ModelInterface[] related
      * @return bool
      */
     protected function postSaveRelatedRecords(<AdapterInterface> connection, related) -> bool
@@ -5309,13 +5322,13 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * }
      *```
      *
-     * @param    string|array fields
-     * @param    string|array intermediateFields
-     * @param    string|array intermediateReferencedFields
-     * @param    string|array referencedFields
-     * @param    array options
-     *
-     * @param array|null options = [
+     * @param string|array fields
+     * @param string intermediateModel
+     * @param string|array intermediateFields
+     * @param string|array intermediateReferencedFields
+     * @param string referenceModel
+     * @param string|array referencedFields
+     * @param array options = [
      *     'reusable' => false,
      *     'alias' => 'someAlias',
      *     'foreignKey' => [
@@ -5342,8 +5355,15 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *     ]
      * ]
      */
-    protected function hasManyToMany(var fields, string! intermediateModel, var intermediateFields, var intermediateReferencedFields,
-        string! referenceModel, var referencedFields, options = null) -> <Relation>
+    protected function hasManyToMany(
+        var fields,
+        string! intermediateModel,
+        var intermediateFields,
+        var intermediateReferencedFields,
+        string! referenceModel,
+        var referencedFields,
+        options = []
+    ) -> <Relation>
     {
         return (<ManagerInterface> this->modelsManager)->addHasManyToMany(
             this,

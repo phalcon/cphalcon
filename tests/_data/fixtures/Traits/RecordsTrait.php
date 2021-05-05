@@ -63,8 +63,6 @@ trait RecordsTrait
                     sprintf("Failed to insert row #%d into table '%s' using '%s' driver", $counter, $table, $driver)
                 );
             }
-
-
         }
     }
 }

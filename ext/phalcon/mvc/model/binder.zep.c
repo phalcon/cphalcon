@@ -36,8 +36,8 @@
  *
  * This is an class for binding models into params for handler
  */
-ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Binder) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Binder)
+{
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model, Binder, phalcon, mvc_model_binder, phalcon_mvc_model_binder_method_entry, 0);
 
 	/**
@@ -46,60 +46,53 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Binder) {
 	 * @var array
 	 */
 	zend_declare_property_null(phalcon_mvc_model_binder_ce, SL("boundModels"), ZEND_ACC_PROTECTED);
-
 	/**
 	 * Cache object used for caching parameters for model binding
 	 */
 	zend_declare_property_null(phalcon_mvc_model_binder_ce, SL("cache"), ZEND_ACC_PROTECTED);
-
 	/**
 	 * Internal cache for caching parameters for model binding during request
 	 */
 	zend_declare_property_null(phalcon_mvc_model_binder_ce, SL("internalCache"), ZEND_ACC_PROTECTED);
-
 	/**
 	 * Array for original values
 	 */
 	zend_declare_property_null(phalcon_mvc_model_binder_ce, SL("originalValues"), ZEND_ACC_PROTECTED);
-
 	phalcon_mvc_model_binder_ce->create_object = zephir_init_properties_Phalcon_Mvc_Model_Binder;
 
 	zend_class_implements(phalcon_mvc_model_binder_ce, 1, phalcon_mvc_model_binderinterface_ce);
 	return SUCCESS;
-
 }
 
 /**
  * Array for storing active bound models
  */
-PHP_METHOD(Phalcon_Mvc_Model_Binder, getBoundModels) {
-
+PHP_METHOD(Phalcon_Mvc_Model_Binder, getBoundModels)
+{
 	zval *this_ptr = getThis();
 
 
 
 	RETURN_MEMBER(getThis(), "boundModels");
-
 }
 
 /**
  * Array for original values
  */
-PHP_METHOD(Phalcon_Mvc_Model_Binder, getOriginalValues) {
-
+PHP_METHOD(Phalcon_Mvc_Model_Binder, getOriginalValues)
+{
 	zval *this_ptr = getThis();
 
 
 
 	RETURN_MEMBER(getThis(), "originalValues");
-
 }
 
 /**
  * Phalcon\Mvc\Model\Binder constructor
  */
-PHP_METHOD(Phalcon_Mvc_Model_Binder, __construct) {
-
+PHP_METHOD(Phalcon_Mvc_Model_Binder, __construct)
+{
 	zval *cache = NULL, cache_sub, __$null;
 	zval *this_ptr = getThis();
 
@@ -111,12 +104,10 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, __construct) {
 		Z_PARAM_OPTIONAL
 		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(cache, phalcon_cache_adapter_adapterinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	zephir_fetch_params_without_memory_grow(0, 1, &cache);
-
 	if (!cache) {
 		cache = &cache_sub;
 		cache = &__$null;
@@ -124,14 +115,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, __construct) {
 
 
 	zephir_update_property_zval(this_ptr, ZEND_STRL("cache"), cache);
-
 }
 
 /**
  * Bind models into params in proper handler
  */
-PHP_METHOD(Phalcon_Mvc_Model_Binder, bindToHandler) {
-
+PHP_METHOD(Phalcon_Mvc_Model_Binder, bindToHandler)
+{
 	zend_string *_6$$4;
 	zend_ulong _5$$4;
 	zend_bool _1;
@@ -164,18 +154,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, bindToHandler) {
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR_OR_NULL(methodName)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 1, &handler, &params_param, &cacheKey_param, &methodName_param);
-
 	zephir_get_arrval(&params, params_param);
 	zephir_get_strval(&cacheKey, cacheKey_param);
 	if (!methodName_param) {
 		ZEPHIR_INIT_VAR(&methodName);
-		ZVAL_STRING(&methodName, "");
 	} else {
 	if (UNEXPECTED(Z_TYPE_P(methodName_param) != IS_STRING && Z_TYPE_P(methodName_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'methodName' must be of the type string"));
@@ -185,7 +172,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, bindToHandler) {
 		zephir_get_strval(&methodName, methodName_param);
 	} else {
 		ZEPHIR_INIT_VAR(&methodName);
-		ZVAL_EMPTY_STRING(&methodName);
 	}
 	}
 
@@ -195,7 +181,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, bindToHandler) {
 	zephir_update_property_zval(this_ptr, ZEND_STRL("originalValues"), &_0);
 	_1 = !((zephir_instance_of_ev(handler, zend_ce_closure)));
 	if (_1) {
-		_1 = ZEPHIR_IS_STRING_IDENTICAL(&methodName, "");
+		_1 = ZEPHIR_IS_NULL(&methodName);
 	}
 	if (UNEXPECTED(_1)) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "You must specify methodName for handler or pass Closure as handler", "phalcon/Mvc/Model/Binder.zep", 69);
@@ -258,16 +244,15 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, bindToHandler) {
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "getparamsfromreflection", NULL, 0, handler, &params, &cacheKey, &methodName);
 	zephir_check_call_status();
 	RETURN_MM();
-
 }
 
 /**
  * Find the model by param value.
  *
- * @return object|false
+ * @return mixed
  */
-PHP_METHOD(Phalcon_Mvc_Model_Binder, findBoundModel) {
-
+PHP_METHOD(Phalcon_Mvc_Model_Binder, findBoundModel)
+{
 	zend_class_entry *_0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -283,13 +268,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, findBoundModel) {
 		Z_PARAM_ZVAL(paramValue)
 		Z_PARAM_STR(className)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &paramValue, &className_param);
-
 	zephir_get_strval(&className, className_param);
 
 
@@ -297,27 +280,25 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, findBoundModel) {
 	ZEPHIR_RETURN_CALL_CE_STATIC(_0, "findfirst", NULL, 0, paramValue);
 	zephir_check_call_status();
 	RETURN_MM();
-
 }
 
 /**
  * Sets cache instance
  */
-PHP_METHOD(Phalcon_Mvc_Model_Binder, getCache) {
-
+PHP_METHOD(Phalcon_Mvc_Model_Binder, getCache)
+{
 	zval *this_ptr = getThis();
 
 
 
 	RETURN_MEMBER(getThis(), "cache");
-
 }
 
 /**
  * Get params classes from cache by key
  */
-PHP_METHOD(Phalcon_Mvc_Model_Binder, getParamsFromCache) {
-
+PHP_METHOD(Phalcon_Mvc_Model_Binder, getParamsFromCache)
+{
 	zend_bool _2;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -336,13 +317,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, getParamsFromCache) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(cacheKey)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &cacheKey_param);
-
 	zephir_get_strval(&cacheKey, cacheKey_param);
 
 
@@ -366,14 +345,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, getParamsFromCache) {
 	zephir_check_call_status();
 	zephir_update_property_array(this_ptr, SL("internalCache"), &cacheKey, &internalParams);
 	RETURN_CCTOR(&internalParams);
-
 }
 
 /**
  * Get modified params for handler using reflection
  */
-PHP_METHOD(Phalcon_Mvc_Model_Binder, getParamsFromReflection) {
-
+PHP_METHOD(Phalcon_Mvc_Model_Binder, getParamsFromReflection)
+{
 	zend_class_entry *_9$$10, *_17$$24;
 	zend_string *_4;
 	zend_ulong _3;
@@ -422,13 +400,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, getParamsFromReflection) {
 		Z_PARAM_STR(cacheKey)
 		Z_PARAM_STR(methodName)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 4, 0, &handler, &params_param, &cacheKey_param, &methodName_param);
-
 	zephir_get_arrval(&params, params_param);
 	zephir_get_strval(&cacheKey, cacheKey_param);
 	if (UNEXPECTED(Z_TYPE_P(methodName_param) != IS_STRING && Z_TYPE_P(methodName_param) != IS_NULL)) {
@@ -439,7 +415,6 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, getParamsFromReflection) {
 		zephir_get_strval(&methodName, methodName_param);
 	} else {
 		ZEPHIR_INIT_VAR(&methodName);
-		ZVAL_EMPTY_STRING(&methodName);
 	}
 
 
@@ -448,18 +423,18 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, getParamsFromReflection) {
 	ZEPHIR_INIT_VAR(&paramsCache);
 	array_init(&paramsCache);
 	ZEPHIR_INIT_VAR(&reflection);
-	if (!ZEPHIR_IS_STRING(&methodName, "")) {
+	if (!ZEPHIR_IS_NULL(&methodName)) {
 		object_init_ex(&reflection, zephir_get_internal_ce(SL("reflectionmethod")));
-		ZEPHIR_CALL_METHOD(NULL, &reflection, "__construct", NULL, 462, handler, &methodName);
+		ZEPHIR_CALL_METHOD(NULL, &reflection, "__construct", NULL, 448, handler, &methodName);
 		zephir_check_call_status();
 	} else {
 		object_init_ex(&reflection, zephir_get_internal_ce(SL("reflectionfunction")));
-		ZEPHIR_CALL_METHOD(NULL, &reflection, "__construct", NULL, 152, handler);
+		ZEPHIR_CALL_METHOD(NULL, &reflection, "__construct", NULL, 151, handler);
 		zephir_check_call_status();
 	}
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("cache"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&cache, &_0);
-	ZEPHIR_CALL_METHOD(&methodParams, &reflection, "getparameters", NULL, 153);
+	ZEPHIR_CALL_METHOD(&methodParams, &reflection, "getparameters", NULL, 152);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&paramsKeys);
 	zephir_array_keys(&paramsKeys, &params);
@@ -492,7 +467,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, getParamsFromReflection) {
 			zephir_array_fetch(&paramValue, &params, &paramKey, PH_NOISY, "phalcon/Mvc/Model/Binder.zep", 173);
 			ZEPHIR_INIT_NVAR(&_6$$5);
 			ZVAL_STRING(&_6$$5, "Phalcon\\Mvc\\Model");
-			ZEPHIR_CALL_FUNCTION(&_7$$5, "is_subclass_of", &_8, 463, &className, &_6$$5);
+			ZEPHIR_CALL_FUNCTION(&_7$$5, "is_subclass_of", &_8, 449, &className, &_6$$5);
 			zephir_check_call_status();
 			if (ZEPHIR_IS_STRING(&className, "Phalcon\\Mvc\\Model")) {
 				if (Z_TYPE_P(&realClasses) == IS_NULL) {
@@ -574,7 +549,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, getParamsFromReflection) {
 				zephir_array_fetch(&paramValue, &params, &paramKey, PH_NOISY, "phalcon/Mvc/Model/Binder.zep", 173);
 				ZEPHIR_INIT_NVAR(&_15$$19);
 				ZVAL_STRING(&_15$$19, "Phalcon\\Mvc\\Model");
-				ZEPHIR_CALL_FUNCTION(&_16$$19, "is_subclass_of", &_8, 463, &className, &_15$$19);
+				ZEPHIR_CALL_FUNCTION(&_16$$19, "is_subclass_of", &_8, 449, &className, &_15$$19);
 				zephir_check_call_status();
 				if (ZEPHIR_IS_STRING(&className, "Phalcon\\Mvc\\Model")) {
 					if (Z_TYPE_P(&realClasses) == IS_NULL) {
@@ -637,14 +612,13 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, getParamsFromReflection) {
 	}
 	zephir_update_property_array(this_ptr, SL("internalCache"), &cacheKey, &paramsCache);
 	RETURN_CTOR(&params);
-
 }
 
 /**
  * Gets cache instance
  */
-PHP_METHOD(Phalcon_Mvc_Model_Binder, setCache) {
-
+PHP_METHOD(Phalcon_Mvc_Model_Binder, setCache)
+{
 	zval *cache, cache_sub;
 	zval *this_ptr = getThis();
 
@@ -654,21 +628,18 @@ PHP_METHOD(Phalcon_Mvc_Model_Binder, setCache) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(cache, phalcon_cache_adapter_adapterinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	zephir_fetch_params_without_memory_grow(1, 0, &cache);
 
 
-
 	zephir_update_property_zval(this_ptr, ZEND_STRL("cache"), cache);
 	RETURN_THISW();
-
 }
 
-zend_object *zephir_init_properties_Phalcon_Mvc_Model_Binder(zend_class_entry *class_type) {
-
+zend_object *zephir_init_properties_Phalcon_Mvc_Model_Binder(zend_class_entry *class_type)
+{
 		zval _0, _2, _4, _1$$3, _3$$4, _5$$5;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
@@ -705,6 +676,5 @@ zend_object *zephir_init_properties_Phalcon_Mvc_Model_Binder(zend_class_entry *c
 		ZEPHIR_MM_RESTORE();
 		return Z_OBJ_P(this_ptr);
 	}
-
 }
 

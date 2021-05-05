@@ -65,14 +65,29 @@ use Phalcon\Mvc\Model\TransactionInterface;
  */
 class Manager implements ManagerInterface, InjectionAwareInterface
 {
+    /**
+     * @var DiInterface|null
+     */
     protected container;
 
+    /**
+     * @var bool
+     */
     protected initialized = false;
 
+    /**
+     * @var int
+     */
     protected number = 0;
 
+    /**
+     * @var bool
+     */
     protected rollbackPendent = true;
 
+    /**
+     * @var string
+     */
     protected service = "db";
 
     /**
@@ -82,6 +97,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface
 
     /**
      * Phalcon\Mvc\Model\Transaction\Manager constructor
+     *
+     * @param DiInterface|null container
      */
     public function __construct(<DiInterface> container = null)
     {
@@ -137,6 +154,10 @@ class Manager implements ManagerInterface, InjectionAwareInterface
     /**
      * Returns a new \Phalcon\Mvc\Model\Transaction or an already created once
      * This method registers a shutdown function to rollback active connections
+     *
+     * @param bool autoBegin
+     *
+     * @return TransactionInterface
      */
     public function get(bool autoBegin = true) -> <TransactionInterface>
     {
@@ -174,6 +195,10 @@ class Manager implements ManagerInterface, InjectionAwareInterface
 
     /**
      * Create/Returns a new transaction or an existing one
+     *
+     * @param bool autoBegin
+     *
+     * @return TransactionInterface
      */
     public function getOrCreateTransaction(bool autoBegin = true) -> <TransactionInterface>
     {
@@ -228,6 +253,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface
 
     /**
      * Notifies the manager about a committed transaction
+     *
+     * @param TransactionInterface transaction
      */
     public function notifyCommit(<TransactionInterface> transaction) -> void
     {
@@ -236,6 +263,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface
 
     /**
      * Notifies the manager about a rollbacked transaction
+     *
+     * @param TransactionInterface transaction
      */
     public function notifyRollback(<TransactionInterface> transaction) -> void
     {
@@ -245,6 +274,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface
     /**
      * Rollbacks active transactions within the manager
      * Collect will remove the transaction from the manager
+     *
+     * @param bool collect
      */
     public function rollback(bool collect = true) -> void
     {
@@ -276,6 +307,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface
 
     /**
      * Sets the database service used to run the isolated transactions
+     *
+     * @param string service
      */
     public function setDbService(string! service) -> <ManagerInterface>
     {
@@ -286,6 +319,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface
 
     /**
      * Sets the dependency injection container
+     *
+     * @param DiInterface container
      */
     public function setDI(<DiInterface> container) -> void
     {
@@ -295,6 +330,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface
     /**
      * Set if the transaction manager must register a shutdown function to clean
      * up pendent transactions
+     *
+     * @param bool rollbackPendent
      */
     public function setRollbackPendent(bool rollbackPendent) -> <ManagerInterface>
     {
@@ -305,6 +342,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface
 
     /**
      * Removes transactions from the TransactionManager
+     *
+     * @param TransactionInterface transaction
      */
     protected function collectTransaction(<TransactionInterface> transaction) -> void
     {

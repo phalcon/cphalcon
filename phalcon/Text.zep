@@ -180,7 +180,7 @@ class Text
      * echo Text::random(Text::RANDOM_ALNUM);
      * ```
      */
-    public static function random(int type = 0, long length = 8) -> string
+    public static function random(int type = 0, int length = 8) -> string
     {
         return Str::random(type, length);
     }

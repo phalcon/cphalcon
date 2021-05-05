@@ -31,12 +31,11 @@
 /**
  * Phalcon\Session\Adapter\Redis
  */
-ZEPHIR_INIT_CLASS(Phalcon_Session_Adapter_Redis) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Session_Adapter_Redis)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Session\\Adapter, Redis, phalcon, session_adapter_redis, phalcon_session_adapter_abstractadapter_ce, phalcon_session_adapter_redis_method_entry, 0);
 
 	return SUCCESS;
-
 }
 
 /**
@@ -52,8 +51,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Session_Adapter_Redis) {
  *     'socket' => ''
  * ]
  */
-PHP_METHOD(Phalcon_Session_Adapter_Redis, __construct) {
-
+PHP_METHOD(Phalcon_Session_Adapter_Redis, __construct)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_1 = NULL;
@@ -74,13 +73,11 @@ PHP_METHOD(Phalcon_Session_Adapter_Redis, __construct) {
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ARRAY(options)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &factory, &options_param);
-
 	if (!options_param) {
 		ZEPHIR_INIT_VAR(&options);
 		array_init(&options);
@@ -102,6 +99,5 @@ PHP_METHOD(Phalcon_Session_Adapter_Redis, __construct) {
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("adapter"), &_4);
 	ZEPHIR_MM_RESTORE();
-
 }
 

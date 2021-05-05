@@ -18,6 +18,8 @@ use Phalcon\Test\Fixtures\Traits\CookieTrait;
 use Phalcon\Test\Unit\Http\Helper\HttpBase;
 use UnitTester;
 
+use function explode;
+
 class CookieCest extends HttpBase
 {
     use CookieTrait;
@@ -100,6 +102,8 @@ class CookieCest extends HttpBase
 
         $container = $this->getDi();
 
+        $cookies     = $_COOKIE ?? [];
+        $_COOKIE     = [];
         $cookieName  = 'test-signed-name2';
         $cookieValue = 'test-signed-value';
 
@@ -122,10 +126,9 @@ class CookieCest extends HttpBase
 
         $_COOKIE[$cookieName] = $rawValue;
 
-        $I->assertEquals(
-            $cookieValue,
-            $cookie->getValue()
-        );
+        $I->assertEquals($cookieValue, $cookie->getValue());
+
+        $_COOKIE = $cookies;
     }
 
     /**
@@ -151,16 +154,12 @@ class CookieCest extends HttpBase
         $cookie->setDI($container);
         $cookie->useEncryption(true);
 
-        $I->assertEquals(
-            'test',
-            $cookie->getValue()
-        );
+        $I->assertEquals('test', $cookie->getValue());
     }
 
     /**
      * Tests the internal cookies property.
      *
-     * @test
      * @issue  https://github.com/phalcon/cphalcon/issues/12978
      * @author Phalcon Team <team@phalcon.io>
      * @since  2017-09-02
@@ -169,8 +168,6 @@ class CookieCest extends HttpBase
     {
         $cookies = new Cookies();
 
-        $I->assertTrue(
-            $cookies->send()
-        );
+        $I->assertTrue($cookies->send());
     }
 }

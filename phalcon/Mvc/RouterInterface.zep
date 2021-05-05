@@ -20,62 +20,123 @@ interface RouterInterface
 {
     /**
      * Adds a route to the router on any HTTP method
+     *
+     * @param string pattern
+     * @param array|string|null paths
+     * @param array|string|null httpMethods
+     *
+     * @return RouteInterface
      */
     public function add(string! pattern, var paths = null, var httpMethods = null) -> <RouteInterface>;
 
     /**
      * Attach Route object to the routes stack.
+     *
+     * @param RouteInterface route
+     * @param int position
+     *
+     * @return RouterInterface
      */
-    public function attach(<RouteInterface> route, var position = Router::POSITION_LAST) -> <RouterInterface>;
+    public function attach(<RouteInterface> route, int position = Router::POSITION_LAST) -> <RouterInterface>;
 
     /**
      * Adds a route to the router that only match if the HTTP method is CONNECT
+     *
+     * @param string pattern
+     * @param array|string|null paths
+     *
+     * @return RouteInterface
      */
     public function addConnect(string! pattern, var paths = null) -> <RouteInterface>;
 
     /**
      * Adds a route to the router that only match if the HTTP method is DELETE
+     *
+     * @param string pattern
+     * @param array|string|null paths
+     *
+     * @return RouteInterface
      */
     public function addDelete(string! pattern, var paths = null) -> <RouteInterface>;
 
     /**
      * Adds a route to the router that only match if the HTTP method is HEAD
+     *
+     * @param string pattern
+     * @param array|string|null paths
+     *
+     * @return RouteInterface
      */
     public function addHead(string! pattern, var paths = null) -> <RouteInterface>;
 
     /**
      * Adds a route to the router that only match if the HTTP method is GET
+     *
+     * @param string pattern
+     * @param array|string|null paths
+     *
+     * @return RouteInterface
      */
     public function addGet(string! pattern, var paths = null) -> <RouteInterface>;
 
     /**
      * Add a route to the router that only match if the HTTP method is OPTIONS
+     *
+     * @param string pattern
+     * @param array|string|null paths
+     *
+     * @return RouteInterface
      */
     public function addOptions(string! pattern, var paths = null) -> <RouteInterface>;
 
     /**
      * Adds a route to the router that only match if the HTTP method is PATCH
+     *
+     * @param string pattern
+     * @param array|string|null paths
+     *
+     * @return RouteInterface
      */
-    public function addPatch(string! pattern, paths = null) -> <RouteInterface>;
+    public function addPatch(string! pattern, var paths = null) -> <RouteInterface>;
 
     /**
      * Adds a route to the router that only match if the HTTP method is POST
+     *
+     * @param string pattern
+     * @param array|string|null paths
+     *
+     * @return RouteInterface
      */
     public function addPost(string! pattern, var paths = null) -> <RouteInterface>;
 
     /**
      * Adds a route to the router that only match if the HTTP method is PURGE
      * (Squid and Varnish support)
+     *
+     * @param string pattern
+     * @param array|string|null paths
+     *
+     * @return RouteInterface
      */
     public function addPurge(string! pattern, var paths = null) -> <RouteInterface>;
 
     /**
      * Adds a route to the router that only match if the HTTP method is PUT
+     *
+     * @param string pattern
+     * @param array|string|null paths
+     *
+     * @return RouteInterface
      */
     public function addPut(string! pattern, var paths = null) -> <RouteInterface>;
 
     /**
      * Adds a route to the router that only match if the HTTP method is TRACE
+     *
+     * @param string pattern
+     * @param array|string|null paths
+     *
+     * @return RouteInterface
      */
     public function addTrace(string! pattern, var paths = null) -> <RouteInterface>;
 
@@ -126,11 +187,15 @@ interface RouterInterface
 
     /**
      * Returns a route object by its id
+     *
+     * @return RouteInterface|bool
      */
     public function getRouteById(var id) -> <RouteInterface> | bool;
 
     /**
      * Returns a route object by its name
+     *
+     * @return RouteInterface|bool
      */
     public function getRouteByName(string! name) -> <RouteInterface> | bool;
 

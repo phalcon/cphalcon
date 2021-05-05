@@ -30,19 +30,18 @@
  *
  * This class offers numeric functions for the framework
  */
-ZEPHIR_INIT_CLASS(Phalcon_Helper_Number) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Helper_Number)
+{
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Helper, Number, phalcon, helper_number, phalcon_helper_number_method_entry, 0);
 
 	return SUCCESS;
-
 }
 
 /**
  * Helper method to get an array element or a default
  */
-PHP_METHOD(Phalcon_Helper_Number, between) {
-
+PHP_METHOD(Phalcon_Helper_Number, between)
+{
 	zend_bool _0;
 	zval *value_param = NULL, *from_param = NULL, *to_param = NULL;
 	zend_long value, from, to;
@@ -55,12 +54,10 @@ PHP_METHOD(Phalcon_Helper_Number, between) {
 		Z_PARAM_LONG(from)
 		Z_PARAM_LONG(to)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	zephir_fetch_params_without_memory_grow(3, 0, &value_param, &from_param, &to_param);
-
 	value = zephir_get_intval(value_param);
 	from = zephir_get_intval(from_param);
 	to = zephir_get_intval(to_param);
@@ -71,6 +68,5 @@ PHP_METHOD(Phalcon_Helper_Number, between) {
 		_0 = value <= to;
 	}
 	RETURN_BOOL(_0);
-
 }
 

@@ -32,19 +32,18 @@
  * developer does not need to register each service individually providing a
  * full stack framework
  */
-ZEPHIR_INIT_CLASS(Phalcon_Di_FactoryDefault) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Di_FactoryDefault)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Di, FactoryDefault, phalcon, di_factorydefault, phalcon_di_ce, phalcon_di_factorydefault_method_entry, 0);
 
 	return SUCCESS;
-
 }
 
 /**
  * Phalcon\Di\FactoryDefault constructor
  */
-PHP_METHOD(Phalcon_Di_FactoryDefault, __construct) {
-
+PHP_METHOD(Phalcon_Di_FactoryDefault, __construct)
+{
 	zval _1;
 	zval filter, _2, _3, _4, _5;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -70,6 +69,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct) {
 		ZEPHIR_CALL_METHOD(NULL, &filter, "__construct", NULL, 0);
 		zephir_check_call_status();
 	}
+
 	ZEPHIR_INIT_VAR(&_1);
 	zephir_create_array(&_1, 19, 0);
 	ZEPHIR_INIT_VAR(&_2);
@@ -146,7 +146,7 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct) {
 	zephir_array_update_string(&_1, SL("flashSession"), &_2, PH_COPY | PH_SEPARATE);
 	ZEPHIR_INIT_NVAR(&_2);
 	object_init_ex(&_2, phalcon_di_service_ce);
-	ZEPHIR_CALL_METHOD(&_5, &filter, "newinstance", NULL, 114);
+	ZEPHIR_CALL_METHOD(&_5, &filter, "newinstance", NULL, 113);
 	zephir_check_call_status();
 	ZVAL_BOOL(&_4, 1);
 	ZEPHIR_CALL_METHOD(NULL, &_2, "__construct", NULL, 97, &_5, &_4);
@@ -226,6 +226,5 @@ PHP_METHOD(Phalcon_Di_FactoryDefault, __construct) {
 	zephir_array_update_string(&_1, SL("url"), &_2, PH_COPY | PH_SEPARATE);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("services"), &_1);
 	ZEPHIR_MM_RESTORE();
-
 }
 

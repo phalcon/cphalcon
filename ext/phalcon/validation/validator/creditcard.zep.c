@@ -62,14 +62,12 @@
  * );
  * ```
  */
-ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_CreditCard) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_CreditCard)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator, CreditCard, phalcon, validation_validator_creditcard, phalcon_validation_abstractvalidator_ce, phalcon_validation_validator_creditcard_method_entry, 0);
 
 	zend_declare_property_string(phalcon_validation_validator_creditcard_ce, SL("template"), "Field :field is not valid for a credit card number", ZEND_ACC_PROTECTED);
-
 	return SUCCESS;
-
 }
 
 /**
@@ -81,8 +79,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_CreditCard) {
  *     'allowEmpty' => false
  * ]
  */
-PHP_METHOD(Phalcon_Validation_Validator_CreditCard, __construct) {
-
+PHP_METHOD(Phalcon_Validation_Validator_CreditCard, __construct)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
@@ -97,13 +95,11 @@ PHP_METHOD(Phalcon_Validation_Validator_CreditCard, __construct) {
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ARRAY(options)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &options_param);
-
 	if (!options_param) {
 		ZEPHIR_INIT_VAR(&options);
 		array_init(&options);
@@ -115,14 +111,13 @@ PHP_METHOD(Phalcon_Validation_Validator_CreditCard, __construct) {
 	ZEPHIR_CALL_PARENT(NULL, phalcon_validation_validator_creditcard_ce, getThis(), "__construct", &_0, 0, &options);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
-
 }
 
 /**
  * Executes the validation
  */
-PHP_METHOD(Phalcon_Validation_Validator_CreditCard, validate) {
-
+PHP_METHOD(Phalcon_Validation_Validator_CreditCard, validate)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *validation, validation_sub, *field, field_sub, value, valid, _0$$3;
@@ -139,13 +134,11 @@ PHP_METHOD(Phalcon_Validation_Validator_CreditCard, validate) {
 		Z_PARAM_OBJECT_OF_CLASS(validation, phalcon_validation_ce)
 		Z_PARAM_ZVAL(field)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &validation, &field);
-
 
 
 	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, 0, field);
@@ -160,15 +153,14 @@ PHP_METHOD(Phalcon_Validation_Validator_CreditCard, validate) {
 		RETURN_MM_BOOL(0);
 	}
 	RETURN_MM_BOOL(1);
-
 }
 
 /**
  * is a simple checksum formula used to validate a variety of identification
  * numbers
  */
-PHP_METHOD(Phalcon_Validation_Validator_CreditCard, verifyByLuhnAlgorithm) {
-
+PHP_METHOD(Phalcon_Validation_Validator_CreditCard, verifyByLuhnAlgorithm)
+{
 	zend_string *_7;
 	zend_ulong _6;
 	zval digits, _1;
@@ -197,13 +189,11 @@ PHP_METHOD(Phalcon_Validation_Validator_CreditCard, verifyByLuhnAlgorithm) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(number)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &number_param);
-
 	zephir_get_strval(&number, number_param);
 
 
@@ -268,6 +258,5 @@ PHP_METHOD(Phalcon_Validation_Validator_CreditCard, verifyByLuhnAlgorithm) {
 	ZEPHIR_CALL_FUNCTION(&result, "array_sum", NULL, 0, &_10);
 	zephir_check_call_status();
 	RETURN_MM_BOOL((zephir_safe_mod_zval_long(&result, 10) == 0));
-
 }
 

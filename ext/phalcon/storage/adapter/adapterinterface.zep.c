@@ -23,12 +23,11 @@
 /**
  * Interface for Phalcon\Logger adapters
  */
-ZEPHIR_INIT_CLASS(Phalcon_Storage_Adapter_AdapterInterface) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Storage_Adapter_AdapterInterface)
+{
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Storage\\Adapter, AdapterInterface, phalcon, storage_adapter_adapterinterface, phalcon_storage_adapter_adapterinterface_method_entry);
 
 	return SUCCESS;
-
 }
 
 /**
@@ -45,6 +44,11 @@ ZEPHIR_DOC_METHOD(Phalcon_Storage_Adapter_AdapterInterface, decrement);
 ZEPHIR_DOC_METHOD(Phalcon_Storage_Adapter_AdapterInterface, delete);
 /**
  * Reads data from the adapter
+ *
+ * @param string key
+ * @param mixed|null defaultValue
+ *
+ * @return mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_Storage_Adapter_AdapterInterface, get);
 /**
@@ -70,5 +74,9 @@ ZEPHIR_DOC_METHOD(Phalcon_Storage_Adapter_AdapterInterface, has);
 ZEPHIR_DOC_METHOD(Phalcon_Storage_Adapter_AdapterInterface, increment);
 /**
  * Stores data in the adapter
+ *
+ * @param string key
+ * @param mixed value
+ * @param \DateInterval|int|null ttl
  */
 ZEPHIR_DOC_METHOD(Phalcon_Storage_Adapter_AdapterInterface, set);

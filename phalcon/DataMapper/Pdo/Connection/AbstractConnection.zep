@@ -29,7 +29,7 @@ use Phalcon\DataMapper\Pdo\Profiler\ProfilerInterface;
 abstract class AbstractConnection implements ConnectionInterface
 {
     /**
-     * @var PDO
+     * @var \PDO
      */
     protected pdo;
 
@@ -395,7 +395,7 @@ abstract class AbstractConnection implements ConnectionInterface
     /**
      * Return the inner PDO (if any)
      *
-     * @return PDO
+     * @return \PDO
      */
     public function getAdapter() -> <\PDO>
     {
@@ -562,7 +562,7 @@ abstract class AbstractConnection implements ConnectionInterface
      * @param string $statement
      * @param array  $values
      *
-     * @return PDOStatement
+     * @return \PDOStatement
      */
     public function perform(
         string statement,
@@ -592,7 +592,7 @@ abstract class AbstractConnection implements ConnectionInterface
      * @param string $statement
      * @param array  $options
      *
-     * @return PDOStatement|false
+     * @return \PDOStatement|false
      */
     public function prepare(
         string statement,
@@ -618,7 +618,7 @@ abstract class AbstractConnection implements ConnectionInterface
      * @param string $statement
      * @param mixed  ...$fetch
      *
-     * @return PDOStatement|false
+     * @return \PDOStatement|false
      */
     public function query(string statement) -> <\PDOStatement> | bool
     {
@@ -725,9 +725,9 @@ abstract class AbstractConnection implements ConnectionInterface
     /**
      * Bind a value using the proper PDO::PARAM_* type.
      *
-     * @param PDOStatement $statement
-     * @param mixed        $name
-     * @param mixed        $arguments
+     * @param \PDOStatement $statement
+     * @param mixed         $name
+     * @param mixed         $arguments
      */
     protected function performBind(
         <\PDOStatement> statement,
