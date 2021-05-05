@@ -87,7 +87,7 @@ PHP_METHOD(Phalcon_Translate_Interpolator_AssociativeArray, replacePlaceholders)
 		zephir_check_call_status();
 	}
 
-	ZEPHIR_RETURN_CALL_METHOD(&interpolate, "__invoke", NULL, 414, &translation, &placeholders);
+	ZEPHIR_RETURN_CALL_METHOD(&interpolate, "__invoke", NULL, 418, &translation, &placeholders);
 	zephir_check_call_status();
 	RETURN_MM();
 }
