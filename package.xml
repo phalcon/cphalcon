@@ -18,8 +18,8 @@
     <api>5.0.0</api>
   </version>
   <stability>
-    <release>alpha</release>
-    <api>alpha</api>
+    <release>alpha2</release>
+    <api>alpha2</api>
   </stability>
   <license uri="https://license.phalcon.io">BSD 3-Clause License</license>
   <notes>
