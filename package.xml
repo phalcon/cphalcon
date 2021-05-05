@@ -14,12 +14,12 @@
   <date>2021-05-05</date>
   <time>17:00:00</time>
   <version>
-    <release>5.0.0</release>
-    <api>5.0.0</api>
+    <release>5.0.0alpha2</release>
+    <api>5.0.0alpha2</api>
   </version>
   <stability>
-    <release>alpha2</release>
-    <api>alpha2</api>
+    <release>alpha</release>
+    <api>alpha</api>
   </stability>
   <license uri="https://license.phalcon.io">BSD 3-Clause License</license>
   <notes>
@@ -80,10 +80,10 @@
     <required>
       <php>
         <min>7.4.1</min>
-        <max>8.0.3</max>
+        <max>8.0.99</max>
       </php>
       <pearinstaller>
-        <min>1.4.0</min>
+        <min>1.10</min>
       </pearinstaller>
       <package>
         <name>psr</name>
