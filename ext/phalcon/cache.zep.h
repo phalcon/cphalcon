@@ -61,7 +61,7 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cache_checkkey, 0, 1, IS_VOID, 0)
 
-	ZEND_ARG_INFO(0, key)
+	ZEND_ARG_TYPE_INFO(0, key, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_cache_checkkeys, 0, 1, IS_VOID, 0)

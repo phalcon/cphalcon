@@ -25,13 +25,11 @@
 /**
  * Class Email
  */
-ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Input_Email) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Input_Email)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Html\\Helper\\Input, Email, phalcon, html_helper_input_email, phalcon_html_helper_input_abstractinput_ce, NULL, 0);
 
 	zend_declare_property_string(phalcon_html_helper_input_email_ce, SL("type"), "email", ZEND_ACC_PROTECTED);
-
 	return SUCCESS;
-
 }
 

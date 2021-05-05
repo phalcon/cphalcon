@@ -102,7 +102,8 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_mvc_micro_collection_setp
 	ZEND_ARG_TYPE_INFO(0, prefix, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_mvc_micro_collection_addmap, 0, 0, 4)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_mvc_micro_collection_addmap, 0, 4, IS_VOID, 0)
+
 	ZEND_ARG_INFO(0, method)
 	ZEND_ARG_TYPE_INFO(0, routePattern, IS_STRING, 0)
 	ZEND_ARG_INFO(0, handler)

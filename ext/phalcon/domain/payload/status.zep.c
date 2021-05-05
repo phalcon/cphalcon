@@ -34,8 +34,8 @@
 /**
  * Holds the status codes for the payload
  */
-ZEPHIR_INIT_CLASS(Phalcon_Domain_Payload_Status) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Domain_Payload_Status)
+{
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Domain\\Payload, Status, phalcon, domain_payload_status, phalcon_domain_payload_status_method_entry, 0);
 
 	zephir_declare_class_constant_string(phalcon_domain_payload_status_ce, SL("ACCEPTED"), "ACCEPTED");
@@ -79,16 +79,14 @@ ZEPHIR_INIT_CLASS(Phalcon_Domain_Payload_Status) {
 	zephir_declare_class_constant_string(phalcon_domain_payload_status_ce, SL("VALID"), "VALID");
 
 	return SUCCESS;
-
 }
 
 /**
  * Instantiation not allowed.
  */
-PHP_METHOD(Phalcon_Domain_Payload_Status, __construct) {
-
+PHP_METHOD(Phalcon_Domain_Payload_Status, __construct)
+{
 	zval *this_ptr = getThis();
-
 
 
 

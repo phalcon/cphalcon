@@ -29,19 +29,18 @@
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
-ZEPHIR_INIT_CLASS(Phalcon_Storage_Serializer_Json) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Storage_Serializer_Json)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Storage\\Serializer, Json, phalcon, storage_serializer_json, phalcon_storage_serializer_abstractserializer_ce, phalcon_storage_serializer_json_method_entry, 0);
 
 	return SUCCESS;
-
 }
 
 /**
  * Serializes data
  */
-PHP_METHOD(Phalcon_Storage_Serializer_Json, serialize) {
-
+PHP_METHOD(Phalcon_Storage_Serializer_Json, serialize)
+{
 	zval _4$$3;
 	zend_bool _1;
 	zval _0, _2, _5, _6, _8, _3$$3;
@@ -90,14 +89,13 @@ PHP_METHOD(Phalcon_Storage_Serializer_Json, serialize) {
 	ZEPHIR_RETURN_CALL_CE_STATIC(phalcon_helper_json_ce, "encode", &_7, 14, &_8);
 	zephir_check_call_status();
 	RETURN_MM();
-
 }
 
 /**
  * Unserializes data
  */
-PHP_METHOD(Phalcon_Storage_Serializer_Json, unserialize) {
-
+PHP_METHOD(Phalcon_Storage_Serializer_Json, unserialize)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_1 = NULL;
@@ -111,7 +109,6 @@ PHP_METHOD(Phalcon_Storage_Serializer_Json, unserialize) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(data)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
@@ -119,11 +116,9 @@ PHP_METHOD(Phalcon_Storage_Serializer_Json, unserialize) {
 	zephir_fetch_params(1, 1, 0, &data);
 
 
-
-	ZEPHIR_CALL_CE_STATIC(&_0, phalcon_helper_json_ce, "decode", &_1, 181, data);
+	ZEPHIR_CALL_CE_STATIC(&_0, phalcon_helper_json_ce, "decode", &_1, 180, data);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("data"), &_0);
 	ZEPHIR_MM_RESTORE();
-
 }
 

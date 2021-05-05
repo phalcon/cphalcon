@@ -25,11 +25,10 @@
 /**
   * Phalcon\Di\Exception\ServiceResolutionException
   */
-ZEPHIR_INIT_CLASS(Phalcon_Di_Exception_ServiceResolutionException) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Di_Exception_ServiceResolutionException)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Di\\Exception, ServiceResolutionException, phalcon, di_exception_serviceresolutionexception, phalcon_di_exception_ce, NULL, 0);
 
 	return SUCCESS;
-
 }
 

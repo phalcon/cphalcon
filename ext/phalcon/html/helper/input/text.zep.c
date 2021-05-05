@@ -25,11 +25,10 @@
 /**
  * Class Text
  */
-ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Input_Text) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Input_Text)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Html\\Helper\\Input, Text, phalcon, html_helper_input_text, phalcon_html_helper_input_abstractinput_ce, NULL, 0);
 
 	return SUCCESS;
-
 }
 

@@ -77,14 +77,12 @@
  * );
  * ```
  */
-ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_File_MimeType) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_File_MimeType)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator\\File, MimeType, phalcon, validation_validator_file_mimetype, phalcon_validation_validator_file_abstractfile_ce, phalcon_validation_validator_file_mimetype_method_entry, 0);
 
 	zend_declare_property_string(phalcon_validation_validator_file_mimetype_ce, SL("template"), "File :field must be of type: :types", ZEND_ACC_PROTECTED);
-
 	return SUCCESS;
-
 }
 
 /**
@@ -94,8 +92,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_File_MimeType) {
  * @param mixed $field
  * @return bool
  */
-PHP_METHOD(Phalcon_Validation_Validator_File_MimeType, validate) {
-
+PHP_METHOD(Phalcon_Validation_Validator_File_MimeType, validate)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *validation, validation_sub, *field, field_sub, fieldTypes, mime, replacePairs, tmp, types, value, _0, _1, _2$$6, _3$$6, _4$$8, _5$$8;
@@ -121,13 +119,11 @@ PHP_METHOD(Phalcon_Validation_Validator_File_MimeType, validate) {
 		Z_PARAM_OBJECT_OF_CLASS(validation, phalcon_validation_ce)
 		Z_PARAM_ZVAL(field)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &validation, &field);
-
 
 
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "checkupload", NULL, 0, validation, field);
@@ -151,12 +147,12 @@ PHP_METHOD(Phalcon_Validation_Validator_File_MimeType, validate) {
 	}
 	if ((zephir_function_exists_ex(ZEND_STRL("finfo_open")) == SUCCESS)) {
 		ZVAL_LONG(&_2$$6, 16);
-		ZEPHIR_CALL_FUNCTION(&tmp, "finfo_open", NULL, 376, &_2$$6);
+		ZEPHIR_CALL_FUNCTION(&tmp, "finfo_open", NULL, 355, &_2$$6);
 		zephir_check_call_status();
 		zephir_array_fetch_string(&_3$$6, &value, SL("tmp_name"), PH_NOISY | PH_READONLY, "phalcon/Validation/Validator/File/MimeType.zep", 101);
-		ZEPHIR_CALL_FUNCTION(&mime, "finfo_file", NULL, 377, &tmp, &_3$$6);
+		ZEPHIR_CALL_FUNCTION(&mime, "finfo_file", NULL, 356, &tmp, &_3$$6);
 		zephir_check_call_status();
-		ZEPHIR_CALL_FUNCTION(NULL, "finfo_close", NULL, 378, &tmp);
+		ZEPHIR_CALL_FUNCTION(NULL, "finfo_close", NULL, 357, &tmp);
 		zephir_check_call_status();
 	} else {
 		ZEPHIR_OBS_NVAR(&mime);
@@ -175,6 +171,5 @@ PHP_METHOD(Phalcon_Validation_Validator_File_MimeType, validate) {
 		RETURN_MM_BOOL(0);
 	}
 	RETURN_MM_BOOL(1);
-
 }
 

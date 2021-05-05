@@ -63,14 +63,12 @@
  * );
  * ```
  */
-ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Url) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Url)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator, Url, phalcon, validation_validator_url, phalcon_validation_abstractvalidator_ce, phalcon_validation_validator_url_method_entry, 0);
 
 	zend_declare_property_string(phalcon_validation_validator_url_ce, SL("template"), "Field :field must be a url", ZEND_ACC_PROTECTED);
-
 	return SUCCESS;
-
 }
 
 /**
@@ -83,8 +81,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Url) {
  *     'options' => []
  * ]
  */
-PHP_METHOD(Phalcon_Validation_Validator_Url, __construct) {
-
+PHP_METHOD(Phalcon_Validation_Validator_Url, __construct)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
@@ -99,13 +97,11 @@ PHP_METHOD(Phalcon_Validation_Validator_Url, __construct) {
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ARRAY(options)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &options_param);
-
 	if (!options_param) {
 		ZEPHIR_INIT_VAR(&options);
 		array_init(&options);
@@ -117,14 +113,13 @@ PHP_METHOD(Phalcon_Validation_Validator_Url, __construct) {
 	ZEPHIR_CALL_PARENT(NULL, phalcon_validation_validator_url_ce, getThis(), "__construct", &_0, 0, &options);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
-
 }
 
 /**
  * Executes the validation
  */
-PHP_METHOD(Phalcon_Validation_Validator_Url, validate) {
-
+PHP_METHOD(Phalcon_Validation_Validator_Url, validate)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *validation, validation_sub, *field, field_sub, options, result, value, _0, _1$$3, _2$$4, _3$$5;
@@ -145,13 +140,11 @@ PHP_METHOD(Phalcon_Validation_Validator_Url, validate) {
 		Z_PARAM_OBJECT_OF_CLASS(validation, phalcon_validation_ce)
 		Z_PARAM_ZVAL(field)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &validation, &field);
-
 
 
 	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, 0, field);
@@ -160,11 +153,11 @@ PHP_METHOD(Phalcon_Validation_Validator_Url, validate) {
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("options"), PH_NOISY_CC | PH_READONLY);
 	if (zephir_array_isset_string_fetch(&options, &_0, SL("options"), 0)) {
 		ZVAL_LONG(&_1$$3, 273);
-		ZEPHIR_CALL_FUNCTION(&result, "filter_var", NULL, 258, &value, &_1$$3, &options);
+		ZEPHIR_CALL_FUNCTION(&result, "filter_var", NULL, 237, &value, &_1$$3, &options);
 		zephir_check_call_status();
 	} else {
 		ZVAL_LONG(&_2$$4, 273);
-		ZEPHIR_CALL_FUNCTION(&result, "filter_var", NULL, 258, &value, &_2$$4);
+		ZEPHIR_CALL_FUNCTION(&result, "filter_var", NULL, 237, &value, &_2$$4);
 		zephir_check_call_status();
 	}
 	if (!(zephir_is_true(&result))) {
@@ -175,6 +168,5 @@ PHP_METHOD(Phalcon_Validation_Validator_Url, validate) {
 		RETURN_MM_BOOL(0);
 	}
 	RETURN_MM_BOOL(1);
-
 }
 

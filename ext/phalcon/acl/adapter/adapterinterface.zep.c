@@ -23,12 +23,11 @@
 /**
  * Interface for Phalcon\Acl adapters
  */
-ZEPHIR_INIT_CLASS(Phalcon_Acl_Adapter_AdapterInterface) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Acl_Adapter_AdapterInterface)
+{
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Acl\\Adapter, AdapterInterface, phalcon, acl_adapter_adapterinterface, phalcon_acl_adapter_adapterinterface_method_entry);
 
 	return SUCCESS;
-
 }
 
 /**

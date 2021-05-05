@@ -5,6 +5,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Response_Headers);
 
 PHP_METHOD(Phalcon_Http_Response_Headers, get);
 PHP_METHOD(Phalcon_Http_Response_Headers, has);
+PHP_METHOD(Phalcon_Http_Response_Headers, isSent);
 PHP_METHOD(Phalcon_Http_Response_Headers, remove);
 PHP_METHOD(Phalcon_Http_Response_Headers, reset);
 PHP_METHOD(Phalcon_Http_Response_Headers, send);
@@ -19,6 +20,9 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_response_headers_has, 0, 1, _IS_BOOL, 0)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_http_response_headers_issent, 0, 0, _IS_BOOL, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_response_headers_remove, 0, 1, Phalcon\\Http\\Response\\HeadersInterface, 0)
@@ -49,6 +53,7 @@ ZEND_END_ARG_INFO()
 ZEPHIR_INIT_FUNCS(phalcon_http_response_headers_method_entry) {
 	PHP_ME(Phalcon_Http_Response_Headers, get, arginfo_phalcon_http_response_headers_get, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Response_Headers, has, arginfo_phalcon_http_response_headers_has, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Http_Response_Headers, isSent, arginfo_phalcon_http_response_headers_issent, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Http_Response_Headers, remove, arginfo_phalcon_http_response_headers_remove, ZEND_ACC_PUBLIC)
 #if PHP_VERSION_ID >= 80000
 	PHP_ME(Phalcon_Http_Response_Headers, reset, arginfo_phalcon_http_response_headers_reset, ZEND_ACC_PUBLIC)

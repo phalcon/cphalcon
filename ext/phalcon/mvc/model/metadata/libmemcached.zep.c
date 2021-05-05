@@ -35,12 +35,11 @@
  *
  * By default meta-data is stored for 48 hours (172800 seconds)
  */
-ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Libmemcached) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Libmemcached)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\MetaData, Libmemcached, phalcon, mvc_model_metadata_libmemcached, phalcon_mvc_model_metadata_ce, phalcon_mvc_model_metadata_libmemcached_method_entry, 0);
 
 	return SUCCESS;
-
 }
 
 /**
@@ -48,8 +47,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Libmemcached) {
  *
  * @param array options
  */
-PHP_METHOD(Phalcon_Mvc_Model_MetaData_Libmemcached, __construct) {
-
+PHP_METHOD(Phalcon_Mvc_Model_MetaData_Libmemcached, __construct)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_1 = NULL;
@@ -73,13 +72,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Libmemcached, __construct) {
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ARRAY(options)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &factory, &options_param);
-
 	if (!options_param) {
 		ZEPHIR_INIT_VAR(&options);
 		array_init(&options);
@@ -114,14 +111,13 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Libmemcached, __construct) {
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("adapter"), &_7);
 	ZEPHIR_MM_RESTORE();
-
 }
 
 /**
  * Flush Memcache data and resets internal meta-data in order to regenerate it
  */
-PHP_METHOD(Phalcon_Mvc_Model_MetaData_Libmemcached, reset) {
-
+PHP_METHOD(Phalcon_Mvc_Model_MetaData_Libmemcached, reset)
+{
 	zval _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_1 = NULL;
@@ -139,6 +135,5 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Libmemcached, reset) {
 	ZEPHIR_CALL_PARENT(NULL, phalcon_mvc_model_metadata_libmemcached_ce, getThis(), "reset", &_1, 0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
-
 }
 

@@ -33,17 +33,16 @@
  *
  * All framework exceptions should use or extend this exception
  */
-ZEPHIR_INIT_CLASS(Phalcon_Exception) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Exception)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon, Exception, phalcon, exception, zend_ce_exception, phalcon_exception_method_entry, 0);
 
 	zend_class_implements(phalcon_exception_ce, 1, zend_ce_throwable);
 	return SUCCESS;
-
 }
 
-PHP_METHOD(Phalcon_Exception, containerServiceNotFound) {
-
+PHP_METHOD(Phalcon_Exception, containerServiceNotFound)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *service_param = NULL;
 	zval service;
@@ -55,13 +54,11 @@ PHP_METHOD(Phalcon_Exception, containerServiceNotFound) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(service)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &service_param);
-
 	if (UNEXPECTED(Z_TYPE_P(service_param) != IS_STRING && Z_TYPE_P(service_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'service' must be of the type string"));
 		RETURN_MM_NULL();
@@ -70,12 +67,10 @@ PHP_METHOD(Phalcon_Exception, containerServiceNotFound) {
 		zephir_get_strval(&service, service_param);
 	} else {
 		ZEPHIR_INIT_VAR(&service);
-		ZVAL_EMPTY_STRING(&service);
 	}
 
 
 	ZEPHIR_CONCAT_SV(return_value, "A dependency injection container is required to access ", &service);
 	RETURN_MM();
-
 }
 

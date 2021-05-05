@@ -62,14 +62,12 @@
  * );
  * ```
  */
-ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Digit) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Digit)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Validation\\Validator, Digit, phalcon, validation_validator_digit, phalcon_validation_abstractvalidator_ce, phalcon_validation_validator_digit_method_entry, 0);
 
 	zend_declare_property_string(phalcon_validation_validator_digit_ce, SL("template"), "Field :field must be numeric", ZEND_ACC_PROTECTED);
-
 	return SUCCESS;
-
 }
 
 /**
@@ -81,8 +79,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Validation_Validator_Digit) {
  *     'allowEmpty' => false
  * ]
  */
-PHP_METHOD(Phalcon_Validation_Validator_Digit, __construct) {
-
+PHP_METHOD(Phalcon_Validation_Validator_Digit, __construct)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_0 = NULL;
@@ -97,13 +95,11 @@ PHP_METHOD(Phalcon_Validation_Validator_Digit, __construct) {
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ARRAY(options)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &options_param);
-
 	if (!options_param) {
 		ZEPHIR_INIT_VAR(&options);
 		array_init(&options);
@@ -115,14 +111,13 @@ PHP_METHOD(Phalcon_Validation_Validator_Digit, __construct) {
 	ZEPHIR_CALL_PARENT(NULL, phalcon_validation_validator_digit_ce, getThis(), "__construct", &_0, 0, &options);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
-
 }
 
 /**
  * Executes the validation
  */
-PHP_METHOD(Phalcon_Validation_Validator_Digit, validate) {
-
+PHP_METHOD(Phalcon_Validation_Validator_Digit, validate)
+{
 	zend_bool _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -140,13 +135,11 @@ PHP_METHOD(Phalcon_Validation_Validator_Digit, validate) {
 		Z_PARAM_OBJECT_OF_CLASS(validation, phalcon_validation_ce)
 		Z_PARAM_ZVAL(field)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &validation, &field);
-
 
 
 	ZEPHIR_CALL_METHOD(&value, validation, "getvalue", NULL, 0, field);
@@ -165,6 +158,5 @@ PHP_METHOD(Phalcon_Validation_Validator_Digit, validate) {
 	ZEPHIR_CALL_METHOD(NULL, validation, "appendmessage", NULL, 0, &_2);
 	zephir_check_call_status();
 	RETURN_MM_BOOL(0);
-
 }
 

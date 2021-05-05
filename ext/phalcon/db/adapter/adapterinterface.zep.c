@@ -23,12 +23,11 @@
 /**
  * Interface for Phalcon\Db adapters
  */
-ZEPHIR_INIT_CLASS(Phalcon_Db_Adapter_AdapterInterface) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Db_Adapter_AdapterInterface)
+{
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Db\\Adapter, AdapterInterface, phalcon, db_adapter_adapterinterface, phalcon_db_adapter_adapterinterface_method_entry);
 
 	return SUCCESS;
-
 }
 
 /**

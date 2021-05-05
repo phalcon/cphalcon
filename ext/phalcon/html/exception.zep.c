@@ -27,11 +27,10 @@
  *
  * Exceptions thrown in Phalcon\Html\Tag will use this class
  */
-ZEPHIR_INIT_CLASS(Phalcon_Html_Exception) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Html_Exception)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Html, Exception, phalcon, html_exception, phalcon_exception_ce, NULL, 0);
 
 	return SUCCESS;
-
 }
 

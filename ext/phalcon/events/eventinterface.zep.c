@@ -25,12 +25,11 @@
  *
  * Interface for Phalcon\Events\Event class
  */
-ZEPHIR_INIT_CLASS(Phalcon_Events_EventInterface) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Events_EventInterface)
+{
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Events, EventInterface, phalcon, events_eventinterface, phalcon_events_eventinterface_method_entry);
 
 	return SUCCESS;
-
 }
 
 /**

@@ -11,7 +11,11 @@ zend_object *zephir_init_properties_Phalcon_Html_Helper_Input_AbstractInput(zend
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_html_helper_input_abstractinput___invoke, 0, 1, Phalcon\\Html\\Helper\\Input\\AbstractInput, 0)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, value, IS_STRING, 1)
+#if PHP_VERSION_ID >= 80000
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, attributes, IS_ARRAY, 0, "[]")
+#else
 	ZEND_ARG_ARRAY_INFO(0, attributes, 0)
+#endif
 ZEND_END_ARG_INFO()
 
 #if PHP_VERSION_ID >= 80000

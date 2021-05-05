@@ -30,19 +30,18 @@
 /**
  * Represents an inlined CSS
  */
-ZEPHIR_INIT_CLASS(Phalcon_Assets_Inline_Css) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Assets_Inline_Css)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Assets\\Inline, Css, phalcon, assets_inline_css, phalcon_assets_inline_ce, phalcon_assets_inline_css_method_entry, 0);
 
 	return SUCCESS;
-
 }
 
 /**
  * Phalcon\Assets\Inline\Css constructor
  */
-PHP_METHOD(Phalcon_Assets_Inline_Css, __construct) {
-
+PHP_METHOD(Phalcon_Assets_Inline_Css, __construct)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zephir_fcall_cache_entry *_1 = NULL;
@@ -65,13 +64,11 @@ PHP_METHOD(Phalcon_Assets_Inline_Css, __construct) {
 		Z_PARAM_BOOL(filter)
 		Z_PARAM_ZVAL(attributes)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 2, &content_param, &filter_param, &attributes);
-
 	zephir_get_strval(&content, content_param);
 	if (!filter_param) {
 		filter = 1;
@@ -102,6 +99,5 @@ PHP_METHOD(Phalcon_Assets_Inline_Css, __construct) {
 	ZEPHIR_CALL_PARENT(NULL, phalcon_assets_inline_css_ce, getThis(), "__construct", &_1, 0, &_2, &content, &_3, attributes);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
-
 }
 

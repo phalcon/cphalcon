@@ -23,12 +23,11 @@
 /**
  * Interface for Phalcon\Url\UrlInterface
  */
-ZEPHIR_INIT_CLASS(Phalcon_Url_UrlInterface) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Url_UrlInterface)
+{
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Url, UrlInterface, phalcon, url_urlinterface, phalcon_url_urlinterface_method_entry);
 
 	return SUCCESS;
-
 }
 
 /**

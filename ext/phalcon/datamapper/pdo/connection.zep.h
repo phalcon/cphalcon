@@ -13,8 +13,16 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_datamapper_pdo_connection___construct, 0,
 	ZEND_ARG_TYPE_INFO(0, dsn, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, username, IS_STRING, 1)
 	ZEND_ARG_TYPE_INFO(0, password, IS_STRING, 1)
+#if PHP_VERSION_ID >= 80000
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, options, IS_ARRAY, 0, "[]")
+#else
 	ZEND_ARG_ARRAY_INFO(0, options, 0)
+#endif
+#if PHP_VERSION_ID >= 80000
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, queries, IS_ARRAY, 0, "[]")
+#else
 	ZEND_ARG_ARRAY_INFO(0, queries, 0)
+#endif
 	ZEND_ARG_OBJ_INFO(0, profiler, Phalcon\\DataMapper\\Pdo\\Profiler\\ProfilerInterface, 1)
 ZEND_END_ARG_INFO()
 

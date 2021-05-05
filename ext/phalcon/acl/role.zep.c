@@ -30,8 +30,8 @@
 /**
  * This class defines role entity and its description
  */
-ZEPHIR_INIT_CLASS(Phalcon_Acl_Role) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Acl_Role)
+{
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Acl, Role, phalcon, acl_role, phalcon_acl_role_method_entry, 0);
 
 	/**
@@ -40,63 +40,57 @@ ZEPHIR_INIT_CLASS(Phalcon_Acl_Role) {
 	 * @var string
 	 */
 	zend_declare_property_null(phalcon_acl_role_ce, SL("name"), ZEND_ACC_PRIVATE);
-
 	/**
 	 * Role description
 	 *
 	 * @var string
 	 */
 	zend_declare_property_null(phalcon_acl_role_ce, SL("description"), ZEND_ACC_PRIVATE);
-
 	zend_class_implements(phalcon_acl_role_ce, 1, phalcon_acl_roleinterface_ce);
 	return SUCCESS;
-
 }
 
 /**
  * Role name
  */
-PHP_METHOD(Phalcon_Acl_Role, getName) {
-
+PHP_METHOD(Phalcon_Acl_Role, getName)
+{
 	zval *this_ptr = getThis();
 
 
 
 	RETURN_MEMBER(getThis(), "name");
-
 }
 
 /**
  * Role name
  */
-PHP_METHOD(Phalcon_Acl_Role, __toString) {
-
+PHP_METHOD(Phalcon_Acl_Role, __toString)
+{
 	zval *this_ptr = getThis();
 
 
 
 	RETURN_MEMBER(getThis(), "name");
-
 }
 
 /**
  * Role description
  */
-PHP_METHOD(Phalcon_Acl_Role, getDescription) {
-
+PHP_METHOD(Phalcon_Acl_Role, getDescription)
+{
 	zval *this_ptr = getThis();
 
 
 
 	RETURN_MEMBER(getThis(), "description");
-
 }
 
 /**
  * Phalcon\Acl\Role constructor
  */
-PHP_METHOD(Phalcon_Acl_Role, __construct) {
-
+PHP_METHOD(Phalcon_Acl_Role, __construct)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *name_param = NULL, *description_param = NULL;
 	zval name, description;
@@ -111,13 +105,11 @@ PHP_METHOD(Phalcon_Acl_Role, __construct) {
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR_OR_NULL(description)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &name_param, &description_param);
-
 	if (UNEXPECTED(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be of the type string"));
 		RETURN_MM_NULL();
@@ -126,11 +118,9 @@ PHP_METHOD(Phalcon_Acl_Role, __construct) {
 		zephir_get_strval(&name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(&name);
-		ZVAL_EMPTY_STRING(&name);
 	}
 	if (!description_param) {
 		ZEPHIR_INIT_VAR(&description);
-		ZVAL_STRING(&description, "");
 	} else {
 		zephir_get_strval(&description, description_param);
 	}
@@ -143,6 +133,5 @@ PHP_METHOD(Phalcon_Acl_Role, __construct) {
 	zephir_update_property_zval(this_ptr, ZEND_STRL("name"), &name);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("description"), &description);
 	ZEPHIR_MM_RESTORE();
-
 }
 

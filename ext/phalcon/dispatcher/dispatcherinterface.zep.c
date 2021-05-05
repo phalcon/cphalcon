@@ -23,18 +23,17 @@
 /**
  * Interface for Phalcon\Dispatcher\AbstractDispatcher
  */
-ZEPHIR_INIT_CLASS(Phalcon_Dispatcher_DispatcherInterface) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Dispatcher_DispatcherInterface)
+{
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Dispatcher, DispatcherInterface, phalcon, dispatcher_dispatcherinterface, phalcon_dispatcher_dispatcherinterface_method_entry);
 
 	return SUCCESS;
-
 }
 
 /**
  * Dispatches a handle action taking into account the routing parameters
  *
- * @return object|false
+ * @return mixed
  */
 ZEPHIR_DOC_METHOD(Phalcon_Dispatcher_DispatcherInterface, dispatch);
 /**

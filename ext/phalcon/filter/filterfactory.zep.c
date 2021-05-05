@@ -26,20 +26,19 @@
  * For the full copyright and license information, please view the LICENSE.txt
  * file that was distributed with this source code.
  */
-ZEPHIR_INIT_CLASS(Phalcon_Filter_FilterFactory) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Filter_FilterFactory)
+{
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Filter, FilterFactory, phalcon, filter_filterfactory, phalcon_filter_filterfactory_method_entry, 0);
 
 	return SUCCESS;
-
 }
 
 /**
  * Returns a Locator object with all the helpers defined in anonymous
  * functions
  */
-PHP_METHOD(Phalcon_Filter_FilterFactory, newInstance) {
-
+PHP_METHOD(Phalcon_Filter_FilterFactory, newInstance)
+{
 	zval _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -53,14 +52,13 @@ PHP_METHOD(Phalcon_Filter_FilterFactory, newInstance) {
 	object_init_ex(return_value, phalcon_filter_ce);
 	ZEPHIR_CALL_METHOD(&_0, this_ptr, "getadapters", NULL, 0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 257, &_0);
+	ZEPHIR_CALL_METHOD(NULL, return_value, "__construct", NULL, 236, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
-
 }
 
-PHP_METHOD(Phalcon_Filter_FilterFactory, getAdapters) {
-
+PHP_METHOD(Phalcon_Filter_FilterFactory, getAdapters)
+{
 	zval *this_ptr = getThis();
 
 
@@ -88,6 +86,5 @@ PHP_METHOD(Phalcon_Filter_FilterFactory, getAdapters) {
 	add_assoc_stringl_ex(return_value, SL("upperWords"), SL("Phalcon\\Filter\\Sanitize\\UpperWords"));
 	add_assoc_stringl_ex(return_value, SL("url"), SL("Phalcon\\Filter\\Sanitize\\Url"));
 	return;
-
 }
 

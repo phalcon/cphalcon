@@ -85,11 +85,11 @@ jobs:
       - name: Create Pecl Package (PHP 8)
         id: pecl_create
         run: |
-          cp build/php8/safe/config.w32 config.w32
-          cp build/php8/safe/phalcon.zep.c phalcon.zep.c
-          cp build/php8/safe/config.m4 config.m4
-          cp build/php8/safe/php_phalcon.h php_phalcon.h
-          cp build/php8/safe/phalcon.zep.h phalcon.zep.h
+          cp build/phalcon/safe/config.w32 config.w32
+          cp build/phalcon/safe/phalcon.zep.c phalcon.zep.c
+          cp build/phalcon/safe/config.m4 config.m4
+          cp build/phalcon/safe/php_phalcon.h php_phalcon.h
+          cp build/phalcon/safe/phalcon.zep.h phalcon.zep.h
           pecl package
           phalcon_package="`ls | grep phalcon-*tgz`"
           mv $phalcon_package phalcon-pecl.tgz
@@ -621,15 +621,25 @@ jobs:
       - name: Run CLI Tests
         run: vendor/bin/codecept run --ext DotReporter cli
 
-      - name: Upload build artifacts after Failure
+      - name: Upload tools artifacts after Failure
         if: failure()
         uses: actions/upload-artifact@v2
         with:
-          name: tools
+          name: tools-${{ matrix.php-versions }}
           path: |
             C:\tools\pecl\
             C:\tools\php\
             C:\tools\php-*\
+          retention-days: 1
+
+      - name: Upload build artifacts after Failure
+        if: failure()
+        uses: actions/upload-artifact@v2
+        with:
+          name: ext-${{ matrix.php-versions }}-${{ matrix.arch }}-${{ matrix.ts }}
+          path: |
+            ${{ github.workspace }}\ext\
+            !${{ github.workspace }}\ext\x64\
           retention-days: 1
 
   release:

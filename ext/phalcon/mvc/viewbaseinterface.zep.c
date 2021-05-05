@@ -25,12 +25,11 @@
  *
  * Interface for Phalcon\Mvc\View and Phalcon\Mvc\View\Simple
  */
-ZEPHIR_INIT_CLASS(Phalcon_Mvc_ViewBaseInterface) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Mvc_ViewBaseInterface)
+{
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Mvc, ViewBaseInterface, phalcon, mvc_viewbaseinterface, phalcon_mvc_viewbaseinterface_method_entry);
 
 	return SUCCESS;
-
 }
 
 /**

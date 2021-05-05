@@ -28,12 +28,11 @@
 /**
  * An interface to the native PDO object.
  */
-ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Pdo_Connection_PdoInterface) {
-
+ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Pdo_Connection_PdoInterface)
+{
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\DataMapper\\Pdo\\Connection, PdoInterface, phalcon, datamapper_pdo_connection_pdointerface, phalcon_datamapper_pdo_connection_pdointerface_method_entry);
 
 	return SUCCESS;
-
 }
 
 /**
@@ -108,7 +107,7 @@ ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_PdoInterface, lastInsertId);
  * @param string $statement
  * @param array  $options
  *
- * @return PDOStatement|false
+ * @return \PDOStatement|false
  */
 ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_PdoInterface, prepare);
 /**
@@ -118,7 +117,7 @@ ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_PdoInterface, prepare);
  * @param string $statement
  * @param mixed  ...$fetch
  *
- * @return PDOStatement|false
+ * @return \PDOStatement|false
  */
 ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_PdoInterface, query);
 /**

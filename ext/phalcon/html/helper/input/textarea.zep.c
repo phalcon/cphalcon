@@ -29,17 +29,15 @@
 /**
  * Class Textarea
  */
-ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Input_Textarea) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Input_Textarea)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Html\\Helper\\Input, Textarea, phalcon, html_helper_input_textarea, phalcon_html_helper_input_abstractinput_ce, phalcon_html_helper_input_textarea_method_entry, 0);
 
 	/**
 	 * @var string
 	 */
 	zend_declare_property_string(phalcon_html_helper_input_textarea_ce, SL("type"), "textarea", ZEND_ACC_PROTECTED);
-
 	return SUCCESS;
-
 }
 
 /**
@@ -48,8 +46,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Input_Textarea) {
  * @return string
  * @throws Exception
  */
-PHP_METHOD(Phalcon_Html_Helper_Input_Textarea, __toString) {
-
+PHP_METHOD(Phalcon_Html_Helper_Input_Textarea, __toString)
+{
 	zval attributes;
 	zval value, _0, _2, _3, _4;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -84,6 +82,5 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Textarea, __toString) {
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "renderfullelement", NULL, 0, &_4, &value, &attributes);
 	zephir_check_call_status();
 	RETURN_MM();
-
 }
 

@@ -32,19 +32,19 @@
 /**
  * Factory to create annotations components
  */
-ZEPHIR_INIT_CLASS(Phalcon_Annotations_AnnotationsFactory) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Annotations_AnnotationsFactory)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Annotations, AnnotationsFactory, phalcon, annotations_annotationsfactory, phalcon_factory_abstractfactory_ce, phalcon_annotations_annotationsfactory_method_entry, 0);
 
+	zend_declare_property_string(phalcon_annotations_annotationsfactory_ce, SL("exception"), "Phalcon\\Annotations\\Exception", ZEND_ACC_PROTECTED);
 	return SUCCESS;
-
 }
 
 /**
  * AdapterFactory constructor.
  */
-PHP_METHOD(Phalcon_Annotations_AnnotationsFactory, __construct) {
-
+PHP_METHOD(Phalcon_Annotations_AnnotationsFactory, __construct)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *services_param = NULL;
@@ -58,13 +58,11 @@ PHP_METHOD(Phalcon_Annotations_AnnotationsFactory, __construct) {
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ARRAY(services)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 1, &services_param);
-
 	if (!services_param) {
 		ZEPHIR_INIT_VAR(&services);
 		array_init(&services);
@@ -76,7 +74,6 @@ PHP_METHOD(Phalcon_Annotations_AnnotationsFactory, __construct) {
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "init", NULL, 0, &services);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
-
 }
 
 /**
@@ -91,8 +88,8 @@ PHP_METHOD(Phalcon_Annotations_AnnotationsFactory, __construct) {
  *
  * Factory to create an instance from a Config object
  */
-PHP_METHOD(Phalcon_Annotations_AnnotationsFactory, load) {
-
+PHP_METHOD(Phalcon_Annotations_AnnotationsFactory, load)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_1 = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -110,13 +107,11 @@ PHP_METHOD(Phalcon_Annotations_AnnotationsFactory, load) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(config)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &config);
-
 	ZEPHIR_SEPARATE_PARAM(config);
 
 
@@ -124,7 +119,7 @@ PHP_METHOD(Phalcon_Annotations_AnnotationsFactory, load) {
 	zephir_check_call_status();
 	ZEPHIR_CPY_WRT(config, &_0);
 	ZEPHIR_OBS_VAR(&name);
-	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Annotations/AnnotationsFactory.zep", 47);
+	zephir_array_fetch_string(&name, config, SL("adapter"), PH_NOISY, "phalcon/Annotations/AnnotationsFactory.zep", 49);
 	zephir_array_unset_string(config, SL("adapter"), PH_SEPARATE);
 	ZEPHIR_INIT_VAR(&_2);
 	array_init(&_2);
@@ -135,7 +130,6 @@ PHP_METHOD(Phalcon_Annotations_AnnotationsFactory, load) {
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "newinstance", NULL, 0, &name, &options);
 	zephir_check_call_status();
 	RETURN_MM();
-
 }
 
 /**
@@ -147,8 +141,8 @@ PHP_METHOD(Phalcon_Annotations_AnnotationsFactory, load) {
  *     'annotationsDir' => 'phalconDir'
  * ]
  */
-PHP_METHOD(Phalcon_Annotations_AnnotationsFactory, newInstance) {
-
+PHP_METHOD(Phalcon_Annotations_AnnotationsFactory, newInstance)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval options, _0;
@@ -167,13 +161,11 @@ PHP_METHOD(Phalcon_Annotations_AnnotationsFactory, newInstance) {
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ARRAY(options)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &name_param, &options_param);
-
 	if (UNEXPECTED(Z_TYPE_P(name_param) != IS_STRING && Z_TYPE_P(name_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'name' must be of the type string"));
 		RETURN_MM_NULL();
@@ -182,7 +174,6 @@ PHP_METHOD(Phalcon_Annotations_AnnotationsFactory, newInstance) {
 		zephir_get_strval(&name, name_param);
 	} else {
 		ZEPHIR_INIT_VAR(&name);
-		ZVAL_EMPTY_STRING(&name);
 	}
 	if (!options_param) {
 		ZEPHIR_INIT_VAR(&options);
@@ -200,14 +191,13 @@ PHP_METHOD(Phalcon_Annotations_AnnotationsFactory, newInstance) {
 	ZEPHIR_LAST_CALL_STATUS = zephir_create_instance_params(return_value, &definition, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
-
 }
 
 /**
  * The available adapters
  */
-PHP_METHOD(Phalcon_Annotations_AnnotationsFactory, getAdapters) {
-
+PHP_METHOD(Phalcon_Annotations_AnnotationsFactory, getAdapters)
+{
 	zval *this_ptr = getThis();
 
 
@@ -217,6 +207,5 @@ PHP_METHOD(Phalcon_Annotations_AnnotationsFactory, getAdapters) {
 	add_assoc_stringl_ex(return_value, SL("memory"), SL("Phalcon\\Annotations\\Adapter\\Memory"));
 	add_assoc_stringl_ex(return_value, SL("stream"), SL("Phalcon\\Annotations\\Adapter\\Stream"));
 	return;
-
 }
 

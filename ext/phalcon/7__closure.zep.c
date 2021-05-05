@@ -16,16 +16,15 @@
 #include "kernel/object.h"
 
 
-ZEPHIR_INIT_CLASS(phalcon_7__closure) {
-
+ZEPHIR_INIT_CLASS(phalcon_7__closure)
+{
 	ZEPHIR_REGISTER_CLASS(phalcon, 7__closure, phalcon, 7__closure, phalcon_7__closure_method_entry, ZEND_ACC_FINAL_CLASS);
 
 	return SUCCESS;
-
 }
 
-PHP_METHOD(phalcon_7__closure, __invoke) {
-
+PHP_METHOD(phalcon_7__closure, __invoke)
+{
 	zend_bool _0;
 	zval *element, element_sub;
 	zval *this_ptr = getThis();
@@ -36,12 +35,10 @@ PHP_METHOD(phalcon_7__closure, __invoke) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(element)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	zephir_fetch_params_without_memory_grow(1, 0, &element);
-
 
 
 	_0 = Z_TYPE_P(element) == IS_LONG;
@@ -49,6 +46,5 @@ PHP_METHOD(phalcon_7__closure, __invoke) {
 		_0 = Z_TYPE_P(element) == IS_STRING;
 	}
 	RETURN_BOOL(_0);
-
 }
 

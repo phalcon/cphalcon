@@ -30,12 +30,11 @@
 /**
  * Class Style
  */
-ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Style) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Style)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Html\\Helper, Style, phalcon, html_helper_style, phalcon_html_helper_abstractseries_ce, phalcon_html_helper_style_method_entry, 0);
 
 	return SUCCESS;
-
 }
 
 /**
@@ -47,8 +46,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Style) {
  * @return $this
  * @throws Exception
  */
-PHP_METHOD(Phalcon_Html_Helper_Style, add) {
-
+PHP_METHOD(Phalcon_Html_Helper_Style, add)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval attributes, _0, _2;
@@ -69,13 +68,11 @@ PHP_METHOD(Phalcon_Html_Helper_Style, add) {
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ARRAY(attributes)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &href_param, &attributes_param);
-
 	zephir_get_strval(&href, href_param);
 	if (!attributes_param) {
 		ZEPHIR_INIT_VAR(&attributes);
@@ -107,20 +104,18 @@ PHP_METHOD(Phalcon_Html_Helper_Style, add) {
 	zephir_array_fast_append(&_0, &_3);
 	zephir_update_property_array_append(this_ptr, SL("store"), &_0);
 	RETURN_THIS();
-
 }
 
 /**
  * @return string
  */
-PHP_METHOD(Phalcon_Html_Helper_Style, getTag) {
-
+PHP_METHOD(Phalcon_Html_Helper_Style, getTag)
+{
 	zval *this_ptr = getThis();
 
 
 
 	RETURN_STRING("style");
-
 }
 
 /**
@@ -131,8 +126,8 @@ PHP_METHOD(Phalcon_Html_Helper_Style, getTag) {
  *
  * @return array
  */
-PHP_METHOD(Phalcon_Html_Helper_Style, getAttributes) {
-
+PHP_METHOD(Phalcon_Html_Helper_Style, getAttributes)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval attributes, required;
 	zval *href_param = NULL, *attributes_param = NULL;
@@ -148,13 +143,11 @@ PHP_METHOD(Phalcon_Html_Helper_Style, getAttributes) {
 		Z_PARAM_STR(href)
 		Z_PARAM_ARRAY(attributes)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &href_param, &attributes_param);
-
 	zephir_get_strval(&href, href_param);
 	zephir_get_arrval(&attributes, attributes_param);
 
@@ -168,6 +161,5 @@ PHP_METHOD(Phalcon_Html_Helper_Style, getAttributes) {
 	zephir_array_unset_string(&attributes, SL("href"), PH_SEPARATE);
 	zephir_fast_array_merge(return_value, &required, &attributes);
 	RETURN_MM();
-
 }
 

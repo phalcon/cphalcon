@@ -29,12 +29,11 @@
 /**
  * Class Close
  */
-ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Close) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Close)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Html\\Helper, Close, phalcon, html_helper_close, phalcon_html_helper_abstracthelper_ce, phalcon_html_helper_close_method_entry, 0);
 
 	return SUCCESS;
-
 }
 
 /**
@@ -45,8 +44,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Close) {
  *
  * @return string
  */
-PHP_METHOD(Phalcon_Html_Helper_Close, __invoke) {
-
+PHP_METHOD(Phalcon_Html_Helper_Close, __invoke)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zend_bool raw;
@@ -63,13 +62,11 @@ PHP_METHOD(Phalcon_Html_Helper_Close, __invoke) {
 		Z_PARAM_OPTIONAL
 		Z_PARAM_BOOL(raw)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &tag_param, &raw_param);
-
 	zephir_get_strval(&tag, tag_param);
 	if (!raw_param) {
 		raw = 0;
@@ -86,6 +83,5 @@ PHP_METHOD(Phalcon_Html_Helper_Close, __invoke) {
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "close", NULL, 0, &tag, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
-
 }
 

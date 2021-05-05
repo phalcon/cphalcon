@@ -25,12 +25,11 @@
  *
  * All single objects passed as base objects to Resultsets must implement this interface
  */
-ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_ResultInterface) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_ResultInterface)
+{
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Mvc\\Model, ResultInterface, phalcon, mvc_model_resultinterface, phalcon_mvc_model_resultinterface_method_entry);
 
 	return SUCCESS;
-
 }
 
 /**

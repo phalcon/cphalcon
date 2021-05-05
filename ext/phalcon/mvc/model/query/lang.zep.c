@@ -43,19 +43,18 @@
  * );
  * ```
  */
-ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Query_Lang) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Query_Lang)
+{
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model\\Query, Lang, phalcon, mvc_model_query_lang, phalcon_mvc_model_query_lang_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
 	return SUCCESS;
-
 }
 
 /**
  * Parses a PHQL statement returning an intermediate representation (IR)
  */
-PHP_METHOD(Phalcon_Mvc_Model_Query_Lang, parsePHQL) {
-
+PHP_METHOD(Phalcon_Mvc_Model_Query_Lang, parsePHQL)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *phql_param = NULL;
@@ -68,13 +67,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Lang, parsePHQL) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(phql)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &phql_param);
-
 	if (UNEXPECTED(Z_TYPE_P(phql_param) != IS_STRING && Z_TYPE_P(phql_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'phql' must be of the type string"));
 		RETURN_MM_NULL();
@@ -83,13 +80,11 @@ PHP_METHOD(Phalcon_Mvc_Model_Query_Lang, parsePHQL) {
 		zephir_get_strval(&phql, phql_param);
 	} else {
 		ZEPHIR_INIT_VAR(&phql);
-		ZVAL_EMPTY_STRING(&phql);
 	}
 
 
 	ZEPHIR_LAST_CALL_STATUS = phql_parse_phql(return_value, &phql);
 	zephir_check_call_status();
 	RETURN_MM();
-
 }
 

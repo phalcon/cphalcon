@@ -31,19 +31,18 @@
  *
  * Sanitizes a value to boolean
  */
-ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_BoolVal) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Filter_Sanitize_BoolVal)
+{
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Filter\\Sanitize, BoolVal, phalcon, filter_sanitize_boolval, phalcon_filter_sanitize_boolval_method_entry, 0);
 
 	return SUCCESS;
-
 }
 
 /**
  * @var mixed input The text to sanitize
  */
-PHP_METHOD(Phalcon_Filter_Sanitize_BoolVal, __invoke) {
-
+PHP_METHOD(Phalcon_Filter_Sanitize_BoolVal, __invoke)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *input, input_sub, falseArray, trueArray, _0;
 	zval *this_ptr = getThis();
@@ -57,13 +56,11 @@ PHP_METHOD(Phalcon_Filter_Sanitize_BoolVal, __invoke) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(input)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &input);
-
 
 
 	ZEPHIR_INIT_VAR(&trueArray);
@@ -107,6 +104,5 @@ PHP_METHOD(Phalcon_Filter_Sanitize_BoolVal, __invoke) {
 		RETURN_MM_BOOL(0);
 	}
 	RETURN_MM_BOOL(zephir_get_boolval(input));
-
 }
 

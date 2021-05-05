@@ -24,15 +24,39 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequestFactory, parseUri);
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_message_serverrequestfactory_createserverrequest, 0, 2, Psr\\Http\\Message\\ServerRequestInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, method, IS_STRING, 0)
 	ZEND_ARG_INFO(0, uri)
+#if PHP_VERSION_ID >= 80000
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, serverParams, IS_ARRAY, 0, "[]")
+#else
 	ZEND_ARG_ARRAY_INFO(0, serverParams, 0)
+#endif
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_http_message_serverrequestfactory_load, 0, 0, Phalcon\\Http\\Message\\ServerRequest, 0)
+#if PHP_VERSION_ID >= 80000
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, server, IS_ARRAY, 1, "[]")
+#else
 	ZEND_ARG_ARRAY_INFO(0, server, 1)
+#endif
+#if PHP_VERSION_ID >= 80000
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, get, IS_ARRAY, 1, "[]")
+#else
 	ZEND_ARG_ARRAY_INFO(0, get, 1)
+#endif
+#if PHP_VERSION_ID >= 80000
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, post, IS_ARRAY, 1, "[]")
+#else
 	ZEND_ARG_ARRAY_INFO(0, post, 1)
+#endif
+#if PHP_VERSION_ID >= 80000
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, cookies, IS_ARRAY, 1, "[]")
+#else
 	ZEND_ARG_ARRAY_INFO(0, cookies, 1)
+#endif
+#if PHP_VERSION_ID >= 80000
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, files, IS_ARRAY, 1, "[]")
+#else
 	ZEND_ARG_ARRAY_INFO(0, files, 1)
+#endif
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_http_message_serverrequestfactory_getheaders, 0, 0, 0)

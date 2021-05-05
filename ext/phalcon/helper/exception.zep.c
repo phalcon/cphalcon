@@ -25,11 +25,10 @@
 /**
  * Exceptions thrown in Phalcon\Helper will use this class
  */
-ZEPHIR_INIT_CLASS(Phalcon_Helper_Exception) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Helper_Exception)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Helper, Exception, phalcon, helper_exception, phalcon_exception_ce, NULL, 0);
 
 	return SUCCESS;
-
 }
 

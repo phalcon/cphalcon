@@ -32,19 +32,18 @@
 /**
  * Adapter to use PHP itself as templating engine
  */
-ZEPHIR_INIT_CLASS(Phalcon_Mvc_View_Engine_Php) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Mvc_View_Engine_Php)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\View\\Engine, Php, phalcon, mvc_view_engine_php, phalcon_mvc_view_engine_abstractengine_ce, phalcon_mvc_view_engine_php_method_entry, 0);
 
 	return SUCCESS;
-
 }
 
 /**
  * Renders a view using the template engine
  */
-PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render) {
-
+PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render)
+{
 	zend_string *_3$$4;
 	zend_ulong _2$$4;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -71,13 +70,11 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render) {
 		Z_PARAM_OPTIONAL
 		Z_PARAM_BOOL(mustClean)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 1, &path_param, &params, &mustClean_param);
-
 	if (UNEXPECTED(Z_TYPE_P(path_param) != IS_STRING && Z_TYPE_P(path_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'path' must be of the type string"));
 		RETURN_MM_NULL();
@@ -86,7 +83,6 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render) {
 		zephir_get_strval(&path, path_param);
 	} else {
 		ZEPHIR_INIT_VAR(&path);
-		ZVAL_EMPTY_STRING(&path);
 	}
 	if (!mustClean_param) {
 		mustClean = 0;
@@ -96,7 +92,7 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render) {
 
 
 	if (mustClean) {
-		ZEPHIR_CALL_FUNCTION(NULL, "ob_clean", NULL, 0);
+		ZEPHIR_CALL_FUNCTION(NULL, "ob_clean", NULL, 497);
 		zephir_check_call_status();
 	}
 	if (Z_TYPE_P(params) == IS_ARRAY) {
@@ -146,12 +142,11 @@ PHP_METHOD(Phalcon_Mvc_View_Engine_Php, render) {
 	}
 	if (mustClean) {
 		zephir_read_property(&_6$$7, this_ptr, ZEND_STRL("view"), PH_NOISY_CC | PH_READONLY);
-		ZEPHIR_CALL_FUNCTION(&_7$$7, "ob_get_contents", NULL, 0);
+		ZEPHIR_CALL_FUNCTION(&_7$$7, "ob_get_contents", NULL, 496);
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, &_6$$7, "setcontent", NULL, 0, &_7$$7);
 		zephir_check_call_status();
 	}
 	ZEPHIR_MM_RESTORE();
-
 }
 

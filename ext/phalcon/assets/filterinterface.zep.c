@@ -23,12 +23,11 @@
 /**
  * Interface for custom Phalcon\Assets filters
  */
-ZEPHIR_INIT_CLASS(Phalcon_Assets_FilterInterface) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Assets_FilterInterface)
+{
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Assets, FilterInterface, phalcon, assets_filterinterface, phalcon_assets_filterinterface_method_entry);
 
 	return SUCCESS;
-
 }
 
 /**

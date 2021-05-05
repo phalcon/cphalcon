@@ -23,12 +23,11 @@
 /**
  * Interface for Phalcon\Acl\Role
  */
-ZEPHIR_INIT_CLASS(Phalcon_Acl_RoleInterface) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Acl_RoleInterface)
+{
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Acl, RoleInterface, phalcon, acl_roleinterface, phalcon_acl_roleinterface_method_entry);
 
 	return SUCCESS;
-
 }
 
 /**

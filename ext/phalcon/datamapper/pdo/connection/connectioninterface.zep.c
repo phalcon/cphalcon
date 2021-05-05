@@ -34,13 +34,12 @@
  * @property ProfilerInterface $profiler
  * @property array             $quote
  */
-ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Pdo_Connection_ConnectionInterface) {
-
+ZEPHIR_INIT_CLASS(Phalcon_DataMapper_Pdo_Connection_ConnectionInterface)
+{
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\DataMapper\\Pdo\\Connection, ConnectionInterface, phalcon, datamapper_pdo_connection_connectioninterface, phalcon_datamapper_pdo_connection_connectioninterface_method_entry);
 
 	zend_class_implements(phalcon_datamapper_pdo_connection_connectioninterface_ce, 1, phalcon_datamapper_pdo_connection_pdointerface_ce);
 	return SUCCESS;
-
 }
 
 /**
@@ -173,7 +172,7 @@ ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_ConnectionInterface, fetchVa
 /**
  * Return the inner PDO (if any)
  *
- * @return PDO
+ * @return \PDO
  */
 ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_ConnectionInterface, getAdapter);
 /**
@@ -197,7 +196,7 @@ ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_ConnectionInterface, isConne
  * @param string $statement
  * @param array  $values
  *
- * @return PDOStatement
+ * @return \PDOStatement
  */
 ZEPHIR_DOC_METHOD(Phalcon_DataMapper_Pdo_Connection_ConnectionInterface, perform);
 /**

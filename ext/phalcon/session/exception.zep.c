@@ -27,11 +27,10 @@
  *
  * Exceptions thrown in Phalcon\Session will use this class
  */
-ZEPHIR_INIT_CLASS(Phalcon_Session_Exception) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Session_Exception)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Session, Exception, phalcon, session_exception, phalcon_exception_ce, NULL, 0);
 
 	return SUCCESS;
-
 }
 

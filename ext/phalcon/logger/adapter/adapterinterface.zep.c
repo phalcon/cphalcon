@@ -25,12 +25,11 @@
  *
  * Interface for Phalcon\Logger adapters
  */
-ZEPHIR_INIT_CLASS(Phalcon_Logger_Adapter_AdapterInterface) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Logger_Adapter_AdapterInterface)
+{
 	ZEPHIR_REGISTER_INTERFACE(Phalcon\\Logger\\Adapter, AdapterInterface, phalcon, logger_adapter_adapterinterface, phalcon_logger_adapter_adapterinterface_method_entry);
 
 	return SUCCESS;
-
 }
 
 /**

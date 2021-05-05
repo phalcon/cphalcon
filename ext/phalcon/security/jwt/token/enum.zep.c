@@ -27,8 +27,8 @@
  *
  * @link https://tools.ietf.org/html/rfc7519
  */
-ZEPHIR_INIT_CLASS(Phalcon_Security_JWT_Token_Enum) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Security_JWT_Token_Enum)
+{
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Security\\JWT\\Token, Enum, phalcon, security_jwt_token_enum, NULL, 0);
 
 	/**
@@ -58,6 +58,5 @@ ZEPHIR_INIT_CLASS(Phalcon_Security_JWT_Token_Enum) {
 	zephir_declare_class_constant_string(phalcon_security_jwt_token_enum_ce, SL("SUBJECT"), "sub");
 
 	return SUCCESS;
-
 }
 

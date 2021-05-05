@@ -9,7 +9,11 @@ PHP_METHOD(Phalcon_Paginator_PaginatorFactory, newInstance);
 PHP_METHOD(Phalcon_Paginator_PaginatorFactory, getAdapters);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_paginator_paginatorfactory___construct, 0, 0, 0)
+#if PHP_VERSION_ID >= 80000
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, services, IS_ARRAY, 0, "[]")
+#else
 	ZEND_ARG_ARRAY_INFO(0, services, 0)
+#endif
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_paginator_paginatorfactory_load, 0, 1, Phalcon\\Paginator\\Adapter\\AdapterInterface, 0)
@@ -18,7 +22,11 @@ ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_paginator_paginatorfactory_newinstance, 0, 1, Phalcon\\Paginator\\Adapter\\AdapterInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
+#if PHP_VERSION_ID >= 80000
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, options, IS_ARRAY, 0, "[]")
+#else
 	ZEND_ARG_ARRAY_INFO(0, options, 0)
+#endif
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_paginator_paginatorfactory_getadapters, 0, 0, IS_ARRAY, 0)

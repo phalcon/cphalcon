@@ -64,10 +64,10 @@ function generate_parser() {
   local tprefix="$3"
 
   cp "$BASE_PATH/3rdparty/lemon/lempar.c" .
-  "$BASE_PATH/.ci/lemon" -s parser.php7.lemon
+  "$BASE_PATH/.ci/lemon" -s parser.php.lemon
 
   echo '#include "php_phalcon.h"' > parser.c
-  cat parser.php7.c >> parser.c
+  cat parser.php.c >> parser.c
   cat base.c >> parser.c
 
   replace 's|#line|//|g' parser.c

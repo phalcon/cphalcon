@@ -51,23 +51,18 @@
  * print_r($attributes);
  * ```
  */
-ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData)
+{
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Model, MetaData, phalcon, mvc_model_metadata, phalcon_mvc_model_metadata_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
 	/**
 	 * @var CacheAdapterInterface
 	 */
 	zend_declare_property_null(phalcon_mvc_model_metadata_ce, SL("adapter"), ZEND_ACC_PROTECTED);
-
 	zend_declare_property_null(phalcon_mvc_model_metadata_ce, SL("columnMap"), ZEND_ACC_PROTECTED);
-
 	zend_declare_property_null(phalcon_mvc_model_metadata_ce, SL("container"), ZEND_ACC_PROTECTED);
-
 	zend_declare_property_null(phalcon_mvc_model_metadata_ce, SL("metaData"), ZEND_ACC_PROTECTED);
-
 	zend_declare_property_null(phalcon_mvc_model_metadata_ce, SL("strategy"), ZEND_ACC_PROTECTED);
-
 	phalcon_mvc_model_metadata_ce->create_object = zephir_init_properties_Phalcon_Mvc_Model_MetaData;
 	zephir_declare_class_constant_long(phalcon_mvc_model_metadata_ce, SL("MODELS_ATTRIBUTES"), 0);
 
@@ -104,7 +99,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData) {
 	zend_class_implements(phalcon_mvc_model_metadata_ce, 1, phalcon_di_injectionawareinterface_ce);
 	zend_class_implements(phalcon_mvc_model_metadata_ce, 1, phalcon_mvc_model_metadatainterface_ce);
 	return SUCCESS;
-
 }
 
 /**
@@ -118,8 +112,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData) {
  * );
  *```
  */
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAttributes) {
-
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAttributes)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, model_sub, data, _0;
@@ -133,13 +127,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAttributes) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &model);
-
 
 
 	ZVAL_LONG(&_0, 0);
@@ -150,7 +142,6 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAttributes) {
 		return;
 	}
 	RETURN_CCTOR(&data);
-
 }
 
 /**
@@ -164,8 +155,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAttributes) {
  * );
  *```
  */
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAutomaticCreateAttributes) {
-
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAutomaticCreateAttributes)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, model_sub, data, _0;
@@ -179,13 +170,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAutomaticCreateAttributes) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &model);
-
 
 
 	ZVAL_LONG(&_0, 10);
@@ -196,7 +185,6 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAutomaticCreateAttributes) {
 		return;
 	}
 	RETURN_CCTOR(&data);
-
 }
 
 /**
@@ -210,8 +198,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAutomaticCreateAttributes) {
  * );
  *```
  */
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAutomaticUpdateAttributes) {
-
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAutomaticUpdateAttributes)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, model_sub, data, _0;
@@ -225,13 +213,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAutomaticUpdateAttributes) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &model);
-
 
 
 	ZVAL_LONG(&_0, 11);
@@ -242,7 +228,6 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAutomaticUpdateAttributes) {
 		return;
 	}
 	RETURN_CCTOR(&data);
-
 }
 
 /**
@@ -256,8 +241,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getAutomaticUpdateAttributes) {
  * );
  *```
  */
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, getBindTypes) {
-
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, getBindTypes)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, model_sub, data, _0;
@@ -271,13 +256,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getBindTypes) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &model);
-
 
 
 	ZVAL_LONG(&_0, 9);
@@ -288,7 +271,6 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getBindTypes) {
 		return;
 	}
 	RETURN_CCTOR(&data);
-
 }
 
 /**
@@ -302,8 +284,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getBindTypes) {
  * );
  *```
  */
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, getColumnMap) {
-
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, getColumnMap)
+{
 	zend_bool _1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -318,13 +300,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getColumnMap) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &model);
-
 
 
 	ZVAL_LONG(&_0, 0);
@@ -339,7 +319,6 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getColumnMap) {
 		return;
 	}
 	RETURN_CCTOR(&data);
-
 }
 
 /**
@@ -353,8 +332,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getColumnMap) {
  * );
  *```
  */
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDefaultValues) {
-
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDefaultValues)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, model_sub, data, _0;
@@ -368,13 +347,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDefaultValues) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &model);
-
 
 
 	ZVAL_LONG(&_0, 12);
@@ -385,7 +362,6 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDefaultValues) {
 		return;
 	}
 	RETURN_CCTOR(&data);
-
 }
 
 /**
@@ -399,8 +375,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDefaultValues) {
  * );
  *```
  */
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataTypes) {
-
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataTypes)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, model_sub, data, _0;
@@ -414,13 +390,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataTypes) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &model);
-
 
 
 	ZVAL_LONG(&_0, 4);
@@ -431,7 +405,6 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataTypes) {
 		return;
 	}
 	RETURN_CCTOR(&data);
-
 }
 
 /**
@@ -445,8 +418,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataTypes) {
  * );
  *```
  */
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataTypesNumeric) {
-
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataTypesNumeric)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, model_sub, data, _0;
@@ -460,13 +433,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataTypesNumeric) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &model);
-
 
 
 	ZVAL_LONG(&_0, 5);
@@ -477,14 +448,13 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDataTypesNumeric) {
 		return;
 	}
 	RETURN_CCTOR(&data);
-
 }
 
 /**
  * Returns the DependencyInjector container
  */
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDI) {
-
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDI)
+{
 	zval container, _0, _1$$3, _2$$3, _4$$3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -516,7 +486,6 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDI) {
 		return;
 	}
 	RETURN_CCTOR(&container);
-
 }
 
 /**
@@ -530,8 +499,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getDI) {
  * );
  *```
  */
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, getEmptyStringAttributes) {
-
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, getEmptyStringAttributes)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, model_sub, data, _0;
@@ -545,13 +514,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getEmptyStringAttributes) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &model);
-
 
 
 	ZVAL_LONG(&_0, 13);
@@ -562,7 +529,6 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getEmptyStringAttributes) {
 		return;
 	}
 	RETURN_CCTOR(&data);
-
 }
 
 /**
@@ -576,8 +542,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getEmptyStringAttributes) {
  * );
  *```
  */
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, getIdentityField) {
-
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, getIdentityField)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, model_sub, _0;
@@ -590,7 +556,6 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getIdentityField) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
@@ -598,12 +563,10 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getIdentityField) {
 	zephir_fetch_params(1, 1, 0, &model);
 
 
-
 	ZVAL_LONG(&_0, 8);
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "readmetadataindex", NULL, 26, model, &_0);
 	zephir_check_call_status();
 	RETURN_MM();
-
 }
 
 /**
@@ -617,8 +580,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getIdentityField) {
  * );
  *```
  */
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, getNonPrimaryKeyAttributes) {
-
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, getNonPrimaryKeyAttributes)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, model_sub, data, _0;
@@ -632,13 +595,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getNonPrimaryKeyAttributes) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &model);
-
 
 
 	ZVAL_LONG(&_0, 2);
@@ -649,7 +610,6 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getNonPrimaryKeyAttributes) {
 		return;
 	}
 	RETURN_CCTOR(&data);
-
 }
 
 /**
@@ -663,8 +623,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getNonPrimaryKeyAttributes) {
  * );
  *```
  */
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, getNotNullAttributes) {
-
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, getNotNullAttributes)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, model_sub, data, _0;
@@ -678,13 +638,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getNotNullAttributes) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &model);
-
 
 
 	ZVAL_LONG(&_0, 3);
@@ -695,7 +653,6 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getNotNullAttributes) {
 		return;
 	}
 	RETURN_CCTOR(&data);
-
 }
 
 /**
@@ -709,8 +666,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getNotNullAttributes) {
  * );
  *```
  */
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, getPrimaryKeyAttributes) {
-
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, getPrimaryKeyAttributes)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, model_sub, data, _0;
@@ -724,13 +681,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getPrimaryKeyAttributes) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &model);
-
 
 
 	ZVAL_LONG(&_0, 1);
@@ -741,7 +696,6 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getPrimaryKeyAttributes) {
 		return;
 	}
 	RETURN_CCTOR(&data);
-
 }
 
 /**
@@ -755,8 +709,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getPrimaryKeyAttributes) {
  * );
  *```
  */
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, getReverseColumnMap) {
-
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, getReverseColumnMap)
+{
 	zend_bool _1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -771,13 +725,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getReverseColumnMap) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &model);
-
 
 
 	ZVAL_LONG(&_0, 1);
@@ -792,14 +744,13 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getReverseColumnMap) {
 		return;
 	}
 	RETURN_CCTOR(&data);
-
 }
 
 /**
  * Return the strategy to obtain the meta-data
  */
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, getStrategy) {
-
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, getStrategy)
+{
 	zval _0, _1$$3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -819,10 +770,10 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getStrategy) {
 			ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 0);
 			zephir_check_call_status();
 		}
+
 		zephir_update_property_zval(this_ptr, ZEND_STRL("strategy"), &_1$$3);
 	}
 	RETURN_MM_MEMBER(getThis(), "strategy");
-
 }
 
 /**
@@ -837,8 +788,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, getStrategy) {
  * );
  *```
  */
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, hasAttribute) {
-
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, hasAttribute)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval attribute;
@@ -856,13 +807,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, hasAttribute) {
 		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
 		Z_PARAM_STR(attribute)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &model, &attribute_param);
-
 	zephir_get_strval(&attribute, attribute_param);
 
 
@@ -875,7 +824,6 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, hasAttribute) {
 	zephir_check_call_status();
 	zephir_array_fetch_long(&_1, &_0, 4, PH_READONLY, "phalcon/Mvc/Model/MetaData.zep", 470);
 	RETURN_MM_BOOL(zephir_array_isset(&_1, &attribute));
-
 }
 
 /**
@@ -887,8 +835,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, hasAttribute) {
  * );
  *```
  */
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, isEmpty) {
-
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, isEmpty)
+{
 	zval _0;
 	zval *this_ptr = getThis();
 
@@ -898,14 +846,13 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, isEmpty) {
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("metaData"), PH_NOISY_CC | PH_READONLY);
 	RETURN_BOOL(zephir_fast_count_int(&_0) == 0);
-
 }
 
 /**
  * Reads metadata from the adapter
  */
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, read) {
-
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, read)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *key_param = NULL, _0;
@@ -919,13 +866,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, read) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_STR(key)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &key_param);
-
 	if (UNEXPECTED(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string"));
 		RETURN_MM_NULL();
@@ -934,7 +879,6 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, read) {
 		zephir_get_strval(&key, key_param);
 	} else {
 		ZEPHIR_INIT_VAR(&key);
-		ZVAL_EMPTY_STRING(&key);
 	}
 
 
@@ -942,7 +886,6 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, read) {
 	ZEPHIR_RETURN_CALL_METHOD(&_0, "get", NULL, 0, &key);
 	zephir_check_call_status();
 	RETURN_MM();
-
 }
 
 /**
@@ -956,8 +899,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, read) {
  * );
  *```
  */
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMap) {
-
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMap)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *model, model_sub, keyName, data, _0, _1$$4, _2$$4, _3$$4;
@@ -975,13 +918,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMap) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &model);
-
 
 
 	if (!(ZEPHIR_GLOBAL(orm).column_renaming)) {
@@ -1002,7 +943,6 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMap) {
 		zephir_array_fetch(&data, &_1$$4, &keyName, PH_NOISY, "phalcon/Mvc/Model/MetaData.zep", 519);
 	}
 	RETURN_CCTOR(&data);
-
 }
 
 /**
@@ -1017,8 +957,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMap) {
  * );
  *```
  */
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMapIndex) {
-
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMapIndex)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long index, ZEPHIR_LAST_CALL_STATUS;
 	zval *model, model_sub, *index_param = NULL, keyName, columnMapModel, map, _0, _1$$4, _2$$4, _3$$4;
@@ -1038,13 +978,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMapIndex) {
 		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
 		Z_PARAM_LONG(index)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &model, &index_param);
-
 	index = zephir_get_intval(index_param);
 
 
@@ -1067,7 +1005,6 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMapIndex) {
 	}
 	zephir_array_isset_long_fetch(&map, &columnMapModel, index, 1);
 	RETURN_CTOR(&map);
-
 }
 
 /**
@@ -1081,8 +1018,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readColumnMapIndex) {
  * );
  *```
  */
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaData) {
-
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaData)
+{
 	zval key;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -1103,13 +1040,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaData) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &model);
-
 
 
 	ZEPHIR_CALL_METHOD(&source, model, "getsource", NULL, 0);
@@ -1129,7 +1064,6 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaData) {
 	zephir_read_property(&_3, this_ptr, ZEND_STRL("metaData"), PH_NOISY_CC | PH_READONLY);
 	zephir_array_fetch(&_4, &_3, &key, PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/MetaData.zep", 586);
 	RETURN_CTOR(&_4);
-
 }
 
 /**
@@ -1144,8 +1078,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaData) {
  * );
  *```
  */
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaDataIndex) {
-
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaDataIndex)
+{
 	zval key;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long index, ZEPHIR_LAST_CALL_STATUS;
@@ -1169,13 +1103,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaDataIndex) {
 		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
 		Z_PARAM_LONG(index)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &model, &index_param);
-
 	index = zephir_get_intval(index_param);
 
 
@@ -1198,7 +1130,6 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaDataIndex) {
 	zephir_array_fetch(&_5, &_4, &key, PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/MetaData.zep", 618);
 	zephir_array_fetch_long(&_6, &_5, index, PH_NOISY | PH_READONLY, "phalcon/Mvc/Model/MetaData.zep", 618);
 	RETURN_CTOR(&_6);
-
 }
 
 /**
@@ -1208,8 +1139,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, readMetaDataIndex) {
  * $metaData->reset();
  *```
  */
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, reset) {
-
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, reset)
+{
 	zval _0, _1;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval *this_ptr = getThis();
@@ -1227,7 +1158,6 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, reset) {
 	array_init(&_1);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("columnMap"), &_1);
 	ZEPHIR_MM_RESTORE();
-
 }
 
 /**
@@ -1242,8 +1172,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, reset) {
  * );
  *```
  */
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, setAutomaticCreateAttributes) {
-
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, setAutomaticCreateAttributes)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval attributes;
@@ -1259,13 +1189,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, setAutomaticCreateAttributes) {
 		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
 		Z_PARAM_ARRAY(attributes)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &model, &attributes_param);
-
 	zephir_get_arrval(&attributes, attributes_param);
 
 
@@ -1273,7 +1201,6 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, setAutomaticCreateAttributes) {
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "writemetadataindex", NULL, 30, model, &_0, &attributes);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
-
 }
 
 /**
@@ -1288,8 +1215,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, setAutomaticCreateAttributes) {
  * );
  *```
  */
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, setAutomaticUpdateAttributes) {
-
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, setAutomaticUpdateAttributes)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval attributes;
@@ -1305,13 +1232,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, setAutomaticUpdateAttributes) {
 		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
 		Z_PARAM_ARRAY(attributes)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &model, &attributes_param);
-
 	zephir_get_arrval(&attributes, attributes_param);
 
 
@@ -1319,7 +1244,6 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, setAutomaticUpdateAttributes) {
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "writemetadataindex", NULL, 30, model, &_0, &attributes);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
-
 }
 
 /**
@@ -1334,8 +1258,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, setAutomaticUpdateAttributes) {
  * );
  *```
  */
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, setEmptyStringAttributes) {
-
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, setEmptyStringAttributes)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval attributes;
@@ -1351,13 +1275,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, setEmptyStringAttributes) {
 		Z_PARAM_OBJECT_OF_CLASS(model, phalcon_mvc_modelinterface_ce)
 		Z_PARAM_ARRAY(attributes)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &model, &attributes_param);
-
 	zephir_get_arrval(&attributes, attributes_param);
 
 
@@ -1365,14 +1287,13 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, setEmptyStringAttributes) {
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "writemetadataindex", NULL, 30, model, &_0, &attributes);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
-
 }
 
 /**
  * Sets the DependencyInjector container
  */
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, setDI) {
-
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, setDI)
+{
 	zval *container, container_sub;
 	zval *this_ptr = getThis();
 
@@ -1382,23 +1303,20 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, setDI) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(container, phalcon_di_diinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	zephir_fetch_params_without_memory_grow(1, 0, &container);
 
 
-
 	zephir_update_property_zval(this_ptr, ZEND_STRL("container"), container);
-
 }
 
 /**
  * Set the meta-data extraction strategy
  */
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, setStrategy) {
-
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, setStrategy)
+{
 	zval *strategy, strategy_sub;
 	zval *this_ptr = getThis();
 
@@ -1408,23 +1326,20 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, setStrategy) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_OBJECT_OF_CLASS(strategy, phalcon_mvc_model_metadata_strategy_strategyinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	zephir_fetch_params_without_memory_grow(1, 0, &strategy);
 
 
-
 	zephir_update_property_zval(this_ptr, ZEND_STRL("strategy"), strategy);
-
 }
 
 /**
  * Writes the metadata to adapter
  */
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, write) {
-
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, write)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval data;
@@ -1445,13 +1360,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, write) {
 		Z_PARAM_STR(key)
 		Z_PARAM_ARRAY(data)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &key_param, &data_param);
-
 	if (UNEXPECTED(Z_TYPE_P(key_param) != IS_STRING && Z_TYPE_P(key_param) != IS_NULL)) {
 		zephir_throw_exception_string(spl_ce_InvalidArgumentException, SL("Parameter 'key' must be of the type string"));
 		RETURN_MM_NULL();
@@ -1460,7 +1373,6 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, write) {
 		zephir_get_strval(&key, key_param);
 	} else {
 		ZEPHIR_INIT_VAR(&key);
-		ZVAL_EMPTY_STRING(&key);
 	}
 	zephir_get_arrval(&data, data_param);
 
@@ -1493,7 +1405,6 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, write) {
 		}
 	}
 	ZEPHIR_MM_RESTORE();
-
 }
 
 /**
@@ -1511,8 +1422,8 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, write) {
  * );
  *```
  */
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, writeMetaDataIndex) {
-
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, writeMetaDataIndex)
+{
 	zend_bool _0, _1;
 	zval key;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
@@ -1535,13 +1446,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, writeMetaDataIndex) {
 		Z_PARAM_LONG(index)
 		Z_PARAM_ZVAL(data)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 3, 0, &model, &index_param, &data);
-
 	index = zephir_get_intval(index_param);
 
 
@@ -1573,14 +1482,13 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, writeMetaDataIndex) {
 	}
 	zephir_update_property_array_multi(this_ptr, SL("metaData"), data, SL("zl"), 2, &key, index);
 	ZEPHIR_MM_RESTORE();
-
 }
 
 /**
  * Initialize the metadata for certain table
  */
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, initialize) {
-
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, initialize)
+{
 	zval prefixKey;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -1614,13 +1522,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, initialize) {
 		Z_PARAM_ZVAL(table)
 		Z_PARAM_ZVAL(schema)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 4, 0, &model, &key, &table, &schema);
-
 
 
 	ZEPHIR_INIT_VAR(&strategy);
@@ -1697,14 +1603,13 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, initialize) {
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "write", NULL, 0, &prefixKey, &modelColumnMap);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
-
 }
 
 /**
  * Throws an exception when the metadata cannot be written
  */
-PHP_METHOD(Phalcon_Mvc_Model_MetaData, throwWriteException) {
-
+PHP_METHOD(Phalcon_Mvc_Model_MetaData, throwWriteException)
+{
 	zval message;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
@@ -1719,13 +1624,11 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, throwWriteException) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(option)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &option);
-
 
 
 	ZEPHIR_INIT_VAR(&message);
@@ -1743,11 +1646,10 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData, throwWriteException) {
 		zephir_check_call_status();
 	}
 	ZEPHIR_MM_RESTORE();
-
 }
 
-zend_object *zephir_init_properties_Phalcon_Mvc_Model_MetaData(zend_class_entry *class_type) {
-
+zend_object *zephir_init_properties_Phalcon_Mvc_Model_MetaData(zend_class_entry *class_type)
+{
 		zval _0, _2, _1$$3, _3$$4;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
@@ -1776,6 +1678,5 @@ zend_object *zephir_init_properties_Phalcon_Mvc_Model_MetaData(zend_class_entry 
 		ZEPHIR_MM_RESTORE();
 		return Z_OBJ_P(this_ptr);
 	}
-
 }
 

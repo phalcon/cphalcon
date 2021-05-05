@@ -13,7 +13,7 @@
 #  --php-config
 #
 #  Example:
-#  ./install --phpize /usr/bin/phpize7.3 --php-config /usr/bin/php-config7.3 --arch 32bits
+#  ./install --phpize /usr/bin/phpize7.4 --php-config /usr/bin/php-config7.4 --arch 64bits
 
 # Check best compilation flags for GCC
 # By default we compile to be as compatible as possible with all processors.
@@ -63,12 +63,10 @@ if [ $? != 0 ]; then
 	exit 1
 fi
 
-if [ "${PHP_FULL_VERSION:0:1}" == "5" ]; then
-	echo "php 5 is no longer supported"
+if [ "${PHP_FULL_VERSION:0:1}" == "7" && ${PHP_FULL_VERSION:2:1} < 4 ]; then
+	echo "PHP <= 7.4 is no longer supported"
 	exit 1
 fi
-
-PHP_VERSION="php7"
 
 # Detect possible flags
 echo "int main() {}" > t.c
@@ -106,7 +104,7 @@ else
 fi
 
 # Move to specified architecture
-cd "$PHP_VERSION/$DIR"
+cd "phalcon/$DIR"
 
 # Clean current compilation
 if [ -f Makefile ]; then

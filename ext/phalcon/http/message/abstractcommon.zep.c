@@ -34,12 +34,11 @@
 /**
  * Common methods
  */
-ZEPHIR_INIT_CLASS(Phalcon_Http_Message_AbstractCommon) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Http_Message_AbstractCommon)
+{
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Http\\Message, AbstractCommon, phalcon, http_message_abstractcommon, phalcon_http_message_abstractcommon_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
 	return SUCCESS;
-
 }
 
 /**
@@ -50,8 +49,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_AbstractCommon) {
  *
  * @return static
  */
-PHP_METHOD(Phalcon_Http_Message_AbstractCommon, cloneInstance) {
-
+PHP_METHOD(Phalcon_Http_Message_AbstractCommon, cloneInstance)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval property;
 	zval *element, element_sub, *property_param = NULL, newInstance;
@@ -66,13 +65,11 @@ PHP_METHOD(Phalcon_Http_Message_AbstractCommon, cloneInstance) {
 		Z_PARAM_ZVAL(element)
 		Z_PARAM_STR(property)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &element, &property_param);
-
 	zephir_get_strval(&property, property_param);
 
 
@@ -82,7 +79,6 @@ PHP_METHOD(Phalcon_Http_Message_AbstractCommon, cloneInstance) {
 	}
 	zephir_update_property_zval_zval(&newInstance, &property, element);
 	RETURN_CCTOR(&newInstance);
-
 }
 
 /**
@@ -90,8 +86,8 @@ PHP_METHOD(Phalcon_Http_Message_AbstractCommon, cloneInstance) {
  *
  * @param mixed $element
  */
-PHP_METHOD(Phalcon_Http_Message_AbstractCommon, checkStringParameter) {
-
+PHP_METHOD(Phalcon_Http_Message_AbstractCommon, checkStringParameter)
+{
 	zval *element, element_sub;
 	zval *this_ptr = getThis();
 
@@ -101,19 +97,16 @@ PHP_METHOD(Phalcon_Http_Message_AbstractCommon, checkStringParameter) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(element)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	zephir_fetch_params_without_memory_grow(1, 0, &element);
 
 
-
 	if (Z_TYPE_P(element) != IS_STRING) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_http_message_exception_invalidargumentexception_ce, "Method requires a string argument", "phalcon/Http/Message/AbstractCommon.zep", 52);
 		return;
 	}
-
 }
 
 /**
@@ -125,8 +118,8 @@ PHP_METHOD(Phalcon_Http_Message_AbstractCommon, checkStringParameter) {
  *
  * @return static
  */
-PHP_METHOD(Phalcon_Http_Message_AbstractCommon, processWith) {
-
+PHP_METHOD(Phalcon_Http_Message_AbstractCommon, processWith)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval property;
@@ -141,13 +134,11 @@ PHP_METHOD(Phalcon_Http_Message_AbstractCommon, processWith) {
 		Z_PARAM_ZVAL(element)
 		Z_PARAM_STR(property)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 2, 0, &element, &property_param);
-
 	zephir_get_strval(&property, property_param);
 
 
@@ -156,6 +147,5 @@ PHP_METHOD(Phalcon_Http_Message_AbstractCommon, processWith) {
 	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "cloneinstance", NULL, 21, element, &property);
 	zephir_check_call_status();
 	RETURN_MM();
-
 }
 

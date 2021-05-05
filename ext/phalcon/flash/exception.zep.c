@@ -25,11 +25,10 @@
 /**
  * Exceptions thrown in Phalcon\Flash calsses will use this class
  */
-ZEPHIR_INIT_CLASS(Phalcon_Flash_Exception) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Flash_Exception)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Flash, Exception, phalcon, flash_exception, phalcon_exception_ce, NULL, 0);
 
 	return SUCCESS;
-
 }
 

@@ -25,11 +25,10 @@
 /**
  * This is a base class for combined fields validators
  */
-ZEPHIR_INIT_CLASS(Phalcon_Validation_AbstractCombinedFieldsValidator) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Validation_AbstractCombinedFieldsValidator)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Validation, AbstractCombinedFieldsValidator, phalcon, validation_abstractcombinedfieldsvalidator, phalcon_validation_abstractvalidator_ce, NULL, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
 	return SUCCESS;
-
 }
 

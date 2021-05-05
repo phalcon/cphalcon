@@ -29,13 +29,12 @@
  * by acting on the request, generating the response, or forwarding the
  * request to a subsequent middleware and possibly acting on its response.
  */
-ZEPHIR_INIT_CLASS(Phalcon_Http_Server_AbstractMiddleware) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Http_Server_AbstractMiddleware)
+{
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Http\\Server, AbstractMiddleware, phalcon, http_server_abstractmiddleware, phalcon_http_server_abstractmiddleware_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
 	zend_class_implements(phalcon_http_server_abstractmiddleware_ce, 1, zephir_get_internal_ce(SL("psr\\http\\server\\middlewareinterface")));
 	return SUCCESS;
-
 }
 
 /**
@@ -45,7 +44,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Server_AbstractMiddleware) {
  * If unable to produce the response itself, it may delegate to the provided
  * request handler to do so.
  */
-PHP_METHOD(Phalcon_Http_Server_AbstractMiddleware, process) {
-
+PHP_METHOD(Phalcon_Http_Server_AbstractMiddleware, process)
+{
 }
 

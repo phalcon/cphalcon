@@ -28,29 +28,26 @@
  *
  * @property string $algo
  */
-ZEPHIR_INIT_CLASS(Phalcon_Security_JWT_Signer_AbstractSigner) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Security_JWT_Signer_AbstractSigner)
+{
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Security\\JWT\\Signer, AbstractSigner, phalcon, security_jwt_signer_abstractsigner, phalcon_security_jwt_signer_abstractsigner_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
 	/**
 	 * @var string
 	 */
 	zend_declare_property_null(phalcon_security_jwt_signer_abstractsigner_ce, SL("algorithm"), ZEND_ACC_PROTECTED);
-
 	zend_class_implements(phalcon_security_jwt_signer_abstractsigner_ce, 1, phalcon_security_jwt_signer_signerinterface_ce);
 	return SUCCESS;
-
 }
 
 /**
  */
-PHP_METHOD(Phalcon_Security_JWT_Signer_AbstractSigner, getAlgorithm) {
-
+PHP_METHOD(Phalcon_Security_JWT_Signer_AbstractSigner, getAlgorithm)
+{
 	zval *this_ptr = getThis();
 
 
 
 	RETURN_MEMBER(getThis(), "algorithm");
-
 }
 

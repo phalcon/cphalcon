@@ -8,7 +8,11 @@ PHP_METHOD(Phalcon_Storage_SerializerFactory, newInstance);
 PHP_METHOD(Phalcon_Storage_SerializerFactory, getAdapters);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_storage_serializerfactory___construct, 0, 0, 0)
+#if PHP_VERSION_ID >= 80000
+	ZEND_ARG_TYPE_INFO_WITH_DEFAULT_VALUE(0, services, IS_ARRAY, 0, "[]")
+#else
 	ZEND_ARG_ARRAY_INFO(0, services, 0)
+#endif
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_storage_serializerfactory_newinstance, 0, 1, Phalcon\\Storage\\Serializer\\SerializerInterface, 0)

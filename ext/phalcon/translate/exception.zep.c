@@ -27,11 +27,10 @@
  *
  * Class for exceptions thrown by Phalcon\Translate
  */
-ZEPHIR_INIT_CLASS(Phalcon_Translate_Exception) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Translate_Exception)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Translate, Exception, phalcon, translate_exception, phalcon_exception_ce, NULL, 0);
 
 	return SUCCESS;
-
 }
 

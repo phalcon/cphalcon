@@ -31,26 +31,24 @@
  *
  * @property array $data
  */
-ZEPHIR_INIT_CLASS(Phalcon_Security_JWT_Token_AbstractItem) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Security_JWT_Token_AbstractItem)
+{
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Security\\JWT\\Token, AbstractItem, phalcon, security_jwt_token_abstractitem, phalcon_security_jwt_token_abstractitem_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
 	/**
 	 * @var array
 	 */
 	zend_declare_property_null(phalcon_security_jwt_token_abstractitem_ce, SL("data"), ZEND_ACC_PROTECTED);
-
 	phalcon_security_jwt_token_abstractitem_ce->create_object = zephir_init_properties_Phalcon_Security_JWT_Token_AbstractItem;
 
 	return SUCCESS;
-
 }
 
 /**
  * @return string
  */
-PHP_METHOD(Phalcon_Security_JWT_Token_AbstractItem, getEncoded) {
-
+PHP_METHOD(Phalcon_Security_JWT_Token_AbstractItem, getEncoded)
+{
 	zval _0, _1;
 	zval *this_ptr = getThis();
 
@@ -62,11 +60,10 @@ PHP_METHOD(Phalcon_Security_JWT_Token_AbstractItem, getEncoded) {
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("data"), PH_NOISY_CC | PH_READONLY);
 	zephir_array_fetch_string(&_1, &_0, SL("encoded"), PH_NOISY | PH_READONLY, "phalcon/Security/JWT/Token/AbstractItem.zep", 30);
 	RETURN_CTORW(&_1);
-
 }
 
-zend_object *zephir_init_properties_Phalcon_Security_JWT_Token_AbstractItem(zend_class_entry *class_type) {
-
+zend_object *zephir_init_properties_Phalcon_Security_JWT_Token_AbstractItem(zend_class_entry *class_type)
+{
 		zval _0, _1$$3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 		ZVAL_UNDEF(&_0);
@@ -87,6 +84,5 @@ zend_object *zephir_init_properties_Phalcon_Security_JWT_Token_AbstractItem(zend
 		ZEPHIR_MM_RESTORE();
 		return Z_OBJ_P(this_ptr);
 	}
-
 }
 

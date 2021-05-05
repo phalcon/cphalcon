@@ -36,8 +36,8 @@
 /**
  * PSR-7 Response
  */
-ZEPHIR_INIT_CLASS(Phalcon_Http_Message_Response) {
-
+ZEPHIR_INIT_CLASS(Phalcon_Http_Message_Response)
+{
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Http\\Message, Response, phalcon, http_message_response, phalcon_http_message_abstractmessage_ce, phalcon_http_message_response_method_entry, ZEND_ACC_FINAL_CLASS);
 
 	/**
@@ -56,7 +56,6 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_Response) {
 	 * @var string
 	 */
 	zend_declare_property_string(phalcon_http_message_response_ce, SL("reasonPhrase"), "", ZEND_ACC_PROTECTED);
-
 	/**
 	 * Gets the response status code.
 	 *
@@ -66,10 +65,8 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_Response) {
 	 * @var int
 	 */
 	zend_declare_property_long(phalcon_http_message_response_ce, SL("statusCode"), 200, ZEND_ACC_PROTECTED);
-
 	zend_class_implements(phalcon_http_message_response_ce, 1, zephir_get_internal_ce(SL("psr\\http\\message\\responseinterface")));
 	return SUCCESS;
-
 }
 
 /**
@@ -84,14 +81,13 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_Response) {
  * status code.
  *
  */
-PHP_METHOD(Phalcon_Http_Message_Response, getReasonPhrase) {
-
+PHP_METHOD(Phalcon_Http_Message_Response, getReasonPhrase)
+{
 	zval *this_ptr = getThis();
 
 
 
 	RETURN_MEMBER(getThis(), "reasonPhrase");
-
 }
 
 /**
@@ -102,14 +98,13 @@ PHP_METHOD(Phalcon_Http_Message_Response, getReasonPhrase) {
  * to understand and satisfy the request.
  *
  */
-PHP_METHOD(Phalcon_Http_Message_Response, getStatusCode) {
-
+PHP_METHOD(Phalcon_Http_Message_Response, getStatusCode)
+{
 	zval *this_ptr = getThis();
 
 
 
 	RETURN_MEMBER(getThis(), "statusCode");
-
 }
 
 /**
@@ -119,8 +114,8 @@ PHP_METHOD(Phalcon_Http_Message_Response, getStatusCode) {
  * @param int    $code
  * @param array  $headers
  */
-PHP_METHOD(Phalcon_Http_Message_Response, __construct) {
-
+PHP_METHOD(Phalcon_Http_Message_Response, __construct)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zval headers;
 	zend_long code, ZEPHIR_LAST_CALL_STATUS;
@@ -141,13 +136,11 @@ PHP_METHOD(Phalcon_Http_Message_Response, __construct) {
 		Z_PARAM_LONG(code)
 		Z_PARAM_ARRAY(headers)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 0, 3, &body, &code_param, &headers_param);
-
 	if (!body) {
 		body = &body_sub;
 		ZEPHIR_INIT_VAR(body);
@@ -167,9 +160,9 @@ PHP_METHOD(Phalcon_Http_Message_Response, __construct) {
 
 
 	ZVAL_LONG(&_0, code);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "processcode", NULL, 307, &_0);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "processcode", NULL, 286, &_0);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(&_1, this_ptr, "processheaders", NULL, 305, &headers);
+	ZEPHIR_CALL_METHOD(&_1, this_ptr, "processheaders", NULL, 284, &headers);
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("headers"), &_1);
 	ZEPHIR_INIT_VAR(&_3);
@@ -178,7 +171,6 @@ PHP_METHOD(Phalcon_Http_Message_Response, __construct) {
 	zephir_check_call_status();
 	zephir_update_property_zval(this_ptr, ZEND_STRL("body"), &_2);
 	ZEPHIR_MM_RESTORE();
-
 }
 
 /**
@@ -201,8 +193,8 @@ PHP_METHOD(Phalcon_Http_Message_Response, __construct) {
  *
  * @return Response
  */
-PHP_METHOD(Phalcon_Http_Message_Response, withStatus) {
-
+PHP_METHOD(Phalcon_Http_Message_Response, withStatus)
+{
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *code, code_sub, *reasonPhrase = NULL, reasonPhrase_sub, newInstance;
@@ -218,13 +210,11 @@ PHP_METHOD(Phalcon_Http_Message_Response, withStatus) {
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ZVAL(reasonPhrase)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &code, &reasonPhrase);
-
 	if (!reasonPhrase) {
 		reasonPhrase = &reasonPhrase_sub;
 		ZEPHIR_INIT_VAR(reasonPhrase);
@@ -239,14 +229,13 @@ PHP_METHOD(Phalcon_Http_Message_Response, withStatus) {
 	ZEPHIR_CALL_METHOD(NULL, &newInstance, "processcode", NULL, 0, code, reasonPhrase);
 	zephir_check_call_status();
 	RETURN_CCTOR(&newInstance);
-
 }
 
 /**
  * Returns the list of status codes available
  */
-PHP_METHOD(Phalcon_Http_Message_Response, getPhrases) {
-
+PHP_METHOD(Phalcon_Http_Message_Response, getPhrases)
+{
 	zval *this_ptr = getThis();
 
 
@@ -341,7 +330,6 @@ PHP_METHOD(Phalcon_Http_Message_Response, getPhrases) {
 	add_index_stringl(return_value, 598, SL("Network read timeout error"));
 	add_index_stringl(return_value, 599, SL("Network Connect Timeout Error"));
 	return;
-
 }
 
 /**
@@ -350,8 +338,8 @@ PHP_METHOD(Phalcon_Http_Message_Response, getPhrases) {
  * @param mixed $code
  * @param mixed $phrase
  */
-PHP_METHOD(Phalcon_Http_Message_Response, processCode) {
-
+PHP_METHOD(Phalcon_Http_Message_Response, processCode)
+{
 	zend_bool _2;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS, _0;
@@ -369,13 +357,11 @@ PHP_METHOD(Phalcon_Http_Message_Response, processCode) {
 		Z_PARAM_OPTIONAL
 		Z_PARAM_ZVAL(phrase)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 1, &code, &phrase);
-
 	ZEPHIR_SEPARATE_PARAM(code);
 	if (!phrase) {
 		phrase = &phrase_sub;
@@ -386,14 +372,14 @@ PHP_METHOD(Phalcon_Http_Message_Response, processCode) {
 	}
 
 
-	ZEPHIR_CALL_METHOD(&phrases, this_ptr, "getphrases", NULL, 308);
+	ZEPHIR_CALL_METHOD(&phrases, this_ptr, "getphrases", NULL, 287);
 	zephir_check_call_status();
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkcodetype", NULL, 309, code);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkcodetype", NULL, 288, code);
 	zephir_check_call_status();
 	_0 = zephir_get_intval(code);
 	ZEPHIR_INIT_NVAR(code);
 	ZVAL_LONG(code, _0);
-	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkcodevalue", NULL, 310, code);
+	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkcodevalue", NULL, 289, code);
 	zephir_check_call_status();
 	if (UNEXPECTED(Z_TYPE_P(phrase) != IS_STRING)) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_message_exception_invalidargumentexception_ce, "Invalid response reason", "phalcon/Http/Message/Response.zep", 215);
@@ -412,7 +398,6 @@ PHP_METHOD(Phalcon_Http_Message_Response, processCode) {
 	zephir_update_property_zval(this_ptr, ZEND_STRL("statusCode"), code);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("reasonPhrase"), phrase);
 	ZEPHIR_MM_RESTORE();
-
 }
 
 /**
@@ -420,8 +405,8 @@ PHP_METHOD(Phalcon_Http_Message_Response, processCode) {
  *
  * @param mixed $code
  */
-PHP_METHOD(Phalcon_Http_Message_Response, checkCodeType) {
-
+PHP_METHOD(Phalcon_Http_Message_Response, checkCodeType)
+{
 	zend_bool _0;
 	zval *code, code_sub;
 	zval *this_ptr = getThis();
@@ -432,12 +417,10 @@ PHP_METHOD(Phalcon_Http_Message_Response, checkCodeType) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_ZVAL(code)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	zephir_fetch_params_without_memory_grow(1, 0, &code);
-
 
 
 	_0 = Z_TYPE_P(code) != IS_LONG;
@@ -448,7 +431,6 @@ PHP_METHOD(Phalcon_Http_Message_Response, checkCodeType) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_http_message_exception_invalidargumentexception_ce, "Invalid status code; it must be an integer or string", "phalcon/Http/Message/Response.zep", 236);
 		return;
 	}
-
 }
 
 /**
@@ -456,8 +438,8 @@ PHP_METHOD(Phalcon_Http_Message_Response, checkCodeType) {
  *
  * @param int $code
  */
-PHP_METHOD(Phalcon_Http_Message_Response, checkCodeValue) {
-
+PHP_METHOD(Phalcon_Http_Message_Response, checkCodeValue)
+{
 	zval _7$$3;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zephir_fcall_cache_entry *_1 = NULL;
@@ -477,20 +459,18 @@ PHP_METHOD(Phalcon_Http_Message_Response, checkCodeValue) {
 	ZEND_PARSE_PARAMETERS_START(1, 1)
 		Z_PARAM_LONG(code)
 	ZEND_PARSE_PARAMETERS_END();
-
 #endif
 
 
 	ZEPHIR_MM_GROW();
 	zephir_fetch_params(1, 1, 0, &code_param);
-
 	code = zephir_get_intval(code_param);
 
 
 	ZVAL_LONG(&_2, code);
 	ZVAL_LONG(&_3, 100);
 	ZVAL_LONG(&_4, 599);
-	ZEPHIR_CALL_CE_STATIC(&_0, phalcon_helper_number_ce, "between", &_1, 311, &_2, &_3, &_4);
+	ZEPHIR_CALL_CE_STATIC(&_0, phalcon_helper_number_ce, "between", &_1, 290, &_2, &_3, &_4);
 	zephir_check_call_status();
 	if (!ZEPHIR_IS_TRUE_IDENTICAL(&_0)) {
 		ZEPHIR_INIT_VAR(&_5$$3);
@@ -506,6 +486,5 @@ PHP_METHOD(Phalcon_Http_Message_Response, checkCodeValue) {
 		return;
 	}
 	ZEPHIR_MM_RESTORE();
-
 }
 
