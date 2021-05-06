@@ -127,14 +127,14 @@ class Version
 
         if suffix != "" {
             /**
-             * A pre-release version should be denoted by appending a hyphen and
-             * a series of dot separated identifiers immediately following the
-             * patch version.
+             * A pre-release version should be denoted by appending alpha/beta or RC and
+             * a patch version.
+             * examples 5.0.0alpha2, 5.0.0beta1, 5.0.0RC3
              */
-            let result .= "-". suffix;
+            let result .= suffix;
 
             if specialNumber != 0 {
-                let result .= "." . specialNumber;
+                let result .= specialNumber;
             }
         }
 

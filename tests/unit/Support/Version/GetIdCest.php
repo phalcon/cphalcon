@@ -49,33 +49,17 @@ class GetIdCest
 
         $object  = new Version();
         $version = $object->get();
-        $chunks  = explode('-', $version);
+        $chunks  = preg_split('/(alpha|beta|RC)/', $version);
 
         $special   = '4';
         $specialNo = '0';
 
-        // There are pre-release version parts (eg. 4.0.0-alpha.2)
+        // There are pre-release version parts (eg. 4.0.0alpha2)
         if (count($chunks) > 1) {
-            if (false === strpos($chunks[1], '.')) { // 4.0.0-alpha
-                $special = $this->specialToNumber(
-                    $chunks[1]
-                );
-            } else { // 4.0.0-alpha.2
-                $specialNo = substr(
-                    $chunks[1],
-                    strpos($chunks[1], '.') + 1
-                );
-
-                $special = $this->specialToNumber(
-                    substr(
-                        $chunks[1],
-                        0,
-                        strpos(
-                            $chunks[1],
-                            '.'
-                        )
-                    )
-                );
+            preg_match('/(alpha|beta|RC)/', $version, $stages);
+            $special = $this->specialToNumber($stages[0]);
+            if (!empty($chunks[1])) { // 4.0.0alpha
+                $specialNo = $chunks[1];
             }
         }
 
