@@ -672,5 +672,5 @@ jobs:
           tag: ${{ steps.get-version.outputs.version }}
           body: 'All notable changes to this version has been documented in the CHANGELOG.md file.'
           allowUpdates: true
-          artifacts: ${{steps.download.outputs.download-path}}/phalcon_*.zip, ${{steps.download.outputs.download-path}}/phalcon-pecl/*
+          artifacts: "${{steps.download.outputs.download-path}}/phalcon_*.zip,${{steps.download.outputs.download-path}}/phalcon-pecl/*"
           artifactContentType: application/octet-stream
