@@ -42,7 +42,7 @@
 - Corrected `Phalcon\Cache` to cast keys as strings before sending them to adapters [#15249](https://github.com/phalcon/cphalcon/issues/15249)
 - Binding form values with specified whitelist [#15070](https://github.com/phalcon/cphalcon/issues/15070)
 
-# [5.0.0-alpha.1](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0-alpha.1) (2020-03-31)
+# [5.0.0-alpha.1](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0-alpha.1) (2021-03-31)
 
 ## Fixed
 - Support for PHP 7.4 and PHP 8.0
