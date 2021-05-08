@@ -46,9 +46,15 @@ RUN pecl install psr && \
     pecl install msgpack && \
     pecl install apcu && \
     pecl install yaml && \
-    pecl install imagick && \
     pecl install memcached && \
     pecl install xdebug
+
+# Remove this RUN when imagick will be available via pecl
+RUN cd /opt && \
+    git clone https://github.com/Jeckerson/imagick.git && \
+    cd imagick && \
+    phpize && ./configure && \
+    make && make install
 
 # Locale
 RUN sed -i -e 's/# de_DE.UTF-8 UTF-8/de_DE.UTF-8 UTF-8/' /etc/locale.gen && \
