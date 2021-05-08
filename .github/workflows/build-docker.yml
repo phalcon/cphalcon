@@ -25,4 +25,4 @@ jobs:
           fetch-depth: 1
 
       - name: Build Dockerfile
-        run: docker build -t docker/${{ matrix.php-versions }}
+        run: docker build docker/${{ matrix.php-versions }}
