@@ -25,7 +25,6 @@ use Phalcon\Image\Exception;
  *
  * if ($image->save()) {
  *     echo "success";
-
  * }
  *```
  */

@@ -221,7 +221,7 @@ class Column implements ColumnInterface
      *
      * @var string|null
      */
-    protected after;
+    protected after = null;
 
     /**
      * Column is autoIncrement?
@@ -239,6 +239,8 @@ class Column implements ColumnInterface
 
     /**
      * Default column value
+     *
+     * @var mixed|null
      */
     protected _default = null { get };
 
@@ -251,6 +253,8 @@ class Column implements ColumnInterface
 
     /**
      * The column have some numeric type?
+     *
+     * @var bool
      */
     protected isNumeric = false;
 
@@ -279,6 +283,8 @@ class Column implements ColumnInterface
 
     /**
      * Column is part of the primary key?
+     *
+     * @var bool
      */
     protected primary = false;
 
@@ -292,7 +298,7 @@ class Column implements ColumnInterface
     /**
      * Integer column size
      *
-     * @var int | string
+     * @var int|string
      */
     protected size = 0 { get };
 

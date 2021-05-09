@@ -29,25 +29,49 @@ use Phalcon\Validation\ValidationInterface;
 class Form extends Injectable implements Countable, Iterator, AttributesInterface
 {
     /**
-     * @var Attributes | null
+     * @var AttributesInterface|null
      */
     protected attributes = null;
 
-    protected data;
+    /**
+     * @var array
+     */
+    protected data = [];
 
+    /**
+     * @var array
+     */
     protected elements = [];
 
-    protected elementsIndexed;
+    /**
+     * @var array
+     */
+    protected elementsIndexed = [];
 
-    protected entity;
+    /**
+     * @var object|null
+     */
+    protected entity = null;
 
-    protected messages;
+    /**
+     * @var Messages|array|null
+     */
+    protected messages = null;
 
-    protected position;
+    /**
+     * @var int
+     */
+    protected position = 0;
 
-    protected options;
+    /**
+     * @var array
+     */
+    protected options = [];
 
-    protected validation { set, get };
+    /**
+     * @var ValidationInterface|null
+     */
+    protected validation = null { set, get };
 
     /**
      * Phalcon\Forms\Form constructor

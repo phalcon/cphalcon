@@ -15,6 +15,9 @@ use Phalcon\Image\Exception;
 
 class Gd extends AbstractAdapter
 {
+    /**
+     * @var bool
+     */
     protected static checked = false;
 
     public function __construct(string! file, int width = null, int height = null)

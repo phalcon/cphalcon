@@ -28,6 +28,9 @@ use Phalcon\Di\Service\Builder;
  */
 class Service implements ServiceInterface
 {
+    /**
+     * @var mixed
+     */
     protected definition;
 
     /**
@@ -40,7 +43,10 @@ class Service implements ServiceInterface
      */
     protected shared = false;
 
-    protected sharedInstance;
+    /**
+     * @var mixed|null
+     */
+    protected sharedInstance = null;
 
     /**
      * Phalcon\Di\Service

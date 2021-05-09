@@ -36,7 +36,10 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
      */
     protected expire;
 
-    protected filter;
+    /**
+     * @var FilterInterface|null
+     */
+    protected filter = null;
 
     /**
      * @var bool
@@ -75,6 +78,7 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
 
     /**
      * The cookie's sign key.
+     *
      * @var string|null
      */
     protected signKey = null;
@@ -85,9 +89,9 @@ class Cookie extends AbstractInjectionAware implements CookieInterface
     protected useEncryption = false;
 
     /**
-     * @var mixed
+     * @var mixed|null
      */
-    protected value;
+    protected value = null;
 
     /**
      * Phalcon\Http\Cookie constructor.

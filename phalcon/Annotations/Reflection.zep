@@ -30,16 +30,28 @@ namespace Phalcon\Annotations;
  */
 class Reflection
 {
+    /**
+     * @var array
+     * TODO: Make always array
+     */
     protected classAnnotations;
 
+    /**
+     * @var array
+     * TODO: Make always array
+     */
     protected methodAnnotations;
 
+    /**
+     * @var array
+     * TODO: Make always array
+     */
     protected propertyAnnotations;
 
     /**
      * @var array
      */
-    protected reflectionData;
+    protected reflectionData = [];
 
     /**
      * Phalcon\Annotations\Reflection constructor
