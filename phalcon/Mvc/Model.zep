@@ -92,6 +92,9 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     const OP_UPDATE = 2;
     const TRANSACTION_INDEX = "transaction";
 
+    /**
+     * @var int
+     */
     protected dirtyState = 1;
 
     /**
@@ -104,15 +107,24 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      */
     protected errorMessages = [];
 
-    protected modelsManager;
+    /**
+     * @var ManagerInterface|null
+     */
+    protected modelsManager = null;
 
-    protected modelsMetaData;
+    /**
+     * @var MetaDataInterface|null
+     */
+    protected modelsMetaData = null;
 
     /**
      * @var array
      */
     protected related = [];
 
+    /**
+     * @var int
+     */
     protected operationMade = 0;
 
     /**
@@ -120,17 +132,36 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      */
     protected oldSnapshot = [];
 
-    protected skipped;
+    /**
+     * @var bool
+     */
+    protected skipped = false;
 
-    protected snapshot;
+    /**
+     * @var array
+     */
+    protected snapshot = [];
 
-    protected transaction { get };
+    /**
+     * @var TransactionInterface|null
+     */
+    protected transaction = null { get };
 
-    protected uniqueKey;
+    /**
+     * @var string|null
+     */
+    protected uniqueKey = null;
 
-    protected uniqueParams;
+    /**
+     * @var array
+     */
+    protected uniqueParams = [];
 
-    protected uniqueTypes;
+    /**
+     * @var array|null
+     * TODO: Make it always array in code
+     */
+    protected uniqueTypes = null;
 
     /**
      * Phalcon\Mvc\Model constructor

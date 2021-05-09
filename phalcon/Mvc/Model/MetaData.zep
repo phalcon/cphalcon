@@ -57,17 +57,29 @@ abstract class MetaData implements InjectionAwareInterface, MetaDataInterface
     const MODELS_REVERSE_COLUMN_MAP = 1;
 
     /**
-     * @var CacheAdapterInterface
+     * @var CacheAdapterInterface|null
      */
-    protected adapter;
+    protected adapter = null;
 
+    /**
+     * @var array
+     */
     protected columnMap = [];
 
-    protected container;
+    /**
+     * @var DiInterface|null
+     */
+    protected container = null;
 
+    /**
+     * @var array
+     */
     protected metaData = [];
 
-    protected strategy;
+    /**
+     * @var StrategyInterface|null
+     */
+    protected strategy = null;
 
     /**
      * Returns table attributes names (fields)

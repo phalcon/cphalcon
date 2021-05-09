@@ -31,7 +31,14 @@ use Phalcon\Image\Exception;
  */
 class Imagick extends AbstractAdapter
 {
+    /**
+     * @var bool
+     */
     protected static checked = false;
+
+    /**
+     * @var int
+     */
     protected static version = 0;
 
     /**
@@ -46,7 +53,6 @@ class Imagick extends AbstractAdapter
         }
 
         let this->file = file;
-
         let this->image = new \Imagick();
 
         if file_exists(this->file) {
@@ -145,7 +151,7 @@ class Imagick extends AbstractAdapter
      *
      * @link http://php.net/manual/ru/imagick.constants.php#imagick.constants.resourcetypes
      */
-    public function setResourceLimit(int type, int limit)
+    public function setResourceLimit(int type, int limit) -> void
     {
         this->image->setResourceLimit(type, limit);
     }
@@ -153,16 +159,14 @@ class Imagick extends AbstractAdapter
     /**
      * Execute a background.
      */
-    protected function processBackground(int r, int g, int b, int opacity)
+    protected function processBackground(int r, int g, int b, int opacity) -> void
     {
         var background, color, pixel1, pixel2, ret;
 
+        let opacity /= 100;
         let color = sprintf("rgb(%d, %d, %d)", r, g, b);
         let pixel1 = new \ImagickPixel(color);
-        let opacity = opacity / 100;
-
         let pixel2 = new \ImagickPixel("transparent");
-
         let background = new \Imagick();
 
         this->image->setIteratorIndex(0);
@@ -215,7 +219,7 @@ class Imagick extends AbstractAdapter
      *
      * @param int $radius Blur radius
      */
-    protected function processBlur(int radius)
+    protected function processBlur(int radius) -> void
     {
         this->image->setIteratorIndex(0);
 
@@ -231,7 +235,7 @@ class Imagick extends AbstractAdapter
     /**
      * Execute a crop.
      */
-    protected function processCrop(int width, int height, int offsetX, int offsetY)
+    protected function processCrop(int width, int height, int offsetX, int offsetY) -> void
     {
         var image;
 
@@ -255,7 +259,7 @@ class Imagick extends AbstractAdapter
     /**
      * Execute a flip.
      */
-    protected function processFlip(int direction)
+    protected function processFlip(int direction) -> void
     {
         var func;
 
@@ -285,7 +289,7 @@ class Imagick extends AbstractAdapter
      * @param int $deltaX How much the seam can traverse on x-axis. Passing 0 causes the seams to be straight.
      * @param int $rigidity Introduces a bias for non-straight seams. This parameter is typically 0.
      */
-    protected function processLiquidRescale(int width, int height, int deltaX, int rigidity)
+    protected function processLiquidRescale(int width, int height, int deltaX, int rigidity) -> void
     {
         var ret, image;
 
@@ -317,7 +321,7 @@ class Imagick extends AbstractAdapter
     /**
      * Composite one image onto another
      */
-    protected function processMask(<AdapterInterface> image)
+    protected function processMask(<AdapterInterface> image) -> void
     {
         var mask, ret;
 
@@ -357,7 +361,7 @@ class Imagick extends AbstractAdapter
      *
      * @param int $amount amount to pixelate
      */
-    protected function processPixelate(int amount)
+    protected function processPixelate(int amount) -> void
     {
         int width, height;
 
@@ -379,7 +383,7 @@ class Imagick extends AbstractAdapter
     /**
      * Execute a reflection.
      */
-    protected function processReflection(int height, int opacity, bool fadeIn)
+    protected function processReflection(int height, int opacity, bool fadeIn) -> void
     {
         var reflection, fade, pseudo, image, pixel, ret;
 
@@ -552,7 +556,7 @@ class Imagick extends AbstractAdapter
     /**
      * Execute a resize.
      */
-    protected function processResize(int width, int height)
+    protected function processResize(int width, int height) -> void
     {
         var image;
 
@@ -575,7 +579,7 @@ class Imagick extends AbstractAdapter
     /**
      * Execute a rotation.
      */
-    protected function processRotate(int degrees)
+    protected function processRotate(int degrees) -> void
     {
         var pixel;
 
@@ -605,7 +609,7 @@ class Imagick extends AbstractAdapter
     /**
      * Execute a save.
      */
-    protected function processSave(string file, int quality)
+    protected function processSave(string file, int quality) -> void
     {
         var ext, fp;
 
@@ -627,25 +631,25 @@ class Imagick extends AbstractAdapter
             fclose(fp);
 
             return;
-        } else {
-            if strcasecmp(ext, "jpg") == 0 || strcasecmp(ext, "jpeg") == 0 {
-                this->image->setImageCompression(
-                    constant("Imagick::COMPRESSION_JPEG")
-                );
-            }
-
-            if quality >= 0 {
-                if quality < 1 {
-                    let quality = 1;
-                } elseif quality > 100 {
-                    let quality = 100;
-                }
-
-                this->image->setImageCompressionQuality(quality);
-            }
-
-            this->image->writeImage(file);
         }
+
+        if strcasecmp(ext, "jpg") == 0 || strcasecmp(ext, "jpeg") == 0 {
+            this->image->setImageCompression(
+                constant("Imagick::COMPRESSION_JPEG")
+            );
+        }
+
+        if quality >= 0 {
+            if quality < 1 {
+                let quality = 1;
+            } elseif quality > 100 {
+                let quality = 100;
+            }
+
+            this->image->setImageCompressionQuality(quality);
+        }
+
+        this->image->writeImage(file);
     }
 
     /**

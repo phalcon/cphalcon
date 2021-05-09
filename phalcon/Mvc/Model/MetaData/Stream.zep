@@ -28,6 +28,9 @@ use Phalcon\Mvc\Model\Exception;
  */
 class Stream extends MetaData
 {
+    /**
+     * @var string
+     */
     protected metaDataDir = "./";
 
     /**
@@ -35,7 +38,7 @@ class Stream extends MetaData
      *
      * @param array options
      */
-    public function __construct(options = null)
+    public function __construct(array options = [])
     {
         var metaDataDir;
 

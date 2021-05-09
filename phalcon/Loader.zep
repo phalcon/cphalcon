@@ -42,6 +42,9 @@ use Phalcon\Events\EventsAwareInterface;
  */
 class Loader implements EventsAwareInterface
 {
+    /**
+     * @var string|null
+     */
     protected checkedPath = null;
 
     /**
