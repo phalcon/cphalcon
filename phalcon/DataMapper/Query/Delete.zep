@@ -38,7 +38,7 @@ class Delete extends AbstractConditions
      *
      * @param string $table
      *
-     * @return AbstractConditions
+     * @return Delete
      */
     public function from(string table) -> <Delete>
     {

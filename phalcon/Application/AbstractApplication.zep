@@ -31,7 +31,7 @@ abstract class AbstractApplication extends Injectable implements EventsAwareInte
     protected defaultModule;
 
     /**
-     * @var null | ManagerInterface
+     * @var null|ManagerInterface
      */
     protected eventsManager;
 
@@ -68,6 +68,10 @@ abstract class AbstractApplication extends Injectable implements EventsAwareInte
 
     /**
      * Gets the module definition registered in the application via module name
+     *
+     * @param string name
+     *
+     * @return array|mixed
      */
     public function getModule(string! name) -> array | object
     {
