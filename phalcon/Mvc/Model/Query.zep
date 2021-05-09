@@ -205,9 +205,9 @@ class Query implements QueryInterface, InjectionAwareInterface
     protected transaction { get };
 
     /**
-     * @var array
+     * @var array|null
      */
-    protected static internalPhqlCache = [];
+    protected static internalPhqlCache;
 
     /**
      * Phalcon\Mvc\Model\Query constructor
