@@ -53,6 +53,9 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
 
     protected defaultNamespace = null;
 
+    /**
+     * @var string|null
+     */
     protected defaultHandler = null;
 
     /**

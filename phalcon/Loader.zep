@@ -53,6 +53,10 @@ class Loader implements EventsAwareInterface
      * @var array
      */
     protected directories = [];
+
+    /**
+     * @var ManagerInterface|null
+     */
     protected eventsManager = null;
 
     /**
@@ -60,6 +64,9 @@ class Loader implements EventsAwareInterface
      */
     protected extensions = ["php"];
 
+    /**
+     * @var string
+     */
     protected fileCheckingCallback = "is_file";
 
     /**
@@ -68,7 +75,7 @@ class Loader implements EventsAwareInterface
     protected files = [];
 
     /**
-     * @var bool
+     * @var string|null
      */
     protected foundPath = null;
 

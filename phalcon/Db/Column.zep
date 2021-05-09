@@ -232,6 +232,8 @@ class Column implements ColumnInterface
 
     /**
      * Bind Type
+     *
+     * @var int
      */
     protected bindType = 2;
 
@@ -262,7 +264,7 @@ class Column implements ColumnInterface
     /**
      * Column's comment
      *
-     * @var string
+     * @var string|null
      */
      protected comment = null { get };
 
