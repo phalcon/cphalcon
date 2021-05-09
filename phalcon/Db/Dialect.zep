@@ -45,7 +45,7 @@ abstract class Dialect implements DialectInterface
             return str;
         }
 
-        if escapeChar === "" {
+        if empty escapeChar {
             let escapeChar = (string) this->escapeChar;
         }
 
