@@ -2171,7 +2171,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      */
     public function hasSnapshotData() -> bool
     {
-        return typeof this->snapshot == "array";
+        return !empty this->snapshot;
     }
 
     /**
