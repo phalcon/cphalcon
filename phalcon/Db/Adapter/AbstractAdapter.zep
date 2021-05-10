@@ -291,8 +291,15 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      * // Next SQL sentence is generated
      * DELETE FROM `robots` WHERE `id` = 101
      * ```
+     *
+     * @param array|string
+     * @param string|null whereCondition
+     * @param array placeholders
+     * @param array dataTypes
+     *
+     * @return bool
      */
-    public function delete(var table, var whereCondition = null, var placeholders = null, var dataTypes = null) -> bool
+    public function delete(var table, string whereCondition = null, array placeholders = [], array dataTypes = []) -> bool
     {
         var sql, escapedTable;
 
