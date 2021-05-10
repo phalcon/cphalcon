@@ -330,7 +330,7 @@ abstract class Resultset
     /**
      * Returns the associated cache for the resultset
      */
-    public function getCache() -> <CacheInterface>
+    public function getCache() -> <CacheInterface> | null
     {
         return this->cache;
     }

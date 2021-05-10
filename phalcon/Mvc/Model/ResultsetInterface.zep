@@ -45,7 +45,7 @@ interface ResultsetInterface
     /**
      * Returns the associated cache for the resultset
      */
-    public function getCache() -> <CacheInterface>;
+    public function getCache() -> <CacheInterface> | null;
 
     /**
      * Get first row in the resultset
