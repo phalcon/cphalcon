@@ -23,20 +23,50 @@ use Phalcon\Validation\ValidatorInterface;
  */
 abstract class AbstractElement implements ElementInterface
 {
-    protected attributes;
-    protected filters;
-    protected form;
-    protected label;
+    /**
+     * @var array
+     */
+    protected attributes = [];
+
+    /**
+     * @var array
+     */
+    protected filters = [];
+
+    /**
+     * @var Form|null
+     */
+    protected form = null;
+
+    /**
+     * @var string|null
+     */
+    protected label = null;
+
+    /**
+     * @var Messages
+     */
     protected messages;
+
+    /**
+     * @var string
+     */
     protected name;
-    protected options;
+
+    /**
+     * @var array
+     */
+    protected options = [];
 
     /**
      * @var array
      */
     protected validators = [];
 
-    protected value;
+    /**
+     * @var mixed|null
+     */
+    protected value = null;
 
     /**
      * Phalcon\Forms\Element constructor

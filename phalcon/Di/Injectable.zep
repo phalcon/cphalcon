@@ -47,9 +47,9 @@ abstract class Injectable implements InjectionAwareInterface
     /**
      * Dependency Injector
      *
-     * @var DiInterface
+     * @var DiInterface|null
      */
-    protected container;
+    protected container = null;
 
     /**
      * Magic method __get

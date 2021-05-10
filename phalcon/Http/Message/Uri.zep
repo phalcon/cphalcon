@@ -27,7 +27,7 @@ final class Uri extends AbstractCommon implements UriInterface
     /**
      * Returns the fragment of the URL
      *
-     * @return string
+     * @var string
      */
     protected fragment = "" { get };
 
@@ -41,7 +41,7 @@ final class Uri extends AbstractCommon implements UriInterface
      *
      * @see http://tools.ietf.org/html/rfc3986#section-3.2.2
      *
-     * @return string
+     * @var string
      */
     protected host = "" { get };
 
@@ -53,7 +53,7 @@ final class Uri extends AbstractCommon implements UriInterface
     /**
      * Returns the path of the URL
      *
-     * @return string
+     * @var string
      */
     protected path = "" { get };
 
@@ -70,14 +70,14 @@ final class Uri extends AbstractCommon implements UriInterface
      * If no port is present, but a scheme is present, this method MAY return
      * the standard port for that scheme, but SHOULD return null.
      *
-     * @return int|null
+     * @var int|null
      */
     protected port = null { get };
 
     /**
      * Returns the query of the URL
      *
-     * @return string
+     * @var string
      */
     protected query = "" { get };
 
@@ -94,7 +94,7 @@ final class Uri extends AbstractCommon implements UriInterface
      *
      * @see https://tools.ietf.org/html/rfc3986#section-3.1
      *
-     * @return string
+     * @var string
      */
     protected scheme = "https" { get };
 

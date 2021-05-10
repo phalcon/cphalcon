@@ -83,40 +83,138 @@ class Query implements QueryInterface, InjectionAwareInterface
     const TYPE_SELECT = 309;
     const TYPE_UPDATE = 300;
 
+    /**
+     * @var array
+     * TODO: Add default value, instead of null, also remove type check
+     */
     protected ast;
-    protected bindParams;
-    protected bindTypes;
-    protected cache;
+
+    /**
+     * @var array
+     */
+    protected bindParams = [];
+
+    /**
+     * @var array
+     */
+    protected bindTypes = [];
+
+    /**
+     * @var \Psr\SimpleCache\CacheInterface|null
+     */
+    protected cache = null;
+
+    /**
+     * @var array|null
+     */
     protected cacheOptions;
-    protected container;
+
+    /**
+     * @var DiInterface|null
+     */
+    protected container = null;
+
+    /**
+     * @var bool
+     */
     protected enableImplicitJoins;
+
+    /**
+     * @var array
+     */
     protected intermediate;
-    protected manager;
-    protected metaData;
-    protected models;
-    protected modelsInstances;
+
+    /**
+     * @var \Phalcon\Mvc\Model\ManagerInterface|null
+     */
+    protected manager = null;
+
+    /**
+     * @var \Phalcon\Mvc\Model\MetaDataInterface|null
+     */
+    protected metaData = null;
+
+    /**
+     * @var array
+     */
+    protected models = [];
+
+    /**
+     * @var array
+     */
+    protected modelsInstances = [];
+
+    /**
+     * @var int
+     */
     protected nestingLevel = -1;
-    protected phql;
-    protected sharedLock;
-    protected sqlAliases;
-    protected sqlAliasesModels;
-    protected sqlAliasesModelsInstances;
+
+    /**
+     * @var string|null
+     */
+    protected phql = null;
+
+    /**
+     * @var bool
+     */
+    protected sharedLock = false;
+
+    /**
+     * @var array
+     */
+    protected sqlAliases = [];
+
+    /**
+     * @var array
+     */
+    protected sqlAliasesModels = [];
+
+    /**
+     * @var array
+     */
+    protected sqlAliasesModelsInstances = [];
+
+    /**
+     * @var array
+     */
     protected sqlColumnAliases = [];
-    protected sqlModelsAliases;
+
+    /**
+     * @var array
+     */
+    protected sqlModelsAliases = [];
+
+    /**
+     * @var int|null
+     */
     protected type;
-    protected uniqueRow;
-    static protected _irPhqlCache;
+
+    /**
+     * @var bool
+     */
+    protected uniqueRow = false;
 
     /**
      * TransactionInterface so that the query can wrap a transaction
      * around batch updates and intermediate selects within the transaction.
      * however if a model got a transaction set inside it will use the local
      * transaction instead of this one
+     *
+     * @var TransactionInterface|null
      */
-    protected _transaction { get };
+    protected transaction { get };
+
+    /**
+     * @var array|null
+     */
+    protected static internalPhqlCache;
 
     /**
      * Phalcon\Mvc\Model\Query constructor
+     *
+     * @param string|null phql
+     * @param DiInterface|null container
+     * @param array options
      */
     public function __construct(string phql = null, <DiInterface> container = null, array options = [])
     {
@@ -155,7 +253,7 @@ class Query implements QueryInterface, InjectionAwareInterface
      */
     public static function clean() -> void
     {
-        let self::_irPhqlCache = [];
+        let self::internalPhqlCache = [];
     }
 
     /**
@@ -455,7 +553,7 @@ class Query implements QueryInterface, InjectionAwareInterface
              * Parsed ASTs have a unique id
              */
             if fetch uniqueId, ast["id"] {
-                if fetch irPhql, self::_irPhqlCache[uniqueId] {
+                if fetch irPhql, self::internalPhqlCache[uniqueId] {
                     if typeof irPhql == "array" {
                         // Assign the type to the query
                         let this->type = ast["type"];
@@ -505,7 +603,7 @@ class Query implements QueryInterface, InjectionAwareInterface
          * Store the prepared AST in the cache
          */
         if typeof uniqueId == "int" {
-            let self::_irPhqlCache[uniqueId] = irPhql;
+            let self::internalPhqlCache[uniqueId] = irPhql;
         }
 
         let this->intermediate = irPhql;
@@ -602,7 +700,7 @@ class Query implements QueryInterface, InjectionAwareInterface
      */
     public function setTransaction(<TransactionInterface> transaction) -> <QueryInterface>
     {
-        let this->_transaction = transaction;
+        let this->transaction = transaction;
 
         return this;
     }
@@ -2975,7 +3073,7 @@ class Query implements QueryInterface, InjectionAwareInterface
     {
         var connection = null, transaction;
 
-        let transaction = this->_transaction;
+        let transaction = this->transaction;
 
         if typeof transaction == "object" && transaction instanceof TransactionInterface {
             return transaction->getConnection();
@@ -3329,7 +3427,7 @@ class Query implements QueryInterface, InjectionAwareInterface
     {
         var connection = null, transaction;
 
-        let transaction = this->_transaction;
+        let transaction = this->transaction;
 
         if typeof transaction == "object" && transaction instanceof TransactionInterface {
             return transaction->getConnection();

@@ -16,9 +16,15 @@ namespace Phalcon\Db;
  */
 abstract class Dialect implements DialectInterface
 {
+    /**
+     * @var string
+     */
     protected escapeChar;
 
-    protected customFunctions;
+    /**
+     * @var array
+     */
+    protected customFunctions = [];
 
     /**
      * Generate SQL to create a new savepoint
@@ -39,7 +45,7 @@ abstract class Dialect implements DialectInterface
             return str;
         }
 
-        if escapeChar == "" {
+        if empty escapeChar {
             let escapeChar = (string) this->escapeChar;
         }
 

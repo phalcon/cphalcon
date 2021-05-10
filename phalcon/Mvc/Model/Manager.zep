@@ -47,6 +47,9 @@ use Phalcon\Mvc\Model\Query\StatusInterface;
  */
 class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareInterface
 {
+    /**
+     * @var array
+     */
     protected aliases = [];
 
     /**
@@ -73,7 +76,7 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     /**
      * @var DiInterface|null
      */
-    protected container;
+    protected container = null;
 
     /**
      * @var array
@@ -88,9 +91,9 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
     protected dynamicUpdate = [];
 
     /**
-     * @var EventsManagerInterface
+     * @var EventsManagerInterface|null
      */
-    protected eventsManager;
+    protected eventsManager = null;
 
     /**
      * Has many relations
@@ -162,13 +165,17 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 
     /**
      * Last model initialized
+     *
+     * @var ModelInterface|null
      */
-    protected lastInitialized;
+    protected lastInitialized = null;
 
     /**
      * Last query created/executed
+     *
+     * @var QueryInterface|null
      */
-    protected lastQuery;
+    protected lastQuery = null;
 
     /**
      * @var array

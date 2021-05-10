@@ -71,20 +71,22 @@ class Di implements DiInterface
 
     /**
      * List of shared instances
+     *
+     * @var array
      */
     protected sharedInstances = [];
 
     /**
      * Events Manager
      *
-     * @var ManagerInterface | null
+     * @var ManagerInterface|null
      */
-    protected eventsManager;
+    protected eventsManager = null;
 
     /**
      * Latest DI build
      *
-     * @var DiInterface | null
+     * @var DiInterface|null
      */
     protected static _default;
 

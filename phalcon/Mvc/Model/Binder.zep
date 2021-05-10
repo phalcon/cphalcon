@@ -33,16 +33,22 @@ class Binder implements BinderInterface
 
     /**
      * Cache object used for caching parameters for model binding
+     *
+     * @var AdapterInterface|null
      */
     protected cache;
 
     /**
      * Internal cache for caching parameters for model binding during request
+     *
+     * @var array
      */
     protected internalCache = [];
 
     /**
      * Array for original values
+     *
+     * @var array
      */
     protected originalValues = [] { get };
 

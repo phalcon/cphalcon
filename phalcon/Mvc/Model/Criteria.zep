@@ -35,14 +35,29 @@ use Phalcon\Mvc\Model\Query\BuilderInterface;
  */
 class Criteria implements CriteriaInterface, InjectionAwareInterface
 {
+    /**
+     * @var array
+     */
     protected bindParams;
 
+    /**
+     * @var array
+     */
     protected bindTypes;
 
+    /**
+     * @var int
+     */
     protected hiddenParamNumber = 0;
 
-    protected model;
+    /**
+     * @var string|null
+     */
+    protected model = null;
 
+    /**
+     * @var array
+     */
     protected params = [];
 
     /**
