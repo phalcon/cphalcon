@@ -21,6 +21,7 @@ use Phalcon\Mvc\Model\ResultsetInterface;
 use Phalcon\Mvc\Model\Row;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\Storage\Serializer\SerializerInterface;
+use Psr\SimpleCache\CacheInterface;
 use stdClass;
 
 /**
@@ -54,7 +55,7 @@ class Complex extends Resultset implements ResultsetInterface
     public function __construct(
         var columnTypes,
         <ResultInterface> result = null,
-        <AdapterInterface> cache = null
+        <CacheInterface> cache = null
     )
     {
         /**

@@ -19,6 +19,7 @@ use Phalcon\Mvc\Model\Resultset;
 use Phalcon\Mvc\Model\Row;
 use Phalcon\Mvc\ModelInterface;
 use Phalcon\Storage\Serializer\SerializerInterface;
+use Psr\SimpleCache\CacheInterface;
 
 /**
  * Phalcon\Mvc\Model\Resultset\Simple
@@ -56,7 +57,7 @@ class Simple extends Resultset
         var columnMap,
         var model,
         result,
-        <AdapterInterface> cache = null,
+        <CacheInterface> cache = null,
         bool keepSnapshots = false
     )
     {
