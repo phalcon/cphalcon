@@ -1,0 +1,28 @@
+name: Build Dockerfiles
+
+on:
+  push:
+    paths:
+      - 'docker/**'
+
+jobs:
+  build:
+    if: "!contains(github.event.head_commit.message, 'ci skip')"
+
+    runs-on: ubuntu-20.04
+
+    strategy:
+      fail-fast: false
+      matrix:
+        php-versions: [ '7.4', '8.0' ]
+
+    name: Build Dockerfile PHP ${{ matrix.php-versions }}
+    steps:
+
+      - name: Checkout Code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+
+      - name: Build Dockerfile
+        run: docker build docker/${{ matrix.php-versions }}

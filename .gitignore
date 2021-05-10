@@ -56,7 +56,6 @@ zephir.phar
 zephir-*.phar
 
 boxfile.yml
-composer.lock
 php_test_results_*.txt
 build/gccarch
 tests/_data/phalcon_test*
