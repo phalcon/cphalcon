@@ -292,7 +292,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      * DELETE FROM `robots` WHERE `id` = 101
      * ```
      *
-     * @param array|string
+     * @param array|string table
      * @param string|null whereCondition
      * @param array placeholders
      * @param array dataTypes

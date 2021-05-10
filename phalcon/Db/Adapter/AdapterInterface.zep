@@ -88,7 +88,7 @@ interface AdapterInterface
     /**
      * Deletes data from a table using custom RDBMS SQL syntax
      *
-     * @param array|string
+     * @param array|string table
      * @param string|null whereCondition
      * @param array placeholders
      * @param array dataTypes
