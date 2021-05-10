@@ -11,15 +11,20 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Integration\Mvc\Model\Query;
+namespace Phalcon\Test\Database\Mvc\Model\Query;
 
 use Codeception\Example;
-use IntegrationTester;
+use DatabaseTester;
 use Phalcon\Cache;
 use Phalcon\Cache\AdapterFactory;
+use Phalcon\Mvc\Model;
 use Phalcon\Storage\SerializerFactory;
+use Phalcon\Test\Fixtures\Migrations\AbstractMigration;
+use Phalcon\Test\Fixtures\Migrations\InvoicesMigration;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Models\Robots;
+use Phalcon\Test\Models\Invoices;
+
+use function cacheDir;
 
 /**
  * Class CacheCest
@@ -28,76 +33,15 @@ class CacheCest
 {
     use DiTrait;
 
-    public function _before(IntegrationTester $I)
+    public function _before(DatabaseTester $I)
     {
-        $this->setNewFactoryDefault();
-        $this->setDiMysql();
-    }
+        try {
+            $this->setNewFactoryDefault();
+        } catch (\Exception $e) {
+            $I->fail($e->getMessage());
+        }
 
-    public function _after(IntegrationTester $I)
-    {
-        $this->container['db']->close();
-    }
-
-    /**
-     * Tests Phalcon\Mvc\Model\Query :: cache()
-     *
-     * @dataProvider getValidSerializers
-     *
-     * @author       Phalcon Team <team@phalcon.io>
-     * @since        2019-09-27
-     */
-    public function mvcModelQueryCache(IntegrationTester $I, Example $serializer)
-    {
-        $I->wantToTest('Mvc\Model\Query - cache() - ' . $serializer[0]);
-
-        $di = $this->getDi();
-
-        // services: modelsCache
-        $serializerFactory = new SerializerFactory();
-        $adapterFactory    = new AdapterFactory($serializerFactory);
-
-        $options = [
-            'defaultSerializer' => $serializer[0],
-            'lifetime'          => 30,
-            'storageDir'        => cacheDir('mvcModelQueryCache'),
-        ];
-
-        $adapter = $adapterFactory->newInstance('stream', $options);
-        $cache   = new Cache($adapter);
-        $di->set('modelsCache', $cache);
-
-        $cacheKey         = 'uniqkey' . $serializer[0];
-        $options['cache'] = [
-            'key'      => $cacheKey,
-            'lifetime' => 50,
-        ];
-
-        $result         = Robots::find($options);
-        $numberOfRobots = $result->count();
-
-        // Create a temporary robot to test if the count is cached or fresh
-        $newrobot           = new Robots();
-        $newrobot->name     = 'Not cached robot';
-        $newrobot->type     = 'notcached';
-        $newrobot->year     = 2014;
-        $newrobot->datetime = '2015-03-05 04:16:17';
-        $newrobot->text     = 'Not cached robot';
-
-        $newrobot->create();
-
-        $result = Robots::find($options);
-        $I->assertEquals($numberOfRobots, $result->count());
-
-        // Delete the temp robot
-        Robots::findFirst("type = 'notcached'")->delete();
-
-        // Test delete robot isn't affecting cache
-        $result = Robots::find($options);
-        $I->assertNotFalse($result);
-        $I->assertEquals($numberOfRobots, $result->count());
-
-        $cache->delete($cacheKey);
+        $this->setDatabase($I);
     }
 
     /**
@@ -105,61 +49,125 @@ class CacheCest
      *
      * @dataProvider getValidSerializers
      *
+     * @param DatabaseTester $I
+     *
      * @author       Phalcon Team <team@phalcon.io>
-     * @since        2019-09-28
+     * @since        2021-05-06
+     * @issue
+     *
+     * @group        mysql
+     * @group        pgsql
+     * @group        sqlite
      */
-    public function mvcModelQueryCacheCount(IntegrationTester $I, Example $serializer)
+    public function mvcModelQueryCache(DatabaseTester $I, Example $serializer)
     {
         $I->wantToTest('Mvc\Model\Query - cache() - ' . $serializer[0]);
 
-        $di = $this->getDi();
+        (new InvoicesMigration($I->getConnection()));
 
-        // services: modelsCache
-        $serializerFactory = new SerializerFactory();
-        $adapterFactory    = new AdapterFactory($serializerFactory);
+        $this->container->set(
+            'modelsCache',
+            function () use ($serializer) {
+                // services: modelsCache
+                $lifetime          = 60; // 1 min
+                $serializerFactory = new SerializerFactory();
+                $adapterFactory    = new AdapterFactory($serializerFactory);
 
-        $options = [
-            'defaultSerializer' => $serializer[0],
-            'lifetime'          => 30,
-            'storageDir'        => cacheDir('mvcModelQueryCache'),
-        ];
+                $options = [
+                    'defaultSerializer' => $serializer[0],
+                    'lifetime'          => $lifetime,
+                    'storageDir'        => cacheDir('mvcModelQueryCache'),
+                ];
 
-        $adapter = $adapterFactory->newInstance('stream', $options);
-        $cache   = new Cache($adapter);
-        $di->set('modelsCache', $cache);
+                $adapter = $adapterFactory->newInstance('stream', $options);
+                $cache   = new Cache($adapter);
 
+                return $cache;
+            }
+        );
+
+        $cache            = $this->container->get('modelsCache');
         $cacheKey         = 'uniqkey' . $serializer[0];
         $options['cache'] = [
             'key'      => $cacheKey,
             'lifetime' => 50,
         ];
 
-        $result1 = Robots::count($options);
+        /**
+         * Find all the invoices - should be 0
+         */
+        $result   = Invoices::find($options);
+        $expected = 0;
+        $actual   = $result->count();
+        $I->assertEquals($expected, $actual);
 
-        // Create a temporary robot to test if the count is cached or fresh
-        $newrobot           = new Robots();
-        $newrobot->name     = 'Not cached robot';
-        $newrobot->type     = 'notcached';
-        $newrobot->year     = 2014;
-        $newrobot->datetime = '2015-03-05 04:16:17';
-        $newrobot->text     = 'Not cached robot';
+        /**
+         * Add a new invoice
+         */
+        $newInvoice                  = new Invoices();
+        $newInvoice->inv_cst_id      = 1;
+        $newInvoice->inv_status_flag = Invoices::STATUS_PAID;
+        $newInvoice->inv_title       = 'not cached invoice';
+        $newInvoice->inv_total       = 100;
+        $newInvoice->inv_created_at  = '2020-09-09 09:09:09';
+        $newInvoice->save();
 
-        $newrobot->create();
+        /**
+         * Find all the invoices (using cache). This should be 0 again
+         */
+        $result   = Invoices::find($options);
+        $expected = 0;
+        $actual   = $result->count();
+        $I->assertEquals($expected, $actual);
 
-        $result2 = Robots::count($options);
-        $I->assertEquals($result1, $result2);
+        /**
+         * Find all the invoices without cache - This should be 1
+         */
+        $result   = Invoices::find();
+        $expected = 1;
+        $actual   = $result->count();
+        $I->assertEquals($expected, $actual);
 
-        // Delete the temp robot
-        Robots::findFirst("type = 'notcached'")->delete();
+        /**
+         * Delete the cached entry and query again - This should be 1
+         */
+        $cache->delete($cacheKey);
 
-        // Test delete robot isn't affecting cache
-        $result2 = Robots::count($options);
-        $I->assertNotFalse($result2);
-        $I->assertEquals($result1, $result2);
+        $result   = Invoices::find($options);
+        $expected = 1;
+        $actual   = $result->count();
+        $I->assertEquals($expected, $actual);
 
+        /**
+         * Delete the temporary record
+         */
+        Invoices::findFirst("inv_status_flag = " . Invoices::STATUS_PAID)->delete();
+
+        /**
+         * Query again with cache - This should be 1
+         */
+        $result   = Invoices::find($options);
+        $expected = 1;
+        $actual   = $result->count();
+        $I->assertEquals($expected, $actual);
+
+        /**
+         * Query again without cache - This should be 0
+         */
+        $result   = Invoices::find();
+        $expected = 0;
+        $actual   = $result->count();
+        $I->assertEquals($expected, $actual);
+
+        /**
+         * Delete the cache key
+         */
         $cache->delete($cacheKey);
     }
 
+    /**
+     * @return \string[][]
+     */
     private function getValidSerializers(): array
     {
         return [
