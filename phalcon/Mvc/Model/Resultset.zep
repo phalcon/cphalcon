@@ -19,7 +19,6 @@ use Phalcon\Db\Enum;
 use Phalcon\Messages\MessageInterface;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\ModelInterface;
-use Phalcon\Cache\Adapter\AdapterInterface;
 use Phalcon\Storage\Serializer\SerializerInterface;
 use Psr\SimpleCache\CacheInterface;
 use SeekableIterator;

@@ -10,7 +10,6 @@
 
 namespace Phalcon\Mvc\Model\Resultset;
 
-use Phalcon\Cache\Adapter\AdapterInterface;
 use Phalcon\Di;
 use Phalcon\Di\DiInterface;
 use Phalcon\Mvc\Model;
@@ -47,11 +46,11 @@ class Simple extends Resultset
     /**
      * Phalcon\Mvc\Model\Resultset\Simple constructor
      *
-     * @param array columnMap
-     * @param ModelInterface|Row model
+     * @param array                             columnMap
+     * @param ModelInterface|Row                model
      * @param \Phalcon\Db\ResultInterface|false result
-     * @param AdapterInterface|null cache
-     * @param bool keepSnapshots false
+     * @param CacheInterface|null               cache
+     * @param bool keepSnapshots                false
      */
     public function __construct(
         var columnMap,

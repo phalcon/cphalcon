@@ -10,7 +10,6 @@
 
 namespace Phalcon\Mvc\Model\Resultset;
 
-use Phalcon\Cache\Adapter\AdapterInterface;
 use Phalcon\Di;
 use Phalcon\Di\DiInterface;
 use Phalcon\Db\ResultInterface;
@@ -48,9 +47,9 @@ class Complex extends Resultset implements ResultsetInterface
     /**
      * Phalcon\Mvc\Model\Resultset\Complex constructor
      *
-     * @param array columnTypes
+     * @param array                columnTypes
      * @param ResultInterface|null result
-     * @param AdapterInterface|null cache
+     * @param CacheInterface|null  cache
      */
     public function __construct(
         var columnTypes,
