@@ -85,7 +85,7 @@ class QueryCest
         $I->assertTrue(is_object($result));
         $I->assertInstanceOf(Pdo::class, $result);
 
-        while ($row = $result->fetch()) {
+        while ($result->fetch()) {
             $number++;
         }
         $I->assertEquals(5, $number);
