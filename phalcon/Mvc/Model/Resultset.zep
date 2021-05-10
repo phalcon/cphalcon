@@ -19,8 +19,8 @@ use Phalcon\Db\Enum;
 use Phalcon\Messages\MessageInterface;
 use Phalcon\Mvc\Model;
 use Phalcon\Mvc\ModelInterface;
-use Phalcon\Cache\Adapter\AdapterInterface;
 use Phalcon\Storage\Serializer\SerializerInterface;
+use Psr\SimpleCache\CacheInterface;
 use SeekableIterator;
 use Serializable;
 
@@ -80,7 +80,7 @@ abstract class Resultset
     protected activeRow = null;
 
     /**
-     * @var AdapterInterface|null
+     * @var CacheInterface|null
      */
     protected cache = null;
 
@@ -130,9 +130,9 @@ abstract class Resultset
      * Phalcon\Mvc\Model\Resultset constructor
      *
      * @param ResultInterface|false result
-     * @param AdapterInterface|null cache
+     * @param CacheInterface|null   cache
      */
-    public function __construct(result, <AdapterInterface> cache = null)
+    public function __construct(result, <CacheInterface> cache = null)
     {
         var prefetchRecords, rowCount, rows;
 
@@ -330,7 +330,7 @@ abstract class Resultset
     /**
      * Returns the associated cache for the resultset
      */
-    public function getCache() -> <AdapterInterface>
+    public function getCache() -> <CacheInterface> | null
     {
         return this->cache;
     }
