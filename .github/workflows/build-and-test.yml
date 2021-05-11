@@ -659,6 +659,7 @@ jobs:
         id: get-version
         run: |
           echo ::set-output name=version::${GITHUB_REF#refs/tags/}
+          echo ::set-output name=release_body::${.ci/release-notes.sh CHANGELOG-5.0.md}
 
       - name: Download Phalcon build artifacts
         id: download
@@ -670,7 +671,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           name: ${{ steps.get-version.outputs.version }}
           tag: ${{ steps.get-version.outputs.version }}
-          body: 'All notable changes to this version has been documented in the CHANGELOG.md file.'
+          body: ${{ steps.get-version.outputs.release_body }}
           allowUpdates: true
           artifacts: "${{steps.download.outputs.download-path}}/phalcon_*.zip,${{steps.download.outputs.download-path}}/phalcon-pecl/*"
           artifactContentType: application/octet-stream
