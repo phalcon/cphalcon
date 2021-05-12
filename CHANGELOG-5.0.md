@@ -8,6 +8,26 @@
     - `Phalcon\Mvc\Model\Resultset::__construct` now accepts `Psr\SimpleCache\CacheInterface` for the cache
     - `Phalcon\Mvc\Model\Resultset::getCache` now returns `Psr\SimpleCache\CacheInterface` [#15471](https://github.com/phalcon/cphalcon/issues/15471)
 - Changed `Phalcon\Db\Adapter\AbstractAdapter:delete()` signature of optional parameters. [#15363](https://github.com/phalcon/cphalcon/issues/15363)
+- Changed `bindCounts` argument to array type in:
+    - `Phalcon\Db\Dialect:getColumnList()`
+    - `Phalcon\Db\Dialect:getSqlColumn()`
+    - `Phalcon\Db\Dialect:getSqlExpression()`
+    - `Phalcon\Db\Dialect:getSqlExpressionBinaryOperations()`
+    - `Phalcon\Db\Dialect:getSqlExpressionCase()`
+    - `Phalcon\Db\Dialect:getSqlExpressionCastValue()`
+    - `Phalcon\Db\Dialect:getSqlExpressionConvertValue()`
+    - `Phalcon\Db\Dialect:getSqlExpressionFunctionCall()`
+    - `Phalcon\Db\Dialect:getSqlExpressionGroupBy()`
+    - `Phalcon\Db\Dialect:getSqlExpressionHaving()`
+    - `Phalcon\Db\Dialect:getSqlExpressionJoins()`
+    - `Phalcon\Db\Dialect:getSqlExpressionLimit()`
+    - `Phalcon\Db\Dialect:getSqlExpressionList()`
+    - `Phalcon\Db\Dialect:getSqlExpressionObject()`
+    - `Phalcon\Db\Dialect:getSqlExpressionOrderBy()`
+    - `Phalcon\Db\Dialect:getSqlExpressionScalar()`
+    - `Phalcon\Db\Dialect:getSqlExpressionUnaryOperations()`
+    - `Phalcon\Db\Dialect:getSqlExpressionWhere()`
+    - `Phalcon\Db\DialectInterface:getSqlExpression()`
 
 ## Fixed
 - Fixed `Phalcon\Db\Adapter\AbstractAdapter:delete()` when `bindTypes` argument is passed. [#15363](https://github.com/phalcon/cphalcon/issues/15363)

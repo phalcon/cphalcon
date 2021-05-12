@@ -1072,7 +1072,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * echo "There are ", $number, " mechanical robots\n";
      * ```
      *
-     * @param array parameters
+     * @param array|string|null parameters
      */
     public static function count(var parameters = null) -> int | <ResultsetInterface>
     {
@@ -4266,11 +4266,11 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *
      * @param string functionName
      * @param string alias
-     * @param array parameters
+     * @param array|string|null parameters
      *
      * @return ResultsetInterface
      */
-    protected static function groupResult(string! functionName, string! alias, var parameters) -> <ResultsetInterface>
+    protected static function groupResult(string! functionName, string! alias, var parameters = null) -> <ResultsetInterface>
     {
         var params, distinctColumn, groupColumn, columns,
             resultset, cache, firstRow, groupColumns, builder, query, container,
@@ -4280,7 +4280,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         let container = Di::getDefault();
         let manager = <ManagerInterface> container->getShared("modelsManager");
 
-        if typeof parameters != "array" {
+        if typeof parameters !== "array" {
             let params = [];
 
             if parameters !== null {
@@ -4313,10 +4313,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         let builder = <BuilderInterface> manager->createBuilder(params);
 
         builder->columns(columns);
-
-        builder->from(
-            get_called_class()
-        );
+        builder->from(get_called_class());
 
         let query = <QueryInterface> builder->getQuery();
 

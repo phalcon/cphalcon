@@ -119,7 +119,7 @@ interface DialectInterface
      * Transforms an intermediate representation for an expression into a
      * database system valid expression
      */
-    public function getSqlExpression(array! expression, string escapeChar = null, bindCounts = null) -> string;
+    public function getSqlExpression(array! expression, string escapeChar = null, array! bindCounts = []) -> string;
 
     /**
      * Generates the SQL for LIMIT clause

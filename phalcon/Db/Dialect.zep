@@ -114,7 +114,7 @@ abstract class Dialect implements DialectInterface
      * );
      * ```
      */
-    final public function getColumnList(array! columnList, string escapeChar = null, bindCounts = null) -> string
+    final public function getColumnList(array! columnList, string escapeChar = null, array! bindCounts = []) -> string
     {
         var column;
         array columns;
@@ -138,12 +138,18 @@ abstract class Dialect implements DialectInterface
 
     /**
      * Resolve Column expressions
+     *
+     * @param array|string column
+     * @param string|null escapeChar
+     * @param array bindCounts
+     *
+     * @return string
      */
-    final public function getSqlColumn(var column, string escapeChar = null, bindCounts = null) -> string
+    final public function getSqlColumn(var column, string escapeChar = null, array! bindCounts = []) -> string
     {
         var columnExpression, columnAlias, columnField, columnDomain;
 
-        if typeof column != "array" {
+        if typeof column !== "array" {
             return this->prepareQualified(column, null, escapeChar);
         }
 
@@ -153,12 +159,12 @@ abstract class Dialect implements DialectInterface
              */
             let columnField = column[0];
 
-            if typeof columnField == "array" {
+            if typeof columnField === "array" {
                 let columnExpression = [
                     "type": "scalar",
                     "value": columnField
                 ];
-            } elseif columnField == "*" {
+            } elseif columnField === "*" {
                 let columnExpression = [
                     "type": "all"
                 ];
@@ -172,7 +178,7 @@ abstract class Dialect implements DialectInterface
             /**
              * The index "1" is the domain column
              */
-            if fetch columnDomain, column[1] && columnDomain != "" {
+            if fetch columnDomain, column[1] && columnDomain !== "" {
                 let columnExpression["domain"] = columnDomain;
             }
 
@@ -208,7 +214,7 @@ abstract class Dialect implements DialectInterface
     /**
      * Transforms an intermediate representation for an expression into a database system valid expression
      */
-    public function getSqlExpression(array! expression, string escapeChar = null, bindCounts = null) -> string
+    public function getSqlExpression(array! expression, string escapeChar = null, array! bindCounts = []) -> string
     {
         int i;
         var type, times, postTimes, rawValue, value;
@@ -219,7 +225,6 @@ abstract class Dialect implements DialectInterface
         }
 
         switch type {
-
             /**
              * Resolve scalar column expressions
              */
@@ -489,6 +494,9 @@ abstract class Dialect implements DialectInterface
         }
 
         fetch bindCounts, definition["bindCounts"];
+        if typeof bindCounts !== "array" {
+            let bindCounts = [];
+        }
 
         let escapeChar = this->escapeChar;
 
@@ -631,8 +639,14 @@ abstract class Dialect implements DialectInterface
 
     /**
      * Resolve binary operations expressions
+     *
+     * @param array expression
+     * @param string|null escapeChar
+     * @param array bindCounts
+     *
+     * @return string
      */
-    final protected function getSqlExpressionBinaryOperations(array! expression, string escapeChar = null, bindCounts = null) -> string
+    final protected function getSqlExpressionBinaryOperations(array! expression, string escapeChar = null, array! bindCounts = []) -> string
     {
         var left, right;
 
@@ -653,8 +667,14 @@ abstract class Dialect implements DialectInterface
 
     /**
      * Resolve CASE expressions
+     *
+     * @param array expression
+     * @param string|null escapeChar
+     * @param array bindCounts
+     *
+     * @return string
      */
-    final protected function getSqlExpressionCase(array! expression, string escapeChar = null, bindCounts = null) -> string
+    final protected function getSqlExpressionCase(array! expression, string escapeChar = null, array! bindCounts = []) -> string
     {
         var whenClause;
         string sql;
@@ -677,8 +697,14 @@ abstract class Dialect implements DialectInterface
 
     /**
      * Resolve CAST of values
+     *
+     * @param array expression
+     * @param string|null escapeChar
+     * @param array bindCounts
+     *
+     * @return string
      */
-    final protected function getSqlExpressionCastValue(array! expression, string escapeChar = null, bindCounts = null) -> string
+    final protected function getSqlExpressionCastValue(array! expression, string escapeChar = null, array! bindCounts = []) -> string
     {
         var left, right;
 
@@ -699,8 +725,14 @@ abstract class Dialect implements DialectInterface
 
     /**
      * Resolve CONVERT of values encodings
+     *
+     * @param array expression
+     * @param string|null escapeChar
+     * @param array bindCounts
+     *
+     * @return string
      */
-    final protected function getSqlExpressionConvertValue(array! expression, string escapeChar = null, bindCounts = null) -> string
+    final protected function getSqlExpressionConvertValue(array! expression, string escapeChar = null, array! bindCounts = []) -> string
     {
         var left, right;
 
@@ -743,8 +775,14 @@ abstract class Dialect implements DialectInterface
 
     /**
      * Resolve function calls
+     *
+     * @param array expression
+     * @param string|null escapeChar
+     * @param array bindCounts
+     *
+     * @return string
      */
-    final protected function getSqlExpressionFunctionCall(array! expression, string escapeChar = null, bindCounts) -> string
+    final protected function getSqlExpressionFunctionCall(array! expression, string escapeChar = null, array! bindCounts = []) -> string
     {
         var name, customFunction, arguments;
 
@@ -754,8 +792,7 @@ abstract class Dialect implements DialectInterface
             return {customFunction}(this, expression, escapeChar);
         }
 
-        if fetch arguments, expression["arguments"] && typeof arguments == "array" {
-
+        if fetch arguments, expression["arguments"] && typeof arguments === "array" {
             let arguments = this->getSqlExpression(
                 [
                     "type":        "list",
@@ -778,12 +815,18 @@ abstract class Dialect implements DialectInterface
 
     /**
      * Resolve a GROUP BY clause
+     *
+     * @param array|string expression
+     * @param string|null escapeChar
+     * @param array bindCounts
+     *
+     * @return string
      */
-    final protected function getSqlExpressionGroupBy(var expression, string escapeChar = null, bindCounts = null) -> string
+    final protected function getSqlExpressionGroupBy(var expression, string escapeChar = null, array! bindCounts = []) -> string
     {
         var field, fields;
 
-        if typeof expression == "array" {
+        if typeof expression === "array" {
             let fields = [];
 
             for field in expression {
@@ -808,16 +851,28 @@ abstract class Dialect implements DialectInterface
 
     /**
      * Resolve a HAVING clause
+     *
+     * @param array expression
+     * @param string|null escapeChar
+     * @param array bindCounts
+     *
+     * @return string
      */
-    final protected function getSqlExpressionHaving(array! expression, string escapeChar = null, bindCounts = null) -> string
+    final protected function getSqlExpressionHaving(array! expression, string escapeChar = null, array! bindCounts = []) -> string
     {
         return "HAVING " . this->getSqlExpression(expression, escapeChar, bindCounts);
     }
 
     /**
      * Resolve a JOINs clause
+     *
+     * @param array|string expression
+     * @param string|null escapeChar
+     * @param array bindCounts
+     *
+     * @return string
      */
-    final protected function getSqlExpressionJoins(var expression, string escapeChar = null, bindCounts = null) -> string
+    final protected function getSqlExpressionJoins(var expression, string escapeChar = null, array! bindCounts = []) -> string
     {
         var condition, join, joinCondition, joinTable, joinType = "",
             joinConditionsArray;
@@ -865,8 +920,14 @@ abstract class Dialect implements DialectInterface
 
     /**
      * Resolve a LIMIT clause
+     *
+     * @param array|string expression
+     * @param string|null escapeChar
+     * @param array bindCounts
+     *
+     * @return string
      */
-    final protected function getSqlExpressionLimit(var expression, string escapeChar = null, bindCounts = null) -> string
+    final protected function getSqlExpressionLimit(var expression, string escapeChar = null, array! bindCounts = []) -> string
     {
         var sql = "", value, limit, offset = null;
 
@@ -907,8 +968,14 @@ abstract class Dialect implements DialectInterface
 
     /**
      * Resolve Lists
+     *
+     * @param array expression
+     * @param string|null escapeChar
+     * @param array bindCounts
+     *
+     * @return string
      */
-    final protected function getSqlExpressionList(array! expression, string escapeChar = null, bindCounts = null) -> string
+    final protected function getSqlExpressionList(array! expression, string escapeChar = null, array! bindCounts = []) -> string
     {
         var item, values, separator;
         array items;
@@ -938,8 +1005,14 @@ abstract class Dialect implements DialectInterface
 
     /**
      * Resolve object expressions
+     *
+     * @param array expression
+     * @param string|null escapeChar
+     * @param array bindCounts
+     *
+     * @return string
      */
-    final protected function getSqlExpressionObject(array! expression, string escapeChar = null, bindCounts = null) -> string
+    final protected function getSqlExpressionObject(array! expression, string escapeChar = null, array! bindCounts = []) -> string
     {
         var domain = null, objectExpression;
 
@@ -956,12 +1029,18 @@ abstract class Dialect implements DialectInterface
 
     /**
      * Resolve an ORDER BY clause
+     *
+     * @param array|string expression
+     * @param string|null escapeChar
+     * @param array bindCounts
+     *
+     * @return string
      */
-    final protected function getSqlExpressionOrderBy(var expression, string escapeChar = null, bindCounts = null) -> string
+    final protected function getSqlExpressionOrderBy(var expression, string escapeChar = null, array! bindCounts = []) -> string
     {
         var field, fields, type, fieldSql = null;
 
-        if typeof expression == "array" {
+        if typeof expression === "array" {
             let fields = [];
 
             for field in expression {
@@ -1015,8 +1094,12 @@ abstract class Dialect implements DialectInterface
 
     /**
      * Resolve Column expressions
+     *
+     * @param array expression
+     * @param string|null escapeChar
+     * @param array bindCounts
      */
-    final protected function getSqlExpressionScalar(array! expression, string escapeChar = null, bindCounts = null) -> string
+    final protected function getSqlExpressionScalar(array! expression, string escapeChar = null, array! bindCounts = []) -> string
     {
         var value;
 
@@ -1028,7 +1111,7 @@ abstract class Dialect implements DialectInterface
             throw new Exception("Invalid SQL expression");
         }
 
-        if typeof value == "array" {
+        if typeof value === "array" {
             return this->getSqlExpression(value, escapeChar, bindCounts);
         }
 
@@ -1037,8 +1120,14 @@ abstract class Dialect implements DialectInterface
 
     /**
      * Resolve unary operations expressions
+     *
+     * @param array expression
+     * @param string|null escapeChar
+     * @param array bindCounts
+     *
+     * @return string
      */
-    final protected function getSqlExpressionUnaryOperations(array! expression, string escapeChar = null, bindCounts = null) -> string
+    final protected function getSqlExpressionUnaryOperations(array! expression, string escapeChar = null, array! bindCounts = []) -> string
     {
         var left, right;
 
@@ -1061,12 +1150,18 @@ abstract class Dialect implements DialectInterface
 
     /**
      * Resolve a WHERE clause
+     *
+     * @param array|string expression
+     * @param string|null escapeChar
+     * @param array bindCounts
+     *
+     * @return string
      */
-    final protected function getSqlExpressionWhere(var expression, string escapeChar = null, bindCounts = null) -> string
+    final protected function getSqlExpressionWhere(var expression, string escapeChar = null, array! bindCounts = []) -> string
     {
         var whereSql;
 
-        if typeof expression == "array" {
+        if typeof expression === "array" {
             let whereSql = this->getSqlExpression(expression, escapeChar, bindCounts);
         } else {
             let whereSql = expression;

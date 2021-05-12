@@ -81,7 +81,7 @@ interface ModelInterface
      * instance for when the GROUP condition is used. The results will
      * contain the count of each group.
      *
-     * @param array parameters
+     * @param array|string|null parameters
      */
     public static function count(var parameters = null) -> int | <ResultsetInterface>;
 
