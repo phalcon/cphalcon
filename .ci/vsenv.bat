@@ -14,6 +14,7 @@ rem https://help.github.com/en/actions/automating-your-workflow-with-github-acti
 rem
 echo "Find VC..."
 SET VSWHERE="C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere"
+SET VSCMD_SKIP_SENDTELEMETRY=No way
 
 for /f "usebackq tokens=*" %%i in (`%VSWHERE% -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath`) do (
   set InstallDir=%%i
