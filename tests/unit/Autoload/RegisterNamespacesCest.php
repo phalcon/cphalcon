@@ -11,14 +11,14 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Loader;
+namespace Phalcon\Test\Unit\Autoload;
 
 use Example\Namespaces\Adapter\Another;
 use Example\Namespaces\Adapter\Mongo;
 use Example\Namespaces\Adapter\Redis;
 use Example\Namespaces\Engines\Gasoline;
 use Example\Namespaces\Example\Example;
-use Phalcon\Loader;
+use Phalcon\Autoload\Loader;
 use Phalcon\Test\Fixtures\Traits\LoaderTrait;
 use UnitTester;
 

@@ -11,21 +11,21 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Loader;
+namespace Phalcon\Test\Unit\Autoload;
 
 use UnitTester;
 
 class LoadFilesCest
 {
     /**
-     * Tests Phalcon\Loader :: loadFiles()
+     * Tests Phalcon\Autoload\Loader:: loadFiles()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function loaderLoadFiles(UnitTester $I)
     {
-        $I->wantToTest('Loader - loadFiles()');
+        $I->wantToTest('Autoload\Loader- loadFiles()');
 
         $I->skipTest('Need implementation');
     }

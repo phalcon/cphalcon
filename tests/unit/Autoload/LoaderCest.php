@@ -9,12 +9,12 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Test\Unit\Loader;
+namespace Phalcon\Test\Unit\Autoload;
 
 use LoaderEvent;
+use Phalcon\Autoload\Loader;
 use Phalcon\Events\Event;
 use Phalcon\Events\Manager;
-use Phalcon\Loader;
 use Phalcon\Test\Fixtures\Traits\LoaderTrait;
 use UnitTester;
 

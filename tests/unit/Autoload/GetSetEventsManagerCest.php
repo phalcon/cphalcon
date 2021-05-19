@@ -11,23 +11,23 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Loader;
+namespace Phalcon\Test\Unit\Autoload;
 
+use Phalcon\Autoload\Loader;
 use Phalcon\Events\Manager;
-use Phalcon\Loader;
 use UnitTester;
 
 class GetSetEventsManagerCest
 {
     /**
-     * Tests Phalcon\Loader :: getEventsManager() / setEventsManager()
+     * Tests Phalcon\Autoload\Loader:: getEventsManager() / setEventsManager()
      *
      * @author Jeremy PASTOURET <https://github.com/jenovateurs>
      * @since  2020-01-19
      */
     public function loaderGetSetEventsManager(UnitTester $I)
     {
-        $I->wantToTest('Loader - getEventsManager() / setEventsManager()');
+        $I->wantToTest('Autoload\Loader- getEventsManager() / setEventsManager()');
 
         $oLoader  = new Loader();
         $oManager = new Manager();

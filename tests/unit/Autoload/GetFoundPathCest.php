@@ -11,21 +11,21 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Loader;
+namespace Phalcon\Test\Unit\Autoload;
 
 use UnitTester;
 
 class GetFoundPathCest
 {
     /**
-     * Tests Phalcon\Loader :: getFoundPath()
+     * Tests Phalcon\Autoload\Loader:: getFoundPath()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function loaderGetFoundPath(UnitTester $I)
     {
-        $I->wantToTest('Loader - getFoundPath()');
+        $I->wantToTest('Autoload\Loader- getFoundPath()');
 
         $I->skipTest('Need implementation');
     }

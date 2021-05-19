@@ -11,21 +11,21 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Loader;
+namespace Phalcon\Test\Unit\Autoload;
 
 use UnitTester;
 
 class UnregisterCest
 {
     /**
-     * Tests Phalcon\Loader :: unregister()
+     * Tests Phalcon\Autoload\Loader:: unregister()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function loaderUnregister(UnitTester $I)
     {
-        $I->wantToTest('Loader - unregister()');
+        $I->wantToTest('Autoload\Loader- unregister()');
 
         $I->skipTest('Need implementation');
     }

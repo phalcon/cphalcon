@@ -11,21 +11,21 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Loader;
+namespace Phalcon\Test\Unit\Autoload;
 
 use UnitTester;
 
 class GetExtensionsCest
 {
     /**
-     * Tests Phalcon\Loader :: getExtensions()
+     * Tests Phalcon\Autoload\Loader:: getExtensions()
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
     public function loaderGetExtensions(UnitTester $I)
     {
-        $I->wantToTest('Loader - getExtensions()');
+        $I->wantToTest('Autoload\Loader- getExtensions()');
 
         $I->skipTest('Need implementation');
     }

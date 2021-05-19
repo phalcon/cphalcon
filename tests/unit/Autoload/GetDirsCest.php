@@ -11,26 +11,25 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Loader;
+namespace Phalcon\Test\Unit\Autoload;
 
-use Phalcon\Loader;
+use Phalcon\Autoload\Loader;
 use UnitTester;
-
 use function dataDir;
 
 class GetDirsCest
 {
     /**
-     * Tests Phalcon\Loader :: getDirs()
+     * Tests Phalcon\Autoload\Loader:: getDirs()
      *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-25
      */
     public function loaderGetDirs(UnitTester $I)
     {
-        $I->wantToTest('Loader - getDirs()');
+        $I->wantToTest('Autoload\Loader- getDirs()');
 
-        $loader = new Loader();
+        $Autoload\Loader = new Loader();
 
         $loader->registerDirs(
             [

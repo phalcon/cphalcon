@@ -11,9 +11,9 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Loader;
+namespace Phalcon\Test\Unit\Autoload;
 
-use Phalcon\Loader;
+use Phalcon\Autoload\Loader;
 use UnitTester;
 
 use function dataDir;
@@ -21,14 +21,14 @@ use function dataDir;
 class GetNamespacesCest
 {
     /**
-     * Tests Phalcon\Loader :: getNamespaces()
+     * Tests Phalcon\Autoload\Loader:: getNamespaces()
      *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-25
      */
     public function loaderGetNamespaces(UnitTester $I)
     {
-        $I->wantToTest('Loader - getNamespaces()');
+        $I->wantToTest('Autoload\Loader- getNamespaces()');
 
         $loader = new Loader();
 

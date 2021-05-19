@@ -11,9 +11,9 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Loader;
+namespace Phalcon\Test\Unit\Autoload;
 
-use Phalcon\Loader;
+use Phalcon\Autoload\Loader;
 use UnitTester;
 
 use function dataDir;
@@ -21,14 +21,14 @@ use function dataDir;
 class GetFilesCest
 {
     /**
-     * Tests Phalcon\Loader :: getFiles()
+     * Tests Phalcon\Autoload\Loader:: getFiles()
      *
      * @author Sid Roberts <https://github.com/SidRoberts>
      * @since  2019-05-25
      */
     public function loaderGetFiles(UnitTester $I)
     {
-        $I->wantToTest('Loader - getFiles()');
+        $I->wantToTest('Autoload\Loader- getFiles()');
 
         $loader = new Loader();
 

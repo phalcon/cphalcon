@@ -11,10 +11,10 @@
 
 declare(strict_types=1);
 
-namespace Phalcon\Test\Unit\Loader;
+namespace Phalcon\Test\Unit\Autoload;
 
 use One;
-use Phalcon\Loader;
+use Phalcon\Autoload\Loader;
 use Phalcon\Test\Fixtures\Traits\LoaderTrait;
 use Two;
 use UnitTester;
