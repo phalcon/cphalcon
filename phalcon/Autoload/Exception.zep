@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Loader;
+namespace Phalcon\Autoload;
 
 /**
  * Phalcon\Loader\Exception
