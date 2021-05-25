@@ -62,14 +62,6 @@ class Invoices extends Model
     }
 
     /**
-     * @param bool|null $flag
-     */
-    public function setPrivateFlag(?bool $flag)
-    {
-        $this->isActive = $flag;
-    }
-
-    /**
      * @return bool|null
      */
     public function getIsActive(): ?bool
@@ -78,11 +70,11 @@ class Invoices extends Model
     }
 
     /**
-     * @param mixed $value
+     * @param bool|null $flag
      */
-    public function setSecretValue($value)
+    public function setIsActive(?bool $flag)
     {
-        $this->secretValue = $value;
+        $this->isActive = $flag;
     }
 
     /**
@@ -91,5 +83,13 @@ class Invoices extends Model
     public function getSecretValue()
     {
         return $this->secretValue;
+    }
+
+    /**
+     * @param mixed $value
+     */
+    public function setSecretValue($value)
+    {
+        $this->secretValue = $value;
     }
 }
