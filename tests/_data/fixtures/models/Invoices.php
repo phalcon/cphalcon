@@ -18,21 +18,23 @@ use Phalcon\Mvc\Model;
 /**
  * Class Invoices
  *
- * @property int    $inv_id
- * @property int    $inv_cst_id
- * @property int    $inv_status_flag
- * @property string $inv_title
- * @property float  $inv_total
- * @property string $inv_created_at
+ * @property int       $inv_id
+ * @property int       $inv_cst_id
+ * @property int       $inv_status_flag
+ * @property string    $inv_title
+ * @property float     $inv_total
+ * @property string    $inv_created_at
+ * @property mixed     $secretValue
+ * @property bool|null $isActive
  *
  * @method static static findFirst($parameters = null)
  * @method static Model\Resultset\Simple|static[] find($parameters = null)
  */
 class Invoices extends Model
 {
-    const STATUS_UNPAID   = 0;
-    const STATUS_PAID     = 1;
-    const STATUS_INACTIVE = 2;
+    public const STATUS_UNPAID   = 0;
+    public const STATUS_PAID     = 1;
+    public const STATUS_INACTIVE = 2;
 
     public $inv_id;
     public $inv_cst_id;
@@ -42,7 +44,7 @@ class Invoices extends Model
     public $inv_created_at;
 
     private $secretValue;
-    private $superSecret;
+    private ?bool $isActive = true;
 
     public function initialize()
     {
@@ -59,11 +61,33 @@ class Invoices extends Model
         );
     }
 
+    /**
+     * @param bool|null $flag
+     */
+    public function setPrivateFlag(?bool $flag)
+    {
+        $this->isActive = $flag;
+    }
+
+    /**
+     * @return bool|null
+     */
+    public function getIsActive(): ?bool
+    {
+        return $this->isActive;
+    }
+
+    /**
+     * @param mixed $value
+     */
     public function setSecretValue($value)
     {
         $this->secretValue = $value;
     }
 
+    /**
+     * @return mixed
+     */
     public function getSecretValue()
     {
         return $this->secretValue;
