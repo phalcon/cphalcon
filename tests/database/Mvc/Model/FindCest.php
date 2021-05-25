@@ -280,7 +280,7 @@ class FindCest
          * Find without models cache
          */
         /** @var Invoices $original */
-        $original = Invoices::findFirst(
+        $original = Invoices::find(
             [
                 'conditions' => 'inv_id = :inv_id:',
                 'bind'       => [
@@ -289,9 +289,11 @@ class FindCest
             ]
         );
 
-        $I->assertNotFalse($original);
+        $I->assertCount(1, $original);
 
-        $actual   = $original->getIsActive();
+        $record = $original[0];
+        $actual = $record->getIsActive();
+
         $I->assertTrue($actual);
 
         // Models Cache setup
@@ -305,7 +307,7 @@ class FindCest
          * Find it - so that we can use the models cache now
          */
         /** @var Invoices $cached */
-        $cached = Invoices::findFirst(
+        $cached = Invoices::find(
             [
                 'conditions' => 'inv_id = :inv_id:',
                 'bind'       => [
@@ -318,9 +320,10 @@ class FindCest
             ]
         );
 
-        $I->assertNotFalse($cached);
+        $I->assertCount(1, $cached);
 
-        $actual   = $cached->getIsActive();
+        $record = $cached[0];
+        $actual = $record->getIsActive();
         $I->assertTrue($actual);
 
         /**
@@ -333,7 +336,7 @@ class FindCest
          * Ensure we do not have anything in the db
          */
         /** @var Invoices $original */
-        $original = Invoices::findFirst(
+        $original = Invoices::find(
             [
                 'conditions' => 'inv_id = :inv_id:',
                 'bind'       => [
@@ -342,13 +345,13 @@ class FindCest
             ]
         );
 
-        $I->assertEmpty($original);
+        $I->assertCount(0, $original);
 
         /**
          * Finally get it back from the cache
          */
         /** @var Invoices $cached */
-        $cached = Invoices::findFirst(
+        $cached = Invoices::find(
             [
                 'conditions' => 'inv_id = :inv_id:',
                 'bind'       => [
@@ -361,9 +364,10 @@ class FindCest
             ]
         );
 
-        $I->assertNotFalse($cached);
+        $I->assertCount(1, $cached);
 
-        $actual   = $cached->getIsActive();
+        $record = $cached[0];
+        $actual = $record->getIsActive();
         $I->assertTrue($actual);
 
         /**
