@@ -85,7 +85,7 @@
       <package>
         <name>psr</name>
         <channel>pecl.php.net</channel>
-        <min>1.0.1</min>
+        <min>1.1.1</min>
       </package>
     </required>
   </dependencies>
