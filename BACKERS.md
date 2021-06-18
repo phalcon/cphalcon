@@ -52,6 +52,11 @@ You can join them in supporting Phalcon and Zephir development by visiting our p
     </tr>
     <tr>
     <td align="center" valign="bottom">   
+      <a href="https://www.uptrends.com">
+        <img width="170px" height="40px" src="https://assets.phalcon.io/phalcon/images/backers/digitalocean.svg" style="max-width:100%;" alt="DigitalOcean open source">
+      </a>
+    </td>
+    <td align="center" valign="center">   
       <a href="https://phalcon.io/fund">
        Support Us
       </a>
