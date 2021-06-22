@@ -60,7 +60,7 @@ class Headers implements HeadersInterface
     }
 
     /**
-     * Removes a header to be sent at the end of the request
+     * Removes a header by its name
      */
     public function remove(string header) -> <HeadersInterface>
     {
