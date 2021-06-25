@@ -20,6 +20,7 @@ namespace Phalcon\Test\Integration\Mvc\View\Engine\Volt;
 use IntegrationTester;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
+use function dataDir;
 
 /**
  * Phalcon\Test\Integration\Mvc\View\Engine\Volt\CompilerFilesCest
@@ -29,30 +30,58 @@ use Phalcon\Mvc\View\Engine\Volt\Compiler;
 class CompilerFilesCest
 {
     /**
+     * @param IntegrationTester $I
+     */
+    public function _after(IntegrationTester $I)
+    {
+        $compiledFiles = [
+            dataDir('fixtures/views/blocks/base.volt.php'),
+            dataDir('fixtures/views/blocks/index/login.volt.php'),
+            dataDir('fixtures/views/blocks/index/main.volt.php'),
+            dataDir('fixtures/views/blocks/partials/header.volt.php'),
+            dataDir('fixtures/views/extends/children.extends.volt.php'),
+            dataDir('fixtures/views/extends/import.volt.php'),
+            dataDir('fixtures/views/extends/import2.volt.php'),
+            dataDir('fixtures/views/layouts/extends.volt.php'),
+            dataDir('fixtures/views/partials/header.volt.php'),
+            dataDir('fixtures/views/partials/header2.volt.php'),
+            dataDir('fixtures/views/partials/header3.volt.php'),
+            dataDir('fixtures/views/partials/footer.volt.php'),
+        ];
+
+        foreach ($compiledFiles as $fileName) {
+            $I->safeDeleteFile($fileName);
+        }
+    }
+
+    /**
+     * @param IntegrationTester $I
+     */
+    public function _before(IntegrationTester $I)
+    {
+        $compiledFiles = [
+            dataDir('fixtures/views/blocks/base.volt.php'),
+            dataDir('fixtures/views/blocks/index/login.volt.php'),
+            dataDir('fixtures/views/blocks/index/main.volt.php'),
+            dataDir('fixtures/views/blocks/partials/header.volt.php'),
+        ];
+        foreach ($compiledFiles as $fileName) {
+            $I->safeDeleteFile($fileName);
+        }
+    }
+
+    /**
      * Tests Compiler::compileFile test case to compile extended files
      *
-     * @test
-     * @issue  -
      * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
      * @since  2017-01-17
      */
-    public function shouldCompileExtendsFile(IntegrationTester $I)
+    public function mvcViewEngineVoltCompileExtendsFile(IntegrationTester $I)
     {
-        $I->wantToTest('Compile extended files');
-
-        $I->safeDeleteFile(
-            dataDir('fixtures/views/layouts/extends.volt.php')
-        );
-
-        $I->safeDeleteFile(
-            dataDir('fixtures/views/extends/children.extends.volt.php')
-        );
+        $I->wantToTest('Mvc\Vew\Engine\Volt :: compile() extended files');
 
         $view = new View();
-
-        $view->setViewsDir(
-            dataDir('fixtures/views/')
-        );
+        $view->setViewsDir(dataDir('fixtures/views/'));
 
         $volt = new Compiler($view);
 
@@ -80,32 +109,15 @@ class CompilerFilesCest
     /**
      * Tests Compiler::compileFile test case to compile imported files
      *
-     * @test
-     * @issue  -
      * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
      * @since  2017-01-17
      */
-    public function shouldCompileImportFile(IntegrationTester $I)
+    public function mvcViewEngineVoltCompileImportFile(IntegrationTester $I)
     {
-        $I->wantToTest('Compile imported files');
-
-        $I->safeDeleteFile(
-            dataDir('fixtures/views/partials/header.volt.php')
-        );
-
-        $I->safeDeleteFile(
-            dataDir('fixtures/views/partials/footer.volt.php')
-        );
-
-        $I->safeDeleteFile(
-            dataDir('fixtures/views/extends/import.volt.php')
-        );
+        $I->wantToTest('Mvc\Vew\Engine\Volt :: compile() imported files');
 
         $view = new View();
-
-        $view->setViewsDir(
-            dataDir('fixtures/views/')
-        );
+        $view->setViewsDir(dataDir('fixtures/views/'));
 
         $volt = new Compiler($view);
 
@@ -128,32 +140,15 @@ class CompilerFilesCest
      * Tests Compiler::compileFile test case to compile imported files
      * recursively
      *
-     * @test
-     * @issue  -
      * @author Sergii Svyrydenko <sergey.v.sviridenko@gmail.com>
      * @since  2017-01-17
      */
-    public function shouldCompileImportRecursiveFiles(IntegrationTester $I)
+    public function mvcViewEngineVoltCompileImportRecursiveFiles(IntegrationTester $I)
     {
-        $I->wantToTest('Compile import recursive files');
-
-        $I->safeDeleteFile(
-            dataDir('fixtures/views/partials/header3.volt.php')
-        );
-
-        $I->safeDeleteFile(
-            dataDir('fixtures/views/partials/header2.volt.php')
-        );
-
-        $I->safeDeleteFile(
-            dataDir('fixtures/views/extends/import2.volt.php')
-        );
+        $I->wantToTest('Mvc\Vew\Engine\Volt :: compile() import recursive files');
 
         $view = new View();
-
-        $view->setViewsDir(
-            dataDir('fixtures/views/')
-        );
+        $view->setViewsDir(dataDir('fixtures/views/'));
 
         $volt = new Compiler($view);
 
@@ -169,6 +164,61 @@ class CompilerFilesCest
 
         $I->seeFileContentsEqual(
             '<div class="header"><h1>This is the title</h1></div>'
+        );
+    }
+
+    /**
+     * Tests Compiler::compileFile to compile files with blocks and partials
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2021-06-25
+     */
+    public function mvcViewEngineVoltCompileBlocks(IntegrationTester $I)
+    {
+        $I->wantToTest('Mvc\Vew\Engine\Volt :: compile() blocks and partials');
+
+        /**
+         * Set up the view and Volt and compile
+         */
+        $view = new View();
+        $view->setViewsDir(
+            [
+                dataDir('fixtures/views/blocks'),
+            ]
+        );
+
+        $volt = new Compiler($view);
+
+        /**
+         * Login - no header output
+         */
+        $volt->compileFile(
+            dataDir('fixtures/views/blocks/index/login.volt'),
+            dataDir('fixtures/views/blocks/index/login.volt.php')
+        );
+
+        $I->openFile(
+            dataDir('fixtures/views/blocks/index/login.volt.php')
+        );
+
+        $I->seeFileContentsEqual(
+            '<p>This is the Header</p>'
+        );
+
+        /**
+         * Main page = header output
+         */
+        $volt->compileFile(
+            dataDir('fixtures/views/blocks/index/main.volt'),
+            dataDir('fixtures/views/blocks/index/main.volt.php')
+        );
+
+        $I->openFile(
+            dataDir('fixtures/views/blocks/index/main.volt.php')
+        );
+
+        $I->seeFileContentsEqual(
+            '<p>This is the Header</p>'
         );
     }
 }
