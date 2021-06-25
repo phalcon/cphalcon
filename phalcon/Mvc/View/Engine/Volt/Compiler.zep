@@ -2249,7 +2249,6 @@ class Compiler implements InjectionAwareInterface
         return this;
     }
 
-
     /**
      * Compiles a Volt source code returning a PHP plain version
      */
