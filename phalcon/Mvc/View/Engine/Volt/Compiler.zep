@@ -2316,9 +2316,17 @@ class Compiler implements InjectionAwareInterface
                         /**
                          * The block is set in the local template
                          */
-                        let localBlock = blocks[name],
-                            this->currentBlock = name,
-                            blockCompilation = this->statementList(localBlock);
+                        let localBlock         = blocks[name],
+                            this->currentBlock = name;
+
+                        /**
+                         * This is to ensure in PHP 8.0 we pass an array to statementList
+                         */
+                        if null === localBlock {
+                            let localBlock = [];
+                        }
+
+                        let blockCompilation = this->statementList(localBlock);
                     } else {
                         if typeof block == "array" {
                             /**
