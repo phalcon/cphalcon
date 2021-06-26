@@ -21,6 +21,8 @@ use IntegrationTester;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
 use function dataDir;
+use function sprintf;
+use const PHP_EOL;
 
 /**
  * Phalcon\Test\Integration\Mvc\View\Engine\Volt\CompilerFilesCest
@@ -36,6 +38,7 @@ class CompilerFilesCest
     {
         $compiledFiles = [
             dataDir('fixtures/views/blocks/base.volt.php'),
+            dataDir('fixtures/views/blocks/base.volt%%e%%.php'),
             dataDir('fixtures/views/blocks/index/login.volt.php'),
             dataDir('fixtures/views/blocks/index/main.volt.php'),
             dataDir('fixtures/views/blocks/partials/header.volt.php'),
@@ -177,6 +180,23 @@ class CompilerFilesCest
     {
         $I->wantToTest('Mvc\Vew\Engine\Volt :: compile() blocks and partials');
 
+        $template = '<!DOCTYPE html>' . PHP_EOL
+            . '<html lang="en">' . PHP_EOL
+            . '<head>' . PHP_EOL
+            . '    <meta charset="utf-8" />' . PHP_EOL
+            . '    <meta name="viewport" content="width=device-width, initial-scale=1.0" />' . PHP_EOL
+            . '</head>' . PHP_EOL
+            . '<body>' . PHP_EOL
+            . PHP_EOL
+            . PHP_EOL
+            . PHP_EOL
+            . '%s' . PHP_EOL
+            . PHP_EOL
+            . PHP_EOL
+            . '</body>' . PHP_EOL
+            . '</html>' . PHP_EOL
+        ;
+
         /**
          * Set up the view and Volt and compile
          */
@@ -201,9 +221,8 @@ class CompilerFilesCest
             dataDir('fixtures/views/blocks/index/login.volt.php')
         );
 
-        $I->seeFileContentsEqual(
-            '<p>This is the Header</p>'
-        );
+        $expected = sprintf($template, '<p>This is the login page</p>');
+        $I->seeFileContentsEqual($expected);
 
         /**
          * Main page = header output
@@ -217,8 +236,7 @@ class CompilerFilesCest
             dataDir('fixtures/views/blocks/index/main.volt.php')
         );
 
-        $I->seeFileContentsEqual(
-            '<p>This is the Header</p>'
-        );
+        $expected = sprintf($template, '<p>This is the main page</p>');
+        $I->seeFileContentsEqual($expected);
     }
 }

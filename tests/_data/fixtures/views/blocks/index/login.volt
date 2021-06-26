@@ -2,8 +2,6 @@
 
 {% block header %}{% endblock %}
 {% block mainContent %}
-    <p>
-        This is the login page
-    </p>
+<p>This is the login page</p>
 {% endblock %}
 {% block footer %}{% endblock %}

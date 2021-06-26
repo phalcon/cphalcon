@@ -6,11 +6,10 @@
 </head>
 <body>
 {% block header %}
-    {{ partial('blocks/partials/header') }}
+{{ partial('blocks/partials/header') }}
 {% endblock %}
 
-{% block mainContent %}
-{% endblock %}
+{% block mainContent %}{% endblock %}
 
 </body>
 </html>
