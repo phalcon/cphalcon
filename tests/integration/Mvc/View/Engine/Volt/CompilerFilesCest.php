@@ -20,8 +20,10 @@ namespace Phalcon\Test\Integration\Mvc\View\Engine\Volt;
 use IntegrationTester;
 use Phalcon\Mvc\View;
 use Phalcon\Mvc\View\Engine\Volt\Compiler;
+
 use function dataDir;
 use function sprintf;
+
 use const PHP_EOL;
 
 /**
