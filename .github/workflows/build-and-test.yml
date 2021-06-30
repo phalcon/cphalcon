@@ -304,10 +304,10 @@ jobs:
           key: ${{ runner.os }}-extensions-${{ matrix.php-versions }}-${{ steps.extension-step.outputs.ext_hash }}
           restore-keys: ${{ runner.os }}-extensions-${{ matrix.php-versions }}-${{ steps.extension-step.outputs.ext_hash }}
 
-      - name: Install Requirements for Imagick
-        run: |
-          export HOMEBREW_MAKE_JOBS="-j$(getconf _NPROCESSORS_ONLN)"
-          brew install pkg-config imagemagick@7
+#      - name: Install Requirements for Imagick
+#        run: |
+#          export HOMEBREW_MAKE_JOBS="-j$(getconf _NPROCESSORS_ONLN)"
+#          brew install pkg-config imagemagick@7
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
