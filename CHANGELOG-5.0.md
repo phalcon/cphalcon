@@ -1,4 +1,4 @@
-# [5.0.0alpha3](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0alpha3) (????-??-??)
+# [5.0.0alpha3](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0alpha3) (2021-06-30)
 
 ## Changed
 - Changed version format to allow alpha/beta/RC releases on PECL. 
