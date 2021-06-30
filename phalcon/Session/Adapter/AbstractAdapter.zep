@@ -42,9 +42,6 @@ abstract class AbstractAdapter implements SessionHandlerInterface
 
     /**
      * Garbage Collector
-     *
-     * @psalm-suppress MismatchingDocblockReturnType
-     * @return int|bool
      */
     public function gc(var maxlifetime)
     {

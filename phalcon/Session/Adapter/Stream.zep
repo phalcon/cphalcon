@@ -85,8 +85,7 @@ class Stream extends Noop
     }
 
     /**
-     * @psalm-suppress MismatchingDocblockReturnType
-     * @return int|bool
+     * Garbage Collector
      */
     public function gc(var maxlifetime)
     {

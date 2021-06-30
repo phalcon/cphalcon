@@ -95,9 +95,6 @@ class Noop implements SessionHandlerInterface
 
     /**
      * Garbage Collector
-     *
-     * @psalm-suppress MismatchingDocblockReturnType
-     * @return int|bool
      */
     public function gc(var maxlifetime)
     {
