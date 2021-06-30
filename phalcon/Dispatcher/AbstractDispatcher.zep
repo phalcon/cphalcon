@@ -893,9 +893,9 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
     /**
      * Sets the default namespace
      */
-    public function setDefaultNamespace(string namespaceName) -> void
+    public function setDefaultNamespace(string defaultNamespace) -> void
     {
-        let this->defaultNamespace = namespaceName;
+        let this->defaultNamespace = defaultNamespace;
     }
 
     /**

@@ -84,6 +84,9 @@ class Stream extends Noop
         return true;
     }
 
+    /**
+     * @return bool|int
+     */
     public function gc(var maxlifetime) -> bool
     {
         var file, pattern, time;

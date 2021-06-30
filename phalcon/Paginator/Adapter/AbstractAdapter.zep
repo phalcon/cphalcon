@@ -96,12 +96,12 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
      * Set current rows limit
      */
-    public function setLimit(int limitRows) -> <AdapterInterface>
+    public function setLimit(int limit) -> <AdapterInterface>
     {
-        if limitRows <= 0 {
+        if limit <= 0 {
             throw new Exception("Limit must be greater then zero");
         }
-        let this->limitRows = limitRows;
+        let this->limitRows = limit;
 
         return this;
     }
