@@ -340,30 +340,30 @@ PHP_METHOD(Phalcon_Escaper, escapeHtmlAttr)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *attribute_param = NULL;
-	zval attribute;
+	zval *text_param = NULL;
+	zval text;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&attribute);
+	ZVAL_UNDEF(&text);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_STR_OR_NULL(attribute)
+		Z_PARAM_STR_OR_NULL(text)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 0, 1, &attribute_param);
-	if (!attribute_param) {
-		ZEPHIR_INIT_VAR(&attribute);
+	zephir_fetch_params(1, 0, 1, &text_param);
+	if (!text_param) {
+		ZEPHIR_INIT_VAR(&text);
 	} else {
-		zephir_get_strval(&attribute, attribute_param);
+		zephir_get_strval(&text, text_param);
 	}
 
 
-	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "attributes", NULL, 0, &attribute);
+	ZEPHIR_RETURN_CALL_METHOD(this_ptr, "attributes", NULL, 0, &text);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -643,25 +643,25 @@ PHP_METHOD(Phalcon_Escaper, setFlags)
  */
 PHP_METHOD(Phalcon_Escaper, setHtmlQuoteType)
 {
-	zval *flags_param = NULL, _0;
-	zend_long flags;
+	zval *quoteType_param = NULL, _0;
+	zend_long quoteType;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_LONG(flags)
+		Z_PARAM_LONG(quoteType)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
 
-	zephir_fetch_params_without_memory_grow(1, 0, &flags_param);
-	flags = zephir_get_intval(flags_param);
+	zephir_fetch_params_without_memory_grow(1, 0, &quoteType_param);
+	quoteType = zephir_get_intval(quoteType_param);
 
 
 	ZEPHIR_INIT_ZVAL_NREF(_0);
-	ZVAL_LONG(&_0, flags);
+	ZVAL_LONG(&_0, quoteType);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("flags"), &_0);
 }
 

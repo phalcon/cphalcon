@@ -45,7 +45,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_Uri)
 	/**
 	 * Returns the fragment of the URL
 	 *
-	 * @return string
+	 * @var string
 	 */
 	zend_declare_property_string(phalcon_http_message_uri_ce, SL("fragment"), "", ZEND_ACC_PROTECTED);
 	/**
@@ -58,7 +58,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_Uri)
 	 *
 	 * @see http://tools.ietf.org/html/rfc3986#section-3.2.2
 	 *
-	 * @return string
+	 * @var string
 	 */
 	zend_declare_property_string(phalcon_http_message_uri_ce, SL("host"), "", ZEND_ACC_PROTECTED);
 	/**
@@ -68,7 +68,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_Uri)
 	/**
 	 * Returns the path of the URL
 	 *
-	 * @return string
+	 * @var string
 	 */
 	zend_declare_property_string(phalcon_http_message_uri_ce, SL("path"), "", ZEND_ACC_PROTECTED);
 	/**
@@ -84,13 +84,13 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_Uri)
 	 * If no port is present, but a scheme is present, this method MAY return
 	 * the standard port for that scheme, but SHOULD return null.
 	 *
-	 * @return int|null
+	 * @var int|null
 	 */
 	zend_declare_property_null(phalcon_http_message_uri_ce, SL("port"), ZEND_ACC_PROTECTED);
 	/**
 	 * Returns the query of the URL
 	 *
-	 * @return string
+	 * @var string
 	 */
 	zend_declare_property_string(phalcon_http_message_uri_ce, SL("query"), "", ZEND_ACC_PROTECTED);
 	/**
@@ -106,7 +106,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_Uri)
 	 *
 	 * @see https://tools.ietf.org/html/rfc3986#section-3.1
 	 *
-	 * @return string
+	 * @var string
 	 */
 	zend_declare_property_string(phalcon_http_message_uri_ce, SL("scheme"), "https", ZEND_ACC_PROTECTED);
 	/**

@@ -68,10 +68,25 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Request_File)
 	 * @var string|null
 	 */
 	zend_declare_property_null(phalcon_http_request_file_ce, SL("key"), ZEND_ACC_PROTECTED);
+	/**
+	 * @var string
+	 */
 	zend_declare_property_null(phalcon_http_request_file_ce, SL("name"), ZEND_ACC_PROTECTED);
+	/**
+	 * @var string
+	 */
 	zend_declare_property_null(phalcon_http_request_file_ce, SL("realType"), ZEND_ACC_PROTECTED);
-	zend_declare_property_null(phalcon_http_request_file_ce, SL("size"), ZEND_ACC_PROTECTED);
+	/**
+	 * @var int
+	 */
+	zend_declare_property_long(phalcon_http_request_file_ce, SL("size"), 0, ZEND_ACC_PROTECTED);
+	/**
+	 * @var string|null
+	 */
 	zend_declare_property_null(phalcon_http_request_file_ce, SL("tmp"), ZEND_ACC_PROTECTED);
+	/**
+	 * @var string
+	 */
 	zend_declare_property_null(phalcon_http_request_file_ce, SL("type"), ZEND_ACC_PROTECTED);
 	zend_class_implements(phalcon_http_request_file_ce, 1, phalcon_http_request_fileinterface_ce);
 	return SUCCESS;

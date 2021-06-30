@@ -23,7 +23,7 @@
  * LICENSE.txt file that was distributed with this source code.
  */
 /**
- * Exceptions thrown in Phalcon\Flash calsses will use this class
+ * Exceptions thrown in Phalcon\Flash classes will use this class
  */
 ZEPHIR_INIT_CLASS(Phalcon_Flash_Exception)
 {

@@ -38,7 +38,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Html_Helper_Form)
 }
 
 /**
- * Produce a <form> tag.
+ * Produce a `<form>` tag.
  *
  * @param array $attributes
  *

@@ -8,6 +8,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getClassAnnotations);
 PHP_METHOD(Phalcon_Annotations_Reflection, getMethodsAnnotations);
 PHP_METHOD(Phalcon_Annotations_Reflection, getPropertiesAnnotations);
 PHP_METHOD(Phalcon_Annotations_Reflection, getReflectionData);
+zend_object *zephir_init_properties_Phalcon_Annotations_Reflection(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_reflection___construct, 0, 0, 0)
 #if PHP_VERSION_ID >= 80000
@@ -27,6 +28,9 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_reflection_getpropertiesannot
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_annotations_reflection_getreflectiondata, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_annotations_reflection_zephir_init_properties_phalcon_annotations_reflection, 0, 0, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_annotations_reflection_method_entry) {

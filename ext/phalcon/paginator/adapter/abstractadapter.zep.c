@@ -158,29 +158,29 @@ PHP_METHOD(Phalcon_Paginator_Adapter_AbstractAdapter, setCurrentPage)
  */
 PHP_METHOD(Phalcon_Paginator_Adapter_AbstractAdapter, setLimit)
 {
-	zval *limitRows_param = NULL, _0;
-	zend_long limitRows;
+	zval *limit_param = NULL, _0;
+	zend_long limit;
 	zval *this_ptr = getThis();
 
 	ZVAL_UNDEF(&_0);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_LONG(limitRows)
+		Z_PARAM_LONG(limit)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
 
-	zephir_fetch_params_without_memory_grow(1, 0, &limitRows_param);
-	limitRows = zephir_get_intval(limitRows_param);
+	zephir_fetch_params_without_memory_grow(1, 0, &limit_param);
+	limit = zephir_get_intval(limit_param);
 
 
-	if (limitRows <= 0) {
+	if (limit <= 0) {
 		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_paginator_exception_ce, "Limit must be greater then zero", "phalcon/Paginator/Adapter/AbstractAdapter.zep", 102);
 		return;
 	}
 	ZEPHIR_INIT_ZVAL_NREF(_0);
-	ZVAL_LONG(&_0, limitRows);
+	ZVAL_LONG(&_0, limit);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("limitRows"), &_0);
 	RETURN_THISW();
 }

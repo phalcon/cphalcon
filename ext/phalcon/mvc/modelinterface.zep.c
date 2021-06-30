@@ -82,7 +82,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, cloneResultMapHydrate);
  * instance for when the GROUP condition is used. The results will
  * contain the count of each group.
  *
- * @param array parameters
+ * @param array|string|null parameters
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_ModelInterface, count);
 /**

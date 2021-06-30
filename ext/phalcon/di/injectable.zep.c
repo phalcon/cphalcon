@@ -66,7 +66,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Di_Injectable)
 	/**
 	 * Dependency Injector
 	 *
-	 * @var DiInterface
+	 * @var DiInterface|null
 	 */
 	zend_declare_property_null(phalcon_di_injectable_ce, SL("container"), ZEND_ACC_PROTECTED);
 	zend_class_implements(phalcon_di_injectable_ce, 1, phalcon_di_injectionawareinterface_ce);

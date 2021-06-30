@@ -36,6 +36,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Forms_Manager)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Forms, Manager, phalcon, forms_manager, phalcon_forms_manager_method_entry, 0);
 
+	/**
+	 * @var array
+	 */
 	zend_declare_property_null(phalcon_forms_manager_ce, SL("forms"), ZEND_ACC_PROTECTED);
 	phalcon_forms_manager_ce->create_object = zephir_init_properties_Phalcon_Forms_Manager;
 
@@ -124,7 +127,7 @@ PHP_METHOD(Phalcon_Forms_Manager, get)
 		ZEPHIR_CONCAT_SVS(&_2$$3, "There is no form with name='", &name, "'");
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 8, &_2$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Forms/Manager.zep", 43);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Forms/Manager.zep", 46);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

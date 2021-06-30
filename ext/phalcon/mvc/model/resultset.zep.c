@@ -17,6 +17,7 @@
 #include "kernel/memory.h"
 #include "kernel/operators.h"
 #include "kernel/fcall.h"
+#include "ext/psr/psr_simple_cache.h"
 #include "kernel/exception.h"
 #include "kernel/array.h"
 #include "Zend/zend_closures.h"
@@ -80,7 +81,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Resultset)
 	 */
 	zend_declare_property_null(phalcon_mvc_model_resultset_ce, SL("activeRow"), ZEND_ACC_PROTECTED);
 	/**
-	 * @var AdapterInterface|null
+	 * @var CacheInterface|null
 	 */
 	zend_declare_property_null(phalcon_mvc_model_resultset_ce, SL("cache"), ZEND_ACC_PROTECTED);
 	/**
@@ -142,7 +143,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Resultset)
  * Phalcon\Mvc\Model\Resultset constructor
  *
  * @param ResultInterface|false result
- * @param AdapterInterface|null cache
+ * @param CacheInterface|null   cache
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset, __construct)
 {
@@ -167,7 +168,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset, __construct)
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_ZVAL(result)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(cache, phalcon_cache_adapter_adapterinterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(cache, PsrSimpleCacheCacheInterface_ce_ptr)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

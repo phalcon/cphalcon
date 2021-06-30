@@ -39,11 +39,19 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Micro_LazyLoader)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Mvc\\Micro, LazyLoader, phalcon, mvc_micro_lazyloader, phalcon_mvc_micro_lazyloader_method_entry, 0);
 
+	/**
+	 * @var object|null
+	 */
 	zend_declare_property_null(phalcon_mvc_micro_lazyloader_ce, SL("handler"), ZEND_ACC_PROTECTED);
+	/**
+	 * @var string
+	 */
 	zend_declare_property_null(phalcon_mvc_micro_lazyloader_ce, SL("definition"), ZEND_ACC_PROTECTED);
 	return SUCCESS;
 }
 
+/**
+ */
 PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, getHandler)
 {
 	zval *this_ptr = getThis();
@@ -53,6 +61,8 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, getHandler)
 	RETURN_MEMBER(getThis(), "handler");
 }
 
+/**
+ */
 PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, getDefinition)
 {
 	zval *this_ptr = getThis();
@@ -166,7 +176,7 @@ PHP_METHOD(Phalcon_Mvc_Micro_LazyLoader, callMethod)
 			ZEPHIR_CONCAT_SVS(&_2$$4, "Handler '", &definition, "' doesn't exist");
 			ZEPHIR_CALL_METHOD(NULL, &_1$$4, "__construct", NULL, 8, &_2$$4);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_1$$4, "phalcon/Mvc/Micro/LazyLoader.zep", 49);
+			zephir_throw_exception_debug(&_1$$4, "phalcon/Mvc/Micro/LazyLoader.zep", 55);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}

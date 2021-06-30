@@ -59,7 +59,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Config)
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon, Config, phalcon, config, phalcon_collection_ce, phalcon_config_method_entry, 0);
 
 	/**
-	 * @var string
+	 * @var string|null
 	 */
 	zend_declare_property_null(phalcon_config_ce, SL("pathDelimiter"), ZEND_ACC_PROTECTED);
 	zephir_declare_class_constant_string(phalcon_config_ce, SL("DEFAULT_PATH_DELIMITER"), ".");

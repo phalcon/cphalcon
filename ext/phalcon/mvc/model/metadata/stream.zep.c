@@ -15,12 +15,12 @@
 #include "kernel/array.h"
 #include "kernel/object.h"
 #include "kernel/memory.h"
+#include "kernel/operators.h"
 #include "kernel/concat.h"
 #include "kernel/file.h"
 #include "kernel/require.h"
 #include "ext/spl/spl_exceptions.h"
 #include "kernel/exception.h"
-#include "kernel/operators.h"
 #include "kernel/variables.h"
 #include "kernel/fcall.h"
 
@@ -50,6 +50,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Stream)
 {
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Mvc\\Model\\MetaData, Stream, phalcon, mvc_model_metadata_stream, phalcon_mvc_model_metadata_ce, phalcon_mvc_model_metadata_stream_method_entry, 0);
 
+	/**
+	 * @var string
+	 */
 	zend_declare_property_string(phalcon_mvc_model_metadata_stream_ce, SL("metaDataDir"), "./", ZEND_ACC_PROTECTED);
 	return SUCCESS;
 }
@@ -61,31 +64,36 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData_Stream)
  */
 PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, __construct)
 {
-	zval *options = NULL, options_sub, __$null, metaDataDir;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zval *options_param = NULL, metaDataDir;
+	zval options;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&options_sub);
-	ZVAL_NULL(&__$null);
+	ZVAL_UNDEF(&options);
 	ZVAL_UNDEF(&metaDataDir);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(options)
+		Z_PARAM_ARRAY(options)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
 
-	zephir_fetch_params_without_memory_grow(0, 1, &options);
-	if (!options) {
-		options = &options_sub;
-		options = &__$null;
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 0, 1, &options_param);
+	if (!options_param) {
+		ZEPHIR_INIT_VAR(&options);
+		array_init(&options);
+	} else {
+		zephir_get_arrval(&options, options_param);
 	}
 
 
-	if (zephir_array_isset_string_fetch(&metaDataDir, options, SL("metaDataDir"), 1)) {
+	if (zephir_array_isset_string_fetch(&metaDataDir, &options, SL("metaDataDir"), 1)) {
 		zephir_update_property_zval(this_ptr, ZEND_STRL("metaDataDir"), &metaDataDir);
 	}
+	ZEPHIR_MM_RESTORE();
 }
 
 /**
@@ -255,7 +263,7 @@ PHP_METHOD(Phalcon_Mvc_Model_MetaData_Stream, throwWriteException)
 
 
 	if (zephir_is_true(option)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Meta-Data directory cannot be written", "phalcon/Mvc/Model/MetaData/Stream.zep", 90);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_mvc_model_exception_ce, "Meta-Data directory cannot be written", "phalcon/Mvc/Model/MetaData/Stream.zep", 93);
 		return;
 	} else {
 		ZEPHIR_INIT_VAR(&_0$$4);
