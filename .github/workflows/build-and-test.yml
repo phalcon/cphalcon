@@ -304,11 +304,6 @@ jobs:
           key: ${{ steps.extcache.outputs.key }}
           restore-keys: ${{ steps.extcache.outputs.key }}
 
-#      - name: Install Requirements for Imagick
-#        run: |
-#          export HOMEBREW_MAKE_JOBS="-j$(getconf _NPROCESSORS_ONLN)"
-#          brew install pkg-config imagemagick@7
-
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
