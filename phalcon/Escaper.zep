@@ -146,9 +146,9 @@ class Escaper implements EscaperInterface
     /**
      * Escapes a HTML attribute string
      */
-    public function escapeHtmlAttr(string attribute = null) -> string
+    public function escapeHtmlAttr(string text = null) -> string
     {
-        return this->attributes(attribute);
+        return this->attributes(text);
     }
 
     /**
@@ -271,9 +271,9 @@ class Escaper implements EscaperInterface
      * $escaper->setHtmlQuoteType(ENT_XHTML);
      *```
      */
-    public function setHtmlQuoteType(int flags) -> void
+    public function setHtmlQuoteType(int quoteType) -> void
     {
-        let this->flags = flags;
+        let this->flags = quoteType;
     }
 
     /**

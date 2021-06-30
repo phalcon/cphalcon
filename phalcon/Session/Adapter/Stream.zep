@@ -84,7 +84,10 @@ class Stream extends Noop
         return true;
     }
 
-    public function gc(var maxlifetime) -> bool
+    /**
+     * Garbage Collector
+     */
+    public function gc(var maxlifetime)
     {
         var file, pattern, time;
 
