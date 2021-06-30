@@ -316,35 +316,15 @@ jobs:
           ini-values: apc.enable_cli=on, session.save_path=/tmp
           extensions: ${{ env.extensions }}
 
-      - name: Get Composer Cache Directory
+      - name: Get composer cache directory
         id: composer-cache
-        run: |
-          # FIXME: This call produces the following warning on maOS:
-          #
-          #  PHP Warning:  Version warning: Imagick was compiled
-          #  against ImageMagick version 1801 but version 1802 is
-          #  loaded. Imagick will run but may behave surprisingly
-          #  in Unknown on line 0
-          #
-          # For more see:
-          # https://github.com/phalcon/cphalcon/pull/14929/checks?check_run_id=534926444
-          #
-          # And this seems breaks the output of the following command:
-          # echo "::set-output name=dir::$(composer config cache-files-dir)"
-          echo "::set-output name=dir::~/.composer/cache/files"
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
 
-      - name: Setup GitHub Token
-        run: |
-          # To increase the GitHub rate limit we're use GitHub authentication
-          if [ -n "${{ secrets.COMPOSER_TOKEN }}" ]; then
-            composer config github-oauth.github.com "${{ secrets.COMPOSER_TOKEN }}"
-          fi
-
-      - name: Setup Cache
+      - name: Cache dependencies
         uses: actions/cache@v2
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
           restore-keys: ${{ runner.os }}-composer-
 
       - name: Download Phalcon Pecl Package
