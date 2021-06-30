@@ -264,7 +264,7 @@ jobs:
     env:
       extensions: mbstring, intl, json, yaml, apcu, imagick, gd, gettext, igbinary, msgpack, redis, zip
       HOMEBREW_NO_INSTALL_CLEANUP: 1
-      ext_cache_key: v5.0.0-alpha.2-macOS-2
+#      ext_cache_key: v5.0.0-alpha.2-macOS-2
     strategy:
       fail-fast: false
       matrix:
@@ -278,20 +278,20 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Setup cache environment
-        id: extcache
-        uses: shivammathur/cache-extensions@v1
-        with:
-          php-version: ${{ matrix.php-versions }}
-          extensions: ${{ env.extensions }}
-          key: ${{ env.ext_cache_key }}
+#      - name: Setup cache environment
+#        id: extcache
+#        uses: shivammathur/cache-extensions@v1
+#        with:
+#          php-version: ${{ matrix.php-versions }}
+#          extensions: ${{ env.extensions }}
+#          key: ${{ env.ext_cache_key }}
 
-      - name: Cache extensions
-        uses: actions/cache@v2
-        with:
-          path: ${{ steps.extcache.outputs.dir }}
-          key: ${{ steps.extcache.outputs.key }}
-          restore-keys: ${{ steps.extcache.outputs.key }}
+#      - name: Cache extensions
+#        uses: actions/cache@v2
+#        with:
+#          path: ${{ steps.extcache.outputs.dir }}
+#          key: ${{ steps.extcache.outputs.key }}
+#          restore-keys: ${{ steps.extcache.outputs.key }}
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -302,16 +302,16 @@ jobs:
         env:
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Get composer cache directory
-        id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+#      - name: Get composer cache directory
+#        id: composer-cache
+#        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
 
-      - name: Cache dependencies
-        uses: actions/cache@v2
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-          restore-keys: ${{ runner.os }}-composer-
+#      - name: Cache dependencies
+#        uses: actions/cache@v2
+#        with:
+#          path: ${{ steps.composer-cache.outputs.dir }}
+#          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+#          restore-keys: ${{ runner.os }}-composer-
 
       - name: Download Phalcon Pecl Package
         uses: actions/download-artifact@v1
