@@ -33,6 +33,8 @@ jobs:
           php-version: '8.0'
           extensions: mbstring, intl, json, psr
           tools: pecl
+        env:
+          COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Common Settings
         run: |
@@ -59,13 +61,6 @@ jobs:
         run: |
           sudo apt-get update --quiet --yes 1>/dev/null
           sudo apt-get install --no-install-recommends -q -y re2c
-
-      - name: Setup Composer Token
-        run: |
-          # To increase the Composer rate limit we're use GitHub authentication
-          if [ -n "${{ secrets.COMPOSER_TOKEN }}" ]; then
-            composer config github-oauth.github.com "${{ secrets.COMPOSER_TOKEN }}"
-          fi
 
       - name: Install Zephir
         run: .ci/install-zephir.sh
@@ -162,13 +157,6 @@ jobs:
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
           restore-keys: ${{ runner.os }}-composer-
 
-      - name: Setup Composer Token
-        run: |
-          # To increase the Composer rate limit we're use GitHub authentication
-          if [ -n "${{ secrets.COMPOSER_TOKEN }}" ]; then
-            composer config github-oauth.github.com "${{ secrets.COMPOSER_TOKEN }}"
-          fi
-
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
@@ -176,6 +164,8 @@ jobs:
           extensions: mbstring, intl, json, imagick, gd, gettext, igbinary, apcu, msgpack, memcached, yaml, redis
           ini-values: apc.enable_cli=on, session.save_path=/tmp, extension=psr.so, extension=phalcon.so
           tools: pecl
+        env:
+          COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Download Phalcon Pecl Package
         uses: actions/download-artifact@v1
@@ -283,7 +273,6 @@ jobs:
 
     name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
     steps:
-
       - name: Checkout Code
         uses: actions/checkout@v2
         with:
@@ -310,6 +299,8 @@ jobs:
           php-version: ${{ matrix.php-versions }}
           ini-values: apc.enable_cli=on, session.save_path=/tmp
           extensions: ${{ env.extensions }}
+        env:
+          COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Get composer cache directory
         id: composer-cache
@@ -398,6 +389,7 @@ jobs:
           extensions: mbstring, intl, json, yaml, apcu, imagick, gd, gettext, igbinary, sqlite3, msgpack, psr, redis, zip
         env:
           PHPTS: ${{ matrix.ts }}
+          COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Setup Environment Variables
         run: |
@@ -430,13 +422,6 @@ jobs:
             Write-Output "BUILD_TYPE=nts-${{ matrix.build_type }}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           } Else {
             Write-Output "BUILD_TYPE=${{ matrix.build_type }}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          }
-
-      - name: Setup Composer Token
-        run: |
-          # To increase the Composer rate limit we're use GitHub authentication
-          if ("${{ secrets.COMPOSER_TOKEN }}" -ne "") {
-              composer config github-oauth.github.com ${{ secrets.COMPOSER_TOKEN }}
           }
 
       - name: Setup Common Environment
