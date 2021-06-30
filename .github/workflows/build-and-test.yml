@@ -272,7 +272,7 @@ jobs:
     needs: generate
     runs-on: ${{ matrix.operating-system }}
     env:
-      extensions: mbstring, intl, json, yaml, apcu, imagick, gd, gettext, igbinary, redis
+      extensions: mbstring, intl, json, yaml, apcu, imagick, gd, gettext, igbinary, msgpack, redis
       HOMEBREW_NO_INSTALL_CLEANUP: 1
       ext_cache_key: v5.0.0-alpha.2-macOS
     strategy:
