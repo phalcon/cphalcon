@@ -297,12 +297,12 @@ jobs:
           extensions: ${{ env.extensions }}
           key: ${{ env.ext_cache_key }}
 
-        - name: Cache extensions
-          uses: actions/cache@v2
-          with:
-            path: ${{ steps.extcache.outputs.dir }}
-            key: ${{ steps.extcache.outputs.key }}
-            restore-keys: ${{ steps.extcache.outputs.key }}
+      - name: Cache extensions
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.extcache.outputs.dir }}
+          key: ${{ steps.extcache.outputs.key }}
+          restore-keys: ${{ steps.extcache.outputs.key }}
 
 #      - name: Install Requirements for Imagick
 #        run: |
