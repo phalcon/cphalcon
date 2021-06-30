@@ -18,7 +18,7 @@ use Phalcon\Html\Exception;
 class Form extends AbstractHelper
 {
     /**
-     * Produce a <form> tag.
+     * Produce a `<form>` tag.
      *
      * @param array $attributes
      *

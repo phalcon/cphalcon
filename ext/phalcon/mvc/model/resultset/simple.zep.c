@@ -16,6 +16,7 @@
 #include "kernel/fcall.h"
 #include "kernel/operators.h"
 #include "kernel/memory.h"
+#include "ext/psr/psr_simple_cache.h"
 #include "kernel/array.h"
 #include "kernel/exception.h"
 #include "kernel/concat.h"
@@ -57,11 +58,11 @@ ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_Resultset_Simple)
 /**
  * Phalcon\Mvc\Model\Resultset\Simple constructor
  *
- * @param array columnMap
- * @param ModelInterface|Row model
+ * @param array                             columnMap
+ * @param ModelInterface|Row                model
  * @param \Phalcon\Db\ResultInterface|false result
- * @param AdapterInterface|null cache
- * @param bool keepSnapshots false
+ * @param CacheInterface|null               cache
+ * @param bool keepSnapshots                false
  */
 PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct)
 {
@@ -86,7 +87,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Resultset_Simple, __construct)
 		Z_PARAM_ZVAL(model)
 		Z_PARAM_ZVAL(result)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(cache, phalcon_cache_adapter_adapterinterface_ce)
+		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(cache, PsrSimpleCacheCacheInterface_ce_ptr)
 		Z_PARAM_BOOL(keepSnapshots)
 	ZEND_PARSE_PARAMETERS_END();
 #endif

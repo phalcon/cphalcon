@@ -39,8 +39,10 @@ abstract class AbstractPdo extends AbstractAdapter
 {
     /**
      * Last affected rows
+     *
+     * @var int
      */
-    protected affectedRows;
+    protected affectedRows = 0;
 
     /**
      * PDO Handler

@@ -38,15 +38,15 @@ ZEPHIR_INIT_CLASS(Phalcon_Application_AbstractApplication)
 	ZEPHIR_REGISTER_CLASS_EX(Phalcon\\Application, AbstractApplication, phalcon, application_abstractapplication, phalcon_di_injectable_ce, phalcon_application_abstractapplication_method_entry, ZEND_ACC_EXPLICIT_ABSTRACT_CLASS);
 
 	/**
-	 * @var DiInterface
+	 * @var DiInterface|null
 	 */
 	zend_declare_property_null(phalcon_application_abstractapplication_ce, SL("container"), ZEND_ACC_PROTECTED);
 	/**
-	 * @var string
+	 * @var string|null
 	 */
 	zend_declare_property_null(phalcon_application_abstractapplication_ce, SL("defaultModule"), ZEND_ACC_PROTECTED);
 	/**
-	 * @var null | ManagerInterface
+	 * @var ManagerInterface|null
 	 */
 	zend_declare_property_null(phalcon_application_abstractapplication_ce, SL("eventsManager"), ZEND_ACC_PROTECTED);
 	/**
@@ -116,6 +116,10 @@ PHP_METHOD(Phalcon_Application_AbstractApplication, getEventsManager)
 
 /**
  * Gets the module definition registered in the application via module name
+ *
+ * @param string name
+ *
+ * @return array|mixed
  */
 PHP_METHOD(Phalcon_Application_AbstractApplication, getModule)
 {
@@ -160,7 +164,7 @@ PHP_METHOD(Phalcon_Application_AbstractApplication, getModule)
 		ZEPHIR_CONCAT_SVS(&_2$$3, "Module '", &name, "' isn't registered in the application container");
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 8, &_2$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Application/AbstractApplication.zep", 79);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Application/AbstractApplication.zep", 83);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

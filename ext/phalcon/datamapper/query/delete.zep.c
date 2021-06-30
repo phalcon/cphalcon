@@ -93,7 +93,7 @@ PHP_METHOD(Phalcon_DataMapper_Query_Delete, __construct)
  *
  * @param string $table
  *
- * @return AbstractConditions
+ * @return Delete
  */
 PHP_METHOD(Phalcon_DataMapper_Query_Delete, from)
 {

@@ -17,26 +17,59 @@ class Route implements RouteInterface
 {
     const DEFAULT_DELIMITER = " ";
 
-    protected beforeMatch;
+    /**
+     * @var mixed|null
+     */
+    protected beforeMatch = null;
 
-    protected compiledPattern;
+    /**
+     * @var string|null
+     */
+    protected compiledPattern = null;
 
-    protected converters;
+    /**
+     * @var array
+     */
+    protected converters = [];
 
+    /**
+     * @var string
+     */
     protected delimiter;
 
+    /**
+     * @var string
+     */
     protected static delimiterPath = self::DEFAULT_DELIMITER;
 
-    protected description;
+    /**
+     * @var string|null
+     */
+    protected description = null;
 
+    /**
+     * @var string
+     */
     protected id;
 
-    protected name;
+    /**
+     * @var string|null
+     */
+    protected name = null;
 
-    protected paths;
+    /**
+     * @var array
+     */
+    protected paths = [];
 
+    /**
+     * @var string
+     */
     protected pattern;
 
+    /**
+     * @var int|string
+     */
     protected static uniqueId = 0;
 
     /**

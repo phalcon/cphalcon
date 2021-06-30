@@ -83,6 +83,13 @@ ZEPHIR_DOC_METHOD(Phalcon_Db_Adapter_AdapterInterface, createTable);
 ZEPHIR_DOC_METHOD(Phalcon_Db_Adapter_AdapterInterface, createView);
 /**
  * Deletes data from a table using custom RDBMS SQL syntax
+ *
+ * @param array|string table
+ * @param string|null whereCondition
+ * @param array placeholders
+ * @param array dataTypes
+ *
+ * @return bool
  */
 ZEPHIR_DOC_METHOD(Phalcon_Db_Adapter_AdapterInterface, delete);
 /**

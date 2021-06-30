@@ -49,7 +49,10 @@ use stdClass;
  */
 class Request extends AbstractInjectionAware implements RequestInterface
 {
-    private filterService;
+    /**
+     * @var FilterInterface|null
+     */
+    private filterService = null;
 
     /**
      * @var bool

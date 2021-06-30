@@ -123,7 +123,7 @@ PHP_METHOD(Phalcon_Support_Version, getVersion)
 	ZVAL_LONG(&_0, 1);
 	zephir_array_fast_append(return_value, &_0);
 	ZEPHIR_INIT_NVAR(&_0);
-	ZVAL_LONG(&_0, 2);
+	ZVAL_LONG(&_0, 3);
 	zephir_array_fast_append(return_value, &_0);
 	RETURN_MM();
 }
@@ -185,7 +185,7 @@ PHP_METHOD(Phalcon_Support_Version, getSpecial)
 PHP_METHOD(Phalcon_Support_Version, get)
 {
 	zval result;
-	zval version, major, medium, minor, special, specialNumber, suffix, _0, _1$$3, _2$$4;
+	zval version, major, medium, minor, special, specialNumber, suffix, _0;
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
 	zval *this_ptr = getThis();
@@ -198,8 +198,6 @@ PHP_METHOD(Phalcon_Support_Version, get)
 	ZVAL_UNDEF(&specialNumber);
 	ZVAL_UNDEF(&suffix);
 	ZVAL_UNDEF(&_0);
-	ZVAL_UNDEF(&_1$$3);
-	ZVAL_UNDEF(&_2$$4);
 	ZVAL_UNDEF(&result);
 
 
@@ -223,13 +221,9 @@ PHP_METHOD(Phalcon_Support_Version, get)
 	ZEPHIR_CALL_METHOD(&suffix, this_ptr, "getspecial", NULL, 0, &special);
 	zephir_check_call_status();
 	if (!ZEPHIR_IS_STRING(&suffix, "")) {
-		ZEPHIR_INIT_VAR(&_1$$3);
-		ZEPHIR_CONCAT_SV(&_1$$3, "-", &suffix);
-		zephir_concat_self(&result, &_1$$3);
+		zephir_concat_self(&result, &suffix);
 		if (!ZEPHIR_IS_LONG(&specialNumber, 0)) {
-			ZEPHIR_INIT_VAR(&_2$$4);
-			ZEPHIR_CONCAT_SV(&_2$$4, ".", &specialNumber);
-			zephir_concat_self(&result, &_2$$4);
+			zephir_concat_self(&result, &specialNumber);
 		}
 	}
 	RETURN_CTOR(&result);

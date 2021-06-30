@@ -19,8 +19,14 @@ use Phalcon\Mvc\Model\BinderInterface;
  */
 class LazyLoader
 {
-    protected handler { get };
+    /**
+     * @var object|null
+     */
+    protected handler = null { get };
 
+    /**
+     * @var string
+     */
     protected definition { get };
 
     /**

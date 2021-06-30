@@ -94,7 +94,6 @@ RUN docker-php-ext-enable \
 
 # Composer
 COPY --from=composer /usr/bin/composer /usr/local/bin/composer
-
 # Bash script with helper aliases
 COPY ./.bashrc /root/.bashrc
 

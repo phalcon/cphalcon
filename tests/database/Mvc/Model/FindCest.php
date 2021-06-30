@@ -15,7 +15,9 @@ namespace Phalcon\Test\Database\Mvc\Model;
 
 use DatabaseTester;
 use PDO;
+use Phalcon\Cache;
 use Phalcon\Cache\AdapterFactory;
+use Phalcon\Mvc\Model\Exception;
 use Phalcon\Storage\SerializerFactory;
 use Phalcon\Test\Fixtures\Migrations\CustomersMigration;
 use Phalcon\Test\Fixtures\Migrations\ObjectsMigration;
@@ -104,8 +106,9 @@ class FindCest
         $serializerFactory = new SerializerFactory();
         $adapterFactory    = new AdapterFactory($serializerFactory);
         $adapter           = $adapterFactory->newInstance('stream', $options);
+        $cache             = new Cache($adapter);
 
-        $this->container->setShared('modelsCache', $adapter);
+        $this->container->setShared('modelsCache', $cache);
 
         /**
          * Get the records (should cache the resultset)
@@ -175,10 +178,7 @@ class FindCest
 
         $customers = Customers::find();
 
-        $I->assertCount(
-            2,
-            $customers
-        );
+        $I->assertCount(2, $customers);
 
         /**
          * First iteration
@@ -209,5 +209,48 @@ class FindCest
                 $secondCustomer->getId()
             );
         }
+    }
+
+    /**
+     * Tests Phalcon\Mvc\Model :: find() - with cache/exception
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2021-05-10
+     *
+     * @group  mysql
+     * @group  pgsql
+     * @group  sqlite
+     */
+    public function mvcModelFindWithCacheException(DatabaseTester $I)
+    {
+        $I->wantToTest('Mvc\Model - find() - with cache - exception');
+
+        $I->expectThrowable(
+            new Exception(
+                'Cache service must be an object implementing Psr\SimpleCache\CacheInterface'
+            ),
+            function () {
+                $options = [
+                    'storageDir' => outputDir(),
+                    'lifetime'   => 172800,
+                    'prefix'     => 'data-',
+                ];
+
+                // Models Cache setup
+                $serializerFactory = new SerializerFactory();
+                $adapterFactory    = new AdapterFactory($serializerFactory);
+                $adapter           = $adapterFactory->newInstance('stream', $options);
+
+                $this->container->setShared('modelsCache', $adapter);
+
+                Objects::find(
+                    [
+                        'cache' => [
+                            'key' => 'my-cache',
+                        ],
+                    ]
+                );
+            }
+        );
     }
 }

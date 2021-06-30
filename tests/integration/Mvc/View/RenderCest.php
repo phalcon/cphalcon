@@ -28,16 +28,14 @@ class RenderCest
      * @since  2017-09-24
      * @issue  https://github.com/phalcon/cphalcon/issues/13046
      */
-    public function shouldRenderWithParams(IntegrationTester $I)
+    public function mvcViewRenderWithParams(IntegrationTester $I)
     {
-        $view = new View();
+        $I->wantToTest('Mvc\View - render() with parameters');
 
-        $view->setViewsDir(
-            dataDir('fixtures/views')
-        );
+        $view = new View();
+        $view->setViewsDir(dataDir('fixtures/views'));
 
         $view->start();
-
         $view->render(
             'simple',
             'params',
@@ -46,19 +44,18 @@ class RenderCest
                 'age'  => 20,
             ]
         );
-
         $view->finish();
 
-        $I->assertEquals(
-            'My name is Sam and I am 20 years old',
-            $view->getContent()
-        );
+        $expected = 'My name is Sam and I am 20 years old';
+        $actual   = $view->getContent();
+        $I->assertEquals($expected, $actual);
     }
 
-    public function doesNotRenderMultiple(IntegrationTester $I)
+    public function mvcViewRenderMultiple(IntegrationTester $I)
     {
-        $view = new View();
+        $I->wantToTest('Mvc\View - render() multiple');
 
+        $view = new View();
         $view->setViewsDir(
             [
                 dataDir('fixtures/views'),
@@ -67,7 +64,6 @@ class RenderCest
         );
 
         $view->start();
-
         $view->render(
             'simple',
             'params',
@@ -76,12 +72,10 @@ class RenderCest
                 'age'  => 20,
             ]
         );
-
         $view->finish();
 
-        $I->assertEquals(
-            'My name is Sam and I am 20 years old',
-            $view->getContent()
-        );
+        $expected = 'My name is Sam and I am 20 years old';
+        $actual   = $view->getContent();
+        $I->assertEquals($expected, $actual);
     }
 }

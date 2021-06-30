@@ -129,7 +129,7 @@ PHP_METHOD(Phalcon_Http_Response_Headers, isSent)
 }
 
 /**
- * Removes a header to be sent at the end of the request
+ * Removes a header by its name
  */
 PHP_METHOD(Phalcon_Http_Response_Headers, remove)
 {

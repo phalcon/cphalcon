@@ -1,3 +1,39 @@
+# [5.0.0alpha3](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0alpha3) (2021-06-30)
+
+## Changed
+- Changed version format to allow alpha/beta/RC releases on PECL. 
+- Changed:
+    - `Phalcon\Mvc\Model\Resultset\Complex::__construct` now accepts `Psr\SimpleCache\CacheInterface` for the cache
+    - `Phalcon\Mvc\Model\Resultset\Simple::__construct` now accepts `Psr\SimpleCache\CacheInterface` for the cache
+    - `Phalcon\Mvc\Model\Resultset::__construct` now accepts `Psr\SimpleCache\CacheInterface` for the cache
+    - `Phalcon\Mvc\Model\Resultset::getCache` now returns `Psr\SimpleCache\CacheInterface` [#15471](https://github.com/phalcon/cphalcon/issues/15471)
+- Changed `Phalcon\Db\Adapter\AbstractAdapter:delete()` signature of optional parameters. [#15363](https://github.com/phalcon/cphalcon/issues/15363)
+- Changed `bindCounts` argument to array type in:
+    - `Phalcon\Db\Dialect:getColumnList()`
+    - `Phalcon\Db\Dialect:getSqlColumn()`
+    - `Phalcon\Db\Dialect:getSqlExpression()`
+    - `Phalcon\Db\Dialect:getSqlExpressionBinaryOperations()`
+    - `Phalcon\Db\Dialect:getSqlExpressionCase()`
+    - `Phalcon\Db\Dialect:getSqlExpressionCastValue()`
+    - `Phalcon\Db\Dialect:getSqlExpressionConvertValue()`
+    - `Phalcon\Db\Dialect:getSqlExpressionFunctionCall()`
+    - `Phalcon\Db\Dialect:getSqlExpressionGroupBy()`
+    - `Phalcon\Db\Dialect:getSqlExpressionHaving()`
+    - `Phalcon\Db\Dialect:getSqlExpressionJoins()`
+    - `Phalcon\Db\Dialect:getSqlExpressionLimit()`
+    - `Phalcon\Db\Dialect:getSqlExpressionList()`
+    - `Phalcon\Db\Dialect:getSqlExpressionObject()`
+    - `Phalcon\Db\Dialect:getSqlExpressionOrderBy()`
+    - `Phalcon\Db\Dialect:getSqlExpressionScalar()`
+    - `Phalcon\Db\Dialect:getSqlExpressionUnaryOperations()`
+    - `Phalcon\Db\Dialect:getSqlExpressionWhere()`
+    - `Phalcon\Db\DialectInterface:getSqlExpression()`
+
+## Fixed
+- Fixed `Phalcon\Db\Adapter\AbstractAdapter:delete()` when `bindTypes` argument is passed. [#15363](https://github.com/phalcon/cphalcon/issues/15363)
+- Fixed `Phalcon\Storage\Adapter\Redis::getAdapter` to use passed `connectionTimeout`, `retryInterval` and `readTimeout` options for the connection [#15484](https://github.com/phalcon/cphalcon/issues/15484)
+- Fixed `Phalcon\Mvc\View\Engine\Volt\Compiler` for a use case when a block will return null vs an array for `statementList` in PHP 8 [#15556](https://github.com/phalcon/cphalcon/issues/15556)
+
 # [5.0.0-alpha.2](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0-alpha.2) (2021-05-05)
 
 ## Changed
@@ -37,7 +73,7 @@
 - Corrected `Phalcon\Cache` to cast keys as strings before sending them to adapters [#15249](https://github.com/phalcon/cphalcon/issues/15249)
 - Binding form values with specified whitelist [#15070](https://github.com/phalcon/cphalcon/issues/15070)
 
-# [5.0.0-alpha.1](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0-alpha.1) (2020-03-31)
+# [5.0.0-alpha.1](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0-alpha.1) (2021-03-31)
 
 ## Fixed
 - Support for PHP 7.4 and PHP 8.0

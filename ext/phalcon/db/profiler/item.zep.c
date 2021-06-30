@@ -15,7 +15,6 @@
 #include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/operators.h"
-#include "kernel/fcall.h"
 
 
 /**
@@ -267,9 +266,9 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, getSqlVariables)
 }
 
 /**
- * Returns the total time in nanoseconds spent by the profile
+ * Returns the total time in seconds spent by the profile
  */
-PHP_METHOD(Phalcon_Db_Profiler_Item, getTotalElapsedNanoseconds)
+PHP_METHOD(Phalcon_Db_Profiler_Item, getTotalElapsedSeconds)
 {
 	zval _0, _1;
 	zval *this_ptr = getThis();
@@ -283,45 +282,5 @@ PHP_METHOD(Phalcon_Db_Profiler_Item, getTotalElapsedNanoseconds)
 	zephir_read_property(&_1, this_ptr, ZEND_STRL("initialTime"), PH_NOISY_CC | PH_READONLY);
 	zephir_sub_function(return_value, &_0, &_1);
 	return;
-}
-
-/**
- * Returns the total time in milliseconds spent by the profile
- */
-PHP_METHOD(Phalcon_Db_Profiler_Item, getTotalElapsedMilliseconds)
-{
-	zval _0;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&_0);
-
-
-	ZEPHIR_MM_GROW();
-
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "gettotalelapsednanoseconds", NULL, 0);
-	zephir_check_call_status();
-	RETURN_MM_DOUBLE(zephir_safe_div_zval_long(&_0, 1000000));
-}
-
-/**
- * Returns the total time in seconds spent by the profile
- */
-PHP_METHOD(Phalcon_Db_Profiler_Item, getTotalElapsedSeconds)
-{
-	zval _0;
-	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
-	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *this_ptr = getThis();
-
-	ZVAL_UNDEF(&_0);
-
-
-	ZEPHIR_MM_GROW();
-
-	ZEPHIR_CALL_METHOD(&_0, this_ptr, "gettotalelapsedmilliseconds", NULL, 0);
-	zephir_check_call_status();
-	RETURN_MM_DOUBLE(zephir_safe_div_zval_long(&_0, 1000));
 }
 

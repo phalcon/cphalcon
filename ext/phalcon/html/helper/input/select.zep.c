@@ -142,7 +142,7 @@ PHP_METHOD(Phalcon_Html_Helper_Input_Select, add)
 }
 
 /**
- * Add an element to the list
+ * Add a placeholder to the element
  *
  * @param string $text
  * @param string $value

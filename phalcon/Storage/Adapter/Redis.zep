@@ -35,6 +35,9 @@ class Redis extends AbstractAdapter
      *     'persistent' => false,
      *     'auth' => '',
      *     'socket' => '',
+     *     'connectionTimeout' => 0,
+     *     'retryInterval' => null,
+     *     'readTimeout' => 0,
      *     'defaultSerializer' => 'Php',
      *     'lifetime' => 3600,
      *     'serializer' => null,
@@ -46,14 +49,17 @@ class Redis extends AbstractAdapter
         /**
          * Lets set some defaults and options here
          */
-        let options["host"]       = Arr::get(options, "host", "127.0.0.1"),
-            options["port"]       = (int) Arr::get(options, "port", 6379),
-            options["index"]      = Arr::get(options, "index", 0),
-            options["persistent"] = Arr::get(options, "persistent", false),
-            options["auth"]       = Arr::get(options, "auth", ""),
-            options["socket"]     = Arr::get(options, "socket", ""),
-            this->prefix          = "ph-reds-",
-            this->options         = options;
+        let options["host"]              = Arr::get(options, "host", "127.0.0.1", "string"),
+            options["port"]              = Arr::get(options, "port", 6379, "int"),
+            options["index"]             = Arr::get(options, "index", 0, "int"),
+            options["persistent"]        = Arr::get(options, "persistent", false, "bool"),
+            options["auth"]              = Arr::get(options, "auth", "", "string"),
+            options["socket"]            = Arr::get(options, "socket", "", "string"),
+            options["connectionTimeout"] = Arr::get(options, "connectionTimeout", 0, "int"),
+            options["retryInterval"]     = Arr::get(options, "retryInterval", null, "int"),
+            options["readTimeout"]       = Arr::get(options, "readTimeout", 0, "int"),
+            this->prefix                 = "ph-reds-",
+            this->options                = options;
 
         parent::__construct(factory, options);
     }
@@ -124,23 +130,43 @@ class Redis extends AbstractAdapter
      */
     public function getAdapter() -> var
     {
-        var auth, connection, host, index, options, port, result,
-            persistent, persistentid;
+        var auth, connection, connectionTimeout, host, index, options,
+            port, readTimeout, reserved, result, retryInterval, persistent,
+            persistentid;
 
         if null === this->adapter {
-            let options    = this->options,
-                connection = new \Redis(),
-                auth       = options["auth"],
-                host       = options["host"],
-                port       = options["port"],
-                index      = options["index"],
-                persistent = options["persistent"];
+            let options           = this->options,
+                connection        = new \Redis(),
+                auth              = options["auth"],
+                index             = options["index"],
+                persistent        = options["persistent"],
+                host              = options["host"],
+                port              = options["port"],
+                connectionTimeout = options["connectionTimeout"],
+                retryInterval     = options["retryInterval"],
+                readTimeout       = options["readTimeout"],
+                // The documentation does not say what this is for :/
+                reserved          = null;
 
             if !persistent {
-                let result = connection->connect(host, port, this->lifetime);
+                let result = connection->connect(
+                    host,
+                    port,
+                    connectionTimeout,
+                    reserved,
+                    retryInterval,
+                    readTimeout
+                );
             } else {
                 let persistentid = "persistentid_" . index;
-                let result = connection->pconnect(host, port, this->lifetime, persistentid);
+                let result = connection->pconnect(
+                    host,
+                    port,
+                    connectionTimeout,
+                    persistentid,
+                    retryInterval,
+                    readTimeout
+                );
             }
 
             if !result {

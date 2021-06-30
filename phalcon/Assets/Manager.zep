@@ -25,13 +25,17 @@ use Phalcon\Di\AbstractInjectionAware;
  */
 class Manager extends AbstractInjectionAware
 {
-    protected collections;
+    /**
+     * @var array
+     */
+    protected collections = [];
 
     /**
      * Options configure
+     *
      * @var array
      */
-    protected options;
+    protected options = [];
 
     /**
      * @var bool

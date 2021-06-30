@@ -20,6 +20,7 @@ use Phalcon\Test\Fixtures\Traits\RedisTrait;
 use IntegrationTester;
 
 use function getOptionsRedis;
+use function uniqid;
 
 class DecrementCest
 {
@@ -36,34 +37,70 @@ class DecrementCest
     public function cacheAdapterRedisDecrement(IntegrationTester $I)
     {
         $I->wantToTest('Cache\Adapter\Redis - decrement()');
-        $I->skipTest('Check this');
 
         $serializer = new SerializerFactory();
         $adapter    = new Redis($serializer, getOptionsRedis());
 
-        $key    = uniqid();
-        $result = $adapter->set($key, 100);
-        $I->assertTrue($result);
+        $key = uniqid('decrement-');
 
-        $expected = 99;
-        $actual   = $adapter->decrement($key);
-        $I->assertEquals($expected, $actual);
+        /**
+         * Key does not exist
+         */
+        $I->assertFalse($adapter->has($key));
 
-        $actual = $adapter->get($key);
-        $I->assertEquals($expected, $actual);
+        /**
+         * Key does not exist. Increment it 10 times
+         */
+        $adapter->increment($key);
+        $adapter->increment($key);
+        $adapter->increment($key);
+        $adapter->increment($key);
+        $adapter->increment($key);
+        $adapter->increment($key);
+        $adapter->increment($key);
+        $adapter->increment($key);
+        $adapter->increment($key);
+        $adapter->increment($key);
 
-        $expected = 90;
-        $actual   = $adapter->decrement($key, 9);
-        $I->assertEquals($expected, $actual);
-
+        /**
+         * Get: new value in key - 10
+         */
+        $expected = 10;
         $actual = $adapter->get($key);
         $I->assertEquals($expected, $actual);
 
         /**
-         * unknown key
+         * A few decrements
          */
-        $key    = 'unknown';
-        $result = $adapter->decrement($key);
-        $I->assertFalse($result);
+        $expected = 9;
+        $actual   = $adapter->decrement($key);
+        $I->assertEquals($expected, $actual);
+
+        $expected = 8;
+        $actual   = $adapter->decrement($key);
+        $I->assertEquals($expected, $actual);
+
+        $expected = 7;
+        $actual   = $adapter->decrement($key);
+        $I->assertEquals($expected, $actual);
+
+        /**
+         * Now increment by 10. We should get 24
+         */
+        $expected = 2;
+        $actual   = $adapter->decrement($key, 5);
+        $I->assertEquals($expected, $actual);
+
+        /**
+         * Get check
+         */
+        $actual = $adapter->get($key);
+        $I->assertEquals($expected, $actual);
+
+        /**
+         * Cleanup
+         */
+        $actual = $adapter->delete($key);
+        $I->assertTrue($actual);
     }
 }

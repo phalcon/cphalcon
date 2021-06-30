@@ -19,6 +19,7 @@ use Phalcon\Test\Fixtures\Traits\RedisTrait;
 use IntegrationTester;
 
 use function getOptionsRedis;
+use function uniqid;
 
 class IncrementCest
 {
@@ -33,34 +34,63 @@ class IncrementCest
     public function cacheAdapterRedisIncrement(IntegrationTester $I)
     {
         $I->wantToTest('Cache\Adapter\Redis - increment()');
-        $I->skipTest('Check this');
 
         $serializer = new SerializerFactory();
         $adapter    = new Redis($serializer, getOptionsRedis());
 
-        $key    = 'cache-data';
-        $result = $adapter->set($key, 1);
-        $I->assertTrue($result);
+        $key = uniqid('increment-');
 
-        $expected = 2;
+        /**
+         * Key does not exist
+         */
+        $I->assertFalse($adapter->has($key));
+
+        /**
+         * Key does not exist, sets it to 0 and then increments it by 1
+         */
+        $expected = 1;
         $actual   = $adapter->increment($key);
         $I->assertEquals($expected, $actual);
+        $I->assertTrue($adapter->has($key));
 
-        $actual = $adapter->get($key);
-        $I->assertEquals($expected, $actual);
-
-        $expected = 10;
-        $actual   = $adapter->increment($key, 8);
-        $I->assertEquals($expected, $actual);
-
+        /**
+         * Get: new value in key - still 1
+         */
         $actual = $adapter->get($key);
         $I->assertEquals($expected, $actual);
 
         /**
-         * unknown key
+         * A few increments
          */
-        $key    = 'unknown';
-        $result = $adapter->increment($key);
-        $I->assertFalse($result);
+        $expected = 2;
+        $actual   = $adapter->increment($key);
+        $I->assertEquals($expected, $actual);
+
+        $expected = 3;
+        $actual   = $adapter->increment($key);
+        $I->assertEquals($expected, $actual);
+
+        $expected = 4;
+        $actual   = $adapter->increment($key);
+        $I->assertEquals($expected, $actual);
+
+        /**
+         * Now increment by 10. We should get 24
+         */
+        $expected = 14;
+        $actual   = $adapter->increment($key, 10);
+        $I->assertEquals($expected, $actual);
+
+        /**
+         * Get check
+         */
+        $actual = $adapter->get($key);
+        $I->assertEquals($expected, $actual);
+
+        /**
+         * Cleanup
+         */
+        $actual = $adapter->delete($key);
+        $I->assertTrue($actual);
     }
 }

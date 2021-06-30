@@ -27,13 +27,19 @@ use Phalcon\Mvc\Model\BinderInterface;
  */
 abstract class AbstractDispatcher extends AbstractInjectionAware implements DispatcherInterface, EventsAwareInterface
 {
-    protected activeHandler;
+    /**
+     * @var object|null
+     */
+    protected activeHandler = null;
 
     /**
      * @var array
      */
     protected activeMethodMap = [];
 
+    /**
+     * @var string|null
+     */
     protected actionName = null;
 
     /**
@@ -51,8 +57,14 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
      */
     protected defaultAction = "";
 
+    /**
+     * @var string|null
+     */
     protected defaultNamespace = null;
 
+    /**
+     * @var string|null
+     */
     protected defaultHandler = null;
 
     /**
@@ -60,6 +72,9 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
      */
     protected handlerHashes = [];
 
+    /**
+     * @var string|null
+     */
     protected handlerName = null;
 
     /**
@@ -67,7 +82,10 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
      */
     protected handlerSuffix = "";
 
-    protected eventsManager;
+    /**
+     * @var ManagerInterface|null
+     */
+    protected eventsManager = null;
 
     /**
      * @var bool
@@ -83,23 +101,55 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
      * @var bool
      */
     protected isControllerInitialize = false;
+
+    /**
+     * @var mixed|null
+     */
     protected lastHandler = null;
+
+    /**
+     * @var BinderInterface|null
+     */
     protected modelBinder = null;
 
     /**
      * @var bool
      */
     protected modelBinding = false;
+
+    /**
+     * @var string|null
+     */
     protected moduleName = null;
+
+    /**
+     * @var string|null
+     */
     protected namespaceName = null;
 
     /**
      * @var array
      */
     protected params = [];
+
+    /**
+     * @var string|null
+     */
     protected previousActionName = null;
+
+    /**
+     * @var string|null
+     */
     protected previousHandlerName = null;
+
+    /**
+     * @var string|null
+     */
     protected previousNamespaceName = null;
+
+    /**
+     * @var string|null
+     */
     protected returnedValue = null;
 
     public function callActionMethod(handler, string actionMethod, array! params = [])
@@ -188,7 +238,6 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
         let value = null,
             handler = null,
             numberDispatches = 0,
-//            actionSuffix = this->actionSuffix, // never used
             this->finished = false;
 
         while !this->finished {
@@ -844,9 +893,9 @@ abstract class AbstractDispatcher extends AbstractInjectionAware implements Disp
     /**
      * Sets the default namespace
      */
-    public function setDefaultNamespace(string namespaceName) -> void
+    public function setDefaultNamespace(string defaultNamespace) -> void
     {
-        let this->defaultNamespace = namespaceName;
+        let this->defaultNamespace = defaultNamespace;
     }
 
     /**

@@ -43,7 +43,7 @@ abstract class AbstractAdapter implements SessionHandlerInterface
     /**
      * Garbage Collector
      */
-    public function gc(var maxlifetime) -> bool
+    public function gc(var maxlifetime)
     {
         return true;
     }

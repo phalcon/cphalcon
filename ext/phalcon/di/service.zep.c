@@ -46,6 +46,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Di_Service)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Di, Service, phalcon, di_service, phalcon_di_service_method_entry, 0);
 
+	/**
+	 * @var mixed
+	 */
 	zend_declare_property_null(phalcon_di_service_ce, SL("definition"), ZEND_ACC_PROTECTED);
 	/**
 	 * @var bool
@@ -55,6 +58,9 @@ ZEPHIR_INIT_CLASS(Phalcon_Di_Service)
 	 * @var bool
 	 */
 	zend_declare_property_bool(phalcon_di_service_ce, SL("shared"), 0, ZEND_ACC_PROTECTED);
+	/**
+	 * @var mixed|null
+	 */
 	zend_declare_property_null(phalcon_di_service_ce, SL("sharedInstance"), ZEND_ACC_PROTECTED);
 	zend_class_implements(phalcon_di_service_ce, 1, phalcon_di_serviceinterface_ce);
 	return SUCCESS;
@@ -142,7 +148,7 @@ PHP_METHOD(Phalcon_Di_Service, getParameter)
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("definition"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&definition, &_0);
 	if (UNEXPECTED(Z_TYPE_P(&definition) != IS_ARRAY)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_di_exception_ce, "Definition must be an array to obtain its parameters", "phalcon/Di/Service.zep", 76);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_di_exception_ce, "Definition must be an array to obtain its parameters", "phalcon/Di/Service.zep", 82);
 		return;
 	}
 	if (zephir_array_isset_string_fetch(&arguments, &definition, SL("arguments"), 1)) {
@@ -304,7 +310,7 @@ PHP_METHOD(Phalcon_Di_Service, resolve)
 		object_init_ex(&_5$$21, phalcon_di_exception_serviceresolutionexception_ce);
 		ZEPHIR_CALL_METHOD(NULL, &_5$$21, "__construct", NULL, 8);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_5$$21, "phalcon/Di/Service.zep", 199);
+		zephir_throw_exception_debug(&_5$$21, "phalcon/Di/Service.zep", 205);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -376,7 +382,7 @@ PHP_METHOD(Phalcon_Di_Service, setParameter)
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("definition"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&definition, &_0);
 	if (UNEXPECTED(Z_TYPE_P(&definition) != IS_ARRAY)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_di_exception_ce, "Definition must be an array to update its parameters", "phalcon/Di/Service.zep", 234);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_di_exception_ce, "Definition must be an array to update its parameters", "phalcon/Di/Service.zep", 240);
 		return;
 	}
 	ZEPHIR_OBS_VAR(&arguments);

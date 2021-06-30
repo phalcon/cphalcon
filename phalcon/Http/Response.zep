@@ -42,16 +42,34 @@ use Phalcon\Events\ManagerInterface;
  */
 class Response implements ResponseInterface, InjectionAwareInterface, EventsAwareInterface
 {
-    protected container;
+    /**
+     * @var DiInterface|null
+     */
+    protected container = null;
 
-    protected content;
+    /**
+     * @var string|null
+     */
+    protected content = null;
 
-    protected cookies;
+    /**
+     * @var CookiesInterface|null
+     */
+    protected cookies = null;
 
-    protected eventsManager;
+    /**
+     * @var ManagerInterface|null
+     */
+    protected eventsManager = null;
 
-    protected file;
+    /**
+     * @var string|null
+     */
+    protected file = null;
 
+    /**
+     * @var Headers
+     */
     protected headers;
 
     /**
@@ -59,7 +77,10 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
      */
     protected sent = false;
 
-    protected statusCodes;
+    /**
+     * @var array
+     */
+    protected statusCodes = [];
 
     /**
      * Phalcon\Http\Response constructor

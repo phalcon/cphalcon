@@ -270,7 +270,6 @@ abstract class AbstractConditions extends AbstractQuery
      *
      * @return string
      */
-
     protected function buildLimitCommon() -> string
     {
         string limit = "";

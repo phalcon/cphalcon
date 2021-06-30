@@ -52,6 +52,11 @@ You can join them in supporting Phalcon and Zephir development by visiting our p
     </tr>
     <tr>
     <td align="center" valign="bottom">   
+      <a href="https://www.uptrends.com">
+        <img width="170px" height="40px" src="https://assets.phalcon.io/phalcon/images/backers/digitalocean.svg" style="max-width:100%;" alt="DigitalOcean open source">
+      </a>
+    </td>
+    <td align="center" valign="center">   
       <a href="https://phalcon.io/fund">
        Support Us
       </a>
@@ -81,7 +86,6 @@ Thanks for the support
 [//]: github-sponsors
 
 <a href="https://github.com/evansims"><img src="https://avatars2.githubusercontent.com/u/3093?s=460&u=cfba72529ae60e76c15dca111246baea93e333a7&v=4" title="Evan Sims" width="60" height="60"></a>
-<a href="https://github.com/ninjapanzer"><img src="https://avatars1.githubusercontent.com/u/159591?s=460&v=4" title="Paul Scarrone" width="60" height="60"></a>
 <a href="https://github.com/andresgutierrez"><img src="https://avatars.githubusercontent.com/u/213590?v=4" title="Andres Gutierrez" width="60" height="60"></a>
 <a href="https://github.com/vlad-light"><img src="https://avatars1.githubusercontent.com/u/277235?s=460&v=4" title="Vladimir L" width="60" height="60"></a>
 <a href="https://github.com/pyatin"><img src="https://avatars.githubusercontent.com/u/296939?v=4" title="Glib Pyatin" width="60" height="60"></a>
@@ -99,6 +103,7 @@ Thanks for the support
 <a href="https://github.com/borisdelev"><img src="https://avatars.githubusercontent.com/u/4441663?s=460&u=be604c39153e26326f2123c6e1bfe880d5ec0947&v=4" title="Boris Delev" width="60" height="60"></a>
 <a href="https://github.com/educury"><img src="https://avatars2.githubusercontent.com/u/5339278?s=460&v=4" title="educury" width="60" height="60"></a>
 <a href="https://github.com/emagus"><img src="https://avatars3.githubusercontent.com/u/5857789?s=460&v=4" title="emagus" width="60" height="60"></a>
+<a href="https://github.com/tztztztz"><img src="https://avatars.githubusercontent.com/u/7032308?v=4" title="Tomasz Zadora" width="60" height="60"></a>
 <a href="https://github.com/ruudboon"><img src="https://avatars3.githubusercontent.com/u/7444246?s=460&v=4" title="Ruud Boon" width="60" height="60"></a>
 <a href="https://github.com/sitchi"><img src="https://avatars.githubusercontent.com/u/11546683?v=4" title="Nikoloz Sitchinava" width="60" height="60"></a>
 <a href="https://github.com/tacxticx88"><img src="https://avatars3.githubusercontent.com/u/12997062?s=460&u=5af0fbe438391ac46fb19befe0c20a4b1374e187&v=4" title="Clément" width="60" height="60"></a>
@@ -107,6 +112,7 @@ Thanks for the support
 <a href="https://github.com/fvromera"><img src="https://avatars.githubusercontent.com/u/32909196?s=460&u=a4a6d765c836be52ab247354399d0ed1a49224fa&v=4" title="fvromera" width="60" height="60"></a>
 <a href="https://github.com/ak1113"><img src="https://avatars0.githubusercontent.com/u/38716832?s=460&v=4" title="Akira Kato" width="60" height="60"></a>
 <a href="https://github.com/dredasss"><img src="https://avatars1.githubusercontent.com/u/38747389?s=460&u=ee99a8bb28ee6bedbbea6325d49d4eb99080d421&v=4" title="Nerijus Alex" width="60" height="60"></a>
+<a href="https://github.com/iogates"><img src="https://avatars.githubusercontent.com/u/86652317?s=200&v=4" title="iogates" width="60" height="60"></a>
 
 [//]: github-sponsors
 

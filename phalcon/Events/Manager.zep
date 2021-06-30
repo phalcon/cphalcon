@@ -35,9 +35,15 @@ class Manager implements ManagerInterface
      */
     protected enablePriorities = false;
 
-    protected events = null;
+    /**
+     * @var array
+     */
+    protected events = [];
 
-    protected responses;
+    /**
+     * @var array
+     */
+    protected responses = [];
 
     /**
      * Attach a listener to the events manager
@@ -185,7 +191,7 @@ class Manager implements ManagerInterface
 
         let events = this->events;
 
-        if typeof events != "array" {
+        if empty events {
             return null;
         }
 
@@ -202,7 +208,7 @@ class Manager implements ManagerInterface
 
         // Responses must be traced?
         if this->collect {
-            let this->responses = null;
+            let this->responses = [];
         }
 
         // Create the event context

@@ -92,6 +92,9 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
     const OP_UPDATE = 2;
     const TRANSACTION_INDEX = "transaction";
 
+    /**
+     * @var int
+     */
     protected dirtyState = 1;
 
     /**
@@ -104,15 +107,24 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      */
     protected errorMessages = [];
 
-    protected modelsManager;
+    /**
+     * @var ManagerInterface|null
+     */
+    protected modelsManager = null;
 
-    protected modelsMetaData;
+    /**
+     * @var MetaDataInterface|null
+     */
+    protected modelsMetaData = null;
 
     /**
      * @var array
      */
     protected related = [];
 
+    /**
+     * @var int
+     */
     protected operationMade = 0;
 
     /**
@@ -120,17 +132,36 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      */
     protected oldSnapshot = [];
 
-    protected skipped;
+    /**
+     * @var bool
+     */
+    protected skipped = false;
 
-    protected snapshot;
+    /**
+     * @var array
+     */
+    protected snapshot = [];
 
-    protected transaction { get };
+    /**
+     * @var TransactionInterface|null
+     */
+    protected transaction = null { get };
 
-    protected uniqueKey;
+    /**
+     * @var string|null
+     */
+    protected uniqueKey = null;
 
-    protected uniqueParams;
+    /**
+     * @var array
+     */
+    protected uniqueParams = [];
 
-    protected uniqueTypes;
+    /**
+     * @var array|null
+     * TODO: Make it always array in code
+     */
+    protected uniqueTypes = null;
 
     /**
      * Phalcon\Mvc\Model constructor
@@ -1041,7 +1072,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      * echo "There are ", $number, " mechanical robots\n";
      * ```
      *
-     * @param array parameters
+     * @param array|string|null parameters
      */
     public static function count(var parameters = null) -> int | <ResultsetInterface>
     {
@@ -2140,7 +2171,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      */
     public function hasSnapshotData() -> bool
     {
-        return typeof this->snapshot == "array";
+        return !empty this->snapshot;
     }
 
     /**
@@ -4235,11 +4266,11 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
      *
      * @param string functionName
      * @param string alias
-     * @param array parameters
+     * @param array|string|null parameters
      *
      * @return ResultsetInterface
      */
-    protected static function groupResult(string! functionName, string! alias, var parameters) -> <ResultsetInterface>
+    protected static function groupResult(string! functionName, string! alias, var parameters = null) -> <ResultsetInterface>
     {
         var params, distinctColumn, groupColumn, columns,
             resultset, cache, firstRow, groupColumns, builder, query, container,
@@ -4249,7 +4280,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         let container = Di::getDefault();
         let manager = <ManagerInterface> container->getShared("modelsManager");
 
-        if typeof parameters != "array" {
+        if typeof parameters !== "array" {
             let params = [];
 
             if parameters !== null {
@@ -4282,10 +4313,7 @@ abstract class Model extends AbstractInjectionAware implements EntityInterface, 
         let builder = <BuilderInterface> manager->createBuilder(params);
 
         builder->columns(columns);
-
-        builder->from(
-            get_called_class()
-        );
+        builder->from(get_called_class());
 
         let query = <QueryInterface> builder->getQuery();
 

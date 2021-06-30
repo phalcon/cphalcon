@@ -58,9 +58,9 @@ class GetCest
         $specialNo = ($special) ? $id[6] : '';
         $expected  = "{$major}.{$med}.{$min}";
         if (true !== empty($special)) {
-            $expected .= "-{$special}";
+            $expected .= "{$special}";
             if (true !== empty($specialNo)) {
-                $expected .= ".{$specialNo}";
+                $expected .= "{$specialNo}";
             }
         }
 

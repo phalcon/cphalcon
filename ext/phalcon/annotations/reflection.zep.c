@@ -49,13 +49,27 @@ ZEPHIR_INIT_CLASS(Phalcon_Annotations_Reflection)
 {
 	ZEPHIR_REGISTER_CLASS(Phalcon\\Annotations, Reflection, phalcon, annotations_reflection, phalcon_annotations_reflection_method_entry, 0);
 
+	/**
+	 * @var array
+	 * TODO: Make always array
+	 */
 	zend_declare_property_null(phalcon_annotations_reflection_ce, SL("classAnnotations"), ZEND_ACC_PROTECTED);
+	/**
+	 * @var array
+	 * TODO: Make always array
+	 */
 	zend_declare_property_null(phalcon_annotations_reflection_ce, SL("methodAnnotations"), ZEND_ACC_PROTECTED);
+	/**
+	 * @var array
+	 * TODO: Make always array
+	 */
 	zend_declare_property_null(phalcon_annotations_reflection_ce, SL("propertyAnnotations"), ZEND_ACC_PROTECTED);
 	/**
 	 * @var array
 	 */
 	zend_declare_property_null(phalcon_annotations_reflection_ce, SL("reflectionData"), ZEND_ACC_PROTECTED);
+	phalcon_annotations_reflection_ce->create_object = zephir_init_properties_Phalcon_Annotations_Reflection;
+
 	return SUCCESS;
 }
 
@@ -170,7 +184,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getMethodsAnnotations)
 				ZEPHIR_INIT_VAR(&_2$$5);
 				array_init(&_2$$5);
 				zephir_update_property_zval(this_ptr, ZEND_STRL("methodAnnotations"), &_2$$5);
-				zephir_is_iterable(&reflectionMethods, 0, "phalcon/Annotations/Reflection.zep", 88);
+				zephir_is_iterable(&reflectionMethods, 0, "phalcon/Annotations/Reflection.zep", 100);
 				if (Z_TYPE_P(&reflectionMethods) == IS_ARRAY) {
 					ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&reflectionMethods), _5$$5, _6$$5, _3$$5)
 					{
@@ -261,7 +275,7 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getPropertiesAnnotations)
 				ZEPHIR_INIT_VAR(&_2$$5);
 				array_init(&_2$$5);
 				zephir_update_property_zval(this_ptr, ZEND_STRL("propertyAnnotations"), &_2$$5);
-				zephir_is_iterable(&reflectionProperties, 0, "phalcon/Annotations/Reflection.zep", 116);
+				zephir_is_iterable(&reflectionProperties, 0, "phalcon/Annotations/Reflection.zep", 128);
 				if (Z_TYPE_P(&reflectionProperties) == IS_ARRAY) {
 					ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&reflectionProperties), _5$$5, _6$$5, _3$$5)
 					{
@@ -326,5 +340,29 @@ PHP_METHOD(Phalcon_Annotations_Reflection, getReflectionData)
 
 
 	RETURN_MEMBER(getThis(), "reflectionData");
+}
+
+zend_object *zephir_init_properties_Phalcon_Annotations_Reflection(zend_class_entry *class_type)
+{
+		zval _0, _1$$3;
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+		ZVAL_UNDEF(&_0);
+	ZVAL_UNDEF(&_1$$3);
+	
+
+		ZEPHIR_MM_GROW();
+	
+	{
+		zval local_this_ptr, *this_ptr = &local_this_ptr;
+		ZEPHIR_CREATE_OBJECT(this_ptr, class_type);
+		zephir_read_property_ex(&_0, this_ptr, ZEND_STRL("reflectionData"), PH_NOISY_CC | PH_READONLY);
+		if (Z_TYPE_P(&_0) == IS_NULL) {
+			ZEPHIR_INIT_VAR(&_1$$3);
+			array_init(&_1$$3);
+			zephir_update_property_zval_ex(this_ptr, ZEND_STRL("reflectionData"), &_1$$3);
+		}
+		ZEPHIR_MM_RESTORE();
+		return Z_OBJ_P(this_ptr);
+	}
 }
 

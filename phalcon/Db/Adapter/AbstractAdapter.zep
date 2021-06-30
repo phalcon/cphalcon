@@ -29,6 +29,8 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
 {
     /**
      * Connection ID
+     *
+     * @var int
      */
     protected static connectionConsecutive = 0;
 
@@ -41,11 +43,15 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
 
     /**
      * Descriptor used to connect to a database
+     *
+     * @var array
      */
     protected descriptor = [];
 
     /**
      * Dialect instance
+     *
+     * @var object
      */
     protected dialect;
 
@@ -59,9 +65,9 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
     /**
      * Event Manager
      *
-     * @var ManagerInterface
+     * @var ManagerInterface|null
      */
-    protected eventsManager;
+    protected eventsManager = null;
 
     /**
      * The real SQL statement - what was executed
@@ -75,7 +81,7 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      *
      * @var array
      */
-    protected sqlBindTypes;
+    protected sqlBindTypes = [];
 
     /**
      * Active SQL Statement
@@ -93,11 +99,15 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
 
     /**
      * Current transaction level
+     *
+     * @var int
      */
     protected transactionLevel = 0;
 
     /**
      * Whether the database supports transactions with save points
+     *
+     * @var bool
      */
     protected transactionsWithSavepoints = false;
 
@@ -281,8 +291,15 @@ abstract class AbstractAdapter implements AdapterInterface, EventsAwareInterface
      * // Next SQL sentence is generated
      * DELETE FROM `robots` WHERE `id` = 101
      * ```
+     *
+     * @param array|string table
+     * @param string|null whereCondition
+     * @param array placeholders
+     * @param array dataTypes
+     *
+     * @return bool
      */
-    public function delete(var table, var whereCondition = null, var placeholders = null, var dataTypes = null) -> bool
+    public function delete(var table, string whereCondition = null, array placeholders = [], array dataTypes = []) -> bool
     {
         var sql, escapedTable;
 

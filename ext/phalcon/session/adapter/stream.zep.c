@@ -179,6 +179,9 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, destroy)
 	RETURN_MM_BOOL(1);
 }
 
+/**
+ * Garbage Collector
+ */
 PHP_METHOD(Phalcon_Session_Adapter_Stream, gc)
 {
 	zend_bool _6$$3, _9$$3, _12$$5, _14$$5;
@@ -223,7 +226,7 @@ PHP_METHOD(Phalcon_Session_Adapter_Stream, gc)
 	zephir_sub_function(&time, &_2, maxlifetime);
 	ZEPHIR_CALL_FUNCTION(&_3, "glob", NULL, 0, &pattern);
 	zephir_check_call_status();
-	zephir_is_iterable(&_3, 0, "phalcon/Session/Adapter/Stream.zep", 102);
+	zephir_is_iterable(&_3, 0, "phalcon/Session/Adapter/Stream.zep", 105);
 	if (Z_TYPE_P(&_3) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&_3), _4)
 		{

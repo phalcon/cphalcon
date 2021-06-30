@@ -40,7 +40,7 @@ class File implements FileInterface
     /**
      * @var string|null
      */
-    protected error { get };
+    protected error = null { get };
 
     /**
      * @var string
@@ -50,16 +50,31 @@ class File implements FileInterface
     /**
      * @var string|null
      */
-    protected key { get };
+    protected key = null { get };
 
+    /**
+     * @var string
+     */
     protected name;
 
+    /**
+     * @var string
+     */
     protected realType;
 
-    protected size;
+    /**
+     * @var int
+     */
+    protected size = 0;
 
-    protected tmp;
+    /**
+     * @var string|null
+     */
+    protected tmp = null;
 
+    /**
+     * @var string
+     */
     protected type;
 
     /**

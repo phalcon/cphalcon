@@ -20,8 +20,14 @@ use Phalcon\Image\Exception;
  */
 abstract class AbstractAdapter implements AdapterInterface
 {
+    /**
+     * @var bool
+     */
     protected static checked = false;
 
+    /**
+     * @var string
+     */
     protected file;
 
     /**
@@ -31,7 +37,11 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     protected height { get };
 
-    protected image { get };
+    /**
+     * @var object|null
+     */
+    protected image = null { get };
+
     /**
      * Image mime type
      *
@@ -39,6 +49,9 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     protected mime { get };
 
+    /**
+     * @var string
+     */
     protected realpath { get };
 
     /**
@@ -58,8 +71,8 @@ abstract class AbstractAdapter implements AdapterInterface
     protected width { get };
 
     /**
-      * Set the background color of an image
-      */
+     * Set the background color of an image
+     */
     public function background(string color, int opacity = 100) -> <AdapterInterface>
     {
         var colors;
@@ -83,8 +96,8 @@ abstract class AbstractAdapter implements AdapterInterface
     }
 
     /**
-      * Blur image
-      */
+     * Blur image
+     */
     public function blur(int radius) -> <AdapterInterface>
     {
         if radius < 1 {
@@ -99,8 +112,8 @@ abstract class AbstractAdapter implements AdapterInterface
     }
 
     /**
-      * Crop an image to the given size
-      */
+     * Crop an image to the given size
+     */
     public function crop(
         int width,
         int height,
@@ -145,8 +158,8 @@ abstract class AbstractAdapter implements AdapterInterface
     }
 
     /**
-      * Flip the image along the horizontal or vertical axis
-      */
+     * Flip the image along the horizontal or vertical axis
+     */
     public function flip(int direction) -> <AdapterInterface>
     {
         if direction != Enum::HORIZONTAL && direction != Enum::VERTICAL {
@@ -180,8 +193,8 @@ abstract class AbstractAdapter implements AdapterInterface
     }
 
     /**
-      * Composite one image onto another
-      */
+     * Composite one image onto another
+     */
     public function mask(<AdapterInterface> watermark) -> <AdapterInterface>
     {
         this->{"processMask"}(watermark);
@@ -190,8 +203,8 @@ abstract class AbstractAdapter implements AdapterInterface
     }
 
     /**
-      * Pixelate image
-      */
+     * Pixelate image
+     */
     public function pixelate(int amount) -> <AdapterInterface>
     {
         if amount < 2 {
@@ -204,8 +217,8 @@ abstract class AbstractAdapter implements AdapterInterface
     }
 
     /**
-      * Add a reflection to an image
-      */
+     * Add a reflection to an image
+     */
     public function reflection(
         int height,
         int opacity = 100,
@@ -227,8 +240,8 @@ abstract class AbstractAdapter implements AdapterInterface
     }
 
     /**
-      * Render the image and return the binary string
-      */
+     * Render the image and return the binary string
+     */
     public function render(string ext = null, int quality = 100) -> string
     {
         if empty ext {
@@ -249,8 +262,8 @@ abstract class AbstractAdapter implements AdapterInterface
     }
 
     /**
-      * Resize the image to the given size
-      */
+     * Resize the image to the given size
+     */
     public function resize(
         int width = null,
         int height = null,
@@ -342,13 +355,12 @@ abstract class AbstractAdapter implements AdapterInterface
     }
 
     /**
-      * Rotate the image by a given amount
-      */
+     * Rotate the image by a given amount
+     */
     public function rotate(int degrees) -> <AdapterInterface>
     {
         if degrees > 180 {
-            // FIXME: Fix Zephir Parser to allow use  let degrees %= 360
-            let degrees = degrees % 360;
+            let degrees %= 360;
 
             if degrees > 180 {
                 let degrees -= 360;
@@ -365,8 +377,8 @@ abstract class AbstractAdapter implements AdapterInterface
     }
 
     /**
-      * Save the image
-      */
+     * Save the image
+     */
     public function save(string file = null, int quality = -1) -> <AdapterInterface>
     {
         if !file {
@@ -379,8 +391,8 @@ abstract class AbstractAdapter implements AdapterInterface
     }
 
     /**
-      * Sharpen the image by a given amount
-      */
+     * Sharpen the image by a given amount
+     */
     public function sharpen(int amount) -> <AdapterInterface>
     {
         if amount > 100 {
@@ -395,8 +407,8 @@ abstract class AbstractAdapter implements AdapterInterface
     }
 
     /**
-      * Add a text to an image with a specified opacity
-      */
+     * Add a text to an image with a specified opacity
+     */
     public function text(
         string text,
         var offsetX = false,
@@ -445,8 +457,8 @@ abstract class AbstractAdapter implements AdapterInterface
     }
 
     /**
-      * Add a watermark to an image with the specified opacity
-      */
+     * Add a watermark to an image with the specified opacity
+     */
     public function watermark(
         <AdapterInterface> watermark,
         int offsetX = 0,

@@ -35,14 +35,25 @@ use Phalcon\Db\Adapter\AdapterInterface;
  */
 class Pdo implements ResultInterface
 {
-    protected bindParams;
+    /**
+     * @var array
+     */
+    protected bindParams = [];
 
-    protected bindTypes;
+    /**
+     * @var array
+     */
+    protected bindTypes = [];
 
+    /**
+     * @var AdapterInterface
+     */
     protected connection;
 
     /**
      * Active fetch mode
+     *
+     * @var int
      */
     protected fetchMode = Enum::FETCH_OBJ;
 
@@ -53,11 +64,21 @@ class Pdo implements ResultInterface
      */
     protected pdoStatement;
 
+    /**
+     * @var mixed
+     * TODO: Check if this property is used
+     */
     protected result;
 
+    /**
+     * @var bool
+     */
     protected rowCount = false;
 
-    protected sqlStatement;
+    /**
+     * @var string|null
+     */
+    protected sqlStatement = null;
 
     /**
      * Phalcon\Db\Result\Pdo constructor
