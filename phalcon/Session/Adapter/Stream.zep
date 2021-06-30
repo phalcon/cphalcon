@@ -85,7 +85,7 @@ class Stream extends Noop
     }
 
     /**
-     * @return bool|int
+     * @return false|int
      */
     public function gc(var maxlifetime) -> bool
     {
