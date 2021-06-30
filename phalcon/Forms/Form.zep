@@ -566,6 +566,7 @@ class Form extends Injectable implements Countable, Iterator, AttributesInterfac
             this->bind(data, entity);
         } else {
             if typeof this->entity == "object" {
+                let entity = this->entity;
                 this->bind(data, this->entity);
             }
         }
