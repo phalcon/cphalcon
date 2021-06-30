@@ -18,7 +18,6 @@ jobs:
     runs-on: ubuntu-20.04
     name: Build Phalcon Pecl Package
     steps:
-
       - name: Setup Environment Variables
         run: |
           echo "ZEPHIR_PARSER_VERSION=v1.3.6" >> $GITHUB_ENV
@@ -139,11 +138,13 @@ jobs:
 
     name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
     steps:
-
       - name: Checkout Code
         uses: actions/checkout@v2
         with:
           fetch-depth: 1
+
+      - name: Validate composer
+        run: composer validate --no-check-all --no-check-publish
 
       - name: Get Composer Cache Directory
         id: composer-cache
