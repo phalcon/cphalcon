@@ -2066,6 +2066,8 @@ class Manager implements ManagerInterface, InjectionAwareInterface, EventsAwareI
 
     /**
      * Creates a Phalcon\Mvc\Model\Query\Builder
+     *
+     * @param array|string|null params
      */
     public function createBuilder(var params = null) -> <BuilderInterface>
     {
