@@ -47,7 +47,7 @@ jobs:
       - name: Setup Environment Variables
         run: |
           echo "ZEPHIR_PARSER_VERSION=v1.3.6" >> $GITHUB_ENV
-          echo "ZEPHIR_VERSION=0.13.4" >> $GITHUB_ENV
+          echo "ZEPHIR_VERSION=0.13.5" >> $GITHUB_ENV
           echo "LANG=en_US.UTF-8" >> $GITHUB_ENV
           echo "LANGUAGE=en_US.UTF-8" >> $GITHUB_ENV
           echo "LC_ALL=en_US.UTF-8" >> $GITHUB_ENV
