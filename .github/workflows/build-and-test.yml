@@ -403,7 +403,7 @@ jobs:
 
           # FIXME: phpversion() return 7.4.3 but windows.php.net has only 7.4.4
           # We should parse the following file to get the correct version:
-          #   https://windows.php.net/downloads/releases/sha256sum.txt
+          #    https://windows.php.net/downloads/releases/sha256sum.txt
           If ("${{ matrix.php-versions }}" -eq "7.4") {
             Write-Output "PHP_VERSION=7.4.4" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           } Else {
