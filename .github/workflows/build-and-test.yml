@@ -265,7 +265,7 @@ jobs:
     env:
       extensions: mbstring, intl, json, yaml, apcu, imagick, gd, gettext, igbinary, msgpack, redis, zip
       HOMEBREW_NO_INSTALL_CLEANUP: 1
-      ext_cache_key: v5.0.0-alpha.3-macOS-1
+      ext_cache_key: v5.0.0-alpha.3-macOS-2
     strategy:
       fail-fast: false
       matrix:
