@@ -13,10 +13,10 @@ declare(strict_types=1);
 
 namespace Phalcon\Test\Integration\Session\Manager;
 
+use Codeception\Example;
 use IntegrationTester;
 use Phalcon\Session\Manager;
 use Phalcon\Test\Fixtures\Traits\DiTrait;
-use Phalcon\Test\Fixtures\Traits\SessionTrait;
 
 class ExistsDestroyCest
 {
@@ -25,17 +25,24 @@ class ExistsDestroyCest
     /**
      * Tests Phalcon\Session\Manager :: exists()/destroy()
      *
+     * @dataProvider getAdapters
+     *
+     * @param IntegrationTester $I
+     * @param Example           $example
+     *
+     * @throws \Phalcon\Storage\Exception
+     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function sessionManagerExistsDestroy(IntegrationTester $I)
+    public function sessionManagerExistsDestroy(IntegrationTester $I, Example $example)
     {
-        $I->wantToTest('Session\Manager - exists()/destroy()');
+        $I->wantToTest('Session\Manager - exists()/destroy() - ' . $example[0]);
         $store    = $_SESSION ?? [];
         $_SESSION = [];
 
         $manager = new Manager();
-        $files   = $this->newService('sessionStream');
+        $files   = $this->newService($example[1]);
         $manager->setAdapter($files);
 
         $actual = $manager->start();
@@ -55,20 +62,27 @@ class ExistsDestroyCest
     /**
      * Tests Phalcon\Session\Manager :: destroy() - clean $_SESSION
      *
+     * @dataProvider getAdapters
+     *
+     * @param IntegrationTester $I
+     * @param Example           $example
+     *
+     * @throws \Phalcon\Storage\Exception
+     *
      * @issue  https://github.com/phalcon/cphalcon/issues/12326
      * @issue  https://github.com/phalcon/cphalcon/issues/12835
      *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2018-11-13
      */
-    public function sessionManagerDestroySuperGlobal(IntegrationTester $I)
+    public function sessionManagerDestroySuperGlobal(IntegrationTester $I, Example $example)
     {
-        $I->wantToTest('Session\Manager - destroy() - clean $_SESSION');
+        $I->wantToTest('Session\Manager - destroy() - clean $_SESSION - ' . $example[0]);
         $store    = $_SESSION ?? [];
         $_SESSION = [];
 
         $manager = new Manager();
-        $files   = $this->newService('sessionStream');
+        $files   = $this->newService($example[1]);
         $manager->setAdapter($files);
 
         $actual = $manager->start();
@@ -93,18 +107,25 @@ class ExistsDestroyCest
     /**
      * Tests Phalcon\Session\Manager :: destroy() - clean $_SESSION with uniquid
      *
+     * @dataProvider getAdapters
+     *
+     * @param IntegrationTester $I
+     * @param Example           $example
+     *
+     * @throws \Phalcon\Storage\Exception
+     *
      * @author Phalcon Team <team@phalcon.io>
      * @since  2020-01-06
      */
-    public function sessionManagerDestroySuperGlobalUniquid(IntegrationTester $I)
+    public function sessionManagerDestroySuperGlobalUniquid(IntegrationTester $I, Example $example)
     {
-        $I->wantToTest('Session\Manager - destroy() - clean $_SESSION with uniquid');
+        $I->wantToTest('Session\Manager - destroy() - clean $_SESSION with uniquid - ' . $example[0]);
 
         $store    = $_SESSION ?? [];
         $_SESSION = [];
 
         $manager = new Manager();
-        $files   = $this->newService('sessionStream');
+        $files   = $this->newService($example[1]);
         $manager->setAdapter($files);
         $manager->setOptions(
             [
@@ -130,5 +151,30 @@ class ExistsDestroyCest
         $I->assertFalse($actual);
 
         $_SESSION = $store;
+    }
+
+    /**
+     * @return array
+     */
+    private function getAdapters(): array
+    {
+        return [
+            [
+                'stream',
+                'sessionStream',
+            ],
+            [
+                'memcached',
+                'sessionLibmemcached',
+            ],
+            [
+                'noop',
+                'sessionNoop',
+            ],
+            [
+                'redis',
+                'sessionRedis',
+            ],
+        ];
     }
 }
