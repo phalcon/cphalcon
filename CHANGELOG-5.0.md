@@ -2,9 +2,11 @@
 
 ## Changed
 - Changed `composer.json` to use PSR 1.1.x [#15504](https://github.com/phalcon/cphalcon/issues/15504)
+- Changed `Phalcon\Loader` to `Phalcon\Autoload\Loader`; its own namespace [#15489](https://github.com/phalcon/cphalcon/issues/15489)
 
 ## Fixed
 - Fixed `Phalcon\Container` interface to abide with `Psr\Container\ContainerInterface` after the upgrade to PSR 1.1.x [#15504](https://github.com/phalcon/cphalcon/issues/15504)
+- Fixed `Phalcon\Loader` by changing the `require` statements to `require_once` so as not to interfere with other loader components [#15489](https://github.com/phalcon/cphalcon/issues/15489)
 
 # [5.0.0alpha3](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0alpha3) (2021-06-30)
 
