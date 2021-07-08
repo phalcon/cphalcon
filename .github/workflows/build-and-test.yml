@@ -620,7 +620,7 @@ jobs:
         id: get-version
         run: |
           echo ::set-output name=version::${GITHUB_REF#refs/tags/}
-          echo ::set-output name=release_body::${.ci/release-notes.sh CHANGELOG-5.0.md}
+          echo ::set-output name=release_body::$(.ci/release-notes.sh CHANGELOG-5.0.md)
 
       - name: Download Phalcon build artifacts
         id: download
