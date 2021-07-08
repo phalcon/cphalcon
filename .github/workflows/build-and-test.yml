@@ -18,7 +18,6 @@ jobs:
     runs-on: ubuntu-20.04
     name: Build Phalcon Pecl Package
     steps:
-
       - name: Setup Environment Variables
         run: |
           echo "ZEPHIR_PARSER_VERSION=v1.3.6" >> $GITHUB_ENV
@@ -139,11 +138,13 @@ jobs:
 
     name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
     steps:
-
       - name: Checkout Code
         uses: actions/checkout@v2
         with:
           fetch-depth: 1
+
+      - name: Validate composer
+        run: composer validate --no-check-all --no-check-publish
 
       - name: Get Composer Cache Directory
         id: composer-cache
@@ -256,7 +257,7 @@ jobs:
 
   build-and-test-macos:
     # To prevent build a particular commit use
-    #     git commit -m "......... [ci skip]"
+    #    git commit -m "......... [ci skip]"
     if: "!contains(github.event.head_commit.message, 'ci skip')"
 
     needs: generate
@@ -264,7 +265,7 @@ jobs:
     env:
       extensions: mbstring, intl, json, yaml, apcu, imagick, gd, gettext, igbinary, msgpack, redis, zip
       HOMEBREW_NO_INSTALL_CLEANUP: 1
-#      ext_cache_key: v5.0.0-alpha.2-macOS-2
+      ext_cache_key: v5.0.0-alpha.3-macOS-2
     strategy:
       fail-fast: false
       matrix:
@@ -278,20 +279,20 @@ jobs:
         with:
           fetch-depth: 1
 
-#      - name: Setup cache environment
-#        id: extcache
-#        uses: shivammathur/cache-extensions@v1
-#        with:
-#          php-version: ${{ matrix.php-versions }}
-#          extensions: ${{ env.extensions }}
-#          key: ${{ env.ext_cache_key }}
+      - name: Setup cache environment
+        id: extcache
+        uses: shivammathur/cache-extensions@v1
+        with:
+          php-version: ${{ matrix.php-versions }}
+          extensions: ${{ env.extensions }}
+          key: ${{ env.ext_cache_key }}
 
-#      - name: Cache extensions
-#        uses: actions/cache@v2
-#        with:
-#          path: ${{ steps.extcache.outputs.dir }}
-#          key: ${{ steps.extcache.outputs.key }}
-#          restore-keys: ${{ steps.extcache.outputs.key }}
+      - name: Cache extensions
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.extcache.outputs.dir }}
+          key: ${{ steps.extcache.outputs.key }}
+          restore-keys: ${{ steps.extcache.outputs.key }}
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
@@ -302,16 +303,16 @@ jobs:
         env:
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-#      - name: Get composer cache directory
-#        id: composer-cache
-#        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
 
-#      - name: Cache dependencies
-#        uses: actions/cache@v2
-#        with:
-#          path: ${{ steps.composer-cache.outputs.dir }}
-#          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-#          restore-keys: ${{ runner.os }}-composer-
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
 
       - name: Download Phalcon Pecl Package
         uses: actions/download-artifact@v1
@@ -345,7 +346,7 @@ jobs:
 
   build-and-test-windows:
     # To prevent build a particular commit use
-    #     git commit -m "......... [ci skip]"
+    #    git commit -m "......... [ci skip]"
     if: "!contains(github.event.head_commit.message, 'ci skip')"
 
     name: PHP ${{ matrix.php-versions }} (${{ matrix.arch }}-${{ matrix.ts }}) Test on ${{ matrix.operating-system }}
@@ -402,7 +403,7 @@ jobs:
 
           # FIXME: phpversion() return 7.4.3 but windows.php.net has only 7.4.4
           # We should parse the following file to get the correct version:
-          #   https://windows.php.net/downloads/releases/sha256sum.txt
+          #    https://windows.php.net/downloads/releases/sha256sum.txt
           If ("${{ matrix.php-versions }}" -eq "7.4") {
             Write-Output "PHP_VERSION=7.4.4" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           } Else {
