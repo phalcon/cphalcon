@@ -155,7 +155,7 @@ class DispatcherInitializeMethodCest extends BaseDispatcher
         $dispatcher->getEventsManager()->attach(
             'dispatch:beforeException',
             function () use ($dispatcherListener) {
-                // Returning anything other then <tt>false</tt> should bubble the exception.
+                // Returning anything other than <tt>false</tt> should bubble the exception.
                 $dispatcherListener->trace(
                     'beforeException: custom before exception bubble'
                 );
