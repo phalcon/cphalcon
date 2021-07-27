@@ -26,6 +26,8 @@ class FormEntityCest
     {
         $I->wantToTest('Phalcon\Forms\Form  - isValid()');
 
+        $this->setNewFactoryDefault(); //create default DI
+
         $validator = new Validation();
         $validator->add('prd_name', new Max(['max' => 15]));
 
