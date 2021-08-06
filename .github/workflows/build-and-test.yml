@@ -279,20 +279,20 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Setup cache environment
-        id: extcache
-        uses: shivammathur/cache-extensions@v1
-        with:
-          php-version: ${{ matrix.php-versions }}
-          extensions: ${{ env.extensions }}
-          key: ${{ env.ext_cache_key }}
+#      - name: Setup cache environment
+#        id: extcache
+#        uses: shivammathur/cache-extensions@v1
+#        with:
+#          php-version: ${{ matrix.php-versions }}
+#          extensions: ${{ env.extensions }}
+#          key: ${{ env.ext_cache_key }}
 
-      - name: Cache extensions
-        uses: actions/cache@v2
-        with:
-          path: ${{ steps.extcache.outputs.dir }}
-          key: ${{ steps.extcache.outputs.key }}
-          restore-keys: ${{ steps.extcache.outputs.key }}
+#      - name: Cache extensions
+#        uses: actions/cache@v2
+#        with:
+#          path: ${{ steps.extcache.outputs.dir }}
+#          key: ${{ steps.extcache.outputs.key }}
+#          restore-keys: ${{ steps.extcache.outputs.key }}
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
