@@ -53,7 +53,9 @@ jobs:
         run: composer install --prefer-dist --ignore-platform-reqs
 
       - name: Install Zephir
-        run: .ci/install-zephir.sh
+        run: |
+          echo "ZEPHIR_VERSION=0.14.0-beta.3" >> $GITHUB_ENV
+          .ci/install-zephir.sh
 
       - name: Validate stubs
         if: always()
