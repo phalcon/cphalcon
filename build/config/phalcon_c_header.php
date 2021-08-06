@@ -51,20 +51,13 @@ return <<<HEADER
 #include <ext/spl/spl_exceptions.h>
 #include <ext/spl/spl_directory.h>
 #include <ext/spl/spl_iterators.h>
+#include <ext/spl/spl_array.h>
 
 #include <ext/pdo/php_pdo_driver.h>
 #include <ext/hash/php_hash.h>
 #include <ext/date/php_date.h>
 #include <ext/json/php_json.h>
 #include <ext/session/php_session.h>
-
-#include <ext/psr/psr_http_message.h>
-#include <ext/psr/psr_simple_cache.h>
-#include <ext/psr/psr_container.h>
-#include <ext/psr/psr_log.h>
-#include <ext/psr/psr_link.h>
-#include <ext/psr/psr_http_server_middleware.h>
-#include <ext/psr/psr_http_server_handler.h>
 
 #include <Zend/zend_API.h>
 #include <Zend/zend_operators.h>
