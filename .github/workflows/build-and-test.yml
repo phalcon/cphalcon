@@ -162,8 +162,8 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
-          extensions: mbstring, intl, json, imagick, gd, gettext, igbinary, apcu, msgpack, memcached, yaml, redis
-          ini-values: apc.enable_cli=on, session.save_path=/tmp, extension=psr.so, extension=phalcon.so
+          extensions: mbstring, intl, json, imagick, gd, gettext, igbinary, apcu, msgpack, memcached, yaml, redis, psr
+          ini-values: apc.enable_cli=on, session.save_path=/tmp
           tools: pecl
         env:
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
