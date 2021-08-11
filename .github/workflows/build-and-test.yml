@@ -9,6 +9,13 @@ on:
       - '**.txt'
   pull_request:
 
+env:
+  ZEPHIR_PARSER_VERSION: v1.3.6
+  ZEPHIR_VERSION: 0.14.0-beta.3
+  LANG: en_US.UTF-8
+  LANGUAGE: en_US.UTF-8
+  LC_ALL: en_US.UTF-8
+
 jobs:
   generate:
     # To prevent build a particular commit use
@@ -18,13 +25,6 @@ jobs:
     runs-on: ubuntu-20.04
     name: Build Phalcon Pecl Package
     steps:
-      - name: Setup Environment Variables
-        run: |
-          echo "ZEPHIR_PARSER_VERSION=v1.3.6" >> $GITHUB_ENV
-          echo "ZEPHIR_VERSION=0.14.0-beta.3" >> $GITHUB_ENV
-          echo "LANG=en_US.UTF-8" >> $GITHUB_ENV
-          echo "LANGUAGE=en_US.UTF-8" >> $GITHUB_ENV
-          echo "LC_ALL=en_US.UTF-8" >> $GITHUB_ENV
 
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
