@@ -35,14 +35,6 @@ jobs:
         env:
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Common Settings
-        run: |
-          # Core dump settings
-          ulimit -c unlimited -S || true
-
-          # Hide "You are in 'detached HEAD' state" message
-          git config --global advice.detachedHead false
-
       - name: Checkout Code
         uses: actions/checkout@v2
         with:
