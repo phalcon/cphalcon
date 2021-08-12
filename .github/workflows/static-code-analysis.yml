@@ -6,6 +6,9 @@ on:
       - '**.md'
       - '**.txt'
 
+env:
+  ZEPHIR_VERSION: 0.14.0-beta.3
+
 jobs:
   phpcs:
     if: "!contains(github.event.head_commit.message, 'ci skip')"
@@ -42,7 +45,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-versions }}
           tools: pecl
-          extensions: mbstring, intl, json, imagick, redis, igbinary, apcu, msgpack, memcached, yaml, psr
+          extensions: mbstring, intl, json, imagick, redis, igbinary, apcu, msgpack, memcached, yaml, psr-1.1.0
 
       - name: Install System Dependencies
         run: |
@@ -50,10 +53,11 @@ jobs:
           sudo apt-get install --no-install-recommends -q -y re2c
 
       - name: Install Packages
-        run: composer install --prefer-dist --ignore-platform-reqs
+        run: composer install --prefer-dist
 
       - name: Install Zephir
-        run: .ci/install-zephir.sh
+        run: |
+          .ci/install-zephir.sh
 
       - name: Validate stubs
         if: always()

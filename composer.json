@@ -46,7 +46,7 @@
         "ext-mbstring": "*",
         "ext-msgpack": "*",
         "ext-pdo": "*",
-        "ext-psr": "^0.7|^1.0",
+        "ext-psr": "^1.1.0",
         "ext-redis": "*",
         "ext-sqlite3": "*",
         "ext-xml": "*",
