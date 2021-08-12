@@ -1,4 +1,5 @@
 <?php
+
 namespace Phalcon\Test\Unit\Forms;
 
 use Phalcon\Forms\Element\Text;
@@ -11,10 +12,7 @@ use UnitTester;
 
 class FormEntityCest
 {
-
     use DiTrait;
-
-
 
     /**
      * Tests Phalcon\Forms\Form :: isValid()
@@ -38,13 +36,18 @@ class FormEntityCest
         $name = new Text('prd_name');
         $form->add($name);
 
-        $isValid = $form->isValid(['prd_name' => "Nikodem Tomlinson"]); //normal this is from _POST
+        /**
+         * normal this is from _POST
+         */
+        $isValid = $form->isValid(['prd_name' => "Nikodem Tomlinson"]);
 
         $I->assertFalse($isValid);
 
-        //Validation.zep line 456 is called, so the isValid method calls validate and sets the same entity as the form
+        /**
+         * Validation.zep line 456 is called, so the isValid method calls
+         * validate and sets the same entity as the form
+         */
         $I->assertNotNull($validator->getEntity());
         $I->assertEquals($product->prd_name, $validator->getEntity()->prd_name);
     }
-
 }
