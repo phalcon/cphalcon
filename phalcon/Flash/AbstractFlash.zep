@@ -15,6 +15,7 @@ use Phalcon\Di\DiInterface;
 use Phalcon\Di\AbstractInjectionAware;
 use Phalcon\Escaper\EscaperInterface;
 use Phalcon\Session\ManagerInterface as SessionInterface;
+use Phalcon\Support\Helper\Str\Interpolate;
 
 /**
  * Shows HTML notifications related to different circumstances. Classes can be
@@ -45,7 +46,7 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
     /**
      * @var array
      */
-    protected iconCssClasses = [] { get };
+    protected cssIconClasses = [] { get };
 
     /**
      * @var string
@@ -63,6 +64,11 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
     protected implicitFlush = true;
 
     /**
+     * @var Interpolate
+     */
+    protected interpolator;
+
+    /**
      * @var array
      */
     protected messages = [];
@@ -78,7 +84,8 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
     public function __construct(<EscaperInterface> escaper = null, <SessionInterface> session = null)
     {
         let this->escaperService = escaper,
-            this->sessionService = session;
+            this->sessionService = session,
+            this->interpolator   = new Interpolate();
 
         let this->cssClasses = [
             "error"   : "errorMessage",
@@ -182,25 +189,15 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
     }
 
     /**
-     * Set an array with CSS classes to format the messages
-     */
-    public function setIconCssClasses(array! iconCssClasses) -> <FlashInterface>
-    {
-        let this->iconCssClasses  = iconCssClasses;
-
-        return this;
-    }
-
-    /**
      * Set an array with CSS classes to format the icon messages
      */
-    public function setIconCssClasses(array! iconCssClasses) -> <FlashInterface>
+    public function setCssIconClasses(array! cssIconClasses) -> <FlashInterface>
     {
-        let this->iconCssClasses  = iconCssClasses;
+        let this->cssIconClasses  = cssIconClasses;
 
         return this;
     }
-    
+
     /**
      * Set a custom template for showing the messages
      */
@@ -339,22 +336,35 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
         return this->{"message"}("warning", message);
     }
 
-
-    private function getTemplate(string cssClassses, string iconCssClassses) -> string
+    /**
+     * Gets the template (custom or default)
+     */
+    private function getTemplate(string cssClassses, string cssIconClasses) -> string
     {
-        if "" === this->customTemplate {
-            if "" === cssClassses && "" === iconCssClassses {
-                return "<div>%message%</div>" . PHP_EOL;
-            } else {
-                if !empty iconCssClassses {
-                    return "<div class=\"%cssClass%\"><i class=\"%iconCssClass%\"></i> %message%</div>" . PHP_EOL;
-                } else {
-                    return "<div class=\"%cssClass%\">%message%</div>" . PHP_EOL;
-                }
+        string divString, iconString, template;
+
+        let template     = "<div%divString%>%iconString%%message%</div>" . PHP_EOL,
+            divString    = "",
+            iconString   = "";
+
+        if !empty this->customTemplate {
+            return this->customTemplate;
+        }
+
+        if !empty cssClassses || !empty cssIconClasses {
+            let divString = " class=\"%cssClass%\"";
+            if !empty cssIconClasses {
+                let iconString = "<i class=\"%cssIconClasses%\"></i> ";
             }
         }
 
-        return this->customTemplate;
+        return this->interpolator->__invoke(
+            template,
+            [
+                "divString"  : divString,
+                "iconString" : iconString
+            ]
+        );
     }
 
     /**
@@ -382,18 +392,16 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
      */
     private function prepareHtmlMessage(string type, string message) -> string
     {
-        var classes, cssClasses, iconCssClasses, typeClasses, typeIconClasses, automaticHtml;
+        var classes, cssClasses, cssIconClasses, typeClasses, typeIconClasses, automaticHtml;
 
-        let automaticHtml = (bool) this->automaticHtml;
+        let automaticHtml = this->automaticHtml;
 
-        if !automaticHtml {
+        if true !== automaticHtml {
             return message;
         }
 
-
-        let classes = this->cssClasses;
-        let iconClasses = this->iconCssClasses;
-
+        let classes        = this->cssClasses,
+            cssIconClasses = this->cssIconClasses;
 
         if fetch typeClasses, classes[type] {
             if typeof typeClasses == "array" {
@@ -405,29 +413,24 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
             let cssClasses = "";
         }
 
-        if fetch typeIconClasses, iconClasses[type] {
+        if fetch typeIconClasses, cssIconClasses[type] {
             if typeof typeIconClasses == "array" {
-                let iconCssClasses = join(" ", typeIconClasses);
+                let cssIconClasses = join(" ", typeIconClasses);
             } else {
-                let iconCssClasses = typeIconClasses;
+                let cssIconClasses = typeIconClasses;
             }
         } else {
-            let iconCssClasses = "";
+            let cssIconClasses = "";
         }
 
 
-        return str_replace(
+        return this->interpolator->__invoke(
+            this->getTemplate(cssClasses, cssIconClasses),
             [
-                "%cssClass%",
-                "%iconCssClass%",
-                "%message%"
-            ],
-            [
-                cssClasses,
-                iconCssClasses,
-                message
-            ],
-            this->getTemplate(cssClasses, iconCssClasses)
+                "cssClass"     : cssClasses,
+                "iconCssClass" : cssIconClasses,
+                "message"      : message
+            ]
         );
     }
 }
