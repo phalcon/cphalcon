@@ -8,7 +8,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Phalcon\Http;
+namespace Phalcon\Http\Message;
 
 /**
  * Interface for Request methods

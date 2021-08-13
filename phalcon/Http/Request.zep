@@ -15,6 +15,7 @@ use Phalcon\Di\AbstractInjectionAware;
 use Phalcon\Events\ManagerInterface;
 use Phalcon\Filter\FilterInterface;
 use Phalcon\Helper\Json;
+use Phalcon\Http\Message\RequestMethodInterface;
 use Phalcon\Http\Request\File;
 use Phalcon\Http\Request\FileInterface;
 use Phalcon\Http\Request\Exception;

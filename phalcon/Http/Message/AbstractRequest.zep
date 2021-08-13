@@ -20,14 +20,14 @@ use Psr\Http\Message\UriInterface;
 /**
  * Request methods
  */
-abstract class AbstractRequest extends AbstractMessage
+abstract class AbstractRequest extends AbstractMessage implements RequestMethodInterface
 {
     /**
      * Retrieves the HTTP method of the request.
      *
      * @var string
      */
-    protected method = "GET" { get };
+    protected method = self::METHOD_GET { get };
 
     /**
      * The request-target, if it has been provided or calculated.
@@ -196,15 +196,16 @@ abstract class AbstractRequest extends AbstractMessage
         var methods;
 
         let methods = [
-            "GET"     : 1,
-            "CONNECT" : 1,
-            "DELETE"  : 1,
-            "HEAD"    : 1,
-            "OPTIONS" : 1,
-            "PATCH"   : 1,
-            "POST"    : 1,
-            "PUT"     : 1,
-            "TRACE"   : 1
+            self::METHOD_CONNECT : 1,
+            self::METHOD_DELETE  : 1,
+            self::METHOD_GET     : 1,
+            self::METHOD_HEAD    : 1,
+            self::METHOD_OPTIONS : 1,
+            self::METHOD_PATCH   : 1,
+            self::METHOD_POST    : 1,
+            self::METHOD_PURGE   : 1,
+            self::METHOD_PUT     : 1,
+            self::METHOD_TRACE   : 1
         ];
 
         if unlikely !(!empty(method) &&
