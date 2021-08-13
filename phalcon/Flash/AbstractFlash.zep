@@ -258,7 +258,7 @@ abstract class AbstractFlash extends AbstractInjectionAware implements FlashInte
         bool implicitFlush;
         var content, msg, htmlMessage, preparedMsg;
 
-        let implicitFlush = (bool) this->implicitFlush;
+        let implicitFlush = this->implicitFlush;
 
         if typeof message == "array" {
             /**
