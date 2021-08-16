@@ -26,7 +26,7 @@ use Psr\Http\Message\UploadedFileInterface;
 /**
  * PSR-17 ServerRequestFactory
  */
-class ServerRequestFactory implements ServerRequestFactoryInterface
+class ServerRequestFactory implements ServerRequestFactoryInterface, RequestMethodInterface
 {
     /**
      * Create a new server request.
@@ -114,7 +114,7 @@ class ServerRequestFactory implements ServerRequestFactoryInterface
             get               = this->checkNullArray(get, globalGet),
             post              = this->checkNullArray(post, globalPost),
             serverCollection  = this->parseServer(server),
-            method            = serverCollection->get("REQUEST_METHOD", "GET"),
+            method            = serverCollection->get("REQUEST_METHOD", self::METHOD_GET),
             protocol          = this->parseProtocol(serverCollection),
             headers           = this->parseHeaders(serverCollection),
             filesCollection   = this->parseUploadedFiles(files),

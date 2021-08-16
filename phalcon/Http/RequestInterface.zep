@@ -30,7 +30,13 @@ interface RequestInterface
      * $userEmail = $request->get("user_email", "email");
      *```
      */
-    public function get(string! name = null, var filters = null, var defaultValue = null, bool notAllowEmpty = false, bool noRecursive = false) -> var;
+    public function get(
+        string! name = null,
+        var filters = null,
+        var defaultValue = null,
+        bool notAllowEmpty = false,
+        bool noRecursive = false
+    ) -> var;
 
     /**
      * Gets an array with mime/types and their quality accepted by the
@@ -205,7 +211,13 @@ interface RequestInterface
      * $userEmail = $request->getPost("user_email", "email");
      *```
      */
-    public function getPost(string! name = null, var filters = null, var defaultValue = null, bool notAllowEmpty = false, bool noRecursive = false) -> var;
+    public function getPost(
+        string! name = null,
+        var filters = null,
+        var defaultValue = null,
+        bool notAllowEmpty = false,
+        bool noRecursive = false
+    ) -> var;
 
     /**
      * Gets a variable from put request
@@ -218,7 +230,13 @@ interface RequestInterface
      * $userEmail = $request->getPut("user_email", "email");
      *```
      */
-    public function getPut(string! name = null, var filters = null, var defaultValue = null, bool notAllowEmpty = false, bool noRecursive = false) -> var;
+    public function getPut(
+        string! name = null,
+        var filters = null,
+        var defaultValue = null,
+        bool notAllowEmpty = false,
+        bool noRecursive = false
+    ) -> var;
 
     /**
      * Gets variable from $_GET superglobal applying filters if needed
@@ -235,7 +253,13 @@ interface RequestInterface
      * $id = $request->getQuery("id", null, 150);
      *```
      */
-    public function getQuery(string! name = null, var filters = null, var defaultValue = null, bool notAllowEmpty = false, bool noRecursive = false) -> var;
+    public function getQuery(
+        string! name = null,
+        var filters = null,
+        var defaultValue = null,
+        bool notAllowEmpty = false,
+        bool noRecursive = false
+    ) -> var;
 
     /**
      * Gets HTTP raw request body
@@ -267,7 +291,10 @@ interface RequestInterface
      * Gets attached files as Phalcon\Http\Request\FileInterface compatible
      * instances
      */
-    public function getUploadedFiles(bool onlySuccessful = false, bool namedKeys = false) -> <FileInterface[]>;
+    public function getUploadedFiles(
+        bool onlySuccessful = false,
+        bool namedKeys = false
+    ) -> <FileInterface[]>;
 
     /**
      * Gets HTTP user agent used to made the request
