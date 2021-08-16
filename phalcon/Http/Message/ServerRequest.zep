@@ -114,7 +114,7 @@ final class ServerRequest extends AbstractRequest implements ServerRequestInterf
      * @param string                   $protocol
      */
     public function __construct(
-        string method = "GET",
+        string method = self::METHOD_GET,
         var uri = null,
         array serverParams = [],
         var body = "php://input",

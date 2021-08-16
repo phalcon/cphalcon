@@ -34,7 +34,7 @@ final class Request extends AbstractRequest implements RequestInterface
      * @param array                           $headers
      */
     public function __construct(
-        string method = "GET",
+        string method = self::METHOD_GET,
         var uri = null,
         var body = "php://memory",
         var headers = []
