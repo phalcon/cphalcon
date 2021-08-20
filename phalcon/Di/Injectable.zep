@@ -123,6 +123,11 @@ abstract class Injectable implements InjectionAwareInterface
                     Exception::containerServiceNotFound("internal services")
                 );
             }
+
+            /**
+             * Set container for future reuse on next `getDI()` calls.
+             */
+            this->setDI(container);
         }
 
         return container;
