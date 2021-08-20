@@ -62,6 +62,16 @@ class Database extends \Codeception\Module
     }
 
     /**
+     * @param TestInterface $test
+     */
+    public function _after(TestInterface $test)
+    {
+        $this->getDataMapperConnection()->disconnect();
+
+        parent::_after($test);
+    }
+
+    /**
      * @return string
      */
     public function getDriver(): string
