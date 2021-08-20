@@ -184,7 +184,7 @@ class UpdateCest
      */
     public function mvcModelSaveViaSettersAndLocalMethod(DatabaseTester $I): void
     {
-        $I->wantToTest('Mvc\Model - update() - with default values');
+        $I->wantToTest('Mvc\Model - update() - via setters and local method');
 
         /** @var PDO $connection */
         $connection = $I->getConnection();
