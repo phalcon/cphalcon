@@ -12,7 +12,6 @@ use Phalcon\DataMapper\Pdo\Connection;
 
 use function date;
 use function env;
-use function getenv;
 use function getOptionsMysql;
 use function getOptionsPostgresql;
 use function getOptionsSqlite;
@@ -41,6 +40,13 @@ class Database extends \Codeception\Module
      * @var string
      */
     private $username   = '';
+
+    public function _initialize()
+    {
+        if (in_array($this->driver, ['pgsql', 'postgres'])) {
+            $this->getDataMapperConnection()->query('set global max_connections = 300');
+        }
+    }
 
     /**
      * @param TestInterface $test
@@ -126,7 +132,6 @@ class Database extends \Codeception\Module
 
             case 'sqlsrv':
                 return "";
-                break;
             default:
                 return "sqlite:memory";
         }
