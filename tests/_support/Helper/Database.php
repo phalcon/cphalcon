@@ -41,13 +41,6 @@ class Database extends \Codeception\Module
      */
     private $username   = '';
 
-    public function _initialize()
-    {
-        if (in_array($this->driver, ['pgsql', 'postgres'])) {
-            $this->getDataMapperConnection()->query('set global max_connections = 300');
-        }
-    }
-
     /**
      * @param TestInterface $test
      */
@@ -59,16 +52,6 @@ class Database extends \Codeception\Module
         }
 
         parent::_before($test);
-    }
-
-    /**
-     * @param TestInterface $test
-     */
-    public function _after(TestInterface $test)
-    {
-        $this->getDataMapperConnection()->disconnect();
-
-        parent::_after($test);
     }
 
     /**
