@@ -30,7 +30,7 @@ class SettersMigration extends AbstractMigration
     ) {
         $sql = <<<SQL
 insert into co_setters (column1, column2, column3)
-values ("{$column1}", "{$column2}", "{$column3}");
+values ('{$column1}', '{$column2}', '{$column3}');
 SQL;
 
         $this->connection->exec($sql);
