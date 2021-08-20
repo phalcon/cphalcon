@@ -142,6 +142,8 @@ create table co_products
 
 
 
+
+
 drop table if exists table_with_uuid_primary;
             
 create table table_with_uuid_primary

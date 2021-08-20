@@ -88,6 +88,17 @@ create table objects
 
 
 
+drop table if exists co_setters;
+            
+create table co_sources
+    (
+    column1    text,
+    column2    text,
+    column3    text
+);
+            
+
+
 drop table if exists co_sources;
             
 create table co_sources

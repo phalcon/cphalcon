@@ -182,6 +182,17 @@ CREATE TABLE `co_products` (
             
 
 
+drop table if exists `co_setters`;
+            
+create table co_setters
+(
+    `column1`  varchar(100) null,
+    `column2`  varchar(100) null,
+    `column3`  varchar(100) null
+);
+            
+
+
 drop table if exists `co_sources`;
             
 create table co_sources
