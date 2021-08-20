@@ -43,10 +43,7 @@ class GetCest
         $container        = new Container($this->container);
         $containerEscaper = $container->get('test');
 
-        $I->assertInstanceOf(
-            Escaper::class,
-            $containerEscaper
-        );
+        $I->assertInstanceOf(Escaper::class, $containerEscaper);
 
         $diEscaper = $this->container->getShared('test');
 

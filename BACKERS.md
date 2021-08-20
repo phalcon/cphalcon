@@ -87,6 +87,7 @@ Thanks for the support
 
 <a href="https://github.com/niden"><img src="https://avatars2.githubusercontent.com/u/1073784?s=460&v=4" title="Nikolaos Dimopoulos" width="60" height="60"></a>
 <a href="https://github.com/evansims"><img src="https://avatars2.githubusercontent.com/u/3093?s=460&u=cfba72529ae60e76c15dca111246baea93e333a7&v=4" title="Evan Sims" width="60" height="60"></a>
+<a href="https://github.com/Brade"><img src="https://avatars.githubusercontent.com/u/46009?v=4" title="N. Brad Garrett" width="60" height="60"></a>
 <a href="https://github.com/andresgutierrez"><img src="https://avatars.githubusercontent.com/u/213590?v=4" title="Andres Gutierrez" width="60" height="60"></a>
 <a href="https://github.com/pyatin"><img src="https://avatars.githubusercontent.com/u/296939?v=4" title="Glib Pyatin" width="60" height="60"></a>
 <a href="https://github.com/alrieckert"><img src="https://avatars1.githubusercontent.com/u/452786?s=460&v=4" title="Anton Rieckert" width="60" height="60"></a>
@@ -96,7 +97,6 @@ Thanks for the support
 <a href="https://github.com/qmegas"><img src="https://avatars3.githubusercontent.com/u/2444896?s=460&v=4" title="qmegas" width="60" height="60"></a>
 <a href="https://github.com/gwijnja"><img src="https://avatars1.githubusercontent.com/u/2666867?s=460&u=7f358f88d53208909d808db17b382ae44d9eb48a&v=4" title="Gerben Wijnja" width="60" height="60"></a>
 <a href="https://github.com/terolblade"><img src="https://avatars3.githubusercontent.com/u/3078649?s=460&v=4" title="Stanislav Sviridenko" width="60" height="60"></a>
-<a href="https://github.com/alvillegas"><img src="https://avatars.githubusercontent.com/u/3683458?v=4" title="Alberto Villegas" width="60" height="60"></a>
 <a href="https://github.com/Ruzgfpegk"><img src="https://avatars1.githubusercontent.com/u/3818364?s=460&v=4" title="Ruzgfpegk" width="60" height="60"></a>
 <a href="https://github.com/zsilbi"><img src="https://avatars2.githubusercontent.com/u/3886658?s=460&v=4" title="Balázs Németh" width="60" height="60"></a>
 <a href="https://github.com/RayHughes"><img src="https://avatars3.githubusercontent.com/u/4381883?s=460&u=16dbf2e3fbfae0892a858d6d4cc8869bfde6dd74&v=4" title="Ray Hughes" width="60" height="60"></a>

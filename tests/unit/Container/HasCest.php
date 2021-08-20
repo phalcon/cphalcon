@@ -36,8 +36,7 @@ class HasCest
 
         $container = new Container($this->container);
 
-        $I->assertTrue(
-            $container->has('filter')
-        );
+        $actual = $container->has('filter');
+        $I->assertTrue($actual);
     }
 }
