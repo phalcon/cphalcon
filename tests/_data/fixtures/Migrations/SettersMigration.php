@@ -30,7 +30,7 @@ class SettersMigration extends AbstractMigration
     ) {
         $sql = <<<SQL
 insert into co_setters (column1, column2, column3)
-values ({$column1}, "{$column2}", "{$column3}");
+values ("{$column1}", "{$column2}", "{$column3}");
 SQL;
 
         $this->connection->exec($sql);
@@ -45,12 +45,12 @@ drop table if exists `co_setters`;
             "
 create table co_setters
 (
+    `id`       int(10) auto_increment primary key,
     `column1`  varchar(100) null,
     `column2`  varchar(100) null,
     `column3`  varchar(100) null
 );
             ",
-            "",
             //            $this->insert($db, 'val1', 'val2', 'val3');
         ];
     }
@@ -62,20 +62,33 @@ create table co_setters
 drop table if exists co_setters;
             ",
             "
-create table co_sources
+create table co_setters
     (
+    id        integer constraint co_setters_defaults_pk primary key autoincrement,
     column1    text,
     column2    text,
     column3    text
 );
             ",
-            "",
         ];
     }
 
     protected function getSqlPgsql(): array
     {
-        return [];
+        return [
+            "
+drop table if exists co_setters;
+            ",
+            "
+create table co_setters
+(
+    id      SERIAL PRIMARY KEY,
+    column1 varchar(100) not null,
+    column2 varchar(100) not null,
+    column3 varchar(100) not null
+);
+            ",
+        ];
     }
 
     protected function getSqlSqlsrv(): array

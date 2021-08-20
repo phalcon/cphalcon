@@ -173,8 +173,8 @@ class UpdateCest
      *
      * @see    https://github.com/phalcon/cphalcon/discussions/15625
      *
-     * @author Balázs Németh <https://github.com/zsilbi>
-     * @since  2020-10-18
+     * @author Anton Vasiliev <https://github.com/Jeckerson>
+     * @since  2021-08-20
      *
      * @group  mysql
      * @group  pgsql
@@ -202,26 +202,28 @@ class UpdateCest
         /**
          * First save via local method
          */
-        $this->setColumn1($row, 'value2');
-        $I->assertEquals('value2', $row->getColumn1());
-        $I->assertEquals('value2', Setters::findFirst(1)->getColumn1());
+        $firstValue = 'value2';
+        $this->setColumn1($row, $firstValue);
+        $I->assertEquals($firstValue, $row->getColumn1());
+        $I->assertEquals($firstValue, Setters::findFirst(1)->getColumn1());
 
         /**
          * Second save via model's setter and direct save() call
          */
-        $row->setColumn2('value3');
+        $secondValue = 'value3';
+        $row->setColumn2($secondValue);
         $row->save();
-        $I->assertEquals('value3', $row->getColumn2());
-        $I->assertEquals('value2', Setters::findFirst(1)->getColumn2());
+        $I->assertEquals($secondValue, $row->getColumn2());
+        $I->assertEquals($secondValue, Setters::findFirst(1)->getColumn2());
 
         /**
          * Final assertions
          */
-        $I->assertEquals('value2', $row->getColumn1());
-        $I->assertEquals('value3', $row->getColumn2());
+        $I->assertEquals($firstValue, $row->getColumn1());
+        $I->assertEquals($secondValue, $row->getColumn2());
         $I->assertEquals('value3', $row->getColumn3());
-        $I->assertEquals('value2', Setters::findFirst(1)->getColumn1());
-        $I->assertEquals('value3', Setters::findFirst(1)->getColumn2());
+        $I->assertEquals($firstValue, Setters::findFirst(1)->getColumn1());
+        $I->assertEquals($secondValue, Setters::findFirst(1)->getColumn2());
         $I->assertEquals('value3', Setters::findFirst(1)->getColumn3());
     }
 

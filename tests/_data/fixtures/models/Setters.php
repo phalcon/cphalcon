@@ -20,13 +20,14 @@ use Phalcon\Mvc\Model;
  */
 class Setters extends Model
 {
+    protected $id;
     protected $column1;
     protected $column2;
     protected $column3;
 
     public function initialize()
     {
-        $this->setSource('co_products');
+        $this->setSource('co_setters');
         $this->keepSnapshots(true);
         $this->useDynamicUpdate(true);
     }
