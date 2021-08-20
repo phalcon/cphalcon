@@ -17,6 +17,7 @@ use Codeception\Example;
 use Phalcon\Escaper;
 use Phalcon\Flash\Direct;
 use UnitTester;
+
 use const PHP_EOL;
 
 class SetCssIconClassesCest
