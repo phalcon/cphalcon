@@ -16,6 +16,7 @@ namespace Phalcon\Test\Unit\Logger\Adapter\Stream;
 use DateTimeImmutable;
 use Phalcon\Logger;
 use Phalcon\Logger\Adapter\Stream;
+use Phalcon\Logger\Exception;
 use Phalcon\Logger\Item;
 use UnitTester;
 
@@ -44,5 +45,31 @@ class CloseCest
         $I->seeInThisFile('Message 1');
 
         $I->safeDeleteFile($outputPath . $fileName);
+    }
+
+    /**
+     * Tests Phalcon\Logger\Adapter\Stream :: close() - exception
+     *
+     * @param UnitTester $I
+     *
+     * @author Phalcon Team <team@phalcon.io>
+     * @since  2021-09-03
+     * @issue  15638
+     */
+    public function loggerAdapterStreamCloseException(UnitTester $I)
+    {
+        $I->wantToTest('Logger\Adapter\Stream - close() - exception');
+
+        $I->expectThrowable(
+            new Exception('There is an active transaction'),
+            function () use ($I) {
+                $fileName   = $I->getNewFileName('log', 'log');
+                $outputPath = logsDir();
+                $adapter    = new Stream($outputPath . $fileName);
+
+                $adapter->begin();
+                $adapter->close();
+            }
+        );
     }
 }
