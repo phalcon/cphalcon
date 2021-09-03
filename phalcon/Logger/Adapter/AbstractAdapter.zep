@@ -51,10 +51,26 @@ abstract class AbstractAdapter implements AdapterInterface
     public function __destruct()
     {
         if this->inTransaction {
-            this->commit();
+            throw new Exception("There is an active transaction");
         }
 
         this->close();
+    }
+
+    /**
+     * Prevent serialization
+     */
+    public function __serialize() -> array
+    {
+        throw new Exception("This object cannot be serialized");
+    }
+
+    /**
+     * Prevent unserialization
+     */
+    public function __unserialize(array data) -> void
+    {
+        throw new Exception("This object cannot be unserialized");
     }
 
     /**
