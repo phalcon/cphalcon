@@ -1,4 +1,6 @@
-# [5.0.0alpha4](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0alpha4) (xxx-xx-xx)
+# [5.0.0alpha4](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0alpha5) (xxx-xx-xx)
+
+# [5.0.0alpha4](https://github.com/phalcon/cphalcon/releases/tag/v5.0.0alpha4) (2021-09-05)
 
 ## Changed
 - Changed `composer.json` to use PSR 1.1.x [#15504](https://github.com/phalcon/cphalcon/issues/15504)
