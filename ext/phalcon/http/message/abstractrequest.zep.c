@@ -64,6 +64,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_AbstractRequest)
 	 * @var UriInterface
 	 */
 	zend_declare_property_null(phalcon_http_message_abstractrequest_ce, SL("uri"), ZEND_ACC_PROTECTED);
+	zend_class_implements(phalcon_http_message_abstractrequest_ce, 1, phalcon_http_message_requestmethodinterface_ce);
 	return SUCCESS;
 }
 
@@ -390,14 +391,15 @@ PHP_METHOD(Phalcon_Http_Message_AbstractRequest, processMethod)
 
 
 	ZEPHIR_INIT_VAR(&methods);
-	zephir_create_array(&methods, 9, 0);
-	add_assoc_long_ex(&methods, SL("GET"), 1);
+	zephir_create_array(&methods, 10, 0);
 	add_assoc_long_ex(&methods, SL("CONNECT"), 1);
 	add_assoc_long_ex(&methods, SL("DELETE"), 1);
+	add_assoc_long_ex(&methods, SL("GET"), 1);
 	add_assoc_long_ex(&methods, SL("HEAD"), 1);
 	add_assoc_long_ex(&methods, SL("OPTIONS"), 1);
 	add_assoc_long_ex(&methods, SL("PATCH"), 1);
 	add_assoc_long_ex(&methods, SL("POST"), 1);
+	add_assoc_long_ex(&methods, SL("PURGE"), 1);
 	add_assoc_long_ex(&methods, SL("PUT"), 1);
 	add_assoc_long_ex(&methods, SL("TRACE"), 1);
 	_0 = !(ZEPHIR_IS_EMPTY(method));
@@ -415,7 +417,7 @@ PHP_METHOD(Phalcon_Http_Message_AbstractRequest, processMethod)
 		ZEPHIR_CONCAT_SV(&_3$$3, "Invalid or unsupported method ", method);
 		ZEPHIR_CALL_METHOD(NULL, &_2$$3, "__construct", NULL, 40, &_3$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_2$$3, "phalcon/Http/Message/AbstractRequest.zep", 215);
+		zephir_throw_exception_debug(&_2$$3, "phalcon/Http/Message/AbstractRequest.zep", 216);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}
@@ -471,7 +473,7 @@ PHP_METHOD(Phalcon_Http_Message_AbstractRequest, processUri)
 		zephir_check_call_status();
 		RETURN_MM();
 	}
-	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_message_exception_invalidargumentexception_ce, "Invalid uri passed as a parameter", "phalcon/Http/Message/AbstractRequest.zep", 244);
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_message_exception_invalidargumentexception_ce, "Invalid uri passed as a parameter", "phalcon/Http/Message/AbstractRequest.zep", 245);
 	return;
 }
 

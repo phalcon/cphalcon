@@ -1326,7 +1326,7 @@ class Tag
     /**
      * Builds a HTML input[type="time"] tag
      *
-     * @param array paramters = [
+     * @param array parameters = [
      *     'id' => '',
      *     'name' => '',
      *     'value' => '',
@@ -1341,7 +1341,7 @@ class Tag
     /**
      * Builds a HTML input[type="url"] tag
      *
-     * @param array paramters = [
+     * @param array parameters = [
      *     'id' => '',
      *     'name' => '',
      *     'value' => '',
@@ -1371,7 +1371,7 @@ class Tag
     /**
      * Builds generic INPUT tags
      *
-     * @param array paramters = [
+     * @param array parameters = [
      *     'id' => '',
      *     'name' => '',
      *     'value' => '',

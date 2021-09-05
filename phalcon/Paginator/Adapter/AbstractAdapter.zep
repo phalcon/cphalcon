@@ -99,7 +99,7 @@ abstract class AbstractAdapter implements AdapterInterface
     public function setLimit(int limit) -> <AdapterInterface>
     {
         if limit <= 0 {
-            throw new Exception("Limit must be greater then zero");
+            throw new Exception("Limit must be greater than zero");
         }
         let this->limitRows = limit;
 

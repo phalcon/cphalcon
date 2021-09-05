@@ -1,4 +1,4 @@
-FROM composer:2.0.8 as composer
+FROM composer:latest as composer
 FROM php:8.0-fpm
 
 # Compilation parameters
@@ -12,7 +12,7 @@ ENV MY_USER="phalcon" \
 	MY_GROUP="phalcon" \
 	MY_UID="1000" \
 	MY_GID="1000" \
-	PHP_VERSION="7.4"
+	PHP_VERSION="8.0"
 
 # User and Group
 RUN set -eux && \

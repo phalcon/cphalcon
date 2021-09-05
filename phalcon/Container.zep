@@ -34,7 +34,7 @@ class Container implements ContainerInterface
     /**
      * Return the service
      */
-    public function get(var name) -> var
+    public function get(string name) -> var
     {
         return this->container->getShared(name);
     }
@@ -42,7 +42,7 @@ class Container implements ContainerInterface
     /**
      * Whether a service exists or not in the container
      */
-    public function has(var name) -> bool
+    public function has(string name) -> bool
     {
         return this->container->has(name);
     }

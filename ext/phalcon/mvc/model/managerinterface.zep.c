@@ -83,7 +83,7 @@ ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, addHasManyToMany);
 /**
  * Creates a Phalcon\Mvc\Model\Query\Builder
  *
- * @param string $params
+ * @param array|string|null params
  */
 ZEPHIR_DOC_METHOD(Phalcon_Mvc_Model_ManagerInterface, createBuilder);
 /**

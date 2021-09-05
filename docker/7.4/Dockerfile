@@ -1,4 +1,4 @@
-FROM composer:2.0.8 as composer
+FROM composer:latest as composer
 FROM php:7.4-fpm
 
 # Compilation parameters

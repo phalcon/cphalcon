@@ -13,9 +13,22 @@
 set -eu
 set -o pipefail
 
-# Get release info from CHANGELOG
-startline=$(cat $1 | grep -nE "^## " | head -n 1 | cut -d ":" -f 1)
-finishline=$(($(cat $1 | grep -nE "^# " | head -n 2 | tail -n 1 | cut -d ":" -f 1) - 1))
-changelog=`sed -n "${startline},${finishline}p" $1`;
+# Get Release notes for the latest release from CHANGELOG.md
+# How to use:
+#   release-notes.sh CHANGELOG.md
+
+startline=$(cat "$1" | grep -nE "^## " | head -n 1 | cut -d ":" -f 1)
+finishline=$(($(cat "$1" | grep -nE "^# " | head -n 2 | tail -n 1 | cut -d ":" -f 1) - 1))
+changelog=$(sed -n "${startline},${finishline}p" "$1");
+
+
+: "${GITHUB_ACTIONS:=0}"
+
+if [ "$GITHUB_ACTIONS" = "true" ]
+then
+	changelog="${changelog//'%'/'%25'}"
+	changelog="${changelog//$'\n'/'%0A'}"
+	changelog="${changelog//$'\r'/'%0D'}"
+fi
 
 echo "${changelog}"

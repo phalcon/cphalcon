@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace Phalcon\Test\Unit\Logger\Adapter\Stream;
 
 use Phalcon\Logger\Adapter\Stream;
+use Phalcon\Logger\Exception;
 use UnitTester;
 
 class BeginCest
@@ -33,6 +34,7 @@ class BeginCest
         $actual = $adapter->inTransaction();
         $I->assertTrue($actual);
 
+        $adapter->rollback();
         $adapter->close();
         $I->safeDeleteFile($outputPath . $fileName);
     }

@@ -49,5 +49,5 @@ services:
   memcached:
     container_name: cphalcon-memcached
     image: memcached:1.5-alpine
-    ports:
-      - 11211:11211
+#    ports:
+#      - 11211:11211

@@ -87,6 +87,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Response)
 	zend_class_implements(phalcon_http_response_ce, 1, phalcon_http_responseinterface_ce);
 	zend_class_implements(phalcon_http_response_ce, 1, phalcon_di_injectionawareinterface_ce);
 	zend_class_implements(phalcon_http_response_ce, 1, phalcon_events_eventsawareinterface_ce);
+	zend_class_implements(phalcon_http_response_ce, 1, phalcon_http_message_responsestatuscodeinterface_ce);
 	return SUCCESS;
 }
 
@@ -262,7 +263,7 @@ PHP_METHOD(Phalcon_Http_Response, getDI)
 			zephir_check_call_status();
 			ZEPHIR_CALL_METHOD(NULL, &_2$$4, "__construct", NULL, 8, &_3$$4);
 			zephir_check_call_status();
-			zephir_throw_exception_debug(&_2$$4, "phalcon/Http/Response.zep", 147);
+			zephir_throw_exception_debug(&_2$$4, "phalcon/Http/Response.zep", 148);
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
@@ -663,7 +664,7 @@ PHP_METHOD(Phalcon_Http_Response, send)
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("sent"), PH_NOISY_CC | PH_READONLY);
 	if (UNEXPECTED(zephir_is_true(&_0))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_response_exception_ce, "Response was already sent", "phalcon/Http/Response.zep", 352);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_response_exception_ce, "Response was already sent", "phalcon/Http/Response.zep", 353);
 		return;
 	}
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "sendheaders", NULL, 0);
@@ -1300,7 +1301,7 @@ PHP_METHOD(Phalcon_Http_Response, setHeaders)
 	zephir_check_call_status();
 	ZEPHIR_CALL_METHOD(&existing, this_ptr, "getheaders", NULL, 0);
 	zephir_check_call_status();
-	zephir_is_iterable(&data, 0, "phalcon/Http/Response.zep", 648);
+	zephir_is_iterable(&data, 0, "phalcon/Http/Response.zep", 649);
 	if (Z_TYPE_P(&data) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&data), _2, _3, _0)
 		{
@@ -1547,7 +1548,7 @@ PHP_METHOD(Phalcon_Http_Response, setStatusCode)
 	ZEPHIR_CALL_METHOD(&currentHeadersRaw, &headers, "toarray", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_INIT_VAR(&_0);
-	zephir_is_iterable(&currentHeadersRaw, 0, "phalcon/Http/Response.zep", 747);
+	zephir_is_iterable(&currentHeadersRaw, 0, "phalcon/Http/Response.zep", 748);
 	if (Z_TYPE_P(&currentHeadersRaw) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_KEY_VAL(Z_ARRVAL_P(&currentHeadersRaw), _3, _4, _1)
 		{
@@ -1605,7 +1606,7 @@ PHP_METHOD(Phalcon_Http_Response, setStatusCode)
 	ZEPHIR_INIT_NVAR(&key);
 	if (ZEPHIR_IS_NULL(&message)) {
 		ZEPHIR_INIT_VAR(&statusCodes);
-		zephir_create_array(&statusCodes, 67, 0);
+		zephir_create_array(&statusCodes, 89, 0);
 		add_index_stringl(&statusCodes, 100, SL("Continue"));
 		add_index_stringl(&statusCodes, 101, SL("Switching Protocols"));
 		add_index_stringl(&statusCodes, 102, SL("Processing"));
@@ -1658,7 +1659,6 @@ PHP_METHOD(Phalcon_Http_Response, setStatusCode)
 		add_index_stringl(&statusCodes, 429, SL("Too Many Requests"));
 		add_index_stringl(&statusCodes, 431, SL("Request Header Fields Too Large"));
 		add_index_stringl(&statusCodes, 451, SL("Unavailable For Legal Reasons"));
-		add_index_stringl(&statusCodes, 499, SL("Client Closed Request"));
 		add_index_stringl(&statusCodes, 500, SL("Internal Server Error"));
 		add_index_stringl(&statusCodes, 501, SL("Not Implemented"));
 		add_index_stringl(&statusCodes, 502, SL("Bad Gateway"));
@@ -1670,12 +1670,37 @@ PHP_METHOD(Phalcon_Http_Response, setStatusCode)
 		add_index_stringl(&statusCodes, 508, SL("Loop Detected"));
 		add_index_stringl(&statusCodes, 510, SL("Not Extended"));
 		add_index_stringl(&statusCodes, 511, SL("Network Authentication Required"));
+		add_index_stringl(&statusCodes, 218, SL("This is fine"));
+		add_index_stringl(&statusCodes, 419, SL("Page Expired"));
+		add_index_stringl(&statusCodes, 420, SL("Method Failure"));
+		add_index_stringl(&statusCodes, 440, SL("Login Time-out"));
+		add_index_stringl(&statusCodes, 444, SL("No Response"));
+		add_index_stringl(&statusCodes, 449, SL("Retry With"));
+		add_index_stringl(&statusCodes, 450, SL("Blocked by Windows Parental Controls (Microsoft)"));
+		add_index_stringl(&statusCodes, 494, SL("Request header too large"));
+		add_index_stringl(&statusCodes, 495, SL("SSL Certificate Error"));
+		add_index_stringl(&statusCodes, 496, SL("SSL Certificate Required"));
+		add_index_stringl(&statusCodes, 497, SL("HTTP Request Sent to HTTPS Port"));
+		add_index_stringl(&statusCodes, 498, SL("Invalid Token (Esri)"));
+		add_index_stringl(&statusCodes, 499, SL("Client Closed Request"));
+		add_index_stringl(&statusCodes, 509, SL("Bandwidth Limit Exceeded"));
+		add_index_stringl(&statusCodes, 520, SL("Unknown Error"));
+		add_index_stringl(&statusCodes, 521, SL("Web Server Is Down"));
+		add_index_stringl(&statusCodes, 522, SL("Connection Timed Out"));
+		add_index_stringl(&statusCodes, 523, SL("Origin Is Unreachable"));
+		add_index_stringl(&statusCodes, 524, SL("A Timeout Occurred"));
+		add_index_stringl(&statusCodes, 525, SL("SSL Handshake Failed"));
+		add_index_stringl(&statusCodes, 526, SL("Invalid SSL Certificate"));
+		add_index_stringl(&statusCodes, 527, SL("Railgun Error"));
+		add_index_stringl(&statusCodes, 530, SL("Origin DNS Error"));
+		add_index_stringl(&statusCodes, 598, SL("Network read timeout error"));
+		add_index_stringl(&statusCodes, 599, SL("Network Connect Timeout Error"));
 		if (UNEXPECTED(!(zephir_array_isset_long(&statusCodes, code)))) {
-			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_response_exception_ce, "Non-standard statuscode given without a message", "phalcon/Http/Response.zep", 824);
+			ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_response_exception_ce, "Non-standard statuscode given without a message", "phalcon/Http/Response.zep", 855);
 			return;
 		}
 		ZEPHIR_OBS_VAR(&defaultMessage);
-		zephir_array_fetch_long(&defaultMessage, &statusCodes, code, PH_NOISY, "phalcon/Http/Response.zep", 827);
+		zephir_array_fetch_long(&defaultMessage, &statusCodes, code, PH_NOISY, "phalcon/Http/Response.zep", 858);
 		zephir_get_strval(&message, &defaultMessage);
 	}
 	ZEPHIR_INIT_VAR(&_14);

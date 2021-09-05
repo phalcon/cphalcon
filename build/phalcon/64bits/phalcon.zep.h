@@ -2392,6 +2392,11 @@ ZEPHIR_INIT_FUNCS(phalcon_db_adapter_adapterinterface_method_entry) {
 	PHP_FE_END
 };
 
+zend_class_entry *phalcon_http_message_requestmethodinterface_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Http_Message_RequestMethodInterface);
+
+
 zend_class_entry *phalcon_mvc_model_metadata_ce;
 
 ZEPHIR_INIT_CLASS(Phalcon_Mvc_Model_MetaData);
@@ -5030,6 +5035,8 @@ zend_class_entry *phalcon_logger_adapter_abstractadapter_ce;
 ZEPHIR_INIT_CLASS(Phalcon_Logger_Adapter_AbstractAdapter);
 
 static PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, __destruct);
+static PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, __serialize);
+static PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, __unserialize);
 static PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, add);
 static PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, begin);
 static PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, commit);
@@ -5042,6 +5049,14 @@ static PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, getFormattedItem);
 zend_object *zephir_init_properties_Phalcon_Logger_Adapter_AbstractAdapter(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_adapter_abstractadapter___destruct, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_adapter_abstractadapter___serialize, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_adapter_abstractadapter___unserialize, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_ARRAY_INFO(0, data, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_logger_adapter_abstractadapter_add, 0, 1, Phalcon\\Logger\\Adapter\\AdapterInterface, 0)
@@ -5085,6 +5100,8 @@ ZEPHIR_INIT_FUNCS(phalcon_logger_adapter_abstractadapter_method_entry) {
 #else
 	PHP_ME(Phalcon_Logger_Adapter_AbstractAdapter, __destruct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_DTOR)
 #endif
+	PHP_ME(Phalcon_Logger_Adapter_AbstractAdapter, __serialize, arginfo_phalcon_logger_adapter_abstractadapter___serialize, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Adapter_AbstractAdapter, __unserialize, arginfo_phalcon_logger_adapter_abstractadapter___unserialize, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_Adapter_AbstractAdapter, add, arginfo_phalcon_logger_adapter_abstractadapter_add, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_Adapter_AbstractAdapter, begin, arginfo_phalcon_logger_adapter_abstractadapter_begin, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_Adapter_AbstractAdapter, commit, arginfo_phalcon_logger_adapter_abstractadapter_commit, ZEND_ACC_PUBLIC)
@@ -6607,6 +6624,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Flash_AbstractFlash);
 
 static PHP_METHOD(Phalcon_Flash_AbstractFlash, getAutoescape);
 static PHP_METHOD(Phalcon_Flash_AbstractFlash, getCssClasses);
+static PHP_METHOD(Phalcon_Flash_AbstractFlash, getCssIconClasses);
 static PHP_METHOD(Phalcon_Flash_AbstractFlash, getCustomTemplate);
 static PHP_METHOD(Phalcon_Flash_AbstractFlash, __construct);
 static PHP_METHOD(Phalcon_Flash_AbstractFlash, clear);
@@ -6616,6 +6634,7 @@ static PHP_METHOD(Phalcon_Flash_AbstractFlash, notice);
 static PHP_METHOD(Phalcon_Flash_AbstractFlash, setAutoescape);
 static PHP_METHOD(Phalcon_Flash_AbstractFlash, setAutomaticHtml);
 static PHP_METHOD(Phalcon_Flash_AbstractFlash, setCssClasses);
+static PHP_METHOD(Phalcon_Flash_AbstractFlash, setCssIconClasses);
 static PHP_METHOD(Phalcon_Flash_AbstractFlash, setCustomTemplate);
 static PHP_METHOD(Phalcon_Flash_AbstractFlash, setEscaperService);
 static PHP_METHOD(Phalcon_Flash_AbstractFlash, setImplicitFlush);
@@ -6631,6 +6650,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_flash_abstractflash_geta
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_flash_abstractflash_getcssclasses, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_flash_abstractflash_getcssiconclasses, 0, 0, IS_ARRAY, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_flash_abstractflash_getcustomtemplate, 0, 0, IS_STRING, 0)
@@ -6667,6 +6689,10 @@ ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_flash_abstractflash_setcs
 	ZEND_ARG_ARRAY_INFO(0, cssClasses, 0)
 ZEND_END_ARG_INFO()
 
+ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_flash_abstractflash_setcssiconclasses, 0, 1, Phalcon\\Flash\\FlashInterface, 0)
+	ZEND_ARG_ARRAY_INFO(0, cssIconClasses, 0)
+ZEND_END_ARG_INFO()
+
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_flash_abstractflash_setcustomtemplate, 0, 1, Phalcon\\Flash\\FlashInterface, 0)
 	ZEND_ARG_TYPE_INFO(0, customTemplate, IS_STRING, 0)
 ZEND_END_ARG_INFO()
@@ -6692,8 +6718,9 @@ ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_flash_abstractflash_warn
 	ZEND_ARG_TYPE_INFO(0, message, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
-ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_flash_abstractflash_gettemplate, 0, 1, IS_STRING, 0)
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_flash_abstractflash_gettemplate, 0, 2, IS_STRING, 0)
 	ZEND_ARG_TYPE_INFO(0, cssClassses, IS_STRING, 0)
+	ZEND_ARG_TYPE_INFO(0, cssIconClasses, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_flash_abstractflash_prepareescapedmessage, 0, 1, IS_STRING, 0)
@@ -6711,6 +6738,7 @@ ZEND_END_ARG_INFO()
 ZEPHIR_INIT_FUNCS(phalcon_flash_abstractflash_method_entry) {
 	PHP_ME(Phalcon_Flash_AbstractFlash, getAutoescape, arginfo_phalcon_flash_abstractflash_getautoescape, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Flash_AbstractFlash, getCssClasses, arginfo_phalcon_flash_abstractflash_getcssclasses, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Flash_AbstractFlash, getCssIconClasses, arginfo_phalcon_flash_abstractflash_getcssiconclasses, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Flash_AbstractFlash, getCustomTemplate, arginfo_phalcon_flash_abstractflash_getcustomtemplate, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Flash_AbstractFlash, __construct, arginfo_phalcon_flash_abstractflash___construct, ZEND_ACC_PUBLIC|ZEND_ACC_CTOR)
 	PHP_ME(Phalcon_Flash_AbstractFlash, clear, arginfo_phalcon_flash_abstractflash_clear, ZEND_ACC_PUBLIC)
@@ -6720,6 +6748,7 @@ ZEPHIR_INIT_FUNCS(phalcon_flash_abstractflash_method_entry) {
 	PHP_ME(Phalcon_Flash_AbstractFlash, setAutoescape, arginfo_phalcon_flash_abstractflash_setautoescape, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Flash_AbstractFlash, setAutomaticHtml, arginfo_phalcon_flash_abstractflash_setautomatichtml, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Flash_AbstractFlash, setCssClasses, arginfo_phalcon_flash_abstractflash_setcssclasses, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Flash_AbstractFlash, setCssIconClasses, arginfo_phalcon_flash_abstractflash_setcssiconclasses, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Flash_AbstractFlash, setCustomTemplate, arginfo_phalcon_flash_abstractflash_setcustomtemplate, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Flash_AbstractFlash, setEscaperService, arginfo_phalcon_flash_abstractflash_setescaperservice, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Flash_AbstractFlash, setImplicitFlush, arginfo_phalcon_flash_abstractflash_setimplicitflush, ZEND_ACC_PUBLIC)
@@ -6790,6 +6819,11 @@ ZEPHIR_INIT_FUNCS(phalcon_http_message_abstractrequest_method_entry) {
 	PHP_ME(Phalcon_Http_Message_AbstractRequest, processUri, arginfo_phalcon_http_message_abstractrequest_processuri, ZEND_ACC_FINAL|ZEND_ACC_PROTECTED)
 	PHP_FE_END
 };
+
+zend_class_entry *phalcon_http_message_responsestatuscodeinterface_ce;
+
+ZEPHIR_INIT_CLASS(Phalcon_Http_Message_ResponseStatusCodeInterface);
+
 
 zend_class_entry *phalcon_image_adapter_abstractadapter_ce;
 
@@ -14209,11 +14243,11 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_container___construct, 0, 0, 1)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_container_get, 0, 0, 1)
-	ZEND_ARG_INFO(0, name)
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_container_has, 0, 1, _IS_BOOL, 0)
-	ZEND_ARG_INFO(0, name)
+	ZEND_ARG_TYPE_INFO(0, name, IS_STRING, 0)
 ZEND_END_ARG_INFO()
 
 ZEPHIR_INIT_FUNCS(phalcon_container_method_entry) {

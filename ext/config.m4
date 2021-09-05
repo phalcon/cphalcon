@@ -37,6 +37,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/config.zep.c
 	phalcon/datamapper/query/abstractquery.zep.c
 	phalcon/db/adapter/adapterinterface.zep.c
+	phalcon/http/message/requestmethodinterface.zep.c
 	phalcon/mvc/model/metadata.zep.c
 	phalcon/annotations/adapter/adapterinterface.zep.c
 	phalcon/datamapper/pdo/connection/pdointerface.zep.c
@@ -83,6 +84,7 @@ if test "$PHP_PHALCON" = "yes"; then
 	phalcon/domain/payload/writeableinterface.zep.c
 	phalcon/flash/abstractflash.zep.c
 	phalcon/http/message/abstractrequest.zep.c
+	phalcon/http/message/responsestatuscodeinterface.zep.c
 	phalcon/image/adapter/abstractadapter.zep.c
 	phalcon/logger/formatter/abstractformatter.zep.c
 	phalcon/mvc/entityinterface.zep.c

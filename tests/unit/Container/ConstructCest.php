@@ -31,12 +31,8 @@ class ConstructCest
         $I->wantToTest('Container - __construct()');
 
         $container = new Di();
+        $actual    = new Container($container);
 
-        $actual = new Container($container);
-
-        $I->assertInstanceOf(
-            ContainerInterface::class,
-            $actual
-        );
+        $I->assertInstanceOf(ContainerInterface::class, $actual);
     }
 }

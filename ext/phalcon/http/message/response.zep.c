@@ -66,6 +66,7 @@ ZEPHIR_INIT_CLASS(Phalcon_Http_Message_Response)
 	 */
 	zend_declare_property_long(phalcon_http_message_response_ce, SL("statusCode"), 200, ZEND_ACC_PROTECTED);
 	zend_class_implements(phalcon_http_message_response_ce, 1, zephir_get_internal_ce(SL("psr\\http\\message\\responseinterface")));
+	zend_class_implements(phalcon_http_message_response_ce, 1, phalcon_http_message_responsestatuscodeinterface_ce);
 	return SUCCESS;
 }
 
@@ -254,8 +255,6 @@ PHP_METHOD(Phalcon_Http_Message_Response, getPhrases)
 	add_index_stringl(return_value, 206, SL("Partial Content"));
 	add_index_stringl(return_value, 207, SL("Multi-status"));
 	add_index_stringl(return_value, 208, SL("Already Reported"));
-	add_index_stringl(return_value, 218, SL("This is fine"));
-	add_index_stringl(return_value, 419, SL("Page Expired"));
 	add_index_stringl(return_value, 226, SL("IM Used"));
 	add_index_stringl(return_value, 300, SL("Multiple Choices"));
 	add_index_stringl(return_value, 301, SL("Moved Permanently"));
@@ -285,7 +284,6 @@ PHP_METHOD(Phalcon_Http_Message_Response, getPhrases)
 	add_index_stringl(return_value, 416, SL("Requested range not satisfiable"));
 	add_index_stringl(return_value, 417, SL("Expectation Failed"));
 	add_index_stringl(return_value, 418, SL("I'm a teapot"));
-	add_index_stringl(return_value, 420, SL("Method Failure"));
 	add_index_stringl(return_value, 421, SL("Misdirected Request"));
 	add_index_stringl(return_value, 422, SL("Unprocessable Entity"));
 	add_index_stringl(return_value, 423, SL("Locked"));
@@ -295,17 +293,7 @@ PHP_METHOD(Phalcon_Http_Message_Response, getPhrases)
 	add_index_stringl(return_value, 428, SL("Precondition Required"));
 	add_index_stringl(return_value, 429, SL("Too Many Requests"));
 	add_index_stringl(return_value, 431, SL("Request Header Fields Too Large"));
-	add_index_stringl(return_value, 440, SL("Login Time-out"));
-	add_index_stringl(return_value, 444, SL("No Response"));
-	add_index_stringl(return_value, 449, SL("Retry With"));
-	add_index_stringl(return_value, 494, SL("Request header too large"));
-	add_index_stringl(return_value, 495, SL("SSL Certificate Error"));
-	add_index_stringl(return_value, 496, SL("SSL Certificate Required"));
-	add_index_stringl(return_value, 497, SL("HTTP Request Sent to HTTPS Port"));
-	add_index_stringl(return_value, 499, SL("Client Closed Request"));
-	add_index_stringl(return_value, 450, SL("Blocked by Windows Parental Controls (Microsoft)"));
 	add_index_stringl(return_value, 451, SL("Unavailable For Legal Reasons"));
-	add_index_stringl(return_value, 498, SL("Invalid Token (Esri)"));
 	add_index_stringl(return_value, 500, SL("Internal Server Error"));
 	add_index_stringl(return_value, 501, SL("Not Implemented"));
 	add_index_stringl(return_value, 502, SL("Bad Gateway"));
@@ -315,9 +303,22 @@ PHP_METHOD(Phalcon_Http_Message_Response, getPhrases)
 	add_index_stringl(return_value, 506, SL("Variant Also Negotiates"));
 	add_index_stringl(return_value, 507, SL("Insufficient Storage"));
 	add_index_stringl(return_value, 508, SL("Loop Detected"));
-	add_index_stringl(return_value, 509, SL("Bandwidth Limit Exceeded"));
 	add_index_stringl(return_value, 510, SL("Not Extended"));
 	add_index_stringl(return_value, 511, SL("Network Authentication Required"));
+	add_index_stringl(return_value, 218, SL("This is fine"));
+	add_index_stringl(return_value, 419, SL("Page Expired"));
+	add_index_stringl(return_value, 420, SL("Method Failure"));
+	add_index_stringl(return_value, 440, SL("Login Time-out"));
+	add_index_stringl(return_value, 444, SL("No Response"));
+	add_index_stringl(return_value, 449, SL("Retry With"));
+	add_index_stringl(return_value, 450, SL("Blocked by Windows Parental Controls (Microsoft)"));
+	add_index_stringl(return_value, 494, SL("Request header too large"));
+	add_index_stringl(return_value, 495, SL("SSL Certificate Error"));
+	add_index_stringl(return_value, 496, SL("SSL Certificate Required"));
+	add_index_stringl(return_value, 497, SL("HTTP Request Sent to HTTPS Port"));
+	add_index_stringl(return_value, 498, SL("Invalid Token (Esri)"));
+	add_index_stringl(return_value, 499, SL("Client Closed Request"));
+	add_index_stringl(return_value, 509, SL("Bandwidth Limit Exceeded"));
 	add_index_stringl(return_value, 520, SL("Unknown Error"));
 	add_index_stringl(return_value, 521, SL("Web Server Is Down"));
 	add_index_stringl(return_value, 522, SL("Connection Timed Out"));
@@ -382,7 +383,7 @@ PHP_METHOD(Phalcon_Http_Message_Response, processCode)
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "checkcodevalue", NULL, 289, code);
 	zephir_check_call_status();
 	if (UNEXPECTED(Z_TYPE_P(phrase) != IS_STRING)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_message_exception_invalidargumentexception_ce, "Invalid response reason", "phalcon/Http/Message/Response.zep", 215);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_http_message_exception_invalidargumentexception_ce, "Invalid response reason", "phalcon/Http/Message/Response.zep", 226);
 		return;
 	}
 	ZEPHIR_INIT_VAR(&_1);
@@ -393,7 +394,7 @@ PHP_METHOD(Phalcon_Http_Message_Response, processCode)
 	}
 	if (EXPECTED(_2)) {
 		ZEPHIR_OBS_NVAR(phrase);
-		zephir_array_fetch(phrase, &phrases, code, PH_NOISY, "phalcon/Http/Message/Response.zep", 219);
+		zephir_array_fetch(phrase, &phrases, code, PH_NOISY, "phalcon/Http/Message/Response.zep", 230);
 	}
 	zephir_update_property_zval(this_ptr, ZEND_STRL("statusCode"), code);
 	zephir_update_property_zval(this_ptr, ZEND_STRL("reasonPhrase"), phrase);
@@ -428,7 +429,7 @@ PHP_METHOD(Phalcon_Http_Message_Response, checkCodeType)
 		_0 = Z_TYPE_P(code) != IS_STRING;
 	}
 	if (UNEXPECTED(_0)) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_http_message_exception_invalidargumentexception_ce, "Invalid status code; it must be an integer or string", "phalcon/Http/Message/Response.zep", 236);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_http_message_exception_invalidargumentexception_ce, "Invalid status code; it must be an integer or string", "phalcon/Http/Message/Response.zep", 247);
 		return;
 	}
 }
@@ -481,7 +482,7 @@ PHP_METHOD(Phalcon_Http_Message_Response, checkCodeValue)
 		ZEPHIR_CONCAT_SVS(&_7$$3, "Invalid status code '", &_6$$3, "', (allowed values 100-599)");
 		ZEPHIR_CALL_METHOD(NULL, &_5$$3, "__construct", NULL, 40, &_7$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_5$$3, "phalcon/Http/Message/Response.zep", 250);
+		zephir_throw_exception_debug(&_5$$3, "phalcon/Http/Message/Response.zep", 261);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

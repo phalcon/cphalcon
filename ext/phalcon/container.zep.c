@@ -15,6 +15,7 @@
 #include "kernel/object.h"
 #include "kernel/memory.h"
 #include "kernel/fcall.h"
+#include "kernel/operators.h"
 
 
 /**
@@ -70,25 +71,27 @@ PHP_METHOD(Phalcon_Container, get)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *name, name_sub, _0;
+	zval *name_param = NULL, _0;
+	zval name;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&name_sub);
+	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&_0);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_ZVAL(name)
+		Z_PARAM_STR(name)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &name);
+	zephir_fetch_params(1, 1, 0, &name_param);
+	zephir_get_strval(&name, name_param);
 
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("container"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_METHOD(&_0, "getshared", NULL, 0, name);
+	ZEPHIR_RETURN_CALL_METHOD(&_0, "getshared", NULL, 0, &name);
 	zephir_check_call_status();
 	RETURN_MM();
 }
@@ -100,25 +103,27 @@ PHP_METHOD(Phalcon_Container, has)
 {
 	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
 	zend_long ZEPHIR_LAST_CALL_STATUS;
-	zval *name, name_sub, _0;
+	zval *name_param = NULL, _0;
+	zval name;
 	zval *this_ptr = getThis();
 
-	ZVAL_UNDEF(&name_sub);
+	ZVAL_UNDEF(&name);
 	ZVAL_UNDEF(&_0);
 #if PHP_VERSION_ID >= 80000
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(1, 1)
-		Z_PARAM_ZVAL(name)
+		Z_PARAM_STR(name)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
 
 	ZEPHIR_MM_GROW();
-	zephir_fetch_params(1, 1, 0, &name);
+	zephir_fetch_params(1, 1, 0, &name_param);
+	zephir_get_strval(&name, name_param);
 
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("container"), PH_NOISY_CC | PH_READONLY);
-	ZEPHIR_RETURN_CALL_METHOD(&_0, "has", NULL, 0, name);
+	ZEPHIR_RETURN_CALL_METHOD(&_0, "has", NULL, 0, &name);
 	zephir_check_call_status();
 	RETURN_MM();
 }

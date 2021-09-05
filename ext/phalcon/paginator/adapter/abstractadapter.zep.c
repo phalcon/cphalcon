@@ -176,7 +176,7 @@ PHP_METHOD(Phalcon_Paginator_Adapter_AbstractAdapter, setLimit)
 
 
 	if (limit <= 0) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_paginator_exception_ce, "Limit must be greater then zero", "phalcon/Paginator/Adapter/AbstractAdapter.zep", 102);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_paginator_exception_ce, "Limit must be greater than zero", "phalcon/Paginator/Adapter/AbstractAdapter.zep", 102);
 		return;
 	}
 	ZEPHIR_INIT_ZVAL_NREF(_0);

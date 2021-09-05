@@ -140,6 +140,18 @@ create table co_products
             
 
 
+drop table if exists co_setters;
+            
+create table co_setters
+(
+    id      SERIAL PRIMARY KEY,
+    column1 varchar(100) not null,
+    column2 varchar(100) not null,
+    column3 varchar(100) not null
+);
+            
+
+
 
 
 drop table if exists table_with_uuid_primary;

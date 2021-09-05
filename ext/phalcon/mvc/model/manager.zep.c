@@ -4164,6 +4164,8 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, executeQuery)
 
 /**
  * Creates a Phalcon\Mvc\Model\Query\Builder
+ *
+ * @param array|string|null params
  */
 PHP_METHOD(Phalcon_Mvc_Model_Manager, createBuilder)
 {
@@ -4212,7 +4214,7 @@ PHP_METHOD(Phalcon_Mvc_Model_Manager, createBuilder)
 		zephir_check_call_status();
 		ZEPHIR_CALL_METHOD(NULL, &_1$$3, "__construct", NULL, 8, &_2$$3);
 		zephir_check_call_status();
-		zephir_throw_exception_debug(&_1$$3, "phalcon/Mvc/Model/Manager.zep", 2081);
+		zephir_throw_exception_debug(&_1$$3, "phalcon/Mvc/Model/Manager.zep", 2083);
 		ZEPHIR_MM_RESTORE();
 		return;
 	}

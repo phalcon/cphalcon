@@ -16,6 +16,7 @@ use Phalcon\Di;
 use Phalcon\Di\DiInterface;
 use Phalcon\Helper\Fs;
 use Phalcon\Helper\Json;
+use Phalcon\Http\Message\ResponseStatusCodeInterface;
 use Phalcon\Http\Response\Exception;
 use Phalcon\Http\Response\HeadersInterface;
 use Phalcon\Http\Response\CookiesInterface;
@@ -40,7 +41,7 @@ use Phalcon\Events\ManagerInterface;
  * $response->send();
  *```
  */
-class Response implements ResponseInterface, InjectionAwareInterface, EventsAwareInterface
+class Response implements ResponseInterface, InjectionAwareInterface, EventsAwareInterface, ResponseStatusCodeInterface
 {
     /**
      * @var DiInterface|null
@@ -747,75 +748,105 @@ class Response implements ResponseInterface, InjectionAwareInterface, EventsAwar
         if message === null {
             // See: http://www.iana.org/assignments/http-status-codes/http-status-codes.xhtml
             let statusCodes = [
-                // INFORMATIONAL CODES
-                100 : "Continue",                        // RFC 7231, 6.2.1
-                101 : "Switching Protocols",             // RFC 7231, 6.2.2
-                102 : "Processing",                      // RFC 2518, 10.1
-                103 : "Early Hints",
-                // SUCCESS CODES
-                200 : "OK",                              // RFC 7231, 6.3.1
-                201 : "Created",                         // RFC 7231, 6.3.2
-                202 : "Accepted",                        // RFC 7231, 6.3.3
-                203 : "Non-Authoritative Information",   // RFC 7231, 6.3.4
-                204 : "No Content",                      // RFC 7231, 6.3.5
-                205 : "Reset Content",                   // RFC 7231, 6.3.6
-                206 : "Partial Content",                 // RFC 7233, 4.1
-                207 : "Multi-status",                    // RFC 4918, 11.1
-                208 : "Already Reported",                // RFC 5842, 7.1
-                226 : "IM Used",                         // RFC 3229, 10.4.1
-                // REDIRECTION CODES
-                300 : "Multiple Choices",                // RFC 7231, 6.4.1
-                301 : "Moved Permanently",               // RFC 7231, 6.4.2
-                302 : "Found",                           // RFC 7231, 6.4.3
-                303 : "See Other",                       // RFC 7231, 6.4.4
-                304 : "Not Modified",                    // RFC 7232, 4.1
-                305 : "Use Proxy",                       // RFC 7231, 6.4.5
-                306 : "Switch Proxy",                    // RFC 7231, 6.4.6 (Deprecated)
-                307 : "Temporary Redirect",              // RFC 7231, 6.4.7
-                308 : "Permanent Redirect",              // RFC 7538, 3
-                // CLIENT ERROR
-                400 : "Bad Request",                     // RFC 7231, 6.5.1
-                401 : "Unauthorized",                    // RFC 7235, 3.1
-                402 : "Payment Required",                // RFC 7231, 6.5.2
-                403 : "Forbidden",                       // RFC 7231, 6.5.3
-                404 : "Not Found",                       // RFC 7231, 6.5.4
-                405 : "Method Not Allowed",              // RFC 7231, 6.5.5
-                406 : "Not Acceptable",                  // RFC 7231, 6.5.6
-                407 : "Proxy Authentication Required",   // RFC 7235, 3.2
-                408 : "Request Time-out",                // RFC 7231, 6.5.7
-                409 : "Conflict",                        // RFC 7231, 6.5.8
-                410 : "Gone",                            // RFC 7231, 6.5.9
-                411 : "Length Required",                 // RFC 7231, 6.5.10
-                412 : "Precondition Failed",             // RFC 7232, 4.2
-                413 : "Request Entity Too Large",        // RFC 7231, 6.5.11
-                414 : "Request-URI Too Large",           // RFC 7231, 6.5.12
-                415 : "Unsupported Media Type",          // RFC 7231, 6.5.13
-                416 : "Requested range not satisfiable", // RFC 7233, 4.4
-                417 : "Expectation Failed",              // RFC 7231, 6.5.14
-                418 : "I'm a teapot",                    // RFC 7168, 2.3.3
-                421 : "Misdirected Request",
-                422 : "Unprocessable Entity",            // RFC 4918, 11.2
-                423 : "Locked",                          // RFC 4918, 11.3
-                424 : "Failed Dependency",               // RFC 4918, 11.4
-                425 : "Unordered Collection",
-                426 : "Upgrade Required",                // RFC 7231, 6.5.15
-                428 : "Precondition Required",           // RFC 6585, 3
-                429 : "Too Many Requests",               // RFC 6585, 4
-                431 : "Request Header Fields Too Large", // RFC 6585, 5
-                451 : "Unavailable For Legal Reasons",   // RFC 7725, 3
-                499 : "Client Closed Request",
-                // SERVER ERROR
-                500 : "Internal Server Error",           // RFC 7231, 6.6.1
-                501 : "Not Implemented",                 // RFC 7231, 6.6.2
-                502 : "Bad Gateway",                     // RFC 7231, 6.6.3
-                503 : "Service Unavailable",             // RFC 7231, 6.6.4
-                504 : "Gateway Time-out",                // RFC 7231, 6.6.5
-                505 : "HTTP Version not supported",      // RFC 7231, 6.6.6
-                506 : "Variant Also Negotiates",         // RFC 2295, 8.1
-                507 : "Insufficient Storage",            // RFC 4918, 11.5
-                508 : "Loop Detected",                   // RFC 5842, 7.2
-                510 : "Not Extended",                    // RFC 2774, 7
-                511 : "Network Authentication Required"  // RFC 6585, 6
+                // Informational 1xx
+                self::STATUS_CONTINUE                             : "Continue",                                           // Information - RFC 7231, 6.2.1
+                self::STATUS_SWITCHING_PROTOCOLS                  : "Switching Protocols",                                // Information - RFC 7231, 6.2.2
+                self::STATUS_PROCESSING                           : "Processing",                                         // Information - RFC 2518, 10.1
+                self::STATUS_EARLY_HINTS                          : "Early Hints",
+
+                // Successful 2xx
+                self::STATUS_OK                                   : "OK",                                               // Success - RFC 7231, 6.3.1
+                self::STATUS_CREATED                              : "Created",                                          // Success - RFC 7231, 6.3.2
+                self::STATUS_ACCEPTED                             : "Accepted",                                         // Success - RFC 7231, 6.3.3
+                self::STATUS_NON_AUTHORITATIVE_INFORMATION        : "Non-Authoritative Information",                    // Success - RFC 7231, 6.3.4
+                self::STATUS_NO_CONTENT                           : "No Content",                                       // Success - RFC 7231, 6.3.5
+                self::STATUS_RESET_CONTENT                        : "Reset Content",                                    // Success - RFC 7231, 6.3.6
+                self::STATUS_PARTIAL_CONTENT                      : "Partial Content",                                  // Success - RFC 7233, 4.1
+                self::STATUS_MULTI_STATUS                         : "Multi-status",                                     // Success - RFC 4918, 11.1
+                self::STATUS_ALREADY_REPORTED                     : "Already Reported",                                 // Success - RFC 5842, 7.1
+                self::STATUS_IM_USED                              : "IM Used",                                          // Success - RFC 3229, 10.4.1
+
+                // Redirection 3xx
+                self::STATUS_MULTIPLE_CHOICES                     : "Multiple Choices",                                 // Redirection - RFC 7231, 6.4.1
+                self::STATUS_MOVED_PERMANENTLY                    : "Moved Permanently",                                // Redirection - RFC 7231, 6.4.2
+                self::STATUS_FOUND                                : "Found",                                            // Redirection - RFC 7231, 6.4.3
+                self::STATUS_SEE_OTHER                            : "See Other",                                        // Redirection - RFC 7231, 6.4.4
+                self::STATUS_NOT_MODIFIED                         : "Not Modified",                                     // Redirection - RFC 7232, 4.1
+                self::STATUS_USE_PROXY                            : "Use Proxy",                                        // Redirection - RFC 7231, 6.4.5
+                self::STATUS_RESERVED                             : "Switch Proxy",                                     // Redirection - RFC 7231, 6.4.6 (Deprecated)
+                self::STATUS_TEMPORARY_REDIRECT                   : "Temporary Redirect",                               // Redirection - RFC 7231, 6.4.7
+                self::STATUS_PERMANENT_REDIRECT                   : "Permanent Redirect",                               // Redirection - RFC 7538, 3
+
+                // Client Errors 4xx
+                self::STATUS_BAD_REQUEST                          : "Bad Request",                                      // Client Error - RFC 7231, 6.5.1
+                self::STATUS_UNAUTHORIZED                         : "Unauthorized",                                     // Client Error - RFC 7235, 3.1
+                self::STATUS_PAYMENT_REQUIRED                     : "Payment Required",                                 // Client Error - RFC 7231, 6.5.2
+                self::STATUS_FORBIDDEN                            : "Forbidden",                                        // Client Error - RFC 7231, 6.5.3
+                self::STATUS_NOT_FOUND                            : "Not Found",                                        // Client Error - RFC 7231, 6.5.4
+                self::STATUS_METHOD_NOT_ALLOWED                   : "Method Not Allowed",                               // Client Error - RFC 7231, 6.5.5
+                self::STATUS_NOT_ACCEPTABLE                       : "Not Acceptable",                                   // Client Error - RFC 7231, 6.5.6
+                self::STATUS_PROXY_AUTHENTICATION_REQUIRED        : "Proxy Authentication Required",                    // Client Error - RFC 7235, 3.2
+                self::STATUS_REQUEST_TIMEOUT                      : "Request Time-out",                                 // Client Error - RFC 7231, 6.5.7
+                self::STATUS_CONFLICT                             : "Conflict",                                         // Client Error - RFC 7231, 6.5.8
+                self::STATUS_GONE                                 : "Gone",                                             // Client Error - RFC 7231, 6.5.9
+                self::STATUS_LENGTH_REQUIRED                      : "Length Required",                                  // Client Error - RFC 7231, 6.5.10
+                self::STATUS_PRECONDITION_FAILED                  : "Precondition Failed",                              // Client Error - RFC 7232, 4.2
+                self::STATUS_PAYLOAD_TOO_LARGE                    : "Request Entity Too Large",                         // Client Error - RFC 7231, 6.5.11
+                self::STATUS_URI_TOO_LONG                         : "Request-URI Too Large",                            // Client Error - RFC 7231, 6.5.12
+                self::STATUS_UNSUPPORTED_MEDIA_TYPE               : "Unsupported Media Type",                           // Client Error - RFC 7231, 6.5.13
+                self::STATUS_RANGE_NOT_SATISFIABLE                : "Requested range not satisfiable",                  // Client Error - RFC 7233, 4.4
+                self::STATUS_EXPECTATION_FAILED                   : "Expectation Failed",                               // Client Error - RFC 7231, 6.5.14
+                self::STATUS_IM_A_TEAPOT                          : "I'm a teapot",                                     // Client Error - RFC 7168, 2.3.3
+                self::STATUS_MISDIRECTED_REQUEST                  : "Misdirected Request",
+                self::STATUS_UNPROCESSABLE_ENTITY                 : "Unprocessable Entity",                             // Client Error - RFC 4918, 11.2
+                self::STATUS_LOCKED                               : "Locked",                                           // Client Error - RFC 4918, 11.3
+                self::STATUS_FAILED_DEPENDENCY                    : "Failed Dependency",                                // Client Error - RFC 4918, 11.4
+                self::STATUS_TOO_EARLY                            : "Unordered Collection",
+                self::STATUS_UPGRADE_REQUIRED                     : "Upgrade Required",                                 // Client Error - RFC 7231, 6.5.15
+                self::STATUS_PRECONDITION_REQUIRED                : "Precondition Required",                            // Client Error - RFC 6585, 3
+                self::STATUS_TOO_MANY_REQUESTS                    : "Too Many Requests",                                // Client Error - RFC 6585, 4
+                self::STATUS_REQUEST_HEADER_FIELDS_TOO_LARGE      : "Request Header Fields Too Large",                  // Client Error - RFC 6585, 5
+                self::STATUS_UNAVAILABLE_FOR_LEGAL_REASONS        : "Unavailable For Legal Reasons",                    // Client Error - RFC 7725, 3
+
+                // Server Errors 5xx
+                self::STATUS_INTERNAL_SERVER_ERROR                : "Internal Server Error",                            // Server Error - RFC 7231, 6.6.1
+                self::STATUS_NOT_IMPLEMENTED                      : "Not Implemented",                                  // Server Error - RFC 7231, 6.6.2
+                self::STATUS_BAD_GATEWAY                          : "Bad Gateway",                                      // Server Error - RFC 7231, 6.6.3
+                self::STATUS_SERVICE_UNAVAILABLE                  : "Service Unavailable",                              // Server Error - RFC 7231, 6.6.4
+                self::STATUS_GATEWAY_TIMEOUT                      : "Gateway Time-out",                                 // Server Error - RFC 7231, 6.6.5
+                self::STATUS_VERSION_NOT_SUPPORTED                : "HTTP Version not supported",                       // Server Error - RFC 7231, 6.6.6
+                self::STATUS_VARIANT_ALSO_NEGOTIATES              : "Variant Also Negotiates",                          // Server Error - RFC 2295, 8.1
+                self::STATUS_INSUFFICIENT_STORAGE                 : "Insufficient Storage",                             // Server Error - RFC 4918, 11.5
+                self::STATUS_LOOP_DETECTED                        : "Loop Detected",                                    // Server Error - RFC 5842, 7.2
+                self::STATUS_NOT_EXTENDED                         : "Not Extended",                                     // Server Error - RFC 2774, 7
+                self::STATUS_NETWORK_AUTHENTICATION_REQUIRED      : "Network Authentication Required",                  // Server Error - RFC 6585, 6
+
+                // Unofficial
+                self::STATUS_THIS_IS_FINE                         : "This is fine",                                     // Unofficial - Apache Web Server
+                self::STATUS_PAGE_EXPIRED                         : "Page Expired",                                     // Unofficial - Laravel Framework
+                self::STATUS_METHOD_FAILURE                       : "Method Failure",                                   // Unofficial - Spring Framework
+                self::STATUS_LOGIN_TIMEOUT                        : "Login Time-out",                                   // Unofficial - IIS
+                self::STATUS_NO_RESPONSE                          : "No Response",                                      // Unofficial - nginx
+                self::STATUS_RETRY_WITH                           : "Retry With",                                       // Unofficial - IIS
+                self::STATUS_BLOCKED_BY_WINDOWS_PARENTAL_CONTROLS : "Blocked by Windows Parental Controls (Microsoft)", // Unofficial - nginx
+                self::STATUS_REQUEST_HEADER_TOO_LARGE             : "Request header too large",                         // Unofficial - nginx
+                self::STATUS_SSL_CERTIFICATE_ERROR                : "SSL Certificate Error",                            // Unofficial - nginx
+                self::STATUS_SSL_CERTIFICATE_REQUIRED             : "SSL Certificate Required",                         // Unofficial - nginx
+                self::STATUS_HTTP_REQUEST_SENT_TO_HTTPS_PORT      : "HTTP Request Sent to HTTPS Port",                  // Unofficial - nginx
+                self::STATUS_INVALID_TOKEN_ESRI                   : "Invalid Token (Esri)",                             // Unofficial - ESRI
+                self::STATUS_CLIENT_CLOSED_REQUEST                : "Client Closed Request",                            // Unofficial - nginx
+                self::STATUS_BANDWIDTH_LIMIT_EXCEEDED             : "Bandwidth Limit Exceeded",                         // Unofficial - Apache/cPanel
+                self::STATUS_UNKNOWN_ERROR                        : "Unknown Error",                                    // Unofficial - Cloudflare
+                self::STATUS_WEB_SERVER_IS_DOWN                   : "Web Server Is Down",                               // Unofficial - Cloudflare
+                self::STATUS_CONNECTION_TIMEOUT                   : "Connection Timed Out",                             // Unofficial - Cloudflare
+                self::STATUS_ORIGIN_IS_UNREACHABLE                : "Origin Is Unreachable",                            // Unofficial - Cloudflare
+                self::STATUS_TIMEOUT_OCCURRED                     : "A Timeout Occurred",                               // Unofficial - Cloudflare
+                self::STATUS_SSL_HANDSHAKE_FAILED                 : "SSL Handshake Failed",                             // Unofficial - Cloudflare
+                self::STATUS_INVALID_SSL_CERTIFICATE              : "Invalid SSL Certificate",                          // Unofficial - Cloudflare
+                self::STATUS_RAILGUN_ERROR                        : "Railgun Error",                                    // Unofficial - Cloudflare
+                self::STATUS_ORIGIN_DNS_ERROR                     : "Origin DNS Error",                                 // Unofficial - Cloudflare
+                self::STATUS_NETWORK_READ_TIMEOUT_ERROR           : "Network read timeout error",                       // Unofficial
+                self::STATUS_NETWORK_CONNECT_TIMEOUT_ERROR        : "Network Connect Timeout Error"                     // Unofficial
             ];
 
             if unlikely !isset statusCodes[code] {

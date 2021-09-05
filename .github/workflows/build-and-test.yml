@@ -9,6 +9,13 @@ on:
       - '**.txt'
   pull_request:
 
+env:
+  ZEPHIR_PARSER_VERSION: v1.3.6
+  ZEPHIR_VERSION: 0.14.0-beta.3
+  LANG: en_US.UTF-8
+  LANGUAGE: en_US.UTF-8
+  LC_ALL: en_US.UTF-8
+
 jobs:
   generate:
     # To prevent build a particular commit use
@@ -19,14 +26,6 @@ jobs:
     name: Build Phalcon Pecl Package
     steps:
 
-      - name: Setup Environment Variables
-        run: |
-          echo "ZEPHIR_PARSER_VERSION=v1.3.6" >> $GITHUB_ENV
-          echo "ZEPHIR_VERSION=0.13.4" >> $GITHUB_ENV
-          echo "LANG=en_US.UTF-8" >> $GITHUB_ENV
-          echo "LANGUAGE=en_US.UTF-8" >> $GITHUB_ENV
-          echo "LC_ALL=en_US.UTF-8" >> $GITHUB_ENV
-
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
@@ -35,14 +34,6 @@ jobs:
           tools: pecl
         env:
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Common Settings
-        run: |
-          # Core dump settings
-          ulimit -c unlimited -S || true
-
-          # Hide "You are in 'detached HEAD' state" message
-          git config --global advice.detachedHead false
 
       - name: Checkout Code
         uses: actions/checkout@v2
@@ -139,11 +130,13 @@ jobs:
 
     name: PHP ${{ matrix.php-versions }} Test on ${{ matrix.operating-system }}
     steps:
-
       - name: Checkout Code
         uses: actions/checkout@v2
         with:
           fetch-depth: 1
+
+      - name: Validate composer
+        run: composer validate --no-check-all --no-check-publish
 
       - name: Get Composer Cache Directory
         id: composer-cache
@@ -162,7 +155,7 @@ jobs:
         with:
           php-version: ${{ matrix.php-versions }}
           extensions: mbstring, intl, json, imagick, gd, gettext, igbinary, apcu, msgpack, memcached, yaml, redis
-          ini-values: apc.enable_cli=on, session.save_path=/tmp, extension=psr.so, extension=phalcon.so
+          ini-values: apc.enable_cli=on, session.save_path=/tmp
           tools: pecl
         env:
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -202,18 +195,18 @@ jobs:
 
       - name: Run Unit Tests
         if: always()
-        run: vendor/bin/codecept run --ext DotReporter unit
+        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php-versions }}.xml --ext DotReporter unit
 
       - name: Run CLI Tests
         if: always()
-        run: vendor/bin/codecept run --ext DotReporter cli
+        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php-versions }}.xml --ext DotReporter cli
 
       - name: Run Integration Tests
         env:
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
         if: always()
-        run: vendor/bin/codecept run --ext DotReporter integration
+        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php-versions }}.xml --ext DotReporter integration
 
       - name: Run Database Tests (Common)
         env:
@@ -221,7 +214,7 @@ jobs:
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
           DATA_MYSQL_USER: root
         if: always()
-        run: vendor/bin/codecept run --ext DotReporter database -g common
+        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php-versions }}.xml --ext DotReporter database -g common
 
       - name: Run Database Tests (MySQL)
         env:
@@ -230,14 +223,14 @@ jobs:
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
           DATA_MYSQL_USER: root
         if: always()
-        run: vendor/bin/codecept run --ext DotReporter database --env mysql -g mysql
+        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php-versions }}.xml --ext DotReporter database --env mysql -g mysql
 
       - name: Run Database Tests (Sqlite)
         env:
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
         if: always()
-        run: vendor/bin/codecept run --ext DotReporter database --env sqlite -g sqlite
+        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php-versions }}.xml --ext DotReporter database --env sqlite -g sqlite
 
       - name: Run Database Tests (Postgres)
         env:
@@ -246,7 +239,7 @@ jobs:
           DATA_REDIS_PORT: ${{ job.services.redis.ports['6379'] }}
           DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
         if: always()
-        run: vendor/bin/codecept run --ext DotReporter database --env pgsql -g pgsql
+        run: vendor/bin/codecept run --coverage-xml=coverage-${{ matrix.php-versions }}.xml --ext DotReporter database --env pgsql -g pgsql
 
       # - name: Run Database Tests (SQL Server)
       #   env:
@@ -254,9 +247,15 @@ jobs:
       #     DATA_MEMCACHED_PORT: ${{ job.services.memcached.ports['11211'] }}
       #   run: vendor/bin/codecept run --ext DotReporter database --env sqlsrv
 
+      - name: Upload Code Coverage on 7.4
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          file: ./tests/_output/coverage-*.xml
+
   build-and-test-macos:
     # To prevent build a particular commit use
-    #     git commit -m "......... [ci skip]"
+    #    git commit -m "......... [ci skip]"
     if: "!contains(github.event.head_commit.message, 'ci skip')"
 
     needs: generate
@@ -264,7 +263,7 @@ jobs:
     env:
       extensions: mbstring, intl, json, yaml, apcu, imagick, gd, gettext, igbinary, msgpack, redis, zip
       HOMEBREW_NO_INSTALL_CLEANUP: 1
-#      ext_cache_key: v5.0.0-alpha.2-macOS-2
+      ext_cache_key: v5.0.0-alpha.3-macOS-2
     strategy:
       fail-fast: false
       matrix:
@@ -302,16 +301,16 @@ jobs:
         env:
           COMPOSER_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-#      - name: Get composer cache directory
-#        id: composer-cache
-#        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
 
-#      - name: Cache dependencies
-#        uses: actions/cache@v2
-#        with:
-#          path: ${{ steps.composer-cache.outputs.dir }}
-#          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-#          restore-keys: ${{ runner.os }}-composer-
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
+          restore-keys: ${{ runner.os }}-composer-
 
       - name: Download Phalcon Pecl Package
         uses: actions/download-artifact@v1
@@ -345,7 +344,7 @@ jobs:
 
   build-and-test-windows:
     # To prevent build a particular commit use
-    #     git commit -m "......... [ci skip]"
+    #    git commit -m "......... [ci skip]"
     if: "!contains(github.event.head_commit.message, 'ci skip')"
 
     name: PHP ${{ matrix.php-versions }} (${{ matrix.arch }}-${{ matrix.ts }}) Test on ${{ matrix.operating-system }}
@@ -402,7 +401,7 @@ jobs:
 
           # FIXME: phpversion() return 7.4.3 but windows.php.net has only 7.4.4
           # We should parse the following file to get the correct version:
-          #   https://windows.php.net/downloads/releases/sha256sum.txt
+          #    https://windows.php.net/downloads/releases/sha256sum.txt
           If ("${{ matrix.php-versions }}" -eq "7.4") {
             Write-Output "PHP_VERSION=7.4.4" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           } Else {
@@ -416,7 +415,7 @@ jobs:
           Write-Output "PACKAGE_PREFIX=phalcon" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           Write-Output "EXTENSION_NAME=phalcon" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           Write-Output "EXTENSION_FILE=php_phalcon.dll" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-          Write-Output "PHALCON_VERSION=5.0.0alpha3" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          Write-Output "PHALCON_VERSION=5.0.0alpha4" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           Write-Output "PHPTS=${{ matrix.ts }}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
           If ("${{ matrix.ts }}" -eq "nts") {
             Write-Output "BUILD_TYPE=nts-${{ matrix.build_type }}" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
@@ -619,7 +618,7 @@ jobs:
         id: get-version
         run: |
           echo ::set-output name=version::${GITHUB_REF#refs/tags/}
-          echo ::set-output name=release_body::${.ci/release-notes.sh CHANGELOG-5.0.md}
+          echo ::set-output name=release_body::$(.ci/release-notes.sh CHANGELOG-5.0.md)
 
       - name: Download Phalcon build artifacts
         id: download
