@@ -14,9 +14,9 @@
 #include "kernel/main.h"
 #include "kernel/object.h"
 #include "kernel/operators.h"
+#include "kernel/exception.h"
 #include "kernel/fcall.h"
 #include "kernel/memory.h"
-#include "kernel/exception.h"
 #include "kernel/concat.h"
 
 
@@ -79,12 +79,53 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, __destruct)
 
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("inTransaction"), PH_NOISY_CC | PH_READONLY);
 	if (zephir_is_true(&_0)) {
-		ZEPHIR_CALL_METHOD(NULL, this_ptr, "commit", NULL, 0);
-		zephir_check_call_status();
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "There is an active transaction", "phalcon/Logger/Adapter/AbstractAdapter.zep", 54);
+		return;
 	}
 	ZEPHIR_CALL_METHOD(NULL, this_ptr, "close", NULL, 0);
 	zephir_check_call_status();
 	ZEPHIR_MM_RESTORE();
+}
+
+/**
+ * Prevent serialization
+ */
+PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, __serialize)
+{
+	zval *this_ptr = getThis();
+
+
+
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STRW(phalcon_logger_exception_ce, "This object cannot be serialized", "phalcon/Logger/Adapter/AbstractAdapter.zep", 65);
+	return;
+}
+
+/**
+ * Prevent unserialization
+ */
+PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, __unserialize)
+{
+	zephir_method_globals *ZEPHIR_METHOD_GLOBALS_PTR = NULL;
+	zval *data_param = NULL;
+	zval data;
+	zval *this_ptr = getThis();
+
+	ZVAL_UNDEF(&data);
+#if PHP_VERSION_ID >= 80000
+	bool is_null_true = 1;
+	ZEND_PARSE_PARAMETERS_START(1, 1)
+		Z_PARAM_ARRAY(data)
+	ZEND_PARSE_PARAMETERS_END();
+#endif
+
+
+	ZEPHIR_MM_GROW();
+	zephir_fetch_params(1, 1, 0, &data_param);
+	zephir_get_arrval(&data, data_param);
+
+
+	ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "This object cannot be unserialized", "phalcon/Logger/Adapter/AbstractAdapter.zep", 73);
+	return;
 }
 
 /**
@@ -158,10 +199,10 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, commit)
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("queue"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&queue, &_0);
 	if (!(zephir_is_true(&inTransaction))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "There is no active transaction", "phalcon/Logger/Adapter/AbstractAdapter.zep", 91);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "There is no active transaction", "phalcon/Logger/Adapter/AbstractAdapter.zep", 107);
 		return;
 	}
-	zephir_is_iterable(&queue, 0, "phalcon/Logger/Adapter/AbstractAdapter.zep", 102);
+	zephir_is_iterable(&queue, 0, "phalcon/Logger/Adapter/AbstractAdapter.zep", 118);
 	if (Z_TYPE_P(&queue) == IS_ARRAY) {
 		ZEND_HASH_FOREACH_VAL(Z_ARRVAL_P(&queue), _1)
 		{
@@ -267,7 +308,7 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, rollback)
 	zephir_read_property(&_0, this_ptr, ZEND_STRL("inTransaction"), PH_NOISY_CC | PH_READONLY);
 	ZEPHIR_CPY_WRT(&inTransaction, &_0);
 	if (!(zephir_is_true(&inTransaction))) {
-		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "There is no active transaction", "phalcon/Logger/Adapter/AbstractAdapter.zep", 145);
+		ZEPHIR_THROW_EXCEPTION_DEBUG_STR(phalcon_logger_exception_ce, "There is no active transaction", "phalcon/Logger/Adapter/AbstractAdapter.zep", 161);
 		return;
 	}
 	ZEPHIR_INIT_VAR(&_1);

@@ -4,6 +4,8 @@ extern zend_class_entry *phalcon_logger_adapter_abstractadapter_ce;
 ZEPHIR_INIT_CLASS(Phalcon_Logger_Adapter_AbstractAdapter);
 
 PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, __destruct);
+PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, __serialize);
+PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, __unserialize);
 PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, add);
 PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, begin);
 PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, commit);
@@ -16,6 +18,14 @@ PHP_METHOD(Phalcon_Logger_Adapter_AbstractAdapter, getFormattedItem);
 zend_object *zephir_init_properties_Phalcon_Logger_Adapter_AbstractAdapter(zend_class_entry *class_type);
 
 ZEND_BEGIN_ARG_INFO_EX(arginfo_phalcon_logger_adapter_abstractadapter___destruct, 0, 0, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_adapter_abstractadapter___serialize, 0, 0, IS_ARRAY, 0)
+ZEND_END_ARG_INFO()
+
+ZEND_BEGIN_ARG_WITH_RETURN_TYPE_INFO_EX(arginfo_phalcon_logger_adapter_abstractadapter___unserialize, 0, 1, IS_VOID, 0)
+
+	ZEND_ARG_ARRAY_INFO(0, data, 0)
 ZEND_END_ARG_INFO()
 
 ZEND_BEGIN_ARG_WITH_RETURN_OBJ_INFO_EX(arginfo_phalcon_logger_adapter_abstractadapter_add, 0, 1, Phalcon\\Logger\\Adapter\\AdapterInterface, 0)
@@ -59,6 +69,8 @@ ZEPHIR_INIT_FUNCS(phalcon_logger_adapter_abstractadapter_method_entry) {
 #else
 	PHP_ME(Phalcon_Logger_Adapter_AbstractAdapter, __destruct, NULL, ZEND_ACC_PUBLIC|ZEND_ACC_DTOR)
 #endif
+	PHP_ME(Phalcon_Logger_Adapter_AbstractAdapter, __serialize, arginfo_phalcon_logger_adapter_abstractadapter___serialize, ZEND_ACC_PUBLIC)
+	PHP_ME(Phalcon_Logger_Adapter_AbstractAdapter, __unserialize, arginfo_phalcon_logger_adapter_abstractadapter___unserialize, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_Adapter_AbstractAdapter, add, arginfo_phalcon_logger_adapter_abstractadapter_add, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_Adapter_AbstractAdapter, begin, arginfo_phalcon_logger_adapter_abstractadapter_begin, ZEND_ACC_PUBLIC)
 	PHP_ME(Phalcon_Logger_Adapter_AbstractAdapter, commit, arginfo_phalcon_logger_adapter_abstractadapter_commit, ZEND_ACC_PUBLIC)

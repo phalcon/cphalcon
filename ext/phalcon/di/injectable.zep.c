@@ -231,6 +231,8 @@ PHP_METHOD(Phalcon_Di_Injectable, getDI)
 			ZEPHIR_MM_RESTORE();
 			return;
 		}
+		ZEPHIR_CALL_METHOD(NULL, this_ptr, "setdi", NULL, 0, &container);
+		zephir_check_call_status();
 	}
 	RETURN_CCTOR(&container);
 }

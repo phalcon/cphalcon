@@ -3175,7 +3175,7 @@ PHP_METHOD(Phalcon_Tag, textField)
 /**
  * Builds a HTML input[type="time"] tag
  *
- * @param array paramters = [
+ * @param array parameters = [
  *     'id' => '',
  *     'name' => '',
  *     'value' => '',
@@ -3214,7 +3214,7 @@ PHP_METHOD(Phalcon_Tag, timeField)
 /**
  * Builds a HTML input[type="url"] tag
  *
- * @param array paramters = [
+ * @param array parameters = [
  *     'id' => '',
  *     'name' => '',
  *     'value' => '',
@@ -3292,7 +3292,7 @@ PHP_METHOD(Phalcon_Tag, weekField)
 /**
  * Builds generic INPUT tags
  *
- * @param array paramters = [
+ * @param array parameters = [
  *     'id' => '',
  *     'name' => '',
  *     'value' => '',
