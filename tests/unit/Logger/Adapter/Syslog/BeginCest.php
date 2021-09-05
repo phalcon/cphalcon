@@ -34,8 +34,10 @@ class BeginCest
 
         $adapter->begin();
 
-        $I->assertTrue(
-            $adapter->inTransaction()
-        );
+        $actual = $adapter->inTransaction();
+        $I->assertTrue($actual);
+
+        $adapter->rollback();
+        $adapter->close();
     }
 }
