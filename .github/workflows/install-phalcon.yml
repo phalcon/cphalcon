@@ -32,4 +32,5 @@ jobs:
           sudo ./install
 
       - name: Validate extension
+        if: success()
         run: php -d extension=phalcon -r 'echo (new Phalcon\Support\Version())->get();' || exit 1
