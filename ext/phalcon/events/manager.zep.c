@@ -425,7 +425,7 @@ PHP_METHOD(Phalcon_Events_Manager, fire)
 		Z_PARAM_STR(eventType)
 		Z_PARAM_OBJECT(source)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(data)
+		Z_PARAM_ZVAL_OR_NULL(data)
 		Z_PARAM_BOOL(cancelable)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
@@ -589,7 +589,7 @@ PHP_METHOD(Phalcon_Events_Manager, fireQueue)
 		if (UNEXPECTED(ZEPHIR_IS_FALSE_IDENTICAL(&_5$$4))) {
 			continue;
 		}
-		_7$$4 = zephir_instance_of_ev(&handler, zend_ce_closure);
+		_7$$4 = zephir_is_instance_of(&handler, SL("Closure"));
 		if (!(_7$$4)) {
 			_7$$4 = zephir_is_callable(&handler);
 		}

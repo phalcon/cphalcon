@@ -105,7 +105,7 @@ PHP_METHOD(Phalcon_Annotations_Adapter_Memory, write)
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(2, 2)
 		Z_PARAM_STR(key)
-		Z_PARAM_ZVAL(data)
+		Z_PARAM_OBJECT_OF_CLASS(data, phalcon_annotations_reflection_ce)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

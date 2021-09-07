@@ -256,14 +256,14 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, __construct)
 	ZEND_PARSE_PARAMETERS_START(0, 10)
 		Z_PARAM_OPTIONAL
 		Z_PARAM_STR(method)
-		Z_PARAM_ZVAL(uri)
+		Z_PARAM_ZVAL_OR_NULL(uri)
 		Z_PARAM_ARRAY(serverParams)
 		Z_PARAM_ZVAL(body)
 		Z_PARAM_ZVAL(headers)
 		Z_PARAM_ARRAY(cookies)
 		Z_PARAM_ARRAY(queryParams)
 		Z_PARAM_ARRAY(uploadFiles)
-		Z_PARAM_ZVAL(parsedBody)
+		Z_PARAM_ZVAL_OR_NULL(parsedBody)
 		Z_PARAM_STR(protocol)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
@@ -400,7 +400,7 @@ PHP_METHOD(Phalcon_Http_Message_ServerRequest, getAttribute)
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_ZVAL(name)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(defaultValue)
+		Z_PARAM_ZVAL_OR_NULL(defaultValue)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

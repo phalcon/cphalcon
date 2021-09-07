@@ -395,7 +395,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, partial)
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(partialPath)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(params)
+		Z_PARAM_ZVAL_OR_NULL(params)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -887,7 +887,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, loadTemplateEngines)
 					ZEPHIR_INIT_NVAR(&engineService);
 					ZVAL_COPY(&engineService, _7$$5);
 					if (Z_TYPE_P(&engineService) == IS_OBJECT) {
-						if (zephir_instance_of_ev(&engineService, zend_ce_closure)) {
+						if (zephir_is_instance_of(&engineService, SL("Closure"))) {
 							_12$$9 = zephir_fetch_class_str_ex(SL("Closure"), ZEND_FETCH_CLASS_AUTO);
 							ZEPHIR_CALL_CE_STATIC(&_11$$9, _12$$9, "bind", &_13, 0, &engineService, &di);
 							zephir_check_call_status();
@@ -930,7 +930,7 @@ PHP_METHOD(Phalcon_Mvc_View_Simple, loadTemplateEngines)
 					ZEPHIR_CALL_METHOD(&engineService, &registeredEngines, "current", NULL, 0);
 					zephir_check_call_status();
 						if (Z_TYPE_P(&engineService) == IS_OBJECT) {
-							if (zephir_instance_of_ev(&engineService, zend_ce_closure)) {
+							if (zephir_is_instance_of(&engineService, SL("Closure"))) {
 								_19$$15 = zephir_fetch_class_str_ex(SL("Closure"), ZEND_FETCH_CLASS_AUTO);
 								ZEPHIR_CALL_CE_STATIC(&_18$$15, _19$$15, "bind", &_13, 0, &engineService, &di);
 								zephir_check_call_status();

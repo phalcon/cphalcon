@@ -190,7 +190,7 @@ PHP_METHOD(Phalcon_Mvc_Model, __construct)
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 3)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(data)
+		Z_PARAM_ZVAL_OR_NULL(data)
 		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(container, phalcon_di_diinterface_ce)
 		Z_PARAM_OBJECT_OF_CLASS_OR_NULL(modelsManager, phalcon_mvc_model_managerinterface_ce)
 	ZEND_PARSE_PARAMETERS_END();
@@ -934,8 +934,8 @@ PHP_METHOD(Phalcon_Mvc_Model, assign)
 	ZEND_PARSE_PARAMETERS_START(1, 3)
 		Z_PARAM_ARRAY(data)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(whiteList)
-		Z_PARAM_ZVAL(dataColumnMap)
+		Z_PARAM_ZVAL_OR_NULL(whiteList)
+		Z_PARAM_ZVAL_OR_NULL(dataColumnMap)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -1950,7 +1950,7 @@ PHP_METHOD(Phalcon_Mvc_Model, count)
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(parameters)
+		Z_PARAM_ZVAL_OR_NULL(parameters)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -2553,7 +2553,7 @@ PHP_METHOD(Phalcon_Mvc_Model, find)
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(parameters)
+		Z_PARAM_ZVAL_OR_NULL(parameters)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -2692,7 +2692,7 @@ PHP_METHOD(Phalcon_Mvc_Model, findFirst)
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(parameters)
+		Z_PARAM_ZVAL_OR_NULL(parameters)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -3028,7 +3028,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getMessages)
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(filter)
+		Z_PARAM_ZVAL_OR_NULL(filter)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -3248,7 +3248,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getRelated)
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_STR(alias)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(arguments)
+		Z_PARAM_ZVAL_OR_NULL(arguments)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -3610,7 +3610,7 @@ PHP_METHOD(Phalcon_Mvc_Model, hasChanged)
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 2)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(fieldName)
+		Z_PARAM_ZVAL_OR_NULL(fieldName)
 		Z_PARAM_BOOL(allFields)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
@@ -3683,7 +3683,7 @@ PHP_METHOD(Phalcon_Mvc_Model, hasUpdated)
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 2)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(fieldName)
+		Z_PARAM_ZVAL_OR_NULL(fieldName)
 		Z_PARAM_BOOL(allFields)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
@@ -3783,7 +3783,7 @@ PHP_METHOD(Phalcon_Mvc_Model, maximum)
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(parameters)
+		Z_PARAM_ZVAL_OR_NULL(parameters)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -3847,7 +3847,7 @@ PHP_METHOD(Phalcon_Mvc_Model, minimum)
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(parameters)
+		Z_PARAM_ZVAL_OR_NULL(parameters)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -4653,7 +4653,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setOldSnapshotData)
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_ARRAY(data)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(columnMap)
+		Z_PARAM_ZVAL_OR_NULL(columnMap)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -4823,7 +4823,7 @@ PHP_METHOD(Phalcon_Mvc_Model, setSnapshotData)
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_ARRAY(data)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(columnMap)
+		Z_PARAM_ZVAL_OR_NULL(columnMap)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -5244,7 +5244,7 @@ PHP_METHOD(Phalcon_Mvc_Model, sum)
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(parameters)
+		Z_PARAM_ZVAL_OR_NULL(parameters)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -5307,7 +5307,7 @@ PHP_METHOD(Phalcon_Mvc_Model, toArray)
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(columns)
+		Z_PARAM_ZVAL_OR_NULL(columns)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -7585,7 +7585,7 @@ PHP_METHOD(Phalcon_Mvc_Model, groupResult)
 		Z_PARAM_STR(functionName)
 		Z_PARAM_STR(alias)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(parameters)
+		Z_PARAM_ZVAL_OR_NULL(parameters)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -9836,7 +9836,7 @@ PHP_METHOD(Phalcon_Mvc_Model, belongsTo)
 		Z_PARAM_STR(referenceModel)
 		Z_PARAM_ZVAL(referencedFields)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(options)
+		Z_PARAM_ZVAL_OR_NULL(options)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -9895,7 +9895,7 @@ PHP_METHOD(Phalcon_Mvc_Model, getPreparedQuery)
 	ZEND_PARSE_PARAMETERS_START(1, 2)
 		Z_PARAM_ZVAL(params)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(limit)
+		Z_PARAM_ZVAL_OR_NULL(limit)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -10025,7 +10025,7 @@ PHP_METHOD(Phalcon_Mvc_Model, hasMany)
 		Z_PARAM_STR(referenceModel)
 		Z_PARAM_ZVAL(referencedFields)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(options)
+		Z_PARAM_ZVAL_OR_NULL(options)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -10237,7 +10237,7 @@ PHP_METHOD(Phalcon_Mvc_Model, hasOne)
 		Z_PARAM_STR(referenceModel)
 		Z_PARAM_ZVAL(referencedFields)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(options)
+		Z_PARAM_ZVAL_OR_NULL(options)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
@@ -10320,7 +10320,7 @@ PHP_METHOD(Phalcon_Mvc_Model, hasOneThrough)
 		Z_PARAM_STR(referenceModel)
 		Z_PARAM_ZVAL(referencedFields)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(options)
+		Z_PARAM_ZVAL_OR_NULL(options)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 

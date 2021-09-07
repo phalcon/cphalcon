@@ -1384,7 +1384,7 @@ PHP_METHOD(Phalcon_Db_Adapter_Pdo_AbstractPdo, lastInsertId)
 	bool is_null_true = 1;
 	ZEND_PARSE_PARAMETERS_START(0, 1)
 		Z_PARAM_OPTIONAL
-		Z_PARAM_ZVAL(sequenceName)
+		Z_PARAM_ZVAL_OR_NULL(sequenceName)
 	ZEND_PARSE_PARAMETERS_END();
 #endif
 
