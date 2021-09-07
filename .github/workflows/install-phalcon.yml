@@ -29,7 +29,7 @@ jobs:
         run: |
           cd build/
           php gen-build.php
-          ./install
+          sudo ./install
 
       - name: Validate extension
         run: php -d extension=phalcon -r 'echo (new Phalcon\Support\Version())->get();' || exit 1
